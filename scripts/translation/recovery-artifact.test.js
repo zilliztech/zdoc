@@ -76,14 +76,19 @@ test('changes the prompt contract hash when locale, document correction, or REST
   ];
   for (const name of promptNames) write(repositoryRoot, `.github/prompts/${name}`, `${name}\n`);
   write(repositoryRoot, 'config/reference-navigation.json', '{"targets":[]}\n');
-  write(repositoryRoot, 'config/translation/zh-CN-reference.json', '{"contractId":"one"}\n');
+  write(repositoryRoot, 'config/translation/zh-CN-reference.json', '{"contractId":"one","mandatoryTerms":[]}\n');
 
   const initial = promptContractSha256('zh-CN-reference', repositoryRoot);
-  write(repositoryRoot, 'config/translation/zh-CN-reference.json', '{"contractId":"two"}\n');
+  write(repositoryRoot, 'config/translation/zh-CN-reference.json', '{"contractId":"one","mandatoryTerms":[{"source":"endpoint","target":"Endpoint","caseSensitive":true}]}\n');
   const localeChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
   assert.notEqual(localeChanged, initial);
 
-  write(repositoryRoot, 'config/translation/zh-CN-reference.json', '{"contractId":"one"}\n');
+  write(repositoryRoot, 'config/translation/zh-CN-reference.json', '{"contractId":"one","mandatoryTerms":[]}\n');
+  write(repositoryRoot, '.github/prompts/codex-translation-agent.zh-CN-reference.md', 'changed semantic translation\n');
+  const translationChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
+  assert.notEqual(translationChanged, initial);
+
+  write(repositoryRoot, '.github/prompts/codex-translation-agent.zh-CN-reference.md', 'codex-translation-agent.zh-CN-reference.md\n');
   write(repositoryRoot, '.github/prompts/codex-correction-agent.zh-CN-reference.md', 'changed correction\n');
   const correctionChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
   assert.notEqual(correctionChanged, initial);

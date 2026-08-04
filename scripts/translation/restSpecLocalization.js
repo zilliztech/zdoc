@@ -3,8 +3,8 @@
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const path = require('node:path')
-const {formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
-const {protectTranslationInput, restoreProtectedContent, validateProtectedContent} = require('./protectedContent')
+const {applyDeterministicLocaleRepairs, formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
+const {protectTranslationInput, reprotectTranslationInput, restoreProtectedContent, validateProtectedContent} = require('./protectedContent')
 const {parseAndValidateReviewEvidence} = require('./reviewEvidence')
 
 const LOCALIZABLE_KEYS = new Set(['summary', 'description', 'title', 'label', 'prompt', 'content'])
@@ -72,11 +72,24 @@ function collectLocalizableEntries(root) {
 function protectRestEntries(entries, textForEntry = entry => entry.text) {
   return entries.map(entry => {
     const protectedText = textForEntry(entry)
-    return {...entry, protectedText, protection: protectTranslationInput(protectedText)}
+    return {...entry, protectedText, protection: protectTranslationInput(protectedText, {reorderWithin: entry.id})}
   })
 }
 
-function parseTranslationEntries(text, expected) {
+function reprotectRestEntries(sourceEntries, translatedEntries) {
+  const sourceById = new Map(sourceEntries.map(entry => [entry.id, entry]))
+  return translatedEntries.map(entry => {
+    const source = sourceById.get(entry.id)
+    if (!source || typeof entry.translation !== 'string') throw new Error(`Missing translated REST entry ${entry.id}`)
+    return {
+      ...entry,
+      protectedText: entry.translation,
+      protection: reprotectTranslationInput(entry.translation, source.protection.manifest),
+    }
+  })
+}
+
+function parseTranslationEntries(text, expected, localeContract) {
   const cleaned = String(text || '').trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')
   const parsed = JSON.parse(cleaned)
   if (!Array.isArray(parsed) || parsed.length !== expected.length) throw new Error('REST translation response entry count mismatch')
@@ -90,7 +103,15 @@ function parseTranslationEntries(text, expected) {
   }
   return expected.map(entry => {
     if (!byId.has(entry.id)) throw new Error(`Missing REST translation entry ${entry.id}`)
-    const translation = restoreProtectedContent(byId.get(entry.id), entry.protection.manifest)
+    const modelTranslation = localeContract
+      ? applyDeterministicLocaleRepairs(entry.protection.content, byId.get(entry.id), localeContract)
+      : byId.get(entry.id)
+    let translation
+    try {
+      translation = restoreProtectedContent(modelTranslation, entry.protection.manifest)
+    } catch (error) {
+      throw new Error(`REST translation entry ${entry.id} failed protected marker validation: ${error.message}`)
+    }
     const protectedErrors = validateProtectedContent(entry.protectedText, translation)
     if (protectedErrors.length) throw new Error(`REST translation changed protected content for ${entry.id}: ${protectedErrors.join('; ')}`)
     const {protectedText, protection, ...restoredEntry} = entry
@@ -150,7 +171,7 @@ function validateRestReviewEvidence(evidence, sourceEntries, draftEntries) {
       const draft = draftById.get(entry.id)
       return entry.protection.content.includes(issue.source_quote)
         && draft?.protection.content.includes(issue.draft_quote)
-        && issue.location.includes(entry.id)
+        && issue.location === entry.id
     })
     if (matchingEntry) validatedIssues.push(issue)
     else unsupportedIssues.push({issue, reason: 'Reviewer evidence must identify source and draft quotes from the same REST entry ID'})
@@ -192,7 +213,7 @@ async function reviewAndCorrectRestBatch({entries, target, locale, callModel, lo
   let review = {pass: false, issues: []}
 
   for (let round = 0; round <= maxReviewRounds; round += 1) {
-    const draftEntries = protectRestEntries(currentEntries, entry => entry.translation)
+    const draftEntries = reprotectRestEntries(sourceEntries, currentEntries)
     const draftContent = JSON.stringify(draftEntries.map(entry => ({id: entry.id, text: entry.protection.content})))
     const evidence = validateRestReviewEvidence(parseAndValidateReviewEvidence(await callModel({
       agent: 'review',
@@ -218,17 +239,20 @@ async function reviewAndCorrectRestBatch({entries, target, locale, callModel, lo
         {role: 'user', content: `Locale: ${locale}\n\n<source>\n${sourceContent}\n</source>\n\n<draft>\n${draftContent}\n</draft>\n\n<review_json>\n${JSON.stringify({pass: false, issues}, null, 2)}\n</review_json>`},
       ],
     })
-    currentEntries = parseTranslationEntries(corrected, draftEntries)
+    currentEntries = parseTranslationEntries(corrected, draftEntries, localeContract)
   }
   return {entries: currentEntries, review}
 }
 
-async function translateRestSpecs({ sourceSpecs, target, locale, callModel, maxReviewRounds = 2 }) {
+async function translateRestSpecs({ sourceSpecs, target, locale, callModel, maxReviewRounds = 2, retryFeedback = null }) {
   const promptName = promptNamesFor(target).rest
   if (!promptName) throw new Error(`REST translation is unsupported for translation target ${target}`)
   const localeContract = loadLocaleContract(target)
   const systemPrompt = `${loadPrompt(promptName)}\n\n${formatLocaleContract(localeContract)}`
   const entries = collectLocalizableEntries(sourceSpecs)
+  const retry = retryFeedback
+    ? `<retry_feedback>\n${String(retryFeedback).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')}\n</retry_feedback>\n\n`
+    : ''
   const translated = []
   const reviews = []
   for (const batch of batchEntries(entries)) {
@@ -237,10 +261,10 @@ async function translateRestSpecs({ sourceSpecs, target, locale, callModel, maxR
       agent: 'translation',
       messages: [
         { role: 'system', content: systemPrompt },
-        { role: 'user', content: `Locale: ${locale}\n\n${JSON.stringify(protectedBatch.map(({ id, protection }) => ({ id, text: protection.content })))}` },
+        { role: 'user', content: `Locale: ${locale}\n\n${retry}${JSON.stringify(protectedBatch.map(({ id, protection }) => ({ id, text: protection.content })))}` },
       ],
     })
-    const restored = parseTranslationEntries(response, protectedBatch)
+    const restored = parseTranslationEntries(response, protectedBatch, localeContract)
     const reviewed = await reviewAndCorrectRestBatch({entries: restored, target, locale, callModel, localeContract, maxReviewRounds})
     translated.push(...reviewed.entries)
     reviews.push(reviewed.review)

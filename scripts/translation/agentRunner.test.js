@@ -58,6 +58,28 @@ function taggedMessageContent(messages, tag) {
   return match[1]
 }
 
+function taggedJsonContent(messages, tag) {
+  return JSON.parse(taggedMessageContent(messages, tag))
+}
+
+function semanticTranslationResponse(messages, transform = text => text) {
+  return JSON.stringify({
+    translations: taggedJsonContent(messages, 'semantic_units').map(unit => ({
+      id: unit.id,
+      text: transform(unit.text, unit),
+    })),
+  })
+}
+
+function semanticCorrectionResponse(messages, transform = text => text) {
+  return JSON.stringify({
+    corrections: taggedJsonContent(messages, 'authorized_units').map(unit => ({
+      id: unit.id,
+      text: transform(unit.draft, unit),
+    })),
+  })
+}
+
 function testSelectsPromptsByTranslationTarget() {
   assert.deepEqual(promptNamesFor('ja-JP'), {
     translation: 'codex-translation-agent.ja-JP.md',
@@ -111,20 +133,27 @@ function testMessageBuildersSelectPromptsFromTarget() {
   }
   assert.match(buildTranslationMessages(common)[0].content, /Chinese/i)
   assert.match(buildTranslationMessages(common)[0].content, /zh-CN-reference-2026-08-04-p0/)
-  assert.match(buildTranslationMessages(common)[0].content, /same prose segment/i)
+  assert.match(buildTranslationMessages(common)[0].content, /semantic_units/)
+  assert.match(buildTranslationMessages(common)[0].content, /"translations"/)
+  assert.match(buildTranslationMessages(common)[0].content, /document_context.*context only/is)
+  assert.match(buildTranslationMessages(common)[0].content, /retry_feedback.*prior attempt.*not source/is)
   assert.match(buildTranslationMessages(common)[0].content, /exact marker identity and count/i)
-  assert.match(buildReviewMessages({...common, translatedContent: '# 参考\n'})[0].content, /Simplified Chinese/i)
-  assert.match(buildReviewMessages({...common, translatedContent: '# 参考\n'})[0].content, /zh-CN-reference-2026-08-04-p0/)
+  const reviewPrompt = buildReviewMessages({...common, translatedContent: '# 参考\n'})[0].content
+  assert.match(reviewPrompt, /Simplified Chinese/i)
+  assert.match(reviewPrompt, /zh-CN-reference-2026-08-04-p0/)
+  assert.match(reviewPrompt, /exact semantic unit ID/i)
   assert.match(buildCorrectionMessages({
     ...common,
     translatedContent: '# Tool\n',
     review: {pass: false, issues: [{severity: 'high', type: 'style', comment: 'Translate the heading.'}]},
   })[0].content, /Correction Agent for the Simplified Chinese/)
-  assert.match(buildCorrectionMessages({
+  const chineseCorrectionPrompt = buildCorrectionMessages({
     ...common,
     translatedContent: '# Tool\n',
     review: {pass: false, issues: []},
-  })[0].content, /same prose segment/i)
+  })[0].content
+  assert.match(chineseCorrectionPrompt, /"corrections"/i)
+  assert.match(chineseCorrectionPrompt, /ordinary English.*technical identifier.*translate/is)
   assert.match(buildCorrectionMessages({
     target: 'ja-JP',
     sourcePath: 'content/en/guides/tutorials/test.md',
@@ -259,17 +288,21 @@ async function testCorrectionRunsWhenReviewFails() {
     const calls = []
     const callModel = async ({ agent, messages }) => {
       calls.push(agent)
-      if (agent === 'translation') return taggedMessageContent(messages, 'source')
+      if (agent === 'translation') return semanticTranslationResponse(messages, text => text
         .replace('Test', 'テスト')
         .replace('Hello', 'こんにちは')
         .replace('Use ', '')
-        .replace('.', ' を使用します。')
+        .replace(/\.$/, ' を使用します。'))
       if (agent === 'review') {
         return calls.filter(name => name === 'review').length === 1
-          ? '{"pass":false,"issues":[{"severity":"low","type":"locale_style","location":"Hello heading","source_quote":"Hello","draft_quote":"こんにちは","comment":"Use a more specific Japanese heading."}]}'
+          ? '{"pass":false,"issues":[{"severity":"low","type":"locale_style","location":"document.heading.0001","source_quote":"Hello","draft_quote":"こんにちは","comment":"Use a more specific Japanese heading."}]}'
           : '{"pass":true,"issues":[]}'
       }
-      if (agent === 'correction') return taggedMessageContent(messages, 'draft')
+      if (agent === 'correction') {
+        const authorized = taggedJsonContent(messages, 'authorized_units')
+        assert.deepEqual(authorized.map(unit => unit.id), ['document.heading.0001'])
+        return semanticCorrectionResponse(messages, text => text.replace('こんにちは', '使用方法'))
+      }
       throw new Error(`unexpected agent ${agent}`)
     }
 
@@ -290,7 +323,72 @@ async function testCorrectionRunsWhenReviewFails() {
 
     assert.equal(result.status, 'translated')
     assert.deepEqual(calls, ['translation', 'review', 'correction', 'review'])
-    assert.equal(fs.readFileSync(path.join(siteDir, targetPath), 'utf8').includes('client.search()'), true)
+    const output = fs.readFileSync(path.join(siteDir, targetPath), 'utf8')
+    assert.equal(output.includes('client.search()'), true)
+    assert.match(output, /# 使用方法/)
+  })
+}
+
+async function testSemanticUnitsUseCoherentContextAndStableIds() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/cli/cli/semantic.md'
+    const targetPath = 'content/zh-CN/reference/cli/cli/semantic.md'
+    const source = [
+      '---',
+      'title: "Search"',
+      'slug: /cli/search',
+      '---',
+      '',
+      '# Usage\\{#usage}',
+      '',
+      'Use `alpha`.',
+      '',
+      '```bash',
+      '# Keep this English comment',
+      'search --name alpha',
+      '```',
+      '',
+    ].join('\n')
+    write(path.join(siteDir, sourcePath), source)
+    const calls = []
+    const result = await processManifestItem({
+      siteDir,
+      item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'semantic', locale: 'zh-CN', type: 'reference'},
+      maxReviewRounds: 0,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        calls.push(agent)
+        if (agent === 'translation') {
+          const context = taggedMessageContent(messages, 'document_context')
+          const units = taggedJsonContent(messages, 'semantic_units')
+          assert.match(context, /# Usage/)
+          assert.match(context, /Keep this English comment|ZDOC-PROTECTED/)
+          assert.deepEqual(units.map(unit => unit.id), [
+            'document.frontmatter.title',
+            'document.heading.0001',
+            'document.paragraph.0001',
+          ])
+          return JSON.stringify({translations: [...units].reverse().map(unit => ({
+            id: unit.id,
+            text: unit.text
+              .replace('Search', '搜索')
+              .replace('Usage', '用法')
+              .replace('Use ', '使用 ')
+              .replace(/\.$/, '。'),
+          }))})
+        }
+        if (agent === 'review') return '{"pass":true,"issues":[]}'
+        throw new Error(`unexpected ${agent} call`)
+      },
+    })
+
+    assert.equal(result.status, 'translated')
+    assert.deepEqual(calls, ['translation', 'review'])
+    const output = fs.readFileSync(path.join(siteDir, targetPath), 'utf8')
+    assert.match(output, /^title: "搜索"$/m)
+    assert.match(output, /^# 用法\\\{#usage\}$/m)
+    assert.match(output, /使用 `alpha`。/)
+    assert.equal(output.match(/```bash[\s\S]*?```\n/)[0], source.match(/```bash[\s\S]*?```\n/)[0])
   })
 }
 
@@ -328,7 +426,7 @@ async function testRestSpecsUseStructuredLocaleTranslation() {
           text: entry.id === '["description"]' ? 'コレクションを検索します。' : entry.text,
         })))
       }
-      if (agent === 'translation') return taggedMessageContent(messages, 'source').replace('Search', '検索')
+      if (agent === 'translation') return semanticTranslationResponse(messages, text => text.replace('Search', '検索'))
       if (agent === 'review') return '{"pass":true,"issues":[]}'
       throw new Error(`unexpected agent ${agent}`)
     }
@@ -364,7 +462,7 @@ async function testRestSpecReviewFailureDoesNotWriteTarget() {
         if (messages[0].content.includes('structured Zilliz Cloud REST API')) {
           return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: '压实计划会合并 Segment。'})))
         }
-        if (agent === 'translation') return taggedMessageContent(messages, 'source')
+        if (agent === 'translation') return semanticTranslationResponse(messages)
         if (agent === 'review') return '{"pass":true,"issues":[]}'
         throw new Error(`unexpected ${agent} call`)
       },
@@ -373,6 +471,47 @@ async function testRestSpecReviewFailureDoesNotWriteTarget() {
     assert.equal(result.status, 'failed')
     assert.match(result.review.issues[0].comment, /Compaction/)
     assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
+  })
+}
+
+async function testRestSpecFileRetryReceivesEntryScopedProtectedFeedback() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/restful/restful/v1/retry.mdx'
+    const targetPath = 'content/zh-CN/reference/api/restful/restful/v1/retry.mdx'
+    write(path.join(siteDir, sourcePath), '# Retry\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"paths":{"alpha":{"description":"Use `alpha`."},"beta":{"description":"Use `beta`."}}}\nexport const endpoint = "/v1/retry"\nexport const method = "post"\n')
+    let restTranslationRound = 0
+    const item = {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'a'.repeat(64), locale: 'zh-CN', type: 'reference'}
+    const result = await processItemWithRetry(item, {
+      maxRetries: 1,
+      log: {warn: () => {}},
+      processItem: (_item, _attempt, retryFeedback) => processManifestItem({
+        siteDir,
+        item,
+        retryFeedback,
+        maxReviewRounds: 0,
+        validate: async () => [],
+        callModel: async ({agent, messages}) => {
+          if (messages[0].content.includes('structured Zilliz Cloud REST API')) {
+            restTranslationRound += 1
+            const entries = JSON.parse(messages[1].content.split('\n\n').at(-1))
+            const markers = entries.map(entry => entry.text.match(/<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->/)[0])
+            if (restTranslationRound === 1) return JSON.stringify([
+              {id: entries[0].id, text: `使用 ${markers[1]}。`},
+              {id: entries[1].id, text: `使用 ${markers[0]}。`},
+            ])
+            assert.match(messages[1].content, /<retry_feedback>/)
+            assert.match(messages[1].content, /REST translation entry \["paths","alpha","description"\]/)
+            return JSON.stringify(entries)
+          }
+          if (agent === 'translation') return semanticTranslationResponse(messages)
+          if (agent === 'review') return '{"pass":true,"issues":[]}'
+          throw new Error(`unexpected ${agent} call`)
+        },
+      }),
+    })
+
+    assert.equal(result.status, 'translated', JSON.stringify(result))
+    assert.equal(result.attempts, 2)
   })
 }
 
@@ -733,11 +872,10 @@ async function testLongDocumentTranslatesChunksSequentially() {
     const callModel = async ({ agent, messages }) => {
       calls.push({ agent, message: messages.at(-1).content })
       if (agent === 'review') return '{"pass":true,"issues":[]}'
-      const content = taggedMessageContent(messages, 'source')
-      return content
-        .replace('title: Long', 'title: 長文')
+      return semanticTranslationResponse(messages, text => text
+        .replace('Long', '長文')
         .replaceAll('Section', 'セクション')
-        .replaceAll('body', '本文')
+        .replaceAll('body', '本文'))
     }
 
     const result = await processManifestItem({
@@ -766,9 +904,11 @@ async function testRestoresSourceImportsBeforeValidation() {
 
     const callModel = async ({ agent, messages }) => {
       if (agent === 'translation') {
-        const supplied = taggedMessageContent(messages, 'source')
-        assert.doesNotMatch(supplied, /import Admonition/)
-        return supplied.replace('title: Test', 'title: テスト').replace('# Test', '# テスト')
+        const context = taggedMessageContent(messages, 'document_context')
+        const supplied = taggedJsonContent(messages, 'semantic_units')
+        assert.doesNotMatch(JSON.stringify(supplied), /import Admonition/)
+        assert.match(context, /ZDOC-PROTECTED/)
+        return semanticTranslationResponse(messages, text => text.replace('Test', 'テスト'))
       }
       if (agent === 'review') return '{"pass":true,"issues":[]}'
       throw new Error(`unexpected agent ${agent}`)
@@ -795,7 +935,7 @@ async function testRepairsUnescapedHeadingAnchorsAfterTranslation() {
     const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/anchor.md'
     write(path.join(siteDir, sourcePath), '---\ntitle: Anchor\n---\n\n## Stable heading\\{#stable-anchor}\n\nBody.\n')
     const callModel = async ({ agent, messages }) => agent === 'translation'
-      ? taggedMessageContent(messages, 'source').replace('Anchor', 'アンカー').replace('Stable heading', '安定した見出し').replace('Body.', '本文。')
+      ? semanticTranslationResponse(messages, text => text.replace('Anchor', 'アンカー').replace('Stable heading', '安定した見出し').replace('Body.', '本文。'))
       : '{"pass":true,"issues":[]}'
     const result = await processManifestItem({
       siteDir,
@@ -813,8 +953,10 @@ async function testRepairsTranslatedProseThatLooksLikeInvalidMdxEsm() {
     const sourcePath = 'content/en/reference/api/python/import-jobs.md'
     const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/import-jobs.md'
     write(path.join(siteDir, sourcePath), '# Import jobs\n\nReturns import jobs and pagination details.\n')
-    const callModel = async ({ agent }) => agent === 'translation'
-      ? '# インポートジョブ\n\nimport jobs の一覧とページネーション情報を含む HTTP レスポンス。\n'
+    const callModel = async ({ agent, messages }) => agent === 'translation'
+      ? semanticTranslationResponse(messages, text => text
+        .replace('Import jobs', 'インポートジョブ')
+        .replace('Returns import jobs and pagination details.', 'import jobs の一覧とページネーション情報を含む HTTP レスポンス。'))
       : '{"pass":true,"issues":[]}'
     const result = await processManifestItem({
       siteDir,
@@ -831,9 +973,9 @@ async function testRejectsChangedHeadingAnchorIdentity() {
   await withTempDir(async siteDir => {
     const sourcePath = 'docs/tutorials/anchor-changed.md'
     const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/anchor-changed.md'
-    write(path.join(siteDir, sourcePath), '## Stable heading\\{#stable-anchor}\n')
+    write(path.join(siteDir, sourcePath), 'Use `stable-anchor`.\n')
     const callModel = async ({ agent, messages }) => agent === 'translation'
-      ? taggedMessageContent(messages, 'source').replace('ZDOC-PROTECTED', 'ZDOC-PROTECTED-CHANGED')
+      ? semanticTranslationResponse(messages, text => text.replace('ZDOC-PROTECTED', 'ZDOC-PROTECTED-CHANGED'))
       : '{"pass":true,"issues":[]}'
     await assert.rejects(processManifestItem({
       siteDir,
@@ -854,12 +996,16 @@ async function testFailedChunkDoesNotWritePartialTarget() {
     let reviewCount = 0
     const callModel = async ({ agent, messages }) => {
       if (agent === 'translation') {
-        return taggedMessageContent(messages, 'source')
+        return semanticTranslationResponse(messages, text => `JA:${text}`)
       }
       reviewCount += 1
-      return reviewCount === 2
-        ? '{"pass":false,"issues":[{"severity":"low","type":"locale_style","location":"second chunk","source_quote":"Second body.","draft_quote":"Second body.","comment":"bad chunk"}]}'
-        : '{"pass":true,"issues":[]}'
+      if (reviewCount !== 2) return '{"pass":true,"issues":[]}'
+      const sourceUnit = taggedJsonContent(messages, 'source_units')[0]
+      const draftUnit = taggedJsonContent(messages, 'draft_units')[0]
+      return JSON.stringify({pass: false, issues: [{
+        severity: 'low', type: 'locale_style', location: sourceUnit.id,
+        source_quote: sourceUnit.text, draft_quote: draftUnit.text, comment: 'bad chunk',
+      }]})
     }
 
     const result = await processManifestItem({
@@ -936,7 +1082,7 @@ async function testFileRetryRecoversFailedTranslation() {
   assert.equal(warnings.length, 1)
 }
 
-async function testFileRetryFeedsOnlyProtectedValidationFailuresBackToTranslation() {
+async function testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBackToTranslation() {
   const feedback = []
   const result = await processItemWithRetry({sourcePath: 'docs/protected-retry.md'}, {
     maxRetries: 1,
@@ -963,6 +1109,26 @@ async function testFileRetryFeedsOnlyProtectedValidationFailuresBackToTranslatio
     },
   })
   assert.deepEqual(semanticFeedback, [null, null])
+
+  const reviewFeedback = []
+  await processItemWithRetry({sourcePath: 'docs/review-retry.md'}, {
+    maxRetries: 1,
+    log: {warn: () => {}},
+    processItem: async (item, attempt, retryFeedback) => {
+      reviewFeedback.push(retryFeedback || null)
+      return attempt === 0
+        ? {...item, status: 'failed', review: {pass: false, issues: [{
+          severity: 'low', type: 'untranslated_prose', location: 'document.frontmatter.description',
+          source_quote: 'bulkImport request', draft_quote: 'bulkImport request',
+          comment: 'Free-form reviewer instructions must not enter retry feedback.',
+        }]}}
+        : {...item, status: 'translated'}
+    },
+  })
+  assert.equal(reviewFeedback[0], null)
+  assert.match(reviewFeedback[1], /validated_review_issues/)
+  assert.match(reviewFeedback[1], /bulkImport request/)
+  assert.doesNotMatch(reviewFeedback[1], /Free-form reviewer instructions/)
 }
 
 async function testFileRetryRecordsPersistentFailure() {
@@ -1335,10 +1501,11 @@ async function testRestoresFencedCodeCommentsByteForByte() {
     write(path.join(siteDir, sourcePath), source)
     const callModel = async ({agent, messages}) => {
       if (agent === 'translation') {
-        const message = messages.at(-1).content
-        const supplied = message.match(/<source>\n([\s\S]*?)\n<\/source>/)?.[1]
-          || message.split('Translate this complete MDX/Markdown file:\n\n')[1]
-        return supplied.replace('# Java example', '# Java 示例').replace('// Create a collection', '// 创建 Collection')
+        const units = taggedJsonContent(messages, 'semantic_units')
+        assert.doesNotMatch(JSON.stringify(units), /Create a collection/)
+        return semanticTranslationResponse(messages, text => text
+          .replace('Java example', 'Java 示例')
+          .replace('Continue.', '继续。'))
       }
       if (agent === 'review') return '{"pass":true,"issues":[]}'
       throw new Error(`unexpected agent ${agent}`)
@@ -1356,21 +1523,130 @@ async function testRestoresFencedCodeCommentsByteForByte() {
   })
 }
 
+async function testAllowsProtectedMarkerReorderingInsideOneSemanticUnit() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/cli/cli/reorder.md'
+    const targetPath = 'content/zh-CN/reference/cli/cli/reorder.md'
+    write(path.join(siteDir, sourcePath), 'Use `alpha` at https://example.com.\n')
+    const result = await processManifestItem({
+      siteDir,
+      item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'reorder', locale: 'zh-CN', type: 'reference'},
+      maxReviewRounds: 0,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        if (agent === 'review') {
+          const markerPattern = /<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->/g
+          assert.deepEqual(
+            [...taggedMessageContent(messages, 'draft_document').matchAll(markerPattern)].map(match => match[0]).sort(),
+            [...taggedMessageContent(messages, 'source_document').matchAll(markerPattern)].map(match => match[0]).sort(),
+          )
+          return '{"pass":true,"issues":[]}'
+        }
+        const unit = taggedJsonContent(messages, 'semantic_units')[0]
+        const markers = unit.text.match(/<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->/g)
+        assert.equal(markers.length, 2)
+        return JSON.stringify({translations: [{
+          id: unit.id,
+          text: `请访问 ${markers[1]} 并使用 ${markers[0]}。`,
+        }]})
+      },
+    })
+
+    assert.equal(result.status, 'translated')
+    assert.equal(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), '请访问 https://example.com. 并使用 `alpha`。\n')
+  })
+}
+
+async function testRejectsProtectedMarkerMovementAcrossSemanticUnits() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/cli/cli/cross-unit-marker.md'
+    const targetPath = 'content/zh-CN/reference/cli/cli/cross-unit-marker.md'
+    write(path.join(siteDir, sourcePath), 'Use `alpha`.\n\nUse `beta`.\n')
+    await assert.rejects(processManifestItem({
+      siteDir,
+      item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'cross-unit', locale: 'zh-CN', type: 'reference'},
+      maxReviewRounds: 0,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        if (agent !== 'translation') throw new Error('Review must not run after cross-unit marker movement')
+        const units = taggedJsonContent(messages, 'semantic_units')
+        const markers = units.map(unit => unit.text.match(/<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->/)[0])
+        return JSON.stringify({translations: [
+          {id: units[0].id, text: `使用 ${markers[1]}。`},
+          {id: units[1].id, text: `使用 ${markers[0]}。`},
+        ]})
+      },
+    }), /unknown|missing protected marker/i)
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
+  })
+}
+
+async function testNormalizesPrivateLinkEndpointWithoutRewritingCliCommandHeading() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/cli/cli/create.md'
+    const targetPath = 'content/zh-CN/reference/cli/cli/create.md'
+    const source = [
+      '---',
+      'description: "This operation creates a PrivateLink endpoint. | Cloud"',
+      '---',
+      '',
+      '# create',
+      '',
+      'This operation creates a PrivateLink endpoint.',
+      '',
+      '## Usage\\{#usage}',
+      '',
+    ].join('\n')
+    write(path.join(siteDir, sourcePath), source)
+    const calls = []
+    let reviewRound = 0
+    const result = await processManifestItem({
+      siteDir,
+      item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'endpoint', locale: 'zh-CN', type: 'reference'},
+      maxReviewRounds: 1,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        calls.push(agent)
+        if (agent === 'translation') return semanticTranslationResponse(messages, (text, unit) => {
+          if (unit.id === 'document.frontmatter.description') return '此操作会创建一个 PrivateLink endpoint。 | Cloud'
+          if (unit.id === 'document.paragraph.0001') return '此操作会创建一个 PrivateLink endpoint。'
+          if (unit.id === 'document.heading.0002') return '用法'
+          return text
+        })
+        if (agent === 'review') {
+          reviewRound += 1
+          return '{"pass":true,"issues":[]}'
+        }
+        throw new Error('Deterministic Endpoint normalization must not require Correction')
+      },
+    })
+
+    assert.equal(reviewRound, 1)
+    assert.deepEqual(calls, ['translation', 'review'])
+    assert.equal(result.status, 'translated')
+    const output = fs.readFileSync(path.join(siteDir, targetPath), 'utf8')
+    assert.match(output, /^# create$/m)
+    assert.match(output, /PrivateLink Endpoint/g)
+    assert.doesNotMatch(output, /PrivateLink endpoint/)
+    assert.match(output, /^## 用法\\\{#usage\}$/m)
+  })
+}
+
 async function testContractConflictingReviewerIssueDoesNotAuthorizeCorrection() {
   await withTempDir(async siteDir => {
     const sourcePath = 'content/en/reference/api/java/compaction.md'
     const targetPath = 'content/zh-CN/reference/api/java/compaction.md'
     write(path.join(siteDir, sourcePath), '# Compaction plans\n')
     const calls = []
-    const callModel = async ({agent}) => {
+    const callModel = async ({agent, messages}) => {
       calls.push(agent)
-      if (agent === 'translation') return '# Compaction 计划\n'
+      if (agent === 'translation') return semanticTranslationResponse(messages, text => text.replace('Compaction plans', 'Compaction 计划'))
       if (agent === 'review') return JSON.stringify({
         pass: false,
         issues: [{
           severity: 'medium',
           type: 'terminology',
-          location: 'heading',
+          location: 'document.heading.0001',
           source_quote: 'Compaction plans',
           draft_quote: 'Compaction 计划',
           comment: 'Compaction should be translated as 压实。',
@@ -1401,7 +1677,7 @@ async function testDeterministicCompactionIssueCorrectsForbiddenChineseTerms() {
       let reviewRound = 0
       const callModel = async ({agent, messages}) => {
         calls.push(agent)
-        if (agent === 'translation') return `# ${forbidden}计划\n`
+        if (agent === 'translation') return semanticTranslationResponse(messages, () => `${forbidden}计划`)
         if (agent === 'review') {
           reviewRound += 1
           if (reviewRound > 1) return '{"pass":true,"issues":[]}'
@@ -1410,7 +1686,7 @@ async function testDeterministicCompactionIssueCorrectsForbiddenChineseTerms() {
             issues: [{
               severity: 'medium',
               type: 'terminology',
-              location: 'heading',
+              location: 'document.heading.0001',
               source_quote: 'Compaction plans',
               draft_quote: `${forbidden}计划`,
               comment: 'Compaction should be translated as 压实。',
@@ -1422,7 +1698,7 @@ async function testDeterministicCompactionIssueCorrectsForbiddenChineseTerms() {
           assert.match(message, /Locale contract .* requires Compaction/)
           assert.match(message, new RegExp(forbidden))
           assert.doesNotMatch(message, /Compaction should be translated as 压实/)
-          return '# Compaction 计划\n'
+          return semanticCorrectionResponse(messages, () => 'Compaction 计划')
         }
         throw new Error(`unexpected agent ${agent}`)
       }
@@ -1447,9 +1723,9 @@ async function testDeterministicCompactionIssueCorrectsForbiddenChineseTerms() {
     const result = await processManifestItem({
       siteDir,
       item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'compression', locale: 'zh-CN', type: 'reference'},
-      callModel: async ({agent}) => {
+      callModel: async ({agent, messages}) => {
         calls.push(agent)
-        if (agent === 'translation') return '# 启用响应压缩\n'
+        if (agent === 'translation') return semanticTranslationResponse(messages, () => '启用响应压缩')
         if (agent === 'review') return '{"pass":true,"issues":[]}'
         throw new Error(`unexpected agent ${agent}`)
       },
@@ -1470,7 +1746,7 @@ async function testOnlyValidatedReviewerIssuesReachCorrection() {
     const calls = []
     const callModel = async ({agent, messages}) => {
       calls.push(agent)
-      if (agent === 'translation') return '# 创建一个索引\n'
+      if (agent === 'translation') return semanticTranslationResponse(messages, () => '创建一个索引')
       if (agent === 'review') {
         reviewRound += 1
         if (reviewRound > 1) return '{"pass":true,"issues":[]}'
@@ -1478,7 +1754,7 @@ async function testOnlyValidatedReviewerIssuesReachCorrection() {
           pass: false,
           issues: [
             {
-              severity: 'medium', type: 'accuracy_mistranslation', location: 'heading',
+              severity: 'medium', type: 'accuracy_mistranslation', location: 'document.heading.0001',
               source_quote: 'Create an index', draft_quote: '创建一个索引', comment: 'Remove the unnecessary classifier.',
             },
             {
@@ -1492,7 +1768,7 @@ async function testOnlyValidatedReviewerIssuesReachCorrection() {
         const message = messages.at(-1).content
         assert.match(message, /Remove the unnecessary classifier/)
         assert.doesNotMatch(message, /Unsupported allegation/)
-        return '# 创建索引\n'
+        return semanticCorrectionResponse(messages, () => '创建索引')
       }
       throw new Error(`unexpected agent ${agent}`)
     }
@@ -1519,7 +1795,7 @@ async function testIdenticalFrontmatterTokenAllegationDoesNotRewriteDraft() {
       item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'same-token', locale: 'zh-CN', type: 'reference'},
       callModel: async ({agent, messages}) => {
         calls.push(agent)
-        if (agent === 'translation') return taggedMessageContent(messages, 'source').replaceAll('Token', '令牌')
+        if (agent === 'translation') return semanticTranslationResponse(messages, text => text.replaceAll('Token', '令牌'))
         if (agent === 'review') return JSON.stringify({
           pass: false,
           issues: [{
@@ -1552,23 +1828,22 @@ async function testCorrectionsPreserveProtectedBytesAcrossMultipleRounds() {
       maxReviewRounds: 2,
       validate: async () => [],
       callModel: async ({agent, messages}) => {
-        if (agent === 'translation') return taggedMessageContent(messages, 'source').replace('Initial heading', '错误一')
+        if (agent === 'translation') return semanticTranslationResponse(messages, text => text.replace('Initial heading', '错误一'))
         if (agent === 'review') {
           reviewRound += 1
           if (reviewRound === 3) return '{"pass":true,"issues":[]}'
           return JSON.stringify({
             pass: false,
             issues: [{
-              severity: 'medium', type: 'accuracy_mistranslation', location: 'heading',
+              severity: 'medium', type: 'accuracy_mistranslation', location: 'document.heading.0001',
               source_quote: 'Initial heading', draft_quote: reviewRound === 1 ? '错误一' : '错误二',
               comment: 'Correct the heading with a local edit.',
             }],
           })
         }
         correctionRound += 1
-        return taggedMessageContent(messages, 'draft')
-          .replace(correctionRound === 1 ? '错误一' : '错误二', correctionRound === 1 ? '错误二' : '正确标题')
-          .replace('// Keep this English comment', '// 保留此英文注释')
+        return semanticCorrectionResponse(messages, text => text
+          .replace(correctionRound === 1 ? '错误一' : '错误二', correctionRound === 1 ? '错误二' : '正确标题'))
       },
     })
     assert.equal(result.status, 'translated')
@@ -1586,9 +1861,11 @@ async function run() {
   testTranslationMessagesIncludeOnlyExplicitRetryFeedback()
   testReferenceLandingMessagesContainNavigationContract()
   testValidatesExactManifestTargetContract()
+  await testSemanticUnitsUseCoherentContextAndStableIds()
   await testCorrectionRunsWhenReviewFails()
   await testRestSpecsUseStructuredLocaleTranslation()
   await testRestSpecReviewFailureDoesNotWriteTarget()
+  await testRestSpecFileRetryReceivesEntryScopedProtectedFeedback()
   await testProviderCallRetriesTransientFailures()
   await testProviderStructuredOutputIsCapabilityGated()
   await testProviderCallTimesOutHungRequests()
@@ -1609,7 +1886,7 @@ async function run() {
   await testWorkerPoolLimitsConcurrencyAndProcessesExactlyOnce()
   await testWorkerPoolIsolatesItemFailures()
   await testFileRetryRecoversFailedTranslation()
-  await testFileRetryFeedsOnlyProtectedValidationFailuresBackToTranslation()
+  await testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBackToTranslation()
   await testFileRetryRecordsPersistentFailure()
   await testWorkerPoolStopsAssigningNewItems()
   await testChineseReferenceProgressStateUsesItsTargetManifest()
@@ -1617,6 +1894,9 @@ async function run() {
   await testReferenceProgressStateUsesCanonicalRawLexicalOrder()
   await testProgressCoordinatorCheckpointsCacheAndReport()
   await testJapaneseProgressStatePreservesExistingLocaleCache()
+  await testAllowsProtectedMarkerReorderingInsideOneSemanticUnit()
+  await testRejectsProtectedMarkerMovementAcrossSemanticUnits()
+  await testNormalizesPrivateLinkEndpointWithoutRewritingCliCommandHeading()
   await testRestoresFencedCodeCommentsByteForByte()
   await testContractConflictingReviewerIssueDoesNotAuthorizeCorrection()
   await testDeterministicCompactionIssueCorrectsForbiddenChineseTerms()

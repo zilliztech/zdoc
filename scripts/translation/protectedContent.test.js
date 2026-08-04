@@ -5,6 +5,7 @@ const test = require('node:test')
 
 const {
   protectTranslationInput,
+  reprotectTranslationInput,
   restoreProtectedContent,
   validateProtectedContent,
 } = require('./protectedContent')
@@ -260,4 +261,60 @@ test('keeps human-readable frontmatter keyword list values translatable', () => 
   assert.match(restored, /^  - 多模态向量数据库检索$/m)
   assert.match(restored, /^  - "检索增强生成"$/m)
   assert.deepEqual(validateProtectedContent(source, restored), [])
+})
+
+test('protects long CLI option names in prose', () => {
+  const source = 'Use **--endpoint-id** or omit --endpoint.\n'
+  const protectedInput = protectTranslationInput(source)
+  const options = protectedInput.manifest.entries.filter(entry => entry.category === 'cli_option')
+
+  assert.deepEqual(options.map(entry => entry.original), ['--endpoint-id', '--endpoint'])
+  assert.doesNotMatch(protectedInput.content, /--endpoint/)
+  assert.equal(restoreProtectedContent(protectedInput.content, protectedInput.manifest), source)
+})
+
+test('allows protected markers to reorder inside one declared semantic unit', () => {
+  const source = 'Use `alpha` at https://example.com. See \\{#usage}.\n'
+  const protectedInput = protectTranslationInput(source, {reorderWithin: 'paragraph.0001'})
+  const [inline, url, anchor] = protectedInput.manifest.entries
+  const reordered = protectedInput.content
+    .replace(inline.transport, '__INLINE__')
+    .replace(url.transport, '__URL__')
+    .replace(anchor.transport, inline.transport)
+    .replace('__URL__', anchor.transport)
+    .replace('__INLINE__', url.transport)
+
+  assert.doesNotThrow(() => restoreProtectedContent(reordered, protectedInput.manifest))
+})
+
+test('reprotects restored content with the original marker identity after reordering', () => {
+  const source = 'See `Deployment` in [Detailed Plan Comparison](https://example.com/plans).\n'
+  const protectedInput = protectTranslationInput(source, {reorderWithin: 'paragraph.0001'})
+  const [inline, destination] = protectedInput.manifest.entries
+  const restored = '请参阅 [Detailed Plan Comparison](https://example.com/plans) 中的 `Deployment`。\n'
+
+  const reprotected = reprotectTranslationInput(restored, protectedInput.manifest)
+
+  assert.ok(reprotected.content.indexOf(destination.marker) < reprotected.content.indexOf(inline.marker))
+  assert.equal(restoreProtectedContent(reprotected.content, reprotected.manifest), restored)
+})
+
+test('keeps exact marker identity and count inside declared semantic units', () => {
+  const first = protectTranslationInput('Use `alpha`.\n', {reorderWithin: 'paragraph.0001'})
+  const second = protectTranslationInput('Use `beta`.\n', {reorderWithin: 'paragraph.0002'})
+  const firstMarker = first.manifest.entries[0]
+  const secondMarker = second.manifest.entries[0]
+
+  assert.throws(
+    () => restoreProtectedContent(first.content.replace(firstMarker.transport, ''), first.manifest),
+    /missing/i,
+  )
+  assert.throws(
+    () => restoreProtectedContent(first.content.replace(firstMarker.transport, `${firstMarker.transport}${firstMarker.transport}`), first.manifest),
+    /duplicate/i,
+  )
+  assert.throws(
+    () => restoreProtectedContent(second.content.replace(secondMarker.marker, firstMarker.marker), second.manifest),
+    /unknown|missing/i,
+  )
 })

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractId": "zh-CN-reference-2026-08-04-p0.2",
+  "contractId": "zh-CN-reference-2026-08-04-p0.4",
   "target": "zh-CN-reference",
   "locale": "zh-CN",
   "styleRules": [
@@ -17,7 +17,8 @@
     {"source": "database", "target": "Database", "caseSensitive": false},
     {"source": "partition", "target": "Partition", "caseSensitive": false},
     {"source": "segment", "target": "Segment", "caseSensitive": false},
-    {"source": "analyzer", "target": "Analyzer", "caseSensitive": false}
+    {"source": "analyzer", "target": "Analyzer", "caseSensitive": false},
+    {"source": "endpoint", "target": "Endpoint", "caseSensitive": true}
   ],
   "forbiddenTranslations": [
     {"source": "Compaction", "targets": ["压缩", "压实"]}

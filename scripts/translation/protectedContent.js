@@ -258,6 +258,7 @@ function protectedSpans(content) {
   addRegexSpans(content, spans, /^\s*\[[^\]]+\]:\s*(\S+)/gm, 'markdown_destination', 1)
   addRegexSpans(content, spans, /https?:\/\/[^\s<>"')\]}]+/g, 'url')
   addRegexSpans(content, spans, /(?:\.\.?\/|\/(?!\/)|(?:content|docs|i18n|scripts|config|packages|apps|generated|tmp|\.github)\/)[A-Za-z0-9._~!$&'()*+,;=:@%/-]+/g, 'repository_path')
+  addRegexSpans(content, spans, /(?:^|[^A-Za-z0-9-])(--[A-Za-z0-9][A-Za-z0-9-]*)/gm, 'cli_option', 1)
   return spans.sort((left, right) => left.start - right.start || left.end - right.end)
 }
 
@@ -266,7 +267,7 @@ function markerFor(index, category, original) {
   return `<!-- ${MARKER_NAMESPACE}:${String(index).padStart(6, '0')}:${digest} -->`
 }
 
-function manifestEntries(source) {
+function manifestEntries(source, options = {}) {
   const entries = protectedSpans(source).map((span, index) => {
     const original = source.slice(span.start, span.end)
     const newline = original.endsWith('\r\n') ? '\r\n' : original.endsWith('\n') ? '\n' : ''
@@ -298,13 +299,23 @@ function manifestEntries(source) {
     }
     start = end
   }
+  if (options.reorderWithin !== undefined) {
+    if (typeof options.reorderWithin !== 'string' || !options.reorderWithin.trim()) {
+      throw new Error('Protected marker reorderWithin must be a non-empty string')
+    }
+    return grouped.map(entry => ({
+      ...entry,
+      orderGroup: `semantic-unit:${options.reorderWithin}`,
+      reorderPolicy: 'within_semantic_unit',
+    }))
+  }
   return grouped
 }
 
-function protectTranslationInput(sourceContent) {
+function protectTranslationInput(sourceContent, options = {}) {
   const source = String(sourceContent)
   if (source.includes(MARKER_NAMESPACE)) throw new Error(`Source contains reserved ${MARKER_NAMESPACE} marker namespace`)
-  const entries = manifestEntries(source)
+  const entries = manifestEntries(source, options)
   let content = ''
   let offset = 0
   for (const entry of entries) {
@@ -314,6 +325,34 @@ function protectTranslationInput(sourceContent) {
   }
   content += source.slice(offset)
   return deepFreeze({content, manifest: {schemaVersion: 2, entries}})
+}
+
+function reprotectTranslationInput(restoredContent, manifest) {
+  const restored = String(restoredContent)
+  if (restored.includes(MARKER_NAMESPACE)) throw new Error(`Restored content contains reserved ${MARKER_NAMESPACE} marker namespace`)
+  const remaining = manifest.entries.map((entry, manifestIndex) => ({entry, manifestIndex}))
+  let content = ''
+  let offset = 0
+  while (remaining.length) {
+    const candidates = remaining
+      .map((candidate, index) => ({
+        ...candidate,
+        index,
+        start: restored.indexOf(candidate.entry.original, offset),
+      }))
+      .filter(candidate => candidate.start !== -1)
+      .sort((left, right) => left.start - right.start
+        || right.entry.original.length - left.entry.original.length
+        || left.manifestIndex - right.manifestIndex)
+    if (!candidates.length) throw new Error('Restored content is missing protected content required for reprotection')
+    const selected = candidates[0]
+    content += restored.slice(offset, selected.start)
+    content += selected.entry.transport
+    offset = selected.start + selected.entry.original.length
+    remaining.splice(selected.index, 1)
+  }
+  content += restored.slice(offset)
+  return deepFreeze({content, manifest})
 }
 
 function compressed(values) {
@@ -396,6 +435,7 @@ function validateProtectedContent(sourceContent, targetContent) {
 
 module.exports = {
   protectTranslationInput,
+  reprotectTranslationInput,
   restoreProtectedContent,
   validateProtectedContent,
 }

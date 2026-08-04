@@ -48,6 +48,19 @@ test('REST Reviewer prompt declares the strict evidence severity and type enums'
   ]) assert.match(prompt, new RegExp(`\\b${type}\\b`))
 })
 
+test('REST prompts declare entry-local protected marker ordering', () => {
+  for (const target of ['zh-CN-reference', 'ja-JP']) {
+    const prompt = loadPrompt(promptNamesFor(target).rest)
+    assert.match(prompt, /protected marker/i)
+    assert.match(prompt, /within (?:the )?same (?:REST )?entry|inside one REST entry/i)
+    assert.match(prompt, /must not.*across.*(?:entry|ID)/is)
+    assert.match(prompt, /retry_feedback.*prior attempt.*not source/is)
+  }
+  const correction = loadPrompt(promptNamesFor('zh-CN-reference').restCorrection)
+  assert.match(correction, /within (?:the )?same (?:REST )?entry|inside one REST entry/i)
+  assert.match(correction, /must not.*across.*(?:entry|ID)/is)
+})
+
 test('adds Japanese locale data without changing the source specification', async () => {
   const { localized, translatedCount } = await translateRestSpecs({
     sourceSpecs, target: 'ja-JP', locale: 'ja-JP',
@@ -74,6 +87,42 @@ test('parses and assembles a REST endpoint document with Japanese RestSpecs lang
   const output = assembleRestDocument({ translatedPrefix: parsed.prefix, localizedSpecs: parsed.sourceSpecs, suffix: parsed.suffix, locale: 'ja-JP' })
   assert.match(output, /lang="ja-JP"/)
   assert.match(output, /export const endpoint = "\/v1\/search"/)
+})
+
+test('allows protected marker reordering inside one REST entry', async () => {
+  const source = 'Use `alpha` and `beta` at https://example.com<br/>Done.'
+  let translationMarkers
+  const {localized} = await translateRestSpecs({
+    sourceSpecs: {description: source},
+    target: 'zh-CN-reference',
+    locale: 'zh-CN',
+    callModel: async ({agent, messages}) => {
+      if (agent === 'review') {
+        const sourceEntries = taggedJson(messages, 'source')
+        const draftEntries = taggedJson(messages, 'draft')
+        const markerPattern = /<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->/g
+        assert.deepEqual(
+          [...draftEntries[0].text.matchAll(markerPattern)].map(match => match[0]).sort(),
+          [...sourceEntries[0].text.matchAll(markerPattern)].map(match => match[0]).sort(),
+        )
+        return '{"pass":true,"issues":[]}'
+      }
+      const [entry] = JSON.parse(messages[1].content.split('\n\n')[1])
+      const markers = entry.text.match(/<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->/g)
+      assert.equal(markers.length, 4)
+      translationMarkers = markers
+      return JSON.stringify([{
+        id: entry.id,
+        text: `访问 ${markers[2]}${markers[3]}，然后使用 ${markers[1]} 和 ${markers[0]}。`,
+      }])
+    },
+  })
+
+  assert.equal(translationMarkers.length, 4)
+  assert.equal(
+    localized['x-i18n']['zh-CN'].description,
+    '访问 https://example.com<br/>，然后使用 `beta` 和 `alpha`。',
+  )
 })
 
 test('rejects translations that change protected API tokens', async () => {
@@ -125,6 +174,25 @@ test('selects the Chinese Reference REST prompt from target', async () => {
     }),
   })
   assert.equal(localized['x-i18n']['zh-CN'].description, '搜索 Collection。')
+})
+
+test('normalizes deterministic locale casing inside protected REST entries', async () => {
+  const {localized, review} = await translateRestSpecs({
+    sourceSpecs: {description: 'This operation creates a PrivateLink endpoint.'},
+    target: 'zh-CN-reference',
+    locale: 'zh-CN',
+    callModel: async ({agent, messages}) => {
+      if (agent === 'review') return '{"pass":true,"issues":[]}'
+      if (agent === 'correction') throw new Error('Deterministic Endpoint normalization must not require REST Correction')
+      return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({
+        ...entry,
+        text: '此操作会创建一个 PrivateLink endpoint。',
+      })))
+    },
+  })
+
+  assert.equal(review.pass, true)
+  assert.equal(localized['x-i18n']['zh-CN'].description, '此操作会创建一个 PrivateLink Endpoint。')
 })
 
 test('replaces an existing translation for the requested locale without changing source data', async () => {
@@ -257,6 +325,51 @@ test('requires Reviewer location to name the matching REST entry ID', async () =
   assert.equal(review.pass, true)
   assert.equal(review.issues.length, 0)
   assert.equal(review.unsupportedIssues.length, 1)
+})
+
+test('rejects a forged REST entry ID suffix in Reviewer evidence', async () => {
+  const {review} = await translateRestSpecs({
+    sourceSpecs: {paths: {alpha: {description: 'Alpha source prose.'}}},
+    target: 'ja-JP',
+    locale: 'ja-JP',
+    callModel: async ({agent, messages}) => {
+      if (agent === 'translation') {
+        return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: 'アルファ翻訳。'})))
+      }
+      if (agent === 'review') return JSON.stringify({
+        pass: false,
+        issues: [{
+          severity: 'medium', type: 'accuracy_mistranslation',
+          location: '["paths","alpha","description"]-forged',
+          source_quote: 'Alpha source prose.', draft_quote: 'アルファ翻訳。', comment: 'Forged REST ID suffix.',
+        }],
+      })
+      throw new Error('Correction must not run for a forged REST entry ID')
+    },
+  })
+
+  assert.equal(review.pass, true)
+  assert.equal(review.issues.length, 0)
+  assert.equal(review.unsupportedIssues.length, 1)
+})
+
+test('rejects protected marker movement across REST entry IDs', async () => {
+  await assert.rejects(translateRestSpecs({
+    sourceSpecs: {paths: {
+      alpha: {description: 'Use `alpha`.'},
+      beta: {description: 'Use `beta`.'},
+    }},
+    target: 'ja-JP',
+    locale: 'ja-JP',
+    callModel: withPassingReview(async ({messages}) => {
+      const entries = JSON.parse(messages[1].content.split('\n\n')[1])
+      const markers = entries.map(entry => entry.text.match(/<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->/)[0])
+      return JSON.stringify([
+        {id: entries[0].id, text: `使用 ${markers[1]}。`},
+        {id: entries[1].id, text: `使用 ${markers[0]}。`},
+      ])
+    }),
+  }), /unknown|missing protected marker/i)
 })
 
 test('uses a deterministic REST terminology issue to authorize Correction', async () => {

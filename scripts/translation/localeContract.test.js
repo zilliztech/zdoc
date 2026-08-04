@@ -4,6 +4,7 @@ const assert = require('node:assert/strict')
 const test = require('node:test')
 
 const {
+  applyDeterministicLocaleRepairs,
   formatLocaleContract,
   loadLocaleContract,
   validateLocaleContract,
@@ -108,4 +109,66 @@ test('normalizes lowercase Chinese product concepts to their official English fo
   assert.equal(issues[0].source_quote, 'collection')
   assert.match(issues[0].comment, /Collection/)
   assert.deepEqual(validateLocaleContractDraft('Create a collection.', '创建一个 Collection。', contract), [])
+})
+
+test('matches mandatory ASCII terms as standalone concepts, not word substrings', () => {
+  const contract = loadLocaleContract('zh-CN-reference')
+
+  assert.deepEqual(validateLocaleContractDraft(
+    'Azure workload identity client ID.',
+    'Azure 工作负载身份客户端 ID。',
+    contract,
+  ), [])
+
+  const singularIssues = validateLocaleContractDraft(
+    'Each entity has an ID.',
+    '每个实体都有一个 ID。',
+    contract,
+  )
+  assert.equal(singularIssues.length, 1)
+  assert.equal(singularIssues[0].source_quote, 'entity')
+
+  assert.deepEqual(validateLocaleContractDraft(
+    'The entities have IDs.',
+    '这些 Entity 都有 ID。',
+    contract,
+  ), [])
+})
+
+test('requires the Chinese Endpoint form in ordinary endpoint prose', () => {
+  const contract = loadLocaleContract('zh-CN-reference')
+  const source = 'This operation creates a PrivateLink endpoint.'
+  const leaked = '此操作会创建一个 PrivateLink endpoint。'
+  const issues = validateLocaleContractDraft(source, leaked, contract)
+
+  assert.equal(issues.length, 1)
+  assert.equal(issues[0].source_quote, 'endpoint')
+  assert.equal(issues[0].draft_quote, leaked)
+  assert.deepEqual(validateLocaleContractDraft(
+    source,
+    '此操作会创建一个 PrivateLink Endpoint。',
+    contract,
+  ), [])
+})
+
+test('deterministically normalizes only case-sensitive mandatory ASCII terms', () => {
+  const contract = loadLocaleContract('zh-CN-reference')
+  const marker = '<!-- ZDOC-PROTECTED:000000:0123456789abcdef -->'
+
+  assert.equal(
+    applyDeterministicLocaleRepairs(
+      `Use the endpoint and endpoints at ${marker}.`,
+      `使用 endpoint 和 endpoints 访问 ${marker}。`,
+      contract,
+    ),
+    `使用 Endpoint 和 Endpoints 访问 ${marker}。`,
+  )
+  assert.equal(
+    applyDeterministicLocaleRepairs('No matching term.', '保留 endpoint 原样。', contract),
+    '保留 endpoint 原样。',
+  )
+  assert.equal(
+    applyDeterministicLocaleRepairs('Compaction plans.', 'Compaction 计划。', contract),
+    'Compaction 计划。',
+  )
 })

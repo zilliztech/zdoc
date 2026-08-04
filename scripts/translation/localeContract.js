@@ -116,6 +116,68 @@ function countOccurrences(content, value, caseSensitive) {
   return count
 }
 
+function mandatoryTermVariants(value) {
+  if (!/^[A-Za-z][A-Za-z0-9_]*$/.test(value)) return [value]
+  let plural
+  if (/[^aeiou]y$/i.test(value)) plural = `${value.slice(0, -1)}ies`
+  else if (/(?:s|x|z|ch|sh)$/i.test(value)) plural = `${value}es`
+  else plural = `${value}s`
+  return plural === value ? [value] : [value, plural]
+}
+
+function mandatoryTermOccurrences(content, value, caseSensitive) {
+  const source = String(content)
+  const haystack = caseSensitive ? source : source.toLocaleLowerCase('en-US')
+  const variants = mandatoryTermVariants(value)
+    .map(item => caseSensitive ? item : item.toLocaleLowerCase('en-US'))
+    .sort((left, right) => right.length - left.length)
+  const wordLike = /^[A-Za-z][A-Za-z0-9_]*$/.test(value)
+  const occurrences = []
+  for (let index = 0; index < haystack.length;) {
+    const variant = variants.find(item => haystack.startsWith(item, index))
+    if (!variant) {
+      index += 1
+      continue
+    }
+    const before = index > 0 ? haystack[index - 1] : ''
+    const after = haystack[index + variant.length] || ''
+    if (wordLike && (/[A-Za-z0-9_]/.test(before) || /[A-Za-z0-9_]/.test(after))) {
+      index += 1
+      continue
+    }
+    occurrences.push({index, value: source.slice(index, index + variant.length)})
+    index += variant.length
+  }
+  return occurrences
+}
+
+function applyDeterministicLocaleRepairs(sourceContent, draftContent, contract) {
+  const source = String(sourceContent)
+  let draft = String(draftContent)
+  for (const term of contract.mandatoryTerms) {
+    if (!term.caseSensitive || term.source === term.target) continue
+    if (!/^[A-Za-z][A-Za-z0-9_]*$/.test(term.source)) continue
+    if (term.source.toLocaleLowerCase('en-US') !== term.target.toLocaleLowerCase('en-US')) continue
+    const sourceCount = mandatoryTermOccurrences(source, term.source, true).length
+    if (!sourceCount) continue
+    const targetCount = mandatoryTermOccurrences(draft, term.target, true).length
+    let deficit = sourceCount - targetCount
+    if (deficit <= 0) continue
+    const sourceVariants = mandatoryTermVariants(term.source).map(value => value.toLocaleLowerCase('en-US'))
+    const targetVariants = mandatoryTermVariants(term.target)
+    const repairs = mandatoryTermOccurrences(draft, term.source, false).filter(occurrence => {
+      const variant = sourceVariants.indexOf(occurrence.value.toLocaleLowerCase('en-US'))
+      return variant !== -1 && occurrence.value !== targetVariants[variant]
+    }).slice(0, deficit)
+    for (const repair of repairs.reverse()) {
+      const variant = sourceVariants.indexOf(repair.value.toLocaleLowerCase('en-US'))
+      draft = `${draft.slice(0, repair.index)}${targetVariants[variant]}${draft.slice(repair.index + repair.value.length)}`
+      deficit -= 1
+    }
+  }
+  return draft
+}
+
 function correspondingDraftLine(source, draft, sourceIndex) {
   if (sourceIndex < 0) return ''
   const lineIndex = String(source).slice(0, sourceIndex).split(/\r?\n/).length - 1
@@ -136,19 +198,21 @@ function mandatoryTermIssues(source, draft, contract, term, sourceCount, targetC
   let remainingDeficit = sourceCount - targetCount
 
   for (let lineIndex = 0; lineIndex < sourceLines.length && remainingDeficit > 0; lineIndex += 1) {
-    const sourceLineCount = countOccurrences(sourceLines[lineIndex], term.source, term.caseSensitive)
+    const sourceLineOccurrences = mandatoryTermOccurrences(sourceLines[lineIndex], term.source, term.caseSensitive)
+    const sourceLineCount = sourceLineOccurrences.length
     if (!sourceLineCount) continue
     const draftLine = draftLines[lineIndex] || ''
-    const draftLineCount = countOccurrences(draftLine, term.target, term.caseSensitive)
+    const draftLineCount = mandatoryTermOccurrences(draftLine, term.target, term.caseSensitive).length
     const lineDeficit = sourceLineCount - draftLineCount
     if (lineDeficit <= 0) continue
-    const draftQuote = boundedDraftQuote(sourceLines[lineIndex], draftLine, term.source, forbidden)
+    const sourceQuote = sourceLineOccurrences[Math.min(draftLineCount, sourceLineOccurrences.length - 1)]?.value || term.source
+    const draftQuote = boundedDraftQuote(sourceLines[lineIndex], draftLine, sourceQuote, forbidden)
     if (!draftQuote) continue
     issues.push(Object.freeze({
       severity: 'medium',
       type: 'terminology',
       location: `line ${lineIndex + 1} containing ${term.source}`,
-      source_quote: term.source,
+      source_quote: sourceQuote,
       draft_quote: draftQuote,
       comment: `Locale contract ${contract.contractId} requires ${term.source} to use ${term.target}; forbidden replacements do not satisfy this product terminology rule.`,
     }))
@@ -174,9 +238,9 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
   const draft = String(draftContent)
   const issues = []
   for (const term of contract.mandatoryTerms) {
-    const sourceCount = countOccurrences(source, term.source, term.caseSensitive)
+    const sourceCount = mandatoryTermOccurrences(source, term.source, term.caseSensitive).length
     if (!sourceCount) continue
-    const targetCount = countOccurrences(draft, term.target, term.caseSensitive)
+    const targetCount = mandatoryTermOccurrences(draft, term.target, term.caseSensitive).length
     if (targetCount >= sourceCount) continue
     issues.push(...mandatoryTermIssues(source, draft, contract, term, sourceCount, targetCount))
   }
@@ -229,6 +293,7 @@ function issueConflictsWithLocaleContract(issue, contract) {
 }
 
 module.exports = {
+  applyDeterministicLocaleRepairs,
   formatLocaleContract,
   issueConflictsWithLocaleContract,
   loadLocaleContract,
