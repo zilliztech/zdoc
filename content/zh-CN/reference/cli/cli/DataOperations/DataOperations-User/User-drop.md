@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "drop | Cloud"
 slug: /cli/cli/User-drop
 sidebar_label: "drop"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a database user. | Cloud"
+description: "此操作会删除一个数据库用户。 | Cloud"
 type: docx
-token: EXwwdyHGZopIv9xJ48dckYjanVc
+token: Isx7dzFS9obGxyxEwgncxs67nXe
 sidebar_position: 3
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - drop
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # drop
 
-This operation drops a database user.
+此操作会删除一个数据库用户。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This command is available for Dedicated clusters only. You can run <code>zilliz context set</code> to switch among clusters.</p>
+此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
 </Admonition>
 
-## Synopsis
+## 概述\{#synopsis}
 
 ```bash
 zilliz user drop
@@ -50,17 +50,17 @@ zilliz user drop
 [--yes]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--user** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    Indicates the username to drop.
+    指定要删除的用户名。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值包括：
 
     - `json`,
 
@@ -70,21 +70,21 @@ zilliz user drop
 
     - `yaml`,
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
 - **--yes, -y** (*boolean*) -
 
-    Indicates whether to skip the confirmation prompt.
+    指定是否跳过确认提示。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz user drop --user my_user

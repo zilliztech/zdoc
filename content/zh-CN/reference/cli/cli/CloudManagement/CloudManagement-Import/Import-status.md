@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "status | Cloud"
 slug: /cli/cli/Import-status
 sidebar_label: "status"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets the status of an import job. | Cloud"
+description: "此操作用于获取导入作业的状态。 | Cloud"
 type: docx
-token: WgScdvYdRoGsQyxTnfDcLim2nBh
+token: Lu5EdzR9So5gUCxL71YcX30Enkh
 sidebar_position: 3
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - 托管向量数据库
+  - Pinecone 向量数据库
+  - 音频搜索
+  - 什么是语义搜索
   - zilliz
   - zilliz cloud
   - cloud
-  - status
-  - cliv01
+  - 状态
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # status
 
-This operation gets the status of an import job.
+此操作用于获取导入作业的状态。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz import status
@@ -44,45 +44,45 @@ zilliz import status
 [--no-header]
 ```
 
-**OPTIONS:**
+**选项：**
 
 - **--job-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates an import job ID, which is similar to `job-xxxxx`.
+    表示导入作业 ID，格式类似于 `job-xxxxx`。
 
 - **--cluster-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the ID of the involved cluster in the specified import job, which is similar to `inxx-xxxxx`.
+    表示指定导入作业中所涉及集群的 ID，格式类似于 `inxx-xxxxx`。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该集群。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    表示输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    表示用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz import status --job-id job-xxxx --cluster-id in01-xxxxxxxxxxxx

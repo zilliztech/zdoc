@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "regions | Cloud"
 slug: /cli/cli/Cluster-regions
 sidebar_label: "regions"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all available regions for a cloud provider. | Cloud"
+description: "此操作列出某个云服务提供商的所有可用区域。 | Cloud"
 type: docx
-token: IsRxdCpeEo3RmOxiY0jcCYLhnde
+token: YHtudYo81oBKruxujL5cw0yZnxd
 sidebar_position: 8
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - regions
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # regions
 
-This operation lists all available regions for a cloud provider.
+此操作列出某个云服务提供商的所有可用区域。
 
-## Synopsis
+## 概述\{#synopsis}
 
 ```bash
 zilliz cluster regions
@@ -43,35 +43,35 @@ zilliz cluster regions
 [--no-header]
 ```
 
-**OPTIONS:**
+**选项：**
 
 - **--cloud-id** (*string*) -
 
-    Indicates a cloud provider. Possible values are: `aws`, `gcp`, and `azure`.
+    指定云服务提供商。可能的值包括：`aws`、`gcp` 和 `azure`。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出格式设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 # List all regions

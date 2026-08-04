@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "create | Cloud"
 slug: /cli/cli/Alias-create
 sidebar_label: "create"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates an alias pointing to a collection. | Cloud"
+description: "此操作会创建一个指向集合的别名。 | Cloud"
 type: docx
-token: SclAd0NPBoMQ9Pxtg0vcQxK0n2f
+token: WxTjdBaBqoNhRex5kR0cfekqnOc
 sidebar_position: 2
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - create
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # create
 
-This operation creates an alias pointing to a collection.
+此操作会创建一个指向集合的别名。
 
-## Description
+## 描述\{#description}
 
-You can assign an alias to a collection and conduct searches/queries against the alias so that the associated collection responds. Use this command to change the collection associated with the specified alias.
+您可以为集合分配一个别名，并针对该别名执行搜索/查询，此时关联的集合会进行响应。使用此命令可更改与指定别名关联的集合。
 
-Running this command without any prompts triggers a set of interactive prompts to help set it up.
+在不带任何提示参数的情况下运行此命令，会触发一组交互式提示来帮助您完成设置。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz alias create
@@ -51,31 +51,31 @@ zilliz alias create
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--collection** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the target collection name.
+    指定目标集合名称。
 
 - **--alias** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the alias name.
+    指定别名名称。
 
-    The value should be an alphanumeric string of up to **255** characters, starting with an underscore (_) or a letter.
+    该值应为不超过 **255** 个字符的字母数字字符串，并以下划线 (_) 或字母开头。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
-    If a cluster is configured using `zilliz context set`, the database it belongs automatically applies if this option is left unconfigured.
+    如果使用 `zilliz context set` 配置了集群，而此选项未配置，则会自动应用该集群所属的数据库。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
     - `json`,
 
@@ -85,17 +85,17 @@ zilliz alias create
 
     - `yaml`,
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates the JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz alias create --collection my_collection --alias my_alias

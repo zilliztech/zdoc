@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "enable | Cloud"
 slug: /cli/cli/Alert-enable
 sidebar_label: "enable"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation enables an alert rule. | Cloud"
+description: "此操作会启用一条告警规则。 | Cloud"
 type: docx
-token: G8Xtd9rypofGjax3HUbcWUNPn3g
+token: MLrJdT9TdojvcJxhauic8s9anBf
 sidebar_position: 4
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - enable
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # enable
 
-This operation enables an alert rule.
+此操作会启用一条告警规则。
 
-## Description
+## 描述\{#description}
 
-Only enabled alert rules apply. You can run this command to enable the specified alert rules as needed.
+只有已启用的告警规则才会生效。您可以根据需要运行此命令以启用指定的告警规则。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz alert enable
@@ -46,31 +46,31 @@ zilliz alert enable
 [--output <json | table | text>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the ID of the alert rule to enable, such as `alert-xxxxx`. To get an exhaustive list of existing alert rules, run `zilliz alert list`.
+    指定要启用的告警规则 ID，例如 `alert-xxxxx`。要获取现有告警规则的完整列表，请运行 `zilliz alert list`。
 
 - **--project-id** (*string*) -
 
-    Indicates the project ID if you expect to select an alert rule from a list.
+    如果您希望从列表中选择一条告警规则，请指定项目 ID。
 
-    If a project is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置项目，则在未配置此选项时会自动应用该项目。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values: 
+    指定输出格式。可选值：
 
     - `json`,
 
     - `table`,
 
-    - `text`.
+    - `text`。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz alert enable --id xxxx

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "grant-privilege | Cloud"
 slug: /cli/cli/Role-grantprivilege
 sidebar_label: "grant-privilege"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation grants a privilege to a role. | Cloud"
+description: "此操作会向角色授予权限。 | Cloud"
 type: docx
-token: ZtdUdawpZoLgrYx31XkcQxeOnNb
+token: U83ddOym4o7WgAx1ekac4nFHnzf
 sidebar_position: 4
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - grant-privilege
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,23 +31,23 @@ import Admonition from '@theme/Admonition';
 
 # grant-privilege
 
-This operation grants a privilege to a role.
+此操作会向角色授予权限。
 
-## Description
+## Description\{#description}
 
-A **privilege** refers to the permission of specific operations on certain Zilliz Cloud resources such as clusters, databases, and collections. Privileges are assigned to roles, which are then granted to users, defining the operations users can perform on the resources. An example of a privilege could be the permission to insert data into a collection named `collection_01`.
+**权限**是指对特定 Zilliz Cloud 资源（如集群、数据库和集合）执行特定操作的许可。权限会分配给角色，再将角色授予用户，从而定义用户可以对这些资源执行的操作。一个权限示例是：允许向名为 `collection_01` 的集合中插入数据。
 
-A **privilege group** is a combination of individual privileges. You can create a privilege group of commonly used privileges to simplify the role-granting process. For ease of use, Zilliz Cloud provides 9 built-in privilege groups at the collection, database, and cluster levels.
+**权限组**是多个单项权限的组合。您可以创建由常用权限组成的权限组，以简化角色授权过程。为便于使用，Zilliz Cloud 在集合、数据库和集群级别提供了 9 个内置权限组。
 
-Possible privileges are listed on [Privileges and Privilege Groups](/docs/cluster-privileges).
+可用权限列于[Privileges and Privilege Groups](/docs/cluster-privileges)。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This command is available for Dedicated clusters only. You can run <code>zilliz context set</code> to switch among clusters.</p>
+此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在不同集群之间切换。
 
 </Admonition>
 
-## Synopsis
+## Synopsis\{#synopsis}
 
 ```bash
 zilliz role grant-privilege
@@ -61,19 +61,19 @@ zilliz role grant-privilege
 [--query <value>]
 ```
 
-## Options
+## Options\{#options}
 
 - **--role** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the role name.
+    指定角色名称。
 
 - **--object-type** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the object type. Possible values:
+    指定对象类型。可选值：
 
     - `Global`,
 
@@ -85,21 +85,21 @@ zilliz role grant-privilege
 
     **[REQUIRED]**
 
-    Indicates the object name. You can use a `'*'` to include all objects of the specified type.
+    指定对象名称。您可以使用 `'*'` 来包含指定类型的所有对象。
 
 - **--privilege** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the privilege name. You can use `'*'` to include all privileges. Possible privileges are listed on [Privileges and Privilege Groups](/docs/cluster-privileges).
+    指定权限名称。您可以使用 `'*'` 来包含所有权限。可用权限列于[Privileges and Privilege Groups](/docs/cluster-privileges)。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
     - `json`,
 
@@ -113,13 +113,13 @@ zilliz role grant-privilege
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## Example\{#example}
 
 ```bash
 # Grant search on a specific collection

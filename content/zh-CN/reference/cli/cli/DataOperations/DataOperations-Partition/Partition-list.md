@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "list | Cloud"
 slug: /cli/cli/Partition-list
 sidebar_label: "list"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists partitions in a collection. | Cloud"
+description: "此操作列出集合中的分区。 | Cloud"
 type: docx
-token: LJpJd8D0Qo1kGjxBCzfcSsDInEb
+token: QVxadXWKIo8YcHxZgD1c0F0VnXf
 sidebar_position: 5
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - 什么是语义搜索
+  - Embedding model
+  - 图像相似性搜索
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - list
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-This operation lists partitions in a collection.
+此操作列出集合中的分区。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz partition list
@@ -44,31 +44,31 @@ zilliz partition list
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--collection** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the collection name.
+    指定集合名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Choices: `json`, `table`, `text`, `yaml`, `csv`.
+    指定输出格式。可选值：`json`、`table`、`text`、`yaml`、`csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz partition list --collection my_collection

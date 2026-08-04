@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "list | Cloud"
 slug: /cli/cli/Index-list
 sidebar_label: "list"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists indexes on a collection. | Cloud"
+description: "此操作列出集合上的索引。 | Cloud"
 type: docx
-token: ZMZRdgyNkojxQMxb0tvcTQ2PnBb
+token: Kw0KdCb7yom9alxtZRTcV3m7nCb
 sidebar_position: 4
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - list
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-This operation lists indexes on a collection.
+此操作列出集合上的索引。
 
-## Usage
+## 用法\{#usage}
 
 ```bash
 zilliz index list
@@ -44,31 +44,31 @@ zilliz index list
 [--query <value>]
 ```
 
-**OPTIONS:**
+**选项：**
 
 - **--collection** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the collection name.
+    指定集合名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Choices: `json`, `table`, `text`, `yaml`, `csv`.
+    指定输出格式。可选值：`json`、`table`、`text`、`yaml`、`csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz index list --collection my_collection

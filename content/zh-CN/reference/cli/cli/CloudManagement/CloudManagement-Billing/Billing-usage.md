@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "usage | Cloud"
 slug: /cli/cli/Billing-usage
 sidebar_label: "usage"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation queries usage costs within a time range. | Cloud"
+description: "此操作用于查询指定时间范围内的使用成本。 | Cloud"
 type: docx
-token: CRvbdGmR0oylPKxTLsncACd6ntC
-sidebar_position: 3
+token: FpDzdA1nSo6sOHxYxAhcTPCLn5d
+sidebar_position: 4
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - usage
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # usage
 
-This operation queries usage costs within a time range.
+此操作用于查询指定时间范围内的使用成本。
 
-## Description
+## 描述\{#description}
 
-Zilliz Cloud provides detailed usage information for your organization, enabling you to conduct cost analysis across various dimensions. To access invoices, you must have either **Organization Owner** or **Billing Admin** permissions.
+Zilliz Cloud 为您的组织提供详细的使用信息，使您能够从多个维度进行成本分析。要访问发票，您必须具有 **Organization Owner** 或 **Billing Admin** 权限。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz billing usage
@@ -48,37 +48,37 @@ zilliz billing usage
 [--output <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--last** (*string*) -
 
-    Indicates the relative time range.
+    表示相对时间范围。
 
-    Uses `d` for days, `m` for months. To retrieve the usage statistics within the last 7 days, set this option to `7d`.
+    使用 `d` 表示天，`m` 表示月。要获取最近 7 天内的使用统计信息，请将此选项设置为 `7d`。
 
 - **--month** (*string*) -
 
-    Indicates an expression to query by month. For example, you can use `2026-01`, `last`, `this`, etc
+    表示按月份查询的表达式。例如，您可以使用 `2026-01`、`last`、`this` 等。
 
 - **--start** (*string*) -
 
-    Indicates the start date of a time range in the format `YYYY-MM-DD` or a valid `ISO-8601` timestamp.
+    表示时间范围的开始日期，格式为 `YYYY-MM-DD` 或有效的 `ISO-8601` 时间戳。
 
 - **--end** (*string*) -
 
-    Indicates the end date of a time range in the format `YYYY-MM-DD` or a valid `ISO-8601` timestamp.
+    表示时间范围的结束日期，格式为 `YYYY-MM-DD` 或有效的 `ISO-8601` 时间戳。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    表示输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`.
+    - `text`。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz billing usage --last 7d

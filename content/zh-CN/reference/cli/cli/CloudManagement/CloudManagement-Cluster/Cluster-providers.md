@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "providers | Cloud"
 slug: /cli/cli/Cluster-providers
 sidebar_label: "providers"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all applicable cloud providers. | Cloud"
+description: "此操作会列出所有适用的云服务提供商。| Cloud"
 type: docx
-token: Dd7HdLhKaoNhFSxVzGZcfit9nzf
+token: Rhked7rPvopHixxQZe6czSUwnvf
 sidebar_position: 7
 keywords: 
-  - vector database
-  - IVF
   - knn
   - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - providers
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # providers
 
-This operation lists all applicable cloud providers.
+此操作会列出所有适用的云服务提供商。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz cluster providers
@@ -42,11 +42,11 @@ zilliz cluster providers
 [--no-header]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
     - `json`,
 
@@ -60,13 +60,13 @@ zilliz cluster providers
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz cluster providers

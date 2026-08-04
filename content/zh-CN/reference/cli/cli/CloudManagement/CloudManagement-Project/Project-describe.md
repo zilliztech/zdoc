@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "describe | Cloud"
 slug: /cli/cli/Project-describe
 sidebar_label: "describe"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets the details of a project. | Cloud"
+description: "此操作获取项目的详细信息。 | Cloud"
 type: docx
-token: JHi7ddXcaoozIyxLplicI61mn1e
+token: OBDNd4bW2oCJqhxEPDSccggSnif
 sidebar_position: 2
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - describe
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # describe
 
-This operation gets the details of a project.
+此操作获取项目的详细信息。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz project describe
@@ -43,17 +43,17 @@ zilliz project describe
 [--no-header]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--project-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates a project ID, which is similar to `proj-xxxxx`.
+    指定项目 ID，格式类似于 `proj-xxxxx`。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
     - `json`,
 
@@ -67,13 +67,13 @@ zilliz project describe
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz project describe --project-id proj-xxxxxxxxxxxx

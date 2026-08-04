@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "list | Cloud"
 slug: /cli/cli/Cluster-list
 sidebar_label: "list"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all clusters. | Cloud"
+description: "此操作会列出所有集群。 | Cloud"
 type: docx
-token: SGifd4eCmoxfMmxLohec5nFnn7g
+token: F2RtdzmQ0oQlWfxf7SYcT200nNf
 sidebar_position: 4
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - list
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-This operation lists all clusters.
+此操作会列出所有集群。
 
-## Description
+## 描述\{#description}
 
-This command returns the following fields for each listed cluster:
+此命令会为列出的每个集群返回以下字段：
 
 - `clusterId`
 
@@ -53,7 +53,7 @@ This command returns the following fields for each listed cluster:
 
 - `status`
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz cluster list
@@ -65,19 +65,19 @@ zilliz cluster list
 [--all]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--page-size** (*integer*) -
 
-    Indicates the items per page. The value defaults to **10**.
+    指定每页的条目数。默认值为 **10**。
 
 - **--page** (*integer*) -
 
-    Indicates the page number. The value defaults to **1**.
+    指定页码。默认值为 **1**。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可能的值包括：
 
     - `json`,
 
@@ -87,21 +87,21 @@ zilliz cluster list
 
     - `yaml`,
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
 - **--all, -a** (*boolean*) -
 
-    Indicates whether to fetch all pages.
+    指定是否获取所有页面。
 
-## Example
+## 示例\{#example}
 
 ```bash
 # List all clusters

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "delete | Cloud"
 slug: /cli/cli/Volume-delete
 sidebar_label: "delete"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation deletes a volume. | Cloud"
+description: "此操作将删除一个卷。 | Cloud"
 type: docx
-token: CNlid8lmAoX4Qtxqd6mc119gnjb
+token: CgVKdrm2YoAiM8xBvFacmxpWnrb
 sidebar_position: 2
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - delete
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # delete
 
-This operation deletes a volume.
+此操作将删除一个卷。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz volume delete
@@ -43,17 +43,17 @@ zilliz volume delete
 [--no-header]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the name of the volume to delete.
+    指定要删除的卷名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
     - `json`,
 
@@ -67,13 +67,13 @@ zilliz volume delete
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz volume delete --name my-volume

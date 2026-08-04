@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "describe-policy | Cloud"
 slug: /cli/cli/Backup-describepolicy
 sidebar_label: "describe-policy"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation describes the backup policy for a cluster. | Cloud"
+description: "此操作用于描述集群的备份策略。 | Cloud"
 type: docx
-token: L7cCdeeP2oszbnxQE5ccCpIJnGb
+token: WcQadTMuCo9voCxPT86cxFzFnkf
 sidebar_position: 4
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - describe-policy
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # describe-policy
 
-This operation describes the backup policy for a cluster.
+此操作用于描述集群的备份策略。
 
-## Description
+## 说明\{#description}
 
-Zilliz Cloud allows you to enable **automatic backups** for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the **entire cluster**—backing up individual collections automatically is not supported.
+Zilliz Cloud 允许你为集群启用**自动备份**，以帮助在发生意外问题时确保数据可恢复。自动备份适用于**整个集群**——不支持自动备份单个 collection。
 
-You can run this command to learn about the settings of the current automatic backup policies that apply to the specified cluster.
+你可以运行此命令来了解适用于指定集群的当前自动备份策略设置。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+此功能仅适用于 **Dedicated** 集群。
 
 </Admonition>
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz backup describe-policy
@@ -55,19 +55,19 @@ zilliz backup describe-policy
 [--no-header]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--cluster-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates a cluster ID, which is similar to `inxx-xxxxx`.
+    指定一个集群 ID，格式类似于 `inxx-xxxxx`。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该配置。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值包括：
 
     - `json`,
 
@@ -77,17 +77,17 @@ zilliz backup describe-policy
 
     - `yaml`,
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz backup describe-policy --cluster-id in01-xxxxxxxxxxxx

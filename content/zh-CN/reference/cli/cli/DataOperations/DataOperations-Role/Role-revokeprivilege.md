@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "revoke-privilege | Cloud"
 slug: /cli/cli/Role-revokeprivilege
 sidebar_label: "revoke-privilege"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation revokes a privilege from a role. | Cloud"
+description: "此操作会从角色中撤销某项权限。 | Cloud"
 type: docx
-token: PT02de9SeooyPYxZW2ucueP1nAd
+token: YXtHdG865oGg7IxwoZRcIJkQn8e
 sidebar_position: 6
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - revoke-privilege
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # revoke-privilege
 
-This operation revokes a privilege from a role.
+此操作会从角色中撤销某项权限。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注意">
 
-<p>This command is available for Dedicated clusters only.</p>
+此命令仅适用于 Dedicated 集群。
 
 </Admonition>
 
-## Synopsis
+## 概述\{#synopsis}
 
 ```bash
 zilliz role revoke-privilege
@@ -53,65 +53,65 @@ zilliz role revoke-privilege
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--role** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the role name.
+    指定角色名称。
 
 - **--object-type** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the object type. Possible values:
+    指定对象类型。可选值：
 
-    - `Global`,
+    - `Global`，
 
-    - `Collection`,
+    - `Collection`，
 
-    - `Database`.
+    - `Database`。
 
 - **--object-name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the object name (or * for all).
+    指定对象名称（或使用 * 表示所有对象）。
 
 - **--privilege** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the privilege name.
+    指定权限名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz role revoke-privilege --role my_role --object-type Collection --object-name my_col --privilege Search

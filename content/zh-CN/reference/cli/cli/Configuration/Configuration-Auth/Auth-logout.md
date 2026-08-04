@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "logout | Go"
 slug: /cli/cli/Auth-logout
 sidebar_label: "logout"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation logs you out of Zilliz Cloud and clears stored credentials. | Go"
+description: "此操作会将您从 Zilliz Cloud 登出并清除已存储的凭据。 | Go"
 type: docx
-token: JVIKdV11AoXBlCxHuTVcKrQmnud
+token: QeHdd8MunoG5Krxwpr1cx0Ninwd
 sidebar_position: 2
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - logout
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # logout
 
-This operation logs you out of Zilliz Cloud and clears stored credentials.
+此操作会将您从 Zilliz Cloud 登出并清除已存储的凭据。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz logout
 ```
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz logout

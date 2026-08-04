@@ -1,16 +1,15 @@
 ---
-displayed_sidbar: cliSidebar
 title: "list | Cloud"
 slug: /cli/cli/User-list
 sidebar_label: "list"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all database users. | Cloud"
+description: "此操作列出所有数据库用户。 | Cloud"
 type: docx
-token: HfpOdcNw3ovpRgxrIQAcFW0Jnlp
+token: RhYcd912ioVJNOxjy9kc3rnbnzK
 sidebar_position: 5
 keywords: 
   - what is milvus
@@ -21,9 +20,10 @@ keywords:
   - zilliz cloud
   - cloud
   - list
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-This operation lists all database users.
+此操作列出所有数据库用户。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="注意">
 
-<p>This command is available for Dedicated clusters only. You can run <code>zilliz context set</code> to switch among clusters.</p>
+此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
 </Admonition>
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz user list
@@ -48,31 +48,31 @@ zilliz user list
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz user list

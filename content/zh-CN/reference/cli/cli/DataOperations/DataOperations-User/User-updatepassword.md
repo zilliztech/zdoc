@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "update-password | Cloud"
 slug: /cli/cli/User-updatepassword
 sidebar_label: "update-password"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation updates the user password. | Cloud"
+description: "此操作用于更新用户密码。 | Cloud"
 type: docx
-token: CLzGdXUNzo2XaHxRvBYcaYSZnud
+token: AB6Hd6NHUoNLXIxgXywc3hmtnjc
 sidebar_position: 7
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - update-password
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # update-password
 
-This operation updates the user password.
+此操作用于更新用户密码。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This command is available for Dedicated clusters only. You can run <code>zilliz context set</code> to switch among clusters.</p>
+此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
 </Admonition>
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz user update-password
@@ -51,59 +51,59 @@ zilliz user update-password
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--user** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the username.
+    指定用户名。
 
 - **--password** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the current password.
+    指定当前密码。
 
 - **--new-password** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the new password.
+    指定新密码。
 
-    The password should be a string of at least **eight** characters that contains **two** types of the following options:
+    密码应为至少 **8** 个字符的字符串，并且需包含以下选项中的 **两** 种类型：
 
-    - Uppercase letters (A-Z)
+    - 大写字母 (A-Z)
 
-    - Lowercase letters (a-z)
+    - 小写字母 (a-z)
 
-    - Digits (0-9)
+    - 数字 (0-9)
 
-    - Special characters (`!`, `@`, `#`, etc.)
+    - 特殊字符（`!`、`@`、`#` 等）
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz user update-password --user my_user --password old_pass --new-password new_pass

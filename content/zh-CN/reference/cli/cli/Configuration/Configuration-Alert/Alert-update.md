@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "update | Cloud"
 slug: /cli/cli/Alert-update
 sidebar_label: "update"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation updates an existing alert rule. | Cloud"
+description: "此操作会更新现有的告警规则。 | Cloud"
 type: docx
-token: O4mCdJC4IoG8Z8xBbpOcC26wnoe
+token: FxUedhePWogwX4xRxFucLvaqnGg
 sidebar_position: 6
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - update
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # update
 
-This operation updates an existing alert rule.
+此操作会更新现有的告警规则。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz alert update
@@ -53,23 +53,23 @@ zilliz alert update
 [--output <json | table | text>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the ID of the alert rule to enable, such as `alert-xxxxx`. To get an exhaustive list of existing alert rules, run `zilliz alert list`.
+    指定要启用的告警规则 ID，例如 `alert-xxxxx`。要获取现有告警规则的完整列表，请运行 `zilliz alert list`。
 
 - **--project-id** (*string*) -
 
-    Indicates a Project ID, such as `proj-xxxx`.
+    指定 Project ID，例如 `proj-xxxx`。
 
-    If a project is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置项目，则在未配置此选项时会自动应用该项目。
 
 - **--metric-name** (*string*) -
 
-    Indicates the metric to monitor. Possible values:
+    指定要监控的指标。可能的值如下：
 
     - `CU_COMPUTATION`
 
@@ -99,57 +99,57 @@ zilliz alert update
 
 - **--threshold** (*string*) -
 
-    Indicates the threshold value.
+    指定阈值。
 
 - **--comparison** (*string*) -
 
-    Indicates the comparison operator. 
+    指定比较运算符。 
 
-    Choices: `>` (or `gt`), `<` (or `lt`), `>=` (or `gte`), `<=` (or `lte`), `=` (or `eq`).
+    可选值：`>`（或 `gt`）、`<`（或 `lt`）、`>=`（或 `gte`）、`<=`（或 `lte`）、`=`（或 `eq`）。
 
 - **--rule-name** (*string*) -
 
-    Indicates a display name for the alert rule.
+    指定告警规则的显示名称。
 
 - **--level** (*string*) -
 
-    Indicates alert severity. The value defaults to `WARNING`.
+    指定告警严重级别。默认值为 `WARNING`。
 
-    Possible values: `WARNING`, `CRITICAL`.
+    可能的值：`WARNING`、`CRITICAL`。
 
 - **--window-size** (*string*) -
 
-    Indicates the monitoring window. For example, `5m`, `15m`, `1h`, etc.
+    指定监控窗口。例如，`5m`、`15m`、`1h` 等。
 
 - **--cluster-id** (*array*) -
 
-    Indicates the target cluster ID. 
+    指定目标集群 ID。 
 
-    You can use this option with different cluster IDs in the same command. If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    您可以在同一命令中多次使用此选项来指定不同的集群 ID。如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该集群。
 
 - **--action** (*array*) -
 
-    Indicates the notification action as in `type:config`. For example, `email:user*@*example.com`.
+    按 `type:config` 的格式指定通知动作。例如，`email:user*@*example.com`。
 
-    You can use this option with different cluster IDs in the same command.
+    您可以在同一命令中多次使用此选项来指定不同的集群 ID。
 
 - **--send-resolved** (*string*) -
 
-    Indicates whether to send notifications when the alert resolves.
+    指定在告警恢复时是否发送通知。
 
 - **--repeat-interval** (*integer*) -
 
-    Indicates the interval at which the notification will be sent, in seconds.
+    指定发送通知的间隔时间，单位为秒。
 
 - **--enabled** (*string*) -
 
-    Indicates whether to enable the rule. This option defaults to true.
+    指定是否启用该规则。此选项默认值为 true。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Choices: `json`, `table`, `text`.
+    指定输出格式。可选值：`json`、`table`、`text`。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz alert update --project-id porj-xxxx \

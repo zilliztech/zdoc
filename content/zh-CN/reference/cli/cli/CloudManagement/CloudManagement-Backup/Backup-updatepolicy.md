@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "update-policy | Cloud"
 slug: /cli/cli/Backup-updatepolicy
 sidebar_label: "update-policy"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation updates the backup policy of a cluster. | Cloud"
+description: "此操作会更新集群的备份策略。 | Cloud"
 type: docx
-token: TVB4dJXYfoSiFexcIFwcez5dnug
+token: PJsSdI8JBoUchVx1IkrcmakLnCc
 sidebar_position: 9
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - update-policy
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # update-policy
 
-This operation updates the backup policy of a cluster.
+此操作会更新集群的备份策略。
 
-## Description
+## 描述\{#description}
 
-Zilliz Cloud allows you to enable **automatic backups** for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the **entire cluster**—backing up individual collections automatically is not supported.
+Zilliz Cloud 支持为集群启用**自动备份**，帮助您在发生意外问题时确保数据可恢复。自动备份适用于**整个集群**，不支持仅对单个 collection 自动备份。
 
-You can run this command to update the automatic backup policy. Running this command without options will trigger a set of interactive prompts.
+您可以运行此命令来更新自动备份策略。运行此命令时如果不带任何选项，将触发一组交互式提示。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+此功能仅适用于 **Dedicated** 集群。
 
 </Admonition>
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz backup update-policy
@@ -60,67 +60,67 @@ zilliz backup update-policy
 [--body <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--cluster-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the cluster ID, which is similar to `inxx-xxxxx`.
+    表示集群 ID，格式类似于 `inxx-xxxxx`。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未显式设置此选项时会自动应用该配置。
 
 - **--auto-backup** (*boolean*) -
 
     **[REQUIRED]**
 
-    Indicates whether to enable or disable auto-backup.
+    表示是否启用或禁用自动备份。
 
 - **--frequency** (*string*) -
 
-    Indicates how frequently to run an auto-backup job. This option is required when `--auto-backup` is `true`. Possible values are:
+    表示自动备份任务的执行频率。当 `--auto-backup` 为 `true` 时，此选项为必填。可选值包括：
 
     - `daily`
 
     - `weekdays`
 
-    - `weekends`, or
+    - `weekends`，或
 
-    - `1-7` (1=Mon, 7=Sun) For example, `1,3,5`.
+    - `1-7`（1=Mon，7=Sun），例如 `1,3,5`。
 
 - **--start-time** (*string*) -
 
-    Indicates the start hour in UTC, for example, `02:00`. This option is required when `--auto-backup` is `true`.
+    表示 UTC 开始时间，例如 `02:00`。当 `--auto-backup` 为 `true` 时，此选项为必填。
 
 - **--retention-days** (*integer*) -
 
-    days to retain backups (1-30) Required when `--auto-backup` is `true`.
+    表示备份保留天数（1-30）。当 `--auto-backup` 为 `true` 时，此选项为必填。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    表示输出格式。可选值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    表示用于过滤输出的 JMESPath 表达式。
 
 - **--body** (*string*) -
 
-    A raw JSON string that matches the following schema. For concrete examples, refer to [Set Backup Policy](/reference/restful/set-backup-policy-v2).
+    与以下 schema 匹配的原始 JSON 字符串。具体示例请参见 [设置备份策略](/reference/restful/set-backup-policy-v2)。
 
     ```json
     {
@@ -151,7 +151,7 @@ zilliz backup update-policy
                     "properties": {
                         "regionId": {
                             "type": "string",
-                            "example": "ali-cn-hangzhou"
+                            "example": "aws-us-west-2"
                         },
                         "retentionDays": {
                             "type": "integer",
@@ -169,7 +169,7 @@ zilliz backup update-policy
     }
     ```
 
-## Example
+## 示例\{#example}
 
 ```bash
 # Enable daily backup at 2am UTC with 7-day retention

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "compact | Cloud"
 slug: /cli/cli/Collection-compact
 sidebar_label: "compact"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation compacts collection segments to optimize storage. | Cloud"
+description: "此操作会压缩 collection segment 以优化存储。 | Cloud"
 type: docx
-token: KYOydyGRaoMchUxkS0ucd8VUnve
+token: PgZ0dL39ho6wLbxJKANcm0jyn9b
 sidebar_position: 1
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - compact
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # compact
 
-This operation compacts collection segments to optimize storage.
+此操作会压缩 collection segment 以优化存储。
 
-## Description
+## 描述\{#description}
 
-Zilliz Cloud automatically compacts collection segments at intervals. In most cases, you do not need to run this command manually unless you need to optimize storage in the collection.
+Zilliz Cloud 会按间隔自动压缩 collection segment。在大多数情况下，您无需手动运行此命令，除非您需要优化 collection 中的存储。
 
-Clustering compaction is designed to improve search performance and reduce costs in large collections. This guide will help you understand clustering compaction and how this feature can improve search performance. Unlike normal compaction, clustering compaction redistributes entities within a collection's segments based on values in a scalar field.
+聚类压缩旨在提升大型 collection 的搜索性能并降低成本。本指南将帮助您了解聚类压缩，以及此功能如何提升搜索性能。与普通压缩不同，聚类压缩会根据标量字段中的值，重新分布 collection segment 中的实体。
 
-Running this command without any options triggers a set of interactive prompts to help you set it up.
+在不带任何选项的情况下运行此命令，会触发一组交互式提示，帮助您完成设置。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz collection compact
@@ -53,37 +53,37 @@ zilliz collection compact
 [--clustering]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the collection name. You can run `zilliz collection list` to obtain the list of all existing collections.
+    指定 collection 名称。您可以运行 `zilliz collection list` 获取所有现有 collection 的列表。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
-    If a cluster is configured using `zilliz context set`, the database it belongs automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置 cluster，并且未配置此选项，则会自动应用其所属的数据库。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Choices: `json`, `table`, `text`, `yaml`, `csv`.
+    指定输出格式。可选值：`json`、`table`、`text`、`yaml`、`csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
 - **--clustering** (*boolean*) -
 
-    Indicates whether to perform clustering compaction.
+    指定是否执行聚类压缩。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz collection compact --name my_collection

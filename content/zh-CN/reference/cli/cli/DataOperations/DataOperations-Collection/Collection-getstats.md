@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "get-stats | Cloud"
 slug: /cli/cli/Collection-getstats
 sidebar_label: "get-stats"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets collection statistics (row count, etc.). | Cloud"
+description: "此操作用于获取集合统计信息（行数等）。 | Cloud"
 type: docx
-token: TS6mdq8Clo4yLNxzZvpcJOkanid
+token: XTHTd7x3soBmeTx9ftwc369PnCe
 sidebar_position: 7
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - get-stats
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # get-stats
 
-This operation gets collection statistics (row count, etc.).
+此操作用于获取集合统计信息（行数等）。
 
-## Synopsis
+## 概述\{#synopsis}
 
 ```bash
 zilliz collection get-stats
@@ -45,43 +45,43 @@ zilliz collection get-stats
 [--partition-names <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the collection name.
+    指定集合名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
-    If a cluster is configured using `zilliz context set`, the database it belongs automatically applies if this option is left unconfigured.
+    如果使用 `zilliz context set` 配置了集群，而此选项未配置，则会自动应用该集群所属的数据库。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz collection get-stats --name my_collection

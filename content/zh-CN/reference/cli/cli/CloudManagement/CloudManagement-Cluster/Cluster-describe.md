@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "describe | Cloud"
 slug: /cli/cli/Cluster-describe
 sidebar_label: "describe"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets details of a cluster. | Cloud"
+description: "此操作用于获取集群的详细信息。 | Cloud"
 type: docx
-token: WsJBdDbB2ouQC0xk8c1cwDFanGf
+token: OgJTdgaTIoMPGGx0EmachVPKnHc
 sidebar_position: 3
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - describe
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,37 +31,37 @@ import Admonition from '@theme/Admonition';
 
 # describe
 
-This operation gets details of a cluster.
+此操作用于获取集群的详细信息。
 
-## Description
+## 描述\{#description}
 
-This command returns the details of a cluster, including 
+此命令返回集群的详细信息，包括：
 
-- The cluster display name (`clusterName`),
+- 集群显示名称（`clusterName`），
 
-- The ID of the project it belongs to (`projectId`),
+- 所属项目的 ID（`projectId`），
 
-- The region it is located in (`regionId`),
+- 所在区域（`regionId`），
 
-- The subscription plan it uses (`plan`),
+- 使用的订阅计划（`plan`），
 
-- Its current status (`status`),
+- 当前状态（`status`），
 
-- Its public and private connection endpoints (`connectAddress` and `privateLinkAddress`),
+- 公共和私有连接端点（`connectAddress` 和 `privateLinkAddress`），
 
-- The time it was created (`createTime`),
+- 创建时间（`createTime`），
 
-- The number of replicas it has (`replica`),
+- 副本数量（`replica`），
 
-- Its CU size (`cuSize`, the value is always 0 for free and serverless clusters),
+- CU 大小（`cuSize`，对于免费版和 serverless 集群，该值始终为 0），
 
-- Its storage size (`storageSize`) and deployment option (`deploymentOption`),
+- 存储大小（`storageSize`）和部署选项（`deploymentOption`），
 
-- The number of created backups (`snapshotNumber`, the value is always 0 for free and serverless clusters),
+- 已创建备份的数量（`snapshotNumber`，对于免费版和 serverless 集群，该值始终为 0），
 
-- The autoscaling policies (`autoscaling`) that are configured for it.
+- 为其配置的自动扩缩容策略（`autoscaling`）。
 
-## Synopsis
+## 简介\{#synopsis}
 
 ```bash
 zilliz cluster describe
@@ -71,39 +71,39 @@ zilliz cluster describe
 [--no-header]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--cluster-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates a cluster ID. For example, `in01-xxxxxxxxxxxx`.
+    指定集群 ID。例如：`in01-xxxxxxxxxxxx`。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果使用 `zilliz context set` 配置了集群，则在未配置此选项时会自动应用该集群。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz cluster describe --cluster-id in01-xxxxxxxxxxxx

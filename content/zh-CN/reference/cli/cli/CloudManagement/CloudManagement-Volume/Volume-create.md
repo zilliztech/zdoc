@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "create | Cloud"
 slug: /cli/cli/Volume-create
 sidebar_label: "create"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates a new volume. | Cloud"
+description: "此操作用于创建新 volume。 | Cloud"
 type: docx
-token: GO7LdV0RfoCgcvx18DjcvS27nJb
+token: H86odvFbDomzPjxjOtCc75jDnGf
 sidebar_position: 1
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - create
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # create
 
-This operation creates a new volume.
+此操作用于创建新 volume。
 
-## Description
+## 描述\{#description}
 
-A volume is an object store that holds either structured data or collections of unstructured data files. It provides a unified place to access, store, govern, and organize these data assets. Structured and unstructured data from local file systems or cloud object storage are first uploaded into a volume in Zilliz Cloud. From there, you can import or migrate structured data directly into collections, or run ETL pipelines to transform unstructured data into embeddings and then load those embeddings into collections.
+Volume 是一种对象存储，可保存结构化数据或非结构化数据文件集合。它为访问、存储、治理和组织这些数据资产提供了统一的位置。来自本地文件系统或云对象存储的结构化和非结构化数据会先上传到 Zilliz Cloud 中的 volume。之后，您可以将结构化数据直接导入或迁移到 collection，也可以运行 ETL 管道，将非结构化数据转换为 embedding，然后将这些 embedding 加载到 collection 中。
 
-Running this command without any options triggers a set of interactive prompots for you to set up the command.
+运行此命令时如果不带任何选项，将触发一组交互式提示，引导您设置该命令。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz volume create
@@ -51,23 +51,23 @@ zilliz volume create
 [--no-header]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--project-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates a project ID.
+    指定项目 ID。
 
-    If a project is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置项目，则在未配置此选项时会自动应用该项目。
 
 - **--region** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates a cloud region. For example, `aws-us-west-2`.
+    指定云区域。例如，`aws-us-west-2`。
 
-    Possible values:
+    可能的值：
 
     - `aws-us-east-1`
 
@@ -111,33 +111,33 @@ zilliz volume create
 
     **[REQUIRED]**
 
-    Indicates a volume name. 
+    指定 volume 名称。 
 
-    The value is an alphanumeric string of up to **255** characters that starts with a letter.
+    该值为最长 **255** 个字符的字母数字字符串，且必须以字母开头。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可能的值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz volume create --project-id proj-xxxx \

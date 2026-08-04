@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "alter | Cloud"
 slug: /cli/cli/Alias-alter
 sidebar_label: "alter"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation reassigns an alias to another collection. | Cloud"
+description: "此操作将别名重新分配给另一个集合。 | Cloud"
 type: docx
-token: UTutdcqPLo4B2vxlHk1cAKunnOK
+token: PLvbdUqI6onWmWxFPYKcgcFpnwb
 sidebar_position: 1
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - 推荐系统
+  - 信息检索
+  - 降维
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - alter
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # alter
 
-This operation reassigns an alias to another collection.
+此操作将别名重新分配给另一个集合。
 
-## Description
+## 描述\{#description}
 
-You can assign an alias to a collection and conduct searches/queries against the alias so that the associated collection responds. Use this command to change the collection associated with the specified alias.
+您可以为集合分配一个别名，并针对该别名执行搜索/查询，由关联的集合进行响应。使用此命令可更改与指定别名关联的集合。
 
-Running this command without any prompts triggers a set of interactive prompts to help set it up.
+运行此命令且不带任何参数时，将触发一组交互式提示来帮助您完成设置。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz alias alter
@@ -51,49 +51,49 @@ zilliz alias alter
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--collection** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the new target collection.
+    指定新的目标集合。
 
 - **--alias** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the alias name to reassign.
+    指定要重新分配的别名名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
-    If a cluster is configured using `zilliz context set`, the database it belongs automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时，会自动应用该集群所属的数据库。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz alias alter --collection new_collection --alias my_alias

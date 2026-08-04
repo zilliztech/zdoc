@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "describe | Cloud"
 slug: /cli/cli/Alias-describe
 sidebar_label: "describe"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets details of an alias. | Cloud"
+description: "此操作获取别名的详细信息。 | Cloud"
 type: docx
-token: Qnx9d72SIo9CzrxvmcFcMRconNu
+token: QsPodYWJfoSCmAxbWatc6dw0nCp
 sidebar_position: 3
 keywords: 
+  - 什么是语义搜索
   - Embedding model
-  - image similarity search
+  - 图像相似性搜索
   - Context Window
-  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - describe
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # describe
 
-This operation gets details of an alias.
+此操作获取别名的详细信息。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz alias describe
@@ -44,43 +44,43 @@ zilliz alias describe
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--alias** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the alias name.
+    指定别名名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
-    If a cluster is configured using `zilliz context set`, the database it belongs automatically applies if this option is left unconfigured.
+    如果使用 `zilliz context set` 配置了集群，而此选项未配置，则会自动应用该集群所属的数据库。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz alias describe --alias my_alias

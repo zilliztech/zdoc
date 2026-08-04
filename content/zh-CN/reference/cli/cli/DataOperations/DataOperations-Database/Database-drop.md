@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "drop | Cloud"
 slug: /cli/cli/Database-drop
 sidebar_label: "drop"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a database. (Dedicated only) | Cloud"
+description: "此操作会删除一个数据库。（仅 Dedicated）| Cloud"
 type: docx
-token: TB3Odp61soJUTnxuGb7cjA00nXf
+token: WjbrdMFuXoR2etxfpMdcmIebnCh
 sidebar_position: 3
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - drop
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # drop
 
-This operation drops a database. (Dedicated only)
+此操作会删除一个数据库。（仅 Dedicated）
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This command applies to Dedicated clusters.</p>
+此命令适用于 Dedicated 集群。
 
 </Admonition>
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz database drop
@@ -49,17 +49,17 @@ zilliz database drop
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the database name to drop.
+    指定要删除的数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可能的值包括：
 
     - `json`,
 
@@ -73,17 +73,17 @@ zilliz database drop
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
 - **--yes, -y** (*boolean*) -
 
-    Indicates whether to skip the confirmation prompt.
+    指定是否跳过确认提示。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz database drop --name my_database

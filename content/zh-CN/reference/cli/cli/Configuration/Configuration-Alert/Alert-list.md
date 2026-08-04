@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "list | Cloud"
 slug: /cli/cli/Alert-list
 sidebar_label: "list"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists alert rules for a project. | Cloud"
+description: "此操作列出项目的告警规则。 | Cloud"
 type: docx
-token: SflPdLKXsoY2iFxIiljcBiIfnKc
+token: DTiIdd5NBocV9JxsNHZcoUownwh
 sidebar_position: 5
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - list
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-This operation lists alert rules for a project.
+此操作列出项目的告警规则。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz alert list
@@ -43,33 +43,33 @@ zilliz alert list
 [--output <json | table | text>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--project-id** (*string*) -
 
-    Indicates the project ID, such as `proj-xxxxx`.
+    指定项目 ID，例如 `proj-xxxxx`。
 
-    If a project is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置项目，则在未配置此选项时会自动应用该项目。
 
 - **--page-size** (*integer*) -
 
-    Indicates the number of items per page. The value defaults to **10**.
+    指定每页的条目数。默认值为 **10**。
 
 - **--page** (*integer*) -
 
-    Indicates the page number. The value defaults to **1**.
+    指定页码。默认值为 **1**。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible value:
+    指定输出格式。可选值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`.
+    - `text`。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz alert list

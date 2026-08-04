@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "get-stats | Cloud"
 slug: /cli/cli/Partition-getstats
 sidebar_label: "get-stats"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets partition statistics. | Cloud"
+description: "此操作获取分区统计信息。 | Cloud"
 type: docx
-token: R2iYdl0Hnous6rxl5KMccADVn1c
+token: VEEzdJ5tyoaFVbxG6JvcDpULnMg
 sidebar_position: 3
 keywords: 
+  - natural language processing
   - AI chatbots
   - cosine distance
   - what is a vector database
-  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - get-stats
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # get-stats
 
-This operation gets partition statistics.
+此操作获取分区统计信息。
 
-## Description
+## 描述\{#description}
 
-The command returns the number of entities in the specified partition.
+该命令返回指定分区中的实体数量。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz partition get-stats
@@ -49,27 +49,27 @@ zilliz partition get-stats
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--collection** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the collection name.
+    指定集合名称。
 
 - **--partition** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the partition name.
+    指定分区名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
     - `json`,
 
@@ -79,17 +79,17 @@ zilliz partition get-stats
 
     - `yaml`,
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz partition get-stats --collection my_collection --partition my_partition

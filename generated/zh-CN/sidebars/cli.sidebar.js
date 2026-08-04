@@ -77,6 +77,18 @@ module.exports = [
         "items": [
           {
             "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-Billing/Billing-bindcard",
+            "label": "bind-card",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-Billing/billing-bindcard"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-Billing/Billing-downloadinvoice",
+            "label": "download-invoice",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-Billing/billing-downloadinvoice"
+          },
+          {
+            "type": "doc",
             "id": "cli/cli/CloudManagement/CloudManagement-Billing/Billing-invoices",
             "label": "invoices",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-Billing/billing-invoices"
@@ -222,6 +234,12 @@ module.exports = [
             "id": "cli/cli/CloudManagement/CloudManagement-Project/Project-upgrade",
             "label": "upgrade",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-Project/project-upgrade"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-Project/Project-addregions",
+            "label": "add-regions",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-Project/project-addregions"
           }
         ]
       },
@@ -247,6 +265,129 @@ module.exports = [
             "id": "cli/cli/CloudManagement/CloudManagement-Volume/Volume-list",
             "label": "list",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-Volume/volume-list"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-Volume/Volume-apply",
+            "label": "apply",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-Volume/volume-apply"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-Volume/Volume-describe",
+            "label": "describe",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-Volume/volume-describe"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "OnDemandCluster",
+        "key": "category:cli/cli/CloudManagement/cloudmanagement-ondemandcluster",
+        "items": [
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-create",
+            "label": "create",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-OnDemandCluster/ondemandcluster-create"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-delete",
+            "label": "delete",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-OnDemandCluster/ondemandcluster-delete"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-describe",
+            "label": "describe",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-OnDemandCluster/ondemandcluster-describe"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-list",
+            "label": "list",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-OnDemandCluster/ondemandcluster-list"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "PrivateLink",
+        "key": "category:cli/cli/CloudManagement/cloudmanagement-privatelink",
+        "items": [
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-addwhitelist",
+            "label": "add-whitelist",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-PrivateLink/privatelink-addwhitelist"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-create",
+            "label": "create",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-PrivateLink/privatelink-create"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-delete",
+            "label": "delete",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-PrivateLink/privatelink-delete"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-list",
+            "label": "list",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-PrivateLink/privatelink-list"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-listservices",
+            "label": "list-services",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-PrivateLink/privatelink-listservices"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "StorageIntegration",
+        "key": "category:cli/cli/CloudManagement/cloudmanagement-storageintegration",
+        "items": [
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-create",
+            "label": "create",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-StorageIntegration/storageintegration-create"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-delete",
+            "label": "delete",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-StorageIntegration/storageintegration-delete"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-describe",
+            "label": "describe",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-StorageIntegration/storageintegration-describe"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-generateauthmaterials",
+            "label": "generate-auth-materials",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-StorageIntegration/storageintegration-generateauthmaterials"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-list",
+            "label": "list",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-StorageIntegration/storageintegration-list"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-validate",
+            "label": "validate",
+            "key": "doc:cli/cli/CloudManagement/CloudManagement-StorageIntegration/storageintegration-validate"
           }
         ]
       }
@@ -328,6 +469,12 @@ module.exports = [
             "id": "cli/cli/Configuration/Configuration-Auth/Auth-switch",
             "label": "switch",
             "key": "doc:cli/cli/Configuration/Configuration-Auth/auth-switch"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-Auth/Auth-whoami",
+            "label": "whoami",
+            "key": "doc:cli/cli/Configuration/Configuration-Auth/auth-whoami"
           }
         ]
       },
@@ -369,6 +516,12 @@ module.exports = [
         "items": [
           {
             "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-Context/Context-clear",
+            "label": "clear",
+            "key": "doc:cli/cli/Configuration/Configuration-Context/context-clear"
+          },
+          {
+            "type": "doc",
             "id": "cli/cli/Configuration/Configuration-Context/Context-current",
             "label": "current",
             "key": "doc:cli/cli/Configuration/Configuration-Context/context-current"
@@ -391,6 +544,56 @@ module.exports = [
             "id": "cli/cli/Configuration/Configuration-Global/Global-version",
             "label": "version",
             "key": "doc:cli/cli/Configuration/Configuration-Global/global-version"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-Global/Global-uninstall",
+            "label": "uninstall",
+            "key": "doc:cli/cli/Configuration/Configuration-Global/global-uninstall"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-Global/Global-upgrade",
+            "label": "upgrade",
+            "key": "doc:cli/cli/Configuration/Configuration-Global/global-upgrade"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "History",
+        "key": "category:cli/cli/Configuration/configuration-history",
+        "items": [
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-History/History-clear",
+            "label": "clear",
+            "key": "doc:cli/cli/Configuration/Configuration-History/history-clear"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-History/History-list",
+            "label": "list",
+            "key": "doc:cli/cli/Configuration/Configuration-History/history-list"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-History/History-search",
+            "label": "search",
+            "key": "doc:cli/cli/Configuration/Configuration-History/history-search"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "Quickstart",
+        "key": "category:cli/cli/Configuration/configuration-quickstart",
+        "items": [
+          {
+            "type": "doc",
+            "id": "cli/cli/Configuration/Configuration-Quickstart/Quickstart-quickstart",
+            "label": "quickstart",
+            "key": "doc:cli/cli/Configuration/Configuration-Quickstart/quickstart-quickstart"
           }
         ]
       }
@@ -502,6 +705,12 @@ module.exports = [
             "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-load",
             "label": "load",
             "key": "doc:cli/cli/DataOperations/DataOperations-Collection/collection-load"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/DataOperations/DataOperations-Collection/Collection-metrics",
+            "label": "metrics",
+            "key": "doc:cli/cli/DataOperations/DataOperations-Collection/collection-metrics"
           },
           {
             "type": "doc",
@@ -766,6 +975,31 @@ module.exports = [
             "id": "cli/cli/DataOperations/DataOperations-Vector/Vector-upsert",
             "label": "upsert",
             "key": "doc:cli/cli/DataOperations/DataOperations-Vector/vector-upsert"
+          }
+        ]
+      },
+      {
+        "type": "category",
+        "label": "ExternalCollectionRefresh",
+        "key": "category:cli/cli/DataOperations/dataoperations-externalcollectionrefresh",
+        "items": [
+          {
+            "type": "doc",
+            "id": "cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-describe",
+            "label": "describe",
+            "key": "doc:cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/externalcollectionrefresh-describe"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-list",
+            "label": "list",
+            "key": "doc:cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/externalcollectionrefresh-list"
+          },
+          {
+            "type": "doc",
+            "id": "cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger",
+            "label": "trigger",
+            "key": "doc:cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/externalcollectionrefresh-trigger"
           }
         ]
       }

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "drop | Cloud"
 slug: /cli/cli/Index-drop
 sidebar_label: "drop"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops an index. | Cloud"
+description: "此操作会删除一个索引。| Cloud"
 type: docx
-token: OUnsdvdjxoz76OxI9hLcFWQrnug
+token: EJO8dhKSYoWk3AxksTrcGCzdnxf
 sidebar_position: 3
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - 什么是向量数据库
+  - 什么是向量数据库
+  - 向量数据库对比
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - drop
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # drop
 
-This operation drops an index.
+此操作会删除一个索引。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz index drop
@@ -46,51 +46,51 @@ zilliz index drop
 [--yes]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--collection** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the collection name.
+    指定集合名称。
 
 - **--index-name** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the index name to drop.
+    指定要删除的索引名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
 - **--yes, -y** (*boolean*) -
 
-    Indicates whether to skip the confirmation prompt.
+    指定是否跳过确认提示。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz index drop --collection my_collection --index-name my_index

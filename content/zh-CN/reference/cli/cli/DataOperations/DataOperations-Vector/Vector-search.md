@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "search | Cloud"
 slug: /cli/cli/Vector-search
 sidebar_label: "search"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation searches for similar vectors. | Cloud"
+description: "此操作用于搜索相似向量。 | Cloud"
 type: docx
-token: X82qdozLzoGYUaxyRE2cBIBRnff
+token: QcWcdXbgxooJO4xuwADc9YqAn8c
 sidebar_position: 6
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - search
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # search
 
-This operation searches for similar vectors.
+此操作用于搜索相似向量。
 
-## Description
+## Description\{#description}
 
-The ANN and k-Nearest Neighbors (kNN) search are the most common methods for vector similarity search. In a kNN search, you must compare all vectors in a vector space with the query vector carried in the search request before figuring out the most similar ones, which is time-consuming and resource-intensive.
+ANN 和 k-Nearest Neighbors（kNN）搜索是向量相似度搜索中最常见的方法。在 kNN 搜索中，在找出最相似的向量之前，必须先将向量空间中的所有向量与搜索请求中携带的查询向量进行比较，这会耗费大量时间和资源。
 
-ANN searches depend on pre-built indexes, and the search throughput, memory usage, and search correctness may vary with the index types you choose. You need to balance search performance and correctness.
+ANN 搜索依赖于预先构建的索引，而搜索吞吐量、内存使用量和搜索正确性可能会因所选索引类型而异。你需要在搜索性能和正确性之间进行权衡。
 
-To reduce the learning curve, Zilliz Cloud provides **AUTOINDEX**. With **AUTOINDEX**, Zilliz Cloud can analyze the data distribution within your collection while building the index and set the most optimized index parameters based on the analysis to strike a balance between search performance and correctness.
+为了降低学习门槛，Zilliz Cloud 提供了 **AUTOINDEX**。借助 **AUTOINDEX**，Zilliz Cloud 可以在构建索引时分析集合中的数据分布，并基于分析结果设置最优化的索引参数，从而在搜索性能和正确性之间取得平衡。
 
-For details on AUTOINDEX and applicable metric types, refer to [AUTOINDEX Explained](/docs/autoindex-explained) and [Metric Types](/docs/search-metrics-explained).
+有关 AUTOINDEX 和适用的度量类型的详细信息，请参见 [AUTOINDEX Explained](/docs/autoindex-explained) 和 [Metric Types](/docs/search-metrics-explained)。
 
-## Synopsis
+## Synopsis\{#synopsis}
 
 ```bash
 zilliz vector search
@@ -61,21 +61,21 @@ zilliz vector search
 [--query <value>]
 ```
 
-## Options
+## Options\{#options}
 
 - **--collection** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the collection name.
+    表示集合名称。
 
 - **--data** (*array*) -
 
     **[REQUIRED]**
 
-    Indicates the query vectors as JSON array.
+    表示作为 JSON 数组的查询向量。
 
-    The JSON array should match the following schema:
+    该 JSON 数组应符合以下 schema：
 
     ```json
     {
@@ -95,63 +95,63 @@ zilliz vector search
 
 - **--anns-field** (*string*) -
 
-    Indicates the vector field to search on.
+    表示要搜索的向量字段。
 
 - **--limit** (*integer*) -
 
-    Indicates the max results to return.
+    表示要返回的最大结果数。
 
-    The value defaults to **10**, and its product with `offset` should be less than **16,384**.
+    该值默认为 **10**，且其与 `offset` 的乘积应小于 **16,384**。
 
 - **--filter** (*string*) -
 
-    Indicates the scalar filter expression.
+    表示标量过滤表达式。
 
 - **--output-fields** (*array*) -
 
-    Indicates the fields to return as JSON array.
+    表示要作为 JSON 数组返回的字段。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    表示数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    表示输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    表示用于过滤输出的 JMESPath 表达式。
 
 - **--partition, -p** (*array*) -
 
-    Indicates a list of partition names to search in. Searches all partitions if not specified.
+    表示要搜索的分区名称列表。若未指定，则搜索所有分区。
 
 - **--offset** (*integer*) -
 
-    Indicates the number of results to skip before returning matches. Used for pagination with `--limit`.
+    表示在返回匹配结果之前要跳过的结果数量。用于配合 `--limit` 进行分页。
 
-    Its product with `limit` should be less than **16,384**.
+    其与 `limit` 的乘积应小于 **16,384**。
 
 - **--search-params** (*json*) -
 
-    Indicates a JSON string of search parameters. For example, `{"metricType":"COSINE","params":{"level": 5}}`).
+    表示搜索参数的 JSON 字符串。例如，`{"metricType":"COSINE","params":{"level": 5}}`）。
 
-## Example
+## Example\{#example}
 
 ```bash
 # Basic vector search

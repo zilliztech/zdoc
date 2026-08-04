@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "create | Cloud"
 slug: /cli/cli/User-create
 sidebar_label: "create"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates a new database user. | Cloud"
+description: "此操作用于创建新的数据库用户。 | Cloud"
 type: docx
-token: USPedjTNOo7vNTxeNiwctLAcnMb
+token: UJuOdGGu3okE0Sx1jARc45lMnGb
 sidebar_position: 1
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - create
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,23 +31,23 @@ import Admonition from '@theme/Admonition';
 
 # create
 
-This operation creates a new database user.
+此操作用于创建新的数据库用户。
 
-## Description
+## Description\{#description}
 
-In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security.
+在 Zilliz Cloud 中，您可以创建集群用户并为其分配集群角色，以定义相应权限，从而实现数据安全。
 
-Upon creating a cluster, a default user named `db_admin` is automatically created. This user cannot be dropped. In addition to this default user, you can create more cluster users for fine-grained access control.
+创建集群时，系统会自动创建一个名为 `db_admin` 的默认用户。此用户无法被删除。除了该默认用户之外，您还可以创建更多集群用户，以实现更细粒度的访问控制。
 
-To manage cluster users, you must be an **Organization Owner** or a **Project Admin** or have a role with **Cluster_Admin** privileges.
+要管理集群用户，您必须是 **Organization Owner**、**Project Admin**，或拥有 **Cluster_Admin** 权限的角色。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This command is available for Dedicated clusters only. You can run <code>zilliz context set</code> to switch among clusters.</p>
+此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在不同集群之间切换。
 
 </Admonition>
 
-## Synopsis
+## Synopsis\{#synopsis}
 
 ```bash
 zilliz user create
@@ -58,35 +58,35 @@ zilliz user create
 [--query <value>]
 ```
 
-## Options
+## Options\{#options}
 
 - **--user** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the username.
+    指定用户名。
 
-    The value should be a string no more than **32** characters and starting **with an underscore (_) or a letter**.
+    该值应为长度不超过 **32** 个字符的字符串，并且必须**以下划线 (_) 或字母开头**。
 
 - **--password** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the password. 
+    指定密码。
 
-    The password should be a string of at least **eight** characters that contains **two** types of the following options:
+    密码应为至少 **8** 个字符的字符串，并且包含以下选项中的 **两** 种类型：
 
-    - Uppercase letters (A-Z)
+    - 大写字母 (A-Z)
 
-    - Lowercase letters (a-z)
+    - 小写字母 (a-z)
 
-    - Digits (0-9)
+    - 数字 (0-9)
 
-    - Special characters (`!`, `@`, `#`, etc.)
+    - 特殊字符（如 `!`、`@`、`#` 等）
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值包括：
 
     - `json`,
 
@@ -100,13 +100,13 @@ zilliz user create
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## Example\{#example}
 
 ```bash
 zilliz user create --user my_user --password my_password

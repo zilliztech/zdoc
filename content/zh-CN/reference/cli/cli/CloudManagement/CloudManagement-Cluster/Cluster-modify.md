@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "modify | Cloud"
 slug: /cli/cli/Cluster-modify
 sidebar_label: "modify"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation modifies a cluster configuration, such as scaling the number of allocated CUs or the number of replicas to create. | Cloud"
+description: "此操作会修改集群配置，例如扩缩分配的 CU 数量或要创建的副本数。 | Cloud"
 type: docx
-token: YmP7dBDHPo5rKAxGFRGcUFjznLd
+token: AYlXdnqMKoQOzRxSbWScn0A5nqf
 sidebar_position: 6
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - modify
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # modify
 
-This operation modifies a cluster configuration, such as scaling the number of allocated CUs or the number of replicas to create.
+此操作会修改集群配置，例如扩缩分配的 CU 数量或要创建的副本数。
 
-## Description
+## Description\{#description}
 
-You can change the CU size and number of replicas of the specified cluster using this command. This command applies only to Dedicated clusters.
+您可以使用此命令更改指定集群的 CU 大小和副本数。此命令仅适用于 Dedicated 集群。
 
-Running
+运行
 
-## Synopsis
+## Synopsis\{#synopsis}
 
 ```bash
 zilliz cluster modify
@@ -52,33 +52,33 @@ zilliz cluster modify
 [--body <value>]
 ```
 
-## Options
+## Options\{#options}
 
 - **--cluster-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the ID of the cluster to modify.
+    指定要修改的集群 ID。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该集群。
 
 - **--cu-size** (*integer*) -
 
-    Indicates the number of compute units (CUs) after this operation.
+    指定此操作后的计算单元（CU）数量。
 
-    A CU is the basic unit of compute resources used for parallel processing of data, and different CU types comprise varying combinations of CPU, memory, and storage. The concept of CU only applies to **Dedicated** clusters.
+    CU 是用于数据并行处理的计算资源基本单位，不同类型的 CU 由不同组合的 CPU、内存和存储构成。CU 的概念仅适用于 **Dedicated** 集群。
 
-    - For a **Dedicated** cluster in a **Standard** project, the product of its CU size and the number of replicas must be less than or equal to 32.
+    - 对于 **Standard** 项目中的 **Dedicated** 集群，其 CU 大小与副本数的乘积必须小于或等于 32。
 
-    - For a **Dedicated** cluster in an **Enterprise** project, the product of its CU size and the number of replicas must be less than or equal to 1,024.
+    - 对于 **Enterprise** 项目中的 **Dedicated** 集群，其 CU 大小与副本数的乘积必须小于或等于 1,024。
 
 - **--replica** (*integer*) -
 
-    Indicates the number of replicas after this operation.
+    指定此操作后的副本数。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
     - `json`,
 
@@ -88,19 +88,19 @@ zilliz cluster modify
 
     - `yaml`,
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
 - **--body** (*string*) -
 
-    Indicates the JSON payload that match the following schema. For concrete examples, refer to [Modify Cluster](/reference/restful/modify-cluster-v2).
+    指定符合以下 schema 的 JSON 负载。具体示例请参见 [Modify Cluster](/reference/restful/modify-cluster-v2)。
 
     ```json
     {
@@ -125,7 +125,7 @@ zilliz cluster modify
     }
     ```
 
-## Example
+## Example\{#example}
 
 ```bash
 # Scale to 2 CUs

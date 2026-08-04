@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "describe | Cloud"
 slug: /cli/cli/Backup-describe
 sidebar_label: "describe"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets details of a backup. | Cloud"
+description: "此操作用于获取备份的详细信息。 | Cloud"
 type: docx
-token: TrNZd8OCnocoj0x7imqcrEiJnKh
+token: OQIRdZ8iOoZxd1xNPHtcWPTBnye
 sidebar_position: 3
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - describe
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # describe
 
-This operation gets details of a backup.
+此操作用于获取备份的详细信息。
 
-## Description
+## 描述\{#description}
 
-In Zilliz Cloud, a backup is a copy of your data that enables you to restore the entire cluster or specific collections in the event of data loss or system failure.
+在 Zilliz Cloud 中，备份是数据的副本，可让您在发生数据丢失或系统故障时恢复整个集群或特定 collection。
 
-You can run this command to get the details of a backup.
+您可以运行此命令来获取备份的详细信息。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+此功能仅适用于 **Dedicated** 集群。
 
 </Admonition>
 
-## Synposis
+## 概要\{#synposis}
 
 ```bash
 zilliz backup describe
@@ -56,45 +56,45 @@ zilliz backup describe
 [--no-header]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--cluster-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates a cluster ID, which is similar to `inxx-xxxxx`.
+    表示集群 ID，格式类似于 `inxx-xxxxx`。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该集群。
 
 - **--backup-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates a backup ID, which is similar to `backupx-xxxxx`.
+    表示备份 ID，格式类似于 `backupx-xxxxx`。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    表示输出格式。可选值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    表示用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz backup describe \

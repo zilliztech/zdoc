@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "get-load-state | Cloud"
 slug: /cli/cli/Collection-getloadstate
 sidebar_label: "get-load-state"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets collection load state. | Cloud"
+description: "此操作用于获取集合加载状态。 | Cloud"
 type: docx
-token: RnRTdshwloBzIFx5rLHcFTm2nVh
+token: ROPbdTU6doxFGRxxcfYcgyBPnqg
 sidebar_position: 6
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - 什么是向量数据库
+  - 向量数据库是什么
+  - 向量数据库对比
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - get-load-state
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # get-load-state
 
-This operation gets collection load state.
+此操作用于获取集合加载状态。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz collection get-load-state
@@ -45,23 +45,23 @@ zilliz collection get-load-state
 [--partition-names <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the collection name.
+    指定集合名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
-    If a cluster is configured using `zilliz context set`, the database it belongs automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，且未配置此选项，则会自动应用其所属的数据库。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可能的值包括：
 
     - `json`,
 
@@ -71,21 +71,21 @@ zilliz collection get-load-state
 
     - `yaml`,
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
 - **--partition-names** (*array*) -
 
-    Indicates the partition names to check their load state. You can chain up this option with different partition names.
+    指定要检查其加载状态的分区名称。你可以多次使用此选项并传入不同的分区名称。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz collection get-load-state --name my_collection

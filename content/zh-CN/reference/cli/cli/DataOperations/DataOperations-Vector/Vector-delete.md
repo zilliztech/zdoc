@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "delete | Cloud"
 slug: /cli/cli/Vector-delete
 sidebar_label: "delete"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation deletes entities by filter expression. | Cloud"
+description: "此操作通过过滤表达式删除实体。 | Cloud"
 type: docx
-token: OTx6dAm4wofwrIxq7w4cjHBIn9v
+token: NtaUdIxZBoupfkxG52lco4oZnzf
 sidebar_position: 1
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - delete
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # delete
 
-This operation deletes entities by filter expression.
+此操作通过过滤表达式删除实体。
 
-## Description
+## 描述\{#description}
 
-Zilliz Cloud provides a set of useful filtering operators to help you build filter expressions that meet your needs. For details, refer to [Filtering Overview](/docs/filtering-overview) and related pages.
+Zilliz Cloud 提供了一组实用的过滤运算符，帮助您构建满足需求的过滤表达式。详情请参见 [过滤概述](/docs/filtering-overview) 及相关页面。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz vector delete
@@ -51,31 +51,31 @@ zilliz vector delete
 [--yes]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--collection** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the collection name.
+    指定集合名称。
 
 - **--filter** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the filter expression for entities to delete.
+    指定要删除实体的过滤表达式。
 
 - **--partition** (*string*) -
 
-    Indicates the partition name.
+    指定分区名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值包括：
 
     - `json`,
 
@@ -89,17 +89,17 @@ zilliz vector delete
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出结果的 JMESPath 表达式。
 
 - **--yes, -y** (*boolean*) -
 
-    Indicates whether to skip the confirmation prompt.
+    指定是否跳过确认提示。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz vector delete --collection my_col --filter 'id in [1, 2, 3]'

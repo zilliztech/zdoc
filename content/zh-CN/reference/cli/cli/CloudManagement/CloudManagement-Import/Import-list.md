@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "list | Cloud"
 slug: /cli/cli/Import-list
 sidebar_label: "list"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists import jobs for a cluster. | Cloud"
+description: "此操作列出集群的导入任务。 | Cloud"
 type: docx
-token: PbE8dm28yo4rNzxrbIecQtMqnVq
+token: ObdhdVWTpogXQhx3A0YcdU2yntd
 sidebar_position: 1
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - list
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-This operation lists import jobs for a cluster.
+此操作列出集群的导入任务。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz import list
@@ -46,53 +46,53 @@ zilliz import list
 [--no-header]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--cluster-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    Indicates a cluster ID, which is similar to `inxx-xxxxx`.
+    指定集群 ID，格式类似于 `inxx-xxxxx`。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该配置。
 
 - **--page-size** (*integer*) -
 
-    Indicates the number of items per page. The value defaults to **10**.
+    指定每页的条目数。默认值为 **10**。
 
 - **--page** (*integer*) -
 
-    Indicates the current page number. The value defaults to **1**.
+    指定当前页码。默认值为 **1**。
 
 - **--database** (*string*) -
 
-    Indicates the name of a database in the specified cluster.
+    指定所选集群中的数据库名称。
 
-    If a database is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置数据库，则在未配置此选项时会自动应用该配置。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz import list --cluster-id in01-xxxxxxxxxxxx

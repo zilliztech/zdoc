@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "grant-role | Cloud"
 slug: /cli/cli/User-grantrole
 sidebar_label: "grant-role"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation grants a role to a user. | Cloud"
+description: "此操作会向用户授予角色。 | Cloud"
 type: docx
-token: Fz3JdZ0rSoNxuDxvR0TcIXl5nhh
+token: SvpmdXjkYo3LYTxt2ipcKhLFnZg
 sidebar_position: 4
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - 什么是向量数据库
+  - 向量数据库是什么
+  - 向量数据库对比
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - grant-role
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # grant-role
 
-This operation grants a role to a user.
+此操作会向用户授予角色。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This command is available for Dedicated clusters only. You can run <code>zilliz context set</code> to switch among clusters.</p>
+此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
 </Admonition>
 
-## Synopsis
+## 概述\{#synopsis}
 
 ```bash
 zilliz user grant-role
@@ -50,23 +50,23 @@ zilliz user grant-role
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--user** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the username.
+    指定用户名。
 
 - **--role** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the role name to grant.
+    指定要授予的角色名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可能的值包括：
 
     - `json`,
 
@@ -76,17 +76,17 @@ zilliz user grant-role
 
     - `yaml`,
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz user grant-role --user my_user --role admin

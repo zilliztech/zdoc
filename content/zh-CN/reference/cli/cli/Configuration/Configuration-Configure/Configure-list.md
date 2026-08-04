@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "list | Cloud"
 slug: /cli/cli/Configure-list
 sidebar_label: "list"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all configuration values. | Cloud"
+description: "此操作会列出所有配置值。 | Cloud"
 type: docx
-token: XuEOdjJbVo2k7mxPTGbclGipnug
+token: S7Hkd5HAfob60uxILjIcdng7nXe
 sidebar_position: 3
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - 知识库
+  - 自然语言处理
+  - AI 聊天机器人
+  - 余弦距离
   - zilliz
   - zilliz cloud
   - cloud
   - list
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-This operation lists all configuration values.
+此操作会列出所有配置值。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz configure list
 ```
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz configure list

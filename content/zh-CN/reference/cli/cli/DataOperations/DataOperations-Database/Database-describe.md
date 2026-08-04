@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "describe | Cloud"
 slug: /cli/cli/Database-describe
 sidebar_label: "describe"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets details of a database. (Dedicated only) | Cloud"
+description: "此操作用于获取数据库的详细信息。（仅 Dedicated）| Cloud"
 type: docx
-token: Pp2GdJt2YoEKjdxZYgqcXMu8nYg
+token: A8XSdcz0UoXHnyxHPcOcaLExn3o
 sidebar_position: 2
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - describe
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # describe
 
-This operation gets details of a database. (Dedicated only)
+此操作用于获取数据库的详细信息。（仅 Dedicated）
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This command applies to Dedicated clusters.</p>
+此命令适用于 Dedicated 集群。
 
 </Admonition>
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz database describe
@@ -49,17 +49,17 @@ zilliz database describe
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the database name.
+    指定数据库名称。
 
 - **--output, -o** (*string*) -
 
-    ndicates the output format. Possible values:
+    指定输出格式。可选值包括：
 
     - `json`,
 
@@ -73,13 +73,13 @@ zilliz database describe
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz database describe --name my_database

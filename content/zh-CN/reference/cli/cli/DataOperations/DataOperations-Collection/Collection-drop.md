@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "drop | Cloud"
 slug: /cli/cli/Collection-drop
 sidebar_label: "drop"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a collection. This action is irreversible. | Cloud"
+description: "此操作会删除一个 collection。此操作不可逆。 | Cloud"
 type: docx
-token: LnnEdA9w7opaYXx2vHOcxcxonMb
+token: IM2CdOqn5oKCTUxFVImcbDCRnFc
 sidebar_position: 4
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - drop
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # drop
 
-This operation drops a collection. This action is irreversible.
+此操作会删除一个 collection。此操作不可逆。
 
-## Synopsis
+## 概述\{#synopsis}
 
 ```bash
 zilliz collection drop
@@ -45,47 +45,47 @@ zilliz collection drop
 [--yes]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the collection name to drop.
+    指定要删除的 collection 名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
-    If a cluster is configured using `zilliz context set`, the database it belongs automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置 cluster，且未设置此选项，则会自动应用其所属的数据库。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
 - **--yes, -y** (*boolean*) -
 
-    Indicates whether to skip the confirmation prompt.
+    指定是否跳过确认提示。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz collection drop --name my_collection

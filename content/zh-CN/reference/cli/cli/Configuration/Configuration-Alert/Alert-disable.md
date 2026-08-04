@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "disable | Cloud"
 slug: /cli/cli/Alert-disable
 sidebar_label: "disable"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation disables an alert rule. | Cloud"
+description: "此操作可禁用一条告警规则。 | Cloud"
 type: docx
-token: Dx3jdB9XjoyDwXxuX2GcTgBanDc
+token: AVX3dxX68oYAc1x06uVc7bgcnx1
 sidebar_position: 3
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - disable
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # disable
 
-This operation disables an alert rule.
+此操作可禁用一条告警规则。
 
-## Description
+## 描述\{#description}
 
-You can run this command to disable the specified alert rules when they are temporarily not needed. The disabled alert rules still exist, and you can enable any of them as needed.
+当暂时不需要某些告警规则时，您可以运行此命令来禁用指定的告警规则。被禁用的告警规则仍然存在，您可以在需要时重新启用其中任意一条。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz alert disable
@@ -46,31 +46,31 @@ zilliz alert disable
 [--output <json | table | text>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the ID of the alert rule to disable, such as `alert-xxxx`. To get an exhaustive list of existing alert rules, run `zilliz alert list`.
+    指定要禁用的告警规则 ID，例如 `alert-xxxx`。如需获取现有告警规则的完整列表，请运行 `zilliz alert list`。
 
 - **--project-id** (*string*) -
 
-    Indicates the project ID when selecting an alert rule from a list.
+    在从列表中选择告警规则时，指定项目 ID。
 
-    If a project is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置项目，则在未配置此选项时会自动应用该项目。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values: 
+    指定输出格式。可选值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`.
+    - `text`。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz alert disable --id xxx

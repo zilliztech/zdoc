@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "metrics | Cloud"
 slug: /cli/cli/Cluster-metrics
 sidebar_label: "metrics"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation queries cluster performance metrics (QPS, latency, storage, etc.). | Cloud"
+description: "此操作用于查询集群性能指标（QPS、延迟、存储等）。 | Cloud"
 type: docx
-token: SoWFdvNGKoOEMpxODQScdKEmnze
+token: BVHRdq4miotjdVxI72fcI7XznKc
 sidebar_position: 5
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - metrics
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # metrics
 
-This operation queries cluster performance metrics (QPS, latency, storage, etc.).
+此操作用于查询集群性能指标（QPS、延迟、存储等）。
 
-## Description
+## Description\{#description}
 
-Zilliz Cloud organizes metrics into the following levels:
+Zilliz Cloud 将指标组织为以下层级：
 
-- **Organization-level metrics**: Reflect account-wide status (e.g., license credits, usage) across all projects.
+- **Organization-level metrics**：反映所有项目范围内的账号整体状态（例如许可证额度、使用量）。
 
-- **Cluster-level metrics**: Reflect resource usage, performance, and data within individual clusters.
+- **Cluster-level metrics**：反映各个集群内的资源使用情况、性能和数据情况。
 
-- **Collection-level metrics**: A subset of cluster metrics broken down per collection, helping you pinpoint performance issues and plan capacity for individual collections.
+- **Collection-level metrics**：是按 collection 细分的部分集群指标，可帮助您定位性能问题并为单个 collection 规划容量。
 
-Running this command without any options triggers a set of interactive prompts for you to set up the command.
+运行此命令时如果不带任何选项，将触发一组交互式提示，帮助您完成命令设置。
 
-## Synopsis
+## Synopsis\{#synopsis}
 
 ```bash
 zilliz cluster metrics
@@ -58,23 +58,23 @@ zilliz cluster metrics
 [--output <value>]
 ```
 
-## Options
+## Options\{#options}
 
 - **--cluster-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates a cluster ID. For example, `in01-xxxxxxxxxxxx`.
+    指定集群 ID。例如，`in01-xxxxxxxxxxxx`。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该集群。
 
 - **--metric, -m** (*array*) -
 
     **[REQUIRED]**
 
-    Indicates the metric name(s). You can chain this option after another to configure multiple metric names.
+    指定指标名称。您可以连续使用此选项来配置多个指标名称。
 
-    Resource metrics:
+    资源指标：
 
     - `CU_COMPUTATION`
 
@@ -86,7 +86,7 @@ zilliz cluster metrics
 
     - `STORAGE`
 
-    QPS metrics:
+    QPS 指标：
 
     - `SEARCH_QPS`
 
@@ -100,7 +100,7 @@ zilliz cluster metrics
 
     - `BULK_INSERT_QPS`
 
-    Latency metrics:
+    延迟指标：
 
     - `SEARCH_LATENCY_AVG`
 
@@ -122,7 +122,7 @@ zilliz cluster metrics
 
     - `DELETE_LATENCY_P99`
 
-    VPS metrics:
+    VPS 指标：
 
     - `SEARCH_VPS`
 
@@ -134,7 +134,7 @@ zilliz cluster metrics
 
     - `BULK_INSERT_VPS`
 
-    Failure rate metrics:
+    失败率指标：
 
     - `SEARCH_FAIL_RATE`
 
@@ -148,7 +148,7 @@ zilliz cluster metrics
 
     - `BULK_INSERT_FAIL_RATE`
 
-    Data metrics:
+    数据指标：
 
     - `ENTITIES`
 
@@ -160,7 +160,7 @@ zilliz cluster metrics
 
     - `SLOW_QURIES`
 
-    Serverless metrics:
+    Serverless 指标：
 
     - `READ_VCU`
 
@@ -168,33 +168,33 @@ zilliz cluster metrics
 
 - **--period** (*string*) -
 
-    Indicates a relative time period from now. 
+    指定相对于当前时间的时间范围。
 
-    Uses `d` for days, `m` for months. The value defaults to `1h`, indicating that the statistics are collected within the next hour.
+    使用 `d` 表示天，`m` 表示月。该值默认为 `1h`，表示统计接下来一小时内收集的数据。
 
 - **--start** (*string*) -
 
-    Indicates the start time of a time range. For example, `2026-03-01` or `2026-03-01T10:00:00Z`.
+    指定时间范围的开始时间。例如，`2026-03-01` 或 `2026-03-01T10:00:00Z`。
 
 - **--end** (*string*) -
 
-    Indicates the end time of a time range. For example, `2026-03-15` or `2026-03-15T18:00:00Z`.
+    指定时间范围的结束时间。例如，`2026-03-15` 或 `2026-03-15T18:00:00Z`。
 
 - **--granularity, -g** (*string*) -
 
-    Indicates the data point interval. For example, `30s`, `5m`, `1h`. This option defaults to `auto`.
+    指定数据点间隔。例如，`30s`、`5m`、`1h`。此选项默认为 `auto`。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。省略此选项时，结果会以终端内的盲文图表可视化形式呈现（自 v1.3.1 起）。可显式指定的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`.
+    - `text`。
 
-## Example
+## Example\{#example}
 
 ```bash
 zilliz cluster metrics -m READ_VCU -m WRITE_VCU

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "describe | Cloud"
 slug: /cli/cli/Job-describe
 sidebar_label: "describe"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation gets the status of an async job (backup, restore, migration, import, etc.). | Cloud"
+description: "此操作用于获取异步作业（备份、恢复、迁移、导入等）的状态。 | Cloud"
 type: docx
-token: DKW5dWKqcoDIaHxD5dycfhzTnbd
+token: HrwTdhnBeoZwoBxokBJcQZWznKh
 sidebar_position: 1
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - describe
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # describe
 
-This operation gets the status of an async job (backup, restore, migration, import, etc.).
+此操作用于获取异步作业（备份、恢复、迁移、导入等）的状态。
 
-## Synopsis
+## 概述\{#synopsis}
 
 ```bash
 zilliz job describe
@@ -44,31 +44,31 @@ zilliz job describe
 [--output <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--job-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    Indicates a Job ID. For example, `job-xxxxxxxxxxxxxxxxxxxx`.
+    表示一个 Job ID。例如，`job-xxxxxxxxxxxxxxxxxxxx`。
 
 - **--wait** (*boolean*) -
 
-    Indicates whether to wait until the job reaches a termination state.
+    表示是否等待直到作业到达终止状态。
 
 - **--timeout** (*integer*) -
 
-    Indicates the maximum number of seconds to wait. The value defaults to `1800`.
+    表示等待的最长秒数。默认值为 `1800`。
 
 - **--interval** (*integer*) -
 
-    Indicates the polling interval in seconds. The value defaults to 5, indicating that Zilliz Cloud retrieves the status of the specified job every 5 seconds.
+    表示轮询间隔（秒）。默认值为 5，表示 Zilliz Cloud 每 5 秒获取一次指定作业的状态。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Choices: `json`, `table`, `text`, `yaml`, `csv`.
+    表示输出格式。可选值：`json`、`table`、`text`、`yaml`、`csv`。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz job describe --job-id job-xxxxxx

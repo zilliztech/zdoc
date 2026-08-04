@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "restore-cluster | Cloud"
 slug: /cli/cli/Backup-restorecluster
 sidebar_label: "restore-cluster"
-added_since: v0.1.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v0.1.x
+last_modified: v1.4.x
+deprecate_since: false
 notebook: false
-description: "This operation restores a backup to a new cluster. | Cloud"
+description: "此操作会将备份恢复到一个新的集群。 | Cloud"
 type: docx
-token: TUQ6df38Do0bKbxu9ODcbZMtnAb
+token: XAhudiqXqoHS1zxSDqgcNY9anxb
 sidebar_position: 7
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - restore-cluster
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # restore-cluster
 
-This operation restores a backup to a new cluster.
+此操作会将备份恢复到一个新的集群。
 
-## Description
+## 描述\{#description}
 
-In Zilliz Cloud, a backup is a copy of your data that enables you to restore the entire cluster or specific collections in the event of data loss or system failure.
+在 Zilliz Cloud 中，备份是数据的副本，可在发生数据丢失或系统故障时帮助您恢复整个集群或特定 collection。
 
-Restoring a cluster creates a new cluster and copies all backed-up collections to it. Running this command without options will trigger a set of interactive prompts.
+恢复集群会创建一个新的集群，并将所有已备份的 collection 复制到其中。在不带任何选项的情况下运行此命令，将触发一组交互式提示。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+此功能仅适用于 **Dedicated** 集群。
 
 </Admonition>
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz backup restore-cluster
@@ -54,83 +54,88 @@ zilliz backup restore-cluster
 --project-id <value>
 --name <value>
 --cu-size <value>
---collection-status <LOADED | NOT_LOADED>
+--collection-status <KEEP | RELEASE>
+--restore-version-policy <LATEST | ORIGINAL>
 [--output <value>]
 [--query <value>]
 [--no-header]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--cluster-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the source cluster ID, which is similar to `inxx-xxxxx`.
+    指示源集群 ID，格式类似于 `inxx-xxxxx`。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未设置此选项时会自动应用该配置。
 
 - **--backup-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the ID of the backup to restore, which is similar to `backupx-xxxxx`.
+    指示要恢复的备份 ID，格式类似于 `backupx-xxxxx`。
 
 - **--project-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the target project ID, which is similar to `proj-xxxxx`
+    指示目标项目 ID，格式类似于 `proj-xxxxx`
 
 - **--name** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the new cluster name.
+    指示新集群名称。
 
 - **--cu-size** (*integer*) -
 
     **[REQUIRED]**
 
-    Indicates the compute units (CUs) for the new cluster.
+    指示新集群的计算单元（CU）数量。
 
-    A CU is the basic unit of compute resources used for parallel processing of data, and different CU types comprise varying combinations of CPU, memory, and storage. The concept of CU only applies to **Dedicated** clusters.
+    CU 是用于数据并行处理的计算资源基本单位，不同类型的 CU 由不同组合的 CPU、内存和存储构成。CU 的概念仅适用于 **Dedicated** 集群。
 
-    - For a **Dedicated** cluster in a **Standard** project, the product of its CU size and the number of replicas must be less than or equal to 32.
+    - 对于 **Standard** 项目中的 **Dedicated** 集群，其 CU 数量与副本数的乘积必须小于或等于 32。
 
-    - For a **Dedicated** cluster in an **Enterprise** project, the product of its CU size and the number of replicas must be less than or equal to 1,024.
+    - 对于 **Enterprise** 项目中的 **Dedicated** 集群，其 CU 数量与副本数的乘积必须小于或等于 1,024。
 
 - **--collection-status** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the collection state after restoration.
+    指示恢复后 collection 的状态。
 
-    Possible values: `LOADED` and `NOT_LOADED`.
+    可选值：`KEEP` 和 `RELEASE`。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指示输出格式。可选值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指示用于过滤输出的 JMESPath 表达式。
 
-## Example
+- **--restore-version-policy** (*string*) -
+
+    指定 DB 版本恢复策略。可选值：`LATEST` 和 `ORIGINAL`。
+
+## 示例\{#example}
 
 ```bash
 # Restore with collections loaded
@@ -139,5 +144,6 @@ zilliz backup restore-cluster --cluster-id in01-xxxx \
 --project-id proj-xxxx \
 --name restored \
 --cu-size 1 \
---collection-status LOADED
+--collection-status KEEP \
+--restore-version-policy LATEST
 ```

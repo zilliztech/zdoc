@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "load | Cloud"
 slug: /cli/cli/Collection-load
 sidebar_label: "load"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation loads a collection into memory for search. | Cloud"
+description: "此操作会将集合加载到内存中以进行搜索。 | Cloud"
 type: docx
-token: Q577dSJWeoSb23xarfmcmMeqncg
+token: SOaOdH3o6o7dsyx1VjPc4LPynqc
 sidebar_position: 10
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - 推荐系统
+  - 信息检索
+  - 降维
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - load
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # load
 
-This operation loads a collection into memory for search.
+此操作会将集合加载到内存中以进行搜索。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz collection load
@@ -44,43 +44,43 @@ zilliz collection load
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the collection name.
+    表示集合名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    表示数据库名称。
 
-    If a cluster is configured using `zilliz context set`, the database it belongs automatically applies if this option is left unconfigured.
+    如果使用 `zilliz context set` 配置了集群，则当未配置此选项时，会自动应用其所属的数据库。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    表示输出格式。可选值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    表示用于过滤输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz collection load --name my_collection

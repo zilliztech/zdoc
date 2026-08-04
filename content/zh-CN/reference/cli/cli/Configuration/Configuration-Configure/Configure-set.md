@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "set | Cloud"
 slug: /cli/cli/Configure-set
 sidebar_label: "set"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation sets a configuration value. | Cloud"
+description: "此操作用于设置配置值。 | Cloud"
 type: docx
-token: Rg7gdgezgopJlVxClKOcI4UtnXR
+token: Jp9VdKpVoooz9ix1vYMcAun4nwe
 sidebar_position: 4
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - 音频相似性搜索
+  - 弹性向量数据库
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - set
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,33 +31,33 @@ import Admonition from '@theme/Admonition';
 
 # set
 
-This operation sets a configuration value.
+此操作用于设置配置值。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>You can also run <code>zilliz configure</code> instead, and follow the interactive guidance. Setting <code>api_key</code> can be used as an alternative to <code>zilliz login</code>.</p>
+你也可以改为运行 `zilliz configure`，并按照交互式引导进行操作。设置 `api_key` 可作为 `zilliz login` 的替代方式。
 
 </Admonition>
 
-## Usage
+## 用法\{#usage}
 
 ```bash
 zilliz configure set <KEY> <VALUE>
 ```
 
-**OPTIONS:**
+**选项：**
 
 - **KEY** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the name of a configuration item. Currently, only `api_key` is applicable.
+    表示配置项的名称。目前仅支持 `api_key`。
 
 - **VALUE** (*string*) -
 
-    Indicates the value of the configuration item.
+    表示配置项的值。
 
-## Example
+## 示例\{#example}
 
 ```bash
 # set api key

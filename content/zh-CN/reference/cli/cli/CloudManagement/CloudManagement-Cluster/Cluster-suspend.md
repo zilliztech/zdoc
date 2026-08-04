@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "suspend | Cloud"
 slug: /cli/cli/Cluster-suspend
 sidebar_label: "suspend"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation suspends a running cluster. Suspending stops compute charges. | Cloud"
+description: "此操作会挂起一个正在运行的集群。挂起将停止计算费用。 | Cloud"
 type: docx
-token: RaGJdFRlQo2nlVxxyc5cbUtCnsh
+token: RjlQdGJyzolWm0xZVyUc6yAdnyc
 sidebar_position: 10
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - suspend
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # suspend
 
-This operation suspends a running cluster. Suspending stops compute charges.
+此操作会挂起一个正在运行的集群。挂起将停止计算费用。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz cluster suspend
@@ -43,19 +43,19 @@ zilliz cluster suspend
 [--no-header]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--cluster-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the ID of the cluster to suspend.
+    指定要挂起的集群 ID。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置了集群，则在未配置此选项时会自动应用该配置。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可能的值：
 
     - `json`,
 
@@ -65,17 +65,17 @@ zilliz cluster suspend
 
     - `yaml`,
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz cluster suspend --cluster-id in01-xxxxxxxxxxxx

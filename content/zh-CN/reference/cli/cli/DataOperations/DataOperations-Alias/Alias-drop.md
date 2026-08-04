@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "drop | Cloud"
 slug: /cli/cli/Alias-drop
 sidebar_label: "drop"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops an alias. | Cloud"
+description: "此操作会删除一个别名。 | Cloud"
 type: docx
-token: KjCMddr4IoRPU6xGhe6c4v7qnTd
+token: CucPdYRmsofWt8xkVj3cK7Vynjg
 sidebar_position: 4
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - drop
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # drop
 
-This operation drops an alias.
+此操作会删除一个别名。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz alias drop
@@ -45,23 +45,23 @@ zilliz alias drop
 [--yes]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--alias** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the alias name to drop.
+    指定要删除的别名名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
-    If a cluster is configured using `zilliz context set`, the database it belongs automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则当此选项未配置时，会自动应用其所属的数据库。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可能的值包括：
 
     - `json`,
 
@@ -75,17 +75,17 @@ zilliz alias drop
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
 - **--yes, -y** (*boolean*) -
 
-    Indicates whether to skip the confirmation prompt.
+    指定是否跳过确认提示。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz alias drop --alias my_alias

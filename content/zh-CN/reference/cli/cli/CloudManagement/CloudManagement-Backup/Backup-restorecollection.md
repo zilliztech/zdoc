@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "restore-collection | Cloud"
 slug: /cli/cli/Backup-restorecollection
 sidebar_label: "restore-collection"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation restores specific collections from a backup. | Cloud"
+description: "此操作从备份中恢复特定集合。 | Cloud"
 type: docx
-token: AloudGinroMIAHxCT0GcJt5An4g
+token: XvDzdZsb3ojqgXxhEjfcZBxbnNb
 sidebar_position: 8
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - restore-collection
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # restore-collection
 
-This operation restores specific collections from a backup.
+此操作从备份中恢复特定集合。
 
-## Description
+## 描述\{#description}
 
-In Zilliz Cloud, a backup is a copy of your data that enables you to restore the entire cluster or specific collections in the event of data loss or system failure.
+在 Zilliz Cloud 中，备份是数据的副本，可帮助您在数据丢失或系统故障时恢复整个集群或特定集合。
 
-Restoring a cluster creates a new cluster and copies all backed-up collections to it. Running this command without options will trigger a set of interactive prompts.
+恢复集群会创建一个新集群，并将所有已备份的集合复制到其中。不带任何选项运行此命令将触发一组交互式提示。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+此功能仅适用于 **Dedicated** 集群。
 
 </Admonition>
 
-## Synopisis
+## 概要\{#synopisis}
 
 ```bash
 zilliz backup restore-collection
@@ -58,53 +58,53 @@ zilliz backup restore-collection
 [--body <value>]
 ```
 
-**OPTIONS:**
+**选项：**
 
 - **--cluster-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the source cluster ID, which is similar to `inxx-xxxxx`.
+    表示源集群 ID，格式类似于 `inxx-xxxxx`。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该集群。
 
 - **--backup-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the backup ID, which is similar to `backupx-xxxxx`.
+    表示备份 ID，格式类似于 `backupx-xxxxx`。
 
 - **--dest-cluster-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the destination cluster ID, which is similar to `inxx-xxxxx`.
+    表示目标集群 ID，格式类似于 `inxx-xxxxx`。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    表示输出格式。可选值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    表示用于筛选输出的 JMESPath 表达式。
 
 - **--body** (*string*) -
 
-    A raw JSON string that matches the following schema. For concrete examples, refer to [Restore Collection Backup](/reference/restful/restore-collection-backup-v2).
+    与以下模式匹配的原始 JSON 字符串。具体示例请参见 [恢复集合备份](/reference/restful/restore-collection-backup-v2)。
 
     ```json
     {
@@ -157,7 +157,7 @@ zilliz backup restore-collection
     }
     ```
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz backup restore-collection /

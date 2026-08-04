@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "upsert | Cloud"
 slug: /cli/cli/Vector-upsert
 sidebar_label: "upsert"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation upserts entities. | Cloud"
+description: "此操作用于 upsert 实体。 | Cloud"
 type: docx
-token: PLojdlFoioPDSEx6vKpcsmevnTf
+token: PdMmdJQS6o1rVbxtD49cO62Onad
 sidebar_position: 7
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - upsert
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # upsert
 
-This operation upserts entities.
+此操作用于 upsert 实体。
 
-## Description
+## 描述\{#description}
 
-You can run this command to either insert a new entity or update an existing one, depending on whether the primary key provided in the upsert request exists in the collection. If the primary key is not found, an insert operation occurs. Otherwise, an update operation will be performed.
+您可以运行此命令，根据 upsert 请求中提供的主键是否已存在于集合中，来插入新实体或更新现有实体。如果未找到该主键，则执行插入操作；否则，将执行更新操作。
 
-An upsert request combines an insert and a delete. When an `upsert` request for an existing entity is received, Zilliz Cloud inserts the data in the request payload and, at the same time, deletes the existing entity with the original primary key specified in the data.
+upsert 请求结合了插入和删除操作。当收到针对现有实体的 `upsert` 请求时，Zilliz Cloud 会插入请求负载中的数据，同时删除数据中指定原始主键对应的现有实体。
 
-You can also include the `--partial_update` option in the command to make an upsert request work in merge mode. This allows you to include only the fields that need updating in the request payload.
+您还可以在命令中包含 `--partial_update` 选项，使 upsert 请求以合并模式工作。这样，您只需在请求负载中包含需要更新的字段。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz vector upsert
@@ -56,21 +56,21 @@ zilliz vector upsert
 [--body <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--collection** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the collection name.
+    表示集合名称。
 
 - **--data** (*array*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the entities as JSON array or file://path.json. Required unless `--body` is provided.
+    表示实体，格式为 JSON 数组或 file://path.json。除非提供了 `--body`，否则此项为必需。
 
-    The JSON array should match the following schema:
+    JSON 数组应符合以下模式：
 
     ```json
     {
@@ -86,15 +86,15 @@ zilliz vector upsert
 
 - **--partition** (*string*) -
 
-    Indicates the partition name.
+    表示分区名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    表示数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    表示输出格式。可能的值包括：
 
     - `json`,
 
@@ -108,17 +108,17 @@ zilliz vector upsert
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    表示用于过滤输出的 JMESPath 表达式。
 
 - **--body** (*json*) -
 
-    Indicates a raw JSON body (or `file://path`).
+    表示原始 JSON 请求体（或 `file://path`）。
 
-    The JSON body should match the following schema.
+    JSON 请求体应符合以下模式。
 
     ```json
     {
@@ -155,9 +155,9 @@ zilliz vector upsert
 
 - **--partial-update** (*boolean*) -
 
-    Indicates whether to enable partial updates. When enabled, only the provided fields are updated.
+    表示是否启用部分更新。启用后，仅更新已提供的字段。
 
-## Example
+## 示例\{#example}
 
 ```bash
 # Upsert with inline JSON

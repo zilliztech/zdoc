@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "invoices | Cloud"
 slug: /cli/cli/Billing-invoices
 sidebar_label: "invoices"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists invoices or gets details of a specific invoice. | Cloud"
+description: "此操作列出发票或获取特定发票的详细信息。 | Cloud"
 type: docx
-token: D6R2dPsd4owSCAxnFdmcim4bneh
-sidebar_position: 2
+token: Pw8Xd2yoGolKYZxsg1ZcJ0Odnmb
+sidebar_position: 3
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - invoices
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # invoices
 
-This operation lists invoices or gets details of a specific invoice.
+此操作列出发票或获取特定发票的详细信息。
 
-## Description
+## 描述\{#description}
 
-Zilliz Cloud charges at the organization level. To access invoices, you must have either **Organization Owner** or **Billing Admin** permissions.
+Zilliz Cloud 按组织级别收费。要访问发票，您必须具有 **Organization Owner** 或 **Billing Admin** 权限。
 
-Running this command without any options triggers a set of interactive prompts.
+运行此命令而不带任何选项时，将触发一组交互式提示。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>Taxes on the invoices are calculated based on the billing address you provide. For companies that require an entry of VAT or GST ID, please <a href="http://support.zilliz.com">contact us</a>.</p>
+发票中的税费将根据您提供的账单地址计算。对于需要填写 VAT 或 GST ID 的公司，请[联系我们](http://support.zilliz.com)。
 
 </Admonition>
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz billing invoices
@@ -56,35 +56,35 @@ zilliz billing invoices
 [-all]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--invoice-id** (*string*) -
 
-    Indicates the invoice ID. If provided, show details of this invoice. The value is similar to `inv-xxxxx`.
+    指定发票 ID。提供后，将显示该发票的详细信息。其值类似于 `inv-xxxxx`。
 
 - **--page-size** (*integer*) -
 
-    Indicates the number of items per page. The value defaults to **10**.
+    指定每页的条目数。默认值为 **10**。
 
 - **--page** (*integer*) -
 
-    Indicates the page number to retrieve. The value defaults to **1**.
+    指定要获取的页码。默认值为 **1**。
 
 - **--all, -a** (*boolean*) -
 
-    Indicates whether to fetch all pages.
+    指定是否获取所有页面。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`.
+    - `text`。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz billing invoices

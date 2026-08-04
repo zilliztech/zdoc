@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "hybrid-search | Cloud"
 slug: /cli/cli/Vector-hybridsearch
 sidebar_label: "hybrid-search"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation performs hybrid search with multiple vectors and reranking. | Cloud"
+description: "此操作使用多个向量并结合重排序执行混合搜索。 | Cloud"
 type: docx
-token: YVendfgHUotdoxxNTkcc8XUMnxf
+token: EiCXdUuf2oTB3HxiL20clnSPn8g
 sidebar_position: 3
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - hybrid-search
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # hybrid-search
 
-This operation performs hybrid search with multiple vectors and reranking.
+此操作使用多个向量并结合重排序执行混合搜索。
 
-## Description
+## Description\{#description}
 
-In many applications, an object can be searched by a rich set of information, such as title and description, or with multiple modalities, such as text, images, and audio. Zilliz Cloud supports this by allowing searches across multiple vector fields and conducting several Approximate Nearest Neighbor (ANN) searches simultaneously. Multi-vector hybrid search is particularly useful if you want to search both text and images, multiple text fields that describe the same object, or dense and sparse vectors to improve search quality.
+在许多应用中，可以基于丰富的信息集来搜索一个对象，例如标题和描述，或者基于多种模态进行搜索，例如文本、图像和音频。Zilliz Cloud 通过允许跨多个向量字段搜索并同时执行多个 Approximate Nearest Neighbor (ANN) 搜索来支持这一能力。如果你希望同时搜索文本和图像、描述同一对象的多个文本字段，或者结合稠密向量和稀疏向量以提升搜索质量，多向量混合搜索会特别有用。
 
-There are two major hybrid searches, and they are:
+主要有两种混合搜索，它们分别是：
 
-- Sparse-Dense Vector Search
+- 稀疏-稠密向量搜索
 
-- Multimodal Vector Search
+- 多模态向量搜索
 
-For details, refer to [Multi-Vector Hybrid Search](/docs/hybrid-search).
+更多详情请参见 [多向量混合搜索](/docs/hybrid-search)。
 
-## Synopsis
+## Synopsis\{#synopsis}
 
 ```bash
 zilliz vector hybrid-search
@@ -62,21 +62,21 @@ zilliz vector hybrid-search
 [--query <value>]
 ```
 
-## Options
+## Options\{#options}
 
 - **--collection** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the collection name.
+    指定集合名称。
 
 - **--search** (*array*) -
 
     **[REQUIRED]**
 
-    Indicates the search requests as JSON array (unless --body). Required unless `--body` is provided.
+    指定搜索请求的 JSON 数组（除非使用 --body）。除非提供了 `--body`，否则此参数为必填。
 
-    The JSON array should match the following schema.
+    该 JSON 数组应符合以下 schema。
 
     ```json
     {
@@ -165,9 +165,9 @@ zilliz vector hybrid-search
 
     **[REQUIRED]**
 
-    Indicates the reranking strategy as JSON (unless --body). Required unless `--body` is provided.
+    指定重排序策略的 JSON（除非使用 --body）。除非提供了 `--body`，否则此参数为必填。
 
-    The JSON object should match the following schema.
+    该 JSON 对象应符合以下 schema。
 
     ```json
     {
@@ -206,45 +206,45 @@ zilliz vector hybrid-search
 
 - **--limit** (*integer*) -
 
-    Indicates the max results to return. 
+    指定要返回的最大结果数。 
 
-    The value defaults to **10**, and its product with the `offset` should be less than **16,384**.
+    默认值为 **10**，并且该值与 `offset` 的乘积应小于 **16,384**。
 
 - **--output-fields** (*array*) -
 
-    Indicates the fields to return as JSON array, such as `'["title", "abstract"]'`.
+    指定要返回的字段，格式为 JSON 数组，例如 `'["title", "abstract"]'`。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
 - **--body** (*json*) -
 
-    Indicates a raw JSON body (or `file://path`).
+    指定原始 JSON 请求体（或 `file://path`）。
 
-    The JSON object should match the following schema.
+    该 JSON 对象应符合以下 schema。
 
     ```json
     {
@@ -459,15 +459,15 @@ zilliz vector hybrid-search
 
 - **--partition, -p** (*array*) -
 
-    Indicates a list of partition names to search within.
+    指定要在其中搜索的分区名称列表。
 
 - **--offset** (*integer*) -
 
-    Indicates the number of results to skip before returning matches.
+    指定在返回匹配结果之前要跳过的结果数。
 
-    The product of this value and `limit` should be less than **16,384**.
+    该值与 `limit` 的乘积应小于 **16,384**。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz vector hybrid-search --collection my_col --body file://hybrid-search.json

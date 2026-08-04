@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "list | Cloud"
 slug: /cli/cli/Backup-list
 sidebar_label: "list"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all backups. | Cloud"
+description: "此操作列出所有备份。 | Cloud"
 type: docx
-token: IO8UdHyHmotVsLx6D18cRBpYn8y
+token: VHhWdygYaoyAmQxRpP6cvmIYndc
 sidebar_position: 6
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - list
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-This operation lists all backups.
+此操作列出所有备份。
 
-## Description
+## 描述\{#description}
 
-In Zilliz Cloud, a backup is a copy of your data that enables you to restore the entire cluster or specific collections in the event of data loss or system failure.
+在 Zilliz Cloud 中，备份是数据的副本，使您能够在数据丢失或系统故障时恢复整个集群或特定集合。
 
-When you run this command without any options, you will be asked whether to set additional options. The prompt defaults to yes and will guide you through option settings. If you enter N for the prompt, the command retrieves all backups.
+当您在不带任何选项的情况下运行此命令时，系统会询问您是否设置其他选项。该提示默认选择 yes，并会引导您完成选项设置。如果您在提示中输入 N，则该命令会检索所有备份。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+此功能仅适用于 **Dedicated** 集群。
 
 </Admonition>
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz backup list
@@ -61,65 +61,65 @@ zilliz backup list
 [--all]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--project-id** (*string*) -
 
-    Indicates a project ID as a filtering condition, which is similar to `proj-xxxxx`.
+    表示一个项目 ID 作为过滤条件，格式类似于 `proj-xxxxx`。
 
 - **--cluster-id** (*string*) -
 
-    Indicates a cluster ID as a filtering condition, which is similar to `inxx-xxxxx`.
+    表示一个集群 ID 作为过滤条件，格式类似于 `inxx-xxxxx`。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该集群。
 
 - **--creation-method** (*string*) -
 
-    Indicates the creation method as a filtering condition. 
+    表示创建方式作为过滤条件。 
 
-    Possible values are: `manual` and `auto`.
+    可能的值为：`manual` 和 `auto`。
 
 - **--backup-type** (*string*) -
 
-    Indicates a backup type as a filtering condition.
+    表示备份类型作为过滤条件。
 
-    Possible values are `CLUSTER` and `COLLECTION`.
+    可能的值为 `CLUSTER` 和 `COLLECTION`。
 
 - **--page-size** (*integer*) -
 
-    Indicates the items per page. The value defaults to **10**.
+    表示每页的条目数。默认值为 **10**。
 
 - **--page** (*integer*) -
 
-    Indicates the page number. The value defaults to **1**.
+    表示页码。默认值为 **1**。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    表示输出格式。可能的值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    表示用于过滤输出的 JMESPath 表达式。
 
 - **--all, -a** (*boolean*) -
 
-    Indicates whether to fetch all pages.
+    表示是否获取所有页面。
 
-## Example
+## 示例\{#example}
 
 ```bash
 # List all backups

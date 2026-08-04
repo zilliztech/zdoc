@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "create | Cloud"
 slug: /cli/cli/Index-create
 sidebar_label: "create"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates an index on a collection field. | Cloud"
+description: "此操作会在集合字段上创建索引。 | Cloud"
 type: docx
-token: Jx8CdhWZ7ooK8PxwYAHc4yodnDe
+token: BUnSd1445oFLBxxHWfYc8UpmnXe
 sidebar_position: 1
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - create
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # create
 
-This operation creates an index on a collection field.
+此操作会在集合字段上创建索引。
 
-## Description
+## 描述\{#description}
 
-To save you the effort of tuning index settings, Zilliz Cloud handles index tuning with an auto-adaptive index type called AUTOINDEX. By tuning the [index build levels](/docs/tune-index-build-level) and [recall rate](/docs/tune-recall-rate), you can easily optimize search performance and precision.
+为了免去您调优索引设置的工作，Zilliz Cloud 通过一种名为 AUTOINDEX 的自适应索引类型来处理索引调优。通过调整 [index build levels](/docs/tune-index-build-level) 和 [recall rate](/docs/tune-recall-rate)，您可以轻松优化搜索性能和精度。
 
-For scalar fields, you can set index types according to the field types. For the mapping of field types to applicable index types, refer to [Index Scalar Fields](/docs/index-scalar-fields#overview).
+对于标量字段，您可以根据字段类型设置索引类型。有关字段类型与适用索引类型的映射关系，请参见 [Index Scalar Fields](/docs/index-scalar-fields#overview)。
 
-## Synposis
+## 概要\{#synposis}
 
 ```bash
 zilliz index create
@@ -51,21 +51,21 @@ zilliz index create
 [--body <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--collection** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the collection name.
+    指定集合名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可能的值包括：
 
     - `json`,
 
@@ -79,17 +79,17 @@ zilliz index create
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
 - **--body** (*json*) -
 
-    Indicates a raw JSON body (or `file://path`).
+    指定原始 JSON 请求体（或 `file://path`）。
 
-    The JSON should match the following schema. For concrete examples, refer to [Create Collection](/reference/restful/create-collection-v2).
+    该 JSON 应符合以下 schema。具体示例请参见 [Create Collection](/reference/restful/create-collection-v2)。
 
     ```json
     {
@@ -149,7 +149,7 @@ zilliz index create
     }
     ```
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz index create --collection my_col --body '{"indexParams": [{"fieldName": "vector", "indexType": "AUTOINDEX"}]}'

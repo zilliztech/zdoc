@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "export | Cloud"
 slug: /cli/cli/Backup-export
 sidebar_label: "export"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation exports a backup to external storage. | Cloud"
+description: "此操作将备份导出到外部存储。 | Cloud"
 type: docx
-token: A4XEdRBSZoBVotxjz8Bca39Dnbf
+token: MqCqdE8mqotzaXxk8nfcOvHinX0
 sidebar_position: 5
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - export
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # export
 
-This operation exports a backup to external storage.
+此操作将备份导出到外部存储。
 
-## Description
+## 描述\{#description}
 
-In Zilliz Cloud, a backup is a copy of your data that enables you to restore the entire cluster or specific collections in the event of data loss or system failure.
+在 Zilliz Cloud 中，备份是数据的副本，可在发生数据丢失或系统故障时用于恢复整个集群或特定集合。
 
-You can export backup files to an integrated storage service identified by its integration ID. This operation is asynchronous and will create a job. You can run [`zilliz job describe`](./Job-describe) to obtain the progress of the job.
+您可以将备份文件导出到由集成 ID 标识的已集成存储服务中。此操作是异步的，并会创建一个作业。您可以运行 [`zilliz job describe`](./Job-describe) 获取该作业的进度。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+此功能仅适用于 **Dedicated** 集群。
 
 </Admonition>
 
-## Usage
+## 用法\{#usage}
 
 ```bash
 zilliz backup export
@@ -58,55 +58,55 @@ zilliz backup export
 [--no-header]
 ```
 
-**OPTIONS:**
+**选项：**
 
 - **--cluster-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates a cluster ID, which is similar to `inxx-xxxxx`.
+    指定集群 ID，格式类似于 `inxx-xxxxx`。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未显式配置此选项时会自动应用该集群。
 
 - **--backup-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates a backup ID, which is similar to `backupx-xxxxx`.
+    指定备份 ID，格式类似于 `backupx-xxxxx`。
 
 - **--integration-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates a storage integration ID, which is similar to `integ-xxxxx`.
+    指定存储集成 ID，格式类似于 `integ-xxxxx`。
 
 - **--directory** (*string*) -
 
-    Indicates the target directory in external storage.
+    指定外部存储中的目标目录。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz backup export --cluster-id in01-xxxx \

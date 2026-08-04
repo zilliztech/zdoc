@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "has | Cloud"
 slug: /cli/cli/Partition-has
 sidebar_label: "has"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation checks if a partition exists. | Cloud"
+description: "此操作检查分区是否存在。 | Cloud"
 type: docx
-token: KtkldxyCGoCmF8xsxYHcfRQZnCf
+token: IQy0d491iojaTEx3teycfP3snCe
 sidebar_position: 4
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - has
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # has
 
-This operation checks if a partition exists.
+此操作检查分区是否存在。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz partition has
@@ -45,37 +45,37 @@ zilliz partition has
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--collection** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the collection name.
+    指定 collection 名称。
 
 - **--partition** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the partition name.
+    指定 partition 名称。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Choices: `json`, `table`, `text`, `yaml`, `csv`.
+    指定输出格式。可选值：`json`、`table`、`text`、`yaml`、`csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz partition has --collection my_collection --partition my_partition

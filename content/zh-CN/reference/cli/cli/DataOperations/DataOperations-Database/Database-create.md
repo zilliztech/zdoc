@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "create | Cloud"
 slug: /cli/cli/Database-create
 sidebar_label: "create"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates a new database. (Dedicated only) | Cloud"
+description: "此操作用于创建一个新数据库。（仅 Dedicated）| Cloud"
 type: docx
-token: IKTjdZU2ioqYvbxGD08cp58In7c
+token: DaK3dvUJpoKOLTxy1iRc4YZAnjf
 sidebar_position: 1
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - create
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # create
 
-This operation creates a new database. (Dedicated only)
+此操作用于创建一个新数据库。（仅 Dedicated）
 
-## Description
+## 描述\{#description}
 
-In Zilliz Cloud, a database serves as a logical unit for organizing and managing data. To enhance data security and support multi-tenancy, you can create multiple databases to isolate data for different applications or tenants logically. For example, you create a database to store user A's data and another database for user B.
+在 Zilliz Cloud 中，数据库是用于组织和管理数据的逻辑单元。为了增强数据安全性并支持多租户，您可以创建多个数据库，从逻辑上为不同的应用程序或租户隔离数据。例如，您可以创建一个数据库来存储用户 A 的数据，再创建另一个数据库来存储用户 B 的数据。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This command applies to Dedicated clusters.</p>
+此命令适用于 Dedicated 集群。
 
 </Admonition>
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz database create
@@ -54,43 +54,43 @@ zilliz database create
 [--body <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the database name. 
+    指定数据库名称。 
 
-    The value should be an alphanumeric string of no more than 255 characters , starting **with an underscore (_) or a letter**.
+    该值应为不超过 255 个字符的字母数字字符串，并且**以下划线 (_) 或字母开头**。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
 - **--body** (*json*) -
 
-    Indicates the raw JSON body (or `file://path`).
+    指定原始 JSON 请求体（或 `file://path`）。
 
-    The JSON should match the following schema. For concrete examples, refer to [Create Database](/reference/restful/create-database-v2).
+    JSON 应符合以下架构。有关具体示例，请参见[创建数据库](/reference/restful/create-database-v2)。
 
     ```json
     {
@@ -133,7 +133,7 @@ zilliz database create
     }
     ```
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz database create --name my_database

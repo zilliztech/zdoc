@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "create | Cloud"
 slug: /cli/cli/Cluster-create
 sidebar_label: "create"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates a new cluster. | Cloud"
+description: "此操作会创建一个新集群。 | Cloud"
 type: docx
-token: KNCGdB4VfolyidxJBWOcuUGin3c
+token: GZ2jdLkKAojfofxm9BTcvwVCn4b
 sidebar_position: 1
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - create
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,47 +31,39 @@ import Admonition from '@theme/Admonition';
 
 # create
 
-This operation creates a new cluster.
+此操作会创建一个新集群。
 
-## Description
+## 描述\{#description}
 
-Zilliz Cloud provides various cluster deployment options to accommodate the distinct business needs. 
+对于专有集群，Zilliz Cloud 提供以下集群类型：**Performance-optimized、Capacity-optimized** 和 **Tiered-storage**。
 
-- **Free**: provides a starting point for learning and personal projects with limitations on storage, vCU consumption, and the number of collections.
+### Performance-optimized 集群\{#performance-optimized-cluster}
 
-- **Serverless**: provides a shared environment that automatically scales to match your workload - no need to provision resources. This option delivers excellent cost efficiency and elasticity for unpredictable or spiky traffic.
+- 专为强调低延迟和高吞吐的场景而设计。
 
-- **Dedicated**: provides isolated, reserved environments for production workloads that demand consistent and predictable performance. This option is ideal for sustained high-throughput and latency-sensitive applications.
+- 适用于生成式 AI、推荐系统、聊天机器人等实时应用。
 
-Regarding dedicated clusters, Zilliz Cloud offers the following cluster types: **Performance-optimized, Capacity-optimized**, and **Tiered-storage.**
+### Capacity-optimized 集群\{#capacity-optimized-cluster}
 
-### Performance-optimized cluster
+- 专为处理海量数据集而打造，数据容量是 Performance-optimized 类型的五倍，但搜索性能相对较低。
 
-- Tailored for scenarios emphasizing low latency and high throughput.
+- 适用于大规模非结构化数据搜索、版权检测和身份验证。
 
-- Ideal for real-time applications like generative AI, recommendation systems, chatbots, and more.
+### Tiered-storage 集群\{#tiered-storage-cluster}
 
-### Capacity-optimized cluster
+- 最适合超大规模、对成本敏感的工作负载。
 
-- Crafted for handling vast datasets, boasting five times the data capacity of its Performance-optimized counterpart, albeit with subdued search performance.
+- 适用于需要以低成本存储海量数据的应用。Tiered-storage 集群的容量是 Capacity-optimized 集群的 4 倍。
 
-- Ideal for large-scale unstructured data search, copyright detection, and identity verification.
+在不带任何选项的情况下运行此命令，会触发一组交互式提示。
 
-### Tiered-storage cluster
+<Admonition type="info" icon="📘" title="说明">
 
-- Best for ultra-large-scale, cost-sensitive workloads with clear hot and cold data patterns.
-
-- Ideal for applications that need to store massive volumes of data at a low cost. The capacity of a Tiered-storage cluster is 4 times that of a Capacity-optimized cluster.
-
-Running this command without any options triggers a set of interactive prompts.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Tiered-storage clusters are unavailable in BYOC projects.</p>
+BYOC 项目中不提供 Tiered-storage 集群。
 
 </Admonition>
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz cluster create
@@ -85,39 +77,39 @@ zilliz cluster create
 [--output <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the cluster display name. 
+    表示集群显示名称。 
 
-    The value is an alphanumeric string of no more than **255** characters that starts with a letter.
+    该值必须是一个以字母开头、长度不超过 **255** 个字符的字母数字字符串。
 
 - **--type** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the cluster type. 
+    表示集群类型。 
 
-    Possible values:
+    可选值：
 
     - `serverless`,
 
-    - `free`,  and
+    - `free`，以及
 
-    - `dedicated`.
+    - `dedicated`。
 
 - **--project-id** (*string*) -
 
-    Indicates the project to create the cluster in.
+    表示要在其中创建集群的项目。
 
 - **--region** (*string*) -
 
-    Indicates a cloud region.
+    表示云区域。
 
-    Possible values:
+    可选值：
 
     - `aws-us-east-1`
 
@@ -157,39 +149,39 @@ zilliz cluster create
 
     - `az-centralindia`
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>For available regions in your BYOC project, consult with your organization owner.</p>
+    如需了解 BYOC 项目中可用的区域，请咨询您的组织所有者。
 
     </Admonition>
 
 - **--cu-type** (*string*) -
 
-    Indicates the compute unit type (dedicated only). 
+    表示计算单元类型（仅 dedicated 适用）。 
 
-    Possible Values: 
+    可选值： 
 
     - `Performance-optimized`,
 
     - `Capacity-optimized`,
 
-    - `Tiered-storage`.
+    - `Tiered-storage`。
 
 - **--cu-size** (*integer*) -
 
-    Indicates the number of compute units (dedicated only).
+    表示计算单元数量（仅 dedicated 适用）。
 
-    A CU is the basic unit of compute resources used for parallel processing of data, and different CU types comprise varying combinations of CPU, memory, and storage. The concept of CU only applies to **Dedicated** clusters.
+    CU 是用于数据并行处理的计算资源基本单位，不同的 CU 类型由不同组合的 CPU、内存和存储构成。CU 的概念仅适用于 **Dedicated** 集群。
 
-    - For a **Dedicated** cluster in a **Standard** project, the product of its CU size and the number of replicas must be less than or equal to 32.
+    - 对于 **Standard** 项目中的 **Dedicated** 集群，其 CU 大小与副本数量的乘积必须小于或等于 32。
 
-    - For a **Dedicated** cluster in an **Enterprise** project, the product of its CU size and the number of replicas must be less than or equal to 1,024.
+    - 对于 **Enterprise** 项目中的 **Dedicated** 集群，其 CU 大小与副本数量的乘积必须小于或等于 1,024。
 
 - **--plan** (*string*) -
 
-    Indicates the subscription plan (dedicated only). 
+    表示订阅计划（仅 dedicated 适用）。 
 
-    Possible values: 
+    可选值： 
 
     - `Free`,
 
@@ -197,21 +189,21 @@ zilliz cluster create
 
     - `Standard`,
 
-    - `Enterprise`.
+    - `Enterprise`。
 
 - **--output, -o** (*string*) -
 
-    Output format. 
+    输出格式。 
 
-    Possible values: 
+    可选值： 
 
     - `json`,
 
     - `table`,
 
-    - `text`.
+    - `text`。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz cluster create --name my-cluster \

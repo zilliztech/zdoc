@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "resume | Cloud"
 slug: /cli/cli/Cluster-resume
 sidebar_label: "resume"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation resumes a suspended cluster. | Cloud"
+description: "此操作用于恢复已暂停的集群。 | Cloud"
 type: docx
-token: EbredHGusoLbZbxRLiWcjeManIf
+token: EfaUd8o9LoguWnx6jndcyTJfnzd
 sidebar_position: 9
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - resume
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # resume
 
-This operation resumes a suspended cluster.
+此操作用于恢复已暂停的集群。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz cluster resume
@@ -43,19 +43,19 @@ zilliz cluster resume
 [--no-header]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--cluster-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the ID of the cluster to resume.
+    指定要恢复的集群 ID。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该配置。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
     - `json`,
 
@@ -69,13 +69,13 @@ zilliz cluster resume
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz cluster resume --cluster-id in01-xxxxxxxxxxxx

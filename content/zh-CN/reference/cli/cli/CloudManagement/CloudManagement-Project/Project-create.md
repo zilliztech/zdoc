@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "create | Cloud"
 slug: /cli/cli/Project-create
 sidebar_label: "create"
-added_since: v0.1.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v0.1.x
+last_modified: v1.4.x
+deprecate_since: false
 notebook: false
-description: "This operation creates a new project. | Cloud"
+description: "此操作用于创建一个新项目。 | Cloud"
 type: docx
-token: H6MXdWNhlo3b9lx70Z3ca3VXn2e
+token: GXhEdTZt9or6nix81GtcENu9n0f
 sidebar_position: 1
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - create
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,73 +31,50 @@ import Admonition from '@theme/Admonition';
 
 # create
 
-This operation creates a new project.
+此操作用于创建一个新项目。
 
-## Synopsis
+## 描述\{#description}
+
+创建一个新的 Zilliz Cloud 项目。当你希望在创建项目时绑定区域，请使用一次或多次 `--region`。
+
+## 概要\{#synopsis}
 
 ```bash
 zilliz project create
 --name <value>
 --plan <value>
-[--output <value>]
-[--query <value>]
-[--no-header]
+[--region <value>]
+[--api-key <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--name** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates a project name.
-
-    The value should be a string of no more than **50** characters.
+    指定项目名称。
 
 - **--plan** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the subscription plan. 
+    指定订阅计划。可选值：`Standard`、`Enterprise`、`BusinessCritical`。
 
-    Possible values: 
+- **--region** (*array*) -
 
-    <exclude lang="zh-CN">
+    指定要绑定的区域 ID（可重复使用，例如 `--region aws-us-east-1 --region gcp-us-west1`）。
 
-    - `Free`,
+- **--api-key** (string) -
 
-    - `Serverless`,
+    为此命令指定 API key。此值会覆盖环境变量或已配置的 API key。
 
-    - `Standard`,
-
-    </exclude>
-
-    - `Enterprise`.
-
-- **--output, -o** (*string*) -
-
-    Indicates the output format. Possible values:
-
-    - `json`,
-
-    - `table`,
-
-    - `text`,
-
-    - `yaml`,
-
-    - `csv`.
-
-- **--no-header** (*boolean*) -
-
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
-
-- **--query, -q** (*string*) -
-
-    Indicates a JMESPath expression to filter output.
-
-## Example
+## 示例\{#example}
 
 ```bash
+# Create a project without regions
 zilliz project create --name my-project --plan Standard
+
+# Create a project with multiple regions
+zilliz project create --name my-project --plan Standard --region aws-us-east-1 --region gcp-us-west1
 ```

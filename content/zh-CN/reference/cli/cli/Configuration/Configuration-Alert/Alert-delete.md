@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "delete | Cloud"
 slug: /cli/cli/Alert-delete
 sidebar_label: "delete"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation deletes an alert rule. | Cloud"
+description: "此操作会删除一条告警规则。 | Cloud"
 type: docx
-token: RAZ5dMgFUoufLJxfmzvcInernmc
+token: L6dIdJaeGoNfmcxAXC2cW82znke
 sidebar_position: 2
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - delete
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # delete
 
-This operation deletes an alert rule.
+此操作会删除一条告警规则。
 
-## Description
+## 描述\{#description}
 
-You can run this command to remove the specified alert rule once it is no longer needed. This operation is irreversible; exercise caution. To get an exhaustive list of existing alert rules, run `zilliz alert list`.
+当不再需要指定的告警规则时，您可以运行此命令将其删除。此操作不可逆，请谨慎执行。要获取现有告警规则的完整列表，请运行 `zilliz alert list`。
 
-Running this command without any options triggers a set of interactive prompts to help you set it up.
+在不带任何选项运行此命令时，将触发一组交互式提示，帮助您完成设置。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz alert delete
@@ -49,35 +49,35 @@ zilliz alert delete
 [--yes]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the ID of the alert rule to delete, such as `alert-xxxx`. To get an exhaustive list of existing alert rules, run `zilliz alert list`.
+    指定要删除的告警规则的 ID，例如 `alert-xxxx`。要获取现有告警规则的完整列表，请运行 `zilliz alert list`。
 
 - **--project-id** (*string*) -
 
-    Indicates the ID of a project if you expect to select alert rules from a list, such as `proj-xxxx`.
+    如果您希望从列表中选择告警规则，则指定项目的 ID，例如 `proj-xxxx`。
 
-    If a project is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置项目，则在未配置此选项时会自动应用该项目。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`.
+    - `text`。
 
 - **--yes, -y** (*boolean*) -
 
-    Indicates whether to skip the confirmation prompts.
+    指定是否跳过确认提示。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz alert delete

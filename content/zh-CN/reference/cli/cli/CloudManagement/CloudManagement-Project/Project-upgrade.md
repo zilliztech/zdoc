@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "upgrade | Cloud"
 slug: /cli/cli/Project-upgrade
 sidebar_label: "upgrade"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation upgrades a project's subscription plan. | Cloud"
+description: "此操作会升级项目的订阅计划。 | Cloud"
 type: docx
-token: LZksdPD7Ao7HdwxYr4Lc3IHlngg
+token: QIhWdtFpNotKksx7KmxcTdwXnEh
 sidebar_position: 4
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - upgrade
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,27 +31,27 @@ import Admonition from '@theme/Admonition';
 
 # upgrade
 
-This operation upgrades a project's subscription plan.
+此操作会升级项目的订阅计划。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz project upgrade [OPTIONS]
 ```
 
-**OPTIONS:**
+**选项：**
 
 - **--project-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates a project ID, which is similar to `proj-xxxxx`.
+    表示一个项目 ID，其格式类似于 `proj-xxxxx`。
 
 - **--plan** (*string*) -
 
-    Indicates a target subscription plan. Possible values: <include lang="en-US">`Serverless`, `Standard`, </include>`Enterprise`.
+    表示目标订阅计划。可能的值：<include lang="en-US">`Serverless`, `Standard`, </include>`Enterprise`。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz project upgrade --project-id proj-xxxxxxxxxxxx --plan Enterprise

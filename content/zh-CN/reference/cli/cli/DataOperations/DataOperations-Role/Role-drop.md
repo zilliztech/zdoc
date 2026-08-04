@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "drop | Cloud"
 slug: /cli/cli/Role-drop
 sidebar_label: "drop"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a role. | Cloud"
+description: "此操作用于删除角色。 | Cloud"
 type: docx
-token: NLHNdWRtSobTj6xGRqTcUgqznQe
+token: YzVadE24uorV0gx5Se3ceumqnDh
 sidebar_position: 3
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - drop
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # drop
 
-This operation drops a role.
+此操作用于删除角色。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This command is available for Dedicated clusters only. You can run <code>zilliz context set</code> to switch among clusters.</p>
+此命令仅适用于 Dedicated 集群。你可以运行 `zilliz context set` 在集群之间切换。
 
 </Admonition>
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz role drop
@@ -51,17 +51,17 @@ zilliz role drop
 [--yes]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--role** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the role name to drop.
+    指定要删除的角色名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
     - `json`,
 
@@ -75,21 +75,21 @@ zilliz role drop
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
 - **--yes, -y** (*boolean*) -
 
-    Indicates whether to skip the confirmation prompt.
+    指定是否跳过确认提示。
 
 - **--database** (*string*) -
 
-    Indicates a database name. The value defaults to `default`.
+    指定数据库名称。默认值为 `default`。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz role drop --role my_role

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "query | Cloud"
 slug: /cli/cli/Vector-query
 sidebar_label: "query"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation queries entities by scalar filter expression. | Cloud"
+description: "此操作按标量筛选表达式查询实体。 | Cloud"
 type: docx
-token: BFfGdYH1aocKSjx2CLQce7C9nWo
+token: VSRhdmsCvodJ7pxwGgqcuvZ3n7g
 sidebar_position: 5
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似性搜索
+  - 多模态 RAG
   - zilliz
   - zilliz cloud
   - cloud
   - query
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # query
 
-This operation queries entities by scalar filter expression.
+此操作按标量筛选表达式查询实体。
 
-## Description
+## 描述\{#description}
 
-Zilliz Cloud provides a set of useful filtering operators to help you build filter expressions that meet your needs. For details, refer to [Filtering Overview](/docs/filtering-overview) and related pages.
+Zilliz Cloud 提供了一组实用的筛选运算符，帮助您构建满足需求的筛选表达式。详情请参阅[筛选概览](/docs/filtering-overview)及相关页面。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz vector query
@@ -52,37 +52,37 @@ zilliz vector query
 [--query <value>]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--collection** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the collection name.
+    指定集合名称。
 
 - **--filter** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Indicates the scalar filter expression.
+    指定标量筛选表达式。
 
 - **--limit** (*integer*) -
 
-    Indicates the max results to return. 
+    指定返回结果的最大数量。
 
-    The value defaults to **10**, and its product with `offset` should be less than **16,384**.
+    该值默认为 **10**，且其与 `offset` 的乘积应小于 **16,384**。
 
 - **--output-fields** (*array*) -
 
-    Indicates the fields to return as JSON array.
+    指定要返回的字段，格式为 JSON 数组。
 
 - **--database** (*string*) -
 
-    Indicates the database name.
+    指定数据库名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
     - `json`,
 
@@ -96,23 +96,23 @@ zilliz vector query
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
 - **--offset** (*integer*) -
 
-    Indicates the number of results to skip before returning matches. Used for pagination with `--limit`.
+    指定在返回匹配结果之前要跳过的结果数量。与 `--limit` 一起用于分页。
 
-    Its product with `limit` should be less than **16,384**.
+    其与 `limit` 的乘积应小于 **16,384**。
 
 - **--partition, -p** (*array*) -
 
-    Indicates a list of partition names to query from. Queries all partitions if not specified.
+    指定要查询的分区名称列表。未指定时，将查询所有分区。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz vector query --collection my_col --filter 'id > 100' --limit 10

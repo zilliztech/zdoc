@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "start | Cloud"
 slug: /cli/cli/Import-start
 sidebar_label: "start"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation starts a data import job. | Cloud"
+description: "此操作用于启动一个数据导入任务。 | Cloud"
 type: docx
-token: EMBrd9PtWoNfh4xBseQcPzaOn2b
+token: KXgLdSiiZoMou6xEvnQcdVe3n25
 sidebar_position: 2
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - start
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # start
 
-This operation starts a data import job.
+此操作用于启动一个数据导入任务。
 
-## Description
+## Description\{#description}
 
-To import data, ensure it is converted to the acceptable format. For details, refer to [Use BulkWriter](/docs/use-bulkwriter).
+要导入数据，请确保其已转换为可接受的格式。详情请参见 [Use BulkWriter](/docs/use-bulkwriter)。
 
-## Synopsis
+## Synopsis\{#synopsis}
 
 ```bash
 zilliz import start
@@ -49,25 +49,25 @@ zilliz import start
 --body <value>
 ```
 
-## Options
+## Options\{#options}
 
 - **--cluster-id** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the target cluster ID, which is similar to `inxx-xxxxx`.
+    指定目标集群 ID，格式类似于 `inxx-xxxxx`。
 
-    If a cluster is configured using `zilliz context set`, it automatically applies if this option is left unconfigured.
+    如果已使用 `zilliz context set` 配置集群，则在未显式配置此选项时会自动应用该集群。
 
 - **--collection** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the target collection name.
+    指定目标 collection 名称。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Possible values:
+    指定输出格式。可选值：
 
     - `json`,
 
@@ -81,17 +81,17 @@ zilliz import start
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于筛选输出的 JMESPath 表达式。
 
 - **--body** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the request body, which should be a stringified JSON object containing multiple file paths, or a path to a single file or folder. For application storage options and format options, refer to [Storage Options](/docs/data-import-storage-options) and [Format Options](/docs/data-import-format-options).
+    指定请求体。其应为一个字符串化的 JSON 对象，包含多个文件路径，或者是单个文件或文件夹的路径。有关应用程序存储选项和格式选项，请参见 [Storage Options](/docs/data-import-storage-options) 和 [Format Options](/docs/data-import-format-options)。
 
     ```json
     {
@@ -107,12 +107,12 @@ zilliz import start
     }
     ```
 
-## Example
+## Example\{#example}
 
 ```bash
-# Import from S3
+# 从 S3 导入
 zilliz import start --cluster-id in01-xxxx --collection my_col --body '{"files": [["s3://bucket/data.json"]]}'
 
-# Import using a JSON file
+# 使用 JSON 文件导入
 zilliz import start --cluster-id in01-xxxx --collection my_col --body file://import-spec.json
 ```

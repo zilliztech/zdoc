@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: cliSidebar
 title: "list | Cloud"
 slug: /cli/cli/Alias-list
 sidebar_label: "list"
+beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists all aliases. | Cloud"
+description: "此操作列出所有别名。 | Cloud"
 type: docx
-token: FAIsdc3inokLzNxYfpYcUwBznBb
+token: L8PEdl4Dio11q5x4rPBc4OFZn8b
 sidebar_position: 5
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - list
-  - cliv01
+  - cliv14
 displayed_sidebar: cliSidebar
 
+displayed_sidbar: cliSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,31 +31,31 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-This operation lists all aliases.
+此操作列出所有别名。
 
-## Synopsis
+## 概要\{#synopsis}
 
 ```bash
 zilliz alias list [OPTIONS]
 ```
 
-## Options
+## 选项\{#options}
 
 - **--database** (*string*) -
 
     **[REQUIRED]**
 
-    Indicates the database name.
+    指定数据库名称。
 
-    If a cluster is configured using `zilliz context set`, the database it belongs automatically applies if this option is left unconfigured.
+    如果使用 `zilliz context set` 配置了集群，则当此选项未配置时，会自动应用其所属的数据库。
 
 - **--collection** (*string*) -
 
-    Indicates the filter by collection name.
+    指定按集合名称进行筛选。
 
 - **--output, -o** (*string*) -
 
-    Indicates the output format. Indicates the output format. Possible values:
+    指定输出格式。可能的值包括：
 
     - `json`,
 
@@ -69,13 +69,13 @@ zilliz alias list [OPTIONS]
 
 - **--no-header** (*boolean*) -
 
-    Indicates whether to omit the header row when the output is set to `table` or `csv`.
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    Indicates a JMESPath expression to filter output.
+    指定用于过滤输出的 JMESPath 表达式。
 
-## Example
+## 示例\{#example}
 
 ```bash
 zilliz alias list --database default
