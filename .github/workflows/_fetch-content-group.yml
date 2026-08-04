@@ -141,7 +141,7 @@ jobs:
       - name: Validate and build generated docs
         run: |
           set -euo pipefail
-          node scripts/validate-generated-sidebars.js
+          node scripts/validate-generated-sidebars.js --site "$SITE"
           if [[ "$GROUP" == guides ]]; then
             node scripts/run-doc-build-stage.js --build "pnpm run build:$SITE" --skipLinkChecks
           else
@@ -234,7 +234,7 @@ jobs:
             --baseline-dir "$BASELINE_DIR" \
             --workspace "$GITHUB_WORKSPACE" \
             --output "$CHECKPOINT_DIR" \
-            --validation-command "node scripts/validate-generated-sidebars.js" \
+            --validation-command "node scripts/validate-generated-sidebars.js --site $SITE" \
             --validation-command "$validation_command"
 
       - name: Validate source checkpoint artifact

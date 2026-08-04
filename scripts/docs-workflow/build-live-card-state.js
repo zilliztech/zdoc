@@ -16,6 +16,9 @@ function buildLiveCardState(input) {
     requestedGroups: input.requestedGroups,
     jobs: input.jobs,
     publishEnabled: input.publishEnabled,
+    runTranslations: input.runTranslations === true,
+    guideTableTotals: input.guideTableTotals || {},
+    handoff: input.handoff || null,
     reports,
   })
 }
@@ -46,6 +49,9 @@ if (require.main === module) {
       requestedGroups: JSON.parse(args['groups-json']),
       jobs,
       publishEnabled: args.publish === 'true',
+      runTranslations: args['run-translations'] === 'true',
+      guideTableTotals: args['guide-table-totals-json'] ? JSON.parse(args['guide-table-totals-json']) : {},
+      handoff: args['handoff-json'] ? JSON.parse(args['handoff-json']) : null,
       notes: args['notes-json'] ? JSON.parse(args['notes-json']) : [],
     })
     fs.writeFileSync(args.output, `${JSON.stringify(state, null, 2)}\n`)

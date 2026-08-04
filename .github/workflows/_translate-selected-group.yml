@@ -53,7 +53,7 @@ jobs:
       group: ${{ inputs.source_group }}
       artifact_name: ${{ needs.translate.outputs.artifact_name }}
       baseline_artifact_name: ${{ needs.translate.outputs.baseline_artifact_name }}
-      commit_message: "${{ inputs.target == 'zh-CN-tools' && 'i18n(zh-CN-tools): publish tools translations' || format('i18n({0}): publish {1} translations', inputs.target, inputs.group) }}"
+      commit_message: "${{ format('i18n({0}): publish {1} translations', inputs.target, inputs.group) }}"
       should_publish: ${{ inputs.publish && needs.translate.outputs.status == 'translation_ready' }}
       master_sha: ${{ inputs.tooling_sha }}
       target_branch: ${{ inputs.target_branch }}

@@ -6,9 +6,8 @@ on:
       group: { required: true, type: string }
       target: { required: true, type: string }
       tooling_sha: { required: true, type: string }
-      source_sha: { required: true, type: string }
-      source_commit_sha: { required: true, type: string }
-      master_sha: { required: true, type: string }
+      source_baseline_sha: { required: true, type: string }
+      source_checkpoint_sha: { required: true, type: string }
     outputs:
       matrix: { value: '${{ jobs.prepare.outputs.matrix }}' }
       pending_count: { value: '${{ jobs.prepare.outputs.pending_count }}' }
@@ -34,8 +33,9 @@ jobs:
     env:
       GROUP: ${{ inputs.group }}
       TRANSLATION_TARGET: ${{ inputs.target }}
-      SOURCE_COMMIT_SHA: ${{ inputs.source_sha }}
-      MASTER_SHA: ${{ inputs.tooling_sha }}
+      SOURCE_BASELINE_SHA: ${{ inputs.source_baseline_sha }}
+      SOURCE_CHECKPOINT_SHA: ${{ inputs.source_checkpoint_sha }}
+      TOOLING_SHA: ${{ inputs.tooling_sha }}
     steps:
       - uses: actions/checkout@v4
         with: { ref: '${{ inputs.tooling_sha }}', fetch-depth: 0 }
@@ -47,19 +47,17 @@ jobs:
       - name: Materialize immutable translation source
         run: |
           set -euo pipefail
-          git fetch --no-tags origin "$SOURCE_COMMIT_SHA"
-          bash scripts/restore-generated-state.sh --exact --ref "$SOURCE_COMMIT_SHA"
-          git cat-file -e "$SOURCE_COMMIT_SHA^" 2>/dev/null || git fetch --no-tags --depth=2 origin "$SOURCE_COMMIT_SHA"
-          git cat-file -e "$SOURCE_COMMIT_SHA^"
+          for sha in "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA"; do git fetch --no-tags origin "$sha"; done
+          git merge-base --is-ancestor "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA"
+          bash scripts/restore-generated-state.sh --exact --ref "$SOURCE_CHECKPOINT_SHA"
           mkdir -p .translation-cache tmp
           test -f .translation-cache/ja-JP.json || printf '{"files":{}}\n' > .translation-cache/ja-JP.json
-          git diff --name-status "$SOURCE_COMMIT_SHA^" "$SOURCE_COMMIT_SHA" > tmp/source-name-status.txt
-          node scripts/translation/sourceDelta.js --target "$TRANSLATION_TARGET" --group "$GROUP" --name-status tmp/source-name-status.txt --output tmp/source-delta.json
+          node scripts/translation/sourceDelta.js --repository "$GITHUB_WORKSPACE" --source-baseline-sha "$SOURCE_BASELINE_SHA" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target "$TRANSLATION_TARGET" --group "$GROUP" --output tmp/source-delta.json
       - id: summary
         name: Build deterministic batch matrix
         run: |
           set -euo pipefail
-          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --group "$GROUP" --source-checkpoint-sha "$SOURCE_COMMIT_SHA" --source-delta tmp/source-delta.json
+          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-delta tmp/source-delta.json
           node - <<'NODE'
           const fs = require('node:fs')
           const { getContentGroup } = require('./scripts/docs-workflow/content-groups')

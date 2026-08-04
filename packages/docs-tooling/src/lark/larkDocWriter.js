@@ -27,7 +27,12 @@ const { canonicalizeInternalDocLink } = require('./internalDocLink')
 // MDX compilation will be loaded dynamically as it's an ES module
 
 const IMAGE_BED_URL = process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-west-2.amazonaws.com'
-const { guidesPlacementType, guidesRecordPublishTargets, guidesCanonicalIsPublishable } = require('./guidesBaseRecordSemantics')
+const {
+    guidesPlacementType,
+    guidesRecordPublishTargets,
+    guidesCanonicalIsPublishable,
+} = require('./guidesBaseRecordSemantics')
+const { guidesTableSlug } = require('./guidesTableSlugs')
 
 // Known JSX block components that the MDX patcher must never escape.
 // Shared by __escape_non_html_tags (safeUppercaseTags seed) and __mdx_patches
@@ -126,7 +131,7 @@ class larkDocWriter {
     }
 
     __category_has_landing_page(source) {
-        if (source?.base_placement_type === 'section') return false
+        if (source?.base_placement_type === 'section') return !source.base_nav_virtual && this.__has_renderable_page(source)
         if (source?.base_placement_type === 'canonical') return source.slug !== 'faqs'
         return this.categorize_node(source) === 'meaningful'
     }
@@ -191,7 +196,7 @@ class larkDocWriter {
         const seenChildTokens = new Map()
 
         for (let i = 0; i < children.length; i++) {
-            const child = children[i]
+            let child = children[i]
             const childToken = child.node_token || child.token
             if (childToken && seenChildTokens.has(childToken)) {
                 console.warn(`[sidebar] Skipping duplicate child token ${childToken} under ${token}: "${child.title || child.name}" duplicates "${seenChildTokens.get(childToken)}"`)
@@ -202,6 +207,11 @@ class larkDocWriter {
             try { childSource = this.__fetch_doc_source('node_token', child.node_token, child.slug) } catch (e) {
                 if (this.sourceIndex) throw e
             }
+            const tableToken = child.node_token || childSource?.node_token
+            if (/^base:tbl[^:]+$/.test(tableToken || '')) {
+                const site = node_path.basename(this.docSourceDir) === 'guides-zh-CN' ? 'zh-CN' : 'en'
+                child = { ...child, slug: guidesTableSlug(site, childSource?.title || child.title) }
+            }
 
             if (childSource?.base_placement_type === 'section') {
                 if (!this.__base_source_is_publishable(childSource)) continue
@@ -210,12 +220,21 @@ class larkDocWriter {
                 const childItems = child.has_child
                     ? await this.__sidebar_items(`${currentPath}/${slug}`, contentRoot, child.node_token)
                     : []
-                items.push({
+                const item = {
                     type: 'category',
                     label,
                     key: this.__sidebar_key('category', currentPath, contentRoot, slug, label),
                     items: childItems,
-                })
+                }
+                if (this.__category_has_landing_page(childSource)) {
+                    item.link = {
+                        type: 'doc',
+                        id: node_path.join(currentPath, slug, slug)
+                            .replace(/\\/g, '/')
+                            .replace(new RegExp(`^${contentRoot}/`), ''),
+                    }
+                }
+                items.push(item)
                 continue
             }
 
@@ -263,14 +282,14 @@ class larkDocWriter {
                     targetSource.node_token || targetSource.origin_node_token || targetSource.token,
                 )
                 if (!targetMeta.publish) continue
-                const refId = this.__doc_id_for_token(childSource.base_nav_ref_target_token, contentRoot)
-                if (!refId) {
+                const href = await this.__ref_target_href(targetSource, childSource.base_nav_ref_target_anchor)
+                if (!href) {
                     console.warn(`[sidebar] Cannot resolve ref target for "${child.title}" (${childSource.node_token})`)
                     continue
                 }
                 items.push({
-                    type: 'doc',
-                    id: refId,
+                    type: 'link',
+                    href,
                     label: meta.labels || child.title,
                     key: this.__sidebar_key('ref', currentPath, contentRoot, child.slug, child.title),
                 })
@@ -445,6 +464,26 @@ class larkDocWriter {
         return node_path.join(this.sidebarOutputDir || contentRoot, ...segments)
             .replace(/\\/g, '/')
             .replace(new RegExp(`^${contentRoot}/`), '')
+    }
+
+    async __ref_target_href(source, anchor=null) {
+        if (!source?.slug) return null
+        const routeBase = this.targets.toLowerCase() === 'zilliz.paas' ? '/docs/byoc' : '/docs'
+        const routeSlug = String(source.slug).replace(/^\/+/, '')
+        const href = `${routeBase}/${routeSlug}`
+        if (!anchor) return href
+        const headerBlock = source.blocks?.items?.find(block => block.block_id === anchor)
+        const identity = source.node_token || source.origin_node_token || source.token
+        if (!headerBlock) throw new Error(`[sidebar] Ref anchor ${anchor} does not exist in canonical target ${identity}`)
+        const blockType = this.block_types[headerBlock.block_type - 1]
+        if (!blockType || !/^heading\d+$/.test(blockType)) {
+            throw new Error(`[sidebar] Ref anchor ${anchor} is not a heading in canonical target ${identity}`)
+        }
+        let content = await this.__text_elements(headerBlock[blockType].elements)
+        content = this.__clean_headings(this.__filter_content(content, this.targets))
+        const headingSlug = this.__heading_slug(content)
+        if (!headingSlug) throw new Error(`[sidebar] Ref anchor ${anchor} has no stable Docusaurus heading id`)
+        return `${href}#${headingSlug}`
     }
 
     __fetch_doc_source (type, value, slug="") {

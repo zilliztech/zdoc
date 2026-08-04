@@ -6,18 +6,14 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 const {
+  parseSite,
   referenceSidebarTargets,
   validateAllGeneratedSidebars,
-  validatePreservedEnglishFiles,
+  validateGeneratedSidebarsForSite,
   validateReferenceSidebarTargets,
   validateSidebar,
   validateSidebarDocTargets,
 } = require('./validate-generated-sidebars')
-
-function write(file, content) {
-  fs.mkdirSync(path.dirname(file), { recursive: true })
-  fs.writeFileSync(file, content)
-}
 
 test('rejects duplicate document ids and keys recursively', () => {
   const sidebar = [{
@@ -31,8 +27,8 @@ test('rejects duplicate document ids and keys recursively', () => {
   assert.throws(() => validateSidebar(sidebar, 'fixture.sidebar.js'), /duplicate doc id.*duplicate key/is)
 })
 
-test('all tracked generated sidebars have unique document identities and translation keys', () => {
-  assert.doesNotThrow(() => validateAllGeneratedSidebars(path.join(process.cwd(), 'config/generated')))
+test('all tracked English sidebars have unique document identities and translation keys', () => {
+  assert.doesNotThrow(() => validateAllGeneratedSidebars(path.join(process.cwd(), 'generated/en/sidebars')))
 })
 
 test('rejects generated sidebar entries whose document file is missing', () => {
@@ -83,20 +79,21 @@ test('validates document targets for every generated reference sidebar', () => {
   }
 })
 
-test('rejects a missing SDK or CLI landing page', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'preserved-landing-pages-'))
-  const landingPages = [
-    'reference/api/python/python/python.md',
-    'reference/api/java/java/java.md',
-    'reference/api/nodejs/nodejs/nodejs.md',
-    'reference/api/go/go/go.md',
-    'reference/cli/cli/Overview.md',
-  ]
-  for (const relativePath of landingPages) write(path.join(root, relativePath), '# landing\n')
-  fs.rmSync(path.join(root, landingPages[0]))
+test('site-specific validation scans only its own generated sidebar directory', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'site-sidebars-'))
+  for (const site of ['en', 'zh-CN']) fs.mkdirSync(path.join(root, 'generated', site, 'sidebars'), { recursive: true })
+  fs.writeFileSync(path.join(root, 'generated/en/sidebars/guides.sidebar.js'), 'module.exports = []\n')
+  fs.writeFileSync(path.join(root, 'generated/zh-CN/sidebars/guides.sidebar.js'), 'module.exports = [{type:"doc",id:"same",key:"duplicate"},{type:"doc",id:"same",key:"duplicate"}]\n')
 
-  assert.throws(
-    () => validatePreservedEnglishFiles({ cwd: root }),
-    /missing preserved landing pages.*python\.md/is,
-  )
+  assert.equal(validateGeneratedSidebarsForSite({ site: 'en', cwd: root }).count, 1)
+  assert.throws(() => validateGeneratedSidebarsForSite({ site: 'zh-CN', cwd: root }), /duplicate/i)
+  fs.writeFileSync(path.join(root, 'generated/zh-CN/sidebars/guides.sidebar.js'), 'module.exports = []\n')
+  assert.deepEqual(validateGeneratedSidebarsForSite({ site: 'zh-CN', cwd: root }).referenceResults, [])
+})
+
+test('CLI site parser accepts only en and zh-CN', () => {
+  assert.equal(parseSite(['--site', 'en']), 'en')
+  assert.equal(parseSite(['--site', 'zh-CN']), 'zh-CN')
+  assert.throws(() => parseSite([]), /Usage:/)
+  assert.throws(() => parseSite(['--site', 'ja-JP']), /Usage:/)
 })

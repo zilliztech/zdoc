@@ -107,9 +107,10 @@ test('creates one reconciliation-only batch for approved Chinese retirements', (
       deleted_i18n: [],
       renamed: [],
       retirement_candidates: [{
+        manual: 'tools',
         sourcePath: 'content/en/guides/tutorials/tools/old.md',
         targetPath: 'content/zh-CN/guides/tutorials/tools/old.md',
-        reason: 'source_deleted',
+        changeKind: 'source_deleted',
       }],
     },
   }

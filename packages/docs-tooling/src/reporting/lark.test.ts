@@ -161,6 +161,95 @@ function descendants(value) {
   return [value, ...Object.values(value).flatMap(descendants)]
 }
 
+function sourceCardState(): ExactCardState {
+  return {
+    kind: 'source',
+    title: 'Zilliz Cloud Docs Build',
+    overallStatus: 'success',
+    phases: [
+      { key: 'produce', label: 'Produce', done: 8, total: 8, status: 'completed' },
+      { key: 'publish', label: 'Publish', done: 8, total: 8, status: 'completed' },
+      { key: 'verify', label: 'Verify', done: 1, total: 1, status: 'completed' },
+      { key: 'handoff', label: 'Handoff', done: 1, total: 1, status: 'completed' },
+    ],
+    guides: [
+      { id: 'guides-en', locale: 'en', label: 'English Guides', phase: 'publish', status: 'completed', currentTask: 'Workflow completed', detail: '14/14 tables' },
+      { id: 'guides-zh-CN', locale: 'zh-CN', label: 'Chinese Guides', phase: 'publish', status: 'completed', currentTask: 'Workflow completed', detail: '11/11 tables' },
+    ],
+    items: [
+      { id: 'python', label: 'Python SDK', phase: 'publish', status: 'completed', currentTask: 'Workflow completed', detail: null },
+      { id: 'java', label: 'Java SDK', phase: 'publish', status: 'completed', currentTask: 'Workflow completed', detail: null },
+    ],
+    handoff: { status: 'completed', label: 'Translation dispatched', url: 'https://github.com/zilliztech/zdoc/actions/runs/2' },
+    reports: [],
+    links: [{ label: 'Open source workflow', url: 'https://github.com/zilliztech/zdoc/actions/runs/1' }],
+    startedAt: '2026-08-03T02:08:00.000Z',
+    targetBranch: 'dev',
+  } as unknown as ExactCardState
+}
+
+function translationCardState(): ExactCardState {
+  return {
+    kind: 'translation',
+    title: 'Zilliz Cloud Docs Translation',
+    overallStatus: 'running',
+    phases: [
+      { key: 'prepare', label: 'Prepare', done: 1, total: 1, status: 'completed' },
+      { key: 'translate', label: 'Translate', done: 10, total: 13, status: 'running' },
+      { key: 'publish', label: 'Publish', done: 3, total: 13, status: 'running' },
+      { key: 'aggregate', label: 'Aggregate', done: 0, total: 1, status: 'waiting' },
+    ],
+    targets: [
+      { key: 'ja-guides', label: 'Japanese Guides', translate: { done: 3, total: 4, status: 'running', detail: '3/4 batches' }, publish: { done: 0, total: 1, status: 'waiting', detail: null } },
+      { key: 'ja-sdks', label: 'Japanese SDKs', translate: { done: 6, total: 6, status: 'completed', detail: null }, publish: { done: 2, total: 6, status: 'running', detail: null } },
+      { key: 'zh-reference-sdks', label: 'Chinese Reference SDKs', translate: { done: 6, total: 6, status: 'completed', detail: null }, publish: { done: 1, total: 6, status: 'running', detail: null } },
+    ],
+    units: [
+      { id: 'ja-JP/guides', label: 'Japanese Guides', phase: 'translate', status: 'running', currentTask: 'Review translated documents', detail: 'Batch 4 of 4' },
+      { id: 'zh-CN-reference/python', label: 'Chinese Python', phase: 'publish', status: 'running', currentTask: 'Publish checkpoint', detail: null },
+      { id: 'ja-JP/python', label: 'Japanese Python', phase: 'publish', status: 'completed', currentTask: 'Workflow completed', detail: null },
+    ],
+    reports: [],
+    links: [{ label: 'Open parent source workflow', url: 'https://github.com/zilliztech/zdoc/actions/runs/1' }],
+    startedAt: '2026-08-03T02:46:00.000Z',
+    targetBranch: 'dev',
+  } as unknown as ExactCardState
+}
+
+test('renders the approved bilingual Build card and completed SDK panel', () => {
+  const card = buildCardV2(sourceCardState())
+  const serialized = JSON.stringify(card)
+  assert.equal(card.header.title.content, 'Zilliz Cloud Docs Build')
+  assert.deepEqual([card.header.template, card.header.text_tag_list[0].color], ['green', 'green'])
+  assert.match(serialized, /English Guides/)
+  assert.match(serialized, /Chinese Guides/)
+  assert.match(serialized, /Completed SDK publications \(2\)/)
+  assert.match(serialized, /Translation dispatched/)
+  assert.match(serialized, /Open source workflow/)
+})
+
+test('buildExactState preserves validated tagged source collections', () => {
+  const input = sourceCardState() as unknown as Record<string, unknown>
+  const state = buildExactState({input: {...input, manuals: []}})
+  assert.equal(state.kind, 'source')
+  assert.equal(state.guides?.length, 2)
+  assert.equal(state.items?.length, 2)
+  assert.equal(state.handoff?.url, 'https://github.com/zilliztech/zdoc/actions/runs/2')
+  assert.equal(state.links?.[0].label, 'Open source workflow')
+})
+
+test('renders translation targets, active units, and collapsed completed units', () => {
+  const card = buildCardV2(translationCardState())
+  const serialized = JSON.stringify(card)
+  assert.equal(card.header.title.content, 'Zilliz Cloud Docs Translation')
+  assert.match(serialized, /Japanese Guides/)
+  assert.match(serialized, /Japanese SDKs/)
+  assert.match(serialized, /Chinese Reference SDKs/)
+  assert.match(serialized, /Chinese Python/)
+  assert.match(serialized, /Completed translation units \(1\)/)
+  assert.match(serialized, /Open parent source workflow/)
+})
+
 test('renders a narrow Card V2 with two phase rows and active manual blocks', () => {
   const card = buildCardV2(portedCardState(), {
     now: new Date('2026-07-16T10:10:00.000Z'),

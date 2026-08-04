@@ -126,9 +126,28 @@ function mergeRecordEntries(baseline, artifact, target, prefix) {
   return result;
 }
 
+function mergeBootstrapCompletedGroups(manifests) {
+  const groups = [];
+  for (const manifest of manifests) {
+    if (!Object.hasOwn(manifest, 'bootstrapCompletedGroups')) continue;
+    const value = manifest.bootstrapCompletedGroups;
+    if (!Array.isArray(value)) throw new Error('Translation manifest bootstrapCompletedGroups must be an array');
+    for (let groupIndex = 0; groupIndex < value.length; groupIndex++) {
+      const group = value[groupIndex];
+      if (typeof group !== 'string' || !/^[a-z][a-z0-9-]*$/u.test(group)) throw new Error('Translation manifest bootstrapCompletedGroups must contain valid group names');
+      if (groupIndex > 0 && value[groupIndex - 1] >= group) throw new Error('Translation manifest bootstrapCompletedGroups must be unique and canonically sorted');
+      groups.push(group);
+    }
+  }
+  return [...new Set(groups)].sort((left, right) => left < right ? -1 : left > right ? 1 : 0);
+}
+
 function mergeRecordCollection(baseline, artifact, target, field) {
-  const metadata = [baseline, artifact, target].map((manifest) => Object.fromEntries(Object.entries(manifest).filter(([key]) => key !== field)));
+  const manifests = [baseline, artifact, target];
+  const mergesBootstrapGroups = manifests.some((manifest) => Object.hasOwn(manifest, 'bootstrapCompletedGroups'));
+  const metadata = manifests.map((manifest) => Object.fromEntries(Object.entries(manifest).filter(([key]) => key !== field && (!mergesBootstrapGroups || key !== 'bootstrapCompletedGroups'))));
   const result = mergeRecord(metadata[0], metadata[1], metadata[2]);
+  if (mergesBootstrapGroups) result.bootstrapCompletedGroups = mergeBootstrapCompletedGroups(manifests);
   result[field] = Object.values(mergeRecordEntries(
     recordsBySource(baseline, field, 'Baseline'),
     recordsBySource(artifact, field, 'Artifact'),
@@ -200,9 +219,8 @@ async function applyCheckpointArtifact(options = {}) {
 
   const mergedStates = new Map();
   const statePath = manifest.stage === 'translation' ? resolveTranslationTarget(manifest.translationTarget).state.path : null;
-  const statePaths = statePath
-    ? [statePath, ...(manifest.translationTarget === 'zh-CN-reference' ? ['config/reference-retirements.json'] : [])]
-      .filter((candidate) => manifest.files.some((entry) => entry.path === candidate))
+  const statePaths = statePath && manifest.files.some(entry => entry.path === statePath)
+    ? [statePath]
     : [];
   if (statePaths.length) {
     if (typeof options.baselineDir !== 'string' || !options.baselineDir) throw new Error('baselineDir is required for translation cache merge');
@@ -217,9 +235,7 @@ async function applyCheckpointArtifact(options = {}) {
       const parsed = [parseObject(b, 'Baseline translation state'), parseObject(a, 'Artifact translation state'), parseObject(t, 'Target translation state')];
       const merged = manifest.translationTarget === 'ja-JP'
         ? mergeCache(...parsed)
-        : mergePath === 'config/reference-retirements.json'
-          ? mergeRecordCollection(...parsed, 'retirements')
-          : mergeManifest(...parsed);
+        : mergeManifest(...parsed);
       mergedStates.set(mergePath, merged);
     }
   }

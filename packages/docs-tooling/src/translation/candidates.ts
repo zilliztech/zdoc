@@ -3,9 +3,20 @@ import {constants, closeSync, existsSync, fstatSync, lstatSync, openSync, readdi
 import {createRequire} from 'node:module';
 import path from 'node:path';
 
-import {assertSafeRepositoryPathChain} from '../reference/translationManifest.ts';
+import {
+  assertSafeRepositoryPathChain,
+  parseReferenceRetirementRegistry,
+  parseReferenceTranslationManifest,
+  type ReferenceRetirementRegistry,
+  type TranslationRecord,
+} from '../reference/translationManifest.ts';
 import {assertSafeRepositoryRelativePath} from '../validation/ownership.ts';
-import {type TranslationCandidateReason, type TranslationTarget, type TranslationTargetId} from './schema.ts';
+import {
+  type TranslationCandidateReason,
+  type TranslationRetirementChangeKind,
+  type TranslationTarget,
+  type TranslationTargetId,
+} from './schema.ts';
 import {resolveTranslationTarget} from './targets.ts';
 
 export type TranslationCandidate = Readonly<{
@@ -17,9 +28,22 @@ export type TranslationCandidate = Readonly<{
 }>;
 
 export type RetirementCandidate = Readonly<{
+  manual: string;
   sourcePath: string;
   targetPath: string;
-  reason: 'source_deleted' | 'source_renamed' | 'sidebar_removed';
+  changeKind: TranslationRetirementChangeKind;
+}>;
+
+export type CandidateBuildOptions = Readonly<{
+  repositoryRoot: string;
+  targetId: TranslationTargetId;
+  group: string;
+  ownedSourcePaths: readonly string[];
+  preservedSourcePaths: readonly string[];
+  forceTranslationPaths?: readonly string[];
+  changedSourcePaths?: readonly string[];
+  mode: 'full' | 'incremental';
+  retirementRegistry?: ReferenceRetirementRegistry;
 }>;
 
 export class TranslationRetirementRequiredError extends Error {
@@ -28,11 +52,15 @@ export class TranslationRetirementRequiredError extends Error {
   constructor(candidates: readonly RetirementCandidate[]) {
     super(`Translation retirement decision required for ${candidates.length} source mapping(s)`);
     this.name = 'TranslationRetirementRequiredError';
-    this.retirementCandidates = candidates;
+    this.retirementCandidates = deepFreeze(candidates.map(candidate => ({...candidate})).sort(compareRetirements));
   }
 }
 
 type PreviousRecord = Readonly<{sourcePath: string; targetPath?: string; sourceHash?: string; status?: string}>;
+type CachePreviousRecord = PreviousRecord;
+type PreviousRecordState =
+  | Readonly<{kind: 'cache'; records: readonly CachePreviousRecord[]}>
+  | Readonly<{kind: 'reference-manifest'; records: readonly TranslationRecord[]}>;
 
 function canonicalJapaneseSourcePath(sourcePath: string): string {
   if (sourcePath.startsWith('docs/tutorials/')) return `content/en/guides/tutorials/${sourcePath.slice('docs/tutorials/'.length)}`;
@@ -65,7 +93,15 @@ function readJson(repositoryRoot: string, relativePath: string): unknown {
   return JSON.parse(readRegularFile(repositoryRoot, relativePath, 'Translation state').toString('utf8'));
 }
 
-function sourceFiles(repositoryRoot: string, relativeRoot: string): Map<string, string> {
+function isOwnedPath(filePath: string, ownedPaths: readonly string[]): boolean {
+  return ownedPaths.some(owned => filePath === owned || filePath.startsWith(`${owned}/`));
+}
+
+function intersectsOwnership(filePath: string, ownedPaths: readonly string[]): boolean {
+  return isOwnedPath(filePath, ownedPaths) || ownedPaths.some(owned => owned.startsWith(`${filePath}/`));
+}
+
+function sourceFiles(repositoryRoot: string, relativeRoot: string, ownedPaths: readonly string[]): Map<string, string> {
   const absoluteRoot = path.join(repositoryRoot, relativeRoot);
   if (!existsSync(absoluteRoot)) return new Map();
   assertSafeRepositoryPathChain(repositoryRoot, relativeRoot, 'Translation source root');
@@ -74,8 +110,10 @@ function sourceFiles(repositoryRoot: string, relativeRoot: string): Map<string, 
   const files = new Map<string, string>();
   const visit = (directory: string): void => {
     for (const entry of readdirSync(directory, {withFileTypes: true}).sort((left, right) => compareText(left.name, right.name))) {
-      if (entry.name !== entry.name.normalize('NFC')) throw new Error(`Translation source names must use NFC: ${entry.name}`);
       const absolutePath = path.join(directory, entry.name);
+      const relativePath = path.relative(repositoryRoot, absolutePath).split(path.sep).join('/');
+      if (!intersectsOwnership(relativePath, ownedPaths)) continue;
+      if (entry.name !== entry.name.normalize('NFC')) throw new Error(`Translation source names must use NFC: ${entry.name}`);
       if (entry.isSymbolicLink()) throw new Error(`Translation source tree must not contain symlinks: ${absolutePath}`);
       if (entry.isDirectory()) {
         visit(absolutePath);
@@ -83,7 +121,6 @@ function sourceFiles(repositoryRoot: string, relativeRoot: string): Map<string, 
       }
       if (!entry.isFile()) throw new Error(`Translation source tree contains a non-regular file: ${absolutePath}`);
       if (!/\.mdx?$/u.test(entry.name)) continue;
-      const relativePath = path.relative(repositoryRoot, absolutePath).split(path.sep).join('/');
       files.set(relativePath, hash(readRegularFile(repositoryRoot, relativePath, 'Translation source file')));
     }
   };
@@ -91,37 +128,43 @@ function sourceFiles(repositoryRoot: string, relativeRoot: string): Map<string, 
   return files;
 }
 
-function previousRecords(target: TranslationTarget, value: unknown): PreviousRecord[] {
-  if (!value || typeof value !== 'object') return [];
-  let records: PreviousRecord[];
-  if (target.state.kind === 'cache') {
-    const files = (value as {files?: Record<string, {sourceHash?: string; targetPath?: string}>}).files ?? {};
-    const canonical = new Map<string, PreviousRecord>();
-    for (const [sourcePath, record] of Object.entries(files)) {
-      const canonicalPath = canonicalJapaneseSourcePath(sourcePath);
-      if (!canonical.has(canonicalPath) || canonicalPath === sourcePath) canonical.set(canonicalPath, {sourcePath: canonicalPath, ...record});
-    }
-    records = [...canonical.values()];
-  } else {
-    records = Array.isArray((value as {records?: unknown[]}).records)
-      ? (value as {records: PreviousRecord[]}).records
-      : [];
-  }
-  for (const record of records) {
-    if (record.sourcePath.includes('#')) {
-      if (target.id !== 'zh-CN-tools' || record.sourcePath !== target.sidebarSource) {
-        throw new Error(`Translation state sourcePath is unsafe: ${record.sourcePath}`);
-      }
-    } else {
-      assertSafeRepositoryRelativePath(record.sourcePath, 'Translation state sourcePath');
-      if (record.sourcePath !== record.sourcePath.normalize('NFC')) throw new Error(`Translation state sourcePath must use NFC: ${record.sourcePath}`);
-    }
+function validatePreviousRecordPaths<T extends Readonly<{sourcePath: string; targetPath?: string}>>(
+  records: readonly T[],
+  ownedPaths: readonly string[],
+): T[] {
+  const ownedRecords = records.filter(record => isOwnedPath(record.sourcePath, ownedPaths));
+  for (const record of ownedRecords) {
+    assertSafeRepositoryRelativePath(record.sourcePath, 'Translation state sourcePath');
+    if (record.sourcePath !== record.sourcePath.normalize('NFC')) throw new Error(`Translation state sourcePath must use NFC: ${record.sourcePath}`);
     if (record.targetPath) {
       assertSafeRepositoryRelativePath(record.targetPath, 'Translation state targetPath');
       if (record.targetPath !== record.targetPath.normalize('NFC')) throw new Error(`Translation state targetPath must use NFC: ${record.targetPath}`);
     }
   }
-  return records;
+  return ownedRecords;
+}
+
+function previousRecords(target: TranslationTarget, value: unknown, ownedPaths: readonly string[]): PreviousRecordState {
+  if (target.state.kind === 'cache') {
+    if (!value || typeof value !== 'object') return {kind: 'cache', records: []};
+    const files = (value as {files?: Record<string, {sourceHash?: string; targetPath?: string}>}).files ?? {};
+    const canonical = new Map<string, CachePreviousRecord>();
+    for (const [sourcePath, record] of Object.entries(files)) {
+      const canonicalPath = canonicalJapaneseSourcePath(sourcePath);
+      if (!canonical.has(canonicalPath) || canonicalPath === sourcePath) canonical.set(canonicalPath, {sourcePath: canonicalPath, ...record});
+    }
+    return {kind: 'cache', records: validatePreviousRecordPaths([...canonical.values()], ownedPaths)};
+  }
+  if (!value || typeof value !== 'object') return {kind: 'reference-manifest', records: []};
+  const rawRecords = Array.isArray((value as {records?: unknown[]}).records) ? (value as {records: unknown[]}).records : [];
+  const selectedRecords = rawRecords.filter(record => (
+    record !== null
+    && typeof record === 'object'
+    && typeof (record as {sourcePath?: unknown}).sourcePath === 'string'
+    && isOwnedPath((record as {sourcePath: string}).sourcePath, ownedPaths)
+  ));
+  const records = parseReferenceTranslationManifest({...value, records: selectedRecords}).records;
+  return {kind: 'reference-manifest', records: validatePreviousRecordPaths(records, ownedPaths)};
 }
 
 function mappings(target: TranslationTarget): ReadonlyArray<{sourceRoot: string; targetRoot: string}> {
@@ -175,20 +218,73 @@ function targetIsRegular(repositoryRoot: string, relativePath: string): boolean 
 
 function retirementRegistryPath(targetId: TranslationTargetId): string | undefined {
   if (targetId === 'zh-CN-reference') return 'config/reference-retirements.json';
-  if (targetId === 'zh-CN-tools') return 'config/tools-retirements.json';
   return undefined;
 }
 
-function registeredRetirements(repositoryRoot: string, targetId: TranslationTargetId): Set<string> {
+function retirementRegistry(repositoryRoot: string, targetId: TranslationTargetId, provided?: ReferenceRetirementRegistry): ReferenceRetirementRegistry | undefined {
+  if (provided) return parseReferenceRetirementRegistry(provided);
   const registryPath = retirementRegistryPath(targetId);
-  const registry = registryPath ? readJson(repositoryRoot, registryPath) as {retirements?: RetirementCandidate[]} | undefined : undefined;
-  return new Set((registry?.retirements ?? []).map(record => `${record.sourcePath}\0${record.targetPath}\0${record.reason}`));
+  const value = registryPath ? readJson(repositoryRoot, registryPath) : undefined;
+  return value === undefined ? undefined : parseReferenceRetirementRegistry(value);
 }
 
-function registeredRetirementTargets(repositoryRoot: string, targetId: TranslationTargetId): Set<string> {
-  const registryPath = retirementRegistryPath(targetId);
-  const registry = registryPath ? readJson(repositoryRoot, registryPath) as {retirements?: RetirementCandidate[]} | undefined : undefined;
-  return new Set((registry?.retirements ?? []).map(record => record.targetPath));
+function registeredRetirements(repositoryRoot: string, targetId: TranslationTargetId, provided?: ReferenceRetirementRegistry): Set<string> {
+  const registry = retirementRegistry(repositoryRoot, targetId, provided);
+  const keys = new Set<string>();
+  for (const record of registry?.retirements ?? []) {
+    if (record.changeKind !== null) keys.add(`${record.manual}\0${record.sourcePath}\0${record.targetPath}\0${record.changeKind}`);
+  }
+  return keys;
+}
+
+function normalizePaths(values: readonly string[], label: string): string[] {
+  const result: string[] = [];
+  const seen = new Set<string>();
+  for (const value of values) {
+    assertSafeRepositoryRelativePath(value, label);
+    if (value !== value.normalize('NFC')) throw new Error(`${label} must use NFC: ${value}`);
+    if (seen.has(value)) throw new Error(`${label} must be unique: ${value}`);
+    seen.add(value);
+    result.push(value);
+  }
+  return result;
+}
+
+function mappingForSource(target: TranslationTarget, sourcePath: string): {sourceRoot: string; targetRoot: string} | undefined {
+  return mappings(target).find(mapping => sourcePath.startsWith(`${mapping.sourceRoot}/`));
+}
+
+function manualForReferenceSource(sourcePath: string): string | undefined {
+  const relativePath = sourcePath.slice('content/en/reference/'.length);
+  const ownership = [
+    ['api/python', 'python'],
+    ['api/java', 'java'],
+    ['api/nodejs', 'node'],
+    ['api/go', 'go'],
+    ['api/restful', 'rest'],
+    ['cli', 'cli'],
+  ] as const;
+  return ownership.find(([prefix]) => relativePath === prefix || relativePath.startsWith(`${prefix}/`))?.[1];
+}
+
+function compareCandidates(left: TranslationCandidate, right: TranslationCandidate): number {
+  const reasonOrder: Record<TranslationCandidateReason, number> = {current_delta: 0, missing_target: 1, stale_source: 2};
+  return reasonOrder[left.reason] - reasonOrder[right.reason] || compareText(left.sourcePath, right.sourcePath);
+}
+
+function compareRetirements(left: RetirementCandidate, right: RetirementCandidate): number {
+  return compareText(left.manual, right.manual)
+    || compareText(left.sourcePath, right.sourcePath)
+    || compareText(left.targetPath, right.targetPath)
+    || compareText(left.changeKind, right.changeKind);
+}
+
+function deepFreeze<T>(value: T): T {
+  if (value && typeof value === 'object') {
+    for (const child of Object.values(value)) deepFreeze(child);
+    Object.freeze(value);
+  }
+  return value;
 }
 
 function withoutLabels(value: unknown): unknown {
@@ -203,28 +299,51 @@ export function validateTranslatedSidebarFragment(source: unknown, translated: u
   }
 }
 
-export function buildTranslationCandidates(options: Readonly<{
-  repositoryRoot: string;
-  targetId: TranslationTargetId;
-  changedSourcePaths?: readonly string[];
-  renamedSourcePaths?: Readonly<Record<string, string>>;
-}>): Readonly<{candidates: readonly TranslationCandidate[]; retirementCandidates: readonly RetirementCandidate[]}> {
+export function buildTranslationCandidates(options: CandidateBuildOptions): Readonly<{candidates: readonly TranslationCandidate[]; retirementCandidates: readonly RetirementCandidate[]}> {
+  if (options.mode !== 'full' && options.mode !== 'incremental') throw new Error(`Unsupported translation candidate mode: ${options.mode}`);
   const target = resolveTranslationTarget(options.targetId);
-  const changed = new Set(options.changedSourcePaths ?? []);
-  const previous = previousRecords(target, readJson(options.repositoryRoot, target.state.path));
+  const owned = normalizePaths(options.ownedSourcePaths, 'Owned translation source path');
+  if (owned.length === 0) throw new Error('Owned translation source paths must not be empty');
+  const preserved = new Set(normalizePaths(options.preservedSourcePaths, 'Preserved translation source path'));
+  const forced = new Set(normalizePaths(options.forceTranslationPaths ?? [], 'Forced translation source path'));
+  const changed = new Set(normalizePaths(options.changedSourcePaths ?? [], 'Changed translation source path'));
+  for (const [label, paths] of [['Preserved', preserved], ['Forced', forced], ['Changed', changed]] as const) {
+    for (const sourcePath of paths) if (!isOwnedPath(sourcePath, owned)) throw new Error(`${label} translation source path is outside group ownership: ${sourcePath}`);
+  }
+  const targetMappings = mappings(target);
+  for (const sourcePath of owned) {
+    if (!targetMappings.some(mapping => intersectsOwnership(mapping.sourceRoot, [sourcePath]))) {
+      throw new Error(`Owned translation source path is outside target mappings: ${sourcePath}`);
+    }
+  }
+  const previousState = previousRecords(target, readJson(options.repositoryRoot, target.state.path), owned);
+  const previous: readonly PreviousRecord[] = previousState.records;
+  if (previousState.kind === 'reference-manifest') {
+    for (const record of previousState.records) {
+      const mapping = mappingForSource(target, record.sourcePath);
+      if (!mapping) throw new Error(`Historical translation source is outside target mappings: ${record.sourcePath}`);
+      const expectedManual = manualForReferenceSource(record.sourcePath);
+      if (!expectedManual || record.manual !== expectedManual || (options.group !== 'reference-landings' && record.manual !== options.group)) {
+        throw new Error(`Historical translation manual does not match selected group ownership: ${record.sourcePath}`);
+      }
+      const expectedTarget = mappedTarget(record.sourcePath, mapping);
+      if (record.targetPath !== expectedTarget) {
+        throw new Error(`Historical translation target does not match the canonical source mapping: ${record.sourcePath}`);
+      }
+    }
+  }
   const previousBySource = new Map(previous.map(record => [record.sourcePath, record]));
   const activeSources = new Set<string>();
   const candidates: TranslationCandidate[] = [];
-  const retiredTargets = registeredRetirementTargets(options.repositoryRoot, target.id);
 
-  for (const mapping of mappings(target)) {
-    for (const [sourcePath, sourceHash] of sourceFiles(options.repositoryRoot, mapping.sourceRoot)) {
+  for (const mapping of targetMappings) {
+    if (!intersectsOwnership(mapping.sourceRoot, owned)) continue;
+    for (const [sourcePath, sourceHash] of sourceFiles(options.repositoryRoot, mapping.sourceRoot, owned)) {
       activeSources.add(sourcePath);
       const targetPath = mappedTarget(sourcePath, mapping);
-      if (retiredTargets.has(targetPath)) continue;
       const targetExists = targetIsRegular(options.repositoryRoot, targetPath);
       const prior = previousBySource.get(sourcePath);
-      if (targetExists && prior?.sourceHash === sourceHash) continue;
+      if (options.mode !== 'full' && !changed.has(sourcePath) && !forced.has(sourcePath) && prior?.status !== 'retired' && targetExists && prior?.sourceHash === sourceHash) continue;
       const reason: TranslationCandidateReason = changed.has(sourcePath)
         ? 'current_delta'
         : !targetExists ? 'missing_target' : 'stale_source';
@@ -232,55 +351,25 @@ export function buildTranslationCandidates(options: Readonly<{
     }
   }
 
-  if (target.id === 'zh-CN-tools') {
-    const fragment = readSidebarFragment(options.repositoryRoot, target.sidebarSource);
-    if (fragment !== undefined) {
-      activeSources.add(target.sidebarSource);
-      const sourceHash = hash(JSON.stringify(fragment));
-      const targetExists = targetIsRegular(options.repositoryRoot, target.sidebarTarget);
-      const prior = previousBySource.get(target.sidebarSource);
-      if (!targetExists || prior?.sourceHash !== sourceHash) {
-        const reason: TranslationCandidateReason = changed.has(target.sidebarSource)
-          ? 'current_delta'
-          : !targetExists ? 'missing_target' : 'stale_source';
-        candidates.push({
-          sourcePath: target.sidebarSource,
-          targetPath: target.sidebarTarget,
-          sourceHash,
-          locale: target.locale,
-          reason,
-        });
-      }
-    }
-  }
-
   const retirementCandidates: RetirementCandidate[] = [];
-  if (target.id !== 'ja-JP') {
-    for (const record of previous) {
-      if (record.status === 'retired' || activeSources.has(record.sourcePath)) continue;
-      if (record.sourcePath.includes('#')) {
-        retirementCandidates.push({
-          sourcePath: record.sourcePath,
-          targetPath: record.targetPath ?? (target.id === 'zh-CN-tools' ? target.sidebarTarget : ''),
-          reason: 'sidebar_removed',
-        });
-        continue;
-      }
-      const renamed = options.renamedSourcePaths?.[record.sourcePath];
+  if (previousState.kind === 'reference-manifest') {
+    for (const record of previousState.records) {
+      if (!isOwnedPath(record.sourcePath, owned) || preserved.has(record.sourcePath) || record.status === 'retired' || activeSources.has(record.sourcePath)) continue;
+      const mapping = mappingForSource(target, record.sourcePath);
+      if (!mapping) throw new Error(`Historical translation source is outside target mappings: ${record.sourcePath}`);
       retirementCandidates.push({
+        manual: record.manual,
         sourcePath: record.sourcePath,
-        targetPath: record.targetPath ?? mappedTarget(record.sourcePath, mappings(target)[0]),
-        reason: renamed ? 'source_renamed' : 'source_deleted',
+        targetPath: record.targetPath,
+        changeKind: 'source_deleted',
       });
     }
   }
 
-  const reasonOrder: Record<TranslationCandidateReason, number> = {current_delta: 0, missing_target: 1, stale_source: 2};
-  candidates.sort((left, right) => reasonOrder[left.reason] - reasonOrder[right.reason] || compareText(left.sourcePath, right.sourcePath));
-  retirementCandidates.sort((left, right) => compareText(left.sourcePath, right.sourcePath) || compareText(left.targetPath, right.targetPath));
-
-  const registered = registeredRetirements(options.repositoryRoot, target.id);
-  const unresolved = retirementCandidates.filter(record => !registered.has(`${record.sourcePath}\0${record.targetPath}\0${record.reason}`));
+  candidates.sort(compareCandidates);
+  retirementCandidates.sort(compareRetirements);
+  const registered = registeredRetirements(options.repositoryRoot, target.id, options.retirementRegistry);
+  const unresolved = retirementCandidates.filter(record => !registered.has(`${record.manual}\0${record.sourcePath}\0${record.targetPath}\0${record.changeKind}`));
   if (unresolved.length > 0) throw new TranslationRetirementRequiredError(unresolved);
-  return {candidates, retirementCandidates: []};
+  return deepFreeze({candidates, retirementCandidates});
 }

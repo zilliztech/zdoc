@@ -16,8 +16,8 @@ const CANDIDATE_KEYS = ['sourcePath', 'targetPath', 'sourceHash']
 const SOURCE_DELTA_KEYS = ['deletedI18n', 'renamed', 'retirementCandidates']
 const MANIFEST_SOURCE_DELTA_KEYS = ['deleted_i18n', 'renamed', 'retirement_candidates']
 const RENAME_KEYS = ['oldPath', 'newPath', 'oldI18nPath', 'newI18nPath']
-const RETIREMENT_KEYS = ['sourcePath', 'targetPath', 'reason']
-const RETIREMENT_REASONS = new Set(['source_deleted', 'source_renamed', 'sidebar_removed'])
+const RETIREMENT_KEYS = ['manual', 'sourcePath', 'targetPath', 'changeKind']
+const RETIREMENT_CHANGE_KINDS = new Set(['source_deleted', 'source_renamed', 'sidebar_removed'])
 const CACHE_ENTRY_KEYS = ['sourceHash', 'targetPath', 'translatedAt']
 
 const GUIDES_MAPPINGS = Object.freeze([
@@ -143,9 +143,10 @@ function assertRename(rename, label = 'rename') {
 
 function assertRetirementCandidate(candidate, label = 'retirement candidate') {
   assertExactKeys(candidate, RETIREMENT_KEYS, label)
+  if (typeof candidate.manual !== 'string' || !/^[a-z][a-z0-9-]*$/.test(candidate.manual)) throw new Error(`${label} manual is invalid`)
   assertSafeRelativePath(candidate.sourcePath, `${label} source path`)
   assertSafeRelativePath(candidate.targetPath, `${label} target path`)
-  if (!RETIREMENT_REASONS.has(candidate.reason)) throw new Error(`${label} reason is not authorized`)
+  if (!RETIREMENT_CHANGE_KINDS.has(candidate.changeKind)) throw new Error(`${label} changeKind is not authorized`)
 }
 
 function assertNoDuplicates(values, label) {
@@ -175,7 +176,7 @@ function validateCrossRelationships(input) {
   assertNoDuplicates(candidates.map(item => item.sourcePath), 'candidate source path')
   assertNoDuplicates(candidates.map(item => item.targetPath), 'candidate target path')
   assertNoDuplicates(deletions, 'deleted i18n path')
-  assertNoDuplicates(retirements.map(item => `${item.sourcePath}\0${item.targetPath}\0${item.reason}`), 'retirement candidate')
+  assertNoDuplicates(retirements.map(item => `${item.manual}\0${item.sourcePath}\0${item.targetPath}\0${item.changeKind}`), 'retirement candidate')
   for (const field of RENAME_KEYS) assertNoDuplicates(renames.map(item => item[field]), `rename ${field}`)
   assertNoDuplicates(renames.flatMap(item => [item.oldPath, item.newPath]), 'rename English path overlap')
   assertNoDuplicates(renames.flatMap(item => [item.oldI18nPath, item.newI18nPath]), 'rename Japanese path overlap')
@@ -183,7 +184,7 @@ function validateCrossRelationships(input) {
   assertCanonicalOrder(candidates, (a, b) => compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath), 'candidates')
   assertCanonicalOrder(deletions, compareText, 'deleted i18n paths')
   assertCanonicalOrder(renames, (a, b) => compareText(a.oldPath, b.oldPath) || compareText(a.newPath, b.newPath), 'renames')
-  assertCanonicalOrder(retirements, (a, b) => compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath) || compareText(a.reason, b.reason), 'retirement candidates')
+  assertCanonicalOrder(retirements, (a, b) => compareText(a.manual, b.manual) || compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath) || compareText(a.changeKind, b.changeKind), 'retirement candidates')
 
   const candidateSources = new Set(candidates.map(item => item.sourcePath))
   const candidateTargets = new Set(candidates.map(item => item.targetPath))
@@ -266,7 +267,7 @@ function createBatchInput(manifest) {
       renamed: manifest.source_delta.renamed.map(entry => ({ ...entry }))
         .sort((a, b) => compareText(a.oldPath, b.oldPath) || compareText(a.newPath, b.newPath)),
       retirementCandidates: manifest.source_delta.retirement_candidates.map(entry => ({ ...entry }))
-        .sort((a, b) => compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath) || compareText(a.reason, b.reason)),
+        .sort((a, b) => compareText(a.manual, b.manual) || compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath) || compareText(a.changeKind, b.changeKind)),
     },
   }
   return validateBatchInput(result)

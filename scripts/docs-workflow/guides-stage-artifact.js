@@ -10,48 +10,60 @@ const { validateEntries, validateMediaPrefetchMetrics } = require('./guides-medi
 const { validateAssemblyDecision } = require('./guides-assembly-identity')
 
 const SHA = /^[0-9a-f]{40}$/
-const MEDIA_MANIFEST = 'packages/docs-tooling/src/lark/meta/media-cache/guides.json'
 const MEDIA_PREFETCH_REPORT = 'packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json'
 const ASSEMBLY_DECISION = 'packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json'
-const STAGE_PATHS = Object.freeze({
+function siteIdentity(site = process.env.ZDOC_SITE || 'en') {
+  if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported Guides site: ${site}`)
+  const identity = site === 'en' ? 'guides' : 'guides-zh-CN'
+  return Object.freeze({
+    site,
+    sourceDir: `packages/docs-tooling/src/lark/meta/sources/${identity}`,
+    mediaManifest: `packages/docs-tooling/src/lark/meta/media-cache/${identity}.json`,
+  })
+}
+function stagePaths(site = process.env.ZDOC_SITE || 'en') {
+  const identity = siteIdentity(site)
+  return {
   source: [
-    'packages/docs-tooling/src/lark/meta/sources/guides',
-    MEDIA_MANIFEST,
+    identity.sourceDir,
+    identity.mediaManifest,
     'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json',
     'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.md',
     'packages/docs-tooling/src/lark/meta/reports/guides-broken-content-links.json',
+    `packages/docs-tooling/src/lark/meta/reports/guides-${site}-canonical-link-audit.json`,
+    `packages/docs-tooling/src/lark/meta/reports/guides-${site}-canonical-link-audit.md`,
+    `packages/docs-tooling/src/lark/meta/reports/guides-${site}-canonical-link-audit.csv`,
     'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
     MEDIA_PREFETCH_REPORT,
     ASSEMBLY_DECISION,
   ],
   saas: [
-    'tmp/docs-tooling/en/guides/content/en/guides',
-    'tmp/docs-tooling/en/guides/generated/en/sidebars/guides.sidebar.js',
-    'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json',
-    'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.md',
-    'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.csv',
+    `tmp/docs-tooling/${site}/guides/content/${site}/guides`,
+    `tmp/docs-tooling/${site}/guides/generated/${site}/sidebars/guides.sidebar.js`,
   ],
   byoc: [
-    'tmp/docs-tooling/en/guides-byoc/content/en/byoc',
-    'tmp/docs-tooling/en/guides-byoc/generated/en/sidebars/guides-byoc.sidebar.js',
+    `tmp/docs-tooling/${site}/guides-byoc/content/${site}/byoc`,
+    `tmp/docs-tooling/${site}/guides-byoc/generated/${site}/sidebars/guides-byoc.sidebar.js`,
   ],
-})
-const REQUIRED_STAGE_FILES = Object.freeze({
+}}
+function requiredStageFiles(site = process.env.ZDOC_SITE || 'en') {
+  const identity = siteIdentity(site)
+  return {
   source: [
     'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json',
-    MEDIA_MANIFEST,
+    identity.mediaManifest,
     MEDIA_PREFETCH_REPORT,
     ASSEMBLY_DECISION,
   ],
   saas: [],
   byoc: [],
-})
+}}
 
-function allowed(stage, relative) {
+function allowed(stage, relative, site = process.env.ZDOC_SITE || 'en') {
   if (!isStrictManifestPath(relative)) return false
   if (relative === ASSEMBLY_DECISION) return stage === 'source'
   if (relative.startsWith(`${ASSEMBLY_DECISION}/`)) return false
-  return STAGE_PATHS[stage].some(prefix => relative === prefix || relative.startsWith(`${prefix}/`))
+  return stagePaths(site)[stage].some(prefix => relative === prefix || relative.startsWith(`${prefix}/`))
 }
 
 function isStrictManifestPath(value) {
@@ -354,7 +366,7 @@ async function writePinnedFile(pinned, relative, bytes) {
   await verifyDirectoryChain(pinned.ancestors, 'restore destination')
 }
 
-async function assertSourceStageCompleteness({ workspace, snapshotCandidatePath, rootToken }) {
+async function assertSourceStageCompleteness({ site = process.env.ZDOC_SITE || 'en', workspace, snapshotCandidatePath, rootToken }) {
   if (!rootToken) throw new Error('Guides source artifact requires rootToken')
   const relativeSnapshot = snapshotCandidatePath || 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json'
   const snapshotPath = path.join(workspace, relativeSnapshot)
@@ -369,28 +381,29 @@ async function assertSourceStageCompleteness({ workspace, snapshotCandidatePath,
     manual: 'guides',
     buildEnv: 'uat',
     rootToken,
-    sourceDir: path.join(workspace, 'packages/docs-tooling/src/lark/meta/sources/guides'),
+    sourceDir: path.join(workspace, siteIdentity(site).sourceDir),
     snapshot,
   })
 }
 
-async function createGuidesStageArtifact({ stage, workspace, baselineDir, output, masterSha, devBaselineSha, sourceArtifactSha256 = null, snapshotCandidatePath = null, rootToken = null }) {
-  if (!Object.hasOwn(STAGE_PATHS, stage)) throw new Error(`Unknown guides stage: ${stage}`)
+async function createGuidesStageArtifact({ site = process.env.ZDOC_SITE || 'en', stage, workspace, baselineDir, output, masterSha, devBaselineSha, sourceArtifactSha256 = null, snapshotCandidatePath = null, rootToken = null }) {
+  const paths = stagePaths(site)
+  if (!Object.hasOwn(paths, stage)) throw new Error(`Unknown guides stage: ${stage}`)
   if (!SHA.test(masterSha) || !SHA.test(devBaselineSha)) throw new Error('Invalid SHA')
   await validateOutputDisjointness({ workspace, baselineDir, output })
-  if (stage === 'source') await assertSourceStageCompleteness({ workspace, snapshotCandidatePath, rootToken })
-  const [current, baseline] = await Promise.all([collect(workspace, STAGE_PATHS[stage]), collect(baselineDir, STAGE_PATHS[stage])])
+  if (stage === 'source') await assertSourceStageCompleteness({ site, workspace, snapshotCandidatePath, rootToken })
+  const [current, baseline] = await Promise.all([collect(workspace, paths[stage]), collect(baselineDir, paths[stage])])
   for (const relative of current.keys()) {
     requireManifestPath(relative, 'collected file')
-    if (!allowed(stage, relative)) throw new Error(`Unauthorized collected file path: ${relative}`)
+    if (!allowed(stage, relative, site)) throw new Error(`Unauthorized collected file path: ${relative}`)
   }
   const deletions = [...baseline.keys()].filter(relative => !current.has(relative)).sort()
   for (const relative of deletions) {
     requireManifestPath(relative, 'collected deletion')
-    if (!allowed(stage, relative) || current.has(relative)) throw new Error(`Unauthorized or overlapping collected deletion path: ${relative}`)
+    if (!allowed(stage, relative, site) || current.has(relative)) throw new Error(`Unauthorized or overlapping collected deletion path: ${relative}`)
   }
   if (current.size === 0) throw new Error(`Guides ${stage} artifact has no files`)
-  for (const required of REQUIRED_STAGE_FILES[stage]) {
+  for (const required of requiredStageFiles(site)[stage]) {
     if (!current.has(required)) {
       throw new Error(`Guides ${stage} artifact is missing required ${requiredLabel(required)}: ${required}`)
     }
@@ -398,20 +411,20 @@ async function createGuidesStageArtifact({ stage, workspace, baselineDir, output
   if (stage === 'source') {
     parseAssemblyDecision(current.get(ASSEMBLY_DECISION), { masterSha, devBaselineSha })
     const mediaReport = parseMediaPrefetchReport(current.get(MEDIA_PREFETCH_REPORT))
-    const mediaManifest = parseMediaManifest(current.get(MEDIA_MANIFEST))
+    const mediaManifest = parseMediaManifest(current.get(siteIdentity(site).mediaManifest))
     validatePackagedMediaInventory(mediaManifest, mediaReport)
   }
   await fs.rm(output, { recursive: true, force: true })
   await fs.mkdir(path.join(output, 'payload'), { recursive: true })
   const files = []
   for (const [relative, bytes] of [...current].sort(([a], [b]) => a.localeCompare(b))) {
-    if (!allowed(stage, relative)) throw new Error(`Unauthorized path: ${relative}`)
+    if (!allowed(stage, relative, site)) throw new Error(`Unauthorized path: ${relative}`)
     const destination = path.join(output, 'payload', relative)
     await fs.mkdir(path.dirname(destination), { recursive: true })
     await fs.writeFile(destination, bytes, { flag: 'wx' })
     files.push({ path: relative, sha256: crypto.createHash('sha256').update(bytes).digest('hex'), size: bytes.length })
   }
-  const manifest = { schemaVersion: 1, manual: 'guides', stage, masterSha, devBaselineSha, sourceArtifactSha256, createdAt: new Date().toISOString(), files, deletions }
+  const manifest = { schemaVersion: 1, manual: 'guides', site, stage, masterSha, devBaselineSha, sourceArtifactSha256, createdAt: new Date().toISOString(), files, deletions }
   await fs.writeFile(path.join(output, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, { flag: 'wx' })
   await validateGuidesStageArtifact(output)
   return manifest
@@ -420,9 +433,10 @@ async function createGuidesStageArtifact({ stage, workspace, baselineDir, output
 async function loadValidatedGuidesStageArtifact(directory, expected = {}) {
   const artifactRoot = await pinCanonicalRoot(directory, 'Guides artifact')
   const manifest = JSON.parse((await readExistingFileUnderRoot(artifactRoot, 'manifest.json', 'manifest')).toString('utf8'))
-  if (manifest.schemaVersion !== 1 || manifest.manual !== 'guides' || !Object.hasOwn(STAGE_PATHS, manifest.stage)) throw new Error('Invalid guides artifact identity')
+  if (manifest.schemaVersion !== 1 || manifest.manual !== 'guides' || !['en', 'zh-CN'].includes(manifest.site) || !Object.hasOwn(stagePaths(manifest.site), manifest.stage)) throw new Error('Invalid guides artifact identity')
   if (!SHA.test(manifest.masterSha) || !SHA.test(manifest.devBaselineSha)) throw new Error('Invalid guides artifact SHA')
   if (expected.stage && manifest.stage !== expected.stage) throw new Error(`Expected guides stage ${expected.stage}`)
+  if (expected.site && manifest.site !== expected.site) throw new Error('Guides artifact site identity mismatch')
   if (expected.masterSha && manifest.masterSha !== expected.masterSha) throw new Error('Guides artifact master SHA mismatch')
   if (expected.devBaselineSha && manifest.devBaselineSha !== expected.devBaselineSha) throw new Error('Guides artifact baseline SHA mismatch')
   if (expected.sourceArtifactSha256 && manifest.sourceArtifactSha256 !== expected.sourceArtifactSha256) throw new Error('Guides source artifact identity mismatch')
@@ -434,12 +448,12 @@ async function loadValidatedGuidesStageArtifact(directory, expected = {}) {
   if (!Array.isArray(manifest.files) || !Array.isArray(manifest.deletions)) throw new Error('Guides artifact files and deletions must be arrays')
   for (const file of manifest.files) {
     requireManifestPath(file?.path, 'manifest file')
-    if (!allowed(manifest.stage, file.path) || seen.has(file.path)) throw new Error(`Unauthorized or duplicate path: ${file.path}`)
+    if (!allowed(manifest.stage, file.path, manifest.site) || seen.has(file.path)) throw new Error(`Unauthorized or duplicate path: ${file.path}`)
     seen.add(file.path)
   }
   for (const relative of manifest.deletions) {
     requireManifestPath(relative, 'manifest deletion')
-    if (!allowed(manifest.stage, relative) || seen.has(relative)) throw new Error(`Unauthorized deletion: ${relative}`)
+    if (!allowed(manifest.stage, relative, manifest.site) || seen.has(relative)) throw new Error(`Unauthorized deletion: ${relative}`)
   }
   const payloadRoot = await pinChildRoot(artifactRoot, 'payload', 'Guides artifact payload')
   for (const file of manifest.files) {
@@ -447,13 +461,13 @@ async function loadValidatedGuidesStageArtifact(directory, expected = {}) {
     payloadBytes.set(file.path, bytes)
     if (bytes.length !== file.size) throw new Error(`Payload size mismatch: ${file.path}`)
     if (crypto.createHash('sha256').update(bytes).digest('hex') !== file.sha256) throw new Error(`Payload checksum mismatch: ${file.path}`)
-    if (manifest.stage === 'source' && file.path === MEDIA_MANIFEST) mediaManifest = parseMediaManifest(bytes)
+    if (manifest.stage === 'source' && file.path === siteIdentity(manifest.site).mediaManifest) mediaManifest = parseMediaManifest(bytes)
     if (manifest.stage === 'source' && file.path === MEDIA_PREFETCH_REPORT) mediaReport = parseMediaPrefetchReport(bytes)
     if (manifest.stage === 'source' && file.path === ASSEMBLY_DECISION) {
       assemblyDecision = parseAssemblyDecision(bytes, { masterSha: manifest.masterSha, devBaselineSha: manifest.devBaselineSha })
     }
   }
-  for (const required of REQUIRED_STAGE_FILES[manifest.stage]) {
+  for (const required of requiredStageFiles(manifest.site)[manifest.stage]) {
     if (!seen.has(required)) {
       throw new Error(`Guides ${manifest.stage} artifact is missing required ${requiredLabel(required)}: ${required}`)
     }
@@ -510,11 +524,11 @@ if (require.main === module) {
   const args = parseArgs(process.argv.slice(2))
   const operation = args.operation
   const promise = operation === 'create'
-    ? createGuidesStageArtifact({ stage: args.stage, workspace: args.workspace, baselineDir: args['baseline-dir'], output: args.output, masterSha: args['master-sha'], devBaselineSha: args['dev-baseline-sha'], sourceArtifactSha256: args['source-artifact-sha256'] || null, snapshotCandidatePath: args['snapshot-candidate'] || null, rootToken: args['root-token'] || null })
+    ? createGuidesStageArtifact({ site: args.site || process.env.ZDOC_SITE || 'en', stage: args.stage, workspace: args.workspace, baselineDir: args['baseline-dir'], output: args.output, masterSha: args['master-sha'], devBaselineSha: args['dev-baseline-sha'], sourceArtifactSha256: args['source-artifact-sha256'] || null, snapshotCandidatePath: args['snapshot-candidate'] || null, rootToken: args['root-token'] || null })
     : operation === 'validate'
-      ? validateGuidesStageArtifact(args.artifact, { stage: args.stage, masterSha: args['master-sha'], devBaselineSha: args['dev-baseline-sha'], sourceArtifactSha256: args['source-artifact-sha256'] })
+      ? validateGuidesStageArtifact(args.artifact, { site: args.site, stage: args.stage, masterSha: args['master-sha'], devBaselineSha: args['dev-baseline-sha'], sourceArtifactSha256: args['source-artifact-sha256'] })
       : operation === 'restore'
-        ? restoreGuidesStageArtifact({ artifact: args.artifact, target: args.target, expected: { stage: args.stage, masterSha: args['master-sha'], devBaselineSha: args['dev-baseline-sha'], sourceArtifactSha256: args['source-artifact-sha256'] } })
+        ? restoreGuidesStageArtifact({ artifact: args.artifact, target: args.target, expected: { site: args.site, stage: args.stage, masterSha: args['master-sha'], devBaselineSha: args['dev-baseline-sha'], sourceArtifactSha256: args['source-artifact-sha256'] } })
         : Promise.reject(new Error('Unknown operation'))
   promise.catch(error => { console.error(error.message); process.exitCode = 1 })
 }

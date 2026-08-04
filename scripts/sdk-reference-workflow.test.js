@@ -5,7 +5,7 @@ const path = require('node:path')
 const { test } = require('node:test')
 const yaml = require('js-yaml')
 
-const GUIDES_BUILD_MAPPING = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN' || '' }}"
+const GUIDES_BUILD_MAPPING = "${{ inputs.site == 'en' && 'pnpm run build:en' || inputs.site == 'zh-CN' && 'pnpm run build:zh-CN:site' || '' }}"
 const GUIDES_BUILD_VALIDATION = 'node scripts/run-doc-build-stage.js --build "$ZDOC_BUILD_COMMAND" --skipLinkChecks --skipCardReporting'
 
 function assertGuidesAssemblySnapshotLifecycle(source) {
@@ -30,7 +30,7 @@ function assertGuidesAssemblySnapshotLifecycle(source) {
 
   const selectionRun = selection.run || ''
   assert.match(selectionRun, /^[ \t]*candidate=packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-source-snapshot-candidate\.json$/m)
-  assert.match(selectionRun, /^[ \t]*snapshot=packages\/docs-tooling\/src\/lark\/meta\/snapshots\/guides-uat-last-success\.json$/m)
+  assert.match(selectionRun, /^[ \t]*snapshot="\$snapshot_path"$/m)
   assert.match(selectionRun, /guides-cache-generation-lifecycle\.js select[\s\S]*--candidate "\$candidate" --baseline "\$snapshot"/)
   assert.match(selectionRun, /if \[\[ "\$selected" == candidate \]\]; then[\s\S]*promote-lark-doc-snapshot\.js[\s\S]*--candidate "\$candidate"[\s\S]*--output "\$snapshot"/)
   assert.match(checkpoint.run || '', /printf -v build_validation 'node scripts\/run-doc-build-stage\.js --build "%s" --skipLinkChecks --skipCardReporting' "\$ZDOC_BUILD_COMMAND"/)
@@ -58,12 +58,18 @@ test('every workflow that invokes docs-tooling uses its supported Node runtime',
     .sort()
   assert.deepEqual(invoking, [
     '_assemble-guides.yml',
+    '_build-publish-site.yml',
     '_fetch-content-group.yml',
     '_fetch-guides-sources.yml',
     '_translate-content-group.yml',
+    '_verify-docs.yml',
     'check-404.yml',
+    'docs-ingestion-watchdog.yml',
     'fetch-docs.yml',
     'site-validation.yml',
+    'sync-master-tooling-to-dev.yml',
+    'translate-codex.yml',
+    'translate-content.yml',
   ])
   for (const file of invoking) {
     const source = fs.readFileSync(path.join(workflowDirectory, file), 'utf8')
@@ -139,34 +145,17 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   const sourceOrder = ['java', 'node', 'go', 'cli', 'rest', 'python', 'guides']
   for (const group of groups) {
     if (group !== 'guides') assert.match(source, new RegExp(`produce_${group}:\\n    needs: prepare\\n[\\s\\S]*?uses: \\.\\/.github/workflows/_fetch-content-group\\.yml`))
-    if (group !== 'guides') {
-      assert.match(source, new RegExp(`translate_${group}:\\n    needs: \\[prepare, publish_${group}\\]`))
-      assert.match(source, new RegExp(`translate_${group}:\\n    needs: \\[prepare, publish_${group}\\]\\n    if: \\$\\{\\{ always\\(\\) && needs\\.prepare\\.outputs\\.publish == 'true' && \\(needs\\.prepare\\.outputs\\.selected_group == 'all' \\|\\| needs\\.prepare\\.outputs\\.selected_group == '${group}'\\) && \\(needs\\.publish_${group}\\.outputs\\.status == 'published' \\|\\| needs\\.publish_${group}\\.outputs\\.status == 'no_changes'\\) \\}\\}`))
-      assert.deepEqual(workflow.jobs[`translate_${group}`].needs, ['prepare', `publish_${group}`])
-    }
+    if (group !== 'guides') assert.equal(workflow.jobs[`translate_${group}`], undefined)
   }
   for (const [index, group] of sourceOrder.entries()) {
     const expected = ['prepare', `produce_${group}`]
     if (index > 0) expected.push(`publish_${sourceOrder[index - 1]}`)
     assert.deepEqual(workflow.jobs[`publish_${group}`].needs, expected)
   }
-  const translationOrder = ['python', 'java', 'node', 'go', 'cli', 'rest']
-  for (const [index, group] of translationOrder.entries()) {
-    const predecessor = index === 0 ? 'publish_guides_translation_batches' : `publish_${translationOrder[index - 1]}_translation`
-    assert.deepEqual(workflow.jobs[`publish_${group}_translation`].needs, ['prepare', `publish_${group}`, `translate_${group}`, predecessor])
-  }
+  for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest']) assert.equal(workflow.jobs[`publish_${group}_translation`], undefined)
   assert.equal(workflow.jobs.translate_guides, undefined)
   assert.equal(workflow.jobs.publish_guides_translation, undefined)
-  assert.deepEqual(workflow.jobs.prepare_guides_translation_batches.needs, ['prepare', 'publish_guides'])
-  assert.equal(workflow.jobs.prepare_guides_translation_batches.uses, './.github/workflows/_prepare-translation-batches.yml')
-  assert.deepEqual(workflow.jobs.translate_guides_batches.needs, ['prepare', 'publish_guides', 'prepare_guides_translation_batches'])
-  assert.equal(workflow.jobs.translate_guides_batches.uses, './.github/workflows/_translate-content-group.yml')
-  assert.equal(workflow.jobs.translate_guides_batches.strategy['fail-fast'], false)
-  assert.equal(workflow.jobs.translate_guides_batches.strategy['max-parallel'], undefined)
-  assert.equal(workflow.jobs.translate_guides_batches.strategy.matrix, '${{ fromJSON(needs.prepare_guides_translation_batches.outputs.matrix) }}')
-  assert.match(workflow.jobs.translate_guides_batches.name, /pending_\$\{\{ needs\.prepare_guides_translation_batches\.outputs\.pending_count \}\}/)
-  assert.deepEqual(workflow.jobs.publish_guides_translation_batches.needs, ['prepare', 'publish_guides', 'publish_rest', 'prepare_guides_translation_batches', 'translate_guides_batches'])
-  assert.deepEqual(workflow.jobs.finalize_guides_translation.needs, ['prepare', 'prepare_guides_translation_batches', 'translate_guides_batches', 'publish_guides_translation_batches'])
+  for (const job of ['prepare_guides_translation_batches', 'translate_guides_batches', 'publish_guides_translation_batches', 'finalize_guides_translation']) assert.equal(workflow.jobs[job], undefined)
   assert.deepEqual(workflow.jobs.produce_guides_sources.needs, 'prepare')
   assert.deepEqual(workflow.jobs.render_guides_tables.needs, ['prepare', 'produce_guides_sources'])
   assert.equal(workflow.jobs.render_guides_tables.strategy['max-parallel'], 4)
@@ -178,16 +167,18 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.equal(workflow.jobs.monitor_docs_progress.uses, './.github/workflows/_monitor-docs-progress.yml')
   assert.match(source, /target_branch: \$\{\{ needs\.prepare\.outputs\.target_branch \}\}/)
   assert.match(source, /should_publish: \$\{\{ needs\.prepare\.outputs\.publish == 'true'/)
-  assert.match(source, /should_translate: \$\{\{ needs\.prepare\.outputs\.publish == 'true'/)
   assert.match(source, /resolve_final:[\s\S]*needs\.prepare\.outputs\.publish == 'true'/)
-  assert.match(source, /publish_rest_translation:[\s\S]*commit_message: 'i18n\(rest\): publish translations'/)
-  assert.deepEqual(workflow.jobs.resolve_final.needs, ['prepare', 'finalize_guides_translation', ...groups.filter(group => group !== 'guides').map(group => `publish_${group}_translation`)])
+  assert.deepEqual(workflow.jobs.resolve_final.needs, ['prepare', 'publish_guides', 'publish_zh_guides', 'publish_python', 'publish_java', 'publish_node', 'publish_go', 'publish_cli', 'publish_rest'])
+  assert.deepEqual(workflow.jobs.dispatch_translations.needs, ['prepare', 'prepare_translation_handoff'])
+  assert.match(source, /gh workflow run translate-codex\.yml/)
+  assert.match(source, /git merge-base --is-ancestor "\$expected" "\$sha"/)
   assert.match(source, /verify:[\s\S]*uses: \.\/.github\/workflows\/_verify-docs\.yml/)
   assert.match(source, /verify:[\s\S]*target_branch: \$\{\{ needs\.prepare\.outputs\.target_branch \}\}/)
   assert.match(source, /aggregate:[\s\S]*aggregate-results\.js[\s\S]*docs-card-report\.js create[\s\S]*docs-card-report-\$\{\{ github\.run_id \}\}/)
   assert.match(source, /name: Collect card report summaries[\s\S]*CARD_REPORT_REF: \$\{\{ needs\.resolve_final\.outputs\.final_dev_sha \}\}[\s\S]*collect-build-card-notes\.js/)
   assert.match(source, /reports_file="\$\{\{ steps\.reports\.outputs\.card_notes_file \}\}"/)
-  assert.match(source, /card_parts\+=\("Publish \$group" "Translate \$group" "Publish \$group translation"\)/)
+  assert.match(source, /name: Download current English Guides reports[\s\S]*name: docs-checkpoint-guides-en-\$\{\{ github\.run_id \}\}-reports[\s\S]*name: Download current Chinese Guides reports[\s\S]*name: docs-checkpoint-guides-zh-CN-\$\{\{ github\.run_id \}\}-reports/)
+  assert.match(source, /\[\[ "\$RUN_TRANSLATIONS" == true \]\] && card_parts\+=\("Handoff"\)/)
   for (const workflow of ['_fetch-content-group.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_verify-docs.yml']) {
     const reusable = fs.readFileSync(path.join(process.cwd(), '.github/workflows', workflow), 'utf8')
     assert.doesNotMatch(reusable, /card_started_at:|card_stages:|report-live-card\.sh/, `${workflow} must leave card ownership to the monitor`)

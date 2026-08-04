@@ -206,12 +206,95 @@ async function testFeishuFrequencyLimitUsesConservativeFallbackWhenResetHeaderIs
   }
 }
 
+async function testFeishuDataNotReadyRetriesUntilRecordsAreAvailable() {
+  let attempts = 0;
+
+  await withMockedFetch(async () => {
+    attempts += 1;
+    return {
+      status: 200,
+      headers: { get: () => null },
+      text: async () => JSON.stringify(attempts === 1 ? {
+        code: 1254607,
+        msg: 'Data not ready, please try again later',
+      } : {
+        code: 0,
+        data: { items: [{ record_id: 'record-1' }] },
+      }),
+    };
+  }, async ({ fetchFeishuJsonWithRetry }) => {
+    const json = await fetchFeishuJsonWithRetry(
+      'https://open.feishu.cn/open-apis/bitable/v1/apps/app/tables/table/records',
+      {},
+      'list Base records'
+    );
+
+    assert.equal(attempts, 2);
+    assert.equal(json.data.items[0].record_id, 'record-1');
+  });
+}
+
+async function testFeishuDataNotReadyStopsAfterBoundedRetries() {
+  let attempts = 0;
+
+  await withMockedFetch(async () => {
+    attempts += 1;
+    return {
+      status: 200,
+      headers: { get: () => null },
+      text: async () => JSON.stringify({
+        code: 1254607,
+        msg: 'Data not ready, please try again later',
+      }),
+    };
+  }, async ({ fetchFeishuJsonWithRetry }) => {
+    await assert.rejects(
+      () => fetchFeishuJsonWithRetry(
+        'https://open.feishu.cn/open-apis/bitable/v1/apps/app/tables/table/records',
+        {},
+        'list Base records'
+      ),
+      /retryable response 200: code=1254607 msg=Data not ready/
+    );
+
+    assert.equal(attempts, 5);
+  });
+}
+
+async function testNonTransientFeishuErrorsAreNotRetried() {
+  let attempts = 0;
+
+  await withMockedFetch(async () => {
+    attempts += 1;
+    return {
+      status: 200,
+      headers: { get: () => null },
+      text: async () => JSON.stringify({
+        code: 1254000,
+        msg: 'Invalid request',
+      }),
+    };
+  }, async ({ fetchFeishuJsonWithRetry }) => {
+    const json = await fetchFeishuJsonWithRetry(
+      'https://open.feishu.cn/open-apis/bitable/v1/apps/app/tables/table/records',
+      {},
+      'list Base records'
+    );
+
+    assert.equal(attempts, 1);
+    assert.equal(json.code, 1254000);
+  });
+}
+
 async function run() {
   await testFetchFeishuBufferRetriesPrematureCloseWhileReadingBody();
   await testFetchJsonRetriesPrematureCloseWhileReadingBody();
   await testFetchTextRetriesPrematureCloseWhileReadingBody();
   await testFetchJsonRetryLogIncludesParsedResponseDetails();
   await testFeishuFrequencyLimitUsesConservativeFallbackWhenResetHeaderIsMissing();
+  await testFeishuDataNotReadyRetriesUntilRecordsAreAvailable();
+  await testFeishuDataNotReadyStopsAfterBoundedRetries();
+  await testNonTransientFeishuErrorsAreNotRetried();
   console.log('feishuFetch tests passed');
 }
 

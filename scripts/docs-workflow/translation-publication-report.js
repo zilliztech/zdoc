@@ -8,14 +8,24 @@ const REPORT_KEYS = ['schemaVersion', 'runId', 'runAttempt', 'group', 'masterSha
 const STATUSES = new Set(['no_changes', 'composition_failed', 'staged', 'validation_failed', 'promotion_conflict', 'published', 'cancelled'])
 const CLEANUP_STATUSES = new Set(['not_required', 'pending', 'deleted', 'debt'])
 const FAILURE_GATES = new Set(['composition', 'validation', 'promotion', 'cancelled'])
+
+function renderArgument(value) {
+  return /^[A-Za-z0-9_./:@=+-]+$/.test(value) ? value : `'${value.replaceAll("'", `'"'"'`)}'`
+}
+
+function validationSpec(id, executable, args) {
+  const frozenArgs = Object.freeze(args)
+  return Object.freeze({ id, command: [executable, ...frozenArgs].map(renderArgument).join(' '), executable, args: frozenArgs })
+}
+
 const VALIDATION_SPECS = Object.freeze([
-  Object.freeze({ id: 'english-saas-mdx', command: 'pnpm docs-tooling validate-mdx --path docs', executable: 'pnpm', args: Object.freeze(['docs-tooling', 'validate-mdx', '--path', 'docs']) }),
-  Object.freeze({ id: 'english-byoc-mdx', command: 'pnpm docs-tooling validate-mdx --path docs-byoc', executable: 'pnpm', args: Object.freeze(['docs-tooling', 'validate-mdx', '--path', 'docs-byoc']) }),
-  Object.freeze({ id: 'ja-saas-mdx', command: 'pnpm docs-tooling validate-mdx --path i18n/ja-JP/docusaurus-plugin-content-docs/current', executable: 'pnpm', args: Object.freeze(['docs-tooling', 'validate-mdx', '--path', 'i18n/ja-JP/docusaurus-plugin-content-docs/current']) }),
-  Object.freeze({ id: 'ja-byoc-mdx', command: 'pnpm docs-tooling validate-mdx --path i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current', executable: 'pnpm', args: Object.freeze(['docs-tooling', 'validate-mdx', '--path', 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current']) }),
-  Object.freeze({ id: 'sidebars', command: 'node scripts/validate-generated-sidebars.js', executable: 'node', args: Object.freeze(['scripts/validate-generated-sidebars.js']) }),
-  Object.freeze({ id: 'coverage', command: 'node scripts/validate-translated-coverage.js --group guides', executable: 'node', args: Object.freeze(['scripts/validate-translated-coverage.js', '--group', 'guides']) }),
-  Object.freeze({ id: 'build', command: "node scripts/run-doc-build-stage.js --build 'pnpm run build' --skipCardReporting", executable: 'node', args: Object.freeze(['scripts/run-doc-build-stage.js', '--build', 'pnpm run build', '--skipCardReporting']) }),
+  validationSpec('english-saas-mdx', 'pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/en/guides']),
+  validationSpec('english-byoc-mdx', 'pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/en/byoc']),
+  validationSpec('ja-saas-mdx', 'pnpm', ['docs-tooling', 'validate-mdx', '--path', 'i18n/ja-JP/docusaurus-plugin-content-docs/current']),
+  validationSpec('ja-byoc-mdx', 'pnpm', ['docs-tooling', 'validate-mdx', '--path', 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current']),
+  validationSpec('sidebars', 'node', ['scripts/validate-generated-sidebars.js', '--site', 'en']),
+  validationSpec('coverage', 'node', ['scripts/validate-translated-coverage.js', '--group', 'guides']),
+  validationSpec('build-and-links', 'node', ['scripts/run-doc-build-stage.js', '--build', 'pnpm run build', '--skipCardReporting']),
 ])
 
 function exactKeys(value, keys, label) {

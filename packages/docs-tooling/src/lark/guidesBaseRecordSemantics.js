@@ -67,7 +67,12 @@ function guidesCanonicalIsPublishable(record) {
 }
 
 function guidesRecordRefTarget(record) {
-  return plain(record?.base_ref_target_doc ?? fields(record)['Ref Target Doc'])
+  const value = record?.base_ref_target_doc ?? fields(record)['Ref Target Doc']
+  if (Array.isArray(value)) return guidesRecordRefTarget({base_ref_target_doc: value[0]})
+  if (value && typeof value === 'object') {
+    return plain(value.link ?? value.url ?? value.text ?? value.name ?? value.value)
+  }
+  return plain(value)
 }
 
 module.exports = {

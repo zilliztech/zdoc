@@ -67,12 +67,14 @@ function createDocsProgressMonitor({
   repository,
   requestedGroups,
   publishEnabled,
+  runTranslations = false,
   startedAt,
   targetBranch,
   title,
   pollIntervalMs = 60_000,
   listJobs,
   downloadProgressMetadata = async () => null,
+  downloadHandoffMetadata = async () => null,
   downloadFinalReport,
   patchCard,
   sleep = delay,
@@ -83,7 +85,8 @@ function createDocsProgressMonitor({
   let cancellationPatched = false
   let latestState = null
   let latestJobs = []
-  let progressMetadata = null
+  const progressMetadata = new Map()
+  let handoffMetadata = null
 
   function metadata() {
     return { title, startedAt, targetBranch }
@@ -112,19 +115,34 @@ function createDocsProgressMonitor({
       requestedGroups,
       jobs,
       publishEnabled,
+      runTranslations,
       reports: options.reports || [],
       terminalStatus: options.terminalStatus || null,
-      guidesTableTotal: progressMetadata?.guidesTableTotal ?? null,
+      guideTableTotals: Object.fromEntries([...progressMetadata.entries()].map(([locale, value]) => [locale, value.tableTotal])),
+      handoff: handoffMetadata ? { status: 'completed', childRunId: handoffMetadata.childRunId, childRunUrl: handoffMetadata.childRunUrl } : null,
     }), metadata())
   }
 
   async function loadProgressMetadata() {
-    if (progressMetadata || !requestedGroups.includes('guides')) return
+    if (!requestedGroups.includes('guides')) return
+    for (const locale of ['en', 'zh-CN']) {
+      if (progressMetadata.has(locale)) continue
+      try {
+        const candidate = await downloadProgressMetadata(locale)
+        if (candidate) progressMetadata.set(locale, validateProgressMetadata(candidate, { expectedRunId: runId, expectedLocale: locale }))
+      } catch (_) {
+        boundedLog(`${locale} live progress metadata unavailable; using visible jobs until the next heartbeat`)
+      }
+    }
+  }
+
+  async function loadHandoffMetadata() {
+    if (!runTranslations || handoffMetadata) return
     try {
-      const candidate = await downloadProgressMetadata()
-      if (candidate) progressMetadata = validateProgressMetadata(candidate, { expectedRunId: runId })
+      const candidate = await downloadHandoffMetadata()
+      if (candidate) handoffMetadata = validateHandoffMetadata(candidate, { expectedParentRunId: runId, repository })
     } catch (_) {
-      boundedLog('live progress metadata unavailable; using visible jobs until the next heartbeat')
+      boundedLog('translation handoff metadata unavailable; using visible jobs until the next heartbeat')
     }
   }
 
@@ -155,6 +173,7 @@ function createDocsProgressMonitor({
     }
     latestJobs = jobs
     await loadProgressMetadata()
+    await loadHandoffMetadata()
     const aggregate = selectAggregateJob(jobs)
     if (aggregate?.status === 'completed') {
       latestState = await terminalState(jobs, aggregate)
@@ -234,16 +253,32 @@ function findExactFile(root, expectedName) {
   return matches[0]
 }
 
-function validateProgressMetadata(value, { expectedRunId } = {}) {
+function validateProgressMetadata(value, { expectedRunId, expectedLocale } = {}) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Progress metadata must be an object')
-  const allowed = ['schemaVersion', 'runId', 'guidesTableTotal']
+  const allowed = ['schemaVersion', 'runId', 'locale', 'tableTotal']
   const unknown = Object.keys(value).filter(key => !allowed.includes(key))
   if (unknown.length) throw new Error(`Progress metadata contains unknown keys: ${unknown.join(', ')}`)
-  if (value.schemaVersion !== 1) throw new Error('Progress metadata schemaVersion must be 1')
+  if (value.schemaVersion !== 2) throw new Error('Progress metadata schemaVersion must be 2')
   if (!Number.isSafeInteger(value.runId) || value.runId <= 0) throw new Error('Progress metadata runId must be a positive integer')
   if (expectedRunId !== undefined && value.runId !== expectedRunId) throw new Error('Progress metadata runId does not match the workflow run')
-  if (!Number.isSafeInteger(value.guidesTableTotal) || value.guidesTableTotal < 0) throw new Error('Progress metadata guidesTableTotal must be a non-negative integer')
-  return { schemaVersion: 1, runId: value.runId, guidesTableTotal: value.guidesTableTotal }
+  if (!['en', 'zh-CN'].includes(value.locale)) throw new Error('Progress metadata locale is invalid')
+  if (expectedLocale !== undefined && value.locale !== expectedLocale) throw new Error('Progress metadata locale does not match the requested locale')
+  if (!Number.isSafeInteger(value.tableTotal) || value.tableTotal < 0) throw new Error('Progress metadata tableTotal must be a non-negative integer')
+  return { schemaVersion: 2, runId: value.runId, locale: value.locale, tableTotal: value.tableTotal }
+}
+
+function validateHandoffMetadata(value, { expectedParentRunId, repository } = {}) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Handoff metadata must be an object')
+  const allowed = ['schemaVersion', 'parentRunId', 'childRunId', 'childRunUrl']
+  const unknown = Object.keys(value).filter(key => !allowed.includes(key))
+  if (unknown.length) throw new Error(`Handoff metadata contains unknown keys: ${unknown.join(', ')}`)
+  if (value.schemaVersion !== 1) throw new Error('Handoff metadata schemaVersion must be 1')
+  for (const key of ['parentRunId', 'childRunId']) if (!Number.isSafeInteger(value[key]) || value[key] <= 0) throw new Error(`Handoff metadata ${key} must be a positive integer`)
+  if (expectedParentRunId !== undefined && value.parentRunId !== expectedParentRunId) throw new Error('Handoff metadata parentRunId does not match the workflow run')
+  if (typeof repository !== 'string' || !/^[^/\s]+\/[^/\s]+$/.test(repository)) throw new Error('Handoff metadata repository is invalid')
+  const expectedUrl = `https://github.com/${repository}/actions/runs/${value.childRunId}`
+  if (value.childRunUrl !== expectedUrl) throw new Error('Handoff metadata childRunUrl is invalid')
+  return { schemaVersion: 1, parentRunId: value.parentRunId, childRunId: value.childRunId, childRunUrl: value.childRunUrl }
 }
 
 function validateArchiveEntries(entries) {
@@ -311,11 +346,20 @@ function createGitHubActionsClient({
     }
   }
 
-  function downloadProgressMetadata() {
+  function downloadProgressMetadata(locale) {
+    if (!['en', 'zh-CN'].includes(locale)) throw new Error('Progress metadata locale is invalid')
     return downloadArtifactJson({
-      artifactName: `docs-progress-metadata-${runId}`,
+      artifactName: `docs-progress-metadata-${locale}-${runId}`,
       fileName: 'progress-metadata.json',
-      validate: value => validateProgressMetadata(value, { expectedRunId: runId }),
+      validate: value => validateProgressMetadata(value, { expectedRunId: runId, expectedLocale: locale }),
+    })
+  }
+
+  function downloadHandoffMetadata() {
+    return downloadArtifactJson({
+      artifactName: `docs-translation-handoff-${runId}`,
+      fileName: 'handoff-metadata.json',
+      validate: value => validateHandoffMetadata(value, { expectedParentRunId: runId, repository }),
     })
   }
 
@@ -341,7 +385,7 @@ function createGitHubActionsClient({
     }
   }
 
-  return { downloadFinalReport, downloadProgressMetadata, listJobs }
+  return { downloadFinalReport, downloadHandoffMetadata, downloadProgressMetadata, listJobs }
 }
 
 function required(env, key) {
@@ -379,6 +423,8 @@ function readConfiguration(env = process.env, args = process.argv.slice(2)) {
   if (![...ALL_GROUPS, 'all'].includes(selectedGroup)) throw new Error('SELECTED_GROUP is invalid')
   const publishText = required(env, 'PUBLISH_ENABLED')
   if (!['true', 'false'].includes(publishText)) throw new Error('PUBLISH_ENABLED must be true or false')
+  const translationsText = required(env, 'RUN_TRANSLATIONS')
+  if (!['true', 'false'].includes(translationsText)) throw new Error('RUN_TRANSLATIONS must be true or false')
   const cli = parseCliArgs(args)
   return {
     runId,
@@ -389,6 +435,7 @@ function readConfiguration(env = process.env, args = process.argv.slice(2)) {
     targetBranch: required(env, 'CARD_TARGET_BRANCH'),
     requestedGroups: selectedGroup === 'all' ? [...ALL_GROUPS] : [selectedGroup],
     publishEnabled: publishText === 'true',
+    runTranslations: translationsText === 'true',
     appId: required(env, 'APP_ID'),
     appSecret: required(env, 'APP_SECRET'),
     feishuHost: required(env, 'FEISHU_HOST'),
@@ -414,9 +461,10 @@ async function main() {
     : github.downloadFinalReport
   const monitor = createDocsProgressMonitor({
     ...config,
-    title: config.publishEnabled ? 'Global Docs Build' : 'Global Docs Artifact-Only Build',
+    title: 'Zilliz Cloud Docs Build',
     listJobs: github.listJobs,
     downloadProgressMetadata: github.downloadProgressMetadata,
+    downloadHandoffMetadata: github.downloadHandoffMetadata,
     downloadFinalReport: reportFromFile,
     patchCard,
   })
@@ -443,6 +491,7 @@ module.exports = {
   readConfiguration,
   selectAggregateJob,
   validateArchiveEntries,
+  validateHandoffMetadata,
   validateProgressMetadata,
   withRetry,
 }

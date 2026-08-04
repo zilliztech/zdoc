@@ -55,14 +55,48 @@ test('reference groups map reference outputs into docs-reference i18n', () => {
   ]);
 });
 
+test('reference landing paths remain a bounded translation-only group', () => {
+  const paths = getGroupPaths('reference-landings');
+
+  assert.deepEqual(paths.englishOutputs, [
+    'content/en/reference/api/python/python/python.md',
+    'content/en/reference/api/java/java/java.md',
+    'content/en/reference/api/nodejs/nodejs/nodejs.md',
+    'content/en/reference/api/go/go/go.md',
+    'content/en/reference/cli/cli/Overview.md',
+  ]);
+  assert.deepEqual(paths.translationOutputs, [
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/python.md',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/java.md',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/nodejs.md',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/go.md',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/Overview.md',
+  ]);
+  assert.deepEqual(paths.sidebars, []);
+});
+
 test('SDK and CLI groups declare master-owned landing pages to preserve', () => {
-  assert.deepEqual(getGroupPaths('python').preservedEnglish, []);
+  assert.equal(getGroupPaths('python').preservedEnglish.includes(
+    'content/en/reference/api/python/python/python.md',
+  ), true);
+  assert.deepEqual(getGroupPaths('python').preservedEnglish, [
+    'content/en/reference/api/python/python/python.md',
+  ]);
   assert.deepEqual(getGroupPaths('java').preservedEnglish, []);
-  assert.deepEqual(getGroupPaths('node').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('node').preservedEnglish, [
+    'content/en/reference/api/nodejs/nodejs/nodejs.md',
+  ]);
   assert.deepEqual(getGroupPaths('go').preservedEnglish, []);
-  assert.deepEqual(getGroupPaths('cli').preservedEnglish, []);
+  assert.deepEqual(getGroupPaths('cli').preservedEnglish, [
+    'content/en/reference/cli/cli/Overview.md',
+  ]);
   assert.deepEqual(getGroupPaths('guides').preservedEnglish, ['content/en/guides/tutorials/home.md']);
-  assert.deepEqual(getGroupPaths('rest').preservedEnglish, ['content/en/reference/api/restful/restful/restful.md']);
+  assert.deepEqual(getGroupPaths('rest').preservedEnglish, [
+    'content/en/reference/api/restful/restful/restful.md',
+    'content/en/reference/api/restful/restful/versioning.md',
+    'content/en/reference/api/restful/restful/v1/error-codes.md',
+    'content/en/reference/api/restful/restful/v2/error-codes-v2.md',
+  ]);
 });
 
 test('reference translation mapping rejects non-reference paths', () => {

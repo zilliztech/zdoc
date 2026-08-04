@@ -25,14 +25,30 @@ describe('site-owned publication groups', () => {
         'content/zh-CN/byoc',
         'generated/zh-CN/sidebars/guides.sidebar.js',
         'generated/zh-CN/sidebars/guides-byoc.sidebar.js',
-      ],
-      protectedPaths: [
-        'content/zh-CN/guides/tutorials/tools',
         'generated/zh-CN/sidebars/tools.sidebar.js',
-        'generated/zh-CN/manifests/tools-translations.json',
       ],
       publicationManifest: 'generated/zh-CN/manifests/guides-source-publication.json',
     });
+    expect(resolvePublicationGroupWorkflow('zh-CN', 'guides').checkpointPaths).toContain(
+      'content/zh-CN/guides',
+    );
+  });
+
+  it('keeps shared Guides diagnostics English-owned', () => {
+    const english = resolvePublicationGroupWorkflow('en', 'guides').checkpointPaths;
+    const chinese = resolvePublicationGroupWorkflow('zh-CN', 'guides').checkpointPaths;
+    const sharedPaths = [
+      'packages/docs-tooling/src/lark/meta/assembly/guides.json',
+      'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json',
+    ];
+
+    for (const sharedPath of sharedPaths) {
+      expect(english).toContain(sharedPath);
+      expect(chinese).not.toContain(sharedPath);
+    }
+    expect(chinese).not.toContainEqual(
+      expect.stringMatching(/^packages\/docs-tooling\/src\/lark\/meta\/reports\/guides-/),
+    );
   });
 
   it('exposes Chinese On-premise and English Reference producers only', () => {
@@ -68,7 +84,6 @@ describe('site-owned publication groups', () => {
     expect(Object.isFrozen(group)).toBe(true);
     expect(Object.isFrozen(group.manuals)).toBe(true);
     expect(Object.isFrozen(group.ownedPaths)).toBe(true);
-    expect(Object.isFrozen(group.protectedPaths)).toBe(true);
     expect(() => (group.manuals as string[]).push('other')).toThrow(TypeError);
   });
 
@@ -79,6 +94,33 @@ describe('site-owned publication groups', () => {
       expect(checkpointPaths.filter(path => path.startsWith('generated/en/manifests/lark-revisions/'))).toEqual([
         revisionInventory,
       ]);
+    }
+  });
+
+  it('preserves hand-authored Reference landing pages inside generated output directories', () => {
+    expect(resolvePublicationGroupWorkflow('en', 'python').preservedPaths).toEqual([
+      'content/en/reference/api/python/python/python.md',
+    ]);
+    expect(resolvePublicationGroupWorkflow('en', 'node').preservedPaths).toEqual([
+      'content/en/reference/api/nodejs/nodejs/nodejs.md',
+    ]);
+    expect(resolvePublicationGroupWorkflow('en', 'cli').preservedPaths).toEqual([
+      'content/en/reference/cli/cli/Overview.md',
+    ]);
+    expect(resolvePublicationGroupWorkflow('en', 'rest').preservedPaths).toEqual([
+      'content/en/reference/api/restful/restful/restful.md',
+      'content/en/reference/api/restful/restful/versioning.md',
+      'content/en/reference/api/restful/restful/v1/error-codes.md',
+      'content/en/reference/api/restful/restful/v2/error-codes-v2.md',
+    ]);
+  });
+
+  it('includes every preserved English path in its source checkpoint', () => {
+    for (const group of listPublicationGroups('en')) {
+      const workflow = resolvePublicationGroupWorkflow('en', group);
+      for (const preservedPath of workflow.preservedPaths) {
+        expect(workflow.checkpointPaths).toContain(preservedPath);
+      }
     }
   });
 
