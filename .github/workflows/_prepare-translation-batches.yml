@@ -37,10 +37,10 @@ jobs:
       SOURCE_CHECKPOINT_SHA: ${{ inputs.source_checkpoint_sha }}
       TOOLING_SHA: ${{ inputs.tooling_sha }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: '${{ inputs.tooling_sha }}', fetch-depth: 0 }
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

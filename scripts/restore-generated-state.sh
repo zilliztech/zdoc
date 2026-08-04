@@ -98,11 +98,13 @@ paths=(
   "generated/en/sidebars/go.sidebar.js"
   "generated/en/sidebars/cli.sidebar.js"
   "generated/en/sidebars/restful.sidebar.js"
+  "generated/en/manifests/reference.json"
   "generated/en/manifests/lark-revisions"
   "generated/zh-CN"
   "packages/docs-tooling/src/lark/meta/snapshots"
   "packages/docs-tooling/src/lark/meta/assembly"
   "packages/docs-tooling/src/lark/meta/reports"
+  "deploy/contracts/localization-inputs.inventory.json"
 )
 
 for restore_path in "${paths[@]}"; do

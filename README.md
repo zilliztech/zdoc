@@ -55,17 +55,19 @@ pnpm test:workflow-policy
 pnpm test:retirement
 ```
 
-GitHub Actions owns source production, translation, validation, and image build orchestration. English and Chinese production remain independently addressable. External `vdc-jenkins` pipelines consume the resulting repository state or promote an approved UAT image; Jenkins configuration is maintained outside this repository.
+GitHub Actions owns source production, translation, validation, and image build orchestration. English/Japanese and Chinese production remain independently addressable. External Jenkins UAT and Prod pipelines consume the selected repository branch through the same site-qualified build interface; Jenkins configuration is maintained outside this repository.
 
 ## Containers
 
 The runtime images contain only Nginx plus the selected static build output. Build from the repository root:
 
 ```bash
-ZDOC_SHA="$(git rev-parse HEAD)"
-docker build --build-arg ZDOC_SHA="$ZDOC_SHA" --build-arg JENKINS_BUILD_ID=local-preview -f deploy/en/Dockerfile -t zdoc-en .
-docker build --build-arg ZDOC_SHA="$ZDOC_SHA" --build-arg JENKINS_BUILD_ID=local-preview -f deploy/zh-CN/Dockerfile -t zdoc-zh-cn .
+SOURCE_SHA="$(git rev-parse HEAD)"
+docker build --build-arg ZDOC_SHA="$SOURCE_SHA" --build-arg ZDOC_SITE=en --build-arg JENKINS_BUILD_ID=local-preview -f deploy/en/Dockerfile -t zdoc-en .
+docker build --build-arg ZDOC_SHA="$SOURCE_SHA" --build-arg ZDOC_SITE=zh-CN --build-arg JENKINS_BUILD_ID=local-preview -f deploy/zh-CN/Dockerfile -t zdoc-zh-cn .
 ```
+
+The English image includes Japanese content. The two commands are independent; invoke only the selected target or invoke both without treating one target's failure as a repository-level requirement for the other. The Dockerfiles build the static sites internally, so Jenkins does not need to run `pnpm build:*` before these container builds. Image naming and registry tagging remain Jenkins-owned.
 
 The site-owned Nginx configurations are `deploy/en/nginx.conf` and `deploy/zh-CN/nginx.conf`. Runtime environment rendering is owned by `deploy/runtime/40-zdoc-env.sh`.
 
