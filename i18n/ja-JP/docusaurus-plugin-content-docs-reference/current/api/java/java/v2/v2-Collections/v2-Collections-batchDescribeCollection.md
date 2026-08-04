@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、複数のコレクションの説明をバッチで取得します。 | Java | v2"
+description: "この操作は、複数の collection の説明を一括で取得します。 | Java | v2"
 type: docx
 token: B4CpdqvN7oZy3zxB9fscTAG8n7E
 sidebar_position: 32
 keywords: 
   - 自然言語処理データベース
-  - 安価なベクトルデータベース
-  - マネージドベクトルデータベース
-  - Pinecone ベクトルデータベース
+  - 安価な vector データベース
+  - マネージド vector データベース
+  - Pinecone vector データベース
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # batchDescribeCollection()
 
-この操作は、複数のコレクションの説明をバッチで取得します。
+この操作は、複数の collection の説明を一括で取得します。
 
 ```java
 public List<DescribeCollectionResp> batchDescribeCollection(BatchDescribeCollectionReq request)
 ```
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```java
 batchDescribeCollection(BatchDescribeCollectionReq.builder()
@@ -48,29 +48,29 @@ batchDescribeCollection(BatchDescribeCollectionReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**ビルダーメソッド:**
 
-- `databaseName(String databaseName)` -
-データベースの名前。指定しない場合、現在のデータベースがデフォルトで使用されます。
+- `databaseName(String databaseName)` -<br/>
+  データベース名。指定しない場合は、現在のデータベースがデフォルトで使用されます。
 
 - `collectionNames(List<String> collectionNames)` -
 
-- `collectionIds(List<Long> collectionIds)` -
-バッチで説明を取得するコレクション ID のリスト。
+- `collectionIds(List<Long> collectionIds)` -<br/>
+  一括で説明を取得する collection ID のリスト。
 
-**RETURNS:**
+**戻り値:**
 
 *List&lt;DescribeCollectionResp&gt;*
 
 **DescribeCollectionResp** オブジェクトのリスト。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusClientException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 
-## Example\{#example}
+## 例\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

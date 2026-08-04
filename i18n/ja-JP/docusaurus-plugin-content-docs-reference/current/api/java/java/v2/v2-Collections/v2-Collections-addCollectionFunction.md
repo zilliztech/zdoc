@@ -4,12 +4,12 @@ slug: /java/java/v2-Collections-addCollectionFunction
 sidebar_label: "addCollectionFunction()"
 beta: false
 added_since: v2.6.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作はコレクションに関数を追加します。関数を使用すると、BM25 スコアリングや埋め込み生成などのカスタム処理ロジックを定義できます。 | Java | v2"
+description: "既存のコレクションに関数定義を追加します。Milvus 3.0 では、関数の出力フィールドとそのインデックスをまとめて追加する必要がある場合は `addFunctionField()` を使用します。 | Java | v2"
 type: docx
-token: AIRDdrhZloIQCrxCfc8cvxe4nmh
+token: Qbvcd9DG1ofMpuxVdEqcToU1nIb
 sidebar_position: 30
 keywords: 
   - sentence transformers
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionFunction()
 
-この操作はコレクションに関数を追加します。関数を使用すると、BM25 スコアリングや埋め込み生成などのカスタム処理ロジックを定義できます。
+既存のコレクションに関数定義を追加します。Milvus 3.0 では、関数の出力フィールドとそのインデックスをまとめて追加する必要がある場合は [`addFunctionField()`](./v2-Collections-addFunctionField) を使用します。
 
 ```java
 public void addCollectionFunction(AddCollectionFunctionReq request)
@@ -40,58 +40,51 @@ public void addCollectionFunction(AddCollectionFunctionReq request)
 ## Request Syntax\{#request-syntax}
 
 ```java
-addCollectionFunction(AddCollectionFunctionReq.builder()
-    .collectionName(String collectionName)
-    .databaseName(String databaseName)
-    .function(CreateCollectionReq.Function function)
-    .build()
-);
+AddCollectionFunctionReq.builder()
+    .collectionName(collectionName)
+    .databaseName(databaseName)
+    .function(function)
+    .build();
 ```
 
 **BUILDER METHODS:**
 
-- `collectionName(String collectionName)` -
+- `collectionName(String collectionName)`
 
-    **[REQUIRED]**
+    対象のコレクションの名前。
 
-    コレクションの名前。
+- `databaseName(String databaseName)`
 
-- `databaseName(String databaseName)` -
+    データベースの名前。省略した場合は現在のデータベースがデフォルトで使用されます。
 
-    データベースの名前。指定しない場合は現在のデータベースがデフォルトになります。
+- `function(CreateCollectionReq.Function function)`
 
-- `function(CreateCollectionReq.Function function)` -
-
-    **[REQUIRED]**
-
-    追加する関数。`CreateCollectionReq.Function.builder()` を使用して、name、description、functionType、inputFieldNames、outputFieldNames、および params を指定して構築します。
+    既存のコレクションフィールドに追加する関数定義。
 
 **RETURNS:**
 
 *void*
 
+この操作は値を返しません。
+
 **EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    リクエストの検証、トランスポート、またはサーバー実行が失敗したときに発生します。正確な失敗理由については例外メッセージを確認してください。
 
 ## Example\{#example}
 
 ```java
-import io.milvus.v2.service.collection.request.AddCollectionFunctionReq;
-import io.milvus.v2.service.collection.request.CreateCollectionReq;
-import io.milvus.common.clientenum.FunctionType;
-
-CreateCollectionReq.Function bm25Func = CreateCollectionReq.Function.builder()
+CreateCollectionReq.Function bm25Function = CreateCollectionReq.Function.builder()
     .name("bm25")
     .functionType(FunctionType.BM25)
-    .inputFieldNames(Arrays.asList("text"))
-    .outputFieldNames(Arrays.asList("sparse_vector"))
+    .inputFieldNames(Collections.singletonList("text"))
+    .outputFieldNames(Collections.singletonList("sparse"))
     .build();
 
 client.addCollectionFunction(AddCollectionFunctionReq.builder()
-    .collectionName("my_collection")
-    .function(bm25Func)
+    .collectionName("books")
+    .function(bm25Function)
     .build());
 ```

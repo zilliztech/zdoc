@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、指定されたブール式を使用してスカラーフィルタリングを実行します。 | Java | v2"
+description: "`orderByFields` による任意の並び替えを使用して、主キーまたはフィルターでエンティティをクエリします。 | Java | v2"
 type: docx
 token: U7eQdBzB0opJOXxRUcncnRDInSf
 sidebar_position: 5
@@ -31,127 +31,120 @@ import Admonition from '@theme/Admonition';
 
 # query()
 
-この操作は、指定されたブール式を使用してスカラーフィルタリングを実行します。
+`orderByFields` による任意の並び替えを使用して、主キーまたはフィルターでエンティティをクエリします。
 
 ```java
 public QueryResp query(QueryReq request)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
-query(QueryReq.builder()
-    .databaseName(String databaseName)
-    .collectionName(String collectionName)
-    .clusterId(String clusterId)
-    .partitionNames(List<String> partitionNames)
-    .outputFields(List<String> outputFields)
-    .ids(List<Object> ids)
-    .filter(String filter)
-    .consistencyLevel(ConsistencyLevel consistencyLevel)
-    .offset(long offset)
-    .limit(long limit)
-    .ignoreGrowing(boolean ignoreGrowing)
-    .timezone(String timezone)
-    .queryParams(Map<String, Object> queryParams)
-    .filterTemplateValues(Map<String, Object> filterTemplateValues)
-    .build()
-);
+QueryReq.builder()
+    .databaseName(databaseName)
+    .collectionName(collectionName)
+    .clusterId(clusterId)
+    .partitionNames(partitionNames)
+    .outputFields(outputFields)
+    .ids(ids)
+    .filter(filter)
+    .consistencyLevel(consistencyLevel)
+    .offset(offset)
+    .limit(limit)
+    .ignoreGrowing(ignoreGrowing)
+    .timezone(timezone)
+    .orderByFields(orderByFields)
+    .queryParams(queryParams)
+    .filterTemplateValues(filterTemplateValues)
+    .build();
 ```
 
-**ビルダーメソッド:**
+**BUILDER METHODS:**
 
 - `databaseName(String databaseName)`
 
-    データベース名です。指定しない場合、現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。省略した場合は現在のデータベースがデフォルトで使用されます。
 
 - `collectionName(String collectionName)`
 
-    対象のコレクション名です。
+    対象の collection の名前です。
 
 - `clusterId(String clusterId)`
 
-    このベクトル読み取りリクエストの対象クラスター ID です。複数のリクエストで同じクラスター ID を共有する場合は、`session(String clusterId)` を使用します。
+    このリクエストの Zilliz Cloud cluster ID です。
 
 - `partitionNames(List<String> partitionNames)`
 
-    対象とするパーティション名のリストです。
+    クエリ対象の partition です。
 
 - `outputFields(List<String> outputFields)`
 
-    出力に含めるフィールド名のリストです。
+    返される各行に含めるフィールドです。
 
 - `ids(List<Object> ids)`
 
-    特定のエンティティを識別するための主キー値のリストです。
+    クエリする主キー値です。
 
 - `filter(String filter)`
 
-    結果をフィルタリングするためのブール式です。
+    scalar フィルタリング式です。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
-    この操作の整合性レベルです。
+    クエリの整合性レベルです。
 
 - `offset(long offset)`
 
-    返却前にスキップする結果の数です。
+    スキップする一致行数です。
 
 - `limit(long limit)`
 
-    返却する結果の最大数です。
+    返す最大行数です。
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    操作中に growing セグメントを無視するかどうかを指定します。
+    growing segment を無視するかどうかです。
 
 - `timezone(String timezone)`
 
-    時刻関連のフィルターに使用するタイムゾーン文字列です。
+    時刻関連の式を解釈するために使用するタイムゾーンです。
+
+- `orderByFields(List<OrderByField> orderByFields)`
+
+    一致した行を並び替えるために使用する scalar フィールドと方向です。
 
 - `queryParams(Map<String, Object> queryParams)`
 
-    キーと値のペアとして指定する追加のクエリパラメータです。デフォルトは `new HashMap<>()` です。
+    追加のクエリパラメータです。
 
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
-    パラメータ化されたフィルター用のテンプレート変数値のマップです。
+    フィルター式内のプレースホルダーに代入される値です。
 
-**戻り値:**
+**RETURNS:**
 
 *QueryResp*
 
-指定された出力フィールドを持つ特定のクエリ結果を表す **QueryResp** オブジェクト
+提供された場合、orderByFields に従って並び替えられたクエリ行を含みます。
 
-**例外:**
+**EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合に、この例外がスローされます。
+    リクエストの検証、トランスポート、またはサーバー実行が失敗したときに発生します。正確な失敗理由については、例外メッセージを確認してください。
 
-## 例\{#example}
+## Example\{#example}
+
+Zilliz Cloud cluster に対する query() を示します。
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.QueryReq;
-import io.milvus.v2.service.vector.response.QueryResp;
-
-// 1. Set up a client
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. Query by filter "id < 10"
-QueryReq queryReq = QueryReq.builder()
-        .collectionName("test")
-        .filter("id < 10")
-        .build();
-QueryResp queryResp = client.query(queryReq);
-for (QueryResp.QueryResult result : queryResp.getGetResults()) {
-    System.out.println(result.getEntity());
-}
+QueryResp response = client.query(QueryReq.builder()
+    .collectionName("books")
+    .clusterId(CLUSTER_ID)
+    .orderByFields(Collections.singletonList(OrderByField.builder()
+        .fieldName("published_year")
+        .direction(AggDirection.DESC)
+        .build()))
+    .limit(10)
+    .build());
 ```

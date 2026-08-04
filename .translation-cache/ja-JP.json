@@ -1625,6 +1625,196 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/tools/agents-and-prompts/zilliz-skill.md",
       "translatedAt": "2026-08-04T05:12:18.789Z"
     },
+    "content/en/reference/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md": {
+      "sourceHash": "098664ad42e01d65c90a1f47009f56a5d1fb345f0356a87e4ed52ddba1fc686f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Client/v2-Client-ConnectConfig.md",
+      "translatedAt": "2026-08-04T05:52:48.156Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Client/v2-Client-getServerVersionV2.md": {
+      "sourceHash": "2f9722693af1cdc78dae0b01b3d63d9359c17fc02ca8bf5a458912f1ef0d0614",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Client/v2-Client-getServerVersionV2.md",
+      "translatedAt": "2026-08-04T05:52:48.156Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-FieldSchema.md": {
+      "sourceHash": "4125938e959f0cc7218d63c43eecdb542fce7847e1afd00ee5126ec13ab6a1cb",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Collections/v2-Collections-FieldSchema.md",
+      "translatedAt": "2026-08-04T05:52:48.156Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType.md": {
+      "sourceHash": "aa0894692ba8e665a022224612e7046f26b8d6c2c125e560d4bf90b294e3d229",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Collections/v2-Collections-Function/v2-Function-FunctionType.md",
+      "translatedAt": "2026-08-04T05:52:48.160Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md": {
+      "sourceHash": "84ea2b7fc2268b20ecd6ff3a1ae3649a200f4fe40236465a24aa1b83268805c4",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Collections/v2-Collections-addCollectionFunction.md",
+      "translatedAt": "2026-08-04T05:52:48.160Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-addFunctionField.md": {
+      "sourceHash": "6a9db4fd09ef5a6230ecff9deb2a28b49db7fd127161027ed1cab6b95e25af17",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Collections/v2-Collections-addFunctionField.md",
+      "translatedAt": "2026-08-04T05:52:48.156Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-batchDescribeCollection.md": {
+      "sourceHash": "440db868461a092fb2a64bffab25193a097b92ef64c8386baad6b27f04cfe78d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Collections/v2-Collections-batchDescribeCollection.md",
+      "translatedAt": "2026-08-04T05:52:48.160Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionField.md": {
+      "sourceHash": "7a0a117cd76506b0c77c8b5b72eef98e17b3126903d74287239b4192f7488d75",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionField.md",
+      "translatedAt": "2026-08-04T05:52:48.156Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction.md": {
+      "sourceHash": "9e9d57270c7ab13ab9abaa06b80bb6bb46ab5fe9b6ab2ced96aeb977d187be6e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Collections/v2-Collections-dropCollectionFunction.md",
+      "translatedAt": "2026-08-04T05:52:48.160Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-dropFunctionField.md": {
+      "sourceHash": "fde46e980574fbe013948dcf573466638e55271b0d1e865e2b3e75ba1cf2fa65",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Collections/v2-Collections-dropFunctionField.md",
+      "translatedAt": "2026-08-04T05:52:48.156Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-getCollectionStats.md": {
+      "sourceHash": "29199aff1309d96d15ca10526717c59e4b3b140acfe6723a7b0ecdb3a8e9c4e2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Collections/v2-Collections-getCollectionStats.md",
+      "translatedAt": "2026-08-04T05:52:48.160Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md": {
+      "sourceHash": "ee089df51f32e01f67ef32d7ee793db4b48f18b8dc8ce4df27a66b32c73f37a8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Collections/v2-Collections-getLoadStateV2.md",
+      "translatedAt": "2026-08-04T05:52:48.160Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-abortImport.md": {
+      "sourceHash": "2006caf4ef7d22f45276ab6ebb3017783cfa5f32ed5984595a58c64055615191",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-abortImport.md",
+      "translatedAt": "2026-08-04T05:52:48.156Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-bulkImport.md": {
+      "sourceHash": "9189387cca5278ab2c914567eb1e34cad66383bd78f993975be0989394b62e4c",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-bulkImport.md",
+      "translatedAt": "2026-08-04T05:52:48.160Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-commitImport.md": {
+      "sourceHash": "f63a98d24a89402ae69796f1a123c0d6c377fd6d4cdc9298c9344ed1fd5e92fe",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-commitImport.md",
+      "translatedAt": "2026-08-04T05:52:48.156Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-getImportProgress.md": {
+      "sourceHash": "e5b6015e1c170426a45bdb70338eb4352c6cad2f6d4dceb066a31e07dfb4d6b2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-getImportProgress.md",
+      "translatedAt": "2026-08-04T05:52:48.160Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-listImportJobs.md": {
+      "sourceHash": "d34580275d74cf5bcfff786cac6bd94b601b2eee7f486a472efaae9032e1e1bf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-DataImport/v2-DataImport-BulkImport/v2-BulkImport-listImportJobs.md",
+      "translatedAt": "2026-08-04T05:52:48.160Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md": {
+      "sourceHash": "8d5757857eae7fedba00261b2fb51eb252f521684aaa68489c5e3bde718eae0b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-appendRow.md",
+      "translatedAt": "2026-08-04T05:52:48.160Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md": {
+      "sourceHash": "c23368e7e107f6198e19236a1590b742b02b7680e396b6fb311f413350ed9d05",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-appendRow.md",
+      "translatedAt": "2026-08-04T05:52:48.163Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-DataImport-VolumeBulkWriter.md": {
+      "sourceHash": "22096bdcbfeeb02e2f2c3605cd566700593638023ca6ee535158ef7ac2778fbf",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-DataImport-VolumeBulkWriter.md",
+      "translatedAt": "2026-08-04T05:52:48.163Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-appendRow.md": {
+      "sourceHash": "983e53371a18c2ba1704ae9ada8691f968fe2ca72cc683f4e0b37e33d62ddc83",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-DataImport/v2-DataImport-VolumeBulkWriter/v2-VolumeBulkWriter-appendRow.md",
+      "translatedAt": "2026-08-04T05:52:48.163Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Management/v2-Management-flushAll.md": {
+      "sourceHash": "342873cd1a32c01db8a1fc323d41fe8f021286509e75a3524ffad7881eb11e67",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Management/v2-Management-flushAll.md",
+      "translatedAt": "2026-08-04T05:52:48.163Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getCompactionPlans.md": {
+      "sourceHash": "bd09d3455fdcbbfedecc63799a19d0cb631cb816506ca0040b083e8196927fa7",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Management/v2-Management-getCompactionPlans.md",
+      "translatedAt": "2026-08-04T05:52:48.163Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getFlushAllState.md": {
+      "sourceHash": "c1f1dba9d2792ed9bfdb5b8976780e673adcd702422172816fb4e030fb00cdc2",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Management/v2-Management-getFlushAllState.md",
+      "translatedAt": "2026-08-04T05:52:48.163Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md": {
+      "sourceHash": "dffc8d4471d8f93644db2497647f654d7435ac90af015ad6e26f51a9d6086883",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Management/v2-Management-getRefreshExternalCollectionProgress.md",
+      "translatedAt": "2026-08-04T05:52:48.163Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Management/v2-Management-getServerVersion.md": {
+      "sourceHash": "c357714fa96df9c6948122721fb99f463218e12c6a4ad10d4afa13a5bea69a05",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Management/v2-Management-getServerVersion.md",
+      "translatedAt": "2026-08-04T05:52:48.163Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md": {
+      "sourceHash": "b431446c3263ca67b76f965c7beca98c77b626abdf7dbc2b55207f0c3b6b720f",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Management/v2-Management-listRefreshExternalCollectionJobs.md",
+      "translatedAt": "2026-08-04T05:52:48.163Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md": {
+      "sourceHash": "ca6845e566ab7fe40519d2d478c98812c2c01c8e06cbadf10f5937dd80c16875",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Management/v2-Management-refreshExternalCollection.md",
+      "translatedAt": "2026-08-04T05:52:48.163Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md": {
+      "sourceHash": "860004d9b89cdb0914323abc06f78a72ff112e4e435eb75724c6b98e2353e36e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md",
+      "translatedAt": "2026-08-04T05:52:48.165Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-insert.md": {
+      "sourceHash": "5cb661d3f4a176788838189554cde52776033369a9b432fac5a763b6cb5a8f6b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Vector/v2-Vector-insert.md",
+      "translatedAt": "2026-08-04T05:52:48.165Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-query.md": {
+      "sourceHash": "ec74db4d5bdf8330a386dcc7324926a29da896c2ad56efa40b5d51bc1dc38bbe",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Vector/v2-Vector-query.md",
+      "translatedAt": "2026-08-04T05:52:48.165Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-search.md": {
+      "sourceHash": "3d55d31c9fa72b5efff23b60c73b6e1635b5a5303d49bb4751f08cde94abc052",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Vector/v2-Vector-search.md",
+      "translatedAt": "2026-08-04T05:52:48.165Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector-upsert.md": {
+      "sourceHash": "6929e5a487fb60ee4446485970941b5eb5ad4d10aae061b90358276fbc10bda6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Vector/v2-Vector-upsert.md",
+      "translatedAt": "2026-08-04T05:52:48.165Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-shutdownGracefully.md": {
+      "sourceHash": "2dc8c2c3fed1966e8a62bdfac1f2b70673e6121aeaa42960e8ead370fd8ca34b",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-shutdownGracefully.md",
+      "translatedAt": "2026-08-04T05:52:48.156Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFiles.md": {
+      "sourceHash": "56c27003ff4a612b0c32a7cd74d3bdf35663423ae80f2baa4aa24f5ae1b49d56",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFiles.md",
+      "translatedAt": "2026-08-04T05:52:48.156Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync.md": {
+      "sourceHash": "85655e2359dbc923c75515f8cb5da816931ef4c64bea25700be8c87e7b9abaed",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-uploadFilesAsync.md",
+      "translatedAt": "2026-08-04T05:52:48.165Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-createVolume.md": {
+      "sourceHash": "39726fdab5ab580616509bab37e33269c1cf42264e57abbb1814027a30d82b65",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-createVolume.md",
+      "translatedAt": "2026-08-04T05:52:48.165Z"
+    },
+    "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-listVolumes.md": {
+      "sourceHash": "6cb992de448347f8b552f1ef4b131f4883637969e560cbfe66085bb2d750f871",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-listVolumes.md",
+      "translatedAt": "2026-08-04T05:52:48.165Z"
+    },
     "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-bulk_import.md": {
       "sourceHash": "97bf3f1868e323c718c3434305ed704a9151a99557c3679a025f78402ac39216",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/DataImport/DataImport-BulkImport/BulkImport-bulk_import.md",
@@ -5999,11 +6189,6 @@
       "sourceHash": "3f11d9e34d9f931c04a17790fb5010060372c8d9a6ab5fe2086a1b1196eb2104",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-VolumeManager-listVolumes.md",
       "translatedAt": "2026-07-13T11:13:59.162Z"
-    },
-    "reference/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md": {
-      "sourceHash": "42c8a564954d84ddbaca49f6d478322ed11a74ee90ae71f8aa47a2d7ce5ce30f",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md",
-      "translatedAt": "2026-07-13T11:13:56.565Z"
     },
     "reference/api/nodejs/nodejs/Authentication/Authentication-addUserToRole.md": {
       "sourceHash": "2327f0fb04431ab8a2df5f813d10b724f1e7f6fa118e428d253afcb4ed21a32c",

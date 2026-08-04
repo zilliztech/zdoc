@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、以前に開始された external collection refresh ジョブの進行状況と現在の状態を返します。 | Java | v2"
+description: "この操作は、以前に開始された external collection のリフレッシュジョブの進行状況と現在の状態を返します。 | Java | v2"
 type: docx
 token: FzEydqTwRoajhnxZOftcKxKpndg
-sidebar_position: 27
+sidebar_position: 29
 keywords: 
-  - 語彙検索
-  - 最近傍探索
+  - lexical search
+  - nearest neighbor search
   - Agentic RAG
   - rag llm architecture
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - getRefreshExternalCollectionProgress()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getRefreshExternalCollectionProgress()
 
-この操作は、以前に開始された external collection refresh ジョブの進行状況と現在の状態を返します。
+この操作は、以前に開始された external collection のリフレッシュジョブの進行状況と現在の状態を返します。
 
 ```java
 public GetRefreshExternalCollectionProgressResp getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq request)
@@ -58,11 +58,11 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 
 *GetRefreshExternalCollectionProgressResp*
 
-レスポンスは `getJobInfo()` でアクセス可能な単一の `RefreshExternalCollectionJobInfo` をラップします。ジョブ情報のフィールド:
+レスポンスは、`getJobInfo()` を介してアクセス可能な単一の `RefreshExternalCollectionJobInfo` をラップします。ジョブ情報のフィールド:
 
 - `jobId` (*long*) - ジョブ識別子。
 
-- `collectionName` (*String*) - 対象コレクション名。
+- `collectionName` (*String*) - 対象 collection 名。
 
 - `state` (*String*) - 現在のジョブ状態（例: `"PENDING"`、`"RUNNING"`、`"SUCCEEDED"`、`"FAILED"`）。
 
@@ -70,7 +70,7 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 
 - `reason` (*String*) - `state` が `"FAILED"` の場合の失敗理由。それ以外の場合は空です。
 
-- `externalSource` (*String*) - ジョブで使用される外部ソース。
+- `externalSource` (*String*) - ジョブで使用される external source。
 
 - `startTime` (*long*) - ジョブ開始タイムスタンプ（epoch ミリ秒）。
 

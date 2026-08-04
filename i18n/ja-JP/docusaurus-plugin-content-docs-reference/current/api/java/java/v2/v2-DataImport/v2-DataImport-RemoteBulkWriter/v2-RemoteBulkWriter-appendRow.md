@@ -4,12 +4,12 @@ slug: /java/java/v2-RemoteBulkWriter-appendRow
 sidebar_label: "appendRow()"
 beta: false
 added_since: v2.5.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、RemoteBulkWriter バッファに 1 行のデータを追加します。バッファがいっぱいになったとき、または `commit()` が呼び出されたときに、データはリモートストレージにアップロードされます。 | Java | v2"
+description: "1 行を検証して writer に追加します。バッファリングされたデータが設定された `chunkSize` を超えると、writer は現在のファイルを自動的にコミットします。 | Java | v2"
 type: docx
-token: PLJTd37DWozRwbx74AIcQyh4nmc
+token: ZWoqd1OFgoYwGyxWmz9ciWwsnZx
 sidebar_position: 6
 keywords: 
   - llm eval
@@ -31,34 +31,31 @@ import Admonition from '@theme/Admonition';
 
 # appendRow()
 
-この操作は、RemoteBulkWriter バッファに 1 行のデータを追加します。バッファがいっぱいになったとき、または `commit()` が呼び出されたときに、データはリモートストレージにアップロードされます。
+1 行を検証して writer に追加します。バッファリングされたデータが設定された `chunkSize` を超えると、writer は現在のファイルを自動的にコミットします。
+
+[`StructFieldSchema`](./v2-Collections-StructFieldSchema) フィールドには、binary、float16、bfloat16、および int8 vector 値を含めることができます。
 
 ```java
-public void appendRow(JsonObject rowData) throws IOException, InterruptedException
+public void appendRow(JsonObject rowData)
 ```
 
-**PARAMETERS:**
-
-- **rowData** (*JsonObject*) -
-
-    単一のデータ行を表す JSON オブジェクト。
-
-**RETURNS:**
+**戻り値:**
 
 *void*
 
-**EXCEPTIONS:**
+この操作は値を返しません。
 
-- **MilvusClientException**
+**例外:**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+- **Exception**
 
-## 例\{#example}
+    リクエストの検証、トランスポート、またはサーバー実行が失敗した場合に発生します。正確な失敗理由については、例外メッセージを確認してください。
+
+## Example\{#example}
 
 ```java
-RemoteBulkWriter writer = new RemoteBulkWriter(config);
 JsonObject row = new JsonObject();
 row.addProperty("id", 1L);
-row.add("vector", gson.toJsonTree(new float[]{0.1f, 0.2f, 0.3f}));
+row.addProperty("title", "Dune");
 writer.appendRow(row);
 ```

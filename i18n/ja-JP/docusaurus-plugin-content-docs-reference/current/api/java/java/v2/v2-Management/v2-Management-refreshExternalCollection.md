@@ -7,10 +7,10 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、外部ソースから Milvus コレクションにデータを取り込む更新ジョブをトリガーします。進行状況を追跡するために `getRefreshExternalCollectionProgress()` に渡せるジョブ ID を返します。 | Java | v2"
+description: "この操作は、外部ソースから Milvus collection にデータを取り込むリフレッシュジョブをトリガーします。進行状況を追跡するために `getRefreshExternalCollectionProgress()` に渡せるジョブ ID を返します。 | Java | v2"
 type: docx
 token: G8JydoIzPoKb2MxASemcW2spnbe
-sidebar_position: 29
+sidebar_position: 31
 keywords: 
   - 動画重複排除
   - 動画類似検索
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # refreshExternalCollection()
 
-この操作は、外部ソースから Milvus コレクションにデータを取り込む更新ジョブをトリガーします。進行状況を追跡するために `getRefreshExternalCollectionProgress()` に渡せるジョブ ID を返します。
+この操作は、外部ソースから Milvus collection にデータを取り込むリフレッシュジョブをトリガーします。進行状況を追跡するために `getRefreshExternalCollectionProgress()` に渡せるジョブ ID を返します。
 
 ```java
 public RefreshExternalCollectionResp refreshExternalCollection(RefreshExternalCollectionReq request)
@@ -53,17 +53,17 @@ refreshExternalCollection(RefreshExternalCollectionReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    データベースの名前です。指定しない場合は現在のデータベースがデフォルトで使用されます。
+    database の名前です。指定しない場合は現在の database がデフォルトで使用されます。
 
 - `collectionName(String collectionName)` -
 
     **[REQUIRED]**
 
-    更新するコレクションの名前です。
+    リフレッシュする collection の名前です。
 
 - `externalSource(String externalSource)` -
 
-    外部データソース識別子です（例: `"s3"`、`"oss"`）。
+    外部データソースの識別子です（例: `"s3"`、`"oss"`）。
 
 - `externalSpec(JsonObject externalSpec)` -
 
@@ -73,15 +73,15 @@ refreshExternalCollection(RefreshExternalCollectionReq.builder()
 
 *RefreshExternalCollectionResp*
 
-レスポンスには 1 つのフィールドが含まれます。
+レスポンスには単一のフィールドが含まれます。
 
-- `jobId` (*long*) - 新しく開始された更新ジョブの数値 ID です。この値を保存して、`getRefreshExternalCollectionProgress()` で進行状況を照会します。
+- `jobId` (*long*) - 新たに開始されたリフレッシュジョブの数値 ID です。`getRefreshExternalCollectionProgress()` で進行状況を照会するために、この値を保存してください。
 
 **例外:**
 
 - **MilvusClientException**
 
-    この例外は、この操作中に何らかのエラーが発生した場合にスローされます。
+    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
 
 ## 例\{#example}
 

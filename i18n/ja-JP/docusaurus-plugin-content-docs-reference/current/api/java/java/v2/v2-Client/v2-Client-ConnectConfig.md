@@ -10,7 +10,7 @@ notebook: false
 description: "`MilvusClientV2` インスタンスの作成時に使用される接続設定は、ConnectConfig builder に保持されます。builder パターンを使用して、認証、TLS、タイムアウト、keepalive 設定を含むすべての接続パラメータを構成します。 | Java | v2"
 type: docx
 token: ErNidktYPodbDxxow0xcV5qHnof
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - Pinecone vector database
   - Audio search
@@ -64,35 +64,35 @@ ConnectConfig.builder()
 
     **[必須]**
 
-    サーバーエンドポイント URI。ローカルの Milvus インスタンスには `http://host:port` を、Zilliz Cloud には HTTPS URL を受け付けます。
+    サーバーエンドポイント URI です。ローカルの Milvus インスタンスには `http://host:port` を、Zilliz Cloud には HTTPS URL を受け付けます。
 
 - `token(String token)` -
 
-    認証用の API key または `"username:password"` 文字列。Zilliz Cloud の API key に使用するか、username/password 認証の短縮記法として使用します。デフォルト: `null`。
+    認証用の API key または `"username:password"` 文字列です。Zilliz Cloud の API key に使用するか、username/password 認証の省略記法として使用します。デフォルト: `null`。
 
 - `username(String username)` -
 
-    認証用のユーザー名。`password()` と組み合わせて使用します。`token()` が設定されている場合は無視されます。デフォルト: `null`。
+    認証用の username です。`password()` と一緒に使用します。`token()` が設定されている場合は無視されます。デフォルト: `null`。
 
 - `password(String password)` -
 
-    認証用のパスワード。`username()` と組み合わせて使用します。デフォルト: `null`。
+    認証用の password です。`username()` と一緒に使用します。デフォルト: `null`。
 
 - `dbName(String dbName)` -
 
-    接続後に使用するデフォルトのデータベース名。デフォルト: `null`（サーバーのデフォルトを使用）。
+    接続後に使用するデフォルトのデータベース名です。デフォルト: `null`（サーバーのデフォルトを使用）。
 
 - `connectTimeoutMs(long connectTimeoutMs)` -
 
-    接続中に gRPC チャネルが READY 状態に到達するまで待機するタイムアウト時間（ミリ秒）。デフォルト: `10000`。
+    接続中に gRPC channel が READY 状態になるまで待機するタイムアウト時間（ミリ秒）です。デフォルト: `10000`。
 
 - `keepAliveTimeMs(long keepAliveTimeMs)` -
 
-    サーバーに送信される keepalive ping の間隔（ミリ秒）。デフォルト: `10000`。
+    サーバーに送信される keepalive ping の間隔（ミリ秒）です。デフォルト: `10000`。
 
 - `keepAliveTimeoutMs(long keepAliveTimeoutMs)` -
 
-    接続を閉じる前に keepalive ping の確認応答を待機するタイムアウト時間（ミリ秒）。デフォルト: `5000`。
+    keepalive ping の応答確認を待機してから接続を閉じるまでのタイムアウト時間（ミリ秒）です。デフォルト: `5000`。
 
 - `keepAliveWithoutCalls(boolean keepAliveWithoutCalls)` -
 
@@ -100,7 +100,7 @@ ConnectConfig.builder()
 
 - `rpcDeadlineMs(long rpcDeadlineMs)` -
 
-    単一の RPC 呼び出しに許可される最大時間（ミリ秒）。`0` を指定すると deadline は無効になります。デフォルト: `0`。
+    1 回の RPC 呼び出しに許可される最大時間（ミリ秒）です。値が `0` の場合、deadline は無効になります。デフォルト: `0`。
 
 - `secure(Boolean secure)` -
 
@@ -112,35 +112,35 @@ ConnectConfig.builder()
 
 - `idleTimeoutMs(long idleTimeoutMs)` -
 
-    アイドル状態の接続が閉じられるまでの時間（ミリ秒）。デフォルト: `86400000`（24 時間）。
+    アイドル状態の接続が閉じられるまでの時間（ミリ秒）です。デフォルト: `86400000`（24 時間）。
 
 - `clientKeyPath(String clientKeyPath)` -
 
-    相互 TLS（mTLS）用のクライアント秘密鍵ファイルへのパス。デフォルト: `null`。
+    相互 TLS（mTLS）用の client 秘密鍵ファイルへのパスです。デフォルト: `null`。
 
 - `clientPemPath(String clientPemPath)` -
 
-    相互 TLS（mTLS）用のクライアント証明書ファイルへのパス。デフォルト: `null`。
+    相互 TLS（mTLS）用の client 証明書ファイルへのパスです。デフォルト: `null`。
 
 - `caPemPath(String caPemPath)` -
 
-    TLS 検証用の CA 証明書ファイルへのパス。デフォルト: `null`。
+    TLS 検証用の CA 証明書ファイルへのパスです。デフォルト: `null`。
 
 - `serverPemPath(String serverPemPath)` -
 
-    一方向 TLS 用のサーバー証明書ファイルへのパス。デフォルト: `null`。
+    一方向 TLS 用のサーバー証明書ファイルへのパスです。デフォルト: `null`。
 
 - `serverName(String serverName)` -
 
-    TLS 証明書検証用のサーバー名オーバーライド。デフォルト: `null`。
+    TLS 証明書検証用のサーバー名オーバーライドです。デフォルト: `null`。
 
 - `proxyAddress(String proxyAddress)` -
 
-    gRPC 接続用の HTTP プロキシアドレス。デフォルト: `null`。
+    gRPC 接続用の HTTP proxy アドレスです。デフォルト: `null`。
 
 - `option(Map<String, String> option)` -
 
-    接続時に `ClientInfo.reserved` フィールドでサーバーに転送される任意のキーと値のペア。クライアント側のメタデータや、サーバーが理解できる feature flag を渡すのに役立ちます。デフォルト値は空の map です。
+    接続時に `ClientInfo.reserved` フィールド内でサーバーに転送される任意のキーと値のペアです。クライアント側メタデータや、サーバーが理解できる feature flag を渡すのに役立ちます。デフォルト値は空の map です。
 
 ## Example\{#example}
 

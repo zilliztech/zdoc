@@ -7,9 +7,9 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の project 内のすべての volume をページネーション形式で一覧表示します。 | Java | v2"
+description: "オプションのプロジェクト、タイプ、およびページネーションフィルターを使用してボリュームを一覧表示します。 | Java | v2"
 type: docx
-token: Cde1dlUbDosa86xjuShcoKgQnvg
+token: CWVPd10ixoosYHxkJSScNe8mnoh
 sidebar_position: 3
 keywords: 
   - llm hallucinations
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listVolumes()
 
-この操作は、特定の project 内のすべての volume をページネーション形式で一覧表示します。
+オプションのプロジェクト、タイプ、およびページネーションフィルターを使用してボリュームを一覧表示します。
 
 ```java
 public ListVolumesResponse listVolumes(ListVolumesRequest request)
@@ -40,99 +40,52 @@ public ListVolumesResponse listVolumes(ListVolumesRequest request)
 ## Request Syntax\{#request-syntax}
 
 ```java
-listVolumes(ListVolumesRequest.builder()
-    .projectId(String projectId)
-    .currentPage(Integer currentPage)
-    .pageSize(Integer pageSize)
+ListVolumesRequest.builder()
+    .projectId(projectId)
+    .pageSize(pageSize)
+    .currentPage(currentPage)
+    .type(type)
     .build();
-)
 ```
 
-**PARAMETERS**
+**BUILDER METHODS:**
 
-- **projectId** (*str*) -
+- `projectId(String projectId)`
 
-    **[REQUIRED]**
+    Zilliz Cloud プロジェクトの ID。
 
-    作成対象の volume が属する project の ID。
+- `pageSize(Integer pageSize)`
 
-- **currentPage** (*int*) -
+    各ページで返されるボリュームの数。
 
-    volume リストの現在のページです。指定した場合、指定されたページ上の volume のみが返されます。
+- `currentPage(Integer currentPage)`
 
-    このパラメータは任意で、デフォルト値は `1` です。これは最初のページが返されることを示します。
+    返すページ番号。
 
-- **pageSize** (*int*) -
+- `type(String type)`
 
-    volume リストの現在のページサイズです。指定した場合、指定した数の volume のみが返されます。
+    オプションのボリュームタイプフィルター: `MANAGED` または `EXTERNAL`。
 
-    このパラメータは任意で、デフォルト値は `10` です。これは最大 10 件の volume のリストが返されることを示します。
-
-**RETURN TYPE**
+**RETURNS:**
 
 *ListVolumesResponse*
 
-**RETURNS**
+**EXCEPTIONS:**
 
-volume のリストをページネーション形式で含む **ListVolumesResponse** オブジェクト。
+- **MilvusClientExceptions**
 
-- **count** (*Integer*) -
-
-    見つかった volume の総数。
-
-- **currentPage** (*Integer*) -
-
-    現在のページ。
-
-- **pageSize** (*Integer*) -
-
-    1 ページあたりの volume の最大数。
-
-- **volumes** (*List&lt;VolumeInfo&gt;*) -
-
-    `VolumeInfo` インスタンスのリスト。
-
-    - **volumeName** (*String*) -
-
-        volume の名前。
+    この操作中にエラーが発生した場合にスローされます。正確な失敗理由については、例外メッセージを確認してください。
 
 ## Example\{#example}
 
+オプションのプロジェクト、タイプ、およびページネーションフィルターを使用してボリュームを一覧表示します。
+
 ```java
-import com.google.gson.Gson;
-import io.milvus.bulkwriter.VolumeManager;
-import io.milvus.bulkwriter.VolumeManagerParam;
-import io.milvus.bulkwriter.request.volume.ListVolumesRequest;
-import io.milvus.bulkwriter.response.volume.ListVolumesResponse;
-
-VolumeManagerParam volumeManagerParam = VolumeManagerParam.newBuilder()
-    .withCloudEndpoint("https://api.cloud.zilliz.com")
-    .withApiKey("YOUR_API_KEY")
-    .build();
-        
-VolumeManager volumeManager = new VolumeManager(volumeManagerParam);
-
-ListVolumesRequest request = ListVolumesRequest.builder()
-    .projectId("proj-xxxxxxxxxxxxxxxxxxxxxxx")
-    .currentPage(1)
-    .pageSize(10)
-    .build();
-    
-ListVolumesResponse listVolumesResponse = volumeManager.listVolumes(request);
-
-System.out.println("\nlistVolumes results: " + new Gson().toJson(listVolumesResponse));
-
-// listVolumes results: 
-// 
-// {
-//     "count": 1,
-//     "currentPage": 1,
-//     "pageSize": 10,
-//     "volumes": [
-//         {
-//             "volumeName": "my_volume"
-//         }        
-//     ]
-// }
+ListVolumesResponse response = volumeManager.listVolumes(
+    ListVolumesRequest.builder()
+        .projectId(PROJECT_ID)
+        .type("S3")
+        .currentPage(1)
+        .pageSize(20)
+        .build());
 ```
-

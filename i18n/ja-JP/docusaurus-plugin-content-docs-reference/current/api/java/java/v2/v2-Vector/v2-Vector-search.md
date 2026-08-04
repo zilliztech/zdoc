@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、オプションの scalar フィルタリング式を使用して vector 類似検索を実行します。 | Java | v2"
+description: "オプションの結果順序付け、集計リクエストとバケット、および実行メトリクスを使用して vector search を実行します。 | Java | v2"
 type: docx
 token: ANw4d8gGEo46B4xxde3cC0xqndf
 sidebar_position: 7
@@ -31,198 +31,182 @@ import Admonition from '@theme/Admonition';
 
 # search()
 
-この操作は、オプションの scalar フィルタリング式を使用して vector 類似検索を実行します。
+オプションの結果順序付け、集計リクエストとバケット、および実行メトリクスを使用して vector search を実行します。
 
 ```java
 public SearchResp search(SearchReq request)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
-search(SearchReq.builder()
-    .databaseName(String databaseName)
-    .collectionName(String collectionName)
-    .clusterId(String clusterId)
-    .partitionNames(List<String> partitionNames)
-    .annsField(String annsField)
-    .topK(int topK)
-    .filter(String filter)
-    .outputFields(List<String> outputFields)
-    .data(List<BaseVector> data)
-    .ids(List<Object> ids)
-    .offset(long offset)
-    .limit(long limit)
-    .roundDecimal(int roundDecimal)
-    .searchParams(Map<String, Object> searchParams)
-    .guaranteeTimestamp(long guaranteeTimestamp)
-    .gracefulTime(Long gracefulTime)
-    .consistencyLevel(ConsistencyLevel consistencyLevel)
-    .ignoreGrowing(boolean ignoreGrowing)
-    .timezone(String timezone)
-    .groupByFieldName(String groupByFieldName)
-    .groupSize(Integer groupSize)
-    .strictGroupSize(Boolean strictGroupSize)
-    .functionScore(FunctionScore functionScore)
-    .filterTemplateValues(Map<String, Object> filterTemplateValues)
-    .highlighter(Highlighter highlighter)
-    .build()
-);
+SearchReq.builder()
+    .databaseName(databaseName)
+    .collectionName(collectionName)
+    .clusterId(clusterId)
+    .partitionNames(partitionNames)
+    .annsField(annsField)
+    .topK(topK)
+    .filter(filter)
+    .outputFields(outputFields)
+    .data(data)
+    .ids(ids)
+    .offset(offset)
+    .limit(limit)
+    .roundDecimal(roundDecimal)
+    .searchParams(searchParams)
+    .guaranteeTimestamp(guaranteeTimestamp)
+    .gracefulTime(gracefulTime)
+    .consistencyLevel(consistencyLevel)
+    .ignoreGrowing(ignoreGrowing)
+    .timezone(timezone)
+    .orderByFields(orderByFields)
+    .groupByFieldName(groupByFieldName)
+    .groupSize(groupSize)
+    .strictGroupSize(strictGroupSize)
+    .functionScore(functionScore)
+    .filterTemplateValues(filterTemplateValues)
+    .highlighter(highlighter)
+    .searchAggregation(searchAggregation)
+    .build();
 ```
 
-**ビルダーメソッド:**
+**BUILDER METHODS:**
 
 - `databaseName(String databaseName)`
 
-    データベース名。指定しない場合、現在のデータベースがデフォルトで使用されます。
+    データベース名です。省略した場合は現在のデータベースがデフォルトで使用されます。
 
 - `collectionName(String collectionName)`
 
-    対象 collection の名前。
+    対象 collection の名前です。
 
 - `clusterId(String clusterId)`
 
-    この vector 読み取りリクエストの対象 cluster ID。複数のリクエストで同じ cluster ID を共有する場合は `session(String clusterId)` を使用します。
+    このリクエストの Zilliz Cloud cluster ID です。
 
 - `partitionNames(List<String> partitionNames)`
 
-    対象とする partition 名のリスト。
+    検索する partition です。
 
 - `annsField(String annsField)`
 
-    近似最近傍探索に使用する vector フィールドの名前。
+    近似最近傍探索に使用する vector field です。
 
 - `topK(int topK)`
 
-    返す上位結果の件数。
+    サーバーに要求する最近傍候補の数です。
 
 - `filter(String filter)`
 
-    結果をフィルタリングするためのブール式。
+    scalar フィルタリング式です。
 
 - `outputFields(List<String> outputFields)`
 
-    出力に含めるフィールド名のリスト。
+    各一致結果に含まれる entity field です。
 
 - `data(List<BaseVector> data)`
 
-    JSON オブジェクトとして挿入/アップサートするデータ行のリスト。
+    クエリ vector です。ids と一緒に使用しないでください。
 
 - `ids(List<Object> ids)`
 
-    特定のエンティティを識別するための主キー値のリスト。
+    保存済み vector をクエリ vector として使用する主キーです。data と一緒に使用しないでください。
 
 - `offset(long offset)`
 
-    返却前にスキップする結果数。
+    スキップする一致結果の数です。
 
 - `limit(long limit)`
 
-    返す結果の最大数。
+    各クエリに対して返される一致結果の最大数です。
 
 - `roundDecimal(int roundDecimal)`
 
-    distance/score の丸めに使用する小数点以下の桁数。
+    スコアの丸めに使用する小数点以下の桁数です。
 
 - `searchParams(Map<String, Object> searchParams)`
 
-    キーと値のペアとして指定する追加の検索パラメータ。
+    index 固有の検索パラメータです。
 
 - `guaranteeTimestamp(long guaranteeTimestamp)`
 
-    それ以前のすべての操作が可視であることを保証するタイムスタンプ。
+    非推奨の guarantee timestamp です。
 
 - `gracefulTime(Long gracefulTime)`
 
-    整合性のための猶予時間（ミリ秒）。
+    非推奨の graceful consistency window です。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
-    この操作の整合性レベル。
+    検索の整合性レベルです。
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    操作中に growing セグメントを無視するかどうか。
+    growing segment を無視するかどうかです。
 
 - `timezone(String timezone)`
 
-    時刻関連のフィルタに使用するタイムゾーン文字列。
+    時間に関する式の解釈に使用するタイムゾーンです。
+
+- `orderByFields(List<OrderByField> orderByFields)`
+
+    検索結果の順序付けに使用する scalar field と方向です。
 
 - `groupByFieldName(String groupByFieldName)`
 
-    検索結果をグループ化するフィールド名。
+    一致した entity をグループ化するために使用する field です。
 
 - `groupSize(Integer groupSize)`
 
-    各グループごとに返す結果数。
+    グループごとに返される entity の最大数です。
 
 - `strictGroupSize(Boolean strictGroupSize)`
 
-    グループサイズを厳密に適用するかどうか。
+    返されるすべてのグループに groupSize 個の entity を含める必要があるかどうかです。
 
 - `functionScore(FunctionScore functionScore)`
 
-    カスタムスコアリングのための FunctionScore オブジェクト。
+    検索結果に適用されるスコアリング関数です。
 
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
-    パラメータ化されたフィルタに使用するテンプレート変数値のマップ。
+    filter 式内のプレースホルダーに置換される値です。
 
 - `highlighter(Highlighter highlighter)`
 
-    検索結果内のテキストをハイライトするための Highlighter オブジェクト。
+    返される field のテキストハイライト設定です。
 
-**戻り値:**
+- `searchAggregation(SearchAggregation searchAggregation)`
+
+    集計 field、メトリクス、順序付け、top hits、およびネストされた集計設定です。
+
+**RETURNS:**
 
 *SearchResp*
 
-*SearchResp*
+検索結果、recall、コスト、スキャンされたバイト数、キャッシュヒット率、および集計バケットを含みます。
 
-**例外:**
+**EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外が発生します。
+    リクエストの検証、転送、またはサーバー実行が失敗した場合に発生します。正確な失敗理由については例外メッセージを確認してください。
 
-## 例\{#example}
+## Example\{#example}
+
+Zilliz Cloud cluster に対する search() を示します。
 
 ```java
-import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.FunctionScore;
-import io.milvus.v2.service.vector.request.data.EmbeddedText;
-import io.milvus.v2.service.vector.request.ranker.DecayRanker;
-import io.milvus.v2.service.vector.response.SearchResp;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-// Build a DecayRanker to rerank results by field value proximity
-DecayRanker decay = DecayRanker.builder()
-        .name("birth_year_decay")
-        .inputFieldNames(Collections.singletonList("birth_year"))
-        .function("linear")
-        .origin(1900)
-        .scale(50)
-        .offset(0)
-        .decay(0.1)
-        .build();
-
-// Search with FunctionScore for reranking
-SearchResp searchResp = client.search(SearchReq.builder()
-        .collectionName("my_collection")
-        .data(Collections.singletonList(new EmbeddedText("Albert Darwin")))
-        .limit(100)
-        .outputFields(Arrays.asList("birth_year", "lifespan"))
-        .functionScore(FunctionScore.builder()
-        .addFunction(decay)
+SearchResp response = client.search(SearchReq.builder()
+    .collectionName("books")
+    .clusterId(CLUSTER_ID)
+    .data(Collections.singletonList(queryVector))
+    .annsField("embedding")
+    .searchAggregation(SearchAggregation.builder()
+        .fields(Collections.singletonList("category"))
+        .size(10)
         .build())
-        .build());
-
-List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
-for (List<SearchResp.SearchResult> results : searchResults) {
-    for (SearchResp.SearchResult result : results) {
-        System.out.println(result);
-    }
-}
+    .limit(10)
+    .build());
 ```

@@ -7,14 +7,14 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、指定された collection に関する既存のすべてのインポートジョブを一覧表示します。 | Java | v2"
+description: "Milvus または Zilliz Cloud の bulk import ジョブを一覧表示します。 | Java | v2"
 type: docx
-token: CN9sdiCicoERZpx9GhmcLa4Wn7g
+token: KZc2dLt74oh6VzxS4EYc7cEsn3d
 sidebar_position: 4
 keywords: 
   - milvus vector db
   - Zilliz Cloud
-  - milvus とは
+  - what is milvus
   - milvus database
   - zilliz
   - zilliz cloud
@@ -31,69 +31,65 @@ import Admonition from '@theme/Admonition';
 
 # listImportJobs()
 
-この操作は、指定された collection に関する既存のすべてのインポートジョブを一覧表示します。
+Milvus または Zilliz Cloud の bulk import ジョブを一覧表示します。
 
 ```java
 public static String listImportJobs(String url, BaseListImportJobsRequest request)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
+
+このリクエストを使用して、Zilliz Cloud の import ジョブを一覧表示します。
 
 ```java
-bulkImport.listImportJobs(
-    url,
-    request
-)
+CloudListImportJobsRequest.builder()
+    .apiKey(apiKey)
+    .clusterId(clusterId)
+    .projectId(projectId)
+    .regionId(regionId)
+    .pageSize(pageSize)
+    .currentPage(currentPage)
+    .build();
 ```
 
-**パラメータ:**
+**PARAMETERS:**
 
-- **url** (*String*) -
+- **apiKey** (*String*) -<br/>
+  認証資格情報です。Cloud リクエストには Zilliz Cloud API key を使用し、Milvus リクエストには `username:password` を使用します。
 
-    Zilliz Cloud の Control Plane API エンドポイント。エンドポイント URL は次の形式である必要があります。
+- **clusterId** (*String*) -<br/>
+  cluster ベースのデプロイメント用の cluster 識別子です。project database デプロイメントの場合は、代わりに `projectId` と `regionId` を使用します。
 
-    ```python
-    https://api.cloud.zilliz.com
-    ```
+- **projectId** (*String*) -<br/>
+  project database デプロイメント用の project 識別子です。`clusterId` の代わりに `regionId` と組み合わせて使用します。
 
-- **request** (*[BaseListImportRequest](./v2-BulkImport-listImportJobs#baselistimportrequest)*) -  
+- **regionId** (*String*) -<br/>
+  project database デプロイメント用のリージョン識別子です。`clusterId` の代わりに `projectId` と組み合わせて使用します。
 
-    **BaseImportRequest** インスタンス。
+- **pageSize** (*Integer*) -<br/>
+  1 ページあたりに返される import ジョブの数です。
 
-**戻り値の型:**
+- **currentPage** (*Integer*) -<br/>
+  返される 1 始まりのページ番号です。
+
+**RETURNS:**
 
 *String*
 
-**戻り値:**
+一致する import ジョブとページネーションの詳細を含む JSON レスポンスです。
 
-指定された collection のインポートジョブ ID の一覧。
+## Example\{#example}
 
-## BaseListImportRequest\{#baselistimportrequest}
-
-**BaseListImportRequest** インスタンスは **CloudListImportRequest** で実装されます。
-
-### CloudListImportRequest\{#cloudlistimportrequest}
+Zilliz Cloud の project database の import ジョブを一覧表示します。
 
 ```java
-CloudListImportRequest.builder()
-    .apiKey(String apiKey)
-    .collectionName(String collectionName)
-    .build()
-```
-
-**ビルダーメソッド:**
-
-- `apiKey(String apiKey)`
-
-    cluster を操作するための十分な権限を持つ有効な Zilliz Cloud API key。
-
-- `collectionName(String collectionName)`
-
-    この操作の対象 collection の名前。
-
-## 例\{#example}
-
-```java
-
+CloudListImportJobsRequest request = CloudListImportJobsRequest.builder()
+    .projectId(PROJECT_ID)
+    .regionId(REGION_ID)
+    .currentPage(1)
+    .pageSize(10)
+    .apiKey(API_KEY)
+    .build();
+String response = BulkImportUtils.listImportJobs("https://api.cloud.zilliz.com", request);
 ```
 

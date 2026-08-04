@@ -4,18 +4,18 @@ slug: /java/java/v2-LocalBulkWriter-appendRow
 sidebar_label: "appendRow()"
 beta: false
 added_since: v2.5.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、LocalBulkWriter バッファに 1 行のデータを追加します。データは、バッファがいっぱいになったとき、または `commit()` が呼び出されたときにファイルに書き込まれます。 | Java | v2"
+description: "1 行を検証して writer に追加します。バッファされたデータが設定された `chunkSize` を超えると、writer は現在のファイルを自動的にコミットします。 | Java | v2"
 type: docx
-token: OgXWdeRGhoxMYqxzNSrcSZAknIb
+token: LzctdSxZ9ogGTwxx1yXcTc7ynvf
 sidebar_position: 6
 keywords: 
   - milvus db
   - milvus vector db
   - Zilliz Cloud
-  - Milvus とは
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,42 +31,31 @@ import Admonition from '@theme/Admonition';
 
 # appendRow()
 
-この操作は、LocalBulkWriter バッファに 1 行のデータを追加します。データは、バッファがいっぱいになったとき、または `commit()` が呼び出されたときにファイルに書き込まれます。
+1 行を検証して writer に追加します。バッファされたデータが設定された `chunkSize` を超えると、writer は現在のファイルを自動的にコミットします。
+
+[`StructFieldSchema`](./v2-Collections-StructFieldSchema) フィールドには、binary、float16、bfloat16、および int8 の vector 値を含めることができます。
 
 ```java
-public void appendRow(JsonObject rowData) throws IOException, InterruptedException
+public void appendRow(JsonObject rowData)
 ```
 
-**PARAMETERS:**
-
-- **rowData** (*JsonObject*) -
-
-    単一のデータ行を表す JSON オブジェクト。
-
-**RETURNS:**
+**戻り値:**
 
 *void*
 
-**EXCEPTIONS:**
+この操作は値を返しません。
 
-- **IOException**
+**例外:**
 
-    この操作中にデータの読み取りまたは書き込みエラーが発生した場合にスローされる checked exception です。
+- **Exception**
 
-- **InterruptedException**
+    リクエストの検証、トランスポート、またはサーバー実行が失敗した場合に発生します。正確な失敗理由については、例外メッセージを確認してください。
 
-    現在「ブロック中」（待機中、スリープ中、またはその他の理由で占有中）のスレッドが、`Thread.interrupt()` メソッドを使用する別のスレッドによって中断された場合にスローされる checked exception です。
-
-- **MilvusClientException**
-
-    この操作中に何らかのエラーが発生した場合に、この例外が発生します。
-
-## 例\{#example}
+## Example\{#example}
 
 ```java
-LocalBulkWriter writer = new LocalBulkWriter(config);
 JsonObject row = new JsonObject();
 row.addProperty("id", 1L);
-row.add("vector", gson.toJsonTree(new float[]{0.1f, 0.2f, 0.3f}));
+row.addProperty("title", "Dune");
 writer.appendRow(row);
 ```

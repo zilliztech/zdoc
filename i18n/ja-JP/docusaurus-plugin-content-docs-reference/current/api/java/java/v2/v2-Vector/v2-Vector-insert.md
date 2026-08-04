@@ -4,12 +4,12 @@ slug: /java/java/v2-Vector-insert
 sidebar_label: "insert()"
 beta: false
 added_since: v2.3.x
-last_modified: v2.6.x
+last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "この操作は、特定の collection にデータを挿入します。 | Java | v2"
+description: "auto-ID フィールド、関数出力フィールド、動的フィールド、Struct 値に対する insert-row の検証を整合させます。 | Java | v2"
 type: docx
-token: Y0N1dL4bVoyUnXxfSu7cjrgRnlc
+token: DKs7dzHI5oaJvlxezuAcuMVzn9c
 sidebar_position: 4
 keywords: 
   - Chroma vs Milvus
@@ -31,82 +31,60 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-この操作は、特定の collection にデータを挿入します。
+auto-ID フィールド、関数出力フィールド、動的フィールド、Struct 値に対する insert-row の検証を整合させます。
 
 ```java
 public InsertResp insert(InsertReq request)
 ```
 
-## リクエスト構文\{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
-insert(InsertReq.builder()
-    .data(List<JsonObject> data)
-    .databaseName(String databaseName)
-    .collectionName(String collectionName)
-    .partitionName(String partitionName)
-    .build()
-);
+InsertReq.builder()
+    .data(data)
+    .databaseName(databaseName)
+    .collectionName(collectionName)
+    .partitionName(partitionName)
+    .build();
 ```
 
-**BUILDER メソッド:**
+**BUILDER METHODS:**
 
-- `data(List<JsonObject> data)` -
+- `data(List<JsonObject> data)`
 
-    JSON オブジェクトとして挿入/アップサートするデータ行のリスト。
+    挿入する行です。フィールド名と値は collection スキーマに準拠している必要があります。
 
-- `databaseName(String databaseName)` -
+- `databaseName(String databaseName)`
 
-    データベース名。指定しない場合は現在のデータベースがデフォルトで使用されます。
+    データベースの名前です。省略した場合は現在のデータベースがデフォルトで使用されます。
 
-- `collectionName(String collectionName)` -
+- `collectionName(String collectionName)`
 
-    対象の collection 名。
+    対象の collection の名前です。
 
-- `partitionName(String partitionName)` -
+- `partitionName(String partitionName)`
 
-    対象の partition 名。
+    対象の partition の名前です。
 
-**戻り値:**
+**RETURNS:**
 
 *InsertResp*
 
-挿入されたエンティティ数に関する情報を含む **InsertResp** オブジェクト。
+挿入されたエンティティの数と、該当する場合は生成された主キーが含まれます。
 
-**例外:**
+**EXCEPTIONS:**
 
 - **MilvusClientException**
 
-    この操作中に何らかのエラーが発生した場合、この例外がスローされます。
+    リクエストの検証、転送、またはサーバー実行に失敗した場合に発生します。正確な失敗理由については例外メッセージを確認してください。
 
-## 例\{#example}
+## Example\{#example}
+
+レビュー済みの v3.0.x API を使用した insert() を示します。
 
 ```java
-import com.google.gson.JsonObject;
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.vector.request.InsertReq;
-
-// 1. クライアントをセットアップします
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .token("YOUR_CLUSTER_TOKEN")
-        .build();
-        
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
-
-// 2. collection に 1 行追加します。この collection には "id" フィールド
-// と次元 2 の "vector" フィールドがあります
-JsonObject row = new JsonObject();
-List<Float> vectorList = new ArrayList<>();
-vectorList.add(1.0f);
-vectorList.add(2.0f);
-row.add("vector", gson.toJsonTree(vectorList));
-row.addProperty("id", 0L);
-
-InsertReq insertReq = InsertReq.builder()
-        .collectionName("test")
-        .data(Collections.singletonList(row))
-        .build();
-client.insert(insertReq);
+InsertResp response = client.insert(InsertReq.builder()
+    .collectionName("books")
+    .data(rows)
+    .build());
 ```

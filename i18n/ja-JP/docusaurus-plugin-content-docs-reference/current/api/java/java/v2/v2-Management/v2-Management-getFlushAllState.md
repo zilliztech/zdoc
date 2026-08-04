@@ -7,10 +7,10 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "この操作は、以前の flush-all アクションが完了したかどうかを確認します。`flushAll` を非同期で呼び出し、完了をポーリングする必要がある場合に使用します。 | Java | v2"
+description: "この操作は、前回の flush-all アクションが完了したかどうかを確認します。`flushAll` を非同期で呼び出し、完了までポーリングする必要がある場合に使用します。 | Java | v2"
 type: docx
 token: U55Vd0IR9oz8m9xS76scr4KDnNh
-sidebar_position: 26
+sidebar_position: 24
 keywords: 
   - knn algorithm
   - HNSW
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getFlushAllState()
 
-この操作は、以前の flush-all アクションが完了したかどうかを確認します。`flushAll` を非同期で呼び出し、完了をポーリングする必要がある場合に使用します。
+この操作は、前回の flush-all アクションが完了したかどうかを確認します。`flushAll` を非同期で呼び出し、完了までポーリングする必要がある場合に使用します。
 
 ```java
 public GetFlushAllStateResp getFlushAllState(GetFlushAllStateReq request)
@@ -46,7 +46,7 @@ getFlushAllState(GetFlushAllStateReq.builder()
     .build());
 ```
 
-**BUILDER METHODS:**
+**BUILDER メソッド:**
 
 - `databaseName(String databaseName)`
 
@@ -54,17 +54,17 @@ getFlushAllState(GetFlushAllStateReq.builder()
 
 - `flushAllTs(Long flushAllTs)`
 
-    `flushAll` によって返される flush-all タイムスタンプ。
+    `flushAll` によって返された flush-all タイムスタンプ。
 
-**RETURNS:**
+**戻り値:**
 
 *GetFlushAllStateResp*
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusClientException**
 
-    検証に失敗した場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外が発生します。
+    検証に失敗した場合、またはこの操作に対してサーバーがエラーを返した場合に、この例外がスローされます。
 
 ## 例\{#example}
 
