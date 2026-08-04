@@ -7,6 +7,9 @@ const yaml = require('js-yaml')
 const { loadTypeScript } = require('../lib/load-typescript')
 const { applyMdxPatches, validateMdxStructure } = require('../../packages/docs-tooling/src/mdx/validate.cjs')
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
+const {formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
+const {protectTranslationInput, restoreProtectedContent, validateProtectedContent} = require('./protectedContent')
+const {parseAndValidateReviewEvidence} = require('./reviewEvidence')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
 const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
@@ -101,22 +104,6 @@ function stripCodeFence(text) {
   const trimmed = String(text || '').trim()
   const wrapped = trimmed.match(/^```(?:json|markdown|mdx)?[\t ]*\r?\n([\s\S]*)\r?\n```$/i)
   return wrapped ? wrapped[1].trim() : trimmed
-}
-
-function parseReview(text) {
-  const cleaned = stripCodeFence(text)
-  try {
-    const parsed = JSON.parse(cleaned)
-    return {
-      pass: parsed.pass === true,
-      issues: Array.isArray(parsed.issues) ? parsed.issues : [],
-    }
-  } catch {
-    return {
-      pass: false,
-      issues: [{ severity: 'high', type: 'review_parse_error', comment: cleaned.slice(0, 500) }],
-    }
-  }
 }
 
 function isRetryableProviderError(error) {
@@ -254,16 +241,20 @@ function formatDocumentContext(chunkContext) {
   return `${lines.join('\n')}\n`
 }
 
+function loadSystemPrompt(target, promptName) {
+  return `${loadPrompt(promptName)}\n\n${formatLocaleContract(loadLocaleContract(target))}`
+}
+
 function buildTranslationMessages({ target, sourcePath, sourceContent, locale, chunkContext }) {
   const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   const instruction = chunkContext
     ? 'Translate this consecutive MDX/Markdown section:'
     : 'Translate this complete MDX/Markdown file:'
   return [
-    { role: 'system', content: loadPrompt(promptNamesFor(target).translation) },
+    { role: 'system', content: loadSystemPrompt(target, promptNamesFor(target).translation) },
     {
       role: 'user',
-      content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\n${instruction}\n\n${sourceContent}`,
+      content: `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}${instruction}\n</translation_context>\n\n<source>\n${sourceContent}</source>`,
     },
   ]
 }
@@ -271,17 +262,16 @@ function buildTranslationMessages({ target, sourcePath, sourceContent, locale, c
 function buildReviewMessages({ target, sourcePath, sourceContent, translatedContent, locale, chunkContext }) {
   const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   return [
-    { role: 'system', content: loadPrompt(promptNamesFor(target).review) },
+    { role: 'system', content: loadSystemPrompt(target, promptNamesFor(target).review) },
     {
       role: 'user',
-      content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\nEnglish source${chunkContext ? ' section' : ''}:\n${sourceContent}\n\nTranslated draft${chunkContext ? ' section' : ''}:\n${translatedContent}`,
+      content: `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source>\n${sourceContent}</source>\n\n<draft>\n${translatedContent}</draft>`,
     },
   ]
 }
 
 function correctionPromptFor(target) {
-  if (target === 'ja-JP') return loadPrompt('codex-correction-agent.md')
-  return `${loadPrompt(promptNamesFor(target).translation)}\n\nRevise the current translation to fix every issue in the supplied review JSON. Prefer surgical correction and return only the corrected content.`
+  return loadSystemPrompt(target, promptNamesFor(target).correction)
 }
 
 function buildCorrectionMessages({ target, sourcePath, sourceContent, translatedContent, review, locale, chunkContext }) {
@@ -293,7 +283,7 @@ function buildCorrectionMessages({ target, sourcePath, sourceContent, translated
     },
     {
       role: 'user',
-      content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\nEnglish source${chunkContext ? ' section' : ''}:\n${sourceContent}\n\nCurrent translation${chunkContext ? ' section' : ''}:\n${translatedContent}\n\nReview JSON:\n${JSON.stringify(review, null, 2)}`,
+      content: `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source>\n${sourceContent}</source>\n\n<draft>\n${translatedContent}</draft>\n\n<review_json>\n${JSON.stringify(review, null, 2)}\n</review_json>`,
     },
   ]
 }
@@ -326,49 +316,6 @@ function stabilizeBareUrlFormatting(content) {
   )
 }
 
-function protectEsmStatements(content) {
-  const statements = []
-  const pattern = /^[\t ]*(?:import|export)\b[^\r\n]*(?:\r?\n|$)/gm
-  const protectedContent = String(content).replace(pattern, statement => {
-    const index = statements.push(statement) - 1
-    const newline = statement.endsWith('\r\n') ? '\r\n' : statement.endsWith('\n') ? '\n' : ''
-    return `<!-- zdoc-preserved-esm:${index} -->${newline}`
-  })
-  return { content: protectedContent, statements }
-}
-
-function restoreProtectedEsm(content, protectedEsm) {
-  let restored = String(content)
-  for (let index = 0; index < protectedEsm.statements.length; index++) {
-    const marker = `<!-- zdoc-preserved-esm:${index} -->`
-    if (restored.split(marker).length !== 2) throw new Error(`Protected ESM marker ${index} was changed during translation`)
-    restored = restored.replace(marker, protectedEsm.statements[index].replace(/\r?\n$/, ''))
-  }
-  if (/<!--\s*zdoc-preserved-esm:/i.test(restored)) throw new Error('Unexpected protected ESM marker remained after translation')
-  return restored
-}
-
-function headingAnchorIds(content) {
-  return [...String(content).matchAll(/\\?\{#([A-Za-z0-9][\w.-]*)\}/g)].map(match => match[1])
-}
-
-function validateHeadingAnchorIdentity(sourceContent, translatedContent) {
-  const source = headingAnchorIds(sourceContent)
-  const translated = headingAnchorIds(translatedContent)
-  return JSON.stringify(source) === JSON.stringify(translated)
-    ? []
-    : [`Heading anchor identity changed: expected ${JSON.stringify(source)}, received ${JSON.stringify(translated)}`]
-}
-
-function restoreEsmStatements(sourceContent, translatedContent) {
-  const pattern = /^[\t ]*(?:import|export)\b[^\r\n]*(?:\r?\n|$)/gm
-  const sourceStatements = String(sourceContent).match(pattern) || []
-  const translatedStatements = String(translatedContent).match(pattern) || []
-  if (sourceStatements.length !== translatedStatements.length) return translatedContent
-  let index = 0
-  return String(translatedContent).replace(pattern, () => sourceStatements[index++])
-}
-
 async function translateAndReviewUnit({
   target,
   sourcePath,
@@ -378,26 +325,55 @@ async function translateAndReviewUnit({
   maxReviewRounds,
   chunkContext,
 }) {
-  const protectedEsm = protectEsmStatements(sourceContent)
-  const modelSourceContent = protectedEsm.content
-  let translatedContent = restoreBoundaryWhitespace(modelSourceContent, stripCodeFence(await callModel({
+  const localeContract = loadLocaleContract(target)
+  const protectedSource = protectTranslationInput(sourceContent)
+  const modelSourceContent = protectedSource.content
+  const initialModelContent = restoreBoundaryWhitespace(modelSourceContent, stripCodeFence(await callModel({
     agent: 'translation',
     messages: buildTranslationMessages({ target, sourcePath, sourceContent: modelSourceContent, locale, chunkContext }),
   })))
+  let translatedContent = restoreProtectedContent(initialModelContent, protectedSource.manifest)
+  let protectedErrors = validateProtectedContent(sourceContent, translatedContent)
+  if (protectedErrors.length) throw new Error(protectedErrors.join('; '))
 
   let review = { pass: false, issues: [] }
   for (let round = 0; round <= maxReviewRounds; round++) {
-    review = parseReview(await callModel({
+    const protectedDraft = protectTranslationInput(translatedContent)
+    const evidence = parseAndValidateReviewEvidence(await callModel({
       agent: 'review',
-      messages: buildReviewMessages({ target, sourcePath, sourceContent: modelSourceContent, translatedContent, locale, chunkContext }),
-    }))
+      messages: buildReviewMessages({ target, sourcePath, sourceContent: modelSourceContent, translatedContent: protectedDraft.content, locale, chunkContext }),
+    }), {
+      sourceContent: modelSourceContent,
+      draftContent: protectedDraft.content,
+      localeContract,
+    })
+    const deterministicIssues = validateLocaleContractDraft(modelSourceContent, protectedDraft.content, localeContract)
+    const issues = []
+    const seen = new Set()
+    for (const issue of [...evidence.validatedIssues, ...deterministicIssues]) {
+      const key = JSON.stringify(issue)
+      if (seen.has(key)) continue
+      seen.add(key)
+      issues.push(issue)
+    }
+    review = {
+      pass: !evidence.fatal && issues.length === 0,
+      issues,
+      unsupportedIssues: evidence.unsupportedIssues,
+      reviewerPass: evidence.reviewerPass,
+      error: evidence.error,
+    }
     if (review.pass || round === maxReviewRounds) break
-    translatedContent = restoreBoundaryWhitespace(modelSourceContent, stripCodeFence(await callModel({
+    if (evidence.fatal || issues.length === 0) break
+    const correctedModelContent = restoreBoundaryWhitespace(protectedDraft.content, stripCodeFence(await callModel({
       agent: 'correction',
-      messages: buildCorrectionMessages({ target, sourcePath, sourceContent: modelSourceContent, translatedContent, review, locale, chunkContext }),
+      messages: buildCorrectionMessages({ target, sourcePath, sourceContent: modelSourceContent, translatedContent: protectedDraft.content, review: {pass: false, issues}, locale, chunkContext }),
     })))
+    translatedContent = restoreProtectedContent(correctedModelContent, protectedDraft.manifest)
+    protectedErrors = validateProtectedContent(sourceContent, translatedContent)
+    if (protectedErrors.length) throw new Error(protectedErrors.join('; '))
   }
-  return { translatedContent: restoreProtectedEsm(translatedContent, protectedEsm), review }
+  return { translatedContent, review }
 }
 
 async function processManifestItem({
@@ -485,11 +461,10 @@ async function processManifestItem({
   }
 
   const translatedContent = await applyMdxPatches(stabilizeBareUrlFormatting(
-    restoreEsmStatements(sourceContent, translatedChunks.join('')),
+    translatedChunks.join(''),
   ), { repairInvalidMdxEsmProse: true })
 
   const validationErrors = [
-    ...validateHeadingAnchorIdentity(sourceContent, translatedContent),
     ...await validate(translatedContent),
   ]
   if (validationErrors.length) {
@@ -944,18 +919,14 @@ module.exports = {
   isRetryableProviderError,
   loadChunkLimits,
   normalizeBaseUrl,
-  parseReview,
   parsePositiveInteger,
   parseNonNegativeInteger,
   partitionRecoveryWork,
   promptNamesFor,
   processItemWithRetry,
   processManifestItem,
-  protectEsmStatements,
   runWorkerPool,
   restoreBoundaryWhitespace,
-  restoreEsmStatements,
-  restoreProtectedEsm,
   stabilizeBareUrlFormatting,
   stripCodeFence,
   validateTranslationManifest,

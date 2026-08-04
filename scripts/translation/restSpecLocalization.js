@@ -3,6 +3,8 @@
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
 const path = require('node:path')
+const {formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
+const {protectTranslationInput, restoreProtectedContent, validateProtectedContent} = require('./protectedContent')
 
 const LOCALIZABLE_KEYS = new Set(['summary', 'description', 'title', 'label', 'prompt', 'content'])
 const PRESERVED_SUBTREES = new Set(['example', 'examples', 'default', 'enum', 'enums', 'value'])
@@ -11,11 +13,13 @@ const PROMPTS_BY_TARGET = Object.freeze({
   'ja-JP': Object.freeze({
     translation: 'codex-translation-agent.ja-JP.md',
     review: 'codex-review-agent.ja-JP.md',
+    correction: 'codex-correction-agent.md',
     rest: 'codex-rest-spec-translation-agent.ja-JP.md',
   }),
   'zh-CN-reference': Object.freeze({
     translation: 'codex-translation-agent.zh-CN-reference.md',
     review: 'codex-review-agent.zh-CN-reference.md',
+    correction: 'codex-correction-agent.zh-CN-reference.md',
     rest: 'codex-rest-spec-translation-agent.zh-CN-reference.md',
   }),
 })
@@ -60,7 +64,7 @@ function collectLocalizableEntries(root) {
   return entries
 }
 
-function parseTranslationEntries(text, expected) {
+function parseTranslationEntries(text, expected, localeContract) {
   const cleaned = String(text || '').trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')
   const parsed = JSON.parse(cleaned)
   if (!Array.isArray(parsed) || parsed.length !== expected.length) throw new Error('REST translation response entry count mismatch')
@@ -71,24 +75,11 @@ function parseTranslationEntries(text, expected) {
   }
   return expected.map(entry => {
     if (!byId.has(entry.id)) throw new Error(`Missing REST translation entry ${entry.id}`)
-    const translation = byId.get(entry.id)
-    const tokens = value => [
-      ...(value.match(/`[^`]+`/g) || []),
-      ...(value.match(/<[^>]+>/g) || []),
-      ...(value.match(/\{\{[^}]+\}\}/g) || []),
-      ...(value.match(/https?:\/\/[^\s)]+/g) || []),
-    ].sort()
-    const remaining = tokens(translation)
-    for (const token of tokens(entry.text)) {
-      const index = remaining.indexOf(token)
-      if (index === -1) throw new Error(`REST translation changed a protected token for ${entry.id}`)
-      remaining.splice(index, 1)
-    }
-    const safeAddedCodeFormatting = token => {
-      const match = token.match(/^`([^`]+)`$/)
-      return Boolean(match && entry.text.includes(match[1]))
-    }
-    if (remaining.some(token => !safeAddedCodeFormatting(token))) throw new Error(`REST translation changed a protected token for ${entry.id}`)
+    const translation = restoreProtectedContent(byId.get(entry.id), entry.protection.manifest)
+    const protectedErrors = validateProtectedContent(entry.text, translation)
+    if (protectedErrors.length) throw new Error(`REST translation changed protected content for ${entry.id}: ${protectedErrors.join('; ')}`)
+    const localeIssues = validateLocaleContractDraft(entry.protection.content, protectTranslationInput(translation).content, localeContract)
+    if (localeIssues.length) throw new Error(`REST translation violates locale contract for ${entry.id}: ${localeIssues.map(issue => issue.comment).join('; ')}`)
     return { ...entry, translation }
   })
 }
@@ -139,18 +130,20 @@ function batchEntries(entries, maxChars = 12000) {
 async function translateRestSpecs({ sourceSpecs, target, locale, callModel }) {
   const promptName = promptNamesFor(target).rest
   if (!promptName) throw new Error(`REST translation is unsupported for translation target ${target}`)
-  const systemPrompt = loadPrompt(promptName)
+  const localeContract = loadLocaleContract(target)
+  const systemPrompt = `${loadPrompt(promptName)}\n\n${formatLocaleContract(localeContract)}`
   const entries = collectLocalizableEntries(sourceSpecs)
   const translated = []
   for (const batch of batchEntries(entries)) {
+    const protectedBatch = batch.map(entry => ({...entry, protection: protectTranslationInput(entry.text)}))
     const response = await callModel({
       agent: 'translation',
       messages: [
         { role: 'system', content: systemPrompt },
-        { role: 'user', content: `Locale: ${locale}\n\n${JSON.stringify(batch.map(({ id, text }) => ({ id, text })))}` },
+        { role: 'user', content: `Locale: ${locale}\n\n${JSON.stringify(protectedBatch.map(({ id, protection }) => ({ id, text: protection.content })))}` },
       ],
     })
-    translated.push(...parseTranslationEntries(response, batch))
+    translated.push(...parseTranslationEntries(response, protectedBatch, localeContract))
   }
   const localized = applyLocaleEntries(sourceSpecs, translated, locale)
   assert.deepEqual(removeLocale(localized, locale), removeLocale(sourceSpecs, locale), 'Localized REST specs changed non-locale data')

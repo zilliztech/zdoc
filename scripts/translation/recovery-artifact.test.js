@@ -64,6 +64,29 @@ test('derives a stable target-specific prompt contract hash', () => {
   assert.notEqual(promptContractSha256('zh-CN-reference'), promptContractSha256('ja-JP'));
 });
 
+test('changes the prompt contract hash when the locale contract or Chinese correction prompt changes', () => {
+  const repositoryRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-prompt-contract-'));
+  const promptNames = [
+    'codex-translation-agent.zh-CN-reference.md',
+    'codex-review-agent.zh-CN-reference.md',
+    'codex-correction-agent.zh-CN-reference.md',
+    'codex-rest-spec-translation-agent.zh-CN-reference.md',
+  ];
+  for (const name of promptNames) write(repositoryRoot, `.github/prompts/${name}`, `${name}\n`);
+  write(repositoryRoot, 'config/reference-navigation.json', '{"targets":[]}\n');
+  write(repositoryRoot, 'config/translation/zh-CN-reference.json', '{"contractId":"one"}\n');
+
+  const initial = promptContractSha256('zh-CN-reference', repositoryRoot);
+  write(repositoryRoot, 'config/translation/zh-CN-reference.json', '{"contractId":"two"}\n');
+  const localeChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
+  assert.notEqual(localeChanged, initial);
+
+  write(repositoryRoot, 'config/translation/zh-CN-reference.json', '{"contractId":"one"}\n');
+  write(repositoryRoot, '.github/prompts/codex-correction-agent.zh-CN-reference.md', 'changed correction\n');
+  const correctionChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
+  assert.notEqual(correctionChanged, initial);
+});
+
 test('keeps a candidate pending when source, locale, contract, or target integrity differs', () => {
   for (const mutate of [
     value => { value.candidate.sourceHash = 'f'.repeat(64); },

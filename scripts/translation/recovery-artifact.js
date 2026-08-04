@@ -6,6 +6,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const {loadTypeScript} = require('../lib/load-typescript');
+const {localeContractPathFor} = require('./localeContract');
 const {promptNamesFor} = require('./restSpecLocalization');
 const {assertSafeRepositoryRelativePath} = loadTypeScript('../../packages/docs-tooling/src/validation/ownership.ts');
 
@@ -18,11 +19,12 @@ function sha256(bytes) {
 
 function promptContractSha256(target, repositoryRoot = process.cwd()) {
   const names = Object.values(promptNamesFor(target)).filter(Boolean);
-  if (target === 'ja-JP') names.push('codex-correction-agent.md');
   const parts = [target];
   for (const name of [...new Set(names)].sort()) {
     parts.push(name, fs.readFileSync(path.join(repositoryRoot, '.github/prompts', name), 'utf8'));
   }
+  const contractPath = localeContractPathFor(target);
+  parts.push(contractPath, fs.readFileSync(path.join(repositoryRoot, contractPath), 'utf8'));
   if (target === 'zh-CN-reference') {
     parts.push('config/reference-navigation.json', fs.readFileSync(path.join(repositoryRoot, 'config/reference-navigation.json'), 'utf8'));
   }

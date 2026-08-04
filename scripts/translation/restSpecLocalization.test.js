@@ -25,11 +25,16 @@ test('adds Japanese locale data without changing the source specification', asyn
     sourceSpecs, target: 'ja-JP', locale: 'ja-JP',
     callModel: async ({ messages }) => {
       assert.match(messages[0].content, /from English to Japanese/)
-      return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({ ...entry, text: `JA:${entry.text}` })))
+      assert.match(messages[0].content, /ja-JP-2026-08-04-p0/)
+      return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({
+        ...entry,
+        text: entry.text === 'Search a collection.' ? 'コレクションを検索します。' : `JA:${entry.text}`,
+      })))
     },
   })
   assert.equal(translatedCount, 3)
   assert.equal(localized['x-i18n']['ja-JP'].summary, 'JA:Search')
+  assert.equal(localized['x-i18n']['ja-JP'].description, 'コレクションを検索します。')
   assert.equal(localized.properties.limit['x-i18n']['ja-JP'].description, 'JA:Maximum results.')
   assert.deepEqual(localized.example, sourceSpecs.example)
   assert.deepEqual(removeLocale(localized, 'ja-JP'), sourceSpecs)
@@ -48,14 +53,14 @@ test('rejects translations that change protected API tokens', async () => {
     sourceSpecs: { description: 'Use `offset` with {{TOKEN}} at https://example.com.' },
     target: 'ja-JP', locale: 'ja-JP',
     callModel: async ({ messages }) => JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({ ...entry, text: '変更されたテキスト' }))),
-  }), /protected token/i)
+  }), /protected (?:marker|content|token)/i)
 })
 
-test('allows code formatting to be added around unchanged technical identifiers', async () => {
+test('rejects invented inline-code structure around technical identifiers', async () => {
   const technicalSpecs = {
     description: 'When true, one INDEX function and 0-50 PRESERVE functions are allowed.',
   }
-  const { localized } = await translateRestSpecs({
+  await assert.rejects(translateRestSpecs({
     sourceSpecs: technicalSpecs,
     target: 'ja-JP',
     locale: 'ja-JP',
@@ -65,11 +70,7 @@ test('allows code formatting to be added around unchanged technical identifiers'
         text: '`true` の場合、1 個の `INDEX` 関数と 0～50 個の `PRESERVE` 関数を使用できます。',
       })),
     ),
-  })
-  assert.equal(
-    localized['x-i18n']['ja-JP'].description,
-    '`true` の場合、1 個の `INDEX` 関数と 0～50 個の `PRESERVE` 関数を使用できます。',
-  )
+  }), /protected content|inline_code/i)
 })
 
 test('rejects invented code identifiers that do not exist in the source prose', async () => {
@@ -80,7 +81,7 @@ test('rejects invented code identifiers that do not exist in the source prose', 
     callModel: async ({ messages }) => JSON.stringify(
       JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({ ...entry, text: '`UNKNOWN` 関数を使用します。' })),
     ),
-  }), /protected token/i)
+  }), /protected (?:marker|content|token)/i)
 })
 
 test('selects the Chinese Reference REST prompt from target', async () => {
@@ -90,6 +91,8 @@ test('selects the Chinese Reference REST prompt from target', async () => {
     locale: 'zh-CN',
     callModel: async ({messages}) => {
       assert.match(messages[0].content, /Simplified Chinese/)
+      assert.match(messages[0].content, /zh-CN-reference-2026-08-04-p0/)
+      assert.match(messages[0].content, /Compaction/)
       return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: '搜索 Collection。'})))
     },
   })
@@ -137,4 +140,15 @@ test('rejects REST translation for a target without a REST prompt product', asyn
     locale: 'zh-CN',
     callModel: async () => '[]',
   }), /unsupported translation target/i)
+})
+
+test('rejects a REST translation that replaces Compaction with 压实', async () => {
+  await assert.rejects(translateRestSpecs({
+    sourceSpecs: {description: 'Compaction plans merge segments.'},
+    target: 'zh-CN-reference',
+    locale: 'zh-CN',
+    callModel: async ({messages}) => JSON.stringify(
+      JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: '压实计划会合并 Segment。'})),
+    ),
+  }), /Compaction|locale contract/i)
 })
