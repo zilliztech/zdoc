@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 2
+slug: /restful/update-project-v2
+beta: FALSE
+title: "更新项目（V2）| RESTful"
+description: "此操作更新指定项目的名称和描述。| RESTful"
+hide_table_of_contents: true
+sidebar_label: "更新项目（V2）"
+sidebar_custom_props:
+  badges:
+    - "patch"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "更新项目（V2）"
+  - "patch"
+  - RESTful
+  - API
+---
+
+# 更新项目（V2）
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"Update Project","deprecated":false,"description":"This operation updates the name and description of a specified project.","x-i18n":{"zh-CN":{"summary":"更新项目","description":"此操作会更新指定项目的名称和描述。"}},"tags":["Project Operations (V2)"],"parameters":[{"name":"projectId","in":"path","description":"The ID of the project to update.","required":true,"example":"proj-xxxxxxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"要更新的项目 ID。"}}},{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"身份验证令牌应为具有适当权限的 API key。"}}},{"name":"OrgId","in":"header","description":"The organization ID of the project.","required":true,"example":"org-xxxxxxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"项目的组织 ID。"}}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"projectName":{"type":"string","description":"The new name of the project. The value cannot be an empty string","x-i18n":{"zh-CN":{"description":"项目的新名称。该值不能为空字符串"}}},"description":{"type":"string","description":"The new description of the project. The value can be an empty string.","x-i18n":{"zh-CN":{"description":"项目的新描述。该值可以为空字符串。"}}}}},"examples":{"1":{"summary":"Name and Description","value":{"projectName":"New Project Name","description":"This is a new description of the project."}},"2":{"summary":"Name only","value":{"projectName":"New Project Name"}},"3":{"summary":"Description only","value":{"description":"This is a new description of the project."}}}}}},"responses":{"200":{"description":"None","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","description":"A success response","x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"description":"Response code.","type":"integer","example":0,"x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"string","description":"A string 'ok' indicating the project is updated successfully.","x-i18n":{"zh-CN":{"description":"字符串 'ok'，表示项目已成功更新。"}}}},"x-i18n":{"zh-CN":{"description":"成功响应"}}},{"x-tab-label":"failure","description":"A failure response.","type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误信息。"}}}},"x-i18n":{"zh-CN":{"description":"失败响应。"}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":"ok"}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}},"x-i18n":{"zh-CN":{"description":"无"}}}},"security":[]}
+export const endpoint = "/v2/projects/{projectId}"
+export const method = "patch"

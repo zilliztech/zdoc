@@ -1,176 +1,177 @@
 ---
 displayed_sidbar: restfulSidebar
 slug: /restful/error-codes-v2
+title: 错误代码
+description: 本页列出了 Zilliz Cloud RESTful API 返回的错误代码。
 beta: FALSE
 notebook: FALSE
 sidebar_position: 2
 ---
 
-# 错误码 (v2)
+# 错误代码（v2）
 
-您可在本页查找 Zilliz Cloud RESTful API (v2) 的错误码，以便更好地理解接口调用过程中可能遇到的问题。
-
+本页列出了 Zilliz Cloud RESTful API（v2）返回的错误代码。
 
 **96000**
 
-Invalid CloudId. Please use the ListCloudProviders API to obtain a list of supported cloudIds.
+无效的 CloudId。请使用 ListCloudProviders API 获取受支持的 cloudIds 列表。
 
 **96001**
 
-Invalid RegionId. Please use the ListCloudRegions API to obtain a list of supported regionIds.
+无效的 RegionId。请使用 ListCloudRegions API 获取受支持的 regionIds 列表。
 
 **96002**
 
-Invalid cuSize. The parameter value should be positive.
+无效的 cuSize。参数值应为正数。
 
 **96003**
 
-Invalid cuType.
+无效的 cuType。
 
 **96004**
 
-Invalid dedicated plan.
+无效的 dedicated plan。
 
 **96005**
 
-Invalid projectId. The projectId should be like proj-xxxxxxxx. Please use the ListProjects API to obtain your scoped projects.
+无效的 projectId。projectId 的格式应为 proj-xxxxxxxx。请使用 ListProjects API 获取您有权限访问的项目。
 
 **96006**
 
-Invalid ISO 8601 duration format in UTC.
+UTC 中的 ISO 8601 duration 格式无效。
 
 **96007**
 
-Invalid ISO 8601 timestamp format in UTC.
+UTC 中的 ISO 8601 timestamp 格式无效。
 
 **96008**
 
-The parameter value for pageSize should be between 1 and 100.
+pageSize 的参数值应在 1 到 100 之间。
 
 **96009**
 
-The parameter currentPage should have a value between 1 and the maximum value of Int.
+参数 currentPage 的值应在 1 到 Int 的最大值之间。
 
 **96010**
 
-Invalid clusterName. Cluster names can only contain alphanumeric letters and hyphens.
+无效的 clusterName。集群名称只能包含字母数字字符和连字符。
 
 **96011**
 
-Either a valid period or valid start and end parameters should be provided.
+必须提供有效的 period，或提供有效的 start 和 end 参数。
 
 **96012**
 
-You don't have permission for this project. Project org and Apikey org does not match.
+您没有此项目的权限。Project org 与 Apikey org 不匹配。
 
 **96013**
 
-You don't have permission for this project. Org owner or project owner is needed.
+您没有此项目的权限。需要 org owner 或 project owner 权限。
 
 **96014**
 
-You don't have permission for this cluster. Cluster org and Apikey org does not match.
+您没有此集群的权限。Cluster org 与 Apikey org 不匹配。
 
 **96015**
 
-You don't have permission for this cluster. Org owner or project owner is needed.
+您没有此集群的权限。需要 org owner 或 project owner 权限。
 
 **96016**
 
-You don't have permission for this cluster. Please check your Apikey scope.
+您没有此集群的权限。请检查您的 Apikey scope。
 
 **96017**
 
-The specified cluster name already exists under project.
+指定的集群名称在项目下已存在。
 
 **96018**
 
-Cluster not found. Please use the ListClusters API to obtain your scoped clusters.
+未找到集群。请使用 ListClusters API 获取您有权限访问的集群。
 
 **96019**
 
-This region does not support free plan.
+此区域不支持 free plan。
 
 **96020**
 
-This region does not support serverless plan.
+此区域不支持 serverless plan。
 
 **96021**
 
-Free cluster does not support this operation.
+Free cluster 不支持此操作。
 
 **96022**
 
-Serverless cluster does not support this operation.
+Serverless cluster 不支持此操作。
 
 **96023**
 
-The specified class does not exist. Please check the cuType, cuSize and plan combination.
+指定的 class 不存在。请检查 cuType、cuSize 和 plan 的组合。
 
 **96024**
 
-Failed query instance metrics. %s (details)
+查询实例指标失败。%s（详情）
 
 **96025**
 
-Empty clusterId. Please specify a clusterId.
+clusterId 为空。请指定 clusterId。
 
 **96026**
 
-Job not found. Please check your request parameter.
+未找到作业。请检查您的请求参数。
 
 **96027**
 
-You don't have permission for this project. Please check your Apikey scope.
+您没有此项目的权限。请检查您的 Apikey scope。
 
 **96028**
 
-Feature only supported for enterprise plan clusters.
+此功能仅支持 enterprise plan 集群。
 
 **96029**
 
-Invalid backupType.
+无效的 backupType。
 
 **96030**
 
-Invalid backup creationMethod.
+无效的 backup creationMethod。
 
 **96031**
 
-Invalid backup restore policy. The value of 'collectionStatus' should be KEEP or RELEASE.
+无效的 backup restore policy。`collectionStatus` 的值应为 KEEP 或 RELEASE。
 
 **96032**
 
-Invalid backup policy frequency.
+无效的 backup policy frequency。
 
 **96033**
 
-Invalid backup policy startTime.
+无效的 backup policy startTime。
 
 **96034**
 
-Invalid auto backup retentionDays. The value should be between 1 and 30.
+无效的 auto backup retentionDays。该值应在 1 到 30 之间。
 
 **96035**
 
-Invalid time range. Please check start and end time parameters.
+无效的时间范围。请检查 start 和 end 时间参数。
 
 **96036**
 
-Invalid clusterId.
+无效的 clusterId。
 
 **96037**
 
-Invalid targetCollectionStatus. The value should be LOADED or UNLOADED.
+无效的 targetCollectionStatus。该值应为 LOADED 或 UNLOADED。
 
 **96038**
 
-Failed to create backup. %s
+创建备份失败。%s
 
 **96039**
 
-Failed to restore collection backup. %s
+恢复集合备份失败。%s
 
 **96040**
 
-Failed to restore cluster backup. %s
+恢复集群备份失败。%s

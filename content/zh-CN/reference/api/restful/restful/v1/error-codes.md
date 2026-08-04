@@ -1,6 +1,8 @@
 ---
 displayed_sidbar: restfulSidebar
 slug: /restful/error-codes
+title: 错误码
+description: 本页列出了 Zilliz Cloud RESTful API 返回的错误码。
 beta: NEAR DEPRECATE
 notebook: FALSE
 sidebar_position: 2
@@ -8,457 +10,457 @@ sidebar_position: 2
 
 # 错误码 (v1)
 
-您可在本页查找 Zilliz Cloud RESTful API (v1) 的错误码，以便更好地理解接口调用过程中可能遇到的问题。
+本页列出了 Zilliz Cloud RESTful API (v1) 返回的错误码。
 
 
 **80000**
 
-Incorrect parameter: xxx
+参数错误：xxx
 
 **80001**
 
-The token is illegal
+token 非法
 
 **80002**
 
-The token is invalid
+token 无效
 
 **80003**
 
-The parameter value for 'pageSize' should be between 5 and 100.
+参数 `pageSize` 的取值应在 5 到 100 之间。
 
 **80004**
 
-The parameter 'currentPage' should have a value between 1 and the maximum value of Int.
+参数 `currentPage` 的取值应在 1 到 Int 最大值之间。
 
 **80005**
 
-Invalid clusterType. The parameter value should be either 'Performance-optimized' or 'Capacity-optimized'.
+无效的 clusterType。参数值应为 `Performance-optimized` 或 `Capacity-optimized`。
 
 **80006**
 
-Invalid cuSize. The parameter value should be between 1 and 256.
+无效的 cuSize。参数值应在 1 到 256 之间。
 
 **80007**
 
-This CU Size requires significant resource consumption. If you want to use it, please complete the card binding on the Billing page first.
+此 CU Size 需要消耗大量资源。如果您想使用它，请先在 Billing 页面完成绑卡。
 
 **80008**
 
-Please contact us first if you want to create a cluster with more than 32 CUs.
+如果您想创建超过 32 个 CUs 的集群，请先联系我们。
 
 **80009**
 
-Invalid clusterName, can contains only alphanumeric letters and hyphens.
+无效的 clusterName，仅可包含字母数字字符和连字符。
 
 **80010**
 
-Duplicated ClusterName. You have already created a running Cluster with the same name. To avoid complexity in management, please modify the name and create a new one."
+重复的 ClusterName。您已创建了一个同名且正在运行的 Cluster。为避免管理复杂，请修改名称并重新创建一个新的。"
 
 **80011**
 
-The length of 'description' has exceeded the limit of 256 characters.
+`description` 的长度已超过 256 个字符的限制。
 
 **80012**
 
-Invalid password input, password rules are:\n1. The number of characters in the password should be between 8 and 64.\n2. The password should be composed of any three of the following: uppercase letters, lowercase letters, numbers, and special characters.\n3. Special characters include: !@#$%^&*()_+-=
+密码输入无效，密码规则如下：\n1. 密码长度应在 8 到 64 个字符之间。\n2. 密码应由以下四类字符中的任意三类组成：大写字母、小写字母、数字和特殊字符。\n3. 特殊字符包括：!@#$%^&*()_+-=
 
 **80014**
 
-Your input cuSize value is not supported yet.
+您输入的 cuSize 值暂不支持。
 
 **80020**
 
-Invalid clusterId or you do not have permission to access that Cluster.
+无效的 clusterId，或者您无权访问该 Cluster。
 
 **80021**
 
-Serverless cluster not support this operation.
+Serverless 集群不支持此操作。
 
 **80022**
 
-Dedicated cluster not support this operation.
+Dedicated 集群不支持此操作。
 
 **90001**
 
-The collection xxx does not exist. You can use ListCollections to view the list of existing collections.
+collection xxx 不存在。您可以使用 ListCollections 查看现有 collection 列表。
 
 **90002**
 
-The return value property xxx does not exist on collection xxx.
+返回值属性 xxx 在 collection xxx 上不存在。
 
 **90003**
 
-Invalid expression. Please refer to the documentation for usage of the expression: https://milvus.io/docs/boolean.md#Boolean-Expression-Rules
+无效的表达式。有关表达式的用法，请参阅文档：https://milvus.io/docs/boolean.md#Boolean-Expression-Rules
 
 **90004**
 
-The parameter value for 'limit' should be between 1 and 100.
+参数 `limit` 的取值应在 1 到 100 之间。
 
 **90005**
 
-The parameter value for 'offset' should not be less than 0.
+参数 `offset` 的取值不应小于 0。
 
 **90006**
 
-The attribute xxx is not of vector type, and therefore can not be used for approximate retrieval.
+属性 xxx 不是向量类型，因此不能用于近似检索。
 
 **90007**
 
-The vector dimensions do not match on the field xxx. The input vector has a dimension of xxx, while the expected vector dimension is xxx.
+字段 xxx 的向量维度不匹配。输入向量的维度为 xxx，而期望的向量维度为 xxx。
 
 **90008**
 
-Currently, Milvus does not support filtering and deleting non-primary key properties. Please use primary key filtering in the expression. The feature of filtering and deleting non-primary key properties is under development. Please stay tuned.
+目前，Milvus 不支持对非主键属性进行过滤和删除。请在表达式中使用主键过滤。对非主键属性进行过滤和删除的功能正在开发中，敬请期待。
 
 **90009**
 
-The number of columns inserted does not match the defined number of columns in the set. \{0} columns were inserted, while \{1} columns were expected.
+插入的列数与集合中定义的列数不匹配。已插入 \{0} 列，而预期为 \{1} 列。
 
 **90010**
 
-The type of field xxx does not match, expecting an xxx but xxx was inputted instead.
+字段 xxx 的类型不匹配，期望类型为 xxx，但实际输入的是 xxx。
 
 **90011**
 
-Invalid CollectionName. Reason: xxx
+无效的 CollectionName。原因：xxx
 
 **90013**
 
-The parameter shardsNum should have a value range between 1 and 32.
+参数 shardsNum 的取值范围应在 1 到 32 之间。
 
 **90014**
 
-The length of parameter description can not exceed 4096.
+参数 description 的长度不能超过 4096。
 
 **90015**
 
-There are no fields. Please include at least 1 primary key field and 1 vector field in the table definition.
+没有字段。请在表定义中至少包含 1 个主键字段和 1 个向量字段。
 
 **90016**
 
-No primary key field.
+没有主键字段。
 
 **90017**
 
-There can only be one primary key field for each collection.
+每个 collection 只能有一个主键字段。
 
 **90018**
 
-The type of the primary key field must be int64 or varchar.
+主键字段的类型必须为 int64 或 varchar。
 
 **90019**
 
-AutoID can only be added to the primary key field.
+AutoID 只能添加到主键字段。
 
 **90020**
 
-AutoID can only be added to a primary key field of type int64.
+AutoID 只能添加到 int64 类型的主键字段。
 
 **90023**
 
-The length of the Varchar type should be between 1 and **65535**.
+Varchar 类型的长度应在 1 到 **65535** 之间。
 
 **90024**
 
-The vector type must specify a dimension.
+向量类型必须指定维度。
 
 **90025**
 
-The dimension of the vector column should be between 32 and **32768**.
+向量列的维度应在 32 到 **32768** 之间。
 
 **90026**
 
-The index type is incorrect. Only AUTOINDEX is supported on Zilliz Cloud.
+索引类型不正确。Zilliz Cloud 仅支持 AUTOINDEX。
 
 **90027**
 
-Invalid parameter metricType. Only L2 or IP are allowed. Please refer to the documentation: https://milvus.io/docs/metric.md
+无效的参数 metricType。仅允许 `L2` 或 `IP`。请参阅文档：https://milvus.io/docs/metric.md
 
 **90100**
 
-Parse number of field xxx type error.
+解析字段 xxx 的数值类型时出错。
 
 **90101**
 
-The varchar type must specify a maxLength.
+varchar 类型必须指定 maxLength。
 
 **90102**
 
-The cluster does not exist in current region.
+当前区域不存在该集群。
 
 **90103**
 
-The clusterId parameter is empty in the request path.
+请求路径中的 clusterId 参数为空。
 
 **90106**
 
-The collection already exists.
+该 collection 已存在。
 
 **90107**
 
-Can not assign primary field data when auto id enabled int64
+启用 auto id 的 int64 类型时，不能为主字段赋值
 
 **90108**
 
-Extraneous fields xxx in the json file need to be removed
+json 文件中多余的字段 xxx 需要被移除
 
 **90109**
 
-The max insert batch rows should below 100.
+最大插入批次行数应小于 100。
 
 **90110**
 
-No filter key field.
+没有过滤键字段。
 
 **90111**
 
-The parameter value for 'level' should be between 1 and 3.
+参数 `level` 的取值应在 1 到 3 之间。
 
 **90112**
 
-The field name should not be empty.
+字段名不能为空。
 
 **90113**
 
-The field type of field xxx should not be empty.
+字段 xxx 的字段类型不能为空。
 
 **90114**
 
-The index field name can only be added to a vector field.
+索引字段名只能添加到向量字段。
 
 **90115**
 
-The number of columns inserted does not match the defined number of columns in the set.
+插入的列数与集合中定义的列数不匹配。
 
 **90117**
 
-Invalid domain name used, please check the domain name you're using.
+使用了无效的域名，请检查您正在使用的域名。
 
 **90118**
 
-no data key field, please check your request.
+没有 data 键字段，请检查您的请求。
 
 **90119**
 
-The value of the 'data' parameter should be in JSON format.
+参数 `data` 的值应为 JSON 格式。
 
 **90120**
 
-The value of the 'data' parameter is empty.
+参数 `data` 的值为空。
 
 **90121**
 
-There is an empty object in the 'data' parameter.
+参数 `data` 中存在空对象。
 
 **90122**
 
-No dimension key field.
+没有 dimension 键字段。
 
 **90123**
 
-The inputted ID value does not match the field xxx, expecting xxx but received xxx instead.
+输入的 ID 值与字段 xxx 不匹配，期望为 xxx，但实际收到的是 xxx。
 
 **90124**
 
-no id key field, please check your request.
+没有 id 键字段，请检查您的请求。
 
 **90125**
 
-No vector key field.
+没有 vector 键字段。
 
 **90126**
 
-The sum of the 'offset' parameter value and the 'limit' parameter value should not exceed **16384**.
+参数 `offset` 的值与参数 `limit` 的值之和不应超过 **16384**。
 
 **90127**
 
-Please use xxx in (a,b,c) filtering in the expression.
+请在表达式中使用 xxx in (a,b,c) 进行过滤。
 
 **90128**
 
-Not contains data to filter, please check the filter field
+不包含可用于过滤的数据，请检查过滤字段
 
 **90129**
 
-Filter dataType not support, please check the filter field
+过滤数据类型不受支持，请检查过滤字段
 
 **90130**
 
-The attribute xxx is not the vector field of this collection, and therefore can not be used for approximate retrieval.
+属性 xxx 不是此 collection 的向量字段，因此不能用于近似检索。
 
 **90131**
 
-No insert content provided.
+未提供插入内容。
 
 **90132**
 
-No delete content provided.
+未提供删除内容。
 
 **90133**
 
-No get content provided.
+未提供获取内容。
 
 **90134**
 
-No query content provided.
+未提供查询内容。
 
 **90135**
 
-No search content provided.
+未提供搜索内容。
 
 **90136**
 
-No create collection content provided.
+未提供创建 collection 的内容。
 
 **90138**
 
-No drop collection content provided.
+未提供删除 collection 的内容。
 
 **90139**
 
-Type mismatch for field 'xxx'. expected type:xxx, but received input:xxx.
+字段 `xxx` 的类型不匹配。期望类型：xxx，但收到的输入为：xxx。
 
 **90140**
 
-The number of elements in parameter 'id' should not exceed 100.
+参数 `id` 中的元素数量不得超过 100。
 
 **90011**
 
-Invalid CollectionName. Reason: Name contains only alphanumeric letters and underscores, and the first character should be an underscore, a lowercase letter, or a uppercase letter
+无效的 CollectionName。原因：名称只能包含字母数字字符和下划线，且第一个字符必须是下划线、小写字母或大写字母
 
 **47005**
 
-The specified cluster collection not exists.
+指定的集群 collection 不存在。
 
 **47053**
 
-Failed to checkFiles \{xxx}.
+checkFiles \{xxx} 失败。
 
 **80020**
 
-Invalid clusterId or you do not have permission to access that Cluster.
+无效的 clusterId，或者您无权访问该 Cluster。
 
 **10003**
 
-Invalid s3 ObjectUrl. [xxx]
+无效的 s3 ObjectUrl。[xxx]
 
 **83001**
 
-Failed to getObjectMeta \{Access denied}.
+getObjectMeta \{Access denied} 失败。
 
 **47005**
 
-The specified cluster collection not exists.
+指定的集群 collection 不存在。
 
 **90144**
 
-No jobId record found under this cluster, please check your request parameters.
+在该集群下未找到 jobId 记录，请检查您的请求参数。
 
 **90103**
 
-The clusterId parameter is empty in the request path.
+请求路径中的 clusterId 参数为空。
 
 **83001**
 
-Failed to getObjectMeta \{xxx}.
+getObjectMeta \{xxx} 失败。
 
 **40021**
 
-The cluster ID does not exist.
+cluster ID 不存在。
 
 **40022**
 
-No access to this cluster. Please request access from your admin.
+无权访问此集群。请向您的管理员申请访问权限。
 
 **40003**
 
-Action not available given the current status of the cluster.
+在集群当前状态下，此操作不可用。
 
 **47039**
 
-The specified cluster do not support multiple imports at the same time.
+指定的集群不支持同时进行多个导入。
 
 **83004**
 
-Importing files across clouds is not currently supported
+当前不支持跨云导入文件
 
 **47035**
 
-The specified object size exceeds limit.
+指定的对象大小超出限制。
 
 **47036**
 
-The number of objects not equal to the number of collection fields.
+对象数量与 collection 字段数量不一致。
 
 **47055**
 
-The current cluster is currently importing data (xxx). To ensure more stable service of your Milvus cluster, please wait a few minutes before importing the data.
+当前集群正在导入数据 (xxx)。为确保您的 Milvus 集群服务更加稳定，请等待几分钟后再导入数据。
 
 **90142**
 
-No import content provided.
+未提供导入内容。
 
 **90104**
 
-The clusterId parameter is empty in the request parameter.
+请求参数中的 clusterId 参数为空。
 
 **90145**
 
-No ObjectUrl key field.
+没有 ObjectUrl 键字段。
 
 **63032**
 
-CloudId not exists.
+CloudId 不存在。
 
 **94148**
 
-No upsert content provided.
+未提供 upsert 内容。
 
 **90149**
 
-Type mismatch for field '%s'. expected type:%s, but received input:%s.
+字段 `%s` 的类型不匹配。期望类型：%s，但收到的输入为：%s。
 
 **90150**
 
-no data key field, please check your request.
+没有 data 键字段，请检查您的请求。
 
 **90151**
 
-The value of the 'data' parameter is empty.
+参数 `data` 的值为空。
 
 **90152**
 
-There is an empty object in the 'data' parameter.
+参数 `data` 中存在空对象。
 
 **10041**
 
-(Possible pipeline errors are all under this error code.)
+（可能的 pipeline 错误都归在此错误码下。）
 
 **80005**
 
-Invalid cuType. The parameter value should be one of ['Performance-optimized','Capacity-optimized'].
+无效的 cuType。参数值应为 ['Performance-optimized','Capacity-optimized'] 之一。
 
 **80006**
 
-Invalid cuSize. The parameter value should be one of [1,2,4,6,8,12,16,20,24].
+无效的 cuSize。参数值应为 [1,2,4,6,8,12,16,20,24] 之一。
 
 **80013**
 
-Invalid plan. The parameter value should be one of ['Standard','Enterprise'].
+无效的 plan。参数值应为 ['Standard','Enterprise'] 之一。
 
 **80014**
 
-Invalid projectId. The projectId should like proj-xxxxxx
+无效的 projectId。projectId 格式应类似 `proj-xxxxxx`
 
 **80015**
 
-ProjectId not exist or you do not have permission for this project.
+ProjectId 不存在，或者您对此项目没有权限。
 
 **80020**
 
-Cluster not exist or you don't have permission.
+Cluster 不存在或您没有权限。
 
 **80025**
 
-Current region not provider serverless!
+当前区域不提供 serverless！
