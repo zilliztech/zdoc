@@ -287,8 +287,55 @@ jobs:
     uses: ./.github/workflows/_publish-content-group.yml
     with: { group: reference-landings, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-reference-landings-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-reference-landings-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish reference-landings translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: "${{ fromJSON(needs.prepare.outputs.source_checkpoints_json)['reference-landings'] }}", target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group reference-landings' }
 
-  reconcile_published_state:
+  reconcile_localization_inventory:
     needs: [prepare, prepare_guides_batches, translate_guides_batches, translate_sdk, publish_ja_guides, publish_ja_python, publish_zh_python, publish_ja_java, publish_zh_java, publish_ja_node, publish_zh_node, publish_ja_go, publish_zh_go, publish_ja_cli, publish_zh_cli, publish_ja_rest, publish_zh_rest, publish_zh_reference_landings]
+    if: ${{ always() && inputs.publish && needs.prepare.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: '${{ needs.prepare.outputs.tooling_sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Reconcile and publish localization inventory
+        env:
+          SOURCE_SHA: ${{ needs.prepare.outputs.target_branch_sha }}
+          TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          git check-ref-format --branch "$TARGET_BRANCH"
+          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
+          git merge-base --is-ancestor "$SOURCE_SHA" "$target_sha"
+          bash scripts/restore-generated-state.sh --exact --ref "$target_sha"
+          pnpm generate:localization-input-inventory
+          pnpm check:localization-input-inventory
+
+          derived_path=deploy/contracts/localization-inputs.inventory.json
+          publish_worktree=$(mktemp -d "$RUNNER_TEMP/localization-inventory.XXXXXX")
+          rmdir "$publish_worktree"
+          cleanup() { git worktree remove --force "$publish_worktree" >/dev/null 2>&1 || true; git worktree prune >/dev/null 2>&1 || true; }
+          trap cleanup EXIT
+          git worktree add --detach "$publish_worktree" "$target_sha"
+          mkdir -p "$publish_worktree/$(dirname "$derived_path")"
+          cp -- "$derived_path" "$publish_worktree/$derived_path"
+          git -C "$publish_worktree" add -- deploy/contracts/localization-inputs.inventory.json
+          if git -C "$publish_worktree" diff --cached --quiet; then
+            echo "Localization inventory is already current."
+            exit 0
+          fi
+          git -C "$publish_worktree" config user.name docs-publish-bot
+          git -C "$publish_worktree" config user.email docs-publish-bot@users.noreply.github.com
+          git -C "$publish_worktree" commit -m 'chore(i18n): reconcile localization inventory' \
+            -m "sourceSha: $SOURCE_SHA" \
+            -m "translationTargetSha: $target_sha"
+          git -C "$publish_worktree" push origin "HEAD:refs/heads/$TARGET_BRANCH"
+
+  reconcile_published_state:
+    needs: [prepare, prepare_guides_batches, translate_guides_batches, translate_sdk, publish_ja_guides, publish_ja_python, publish_zh_python, publish_ja_java, publish_zh_java, publish_ja_node, publish_zh_node, publish_ja_go, publish_zh_go, publish_ja_cli, publish_zh_cli, publish_ja_rest, publish_zh_rest, publish_zh_reference_landings, reconcile_localization_inventory]
     if: ${{ always() && inputs.publish && needs.prepare.outputs.group == 'all' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30

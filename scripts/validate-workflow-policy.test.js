@@ -1892,10 +1892,34 @@ test('fetch preparation blocks paid translation until publication readiness regr
   assert.equal(checkout.with['fetch-depth'], 1)
   const installIndex = steps.findIndex(step => step.run === 'pnpm install --frozen-lockfile')
   const readinessIndex = steps.findIndex(step => step.name === 'Verify translation publication readiness')
+  const inventoryIndex = steps.findIndex(step => step.name === 'Verify immutable target localization inventory')
   const cardIndex = steps.findIndex(step => step.name === 'Create progress card')
-  assert.ok(installIndex >= 0 && readinessIndex > installIndex && readinessIndex < cardIndex)
+  assert.ok(installIndex >= 0 && readinessIndex > installIndex && inventoryIndex > readinessIndex && inventoryIndex < cardIndex)
   const command = steps[readinessIndex].run
   assert.equal(command, 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js')
+  const inventory = steps[inventoryIndex]
+  assert.equal(inventory.if, "${{ steps.refs.outputs.publish == 'true' }}")
+  assert.equal(inventory.env.DEV_BASELINE_SHA, '${{ steps.refs.outputs.dev_baseline_sha }}')
+  assert.match(inventory.run, /git fetch --no-tags origin "\$DEV_BASELINE_SHA"/)
+  assert.match(inventory.run, /restore-generated-state\.sh --exact --ref "\$DEV_BASELINE_SHA"/)
+  assert.match(inventory.run, /pnpm check:localization-input-inventory/)
+})
+
+test('workflow policy rejects fetch preparation without immutable inventory preflight', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'fetch-inventory-preflight-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'fetch-docs.yml')
+    const original = fs.readFileSync(file, 'utf8')
+    const mutated = original.replace('          pnpm check:localization-input-inventory\n      - id: card', '          echo skipped localization inventory preflight\n      - id: card')
+    assert.notEqual(mutated, original)
+    fs.writeFileSync(file, mutated)
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'fetch-docs.yml: prepare must validate the immutable target localization inventory before paid work starts',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
 })
 
 test('fetch workflow owns only source production and dispatches translation once after fail-early handoff', () => {
@@ -2015,11 +2039,29 @@ test('full translation publication reconciles derived state before aggregate suc
   const workflowPath = path.join(process.cwd(), '.github/workflows/translate-codex.yml')
   const source = fs.readFileSync(workflowPath, 'utf8')
   const workflow = yaml.load(source)
+  const inventory = workflow.jobs.reconcile_localization_inventory
   const reconcile = workflow.jobs.reconcile_published_state
+
+  assert.ok(inventory, 'translation publication must reconcile localization inventory independently')
+  assert.ok(inventory.needs.includes('prepare'))
+  assert.ok(inventory.needs.includes('publish_zh_reference_landings'))
+  assert.match(inventory.if, /always\(\)/)
+  assert.match(inventory.if, /inputs\.publish/)
+  assert.match(inventory.if, /needs\.prepare\.result == 'success'/)
+  assert.doesNotMatch(inventory.if, /needs\.prepare\.outputs\.group == 'all'/)
+  assert.equal(inventory.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.ref, '${{ needs.prepare.outputs.tooling_sha }}')
+  const inventoryRun = inventory.steps.find(step => step.name === 'Reconcile and publish localization inventory')?.run || ''
+  assert.match(inventoryRun, /restore-generated-state\.sh --exact --ref "\$target_sha"/)
+  assert.match(inventoryRun, /pnpm generate:localization-input-inventory/)
+  assert.match(inventoryRun, /pnpm check:localization-input-inventory/)
+  assert.match(inventoryRun, /git -C "\$publish_worktree" add -- deploy\/contracts\/localization-inputs\.inventory\.json/)
+  assert.match(inventoryRun, /git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/)
+  assert.doesNotMatch(inventoryRun, /validate-translation|reference-manifest/)
 
   assert.ok(reconcile, 'full translation workflow must reconcile derived state')
   assert.ok(reconcile.needs.includes('prepare'))
   assert.ok(reconcile.needs.includes('publish_zh_reference_landings'))
+  assert.ok(reconcile.needs.includes('reconcile_localization_inventory'))
   assert.match(reconcile.if, /inputs\.publish/)
   assert.match(reconcile.if, /needs\.prepare\.outputs\.group == 'all'/)
   assert.equal(reconcile.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.ref, '${{ needs.prepare.outputs.tooling_sha }}')
@@ -2036,6 +2078,23 @@ test('full translation publication reconciles derived state before aggregate suc
   assert.match(run, /git worktree add --detach "\$publish_worktree" "\$target_sha"/)
   assert.match(run, /git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/)
   assert.ok(workflow.jobs.aggregate.needs.includes('reconcile_published_state'))
+})
+
+test('workflow policy rejects translation publication without independent inventory reconciliation', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-inventory-reconcile-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'translate-codex.yml')
+    const original = fs.readFileSync(file, 'utf8')
+    const mutated = original.replace('  reconcile_localization_inventory:\n', '  disabled_localization_inventory_reconciliation:\n')
+    assert.notEqual(mutated, original)
+    fs.writeFileSync(file, mutated)
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: partial translation publication must independently reconcile localization inventory',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
 })
 
 test('Guides translation batches take row identity from the matrix and shared metadata from preparation outputs', () => {

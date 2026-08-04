@@ -805,6 +805,31 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!needsPrepare('prepare_guides_batches') || !needsPrepare('translate_sdk') || !needsPrepare('translate_guides_batches')) {
         errors.push(`${file}: translation matrices must wait for complete handoff repository validation`)
       }
+      const inventoryReconcile = workflow.jobs?.reconcile_localization_inventory
+      const inventoryNeeds = Array.isArray(inventoryReconcile?.needs) ? inventoryReconcile.needs : []
+      const requiredInventoryNeeds = [
+        'prepare', 'prepare_guides_batches', 'translate_guides_batches', 'translate_sdk',
+        'publish_ja_guides', 'publish_ja_python', 'publish_zh_python', 'publish_ja_java', 'publish_zh_java',
+        'publish_ja_node', 'publish_zh_node', 'publish_ja_go', 'publish_zh_go', 'publish_ja_cli', 'publish_zh_cli',
+        'publish_ja_rest', 'publish_zh_rest', 'publish_zh_reference_landings',
+      ]
+      const inventoryStep = namedJobStep(workflow, 'reconcile_localization_inventory', 'Reconcile and publish localization inventory')
+      const inventoryRun = String(inventoryStep?.run || '')
+      const fullReconcileNeeds = Array.isArray(workflow.jobs?.reconcile_published_state?.needs)
+        ? workflow.jobs.reconcile_published_state.needs
+        : []
+      if (!inventoryReconcile ||
+          requiredInventoryNeeds.some(job => !inventoryNeeds.includes(job)) ||
+          String(inventoryReconcile.if || '').trim() !== "${{ always() && inputs.publish && needs.prepare.result == 'success' }}" ||
+          inventoryReconcile.steps?.find(step => step?.uses === 'actions/checkout@v5')?.with?.ref !== '${{ needs.prepare.outputs.tooling_sha }}' ||
+          !/restore-generated-state\.sh --exact --ref "\$target_sha"/.test(inventoryRun) ||
+          !/pnpm generate:localization-input-inventory[\s\S]*pnpm check:localization-input-inventory/.test(inventoryRun) ||
+          !/git -C "\$publish_worktree" add -- deploy\/contracts\/localization-inputs\.inventory\.json/.test(inventoryRun) ||
+          !/git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/.test(inventoryRun) ||
+          /validate-translation|reference-manifest/.test(inventoryRun) ||
+          !fullReconcileNeeds.includes('reconcile_localization_inventory')) {
+        errors.push(`${file}: partial translation publication must independently reconcile localization inventory`)
+      }
     }
 
     if (file === 'translate-content.yml' && /^concurrency:/m.test(source)) {
@@ -850,12 +875,26 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const prepareSteps = caller?.jobs?.prepare?.steps || []
     const installIndex = prepareSteps.findIndex(step => step?.run === 'pnpm install --frozen-lockfile')
     const readinessIndex = prepareSteps.findIndex(step => step?.name === 'Verify translation publication readiness')
+    const inventoryIndex = prepareSteps.findIndex(step => step?.name === 'Verify immutable target localization inventory')
     const cardIndex = prepareSteps.findIndex(step => step?.name === 'Create progress card')
     const cardStep = cardIndex >= 0 ? prepareSteps[cardIndex] : null
     const readinessCommand = readinessIndex >= 0 ? String(prepareSteps[readinessIndex]?.run || '') : ''
     if (installIndex < 0 || readinessIndex <= installIndex || cardIndex <= readinessIndex ||
         readinessCommand !== 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
       errors.push('fetch-docs.yml: prepare must prove translation publication readiness before paid work starts')
+    }
+    const inventoryStep = inventoryIndex >= 0 ? prepareSteps[inventoryIndex] : null
+    const inventoryCommands = executableCommandLines(inventoryStep?.run)
+    if (inventoryIndex <= readinessIndex || cardIndex <= inventoryIndex ||
+        String(inventoryStep?.if || '').trim() !== "${{ steps.refs.outputs.publish == 'true' }}" ||
+        inventoryStep?.env?.DEV_BASELINE_SHA !== '${{ steps.refs.outputs.dev_baseline_sha }}' ||
+        !commandsAppearInOrder(inventoryCommands, [
+          'set -euo pipefail',
+          'git fetch --no-tags origin "$DEV_BASELINE_SHA"',
+          'bash scripts/restore-generated-state.sh --exact --ref "$DEV_BASELINE_SHA"',
+          'pnpm check:localization-input-inventory',
+        ]) || /generate:localization-input-inventory/.test(String(inventoryStep?.run || ''))) {
+      errors.push('fetch-docs.yml: prepare must validate the immutable target localization inventory before paid work starts')
     }
     if (cardStep?.['continue-on-error'] !== true || cardStep?.env?.CARD_TITLE !== 'Zilliz Cloud Docs Build' ||
         !/card_parts=\("Produce"\)[\s\S]*"Publish" "Verify"[\s\S]*"Handoff"/.test(callerSource)) {
