@@ -230,7 +230,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push(`${file}: validation workflow must be read-only`)
     }
 
-    if (file === 'check-404.yml' || file === 'playwright.yml') {
+    if (file === 'playwright.yml') {
       if (!workflow.on?.push || !workflow.on?.pull_request) {
         errors.push(`${file}: push and pull_request must both be declared under on`)
       }
@@ -1303,6 +1303,46 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         !/report-card create[\s\S]*report-card note --file[\s\S]*report-card finish/.test(watchdogSource) ||
         !/if \[ "\$WATCHDOG_OUTCOME" != "success" \][\s\S]*exit 1/.test(watchdogSource)) {
       errors.push('docs-ingestion-watchdog.yml: watchdog must upload evidence, alert best-effort, and preserve evaluator failure')
+    }
+  }
+
+  const externalLinkWatchdogSource = readWorkflow('external-link-watchdog.yml')
+  if (externalLinkWatchdogSource) {
+    const externalLinkWatchdog = yaml.load(externalLinkWatchdogSource)
+    const retiredExternalScanner = ['check', '404'].join('-')
+    const triggerNames = Object.keys(externalLinkWatchdog.on || {}).sort()
+    if (triggerNames.length !== 2 || triggerNames[0] !== 'schedule' || triggerNames[1] !== 'workflow_dispatch' ||
+        externalLinkWatchdog.on?.schedule?.length !== 1 || externalLinkWatchdog.on.schedule[0]?.cron !== '0 1 * * *') {
+      errors.push('external-link-watchdog.yml: watchdog triggers must be the daily schedule and manual dispatch only')
+    }
+    if (externalLinkWatchdog.permissions?.actions !== 'read' || externalLinkWatchdog.permissions?.contents !== 'read' || Object.keys(externalLinkWatchdog.permissions || {}).length !== 2) {
+      errors.push('external-link-watchdog.yml: watchdog permissions must be actions: read and contents: read only')
+    }
+    if (externalLinkWatchdog.concurrency?.group !== 'external-link-watchdog' || externalLinkWatchdog.concurrency?.['cancel-in-progress'] !== false) {
+      errors.push('external-link-watchdog.yml: watchdog concurrency must serialize scans without cancellation')
+    }
+    if (!/pnpm docs-tooling check-links --site en --output tmp\/external-link-watchdog\/latest\.md/.test(externalLinkWatchdogSource) || externalLinkWatchdogSource.includes(`scripts/${retiredExternalScanner}.js`)) {
+      errors.push('external-link-watchdog.yml: watchdog must use the canonical rendered-site checker and no retired scanner')
+    }
+    if (/uses:\s*actions\/cache@|\bbaseline\b|\backnowledg(?:e|ement)\b|\bsuppress(?:ion|ed)?\b/i.test(externalLinkWatchdogSource)) {
+      errors.push('external-link-watchdog.yml: watchdog must not cache or suppress external-link observations')
+    }
+    const externalLinkJobs = Object.values(externalLinkWatchdog.jobs || {})
+    const externalLinkSteps = externalLinkJobs.length === 1 && Array.isArray(externalLinkJobs[0]?.steps) ? externalLinkJobs[0].steps : []
+    const externalLinkScan = externalLinkSteps.find(step => step?.id === 'scan')
+    if (!externalLinkScan || externalLinkScan['continue-on-error'] !== undefined) {
+      errors.push('external-link-watchdog.yml: rendered-site scan must fail closed on checker errors')
+    }
+    const expiredOnlyCondition = "${{ steps.scan.outputs.expired_count != '0' }}"
+    const alertStepNames = new Set([
+      'Build expired link alert note',
+      'Create external link alert card',
+      'Attach expired link alert note',
+      'Finish external link alert card',
+    ])
+    const alertSteps = externalLinkSteps.filter(step => alertStepNames.has(step?.name))
+    if (alertSteps.length !== alertStepNames.size || alertSteps.some(step => step.if !== expiredOnlyCondition)) {
+      errors.push('external-link-watchdog.yml: alert card steps must run only for confirmed expired links')
     }
   }
 
