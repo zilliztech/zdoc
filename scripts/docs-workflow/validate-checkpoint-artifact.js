@@ -58,7 +58,7 @@ function translationOwnedPaths(targetId, group) {
           return match ? [match[1]] : [];
         });
     const sidebars = sidebarNames.map(name => `generated/zh-CN/sidebars/${name}.sidebar.js`);
-    return [...new Set([...roots, target.state.path, 'config/reference-retirements.json', ...sidebars])];
+    return [...new Set([...roots, target.state.path, ...sidebars])];
   }
   if (group.snapshotManual !== 'guides') throw new Error(`Translation target ${target.id} requires Guides ownership`);
   return [target.targetRoot, target.sidebarTarget, target.state.path];
@@ -211,6 +211,11 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   for (let i = 1; i < filePaths.length; i++) if (filePaths[i].startsWith(`${filePaths[i - 1]}/`)) throw new Error('Ambiguous ancestor file paths');
   for (let i = 0; i < manifest.deletions.length; i++) {
     for (let j = i + 1; j < manifest.deletions.length; j++) if (pathsConflict(manifest.deletions[i], manifest.deletions[j])) throw new Error('Ambiguous ancestor deletion paths');
+  }
+  if (manifest.stage === 'source') {
+    for (const preservedPath of group.preservedPaths) {
+      if (!filePaths.includes(preservedPath)) throw new Error(`Source checkpoint is missing declared preserved path: ${preservedPath}`);
+    }
   }
   if (expected.group !== undefined && expected.group !== manifest.group) throw new Error('Expected group mismatch');
   if (expected.masterSha !== undefined && expected.masterSha !== manifest.masterSha) throw new Error('Expected master SHA mismatch');

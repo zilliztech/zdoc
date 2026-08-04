@@ -23,10 +23,39 @@ function repositoryPath(relativePath: string): string {
   return path.resolve(repositoryRoot, relativePath);
 }
 
+function retiredReferenceExcludes(
+  profile: DeepReadonly<SiteProfile>,
+  content: DeepReadonly<ContentPluginProfile>,
+): string[] {
+  if (
+    profile.id !== 'zh-CN' ||
+    content.id !== 'reference' ||
+    content.sourcePath !== 'content/zh-CN/reference'
+  ) return [];
+  const manifestPath = repositoryPath('generated/zh-CN/manifests/reference-translations.json');
+  if (!fs.existsSync(manifestPath)) return [];
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as {
+    records?: Array<{status?: unknown; targetPath?: unknown}>;
+  };
+  if (!Array.isArray(manifest.records)) {
+    throw new Error('Chinese Reference translation manifest must contain records');
+  }
+  return [...new Set(manifest.records.flatMap(record => {
+    if (record.status !== 'retired' || typeof record.targetPath !== 'string') return [];
+    const relativePath = path.posix.relative(content.sourcePath, record.targetPath);
+    if (!relativePath || relativePath === '..' || relativePath.startsWith('../')) {
+      throw new Error(`Retired Chinese Reference target must stay within ${content.sourcePath}: ${record.targetPath}`);
+    }
+    return [relativePath];
+  }))].sort();
+}
+
 function contentPlugin(
+  profile: DeepReadonly<SiteProfile>,
   content: DeepReadonly<ContentPluginProfile>,
   markdownPolicy: ReturnType<typeof resolveMarkdownPolicy>,
 ): PluginConfig {
+  const excludes = [...(content.exclude ?? []), ...retiredReferenceExcludes(profile, content)];
   return [
     '@docusaurus/plugin-content-docs',
     {
@@ -35,7 +64,7 @@ function contentPlugin(
       routeBasePath: content.routeBasePath,
       sidebarPath: repositoryPath(content.sidebarPath),
       include: content.include ? [...content.include] : undefined,
-      exclude: content.exclude ? [...content.exclude] : undefined,
+      exclude: excludes.length > 0 ? excludes : undefined,
       ...(content.currentVersionPath
         ? {lastVersion: 'current', versions: {current: {path: content.currentVersionPath}}}
         : {}),
@@ -153,7 +182,7 @@ export function createDocusaurusConfig(
         rspackBundler: false,
         rspackPersistentCache: false,
         mdxCrossCompilerCache: false,
-        ssgWorkerThreads: profile.id === 'zh-CN',
+        ssgWorkerThreads: false,
       },
     },
     staticDirectories: profile.staticRoots.map(repositoryPath),
@@ -177,7 +206,7 @@ export function createDocusaurusConfig(
             '@docusaurus/plugin-content-pages',
             {path: repositoryPath('packages/docs-ui/src/zh-CN/pages')},
           ] satisfies PluginConfig]),
-      ...profile.content.map(content => contentPlugin(content, markdownPolicy)),
+      ...profile.content.map(content => contentPlugin(profile, content, markdownPolicy)),
       ...buildCapabilityPlugins(profile),
       ...redirectPlugin(profile),
       ...inkeepPlugin(profile, environment),

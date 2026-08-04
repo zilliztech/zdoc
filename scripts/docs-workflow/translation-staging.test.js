@@ -269,6 +269,39 @@ test('creates deterministic commits for nonempty batches and retains combined ba
   assert.equal(git(worktree, 'show', `${first.stagedSha}:${TRANSLATION}`), '# 一')
 })
 
+test('commits all 106 validated paths when Git rename detection would collapse nine pairs', () => {
+  const state = setup()
+  const sourceRoot = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/rename-regression'
+  for (let index = 1; index <= 9; index += 1) {
+    const relative = `${sourceRoot}/old-${index}.md`
+    fs.mkdirSync(path.dirname(path.join(state.repository, relative)), { recursive: true })
+    fs.writeFileSync(path.join(state.repository, relative), `rename ${index}\n`)
+  }
+  for (let index = 1; index <= 88; index += 1) {
+    fs.writeFileSync(path.join(state.repository, sourceRoot, `edit-${index}.md`), `before ${index}\n`)
+  }
+  git(state.repository, 'add', sourceRoot)
+  git(state.repository, 'commit', '-m', 'seed rename regression')
+  state.targetSha = git(state.repository, 'rev-parse', 'HEAD')
+
+  const worktree = path.join(state.root, 'staging-rename-regression')
+  prepareStagingWorktree({ repository: state.repository, expectedTargetSha: state.targetSha, worktree })
+  git(worktree, 'config', 'diff.renames', 'true')
+  for (let index = 1; index <= 9; index += 1) {
+    fs.renameSync(
+      path.join(worktree, sourceRoot, `old-${index}.md`),
+      path.join(worktree, sourceRoot, `new-${index}.md`),
+    )
+  }
+  for (let index = 1; index <= 88; index += 1) {
+    fs.writeFileSync(path.join(worktree, sourceRoot, `edit-${index}.md`), `after ${index}\n`)
+  }
+
+  const result = commitAppliedBatch({ worktree, batchNumber: 1, batchCount: 1 })
+  assert.equal(result.committed, true)
+  assert.equal(git(worktree, 'diff-tree', '--no-renames', '--no-commit-id', '--name-only', '-r', result.stagedSha).split('\n').length, 106)
+})
+
 test('deterministic batch commits ignore rejecting ambient hooks and signing configuration', () => {
   const state = setup()
   const worktree = path.join(state.root, 'staging')

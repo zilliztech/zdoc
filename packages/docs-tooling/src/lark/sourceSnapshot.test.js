@@ -102,6 +102,38 @@ test('createSourceSnapshot records hashes and outgoing tokens', () => {
   assert.match(snapshot.table_digests.tbl, /^[a-f0-9]{64}$/)
 })
 
+test('createSourceSnapshot records Base publication eligibility for canonical SDK sources', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-publication-'))
+  fs.writeFileSync(path.join(dir, 'java-token.json'), JSON.stringify({
+    token: 'java-token',
+    blocks: { items: [{ block_id: 'page', block_type: 1 }, { block_id: 'body', block_type: 2 }] },
+  }))
+
+  const snapshot = createSourceSnapshot({
+    manualName: 'javaV230',
+    targetsBuilt: ['zilliz'],
+    buildEnv: 'uat',
+    sourceBranch: 'dev',
+    publishUrl: 'https://docs.cloud-uat3.zilliz.com',
+    docSourceDir: dir,
+    baseAppToken: 'base-token',
+    records: [{
+      record_id: 'rec-java',
+      base_table_id: 'tbl-java',
+      base_table_name: 'Java',
+      fields: {
+        Docs: { text: 'getPartitionStats()', link: 'https://zilliverse.feishu.cn/docx/java-token' },
+        Slug: 'v2-Partitions-getPartitionStats',
+        Status: 'Draft',
+        Targets: [],
+      },
+    }],
+  })
+
+  assert.deepEqual(snapshot.records[0].publish_targets, [])
+  assert.equal(snapshot.records[0].publish_status, 'Draft')
+})
+
 test('Guides snapshot requires sources only for publishable canonical records', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-progress-'))
   fs.writeFileSync(path.join(dir, 'draft.json'), JSON.stringify({
@@ -123,6 +155,47 @@ test('Guides snapshot requires sources only for publishable canonical records', 
 
   assert.deepEqual(snapshot.records.map(record => record.record_id), ['draft'])
   assert.deepEqual(snapshot.navigation_records.map(record => record.record_id), ['draft', 'empty'])
+})
+
+test('Guides snapshot includes section records only when the section owns Docs', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-section-docs-'))
+  fs.writeFileSync(path.join(dir, 'section-doc.json'), JSON.stringify({
+    node_token: 'section-doc',
+    base_placement_type: 'section',
+    blocks: { items: [{ block_id: 'page', block_type: 1 }, { block_id: 'body', block_type: 2 }] },
+  }))
+  const records = [
+    {
+      record_id: 'section-doc', base_table_id: 'tbl', base_table_name: 'Development',
+      fields: { Docs: { text: 'Overview', link: 'https://example.feishu.cn/wiki/section-doc' }, Labels: 'Overview', Slug: 'overview', 'Placement Type': 'section' },
+    },
+    {
+      record_id: 'section-pure', base_table_id: 'tbl', base_table_name: 'Development',
+      fields: { Labels: 'Pure', Slug: 'pure', 'Placement Type': 'section' },
+    },
+  ]
+
+  const snapshot = createSourceSnapshot({ manualName: 'guides', buildEnv: 'uat', docSourceDir: dir, records })
+
+  assert.deepEqual(snapshot.records.map(record => [record.record_id, record.placement_type]), [['section-doc', 'section']])
+  assert.deepEqual(snapshot.navigation_records.map(record => [record.record_id, record.doc_token]), [
+    ['section-doc', 'section-doc'],
+    ['section-pure', null],
+  ])
+})
+
+test('Guides snapshot treats a non-Feishu section Link value as no Docs source', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'snapshot-section-placeholder-'))
+  const records = [{
+    record_id: 'section-placeholder', base_table_id: 'tbl', base_table_name: 'Get Started',
+    fields: { Docs: { text: 'Quickstarts', link: 'http://Quickstarts' }, Labels: 'Quickstarts', Slug: 'quickstarts', 'Placement Type': 'section' },
+  }]
+
+  const snapshot = createSourceSnapshot({ manualName: 'guides', buildEnv: 'uat', docSourceDir: dir, records })
+
+  assert.deepEqual(snapshot.records, [])
+  assert.equal(snapshot.navigation_records[0].doc_token, null)
+  assert.equal(snapshot.navigation_records[0].doc_link, '')
 })
 
 test('Guides navigation snapshot changes table digest for section, link, and ref edits', () => {
@@ -226,5 +299,8 @@ test('candidate validation rejects mismatches, duplicate records, and malformed 
   assert.throws(() => validateCandidateSnapshot({ ...base, records: [{ ...base.records[0], source_hash: 'bad' }] }, expected), /source hash/i)
   assert.throws(() => validateCandidateSnapshot({ ...base, records: [{ ...base.records[0], output_paths: 'bad' }] }, expected), /output paths/i)
   assert.throws(() => validateCandidateSnapshot({ ...base, records: [{ ...base.records[0], output_paths: ['../escape.md'] }] }, expected), /output path/i)
+  assert.throws(() => validateCandidateSnapshot({ ...base, records: [{ ...base.records[0], publish_targets: 'bad' }] }, expected), /publish targets/i)
+  assert.throws(() => validateCandidateSnapshot({ ...base, records: [{ ...base.records[0], publish_targets: [42] }] }, expected), /publish target/i)
+  assert.throws(() => validateCandidateSnapshot({ ...base, records: [{ ...base.records[0], publish_status: [] }] }, expected), /publish status/i)
   assert.throws(() => validateCandidateSnapshot({ ...base, records: [] }, expected), /non-empty/i)
 })

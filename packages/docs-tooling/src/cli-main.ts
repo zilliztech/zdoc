@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import {existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync} from 'node:fs';
+import {appendFileSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync} from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 
@@ -8,6 +8,7 @@ import {config as loadDotenv} from 'dotenv';
 import ts from 'typescript';
 
 import {executeDocsToolingCommand, executeReferenceDocsToolingCommand, parseCliArgs} from './cli.ts';
+import {resolveGuidesSourceConfig} from './manuals/registry.ts';
 import {checkLinks} from './links/check.ts';
 import {applyMdxPatches} from './mdx/index.ts';
 import {executeReportCard} from './reporting/lark.ts';
@@ -22,6 +23,13 @@ import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from './va
 import {executePublicationGroup, parsePublishGroupArgs} from './workflows/run.ts';
 
 const ALIYUN_VALIDATOR_PROVIDER = 'DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER';
+const ALIYUN_STORAGE_ENVIRONMENT = [
+  'OSS_ACCESS_KEY_ID',
+  'OSS_ACCESS_KEY_SECRET',
+  'OSS_REGION',
+  'OSS_BUCKET',
+  'OSS_ENDPOINT',
+] as const;
 const REVISION_GROUPS = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'] as const;
 
 type RevisionInventoryModule = typeof import('./lark/revisionInventory.ts');
@@ -222,6 +230,39 @@ async function validateMdxPath(repositoryRoot: string, relativePath: string, ver
 }
 
 async function executeExplicitCommand(argv: string[], repositoryRoot: string): Promise<boolean> {
+  if (argv[0] === 'validate-publication-provider') {
+    const options = parseOptions(argv.slice(1));
+    const site = requiredOption(options, 'site');
+    if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported documentation site: ${site}`);
+    if (site === 'en') {
+      process.stdout.write('English publication does not require a locale-specific validator.\n');
+      return true;
+    }
+    const validator = await loadAliyunOssValidator(repositoryRoot, process.env);
+    if (!validator) throw new Error('zh-CN publication validation requires explicit Aliyun OSS validator injection');
+    for (const name of ALIYUN_STORAGE_ENVIRONMENT) {
+      if (!process.env[name]) throw new Error(`Chinese publication requires Aliyun OSS storage configuration: ${name}`);
+    }
+    const imageBedUrl = process.env.IMAGE_BED_URL;
+    if (!imageBedUrl) throw new Error('Chinese publication requires IMAGE_BED_URL');
+    const imageBed = new URL(imageBedUrl);
+    if (imageBed.protocol !== 'https:' || /(?:^|\.)s3(?:[.-][a-z0-9-]+)?\.amazonaws\.com$/iu.test(imageBed.hostname)) {
+      throw new Error('Chinese publication IMAGE_BED_URL must use HTTPS Aliyun OSS storage, not Amazon S3');
+    }
+    process.stdout.write('Chinese publication validator is ready.\n');
+    return true;
+  }
+  if (argv[0] === 'guides-source-config') {
+    const options = parseOptions(argv.slice(1));
+    const site = requiredOption(options, 'site');
+    if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported Guides site: ${site}`);
+    const output = requiredOption(options, 'githubOutput');
+    const config = resolveGuidesSourceConfig(site);
+    appendFileSync(output, Object.entries(config)
+      .map(([key, value]) => `${key.replace(/[A-Z]/gu, letter => `_${letter.toLowerCase()}`)}=${value}\n`)
+      .join(''));
+    return true;
+  }
   if (argv[0] === 'revision-inventory') {
     await executeRevisionInventoryBuild(argv, repositoryRoot);
     return true;

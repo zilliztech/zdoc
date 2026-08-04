@@ -85,6 +85,33 @@ test('selects explicit incremental tokens, single-doc scope, and every source fo
   assert.deepEqual(selectRequiredSourceFiles({ sourceDir, planPath, snapshotPath }), ['a.json', 'b.json'])
 })
 
+test('resolves snapshot token aliases selected by an incremental plan', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-alias-selection-'))
+  const sourceDir = path.join(root, 'sources')
+  const sourceFile = 'Fighwx5zFiwaoIkV4q5cAJ1enDg.json'
+  writeSource(sourceDir, sourceFile, [])
+  const snapshotPath = path.join(root, 'snapshot.json')
+  fs.writeFileSync(snapshotPath, JSON.stringify({ records: [{
+    doc_token: 'Fighwx5zFiwaoIkV4q5cAJ1enDg',
+    node_token: 'node-token',
+    origin_node_token: 'origin-node-token',
+    obj_token: 'VpBXd70zuoEq2Cx7KIJcJz7Zn7c',
+    source_file: sourceFile,
+  }] }))
+  const planPath = path.join(root, 'plan.json')
+  fs.writeFileSync(planPath, JSON.stringify({
+    mode: 'incremental',
+    expanded_tokens: [
+      'Fighwx5zFiwaoIkV4q5cAJ1enDg',
+      'node-token',
+      'origin-node-token',
+      'VpBXd70zuoEq2Cx7KIJcJz7Zn7c',
+    ],
+  }))
+
+  assert.deepEqual(selectSourceFiles({ sourceDir, planPath, snapshotPath }), [sourceFile])
+})
+
 test('incremental prefetch fetches changed documents and requires every document in affected tables', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'guides-media-affected-table-'))
   const sourceDir = path.join(root, 'sources')

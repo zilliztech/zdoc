@@ -8,7 +8,9 @@ const test = require('node:test')
 
 const repositoryRoot = path.resolve(__dirname, '..')
 const productionEntries = [
+  'scripts/doc-publish-bot/manualConfig.js',
   'scripts/docs-workflow/group-paths.js',
+  'scripts/docs-workflow/guides-render-readiness.js',
   'scripts/translation/applySourceDelta.js',
   'scripts/translation/agentRunner.js',
   'scripts/docs-workflow/create-checkpoint-artifact.js',

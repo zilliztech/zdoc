@@ -6,7 +6,7 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 const yaml = require('js-yaml')
-const { createDocsProgressMonitor, createDocsToolingCardPatcher, createGitHubActionsClient, readConfiguration, selectAggregateJob, validateArchiveEntries, validateProgressMetadata, withRetry } = require('./monitor-docs-progress')
+const { createDocsProgressMonitor, createDocsToolingCardPatcher, createGitHubActionsClient, readConfiguration, selectAggregateJob, validateArchiveEntries, validateHandoffMetadata, validateProgressMetadata, withRetry } = require('./monitor-docs-progress')
 
 test('production monitor patches cards through docs-tooling instead of the retired plugin', () => {
   const source = fs.readFileSync('scripts/docs-workflow/monitor-docs-progress.js', 'utf8')
@@ -33,27 +33,6 @@ test('docs-tooling card patcher removes its temporary state file when the comman
   await assert.rejects(patch({ overallStatus: 'running' }), /injected patch failure/)
   assert.equal(fs.existsSync(stateFile), false)
   assert.deepEqual(fs.readdirSync(path.dirname(stateFile)), [])
-})
-
-test('aggregate downloads exact Guides publication evidence before collecting notes', () => {
-  const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
-  const steps = workflow.jobs.aggregate.steps
-  const download = steps.find(step => step.name === 'Download Guides translation publication report')
-  const reports = steps.find(step => step.id === 'reports')
-  assert.ok(steps.indexOf(download) < steps.indexOf(reports))
-  assert.equal(download['continue-on-error'], true)
-  assert.equal(download.with.name, 'docs-translation-publication-guides-${{ github.run_id }}-${{ github.run_attempt }}')
-  assert.equal(download.with.path, '${{ runner.temp }}/guides-translation-publication-evidence')
-  assert.match(download.if, /always\(\)/)
-  assert.equal(reports.env.CARD_GUIDES_PUBLICATION_REPORT, '${{ runner.temp }}/guides-translation-publication-evidence/publication-report.json')
-  assert.equal(reports.env.CARD_GUIDES_RUN_ID, '${{ github.run_id }}')
-  assert.equal(reports.env.CARD_GUIDES_RUN_ATTEMPT, '${{ github.run_attempt }}')
-  assert.equal(reports.env.CARD_GUIDES_SOURCE_SHA, '${{ needs.publish_guides.outputs.commit_sha }}')
-  assert.equal(reports.env.CARD_GUIDES_TARGET_SHA, '${{ needs.publish_guides.outputs.commit_sha }}')
-  assert.equal(reports.env.CARD_GUIDES_PENDING_SET_SHA256, '${{ needs.prepare_guides_translation_batches.outputs.pending_set_sha256 }}')
-  assert.equal(reports.env.CARD_GUIDES_FINAL_PUBLISHER_STATUS, '${{ needs.finalize_guides_translation.outputs.publisher_status }}')
-  assert.equal(reports.env.CARD_GUIDES_FINAL_COMMIT_SHA, '${{ needs.finalize_guides_translation.outputs.commit_sha }}')
-  assert.doesNotMatch(JSON.stringify({ source: reports.env.CARD_GUIDES_SOURCE_SHA, target: reports.env.CARD_GUIDES_TARGET_SHA, staging: reports.env.CARD_GUIDES_STAGING_SHA }), /resolve_final|\|\|/)
 })
 
 const RUNNING = [{
@@ -141,19 +120,19 @@ test('caches validated live metadata and uses it for a stable Guides denominator
   ]
   const snapshots = [visibleRenderJobs, visibleRenderJobs, TERMINAL]
   const details = []
-  let metadataDownloads = 0
+  const metadataDownloads = []
   const monitor = createMonitor({
     listJobs: async () => snapshots.shift(),
-    downloadProgressMetadata: async () => {
-      metadataDownloads += 1
-      return { schemaVersion: 1, runId: 42, guidesTableTotal: 14 }
+    downloadProgressMetadata: async locale => {
+      metadataDownloads.push(locale)
+      return { schemaVersion: 2, runId: 42, locale, tableTotal: locale === 'en' ? 14 : 11 }
     },
-    patchCard: async state => details.push(state.manuals[0].detail),
+    patchCard: async state => details.push(state.guides[0].detail),
   })
 
   await monitor.run()
 
-  assert.equal(metadataDownloads, 1)
+  assert.deepEqual(metadataDownloads, ['en', 'zh-CN'])
   assert.deepEqual(details.slice(0, 2), [
     '7/14 complete · 4 active · 3 pending · 0 failed',
     '7/14 complete · 4 active · 3 pending · 0 failed',
@@ -161,13 +140,35 @@ test('caches validated live metadata and uses it for a stable Guides denominator
 })
 
 test('validates exact live progress metadata and rejects mismatched runs', () => {
-  assert.deepEqual(validateProgressMetadata({ schemaVersion: 1, runId: 42, guidesTableTotal: 14 }, { expectedRunId: 42 }), {
-    schemaVersion: 1,
+  assert.deepEqual(validateProgressMetadata({ schemaVersion: 2, runId: 42, locale: 'en', tableTotal: 14 }, { expectedRunId: 42, expectedLocale: 'en' }), {
+    schemaVersion: 2,
     runId: 42,
-    guidesTableTotal: 14,
+    locale: 'en',
+    tableTotal: 14,
   })
-  assert.throws(() => validateProgressMetadata({ schemaVersion: 1, runId: 41, guidesTableTotal: 14 }, { expectedRunId: 42 }), /runId/)
-  assert.throws(() => validateProgressMetadata({ schemaVersion: 1, runId: 42, guidesTableTotal: 14, extra: true }, { expectedRunId: 42 }), /unknown keys/)
+  assert.throws(() => validateProgressMetadata({ schemaVersion: 2, runId: 41, locale: 'en', tableTotal: 14 }, { expectedRunId: 42, expectedLocale: 'en' }), /runId/)
+  assert.throws(() => validateProgressMetadata({ schemaVersion: 2, runId: 42, locale: 'zh-CN', tableTotal: 11 }, { expectedRunId: 42, expectedLocale: 'en' }), /locale/)
+  assert.throws(() => validateProgressMetadata({ schemaVersion: 2, runId: 42, locale: 'en', tableTotal: 14, extra: true }, { expectedRunId: 42, expectedLocale: 'en' }), /unknown keys/)
+})
+
+test('validates exact source-to-translation handoff metadata', () => {
+  const value = { schemaVersion: 1, parentRunId: 42, childRunId: 99, childRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/99' }
+  assert.deepEqual(validateHandoffMetadata(value, { expectedParentRunId: 42, repository: 'zilliztech/zdoc' }), value)
+  assert.throws(() => validateHandoffMetadata({...value, childRunUrl: 'https://example.com/99'}, { expectedParentRunId: 42, repository: 'zilliztech/zdoc' }), /childRunUrl/)
+  assert.throws(() => validateHandoffMetadata({...value, extra: true}, { expectedParentRunId: 42, repository: 'zilliztech/zdoc' }), /unknown keys/)
+})
+
+test('adds a validated child workflow link after handoff metadata becomes available', async () => {
+  const patches = []
+  const snapshots = [RUNNING, TERMINAL]
+  const monitor = createMonitor({
+    runTranslations: true,
+    listJobs: async () => snapshots.shift(),
+    downloadHandoffMetadata: async () => ({ schemaVersion: 1, parentRunId: 42, childRunId: 99, childRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/99' }),
+    patchCard: async state => patches.push(state),
+  })
+  await monitor.run()
+  assert.equal(patches[0].handoff.url, 'https://github.com/zilliztech/zdoc/actions/runs/99')
 })
 
 test('retries transient Jobs API failures with bounded exponential delays', async () => {
@@ -278,20 +279,25 @@ test('GitHub client paginates jobs and validates an artifact before extraction',
     const parsed = new URL(url)
     if (url.includes('/jobs?') && parsed.searchParams.get('page') === '1') return { ok: true, json: async () => ({ jobs: firstPage }) }
     if (url.includes('/jobs?') && parsed.searchParams.get('page') === '2') return { ok: true, json: async () => ({ jobs: [{ id: 101, name: 'aggregate' }] }) }
-    if (url.includes('name=docs-progress-metadata-42')) return { ok: true, json: async () => ({ artifacts: [{ id: 2, expired: false, archive_download_url: 'https://api.github.com/metadata.zip' }] }) }
+    if (url.includes('name=docs-progress-metadata-en-42')) return { ok: true, json: async () => ({ artifacts: [{ id: 2, expired: false, archive_download_url: 'https://api.github.com/metadata-en.zip' }] }) }
+    if (url.includes('name=docs-progress-metadata-zh-CN-42')) return { ok: true, json: async () => ({ artifacts: [{ id: 3, expired: false, archive_download_url: 'https://api.github.com/metadata-zh-CN.zip' }] }) }
+    if (url.includes('name=docs-translation-handoff-42')) return { ok: true, json: async () => ({ artifacts: [{ id: 4, expired: false, archive_download_url: 'https://api.github.com/handoff.zip' }] }) }
     if (url.includes('/artifacts?')) return { ok: true, json: async () => ({ artifacts: [{ id: 1, expired: false, archive_download_url: 'https://api.github.com/artifact.zip' }] }) }
-    if (url.endsWith('/metadata.zip')) return { ok: true, arrayBuffer: async () => new Uint8Array([4, 5, 6]).buffer }
+    if (url.includes('/metadata-') || url.endsWith('/handoff.zip')) return { ok: true, arrayBuffer: async () => new Uint8Array([4, 5, 6]).buffer }
     if (url.endsWith('/artifact.zip')) return { ok: true, arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer }
     throw new Error(`unexpected URL: ${url}`)
   }
   const client = createGitHubActionsClient({
     token: 'token', repository: 'zilliztech/zdoc', runId: 42, fetchImpl, runnerTemp,
     sleep: async () => {},
-    listArchive: async archive => { listed += 1; return [archive.includes('docs-progress-metadata') ? 'progress-metadata.json' : 'card-report.json'] },
+    listArchive: async archive => { listed += 1; return [archive.includes('docs-progress-metadata') ? 'progress-metadata.json' : archive.includes('docs-translation-handoff') ? 'handoff-metadata.json' : 'card-report.json'] },
     unzip: async (archive, destination) => {
       extracted += 1
       if (archive.includes('docs-progress-metadata')) {
-        fs.writeFileSync(path.join(destination, 'progress-metadata.json'), JSON.stringify({ schemaVersion: 1, runId: 42, guidesTableTotal: 14 }))
+        const locale = archive.includes('zh-CN') ? 'zh-CN' : 'en'
+        fs.writeFileSync(path.join(destination, 'progress-metadata.json'), JSON.stringify({ schemaVersion: 2, runId: 42, locale, tableTotal: locale === 'en' ? 14 : 11 }))
+      } else if (archive.includes('docs-translation-handoff')) {
+        fs.writeFileSync(path.join(destination, 'handoff-metadata.json'), JSON.stringify({ schemaVersion: 1, parentRunId: 42, childRunId: 99, childRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/99' }))
       } else {
         fs.writeFileSync(path.join(destination, 'card-report.json'), JSON.stringify(finalReport()))
       }
@@ -299,9 +305,11 @@ test('GitHub client paginates jobs and validates an artifact before extraction',
   })
 
   assert.equal((await client.listJobs()).length, 101)
-  assert.deepEqual(await client.downloadProgressMetadata(), { schemaVersion: 1, runId: 42, guidesTableTotal: 14 })
+  assert.deepEqual(await client.downloadProgressMetadata('en'), { schemaVersion: 2, runId: 42, locale: 'en', tableTotal: 14 })
+  assert.deepEqual(await client.downloadProgressMetadata('zh-CN'), { schemaVersion: 2, runId: 42, locale: 'zh-CN', tableTotal: 11 })
+  assert.deepEqual(await client.downloadHandoffMetadata(), { schemaVersion: 1, parentRunId: 42, childRunId: 99, childRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/99' })
   assert.deepEqual(await client.downloadFinalReport(), finalReport())
-  assert.equal(listed, 2)
-  assert.equal(extracted, 2)
+  assert.equal(listed, 4)
+  assert.equal(extracted, 4)
   assert.deepEqual(fs.readdirSync(runnerTemp), [])
 })

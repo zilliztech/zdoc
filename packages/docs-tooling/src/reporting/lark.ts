@@ -31,6 +31,44 @@ export interface CardManual {
   detail: string | null;
 }
 
+export interface CardWorkItem {
+  id: string;
+  label: string;
+  phase: string;
+  status: ManualStatus;
+  currentTask: string;
+  detail: string | null;
+}
+
+export interface CardGuide extends CardWorkItem {
+  locale: 'en' | 'zh-CN';
+}
+
+export interface CardMetric {
+  done: number;
+  total: number;
+  status: PhaseStatus;
+  detail: string | null;
+}
+
+export interface CardTargetSummary {
+  key: string;
+  label: string;
+  translate: CardMetric;
+  publish: CardMetric;
+}
+
+export interface CardLink {
+  label: string;
+  url: string;
+}
+
+export interface CardHandoff {
+  status: PhaseStatus;
+  label: string;
+  url: string | null;
+}
+
 export interface CardReport {
   markdown: string;
   title?: string;
@@ -40,6 +78,7 @@ export interface CardReport {
 export type CardReportInput = string | CardReport;
 
 export interface ExactCardState {
+  kind?: 'source' | 'translation';
   messageId?: string;
   title: string;
   startedAt: string;
@@ -47,6 +86,12 @@ export interface ExactCardState {
   overallStatus: OverallStatus;
   phases: CardPhase[];
   manuals: CardManual[];
+  guides?: CardGuide[];
+  items?: CardWorkItem[];
+  handoff?: CardHandoff | null;
+  targets?: CardTargetSummary[];
+  units?: CardWorkItem[];
+  links?: CardLink[];
   reports: CardReportInput[];
 }
 
@@ -300,6 +345,63 @@ function parseCardPhase(value: unknown): CardPhase {
   };
 }
 
+function parseWorkItem(value: unknown): CardWorkItem {
+  if (!isRecord(value) || !isPhaseStatus(value.status)) throw new Error('work item status is invalid');
+  return {
+    id: optionalString(value.id) || 'unknown',
+    label: optionalString(value.label) || optionalString(value.id) || 'Unknown item',
+    phase: optionalString(value.phase) || 'prepare',
+    status: value.status,
+    currentTask: optionalString(value.currentTask) || 'Waiting to start',
+    detail: optionalString(value.detail) || null,
+  };
+}
+
+function parseGuide(value: unknown): CardGuide {
+  const item = parseWorkItem(value);
+  if (!isRecord(value) || (value.locale !== 'en' && value.locale !== 'zh-CN')) throw new Error('guide locale is invalid');
+  return {...item, locale: value.locale};
+}
+
+function parseMetric(value: unknown): CardMetric {
+  if (!isRecord(value) || !isPhaseStatus(value.status)) throw new Error('target metric status is invalid');
+  const done = typeof value.done === 'number' && Number.isSafeInteger(value.done) && value.done >= 0 ? value.done : -1;
+  const total = typeof value.total === 'number' && Number.isSafeInteger(value.total) && value.total >= 0 ? value.total : -1;
+  if (done < 0 || total < 0 || done > total) throw new Error('target metric counts are invalid');
+  return {done, total, status: value.status, detail: optionalString(value.detail) || null};
+}
+
+function parseTargetSummary(value: unknown): CardTargetSummary {
+  if (!isRecord(value)) throw new Error('target summary is invalid');
+  return {
+    key: optionalString(value.key) || 'target',
+    label: optionalString(value.label) || 'Translation target',
+    translate: parseMetric(value.translate),
+    publish: parseMetric(value.publish),
+  };
+}
+
+function parseWorkflowUrl(value: unknown): string {
+  const url = optionalString(value);
+  if (!url || !/^https:\/\/github\.com\/[^/\s]+\/[^/\s]+\/actions\/runs\/[1-9]\d*$/u.test(url)) throw new Error('workflow URL is invalid');
+  return url;
+}
+
+function parseCardLink(value: unknown): CardLink {
+  if (!isRecord(value)) throw new Error('card link is invalid');
+  return {label: optionalString(value.label) || 'Open workflow', url: parseWorkflowUrl(value.url)};
+}
+
+function parseHandoff(value: unknown): CardHandoff | null {
+  if (value === null || value === undefined) return null;
+  if (!isRecord(value) || !isPhaseStatus(value.status)) throw new Error('handoff is invalid');
+  return {
+    status: value.status,
+    label: optionalString(value.label) || 'Translation handoff',
+    url: value.url === null || value.url === undefined ? null : parseWorkflowUrl(value.url),
+  };
+}
+
 function parseCardReport(value: unknown): CardReportInput {
   if (typeof value === 'string') return value;
   if (!isRecord(value) || typeof value.markdown !== 'string') throw new Error('report is invalid');
@@ -313,7 +415,7 @@ function parseCardReport(value: unknown): CardReportInput {
 function normalizeCardState(input: unknown): NormalizedCardState {
   const state = isRecord(input) ? input : {};
   if (Array.isArray(state.phases)) {
-    return {
+    const normalized: ExactCardState = {
       messageId: optionalString(state.messageId),
       title: optionalString(state.title) || 'Build Progress',
       startedAt: optionalString(state.startedAt) || new Date().toISOString(),
@@ -325,6 +427,19 @@ function normalizeCardState(input: unknown): NormalizedCardState {
         ? state.reports.map(parseCardReport)
         : (Array.isArray(state.notes) ? state.notes : []).filter((note): note is string => typeof note === 'string').map(markdown => ({markdown})),
     }
+    if (state.kind === 'source') {
+      normalized.kind = 'source';
+      normalized.guides = Array.isArray(state.guides) ? state.guides.map(parseGuide) : [];
+      normalized.items = Array.isArray(state.items) ? state.items.map(parseWorkItem) : [];
+      normalized.handoff = parseHandoff(state.handoff);
+      normalized.links = Array.isArray(state.links) ? state.links.map(parseCardLink) : [];
+    } else if (state.kind === 'translation') {
+      normalized.kind = 'translation';
+      normalized.targets = Array.isArray(state.targets) ? state.targets.map(parseTargetSummary) : [];
+      normalized.units = Array.isArray(state.units) ? state.units.map(parseWorkItem) : [];
+      normalized.links = Array.isArray(state.links) ? state.links.map(parseCardLink) : [];
+    }
+    return normalized;
   }
   const statuses = Array.isArray(state.statuses) ? state.statuses.filter(isLegacyProgressStatus) : []
   const overallStatus = statuses.includes('fail')
@@ -399,12 +514,38 @@ function manualBlock(manual: CardManual): CardElement {
   }
 }
 
-function completedPanel(manuals: CardManual[]): CardElement {
+function workItemBlock(item: CardWorkItem): CardElement {
+  return manualBlock({group: item.id, ...item});
+}
+
+function guideColumn(guide: CardGuide): CardElement {
+  const presentation = STATUS[guide.status];
+  const detail = guide.detail ? `\n${escapeCardText(bounded(guide.detail, 180))}` : '';
+  return {
+    tag: 'column',
+    width: 'weighted',
+    weight: 1,
+    background_style: presentation.background,
+    padding: '10px',
+    elements: [{
+      tag: 'markdown',
+      text_size: 'normal',
+      content: `**${escapeCardText(bounded(guide.label, 80))}**  <text_tag color='${presentation.color}'>${presentation.label}</text_tag>\n${escapeCardText(bounded(guide.currentTask, 140))}${detail}`,
+    }],
+  };
+}
+
+function guidesRow(guides: CardGuide[]): CardElement | null {
+  if (!guides.length) return null;
+  return {tag: 'column_set', flex_mode: 'flow', horizontal_spacing: '8px', columns: guides.map(guideColumn)};
+}
+
+function completedPanel(manuals: Array<CardManual | CardWorkItem>, title = 'Completed'): CardElement {
   return {
     tag: 'collapsible_panel',
     expanded: false,
     header: {
-      title: { tag: 'markdown', content: `**Completed (${manuals.length})**` },
+      title: { tag: 'markdown', content: `**${escapeCardText(title)} (${manuals.length})**` },
       icon: { tag: 'standard_icon', token: 'down-small-ccm_outlined', size: '16px 16px' },
       icon_position: 'right',
       icon_expanded_angle: -180,
@@ -414,9 +555,41 @@ function completedPanel(manuals: CardManual[]): CardElement {
     elements: [{
       tag: 'markdown',
       text_size: 'notation',
-      content: manuals.map(manual => `- ${escapeCardText(bounded(manual.label || manual.group, 80))} · ${escapeCardText(phaseLabel(manual.phase))}`).join('\n'),
+      content: manuals.map(manual => `- ${escapeCardText(bounded(manual.label || ('group' in manual ? manual.group : manual.id), 80))} · ${escapeCardText(phaseLabel(manual.phase))}`).join('\n'),
     }],
   }
+}
+
+function metricText(label: string, metric: CardMetric): string {
+  const presentation = STATUS[metric.status];
+  const count = metric.total > 1 ? `${metric.done}/${metric.total}` : presentation.label;
+  const detail = metric.detail ? ` · ${escapeCardText(bounded(metric.detail, 120))}` : '';
+  return `${label}: <text_tag color='${presentation.color}'>${count}</text_tag>${detail}`;
+}
+
+function targetSummaryBlock(target: CardTargetSummary): CardElement {
+  return {
+    tag: 'column_set',
+    flex_mode: 'flow',
+    columns: [{
+      tag: 'column', width: 'weighted', weight: 1, background_style: 'grey-50', padding: '8px',
+      elements: [{
+        tag: 'markdown', text_size: 'normal',
+        content: `**${escapeCardText(bounded(target.label, 80))}**\n${metricText('Translate', target.translate)}\n${metricText('Publish', target.publish)}`,
+      }],
+    }],
+  };
+}
+
+function handoffBlock(handoff: CardHandoff): CardElement {
+  const presentation = STATUS[handoff.status];
+  const link = handoff.url ? `\n[Open translation workflow](${handoff.url})` : '';
+  return {
+    tag: 'column_set', flex_mode: 'flow', columns: [{
+      tag: 'column', width: 'weighted', weight: 1, background_style: presentation.background, padding: '10px',
+      elements: [{tag: 'markdown', text_size: 'normal', content: `**${escapeCardText(bounded(handoff.label, 100))}**  <text_tag color='${presentation.color}'>${presentation.label}</text_tag>${link}`}],
+    }],
+  };
 }
 
 function reportTitle(markdown: string, index: number): string {
@@ -467,10 +640,28 @@ function buildCardV2(input: unknown, options: BuildCardOptions = {}): CardV2 {
   if (state.phases.length) elements.push(phaseRow(state.phases.slice(0, 3)))
   if (state.phases.length > 3) elements.push(phaseRow(state.phases.slice(3, 5)))
 
-  const activeManuals = state.manuals.filter(manual => manual.status !== 'completed')
-  const completedManuals = state.manuals.filter(manual => manual.status === 'completed')
-  elements.push(...activeManuals.map(manualBlock))
-  if (completedManuals.length) elements.push(completedPanel(completedManuals))
+  if (state.kind === 'source') {
+    const guideElement = guidesRow(state.guides || []);
+    if (guideElement) elements.push(guideElement);
+    const items = state.items || [];
+    const activeItems = items.filter(item => item.status !== 'completed');
+    const completedItems = items.filter(item => item.status === 'completed');
+    elements.push(...activeItems.map(workItemBlock));
+    if (completedItems.length) elements.push(completedPanel(completedItems, 'Completed SDK publications'));
+    if (state.handoff) elements.push(handoffBlock(state.handoff));
+  } else if (state.kind === 'translation') {
+    elements.push(...(state.targets || []).map(targetSummaryBlock));
+    const units = state.units || [];
+    const activeUnits = units.filter(unit => unit.status !== 'completed');
+    const completedUnits = units.filter(unit => unit.status === 'completed');
+    elements.push(...activeUnits.map(workItemBlock));
+    if (completedUnits.length) elements.push(completedPanel(completedUnits, 'Completed translation units'));
+  } else {
+    const activeManuals = state.manuals.filter(manual => manual.status !== 'completed')
+    const completedManuals = state.manuals.filter(manual => manual.status === 'completed')
+    elements.push(...activeManuals.map(manualBlock))
+    if (completedManuals.length) elements.push(completedPanel(completedManuals))
+  }
   for (const [index, report] of state.reports.entries()) elements.push(reportPanel(report, index))
   elements.push({ tag: 'hr' })
   const started = Number.isNaN(Date.parse(state.startedAt)) ? 'unavailable' : new Date(state.startedAt).toUTCString()
@@ -479,6 +670,7 @@ function buildCardV2(input: unknown, options: BuildCardOptions = {}): CardV2 {
     elapsedText(state.startedAt, now),
     `Target ${branch}`,
     workflowUrl ? `[Open workflow](${workflowUrl})` : null,
+    ...(state.links || []).map(link => `[${escapeCardText(bounded(link.label, 80))}](${link.url})`),
   ].filter(Boolean).join(' · ')
   elements.push({ tag: 'markdown', content: footer, text_size: 'notation', text_align: 'left' })
 
@@ -598,14 +790,13 @@ function parseExactManual(value: unknown): CardManual {
 function buildExactState({messageId, title, startedAt, targetBranch, input}: BuildExactStateOptions): ExactCardState {
   if (!isRecord(input) || !isOverallStatus(input.overallStatus)) throw new Error('overallStatus is invalid')
   if (!Array.isArray(input.phases)) throw new Error('phases must be an array')
-  if (!Array.isArray(input.manuals)) throw new Error('manuals must be an array')
   if (!Array.isArray(input.reports)) throw new Error('reports must be an array')
   const phases = input.phases.map(parseCardPhase);
-  const manuals = input.manuals.map(parseExactManual);
+  const manuals = Array.isArray(input.manuals) ? input.manuals.map(parseExactManual) : [];
   const reports = input.reports.map(parseCardReport);
   const effectiveStartedAt = optionalString(startedAt) || optionalString(input.startedAt);
   if (!effectiveStartedAt) throw new Error('startedAt is required for exact card state');
-  return {
+  const base: ExactCardState = {
     messageId: optionalString(messageId),
     title: optionalString(title) || optionalString(input.title) || 'Global Docs Build',
     startedAt: effectiveStartedAt,
@@ -615,6 +806,29 @@ function buildExactState({messageId, title, startedAt, targetBranch, input}: Bui
     manuals,
     reports,
   }
+  if (input.kind === 'source') {
+    if (!Array.isArray(input.guides) || !Array.isArray(input.items) || !Array.isArray(input.links)) throw new Error('source card collections are invalid');
+    return {
+      ...base,
+      kind: 'source',
+      guides: input.guides.map(parseGuide),
+      items: input.items.map(parseWorkItem),
+      handoff: parseHandoff(input.handoff),
+      links: input.links.map(parseCardLink),
+    };
+  }
+  if (input.kind === 'translation') {
+    if (!Array.isArray(input.targets) || !Array.isArray(input.units) || !Array.isArray(input.links)) throw new Error('translation card collections are invalid');
+    return {
+      ...base,
+      kind: 'translation',
+      targets: input.targets.map(parseTargetSummary),
+      units: input.units.map(parseWorkItem),
+      links: input.links.map(parseCardLink),
+    };
+  }
+  if (!Array.isArray(input.manuals)) throw new Error('manuals must be an array')
+  return base;
 }
 
 export type BuildFinishStateOptions = Readonly<{

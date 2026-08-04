@@ -170,6 +170,7 @@ function remote(
   version?: string,
   lifecycle: ManualSource['lifecycle'] = 'active',
   fallbackSource?: string,
+  snapshotManual: string = generatorManual ?? '',
 ): ManualSource {
   return {
     sourceType,
@@ -178,7 +179,7 @@ function remote(
     base,
     ...(generatorManual ? {
       generatorManual,
-      snapshotPath: `packages/docs-tooling/src/lark/meta/snapshots/${generatorManual}-uat-last-success.json`,
+      snapshotPath: `packages/docs-tooling/src/lark/meta/snapshots/${snapshotManual}-uat-last-success.json`,
     } : {}),
     ...(version ? {version} : {}),
     sourceDir: `${larkSourceRoot}/${sourceDir}`,
@@ -231,7 +232,7 @@ const definitions: ManualDefinition[] = [
     },
     sourceOrder: ['chinese-v0.1', 'english-v1.3', 'chinese-v1.3', 'english-v1.4', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v1.4', 'reference/cli/cli', 'reference', 'cli', 'zilliz', ['reference/cli/v0.1', 'reference/cli/v1.3']),
+      en: publication('en', 'english-v1.4', 'reference/cli/cli', 'reference', 'cli', 'zilliz', ['reference/cli/v0.1', 'reference/cli/v1.3'], ['Overview.md']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/cli/cli', 'reference', 'cli', 'zilliz', ['reference/cli/v0.1', 'reference/cli/v1.3']),
     },
   },
@@ -255,7 +256,7 @@ const definitions: ManualDefinition[] = [
     kind: 'guides',
     sources: {
       english: remote('wiki', 'Tg6mwbRGDitPQ3kLUQzc44I7nth', 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh:*', 'guides', 'guides'),
-      chinese: remote('wiki', 'XyeFwdx6kiK9A6kq3yIcLNdEnDd', 'I6YUb1M0JajHrqsJGcLcZNh7neP:*', 'guides-zh-CN', 'guides'),
+      chinese: remote('wiki', 'XyeFwdx6kiK9A6kq3yIcLNdEnDd', 'I6YUb1M0JajHrqsJGcLcZNh7neP:*', 'guides-zh-CN', 'guides', undefined, 'active', undefined, 'guides-zh-CN'),
     },
     sourceOrder: ['english', 'chinese'],
     publications: {
@@ -268,7 +269,7 @@ const definitions: ManualDefinition[] = [
     kind: 'guides',
     sources: {
       english: remote('wiki', 'Tg6mwbRGDitPQ3kLUQzc44I7nth', 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh:*', 'guides', 'guides'),
-      chinese: remote('wiki', 'XyeFwdx6kiK9A6kq3yIcLNdEnDd', 'I6YUb1M0JajHrqsJGcLcZNh7neP:*', 'guides-zh-CN', 'guides'),
+      chinese: remote('wiki', 'XyeFwdx6kiK9A6kq3yIcLNdEnDd', 'I6YUb1M0JajHrqsJGcLcZNh7neP:*', 'guides-zh-CN', 'guides', undefined, 'active', undefined, 'guides-zh-CN'),
     },
     sourceOrder: ['english', 'chinese'],
     publications: {
@@ -305,7 +306,7 @@ const definitions: ManualDefinition[] = [
     },
     sourceOrder: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v3.0', 'reference/api/nodejs/nodejs', 'reference', 'node'),
+      en: publication('en', 'english-v3.0', 'reference/api/nodejs/nodejs', 'reference', 'node', 'zilliz', undefined, ['nodejs.md']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/nodejs/nodejs', 'reference', 'node'),
     },
   },
@@ -332,7 +333,7 @@ const definitions: ManualDefinition[] = [
     },
     sourceOrder: ['english-v2.4', 'english-v2.5', 'english-v2.6', 'english-v3.0', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'english-v3.0', 'reference/api/python/python', 'reference', 'python'),
+      en: publication('en', 'english-v3.0', 'reference/api/python/python', 'reference', 'python', 'zilliz', undefined, ['python.md']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/python/python', 'reference', 'python'),
     },
   },
@@ -345,7 +346,12 @@ const definitions: ManualDefinition[] = [
     },
     sourceOrder: ['canonical', 'chineseTranslation'],
     publications: {
-      en: publication('en', 'canonical', 'reference/api/restful/restful', 'reference', 'restful', 'zilliz', undefined, ['restful.md']),
+      en: publication('en', 'canonical', 'reference/api/restful/restful', 'reference', 'restful', 'zilliz', undefined, [
+        'restful.md',
+        'versioning.md',
+        'v1/error-codes.md',
+        'v2/error-codes-v2.md',
+      ]),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/restful/restful', 'reference', 'restful', 'zilliz', undefined, ['restful.md']),
     },
   },
@@ -365,4 +371,27 @@ export function resolveManualPublication(manualId: string, site: SiteId): {
   if (!publication) throw new Error(`Manual ${manualId} is not published for site ${site}`);
   if (!publication.enabled) throw new Error(`Manual ${manualId} is explicitly disabled for site ${site}`);
   return {manual, source: manual.sources[publication.source], sourceChain: sourceChainFor(manual, publication.source), publication};
+}
+
+export type GuidesSourceConfig = Readonly<{
+  site: SiteId;
+  rootToken: string;
+  sourceDir: string;
+  snapshotPath: string;
+  sourceManifestPath: string;
+  mediaManifestPath: string;
+}>;
+
+export function resolveGuidesSourceConfig(site: SiteId): GuidesSourceConfig {
+  const {source} = resolveManualPublication('guides', site);
+  if (!source.root || !source.snapshotPath) throw new Error(`Guides source identity is incomplete for ${site}`);
+  const identity = site === 'en' ? 'guides' : 'guides-zh-CN';
+  return deepFreeze({
+    site,
+    rootToken: source.root,
+    sourceDir: source.sourceDir,
+    snapshotPath: source.snapshotPath,
+    sourceManifestPath: `packages/docs-tooling/src/lark/meta/source-cache/${identity}-manifest.json`,
+    mediaManifestPath: `packages/docs-tooling/src/lark/meta/media-cache/${identity}.json`,
+  });
 }

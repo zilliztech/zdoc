@@ -113,7 +113,7 @@ async function recoverGuidesTranslation(options, dependencies = {}) {
     head(repository) { return git(repository, ['rev-parse', 'HEAD']) },
     ancestor(repository, parent, child) { try { git(repository, ['merge-base', '--is-ancestor', parent, child]); return true } catch { return false } },
     restore(repository, stagedSha) { execFileSync('bash', [path.join(repository, 'scripts/restore-generated-state.sh'), '--exact', '--ref', stagedSha], { cwd: repository, stdio: 'inherit' }) },
-    validate(repository, values) { execFileSync(process.execPath, [path.join(repository, 'scripts/docs-workflow/validate-guides-translation-staging.js'), '--repository', repository, '--master-sha', values.masterSha, '--staged-sha', values.stagedSha, '--output', values.validationFile, '--trusted-root', values.trustedRoot], { cwd: repository, stdio: 'inherit' }) },
+    validate(repository, values) { execFileSync(process.execPath, [path.join(repository, 'scripts/docs-workflow/validate-guides-translation-staging.js'), '--repository', repository, '--master-sha', values.masterSha, '--expected-target-sha', values.expectedTargetSha, '--staged-sha', values.stagedSha, '--output', values.validationFile, '--trusted-root', values.trustedRoot], { cwd: repository, stdio: 'inherit' }) },
     prepareValidationWorktree(repository, masterSha, worktree) { git(repository, ['worktree', 'add', '--detach', worktree, masterSha], { stdio: 'inherit' }); return worktree },
     removeValidationWorktree(repository, worktree) { git(repository, ['worktree', 'remove', '--force', worktree]) },
     ...dependencies,
@@ -162,7 +162,7 @@ async function recoverGuidesTranslation(options, dependencies = {}) {
     const validationRepository = deps.prepareValidationWorktree(repository, options.masterSha, validationWorktree)
     try {
       deps.restore(validationRepository, candidate.stagedSha)
-      deps.validate(validationRepository, { masterSha: options.masterSha, stagedSha: candidate.stagedSha, validationFile, trustedRoot })
+      deps.validate(validationRepository, { masterSha: options.masterSha, expectedTargetSha: candidate.expectedTargetSha, stagedSha: candidate.stagedSha, validationFile, trustedRoot })
     } finally { deps.removeValidationWorktree(repository, validationWorktree) }
     const promoted = deps.promoteStaging({ repository, targetBranch: options.targetBranch, expectedTargetSha: candidate.expectedTargetSha, stagedSha: candidate.stagedSha })
     const cleanupEntries = [cleanupEntry(deps, repository, candidate.stagingRef, candidate.stagedSha)]

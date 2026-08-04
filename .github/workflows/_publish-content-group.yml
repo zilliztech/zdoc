@@ -6,6 +6,10 @@ on:
       group:
         required: true
         type: string
+      site:
+        required: false
+        type: string
+        default: en
       artifact_name:
         required: true
         type: string
@@ -24,7 +28,7 @@ on:
       validate_command:
         required: false
         type: string
-        default: node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js"
+        default: node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en
       baseline_artifact_name:
         required: false
         type: string
@@ -54,6 +58,7 @@ jobs:
       status: ${{ steps.result.outputs.status }}
       commit_sha: ${{ steps.result.outputs.commit_sha }}
     env:
+      ZDOC_SITE: ${{ inputs.site }}
       GROUP: ${{ inputs.group }}
       MASTER_SHA: ${{ inputs.master_sha }}
       TRANSLATION_TARGET: ${{ inputs.target }}
@@ -88,9 +93,10 @@ jobs:
         run: |
           set -euo pipefail
           node - <<'NODE'
+          if (!['en', 'zh-CN'].includes(process.env.ZDOC_SITE)) throw new Error('site must be en or zh-CN')
           if (!/^[0-9a-f]{40}$/.test(process.env.MASTER_SHA)) throw new Error('master_sha must be a lowercase 40-character Git SHA')
           if (process.env.TRANSLATION_TARGET) {
-            if (!['ja-JP', 'zh-CN-reference', 'zh-CN-tools'].includes(process.env.TRANSLATION_TARGET)) throw new Error('invalid translation target')
+            if (!['ja-JP', 'zh-CN-reference'].includes(process.env.TRANSLATION_TARGET)) throw new Error('invalid translation target')
             for (const [name, value] of [['tooling_sha', process.env.TOOLING_SHA], ['source_sha', process.env.SOURCE_SHA]]) if (!/^[0-9a-f]{40}$/.test(value)) throw new Error(`${name} must be a lowercase 40-character Git SHA`)
           }
           for (const [name, value] of [['artifact_name', process.env.ARTIFACT_NAME], ['commit_message', process.env.COMMIT_MESSAGE], ['validate_command', process.env.VALIDATE_COMMAND]]) {
@@ -135,9 +141,7 @@ jobs:
           node - <<'NODE'
           const group = require('./scripts/docs-workflow/content-groups.js').getContentGroup(process.env.GROUP)
           const number = Number(process.env.TRANSLATION_BATCH_NUMBER), count = Number(process.env.TRANSLATION_BATCH_COUNT)
-          const allowed = process.env.TRANSLATION_TARGET === 'zh-CN-tools'
-            ? 'i18n(zh-CN-tools): publish tools translations'
-            : process.env.TRANSLATION_TARGET
+          const allowed = process.env.TRANSLATION_TARGET
               ? `i18n(${process.env.TRANSLATION_TARGET}): publish ${process.env.GROUP} translations`
               : number > 0 ? `i18n(${process.env.GROUP}): publish batch ${number} of ${count}` : `i18n(${process.env.GROUP}): publish translations`
           if (process.env.COMMIT_MESSAGE !== group.commitMessage && process.env.COMMIT_MESSAGE !== allowed) throw new Error('commit_message must equal a permitted content group message')

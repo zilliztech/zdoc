@@ -23,23 +23,11 @@ const TARGETS = [
     state: {kind: 'reference-manifest', path: 'generated/zh-CN/manifests/reference-translations.json'},
     validation: ['reference-manifest', 'validate-reference', 'build:zh-CN'],
   },
-  {
-    id: 'zh-CN-tools',
-    sourceSite: 'en',
-    targetSite: 'zh-CN',
-    locale: 'zh-CN',
-    sourceRoot: 'content/en/guides/tutorials/tools',
-    targetRoot: 'content/zh-CN/guides/tutorials/tools',
-    sidebarSource: 'generated/en/sidebars/guides.sidebar.js#category:tutorials/tools',
-    sidebarTarget: 'generated/zh-CN/sidebars/tools.sidebar.js',
-    state: {kind: 'tools-manifest', path: 'generated/zh-CN/manifests/tools-translations.json'},
-    validation: ['validate-mdx', 'validate-tools-sidebar', 'validate-coverage', 'build:zh-CN'],
-  },
 ] as const;
 
 function ownershipPaths(target: TranslationTarget): string[] {
   if (target.id === 'ja-JP') return target.mappings.map(mapping => mapping.targetRoot);
-  return target.id === 'zh-CN-tools' ? [target.targetRoot, target.sidebarTarget] : [target.targetRoot];
+  return [target.targetRoot];
 }
 
 function overlaps(left: string, right: string): boolean {

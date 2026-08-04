@@ -1,8 +1,6 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const { assemblyDecisionSha256, validateAssemblyDecision, validateAssemblyResult } = require('./docs-workflow/guides-assembly-identity')
-const { readPublicationReport } = require('./docs-workflow/translation-publication-report')
-const { deterministicStagingRef } = require('./docs-workflow/translation-staging')
 
 function readIfExists(file) {
   return fs.existsSync(file) ? fs.readFileSync(file, 'utf8').trim() : ''
@@ -16,6 +14,16 @@ function readJsonIfExists(file) {
   } catch (_) {
     return null
   }
+}
+
+const LEGACY_GUIDES_REPORTS_DIRECTORY = 'packages/docs-tooling/src/lark/meta/reports'
+
+function guidesReportFile(directory, file) {
+  return path.join(directory || LEGACY_GUIDES_REPORTS_DIRECTORY, file)
+}
+
+function guidesHeading(label, suffix) {
+  return `# ${label || 'Guides'} ${suffix}`
 }
 
 function reportStartedAt() {
@@ -49,9 +57,9 @@ function isExactIsoTimestamp(value) {
   return typeof value === 'string' && !Number.isNaN(Date.parse(value)) && new Date(value).toISOString() === value
 }
 
-function mediaPrefetchNote() {
+function mediaPrefetchNote({ directory, label } = {}) {
   try {
-    const report = freshJsonReport('packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json')
+    const report = freshJsonReport(guidesReportFile(directory, 'guides-media-prefetch.json'))
     if (!report || !hasExactKeys(report, ['schemaVersion', 'generated_at', 'mode', 'cacheState', 'metrics']) ||
         report.schemaVersion !== 1 || !isExactIsoTimestamp(report.generated_at) ||
         !['incremental', 'recovery'].includes(report.mode) || !['valid', 'invalid', 'missing', 'legacy'].includes(report.cacheState)) return null
@@ -65,7 +73,7 @@ function mediaPrefetchNote() {
         metrics.finalManifestEntries !== metrics.canonicalReferencesRequired ||
         metrics.finalManifestEntries !== metrics.validatedManifestReuse + metrics.committedDocsReconstruction + metrics.resolvedByNetwork) return null
     return [
-      '# Guides media',
+      guidesHeading(label, 'media'),
       '',
       `- Required: ${metrics.canonicalReferencesRequired}`,
       `- Reused from validated manifest: ${metrics.validatedManifestReuse}`,
@@ -79,16 +87,17 @@ function mediaPrefetchNote() {
   }
 }
 
-function cacheGenerationNote() {
+function cacheGenerationNote({ directory } = {}) {
   try {
-    const report = freshJsonReport('packages/docs-tooling/src/lark/meta/reports/guides-cache-generation.json')
+    const report = freshJsonReport(guidesReportFile(directory, 'guides-cache-generation.json'))
     if (!report || !hasExactKeys(report, ['schemaVersion', 'generated_at', 'sourceCacheVersion', 'saveRequired', 'persistence', 'saveKey']) ||
         report.schemaVersion !== 1 || !isExactIsoTimestamp(report.generated_at) ||
-        !['v4', 'v3', 'v2', 'v1', 'none'].includes(report.sourceCacheVersion) || typeof report.saveRequired !== 'boolean' ||
-        !['saved', 'skipped-valid-v4', 'save-failed'].includes(report.persistence)) return null
-    const saveKeyValid = typeof report.saveKey === 'string' && /^guides-source-v4-[0-9a-f]{64}-[1-9][0-9]*-[1-9][0-9]*$/.test(report.saveKey)
-    if (report.persistence === 'skipped-valid-v4') {
-      if (report.sourceCacheVersion !== 'v4' || report.saveRequired !== false || report.saveKey !== null) return null
+        !['v5', 'v4', 'v3', 'v2', 'v1', 'none'].includes(report.sourceCacheVersion) || typeof report.saveRequired !== 'boolean' ||
+        !['saved', 'skipped-valid-v5', 'skipped-valid-v4', 'save-failed'].includes(report.persistence)) return null
+    const saveKeyValid = typeof report.saveKey === 'string' && /^guides-source-(?:(?:en|zh-CN)-)?v(?:4|5)-[0-9a-f]{64}-[1-9][0-9]*-[1-9][0-9]*$/.test(report.saveKey)
+    if (report.persistence === 'skipped-valid-v5' || report.persistence === 'skipped-valid-v4') {
+      const version = report.persistence === 'skipped-valid-v5' ? 'v5' : 'v4'
+      if (report.sourceCacheVersion !== version || report.saveRequired !== false || report.saveKey !== null) return null
     } else if (report.saveRequired !== true || !saveKeyValid) {
       return null
     }
@@ -108,54 +117,6 @@ function compactMarkdown(markdown, maxLines = 80) {
   ].join('\n')
 }
 
-function boundedText(value) {
-  return String(value || '').replace(/[\0-\x1f\x7f]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 500)
-    .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
-    .replace(/[\\`*_{}\[\]()#+.!|]/g, '\\$&')
-}
-
-function publicationReportNote(env = process.env) {
-  if (env.CARD_EXPECT_GUIDES_PUBLICATION_REPORT !== 'true') {
-    if (env.CARD_GUIDES_FINAL_PUBLISHER_STATUS !== 'no_changes') return null
-    const lines = ['# Guides translation publication', '', '- Status: No translation changes']
-    if (/^[0-9a-f]{40}$/.test(env.CARD_GUIDES_FINAL_COMMIT_SHA || '')) lines.push(`- Result SHA: ${env.CARD_GUIDES_FINAL_COMMIT_SHA}`)
-    return lines.join('\n')
-  }
-  const unavailable = () => {
-    let candidate = null
-    if (env.CARD_GUIDES_PUBLISHER_RESULT === 'cancelled' && /^[0-9a-f]{64}$/.test(env.CARD_GUIDES_PENDING_SET_SHA256 || '')) {
-      try { candidate = deterministicStagingRef({ runId: env.CARD_GUIDES_RUN_ID, runAttempt: env.CARD_GUIDES_RUN_ATTEMPT, pendingSetSha256: env.CARD_GUIDES_PENDING_SET_SHA256 }) } catch {}
-    }
-    return [
-      '# Guides translation publication', '',
-      `- Status: ${env.CARD_GUIDES_PUBLISHER_RESULT === 'cancelled' ? 'Cancelled' : 'Evidence unavailable'}`,
-      '- Publication report unavailable or invalid for this run.',
-      ...(candidate ? [`- Unconfirmed recovery candidate: ${candidate}`] : []),
-    ].join('\n')
-  }
-  try {
-    const runId = Number(env.CARD_GUIDES_RUN_ID)
-    const runAttempt = Number(env.CARD_GUIDES_RUN_ATTEMPT)
-    const report = readPublicationReport(env.CARD_GUIDES_PUBLICATION_REPORT, {
-      expectedRunId: runId,
-      expectedRunAttempt: runAttempt,
-      expectedMasterSha: env.CARD_GUIDES_MASTER_SHA,
-      expectedSourceCheckpointSha: env.CARD_GUIDES_SOURCE_SHA,
-      expectedTargetSha: env.CARD_GUIDES_TARGET_SHA,
-      expectedStagingSha: env.CARD_GUIDES_STAGING_SHA || undefined,
-    })
-    const label = report.status === 'published' ? 'Published' : report.status === 'no_changes' ? 'No translation changes' : report.status.split('_').map(word => word[0].toUpperCase() + word.slice(1)).join(' ')
-    const lines = ['# Guides translation publication', '', `- Status: ${label}`]
-    if (report.resultSha) lines.push(`- Result SHA: ${report.resultSha}`)
-    if (report.stagingRef) lines.push(`- Staging ref: ${report.stagingRef}`, `- Staging SHA: ${report.stagingSha}`)
-    if (report.failure.detail) lines.push(`- Failure: ${boundedText(report.failure.detail)}`, `- Recovery: ${boundedText(report.failure.recovery)}`)
-    if (report.cleanup.detail) lines.push(`- Cleanup debt: ${boundedText(report.cleanup.detail)}`)
-    return lines.join('\n').slice(0, 12000)
-  } catch (_) {
-    return unavailable()
-  }
-}
-
 function githubFileUrl(file) {
   const repository = process.env.GITHUB_REPOSITORY
   const ref = (process.env.CARD_REPORT_REF || '').trim()
@@ -166,36 +127,37 @@ function githubFileUrl(file) {
   return `${serverUrl}/${repository}/blob/${ref}/${encodedPath}`
 }
 
-function reportFileLine(file) {
+function exactArtifactUrl(value) {
+  const url = String(value || '').trim()
+  return /^https:\/\/github\.com\/[^/]+\/[^/]+\/actions\/runs\/[1-9][0-9]*\/artifacts\/[1-9][0-9]*$/.test(url) ? url : null
+}
+
+function reportFileLine(file, artifactUrl = '') {
   const url = githubFileUrl(file)
   if (url) return `Report file: [${file}](${url})`
-  const artifactUrl = (process.env.CARD_REPORT_ARTIFACT_URL || '').trim()
-  if (/^https:\/\/github\.com\/[^/]+\/[^/]+\/actions\/runs\/\d+#artifacts$/.test(artifactUrl)) {
-    return `Current-run reports: [workflow artifacts](${artifactUrl})`
-  }
+  const exactUrl = exactArtifactUrl(artifactUrl)
+  if (exactUrl) return `Current-run report: [${file}](${exactUrl})`
   return `Report file: \`${file}\``
 }
 
-function reportFileLines(files) {
-  return files.map(reportFileLine)
+function reportFileLines(files, artifactUrl = '') {
+  return files.map(file => reportFileLine(file, artifactUrl))
 }
 
-function runtimeReportFileLine(file) {
-  const artifactUrl = (process.env.CARD_REPORT_ARTIFACT_URL || '').trim()
-  if (/^https:\/\/github\.com\/[^/]+\/[^/]+\/actions\/runs\/\d+#artifacts$/.test(artifactUrl)) {
-    return `Current-run report: [${file}](${artifactUrl})`
-  }
+function runtimeReportFileLine(file, artifactUrl = '') {
+  const exactUrl = exactArtifactUrl(artifactUrl)
+  if (exactUrl) return `Current-run report: [${file}](${exactUrl})`
   return `Current-run report: \`${file}\``
 }
 
-function assemblyIdentityNote() {
+function assemblyIdentityNote({ directory, label, site, artifactUrl } = {}) {
   try {
-    const decisionFile = 'packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json'
-    const resultFile = 'packages/docs-tooling/src/lark/meta/reports/guides-assembly-result.json'
+    const decisionFile = guidesReportFile(directory, 'guides-assembly-decision.json')
+    const resultFile = guidesReportFile(directory, 'guides-assembly-result.json')
     const decision = freshJsonReport(decisionFile)
     if (!decision) return null
     validateAssemblyDecision(decision)
-    const lines = ['# Guides assembly', '']
+    const lines = [guidesHeading(label, 'assembly'), '']
     if (decision.mode === 'reuse') lines.push('- Decision: Reuse eligible (observe-only)')
     else lines.push(`- Decision: Regeneration required (observe-only): ${decision.reasons.join(', ')}`)
     let result = freshJsonReport(resultFile)
@@ -209,8 +171,10 @@ function assemblyIdentityNote() {
       if (result.mode === 'reuse_observed') lines.push('- Result: Sidebar reuse eligible; regenerated bytes matched baseline')
       else lines.push(`- Result: Regenerated: ${result.reasons.join(', ')}`)
     }
-    lines.push('', runtimeReportFileLine(decisionFile))
-    if (result) lines.push(runtimeReportFileLine(resultFile))
+    const displayedDecisionFile = site ? path.basename(decisionFile) : decisionFile
+    const displayedResultFile = site ? path.basename(resultFile) : resultFile
+    lines.push('', runtimeReportFileLine(displayedDecisionFile, artifactUrl))
+    if (result) lines.push(runtimeReportFileLine(displayedResultFile, artifactUrl))
     return lines.join('\n')
   } catch (_) {
     return null
@@ -224,9 +188,10 @@ function linkCheckNote() {
   return `${compactMarkdown(content, 60)}\n\n${reportFileLine(file)}`
 }
 
-function canonicalLinkNote() {
-  const jsonFile = 'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.json'
-  const mdFile = 'packages/docs-tooling/src/lark/meta/reports/guides-canonical-link-audit.md'
+function canonicalLinkNote({ directory, label, site, artifactUrl } = {}) {
+  const prefix = site ? `guides-${site}-canonical-link-audit` : 'guides-canonical-link-audit'
+  const jsonFile = guidesReportFile(directory, `${prefix}.json`)
+  const mdFile = guidesReportFile(directory, `${prefix}.md`)
   const report = freshJsonReport(jsonFile)
   if (!report) {
     const fallback = reportStartedAt() ? '' : readIfExists(mdFile)
@@ -235,7 +200,7 @@ function canonicalLinkNote() {
 
   const summary = report.summary || {}
   return [
-    '# Canonical Link Audit',
+    guidesHeading(label, 'canonical link audit'),
     '',
     `Generated: ${report.generated_at || '(unknown)'}`,
     `Target: ${report.target || '(not specified)'}`,
@@ -248,7 +213,7 @@ function canonicalLinkNote() {
     `- Valid references: ${summary.valid_references || 0}`,
     `- Broken references: ${summary.broken_references || 0}`,
     '',
-    reportFileLine(mdFile),
+    site ? runtimeReportFileLine(`${prefix}.md`, artifactUrl) : reportFileLine(mdFile, artifactUrl),
   ].join('\n')
 }
 
@@ -294,9 +259,9 @@ function brokenContentLinksNote() {
   ].filter(Boolean).join('\n')
 }
 
-function incrementalPlanNote() {
-  const jsonFile = 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.json'
-  const mdFile = 'packages/docs-tooling/src/lark/meta/reports/guides-incremental-fetch-plan.md'
+function incrementalPlanNote({ directory, label, site, artifactUrl } = {}) {
+  const jsonFile = guidesReportFile(directory, 'guides-incremental-fetch-plan.json')
+  const mdFile = guidesReportFile(directory, 'guides-incremental-fetch-plan.md')
   const plan = freshJsonReport(jsonFile)
   if (!plan) {
     const fallback = reportStartedAt() ? '' : readIfExists(mdFile)
@@ -305,7 +270,7 @@ function incrementalPlanNote() {
 
   const warnings = plan.warnings || []
   return [
-    '# Incremental Fetch Plan',
+    label ? guidesHeading(label, 'incremental fetch plan') : '# Incremental Fetch Plan',
     '',
     `Generated: ${plan.generated_at || '(unknown)'}`,
     `Mode: ${plan.mode || '(unknown)'}`,
@@ -320,7 +285,7 @@ function incrementalPlanNote() {
     ...warnings.slice(0, 5).map(warning => `- ${warning}`),
     warnings.length > 5 ? `- ...and ${warnings.length - 5} more warnings` : null,
     '',
-    reportFileLine(mdFile),
+    site ? runtimeReportFileLine('guides-incremental-fetch-plan.md', artifactUrl) : reportFileLine(mdFile, artifactUrl),
   ].filter(Boolean).join('\n')
 }
 
@@ -333,11 +298,19 @@ const GUIDES_REPORTS = Object.freeze([
   { key: 'assembly', title: 'Guides assembly decision and result', collect: assemblyIdentityNote },
 ])
 
-function guidesReportNotes() {
+const CURRENT_GUIDES_REPORTS = Object.freeze([
+  { key: 'media-prefetch', title: 'media prefetch report', collect: mediaPrefetchNote },
+  { key: 'cache-generation', title: 'cache persistence report', collect: cacheGenerationNote },
+  { key: 'canonical-links', title: 'canonical link audit', collect: canonicalLinkNote },
+  { key: 'incremental-plan', title: 'incremental fetch plan', collect: incrementalPlanNote },
+  { key: 'assembly', title: 'assembly decision and result', collect: assemblyIdentityNote },
+])
+
+function collectGuidesReportSet({ reports, expected, directory, label, site, artifactUrl, diagnosticPrefix = '' }) {
   const found = []
   const collected = new Map()
-  for (const report of GUIDES_REPORTS) {
-    const note = report.collect()
+  for (const report of reports) {
+    const note = report.collect({ directory, label, site, artifactUrl })
     if (!note) continue
     found.push(report.key)
     collected.set(report.key, note)
@@ -345,25 +318,65 @@ function guidesReportNotes() {
   const notes = []
   const media = collected.get('media-prefetch')
   const persistence = collected.get('cache-generation')
-  if (media || persistence) notes.push(media ? `${media}${persistence ? `\n${persistence}` : ''}` : `# Guides media\n\n${persistence}`)
-  for (const report of GUIDES_REPORTS) {
+  if (media || persistence) notes.push(media ? `${media}${persistence ? `\n${persistence}` : ''}` : `${guidesHeading(label, 'media')}\n\n${persistence}`)
+  for (const report of reports) {
     if (report.key === 'media-prefetch' || report.key === 'cache-generation') continue
     if (collected.has(report.key)) notes.push(collected.get(report.key))
   }
-  const expected = process.env.CARD_EXPECT_GUIDES_REPORTS === 'true'
-  const missing = expected ? GUIDES_REPORTS.filter(report => !found.includes(report.key)) : []
+  const missing = expected ? reports.filter(report => !found.includes(report.key)) : []
   if (missing.length) {
     notes.push([
-      '# Guides reports unavailable',
+      guidesHeading(label, 'reports unavailable'),
       '',
-      'The Guides producer completed, but these current-run reports could not be loaded:',
+      `The ${label || 'Guides'} producer completed, but these current-run reports could not be loaded:`,
       '',
-      ...missing.map(report => `- ${report.title}`),
+      ...missing.map(report => `- ${label ? `${label} ${report.title}` : report.title}`),
       '',
       'Inspect the workflow artifacts for this run.',
     ].join('\n'))
   }
-  return { notes, found, missing: missing.map(report => report.key) }
+  if (site && expected && found.length && !exactArtifactUrl(artifactUrl)) {
+    notes.push([
+      guidesHeading(label, 'report links need attention'),
+      '',
+      `The ${label} reports were collected, but their exact current-run artifact link could not be resolved.`,
+      'Open the workflow run and inspect the locale-qualified report artifact.',
+    ].join('\n'))
+  }
+  const qualify = key => diagnosticPrefix ? `${diagnosticPrefix}:${key}` : key
+  return { notes, found: found.map(qualify), missing: missing.map(report => qualify(report.key)) }
+}
+
+function currentGuidesReportSets() {
+  const root = (process.env.CARD_GUIDES_REPORTS_ROOT || '').trim()
+  const explicit = root || process.env.CARD_EXPECT_EN_GUIDES_REPORTS !== undefined || process.env.CARD_EXPECT_ZH_GUIDES_REPORTS !== undefined
+  if (!explicit) return null
+  return [
+    { site: 'en', label: 'English Guides', expected: process.env.CARD_EXPECT_EN_GUIDES_REPORTS === 'true', artifactUrl: process.env.CARD_REPORT_ARTIFACT_URL_EN },
+    { site: 'zh-CN', label: 'Chinese Guides', expected: process.env.CARD_EXPECT_ZH_GUIDES_REPORTS === 'true', artifactUrl: process.env.CARD_REPORT_ARTIFACT_URL_ZH_CN },
+  ].filter(config => config.expected || fs.existsSync(path.join(root, config.site)))
+    .map(config => ({ ...config, directory: path.join(root, config.site) }))
+}
+
+function guidesReportNotes() {
+  const sites = currentGuidesReportSets()
+  if (sites) {
+    const results = sites.map(config => collectGuidesReportSet({
+      ...config,
+      reports: CURRENT_GUIDES_REPORTS,
+      diagnosticPrefix: config.site,
+    }))
+    return {
+      notes: results.flatMap(result => result.notes),
+      found: results.flatMap(result => result.found),
+      missing: results.flatMap(result => result.missing),
+    }
+  }
+  return collectGuidesReportSet({
+    reports: GUIDES_REPORTS,
+    expected: process.env.CARD_EXPECT_GUIDES_REPORTS === 'true',
+    artifactUrl: process.env.CARD_REPORT_ARTIFACT_URL_EN,
+  })
 }
 
 function collectNotesWithDiagnostics() {
@@ -385,9 +398,7 @@ function collectCardNotesWithDiagnostics() {
     if (Array.isArray(parsed)) baseNotes = parsed.filter(note => typeof note === 'string' && note.trim())
   } catch (_) {}
   const collected = collectNotesWithDiagnostics()
-  const publication = publicationReportNote()
-  const retainedBaseNotes = baseNotes.slice(0, publication ? 11 : 12)
-  const notes = [...retainedBaseNotes, publication, ...collected.notes]
+  const notes = [...baseNotes.slice(0, 12), ...collected.notes]
     .filter(note => typeof note === 'string' && note.trim())
     .slice(0, 12)
     .map(note => note.trim().slice(0, 12000))
@@ -430,6 +441,5 @@ module.exports = {
   githubFileUrl,
   isFreshGeneratedAt,
   mediaPrefetchNote,
-  publicationReportNote,
   reportFileLine,
 }

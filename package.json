@@ -9,6 +9,7 @@
     "build": "pnpm run build:en",
     "build:en": "pnpm --filter @zilliz/docs-site run build:en",
     "build:zh-CN": "pnpm --filter @zilliz/docs-site run build:zh-CN",
+    "build:zh-CN:site": "pnpm --filter @zilliz/docs-site run build:zh-CN:site",
     "generate:localization-input-inventory": "node scripts/build/write-localization-input-inventory.mjs",
     "check:localization-input-inventory": "node scripts/build/write-localization-input-inventory.mjs --check",
     "typecheck": "tsc",

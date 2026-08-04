@@ -1,0 +1,11 @@
+{
+  "sourceRunId": 30729813420,
+  "jobs": [
+    {"id": 91447952018, "name": "prepare", "status": "completed", "conclusion": "success"},
+    {"id": 91447984651, "name": "translate_sdk (ja-JP, python, python, e1d9a70506356cd8d985d557734ee0ae4bd1c269, 1) / translate", "status": "completed", "conclusion": "success"},
+    {"id": 91447984663, "name": "translate_sdk (zh-CN-reference, python, python, e1d9a70506356cd8d985d557734ee0ae4bd1c269, 2) / translate", "status": "completed", "conclusion": "failure", "steps": [{"name": "Validate Reference source checkpoint identity", "status": "completed", "conclusion": "failure"}]},
+    {"id": 91448806024, "name": "publish_ja_python", "status": "completed", "conclusion": "skipped"},
+    {"id": 91448805906, "name": "publish_zh_python", "status": "completed", "conclusion": "skipped"},
+    {"id": 91448807390, "name": "aggregate", "status": "completed", "conclusion": "failure"}
+  ]
+}

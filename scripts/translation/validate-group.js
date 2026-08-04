@@ -17,11 +17,6 @@ function commandsForTranslationGroup({target, group}) {
     ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'i18n/ja-JP']],
     ['pnpm', ['docs-tooling', 'validate-translation', '--target', 'ja-JP', '--group', group]],
   ];
-  if (target === 'zh-CN-tools' && group === 'guides') return [
-    ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/guides/tutorials/tools']],
-    ['pnpm', ['docs-tooling', 'validate-translation', '--target', 'zh-CN-tools', '--group', 'tools']],
-    ['pnpm', ['docs-tooling', 'validate-tools-sidebar']],
-  ];
   if (target === 'zh-CN-reference' && REFERENCE_ROOTS[group]) return [
     ['pnpm', ['docs-tooling', 'validate-mdx', '--path', REFERENCE_ROOTS[group], '--check']],
   ];

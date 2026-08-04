@@ -1,7 +1,6 @@
 'use strict'
 
-const GROUP_LABELS = Object.freeze({
-  guides: 'Guides',
+const SDK_LABELS = Object.freeze({
   python: 'Python SDK',
   java: 'Java SDK',
   node: 'Node.js SDK',
@@ -11,52 +10,35 @@ const GROUP_LABELS = Object.freeze({
 })
 
 const DEPENDENCY_LABELS = Object.freeze({
-  guides: 'Guides',
-  python: 'Python',
-  java: 'Java',
-  node: 'Node.js',
-  go: 'Go',
-  cli: 'CLI',
-  rest: 'REST API',
+  python: 'Python', java: 'Java', node: 'Node.js', go: 'Go', cli: 'CLI', rest: 'REST API',
 })
-
-const PHASES = Object.freeze([
-  { key: 'produce', label: 'Produce', job: group => `produce_${group}` },
-  { key: 'publish', label: 'Publish', job: group => `publish_${group}` },
-  { key: 'translate', label: 'Translate', job: group => `translate_${group}` },
-  { key: 'translation', label: 'Publish translations', job: group => `publish_${group}_translation` },
-])
 
 const PUBLISH_PREDECESSOR = Object.freeze({
-  guides: 'python',
-  python: 'rest',
-  node: 'java',
-  go: 'node',
-  cli: 'go',
-  rest: 'cli',
+  python: 'rest', node: 'java', go: 'node', cli: 'go', rest: 'cli',
 })
 
-const TRANSLATION_PUBLISH_PREDECESSOR = Object.freeze({
-  guides: 'rest',
-  python: 'guides',
-  java: 'python',
-  node: 'java',
-  go: 'node',
-  cli: 'go',
-  rest: 'cli',
-})
-
-const FAILURE_CONCLUSIONS = new Set([
-  'failure', 'cancelled', 'timed_out', 'action_required', 'startup_failure',
+const GUIDE_LANES = Object.freeze([
+  Object.freeze({
+    id: 'guides-en', locale: 'en', label: 'English Guides',
+    sourceJob: 'produce_guides_sources', renderPrefix: 'render_guides_tables:', assemblyJob: 'produce_guides', publishJob: 'publish_guides',
+  }),
+  Object.freeze({
+    id: 'guides-zh-CN', locale: 'zh-CN', label: 'Chinese Guides',
+    sourceJob: 'produce_zh_guides_sources', renderPrefix: 'render_zh_guides_tables:', assemblyJob: 'produce_zh_guides', publishJob: 'publish_zh_guides',
+  }),
 ])
 
+const FAILURE_CONCLUSIONS = new Set(['failure', 'cancelled', 'timed_out', 'action_required', 'startup_failure'])
 const INFRASTRUCTURE_STEP = /^(?:actions\/checkout@|checkout|set up (?:node|pnpm)|setup (?:node|pnpm)|install dependencies|post |complete job|cleanup|clean up)/i
 
 const TASK_NAMES = new Map([
   ['restore guides v4 cache candidate', 'Restore Guides v4 cache candidate'],
   ['validate and promote guides v4 cache candidate', 'Validate Guides media cache'],
+  ['restore guides v5 cache candidate', 'Restore Guides v5 cache candidate'],
+  ['validate and promote guides v5 cache candidate', 'Validate Guides media cache'],
   ['prefetch shared guides media', 'Prefetch shared Guides media'],
   ['save guides v4 generation', 'Save Guides media cache'],
+  ['save guides v5 generation', 'Save Guides media cache'],
   ['evaluate guides assembly reuse', 'Evaluate Guides assembly reuse'],
   ['validate guides assembly decision', 'Validate Guides assembly decision'],
   ['generate combined guides sidebars offline', 'Generate combined Guides sidebars offline'],
@@ -64,24 +46,12 @@ const TASK_NAMES = new Map([
   ['validate combined guides output', 'Validate combined Guides output'],
   ['render guides table', 'Render Guides table'],
   ['restore guides source artifact', 'Restore Guides source artifact'],
-  ['validate guides translation batch identities', 'Validate Guides translation batch identities'],
-  ['apply guides translation batches to staging', 'Apply Guides translation batches to staging'],
-  ['push guides translation staging ref', 'Push Guides translation staging ref'],
-  ['validate combined guides translation', 'Validate combined Guides translation'],
-  ['promote validated guides translation', 'Promote validated Guides translation'],
-  ['clean up guides translation staging ref', 'Clean up Guides translation staging ref'],
-  ['write guides translation publication report', 'Write Guides translation publication report'],
-  ['emit guides translation publication result', 'Emit Guides translation publication result'],
 ])
 
 function logicalJobIdentity(job) {
   const parts = String(job?.name || '').split(' / ').map(part => part.trim())
-  if (parts[0] === 'render_guides_tables' && parts.length >= 4) {
-    return `render_guides_tables:${parts[1]}:${parts.slice(2, -1).join(' / ')}`
-  }
-  if (/^guides_translation_batch_/.test(parts[0])) {
-    const phase = parts.slice(1).join(' / ').match(/^(translate|publish) batch\b/i)?.[1]?.toLowerCase() || 'unknown'
-    return `${parts[0]}:${phase}`
+  if ((parts[0] === 'render_guides_tables' || parts[0] === 'render_zh_guides_tables') && parts.length >= 4) {
+    return `${parts[0]}:${parts[1]}:${parts.slice(2, -1).join(' / ')}`
   }
   return parts[0]
 }
@@ -127,7 +97,7 @@ function normalizeCurrentTask(name) {
 function jobStatus(job) {
   if (!job) return 'waiting'
   if (job.status === 'completed') {
-    if (job.conclusion === 'success' || job.conclusion === 'neutral') return 'completed'
+    if (job.conclusion === 'success' || job.conclusion === 'neutral' || job.conclusion === 'skipped') return 'completed'
     if (FAILURE_CONCLUSIONS.has(job.conclusion)) return 'failed'
     return 'waiting'
   }
@@ -154,209 +124,172 @@ function phaseResult(job, fallbackTask) {
   }
 }
 
-function guidesRenderIdentity(job) {
+function renderIdentity(job) {
   const identity = logicalJobIdentity(job)
-  if (!identity.startsWith('render_guides_tables:')) return null
   const [, target, ...tableParts] = identity.split(':')
   return `${target} / ${tableParts.join(':')}`
 }
 
-function deriveGuidesProduce(effectiveJobs, guidesTableTotal = null) {
+function deriveGuideProduce(lane, effectiveJobs, tableTotal) {
   const byIdentity = new Map(effectiveJobs.map(job => [logicalJobIdentity(job), job]))
-  const source = byIdentity.get('produce_guides_sources')
+  const source = byIdentity.get(lane.sourceJob)
   const sourceStatus = jobStatus(source)
-  if (sourceStatus !== 'completed') return phaseResult(source, sourceStatus === 'waiting' ? 'Waiting to fetch Guides sources' : 'Fetch shared Guides sources')
+  if (sourceStatus !== 'completed') {
+    return phaseResult(source, sourceStatus === 'waiting' ? `Waiting to fetch ${lane.label} sources` : `Fetch ${lane.label} sources`)
+  }
 
-  const renderJobs = effectiveJobs.filter(job => logicalJobIdentity(job).startsWith('render_guides_tables:'))
-  const stableTotal = Number.isSafeInteger(guidesTableTotal) && guidesTableTotal >= 0
-    ? Math.max(guidesTableTotal, renderJobs.length)
-    : renderJobs.length
+  const renderJobs = effectiveJobs.filter(job => logicalJobIdentity(job).startsWith(lane.renderPrefix))
+  const stableTotal = Number.isSafeInteger(tableTotal) && tableTotal >= 0 ? Math.max(tableTotal, renderJobs.length) : renderJobs.length
   if (stableTotal > 0) {
     const counts = { completed: 0, running: 0, waiting: 0, failed: 0 }
     for (const job of renderJobs) counts[jobStatus(job)] += 1
     const pending = Math.max(0, stableTotal - counts.completed - counts.running - counts.failed)
     if (counts.failed || counts.running || pending) {
-      const failed = renderJobs.filter(job => jobStatus(job) === 'failed').map(guidesRenderIdentity).sort()
-      const detail = `${counts.completed}/${stableTotal} complete · ${counts.running} active · ${pending} pending · ${counts.failed} failed${failed.length ? ` · failed: ${failed.join(', ')}` : ''}`
+      const failed = renderJobs.filter(job => jobStatus(job) === 'failed').map(renderIdentity).sort()
       return {
         status: counts.failed ? 'failed' : counts.running ? 'running' : 'waiting',
-        currentTask: 'Render Guides tables',
-        detail,
+        currentTask: `Render ${lane.label} tables`,
+        detail: `${counts.completed}/${stableTotal} complete · ${counts.running} active · ${pending} pending · ${counts.failed} failed${failed.length ? ` · failed: ${failed.join(', ')}` : ''}`,
       }
     }
   }
 
-  const assembly = byIdentity.get('produce_guides')
-  return phaseResult(assembly, jobStatus(assembly) === 'waiting' ? 'Waiting for Guides assembly' : 'Assemble Guides checkpoint')
+  const assembly = byIdentity.get(lane.assemblyJob)
+  return phaseResult(assembly, jobStatus(assembly) === 'waiting' ? `Waiting for ${lane.label} assembly` : `Assemble ${lane.label} checkpoint`)
 }
 
-function translatorHasNoChanges(job) {
-  if (jobStatus(job) !== 'completed') return false
-  const steps = new Map((job.steps || []).map(step => [step.name, step]))
-  return steps.get('Create validated translation checkpoints')?.conclusion === 'skipped' &&
-    steps.get('Upload translation checkpoint')?.conclusion === 'skipped' &&
-    steps.get('Emit translation result')?.conclusion === 'success'
+function selectPresentation(phases, orderedKeys) {
+  let phase = orderedKeys.find(key => phases[key].status === 'failed')
+  if (!phase) phase = orderedKeys.find(key => phases[key].status === 'running')
+  if (!phase) phase = orderedKeys.find(key => phases[key].status === 'waiting')
+  if (!phase) phase = orderedKeys.at(-1)
+  return {phase, ...phases[phase]}
 }
 
-function parseGuidesBatch(job) {
-  const parts = String(job?.name || '').split(' / ')
-  if (!/^guides_translation_batch_/.test(parts[0] || '')) return null
-  const identity = parts[0].match(/^guides_translation_batch_(\d+)_of_(\d+)_pending_(\d+)$/)
-  const phaseText = parts.slice(1).join(' / ')
-  const phase = phaseText.match(/^(translate|publish)(?:\s+batch\s+\d+\s+of\s+\d+(?:\s+\(\d+ docs\))?)?$/)
-  if (!identity || !phase) return null
-  return {
-    job,
-    phase: phase[1],
-    batchNumber: Number(identity[1]),
-    batchCount: Number(identity[2]),
-    pendingCount: Number(identity[3]),
-  }
-}
-
-function guidesBatchPhase(effectiveJobs, phase) {
-  const batches = effectiveJobs.map(parseGuidesBatch).filter(item => item?.phase === phase)
-  if (!batches.length) return null
-  const total = Math.max(...batches.map(item => item.batchCount))
-  const completed = batches.filter(item => jobStatus(item.job) === 'completed').length
-  const running = batches.filter(item => jobStatus(item.job) === 'running').length
-  const failed = batches.filter(item => jobStatus(item.job) === 'failed').length
-  const waiting = Math.max(0, total - completed - running - failed)
-  return {
-    status: failed ? 'failed' : completed === total ? 'completed' : (running || completed > 0) ? 'running' : 'waiting',
-    currentTask: phase === 'translate' ? 'Translate Guides batches' : 'Stage Guides translation publication',
-    detail: `${completed}/${total} complete · ${running} active · ${waiting} pending · ${failed} failed`,
-  }
-}
-
-function waitingFor(group, phase) {
-  const predecessor = phase === 'publish' ? PUBLISH_PREDECESSOR[group] : TRANSLATION_PUBLISH_PREDECESSOR[group]
-  if (!predecessor) return phase === 'publish' ? 'Waiting to publish' : 'Waiting to publish translation'
-  return `Waiting for ${DEPENDENCY_LABELS[predecessor]} publisher`
-}
-
-function deriveManualPhases({ group, effectiveJobs, publishEnabled, guidesTableTotal }) {
+function deriveGuideLane({ lane, effectiveJobs, publishEnabled, tableTotal }) {
   const byIdentity = new Map(effectiveJobs.map(job => [logicalJobIdentity(job), job]))
-  const phases = {}
-  phases.produce = group === 'guides'
-    ? deriveGuidesProduce(effectiveJobs, guidesTableTotal)
-    : phaseResult(byIdentity.get(`produce_${group}`), `Produce ${GROUP_LABELS[group]}`)
-  if (!publishEnabled) return phases
-
-  const publishJob = byIdentity.get(`publish_${group}`)
-  phases.publish = phases.produce.status !== 'completed'
-    ? { status: 'waiting', currentTask: 'Waiting for production', detail: null }
-    : publishJob && jobStatus(publishJob) !== 'waiting'
-      ? phaseResult(publishJob, `Publish ${GROUP_LABELS[group]}`)
-      : { status: 'waiting', currentTask: waitingFor(group, 'publish'), detail: null }
-
-  const guidesTranslate = group === 'guides' ? guidesBatchPhase(effectiveJobs, 'translate') : null
-  const translateJob = byIdentity.get(`translate_${group}`)
-  phases.translate = phases.publish.status !== 'completed'
-    ? { status: 'waiting', currentTask: 'Waiting for source publication', detail: null }
-    : guidesTranslate || phaseResult(translateJob, `Translate ${GROUP_LABELS[group]}`)
-
-  const guidesPublish = group === 'guides'
-    ? phaseResult(byIdentity.get('publish_guides_translation_batches'), 'Stage Guides translation publication')
-    : null
-  const translationJob = byIdentity.get(`publish_${group}_translation`)
-  if (phases.translate.status !== 'completed') {
-    phases.translation = { status: 'waiting', currentTask: 'Waiting for translation', detail: null }
-  } else if (guidesPublish) {
-    phases.translation = guidesPublish
-  } else if (translatorHasNoChanges(translateJob) && (!translationJob || translationJob.conclusion === 'skipped')) {
-    phases.translation = { status: 'completed', currentTask: 'No translation changes', detail: null }
-  } else if (translationJob && jobStatus(translationJob) !== 'waiting') {
-    phases.translation = phaseResult(translationJob, `Publish ${GROUP_LABELS[group]} translation`)
-  } else {
-    phases.translation = { status: 'waiting', currentTask: waitingFor(group, 'translation'), detail: null }
+  const phases = { produce: deriveGuideProduce(lane, effectiveJobs, tableTotal) }
+  const keys = ['produce']
+  if (publishEnabled) {
+    phases.publish = phases.produce.status !== 'completed'
+      ? { status: 'waiting', currentTask: 'Waiting for production', detail: null }
+      : phaseResult(byIdentity.get(lane.publishJob), `Publish ${lane.label}`)
+    keys.push('publish')
   }
-  return phases
+  return { id: lane.id, locale: lane.locale, label: lane.label, ...selectPresentation(phases, keys), phaseResults: phases }
 }
 
-function manualPresentation(group, phaseResults, publishEnabled) {
-  const keys = publishEnabled ? PHASES.map(phase => phase.key) : ['produce']
-  let phase = keys.find(key => phaseResults[key].status === 'failed')
-  if (!phase) phase = keys.find(key => phaseResults[key].status === 'running')
-  if (!phase) phase = keys.find(key => phaseResults[key].status === 'waiting')
-  if (!phase) {
-    const finalPhase = keys[keys.length - 1]
-    return {
-      group,
-      label: GROUP_LABELS[group],
-      phase: finalPhase,
-      status: 'completed',
-      currentTask: phaseResults[finalPhase].currentTask,
-      detail: phaseResults[finalPhase].detail,
-    }
-  }
-  return { group, label: GROUP_LABELS[group], phase, ...phaseResults[phase] }
+function waitingForPublisher(group) {
+  const predecessor = PUBLISH_PREDECESSOR[group]
+  return predecessor ? `Waiting for ${DEPENDENCY_LABELS[predecessor]} publisher` : 'Waiting to publish'
 }
 
-function aggregatePhaseStatus(statuses) {
+function deriveSdkItem({ group, effectiveJobs, publishEnabled }) {
+  const byIdentity = new Map(effectiveJobs.map(job => [logicalJobIdentity(job), job]))
+  const phases = { produce: phaseResult(byIdentity.get(`produce_${group}`), `Produce ${SDK_LABELS[group]}`) }
+  const keys = ['produce']
+  if (publishEnabled) {
+    const publishJob = byIdentity.get(`publish_${group}`)
+    phases.publish = phases.produce.status !== 'completed'
+      ? { status: 'waiting', currentTask: 'Waiting for production', detail: null }
+      : publishJob && jobStatus(publishJob) !== 'waiting'
+        ? phaseResult(publishJob, `Publish ${SDK_LABELS[group]}`)
+        : { status: 'waiting', currentTask: waitingForPublisher(group), detail: null }
+    keys.push('publish')
+  }
+  return { id: group, label: SDK_LABELS[group], ...selectPresentation(phases, keys), phaseResults: phases }
+}
+
+function aggregateStatus(statuses) {
   if (statuses.includes('failed')) return 'failed'
-  if (statuses.every(status => status === 'completed')) return 'completed'
+  if (statuses.length > 0 && statuses.every(status => status === 'completed')) return 'completed'
   if (statuses.includes('running') || statuses.includes('completed')) return 'running'
   return 'waiting'
 }
 
-function derivePhase({ descriptor, manuals, effectiveJobs }) {
-  if (descriptor.key === 'verify') {
-    const status = jobStatus(effectiveJobs.find(job => logicalJobIdentity(job) === 'verify'))
-    return { key: 'verify', label: 'Verify', done: status === 'completed' ? 1 : 0, total: 1, status }
-  }
-  const statuses = manuals.map(manual => manual.phaseResults[descriptor.key].status)
-  return {
-    key: descriptor.key,
-    label: descriptor.label,
-    done: statuses.filter(status => status === 'completed').length,
-    total: statuses.length,
-    status: aggregatePhaseStatus(statuses),
-  }
+function phaseSummary(key, label, statuses) {
+  return { key, label, done: statuses.filter(status => status === 'completed').length, total: statuses.length, status: aggregateStatus(statuses) }
 }
 
-function orderManuals(manuals) {
-  const order = { failed: 0, running: 1, waiting: 2, completed: 3, cancelled: 0 }
-  return [...manuals].sort((left, right) => order[left.status] - order[right.status])
-}
-
-function normalizeSuccessfulChildren(phases, manuals, publishEnabled) {
-  const finalPhase = publishEnabled ? PHASES.at(-1).key : PHASES[0].key
-  return {
-    phases: phases.map(phase => ({ ...phase, done: phase.total, status: 'completed' })),
-    manuals: manuals.map(manual => ({
-      ...manual,
-      phase: finalPhase,
-      status: 'completed',
-      currentTask: 'Workflow completed',
-      detail: null,
-    })),
+function normalizeHandoff(input, effectiveJobs) {
+  if (input && ['waiting', 'running', 'completed', 'failed', 'cancelled'].includes(input.status)) {
+    return {
+      status: input.status,
+      label: input.status === 'completed' ? 'Translation dispatched' : input.status === 'failed' ? 'Translation handoff failed' : 'Translation handoff',
+      url: typeof input.childRunUrl === 'string' ? input.childRunUrl : null,
+    }
   }
+  const byIdentity = new Map(effectiveJobs.map(job => [logicalJobIdentity(job), job]))
+  const prepare = byIdentity.get('prepare_translation_handoff')
+  const dispatch = byIdentity.get('dispatch_translations')
+  const selected = jobStatus(prepare) === 'failed' ? prepare : dispatch || prepare
+  const status = jobStatus(selected)
+  return { status, label: status === 'completed' ? 'Translation dispatched' : status === 'failed' ? 'Translation handoff failed' : 'Translation handoff', url: null }
 }
 
-function deriveDocsProgressState({ requestedGroups, jobs = [], publishEnabled, reports = [], terminalStatus = null, guidesTableTotal = null }) {
+function orderItems(items) {
+  const order = { failed: 0, cancelled: 0, running: 1, waiting: 2, completed: 3 }
+  return [...items].sort((left, right) => order[left.status] - order[right.status])
+}
+
+function completedItem(item) {
+  return {...item, phase: item.phaseResults.publish ? 'publish' : 'produce', status: 'completed', currentTask: 'Workflow completed', detail: null}
+}
+
+function deriveDocsProgressState({
+  requestedGroups,
+  jobs = [],
+  publishEnabled,
+  runTranslations = false,
+  reports = [],
+  terminalStatus = null,
+  guideTableTotals = {},
+  handoff = null,
+}) {
   if (!Array.isArray(requestedGroups) || requestedGroups.length === 0) throw new Error('requestedGroups must be a non-empty array')
-  for (const group of requestedGroups) if (!GROUP_LABELS[group]) throw new Error(`Unknown documentation group: ${group}`)
+  for (const group of requestedGroups) if (group !== 'guides' && !SDK_LABELS[group]) throw new Error(`Unknown documentation group: ${group}`)
   const effectiveJobs = selectEffectiveJobs(jobs)
-  const internalManuals = requestedGroups.map(group => {
-    const phaseResults = deriveManualPhases({ group, effectiveJobs, publishEnabled, guidesTableTotal })
-    return { phaseResults, presentation: manualPresentation(group, phaseResults, publishEnabled) }
-  })
-  const descriptors = publishEnabled ? [...PHASES, { key: 'verify', label: 'Verify' }] : [PHASES[0]]
-  let phases = descriptors.map(descriptor => derivePhase({ descriptor, manuals: internalManuals, effectiveJobs }))
-  let manuals = orderManuals(internalManuals.map(manual => manual.presentation))
-  if (terminalStatus === 'success') ({ phases, manuals } = normalizeSuccessfulChildren(phases, manuals, publishEnabled))
+  let guides = requestedGroups.includes('guides')
+    ? GUIDE_LANES.map(lane => deriveGuideLane({ lane, effectiveJobs, publishEnabled, tableTotal: guideTableTotals[lane.locale] }))
+    : []
+  let items = requestedGroups.filter(group => group !== 'guides').map(group => deriveSdkItem({ group, effectiveJobs, publishEnabled }))
+  const allLanes = [...guides, ...items]
+  let phases = [phaseSummary('produce', 'Produce', allLanes.map(lane => lane.phaseResults.produce.status))]
+  if (publishEnabled) {
+    phases.push(phaseSummary('publish', 'Publish', allLanes.map(lane => lane.phaseResults.publish.status)))
+    const verifyStatus = jobStatus(effectiveJobs.find(job => logicalJobIdentity(job) === 'verify'))
+    phases.push({ key: 'verify', label: 'Verify', done: verifyStatus === 'completed' ? 1 : 0, total: 1, status: verifyStatus })
+  }
+  let normalizedHandoff = null
+  if (runTranslations) {
+    normalizedHandoff = normalizeHandoff(handoff, effectiveJobs)
+    phases.push({ key: 'handoff', label: 'Handoff', done: normalizedHandoff.status === 'completed' ? 1 : 0, total: 1, status: normalizedHandoff.status })
+  }
+
+  if (terminalStatus === 'success') {
+    phases = phases.map(phase => ({...phase, done: phase.total, status: 'completed'}))
+    guides = guides.map(completedItem)
+    items = items.map(completedItem)
+    if (normalizedHandoff) normalizedHandoff = {...normalizedHandoff, status: 'completed', label: 'Translation dispatched'}
+  }
+
+  const visibleFailures = [...guides, ...items].some(item => item.status === 'failed') || phases.some(phase => phase.status === 'failed')
+  const overallStatus = terminalStatus || (visibleFailures ? 'failure' : 'running')
+  const orderedItems = orderItems(items).map(({phaseResults, ...item}) => item)
+  const visibleGuides = guides.map(({phaseResults, ...guide}) => guide)
+  const manuals = [...visibleGuides.map(guide => ({group: guide.id, ...guide})), ...orderedItems.map(item => ({group: item.id, ...item}))]
   return {
-    overallStatus: terminalStatus || (phases.some(phase => phase.status === 'failed') || manuals.some(manual => manual.status === 'failed') ? 'failure' : 'running'),
+    kind: 'source',
+    title: 'Zilliz Cloud Docs Build',
+    overallStatus,
     phases,
+    guides: visibleGuides,
+    items: orderedItems,
+    handoff: normalizedHandoff,
     manuals,
     reports: Array.isArray(reports) ? reports : [],
+    links: [],
   }
 }
 
-module.exports = {
-  deriveDocsProgressState,
-  logicalJobIdentity,
-  normalizeCurrentTask,
-  selectEffectiveJobs,
-}
+module.exports = { deriveDocsProgressState, logicalJobIdentity, normalizeCurrentTask, selectEffectiveJobs }
