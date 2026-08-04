@@ -88,6 +88,19 @@ test('uses the corresponding offending draft line instead of the document prefix
   assert.equal(issues[0].draft_quote, '打开智利兹云。')
 })
 
+test('uses the still-invalid mandatory-term occurrence after an earlier occurrence is corrected', () => {
+  const contract = loadLocaleContract('zh-CN-reference')
+  const source = 'Use the current database.\nUse the default database.\n'
+  const draft = '使用当前 Database。\n使用默认数据库。\n'
+
+  const issues = validateLocaleContractDraft(source, draft, contract)
+
+  assert.equal(issues.length, 1)
+  assert.equal(issues[0].source_quote, 'database')
+  assert.equal(issues[0].draft_quote, '使用默认数据库。')
+  assert.match(issues[0].location, /line 2/i)
+})
+
 test('normalizes lowercase Chinese product concepts to their official English forms', () => {
   const contract = loadLocaleContract('zh-CN-reference')
   const issues = validateLocaleContractDraft('Create a collection.', '创建一个集合。', contract)

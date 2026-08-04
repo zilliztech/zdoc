@@ -296,7 +296,52 @@ Expected: all 19 files are attempted; no publish command or remote mutation occu
 
 For every translated result, verify target file existence, source protected-content preservation, MDX compilation/structure, locale contract, fenced-code byte identity, and `Compaction` preservation. Confirm failed items did not overwrite their replay baseline target.
 
-## Task 6: Full local verification
+## Task 6: Occurrence-aligned mandatory-term evidence
+
+**Files:**
+
+- Modify: `scripts/translation/localeContract.test.js`
+- Modify: `scripts/translation/localeContract.js`
+- Modify: `config/translation/zh-CN-reference.json` and `config/translation/ja-JP.json` only to advance both contract IDs after the shared validator semantics change
+
+- [ ] **Step 1: RED — repeated mandatory terms must cite every still-invalid occurrence**
+
+Add a regression with two source lines containing `database`. The first draft line already contains `Database`; the second still contains `数据库`. Assert that validation returns exactly one issue, that its `draft_quote` is the second line, and that its location identifies that source line.
+
+Run:
+
+```bash
+node --test --test-name-pattern='still-invalid mandatory-term occurrence' scripts/translation/localeContract.test.js
+```
+
+Expected failure: the current validator compares document-wide counts and always derives evidence from the first source occurrence, so it reports the already-correct first draft line.
+
+- [ ] **Step 2: GREEN — align mandatory-term deficits by source/draft line**
+
+When a mandatory term is globally deficient, inspect each corresponding source/draft line. Emit one issue for every line whose required target count is below that line's source occurrence count. Include the one-based source line in `location`, keep `source_quote` and `draft_quote` as real contiguous substrings, and retain the existing bounded fallback only when line-aligned evidence is unavailable.
+
+- [ ] **Step 3: Verify the full locale contract suite**
+
+Run:
+
+```bash
+node --test scripts/translation/localeContract.test.js
+node --test scripts/translation/reviewEvidence.test.js
+node scripts/translation/agentRunner.test.js
+node --test scripts/translation/recovery-artifact.test.js
+```
+
+Expected: repeated occurrences authorize correction at the actual remaining line; `Compaction`, `Dedicated`, review-evidence, and prompt-contract hash regressions remain green.
+
+- [ ] **Step 4: Replay the exact residual file**
+
+Export the updated commit into a new isolated `/tmp` replay root, reuse the verified source/checkpoint and baseline from the 19-file replay, and create a one-item manifest for:
+
+`content/en/reference/api/java/java/v2/v2-FileResources/v2-FileResources-listFileResources.md`
+
+Run the real translation-review-correction chain with `publish=false` semantics and the same conservative limits. Expected: one translated result, zero failures, byte-identical protected content, valid MDX, and no remaining locale-contract issues.
+
+## Task 7: Full local verification
 
 **Files:** all modified files above.
 
@@ -330,4 +375,3 @@ git diff -- scripts/translation config/translation .github/prompts .claude/plans
 ```
 
 Expected: only P0.1 plan, tests, implementation, locale contracts, and marker prompt files are changed. No online workflow dispatch, publication, PR, or push is part of this plan.
-

@@ -128,6 +128,47 @@ function boundedDraftQuote(source, draft, sourceQuote, forbiddenTargets) {
   return correspondingDraftLine(source, draft, String(source).indexOf(sourceQuote))
 }
 
+function mandatoryTermIssues(source, draft, contract, term, sourceCount, targetCount) {
+  const forbidden = contract.forbiddenTranslations.find(item => item.source === term.source)?.targets || []
+  const sourceLines = source.split(/\r?\n/)
+  const draftLines = draft.split(/\r?\n/)
+  const issues = []
+  let remainingDeficit = sourceCount - targetCount
+
+  for (let lineIndex = 0; lineIndex < sourceLines.length && remainingDeficit > 0; lineIndex += 1) {
+    const sourceLineCount = countOccurrences(sourceLines[lineIndex], term.source, term.caseSensitive)
+    if (!sourceLineCount) continue
+    const draftLine = draftLines[lineIndex] || ''
+    const draftLineCount = countOccurrences(draftLine, term.target, term.caseSensitive)
+    const lineDeficit = sourceLineCount - draftLineCount
+    if (lineDeficit <= 0) continue
+    const draftQuote = boundedDraftQuote(sourceLines[lineIndex], draftLine, term.source, forbidden)
+    if (!draftQuote) continue
+    issues.push(Object.freeze({
+      severity: 'medium',
+      type: 'terminology',
+      location: `line ${lineIndex + 1} containing ${term.source}`,
+      source_quote: term.source,
+      draft_quote: draftQuote,
+      comment: `Locale contract ${contract.contractId} requires ${term.source} to use ${term.target}; forbidden replacements do not satisfy this product terminology rule.`,
+    }))
+    remainingDeficit -= Math.min(lineDeficit, remainingDeficit)
+  }
+
+  if (issues.length || remainingDeficit <= 0) return issues
+  const draftQuote = boundedDraftQuote(source, draft, term.source, forbidden)
+  if (!draftQuote) return issues
+  issues.push(Object.freeze({
+    severity: 'medium',
+    type: 'terminology',
+    location: `text containing ${term.source}`,
+    source_quote: term.source,
+    draft_quote: draftQuote,
+    comment: `Locale contract ${contract.contractId} requires ${term.source} to use ${term.target}; forbidden replacements do not satisfy this product terminology rule.`,
+  }))
+  return issues
+}
+
 function validateLocaleContractDraft(sourceContent, draftContent, contract) {
   const source = String(sourceContent)
   const draft = String(draftContent)
@@ -137,17 +178,7 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
     if (!sourceCount) continue
     const targetCount = countOccurrences(draft, term.target, term.caseSensitive)
     if (targetCount >= sourceCount) continue
-    const forbidden = contract.forbiddenTranslations.find(item => item.source === term.source)?.targets || []
-    const draftQuote = boundedDraftQuote(source, draft, term.source, forbidden)
-    if (!draftQuote) continue
-    issues.push(Object.freeze({
-      severity: 'medium',
-      type: 'terminology',
-      location: `text containing ${term.source}`,
-      source_quote: term.source,
-      draft_quote: draftQuote,
-      comment: `Locale contract ${contract.contractId} requires ${term.source} to use ${term.target}; forbidden replacements do not satisfy this product terminology rule.`,
-    }))
+    issues.push(...mandatoryTermIssues(source, draft, contract, term, sourceCount, targetCount))
   }
   for (const token of contract.doNotTranslate) {
     const sourceCount = countOccurrences(source, token, true)
