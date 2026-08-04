@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listPrivilegeGroups() | Node.js"
 slug: /node/node/Authentication-listPrivilegeGroups
 sidebar_label: "listPrivilegeGroups()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation lists all privilege groups. | Node.js"
+description: "此操作列出所有权限组。 | Node.js"
 type: docx
 token: HGpSdc7AOo7AV3xKCmOcWaIEnrd
 sidebar_position: 19
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # listPrivilegeGroups()
 
-This operation lists all privilege groups.
+此操作列出所有权限组。
 
 ```javascript
-listPrivilegeGroups(data?): Promise<ListPrivilegeGroupsResponse>
+await milvusClient.listPrivilegeGroups(data?)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
  milvusClient.listPrivilegeGroups({
@@ -45,68 +45,62 @@ listPrivilegeGroups(data?): Promise<ListPrivilegeGroupsResponse>
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
-**RETURNS** *Promise\<ListPrivilegeGroupsResponse>*
+**返回值** *Promise&lt;ListPrivilegeGroupsResponse&gt;*
 
-This method returns a promise that resolves to a **ListPrivilegeGroupsResponse** object.
+此方法返回一个 Promise，该 Promise 解析为 **ListPrivilegeGroupsResponse** 对象。
 
-```javascript
+```typescript
 {
-    privilege_groups: [
-        {
-            group_name: string,
-            privileges: PrivilegeEntity[]
-        },
-        ...
-    ],
-    status: {
-        code: number,
-        error_code: string | number,
-        reason: string    
-    }
+    privilege_groups: PrivelegeGroup[],
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **privilege_groups** (*PrivelegeGroup[]*) -
-
-    A list of all privilege groups in the form of a **PrivelegeGroup** object.
+- **privilege_groups** (*PrivelegeGroup[]*) -<br/>
+  当前 Milvus 实例中定义的权限组列表。
 
     - **group_name** (*string*) -
 
-        The name of a privilege group.
+        权限组的名称。
 
     - **privileges** (*PrivilegeEntity[]*) -
 
-        A list of privileges.
+        组中包含的权限。
 
         - **name** (*string*) -
 
-            The name of a privilege. 
+        权限名称（例如 **Insert**、**Search**、**CreateCollection**）。
 
-- **status** (*ResStatus*) -
+        - **name** (*string*) -
+
+            权限名称（例如 **Insert**、**Search**、**CreateCollection**）。
+
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        指示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
 await milvusClient.listPrivilegeGroups();

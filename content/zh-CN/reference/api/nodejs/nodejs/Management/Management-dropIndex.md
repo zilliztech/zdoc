@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "dropIndex() | Node.js"
 slug: /node/node/Management-dropIndex
 sidebar_label: "dropIndex()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops an index from a specific collection. | Node.js"
+description: "此操作从特定集合中删除一个索引。 | Node.js"
 type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
 sidebar_position: 5
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # dropIndex()
 
-This operation drops an index from a specific collection.
+此操作从特定集合中删除一个索引。
 
 ```javascript
-dropIndex(data): Promise<ResStatus>
+await milvusClient.dropIndex(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.dropPartition({
+await milvusClient.dropPartition({
     db_name: string,
     collection_name: string,
     field_name?: string,
@@ -49,33 +49,33 @@ milvusClient.dropPartition({
  });
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    持有目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **field_name** (*string*) -
 
-    The name of an existing field in the collection.
+    集合中现有字段的名称。
 
 - **index_name** (string) -
 
-    The name of the index to drop.
+    要删除的索引名称。
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -85,21 +85,21 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误码。如果此操作成功，则其值为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);

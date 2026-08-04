@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "dropDatabase() | Node.js"
 slug: /node/node/Database-dropDatabase
 sidebar_label: "dropDatabase()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a database. | Node.js"
+description: "此操作会删除数据库。 | Node.js"
 type: docx
 token: Ja99dnnaOoncwbx2zIPc4PjunXx
 sidebar_position: 3
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabase()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,44 +31,44 @@ import Admonition from '@theme/Admonition';
 
 # dropDatabase()
 
-This operation drops a database.
+此操作会删除数据库。
 
 ```javascript
-dropDatabase(data?): Promise<ResStatus>
+await milvusClient.dropDatabase(data?)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This method applies only to dedicated clusters.</p>
+此方法仅适用于专属集群。
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.dropDatabase({
+await milvusClient.dropDatabase({
     db_name: string,
     timeout?: number
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database to drop.
+    要删除的数据库名称。
 
-    There should be a database with the specified name. Otherwise, exceptions will occur.
+    必须存在具有指定名称的数据库。否则将发生异常。
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise |\<ResStatus>*
+**返回值** *Promise |&lt;ResStatus&gt;*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -78,24 +78,27 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.dropDatabase({ db_name: 'db_to_drop' });
 ```
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getLoadingProgress() | Node.js"
 slug: /node/node/Management-getLoadingProgress
 sidebar_label: "getLoadingProgress()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation gets the loading progress of a specific collection. | Node.js"
+description: "此操作用于获取特定集合的加载进度。 | Node.js"
 type: docx
 token: DkImdRkJwoUmdqxzqn1cpQr9nhy
 sidebar_position: 13
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - 自然语言搜索
+  - 相似性搜索
+  - 多模态 RAG
+  - llm 幻觉
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadingProgress()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # getLoadingProgress()
 
-This operation gets the loading progress of a specific collection.
+此操作用于获取特定集合的加载进度。
 
 ```javascript
-getLoadingProgress(data): Promise<GetLoadingProgressResponse>
+await milvusClient.getLoadingProgress(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.getLoadingProgress({
+await milvusClient.getLoadingProgress({
       db_name?: string,
       collection_name: string,
       partition_names?: string[]
@@ -48,71 +48,64 @@ milvusClient.getLoadingProgress({
 });
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    保存目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the target collection.
+    目标集合的名称。
 
 - **partition_names** (*string[]*) -
 
-    The name of the target partitions.
+    目标分区的名称。
 
 - **timeout** (number) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
-**RETURNS** *Promise\<GetLoadingProgressResponse>*
+**返回值** *Promise&lt;GetLoadingProgressResponse&gt;*
 
-This method returns a promise that resolves to a **GetLoadingProgressResponse** object.
+此方法返回一个 promise，解析为 **GetLoadingProgressResponse** 对象。
 
-```javascript
+```typescript
 {
     progress: string,
-    status: {
-        code: number,
-        error_code: string | number,
-        reason: string
-    }
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **progress** (*string*) -
+- **progress** (*string*) -<br/>
+  加载操作的完成百分比，以 **"0"** 到 **"100"** 之间的整数字符串表示。当该值达到 **"100"** 时，集合已完全加载。
 
-    The loading progress in percentage.
-
-- **total_rows** (*number*) -
-
-    The number of entities that already persisted in the specified collection.
-
-- **status** (*ResStatus*) -  
-
-    The status of the response.
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.getLoadingProgress({
     collection_name: 'my_collection',
 });

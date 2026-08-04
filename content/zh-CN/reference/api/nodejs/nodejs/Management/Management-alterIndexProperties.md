@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "alterIndexProperties() | Node.js"
 slug: /node/node/Management-alterIndexProperties
 sidebar_label: "alterIndexProperties()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation modifies the settings of specific index properties. | Node.js"
+description: "此操作会修改特定索引属性的设置。 | Node.js"
 type: docx
 token: PcQcdDwthoSEZaxI6GncpUpGnBh
 sidebar_position: 1
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - alterIndexProperties()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # alterIndexProperties()
 
-This operation modifies the settings of specific index properties.
+此操作会修改特定索引属性的设置。
 
 ```javascript
-alterIndexProperties(data): Promise<ResStatus>
+await milvusClient.alterIndexProperties(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.alterIndexProperties({
+await milvusClient.alterIndexProperties({
      db_name?: string,
      collection_name: string,
      index_name: string,
@@ -49,41 +49,41 @@ milvusClient.alterIndexProperties({
 });
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    保存目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **index_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of the target index.
+    目标索引的名称。
 
 - **params** (*Record*\<*string*, *string* | *number* | *boolean*>) -
 
     **[REQUIRED]**
 
-    The index properties to modify and their expected values. Possible properties are as follows:
+    要修改的索引属性及其预期值。可用属性如下：
 
     - **mmap.enabled** (*bool*) -
 
-        Whether to enable mmap for the specified index. Setting this to `True` offloads the specified index onto the disk. For details, refer to [Use mmap](/docs/use-mmap)
+        是否为指定索引启用 mmap。将其设置为 `True` 会将指定索引卸载到磁盘上。详情请参见[使用 mmap](/docs/use-mmap)
 
 - **timeout** (number) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 Promise，该 Promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -93,21 +93,21 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误码。如果此操作成功，则始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);

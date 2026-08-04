@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "dropCollectionProperties() | Node.js"
 slug: /node/node/Collections-dropCollectionProperties
 sidebar_label: "dropCollectionProperties()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation resets the properties of a specific collection to their default values. | Node.js"
+description: "此操作会将特定 collection 的属性重置为其默认值。 | Node.js"
 type: docx
 token: EjFMdRFz0ofehXxxCPqc6raSnAg
 sidebar_position: 11
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionProperties()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionProperties()
 
-This operation resets the properties of a specific collection to their default values.
+此操作会将特定 collection 的属性重置为其默认值。
 
 ```javascript
-dropCollectionProperties(data): Promise<ResStatus>
+await milvusClient.dropCollectionProperties(data)
 ```
 
-## Request Syntax
+## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.dropCollectionProperties({
+await milvusClient.dropCollectionProperties({
    db_name?: string
    collection_name: string,
    properties: string[],
@@ -52,37 +52,37 @@ milvusClient.dropCollectionProperties({
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    持有目标 collection 的数据库名称。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of the target collection.
+    目标 collection 的名称。
 
 - **properties** (*string[]*) -
 
     **[REQUIRED]**
 
-    The properties to change and their expected values in a TypeScript **Record**. Possible values are as follows:
+    要更改的属性及其预期值，以 TypeScript **Record** 表示。可能的值如下：
 
     - **collection.ttl.seconds** -
 
-        The time-to-live (TTL) of a collection in seconds.
+        collection 的生存时间（TTL），以秒为单位。
 
     - **mmap.enabled** -
 
-        Whether to enable mmap for the raw data and indexes of all fields in the collection.
+        是否为 collection 中所有字段的原始数据和索引启用 mmap。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **RETURNS** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -96,20 +96,23 @@ This method returns a promise that resolves to a **ResStatus** object.
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    指示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    指示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    指示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
-## Example
+## Example\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.dropCollectionProperties({
     collection_name: 'my-collection',
     delete_keys: ["collection.ttl.seconds"]

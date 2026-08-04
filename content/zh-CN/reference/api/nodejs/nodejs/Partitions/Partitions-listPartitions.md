@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listPartitions() | Node.js"
 slug: /node/node/Partitions-listPartitions
 sidebar_label: "listPartitions()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation lists the partitions in a specified collection. | Node.js"
+description: "此操作列出指定集合中的分区。 | Node.js"
 type: docx
 token: IvnLd6nXooRR6NxM9jdcDxCHnhh
 sidebar_position: 5
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # listPartitions()
 
-This operation lists the partitions in a specified collection.
+此操作列出指定集合中的分区。
 
 ```javascript
-listPartitions(data): Promise<ShowPartitionsResponse>
+await milvusClient.listPartitions(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.listPartitions({
+await milvusClient.listPartitions({
     db_name: string,
     collection_name: string,
     timeout?: number,
@@ -48,84 +48,96 @@ milvusClient.listPartitions({
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    保存目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 - **type** (*ShowPartitionsType*) - 
 
-    Determines whether to list all partitions or only the loaded ones. A **ShowPartitionsType** has the following values:
+    决定列出所有分区，还是仅列出已加载的分区。**ShowPartitionsType** 具有以下值：
 
     - **All** = 0
 
-        Indicates that all partitions are to be listed.
+        表示列出所有分区。
 
     - **Loaded** = 1
 
-        Indicates that only the loaded partitions are to be listed.
+        表示仅列出已加载的分区。
 
-**RETURNS** *Promise\<ShowPartitionsResponse>*
+**返回值** *Promise&lt;ShowPartitionsResponse&gt;*
 
-This method returns a promise that resolves to a **ShowPartitionsResponse** object.
+此方法返回一个 promise，解析为 **ShowPartitionsResponse** 对象。
 
-```javascript
+```typescript
 {
-    created_timestamps: string | list[string],
-    created_utc_timestamps: string | list[string],
-    partitionIDs: number | list[number],
-    partition_names: string | list[string],
-    status: object
+    partition_names: string[],
+    partitionIDs: number[],
+    data: PartitionData[],
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **created_timestamps** (*string* | *list[string]*) -
+- **partition_names** (*string[]*) -<br/>
+  集合上定义的分区名称列表。
 
-    The timestamp indicating the creation time of the partition.
+- **partitionIDs** (*number[]*) -<br/>
+  分区的内部标识符，顺序与 **partition_names** 相同。
 
-- **created_utc_timestamps** (*string* | *list[string]*) -
+- **data** (*PartitionData[]*) -<br/>
+  按分区展平的视图，包含名称、标识符、创建时间戳和加载百分比。
 
-    The timestamp in UTC indicating the creation time of the partition.
+    - **name** (*string*) -
 
-- **partitionIDs** (*number* | *list[number]*) -
+        分区名称。
 
-    A list of the IDs of the partitions.
+    - **id** (*string*) -
 
-- **partition_names** (*string* | *list[string]*) -
+        分区标识符。
 
-    A list of the names of the partitions.
+    - **timestamp** (*string*) -
 
-- **status** (*object*) -
+        分区的创建时间戳。
+
+    - **loadedPercentage** (*string*) -
+
+        当前已加载到内存中的分区百分比。
+
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误代码。如果此操作成功，则始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-new milvusClient(MILUVS_ADDRESS).listPartitions({
+new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+}).listPartitions({
     collection_name: 'my_collection',
  });
 ```

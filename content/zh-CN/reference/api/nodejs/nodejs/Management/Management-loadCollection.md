@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "loadCollection() | Node.js"
 slug: /node/node/Management-loadCollection
 sidebar_label: "loadCollection()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation loads the data of a specific collection into memory. | Node.js"
+description: "此操作将特定 collection 的数据加载到内存中。 | Node.js"
 type: docx
 token: LoNvdRK80oWllFxV0H6co0HrnBe
 sidebar_position: 17
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # loadCollection()
 
-This operation loads the data of a specific collection into memory.
+此操作将特定 collection 的数据加载到内存中。
 
 ```javascript
-loadCollection(data): Promise<ResStatus>
+await milvusClient.loadCollection(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.loadCollection({ 
+await milvusClient.loadCollection({ 
     db_name: string,
     collection_name: string,
     refresh?: boolean,
@@ -50,39 +50,39 @@ milvusClient.loadCollection({
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    持有目标 collection 的数据库名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of a collection.
+    collection 的名称。
 
 - **refresh** (*boolean*) -
 
-    Whether to refresh the load status of an already loaded collection.
+    是否刷新已加载 collection 的加载状态。
 
 - **replica_number** (*number*) -
 
-    The number of replicas of the collection to load.
+    要加载的 collection 的副本数量。
 
 - **resource_groups** (*string[]*) -
 
-    The number of resource groups in the collection to load.
+    要加载该 collection 的资源组数量。
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+    将其设置为 **None** 表示此操作会在返回任意响应或发生错误时超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -92,24 +92,27 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的状态码。如果此操作成功，则始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误码。如果此操作成功，则始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
  const resStatus = await milvusClient.loadCollection({ collection_name: 'my_collection' });
 ```
 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "compact() | Node.js"
 slug: /node/node/Management-compact
 sidebar_label: "compact()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation compacts and merges small segments into a larger one to save memory usage and improve search performance. | Node.js"
+description: "此操作会压缩并合并较小的 segment 为更大的 segment，以节省内存使用并提升搜索性能。 | Node.js"
 type: docx
 token: DCK5d56UZop0kGxpQu8cLqlvndg
 sidebar_position: 2
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - compact()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,71 +31,74 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-This operation compacts and merges small segments into a larger one to save memory usage and improve search performance.
+此操作会压缩并合并较小的 segment 为更大的 segment，以节省内存使用并提升搜索性能。
 
 ```javascript
-compact(data): Promise<CompactionResponse>
+await milvusClient.compact(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
 milvusClient.compact()
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the target collection to reassign an alias to.
+    要重新分配别名的目标 collection 名称。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURNS** *Promise\<CompactionResponse>*
+**返回值** *Promise&lt;CompactionResponse&gt;*
 
-This method returns a promise that resolves to a *CompactionResponse* object.
+此方法返回一个 promise，该 promise 会解析为一个 **CompactionResponse** 对象。
 
-```javascript
+```typescript
 {
     compactionID: string,
-    status: {
-        code: number,
-        error_code: string | number,
-        reason: string
-    }
+    compactionPlanCount: number,
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **compactionID** (*number*) -
+- **compactionID** (*string*) -<br/>
+  compaction 操作的标识符。将此值传递给 `getCompactionState()` 或 `getCompactionStateWithPlans()` 以轮询进度。
 
-    Compaction task ID.
+- **compactionPlanCount** (*number*) -<br/>
+  为此操作生成的 compaction 计划数量。
 
-- **status** (*ResStatus*) - 
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
  const resStatus = await milvusClient.compact({
       collection_name: 'my_collection',
  });

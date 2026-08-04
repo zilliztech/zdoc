@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "flush() | Node.js"
 slug: /node/node/Management-flush
 sidebar_label: "flush()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation manually seals a segment and persists the data on disk. It is recommended that this operation be called after all the data has been inserted into a collection. | Node.js"
+description: "此操作会手动封存一个 segment 并将数据持久化到磁盘。建议在所有数据都已插入到集合后调用此操作。 | Node.js"
 type: docx
 token: E2XJd4ZHvoc7QlxyrEJcrOJOn9f
 sidebar_position: 7
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,85 +31,84 @@ import Admonition from '@theme/Admonition';
 
 # flush()
 
-This operation manually seals a segment and persists the data on disk. It is recommended that this operation be called after all the data has been inserted into a collection.
+此操作会手动封存一个 segment 并将数据持久化到磁盘。建议在所有数据都已插入到集合后调用此操作。
 
 ```javascript
-flush(data): Promise<FlushResult>
+await milvusClient.flush(data)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>Milvus automatically flushes data into persistent storage at intervals. You are advised to rely on this automatic data persistence mechnism.</p>
+Milvus 会按时间间隔自动将数据刷新到持久化存储中。建议您依赖这种自动数据持久化机制。
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.flush({
+await milvusClient.flush({
     db_name?: string,
     collection_names: string[],
     timeout?: number
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the target database to which the target collections belong.
+    目标数据库的名称，目标集合隶属于该数据库。
 
 - **collection_names** (*string[]*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    A list of the target collection names.
+    目标集合名称列表。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURNS** *Promise\<FlushResult>*
+**返回值** *Promise&lt;FlushResult&gt;*
 
-This method returns a promise that resolves to a **FlushResult** object.
+此方法返回一个 promise，该 promise 会解析为一个 **FlushResult** 对象。
 
-```javascript
+```typescript
 {
-    coll_segIDs: any,
-    status: {
-        code: number,
-        error_code: string | number,
-        reason: string
-    }
+    coll_segIDs: Record<string, { data: number[] }>,
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **coll_segIDs** (*number*) -
+- **coll_segIDs** (*Record&lt;string, \{ data: number[] }&gt;*) -<br/>
+  从集合名称到此次 flush 所封存的 segment ID 的映射。使用返回的 ID 配合 `getFlushState()` 确认持久化状态。
 
-    The IDs of the segments that this operation affects.
-
-- **status** (*ResStatus*) - 
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const flushStatus = await milvusClient.flush({
     collection_names: ['my_collection'],
 });

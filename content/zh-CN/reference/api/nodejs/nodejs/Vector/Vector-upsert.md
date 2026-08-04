@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "upsert() | Node.js"
 slug: /node/node/Vector-upsert
 sidebar_label: "upsert()"
-added_since: v2.3.x
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation inserts or updates data in a specific collection. | Node.js"
+description: "此操作会在特定集合中插入或更新数据。 | Node.js"
 type: docx
-token: MpW0dmPAao1SWkx7HGkcT16dnvb
-sidebar_position: 9
+token: LEptdqqfcoqdtCx0LO1c3yxvnBo
+sidebar_position: 8
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,271 +31,151 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-This operation inserts or updates data in a specific collection.
+此操作会在特定集合中插入或更新数据。
 
-```javascript
-upsert(data): Promise<MutationResult>
+```typescript
+await milvusClient.upsert(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
-```javascript
-milvusClient.upsert({
-   db_name: string,
-   collection_name: string,
-   data: RowData[],
-   hash_keys: Number[],
-   partial_update: boolean,
-   partition_name: string,
-   timeout: number
- })
+```typescript
+await milvusClient.upsert({
+    db_name?: string,
+    collection_name: string,
+    data: RowData[],
+    hash_keys?: number[],
+    partial_update?: boolean,
+    partition_name?: string,
+    timeout?: number,
+})
 ```
 
-**PARAMETERS:**
-
-- **db_name** (*string*) -
-
-    The name of the database that holds the target collection.
+**参数：**
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **data** (*RowData[]*) -
 
-    The data to insert into the current collection.
+    **[必填]**
 
-    The data to insert should be a dictionary that matches the schema of the current collection or a list of such dictionaries. 
+    要执行 upsert 的数据。每个元素都是一个普通的 JavaScript 对象，其键名需与集合 schema 中的字段名匹配。主键与现有记录匹配的实体会被更新；否则会插入为新实体。
 
-    To perform an update, you are advised first to retrieve the target entity from the collection, modify the values of any relevant fields, and then save it back to the collection. 
+- **db_name** (*string*) -
 
-    The following code assumes that the schema of the current collection has three fields named **id**, **vector** ,and **color**. The `id` field is the primary field, the `vector` field is a field to hold 5-dimensional vector embeddings, and the `color` field is a scalar field holding strings.
+    持有目标集合的数据库名称。
 
-    ```javascript
-    # A dictionary, or
-    data={
-        'id': 0,
-        'vector': [
-            0.6186516144460161,
-            0.5927442462488592,
-            0.848608119657156,
-            0.9287046808231654,
-            -0.42215796530168403
-        ],
-        'color': 'green'
-    }
-    
-    # A list of dictionaries
-    data = [
-        {
-            'id': 1,
-            'vector': [
-                0.37417449965222693,
-                -0.9401784221711342,
-                0.9197526367693833,
-                0.49519396415367245,
-                -0.558567588166478
-            ],
-            'color': 'brown'
-        },
-        {
-            'id': 2,
-            'vector': [
-                0.46949086179692356,
-                -0.533609076732849,
-                -0.8344432775467099,
-                0.9797361846081416,
-                0.6294256393761057
-            ],
-            'color': 'purple'
-        }
-    ]
-    ```
+- **hash_keys** (*number[]*) -
 
-- **timeout** (*number*)  
+    保留供内部使用。除非明确要求，否则请勿设置此参数。
 
-    The timeout duration for this operation. 
+- **partial_update** (*boolean*) -
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
-
-- **partial_update**(*boolean* | *None*) -
-
-    Whether to enable partial update. Once set to `True`, you can include only the fields that need updating in `data`. 
+    是否启用部分更新。设置为 `true` 时，你可以在 `data` 中只包含需要更新的字段；未包含的字段将保留其原有值。
 
 - **partition_name** (*string*) -
 
-    The name of a partition in the current collection. 
+    当前集合中的某个分区名称。如果指定，数据将被 upsert 到该分区中。
 
-    If specified, the data is to be inserted into the specified partition.
+- **timeout** (*number*) -
 
-**RETURNS** *Promise\<MutationResult>*
+    此操作的超时时长。将其设置为 `None` 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-This method returns a promise that resolves to a **MutationResult** object.
+- **field_ops** (*FieldPartialUpdateOp[]*) -
 
-```javascript
+    数组字段的部分更新操作。可选。
+
+**返回值** *Promise&lt;MutationResult&gt;*
+
+此方法会返回一个 promise，并解析为一个 **MutationResult** 对象。
+
+```typescript
 {
-    IDs: NumberArrayId | StringArrayId,
+    succ_index: number[],
+    err_index: number[],
     acknowledged: boolean,
-    delete_cnt: string,
-    err_index: list[number],
     insert_cnt: string,
-    status: object,
-    succ_index: list[number],
+    delete_cnt: string,
+    upsert_cnt: string,
     timestamp: string,
-    upsert_cnt: string
+    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] }, id_field: 'int_id' | 'str_id' },
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **IDs** (*NumberArrayId* | *StringArrayId*) -
+- **succ_index** (*number[]*) -<br/>
+  输入数据中成功执行 upsert 的行的从零开始位置。
 
-    A list of the IDs of the upserted entities.
+- **err_index** (*number[]*) -<br/>
+  被拒绝的行的从零开始位置。当所有行都成功时，此列表为空。
 
-- **acknowledged** (*boolean*) -
+- **acknowledged** (*boolean*) -<br/>
+  写入是否已被 Milvus 确认。
 
-    A boolean value indicating whether the upsert operation is successful.
+- **insert_cnt** (*string*) -<br/>
+  此操作中新插入的行数，以字符串格式表示。
 
-- **delete_cnt** (*string*) -
+- **delete_cnt** (*string*) -<br/>
+  为给替换项腾出空间而被逻辑删除的行数。
 
-    The deleted entities. The value stays `0` in this operation.
+- **upsert_cnt** (*string*) -<br/>
+  此操作执行 upsert 的总行数。
 
-- **err_index** (Number[]) -
+- **timestamp** (*string*) -<br/>
+  此次写入变得可见时对应的 hybrid timestamp。
 
-    The number of entities involved in the insert operation that fails.
+- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
+  已执行 upsert 的行中携带的主键。完整字段说明请参见 `insert()` 文档。
 
-- **insert_cnt** (*string*) -
-
-    The new entities that are inserted. The value stays `0` in this operation.
-
-- **succ_index** (*list[number]*) -
-
-    The number of entities involved in the upsert operation that have been successfully indexed.
-
-- **timestamp** (*string*) -
-
-    The timestamp at which the upsert operation occurs.
-
-- **upsert_cnt** (*string*) -
-
-    The entities that have been upserted.
-
-- **status** (*object*) -
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        指示操作结果的代码。如果此操作成功，则该值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        指示已发生错误的错误码。如果此操作成功，则该值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        指示所报告错误原因的说明。如果此操作成功，则该值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```javascript
-const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-// 1. Set up a Milvus client
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 
-// 2. Create a collection
-client.create_collection({
-    collection_name: "test_collection",
-    dim: 5
-})
-
-// 3. Insert record
-res = await client.insert({
-    collection_name: "test_collection",
-    data: [
-        {
-            'id': 0,
-            'vector': [
-                0.37417449965222693,
-                -0.9401784221711342,
-                -0.8344432775467099,
-                0.9797361846081416,
-                0.6294256393761057
-            ],
-            'color': 'green'
-        },
-        {
-            'id': 1,
-            'vector': [
-                0.37417449965222693,
-                -0.9401784221711342,
-                0.9197526367693833,
-                0.49519396415367245,
-                -0.558567588166478
-            ],
-            'color': 'brown'
-        },
-        {
-            'id': 2,
-            'vector': [
-                0.46949086179692356,
-                -0.533609076732849,
-                -0.8344432775467099,
-                0.9797361846081416,
-                0.6294256393761057
-            ],
-            'color': 'purple'
-        }
-    ]
-})
-
-// 4. Upsert a record
-res = client.upsert({
-    collection_name: "test_collection",
+// Upsert a single entity
+const result = await milvusClient.upsert({
+    collection_name: 'my_collection',
     data: {
-        'id': 0,
-        'vector': [
-            0.6186516144460161,
-            0.5927442462488592,
-            0.848608119657156,
-            0.9287046808231654,
-            -0.42215796530168403
-        ],
-        'color': 'grass-green'
-    }
-})
+        id: 0,
+        vector: [0.62, 0.59, 0.85, 0.93, -0.42],
+        color: 'grass-green',
+    },
+});
 
-// 4. Upsert multiple records
-res = client.upsert({
-    collection_name: "test_collection",
+// Upsert multiple entities
+const result2 = await milvusClient.upsert({
+    collection_name: 'my_collection',
     data: [
-        {
-            'id': 1,
-             'vector': [
-                 0.3457690490452393,
-                 -0.9401784221711342,
-                 0.9123948134344333,
-                 0.49519396415367245,
-                 -0.558567588166478
-             ],
-             'color': 'mud-brown'
-       },
-       {
-           'id': 2,
-           'vector': [
-               0.42349086179692356,
-               -0.533609076732849,
-               -0.8344432775467099,
-               0.675761846081416,
-               0.57094256393761057
-           ],
-           'color': 'violet-purple'
-       }
-   ]
-})
+        { id: 1, vector: [0.37, -0.94, 0.92, 0.50, -0.56], color: 'mud-brown' },
+        { id: 2, vector: [0.47, -0.53, -0.83, 0.98, 0.63], color: 'violet-purple' },
+    ],
+});
 
+console.log(result2.upsert_cnt);
 ```
-

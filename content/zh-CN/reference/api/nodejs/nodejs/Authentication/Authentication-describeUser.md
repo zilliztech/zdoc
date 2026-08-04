@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "describeUser() | Node.js"
 slug: /node/node/Authentication-describeUser
 sidebar_label: "describeUser()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This is a method template. | Node.js"
+description: "这是一个方法模板。 | Node.js"
 type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
 sidebar_position: 10
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,86 +31,96 @@ import Admonition from '@theme/Admonition';
 
 # describeUser()
 
-This is a method template.
+这是一个方法模板。
 
 ```javascript
-describeUser(data): Promise<SelectUserResponse>
+await milvusClient.describeUser(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.describeUser({
+await milvusClient.describeUser({
     includeRoleInfo?: boolean,
     timeout?: number,
     username: string
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **username** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the user to describe.
+    要描述的用户名称。
 
 - **includeRoleInfo** (*boolean*) -
 
-    A boolean value indicating whether to include role information.
+    一个布尔值，用于指示是否包含角色信息。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<SelectUserResponse>*
+**返回值** *Promise&lt;SelectUserResponse&gt;*
 
-This method returns a promise that resolves to a **SelectUserResponse** object.
+此方法返回一个 Promise，该 Promise 解析为一个 **SelectUserResponse** 对象。
 
-```javascript
+```typescript
 {
-    result: UserResult[],
-    status: ResStatus
+    results: UserResult[],
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **UserResult**
-
-    A **UserResult** type.
-
-    - **roles** (*RoleEntity[]*) -
-
-        - **name** (*string*) - 
-
-            The roles that have been granted to the user.
+- **results** (*UserResult[]*) -<br/>
+  **UserResult** 对象列表。对于 `describeUser()`，此列表仅包含一个条目，用于描述所请求的用户。
 
     - **user** (*User*) -
 
-        - **name** (*string*) - 
+        用于标识该用户的 **User** 对象。
 
-            The roles that have been granted to the user.
+        - **name** (*string*) -
 
-- **ResStatus**
+        用户名。
 
-    A **ResStatus** object.
+        - **name** (*string*) -
+
+            用户名。
+
+    - **roles** (*RoleEntity[]*) -
+
+        分配给此用户的角色列表。
+
+        - **name** (*string*) -
+
+        角色名称。
+
+        - **name** (*string*) -
+
+            角色名称。
+
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        指示操作结果的代码。如果此操作成功，则始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        指示发生错误的错误代码。如果此操作成功，则始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        指示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
 milvusClient.describeUser({username: 'name'})

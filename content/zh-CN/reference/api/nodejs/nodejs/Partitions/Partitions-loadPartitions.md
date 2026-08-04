@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "loadPartitions() | Node.js"
 slug: /node/node/Partitions-loadPartitions
 sidebar_label: "loadPartitions()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation loads a specific set of partitions in a specified collection into memory. | Node.js"
+description: "此操作会将指定 collection 中的一组特定 partitions 加载到内存中。 | Node.js"
 type: docx
 token: Pyh3dttWKoBqcBx8FGhcArhAnqg
 sidebar_position: 6
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - 向量数据库
+  - IVF
+  - knn
+  - 图像搜索
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # loadPartitions()
 
-This operation loads a specific set of partitions in a specified collection into memory.
+此操作会将指定 collection 中的一组特定 partitions 加载到内存中。
 
 ```javascript
-loadPartitions(data): Promise<ResStatus>
+await milvusClient.loadPartitions(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.loadPartitions({
+await milvusClient.loadPartitions({
     db_name: string,
     collection_name: string,
     partition_names: string[],
@@ -50,39 +50,39 @@ milvusClient.loadPartitions({
  });
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    保存目标 collection 的数据库名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    已存在的 collection 名称。
 
 - **partition_names** (string[]) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    A list of the names of the partitions to load.
+    要加载的 partitions 名称列表。
 
 - **replica_number** (*number*) -
 
-    The number of replicas of the partition.
+    partition 的副本数量。
 
 - **resource_groups** (*string[]*) -
 
-    A list of the resource groups in the partition.
+    partition 所在的资源组列表。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作将超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，其解析结果为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -92,24 +92,27 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-new milvusClient(MILUVS_ADDRESS).loadPartitions({
+new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+}).loadPartitions({
     collection_name: 'my_collection',
     partition_names: ['my_partition'],
  });

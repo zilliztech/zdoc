@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listGrants() | Node.js"
 slug: /node/node/Authentication-listGrants
 sidebar_label: "listGrants()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation lists the privileges granted to the specified role. | Node.js"
+description: "此操作列出授予指定角色的权限。 | Node.js"
 type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 18
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - listGrants()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # listGrants()
 
-This operation lists the privileges granted to the specified role.
+此操作列出授予指定角色的权限。
 
 ```javascript
-listGrants(data): Promise<SelectGrantResponse>
+await milvusClient.listGrants(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
  milvusClient.listGrants({
@@ -45,99 +45,46 @@ listGrants(data): Promise<SelectGrantResponse>
  });
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - roleName (*string*)  
 
-    The target role name
+    目标角色名称
 
-    Setting this to the name of a non-existing role may result in errors.
+    将其设置为不存在的角色名称可能会导致错误。
 
-*Returns Promise\<SelectGrantResponse>*
+**返回值** *Promise&lt;SelectGrantResponse&gt;*
 
-This method returns a promise that resolves to a **SelectGrantResponse** object.
+此方法返回一个 Promise，该 Promise 会解析为一个 **SelectGrantResponse** 对象。
 
-```javascript
+```typescript
 {
-    "entities": [
-        {
-            db_name: string,
-            grantor: { privilege: { name: string }, user: { name: string } },
-            object: { name: string },
-            object_name: string,
-            role: { name: string }
-        }
-    ],
-    "status": ResStatus
+    entities: GrantEntity[],
+    status:  ResStatus
+}
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **entities** (*GrantEntity[]*) -
+- **entities** (*GrantEntity[]*) -<br/>
+  附加到所请求角色的授权列表。每一项都将某项权限与目标对象以及授予该权限的主体进行配对。有关完整的 **GrantEntity** 字段说明，请参阅 `describeRole()` 文档。
 
-    A list of grant entities, each of which is shaped as follows:
-
-    - **db_name** (*string*) -
-
-        The name of the database in which the privilege has been granted.
-
-    - **grantor** (*Grantor*) -
-
-        A **Grantor** object that is shaped as follows:
-
-        - **privilege** (*PrivilegeEntity*) -
-
-            A **PrivilegeEntity** object that is shaped as follows:
-
-            - **name** (*string*) - 
-
-                The name of the granted privilege.
-
-        - **user** (*User*) - 
-
-            A **User** object that is shaped as follows:
-
-            - **name** (*string*) - 
-
-                The name of the user that grants the above privilege to the role. 
-
-    - **object** (*ObjectEntity*) -
-
-        An **ObjectEntity** object that is shaped as follows:
-
-        - **name** (*string*) - 
-
-            The name of the object entity.
-
-    - **object_name** (*string*) -
-
-        The name of a specific object within the above object entity.
-
-    - **role** (*RoleEntity*) -   
-
-        A **RoleEntity** object that is shaped as follows:
-
-        - **name** (*string*) - 
-
-            The name of the role to which the privilege has been granted.
-
-- **status** (*ResStatus*) -
-
-    A **ResStatus object.
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```javascript
  milvusClient.listGrants({

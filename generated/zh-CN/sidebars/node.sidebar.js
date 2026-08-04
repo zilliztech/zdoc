@@ -29,9 +29,39 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/nodejs/nodejs/Client/Client-connect",
+        "label": "connect()",
+        "key": "doc:api/nodejs/nodejs/Client/client-connect"
+      },
+      {
+        "type": "doc",
         "id": "api/nodejs/nodejs/Client/Client-MilvusClient",
         "label": "MilvusClient",
         "key": "doc:api/nodejs/nodejs/Client/client-milvusclient"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Client/Client-close",
+        "label": "close()",
+        "key": "doc:api/nodejs/nodejs/Client/client-close"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Client/Client-session",
+        "label": "session()",
+        "key": "doc:api/nodejs/nodejs/Client/client-session"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Client/Client-getVersion",
+        "label": "getVersion()",
+        "key": "doc:api/nodejs/nodejs/Client/client-getversion"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Client/Client-use",
+        "label": "use()",
+        "key": "doc:api/nodejs/nodejs/Client/client-use"
       }
     ]
   },
@@ -159,6 +189,175 @@ module.exports = [
         "id": "api/nodejs/nodejs/Collections/Collections-addCollectionFields",
         "label": "addCollectionFields()",
         "key": "doc:api/nodejs/nodejs/Collections/collections-addcollectionfields"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-addCollectionFunction",
+        "label": "addCollectionFunction()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-addcollectionfunction"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-alterCollectionFunction",
+        "label": "alterCollectionFunction()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-altercollectionfunction"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-batchDescribeCollections",
+        "label": "batchDescribeCollections()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-batchdescribecollections"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-dropCollectionFunction",
+        "label": "dropCollectionFunction()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-dropcollectionfunction"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-getPkField",
+        "label": "getPkField()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-getpkfield"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-getPkFieldName",
+        "label": "getPkFieldName()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-getpkfieldname"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-getPkFieldType",
+        "label": "getPkFieldType()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-getpkfieldtype"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-truncateCollection",
+        "label": "truncateCollection()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-truncatecollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress",
+        "label": "getRefreshExternalCollectionProgress()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-getrefreshexternalcollectionprogress"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-listRefreshExternalCollectionJobs",
+        "label": "listRefreshExternalCollectionJobs()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-listrefreshexternalcollectionjobs"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Collections/Collections-refreshExternalCollection",
+        "label": "refreshExternalCollection()",
+        "key": "doc:api/nodejs/nodejs/Collections/collections-refreshexternalcollection"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Data Import",
+    "key": "category:api/nodejs/nodejs/dataimport",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-createImportJobs",
+        "label": "createImportJobs()",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-createimportjobs"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-HttpImportCreateReq",
+        "label": "HttpImportCreateReq",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-httpimportcreatereq"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-HttpImportCreateResponse",
+        "label": "HttpImportCreateResponse",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-httpimportcreateresponse"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-HttpImportListResponse",
+        "label": "HttpImportListResponse",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-httpimportlistresponse"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-HttpImportProgressReq",
+        "label": "HttpImportProgressReq",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-httpimportprogressreq"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-HttpImportProgressResponse",
+        "label": "HttpImportProgressResponse",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-httpimportprogressresponse"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-listImportJobs",
+        "label": "listImportJobs()",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-listimportjobs"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-bulkInsert",
+        "label": "bulkInsert()",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-bulkinsert"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-BulkWriter",
+        "label": "BulkWriter",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-bulkwriter"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-BulkWriterOptions",
+        "label": "BulkWriterOptions",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-bulkwriteroptions"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-BulkWriterSchema",
+        "label": "BulkWriterSchema",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-bulkwriterschema"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-FlushEvent",
+        "label": "FlushEvent",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-flushevent"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-Formatter",
+        "label": "Formatter",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-formatter"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-listImportTasks",
+        "label": "listImportTasks()",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-listimporttasks"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-Storage",
+        "label": "Storage",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-storage"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/DataImport/DataImport-getImportState",
+        "label": "getImportState()",
+        "key": "doc:api/nodejs/nodejs/DataImport/dataimport-getimportstate"
       }
     ]
   },
@@ -292,6 +491,97 @@ module.exports = [
         "id": "api/nodejs/nodejs/Management/Management-MetricType",
         "label": "MetricType",
         "key": "doc:api/nodejs/nodejs/Management/management-metrictype"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Management/Management-flushAll",
+        "label": "flushAll()",
+        "key": "doc:api/nodejs/nodejs/Management/management-flushall"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Management/Management-flushAllSync",
+        "label": "flushAllSync()",
+        "key": "doc:api/nodejs/nodejs/Management/management-flushallsync"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Management/Management-getFlushAllState",
+        "label": "getFlushAllState()",
+        "key": "doc:api/nodejs/nodejs/Management/management-getflushallstate"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Management/Management-getReplicas",
+        "label": "getReplicas()",
+        "key": "doc:api/nodejs/nodejs/Management/management-getreplicas"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Management/Management-loadCollectionAsync",
+        "label": "loadCollectionAsync()",
+        "key": "doc:api/nodejs/nodejs/Management/management-loadcollectionasync"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Snapshot",
+    "key": "category:api/nodejs/nodejs/snapshot",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-createSnapshot",
+        "label": "createSnapshot()",
+        "key": "doc:api/nodejs/nodejs/Snapshot/snapshot-createsnapshot"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-describeSnapshot",
+        "label": "describeSnapshot()",
+        "key": "doc:api/nodejs/nodejs/Snapshot/snapshot-describesnapshot"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-dropSnapshot",
+        "label": "dropSnapshot()",
+        "key": "doc:api/nodejs/nodejs/Snapshot/snapshot-dropsnapshot"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-getRestoreSnapshotState",
+        "label": "getRestoreSnapshotState()",
+        "key": "doc:api/nodejs/nodejs/Snapshot/snapshot-getrestoresnapshotstate"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-listRestoreSnapshotJobs",
+        "label": "listRestoreSnapshotJobs()",
+        "key": "doc:api/nodejs/nodejs/Snapshot/snapshot-listrestoresnapshotjobs"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-listSnapshots",
+        "label": "listSnapshots()",
+        "key": "doc:api/nodejs/nodejs/Snapshot/snapshot-listsnapshots"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-pinSnapshotData",
+        "label": "pinSnapshotData()",
+        "key": "doc:api/nodejs/nodejs/Snapshot/snapshot-pinsnapshotdata"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-restoreSnapshot",
+        "label": "restoreSnapshot()",
+        "key": "doc:api/nodejs/nodejs/Snapshot/snapshot-restoresnapshot"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Snapshot/Snapshot-unpinSnapshotData",
+        "label": "unpinSnapshotData()",
+        "key": "doc:api/nodejs/nodejs/Snapshot/snapshot-unpinsnapshotdata"
       }
     ]
   },
@@ -492,6 +782,12 @@ module.exports = [
         "id": "api/nodejs/nodejs/Authentication/Authentication-updateUser",
         "label": "updateUser()",
         "key": "doc:api/nodejs/nodejs/Authentication/authentication-updateuser"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Authentication/Authentication-hasRole",
+        "label": "hasRole()",
+        "key": "doc:api/nodejs/nodejs/Authentication/authentication-hasrole"
       }
     ]
   },
@@ -500,6 +796,12 @@ module.exports = [
     "label": "Database",
     "key": "category:api/nodejs/nodejs/database",
     "items": [
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Database/Database-alterDatabase",
+        "label": "alterDatabase()",
+        "key": "doc:api/nodejs/nodejs/Database/database-alterdatabase"
+      },
       {
         "type": "doc",
         "id": "api/nodejs/nodejs/Database/Database-createDatabase",
@@ -535,6 +837,12 @@ module.exports = [
         "id": "api/nodejs/nodejs/Database/Database-alterDatabaseProperties",
         "label": "alterDatabaseProperties()",
         "key": "doc:api/nodejs/nodejs/Database/database-alterdatabaseproperties"
+      },
+      {
+        "type": "doc",
+        "id": "api/nodejs/nodejs/Database/Database-describeDatabase",
+        "label": "describeDatabase()",
+        "key": "doc:api/nodejs/nodejs/Database/database-describedatabase"
       }
     ]
   },

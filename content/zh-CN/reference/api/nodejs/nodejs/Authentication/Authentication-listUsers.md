@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listUsers() | Node.js"
 slug: /node/node/Authentication-listUsers
 sidebar_label: "listUsers()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation lists currently available users. | Node.js"
+description: "此操作列出当前可用的用户。 | Node.js"
 type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
 sidebar_position: 21
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,60 +31,58 @@ import Admonition from '@theme/Admonition';
 
 # listUsers()
 
-This operation lists currently available users.
+此操作列出当前可用的用户。
 
 ```javascript
-listUsers(data): Promise<ListCredUsersResponse>
+await milvusClient.listUsers(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
 milvusClient.listUsers()
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-*Returns Promise\<ListCredUsersResponse>*
+**返回值** *Promise&lt;ListCredUsersResponse&gt;*
 
-This method returns a promise that resolves to a **ListCredUsersResponse** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ListCredUsersResponse** 对象。
 
-```javascript
+```typescript
 {
-    usernames: string
-    status: ResStatus
+    usernames: string[],
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **usernames** (*string[]*) -
+- **usernames** (*string[]*) -<br/>
+  当前 Milvus 实例中存在的用户名列表。
 
-    A list of user names.
-
-- **ResStatus**
-
-    A **ResStatus object.
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
 milvusClient.listUsers()

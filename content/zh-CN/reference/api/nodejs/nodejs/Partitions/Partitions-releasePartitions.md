@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "releasePartitions() | Node.js"
 slug: /node/node/Partitions-releasePartitions
 sidebar_label: "releasePartitions()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation releases the partitions in a specified collection from memory. | Node.js"
+description: "此操作会将指定 collection 中的 partitions 从内存中释放。 | Node.js"
 type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
 sidebar_position: 8
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # releasePartitions()
 
-This operation releases the partitions in a specified collection from memory.
+此操作会将指定 collection 中的 partitions 从内存中释放。
 
 ```javascript
-releasePartitions(data): Promise<ResStatus>
+await milvusClient.releasePartitions(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.releasePartitions({
+await milvusClient.releasePartitions({
     db_name: string,
     collection_name: string,
     partition_names: string[],
@@ -48,33 +48,33 @@ milvusClient.releasePartitions({
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    保存目标 collection 的数据库名称。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of an existing collection.
+    已存在的 collection 名称。
 
 - **partition_names** (*string[]*) -
 
     **[REQUIRED]**
 
-    A list of the names of the partitions to release.
+    要释放的 partitions 名称列表。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作将超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -84,24 +84,27 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误码。如果此操作成功，则始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-new milvusClient(MILUVS_ADDRESS).releasePartitions({
+new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+}).releasePartitions({
     collection_name: 'my_collection',
     partition_names: ['my_partition'],
  });

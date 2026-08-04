@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "searchIterator() | Node.js"
 slug: /node/node/Vector-searchIterator
 sidebar_label: "searchIterator()"
-added_since: v2.5.x
-last_modified: v2.6.x
-deprecate_since: false
 beta: false
+added_since: v2.5.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation conducts a scalar filtering with a specified boolean expression. | Node.js"
+description: "此操作以迭代方式执行标量过滤查询，并按批返回结果。当您需要增量处理大型结果集，或总结果数超过单次 query() 调用可返回的数量时，请使用此操作而不是单次 query() 调用。 | Node.js"
 type: docx
-token: WaAvdBOvCoeLeCxKXtQct12gnGh
-sidebar_position: 11
+token: K5APdBqphoQG7vxU4P2ccr5Wnig
+sidebar_position: 9
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,360 +31,105 @@ import Admonition from '@theme/Admonition';
 
 # searchIterator()
 
-This operation conducts a scalar filtering with a specified boolean expression.
+此操作以迭代方式执行标量过滤查询，并按批返回结果。当您需要增量处理大型结果集，或总结果数超过单次 query() 调用可返回的数量时，请使用此操作而不是单次 query() 调用。
 
 ```javascript
-queryIterator(data): Promise<any>
+await milvusClient.queryIterator(data: QueryIteratorReq)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
- milvusClient.query({
-   db_name: string,
-   collection_name: string,
-   partition_names?: string[];
-   anns_field?: string;
-   data?: SearchDataType;
-   output_fields?: string[];
-   limit?: number; 
-   filter?: string; 
-   exprValues?: keyValueObj; 
-   params?: keyValueObj; 
-   metric_type?: string; 
-   consistency_level?: ConsistencyLevelEnum; 
-   ignore_growing?: boolean;
-   group_by_field?: string;
-   group_size?: number; 
-   strict_group_size?: boolean;
-   hints?: string;
-   round_decimal?: number; 
-   transformers?: OutputTransformers;
-   rerank?: RankerObj | FunctionObject | FunctionScore;
-   batchSize: number;
-   external_filter_fn: (row: SearchResultData) => boolean;
+await milvusClient.queryIterator({
+    collection_name: string,
+    batchSize: number,
+    filter?: string,
+    limit?: number,
+    output_fields?: string[],
+    partition_names?: string[],
+    consistency_level?: ConsistencyLevelEnum,
+    db_name?: string,
+    timeout?: number,
 })
 ```
 
-**PARAMETERS:**
-
-- **db_name** (*string*) -
-
-    The name of the database to which the target collection belongs.
+**参数：**
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the collection to search
-
-- **partition_names** (*string[]*) -
-
-    A list of the names of the partitions to search.
-
-- **anns_field** (*string*) -
-
-    The name of the target vector field for this operation. It is mandatory if you are searching in a collection with multiple vector fields.
-
-- **data** (*number[]* | *number[][]*) -
-
-    A list of vector embeddings.
-
-    Zilliz Cloud searches for the most similar vector embeddings to the specified ones.
-
-- **output_fields** (*string[]*) -
-
-    A list of field names to include in each entity in return.
-
-    The value defaults to **None**. If left unspecified, only the primary field is included.
-
-- **limit** (*number*) - 
-
-    The total number of entities to return.
-
-    You can use this parameter in combination with **offset** in **param** to enable pagination.
-
-    The sum of this value and **offset** in **param** should be less than 16,384. 
-
-    In a grouping search, however, `limit` specifies the maximum number of groups to return, rather than individual entities. Each group is formed based on the specified `group_by_field`.
-
-- **filter** (*string*) -
-
-    A scalar filtering condition to filter matching entities. 
-
-    The value defaults to an empty string, indicating that no condition applies.
-
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
-
-- **exprValues** (*keyValueObj*) -
-
-    If you choose to use placeholders in `filter` as stated in [Filtering Templating](/docs/filtering-templating), then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
-
-- **params** (*KeyValueObj*) -
-
-    The additional search parameters in key-value pairs.
-
-    - **radius** (*number*) -
-
-        Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
-
-    - **range_filter**  (*number*) -  
-
-        Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
-
-    - **level** (*number*)
-
-        Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
-
-        The value defaults to **1**, and ranges from **1** to **5**. Increasing the value results in a higher recall rate with degraded search performance.
-
-    - **page_retain_order** (*bool*) -
-
-        Whether to retain the order of the search result when `offset` is provided. 
-
-        This parameter applies only when you also set `radius`.
-
-- **metric_type** (*string*) -
-
-    The metric type used to measure similarity between vectors. The value varies with the vector field type. The following table lists the mapping between vector field types and their supported metric types.
-
-    <table>
-       <tr>
-         <th><p>Field Type</p></th>
-         <th><p>Dimension Range</p></th>
-         <th><p>Supported Metric Types</p></th>
-         <th><p>Default Metric Type</p></th>
-       </tr>
-       <tr>
-         <td><p><code>FLOAT_VECTOR</code></p></td>
-         <td><p>2-32,768</p></td>
-         <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
-         <td><p><code>COSINE</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>FLOAT16_VECTOR</code></p></td>
-         <td><p>2-32,768</p></td>
-         <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
-         <td><p><code>COSINE</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>BFLOAT16_VECTOR</code></p></td>
-         <td><p>2-32,768</p></td>
-         <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
-         <td><p><code>COSINE</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>INT8_VECTOR</code></p></td>
-         <td><p>2-32,768</p></td>
-         <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
-         <td><p><code>COSINE</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>SPARSE_FLOAT_VECTOR</code></p></td>
-         <td><p>No need to specify the dimension.</p></td>
-         <td><p><code>IP</code>, <code>BM25</code> (used only for full text search)</p></td>
-         <td><p><code>IP</code></p></td>
-       </tr>
-       <tr>
-         <td><p><code>BINARY_VECTOR</code></p></td>
-         <td><p>8-32,768&ast;8</p></td>
-         <td><p><code>HAMMING</code>, <code>JACCARD</code>, <code>MHJACCARD</code></p></td>
-         <td><p><code>HAMMING</code></p></td>
-       </tr>
-    </table>
-
-- **consistency_level** (*ConsistencyLevelEnum*) -
-
-    The consistency level of the target collection. The value defaults to **Bounded** (**1**) with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
-
-- **ignore_growing** (*boolean*) -
-
-    A boolean value indicating whether to skip the search in growing segments.
-
-- **group_by_field** (*string*) -
-
-    Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
-
-- **group_size** (*number*) -
-
-    The target number of entities to return within each group in a grouping search. For example, setting `group_size=2` instructs the system to return up to 2 of the most similar entities (e.g., document passages or vector representations) within each group. Without setting `group_size`, the system defaults to returning only 1 entity per group.
-
-- **strict_group_size** (*boolean*) -
-
-    This Boolean parameter dictates whether `group_size` should be strictly enforced. When `group_size=true`, the system will attempt to fill each group with exactly `group_size` results, as long as sufficient data exists within each group. If there is an insufficient number of entities in a group, it will return only the available entities, ensuring that groups with adequate data meet the specified `group_size`.
-
-- **hints** (*string*) -
-
-     A hints string to improve search performance.
-
-- **round_decimal** (*number*) -
-
-    The number of decimal places to keep in the final results.
-
-- **transformers** (*OutputTransformers*) -
-
-    A custom function to convert data for the following data types:
-
-    - BFloat16Vector (`(bf16bytes: Uint8Array) => BFloat16Vector;`)
-
-    - Float16Vector (`(f16: Uint8Array) => Float16Vector;`)
-
-    - SparseFloatVector (`(sparse: SparseVectorDic) => SparseFloatVector;`)
-
-- **rerank** (*RerankerObj* | *FunctionObject* | *FunctionScore*) -
-
-    A reranking strategy with its custom parameters. You can either use a **RerankerObj**, a **FunctionObject**, or a **FunctionScore**.
-
-    A **RerankerObj** has the following parameters:
-
-    - **strategy** (*string*) -
-
-        A re-ranking strategy. Possible values are:
-
-        - **RRF** ("rrf")
-
-            This strategy is recommended when there is no specific emphasis. The RRF can effectively balance the importance of each vector field.
-
-        - **WEIGHTED** ("weighted")
-
-            This strategy is recommended if you require the results to emphasize a particular vector field. The WeightedRanker allows you to assign higher weights to certain vector fields, emphasizing them more. For instance, in multimodal searches, textual descriptions of an image might be considered more important than the colors in this image.
-
-    - **params** (*keyValueObj*) -
-
-        The parameters are specific to reranking strategies.
-
-        - When using the RRFRanker strategy, you need to input the parameter value `k` into the RRFRanker. The default value of `k` is 60. This parameter helps to determine how the ranks are combined from different ANN searches, aiming to balance and blend the importance across all searches.
-
-        - When using the WeightedRanker strategy, you need to input weight values into the `WeightedRanker` function. The number of basic ANN searches in a Hybrid Search corresponds to the number of values that need to be inputted. The input values should be in the range [0,1], with values closer to 1 indicating greater importance.
-
-    A **FunctionObject** has the following structure.
-
-    - **name** (*string*)
-
-        The name of the function. This identifier is used to reference the function within queries and collections.
-
-    - **description** (*string*)
-
-        A brief description of the function’s purpose. This can be useful for documentation or clarity in larger projects and defaults to an empty string.
-
-    - **type** (*[FunctionType](./Collections-FunctionType)*)
-
-        The type of function for processing raw data. Possible values for this parameter is`FunctionType.RERANK`.
-
-    - **input_field_names** (*string[]*)
-
-        Leave this parameter value as an empty array.
-
-    A **FunctionScore** has the following structure.
-
-    - **functions** (*FunctionObject[]*) -
-
-        A list of **FunctionObject** objects.
-
-    - **params** (*keyValueObj*) -  
-
-        Specifies how the specified functions work together. It has the following structure:
-
-        - **boost_mode** (*string*) -
-
-            Specifies how the specified weights influence the scores of any matching entities. Possible values are:
-
-            - `Multiply`
-
-                Indicates that the weighted value is equal to the original score of a matching entity multiplied by the specified weight.
-
-                This is the default value.
-
-            - `Sum`
-
-                Indicates that the weighted value is equal to the sum of the original score of a matching entity and the specified weight
-
-        - **function_mode** (*string*) -
-
-            Specifies how the weighted values from various Boost Rankers are processed. Possible values are:
-
-            - `Multiply`
-
-                Indicates that the final score of a matching entity is equal to the product of the weighted values from all Boost Rankers.
-
-                This is the default value.
-
-            - `Sum`
-
-                Indicates that the final score of a matching entity is equal to the sum of the weighted values from all Boost Rankers.
+    现有集合的名称。
 
 - **batchSize** (*number*) -
 
-    The number of entities to return each iteration.
+    **[必需]**
 
-- **external_filter_fn** (*(row: SearchResultData) => boolean*) -
+    每次迭代返回的实体数量。不能超过 16,384。
 
-    An external filtering function that takes the search results as the argument and filters out the entities that evaluate to `false` in the function.
+- **filter** (*string*) -
+
+    用于筛选匹配实体的标量过滤条件。将其设置为空字符串可返回所有实体。有关如何构建标量过滤条件，请参阅布尔表达式规则。
+
+- **limit** (*number*) -
+
+    所有迭代中可返回的实体总数上限。默认为匹配实体的总数（不设限制）。
+
+- **output_fields** (*string[]*) -
+
+    每个返回实体中要包含的字段名称列表。默认返回所有字段。
+
+- **partition_names** (*string[]*) -
+
+    要查询的分区名称。
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    此操作的一致性级别。可选值：Strong (0)、Bounded (1)、Session (2)、Eventually (3)。默认使用创建集合时设置的一致性级别。
+
+- **db_name** (*string*) -
+
+    包含该集合的数据库名称。
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长，单位为毫秒。
 
-**RETURNS** *Promise\<SearchResults>*
+- **order_by_fields** (*OrderByFields*) -
 
-This method returns a promise that resolves to a **SearchResults** object.
+    用于对搜索结果排序的字段。可选。
+
+**返回：**
+
+*Promise\<AsyncIterable\<object[]\>\>*
+
+返回一个异步可迭代对象。每次迭代会产出该批次的实体数组。当总结果数达到 `limit` 或所有匹配实体都已返回时，迭代结束。
+
+**异常：**
+
+- **MilvusError**
+
+    当此操作期间发生任何错误时，将引发此异常。
+
+## 示例\{#example}
 
 ```javascript
-{
-    status: object,
-    results: list[string],
-    recalls: list[number]
-}
-```
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-**PARAMETERS:**
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 
-- **status** (*object*) -
-
-    - **code** (*number*) -
-
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
-
-    - **error_code** (*string* | *number*) -
-
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
-
-    - **reason** (*string*) - 
-
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
-
-- **results** (*list[object]*) -
-
-    Each result object has the following keys:
-
-    - **id** (*string*) -
-
-        The ID of the search result
-
-    - **score**(*number*) -
-
-        The similarity score of the search result.
-
-    - Plus output fields and their values.
-
-- **recalls** (*list[number]*) -
-
-    Each number indicates the recall rate of a search against a query vector.
-
-## Example
-
-```plaintext
-const queryData = {
-  collection_name: 'my_collection',
-  expr: 'age > 30',
-  limit: 100,
-  pageSize: 10
-};
-
-const iterator = await queryIterator(queryData);
+const iterator = await milvusClient.queryIterator({
+    collection_name: 'my_collection',
+    filter: 'age > 30',
+    batchSize: 100,
+    limit: 500,
+    output_fields: ['id', 'age', 'text'],
+});
 
 for await (const batch of iterator) {
-  console.log(batch); // Process each batch of query results
+    console.log(`Batch of ${batch.length} entities:`, batch);
 }
 ```
-

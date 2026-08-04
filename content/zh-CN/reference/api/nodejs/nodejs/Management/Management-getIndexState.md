@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getIndexState() | Node.js"
 slug: /node/node/Management-getIndexState
 sidebar_label: "getIndexState()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation gets the status of the specified index. | Node.js"
+description: "此操作获取指定索引的状态。 | Node.js"
 type: docx
 token: HqE5d2jOroEuObxIjkZcHkX4nWX
 sidebar_position: 12
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - getIndexState()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # getIndexState()
 
-This operation gets the status of the specified index.
+此操作获取指定索引的状态。
 
 ```javascript
-getIndexState(data): Promise<GetIndexStateResponse>
+await milvusClient.getIndexState(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.getIndexState({
+await milvusClient.getIndexState({
       db_name?: string,
       collection_name: string,
       field_name?: string,
@@ -49,92 +49,62 @@ milvusClient.getIndexState({
 });
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    持有目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **index_name** (*string*) -
 
-    The name of the target index. This parameter and `field_name` are mutually exclusive. 
+    目标索引的名称。此参数与 `field_name` 互斥。
 
 - **field_name** (*string*) -
 
-    The name of the target field. This parameter and `index_name` are mutually exclusive. When you use this parameter, ensure that an index has been built upon the specified field.
+    目标字段的名称。此参数与 `index_name` 互斥。使用此参数时，请确保已在指定字段上构建索引。
 
 - **timeout** (number) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<GetIndexStateResponse>*
+**返回值** *Promise&lt;GetIndexStateResponse&gt;*
 
-This method returns a promise that resolves to a **GetIndexStateResponse** object.
+此方法返回一个 promise，该 promise 会解析为 **GetIndexStateResponse** 对象。
 
-```javascript
+```typescript
 {
     state: IndexState,
-    status: {
-        code: number,
-        error_code: string | number,
-        reason: string
-    }
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **state** (*IndexState*) -
+- **state** (*IndexState*) -<br/>
+  索引当前的构建状态。可能的值包括 **IndexStateNone**、**Unissued**、**InProgress**、**Finished** 和 **Failed**。
 
-    The state of the specified index. Possible values are as follows:
-
-    - **Failed** (4)
-
-        The index building process failed.
-
-    - **Finished** (3)
-
-        The index building process succeeds.
-
-    - **InProgress** (2)
-
-        The index building process is in progress.
-
-    - **Unissued** (1)
-
-        The index building process has not started yet.
-
-    - **IndexStateNone** (0)
-
-        The index state is unknown.
-
-- **total_rows** (*number*) -
-
-    The number of entities that already persisted in the specified collection.
-
-- **status** (*ResStatus*) -  
-
-    The status of the response.
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);

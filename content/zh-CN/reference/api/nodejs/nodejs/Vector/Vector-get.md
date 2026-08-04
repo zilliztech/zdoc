@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "get() | Node.js"
 slug: /node/node/Vector-get
 sidebar_label: "get()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation gets specific entities by their IDs. | Node.js"
+description: "此操作通过 ID 获取特定实体。 | Node.js"
 type: docx
 token: IbxXdvdZlonJk9xnlk2cZlIinCh
 sidebar_position: 3
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - get()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # get()
 
-This operation gets specific entities by their IDs.
+此操作通过其 ID 获取特定实体。
 
 ```javascript
-get(data): Promise<QueryResults>
+await milvusClient.get(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.get({
+await milvusClient.get({
    db_name: string,
    collection_name: string,
    consistency_level?: ConsistencyLevelEnum,
@@ -53,95 +53,98 @@ milvusClient.get({
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    持有目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **ids** (*string[]* | *number[]*) -
 
     **[REQUIRED]**
 
-    A specific entity ID or a list of entity IDs.
+    一个特定实体 ID 或实体 ID 列表。
 
 - **consistency_level** (*string*) -
 
-    The consistency level of the target collection.
+    目标集合的一致性级别。
 
 - **limit** (*number*) -
 
-    The total number of entities to return.
+    要返回的实体总数。
 
-    You can use this parameter in combination with **offset** in **param** to enable pagination.
+    你可以将此参数与 **param** 中的 **offset** 结合使用，以启用分页。
 
-    The sum of this value and **offset** in **param** should be less than 16,384. 
+    此值与 **param** 中 **offset** 的总和应小于 16,384。 
 
 - **offset** (*number*) -
 
-    The number of records to skip in the search result. 
+    在搜索结果中要跳过的记录数。 
 
-    You can use this parameter in combination with `limit` to enable pagination.
+    你可以将此参数与 `limit` 结合使用，以启用分页。
 
-    The sum of this value and `limit` should be less than 16,384. 
+    此值与 `limit` 的总和应小于 16,384。 
 
 - **partition_names** (*string[]*) -
 
-    A list of the names of the partitions in the target collection.
+    目标集合中分区名称的列表。
 
 - **output_fields** (*string[]*) -
 
-    A list of field names to include in each entity in return.
+    返回的每个实体中要包含的字段名称列表。
 
-    The value defaults to **None**. If left unspecified, all fields are selected as the output fields.
+    该值默认为 **None**。如果未指定，则选择所有字段作为输出字段。
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise&lt;QueryResults&gt;*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，解析为 **QueryResults** 对象。
 
-```javascript
+```typescript
 {
-    data: list[string],
-    status: object
+    data: Record<string, any>[],
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **data** (*list[string]*) -
+- **data** (*Record&lt;string, any&gt;[]*) -<br/>
+  主键与提供的 **ids** 匹配的行。每个条目都以字段名为键，并携带每个请求的 **output_fields** 条目的值以及主键。
 
-    A list of entities returned.
-
-- **status** (*object*) -
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        指示操作结果的代码。如果此操作成功，则始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        指示已发生错误的错误码。如果此操作成功，则始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        指示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
  const getResults = await milvusClient.get({
    collection_name: 'my_collection',
    ids: ['1','2','3','4','5','6','7','8'],

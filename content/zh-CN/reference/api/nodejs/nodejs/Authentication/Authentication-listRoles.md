@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listRoles() | Node.js"
 slug: /node/node/Authentication-listRoles
 sidebar_label: "listRoles()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation lists all custom roles. | Node.js"
+description: "此操作会列出所有自定义角色。 | Node.js"
 type: docx
 token: GIeMdvjlMoLwGrxUOu3cFw7bnWc
 sidebar_position: 20
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,111 +31,65 @@ import Admonition from '@theme/Admonition';
 
 # listRoles()
 
-This operation lists all custom roles.
+此操作会列出所有自定义角色。
 
 ```javascript
-listRoles(data): Promise<SelectRoleResponse>
+await milvusClient.listRoles(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.listRoles(
+await milvusClient.listRoles(
     includeUserInfo?: boolean,
     timeout?: number
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **includeUserInfo** (*boolean*) -
 
-    A boolean value indicating whether to include user information.
+    一个布尔值，用于指示是否包含用户信息。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
-**Returns** *Promise\<SelectRoleResponse>*
+**返回值** *Promise&lt;SelectRoleResponse&gt;*
 
-This method returns a promise that resolves to a **SelectRoleResponse** object.
+此方法返回一个 Promise，该 Promise 会解析为一个 **SelectRoleResponse** 对象。
 
-```javascript
+```typescript
 {
     results: RoleResult[],
-    status: ResStatus
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **results** 
+- **results** (*RoleResult[]*) -<br/>
+  **RoleResult** 对象列表，当前 Milvus 实例中定义的每个角色对应一个对象。有关完整的 **RoleResult** 字段说明，请参阅 `describeRole()` 文档。
 
-    - **RoleResult** *(RoleResult[]) -*
-
-        - **entities** (*GrantEntity[]*) -
-
-            - **db_name** (*string*) -
-
-                The name of the database(s) that the current role can access.
-
-            - **grantor** (*Grantor*) -
-
-                - **privilege** (*string*) -
-
-                    The privileges of the grantor
-
-                - **user** (*string*) -
-
-                    The name of grantor.
-
-            - **object** (*ObjectEntity*) -
-
-                - **name** (*RbacObjects*) -
-
-                    The object of the role. Possible values include *Collection, Global, and User.*
-
-            - **object_name** (*string*) -
-
-                The name of the object.
-
-            - **role** (*RoleEntity*) -
-
-                - **name** (*string*) -
-
-                    The name of the current role.
-
-        - **role** (*RoleEntity*) -
-
-            - **name** (*string*) -
-
-                The name of the current role.
-
-        - **users** (*User[]*) -
-
-            - **name** (*string*) -
-
-                The name(s) of the user(s) with the specified role.
-
-- **status**
-
-    A **ResStatus object.
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
 

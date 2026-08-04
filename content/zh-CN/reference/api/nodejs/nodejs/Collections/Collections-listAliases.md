@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listAliases() | Node.js"
 slug: /node/node/Collections-listAliases
 sidebar_label: "listAliases()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This is a method template. | Node.js"
+description: "这是一个方法模板。 | Node.js"
 type: docx
 token: KeoKdlitaog6n1xpX8McIIIrnWb
 sidebar_position: 14
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - 什么是语义搜索
+  - Embedding model
+  - 图像相似性搜索
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # listAliases()
 
-This is a method template.
+这是一个方法模板。
 
 ```javascript
-listAliases(data): Promise<ResStatus>
+await milvusClient.listAliases(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
-This method has the following alternatives.
+此方法具有以下形式。
 
 ```javascript
 listAliases({
@@ -49,54 +49,70 @@ listAliases({
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    持有目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作将超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise&lt;ListAliasesResponse&gt;*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ListAliasesResponse** 对象。
 
-```javascript
+```typescript
 {
-    code: number,
-    error_code: string | number,
-    reason: string
+    db_name: string,
+    aliases: string[],
+    collection_name: string,
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **code** (*number*) -
+- **db_name** (*string*) -<br/>
+  拥有所列别名的数据库。
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+- **aliases** (*string[]*) -<br/>
+  指向所请求集合的所有别名列表。
 
-- **error_code** (*string* | *number*) -
+- **collection_name** (*string*) -<br/>
+  所列别名指向的集合名称。
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
-- **reason** (*string*) - 
+    - **code** (*number*) -
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则该值保持为 **0**。
 
-## Example
+    - **error_code** (*string* | *number*) -
+
+        表示已发生错误的错误代码。如果此操作成功，则该值保持为 **Success**。
+
+    - **reason** (*string*) -
+
+        指示所报告错误原因的说明。如果此操作成功，则该值保持为空字符串。
+
+## 示例\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const res = await milvusClient.listAliases({ collection_name: 'my_collection' });
 ```
 

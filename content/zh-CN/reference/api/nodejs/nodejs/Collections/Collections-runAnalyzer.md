@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "runAnalyzer() | Node.js"
 slug: /node/node/Collections-runAnalyzer
 sidebar_label: "runAnalyzer()"
-added_since: v2.5.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.5.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation runs an analyzer on the provided text for test purposes. | Node.js"
+description: "此操作会对提供的文本运行分析器，以用于测试。 | Node.js"
 type: docx
 token: LsMldPd8GodoVqxCAZUcWYjdnwh
 sidebar_position: 18
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - runAnalyzer()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # runAnalyzer()
 
-This operation runs an analyzer on the provided text for test purposes.
+此操作会对提供的文本运行分析器，以用于测试。
 
 ```javascript
-runAnalyzer(data): Promise<RunAnalyzerResponse>
+await milvusClient.runAnalyzer(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
 milvusClient({
@@ -48,55 +48,103 @@ milvusClient({
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **analyzer_params** (*Record\<string, any>*) -
+- **analyzer_params** (*Record&lt;string, any&gt;*) -
 
-    The parameter for the analyzer.
+    分析器的参数。
 
 - **text** (*string* | *string[]*) -
 
-    The input text or a list of texts to be analyzed.
+    要分析的输入文本或文本列表。
 
 - **with_detail** (*boolean*) -
 
-    Optional flag indicating whether to return detailed analysis output.
+    可选标志，指示是否返回详细的分析输出。
 
 - **with_hash** (*boolean*) -
 
-    Optional flag indicating whether to include hash-based processing.
+    可选标志，指示是否包含基于哈希的处理。
 
-**RETURNS** *Promise*\<*RunAnalyzerResponse*>
+**返回值** *Promise&lt;RunAnalyzerResponse&gt;*
 
-This method returns a promise that resolves to a **RunAnalyzerResponse** object.
+此方法返回一个 Promise，该 Promise 会解析为一个 **RunAnalyzerResponse** 对象。
 
-```javascript
+```typescript
 {
     results: AnalyzerResult[],
-    status: ResStatus
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **results** (*AnalyzerResult[]*) -
-
-    The results of this operation, containing a set of tokens generated based on the specified analyzer parameters.
+- **results** (*AnalyzerResult[]*) -<br/>
+  分词输出。当 **text** 为单个字符串时，此列表包含一个条目；当 **text** 为数组时，各条目与输入顺序一一对应。
 
     - **tokens** (*AnalyzerToken[]*) -
 
-        A list of analyzed tokens. 
+        分析器生成的 token。
 
-- **status** (*ResStatus*) -  
+        - **token** (*string*) -
+
+        token 文本。
+
+        - **start_offset** (*number*) -
+
+        token 在输入中开始位置的从零开始字符偏移量。
+
+        - **end_offset** (*number*) -
+
+        token 结束后紧接位置的从零开始字符偏移量。
+
+        - **position** (*number*) -
+
+        token 在流中的位置，用于短语查询。
+
+        - **position_length** (*number*) -
+
+        token 跨越的流位置数。
+
+        - **hash** (*number*) -
+
+        token 的哈希值，当请求将 **with_hash** 设置为 **true** 时填充。
+
+        - **token** (*string*) -
+
+            token 文本。
+
+        - **start_offset** (*number*) -
+
+            token 在输入中开始位置的从零开始字符偏移量。
+
+        - **end_offset** (*number*) -
+
+            token 结束后紧接位置的从零开始字符偏移量。
+
+        - **position** (*number*) -
+
+            token 在流中的位置，用于短语查询。
+
+        - **position_length** (*number*) -
+
+            token 跨越的流位置数。
+
+        - **hash** (*number*) -
+
+            token 的哈希值，当请求将 **with_hash** 设置为 **true** 时填充。
+
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        指示操作结果的代码。如果此操作成功，则始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        指示已发生错误的错误码。如果此操作成功，则始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        指示所报告错误原因的说明。如果此操作成功，则始终为空字符串。

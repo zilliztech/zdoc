@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "removePrivilegesFromGroup() | Node.js"
 slug: /node/node/Authentication-removePrivilegesFromGroup
 sidebar_label: "removePrivilegesFromGroup()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation removes privileges from a specific privilege group in Milvus. | Node.js"
+description: "此操作从 Milvus 中的特定权限组移除权限。 | Node.js"
 type: docx
 token: EeAfdukBNoIIgCxX248c6VULnOb
 sidebar_position: 22
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - removePrivilegesFromGroup()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,45 +31,45 @@ import Admonition from '@theme/Admonition';
 
 # removePrivilegesFromGroup()
 
-This operation removes privileges from a specific privilege group in Milvus.
+此操作从 Milvus 中的特定权限组移除权限。
 
 ```javascript
-removePrivilegesFromGroup(data): Promise<ResStatus>
+await milvusClient.removePrivilegesFromGroup(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.removePrivilegesFromGroup({
+await milvusClient.removePrivilegesFromGroup({
    group_name: string,
    privileges: string[],
    timeout?: number
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **group_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of a privilege group.
+    权限组的名称。
 
 - **privileges** (*string[]*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The list of privileges to remove from the above group.
+    要从上述组中移除的权限列表。
 
 - **timeout** (*number*) -  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -79,21 +79,21 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
 await milvusClient.removePrivilegesFromGroup({

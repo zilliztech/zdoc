@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "checkHealth() | Node.js"
 slug: /node/node/Client-checkHealth
 sidebar_label: "checkHealth()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation checks the health status of the Milvus server. | Node.js"
+description: "此操作用于检查 Milvus 服务器的健康状态。 | Node.js"
 type: docx
 token: DDvudeY20o6tV5xwwo4cKovjnHf
 sidebar_position: 2
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - checkHealth()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,44 +31,44 @@ import Admonition from '@theme/Admonition';
 
 # checkHealth()
 
-This operation checks the health status of the Milvus server.
+此操作用于检查 Milvus 服务器的健康状态。
 
 ```javascript
-checkHealth(): Promise<CheckHealthResponse>
+await milvusClient.checkHealth()
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
 milvusClient.checkHealth()
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Promise*\<*CheckHealthResponse*>
 
-**RETURNS:**
+**返回：** *Promise&lt;CheckHealthResponse&gt;*
 
-A promise that resolves to a **CheckHealthResponse** object.
+此方法返回一个 Promise，该 Promise 会解析为一个 **CheckHealthResponse** 对象。
 
-```javascript
+```typescript
 {
     isHealthy: boolean,
-    reasons: []
+    reasons: string[]
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **isHealthy** (*boolean*) -
 
-    Whether the currently connected Milvus server is healthy.
+    一个布尔值，表示 Milvus 部署中的所有关键组件是否都处于健康状态。
 
-- **reasons** (*[]*) - 
+- **reasons** (*string[]*) -
 
-    The reasons for the currently connected Milvus server is unhealthy.
+    当 **isHealthy** 为 **false** 时，返回一个包含人类可读原因的列表，用于说明哪些组件不健康。当 **isHealthy** 为 **true** 时，该列表为空。
 
-## Examples
+## 示例\{#examples}
 
 ```javascript
 milvusClient.checkHealth()

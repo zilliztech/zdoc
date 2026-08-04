@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "checkCompatibility() | Node.js"
 slug: /node/node/Client-checkCompatibility
 sidebar_label: "checkCompatibility()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation checks the compatibility of the SDK with the Milvus server. | Node.js"
+description: "此操作用于检查 SDK 与 Milvus 服务器的兼容性。 | Node.js"
 type: docx
 token: Tq1Md4GuIoNbfuxK03ncIa7onMc
 sidebar_position: 1
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - checkCompatibility()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,43 +31,43 @@ import Admonition from '@theme/Admonition';
 
 # checkCompatibility()
 
-This operation checks the compatibility of the SDK with the Milvus server.
+此操作用于检查 SDK 与 Milvus 服务器的兼容性。
 
 ```javascript
-checkCompatibility(data?): Promise<any>
+await milvusClient.checkCompatibility(data?)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.checkCompatibility({
+await milvusClient.checkCompatibility({
     checker?: Function,
     message?: string
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **checker** (*Function*) -
 
-    A callback function that will be called if the current SDK is compatible.
+    如果当前 SDK 兼容，则会调用的回调函数。
 
 - **message** (*string*) -  
 
-    The error message to throw if the SDK is incompatible.
+    如果 SDK 不兼容，则抛出的错误消息。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Promise*\<*any*>
 
-**RETURNS:**
+**返回值：**
 
-A promise that resolves to the result of the specified checker function.
+一个 Promise，会解析为指定 `checker` 函数的结果。
 
-## Examples
+## 示例\{#examples}
 
 ```javascript
-milvusClient.checkCompatibility({
+await milvusClient.checkCompatibility({
    checker: () => { console.log("compatible") },
    message: "incompatible"
 });

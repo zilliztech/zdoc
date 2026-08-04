@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "deleteUser() | Node.js"
 slug: /node/node/Authentication-deleteUser
 sidebar_label: "deleteUser()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a user. | Node.js"
+description: "此操作会删除一个用户。 | Node.js"
 type: docx
 token: Cl5PdhU5jouHnrxyYXLcOQAZneb
 sidebar_position: 8
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - deleteUser()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,40 +31,40 @@ import Admonition from '@theme/Admonition';
 
 # deleteUser()
 
-This operation drops a user.
+此操作会删除一个用户。
 
 ```javascript
-deleteUser(data): Promise<ResStatus>
+await milvusClient.deleteUser(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
-This method has the following alternatives.
+此方法有以下可选形式。
 
 ```javascript
-milvusClient.deleteUser({
+await milvusClient.deleteUser({
     username: string,
     timeout?: number
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **username** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the user to drop.
+    要删除的用户名称。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -74,24 +74,24 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-milvusClient.deleteUser({
+await milvusClient.deleteUser({
     username: 'exampleUser'
 })
 ```

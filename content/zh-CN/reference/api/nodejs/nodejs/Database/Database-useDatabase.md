@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "useDatabase() | Node.js"
 slug: /node/node/Database-useDatabase
 sidebar_label: "useDatabase()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation sets the active database for the gRPC client. | Node.js"
+description: "此操作为 gRPC 客户端设置活动数据库。 | Node.js"
 type: docx
 token: NDcldy9OLo62DLxw1a9cFSLsnYb
 sidebar_position: 6
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,31 +31,31 @@ import Admonition from '@theme/Admonition';
 
 # useDatabase()
 
-This operation sets the active database for the gRPC client.
+此操作为 gRPC 客户端设置活动数据库。
 
 ```javascript
-useDatabase(data?): Promise<ResStatus>
+await milvusClient.useDatabase(data?)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.useDatabase({
+await milvusClient.useDatabase({
     db_name: string
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database to use.
+    要使用的数据库名称。
 
-    There should be a database with the specified name. Otherwise, exceptions will occur.
+    必须存在具有指定名称的数据库。否则，将会发生异常。
 
-**RETURNS** *Promise |\<ResStatus>*
+**返回值** *Promise |&lt;ResStatus&gt;*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -65,23 +65,26 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，该值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误代码。如果此操作成功，该值保持为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，该值保持为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.useDatabase({ db_name: 'new_db' });
 ```

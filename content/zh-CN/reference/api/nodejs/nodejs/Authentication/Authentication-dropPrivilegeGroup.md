@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "dropPrivilegeGroup() | Node.js"
 slug: /node/node/Authentication-dropPrivilegeGroup
 sidebar_label: "dropPrivilegeGroup()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation adds a user to a specific role. | Node.js"
+description: "此操作将用户添加到特定角色。 | Node.js"
 type: docx
 token: I63tdWAY2ok8V1xrK4tcrkwjncd
 sidebar_position: 12
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropPrivilegeGroup()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,31 +31,31 @@ import Admonition from '@theme/Admonition';
 
 # dropPrivilegeGroup()
 
-This operation adds a user to a specific role.
+此操作将用户添加到特定角色。
 
 ```javascript
-dropPrivilegeGroup(data): Promise<ResStatus>
+await milvusClient.dropPrivilegeGroup(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.dropPrivilegeGroup({
+await milvusClient.dropPrivilegeGroup({
    timeout?: number
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **timeout** (*number*) -  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a list of promises, each of which resolves to a **ResStatus** object.
+此方法返回一个 promise 列表，其中每个 promise 都会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -65,21 +65,21 @@ This method returns a list of promises, each of which resolves to a **ResStatus*
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误码。如果此操作成功，则其值保持为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
 milvusClient.dropPrivilegeGroup()

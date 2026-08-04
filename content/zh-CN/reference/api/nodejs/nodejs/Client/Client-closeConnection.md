@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "closeConnection() | Node.js"
 slug: /node/node/Client-closeConnection
 sidebar_label: "closeConnection()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation closes the current connection to the Milvus server. | Node.js"
+description: "此操作会关闭与 Milvus 服务器的当前连接。 | Node.js"
 type: docx
 token: HtOGdjTpOoG0RcxpGv1cCBcEnAh
 sidebar_position: 3
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - closeConnection()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,27 +31,27 @@ import Admonition from '@theme/Admonition';
 
 # closeConnection()
 
-This operation closes the current connection to the Milvus server.
+此操作会关闭与 Milvus 服务器的当前连接。
 
 ```javascript
-closeConnection(): Promise<CONNECT_STATUS>
+await milvusClient.closeConnection()
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
 milvusClient.closeConnection()
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
 *Promise*\<*CONNECT_STATUS*>
 
-**RETURNS:**
+**返回值：**
 
-A promise that resolves to the final status of the current connection to the Milvus server, which should be `SHUTDOWN`.
+一个 Promise，会解析为与 Milvus 服务器当前连接的最终状态，该状态应为 `SHUTDOWN`。
 
-## Example
+## 示例\{#example}
 
 ```javascript
 milvusClient.closeConnection()

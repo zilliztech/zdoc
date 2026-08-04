@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "FunctionType | Node.js"
 slug: /node/node/Collections-FunctionType
 sidebar_label: "FunctionType"
+beta: false
 added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Node.js"
+description: "这是一个提供以下常量的枚举。 | Node.js"
 type: docx
 token: Vq2VdsWJaoufsGx5stJcTuyPnDb
 sidebar_position: 17
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,23 +31,23 @@ import Admonition from '@theme/Admonition';
 
 # FunctionType
 
-This is an enumeration that provides the following constants.
+这是一个提供以下常量的枚举。
 
-## Constants
+## 常量\{#constants}
 
 - **BM25** = 1
 
-    Sets the function type to **BM25**.
+    将函数类型设置为 **BM25**。
 
 - **TEXTEMBEDDING** = 2
 
-    Sets the function type to **TEXTEMBEDDING**.
+    将函数类型设置为 **TEXTEMBEDDING**。
 
 - **RERANK** = 3
 
-    Sets the function type to **RERANK**.
+    将函数类型设置为 **RERANK**。
 
 - **Unknown** = 0
 
-    Sets the function type to **Unknown**.
+    将函数类型设置为 **Unknown**。
 

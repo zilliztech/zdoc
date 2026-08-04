@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "createIndex() | Node.js"
 slug: /node/node/Management-createIndex
 sidebar_label: "createIndex()"
+beta: false
 added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates an index for a specific collection. | Node.js"
+description: "此操作为指定集合创建索引。 | Node.js"
 type: docx
 token: Nu0Id3wzGoJIFyxkC7IcmjAznNf
 sidebar_position: 3
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # createIndex()
 
-This operation creates an index for a specific collection.
+此操作为指定集合创建索引。
 
 ```javascript
-createIndex(data): Promise<ResStatus>
+await milvusClient.createIndex(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.createIndex([
+await milvusClient.createIndex([
     {
        db_name?: string,
        collection_name: string,
@@ -63,49 +63,49 @@ milvusClient.createIndex([
  });
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database to which the target collection belongs.
+    目标集合所属数据库的名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **field_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the field in which to create an index.
+    要在其中创建索引的字段名称。
 
 - **index_name** (*string*) -
 
-    The name of the index to create.
+    要创建的索引名称。
 
 - **index_type** (*string*) -
 
-    The type of the index to create.
+    要创建的索引类型。
 
 - **metric_type** (*string*) -
 
-    The metric type used to measure vector distance. Possible values: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`, `BM25` (used only for full text search). For more information, refer to [Metric Types](https://milvus.io/docs/metric.md).
+    用于度量向量距离的度量类型。可能的值包括：`IP`、`L2`、`COSINE`、`HAMMING`、`JACCARD`、`BM25`（仅用于全文检索）。更多信息，请参阅 [Metric Types](https://milvus.io/docs/metric.md)。
 
-    This is available only when the specified field is a vector field.
+    仅当指定字段是向量字段时，此参数才可用。
 
 - **params** (*string*) -
 
-    Other index-specific parameters.
+    其他特定于索引的参数。
 
 - **timeout** (number) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回：** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -115,24 +115,24 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-milvusClient._createIndex({
+await milvusClient._createIndex({
    collection_name: "my_collection",
    field_name: "vector_field",
    index_name: "vector_index"

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getIndexBuildProgress() | Node.js"
 slug: /node/node/Management-getIndexBuildProgress
 sidebar_label: "getIndexBuildProgress()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation gets the build progress of the specified index. | Node.js"
+description: "此操作获取指定索引的构建进度。 | Node.js"
 type: docx
 token: G6CGdbM4QoNgr5xS1ZAc94lhnFd
 sidebar_position: 11
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Pinecone 向量数据库
+  - 音频搜索
+  - 什么是语义搜索
+  - Embedding 模型
   - zilliz
   - zilliz cloud
   - cloud
   - getIndexBuildProgress()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # getIndexBuildProgress()
 
-This operation gets the build progress of the specified index.
+此操作获取指定索引的构建进度。
 
 ```javascript
-getIndexBuildProgress(data): Promise<GetIndexBuildProgressResponse>
+await milvusClient.getIndexBuildProgress(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.getIndexBuildProgress({
+await milvusClient.getIndexBuildProgress({
       db_name?: string,
       collection_name: string,
       field_name: string,
@@ -49,77 +49,70 @@ milvusClient.getIndexBuildProgress({
 });
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    包含目标 collection 的数据库名称。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of an existing collection.
+    已存在 collection 的名称。
 
 - **index_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of the target index. This parameter and `field_name` are mutually exclusive. 
+    目标索引的名称。此参数与 `field_name` 互斥。
 
 - **field_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of the target field. This parameter and `index_name` are mutually exclusive. When you use this parameter, ensure that an index has been built upon the specified field.
+    目标字段的名称。此参数与 `index_name` 互斥。使用此参数时，请确保已在指定字段上构建索引。
 
 - **timeout** (number) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURNS** *Promise\<GetIndexBuildProgressResponse>*
+**返回值** *Promise&lt;GetIndexBuildProgressResponse&gt;*
 
-This method returns a promise that resolves to a **GetIndexBuildProgressResponse** object.
+此方法返回一个 promise，该 promise 会解析为一个 **GetIndexBuildProgressResponse** 对象。
 
-```javascript
+```typescript
 {
     indexed_rows: number,
     total_rows: number,
-    status: {
-        code: number,
-        error_code: string | number,
-        reason: string
-    }
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **indexed_rows** (*number*) -
+- **indexed_rows** (*number*) -<br/>
+  到目前为止已建立索引的行数。
 
-    The number of entities that have already been indexed.
+- **total_rows** (*number*) -<br/>
+  该索引覆盖的总行数。当 **indexed_rows** 等于 **total_rows** 时，构建完成。
 
-- **total_rows** (*number*) -
-
-    The number of entities that already persisted in the specified collection.
-
-- **status** (*ResStatus*) -  
-
-    The status of the response.
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        指示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        指示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        指示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);

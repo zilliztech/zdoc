@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "removeUserFromRole() | Node.js"
 slug: /node/node/Authentication-removeUserFromRole
 sidebar_label: "removeUserFromRole()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation removes a user from a specific role. | Node.js"
+description: "此操作会将用户从特定角色中移除。 | Node.js"
 type: docx
 token: XmyMdqvDLosr6oxzvhWcw8H2ntg
 sidebar_position: 23
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - removeUserFromRole()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,45 +31,45 @@ import Admonition from '@theme/Admonition';
 
 # removeUserFromRole()
 
-This operation removes a user from a specific role.
+此操作会将用户从特定角色中移除。
 
 ```javascript
-removeUserFromRole(data): Promise<ResStatus>
+await milvusClient.removeUserFromRole(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.removeUserFromRole({
+await milvusClient.removeUserFromRole({
    username: string,
    rolename: string,
    timeout?: number
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **username** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of a user.
+    用户名称。
 
 - **rolename** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of a role
+    角色名称
 
 - **timeout** (*number*) -  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -79,24 +79,24 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    指示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    指示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    指示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-milvusClient.removeUserFromRole({
+await milvusClient.removeUserFromRole({
    username: 'my',
    roleName: 'myrole'
  });

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "dropDatabaseProperties() | Node.js"
 slug: /node/node/Database-dropDatabaseProperties
 sidebar_label: "dropDatabaseProperties()"
+beta: false
 added_since: v2.5.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops the setting of the specified properties. | Node.js"
+description: "此操作删除指定属性的设置。 | Node.js"
 type: docx
 token: GulFdOWMboEK9bxnzMSc8Uf8n8b
 sidebar_position: 4
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabaseProperties()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,73 +31,73 @@ import Admonition from '@theme/Admonition';
 
 # dropDatabaseProperties()
 
-This operation drops the setting of the specified properties.
+此操作删除指定属性的设置。
 
 ```javascript
-dropDatabaseProperties(data): Promise<ResStatus>
+await milvusClient.dropDatabaseProperties(data)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This method applies only to dedicated clusters.</p>
+此方法仅适用于专属集群。
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.dropDatabaseProperties({
+await milvusClient.dropDatabaseProperties({
     db_name: string,
     delete_properties: string[],
     timeout?: number
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database whose properties are to be dropped.
+    要删除其属性的数据库名称。
 
-    There should be a database with the specified name. Otherwise, exceptions will occur.
+    应存在具有指定名称的数据库。否则将发生异常。
 
 - **delete_properties** (*string[]*) -
 
-    Names of the properties to drop in an array. Possible database properties are as follows:
+    以数组形式指定要删除的属性名称。可用的数据库属性如下：
 
     - **database.replica.number** (*int*) -
 
-        Number of replicas for the database.
+        数据库的副本数量。
 
     - **database.resource_groups** (*[]str*) -
 
-        Resource groups dedicated to the database.
+        专用于该数据库的资源组。
 
     - **database.diskQuota.mb** (*int*) -
 
-        Disk quota allocated to the database in megabytes (**MB**).
+        分配给数据库的磁盘配额，单位为兆字节（**MB**）。
 
     - **database.max.collections** (*int*) -
 
-        Maximum number of collections allowed in the database.
+        数据库中允许的最大 collection 数量。
 
     - **database.force.deny.writing** (*bool*) -
 
-        Whether to deny all write operations in the database.
+        是否拒绝数据库中的所有写入操作。
 
     - **database.force.deny.reading** (*bool*) -
 
-        Whether to deny all read operations in the database.
+        是否拒绝数据库中的所有读取操作。
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise |\<ResStatus>*
+**返回值** *Promise |&lt;ResStatus&gt;*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -107,24 +107,27 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.dropDatabaseProperties({ 
     db_name: 'new_db',
     delete_properties: ["database.replica.number"] 

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "addUserToRole() | Node.js"
 slug: /node/node/Authentication-addUserToRole
 sidebar_label: "addUserToRole()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation adds a user to a specific role. | Node.js"
+description: "此操作将用户添加到特定角色。 | Node.js"
 type: docx
 token: Qc72dTKgroNdHjxIG2xcwNdmnHb
 sidebar_position: 2
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - addUserToRole()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,45 +31,45 @@ import Admonition from '@theme/Admonition';
 
 # addUserToRole()
 
-This operation adds a user to a specific role.
+此操作将用户添加到特定角色。
 
 ```javascript
-addUserToRole(data): Promise<ResStatus>
+await milvusClient.addUserToRole(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.addUserToRole({
+await milvusClient.addUserToRole({
    username: string,
    rolename: string,
    timeout?: number
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **username** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of a user.
+    用户名称。
 
 - **rolename** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of a role
+    角色名称
 
 - **timeout** (*number*) -  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 Promise，该 Promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -79,24 +79,24 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    指示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    指示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    指示所报告错误原因的原因说明。如果此操作成功，则其值保持为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-milvusClient.addUserToRole({
+await milvusClient.addUserToRole({
     username: 'myUser',
     roleName: 'myRole'
 });

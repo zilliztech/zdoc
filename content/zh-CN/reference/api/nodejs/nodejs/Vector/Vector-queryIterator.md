@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "queryIterator() | Node.js"
 slug: /node/node/Vector-queryIterator
 sidebar_label: "queryIterator()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation conducts a scalar filtering with a specified boolean expression. | Node.js"
+description: "此操作以迭代方式执行向量相似性搜索，并按批返回结果。当您需要增量处理大型结果集，或总结果数超过单次查询可返回的数量时，请使用此操作代替单次 `search()` 调用。 | Node.js"
 type: docx
-token: Ru8IdsrG8oayAWxly1PcqMGFnxd
-sidebar_position: 7
+token: YZ3GdmklAolLnux8LRhcw7hxnvd
+sidebar_position: 11
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,142 +31,153 @@ import Admonition from '@theme/Admonition';
 
 # queryIterator()
 
-This operation conducts a scalar filtering with a specified boolean expression.
+此操作以迭代方式执行向量相似性搜索，并按批返回结果。当您需要增量处理大型结果集，或总结果数超过单次查询可返回的数量时，请使用此操作代替单次 `search()` 调用。
 
 ```javascript
-queryIterator(data): Promise<any>
+await milvusClient.searchIterator(data: SearchIteratorReq)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
- milvusClient.query({
-   db_name: string,
-   collection_name: string,
-   consistency_level?: ConsistencyLevelEnum,
-   filter: string,
-   ids?: string[] | number[],
-   limit?: number,
-   offset?: number,
-   output_fields?: string[],
-   partition_names?: string[],
-   timeout?: number
- })
+await milvusClient.searchIterator({
+    collection_name: string,
+    data: SearchData | SearchData[],
+    batchSize: number,
+    limit?: number,
+    filter?: string,
+    anns_field?: string,
+    output_fields?: string[],
+    partition_names?: string[],
+    params?: keyValueObj,
+    metric_type?: string,
+    consistency_level?: ConsistencyLevelEnum,
+    ignore_growing?: boolean,
+    group_by_field?: string,
+    exprValues?: keyValueObj,
+    rerank?: RerankerObj | FunctionObject | FunctionScore,
+    transformers?: OutputTransformers,
+    external_filter_fn?: (row: SearchResultData) => boolean,
+    db_name?: string,
+})
 ```
 
-**PARAMETERS:**
-
-- **db_name** (*string*) -
-
-    The name of the database that holds the target collection.
+**参数：**
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    要搜索的集合名称。
+
+- **data** (*SearchData | SearchData[]*) -
+
+    **[必需]**
+
+    查询向量。支持的类型包括 FloatVector (`number[]`)、BFloat16Vector (`Uint8Array`)、Float16Vector (`Uint8Array`)、BinaryVector (`number[]`) 和 SparseFloatVector。
 
 - **batchSize** (*number*) -
 
-    The number of entities to return per iteration.
+    **[必需]**
 
-- **filter** (*string*) -
-
-    A scalar filtering condition to filter matching entities. 
-
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
-
-- **output_fields** (*string[]*) -
-
-    A list of field names to include in each entity in return.
-
-    The value defaults to **None**. If left unspecified, all fields are selected as the output fields.
-
-- **timeout** (*number*) -
-
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
-
-- **consistency_level** (*ConsistencyLevelEnum*) -
-
-    The consistency level of the target collection.
-
-    The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
-
-    <Admonition type="info" icon="📘" title="What is the consistency level?">
-
-    <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-    <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-    <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
-
-    </Admonition>
-
-- **offset** (*number*) -
-
-    The number of records to skip in the query result. 
-
-    You can use this parameter in combination with `limit` to enable pagination.
-
-    The sum of this value and `limit` should be less than 16,384. 
+    每次迭代返回的结果数量。不能超过 16,384。
 
 - **limit** (*number*) -
 
-    The number of records to return in the query result.
+    所有迭代中返回结果的最大总数。默认为匹配实体的总数（即不设限制）。
 
-    You can use this parameter in combination with `offset` to enable pagination.
+- **filter** (*string*) -
 
-    The sum of this value and `offset` should be less than 16,384. 
+    标量过滤条件，用于在搜索前筛选匹配实体。默认为空字符串（即不过滤）。
+
+- **anns_field** (*string*) -
+
+    目标向量字段的名称。当集合包含多个向量字段时，此参数为必需。
+
+- **output_fields** (*string[]*) -
+
+    要包含在每个返回实体中的字段名称列表。默认仅包含主字段。
 
 - **partition_names** (*string[]*) -
 
-    The name of the partitions to query.
+    要搜索的分区名称。
 
-**RETURNS** *Promise\<any>*
+- **params** (*keyValueObj*) -
 
-This method returns a promise that resolves to an asynchronous iterator that yields batches of query results.
+    以键值对形式提供的附加搜索参数，例如范围搜索中的 `radius` 和 `range_filter`。
+
+- **metric_type** (*string*) -
+
+    用于衡量向量间相似度的度量类型。默认为已建立索引字段的度量类型。
+
+- **consistency_level** (*ConsistencyLevelEnum*) -
+
+    此操作的一致性级别。可选值：Strong (0)、Bounded (1)、Session (2)、Eventually (3)。默认为 Bounded。
+
+- **ignore_growing** (*boolean*) -
+
+    搜索时是否跳过 growing segments。
+
+- **group_by_field** (*string*) -
+
+    按指定字段对搜索结果分组，以确保结果多样性。
+
+- **exprValues** (*keyValueObj*) -
+
+    模板化过滤表达式的占位符值。
+
+- **rerank** (*RerankerObj | FunctionObject | FunctionScore*) -
+
+    重排序策略及其参数。有关支持的 reranker 类型的详细信息，请参见 `search()`。
+
+- **transformers** (*OutputTransformers*) -
+
+    用于 BFloat16Vector 和 Float16Vector 等特殊向量数据类型的自定义转换器。
+
+- **external_filter_fn** (*(row: SearchResultData) => boolean*) -
+
+    可选的客户端过滤函数，将应用于每一批结果。对于此函数返回 `false` 的实体，将不会包含在产出的批次中。
+
+- **db_name** (*string*) -
+
+    包含该集合的数据库名称。
+
+- **element_indices** (*ElementIndices[]*) -
+
+    查询迭代器的元素索引。可选。
+
+**返回：**
+
+*Promise\<AsyncIterable\<SearchResultData[]\>\>*
+
+返回一个异步可迭代对象。每次迭代会产出一个包含该批次匹配实体的数组。当结果总数达到 `limit`，或所有匹配实体都已返回时，迭代结束。
+
+**异常：**
+
+- **MilvusError**
+
+    当此操作期间发生任何错误时，将引发此异常。
+
+## 示例\{#example}
 
 ```javascript
-{
-    data: {
-        [x: string]: any
-    },
-    status: object
-}
-```
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-**PARAMETERS:**
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 
-- **data** (*object*) -
-
-    The query results.
-
-- **status** (*object*) -
-
-    - **code** (*number*) -
-
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
-
-    - **error_code** (*string* | *number*) -
-
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
-
-    - **reason** (*string*) - 
-
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
-
-## Example
-
-```java
-const queryData = {
-  collection_name: 'my_collection',
-  expr: 'age > 30',
-  limit: 100,
-  pageSize: 10
-};
-
-const iterator = await queryIterator(queryData);
+const iterator = await milvusClient.searchIterator({
+    collection_name: 'my_collection',
+    data: [0.1, 0.2, 0.3, 0.4, 0.5],
+    batchSize: 100,
+    limit: 500,
+    output_fields: ['id', 'text'],
+    filter: 'age > 18',
+});
 
 for await (const batch of iterator) {
-  console.log(batch); // Process each batch of query results
+    console.log(`Batch of ${batch.length} results:`, batch);
 }
 ```
-

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "updateUser() | Node.js"
 slug: /node/node/Authentication-updateUser
 sidebar_label: "updateUser()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation updates the password of a specific user. | Node.js"
+description: "此操作会更新特定用户的密码。 | Node.js"
 type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 28
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - updateUser()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # updateUser()
 
-This operation updates the password of a specific user.
+此操作会更新特定用户的密码。
 
 ```javascript
-updateUser(data): Promise<ResStatus>
+await milvusClient.updateUser(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.updateUser({
+await milvusClient.updateUser({
    username: string,
    newPassword: string,
    oldPassword: string,
@@ -48,35 +48,35 @@ milvusClient.updateUser({
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **username** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of an existing user.
+    现有用户的名称。
 
 - **oldPassword** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The original password of the user.
+    用户的原始密码。
 
 - **newPassword** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The new password of the user.
+    用户的新密码。
 
 - **timeout** (*number*) -  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -86,24 +86,24 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-milvusClient.updateUser({
+await milvusClient.updateUser({
    username: 'exampleUser',
    newPassword: 'newPassword',
    oldPassword: 'oldPassword',

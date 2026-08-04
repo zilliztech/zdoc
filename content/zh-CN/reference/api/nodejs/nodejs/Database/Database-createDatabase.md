@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "createDatabase() | Node.js"
 slug: /node/node/Database-createDatabase
 sidebar_label: "createDatabase()"
-added_since: v2.3.x
-last_modified: v2.5.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
-description: "This operation creates a database. | Node.js"
+description: "此操作用于创建数据库。 | Node.js"
 type: docx
-token: JmlKdBz7Io91Ffx9rpKce3vUnMc
+token: UouKd4h01oL9Rqx73jjcHM3enSh
 sidebar_position: 2
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,73 +31,73 @@ import Admonition from '@theme/Admonition';
 
 # createDatabase()
 
-This operation creates a database.
+此操作用于创建数据库。
 
 ```javascript
-createDatabase(data): Promise<ResStatus>
+await milvusClient.createDatabase(data)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>This method applies only to dedicated clusters.</p>
+此方法仅适用于专用集群。
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.createDatabase({
+await milvusClient.createDatabase({
     db_name: string,
     properties?: Object
     timeout?: number
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database to create.
+    要创建的数据库名称。
 
-    There should be no database that has the specified name. Otherwise, exceptions will occur.
+    不应存在具有指定名称的数据库。否则将发生异常。
 
 - **properties** (*Object*) -
 
-    Properties to set along with database creation. Possible database properties are as follows:
+    创建数据库时一并设置的属性。可用的数据库属性如下：
 
     - **database.replica.number** (*int*) -
 
-        Number of replicas for the database.
+        数据库的副本数量。
 
     - **database.resource_groups** (*[]str*) -
 
-        Resource groups dedicated to the database.
+        专用于该数据库的资源组。
 
     - **database.diskQuota.mb** (*int*) -
 
-        Disk quota allocated to the database in megabytes (**MB**).
+        分配给数据库的磁盘配额，单位为兆字节（**MB**）。
 
     - **database.max.collections** (*int*) -
 
-        Maximum number of collections allowed in the database.
+        数据库中允许的最大集合数量。
 
     - **database.force.deny.writing** (*bool*) -
 
-        Whether to deny all write operations in the database.
+        是否拒绝该数据库中的所有写操作。
 
     - **database.force.deny.reading** (*bool*) -
 
-        Whether to deny all read operations in the database.
+        是否拒绝该数据库中的所有读操作。
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise |\<ResStatus>*
+**返回值** *Promise |&lt;ResStatus&gt;*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 Promise，该 Promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -107,23 +107,29 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
-const resStatus = await milvusClient.createDatabase({ db_name: 'new_db' });
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
+const resStatus = await milvusClient.createDatabase({
+    db_name: 'new_db',
+    properties: { 'database.resource_groups': 'rg1' },
+});
 ```

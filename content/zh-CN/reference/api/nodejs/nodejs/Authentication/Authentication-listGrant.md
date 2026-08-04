@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listGrant() | Node.js"
 slug: /node/node/Authentication-listGrant
 sidebar_label: "listGrant()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation lists the privileges granted to the specified role. | Node.js"
+description: "此操作会列出授予指定角色的权限。 | Node.js"
 type: docx
 token: HSIDdxQGEoPdyaxkMDjcAWGQnpd
 sidebar_position: 17
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - listGrant()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # listGrant()
 
-This operation lists the privileges granted to the specified role.
+此操作会列出授予指定角色的权限。
 
 ```javascript
-listGrant(data): Promise<SelectGrantResponse>
+await milvusClient.listGrant(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
  milvusClient.listGrants({
@@ -47,29 +47,29 @@ listGrant(data): Promise<SelectGrantResponse>
  });
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **roleName** (*string*)  
 
-    The target role name
+    目标角色名称
 
-    Setting this to the name of a non-existing role may result in errors.
+    将此项设置为不存在的角色名称可能会导致错误。
 
 - **object** (*string*)
 
-    The name of a valid privilege object group. Possible values are **Global**, **Collection**, and **User**.
+    有效权限对象组的名称。可能的值包括 **Global**、**Collection** 和 **User**。
 
 - **objectName** (*string*)
 
-    The name of a specific object in the specified object group. Using a wildcard (*) indicates that all privileges in the specified group are to be granted.
+    指定对象组中特定对象的名称。使用通配符 (*) 表示要授予指定组中的所有权限。
 
 - **timeout** (*number*) 
 
-    The timeout duration of this operation.
+    此操作的超时时长。
 
-*Returns Promise\<SelectGrantResponse>*
+*返回 Promise\<SelectGrantResponse>*
 
-This method returns a promise that resolves to a **SelectGrantResponse** object.
+此方法返回一个 Promise，该 Promise 会解析为一个 **SelectGrantResponse** 对象。
 
 ```javascript
 {
@@ -85,73 +85,73 @@ This method returns a promise that resolves to a **SelectGrantResponse** object.
     "status": ResStatus
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **entities** (*GrantEntity[]*) -
 
-    A list of grant entities, each of which is shaped as follows:
+    授权实体列表，每个实体的结构如下：
 
     - **db_name** (*string*) -
 
-        The name of the database in which the privilege has been granted.
+        已授予权限的数据库名称。
 
     - **grantor** (*Grantor*) -
 
-        A **Grantor** object that is shaped as follows:
+        一个 **Grantor** 对象，其结构如下：
 
         - **privilege** (*PrivilegeEntity*) -
 
-            A **PrivilegeEntity** object that is shaped as follows:
+            一个 **PrivilegeEntity** 对象，其结构如下：
 
             - **name** (*string*) - 
 
-                The name of the granted privilege.
+                已授予权限的名称。
 
         - **user** (*User*) - 
 
-            A **User** object that is shaped as follows:
+            一个 **User** 对象，其结构如下：
 
             - **name** (*string*) - 
 
-                The name of the user that grants the above privilege to the role. 
+                将上述权限授予该角色的用户名称。 
 
     - **object** (*ObjectEntity*) -
 
-        An **ObjectEntity** object that is shaped as follows:
+        一个 **ObjectEntity** 对象，其结构如下：
 
         - **name** (*string*) - 
 
-            The name of the object entity.
+            对象实体的名称。
 
     - **object_name** (*string*) -
 
-        The name of a specific object within the above object entity.
+        上述对象实体中特定对象的名称。
 
     - **role** (*RoleEntity*) -   
 
-        A **RoleEntity** object that is shaped as follows:
+        一个 **RoleEntity** 对象，其结构如下：
 
         - **name** (*string*) - 
 
-            The name of the role to which the privilege has been granted.
+            被授予该权限的角色名称。
 
 - **status** (*ResStatus*) -
 
-    A **ResStatus object.
+    一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则该值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误码。如果此操作成功，则该值始终为 **Success**。 
 
     - **reason** (*string*) - 
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则该值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```javascript
  milvusClient.listGrant({

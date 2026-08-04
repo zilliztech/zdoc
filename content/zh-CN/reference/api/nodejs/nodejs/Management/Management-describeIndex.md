@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "describeIndex() | Node.js"
 slug: /node/node/Management-describeIndex
 sidebar_label: "describeIndex()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation describes a specific index. | Node.js"
+description: "此操作描述特定索引。 | Node.js"
 type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 4
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describeIndex()
 
-This operation describes a specific index.
+此操作描述特定索引。
 
 ```javascript
-describeIndex(data): Promise<DescribeIndexResponse>
+await milvusClient.describeIndex(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
  milvusClient.describeIndex({ 
@@ -49,100 +49,98 @@ describeIndex(data): Promise<DescribeIndexResponse>
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    持有目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **field_name** (*string*) -
 
-    The name of an existing field in the collection. 
+    集合中现有字段的名称。 
 
 - **index_name** (*string*) -
 
-    The name of the index to describe.
+    要描述的索引名称。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<DescribeIndexResponse>*
+**返回值** *Promise&lt;DescribeIndexResponse&gt;*
 
-This method returns a promise that resolves to a **DescribeIndexResponse** object.
+此方法返回一个 Promise，该 Promise 会解析为一个 **DescribeIndexResponse** 对象。
 
-```javascript
+```typescript
 {
     index_descriptions: IndexDescription[],
-    status: object
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **index_descriptions** (*IndexDescription[]*) -
-
-    - **field_name** (*string*) -
-
-        The name of the field on which the index is created.
-
-    - **indexID** (*number*) -
-
-        The ID of the created index.
+- **index_descriptions** (*IndexDescription[]*) -<br/>
+  请求集合的索引描述列表。提供 **field_name** 或 **index_name** 时，该列表仅包含匹配的条目。
 
     - **index_name** (*string*) -
 
-        The name of the created index.
+        索引名称。
 
-    - **index_state_fail_reason** (*string*) -
+    - **indexID** (*number*) -
 
-        The reason for failing to create the index.
+        内部索引标识符。
+
+    - **params** (*KeyValuePair[]*) -
+
+        创建时记录的索引参数（例如 **index_type**、**metric_type**、**params**）。
+
+    - **field_name** (*string*) -
+
+        构建索引的字段。
 
     - **indexed_rows** (*string*) -
 
-        The number of rows that are indexed.
-
-    - **pending_index_rows** (*string*) -
-
-        The number of rows waiting to be indexed.
+        到目前为止已建立索引的行数。
 
     - **total_rows** (*string*) -
 
-        The total number of rows in the field.
+        索引覆盖的总行数。
 
-    - **params** (*string*) -
+    - **state** (*string*) -
 
-        Index-specific parameters.
+        索引的构建状态。可能的值包括 **IndexStateNone**、**Unissued**、**InProgress**、**Finished** 和 **Failed**。
 
-        - **key** (*string*) -
+    - **index_state_fail_reason** (*string*) -
 
-            The name of the index parameter.
+        当 **state** 为 **Failed** 时的失败原因，否则为空字符串。
 
-        - **value** (*string* | *number*) -
+    - **pending_index_rows** (*string*) -
 
-            The value of the index parameter.
+        仍在等待建立索引的行数。
 
-- **status** (*object*) -
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误代码。如果此操作成功，则始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示已报告错误原因的说明。如果此操作成功，则始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);

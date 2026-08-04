@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "alterCollectionProperties() | Node.js"
 slug: /node/node/Collections-alterCollectionProperties
 sidebar_label: "alterCollectionProperties()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation modifies the properties of a specified collection. | Node.js"
+description: "此操作会修改指定集合的属性。 | Node.js"
 type: docx
 token: EHPGdbCP5o7UzCxlDnRc6y5Pn1c
 sidebar_position: 3
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionProperties()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionProperties()
 
-This operation modifies the properties of a specified collection.
+此操作会修改指定集合的属性。
 
 ```javascript
-alterCollectionProperties(data): Promise<ResStatus>
+await milvusClient.alterCollectionProperties(data)
 ```
 
-## Request Syntax
+## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.alterCollectionProperties({
+await milvusClient.alterCollectionProperties({
    db_name?: string
    collection_name: string,
    delete_keys?: string[],
@@ -53,41 +53,41 @@ milvusClient.alterCollectionProperties({
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    保存目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of the target collection to reassign an alias to.
+    要重新分配别名的目标集合名称。
 
 - **delete_keys** (*string[]*) -
 
-    The properties to delete.
+    要删除的属性。
 
 - **properties** (*Properties*) -
 
     **[REQUIRED]**
 
-    The properties to change and their expected values in a TypeScript **Record**. Possible values are as follows:
+    要更改的属性及其期望值，以 TypeScript **Record** 的形式提供。可能的值如下：
 
     - **collection.ttl.seconds** (*number*) -
 
-        The time-to-live (TTL) of a collection in seconds.
+        集合的生存时间（TTL），单位为秒。
 
     - **mmap.enabled** (*bool*) -
 
-        Whether to enable mmap for the raw data and indexes of all fields in the collection.
+        是否为集合中所有字段的原始数据和索引启用 mmap。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **RETURNS** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -101,20 +101,23 @@ This method returns a promise that resolves to a **ResStatus** object.
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误代码。如果此操作成功，则始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
 
-## Example
+## Example\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.alterCollection({
     collection_name: 'my-collection',
     properties: {"collection.ttl.seconds": 18000}

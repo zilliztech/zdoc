@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "DataType | Node.js"
 slug: /node/node/Collections-DataType
 sidebar_label: "DataType"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Node.js"
+description: "这是一个提供以下常量的枚举。 | Node.js"
 type: docx
 token: AtLEdt0ZWoUbHoxkfvHcq1ZunUg
 sidebar_position: 6
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,83 +31,83 @@ import Admonition from '@theme/Admonition';
 
 # DataType
 
-This is an enumeration that provides the following constants.
+这是一个提供以下常量的枚举。
 
-## Constants
+## 常量\{#constants}
 
 - NONE = 0
 
-    Sets the data type to **NoneType**.
+    将数据类型设置为 **NoneType**。
 
 - BOOL = 1
 
-    Sets the data type to **Boolean**.
+    将数据类型设置为 **Boolean**。
 
 - INT8 = 2
 
-    Sets the data type to **Int8**.
+    将数据类型设置为 **Int8**。
 
 - INT16 = 3
 
-    Sets the data type to **Int64**.
+    将数据类型设置为 **Int64**。
 
 - INT32 = 4
 
-    Sets the data type to **Int32**.
+    将数据类型设置为 **Int32**。
 
 - INT64 = 5
 
-    Sets the data type to **Int64**.
+    将数据类型设置为 **Int64**。
 
 - FLOAT = 10
 
-    Sets the data type to **Float**.
+    将数据类型设置为 **Float**。
 
 - DOUBLE = 11
 
-    Sets the data type to **Double**.
+    将数据类型设置为 **Double**。
 
 - VARCHAR = 21
 
-    Sets the data type to **Varchar**.
+    将数据类型设置为 **Varchar**。
 
 - ARRAY = 22
 
-    Sets the data type to **Array**.
+    将数据类型设置为 **Array**。
 
 - JSON = 23
 
-    Sets the data type to **JSON**.
+    将数据类型设置为 **JSON**。
 
 - Geometry = 24
 
-    Sets the data type to **Geometry**.
+    将数据类型设置为 **Geometry**。
 
 - BinaryVector = 100
 
-    Sets the data type to **Binary Vector**.
+    将数据类型设置为 **Binary Vector**。
 
 - FloatVector = 101
 
-    Sets the data type to **Float Vector**.
+    将数据类型设置为 **Float Vector**。
 
 - Float16Vector = 102
 
-    Sets the data type to **Float16 Vector**.
+    将数据类型设置为 **Float16 Vector**。
 
 - BFloat16Vector = 103
 
-    Sets the data type to **BFloat16 Vector**.
+    将数据类型设置为 **BFloat16 Vector**。
 
 - SparseFloatVector = 104
 
-    Sets the data type to **Sparse Vector**.
+    将数据类型设置为 **Sparse Vector**。
 
 - Int8Vector = 105
 
-    Sets the data type to **Int8Vector**.
+    将数据类型设置为 **Int8Vector**。
 
 - Struct = 201
 
-    Sets the data type to **Struct**. Note that this only applies to the elements in an **Array** field.
+    将数据类型设置为 **Struct**。请注意，这仅适用于 **Array** 字段中的元素。
 

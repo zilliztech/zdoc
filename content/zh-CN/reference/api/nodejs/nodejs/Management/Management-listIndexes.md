@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listIndexes() | Node.js"
 slug: /node/node/Management-listIndexes
 sidebar_label: "listIndexes()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation lists the indexes of a specific collection | Node.js"
+description: "此操作列出特定集合的索引 | Node.js"
 type: docx
 token: N1fldMqhtoWBJPxh8VccivqxnZd
 sidebar_position: 16
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # listIndexes()
 
-This operation lists the indexes of a specific collection
+此操作列出特定集合的索引
 
 ```javascript
-listIndexes(data): Promise<ListIndexResponse>
+await milvusClient.listIndexes(data)
 ```
 
-## Request Syntax
+## Request Syntax\{#request-syntax}
 
 ```javascript
-milvusClient.listIndexes({
+await milvusClient.listIndexes({
    db_name: string,
    collection_name: string,
    field_name?: string,
@@ -49,57 +49,57 @@ milvusClient.listIndexes({
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    保存目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **field_name** (*string*) -
 
-    The name of an existing field in the collection. 
+    集合中现有字段的名称。 
 
 - **index_name** (*string*) -
 
-    The name of the index to describe.
+    要描述的索引名称。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<DescribeIndexResponse>*
+**返回值** *Promise&lt;ListIndexResponse&gt;*
 
-This method returns a promise that resolves to a **DescribeIndexResponse** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ListIndexResponse** 对象。
 
-```javascript
+```typescript
 {
     indexes: string[],
-    status: object
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **indexes** (*string[]*) -
+- **indexes** (*string[]*) -<br/>
+  在所请求集合上定义的索引名称列表。
 
-    A list of index names.
-
-- **status** (*object*) -
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        指示操作结果的代码。如果此操作成功，则该值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        指示已发生错误的错误代码。如果此操作成功，则该值保持为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        指示所报告错误原因的原因描述。如果此操作成功，则该值保持为空字符串。

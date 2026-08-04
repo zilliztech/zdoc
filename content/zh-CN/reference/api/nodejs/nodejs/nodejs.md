@@ -1,5 +1,5 @@
 ---
-title: "Node.js SDK 参考 | Cloud"
+title: "Node.js SDK Reference | Cloud"
 slug: /nodejs
 sidebar_label: "概览"
 sidebar_position: 4
@@ -12,17 +12,17 @@ import Admonition from '@theme/Admonition';
 
 # Node.js SDK 参考
 
-[@zilliz/milvus2-sdk-node](https://github.com/milvus-io/milvus-sdk-node) 是适用于 Milvus 和 Zilliz Cloud 的官方 Node.js SDK。它同时提供 gRPC 和 HTTP 客户端，可用于执行向量相似性搜索、元数据过滤，以及集合、索引和用户的完整管理操作。对于希望在 JavaScript 或 TypeScript 运行时中集成向量数据库能力的开发者来说，该 SDK 提供了一套统一且易于使用的接口。
+[@zilliz/milvus2-sdk-node](https://github.com/milvus-io/milvus-sdk-node) 是 Milvus 和 Zilliz Cloud 的官方 Node.js SDK。它同时提供 gRPC 和 HTTP 客户端，可用于执行向量相似性搜索、元数据过滤，以及集合、索引和用户的完整管理操作。借助这一 SDK，开发者可以在 Node.js 环境中以统一的方式访问核心向量数据库能力，并根据运行环境选择合适的通信协议。
 
 ## 功能特性
 
-- **双协议支持** — 同时提供 gRPC 和 HTTP 客户端，适用于不支持 gRPC 的运行环境，例如 Cloudflare Workers、Vercel Edge 等
-- **向量操作** — 支持相似性搜索、结合重排的混合搜索，以及稀疏向量/BM25 搜索
-- **数据管理** — 支持插入、upsert、删除，以及结合标量过滤条件的查询
-- **灵活的 Schema** — 支持动态字段和分区键，便于实现多租户场景
+- **双协议支持** — 提供 gRPC 和 HTTP 客户端，适用于不支持 gRPC 的运行环境，例如 Cloudflare Workers 和 Vercel Edge
+- **向量操作** — 支持相似性搜索、结合重排序的混合搜索，以及稀疏向量/BM25 搜索
+- **数据管理** — 支持插入、upsert、删除，以及带标量过滤条件的查询
+- **Schema 灵活性** — 支持动态字段和分区键，便于实现多租户场景
 - **批量操作** — 提供用于大规模导入的 `BulkWriter`，以及服务端批量导入能力
-- **企业级特性** — 支持 RBAC、resource groups 和数据库管理
-- **可观测性** — 支持 OpenTelemetry tracing，便于监控与排障
+- **企业级特性** — 支持 RBAC、资源组和数据库管理
+- **可观测性** — 支持 OpenTelemetry 链路追踪
 
 ## 安装
 
@@ -35,8 +35,6 @@ yarn add @zilliz/milvus2-sdk-node
 **要求：** Node.js v18+
 
 ## 快速开始
-
-下面的示例展示了如何使用 `MilvusClient` 创建集合、定义 schema 和索引，然后完成加载、写入和搜索等常见操作。你可以在本地 Milvus 实例中直接运行这些代码，也可以在连接参数配置完成后将其用于 Zilliz Cloud 环境。示例中的向量字段、文本字段和索引参数可根据你的业务数据结构进行调整。
 
 ```javascript
 import { MilvusClient, DataType, MetricType } from '@zilliz/milvus2-sdk-node';
@@ -73,7 +71,7 @@ const results = await client.search({
 });
 ```
 
-在上述流程中，`createCollection` 用于定义集合结构并创建向量索引，`loadCollection` 会将集合加载到可搜索状态，`insert` 负责写入数据，而 `search` 则返回最相似的结果。若你需要进一步了解各个 API 的参数、请求格式和返回值说明，可继续查看下方的详细参考文档列表。
+以上示例展示了一个典型流程：先创建包含 schema 和索引的集合，然后加载集合、写入数据，最后执行向量搜索并返回指定字段。你可以在此基础上进一步扩展业务逻辑，例如添加过滤条件、配置不同索引参数、接入混合搜索流程，或在应用中集成更完整的集合与权限管理能力。
 
 import DocCardList from '@theme/DocCardList';
 

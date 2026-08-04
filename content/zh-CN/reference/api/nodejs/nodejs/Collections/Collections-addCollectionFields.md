@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "addCollectionFields() | Node.js"
 slug: /node/node/Collections-addCollectionFields
 sidebar_label: "addCollectionFields()"
+beta: false
 added_since: v2.6.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation adds a list of new scalar fields to an existing collection without recreating it. These fields become available almost immediately with minimal delay due to internal schema synchronization. | Node.js"
+description: "此操作会向现有 collection 添加一组新的标量字段，而无需重新创建该 collection。由于内部 schema 同步机制，这些字段几乎会立即可用，仅有极小延迟。 | Node.js"
 type: docx
 token: FmG6dw3O1ouzgbxnl4jc5T7cnXf
 sidebar_position: 20
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionFields()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,22 +31,22 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionFields()
 
-This operation adds a list of new scalar fields to an existing collection without recreating it. These fields become available almost immediately with minimal delay due to internal schema synchronization.
+此操作会向现有 collection 添加一组新的标量字段，而无需重新创建它。由于内部 schema 同步机制，这些字段几乎会立即可用，仅有极小延迟。
 
 ```javascript
-addCollectionFields(data: AddCollectionFieldReq): Promise<ResStatus>
+await milvusClient.addCollectionFields(data: AddCollectionFieldReq)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>If the collection has the dynamic field enabled and you add a static field with the same name as an existing dynamic field key, the static field will mask the dynamic field key. The original dynamic values remain accessible via the <code>$meta['field_name']</code> syntax.</p>
+如果 collection 启用了动态字段，并且你添加了一个与现有动态字段键同名的静态字段，则该静态字段会屏蔽该动态字段键。原始动态值仍可通过 `$meta['field_name']` 语法访问。
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.addCollectionFields({
+await milvusClient.addCollectionFields({
     collection_name: string,
     db_name?: string,
     field: FieldType,
@@ -54,111 +54,111 @@ milvusClient.addCollectionFields({
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*string*) -
 
-    The name of the target collection.
+    目标 collection 的名称。
 
 - **db_name** (*string*) -
 
-    The name of the target database.
+    目标数据库的名称。
 
 - **fields** (*FieldType[]*) -
 
-    The configurations of the fields to add, each of which is a **FieldType** object that has the following fields:
+    要添加的字段配置。每个字段都是一个 **FieldType** 对象，包含以下字段：
 
     - **name** (*string)* -
 
-        The name of the field.
+        字段名称。
 
     - **data_type** (*string)* -
 
-        The data type of the field. For an enumeration of all available data types, please see [DataType](./Collections-DataType).
+        字段的数据类型。有关所有可用数据类型的枚举，请参见 [DataType](./Collections-DataType)。
 
     - **description** (*string)* -
 
-        The description of the field.
+        字段描述。
 
     - **is_clustering_key** (*boolean*) -
 
-        A boolean value indicating whether this field will work as the clustering key.
+        一个布尔值，用于指示该字段是否作为聚类键。
 
     - **is_partition_key** (*boolean)* -
 
-        A boolean value indicating whether this field will work as the partition key field.
+        一个布尔值，用于指示该字段是否作为分区键字段。
 
     - **is_primary_key** (*boolean)* -
 
-        Whether the field will work as the primary key.
+        该字段是否作为主键。
 
-        The value defaults to **False**. Setting this to **True** makes the field a primary key field which is unique throughout the collection.
+        默认值为 **False**。将其设置为 **True** 会使该字段成为主键字段，并在整个 collection 中保持唯一。
 
     - **type_params** (*string* | *number)* -
 
-        Other parameters for the field.
+        字段的其他参数。
 
         - **auto_id** (*boolean)* -
 
-            Whether the primary field automatically increments upon data insertions into this collection.
+            主字段在向此 collection 插入数据时是否自动递增。
 
-            The value defaults to **False**. Setting this to **True** makes the primary field automatically increment. Skip this parameter if you need to set up a collection with a customized schema.
+            默认值为 **False**。将其设置为 **True** 会使主字段自动递增。如果你需要创建具有自定义 schema 的 collection，请跳过此参数。
 
         - **dim** (*string* | *number*) -
 
-            The dimensionality of the collection field that holds vector embeddings. 
+            保存向量嵌入的 collection 字段的维度。
 
-            The value should be an integer greater than 1 and is usually determined by the model you use to generate vector embeddings.
+            该值应为大于 1 的整数，通常由你用于生成向量嵌入的模型决定。
 
         - **element_type** (string) -
 
-            The data type of the elements in an array. 
+            数组中元素的数据类型。
 
-            This parameter applies if the current field is an array field.
+            当当前字段是数组字段时适用此参数。
 
         - **max_capacity** (*string* | *number)* -
 
-            The number of elements in an array.
+            数组中的元素数量。
 
-            This parameter applies if the current field is an array field.
+            当当前字段是数组字段时适用此参数。
 
         - **max_length** (*string*) -
 
-            The maximum lengths of a string in this field.
+            此字段中字符串的最大长度。
 
-            This is required when the **data_type** of this field is **VarChar**.
+            当此字段的 **data_type** 为 **VarChar** 时，此参数为必填项。
 
         - **type_params** (*object*) -
 
-            Extra parameters for the current field in key-value pairs.
+            当前字段的额外参数，以键值对形式表示。
 
     - **nullable** (*boolean*) -
 
-        A Boolean parameter that specifies whether the field can accept null values. Valid values:
+        一个布尔参数，用于指定该字段是否可接受 null 值。有效值如下：
 
-        - **true**: The field can contain null values, indicating that the field is optional, and missing data is permitted for entries.
+        - **true**：该字段可以包含 null 值，表示该字段为可选字段，条目中允许缺失数据。
 
-        - **false** (default): The field must contain a valid value for each entity; missing data is not allowed, making the field mandatory.
+        - **false**（默认）：该字段对于每个实体都必须包含有效值；不允许缺失数据，即该字段为必填字段。
 
-        For more information, refer to [Nullable & Default](https://milvus.io/docs/nullable-and-default.md).
+        更多信息请参见 [Nullable & Default](https://milvus.io/docs/nullable-and-default.md)。
 
     - **default_value** (*object*)
 
-        Sets a default value for a specific field in a collection schema when creating it. This is particularly useful when you want certain fields to have an initial value even if no value is explicitly provided during data insertion.
+        在创建 collection schema 时，为特定字段设置默认值。当你希望某些字段即使在插入数据时未显式提供值，也具有初始值时，这一点尤其有用。
 
     - **enable_analyzer** (*boolean*) -
 
-        Whether to enable text analysis for the specified `VarChar` field. When set to `true`, it instructs Milvus to use a text analyzer, which tokenizes and filters the text content of the field.
+        是否为指定的 `VarChar` 字段启用文本分析。设置为 `true` 时，将指示 Milvus 使用文本分析器，对字段中的文本内容进行分词和过滤。
 
     - **enable_match** (*boolean*)
 
-        Whether to enable keyword matching for the specified `VarChar` field. When set to `true`, Milvus creates an inverted index for the field, allowing for quick and efficient keyword lookups. `enable_match` works in conjunction with `enable_analyzer` to provide structured term-based text search, with `enable_analyzer` handling tokenization and `enable_match` handling the search operations on these tokens.
+        是否为指定的 `VarChar` 字段启用关键词匹配。设置为 `true` 时，Milvus 会为该字段创建倒排索引，从而实现快速高效的关键词查找。`enable_match` 与 `enable_analyzer` 配合使用，以提供基于术语的结构化文本搜索，其中 `enable_analyzer` 负责分词，`enable_match` 负责对这些词元执行搜索操作。
 
     - **analyzer_params** (*object*)
 
-        Configures the analyzer for text processing, specifically for `VarChar` fields. This parameter configures tokenizer and filter settings, particularly for text fields used in [keyword matching](https://milvus.io/docs/keyword-match.md) or [full text search](https://milvus.io/docs/full-text-search.md). Depending on the type of analyzer, it can be configured in either of the following methods:
+        配置用于文本处理的分析器，特别适用于 `VarChar` 字段。此参数用于配置分词器和过滤器设置，尤其适用于用于[关键词匹配](https://milvus.io/docs/keyword-match.md)或[全文搜索](https://milvus.io/docs/full-text-search.md)的文本字段。根据分析器类型，可以使用以下任一方式进行配置：
 
-        - Built-in analyzer
+        - 内置分析器
 
             ```javascript
             const analyzer_params: { type: 'english' };
@@ -166,9 +166,9 @@ milvusClient.addCollectionFields({
 
             - `type` (*string*) -
 
-                Pre-configured analyzer type built into Milvus, which can be used out-of-the-box by specifying its name. Possible values: `standard`, `english`, `chinese`. For more information, refer to [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md), [English Analyzer](https://milvus.io/docs/english-analyzer.md), and [Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md).
+                Milvus 内置的预配置分析器类型，可通过指定其名称开箱即用。可能的值：`standard`、`english`、`chinese`。更多信息请参见 [Standard Analyzer](https://milvus.io/docs/standard-analyzer.md)、[English Analyzer](https://milvus.io/docs/english-analyzer.md) 和 [Chinese Analyzer](https://milvus.io/docs/chinese-analyzer.md)。
 
-        - Custom analyzer
+        - 自定义分析器
 
             ```javascript
             const analyzer_params: {
@@ -179,19 +179,19 @@ milvusClient.addCollectionFields({
 
             - `tokenizer` (*string*) -
 
-                Defines the tokenizer type. Possible values: `standard` (default), `whitespace`, `jieba`. For more information, refer to [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md), [Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md), and [Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md).
+                定义分词器类型。可能的值：`standard`（默认）、`whitespace`、`jieba`。更多信息请参见 [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md)、[Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md) 和 [Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md)。
 
             - `filter` (*list*) -
 
-                Lists filters to refine tokens produced by the tokenizer, with options for built-in filters and custom filters. For more information, refer to [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) and others.
+                列出用于细化分词器生成词元的过滤器，支持内置过滤器和自定义过滤器。更多信息请参见 [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) 等。
 
 - **timeout** (*number*) -  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -201,21 +201,21 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```javascript
 const milvusClient = new MilvusClient(MILVUS_ADDRESS);

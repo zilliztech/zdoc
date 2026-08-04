@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getLoadState() | Node.js"
 slug: /node/node/Management-getLoadState
 sidebar_label: "getLoadState()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation displays whether a specified collection or partition is loaded or not. | Node.js"
+description: "此操作显示指定集合或分区是否已加载。 | Node.js"
 type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
 sidebar_position: 14
 keywords: 
-  - image similarity search
+  - 什么是语义搜索
+  - Embedding model
+  - 图像相似性搜索
   - Context Window
-  - Natural language search
-  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # getLoadState()
 
-This operation displays whether a specified collection or partition is loaded or not.
+此操作显示指定集合或分区是否已加载。
 
 ```javascript
-getLoadState(data): Promise<GetLoadStateResponse>
+await milvusClient.getLoadState(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.getLoadState({
+await milvusClient.getLoadState({
    db_name: string,
    collection_name: string,
    partition_names?: string[],
@@ -48,69 +48,64 @@ milvusClient.getLoadState({
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    保存目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of a collection.
+    集合的名称。
 
 - **partition_names** (*string[]*) -
 
-    The names of one or more partitions.
+    一个或多个分区的名称。
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+    此操作的超时时长。将其设置为 **None** 表示此操作会在任意响应返回或发生错误时超时。
 
-**RETURNS** *Promise\<GetLoadStateResponse>*
+**返回值** *Promise&lt;GetLoadStateResponse&gt;*
 
-This method returns a promise that resolves to a **GetLoadStateResponse** object.
+此方法返回一个 promise，该 promise 会解析为一个 **GetLoadStateResponse** 对象。
 
-```javascript
+```typescript
 {
     state: LoadState,
-    status: ResStatus
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- state (*LoadState*) -
+- **state** (*LoadState*) -<br/>
+  当前加载状态。可能的值有 **LoadStateNotExist**、**LoadStateNotLoad**、**LoadStateLoading** 和 **LoadStateLoaded**。
 
-    The load status. The are four states:
-
-    - **LoadStateLoaded** indicates the status is loaded.
-
-    - **LoadStateLoading** indicates the status is loading.
-
-    - **LoadStateNotExist** indicates the status is not available.
-
-    - **LoadStateNotLoad** indicates the status is unloaded.
-
-- **status** (*ResStatus*) -
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则该值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误代码。如果此操作成功，则该值保持为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则该值保持为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
  const resStatus = await milvusClient.getLoadState({
    collection_name: 'my_collection',
  });

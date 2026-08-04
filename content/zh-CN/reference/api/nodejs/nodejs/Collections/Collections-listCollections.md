@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listCollections() | Node.js"
 slug: /node/node/Collections-listCollections
 sidebar_label: "listCollections()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation lists all existing collections. | Node.js"
+description: "此操作列出所有现有集合。 | Node.js"
 type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 15
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # listCollections()
 
-This operation lists all existing collections.
+此操作列出所有现有集合。
 
 ```javascript
 milvusClient.listCollections();
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
 listCollections({
@@ -47,83 +47,70 @@ listCollections({
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **type** (*ShowCollectionsType*) 
 
-    The scope of this operation. Possible values are **All** or **Loaded**.
+    此操作的范围。可能的值为 **All** 或 **Loaded**。
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作即超时。
 
-**RETURNS** *Promise\<ShowCollectionsResponse>*
+**返回** *Promise&lt;ShowCollectionsResponse&gt;*
 
-This method returns a promise that resolves to a **ShowCollectionsResponse** object.
+此方法返回一个 promise，该 promise 解析为 **ShowCollectionsResponse** 对象。
 
-```javascript
+```typescript
 {
-    created_timestamps: string | list[string],
-    created_utc_timestamps: string | list[string]
-    data: object,
-    status: object
+    data: CollectionData[],
+    created_timestamps: string[],
+    created_utc_timestamps: string[],
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **created_timestamps** (*string* | *list[string]*) -
+- **data** (*CollectionData[]*) -<br/>
+  集合数据对象列表。每个条目都包含集合名称、ID、时间戳和加载百分比。
 
-    The timestamps indicating the creation time of the collections.
+- **created_timestamps** (*string[]*) -<br/>
+  混合时间戳列表，表示每个集合的创建时间。
 
-- **created_utc_timestamps** (*string* | *list[string]*) -
+- **created_utc_timestamps** (*string[]*) -<br/>
+  UTC 时间戳列表，表示每个集合的创建时间。
 
-    The timestamps in UTC indicating the creation time of the collections.
-
-- **data** (*object*) -
-
-    - **id** (*string*) -
-
-        The ID of the collection.
-
-    - **loadedPercentage** (*string*) -
-
-        The percentage of inserted entities in the collection.
-
-    - **name** (*string*) -
-
-        The name of the collection.
-
-    - **timestamp** (*string*) -
-
-        The timestamp indicating the creation time of the collection.
-
-- **status** (*object*) -
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const res = await milvusClient.listCollections({ collection_name: 'my_collection' });
 ```
 

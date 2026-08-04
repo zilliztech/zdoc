@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listDatabases() | Node.js"
 slug: /node/node/Database-listDatabases
 sidebar_label: "listDatabases()"
-added_since: v2.3.x
-last_modified: v2.5.x
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation lists all existing databases. | Node.js"
+description: "此操作列出所有现有数据库。 | Node.js"
 type: docx
-token: Kp9Dd2dIgoxyDixuqtqctPZXnFb
+token: DZMUdKbtfoT1HbxaXEDcgFkJnsh
 sidebar_position: 5
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - 音频相似性搜索
+  - 弹性向量数据库
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,68 +31,73 @@ import Admonition from '@theme/Admonition';
 
 # listDatabases()
 
-This operation lists all existing databases.
+此操作列出所有现有数据库。
 
 ```javascript
-listDatabases(data?): Promise<ListDatabasesResponse>
+await milvusClient.listDatabases(data?)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.listDatabases({
+await milvusClient.listDatabases({
     timeout?: number
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise |\<ListDatabaseResponse>*
+**返回值** *Promise&lt;ListDatabasesResponse&gt;*
 
-This method returns a promise that resolves to a **ListDatabaseResponse** object.
+此方法返回一个 Promise，该 Promise 会解析为一个 **ListDatabasesResponse** 对象。
 
-```javascript
+```typescript
 {
     db_names: string[],
-    status: {
-        code: number,
-        error_code: string | number,
-        reason: string
-    }
+    db_ids: string[],
+    created_timestamp: string[],
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **db_names** (*string[]*) -
+- **db_names** (*string[]*) -<br/>
+  当前 Milvus 实例中已定义的数据库名称列表。
 
-    A list of database names.
+- **db_ids** (*string[]*) -<br/>
+  数据库的内部标识符，顺序与 **db_names** 相同。
 
-- **status** (**ResStatus**) -
+- **created_timestamp** (*string[]*) -<br/>
+  数据库的创建时间戳，顺序与 **db_names** 相同。
 
-    The operation status.
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误代码。如果此操作成功，则始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const res = await milvusClient.listDatabases();
 ```

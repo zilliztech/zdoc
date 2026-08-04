@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "flushSync() | Node.js"
 slug: /node/node/Management-flushSync
 sidebar_label: "flushSync()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation manually seals a segment and persists the data on disk. It is recommended that this operation be called after all the data has been inserted into a collection. This is the synchronous function that ensures the flush operation is complete before the function returns. | Node.js"
+description: "此操作会手动封存一个 segment，并将数据持久化到磁盘。建议在将所有数据插入到集合后调用此操作。这是一个同步函数，可确保在函数返回前 flush 操作已完成。 | Node.js"
 type: docx
 token: QsTwdUbgyoZPV1xzCBxchX8Fnid
 sidebar_position: 8
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - flushSync()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,85 +31,84 @@ import Admonition from '@theme/Admonition';
 
 # flushSync()
 
-This operation manually seals a segment and persists the data on disk. It is recommended that this operation be called after all the data has been inserted into a collection. This is the synchronous function that ensures the flush operation is complete before the function returns.
+此操作会手动封存一个 segment，并将数据持久化到磁盘。建议在将所有数据插入到集合后调用此操作。这是一个同步函数，可确保在函数返回前 flush 操作已完成。
 
 ```javascript
-flushSync(data): Promise<GetFlushStateResponse>
+await milvusClient.flushSync(data)
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p>Milvus automatically flushes data into persistent storage at intervals. You are advised to rely on this automatic data persistence mechnism.</p>
+Milvus 会按时间间隔自动将数据刷写到持久化存储中。建议依赖这种自动数据持久化机制。
 
 </Admonition>
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.flushSync({
+await milvusClient.flushSync({
     db_name?: string,
     collection_names: string[],
     timeout?: number
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the target database to which the target collections belong.
+    目标数据库的名称，目标集合隶属于该数据库。
 
 - **collection_names** (*string[]*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    A list of the target collection names.
+    目标集合名称列表。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<GetFlushStateResponse>*
+**返回值** *Promise&lt;GetFlushStateResponse&gt;*
 
-This method returns a promise that resolves to a **GetFlushStateResponse** object.
+此方法返回一个 promise，解析为一个 **GetFlushStateResponse** 对象。
 
-```javascript
+```typescript
 {
     flushed: boolean,
-    status: {
-        code: number,
-        error_code: string | number,
-        reason: string
-    }
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **flushed** (*boolean*) -
+- **flushed** (*boolean*) -<br/>
+  是否所有目标 segment 都已刷写到持久化存储中。由于 `flushSync()` 会阻塞直到 flush 完成，因此成功时该值为 **true**。
 
-    Whether data is persisted into storage.
-
-- **status** (*ResStatus*) - 
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。若此操作成功，则其值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误码。若此操作成功，则其值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。若此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const flushSyncStatus = await milvusClient.flushSync({
     collection_names: ['my_collection'],
 });

@@ -1,14 +1,13 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "describeRole() | Node.js"
 slug: /node/node/Authentication-describeRole
 sidebar_label: "describeRole()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation describes a specific role. | Node.js"
+description: "此操作描述特定角色。 | Node.js"
 type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
 sidebar_position: 9
@@ -21,9 +20,10 @@ keywords:
   - zilliz cloud
   - cloud
   - describeRole()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,116 +31,164 @@ import Admonition from '@theme/Admonition';
 
 # describeRole()
 
-This operation describes a specific role.
+此操作描述特定角色。
 
 ```javascript
-describeRole(data): Promise<SelectRoleResponse>
+await milvusClient.describeRole(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.describeRole({
+await milvusClient.describeRole({
     includeUserInfo?: boolean,
     roleName: string,
     timeout?: number
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **roleName** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the role to describe.
+    要描述的角色名称。
 
 - **includeUserInfo** (*boolean*) -
 
-    A boolean value indicating whether to include user information.
+    一个布尔值，用于指示是否包含用户信息。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将此项设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**Returns** *Promise\<SelectRoleResponse>*
+**返回值** *Promise&lt;SelectRoleResponse&gt;*
 
-This method returns a promise that resolves to a **SelectRoleResponse** object.
+此方法返回一个 promise，该 promise 会解析为一个 **SelectRoleResponse** 对象。
 
-```javascript
+```typescript
 {
     results: RoleResult[],
     status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **RoleResult** *(RoleResult[]) -*
-
-    - **entities** (*GrantEntity[]*) -
-
-        - **db_name** (*string*) -
-
-            The name of the database(s) that the current role can access.
-
-        - **grantor** (*Grantor*) -
-
-            - **privilege** (*string*) -
-
-                The privileges of the grantor
-
-            - **user** (*string*) -
-
-                The name of grantor.
-
-        - **object** (*ObjectEntity*) -
-
-            - **name** (*RbacObjects*) -
-
-                The object of the role. Possible values include *Collection, Global, and User.*
-
-        - **object_name** (*string*) -
-
-            The name of the object.
-
-        - **role** (*RoleEntity*) -
-
-            - **name** (*string*) -
-
-                The name of the current role.
+- **results** (*RoleResult[]*) -<br/>
+  **RoleResult** 对象列表。对于 `describeRole()`，该列表只包含一个条目，用于描述所请求的角色。
 
     - **role** (*RoleEntity*) -
 
+        描述该角色的 **RoleEntity** 对象。
+
         - **name** (*string*) -
 
-            The name of the current role.
+        角色名称。
+
+        - **name** (*string*) -
+
+            角色名称。
 
     - **users** (*User[]*) -
 
+        持有此角色的用户列表。
+
         - **name** (*string*) -
 
-            The name(s) of the user(s) with the specified role.
+        用户名。
 
-- **ResStatus**
+        - **name** (*string*) -
 
-    A **ResStatus** object.
+            用户名。
+
+    - **entities** (*GrantEntity[]*) -
+
+        附加到此角色的授权列表。每个条目都包含已授予的权限、目标对象以及执行授权的用户。
+
+        - **role** (*RoleEntity*) -
+
+        被授予该权限的角色。
+
+        - **object** (*ObjectEntity*) -
+
+        该权限适用的对象类型（例如 **Collection**、**Global**、**User**）。
+
+        - **object_name** (*string*) -
+
+        该权限适用的具体对象名称。对所有对象使用 `*`。
+
+        - **grantor** (*Grantor*) -
+
+        授予该权限的主体。
+
+          - **user** (*User*) -
+
+          授予该权限的用户。
+
+          - **privilege** (*PrivilegeEntity*) -
+
+          被授予的权限。
+
+        - **db_name** (*string*) -
+
+        该授权适用的数据库。对所有数据库使用 `*`。
+
+        - **role** (*RoleEntity*) -
+
+            被授予该权限的角色。
+
+        - **object** (*ObjectEntity*) -
+
+            该权限适用的对象类型（例如 **Collection**、**Global**、**User**）。
+
+        - **object_name** (*string*) -
+
+            该权限适用的具体对象名称。对所有对象使用 `*`。
+
+        - **grantor** (*Grantor*) -
+
+            授予该权限的主体。
+
+            - **user** (*User*) -
+
+            授予该权限的用户。
+
+            - **privilege** (*PrivilegeEntity*) -
+
+            被授予的权限。
+
+            - **user** (*User*) -
+
+                授予该权限的用户。
+
+            - **privilege** (*PrivilegeEntity*) -
+
+                被授予的权限。
+
+        - **db_name** (*string*) -
+
+            该授权适用的数据库。对所有数据库使用 `*`。
+
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则该值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误码。如果此操作成功，则该值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则该值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
 milvusClient.describeRole({roleName: 'myrole'});

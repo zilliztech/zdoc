@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getPartitionStatistics() | Node.js"
 slug: /node/node/Partitions-getPartitionStatistics
 sidebar_label: "getPartitionStatistics()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation displays the statistics collected on a specific partition. | Node.js"
+description: "此操作显示在特定分区上收集的统计信息。 | Node.js"
 type: docx
 token: XDXid6aZ8oCHnVxxFpPcKAB9n0c
 sidebar_position: 3
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - getPartitionStatistics()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # getPartitionStatistics()
 
-This operation displays the statistics collected on a specific partition.
+此操作显示在特定分区上收集的统计信息。
 
 ```javascript
-getPartitionStatistics(data): Promise<StatisticsResponse>
+await milvusClient.getPartitionStatistics(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.getPartitionStatistics({
+await milvusClient.getPartitionStatistics({
     db_name: string,
     collection_name: string,
     partition_name: string,
@@ -48,70 +48,72 @@ milvusClient.getPartitionStatistics({
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    保存目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **partition_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of an existing partition.
+    现有分区的名称。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<StatisticsResponse>*
+**返回值** *Promise&lt;StatisticsResponse&gt;*
 
-This method returns a promise that resolves to a **StatisticsResponse** object.
+此方法返回一个 promise，该 promise 会解析为一个 **StatisticsResponse** 对象。
 
-```javascript
+```typescript
 {
-    data: string,
-    stats:string,
-    status: object
+    stats: KeyValuePair[],
+    data: { [x: string]: any },
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **data** (*string*) -
+- **stats** (*KeyValuePair[]*) -<br/>
+  Milvus 返回的原始统计信息列表。每个条目都包含一个 **key**（例如 **row_count**）和一个字符串类型的 **value**。
 
-    The partition statistics.
+- **data** (*Record&lt;string, any&gt;*) -<br/>
+  为便于使用而提供的 **stats** 扁平化键索引视图。例如，`data.row_count` 以字符串形式返回分区的行数。
 
-- **stats** (*string*) -
-
-    The number of rows in the partition.
-
-- **status** (*object*) -
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-new milvusClient(MILUVS_ADDRESS).getPartitionStatistics({
+new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+}).getPartitionStatistics({
     collection_name: 'my_collection',
     partition_name: "_default",
  });

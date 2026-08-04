@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "insert() | Node.js"
 slug: /node/node/Vector-insert
 sidebar_label: "insert()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation inserts data into a specific collection. | Node.js"
+description: "此操作将数据插入到指定集合中。 | Node.js"
 type: docx
 token: SZNQds74zoKniRxtJwdcfdz1nCh
 sidebar_position: 5
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,43 +31,43 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-This operation inserts data into a specific collection.
+此操作将数据插入到指定集合中。
 
 ```javascript
-insert(data): Promise<MutationResult>
+await milvusClient.insert(data: InsertReq)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.insert({
-    db_name: string,
+await milvusClient.insert({
     collection_name: string,
-    data?: RowData[],
+    data: RowData | RowData[],
     partition_name?: string,
-    timeout?: number
+    db_name?: string,
+    timeout?: number,
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    持有目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **data** (*RowData[]*) -
 
-    The data to insert into the current collection.
+    要插入当前集合的数据。
 
-    The data to insert should be a dictionary that matches the schema of the current collection or a list of such dictionaries. 
+    要插入的数据应为与当前集合 schema 匹配的字典，或此类字典组成的列表。
 
-    The following code assumes that the schema of the current collection has two fields named **id** and **vector**. The former is the primary field and the latter is a field to hold 5-dimensional vector embeddings.
+    以下代码假设当前集合的 schema 包含两个名为 **id** 和 **vector** 的字段。前者是主字段，后者是用于存储 5 维向量嵌入的字段。
 
     ```javascript
     // A dictionary, or
@@ -109,88 +109,105 @@ milvusClient.insert({
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
 - **partition_name** (*string* | *None*) -
 
-    The name of a partition in the current collection. 
+    当前集合中某个分区的名称。
 
-    If specified, the data is to be inserted into the specified partition.
+    如果指定，则数据将插入到指定分区中。
 
-**RETURNS** *Promise\<MutationResult>*
+**返回值** *Promise&lt;MutationResult&gt;*
 
-This method returns a promise that resolves to a **MutationResult** object.
+此方法返回一个 promise，解析为一个 **MutationResult** 对象。
 
-```javascript
+```typescript
 {
-    IDs: NumberArrayId | StringArrayId,
+    succ_index: number[],
+    err_index: number[],
     acknowledged: boolean,
-    delete_cnt: string,
-    err_index: list[number],
     insert_cnt: string,
-    status: object,
-    succ_index: list[number],
+    delete_cnt: string,
+    upsert_cnt: string,
     timestamp: string,
-    upsert_cnt: string
+    IDs: { int_id?: { data: number[] }, str_id?: { data: string[] }, id_field: 'int_id' | 'str_id' },
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **IDs** (*NumberArrayId* | *StringArrayId*) -
+- **succ_index** (*number[]*) -<br/>
+  输入数据中成功插入的行的零基位置。
 
-    A list of the IDs of the inserted entities.
+- **err_index** (*number[]*) -<br/>
+  被拒绝的行的零基位置。当所有行都成功时，此列表为空。
 
-- **acknowledged** (*boolean*) -
+- **acknowledged** (*boolean*) -<br/>
+  此写入是否已被 Milvus 确认。
 
-    A boolean value indicating whether the insert operation is successful.
+- **insert_cnt** (*string*) -<br/>
+  已插入的行数，格式为字符串。
 
-- **delete_cnt** (*string*) -
+- **delete_cnt** (*string*) -<br/>
+  此操作删除的行数。对于 `insert()`，该值始终为 **"0"**。
 
-    The deleted entities. The value stays `0` in this operation.
+- **upsert_cnt** (*string*) -<br/>
+  此操作 upsert 的行数。对于 `insert()`，该值始终为 **"0"**。
 
-- **err_index** (Number[]) -
+- **timestamp** (*string*) -<br/>
+  写入变为可见时的混合时间戳。可将此值用于时间旅行查询。
 
-    The number of entities involved in the insert operation that fails.
+- **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
+  分配给已插入行的主键。对于 autoID 集合，这些值由 Milvus 生成；否则，它们与输入键一致。
 
-- **insert_cnt** (*string*) -
+    - **int_id** (*\{ data: number[] }*) -
 
-    The new entities that are inserted. 
+        当主键为整数类型字段时设置。
 
-- **succ_index** (*list[number]*) -
+    - **str_id** (*\{ data: string[] }*) -
 
-    The number of entities involved in the insert operation that have been successfully indexed.
+        当主键为 VARCHAR 字段时设置。
 
-- **timestamp** (*string*) -
+    - **id_field** (*'int_id' | 'str_id'*) -
 
-    The timestamp at which the upsert operation occurs.
+        指示两个 id 数组中哪一个携带这些值。
 
-- **upsert_cnt** (*string*) -
-
-    The entities that have been updated. The value stays `0` in this operation.
-
-- **status** (*object*) -
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        指示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        指示已发生错误的错误码。如果此操作成功，则其值保持为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        指示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
-const res = await milvusClient.listAliases({
-   collection_name: 'my_collection',
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
 });
+
+const res = await milvusClient.insert({
+    collection_name: 'my_collection',
+    data: [
+        { id: 1, vector: [0.1, 0.2, 0.3, 0.4, 0.5], text: 'Hello' },
+        { id: 2, vector: [0.6, 0.7, 0.8, 0.9, 1.0], text: 'World' },
+    ],
+});
+
+console.log(res.insert_cnt); // '2'
 ```
 

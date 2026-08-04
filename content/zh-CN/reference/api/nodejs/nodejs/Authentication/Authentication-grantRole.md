@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "grantRole() | Node.js"
 slug: /node/node/Authentication-grantRole
 sidebar_label: "grantRole()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation grants a role to a user. | Node.js"
+description: "此操作为用户授予角色。 | Node.js"
 type: docx
 token: LPJsdEnvwo6apcxjhZgc3rpDnuc
 sidebar_position: 16
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - grantRole()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,45 +31,45 @@ import Admonition from '@theme/Admonition';
 
 # grantRole()
 
-This operation grants a role to a user.
+此操作为用户授予角色。
 
 ```javascript
-grantRole(data): Promise<ResStatus>
+await milvusClient.grantRole(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.grantRole({
+await milvusClient.grantRole({
    username: string,
    roleName: string,
    timeout?: number
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **username** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of an existing user.
+    现有用户的名称。
 
 - **roleName** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the role to assign.
+    要分配的角色名称。
 
 - **timeout** (number)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 Promise，该 Promise 解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -79,24 +79,24 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-milvusClient.grantRole({
+await milvusClient.grantRole({
    username: 'my',
    roleName: 'myrole'
  })

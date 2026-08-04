@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "describeAlias() | Node.js"
 slug: /node/node/Collections-describeAlias
 sidebar_label: "describeAlias()"
-added_since: v2.3.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.3.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation describes a specific alias. | Node.js"
+description: "此操作用于描述特定别名。 | Node.js"
 type: docx
 token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
 sidebar_position: 7
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,49 +31,55 @@ import Admonition from '@theme/Admonition';
 
 # describeAlias()
 
-This operation describes a specific alias.
+此操作用于描述特定别名。
 
 ```javascript
-describeAlias(data): Promise<DescribeAliasResponse>
+await milvusClient.describeAlias(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.describeAlias({
+await milvusClient.describeAlias({
     db_name: string,
     alias: string,
     collection_name: string
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*str*) -
 
-    The name of the database that holds the target collection.
+    保存目标集合的数据库名称。
 
 - **alias** (*str*) -
 
     **[REQUIRED]**
 
-    The alias of a collection. Note that the alias should exist beforehand.
+    集合的别名。请注意，该别名应预先存在。
 
-    <Admonition type="info" icon="📘" title="What is a collection alias?">
+    <Admonition type="info" icon="📘" title="说明">
 
-    <p>A collection alias is an additional name for a collection. Collection aliases are useful when you want to switch your application to a new collection without any changes to your code. </p>
-    <p>On Zilliz Cloud, a collection alias is a globally unique identifier. One alias can only be assigned to exactly one collection. Conversely, a collection can have multiple aliases.</p>
-    <p>Below is an example of reassigning the alias of one collection to another:</p>
-    <p>Suppose there are two collections: <code>collection_1</code> and <code>collection_2</code>. There is also a collection alias named <code>bob</code>, which was originally assigned to <code>collection_1</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = ["bob"]</p></li>
-    <li><p><code>collection_2</code>'s alias = []</p></li>
-    </ul>
-    <p>After calling <code>alter_alias("collection_2", "bob")</code>:</p>
-    <ul>
-    <li><p><code>collection_1</code>'s alias = []</p></li>
-    <li><p><code>collection_2</code>'s alias = ["bob"]</p></li>
-    </ul>
+    什么是集合别名？
+    
+        集合别名是集合的附加名称。当你希望将应用切换到新集合而无需修改代码时，集合别名会很有用。 
+    
+        在 Zilliz Cloud 上，集合别名是全局唯一标识符。一个别名只能分配给且仅分配给一个集合。反过来，一个集合可以拥有多个别名。
+    
+        下面是将一个集合的别名重新分配给另一个集合的示例：
+    
+        假设有两个集合：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的集合别名，最初分配给 `collection_1`：
+    
+        - `collection_1`'s alias = ["bob"]
+    
+        - `collection_2`'s alias = []
+    
+        调用 `alter_alias("collection_2", "bob")` 后：
+    
+        - `collection_1`'s alias = []
+    
+        - `collection_2`'s alias = ["bob"]
 
     </Admonition>
 
@@ -81,53 +87,54 @@ milvusClient.describeAlias({
 
     **[REQUIRED]**
 
-    The name of the collection that has the specified alias.
+    具有指定别名的集合名称。
 
-**RETURNS** *Promise\<DescribeAliasResponse>*
+**返回值** *Promise&lt;DescribeAliasResponse&gt;*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 会解析为 **DescribeAliasResponse** 对象。
 
-```javascript
+```typescript
 {
-    alias: string;
-    collection: string;
-    db_name: string;
-    status: ResStatus;
+    db_name: string,
+    alias: string,
+    collection: string,
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **alias** (*string*) -
+- **db_name** (*string*) -<br/>
+  拥有该别名的数据库。
 
-    The name of the specified alias.
+- **alias** (*string*) -<br/>
+  别名名称。
 
-- **collection** (*string*) -
+- **collection** (*string*) -<br/>
+  该别名当前指向的集合名称。
 
-    The name of the specified collection.
-
-- **db_name** (*string*) -
-
-    The database that holds the above alias and collection.
-
-- **status** (*ResStatus*) -  
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const res = await milvusClient.describeAlias({
    alias: 'my_collection_alias',
    collection_name: 'my_collection',

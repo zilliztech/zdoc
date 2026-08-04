@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "count() | Node.js"
 slug: /node/node/Vector-count
 sidebar_label: "count()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation counts the number of entities that match the specified filtering expression. | Node.js"
+description: "此操作用于统计与指定过滤表达式匹配的实体数量。 | Node.js"
 type: docx
 token: NaOadUNSpo1EsIxPMSfc0R4Hnfb
 sidebar_position: 1
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - count()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # count()
 
-This operation counts the number of entities that match the specified filtering expression.
+此操作用于统计与指定过滤表达式匹配的实体数量。
 
 ```javascript
-count(data): Promise<CountResult>
+await milvusClient.count(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.count({
+await milvusClient.count({
     db_name?: string,
     collection_name: string,
     expr?: string,
@@ -48,67 +48,66 @@ milvusClient.count({
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*str*) -
 
-    The name of the database that holds the target collection.
+    保存目标集合的数据库名称。
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The name of the collection to create an alias for.
+    要为其创建别名的集合名称。
 
 - **expr** (*string*) -
 
-    A scalar filtering condition to filter matching entities. 
+    用于筛选匹配实体的标量过滤条件。 
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+    你可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参见[布尔表达式规则](https://milvus.io/docs/boolean.md)。 
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURNS** *Promise*\<*CountResult*>
+**返回值** *Promise&lt;CountResult&gt;*
 
-This method returns a promise that resolves to a **CountResult** object.
+此方法返回一个 Promise，该 Promise 解析为一个 **CountResult** 对象。
 
-```javascript
+```typescript
 {
     data: number,
-    status: {
-        code: number,
-        error_code: number | string,
-        reason: string
-    }
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **data** (*number*) -
+- **data** (*number*) -<br/>
+  集合中与提供的过滤表达式匹配的行数。未提供表达式时，该值为总行数。
 
-    The number of entities that match the specified filtering expression.
-
-- **status** (*object*) -
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        指示操作结果的代码。如果此操作成功，则该值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        指示已发生错误的错误代码。如果此操作成功，则该值始终为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        指示所报告错误原因的说明。如果此操作成功，则该值始终为空字符串。
 
-## Examples
+## 示例\{#examples}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const num_entities = await milvusClient.count({
    collection_name: 'my_collection',
    expr: "age in [1,2,3,4,5,6,7,8]",

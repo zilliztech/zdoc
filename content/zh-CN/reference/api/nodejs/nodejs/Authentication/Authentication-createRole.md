@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "createRole() | Node.js"
 slug: /node/node/Authentication-createRole
 sidebar_label: "createRole()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation creates a custom role. | Node.js"
+description: "此操作创建一个自定义角色。 | Node.js"
 type: docx
 token: SDoYdccLWo1W3PxkNFncibwDnch
 sidebar_position: 6
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - 什么是 milvus
+  - milvus 数据库
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - createRole()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,38 +31,38 @@ import Admonition from '@theme/Admonition';
 
 # createRole()
 
-This operation creates a custom role.
+此操作创建一个自定义角色。
 
 ```javascript
-createRole(data): Promise<ResStatus>
+await milvusClient.createRole(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.createRole({
+await milvusClient.createRole({
    roleName: string,
    timeout?: number
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **roleName** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the role to create.
+    要创建的角色名称。
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 Promise，该 Promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -72,24 +72,24 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-milvusClient.createRole({
+await milvusClient.createRole({
    roleName: 'exampleRole',
  })
 ```

@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "revokePrivilegeV2() | Node.js"
 slug: /node/node/Authentication-revokePrivilegeV2
 sidebar_label: "revokePrivilegeV2()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation revokes a privilege already assigned to a role. | Node.js"
+description: "此操作会撤销已分配给某个角色的权限。 | Node.js"
 type: docx
 token: UlAUdLNkCo1Mp8xFZYWclSL9n6b
 sidebar_position: 26
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - revokePrivilegeV2()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # revokePrivilegeV2()
 
-This operation revokes a privilege already assigned to a role.
+此操作会撤销已分配给某个角色的权限。
 
 ```javascript
-revokePrivilegeV2(data): Promise<ResStatus>
+await milvusClient.revokePrivilegeV2(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.revokePrivilege({
+await milvusClient.revokePrivilege({
    role: string,
    privilege: string,
    db_name: string,
@@ -49,43 +49,43 @@ milvusClient.revokePrivilege({
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **role** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the role from which to revoke the specified privileges.
+    要从中撤销指定权限的角色名称。
 
 - **privilege** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the privilege or privilege group to assign. 
+    要分配的权限或权限组名称。 
 
-    For details, refer to [Users and Roles](https://milvus.io/docs/users_and_roles.md).
+    详情请参见[Users and Roles](https://milvus.io/docs/users_and_roles.md)。
 
 - **db_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the target database of this operation. 
+    此操作的目标数据库名称。 
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the target collection of this operation. 
+    此操作的目标集合名称。 
 
 - **timeout** (*float* | *None*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -95,21 +95,21 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
 await milvusClient.revokePrivilegeV2({

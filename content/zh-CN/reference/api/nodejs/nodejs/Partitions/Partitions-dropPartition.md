@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "dropPartition() | Node.js"
 slug: /node/node/Partitions-dropPartition
 sidebar_label: "dropPartition()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a specified partition from the current collection. | Node.js"
+description: "此操作从当前集合中删除指定分区。 | Node.js"
 type: docx
 token: BBmsddqZEozxWyxkoADcFfzpncW
 sidebar_position: 2
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 无服务器向量数据库
+  - Milvus 开源
+  - Milvus 如何工作
+  - Zilliz 向量数据库
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - dropPartition()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # dropPartition()
 
-This operation drops a specified partition from the current collection.
+此操作从当前集合中删除指定分区。
 
 ```javascript
-dropPartition(data): Promise<ResStatus>
+await milvusClient.dropPartition(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.dropPartition({
+await milvusClient.dropPartition({
     db_name: string,
     collection_name: string,
     partition_name: string,
@@ -48,33 +48,33 @@ milvusClient.dropPartition({
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    保存目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of an existing collection.
+    现有集合的名称。
 
 - **partition_name** (*string*)
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the partition to drop.
+    要删除的分区名称。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -84,24 +84,27 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则该值始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误代码。如果此操作成功，则该值始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则该值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-new milvusClient(MILUVS_ADDRESS).dropPartition({
+new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+}).dropPartition({
     collection_name: 'my_collection',
     partition_name: 'my_partition',
  });

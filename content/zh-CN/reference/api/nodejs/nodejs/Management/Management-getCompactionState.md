@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getCompactionState() | Node.js"
 slug: /node/node/Management-getCompactionState
 sidebar_label: "getCompactionState()"
-added_since: v2.4.x
-last_modified: false
-deprecate_since: false
 beta: false
+added_since: v2.4.x
+last_modified: v3.0.x
+deprecate_since: false
 notebook: false
-description: "This operation lists the statistics collected on a specific collection. | Node.js"
+description: "此操作列出在特定 collection 上收集的统计信息。 | Node.js"
 type: docx
 token: CRFLdvgkhoeRikxMcMAcJk3qnIc
 sidebar_position: 9
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - getCompactionState()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,91 +31,89 @@ import Admonition from '@theme/Admonition';
 
 # getCompactionState()
 
-This operation lists the statistics collected on a specific collection.
+此操作列出在特定 collection 上收集的统计信息。
 
 ```javascript
-getCompactionState(data): Promise<GetCompactionStateResponse>
+await milvusClient.getCompactionState(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.getCompactionState({ 
+await milvusClient.getCompactionState({ 
     compactionID: string | number,
     timeout?: number 
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **compactionID** (*string | number*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    The ID of a compaction job that is returned by a call to [`compact()`](./Management-compact).
+    由调用 [`compact()`](./Management-compact) 返回的 compaction 作业 ID。
 
 - **timeout** (*number*) -
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
+    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作即超时。
 
-**RETURNS** *Promise\<GetCompactionStateResponse>*
+**返回值** *Promise&lt;GetCompactionStateResponse&gt;*
 
-This method returns a promise that resolves to a **GetCompactionStateResponse** object.
+此方法返回一个 promise，解析为 **GetCompactionStateResponse** 对象。
 
-```javascript
+```typescript
 {
-    completedPlanNo: string,
-    executingPlanNo: string,
     state: CompactionState,
-    status: ResStatus,
+    executingPlanNo: string,
     timeoutPlanNo: string,
+    completedPlanNo: string,
+    failedPlanNo: string,
+    status:  ResStatus
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
-- **completedPlanNo** (*string*) -
+- **state** (*CompactionState*) -<br/>
+  compaction 的聚合状态。可能的值包括 **UndefiedState**、**Executing** 和 **Completed**。
 
-    The serial number of the completed plan for the specified compaction job.
+- **executingPlanNo** (*string*) -<br/>
+  仍在执行中的计划数量。
 
-- **executingPlanNo** (*string*) -
+- **timeoutPlanNo** (*string*) -<br/>
+  已超时的计划数量。
 
-    The serial number of the executing plan for the specified compaction job.
+- **completedPlanNo** (*string*) -<br/>
+  已成功完成的计划数量。
 
-- **state** (*CompactionState*) -
+- **failedPlanNo** (*string*) -<br/>
+  失败的计划数量。
 
-    The state of the specified compaction job. Possible values are as follows:
-
-    - **Completed** (2)
-
-    - **Executing** (1)
-
-    - **UndefiedState** (0)
-
-- **status** (*ResStatus*) -
+- **ResStatus**<br/>
+  一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        A code that indicates the operation result. It remains **0** if this operation succeeds.
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+        表示已发生错误的错误码。如果此操作成功，则其值保持为 **Success**。
 
-    - **reason** (*string*) - 
+    - **reason** (*string*) -
 
-        The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
-- **timeoutPlanNo** (*string*) -
-
-    The serial number of the timeout plan for the specified compaction job.
-
-## Example
+## 示例\{#example}
 
 ```javascript
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.getCompactionState({
     compactionID: 'your_compaction_id',
 });

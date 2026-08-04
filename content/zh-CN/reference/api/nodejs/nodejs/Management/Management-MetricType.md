@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "MetricType | Node.js"
 slug: /node/node/Management-MetricType
 sidebar_label: "MetricType"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Node.js"
+description: "这是一个提供以下常量的枚举。 | Node.js"
 type: docx
 token: KQDEdcccXozuKpxDg78cSmxYnQg
 sidebar_position: 21
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - MetricType
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,56 +31,56 @@ import Admonition from '@theme/Admonition';
 
 # MetricType
 
-This is an enumeration that provides the following constants.
+这是一个提供以下常量的枚举。
 
 - **L2**
 
-    Sets the metric type to Euclidean distance (L2). This applies only to float vectors.
+    将度量类型设置为欧几里得距离（L2）。这仅适用于浮点向量。
 
 - **IP**
 
-    Sets the metric type to inner product (IP). This applies only to float vectors.
+    将度量类型设置为内积（IP）。这仅适用于浮点向量。
 
 - **COSINE**
 
-    Sets the metric type to COSINE. This applies only to float vectors.
+    将度量类型设置为 COSINE。这仅适用于浮点向量。
 
 - **HAMMING**
 
-    Sets the metric type to HAMMING. This applies only to binary vectors.
+    将度量类型设置为 HAMMING。这仅适用于二进制向量。
 
 - **JACCARD**
 
-    Sets the metric type to JACCARD. This applies only to binary vectors.
+    将度量类型设置为 JACCARD。这仅适用于二进制向量。
 
 - **BM25**
 
-    Sets the metric type to BM25. This applies only to sparse vectors.
+    将度量类型设置为 BM25。这仅适用于稀疏向量。
 
 - **MHJACCARD**
 
-    Sets the metric type to MHJACCARD. This applies only to binary vectors.
+    将度量类型设置为 MHJACCARD。这仅适用于二进制向量。
 
 - **MAX_SIM**
 
-    Sets the metric type to MAX_SIM. This applies only to embedding lists.
+    将度量类型设置为 MAX_SIM。这仅适用于 embedding 列表。
 
 - **MAX_SIM_COSINE**
 
-    Sets the metric type to MAX_SIM_COSINE. This applies only to embedding lists.
+    将度量类型设置为 MAX_SIM_COSINE。这仅适用于 embedding 列表。
 
 - **MAX_SIM_IP**
 
-    Sets the metric type to MAX_SIM_IP. This applies only to embedding lists.
+    将度量类型设置为 MAX_SIM_IP。这仅适用于 embedding 列表。
 
 - **MAX_SIM_L2**
 
-    Sets the metric type to MAX_SIM_L2. This applies only to embedding lists.
+    将度量类型设置为 MAX_SIM_L2。这仅适用于 embedding 列表。
 
 - **DTW_COSINE**
 
-    Sets the metric type to DTW_COSINE. This applies only to embedding lists.
+    将度量类型设置为 DTW_COSINE。这仅适用于 embedding 列表。
 
 - **DTW_IP**
 
-    Sets the metric type to DTW_IP. This applies only to embedding lists.
+    将度量类型设置为 DTW_IP。这仅适用于 embedding 列表。

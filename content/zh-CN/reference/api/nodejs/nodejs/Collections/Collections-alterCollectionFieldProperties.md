@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "alterCollectionFieldProperties() | Node.js"
 slug: /node/node/Collections-alterCollectionFieldProperties
 sidebar_label: "alterCollectionFieldProperties()"
+beta: false
 added_since: v2.4.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation modifies the properties of a specified collection field. | Node.js"
+description: "此操作用于修改指定集合字段的属性。 | Node.js"
 type: docx
 token: RQH5dhSenoDGjYxyBb2c3n1rnie
 sidebar_position: 2
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionFieldProperties()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionFieldProperties()
 
-This operation modifies the properties of a specified collection field.
+此操作用于修改指定集合字段的属性。
 
 ```javascript
-alterCollectionFieldProperties(data): Promise<ResStatus>
+await milvusClient.alterCollectionFieldProperties(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.alterCollectionFieldProperties({
+await milvusClient.alterCollectionFieldProperties({
    db_name?: string
    collection_name: string,
    field_name: string,
@@ -49,55 +49,55 @@ milvusClient.alterCollectionFieldProperties({
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the target collection.
+    持有目标集合的数据库名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the target collection to reassign an alias to.
+    要重新分配别名的目标集合名称。
 
 - **field_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The name of the target field name.
+    目标字段名称。
 
 - **properties** (*Properties*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The properties to change and their expected values in a TypeScript **Record**. Possible values are as follows:
+    要更改的属性及其期望值，采用 TypeScript **Record** 表示。可能的值如下：
 
     - **max_length** (*number*) -
 
-        The maximum byte length for strings allowed to be inserted. Note that multibyte characters (e.g., Unicode characters) may occupy more than one byte each, so ensure the byte length of inserted strings does not exceed the specified limit. Value range: [1, 65,535].
+        允许插入的字符串的最大字节长度。请注意，多字节字符（例如 Unicode 字符）每个可能占用多个字节，因此请确保插入字符串的字节长度不超过指定限制。取值范围：[1, 65,535]。
 
-        This is mandatory for a **DataType.VARCHAR** field.
+        这是 **DataType.VARCHAR** 字段的必需项。
 
     - **max_capacity** (*number*) -
 
-        The number of elements in an Array field value.
+        Array 字段值中的元素数量。
 
-        This is mandatory for a **DataType.ARRAY** field.
+        这是 **DataType.ARRAY** 字段的必需项。
 
     - **mmap_enabled** (*bool*) -
 
-        Whether Milvus maps the field data into memory instead of fully loading it. For details, refer to MMap-enabled Data Storage.
+        是否让 Milvus 将字段数据映射到内存中，而不是将其完全加载到内存。详情请参见 MMap-enabled Data Storage。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。 
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -107,24 +107,27 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。 
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.alterCollectionField({
   collection_name: 'my-collection',
   field_name: 'my-field',

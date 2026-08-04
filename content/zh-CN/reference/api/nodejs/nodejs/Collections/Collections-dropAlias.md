@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "dropAlias() | Node.js"
 slug: /node/node/Collections-dropAlias
 sidebar_label: "dropAlias()"
+beta: false
 added_since: v2.3.x
 last_modified: false
 deprecate_since: false
-beta: false
 notebook: false
-description: "This operation drops a specified collection alias. | Node.js"
+description: "此操作会删除指定的集合别名。 | Node.js"
 type: docx
 token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
 sidebar_position: 9
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,16 +31,16 @@ import Admonition from '@theme/Admonition';
 
 # dropAlias()
 
-This operation drops a specified collection alias. 
+此操作会删除指定的集合别名。
 
 ```javascript
-dropAlias(data): Promise<ResStatus>
+await milvusClient.dropAlias(data)
 ```
 
-## Request Syntax
+## 请求语法\{#request-syntax}
 
 ```javascript
-milvusClient.dropAlias({
+await milvusClient.dropAlias({
    alias: string,
    db_name: string,
    collection_name: string,
@@ -48,33 +48,33 @@ milvusClient.dropAlias({
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **alias** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    The alias of a collection. 
+    集合的别名。
 
-    Before this operation, ensure that the alias exists. Otherwise, exceptions will occur.
+    在执行此操作之前，请确保该别名已存在。否则会发生异常。
 
 - **db_name** (*string*) -
 
-    The name of the database that holds the specified collection.
+    保存指定集合的数据库名称。
 
 - **collection_name** (*string*) -
 
-    The name of the collection that the alias binds to.
+    该别名绑定的集合名称。
 
 - **timeout** (*number*)  
 
-    The timeout duration for this operation. 
+    此操作的超时时长。
 
-    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-This method returns a promise that resolves to a **ResStatus** object.
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -84,24 +84,27 @@ This method returns a promise that resolves to a **ResStatus** object.
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    A code that indicates the operation result. It remains **0** if this operation succeeds.
+    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+    表示发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
 - **reason** (*string*) - 
 
-    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
-## Example
+## 示例\{#example}
 
 ```java
-const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const milvusClient = new MilvusClient({
+    address: 'YOUR_CLUSTER_ENDPOINT',
+    token: 'YOUR_CLUSTER_TOKEN',
+});
 const resStatus = await milvusClient.dropAlias({
    alias: 'my_collection_alias',
    collection_name: 'my_collection',

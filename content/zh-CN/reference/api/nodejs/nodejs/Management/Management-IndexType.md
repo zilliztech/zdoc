@@ -1,29 +1,29 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "IndexType | Node.js"
 slug: /node/node/Management-IndexType
 sidebar_label: "IndexType"
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
-beta: false
 notebook: false
-description: "This is an enumeration that provides the following constants. | Node.js"
+description: "这是一个提供以下常量的枚举。 | Node.js"
 type: docx
 token: SI3Td00AroRtx8xXQcUce8i2nrb
 sidebar_position: 15
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
-  - nodejs26
+  - nodejs30
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -31,71 +31,83 @@ import Admonition from '@theme/Admonition';
 
 # IndexType
 
-This is an enumeration that provides the following constants.
+这是一个提供以下常量的枚举。
 
-## Constants
+## Constants\{#constants}
 
-- **ANNOY** = ANNOY
-Sets the index type to ANNOY.
+- **ANNOY** = ANNOY<br/>
+  将索引类型设置为 ANNOY。
 
-- **AUTOINDEX** = AUTOINDEX
-Sets the index type to AUTOINDEX.
+- **AUTOINDEX** = AUTOINDEX<br/>
+  将索引类型设置为 AUTOINDEX。
 
-- **BIN_FLAT** = BIN_FLAT
-Sets the index type to BIN_FLAT.
+- **BIN_FLAT** = BIN_FLAT<br/>
+  将索引类型设置为 BIN_FLAT。
 
-- **BIN_IVF_FLAT** = BIN_IVF_FLAT
-Sets the index type to BIN_IVF_FLAT.
+- **BIN_IVF_FLAT** = BIN_IVF_FLAT<br/>
+  将索引类型设置为 BIN_IVF_FLAT。
 
-- **DISKANN** = DISKANN
-Sets the index type to DISKANN.
+- **DISKANN** = DISKANN<br/>
+  将索引类型设置为 DISKANN。
 
-- **FLAT** = FLAT
-Sets the index type to FLAT.
+- **FLAT** = FLAT<br/>
+  将索引类型设置为 FLAT。
 
-- **GPU_FLAT** = GPU_FLAT
-Sets the index type to GPU_FLAT.
+- **GPU_FLAT** = GPU_FLAT<br/>
+  将索引类型设置为 GPU_FLAT。
 
-- **GPU_IVF_FLAT** = GPU_IVF_FLAT
-Sets the index type to GPU_IVF_FLAT.
+- **GPU_IVF_FLAT** = GPU_IVF_FLAT<br/>
+  将索引类型设置为 GPU_IVF_FLAT。
 
-- **GPU_IVF_PQ** = GPU_IVF_PQ
-Sets the index type to GPU_IVF_PQ.
+- **GPU_IVF_PQ** = GPU_IVF_PQ<br/>
+  将索引类型设置为 GPU_IVF_PQ。
 
-- **GPU_IVF_SQ8** = GPU_IVF_SQ8
-Sets the index type to GPU_IVF_SQ8.
+- **GPU_IVF_SQ8** = GPU_IVF_SQ8<br/>
+  将索引类型设置为 GPU_IVF_SQ8。
 
-- **HNSW** = HNSW
-Sets the index type to HNSW.
+- **HNSW** = HNSW<br/>
+  将索引类型设置为 HNSW。
 
-- **IVF_FLAT** = IVF_FLAT
-Sets the index type to IVF_FLAT.
+- **IVF_FLAT** = IVF_FLAT<br/>
+  将索引类型设置为 IVF_FLAT。
 
-- **IVF_PQ** = IVF_PQ
-Sets the index type to IVF_PQ.
+- **IVF_PQ** = IVF_PQ<br/>
+  将索引类型设置为 IVF_PQ。
 
-- **IVF_SQ8** = IVF_SQ8
-Sets the index type to IVF_SQ8.
+- **IVF_SQ8** = IVF_SQ8<br/>
+  将索引类型设置为 IVF_SQ8。
 
-- **RAFT_IVF_FLAT** = RAFT_IVF_FLAT
-Sets the index type to RAFT_IVF_FLAT.
+- **RAFT_IVF_FLAT** = RAFT_IVF_FLAT<br/>
+  将索引类型设置为 RAFT_IVF_FLAT。
 
-- **RAFT_IVF_PQ** = RAFT_IVF_PQ
-Sets the index type to RAFT_IVF_PQ.
+- **RAFT_IVF_PQ** = RAFT_IVF_PQ<br/>
+  将索引类型设置为 RAFT_IVF_PQ。
 
-- **STL_SORT** = STL_SORT
-Sets the index type to STL_SORT.
+- **STL_SORT** = STL_SORT<br/>
+  将索引类型设置为 STL_SORT。
 
-- **ScaNN** = ScaNN
-Sets the index type to ScaNN.
+- **ScaNN** = ScaNN<br/>
+  将索引类型设置为 ScaNN。
 
-- **TRIE** = Trie
-Sets the index type to Trie.
+- **TRIE** = Trie<br/>
+  将索引类型设置为 Trie。
 
 - **INVERTED** = 'INVERTED'
 
-    Sets the index type to INVERTED.
+    将索引类型设置为 INVERTED。
 
 - **BITMAP** = 'BITMAP'
 
-    Sets the index type to BITMAP.
+    将索引类型设置为 BITMAP。
+
+- **IVF_RABITQ** = 'IVF_RABITQ',
+
+    将索引类型设置为 IVF_RABITQ。
+
+- **MINHASH_LSH** = 'MINHASH_LSH'
+
+    将索引类型设置为 MINHASH_LSH。
+
+- **RTREE** = 'RTREE'
+
+    将索引类型设置为 RTREE。
