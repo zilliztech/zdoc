@@ -63,21 +63,21 @@ import Supademo from '@site/src/components/Supademo';
    <tr>
      <td><p><strong>过度分词</strong></p></td>
      <td><p>技术术语、标识符或 URL 搜索不到</p></td>
-     <td><ul><li><p><code>"user_id"</code> → <code>['user','id']</code></p></li><li><p><code>"C++"</code> → <code>['c']</code></p></li></ul></td>
+     <td><ul><li><p><code>&quot;user_id&quot;</code> → <code>['user','id']</code></p></li><li><p><code>&quot;C++&quot;</code> → <code>['c']</code></p></li></ul></td>
      <td><p><a href="./standard-tokenizer">standard</a> Analyzer</p></td>
      <td><p>使用 <a href="./whitespace-tokenizer">whitespace</a> tokenizer 并结合 <a href="./alphanumonly-filter">alphanumonly</a> 过滤器</p></td>
    </tr>
    <tr>
      <td><p><strong>分词不足</strong></p></td>
      <td><p>多词短语的一部分无法匹配完整短语</p></td>
-     <td><p><code>"state-of-the-art"</code> → <code>['state-of-the-art']</code></p></td>
+     <td><p><code>&quot;state-of-the-art&quot;</code> → <code>['state-of-the-art']</code></p></td>
      <td><p>使用 <a href="./whitespace-tokenizer">whitespace</a> tokenizer</p></td>
      <td><p>使用 <a href="./standard-tokenizer">standard</a> tokenizer，并配合 <a href="./regex-filter">regex</a> 过滤器</p></td>
    </tr>
    <tr>
      <td><p><strong>语言不匹配</strong></p></td>
      <td><p>特定语言搜索无效或结果异常</p></td>
-     <td><p><code>"机器学习"</code> → <code>['机器学习']</code></p></td>
+     <td><p><code>&quot;机器学习&quot;</code> → <code>['机器学习']</code></p></td>
      <td><p>使用 <a href="./english-analyzer">english</a> Analyzer</p></td>
      <td><p>使用特定语言的 Analyzer，如 <a href="./chinese-analyzer">Chinese</a></p></td>
    </tr>
@@ -197,13 +197,13 @@ schema.add_field(
      <td><p><a href="./standard-tokenizer"><code>standard</code></a></p></td>
      <td><p>基于空格和标点拆分文本</p></td>
      <td><p>通用文本，包含混合标点的内容</p></td>
-     <td><ul><li><p>输入: <code>"Hello, world! Visit example.com"</code></p></li><li><p>输出: <code>['Hello', 'world', 'Visit', 'example', 'com']</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>&quot;Hello, world! Visit example.com&quot;</code></p></li><li><p>输出: <code>['Hello', 'world', 'Visit', 'example', 'com']</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./whitespace-tokenizer"><code>whitespace</code></a></p></td>
      <td><p>仅基于空格字符拆分</p></td>
      <td><p>已预处理的内容，用户自定义格式的文本</p></td>
-     <td><ul><li><p>输入: <code>"user_id = get_user_data()"</code></p></li><li><p>输出: <code>['user_id', '=', 'get_user_data()']</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>&quot;user_id = get_user_data()&quot;</code></p></li><li><p>输出: <code>['user_id', '=', 'get_user_data()']</code></p></li></ul></td>
    </tr>
 </table>
 
@@ -224,13 +224,13 @@ schema.add_field(
      <td><p><a href="./jieba-tokenizer"><code>jieba</code></a></p></td>
      <td><p>基于中文词典的分词，结合智能算法</p></td>
      <td><p>推荐用于中文内容——结合词典与智能算法，专为中文设计</p></td>
-     <td><ul><li><p>输入: <code>"机器学习是人工智能的一个分支"</code></p></li><li><p>输出: <code>['机器', '学习', '是', '人工', '智能', '人工智能', '的', '一个', '分支']</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>&quot;机器学习是人工智能的一个分支&quot;</code></p></li><li><p>输出: <code>['机器', '学习', '是', '人工', '智能', '人工智能', '的', '一个', '分支']</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./lindera-tokenizer"><code>lindera</code></a></p></td>
      <td><p>纯词典驱动的中文形态学分析（使用 <a href="https://cc-cedict.org/wiki/">cc-cedict</a> 词典）</p></td>
      <td><p>为日韩分词设计，也可用于分词中文，但性能不如 jieba</p></td>
-     <td><ul><li><p>输入: <code>"机器学习算法"</code></p></li><li><p>输出: <code>["机器", "学习", "算法"]</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>&quot;机器学习算法&quot;</code></p></li><li><p>输出: <code>[&quot;机器&quot;, &quot;学习&quot;, &quot;算法&quot;]</code></p></li></ul></td>
    </tr>
 </table>
 
@@ -249,14 +249,14 @@ schema.add_field(
      <td><p><a href="./lindera-tokenizer"><code>lindera</code></a></p></td>
      <td><p><a href="https://taku910.github.io/mecab/">ipadic</a> (通用), <a href="https://github.com/neologd/mecab-ipadic-neologd">ipadic-neologd</a> (现代词汇), <a href="https://clrd.ninjal.ac.jp/unidic/">unidic</a> (学术)</p></td>
      <td><p>形态学分析，支持专有名词处理</p></td>
-     <td><ul><li><p>输入: <code>"東京都渋谷区"</code></p></li><li><p>输出: <code>["東京", "都", "渋谷", "区"]</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>&quot;東京都渋谷区&quot;</code></p></li><li><p>输出: <code>[&quot;東京&quot;, &quot;都&quot;, &quot;渋谷&quot;, &quot;区&quot;]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p>Korean</p></td>
      <td><p><a href="./lindera-tokenizer"><code>lindera</code></a></p></td>
      <td><p><a href="https://bitbucket.org/eunjeon/mecab-ko-dic/src/master/">ko-dic</a></p></td>
      <td><p>韩语形态学分析</p></td>
-     <td><ul><li><p>输入: <code>"안녕하세요"</code></p></li><li><p>输出: <code>["안녕", "하", "세요"]</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>&quot;안녕하세요&quot;</code></p></li><li><p>输出: <code>[&quot;안녕&quot;, &quot;하&quot;, &quot;세요&quot;]</code></p></li></ul></td>
    </tr>
 </table>
 
@@ -276,7 +276,7 @@ schema.add_field(
      <td><p><a href="./icu-tokenizer"><code>icu</code></a></p></td>
      <td><p>基于 Unicode 的分词（ICU - International Components for Unicode）</p></td>
      <td><p>混合文字、未知语言，或只需简单分词时</p></td>
-     <td><ul><li><p>输入: <code>"Hello 世界 مرحبا"</code></p></li><li><p>输出: <code>['Hello', ' ', '世界', ' ', 'مرحبا']</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>&quot;Hello 世界 مرحبا&quot;</code></p></li><li><p>输出: <code>['Hello', ' ', '世界', ' ', 'مرحبا']</code></p></li></ul></td>
      <td></td>
    </tr>
 </table>
@@ -310,19 +310,19 @@ schema.add_field(
      <td><p><a href="./lowercase-filter"><code>lowercase</code></a></p></td>
      <td><p>将所有 token 转换为小写</p></td>
      <td><p>通用——适用于所有区分大小写的语言</p></td>
-     <td><ul><li><p>输入: <code>["Apple", "iPhone"]</code></p></li><li><p>输出: <code>[['apple'], ['iphone']]</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>[&quot;Apple&quot;, &quot;iPhone&quot;]</code></p></li><li><p>输出: <code>[['apple'], ['iphone']]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./stemmer-filter"><code>stemmer</code></a></p></td>
      <td><p>将单词还原为词根</p></td>
      <td><p>适用于有词形变化的语言（英语、法语、德语等）</p></td>
-     <td><p>英语示例：</p><ul><li><p>输入: <code>["running", "runs", "ran"]</code></p></li><li><p>输出: <code>[['run'], ['run'], ['ran']]</code></p></li></ul></td>
+     <td><p>英语示例：</p><ul><li><p>输入: <code>[&quot;running&quot;, &quot;runs&quot;, &quot;ran&quot;]</code></p></li><li><p>输出: <code>[['run'], ['run'], ['ran']]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./stop-filter"><code>stop</code></a></p></td>
      <td><p>移除常见的无意义词（停用词）</p></td>
      <td><p>大多数语言，尤其是空格分隔的语言</p></td>
-     <td><ul><li><p>输入: <code>["the", "quick", "brown", "fox"]</code></p></li><li><p>输出: <code>[[], ['quick'], ['brown'], ['fox']]</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>[&quot;the&quot;, &quot;quick&quot;, &quot;brown&quot;, &quot;fox&quot;]</code></p></li><li><p>输出: <code>[[], ['quick'], ['brown'], ['fox']]</code></p></li></ul></td>
    </tr>
 </table>
 
@@ -347,7 +347,7 @@ schema.add_field(
      <td><p><a href="./ascii-folding-filter"><code>asciifolding</code></a></p></td>
      <td><p>将带重音符的字符转换为 ASCII 等效字符</p></td>
      <td><p>国际化内容、用户生成内容</p></td>
-     <td><ul><li><p>输入: <code>["café", "naïve", "résumé"]</code></p></li><li><p>输出: <code>[['cafe'], ['naive'], ['resume']]</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>[&quot;café&quot;, &quot;naïve&quot;, &quot;résumé&quot;]</code></p></li><li><p>输出: <code>[['cafe'], ['naive'], ['resume']]</code></p></li></ul></td>
    </tr>
 </table>
 
@@ -366,25 +366,25 @@ schema.add_field(
      <td><p><a href="./remove-punct-filter"><code>removepunct</code></a></p></td>
      <td><p>移除单独存在的标点 token</p></td>
      <td><p>清理 <code>jieba</code>、<code>lindera</code>、<code>icu</code> 输出中的单独标点</p></td>
-     <td><ul><li><p>输入: <code>["Hello", "!", "world"]</code></p></li><li><p>输出: <code>[['Hello'], ['world']]</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>[&quot;Hello&quot;, &quot;!&quot;, &quot;world&quot;]</code></p></li><li><p>输出: <code>[['Hello'], ['world']]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./alphanumonly-filter"><code>alphanumonly</code></a></p></td>
      <td><p>仅保留字母和数字</p></td>
      <td><p>技术类内容、干净的文本处理</p></td>
-     <td><ul><li><p>输入: <code>["user123", "test@email.com"]</code></p></li><li><p>输出: <code>[['user123'], ['test', 'email', 'com']]</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>[&quot;user123&quot;, &quot;test@email.com&quot;]</code></p></li><li><p>输出: <code>[['user123'], ['test', 'email', 'com']]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./length-filter"><code>length</code></a></p></td>
      <td><p>移除超出指定长度范围的 token</p></td>
      <td><p>过滤噪声（如过长的 token）</p></td>
-     <td><ul><li><p>输入: <code>["a", "very", "extraordinarily"]</code></p></li><li><p>输出: <code>[['a'], ['very'], []]</code> (if <strong>max=10</strong>)</p></li></ul></td>
+     <td><ul><li><p>输入: <code>[&quot;a&quot;, &quot;very&quot;, &quot;extraordinarily&quot;]</code></p></li><li><p>输出: <code>[['a'], ['very'], []]</code> (if <strong>max=10</strong>)</p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./regex-filter"><code>regex</code></a></p></td>
      <td><p>基于自定义模式的过滤</p></td>
      <td><p>特定领域的 token 需求</p></td>
-     <td><ul><li><p>输入: <code>["test123", "prod456"]</code></p></li><li><p>输出: <code>[[], ['prod456']]</code> (if <strong>expr="^prod"</strong>)</p></li></ul></td>
+     <td><ul><li><p>输入: <code>[&quot;test123&quot;, &quot;prod456&quot;]</code></p></li><li><p>输出: <code>[[], ['prod456']]</code> (if <strong>expr=&quot;^prod&quot;</strong>)</p></li></ul></td>
    </tr>
 </table>
 
@@ -401,19 +401,19 @@ schema.add_field(
      <td><p><a href="./decompounder-filter"><code>decompounder</code></a></p></td>
      <td><p>德语</p></td>
      <td><p>将复合词拆分为可搜索的组成部分</p></td>
-     <td><ul><li><p>输入: <code>["dampfschifffahrt"]</code></p></li><li><p>输出: <code>[['dampf', 'schiff', 'fahrt']]</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>[&quot;dampfschifffahrt&quot;]</code></p></li><li><p>输出: <code>[['dampf', 'schiff', 'fahrt']]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./cnalphanumonly-filter">cnalphanumonly</a></p></td>
      <td><p>中文</p></td>
      <td><p>保留中文字符 + 字母数字</p></td>
-     <td><ul><li><p>输入: <code>["Hello", "世界", "123", "!@#"]</code></p></li><li><p>输出: <code>[['Hello'], ['世界'], ['123'], []]</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>[&quot;Hello&quot;, &quot;世界&quot;, &quot;123&quot;, &quot;!@#&quot;]</code></p></li><li><p>输出: <code>[['Hello'], ['世界'], ['123'], []]</code></p></li></ul></td>
    </tr>
    <tr>
      <td><p><a href="./cncharonly-filter"><code>cncharonly</code></a></p></td>
      <td><p>中文</p></td>
      <td><p>仅保留中文字符</p></td>
-     <td><ul><li><p>输入: <code>["Hello", "世界", "123"]</code></p></li><li><p>输出: <code>[[], ['世界'], []]</code></p></li></ul></td>
+     <td><ul><li><p>输入: <code>[&quot;Hello&quot;, &quot;世界&quot;, &quot;123&quot;]</code></p></li><li><p>输出: <code>[[], ['世界'], []]</code></p></li></ul></td>
    </tr>
 </table>
 

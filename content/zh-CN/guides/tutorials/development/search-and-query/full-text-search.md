@@ -669,7 +669,7 @@ index_params.AddExtraParam("bm25_b", "0.75");
    </tr>
    <tr>
      <td><p><code>params.inverted_index_algo</code></p></td>
-     <td><p>用于构建和查询索引的算法。有效值：</p><ul><li><p><code>"DAAT_MAXSCORE"</code>（默认）：使用最大得分（MaxScore）算法的优化文档逐次处理（DAAT）查询处理。MaxScore 通过跳过可能影响极小的词条和文档，为高 k 值或包含多个词条的查询提供更好的性能。它通过根据词条的最大影响得分将词条划分为关键和非关键组，专注于能够对前 k 个结果有贡献的词条来实现这一点。</p></li><li><p><code>"DAAT_WAND"</code>: 使用WAND算法优化的DAAT查询处理。WAND通过利用最大影响得分跳过非竞争性文档来评估更少的命中文档，但每次命中的开销较高。这使得WAND在k值较小的查询或短查询中更有效，因为在这些情况下跳过操作更可行。</p></li><li><p><code>"TAAT_NAIVE"</code>：基本的逐词（TAAT）查询处理。虽然与 <code>DAAT_MAXSCORE</code> 和 <code>DAAT_WAND</code> 相比速度较慢，但 <code>TAAT_NAIVE</code> 具有独特优势。与 DAAT 算法不同，DAAT 算法使用缓存的最大影响分数，这些分数无论全局集合参数（avgdl）如何变化都保持不变，而 <code>TAAT_NAIVE</code> 会动态适应这些变化。</p></li></ul></td>
+     <td><p>用于构建和查询索引的算法。有效值：</p><ul><li><p><code>&quot;DAAT_MAXSCORE&quot;</code>（默认）：使用最大得分（MaxScore）算法的优化文档逐次处理（DAAT）查询处理。MaxScore 通过跳过可能影响极小的词条和文档，为高 k 值或包含多个词条的查询提供更好的性能。它通过根据词条的最大影响得分将词条划分为关键和非关键组，专注于能够对前 k 个结果有贡献的词条来实现这一点。</p></li><li><p><code>&quot;DAAT_WAND&quot;</code>: 使用WAND算法优化的DAAT查询处理。WAND通过利用最大影响得分跳过非竞争性文档来评估更少的命中文档，但每次命中的开销较高。这使得WAND在k值较小的查询或短查询中更有效，因为在这些情况下跳过操作更可行。</p></li><li><p><code>&quot;TAAT_NAIVE&quot;</code>：基本的逐词（TAAT）查询处理。虽然与 <code>DAAT_MAXSCORE</code> 和 <code>DAAT_WAND</code> 相比速度较慢，但 <code>TAAT_NAIVE</code> 具有独特优势。与 DAAT 算法不同，DAAT 算法使用缓存的最大影响分数，这些分数无论全局集合参数（avgdl）如何变化都保持不变，而 <code>TAAT_NAIVE</code> 会动态适应这些变化。</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>params.bm25_k1</code></p></td>

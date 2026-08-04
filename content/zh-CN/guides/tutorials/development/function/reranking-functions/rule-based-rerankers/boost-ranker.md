@@ -250,7 +250,7 @@ rerank->SetRandomScoreSeed(126);
      <td><p><code>name</code></p></td>
      <td><p>是</p></td>
      <td><p>此函数的唯一标识符</p></td>
-     <td><p><code>"rrf"</code></p></td>
+     <td><p><code>&quot;rrf&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>input_field_names</code></p></td>
@@ -268,7 +268,7 @@ rerank->SetRandomScoreSeed(126);
      <td><p><code>params.reranker</code></p></td>
      <td><p>是</p></td>
      <td><p>指定重排器的类型。</p><p>必须设置为<code>boost</code>才能使用 Boost Ranker。</p></td>
-     <td><p><code>"boost"</code></p></td>
+     <td><p><code>&quot;boost&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.weight</code></p></td>
@@ -280,13 +280,13 @@ rerank->SetRandomScoreSeed(126);
      <td><p><code>params.filter</code></p></td>
      <td><p>否</p></td>
      <td><p>指定用于在搜索结果实体中匹配实体的筛选表达式。它可以是<a href="./filtering-overview">过滤表达式概览</a>中提到的任何有效基本筛选表达式。</p><p><strong>注意</strong>：仅使用基本运算符，例如<code>==</code>、<code>&gt;</code>或<code>&lt;</code>。使用高级运算符，例如<code>text_match</code>或<code>phrase_match</code>，将降低搜索性能。</p></td>
-     <td><p><code>"doctype == 'abstract'"</code></p></td>
+     <td><p><code>&quot;doctype == 'abstract'&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.random_score</code></p></td>
      <td><p>否</p></td>
-     <td><p>指定一个随机函数，该函数会随机生成一个介于<code>0</code>和<code>1</code>之间的值。它有以下两个可选参数：</p><ul><li><p><code>种子</code>（数字）指定用于启动伪随机数生成器（PRNG）的初始值。</p></li><li><p><code>字段</code> （字符串）指定一个字段的名称，该字段的值将用作生成随机数的随机因子。具有唯一值的字段就足够了。</p><p>建议您同时设置<code>种子</code>和<code>字段</code>，以通过使用相同的种子和字段值来确保各代之间的一致性。</p></li></ul></td>
-     <td><p><code>\{"seed": 126, "field": "id"\}</code></p></td>
+     <td><p>指定一个随机函数，该函数会随机生成一个介于<code>0</code>和<code>1</code>之间的值。它有以下两个可选参数：</p><ul><li><p><code>种子</code>（数字）指定用于启动伪随机数生成器（PRNG）的初始值。</p></li><li><p><code>字段</code> （字符串）指定一个字段的名称，该字段的值将用作生成随机数的随机因子。具有唯一值的字段就足够了。</p></li></ul><p>建议您同时设置<code>种子</code>和<code>字段</code>，以通过使用相同的种子和字段值来确保各代之间的一致性。</p></td>
+     <td><p><code>\{&quot;seed&quot;: 126, &quot;field&quot;: &quot;id&quot;\}</code></p></td>
    </tr>
 </table>
 
@@ -642,19 +642,19 @@ if (!status.IsOk()) {
      <td><p><code>functions</code></p></td>
      <td><p>是</p></td>
      <td><p>以列表形式指定目标 Ranker 的名称。</p></td>
-     <td><p><code>["fix_weight_ranker", "random_weight_ranker"]</code></p></td>
+     <td><p><code>[&quot;fix_weight_ranker&quot;, &quot;random_weight_ranker&quot;]</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.boost_mode</code></p></td>
      <td><p>否</p></td>
      <td><p>指定指定的权重如何影响任何匹配实体的得分。</p><p>可能的值为：</p><ul><li><p><code>Multiply</code></p><p>表示加权值等于匹配实体的原始得分乘以指定的权重。</p><p>这是默认值。</p></li><li><p><code>Sum</code></p><p>表示加权值等于匹配实体的原始分数与指定权重之和</p></li></ul></td>
-     <td><p><code>"Multiply"</code></p></td>
+     <td><p><code>&quot;Multiply&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.function_mode</code></p></td>
      <td><p>否</p></td>
      <td><p>指定如何处理来自各种 Boost Ranker 的加权值。</p><p>可能的值为：</p><ul><li><p><code>Multiply</code></p><p>表示匹配实体的最终得分等于所有 Boost Ranker 的加权值的乘积。</p><p>这是默认值。</p></li><li><p><code>Sum</code></p><p>表示匹配实体的最终得分等于所有 Boost Ranker 的加权值之和。</p></li></ul></td>
-     <td><p><code>"Multiply"</code></p></td>
+     <td><p><code>&quot;Multiply&quot;</code></p></td>
    </tr>
 </table>
 

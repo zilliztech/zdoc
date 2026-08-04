@@ -250,14 +250,14 @@ MinHash Function 的 `params` 字典支持以下参数。所有参数名都**不
    <tr>
      <td><p><code>hash_function</code></p></td>
      <td><p>str</p></td>
-     <td><p><code>"xxhash"</code></p></td>
-     <td><p>使用的哈希函数。可选值：</p><ul><li><p><code>"xxhash"</code>（速度快）</p></li><li><p><code>"sha1"</code>（速度较慢，抗碰撞能力更强）</p></li></ul></td>
+     <td><p><code>&quot;xxhash&quot;</code></p></td>
+     <td><p>使用的哈希函数。可选值：</p><ul><li><p><code>&quot;xxhash&quot;</code>（速度快）</p></li><li><p><code>&quot;sha1&quot;</code>（速度较慢，抗碰撞能力更强）</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>token_level</code></p></td>
      <td><p>str</p></td>
-     <td><p><code>"word"</code></p></td>
-     <td><p>Tokenization 级别。可选值：</p><ul><li><p><code>"word"</code> 使用字段 Analyzer 分词后执行 n-gram Shingling；</p></li><li><p><code>"char"</code> / <code>"character"</code> 直接对原始字符执行 n-gram Shingling，不使用 Analyzer。</p><p>词级别语义更强、效率更高，但依赖语言相关的分词；字符级别与语言无关，但会生成更高维的 Shingle，语义较弱。</p></li></ul></td>
+     <td><p><code>&quot;word&quot;</code></p></td>
+     <td><p>Tokenization 级别。可选值：</p><ul><li><p><code>&quot;word&quot;</code> 使用字段 Analyzer 分词后执行 n-gram Shingling；</p></li><li><p><code>&quot;char&quot;</code> / <code>&quot;character&quot;</code> 直接对原始字符执行 n-gram Shingling，不使用 Analyzer。</p></li></ul><p>词级别语义更强、效率更高，但依赖语言相关的分词；字符级别与语言无关，但会生成更高维的 Shingle，语义较弱。</p></td>
    </tr>
    <tr>
      <td><p><code>seed</code></p></td>

@@ -220,17 +220,17 @@ analyzerParams := map[string]interface{}{
    <tr>
      <td><p><code>type</code></p></td>
      <td><p>分词器类型，在使用 <code>jieba</code> 分词器时，该值为 <code>jieba</code>。</p></td>
-     <td><p><code>"jieba"</code></p></td>
+     <td><p><code>&quot;jieba&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>dict</code></p></td>
-     <td><p>Analyzer 在分析文本时可以参考的词汇表，以字典的形式提供。内置的字典包括：</p><ul><li><p><code>"_default_"</code>: 加载文本分析引擎内置的简单中文字典。更多详情，可以参考 <a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a>。</p></li><li><p><code>"_extend_default_"</code>: 加载上述简单中文字典以及繁体中文的相关内容。更多详情，可以参考 <a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a>。</p><p>您也可以在引用内置字典的同时，添加任意长度的自定义字典。例如 <code>["_default_", "结巴分词器"]</code>。</p></li></ul></td>
-     <td><p><code>["_default_"]</code></p></td>
+     <td><p>Analyzer 在分析文本时可以参考的词汇表，以字典的形式提供。内置的字典包括：</p><ul><li><p><code>&quot;_default_&quot;</code>: 加载文本分析引擎内置的简单中文字典。更多详情，可以参考 <a href="https://github.com/messense/jieba-rs/blob/v0.6.8/src/data/dict.txt">dict.txt</a>。</p></li><li><p><code>&quot;_extend_default_&quot;</code>: 加载上述简单中文字典以及繁体中文的相关内容。更多详情，可以参考 <a href="https://github.com/milvus-io/milvus/blob/v2.5.11/internal/core/thirdparty/tantivy/tantivy-binding/src/analyzer/data/jieba/dict.txt.big">dict.txt.big</a>。</p></li></ul><p>您也可以在引用内置字典的同时，添加任意长度的自定义字典。例如 <code>[&quot;_default_&quot;, &quot;结巴分词器&quot;]</code>。</p></td>
+     <td><p><code>[&quot;_default_&quot;]</code></p></td>
    </tr>
    <tr>
      <td><p><code>mode</code></p></td>
-     <td><p>文本切分方式。取值范围如下：</p><ul><li><p><code>"exact"</code>: 尝试以最精确的方式对句子进行分段，使其满足文本分析的要求。</p></li><li><p><code>"search"</code>: 在 <code>exact</code> 模式的基础上，对长词进行切分以便提升召回率。适用于搜索引擎场景下的分词操作。</p><p>更多详情，可参考 <a href="https://github.com/fxsjy/jieba">Jieba GitHub 项目</a>。</p></li></ul></td>
-     <td><p><code>"search"</code></p></td>
+     <td><p>文本切分方式。取值范围如下：</p><ul><li><p><code>&quot;exact&quot;</code>: 尝试以最精确的方式对句子进行分段，使其满足文本分析的要求。</p></li><li><p><code>&quot;search&quot;</code>: 在 <code>exact</code> 模式的基础上，对长词进行切分以便提升召回率。适用于搜索引擎场景下的分词操作。</p></li></ul><p>更多详情，可参考 <a href="https://github.com/fxsjy/jieba">Jieba GitHub 项目</a>。</p></td>
+     <td><p><code>&quot;search&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>hmm</code></p></td>

@@ -285,13 +285,13 @@ rerank->SetDecay(0.5);
      <td><p><code>name</code></p></td>
      <td><p>是</p></td>
      <td><p>执行搜索时使用的函数标识符。选择一个与你的用例相关的描述性名称。</p></td>
-     <td><p><code>"time_decay"</code></p></td>
+     <td><p><code>&quot;time_decay&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>input_field_names</code></p></td>
      <td><p>是</p></td>
      <td><p>用于衰减分数计算的数字字段名称列表。确定将使用数据集的哪个属性来计算衰减（例如，基于时间的衰减使用时间戳，基于位置的衰减使用坐标）。</p><p>必须是 Collection 中包含相关数值的字段。支持INT8/16/32/64、FLOAT、DOUBLE。</p></td>
-     <td><p><code>["timestamp"]</code></p></td>
+     <td><p><code>[&quot;timestamp&quot;]</code></p></td>
    </tr>
    <tr>
      <td><p><code>function_type</code></p></td>
@@ -302,14 +302,14 @@ rerank->SetDecay(0.5);
    <tr>
      <td><p><code>params.reranker</code></p></td>
      <td><p>是</p></td>
-     <td><p>指定要使用的重排序方法。</p><p>必须设置为<code>"decay"</code>才能启用 Decay Ranker 功能。</p></td>
-     <td><p><code>"decay"</code></p></td>
+     <td><p>指定要使用的重排序方法。</p><p>必须设置为<code>&quot;decay&quot;</code>才能启用 Decay Ranker 功能。</p></td>
+     <td><p><code>&quot;decay&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.function</code></p></td>
      <td><p>是</p></td>
      <td><p>指定要应用的 Decay Ranker 类型。确定相关性下降的曲线形状。</p><p>请参阅<a href="./decay-ranker-oveview#choose-the-right-decay-ranker">选择合适的 Decay Ranker</a> 部分，以获取相关指导。</p></td>
-     <td><p><code>"gauss"</code>, <code>"exp"</code>, or <code>"linear"</code></p></td>
+     <td><p><code>&quot;gauss&quot;</code>, <code>&quot;exp&quot;</code>, or <code>&quot;linear&quot;</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.origin</code></p></td>

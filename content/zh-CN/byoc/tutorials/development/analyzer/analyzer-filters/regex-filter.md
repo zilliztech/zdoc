@@ -23,12 +23,18 @@ import TabItem from '@theme/TabItem';
 
 `regex` 过滤器是一种正则表达式过滤器：只有匹配你提供的表达式的 token 才会被保留，其余的都会被丢弃。
 
+<Admonition type="info" icon="📘" title="Note">
+
+本页面介绍分析器流水线中的 `regex` 过滤器。该过滤器会处理分词器生成的 token，并影响文本分析期间生成的词项。如果要使用 `field =~ "pattern"` 或 `field !~ "pattern"` 等标量表达式，在 `query`、`search` 或混合搜索中筛选实体，请参阅[模式匹配](./pattern-match)。
+
+</Admonition>
+
 ## 配置\{#configuration}
 
 `regex` 过滤器在 Zilliz Cloud 中属于自定义过滤器。
  要使用它，请在过滤器配置中指定 `"type": "regex"`，并通过 `expr` 参数设定所需的正则表达式。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -85,6 +91,19 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "standard"},
+    {"filter", {
+        {{"type", "regex"}, {"expr", "^(?!test)"}}
+    }}
+};
+```
+
+</TabItem>
 </Tabs>
 
 `regex` 过滤器支持以下可配置参数：
@@ -103,7 +122,7 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 
 ### Analyzer 配置\{#analyzer-configuration}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -159,11 +178,24 @@ analyzerParams = map[string]any{"tokenizer": "standard",
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+nlohmann::json analyzer_params = {
+    {"tokenizer", "standard"},
+    {"filter", {
+        {{"type", "regex"}, {"expr", "^(?!test)"}}
+    }}
+};
+```
+
+</TabItem>
 </Tabs>
 
 ### 使用 run_analyzer 验证效果\{#verification-using-run_analyzer}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
 ```python
@@ -254,6 +286,33 @@ if err != nil {
 
 ```bash
 # curl
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+std::string text = "testItem apple testCase banana";
+auto request = milvus::RunAnalyzerRequest()
+                       .AddText(text)
+                       .WithAnalyzerParams(analyzer_params);
+
+milvus::RunAnalyzerResponse response;
+status = client->RunAnalyzer(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
