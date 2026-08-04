@@ -143,6 +143,13 @@ test('protects a multiline ESM import as one byte-identical statement', () => {
   assert.equal(restoreProtectedContent(protectedInput.content, protectedInput.manifest), source)
 })
 
+test('restores inline code containing a dollar sign without replacement expansion', () => {
+  const source = 'Regex anchors include `^` and `$`.\n'
+  const protectedInput = protectTranslationInput(source)
+
+  assert.equal(restoreProtectedContent(protectedInput.content, protectedInput.manifest), source)
+})
+
 test('keeps human-readable frontmatter keyword list values translatable', () => {
   const source = [
     '---',

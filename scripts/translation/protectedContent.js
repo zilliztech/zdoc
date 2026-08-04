@@ -301,7 +301,7 @@ function restoreProtectedContent(modelContent, manifest) {
   if (actualMarkers.some((marker, index) => marker !== expectedMarkers[index])) throw new Error('Protected markers were altered or reordered during translation')
   for (const entry of manifest.entries) {
     if (restored.split(entry.transport).length !== 2) throw new Error(`Protected ${entry.category} marker transport was changed during translation`)
-    restored = restored.replace(entry.transport, entry.original)
+    restored = restored.replace(entry.transport, () => entry.original)
   }
   if (restored.includes(MARKER_NAMESPACE)) throw new Error('Unexpected protected marker remained after translation')
   return restored
