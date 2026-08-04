@@ -44,6 +44,11 @@ function writeSitemap(root: string, relativePath: string, url: string): void {
   writeFileSync(path.join(root, relativePath), `<urlset><url><loc>${url}</loc></url></urlset>`);
 }
 
+function writeRenderedPage(root: string): void {
+  mkdirSync(path.join(root, 'build/en/docs'), {recursive: true});
+  writeFileSync(path.join(root, 'build/en/docs/page.html'), '<main>No external URLs</main>');
+}
+
 describe('docs-tooling validate-mdx', () => {
   it('exposes the CommonJS validator through the TypeScript adapter', async () => {
     expect(Object.keys(mdxAdapter).sort()).toEqual(Object.keys(mdxCore).sort());
@@ -127,6 +132,7 @@ describe('docs-tooling check-links', () => {
     const root = temporaryRoot();
     writeSitemap(root, 'fixtures/remote.xml', 'https://docs.zilliz.com/docs/old/');
     writeSitemap(root, 'fixtures/local.xml', 'https://docs.zilliz.com/docs/new/');
+    writeRenderedPage(root);
     writeFileSync(path.join(root, '.env'), 'LINK_CHECKS_LOCAL_SITEMAP=fixtures/local.xml\n');
 
     const result = runWithEnvironment(root, {LINK_CHECKS_REMOTE_SITEMAP: 'fixtures/remote.xml'}, 'check-links', '--site', 'en', '--output', 'tmp/report.md');
@@ -141,6 +147,7 @@ describe('docs-tooling check-links', () => {
     const root = temporaryRoot();
     writeSitemap(root, 'fixtures/remote.xml', 'https://docs.zilliz.com/docs/old/');
     writeSitemap(root, 'fixtures/local.xml', 'https://docs.zilliz.com/docs/new/');
+    writeRenderedPage(root);
     writeFileSync(path.join(root, '.env'), 'LINK_CHECKS_REMOTE_SITEMAP=fixtures/missing.xml\nLINK_CHECKS_LOCAL_SITEMAP=fixtures/missing.xml\n');
 
     const result = runWithEnvironment(root, {

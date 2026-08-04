@@ -206,8 +206,7 @@ export function contentRouteRoots(routeBasePaths: readonly string[]): string[] {
   )));
 }
 
-function collectExternalLinkEntries(repositoryRoot: string, outputDir: string, routeRoots: readonly string[]): LinkEntry[] {
-  const pages = routeRoots.flatMap(routeRoot => htmlPagesUnder(repositoryRoot, path.posix.join(outputDir, routeRoot)));
+function collectExternalLinkEntries(repositoryRoot: string, outputDir: string, pages: readonly string[]): LinkEntry[] {
   const entries: LinkEntry[] = [];
   for (const page of pages) {
     const content = readFileSync(path.join(repositoryRoot, page), 'utf8');
@@ -339,6 +338,16 @@ export function resolveWorkflowRunUrl(environment: Record<string, string | undef
   return `${environment.GITHUB_SERVER_URL || 'https://github.com'}/${environment.GITHUB_REPOSITORY}/actions/runs/${environment.GITHUB_RUN_ID}`;
 }
 
+function resolveReportIdentity(environment: Record<string, string | undefined>): {toolingSha: string | null; contentSha: string | null} {
+  const toolingSha = environment.LINK_CHECKS_TOOLING_SHA;
+  const contentSha = environment.LINK_CHECKS_CONTENT_SHA;
+  if (toolingSha === undefined && contentSha === undefined) return {toolingSha: null, contentSha: null};
+  if (!toolingSha || !contentSha || !/^[0-9a-f]{40}$/u.test(toolingSha) || !/^[0-9a-f]{40}$/u.test(contentSha)) {
+    throw new Error('LINK_CHECKS_TOOLING_SHA and LINK_CHECKS_CONTENT_SHA must both be valid 40-character lowercase SHAs');
+  }
+  return {toolingSha, contentSha};
+}
+
 export function buildLinkCheckReport({
   generatedAt = new Date().toISOString(),
   toolingSha,
@@ -396,23 +405,54 @@ function listItems(items: any[], renderItem: (item: any) => string, limit = 10):
 }
 
 export function renderLinkCheckMarkdown(report: LinkCheckReport): string {
-  const nonHealthyExternalLinks = [
-    ...report.expired_external_links,
-    ...report.blocked_external_links,
-    ...report.transient_external_links,
-    ...report.other_external_links,
+  const renderExternalItem = (item: ExternalObservation): string => {
+    const detail = item.status === null ? `Error: ${item.error}` : `HTTP ${item.status}`;
+    const pages = item.pages.length > 0 ? item.pages.join(', ') : 'None';
+    return `- ${item.url} (${detail}; pages: ${pages}; total pages: ${item.page_count})`;
+  };
+  const lines = [
+    '# Link Checks',
+    '',
+    `Generated: ${report.generated_at}`,
+    `Workflow run: ${report.workflow_run_url ?? 'None'}`,
+    `Tooling SHA: ${report.tooling_sha ?? 'None'}`,
+    `Content SHA: ${report.content_sha ?? 'None'}`,
   ];
-  const lines = ['# Link Checks', '', `Generated: ${report.generated_at}`];
-  if (report.workflow_run_url) lines.push(`Workflow run: ${report.workflow_run_url}`);
   lines.push(`Remote sitemap: ${report.remote_sitemap_source}`, `Local sitemap: ${report.local_sitemap_source}`, '', '## Summary', '');
-  lines.push(`- Deleted routes: ${report.summary.deleted_routes}`, `- Added routes: ${report.summary.added_routes}`, `- External URLs checked: ${report.summary.checked_external_links}`, `- Broken external URLs: ${nonHealthyExternalLinks.length}`, '');
-  lines.push('## Deleted Routes', '', listItems(report.deleted_routes, url => `- ${url}`), '', '## Added Routes', '', listItems(report.added_routes, url => `- ${url}`), '', '## Broken External URLs', '');
-  lines.push(listItems(nonHealthyExternalLinks, item => {
-    const status = item.status ? `HTTP ${item.status}` : item.error;
-    const pages = item.pages.slice(0, 3).join(', ');
-    const suffix = item.page_count > 3 ? `, ...and ${item.page_count - 3} more` : '';
-    return `- ${item.url} (${status}) on ${pages}${suffix}`;
-  }));
+  lines.push(
+    `- Deleted routes: ${report.summary.deleted_routes}`,
+    `- Added routes: ${report.summary.added_routes}`,
+    `- External URLs checked: ${report.summary.checked_external_links}`,
+    `- Healthy external URLs: ${report.summary.healthy_external_links}`,
+    `- Confirmed expired external URLs: ${report.summary.expired_external_links}`,
+    `- Blocked external URLs: ${report.summary.blocked_external_links}`,
+    `- Transient external URLs: ${report.summary.transient_external_links}`,
+    `- Other external URL responses: ${report.summary.other_external_links}`,
+    '',
+    '## Confirmed Expired External URLs',
+    '',
+    listItems(report.expired_external_links, renderExternalItem),
+    '',
+    '## Blocked External URLs',
+    '',
+    listItems(report.blocked_external_links, renderExternalItem),
+    '',
+    '## Transient External URLs',
+    '',
+    listItems(report.transient_external_links, renderExternalItem),
+    '',
+    '## Other External URL Responses',
+    '',
+    listItems(report.other_external_links, renderExternalItem),
+    '',
+    '## Deleted Routes',
+    '',
+    listItems(report.deleted_routes, url => `- ${url}`),
+    '',
+    '## Added Routes',
+    '',
+    listItems(report.added_routes, url => `- ${url}`),
+  );
   return lines.join('\n');
 }
 
@@ -429,14 +469,18 @@ export async function checkLinks(options: {repositoryRoot: string; site: string;
   const reportOutputs = [options.output, jsonOutput, timestampedMarkdown, timestampedJson];
   assertSafeAtomicWriteTargets(options.repositoryRoot, reportOutputs, 'Link-check report output');
   const environment = dependencies.environment ?? process.env;
+  const identity = resolveReportIdentity(environment);
   const fetcher = dependencies.fetch ?? (globalThis.fetch as unknown as FetchLike);
   const write = dependencies.write ?? (message => process.stdout.write(`${message}\n`));
   const remoteSource = environment.LINK_CHECKS_REMOTE_SITEMAP || normalizeUrl(environment.LINK_CHECKS_REMOTE_BASE_URL || profile.url);
   const localSource = environment.LINK_CHECKS_LOCAL_SITEMAP || `${profile.outputDir}/sitemap.xml`;
   const remote = await listUrls(remoteSource, options.repositoryRoot, fetcher);
   const local = await listUrls(localSource, options.repositoryRoot, fetcher);
+  if (local.length === 0) throw new Error('Local sitemap contains no documentation routes');
   const routeRoots = contentRouteRoots(profile.content.map(item => item.routeBasePath));
-  const externalLinks = uniqueLinkEntries(collectExternalLinkEntries(options.repositoryRoot, profile.outputDir, routeRoots));
+  const renderedPages = routeRoots.flatMap(routeRoot => htmlPagesUnder(options.repositoryRoot, path.posix.join(profile.outputDir, routeRoot)));
+  if (renderedPages.length === 0) throw new Error('No rendered HTML pages exist below the configured content route roots');
+  const externalLinks = uniqueLinkEntries(collectExternalLinkEntries(options.repositoryRoot, profile.outputDir, renderedPages));
   const observations: ProbedExternalObservation[] = [];
   const concurrency = dependencies.externalLinkConcurrency ?? 8;
   const timeoutMs = dependencies.externalLinkTimeoutMs ?? 15_000;
@@ -458,8 +502,8 @@ export async function checkLinks(options: {repositoryRoot: string; site: string;
   });
   const report = buildLinkCheckReport({
     generatedAt: now.toISOString(),
-    toolingSha: null,
-    contentSha: null,
+    toolingSha: identity.toolingSha,
+    contentSha: identity.contentSha,
     remoteSitemapSource: remoteSource,
     localSitemapSource: localSource,
     remoteUrls: remote,
@@ -468,18 +512,19 @@ export async function checkLinks(options: {repositoryRoot: string; site: string;
     observations,
     workflowRunUrl: resolveWorkflowRunUrl(environment),
   });
-  const markdown = renderLinkCheckMarkdown(report);
-  const json = JSON.stringify(report, null, 2);
+  const validatedReport = LinkCheckReportSchema.parse(report);
+  const markdown = renderLinkCheckMarkdown(validatedReport);
+  const json = JSON.stringify(validatedReport, null, 2);
   writeAtomicRepositoryFiles(options.repositoryRoot, [
     {path: options.output, contents: markdown},
     {path: jsonOutput, contents: json},
     {path: timestampedMarkdown, contents: markdown},
     {path: timestampedJson, contents: json},
   ], 'Link-check report output');
-  write(`Deleted links: ${report.summary.deleted_routes}`);
-  write(`Added links: ${report.summary.added_routes}`);
-  write(`Total external links: ${report.summary.checked_external_links}`);
-  write(`Broken links: ${report.summary.expired_external_links + report.summary.blocked_external_links + report.summary.transient_external_links + report.summary.other_external_links}`);
+  write(`Deleted links: ${validatedReport.summary.deleted_routes}`);
+  write(`Added links: ${validatedReport.summary.added_routes}`);
+  write(`Total external links: ${validatedReport.summary.checked_external_links}`);
+  write(`Broken links: ${validatedReport.summary.expired_external_links + validatedReport.summary.blocked_external_links + validatedReport.summary.transient_external_links + validatedReport.summary.other_external_links}`);
   write(`Link-check report written to ${path.relative(options.repositoryRoot, output)}`);
-  return report;
+  return validatedReport;
 }

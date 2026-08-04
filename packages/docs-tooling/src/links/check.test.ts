@@ -34,6 +34,12 @@ function externalLinkFixture(root: string, pages: Record<string, string>): void 
   }
 }
 
+function localSitemapFixture(root: string, xml = '<urlset><url><loc>https://docs.zilliz.com/docs/new/</loc></url></urlset>'): void {
+  mkdirSync(path.join(root, 'fixtures'), {recursive: true});
+  writeFileSync(path.join(root, 'fixtures/remote.xml'), xml);
+  writeFileSync(path.join(root, 'fixtures/local.xml'), xml);
+}
+
 function fetchResponse(status: number, onRead?: () => void) {
   return {
     ok: status >= 200 && status < 300,
@@ -139,18 +145,179 @@ describe('link-check reporting', () => {
     expect(() => LinkCheckReportSchema.parse(report)).not.toThrow();
   });
 
-  it('renders the compact Feishu-ready summary', () => {
+  it('renders the exact stable classified Markdown contract', () => {
     const markdown = renderLinkCheckMarkdown(buildLinkCheckReport({
-      generatedAt: '2026-07-02T00:00:00.000Z', toolingSha: null, contentSha: null,
+      generatedAt: '2026-07-02T00:00:00.000Z',
+      toolingSha: 'a'.repeat(40),
+      contentSha: 'b'.repeat(40),
+      workflowRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/1',
       remoteSitemapSource: 'https://docs.zilliz.com/sitemap.xml',
-      localSitemapSource: 'build/en/sitemap.xml', remoteUrls: ['https://docs.zilliz.com/docs/old/'],
+      localSitemapSource: 'build/en/sitemap.xml',
+      remoteUrls: ['https://docs.zilliz.com/docs/old/'],
       localUrls: ['https://docs.zilliz.com/docs/new/'],
-      checkedExternalLinks: [{url: 'https://bad.example.com'}],
-      observations: [{url: 'https://bad.example.com', page: 'docs/a.html', status: 404, error: null}],
+      checkedExternalLinks: [
+        {url: 'https://healthy.example.com'},
+        {url: 'https://expired.example.com'},
+        {url: 'https://blocked.example.com'},
+        {url: 'https://transient.example.com'},
+        {url: 'https://other.example.com'},
+      ],
+      observations: [
+        {url: 'https://healthy.example.com', page: 'docs/healthy.html', status: 200, error: null},
+        {url: 'https://expired.example.com', pages: ['docs/a.html', 'docs/b.html'], status: 404, error: null, page_count: 2},
+        {url: 'https://blocked.example.com', page: 'docs/c.html', status: 403, error: null},
+        {url: 'https://transient.example.com', page: 'docs/d.html', status: null, error: 'connection reset'},
+        {url: 'https://other.example.com', page: 'docs/e.html', status: 451, error: null},
+      ],
     }));
-    expect(markdown).toMatch(/Deleted routes: 1/);
-    expect(markdown).toMatch(/Added routes: 1/);
-    expect(markdown).toMatch(/Broken external URLs: 1/);
+    expect(markdown).toBe([
+      '# Link Checks',
+      '',
+      'Generated: 2026-07-02T00:00:00.000Z',
+      'Workflow run: https://github.com/zilliztech/zdoc/actions/runs/1',
+      `Tooling SHA: ${'a'.repeat(40)}`,
+      `Content SHA: ${'b'.repeat(40)}`,
+      'Remote sitemap: https://docs.zilliz.com/sitemap.xml',
+      'Local sitemap: build/en/sitemap.xml',
+      '',
+      '## Summary',
+      '',
+      '- Deleted routes: 1',
+      '- Added routes: 1',
+      '- External URLs checked: 5',
+      '- Healthy external URLs: 1',
+      '- Confirmed expired external URLs: 1',
+      '- Blocked external URLs: 1',
+      '- Transient external URLs: 1',
+      '- Other external URL responses: 1',
+      '',
+      '## Confirmed Expired External URLs',
+      '',
+      '- https://expired.example.com (HTTP 404; pages: docs/a.html, docs/b.html; total pages: 2)',
+      '',
+      '## Blocked External URLs',
+      '',
+      '- https://blocked.example.com (HTTP 403; pages: docs/c.html; total pages: 1)',
+      '',
+      '## Transient External URLs',
+      '',
+      '- https://transient.example.com (Error: connection reset; pages: docs/d.html; total pages: 1)',
+      '',
+      '## Other External URL Responses',
+      '',
+      '- https://other.example.com (HTTP 451; pages: docs/e.html; total pages: 1)',
+      '',
+      '## Deleted Routes',
+      '',
+      '- https://docs.zilliz.com/docs/old/',
+      '',
+      '## Added Routes',
+      '',
+      '- https://docs.zilliz.com/docs/new/',
+    ].join('\n'));
+  });
+
+  it('rejects a missing rendered-site build directory', async () => {
+    const root = temporaryRoot();
+    localSitemapFixture(root);
+
+    await expect(checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      ...linkCheckDependencies,
+      environment: {
+        LINK_CHECKS_REMOTE_SITEMAP: 'fixtures/remote.xml',
+        LINK_CHECKS_LOCAL_SITEMAP: 'fixtures/local.xml',
+      },
+    })).rejects.toThrow(/No rendered HTML pages exist below the configured content route roots/);
+  });
+
+  it('rejects a local sitemap with zero documentation routes', async () => {
+    const root = temporaryRoot();
+    localSitemapFixture(root, '<urlset/>');
+    mkdirSync(path.join(root, 'build/en/docs'), {recursive: true});
+    writeFileSync(path.join(root, 'build/en/docs/page.html'), '<main>No external URLs</main>');
+
+    await expect(checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      ...linkCheckDependencies,
+      environment: {
+        LINK_CHECKS_REMOTE_SITEMAP: 'fixtures/remote.xml',
+        LINK_CHECKS_LOCAL_SITEMAP: 'fixtures/local.xml',
+      },
+    })).rejects.toThrow('Local sitemap contains no documentation routes');
+  });
+
+  it('rejects a rendered build with no HTML below the configured content route roots', async () => {
+    const root = temporaryRoot();
+    localSitemapFixture(root);
+    mkdirSync(path.join(root, 'build/en/unrelated'), {recursive: true});
+    writeFileSync(path.join(root, 'build/en/unrelated/page.html'), '<main>Outside content roots</main>');
+
+    await expect(checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      ...linkCheckDependencies,
+      environment: {
+        LINK_CHECKS_REMOTE_SITEMAP: 'fixtures/remote.xml',
+        LINK_CHECKS_LOCAL_SITEMAP: 'fixtures/local.xml',
+      },
+    })).rejects.toThrow(/No rendered HTML pages exist below the configured content route roots/);
+  });
+
+  it('accepts a meaningful rendered scan with zero external URLs', async () => {
+    const root = temporaryRoot();
+    localSitemapFixture(root);
+    mkdirSync(path.join(root, 'build/en/docs'), {recursive: true});
+    writeFileSync(path.join(root, 'build/en/docs/page.html'), '<main>No external URLs</main>');
+
+    const report = await checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      ...linkCheckDependencies,
+      environment: {
+        LINK_CHECKS_REMOTE_SITEMAP: 'fixtures/remote.xml',
+        LINK_CHECKS_LOCAL_SITEMAP: 'fixtures/local.xml',
+      },
+    });
+
+    expect(report.summary.checked_external_links).toBe(0);
+    expect(report.summary.healthy_external_links).toBe(0);
+  });
+
+  it('rejects malformed rendered external URLs as an infrastructure failure', async () => {
+    const root = temporaryRoot();
+    externalLinkFixture(root, {'new.html': '<a class="external" href="http://[">Malformed</a>'});
+
+    await expect(checkLinks(
+      {repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'},
+      linkCheckDependencies,
+    )).rejects.toThrow(/Invalid URL|Invalid URL input/i);
+  });
+
+  it.each([
+    [{LINK_CHECKS_TOOLING_SHA: 'a'.repeat(40)}, 'one supplied SHA'],
+    [{LINK_CHECKS_CONTENT_SHA: 'b'.repeat(40)}, 'the other supplied SHA'],
+    [{LINK_CHECKS_TOOLING_SHA: 'A'.repeat(40), LINK_CHECKS_CONTENT_SHA: 'b'.repeat(40)}, 'an uppercase SHA'],
+    [{LINK_CHECKS_TOOLING_SHA: 'a'.repeat(39), LINK_CHECKS_CONTENT_SHA: 'b'.repeat(40)}, 'a short SHA'],
+  ])('rejects %s before creating report files (%s)', async (environment, _case) => {
+    const root = temporaryRoot();
+    linkCheckFixture(root);
+
+    await expect(checkLinks({repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'}, {
+      ...linkCheckDependencies,
+      environment,
+    })).rejects.toThrow(/tooling.*content.*40-character lowercase SHA|both.*valid/i);
+
+    expect(existsSync(path.join(root, 'tmp/link-report.md'))).toBe(false);
+    expect(existsSync(path.join(root, 'tmp/link-report.json'))).toBe(false);
+  });
+
+  it('uses null identity fields when neither SHA environment value is supplied', async () => {
+    const root = temporaryRoot();
+    linkCheckFixture(root);
+
+    const report = await checkLinks(
+      {repositoryRoot: root, site: 'en', output: 'tmp/link-report.md'},
+      linkCheckDependencies,
+    );
+
+    expect(report.tooling_sha).toBeNull();
+    expect(report.content_sha).toBeNull();
+    expect(() => LinkCheckReportSchema.parse(report)).not.toThrow();
   });
 
   it('checks a selected site and writes the requested Markdown and JSON report', async () => {
@@ -341,7 +508,7 @@ describe('link-check reporting', () => {
   it('checks external links under the Chinese on-premise content route', async () => {
     const root = temporaryRoot();
     mkdirSync(path.join(root, 'build/zh-CN/on-premise'), {recursive: true});
-    writeFileSync(path.join(root, 'build/zh-CN/sitemap.xml'), '<urlset/>');
+    writeFileSync(path.join(root, 'build/zh-CN/sitemap.xml'), '<urlset><url><loc>https://docs.zilliz.com/zh-CN/on-premise/install/</loc></url></urlset>');
     writeFileSync(path.join(root, 'build/zh-CN/on-premise/install.html'), '<a class="external" href="https://broken-on-prem.example.com">Broken</a>');
     const checked: string[] = [];
 
@@ -369,7 +536,7 @@ describe('link-check reporting', () => {
   it('bounds concurrent external-link requests', async () => {
     const root = temporaryRoot();
     mkdirSync(path.join(root, 'build/en/docs'), {recursive: true});
-    writeFileSync(path.join(root, 'build/en/sitemap.xml'), '<urlset/>');
+    writeFileSync(path.join(root, 'build/en/sitemap.xml'), '<urlset><url><loc>https://docs.zilliz.com/docs/links/</loc></url></urlset>');
     writeFileSync(path.join(root, 'build/en/docs/links.html'), Array.from({length: 5}, (_, index) => (
       `<a class="external" href="https://external-${index}.example.com">Link</a>`
     )).join('\n'));
