@@ -1,8 +1,8 @@
 ---
 displayed_sidbar: restfulSidebar
 slug: /restful
-title: RESTful API 概要
-description: Zilliz Cloud は、cluster、collection、およびそれらに保存されているデータを操作するための RESTful API を提供しています。
+title: RESTful API の概要
+description: Zilliz Cloud は、cluster、collection、およびその中に保存されたデータを操作するための RESTful API を提供しています。
 beta: FALSE
 notebook: FALSE
 sidebar_label: RESTful API リファレンス
@@ -19,15 +19,17 @@ keywords:
 import Admonition from '@theme/Admonition';
 
 
-# RESTful API 概要
+# RESTful API の概要
 
-Zilliz Cloud は、cluster、collection、およびそれらに保存されているデータを操作するための RESTful API を提供しています。 
+Zilliz Cloud は、cluster、collection、およびその中に保存されたデータを操作するための RESTful API を提供しています。 
 
-Zilliz Cloud は control plane を使用して cluster と関連リソースの管理を一元化し、data plane は特定の collection 内でのデータ保存と処理を担当します。
+Zilliz Cloud では、control plane を使用して clusters と関連リソースの管理を一元化し、一方で data plane は特定の collection 内のデータ保存と処理を担当します。
+
+## Control Plane API
 
 - Control Plane API を使用する場合、リクエストの認証には **有効な API key** を使用する必要があります。
 
-    以下は、利用可能なすべての cloud provider を一覧表示する例です。
+    以下は、利用可能なすべてのクラウドプロバイダーを一覧表示する例です。
 
     ```shell
     export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -39,9 +41,11 @@ Zilliz Cloud は control plane を使用して cluster と関連リソースの�
         --header "content-type: application/json"
     ```
 
+## Data Plane API
+
 - Data Plane API を使用する場合、リクエストの認証には **有効な API key または有効な cluster username と password の組み合わせのいずれか** を使用できます。
 
-    以下は、指定した cluster 内で利用可能なすべての collection を一覧表示する例です。
+    以下は、指定した cluster 内の利用可能なすべての collections を一覧表示する例です。
 
     ```shell
     export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
