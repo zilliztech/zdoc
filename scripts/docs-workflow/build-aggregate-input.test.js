@@ -12,11 +12,11 @@ const { buildAggregateInput, buildAggregateInputFromPublication, parseCandidateC
 
 const GUIDES_TRANSLATION_CANDIDATES = JSON.stringify({ total: 163, current_delta: 15, missing_target: 18, stale_source: 130 })
 
-function javaPublication() {
+function javaPublication({runTranslations = false} = {}) {
   const selection = buildFetchPublicationSelection({
     repository: 'zilliztech/zdoc', runId: 123, runAttempt: 1, toolingSha: 'a'.repeat(40),
     targetBranch: 'dev', initialTargetSha: 'b'.repeat(40), sourceBaselineSha: 'b'.repeat(40),
-    selectedGroup: 'java', publish: true, runTranslations: false,
+    selectedGroup: 'java', publish: true, runTranslations,
   })
   const results = validatePublicationResults({
     schemaVersion: 1, document: 'publication-results', workflow: 'fetch', repository: selection.repository,
@@ -55,6 +55,22 @@ test('builds aggregate source rows from canonical publication results', () => {
     mode: 'publish', requestedGroups: ['java'], groups: {java: {
       source: 'source_published', translation: 'skipped', translationRequested: false, sourceCommitSha: 'c'.repeat(40),
     }}, revisionReconciliation: 'passed', finalVerification: 'passed',
+  })
+})
+
+test('Fetch aggregate records handoff intent without treating downstream translation as inline work', () => {
+  const publication = javaPublication({runTranslations: true})
+  const result = buildAggregateInputFromPublication({
+    MODE: 'publish', RUN_TRANSLATIONS: 'false', FINAL_VERIFICATION: 'passed', REVISION_RECONCILIATION: 'passed',
+    TRANSLATION_HANDOFF_REQUESTED: 'true', TRANSLATION_HANDOFF_RESULT: 'success',
+    TRANSLATION_HANDOFF_RUN_ID: '30599999999',
+    TRANSLATION_HANDOFF_RUN_URL: 'https://github.com/zilliztech/zdoc/actions/runs/30599999999',
+  }, publication)
+  assert.equal(result.groups.java.translationRequested, false)
+  assert.equal(result.groups.java.translation, 'skipped')
+  assert.deepEqual(result.translationHandoff, {
+    requested: true, dispatched: true, runId: '30599999999',
+    runUrl: 'https://github.com/zilliztech/zdoc/actions/runs/30599999999',
   })
 })
 

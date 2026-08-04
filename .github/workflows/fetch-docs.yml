@@ -40,8 +40,8 @@ on:
     - cron: "0 2,10,18 * * *"
 
 permissions:
-  contents: write
-  actions: write
+  contents: read
+  actions: read
 
 concurrency:
   group: docs-production-dev
@@ -56,12 +56,15 @@ jobs:
       source_sha: ${{ steps.refs.outputs.source_sha }}
       master_sha: ${{ steps.refs.outputs.master_sha }}
       dev_baseline_sha: ${{ steps.refs.outputs.dev_baseline_sha }}
+      initial_target_sha: ${{ steps.refs.outputs.initial_target_sha }}
       target_branch: ${{ steps.refs.outputs.target_branch }}
       publish: ${{ steps.refs.outputs.publish }}
       run_translations: ${{ steps.refs.outputs.run_translations }}
       media_upload_mode: ${{ steps.refs.outputs.media_upload_mode }}
       selected_group: ${{ steps.refs.outputs.selected_group }}
       retention_days: ${{ steps.refs.outputs.retention_days }}
+      publication_selection_artifact_name: ${{ steps.publication_selection.outputs.artifact_name }}
+      publication_selection_sha256: ${{ steps.publication_selection.outputs.selection_sha256 }}
       card_id: ${{ steps.card.outputs.card_id }}
       card_started_at: ${{ steps.card.outputs.card_started_at }}
     steps:
@@ -107,9 +110,11 @@ jobs:
           node -e 'require("./scripts/docs-workflow/resolve-docs-refs").assertSafeGitRef(process.env.SOURCE_REF)'
           git fetch --no-tags origin "$SOURCE_REF"
           source_sha=$(git rev-parse FETCH_HEAD)
+          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          initial_target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
           tooling_sha=$master_sha
           dev_baseline_sha=$source_sha
-          [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ && "$source_sha" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ && "$source_sha" =~ ^[0-9a-f]{40}$ && "$initial_target_sha" =~ ^[0-9a-f]{40}$ ]]
           case "$SELECTED_GROUP" in all|guides|python|java|node|go|cli|rest) ;; *) exit 2 ;; esac
           case "$MEDIA_UPLOAD_MODE" in write|skip) ;; *) exit 2 ;; esac
           if [[ "$MEDIA_UPLOAD_MODE" == skip ]]; then
@@ -124,13 +129,40 @@ jobs:
           if [[ "$PUBLISH" == true ]]; then card_parts+=("Publish" "Verify"); fi
           [[ "$RUN_TRANSLATIONS" == true ]] && card_parts+=("Handoff")
           card_stages=$(IFS=,; echo "${card_parts[*]}")
-          printf 'tooling_sha=%s\nsource_sha=%s\nmaster_sha=%s\ndev_baseline_sha=%s\ntarget_branch=%s\npublish=%s\nrun_translations=%s\nmedia_upload_mode=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$tooling_sha" "$source_sha" "$master_sha" "$dev_baseline_sha" "$TARGET_BRANCH" "$PUBLISH" "$RUN_TRANSLATIONS" "$MEDIA_UPLOAD_MODE" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
+          printf 'tooling_sha=%s\nsource_sha=%s\nmaster_sha=%s\ndev_baseline_sha=%s\ninitial_target_sha=%s\ntarget_branch=%s\npublish=%s\nrun_translations=%s\nmedia_upload_mode=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$tooling_sha" "$source_sha" "$master_sha" "$dev_baseline_sha" "$initial_target_sha" "$TARGET_BRANCH" "$PUBLISH" "$RUN_TRANSLATIONS" "$MEDIA_UPLOAD_MODE" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Verify translation publication readiness
         run: node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js
+      - id: publication_selection
+        name: Create immutable Fetch publication selection
+        env:
+          TOOLING_SHA: ${{ steps.refs.outputs.master_sha }}
+          TARGET_BRANCH: ${{ steps.refs.outputs.target_branch }}
+          INITIAL_TARGET_SHA: ${{ steps.refs.outputs.initial_target_sha }}
+          SOURCE_BASELINE_SHA: ${{ steps.refs.outputs.dev_baseline_sha }}
+          SELECTED_GROUP: ${{ steps.refs.outputs.selected_group }}
+          PUBLISH: ${{ steps.refs.outputs.publish }}
+          RUN_TRANSLATIONS: ${{ steps.refs.outputs.run_translations }}
+        run: |
+          set -euo pipefail
+          selection_dir="$RUNNER_TEMP/publication-selection"
+          selection_file="$selection_dir/publication-selection.json"
+          artifact_name="publication-selection-fetch-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$selection_dir"
+          node scripts/docs-workflow/fetch-publication-selection.js selection --output "$selection_file"
+          node scripts/docs-workflow/publication-contracts.js validate-selection "$selection_file"
+          selection_sha256=$(node -e 'const fs=require("node:fs");process.stdout.write(JSON.parse(fs.readFileSync(process.argv[1],"utf8")).selectionSha256)' "$selection_file")
+          printf 'artifact_name=%s\nselection_sha256=%s\n' "$artifact_name" "$selection_sha256" >> "$GITHUB_OUTPUT"
+      - name: Upload immutable Fetch publication selection
+        uses: actions/upload-artifact@v6
+        with:
+          name: publication-selection-fetch-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/publication-selection/publication-selection.json
+          if-no-files-found: error
+          retention-days: ${{ fromJSON(steps.refs.outputs.retention_days) }}
       - id: card
         name: Create progress card
         continue-on-error: true
@@ -155,6 +187,8 @@ jobs:
       selected_group: ${{ needs.prepare.outputs.selected_group }}
       publish_enabled: ${{ needs.prepare.outputs.publish == 'true' }}
       run_translations: ${{ needs.prepare.outputs.run_translations == 'true' }}
+      publication_run_attempt: ${{ fromJSON(github.run_attempt) }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -212,6 +246,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      publication_unit_key: source/guides-en
       cache_version: ${{ needs.produce_guides_sources.outputs.cache_version }}
       cache_save_required: ${{ needs.produce_guides_sources.outputs.cache_save_required }}
       assembly_decision_sha256: ${{ needs.produce_guides_sources.outputs.assembly_decision_sha256 }}
@@ -270,6 +307,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      publication_unit_key: source/guides-zh-CN
       cache_version: ${{ needs.produce_zh_guides_sources.outputs.cache_version }}
       cache_save_required: ${{ needs.produce_zh_guides_sources.outputs.cache_save_required }}
       assembly_decision_sha256: ${{ needs.produce_zh_guides_sources.outputs.assembly_decision_sha256 }}
@@ -285,6 +325,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      publication_unit_key: source/python
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
@@ -305,6 +348,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      publication_unit_key: source/java
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
@@ -325,6 +371,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      publication_unit_key: source/node
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
@@ -345,6 +394,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      publication_unit_key: source/go
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
@@ -365,6 +417,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      publication_unit_key: source/cli
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
@@ -385,6 +440,9 @@ jobs:
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      publication_unit_key: source/rest
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
@@ -395,147 +453,82 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  publish_guides:
-    needs: [prepare, produce_guides, publish_python]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.outputs.status == 'artifact_ready' }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with:
-      group: guides
-      site: en
-      artifact_name: ${{ needs.produce_guides.outputs.artifact_name || 'unavailable' }}
-      commit_message: 'docs(guides): publish fetched content'
-      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_guides.outputs.status == 'artifact_ready' }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
-
-  publish_zh_guides:
-    needs: [prepare, produce_zh_guides, publish_guides]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.publish_guides.result == 'success' && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with:
-      group: guides
-      site: zh-CN
-      artifact_name: ${{ needs.produce_zh_guides.outputs.artifact_name || 'unavailable' }}
-      commit_message: 'docs(guides): publish fetched content'
-      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site zh-CN && pnpm run build:zh-CN:site'
+  publish_ready:
+    needs: [prepare]
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      actions: read
+      contents: write
+    outputs:
+      results_artifact_name: ${{ steps.publish.outputs.results_artifact_name }}
+      overall_status: ${{ steps.publish.outputs.overall_status }}
+      final_target_sha: ${{ steps.publish.outputs.final_target_sha }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.prepare.outputs.master_sha }}
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Download immutable Fetch publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Validate immutable Fetch publication selection
+        env:
+          EXPECTED_SELECTION_SHA256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+        run: |
+          set -euo pipefail
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          node scripts/docs-workflow/publication-contracts.js validate-selection "$selection"
+          actual=$(node -e 'const fs=require("node:fs");process.stdout.write(JSON.parse(fs.readFileSync(process.argv[1],"utf8")).selectionSha256)' "$selection")
+          [[ "$actual" == "$EXPECTED_SELECTION_SHA256" ]]
+      - id: publish
+        name: Publish ready Fetch units in producer completion FIFO order
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PUBLISH: ${{ needs.prepare.outputs.publish }}
+        run: |
+          set -euo pipefail
+          mode=artifact_only
+          [[ "$PUBLISH" == true ]] && mode=publish
+          node scripts/docs-workflow/publication-coordinator.js \
+            --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" \
+            --mode "$mode" \
+            --poll-milliseconds 10000 \
+            --candidate-polls 6 \
+            --max-publish-attempts 10
 
   source_publication_barrier:
-    needs: [prepare, publish_guides, publish_zh_guides, publish_python, publish_java, publish_node, publish_go, publish_cli, publish_rest]
+    needs: [prepare, publish_ready]
     if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.publish == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v5
         with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 1 }
+      - name: Download immutable Fetch publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Download immutable Fetch publication results
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.publish_ready.outputs.results_artifact_name }}
+          path: ${{ runner.temp }}/publication-results
       - name: Block paid translation until selected sources are published
-        env:
-          SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
-          GUIDES_RESULT: ${{ needs.publish_guides.result }}
-          GUIDES_STATUS: ${{ needs.publish_guides.outputs.status }}
-          ZH_GUIDES_RESULT: ${{ needs.publish_zh_guides.result }}
-          ZH_GUIDES_STATUS: ${{ needs.publish_zh_guides.outputs.status }}
-          PYTHON_RESULT: ${{ needs.publish_python.result }}
-          PYTHON_STATUS: ${{ needs.publish_python.outputs.status }}
-          JAVA_RESULT: ${{ needs.publish_java.result }}
-          JAVA_STATUS: ${{ needs.publish_java.outputs.status }}
-          NODE_RESULT: ${{ needs.publish_node.result }}
-          NODE_STATUS: ${{ needs.publish_node.outputs.status }}
-          GO_RESULT: ${{ needs.publish_go.result }}
-          GO_STATUS: ${{ needs.publish_go.outputs.status }}
-          CLI_RESULT: ${{ needs.publish_cli.result }}
-          CLI_STATUS: ${{ needs.publish_cli.outputs.status }}
-          REST_RESULT: ${{ needs.publish_rest.result }}
-          REST_STATUS: ${{ needs.publish_rest.outputs.status }}
         run: |
-          if [[ "$SELECTED_GROUP" == all || "$SELECTED_GROUP" == guides ]]; then
-            [[ "$ZH_GUIDES_RESULT" == success && ( "$ZH_GUIDES_STATUS" == published || "$ZH_GUIDES_STATUS" == no_changes ) ]]
-          fi
-          node scripts/docs-workflow/source-publication-barrier.js
+          node scripts/docs-workflow/source-publication-barrier.js \
+            --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" \
+            --results "$RUNNER_TEMP/publication-results/publication-results.json"
 
-  publish_python:
-    needs: [prepare, produce_python, publish_rest]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'python') && needs.produce_python.outputs.status == 'artifact_ready' }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with:
-      group: python
-      site: en
-      artifact_name: ${{ needs.produce_python.outputs.artifact_name || 'unavailable' }}
-      commit_message: 'docs(python): publish SDK reference'
-      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_python.outputs.status == 'artifact_ready' }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
-  publish_java:
-    needs: [prepare, produce_java]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'java') && needs.produce_java.outputs.status == 'artifact_ready' }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with:
-      group: java
-      site: en
-      artifact_name: ${{ needs.produce_java.outputs.artifact_name || 'unavailable' }}
-      commit_message: 'docs(java): publish SDK reference'
-      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_java.outputs.status == 'artifact_ready' }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
-  publish_node:
-    needs: [prepare, produce_node, publish_java]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'node') && needs.produce_node.outputs.status == 'artifact_ready' }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with:
-      group: node
-      site: en
-      artifact_name: ${{ needs.produce_node.outputs.artifact_name || 'unavailable' }}
-      commit_message: 'docs(node): publish SDK reference'
-      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_node.outputs.status == 'artifact_ready' }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
-  publish_go:
-    needs: [prepare, produce_go, publish_node]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'go') && needs.produce_go.outputs.status == 'artifact_ready' }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with:
-      group: go
-      site: en
-      artifact_name: ${{ needs.produce_go.outputs.artifact_name || 'unavailable' }}
-      commit_message: 'docs(go): publish SDK reference'
-      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_go.outputs.status == 'artifact_ready' }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
-  publish_cli:
-    needs: [prepare, produce_cli, publish_go]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'cli') && needs.produce_cli.outputs.status == 'artifact_ready' }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with:
-      group: cli
-      site: en
-      artifact_name: ${{ needs.produce_cli.outputs.artifact_name || 'unavailable' }}
-      commit_message: 'docs(cli): publish CLI reference'
-      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_cli.outputs.status == 'artifact_ready' }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
-  publish_rest:
-    needs: [prepare, produce_rest, publish_cli]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'rest') && needs.produce_rest.outputs.status == 'artifact_ready' }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with:
-      group: rest
-      site: en
-      artifact_name: ${{ needs.produce_rest.outputs.artifact_name || 'unavailable' }}
-      commit_message: 'docs(rest): publish REST reference'
-      should_publish: ${{ needs.prepare.outputs.publish == 'true' && needs.produce_rest.outputs.status == 'artifact_ready' }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      validate_command: 'node "$GITHUB_WORKSPACE/scripts/validate-generated-sidebars.js" --site en'
   prepare_translation_handoff:
-    needs: [prepare, source_publication_barrier, publish_guides, publish_python, publish_java, publish_node, publish_go, publish_cli, publish_rest]
+    needs: [prepare, source_publication_barrier, publish_ready]
     if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.publish == 'true' && needs.source_publication_barrier.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -545,58 +538,49 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 1 }
+      - name: Download immutable Fetch publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Download immutable Fetch publication results
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.publish_ready.outputs.results_artifact_name }}
+          path: ${{ runner.temp }}/publication-results
       - id: handoff
         name: Validate exact downstream translation handoff
         env:
           SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
-          TOOLING_SHA: ${{ needs.prepare.outputs.master_sha }}
-          TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
-          DEV_BASELINE_SHA: ${{ needs.prepare.outputs.dev_baseline_sha }}
-          GUIDES_SHA: ${{ needs.publish_guides.outputs.commit_sha }}
-          PYTHON_SHA: ${{ needs.publish_python.outputs.commit_sha }}
-          JAVA_SHA: ${{ needs.publish_java.outputs.commit_sha }}
-          NODE_SHA: ${{ needs.publish_node.outputs.commit_sha }}
-          GO_SHA: ${{ needs.publish_go.outputs.commit_sha }}
-          CLI_SHA: ${{ needs.publish_cli.outputs.commit_sha }}
-          REST_SHA: ${{ needs.publish_rest.outputs.commit_sha }}
           WORKFLOW_REF: ${{ github.ref_name }}
         run: |
           set -euo pipefail
           node -e 'require("./scripts/docs-workflow/resolve-docs-refs").assertSafeGitRef(process.env.WORKFLOW_REF)'
-          SOURCE_PUBLICATIONS_PATH="$RUNNER_TEMP/source-publications.json" node - <<'NODE'
-          const fs = require('node:fs')
-          const baseline = process.env.DEV_BASELINE_SHA
-          const checkpoints = {
-            guides: process.env.GUIDES_SHA,
-            python: process.env.PYTHON_SHA,
-            java: process.env.JAVA_SHA,
-            node: process.env.NODE_SHA,
-            go: process.env.GO_SHA,
-            cli: process.env.CLI_SHA,
-            rest: process.env.REST_SHA,
-          }
-          if (!/^[0-9a-f]{40}$/.test(baseline)) throw new Error('Missing exact dev source baseline SHA')
-          const groups = process.env.SELECTED_GROUP === 'all' ? Object.keys(checkpoints) : [process.env.SELECTED_GROUP]
-          const publications = Object.fromEntries(groups.map(group => {
-            if (!Object.hasOwn(checkpoints, group)) throw new Error(`Unsupported source publication group: ${group}`)
-            const checkpoint = checkpoints[group] || baseline
-            if (!/^[0-9a-f]{40}$/.test(checkpoint)) throw new Error(`Missing exact published source checkpoint SHA for ${group}`)
-            return [group, {sourceBaselineSha: baseline, sourceCheckpointSha: checkpoint}]
-          }))
-          fs.writeFileSync(process.env.SOURCE_PUBLICATIONS_PATH, JSON.stringify(publications))
-          NODE
-          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
-          target_baseline_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
-          source_publications_json=$(cat "$RUNNER_TEMP/source-publications.json")
-          node scripts/docs-workflow/translation-handoff.js --locale all --group "$SELECTED_GROUP" --tooling-sha "$TOOLING_SHA" --target-branch "$TARGET_BRANCH" --target-baseline-sha "$target_baseline_sha" --source-publications-json "$source_publications_json" > "$RUNNER_TEMP/validated-translation-handoff.json"
+          node scripts/docs-workflow/translation-handoff.js \
+            --locale all \
+            --group "$SELECTED_GROUP" \
+            --fetch-selection "$RUNNER_TEMP/publication-selection/publication-selection.json" \
+            --fetch-results "$RUNNER_TEMP/publication-results/publication-results.json" \
+            > "$RUNNER_TEMP/validated-translation-handoff.json"
           handoff_json=$(cat "$RUNNER_TEMP/validated-translation-handoff.json")
+          node scripts/docs-workflow/translation-handoff.js --handoff-json "$handoff_json" > /dev/null
           printf 'handoff_json=%s\nworkflow_ref=%s\n' "$handoff_json" "$WORKFLOW_REF" >> "$GITHUB_OUTPUT"
+      - name: Upload validated schema-v2 translation handoff
+        uses: actions/upload-artifact@v6
+        with:
+          name: translation-handoff-v2-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/validated-translation-handoff.json
+          if-no-files-found: error
+          retention-days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
 
   dispatch_translations:
     needs: [prepare, prepare_translation_handoff]
     if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.publish == 'true' && needs.prepare_translation_handoff.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      actions: write
+      contents: read
     outputs:
       run_url: ${{ steps.dispatch.outputs.run_url }}
       run_id: ${{ steps.dispatch.outputs.run_id }}
@@ -642,51 +626,17 @@ jobs:
           path: ${{ runner.temp }}/docs-translation-handoff/handoff-metadata.json
           retention-days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
 
-  resolve_final:
-    needs: [prepare, publish_guides, publish_zh_guides, publish_python, publish_java, publish_node, publish_go, publish_cli, publish_rest]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    outputs:
-      final_dev_sha: ${{ steps.ref.outputs.final_dev_sha }}
-    steps:
-      - uses: actions/checkout@v5
-        with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 0 }
-      - id: ref
-        env:
-          TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
-          GUIDES_SHA: ${{ needs.publish_guides.outputs.commit_sha }}
-          ZH_GUIDES_SHA: ${{ needs.publish_zh_guides.outputs.commit_sha }}
-          PYTHON_SHA: ${{ needs.publish_python.outputs.commit_sha }}
-          JAVA_SHA: ${{ needs.publish_java.outputs.commit_sha }}
-          NODE_SHA: ${{ needs.publish_node.outputs.commit_sha }}
-          GO_SHA: ${{ needs.publish_go.outputs.commit_sha }}
-          CLI_SHA: ${{ needs.publish_cli.outputs.commit_sha }}
-          REST_SHA: ${{ needs.publish_rest.outputs.commit_sha }}
-        run: |
-          set -euo pipefail
-          git fetch --no-tags origin "refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
-          sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH")
-          [[ "$sha" =~ ^[0-9a-f]{40}$ ]]
-          for expected in "$GUIDES_SHA" "$ZH_GUIDES_SHA" "$PYTHON_SHA" "$JAVA_SHA" "$NODE_SHA" "$GO_SHA" "$CLI_SHA" "$REST_SHA"; do
-            [[ -z "$expected" ]] && continue
-            [[ "$expected" =~ ^[0-9a-f]{40}$ ]]
-            git merge-base --is-ancestor "$expected" "$sha" || {
-              echo "Published commit $expected is not contained in final $TARGET_BRANCH state $sha" >&2
-              exit 1
-            }
-          done
-          echo "final_dev_sha=$sha" >> "$GITHUB_OUTPUT"
   verify:
-    needs: [prepare, resolve_final]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.resolve_final.outputs.final_dev_sha != '' }}
+    needs: [prepare, publish_ready]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.publish_ready.outputs.final_target_sha != '' }}
     uses: ./.github/workflows/_verify-docs.yml
     with:
-      final_dev_sha: ${{ needs.resolve_final.outputs.final_dev_sha }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_results_artifact_name: ${{ needs.publish_ready.outputs.results_artifact_name }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
   aggregate:
-    needs: [prepare, produce_guides, publish_guides, produce_zh_guides, publish_zh_guides, produce_python, publish_python, produce_java, publish_java, produce_node, publish_node, produce_go, publish_go, produce_cli, publish_cli, produce_rest, publish_rest, prepare_translation_handoff, dispatch_translations, resolve_final, verify]
+    needs: [prepare, publish_ready, prepare_translation_handoff, dispatch_translations, verify]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -697,6 +647,16 @@ jobs:
       - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      - name: Download immutable Fetch publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Download immutable Fetch publication results
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.publish_ready.outputs.results_artifact_name }}
+          path: ${{ runner.temp }}/publication-results
       - id: aggregate
         name: Aggregate terminal source and handoff results
         env:
@@ -710,43 +670,21 @@ jobs:
           TRANSLATION_HANDOFF_RUN_ID: ${{ needs.dispatch_translations.outputs.run_id }}
           TRANSLATION_HANDOFF_RUN_URL: ${{ needs.dispatch_translations.outputs.run_url }}
           VERIFY_JOB_RESULT: ${{ needs.verify.result }}
-          GUIDES_PRODUCER: ${{ needs.produce_guides.outputs.status }}
-          GUIDES_SOURCE: ${{ needs.publish_guides.outputs.status }}
-          GUIDES_SOURCE_SHA: ${{ needs.publish_guides.outputs.commit_sha }}
-          ZH_GUIDES_PRODUCER: ${{ needs.produce_zh_guides.outputs.status }}
-          ZH_GUIDES_SOURCE: ${{ needs.publish_zh_guides.outputs.status }}
-          ZH_GUIDES_SOURCE_SHA: ${{ needs.publish_zh_guides.outputs.commit_sha }}
-          PYTHON_PRODUCER: ${{ needs.produce_python.outputs.status }}
-          PYTHON_SOURCE: ${{ needs.publish_python.outputs.status }}
-          PYTHON_SOURCE_SHA: ${{ needs.publish_python.outputs.commit_sha }}
-          JAVA_PRODUCER: ${{ needs.produce_java.outputs.status }}
-          JAVA_SOURCE: ${{ needs.publish_java.outputs.status }}
-          JAVA_SOURCE_SHA: ${{ needs.publish_java.outputs.commit_sha }}
-          NODE_PRODUCER: ${{ needs.produce_node.outputs.status }}
-          NODE_SOURCE: ${{ needs.publish_node.outputs.status }}
-          NODE_SOURCE_SHA: ${{ needs.publish_node.outputs.commit_sha }}
-          GO_PRODUCER: ${{ needs.produce_go.outputs.status }}
-          GO_SOURCE: ${{ needs.publish_go.outputs.status }}
-          GO_SOURCE_SHA: ${{ needs.publish_go.outputs.commit_sha }}
-          CLI_PRODUCER: ${{ needs.produce_cli.outputs.status }}
-          CLI_SOURCE: ${{ needs.publish_cli.outputs.status }}
-          CLI_SOURCE_SHA: ${{ needs.publish_cli.outputs.commit_sha }}
-          REST_PRODUCER: ${{ needs.produce_rest.outputs.status }}
-          REST_SOURCE: ${{ needs.publish_rest.outputs.status }}
-          REST_SOURCE_SHA: ${{ needs.publish_rest.outputs.commit_sha }}
         run: |
-          if [[ "$MODE" == publish ]]; then [[ "$VERIFY_JOB_RESULT" == success ]]; fi
-          node scripts/docs-workflow/build-aggregate-input.js --output tmp/docs-workflow-results.json
+          node scripts/docs-workflow/build-aggregate-input.js \
+            --publication-selection "$RUNNER_TEMP/publication-selection/publication-selection.json" \
+            --publication-results "$RUNNER_TEMP/publication-results/publication-results.json" \
+            --output tmp/docs-workflow-results.json
           node scripts/docs-workflow/aggregate-results.js --input tmp/docs-workflow-results.json --output tmp/docs-workflow-summary.md
       - name: Download current English Guides reports
-        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.result == 'success' && needs.produce_guides.outputs.status == 'artifact_ready' }}
+        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') }}
         continue-on-error: true
         uses: actions/download-artifact@v7
         with:
           name: docs-checkpoint-guides-en-${{ github.run_id }}-reports
           path: tmp/card-guides-reports/en
       - name: Download current Chinese Guides reports
-        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_zh_guides.result == 'success' && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
+        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') }}
         continue-on-error: true
         uses: actions/download-artifact@v7
         with:
@@ -769,12 +707,12 @@ jobs:
         continue-on-error: true
         env:
           CARD_REPORT_STARTED_AT: ${{ needs.prepare.outputs.card_started_at }}
-          CARD_REPORT_REF: ${{ needs.resolve_final.outputs.final_dev_sha }}
+          CARD_REPORT_REF: ${{ needs.publish_ready.outputs.final_target_sha }}
           CARD_REPORT_ARTIFACT_URL_EN: ${{ steps.report_artifact_links.outputs.en_url }}
           CARD_REPORT_ARTIFACT_URL_ZH_CN: ${{ steps.report_artifact_links.outputs.zh_cn_url }}
           CARD_GUIDES_REPORTS_ROOT: tmp/card-guides-reports
-          CARD_EXPECT_EN_GUIDES_REPORTS: ${{ (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.outputs.status == 'artifact_ready' }}
-          CARD_EXPECT_ZH_GUIDES_REPORTS: ${{ (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}
+          CARD_EXPECT_EN_GUIDES_REPORTS: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
+          CARD_EXPECT_ZH_GUIDES_REPORTS: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
           CARD_BASE_NOTES_JSON: ${{ steps.aggregate.outputs.notes_json }}
         run: node scripts/collect-build-card-notes.js
       - name: Create final card report artifact
@@ -835,6 +773,8 @@ jobs:
           SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
           PUBLISH_ENABLED: ${{ needs.prepare.outputs.publish }}
           RUN_TRANSLATIONS: ${{ needs.prepare.outputs.run_translations }}
+          PUBLICATION_RUN_ATTEMPT: ${{ github.run_attempt }}
+          PUBLICATION_SELECTION_SHA256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}

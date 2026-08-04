@@ -281,7 +281,13 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!['_publish-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_translate-selected-group.yml', 'translate-content.yml', 'translate-codex.yml'].includes(file) && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
         errors.push(`${file}: serialize dev publication through docs-production-dev`)
       }
-      if (!/^  contents: write$/m.test(source)) {
+      if (file === 'fetch-docs.yml') {
+        const writableJobs = Object.entries(workflow.jobs || {}).filter(([, job]) => job?.permissions?.contents === 'write')
+        if (workflow.permissions?.contents !== 'read' || workflow.permissions?.actions !== 'read' ||
+            writableJobs.length !== 1 || writableJobs[0][0] !== 'publish_ready') {
+          errors.push(`${file}: only publish_ready may escalate from the read-only workflow to contents: write`)
+        }
+      } else if (!/^  contents: write$/m.test(source)) {
         errors.push(`${file}: publishing workflow requires explicit contents: write`)
       }
     } else if (!/^  contents: read$/m.test(source)) {
@@ -697,15 +703,17 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (dispatches.length !== 1) errors.push(`${file}: source workflow must dispatch translate-codex.yml exactly once`)
       const handoff = workflow.jobs?.prepare_translation_handoff
       const handoffNeeds = Array.isArray(handoff?.needs) ? handoff.needs : []
-      if (!handoffNeeds.includes('source_publication_barrier') ||
-          !/translation-handoff\.js[\s\S]*--locale all[\s\S]*--target-baseline-sha "\$target_baseline_sha"[\s\S]*--source-publications-json "\$source_publications_json"/.test(source) ||
+      if (handoffNeeds.join(',') !== 'prepare,source_publication_barrier,publish_ready' ||
+          !/translation-handoff\.js[\s\S]*--locale all[\s\S]*--fetch-selection[\s\S]*--fetch-results/.test(source) ||
+          !/name: Upload validated schema-v2 translation handoff[\s\S]*name: translation-handoff-v2-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/.test(source) ||
           !/handoff_json=\$HANDOFF_JSON|handoff_json=%s/.test(source) ||
           !/WORKFLOW_REF: \$\{\{ github\.ref_name \}\}/.test(source)) {
-        errors.push(`${file}: translation handoff must validate exact dev publication identities and trusted workflow ref`)
+        errors.push(`${file}: translation handoff must consume publication results, preserve schema v2 evidence, and use the trusted workflow ref`)
       }
       const dispatch = workflow.jobs?.dispatch_translations
       const dispatchNeeds = Array.isArray(dispatch?.needs) ? dispatch.needs : []
       if (dispatchNeeds.join(',') !== 'prepare,prepare_translation_handoff' ||
+          dispatch?.permissions?.actions !== 'write' || dispatch?.permissions?.contents !== 'read' ||
           !String(dispatch?.if || '').includes("needs.prepare_translation_handoff.result == 'success'") ||
           !/request_id="\$REQUEST_ID"[\s\S]*displayTitle[\s\S]*expected_title[\s\S]*run_url/.test(source) ||
           !/run_url[\s\S]*https:\/\/github\\\.com\/[\s\S]*actions\/runs\//.test(source) || !source.includes('[1-9][0-9]*')) {
@@ -922,27 +930,34 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (/Translate manuals|Publish translations|Dispatch downstream translation/.test(callerSource)) {
       errors.push('fetch-docs.yml: Build card must not include downstream translation phases')
     }
-    const sourceGroups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
+    const coordinator = caller?.jobs?.publish_ready
+    const coordinatorNeeds = Array.isArray(coordinator?.needs) ? coordinator.needs : []
+    const coordinatorSteps = coordinator?.steps || []
+    const coordinatorRun = String(coordinatorSteps.find(step => step?.id === 'publish')?.run || '')
+    if (coordinatorNeeds.join(',') !== 'prepare' || coordinator?.permissions?.contents !== 'write' || coordinator?.permissions?.actions !== 'read' ||
+        !/mode=artifact_only[\s\S]*mode=publish[\s\S]*publication-coordinator\.js[\s\S]*--selection[\s\S]*--mode "\$mode"/.test(coordinatorRun)) {
+      errors.push('fetch-docs.yml: publish_ready must be the single Git writer and poll ready units from prepare only')
+    }
+    for (const legacy of ['publish_java', 'publish_node', 'publish_go', 'publish_cli', 'publish_rest', 'publish_python', 'publish_guides', 'publish_zh_guides', 'resolve_final']) {
+      if (caller?.jobs?.[legacy]) errors.push(`fetch-docs.yml: legacy fixed publication job must be absent: ${legacy}`)
+    }
     const sourceBarrier = caller?.jobs?.source_publication_barrier
     const sourceBarrierNeeds = Array.isArray(sourceBarrier?.needs) ? sourceBarrier.needs : []
-    const expectedSourceBarrierNeeds = ['prepare', 'publish_guides', 'publish_zh_guides', ...sourceGroups.filter(group => group !== 'guides').map(group => `publish_${group}`)]
     const sourceBarrierSteps = sourceBarrier?.steps || []
-    if (JSON.stringify(sourceBarrierNeeds) !== JSON.stringify(expectedSourceBarrierNeeds) ||
+    const sourceBarrierRun = String(sourceBarrierSteps.find(step => step?.name === 'Block paid translation until selected sources are published')?.run || '')
+    if (sourceBarrierNeeds.join(',') !== 'prepare,publish_ready' ||
         !String(sourceBarrier?.if || '').includes("needs.prepare.outputs.publish == 'true'") ||
-        !/ZH_GUIDES_RESULT[\s\S]*ZH_GUIDES_STATUS/.test(JSON.stringify(sourceBarrierSteps.at(-1)?.env || {})) ||
-        !/\[\[ "\$ZH_GUIDES_RESULT" == success[\s\S]*"\$ZH_GUIDES_STATUS" == published[\s\S]*node scripts\/docs-workflow\/source-publication-barrier\.js/.test(sourceBarrierSteps.at(-1)?.run || '')) {
-      errors.push('fetch-docs.yml: source publication barrier must verify every selected source publisher before paid translation')
+        !/source-publication-barrier\.js[\s\S]*--selection[\s\S]*--results/.test(sourceBarrierRun)) {
+      errors.push('fetch-docs.yml: source publication barrier must consume canonical publication selection and results before paid translation')
     }
     const zhSource = caller?.jobs?.produce_zh_guides_sources
     const zhRender = caller?.jobs?.render_zh_guides_tables
     const zhAssemble = caller?.jobs?.produce_zh_guides
-    const zhPublish = caller?.jobs?.publish_zh_guides
     if (zhSource?.with?.site !== 'zh-CN' || zhRender?.with?.site !== 'zh-CN' || zhAssemble?.with?.site !== 'zh-CN' ||
         JSON.stringify(zhRender?.needs) !== JSON.stringify(['prepare', 'produce_zh_guides_sources']) ||
         JSON.stringify(zhAssemble?.needs) !== JSON.stringify(['prepare', 'produce_zh_guides_sources', 'render_zh_guides_tables']) ||
-        JSON.stringify(zhPublish?.needs) !== JSON.stringify(['prepare', 'produce_zh_guides', 'publish_guides']) ||
-        zhPublish?.with?.group !== 'guides' || !/pnpm run build:zh-CN:site(?:\s|$)/.test(zhPublish?.with?.validate_command || '')) {
-      errors.push('fetch-docs.yml: Chinese Guides must use a complete site-qualified lane and serialize after English publication')
+        zhAssemble?.with?.publication_unit_key !== 'source/guides-zh-CN') {
+      errors.push('fetch-docs.yml: Chinese Guides must use a complete site-qualified producer lane bound to source/guides-zh-CN')
     }
     const handoffJob = caller?.jobs?.prepare_translation_handoff
     const dispatchJob = caller?.jobs?.dispatch_translations
@@ -971,11 +986,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const aggregateNeeds = Array.isArray(caller?.jobs?.aggregate?.needs) ? caller.jobs.aggregate.needs : []
     if (aggregateNeeds.includes('monitor_docs_progress')) errors.push('fetch-docs.yml: aggregate must not depend on the central monitor')
     const aggregateStep = (caller?.jobs?.aggregate?.steps || []).find(step => step?.id === 'aggregate')
-    const aggregateEnv = aggregateStep?.env || {}
-    if (aggregateEnv.ZH_GUIDES_PRODUCER !== '${{ needs.produce_zh_guides.outputs.status }}' ||
-        aggregateEnv.ZH_GUIDES_SOURCE !== '${{ needs.publish_zh_guides.outputs.status }}' ||
-        aggregateEnv.ZH_GUIDES_SOURCE_SHA !== '${{ needs.publish_zh_guides.outputs.commit_sha }}') {
-      errors.push('fetch-docs.yml: aggregate must include both Guides locale lanes')
+    const aggregateRun = String(aggregateStep?.run || '')
+    if (!/build-aggregate-input\.js[\s\S]*--publication-selection[\s\S]*--publication-results/.test(aggregateRun)) {
+      errors.push('fetch-docs.yml: aggregate must consume publication selection and results')
     }
     const fallback = caller?.jobs?.finalize_card_fallback
     const fallbackNeeds = Array.isArray(fallback?.needs) ? fallback.needs : []

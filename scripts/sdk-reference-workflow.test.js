@@ -131,7 +131,7 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.match(source, /TOOLING_REF: \$\{\{ github\.event\.inputs\.tooling_ref \|\| 'master' \}\}/)
   assert.match(source, /^  schedule:$/m)
   assert.match(source, /cron: "0 2,10,18 \* \* \*"/)
-  assert.match(source, /^  actions: write$/m)
+  assert.deepEqual(workflow.permissions, {contents: 'read', actions: 'read'})
   assert.match(source, /group: docs-production-dev\n  cancel-in-progress: false/)
   assert.match(source, /if \[\[ "\$PUBLISH" == true && "\$TARGET_BRANCH" == dev && ! "\$tooling_ref" =~ \^\[0-9a-f\]\{40\}\$ \]\]; then\n\s+tooling_ref=master/)
   assert.match(source, /\^\[0-9a-f\]\{40\}\$/)
@@ -142,15 +142,19 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.doesNotMatch(source, /git-auto-commit|git push|--force|fetch-sdk-reference-docs|update-sdk-reference-snapshots/)
 
   const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
-  const sourceOrder = ['java', 'node', 'go', 'cli', 'rest', 'python', 'guides']
   for (const group of groups) {
     if (group !== 'guides') assert.match(source, new RegExp(`produce_${group}:\\n    needs: prepare\\n[\\s\\S]*?uses: \\.\\/.github/workflows/_fetch-content-group\\.yml`))
     if (group !== 'guides') assert.equal(workflow.jobs[`translate_${group}`], undefined)
   }
-  for (const [index, group] of sourceOrder.entries()) {
-    const expected = ['prepare', `produce_${group}`]
-    if (index > 0) expected.push(`publish_${sourceOrder[index - 1]}`)
-    assert.deepEqual(workflow.jobs[`publish_${group}`].needs, expected)
+  const unitKeys = {
+    java: 'source/java', node: 'source/node', go: 'source/go', cli: 'source/cli', rest: 'source/rest',
+    python: 'source/python', guides: 'source/guides-en', zh_guides: 'source/guides-zh-CN',
+  }
+  for (const [group, unitKey] of Object.entries(unitKeys)) {
+    assert.equal(workflow.jobs[`produce_${group}`].with.publication_unit_key, unitKey)
+  }
+  for (const legacy of ['publish_java', 'publish_node', 'publish_go', 'publish_cli', 'publish_rest', 'publish_python', 'publish_guides', 'publish_zh_guides', 'resolve_final']) {
+    assert.equal(workflow.jobs[legacy], undefined)
   }
   for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest']) assert.equal(workflow.jobs[`publish_${group}_translation`], undefined)
   assert.equal(workflow.jobs.translate_guides, undefined)
@@ -166,16 +170,16 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.deepEqual(workflow.jobs.monitor_docs_progress.needs, ['prepare'])
   assert.equal(workflow.jobs.monitor_docs_progress.uses, './.github/workflows/_monitor-docs-progress.yml')
   assert.match(source, /target_branch: \$\{\{ needs\.prepare\.outputs\.target_branch \}\}/)
-  assert.match(source, /should_publish: \$\{\{ needs\.prepare\.outputs\.publish == 'true'/)
-  assert.match(source, /resolve_final:[\s\S]*needs\.prepare\.outputs\.publish == 'true'/)
-  assert.deepEqual(workflow.jobs.resolve_final.needs, ['prepare', 'publish_guides', 'publish_zh_guides', 'publish_python', 'publish_java', 'publish_node', 'publish_go', 'publish_cli', 'publish_rest'])
+  assert.deepEqual(workflow.jobs.publish_ready.needs, ['prepare'])
+  assert.deepEqual(workflow.jobs.publish_ready.permissions, {actions: 'read', contents: 'write'})
+  assert.match(source, /publication-coordinator\.js[\s\S]*--mode "\$mode"/)
   assert.deepEqual(workflow.jobs.dispatch_translations.needs, ['prepare', 'prepare_translation_handoff'])
   assert.match(source, /gh workflow run translate-codex\.yml/)
-  assert.match(source, /git merge-base --is-ancestor "\$expected" "\$sha"/)
   assert.match(source, /verify:[\s\S]*uses: \.\/.github\/workflows\/_verify-docs\.yml/)
+  assert.match(source, /verify:[\s\S]*publication_results_artifact_name: \$\{\{ needs\.publish_ready\.outputs\.results_artifact_name \}\}/)
   assert.match(source, /verify:[\s\S]*target_branch: \$\{\{ needs\.prepare\.outputs\.target_branch \}\}/)
   assert.match(source, /aggregate:[\s\S]*aggregate-results\.js[\s\S]*docs-card-report\.js create[\s\S]*docs-card-report-\$\{\{ github\.run_id \}\}/)
-  assert.match(source, /name: Collect card report summaries[\s\S]*CARD_REPORT_REF: \$\{\{ needs\.resolve_final\.outputs\.final_dev_sha \}\}[\s\S]*collect-build-card-notes\.js/)
+  assert.match(source, /name: Collect card report summaries[\s\S]*CARD_REPORT_REF: \$\{\{ needs\.publish_ready\.outputs\.final_target_sha \}\}[\s\S]*collect-build-card-notes\.js/)
   assert.match(source, /reports_file="\$\{\{ steps\.reports\.outputs\.card_notes_file \}\}"/)
   assert.match(source, /name: Download current English Guides reports[\s\S]*name: docs-checkpoint-guides-en-\$\{\{ github\.run_id \}\}-reports[\s\S]*name: Download current Chinese Guides reports[\s\S]*name: docs-checkpoint-guides-zh-CN-\$\{\{ github\.run_id \}\}-reports/)
   assert.match(source, /\[\[ "\$RUN_TRANSLATIONS" == true \]\] && card_parts\+=\("Handoff"\)/)

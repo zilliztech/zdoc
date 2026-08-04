@@ -102,7 +102,7 @@ function buildAggregateInputFromPublication(env, {selection, results}) {
     ...env,
     MODE: results.mode,
     SELECTED_GROUP: selection.inputs.selectedGroup,
-    RUN_TRANSLATIONS: String(selection.inputs.runTranslations),
+    RUN_TRANSLATIONS: env.RUN_TRANSLATIONS ?? String(selection.inputs.runTranslations),
   }, {sourceProjection})
 }
 

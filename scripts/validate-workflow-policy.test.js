@@ -546,25 +546,45 @@ test('docs production runs only on schedules or explicit manual dispatch', () =>
   assert.doesNotMatch(triggerBlock, /\n\s+push:/)
 })
 
-test('content producers stay parallel while source publishers form an explicit commit queue', () => {
+test('Fetch producers stay parallel while one publication coordinator owns Git writes', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
-  const workflow = yaml.load(fs.readFileSync(workflowPath, 'utf8'))
-  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
-  const publicationOrder = ['java', 'node', 'go', 'cli', 'rest', 'python', 'guides']
+  const source = fs.readFileSync(workflowPath, 'utf8')
+  const workflow = yaml.load(source)
+  assert.deepEqual(workflow.permissions, {contents: 'read', actions: 'read'})
+  assert.equal(workflow.jobs.prepare.outputs.publication_selection_artifact_name, '${{ steps.publication_selection.outputs.artifact_name }}')
+  assert.equal(workflow.jobs.prepare.outputs.publication_selection_sha256, '${{ steps.publication_selection.outputs.selection_sha256 }}')
+  assert.equal(workflow.jobs.prepare.outputs.initial_target_sha, '${{ steps.refs.outputs.initial_target_sha }}')
+  assert.match(source, /fetch-publication-selection\.js selection/)
+  assert.match(source, /name: publication-selection-fetch-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/)
 
-  for (const group of groups) {
-    assert.deepEqual(workflow.jobs[`produce_${group}`].needs, group === 'guides' ? ['prepare', 'produce_guides_sources', 'render_guides_tables'] : 'prepare')
-    const condition = workflow.jobs[`publish_${group}`].if
-    assert.match(condition, /always\(\)/, `${group} publisher must tolerate skipped serialization dependencies`)
-    assert.match(condition, /needs\.prepare\.outputs\.publish == 'true'/, `${group} publisher must require publish mode`)
-    assert.match(condition, new RegExp(`needs\\.prepare\\.outputs\\.selected_group == '${group}'`), `${group} publisher must require group selection`)
-    assert.match(condition, new RegExp(`needs\\.produce_${group}\\.outputs\\.status == 'artifact_ready'`), `${group} publisher must require an artifact-ready producer`)
+  const units = {
+    produce_java: 'source/java', produce_node: 'source/node', produce_go: 'source/go',
+    produce_cli: 'source/cli', produce_rest: 'source/rest', produce_python: 'source/python',
+    produce_guides: 'source/guides-en', produce_zh_guides: 'source/guides-zh-CN',
   }
-  for (const [index, group] of publicationOrder.entries()) {
-    const expectedNeeds = ['prepare', `produce_${group}`]
-    if (index > 0) expectedNeeds.push(`publish_${publicationOrder[index - 1]}`)
-    assert.deepEqual(workflow.jobs[`publish_${group}`].needs, expectedNeeds)
+  for (const [jobName, unitKey] of Object.entries(units)) {
+    const job = workflow.jobs[jobName]
+    assert.equal(job.with.publication_selection_artifact_name, '${{ needs.prepare.outputs.publication_selection_artifact_name }}')
+    assert.equal(job.with.publication_selection_sha256, '${{ needs.prepare.outputs.publication_selection_sha256 }}')
+    assert.equal(job.with.publication_unit_key, unitKey)
   }
+  const coordinator = workflow.jobs.publish_ready
+  assert.deepEqual(coordinator.needs, ['prepare'])
+  assert.deepEqual(coordinator.permissions, {actions: 'read', contents: 'write'})
+  const coordinatorRun = coordinator.steps.find(step => step.id === 'publish')?.run || ''
+  assert.match(coordinatorRun, /mode=artifact_only[\s\S]*mode=publish/)
+  assert.match(coordinatorRun, /publication-coordinator\.js[\s\S]*--mode "\$mode"/)
+  assert.doesNotMatch(JSON.stringify(coordinator), /APP_ID|APP_SECRET|FEISHU_HOST/)
+  for (const legacy of ['publish_java', 'publish_node', 'publish_go', 'publish_cli', 'publish_rest', 'publish_python', 'publish_guides', 'publish_zh_guides', 'resolve_final']) {
+    assert.equal(workflow.jobs[legacy], undefined)
+  }
+  assert.deepEqual(workflow.jobs.source_publication_barrier.needs, ['prepare', 'publish_ready'])
+  assert.deepEqual(workflow.jobs.prepare_translation_handoff.needs, ['prepare', 'source_publication_barrier', 'publish_ready'])
+  assert.deepEqual(workflow.jobs.verify.needs, ['prepare', 'publish_ready'])
+  assert.deepEqual(workflow.jobs.aggregate.needs, ['prepare', 'publish_ready', 'prepare_translation_handoff', 'dispatch_translations', 'verify'])
+  assert.equal(workflow.jobs.monitor_docs_progress.with.publication_run_attempt, '${{ fromJSON(github.run_attempt) }}')
+  assert.equal(workflow.jobs.monitor_docs_progress.with.publication_selection_sha256, '${{ needs.prepare.outputs.publication_selection_sha256 }}')
+  assert.deepEqual(workflow.jobs.dispatch_translations.permissions, {actions: 'write', contents: 'read'})
 })
 
 test('job-level env must not reference the runner context', () => {
@@ -1306,7 +1326,7 @@ test('guides workflows bootstrap full sources and persist only verified caches',
   const renderWorkflow = yaml.load(fs.readFileSync('.github/workflows/_render-guides-table.yml', 'utf8'))
   const renderStep = renderWorkflow.jobs.render.steps.find(step => step.name === 'Render Guides table offline')
   assert.equal(renderStep.env.IMAGE_BED_URL, "${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || vars.IMAGE_BED_URL }}")
-  assert.match(caller, /^  actions: write$/m)
+  assert.deepEqual(yaml.load(caller).permissions, {contents: 'read', actions: 'read'})
   let previousIndex = -1
   for (const name of requiredCacheSteps) {
     const index = sourceSteps.findIndex(step => step.name === name)
@@ -1582,19 +1602,11 @@ test('reusable content publisher safely downloads, validates, and publishes chec
   assert.doesNotMatch(publicationBody, /secrets\./)
 })
 
-test('Chinese Guides publisher selects Chinese checkpoint ownership', () => {
-  const workflow = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
-  const job = workflow.slice(workflow.indexOf('  publish_zh_guides:'), workflow.indexOf('  source_publication_barrier:'))
-  assert.match(job, /site: zh-CN/)
-  assert.match(job, /validate_command:.*--site zh-CN/)
-})
-
-test('Guides source publishers use the registered content group commit message', () => {
-  const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows/fetch-docs.yml'), 'utf8')
-  const registeredMessage = "commit_message: 'docs(guides): publish fetched content'"
-
-  assert.equal(workflow.split(registeredMessage).length - 1, 2)
-  assert.doesNotMatch(workflow, /publish fetched (?:English|Chinese) content/)
+test('Fetch workflow binds Chinese Guides to the site-qualified publication unit', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  assert.equal(workflow.jobs.produce_zh_guides.with.site, 'zh-CN')
+  assert.equal(workflow.jobs.produce_zh_guides.with.publication_unit_key, 'source/guides-zh-CN')
+  assert.equal(workflow.jobs.publish_zh_guides, undefined)
 })
 
 test('workflow policy rejects content group contract validation before dependencies are installed', () => {
@@ -2009,7 +2021,8 @@ test('fetch workflow owns only source production and dispatches translation once
   assert.ok(workflow.jobs.prepare_translation_handoff.needs.includes('source_publication_barrier'))
   assert.deepEqual(workflow.jobs.dispatch_translations.needs, ['prepare', 'prepare_translation_handoff'])
   assert.match(workflow.jobs.dispatch_translations.if, /needs\.prepare_translation_handoff\.result == 'success'/)
-  assert.match(source, /translation-handoff\.js[\s\S]*--locale all[\s\S]*--target-baseline-sha "\$target_baseline_sha"[\s\S]*--source-publications-json "\$source_publications_json"/)
+  assert.match(source, /translation-handoff\.js[\s\S]*--locale all[\s\S]*--fetch-selection[\s\S]*--fetch-results/)
+  assert.match(source, /name: translation-handoff-v2-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/)
   assert.match(source, /-f handoff_json="\$HANDOFF_JSON"/)
   assert.match(source, /WORKFLOW_REF: \$\{\{ github\.ref_name \}\}/)
   assert.match(source, /run_url[\s\S]*github\\\.com[\s\S]*actions\/runs\//)
@@ -2029,7 +2042,7 @@ test('workflow policy rejects embedded translation and an unvalidated downstream
     fs.cpSync('.github/workflows', directory, {recursive: true})
     const file = path.join(directory, 'fetch-docs.yml')
     const original = fs.readFileSync(file, 'utf8')
-    fs.writeFileSync(file, original.replace('  resolve_final:', '  embedded_translation:\n    uses: ./.github/workflows/_translate-content-group.yml\n\n  resolve_final:'))
+    fs.writeFileSync(file, original.replace('  verify:', '  embedded_translation:\n    uses: ./.github/workflows/_translate-content-group.yml\n\n  verify:'))
     assert.ok(validateWorkflowPolicies(directory).some(error => error.includes('must not embed translation implementation')))
     fs.writeFileSync(file, original.replace("needs.prepare_translation_handoff.result == 'success'", "needs.prepare.result == 'success'"))
     assert.ok(validateWorkflowPolicies(directory).some(error => error.includes('downstream dispatch must wait for a validated handoff')))
@@ -2043,8 +2056,8 @@ test('Chinese Guides remains a direct site-qualified source lane', () => {
   assert.equal(workflow.jobs.produce_zh_guides_sources.with.site, 'zh-CN')
   assert.equal(workflow.jobs.render_zh_guides_tables.with.site, 'zh-CN')
   assert.equal(workflow.jobs.produce_zh_guides.with.site, 'zh-CN')
-  assert.deepEqual(workflow.jobs.publish_zh_guides.needs, ['prepare', 'produce_zh_guides', 'publish_guides'])
-  assert.match(workflow.jobs.publish_zh_guides.with.validate_command, /pnpm run build:zh-CN:site(?:\s|$)/)
+  assert.equal(workflow.jobs.produce_zh_guides.with.publication_unit_key, 'source/guides-zh-CN')
+  assert.equal(workflow.jobs.publish_zh_guides, undefined)
 })
 
 test('source aggregate reports downstream handoff and downloads Guides reports before card collection', () => {
@@ -2063,22 +2076,21 @@ test('source aggregate reports downstream handoff and downloads Guides reports b
   assert.ok(steps.indexOf(englishReports) < steps.indexOf(collector))
   assert.ok(steps.indexOf(chineseReports) < steps.indexOf(collector))
   assert.equal(collector.env.CARD_GUIDES_REPORTS_ROOT, 'tmp/card-guides-reports')
-  assert.equal(collector.env.CARD_EXPECT_EN_GUIDES_REPORTS, "${{ (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides.outputs.status == 'artifact_ready' }}")
-  assert.equal(collector.env.CARD_EXPECT_ZH_GUIDES_REPORTS, "${{ (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_zh_guides.outputs.status == 'artifact_ready' }}")
+  assert.equal(collector.env.CARD_EXPECT_EN_GUIDES_REPORTS, "${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}")
+  assert.equal(collector.env.CARD_EXPECT_ZH_GUIDES_REPORTS, "${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}")
   assert.equal(aggregate.env.REVISION_RECONCILIATION, "${{ needs.verify.outputs.revision_status || 'skipped' }}")
-  assert.equal(aggregate.env.ZH_GUIDES_PRODUCER, '${{ needs.produce_zh_guides.outputs.status }}')
-  assert.equal(aggregate.env.ZH_GUIDES_SOURCE, '${{ needs.publish_zh_guides.outputs.status }}')
-  assert.equal(aggregate.env.ZH_GUIDES_SOURCE_SHA, '${{ needs.publish_zh_guides.outputs.commit_sha }}')
+  assert.match(aggregate.run, /--publication-selection[\s\S]*--publication-results/)
+  assert.equal(collector.env.CARD_REPORT_REF, '${{ needs.publish_ready.outputs.final_target_sha }}')
 })
 
-test('workflow policy rejects aggregate wiring that ignores the Chinese Guides lane', () => {
+test('workflow policy rejects aggregate wiring that ignores publication results', () => {
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'zh-guides-aggregate-policy-'))
   try {
     fs.cpSync('.github/workflows', directory, {recursive: true})
     const file = path.join(directory, 'fetch-docs.yml')
     const original = fs.readFileSync(file, 'utf8')
-    fs.writeFileSync(file, original.replace(/^\s+ZH_GUIDES_PRODUCER:.*\n/m, ''))
-    assert.ok(validateWorkflowPolicies(directory).some(error => error.includes('aggregate must include both Guides locale lanes')))
+    fs.writeFileSync(file, original.replace(/\s+--publication-results "\$RUNNER_TEMP\/publication-results\/publication-results\.json"/, ''))
+    assert.ok(validateWorkflowPolicies(directory).some(error => error.includes('aggregate must consume publication selection and results')))
   } finally {
     fs.rmSync(directory, {recursive: true, force: true})
   }
