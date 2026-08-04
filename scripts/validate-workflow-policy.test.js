@@ -2036,6 +2036,47 @@ test('fetch workflow owns only source production and dispatches translation once
   assert.doesNotMatch(source, /Translate manuals|Publish translations|Dispatch downstream translation/)
 })
 
+test('temporary canary suppression defaults off without changing target selection or handoff preparation', () => {
+  const source = fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8')
+  const workflow = yaml.load(source)
+  const input = workflow.on.workflow_dispatch.inputs.canary_suppress_translation_dispatch
+  const refs = workflow.jobs.prepare.steps.find(step => step.id === 'refs')
+  const aggregate = workflow.jobs.aggregate.steps.find(step => step.id === 'aggregate')
+
+  assert.deepEqual(input, {
+    description: 'Suppress the real Translation dispatch during isolated feature-branch canary runs',
+    type: 'boolean',
+    default: false,
+  })
+  assert.equal(refs.env.TARGET_BRANCH, "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_branch || 'dev' }}")
+  assert.equal(refs.env.CANARY_SUPPRESS_TRANSLATION_DISPATCH, "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.canary_suppress_translation_dispatch == 'true' }}")
+  assert.equal(workflow.jobs.prepare.outputs.canary_suppress_translation_dispatch, '${{ steps.refs.outputs.canary_suppress_translation_dispatch }}')
+  assert.match(workflow.jobs.dispatch_translations.if, /needs\.prepare\.outputs\.canary_suppress_translation_dispatch != 'true'/)
+  assert.equal(aggregate.env.TRANSLATION_HANDOFF_REQUESTED, "${{ needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.canary_suppress_translation_dispatch != 'true' }}")
+  assert.deepEqual(workflow.jobs.prepare_translation_handoff.needs, ['prepare', 'source_publication_barrier', 'publish_ready'])
+})
+
+test('workflow policy rejects canary suppression that changes target selection or escapes dispatch accounting', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'fetch-canary-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'fetch-docs.yml')
+    const original = fs.readFileSync(file, 'utf8')
+    const cases = [
+      source => source.replace('        default: false\n      tooling_ref:', '        default: true\n      tooling_ref:'),
+      source => source.replace("TARGET_BRANCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_branch || 'dev' }}", "TARGET_BRANCH: ${{ github.event.inputs.canary_suppress_translation_dispatch == 'true' && 'canary/dev' || github.event.inputs.target_branch }}"),
+      source => source.replace(" && needs.prepare.outputs.canary_suppress_translation_dispatch != 'true'", ''),
+      source => source.replace("TRANSLATION_HANDOFF_REQUESTED: ${{ needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.canary_suppress_translation_dispatch != 'true' }}", 'TRANSLATION_HANDOFF_REQUESTED: ${{ needs.prepare.outputs.run_translations }}'),
+    ]
+    for (const mutate of cases) {
+      fs.writeFileSync(file, mutate(original))
+      assert.ok(validateWorkflowPolicies(directory).some(error => error.includes('temporary canary suppression must only gate downstream Translation dispatch')))
+    }
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('workflow policy rejects embedded translation and an unvalidated downstream dispatch', () => {
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-handoff-policy-'))
   try {
