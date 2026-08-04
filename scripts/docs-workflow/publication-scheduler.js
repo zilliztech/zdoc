@@ -291,7 +291,9 @@ function createPublicationScheduler(options) {
     if (status === 'running') throw new Error('Publication results are not terminal')
     const resultUnits = selection.units.map(selected => {
       const state = units.get(selected.unitKey)
-      const projected = orchestratorFailure && !TERMINAL_STATES.has(state.state) ? {...state, state: 'ready'} : state
+      const projected = orchestratorFailure && state.sequence === null
+        ? {...state, state: 'ready', failure: null}
+        : state
       return publicUnit(projected, 'status')
     })
     return validatePublicationResults({

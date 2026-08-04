@@ -159,6 +159,7 @@ test('unknown remote state stops all later write decisions', () => {
   scheduler.observeJobs([
     job('source/rest', {completed_at: '2026-08-04T08:00:01.000Z'}),
     job('source/java', {completed_at: '2026-08-04T08:00:02.000Z'}),
+    job('source/node', {conclusion: 'failure', completed_at: '2026-08-04T08:00:03.000Z'}),
   ])
   ready(scheduler, 'source/rest')
   ready(scheduler, 'source/java')
@@ -172,6 +173,10 @@ test('unknown remote state stops all later write decisions', () => {
   const unprocessed = terminal.units.find(unit => unit.unitKey === 'source/java')
   assert.equal(unprocessed.status, 'ready')
   assert.equal(unprocessed.sequence, null)
+  const unsequencedFailure = terminal.units.find(unit => unit.unitKey === 'source/node')
+  assert.equal(unsequencedFailure.status, 'ready')
+  assert.equal(unsequencedFailure.failure, null)
+  assert.equal(unsequencedFailure.sequence, null)
 })
 
 test('artifact-only mode reaches terminal ready results without publication actions', () => {
