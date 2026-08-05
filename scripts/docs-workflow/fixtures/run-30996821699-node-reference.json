@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "provenance": {
+    "runId": 30996821699,
+    "runAttempt": 1,
+    "producerJobId": 92275997416,
+    "artifactId": 8926972167,
+    "artifactName": "docs-checkpoint-node-30996821699",
+    "archiveSha256": "63bec9932981afbe7d8ece4f7e716452b9eb7bc5d5961f4b595f67d6357510fb",
+    "manifestSha256": "a1b2558effb6754c47114377cf2205ade82f9f58bf50fd964baa63f59c5ec1f8",
+    "toolingSha": "c119f6f28444f862875dc1eb5c75aaeb24ec4f35",
+    "devBaselineSha": "5b598d82a9f339e19feb2de7aa937a791a30e985",
+    "publishedCommit": "1a25d88924d172387f4ef2e34dd6214f0274cd03"
+  },
+  "selection": {
+    "publish": true,
+    "runTranslations": false,
+    "selectedGroup": "all",
+    "targetBranch": "dev",
+    "finalTargetSha": "3f14b577deeb85c98883bae055bf7ba0cdc59b46",
+    "nodeStatus": "published"
+  },
+  "evidence": {
+    "createdTokens": 25,
+    "deletedTokens": 17,
+    "targetOnlyAfterPublication": 20,
+    "deletedTokenPaths": [
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-DataType.md",
+      "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-updateUser.md",
+      "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md",
+      "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeUser.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFields.md",
+      "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listRoles.md",
+      "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeRole.md",
+      "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createUser.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-getCollectionStatistics.md",
+      "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriter.md",
+      "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md",
+      "content/en/reference/api/nodejs/nodejs/Vector/Vector-insert.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionFunction.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-FunctionType.md"
+    ],
+    "checkpointDeletions": [
+      "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md",
+      "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createUser.md",
+      "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeRole.md",
+      "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeUser.md",
+      "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listRoles.md",
+      "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-updateUser.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-DataType.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-FunctionType.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionField.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFields.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeCollection.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionFunction.md",
+      "content/en/reference/api/nodejs/nodejs/Collections/Collections-getCollectionStatistics.md",
+      "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriter.md",
+      "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md",
+      "content/en/reference/api/nodejs/nodejs/Vector/Vector-insert.md",
+      "content/en/reference/api/nodejs/nodejs/Vector/Vector-query.md",
+      "content/en/reference/api/nodejs/nodejs/Vector/Vector-upsert.md"
+    ]
+  }
+}

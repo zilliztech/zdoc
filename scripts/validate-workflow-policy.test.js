@@ -12,6 +12,190 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('publish-capable top-level workflows share the durable dev queue', () => {
+  const fetch = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const translation = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
+  const tooling = yaml.load(fs.readFileSync('.github/workflows/sync-master-tooling-to-dev.yml', 'utf8'))
+  assert.deepEqual(fetch.concurrency, {group: 'docs-production-dev', queue: 'max'})
+  assert.deepEqual(tooling.concurrency, {group: 'docs-production-dev', queue: 'max'})
+  assert.equal(translation.concurrency.queue, 'max')
+  assert.equal(
+    translation.concurrency.group,
+    "${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+  )
+})
+
+test('reusable workflows never reacquire the production dev queue', () => {
+  for (const file of fs.readdirSync('.github/workflows').filter(name => name.startsWith('_') && /\.ya?ml$/.test(name))) {
+    const workflow = yaml.load(fs.readFileSync(path.join('.github/workflows', file), 'utf8'))
+    assert.notEqual(workflow?.concurrency?.group, 'docs-production-dev', file)
+  }
+})
+
+test('workflow policy rejects durable production dev queue regressions', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const fixtures = [
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace('  queue: max', '  cancel-in-progress: false'),
+      expected: 'fetch-docs.yml: production dev queue owner must use group docs-production-dev with queue: max',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => `concurrency:\n  group: docs-production-dev\n  queue: max\n\n${source}`,
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => `concurrency: docs-production-dev\n\n${source}`,
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => `concurrency:\n  group: DOCS-PRODUCTION-DEV\n  queue: max\n\n${source}`,
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => `concurrency: DOCS-PRODUCTION-DEV\n\n${source}`,
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => `concurrency: external-link-watchdog-docs-production-dev-metrics\n\n${source}`,
+      allowed: true,
+      unexpected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        '  verify:\n    concurrency:\n      group: docs-production-dev\n      queue: max\n    runs-on: ubuntu-latest',
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        '  verify:\n    concurrency:\n      group: DOCS-PRODUCTION-DEV\n      queue: max\n    runs-on: ubuntu-latest',
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        "  verify:\n    concurrency:\n      group: ${{ inputs.target_branch == 'dev' && 'docs-production-dev' || 'verify-readonly' }}\n      queue: max\n    runs-on: ubuntu-latest",
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        '  verify:\n    concurrency: DOCS-PRODUCTION-DEV\n    runs-on: ubuntu-latest',
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        "  verify:\n    concurrency: ${{ inputs.target_branch == 'dev' && 'DOCS-PRODUCTION-DEV' || 'verify-readonly' }}\n    runs-on: ubuntu-latest",
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        '  verify:\n    concurrency: ${{ inputs.target_branch == "dev" && "DOCS-PRODUCTION-DEV" || "verify-readonly" }}\n    runs-on: ubuntu-latest',
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        '  verify:\n    concurrency: docs-production-dev\n    runs-on: ubuntu-latest',
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        "  verify:\n    concurrency: ${{ inputs.target_branch == 'dev' && 'docs-production-dev' || 'verify-readonly' }}\n    runs-on: ubuntu-latest",
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace(
+        'concurrency:\n  group: docs-production-dev\n  queue: max',
+        'concurrency: docs-production-dev',
+      ),
+      expected: 'fetch-docs.yml: production dev queue owner must use group docs-production-dev with queue: max',
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace(
+        '  prepare:\n    runs-on: ubuntu-latest',
+        '  prepare:\n    concurrency:\n      group: docs-production-dev\n      queue: max\n    runs-on: ubuntu-latest',
+      ),
+      expected: 'fetch-docs.yml: job-level concurrency must not reacquire docs-production-dev',
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace(
+        '  prepare:\n    runs-on: ubuntu-latest',
+        '  prepare:\n    concurrency: DOCS-PRODUCTION-DEV\n    runs-on: ubuntu-latest',
+      ),
+      expected: 'fetch-docs.yml: job-level concurrency must not reacquire docs-production-dev',
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace(
+        '  prepare:\n    runs-on: ubuntu-latest',
+        '  prepare:\n    concurrency: docs-production-dev\n    runs-on: ubuntu-latest',
+      ),
+      expected: 'fetch-docs.yml: job-level concurrency must not reacquire docs-production-dev',
+    },
+    {
+      file: 'translate-codex.yml',
+      mutate: source => source.replace(
+        "  group: ${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+        '  group: docs-production-dev',
+      ),
+      expected: 'translate-codex.yml: read-only Translation must use a unique concurrency group',
+    },
+    {
+      file: '_queue-bypass.yaml',
+      sourceFile: '_verify-docs.yml',
+      mutate: source => `concurrency: docs-production-dev\n\n${source}`,
+      expected: '_queue-bypass.yaml: reusable workflow must not reacquire docs-production-dev',
+    },
+  ]
+
+  for (const fixture of fixtures) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'production-dev-queue-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const file = path.join(directory, fixture.file)
+      const source = fs.readFileSync(path.join(directory, fixture.sourceFile || fixture.file), 'utf8')
+      const mutated = fixture.mutate(source)
+      assert.notEqual(mutated, source, `${fixture.file} mutation must change source`)
+      fs.writeFileSync(file, mutated)
+      const errors = validateWorkflowPolicies(directory)
+      if (fixture.allowed) assert.ok(!errors.includes(fixture.unexpected), fixture.unexpected)
+      else assert.ok(errors.includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
+})
+
 test('workflow policy rejects action majors that still target the deprecated Node 20 runtime', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'node-action-runtime-policy-'))
@@ -236,7 +420,10 @@ test('translation workflows declare immutable target identity and exact target v
   assert.equal(compatibility.on.workflow_dispatch.inputs.handoff_json?.required, true)
   for (const input of ['locale', 'group', 'tooling_sha', 'source_shas_json', 'target_branch']) assert.equal(compatibility.on.workflow_dispatch.inputs[input], undefined)
   assert.equal(compatibility.on.workflow_dispatch.inputs.publish.default, false)
-  assert.equal(compatibility.concurrency, undefined)
+  assert.deepEqual(compatibility.concurrency, {
+    group: "${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+    queue: 'max',
+  })
   const compatibilitySource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
   assert.match(compatibilitySource, /strategy:[\s\S]*matrix: \$\{\{ fromJSON\(needs\.prepare\.outputs\.sdk_producer_matrix\) \}\}/)
   assert.match(compatibilitySource, /publish_ja_guides:[\s\S]*publish_ja_python:[\s\S]*publish_zh_python:[\s\S]*publish_ja_java:[\s\S]*publish_zh_java:/)
@@ -657,7 +844,7 @@ test('docs production runs only on schedules or explicit manual dispatch', () =>
   assert.doesNotMatch(triggerBlock, /\n\s+push:/)
 })
 
-test('Fetch producers stay parallel while one publication coordinator owns Git writes', () => {
+test('Fetch producers stay parallel while publication and derived-state writers stay serialized', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
   const source = fs.readFileSync(workflowPath, 'utf8')
   const workflow = yaml.load(source)
@@ -691,13 +878,49 @@ test('Fetch producers stay parallel while one publication coordinator owns Git w
   for (const legacy of ['publish_java', 'publish_node', 'publish_go', 'publish_cli', 'publish_rest', 'publish_python', 'publish_guides', 'publish_zh_guides', 'resolve_final']) {
     assert.equal(workflow.jobs[legacy], undefined)
   }
-  assert.deepEqual(workflow.jobs.source_publication_barrier.needs, ['prepare', 'publish_ready'])
+  assert.deepEqual(workflow.jobs.source_publication_barrier.needs, ['prepare', 'publish_ready', 'reconcile_reference_state'])
   assert.deepEqual(workflow.jobs.prepare_translation_handoff.needs, ['prepare', 'source_publication_barrier', 'publish_ready'])
-  assert.deepEqual(workflow.jobs.verify.needs, ['prepare', 'publish_ready'])
-  assert.deepEqual(workflow.jobs.aggregate.needs, ['prepare', 'publish_ready', 'prepare_translation_handoff', 'dispatch_translations', 'verify'])
+  assert.deepEqual(workflow.jobs.verify.needs, ['prepare', 'publish_ready', 'reconcile_reference_state'])
+  assert.deepEqual(workflow.jobs.aggregate.needs, ['prepare', 'publish_ready', 'reconcile_reference_state', 'prepare_translation_handoff', 'dispatch_translations', 'verify'])
   assert.equal(workflow.jobs.monitor_docs_progress.with.publication_run_attempt, '${{ fromJSON(github.run_attempt) }}')
   assert.equal(workflow.jobs.monitor_docs_progress.with.publication_selection_sha256, '${{ needs.prepare.outputs.publication_selection_sha256 }}')
   assert.deepEqual(workflow.jobs.dispatch_translations.permissions, {actions: 'write', contents: 'read'})
+})
+
+test('Fetch independently reconciles Reference derived state before handoff and final verification', () => {
+  const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
+  const workflow = yaml.load(fs.readFileSync(workflowPath, 'utf8'))
+  const reconciliation = workflow.jobs.reconcile_reference_state
+  assert.deepEqual(reconciliation.needs, ['prepare', 'publish_ready'])
+  assert.deepEqual(reconciliation.permissions, {actions: 'read', contents: 'write'})
+  assert.doesNotMatch(String(reconciliation.if), /run_translations/)
+  const step = reconciliation.steps.find(candidate => candidate.name === 'Reconcile and publish Fetch Reference derived state')
+  assert.match(step.run, /fetch-reference-reconciliation\.js plan/)
+  assert.match(step.run, /restore-generated-state\.sh --exact --ref "\$target_sha"/)
+  assert.match(step.run, /reference-manifest --source content\/en\/reference --target content\/zh-CN\/reference --source-commit "\$source_sha" --write/)
+  assert.match(step.run, /validate-reference --site zh-CN/)
+  assert.match(step.run, /git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$target_branch"/)
+  assert.deepEqual(workflow.jobs.source_publication_barrier.needs, ['prepare', 'publish_ready', 'reconcile_reference_state'])
+  assert.deepEqual(workflow.jobs.verify.needs, ['prepare', 'publish_ready', 'reconcile_reference_state'])
+  assert.deepEqual(workflow.jobs.aggregate.needs, ['prepare', 'publish_ready', 'reconcile_reference_state', 'prepare_translation_handoff', 'dispatch_translations', 'verify'])
+})
+
+test('workflow policy rejects Fetch without independent Reference reconciliation', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'fetch-reference-reconciliation-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, {recursive: true})
+    const file = path.join(directory, 'fetch-docs.yml')
+    const source = fs.readFileSync(file, 'utf8')
+    const mutated = source.replace('  reconcile_reference_state:\n', '  disabled_reference_state_reconciliation:\n')
+    assert.notEqual(mutated, source)
+    fs.writeFileSync(file, mutated)
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'fetch-docs.yml: Fetch must independently reconcile Reference derived state after source publication',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
 })
 
 test('Fetch source publication barrier installs its runtime before validating results', () => {
@@ -1066,7 +1289,7 @@ test('workflow validator rejects incomplete aggregate report ingestion', () => {
   }
 })
 
-test('reusable final verification uses immutable master tooling for lightweight final consistency', () => {
+test('reusable final verification uses immutable master tooling for complete final consistency', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/_verify-docs.yml')
   assert.equal(fs.existsSync(workflowPath), true, 'final verification workflow must exist')
   const workflow = fs.readFileSync(workflowPath, 'utf8')
@@ -1075,10 +1298,11 @@ test('reusable final verification uses immutable master tooling for lightweight 
   assert.match(workflow, /timeout-minutes: 180/)
   assert.match(workflow, /name: Check out immutable master tooling[\s\S]*actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}[\s\S]*fetch-depth: 0/)
   assert.match(workflow, /git fetch --no-tags origin "\$FINAL_DEV_SHA"/)
+  assert.match(workflow, /git merge-base --is-ancestor "\$PUBLISHED_FINAL_SHA" "\$FINAL_DEV_SHA"/)
   assert.match(workflow, /restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/)
   assert.doesNotMatch(workflow, /git worktree add --detach "\$RUNNER_TEMP\/final-dev"/)
   assert.doesNotMatch(workflow, /actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/)
-  assert.doesNotMatch(workflow, /Verify final cross-site consistency|validate-reference --site zh-CN/)
+  assert.match(workflow, /name: Verify final Reference derived state[\s\S]*validate-reference --site en[\s\S]*validate-reference --site zh-CN/)
   assert.match(workflow, /actions\/upload-artifact@v6[\s\S]*if: \$\{\{ always\(\) \}\}/)
   assert.match(workflow, /value: \$\{\{ jobs\.verify\.outputs\.status \}\}/)
   assert.match(workflow, /status=passed[\s\S]*status=failed/)
@@ -1097,10 +1321,11 @@ test('workflow policy rejects final verification waterline mutations', () => {
       '_verify-docs.yml: revision waterline must not terminate before validation completes',
     ],
     [
-      '      - name: Emit verification result\n        id: result\n        if: ${{ always() }}\n        run: |\n          if [[ "${{ steps.revision.outcome }}" == success ]]; then\n            echo "status=passed" >> "$GITHUB_OUTPUT"\n          else\n            echo "status=failed" >> "$GITHUB_OUTPUT"\n          fi',
+      '      - name: Emit verification result\n        id: result\n        if: ${{ always() }}\n        run: |\n          if [[ "${{ steps.revision.outcome }}" == success && "${{ steps.reference.outcome }}" == success ]]; then\n            echo "status=passed" >> "$GITHUB_OUTPUT"\n          else\n            echo "status=failed" >> "$GITHUB_OUTPUT"\n          fi',
       '      - name: Emit verification result\n        id: result\n        if: ${{ always() }}\n        run: |\n          if true; then\n            echo "status=passed" >> "$GITHUB_OUTPUT"\n          else\n            echo "status=failed" >> "$GITHUB_OUTPUT"\n          fi',
-      '_verify-docs.yml: overall status must require revision verification success',
+      '_verify-docs.yml: overall status must require revision and Reference verification success',
     ],
+    ['pnpm docs-tooling validate-reference --site zh-CN', 'echo skipped Chinese Reference validation', '_verify-docs.yml: final verification must validate both English and Chinese Reference derived state'],
     ['fetch-depth: 0', 'fetch-depth: 1', '_verify-docs.yml: must check out immutable master tooling'],
     ['git fetch --no-tags origin "$FINAL_DEV_SHA"', 'git fetch --no-tags origin dev', '_verify-docs.yml: must materialize the exact final dev SHA'],
     ['restore-generated-state.sh --exact --ref "$FINAL_DEV_SHA"', 'restore-generated-state.sh --ref "$FINAL_DEV_SHA"', '_verify-docs.yml: must restore generated content from the exact final dev SHA'],
@@ -2144,7 +2369,7 @@ test('fetch preparation blocks paid translation until publication readiness regr
   const cardIndex = steps.findIndex(step => step.name === 'Create progress card')
   assert.ok(installIndex >= 0 && readinessIndex > installIndex && inventoryIndex > readinessIndex && inventoryIndex < cardIndex)
   const command = steps[readinessIndex].run
-  assert.equal(command, 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js')
+  assert.equal(command, 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js')
   const inventory = steps[inventoryIndex]
   assert.equal(inventory.if, "${{ steps.refs.outputs.publish == 'true' }}")
   assert.equal(inventory.env.INITIAL_TARGET_SHA, '${{ steps.refs.outputs.initial_target_sha }}')
