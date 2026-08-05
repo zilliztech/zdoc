@@ -30,7 +30,7 @@ test('batch publisher validates and publishes a reconstructable durable checkpoi
   assert.match(publishJob, /runs-on: ubuntu-latest/)
   assert.match(publishJob, /permissions:[\s\S]*contents: write/)
   assert.doesNotMatch(publishJob, /uses: \.\/\.github\/workflows\/_publish-content-group\.yml/)
-  assert.match(publishJob, /actions\/download-artifact@v4[\s\S]*translation-checkpoint-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}-batch-\$\{\{ inputs\.batch_number \}\}/)
+  assert.match(publishJob, /actions\/download-artifact@v7[\s\S]*translation-checkpoint-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}-batch-\$\{\{ inputs\.batch_number \}\}/)
   assert.match(publishJob, /validate-checkpoint-artifact\.js[\s\S]*checkpoint translation batch identity mismatch/)
   assert.match(publishJob, /publish-checkpoint\.sh[\s\S]*--max-attempts 10[\s\S]*\$GITHUB_WORKSPACE\/scripts\/validate-generated-sidebars\.js[\s\S]*\$GITHUB_WORKSPACE\/scripts\/validate-translated-coverage\.js/)
   assert.match(publishJob, /status=\$\(sed[\s\S]*published \|\| "\$status" == no_changes/)
