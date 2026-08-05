@@ -61,6 +61,7 @@ function transaction(options = {}) {
         return outcome
       },
       async probeRemoteCandidate(context) {
+        calls.push(['probe', context.candidateSha])
         const outcome = (options.probes || [])[Math.min(probeIndex, (options.probes || []).length - 1)]
         probeIndex += 1
         if (outcome instanceof Error) throw outcome
@@ -111,14 +112,53 @@ test('exact candidate push validates and publishes the composed candidate', asyn
   assert.equal(Object.isFrozen(fixture.contexts.promote), true)
 })
 
+test('candidate commit SHAs are valid, unique, and contain the candidate before validation or promotion', async () => {
+  for (const [label, commitShas] of [
+    ['invalid', ['bad']],
+    ['duplicate', [SHA('b'), SHA('b')]],
+    ['missing candidate', [SHA('c')]],
+  ]) {
+    const fixture = transaction({
+      commitShas,
+      promotions: [new Error('connection closed')],
+      probes: [{remoteSha: SHA('d'), containsCandidate: true}],
+    })
+    const result = await fixture.run()
+    assert.equal(result.status, 'publish_failed', label)
+    assert.equal(result.remoteState, 'known', label)
+    assert.equal(result.failure.code, 'COMPOSITION_FAILED', label)
+    assert.deepEqual(fixture.calls.map(([name]) => name), ['compose'], label)
+  }
+})
+
+test('invalid promoted commit SHA overrides are probed and fall back to the validated candidate', async () => {
+  for (const [label, commitShas] of [
+    ['invalid', ['bad']],
+    ['duplicate', [SHA('c'), SHA('c')]],
+    ['missing result', [SHA('b')]],
+  ]) {
+    const fixture = transaction({
+      promotions: [{status: 'published', resultSha: SHA('c'), commitShas}],
+      probes: [{remoteSha: SHA('d'), containsCandidate: true}],
+    })
+    const result = await fixture.run()
+    assert.equal(result.status, 'published', label)
+    assert.equal(result.resultSha, SHA('b'), label)
+    assert.deepEqual(result.commitShas, [SHA('b')], label)
+    assert.equal(fixture.calls.some(([name]) => name === 'probe'), true, label)
+  }
+})
+
 test('an ambiguous push whose remote descendant contains the candidate succeeds', async () => {
   const fixture = transaction({
+    commitShas: [SHA('c'), SHA('b')],
     promotions: [new Error('connection closed')],
     probes: [{remoteSha: SHA('c'), containsCandidate: true}],
   })
   const result = await fixture.run()
   assert.equal(result.status, 'published')
   assert.equal(result.resultSha, SHA('b'))
+  assert.deepEqual(result.commitShas, [SHA('c'), SHA('b')])
   assert.equal(result.remoteState, 'known')
 })
 

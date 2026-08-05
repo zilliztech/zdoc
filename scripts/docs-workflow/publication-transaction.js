@@ -27,6 +27,15 @@ function assertSha(value, label) {
   return value
 }
 
+function normalizePublishedCommitShas(value, resultSha, label, fallback) {
+  const commitShas = value === undefined ? fallback : value
+  if (!Array.isArray(commitShas)) throw new Error(`${label} must be an array`)
+  const normalized = commitShas.map((sha, index) => assertSha(sha, `${label}[${index}]`))
+  if (new Set(normalized).size !== normalized.length) throw new Error(`${label} must be unique`)
+  if (!normalized.includes(resultSha)) throw new Error(`${label} must contain resultSha`)
+  return Object.freeze(normalized)
+}
+
 function cloneAndFreeze(value) {
   if (!value || typeof value !== 'object') return value
   const clone = Array.isArray(value)
@@ -56,6 +65,12 @@ function terminal(values, now, validationReceipts, cleanupDebt) {
     cleanupDebt: Object.freeze([...cleanupDebt]),
     failure: values.failure ?? null,
   })
+}
+
+function publishedTerminal(values, now, validationReceipts, cleanupDebt) {
+  const resultSha = assertSha(values.resultSha, 'published resultSha')
+  const commitShas = normalizePublishedCommitShas(values.commitShas, resultSha, 'published commitShas')
+  return terminal({...values, resultSha, commitShas}, now, validationReceipts, cleanupDebt)
 }
 
 async function runPublicationStrategyTransaction(options = {}) {
@@ -112,15 +127,22 @@ async function runPublicationStrategyTransaction(options = {}) {
       }, now, validationReceipts, cleanupDebt)
     }
     let candidateSha
+    let candidateCommitShas
     try {
       candidateSha = assertSha(candidate.candidateSha, 'candidate.candidateSha')
+      candidateCommitShas = normalizePublishedCommitShas(
+        candidate.commitShas,
+        candidateSha,
+        'candidate.commitShas',
+        [candidateSha],
+      )
     } catch (error) {
       return terminal({
         status: 'publish_failed', baseSha, attempts: attempt, remoteState: 'known',
         failure: failure('COMPOSITION_FAILED', 'compose', error),
       }, now, validationReceipts, cleanupDebt)
     }
-    const exactCandidate = cloneAndFreeze(candidate)
+    const exactCandidate = cloneAndFreeze({...candidate, candidateSha, commitShas: candidateCommitShas})
 
     try {
       const validation = await strategy.validate(Object.freeze({candidate: exactCandidate}))
@@ -144,9 +166,7 @@ async function runPublicationStrategyTransaction(options = {}) {
       if (promoted?.status !== 'published') throw new Error(`Unknown promotion status: ${promoted?.status}`)
       const resultSha = promoted.resultSha === undefined ? candidateSha : assertSha(promoted.resultSha, 'promotion resultSha')
       const commitShas = promoted.commitShas ?? exactCandidate.commitShas ?? [candidateSha]
-      if (!Array.isArray(commitShas)) throw new Error('promotion commitShas must be an array')
-      commitShas.forEach((sha, index) => assertSha(sha, `promotion commitShas[${index}]`))
-      return terminal({
+      return publishedTerminal({
         status: 'published', baseSha, resultSha, commitShas, attempts: attempt,
       }, now, validationReceipts, cleanupDebt)
     } catch (pushError) {
@@ -178,9 +198,9 @@ async function runPublicationStrategyTransaction(options = {}) {
         }, now, validationReceipts, cleanupDebt)
       }
       if (probe.containsCandidate) {
-        return terminal({
+        return publishedTerminal({
           status: 'published', baseSha, resultSha: candidateSha,
-          commitShas: exactCandidate.commitShas ?? [candidateSha], attempts: attempt,
+          commitShas: exactCandidate.commitShas, attempts: attempt,
         }, now, validationReceipts, cleanupDebt)
       }
       if (probe.remoteSha !== baseSha) {
