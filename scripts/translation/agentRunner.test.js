@@ -1112,6 +1112,20 @@ async function testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBack
   assert.match(unexpectedInlineCodeFeedback[1], /plain code-like tokens must remain plain/i)
   assert.match(unexpectedInlineCodeFeedback[1], /never add backticks/i)
 
+  const invalidJsonFeedback = []
+  await processItemWithRetry({sourcePath: 'docs/invalid-json.md'}, {
+    maxRetries: 1,
+    log: {warn: () => {}},
+    processItem: async (item, attempt, retryFeedback) => {
+      invalidJsonFeedback.push(retryFeedback || null)
+      return attempt === 0
+        ? {...item, status: 'failed', error: 'Semantic unit response must be valid JSON: Bad control character in string literal in JSON at position 1772'}
+        : {...item, status: 'translated'}
+    },
+  })
+  assert.match(invalidJsonFeedback[1], /return strict JSON/i)
+  assert.match(invalidJsonFeedback[1], /escape all control characters/i)
+
   const semanticFeedback = []
   await processItemWithRetry({sourcePath: 'docs/semantic-retry.md'}, {
     maxRetries: 1,

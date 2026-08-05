@@ -218,6 +218,11 @@ function protectedContentRetryFeedback(failure) {
   return `${evidence}\nPlain code-like tokens must remain plain text. Never add backticks around text that was not inline code in the supplied semantic unit.`
 }
 
+function structuredResponseRetryFeedback(failure) {
+  const evidence = failure.slice(0, 1000)
+  return `${evidence}\nReturn strict JSON. Escape all control characters inside JSON string values; never emit raw newlines or tabs inside a string.`
+}
+
 async function processItemWithRetry(item, options) {
   const maxRetries = parseNonNegativeInteger(options.maxRetries, DEFAULT_FILE_RETRIES)
   const failures = []
@@ -239,6 +244,8 @@ async function processItemWithRetry(item, options) {
     failures.push({ attempt: attempt + 1, error: failure })
     retryFeedback = /Protected (?:marker|content)/i.test(failure)
       ? protectedContentRetryFeedback(failure)
+      : /response must be valid JSON/i.test(failure)
+        ? structuredResponseRetryFeedback(failure)
       : validatedReviewRetryFeedback(result)
     if (attempt < maxRetries) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
