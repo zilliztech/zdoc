@@ -974,14 +974,20 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/built-in-analyzer/english-analyzer",
-                "label": "English",
+                "label": "英文",
                 "key": "doc:tutorials/development/analyzer/built-in-analyzer/english-analyzer"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/built-in-analyzer/chinese-analyzer",
-                "label": "Chinese",
+                "label": "中文",
                 "key": "doc:tutorials/development/analyzer/built-in-analyzer/chinese-analyzer"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/analyzer/built-in-analyzer/thai-analyzer",
+                "label": "泰语",
+                "key": "doc:tutorials/development/analyzer/built-in-analyzer/thai-analyzer"
               }
             ]
           },

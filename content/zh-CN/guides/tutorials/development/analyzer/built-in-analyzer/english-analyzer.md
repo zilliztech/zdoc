@@ -1,7 +1,7 @@
 ---
-title: "English | Cloud"
+title: "英文 | Cloud"
 slug: /english-analyzer
-sidebar_label: "English"
+sidebar_label: "英文"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# English
+# 英文
 
 Zilliz Cloud中的English Analyzer旨在处理英语文本，应用特定语言的规则进行分词和过滤。
 

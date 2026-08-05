@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-08-04T11:05:37.453Z",
+  "generated_at": "2026-08-05T10:29:52.583Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides-zh-CN",
   "base_app_token": "I6YUb1M0JajHrqsJGcLcZNh7neP",
   "records": [
@@ -2875,7 +2875,7 @@
       "doc_token": "TO6fwkZ2jiT6FSkkgbCcyHTvn0d",
       "doc_link": "https://zilliverse.feishu.cn/wiki/TO6fwkZ2jiT6FSkkgbCcyHTvn0d",
       "source_file": "TO6fwkZ2jiT6FSkkgbCcyHTvn0d.json",
-      "source_hash": "be68c1192ee0273cfd9028fcca9412d68f4560f485fccc542e405cd11d67668d",
+      "source_hash": "674a1e977b43f8b3bc2ed2520c52b59b787997bad106353639b633c442f06ed1",
       "node_metadata": {
         "requested_token": "TO6fwkZ2jiT6FSkkgbCcyHTvn0d",
         "requested_node_token": "TO6fwkZ2jiT6FSkkgbCcyHTvn0d",
@@ -7606,7 +7606,7 @@
       "doc_token": "ZdWIwmiQCiKcIlkAHAZc1tDSngs",
       "doc_link": "https://zilliverse.feishu.cn/wiki/ZdWIwmiQCiKcIlkAHAZc1tDSngs",
       "source_file": "ZdWIwmiQCiKcIlkAHAZc1tDSngs.json",
-      "source_hash": "8e7666b7aec6ec96eb207b23e9d2a0a0122d93e23e6b6a9c8b87ea089bbaf1b9",
+      "source_hash": "67c15b6e455ba62654daa9ef679ae69c8c1a01258dbb2043fc118f32a5959ea1",
       "node_metadata": {
         "requested_token": "ZdWIwmiQCiKcIlkAHAZc1tDSngs",
         "requested_node_token": "ZdWIwmiQCiKcIlkAHAZc1tDSngs",
@@ -7645,12 +7645,12 @@
       "table_id": "tblYpqCgevikMomb",
       "table_name": "开发指南",
       "placement_type": "canonical",
-      "title": "English",
+      "title": "英文",
       "slug": "english-analyzer",
       "doc_token": "OokXwlKt9i0gUrkv8YicGJ9Ynad",
       "doc_link": "https://zilliverse.feishu.cn/wiki/OokXwlKt9i0gUrkv8YicGJ9Ynad",
       "source_file": "OokXwlKt9i0gUrkv8YicGJ9Ynad.json",
-      "source_hash": "a1f9ec798c97d2c03f38605defca2058c86f1973f3595b113ad47e3e488c3e74",
+      "source_hash": "844e363f4136c9d97edc90d0aff7f394870099e7f4c6538323713717542736b3",
       "node_metadata": {
         "requested_token": "OokXwlKt9i0gUrkv8YicGJ9Ynad",
         "requested_node_token": "OokXwlKt9i0gUrkv8YicGJ9Ynad",
@@ -7659,19 +7659,19 @@
         "obj_token": "Zzf4dRTuzo6ZxyxtoOGcZ6NdnOe",
         "obj_type": "docx",
         "node_type": "origin",
-        "title": "English",
+        "title": "英文",
         "space_id": "7167193056431783939",
         "parent_node_token": "Z0YXwGdHXizgn5k29rQcLz3fnRh",
         "node_create_time": "1738903395",
         "obj_create_time": "1738903395",
-        "obj_edit_time": "1761707041",
+        "obj_edit_time": "1785913256",
         "revision_id": null
       },
       "node_token": "OokXwlKt9i0gUrkv8YicGJ9Ynad",
       "origin_node_token": "OokXwlKt9i0gUrkv8YicGJ9Ynad",
       "obj_token": "Zzf4dRTuzo6ZxyxtoOGcZ6NdnOe",
       "obj_type": "docx",
-      "obj_edit_time": "1761707041",
+      "obj_edit_time": "1785913256",
       "revision_id": null,
       "publish_targets": [
         "Zilliz.PaaS",
@@ -7688,12 +7688,12 @@
       "table_id": "tblYpqCgevikMomb",
       "table_name": "开发指南",
       "placement_type": "canonical",
-      "title": "Chinese",
+      "title": "中文",
       "slug": "chinese-analyzer",
       "doc_token": "UlMPwmPO5iJBn1kDTLzc5cJVnXO",
       "doc_link": "https://zilliverse.feishu.cn/wiki/UlMPwmPO5iJBn1kDTLzc5cJVnXO",
       "source_file": "UlMPwmPO5iJBn1kDTLzc5cJVnXO.json",
-      "source_hash": "84542084d761281431d84c83dc2bd5a37c93e9b7baf4afd4bb874ba01ec6a8c1",
+      "source_hash": "4fa8ad40e4d9f9e3cb5a56e62e231c9941a6a960a830e0bac4e45ee0873a5f8d",
       "node_metadata": {
         "requested_token": "UlMPwmPO5iJBn1kDTLzc5cJVnXO",
         "requested_node_token": "UlMPwmPO5iJBn1kDTLzc5cJVnXO",
@@ -7702,19 +7702,19 @@
         "obj_token": "AsRbdw1XCo8ezRxcLsycH5PRn6c",
         "obj_type": "docx",
         "node_type": "origin",
-        "title": "Chinese",
+        "title": "中文",
         "space_id": "7167193056431783939",
         "parent_node_token": "Z0YXwGdHXizgn5k29rQcLz3fnRh",
         "node_create_time": "1738903408",
         "obj_create_time": "1738903408",
-        "obj_edit_time": "1756804818",
+        "obj_edit_time": "1785913262",
         "revision_id": null
       },
       "node_token": "UlMPwmPO5iJBn1kDTLzc5cJVnXO",
       "origin_node_token": "UlMPwmPO5iJBn1kDTLzc5cJVnXO",
       "obj_token": "AsRbdw1XCo8ezRxcLsycH5PRn6c",
       "obj_type": "docx",
-      "obj_edit_time": "1756804818",
+      "obj_edit_time": "1785913262",
       "revision_id": null,
       "publish_targets": [
         "Zilliz.PaaS",
@@ -7728,6 +7728,50 @@
       "output_paths": []
     },
     {
+      "record_id": "recvrp4oAmWzX9",
+      "table_id": "tblYpqCgevikMomb",
+      "table_name": "开发指南",
+      "placement_type": "canonical",
+      "title": "泰语",
+      "slug": "thai-analyzer",
+      "doc_token": "QWPqwmppOiIPhEkLAEXcZKMznlh",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/QWPqwmppOiIPhEkLAEXcZKMznlh",
+      "source_file": "QWPqwmppOiIPhEkLAEXcZKMznlh.json",
+      "source_hash": "21073fbc2b2494e513a4f16e43ea490eadc727413a07fc4dd33d38060011d2bc",
+      "node_metadata": {
+        "requested_token": "QWPqwmppOiIPhEkLAEXcZKMznlh",
+        "requested_node_token": "QWPqwmppOiIPhEkLAEXcZKMznlh",
+        "node_token": "QWPqwmppOiIPhEkLAEXcZKMznlh",
+        "origin_node_token": "QWPqwmppOiIPhEkLAEXcZKMznlh",
+        "obj_token": "ETCXdKuqfoG63cxoN5OcPmaJnEc",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "泰语",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "Z0YXwGdHXizgn5k29rQcLz3fnRh",
+        "node_create_time": "1784185576",
+        "obj_create_time": "1784185576",
+        "obj_edit_time": "1785915750",
+        "revision_id": null
+      },
+      "node_token": "QWPqwmppOiIPhEkLAEXcZKMznlh",
+      "origin_node_token": "QWPqwmppOiIPhEkLAEXcZKMznlh",
+      "obj_token": "ETCXdKuqfoG63cxoN5OcPmaJnEc",
+      "obj_type": "docx",
+      "obj_edit_time": "1785915750",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "KT4yw9ZWriYDilkhFR7cr00Znfb",
+        "XDNVwL0r1iSJgqk0XkkcVQK9nvh"
+      ],
+      "output_paths": []
+    },
+    {
       "record_id": "recvmzByQ9pcsk",
       "table_id": "tblYpqCgevikMomb",
       "table_name": "开发指南",
@@ -7737,7 +7781,7 @@
       "doc_token": "Zy1KwpriziqRlqka3Oxc0W4tnhg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Zy1KwpriziqRlqka3Oxc0W4tnhg",
       "source_file": "Zy1KwpriziqRlqka3Oxc0W4tnhg.json",
-      "source_hash": "7f253418807a6a3071192d454c29b832366574fbfb8da9630af3255284d4cf05",
+      "source_hash": "d7db4bec75dff41e6ae4582a25d17dc3aa025d59a49692cff91335a771785a92",
       "node_metadata": {
         "requested_token": "Zy1KwpriziqRlqka3Oxc0W4tnhg",
         "requested_node_token": "Zy1KwpriziqRlqka3Oxc0W4tnhg",
@@ -7782,7 +7826,7 @@
       "doc_token": "DUzAwFTRNidwUlkgWSicIeDKndb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/DUzAwFTRNidwUlkgWSicIeDKndb",
       "source_file": "DUzAwFTRNidwUlkgWSicIeDKndb.json",
-      "source_hash": "9ccc1420e7c4c4ae09db5dbc5f7d9a649e203af6037b2eb202f9ee1a5ce233f3",
+      "source_hash": "3960764cca7194aff42542e6c2117616e3e4d94dd675bd939a9dae6dee1b79f0",
       "node_metadata": {
         "requested_token": "DUzAwFTRNidwUlkgWSicIeDKndb",
         "requested_node_token": "DUzAwFTRNidwUlkgWSicIeDKndb",
@@ -7825,7 +7869,7 @@
       "doc_token": "Hfcrw0GogiQCGwkn9mlcKJVSnSh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Hfcrw0GogiQCGwkn9mlcKJVSnSh",
       "source_file": "Hfcrw0GogiQCGwkn9mlcKJVSnSh.json",
-      "source_hash": "a8f9feb4fcf83d1c1c913a96e03b21462d376b2ade8de2b4c9db91258068df6f",
+      "source_hash": "61532bc9ffe3218c1f5b4e0628af0897305494f2ca9b639086f338247d6dfaa8",
       "node_metadata": {
         "requested_token": "Hfcrw0GogiQCGwkn9mlcKJVSnSh",
         "requested_node_token": "Hfcrw0GogiQCGwkn9mlcKJVSnSh",
@@ -7869,7 +7913,7 @@
       "doc_token": "IWMVwdnisijLNGkLUlAcCZCmnWc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/IWMVwdnisijLNGkLUlAcCZCmnWc",
       "source_file": "IWMVwdnisijLNGkLUlAcCZCmnWc.json",
-      "source_hash": "8097de4cf696708f7f19e22989bada044691c70d48dd0afea25a72d3e1a91b8f",
+      "source_hash": "7ac5d1bd526fb3f8df13f18fc7ec317141e89b238c3d87e8fa604c19b5c5a5f3",
       "node_metadata": {
         "requested_token": "IWMVwdnisijLNGkLUlAcCZCmnWc",
         "requested_node_token": "IWMVwdnisijLNGkLUlAcCZCmnWc",
@@ -7913,7 +7957,7 @@
       "doc_token": "BkbswA37iiN3zpk8JLHcbPb0ndd",
       "doc_link": "https://zilliverse.feishu.cn/wiki/BkbswA37iiN3zpk8JLHcbPb0ndd",
       "source_file": "BkbswA37iiN3zpk8JLHcbPb0ndd.json",
-      "source_hash": "464c99cc67afc9f5937d13c4144f9c17e7673002531adf8650cf0f89093adc72",
+      "source_hash": "94e796aaea123513619211c478e4ceaed9b6a5c3844861d3649454b3f454445b",
       "node_metadata": {
         "requested_token": "BkbswA37iiN3zpk8JLHcbPb0ndd",
         "requested_node_token": "BkbswA37iiN3zpk8JLHcbPb0ndd",
@@ -7957,7 +8001,7 @@
       "doc_token": "MC6CwYqf6iWuTTk4vLKcRni3nwf",
       "doc_link": "https://zilliverse.feishu.cn/wiki/MC6CwYqf6iWuTTk4vLKcRni3nwf",
       "source_file": "MC6CwYqf6iWuTTk4vLKcRni3nwf.json",
-      "source_hash": "c123d93509caeb91714fdc87970751e96be1aac11573167f7c4b6cb7df5ecbe4",
+      "source_hash": "022a677d590d17beffbe7c39b506e61dbcd98b4d33748e708c58a2963ca95b7f",
       "node_metadata": {
         "requested_token": "MC6CwYqf6iWuTTk4vLKcRni3nwf",
         "requested_node_token": "MC6CwYqf6iWuTTk4vLKcRni3nwf",
@@ -8001,7 +8045,7 @@
       "doc_token": "AsVpwT9MYivO3zkzhVacewpAnPh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/AsVpwT9MYivO3zkzhVacewpAnPh",
       "source_file": "AsVpwT9MYivO3zkzhVacewpAnPh.json",
-      "source_hash": "989c256b0dbde3e1504869c5012463432b3d315c692a94669c88f701b4ebd166",
+      "source_hash": "ed49c20aae8af40375e5b6fed5db074a118ebd8f94c6f7d0cc896bf6c4fe7826",
       "node_metadata": {
         "requested_token": "AsVpwT9MYivO3zkzhVacewpAnPh",
         "requested_node_token": "AsVpwT9MYivO3zkzhVacewpAnPh",
@@ -8045,7 +8089,7 @@
       "doc_token": "AzqdwhBW5ixVLMk1IRecqHCvnfa",
       "doc_link": "https://zilliverse.feishu.cn/wiki/AzqdwhBW5ixVLMk1IRecqHCvnfa",
       "source_file": "AzqdwhBW5ixVLMk1IRecqHCvnfa.json",
-      "source_hash": "5021e8dc63b2bde600583bfc510b9c16e1a3ab738c664798e532ad132423437e",
+      "source_hash": "a6a1f2c0706152c67ef37a6c68750867261246890eb1d34051ec3157e21e489d",
       "node_metadata": {
         "requested_token": "AzqdwhBW5ixVLMk1IRecqHCvnfa",
         "requested_node_token": "AzqdwhBW5ixVLMk1IRecqHCvnfa",
@@ -8089,7 +8133,7 @@
       "doc_token": "FnxIwZq7wi8N8Kk2GbqcTeHXnsb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/FnxIwZq7wi8N8Kk2GbqcTeHXnsb",
       "source_file": "FnxIwZq7wi8N8Kk2GbqcTeHXnsb.json",
-      "source_hash": "6552fd09e3f6b90dd27d8e3e202755c7ec424ff83c75c6ca109dbbfca1c2b0e0",
+      "source_hash": "a27ff7b1a3ea128cd1a6903cd81aca1dabc8bfd3095418639ae94d4588220780",
       "node_metadata": {
         "requested_token": "FnxIwZq7wi8N8Kk2GbqcTeHXnsb",
         "requested_node_token": "FnxIwZq7wi8N8Kk2GbqcTeHXnsb",
@@ -8133,7 +8177,7 @@
       "doc_token": "S20fwoua2ifNgPkAY9mcihIGnxc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/S20fwoua2ifNgPkAY9mcihIGnxc",
       "source_file": "S20fwoua2ifNgPkAY9mcihIGnxc.json",
-      "source_hash": "de6c45c631ad50c35e1bdce4f087e6c7ab7f07d1ed22fd69f18fcc5e0b6b7236",
+      "source_hash": "070be1dbd5b40c482ae916e9f3481ad68a2a6923d4c19cbc899a73256e150889",
       "node_metadata": {
         "requested_token": "S20fwoua2ifNgPkAY9mcihIGnxc",
         "requested_node_token": "S20fwoua2ifNgPkAY9mcihIGnxc",
@@ -8177,7 +8221,7 @@
       "doc_token": "U53cwHbmOiBCf5kyR7McxmE5nkd",
       "doc_link": "https://zilliverse.feishu.cn/wiki/U53cwHbmOiBCf5kyR7McxmE5nkd",
       "source_file": "U53cwHbmOiBCf5kyR7McxmE5nkd.json",
-      "source_hash": "5a4339abcb54eada87701b6e7727502431f42c8662aa377a0e8ed83da2811ce6",
+      "source_hash": "61fdb04391b4107985fbc464dea2492d8e3232935eeadff7f4df8346abbad695",
       "node_metadata": {
         "requested_token": "U53cwHbmOiBCf5kyR7McxmE5nkd",
         "requested_node_token": "U53cwHbmOiBCf5kyR7McxmE5nkd",
@@ -8221,7 +8265,7 @@
       "doc_token": "C1J1w3XqqiSMH9kTTcTcBjVZnOh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/C1J1w3XqqiSMH9kTTcTcBjVZnOh",
       "source_file": "C1J1w3XqqiSMH9kTTcTcBjVZnOh.json",
-      "source_hash": "241cc4cd41da03b3c1bfa515a4a2607e0dcb40a77580e24b29b61328acc9d25a",
+      "source_hash": "bbdfe0fc10b0bcecd0c02abef3239403187999c5608a90373d84127c649b5219",
       "node_metadata": {
         "requested_token": "C1J1w3XqqiSMH9kTTcTcBjVZnOh",
         "requested_node_token": "C1J1w3XqqiSMH9kTTcTcBjVZnOh",
@@ -8265,7 +8309,7 @@
       "doc_token": "PcaswIdMjiPOrAkyA0uc5aXOn0b",
       "doc_link": "https://zilliverse.feishu.cn/wiki/PcaswIdMjiPOrAkyA0uc5aXOn0b",
       "source_file": "PcaswIdMjiPOrAkyA0uc5aXOn0b.json",
-      "source_hash": "3f967dd1eebd600128beb14b1f18f80eaf8f9ca70ff842acd058482549b80668",
+      "source_hash": "e309a8dc3cf368dd721a82ea8d16a6e4a5a211cecdbd3ae5e478387e09f2f1fd",
       "node_metadata": {
         "requested_token": "PcaswIdMjiPOrAkyA0uc5aXOn0b",
         "requested_node_token": "PcaswIdMjiPOrAkyA0uc5aXOn0b",
@@ -8309,7 +8353,7 @@
       "doc_token": "FI9Lw2JwTimpxikTjtpctKK1nbc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/FI9Lw2JwTimpxikTjtpctKK1nbc",
       "source_file": "FI9Lw2JwTimpxikTjtpctKK1nbc.json",
-      "source_hash": "1b6563426b1bc7a13435f1bf0aac45f326f523909fc516d3cdb86538d86eb62c",
+      "source_hash": "c8776a639f097ef9e480b587fc4fd71ec8bf761b6001686d3cfbee04e2d0a84e",
       "node_metadata": {
         "requested_token": "FI9Lw2JwTimpxikTjtpctKK1nbc",
         "requested_node_token": "FI9Lw2JwTimpxikTjtpctKK1nbc",
@@ -8353,7 +8397,7 @@
       "doc_token": "DNLUwvDBWibe0hkIBE2cOixJn7c",
       "doc_link": "https://zilliverse.feishu.cn/wiki/DNLUwvDBWibe0hkIBE2cOixJn7c",
       "source_file": "DNLUwvDBWibe0hkIBE2cOixJn7c.json",
-      "source_hash": "1ae54a1db2ec1c4012754aa6dd3268e9804f13abc253ed9699930995409603da",
+      "source_hash": "582bdd8358eb00ba8860005dde4d20215d0600b0774a8d1497872651c74a99ec",
       "node_metadata": {
         "requested_token": "DNLUwvDBWibe0hkIBE2cOixJn7c",
         "requested_node_token": "DNLUwvDBWibe0hkIBE2cOixJn7c",
@@ -8397,7 +8441,7 @@
       "doc_token": "RA2vwGhS9itlQpkgoeXcKHVenpe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/RA2vwGhS9itlQpkgoeXcKHVenpe",
       "source_file": "RA2vwGhS9itlQpkgoeXcKHVenpe.json",
-      "source_hash": "1c92a558094db346935d4287cd615e900a6486d716588dc9a645e8db0d5eb5f6",
+      "source_hash": "c2d90a0a8a130112f786137bc88eda2af83072d9947e2c5359ebeab7ea59f561",
       "node_metadata": {
         "requested_token": "RA2vwGhS9itlQpkgoeXcKHVenpe",
         "requested_node_token": "RA2vwGhS9itlQpkgoeXcKHVenpe",
@@ -8440,7 +8484,7 @@
       "doc_token": "EcNmwuOtTi8VTDk6XtLcJsxznWx",
       "doc_link": "https://zilliverse.feishu.cn/wiki/EcNmwuOtTi8VTDk6XtLcJsxznWx",
       "source_file": "EcNmwuOtTi8VTDk6XtLcJsxznWx.json",
-      "source_hash": "9947fb53525c8074f268ef5f9d6921e68de4797c9b03d15dde4e351ce1983a53",
+      "source_hash": "80b27565602137014ac18f9592f533c1fe489df72270b2ddb5344ad0db440189",
       "node_metadata": {
         "requested_token": "EcNmwuOtTi8VTDk6XtLcJsxznWx",
         "requested_node_token": "EcNmwuOtTi8VTDk6XtLcJsxznWx",
@@ -8484,7 +8528,7 @@
       "doc_token": "Ze9bwp7rJis0HGkYXftcC1k8nic",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Ze9bwp7rJis0HGkYXftcC1k8nic",
       "source_file": "Ze9bwp7rJis0HGkYXftcC1k8nic.json",
-      "source_hash": "5984ec5d3836b467bde59b2b838f0ce0405a6ba3b2bf478fe6d156ea35733074",
+      "source_hash": "17be56ad74621c8efc17238565cd17f16060df1f5bf5b1828a75feebb1045e78",
       "node_metadata": {
         "requested_token": "Ze9bwp7rJis0HGkYXftcC1k8nic",
         "requested_node_token": "Ze9bwp7rJis0HGkYXftcC1k8nic",
@@ -8529,7 +8573,7 @@
       "doc_token": "Sotxw9TeRiM6U1k2aQ7cc3SUn9d",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Sotxw9TeRiM6U1k2aQ7cc3SUn9d",
       "source_file": "Sotxw9TeRiM6U1k2aQ7cc3SUn9d.json",
-      "source_hash": "7cf066031665e69c2e32493e2a86f077d478c12202d413b1bf04fe8056e40bc8",
+      "source_hash": "87ff510a8397cb1b76fd4811de27311b9dd8ca0eae102f658f2dc67c11fadb14",
       "node_metadata": {
         "requested_token": "Sotxw9TeRiM6U1k2aQ7cc3SUn9d",
         "requested_node_token": "Sotxw9TeRiM6U1k2aQ7cc3SUn9d",
@@ -8597,7 +8641,7 @@
       "doc_token": "X37Jw3gFtiNnXXkkVm7cvcBensg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/X37Jw3gFtiNnXXkkVm7cvcBensg",
       "source_file": "X37Jw3gFtiNnXXkkVm7cvcBensg.json",
-      "source_hash": "88e7e6fdace7dda07a04d9a86399399eacd56d0017e36821fdecaf67d0a55d4e",
+      "source_hash": "1aef4d0cb60d706ad87097d635791f0f85884431037d4ce53c0d4cbda470490f",
       "node_metadata": {
         "requested_token": "X37Jw3gFtiNnXXkkVm7cvcBensg",
         "requested_node_token": "X37Jw3gFtiNnXXkkVm7cvcBensg",
@@ -8643,7 +8687,7 @@
       "doc_token": "Km9nwfLWti2GZNkLtbnc8fcVnId",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Km9nwfLWti2GZNkLtbnc8fcVnId",
       "source_file": "Km9nwfLWti2GZNkLtbnc8fcVnId.json",
-      "source_hash": "260059ba67ddce7a9221a5fedcc3ad677fe9455f0864a646d28bd056ec77f6e8",
+      "source_hash": "9774aecca7cc031394b3ea3759c97f2270b6ad4b055760f9f884f59cfa59a5ca",
       "node_metadata": {
         "requested_token": "Km9nwfLWti2GZNkLtbnc8fcVnId",
         "requested_node_token": "Km9nwfLWti2GZNkLtbnc8fcVnId",
@@ -8685,7 +8729,7 @@
       "doc_token": "Xq0owDgEpiD2aDkfYBGcxt1ZnNe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Xq0owDgEpiD2aDkfYBGcxt1ZnNe",
       "source_file": "Xq0owDgEpiD2aDkfYBGcxt1ZnNe.json",
-      "source_hash": "c6366f858717f2aa5bd80f8ebc04cf045b41596ee38a765f52f22cb35824ed9a",
+      "source_hash": "be8cfa4b27715c970cb269e6c47b0e1c12cf784e78ff7a69de072db90d3758c0",
       "node_metadata": {
         "requested_token": "Xq0owDgEpiD2aDkfYBGcxt1ZnNe",
         "requested_node_token": "Xq0owDgEpiD2aDkfYBGcxt1ZnNe",
@@ -21912,8 +21956,8 @@
         "recvmzBlQOkQkq"
       ],
       "order": 153,
-      "title": "English",
-      "labels": "English",
+      "title": "英文",
+      "labels": "",
       "slug": "english-analyzer",
       "targets": [
         "zilliz.paas",
@@ -21935,8 +21979,8 @@
         "recvmzBlQOkQkq"
       ],
       "order": 154,
-      "title": "Chinese",
-      "labels": "Chinese",
+      "title": "中文",
+      "labels": "",
       "slug": "chinese-analyzer",
       "targets": [
         "zilliz.paas",
@@ -21950,6 +21994,52 @@
       "ref_target_anchor": null
     },
     {
+      "record_id": "recvrp4lblDV4J",
+      "table_id": "tblYpqCgevikMomb",
+      "table_name": "开发指南",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvmzBlQOkQkq"
+      ],
+      "order": 155,
+      "title": "阿拉伯语",
+      "labels": "",
+      "slug": "arabic-analyzer",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "WIP",
+      "doc_token": "B0CwwnxeRiBzu0knv5kch2EDn0d",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/B0CwwnxeRiBzu0knv5kch2EDn0d",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvrp4oAmWzX9",
+      "table_id": "tblYpqCgevikMomb",
+      "table_name": "开发指南",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvmzBlQOkQkq"
+      ],
+      "order": 156,
+      "title": "泰语",
+      "labels": "",
+      "slug": "thai-analyzer",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "QWPqwmppOiIPhEkLAEXcZKMznlh",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/QWPqwmppOiIPhEkLAEXcZKMznlh",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
       "record_id": "recvmzBpU9uyDS",
       "table_id": "tblYpqCgevikMomb",
       "table_name": "开发指南",
@@ -21957,7 +22047,7 @@
       "parent_record_ids": [
         "recvmzySkXcEwQ"
       ],
-      "order": 155,
+      "order": 157,
       "title": "分词器参考",
       "labels": "分词器参考",
       "slug": "analyzer-tokenizers",
@@ -21977,7 +22067,7 @@
       "parent_record_ids": [
         "recvmzBpU9uyDS"
       ],
-      "order": 156,
+      "order": 158,
       "title": "Standard 分词器",
       "labels": "Standard 分词器",
       "slug": "standard-tokenizer",
@@ -22000,7 +22090,7 @@
       "parent_record_ids": [
         "recvmzBpU9uyDS"
       ],
-      "order": 157,
+      "order": 159,
       "title": "Whitespace",
       "labels": "Whitespace",
       "slug": "whitespace-tokenizer",
@@ -22023,7 +22113,7 @@
       "parent_record_ids": [
         "recvmzBpU9uyDS"
       ],
-      "order": 158,
+      "order": 160,
       "title": "Jieba",
       "labels": "Jieba",
       "slug": "jieba-tokenizer",
@@ -22046,7 +22136,7 @@
       "parent_record_ids": [
         "recvmzBpU9uyDS"
       ],
-      "order": 159,
+      "order": 161,
       "title": "Lindera",
       "labels": "Lindera",
       "slug": "lindera-tokenizer",
@@ -22069,7 +22159,7 @@
       "parent_record_ids": [
         "recvmzBpU9uyDS"
       ],
-      "order": 160,
+      "order": 162,
       "title": "ICU",
       "labels": "ICU",
       "slug": "icu-tokenizer",
@@ -22092,7 +22182,7 @@
       "parent_record_ids": [
         "recvmzBpU9uyDS"
       ],
-      "order": 161,
+      "order": 163,
       "title": "Language Identifier",
       "labels": "Language Identifier",
       "slug": "language-identifier-tokenizer",
@@ -22115,7 +22205,7 @@
       "parent_record_ids": [
         "recvmzySkXcEwQ"
       ],
-      "order": 162,
+      "order": 164,
       "title": "过滤器参考",
       "labels": "过滤器参考",
       "slug": "analyzer-filters",
@@ -22135,7 +22225,7 @@
       "parent_record_ids": [
         "recvmzBrynBoce"
       ],
-      "order": 163,
+      "order": 165,
       "title": "Lowercase",
       "labels": "Lowercase",
       "slug": "lowercase-filter",
@@ -22158,7 +22248,7 @@
       "parent_record_ids": [
         "recvmzBrynBoce"
       ],
-      "order": 164,
+      "order": 166,
       "title": "ASCII folding",
       "labels": "ASCII folding",
       "slug": "ascii-folding-filter",
@@ -22181,7 +22271,7 @@
       "parent_record_ids": [
         "recvmzBrynBoce"
       ],
-      "order": 165,
+      "order": 167,
       "title": "Alphanumonly",
       "labels": "Alphanumonly",
       "slug": "alphanumonly-filter",
@@ -22204,7 +22294,7 @@
       "parent_record_ids": [
         "recvmzBrynBoce"
       ],
-      "order": 166,
+      "order": 168,
       "title": "Cnalphanumonly",
       "labels": "Cnalphanumonly",
       "slug": "cnalphanumonly-filter",
@@ -22227,7 +22317,7 @@
       "parent_record_ids": [
         "recvmzBrynBoce"
       ],
-      "order": 167,
+      "order": 169,
       "title": "Cncharonly",
       "labels": "Cncharonly",
       "slug": "cncharonly-filter",
@@ -22250,7 +22340,7 @@
       "parent_record_ids": [
         "recvmzBrynBoce"
       ],
-      "order": 168,
+      "order": 170,
       "title": "Length",
       "labels": "Length",
       "slug": "length-filter",
@@ -22273,7 +22363,7 @@
       "parent_record_ids": [
         "recvmzBrynBoce"
       ],
-      "order": 169,
+      "order": 171,
       "title": "Stop",
       "labels": "Stop",
       "slug": "stop-filter",
@@ -22296,7 +22386,7 @@
       "parent_record_ids": [
         "recvmzBrynBoce"
       ],
-      "order": 170,
+      "order": 172,
       "title": "Decompounder",
       "labels": "Decompounder",
       "slug": "decompounder-filter",
@@ -22319,7 +22409,7 @@
       "parent_record_ids": [
         "recvmzBrynBoce"
       ],
-      "order": 171,
+      "order": 173,
       "title": "Stemmer",
       "labels": "Stemmer",
       "slug": "stemmer-filter",
@@ -22342,7 +22432,7 @@
       "parent_record_ids": [
         "recvmzBrynBoce"
       ],
-      "order": 172,
+      "order": 174,
       "title": "Remove Punct",
       "labels": "Remove Punct",
       "slug": "remove-punct-filter",
@@ -22365,7 +22455,7 @@
       "parent_record_ids": [
         "recvmzBrynBoce"
       ],
-      "order": 173,
+      "order": 175,
       "title": "Regex",
       "labels": "Regex",
       "slug": "regex-filter",
@@ -22388,7 +22478,7 @@
       "parent_record_ids": [
         "recvmzBrynBoce"
       ],
-      "order": 174,
+      "order": 176,
       "title": "Synonym",
       "labels": "Synonym",
       "slug": "synonym-filter",
@@ -22411,7 +22501,7 @@
       "parent_record_ids": [
         "recvmzySkXcEwQ"
       ],
-      "order": 175,
+      "order": 177,
       "title": "多语言 Analyzer",
       "labels": "多语言 Analyzer",
       "slug": "multi-language-analyzers",
@@ -22434,7 +22524,7 @@
       "parent_record_ids": [
         "recvmzySkXcEwQ"
       ],
-      "order": 176,
+      "order": 178,
       "title": "最佳实践：如何选择合适的 Analyzer",
       "labels": "最佳实践：如何选择合适的 Analyzer",
       "slug": "choose-the-right-analyzer-for-your-use-case",
@@ -22457,7 +22547,7 @@
       "parent_record_ids": [
         "recvmzySkXcEwQ"
       ],
-      "order": 177,
+      "order": 179,
       "title": "管理文件资源",
       "labels": "管理文件资源",
       "slug": "manage-file-resources",
@@ -22478,7 +22568,7 @@
       "table_name": "开发指南",
       "placement_type": "canonical",
       "parent_record_ids": [],
-      "order": 178,
+      "order": 180,
       "title": "Snapshot",
       "labels": "Snapshot",
       "slug": "snapshots",
@@ -22500,7 +22590,7 @@
       "parent_record_ids": [
         "recvmA4h70tY2O"
       ],
-      "order": 179,
+      "order": 181,
       "title": "管理 Snapshot",
       "labels": "管理 Snapshot",
       "slug": "manage-snapshots",
@@ -22521,6 +22611,6 @@
     "tblr7Zec2ReTfRmw": "d5711a063ec2e139715f13ff691e458e9eb745d232af1ca2e469a4bc85026664",
     "tblRaa3JnIhllHb9": "36c5f313ae62c2b0d47454a3b4a041cf76f3f522bde29bb41d25fb606a01c6ae",
     "tblsw6S3J0ekcgNB": "3bc2d4d6ffef86f6c7b79f3b2c4f87ff4986fcbb86222dc30066ed748459f8b6",
-    "tblYpqCgevikMomb": "1b60291dedce485d12c4956b0c7bc870e49f6eb7150db9ed9f78de0b1c941495"
+    "tblYpqCgevikMomb": "bfb8e48f62d5f1891ca618b37aa84eabceeb4cb8734b4119d2f222bd31145241"
   }
 }

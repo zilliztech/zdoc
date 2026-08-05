@@ -1,7 +1,7 @@
 ---
-title: "Chinese | Cloud"
+title: "中文 | Cloud"
 slug: /chinese-analyzer
-sidebar_label: "Chinese"
+sidebar_label: "中文"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Chinese
+# 中文
 
 Chinese Analyzer 专门设计用于处理中文文本，提供有效的分段和分词。
 
