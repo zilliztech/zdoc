@@ -27,7 +27,7 @@ function failure(code, phase, error, retryable = false) {
   return Object.freeze({code, phase, message: bounded(error), retryable})
 }
 
-function terminal(values, now) {
+function legacyTransactionResult(values, now) {
   return Object.freeze({
     status: values.status,
     baseSha: values.baseSha ?? null,
@@ -226,7 +226,7 @@ async function publishCheckpointTransaction(options = {}) {
       site,
     })
   } catch (error) {
-    return terminal({
+    return legacyTransactionResult({
       status: 'publish_failed', attempts: 0, failure: failure('CHECKPOINT_INVALID', 'artifact_validation', error), remoteState: 'known',
     }, now)
   }
@@ -274,7 +274,7 @@ async function publishCheckpointTransaction(options = {}) {
       }
       await deps.verifyStagedCheckpointPaths({artifactDir, worktree: publicationWorktree, site})
       if (git(publicationWorktree, ['diff', '--cached', '--quiet'], {allowFailure: true}).status === 0) {
-        return terminal({status: 'no_changes', baseSha, resultSha: baseSha, commitShas: [], attempts: attempt}, now)
+        return legacyTransactionResult({status: 'no_changes', baseSha, resultSha: baseSha, commitShas: [], attempts: attempt}, now)
       }
 
       git(publicationWorktree, ['config', 'user.name', authorName])
@@ -283,7 +283,7 @@ async function publishCheckpointTransaction(options = {}) {
       const candidateSha = git(publicationWorktree, ['rev-parse', 'HEAD']).stdout.trim()
       try {
         await deps.pushCandidate({repositoryRoot, worktree: publicationWorktree, remote, branch: unit.targetBranch, baseSha, candidateSha})
-        return terminal({status: 'published', baseSha, resultSha: candidateSha, commitShas: [candidateSha], attempts: attempt}, now)
+        return legacyTransactionResult({status: 'published', baseSha, resultSha: candidateSha, commitShas: [candidateSha], attempts: attempt}, now)
       } catch (pushError) {
         let probe = null
         let probeError = null
@@ -297,28 +297,28 @@ async function publishCheckpointTransaction(options = {}) {
           }
         }
         if (!probe) {
-          return terminal({
+          return legacyTransactionResult({
             status: 'publish_failed', baseSha, resultSha: null, commitShas: [], attempts: attempt,
             failure: failure('REMOTE_STATE_UNKNOWN', 'push_probe', probeError || pushError), remoteState: 'unknown',
           }, now)
         }
         if (probe.containsCandidate) {
-          return terminal({status: 'published', baseSha, resultSha: candidateSha, commitShas: [candidateSha], attempts: attempt}, now)
+          return legacyTransactionResult({status: 'published', baseSha, resultSha: candidateSha, commitShas: [candidateSha], attempts: attempt}, now)
         }
         if (probe.remoteSha !== baseSha) {
           if (attempt < maxAttempts) continue
-          return terminal({
+          return legacyTransactionResult({
             status: 'publish_failed', baseSha, resultSha: null, commitShas: [], attempts: attempt,
             failure: failure('TARGET_DRIFT_EXHAUSTED', 'push', pushError), remoteState: 'known',
           }, now)
         }
-        return terminal({
+        return legacyTransactionResult({
           status: 'publish_failed', baseSha, resultSha: null, commitShas: [], attempts: attempt,
           failure: failure('PUSH_FAILED', 'push', pushError), remoteState: 'known',
         }, now)
       }
     } catch (error) {
-      return terminal({
+      return legacyTransactionResult({
         status: 'publish_failed', baseSha, resultSha: null, commitShas: [], attempts: attempt,
         failure: failure(phase === 'validation' ? 'VALIDATION_FAILED' : 'CHECKPOINT_COMPOSITION_FAILED', phase, error),
         remoteState: 'known',

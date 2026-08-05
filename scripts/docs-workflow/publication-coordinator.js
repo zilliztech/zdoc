@@ -11,11 +11,13 @@ const {preflightCheckpointArchive} = require('./preflight-checkpoint-archive')
 const {
   artifactNames,
   readPublicationDocument,
+  validatePublicationResults,
   validatePublicationSelection,
   writePublicationDocument,
 } = require('./publication-contracts')
 const {createPublicationGitHubClient} = require('./publication-github-client')
 const {createPublicationScheduler} = require('./publication-scheduler')
+const {publicationWorkflowAdapters} = require('./publication-workflow-adapters')
 
 function positiveInteger(value, label) {
   const number = Number(value)
@@ -81,25 +83,29 @@ function removePrepared(prepared) {
 
 async function runPublicationCoordinator(options = {}) {
   const selection = validatePublicationSelection(options.selection)
+  const adapter = options.adapter || publicationWorkflowAdapters.require(selection.workflow)
   const mode = options.mode
   if (!['artifact_only', 'publish'].includes(mode)) throw new Error('mode must be artifact_only or publish')
   if ((mode === 'publish') !== selection.inputs.publish) throw new Error('mode must match the immutable selection publish input')
   const pollMilliseconds = positiveInteger(options.pollMilliseconds ?? 10_000, 'pollMilliseconds')
   const candidatePolls = positiveInteger(options.candidatePolls ?? 6, 'candidatePolls')
   const maxPublishAttempts = positiveInteger(options.maxPublishAttempts ?? 10, 'maxPublishAttempts')
+  const repositoryRoot = path.resolve(options.repositoryRoot || process.cwd())
   const outputDirectory = path.resolve(options.outputDirectory || process.env.RUNNER_TEMP || process.cwd())
   fs.mkdirSync(outputDirectory, {recursive: true})
   const runnerTemp = path.resolve(options.runnerTemp || process.env.RUNNER_TEMP || outputDirectory)
   fs.mkdirSync(runnerTemp, {recursive: true})
   const sleep = typeof options.sleep === 'function' ? options.sleep : delay
   const now = typeof options.now === 'function' ? options.now : () => new Date()
+  const strategies = options.strategies || Object.freeze({})
+  const transactionContext = options.transactionContext || Object.freeze({})
   const client = options.client
   if (!client || typeof client.listJobs !== 'function' || typeof client.uploadProgress !== 'function' || typeof client.uploadResults !== 'function') {
     throw new Error('client must provide listJobs, uploadProgress, and uploadResults')
   }
-  const resolveCandidate = options.resolveCandidate || resolveCheckpointCandidate
-  const publishUnit = options.publishUnit || (async ({unit, prepared}) => publishCheckpointTransaction({
-    repositoryRoot: options.repositoryRoot || process.cwd(),
+  const candidateResolver = options.resolveCandidate || resolveCheckpointCandidate
+  const unitPublisher = options.publishUnit || (async ({unit, prepared}) => publishCheckpointTransaction({
+    repositoryRoot,
     artifactDir: prepared.artifactDir,
     baselineDir: prepared.baselineDir || null,
     unit,
@@ -108,7 +114,7 @@ async function runPublicationCoordinator(options = {}) {
     runnerTemp,
   }))
   const scheduler = createPublicationScheduler({selection, maxCandidatePolls: candidatePolls, now: () => now().getTime()})
-  const prepared = new Map()
+  const candidates = new Map()
   const uploadedRevisions = new Set()
   const startedAt = now().toISOString()
   let progressUploadFailures = 0
@@ -126,14 +132,22 @@ async function runPublicationCoordinator(options = {}) {
 
   await uploadSnapshot()
   while (true) {
-    const jobs = await client.listJobs()
+    const jobs = adapter.normalizeJobs(await client.listJobs(), selection)
     scheduler.observeJobs(jobs)
     let snapshot = await uploadSnapshot()
 
     for (const state of snapshot.units.filter(unit => unit.state === 'candidate')) {
       const unit = selection.units.find(candidate => candidate.unitKey === state.unitKey)
-      const candidate = await resolveCandidate({selection, unit, client, runnerTemp})
-      if (candidate.status === 'ready') prepared.set(unit.unitKey, candidate.prepared)
+      const candidate = await adapter.resolveCandidate({
+        selection,
+        unit,
+        client,
+        runnerTemp,
+        strategies,
+        resolveCheckpointCandidate: context => candidateResolver(context),
+        resolveCandidate: context => candidateResolver(context),
+      })
+      if (candidate.status === 'ready') candidates.set(unit.unitKey, candidate)
       scheduler.observeCandidate(unit.unitKey, candidate)
       snapshot = await uploadSnapshot()
     }
@@ -145,30 +159,50 @@ async function runPublicationCoordinator(options = {}) {
     }
     if (decision.type === 'settled') {
       if (mode === 'artifact_only') {
-        removePrepared(prepared.get(decision.unitKey))
-        prepared.delete(decision.unitKey)
+        removePrepared(candidates.get(decision.unitKey)?.prepared)
+        candidates.delete(decision.unitKey)
       }
       await uploadSnapshot()
       continue
     }
     if (decision.type === 'publish') {
       const unit = selection.units.find(candidate => candidate.unitKey === decision.unitKey)
-      const candidate = prepared.get(unit.unitKey)
-      if (!candidate) throw new Error(`Prepared checkpoint is missing for ${unit.unitKey}`)
+      const candidate = candidates.get(unit.unitKey)
+      if (!candidate) throw new Error(`Resolved publication candidate is missing for ${unit.unitKey}`)
       scheduler.startPublication(unit.unitKey, {startedAt: now().toISOString()})
       await uploadSnapshot()
-      const transaction = await publishUnit({selection, unit, prepared: candidate, sequence: decision.sequence})
+      const publishCompatibility = context => unitPublisher({
+        ...context,
+        prepared: context.candidate?.prepared,
+        sequence: decision.sequence,
+      })
+      const transaction = await adapter.publishUnit({
+        selection,
+        unit,
+        candidate,
+        strategies,
+        transactionContext,
+        publishCheckpointTransaction: publishCompatibility,
+        publishUnit: publishCompatibility,
+      })
       scheduler.finishPublication(unit.unitKey, transaction)
-      removePrepared(candidate)
-      prepared.delete(unit.unitKey)
+      removePrepared(candidate.prepared)
+      candidates.delete(unit.unitKey)
       await uploadSnapshot()
       continue
     }
     if (decision.type !== 'complete') throw new Error(`Unknown scheduler decision: ${decision.type}`)
 
-    for (const candidate of prepared.values()) removePrepared(candidate)
-    prepared.clear()
-    const results = scheduler.results({startedAt, completedAt: now().toISOString()})
+    for (const candidate of candidates.values()) removePrepared(candidate.prepared)
+    candidates.clear()
+    const rawResults = scheduler.results({startedAt, completedAt: now().toISOString()})
+    const projectedResults = await adapter.projectResults(rawResults, {
+      selection,
+      repositoryRoot,
+      runnerTemp,
+      transactionContext,
+    })
+    const results = validatePublicationResults(projectedResults, {selection})
     const resultsFile = path.join(outputDirectory, 'publication-results.json')
     writePublicationDocument(resultsFile, results, {selection})
     const resultsUpload = await client.uploadResults({selection, results, file: resultsFile})
@@ -230,7 +264,7 @@ async function main(argv = process.argv.slice(2)) {
     maxPublishAttempts: parsed.values['max-publish-attempts'] || 10,
   })
   const expectedName = artifactNames({
-    workflow: 'fetch', runId: selection.runId, runAttempt: selection.runAttempt,
+    workflow: selection.workflow, runId: selection.runId, runAttempt: selection.runAttempt,
     unitKey: selection.units[0].unitKey, revision: 1,
   }).results
   if (outcome.resultsUpload.artifactName !== expectedName) throw new Error('Results artifact upload identity mismatch')
