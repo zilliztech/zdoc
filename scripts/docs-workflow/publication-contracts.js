@@ -4,6 +4,7 @@
 const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
+const {publicationWorkflowAdapters} = require('./publication-workflow-adapters')
 
 const DOCUMENTS = Object.freeze({
   selection: 'publication-selection',
@@ -11,10 +12,6 @@ const DOCUMENTS = Object.freeze({
   progress: 'publication-progress',
   results: 'publication-results',
 })
-const FETCH_UNIT_KEYS = Object.freeze([
-  'source/java', 'source/node', 'source/go', 'source/cli',
-  'source/rest', 'source/python', 'source/guides-en', 'source/guides-zh-CN',
-])
 const UNIT_STATES = new Set([
   'producing', 'candidate', 'ready', 'publishing',
   'producer_failed', 'candidate_rejected', 'published', 'no_changes', 'publish_failed',
@@ -29,18 +26,6 @@ const CHECKSUM = /^[0-9a-f]{64}$/u
 const REPOSITORY = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u
 const ARTIFACT = /^[A-Za-z0-9][A-Za-z0-9._-]{0,254}$/u
 const ENVIRONMENT_KEY = /^[A-Z_][A-Z0-9_]*$/u
-const SELECTION_KEYS = [
-  'schemaVersion', 'document', 'workflow', 'repository', 'runId', 'runAttempt', 'toolingSha',
-  'targetBranch', 'initialTargetSha', 'sourceBaselineSha', 'inputs', 'units', 'selectionSha256',
-]
-const SELECTION_UNIT_KEYS = [
-  'unitKey', 'producerJob', 'strategy', 'site', 'group', 'translationSourceGroup', 'toolingSha',
-  'sourceBaselineSha', 'targetBranch', 'artifacts', 'commitMessage', 'validationCommands', 'environment',
-]
-const READY_KEYS = [
-  'schemaVersion', 'document', 'workflow', 'repository', 'runId', 'runAttempt', 'selectionSha256',
-  'unitKey', 'producerJob', 'toolingSha', 'sourceBaselineSha', 'targetBranch', 'artifacts', 'outcome',
-]
 const PROGRESS_KEYS = [
   'schemaVersion', 'document', 'workflow', 'repository', 'runId', 'runAttempt', 'selectionSha256',
   'mode', 'revision', 'generatedAt', 'activeUnitKey', 'queue', 'units',
@@ -160,59 +145,21 @@ function validateEnvironment(value, label, document) {
   }
 }
 
-function validateSelectionUnit(unit, selection, index) {
-  const document = DOCUMENTS.selection
-  exactKeys(unit, SELECTION_UNIT_KEYS, `unit ${index}`, document)
-  if (!FETCH_UNIT_KEYS.includes(unit.unitKey)) invalid(document, `unit ${index} has an unsupported unitKey`)
-  assertString(unit.producerJob, `unit ${index} producerJob`, document)
-  if (unit.strategy !== 'checkpoint') invalid(document, `unit ${index} strategy must be checkpoint`)
-  assertString(unit.site, `unit ${index} site`, document, true)
-  assertString(unit.group, `unit ${index} group`, document)
-  assertString(unit.translationSourceGroup, `unit ${index} translationSourceGroup`, document, true)
-  assertSha(unit.toolingSha, `unit ${index} toolingSha`, document)
-  assertSha(unit.sourceBaselineSha, `unit ${index} sourceBaselineSha`, document)
-  if (unit.toolingSha !== selection.toolingSha) invalid(document, `unit ${index} toolingSha mismatch`)
-  if (unit.sourceBaselineSha !== selection.sourceBaselineSha) invalid(document, `unit ${index} sourceBaselineSha mismatch`)
-  assertTargetBranch(unit.targetBranch, document)
-  if (unit.targetBranch !== selection.targetBranch) invalid(document, `unit ${index} targetBranch mismatch`)
-  exactKeys(unit.artifacts, ['checkpoint', 'baseline'], `unit ${index} artifacts`, document)
-  assertArtifactName(unit.artifacts.checkpoint, `unit ${index} checkpoint artifact`, document)
-  assertArtifactName(unit.artifacts.baseline, `unit ${index} baseline artifact`, document, true)
-  assertString(unit.commitMessage, `unit ${index} commitMessage`, document)
-  if (!Array.isArray(unit.validationCommands) || !unit.validationCommands.length) invalid(document, `unit ${index} validationCommands must be non-empty`)
-  for (const command of unit.validationCommands) assertString(command, `unit ${index} validation command`, document)
-  validateEnvironment(unit.environment, `unit ${index} environment`, document)
-  if (unit.unitKey === 'source/guides-zh-CN' && unit.environment.ZDOC_SITE !== 'zh-CN') {
-    invalid(document, 'Chinese Guides must set ZDOC_SITE=zh-CN')
-  }
+function workflowAdapter(value, document) {
+  if (typeof value.workflow !== 'string') invalid(document, 'workflow is invalid')
+  return publicationWorkflowAdapters.require(value.workflow)
 }
 
 function validateSelectionShape(value, requireChecksum) {
   const document = DOCUMENTS.selection
-  exactKeys(value, requireChecksum ? SELECTION_KEYS : SELECTION_KEYS.filter(key => key !== 'selectionSha256'), 'root', document)
-  if (value.schemaVersion !== 1 || value.document !== document || value.workflow !== 'fetch') invalid(document, 'header is invalid')
+  if (value.schemaVersion !== 1 || value.document !== document) invalid(document, 'header is invalid')
+  const adapter = workflowAdapter(value, document)
   if (typeof value.repository !== 'string' || !REPOSITORY.test(value.repository)) invalid(document, 'repository is invalid')
   assertPositiveInteger(value.runId, 'runId', document)
   assertPositiveInteger(value.runAttempt, 'runAttempt', document)
-  assertSha(value.toolingSha, 'toolingSha', document)
-  assertTargetBranch(value.targetBranch, document)
-  assertSha(value.initialTargetSha, 'initialTargetSha', document)
-  assertSha(value.sourceBaselineSha, 'sourceBaselineSha', document)
-  exactKeys(value.inputs, ['selectedGroup', 'publish', 'runTranslations'], 'inputs', document)
-  if (!['all', 'guides', 'java', 'node', 'go', 'cli', 'rest', 'python'].includes(value.inputs.selectedGroup)) invalid(document, 'selectedGroup is invalid')
-  if (typeof value.inputs.publish !== 'boolean' || typeof value.inputs.runTranslations !== 'boolean') invalid(document, 'input booleans are invalid')
-  if (!Array.isArray(value.units) || !value.units.length) invalid(document, 'units must be a non-empty array')
-  value.units.forEach((unit, index) => validateSelectionUnit(unit, value, index))
-  const unitKeys = value.units.map(unit => unit.unitKey)
-  if (new Set(unitKeys).size !== unitKeys.length) invalid(document, 'unit keys must be unique')
-  const indices = unitKeys.map(unitKey => FETCH_UNIT_KEYS.indexOf(unitKey))
-  if (indices.some((value, index) => index > 0 && value <= indices[index - 1])) invalid(document, 'units must follow canonical order')
-  const artifacts = value.units.flatMap(unit => [unit.artifacts.checkpoint, unit.artifacts.baseline].filter(Boolean))
-  if (new Set(artifacts).size !== artifacts.length) invalid(document, 'artifact names must be unique')
-  if (requireChecksum) {
-    assertChecksum(value.selectionSha256, 'selectionSha256', document)
-    if (checksumSelection(value) !== value.selectionSha256) invalid(document, 'selection checksum mismatch')
-  }
+  if (requireChecksum) assertChecksum(value.selectionSha256, 'selectionSha256', document)
+  adapter.validateSelection(value, adapterHelpers({requireChecksum}))
+  if (requireChecksum && checksumSelection(value) !== value.selectionSha256) invalid(document, 'selection checksum mismatch')
 }
 
 function validatePublicationSelection(input) {
@@ -242,35 +189,37 @@ function validateArtifactIdentity(value, label, document) {
   assertChecksum(value.manifestSha256, `${label} manifestSha256`, document)
 }
 
+const PUBLICATION_ADAPTER_HELPERS = Object.freeze({
+  DOCUMENTS,
+  assertArtifactName,
+  assertSha,
+  assertString,
+  assertTargetBranch,
+  exactKeys,
+  invalid,
+  validateArtifactIdentity,
+  validateEnvironment,
+})
+
+function adapterHelpers(options = {}) {
+  return Object.freeze({...PUBLICATION_ADAPTER_HELPERS, ...options})
+}
+
 function validatePublicationReady(input, options = {}) {
   const value = clone(input)
   const document = DOCUMENTS.ready
-  exactKeys(value, READY_KEYS, 'root', document)
-  if (value.schemaVersion !== 1 || value.document !== document || value.workflow !== 'fetch') invalid(document, 'header is invalid')
+  if (value.schemaVersion !== 1 || value.document !== document) invalid(document, 'header is invalid')
+  const adapter = workflowAdapter(value, document)
   if (typeof value.repository !== 'string' || !REPOSITORY.test(value.repository)) invalid(document, 'repository is invalid')
   assertPositiveInteger(value.runId, 'runId', document)
   assertPositiveInteger(value.runAttempt, 'runAttempt', document)
   assertChecksum(value.selectionSha256, 'selectionSha256', document)
-  assertString(value.unitKey, 'unitKey', document)
-  assertString(value.producerJob, 'producerJob', document)
-  assertSha(value.toolingSha, 'toolingSha', document)
-  assertSha(value.sourceBaselineSha, 'sourceBaselineSha', document)
-  assertTargetBranch(value.targetBranch, document)
-  exactKeys(value.artifacts, ['checkpoint', 'baseline'], 'artifacts', document)
-  validateArtifactIdentity(value.artifacts.checkpoint, 'checkpoint artifact', document)
-  if (value.artifacts.baseline !== null) validateArtifactIdentity(value.artifacts.baseline, 'baseline artifact', document)
-  if (!['candidate', 'no_changes_candidate'].includes(value.outcome)) invalid(document, 'outcome is invalid')
+  let selection
   if (options.selection) {
-    const selection = validatePublicationSelection(options.selection)
+    selection = validatePublicationSelection(options.selection)
     validateIdentity(value, selection, document)
-    const selected = selection.units.find(unit => unit.unitKey === value.unitKey)
-    if (!selected) invalid(document, 'unitKey is not selected')
-    for (const key of ['producerJob', 'toolingSha', 'sourceBaselineSha', 'targetBranch']) {
-      if (value[key] !== selected[key]) invalid(document, `${key} mismatch with selected unit`)
-    }
-    if (value.artifacts.checkpoint.name !== selected.artifacts.checkpoint) invalid(document, 'checkpoint artifact mismatch with selected unit')
-    if ((value.artifacts.baseline?.name || null) !== selected.artifacts.baseline) invalid(document, 'baseline artifact mismatch with selected unit')
   }
+  adapter.validateReady(value, {selection}, adapterHelpers())
   return deepFreeze(value)
 }
 
@@ -319,7 +268,8 @@ function validatePublicationProgress(input, options = {}) {
   const value = clone(input)
   const document = DOCUMENTS.progress
   exactKeys(value, PROGRESS_KEYS, 'root', document)
-  if (value.schemaVersion !== 1 || value.document !== document || value.workflow !== 'fetch') invalid(document, 'header is invalid')
+  if (value.schemaVersion !== 1 || value.document !== document) invalid(document, 'header is invalid')
+  workflowAdapter(value, document)
   if (typeof value.repository !== 'string' || !REPOSITORY.test(value.repository)) invalid(document, 'repository is invalid')
   assertPositiveInteger(value.runId, 'runId', document)
   assertPositiveInteger(value.runAttempt, 'runAttempt', document)
@@ -377,7 +327,8 @@ function validatePublicationResults(input, options = {}) {
   const value = clone(input)
   const document = DOCUMENTS.results
   exactKeys(value, RESULTS_KEYS, 'root', document)
-  if (value.schemaVersion !== 1 || value.document !== document || value.workflow !== 'fetch') invalid(document, 'header is invalid')
+  if (value.schemaVersion !== 1 || value.document !== document) invalid(document, 'header is invalid')
+  workflowAdapter(value, document)
   if (typeof value.repository !== 'string' || !REPOSITORY.test(value.repository)) invalid(document, 'repository is invalid')
   assertPositiveInteger(value.runId, 'runId', document)
   assertPositiveInteger(value.runAttempt, 'runAttempt', document)
@@ -417,7 +368,7 @@ function unitToken(unitKey) {
 }
 
 function artifactNames({workflow, runId, runAttempt, unitKey, revision}) {
-  if (workflow !== 'fetch') throw new Error('Invalid publication workflow')
+  publicationWorkflowAdapters.require(workflow)
   assertPositiveInteger(runId, 'runId', 'artifact names')
   assertPositiveInteger(runAttempt, 'runAttempt', 'artifact names')
   assertPositiveInteger(revision, 'revision', 'artifact names')
