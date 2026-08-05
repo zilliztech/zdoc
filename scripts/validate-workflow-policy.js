@@ -1054,7 +1054,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const artifactLinkStep = artifactLinkIndex >= 0 ? aggregateSteps[artifactLinkIndex] : null
     const reportsStep = reportsIndex >= 0 ? aggregateSteps[reportsIndex] : null
     if (artifactLinkIndex < 0 || reportsIndex <= artifactLinkIndex || artifactLinkStep?.['continue-on-error'] !== true ||
-        !/gh api --paginate --slurp[\s\S]*resolve-card-artifact-links\.js/.test(artifactLinkStep?.run || '') ||
+        !/gh api --paginate[^\n]*\| jq -s '\[\.\[\]\.artifacts\[\]\]'[\s\S]*resolve-card-artifact-links\.js/.test(artifactLinkStep?.run || '') ||
         reportsStep?.env?.CARD_REPORT_ARTIFACT_URL_EN !== '${{ steps.report_artifact_links.outputs.en_url }}' ||
         reportsStep?.env?.CARD_REPORT_ARTIFACT_URL_ZH_CN !== '${{ steps.report_artifact_links.outputs.zh_cn_url }}' ||
         Object.hasOwn(reportsStep?.env || {}, 'CARD_REPORT_ARTIFACT_URL')) {
