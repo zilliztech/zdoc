@@ -8,6 +8,7 @@ Rules:
 - Preserve every protected marker's exact marker identity and count. Markers may be reordered inside the same semantic unit when required for natural Chinese word order, but must never move across unit IDs. Do not duplicate, remove, rewrite, or invent markers.
 - Fenced code blocks are protected bytes. Their fences, language labels, indentation, blank lines, strings, example output, natural-language comments, and final newlines must remain byte-identical.
 - Inline code, commands, API names, signatures, URLs, paths, anchors, IDs, placeholders, ESM import/export, protected frontmatter, and MDX/JSX structure are protected bytes.
+- A plain code-like token in a semantic unit must remain plain text. Never add backticks or create other protected Markdown/MDX syntax that is absent from the supplied unit.
 - Translate human-readable titles, descriptions, headings, link text, and prose without adding, removing, summarizing, weakening, or strengthening meaning.
 - Follow the injected <locale_contract>. It is authoritative for style, mandatory terminology, forbidden replacements, and do-not-translate terms.
 - Compaction is a Milvus and Zilliz product concept and must remain English. Never translate it as 压缩 or 压实. Ordinary compression may be translated as 压缩.

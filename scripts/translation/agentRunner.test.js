@@ -138,6 +138,7 @@ function testMessageBuildersSelectPromptsFromTarget() {
   assert.match(buildTranslationMessages(common)[0].content, /document_context.*context only/is)
   assert.match(buildTranslationMessages(common)[0].content, /retry_feedback.*prior attempt.*not source/is)
   assert.match(buildTranslationMessages(common)[0].content, /exact marker identity and count/i)
+  assert.match(buildTranslationMessages(common)[0].content, /plain code-like token.*remain plain.*never add backticks/is)
   const reviewPrompt = buildReviewMessages({...common, translatedContent: '# 参考\n'})[0].content
   assert.match(reviewPrompt, /Simplified Chinese/i)
   assert.match(reviewPrompt, /zh-CN-reference-2026-08-04-p0/)
@@ -1096,6 +1097,20 @@ async function testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBack
 
   assert.equal(result.status, 'translated')
   assert.deepEqual(feedback, [null, 'Protected marker 000042 was missing during translation'])
+
+  const unexpectedInlineCodeFeedback = []
+  await processItemWithRetry({sourcePath: 'docs/plain-region.md'}, {
+    maxRetries: 1,
+    log: {warn: () => {}},
+    processItem: async (item, attempt, retryFeedback) => {
+      unexpectedInlineCodeFeedback.push(retryFeedback || null)
+      return attempt === 0
+        ? {...item, status: 'failed', error: 'Semantic unit document.paragraph.0008 changed protected content: Unexpected protected inline_code: target sha256 378e8daaca80'}
+        : {...item, status: 'translated'}
+    },
+  })
+  assert.match(unexpectedInlineCodeFeedback[1], /plain code-like tokens must remain plain/i)
+  assert.match(unexpectedInlineCodeFeedback[1], /never add backticks/i)
 
   const semanticFeedback = []
   await processItemWithRetry({sourcePath: 'docs/semantic-retry.md'}, {

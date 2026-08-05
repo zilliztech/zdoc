@@ -212,6 +212,12 @@ function validatedReviewRetryFeedback(result) {
   return issues.length ? JSON.stringify({kind: 'validated_review_issues', issues}) : null
 }
 
+function protectedContentRetryFeedback(failure) {
+  const evidence = failure.slice(0, 1000)
+  if (!/Unexpected protected inline_code/i.test(failure)) return evidence
+  return `${evidence}\nPlain code-like tokens must remain plain text. Never add backticks around text that was not inline code in the supplied semantic unit.`
+}
+
 async function processItemWithRetry(item, options) {
   const maxRetries = parseNonNegativeInteger(options.maxRetries, DEFAULT_FILE_RETRIES)
   const failures = []
@@ -232,7 +238,7 @@ async function processItemWithRetry(item, options) {
     const failure = summarizeFailedResult(result)
     failures.push({ attempt: attempt + 1, error: failure })
     retryFeedback = /Protected (?:marker|content)/i.test(failure)
-      ? failure.slice(0, 1000)
+      ? protectedContentRetryFeedback(failure)
       : validatedReviewRetryFeedback(result)
     if (attempt < maxRetries) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
