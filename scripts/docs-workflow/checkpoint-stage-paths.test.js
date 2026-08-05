@@ -14,6 +14,8 @@ const {
   writeStagePathFile,
 } = require('./checkpoint-stage-paths');
 
+const GUIDES_HOME = 'content/en/guides/tutorials/home.md';
+
 function git(cwd, ...args) {
   return execFileSync('git', args, { cwd, encoding: 'utf8' }).trim();
 }
@@ -23,8 +25,9 @@ async function writeArtifact(root, { files = {}, deletions = [] } = {}) {
   const payload = path.join(artifactDir, 'payload');
   await mkdir(payload, { recursive: true });
   const entries = [];
-  for (const relativePath of Object.keys(files).sort()) {
-    const bytes = Buffer.from(files[relativePath]);
+  const artifactFiles = { [GUIDES_HOME]: '# Guides home\n', ...files };
+  for (const relativePath of Object.keys(artifactFiles).sort()) {
+    const bytes = Buffer.from(artifactFiles[relativePath]);
     const destination = path.join(payload, ...relativePath.split('/'));
     await mkdir(path.dirname(destination), { recursive: true });
     await writeFile(destination, bytes);
@@ -58,7 +61,7 @@ async function repoFixture({ tracked = {}, artifactFiles = {}, artifactDeletions
   git(root, 'init', worktree);
   git(worktree, 'config', 'user.name', 'Test');
   git(worktree, 'config', 'user.email', 'test@example.com');
-  for (const [relativePath, contents] of Object.entries(tracked)) {
+  for (const [relativePath, contents] of Object.entries({ [GUIDES_HOME]: '# Guides home\n', ...tracked })) {
     const destination = path.join(worktree, ...relativePath.split('/'));
     await mkdir(path.dirname(destination), { recursive: true });
     await writeFile(destination, contents);
@@ -67,6 +70,10 @@ async function repoFixture({ tracked = {}, artifactFiles = {}, artifactDeletions
   git(worktree, 'commit', '--allow-empty', '-m', 'baseline');
   const { artifactDir } = await writeArtifact(root, { files: artifactFiles, deletions: artifactDeletions });
   return { root, worktree, artifact: artifactDir };
+}
+
+function withoutPreserved(paths) {
+  return paths.filter(relativePath => relativePath !== GUIDES_HOME);
 }
 
 test('selects files that exist and deletions still tracked at HEAD', async () => {
@@ -87,8 +94,8 @@ test('selects files that exist and deletions still tracked at HEAD', async () =>
 
   const result = await selectCheckpointStagePaths({ artifactDir: fixture.artifact, worktree: fixture.worktree });
 
-  assert.deepEqual(result.stageable, ['content/en/guides/changed.md', 'content/en/guides/deleted.md', 'content/en/guides/new.md']);
-  assert.deepEqual(result.alreadyApplied, []);
+  assert.deepEqual(withoutPreserved(result.stageable), ['content/en/guides/changed.md', 'content/en/guides/deleted.md', 'content/en/guides/new.md']);
+  assert.deepEqual(withoutPreserved(result.alreadyApplied), []);
   assert.equal(Object.isFrozen(result), true);
 });
 
@@ -105,8 +112,8 @@ test('classifies an absent untracked repeated deletion as already applied', asyn
 
   const result = await selectCheckpointStagePaths({ artifactDir: fixture.artifact, worktree: fixture.worktree });
 
-  assert.deepEqual(result.stageable, ['content/en/guides/batch-two.md']);
-  assert.deepEqual(result.alreadyApplied, ['content/en/guides/removed.md']);
+  assert.deepEqual(withoutPreserved(result.stageable), ['content/en/guides/batch-two.md']);
+  assert.deepEqual(withoutPreserved(result.alreadyApplied), ['content/en/guides/removed.md']);
 });
 
 test('uses literal NUL-delimited pathspecs for glob-like filenames', async () => {
@@ -119,7 +126,10 @@ test('uses literal NUL-delimited pathspecs for glob-like filenames', async () =>
 
   await writeStagePathFile({ artifactDir: fixture.artifact, worktree: fixture.worktree, output });
 
-  assert.deepEqual((await readFile(output)).toString().split('\0').filter(Boolean), [':(literal)content/en/guides/[draft].md']);
+  assert.deepEqual(
+    (await readFile(output)).toString().split('\0').filter(Boolean).filter(value => value !== `:(literal)${GUIDES_HOME}`),
+    [':(literal)content/en/guides/[draft].md'],
+  );
 });
 
 test('keeps a tracked directory deletion stageable', async () => {
@@ -129,8 +139,8 @@ test('keeps a tracked directory deletion stageable', async () => {
 
   const result = await selectCheckpointStagePaths({ artifactDir: artifact.artifactDir, worktree: fixture.worktree });
 
-  assert.deepEqual(result.stageable, ['content/en/guides/old']);
-  assert.deepEqual(result.alreadyApplied, []);
+  assert.deepEqual(withoutPreserved(result.stageable), ['content/en/guides/old']);
+  assert.deepEqual(withoutPreserved(result.alreadyApplied), []);
 });
 
 test('rejects invalid and overlapping paths through checkpoint validation', async () => {

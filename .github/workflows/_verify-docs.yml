@@ -4,8 +4,17 @@ on:
   workflow_call:
     inputs:
       final_dev_sha:
-        required: true
+        required: false
         type: string
+        default: ''
+      publication_selection_artifact_name:
+        required: false
+        type: string
+        default: ''
+      publication_results_artifact_name:
+        required: false
+        type: string
+        default: ''
       master_sha:
         required: true
         type: string
@@ -32,13 +41,19 @@ jobs:
       status: ${{ steps.result.outputs.status }}
       revision_status: ${{ steps.revision_result.outputs.status }}
     env:
-      FINAL_DEV_SHA: ${{ inputs.final_dev_sha }}
+      LEGACY_FINAL_DEV_SHA: ${{ inputs.final_dev_sha }}
       MASTER_SHA: ${{ inputs.master_sha }}
       TARGET_BRANCH: ${{ inputs.target_branch }}
     steps:
       - name: Validate immutable inputs
         run: |
-          [[ "$FINAL_DEV_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "final_dev_sha must be a lowercase 40-character SHA" >&2; exit 1; }
+          selection_artifact='${{ inputs.publication_selection_artifact_name }}'
+          results_artifact='${{ inputs.publication_results_artifact_name }}'
+          if [[ -n "$selection_artifact" || -n "$results_artifact" ]]; then
+            [[ -n "$selection_artifact" && -n "$results_artifact" ]] || { echo "publication selection and results artifacts must be provided together" >&2; exit 1; }
+          else
+            [[ "$LEGACY_FINAL_DEV_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "final_dev_sha must be a lowercase 40-character SHA" >&2; exit 1; }
+          fi
           [[ "$MASTER_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "master_sha must be a lowercase 40-character SHA" >&2; exit 1; }
           git check-ref-format --branch "$TARGET_BRANCH"
       - name: Check out immutable master tooling
@@ -53,10 +68,41 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Download publication selection
+        if: ${{ inputs.publication_selection_artifact_name != '' }}
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ inputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Download publication results
+        if: ${{ inputs.publication_results_artifact_name != '' }}
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ inputs.publication_results_artifact_name }}
+          path: ${{ runner.temp }}/publication-results
+      - name: Resolve exact final dev SHA
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -n '${{ inputs.publication_results_artifact_name }}' ]]; then
+            selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+            results="$RUNNER_TEMP/publication-results/publication-results.json"
+            node scripts/docs-workflow/fetch-publication-results.js verify-documents --selection "$selection" --results "$results"
+            FINAL_DEV_SHA=$(node -e 'const fs=require("fs");process.stdout.write(JSON.parse(fs.readFileSync(process.argv[1], "utf8")).finalTargetSha)' "$results")
+          else
+            FINAL_DEV_SHA="$LEGACY_FINAL_DEV_SHA"
+          fi
+          echo "FINAL_DEV_SHA=$FINAL_DEV_SHA" >> "$GITHUB_ENV"
       - name: Materialize exact final dev state
         run: |
           set -euo pipefail
           git fetch --no-tags origin "$FINAL_DEV_SHA"
+          if [[ -n '${{ inputs.publication_results_artifact_name }}' ]]; then
+            node scripts/docs-workflow/fetch-publication-results.js verify-repository \
+              --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" \
+              --results "$RUNNER_TEMP/publication-results/publication-results.json" \
+              --repository "$GITHUB_WORKSPACE"
+          fi
           bash scripts/restore-generated-state.sh --exact --ref "$FINAL_DEV_SHA"
       - name: Verify revision waterline
         id: revision

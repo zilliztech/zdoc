@@ -2,12 +2,17 @@
 
 const assert = require('node:assert/strict');
 const { execFileSync, spawnSync, spawn } = require('node:child_process');
-const { mkdtempSync, mkdirSync, writeFileSync, readFileSync, chmodSync, readdirSync, realpathSync } = require('node:fs');
+const { mkdtempSync, mkdirSync, writeFileSync, readFileSync, chmodSync, readdirSync, realpathSync, statSync } = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
 
 const script = path.join(__dirname, 'publish-checkpoint.sh');
+
+test('legacy shell entrypoint remains executable', () => {
+  assert.notEqual(statSync(script).mode & 0o111, 0);
+});
+
 function git(cwd, ...args) { return execFileSync('git', args, { cwd, encoding: 'utf8' }).trim(); }
 function setup() {
   const root = mkdtempSync(path.join(os.tmpdir(), 'publish-checkpoint-'));
@@ -71,6 +76,13 @@ test('strictly rejects invalid arguments and contains no force push', () => {
   const help = publish(process.cwd(), ['--help']); assert.equal(help.status, 0); assert.match(help.stdout, /Usage:/);
   assert.doesNotMatch(readFileSync(script, 'utf8'), /git push[^\n]*(--force|-f\b|force-with-lease)/);
   assert.doesNotMatch(readFileSync(script, 'utf8'), /DOCS_PUBLISH_BEFORE_PUSH_HOOK|NODE_ENV/);
+});
+
+test('legacy shell entrypoint delegates to the structured checkpoint transaction', () => {
+  const source = readFileSync(script, 'utf8');
+  assert.match(source, /checkpoint-publication\.js/);
+  assert.match(source, /legacy-json/);
+  assert.match(source, /status=.*commit_sha|finish_output/s);
 });
 
 test('preserves an unrelated commit already on the remote', () => {

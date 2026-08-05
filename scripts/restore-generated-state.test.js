@@ -10,8 +10,8 @@ const { createCheckpointArtifact } = require('./docs-workflow/create-checkpoint-
 
 const scriptPath = path.resolve('scripts/restore-generated-state.sh')
 const revisionInventoryRoot = 'generated/en/manifests/lark-revisions'
+const localizationInputInventory = 'deploy/contracts/localization-inputs.inventory.json'
 const referenceSourceManifest = 'generated/en/manifests/reference.json'
-const localizationInventory = 'deploy/contracts/localization-inputs.inventory.json'
 const restorePaths = [
   'docs',
   'docs-byoc',
@@ -19,6 +19,7 @@ const restorePaths = [
   'i18n',
   'content/en',
   'content/zh-CN',
+  localizationInputInventory,
   '.translation-cache',
   'config/generated',
   'generated/en/sidebars/guides.sidebar.js',
@@ -35,7 +36,6 @@ const restorePaths = [
   'packages/docs-tooling/src/lark/meta/snapshots',
   'packages/docs-tooling/src/lark/meta/assembly',
   'packages/docs-tooling/src/lark/meta/reports',
-  localizationInventory,
 ]
 
 function git(cwd, ...args) {
@@ -76,9 +76,7 @@ function createFixture() {
   git(source, 'remote', 'add', 'origin', origin)
 
   for (const restorePath of restorePaths) {
-    const fixturePath = restorePath.endsWith('.js') || restorePath === localizationInventory || restorePath === referenceSourceManifest
-      ? restorePath
-      : path.join(restorePath, 'state.txt')
+    const fixturePath = /\.(?:js|json)$/u.test(restorePath) ? restorePath : path.join(restorePath, 'state.txt')
     write(source, fixturePath, `old:${restorePath}\n`)
   }
   git(source, 'add', '.')
@@ -253,17 +251,17 @@ test('exact immutable ref restores the English Reference source manifest from th
 test('exact immutable ref restores the localization input inventory from the target commit', () => {
   const fixture = createFixture()
   try {
-    write(fixture.source, localizationInventory, '{"source":"final-dev"}\n')
-    git(fixture.source, 'add', localizationInventory)
+    write(fixture.source, localizationInputInventory, '{"source":"final-dev"}\n')
+    git(fixture.source, 'add', localizationInputInventory)
     git(fixture.source, 'commit', '-m', 'reconcile localization inventory')
     const sourceSha = git(fixture.source, 'rev-parse', 'HEAD')
     git(fixture.source, 'push', 'origin', 'dev')
 
-    write(fixture.work, localizationInventory, '{"source":"master-tooling"}\n')
+    write(fixture.work, localizationInputInventory, '{"source":"master-tooling"}\n')
     const result = run(fixture.work, ['--exact', '--ref', sourceSha])
 
     assert.equal(result.status, 0, result.stderr)
-    assert.equal(fs.readFileSync(path.join(fixture.work, localizationInventory), 'utf8'), '{"source":"final-dev"}\n')
+    assert.equal(fs.readFileSync(path.join(fixture.work, localizationInputInventory), 'utf8'), '{"source":"final-dev"}\n')
   } finally {
     fs.rmSync(fixture.root, { recursive: true, force: true })
   }

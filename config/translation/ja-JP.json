@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "contractId": "ja-JP-2026-08-04-p0.2",
+  "target": "ja-JP",
+  "locale": "ja-JP",
+  "styleRules": [
+    "Use natural, concise Japanese developer-documentation prose in consistent です・ます style.",
+    "Do not translate English you as あなた unless the actor must be distinguished.",
+    "Use modern katakana long-vowel spelling such as サーバー, クラスター, and ユーザー.",
+    "Treat fenced code comments as protected code bytes, not localizable prose."
+  ],
+  "mandatoryTerms": [
+    {"source": "collection", "target": "コレクション", "caseSensitive": false},
+    {"source": "cluster", "target": "クラスター", "caseSensitive": false},
+    {"source": "vector", "target": "ベクトル", "caseSensitive": false},
+    {"source": "scalar", "target": "スカラー", "caseSensitive": false},
+    {"source": "index", "target": "インデックス", "caseSensitive": false},
+    {"source": "schema", "target": "スキーマ", "caseSensitive": false},
+    {"source": "database", "target": "データベース", "caseSensitive": false},
+    {"source": "Compaction", "target": "Compaction", "caseSensitive": true}
+  ],
+  "forbiddenTranslations": [
+    {"source": "Compaction", "targets": ["圧縮"]}
+  ],
+  "doNotTranslate": [
+    "Zilliz Cloud",
+    "Milvus",
+    "BYOC",
+    "Serverless",
+    "Dedicated",
+    "AUTOINDEX"
+  ],
+  "contextualTerms": [],
+  "examples": [
+    {
+      "id": "ja-core-terms",
+      "source": "Create a collection and build an index.",
+      "bad": "collection を作成し、index を構築します。",
+      "good": "コレクションを作成し、インデックスを構築します。",
+      "explanation": "Ordinary product concepts use the approved Japanese terminology."
+    },
+    {
+      "id": "ja-compaction",
+      "source": "Compaction plans",
+      "bad": "圧縮プラン",
+      "good": "Compaction プラン",
+      "explanation": "Compaction remains English as the product concept."
+    },
+    {
+      "id": "ja-code-comment",
+      "source": "// Create a collection",
+      "bad": "// コレクションを作成",
+      "good": "// Create a collection",
+      "explanation": "Natural-language comments inside fenced code blocks are protected bytes."
+    }
+  ]
+}
