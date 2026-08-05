@@ -2,6 +2,12 @@
 
 This directory contains repository-owned build and release data contracts consumed by the externally managed `vdc-jenkins` release system. It does not contain or replace Jenkins Groovy, credentials, registry access, approval policy, environment configuration, target orchestration, or deployment behavior.
 
+## Production dev publication queue
+
+Fetch, publish-enabled Translation, and tooling synchronization share the durable `docs-production-dev` queue. Its `queue: max` policy retains at most 100 pending runs. GitHub queue order is accepted as-is: there is no priority or preemption between these workflows, so tooling synchronization can wait behind a long Fetch or Translation run. Operators may manually cancel a stale queued run when necessary.
+
+Called workflows never reacquire `docs-production-dev`; the top-level workflow retains queue ownership for the full publication operation. Jenkins builds the one exact `dev` commit produced by queue order.
+
 ## Repository build interface
 
 UAT and Prod use the same repository build interface after Jenkins checks out the selected branch.
