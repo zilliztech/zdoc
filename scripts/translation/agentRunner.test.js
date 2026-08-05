@@ -139,6 +139,7 @@ function testMessageBuildersSelectPromptsFromTarget() {
   assert.match(buildTranslationMessages(common)[0].content, /retry_feedback.*prior attempt.*not source/is)
   assert.match(buildTranslationMessages(common)[0].content, /exact marker identity and count/i)
   assert.match(buildTranslationMessages(common)[0].content, /plain code-like token.*remain plain.*never add backticks/is)
+  assert.match(buildTranslationMessages(common)[0].content, /Reference landing-page contract.*Han characters.*2\.5.*do not expand headings/is)
   const reviewPrompt = buildReviewMessages({...common, translatedContent: '# 参考\n'})[0].content
   assert.match(reviewPrompt, /Simplified Chinese/i)
   assert.match(reviewPrompt, /zh-CN-reference-2026-08-04-p0/)
@@ -200,7 +201,8 @@ function testReferenceLandingMessagesContainNavigationContract() {
     assert.match(message, /Reference landing-page contract.*config\/reference-navigation\.json/is)
     assert.match(message, /at least 2 Markdown headings/i)
     assert.match(message, /validator minimum meaningful prose: 250/i)
-    assert.match(message, /aim for at least 300 meaningful prose characters/i)
+    assert.match(message, /aim for at least 263 meaningful prose units/i)
+    assert.match(message, /5% safety margin/i)
     assert.match(message, /reviewer must return pass=false/i)
   }
 
@@ -216,7 +218,15 @@ function testReferenceLandingMessagesContainNavigationContract() {
   }).at(-1).content
   assert.match(cliLanding, /at least 3 Markdown headings/i)
   assert.match(cliLanding, /validator minimum meaningful prose: 400/i)
-  assert.match(cliLanding, /aim for at least 480 meaningful prose characters/i)
+  assert.match(cliLanding, /aim for at least 420 meaningful prose units/i)
+
+  const restLanding = buildTranslationMessages({
+    ...common,
+    sourcePath: 'content/en/reference/api/restful/restful/restful.md',
+  }).at(-1).content
+  assert.match(restLanding, /Han characters count as 2\.5 meaningful prose units/i)
+  assert.match(restLanding, /do not add source facts or repetitive filler/i)
+  assert.match(restLanding, /do not expand headings/i)
 }
 
 function validManifest(overrides = {}) {

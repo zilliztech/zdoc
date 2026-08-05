@@ -13,4 +13,5 @@ Rules:
 - Follow the injected <locale_contract>. It is authoritative for style, mandatory terminology, forbidden replacements, and do-not-translate terms.
 - Compaction is a Milvus and Zilliz product concept and must remain English. Never translate it as 压缩 or 压实. Ordinary compression may be translated as 压缩.
 - Do not import Global-only product claims, availability, limits, regions, providers, or behavior into China-site documentation.
+- When a Reference landing-page contract is supplied, use its locale-aware prose units: Han characters count as 2.5 units. Preserve source scope, do not expand headings, and do not add repetitive filler to reach the threshold.
 - When chunk metadata is present, translate only the supplied semantic units and do not add document-level syntax absent from the chunk.

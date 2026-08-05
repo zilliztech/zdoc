@@ -36,7 +36,7 @@ const DEFAULT_FILE_RETRIES = 1
 const DEFAULT_PROVIDER_TIMEOUT_MS = 300000
 const DEFAULT_FILE_TIMEOUT_MS = 900000
 const REFERENCE_LANDING_SOURCE_ROOT = 'content/en/reference/'
-const REFERENCE_LANDING_PROSE_SAFETY_FACTOR = 1.2
+const REFERENCE_LANDING_PROSE_SAFETY_FACTOR = 1.05
 
 let referenceLandingContracts
 
@@ -73,9 +73,10 @@ function formatReferenceLandingContract(target, sourcePath) {
   return [
     'Reference landing-page contract from config/reference-navigation.json:',
     `- The final translated file must contain at least ${contract.minimumHeadingCount} Markdown headings.`,
-    `- Validator minimum meaningful prose: ${contract.minimumProseCharacters} Unicode letters or digits after front matter, code fences, imports, and standalone JSX tags are excluded.`,
-    `- Aim for at least ${contract.targetProseCharacters} meaningful prose characters (20% safety margin) without repetitive filler.`,
-    '- Preserve all source facts and structure while expanding concise phrasing naturally when needed.',
+    `- Validator minimum meaningful prose: ${contract.minimumProseCharacters} units after front matter, code fences, imports, and standalone JSX tags are excluded. Han characters count as 2.5 meaningful prose units; other Unicode letters or digits count as 1.`,
+    `- Aim for at least ${contract.targetProseCharacters} meaningful prose units (5% safety margin) without repetitive filler.`,
+    '- Preserve all source facts and structure. Natural connective wording is allowed, but do not add source facts or repetitive filler solely to meet the threshold.',
+    '- Do not expand headings or move paragraph details into headings to meet prose targets.',
     '- The reviewer must return pass=false if the translated draft does not satisfy this contract.',
     '',
   ].join('\n')
