@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "contractId": "zh-CN-reference-2026-08-04-p0.4",
+  "target": "zh-CN-reference",
+  "locale": "zh-CN",
+  "styleRules": [
+    "Use natural, concise Simplified Chinese developer-documentation prose and address the reader as 您 when a reader pronoun is necessary.",
+    "Preserve source meaning, conditions, product scope, and intensity without additions or omissions.",
+    "Use Chinese punctuation in prose and retain readable spacing around English product terms and inline code.",
+    "Treat fenced code comments as protected code bytes, not localizable prose."
+  ],
+  "mandatoryTerms": [
+    {"source": "Compaction", "target": "Compaction", "caseSensitive": true},
+    {"source": "collection", "target": "Collection", "caseSensitive": false},
+    {"source": "entity", "target": "Entity", "caseSensitive": false},
+    {"source": "schema", "target": "Schema", "caseSensitive": false},
+    {"source": "database", "target": "Database", "caseSensitive": false},
+    {"source": "partition", "target": "Partition", "caseSensitive": false},
+    {"source": "segment", "target": "Segment", "caseSensitive": false},
+    {"source": "analyzer", "target": "Analyzer", "caseSensitive": false},
+    {"source": "endpoint", "target": "Endpoint", "caseSensitive": true}
+  ],
+  "forbiddenTranslations": [
+    {"source": "Compaction", "targets": ["压缩", "压实"]}
+  ],
+  "doNotTranslate": [
+    "Zilliz Cloud",
+    "Milvus",
+    "BYOC",
+    "Serverless",
+    "AUTOINDEX"
+  ],
+  "contextualTerms": [
+    {
+      "source": "Dedicated",
+      "target": "Dedicated",
+      "caseSensitive": true,
+      "sourceContexts": [
+        "Dedicated cluster",
+        "Dedicated deployment",
+        "Dedicated plan",
+        "Dedicated tier"
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "id": "zh-compaction-plan",
+      "source": "Compaction plans",
+      "bad": "压实计划",
+      "good": "Compaction 计划",
+      "explanation": "Compaction is a Milvus and Zilliz product concept and must remain English."
+    },
+    {
+      "id": "zh-compression-general",
+      "source": "Enable response compression.",
+      "bad": "启用响应 Compaction。",
+      "good": "启用响应压缩。",
+      "explanation": "Ordinary compression is not the Compaction product concept and may be translated as 压缩."
+    },
+    {
+      "id": "zh-code-comment",
+      "source": "// Create a collection",
+      "bad": "// 创建 Collection",
+      "good": "// Create a collection",
+      "explanation": "Natural-language comments inside fenced code blocks are protected bytes."
+    }
+  ]
+}

@@ -285,7 +285,7 @@ function resolveDocument(
   return matches[0];
 }
 
-function contentMetrics(source: string): Readonly<{headingCount: number; proseCharacters: number}> {
+function contentMetrics(source: string, site: Site): Readonly<{headingCount: number; proseUnits: number}> {
   const withoutFrontMatter = source.replace(/^\uFEFF?---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/u, '');
   const meaningfulLines: string[] = [];
   let fence: '`' | '~' | null = null;
@@ -313,8 +313,9 @@ function contentMetrics(source: string): Readonly<{headingCount: number; proseCh
     if (/^<\/?[A-Za-z][^>]*>\s*;?$/u.test(trimmed)) continue;
     meaningfulLines.push(line);
   }
-  const proseCharacters = meaningfulLines.join('\n').replace(/[^\p{L}\p{N}]/gu, '').length;
-  return {headingCount, proseCharacters};
+  const proseUnits = [...meaningfulLines.join('\n').matchAll(/[\p{L}\p{N}]/gu)]
+    .reduce((total, [character]) => total + (site === 'zh-CN' && /\p{Script=Han}/u.test(character) ? 2.5 : 1), 0);
+  return {headingCount, proseUnits};
 }
 
 function validateTarget(
@@ -371,15 +372,15 @@ function validateTarget(
   }
 
   const landingSource = readFileSync(landingPath, 'utf8');
-  const metrics = contentMetrics(landingSource);
-  if (metrics.proseCharacters < target.minimumProseCharacters) {
+  const metrics = contentMetrics(landingSource, site);
+  if (metrics.proseUnits < target.minimumProseCharacters) {
     throw targetError(
       site,
       target,
       selectedSidebarPath,
       landingId,
       'meaningful-prose',
-      `landing page has ${metrics.proseCharacters} meaningful prose characters; requires ${target.minimumProseCharacters}`,
+      `landing page has ${metrics.proseUnits} meaningful prose units; requires ${target.minimumProseCharacters}`,
     );
   }
   if (metrics.headingCount < target.minimumHeadingCount) {
