@@ -204,13 +204,20 @@ test('results upload is mandatory even after publication reaches terminal state'
   }), /results upload failed/)
 })
 
-test('coordinator delegates job normalization, candidate resolution, publication, and projection to its adapter', async t => {
+test('coordinator awaits adapter projection and preserves candidate and transaction contexts', async t => {
   const document = selection(true)
   const jobs = jobsFor(document, {
     'source/java': {conclusion: 'success', completedAt: '2026-08-04T00:00:01.000Z'},
   })
   const client = fakeClient(jobs)
   const calls = []
+  const seen = {}
+  const strategies = Object.freeze({sentinel: 'strategies'})
+  const transactionContext = Object.freeze({sentinel: 'transaction-context'})
+  const root = outputRoot(t)
+  const repositoryRoot = path.join(root, 'repository')
+  const runnerTemp = path.join(root, 'runner')
+  let resolvedCandidate
   const adapter = {
     workflow: 'fetch',
     validateSelection() {},
@@ -220,17 +227,22 @@ test('coordinator delegates job normalization, candidate resolution, publication
       return rawJobs
     },
     async resolveCandidate(context) {
+      seen.resolve = context
       calls.push(['resolveCandidate', context.unit.unitKey])
-      return {status: 'ready', prepared: {unitKey: context.unit.unitKey}}
+      resolvedCandidate = {status: 'ready', prepared: {unitKey: context.unit.unitKey}}
+      return resolvedCandidate
     },
     async publishUnit(context) {
+      seen.publish = context
       calls.push(['publishUnit', context.unit.unitKey])
       return {
         status: 'no_changes', baseSha: SHA('2'), resultSha: SHA('2'), commitShas: [], attempts: 1,
         failure: null, remoteState: 'known', completedAt: '2026-08-04T00:01:00.000Z',
       }
     },
-    projectResults(results, context) {
+    async projectResults(results, context) {
+      await Promise.resolve()
+      seen.project = context
       calls.push(['projectResults', results.workflow, context.selection.workflow])
       return {...results}
     },
@@ -241,7 +253,11 @@ test('coordinator delegates job normalization, candidate resolution, publication
     mode: 'publish',
     adapter,
     client,
-    outputDirectory: outputRoot(t),
+    strategies,
+    transactionContext,
+    repositoryRoot,
+    runnerTemp,
+    outputDirectory: root,
     pollMilliseconds: 1,
     sleep: async () => {},
   })
@@ -250,6 +266,13 @@ test('coordinator delegates job normalization, candidate resolution, publication
   assert.deepEqual(calls.filter(([name]) => name === 'resolveCandidate').map(([, unitKey]) => unitKey), ['source/java'])
   assert.deepEqual(calls.filter(([name]) => name === 'publishUnit').map(([, unitKey]) => unitKey), ['source/java'])
   assert.deepEqual(calls.at(-1), ['projectResults', 'fetch', 'fetch'])
+  assert.equal(seen.resolve.strategies, strategies)
+  assert.equal(seen.publish.strategies, strategies)
+  assert.equal(seen.project.transactionContext, transactionContext)
+  assert.equal(seen.publish.transactionContext, transactionContext)
+  assert.equal(seen.publish.candidate, resolvedCandidate)
+  assert.equal(seen.project.repositoryRoot, path.resolve(repositoryRoot))
+  assert.equal(seen.project.runnerTemp, path.resolve(runnerTemp))
   assert.equal(outcome.results.units.find(unit => unit.unitKey === 'source/java').status, 'no_changes')
 })
 
