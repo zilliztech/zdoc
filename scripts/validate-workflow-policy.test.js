@@ -46,6 +46,30 @@ test('workflow policy rejects durable production dev queue regressions', () => {
       expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
     },
     {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        '  verify:\n    concurrency:\n      group: docs-production-dev\n      queue: max\n    runs-on: ubuntu-latest',
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        "  verify:\n    concurrency:\n      group: ${{ inputs.target_branch == 'dev' && 'docs-production-dev' || 'verify-readonly' }}\n      queue: max\n    runs-on: ubuntu-latest",
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace(
+        '  prepare:\n    runs-on: ubuntu-latest',
+        '  prepare:\n    concurrency:\n      group: docs-production-dev\n      queue: max\n    runs-on: ubuntu-latest',
+      ),
+      expected: 'fetch-docs.yml: job-level concurrency must not reacquire docs-production-dev',
+    },
+    {
       file: 'translate-codex.yml',
       mutate: source => source.replace(
         "  group: ${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",

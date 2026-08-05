@@ -222,6 +222,15 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         ? `${file}: reusable workflow must not reacquire docs-production-dev`
         : `${file}: only production dev queue owners may use docs-production-dev`)
     }
+    const jobAcquiresProductionQueue = Object.values(workflow.jobs || {})
+      .some(job => String(job?.concurrency?.group || '').includes(PRODUCTION_DEV_QUEUE))
+    if (jobAcquiresProductionQueue) {
+      errors.push(file.startsWith('_')
+        ? `${file}: reusable workflow must not reacquire docs-production-dev`
+        : productionQueueOwner
+          ? `${file}: job-level concurrency must not reacquire docs-production-dev`
+          : `${file}: job-level concurrency must not acquire docs-production-dev`)
+    }
     const deprecatedActionRuntimeErrors = new Set()
     for (const job of Object.values(workflow.jobs || {})) {
       for (const step of Array.isArray(job?.steps) ? job.steps : []) {
