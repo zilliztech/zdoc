@@ -2,9 +2,18 @@
   "schemaVersion": 1,
   "group": "node",
   "complete": true,
-  "generatedAt": "2026-08-01T11:21:01.369Z",
-  "sourceRunId": "30695964668",
+  "generatedAt": "2026-08-05T10:34:17.802Z",
+  "sourceRunId": "30996821699",
   "records": [
+    {
+      "canonicalToken": "AD9WdW18PorgLqxhtXUcFk0UnLg",
+      "title": "BulkWriter",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
     {
       "canonicalToken": "AG5zdQCpXoy11MxWgD0ciYBRnJb",
       "title": "listRefreshExternalCollectionJobs()",
@@ -51,9 +60,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "AtLEdt0ZWoUbHoxkfvHcq1ZunUg",
-      "title": "DataType",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-DataType.md",
+      "canonicalToken": "B5L9d1RVxo9shYxOOGZcJrGZnOd",
+      "title": "listFileResources()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -63,15 +72,6 @@
       "canonicalToken": "BBmsddqZEozxWyxkoADcFfzpncW",
       "title": "dropPartition()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-dropPartition.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "BCGKdCttdotF32xUJTec8UFlndg",
-      "title": "updateUser()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-updateUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -89,7 +89,7 @@
     {
       "canonicalToken": "BKqIdIm0cop2s0xYjtQcSZL5nth",
       "title": "addCollectionField()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionField.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -99,6 +99,15 @@
       "canonicalToken": "Beq1d1hDUoTzIsxJ6WTcVtlpnah",
       "title": "hasRole()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-hasRole.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BrV8dRfFholCHaxk4nkcytxynTg",
+      "title": "backupRBAC()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -159,18 +168,18 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "CkuWdW6EXo8o9nxZsIrcBiSGn4d",
-      "title": "Formatter",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md",
+      "canonicalToken": "Cl5PdhU5jouHnrxyYXLcOQAZneb",
+      "title": "deleteUser()",
+      "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-deleteUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Cl5PdhU5jouHnrxyYXLcOQAZneb",
-      "title": "deleteUser()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-deleteUser.md",
+      "canonicalToken": "CpL0dxFSnoywomx1dfEcsuODnSc",
+      "title": "listRoles()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -249,9 +258,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Da9KdvvWroKX9cxOwsmcLRBxnVb",
-      "title": "describeUser()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeUser.md",
+      "canonicalToken": "DbYudYNYmom30PxITIscBXw2n3e",
+      "title": "describeRole()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -384,15 +393,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "FmG6dw3O1ouzgbxnl4jc5T7cnXf",
-      "title": "addCollectionFields()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFields.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "FubcdxJ0LoyQiJxmUMjcZnbjnbc",
       "title": "dropAlias()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropAlias.md",
@@ -411,18 +411,18 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "G6CGdbM4QoNgr5xS1ZAc94lhnFd",
-      "title": "getIndexBuildProgress()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Management/Management-getIndexBuildProgress.md",
+      "canonicalToken": "G2Wgdrfozo2ilAx9kvDcT4x0nHe",
+      "title": "Formatter",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
       "objectEditTime": null
     },
     {
-      "canonicalToken": "GIeMdvjlMoLwGrxUOu3cFw7bnWc",
-      "title": "listRoles()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listRoles.md",
+      "canonicalToken": "G6CGdbM4QoNgr5xS1ZAc94lhnFd",
+      "title": "getIndexBuildProgress()",
+      "contentPath": "content/en/reference/api/nodejs/nodejs/Management/Management-getIndexBuildProgress.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -440,15 +440,6 @@
     {
       "canonicalToken": "HCLOdUs85ovREKxoXDockCVRnVb",
       "title": "updateReplicateConfiguration()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "HD5DdMIkAo9NnVxFW4gcAwjcn5e",
-      "title": "backupRBAC()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -504,6 +495,15 @@
       "canonicalToken": "HqE5d2jOroEuObxIjkZcHkX4nWX",
       "title": "getIndexState()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Management/Management-getIndexState.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Hsf6d758so5TbjxxiZgc8csdnXd",
+      "title": "insert()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -573,18 +573,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "ItZPd1o4uoodqtx1sxIcq38hn7e",
-      "title": "describeRole()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeRole.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "IuTYdjSHHoznXNx5f7jcKqvYnhr",
       "title": "describeCollection()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeCollection.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -612,15 +603,6 @@
       "canonicalToken": "J17ZdPNwqo4nt3x5b8pc0H5Nnph",
       "title": "getLoadState()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Management/Management-getLoadState.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "JNZxdKEX3ohBl2xud7Wckhq7nVh",
-      "title": "createUser()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createUser.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -701,7 +683,7 @@
     {
       "canonicalToken": "KPZZd2TiAodSeWxUdlJciHGcnbg",
       "title": "createCollection()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -744,9 +726,18 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "L9FBdjIuYoMkQyxSmBsc4evYnrd",
+      "title": "dropCollectionField()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "LEptdqqfcoqdtCx0LO1c3yxvnBo",
       "title": "upsert()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-upsert.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -771,18 +762,27 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "LQMGdRHjKogdeMxekCtcdBLqnNf",
-      "title": "getCollectionStatistics()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-getCollectionStatistics.md",
+      "canonicalToken": "LSwVdMg4SorzZ5xSHHVcQeVDnfh",
+      "title": "renameCollection()",
+      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-renameCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
       "objectEditTime": null
     },
     {
-      "canonicalToken": "LSwVdMg4SorzZ5xSHHVcQeVDnfh",
-      "title": "renameCollection()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-renameCollection.md",
+      "canonicalToken": "LToodBRwwoh5Yhxg8mqcBorCnRd",
+      "title": "alterRole()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Lkn4dPpqhoSLlBxwz0ScSWOhnfg",
+      "title": "addFunctionField()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -807,6 +807,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "LqXydCLWfoAhMSx8KH6coz1MnWg",
+      "title": "addCollectionFields()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "LsMldPd8GodoVqxCAZUcWYjdnwh",
       "title": "runAnalyzer()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-runAnalyzer.md",
@@ -818,6 +827,15 @@
     {
       "canonicalToken": "M1awdkh0eosjgqxTl5LcrDD2nwP",
       "title": "createPrivilegeGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MCsldldOKo2KwtxGGIUcyJDVnQb",
+      "title": "addCollectionFunction()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -890,7 +908,7 @@
     {
       "canonicalToken": "Nle5dNFMuoy3MgxGIFGcJDWtnpg",
       "title": "query()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-query.md",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -915,8 +933,26 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "OIUmdSaLKoz2BKxFzEucSJTznwu",
+      "title": "removeFileResource()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "OMModTBi8o93lwx9l50c9or6nJg",
       "title": "describeResourceGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "P7DsdnyYHoUFqHx5CKucU1wPn3e",
+      "title": "describeUser()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -960,6 +996,15 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "PesBdvwXQoPTFGxuVXbcktaGnk1",
+      "title": "addFileResource()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "Ph9ldBswooKwebxKI9EcqSu4nlc",
       "title": "hybridSearch()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-hybridSearch.md",
@@ -969,9 +1014,27 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "Pj6LdflVmodbwkxzdIxcYtDWnAb",
+      "title": "DataType",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "PpuUdB9bLoL1UUxfIH4cxXkXnSb",
       "title": "restoreSnapshot()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-restoreSnapshot.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Pt3ZdR6Ijo3Ge0xgNjhcqwBWnPb",
+      "title": "getCollectionStatistics()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1032,6 +1095,24 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "Qfpbd4p3touss7xnQz9cDsuZnfc",
+      "title": "dropFunctionField()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QnWpdfvEpoUZuXx0IXqcnrhSnZe",
+      "title": "FunctionType",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "QsTwdUbgyoZPV1xzCBxchX8Fnid",
       "title": "flushSync()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Management/Management-flushSync.md",
@@ -1059,15 +1140,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "RIS2dU8uXojudgxLbJWcG54CnOb",
-      "title": "restoreRBAC()",
-      "contentPath": null,
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "RQH5dhSenoDGjYxyBb2c3n1rnie",
       "title": "alterCollectionFieldProperties()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterCollectionFieldProperties.md",
@@ -1077,18 +1149,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "RSrRdD4fLoy50Bx5s2xcQ6lMnVd",
-      "title": "BulkWriter",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriter.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "SDoYdccLWo1W3PxkNFncibwDnch",
-      "title": "createRole()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md",
+      "canonicalToken": "RnJUd97sxomuKVxye53c048kneb",
+      "title": "alterCollectionSchema()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1104,27 +1167,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "SZNQds74zoKniRxtJwdcfdz1nCh",
-      "title": "insert()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-insert.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "SkLsdMpB7oiZLMx8T04cCd9Knqf",
       "title": "connect()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Client/Client-connect.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
-      "canonicalToken": "SmI4dGF4qoAjbKxamfhcndjxnCc",
-      "title": "addCollectionFunction()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1149,15 +1194,6 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "T6xNdPPtsotGiYxL1WActF3qnxb",
-      "title": "dropCollectionFunction()",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionFunction.md",
-      "objectToken": null,
-      "parentToken": null,
-      "revisionId": null,
-      "objectEditTime": null
-    },
-    {
       "canonicalToken": "TIXDdW1BmoPA3FxX0ONczHFqnKf",
       "title": "listRestoreSnapshotJobs()",
       "contentPath": "content/en/reference/api/nodejs/nodejs/Snapshot/Snapshot-listRestoreSnapshotJobs.md",
@@ -1169,6 +1205,15 @@
     {
       "canonicalToken": "TKPydN5CRokhoTxI2DJcD4xYnHe",
       "title": "listResourceGroups()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TP1bdM9luozdtixagHycplORnld",
+      "title": "createUser()",
       "contentPath": null,
       "objectToken": null,
       "parentToken": null,
@@ -1203,9 +1248,36 @@
       "objectEditTime": null
     },
     {
+      "canonicalToken": "U3CtdyYY9oYKkfxqswgcwx2unEF",
+      "title": "dropCollectionFunction()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "U53mdImL4oK0d5xhVsmcMBALnof",
+      "title": "restoreRBAC()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
       "canonicalToken": "U7w6d4gUioGzw2xmYqvcFz1Jnub",
       "title": "BulkWriterSchema",
       "contentPath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriterSchema.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "U9ArdQs1QoAjvsx4Xoyc9o3Vnqh",
+      "title": "updateUser()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1275,9 +1347,9 @@
       "objectEditTime": null
     },
     {
-      "canonicalToken": "Vq2VdsWJaoufsGx5stJcTuyPnDb",
-      "title": "FunctionType",
-      "contentPath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-FunctionType.md",
+      "canonicalToken": "VzhXdqyoUoUlytxrQfqceZ7mnNd",
+      "title": "createRole()",
+      "contentPath": null,
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
