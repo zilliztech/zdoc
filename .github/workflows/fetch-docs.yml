@@ -135,7 +135,7 @@ jobs:
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Verify translation publication readiness
-        run: node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js
+        run: node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js
       - name: Verify immutable target localization inventory
         if: ${{ steps.refs.outputs.publish == 'true' }}
         env:
@@ -520,9 +520,101 @@ jobs:
               '--max-publish-attempts', '10',
             ])
 
-  source_publication_barrier:
+  reconcile_reference_state:
     needs: [prepare, publish_ready]
-    if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.publish == 'true' }}
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.publish_ready.outputs.results_artifact_name != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: write
+    outputs:
+      final_target_sha: ${{ steps.reconcile.outputs.final_target_sha }}
+      status: ${{ steps.reconcile.outputs.status }}
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Download immutable Fetch publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Download immutable Fetch publication results
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.publish_ready.outputs.results_artifact_name }}
+          path: ${{ runner.temp }}/publication-results
+      - id: reconcile
+        name: Reconcile and publish Fetch Reference derived state
+        run: |
+          set -euo pipefail
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          results="$RUNNER_TEMP/publication-results/publication-results.json"
+          plan=$(node scripts/docs-workflow/fetch-reference-reconciliation.js plan --selection "$selection" --results "$results")
+          required=$(node -e 'process.stdout.write(String(JSON.parse(process.argv[1]).required))' "$plan")
+          source_sha=$(node -e 'process.stdout.write(JSON.parse(process.argv[1]).sourceCommitSha)' "$plan")
+          target_branch=$(node -e 'process.stdout.write(JSON.parse(process.argv[1]).targetBranch)' "$plan")
+          [[ "$source_sha" =~ ^[0-9a-f]{40}$ ]]
+          git check-ref-format --branch "$target_branch"
+          git fetch --no-tags origin "+refs/heads/$target_branch:refs/remotes/origin/$target_branch"
+          target_sha=$(git rev-parse "refs/remotes/origin/$target_branch^{commit}")
+          git merge-base --is-ancestor "$source_sha" "$target_sha"
+          if [[ "$required" != true ]]; then
+            printf 'final_target_sha=%s\nstatus=no_changes\n' "$target_sha" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          bash scripts/restore-generated-state.sh --exact --ref "$target_sha"
+          pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$source_sha" --write
+          pnpm docs-tooling validate-reference --site zh-CN
+
+          paths=(
+            generated/en/manifests/reference.json
+            generated/zh-CN/manifests/reference-translations.json
+            generated/en/sidebars/python.sidebar.js
+            generated/en/sidebars/java.sidebar.js
+            generated/en/sidebars/node.sidebar.js
+            generated/en/sidebars/go.sidebar.js
+            generated/en/sidebars/cli.sidebar.js
+            generated/en/sidebars/restful.sidebar.js
+            generated/zh-CN/sidebars/python.sidebar.js
+            generated/zh-CN/sidebars/java.sidebar.js
+            generated/zh-CN/sidebars/node.sidebar.js
+            generated/zh-CN/sidebars/go.sidebar.js
+            generated/zh-CN/sidebars/cli.sidebar.js
+            generated/zh-CN/sidebars/restful.sidebar.js
+          )
+          publish_worktree=$(mktemp -d "$RUNNER_TEMP/fetch-reference-derived.XXXXXX")
+          rmdir "$publish_worktree"
+          cleanup() { git worktree remove --force "$publish_worktree" >/dev/null 2>&1 || true; git worktree prune >/dev/null 2>&1 || true; }
+          trap cleanup EXIT
+          git worktree add --detach "$publish_worktree" "$target_sha"
+          for path in "${paths[@]}"; do
+            [[ -f "$path" && ! -L "$path" ]]
+            mkdir -p "$publish_worktree/$(dirname "$path")"
+            cp -- "$path" "$publish_worktree/$path"
+          done
+          git -C "$publish_worktree" add -- "${paths[@]}"
+          if git -C "$publish_worktree" diff --cached --quiet; then
+            printf 'final_target_sha=%s\nstatus=no_changes\n' "$target_sha" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git -C "$publish_worktree" config user.name docs-publish-bot
+          git -C "$publish_worktree" config user.email docs-publish-bot@users.noreply.github.com
+          git -C "$publish_worktree" commit -m 'chore(i18n): reconcile Fetch Reference state' \
+            -m "sourceSha: $source_sha" \
+            -m "fetchTargetSha: $target_sha"
+          reconciled_sha=$(git -C "$publish_worktree" rev-parse HEAD)
+          git -C "$publish_worktree" push origin "HEAD:refs/heads/$target_branch"
+          printf 'final_target_sha=%s\nstatus=published\n' "$reconciled_sha" >> "$GITHUB_OUTPUT"
+
+  source_publication_barrier:
+    needs: [prepare, publish_ready, reconcile_reference_state]
+    if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.publish == 'true' && needs.reconcile_reference_state.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -652,16 +744,17 @@ jobs:
           retention-days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
 
   verify:
-    needs: [prepare, publish_ready]
-    if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.publish_ready.outputs.final_target_sha != '' }}
+    needs: [prepare, publish_ready, reconcile_reference_state]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.reconcile_reference_state.result == 'success' && needs.reconcile_reference_state.outputs.final_target_sha != '' }}
     uses: ./.github/workflows/_verify-docs.yml
     with:
+      final_dev_sha: ${{ needs.reconcile_reference_state.outputs.final_target_sha }}
       publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
       publication_results_artifact_name: ${{ needs.publish_ready.outputs.results_artifact_name }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
   aggregate:
-    needs: [prepare, publish_ready, prepare_translation_handoff, dispatch_translations, verify]
+    needs: [prepare, publish_ready, reconcile_reference_state, prepare_translation_handoff, dispatch_translations, verify]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
