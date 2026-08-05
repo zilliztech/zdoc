@@ -45,6 +45,23 @@ test('requires Compaction in Chinese without banning ordinary compression', () =
   assert.deepEqual(validateLocaleContractDraft('Enable response compression.', '启用响应压缩。', contract), [])
 })
 
+test('requires exact Compaction for lowercase product-term sources', () => {
+  const contract = loadLocaleContract('zh-CN-reference')
+  const source = 'Whether to run L0 compaction.'
+  const draft = '是否运行 L0 压缩。'
+
+  const issues = validateLocaleContractDraft(source, draft, contract)
+
+  assert.equal(issues.length, 1)
+  assert.equal(issues[0].source_quote, 'compaction')
+  assert.equal(issues[0].draft_quote, '压缩')
+  assert.deepEqual(validateLocaleContractDraft(source, '是否运行 L0 Compaction。', contract), [])
+  assert.equal(
+    applyDeterministicLocaleRepairs(source, '运行 L0 compaction。', contract),
+    '运行 L0 Compaction。',
+  )
+})
+
 test('formats approved Japanese terminology and preserves Compaction', () => {
   const formatted = formatLocaleContract(loadLocaleContract('ja-JP'))
   assert.match(formatted, /collection.*コレクション/is)

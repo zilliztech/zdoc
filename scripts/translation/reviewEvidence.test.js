@@ -99,6 +99,22 @@ test('filters reviewer demands that conflict with the Compaction locale contract
   assert.equal(rejected.effectivePass, true)
   assert.match(rejected.unsupportedIssues[0].reason, /locale contract/i)
 
+  const lowercaseRejected = validateReviewEvidence(
+    {pass: false, issues: [issue({
+      source_quote: 'compaction',
+      draft_quote: 'Compaction',
+      comment: 'compaction should be translated as 压实。',
+    })]},
+    {
+      sourceContent: 'Whether to run L0 compaction.',
+      draftContent: '是否运行 L0 Compaction。',
+      localeContract: contract,
+    },
+  )
+  assert.equal(lowercaseRejected.correctionAuthorized, false)
+  assert.equal(lowercaseRejected.effectivePass, true)
+  assert.match(lowercaseRejected.unsupportedIssues[0].reason, /locale contract/i)
+
   const alreadyWrongDraft = '压缩计划会合并 Segment。'
   const wrongReplacement = issue({
     source_quote: 'Compaction plans',

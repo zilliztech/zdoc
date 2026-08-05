@@ -45,13 +45,18 @@ function addRegexSpans(content, spans, pattern, category, captureIndex = 0) {
 function addFencedCodeSpans(content, spans) {
   const lines = lineRecords(content)
   for (let index = 0; index < lines.length; index++) {
-    const opening = lines[index].text.match(/^ {0,3}(`{3,}|~{3,})[^\r\n]*(?:\r\n|\n|$)/)
+    const opening = lines[index].text.match(/^([ \t]*)(`{3,}|~{3,})[^\r\n]*(?:\r\n|\n|$)/)
     if (!opening) continue
-    const fence = opening[1]
+    const openingIndent = opening[1]
+    const fence = opening[2]
     let closingIndex = index + 1
     while (closingIndex < lines.length) {
-      const closing = lines[closingIndex].text.match(/^ {0,3}(`{3,}|~{3,})[ \t]*(?:\r\n|\n|$)/)
-      if (closing && closing[1][0] === fence[0] && closing[1].length >= fence.length) break
+      const closing = lines[closingIndex].text.match(/^([ \t]*)(`{3,}|~{3,})[ \t]*(?:\r\n|\n|$)/)
+      const compatibleIndent = closing && (
+        (openingIndent.length <= 3 && closing[1].length <= 3)
+        || closing[1] === openingIndent
+      )
+      if (compatibleIndent && closing[2][0] === fence[0] && closing[2].length >= fence.length) break
       closingIndex += 1
     }
     const end = closingIndex < lines.length ? lines[closingIndex].end : content.length

@@ -151,14 +151,19 @@ function mandatoryTermOccurrences(content, value, caseSensitive) {
   return occurrences
 }
 
+function sourceTermOccurrences(content, term, contract) {
+  const hasForbiddenTranslations = contract.forbiddenTranslations.some(item => item.source === term.source)
+  return mandatoryTermOccurrences(content, term.source, term.caseSensitive && !hasForbiddenTranslations)
+}
+
 function applyDeterministicLocaleRepairs(sourceContent, draftContent, contract) {
   const source = String(sourceContent)
   let draft = String(draftContent)
   for (const term of contract.mandatoryTerms) {
-    if (!term.caseSensitive || term.source === term.target) continue
+    if (!term.caseSensitive) continue
     if (!/^[A-Za-z][A-Za-z0-9_]*$/.test(term.source)) continue
     if (term.source.toLocaleLowerCase('en-US') !== term.target.toLocaleLowerCase('en-US')) continue
-    const sourceCount = mandatoryTermOccurrences(source, term.source, true).length
+    const sourceCount = sourceTermOccurrences(source, term, contract).length
     if (!sourceCount) continue
     const targetCount = mandatoryTermOccurrences(draft, term.target, true).length
     let deficit = sourceCount - targetCount
@@ -198,7 +203,7 @@ function mandatoryTermIssues(source, draft, contract, term, sourceCount, targetC
   let remainingDeficit = sourceCount - targetCount
 
   for (let lineIndex = 0; lineIndex < sourceLines.length && remainingDeficit > 0; lineIndex += 1) {
-    const sourceLineOccurrences = mandatoryTermOccurrences(sourceLines[lineIndex], term.source, term.caseSensitive)
+    const sourceLineOccurrences = sourceTermOccurrences(sourceLines[lineIndex], term, contract)
     const sourceLineCount = sourceLineOccurrences.length
     if (!sourceLineCount) continue
     const draftLine = draftLines[lineIndex] || ''
@@ -238,7 +243,7 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
   const draft = String(draftContent)
   const issues = []
   for (const term of contract.mandatoryTerms) {
-    const sourceCount = mandatoryTermOccurrences(source, term.source, term.caseSensitive).length
+    const sourceCount = sourceTermOccurrences(source, term, contract).length
     if (!sourceCount) continue
     const targetCount = mandatoryTermOccurrences(draft, term.target, term.caseSensitive).length
     if (targetCount >= sourceCount) continue
@@ -285,7 +290,7 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
 
 function issueConflictsWithLocaleContract(issue, contract) {
   for (const item of contract.forbiddenTranslations) {
-    if (!issue.source_quote.includes(item.source)) continue
+    if (!issue.source_quote.toLocaleLowerCase('en-US').includes(item.source.toLocaleLowerCase('en-US'))) continue
     const demandsForbidden = item.targets.some(target => issue.comment.includes(target))
     if (demandsForbidden) return true
   }

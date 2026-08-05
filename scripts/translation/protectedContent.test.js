@@ -34,6 +34,36 @@ test('restores a fenced code block byte-for-byte when the model translates its c
   assert.match(restored, /继续下一步。/)
 })
 
+test('restores a deeply indented fenced code block byte-for-byte inside a list item', () => {
+  const source = [
+    '- **multi_analyzer_params** (*object*) -',
+    '',
+    '    Configure multiple analyzers:',
+    '',
+    '            ```javascript',
+    '            const analyzers = {',
+    '              // Define language-specific analyzers',
+    '              english: { type: "english" },',
+    '            }',
+    '            ```',
+    '',
+    'Continue with the next step.',
+    '',
+  ].join('\n')
+  const protectedInput = protectTranslationInput(source)
+
+  assert.equal(
+    protectedInput.manifest.entries.filter(entry => entry.category === 'fenced_code_block').length,
+    1,
+  )
+
+  const modelOutput = protectedInput.content.replace('Continue with the next step.', '继续下一步。')
+  const restored = restoreProtectedContent(modelOutput, protectedInput.manifest)
+
+  assert.match(restored, / {12}```javascript\n {12}const analyzers = \{\n {14}\/\/ Define language-specific analyzers[\s\S]*? {12}```/)
+  assert.match(restored, /继续下一步。/)
+})
+
 test('fails closed when protected markers are missing, altered, duplicated, reordered, or invented', () => {
   const source = '```js\n// one\n```\n\nText.\n\n```sh\n# two\n```\n'
   const protectedInput = protectTranslationInput(source)
