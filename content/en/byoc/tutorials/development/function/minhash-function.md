@@ -63,7 +63,7 @@ During insertion, the binary vector produced by the shared pipeline is stored in
 
 ### Query processing\{#query-processing}
 
-During search, the query text goes through the same shared pipeline to produce a binary vector. This vector is used to perform an LSH lookup in the `MINHASH_LSH` index, which quickly identifies candidate pairs that are likely similar. Candidates are then ranked by estimated Jaccard similarity and the top-K results are returned.
+During search, the query text goes through the same shared pipeline to produce a binary vector. This vector is used to perform an LSH lookup in the `MINHASH_LSH` index, which quickly identifies candidate pairs that are likely similar. Without Jaccard refinement, Zilliz Cloud returns LSH candidates that are not ranked by estimated Jaccard similarity. When Jaccard refinement is enabled, Zilliz Cloud uses the stored raw MinHash signatures to rank the candidates by estimated Jaccard similarity and return the top-K results.
 
 Because both paths share the same transformation logic, two documents with highly overlapping content produce similar MinHash signatures. This makes the function effective for finding near-duplicates even when documents differ in word order, formatting, or minor phrasing.
 
@@ -332,6 +332,8 @@ index_params.add_index(
 </TabItem>
 </Tabs>
 
+Set `with_raw_data` to `True` if searches will use Jaccard refinement. The raw MinHash signatures are required to calculate estimated Jaccard similarity for the candidates returned by the LSH lookup.
+
 ### Create the collection\{#create-the-collection}
 
 Create the collection using the schema and index parameters defined above:
@@ -453,7 +455,7 @@ client.insert(
 
 ## Step 3: Search with MinHash\{#step-3-search-with-minhash}
 
-Once you have inserted data, search for near-duplicate documents by providing raw text queries. Zilliz Cloud automatically converts your query text into a MinHash binary vector and retrieves the most similar documents using estimated Jaccard similarity.
+Once you have inserted data, search for near-duplicate documents by providing raw text queries. Zilliz Cloud automatically converts each query into a MinHash binary vector. Enable Jaccard refinement to rank the LSH candidates by estimated Jaccard similarity.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -461,7 +463,10 @@ Once you have inserted data, search for near-duplicate documents by providing ra
 ```python
 search_params = {
     "metric_type": "MHJACCARD",
-    "params": {},
+    "params": {
+        "mh_search_with_jaccard": True,
+        "refine_k": 3,
+    },
 }
 
 results = client.search(
@@ -521,6 +526,8 @@ for hits in results:
 
 </TabItem>
 </Tabs>
+
+Set `mh_search_with_jaccard` to `True` to enable Jaccard refinement. `refine_k` controls the candidate-pool capacity used for refinement. Zilliz Cloud uses `max(refine_k, limit)` as the capacity, but may refine fewer candidates if the LSH lookup returns fewer matches. Increasing `refine_k` can improve result quality at the cost of additional computation.
 
 ## What's next\{#whats-next}
 
