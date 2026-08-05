@@ -128,6 +128,21 @@ test('Translation selection rejects extra keys and noncanonical ja-guides units'
   assert.throws(() => selection({units: [unit({strategy: 'other'})]}), /strategy/i)
 })
 
+test('Translation selection rejects checkpoint units outside the supported locale domain', () => {
+  assert.throws(() => selection({
+    inputs: {selectedGroup: 'python', publish: true, runTranslations: true},
+    units: [unit({
+      unitKey: 'translation/fr-FR/python', strategy: 'checkpoint', target: 'fr-FR', group: 'python', sourceGroup: 'python',
+    })],
+  }), /unitKey.*unsupported|publication unit/i)
+})
+
+test('Translation selection rejects checkpoint groups unsupported by a target', () => {
+  assert.throws(() => selection({units: [unit({
+    unitKey: 'translation/zh-CN-reference/guides', strategy: 'checkpoint', target: 'zh-CN-reference',
+  })]}), /unitKey.*unsupported|publication unit/i)
+})
+
 test('Translation selectedGroup is exact and binds concrete groups to selected units', () => {
   assert.throws(() => selection({inputs: {selectedGroup: 1, publish: true, runTranslations: true}}), /selectedGroup/i)
   assert.throws(() => selection({inputs: {selectedGroup: 'ruby', publish: true, runTranslations: true}}), /selectedGroup/i)

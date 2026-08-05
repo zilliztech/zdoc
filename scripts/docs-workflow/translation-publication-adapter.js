@@ -47,6 +47,7 @@ function validateTranslationUnit(unit, selection, index, helpers) {
   helpers.assertString(unit.sourceGroup, `unit ${index} sourceGroup`, document)
   const expectedUnitKey = `translation/${unit.target}/${unit.group}`
   if (unit.unitKey !== expectedUnitKey) helpers.invalid(document, `unit ${index} unitKey mismatch`)
+  if (!TRANSLATION_PUBLICATION_UNIT_KEYS.includes(unit.unitKey)) helpers.invalid(document, `unit ${index} unitKey is not a supported Translation publication unit`)
   if (unit.strategy === 'ja-guides' && unit.unitKey !== 'translation/ja-JP/guides') helpers.invalid(document, 'ja-guides is only valid for translation/ja-JP/guides')
   helpers.assertSha(unit.toolingSha, `unit ${index} toolingSha`, document)
   helpers.assertSha(unit.sourceBaselineSha, `unit ${index} sourceBaselineSha`, document)
