@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "6bece69396b95deafd378c3a7e62a5bbfaaccd37",
+  "sourceCommit": "3f14b577deeb85c98883bae055bf7ba0cdc59b46",
   "records": [
     {
       "manual": "cli",
@@ -2119,28 +2119,8 @@
     },
     {
       "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md",
-      "sourceHash": "8bbd25eed41643ee55f56940ec8b88e8d5364cf1d0c946d1f4db7f013d301edc"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createUser.md",
-      "sourceHash": "9121a7cf6f39cbc7c2049cfc4874e3b74ee41feaf0847072caba946abb5ed09e"
-    },
-    {
-      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-deleteUser.md",
       "sourceHash": "c453faaeefc2744474c18c7235fdac56be59331404187a83c4690291582e3283"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeRole.md",
-      "sourceHash": "eefbb5f534f9f3f30165a29e3621dbf615160359c35d3ff3ea34769af1f292da"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeUser.md",
-      "sourceHash": "76acff493c4bebab3fb89a6fe3e6398dbf8f47d373f1e4b9d25215030ac28dde"
     },
     {
       "manual": "node",
@@ -2189,11 +2169,6 @@
     },
     {
       "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listRoles.md",
-      "sourceHash": "3a302c29fd2777442221103f7b377b93f5cb7fd31745e8fe02b7e384b7a379ea"
-    },
-    {
-      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listUsers.md",
       "sourceHash": "df8e0d73d47a2185e892b3e13fdc6f110610cf6e77092dd0e4bf53da5de51ff2"
     },
@@ -2216,11 +2191,6 @@
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-revokeRole.md",
       "sourceHash": "f0a6d8000c6eb1f14d118a8996f7776c4e5e250ecc1541eae847481c8ce1cd25"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-updateUser.md",
-      "sourceHash": "611a37910e3d1ab3e3c0b0fe288238e1a757874baf6fceb41b0200645c6b5155"
     },
     {
       "manual": "node",
@@ -2269,31 +2239,6 @@
     },
     {
       "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-DataType.md",
-      "sourceHash": "ad095431e18f0ebbb5545b3292581941b65b09d82651176ad019aac832b6a0e0"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-FunctionType.md",
-      "sourceHash": "cfc098e944b1f4174bed7081c85cd778d7bc8a1fbf81e1478c63e277a15742d1"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionField.md",
-      "sourceHash": "bf0605192837fb62357f7eca423aa225559b1d01cbe46ffd861b44486f0749de"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFields.md",
-      "sourceHash": "30f550628026ac10f0d6e22d24235b561019d01064d8c8d85cb7bf41677e0bdf"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md",
-      "sourceHash": "2e1d4e1713f170dd53a87d5bcce42f8c3d8e36785a077f72ec0e93b499e9dd4b"
-    },
-    {
-      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-alterAlias.md",
       "sourceHash": "dbabf8ab687a34ed46b86f53aae7d4466d025eaf5cbbbbb300a5a33ae09c9f84"
     },
@@ -2324,18 +2269,8 @@
     },
     {
       "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md",
-      "sourceHash": "65d3bc283145e5a96e0c707fc4cac6ef03941c349d083652fa1eb79b5d5b5ae3"
-    },
-    {
-      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeAlias.md",
       "sourceHash": "aa1536a8f59347b387a58539ebc8b45aef21a4276121f2d8c26a9b57c4e55d40"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeCollection.md",
-      "sourceHash": "85e1da6a0312898aa582789b7eb1f7cea11b73edf69b9443fd9b453103ff16c1"
     },
     {
       "manual": "node",
@@ -2349,18 +2284,8 @@
     },
     {
       "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionFunction.md",
-      "sourceHash": "4cd15e3a1c4b9da2f55ad2ea444545bb95f0e32eb4f212bc2aa914221a648bd4"
-    },
-    {
-      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionProperties.md",
       "sourceHash": "9ae46d2b7439b0da456fc7c5266719bccfe3ab056a9e227f2ebec6f3f305b1ff"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-getCollectionStatistics.md",
-      "sourceHash": "00b59f749adc747aa037e719821bfde9b7a0da4f6581a3a44e3db935c5bb3e2d"
     },
     {
       "manual": "node",
@@ -2380,7 +2305,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-getRefreshExternalCollectionProgress.md",
-      "sourceHash": "99dda266d5e49288ad67c435d74544a9daefb8e7167d84ee2dd68f5c0844b568"
+      "sourceHash": "ac39b0fcf8f8abeed95d9bd1ee5c317a10e654781f29a2b4cfb5a25a3707bf28"
     },
     {
       "manual": "node",
@@ -2400,12 +2325,12 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-listRefreshExternalCollectionJobs.md",
-      "sourceHash": "d4ceb0bf980d5bc288d439f24c9984b567c39a33ca6eb2430816e94ae77e2446"
+      "sourceHash": "7f18bef3db500cd1ce7e487d38083b8117b6769a703f22b68b4fdda6cf93c361"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-refreshExternalCollection.md",
-      "sourceHash": "56411cbadbca4e5a1b1440a52eca8a10fc0f781a84753ab62c34bc899eb28bf3"
+      "sourceHash": "2fb71dae073df06d70f42393e4781d05ee60d0108b449a47f988b91328771c02"
     },
     {
       "manual": "node",
@@ -2424,11 +2349,6 @@
     },
     {
       "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriter.md",
-      "sourceHash": "a2e1ce52188dea82c3eed0e7093322c57ab53c97c8bc5dc1465dd7fa3b461120"
-    },
-    {
-      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriterOptions.md",
       "sourceHash": "ba3c2729b2e79b5bd7fe65090fedf77891c817033253d871a8d3ebfb432f2d6d"
     },
@@ -2441,11 +2361,6 @@
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-FlushEvent.md",
       "sourceHash": "ee9b2add55a436a853b2de3394d62fd3eadc49be3febf0f762d47838b9a6f28b"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-Formatter.md",
-      "sourceHash": "01c847c74b971b0a13c51f8dc29881276207f492516abd549050019a10ee9345"
     },
     {
       "manual": "node",
@@ -2779,33 +2694,18 @@
     },
     {
       "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-insert.md",
-      "sourceHash": "cc2341c810fea68711679d3f167141023ce24af51f07b63b81eec7b6efaaf9c1"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-query.md",
-      "sourceHash": "e2f843138f5316917875b4a6fb9cd75d38ed8e883cde2d85cd11a248854725a0"
-    },
-    {
-      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-queryIterator.md",
       "sourceHash": "7d90f2a3178d8b7cbfb77fa8d6835efc86b5cbb5bc664f6d8d196ed5df48d62a"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-search.md",
-      "sourceHash": "ded3b9dae344032c6685e65cbdc1ec6fe0929b8e5884a234872b7127f9e1ad30"
+      "sourceHash": "47ce8dc3252e0e1e0616734a52270ee1fb5f3e56e485b87592611d2ed78cca60"
     },
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-searchIterator.md",
       "sourceHash": "e69f9529c43bdfe9589bcc9baf71aae099a81edfade65408742f8284626a5901"
-    },
-    {
-      "manual": "node",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-upsert.md",
-      "sourceHash": "5423ad3af9d8188b064851d3b4e5fe9d5973bca2a54efb8653ae4d9b5c0a1442"
     },
     {
       "manual": "node",
