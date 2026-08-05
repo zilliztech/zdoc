@@ -8,7 +8,7 @@ const test = require('node:test')
 
 const {buildFetchPublicationSelection} = require('./fetch-publication-selection')
 const {createPublicationScheduler} = require('./publication-scheduler')
-const {writePublicationDocument} = require('./publication-contracts')
+const {artifactNames, finalizePublicationSelection, writePublicationDocument} = require('./publication-contracts')
 const {createPublicationGitHubClient} = require('./publication-github-client')
 
 const SHA_A = 'a'.repeat(40)
@@ -21,6 +21,38 @@ function selection(overrides = {}) {
     targetBranch: 'dev', initialTargetSha: SHA_B, sourceBaselineSha: SHA_C,
     selectedGroup: 'java', publish: false, runTranslations: false,
     ...overrides,
+  })
+}
+
+function translationSelection() {
+  return finalizePublicationSelection({
+    schemaVersion: 1,
+    document: 'publication-selection',
+    workflow: 'translation',
+    repository: 'zilliztech/zdoc',
+    runId: 123,
+    runAttempt: 2,
+    toolingSha: SHA_A,
+    targetBranch: 'dev',
+    initialTargetSha: SHA_B,
+    sourceBaselineSha: SHA_C,
+    inputs: {selectedGroup: 'python', publish: false, runTranslations: true},
+    units: [{
+      unitKey: 'translation/ja-JP/python',
+      producerJob: 'translate_ja_python',
+      strategy: 'checkpoint',
+      target: 'ja-JP',
+      group: 'python',
+      sourceGroup: 'python',
+      toolingSha: SHA_A,
+      sourceBaselineSha: SHA_C,
+      sourceCheckpointSha: SHA_B,
+      targetBranch: 'dev',
+      artifacts: {checkpoint: 'translation-checkpoint-ja-python-123', baseline: null},
+      commitMessage: 'publish Japanese Python translation',
+      validationCommands: ['true'],
+      environment: {},
+    }],
   })
 }
 
@@ -172,4 +204,95 @@ test('results upload is mandatory and uses the canonical results artifact name',
   assert.equal(calls[0][0], 'publication-results-fetch-123-2')
   await assert.rejects(() => client({runnerTemp: root, artifactClient: {...artifactClient, uploadArtifact: async () => { throw new Error('upload failed') }}}).uploadResults({selection: selected, results, file}), /upload failed/i)
   fs.rmSync(root, {recursive: true, force: true})
+})
+
+test('Translation ready download uses the exact workflow and normalized unit artifact name', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'publication-ready-translation-'))
+  const selected = translationSelection()
+  const expectedName = `publication-ready-translation-translation-ja-JP-python-${selected.runId}-${selected.runAttempt}`
+  const fetchImpl = fakeFetch([response({artifacts: [{id: 31, name: expectedName, expired: false}]})])
+  const descriptor = {
+    schemaVersion: 1,
+    document: 'publication-ready',
+    workflow: 'translation',
+    repository: selected.repository,
+    runId: selected.runId,
+    runAttempt: selected.runAttempt,
+    selectionSha256: selected.selectionSha256,
+    unitKey: selected.units[0].unitKey,
+    producerJob: selected.units[0].producerJob,
+    toolingSha: selected.units[0].toolingSha,
+    sourceBaselineSha: selected.units[0].sourceBaselineSha,
+    sourceCheckpointSha: selected.units[0].sourceCheckpointSha,
+    targetBranch: selected.targetBranch,
+    artifacts: {
+      checkpoint: {name: selected.units[0].artifacts.checkpoint, archiveSha256: 'd'.repeat(64), manifestSha256: 'e'.repeat(64)},
+      baseline: null,
+    },
+    outcome: 'candidate',
+  }
+  const artifactClient = {
+    async downloadArtifact(id, {path: destination}) {
+      assert.equal(id, 31)
+      writePublicationDocument(path.join(destination, 'publication-ready.json'), descriptor, {selection: selected})
+      return {downloadPath: destination}
+    },
+    async uploadArtifact() { throw new Error('not used') },
+  }
+  const downloaded = await client({fetchImpl, artifactClient, runnerTemp: root}).downloadReady({
+    selection: selected,
+    unitKey: selected.units[0].unitKey,
+    maxPolls: 1,
+    pollMilliseconds: 1,
+  })
+  assert.equal(downloaded.artifact.name, expectedName)
+  fs.rmSync(root, {recursive: true, force: true})
+})
+
+test('Translation progress and results uploads use exact workflow artifact names', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'publication-upload-translation-'))
+  const selected = translationSelection()
+  const scheduler = createPublicationScheduler({selection: selected})
+  scheduler.observeJobs([{
+    id: 1,
+    name: 'translate_ja_python / translate',
+    run_attempt: 2,
+    status: 'completed',
+    conclusion: 'success',
+    completed_at: '2026-08-04T08:00:00.000Z',
+  }])
+  scheduler.observeCandidate(selected.units[0].unitKey, {status: 'ready', readyAt: '2026-08-04T08:00:01.000Z'})
+  const snapshot = scheduler.snapshot()
+  assert.equal(snapshot.revision, 3)
+  const progressFile = path.join(root, 'publication-progress.json')
+  writePublicationDocument(progressFile, snapshot, {selection: selected})
+  const calls = []
+  const artifactClient = {
+    async uploadArtifact(...args) { calls.push(args); return {id: calls.length + 40} },
+    async downloadArtifact() { throw new Error('not used') },
+  }
+  const github = client({artifactClient, runnerTemp: root})
+  const progress = await github.uploadProgress({selection: selected, snapshot, file: progressFile})
+  assert.equal(progress.artifactName, `publication-progress-translation-${selected.runId}-${selected.runAttempt}-3`)
+
+  scheduler.nextDecision()
+  const results = scheduler.results({startedAt: '2026-08-04T08:00:00.000Z', completedAt: '2026-08-04T08:00:02.000Z'})
+  const resultsFile = path.join(root, 'publication-results.json')
+  writePublicationDocument(resultsFile, results, {selection: selected})
+  const uploaded = await github.uploadResults({selection: selected, results, file: resultsFile})
+  assert.equal(uploaded.artifactName, `publication-results-translation-${selected.runId}-${selected.runAttempt}`)
+  assert.deepEqual(calls.map(call => call[0]), [
+    `publication-progress-translation-${selected.runId}-${selected.runAttempt}-3`,
+    `publication-results-translation-${selected.runId}-${selected.runAttempt}`,
+  ])
+  fs.rmSync(root, {recursive: true, force: true})
+})
+
+test('artifact names reject unregistered workflows while preserving safe unit normalization', () => {
+  assert.equal(artifactNames({
+    workflow: 'translation', runId: 123, runAttempt: 2, unitKey: 'translation/ja-JP/python', revision: 3,
+  }).ready, 'publication-ready-translation-translation-ja-JP-python-123-2')
+  assert.throws(() => artifactNames({
+    workflow: 'unknown', runId: 123, runAttempt: 2, unitKey: 'translation/ja-JP/python', revision: 3,
+  }), /Unsupported publication workflow: unknown/)
 })

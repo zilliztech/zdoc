@@ -115,6 +115,9 @@ test('publishes against the latest target tip with scoped staging and structured
   assert.equal(result.attempts, 1)
   assert.equal(result.failure, null)
   assert.equal(result.remoteState, 'known')
+  assert.deepEqual(Object.keys(result).sort(), [
+    'attempts', 'baseSha', 'commitShas', 'completedAt', 'failure', 'remoteState', 'resultSha', 'status',
+  ].sort())
   assert.equal(git(fixture.remote, 'rev-parse', 'refs/heads/dev'), result.resultSha)
   assert.equal(git(fixture.remote, 'show', 'refs/heads/dev:remote.txt'), 'keep')
   assert.equal(git(fixture.remote, 'show', 'refs/heads/dev:content/en/guides/tutorials/a.md'), 'new')

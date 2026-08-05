@@ -4,6 +4,7 @@ const assert = require('node:assert/strict')
 const test = require('node:test')
 
 const {buildFetchPublicationSelection} = require('./fetch-publication-selection')
+const {finalizePublicationSelection} = require('./publication-contracts')
 const {createPublicationScheduler} = require('./publication-scheduler')
 
 const SHA_A = 'a'.repeat(40)
@@ -19,6 +20,48 @@ function selection(overrides = {}) {
   })
 }
 
+function translationUnit(unitKey, producerJob) {
+  const [, target, group] = unitKey.split('/')
+  return {
+    unitKey,
+    producerJob,
+    strategy: 'checkpoint',
+    target,
+    group,
+    sourceGroup: group,
+    toolingSha: SHA_A,
+    sourceBaselineSha: SHA_C,
+    sourceCheckpointSha: SHA_B,
+    targetBranch: 'dev',
+    artifacts: {checkpoint: `translation-checkpoint-${target}-${group}-123`, baseline: null},
+    commitMessage: `publish ${unitKey}`,
+    validationCommands: ['true'],
+    environment: {},
+  }
+}
+
+function translationSelection(overrides = {}) {
+  return finalizePublicationSelection({
+    schemaVersion: 1,
+    document: 'publication-selection',
+    workflow: 'translation',
+    repository: 'zilliztech/zdoc',
+    runId: 123,
+    runAttempt: 2,
+    toolingSha: SHA_A,
+    targetBranch: 'dev',
+    initialTargetSha: SHA_B,
+    sourceBaselineSha: SHA_C,
+    inputs: {selectedGroup: 'all', publish: true, runTranslations: true},
+    units: [
+      translationUnit('translation/ja-JP/python', 'translate_ja_python'),
+      translationUnit('translation/ja-JP/java', 'translate_ja_java'),
+      translationUnit('translation/ja-JP/node', 'translate_ja_node'),
+    ],
+    ...overrides,
+  })
+}
+
 function job(unitKey, overrides = {}) {
   const names = {
     'source/java': 'produce_java', 'source/node': 'produce_node', 'source/go': 'produce_go',
@@ -28,6 +71,23 @@ function job(unitKey, overrides = {}) {
   return {
     id: overrides.id ?? Math.floor(Math.random() * 100000) + 1,
     name: `${names[unitKey]} / produce`,
+    run_attempt: 2,
+    status: 'completed',
+    conclusion: 'success',
+    completed_at: '2026-08-04T08:00:00.000Z',
+    ...overrides,
+  }
+}
+
+function translationJob(unitKey, overrides = {}) {
+  const names = {
+    'translation/ja-JP/python': 'translate_ja_python',
+    'translation/ja-JP/java': 'translate_ja_java',
+    'translation/ja-JP/node': 'translate_ja_node',
+  }
+  return {
+    id: overrides.id ?? Math.floor(Math.random() * 100000) + 1,
+    name: `${names[unitKey]} / translate`,
     run_attempt: 2,
     status: 'completed',
     conclusion: 'success',
@@ -215,4 +275,86 @@ test('snapshots are new deeply frozen values with monotonic revisions', () => {
   assert.ok(Object.isFrozen(second) && Object.isFrozen(second.units) && Object.isFrozen(second.units[0]))
   assert.ok(second.revision > first.revision)
   assert.throws(() => { second.units[0].state = 'published' }, TypeError)
+})
+
+test('Translation snapshots and results preserve the selected workflow identity', () => {
+  const selected = translationSelection({
+    inputs: {selectedGroup: 'python', publish: false, runTranslations: true},
+    units: [translationUnit('translation/ja-JP/python', 'translate_ja_python')],
+  })
+  const scheduler = createPublicationScheduler({selection: selected})
+  assert.equal(scheduler.snapshot().workflow, 'translation')
+  scheduler.observeJobs([translationJob('translation/ja-JP/python')])
+  ready(scheduler, 'translation/ja-JP/python')
+  scheduler.nextDecision()
+  assert.equal(scheduler.results({
+    startedAt: '2026-08-04T08:00:00.000Z',
+    completedAt: '2026-08-04T08:00:04.000Z',
+  }).workflow, 'translation')
+})
+
+test('Translation completion ordering and lexical tie breaking match Fetch scheduling', () => {
+  const scheduler = createPublicationScheduler({selection: translationSelection()})
+  scheduler.observeJobs([
+    translationJob('translation/ja-JP/python', {completed_at: '2026-08-04T08:00:02.000Z'}),
+    translationJob('translation/ja-JP/java', {completed_at: '2026-08-04T08:00:01.000Z'}),
+    translationJob('translation/ja-JP/node', {completed_at: '2026-08-04T08:00:01.000Z'}),
+  ])
+  ready(scheduler, 'translation/ja-JP/python', '2026-08-04T07:00:00.000Z')
+  ready(scheduler, 'translation/ja-JP/java', '2026-08-04T09:00:00.000Z')
+  ready(scheduler, 'translation/ja-JP/node', '2026-08-04T06:00:00.000Z')
+  assert.equal(scheduler.nextDecision().unitKey, 'translation/ja-JP/java')
+})
+
+test('Translation delayed descriptors block later ready units identically', () => {
+  const scheduler = createPublicationScheduler({selection: translationSelection(), maxCandidatePolls: 3})
+  scheduler.observeJobs([
+    translationJob('translation/ja-JP/java', {completed_at: '2026-08-04T08:00:01.000Z'}),
+    translationJob('translation/ja-JP/python', {completed_at: '2026-08-04T08:00:02.000Z'}),
+  ])
+  scheduler.observeCandidate('translation/ja-JP/java', {status: 'settling'})
+  ready(scheduler, 'translation/ja-JP/python')
+  assert.deepEqual(scheduler.nextDecision(), {
+    type: 'wait', reason: 'candidate_settling', unitKey: 'translation/ja-JP/java',
+  })
+})
+
+test('Translation ordinary failures continue while only one publication is active', () => {
+  const scheduler = createPublicationScheduler({selection: translationSelection()})
+  scheduler.observeJobs([
+    translationJob('translation/ja-JP/java', {completed_at: '2026-08-04T08:00:01.000Z'}),
+    translationJob('translation/ja-JP/node', {conclusion: 'failure', completed_at: '2026-08-04T08:00:02.000Z'}),
+    translationJob('translation/ja-JP/python', {completed_at: '2026-08-04T08:00:03.000Z'}),
+  ])
+  ready(scheduler, 'translation/ja-JP/java')
+  ready(scheduler, 'translation/ja-JP/python')
+  const first = scheduler.nextDecision()
+  scheduler.startPublication(first.unitKey, {startedAt: '2026-08-04T08:00:02.000Z'})
+  assert.deepEqual(scheduler.nextDecision(), {type: 'wait', reason: 'publication_active', unitKey: first.unitKey})
+  scheduler.finishPublication(first.unitKey, {
+    status: 'publish_failed', baseSha: SHA_B, resultSha: null, commitShas: [], attempts: 1,
+    failure: {code: 'VALIDATION_FAILED', phase: 'validate', message: 'failed', retryable: false},
+    remoteState: 'known', completedAt: '2026-08-04T08:00:03.000Z',
+  })
+  assert.deepEqual(scheduler.nextDecision(), {
+    type: 'settled', unitKey: 'translation/ja-JP/node', status: 'producer_failed', sequence: 2,
+  })
+  assert.equal(scheduler.nextDecision().unitKey, 'translation/ja-JP/python')
+})
+
+test('Translation unknown remote state stops all later publication decisions', () => {
+  const scheduler = createPublicationScheduler({selection: translationSelection()})
+  scheduler.observeJobs([
+    translationJob('translation/ja-JP/java', {completed_at: '2026-08-04T08:00:01.000Z'}),
+    translationJob('translation/ja-JP/python', {completed_at: '2026-08-04T08:00:02.000Z'}),
+  ])
+  ready(scheduler, 'translation/ja-JP/java')
+  ready(scheduler, 'translation/ja-JP/python')
+  scheduler.startPublication('translation/ja-JP/java', {startedAt: '2026-08-04T08:00:02.000Z'})
+  scheduler.finishPublication('translation/ja-JP/java', {
+    status: 'publish_failed', baseSha: SHA_B, resultSha: null, commitShas: [], attempts: 1,
+    failure: {code: 'REMOTE_STATE_UNKNOWN', phase: 'push_probe', message: 'unknown', retryable: false},
+    remoteState: 'unknown', completedAt: '2026-08-04T08:00:03.000Z',
+  })
+  assert.deepEqual(scheduler.nextDecision(), {type: 'complete', overallStatus: 'orchestrator_failed'})
 })
