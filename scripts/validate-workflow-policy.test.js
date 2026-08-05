@@ -119,6 +119,91 @@ test('workflow policy rejects writable or non-failing docs ingestion watchdog mu
   }
 })
 
+test('workflow policy rejects external link watchdog boundary regressions', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const original = fs.readFileSync(path.join(sourceDirectory, 'external-link-watchdog.yml'), 'utf8')
+  const retiredExternalScanner = ['check', '404'].join('-')
+  const cases = [
+    {
+      label: 'pull request trigger',
+      mutate: source => source.replace('  workflow_dispatch:\n', '  workflow_dispatch:\n  pull_request:\n'),
+      expected: 'external-link-watchdog.yml: watchdog triggers must be the daily schedule and manual dispatch only',
+    },
+    {
+      label: 'retired scanner command',
+      mutate: source => source.replace(
+        'pnpm docs-tooling check-links --site en --output tmp/external-link-watchdog/latest.md',
+        `node scripts/${retiredExternalScanner}.js`,
+      ),
+      expected: 'external-link-watchdog.yml: watchdog must use the canonical rendered-site checker and no retired scanner',
+    },
+    {
+      label: 'stateful cache',
+      mutate: source => source.replace(
+        '      - uses: pnpm/action-setup@v5',
+        '      - uses: actions/cache@v5\n        with:\n          path: tmp/cache\n          key: external-links\n\n      - uses: pnpm/action-setup@v5',
+      ),
+      expected: 'external-link-watchdog.yml: watchdog must not cache or suppress external-link observations',
+    },
+    {
+      label: 'cancel in progress',
+      mutate: source => source.replace('  cancel-in-progress: false', '  cancel-in-progress: true'),
+      expected: 'external-link-watchdog.yml: watchdog concurrency must serialize scans without cancellation',
+    },
+    {
+      label: 'expiry-only report card',
+      mutate: source => source.replace(
+        '      - name: Create documentation site report card',
+        "      - name: Create documentation site report card\n        if: ${{ steps.scan.outputs.expired_count != '0' }}",
+      ),
+      expected: 'external-link-watchdog.yml: report card must run after every successful scan',
+    },
+    {
+      label: 'old report title',
+      mutate: source => source.replace('Documentation Site Change & Link Health Report', 'External Link Watchdog'),
+      expected: 'external-link-watchdog.yml: report card must use the approved title',
+    },
+    {
+      label: 'constant failure presentation',
+      mutate: source => source.replace('--status "$CARD_STATUS"', '--status fail'),
+      expected: 'external-link-watchdog.yml: report card presentation must derive from confirmed expiry',
+    },
+    {
+      label: 'report before artifact',
+      mutate: source => {
+        const uploadStart = source.indexOf('      - name: Upload external link report')
+        const noteStart = source.indexOf('      - name: Build documentation site change and link health note')
+        const uploadBlock = source.slice(uploadStart, noteStart)
+        const withoutUpload = source.slice(0, uploadStart) + source.slice(noteStart)
+        const createStart = withoutUpload.indexOf('      - name: Create documentation site report card')
+        return withoutUpload.slice(0, createStart) + uploadBlock + withoutUpload.slice(createStart)
+      },
+      expected: 'external-link-watchdog.yml: complete report upload must precede Feishu reporting',
+    },
+    {
+      label: 'non-failing scan',
+      mutate: source => source.replace(
+        '        id: scan\n        env:',
+        '        id: scan\n        continue-on-error: true\n        env:',
+      ),
+      expected: 'external-link-watchdog.yml: rendered-site scan must fail closed on checker errors',
+    },
+  ]
+
+  for (const fixture of cases) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'external-link-watchdog-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const mutated = fixture.mutate(original)
+      assert.notEqual(mutated, original, `${fixture.label} mutation must change source`)
+      fs.writeFileSync(path.join(directory, 'external-link-watchdog.yml'), mutated)
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
+})
+
 test('translation workflows declare immutable target identity and exact target validation', () => {
   for (const file of ['_prepare-translation-batches.yml', '_translate-content-group.yml']) {
     const workflow = yaml.load(fs.readFileSync(path.join('.github/workflows', file), 'utf8'))
@@ -227,6 +312,32 @@ test('workflow policy rejects classifier checkout regressions that restore whole
     } finally {
       fs.rmSync(directory, {recursive: true, force: true})
     }
+  }
+})
+
+test('master tooling sync keeps the full commit graph without downloading historical blobs', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/sync-master-tooling-to-dev.yml', 'utf8'))
+  const checkout = workflow.jobs.sync.steps.find(step => step.name === 'Check out workflow tooling')
+
+  assert.equal(checkout.uses, 'actions/checkout@v5')
+  assert.equal(checkout.with.ref, '${{ github.sha }}')
+  assert.equal(checkout.with['fetch-depth'], 0)
+  assert.equal(checkout.with.filter, 'blob:none')
+})
+
+test('Chinese Reference validation jobs shallow-checkout the candidate and fetch only the manifest source commit', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/site-validation.yml', 'utf8'))
+  for (const jobName of ['build_zh_cn', 'reference_coverage']) {
+    const steps = workflow.jobs[jobName].steps
+    const checkout = steps.find(step => step.uses === 'actions/checkout@v5')
+    const sourceFetch = steps.find(step => step.name === 'Fetch immutable Reference source commit')
+
+    assert.equal(checkout.with.ref, '${{ needs.classify.outputs.source_sha }}')
+    assert.equal(checkout.with['fetch-depth'], 1)
+    assert.match(sourceFetch.run, /generated\/en\/manifests\/reference\.json/)
+    assert.match(sourceFetch.run, /\[\[ "\$source_commit" =~ \^\[0-9a-f\]\{40\}\$ \]\]/)
+    assert.match(sourceFetch.run, /git fetch --no-tags --depth=1 origin -- "\$source_commit"/)
+    assert.match(sourceFetch.run, /git cat-file -e "\$source_commit\^\{commit\}"/)
   }
 })
 
@@ -430,7 +541,7 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
 
 test('jobs that execute docs-tooling use its supported Node runtime', () => {
   const requirements = [
-    ['check-404.yml', 'Check-404'],
+    ['external-link-watchdog.yml', 'watchdog'],
     ['_translate-content-group.yml', 'translate'],
     ['fetch-docs.yml', 'prepare'],
     ['fetch-docs.yml', 'finalize_card_fallback'],
@@ -524,16 +635,16 @@ test('workflow policy rejects unsafe Guides recovery shortcuts', () => {
 test('workflow policy excludes staging namespace from push deployment triggers', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   for (const mutate of [
-    source => source.replace('      - "dev"', '      - "**"'),
-    source => source.replace(/    branches:\n      - "dev"\n      - "master"\n/, ''),
-    source => source.replace(/  push:\n    branches:\n      - "dev"\n      - "master"/, '  push: {}'),
+    source => source.replace('  push:\n    branches:\n      - dev\n      - master', '  push:\n    branches:\n      - "**"\n      - master'),
+    source => source.replace(/  push:\n    branches:\n      - dev\n      - master\n/, '  push:\n'),
+    source => source.replace(/  push:\n    branches:\n      - dev\n      - master/, '  push: {}'),
   ]) {
     const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'staging-trigger-policy-'))
     try {
       fs.cpSync(sourceDirectory, directory, { recursive: true })
-      const file = path.join(directory, 'check-404.yml')
+      const file = path.join(directory, 'site-validation.yml')
       fs.writeFileSync(file, mutate(fs.readFileSync(file, 'utf8')))
-      assert.ok(validateWorkflowPolicies(directory).includes('check-404.yml: push deployment triggers must exclude docs-translation-staging/**'))
+      assert.ok(validateWorkflowPolicies(directory).includes('site-validation.yml: push deployment triggers must exclude docs-translation-staging/**'))
     } finally { fs.rmSync(directory, { recursive: true, force: true }) }
   }
 })
@@ -711,7 +822,7 @@ test('workflow validator enforces the separate Build and Translation card contra
     },
     {
       file: 'translate-codex.yml',
-      mutate: source => source.replace('publish_zh_reference_landings, reconcile_published_state]\n    if: ${{ always() }}', 'publish_zh_reference_landings, reconcile_published_state, monitor_translation_progress]\n    if: ${{ always() }}'),
+      mutate: source => source.replace('reconcile_reference_state, reconcile_published_state]\n    if: ${{ always() }}', 'reconcile_reference_state, reconcile_published_state, monitor_translation_progress]\n    if: ${{ always() }}'),
       expected: /Translation monitor must be independent/,
     },
   ]
@@ -2029,10 +2140,34 @@ test('fetch preparation blocks paid translation until publication readiness regr
   assert.equal(checkout.with['fetch-depth'], 1)
   const installIndex = steps.findIndex(step => step.run === 'pnpm install --frozen-lockfile')
   const readinessIndex = steps.findIndex(step => step.name === 'Verify translation publication readiness')
+  const inventoryIndex = steps.findIndex(step => step.name === 'Verify immutable target localization inventory')
   const cardIndex = steps.findIndex(step => step.name === 'Create progress card')
-  assert.ok(installIndex >= 0 && readinessIndex > installIndex && readinessIndex < cardIndex)
+  assert.ok(installIndex >= 0 && readinessIndex > installIndex && inventoryIndex > readinessIndex && inventoryIndex < cardIndex)
   const command = steps[readinessIndex].run
   assert.equal(command, 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js')
+  const inventory = steps[inventoryIndex]
+  assert.equal(inventory.if, "${{ steps.refs.outputs.publish == 'true' }}")
+  assert.equal(inventory.env.INITIAL_TARGET_SHA, '${{ steps.refs.outputs.initial_target_sha }}')
+  assert.match(inventory.run, /git fetch --no-tags origin "\$INITIAL_TARGET_SHA"/)
+  assert.match(inventory.run, /restore-generated-state\.sh --exact --ref "\$INITIAL_TARGET_SHA"/)
+  assert.match(inventory.run, /pnpm check:localization-input-inventory/)
+})
+
+test('workflow policy rejects fetch preparation without immutable inventory preflight', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'fetch-inventory-preflight-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'fetch-docs.yml')
+    const original = fs.readFileSync(file, 'utf8')
+    const mutated = original.replace('          pnpm check:localization-input-inventory\n', '          echo skipped localization inventory preflight\n')
+    assert.notEqual(mutated, original)
+    fs.writeFileSync(file, mutated)
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'fetch-docs.yml: prepare must validate the immutable target localization inventory before paid work starts',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
 })
 
 test('fetch workflow owns only source production and dispatches translation once after fail-early handoff', () => {
@@ -2216,11 +2351,66 @@ test('full translation publication reconciles derived state before aggregate suc
   const workflowPath = path.join(process.cwd(), '.github/workflows/translate-codex.yml')
   const source = fs.readFileSync(workflowPath, 'utf8')
   const workflow = yaml.load(source)
+  const inventory = workflow.jobs.reconcile_localization_inventory
+  const reference = workflow.jobs.reconcile_reference_state
   const reconcile = workflow.jobs.reconcile_published_state
+
+  assert.ok(inventory, 'translation publication must reconcile localization inventory independently')
+  assert.ok(inventory.needs.includes('prepare'))
+  assert.ok(inventory.needs.includes('publish_zh_reference_landings'))
+  assert.match(inventory.if, /always\(\)/)
+  assert.match(inventory.if, /inputs\.publish/)
+  assert.match(inventory.if, /needs\.prepare\.result == 'success'/)
+  assert.doesNotMatch(inventory.if, /needs\.prepare\.outputs\.group == 'all'/)
+  assert.equal(inventory.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.ref, '${{ needs.prepare.outputs.tooling_sha }}')
+  const inventoryRun = inventory.steps.find(step => step.name === 'Reconcile and publish localization inventory')?.run || ''
+  assert.match(inventoryRun, /restore-generated-state\.sh --exact --ref "\$target_sha"/)
+  assert.match(inventoryRun, /pnpm generate:localization-input-inventory/)
+  assert.match(inventoryRun, /pnpm check:localization-input-inventory/)
+  assert.match(inventoryRun, /git -C "\$publish_worktree" add -- deploy\/contracts\/localization-inputs\.inventory\.json/)
+  assert.match(inventoryRun, /git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/)
+  assert.doesNotMatch(inventoryRun, /validate-translation|reference-manifest/)
+
+  assert.ok(reference, 'partial Chinese Reference publication must reconcile Reference state independently')
+  assert.deepEqual(reference.needs, [
+    'prepare', 'prepare_guides_batches', 'translate_guides_batches', 'translate_sdk',
+    'publish_ja_guides', 'publish_ja_python', 'publish_zh_python', 'publish_ja_java', 'publish_zh_java',
+    'publish_ja_node', 'publish_zh_node', 'publish_ja_go', 'publish_zh_go', 'publish_ja_cli', 'publish_zh_cli',
+    'publish_ja_rest', 'publish_zh_rest', 'publish_zh_reference_landings', 'reconcile_localization_inventory',
+  ])
+  assert.equal(reference.if, "${{ always() && inputs.publish && needs.prepare.result == 'success' && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python' || needs.prepare.outputs.group == 'java' || needs.prepare.outputs.group == 'node' || needs.prepare.outputs.group == 'go' || needs.prepare.outputs.group == 'cli' || needs.prepare.outputs.group == 'rest' || needs.prepare.outputs.group == 'reference-landings') }}")
+  assert.equal(reference.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.ref, '${{ needs.prepare.outputs.tooling_sha }}')
+  assert.equal(reference.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.['fetch-depth'], 0)
+  const referenceStep = reference.steps.find(step => step.name === 'Reconcile and publish Reference derived state')
+  assert.equal(referenceStep?.env?.SOURCE_SHA, '${{ needs.prepare.outputs.target_branch_sha }}')
+  assert.equal(referenceStep?.env?.TARGET_BRANCH, '${{ needs.prepare.outputs.target_branch }}')
+  const referenceRun = referenceStep?.run || ''
+  assert.match(referenceRun, /git fetch --no-tags origin "\+refs\/heads\/\$TARGET_BRANCH:refs\/remotes\/origin\/\$TARGET_BRANCH"/)
+  assert.match(referenceRun, /git merge-base --is-ancestor "\$SOURCE_SHA" "\$target_sha"/)
+  assert.match(referenceRun, /restore-generated-state\.sh --exact --ref "\$target_sha"/)
+  assert.match(referenceRun, /reference-manifest --source content\/en\/reference --target content\/zh-CN\/reference --source-commit "\$SOURCE_SHA" --write/)
+  assert.match(referenceRun, /pnpm docs-tooling validate-reference --site zh-CN/)
+  for (const referencePath of [
+    'generated/en/manifests/reference.json',
+    'generated/zh-CN/manifests/reference-translations.json',
+    ...['python', 'java', 'node', 'go', 'cli', 'restful'].flatMap(manual => [
+      `generated/en/sidebars/${manual}.sidebar.js`,
+      `generated/zh-CN/sidebars/${manual}.sidebar.js`,
+    ]),
+  ]) assert.match(referenceRun, new RegExp(referencePath.replaceAll('.', '\\.')))
+  assert.doesNotMatch(referenceRun, /deploy\/contracts\/localization-inputs\.inventory\.json|validate-translation|generate:localization-input-inventory/)
+  assert.match(referenceRun, /git worktree add --detach "\$publish_worktree" "\$target_sha"/)
+  assert.match(referenceRun, /git -C "\$publish_worktree" add -- "\$\{paths\[@\]\}"/)
+  assert.match(referenceRun, /if git -C "\$publish_worktree" diff --cached --quiet; then[\s\S]*exit 0[\s\S]*fi/)
+  assert.equal((referenceRun.match(/git -C "\$publish_worktree" commit /g) || []).length, 1)
+  assert.equal((referenceRun.match(/git -C "\$publish_worktree" push /g) || []).length, 1)
+  assert.match(referenceRun, /git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/)
 
   assert.ok(reconcile, 'full translation workflow must reconcile derived state')
   assert.ok(reconcile.needs.includes('prepare'))
   assert.ok(reconcile.needs.includes('publish_zh_reference_landings'))
+  assert.ok(reconcile.needs.includes('reconcile_localization_inventory'))
+  assert.ok(reconcile.needs.includes('reconcile_reference_state'))
   assert.match(reconcile.if, /inputs\.publish/)
   assert.match(reconcile.if, /needs\.prepare\.outputs\.group == 'all'/)
   assert.equal(reconcile.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.ref, '${{ needs.prepare.outputs.tooling_sha }}')
@@ -2236,8 +2426,70 @@ test('full translation publication reconciles derived state before aggregate suc
   assert.match(run, /generated\/zh-CN\/manifests\/reference-translations\.json/)
   assert.match(run, /git worktree add --detach "\$publish_worktree" "\$target_sha"/)
   assert.match(run, /git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/)
+  assert.ok(workflow.jobs.aggregate.needs.includes('reconcile_localization_inventory'))
+  assert.ok(workflow.jobs.aggregate.needs.includes('reconcile_reference_state'))
   assert.ok(workflow.jobs.aggregate.needs.includes('reconcile_published_state'))
 })
+
+test('workflow policy rejects translation publication without independent inventory reconciliation', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-inventory-reconcile-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'translate-codex.yml')
+    const original = fs.readFileSync(file, 'utf8')
+    const mutated = original.replace('  reconcile_localization_inventory:\n', '  disabled_localization_inventory_reconciliation:\n')
+    assert.notEqual(mutated, original)
+    fs.writeFileSync(file, mutated)
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: partial translation publication must independently reconcile localization inventory',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
+for (const fixture of [
+  {
+    name: 'with a renamed job',
+    mutate: block => block.replace('  reconcile_reference_state:\n', '  disabled_reference_state_reconciliation:\n'),
+  },
+  {
+    name: 'without exact source SHA validation',
+    mutate: block => block.replace('          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]\n', ''),
+  },
+  {
+    name: 'without target branch validation',
+    mutate: block => block.replace('          git check-ref-format --branch "$TARGET_BRANCH"\n', ''),
+  },
+  {
+    name: 'with an extra checkout',
+    mutate: block => block.replace(
+      '      - name: Reconcile and publish Reference derived state\n',
+      '      - uses: actions/checkout@v5\n        with: { ref: master, fetch-depth: 1 }\n      - name: Reconcile and publish Reference derived state\n',
+    ),
+  },
+]) {
+  test(`workflow policy rejects independent Reference reconciliation ${fixture.name}`, () => {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-reference-reconcile-policy-'))
+    try {
+      fs.cpSync('.github/workflows', directory, {recursive: true})
+      const file = path.join(directory, 'translate-codex.yml')
+      const original = fs.readFileSync(file, 'utf8')
+      const start = original.indexOf('  reconcile_reference_state:\n')
+      const end = original.indexOf('\n  reconcile_published_state:', start)
+      assert.ok(start >= 0 && end > start)
+      const originalBlock = original.slice(start, end)
+      const mutatedBlock = fixture.mutate(originalBlock)
+      assert.notEqual(mutatedBlock, originalBlock)
+      fs.writeFileSync(file, `${original.slice(0, start)}${mutatedBlock}${original.slice(end)}`)
+      assert.ok(validateWorkflowPolicies(directory).includes(
+        'translate-codex.yml: partial Chinese Reference publication must independently reconcile Reference derived state',
+      ))
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  })
+}
 
 test('Guides translation batches take row identity from the matrix and shared metadata from preparation outputs', () => {
   const workflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/translate-codex.yml'), 'utf8'))

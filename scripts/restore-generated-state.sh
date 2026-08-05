@@ -99,6 +99,7 @@ paths=(
   "generated/en/sidebars/go.sidebar.js"
   "generated/en/sidebars/cli.sidebar.js"
   "generated/en/sidebars/restful.sidebar.js"
+  "generated/en/manifests/reference.json"
   "generated/en/manifests/lark-revisions"
   "generated/zh-CN"
   "packages/docs-tooling/src/lark/meta/snapshots"

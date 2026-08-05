@@ -142,6 +142,15 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Verify translation publication readiness
         run: node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js
+      - name: Verify immutable target localization inventory
+        if: ${{ steps.refs.outputs.publish == 'true' }}
+        env:
+          INITIAL_TARGET_SHA: ${{ steps.refs.outputs.initial_target_sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$INITIAL_TARGET_SHA"
+          bash scripts/restore-generated-state.sh --exact --ref "$INITIAL_TARGET_SHA"
+          pnpm check:localization-input-inventory
       - id: publication_selection
         name: Create immutable Fetch publication selection
         env:

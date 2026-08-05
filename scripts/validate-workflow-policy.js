@@ -294,7 +294,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push(`${file}: validation workflow must be read-only`)
     }
 
-    if (file === 'check-404.yml' || file === 'playwright.yml') {
+    if (file === 'playwright.yml') {
       if (!workflow.on?.push || !workflow.on?.pull_request) {
         errors.push(`${file}: push and pull_request must both be declared under on`)
       }
@@ -316,6 +316,20 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           !/\[\[ ! "\$BASE_SHA" =~ \^0\{40\}\$ \]\][\s\S]*git cat-file -e "\$BASE_SHA\^\{commit\}"/.test(comparisonRun) ||
           !/git fetch --no-tags --filter=blob:none --depth=1 origin -- "\$BASE_SHA"/.test(comparisonRun)) {
         errors.push(`${file}: classifier must use a shallow sparse checkout and exact comparison-base fetch`)
+      }
+      for (const jobName of ['build_zh_cn', 'reference_coverage']) {
+        const steps = workflow.jobs?.[jobName]?.steps || []
+        const checkout = steps.find(step => step?.uses === 'actions/checkout@v5')
+        const sourceFetch = steps.find(step => step?.name === 'Fetch immutable Reference source commit')
+        const sourceFetchRun = String(sourceFetch?.run || '')
+        if (checkout?.with?.ref !== '${{ needs.classify.outputs.source_sha }}' ||
+            checkout?.with?.['fetch-depth'] !== 1 ||
+            !/generated\/en\/manifests\/reference\.json/.test(sourceFetchRun) ||
+            !/\[\[ "\$source_commit" =~ \^\[0-9a-f\]\{40\}\$ \]\]/.test(sourceFetchRun) ||
+            !/git fetch --no-tags --depth=1 origin -- "\$source_commit"/.test(sourceFetchRun) ||
+            !/git cat-file -e "\$source_commit\^\{commit\}"/.test(sourceFetchRun)) {
+          errors.push(`${file}: ${jobName} must shallow-checkout the candidate and fetch the immutable Reference source commit`)
+        }
       }
       const chineseBuildRuns = (workflow.jobs?.build_zh_cn?.steps || []).map(step => String(step?.run || '')).join('\n')
       const toolsCoverageRuns = (workflow.jobs?.tools_coverage?.steps || []).map(step => String(step?.run || '')).join('\n')
@@ -344,6 +358,16 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const zhBuildIndex = zhBuildRuns.indexOf('pnpm build:zh-CN')
       if (referenceIndex < 0 || zhBuildIndex < 0 || referenceIndex > zhBuildIndex || !referenceRuns.includes(referenceCommand)) {
         errors.push(`${file}: Chinese Reference validation must run before the Chinese build and in focused coverage`)
+      }
+    }
+
+    if (file === 'sync-master-tooling-to-dev.yml') {
+      const checkout = namedJobStep(workflow, 'sync', 'Check out workflow tooling')
+      if (checkout?.uses !== 'actions/checkout@v5' ||
+          checkout?.with?.ref !== '${{ github.sha }}' ||
+          checkout?.with?.['fetch-depth'] !== 0 ||
+          checkout?.with?.filter !== 'blob:none') {
+        errors.push(`${file}: tooling sync must retain the full commit graph without downloading historical blobs`)
       }
     }
 
@@ -887,6 +911,100 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!needsPrepare('prepare_guides_batches') || !needsPrepare('translate_sdk') || !needsPrepare('translate_guides_batches')) {
         errors.push(`${file}: translation matrices must wait for complete handoff repository validation`)
       }
+      const inventoryReconcile = workflow.jobs?.reconcile_localization_inventory
+      const inventoryNeeds = Array.isArray(inventoryReconcile?.needs) ? inventoryReconcile.needs : []
+      const requiredInventoryNeeds = [
+        'prepare', 'prepare_guides_batches', 'translate_guides_batches', 'translate_sdk',
+        'publish_ja_guides', 'publish_ja_python', 'publish_zh_python', 'publish_ja_java', 'publish_zh_java',
+        'publish_ja_node', 'publish_zh_node', 'publish_ja_go', 'publish_zh_go', 'publish_ja_cli', 'publish_zh_cli',
+        'publish_ja_rest', 'publish_zh_rest', 'publish_zh_reference_landings',
+      ]
+      const inventoryStep = namedJobStep(workflow, 'reconcile_localization_inventory', 'Reconcile and publish localization inventory')
+      const inventoryRun = String(inventoryStep?.run || '')
+      const fullReconcileNeeds = Array.isArray(workflow.jobs?.reconcile_published_state?.needs)
+        ? workflow.jobs.reconcile_published_state.needs
+        : []
+      const aggregateNeeds = Array.isArray(workflow.jobs?.aggregate?.needs) ? workflow.jobs.aggregate.needs : []
+      if (!inventoryReconcile ||
+          requiredInventoryNeeds.some(job => !inventoryNeeds.includes(job)) ||
+          String(inventoryReconcile.if || '').trim() !== "${{ always() && inputs.publish && needs.prepare.result == 'success' }}" ||
+          inventoryReconcile.steps?.find(step => step?.uses === 'actions/checkout@v5')?.with?.ref !== '${{ needs.prepare.outputs.tooling_sha }}' ||
+          !/restore-generated-state\.sh --exact --ref "\$target_sha"/.test(inventoryRun) ||
+          !/pnpm generate:localization-input-inventory[\s\S]*pnpm check:localization-input-inventory/.test(inventoryRun) ||
+          !/git -C "\$publish_worktree" add -- deploy\/contracts\/localization-inputs\.inventory\.json/.test(inventoryRun) ||
+          !/git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/.test(inventoryRun) ||
+          /validate-translation|reference-manifest/.test(inventoryRun) ||
+          !fullReconcileNeeds.includes('reconcile_localization_inventory') ||
+          !aggregateNeeds.includes('reconcile_localization_inventory')) {
+        errors.push(`${file}: partial translation publication must independently reconcile localization inventory`)
+      }
+
+      const referenceReconcile = workflow.jobs?.reconcile_reference_state
+      const referenceNeeds = Array.isArray(referenceReconcile?.needs) ? referenceReconcile.needs : []
+      const requiredReferenceNeeds = [...requiredInventoryNeeds, 'reconcile_localization_inventory']
+      const requiredReferenceCondition = "${{ always() && inputs.publish && needs.prepare.result == 'success' && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python' || needs.prepare.outputs.group == 'java' || needs.prepare.outputs.group == 'node' || needs.prepare.outputs.group == 'go' || needs.prepare.outputs.group == 'cli' || needs.prepare.outputs.group == 'rest' || needs.prepare.outputs.group == 'reference-landings') }}"
+      const referenceCheckoutSteps = (referenceReconcile?.steps || []).filter(step => String(step?.uses || '').startsWith('actions/checkout@'))
+      const referenceCheckout = referenceCheckoutSteps[0]
+      const referenceStep = namedJobStep(workflow, 'reconcile_reference_state', 'Reconcile and publish Reference derived state')
+      const referenceRun = String(referenceStep?.run || '')
+      const referenceCommands = executableCommandLines(referenceRun)
+      const requiredReferenceCommands = [
+        '[[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]',
+        'git check-ref-format --branch "$TARGET_BRANCH"',
+        'git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"',
+        'target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")',
+        'git merge-base --is-ancestor "$SOURCE_SHA" "$target_sha"',
+        'bash scripts/restore-generated-state.sh --exact --ref "$target_sha"',
+        'pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$SOURCE_SHA" --write',
+        'pnpm docs-tooling validate-reference --site zh-CN',
+        'git worktree add --detach "$publish_worktree" "$target_sha"',
+        'git -C "$publish_worktree" add -- "${paths[@]}"',
+        'git -C "$publish_worktree" push origin "HEAD:refs/heads/$TARGET_BRANCH"',
+      ]
+      const requiredReferencePaths = [
+        'generated/en/manifests/reference.json',
+        'generated/zh-CN/manifests/reference-translations.json',
+        'generated/en/sidebars/python.sidebar.js',
+        'generated/en/sidebars/java.sidebar.js',
+        'generated/en/sidebars/node.sidebar.js',
+        'generated/en/sidebars/go.sidebar.js',
+        'generated/en/sidebars/cli.sidebar.js',
+        'generated/en/sidebars/restful.sidebar.js',
+        'generated/zh-CN/sidebars/python.sidebar.js',
+        'generated/zh-CN/sidebars/java.sidebar.js',
+        'generated/zh-CN/sidebars/node.sidebar.js',
+        'generated/zh-CN/sidebars/go.sidebar.js',
+        'generated/zh-CN/sidebars/cli.sidebar.js',
+        'generated/zh-CN/sidebars/restful.sidebar.js',
+      ]
+      const referencePathBlock = referenceRun.match(/(?:^|\n)\s*paths=\(\n([\s\S]*?)\n\s*\)/)
+      const referencePaths = referencePathBlock
+        ? referencePathBlock[1].split('\n').map(line => line.trim()).filter(Boolean)
+        : []
+      const referenceAddCommands = referenceCommands.filter(command => /(?:^|\s)git(?:\s+-C\s+"\$publish_worktree")?\s+add\b/.test(command))
+      const referenceCommitCommands = referenceCommands.filter(command => command.startsWith('git -C "$publish_worktree" commit '))
+      const referencePushCommands = referenceCommands.filter(command => command.startsWith('git -C "$publish_worktree" push '))
+      if (!referenceReconcile ||
+          JSON.stringify(referenceNeeds) !== JSON.stringify(requiredReferenceNeeds) ||
+          String(referenceReconcile.if || '').trim() !== requiredReferenceCondition ||
+          referenceCheckoutSteps.length !== 1 ||
+          referenceCheckout?.uses !== 'actions/checkout@v5' ||
+          referenceCheckout?.with?.ref !== '${{ needs.prepare.outputs.tooling_sha }}' ||
+          referenceCheckout?.with?.['fetch-depth'] !== 0 ||
+          referenceStep?.env?.SOURCE_SHA !== '${{ needs.prepare.outputs.target_branch_sha }}' ||
+          referenceStep?.env?.TARGET_BRANCH !== '${{ needs.prepare.outputs.target_branch }}' ||
+          !commandsAppearInOrder(referenceCommands, requiredReferenceCommands) ||
+          JSON.stringify(referencePaths) !== JSON.stringify(requiredReferencePaths) ||
+          JSON.stringify(referenceAddCommands) !== JSON.stringify(['git -C "$publish_worktree" add -- "${paths[@]}"']) ||
+          referenceCommitCommands.length !== 1 ||
+          JSON.stringify(referencePushCommands) !== JSON.stringify(['git -C "$publish_worktree" push origin "HEAD:refs/heads/$TARGET_BRANCH"']) ||
+          !/if git -C "\$publish_worktree" diff --cached --quiet; then[\s\S]*?exit 0[\s\S]*?fi/.test(referenceRun) ||
+          /deploy\/contracts\/localization-inputs\.inventory\.json|validate-translation|generate:localization-input-inventory/.test(referenceRun) ||
+          !fullReconcileNeeds.includes('reconcile_reference_state') ||
+          !aggregateNeeds.includes('reconcile_reference_state') ||
+          !aggregateNeeds.includes('reconcile_published_state')) {
+        errors.push(`${file}: partial Chinese Reference publication must independently reconcile Reference derived state`)
+      }
     }
 
     if (file === 'translate-content.yml' && /^concurrency:/m.test(source)) {
@@ -932,12 +1050,26 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const prepareSteps = caller?.jobs?.prepare?.steps || []
     const installIndex = prepareSteps.findIndex(step => step?.run === 'pnpm install --frozen-lockfile')
     const readinessIndex = prepareSteps.findIndex(step => step?.name === 'Verify translation publication readiness')
+    const inventoryIndex = prepareSteps.findIndex(step => step?.name === 'Verify immutable target localization inventory')
     const cardIndex = prepareSteps.findIndex(step => step?.name === 'Create progress card')
     const cardStep = cardIndex >= 0 ? prepareSteps[cardIndex] : null
     const readinessCommand = readinessIndex >= 0 ? String(prepareSteps[readinessIndex]?.run || '') : ''
     if (installIndex < 0 || readinessIndex <= installIndex || cardIndex <= readinessIndex ||
         readinessCommand !== 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
       errors.push('fetch-docs.yml: prepare must prove translation publication readiness before paid work starts')
+    }
+    const inventoryStep = inventoryIndex >= 0 ? prepareSteps[inventoryIndex] : null
+    const inventoryCommands = executableCommandLines(inventoryStep?.run)
+    if (inventoryIndex <= readinessIndex || cardIndex <= inventoryIndex ||
+        String(inventoryStep?.if || '').trim() !== "${{ steps.refs.outputs.publish == 'true' }}" ||
+        inventoryStep?.env?.INITIAL_TARGET_SHA !== '${{ steps.refs.outputs.initial_target_sha }}' ||
+        !commandsAppearInOrder(inventoryCommands, [
+          'set -euo pipefail',
+          'git fetch --no-tags origin "$INITIAL_TARGET_SHA"',
+          'bash scripts/restore-generated-state.sh --exact --ref "$INITIAL_TARGET_SHA"',
+          'pnpm check:localization-input-inventory',
+        ]) || /generate:localization-input-inventory/.test(String(inventoryStep?.run || ''))) {
+      errors.push('fetch-docs.yml: prepare must validate the immutable target localization inventory before paid work starts')
     }
     if (cardStep?.['continue-on-error'] !== true || cardStep?.env?.CARD_TITLE !== 'Zilliz Cloud Docs Build' ||
         !/card_parts=\("Produce"\)[\s\S]*"Publish" "Verify"[\s\S]*"Handoff"/.test(callerSource)) {
@@ -1276,6 +1408,61 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         !/report-card create[\s\S]*report-card note --file[\s\S]*report-card finish/.test(watchdogSource) ||
         !/if \[ "\$WATCHDOG_OUTCOME" != "success" \][\s\S]*exit 1/.test(watchdogSource)) {
       errors.push('docs-ingestion-watchdog.yml: watchdog must upload evidence, alert best-effort, and preserve evaluator failure')
+    }
+  }
+
+  const externalLinkWatchdogSource = readWorkflow('external-link-watchdog.yml')
+  if (externalLinkWatchdogSource) {
+    const externalLinkWatchdog = yaml.load(externalLinkWatchdogSource)
+    const retiredExternalScanner = ['check', '404'].join('-')
+    const triggerNames = Object.keys(externalLinkWatchdog.on || {}).sort()
+    if (triggerNames.length !== 2 || triggerNames[0] !== 'schedule' || triggerNames[1] !== 'workflow_dispatch' ||
+        externalLinkWatchdog.on?.schedule?.length !== 1 || externalLinkWatchdog.on.schedule[0]?.cron !== '0 1 * * *') {
+      errors.push('external-link-watchdog.yml: watchdog triggers must be the daily schedule and manual dispatch only')
+    }
+    if (externalLinkWatchdog.permissions?.actions !== 'read' || externalLinkWatchdog.permissions?.contents !== 'read' || Object.keys(externalLinkWatchdog.permissions || {}).length !== 2) {
+      errors.push('external-link-watchdog.yml: watchdog permissions must be actions: read and contents: read only')
+    }
+    if (externalLinkWatchdog.concurrency?.group !== 'external-link-watchdog' || externalLinkWatchdog.concurrency?.['cancel-in-progress'] !== false) {
+      errors.push('external-link-watchdog.yml: watchdog concurrency must serialize scans without cancellation')
+    }
+    if (!/pnpm docs-tooling check-links --site en --output tmp\/external-link-watchdog\/latest\.md/.test(externalLinkWatchdogSource) || externalLinkWatchdogSource.includes(`scripts/${retiredExternalScanner}.js`)) {
+      errors.push('external-link-watchdog.yml: watchdog must use the canonical rendered-site checker and no retired scanner')
+    }
+    if (/uses:\s*actions\/cache@|\bbaseline\b|\backnowledg(?:e|ement)\b|\bsuppress(?:ion|ed)?\b/i.test(externalLinkWatchdogSource)) {
+      errors.push('external-link-watchdog.yml: watchdog must not cache or suppress external-link observations')
+    }
+    const externalLinkJobs = Object.values(externalLinkWatchdog.jobs || {})
+    const externalLinkSteps = externalLinkJobs.length === 1 && Array.isArray(externalLinkJobs[0]?.steps) ? externalLinkJobs[0].steps : []
+    const externalLinkScan = externalLinkSteps.find(step => step?.id === 'scan')
+    if (!externalLinkScan || externalLinkScan['continue-on-error'] !== undefined) {
+      errors.push('external-link-watchdog.yml: rendered-site scan must fail closed on checker errors')
+    }
+    const upload = externalLinkSteps.find(step => step?.name === 'Upload external link report')
+    const reportNote = externalLinkSteps.find(step => step?.name === 'Build documentation site change and link health note')
+    const reportCreate = externalLinkSteps.find(step => step?.name === 'Create documentation site report card')
+    const reportAttach = externalLinkSteps.find(step => step?.name === 'Attach documentation site report note')
+    const reportFinish = externalLinkSteps.find(step => step?.name === 'Finish documentation site report card')
+    const reportSteps = [reportNote, reportCreate, reportAttach, reportFinish]
+    if (reportSteps.some(step => !step) || reportNote?.if !== undefined || reportCreate?.if !== undefined ||
+        String(reportAttach?.if || '') !== "${{ steps.report_card.outputs.card_id != '' && steps.report_note.outcome == 'success' }}" ||
+        String(reportFinish?.if || '') !== "${{ steps.report_card.outputs.card_id != '' }}") {
+      errors.push('external-link-watchdog.yml: report card must run after every successful scan')
+    }
+    if (reportSteps.some(step => step?.['continue-on-error'] !== true)) {
+      errors.push('external-link-watchdog.yml: Feishu reporting must remain best effort')
+    }
+    if (!String(reportCreate?.run || '').includes('--title "Documentation Site Change & Link Health Report"')) {
+      errors.push('external-link-watchdog.yml: report card must use the approved title')
+    }
+    if (!/cardStatus = expiredCount === 0 \? 'success' : 'fail'/.test(externalLinkScan?.run || '') ||
+        !/card_status=\$\{cardStatus\}/.test(externalLinkScan?.run || '') ||
+        reportFinish?.env?.CARD_STATUS !== '${{ steps.scan.outputs.card_status }}' ||
+        !String(reportFinish?.run || '').includes('--status "$CARD_STATUS"')) {
+      errors.push('external-link-watchdog.yml: report card presentation must derive from confirmed expiry')
+    }
+    if (!upload || !reportNote || externalLinkSteps.indexOf(upload) >= externalLinkSteps.indexOf(reportNote)) {
+      errors.push('external-link-watchdog.yml: complete report upload must precede Feishu reporting')
     }
   }
 

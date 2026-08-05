@@ -31,20 +31,42 @@ test('scheduled tooling sync resolves the current master SHA without dispatch in
 test('merge candidate receives the reviewed sync branch prefix', async () => {
   const source = await readFile(path.join(repositoryRoot, '.github/workflows/sync-master-tooling-to-dev.yml'), 'utf8');
   const workflow = yaml.load(source);
-  const candidate = workflow.jobs.sync.steps.find(step => step.id === 'candidate');
-  assert.equal(candidate.env.SYNC_BRANCH_PREFIX, '${{ steps.bootstrap.outputs.sync_branch_prefix }}');
+  const compose = workflow.jobs.sync.steps.find(step => step.id === 'compose');
+  assert.equal(compose.env.SYNC_BRANCH_PREFIX, '${{ steps.bootstrap.outputs.sync_branch_prefix }}');
 });
 
 test('master tooling sync validates exact ownership, both sites, and dev identity before merge', async () => {
   const source = await readFile(path.join(repositoryRoot, '.github/workflows/sync-master-tooling-to-dev.yml'), 'utf8');
+  const workflow = yaml.load(source);
+  const steps = workflow.jobs.sync.steps;
+  const indexOf = name => steps.findIndex(step => step.name === name);
+  const compose = steps.find(step => step.name === 'Compose exact merge candidate');
+  const derived = steps.find(step => step.name === 'Generate and verify candidate-derived files');
+  const focused = steps.find(step => step.name === 'Run focused candidate validation');
+  const push = steps.find(step => step.name === 'Push immutable candidate and create PR');
+  const dispatch = steps.find(step => step.name === 'Dispatch exact-candidate site validation');
+  const merge = steps.find(step => step.name === 'Recheck dev identity and merge the validated PR');
   assert.match(source, /git merge --no-ff --no-commit "\$TOOLING_SHA"/);
-  assert.match(source, /master-tooling-sync\.js verify[\s\S]*--candidate-sha "\$candidate_sha"/);
-  assert.match(source, /pnpm check:localization-input-inventory/);
+  assert.ok(indexOf('Compose exact merge candidate') < indexOf('Install candidate tooling'));
+  assert.ok(indexOf('Set up Node.js') < indexOf('Generate and verify candidate-derived files'));
+  assert.ok(indexOf('Generate and verify candidate-derived files') < indexOf('Run focused candidate validation'));
+  assert.ok(indexOf('Run focused candidate validation') < indexOf('Push immutable candidate and create PR'));
+  assert.doesNotMatch(compose.run, /master-tooling-sync\.js verify|candidate_sha=/);
+  assert.match(derived.run, /pnpm install --frozen-lockfile[\s\S]*pnpm generate:localization-input-inventory[\s\S]*pnpm check:localization-input-inventory/);
+  assert.match(derived.run, /git add -- deploy\/contracts\/localization-inputs\.inventory\.json[\s\S]*git commit --amend --no-edit/);
+  assert.ok(derived.run.indexOf('git commit --amend --no-edit') < derived.run.indexOf('candidate_sha=$(git rev-parse HEAD)'));
+  assert.match(derived.run, /candidate_sha=\$\(git rev-parse HEAD\)[\s\S]*master-tooling-sync\.js verify[\s\S]*--candidate-sha "\$candidate_sha"/);
+  assert.match(focused.run, /pnpm check:localization-input-inventory/);
   assert.match(source, /validate-revision-inventory --site en/);
-  assert.match(source, /gh workflow run "\$VALIDATION_WORKFLOW"[\s\S]*-f site=all[\s\S]*-f source_ref="\$CANDIDATE_SHA"/);
+  assert.equal(push.env.CANDIDATE_SHA, '${{ steps.candidate.outputs.candidate_sha }}');
+  assert.match(push.run, /test "\$\(git rev-parse HEAD\)" = "\$CANDIDATE_SHA"[\s\S]*git push origin "HEAD:refs\/heads\/\$SYNC_BRANCH"/);
+  assert.equal(dispatch.env.CANDIDATE_SHA, '${{ steps.candidate.outputs.candidate_sha }}');
+  assert.match(dispatch.run, /gh workflow run "\$VALIDATION_WORKFLOW"[\s\S]*-f site=all[\s\S]*-f source_ref="\$CANDIDATE_SHA"/);
   assert.match(source, /gh run watch "\$validation_run_id" --exit-status/);
   assert.equal((source.match(/test "\$\(git rev-parse origin\/dev\)" = "\$DEV_SHA"/g) || []).length, 2);
-  assert.match(source, /gh pr merge "\$PR_URL" --merge --delete-branch --match-head-commit "\$CANDIDATE_SHA"/);
+  assert.equal(merge.env.CANDIDATE_SHA, '${{ steps.candidate.outputs.candidate_sha }}');
+  assert.match(merge.run, /headRefOid[\s\S]*= "\$CANDIDATE_SHA"[\s\S]*gh pr merge "\$PR_URL" --merge --delete-branch --match-head-commit "\$CANDIDATE_SHA"/);
+  assert.doesNotMatch(source, /git push origin [^\n]*refs\/heads\/dev/);
 });
 
 test('the ownership contract covers every generated publication root and keeps retirements master-authoritative', async () => {
@@ -60,4 +82,14 @@ test('the ownership contract covers every generated publication root and keeps r
     'sidebar-overrides/en',
   ]) assert.ok(contract.devOwnedPaths.includes(root), `missing dev-owned root: ${root}`);
   assert.deepEqual(contract.masterAuthoritativePaths, ['config/reference-retirements.json']);
+  assert.deepEqual(contract.candidateDerivedPaths, ['deploy/contracts/localization-inputs.inventory.json']);
+});
+
+test('the synchronization specification defines candidate-derived ownership and final candidate identity', async () => {
+  const specification = await readFile(path.join(repositoryRoot, '.claude/specs/2026-08-03-master-tooling-dev-sync.md'), 'utf8');
+  assert.match(specification, /candidate-derived/i);
+  assert.match(specification, /localization-inputs\.inventory\.json/);
+  assert.match(specification, /regenerat[ei][\s\S]*exact merge candidate/i);
+  assert.match(specification, /amend[\s\S]*merge commit/i);
+  assert.match(specification, /final candidate SHA/i);
 });

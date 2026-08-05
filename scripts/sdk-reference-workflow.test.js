@@ -63,8 +63,8 @@ test('every workflow that invokes docs-tooling uses its supported Node runtime',
     '_fetch-guides-sources.yml',
     '_translate-content-group.yml',
     '_verify-docs.yml',
-    'check-404.yml',
     'docs-ingestion-watchdog.yml',
+    'external-link-watchdog.yml',
     'fetch-docs.yml',
     'site-validation.yml',
     'sync-master-tooling-to-dev.yml',
@@ -172,7 +172,7 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.match(source, /target_branch: \$\{\{ needs\.prepare\.outputs\.target_branch \}\}/)
   assert.deepEqual(workflow.jobs.publish_ready.needs, ['prepare'])
   assert.deepEqual(workflow.jobs.publish_ready.permissions, {actions: 'read', contents: 'write'})
-  assert.match(source, /publication-coordinator\.js[\s\S]*--mode "\$mode"/)
+  assert.match(source, /publication-coordinator\.js[\s\S]*'--mode', mode/)
   assert.deepEqual(workflow.jobs.dispatch_translations.needs, ['prepare', 'prepare_translation_handoff'])
   assert.match(source, /gh workflow run translate-codex\.yml/)
   assert.match(source, /verify:[\s\S]*uses: \.\/.github\/workflows\/_verify-docs\.yml/)
