@@ -1,5 +1,10 @@
 module.exports = [
   {
+    "type": "doc",
+    "id": "api/nodejs/nodejs/nodejs",
+    "label": "Overview"
+  },
+  {
     "type": "category",
     "label": "Authentication",
     "key": "category:api/nodejs/nodejs/authentication",
