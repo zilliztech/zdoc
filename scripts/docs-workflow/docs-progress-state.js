@@ -9,12 +9,20 @@ const SDK_LABELS = Object.freeze({
   rest: 'REST API',
 })
 
-const DEPENDENCY_LABELS = Object.freeze({
-  python: 'Python', java: 'Java', node: 'Node.js', go: 'Go', cli: 'CLI', rest: 'REST API',
-})
+const FETCH_BUSINESS_ORDER = Object.freeze([
+  'source/java', 'source/node', 'source/go', 'source/cli',
+  'source/rest', 'source/python', 'source/guides-en', 'source/guides-zh-CN',
+])
 
-const PUBLISH_PREDECESSOR = Object.freeze({
-  python: 'rest', node: 'java', go: 'node', cli: 'go', rest: 'cli',
+const UNIT_TO_CARD_ID = Object.freeze({
+  'source/java': 'java',
+  'source/node': 'node',
+  'source/go': 'go',
+  'source/cli': 'cli',
+  'source/rest': 'rest',
+  'source/python': 'python',
+  'source/guides-en': 'guides-en',
+  'source/guides-zh-CN': 'guides-zh-CN',
 })
 
 const GUIDE_LANES = Object.freeze([
@@ -166,38 +174,79 @@ function selectPresentation(phases, orderedKeys) {
   return {phase, ...phases[phase]}
 }
 
-function deriveGuideLane({ lane, effectiveJobs, publishEnabled, tableTotal }) {
+function publicationDetail(stale) {
+  return stale ? 'Publication progress may be stale' : null
+}
+
+function publicationPhase(unit, progress, stale) {
+  if (!unit) return { status: 'waiting', currentTask: 'Waiting to publish', detail: publicationDetail(stale) }
+  if (unit.state === 'producing') return { status: 'waiting', currentTask: 'Waiting for production', detail: publicationDetail(stale) }
+  if (unit.state === 'candidate') return { status: 'waiting', currentTask: 'Preparing publication candidate', detail: publicationDetail(stale) }
+  if (unit.state === 'ready') {
+    const position = progress.queue.indexOf(unit.unitKey) + 1
+    return { status: 'waiting', currentTask: position > 0 ? `Ready - queue position ${position}` : 'Ready', detail: publicationDetail(stale) }
+  }
+  if (unit.state === 'publishing') {
+    return {
+      status: 'running',
+      currentTask: `Publishing - FIFO sequence ${unit.sequence} - attempt ${Math.max(1, unit.attempts || 0)}`,
+      detail: publicationDetail(stale),
+    }
+  }
+  if (unit.state === 'published') {
+    return { status: 'completed', currentTask: `Published - ${String(unit.resultSha || '').slice(0, 7)}`, detail: publicationDetail(stale) }
+  }
+  if (unit.state === 'no_changes') return { status: 'completed', currentTask: 'No changes', detail: publicationDetail(stale) }
+  if (['producer_failed', 'candidate_rejected', 'publish_failed'].includes(unit.state)) {
+    return { status: 'failed', currentTask: 'Failed - queue continued', detail: publicationDetail(stale) }
+  }
+  return { status: 'waiting', currentTask: 'Waiting to publish', detail: publicationDetail(stale) }
+}
+
+function publicationUnit(progress, unitKey) {
+  return progress?.units?.find(unit => unit.unitKey === unitKey) || null
+}
+
+function selectLanePresentation(phases, keys, progressUnit) {
+  if (progressUnit && progressUnit.state !== 'producing') return {phase: 'publish', ...phases.publish}
+  return selectPresentation(phases, keys)
+}
+
+function deriveGuideLane({ lane, effectiveJobs, publishEnabled, tableTotal, publicationProgress, publicationProgressStale }) {
   const byIdentity = new Map(effectiveJobs.map(job => [logicalJobIdentity(job), job]))
   const phases = { produce: deriveGuideProduce(lane, effectiveJobs, tableTotal) }
   const keys = ['produce']
+  const progressUnit = publicationUnit(publicationProgress, `source/${lane.id}`)
   if (publishEnabled) {
-    phases.publish = phases.produce.status !== 'completed'
-      ? { status: 'waiting', currentTask: 'Waiting for production', detail: null }
-      : phaseResult(byIdentity.get(lane.publishJob), `Publish ${lane.label}`)
+    phases.publish = publicationProgress
+      ? publicationPhase(progressUnit, publicationProgress, publicationProgressStale)
+      : phases.produce.status !== 'completed'
+        ? { status: 'waiting', currentTask: 'Waiting for production', detail: null }
+        : byIdentity.get(lane.publishJob) && jobStatus(byIdentity.get(lane.publishJob)) !== 'waiting'
+          ? phaseResult(byIdentity.get(lane.publishJob), `Publish ${lane.label}`)
+          : { status: 'waiting', currentTask: 'Waiting to publish', detail: null }
     keys.push('publish')
   }
-  return { id: lane.id, locale: lane.locale, label: lane.label, ...selectPresentation(phases, keys), phaseResults: phases }
+  return { id: lane.id, locale: lane.locale, label: lane.label, ...selectLanePresentation(phases, keys, progressUnit), phaseResults: phases }
 }
 
-function waitingForPublisher(group) {
-  const predecessor = PUBLISH_PREDECESSOR[group]
-  return predecessor ? `Waiting for ${DEPENDENCY_LABELS[predecessor]} publisher` : 'Waiting to publish'
-}
-
-function deriveSdkItem({ group, effectiveJobs, publishEnabled }) {
+function deriveSdkItem({ group, effectiveJobs, publishEnabled, publicationProgress, publicationProgressStale }) {
   const byIdentity = new Map(effectiveJobs.map(job => [logicalJobIdentity(job), job]))
   const phases = { produce: phaseResult(byIdentity.get(`produce_${group}`), `Produce ${SDK_LABELS[group]}`) }
   const keys = ['produce']
+  const progressUnit = publicationUnit(publicationProgress, `source/${group}`)
   if (publishEnabled) {
     const publishJob = byIdentity.get(`publish_${group}`)
-    phases.publish = phases.produce.status !== 'completed'
-      ? { status: 'waiting', currentTask: 'Waiting for production', detail: null }
-      : publishJob && jobStatus(publishJob) !== 'waiting'
-        ? phaseResult(publishJob, `Publish ${SDK_LABELS[group]}`)
-        : { status: 'waiting', currentTask: waitingForPublisher(group), detail: null }
+    phases.publish = publicationProgress
+      ? publicationPhase(progressUnit, publicationProgress, publicationProgressStale)
+      : phases.produce.status !== 'completed'
+        ? { status: 'waiting', currentTask: 'Waiting for production', detail: null }
+        : publishJob && jobStatus(publishJob) !== 'waiting'
+          ? phaseResult(publishJob, `Publish ${SDK_LABELS[group]}`)
+          : { status: 'waiting', currentTask: 'Waiting to publish', detail: null }
     keys.push('publish')
   }
-  return { id: group, label: SDK_LABELS[group], ...selectPresentation(phases, keys), phaseResults: phases }
+  return { id: group, label: SDK_LABELS[group], ...selectLanePresentation(phases, keys, progressUnit), phaseResults: phases }
 }
 
 function aggregateStatus(statuses) {
@@ -236,6 +285,11 @@ function completedItem(item) {
   return {...item, phase: item.phaseResults.publish ? 'publish' : 'produce', status: 'completed', currentTask: 'Workflow completed', detail: null}
 }
 
+function canonicalPublicationItems(guides, items) {
+  const byId = new Map([...guides, ...items].map(item => [item.id, item]))
+  return FETCH_BUSINESS_ORDER.map(unitKey => byId.get(UNIT_TO_CARD_ID[unitKey])).filter(Boolean)
+}
+
 function deriveDocsProgressState({
   requestedGroups,
   jobs = [],
@@ -245,14 +299,20 @@ function deriveDocsProgressState({
   terminalStatus = null,
   guideTableTotals = {},
   handoff = null,
+  publicationProgress = null,
+  publicationProgressStale = false,
 }) {
   if (!Array.isArray(requestedGroups) || requestedGroups.length === 0) throw new Error('requestedGroups must be a non-empty array')
   for (const group of requestedGroups) if (group !== 'guides' && !SDK_LABELS[group]) throw new Error(`Unknown documentation group: ${group}`)
   const effectiveJobs = selectEffectiveJobs(jobs)
   let guides = requestedGroups.includes('guides')
-    ? GUIDE_LANES.map(lane => deriveGuideLane({ lane, effectiveJobs, publishEnabled, tableTotal: guideTableTotals[lane.locale] }))
+    ? GUIDE_LANES.map(lane => deriveGuideLane({
+      lane, effectiveJobs, publishEnabled, tableTotal: guideTableTotals[lane.locale], publicationProgress, publicationProgressStale,
+    }))
     : []
-  let items = requestedGroups.filter(group => group !== 'guides').map(group => deriveSdkItem({ group, effectiveJobs, publishEnabled }))
+  let items = requestedGroups.filter(group => group !== 'guides').map(group => deriveSdkItem({
+    group, effectiveJobs, publishEnabled, publicationProgress, publicationProgressStale,
+  }))
   const allLanes = [...guides, ...items]
   let phases = [phaseSummary('produce', 'Produce', allLanes.map(lane => lane.phaseResults.produce.status))]
   if (publishEnabled) {
@@ -274,10 +334,14 @@ function deriveDocsProgressState({
   }
 
   const visibleFailures = [...guides, ...items].some(item => item.status === 'failed') || phases.some(phase => phase.status === 'failed')
-  const overallStatus = terminalStatus || (visibleFailures ? 'failure' : 'running')
-  const orderedItems = orderItems(items).map(({phaseResults, ...item}) => item)
+  const overallStatus = terminalStatus || (publicationProgress ? 'running' : visibleFailures ? 'failure' : 'running')
+  const orderedItems = (publicationProgress
+    ? canonicalPublicationItems([], items)
+    : orderItems(items)).map(({phaseResults, ...item}) => item)
   const visibleGuides = guides.map(({phaseResults, ...guide}) => guide)
-  const manuals = [...visibleGuides.map(guide => ({group: guide.id, ...guide})), ...orderedItems.map(item => ({group: item.id, ...item}))]
+  const manuals = (publicationProgress
+    ? canonicalPublicationItems(visibleGuides, orderedItems)
+    : [...visibleGuides, ...orderedItems]).map(item => ({group: item.id, ...item}))
   return {
     kind: 'source',
     title: 'Zilliz Cloud Docs Build',

@@ -57,7 +57,7 @@ test('omits publish phases in artifact-only mode and expands the running manual'
   assert.equal(state.overallStatus, 'running')
 })
 
-test('orders failed, running, waiting, then completed manuals', () => {
+test('orders failed, running, waiting, then completed manuals before FIFO progress is available', () => {
   const state = deriveDocsProgressState({
     requestedGroups: ['python', 'java', 'node', 'go'],
     publishEnabled: true,
@@ -80,7 +80,7 @@ test('orders failed, running, waiting, then completed manuals', () => {
     ['node', 'waiting'],
     ['go', 'completed'],
   ])
-  assert.equal(state.manuals[2].currentTask, 'Waiting for Java publisher')
+  assert.equal(state.manuals[2].currentTask, 'Waiting to publish')
 })
 
 test('derives Guides table progress from the latest effective matrix attempts', () => {
@@ -137,7 +137,7 @@ test('counts a retried Guides table once and pins a final failed identity', () =
   assert.equal(state.guides[0].detail, '2/4 complete · 0 active · 1 pending · 1 failed · failed: byoc / Tools')
 })
 
-test('shows actual SDK source-publisher dependencies', () => {
+test('uses generic publication waiting text before FIFO progress is available', () => {
   const jobs = require('./fixtures/docs-progress/sdk-publisher-queue.json')
   const state = deriveDocsProgressState({
     requestedGroups: ['python', 'java', 'node', 'go', 'cli', 'rest'],
@@ -146,14 +146,14 @@ test('shows actual SDK source-publisher dependencies', () => {
   })
 
   const manuals = Object.fromEntries(state.manuals.map(manual => [manual.group, manual]))
-  assert.equal(manuals.python.currentTask, 'Waiting for REST API publisher')
-  assert.equal(manuals.node.currentTask, 'Waiting for Java publisher')
-  assert.equal(manuals.go.currentTask, 'Waiting for Node.js publisher')
-  assert.equal(manuals.cli.currentTask, 'Waiting for Go publisher')
+  assert.equal(manuals.python.currentTask, 'Waiting to publish')
+  assert.equal(manuals.node.currentTask, 'Waiting to publish')
+  assert.equal(manuals.go.currentTask, 'Waiting to publish')
+  assert.equal(manuals.cli.currentTask, 'Waiting to publish')
   assert.equal(manuals.rest.currentTask, 'Publish checkpoint')
 })
 
-test('keeps dependency text when GitHub exposes a queued publisher job', () => {
+test('keeps generic waiting text when GitHub exposes a queued legacy publisher job', () => {
   const state = deriveDocsProgressState({
     requestedGroups: ['java', 'node'],
     publishEnabled: true,
@@ -165,7 +165,94 @@ test('keeps dependency text when GitHub exposes a queued publisher job', () => {
     ],
   })
   const node = state.manuals.find(manual => manual.group === 'node')
-  assert.equal(node.currentTask, 'Waiting for Java publisher')
+  assert.equal(node.currentTask, 'Waiting to publish')
+})
+
+function progressUnit(unitKey, state, overrides = {}) {
+  return {
+    unitKey,
+    state,
+    producerJobId: 100,
+    producerCompletedAt: '2026-08-04T01:00:00.000Z',
+    readyAt: state === 'producing' ? null : '2026-08-04T01:01:00.000Z',
+    sequence: null,
+    publishStartedAt: null,
+    publishCompletedAt: null,
+    baseSha: null,
+    resultSha: null,
+    commitShas: [],
+    attempts: 0,
+    failure: null,
+    ...overrides,
+  }
+}
+
+test('renders FIFO publication facts in canonical Fetch business order', () => {
+  const publicationProgress = {
+    revision: 9,
+    activeUnitKey: 'source/go',
+    queue: ['source/python', 'source/node'],
+    units: [
+      progressUnit('source/java', 'published', { sequence: 1, resultSha: 'abcdef1234567890abcdef1234567890abcdef12' }),
+      progressUnit('source/node', 'ready'),
+      progressUnit('source/go', 'publishing', { sequence: 3, publishStartedAt: '2026-08-04T01:02:00.000Z' }),
+      progressUnit('source/cli', 'no_changes', { sequence: 4, resultSha: '1234567890abcdef1234567890abcdef12345678' }),
+      progressUnit('source/rest', 'publish_failed', { sequence: 5, failure: { code: 'PUBLISH_FAILED', phase: 'publish', message: 'failed', retryable: false } }),
+      progressUnit('source/python', 'ready'),
+      progressUnit('source/guides-en', 'candidate'),
+      progressUnit('source/guides-zh-CN', 'producer_failed', { failure: { code: 'PRODUCER_FAILED', phase: 'produce', message: 'failed', retryable: false } }),
+    ],
+  }
+  const jobs = [
+    'java', 'node', 'go', 'cli', 'rest', 'python',
+  ].map((group, index) => ({ id: index + 1, name: `produce_${group} / produce`, status: 'completed', conclusion: 'success' }))
+  jobs.push(
+    { id: 10, name: 'produce_guides_sources / fetch', status: 'completed', conclusion: 'success' },
+    { id: 11, name: 'produce_guides / assemble', status: 'completed', conclusion: 'success' },
+    { id: 12, name: 'produce_zh_guides_sources / fetch', status: 'completed', conclusion: 'success' },
+    { id: 13, name: 'produce_zh_guides / assemble', status: 'completed', conclusion: 'failure' },
+  )
+
+  const state = deriveDocsProgressState({
+    requestedGroups: ['guides', 'python', 'rest', 'cli', 'go', 'node', 'java'],
+    publishEnabled: true,
+    jobs,
+    publicationProgress,
+  })
+
+  assert.deepEqual(state.manuals.map(manual => manual.label), [
+    'Java SDK', 'Node.js SDK', 'Go SDK', 'Zilliz CLI', 'REST API', 'Python SDK', 'English Guides', 'Chinese Guides',
+  ])
+  assert.deepEqual(state.manuals.map(manual => manual.currentTask), [
+    'Published - abcdef1',
+    'Ready - queue position 2',
+    'Publishing - FIFO sequence 3 - attempt 1',
+    'No changes',
+    'Failed - queue continued',
+    'Ready - queue position 1',
+    'Preparing publication candidate',
+    'Failed - queue continued',
+  ])
+  assert.equal(state.overallStatus, 'running')
+})
+
+test('marks retained publication progress as potentially stale without changing its exact queue text', () => {
+  const state = deriveDocsProgressState({
+    requestedGroups: ['node'],
+    publishEnabled: true,
+    jobs: [{ id: 1, name: 'produce_node / produce', status: 'completed', conclusion: 'success' }],
+    publicationProgress: {
+      revision: 2,
+      activeUnitKey: null,
+      queue: ['source/node'],
+      units: [progressUnit('source/node', 'ready')],
+    },
+    publicationProgressStale: true,
+  })
+
+  assert.equal(state.manuals[0].currentTask, 'Ready - queue position 1')
+  assert.equal(state.manuals[0].detail, 'Publication progress may be stale')
+  assert.equal(state.overallStatus, 'running')
 })
 
 test('ignores retired inline translation jobs in the source card', () => {

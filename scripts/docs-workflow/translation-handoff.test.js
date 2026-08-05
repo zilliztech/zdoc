@@ -7,8 +7,11 @@ const path = require('node:path');
 const {spawnSync} = require('node:child_process');
 const test = require('node:test');
 
+const {buildFetchPublicationSelection} = require('./fetch-publication-selection');
+const {validatePublicationResults} = require('./publication-contracts');
 const {
   buildTranslationHandoff,
+  buildTranslationHandoffFromFetchResults,
   validateTranslationHandoff,
   validateTranslationHandoffRepository,
 } = require('./translation-handoff');
@@ -20,6 +23,30 @@ const SHA_D = 'd'.repeat(40);
 
 function publication(sourceBaselineSha = SHA_A, sourceCheckpointSha = SHA_B) {
   return {sourceBaselineSha, sourceCheckpointSha};
+}
+
+function guidesFetchPublication() {
+  const selection = buildFetchPublicationSelection({
+    repository: 'zilliztech/zdoc', runId: 123, runAttempt: 1, toolingSha: 'e'.repeat(40),
+    targetBranch: 'dev', initialTargetSha: SHA_A, sourceBaselineSha: SHA_A,
+    selectedGroup: 'guides', publish: true, runTranslations: true,
+  });
+  const shas = {'source/guides-en': SHA_B, 'source/guides-zh-CN': SHA_C};
+  const results = validatePublicationResults({
+    schemaVersion: 1, document: 'publication-results', workflow: 'fetch', repository: selection.repository,
+    runId: selection.runId, runAttempt: selection.runAttempt, selectionSha256: selection.selectionSha256,
+    mode: 'publish', targetBranch: 'dev', initialTargetSha: SHA_A, finalTargetSha: SHA_D,
+    startedAt: '2026-08-04T08:00:00.000Z', completedAt: '2026-08-04T08:05:00.000Z',
+    overallStatus: 'success', orchestratorFailure: null,
+    units: selection.units.map((unit, index) => ({
+      unitKey: unit.unitKey, producerJobId: index + 1, producerCompletedAt: `2026-08-04T08:00:0${index}.000Z`,
+      readyAt: `2026-08-04T08:01:0${index}.000Z`, sequence: index + 1,
+      publishStartedAt: `2026-08-04T08:02:0${index}.000Z`, publishCompletedAt: `2026-08-04T08:03:0${index}.000Z`,
+      baseSha: SHA_A, resultSha: shas[unit.unitKey], commitShas: [shas[unit.unitKey]], attempts: 1,
+      status: 'published', failure: null,
+    })),
+  }, {selection});
+  return {selection, results};
 }
 
 function pythonHandoff(overrides = {}) {
@@ -61,6 +88,31 @@ test('builds schema-v2 units from exact dev publication identities', () => {
     {target: 'zh-CN-reference', group: 'python', sourceBaselineSha: SHA_A, sourceCheckpointSha: SHA_B, targetBaselineSha: SHA_D},
   ]);
   assert.deepEqual(value.units.map(unit => unit.publicationOrder), [0, 1]);
+});
+
+test('builds the unchanged schema-v2 handoff from successful Fetch results', () => {
+  const {selection, results} = guidesFetchPublication();
+  const handoff = buildTranslationHandoffFromFetchResults({selection, results, locale: 'all', group: 'guides'});
+  assert.equal(handoff.schemaVersion, 2);
+  assert.equal(handoff.targetBaselineSha, results.finalTargetSha);
+  assert.equal(handoff.units.find(unit => unit.sourceGroup === 'guides').sourceCheckpointSha, SHA_B);
+  assert.doesNotMatch(JSON.stringify(handoff), /source\/guides-zh-CN|c{40}/);
+});
+
+test('CLI accepts Fetch selection/results inputs while retaining schema v2', () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-handoff-fetch-'));
+  const {selection, results} = guidesFetchPublication();
+  const selectionFile = path.join(directory, 'selection.json');
+  const resultsFile = path.join(directory, 'results.json');
+  fs.writeFileSync(selectionFile, JSON.stringify(selection));
+  fs.writeFileSync(resultsFile, JSON.stringify(results));
+  const result = spawnSync(process.execPath, [
+    path.join(__dirname, 'translation-handoff.js'),
+    '--locale', 'all', '--group', 'guides',
+    '--fetch-selection', selectionFile, '--fetch-results', resultsFile,
+  ], {encoding: 'utf8'});
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(JSON.parse(result.stdout).schemaVersion, 2);
 });
 
 test('binds every all-group unit to its own dev baseline and checkpoint', () => {
