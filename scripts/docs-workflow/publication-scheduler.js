@@ -273,7 +273,7 @@ function createPublicationScheduler(options) {
     return validatePublicationProgress({
       schemaVersion: 1,
       document: 'publication-progress',
-      workflow: 'fetch',
+      workflow: selection.workflow,
       repository: selection.repository,
       runId: selection.runId,
       runAttempt: selection.runAttempt,
@@ -300,7 +300,7 @@ function createPublicationScheduler(options) {
     return validatePublicationResults({
       schemaVersion: 1,
       document: 'publication-results',
-      workflow: 'fetch',
+      workflow: selection.workflow,
       repository: selection.repository,
       runId: selection.runId,
       runAttempt: selection.runAttempt,

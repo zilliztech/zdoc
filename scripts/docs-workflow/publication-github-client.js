@@ -7,7 +7,6 @@ const {DefaultArtifactClient} = require('@actions/artifact')
 const {
   artifactNames,
   readPublicationDocument,
-  unitToken,
   validatePublicationProgress,
   validatePublicationResults,
   validatePublicationSelection,
@@ -164,7 +163,13 @@ function createPublicationGitHubClient(options) {
     const selection = validatePublicationSelection(selectionInput)
     const selected = selection.units.find(unit => unit.unitKey === unitKey)
     if (!selected) throw new Error(`Publication unit is not selected: ${unitKey}`)
-    const name = `publication-ready-fetch-${unitToken(unitKey)}-${runId}-${runAttempt}`
+    const name = artifactNames({
+      workflow: selection.workflow,
+      runId,
+      runAttempt,
+      unitKey,
+      revision: 1,
+    }).ready
     await waitForArtifact(name, {maxPolls, pollMilliseconds})
     const downloaded = await downloadArtifactFiles(name, ['publication-ready.json'])
     const descriptor = readPublicationDocument(downloaded.files['publication-ready.json'], 'publication-ready', {selection})
@@ -181,7 +186,7 @@ function createPublicationGitHubClient(options) {
     const selection = validatePublicationSelection(selectionInput)
     const snapshot = validatePublicationProgress(snapshotInput, {selection})
     readPublicationDocument(file, 'publication-progress', {selection, artifactRevision: snapshot.revision})
-    const name = artifactNames({workflow: 'fetch', runId, runAttempt, unitKey: selection.units[0].unitKey, revision: snapshot.revision}).progress
+    const name = artifactNames({workflow: selection.workflow, runId, runAttempt, unitKey: selection.units[0].unitKey, revision: snapshot.revision}).progress
     try {
       return Object.freeze({ok: true, ...(await upload(file, name))})
     } catch (error) {
@@ -193,7 +198,7 @@ function createPublicationGitHubClient(options) {
     const selection = validatePublicationSelection(selectionInput)
     const results = validatePublicationResults(resultsInput, {selection})
     readPublicationDocument(file, 'publication-results', {selection})
-    const name = artifactNames({workflow: 'fetch', runId, runAttempt, unitKey: selection.units[0].unitKey, revision: 1}).results
+    const name = artifactNames({workflow: selection.workflow, runId, runAttempt, unitKey: selection.units[0].unitKey, revision: 1}).results
     return upload(file, name)
   }
 
