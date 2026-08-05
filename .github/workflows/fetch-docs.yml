@@ -45,7 +45,7 @@ permissions:
 
 concurrency:
   group: docs-production-dev
-  cancel-in-progress: false
+  queue: max
 
 jobs:
   prepare:
