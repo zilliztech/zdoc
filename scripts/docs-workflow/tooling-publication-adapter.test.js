@@ -3,11 +3,13 @@
 const assert = require('node:assert/strict')
 const test = require('node:test')
 
-const {finalizePublicationSelection} = require('./publication-contracts')
+const {finalizePublicationSelection, validatePublicationReady} = require('./publication-contracts')
 const {toolingPublicationAdapter} = require('./tooling-publication-adapter')
 
 const SHA_A = 'a'.repeat(40)
 const SHA_B = 'b'.repeat(40)
+const SUM_A = 'a'.repeat(64)
+const SUM_B = 'b'.repeat(64)
 
 function unit(overrides = {}) {
   return {
@@ -43,6 +45,29 @@ function selection(overrides = {}) {
   })
 }
 
+function ready(selected = selection(), overrides = {}) {
+  return {
+    schemaVersion: 1,
+    document: 'publication-ready',
+    workflow: 'tooling',
+    repository: selected.repository,
+    runId: selected.runId,
+    runAttempt: selected.runAttempt,
+    selectionSha256: selected.selectionSha256,
+    unitKey: 'tooling/master',
+    producerJob: 'review_master_tooling',
+    toolingSha: SHA_A,
+    sourceBaselineSha: SHA_B,
+    targetBranch: 'dev',
+    artifacts: {
+      checkpoint: {name: 'tooling-merge-123', archiveSha256: SUM_A, manifestSha256: SUM_B},
+      baseline: null,
+    },
+    outcome: 'candidate',
+    ...overrides,
+  }
+}
+
 test('Tooling adapter accepts exactly one reviewed tooling merge against the recorded dev baseline', () => {
   assert.equal(toolingPublicationAdapter.workflow, 'tooling')
   const selected = selection()
@@ -59,4 +84,15 @@ test('Tooling selection rejects extra, duplicate, and mismatched units', () => {
   assert.throws(() => selection({targetBranch: 'release', units: [unit({targetBranch: 'release'})]}), /targetBranch.*dev/i)
   assert.throws(() => selection({units: [unit({toolingSha: 'c'.repeat(40)})]}), /toolingSha.*mismatch/i)
   assert.throws(() => selection({units: [unit({sourceBaselineSha: 'c'.repeat(40)})]}), /sourceBaselineSha.*mismatch/i)
+})
+
+test('Tooling selectedGroup is fixed to all', () => {
+  assert.throws(() => selection({inputs: {selectedGroup: 'guides', publish: true, runTranslations: false}}), /selectedGroup.*all/i)
+})
+
+test('Tooling ready intrinsically enforces its unit and dev target and remains selection-bound', () => {
+  const selected = selection()
+  assert.throws(() => validatePublicationReady(ready(selected, {unitKey: 'tooling/release'})), /tooling\/master/i)
+  assert.throws(() => validatePublicationReady(ready(selected, {targetBranch: 'release'})), /targetBranch.*dev/i)
+  assert.throws(() => validatePublicationReady(ready(selected, {producerJob: 'other'}), {selection: selected}), /producerJob.*mismatch/i)
 })

@@ -57,33 +57,63 @@ function selection(overrides = {}) {
   })
 }
 
+function ready(selected = selection(), overrides = {}) {
+  return {
+    schemaVersion: 1,
+    document: 'publication-ready',
+    workflow: 'translation',
+    repository: selected.repository,
+    runId: selected.runId,
+    runAttempt: selected.runAttempt,
+    selectionSha256: selected.selectionSha256,
+    unitKey: selected.units[0].unitKey,
+    producerJob: selected.units[0].producerJob,
+    toolingSha: selected.units[0].toolingSha,
+    sourceBaselineSha: selected.units[0].sourceBaselineSha,
+    sourceCheckpointSha: selected.units[0].sourceCheckpointSha,
+    targetBranch: selected.units[0].targetBranch,
+    artifacts: {
+      checkpoint: {name: selected.units[0].artifacts.checkpoint, archiveSha256: SUM_A, manifestSha256: SUM_B},
+      baseline: null,
+    },
+    outcome: 'candidate',
+    ...overrides,
+  }
+}
+
 test('Translation adapter accepts checkpoint and the single ja-guides identity', () => {
   assert.equal(translationPublicationAdapter.workflow, 'translation')
   assert.equal(selection().units[0].strategy, 'ja-guides')
-  assert.equal(selection({units: [unit({
-    unitKey: 'translation/ja-JP/python', strategy: 'checkpoint', target: 'ja-JP', group: 'python', sourceGroup: 'python',
-  })]}).units[0].strategy, 'checkpoint')
+  assert.equal(selection({
+    inputs: {selectedGroup: 'python', publish: true, runTranslations: true},
+    units: [unit({
+      unitKey: 'translation/ja-JP/python', strategy: 'checkpoint', target: 'ja-JP', group: 'python', sourceGroup: 'python',
+    })],
+  }).units[0].strategy, 'checkpoint')
 })
 
 test('Translation adapter preserves the workflow selection order across locale targets', () => {
-  const translated = selection({units: [
-    unit(),
-    unit({
-      unitKey: 'translation/ja-JP/python', producerJob: 'translate_ja_python', strategy: 'checkpoint',
-      target: 'ja-JP', group: 'python', sourceGroup: 'python',
-      artifacts: {checkpoint: 'translation-checkpoint-ja-python-123', baseline: null},
-    }),
-    unit({
-      unitKey: 'translation/zh-CN-reference/python', producerJob: 'translate_zh_python', strategy: 'checkpoint',
-      target: 'zh-CN-reference', group: 'python', sourceGroup: 'python',
-      artifacts: {checkpoint: 'translation-checkpoint-zh-python-123', baseline: null},
-    }),
-    unit({
-      unitKey: 'translation/ja-JP/java', producerJob: 'translate_ja_java', strategy: 'checkpoint',
-      target: 'ja-JP', group: 'java', sourceGroup: 'java',
-      artifacts: {checkpoint: 'translation-checkpoint-ja-java-123', baseline: null},
-    }),
-  ]})
+  const translated = selection({
+    inputs: {selectedGroup: 'all', publish: true, runTranslations: true},
+    units: [
+      unit(),
+      unit({
+        unitKey: 'translation/ja-JP/python', producerJob: 'translate_ja_python', strategy: 'checkpoint',
+        target: 'ja-JP', group: 'python', sourceGroup: 'python',
+        artifacts: {checkpoint: 'translation-checkpoint-ja-python-123', baseline: null},
+      }),
+      unit({
+        unitKey: 'translation/zh-CN-reference/python', producerJob: 'translate_zh_python', strategy: 'checkpoint',
+        target: 'zh-CN-reference', group: 'python', sourceGroup: 'python',
+        artifacts: {checkpoint: 'translation-checkpoint-zh-python-123', baseline: null},
+      }),
+      unit({
+        unitKey: 'translation/ja-JP/java', producerJob: 'translate_ja_java', strategy: 'checkpoint',
+        target: 'ja-JP', group: 'java', sourceGroup: 'java',
+        artifacts: {checkpoint: 'translation-checkpoint-ja-java-123', baseline: null},
+      }),
+    ],
+  })
   assert.deepEqual(translated.units.map(entry => entry.unitKey), [
     'translation/ja-JP/guides',
     'translation/ja-JP/python',
@@ -98,30 +128,28 @@ test('Translation selection rejects extra keys and noncanonical ja-guides units'
   assert.throws(() => selection({units: [unit({strategy: 'other'})]}), /strategy/i)
 })
 
+test('Translation selectedGroup is exact and binds concrete groups to selected units', () => {
+  assert.throws(() => selection({inputs: {selectedGroup: 1, publish: true, runTranslations: true}}), /selectedGroup/i)
+  assert.throws(() => selection({inputs: {selectedGroup: 'ruby', publish: true, runTranslations: true}}), /selectedGroup/i)
+  assert.throws(() => selection({inputs: {selectedGroup: 'python', publish: true, runTranslations: true}}), /selectedGroup.*unit|group.*mismatch/i)
+})
+
 test('Translation ready payload binds source checkpoint and selected unit identity', () => {
   const selected = selection()
-  const ready = {
-    schemaVersion: 1,
-    document: 'publication-ready',
-    workflow: 'translation',
-    repository: selected.repository,
-    runId: selected.runId,
-    runAttempt: selected.runAttempt,
-    selectionSha256: selected.selectionSha256,
-    unitKey: selected.units[0].unitKey,
-    producerJob: selected.units[0].producerJob,
-    toolingSha: SHA_A,
-    sourceBaselineSha: SHA_B,
-    sourceCheckpointSha: SHA_C,
-    targetBranch: 'dev',
-    artifacts: {
-      checkpoint: {name: selected.units[0].artifacts.checkpoint, archiveSha256: SUM_A, manifestSha256: SUM_B},
-      baseline: null,
-    },
-    outcome: 'candidate',
-  }
-  assert.equal(validatePublicationReady(ready, {selection: selected}).sourceCheckpointSha, SHA_C)
-  assert.throws(() => validatePublicationReady({...ready, sourceCheckpointSha: SHA_D}, {selection: selected}), /sourceCheckpointSha.*mismatch/i)
+  const descriptor = ready(selected)
+  assert.equal(validatePublicationReady(descriptor, {selection: selected}).sourceCheckpointSha, SHA_C)
+  assert.throws(() => validatePublicationReady({...descriptor, sourceCheckpointSha: SHA_D}, {selection: selected}), /sourceCheckpointSha.*mismatch/i)
+  assert.throws(() => validatePublicationReady(ready(selected, {
+    unitKey: 'translation/ja-JP/python',
+    producerJob: 'translate_ja_python',
+  }), {selection: selected}), /not selected/i)
+})
+
+test('Translation ready intrinsically rejects units outside the publication plan', () => {
+  assert.throws(() => validatePublicationReady(ready(selection(), {
+    unitKey: 'translation/fr-FR/ruby',
+    producerJob: 'translate_fr_ruby',
+  })), /unitKey.*unsupported|publication unit/i)
 })
 
 test('Translation uses the shared progress, results, and artifact naming envelopes', () => {

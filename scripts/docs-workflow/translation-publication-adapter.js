@@ -16,6 +16,25 @@ const READY_KEYS = [
   'unitKey', 'producerJob', 'toolingSha', 'sourceBaselineSha', 'sourceCheckpointSha',
   'targetBranch', 'artifacts', 'outcome',
 ]
+const TRANSLATION_SELECTED_GROUPS = Object.freeze([
+  'all', 'guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings',
+])
+const TRANSLATION_PUBLICATION_UNIT_KEYS = Object.freeze([
+  'translation/ja-JP/guides',
+  'translation/ja-JP/python',
+  'translation/ja-JP/java',
+  'translation/ja-JP/node',
+  'translation/ja-JP/go',
+  'translation/ja-JP/cli',
+  'translation/ja-JP/rest',
+  'translation/zh-CN-reference/python',
+  'translation/zh-CN-reference/java',
+  'translation/zh-CN-reference/node',
+  'translation/zh-CN-reference/go',
+  'translation/zh-CN-reference/cli',
+  'translation/zh-CN-reference/rest',
+  'translation/zh-CN-reference/reference-landings',
+])
 
 function validateTranslationUnit(unit, selection, index, helpers) {
   const document = helpers.DOCUMENTS.selection
@@ -53,9 +72,13 @@ function validateTranslationSelection(value, helpers) {
   helpers.assertSha(value.initialTargetSha, 'initialTargetSha', document)
   helpers.assertSha(value.sourceBaselineSha, 'sourceBaselineSha', document)
   helpers.exactKeys(value.inputs, ['selectedGroup', 'publish', 'runTranslations'], 'inputs', document)
+  if (!TRANSLATION_SELECTED_GROUPS.includes(value.inputs.selectedGroup)) helpers.invalid(document, 'selectedGroup is invalid')
   if (typeof value.inputs.publish !== 'boolean' || typeof value.inputs.runTranslations !== 'boolean') helpers.invalid(document, 'input booleans are invalid')
   if (!Array.isArray(value.units) || !value.units.length) helpers.invalid(document, 'units must be a non-empty array')
   value.units.forEach((unit, index) => validateTranslationUnit(unit, value, index, helpers))
+  if (value.inputs.selectedGroup !== 'all' && value.units.some(unit => unit.group !== value.inputs.selectedGroup)) {
+    helpers.invalid(document, 'selectedGroup units must match the selected group')
+  }
   const unitKeys = value.units.map(unit => unit.unitKey)
   if (new Set(unitKeys).size !== unitKeys.length) helpers.invalid(document, 'unit keys must be unique')
   const artifacts = value.units.flatMap(unit => [unit.artifacts.checkpoint, unit.artifacts.baseline].filter(Boolean))
@@ -66,6 +89,7 @@ function validateTranslationReady(value, {selection}, helpers) {
   const document = helpers.DOCUMENTS.ready
   helpers.exactKeys(value, READY_KEYS, 'root', document)
   helpers.assertString(value.unitKey, 'unitKey', document)
+  if (!TRANSLATION_PUBLICATION_UNIT_KEYS.includes(value.unitKey)) helpers.invalid(document, 'unitKey is not a supported Translation publication unit')
   helpers.assertString(value.producerJob, 'producerJob', document)
   helpers.assertSha(value.toolingSha, 'toolingSha', document)
   helpers.assertSha(value.sourceBaselineSha, 'sourceBaselineSha', document)
