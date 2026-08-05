@@ -119,7 +119,7 @@ test('manual site publication selects locale builds and deploys only validated a
   assert.match(entry, /needs\.build_en\.result == 'success'[\s\S]*needs\.build_zh_cn\.result == 'success'/);
 });
 
-test('final verification uses immutable master tooling for lightweight revision consistency', async () => {
+test('final verification uses immutable master tooling for complete final consistency', async () => {
   const workflow = await readFile(path.join(repositoryRoot, '.github/workflows/_verify-docs.yml'), 'utf8');
   assert.match(workflow, /^      revision_status:\n        description: passed or failed\n        value: \$\{\{ jobs\.verify\.outputs\.revision_status \}\}$/m);
   assert.match(workflow, /^      revision_status: \$\{\{ steps\.revision_result\.outputs\.status \}\}$/m);
@@ -127,9 +127,12 @@ test('final verification uses immutable master tooling for lightweight revision 
   assert.match(workflow, /git fetch --no-tags origin "\$FINAL_DEV_SHA"[\s\S]*restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/);
   assert.match(workflow, /name: Verify revision waterline[\s\S]*id: revision[\s\S]*continue-on-error: true/);
   assert.match(workflow, /pnpm check:localization-input-inventory[\s\S]*pnpm docs-tooling validate-revision-inventory --site en/);
+  assert.match(workflow, /name: Verify final Reference derived state[\s\S]*id: reference[\s\S]*continue-on-error: true/);
+  assert.match(workflow, /pnpm docs-tooling validate-reference --site en[\s\S]*pnpm docs-tooling validate-reference --site zh-CN/);
   assert.match(workflow, /name: Emit revision reconciliation result[\s\S]*id: revision_result[\s\S]*steps\.revision\.outcome[\s\S]*status=passed[\s\S]*status=failed/);
+  assert.match(workflow, /name: Emit verification result[\s\S]*steps\.revision\.outcome[\s\S]*steps\.reference\.outcome[\s\S]*status=passed[\s\S]*status=failed/);
   assert.match(workflow, /name: Upload final verification reports\n\s+if: \$\{\{ always\(\) \}\}/);
-  assert.doesNotMatch(workflow, /Verify final documentation state|Validate final cross-site consistency|validate-reference --site zh-CN|pnpm run build:/);
+  assert.doesNotMatch(workflow, /Verify final documentation state|Validate final cross-site consistency|pnpm run build:/);
   assert.doesNotMatch(workflow, /git worktree add --detach|ref: \$\{\{ inputs\.final_dev_sha \}\}/);
 });
 

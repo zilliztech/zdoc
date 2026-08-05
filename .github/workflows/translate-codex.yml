@@ -26,6 +26,10 @@ permissions:
   actions: read
   contents: write
 
+concurrency:
+  group: ${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}
+  queue: max
+
 jobs:
   initialize_translation_card:
     if: ${{ inputs.request_id != '' }}

@@ -13,12 +13,22 @@ test('master tooling sync uses a reviewed bootstrap and the shared dev writer lo
   assert.deepEqual(workflow.on.schedule, [{cron: '17 */6 * * *'}]);
   assert.equal(workflow.on.workflow_dispatch.inputs.tooling_sha.required, true);
   assert.deepEqual(workflow.permissions, {actions: 'write', contents: 'write', 'pull-requests': 'write'});
-  assert.deepEqual(workflow.concurrency, {group: 'docs-production-dev', 'cancel-in-progress': false});
+  assert.deepEqual(workflow.concurrency, {group: 'docs-production-dev', queue: 'max'});
   assert.match(source, /master-tooling-sync\.js bootstrap[\s\S]*steps\.bootstrap\.outputs\.bootstrapped == 'true'/);
   assert.match(source, /SYNC_BRANCH_PREFIX: \$\{\{ steps\.bootstrap\.outputs\.sync_branch_prefix \}\}/);
   assert.match(source, /VALIDATION_WORKFLOW: \$\{\{ steps\.bootstrap\.outputs\.validation_workflow \}\}/);
   assert.match(source, /git merge-base --is-ancestor "\$tooling_sha" origin\/master/);
   assert.doesNotMatch(source, /push --force|push -f|--force-with-lease/);
+});
+
+test('the production dev publication queue contract documents operational behavior', async () => {
+  const readme = await readFile(path.join(repositoryRoot, 'deploy/contracts/README.md'), 'utf8');
+  assert.match(readme, /docs-production-dev/);
+  assert.match(readme, /100 pending/i);
+  assert.match(readme, /no priority|does not prioritize/i);
+  assert.match(readme, /tooling.*wait.*Fetch|tooling.*wait.*Translation/is);
+  assert.match(readme, /manually cancel/i);
+  assert.match(readme, /one exact `dev` commit/i);
 });
 
 test('scheduled tooling sync resolves the current master SHA without dispatch inputs', async () => {
