@@ -328,8 +328,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (file === 'fetch-docs.yml') {
         const writableJobs = Object.entries(workflow.jobs || {}).filter(([, job]) => job?.permissions?.contents === 'write')
         if (workflow.permissions?.contents !== 'read' || workflow.permissions?.actions !== 'read' ||
-            writableJobs.length !== 1 || writableJobs[0][0] !== 'publish_ready') {
-          errors.push(`${file}: only publish_ready may escalate from the read-only workflow to contents: write`)
+            writableJobs.map(([name]) => name).join(',') !== 'publish_ready,reconcile_reference_state') {
+          errors.push(`${file}: only publish_ready and reconcile_reference_state may escalate from the read-only workflow to contents: write`)
         }
       } else if (!/^  contents: write$/m.test(source)) {
         errors.push(`${file}: publishing workflow requires explicit contents: write`)
@@ -854,6 +854,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/^  workflow_call:$/m, 'must be a workflow_call reusable workflow'],
         [/name: Check out immutable master tooling[\s\S]*actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.master_sha \}\}[\s\S]*fetch-depth: 0/, 'must check out immutable master tooling'],
         [/git fetch --no-tags origin "\$FINAL_DEV_SHA"[\s\S]*restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/, 'must materialize the exact final dev SHA'],
+        [/git merge-base --is-ancestor "\$PUBLISHED_FINAL_SHA" "\$FINAL_DEV_SHA"/, 'must prove the reconciled final SHA descends from the published source SHA'],
         [/restore-generated-state\.sh --exact --ref "\$FINAL_DEV_SHA"/, 'must restore generated content from the exact final dev SHA'],
         [/actions\/upload-artifact@v6[\s\S]*if-no-files-found: ignore/, 'must always preserve verification reports'],
         [/status=passed[\s\S]*status=failed/, 'must emit a deterministic terminal status'],
@@ -906,8 +907,16 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!(materializeIndex >= 0 && materializeIndex < revisionIndex)) {
         errors.push(`${file}: final verification must materialize the exact state before revision reconciliation`)
       }
-      if (/Verify final cross-site consistency|validate-reference --site zh-CN/.test(source)) {
-        errors.push(`${file}: final source verification must not gate unrelated cross-site Reference state`)
+      const reference = namedJobStep(workflow, 'verify', 'Verify final Reference derived state')
+      const referenceRun = String(reference?.run || '')
+      const referenceCommands = executableCommandLines(referenceRun)
+      if (reference?.id !== 'reference' || reference?.['continue-on-error'] !== true ||
+          !commandsAppearInOrder(referenceCommands, [
+            'set -euo pipefail',
+            'pnpm docs-tooling validate-reference --site en',
+            'pnpm docs-tooling validate-reference --site zh-CN',
+          ]) || !/reference-en\.log/.test(referenceRun) || !/reference-zh-CN\.log/.test(referenceRun)) {
+        errors.push(`${file}: final verification must validate both English and Chinese Reference derived state`)
       }
       const uploadReports = namedJobStep(workflow, 'verify', 'Upload final verification reports')
       if (String(uploadReports?.if || '').trim() !== '${{ always() }}') {
@@ -915,14 +924,14 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
       const resultCommands = executableCommandLines(namedJobStep(workflow, 'verify', 'Emit verification result')?.run)
       const expectedResult = [
-        'if [[ "${{ steps.revision.outcome }}" == success ]]; then',
+        'if [[ "${{ steps.revision.outcome }}" == success && "${{ steps.reference.outcome }}" == success ]]; then',
         'echo "status=passed" >> "$GITHUB_OUTPUT"',
         'else',
         'echo "status=failed" >> "$GITHUB_OUTPUT"',
         'fi',
       ]
       if (JSON.stringify(resultCommands) !== JSON.stringify(expectedResult)) {
-        errors.push(`${file}: overall status must require revision verification success`)
+        errors.push(`${file}: overall status must require revision and Reference verification success`)
       }
       if (/actions\/checkout@v5[\s\S]*ref: \$\{\{ inputs\.final_dev_sha \}\}/.test(source)) errors.push(`${file}: final verification tooling must not come from the dev content commit`)
       if (/contents: write|git push/.test(source)) errors.push(`${file}: final verification must remain read-only and must not publish`)
@@ -1093,7 +1102,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const cardStep = cardIndex >= 0 ? prepareSteps[cardIndex] : null
     const readinessCommand = readinessIndex >= 0 ? String(prepareSteps[readinessIndex]?.run || '') : ''
     if (installIndex < 0 || readinessIndex <= installIndex || cardIndex <= readinessIndex ||
-        readinessCommand !== 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
+        readinessCommand !== 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
       errors.push('fetch-docs.yml: prepare must prove translation publication readiness before paid work starts')
     }
     const inventoryStep = inventoryIndex >= 0 ? prepareSteps[inventoryIndex] : null
@@ -1129,6 +1138,26 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     for (const legacy of ['publish_java', 'publish_node', 'publish_go', 'publish_cli', 'publish_rest', 'publish_python', 'publish_guides', 'publish_zh_guides', 'resolve_final']) {
       if (caller?.jobs?.[legacy]) errors.push(`fetch-docs.yml: legacy fixed publication job must be absent: ${legacy}`)
     }
+    const referenceReconcile = caller?.jobs?.reconcile_reference_state
+    const referenceNeeds = Array.isArray(referenceReconcile?.needs) ? referenceReconcile.needs : []
+    const referenceStep = (referenceReconcile?.steps || []).find(step => step?.name === 'Reconcile and publish Fetch Reference derived state')
+    const referenceRun = String(referenceStep?.run || '')
+    const requiredReferenceCommands = [
+      'fetch-reference-reconciliation.js plan',
+      'git merge-base --is-ancestor "$source_sha" "$target_sha"',
+      'bash scripts/restore-generated-state.sh --exact --ref "$target_sha"',
+      'pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$source_sha" --write',
+      'pnpm docs-tooling validate-reference --site zh-CN',
+      'git -C "$publish_worktree" push origin "HEAD:refs/heads/$target_branch"',
+    ]
+    if (referenceNeeds.join(',') !== 'prepare,publish_ready' ||
+        referenceReconcile?.permissions?.actions !== 'read' || referenceReconcile?.permissions?.contents !== 'write' ||
+        String(referenceReconcile?.if || '').includes('run_translations') ||
+        referenceReconcile?.outputs?.final_target_sha !== '${{ steps.reconcile.outputs.final_target_sha }}' ||
+        requiredReferenceCommands.some(command => !referenceRun.includes(command)) ||
+        !/generated\/en\/manifests\/reference\.json[\s\S]*generated\/zh-CN\/manifests\/reference-translations\.json/.test(referenceRun)) {
+      errors.push('fetch-docs.yml: Fetch must independently reconcile Reference derived state after source publication')
+    }
     const sourceBarrier = caller?.jobs?.source_publication_barrier
     const sourceBarrierNeeds = Array.isArray(sourceBarrier?.needs) ? sourceBarrier.needs : []
     const sourceBarrierSteps = sourceBarrier?.steps || []
@@ -1137,8 +1166,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const sourceBarrierInstallIndex = sourceBarrierSteps.findIndex(step => step?.run === 'pnpm install --frozen-lockfile')
     const sourceBarrierIndex = sourceBarrierSteps.findIndex(step => step?.name === 'Block paid translation until selected sources are published')
     const sourceBarrierRun = String(sourceBarrierSteps[sourceBarrierIndex]?.run || '')
-    if (sourceBarrierNeeds.join(',') !== 'prepare,publish_ready' ||
+    if (sourceBarrierNeeds.join(',') !== 'prepare,publish_ready,reconcile_reference_state' ||
         !String(sourceBarrier?.if || '').includes("needs.prepare.outputs.publish == 'true'") ||
+        !String(sourceBarrier?.if || '').includes("needs.reconcile_reference_state.result == 'success'") ||
         !(sourceBarrierPnpmIndex >= 0 && sourceBarrierPnpmIndex < sourceBarrierNodeIndex && sourceBarrierNodeIndex < sourceBarrierInstallIndex && sourceBarrierInstallIndex < sourceBarrierIndex) ||
         !/source-publication-barrier\.js[\s\S]*--selection[\s\S]*--results/.test(sourceBarrierRun)) {
       errors.push('fetch-docs.yml: source publication barrier must install its runtime and consume canonical publication selection and results before paid translation')
