@@ -26,6 +26,122 @@ const SUM_A = 'a'.repeat(64)
 const SUM_B = 'b'.repeat(64)
 const COMPLETED_AT = '2026-08-04T08:00:00.000Z'
 
+const fetchSelection = Object.freeze({
+  schemaVersion: 1,
+  document: 'publication-selection',
+  workflow: 'fetch',
+  repository: 'zilliztech/zdoc',
+  runId: 987654,
+  runAttempt: 2,
+  toolingSha: SHA_A,
+  targetBranch: 'dev',
+  initialTargetSha: SHA_C,
+  sourceBaselineSha: SHA_B,
+  inputs: {selectedGroup: 'guides', publish: true, runTranslations: true},
+  units: [{
+    unitKey: 'source/guides-en',
+    producerJob: 'produce_en_guides',
+    strategy: 'checkpoint',
+    site: 'en',
+    group: 'guides',
+    translationSourceGroup: 'guides',
+    toolingSha: SHA_A,
+    sourceBaselineSha: SHA_B,
+    targetBranch: 'dev',
+    artifacts: {
+      checkpoint: 'docs-checkpoint-guides-en-987654',
+      baseline: 'docs-baseline-guides-en-987654',
+    },
+    commitMessage: 'docs(guides): publish fetched content',
+    validationCommands: ['pnpm validate:docs --site en'],
+    environment: {},
+  }],
+  selectionSha256: '18da6f56ecc6230dc0ee3adc660449df1c9d96de69e7fcf7cc343a05e8a030ac',
+})
+
+const fetchReady = Object.freeze({
+  schemaVersion: 1,
+  document: 'publication-ready',
+  workflow: 'fetch',
+  repository: fetchSelection.repository,
+  runId: fetchSelection.runId,
+  runAttempt: fetchSelection.runAttempt,
+  selectionSha256: fetchSelection.selectionSha256,
+  unitKey: 'source/guides-en',
+  producerJob: 'produce_en_guides',
+  toolingSha: SHA_A,
+  sourceBaselineSha: SHA_B,
+  targetBranch: 'dev',
+  artifacts: {
+    checkpoint: {name: 'docs-checkpoint-guides-en-987654', archiveSha256: SUM_A, manifestSha256: SUM_B},
+    baseline: {name: 'docs-baseline-guides-en-987654', archiveSha256: SUM_B, manifestSha256: SUM_A},
+  },
+  outcome: 'candidate',
+})
+
+const fetchProgress = Object.freeze({
+  schemaVersion: 1,
+  document: 'publication-progress',
+  workflow: 'fetch',
+  repository: fetchSelection.repository,
+  runId: fetchSelection.runId,
+  runAttempt: fetchSelection.runAttempt,
+  selectionSha256: fetchSelection.selectionSha256,
+  mode: 'publish',
+  revision: 3,
+  generatedAt: '2026-08-04T08:00:01.000Z',
+  activeUnitKey: null,
+  queue: ['source/guides-en'],
+  units: [{
+    unitKey: 'source/guides-en',
+    state: 'ready',
+    producerJobId: 456,
+    producerCompletedAt: COMPLETED_AT,
+    readyAt: '2026-08-04T08:00:01.000Z',
+    sequence: 1,
+    publishStartedAt: null,
+    publishCompletedAt: null,
+    baseSha: null,
+    resultSha: null,
+    commitShas: [],
+    attempts: 0,
+    failure: null,
+  }],
+})
+
+const fetchResults = Object.freeze({
+  schemaVersion: 1,
+  document: 'publication-results',
+  workflow: 'fetch',
+  repository: fetchSelection.repository,
+  runId: fetchSelection.runId,
+  runAttempt: fetchSelection.runAttempt,
+  selectionSha256: fetchSelection.selectionSha256,
+  mode: 'publish',
+  targetBranch: 'dev',
+  initialTargetSha: SHA_C,
+  finalTargetSha: SHA_A,
+  startedAt: '2026-08-04T08:00:00.000Z',
+  completedAt: '2026-08-04T08:00:04.000Z',
+  overallStatus: 'success',
+  units: [{
+    unitKey: 'source/guides-en',
+    producerJobId: 456,
+    producerCompletedAt: COMPLETED_AT,
+    readyAt: '2026-08-04T08:00:01.000Z',
+    sequence: 1,
+    publishStartedAt: '2026-08-04T08:00:02.000Z',
+    publishCompletedAt: '2026-08-04T08:00:03.000Z',
+    baseSha: SHA_C,
+    resultSha: SHA_A,
+    commitShas: [SHA_A],
+    attempts: 1,
+    status: 'published',
+    failure: null,
+  }],
+  orchestratorFailure: null,
+})
+
 function selectionUnit(overrides = {}) {
   return {
     unitKey: 'source/java',
@@ -181,6 +297,13 @@ test('all four publication documents start independently at schemaVersion 1', ()
   assert.equal(validatePublicationReady(ready(), {selection: selected}).schemaVersion, 1)
   assert.equal(validatePublicationProgress(progress(), {selection: selected}).schemaVersion, 1)
   assert.equal(validatePublicationResults(results(), {selection: selected}).schemaVersion, 1)
+})
+
+test('Fetch publication documents remain byte-identical after workflow adapter extraction', () => {
+  assert.equal(canonicalJson(validatePublicationSelection(fetchSelection)), canonicalJson(fetchSelection))
+  assert.equal(canonicalJson(validatePublicationReady(fetchReady, {selection: fetchSelection})), canonicalJson(fetchReady))
+  assert.equal(canonicalJson(validatePublicationProgress(fetchProgress, {selection: fetchSelection})), canonicalJson(fetchProgress))
+  assert.equal(canonicalJson(validatePublicationResults(fetchResults, {selection: fetchSelection})), canonicalJson(fetchResults))
 })
 
 test('selection checksum excludes only selectionSha256 and canonicalizes recursively', () => {
