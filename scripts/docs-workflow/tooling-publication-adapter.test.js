@@ -56,6 +56,7 @@ test('Tooling selection rejects extra, duplicate, and mismatched units', () => {
   assert.throws(() => selection({units: [unit(), unit()]}), /exactly one/i)
   assert.throws(() => selection({units: [unit({unitKey: 'tooling/other'})]}), /tooling\/master/i)
   assert.throws(() => selection({units: [unit({strategy: 'checkpoint'})]}), /tooling-merge/i)
+  assert.throws(() => selection({targetBranch: 'release', units: [unit({targetBranch: 'release'})]}), /targetBranch.*dev/i)
   assert.throws(() => selection({units: [unit({toolingSha: 'c'.repeat(40)})]}), /toolingSha.*mismatch/i)
   assert.throws(() => selection({units: [unit({sourceBaselineSha: 'c'.repeat(40)})]}), /sourceBaselineSha.*mismatch/i)
 })

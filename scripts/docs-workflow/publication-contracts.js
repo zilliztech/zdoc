@@ -158,7 +158,7 @@ function validateSelectionShape(value, requireChecksum) {
   assertPositiveInteger(value.runId, 'runId', document)
   assertPositiveInteger(value.runAttempt, 'runAttempt', document)
   if (requireChecksum) assertChecksum(value.selectionSha256, 'selectionSha256', document)
-  adapter.validateSelection(value, adapterHelpers())
+  adapter.validateSelection(value, adapterHelpers({requireChecksum}))
   if (requireChecksum && checksumSelection(value) !== value.selectionSha256) invalid(document, 'selection checksum mismatch')
 }
 
@@ -201,8 +201,8 @@ const PUBLICATION_ADAPTER_HELPERS = Object.freeze({
   validateEnvironment,
 })
 
-function adapterHelpers() {
-  return PUBLICATION_ADAPTER_HELPERS
+function adapterHelpers(options = {}) {
+  return Object.freeze({...PUBLICATION_ADAPTER_HELPERS, ...options})
 }
 
 function validatePublicationReady(input, options = {}) {

@@ -46,7 +46,7 @@ function validateTranslationUnit(unit, selection, index, helpers) {
 
 function validateTranslationSelection(value, helpers) {
   const document = helpers.DOCUMENTS.selection
-  const keys = Object.hasOwn(value, 'selectionSha256') ? SELECTION_KEYS : SELECTION_KEYS.filter(key => key !== 'selectionSha256')
+  const keys = helpers.requireChecksum ? SELECTION_KEYS : SELECTION_KEYS.filter(key => key !== 'selectionSha256')
   helpers.exactKeys(value, keys, 'root', document)
   helpers.assertSha(value.toolingSha, 'toolingSha', document)
   helpers.assertTargetBranch(value.targetBranch, document)

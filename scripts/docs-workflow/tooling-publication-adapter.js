@@ -40,10 +40,11 @@ function validateToolingUnit(unit, selection, helpers) {
 
 function validateToolingSelection(value, helpers) {
   const document = helpers.DOCUMENTS.selection
-  const keys = Object.hasOwn(value, 'selectionSha256') ? SELECTION_KEYS : SELECTION_KEYS.filter(key => key !== 'selectionSha256')
+  const keys = helpers.requireChecksum ? SELECTION_KEYS : SELECTION_KEYS.filter(key => key !== 'selectionSha256')
   helpers.exactKeys(value, keys, 'root', document)
   helpers.assertSha(value.toolingSha, 'toolingSha', document)
   helpers.assertTargetBranch(value.targetBranch, document)
+  if (value.targetBranch !== 'dev') helpers.invalid(document, 'targetBranch must be dev')
   helpers.assertSha(value.initialTargetSha, 'initialTargetSha', document)
   helpers.assertSha(value.sourceBaselineSha, 'sourceBaselineSha', document)
   helpers.exactKeys(value.inputs, ['selectedGroup', 'publish', 'runTranslations'], 'inputs', document)

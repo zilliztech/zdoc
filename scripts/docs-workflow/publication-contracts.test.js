@@ -314,6 +314,14 @@ test('selection checksum excludes only selectionSha256 and canonicalizes recursi
   assert.throws(() => validatePublicationSelection({...first, selectionSha256: SUM_B}), /checksum/i)
 })
 
+test('selection exact keys distinguish finalize and validate checksum phases', () => {
+  const selected = finalizedSelection()
+  assert.throws(() => finalizePublicationSelection(selected), /keys|selectionSha256/i)
+  const withoutChecksum = {...selected}
+  delete withoutChecksum.selectionSha256
+  assert.throws(() => validatePublicationSelection(withoutChecksum), /keys|selectionSha256|checksum/i)
+})
+
 test('selection enforces exact roots, unit keys, canonical order, and unique artifacts', () => {
   const java = selectionUnit()
   const node = selectionUnit({
