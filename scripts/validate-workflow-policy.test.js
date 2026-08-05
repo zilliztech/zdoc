@@ -2560,6 +2560,74 @@ test('manual translation workflow owns parallel producers and serial publication
   }
 })
 
+test('Translation producers bind one immutable selection and emit ready descriptors after checkpoint artifacts', () => {
+  const reusable = yaml.load(fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8'))
+  const reusableSteps = reusable.jobs.translate.steps
+  for (const input of ['publication_selection_artifact_name', 'publication_selection_sha256', 'publication_unit_key']) {
+    assert.equal(reusable.on.workflow_call.inputs[input].required, true, input)
+  }
+  const download = reusableSteps.find(step => step.name === 'Download translation publication selection')
+  const validate = reusableSteps.find(step => step.name === 'Validate translation publication selection identity')
+  const checkpoint = reusableSteps.findIndex(step => step.name === 'Upload translation checkpoint')
+  const baseline = reusableSteps.findIndex(step => step.name === 'Upload translation baseline')
+  const ready = reusableSteps.findIndex(step => step.name === 'Create immutable Translation ready descriptor')
+  const upload = reusableSteps.findIndex(step => step.name === 'Upload immutable Translation ready descriptor')
+  assert.equal(download.uses, 'actions/download-artifact@v7')
+  assert.equal(download.with.name, '${{ inputs.publication_selection_artifact_name }}')
+  assert.match(validate.run, /publication-contracts\.js validate-selection/)
+  assert.equal(validate.env.PUBLICATION_SELECTION_SHA256, '${{ inputs.publication_selection_sha256 }}')
+  assert.equal(reusable.jobs.translate.env.PUBLICATION_UNIT_KEY, '${{ inputs.publication_unit_key }}')
+  assert.ok(checkpoint >= 0 && baseline > checkpoint && ready > baseline && upload > ready)
+  assert.match(reusableSteps[ready].run, /translation-publication-selection\.js ready/)
+  assert.equal(reusableSteps[upload].uses, 'actions/upload-artifact@v6')
+  assert.match(reusableSteps[upload].with.name, /^publication-ready-translation-/)
+  assert.equal(reusable.permissions.contents, 'read')
+  assert.doesNotMatch(JSON.stringify(reusable), /git push/)
+
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
+  assert.equal(workflow.jobs.prepare.outputs.publication_selection_artifact_name, '${{ steps.publication_selection.outputs.artifact_name }}')
+  assert.equal(workflow.jobs.prepare.outputs.publication_selection_sha256, '${{ steps.publication_selection.outputs.selection_sha256 }}')
+  const prepareSource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
+  assert.match(prepareSource, /translation-publication-selection\.js selection/)
+  assert.match(prepareSource, /name: publication-selection-translation-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/)
+  for (const jobName of ['translate_sdk', 'translate_guides_batches']) {
+    const job = workflow.jobs[jobName]
+    assert.equal(job.with.publication_selection_artifact_name, '${{ needs.prepare.outputs.publication_selection_artifact_name }}')
+    assert.equal(job.with.publication_selection_sha256, '${{ needs.prepare.outputs.publication_selection_sha256 }}')
+  }
+  assert.equal(workflow.jobs.translate_sdk.with.publication_unit_key, '${{ matrix.publicationUnitKey }}')
+  const fanIn = workflow.jobs.prepare_guides_publication_ready
+  assert.deepEqual(fanIn.needs, ['prepare', 'prepare_guides_batches', 'translate_guides_batches'])
+  assert.deepEqual(fanIn.permissions, {actions: 'read', contents: 'read'})
+  const fanInSource = JSON.stringify(fanIn)
+  assert.match(fanInSource, /translation-artifact-pairs\.js/)
+  assert.match(fanInSource, /translation-batch-set\.js plan/)
+  assert.doesNotMatch(fanInSource, /git push|staging/)
+})
+
+test('workflow policy rejects Translation selection and ready-descriptor wiring regressions', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-ready-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const producer = path.join(directory, '_translate-content-group.yml')
+    const workflow = path.join(directory, 'translate-codex.yml')
+    const producerSource = fs.readFileSync(producer, 'utf8')
+    fs.writeFileSync(producer, producerSource.replace('      publication_unit_key: { required: true, type: string }\n', ''))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      '_translate-content-group.yml: Translation producer must require and authenticate the immutable publication selection identity',
+    ))
+
+    fs.writeFileSync(producer, producerSource)
+    const workflowSource = fs.readFileSync(workflow, 'utf8')
+    fs.writeFileSync(workflow, workflowSource.replace('      publication_unit_key: ${{ matrix.publicationUnitKey }}\n', ''))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: SDK Translation matrix units must receive their exact publication unit key',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('full translation publication reconciles derived state before aggregate success', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/translate-codex.yml')
   const source = fs.readFileSync(workflowPath, 'utf8')

@@ -89,6 +89,8 @@ jobs:
       guides_selected: ${{ steps.handoff.outputs.guides_selected }}
       guides_unit_json: ${{ steps.handoff.outputs.guides_unit_json }}
       guides_recovery_run_id: ${{ steps.handoff.outputs.guides_recovery_run_id }}
+      publication_selection_artifact_name: ${{ steps.publication_selection.outputs.artifact_name }}
+      publication_selection_sha256: ${{ steps.publication_selection.outputs.selection_sha256 }}
     steps:
       - name: Validate exact tooling identity before checkout
         id: identity
@@ -131,7 +133,7 @@ jobs:
             if (!handoff.units.some(unit => `${unit.target}/${unit.group}` === key)) throw new Error(`Recovery run ID is not selected: ${key}`)
             if (value !== '' && !/^[1-9][0-9]*$/.test(String(value))) throw new Error(`Recovery run ID is invalid: ${key}`)
           }
-          const sdk = handoff.units.filter(unit => unit.group !== 'guides').map(unit => ({...unit, recoveryRunId: String(recovery[`${unit.target}/${unit.group}`] || '')}))
+          const sdk = handoff.units.filter(unit => unit.group !== 'guides').map(unit => ({...unit, publicationUnitKey: `translation/${unit.target}/${unit.group}`, recoveryRunId: String(recovery[`${unit.target}/${unit.group}`] || '')}))
           const guides = handoff.units.find(unit => unit.target === 'ja-JP' && unit.group === 'guides')
           const sourceCheckpoints = Object.fromEntries(handoff.units.map(unit => [unit.sourceGroup, unit.sourceCheckpointSha]))
           const lines = {
@@ -149,6 +151,33 @@ jobs:
           }
           fs.appendFileSync(process.env.GITHUB_OUTPUT, Object.entries(lines).map(([key, value]) => `${key}=${value}\n`).join(''))
           NODE
+      - name: Create immutable Translation publication selection
+        id: publication_selection
+        env:
+          HANDOFF_JSON: ${{ inputs.handoff_json }}
+          PUBLISH: ${{ inputs.publish }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/publication-selection"
+          node scripts/docs-workflow/translation-publication-selection.js selection \
+            --handoff "$HANDOFF_JSON" \
+            --repository "$GITHUB_REPOSITORY" \
+            --run-id "$GITHUB_RUN_ID" \
+            --run-attempt "$GITHUB_RUN_ATTEMPT" \
+            --publish "$PUBLISH" \
+            --run-translations true \
+            --output "$RUNNER_TEMP/publication-selection/publication-selection.json"
+          SELECTION_PATH="$RUNNER_TEMP/publication-selection/publication-selection.json" node - <<'NODE'
+          const fs = require('node:fs')
+          const selection = JSON.parse(fs.readFileSync(process.env.SELECTION_PATH, 'utf8'))
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `artifact_name=publication-selection-translation-${selection.runId}-${selection.runAttempt}\nselection_sha256=${selection.selectionSha256}\n`)
+          NODE
+      - name: Upload immutable Translation publication selection
+        uses: actions/upload-artifact@v6
+        with:
+          name: publication-selection-translation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/publication-selection/publication-selection.json
+          if-no-files-found: error
 
   prepare_guides_batches:
     needs: prepare
@@ -184,6 +213,9 @@ jobs:
       batch_size: ${{ fromJSON(needs.prepare_guides_batches.outputs.batch_size) }}
       pending_count: ${{ fromJSON(needs.prepare_guides_batches.outputs.pending_count) }}
       pending_set_sha256: ${{ needs.prepare_guides_batches.outputs.pending_set_sha256 }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      publication_unit_key: translation/ja-JP/guides
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
@@ -206,9 +238,132 @@ jobs:
       max_files: '500'
       mode: ${{ inputs.mode }}
       recovery_run_id: ${{ matrix.recoveryRunId }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      publication_unit_key: ${{ matrix.publicationUnitKey }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+
+  prepare_guides_publication_ready:
+    needs: [prepare, prepare_guides_batches, translate_guides_batches]
+    if: ${{ always() && needs.prepare.result == 'success' && needs.prepare.outputs.guides_selected == 'true' && needs.prepare_guides_batches.result == 'success' && needs.translate_guides_batches.result == 'success' && needs.prepare_guides_batches.outputs.batch_count != '0' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: read
+    env:
+      BATCH_COUNT: ${{ needs.prepare_guides_batches.outputs.batch_count }}
+      PENDING_SET_SHA256: ${{ needs.prepare_guides_batches.outputs.pending_set_sha256 }}
+      SOURCE_CHECKPOINT_SHA: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceCheckpointSha }}
+      TOOLING_SHA: ${{ needs.prepare.outputs.tooling_sha }}
+      EXPECTED_TARGET_SHA: ${{ needs.prepare.outputs.target_branch_sha }}
+      PUBLICATION_SELECTION_SHA256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: '${{ needs.prepare.outputs.tooling_sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Download immutable Translation publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Download complete Guides translation checkpoints
+        uses: actions/download-artifact@v7
+        with:
+          pattern: translation-checkpoint-ja-JP-guides-${{ github.run_id }}-batch-*
+          path: ${{ runner.temp }}/translation-checkpoints
+      - name: Download complete Guides translation baselines
+        uses: actions/download-artifact@v7
+        with:
+          pattern: translation-baseline-ja-JP-guides-${{ github.run_id }}-batch-*
+          path: ${{ runner.temp }}/translation-baselines
+      - name: Validate and package complete Guides translation batch set
+        run: |
+          set -euo pipefail
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          node scripts/docs-workflow/publication-contracts.js validate-selection "$selection"
+          node - <<'NODE'
+          const crypto = require('node:crypto')
+          const fs = require('node:fs')
+          const selection = JSON.parse(fs.readFileSync(`${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`, 'utf8'))
+          if (selection.selectionSha256 !== process.env.PUBLICATION_SELECTION_SHA256) throw new Error('publication selection checksum mismatch')
+          if (!selection.units.some(unit => unit.unitKey === 'translation/ja-JP/guides')) throw new Error('Guides publication unit is not selected')
+          NODE
+          node scripts/docs-workflow/translation-artifact-pairs.js \
+            --checkpoints-root "$RUNNER_TEMP/translation-checkpoints" \
+            --baselines-root "$RUNNER_TEMP/translation-baselines" \
+            --target ja-JP --group guides --run-id "$GITHUB_RUN_ID" --batch-count "$BATCH_COUNT" \
+            --output "$RUNNER_TEMP/guides-artifact-pairs.json"
+          mkdir -p "$RUNNER_TEMP/guides-ready"
+          PAIRS="$RUNNER_TEMP/guides-artifact-pairs.json" node - <<'NODE'
+          const fs = require('node:fs')
+          const path = require('node:path')
+          const pairs = JSON.parse(fs.readFileSync(process.env.PAIRS, 'utf8'))
+          const root = `${process.env.RUNNER_TEMP}/guides-ready`
+          const rows = pairs.pairs.map(pair => ({
+            artifactDir: path.join(root, `result-${pair.batchNumber}`, 'checkpoint-group'),
+            baselineDir: path.join(root, `baseline-${pair.batchNumber}`, 'checkpoint-group'),
+            resultArchive: pair.resultArchive,
+            baselineArchive: pair.baselineArchive,
+          }))
+          fs.writeFileSync(path.join(root, 'extract.tsv'), rows.map(row => `${row.resultArchive}\t${row.baselineArchive}\t${row.artifactDir}\t${row.baselineDir}`).join('\n') + '\n')
+          NODE
+          while IFS=$'\t' read -r result_archive baseline_archive result_dir baseline_dir; do
+            mkdir -p "$(dirname "$result_dir")" "$(dirname "$baseline_dir")"
+            tar -xf "$result_archive" -C "$(dirname "$result_dir")"
+            tar -xf "$baseline_archive" -C "$(dirname "$baseline_dir")"
+          done < "$RUNNER_TEMP/guides-ready/extract.tsv"
+          git fetch --no-tags origin "$SOURCE_CHECKPOINT_SHA" "$EXPECTED_TARGET_SHA"
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const path = require('node:path')
+          const root = `${process.env.RUNNER_TEMP}/guides-ready`
+          const rows = fs.readFileSync(path.join(root, 'extract.tsv'), 'utf8').trim().split('\n').map(line => {
+            const [, , artifactDir, baselineDir] = line.split('\t')
+            return {artifactDir, baselineDir}
+          })
+          fs.writeFileSync(path.join(root, 'pairs-manifest.json'), `${JSON.stringify({schemaVersion: 1, group: 'guides', sourceCheckpointSha: process.env.SOURCE_CHECKPOINT_SHA, expectedTargetSha: process.env.EXPECTED_TARGET_SHA, pairs: rows})}\n`)
+          NODE
+          node scripts/docs-workflow/translation-batch-set.js plan \
+            --pairs-manifest "$RUNNER_TEMP/guides-ready/pairs-manifest.json" \
+            --source-repository "$GITHUB_WORKSPACE" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
+            --target-repository "$GITHUB_WORKSPACE" --expected-target-sha "$EXPECTED_TARGET_SHA" \
+            --output "$RUNNER_TEMP/guides-ready/translation-plan.json"
+          RUNNER_TEMP="$RUNNER_TEMP" node - <<'NODE'
+          const fs = require('node:fs')
+          const plan = JSON.parse(fs.readFileSync(`${process.env.RUNNER_TEMP}/guides-ready/translation-plan.json`, 'utf8'))
+          if (plan.pendingSetSha256 !== process.env.PENDING_SET_SHA256) throw new Error('Guides pending set checksum mismatch')
+          const manifest = {schemaVersion: 1, stage: 'translation-guides-batch-set', group: 'guides', runId: Number(process.env.GITHUB_RUN_ID), runAttempt: Number(process.env.GITHUB_RUN_ATTEMPT), sourceCheckpointSha: process.env.SOURCE_CHECKPOINT_SHA, toolingSha: process.env.TOOLING_SHA, targetSha: plan.targetSha, batchCount: plan.batchCount, pendingSetSha256: plan.pendingSetSha256}
+          fs.writeFileSync(`${process.env.RUNNER_TEMP}/guides-ready/checkpoint-manifest.json`, `${JSON.stringify(manifest)}\n`)
+          fs.writeFileSync(`${process.env.RUNNER_TEMP}/guides-ready/baseline-manifest.json`, `${JSON.stringify(manifest)}\n`)
+          NODE
+          tar -cf "$RUNNER_TEMP/guides-ready/checkpoint-group.tar" -C "$RUNNER_TEMP/translation-checkpoints" .
+          tar -cf "$RUNNER_TEMP/guides-ready/baseline-group.tar" -C "$RUNNER_TEMP/translation-baselines" .
+      - name: Upload Guides translation checkpoint
+        uses: actions/upload-artifact@v6
+        with:
+          name: translation-checkpoint-ja-JP-guides-${{ github.run_id }}
+          path: ${{ runner.temp }}/guides-ready/checkpoint-group.tar
+          if-no-files-found: error
+      - name: Upload Guides translation baseline
+        uses: actions/upload-artifact@v6
+        with:
+          name: translation-baseline-ja-JP-guides-${{ github.run_id }}
+          path: ${{ runner.temp }}/guides-ready/baseline-group.tar
+          if-no-files-found: error
+      - name: Create immutable Translation ready descriptor
+        run: node scripts/docs-workflow/translation-publication-selection.js ready --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" --unit-key translation/ja-JP/guides --checkpoint-archive "$RUNNER_TEMP/guides-ready/checkpoint-group.tar" --checkpoint-manifest "$RUNNER_TEMP/guides-ready/checkpoint-manifest.json" --baseline-archive "$RUNNER_TEMP/guides-ready/baseline-group.tar" --baseline-manifest "$RUNNER_TEMP/guides-ready/baseline-manifest.json" --output "$RUNNER_TEMP/guides-ready/publication-ready.json"
+      - name: Upload immutable Translation ready descriptor
+        uses: actions/upload-artifact@v6
+        with:
+          name: publication-ready-translation-ja-JP-guides-${{ github.run_id }}
+          path: ${{ runner.temp }}/guides-ready/publication-ready.json
+          if-no-files-found: error
 
   publish_ja_guides:
     needs: [prepare, prepare_guides_batches, translate_guides_batches]

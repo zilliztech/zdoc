@@ -20,6 +20,9 @@ on:
       recovery_run_id: { required: false, type: string, default: '' }
       mode: { required: false, type: string, default: auto }
       bootstrap_group: { required: false, type: string, default: '' }
+      publication_selection_artifact_name: { required: true, type: string }
+      publication_selection_sha256: { required: true, type: string }
+      publication_unit_key: { required: true, type: string }
     outputs:
       status: { value: '${{ jobs.translate.outputs.status }}' }
       artifact_name: { value: '${{ jobs.translate.outputs.artifact_name }}' }
@@ -53,16 +56,21 @@ jobs:
       SOURCE_BASELINE_SHA: ${{ inputs.source_baseline_sha }}
       SOURCE_CHECKPOINT_SHA: ${{ inputs.source_checkpoint_sha }}
       TOOLING_SHA: ${{ inputs.tooling_sha }}
+      PUBLICATION_UNIT_KEY: ${{ inputs.publication_unit_key }}
     steps:
       - name: Initialize temporary paths
         shell: bash
         run: |
           set -euo pipefail
           [[ -n "${RUNNER_TEMP:-}" && "$RUNNER_TEMP" == /* ]] || { echo "RUNNER_TEMP must be a non-empty absolute path" >&2; exit 1; }
+          mkdir -p "$RUNNER_TEMP/publication-ready"
           printf '%s\n' \
             "BASELINE_DIR=$RUNNER_TEMP/translation-source-baseline" \
             "CHECKPOINT_DIR=$RUNNER_TEMP/translation-artifact/checkpoint-group" \
             "BASELINE_CHECKPOINT_DIR=$RUNNER_TEMP/baseline-artifact/checkpoint-group" \
+            "CHECKPOINT_UPLOAD_DIR=$RUNNER_TEMP/checkpoint" \
+            "BASELINE_UPLOAD_DIR=$RUNNER_TEMP/baseline" \
+            "PUBLICATION_SELECTION=$RUNNER_TEMP/publication-selection/publication-selection.json" \
             "RECOVERY_DOWNLOAD_DIR=$RUNNER_TEMP/translation-recovery-download" \
             "RECOVERY_OUTPUT_DIR=$RUNNER_TEMP/translation-recovery-output" >> "$GITHUB_ENV"
           suffix=
@@ -81,6 +89,23 @@ jobs:
         with: { node-version: '22.6', cache: pnpm }
       - name: Install current master tooling
         run: pnpm install --frozen-lockfile
+      - name: Download translation publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ inputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Validate translation publication selection identity
+        env:
+          PUBLICATION_SELECTION_SHA256: ${{ inputs.publication_selection_sha256 }}
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/publication-contracts.js validate-selection "$PUBLICATION_SELECTION"
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const selection = JSON.parse(fs.readFileSync(process.env.PUBLICATION_SELECTION, 'utf8'))
+          if (selection.selectionSha256 !== process.env.PUBLICATION_SELECTION_SHA256) throw new Error('publication selection checksum input mismatch')
+          if (!selection.units.some(unit => unit.unitKey === process.env.PUBLICATION_UNIT_KEY)) throw new Error('publication unit is not selected')
+          NODE
       - name: Materialize source checkpoint and baseline
         if: ${{ inputs.should_translate }}
         run: |
@@ -235,19 +260,11 @@ jobs:
               --batch-number "${{ inputs.batch_number }}" \
               --batch-count "${{ inputs.batch_count }}"
           fi
-          mkdir -p "$RUNNER_TEMP/baseline-upload" "$RUNNER_TEMP/translation-upload"
-          tar --dereference -cf "$RUNNER_TEMP/baseline-upload/checkpoint-group.tar" -C "$(dirname "$BASELINE_CHECKPOINT_DIR")" "$(basename "$BASELINE_CHECKPOINT_DIR")"
-          tar --dereference -cf "$RUNNER_TEMP/translation-upload/checkpoint-group.tar" -C "$(dirname "$CHECKPOINT_DIR")" "$(basename "$CHECKPOINT_DIR")"
-      - name: Upload baseline checkpoint
-        id: baseline_upload
-        if: ${{ steps.checkpoint.outcome == 'success' }}
-        uses: actions/upload-artifact@v6
-        with: { name: 'translation-baseline-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: '${{ runner.temp }}/baseline-upload/checkpoint-group.tar', retention-days: '${{ inputs.artifact_retention_days }}' }
-      - name: Upload translation checkpoint
-        id: translation_upload
-        if: ${{ steps.checkpoint.outcome == 'success' }}
-        uses: actions/upload-artifact@v6
-        with: { name: 'translation-checkpoint-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: '${{ runner.temp }}/translation-upload/checkpoint-group.tar', retention-days: '${{ inputs.artifact_retention_days }}' }
+          mkdir -p "$CHECKPOINT_UPLOAD_DIR" "$BASELINE_UPLOAD_DIR"
+          tar --dereference -cf "$CHECKPOINT_UPLOAD_DIR/checkpoint-group.tar" -C "$(dirname "$CHECKPOINT_DIR")" "$(basename "$CHECKPOINT_DIR")"
+          tar --dereference -cf "$BASELINE_UPLOAD_DIR/checkpoint-group.tar" -C "$(dirname "$BASELINE_CHECKPOINT_DIR")" "$(basename "$BASELINE_CHECKPOINT_DIR")"
+          cp "$CHECKPOINT_DIR/manifest.json" "$CHECKPOINT_UPLOAD_DIR/manifest.json"
+          cp "$BASELINE_CHECKPOINT_DIR/manifest.json" "$BASELINE_UPLOAD_DIR/manifest.json"
       - name: Upload translation report
         if: ${{ always() }}
         run: node scripts/translation/reportSummary.js --manifest tmp/translation-manifest.json --report tmp/translation-report.json --output tmp/translation-report.md
@@ -256,6 +273,26 @@ jobs:
         if: ${{ always() }}
         uses: actions/upload-artifact@v6
         with: { name: 'translation-report-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: 'tmp/translation-report*', if-no-files-found: ignore }
+      - name: Upload translation checkpoint
+        id: translation_upload
+        if: ${{ steps.checkpoint.outcome == 'success' }}
+        uses: actions/upload-artifact@v6
+        with: { name: 'translation-checkpoint-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: '${{ runner.temp }}/checkpoint/checkpoint-group.tar', retention-days: '${{ inputs.artifact_retention_days }}' }
+      - name: Upload translation baseline
+        id: baseline_upload
+        if: ${{ steps.checkpoint.outcome == 'success' }}
+        uses: actions/upload-artifact@v6
+        with: { name: 'translation-baseline-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: '${{ runner.temp }}/baseline/checkpoint-group.tar', retention-days: '${{ inputs.artifact_retention_days }}' }
+      - name: Create immutable Translation ready descriptor
+        if: ${{ inputs.batch_number == 0 && steps.translation_upload.outcome == 'success' && steps.baseline_upload.outcome == 'success' }}
+        run: node scripts/docs-workflow/translation-publication-selection.js ready --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" --unit-key "$PUBLICATION_UNIT_KEY" --checkpoint-archive "$RUNNER_TEMP/checkpoint/checkpoint-group.tar" --checkpoint-manifest "$RUNNER_TEMP/checkpoint/manifest.json" --baseline-archive "$RUNNER_TEMP/baseline/checkpoint-group.tar" --baseline-manifest "$RUNNER_TEMP/baseline/manifest.json" --output "$RUNNER_TEMP/publication-ready/publication-ready.json"
+      - name: Upload immutable Translation ready descriptor
+        if: ${{ inputs.batch_number == 0 && steps.translation_upload.outcome == 'success' && steps.baseline_upload.outcome == 'success' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: publication-ready-translation-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/publication-ready/publication-ready.json
+          if-no-files-found: error
       - name: Emit translation result
         id: result
         if: ${{ always() }}
