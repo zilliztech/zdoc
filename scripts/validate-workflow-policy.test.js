@@ -12,6 +12,65 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('publish-capable top-level workflows share the durable dev queue', () => {
+  const fetch = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const translation = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
+  const tooling = yaml.load(fs.readFileSync('.github/workflows/sync-master-tooling-to-dev.yml', 'utf8'))
+  assert.deepEqual(fetch.concurrency, {group: 'docs-production-dev', queue: 'max'})
+  assert.deepEqual(tooling.concurrency, {group: 'docs-production-dev', queue: 'max'})
+  assert.equal(translation.concurrency.queue, 'max')
+  assert.equal(
+    translation.concurrency.group,
+    "${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+  )
+})
+
+test('reusable workflows never reacquire the production dev queue', () => {
+  for (const file of fs.readdirSync('.github/workflows').filter(name => name.startsWith('_') && name.endsWith('.yml'))) {
+    const workflow = yaml.load(fs.readFileSync(path.join('.github/workflows', file), 'utf8'))
+    assert.notEqual(workflow?.concurrency?.group, 'docs-production-dev', file)
+  }
+})
+
+test('workflow policy rejects durable production dev queue regressions', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const fixtures = [
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace('  queue: max', '  cancel-in-progress: false'),
+      expected: 'fetch-docs.yml: production dev queue owner must use group docs-production-dev with queue: max',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => `concurrency:\n  group: docs-production-dev\n  queue: max\n\n${source}`,
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: 'translate-codex.yml',
+      mutate: source => source.replace(
+        "  group: ${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+        '  group: docs-production-dev',
+      ),
+      expected: 'translate-codex.yml: read-only Translation must use a unique concurrency group',
+    },
+  ]
+
+  for (const fixture of fixtures) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'production-dev-queue-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const file = path.join(directory, fixture.file)
+      const source = fs.readFileSync(file, 'utf8')
+      const mutated = fixture.mutate(source)
+      assert.notEqual(mutated, source, `${fixture.file} mutation must change source`)
+      fs.writeFileSync(file, mutated)
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
+})
+
 test('workflow policy rejects action majors that still target the deprecated Node 20 runtime', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'node-action-runtime-policy-'))
@@ -236,7 +295,10 @@ test('translation workflows declare immutable target identity and exact target v
   assert.equal(compatibility.on.workflow_dispatch.inputs.handoff_json?.required, true)
   for (const input of ['locale', 'group', 'tooling_sha', 'source_shas_json', 'target_branch']) assert.equal(compatibility.on.workflow_dispatch.inputs[input], undefined)
   assert.equal(compatibility.on.workflow_dispatch.inputs.publish.default, false)
-  assert.equal(compatibility.concurrency, undefined)
+  assert.deepEqual(compatibility.concurrency, {
+    group: "${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+    queue: 'max',
+  })
   const compatibilitySource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
   assert.match(compatibilitySource, /strategy:[\s\S]*matrix: \$\{\{ fromJSON\(needs\.prepare\.outputs\.sdk_producer_matrix\) \}\}/)
   assert.match(compatibilitySource, /publish_ja_guides:[\s\S]*publish_ja_python:[\s\S]*publish_zh_python:[\s\S]*publish_ja_java:[\s\S]*publish_zh_java:/)
