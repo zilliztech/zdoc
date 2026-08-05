@@ -5,6 +5,12 @@ const path = require('node:path')
 const yaml = require('js-yaml')
 
 const workflowDirectory = path.join(process.cwd(), '.github', 'workflows')
+const PRODUCTION_DEV_QUEUE = 'docs-production-dev'
+const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
+  ['fetch-docs.yml', {conditional: false}],
+  ['translate-codex.yml', {conditional: true}],
+  ['sync-master-tooling-to-dev.yml', {conditional: false}],
+]))
 const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'translate-codex.yml',
@@ -108,6 +114,19 @@ function namedJobStep(workflow, jobName, stepName) {
   return (workflow?.jobs?.[jobName]?.steps || []).find(step => step?.name === stepName)
 }
 
+function concurrencyGroupOf(concurrency) {
+  return typeof concurrency === 'string' ? concurrency : concurrency?.group
+}
+
+function isProductionDevQueueGroup(group) {
+  if (typeof group !== 'string') return false
+  const expressions = [...group.matchAll(/\$\{\{([\s\S]*?)\}\}/g)]
+  if (expressions.length === 0) return group.toLowerCase() === PRODUCTION_DEV_QUEUE
+  return expressions.some(([, expression]) =>
+    [...expression.matchAll(/'((?:[^']|'')*)'|"((?:[^"\\]|\\.)*)"/g)]
+      .some(match => String(match[1] ?? match[2]).toLowerCase() === PRODUCTION_DEV_QUEUE))
+}
+
 function executableCommandLines(run) {
   return executableShellLineEntries(run).map(({ trimmed }) =>
     trimmed.replace(/\s+2>&1\s*\|\s*tee\s+\S+\s*$/, ''))
@@ -177,7 +196,7 @@ function validateFetchPublicationProducer({workflow, source, file, jobName, chec
 
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
-  const files = fs.readdirSync(directory).filter(file => file.endsWith('.yml')).sort()
+  const files = fs.readdirSync(directory).filter(file => /\.ya?ml$/.test(file)).sort()
   const sourcePublicationWorkflows = new Set(['_fetch-content-group.yml', '_fetch-guides-sources.yml', '_assemble-guides.yml'])
 
   for (const file of files) {
@@ -196,6 +215,34 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     } catch (error) {
       errors.push(`${file}: invalid YAML: ${error.message}`)
       continue
+    }
+    const productionQueueOwner = PRODUCTION_QUEUE_OWNERS.get(file)
+    const concurrencyGroup = concurrencyGroupOf(workflow?.concurrency)
+    if (productionQueueOwner?.conditional) {
+      const expectedGroup = "${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}"
+      if (concurrencyGroup !== expectedGroup) {
+        errors.push(`${file}: read-only Translation must use a unique concurrency group`)
+      }
+      if (workflow?.concurrency?.queue !== 'max') {
+        errors.push(`${file}: production dev queue owner must use group docs-production-dev with queue: max`)
+      }
+    } else if (productionQueueOwner) {
+      if (concurrencyGroup !== PRODUCTION_DEV_QUEUE || workflow?.concurrency?.queue !== 'max') {
+        errors.push(`${file}: production dev queue owner must use group docs-production-dev with queue: max`)
+      }
+    } else if (isProductionDevQueueGroup(concurrencyGroup)) {
+      errors.push(file.startsWith('_')
+        ? `${file}: reusable workflow must not reacquire docs-production-dev`
+        : `${file}: only production dev queue owners may use docs-production-dev`)
+    }
+    const jobAcquiresProductionQueue = Object.values(workflow.jobs || {})
+      .some(job => isProductionDevQueueGroup(concurrencyGroupOf(job?.concurrency)))
+    if (jobAcquiresProductionQueue) {
+      errors.push(file.startsWith('_')
+        ? `${file}: reusable workflow must not reacquire docs-production-dev`
+        : productionQueueOwner
+          ? `${file}: job-level concurrency must not reacquire docs-production-dev`
+          : `${file}: job-level concurrency must not acquire docs-production-dev`)
     }
     const deprecatedActionRuntimeErrors = new Set()
     for (const job of Object.values(workflow.jobs || {})) {
@@ -278,9 +325,6 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (publishingWorkflows.has(file)) {
-      if (!['_publish-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_translate-selected-group.yml', 'translate-content.yml', 'translate-codex.yml'].includes(file) && !/^concurrency:\n  group: docs-production-dev\n  cancel-in-progress: false$/m.test(source)) {
-        errors.push(`${file}: serialize dev publication through docs-production-dev`)
-      }
       if (file === 'fetch-docs.yml') {
         const writableJobs = Object.entries(workflow.jobs || {}).filter(([, job]) => job?.permissions?.contents === 'write')
         if (workflow.permissions?.contents !== 'read' || workflow.permissions?.actions !== 'read' ||
@@ -894,7 +938,6 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       if (/secrets: inherit/.test(source)) errors.push(`${file}: reusable translation must receive an explicit secret allowlist`)
-      if (/^concurrency:/m.test(source)) errors.push(`${file}: translation producers must not share publication concurrency`)
       const inputs = workflow.on?.workflow_dispatch?.inputs || {}
       if (inputs.handoff_json?.required !== true || ['locale', 'group', 'tooling_sha', 'source_shas_json', 'target_branch'].some(input => inputs[input] !== undefined)) {
         errors.push(`${file}: must require one complete immutable handoff without duplicate identity inputs`)
