@@ -743,21 +743,16 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           !/run_url[\s\S]*https:\/\/github\\\.com\/[\s\S]*actions\/runs\//.test(source) || !source.includes('[1-9][0-9]*')) {
         errors.push(`${file}: downstream dispatch must wait for a validated handoff and authenticate its run URL`)
       }
-      const canaryInput = workflow.on?.workflow_dispatch?.inputs?.canary_suppress_translation_dispatch
-      const prepare = workflow.jobs?.prepare
-      const refs = (prepare?.steps || []).find(step => step?.id === 'refs')
       const aggregate = (workflow.jobs?.aggregate?.steps || []).find(step => step?.id === 'aggregate')
-      if (JSON.stringify(canaryInput) !== JSON.stringify({
-        description: 'Suppress the real Translation dispatch during isolated feature-branch canary runs',
-        type: 'boolean',
-        default: false,
-      }) ||
-          refs?.env?.TARGET_BRANCH !== "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_branch || 'dev' }}" ||
-          refs?.env?.CANARY_SUPPRESS_TRANSLATION_DISPATCH !== "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.canary_suppress_translation_dispatch == 'true' }}" ||
-          prepare?.outputs?.canary_suppress_translation_dispatch !== '${{ steps.refs.outputs.canary_suppress_translation_dispatch }}' ||
-          !String(dispatch?.if || '').includes("needs.prepare.outputs.canary_suppress_translation_dispatch != 'true'") ||
-          aggregate?.env?.TRANSLATION_HANDOFF_REQUESTED !== "${{ needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.canary_suppress_translation_dispatch != 'true' }}") {
-        errors.push(`${file}: temporary canary suppression must only gate downstream Translation dispatch`)
+      const temporaryCanaryMarkers = [
+        'canary_suppress_translation_dispatch',
+        'fetch-publication-fifo-p0-canary-dev',
+        'publish_ready_shadow',
+      ]
+      if (temporaryCanaryMarkers.some(marker => source.includes(marker)) ||
+          /production\s+shadow/iu.test(source) ||
+          aggregate?.env?.TRANSLATION_HANDOFF_REQUESTED !== '${{ needs.prepare.outputs.run_translations }}') {
+        errors.push(`${file}: PR-ready source workflow must not contain temporary canary or shadow configuration`)
       }
       const requiredSourcePatterns = [
         [/render_guides_tables:[\s\S]*max-parallel: 4[\s\S]*fromJSON\(needs\.produce_guides_sources\.outputs\.table_matrix\)/, 'must render Guides target/table matrix with max-parallel 4'],

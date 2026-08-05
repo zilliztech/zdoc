@@ -28,10 +28,6 @@ on:
         description: Dispatch the downstream translation workflow
         type: boolean
         default: false
-      canary_suppress_translation_dispatch:
-        description: Suppress the real Translation dispatch during isolated feature-branch canary runs
-        type: boolean
-        default: false
       tooling_ref:
         description: Tooling ref override; exact SHA allowed for controlled dev publication
         type: string
@@ -64,7 +60,6 @@ jobs:
       target_branch: ${{ steps.refs.outputs.target_branch }}
       publish: ${{ steps.refs.outputs.publish }}
       run_translations: ${{ steps.refs.outputs.run_translations }}
-      canary_suppress_translation_dispatch: ${{ steps.refs.outputs.canary_suppress_translation_dispatch }}
       media_upload_mode: ${{ steps.refs.outputs.media_upload_mode }}
       selected_group: ${{ steps.refs.outputs.selected_group }}
       retention_days: ${{ steps.refs.outputs.retention_days }}
@@ -85,7 +80,6 @@ jobs:
           TARGET_BRANCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_branch || 'dev' }}
           PUBLISH: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.publish == 'true' }}
           RUN_TRANSLATIONS: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_translations == 'true' }}
-          CANARY_SUPPRESS_TRANSLATION_DISPATCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.canary_suppress_translation_dispatch == 'true' }}
           MEDIA_UPLOAD_MODE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.media_upload_mode || 'write' }}
           TOOLING_REF: ${{ github.event.inputs.tooling_ref || 'master' }}
           SOURCE_REF: ${{ github.event.inputs.source_ref || 'dev' }}
@@ -135,7 +129,7 @@ jobs:
           if [[ "$PUBLISH" == true ]]; then card_parts+=("Publish" "Verify"); fi
           [[ "$RUN_TRANSLATIONS" == true ]] && card_parts+=("Handoff")
           card_stages=$(IFS=,; echo "${card_parts[*]}")
-          printf 'tooling_sha=%s\nsource_sha=%s\nmaster_sha=%s\ndev_baseline_sha=%s\ninitial_target_sha=%s\ntarget_branch=%s\npublish=%s\nrun_translations=%s\ncanary_suppress_translation_dispatch=%s\nmedia_upload_mode=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$tooling_sha" "$source_sha" "$master_sha" "$dev_baseline_sha" "$initial_target_sha" "$TARGET_BRANCH" "$PUBLISH" "$RUN_TRANSLATIONS" "$CANARY_SUPPRESS_TRANSLATION_DISPATCH" "$MEDIA_UPLOAD_MODE" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
+          printf 'tooling_sha=%s\nsource_sha=%s\nmaster_sha=%s\ndev_baseline_sha=%s\ninitial_target_sha=%s\ntarget_branch=%s\npublish=%s\nrun_translations=%s\nmedia_upload_mode=%s\nselected_group=%s\nretention_days=%s\ncard_stages=%s\n' "$tooling_sha" "$source_sha" "$master_sha" "$dev_baseline_sha" "$initial_target_sha" "$TARGET_BRANCH" "$PUBLISH" "$RUN_TRANSLATIONS" "$MEDIA_UPLOAD_MODE" "$SELECTED_GROUP" "$RETENTION_DAYS" "$card_stages" >> "$GITHUB_OUTPUT"
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
@@ -606,7 +600,7 @@ jobs:
 
   dispatch_translations:
     needs: [prepare, prepare_translation_handoff]
-    if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.publish == 'true' && needs.prepare.outputs.canary_suppress_translation_dispatch != 'true' && needs.prepare_translation_handoff.result == 'success' }}
+    if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.publish == 'true' && needs.prepare_translation_handoff.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -696,7 +690,7 @@ jobs:
           SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
           FINAL_VERIFICATION: ${{ needs.verify.outputs.status || 'skipped' }}
           REVISION_RECONCILIATION: ${{ needs.verify.outputs.revision_status || 'skipped' }}
-          TRANSLATION_HANDOFF_REQUESTED: ${{ needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.canary_suppress_translation_dispatch != 'true' }}
+          TRANSLATION_HANDOFF_REQUESTED: ${{ needs.prepare.outputs.run_translations }}
           TRANSLATION_HANDOFF_RESULT: ${{ needs.dispatch_translations.result }}
           TRANSLATION_HANDOFF_RUN_ID: ${{ needs.dispatch_translations.outputs.run_id }}
           TRANSLATION_HANDOFF_RUN_URL: ${{ needs.dispatch_translations.outputs.run_url }}
