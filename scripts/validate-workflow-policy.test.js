@@ -26,7 +26,7 @@ test('publish-capable top-level workflows share the durable dev queue', () => {
 })
 
 test('reusable workflows never reacquire the production dev queue', () => {
-  for (const file of fs.readdirSync('.github/workflows').filter(name => name.startsWith('_') && name.endsWith('.yml'))) {
+  for (const file of fs.readdirSync('.github/workflows').filter(name => name.startsWith('_') && /\.ya?ml$/.test(name))) {
     const workflow = yaml.load(fs.readFileSync(path.join('.github/workflows', file), 'utf8'))
     assert.notEqual(workflow?.concurrency?.group, 'docs-production-dev', file)
   }
@@ -52,6 +52,22 @@ test('workflow policy rejects durable production dev queue regressions', () => {
     },
     {
       file: '_verify-docs.yml',
+      mutate: source => `concurrency:\n  group: DOCS-PRODUCTION-DEV\n  queue: max\n\n${source}`,
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => `concurrency: DOCS-PRODUCTION-DEV\n\n${source}`,
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => `concurrency: external-link-watchdog-docs-production-dev-metrics\n\n${source}`,
+      allowed: true,
+      unexpected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
       mutate: source => source.replace(
         '  verify:\n    runs-on: ubuntu-latest',
         '  verify:\n    concurrency:\n      group: docs-production-dev\n      queue: max\n    runs-on: ubuntu-latest',
@@ -62,7 +78,39 @@ test('workflow policy rejects durable production dev queue regressions', () => {
       file: '_verify-docs.yml',
       mutate: source => source.replace(
         '  verify:\n    runs-on: ubuntu-latest',
+        '  verify:\n    concurrency:\n      group: DOCS-PRODUCTION-DEV\n      queue: max\n    runs-on: ubuntu-latest',
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
         "  verify:\n    concurrency:\n      group: ${{ inputs.target_branch == 'dev' && 'docs-production-dev' || 'verify-readonly' }}\n      queue: max\n    runs-on: ubuntu-latest",
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        '  verify:\n    concurrency: DOCS-PRODUCTION-DEV\n    runs-on: ubuntu-latest',
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        "  verify:\n    concurrency: ${{ inputs.target_branch == 'dev' && 'DOCS-PRODUCTION-DEV' || 'verify-readonly' }}\n    runs-on: ubuntu-latest",
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        '  verify:\n    concurrency: ${{ inputs.target_branch == "dev" && "DOCS-PRODUCTION-DEV" || "verify-readonly" }}\n    runs-on: ubuntu-latest',
       ),
       expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
     },
@@ -102,6 +150,14 @@ test('workflow policy rejects durable production dev queue regressions', () => {
       file: 'fetch-docs.yml',
       mutate: source => source.replace(
         '  prepare:\n    runs-on: ubuntu-latest',
+        '  prepare:\n    concurrency: DOCS-PRODUCTION-DEV\n    runs-on: ubuntu-latest',
+      ),
+      expected: 'fetch-docs.yml: job-level concurrency must not reacquire docs-production-dev',
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace(
+        '  prepare:\n    runs-on: ubuntu-latest',
         '  prepare:\n    concurrency: docs-production-dev\n    runs-on: ubuntu-latest',
       ),
       expected: 'fetch-docs.yml: job-level concurrency must not reacquire docs-production-dev',
@@ -114,6 +170,12 @@ test('workflow policy rejects durable production dev queue regressions', () => {
       ),
       expected: 'translate-codex.yml: read-only Translation must use a unique concurrency group',
     },
+    {
+      file: '_queue-bypass.yaml',
+      sourceFile: '_verify-docs.yml',
+      mutate: source => `concurrency: docs-production-dev\n\n${source}`,
+      expected: '_queue-bypass.yaml: reusable workflow must not reacquire docs-production-dev',
+    },
   ]
 
   for (const fixture of fixtures) {
@@ -121,11 +183,13 @@ test('workflow policy rejects durable production dev queue regressions', () => {
     try {
       fs.cpSync(sourceDirectory, directory, {recursive: true})
       const file = path.join(directory, fixture.file)
-      const source = fs.readFileSync(file, 'utf8')
+      const source = fs.readFileSync(path.join(directory, fixture.sourceFile || fixture.file), 'utf8')
       const mutated = fixture.mutate(source)
       assert.notEqual(mutated, source, `${fixture.file} mutation must change source`)
       fs.writeFileSync(file, mutated)
-      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+      const errors = validateWorkflowPolicies(directory)
+      if (fixture.allowed) assert.ok(!errors.includes(fixture.unexpected), fixture.unexpected)
+      else assert.ok(errors.includes(fixture.expected), fixture.expected)
     } finally {
       fs.rmSync(directory, {recursive: true, force: true})
     }

@@ -118,6 +118,15 @@ function concurrencyGroupOf(concurrency) {
   return typeof concurrency === 'string' ? concurrency : concurrency?.group
 }
 
+function isProductionDevQueueGroup(group) {
+  if (typeof group !== 'string') return false
+  const expressions = [...group.matchAll(/\$\{\{([\s\S]*?)\}\}/g)]
+  if (expressions.length === 0) return group.toLowerCase() === PRODUCTION_DEV_QUEUE
+  return expressions.some(([, expression]) =>
+    [...expression.matchAll(/'((?:[^']|'')*)'|"((?:[^"\\]|\\.)*)"/g)]
+      .some(match => String(match[1] ?? match[2]).toLowerCase() === PRODUCTION_DEV_QUEUE))
+}
+
 function executableCommandLines(run) {
   return executableShellLineEntries(run).map(({ trimmed }) =>
     trimmed.replace(/\s+2>&1\s*\|\s*tee\s+\S+\s*$/, ''))
@@ -187,7 +196,7 @@ function validateFetchPublicationProducer({workflow, source, file, jobName, chec
 
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
-  const files = fs.readdirSync(directory).filter(file => file.endsWith('.yml')).sort()
+  const files = fs.readdirSync(directory).filter(file => /\.ya?ml$/.test(file)).sort()
   const sourcePublicationWorkflows = new Set(['_fetch-content-group.yml', '_fetch-guides-sources.yml', '_assemble-guides.yml'])
 
   for (const file of files) {
@@ -221,13 +230,13 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (concurrencyGroup !== PRODUCTION_DEV_QUEUE || workflow?.concurrency?.queue !== 'max') {
         errors.push(`${file}: production dev queue owner must use group docs-production-dev with queue: max`)
       }
-    } else if (String(concurrencyGroup || '').includes(PRODUCTION_DEV_QUEUE)) {
+    } else if (isProductionDevQueueGroup(concurrencyGroup)) {
       errors.push(file.startsWith('_')
         ? `${file}: reusable workflow must not reacquire docs-production-dev`
         : `${file}: only production dev queue owners may use docs-production-dev`)
     }
     const jobAcquiresProductionQueue = Object.values(workflow.jobs || {})
-      .some(job => String(concurrencyGroupOf(job?.concurrency) || '').includes(PRODUCTION_DEV_QUEUE))
+      .some(job => isProductionDevQueueGroup(concurrencyGroupOf(job?.concurrency)))
     if (jobAcquiresProductionQueue) {
       errors.push(file.startsWith('_')
         ? `${file}: reusable workflow must not reacquire docs-production-dev`
