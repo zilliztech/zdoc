@@ -10,7 +10,7 @@ notebook: false
 description: "This operation checks the progress of a refresh job for an external collection. Use the jobid returned by refreshExternalCollection(). | Node.js"
 type: docx
 token: E7pZd2Yfzolgiyxcvz8cSFfKnoc
-sidebar_position: 33
+sidebar_position: 29
 keywords: 
   - Anomaly Detection
   - sentence transformers

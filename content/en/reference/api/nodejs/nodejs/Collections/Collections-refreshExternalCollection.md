@@ -10,7 +10,7 @@ notebook: false
 description: "This operation triggers a data refresh for an external collection. Use this when the external data source has been updated and you want Milvus to reload the data. | Node.js"
 type: docx
 token: JoiWdRIFcojRI4xVXnCclEoVnh2
-sidebar_position: 35
+sidebar_position: 31
 keywords: 
   - Audio similarity search
   - Elastic vector database
