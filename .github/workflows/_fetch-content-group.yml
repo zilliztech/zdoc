@@ -15,6 +15,15 @@ on:
       dev_baseline_sha:
         required: true
         type: string
+      publication_selection_artifact_name:
+        required: true
+        type: string
+      publication_selection_sha256:
+        required: true
+        type: string
+      publication_unit_key:
+        required: true
+        type: string
       target_branch:
         required: false
         type: string
@@ -72,7 +81,11 @@ jobs:
           printf '%s\n' \
             "BASELINE_DIR=$RUNNER_TEMP/docs-dev-baseline" \
             "CHECKPOINT_DIR=$RUNNER_TEMP/checkpoint-group" \
-            "CHECKPOINT_TAR=$RUNNER_TEMP/checkpoint-group.tar" >> "$GITHUB_ENV"
+            "CHECKPOINT_TAR=$RUNNER_TEMP/checkpoint-group.tar" \
+            "CHECKPOINT_MANIFEST=$RUNNER_TEMP/checkpoint-group/manifest.json" \
+            "PUBLICATION_SELECTION=$RUNNER_TEMP/publication-selection/publication-selection.json" \
+            "PUBLICATION_READY=$RUNNER_TEMP/publication-ready.json" \
+            "PUBLICATION_UNIT_KEY=${{ inputs.publication_unit_key }}" >> "$GITHUB_ENV"
 
       - name: Validate SHA inputs
         shell: bash
@@ -101,6 +114,26 @@ jobs:
       - name: Install dependencies
         id: install
         run: pnpm install --frozen-lockfile
+
+      - name: Download publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ inputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+
+      - name: Validate publication selection identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected_selection_sha256='${{ inputs.publication_selection_sha256 }}'
+          expected_unit_key='${{ inputs.publication_unit_key }}'
+          node scripts/docs-workflow/publication-contracts.js validate-selection "$PUBLICATION_SELECTION"
+          node - "$PUBLICATION_SELECTION" "$expected_selection_sha256" "$expected_unit_key" <<'NODE'
+          const fs = require('node:fs')
+          const selection = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
+          if (selection.selectionSha256 !== process.argv[3]) throw new Error('Publication selection checksum mismatch')
+          if (!selection.units.some(unit => unit.unitKey === process.argv[4])) throw new Error('Publication unit is not selected')
+          NODE
 
       - name: Validate content group
         run: node -e 'require("./scripts/docs-workflow/content-groups.js").getContentGroup(process.env.GROUP, process.env.SITE)'
@@ -254,6 +287,31 @@ jobs:
           retention-days: ${{ inputs.artifact_retention_days }}
           if-no-files-found: error
 
+      - name: Create publication ready descriptor
+        id: publication_ready
+        if: ${{ steps.checkpoint_upload.outcome == 'success' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/fetch-publication-selection.js ready \
+            --selection "$PUBLICATION_SELECTION" \
+            --unit-key "$PUBLICATION_UNIT_KEY" \
+            --archive "$CHECKPOINT_TAR" \
+            --manifest "$CHECKPOINT_MANIFEST" \
+            --output "$PUBLICATION_READY"
+          unit_token=${PUBLICATION_UNIT_KEY//\//-}
+          echo "artifact_name=publication-ready-fetch-$unit_token-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" >> "$GITHUB_OUTPUT"
+
+      - name: Upload publication ready descriptor
+        id: ready_upload
+        if: ${{ steps.publication_ready.outcome == 'success' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ steps.publication_ready.outputs.artifact_name }}
+          path: ${{ runner.temp }}/publication-ready.json
+          retention-days: ${{ inputs.artifact_retention_days }}
+          if-no-files-found: error
+
       - name: Upload Guides content reports
         if: ${{ always() && inputs.group == 'guides' }}
         uses: actions/upload-artifact@v6
@@ -267,7 +325,7 @@ jobs:
         id: result
         if: ${{ always() }}
         run: |
-          if [[ "${{ steps.checkpoint_upload.outcome }}" == success ]]; then
+          if [[ "${{ steps.checkpoint_upload.outcome }}" == success && "${{ steps.ready_upload.outcome }}" == success ]]; then
             echo 'status=artifact_ready' >> "$GITHUB_OUTPUT"
           else
             echo 'status=failed' >> "$GITHUB_OUTPUT"

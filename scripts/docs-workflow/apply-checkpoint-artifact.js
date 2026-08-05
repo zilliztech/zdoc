@@ -170,10 +170,11 @@ async function atomicWrite(target, bytes) {
 
 function validateOptions(options) {
   if (!options || typeof options !== 'object' || Array.isArray(options)) throw new Error('Options must be an object');
-  const allowed = new Set(['artifactDir', 'targetDir', 'baselineDir', 'hooks']);
+  const allowed = new Set(['artifactDir', 'targetDir', 'baselineDir', 'site', 'hooks']);
   for (const key of Object.keys(options)) if (!allowed.has(key)) throw new Error(`Unknown option: ${key}`);
   for (const name of ['artifactDir', 'targetDir']) if (typeof options[name] !== 'string' || !options[name]) throw new Error(`${name} must be a non-empty string`);
   if (options.baselineDir !== undefined && (typeof options.baselineDir !== 'string' || !options.baselineDir)) throw new Error('baselineDir must be a non-empty string');
+  if (options.site !== undefined && options.site !== 'en' && options.site !== 'zh-CN') throw new Error('site must be en or zh-CN');
   if (options.hooks !== undefined) {
     if (!options.hooks || typeof options.hooks !== 'object' || Array.isArray(options.hooks)) throw new Error('hooks must be an object');
     const hookNames = new Set(['afterManifestRead', 'beforeCopy', 'afterCopy', 'afterCacheLstat', 'beforeDelete', 'beforeCommit', 'beforeRollback', 'afterJournalCopy', 'statfs']);
@@ -209,7 +210,10 @@ async function applyCheckpointArtifact(options = {}) {
   validateOptions(options);
   // `hooks` is the sole internal fault-injection surface. It is intentionally unavailable through the CLI.
   const hooks = options.hooks;
-  const manifest = await validateCheckpointArtifact(options.artifactDir, { testHooks: hooks?.afterManifestRead ? { afterManifestRead: hooks.afterManifestRead } : undefined });
+  const manifest = await validateCheckpointArtifact(options.artifactDir, {
+    site: options.site,
+    testHooks: hooks?.afterManifestRead ? { afterManifestRead: hooks.afterManifestRead } : undefined,
+  });
   const artifact = manifest.resolvedDir;
   const target = await safeTarget(options.targetDir);
   if (insideOrEqual(artifact, target) || insideOrEqual(target, artifact)) throw new Error('Artifact and target must not overlap');

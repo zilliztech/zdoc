@@ -7,6 +7,18 @@ const yaml = require('js-yaml')
 const { loadTypeScript } = require('../lib/load-typescript')
 const { applyMdxPatches, validateMdxStructure } = require('../../packages/docs-tooling/src/mdx/validate.cjs')
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
+const {formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
+const {protectTranslationInput, reprotectTranslationInput, restoreProtectedContent, validateProtectedContent} = require('./protectedContent')
+const {REVIEW_RESPONSE_JSON_SCHEMA, parseAndValidateReviewEvidence} = require('./reviewEvidence')
+const {
+  bindSemanticReviewEvidence,
+  collectSemanticUnits,
+  deterministicSemanticIssues,
+  patchSemanticUnits,
+  protectSemanticUnits,
+  reprotectSemanticUnits,
+  restoreSemanticUnitResponse,
+} = require('./semanticUnits')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
 const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
@@ -24,7 +36,7 @@ const DEFAULT_FILE_RETRIES = 1
 const DEFAULT_PROVIDER_TIMEOUT_MS = 300000
 const DEFAULT_FILE_TIMEOUT_MS = 900000
 const REFERENCE_LANDING_SOURCE_ROOT = 'content/en/reference/'
-const REFERENCE_LANDING_PROSE_SAFETY_FACTOR = 1.2
+const REFERENCE_LANDING_PROSE_SAFETY_FACTOR = 1.05
 
 let referenceLandingContracts
 
@@ -61,9 +73,10 @@ function formatReferenceLandingContract(target, sourcePath) {
   return [
     'Reference landing-page contract from config/reference-navigation.json:',
     `- The final translated file must contain at least ${contract.minimumHeadingCount} Markdown headings.`,
-    `- Validator minimum meaningful prose: ${contract.minimumProseCharacters} Unicode letters or digits after front matter, code fences, imports, and standalone JSX tags are excluded.`,
-    `- Aim for at least ${contract.targetProseCharacters} meaningful prose characters (20% safety margin) without repetitive filler.`,
-    '- Preserve all source facts and structure while expanding concise phrasing naturally when needed.',
+    `- Validator minimum meaningful prose: ${contract.minimumProseCharacters} units after front matter, code fences, imports, and standalone JSX tags are excluded. Han characters count as 2.5 meaningful prose units; other Unicode letters or digits count as 1.`,
+    `- Aim for at least ${contract.targetProseCharacters} meaningful prose units (5% safety margin) without repetitive filler.`,
+    '- Preserve all source facts and structure. Natural connective wording is allowed, but do not add source facts or repetitive filler solely to meet the threshold.',
+    '- Do not expand headings or move paragraph details into headings to meet prose targets.',
     '- The reviewer must return pass=false if the translated draft does not satisfy this contract.',
     '',
   ].join('\n')
@@ -103,22 +116,6 @@ function stripCodeFence(text) {
   return wrapped ? wrapped[1].trim() : trimmed
 }
 
-function parseReview(text) {
-  const cleaned = stripCodeFence(text)
-  try {
-    const parsed = JSON.parse(cleaned)
-    return {
-      pass: parsed.pass === true,
-      issues: Array.isArray(parsed.issues) ? parsed.issues : [],
-    }
-  } catch {
-    return {
-      pass: false,
-      issues: [{ severity: 'high', type: 'review_parse_error', comment: cleaned.slice(0, 500) }],
-    }
-  }
-}
-
 function isRetryableProviderError(error) {
   const message = String(error?.message || error)
   return /\b(408|409|425|429|500|502|503|504)\b/.test(message) ||
@@ -142,17 +139,24 @@ async function createProviderCall(agentConfigs, options = {}) {
       const controller = new AbortController()
       const timeout = setTimeout(() => controller.abort(), timeoutMs)
       try {
+        const requestBody = {
+          model: config.model,
+          messages,
+          temperature: agent === 'review' ? 0 : 0.1,
+        }
+        if (agent === 'review' && config.structuredOutput === true) {
+          requestBody.response_format = {
+            type: 'json_schema',
+            json_schema: REVIEW_RESPONSE_JSON_SCHEMA,
+          }
+        }
         const res = await fetch(`${normalizeBaseUrl(config.baseUrl)}/chat/completions`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${config.apiKey}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            model: config.model,
-            messages,
-            temperature: agent === 'review' ? 0 : 0.1,
-          }),
+          body: JSON.stringify(requestBody),
           signal: controller.signal,
         })
         const data = await res.json().catch(() => ({}))
@@ -198,14 +202,37 @@ function summarizeFailedResult(result) {
   return 'translation returned failed status'
 }
 
+function validatedReviewRetryFeedback(result) {
+  if (!Array.isArray(result?.review?.issues)) return null
+  const issues = result.review.issues.slice(0, 5).flatMap(issue => {
+    if (!issue || typeof issue !== 'object') return []
+    const fields = ['severity', 'type', 'location', 'source_quote', 'draft_quote']
+    if (fields.some(field => typeof issue[field] !== 'string' || !issue[field])) return []
+    return [Object.fromEntries(fields.map(field => [field, issue[field].slice(0, 240)]))]
+  })
+  return issues.length ? JSON.stringify({kind: 'validated_review_issues', issues}) : null
+}
+
+function protectedContentRetryFeedback(failure) {
+  const evidence = failure.slice(0, 1000)
+  if (!/Unexpected protected inline_code/i.test(failure)) return evidence
+  return `${evidence}\nPlain code-like tokens must remain plain text. Never add backticks around text that was not inline code in the supplied semantic unit.`
+}
+
+function structuredResponseRetryFeedback(failure) {
+  const evidence = failure.slice(0, 1000)
+  return `${evidence}\nReturn strict JSON. Escape all control characters inside JSON string values; never emit raw newlines or tabs inside a string.`
+}
+
 async function processItemWithRetry(item, options) {
   const maxRetries = parseNonNegativeInteger(options.maxRetries, DEFAULT_FILE_RETRIES)
   const failures = []
+  let retryFeedback = null
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     let result
     try {
-      result = await options.processItem(item, attempt)
+      result = await options.processItem(item, attempt, retryFeedback)
     } catch (error) {
       result = { ...item, status: 'failed', error: String(error?.message || error) }
     }
@@ -214,7 +241,13 @@ async function processItemWithRetry(item, options) {
       return failures.length ? { ...result, attempts: attempt + 1, retryFailures: failures } : result
     }
 
-    failures.push({ attempt: attempt + 1, error: summarizeFailedResult(result) })
+    const failure = summarizeFailedResult(result)
+    failures.push({ attempt: attempt + 1, error: failure })
+    retryFeedback = /Protected (?:marker|content)/i.test(failure)
+      ? protectedContentRetryFeedback(failure)
+      : /response must be valid JSON/i.test(failure)
+        ? structuredResponseRetryFeedback(failure)
+      : validatedReviewRetryFeedback(result)
     if (attempt < maxRetries) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
     } else {
@@ -254,38 +287,53 @@ function formatDocumentContext(chunkContext) {
   return `${lines.join('\n')}\n`
 }
 
-function buildTranslationMessages({ target, sourcePath, sourceContent, locale, chunkContext }) {
+function loadSystemPrompt(target, promptName) {
+  return `${loadPrompt(promptName)}\n\n${formatLocaleContract(loadLocaleContract(target))}`
+}
+
+function buildTranslationMessages({ target, sourcePath, sourceContent, sourceDocument, semanticUnits, locale, chunkContext, retryFeedback }) {
   const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   const instruction = chunkContext
     ? 'Translate this consecutive MDX/Markdown section:'
     : 'Translate this complete MDX/Markdown file:'
+  const retry = retryFeedback
+    ? `\n<retry_feedback>\n${String(retryFeedback).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')}\n</retry_feedback>`
+    : ''
+  const userContent = semanticUnits
+    ? `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}${instruction}\n</translation_context>${retry}\n\n<document_context>\n${sourceDocument}\n</document_context>\n\n<semantic_units>\n${JSON.stringify(semanticUnits, null, 2)}\n</semantic_units>`
+    : `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}${instruction}\n</translation_context>${retry}\n\n<source>\n${sourceContent}</source>`
   return [
-    { role: 'system', content: loadPrompt(promptNamesFor(target).translation) },
+    { role: 'system', content: loadSystemPrompt(target, promptNamesFor(target).translation) },
     {
       role: 'user',
-      content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\n${instruction}\n\n${sourceContent}`,
+      content: userContent,
     },
   ]
 }
 
-function buildReviewMessages({ target, sourcePath, sourceContent, translatedContent, locale, chunkContext }) {
+function buildReviewMessages({ target, sourcePath, sourceContent, translatedContent, sourceDocument, draftDocument, sourceUnits, draftUnits, locale, chunkContext }) {
   const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
+  const userContent = sourceUnits && draftUnits
+    ? `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source_document>\n${sourceDocument}\n</source_document>\n\n<draft_document>\n${draftDocument}\n</draft_document>\n\n<source_units>\n${JSON.stringify(sourceUnits, null, 2)}\n</source_units>\n\n<draft_units>\n${JSON.stringify(draftUnits, null, 2)}\n</draft_units>`
+    : `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source>\n${sourceContent}</source>\n\n<draft>\n${translatedContent}</draft>`
   return [
-    { role: 'system', content: loadPrompt(promptNamesFor(target).review) },
+    { role: 'system', content: loadSystemPrompt(target, promptNamesFor(target).review) },
     {
       role: 'user',
-      content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\nEnglish source${chunkContext ? ' section' : ''}:\n${sourceContent}\n\nTranslated draft${chunkContext ? ' section' : ''}:\n${translatedContent}`,
+      content: userContent,
     },
   ]
 }
 
 function correctionPromptFor(target) {
-  if (target === 'ja-JP') return loadPrompt('codex-correction-agent.md')
-  return `${loadPrompt(promptNamesFor(target).translation)}\n\nRevise the current translation to fix every issue in the supplied review JSON. Prefer surgical correction and return only the corrected content.`
+  return loadSystemPrompt(target, promptNamesFor(target).correction)
 }
 
-function buildCorrectionMessages({ target, sourcePath, sourceContent, translatedContent, review, locale, chunkContext }) {
+function buildCorrectionMessages({ target, sourcePath, sourceContent, translatedContent, sourceDocument, draftDocument, authorizedUnits, review, locale, chunkContext }) {
   const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
+  const userContent = authorizedUnits
+    ? `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source_document>\n${sourceDocument}\n</source_document>\n\n<draft_document>\n${draftDocument}\n</draft_document>\n\n<authorized_units>\n${JSON.stringify(authorizedUnits, null, 2)}\n</authorized_units>\n\n<review_json>\n${JSON.stringify(review, null, 2)}\n</review_json>`
+    : `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source>\n${sourceContent}</source>\n\n<draft>\n${translatedContent}</draft>\n\n<review_json>\n${JSON.stringify(review, null, 2)}\n</review_json>`
   return [
     {
       role: 'system',
@@ -293,7 +341,7 @@ function buildCorrectionMessages({ target, sourcePath, sourceContent, translated
     },
     {
       role: 'user',
-      content: `Locale: ${locale}\nSource path: ${sourcePath}\n${context}\nEnglish source${chunkContext ? ' section' : ''}:\n${sourceContent}\n\nCurrent translation${chunkContext ? ' section' : ''}:\n${translatedContent}\n\nReview JSON:\n${JSON.stringify(review, null, 2)}`,
+      content: userContent,
     },
   ]
 }
@@ -326,49 +374,6 @@ function stabilizeBareUrlFormatting(content) {
   )
 }
 
-function protectEsmStatements(content) {
-  const statements = []
-  const pattern = /^[\t ]*(?:import|export)\b[^\r\n]*(?:\r?\n|$)/gm
-  const protectedContent = String(content).replace(pattern, statement => {
-    const index = statements.push(statement) - 1
-    const newline = statement.endsWith('\r\n') ? '\r\n' : statement.endsWith('\n') ? '\n' : ''
-    return `<!-- zdoc-preserved-esm:${index} -->${newline}`
-  })
-  return { content: protectedContent, statements }
-}
-
-function restoreProtectedEsm(content, protectedEsm) {
-  let restored = String(content)
-  for (let index = 0; index < protectedEsm.statements.length; index++) {
-    const marker = `<!-- zdoc-preserved-esm:${index} -->`
-    if (restored.split(marker).length !== 2) throw new Error(`Protected ESM marker ${index} was changed during translation`)
-    restored = restored.replace(marker, protectedEsm.statements[index].replace(/\r?\n$/, ''))
-  }
-  if (/<!--\s*zdoc-preserved-esm:/i.test(restored)) throw new Error('Unexpected protected ESM marker remained after translation')
-  return restored
-}
-
-function headingAnchorIds(content) {
-  return [...String(content).matchAll(/\\?\{#([A-Za-z0-9][\w.-]*)\}/g)].map(match => match[1])
-}
-
-function validateHeadingAnchorIdentity(sourceContent, translatedContent) {
-  const source = headingAnchorIds(sourceContent)
-  const translated = headingAnchorIds(translatedContent)
-  return JSON.stringify(source) === JSON.stringify(translated)
-    ? []
-    : [`Heading anchor identity changed: expected ${JSON.stringify(source)}, received ${JSON.stringify(translated)}`]
-}
-
-function restoreEsmStatements(sourceContent, translatedContent) {
-  const pattern = /^[\t ]*(?:import|export)\b[^\r\n]*(?:\r?\n|$)/gm
-  const sourceStatements = String(sourceContent).match(pattern) || []
-  const translatedStatements = String(translatedContent).match(pattern) || []
-  if (sourceStatements.length !== translatedStatements.length) return translatedContent
-  let index = 0
-  return String(translatedContent).replace(pattern, () => sourceStatements[index++])
-}
-
 async function translateAndReviewUnit({
   target,
   sourcePath,
@@ -377,27 +382,110 @@ async function translateAndReviewUnit({
   callModel,
   maxReviewRounds,
   chunkContext,
+  retryFeedback,
 }) {
-  const protectedEsm = protectEsmStatements(sourceContent)
-  const modelSourceContent = protectedEsm.content
-  let translatedContent = restoreBoundaryWhitespace(modelSourceContent, stripCodeFence(await callModel({
+  const localeContract = loadLocaleContract(target)
+  const idPrefix = chunkContext ? `chunk.${String(chunkContext.index + 1).padStart(4, '0')}` : 'document'
+  const units = await collectSemanticUnits(sourceContent, {idPrefix})
+  if (!units.length) return {translatedContent: sourceContent, review: {pass: true, issues: []}, semanticUnits: 0}
+  const protectedSource = protectTranslationInput(sourceContent)
+  const sourceUnits = protectSemanticUnits(units)
+  const sourceUnitPayload = sourceUnits.map(unit => ({id: unit.id, kind: unit.kind, text: unit.protection.content}))
+  const initialResponse = await callModel({
     agent: 'translation',
-    messages: buildTranslationMessages({ target, sourcePath, sourceContent: modelSourceContent, locale, chunkContext }),
-  })))
+    messages: buildTranslationMessages({
+      target,
+      sourcePath,
+      sourceContent: protectedSource.content,
+      sourceDocument: protectedSource.content,
+      semanticUnits: sourceUnitPayload,
+      locale,
+      chunkContext,
+      retryFeedback,
+    }),
+  })
+  let currentUnits = restoreSemanticUnitResponse(initialResponse, {field: 'translations', protectedUnits: sourceUnits, localeContract})
+  let translatedContent = patchSemanticUnits(sourceContent, units, currentUnits)
+  let protectedErrors = validateProtectedContent(sourceContent, translatedContent)
+  if (protectedErrors.length) throw new Error(protectedErrors.join('; '))
 
   let review = { pass: false, issues: [] }
   for (let round = 0; round <= maxReviewRounds; round++) {
-    review = parseReview(await callModel({
+    const draftUnits = reprotectSemanticUnits(sourceUnits, currentUnits)
+    const draftUnitPayload = draftUnits.map(unit => ({id: unit.id, kind: unit.kind, text: unit.protection.content}))
+    const protectedDraftDocument = reprotectTranslationInput(translatedContent, protectedSource.manifest)
+    const sourceUnitContent = JSON.stringify(sourceUnitPayload)
+    const draftUnitContent = JSON.stringify(draftUnitPayload)
+    const evidence = bindSemanticReviewEvidence(parseAndValidateReviewEvidence(await callModel({
       agent: 'review',
-      messages: buildReviewMessages({ target, sourcePath, sourceContent: modelSourceContent, translatedContent, locale, chunkContext }),
-    }))
+      messages: buildReviewMessages({
+        target,
+        sourcePath,
+        sourceContent: protectedSource.content,
+        translatedContent: protectedDraftDocument.content,
+        sourceDocument: protectedSource.content,
+        draftDocument: protectedDraftDocument.content,
+        sourceUnits: sourceUnitPayload,
+        draftUnits: draftUnitPayload,
+        locale,
+        chunkContext,
+      }),
+    }), {
+      sourceContent: sourceUnitContent,
+      draftContent: draftUnitContent,
+      localeContract,
+    }), sourceUnits, draftUnits)
+    const deterministic = deterministicSemanticIssues(sourceUnits, draftUnits, localeContract)
+    const issues = []
+    const issueUnits = []
+    const seen = new Set()
+    for (const binding of [...evidence.issueUnits, ...deterministic.issueUnits]) {
+      const issue = binding.issue
+      const key = JSON.stringify(issue)
+      if (seen.has(key)) continue
+      seen.add(key)
+      issues.push(issue)
+      issueUnits.push(binding)
+    }
+    review = {
+      pass: !evidence.fatal && issues.length === 0,
+      issues,
+      unsupportedIssues: evidence.unsupportedIssues,
+      reviewerPass: evidence.reviewerPass,
+      error: evidence.error,
+    }
     if (review.pass || round === maxReviewRounds) break
-    translatedContent = restoreBoundaryWhitespace(modelSourceContent, stripCodeFence(await callModel({
+    if (evidence.fatal || issues.length === 0) break
+    const authorizedIds = [...new Set(issueUnits.map(item => item.unitId))]
+    const authorizedDraftUnits = draftUnits.filter(unit => authorizedIds.includes(unit.id))
+    const authorizedPayload = authorizedDraftUnits.map(unit => ({
+      id: unit.id,
+      source: sourceUnits.find(sourceUnit => sourceUnit.id === unit.id).protection.content,
+      draft: unit.protection.content,
+    }))
+    const correctedResponse = await callModel({
       agent: 'correction',
-      messages: buildCorrectionMessages({ target, sourcePath, sourceContent: modelSourceContent, translatedContent, review, locale, chunkContext }),
-    })))
+      messages: buildCorrectionMessages({
+        target,
+        sourcePath,
+        sourceContent: protectedSource.content,
+        translatedContent: protectedDraftDocument.content,
+        sourceDocument: protectedSource.content,
+        draftDocument: protectedDraftDocument.content,
+        authorizedUnits: authorizedPayload,
+        review: {pass: false, issues},
+        locale,
+        chunkContext,
+      }),
+    })
+    const correctedUnits = restoreSemanticUnitResponse(correctedResponse, {field: 'corrections', protectedUnits: authorizedDraftUnits, localeContract})
+    const correctedById = new Map(correctedUnits.map(unit => [unit.id, unit.translation]))
+    currentUnits = currentUnits.map(unit => correctedById.has(unit.id) ? {...unit, translation: correctedById.get(unit.id)} : unit)
+    translatedContent = patchSemanticUnits(sourceContent, units, currentUnits)
+    protectedErrors = validateProtectedContent(sourceContent, translatedContent)
+    if (protectedErrors.length) throw new Error(protectedErrors.join('; '))
   }
-  return { translatedContent: restoreProtectedEsm(translatedContent, protectedEsm), review }
+  return { translatedContent, review, semanticUnits: units.length }
 }
 
 async function processManifestItem({
@@ -408,6 +496,7 @@ async function processManifestItem({
   chunkTargetChars = DEFAULT_TARGET_CHARS,
   chunkMaxChars = DEFAULT_MAX_CHARS,
   validate = validateTranslatedContent,
+  retryFeedback = null,
 }) {
   if (item.sourcePath.includes('#')) throw new Error(`Translation source path must be repository-relative: ${item.sourcePath}`)
   const absSourcePath = path.join(siteDir, item.sourcePath)
@@ -426,6 +515,7 @@ async function processManifestItem({
       callModel,
       maxReviewRounds,
       chunkContext: null,
+      retryFeedback,
     })
     if (!shell.review.pass) return { ...item, status: 'failed', review: shell.review, validationErrors: [] }
     const specResult = await translateRestSpecs({
@@ -433,7 +523,18 @@ async function processManifestItem({
       target: item.target,
       locale: item.locale,
       callModel,
+      maxReviewRounds,
+      retryFeedback,
     })
+    if (!specResult.review.pass) {
+      return {
+        ...item,
+        status: 'failed',
+        review: specResult.review,
+        validationErrors: [],
+        restSpecEntries: specResult.translatedCount,
+      }
+    }
     const translatedContent = stabilizeBareUrlFormatting(assembleRestDocument({
       translatedPrefix: shell.translatedContent,
       localizedSpecs: specResult.localized,
@@ -444,7 +545,15 @@ async function processManifestItem({
     if (validationErrors.length) return { ...item, status: 'failed', review: shell.review, validationErrors, restSpecEntries: specResult.translatedCount }
     fs.mkdirSync(path.dirname(absTargetPath), { recursive: true })
     fs.writeFileSync(absTargetPath, translatedContent.endsWith('\n') ? translatedContent : `${translatedContent}\n`, 'utf8')
-    return { ...item, status: 'translated', review: shell.review, validationErrors: [], chunks: { total: 1 }, restSpecEntries: specResult.translatedCount }
+    return {
+      ...item,
+      status: 'translated',
+      review: shell.review,
+      restSpecReview: specResult.review,
+      validationErrors: [],
+      chunks: { total: 1 },
+      restSpecEntries: specResult.translatedCount,
+    }
   }
   const chunks = chunkDocument(sourceContent, { targetChars: chunkTargetChars, maxChars: chunkMaxChars })
   const documentTitle = extractDocumentTitle(sourceContent)
@@ -469,6 +578,7 @@ async function processManifestItem({
       callModel,
       maxReviewRounds,
       chunkContext,
+      retryFeedback,
     })
     lastReview = unit.review
     if (!unit.review.pass) {
@@ -485,11 +595,10 @@ async function processManifestItem({
   }
 
   const translatedContent = await applyMdxPatches(stabilizeBareUrlFormatting(
-    restoreEsmStatements(sourceContent, translatedChunks.join('')),
+    translatedChunks.join(''),
   ), { repairInvalidMdxEsmProse: true })
 
   const validationErrors = [
-    ...validateHeadingAnchorIdentity(sourceContent, translatedContent),
     ...await validate(translatedContent),
   ]
   if (validationErrors.length) {
@@ -588,6 +697,7 @@ function loadAgentConfigsFromEnv() {
       baseUrl: process.env.REVIEW_AGENT_BASE_URL,
       apiKey: process.env.REVIEW_AGENT_API_KEY,
       model: process.env.REVIEW_AGENT_MODEL,
+      structuredOutput: String(process.env.REVIEW_AGENT_STRUCTURED_OUTPUT || '').toLowerCase() === 'true',
     },
     correction: {
       baseUrl: process.env.REVIEW_AGENT_BASE_URL,
@@ -890,7 +1000,7 @@ async function main() {
         const result = await processItemWithRetry(targetItem, {
           maxRetries: fileRetries,
           log: console,
-          processItem: () => withTimeout(
+          processItem: (_item, _attempt, retryFeedback) => withTimeout(
             processManifestItem({
               siteDir,
               item: targetItem,
@@ -898,6 +1008,7 @@ async function main() {
               maxReviewRounds,
               chunkTargetChars: chunkLimits.targetChars,
               chunkMaxChars: chunkLimits.maxChars,
+              retryFeedback,
             }),
             fileTimeoutMs,
             `Timed out translating ${item.sourcePath} after ${fileTimeoutMs}ms`,
@@ -944,18 +1055,14 @@ module.exports = {
   isRetryableProviderError,
   loadChunkLimits,
   normalizeBaseUrl,
-  parseReview,
   parsePositiveInteger,
   parseNonNegativeInteger,
   partitionRecoveryWork,
   promptNamesFor,
   processItemWithRetry,
   processManifestItem,
-  protectEsmStatements,
   runWorkerPool,
   restoreBoundaryWhitespace,
-  restoreEsmStatements,
-  restoreProtectedEsm,
   stabilizeBareUrlFormatting,
   stripCodeFence,
   validateTranslationManifest,

@@ -1,0 +1,130 @@
+name: External Link Watchdog
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: external-link-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out immutable tooling revision
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Resolve tooling and content SHAs
+        id: refs
+        run: |
+          tooling_sha=$(git rev-parse HEAD)
+          git fetch --no-tags origin refs/heads/dev
+          content_sha=$(git rev-parse FETCH_HEAD)
+          {
+            echo "tooling_sha=$tooling_sha"
+            echo "content_sha=$content_sha"
+          } >> "$GITHUB_OUTPUT"
+
+      - uses: pnpm/action-setup@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22.6'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Restore exact dev content
+        run: bash scripts/restore-generated-state.sh --exact --ref "$CONTENT_SHA"
+        env:
+          CONTENT_SHA: ${{ steps.refs.outputs.content_sha }}
+
+      - name: Build English site
+        run: pnpm build:en
+
+      - name: Scan rendered external links
+        id: scan
+        env:
+          LINK_CHECKS_TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
+          LINK_CHECKS_CONTENT_SHA: ${{ steps.refs.outputs.content_sha }}
+        run: |
+          pnpm docs-tooling check-links --site en --output tmp/external-link-watchdog/latest.md
+          node <<'NODE'
+          const fs = require('node:fs')
+          const report = JSON.parse(fs.readFileSync('tmp/external-link-watchdog/latest.json', 'utf8'))
+          const expiredCount = report.summary.expired_external_links
+          if (!Number.isSafeInteger(expiredCount) || expiredCount < 0) {
+            throw new Error('expired_external_links must be a non-negative safe integer')
+          }
+          const cardStatus = expiredCount === 0 ? 'success' : 'fail'
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `expired_count=${expiredCount}\ncard_status=${cardStatus}\n`)
+          NODE
+
+      - name: Upload external link report
+        id: report_artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: external-link-watchdog-${{ github.run_id }}
+          path: tmp/external-link-watchdog
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Build documentation site change and link health note
+        id: report_note
+        continue-on-error: true
+        env:
+          REPORT_ARTIFACT_URL: ${{ steps.report_artifact.outputs.artifact-url }}
+        run: |
+          node scripts/render-external-link-watchdog-note.js \
+            --input tmp/external-link-watchdog/latest.json \
+            --output tmp/external-link-watchdog-note.md \
+            --artifact-url "$REPORT_ARTIFACT_URL"
+
+      - name: Create documentation site report card
+        id: report_card
+        continue-on-error: true
+        run: pnpm docs-tooling report-card create --title "Documentation Site Change & Link Health Report" --stages "Inspect site changes and link health"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+      - name: Attach documentation site report note
+        if: ${{ steps.report_card.outputs.card_id != '' && steps.report_note.outcome == 'success' }}
+        continue-on-error: true
+        run: pnpm docs-tooling report-card note --file tmp/external-link-watchdog-note.md
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+      - name: Finish documentation site report card
+        if: ${{ steps.report_card.outputs.card_id != '' }}
+        continue-on-error: true
+        run: |
+          pnpm docs-tooling report-card finish \
+            --message-id "$CARD_ID" \
+            --started-at "$CARD_STARTED_AT" \
+            --stages "$CARD_STAGES" \
+            --title "$CARD_TITLE" \
+            --status "$CARD_STATUS"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          CARD_ID: ${{ steps.report_card.outputs.card_id }}
+          CARD_STARTED_AT: ${{ steps.report_card.outputs.card_started_at }}
+          CARD_STAGES: ${{ steps.report_card.outputs.card_stages }}
+          CARD_TITLE: ${{ steps.report_card.outputs.card_title }}
+          CARD_STATUS: ${{ steps.scan.outputs.card_status }}

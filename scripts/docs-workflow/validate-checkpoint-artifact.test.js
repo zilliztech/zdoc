@@ -404,6 +404,29 @@ test('allows byoc but does not confuse byoc slash boundaries', async () => {
   await assert.doesNotReject(validateCheckpointArtifact(f.dir));
 });
 
+test('validates Chinese Guides ownership only with an explicit site', async () => {
+  const f = await artifact({ group: 'guides', snapshotManual: 'guides' });
+  const files = {
+    'content/zh-CN/byoc/content-manifest.json': Buffer.from('{}\n'),
+    'content/zh-CN/guides/tutorials/home.md': Buffer.from('# Home\n'),
+  };
+  await rm(path.join(f.payload, 'content/en'), { recursive: true });
+  f.manifest.files = [];
+  for (const [relativePath, bytes] of Object.entries(files).sort(([left], [right]) => left.localeCompare(right, 'en'))) {
+    await mkdir(path.dirname(path.join(f.payload, relativePath)), { recursive: true });
+    await writeFile(path.join(f.payload, relativePath), bytes);
+    f.manifest.files.push({
+      path: relativePath,
+      sha256: crypto.createHash('sha256').update(bytes).digest('hex'),
+      size: bytes.length,
+    });
+  }
+  await writeFile(path.join(f.dir, 'manifest.json'), JSON.stringify(f.manifest));
+
+  await assert.rejects(validateCheckpointArtifact(f.dir), /not owned|allowlist/i);
+  await assert.doesNotReject(validateCheckpointArtifact(f.dir, { site: 'zh-CN' }));
+});
+
 test('rejects duplicates, overlap, ambiguous file ancestry, and unsorted arrays', async () => {
   let f = await artifact(); f.manifest.files.push({ ...f.manifest.files[0] });
   await writeFile(path.join(f.dir, 'manifest.json'), JSON.stringify(f.manifest)); await assert.rejects(validateCheckpointArtifact(f.dir), /duplicate/i);

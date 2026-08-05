@@ -44,6 +44,11 @@ function writeSitemap(root: string, relativePath: string, url: string): void {
   writeFileSync(path.join(root, relativePath), `<urlset><url><loc>${url}</loc></url></urlset>`);
 }
 
+function writeRenderedPage(root: string): void {
+  mkdirSync(path.join(root, 'build/en/docs'), {recursive: true});
+  writeFileSync(path.join(root, 'build/en/docs/page.html'), '<main>No external URLs</main>');
+}
+
 describe('docs-tooling validate-mdx', () => {
   it('exposes the CommonJS validator through the TypeScript adapter', async () => {
     expect(Object.keys(mdxAdapter).sort()).toEqual(Object.keys(mdxCore).sort());
@@ -127,18 +132,22 @@ describe('docs-tooling check-links', () => {
     const root = temporaryRoot();
     writeSitemap(root, 'fixtures/remote.xml', 'https://docs.zilliz.com/docs/old/');
     writeSitemap(root, 'fixtures/local.xml', 'https://docs.zilliz.com/docs/new/');
+    writeRenderedPage(root);
     writeFileSync(path.join(root, '.env'), 'LINK_CHECKS_LOCAL_SITEMAP=fixtures/local.xml\n');
 
     const result = runWithEnvironment(root, {LINK_CHECKS_REMOTE_SITEMAP: 'fixtures/remote.xml'}, 'check-links', '--site', 'en', '--output', 'tmp/report.md');
 
     expect(result.status, result.stderr || result.stdout).toBe(0);
-    expect(JSON.parse(readFileSync(path.join(root, 'tmp/report.json'), 'utf8')).summary).toMatchObject({deleted_links: 1, added_links: 1});
+    const report = JSON.parse(readFileSync(path.join(root, 'tmp/report.json'), 'utf8'));
+    expect(report.schema_version).toBe(2);
+    expect(report.summary).toMatchObject({deleted_routes: 1, added_routes: 1});
   });
 
   it('keeps explicit process environment values over repository-root .env values', () => {
     const root = temporaryRoot();
     writeSitemap(root, 'fixtures/remote.xml', 'https://docs.zilliz.com/docs/old/');
     writeSitemap(root, 'fixtures/local.xml', 'https://docs.zilliz.com/docs/new/');
+    writeRenderedPage(root);
     writeFileSync(path.join(root, '.env'), 'LINK_CHECKS_REMOTE_SITEMAP=fixtures/missing.xml\nLINK_CHECKS_LOCAL_SITEMAP=fixtures/missing.xml\n');
 
     const result = runWithEnvironment(root, {

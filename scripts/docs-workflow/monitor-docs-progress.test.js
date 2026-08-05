@@ -8,10 +8,57 @@ const test = require('node:test')
 const yaml = require('js-yaml')
 const { createDocsProgressMonitor, createDocsToolingCardPatcher, createGitHubActionsClient, readConfiguration, selectAggregateJob, validateArchiveEntries, validateHandoffMetadata, validateProgressMetadata, withRetry } = require('./monitor-docs-progress')
 
+const SELECTION_SHA256 = 'a'.repeat(64)
+
+function publicationProgress(revision, state = 'ready') {
+  return {
+    schemaVersion: 1,
+    document: 'publication-progress',
+    workflow: 'fetch',
+    repository: 'zilliztech/zdoc',
+    runId: 42,
+    runAttempt: 3,
+    selectionSha256: SELECTION_SHA256,
+    mode: 'publish',
+    revision,
+    generatedAt: `2026-08-04T01:00:0${revision}.000Z`,
+    activeUnitKey: state === 'publishing' ? 'source/java' : null,
+    queue: state === 'ready' ? ['source/java'] : [],
+    units: [{
+      unitKey: 'source/java',
+      state,
+      producerJobId: 1,
+      producerCompletedAt: '2026-08-04T01:00:00.000Z',
+      readyAt: '2026-08-04T01:00:01.000Z',
+      sequence: state === 'publishing' ? 1 : null,
+      publishStartedAt: state === 'publishing' ? '2026-08-04T01:00:02.000Z' : null,
+      publishCompletedAt: null,
+      baseSha: null,
+      resultSha: null,
+      commitShas: [],
+      attempts: 0,
+      failure: null,
+    }],
+  }
+}
+
 test('production monitor patches cards through docs-tooling instead of the retired plugin', () => {
   const source = fs.readFileSync('scripts/docs-workflow/monitor-docs-progress.js', 'utf8')
   assert.doesNotMatch(source, /plugins\/report-to-lark/)
   assert.match(source, /docs-tooling['"],?\s*['"]report-card['"],?\s*['"]advance/)
+})
+
+test('reusable monitor accepts publication attempt and selection identity without gaining write permissions', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/_monitor-docs-progress.yml', 'utf8'))
+  const inputs = workflow.on.workflow_call.inputs
+  assert.equal(inputs.publication_run_attempt.required, false)
+  assert.equal(inputs.publication_run_attempt.default, 0)
+  assert.equal(inputs.publication_selection_sha256.required, false)
+  assert.equal(inputs.publication_selection_sha256.default, '')
+  const environment = workflow.jobs.monitor.steps.find(step => step.name === 'Monitor workflow and update Feishu card').env
+  assert.equal(environment.PUBLICATION_RUN_ATTEMPT, '${{ inputs.publication_run_attempt }}')
+  assert.equal(environment.PUBLICATION_SELECTION_SHA256, '${{ inputs.publication_selection_sha256 }}')
+  assert.deepEqual(workflow.jobs.monitor.permissions, { actions: 'read', contents: 'read' })
 })
 
 test('docs-tooling card patcher removes its temporary state file when the command fails', async () => {
@@ -139,6 +186,35 @@ test('caches validated live metadata and uses it for a stable Guides denominator
   ])
 })
 
+test('retains the highest publication progress revision and marks an invalid newer revision stale', async () => {
+  const patches = []
+  const snapshots = [
+    [{ id: 1, name: 'produce_java / produce', status: 'completed', conclusion: 'success' }],
+    [{ id: 1, name: 'produce_java / produce', status: 'completed', conclusion: 'success' }],
+    TERMINAL,
+  ]
+  const downloads = [
+    { snapshot: publicationProgress(2, 'ready'), stale: false },
+    { snapshot: null, stale: true },
+  ]
+  const monitor = createMonitor({
+    requestedGroups: ['java'],
+    publishEnabled: true,
+    publicationRunAttempt: 3,
+    publicationSelectionSha256: SELECTION_SHA256,
+    listJobs: async () => snapshots.shift(),
+    downloadPublicationProgress: async () => downloads.shift() || { snapshot: null, stale: false },
+    patchCard: async state => patches.push(state),
+  })
+
+  await monitor.run()
+
+  assert.equal(patches[0].manuals[0].currentTask, 'Ready - queue position 1')
+  assert.equal(patches[1].manuals[0].currentTask, 'Ready - queue position 1')
+  assert.equal(patches[1].manuals[0].detail, 'Publication progress may be stale')
+  assert.equal(patches[1].overallStatus, 'running')
+})
+
 test('validates exact live progress metadata and rejects mismatched runs', () => {
   assert.deepEqual(validateProgressMetadata({ schemaVersion: 2, runId: 42, locale: 'en', tableTotal: 14 }, { expectedRunId: 42, expectedLocale: 'en' }), {
     schemaVersion: 2,
@@ -261,6 +337,30 @@ test('helpers validate aggregate selection, retry behavior, and CLI configuratio
   assert.throws(() => readConfiguration({
     GITHUB_RUN_ID: '1', GITHUB_REPOSITORY: 'a/b', GITHUB_TOKEN: 't', CARD_ID: 'c', CARD_STARTED_AT: 'bad', CARD_TARGET_BRANCH: 'x', SELECTED_GROUP: 'guides', PUBLISH_ENABLED: 'false', APP_ID: 'a', APP_SECRET: 's', FEISHU_HOST: 'https://open.feishu.cn',
   }, []), /CARD_STARTED_AT/)
+  const configured = readConfiguration({
+    GITHUB_RUN_ID: '42',
+    GITHUB_REPOSITORY: 'zilliztech/zdoc',
+    GITHUB_TOKEN: 't',
+    CARD_ID: 'c',
+    CARD_STARTED_AT: '2026-08-04T01:00:00.000Z',
+    CARD_TARGET_BRANCH: 'dev',
+    SELECTED_GROUP: 'java',
+    PUBLISH_ENABLED: 'true',
+    RUN_TRANSLATIONS: 'false',
+    PUBLICATION_RUN_ATTEMPT: '3',
+    PUBLICATION_SELECTION_SHA256: SELECTION_SHA256,
+    APP_ID: 'a',
+    APP_SECRET: 's',
+    FEISHU_HOST: 'https://open.feishu.cn',
+  }, [])
+  assert.equal(configured.publicationRunAttempt, 3)
+  assert.equal(configured.publicationSelectionSha256, SELECTION_SHA256)
+  assert.throws(() => readConfiguration({
+    GITHUB_RUN_ID: '42', GITHUB_REPOSITORY: 'zilliztech/zdoc', GITHUB_TOKEN: 't', CARD_ID: 'c',
+    CARD_STARTED_AT: '2026-08-04T01:00:00.000Z', CARD_TARGET_BRANCH: 'dev', SELECTED_GROUP: 'java',
+    PUBLISH_ENABLED: 'true', RUN_TRANSLATIONS: 'false', PUBLICATION_RUN_ATTEMPT: '3', PUBLICATION_SELECTION_SHA256: 'bad',
+    APP_ID: 'a', APP_SECRET: 's', FEISHU_HOST: 'https://open.feishu.cn',
+  }, []), /PUBLICATION_SELECTION_SHA256/)
 })
 
 test('rejects archive traversal before extraction', () => {
@@ -282,15 +382,25 @@ test('GitHub client paginates jobs and validates an artifact before extraction',
     if (url.includes('name=docs-progress-metadata-en-42')) return { ok: true, json: async () => ({ artifacts: [{ id: 2, expired: false, archive_download_url: 'https://api.github.com/metadata-en.zip' }] }) }
     if (url.includes('name=docs-progress-metadata-zh-CN-42')) return { ok: true, json: async () => ({ artifacts: [{ id: 3, expired: false, archive_download_url: 'https://api.github.com/metadata-zh-CN.zip' }] }) }
     if (url.includes('name=docs-translation-handoff-42')) return { ok: true, json: async () => ({ artifacts: [{ id: 4, expired: false, archive_download_url: 'https://api.github.com/handoff.zip' }] }) }
-    if (url.includes('/artifacts?')) return { ok: true, json: async () => ({ artifacts: [{ id: 1, expired: false, archive_download_url: 'https://api.github.com/artifact.zip' }] }) }
+    if (url.includes('/artifacts?')) return { ok: true, json: async () => ({ artifacts: [
+      { id: 7, name: 'publication-progress-fetch-42-3-3', expired: false, archive_download_url: 'https://api.github.com/progress-3.zip' },
+      { id: 6, name: 'publication-progress-fetch-42-3-2', expired: false, archive_download_url: 'https://api.github.com/progress-2.zip' },
+      { id: 1, name: 'docs-card-report-42', expired: false, archive_download_url: 'https://api.github.com/artifact.zip' },
+    ] }) }
     if (url.includes('/metadata-') || url.endsWith('/handoff.zip')) return { ok: true, arrayBuffer: async () => new Uint8Array([4, 5, 6]).buffer }
-    if (url.endsWith('/artifact.zip')) return { ok: true, arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer }
+    if (url.endsWith('/artifact.zip') || url.includes('/progress-')) return { ok: true, arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer }
     throw new Error(`unexpected URL: ${url}`)
   }
   const client = createGitHubActionsClient({
     token: 'token', repository: 'zilliztech/zdoc', runId: 42, fetchImpl, runnerTemp,
     sleep: async () => {},
-    listArchive: async archive => { listed += 1; return [archive.includes('docs-progress-metadata') ? 'progress-metadata.json' : archive.includes('docs-translation-handoff') ? 'handoff-metadata.json' : 'card-report.json'] },
+    listArchive: async archive => {
+      listed += 1
+      if (archive.includes('docs-progress-metadata')) return ['progress-metadata.json']
+      if (archive.includes('docs-translation-handoff')) return ['handoff-metadata.json']
+      if (archive.includes('publication-progress')) return [`publication-progress-${archive.includes('progress-3') ? 3 : 2}.json`]
+      return ['card-report.json']
+    },
     unzip: async (archive, destination) => {
       extracted += 1
       if (archive.includes('docs-progress-metadata')) {
@@ -298,6 +408,9 @@ test('GitHub client paginates jobs and validates an artifact before extraction',
         fs.writeFileSync(path.join(destination, 'progress-metadata.json'), JSON.stringify({ schemaVersion: 2, runId: 42, locale, tableTotal: locale === 'en' ? 14 : 11 }))
       } else if (archive.includes('docs-translation-handoff')) {
         fs.writeFileSync(path.join(destination, 'handoff-metadata.json'), JSON.stringify({ schemaVersion: 1, parentRunId: 42, childRunId: 99, childRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/99' }))
+      } else if (archive.includes('publication-progress')) {
+        const revision = archive.includes('progress-3') ? 3 : 2
+        fs.writeFileSync(path.join(destination, `publication-progress-${revision}.json`), revision === 3 ? '{bad json' : JSON.stringify(publicationProgress(2)))
       } else {
         fs.writeFileSync(path.join(destination, 'card-report.json'), JSON.stringify(finalReport()))
       }
@@ -308,8 +421,12 @@ test('GitHub client paginates jobs and validates an artifact before extraction',
   assert.deepEqual(await client.downloadProgressMetadata('en'), { schemaVersion: 2, runId: 42, locale: 'en', tableTotal: 14 })
   assert.deepEqual(await client.downloadProgressMetadata('zh-CN'), { schemaVersion: 2, runId: 42, locale: 'zh-CN', tableTotal: 11 })
   assert.deepEqual(await client.downloadHandoffMetadata(), { schemaVersion: 1, parentRunId: 42, childRunId: 99, childRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/99' })
+  assert.deepEqual(await client.downloadPublicationProgress({ runAttempt: 3, selectionSha256: SELECTION_SHA256 }), {
+    snapshot: publicationProgress(2),
+    stale: true,
+  })
   assert.deepEqual(await client.downloadFinalReport(), finalReport())
-  assert.equal(listed, 4)
-  assert.equal(extracted, 4)
+  assert.equal(listed, 6)
+  assert.equal(extracted, 6)
   assert.deepEqual(fs.readdirSync(runnerTemp), [])
 })

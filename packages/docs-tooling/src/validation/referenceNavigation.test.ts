@@ -187,6 +187,24 @@ describe('validateReferenceNavigation', () => {
       .toThrow(targetError(target, /meaningful-prose|heading-count/, new RegExp(`documentId=${documentId(target.landingPage)}`)));
   });
 
+  it('counts Han characters as two and a half meaningful prose units for Chinese landing pages', () => {
+    const root = fixture();
+    const target = targets.find(candidate => candidate.manual === 'rest')!;
+    write(root, `content/zh-CN/reference/${target.landingPage}`, [
+      '---',
+      `displayed_sidebar: ${target.sidebarKey}`,
+      '---',
+      '# RESTful API 概览',
+      '中'.repeat(75),
+      '## 控制平面 API',
+      '文'.repeat(60),
+      '## 数据平面 API',
+      '档'.repeat(55),
+    ].join('\n'));
+
+    expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'zh-CN'})).not.toThrow();
+  });
+
   it('rejects a Chinese landing page byte-identical to its English source', () => {
     const root = fixture();
     const target = targets[0];

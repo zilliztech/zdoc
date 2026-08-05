@@ -88,6 +88,7 @@ paths=(
   "i18n"
   "content/en"
   "content/zh-CN"
+  "deploy/contracts/localization-inputs.inventory.json"
   ".translation-cache"
   "config/generated"
   "generated/en/sidebars/guides.sidebar.js"
@@ -104,7 +105,6 @@ paths=(
   "packages/docs-tooling/src/lark/meta/snapshots"
   "packages/docs-tooling/src/lark/meta/assembly"
   "packages/docs-tooling/src/lark/meta/reports"
-  "deploy/contracts/localization-inputs.inventory.json"
 )
 
 for restore_path in "${paths[@]}"; do

@@ -63,6 +63,8 @@ test('aggregate resolves exact artifact IDs before collecting Build notes', () =
   assert.ok(steps.indexOf(resolver) < steps.indexOf(collector))
   assert.equal(resolver['continue-on-error'], true)
   assert.match(resolver.run, /resolve-card-artifact-links\.js/)
+  assert.doesNotMatch(resolver.run, /gh api[^\n]*--slurp[^\n]*--jq|gh api[^\n]*--jq[^\n]*--slurp/)
+  assert.match(resolver.run, /gh api --paginate[^\n]*\| jq -s '\[\.\[\]\.artifacts\[\]\]'/)
   assert.equal(collector.env.CARD_REPORT_ARTIFACT_URL_EN, '${{ steps.report_artifact_links.outputs.en_url }}')
   assert.equal(collector.env.CARD_REPORT_ARTIFACT_URL_ZH_CN, '${{ steps.report_artifact_links.outputs.zh_cn_url }}')
   assert.equal(collector.env.CARD_REPORT_ARTIFACT_URL, undefined)

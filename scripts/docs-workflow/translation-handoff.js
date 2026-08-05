@@ -5,6 +5,8 @@ const fs = require('node:fs');
 const {spawnSync} = require('node:child_process');
 
 const {buildTranslationSelection} = require('../translation/selection');
+const {sourcePublicationsFromFetchResults} = require('./fetch-publication-results');
+const {readPublicationDocument} = require('./publication-contracts');
 
 const COMMIT_SHA = /^[a-f0-9]{40}$/u;
 const HANDOFF_KEYS = ['schemaVersion', 'locale', 'group', 'toolingSha', 'targetBranch', 'targetBaselineSha', 'units'];
@@ -141,6 +143,17 @@ function buildTranslationHandoff({locale, group, toolingSha, targetBranch, targe
   });
 }
 
+function buildTranslationHandoffFromFetchResults({selection, results, locale, group}) {
+  return buildTranslationHandoff({
+    locale,
+    group,
+    toolingSha: selection.toolingSha,
+    targetBranch: selection.targetBranch,
+    targetBaselineSha: results.finalTargetSha,
+    sourcePublications: sourcePublicationsFromFetchResults({selection, results, locale, group}),
+  });
+}
+
 function git(repository, args) {
   return spawnSync('git', ['-C', repository, ...args], {encoding: 'utf8'});
 }
@@ -197,6 +210,16 @@ function main(argv = process.argv.slice(2)) {
   let handoff;
   if (args.has('--handoff-json')) {
     handoff = validateTranslationHandoff(parseJson(args.get('--handoff-json'), 'translation handoff'));
+  } else if (args.has('--fetch-selection') || args.has('--fetch-results')) {
+    if (!args.has('--fetch-selection') || !args.has('--fetch-results')) throw new Error('fetch selection and results must be provided together');
+    const selection = readPublicationDocument(args.get('--fetch-selection'), 'publication-selection');
+    const results = readPublicationDocument(args.get('--fetch-results'), 'publication-results', {selection});
+    handoff = buildTranslationHandoffFromFetchResults({
+      locale: args.get('--locale'),
+      group: args.get('--group'),
+      selection,
+      results,
+    });
   } else {
     handoff = buildTranslationHandoff({
       locale: args.get('--locale'),
@@ -225,6 +248,7 @@ if (require.main === module) {
 
 module.exports = {
   buildTranslationHandoff,
+  buildTranslationHandoffFromFetchResults,
   main,
   validateTranslationHandoff,
   validateTranslationHandoffRepository,

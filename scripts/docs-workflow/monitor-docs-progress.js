@@ -8,9 +8,23 @@ const { execFile } = require('node:child_process')
 const { promisify } = require('node:util')
 const { deriveDocsProgressState } = require('./docs-progress-state')
 const { readCardReport, validateCardReport } = require('./docs-card-report')
+const { validatePublicationProgress } = require('./publication-contracts')
 
 const execFileAsync = promisify(execFile)
 const ALL_GROUPS = Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'])
+const PUBLICATION_UNITS = Object.freeze({
+  java: ['source/java'],
+  node: ['source/node'],
+  go: ['source/go'],
+  cli: ['source/cli'],
+  rest: ['source/rest'],
+  python: ['source/python'],
+  guides: ['source/guides-en', 'source/guides-zh-CN'],
+})
+const PUBLICATION_UNIT_ORDER = Object.freeze([
+  'source/java', 'source/node', 'source/go', 'source/cli',
+  'source/rest', 'source/python', 'source/guides-en', 'source/guides-zh-CN',
+])
 
 function createDocsToolingCardPatcher({ repositoryRoot = process.cwd(), messageId, environment = process.env, execute = execFileAsync }) {
   const directory = path.join(repositoryRoot, 'tmp', 'docs-tooling', 'report-card')
@@ -74,18 +88,23 @@ function createDocsProgressMonitor({
   pollIntervalMs = 60_000,
   listJobs,
   downloadProgressMetadata = async () => null,
+  downloadPublicationProgress = async () => ({snapshot: null, stale: false}),
   downloadHandoffMetadata = async () => null,
   downloadFinalReport,
   patchCard,
   sleep = delay,
   now = () => new Date(),
   log = message => process.stdout.write(`${message}\n`),
+  publicationRunAttempt = null,
+  publicationSelectionSha256 = null,
 }) {
   let stopping = false
   let cancellationPatched = false
   let latestState = null
   let latestJobs = []
   const progressMetadata = new Map()
+  let publicationProgress = null
+  let publicationProgressStale = false
   let handoffMetadata = null
 
   function metadata() {
@@ -120,6 +139,8 @@ function createDocsProgressMonitor({
       terminalStatus: options.terminalStatus || null,
       guideTableTotals: Object.fromEntries([...progressMetadata.entries()].map(([locale, value]) => [locale, value.tableTotal])),
       handoff: handoffMetadata ? { status: 'completed', childRunId: handoffMetadata.childRunId, childRunUrl: handoffMetadata.childRunUrl } : null,
+      publicationProgress,
+      publicationProgressStale,
     }), metadata())
   }
 
@@ -133,6 +154,25 @@ function createDocsProgressMonitor({
       } catch (_) {
         boundedLog(`${locale} live progress metadata unavailable; using visible jobs until the next heartbeat`)
       }
+    }
+  }
+
+  async function loadPublicationProgress() {
+    if (!publishEnabled || publicationRunAttempt === null || publicationSelectionSha256 === null) return
+    try {
+      const candidate = await downloadPublicationProgress({
+        runAttempt: publicationRunAttempt,
+        selectionSha256: publicationSelectionSha256,
+        minimumRevision: publicationProgress?.revision || 0,
+        expectedUnitKeys: expectedPublicationUnitKeys(requestedGroups),
+      })
+      if (candidate?.snapshot && (!publicationProgress || candidate.snapshot.revision > publicationProgress.revision)) {
+        publicationProgress = candidate.snapshot
+      }
+      publicationProgressStale = candidate?.stale === true
+    } catch (_) {
+      publicationProgressStale = publicationProgress !== null
+      boundedLog('publication progress unavailable; retaining the highest valid revision')
     }
   }
 
@@ -173,6 +213,7 @@ function createDocsProgressMonitor({
     }
     latestJobs = jobs
     await loadProgressMetadata()
+    await loadPublicationProgress()
     await loadHandoffMetadata()
     const aggregate = selectAggregateJob(jobs)
     if (aggregate?.status === 'completed') {
@@ -293,6 +334,25 @@ function validateArchiveEntries(entries) {
   return entries
 }
 
+function expectedPublicationUnitKeys(requestedGroups) {
+  const selected = new Set(requestedGroups.flatMap(group => PUBLICATION_UNITS[group] || []))
+  return PUBLICATION_UNIT_ORDER.filter(unitKey => selected.has(unitKey))
+}
+
+function validatePublicationProgressIdentity(value, {runId, runAttempt, selectionSha256, revision, expectedUnitKeys}) {
+  const snapshot = validatePublicationProgress(value, {artifactRevision: revision})
+  if (snapshot.runId !== runId) throw new Error('Publication progress runId mismatch')
+  if (snapshot.runAttempt !== runAttempt) throw new Error('Publication progress runAttempt mismatch')
+  if (snapshot.selectionSha256 !== selectionSha256) throw new Error('Publication progress selection checksum mismatch')
+  if (Array.isArray(expectedUnitKeys)) {
+    const actual = snapshot.units.map(unit => unit.unitKey)
+    if (actual.length !== expectedUnitKeys.length || actual.some((unitKey, index) => unitKey !== expectedUnitKeys[index])) {
+      throw new Error('Publication progress units do not match the requested Fetch selection')
+    }
+  }
+  return snapshot
+}
+
 function createGitHubActionsClient({
   token,
   repository,
@@ -328,9 +388,18 @@ function createGitHubActionsClient({
     return (value.artifacts || []).filter(artifact => !artifact.expired).sort((left, right) => (right.id || 0) - (left.id || 0))[0] || null
   }
 
-  async function downloadArtifactJson({ artifactName, fileName, validate }) {
-    const artifact = await withRetry(() => findNamedArtifact(artifactName), { sleep })
-    if (!artifact) return null
+  async function listRunArtifacts() {
+    const artifacts = []
+    for (let page = 1; ; page += 1) {
+      const value = await githubFetch(fetchImpl, `${base}/actions/runs/${runId}/artifacts?per_page=100&page=${page}`, token)
+      const current = Array.isArray(value.artifacts) ? value.artifacts : []
+      artifacts.push(...current)
+      if (current.length < 100) return artifacts
+    }
+  }
+
+  async function downloadArtifactJsonFromArtifact({artifact, artifactName, fileName, validate}) {
+    if (!artifact || artifact.expired === true || typeof artifact.archive_download_url !== 'string') throw new Error(`Artifact is unavailable: ${artifactName}`)
     const directory = fs.mkdtempSync(path.join(runnerTemp, `${artifactName}-`))
     const archive = path.join(directory, `${artifactName}.zip`)
     const extracted = path.join(directory, 'extracted')
@@ -344,6 +413,12 @@ function createGitHubActionsClient({
     } finally {
       fs.rmSync(directory, { recursive: true, force: true })
     }
+  }
+
+  async function downloadArtifactJson({ artifactName, fileName, validate }) {
+    const artifact = await withRetry(() => findNamedArtifact(artifactName), { sleep })
+    if (!artifact) return null
+    return downloadArtifactJsonFromArtifact({artifact, artifactName, fileName, validate})
   }
 
   function downloadProgressMetadata(locale) {
@@ -361,6 +436,35 @@ function createGitHubActionsClient({
       fileName: 'handoff-metadata.json',
       validate: value => validateHandoffMetadata(value, { expectedParentRunId: runId, repository }),
     })
+  }
+
+  async function downloadPublicationProgress({runAttempt, selectionSha256, minimumRevision = 0, expectedUnitKeys} = {}) {
+    if (!Number.isSafeInteger(runAttempt) || runAttempt <= 0) throw new Error('Publication progress runAttempt must be a positive integer')
+    if (typeof selectionSha256 !== 'string' || !/^[0-9a-f]{64}$/u.test(selectionSha256)) throw new Error('Publication progress selection checksum is invalid')
+    if (!Number.isSafeInteger(minimumRevision) || minimumRevision < 0) throw new Error('Publication progress minimumRevision must be a non-negative integer')
+    const prefix = `publication-progress-fetch-${runId}-${runAttempt}-`
+    const candidates = (await listRunArtifacts())
+      .filter(artifact => artifact.expired !== true && typeof artifact.name === 'string' && artifact.name.startsWith(prefix))
+      .map(artifact => ({artifact, revision: Number(artifact.name.slice(prefix.length))}))
+      .filter(candidate => Number.isSafeInteger(candidate.revision) && candidate.revision > minimumRevision && candidate.revision > 0 && candidate.artifact.name === `${prefix}${candidate.revision}`)
+      .sort((left, right) => right.revision - left.revision || Number(right.artifact.id || 0) - Number(left.artifact.id || 0))
+    let stale = false
+    for (const candidate of candidates) {
+      try {
+        const snapshot = await downloadArtifactJsonFromArtifact({
+          artifact: candidate.artifact,
+          artifactName: candidate.artifact.name,
+          fileName: `publication-progress-${candidate.revision}.json`,
+          validate: value => validatePublicationProgressIdentity(value, {
+            runId, runAttempt, selectionSha256, revision: candidate.revision, expectedUnitKeys,
+          }),
+        })
+        return {snapshot, stale}
+      } catch (_) {
+        stale = true
+      }
+    }
+    return {snapshot: null, stale}
   }
 
   async function downloadFinalReport() {
@@ -385,7 +489,7 @@ function createGitHubActionsClient({
     }
   }
 
-  return { downloadFinalReport, downloadHandoffMetadata, downloadProgressMetadata, listJobs }
+  return { downloadFinalReport, downloadHandoffMetadata, downloadProgressMetadata, downloadPublicationProgress, listJobs }
 }
 
 function required(env, key) {
@@ -425,6 +529,17 @@ function readConfiguration(env = process.env, args = process.argv.slice(2)) {
   if (!['true', 'false'].includes(publishText)) throw new Error('PUBLISH_ENABLED must be true or false')
   const translationsText = required(env, 'RUN_TRANSLATIONS')
   if (!['true', 'false'].includes(translationsText)) throw new Error('RUN_TRANSLATIONS must be true or false')
+  const publicationAttemptText = String(env.PUBLICATION_RUN_ATTEMPT || '').trim()
+  const publicationSelectionSha256Text = String(env.PUBLICATION_SELECTION_SHA256 || '').trim()
+  const publicationIdentityPresent = publicationAttemptText !== '' && publicationAttemptText !== '0' || publicationSelectionSha256Text !== ''
+  let publicationRunAttempt = null
+  let publicationSelectionSha256 = null
+  if (publicationIdentityPresent) {
+    publicationRunAttempt = Number(publicationAttemptText)
+    if (!Number.isSafeInteger(publicationRunAttempt) || publicationRunAttempt <= 0) throw new Error('PUBLICATION_RUN_ATTEMPT must be a positive integer')
+    if (!/^[0-9a-f]{64}$/u.test(publicationSelectionSha256Text)) throw new Error('PUBLICATION_SELECTION_SHA256 must be a lowercase SHA-256 checksum')
+    publicationSelectionSha256 = publicationSelectionSha256Text
+  }
   const cli = parseCliArgs(args)
   return {
     runId,
@@ -436,6 +551,8 @@ function readConfiguration(env = process.env, args = process.argv.slice(2)) {
     requestedGroups: selectedGroup === 'all' ? [...ALL_GROUPS] : [selectedGroup],
     publishEnabled: publishText === 'true',
     runTranslations: translationsText === 'true',
+    publicationRunAttempt,
+    publicationSelectionSha256,
     appId: required(env, 'APP_ID'),
     appSecret: required(env, 'APP_SECRET'),
     feishuHost: required(env, 'FEISHU_HOST'),
@@ -464,6 +581,7 @@ async function main() {
     title: 'Zilliz Cloud Docs Build',
     listJobs: github.listJobs,
     downloadProgressMetadata: github.downloadProgressMetadata,
+    downloadPublicationProgress: github.downloadPublicationProgress,
     downloadHandoffMetadata: github.downloadHandoffMetadata,
     downloadFinalReport: reportFromFile,
     patchCard,
