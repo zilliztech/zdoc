@@ -991,10 +991,16 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const dispatchJob = caller?.jobs?.dispatch_translations
     const handoffNeeds = Array.isArray(handoffJob?.needs) ? handoffJob.needs : []
     const dispatchNeeds = Array.isArray(dispatchJob?.needs) ? dispatchJob.needs : []
+    const handoffSteps = handoffJob?.steps || []
+    const handoffPnpmIndex = handoffSteps.findIndex(step => step?.uses === 'pnpm/action-setup@v5')
+    const handoffNodeIndex = handoffSteps.findIndex(step => step?.uses === 'actions/setup-node@v5')
+    const handoffInstallIndex = handoffSteps.findIndex(step => step?.run === 'pnpm install --frozen-lockfile')
+    const handoffValidationIndex = handoffSteps.findIndex(step => step?.name === 'Validate exact downstream translation handoff')
     if (!handoffNeeds.includes('source_publication_barrier') ||
+        !(handoffPnpmIndex >= 0 && handoffPnpmIndex < handoffNodeIndex && handoffNodeIndex < handoffInstallIndex && handoffInstallIndex < handoffValidationIndex) ||
         dispatchNeeds.join(',') !== 'prepare,prepare_translation_handoff' ||
         !String(dispatchJob?.if || '').includes("needs.prepare_translation_handoff.result == 'success'")) {
-      errors.push('fetch-docs.yml: downstream translation dispatch must wait for successful source publication handoff')
+      errors.push('fetch-docs.yml: downstream translation handoff must install its runtime before validated schema-v2 dispatch')
     }
     const dispatchSteps = dispatchJob?.steps || []
     const handoffMetadata = dispatchSteps.find(step => step?.name === 'Create translation handoff monitor metadata')
