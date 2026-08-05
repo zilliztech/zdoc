@@ -2299,10 +2299,52 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication-createRole.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-createUser.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication-createUser.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeRole.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication-describeRole.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-describeUser.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication-describeUser.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-hasRole.md",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication-hasRole.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-listRoles.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication-listRoles.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication-updateUser.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication-updateUser.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
     },
     {
       "manual": "node",
@@ -2355,6 +2397,34 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-DataType.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-DataType.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-FunctionType.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-FunctionType.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionField.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-addCollectionField.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFields.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFields.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-addCollectionFunction.md",
       "changeKind": null,
@@ -2376,10 +2446,31 @@
     },
     {
       "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-createCollection.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-describeCollection.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-describeCollection.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
+    },
+    {
+      "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionFunction.md",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-dropCollectionFunction.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections-getCollectionStatistics.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections-getCollectionStatistics.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
     },
     {
       "manual": "node",
@@ -2681,6 +2772,27 @@
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Snapshot/Snapshot-unpinSnapshotData.md",
       "changeKind": null,
       "rationale": "Imported baseline retirement from the clean-room Reference migration"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-insert.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Vector/Vector-insert.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-query.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Vector/Vector-query.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
+    },
+    {
+      "manual": "node",
+      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector-upsert.md",
+      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Vector/Vector-upsert.md",
+      "changeKind": "source_deleted",
+      "rationale": "Canonical source was removed by the latest Reference publication"
     },
     {
       "manual": "node",
