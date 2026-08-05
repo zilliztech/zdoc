@@ -151,12 +151,34 @@ test('workflow policy rejects external link watchdog boundary regressions', () =
       expected: 'external-link-watchdog.yml: watchdog concurrency must serialize scans without cancellation',
     },
     {
-      label: 'card on blocked links',
-      mutate: source => source.replaceAll(
-        "steps.scan.outputs.expired_count != '0'",
-        "steps.scan.outputs.blocked_count != '0'",
+      label: 'expiry-only report card',
+      mutate: source => source.replace(
+        '      - name: Create documentation site report card',
+        "      - name: Create documentation site report card\n        if: ${{ steps.scan.outputs.expired_count != '0' }}",
       ),
-      expected: 'external-link-watchdog.yml: alert card steps must run only for confirmed expired links',
+      expected: 'external-link-watchdog.yml: report card must run after every successful scan',
+    },
+    {
+      label: 'old report title',
+      mutate: source => source.replace('Documentation Site Change & Link Health Report', 'External Link Watchdog'),
+      expected: 'external-link-watchdog.yml: report card must use the approved title',
+    },
+    {
+      label: 'constant failure presentation',
+      mutate: source => source.replace('--status "$CARD_STATUS"', '--status fail'),
+      expected: 'external-link-watchdog.yml: report card presentation must derive from confirmed expiry',
+    },
+    {
+      label: 'report before artifact',
+      mutate: source => {
+        const uploadStart = source.indexOf('      - name: Upload external link report')
+        const noteStart = source.indexOf('      - name: Build documentation site change and link health note')
+        const uploadBlock = source.slice(uploadStart, noteStart)
+        const withoutUpload = source.slice(0, uploadStart) + source.slice(noteStart)
+        const createStart = withoutUpload.indexOf('      - name: Create documentation site report card')
+        return withoutUpload.slice(0, createStart) + uploadBlock + withoutUpload.slice(createStart)
+      },
+      expected: 'external-link-watchdog.yml: complete report upload must precede Feishu reporting',
     },
     {
       label: 'non-failing scan',

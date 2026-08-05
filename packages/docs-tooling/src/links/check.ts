@@ -400,29 +400,48 @@ export function buildLinkCheckReport({
   });
 }
 
-function listItems(items: any[], renderItem: (item: any) => string, limit = 10): string {
-  if (!items.length) return '- None';
-  const visible = items.slice(0, limit).map(renderItem);
-  if (items.length > visible.length) visible.push(`- ...and ${items.length - visible.length} more`);
-  return visible.join('\n');
+const SECTION_EXPLANATIONS = {
+  expired: 'These URLs returned HTTP 404 or 410. They are likely removed or permanently unavailable and should be corrected, replaced, or removed.',
+  blocked: 'These URLs returned HTTP 401 or 403. The scanner was denied access, so this does not prove the links are broken; review them only if users also cannot open them.',
+  transient: 'These URLs failed because of network errors, timeouts, or retryable HTTP responses such as 408, 425, 429, or 5xx. They are not confirmed broken and should be checked again in a later run.',
+  other: 'These URLs returned non-success responses that are not classified as expired, blocked, or transient. Review them manually to determine whether the response is expected.',
+  deleted: 'These routes exist in the production sitemap but are absent from the current `dev` build. They may represent intended removals or renames, or unexpected content loss.',
+  added: 'These routes exist in the current `dev` build but not in the production sitemap. They are expected to become public after deployment, unless they represent unintended new routes.',
+} as const;
+
+function renderItems<T>(items: readonly T[], renderItem: (item: T) => string): string {
+  return items.length === 0 ? '- None' : items.map(renderItem).join('\n');
 }
 
 export function renderLinkCheckMarkdown(report: LinkCheckReport): string {
   const renderExternalItem = (item: ExternalObservation): string => {
-    const detail = item.status === null ? `Error: ${item.error}` : `HTTP ${item.status}`;
-    const pages = item.pages.length > 0 ? item.pages.join(', ') : 'None';
-    return `- ${item.url} (${detail}; pages: ${pages}; total pages: ${item.page_count})`;
+    const result = item.status === null ? `Error: ${item.error}` : `HTTP ${item.status}`;
+    return [
+      `- ${item.url}`,
+      `  - Result: ${result}`,
+      `  - Referring pages: ${item.pages.length === 0 ? 'None' : item.pages.join(', ')}`,
+      `  - Pages shown: ${item.pages.length} of ${item.page_count}`,
+    ].join('\n');
   };
+  const section = <T>(title: string, explanation: string, items: readonly T[], renderItem: (item: T) => string): string[] => [
+    `## ${title}`,
+    '',
+    `> ${explanation}`,
+    '',
+    renderItems(items, renderItem),
+  ];
   const lines = [
-    '# Link Checks',
+    '# Documentation Site Change & Link Health Report',
     '',
     `Generated: ${report.generated_at}`,
     `Workflow run: ${report.workflow_run_url ?? 'None'}`,
     `Tooling SHA: ${report.tooling_sha ?? 'None'}`,
     `Content SHA: ${report.content_sha ?? 'None'}`,
-  ];
-  lines.push(`Remote sitemap: ${report.remote_sitemap_source}`, `Local sitemap: ${report.local_sitemap_source}`, '', '## Summary', '');
-  lines.push(
+    `Remote sitemap: ${report.remote_sitemap_source}`,
+    `Local sitemap: ${report.local_sitemap_source}`,
+    '',
+    '## Summary',
+    '',
     `- Deleted routes: ${report.summary.deleted_routes}`,
     `- Added routes: ${report.summary.added_routes}`,
     `- External URLs checked: ${report.summary.checked_external_links}`,
@@ -432,30 +451,18 @@ export function renderLinkCheckMarkdown(report: LinkCheckReport): string {
     `- Transient external URLs: ${report.summary.transient_external_links}`,
     `- Other external URL responses: ${report.summary.other_external_links}`,
     '',
-    '## Confirmed Expired External URLs',
+    ...section('Confirmed Expired External URLs', SECTION_EXPLANATIONS.expired, report.expired_external_links, renderExternalItem),
     '',
-    listItems(report.expired_external_links, renderExternalItem),
+    ...section('Blocked External URLs', SECTION_EXPLANATIONS.blocked, report.blocked_external_links, renderExternalItem),
     '',
-    '## Blocked External URLs',
+    ...section('Transient External URLs', SECTION_EXPLANATIONS.transient, report.transient_external_links, renderExternalItem),
     '',
-    listItems(report.blocked_external_links, renderExternalItem),
+    ...section('Other External URL Responses', SECTION_EXPLANATIONS.other, report.other_external_links, renderExternalItem),
     '',
-    '## Transient External URLs',
+    ...section('Deleted Routes', SECTION_EXPLANATIONS.deleted, report.deleted_routes, url => `- ${url}`),
     '',
-    listItems(report.transient_external_links, renderExternalItem),
-    '',
-    '## Other External URL Responses',
-    '',
-    listItems(report.other_external_links, renderExternalItem),
-    '',
-    '## Deleted Routes',
-    '',
-    listItems(report.deleted_routes, url => `- ${url}`),
-    '',
-    '## Added Routes',
-    '',
-    listItems(report.added_routes, url => `- ${url}`),
-  );
+    ...section('Added Routes', SECTION_EXPLANATIONS.added, report.added_routes, url => `- ${url}`),
+  ];
   return lines.join('\n');
 }
 

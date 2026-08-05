@@ -67,7 +67,8 @@ jobs:
           if (!Number.isSafeInteger(expiredCount) || expiredCount < 0) {
             throw new Error('expired_external_links must be a non-negative safe integer')
           }
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `expired_count=${expiredCount}\n`)
+          const cardStatus = expiredCount === 0 ? 'success' : 'fail'
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `expired_count=${expiredCount}\ncard_status=${cardStatus}\n`)
           NODE
 
       - name: Upload external link report
@@ -79,64 +80,37 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      - name: Build expired link alert note
-        if: ${{ steps.scan.outputs.expired_count != '0' }}
+      - name: Build documentation site change and link health note
+        id: report_note
+        continue-on-error: true
         env:
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
-          CONTENT_SHA: ${{ steps.refs.outputs.content_sha }}
           REPORT_ARTIFACT_URL: ${{ steps.report_artifact.outputs.artifact-url }}
         run: |
-          node <<'NODE'
-          const fs = require('node:fs')
-          const report = JSON.parse(fs.readFileSync('tmp/external-link-watchdog/latest.json', 'utf8'))
-          const expired = report.expired_external_links.slice(0, 10)
-          const lines = [
-            '# External Link Watchdog',
-            '',
-            `- Confirmed expired external URLs: ${report.summary.expired_external_links}`,
-            `- Workflow run: ${process.env.RUN_URL}`,
-            `- Tooling SHA: ${process.env.TOOLING_SHA}`,
-            `- Content SHA: ${process.env.CONTENT_SHA}`,
-            `- Report artifact: ${process.env.REPORT_ARTIFACT_URL}`,
-            '',
-            '## Confirmed expired external URLs',
-            '',
-          ]
-          for (const item of expired) {
-            lines.push(`- ${item.url}`)
-            const pages = item.pages.slice(0, 2)
-            if (pages.length === 0) lines.push('  - Referring pages: None')
-            for (const page of pages) lines.push(`  - Referring page: ${page}`)
-            if (item.page_count > pages.length) lines.push(`  - Additional referring pages: ${item.page_count - pages.length}`)
-          }
-          if (report.expired_external_links.length > expired.length) {
-            lines.push(`- ...and ${report.expired_external_links.length - expired.length} more expired URLs`)
-          }
-          fs.writeFileSync('tmp/external-link-watchdog-alert.md', `${lines.join('\n')}\n`)
-          NODE
+          node scripts/render-external-link-watchdog-note.js \
+            --input tmp/external-link-watchdog/latest.json \
+            --output tmp/external-link-watchdog-note.md \
+            --artifact-url "$REPORT_ARTIFACT_URL"
 
-      - name: Create external link alert card
-        id: alert_card
-        if: ${{ steps.scan.outputs.expired_count != '0' }}
+      - name: Create documentation site report card
+        id: report_card
         continue-on-error: true
-        run: pnpm docs-tooling report-card create --title "External Link Watchdog" --stages "Check external links"
+        run: pnpm docs-tooling report-card create --title "Documentation Site Change & Link Health Report" --stages "Inspect site changes and link health"
         env:
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
-      - name: Attach expired link alert note
-        if: ${{ steps.scan.outputs.expired_count != '0' }}
+      - name: Attach documentation site report note
+        if: ${{ steps.report_card.outputs.card_id != '' && steps.report_note.outcome == 'success' }}
         continue-on-error: true
-        run: pnpm docs-tooling report-card note --file tmp/external-link-watchdog-alert.md
+        run: pnpm docs-tooling report-card note --file tmp/external-link-watchdog-note.md
         env:
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
-      - name: Finish external link alert card
-        if: ${{ steps.scan.outputs.expired_count != '0' }}
+      - name: Finish documentation site report card
+        if: ${{ steps.report_card.outputs.card_id != '' }}
         continue-on-error: true
         run: |
           pnpm docs-tooling report-card finish \
@@ -144,12 +118,13 @@ jobs:
             --started-at "$CARD_STARTED_AT" \
             --stages "$CARD_STAGES" \
             --title "$CARD_TITLE" \
-            --status fail
+            --status "$CARD_STATUS"
         env:
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-          CARD_ID: ${{ steps.alert_card.outputs.card_id }}
-          CARD_STARTED_AT: ${{ steps.alert_card.outputs.card_started_at }}
-          CARD_STAGES: ${{ steps.alert_card.outputs.card_stages }}
-          CARD_TITLE: ${{ steps.alert_card.outputs.card_title }}
+          CARD_ID: ${{ steps.report_card.outputs.card_id }}
+          CARD_STARTED_AT: ${{ steps.report_card.outputs.card_started_at }}
+          CARD_STAGES: ${{ steps.report_card.outputs.card_stages }}
+          CARD_TITLE: ${{ steps.report_card.outputs.card_title }}
+          CARD_STATUS: ${{ steps.scan.outputs.card_status }}

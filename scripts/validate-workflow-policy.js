@@ -1333,16 +1333,31 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (!externalLinkScan || externalLinkScan['continue-on-error'] !== undefined) {
       errors.push('external-link-watchdog.yml: rendered-site scan must fail closed on checker errors')
     }
-    const expiredOnlyCondition = "${{ steps.scan.outputs.expired_count != '0' }}"
-    const alertStepNames = new Set([
-      'Build expired link alert note',
-      'Create external link alert card',
-      'Attach expired link alert note',
-      'Finish external link alert card',
-    ])
-    const alertSteps = externalLinkSteps.filter(step => alertStepNames.has(step?.name))
-    if (alertSteps.length !== alertStepNames.size || alertSteps.some(step => step.if !== expiredOnlyCondition)) {
-      errors.push('external-link-watchdog.yml: alert card steps must run only for confirmed expired links')
+    const upload = externalLinkSteps.find(step => step?.name === 'Upload external link report')
+    const reportNote = externalLinkSteps.find(step => step?.name === 'Build documentation site change and link health note')
+    const reportCreate = externalLinkSteps.find(step => step?.name === 'Create documentation site report card')
+    const reportAttach = externalLinkSteps.find(step => step?.name === 'Attach documentation site report note')
+    const reportFinish = externalLinkSteps.find(step => step?.name === 'Finish documentation site report card')
+    const reportSteps = [reportNote, reportCreate, reportAttach, reportFinish]
+    if (reportSteps.some(step => !step) || reportNote?.if !== undefined || reportCreate?.if !== undefined ||
+        String(reportAttach?.if || '') !== "${{ steps.report_card.outputs.card_id != '' && steps.report_note.outcome == 'success' }}" ||
+        String(reportFinish?.if || '') !== "${{ steps.report_card.outputs.card_id != '' }}") {
+      errors.push('external-link-watchdog.yml: report card must run after every successful scan')
+    }
+    if (reportSteps.some(step => step?.['continue-on-error'] !== true)) {
+      errors.push('external-link-watchdog.yml: Feishu reporting must remain best effort')
+    }
+    if (!String(reportCreate?.run || '').includes('--title "Documentation Site Change & Link Health Report"')) {
+      errors.push('external-link-watchdog.yml: report card must use the approved title')
+    }
+    if (!/cardStatus = expiredCount === 0 \? 'success' : 'fail'/.test(externalLinkScan?.run || '') ||
+        !/card_status=\$\{cardStatus\}/.test(externalLinkScan?.run || '') ||
+        reportFinish?.env?.CARD_STATUS !== '${{ steps.scan.outputs.card_status }}' ||
+        !String(reportFinish?.run || '').includes('--status "$CARD_STATUS"')) {
+      errors.push('external-link-watchdog.yml: report card presentation must derive from confirmed expiry')
+    }
+    if (!upload || !reportNote || externalLinkSteps.indexOf(upload) >= externalLinkSteps.indexOf(reportNote)) {
+      errors.push('external-link-watchdog.yml: complete report upload must precede Feishu reporting')
     }
   }
 
