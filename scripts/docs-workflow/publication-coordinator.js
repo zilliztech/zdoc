@@ -11,11 +11,13 @@ const {preflightCheckpointArchive} = require('./preflight-checkpoint-archive')
 const {
   artifactNames,
   readPublicationDocument,
+  validatePublicationResults,
   validatePublicationSelection,
   writePublicationDocument,
 } = require('./publication-contracts')
 const {createPublicationGitHubClient} = require('./publication-github-client')
 const {createPublicationScheduler} = require('./publication-scheduler')
+const {publicationWorkflowAdapters} = require('./publication-workflow-adapters')
 
 function positiveInteger(value, label) {
   const number = Number(value)
@@ -81,6 +83,7 @@ function removePrepared(prepared) {
 
 async function runPublicationCoordinator(options = {}) {
   const selection = validatePublicationSelection(options.selection)
+  const adapter = options.adapter || publicationWorkflowAdapters.require(selection.workflow)
   const mode = options.mode
   if (!['artifact_only', 'publish'].includes(mode)) throw new Error('mode must be artifact_only or publish')
   if ((mode === 'publish') !== selection.inputs.publish) throw new Error('mode must match the immutable selection publish input')
@@ -97,8 +100,8 @@ async function runPublicationCoordinator(options = {}) {
   if (!client || typeof client.listJobs !== 'function' || typeof client.uploadProgress !== 'function' || typeof client.uploadResults !== 'function') {
     throw new Error('client must provide listJobs, uploadProgress, and uploadResults')
   }
-  const resolveCandidate = options.resolveCandidate || resolveCheckpointCandidate
-  const publishUnit = options.publishUnit || (async ({unit, prepared}) => publishCheckpointTransaction({
+  const candidateResolver = options.resolveCandidate || resolveCheckpointCandidate
+  const unitPublisher = options.publishUnit || (async ({unit, prepared}) => publishCheckpointTransaction({
     repositoryRoot: options.repositoryRoot || process.cwd(),
     artifactDir: prepared.artifactDir,
     baselineDir: prepared.baselineDir || null,
@@ -126,13 +129,20 @@ async function runPublicationCoordinator(options = {}) {
 
   await uploadSnapshot()
   while (true) {
-    const jobs = await client.listJobs()
+    const jobs = adapter.normalizeJobs(await client.listJobs(), selection)
     scheduler.observeJobs(jobs)
     let snapshot = await uploadSnapshot()
 
     for (const state of snapshot.units.filter(unit => unit.state === 'candidate')) {
       const unit = selection.units.find(candidate => candidate.unitKey === state.unitKey)
-      const candidate = await resolveCandidate({selection, unit, client, runnerTemp})
+      const candidate = await adapter.resolveCandidate({
+        selection,
+        unit,
+        client,
+        runnerTemp,
+        resolveCheckpointCandidate: candidateResolver,
+        resolveCandidate: candidateResolver,
+      })
       if (candidate.status === 'ready') prepared.set(unit.unitKey, candidate.prepared)
       scheduler.observeCandidate(unit.unitKey, candidate)
       snapshot = await uploadSnapshot()
@@ -157,7 +167,14 @@ async function runPublicationCoordinator(options = {}) {
       if (!candidate) throw new Error(`Prepared checkpoint is missing for ${unit.unitKey}`)
       scheduler.startPublication(unit.unitKey, {startedAt: now().toISOString()})
       await uploadSnapshot()
-      const transaction = await publishUnit({selection, unit, prepared: candidate, sequence: decision.sequence})
+      const transaction = await adapter.publishUnit({
+        selection,
+        unit,
+        prepared: candidate,
+        sequence: decision.sequence,
+        publishCheckpointTransaction: unitPublisher,
+        publishUnit: unitPublisher,
+      })
       scheduler.finishPublication(unit.unitKey, transaction)
       removePrepared(candidate)
       prepared.delete(unit.unitKey)
@@ -168,7 +185,8 @@ async function runPublicationCoordinator(options = {}) {
 
     for (const candidate of prepared.values()) removePrepared(candidate)
     prepared.clear()
-    const results = scheduler.results({startedAt, completedAt: now().toISOString()})
+    const scheduledResults = scheduler.results({startedAt, completedAt: now().toISOString()})
+    const results = validatePublicationResults(adapter.projectResults(scheduledResults, {selection}), {selection})
     const resultsFile = path.join(outputDirectory, 'publication-results.json')
     writePublicationDocument(resultsFile, results, {selection})
     const resultsUpload = await client.uploadResults({selection, results, file: resultsFile})
@@ -230,7 +248,7 @@ async function main(argv = process.argv.slice(2)) {
     maxPublishAttempts: parsed.values['max-publish-attempts'] || 10,
   })
   const expectedName = artifactNames({
-    workflow: 'fetch', runId: selection.runId, runAttempt: selection.runAttempt,
+    workflow: selection.workflow, runId: selection.runId, runAttempt: selection.runAttempt,
     unitKey: selection.units[0].unitKey, revision: 1,
   }).results
   if (outcome.resultsUpload.artifactName !== expectedName) throw new Error('Results artifact upload identity mismatch')

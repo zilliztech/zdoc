@@ -203,3 +203,80 @@ test('results upload is mandatory even after publication reaches terminal state'
     resolveCandidate: async ({unit}) => ({status: 'ready', prepared: {unitKey: unit.unitKey}}),
   }), /results upload failed/)
 })
+
+test('coordinator delegates job normalization, candidate resolution, publication, and projection to its adapter', async t => {
+  const document = selection(true)
+  const jobs = jobsFor(document, {
+    'source/java': {conclusion: 'success', completedAt: '2026-08-04T00:00:01.000Z'},
+  })
+  const client = fakeClient(jobs)
+  const calls = []
+  const adapter = {
+    workflow: 'fetch',
+    validateSelection() {},
+    validateReady() {},
+    normalizeJobs(rawJobs, selected) {
+      calls.push(['normalizeJobs', rawJobs, selected])
+      return rawJobs
+    },
+    async resolveCandidate(context) {
+      calls.push(['resolveCandidate', context.unit.unitKey])
+      return {status: 'ready', prepared: {unitKey: context.unit.unitKey}}
+    },
+    async publishUnit(context) {
+      calls.push(['publishUnit', context.unit.unitKey])
+      return {
+        status: 'no_changes', baseSha: SHA('2'), resultSha: SHA('2'), commitShas: [], attempts: 1,
+        failure: null, remoteState: 'known', completedAt: '2026-08-04T00:01:00.000Z',
+      }
+    },
+    projectResults(results, context) {
+      calls.push(['projectResults', results.workflow, context.selection.workflow])
+      return {...results}
+    },
+  }
+
+  const outcome = await runPublicationCoordinator({
+    selection: document,
+    mode: 'publish',
+    adapter,
+    client,
+    outputDirectory: outputRoot(t),
+    pollMilliseconds: 1,
+    sleep: async () => {},
+  })
+
+  assert.equal(calls[0][0], 'normalizeJobs')
+  assert.deepEqual(calls.filter(([name]) => name === 'resolveCandidate').map(([, unitKey]) => unitKey), ['source/java'])
+  assert.deepEqual(calls.filter(([name]) => name === 'publishUnit').map(([, unitKey]) => unitKey), ['source/java'])
+  assert.deepEqual(calls.at(-1), ['projectResults', 'fetch', 'fetch'])
+  assert.equal(outcome.results.units.find(unit => unit.unitKey === 'source/java').status, 'no_changes')
+})
+
+test('coordinator revalidates adapter-projected results before write and upload', async t => {
+  const document = selection(false)
+  const jobs = jobsFor(document, Object.fromEntries(document.units.map((unit, index) => [unit.unitKey, {
+    conclusion: 'success', completedAt: `2026-08-04T00:00:${String(index + 1).padStart(2, '0')}.000Z`,
+  }])))
+  const client = fakeClient(jobs)
+  const adapter = {
+    workflow: 'fetch',
+    validateSelection() {},
+    validateReady() {},
+    normalizeJobs(rawJobs) { return rawJobs },
+    async resolveCandidate({unit}) { return {status: 'ready', prepared: {unitKey: unit.unitKey}} },
+    async publishUnit() { throw new Error('not used') },
+    projectResults(results) { return {...results, workflow: 'translation'} },
+  }
+
+  await assert.rejects(runPublicationCoordinator({
+    selection: document,
+    mode: 'artifact_only',
+    adapter,
+    client,
+    outputDirectory: outputRoot(t),
+    pollMilliseconds: 1,
+    sleep: async () => {},
+  }), /workflow mismatch/i)
+  assert.equal(client.results.length, 0)
+})
