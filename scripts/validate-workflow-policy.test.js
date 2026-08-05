@@ -47,6 +47,11 @@ test('workflow policy rejects durable production dev queue regressions', () => {
     },
     {
       file: '_verify-docs.yml',
+      mutate: source => `concurrency: docs-production-dev\n\n${source}`,
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
       mutate: source => source.replace(
         '  verify:\n    runs-on: ubuntu-latest',
         '  verify:\n    concurrency:\n      group: docs-production-dev\n      queue: max\n    runs-on: ubuntu-latest',
@@ -62,10 +67,42 @@ test('workflow policy rejects durable production dev queue regressions', () => {
       expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
     },
     {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        '  verify:\n    concurrency: docs-production-dev\n    runs-on: ubuntu-latest',
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: '_verify-docs.yml',
+      mutate: source => source.replace(
+        '  verify:\n    runs-on: ubuntu-latest',
+        "  verify:\n    concurrency: ${{ inputs.target_branch == 'dev' && 'docs-production-dev' || 'verify-readonly' }}\n    runs-on: ubuntu-latest",
+      ),
+      expected: '_verify-docs.yml: reusable workflow must not reacquire docs-production-dev',
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace(
+        'concurrency:\n  group: docs-production-dev\n  queue: max',
+        'concurrency: docs-production-dev',
+      ),
+      expected: 'fetch-docs.yml: production dev queue owner must use group docs-production-dev with queue: max',
+    },
+    {
       file: 'fetch-docs.yml',
       mutate: source => source.replace(
         '  prepare:\n    runs-on: ubuntu-latest',
         '  prepare:\n    concurrency:\n      group: docs-production-dev\n      queue: max\n    runs-on: ubuntu-latest',
+      ),
+      expected: 'fetch-docs.yml: job-level concurrency must not reacquire docs-production-dev',
+    },
+    {
+      file: 'fetch-docs.yml',
+      mutate: source => source.replace(
+        '  prepare:\n    runs-on: ubuntu-latest',
+        '  prepare:\n    concurrency: docs-production-dev\n    runs-on: ubuntu-latest',
       ),
       expected: 'fetch-docs.yml: job-level concurrency must not reacquire docs-production-dev',
     },

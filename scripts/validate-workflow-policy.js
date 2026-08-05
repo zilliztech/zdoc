@@ -114,6 +114,10 @@ function namedJobStep(workflow, jobName, stepName) {
   return (workflow?.jobs?.[jobName]?.steps || []).find(step => step?.name === stepName)
 }
 
+function concurrencyGroupOf(concurrency) {
+  return typeof concurrency === 'string' ? concurrency : concurrency?.group
+}
+
 function executableCommandLines(run) {
   return executableShellLineEntries(run).map(({ trimmed }) =>
     trimmed.replace(/\s+2>&1\s*\|\s*tee\s+\S+\s*$/, ''))
@@ -204,7 +208,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       continue
     }
     const productionQueueOwner = PRODUCTION_QUEUE_OWNERS.get(file)
-    const concurrencyGroup = workflow?.concurrency?.group
+    const concurrencyGroup = concurrencyGroupOf(workflow?.concurrency)
     if (productionQueueOwner?.conditional) {
       const expectedGroup = "${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}"
       if (concurrencyGroup !== expectedGroup) {
@@ -223,7 +227,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         : `${file}: only production dev queue owners may use docs-production-dev`)
     }
     const jobAcquiresProductionQueue = Object.values(workflow.jobs || {})
-      .some(job => String(job?.concurrency?.group || '').includes(PRODUCTION_DEV_QUEUE))
+      .some(job => String(concurrencyGroupOf(job?.concurrency) || '').includes(PRODUCTION_DEV_QUEUE))
     if (jobAcquiresProductionQueue) {
       errors.push(file.startsWith('_')
         ? `${file}: reusable workflow must not reacquire docs-production-dev`
