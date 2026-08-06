@@ -8,57 +8,60 @@ displayed_sidebar: pythonSidebar
 
 import Admonition from '@theme/Admonition';
 
-
 # Python SDK Reference
 
-The [PyMilvus](https://github.com/milvus-io/pymilvus) Python SDK is the official Python client for Milvus and Zilliz Cloud. It provides both a high-level functional API via `MilvusClient` and a legacy ORM-style API.
+[PyMilvus](https://github.com/milvus-io/pymilvus) is the Python SDK for Zilliz Cloud. Use `MilvusClient` to connect to a cluster, manage collections and indexes, write data, and run vector searches. The package also provides `AsyncMilvusClient` for asynchronous applications and optional utilities for bulk-data preparation, embeddings, and reranking.
 
 ## Features
 
-- **MilvusClient** — Simplified functional API for common operations
-- **ORM API** — Legacy object-relational mapping style API
-- **Bulk import** — Local and remote bulk writers for large-scale data ingestion
-- **Embedding models** — Integrated support for text and image embeddings via `pymilvus[model]`
-- **Rerankers** — Built-in reranking functions for hybrid search
+- **Synchronous and asynchronous clients** — Use `MilvusClient` in synchronous code or `AsyncMilvusClient` with Python async frameworks.
+- **Collection and index management** — Define schemas, create collections and indexes, and control collection loading.
+- **Data and vector operations** — Insert, upsert, delete, query, search, and run hybrid searches through Python APIs.
+- **Cloud administration** — Work with databases, partitions, users, roles, and resource groups available to your cluster.
+- **Optional tooling** — Install the `bulk_writer` extra for bulk-data files or the `model` extra for embedding and reranking integrations.
 
-## Install & Update
+## Installation
 
-You can run the following command in your terminal to install the latest PyMilvus or update your PyMilvus to this version.
+Install or upgrade the core SDK from PyPI:
 
-```shell
-pip install --upgrade pymilvus==v2.3.7
+```bash
+python -m pip install --upgrade pymilvus
 ```
 
-After the installation, you can check the pymilvus version by running the following
+Install optional integrations only when your application needs them:
 
-```python
-from pymilvus import __version__
-
-print(__version__)
-
-# v2.3.7
+```bash
+python -m pip install "pymilvus[bulk_writer]"
+python -m pip install "pymilvus[model]"
 ```
 
-## Connect to Cluster
+## Connect to Zilliz Cloud
+
+Copy the public endpoint from the cluster **Connect** card and use an API key or cluster credential as the token.
 
 ```python
 from pymilvus import MilvusClient
 
-# Authentication enabled with a cluster user
+CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+TOKEN = "YOUR_CLUSTER_TOKEN"
+
 client = MilvusClient(
-    uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
-    token="user:password", # replace this with your token
+    uri=CLUSTER_ENDPOINT,
+    token=TOKEN,
 )
+
+try:
+    print(client.list_collections())
+finally:
+    client.close()
 ```
 
-## What's New
+## Resources
 
-In this version, PyMilvus adds a MilvusClient module that incorporates several functional methods, aligning its functionality overall with that of the legacy ORM module.
+- [PyMilvus source repository](https://github.com/milvus-io/pymilvus)
+- [PyMilvus examples](https://github.com/milvus-io/pymilvus/tree/master/examples)
+- [PyMilvus releases](https://github.com/milvus-io/pymilvus/releases)
 
 import DocCardList from '@theme/DocCardList';
 
 <DocCardList />
-
-## Examples
-
-In addition to the documents, you can also refer to [the example sets](https://github.com/milvus-io/pymilvus/tree/master/examples) in our [GitHub repository](https://github.com/milvus-io/pymilvus).
