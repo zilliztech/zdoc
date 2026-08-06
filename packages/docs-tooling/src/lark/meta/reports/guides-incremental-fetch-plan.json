@@ -1,17 +1,69 @@
 {
-  "generated_at": "2026-08-05T16:40:10.779Z",
+  "generated_at": "2026-08-06T03:18:17.550Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [],
-  "changed_tokens": [],
-  "expanded_tokens": [],
+  "changed_records": [
+    {
+      "record_id": "recvlVXBVpkIcX",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Zilliz Cloud IPs",
+      "labels": "Zilliz Cloud IP Addresses",
+      "slug": "zilliz-cloud-ips",
+      "doc_token": "KfgvwJKPDi8uDekl2aHcPOvgnSb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/KfgvwJKPDi8uDekl2aHcPOvgnSb",
+      "reasons": [
+        "wiki node edit time changed"
+      ]
+    }
+  ],
+  "changed_tokens": [
+    "KfgvwJKPDi8uDekl2aHcPOvgnSb"
+  ],
+  "expanded_tokens": [
+    "CiVHwbwPwipX5SkFkqVcLpESnfe",
+    "KfgvwJKPDi8uDekl2aHcPOvgnSb",
+    "LqMIw1DXyiHUjAk9TEAcqHp6nDd",
+    "PlX3wo82Di6oWVkg2ercRWCUnvV",
+    "R33EwQchxiO3HKk4vPnce6vkntc",
+    "SwgXwdHG6iqpbUknXrHcOPd7nRe",
+    "VFMLwxpsniVGKYkE3DecmpQ2nrg",
+    "Y8nwwbi0KiwtVZkMaSQcsPcwnkf"
+  ],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {},
+  "reasons_by_token": {
+    "KfgvwJKPDi8uDekl2aHcPOvgnSb": [
+      "wiki node edit time changed"
+    ],
+    "CiVHwbwPwipX5SkFkqVcLpESnfe": [
+      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
+    ],
+    "LqMIw1DXyiHUjAk9TEAcqHp6nDd": [
+      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
+    ],
+    "PlX3wo82Di6oWVkg2ercRWCUnvV": [
+      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
+    ],
+    "R33EwQchxiO3HKk4vPnce6vkntc": [
+      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
+    ],
+    "SwgXwdHG6iqpbUknXrHcOPd7nRe": [
+      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
+    ],
+    "VFMLwxpsniVGKYkE3DecmpQ2nrg": [
+      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
+    ],
+    "Y8nwwbi0KiwtVZkMaSQcsPcwnkf": [
+      "incoming reference to KfgvwJKPDi8uDekl2aHcPOvgnSb"
+    ]
+  },
   "warnings": [],
-  "affected_tables": [],
+  "affected_tables": [
+    "tblZMzoITXNsyKmQ"
+  ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
