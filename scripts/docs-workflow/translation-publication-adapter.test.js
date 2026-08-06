@@ -235,3 +235,133 @@ test('Translation uses the shared progress, results, and artifact naming envelop
   assert.throws(() => validatePublicationProgress({...progress, workflow: 'tooling'}, {selection: selected}), /workflow mismatch/i)
   assert.equal(artifactNames({workflow: 'translation', runId: 123, runAttempt: 1, unitKey: selected.units[0].unitKey, revision: 1}).selection, 'publication-selection-translation-123-1')
 })
+
+test('Translation adapter awaits reconciliation exactly once and projects the final target identity', async () => {
+  const selected = selection()
+  const raw = validatePublicationResults({
+    schemaVersion: 1,
+    document: 'publication-results',
+    workflow: 'translation',
+    repository: selected.repository,
+    runId: selected.runId,
+    runAttempt: selected.runAttempt,
+    selectionSha256: selected.selectionSha256,
+    mode: 'publish',
+    targetBranch: selected.targetBranch,
+    initialTargetSha: selected.initialTargetSha,
+    finalTargetSha: SHA_D,
+    startedAt: '2026-08-04T08:00:00.000Z',
+    completedAt: '2026-08-04T09:00:00.000Z',
+    overallStatus: 'success',
+    units: [{
+      unitKey: selected.units[0].unitKey,
+      producerJobId: 1,
+      producerCompletedAt: '2026-08-04T08:00:01.000Z',
+      readyAt: '2026-08-04T08:00:02.000Z',
+      sequence: 1,
+      publishStartedAt: '2026-08-04T08:00:03.000Z',
+      publishCompletedAt: '2026-08-04T08:00:04.000Z',
+      baseSha: SHA_D,
+      resultSha: SHA_D,
+      commitShas: [],
+      attempts: 1,
+      status: 'no_changes',
+      failure: null,
+    }],
+    orchestratorFailure: null,
+  }, {selection: selected})
+  let calls = 0
+  let release
+  const waiting = new Promise(resolve => { release = resolve })
+  const projection = translationPublicationAdapter.projectResults(raw, {
+    selection: selected,
+    repositoryRoot: '/repository',
+    runnerTemp: '/runner',
+    transactionContext: {
+      async reconcileTranslationPublication(context) {
+        calls += 1
+        assert.equal(context.selection.units[0].sourceCheckpointSha, SHA_C)
+        await waiting
+        return {status: 'published', resultSha: SHA_A, commitShas: [SHA_A]}
+      },
+    },
+  })
+  await Promise.resolve()
+  assert.equal(calls, 1)
+  let settled = false
+  projection.finally(() => { settled = true })
+  await Promise.resolve()
+  assert.equal(settled, false)
+  release()
+  const projected = await projection
+  assert.equal(projected.finalTargetSha, SHA_A)
+  assert.equal(projected.overallStatus, 'success')
+})
+
+test('Translation adapter maps reconciliation failure to orchestrator_failed without a successful projection', async () => {
+  const selected = selection()
+  const raw = validatePublicationResults({
+    schemaVersion: 1, document: 'publication-results', workflow: 'translation', repository: selected.repository,
+    runId: selected.runId, runAttempt: selected.runAttempt, selectionSha256: selected.selectionSha256,
+    mode: 'publish', targetBranch: selected.targetBranch, initialTargetSha: selected.initialTargetSha,
+    finalTargetSha: SHA_D, startedAt: '2026-08-04T08:00:00.000Z', completedAt: '2026-08-04T09:00:00.000Z',
+    overallStatus: 'success', units: [{
+      unitKey: selected.units[0].unitKey, producerJobId: 1, producerCompletedAt: '2026-08-04T08:00:01.000Z',
+      readyAt: '2026-08-04T08:00:02.000Z', sequence: 1, publishStartedAt: '2026-08-04T08:00:03.000Z',
+      publishCompletedAt: '2026-08-04T08:00:04.000Z', baseSha: SHA_D, resultSha: SHA_D, commitShas: [],
+      attempts: 1, status: 'no_changes', failure: null,
+    }], orchestratorFailure: null,
+  }, {selection: selected})
+  const projected = await translationPublicationAdapter.projectResults(raw, {
+    selection: selected,
+    repositoryRoot: '/repository',
+    runnerTemp: '/runner',
+    transactionContext: {async reconcileTranslationPublication() {
+      return {status: 'publish_failed', resultSha: null, failure: {message: 'inventory validation failed'}}
+    }},
+  })
+  assert.equal(projected.overallStatus, 'orchestrator_failed')
+  assert.equal(projected.orchestratorFailure.phase, 'reconciliation')
+  assert.match(projected.orchestratorFailure.message, /inventory validation failed/)
+  assert.equal(projected.finalTargetSha, SHA_D)
+})
+
+test('Translation adapter preserves structured reconciliation failure identity under the reconciliation phase', async () => {
+  const selected = selection()
+  const raw = validatePublicationResults({
+    schemaVersion: 1, document: 'publication-results', workflow: 'translation', repository: selected.repository,
+    runId: selected.runId, runAttempt: selected.runAttempt, selectionSha256: selected.selectionSha256,
+    mode: 'publish', targetBranch: selected.targetBranch, initialTargetSha: selected.initialTargetSha,
+    finalTargetSha: SHA_D, startedAt: '2026-08-04T08:00:00.000Z', completedAt: '2026-08-04T09:00:00.000Z',
+    overallStatus: 'success', units: [{
+      unitKey: selected.units[0].unitKey, producerJobId: 1, producerCompletedAt: '2026-08-04T08:00:01.000Z',
+      readyAt: '2026-08-04T08:00:02.000Z', sequence: 1, publishStartedAt: '2026-08-04T08:00:03.000Z',
+      publishCompletedAt: '2026-08-04T08:00:04.000Z', baseSha: SHA_D, resultSha: SHA_D, commitShas: [],
+      attempts: 1, status: 'no_changes', failure: null,
+    }], orchestratorFailure: null,
+  }, {selection: selected})
+  const projected = await translationPublicationAdapter.projectResults(raw, {
+    selection: selected,
+    repositoryRoot: '/repository',
+    runnerTemp: '/runner',
+    transactionContext: {async reconcileTranslationPublication() {
+      return {
+        status: 'publish_failed',
+        remoteState: 'unknown',
+        failure: {
+          code: 'REMOTE_STATE_UNKNOWN',
+          phase: 'push_probe',
+          message: 'remote probe exhausted',
+          retryable: false,
+        },
+      }
+    }},
+  })
+  assert.equal(projected.overallStatus, 'orchestrator_failed')
+  assert.equal(projected.orchestratorFailure.code, 'REMOTE_STATE_UNKNOWN')
+  assert.equal(projected.orchestratorFailure.phase, 'reconciliation')
+  assert.equal(projected.orchestratorFailure.retryable, false)
+  assert.match(projected.orchestratorFailure.message, /push_probe/)
+  assert.match(projected.orchestratorFailure.message, /remoteState=unknown/)
+  assert.match(projected.orchestratorFailure.message, /remote probe exhausted/)
+})
