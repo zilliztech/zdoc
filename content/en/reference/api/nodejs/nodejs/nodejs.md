@@ -12,64 +12,61 @@ import Admonition from '@theme/Admonition';
 
 # Node.js SDK Reference
 
-The [@zilliz/milvus2-sdk-node](https://github.com/milvus-io/milvus-sdk-node) is the official Node.js SDK for Milvus and Zilliz Cloud. It provides both gRPC and HTTP clients for vector similarity search, metadata filtering, and full collection, index, and user management.
+[`@zilliz/milvus2-sdk-node`](https://github.com/milvus-io/milvus-sdk-node) is the Node.js SDK for Zilliz Cloud. It provides JavaScript and TypeScript clients for collection management, data operations, vector search, and cluster administration, with both gRPC and HTTP client implementations.
 
 ## Features
 
-- **Dual protocol support** — gRPC and HTTP clients for environments without gRPC support (e.g., Cloudflare Workers, Vercel Edge)
-- **Vector operations** — Similarity search, hybrid search with reranking, sparse vector/BM25 search
-- **Data management** — Insert, upsert, delete, and query with scalar filters
-- **Schema flexibility** — Dynamic fields and partition keys for multi-tenancy
-- **Bulk operations** — `BulkWriter` for large-scale imports and server-side bulk import
-- **Enterprise features** — RBAC, resource groups, and database management
-- **Observability** — OpenTelemetry tracing support
+- **JavaScript and TypeScript support** — Use exported client classes, request types, response types, and enums from the same package.
+- **gRPC and HTTP clients** — Use `MilvusClient` for the main gRPC API or `HttpClient` when an HTTP transport is required.
+- **Data and vector operations** — Insert, upsert, delete, query, search, and run hybrid searches with scalar filtering and reranking options.
+- **Collection and index management** — Create schemas, collections, and indexes, then load or release collections.
+- **Cloud administration** — Work with databases, partitions, users, roles, and resource groups available to your cluster.
+- **Bulk and observability utilities** — Use BulkWriter APIs for import preparation and enable tracing through the client configuration when needed.
 
 ## Installation
 
+The current SDK requires Node.js 18 or later.
+
 ```bash
 npm install @zilliz/milvus2-sdk-node
-# or
+```
+
+You can also install it with Yarn:
+
+```bash
 yarn add @zilliz/milvus2-sdk-node
 ```
 
-**Requirements:** Node.js v18+
+## Connect to Zilliz Cloud
 
-## Quick Start
+Copy the public endpoint from the cluster **Connect** card and use an API key or cluster credential as the token.
 
 ```javascript
-import { MilvusClient, DataType, MetricType } from '@zilliz/milvus2-sdk-node';
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
-const client = new MilvusClient({ address: 'localhost:19530' });
+const CLUSTER_ENDPOINT = 'YOUR_CLUSTER_ENDPOINT';
+const TOKEN = 'YOUR_CLUSTER_TOKEN';
 
-// Create collection with schema and index
-await client.createCollection({
-  collection_name: 'my_collection',
-  fields: [
-    { name: 'id', data_type: DataType.Int64, is_primary_key: true, autoID: true },
-    { name: 'text', data_type: DataType.VarChar, max_length: 512 },
-    { name: 'vector', data_type: DataType.FloatVector, dim: 128 },
-  ],
-  index_params: [{
-    field_name: 'vector',
-    index_type: 'HNSW',
-    metric_type: MetricType.COSINE,
-    params: { M: 16, efConstruction: 256 },
-  }],
+const client = new MilvusClient({
+  address: CLUSTER_ENDPOINT,
+  token: TOKEN,
 });
 
-// Load, insert, and search
-await client.loadCollection({ collection_name: 'my_collection' });
-await client.insert({
-  collection_name: 'my_collection',
-  data: [{ vector: Array(128).fill(0.1), text: 'doc1' }],
-});
-const results = await client.search({
-  collection_name: 'my_collection',
-  data: [Array(128).fill(0.1)],
-  limit: 10,
-  output_fields: ['text'],
-});
+await client.connectPromise;
+
+try {
+  const response = await client.listCollections();
+  console.log(response);
+} finally {
+  await client.closeConnection();
+}
 ```
+
+## Resources
+
+- [Node.js SDK source repository](https://github.com/milvus-io/milvus-sdk-node)
+- [npm package](https://www.npmjs.com/package/@zilliz/milvus2-sdk-node)
+- [Node.js SDK releases](https://github.com/milvus-io/milvus-sdk-node/releases)
 
 import DocCardList from '@theme/DocCardList';
 
