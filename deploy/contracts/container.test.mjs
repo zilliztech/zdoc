@@ -324,6 +324,11 @@ test('package scripts expose the container contract without changing the default
   assert.equal(packageJson.scripts.build, 'pnpm run build:en');
 });
 
+test('the public Chinese build entrypoint allocates an 8 GiB Node heap', () => {
+  const packageJson = JSON.parse(read('apps/docs/package.json'));
+  assert.match(packageJson.scripts['build:zh-CN'], /NODE_OPTIONS=--max-old-space-size=8192\b/u);
+});
+
 test('the Docker context excludes generated and mutable repository state', () => {
   const entries = dockerignoreEntries();
   assert.ok(entries.includes('build'), 'build output must not enter a clean image build context');
