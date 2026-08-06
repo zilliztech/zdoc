@@ -147,6 +147,32 @@ import Procedures from '@site/src/components/Procedures';
 
     </Procedures>
 
+## 删除项目地域\{#delete-project-regions}
+
+您可以删除多地域项目的地域。
+
+- **通过 RESTful API**
+
+    ```bash
+    curl -i --request DELETE \
+        --url "https://${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions/gcp-us-west1" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --header "accept: application/json"
+    ```
+
+    以下为输出结果。
+
+    ```bash
+    {
+      "code": 0,
+      "data": ["aws-us-west-2"]
+    } 
+    ```
+
+- **通过 Web 控制台**
+
+    ![AreXwfoJvhIFcYbYbhHcxbVCnRc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/AreXwfoJvhIFcYbYbhHcxbVCnRc.png)
+
 ## 查看全部项目\{#view-all-projects}
 
 您可以查看在您的权限范围内的所有项目的列表。
@@ -246,12 +272,6 @@ import Procedures from '@site/src/components/Procedures';
 要删除项目，您必须是[组织管理员](./organization-users)。删除项目前，您需要先删除该项目下的所有[集群](./manage-cluster#drop-cluster)和 Volume。
 
 项目一旦删除，该项目下的所有数据和资源将被清理。该操作不可撤销。
-
-<Admonition type="info" icon="📘" title="📘 说明">
-
-组织中的默认项目不可删除。
-
-</Admonition>
 
 您可以通过 Web 控制台删除项目。
 

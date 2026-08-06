@@ -231,6 +231,49 @@ import Procedures from '@site/src/components/Procedures';
 
     </Procedures>
 
+## 修改 On-demand 集群设置\{#modify-an-on-demand-cluster}
+
+您可以修改已创建的 On-demand 集群的设置。
+
+- **通过 RESTful API**
+
+    您可以按照如下方式修改 On-demand 集群的自动挂起时间。
+
+    ```bash
+    export TOKEN="YOUR_API_KEY"
+    export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+    
+    curl --request PATCH \
+         --url "https://${BASE_URL}/v2/clusters/onDemandClusters/in07-7d6ac8697204a6a" \
+         --header "Authorization: Bearer ${API_KEY}" \
+         --header "Accept: application/json" \
+         --header "Content-Type: application/json" \
+         --data-raw '{
+            "autoSuspend": "5m",
+            "clusterName": "my-on-demand-updated",
+            "description": "Updated on-demand cluster description",
+            "cuSize": 32
+          }'
+    ```
+
+    以下是输出示例。
+
+    ```bash
+    {
+      "code": 0,
+      "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "prompt": "Successfully submitted."
+      }
+    }
+    ```
+
+- **通过 Web 控制台**
+
+    您可以通过 Web 控制台修改按需集群的名称、描述、Query CU 数量和自动挂起时间。
+
+    ![SedPwGq1Zh6eQsbqLeucm0kvnBd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/SedPwGq1Zh6eQsbqLeucm0kvnBd.png)
+
 ## 删除 On-demand 集群\{#drop-an-on-demand-cluster}
 
 <Admonition type="warning" icon="🚧" title="警告">

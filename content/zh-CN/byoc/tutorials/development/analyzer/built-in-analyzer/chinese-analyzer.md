@@ -1,7 +1,7 @@
 ---
-title: "中文 | BYOC"
+title: "中文 Analyzer | BYOC"
 slug: /chinese-analyzer
-sidebar_label: "中文"
+sidebar_label: "中文 Analyzer"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -19,7 +19,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 中文
+# 中文 Analyzer
 
 Chinese Analyzer 专门设计用于处理中文文本，提供有效的分段和分词。
 

@@ -616,6 +616,12 @@ module.exports = [
             "key": "doc:tutorials/development/schema/add-fields-to-an-existing-collection"
           },
           {
+            "type": "doc",
+            "id": "tutorials/development/schema/alter-external-collection-schema",
+            "label": "修改外部 Collection Schema",
+            "key": "doc:tutorials/development/schema/alter-external-collection-schema"
+          },
+          {
             "type": "category",
             "label": "最佳实践",
             "key": "category:tutorials/development/schema/schema-best-practices",
@@ -974,19 +980,25 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/built-in-analyzer/english-analyzer",
-                "label": "英文",
+                "label": "英文 Analyzer",
                 "key": "doc:tutorials/development/analyzer/built-in-analyzer/english-analyzer"
               },
               {
                 "type": "doc",
                 "id": "tutorials/development/analyzer/built-in-analyzer/chinese-analyzer",
-                "label": "中文",
+                "label": "中文 Analyzer",
                 "key": "doc:tutorials/development/analyzer/built-in-analyzer/chinese-analyzer"
               },
               {
                 "type": "doc",
+                "id": "tutorials/development/analyzer/built-in-analyzer/arabic-analyzer",
+                "label": "阿拉伯语 Analyzer",
+                "key": "doc:tutorials/development/analyzer/built-in-analyzer/arabic-analyzer"
+              },
+              {
+                "type": "doc",
                 "id": "tutorials/development/analyzer/built-in-analyzer/thai-analyzer",
-                "label": "泰语",
+                "label": "泰语 Analyzer",
                 "key": "doc:tutorials/development/analyzer/built-in-analyzer/thai-analyzer"
               }
             ]
@@ -1031,6 +1043,12 @@ module.exports = [
                 "id": "tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer",
                 "label": "Language Identifier",
                 "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/language-identifier-tokenizer"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/analyzer/analyzer-tokenizers/thai-tokenizer",
+                "label": "泰语分词器",
+                "key": "doc:tutorials/development/analyzer/analyzer-tokenizers/thai-tokenizer"
               }
             ]
           },
@@ -1104,6 +1122,12 @@ module.exports = [
                 "id": "tutorials/development/analyzer/analyzer-filters/regex-filter",
                 "label": "Regex",
                 "key": "doc:tutorials/development/analyzer/analyzer-filters/regex-filter"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/analyzer/analyzer-filters/arabic-normalization",
+                "label": "阿拉伯语文本规范化",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/arabic-normalization"
               }
             ]
           },

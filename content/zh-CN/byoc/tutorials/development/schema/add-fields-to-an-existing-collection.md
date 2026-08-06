@@ -76,11 +76,11 @@ import Admonition from '@theme/Admonition';
 
 请根据要添加的是用户自定义字段，还是生成向量字段的 Function 来选择工作流：
 
-- 添加用户自定义标量字段，适用于需要用于过滤、查询输出或应用逻辑的新 Metadata 的场景。
+- [添加用户自定义标量字段](./add-fields-to-an-existing-collection)，适用于需要用于过滤、查询输出或应用逻辑的新 Metadata 的场景。
 
-- 添加用户自定义向量字段，适用于应用生成 Embedding，并将向量值写入 Zilliz Cloud 的场景。
+- [添加用户自定义向量字段](./add-fields-to-an-existing-collection)，适用于应用生成 Embedding，并将向量值写入 Zilliz Cloud 的场景。
 
-- 添加 Function 及其生成的向量字段，适用于需要由 Zilliz Cloud 根据现有字段生成向量值的场景，例如根据文本生成 BM25 稀疏向量或 MinHash 签名。
+- [添加 Function 及其生成的向量字段](./add-fields-to-an-existing-collection#function)，适用于需要由 Zilliz Cloud 根据现有字段生成向量值的场景，例如根据文本生成 BM25 稀疏向量或 MinHash 签名。
 
 在这些情况下，字段总数不能超过 Zilliz Cloud 的字段数量限制。详情请参阅 [Zilliz Cloud 限制](./limits#fields)。
 

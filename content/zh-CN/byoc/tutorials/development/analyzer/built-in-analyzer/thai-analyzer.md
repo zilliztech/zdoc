@@ -1,7 +1,7 @@
 ---
-title: "泰语 | BYOC"
+title: "泰语 Analyzer | BYOC"
 slug: /thai-analyzer
-sidebar_label: "泰语"
+sidebar_label: "泰语 Analyzer"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
@@ -18,7 +18,7 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# 泰语
+# 泰语 Analyzer
 
 `thai` 分析器是一款用于处理泰语文本的内置分析器。当您需要 Zilliz Cloud 对泰语文本进行分词、规范化泰文数字、将混合文本中的拉丁字母转换为小写，以及移除泰语停用词时，可使用此分析器。
 

@@ -18,7 +18,7 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-import Supademo from '@site/src/components/Supademo';
+import Procedures from '@site/src/components/Procedures';
 
 # 创建全球集群
 
@@ -40,15 +40,45 @@ import Supademo from '@site/src/components/Supademo';
 
 - **通过 Web 控制台**
 
-    在**集群设置**中，打开**全球集群**旁边的开关。一个全球集群必须包含 **1 个主集群**和 **1–5 个从集群**。
+    <Procedures>
 
-    从集群的云服务提供商、集群类型、Query CU 数量必须与主集群保持一致。
+    1. 在**集群设置**中，打开**全球集群**旁边的开关。
 
-    可部署的从集群地域受限于您的项目所支持的地域。
+    1. 输入全球集群的名称。
 
-    以下 Demo 展示了如何通过控制台创建全球集群。
+        ![DMexwxKvxh5R57bLuKHcFpoBnog](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/DMexwxKvxh5R57bLuKHcFpoBnog.png)
 
-    <Supademo id="cmkasmmcr1glake4xm2kdnfbt" title=""  />
+    1. 配置主集群。
+
+        ![AgV7wUSaFhjxf1b8okPcRmeKnIh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/AgV7wUSaFhjxf1b8okPcRmeKnIh.png)
+
+        以下为参数说明。
+
+        | **参数** | **说明** |
+        | --- | --- |
+        | 集群名称 | 主集群的名称。 |
+        | 地域 | 主集群部署所在的地域。 |
+        | 集群类型 | 主集群的集群类型。所有从集群都使用与主集群相同的集群类型。 |
+        | Query CU | 默认启用自动扩缩容。您可以在输入框中输入数值，或拖动滑块，配置自动扩缩容的最小和最大 Query CU 数量。有关自动扩缩容的详细信息，请参阅手动扩缩容。<br/>您也可以禁用自动扩缩容。从集群的 Query CU 数量跟随主集群。 |
+        | Replica | 主集群的 Replica 数量。主集群和每个从集群的 Replica 数量可以不同。 |
+
+    1. 配置从集群。您最多可添加 5 个从集群。
+
+        ![TkmiwqCfzhMpVAb3htVc9EWRnkc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/TkmiwqCfzhMpVAb3htVc9EWRnkc.png)
+
+        以下为参数说明。
+
+        | **参数** | **说明** |
+        | --- | --- |
+        | 集群名称 | 从集群的名称。 |
+        | 地域 | 从集群部署所在的地域。 |
+        | Replica | 从集群的 Replica 数量。主集群和每个从集群的 Replica 数量可以不同。 |
+
+    1. 点击**创建**。
+
+        ![XXonw62Jth77ZjbaBxJcLC5Bn8e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/XXonw62Jth77ZjbaBxJcLC5Bn8e.png)
+
+    </Procedures>
 
     创建全球集群后，Zilliz Cloud 将执行以下操作：
 
@@ -100,4 +130,37 @@ import Supademo from '@site/src/components/Supademo';
         "jobId": "job-xxxxxxxxxxxxxxxx"
       }
     }
+    ```
+
+    创建全球集群时，您还可以配置 Query CU 自动扩缩容，并分别设置主集群和从集群的 Replica 数量。
+
+    ```bash
+    curl --request POST \
+      --url "https://api.cloud.zilliz.com/v2/globalClusters/create" \
+      --header "Authorization: Bearer ${API_KEY}" \
+      --header "Accept: application/json" \
+      --header "Content-Type: application/json" \
+      --data-raw '{
+        "globalClusterName": "my-global-cluster",
+        "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxx",
+        "cuType": "Performance-optimized",
+        "autoscaling": {
+          "cu": {
+            "min": 4,
+            "max": 16
+          }
+        },
+        "primaryCluster": {
+          "clusterName": "primary-cluster",
+          "regionId": "aws-us-west-2",
+          "replica": 2
+        },
+        "secondaryClusters": [
+          {
+            "clusterName": "secondary-cluster-eu",
+            "regionId": "aws-eu-west-1",
+            "replica": 1
+          }
+        ]
+      }
     ```
