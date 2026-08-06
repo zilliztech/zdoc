@@ -2,6 +2,7 @@
 'use strict'
 
 const { execFileSync } = require('node:child_process')
+const path = require('node:path')
 const {
   deterministicStagingRef,
   prepareStagingWorktree,
@@ -15,6 +16,7 @@ const { createPublicationReport, VALIDATION_SPECS } = require('./translation-pub
 
 const SHA = /^[0-9a-f]{40}$/
 const SHA256 = /^[0-9a-f]{64}$/
+const DIAGNOSTIC_STAGING_REF = /^refs\/heads\/docs-translation-staging\/guides\/[1-9][0-9]*-[1-9][0-9]*-[0-9a-f]{12}-[0-9a-f]{12}-[A-Za-z0-9][A-Za-z0-9._-]*$/
 const STATE_KEYS = ['schemaVersion', 'group', 'masterSha', 'sourceCheckpointSha', 'expectedTargetSha', 'pendingSetSha256', 'status', 'stagingRef', 'stagingSha', 'resultSha', 'validationFile', 'cleanup', 'failure']
 const STATE_STATUSES = new Set(['planned', 'composition_failed', 'staged', 'validation_failed', 'promotion_conflict', 'published', 'no_changes'])
 
@@ -133,6 +135,87 @@ function defaultProbeRemoteRef(repository, ref) {
 
 function defaultProbeRemoteTarget(repository, targetBranch) { return defaultProbeRemoteRef(repository, `refs/heads/${targetBranch}`) }
 
+function diagnosticRemoteSha(repository, stagingRef) {
+  const output = execFileSync('git', ['-C', repository, 'ls-remote', '--refs', 'origin', stagingRef], {encoding: 'utf8'}).trim()
+  if (!output) return null
+  const lines = output.split('\n').filter(Boolean)
+  if (lines.length !== 1) throw new Error('diagnostic staging ref lookup was ambiguous')
+  const match = /^([0-9a-f]{40})\s+(refs\/heads\/.+)$/.exec(lines[0])
+  if (!match || match[2] !== stagingRef) throw new Error('diagnostic staging ref lookup was invalid')
+  return match[1]
+}
+
+function validateDiagnosticStagingOptions(options) {
+  exactKeys(options, ['repository', 'stagingRef', 'stagedSha'], 'diagnostic staging options')
+  if (typeof options.repository !== 'string' || !path.isAbsolute(options.repository)) throw new Error('diagnostic staging repository must be absolute')
+  if (!DIAGNOSTIC_STAGING_REF.test(options.stagingRef || '')) throw new Error('diagnostic staging ref is invalid')
+  assertSha(options.stagedSha, 'stagedSha')
+  return options
+}
+
+function pushDiagnosticStagingCandidate(options, dependencies = {}) {
+  validateDiagnosticStagingOptions(options)
+  const deps = {
+    remoteSha: diagnosticRemoteSha,
+    push() {
+      return execFileSync('git', [
+        '-C', options.repository,
+        '-c', 'push.default=nothing',
+        '-c', 'core.hooksPath=/dev/null',
+        'push', '--no-verify', '--porcelain', 'origin', `${options.stagedSha}:${options.stagingRef}`,
+      ], {encoding: 'utf8'})
+    },
+    ...dependencies,
+  }
+  const existing = deps.remoteSha(options.repository, options.stagingRef)
+  if (existing && existing !== options.stagedSha) throw new Error('diagnostic staging ref already exists at a different SHA')
+  if (existing === options.stagedSha) return Object.freeze({stagingRef: options.stagingRef, stagedSha: options.stagedSha, remoteSha: existing, pushed: false})
+  let warning = null
+  try {
+    deps.push()
+  } catch (error) {
+    warning = bounded(error.stderr || error.message)
+    let remoteSha = null
+    try { remoteSha = deps.remoteSha(options.repository, options.stagingRef) } catch {}
+    if (remoteSha !== options.stagedSha) throw new Error(`diagnostic staging push failed: ${warning}`)
+  }
+  const remoteSha = deps.remoteSha(options.repository, options.stagingRef)
+  if (remoteSha !== options.stagedSha) throw new Error('diagnostic staging ref does not contain the exact staged SHA')
+  return Object.freeze({stagingRef: options.stagingRef, stagedSha: options.stagedSha, remoteSha, pushed: true, ...(warning ? {commandWarning: warning} : {})})
+}
+
+function deleteDiagnosticStagingWithLease(options) {
+  validateDiagnosticStagingOptions(options)
+  const debt = (kind, values = {}) => Object.freeze({kind, stagingRef: options.stagingRef, expectedSha: options.stagedSha, ...values})
+  let actualSha
+  try { actualSha = diagnosticRemoteSha(options.repository, options.stagingRef) }
+  catch (error) { return Object.freeze({deleted: false, cleanupDebt: debt('lookup_failed', {message: bounded(error.message)})}) }
+  if (!actualSha) return Object.freeze({deleted: false, cleanupDebt: null, reason: 'absent'})
+  if (actualSha !== options.stagedSha) return Object.freeze({deleted: false, cleanupDebt: debt('lease_mismatch', {actualSha})})
+  try {
+    execFileSync('git', [
+      '-C', options.repository,
+      '-c', 'push.default=nothing',
+      '-c', 'core.hooksPath=/dev/null',
+      'push', '--no-verify', '--porcelain', `--force-with-lease=${options.stagingRef}:${options.stagedSha}`,
+      'origin', `:${options.stagingRef}`,
+    ], {encoding: 'utf8'})
+  } catch (error) {
+    let after
+    try { after = diagnosticRemoteSha(options.repository, options.stagingRef) }
+    catch (lookupError) { return Object.freeze({deleted: false, cleanupDebt: debt('lookup_failed', {message: bounded(lookupError.message)})}) }
+    if (!after) return Object.freeze({deleted: true, cleanupDebt: null, commandWarning: bounded(error.stderr || error.message)})
+    if (after !== options.stagedSha) return Object.freeze({deleted: false, cleanupDebt: debt('lease_mismatch', {actualSha: after})})
+    return Object.freeze({deleted: false, cleanupDebt: debt('delete_failed', {message: bounded(error.stderr || error.message)})})
+  }
+  let after
+  try { after = diagnosticRemoteSha(options.repository, options.stagingRef) }
+  catch (error) { return Object.freeze({deleted: false, cleanupDebt: debt('lookup_failed', {message: bounded(error.message)})}) }
+  if (!after) return Object.freeze({deleted: true, cleanupDebt: null})
+  if (after !== options.stagedSha) return Object.freeze({deleted: false, cleanupDebt: debt('lease_mismatch', {actualSha: after})})
+  return Object.freeze({deleted: false, cleanupDebt: debt('delete_failed', {message: 'diagnostic staging ref still exists after leased deletion'})})
+}
+
 function promotePhase(options, dependencies = {}) {
   const deps = { promoteStaging, probeRemoteTarget: defaultProbeRemoteTarget, ...dependencies }
   const state = clone(validatePublisherState(options.state))
@@ -202,7 +285,9 @@ module.exports = {
   cleanupPhase,
   createInitialPublisherState,
   createTerminalReport,
+  deleteDiagnosticStagingWithLease,
   promotePhase,
+  pushDiagnosticStagingCandidate,
   pushPhase,
   recordValidationPhase,
   recordValidationInfrastructureFailure,

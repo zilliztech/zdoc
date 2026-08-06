@@ -5,6 +5,8 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { execFileSync } = require('node:child_process')
 
+const { mergeCache } = require('./apply-checkpoint-artifact')
+const { commitAppliedBatch } = require('./translation-staging')
 const { validateTranslationBatch } = require('./validate-translation-batch')
 
 const SHA = /^[0-9a-f]{40}$/
@@ -40,6 +42,12 @@ function compareText(a, b) { return a < b ? -1 : a > b ? 1 : 0 }
 function digest(bytes) { return crypto.createHash('sha256').update(bytes).digest('hex') }
 function canonical(value) { return JSON.stringify(value) }
 function isObject(value) { return value !== null && typeof value === 'object' && !Array.isArray(value) }
+function canonicalize(value) {
+  if (Array.isArray(value)) return value.map(canonicalize)
+  if (isObject(value)) return Object.fromEntries(Object.keys(value).sort(compareText).map(key => [key, canonicalize(value[key])]))
+  return value
+}
+function semanticEqual(one, two) { return canonical(canonicalize(one)) === canonical(canonicalize(two)) }
 
 function exactKeys(value, keys, label) {
   if (!isObject(value)) throw new Error(`${label} must be an object`)
@@ -416,6 +424,131 @@ async function planTranslationBatchSet({ pairs, sourceRepository, sourceCheckpoi
   return deepFreeze(plan)
 }
 
+function repositoryCommonDirectory(repository) {
+  const value = git(repository, ['rev-parse', '--path-format=absolute', '--git-common-dir']).trim()
+  return fs.realpathSync(path.isAbsolute(value) ? value : path.resolve(repository, value))
+}
+
+function assertLatestTipWorktree(targetRepository, targetDir, latestDevSha, handoffSha) {
+  targetDir = assertRealDirectory(targetDir, 'target directory')
+  assertCommit(targetRepository, latestDevSha, 'latest dev SHA')
+  try { git(targetRepository, ['merge-base', '--is-ancestor', handoffSha, latestDevSha]) }
+  catch { throw new Error('Immutable handoff target must be an ancestor of the latest dev SHA') }
+  const root = fs.realpathSync(git(targetDir, ['rev-parse', '--show-toplevel']).trim())
+  if (root !== targetDir) throw new Error('target directory must be the exact Git worktree root')
+  if (repositoryCommonDirectory(targetRepository) !== repositoryCommonDirectory(targetDir)) throw new Error('target directory must belong to the target repository')
+  if (git(targetDir, ['rev-parse', 'HEAD']).trim() !== latestDevSha) throw new Error('target directory HEAD must equal latestDevSha')
+  if (git(targetDir, ['status', '--porcelain=v1', '-z', '--untracked-files=all'], { buffer: true }).length) throw new Error('target directory must be clean before latest-tip composition')
+  return targetDir
+}
+
+function targetState(root, relative) {
+  const target = path.join(root, ...relative.split('/'))
+  let current = root
+  for (const part of relative.split('/').slice(0, -1)) {
+    current = path.join(current, part)
+    let stat
+    try { stat = fs.lstatSync(current) } catch (error) { if (error.code === 'ENOENT') return { type: 'missing', target }; throw error }
+    if (stat.isSymbolicLink()) throw new Error(`Translation target has a symlink ancestor: ${relative}`)
+    if (!stat.isDirectory()) throw new Error(`Translation target file/directory conflict: ${relative}`)
+  }
+  let stat
+  try { stat = fs.lstatSync(target) } catch (error) { if (error.code === 'ENOENT' || error.code === 'ENOTDIR') return { type: 'missing', target }; throw error }
+  if (stat.isSymbolicLink()) throw new Error(`Translation target must not be a symlink: ${relative}`)
+  if (stat.isDirectory()) return { type: 'directory', target }
+  if (!stat.isFile()) throw new Error(`Translation target must be a regular file: ${relative}`)
+  return { type: 'file', target, bytes: fs.readFileSync(target), mode: stat.mode & 0o777 }
+}
+
+function payloadBytes(manifest, relative, label) {
+  const entry = manifest.files.find(file => file.path === relative)
+  if (!entry) return null
+  const bytes = fs.readFileSync(path.join(manifest.resolvedDir, 'payload', ...relative.split('/')))
+  if (bytes.length !== entry.size || digest(bytes) !== entry.sha256) throw new Error(`${label} changed after authentication: ${relative}`)
+  return bytes
+}
+
+function sameBytes(state, bytes) {
+  return state.type === 'file' && bytes !== null && state.bytes.equals(bytes)
+}
+
+function writeRegularFile(root, relative, bytes) {
+  const target = path.join(root, ...relative.split('/'))
+  fs.mkdirSync(path.dirname(target), {recursive: true})
+  fs.writeFileSync(target, bytes, {mode: 0o644})
+  fs.chmodSync(target, 0o644)
+}
+
+function applyAuthenticatedBatch(targetDir, batch, authenticated) {
+  const operations = {writes: [], deletions: [], cache: null}
+  for (const relative of batch.deletions) {
+    const baselineBytes = payloadBytes(authenticated.baseline, relative, 'Translation baseline payload')
+    if (baselineBytes === null) throw new Error(`Planned deletion is absent from authenticated baseline: ${relative}`)
+    const current = targetState(targetDir, relative)
+    if (current.type === 'missing') continue
+    if (!sameBytes(current, baselineBytes)) throw new Error(`Translation file conflict for deletion: ${relative}`)
+    operations.deletions.push(relative)
+  }
+  for (const write of batch.writes) {
+    const resultBytes = payloadBytes(authenticated.result, write.path, 'Translation result payload')
+    const baselineBytes = payloadBytes(authenticated.baseline, write.path, 'Translation baseline payload')
+    const current = targetState(targetDir, write.path)
+    if (sameBytes(current, resultBytes) && current.mode === 0o644) continue
+    const matchesBaseline = baselineBytes === null ? current.type === 'missing' : sameBytes(current, baselineBytes)
+    if (!matchesBaseline && !sameBytes(current, resultBytes)) throw new Error(`Translation file conflict for write: ${write.path}`)
+    operations.writes.push({relative: write.path, bytes: resultBytes})
+  }
+  if (batch.cache.additions.length || batch.cache.updates.length || batch.cache.removals.length) {
+    const current = targetState(targetDir, CACHE_PATH)
+    if (current.type === 'directory') throw new Error('Translation cache path is a directory')
+    const currentBytes = current.type === 'missing' ? DEFAULT_CACHE : current.bytes
+    const baseline = JSON.parse(authenticated.baseline.translationCacheBytes.toString('utf8'))
+    const result = JSON.parse(authenticated.result.translationCacheBytes.toString('utf8'))
+    const target = JSON.parse(currentBytes.toString('utf8'))
+    const merged = mergeCache(baseline, result, target)
+    if (!semanticEqual(JSON.parse(merged.toString('utf8')), target)) operations.cache = merged
+  }
+  for (const relative of operations.deletions) fs.rmSync(path.join(targetDir, ...relative.split('/')), {force: true})
+  for (const write of operations.writes) writeRegularFile(targetDir, write.relative, write.bytes)
+  if (operations.cache) writeRegularFile(targetDir, CACHE_PATH, operations.cache)
+  return operations
+}
+
+async function composeTranslationBatchSetLatestTip(options, dependencies = {}) {
+  exactKeys(options, ['plan', 'pairs', 'sourceRepository', 'targetRepository', 'latestDevSha', 'targetDir'], 'latest-tip composition options')
+  const {plan, pairs} = options
+  if (!isObject(plan)) throw new Error('Immutable Guides plan must be an object')
+  const sourceRepository = assertRealDirectory(options.sourceRepository, 'source repository')
+  const targetRepository = assertRealDirectory(options.targetRepository, 'target repository')
+  const targetDir = assertLatestTipWorktree(targetRepository, options.targetDir, options.latestDevSha, plan.targetSha)
+  const authenticatedPlan = await planTranslationBatchSet({
+    pairs,
+    sourceRepository,
+    sourceCheckpointSha: plan.sourceCheckpointSha,
+    targetRepository,
+    expectedTargetSha: plan.targetSha,
+  })
+  if (canonical(authenticatedPlan) !== canonical(plan)) throw new Error('Immutable Guides plan does not match the authenticated artifact pairs')
+  const authenticatedPairs = await Promise.all(pairs.map(validatePairDescriptor))
+  const byBatch = new Map(authenticatedPairs.map(pair => [pair.result.batch.batchNumber, pair]))
+  const commitBatch = dependencies.commitAppliedBatch || commitAppliedBatch
+  const commitShas = []
+  for (const batch of plan.batches) {
+    const authenticated = byBatch.get(batch.batchNumber)
+    if (!authenticated) throw new Error(`Authenticated artifact pair is missing for batch ${batch.batchNumber}`)
+    const before = git(targetDir, ['rev-parse', 'HEAD']).trim()
+    applyAuthenticatedBatch(targetDir, batch, authenticated)
+    const committed = commitBatch({worktree: targetDir, batchNumber: batch.batchNumber, batchCount: plan.batchCount})
+    if (committed.committed) {
+      if (git(targetDir, ['rev-parse', `${committed.stagedSha}^`]).trim() !== before) throw new Error('Latest-tip batch commit did not preserve exact plan order')
+      commitShas.push(committed.stagedSha)
+    } else if (committed.stagedSha !== before) throw new Error('Idempotent latest-tip batch unexpectedly moved HEAD')
+  }
+  if (commitShas.length === 0) return Object.freeze({status: 'no_changes'})
+  const candidateSha = git(targetDir, ['rev-parse', 'HEAD']).trim()
+  return deepFreeze({status: 'candidate', candidateSha, commitShas})
+}
+
 function parseCli(argv) {
   if (argv[0] !== 'plan') throw new Error(`Usage: plan ${CLI_FLAGS.map(flag => `${flag} <value>`).join(' ')}`)
   const allowed = new Set(CLI_FLAGS)
@@ -475,6 +608,7 @@ if (require.main === module) {
 
 module.exports = {
   assertGuidesSourceAuthority,
+  composeTranslationBatchSetLatestTip,
   normalizedBaselineIdentity,
   planTranslationBatchSet,
 }
