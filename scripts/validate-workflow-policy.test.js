@@ -2560,6 +2560,23 @@ test('manual translation workflow owns parallel producers and serial publication
   }
 })
 
+test('Translation prepare installs exact tooling checkout dependencies before resolving the handoff', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
+  const steps = workflow.jobs.prepare.steps
+  const checkout = steps.findIndex(step => step.uses === 'actions/checkout@v5')
+  const pnpmSetup = steps.findIndex(step => step.uses === 'pnpm/action-setup@v5')
+  const nodeSetup = steps.findIndex(step => step.uses === 'actions/setup-node@v5')
+  const install = steps.findIndex(step => step.run === 'pnpm install --frozen-lockfile')
+  const handoff = steps.findIndex(step => step.name === 'Resolve and validate the complete translation handoff')
+
+  assert.ok(checkout >= 0)
+  assert.ok(pnpmSetup > checkout)
+  assert.ok(nodeSetup > pnpmSetup)
+  assert.deepEqual(steps[nodeSetup].with, {'node-version': '22.6', cache: 'pnpm'})
+  assert.ok(install > nodeSetup)
+  assert.ok(handoff > install)
+})
+
 test('Translation producers bind one immutable selection and emit ready descriptors after checkpoint artifacts', () => {
   const reusable = yaml.load(fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8'))
   const reusableSteps = reusable.jobs.translate.steps
