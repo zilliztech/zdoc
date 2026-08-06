@@ -461,7 +461,10 @@ client.insert(
 ```python
 search_params = {
     "metric_type": "MHJACCARD",
-    "params": {},
+    "params": {
+        "mh_search_with_jaccard": True,
+        "refine_k": 3,
+    },
 }
 
 results = client.search(
