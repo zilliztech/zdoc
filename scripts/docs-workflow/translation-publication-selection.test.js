@@ -68,7 +68,7 @@ function selectionInput(overrides = {}) {
   }
 }
 
-function checkpointFixture({translationTarget = 'ja-JP'} = {}) {
+function checkpointFixture({schemaVersion = 1, translationTarget = 'ja-JP'} = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-publication-selection-'))
   const checkpointArchive = path.join(root, 'checkpoint-group.tar')
   const checkpointManifest = path.join(root, 'checkpoint-manifest.json')
@@ -77,7 +77,7 @@ function checkpointFixture({translationTarget = 'ja-JP'} = {}) {
   fs.writeFileSync(checkpointArchive, 'checkpoint archive')
   fs.writeFileSync(baselineArchive, 'baseline archive')
   const manifest = {
-    schemaVersion: 2,
+    schemaVersion,
     stage: 'translation',
     group: 'python',
     masterSha: SHA_A,
@@ -144,7 +144,7 @@ test('retains schema-v2 handoff identities without widening the handoff contract
   assert.equal(value.units.every(unit => 'targetBaselineSha' in unit), false)
 })
 
-test('hashes both immutable translation checkpoint artifacts in a bound ready descriptor', () => {
+test('accepts schema-v1 unnumbered translation manifests and hashes both immutable artifacts', () => {
   const pythonUnits = handoff().units.slice(1, 3).map((unit, publicationOrder) => ({...unit, publicationOrder}))
   const selection = buildTranslationPublicationSelection(selectionInput({handoff: {...handoff(), group: 'python', units: pythonUnits}}))
   const fixture = checkpointFixture()
@@ -163,6 +163,24 @@ test('hashes both immutable translation checkpoint artifacts in a bound ready de
     assert.equal(ready.artifacts.baseline.name, `translation-baseline-ja-JP-python-${RUN_ID}`)
     assert.equal(ready.artifacts.checkpoint.archiveSha256, crypto.createHash('sha256').update(fs.readFileSync(fixture.checkpointArchive)).digest('hex'))
     assert.equal(ready.artifacts.baseline.manifestSha256, crypto.createHash('sha256').update(fs.readFileSync(fixture.baselineManifest)).digest('hex'))
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('rejects schema-v2 manifests for an unnumbered Translation checkpoint', () => {
+  const pythonUnits = handoff().units.slice(1, 3).map((unit, publicationOrder) => ({...unit, publicationOrder}))
+  const selection = buildTranslationPublicationSelection(selectionInput({handoff: {...handoff(), group: 'python', units: pythonUnits}}))
+  const fixture = checkpointFixture({schemaVersion: 2})
+  try {
+    assert.throws(() => buildTranslationPublicationReady({
+      selection,
+      unitKey: 'translation/ja-JP/python',
+      checkpointArchive: fixture.checkpointArchive,
+      checkpointManifest: fixture.checkpointManifest,
+      baselineArchive: fixture.baselineArchive,
+      baselineManifest: fixture.baselineManifest,
+    }), /checkpoint manifest.*selected identity/i)
   } finally {
     fs.rmSync(fixture.root, {recursive: true, force: true})
   }
