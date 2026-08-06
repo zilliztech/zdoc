@@ -98,6 +98,10 @@ jobs:
         run: node -e 'const fs=require("node:fs");const value=JSON.parse(process.env.HANDOFF_JSON);if(!/^[0-9a-f]{40}$/.test(value?.toolingSha))throw new Error("handoff toolingSha must be an exact lowercase 40-character SHA");fs.appendFileSync(process.env.GITHUB_OUTPUT,"tooling_sha="+value.toolingSha+"\n")'
       - uses: actions/checkout@v5
         with: { ref: '${{ steps.identity.outputs.tooling_sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
       - name: Resolve and validate the complete translation handoff
         id: handoff
         env:
