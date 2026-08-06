@@ -77,9 +77,9 @@ function artifactValues(content = 'old\n', cache = null) {
   }
 }
 
-async function inputs(fixture, checkpointValues, baselineValues = artifactValues(), unitOverrides = {}) {
-  const checkpointDir = manifestArtifact(fixture, `checkpoint-${Math.random()}`, checkpointValues)
-  const baselineDir = manifestArtifact(fixture, `baseline-${Math.random()}`, baselineValues)
+async function inputs(fixture, checkpointValues, baselineValues = artifactValues(), unitOverrides = {}, manifestOverrides = {}) {
+  const checkpointDir = manifestArtifact(fixture, `checkpoint-${Math.random()}`, checkpointValues, manifestOverrides)
+  const baselineDir = manifestArtifact(fixture, `baseline-${Math.random()}`, baselineValues, manifestOverrides)
   const authenticated = await validateTranslationCheckpointPair({checkpointDir, baselineDir})
   return {
     repositoryRoot: fixture.repository,
@@ -222,4 +222,29 @@ test('validate uses pinned tooling with the complete generated state from the ex
   const validation = await translationCheckpointStrategy.validate({candidate})
 
   assert.deepEqual(validation.validationReceipts.map(receipt => receipt.exitCode), [0, 0, 0])
+})
+
+test('validate cleans the publication candidate when pinned tooling setup fails', async t => {
+  const fixture = setup()
+  t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
+  const unavailableToolingSha = 'f'.repeat(40)
+  const strategyInputs = await inputs(
+    fixture,
+    artifactValues('new\n'),
+    artifactValues(),
+    {toolingSha: unavailableToolingSha},
+    {masterSha: unavailableToolingSha, toolingSha: unavailableToolingSha},
+  )
+  const candidate = await translationCheckpointStrategy.compose({
+    latestDevSha: fixture.baselineSha,
+    inputs: strategyInputs,
+  })
+
+  await assert.rejects(
+    translationCheckpointStrategy.validate({candidate}),
+    /invalid reference|not a valid object|unknown revision/i,
+  )
+
+  const registeredWorktrees = git(fixture.repository, 'worktree', 'list', '--porcelain')
+  assert.equal(registeredWorktrees.includes(`worktree ${candidate.publicationWorktree}`), false)
 })

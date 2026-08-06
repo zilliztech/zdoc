@@ -246,11 +246,13 @@ async function validate({candidate}) {
       if (result.status !== 0) {
         const error = new Error(result.stderr.trim() || result.stdout.trim() || `${validationCommand} exited ${result.status}`)
         error.validationReceipts = Object.freeze([...receipts])
-        cleanupCandidate(candidate)
         throw error
       }
     }
     return Object.freeze({validationReceipts: Object.freeze(receipts)})
+  } catch (error) {
+    cleanupCandidate(candidate)
+    throw error
   } finally {
     removeWorktree(candidate.repositoryRoot, validationWorktree)
   }
