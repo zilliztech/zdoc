@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "ae892bedb3c25f9b09160389b0820b2e2f573e09",
+  "sourceCommit": "85e598c1eb41ff3258435de99b7246845087e624",
   "records": [
     {
       "manual": "cli",
@@ -2810,7 +2810,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/nodejs.md",
-      "sourceHash": "f1edda91a68942c823449d7db1e2ada963634774c3823bc527db0e778c909893"
+      "sourceHash": "24fb47df6081d24fc3372f2a69627538bab1473fb7e8e2e15348dfe4e78f332f"
     },
     {
       "manual": "python",
@@ -4465,7 +4465,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/python.md",
-      "sourceHash": "cad123d0bf69f9214edb2436dec8e1cbe449300c820d2e592ed4278619060a2c"
+      "sourceHash": "b425d9a120d21593587828e77078279204a12d38c20f6de7593212d54a6be458"
     },
     {
       "manual": "rest",
