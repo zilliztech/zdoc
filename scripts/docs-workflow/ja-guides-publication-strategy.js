@@ -199,6 +199,7 @@ function createJapaneseGuidesStrategy(overrides = {}) {
 
   async function promote(context) {
     const candidate = context.candidate
+    let localDebt = null
     const remoteCleanup = async () => {
       try {
         const cleanup = await dependencies.deleteDiagnosticStagingWithLease({
@@ -229,6 +230,10 @@ function createJapaneseGuidesStrategy(overrides = {}) {
         }
       }
     }
+    context.deferConfirmedPromotionCleanup(async () => {
+      const remoteDebt = await remoteCleanup()
+      return deepFreeze({cleanupDebt: [localDebt, remoteDebt].filter(Boolean)})
+    })
     let promoted
     try {
       promoted = await context.promoteCandidate({
@@ -236,21 +241,14 @@ function createJapaneseGuidesStrategy(overrides = {}) {
         expectedDevSha: context.expectedDevSha,
         worktree: candidate.publicationWorktree,
       })
-    } catch (error) {
-      const localDebt = await localCleanup()
-      error.confirmedPromotionCleanup = async () => {
-        const remoteDebt = await remoteCleanup()
-        return deepFreeze({cleanupDebt: [localDebt, remoteDebt].filter(Boolean)})
-      }
-      throw error
+    } finally {
+      localDebt = await localCleanup()
     }
-    const remoteDebt = await remoteCleanup()
-    const localDebt = await localCleanup()
     const result = promoted || {status: 'published'}
     return deepFreeze({
       ...result,
       status: result.status || 'published',
-      cleanupDebt: [remoteDebt, localDebt].filter(Boolean),
+      cleanupDebt: [localDebt].filter(Boolean),
     })
   }
 

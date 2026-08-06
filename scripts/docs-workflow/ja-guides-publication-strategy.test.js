@@ -322,6 +322,7 @@ test('strategy requires the exact seven validation receipts and retains the diag
 
 test('strategy delegates successful CAS and cleans the exact staging ref with its SHA lease', async () => {
   const cleanupCalls = []
+  let deferredCleanup = null
   const strategy = createJapaneseGuidesStrategy({
     async composeLatestTipCandidate() {
       return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
@@ -336,6 +337,7 @@ test('strategy delegates successful CAS and cleans the exact staging ref with it
   const promoted = await strategy.promote({
     candidate,
     expectedDevSha: '4'.repeat(40),
+    deferConfirmedPromotionCleanup(callback) { deferredCleanup = callback },
     async promoteCandidate(context) {
       assert.equal(context.candidate, candidate)
       assert.equal(context.expectedDevSha, '4'.repeat(40))
@@ -344,7 +346,73 @@ test('strategy delegates successful CAS and cleans the exact staging ref with it
     async probeRemoteCandidate() { throw new Error('strategy must not probe') },
   })
   assert.equal(promoted.status, 'published')
+  assert.deepEqual(cleanupCalls, [])
+  assert.equal(typeof deferredCleanup, 'function')
+  await deferredCleanup()
   assert.deepEqual(cleanupCalls, [{repository: '/repo', stagingRef: candidate.stagingRef, stagedSha: '5'.repeat(40)}])
+})
+
+test('invalid direct promotion responses retain the diagnostic ref unless probing confirms publication', async () => {
+  for (const [label, promotion, probes, remoteState] of [
+    ['status', {status: 'invalid'}, [new Error('probe unavailable'), new Error('probe unavailable')], 'unknown'],
+    ['resultSha', {status: 'published', resultSha: 'bad'}, [{remoteSha: '4'.repeat(40), containsCandidate: false}], 'known'],
+    ['commitShas', {status: 'published', resultSha: '6'.repeat(40), commitShas: ['bad']}, [{remoteSha: '4'.repeat(40), containsCandidate: false}], 'known'],
+  ]) {
+    let deleteCalls = 0
+    const strategy = createJapaneseGuidesStrategy({
+      async composeLatestTipCandidate() {
+        return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
+      },
+      pushDiagnosticStagingCandidate() {},
+      validateGuidesTranslationCandidate() { return {result: 'success', receipts: successfulReceipts()} },
+      deleteDiagnosticStagingWithLease() { deleteCalls += 1; return {deleted: true, cleanupDebt: null} },
+      removePublicationWorktree() {},
+    })
+    let probeIndex = 0
+    const result = await runPublicationStrategyTransaction({
+      strategy,
+      inputs: strategyInputs(),
+      readTargetTip: async () => '4'.repeat(40),
+      promoteCandidate: async () => promotion,
+      async probeRemoteCandidate() {
+        const outcome = probes[Math.min(probeIndex, probes.length - 1)]
+        probeIndex += 1
+        if (outcome instanceof Error) throw outcome
+        return outcome
+      },
+      maxProbeAttempts: 2,
+    })
+    assert.equal(result.status, 'publish_failed', label)
+    assert.equal(result.remoteState, remoteState, label)
+    assert.equal(deleteCalls, 0, label)
+  }
+})
+
+test('primitive, null, and frozen promotion errors still clean after probe-confirmed publication', async () => {
+  for (const thrown of ['primitive failure', null, Object.freeze(new Error('frozen failure'))]) {
+    let deleteCalls = 0
+    const strategy = createJapaneseGuidesStrategy({
+      async composeLatestTipCandidate() {
+        return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
+      },
+      pushDiagnosticStagingCandidate() {},
+      validateGuidesTranslationCandidate() { return {result: 'success', receipts: successfulReceipts()} },
+      deleteDiagnosticStagingWithLease() { deleteCalls += 1; return {deleted: true, cleanupDebt: null} },
+      removePublicationWorktree() {},
+    })
+    const result = await runPublicationStrategyTransaction({
+      strategy,
+      inputs: strategyInputs(),
+      readTargetTip: async () => '4'.repeat(40),
+      async promoteCandidate() { throw thrown },
+      async probeRemoteCandidate() {
+        assert.equal(deleteCalls, 0)
+        return {remoteSha: '5'.repeat(40), containsCandidate: true}
+      },
+    })
+    assert.equal(result.status, 'published')
+    assert.equal(deleteCalls, 1)
+  }
 })
 
 test('unit-bound environment has final precedence over generic strategy environment', async () => {

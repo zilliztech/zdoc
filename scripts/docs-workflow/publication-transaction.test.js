@@ -31,15 +31,11 @@ function transaction(options = {}) {
     async promote(context) {
       contexts.promote = context
       calls.push(['promote', context.candidate.candidateSha, context.expectedDevSha])
-      try {
-        return await context.promoteCandidate({
-          candidate: context.candidate,
-          expectedDevSha: context.expectedDevSha,
-        })
-      } catch (error) {
-        if (options.confirmedPromotionCleanup) error.confirmedPromotionCleanup = options.confirmedPromotionCleanup
-        throw error
-      }
+      if (options.confirmedPromotionCleanup) context.deferConfirmedPromotionCleanup(options.confirmedPromotionCleanup)
+      return context.promoteCandidate({
+        candidate: context.candidate,
+        expectedDevSha: context.expectedDevSha,
+      })
     },
   })
   let tipIndex = 0
@@ -63,6 +59,7 @@ function transaction(options = {}) {
         const outcomes = options.promotions || [{status: 'published'}]
         const outcome = outcomes[Math.min(promotionIndex, outcomes.length - 1)]
         promotionIndex += 1
+        if (typeof outcome === 'function') return outcome(context)
         if (outcome instanceof Error) throw outcome
         return outcome
       },
@@ -110,7 +107,7 @@ test('exact candidate push validates and publishes the composed candidate', asyn
   assert.deepEqual(Object.keys(fixture.contexts.compose).sort(), ['inputs', 'latestDevSha'])
   assert.deepEqual(Object.keys(fixture.contexts.validate), ['candidate'])
   assert.deepEqual(Object.keys(fixture.contexts.promote).sort(), [
-    'candidate', 'expectedDevSha', 'probeRemoteCandidate', 'promoteCandidate',
+    'candidate', 'deferConfirmedPromotionCleanup', 'expectedDevSha', 'probeRemoteCandidate', 'promoteCandidate',
   ])
   assert.equal(Object.isFrozen(fixture.contexts.compose), true)
   assert.equal(Object.isFrozen(fixture.contexts.compose.inputs), true)
@@ -203,6 +200,76 @@ test('probe-confirmed publication runs deferred cleanup after the probe and repo
   assert.deepEqual(result.cleanupDebt, [debt])
 })
 
+test('direct publication runs deferred cleanup only after the complete response is accepted', async () => {
+  const events = []
+  const fixture = transaction({
+    promotions: [() => { events.push('promote'); return {status: 'published'} }],
+    confirmedPromotionCleanup: async () => { events.push('cleanup'); return {cleanupDebt: []} },
+  })
+
+  const result = await fixture.run()
+
+  assert.equal(result.status, 'published')
+  assert.deepEqual(events, ['promote', 'cleanup'])
+  assert.equal(fixture.calls.some(([name]) => name === 'probe'), false)
+})
+
+test('invalid direct promotion responses never run cleanup without remote confirmation', async () => {
+  for (const [label, promotion, probes, expectedRemoteState] of [
+    ['status', {status: 'invalid'}, [new Error('probe unavailable'), new Error('probe unavailable')], 'unknown'],
+    ['resultSha', {status: 'published', resultSha: 'bad'}, [{remoteSha: SHA('a'), containsCandidate: false}], 'known'],
+    ['commitShas', {status: 'published', resultSha: SHA('c'), commitShas: ['bad']}, [{remoteSha: SHA('a'), containsCandidate: false}], 'known'],
+  ]) {
+    let cleanupCalls = 0
+    const fixture = transaction({
+      promotions: [promotion],
+      probes,
+      confirmedPromotionCleanup: async () => { cleanupCalls += 1; return {cleanupDebt: []} },
+    })
+
+    const result = await fixture.run()
+
+    assert.equal(result.status, 'publish_failed', label)
+    assert.equal(result.remoteState, expectedRemoteState, label)
+    assert.equal(cleanupCalls, 0, label)
+  }
+})
+
+test('cleanup registration is function-only and at most once per attempt', async () => {
+  const strategy = definePublicationStrategy({
+    name: 'checkpoint',
+    async compose() { return {status: 'candidate', candidateSha: SHA('b')} },
+    async validate() { return {validationReceipts: []} },
+    async promote(context) {
+      assert.throws(() => context.deferConfirmedPromotionCleanup(null), /function/i)
+      context.deferConfirmedPromotionCleanup(async () => ({cleanupDebt: []}))
+      assert.throws(() => context.deferConfirmedPromotionCleanup(async () => ({cleanupDebt: []})), /once|already/i)
+      return {status: 'published'}
+    },
+  })
+  const result = await runPublicationStrategyTransaction({
+    strategy,
+    readTargetTip: async () => SHA('a'),
+    promoteCandidate: async () => ({status: 'published'}),
+    probeRemoteCandidate: async () => ({remoteSha: SHA('a'), containsCandidate: false}),
+  })
+  assert.equal(result.status, 'published')
+})
+
+test('confirmed cleanup errors become debt without downgrading publication', async () => {
+  const fixture = transaction({
+    promotions: [new Error('connection closed')],
+    probes: [{remoteSha: SHA('b'), containsCandidate: true}],
+    confirmedPromotionCleanup: async () => { throw new Error('cleanup unavailable') },
+  })
+
+  const result = await fixture.run()
+
+  assert.equal(result.status, 'published')
+  assert.equal(result.cleanupDebt.length, 1)
+  assert.equal(result.cleanupDebt[0].kind, 'confirmed_cleanup_failed')
+})
+
 test('unknown remote state never runs deferred confirmed-publication cleanup', async () => {
   let cleanupCalls = 0
   const fixture = transaction({
@@ -219,9 +286,11 @@ test('unknown remote state never runs deferred confirmed-publication cleanup', a
 })
 
 test('a known unchanged remote rejects the candidate without retrying', async () => {
+  let cleanupCalls = 0
   const fixture = transaction({
     promotions: [new Error('permission denied')],
     probes: [{remoteSha: SHA('a'), containsCandidate: false}],
+    confirmedPromotionCleanup: async () => { cleanupCalls += 1; return {cleanupDebt: []} },
   })
   const result = await fixture.run()
   assert.equal(result.status, 'publish_failed')
@@ -229,14 +298,20 @@ test('a known unchanged remote rejects the candidate without retrying', async ()
   assert.equal(result.remoteState, 'known')
   assert.equal(result.failure.code, 'PUSH_FAILED')
   assert.equal(result.failure.retryable, false)
+  assert.equal(cleanupCalls, 0)
 })
 
 test('known target drift recomposes, revalidates, and retries', async () => {
+  let cleanupCalls = 0
   const fixture = transaction({
     tips: [SHA('a'), SHA('c')],
     candidates: [SHA('b'), SHA('d')],
     promotions: [new Error('non-fast-forward'), {status: 'published'}],
-    probes: [{remoteSha: SHA('c'), containsCandidate: false}],
+    probes: [() => {
+      assert.equal(cleanupCalls, 0)
+      return {remoteSha: SHA('c'), containsCandidate: false}
+    }],
+    confirmedPromotionCleanup: async () => { cleanupCalls += 1; return {cleanupDebt: []} },
   })
   const result = await fixture.run()
   assert.equal(result.status, 'published')
@@ -245,6 +320,7 @@ test('known target drift recomposes, revalidates, and retries', async () => {
   assert.equal(result.resultSha, SHA('d'))
   assert.deepEqual(result.commitShas, [SHA('d')])
   assert.deepEqual(result.validationReceipts.map(receipt => receipt.candidateSha), [SHA('b'), SHA('d')])
+  assert.equal(cleanupCalls, 1)
 })
 
 test('exhausted known target drift is terminal and no longer retryable', async () => {

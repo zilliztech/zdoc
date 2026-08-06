@@ -73,6 +73,19 @@ function publishedTerminal(values, now, validationReceipts, cleanupDebt) {
   return terminal({...values, resultSha, commitShas}, now, validationReceipts, cleanupDebt)
 }
 
+async function runConfirmedPromotionCleanup(callback, cleanupDebt) {
+  if (callback === undefined) return
+  try {
+    const cleanup = await callback()
+    appendObjects(cleanupDebt, cleanup?.cleanupDebt, 'confirmed promotion cleanupDebt')
+  } catch (error) {
+    cleanupDebt.push(Object.freeze({
+      kind: 'confirmed_cleanup_failed',
+      message: bounded(error, 'confirmed publication cleanup failed'),
+    }))
+  }
+}
+
 async function runPublicationStrategyTransaction(options = {}) {
   const strategy = options.strategy
   if (!strategy || typeof strategy.compose !== 'function' || typeof strategy.validate !== 'function' || typeof strategy.promote !== 'function') {
@@ -156,9 +169,17 @@ async function runPublicationStrategyTransaction(options = {}) {
       }, now, validationReceipts, cleanupDebt)
     }
 
+    let confirmedPromotionCleanup
+    const deferConfirmedPromotionCleanup = callback => {
+      if (typeof callback !== 'function') throw new Error('confirmed promotion cleanup must be a function')
+      if (confirmedPromotionCleanup !== undefined) throw new Error('confirmed promotion cleanup is already registered for this attempt')
+      confirmedPromotionCleanup = callback
+    }
+
     try {
       const promoted = await strategy.promote(Object.freeze({
         candidate: exactCandidate,
+        deferConfirmedPromotionCleanup,
         expectedDevSha: baseSha,
         promoteCandidate: options.promoteCandidate,
         probeRemoteCandidate: options.probeRemoteCandidate,
@@ -166,7 +187,13 @@ async function runPublicationStrategyTransaction(options = {}) {
       appendObjects(cleanupDebt, promoted?.cleanupDebt, 'promotion cleanupDebt')
       if (promoted?.status !== 'published') throw new Error(`Unknown promotion status: ${promoted?.status}`)
       const resultSha = promoted.resultSha === undefined ? candidateSha : assertSha(promoted.resultSha, 'promotion resultSha')
-      const commitShas = promoted.commitShas ?? exactCandidate.commitShas ?? [candidateSha]
+      const commitShas = normalizePublishedCommitShas(
+        promoted.commitShas,
+        resultSha,
+        'promotion commitShas',
+        exactCandidate.commitShas ?? [candidateSha],
+      )
+      await runConfirmedPromotionCleanup(confirmedPromotionCleanup, cleanupDebt)
       return publishedTerminal({
         status: 'published', baseSha, resultSha, commitShas, attempts: attempt,
       }, now, validationReceipts, cleanupDebt)
@@ -199,19 +226,7 @@ async function runPublicationStrategyTransaction(options = {}) {
         }, now, validationReceipts, cleanupDebt)
       }
       if (probe.containsCandidate) {
-        const confirmedCleanup = pushError?.confirmedPromotionCleanup
-        if (confirmedCleanup !== undefined) {
-          try {
-            if (typeof confirmedCleanup !== 'function') throw new Error('confirmedPromotionCleanup must be a function')
-            const cleanup = await confirmedCleanup()
-            appendObjects(cleanupDebt, cleanup?.cleanupDebt, 'confirmed promotion cleanupDebt')
-          } catch (error) {
-            cleanupDebt.push(Object.freeze({
-              kind: 'confirmed_cleanup_failed',
-              message: bounded(error, 'confirmed publication cleanup failed'),
-            }))
-          }
-        }
+        await runConfirmedPromotionCleanup(confirmedPromotionCleanup, cleanupDebt)
         return publishedTerminal({
           status: 'published', baseSha, resultSha: candidateSha,
           commitShas: exactCandidate.commitShas, attempts: attempt,
