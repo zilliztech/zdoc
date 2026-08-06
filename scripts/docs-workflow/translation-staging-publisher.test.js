@@ -12,6 +12,7 @@ const {
   cleanupPhase,
   createInitialPublisherState,
   createTerminalReport,
+  pushDiagnosticStagingCandidate,
   promotePhase,
   pushPhase,
   recordValidationPhase,
@@ -107,6 +108,24 @@ test('staging push verification error preserves a remotely confirmed exact candi
   assert.equal(result.status, 'staged')
   assert.equal(result.stagingRef, 'refs/heads/docs-translation-staging/guides/7-2-dddddddddddd')
   assert.equal(result.stagingSha, SHA('f'))
+})
+
+test('diagnostic staging push probes an ambiguous command and accepts only the exact staged SHA', () => {
+  const stagingRef = 'refs/heads/docs-translation-staging/guides/7-2-dddddddddddd-eeeeeeeeeeee-translation-ja-JP-guides'
+  let probes = 0
+  const result = pushDiagnosticStagingCandidate({repository: '/repo', stagingRef, stagedSha: SHA('f')}, {
+    remoteSha() { probes += 1; return probes === 1 ? null : SHA('f') },
+    push() { throw new Error('connection closed after update') },
+  })
+  assert.equal(result.remoteSha, SHA('f'))
+  assert.match(result.commandWarning, /connection closed/)
+  assert.equal(probes, 3)
+
+  probes = 0
+  assert.throws(() => pushDiagnosticStagingCandidate({repository: '/repo', stagingRef, stagedSha: SHA('f')}, {
+    remoteSha() { probes += 1; return probes === 1 ? null : SHA('e') },
+    push() { throw new Error('connection closed before update') },
+  }), /diagnostic staging push failed/i)
 })
 
 test('validation failure retains the exact staging ref and receipts', () => {

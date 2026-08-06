@@ -7,7 +7,7 @@ const path = require('node:path')
 const test = require('node:test')
 const { execFileSync, spawnSync } = require('node:child_process')
 
-const { runGuidesTranslationValidation, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS, REQUIRED_ROOTS } = require('./validate-guides-translation-staging')
+const { runGuidesTranslationValidation, validateGuidesTranslationCandidate, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS, REQUIRED_ROOTS } = require('./validate-guides-translation-staging')
 
 const ROOT = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'
 const TARGET_BASELINE_SOURCE = 'content/zh-CN/byoc/tutorials/client-libraries/install-sdks.md'
@@ -152,6 +152,48 @@ test('runs only the seven hard-coded commands in exact order and returns immutab
   assert.equal(result.proof.stagedSha, state.stagedSha)
   assert.match(result.proof.generatedStateSha256, /^[0-9a-f]{64}$/)
   assert.equal(Object.isFrozen(result.receipts), true)
+})
+
+test('candidate validation passes bound variables to all seven executors without overriding isolated controls', t => {
+  const state = fixture()
+  const runnerTemp = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'validate-guides-runner-')))
+  t.after(() => fs.rmSync(runnerTemp, {recursive: true, force: true}))
+  const environments = []
+
+  const result = validateGuidesTranslationCandidate({
+    repositoryRoot: state.repository,
+    dependencyRoot: state.repository,
+    runnerTemp,
+    masterSha: state.masterSha,
+    expectedTargetSha: state.expectedTargetSha,
+    stagedSha: state.stagedSha,
+    environment: {
+      TEST_BOUND: 'visible',
+      ZDOC_SITE: 'ja-JP',
+      HOME: '/bound-home',
+      NPM_CONFIG_USERCONFIG: '/bound.npmrc',
+      CI: 'false',
+    },
+  }, {
+    executor(command, args, options) {
+      environments.push(options.env)
+      return {status: 0, signal: null, stderr: ''}
+    },
+  })
+
+  assert.equal(result.result, 'success')
+  assert.equal(environments.length, 7)
+  for (const environment of environments) {
+    assert.equal(environment.TEST_BOUND, 'visible')
+    assert.equal(environment.ZDOC_SITE, 'ja-JP')
+    assert.notEqual(environment.HOME, '/bound-home')
+    assert.equal(environment.GIT_DIR, undefined)
+    assert.equal(environment.NODE_OPTIONS, undefined)
+    assert.notEqual(environment.NPM_CONFIG_USERCONFIG, '/bound.npmrc')
+    assert.equal(environment.YARN_ENABLE_SCRIPTS, undefined)
+    assert.equal(environment.BASH_ENV, undefined)
+    assert.equal(environment.CI, 'true')
+  }
 })
 
 test('stops on the first nonzero command and records only commands actually executed', () => {
