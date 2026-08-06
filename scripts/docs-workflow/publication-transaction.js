@@ -149,6 +149,7 @@ async function runPublicationStrategyTransaction(options = {}) {
       appendObjects(validationReceipts, validation?.validationReceipts, 'validationReceipts')
       appendObjects(cleanupDebt, validation?.cleanupDebt, 'validation cleanupDebt')
     } catch (error) {
+      appendObjects(validationReceipts, error?.validationReceipts, 'validationReceipts')
       return terminal({
         status: 'publish_failed', baseSha, attempts: attempt, remoteState: 'known',
         failure: failure('VALIDATION_FAILED', 'validate', error),
