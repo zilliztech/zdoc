@@ -12,11 +12,22 @@ const REFERENCE_ROOTS = Object.freeze({
   rest: 'content/zh-CN/reference/api/restful',
 });
 
+const REFERENCE_LANDINGS = Object.freeze([
+  'content/zh-CN/reference/api/python/python/python.md',
+  'content/zh-CN/reference/api/java/java/java.md',
+  'content/zh-CN/reference/api/nodejs/nodejs/nodejs.md',
+  'content/zh-CN/reference/api/go/go/go.md',
+  'content/zh-CN/reference/cli/cli/Overview.md',
+]);
+
 function commandsForTranslationGroup({target, group}) {
   if (target === 'ja-JP') return [
     ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'i18n/ja-JP']],
     ['pnpm', ['docs-tooling', 'validate-translation', '--target', 'ja-JP', '--group', group]],
   ];
+  if (target === 'zh-CN-reference' && group === 'reference-landings') return REFERENCE_LANDINGS.map(file => (
+    ['pnpm', ['docs-tooling', 'validate-mdx', '--path', file, '--check']]
+  ));
   if (target === 'zh-CN-reference' && REFERENCE_ROOTS[group]) return [
     ['pnpm', ['docs-tooling', 'validate-mdx', '--path', REFERENCE_ROOTS[group], '--check']],
   ];
