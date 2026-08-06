@@ -8,7 +8,11 @@ const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
 
-const { translationOwnedPaths, validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
+const {
+  translationOwnedPaths,
+  validateCheckpointArtifact,
+  validateTranslationCheckpointPair,
+} = require('./validate-checkpoint-artifact');
 const A = 'a'.repeat(40), B = 'b'.repeat(40);
 const PENDING = 'c'.repeat(64);
 
@@ -196,6 +200,62 @@ test('translation checkpoints require immutable target and site identity before 
     toolingSha: A,
   } });
   await assert.rejects(validateCheckpointArtifact(invalidIdentity.dir), /targetSite|sourceCheckpointSha|translation target identity/i);
+});
+
+test('translation checkpoint pairs bind exact manifest checksums and immutable unit identity', async () => {
+  const checkpoint = await schema2Artifact();
+  const baseline = await schema2Artifact();
+  const checkpointManifestSha256 = crypto.createHash('sha256').update(await readFile(path.join(checkpoint.dir, 'manifest.json'))).digest('hex');
+  const baselineManifestSha256 = crypto.createHash('sha256').update(await readFile(path.join(baseline.dir, 'manifest.json'))).digest('hex');
+
+  const pair = await validateTranslationCheckpointPair({
+    checkpointDir: checkpoint.dir,
+    baselineDir: baseline.dir,
+    expected: {
+      group: 'guides',
+      translationTarget: 'ja-JP',
+      sourceCheckpointSha: B,
+      toolingSha: A,
+      checkpointManifestSha256,
+      baselineManifestSha256,
+    },
+  });
+
+  assert.equal(pair.checkpoint.resolvedDir, await realpath(checkpoint.dir));
+  assert.equal(pair.baseline.resolvedDir, await realpath(baseline.dir));
+  assert.equal(Object.isFrozen(pair), true);
+  for (const [label, override] of [
+    ['checkpoint checksum', {checkpointManifestSha256: '0'.repeat(64)}],
+    ['baseline checksum', {baselineManifestSha256: '0'.repeat(64)}],
+    ['target', {translationTarget: 'zh-CN-reference'}],
+    ['group', {group: 'python'}],
+    ['tooling', {toolingSha: B}],
+    ['source', {sourceCheckpointSha: A}],
+  ]) {
+    await assert.rejects(validateTranslationCheckpointPair({
+      checkpointDir: checkpoint.dir,
+      baselineDir: baseline.dir,
+      expected: {
+        group: 'guides', translationTarget: 'ja-JP', sourceCheckpointSha: B, toolingSha: A,
+        checkpointManifestSha256, baselineManifestSha256, ...override,
+      },
+    }), /checksum|target|group|tooling|source|mismatch/i, label);
+  }
+});
+
+test('translation checkpoint pairs require a baseline with a regular cache payload', async () => {
+  const checkpoint = await schema2Artifact();
+  await assert.rejects(validateTranslationCheckpointPair({checkpointDir: checkpoint.dir}), /baseline.*required/i);
+
+  const baseline = await schema2Artifact();
+  const cacheFile = path.join(baseline.payload, baseline.cachePath);
+  const cacheTarget = `${cacheFile}.real`;
+  await rename(cacheFile, cacheTarget);
+  await symlink(cacheTarget, cacheFile);
+  await assert.rejects(validateTranslationCheckpointPair({
+    checkpointDir: checkpoint.dir,
+    baselineDir: baseline.dir,
+  }), /baseline|payload|cache|symlink|regular/i);
 });
 
 test('rejects symlinked manifest files before parsing for schema 1 and managed schema 2 artifacts', async () => {
