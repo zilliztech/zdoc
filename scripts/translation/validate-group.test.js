@@ -13,6 +13,16 @@ test('Chinese SDK validation is scoped to the selected group', () => {
   assert.equal(JSON.stringify(commands).includes('validate-reference'), false);
 });
 
+test('Chinese Reference landing validation checks each canonical landing file', () => {
+  assert.deepEqual(commandsForTranslationGroup({target: 'zh-CN-reference', group: 'reference-landings'}), [
+    ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/reference/api/python/python/python.md', '--check']],
+    ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/reference/api/java/java/java.md', '--check']],
+    ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/reference/api/nodejs/nodejs/nodejs.md', '--check']],
+    ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/reference/api/go/go/go.md', '--check']],
+    ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/reference/cli/cli/Overview.md', '--check']],
+  ]);
+});
+
 test('Japanese validation uses its existing group checks and retired Tools is rejected', () => {
   assert.throws(() => commandsForTranslationGroup({target: 'zh-CN-tools', group: 'guides'}), /unsupported/i);
   assert.deepEqual(commandsForTranslationGroup({target: 'ja-JP', group: 'java'}), [
