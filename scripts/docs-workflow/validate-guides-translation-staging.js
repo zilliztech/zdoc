@@ -41,6 +41,13 @@ function isolatedEnvironment() {
   Object.assign(environment, { HOME: root, XDG_CONFIG_HOME: xdg, CI: 'true', NO_UPDATE_NOTIFIER: '1', GIT_TERMINAL_PROMPT: '0', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', NPM_CONFIG_USERCONFIG: userNpmrc, NPM_CONFIG_GLOBALCONFIG: globalNpmrc, NPM_CONFIG_CACHE: cache, COREPACK_HOME: corepack, YARN_RC_FILENAME: path.join(root, 'yarnrc.yml') })
   return { root, environment }
 }
+function boundEnvironment(value) {
+  if (value === undefined) return {}
+  if (!value || typeof value !== 'object' || Array.isArray(value) || Object.values(value).some(entry => typeof entry !== 'string')) throw new Error('environment must be an object of strings')
+  const controlled = key => key.startsWith('GIT_') || key.startsWith('NPM_CONFIG_') || key.startsWith('YARN_') ||
+    ['HOME', 'XDG_CONFIG_HOME', 'CI', 'NO_UPDATE_NOTIFIER', 'NODE_OPTIONS', 'BASH_ENV', 'ENV', 'COREPACK_HOME'].includes(key)
+  return Object.fromEntries(Object.entries(value).filter(([key]) => !controlled(key)))
+}
 function git(repository, args, environment, buffer = false) {
   return execFileSync('git', ['-C', repository, ...args], { encoding: buffer ? null : 'utf8', env: environment, maxBuffer: 16 * 1024 * 1024 })
 }
@@ -120,10 +127,10 @@ function defaultExecutor(command, args, options) {
 
 function runGuidesTranslationValidation(options) {
   if (!options || typeof options !== 'object' || Array.isArray(options)) throw new Error('validation options must be an object')
-  const keys = Object.keys(options), allowedKeys = ['repository', 'masterSha', 'expectedTargetSha', 'stagedSha', 'executor']
+  const keys = Object.keys(options), allowedKeys = ['repository', 'masterSha', 'expectedTargetSha', 'stagedSha', 'environment', 'executor']
   if (keys.some(key => !allowedKeys.includes(key)) || !['repository', 'masterSha', 'expectedTargetSha', 'stagedSha'].every(key => Object.hasOwn(options, key))) throw new Error('validation options have invalid keys')
   if (options.executor !== undefined && typeof options.executor !== 'function') throw new Error('executor must be a function')
-  const isolation = isolatedEnvironment(), environment = isolation.environment
+  const isolation = isolatedEnvironment(), environment = {...boundEnvironment(options.environment), ...isolation.environment}
   let repository, proof
   try { repository = repositoryRoot(options.repository, environment); proof = stagedStateProof(repository, options.masterSha, options.expectedTargetSha, options.stagedSha, environment) } catch (error) { fs.rmSync(isolation.root, { recursive: true, force: true }); throw error }
   const executor = options.executor || defaultExecutor, receipts = []
@@ -146,6 +153,62 @@ function runGuidesTranslationValidation(options) {
   }
   return deepFreeze({ schemaVersion: 1, masterSha: options.masterSha, expectedTargetSha: options.expectedTargetSha, stagedSha: options.stagedSha, proof, receipts, result: failureDetail === null ? 'success' : 'failure', failureDetail })
   } finally { fs.rmSync(isolation.root, { recursive: true, force: true }) }
+}
+
+function linkValidationDependencies(dependencyRoot, validationWorktree) {
+  const roots = [
+    path.join(dependencyRoot, 'node_modules'),
+    ...['apps', 'packages'].flatMap(directory => {
+      const root = path.join(dependencyRoot, directory)
+      if (!fs.existsSync(root)) return []
+      return fs.readdirSync(root, {withFileTypes: true})
+        .filter(entry => entry.isDirectory())
+        .map(entry => path.join(root, entry.name, 'node_modules'))
+    }),
+  ]
+  for (const source of roots) {
+    if (!fs.existsSync(source) || !fs.lstatSync(source).isDirectory()) continue
+    const relative = path.relative(dependencyRoot, source)
+    const destination = path.join(validationWorktree, relative)
+    if (fs.existsSync(destination)) continue
+    fs.mkdirSync(path.dirname(destination), {recursive: true})
+    fs.symlinkSync(source, destination)
+  }
+}
+
+function validateGuidesTranslationCandidate(options, dependencies = {}) {
+  if (!options || typeof options !== 'object' || Array.isArray(options)) throw new Error('candidate validation options must be an object')
+  const expectedKeys = ['repositoryRoot', 'dependencyRoot', 'runnerTemp', 'masterSha', 'expectedTargetSha', 'stagedSha', 'environment']
+  if (Object.keys(options).sort().join(',') !== expectedKeys.sort().join(',')) throw new Error('candidate validation options have invalid keys')
+  const repository = fs.realpathSync(options.repositoryRoot)
+  const dependencyRoot = fs.realpathSync(options.dependencyRoot)
+  const runnerTemp = fs.realpathSync(options.runnerTemp)
+  let worktree = fs.mkdtempSync(path.join(runnerTemp, 'ja-guides-validation.'))
+  fs.rmdirSync(worktree)
+  const run = dependencies.execFileSync || execFileSync
+  try {
+    run('git', ['-C', repository, 'worktree', 'add', '--detach', worktree, options.masterSha], {encoding: 'utf8'})
+    worktree = fs.realpathSync(worktree)
+    linkValidationDependencies(dependencyRoot, worktree)
+    run('bash', [path.join(__dirname, '../restore-generated-state.sh'), '--exact', '--ref', options.stagedSha], {
+      cwd: worktree,
+      encoding: 'utf8',
+      env: {...process.env, ...(options.environment || {})},
+      maxBuffer: 64 * 1024 * 1024,
+    })
+    return runGuidesTranslationValidation({
+      repository: worktree,
+      masterSha: options.masterSha,
+      expectedTargetSha: options.expectedTargetSha,
+      stagedSha: options.stagedSha,
+      environment: options.environment,
+      ...(dependencies.executor ? {executor: dependencies.executor} : {}),
+    })
+  } finally {
+    try { run('git', ['-C', repository, 'worktree', 'remove', '--force', worktree], {encoding: 'utf8'}) } catch {}
+    fs.rmSync(worktree, {recursive: true, force: true})
+    try { run('git', ['-C', repository, 'worktree', 'prune'], {encoding: 'utf8'}) } catch {}
+  }
 }
 
 function parseArgs(argv) {
@@ -206,4 +269,4 @@ function main() {
 }
 if (require.main === module) { try { main() } catch (error) { process.stderr.write(`${error.message}\n`); process.exitCode = 1 } }
 
-module.exports = { runGuidesTranslationValidation, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS, REQUIRED_ROOTS }
+module.exports = { runGuidesTranslationValidation, validateGuidesTranslationCandidate, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS, REQUIRED_ROOTS }
