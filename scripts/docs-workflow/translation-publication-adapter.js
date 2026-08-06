@@ -36,6 +36,26 @@ const TRANSLATION_PUBLICATION_UNIT_KEYS = Object.freeze([
   'translation/zh-CN-reference/reference-landings',
 ])
 
+function boundedReconciliationFailure(reconciliation) {
+  const failure = reconciliation?.failure || {}
+  const code = typeof failure.code === 'string' && failure.code.trim() && !/[\0\r\n]/u.test(failure.code)
+    ? failure.code.trim()
+    : 'RECONCILIATION_FAILED'
+  const details = [
+    failure.message || 'Translation reconciliation failed',
+    typeof failure.phase === 'string' && failure.phase ? `failurePhase=${failure.phase}` : null,
+    typeof reconciliation?.remoteState === 'string' && reconciliation.remoteState
+      ? `remoteState=${reconciliation.remoteState}`
+      : null,
+  ].filter(Boolean).join('; ').replace(/[\0\r\n]+/gu, ' ').replace(/\s+/gu, ' ').trim().slice(0, 1000)
+  return Object.freeze({
+    code,
+    phase: 'reconciliation',
+    message: details || 'Translation reconciliation failed',
+    retryable: typeof failure.retryable === 'boolean' ? failure.retryable : false,
+  })
+}
+
 function validateTranslationUnit(unit, selection, index, helpers) {
   const document = helpers.DOCUMENTS.selection
   helpers.exactKeys(unit, SELECTION_UNIT_KEYS, `unit ${index}`, document)
@@ -134,7 +154,16 @@ const translationPublicationAdapter = definePublicationWorkflowAdapter({
         transactionContext: context.transactionContext,
       })
     } catch (error) {
-      reconciliation = {status: 'publish_failed', failure: {message: error.message || String(error)}}
+      reconciliation = {
+        status: 'publish_failed',
+        remoteState: error.remoteState,
+        failure: {
+          code: error.code,
+          phase: error.phase,
+          message: error.message || String(error),
+          retryable: error.retryable,
+        },
+      }
     }
     if (['published', 'no_changes'].includes(reconciliation?.status)) {
       return validateTranslationPublicationDocuments({
@@ -147,12 +176,7 @@ const translationPublicationAdapter = definePublicationWorkflowAdapter({
       results: {
         ...value.results,
         overallStatus: 'orchestrator_failed',
-        orchestratorFailure: {
-          code: 'RECONCILIATION_FAILED',
-          phase: 'reconciliation',
-          message: String(reconciliation?.failure?.message || 'Translation reconciliation failed').replace(/[\0\r\n]+/gu, ' ').slice(0, 1000),
-          retryable: false,
-        },
+        orchestratorFailure: boundedReconciliationFailure(reconciliation),
       },
     }).results
   },

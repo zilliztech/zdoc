@@ -64,11 +64,36 @@ function createWorktree(repositoryRoot, runnerTemp, prefix, sha) {
   return destination
 }
 
-function removeWorktree(repositoryRoot, worktree) {
-  if (!worktree) return
-  git(repositoryRoot, ['worktree', 'remove', '--force', worktree], {allowFailure: true})
-  fs.rmSync(worktree, {recursive: true, force: true})
-  git(repositoryRoot, ['worktree', 'prune'], {allowFailure: true})
+function bounded(error, fallback) {
+  return String(error?.message || error || fallback)
+    .replace(/[\u0000-\u001f\u007f]+/gu, ' ')
+    .replace(/\s+/gu, ' ')
+    .trim()
+    .slice(0, 1000) || fallback
+}
+
+function removeWorktree(repositoryRoot, worktree, afterCleanup) {
+  if (!worktree) return Object.freeze([])
+  const cleanupDebt = []
+  const record = (operation, error) => cleanupDebt.push(Object.freeze({
+    kind: 'reconciliation_worktree_cleanup_failed',
+    operation,
+    worktree,
+    message: bounded(error, `${operation} failed`),
+  }))
+  try {
+    const removal = git(repositoryRoot, ['worktree', 'remove', '--force', worktree], {allowFailure: true})
+    if (removal.status !== 0) record('git_worktree_remove', removal.stderr || removal.stdout)
+  } catch (error) { record('git_worktree_remove', error) }
+  try { fs.rmSync(worktree, {recursive: true, force: true}) } catch (error) { record('filesystem_remove', error) }
+  try {
+    const prune = git(repositoryRoot, ['worktree', 'prune'], {allowFailure: true})
+    if (prune.status !== 0) record('git_worktree_prune', prune.stderr || prune.stdout)
+  } catch (error) { record('git_worktree_prune', error) }
+  if (typeof afterCleanup === 'function') {
+    try { afterCleanup({repositoryRoot, worktree}) } catch (error) { record('after_cleanup', error) }
+  }
+  return Object.freeze(cleanupDebt)
 }
 
 function linkDependencies(repositoryRoot, worktree) {
@@ -171,12 +196,14 @@ async function reconcileTranslationPublication(input = {}) {
   const groups = successfulReferenceGroups(selection, results)
   const allowlist = allowedPaths(groups)
   const environment = {...process.env, ...(transactionContext.environment || {})}
+  const cleanupWorktree = worktree => removeWorktree(repositoryRoot, worktree, dependencies.afterWorktreeCleanup)
 
   const strategy = {
     async compose({latestDevSha}) {
       assertSuccessfulResultsAreAncestors(repositoryRoot, results, latestDevSha)
       let validationWorktree = null
       let publicationWorktree = null
+      const cleanupDebt = []
       try {
         validationWorktree = createWorktree(repositoryRoot, runnerTemp, 'translation-reconciliation-validation.', selection.toolingSha)
         linkDependencies(repositoryRoot, validationWorktree)
@@ -193,43 +220,69 @@ async function reconcileTranslationPublication(input = {}) {
 
         publicationWorktree = createWorktree(repositoryRoot, runnerTemp, 'translation-reconciliation-publication.', latestDevSha)
         for (const relative of changed) copyPath(validationWorktree, publicationWorktree, relative)
-        removeWorktree(repositoryRoot, validationWorktree)
+        cleanupDebt.push(...cleanupWorktree(validationWorktree))
         validationWorktree = null
         if (!changed.length) {
-          removeWorktree(repositoryRoot, publicationWorktree)
-          return Object.freeze({status: 'no_changes'})
+          cleanupDebt.push(...cleanupWorktree(publicationWorktree))
+          publicationWorktree = null
+          return Object.freeze({status: 'no_changes', cleanupDebt: Object.freeze(cleanupDebt)})
         }
         git(publicationWorktree, ['add', '--all', '--', ...changed])
         if (git(publicationWorktree, ['diff', '--cached', '--quiet'], {allowFailure: true}).status === 0) {
-          removeWorktree(repositoryRoot, publicationWorktree)
-          return Object.freeze({status: 'no_changes'})
+          cleanupDebt.push(...cleanupWorktree(publicationWorktree))
+          publicationWorktree = null
+          return Object.freeze({status: 'no_changes', cleanupDebt: Object.freeze(cleanupDebt)})
         }
         git(publicationWorktree, ['config', 'user.name', transactionContext.authorName || 'docs-publish-bot'])
         git(publicationWorktree, ['config', 'user.email', transactionContext.authorEmail || 'docs-publish-bot@users.noreply.github.com'])
         git(publicationWorktree, ['commit', '-m', 'chore(i18n): reconcile derived translation state',
           '-m', `translationTargetSha: ${latestDevSha}`])
         const candidateSha = git(publicationWorktree, ['rev-parse', 'HEAD']).stdout.trim()
-        return Object.freeze({status: 'candidate', candidateSha, commitShas: Object.freeze([candidateSha]), publicationWorktree})
+        return Object.freeze({
+          status: 'candidate',
+          candidateSha,
+          commitShas: Object.freeze([candidateSha]),
+          publicationWorktree,
+          cleanupDebt: Object.freeze(cleanupDebt),
+        })
       } catch (error) {
-        removeWorktree(repositoryRoot, validationWorktree)
-        removeWorktree(repositoryRoot, publicationWorktree)
+        cleanupDebt.push(...cleanupWorktree(validationWorktree))
+        cleanupDebt.push(...cleanupWorktree(publicationWorktree))
+        if (cleanupDebt.length) error.cleanupDebt = Object.freeze([...(error.cleanupDebt || []), ...cleanupDebt])
         throw error
       }
     },
     async validate() { return Object.freeze({validationReceipts: Object.freeze([])}) },
-    async promote({candidate, expectedDevSha, promoteCandidate}) {
+    async promote({candidate, deferConfirmedPromotionCleanup, expectedDevSha, promoteCandidate}) {
+      let cleanupDebt
+      let cleanupReported = false
+      const cleanupOnce = () => {
+        if (cleanupDebt === undefined) cleanupDebt = cleanupWorktree(candidate.publicationWorktree)
+        return cleanupDebt
+      }
+      deferConfirmedPromotionCleanup(async () => {
+        const debt = cleanupOnce()
+        if (cleanupReported) return Object.freeze({cleanupDebt: Object.freeze([])})
+        cleanupReported = true
+        return Object.freeze({cleanupDebt: debt})
+      })
       try {
-        return await promoteCandidate({candidate, expectedDevSha, worktree: candidate.publicationWorktree})
-      } finally {
-        removeWorktree(repositoryRoot, candidate.publicationWorktree)
+        const promoted = await promoteCandidate({candidate, expectedDevSha, worktree: candidate.publicationWorktree})
+        const debt = cleanupOnce()
+        cleanupReported = true
+        return Object.freeze({...promoted, cleanupDebt: Object.freeze([...(promoted?.cleanupDebt || []), ...debt])})
+      } catch (error) {
+        const debt = cleanupOnce()
+        if (debt.length) error.cleanupDebt = Object.freeze([...(error.cleanupDebt || []), ...debt])
+        throw error
       }
     },
   }
 
   return runPublicationStrategyTransaction({
     strategy,
-    maxAttempts: transactionContext.maxAttempts || 3,
-    maxProbeAttempts: transactionContext.maxProbeAttempts || 3,
+    maxAttempts: transactionContext.maxAttempts ?? 3,
+    maxProbeAttempts: transactionContext.maxProbeAttempts ?? 3,
     now: transactionContext.now,
     async readTargetTip() {
       if (dependencies.readTargetTip) return dependencies.readTargetTip({repositoryRoot, remote, branch: selection.targetBranch})

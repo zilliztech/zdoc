@@ -124,6 +124,10 @@ function deterministicCommands(calls, options = {}) {
     calls.push([executable, ...args].join(' '))
     if (executable === 'pnpm' && args[0] === 'generate:localization-input-inventory') {
       fs.writeFileSync(path.join(cwd, 'deploy/contracts/localization-inputs.inventory.json'), '{"version":2}\n')
+      if (options.symlinkInventory) {
+        fs.rmSync(path.join(cwd, 'deploy/contracts/localization-inputs.inventory.json'))
+        fs.symlinkSync('../../generated/zh-CN/sidebars/python.sidebar.js', path.join(cwd, 'deploy/contracts/localization-inputs.inventory.json'))
+      }
       if (options.writeUnexpected) {
         fs.writeFileSync(path.join(cwd, 'unexpected.txt'), 'not allowed\n')
         if (options.stageUnexpected) git(cwd, ['add', 'unexpected.txt'])
@@ -137,6 +141,30 @@ function deterministicCommands(calls, options = {}) {
     }
     return {status: 0, stdout: '', stderr: ''}
   }
+}
+
+function advanceRemote(setup, message) {
+  const file = path.join(setup.repository, 'remote-advance.txt')
+  fs.appendFileSync(file, `${message}\n`)
+  git(setup.repository, ['add', 'remote-advance.txt'])
+  git(setup.repository, ['commit', '-m', message])
+  git(setup.repository, ['push', 'origin', 'dev'])
+  return git(setup.repository, ['rev-parse', 'HEAD'])
+}
+
+function rejectedCandidatePush(worktree) {
+  const pushed = spawnSync('git', ['-C', worktree, 'push', 'origin', 'HEAD:refs/heads/dev'], {encoding: 'utf8'})
+  assert.notEqual(pushed.status, 0, 'candidate push should be rejected after target drift')
+  throw new Error(pushed.stderr.trim() || 'candidate push rejected after target drift')
+}
+
+function assertNoReconciliationWorktrees(setup) {
+  const worktrees = git(setup.repository, ['worktree', 'list', '--porcelain'])
+    .split('\n')
+    .filter(line => line.startsWith('worktree '))
+    .map(line => fs.realpathSync(line.slice('worktree '.length)))
+  assert.deepEqual(worktrees, [fs.realpathSync(setup.repository)])
+  assert.deepEqual(fs.readdirSync(setup.runnerTemp), [])
 }
 
 test('reconciles inventory and only successful Chinese Reference sidebars in one CAS commit', async t => {
@@ -252,4 +280,150 @@ test('rejects unauthorized reconciliation paths that exist only in the index', a
   assert.equal(reconciled.status, 'publish_failed')
   assert.match(reconciled.failure.message, /unexpected\.txt|allowed/i)
   assert.equal(git(setup.repository, ['ls-remote', '--heads', 'origin', 'dev']).split(/\s+/)[0], setup.baseline)
+})
+
+test('recomposes after known target drift and publishes one final reconciliation commit', async t => {
+  const setup = fixture(t)
+  const selected = selection(setup.baseline, [unit(setup.baseline)])
+  const calls = []
+  let promotions = 0
+  let driftSha
+  const reconciled = await reconcileTranslationPublication({
+    selection: selected,
+    results: results(selected, setup.baseline),
+    repositoryRoot: setup.repository,
+    runnerTemp: setup.runnerTemp,
+    transactionContext: {dependencies: {
+      runCommand: deterministicCommands(calls),
+      promoteCandidate({worktree}) {
+        promotions += 1
+        if (promotions === 1) {
+          driftSha = advanceRemote(setup, 'advance before first reconciliation push')
+          return rejectedCandidatePush(worktree)
+        }
+        git(worktree, ['push', 'origin', 'HEAD:refs/heads/dev'])
+        return {status: 'published'}
+      },
+    }},
+  })
+  assert.equal(reconciled.status, 'published')
+  assert.equal(promotions, 2)
+  assert.equal(calls.filter(command => command === 'pnpm generate:localization-input-inventory').length, 2)
+  assert.equal(reconciled.commitShas.length, 1)
+  assert.equal(git(setup.repository, ['rev-parse', `${reconciled.resultSha}^`]), driftSha)
+  assert.equal(git(setup.repository, ['rev-list', '--count', `${driftSha}..${reconciled.resultSha}`]), '1')
+  assert.equal(git(setup.repository, ['merge-base', '--is-ancestor', driftSha, reconciled.resultSha]) === '', true)
+  assert.equal(git(setup.repository, ['ls-remote', '--heads', 'origin', 'dev']).split(/\s+/)[0], reconciled.resultSha)
+  assertNoReconciliationWorktrees(setup)
+})
+
+test('returns known TARGET_DRIFT_EXHAUSTED after bounded reconciliation drift and cleans worktrees', async t => {
+  const setup = fixture(t)
+  const selected = selection(setup.baseline, [unit(setup.baseline)])
+  const calls = []
+  let promotions = 0
+  const reconciled = await reconcileTranslationPublication({
+    selection: selected,
+    results: results(selected, setup.baseline),
+    repositoryRoot: setup.repository,
+    runnerTemp: setup.runnerTemp,
+    transactionContext: {maxAttempts: 2, dependencies: {
+      runCommand: deterministicCommands(calls),
+      promoteCandidate({worktree}) {
+        promotions += 1
+        advanceRemote(setup, `advance before reconciliation push ${promotions}`)
+        return rejectedCandidatePush(worktree)
+      },
+    }},
+  })
+  assert.equal(reconciled.status, 'publish_failed')
+  assert.equal(reconciled.remoteState, 'known')
+  assert.equal(reconciled.failure.code, 'TARGET_DRIFT_EXHAUSTED')
+  assert.equal(promotions, 2)
+  assert.equal(calls.filter(command => command === 'pnpm generate:localization-input-inventory').length, 2)
+  assertNoReconciliationWorktrees(setup)
+})
+
+test('treats an ambiguously reported but remotely contained reconciliation candidate as published', async t => {
+  const setup = fixture(t)
+  const selected = selection(setup.baseline, [unit(setup.baseline)])
+  let promotedSha
+  const reconciled = await reconcileTranslationPublication({
+    selection: selected,
+    results: results(selected, setup.baseline),
+    repositoryRoot: setup.repository,
+    runnerTemp: setup.runnerTemp,
+    transactionContext: {dependencies: {
+      runCommand: deterministicCommands([]),
+      afterWorktreeCleanup({worktree}) {
+        if (worktree.includes('translation-reconciliation-publication.')) throw new Error('injected publication cleanup warning')
+      },
+      promoteCandidate({candidate, worktree}) {
+        promotedSha = candidate.candidateSha
+        git(worktree, ['push', 'origin', 'HEAD:refs/heads/dev'])
+        throw new Error('connection closed after successful reconciliation push')
+      },
+    }},
+  })
+  assert.equal(reconciled.status, 'published')
+  assert.equal(reconciled.resultSha, promotedSha)
+  assert.deepEqual(reconciled.commitShas, [promotedSha])
+  assert.equal(git(setup.repository, ['ls-remote', '--heads', 'origin', 'dev']).split(/\s+/)[0], promotedSha)
+  assert.equal(git(setup.repository, ['rev-list', '--count', `${setup.baseline}..${promotedSha}`]), '1')
+  assert.equal(reconciled.cleanupDebt.length, 1)
+  assert.match(reconciled.cleanupDebt[0].message, /injected publication cleanup warning/)
+  assertNoReconciliationWorktrees(setup)
+})
+
+test('attempts both reconciliation worktree cleanups without masking the primary composition error', async t => {
+  const setup = fixture(t)
+  const selected = selection(setup.baseline, [unit(setup.baseline)])
+  const cleanupAttempts = []
+  const reconciled = await reconcileTranslationPublication({
+    selection: selected,
+    results: results(selected, setup.baseline),
+    repositoryRoot: setup.repository,
+    runnerTemp: setup.runnerTemp,
+    transactionContext: {dependencies: {
+      runCommand: deterministicCommands([], {symlinkInventory: true}),
+      afterWorktreeCleanup({worktree}) {
+        cleanupAttempts.push(path.basename(worktree))
+        if (cleanupAttempts.length === 1) throw new Error('injected first cleanup failure')
+      },
+    }},
+  })
+  assert.equal(reconciled.status, 'publish_failed')
+  assert.equal(reconciled.failure.code, 'COMPOSITION_FAILED')
+  assert.match(reconciled.failure.message, /regular non-symlink file/)
+  assert.doesNotMatch(reconciled.failure.message, /injected first cleanup failure/)
+  assert.equal(cleanupAttempts.length, 2)
+  assertNoReconciliationWorktrees(setup)
+})
+
+test('explicit zero reconciliation attempt limits reach the shared transaction validator', async t => {
+  const setup = fixture(t)
+  const selected = selection(setup.baseline, [unit(setup.baseline)])
+  await assert.rejects(reconcileTranslationPublication({
+    selection: selected,
+    results: results(selected, setup.baseline),
+    repositoryRoot: setup.repository,
+    runnerTemp: setup.runnerTemp,
+    transactionContext: {
+      maxAttempts: 0,
+      maxProbeAttempts: 0,
+      dependencies: {runCommand: deterministicCommands([])},
+    },
+  }), /maxAttempts.*1|integer from 1/i)
+  await assert.rejects(reconcileTranslationPublication({
+    selection: selected,
+    results: results(selected, setup.baseline),
+    repositoryRoot: setup.repository,
+    runnerTemp: setup.runnerTemp,
+    transactionContext: {
+      maxAttempts: 1,
+      maxProbeAttempts: 0,
+      dependencies: {runCommand: deterministicCommands([])},
+    },
+  }), /maxProbeAttempts.*1|integer from 1/i)
+  assertNoReconciliationWorktrees(setup)
 })
