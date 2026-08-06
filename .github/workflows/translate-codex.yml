@@ -299,15 +299,7 @@ jobs:
           NODE
           mkdir -p "$RUNNER_TEMP/guides-ready"
           if [[ "$BATCH_COUNT" == 0 ]]; then
-            RUNNER_TEMP="$RUNNER_TEMP" node - <<'NODE'
-            const fs = require('node:fs')
-            const root = `${process.env.RUNNER_TEMP}/guides-ready`
-            const plan = {schemaVersion: 1, group: 'guides', batchCount: 0, pendingSetSha256: process.env.PENDING_SET_SHA256, sourceCheckpointSha: process.env.SOURCE_CHECKPOINT_SHA, targetSha: process.env.EXPECTED_TARGET_SHA}
-            const manifest = {schemaVersion: 1, stage: 'translation-guides-batch-set', group: 'guides', runId: Number(process.env.GITHUB_RUN_ID), runAttempt: Number(process.env.GITHUB_RUN_ATTEMPT), sourceCheckpointSha: process.env.SOURCE_CHECKPOINT_SHA, toolingSha: process.env.TOOLING_SHA, targetSha: process.env.EXPECTED_TARGET_SHA, batchCount: 0, pendingSetSha256: process.env.PENDING_SET_SHA256}
-            fs.writeFileSync(`${root}/translation-plan.json`, `${JSON.stringify(plan)}\n`)
-            fs.writeFileSync(`${root}/checkpoint-manifest.json`, `${JSON.stringify(manifest)}\n`)
-            fs.writeFileSync(`${root}/baseline-manifest.json`, `${JSON.stringify(manifest)}\n`)
-            NODE
+            RUNNER_TEMP="$RUNNER_TEMP" node -e 'const fs = require("node:fs"); const root = process.env.RUNNER_TEMP + "/guides-ready"; const plan = {schemaVersion: 1, group: "guides", batchCount: 0, pendingSetSha256: process.env.PENDING_SET_SHA256, sourceCheckpointSha: process.env.SOURCE_CHECKPOINT_SHA, targetSha: process.env.EXPECTED_TARGET_SHA}; const manifest = {schemaVersion: 1, stage: "translation-guides-batch-set", group: "guides", runId: Number(process.env.GITHUB_RUN_ID), runAttempt: Number(process.env.GITHUB_RUN_ATTEMPT), sourceCheckpointSha: process.env.SOURCE_CHECKPOINT_SHA, toolingSha: process.env.TOOLING_SHA, targetSha: process.env.EXPECTED_TARGET_SHA, batchCount: 0, pendingSetSha256: process.env.PENDING_SET_SHA256}; fs.writeFileSync(root + "/translation-plan.json", JSON.stringify(plan) + "\n"); fs.writeFileSync(root + "/checkpoint-manifest.json", JSON.stringify(manifest) + "\n"); fs.writeFileSync(root + "/baseline-manifest.json", JSON.stringify(manifest) + "\n");'
           else
           node scripts/docs-workflow/translation-artifact-pairs.js \
             --checkpoints-root "$RUNNER_TEMP/translation-checkpoints" \
@@ -357,31 +349,31 @@ jobs:
           fs.writeFileSync(`${process.env.RUNNER_TEMP}/guides-ready/baseline-manifest.json`, `${JSON.stringify(manifest)}\n`)
           NODE
           fi
-          mkdir -p "$RUNNER_TEMP/guides-ready/checkpoint-group/batches" "$RUNNER_TEMP/guides-ready/baseline-group/batches"
-          cp "$RUNNER_TEMP/guides-ready/checkpoint-manifest.json" "$RUNNER_TEMP/guides-ready/checkpoint-group/manifest.json"
-          cp "$RUNNER_TEMP/guides-ready/baseline-manifest.json" "$RUNNER_TEMP/guides-ready/baseline-group/manifest.json"
-          cp "$RUNNER_TEMP/guides-ready/translation-plan.json" "$RUNNER_TEMP/guides-ready/checkpoint-group/translation-plan.json"
-          cp "$RUNNER_TEMP/guides-ready/translation-plan.json" "$RUNNER_TEMP/guides-ready/baseline-group/translation-plan.json"
+          mkdir -p "$RUNNER_TEMP/guides-ready/checkpoint/checkpoint-group/batches" "$RUNNER_TEMP/guides-ready/baseline/checkpoint-group/batches"
+          cp "$RUNNER_TEMP/guides-ready/checkpoint-manifest.json" "$RUNNER_TEMP/guides-ready/checkpoint/checkpoint-group/manifest.json"
+          cp "$RUNNER_TEMP/guides-ready/baseline-manifest.json" "$RUNNER_TEMP/guides-ready/baseline/checkpoint-group/manifest.json"
+          cp "$RUNNER_TEMP/guides-ready/translation-plan.json" "$RUNNER_TEMP/guides-ready/checkpoint/checkpoint-group/translation-plan.json"
+          cp "$RUNNER_TEMP/guides-ready/translation-plan.json" "$RUNNER_TEMP/guides-ready/baseline/checkpoint-group/translation-plan.json"
           if [[ "$BATCH_COUNT" != 0 ]]; then
-            cp -a "$RUNNER_TEMP/translation-checkpoints/." "$RUNNER_TEMP/guides-ready/checkpoint-group/batches/"
-            cp -a "$RUNNER_TEMP/translation-baselines/." "$RUNNER_TEMP/guides-ready/baseline-group/batches/"
+            cp -a "$RUNNER_TEMP/translation-checkpoints/." "$RUNNER_TEMP/guides-ready/checkpoint/checkpoint-group/batches/"
+            cp -a "$RUNNER_TEMP/translation-baselines/." "$RUNNER_TEMP/guides-ready/baseline/checkpoint-group/batches/"
           fi
-          tar -cf "$RUNNER_TEMP/guides-ready/checkpoint-group.tar" -C "$RUNNER_TEMP/guides-ready" checkpoint-group
-          tar -cf "$RUNNER_TEMP/guides-ready/baseline-group.tar" -C "$RUNNER_TEMP/guides-ready" baseline-group
+          tar -cf "$RUNNER_TEMP/guides-ready/checkpoint/checkpoint-group.tar" -C "$RUNNER_TEMP/guides-ready/checkpoint" checkpoint-group
+          tar -cf "$RUNNER_TEMP/guides-ready/baseline/checkpoint-group.tar" -C "$RUNNER_TEMP/guides-ready/baseline" checkpoint-group
       - name: Upload Guides translation checkpoint
         uses: actions/upload-artifact@v6
         with:
           name: translation-checkpoint-ja-JP-guides-${{ github.run_id }}
-          path: ${{ runner.temp }}/guides-ready/checkpoint-group.tar
+          path: ${{ runner.temp }}/guides-ready/checkpoint/checkpoint-group.tar
           if-no-files-found: error
       - name: Upload Guides translation baseline
         uses: actions/upload-artifact@v6
         with:
           name: translation-baseline-ja-JP-guides-${{ github.run_id }}
-          path: ${{ runner.temp }}/guides-ready/baseline-group.tar
+          path: ${{ runner.temp }}/guides-ready/baseline/checkpoint-group.tar
           if-no-files-found: error
       - name: Create immutable Translation ready descriptor
-        run: node scripts/docs-workflow/translation-publication-selection.js ready --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" --unit-key translation/ja-JP/guides --checkpoint-archive "$RUNNER_TEMP/guides-ready/checkpoint-group.tar" --checkpoint-manifest "$RUNNER_TEMP/guides-ready/checkpoint-manifest.json" --baseline-archive "$RUNNER_TEMP/guides-ready/baseline-group.tar" --baseline-manifest "$RUNNER_TEMP/guides-ready/baseline-manifest.json" --output "$RUNNER_TEMP/guides-ready/publication-ready.json"
+        run: node scripts/docs-workflow/translation-publication-selection.js ready --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" --unit-key translation/ja-JP/guides --checkpoint-archive "$RUNNER_TEMP/guides-ready/checkpoint/checkpoint-group.tar" --checkpoint-manifest "$RUNNER_TEMP/guides-ready/checkpoint-manifest.json" --baseline-archive "$RUNNER_TEMP/guides-ready/baseline/checkpoint-group.tar" --baseline-manifest "$RUNNER_TEMP/guides-ready/baseline-manifest.json" --output "$RUNNER_TEMP/guides-ready/publication-ready.json"
       - name: Upload immutable Translation ready descriptor
         uses: actions/upload-artifact@v6
         with:

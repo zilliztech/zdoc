@@ -293,13 +293,25 @@ jobs:
         uses: actions/upload-artifact@v6
         with: { name: 'translation-baseline-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: '${{ runner.temp }}/baseline/checkpoint-group.tar', retention-days: '${{ inputs.artifact_retention_days }}' }
       - name: Create immutable Translation ready descriptor
+        id: publication_ready
         if: ${{ inputs.batch_number == 0 && steps.translation_upload.outcome == 'success' && steps.baseline_upload.outcome == 'success' }}
-        run: node scripts/docs-workflow/translation-publication-selection.js ready --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" --unit-key "$PUBLICATION_UNIT_KEY" --checkpoint-archive "$RUNNER_TEMP/checkpoint/checkpoint-group.tar" --checkpoint-manifest "$RUNNER_TEMP/checkpoint/manifest.json" --baseline-archive "$RUNNER_TEMP/baseline/checkpoint-group.tar" --baseline-manifest "$RUNNER_TEMP/baseline/manifest.json" --output "$RUNNER_TEMP/publication-ready/publication-ready.json"
+        run: |
+          set -euo pipefail
+          unit_token=${PUBLICATION_UNIT_KEY//\//-}
+          node scripts/docs-workflow/translation-publication-selection.js ready \
+            --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" \
+            --unit-key "$PUBLICATION_UNIT_KEY" \
+            --checkpoint-archive "$RUNNER_TEMP/checkpoint/checkpoint-group.tar" \
+            --checkpoint-manifest "$RUNNER_TEMP/checkpoint/manifest.json" \
+            --baseline-archive "$RUNNER_TEMP/baseline/checkpoint-group.tar" \
+            --baseline-manifest "$RUNNER_TEMP/baseline/manifest.json" \
+            --output "$RUNNER_TEMP/publication-ready/publication-ready.json"
+          echo "artifact_name=publication-ready-translation-$unit_token-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" >> "$GITHUB_OUTPUT"
       - name: Upload immutable Translation ready descriptor
         if: ${{ inputs.batch_number == 0 && steps.translation_upload.outcome == 'success' && steps.baseline_upload.outcome == 'success' }}
         uses: actions/upload-artifact@v6
         with:
-          name: publication-ready-translation-${{ replace(inputs.publication_unit_key, '/', '-') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ steps.publication_ready.outputs.artifact_name }}
           path: ${{ runner.temp }}/publication-ready/publication-ready.json
           if-no-files-found: error
       - name: Emit translation result

@@ -224,14 +224,21 @@ function validateTranslationReadyProducer({workflow, source, file, errors}) {
   ].every(fragment => validationRun.includes(fragment))
   if (!exactUnitIdentity) errors.push(`${file}: Translation producer must authenticate the exact selected unit identity`)
   const validDescriptor = checkpoint >= 0 && baseline > checkpoint && ready > baseline && upload > ready &&
+    steps[ready]?.id === 'publication_ready' &&
     /translation-publication-selection\.js ready/.test(readyRun) &&
     /--selection "\$RUNNER_TEMP\/publication-selection\/publication-selection\.json"/.test(readyRun) &&
     /--unit-key "\$PUBLICATION_UNIT_KEY"/.test(readyRun) &&
     /--checkpoint-archive "\$RUNNER_TEMP\/checkpoint\/checkpoint-group\.tar"/.test(readyRun) &&
     /--baseline-archive "\$RUNNER_TEMP\/baseline\/checkpoint-group\.tar"/.test(readyRun) &&
-    steps[upload]?.uses === 'actions/upload-artifact@v6'
+    readyRun.includes('unit_token=${PUBLICATION_UNIT_KEY//\\//-}') &&
+    readyRun.includes('artifact_name=publication-ready-translation-$unit_token-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT') &&
+    /artifact_name=publication-ready-translation-\$unit_token-\$GITHUB_RUN_ID-\$GITHUB_RUN_ATTEMPT" >> "\$GITHUB_OUTPUT"/.test(readyRun) &&
+    steps[upload]?.uses === 'actions/upload-artifact@v6' &&
+    steps[upload]?.with?.name === '${{ steps.publication_ready.outputs.artifact_name }}'
   if (!validDescriptor) errors.push(`${file}: Translation producer must upload checkpoint and baseline artifacts before its bound ready descriptor`)
-  if (steps[upload]?.with?.name !== "publication-ready-translation-${{ replace(inputs.publication_unit_key, '/', '-') }}-${{ github.run_id }}-${{ github.run_attempt }}") {
+  if (!readyRun.includes('artifact_name=publication-ready-translation-$unit_token-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT') ||
+      !/artifact_name=publication-ready-translation-\$unit_token-\$GITHUB_RUN_ID-\$GITHUB_RUN_ATTEMPT" >> "\$GITHUB_OUTPUT"/.test(readyRun) ||
+      steps[upload]?.with?.name !== '${{ steps.publication_ready.outputs.artifact_name }}') {
     errors.push(`${file}: Translation producer ready artifact name must use the normalized unit token and run attempt`)
   }
   if (workflow.permissions?.contents !== 'read' || /git push|contents: write/.test(source)) {
@@ -1030,7 +1037,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         !String(guidesReady?.if || '').includes("batch_count != '0'") &&
         ['if [[ "$BATCH_COUNT" == 0 ]]', 'batchCount: 0', 'runAttempt: Number(process.env.GITHUB_RUN_ATTEMPT)',
           'pendingSetSha256: process.env.PENDING_SET_SHA256', 'checkpoint-manifest.json', 'baseline-manifest.json',
-          'checkpoint-group/manifest.json', 'baseline-group/manifest.json', 'checkpoint-group.tar', 'baseline-group.tar']
+          'checkpoint/checkpoint-group/manifest.json', 'baseline/checkpoint-group/manifest.json',
+          'checkpoint/checkpoint-group.tar', 'baseline/checkpoint-group.tar',
+          'tar -cf "$RUNNER_TEMP/guides-ready/checkpoint/checkpoint-group.tar" -C "$RUNNER_TEMP/guides-ready/checkpoint" checkpoint-group',
+          'tar -cf "$RUNNER_TEMP/guides-ready/baseline/checkpoint-group.tar" -C "$RUNNER_TEMP/guides-ready/baseline" checkpoint-group']
           .every(fragment => guidesReadyRun.includes(fragment)) &&
         guidesReadyDescriptor?.with?.name === 'publication-ready-translation-translation-ja-JP-guides-${{ github.run_id }}-${{ github.run_attempt }}'
       if (!guidesReadyBindings) {

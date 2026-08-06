@@ -185,3 +185,42 @@ test('rejects a Japanese checkpoint manifest for a selected Chinese Reference un
     fs.rmSync(fixture.root, {recursive: true, force: true})
   }
 })
+
+test('builds a no-changes ready descriptor for an authenticated zero-batch Guides set', () => {
+  const guideHandoff = {...handoff(), group: 'guides', units: [handoff().units[0]]}
+  const selection = buildTranslationPublicationSelection(selectionInput({handoff: guideHandoff}))
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-publication-guides-empty-'))
+  const checkpointArchive = path.join(root, 'checkpoint-group.tar')
+  const baselineArchive = path.join(root, 'baseline-group.tar')
+  const checkpointManifest = path.join(root, 'checkpoint-manifest.json')
+  const baselineManifest = path.join(root, 'baseline-manifest.json')
+  const manifest = {
+    schemaVersion: 1,
+    stage: 'translation-guides-batch-set',
+    group: 'guides',
+    runId: RUN_ID,
+    runAttempt: 2,
+    sourceCheckpointSha: 'e'.repeat(40),
+    toolingSha: SHA_A,
+    targetSha: SHA_B,
+    batchCount: 0,
+    pendingSetSha256: 'a'.repeat(64),
+  }
+  try {
+    fs.writeFileSync(checkpointArchive, 'empty checkpoint archive')
+    fs.writeFileSync(baselineArchive, 'empty baseline archive')
+    fs.writeFileSync(checkpointManifest, `${JSON.stringify(manifest)}\n`)
+    fs.writeFileSync(baselineManifest, `${JSON.stringify(manifest)}\n`)
+    const ready = buildTranslationPublicationReady({selection, unitKey: 'translation/ja-JP/guides', checkpointArchive, checkpointManifest, baselineArchive, baselineManifest})
+    assert.equal(ready.outcome, 'no_changes_candidate')
+    assert.equal(ready.artifacts.checkpoint.name, `translation-checkpoint-ja-JP-guides-${RUN_ID}`)
+    assert.equal(ready.artifacts.baseline.name, `translation-baseline-ja-JP-guides-${RUN_ID}`)
+    assert.equal(ready.artifacts.checkpoint.manifestSha256, crypto.createHash('sha256').update(fs.readFileSync(checkpointManifest)).digest('hex'))
+    assert.equal(ready.artifacts.baseline.manifestSha256, crypto.createHash('sha256').update(fs.readFileSync(baselineManifest)).digest('hex'))
+    manifest.runAttempt = 3
+    fs.writeFileSync(baselineManifest, `${JSON.stringify(manifest)}\n`)
+    assert.throws(() => buildTranslationPublicationReady({selection, unitKey: 'translation/ja-JP/guides', checkpointArchive, checkpointManifest, baselineArchive, baselineManifest}), /batch-set manifest.*selected identity/i)
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true})
+  }
+})

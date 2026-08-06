@@ -2579,8 +2579,11 @@ test('Translation producers bind one immutable selection and emit ready descript
   assert.equal(reusable.jobs.translate.env.PUBLICATION_UNIT_KEY, '${{ inputs.publication_unit_key }}')
   assert.ok(checkpoint >= 0 && baseline > checkpoint && ready > baseline && upload > ready)
   assert.match(reusableSteps[ready].run, /translation-publication-selection\.js ready/)
+  assert.equal(reusableSteps[ready].id, 'publication_ready')
+  assert.match(reusableSteps[ready].run, /unit_token=\$\{PUBLICATION_UNIT_KEY\/\/\\\/\/-\}/)
+  assert.match(reusableSteps[ready].run, /artifact_name=publication-ready-translation-\$unit_token-\$GITHUB_RUN_ID-\$GITHUB_RUN_ATTEMPT/)
   assert.equal(reusableSteps[upload].uses, 'actions/upload-artifact@v6')
-  assert.equal(reusableSteps[upload].with.name, "publication-ready-translation-${{ replace(inputs.publication_unit_key, '/', '-') }}-${{ github.run_id }}-${{ github.run_attempt }}")
+  assert.equal(reusableSteps[upload].with.name, '${{ steps.publication_ready.outputs.artifact_name }}')
   assert.match(validate.run, /selected\.target !== process\.env\.TRANSLATION_TARGET/)
   assert.match(validate.run, /selected\.group !== process\.env\.GROUP/)
   assert.match(validate.run, /selected\.toolingSha !== process\.env\.TOOLING_SHA/)
@@ -2619,6 +2622,8 @@ test('Translation producers bind one immutable selection and emit ready descript
   assert.match(fanInSource, /baseline-manifest\.json/)
   assert.match(fanInSource, /checkpoint-manifest\.json[\s\S]*checkpoint-group\/manifest\.json/)
   assert.match(fanInSource, /tar -cf .*checkpoint-group\.tar[\s\S]*checkpoint-group/)
+  assert.equal(fanIn.steps.find(step => step.name === 'Upload Guides translation checkpoint').with.path, '${{ runner.temp }}/guides-ready/checkpoint/checkpoint-group.tar')
+  assert.equal(fanIn.steps.find(step => step.name === 'Upload Guides translation baseline').with.path, '${{ runner.temp }}/guides-ready/baseline/checkpoint-group.tar')
   assert.equal(fanIn.steps.find(step => step.name === 'Upload immutable Translation ready descriptor').with.name,
     'publication-ready-translation-translation-ja-JP-guides-${{ github.run_id }}-${{ github.run_attempt }}')
   assert.doesNotMatch(fanInSource, /git push|staging/)
@@ -2653,12 +2658,12 @@ test('workflow policy rejects Translation selection and ready-descriptor wiring 
       'translate-codex.yml: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests',
     ))
 
-    fs.writeFileSync(workflow, workflowSource.replace('cp "$RUNNER_TEMP/guides-ready/checkpoint-manifest.json" "$RUNNER_TEMP/guides-ready/checkpoint-group/manifest.json"', ''))
+    fs.writeFileSync(workflow, workflowSource.replace('cp "$RUNNER_TEMP/guides-ready/checkpoint-manifest.json" "$RUNNER_TEMP/guides-ready/checkpoint/checkpoint-group/manifest.json"', ''))
     assert.ok(validateWorkflowPolicies(directory).includes(
       'translate-codex.yml: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests',
     ))
 
-    fs.writeFileSync(producer, producerSource.replace("publication-ready-translation-${{ replace(inputs.publication_unit_key, '/', '-') }}-${{ github.run_id }}-${{ github.run_attempt }}", 'publication-ready-translation-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}'))
+    fs.writeFileSync(producer, producerSource.replace('artifact_name=publication-ready-translation-$unit_token-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT', 'artifact_name=publication-ready-translation-$unit_token-$GITHUB_RUN_ID'))
     assert.ok(validateWorkflowPolicies(directory).includes(
       '_translate-content-group.yml: Translation producer ready artifact name must use the normalized unit token and run attempt',
     ))
