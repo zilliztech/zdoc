@@ -62,7 +62,7 @@ Safelist the IP addresses corresponding to the cloud service provider and region
 | us-east4 | Virginia, USA | `35.245.190.186`, `35.245.51.241` |
 | us-central1 | Iowa, USA | `34.49.219.2`, `34.98.66.206`, `35.190.6.159`, `34.149.186.202` |
 | asia-southeast1 | Singapore | `34.87.102.210`, `35.197.139.186` |
-| asia-northeast1 | Tokyo, Japan |  |
+| asia-northeast1 | Tokyo, Japan | `34.146.53.58`, `34.104.208.246` |
 | europe-west3 | Frankfurt, Germany | `34.107.41.158`, `34.141.61.171` |
 
 ### Azure\{#azure}

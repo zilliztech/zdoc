@@ -58,8 +58,9 @@ You need to configure the following information of the Dedicated cluster.
 | **Cluster Name** | Assign a unique identifier for your cluster. |
 | **Cluster Description (optional)** | Enter the description of your cluster, up to 255 characters. |
 | **Cluster Type** | Select a cluster type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right Cluster Type](./cu-types-explained). To select a Tiered-storage cluster, your cluster must have at least 8 query CUs. |
-| **Query CU** | Select the number of query CUs of the cluster. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured. |
+| **Query CU** | Select the number of query CUs of the cluster. For organizations created with a personal email address, the maximum query CU size for a Dedicated cluster is 32, even if a payment method is configured.<br/>If you are creating a cluster in an Enterprise project, auto-scaling is enabled by default. You can configure the minimum and maximum number of Query CUs for auto-scaling by entering values in the input boxes or dragging the slider. For details about auto-scaling, see [Auto-scaling](./auto-scaling). |
 | **Backup Policy (optional)** | Decide the automatic backup policy for the cluster to create. For more details about the backup policy, see [Schedule Automatic Backups](./schedule-automatic-backups). |
+| **Replica** | The number of replicas of the cluster. |
 
 While the cluster is being created, you need to save the cluster credentials (user and password) which will be shown only once. 
 

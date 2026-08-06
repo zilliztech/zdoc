@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Last updated July 6, 2026 | Cloud"
+description: "Last updated Aug 6, 2026 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 1
@@ -22,7 +22,7 @@ import Grid from '@site/src/components/Grid';
 
 # Changelogs
 
-**Last updated:** July 6, 2026
+**Last updated:** Aug 6, 2026
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -41,6 +41,38 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **Aug 6, 2026**
+
+    </div>
+
+    <div>
+
+        - **New Region**: 🇯🇵 Tokyo, Japan (GCP)
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **Aug 3, 2026**
+
+    </div>
+
+    <div>
+
+        - **New Region**: 🇬🇧 London, United Kingdom (AWS)
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 

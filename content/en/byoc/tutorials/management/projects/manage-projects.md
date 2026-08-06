@@ -130,12 +130,6 @@ Before you delete a project, you must drop all [clusters](./manage-cluster#drop)
 
 Once a project is deleted, all its associated data and resources will be irreversibly cleaned as well.
 
-<Admonition type="info" icon="📘" title="📘 Notes">
-
-The default project cannot be deleted.
-
-</Admonition>
-
 You can delete a project via the web console.
 
 ![delete-project-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-project-byoc.png "delete-project-byoc")

@@ -137,6 +137,32 @@ If your project is on the **Business Critical** plan, you can add more regions t
 
     ![Cw14w6V8Ih4QqWbuYstcKqjVnUx](https://zdoc-images.s3.us-west-2.amazonaws.com/Cw14w6V8Ih4QqWbuYstcKqjVnUx.png)
 
+## Delete project regions\{#delete-project-regions}
+
+You can remove regions from a multi-region project.
+
+- **Via RESTful API**
+
+    ```bash
+    curl -i --request DELETE \
+        --url "https://${BASE_URL}/v2/projects/proj-a0195d6acacaf2bb985173/regions/gcp-us-west1" \
+        --header "Authorization: Bearer ${API_KEY}" \
+        --header "accept: application/json"
+    ```
+
+    The following is an example output.
+
+    ```bash
+    {
+      "code": 0,
+      "data": ["aws-us-west-2"]
+    } 
+    ```
+
+- **Via Web console**
+
+    ![DpQXwPmA9hnquubow8UcnFnQn9c](https://zdoc-images.s3.us-west-2.amazonaws.com/DpQXwPmA9hnquubow8UcnFnQn9c.png)
+
 ## Upgrade a project\{#upgrade-a-project}
 
 To unlock for advanced features, you can upgrade the plan of your existing projects.
@@ -280,12 +306,6 @@ To delete a project, you must be an [Organization Owner](./organization-users).
 Before you delete a project, you must drop all [clusters](./manage-cluster#drop) and [volumes](./managed-volume) within the project.
 
 Once a project is deleted, all its associated data and resources will be irreversibly cleaned as well.
-
-<Admonition type="info" icon="📘" title="📘 Notes">
-
-The default project cannot be deleted.
-
-</Admonition>
 
 You can delete a project via the web console.
 
