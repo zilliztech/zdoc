@@ -216,30 +216,15 @@ async function compose({latestDevSha, inputs: rawInputs}) {
   }
 }
 
-function materializeCandidateUnit(validationWorktree, candidate) {
-  const paths = [...new Set([
-    ...candidate.checkpoint.files.map(entry => entry.path),
-    ...candidate.checkpoint.deletions,
-  ])]
-  for (const relative of paths) {
-    const exists = git(candidate.repositoryRoot, ['cat-file', '-e', `${candidate.candidateSha}:${relative}`], {allowFailure: true}).status === 0
-    const target = path.join(validationWorktree, ...relative.split('/'))
-    if (!exists) fs.rmSync(target, {recursive: true, force: true})
-    else {
-      const bytes = git(candidate.repositoryRoot, ['show', `${candidate.candidateSha}:${relative}`], {buffer: true}).stdout
-      fs.mkdirSync(path.dirname(target), {recursive: true})
-      fs.writeFileSync(target, bytes)
-    }
-  }
-}
-
 async function validate({candidate}) {
   let validationWorktree = null
   const receipts = []
   try {
     validationWorktree = createWorktree(candidate.repositoryRoot, candidate.runnerTemp, 'translation-validation.', candidate.unit.toolingSha)
     linkDependencies(candidate.dependencyRoot, validationWorktree)
-    materializeCandidateUnit(validationWorktree, candidate)
+    command(validationWorktree, 'bash', [path.join(__dirname, '../restore-generated-state.sh'), '--exact', '--ref', candidate.candidateSha], {
+      environment: candidate.environment,
+    })
     for (const validationCommand of candidate.unit.validationCommands) {
       const startedAt = candidate.now().toISOString()
       const result = command(validationWorktree, 'bash', ['-o', 'errexit', '-o', 'nounset', '-o', 'pipefail', '-c', validationCommand], {

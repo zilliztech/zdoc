@@ -426,6 +426,50 @@ test('translation checkpoint publication authenticates the baseline and returns 
   }])
 })
 
+test('translation validation failure preserves its nonzero receipt and never pushes', async t => {
+  const fixture = setup()
+  t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
+  const facts = translationCheckpoint(fixture, workspace => {
+    put(workspace, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', 'new\n')
+  })
+  const translationUnit = unit(facts, {
+    unitKey: 'translation/ja-JP/guides',
+    strategy: 'checkpoint',
+    target: 'ja-JP',
+    sourceCheckpointSha: facts.baselineSha,
+    validationCommands: ['exit 7'],
+  })
+  const before = git(fixture.remote, 'rev-parse', 'refs/heads/dev')
+  let pushes = 0
+
+  const result = await publish(fixture, facts, {
+    baselineDir: facts.baselineDir,
+    unit: translationUnit,
+    dependencies: {pushCandidate() { pushes += 1 }},
+  })
+
+  assert.equal(result.status, 'publish_failed')
+  assert.equal(result.remoteState, 'known')
+  assert.equal(result.failure.code, 'VALIDATION_FAILED')
+  assert.equal(result.failure.phase, 'validate')
+  assert.equal(result.validationReceipts.length, 1)
+  const [receipt] = result.validationReceipts
+  assert.deepEqual({...receipt, startedAt: '<time>', completedAt: '<time>', candidateSha: '<sha>'}, {
+    command: 'exit 7',
+    exitCode: 7,
+    startedAt: '<time>',
+    completedAt: '<time>',
+    candidateSha: '<sha>',
+    target: 'ja-JP',
+    group: 'guides',
+    sourceCheckpointSha: facts.baselineSha,
+    toolingSha: facts.baselineSha,
+  })
+  assert.match(receipt.candidateSha, /^[0-9a-f]{40}$/)
+  assert.equal(pushes, 0)
+  assert.equal(git(fixture.remote, 'rev-parse', 'refs/heads/dev'), before)
+})
+
 test('translation checkpoint publication rejects missing or mismatched baselines before any push', async t => {
   const fixture = setup()
   t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))

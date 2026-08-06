@@ -25,6 +25,7 @@ function transaction(options = {}) {
     async validate(context) {
       contexts.validate = context
       calls.push(['validate', context.candidate.candidateSha])
+      if (options.validationError) throw options.validationError
       return {validationReceipts: [{kind: 'test', candidateSha: context.candidate.candidateSha}]}
     },
     async promote(context) {
@@ -110,6 +111,22 @@ test('exact candidate push validates and publishes the composed candidate', asyn
   assert.equal(Object.isFrozen(fixture.contexts.compose.inputs), true)
   assert.equal(Object.isFrozen(fixture.contexts.validate.candidate), true)
   assert.equal(Object.isFrozen(fixture.contexts.promote), true)
+})
+
+test('validation failure preserves exact receipts and never promotes', async () => {
+  const receipt = {kind: 'test', candidateSha: SHA('b'), exitCode: 7}
+  const validationError = new Error('validation failed')
+  validationError.validationReceipts = [receipt]
+  const fixture = transaction({validationError})
+
+  const result = await fixture.run()
+
+  assert.equal(result.status, 'publish_failed')
+  assert.equal(result.remoteState, 'known')
+  assert.equal(result.failure.code, 'VALIDATION_FAILED')
+  assert.equal(result.failure.phase, 'validate')
+  assert.deepEqual(result.validationReceipts, [receipt])
+  assert.deepEqual(fixture.calls.map(([name]) => name), ['compose', 'validate'])
 })
 
 test('candidate commit SHAs are valid, unique, and contain the candidate before validation or promotion', async () => {

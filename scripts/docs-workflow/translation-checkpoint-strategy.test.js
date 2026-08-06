@@ -201,3 +201,25 @@ test('validate runs pinned commands against the candidate and returns exact rece
     toolingSha: fixture.baselineSha,
   }])
 })
+
+test('validate uses pinned tooling with the complete generated state from the exact candidate', async t => {
+  const fixture = setup()
+  t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
+  put(fixture.repository, 'content/en/reference/latest-generated.md', 'latest generated\n')
+  put(fixture.repository, 'tooling.txt', 'latest tooling\n')
+  git(fixture.repository, 'add', '.')
+  git(fixture.repository, 'commit', '-m', 'latest generated state and tooling')
+  const latestDevSha = git(fixture.repository, 'rev-parse', 'HEAD')
+  const strategyInputs = await inputs(fixture, artifactValues('new\n'), artifactValues(), {
+    validationCommands: [
+      'test "$(cat content/en/reference/latest-generated.md)" = "latest generated"',
+      'test "$(cat tooling.txt)" = "pinned"',
+      'test "$(cat i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md)" = "new"',
+    ],
+  })
+  const candidate = await translationCheckpointStrategy.compose({latestDevSha, inputs: strategyInputs})
+
+  const validation = await translationCheckpointStrategy.validate({candidate})
+
+  assert.deepEqual(validation.validationReceipts.map(receipt => receipt.exitCode), [0, 0, 0])
+})
