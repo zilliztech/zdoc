@@ -45,6 +45,7 @@ LABEL org.opencontainers.image.source="https://github.com/zilliztech/zdoc" \
 
 COPY --from=build /app/build/en/ /usr/share/nginx/html/
 COPY deploy/en/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --chmod=755 deploy/runtime/40-zdoc-env.sh /docker-entrypoint.d/40-zdoc-env.sh
+COPY deploy/runtime/40-zdoc-env.sh /docker-entrypoint.d/40-zdoc-env.sh
+RUN chmod 755 /docker-entrypoint.d/40-zdoc-env.sh
 
 EXPOSE 80
