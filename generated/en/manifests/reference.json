@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "a0332ca28c3db0bda69c173541d43c7920e139b3",
+  "sourceCommit": "9b2258903ccce4379422b1a42968ec5b51516ae1",
   "records": [
     {
       "manual": "cli",
@@ -675,7 +675,7 @@
     {
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/go.md",
-      "sourceHash": "a4cc81b2498dbc1044da9bf46d61754b0e15751ab6c94e6811db33f4b92394f6"
+      "sourceHash": "9d60b58a137f5fd8ceb2368b7b55c848f07ee0969351913fe030110764ecc72c"
     },
     {
       "manual": "go",
@@ -1355,7 +1355,7 @@
     {
       "manual": "java",
       "sourcePath": "content/en/reference/api/java/java/java.md",
-      "sourceHash": "1884882c3436cb5aa58d42aa29300a8980b2cbf92eeadfa9e60c5ec414fa228e"
+      "sourceHash": "048ea1cc6142e8b454028f5378a0aac6e03d99b9c5b6f745b4359f143c266408"
     },
     {
       "manual": "java",
@@ -3365,7 +3365,7 @@
     {
       "manual": "node",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/nodejs.md",
-      "sourceHash": "f1edda91a68942c823449d7db1e2ada963634774c3823bc527db0e778c909893"
+      "sourceHash": "24fb47df6081d24fc3372f2a69627538bab1473fb7e8e2e15348dfe4e78f332f"
     },
     {
       "manual": "python",
@@ -5025,7 +5025,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/python.md",
-      "sourceHash": "cad123d0bf69f9214edb2436dec8e1cbe449300c820d2e592ed4278619060a2c"
+      "sourceHash": "b425d9a120d21593587828e77078279204a12d38c20f6de7593212d54a6be458"
     },
     {
       "manual": "rest",
