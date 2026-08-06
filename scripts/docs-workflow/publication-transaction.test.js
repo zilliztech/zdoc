@@ -200,13 +200,16 @@ test('an ambiguous push whose remote descendant contains the candidate succeeds'
 
 test('probe-confirmed publication runs deferred cleanup after the probe and reports cleanup debt', async () => {
   const events = []
+  const localDebt = {kind: 'local_worktree_cleanup_failed', expectedSha: SHA('b')}
   const debt = {kind: 'lease_mismatch', stagingRef: 'refs/heads/diagnostic', expectedSha: SHA('b'), actualSha: SHA('e')}
+  const promotionError = new Error('connection closed')
+  promotionError.cleanupDebt = [localDebt]
   const fixture = transaction({
-    promotions: [new Error('connection closed')],
+    promotions: [promotionError],
     probes: [() => { events.push('probe'); return {remoteSha: SHA('b'), containsCandidate: true} }],
     confirmedPromotionCleanup: async () => {
       events.push('cleanup')
-      return {cleanupDebt: [debt]}
+      return {cleanupDebt: [localDebt, debt]}
     },
   })
 
@@ -214,7 +217,7 @@ test('probe-confirmed publication runs deferred cleanup after the probe and repo
 
   assert.equal(result.status, 'published')
   assert.deepEqual(events, ['probe', 'cleanup'])
-  assert.deepEqual(result.cleanupDebt, [debt])
+  assert.deepEqual(result.cleanupDebt, [localDebt, debt])
 })
 
 test('direct publication runs deferred cleanup only after the complete response is accepted', async () => {
@@ -316,6 +319,7 @@ test('a known unchanged remote rejects the candidate without retrying', async ()
   assert.equal(result.failure.code, 'PUSH_FAILED')
   assert.equal(result.failure.retryable, false)
   assert.equal(cleanupCalls, 0)
+  assert.deepEqual(result.cleanupDebt, [])
 })
 
 test('known target drift recomposes, revalidates, and retries', async () => {
@@ -341,12 +345,15 @@ test('known target drift recomposes, revalidates, and retries', async () => {
 })
 
 test('target drift retains only the unconfirmed attempt debt after the next attempt publishes', async () => {
+  const localDebt = {kind: 'local_worktree_cleanup_failed', expectedSha: SHA('b')}
   const firstDebt = {kind: 'retained_diagnostic_ref', stagingRef: 'refs/heads/diagnostic-b', expectedSha: SHA('b')}
   const secondDebt = {kind: 'retained_diagnostic_ref', stagingRef: 'refs/heads/diagnostic-d', expectedSha: SHA('d')}
+  const promotionError = new Error('non-fast-forward')
+  promotionError.cleanupDebt = [localDebt]
   const fixture = transaction({
     tips: [SHA('a'), SHA('c')],
     candidates: [SHA('b'), SHA('d')],
-    promotions: [new Error('non-fast-forward'), {status: 'published'}],
+    promotions: [promotionError, {status: 'published'}],
     probes: [{remoteSha: SHA('c'), containsCandidate: false}],
     unconfirmedCleanupDebts: [[firstDebt], [secondDebt]],
   })
@@ -354,7 +361,7 @@ test('target drift retains only the unconfirmed attempt debt after the next atte
   const result = await fixture.run()
 
   assert.equal(result.status, 'published')
-  assert.deepEqual(result.cleanupDebt, [firstDebt])
+  assert.deepEqual(result.cleanupDebt, [localDebt, firstDebt])
 })
 
 test('exhausted known target drift is terminal and no longer retryable', async () => {
@@ -388,4 +395,5 @@ test('unknown remote state stops without another composition attempt', async () 
   assert.equal(result.failure.code, 'REMOTE_STATE_UNKNOWN')
   assert.equal(result.failure.phase, 'push_probe')
   assert.equal(fixture.calls.filter(([name]) => name === 'compose').length, 1)
+  assert.deepEqual(result.cleanupDebt, [])
 })

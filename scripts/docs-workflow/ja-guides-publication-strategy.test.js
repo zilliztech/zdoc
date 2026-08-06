@@ -533,7 +533,9 @@ test('shared transaction fully recomposes and revalidates after target drift', a
     pushDiagnosticStagingCandidate() {},
     validateGuidesTranslationCandidate({stagedSha}) { validated.push(stagedSha); return {result: 'success', receipts: successfulReceipts()} },
     deleteDiagnosticStagingWithLease(values) { deleted.push(values); return {deleted: true, cleanupDebt: null} },
-    removePublicationWorktree() {},
+    removePublicationWorktree(repository, worktree) {
+      if (worktree === '/candidate-5') throw new Error('first local cleanup unavailable')
+    },
   })
   const tips = ['4'.repeat(40), '6'.repeat(40)]
   let promoteAttempt = 0
@@ -558,9 +560,10 @@ test('shared transaction fully recomposes and revalidates after target drift', a
   assert.equal(result.validationReceipts.length, 14)
   assert.equal(deleted.length, 1)
   assert.equal(deleted[0].stagedSha, '7'.repeat(40))
-  assert.equal(result.cleanupDebt.length, 1)
-  assert.equal(result.cleanupDebt[0].kind, 'retained_diagnostic_ref')
-  assert.equal(result.cleanupDebt[0].expectedSha, '5'.repeat(40))
+  assert.deepEqual(result.cleanupDebt.map(debt => [debt.kind, debt.expectedSha]), [
+    ['local_worktree_cleanup_failed', '5'.repeat(40)],
+    ['retained_diagnostic_ref', '5'.repeat(40)],
+  ])
 })
 
 test('known unchanged promotion retains the exact diagnostic ref as cleanup debt', async () => {
@@ -571,7 +574,7 @@ test('known unchanged promotion retains the exact diagnostic ref as cleanup debt
     pushDiagnosticStagingCandidate() {},
     validateGuidesTranslationCandidate() { return {result: 'success', receipts: successfulReceipts()} },
     deleteDiagnosticStagingWithLease() { throw new Error('must retain remote ref') },
-    removePublicationWorktree() {},
+    removePublicationWorktree() { throw new Error('local cleanup unavailable') },
   })
   const result = await runPublicationStrategyTransaction({
     strategy,
@@ -583,9 +586,10 @@ test('known unchanged promotion retains the exact diagnostic ref as cleanup debt
 
   assert.equal(result.status, 'publish_failed')
   assert.equal(result.failure.code, 'PUSH_FAILED')
-  assert.equal(result.cleanupDebt.length, 1)
-  assert.equal(result.cleanupDebt[0].kind, 'retained_diagnostic_ref')
-  assert.equal(result.cleanupDebt[0].expectedSha, '5'.repeat(40))
+  assert.deepEqual(result.cleanupDebt.map(debt => [debt.kind, debt.expectedSha]), [
+    ['local_worktree_cleanup_failed', '5'.repeat(40)],
+    ['retained_diagnostic_ref', '5'.repeat(40)],
+  ])
 })
 
 test('shared transaction confirms an ambiguous push before leased cleanup and reports retained-ref debt', async () => {
@@ -624,34 +628,37 @@ test('shared transaction confirms an ambiguous push before leased cleanup and re
 })
 
 test('unknown remote state retains the exact diagnostic ref', async () => {
-  let deleteCalls = 0
-  const strategy = createJapaneseGuidesStrategy({
-    async composeLatestTipCandidate() {
-      return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
-    },
-    pushDiagnosticStagingCandidate() {},
-    validateGuidesTranslationCandidate() { return {result: 'success', receipts: successfulReceipts()} },
-    deleteDiagnosticStagingWithLease() { deleteCalls += 1; return {deleted: true, cleanupDebt: null} },
-    removePublicationWorktree() {},
-  })
-  const result = await runPublicationStrategyTransaction({
-    strategy,
-    inputs: strategyInputs(),
-    readTargetTip: async () => '4'.repeat(40),
-    async promoteCandidate() { throw new Error('transport failed') },
-    async probeRemoteCandidate() {
-      assert.equal(deleteCalls, 0, 'diagnostic ref must exist throughout an inconclusive probe')
-      throw new Error('probe unavailable')
-    },
-    maxProbeAttempts: 2,
-  })
+  for (const thrown of ['transport primitive', Object.freeze(new Error('transport frozen'))]) {
+    let deleteCalls = 0
+    const strategy = createJapaneseGuidesStrategy({
+      async composeLatestTipCandidate() {
+        return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
+      },
+      pushDiagnosticStagingCandidate() {},
+      validateGuidesTranslationCandidate() { return {result: 'success', receipts: successfulReceipts()} },
+      deleteDiagnosticStagingWithLease() { deleteCalls += 1; return {deleted: true, cleanupDebt: null} },
+      removePublicationWorktree() { throw new Error('local cleanup unavailable') },
+    })
+    const result = await runPublicationStrategyTransaction({
+      strategy,
+      inputs: strategyInputs(),
+      readTargetTip: async () => '4'.repeat(40),
+      async promoteCandidate() { throw thrown },
+      async probeRemoteCandidate() {
+        assert.equal(deleteCalls, 0, 'diagnostic ref must exist throughout an inconclusive probe')
+        throw new Error('probe unavailable')
+      },
+      maxProbeAttempts: 2,
+    })
 
-  assert.equal(result.status, 'publish_failed')
-  assert.equal(result.remoteState, 'unknown')
-  assert.equal(deleteCalls, 0)
-  assert.equal(result.cleanupDebt.length, 1)
-  assert.equal(result.cleanupDebt[0].kind, 'retained_diagnostic_ref')
-  assert.equal(result.cleanupDebt[0].expectedSha, '5'.repeat(40))
+    assert.equal(result.status, 'publish_failed')
+    assert.equal(result.remoteState, 'unknown')
+    assert.equal(deleteCalls, 0)
+    assert.deepEqual(result.cleanupDebt.map(debt => [debt.kind, debt.expectedSha]), [
+      ['local_worktree_cleanup_failed', '5'.repeat(40)],
+      ['retained_diagnostic_ref', '5'.repeat(40)],
+    ])
+  }
 })
 
 test('direct publication reports a local cleanup failure exactly once', async () => {
@@ -674,6 +681,7 @@ test('direct publication reports a local cleanup failure exactly once', async ()
 
   assert.equal(result.status, 'published')
   assert.deepEqual(result.cleanupDebt.map(debt => debt.kind), ['local_worktree_cleanup_failed'])
+  assert.equal(result.cleanupDebt.some(debt => debt.kind === 'retained_diagnostic_ref'), false)
 })
 
 test('probe-confirmed publication reports a local cleanup failure exactly once', async () => {

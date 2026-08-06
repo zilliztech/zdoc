@@ -203,6 +203,9 @@ async function runPublicationStrategyTransaction(options = {}) {
         status: 'published', baseSha, resultSha, commitShas, attempts: attempt,
       }, now, validationReceipts, cleanupDebt)
     } catch (pushError) {
+      const retainPromotionCleanupDebt = () => {
+        appendObjects(cleanupDebt, pushError?.cleanupDebt, 'promotion failure cleanupDebt')
+      }
       let probe = null
       let probeError = null
       for (let probeAttempt = 1; probeAttempt <= maxProbeAttempts; probeAttempt += 1) {
@@ -225,6 +228,7 @@ async function runPublicationStrategyTransaction(options = {}) {
         }
       }
       if (!probe) {
+        retainPromotionCleanupDebt()
         retainUnconfirmedCleanupDebt()
         return terminal({
           status: 'publish_failed', baseSha, attempts: attempt, remoteState: 'unknown',
@@ -239,6 +243,7 @@ async function runPublicationStrategyTransaction(options = {}) {
         }, now, validationReceipts, cleanupDebt)
       }
       if (probe.remoteSha !== baseSha) {
+        retainPromotionCleanupDebt()
         retainUnconfirmedCleanupDebt()
         if (attempt < maxAttempts) continue
         return terminal({
@@ -246,6 +251,7 @@ async function runPublicationStrategyTransaction(options = {}) {
           failure: failure('TARGET_DRIFT_EXHAUSTED', 'promote', pushError),
         }, now, validationReceipts, cleanupDebt)
       }
+      retainPromotionCleanupDebt()
       retainUnconfirmedCleanupDebt()
       return terminal({
         status: 'publish_failed', baseSha, attempts: attempt, remoteState: 'known',

@@ -125,6 +125,12 @@ function validationFailure(error, candidate, validationReceipts, cleanupDebt) {
   return wrapped
 }
 
+function promotionFailure(error, cleanupDebt) {
+  const wrapped = new Error(String(error?.message || error || 'Japanese Guides promotion failed'), {cause: error})
+  wrapped.cleanupDebt = Object.freeze([...cleanupDebt])
+  return wrapped
+}
+
 function createJapaneseGuidesStrategy(overrides = {}) {
   if (!overrides || typeof overrides !== 'object' || Array.isArray(overrides)) throw new Error('Japanese Guides strategy dependencies must be an object')
   const dependencies = {
@@ -249,15 +255,21 @@ function createJapaneseGuidesStrategy(overrides = {}) {
       return deepFreeze({cleanupDebt: [localDebtReturned ? null : localDebt, remoteDebt].filter(Boolean)})
     })
     let promoted
+    let promotionError
+    let promotionFailed = false
     try {
       promoted = await context.promoteCandidate({
         candidate,
         expectedDevSha: context.expectedDevSha,
         worktree: candidate.publicationWorktree,
       })
+    } catch (error) {
+      promotionError = error
+      promotionFailed = true
     } finally {
       localDebt = await localCleanup(candidate)
     }
+    if (promotionFailed) throw promotionFailure(promotionError, [localDebt].filter(Boolean))
     const result = promoted || {status: 'published'}
     const frozen = deepFreeze({
       ...result,
