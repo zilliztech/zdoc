@@ -2607,11 +2607,17 @@ test('Translation producers bind one immutable selection and emit ready descript
   }
   assert.equal(workflow.jobs.translate_sdk.with.publication_unit_key, '${{ matrix.publicationUnitKey }}')
   assert.equal(workflow.jobs.translate_sdk.name, 'translate:${{ matrix.target }}/${{ matrix.group }}')
+  assert.equal(workflow.jobs.translate_guides_batches.if, "${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}")
   const fanIn = workflow.jobs.prepare_guides_publication_ready
   assert.deepEqual(fanIn.needs, ['prepare', 'prepare_guides_batches', 'translate_guides_batches'])
   assert.deepEqual(fanIn.permissions, {actions: 'read', contents: 'read'})
   const fanInSource = JSON.stringify(fanIn)
+  const fanInRun = fanIn.steps.find(step => step.name === 'Validate and package complete Guides translation batch set').run
   assert.match(fanInSource, /translation-artifact-pairs\.js/)
+  assert.match(fanInRun, /--checkpoints-root "\$RUNNER_TEMP\/translation-checkpoints"/)
+  assert.match(fanInRun, /--baselines-root "\$RUNNER_TEMP\/translation-baselines"/)
+  assert.match(fanInRun, /--target ja-JP --group guides --run-id "\$GITHUB_RUN_ID" --batch-count "\$BATCH_COUNT"/)
+  assert.match(fanInRun, /--output "\$RUNNER_TEMP\/guides-artifact-pairs\.json"/)
   assert.match(fanInSource, /translation-batch-set\.js plan/)
   assert.match(fanIn.if, /needs\.translate_guides_batches\.result == 'skipped'/)
   assert.doesNotMatch(fanIn.if, /batch_count != '0'/)
@@ -2653,12 +2659,27 @@ test('workflow policy rejects Translation selection and ready-descriptor wiring 
       'translate-codex.yml: SDK Translation matrix caller job must use its selected producer identity',
     ))
 
+    fs.writeFileSync(workflow, workflowSource.replace("needs.prepare_guides_batches.outputs.batch_count != '0'", "needs.prepare_guides_batches.outputs.pending_count != '0'"))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: Guides translation batch matrix must run whenever its batch count is nonzero',
+    ))
+
     fs.writeFileSync(workflow, workflowSource.replaceAll('pendingSetSha256: process.env.PENDING_SET_SHA256', 'pendingSetSha256: undefined'))
     assert.ok(validateWorkflowPolicies(directory).includes(
       'translate-codex.yml: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests',
     ))
 
     fs.writeFileSync(workflow, workflowSource.replace('cp "$RUNNER_TEMP/guides-ready/checkpoint-manifest.json" "$RUNNER_TEMP/guides-ready/checkpoint/checkpoint-group/manifest.json"', ''))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests',
+    ))
+
+    fs.writeFileSync(workflow, workflowSource.replace('--batch-count "$BATCH_COUNT"', ''))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests',
+    ))
+
+    fs.writeFileSync(workflow, workflowSource.replace('path: ${{ runner.temp }}/guides-ready/baseline/checkpoint-group.tar', 'path: ${{ runner.temp }}/guides-ready/checkpoint/checkpoint-group.tar'))
     assert.ok(validateWorkflowPolicies(directory).includes(
       'translate-codex.yml: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests',
     ))

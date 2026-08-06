@@ -192,7 +192,7 @@ jobs:
 
   translate_guides_batches:
     needs: [prepare, prepare_guides_batches]
-    if: ${{ needs.prepare_guides_batches.outputs.pending_count != '0' }}
+    if: ${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.prepare_guides_batches.outputs.matrix) }}

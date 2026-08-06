@@ -1023,6 +1023,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (workflow.jobs?.translate_sdk?.name !== 'translate:${{ matrix.target }}/${{ matrix.group }}') {
         errors.push(`${file}: SDK Translation matrix caller job must use its selected producer identity`)
       }
+      if (workflow.jobs?.translate_guides_batches?.if !== "${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}") {
+        errors.push(`${file}: Guides translation batch matrix must run whenever its batch count is nonzero`)
+      }
       const guidesReady = workflow.jobs?.prepare_guides_publication_ready
       const guidesReadySource = JSON.stringify(guidesReady || {})
       if (JSON.stringify(guidesReady?.needs) !== JSON.stringify(['prepare', 'prepare_guides_batches', 'translate_guides_batches']) ||
@@ -1033,15 +1036,24 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
       const guidesReadyRun = String(guidesReady?.steps?.find(step => step?.name === 'Validate and package complete Guides translation batch set')?.run || '')
       const guidesReadyDescriptor = guidesReady?.steps?.find(step => step?.name === 'Upload immutable Translation ready descriptor')
+      const guidesCheckpointUpload = guidesReady?.steps?.find(step => step?.name === 'Upload Guides translation checkpoint')
+      const guidesBaselineUpload = guidesReady?.steps?.find(step => step?.name === 'Upload Guides translation baseline')
       const guidesReadyBindings = String(guidesReady?.if || '').includes("needs.translate_guides_batches.result == 'skipped'") &&
         !String(guidesReady?.if || '').includes("batch_count != '0'") &&
         ['if [[ "$BATCH_COUNT" == 0 ]]', 'batchCount: 0', 'runAttempt: Number(process.env.GITHUB_RUN_ATTEMPT)',
           'pendingSetSha256: process.env.PENDING_SET_SHA256', 'checkpoint-manifest.json', 'baseline-manifest.json',
+          'node scripts/docs-workflow/translation-artifact-pairs.js',
+          '--checkpoints-root "$RUNNER_TEMP/translation-checkpoints"',
+          '--baselines-root "$RUNNER_TEMP/translation-baselines"',
+          '--target ja-JP --group guides --run-id "$GITHUB_RUN_ID" --batch-count "$BATCH_COUNT"',
+          '--output "$RUNNER_TEMP/guides-artifact-pairs.json"',
           'checkpoint/checkpoint-group/manifest.json', 'baseline/checkpoint-group/manifest.json',
           'checkpoint/checkpoint-group.tar', 'baseline/checkpoint-group.tar',
           'tar -cf "$RUNNER_TEMP/guides-ready/checkpoint/checkpoint-group.tar" -C "$RUNNER_TEMP/guides-ready/checkpoint" checkpoint-group',
           'tar -cf "$RUNNER_TEMP/guides-ready/baseline/checkpoint-group.tar" -C "$RUNNER_TEMP/guides-ready/baseline" checkpoint-group']
           .every(fragment => guidesReadyRun.includes(fragment)) &&
+        guidesCheckpointUpload?.with?.path === '${{ runner.temp }}/guides-ready/checkpoint/checkpoint-group.tar' &&
+        guidesBaselineUpload?.with?.path === '${{ runner.temp }}/guides-ready/baseline/checkpoint-group.tar' &&
         guidesReadyDescriptor?.with?.name === 'publication-ready-translation-translation-ja-JP-guides-${{ github.run_id }}-${{ github.run_attempt }}'
       if (!guidesReadyBindings) {
         errors.push(`${file}: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests`)
