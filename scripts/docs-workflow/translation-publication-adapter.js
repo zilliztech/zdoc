@@ -117,7 +117,45 @@ const translationPublicationAdapter = definePublicationWorkflowAdapter({
   normalizeJobs(jobs) { return jobs },
   resolveCandidate(context) { return context.resolveCandidate(context) },
   publishUnit(context) { return context.publishUnit(context) },
-  projectResults(results) { return results },
+  async projectResults(results, context) {
+    const {validateTranslationPublicationDocuments} = require('./translation-publication-results')
+    const value = validateTranslationPublicationDocuments({selection: context.selection, results})
+    if (value.results.mode !== 'publish' || value.results.overallStatus === 'orchestrator_failed' ||
+        value.results.units.some(unit => unit.status === 'ready')) return value.results
+    const reconcile = context.transactionContext?.reconcileTranslationPublication ||
+      require('./translation-publication-reconciliation').reconcileTranslationPublication
+    let reconciliation
+    try {
+      reconciliation = await reconcile({
+        selection: value.selection,
+        results: value.results,
+        repositoryRoot: context.repositoryRoot,
+        runnerTemp: context.runnerTemp,
+        transactionContext: context.transactionContext,
+      })
+    } catch (error) {
+      reconciliation = {status: 'publish_failed', failure: {message: error.message || String(error)}}
+    }
+    if (['published', 'no_changes'].includes(reconciliation?.status)) {
+      return validateTranslationPublicationDocuments({
+        selection: value.selection,
+        results: {...value.results, finalTargetSha: reconciliation.resultSha},
+      }).results
+    }
+    return validateTranslationPublicationDocuments({
+      selection: value.selection,
+      results: {
+        ...value.results,
+        overallStatus: 'orchestrator_failed',
+        orchestratorFailure: {
+          code: 'RECONCILIATION_FAILED',
+          phase: 'reconciliation',
+          message: String(reconciliation?.failure?.message || 'Translation reconciliation failed').replace(/[\0\r\n]+/gu, ' ').slice(0, 1000),
+          retryable: false,
+        },
+      },
+    }).results
+  },
 })
 
 module.exports = {translationPublicationAdapter}
