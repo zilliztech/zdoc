@@ -194,6 +194,58 @@ function validateFetchPublicationProducer({workflow, source, file, jobName, chec
   }
 }
 
+function validateTranslationReadyProducer({workflow, source, file, errors}) {
+  const inputs = workflow.on?.workflow_call?.inputs || {}
+  const requiredInputs = ['publication_selection_artifact_name', 'publication_selection_sha256', 'publication_unit_key']
+  const steps = workflow.jobs?.translate?.steps || []
+  const download = steps.find(step => step?.name === 'Download translation publication selection')
+  const validate = steps.find(step => step?.name === 'Validate translation publication selection identity')
+  const checkpoint = steps.findIndex(step => step?.name === 'Upload translation checkpoint')
+  const baseline = steps.findIndex(step => step?.name === 'Upload translation baseline')
+  const ready = steps.findIndex(step => step?.name === 'Create immutable Translation ready descriptor')
+  const upload = steps.findIndex(step => step?.name === 'Upload immutable Translation ready descriptor')
+  const readyRun = String(steps[ready]?.run || '')
+  const validationRun = String(validate?.run || '')
+  const validIdentity = requiredInputs.every(input => inputs[input]?.required === true) &&
+    download?.uses === 'actions/download-artifact@v7' &&
+    download?.with?.name === '${{ inputs.publication_selection_artifact_name }}' &&
+    /publication-contracts\.js validate-selection/.test(validationRun) &&
+    /inputs\.publication_selection_sha256/.test(String(validate?.env?.PUBLICATION_SELECTION_SHA256 || '')) &&
+    /PUBLICATION_UNIT_KEY/.test(String(validate?.run || ''))
+  if (!validIdentity) errors.push(`${file}: Translation producer must require and authenticate the immutable publication selection identity`)
+  const exactUnitIdentity = [
+    'selected.target !== process.env.TRANSLATION_TARGET',
+    'selected.group !== process.env.GROUP',
+    'selected.toolingSha !== process.env.TOOLING_SHA',
+    'selected.sourceBaselineSha !== process.env.SOURCE_BASELINE_SHA',
+    'selected.sourceCheckpointSha !== process.env.SOURCE_CHECKPOINT_SHA',
+    'selected.artifacts.checkpoint',
+    'selected.artifacts.baseline',
+  ].every(fragment => validationRun.includes(fragment))
+  if (!exactUnitIdentity) errors.push(`${file}: Translation producer must authenticate the exact selected unit identity`)
+  const validDescriptor = checkpoint >= 0 && baseline > checkpoint && ready > baseline && upload > ready &&
+    steps[ready]?.id === 'publication_ready' &&
+    /translation-publication-selection\.js ready/.test(readyRun) &&
+    /--selection "\$RUNNER_TEMP\/publication-selection\/publication-selection\.json"/.test(readyRun) &&
+    /--unit-key "\$PUBLICATION_UNIT_KEY"/.test(readyRun) &&
+    /--checkpoint-archive "\$RUNNER_TEMP\/checkpoint\/checkpoint-group\.tar"/.test(readyRun) &&
+    /--baseline-archive "\$RUNNER_TEMP\/baseline\/checkpoint-group\.tar"/.test(readyRun) &&
+    readyRun.includes('unit_token=${PUBLICATION_UNIT_KEY//\\//-}') &&
+    readyRun.includes('artifact_name=publication-ready-translation-$unit_token-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT') &&
+    /artifact_name=publication-ready-translation-\$unit_token-\$GITHUB_RUN_ID-\$GITHUB_RUN_ATTEMPT" >> "\$GITHUB_OUTPUT"/.test(readyRun) &&
+    steps[upload]?.uses === 'actions/upload-artifact@v6' &&
+    steps[upload]?.with?.name === '${{ steps.publication_ready.outputs.artifact_name }}'
+  if (!validDescriptor) errors.push(`${file}: Translation producer must upload checkpoint and baseline artifacts before its bound ready descriptor`)
+  if (!readyRun.includes('artifact_name=publication-ready-translation-$unit_token-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT') ||
+      !/artifact_name=publication-ready-translation-\$unit_token-\$GITHUB_RUN_ID-\$GITHUB_RUN_ATTEMPT" >> "\$GITHUB_OUTPUT"/.test(readyRun) ||
+      steps[upload]?.with?.name !== '${{ steps.publication_ready.outputs.artifact_name }}') {
+    errors.push(`${file}: Translation producer ready artifact name must use the normalized unit token and run attempt`)
+  }
+  if (workflow.permissions?.contents !== 'read' || /git push|contents: write/.test(source)) {
+    errors.push(`${file}: Translation producer must remain read-only and coordinator-free`)
+  }
+}
+
 function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => /\.ya?ml$/.test(file)).sort()
@@ -488,6 +540,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (file === '_translate-content-group.yml') {
+      validateTranslationReadyProducer({workflow, source, file, errors})
       const requiredPatterns = [
         [/SOURCE_BASELINE_SHA: \$\{\{ inputs\.source_baseline_sha \}\}[\s\S]*SOURCE_CHECKPOINT_SHA: \$\{\{ inputs\.source_checkpoint_sha \}\}[\s\S]*TOOLING_SHA: \$\{\{ inputs\.tooling_sha \}\}/, 'must bind separate source baseline, source checkpoint, and tooling identities'],
         [/sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/, 'must derive translation reconciliation from the group-scoped dev source checkpoint diff'],
@@ -946,6 +999,65 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/publish_ja_guides:[\s\S]*publish_ja_python:[\s\S]*publish_zh_python:[\s\S]*publish_ja_java:[\s\S]*publish_zh_java:/, 'must declare the deterministic publication chain'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+      const prepare = workflow.jobs?.prepare
+      const prepareSteps = prepare?.steps || []
+      const selectionStep = prepareSteps.find(step => step?.id === 'publication_selection')
+      const selectionUpload = prepareSteps.find(step => step?.name === 'Upload immutable Translation publication selection')
+      if (prepare?.outputs?.publication_selection_artifact_name !== '${{ steps.publication_selection.outputs.artifact_name }}' ||
+          prepare?.outputs?.publication_selection_sha256 !== '${{ steps.publication_selection.outputs.selection_sha256 }}' ||
+          !/translation-publication-selection\.js selection/.test(String(selectionStep?.run || '')) ||
+          selectionUpload?.uses !== 'actions/upload-artifact@v6' ||
+          selectionUpload?.with?.name !== 'publication-selection-translation-${{ github.run_id }}-${{ github.run_attempt }}') {
+        errors.push(`${file}: prepare must create and upload exactly one immutable Translation publication selection`)
+      }
+      for (const jobName of ['translate_sdk', 'translate_guides_batches']) {
+        const job = workflow.jobs?.[jobName]
+        if (job?.with?.publication_selection_artifact_name !== '${{ needs.prepare.outputs.publication_selection_artifact_name }}' ||
+            job?.with?.publication_selection_sha256 !== '${{ needs.prepare.outputs.publication_selection_sha256 }}') {
+          errors.push(`${file}: ${jobName} must receive the immutable Translation publication selection identity`)
+        }
+      }
+      if (workflow.jobs?.translate_sdk?.with?.publication_unit_key !== '${{ matrix.publicationUnitKey }}') {
+        errors.push(`${file}: SDK Translation matrix units must receive their exact publication unit key`)
+      }
+      if (workflow.jobs?.translate_sdk?.name !== 'translate:${{ matrix.target }}/${{ matrix.group }}') {
+        errors.push(`${file}: SDK Translation matrix caller job must use its selected producer identity`)
+      }
+      if (workflow.jobs?.translate_guides_batches?.if !== "${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}") {
+        errors.push(`${file}: Guides translation batch matrix must run whenever its batch count is nonzero`)
+      }
+      const guidesReady = workflow.jobs?.prepare_guides_publication_ready
+      const guidesReadySource = JSON.stringify(guidesReady || {})
+      if (JSON.stringify(guidesReady?.needs) !== JSON.stringify(['prepare', 'prepare_guides_batches', 'translate_guides_batches']) ||
+          guidesReady?.permissions?.contents !== 'read' || guidesReady?.permissions?.actions !== 'read' ||
+          !/translation-artifact-pairs\.js/.test(guidesReadySource) || !/translation-batch-set\.js plan/.test(guidesReadySource) ||
+          /git push|staging/.test(guidesReadySource)) {
+        errors.push(`${file}: Guides ready fan-in must validate complete batches read-only before emitting its descriptor`)
+      }
+      const guidesReadyRun = String(guidesReady?.steps?.find(step => step?.name === 'Validate and package complete Guides translation batch set')?.run || '')
+      const guidesReadyDescriptor = guidesReady?.steps?.find(step => step?.name === 'Upload immutable Translation ready descriptor')
+      const guidesCheckpointUpload = guidesReady?.steps?.find(step => step?.name === 'Upload Guides translation checkpoint')
+      const guidesBaselineUpload = guidesReady?.steps?.find(step => step?.name === 'Upload Guides translation baseline')
+      const guidesReadyBindings = String(guidesReady?.if || '').includes("needs.translate_guides_batches.result == 'skipped'") &&
+        !String(guidesReady?.if || '').includes("batch_count != '0'") &&
+        ['if [[ "$BATCH_COUNT" == 0 ]]', 'batchCount: 0', 'runAttempt: Number(process.env.GITHUB_RUN_ATTEMPT)',
+          'pendingSetSha256: process.env.PENDING_SET_SHA256', 'checkpoint-manifest.json', 'baseline-manifest.json',
+          'node scripts/docs-workflow/translation-artifact-pairs.js',
+          '--checkpoints-root "$RUNNER_TEMP/translation-checkpoints"',
+          '--baselines-root "$RUNNER_TEMP/translation-baselines"',
+          '--target ja-JP --group guides --run-id "$GITHUB_RUN_ID" --batch-count "$BATCH_COUNT"',
+          '--output "$RUNNER_TEMP/guides-artifact-pairs.json"',
+          'checkpoint/checkpoint-group/manifest.json', 'baseline/checkpoint-group/manifest.json',
+          'checkpoint/checkpoint-group.tar', 'baseline/checkpoint-group.tar',
+          'tar -cf "$RUNNER_TEMP/guides-ready/checkpoint/checkpoint-group.tar" -C "$RUNNER_TEMP/guides-ready/checkpoint" checkpoint-group',
+          'tar -cf "$RUNNER_TEMP/guides-ready/baseline/checkpoint-group.tar" -C "$RUNNER_TEMP/guides-ready/baseline" checkpoint-group']
+          .every(fragment => guidesReadyRun.includes(fragment)) &&
+        guidesCheckpointUpload?.with?.path === '${{ runner.temp }}/guides-ready/checkpoint/checkpoint-group.tar' &&
+        guidesBaselineUpload?.with?.path === '${{ runner.temp }}/guides-ready/baseline/checkpoint-group.tar' &&
+        guidesReadyDescriptor?.with?.name === 'publication-ready-translation-translation-ja-JP-guides-${{ github.run_id }}-${{ github.run_attempt }}'
+      if (!guidesReadyBindings) {
+        errors.push(`${file}: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests`)
+      }
       if (/secrets: inherit/.test(source)) errors.push(`${file}: reusable translation must receive an explicit secret allowlist`)
       const inputs = workflow.on?.workflow_dispatch?.inputs || {}
       if (inputs.handoff_json?.required !== true || ['locale', 'group', 'tooling_sha', 'source_shas_json', 'target_branch'].some(input => inputs[input] !== undefined)) {
