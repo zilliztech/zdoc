@@ -111,9 +111,10 @@ function allowedPaths(groups) {
 }
 
 function changedPaths(worktree, baselineTree) {
-  const tracked = git(worktree, ['diff', '--name-only', '--no-renames', baselineTree]).stdout.trim().split('\n').filter(Boolean)
-  const untracked = git(worktree, ['ls-files', '--others', '--exclude-standard']).stdout.trim().split('\n').filter(Boolean)
-  return [...new Set([...tracked, ...untracked])].sort()
+  const staged = git(worktree, ['diff', '--cached', '--name-only', '-z', '--no-renames', baselineTree]).stdout.split('\0').filter(Boolean)
+  const unstaged = git(worktree, ['diff', '--name-only', '-z', '--no-renames']).stdout.split('\0').filter(Boolean)
+  const untracked = git(worktree, ['ls-files', '--others', '-z', '--exclude-standard']).stdout.split('\0').filter(Boolean)
+  return [...new Set([...staged, ...unstaged, ...untracked])].sort()
 }
 
 function copyPath(sourceRoot, targetRoot, relative) {

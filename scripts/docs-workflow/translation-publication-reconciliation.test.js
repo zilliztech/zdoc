@@ -127,6 +127,7 @@ function deterministicCommands(calls, options = {}) {
       if (options.writeUnexpected) {
         fs.writeFileSync(path.join(cwd, 'unexpected.txt'), 'not allowed\n')
         if (options.stageUnexpected) git(cwd, ['add', 'unexpected.txt'])
+        if (options.indexOnlyUnexpected) fs.rmSync(path.join(cwd, 'unexpected.txt'))
       }
     }
     if (executable === 'pnpm' && args[1] === 'reference-sidebar') {
@@ -227,6 +228,25 @@ test('rejects unexpected paths even when a command stages them', async t => {
     transactionContext: {dependencies: {runCommand: deterministicCommands([], {
       writeUnexpected: true,
       stageUnexpected: true,
+    })}},
+  })
+  assert.equal(reconciled.status, 'publish_failed')
+  assert.match(reconciled.failure.message, /unexpected\.txt|allowed/i)
+  assert.equal(git(setup.repository, ['ls-remote', '--heads', 'origin', 'dev']).split(/\s+/)[0], setup.baseline)
+})
+
+test('rejects unauthorized reconciliation paths that exist only in the index', async t => {
+  const setup = fixture(t)
+  const selected = selection(setup.baseline, [unit(setup.baseline)])
+  const reconciled = await reconcileTranslationPublication({
+    selection: selected,
+    results: results(selected, setup.baseline),
+    repositoryRoot: setup.repository,
+    runnerTemp: setup.runnerTemp,
+    transactionContext: {dependencies: {runCommand: deterministicCommands([], {
+      writeUnexpected: true,
+      stageUnexpected: true,
+      indexOnlyUnexpected: true,
     })}},
   })
   assert.equal(reconciled.status, 'publish_failed')
