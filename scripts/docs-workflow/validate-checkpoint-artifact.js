@@ -275,6 +275,46 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   return deepFreeze(manifest);
 }
 
+function sha256(bytes) {
+  return crypto.createHash('sha256').update(bytes).digest('hex');
+}
+
+async function validateTranslationCheckpointPair(options = {}) {
+  if (!options || typeof options !== 'object' || Array.isArray(options)) throw new Error('Translation checkpoint pair options are required');
+  if (typeof options.checkpointDir !== 'string' || !options.checkpointDir) throw new Error('Translation checkpoint directory is required');
+  if (typeof options.baselineDir !== 'string' || !options.baselineDir) throw new Error('Translation baseline directory is required');
+  const expected = options.expected || {};
+  if (!expected || typeof expected !== 'object' || Array.isArray(expected)) throw new Error('Translation checkpoint pair expected identity must be an object');
+  for (const key of ['checkpointManifestSha256', 'baselineManifestSha256']) {
+    if (expected[key] !== undefined && !/^[0-9a-f]{64}$/.test(expected[key])) throw new Error(`Expected ${key} must be a lowercase SHA-256 checksum`);
+  }
+  const artifactExpected = {
+    group: expected.group,
+    translationTarget: expected.translationTarget,
+    sourceCheckpointSha: expected.sourceCheckpointSha,
+    toolingSha: expected.toolingSha,
+    site: expected.site,
+  };
+  const [checkpoint, baseline] = await Promise.all([
+    validateCheckpointArtifact(options.checkpointDir, artifactExpected),
+    validateCheckpointArtifact(options.baselineDir, artifactExpected),
+  ]);
+  if (checkpoint.stage !== 'translation' || baseline.stage !== 'translation') throw new Error('Translation checkpoint pair must contain translation artifacts');
+  for (const key of ['group', 'translationTarget', 'sourceSite', 'targetSite', 'sourceCheckpointSha', 'toolingSha', 'masterSha', 'devBaselineSha']) {
+    if (checkpoint[key] !== baseline[key]) throw new Error(`Translation checkpoint/baseline ${key} mismatch`);
+  }
+  const checksums = [
+    ['checkpoint', checkpoint, expected.checkpointManifestSha256],
+    ['baseline', baseline, expected.baselineManifestSha256],
+  ];
+  for (const [label, manifest, checksum] of checksums) {
+    if (checksum === undefined) continue;
+    const bytes = await readRegularNoFollow(path.join(manifest.resolvedDir, 'manifest.json'), `${label} manifest`);
+    if (sha256(bytes) !== checksum) throw new Error(`Translation ${label} manifest checksum mismatch`);
+  }
+  return Object.freeze({checkpoint, baseline});
+}
+
 function usage() { return 'Usage: node validate-checkpoint-artifact.js --artifact <dir> [--group <group>] [--master-sha <sha>] [--dev-baseline-sha <sha>] [--translation-target <target>] [--source-checkpoint-sha <sha>] [--tooling-sha <sha>]'; }
 function parseArgs(args) {
   if (args.length === 1 && args[0] === '--help') return { help: true };
@@ -296,4 +336,4 @@ if (require.main === module) {
     .catch((error) => { console.error(`Checkpoint artifact validation failed: ${error.message}`); process.exitCode = 1; });
 }
 
-module.exports = { translationOwnedPaths, validateCheckpointArtifact };
+module.exports = { translationOwnedPaths, validateCheckpointArtifact, validateTranslationCheckpointPair };

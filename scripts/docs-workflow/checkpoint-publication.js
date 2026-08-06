@@ -10,10 +10,17 @@ const {
   verifyStagedCheckpointPaths,
   writeStagePathFile,
 } = require('./checkpoint-stage-paths')
-const {validateCheckpointArtifact} = require('./validate-checkpoint-artifact')
+const {createPublicationStrategyRegistry} = require('./publication-strategy-registry')
+const {runPublicationStrategyTransaction} = require('./publication-transaction')
+const {translationCheckpointStrategy} = require('./translation-checkpoint-strategy')
+const {
+  validateCheckpointArtifact,
+  validateTranslationCheckpointPair,
+} = require('./validate-checkpoint-artifact')
 
 const SHA = /^[0-9a-f]{40}$/u
 const activeCleanups = new Set()
+const checkpointStrategyRegistry = createPublicationStrategyRegistry([translationCheckpointStrategy])
 
 function bounded(value) {
   return String(value?.stderr || value?.message || value || 'Unknown checkpoint publication failure')
@@ -92,6 +99,9 @@ function validateUnit(input) {
     commitMessage: singleLine(input.commitMessage, 'unit.commitMessage'),
     validationCommands: input.validationCommands,
     environment: input.environment,
+    ...(input.strategy !== undefined ? {strategy: input.strategy} : {}),
+    ...(input.target !== undefined ? {target: singleLine(input.target, 'unit.target')} : {}),
+    ...(input.sourceCheckpointSha !== undefined ? {sourceCheckpointSha: input.sourceCheckpointSha} : {}),
   }
   if (!SHA.test(unit.toolingSha || '')) throw new Error('unit.toolingSha must be a lowercase 40-character SHA')
   if (!SHA.test(unit.sourceBaselineSha || '')) throw new Error('unit.sourceBaselineSha must be a lowercase 40-character SHA')
@@ -102,6 +112,8 @@ function validateUnit(input) {
   for (const [key, value] of Object.entries(unit.environment)) {
     if (!/^[A-Z_][A-Z0-9_]*$/u.test(key) || typeof value !== 'string' || /[\0\r\n]/u.test(value)) throw new Error('unit.environment is invalid')
   }
+  if (unit.strategy !== undefined && unit.strategy !== 'checkpoint') throw new Error('unit.strategy must be checkpoint')
+  if (unit.sourceCheckpointSha !== undefined && !SHA.test(unit.sourceCheckpointSha)) throw new Error('unit.sourceCheckpointSha must be a lowercase 40-character SHA')
   return Object.freeze(unit)
 }
 
@@ -185,7 +197,7 @@ function installSignalCleanup() {
   }
 }
 
-async function publishCheckpointTransaction(options = {}) {
+async function publishLegacyCheckpointTransaction(options = {}) {
   const repositoryRoot = realDirectory(options.repositoryRoot || process.cwd(), 'repositoryRoot')
   const dependencyRoot = options.dependencyRoot ? realDirectory(options.dependencyRoot, 'dependencyRoot') : repositoryRoot
   const artifactDir = realDirectory(options.artifactDir, 'artifactDir')
@@ -329,6 +341,126 @@ async function publishCheckpointTransaction(options = {}) {
     }
   }
   throw new Error('Checkpoint publication attempt loop exhausted unexpectedly')
+}
+
+function translationUnit(input) {
+  return input?.strategy === 'checkpoint' && typeof input.target === 'string' && typeof input.sourceCheckpointSha === 'string'
+}
+
+function descriptorChecksums(options) {
+  const descriptor = options.descriptor || options.artifactDescriptor
+  return {
+    checkpointManifestSha256: descriptor?.artifacts?.checkpoint?.manifestSha256,
+    baselineManifestSha256: descriptor?.artifacts?.baseline?.manifestSha256,
+  }
+}
+
+function strategyFailureResult(error, now) {
+  return Object.freeze({
+    status: 'publish_failed',
+    baseSha: null,
+    resultSha: null,
+    commitShas: Object.freeze([]),
+    attempts: 0,
+    completedAt: now().toISOString(),
+    remoteState: 'known',
+    validationReceipts: Object.freeze([]),
+    cleanupDebt: Object.freeze([]),
+    failure: failure('CHECKPOINT_INVALID', 'artifact_validation', error),
+  })
+}
+
+async function publishTranslationCheckpointTransaction(options = {}) {
+  const repositoryRoot = realDirectory(options.repositoryRoot || process.cwd(), 'repositoryRoot')
+  const dependencyRoot = options.dependencyRoot ? realDirectory(options.dependencyRoot, 'dependencyRoot') : repositoryRoot
+  const artifactDir = realDirectory(options.artifactDir, 'artifactDir')
+  const unit = validateUnit(options.unit)
+  const now = typeof options.now === 'function' ? options.now : () => new Date()
+  if (!options.baselineDir) return strategyFailureResult(new Error('Translation baselineDir is required'), now)
+  const baselineDir = realDirectory(options.baselineDir, 'baselineDir')
+  const remote = singleLine(options.remote || 'origin', 'remote')
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]*$/u.test(remote)) throw new Error('remote must be a simple configured name')
+  const runnerTemp = realDirectory(options.runnerTemp || process.env.RUNNER_TEMP || osTemp(), 'runnerTemp')
+  const environment = {...process.env, ...(options.environment || {})}
+  const deps = {
+    applyCheckpointArtifact,
+    probeRemoteCandidate,
+    pushCandidate: defaultPushCandidate,
+    validateTranslationCheckpointPair,
+    ...(options.dependencies || {}),
+  }
+
+  git(repositoryRoot, ['rev-parse', '--show-toplevel'])
+  git(repositoryRoot, ['check-ref-format', '--branch', unit.targetBranch])
+  git(repositoryRoot, ['config', '--get', `remote.${remote}.url`])
+
+  let authenticated
+  try {
+    authenticated = await deps.validateTranslationCheckpointPair({
+      checkpointDir: artifactDir,
+      baselineDir,
+      expected: {
+        group: unit.group,
+        translationTarget: unit.target,
+        sourceCheckpointSha: unit.sourceCheckpointSha,
+        toolingSha: unit.toolingSha,
+        ...descriptorChecksums(options),
+      },
+    })
+  } catch (error) {
+    return strategyFailureResult(error, now)
+  }
+
+  const strategy = checkpointStrategyRegistry.require('checkpoint')
+  return runPublicationStrategyTransaction({
+    strategy,
+    maxAttempts: options.maxAttempts ?? 3,
+    maxProbeAttempts: options.maxProbeAttempts ?? 3,
+    now,
+    inputs: {
+      repositoryRoot,
+      dependencyRoot,
+      runnerTemp,
+      checkpoint: {...authenticated.checkpoint, resolvedDir: authenticated.checkpoint.resolvedDir},
+      baseline: {...authenticated.baseline, resolvedDir: authenticated.baseline.resolvedDir},
+      unit,
+      authorName: options.authorName,
+      authorEmail: options.authorEmail,
+      environment,
+      now,
+      dependencies: {applyCheckpointArtifact: deps.applyCheckpointArtifact},
+    },
+    async readTargetTip() {
+      git(repositoryRoot, ['fetch', '--no-tags', remote, `+refs/heads/${unit.targetBranch}:refs/remotes/${remote}/${unit.targetBranch}`])
+      return git(repositoryRoot, ['rev-parse', `refs/remotes/${remote}/${unit.targetBranch}`]).stdout.trim()
+    },
+    async promoteCandidate({candidate, expectedDevSha, worktree}) {
+      await deps.pushCandidate({
+        repositoryRoot,
+        worktree: worktree || candidate.publicationWorktree,
+        remote,
+        branch: unit.targetBranch,
+        baseSha: expectedDevSha,
+        candidateSha: candidate.candidateSha,
+      })
+      return Object.freeze({status: 'published'})
+    },
+    async probeRemoteCandidate({candidateSha, expectedDevSha, probeAttempt}) {
+      return deps.probeRemoteCandidate({
+        repositoryRoot,
+        remote,
+        branch: unit.targetBranch,
+        baseSha: expectedDevSha,
+        candidateSha,
+        probeAttempt,
+      })
+    },
+  })
+}
+
+async function publishCheckpointTransaction(options = {}) {
+  if (translationUnit(options.unit)) return publishTranslationCheckpointTransaction(options)
+  return publishLegacyCheckpointTransaction(options)
 }
 
 function osTemp() {
