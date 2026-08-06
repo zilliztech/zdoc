@@ -293,6 +293,7 @@ test('diagnostic staging refs bind run, attempt, selection prefix, composition b
 
 test('strategy requires the exact seven validation receipts and retains the diagnostic ref on failure', async () => {
   let deleted = false
+  let localRemoved = false
   const retainedRef = diagnosticStagingRef({
     runId: 71, runAttempt: 3, selectionSha256: SELECTION_SHA,
     compositionBaseSha: '4'.repeat(40), unitKey: 'translation/ja-JP/guides',
@@ -306,7 +307,7 @@ test('strategy requires the exact seven validation receipts and retains the diag
       return {result: 'failure', receipts: successfulReceipts().slice(0, 6), failureDetail: 'six is not seven'}
     },
     deleteDiagnosticStagingWithLease() { deleted = true; return {cleanupDebt: null} },
-    removePublicationWorktree() {},
+    removePublicationWorktree() { localRemoved = true },
   })
   const candidate = await strategy.compose({latestDevSha: '4'.repeat(40), inputs: strategyInputs()})
   await assert.rejects(strategy.validate({candidate}), error => {
@@ -316,6 +317,7 @@ test('strategy requires the exact seven validation receipts and retains the diag
     return true
   })
   assert.equal(deleted, false)
+  assert.equal(localRemoved, false, 'validation failure keeps the exact local candidate available for diagnosis')
 })
 
 test('strategy delegates successful CAS and cleans the exact staging ref with its SHA lease', async () => {
@@ -345,9 +347,33 @@ test('strategy delegates successful CAS and cleans the exact staging ref with it
   assert.deepEqual(cleanupCalls, [{repository: '/repo', stagingRef: candidate.stagingRef, stagedSha: '5'.repeat(40)}])
 })
 
+test('unit-bound environment has final precedence over generic strategy environment', async () => {
+  const strategy = createJapaneseGuidesStrategy({
+    async composeLatestTipCandidate() {
+      return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
+    },
+    pushDiagnosticStagingCandidate() {},
+    validateGuidesTranslationCandidate() { return {result: 'success', receipts: successfulReceipts()} },
+    deleteDiagnosticStagingWithLease() { return {deleted: true, cleanupDebt: null} },
+    removePublicationWorktree() {},
+  })
+  const base = strategyInputs({environment: {BOUND: 'generic', GENERIC_ONLY: 'yes'}})
+  const candidate = await strategy.compose({
+    latestDevSha: '4'.repeat(40),
+    inputs: {...base, unit: {...base.unit, environment: {BOUND: 'unit', UNIT_ONLY: 'yes'}}},
+  })
+
+  assert.deepEqual(candidate.environment, {
+    BOUND: 'unit',
+    GENERIC_ONLY: 'yes',
+    UNIT_ONLY: 'yes',
+  })
+})
+
 test('shared transaction fully recomposes and revalidates after target drift', async () => {
   const composed = []
   const validated = []
+  const deleted = []
   const strategy = createJapaneseGuidesStrategy({
     async composeLatestTipCandidate({latestDevSha}) {
       composed.push(latestDevSha)
@@ -356,7 +382,7 @@ test('shared transaction fully recomposes and revalidates after target drift', a
     },
     pushDiagnosticStagingCandidate() {},
     validateGuidesTranslationCandidate({stagedSha}) { validated.push(stagedSha); return {result: 'success', receipts: successfulReceipts()} },
-    deleteDiagnosticStagingWithLease() { return {deleted: true, cleanupDebt: null} },
+    deleteDiagnosticStagingWithLease(values) { deleted.push(values); return {deleted: true, cleanupDebt: null} },
     removePublicationWorktree() {},
   })
   const tips = ['4'.repeat(40), '6'.repeat(40)]
@@ -370,24 +396,33 @@ test('shared transaction fully recomposes and revalidates after target drift', a
       if (promoteAttempt === 1) throw new Error('non-fast-forward')
       return {status: 'published'}
     },
-    async probeRemoteCandidate() { return {remoteSha: '6'.repeat(40), containsCandidate: false} },
+    async probeRemoteCandidate() {
+      assert.equal(deleted.length, 0, 'failed attempt diagnostic ref must remain until and after drift is known')
+      return {remoteSha: '6'.repeat(40), containsCandidate: false}
+    },
   })
   assert.equal(result.status, 'published')
   assert.equal(result.attempts, 2)
   assert.deepEqual(composed, ['4'.repeat(40), '6'.repeat(40)])
   assert.deepEqual(validated, ['5'.repeat(40), '7'.repeat(40)])
   assert.equal(result.validationReceipts.length, 14)
+  assert.equal(deleted.length, 1)
+  assert.equal(deleted[0].stagedSha, '7'.repeat(40))
 })
 
-test('shared transaction confirms an ambiguous push without strategy-owned probing', async () => {
+test('shared transaction confirms an ambiguous push before leased cleanup and reports retained-ref debt', async () => {
   let probes = 0
+  const events = []
   const strategy = createJapaneseGuidesStrategy({
     async composeLatestTipCandidate() {
       return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
     },
     pushDiagnosticStagingCandidate() {},
     validateGuidesTranslationCandidate() { return {result: 'success', receipts: successfulReceipts()} },
-    deleteDiagnosticStagingWithLease() { return {deleted: true, cleanupDebt: null} },
+    deleteDiagnosticStagingWithLease({stagingRef, stagedSha}) {
+      events.push('cleanup')
+      return {deleted: false, cleanupDebt: {kind: 'lease_mismatch', stagingRef, expectedSha: stagedSha, actualSha: '8'.repeat(40)}}
+    },
     removePublicationWorktree() {},
   })
   const result = await runPublicationStrategyTransaction({
@@ -395,11 +430,47 @@ test('shared transaction confirms an ambiguous push without strategy-owned probi
     inputs: strategyInputs(),
     readTargetTip: async () => '4'.repeat(40),
     async promoteCandidate() { throw new Error('connection closed after push') },
-    async probeRemoteCandidate() { probes += 1; return {remoteSha: '5'.repeat(40), containsCandidate: true} },
+    async probeRemoteCandidate() {
+      probes += 1
+      assert.deepEqual(events, [], 'diagnostic ref must not be deleted before remote publication is confirmed')
+      events.push('probe')
+      return {remoteSha: '5'.repeat(40), containsCandidate: true}
+    },
   })
   assert.equal(result.status, 'published')
   assert.equal(result.resultSha, '5'.repeat(40))
   assert.equal(probes, 1)
+  assert.deepEqual(events, ['probe', 'cleanup'])
+  assert.equal(result.cleanupDebt.length, 1)
+  assert.equal(result.cleanupDebt[0].kind, 'lease_mismatch')
+})
+
+test('unknown remote state retains the exact diagnostic ref', async () => {
+  let deleteCalls = 0
+  const strategy = createJapaneseGuidesStrategy({
+    async composeLatestTipCandidate() {
+      return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
+    },
+    pushDiagnosticStagingCandidate() {},
+    validateGuidesTranslationCandidate() { return {result: 'success', receipts: successfulReceipts()} },
+    deleteDiagnosticStagingWithLease() { deleteCalls += 1; return {deleted: true, cleanupDebt: null} },
+    removePublicationWorktree() {},
+  })
+  const result = await runPublicationStrategyTransaction({
+    strategy,
+    inputs: strategyInputs(),
+    readTargetTip: async () => '4'.repeat(40),
+    async promoteCandidate() { throw new Error('transport failed') },
+    async probeRemoteCandidate() {
+      assert.equal(deleteCalls, 0, 'diagnostic ref must exist throughout an inconclusive probe')
+      throw new Error('probe unavailable')
+    },
+    maxProbeAttempts: 2,
+  })
+
+  assert.equal(result.status, 'publish_failed')
+  assert.equal(result.remoteState, 'unknown')
+  assert.equal(deleteCalls, 0)
 })
 
 test('cleanup debt is reported without downgrading a confirmed published result', async () => {

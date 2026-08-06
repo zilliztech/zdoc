@@ -168,7 +168,7 @@ function createJapaneseGuidesStrategy(overrides = {}) {
       compositionBaseSha: latestDevSha,
       plan: inputs.plan,
       unit: inputs.unit,
-      environment: {...inputs.unit.environment, ...(inputs.environment || {})},
+      environment: {...(inputs.environment || {}), ...inputs.unit.environment},
     })
   }
 
@@ -198,41 +198,59 @@ function createJapaneseGuidesStrategy(overrides = {}) {
   }
 
   async function promote(context) {
+    const candidate = context.candidate
+    const remoteCleanup = async () => {
+      try {
+        const cleanup = await dependencies.deleteDiagnosticStagingWithLease({
+          repository: candidate.repositoryRoot,
+          stagingRef: candidate.stagingRef,
+          stagedSha: candidate.candidateSha,
+        })
+        return cleanup?.cleanupDebt || null
+      } catch (error) {
+        return {
+          kind: 'cleanup_failed',
+          stagingRef: candidate.stagingRef,
+          expectedSha: candidate.candidateSha,
+          message: String(error.message || error),
+        }
+      }
+    }
+    const localCleanup = async () => {
+      try {
+        await dependencies.removePublicationWorktree(candidate.repositoryRoot, candidate.publicationWorktree)
+        return null
+      } catch (error) {
+        return {
+          kind: 'local_worktree_cleanup_failed',
+          stagingRef: candidate.stagingRef,
+          expectedSha: candidate.candidateSha,
+          message: String(error.message || error),
+        }
+      }
+    }
     let promoted
-    let promotionError = null
     try {
       promoted = await context.promoteCandidate({
-        candidate: context.candidate,
+        candidate,
         expectedDevSha: context.expectedDevSha,
-        worktree: context.candidate.publicationWorktree,
+        worktree: candidate.publicationWorktree,
       })
     } catch (error) {
-      promotionError = error
+      const localDebt = await localCleanup()
+      error.confirmedPromotionCleanup = async () => {
+        const remoteDebt = await remoteCleanup()
+        return deepFreeze({cleanupDebt: [localDebt, remoteDebt].filter(Boolean)})
+      }
+      throw error
     }
-    let cleanup
-    try {
-      cleanup = await dependencies.deleteDiagnosticStagingWithLease({
-        repository: context.candidate.repositoryRoot,
-        stagingRef: context.candidate.stagingRef,
-        stagedSha: context.candidate.candidateSha,
-      })
-    } catch (error) {
-      cleanup = {cleanupDebt: {kind: 'cleanup_failed', stagingRef: context.candidate.stagingRef, expectedSha: context.candidate.candidateSha, message: String(error.message || error)}}
-    }
-    try { dependencies.removePublicationWorktree(context.candidate.repositoryRoot, context.candidate.publicationWorktree) }
-    catch (error) {
-      cleanup = cleanup || {}
-      cleanup.cleanupDebt ||= {kind: 'local_worktree_cleanup_failed', stagingRef: context.candidate.stagingRef, expectedSha: context.candidate.candidateSha, message: String(error.message || error)}
-    }
-    if (promotionError) {
-      if (cleanup?.cleanupDebt) promotionError.cleanupDebt = Object.freeze([deepFreeze(cleanup.cleanupDebt)])
-      throw promotionError
-    }
+    const remoteDebt = await remoteCleanup()
+    const localDebt = await localCleanup()
     const result = promoted || {status: 'published'}
     return deepFreeze({
       ...result,
       status: result.status || 'published',
-      cleanupDebt: cleanup?.cleanupDebt ? [cleanup.cleanupDebt] : [],
+      cleanupDebt: [remoteDebt, localDebt].filter(Boolean),
     })
   }
 

@@ -31,10 +31,15 @@ function transaction(options = {}) {
     async promote(context) {
       contexts.promote = context
       calls.push(['promote', context.candidate.candidateSha, context.expectedDevSha])
-      return context.promoteCandidate({
-        candidate: context.candidate,
-        expectedDevSha: context.expectedDevSha,
-      })
+      try {
+        return await context.promoteCandidate({
+          candidate: context.candidate,
+          expectedDevSha: context.expectedDevSha,
+        })
+      } catch (error) {
+        if (options.confirmedPromotionCleanup) error.confirmedPromotionCleanup = options.confirmedPromotionCleanup
+        throw error
+      }
     },
   })
   let tipIndex = 0
@@ -177,6 +182,40 @@ test('an ambiguous push whose remote descendant contains the candidate succeeds'
   assert.equal(result.resultSha, SHA('b'))
   assert.deepEqual(result.commitShas, [SHA('c'), SHA('b')])
   assert.equal(result.remoteState, 'known')
+})
+
+test('probe-confirmed publication runs deferred cleanup after the probe and reports cleanup debt', async () => {
+  const events = []
+  const debt = {kind: 'lease_mismatch', stagingRef: 'refs/heads/diagnostic', expectedSha: SHA('b'), actualSha: SHA('e')}
+  const fixture = transaction({
+    promotions: [new Error('connection closed')],
+    probes: [() => { events.push('probe'); return {remoteSha: SHA('b'), containsCandidate: true} }],
+    confirmedPromotionCleanup: async () => {
+      events.push('cleanup')
+      return {cleanupDebt: [debt]}
+    },
+  })
+
+  const result = await fixture.run()
+
+  assert.equal(result.status, 'published')
+  assert.deepEqual(events, ['probe', 'cleanup'])
+  assert.deepEqual(result.cleanupDebt, [debt])
+})
+
+test('unknown remote state never runs deferred confirmed-publication cleanup', async () => {
+  let cleanupCalls = 0
+  const fixture = transaction({
+    promotions: [new Error('transport failed')],
+    probes: [new Error('probe unavailable'), new Error('probe unavailable')],
+    confirmedPromotionCleanup: async () => { cleanupCalls += 1; return {cleanupDebt: []} },
+  })
+
+  const result = await fixture.run()
+
+  assert.equal(result.status, 'publish_failed')
+  assert.equal(result.remoteState, 'unknown')
+  assert.equal(cleanupCalls, 0)
 })
 
 test('a known unchanged remote rejects the candidate without retrying', async () => {

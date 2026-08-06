@@ -199,6 +199,19 @@ async function runPublicationStrategyTransaction(options = {}) {
         }, now, validationReceipts, cleanupDebt)
       }
       if (probe.containsCandidate) {
+        const confirmedCleanup = pushError?.confirmedPromotionCleanup
+        if (confirmedCleanup !== undefined) {
+          try {
+            if (typeof confirmedCleanup !== 'function') throw new Error('confirmedPromotionCleanup must be a function')
+            const cleanup = await confirmedCleanup()
+            appendObjects(cleanupDebt, cleanup?.cleanupDebt, 'confirmed promotion cleanupDebt')
+          } catch (error) {
+            cleanupDebt.push(Object.freeze({
+              kind: 'confirmed_cleanup_failed',
+              message: bounded(error, 'confirmed publication cleanup failed'),
+            }))
+          }
+        }
         return publishedTerminal({
           status: 'published', baseSha, resultSha: candidateSha,
           commitShas: exactCandidate.commitShas, attempts: attempt,
