@@ -2580,7 +2580,14 @@ test('Translation producers bind one immutable selection and emit ready descript
   assert.ok(checkpoint >= 0 && baseline > checkpoint && ready > baseline && upload > ready)
   assert.match(reusableSteps[ready].run, /translation-publication-selection\.js ready/)
   assert.equal(reusableSteps[upload].uses, 'actions/upload-artifact@v6')
-  assert.match(reusableSteps[upload].with.name, /^publication-ready-translation-/)
+  assert.equal(reusableSteps[upload].with.name, "publication-ready-translation-${{ replace(inputs.publication_unit_key, '/', '-') }}-${{ github.run_id }}-${{ github.run_attempt }}")
+  assert.match(validate.run, /selected\.target !== process\.env\.TRANSLATION_TARGET/)
+  assert.match(validate.run, /selected\.group !== process\.env\.GROUP/)
+  assert.match(validate.run, /selected\.toolingSha !== process\.env\.TOOLING_SHA/)
+  assert.match(validate.run, /selected\.sourceBaselineSha !== process\.env\.SOURCE_BASELINE_SHA/)
+  assert.match(validate.run, /selected\.sourceCheckpointSha !== process\.env\.SOURCE_CHECKPOINT_SHA/)
+  assert.match(validate.run, /selected\.artifacts\.checkpoint/)
+  assert.match(validate.run, /selected\.artifacts\.baseline/)
   assert.equal(reusable.permissions.contents, 'read')
   assert.doesNotMatch(JSON.stringify(reusable), /git push/)
 
@@ -2596,12 +2603,24 @@ test('Translation producers bind one immutable selection and emit ready descript
     assert.equal(job.with.publication_selection_sha256, '${{ needs.prepare.outputs.publication_selection_sha256 }}')
   }
   assert.equal(workflow.jobs.translate_sdk.with.publication_unit_key, '${{ matrix.publicationUnitKey }}')
+  assert.equal(workflow.jobs.translate_sdk.name, 'translate:${{ matrix.target }}/${{ matrix.group }}')
   const fanIn = workflow.jobs.prepare_guides_publication_ready
   assert.deepEqual(fanIn.needs, ['prepare', 'prepare_guides_batches', 'translate_guides_batches'])
   assert.deepEqual(fanIn.permissions, {actions: 'read', contents: 'read'})
   const fanInSource = JSON.stringify(fanIn)
   assert.match(fanInSource, /translation-artifact-pairs\.js/)
   assert.match(fanInSource, /translation-batch-set\.js plan/)
+  assert.match(fanIn.if, /needs\.translate_guides_batches\.result == 'skipped'/)
+  assert.doesNotMatch(fanIn.if, /batch_count != '0'/)
+  assert.match(fanInSource, /batchCount: 0/)
+  assert.match(fanInSource, /runAttempt: Number\(process\.env\.GITHUB_RUN_ATTEMPT\)/)
+  assert.match(fanInSource, /pendingSetSha256/)
+  assert.match(fanInSource, /checkpoint-manifest\.json/)
+  assert.match(fanInSource, /baseline-manifest\.json/)
+  assert.match(fanInSource, /checkpoint-manifest\.json[\s\S]*checkpoint-group\/manifest\.json/)
+  assert.match(fanInSource, /tar -cf .*checkpoint-group\.tar[\s\S]*checkpoint-group/)
+  assert.equal(fanIn.steps.find(step => step.name === 'Upload immutable Translation ready descriptor').with.name,
+    'publication-ready-translation-translation-ja-JP-guides-${{ github.run_id }}-${{ github.run_attempt }}')
   assert.doesNotMatch(fanInSource, /git push|staging/)
 })
 
@@ -2622,6 +2641,31 @@ test('workflow policy rejects Translation selection and ready-descriptor wiring 
     fs.writeFileSync(workflow, workflowSource.replace('      publication_unit_key: ${{ matrix.publicationUnitKey }}\n', ''))
     assert.ok(validateWorkflowPolicies(directory).includes(
       'translate-codex.yml: SDK Translation matrix units must receive their exact publication unit key',
+    ))
+
+    fs.writeFileSync(workflow, workflowSource.replace("    name: translate:${{ matrix.target }}/${{ matrix.group }}\n", ''))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: SDK Translation matrix caller job must use its selected producer identity',
+    ))
+
+    fs.writeFileSync(workflow, workflowSource.replaceAll('pendingSetSha256: process.env.PENDING_SET_SHA256', 'pendingSetSha256: undefined'))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests',
+    ))
+
+    fs.writeFileSync(workflow, workflowSource.replace('cp "$RUNNER_TEMP/guides-ready/checkpoint-manifest.json" "$RUNNER_TEMP/guides-ready/checkpoint-group/manifest.json"', ''))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests',
+    ))
+
+    fs.writeFileSync(producer, producerSource.replace("publication-ready-translation-${{ replace(inputs.publication_unit_key, '/', '-') }}-${{ github.run_id }}-${{ github.run_attempt }}", 'publication-ready-translation-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}'))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      '_translate-content-group.yml: Translation producer ready artifact name must use the normalized unit token and run attempt',
+    ))
+
+    fs.writeFileSync(producer, producerSource.replace('selected.target !== process.env.TRANSLATION_TARGET || ', ''))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      '_translate-content-group.yml: Translation producer must authenticate the exact selected unit identity',
     ))
   } finally {
     fs.rmSync(directory, {recursive: true, force: true})

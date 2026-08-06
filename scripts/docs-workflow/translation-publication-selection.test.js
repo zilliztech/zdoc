@@ -68,7 +68,7 @@ function selectionInput(overrides = {}) {
   }
 }
 
-function checkpointFixture() {
+function checkpointFixture({translationTarget = 'ja-JP'} = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-publication-selection-'))
   const checkpointArchive = path.join(root, 'checkpoint-group.tar')
   const checkpointManifest = path.join(root, 'checkpoint-manifest.json')
@@ -82,6 +82,9 @@ function checkpointFixture() {
     group: 'python',
     masterSha: SHA_A,
     devBaselineSha: 'f'.repeat(40),
+    translationTarget,
+    sourceCheckpointSha: 'f'.repeat(40),
+    toolingSha: SHA_A,
     files: [{path: 'i18n/ja-JP/python.md', sha256: SHA_A.repeat(2).slice(0, 64), size: 1}],
     deletions: [],
     validation: {commands: [], passed: true},
@@ -160,6 +163,24 @@ test('hashes both immutable translation checkpoint artifacts in a bound ready de
     assert.equal(ready.artifacts.baseline.name, `translation-baseline-ja-JP-python-${RUN_ID}`)
     assert.equal(ready.artifacts.checkpoint.archiveSha256, crypto.createHash('sha256').update(fs.readFileSync(fixture.checkpointArchive)).digest('hex'))
     assert.equal(ready.artifacts.baseline.manifestSha256, crypto.createHash('sha256').update(fs.readFileSync(fixture.baselineManifest)).digest('hex'))
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('rejects a Japanese checkpoint manifest for a selected Chinese Reference unit', () => {
+  const pythonUnits = handoff().units.slice(1, 3).map((unit, publicationOrder) => ({...unit, publicationOrder}))
+  const selection = buildTranslationPublicationSelection(selectionInput({handoff: {...handoff(), group: 'python', units: pythonUnits}}))
+  const fixture = checkpointFixture({translationTarget: 'ja-JP'})
+  try {
+    assert.throws(() => buildTranslationPublicationReady({
+      selection,
+      unitKey: 'translation/zh-CN-reference/python',
+      checkpointArchive: fixture.checkpointArchive,
+      checkpointManifest: fixture.checkpointManifest,
+      baselineArchive: fixture.baselineArchive,
+      baselineManifest: fixture.baselineManifest,
+    }), /translation target.*mismatch|checkpoint manifest.*selected identity/i)
   } finally {
     fs.rmSync(fixture.root, {recursive: true, force: true})
   }

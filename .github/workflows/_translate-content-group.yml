@@ -104,7 +104,16 @@ jobs:
           const fs = require('node:fs')
           const selection = JSON.parse(fs.readFileSync(process.env.PUBLICATION_SELECTION, 'utf8'))
           if (selection.selectionSha256 !== process.env.PUBLICATION_SELECTION_SHA256) throw new Error('publication selection checksum input mismatch')
-          if (!selection.units.some(unit => unit.unitKey === process.env.PUBLICATION_UNIT_KEY)) throw new Error('publication unit is not selected')
+          const selected = selection.units.find(unit => unit.unitKey === process.env.PUBLICATION_UNIT_KEY)
+          if (!selected) throw new Error('publication unit is not selected')
+          if (selected.target !== process.env.TRANSLATION_TARGET || selected.group !== process.env.GROUP ||
+              selected.toolingSha !== process.env.TOOLING_SHA || selected.sourceBaselineSha !== process.env.SOURCE_BASELINE_SHA ||
+              selected.sourceCheckpointSha !== process.env.SOURCE_CHECKPOINT_SHA) throw new Error('selected publication unit identity mismatch')
+          if (process.env.ARTIFACT_SUFFIX === '') {
+            const checkpoint = `translation-checkpoint-${selected.target}-${selected.group}-${selection.runId}`
+            const baseline = `translation-baseline-${selected.target}-${selected.group}-${selection.runId}`
+            if (selected.artifacts.checkpoint !== checkpoint || selected.artifacts.baseline !== baseline) throw new Error('selected publication aggregate artifact identity mismatch')
+          }
           NODE
       - name: Materialize source checkpoint and baseline
         if: ${{ inputs.should_translate }}
@@ -290,7 +299,7 @@ jobs:
         if: ${{ inputs.batch_number == 0 && steps.translation_upload.outcome == 'success' && steps.baseline_upload.outcome == 'success' }}
         uses: actions/upload-artifact@v6
         with:
-          name: publication-ready-translation-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}
+          name: publication-ready-translation-${{ replace(inputs.publication_unit_key, '/', '-') }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/publication-ready/publication-ready.json
           if-no-files-found: error
       - name: Emit translation result

@@ -102,11 +102,12 @@ function parseManifest(bytes, selected, label, {selectionRunId, selectionRunAtte
     if (manifest.schemaVersion !== 1 || manifest.stage !== 'translation-guides-batch-set' || manifest.group !== 'guides' ||
         manifest.sourceCheckpointSha !== selected.sourceCheckpointSha || manifest.toolingSha !== selected.toolingSha ||
         manifest.runId !== selectionRunId || manifest.runAttempt !== selectionRunAttempt || manifest.targetSha !== selectionInitialTargetSha ||
-        !Number.isSafeInteger(manifest.batchCount) || manifest.batchCount < 1 || !/^[a-f0-9]{64}$/u.test(manifest.pendingSetSha256 || '')) {
+        !Number.isSafeInteger(manifest.batchCount) || manifest.batchCount < 0 || !/^[a-f0-9]{64}$/u.test(manifest.pendingSetSha256 || '')) {
       throw new Error(`${label} Guides batch-set manifest does not match the selected identity`)
     }
   } else if (manifest.schemaVersion !== 2 || manifest.stage !== 'translation' || manifest.group !== selected.group ||
       manifest.masterSha !== selected.toolingSha || manifest.devBaselineSha !== selected.sourceCheckpointSha ||
+      manifest.translationTarget !== selected.target || manifest.sourceCheckpointSha !== selected.sourceCheckpointSha || manifest.toolingSha !== selected.toolingSha ||
       !Array.isArray(manifest.files) || !Array.isArray(manifest.deletions) || manifest.validation?.passed !== true) {
     throw new Error(`${label} translation checkpoint manifest does not match the selected identity`)
   }
@@ -141,7 +142,9 @@ function buildTranslationPublicationReady({selection, unitKey, checkpointArchive
       checkpoint: {name: selected.artifacts.checkpoint, archiveSha256: sha256(checkpointArchiveBytes), manifestSha256: sha256(checkpointManifestBytes)},
       baseline: {name: selected.artifacts.baseline, archiveSha256: sha256(baselineArchiveBytes), manifestSha256: sha256(baselineManifestBytes)},
     },
-    outcome: checkpoint.files?.length === 0 && checkpoint.deletions?.length === 0 ? 'no_changes_candidate' : 'candidate',
+    outcome: selected.strategy === 'ja-guides'
+      ? (checkpoint.batchCount === 0 ? 'no_changes_candidate' : 'candidate')
+      : checkpoint.files?.length === 0 && checkpoint.deletions?.length === 0 ? 'no_changes_candidate' : 'candidate',
   }, {selection})
 }
 

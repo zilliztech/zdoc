@@ -223,6 +223,7 @@ jobs:
   translate_sdk:
     needs: prepare
     if: ${{ needs.prepare.outputs.sdk_count != '0' }}
+    name: translate:${{ matrix.target }}/${{ matrix.group }}
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.prepare.outputs.sdk_producer_matrix) }}
@@ -247,7 +248,7 @@ jobs:
 
   prepare_guides_publication_ready:
     needs: [prepare, prepare_guides_batches, translate_guides_batches]
-    if: ${{ always() && needs.prepare.result == 'success' && needs.prepare.outputs.guides_selected == 'true' && needs.prepare_guides_batches.result == 'success' && needs.translate_guides_batches.result == 'success' && needs.prepare_guides_batches.outputs.batch_count != '0' }}
+    if: ${{ always() && needs.prepare.result == 'success' && needs.prepare.outputs.guides_selected == 'true' && needs.prepare_guides_batches.result == 'success' && (needs.translate_guides_batches.result == 'success' || needs.translate_guides_batches.result == 'skipped') }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -273,11 +274,13 @@ jobs:
           name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
           path: ${{ runner.temp }}/publication-selection
       - name: Download complete Guides translation checkpoints
+        if: ${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}
         uses: actions/download-artifact@v7
         with:
           pattern: translation-checkpoint-ja-JP-guides-${{ github.run_id }}-batch-*
           path: ${{ runner.temp }}/translation-checkpoints
       - name: Download complete Guides translation baselines
+        if: ${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}
         uses: actions/download-artifact@v7
         with:
           pattern: translation-baseline-ja-JP-guides-${{ github.run_id }}-batch-*
@@ -294,12 +297,23 @@ jobs:
           if (selection.selectionSha256 !== process.env.PUBLICATION_SELECTION_SHA256) throw new Error('publication selection checksum mismatch')
           if (!selection.units.some(unit => unit.unitKey === 'translation/ja-JP/guides')) throw new Error('Guides publication unit is not selected')
           NODE
+          mkdir -p "$RUNNER_TEMP/guides-ready"
+          if [[ "$BATCH_COUNT" == 0 ]]; then
+            RUNNER_TEMP="$RUNNER_TEMP" node - <<'NODE'
+            const fs = require('node:fs')
+            const root = `${process.env.RUNNER_TEMP}/guides-ready`
+            const plan = {schemaVersion: 1, group: 'guides', batchCount: 0, pendingSetSha256: process.env.PENDING_SET_SHA256, sourceCheckpointSha: process.env.SOURCE_CHECKPOINT_SHA, targetSha: process.env.EXPECTED_TARGET_SHA}
+            const manifest = {schemaVersion: 1, stage: 'translation-guides-batch-set', group: 'guides', runId: Number(process.env.GITHUB_RUN_ID), runAttempt: Number(process.env.GITHUB_RUN_ATTEMPT), sourceCheckpointSha: process.env.SOURCE_CHECKPOINT_SHA, toolingSha: process.env.TOOLING_SHA, targetSha: process.env.EXPECTED_TARGET_SHA, batchCount: 0, pendingSetSha256: process.env.PENDING_SET_SHA256}
+            fs.writeFileSync(`${root}/translation-plan.json`, `${JSON.stringify(plan)}\n`)
+            fs.writeFileSync(`${root}/checkpoint-manifest.json`, `${JSON.stringify(manifest)}\n`)
+            fs.writeFileSync(`${root}/baseline-manifest.json`, `${JSON.stringify(manifest)}\n`)
+            NODE
+          else
           node scripts/docs-workflow/translation-artifact-pairs.js \
             --checkpoints-root "$RUNNER_TEMP/translation-checkpoints" \
             --baselines-root "$RUNNER_TEMP/translation-baselines" \
             --target ja-JP --group guides --run-id "$GITHUB_RUN_ID" --batch-count "$BATCH_COUNT" \
             --output "$RUNNER_TEMP/guides-artifact-pairs.json"
-          mkdir -p "$RUNNER_TEMP/guides-ready"
           PAIRS="$RUNNER_TEMP/guides-artifact-pairs.json" node - <<'NODE'
           const fs = require('node:fs')
           const path = require('node:path')
@@ -342,8 +356,18 @@ jobs:
           fs.writeFileSync(`${process.env.RUNNER_TEMP}/guides-ready/checkpoint-manifest.json`, `${JSON.stringify(manifest)}\n`)
           fs.writeFileSync(`${process.env.RUNNER_TEMP}/guides-ready/baseline-manifest.json`, `${JSON.stringify(manifest)}\n`)
           NODE
-          tar -cf "$RUNNER_TEMP/guides-ready/checkpoint-group.tar" -C "$RUNNER_TEMP/translation-checkpoints" .
-          tar -cf "$RUNNER_TEMP/guides-ready/baseline-group.tar" -C "$RUNNER_TEMP/translation-baselines" .
+          fi
+          mkdir -p "$RUNNER_TEMP/guides-ready/checkpoint-group/batches" "$RUNNER_TEMP/guides-ready/baseline-group/batches"
+          cp "$RUNNER_TEMP/guides-ready/checkpoint-manifest.json" "$RUNNER_TEMP/guides-ready/checkpoint-group/manifest.json"
+          cp "$RUNNER_TEMP/guides-ready/baseline-manifest.json" "$RUNNER_TEMP/guides-ready/baseline-group/manifest.json"
+          cp "$RUNNER_TEMP/guides-ready/translation-plan.json" "$RUNNER_TEMP/guides-ready/checkpoint-group/translation-plan.json"
+          cp "$RUNNER_TEMP/guides-ready/translation-plan.json" "$RUNNER_TEMP/guides-ready/baseline-group/translation-plan.json"
+          if [[ "$BATCH_COUNT" != 0 ]]; then
+            cp -a "$RUNNER_TEMP/translation-checkpoints/." "$RUNNER_TEMP/guides-ready/checkpoint-group/batches/"
+            cp -a "$RUNNER_TEMP/translation-baselines/." "$RUNNER_TEMP/guides-ready/baseline-group/batches/"
+          fi
+          tar -cf "$RUNNER_TEMP/guides-ready/checkpoint-group.tar" -C "$RUNNER_TEMP/guides-ready" checkpoint-group
+          tar -cf "$RUNNER_TEMP/guides-ready/baseline-group.tar" -C "$RUNNER_TEMP/guides-ready" baseline-group
       - name: Upload Guides translation checkpoint
         uses: actions/upload-artifact@v6
         with:
@@ -361,7 +385,7 @@ jobs:
       - name: Upload immutable Translation ready descriptor
         uses: actions/upload-artifact@v6
         with:
-          name: publication-ready-translation-ja-JP-guides-${{ github.run_id }}
+          name: publication-ready-translation-translation-ja-JP-guides-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/guides-ready/publication-ready.json
           if-no-files-found: error
 
