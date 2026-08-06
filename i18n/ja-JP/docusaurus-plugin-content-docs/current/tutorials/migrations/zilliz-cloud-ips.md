@@ -144,6 +144,11 @@ Zilliz Cloud は、固定された IP アドレスのセットを使用して、
      <td><p><code>34.87.102.210</code>, <code>35.197.139.186</code></p></td>
    </tr>
    <tr>
+     <td><p>asia-northeast1</p></td>
+     <td><p>Tokyo, Japan</p></td>
+     <td><p><code>34.146.53.58</code>, <code>34.104.208.246</code></p></td>
+   </tr>
+   <tr>
      <td><p>europe-west3</p></td>
      <td><p>Frankfurt, Germany</p></td>
      <td><p><code>34.107.41.158</code>, <code>34.141.61.171</code></p></td>

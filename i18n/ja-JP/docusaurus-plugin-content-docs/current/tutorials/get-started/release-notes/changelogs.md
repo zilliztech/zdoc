@@ -5,7 +5,7 @@ sidebar_key: changelogs
 sidebar_label: "変更履歴"
 beta: FALSE
 notebook: FALSE
-description: "最終更新日: 2026年7月30日 | Cloud"
+description: "最終更新日: 2026年8月6日 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 0
@@ -24,7 +24,7 @@ import Grid from '@site/src/components/Grid';
 
 # 変更履歴
 
-**最終更新日:** 2026年7月30日
+**最終更新日:** 2026年8月6日
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -43,6 +43,38 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2026\{#2026}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **2026年8月6日**
+
+    </div>
+
+    <div>
+
+        - **新しいリージョン**: 🇯🇵 東京、日本 (GCP)
+
+    </div>
+
+</Grid>
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **2026年8月3日**
+
+    </div>
+
+    <div>
+
+        - **新しいリージョン**: 🇬🇧 ロンドン、英国 (AWS)
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="25,74">
 
