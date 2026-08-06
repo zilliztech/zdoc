@@ -117,6 +117,14 @@ function receiptsAreExact(validation) {
       receipt.command === VALIDATION_SPECS[index].command && receipt.result === 'success')
 }
 
+function validationFailure(error, candidate, validationReceipts, cleanupDebt) {
+  const wrapped = new Error(String(error?.message || error || 'Japanese Guides validation failed'))
+  wrapped.validationReceipts = Object.freeze([...(validationReceipts || [])])
+  wrapped.cleanupDebt = Object.freeze([...cleanupDebt])
+  wrapped.stagingRef = candidate.stagingRef
+  return wrapped
+}
+
 function createJapaneseGuidesStrategy(overrides = {}) {
   if (!overrides || typeof overrides !== 'object' || Array.isArray(overrides)) throw new Error('Japanese Guides strategy dependencies must be an object')
   const dependencies = {
@@ -161,6 +169,7 @@ function createJapaneseGuidesStrategy(overrides = {}) {
       candidateSha,
       commitShas: [...commitShas],
       stagingRef,
+      unconfirmedCleanupDebt: [{kind: 'retained_diagnostic_ref', stagingRef, expectedSha: candidateSha}],
       publicationWorktree: composed.publicationWorktree,
       repositoryRoot: inputs.repositoryRoot,
       dependencyRoot: inputs.dependencyRoot,
@@ -185,21 +194,39 @@ function createJapaneseGuidesStrategy(overrides = {}) {
         environment: candidate.environment,
       })
     } catch (error) {
-      error.stagingRef = candidate.stagingRef
-      throw error
+      const localDebt = await localCleanup(candidate)
+      throw validationFailure(error, candidate, error?.validationReceipts, [localDebt].filter(Boolean))
     }
     if (!receiptsAreExact(validation)) {
-      const error = new Error(validation?.failureDetail || 'Japanese Guides validation requires exactly seven successful receipts')
-      error.validationReceipts = Object.freeze([...(validation?.receipts || [])])
-      error.stagingRef = candidate.stagingRef
-      throw error
+      const localDebt = await localCleanup(candidate)
+      throw validationFailure(
+        validation?.failureDetail || 'Japanese Guides validation requires exactly seven successful receipts',
+        candidate,
+        validation?.receipts,
+        [localDebt].filter(Boolean),
+      )
     }
     return Object.freeze({validationReceipts: Object.freeze([...validation.receipts])})
+  }
+
+  async function localCleanup(candidate) {
+    try {
+      await dependencies.removePublicationWorktree(candidate.repositoryRoot, candidate.publicationWorktree)
+      return null
+    } catch (error) {
+      return {
+        kind: 'local_worktree_cleanup_failed',
+        stagingRef: candidate.stagingRef,
+        expectedSha: candidate.candidateSha,
+        message: String(error.message || error),
+      }
+    }
   }
 
   async function promote(context) {
     const candidate = context.candidate
     let localDebt = null
+    let localDebtReturned = false
     const remoteCleanup = async () => {
       try {
         const cleanup = await dependencies.deleteDiagnosticStagingWithLease({
@@ -217,22 +244,9 @@ function createJapaneseGuidesStrategy(overrides = {}) {
         }
       }
     }
-    const localCleanup = async () => {
-      try {
-        await dependencies.removePublicationWorktree(candidate.repositoryRoot, candidate.publicationWorktree)
-        return null
-      } catch (error) {
-        return {
-          kind: 'local_worktree_cleanup_failed',
-          stagingRef: candidate.stagingRef,
-          expectedSha: candidate.candidateSha,
-          message: String(error.message || error),
-        }
-      }
-    }
     context.deferConfirmedPromotionCleanup(async () => {
       const remoteDebt = await remoteCleanup()
-      return deepFreeze({cleanupDebt: [localDebt, remoteDebt].filter(Boolean)})
+      return deepFreeze({cleanupDebt: [localDebtReturned ? null : localDebt, remoteDebt].filter(Boolean)})
     })
     let promoted
     try {
@@ -242,14 +256,16 @@ function createJapaneseGuidesStrategy(overrides = {}) {
         worktree: candidate.publicationWorktree,
       })
     } finally {
-      localDebt = await localCleanup()
+      localDebt = await localCleanup(candidate)
     }
     const result = promoted || {status: 'published'}
-    return deepFreeze({
+    const frozen = deepFreeze({
       ...result,
       status: result.status || 'published',
       cleanupDebt: [localDebt].filter(Boolean),
     })
+    localDebtReturned = true
+    return frozen
   }
 
   return definePublicationStrategy({name: 'ja-guides', compose, validate, promote})

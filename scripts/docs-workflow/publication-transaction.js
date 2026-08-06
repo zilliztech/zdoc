@@ -156,6 +156,9 @@ async function runPublicationStrategyTransaction(options = {}) {
       }, now, validationReceipts, cleanupDebt)
     }
     const exactCandidate = cloneAndFreeze({...candidate, candidateSha, commitShas: candidateCommitShas})
+    const retainUnconfirmedCleanupDebt = () => {
+      appendObjects(cleanupDebt, exactCandidate.unconfirmedCleanupDebt, 'unconfirmed candidate cleanupDebt')
+    }
 
     try {
       const validation = await strategy.validate(Object.freeze({candidate: exactCandidate}))
@@ -163,6 +166,8 @@ async function runPublicationStrategyTransaction(options = {}) {
       appendObjects(cleanupDebt, validation?.cleanupDebt, 'validation cleanupDebt')
     } catch (error) {
       appendObjects(validationReceipts, error?.validationReceipts, 'validationReceipts')
+      appendObjects(cleanupDebt, error?.cleanupDebt, 'validation cleanupDebt')
+      retainUnconfirmedCleanupDebt()
       return terminal({
         status: 'publish_failed', baseSha, attempts: attempt, remoteState: 'known',
         failure: failure('VALIDATION_FAILED', 'validate', error),
@@ -220,6 +225,7 @@ async function runPublicationStrategyTransaction(options = {}) {
         }
       }
       if (!probe) {
+        retainUnconfirmedCleanupDebt()
         return terminal({
           status: 'publish_failed', baseSha, attempts: attempt, remoteState: 'unknown',
           failure: failure('REMOTE_STATE_UNKNOWN', 'push_probe', probeError || pushError),
@@ -233,12 +239,14 @@ async function runPublicationStrategyTransaction(options = {}) {
         }, now, validationReceipts, cleanupDebt)
       }
       if (probe.remoteSha !== baseSha) {
+        retainUnconfirmedCleanupDebt()
         if (attempt < maxAttempts) continue
         return terminal({
           status: 'publish_failed', baseSha, attempts: attempt, remoteState: 'known',
           failure: failure('TARGET_DRIFT_EXHAUSTED', 'promote', pushError),
         }, now, validationReceipts, cleanupDebt)
       }
+      retainUnconfirmedCleanupDebt()
       return terminal({
         status: 'publish_failed', baseSha, attempts: attempt, remoteState: 'known',
         failure: failure('PUSH_FAILED', 'promote', pushError),

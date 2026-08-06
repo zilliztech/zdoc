@@ -317,7 +317,89 @@ test('strategy requires the exact seven validation receipts and retains the diag
     return true
   })
   assert.equal(deleted, false)
-  assert.equal(localRemoved, false, 'validation failure keeps the exact local candidate available for diagnosis')
+  assert.equal(localRemoved, true, 'validation failure removes the local candidate while retaining the remote diagnostic ref')
+})
+
+test('validation failure removes the local candidate and reports the retained diagnostic ref', async () => {
+  const removed = []
+  let deleteCalls = 0
+  const strategy = createJapaneseGuidesStrategy({
+    async composeLatestTipCandidate() {
+      return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
+    },
+    pushDiagnosticStagingCandidate() {},
+    validateGuidesTranslationCandidate() {
+      return {result: 'failure', receipts: successfulReceipts().slice(0, 6), failureDetail: 'six is not seven'}
+    },
+    deleteDiagnosticStagingWithLease() { deleteCalls += 1; return {deleted: true, cleanupDebt: null} },
+    removePublicationWorktree(repository, worktree) { removed.push({repository, worktree}) },
+  })
+
+  const result = await runPublicationStrategyTransaction({
+    strategy,
+    inputs: strategyInputs(),
+    readTargetTip: async () => '4'.repeat(40),
+    promoteCandidate: async () => ({status: 'published'}),
+    probeRemoteCandidate: async () => ({remoteSha: '4'.repeat(40), containsCandidate: false}),
+  })
+
+  assert.equal(result.status, 'publish_failed')
+  assert.equal(result.failure.code, 'VALIDATION_FAILED')
+  assert.deepEqual(removed, [{repository: '/repo', worktree: '/candidate'}])
+  assert.equal(deleteCalls, 0)
+  assert.deepEqual(result.cleanupDebt, [{
+    kind: 'retained_diagnostic_ref',
+    stagingRef: diagnosticStagingRef({runId: 71, runAttempt: 3, selectionSha256: SELECTION_SHA, compositionBaseSha: '4'.repeat(40), unitKey: 'translation/ja-JP/guides'}),
+    expectedSha: '5'.repeat(40),
+  }])
+})
+
+test('validation cleanup failure is reported beside the retained diagnostic ref', async () => {
+  const strategy = createJapaneseGuidesStrategy({
+    async composeLatestTipCandidate() {
+      return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
+    },
+    pushDiagnosticStagingCandidate() {},
+    validateGuidesTranslationCandidate() { throw new Error('validation unavailable') },
+    deleteDiagnosticStagingWithLease() { throw new Error('must retain remote ref') },
+    removePublicationWorktree() { throw new Error('local cleanup unavailable') },
+  })
+
+  const result = await runPublicationStrategyTransaction({
+    strategy,
+    inputs: strategyInputs(),
+    readTargetTip: async () => '4'.repeat(40),
+    promoteCandidate: async () => ({status: 'published'}),
+    probeRemoteCandidate: async () => ({remoteSha: '4'.repeat(40), containsCandidate: false}),
+  })
+
+  assert.equal(result.status, 'publish_failed')
+  assert.deepEqual(result.cleanupDebt.map(debt => debt.kind), ['local_worktree_cleanup_failed', 'retained_diagnostic_ref'])
+})
+
+test('primitive and frozen validation errors are wrapped with retained-resource facts', async () => {
+  for (const thrown of ['validation primitive', Object.freeze(new Error('validation frozen'))]) {
+    let removed = 0
+    const strategy = createJapaneseGuidesStrategy({
+      async composeLatestTipCandidate() {
+        return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
+      },
+      pushDiagnosticStagingCandidate() {},
+      validateGuidesTranslationCandidate() { throw thrown },
+      deleteDiagnosticStagingWithLease() { throw new Error('must retain remote ref') },
+      removePublicationWorktree() { removed += 1 },
+    })
+    const result = await runPublicationStrategyTransaction({
+      strategy,
+      inputs: strategyInputs(),
+      readTargetTip: async () => '4'.repeat(40),
+      promoteCandidate: async () => ({status: 'published'}),
+      probeRemoteCandidate: async () => ({remoteSha: '4'.repeat(40), containsCandidate: false}),
+    })
+    assert.equal(result.status, 'publish_failed')
+    assert.equal(result.cleanupDebt[0].kind, 'retained_diagnostic_ref')
+    assert.equal(removed, 1)
+  }
 })
 
 test('strategy delegates successful CAS and cleans the exact staging ref with its SHA lease', async () => {
@@ -476,6 +558,34 @@ test('shared transaction fully recomposes and revalidates after target drift', a
   assert.equal(result.validationReceipts.length, 14)
   assert.equal(deleted.length, 1)
   assert.equal(deleted[0].stagedSha, '7'.repeat(40))
+  assert.equal(result.cleanupDebt.length, 1)
+  assert.equal(result.cleanupDebt[0].kind, 'retained_diagnostic_ref')
+  assert.equal(result.cleanupDebt[0].expectedSha, '5'.repeat(40))
+})
+
+test('known unchanged promotion retains the exact diagnostic ref as cleanup debt', async () => {
+  const strategy = createJapaneseGuidesStrategy({
+    async composeLatestTipCandidate() {
+      return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
+    },
+    pushDiagnosticStagingCandidate() {},
+    validateGuidesTranslationCandidate() { return {result: 'success', receipts: successfulReceipts()} },
+    deleteDiagnosticStagingWithLease() { throw new Error('must retain remote ref') },
+    removePublicationWorktree() {},
+  })
+  const result = await runPublicationStrategyTransaction({
+    strategy,
+    inputs: strategyInputs(),
+    readTargetTip: async () => '4'.repeat(40),
+    async promoteCandidate() { throw new Error('permission denied') },
+    async probeRemoteCandidate() { return {remoteSha: '4'.repeat(40), containsCandidate: false} },
+  })
+
+  assert.equal(result.status, 'publish_failed')
+  assert.equal(result.failure.code, 'PUSH_FAILED')
+  assert.equal(result.cleanupDebt.length, 1)
+  assert.equal(result.cleanupDebt[0].kind, 'retained_diagnostic_ref')
+  assert.equal(result.cleanupDebt[0].expectedSha, '5'.repeat(40))
 })
 
 test('shared transaction confirms an ambiguous push before leased cleanup and reports retained-ref debt', async () => {
@@ -539,6 +649,53 @@ test('unknown remote state retains the exact diagnostic ref', async () => {
   assert.equal(result.status, 'publish_failed')
   assert.equal(result.remoteState, 'unknown')
   assert.equal(deleteCalls, 0)
+  assert.equal(result.cleanupDebt.length, 1)
+  assert.equal(result.cleanupDebt[0].kind, 'retained_diagnostic_ref')
+  assert.equal(result.cleanupDebt[0].expectedSha, '5'.repeat(40))
+})
+
+test('direct publication reports a local cleanup failure exactly once', async () => {
+  const strategy = createJapaneseGuidesStrategy({
+    async composeLatestTipCandidate() {
+      return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
+    },
+    pushDiagnosticStagingCandidate() {},
+    validateGuidesTranslationCandidate() { return {result: 'success', receipts: successfulReceipts()} },
+    deleteDiagnosticStagingWithLease() { return {deleted: true, cleanupDebt: null} },
+    removePublicationWorktree() { throw new Error('local cleanup unavailable') },
+  })
+  const result = await runPublicationStrategyTransaction({
+    strategy,
+    inputs: strategyInputs(),
+    readTargetTip: async () => '4'.repeat(40),
+    promoteCandidate: async () => ({status: 'published'}),
+    probeRemoteCandidate: async () => { throw new Error('not needed') },
+  })
+
+  assert.equal(result.status, 'published')
+  assert.deepEqual(result.cleanupDebt.map(debt => debt.kind), ['local_worktree_cleanup_failed'])
+})
+
+test('probe-confirmed publication reports a local cleanup failure exactly once', async () => {
+  const strategy = createJapaneseGuidesStrategy({
+    async composeLatestTipCandidate() {
+      return {status: 'candidate', candidateSha: '5'.repeat(40), commitShas: ['5'.repeat(40)], publicationWorktree: '/candidate'}
+    },
+    pushDiagnosticStagingCandidate() {},
+    validateGuidesTranslationCandidate() { return {result: 'success', receipts: successfulReceipts()} },
+    deleteDiagnosticStagingWithLease() { return {deleted: true, cleanupDebt: null} },
+    removePublicationWorktree() { throw new Error('local cleanup unavailable') },
+  })
+  const result = await runPublicationStrategyTransaction({
+    strategy,
+    inputs: strategyInputs(),
+    readTargetTip: async () => '4'.repeat(40),
+    async promoteCandidate() { throw new Error('connection closed') },
+    async probeRemoteCandidate() { return {remoteSha: '5'.repeat(40), containsCandidate: true} },
+  })
+
+  assert.equal(result.status, 'published')
+  assert.deepEqual(result.cleanupDebt.map(debt => debt.kind), ['local_worktree_cleanup_failed'])
 })
 
 test('cleanup debt is reported without downgrading a confirmed published result', async () => {

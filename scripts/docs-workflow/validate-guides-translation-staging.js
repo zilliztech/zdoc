@@ -41,6 +41,13 @@ function isolatedEnvironment() {
   Object.assign(environment, { HOME: root, XDG_CONFIG_HOME: xdg, CI: 'true', NO_UPDATE_NOTIFIER: '1', GIT_TERMINAL_PROMPT: '0', GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: '/dev/null', NPM_CONFIG_USERCONFIG: userNpmrc, NPM_CONFIG_GLOBALCONFIG: globalNpmrc, NPM_CONFIG_CACHE: cache, COREPACK_HOME: corepack, YARN_RC_FILENAME: path.join(root, 'yarnrc.yml') })
   return { root, environment }
 }
+function boundEnvironment(value) {
+  if (value === undefined) return {}
+  if (!value || typeof value !== 'object' || Array.isArray(value) || Object.values(value).some(entry => typeof entry !== 'string')) throw new Error('environment must be an object of strings')
+  const controlled = key => key.startsWith('GIT_') || key.startsWith('NPM_CONFIG_') || key.startsWith('YARN_') ||
+    ['HOME', 'XDG_CONFIG_HOME', 'CI', 'NO_UPDATE_NOTIFIER', 'NODE_OPTIONS', 'BASH_ENV', 'ENV', 'COREPACK_HOME'].includes(key)
+  return Object.fromEntries(Object.entries(value).filter(([key]) => !controlled(key)))
+}
 function git(repository, args, environment, buffer = false) {
   return execFileSync('git', ['-C', repository, ...args], { encoding: buffer ? null : 'utf8', env: environment, maxBuffer: 16 * 1024 * 1024 })
 }
@@ -120,10 +127,10 @@ function defaultExecutor(command, args, options) {
 
 function runGuidesTranslationValidation(options) {
   if (!options || typeof options !== 'object' || Array.isArray(options)) throw new Error('validation options must be an object')
-  const keys = Object.keys(options), allowedKeys = ['repository', 'masterSha', 'expectedTargetSha', 'stagedSha', 'executor']
+  const keys = Object.keys(options), allowedKeys = ['repository', 'masterSha', 'expectedTargetSha', 'stagedSha', 'environment', 'executor']
   if (keys.some(key => !allowedKeys.includes(key)) || !['repository', 'masterSha', 'expectedTargetSha', 'stagedSha'].every(key => Object.hasOwn(options, key))) throw new Error('validation options have invalid keys')
   if (options.executor !== undefined && typeof options.executor !== 'function') throw new Error('executor must be a function')
-  const isolation = isolatedEnvironment(), environment = isolation.environment
+  const isolation = isolatedEnvironment(), environment = {...boundEnvironment(options.environment), ...isolation.environment}
   let repository, proof
   try { repository = repositoryRoot(options.repository, environment); proof = stagedStateProof(repository, options.masterSha, options.expectedTargetSha, options.stagedSha, environment) } catch (error) { fs.rmSync(isolation.root, { recursive: true, force: true }); throw error }
   const executor = options.executor || defaultExecutor, receipts = []
@@ -194,6 +201,7 @@ function validateGuidesTranslationCandidate(options, dependencies = {}) {
       masterSha: options.masterSha,
       expectedTargetSha: options.expectedTargetSha,
       stagedSha: options.stagedSha,
+      environment: options.environment,
       ...(dependencies.executor ? {executor: dependencies.executor} : {}),
     })
   } finally {

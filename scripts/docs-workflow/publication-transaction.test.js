@@ -14,13 +14,16 @@ function transaction(options = {}) {
   const contexts = {}
   const tips = [...(options.tips || [SHA('a')])]
   const candidates = [...(options.candidates || [SHA('b')])]
+  const unconfirmedCleanupDebts = [...(options.unconfirmedCleanupDebts || [])]
   const strategy = definePublicationStrategy({
     name: 'checkpoint',
     async compose(context) {
       contexts.compose = context
       calls.push(['compose', context.latestDevSha, context.inputs])
       if (options.noChanges) return {status: 'no_changes'}
-      return {status: 'candidate', candidateSha: candidates.shift(), commitShas: options.commitShas}
+      const candidate = {status: 'candidate', candidateSha: candidates.shift(), commitShas: options.commitShas}
+      const unconfirmedCleanupDebt = unconfirmedCleanupDebts.shift()
+      return unconfirmedCleanupDebt === undefined ? candidate : {...candidate, unconfirmedCleanupDebt}
     },
     async validate(context) {
       contexts.validate = context
@@ -129,6 +132,20 @@ test('validation failure preserves exact receipts and never promotes', async () 
   assert.equal(result.failure.phase, 'validate')
   assert.deepEqual(result.validationReceipts, [receipt])
   assert.deepEqual(fixture.calls.map(([name]) => name), ['compose', 'validate'])
+})
+
+test('validation failure records strategy cleanup and the candidate retained-resource debt', async () => {
+  const localDebt = {kind: 'local_worktree_cleanup_failed', expectedSha: SHA('b')}
+  const retainedDebt = {kind: 'retained_diagnostic_ref', stagingRef: 'refs/heads/diagnostic-b', expectedSha: SHA('b')}
+  const validationError = new Error('validation failed')
+  validationError.cleanupDebt = [localDebt]
+  const fixture = transaction({validationError, unconfirmedCleanupDebts: [[retainedDebt]]})
+
+  const result = await fixture.run()
+
+  assert.equal(result.status, 'publish_failed')
+  assert.equal(result.failure.code, 'VALIDATION_FAILED')
+  assert.deepEqual(result.cleanupDebt, [localDebt, retainedDebt])
 })
 
 test('candidate commit SHAs are valid, unique, and contain the candidate before validation or promotion', async () => {
@@ -321,6 +338,23 @@ test('known target drift recomposes, revalidates, and retries', async () => {
   assert.deepEqual(result.commitShas, [SHA('d')])
   assert.deepEqual(result.validationReceipts.map(receipt => receipt.candidateSha), [SHA('b'), SHA('d')])
   assert.equal(cleanupCalls, 1)
+})
+
+test('target drift retains only the unconfirmed attempt debt after the next attempt publishes', async () => {
+  const firstDebt = {kind: 'retained_diagnostic_ref', stagingRef: 'refs/heads/diagnostic-b', expectedSha: SHA('b')}
+  const secondDebt = {kind: 'retained_diagnostic_ref', stagingRef: 'refs/heads/diagnostic-d', expectedSha: SHA('d')}
+  const fixture = transaction({
+    tips: [SHA('a'), SHA('c')],
+    candidates: [SHA('b'), SHA('d')],
+    promotions: [new Error('non-fast-forward'), {status: 'published'}],
+    probes: [{remoteSha: SHA('c'), containsCandidate: false}],
+    unconfirmedCleanupDebts: [[firstDebt], [secondDebt]],
+  })
+
+  const result = await fixture.run()
+
+  assert.equal(result.status, 'published')
+  assert.deepEqual(result.cleanupDebt, [firstDebt])
 })
 
 test('exhausted known target drift is terminal and no longer retryable', async () => {
