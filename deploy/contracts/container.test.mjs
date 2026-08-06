@@ -114,7 +114,9 @@ for (const site of ['en', 'zh-CN']) {
     assert.doesNotMatch(contents, /COPY --from=build \/app\/build\/?\s/);
     assert.doesNotMatch(contents, new RegExp(`/app/build/${otherSite.replace('-', '\\-')}\\b`));
     assert.match(contents, new RegExp(`COPY deploy/${site.replace('-', '\\-')}/nginx\\.conf /etc/nginx/conf\\.d/default\\.conf`));
-    assert.match(contents, /COPY --chmod=755 deploy\/runtime\/40-zdoc-env\.sh \/docker-entrypoint\.d\/40-zdoc-env\.sh/);
+    assert.match(contents, /COPY deploy\/runtime\/40-zdoc-env\.sh \/docker-entrypoint\.d\/40-zdoc-env\.sh/);
+    assert.match(contents, /RUN chmod 755 \/docker-entrypoint\.d\/40-zdoc-env\.sh/);
+    assert.doesNotMatch(contents, /COPY\s+--chmod=/);
   });
 
   test(`${site} build and runtime validation reject malformed revision identities`, () => {
@@ -188,7 +190,8 @@ for (const site of ['en', 'zh-CN']) {
     assert.equal(runtime.filter(instruction => instruction.startsWith('COPY --from=build ')).length, 1);
     assert.ok(runtime.includes(`COPY --from=build /app/build/${site}/ /usr/share/nginx/html/`));
     assert.ok(runtime.includes(`COPY deploy/${site}/nginx.conf /etc/nginx/conf.d/default.conf`));
-    assert.ok(runtime.includes('COPY --chmod=755 deploy/runtime/40-zdoc-env.sh /docker-entrypoint.d/40-zdoc-env.sh'));
+    assert.ok(runtime.includes('COPY deploy/runtime/40-zdoc-env.sh /docker-entrypoint.d/40-zdoc-env.sh'));
+    assert.ok(runtime.includes('RUN chmod 755 /docker-entrypoint.d/40-zdoc-env.sh'));
     assert.equal(runtime.filter(instruction => instruction.startsWith('COPY ')).length, 3);
     assert.doesNotMatch(runtime.join('\n'), /(?:node|pnpm|npm|yarn|node_modules|package\.json|pnpm-lock|COPY \.)/i);
     assert.doesNotMatch(runtime.join('\n'), /localization-inputs\.inventory\.json/);
