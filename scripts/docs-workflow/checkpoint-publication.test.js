@@ -37,6 +37,8 @@ function setup() {
   put(repository, 'content/en/guides/tutorials/a.md', 'old\n')
   put(repository, 'content/zh-CN/guides/tutorials/home.md', '# Chinese Guides home\n')
   put(repository, 'content/zh-CN/guides/tutorials/a.md', 'old\n')
+  put(repository, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', 'old\n')
+  put(repository, '.translation-cache/ja-JP.json', '{"files":{}}\n')
   git(repository, 'add', '.')
   git(repository, 'commit', '-m', 'seed')
   git(repository, 'branch', '-M', 'dev')
@@ -63,6 +65,42 @@ function checkpoint(fixture, mutate = () => {}, options = {}) {
     '--output', artifactDir,
   ], {env: {...process.env, ...(options.environment || {})}})
   return {artifactDir, baselineDir: baseline, baselineSha}
+}
+
+function translationCheckpoint(fixture, mutate = () => {}) {
+  const baseline = path.join(fixture.root, `translation-baseline-workspace-${Math.random()}`)
+  const workspace = path.join(fixture.root, `translation-checkpoint-workspace-${Math.random()}`)
+  const baselineDir = path.join(fixture.root, `translation-baseline-${Math.random()}`)
+  const artifactDir = path.join(fixture.root, `translation-checkpoint-${Math.random()}`)
+  copy(fixture.repository, baseline)
+  if (!fs.existsSync(path.join(baseline, '.translation-cache/ja-JP.json'))) put(baseline, '.translation-cache/ja-JP.json', '{"files":{}}\n')
+  if (!fs.existsSync(path.join(baseline, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md'))) {
+    put(baseline, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', 'old\n')
+  }
+  copy(baseline, workspace)
+  mutate(workspace)
+  const baselineSha = git(baseline, 'rev-parse', 'HEAD')
+  const common = [
+    '--group', 'guides',
+    '--master-sha', baselineSha,
+    '--dev-baseline-sha', baselineSha,
+    '--baseline-dir', baseline,
+    '--include-translation-cache',
+    '--translation-target', 'ja-JP',
+    '--source-site', 'en',
+    '--target-site', 'en',
+    '--source-checkpoint-sha', baselineSha,
+    '--tooling-sha', baselineSha,
+  ]
+  for (const [source, output] of [[baseline, baselineDir], [workspace, artifactDir]]) {
+    execFileSync(process.execPath, [
+      path.join(__dirname, 'create-checkpoint-artifact.js'),
+      ...common,
+      '--workspace', source,
+      '--output', output,
+    ])
+  }
+  return {artifactDir, baselineDir, baselineSha}
 }
 
 function unit(checkpointFacts, overrides = {}) {
@@ -352,4 +390,164 @@ test('bounded probe failure reports unknown remote state and stops retrying', as
   assert.deepEqual(result.commitShas, [])
   assert.equal(result.failure.code, 'REMOTE_STATE_UNKNOWN')
   assert.equal(result.failure.phase, 'push_probe')
+})
+
+test('translation checkpoint publication authenticates the baseline and returns exact validation receipts', async t => {
+  const fixture = setup()
+  t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
+  const facts = translationCheckpoint(fixture, workspace => {
+    put(workspace, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', 'new\n')
+  })
+  const translationUnit = unit(facts, {
+    unitKey: 'translation/ja-JP/guides',
+    strategy: 'checkpoint',
+    target: 'ja-JP',
+    sourceCheckpointSha: facts.baselineSha,
+    validationCommands: ['test "$(cat i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md)" = new'],
+  })
+
+  const result = await publish(fixture, facts, {baselineDir: facts.baselineDir, unit: translationUnit})
+
+  assert.equal(result.status, 'published', JSON.stringify(result.failure))
+  assert.deepEqual(Object.keys(result).sort(), [
+    'attempts', 'baseSha', 'cleanupDebt', 'commitShas', 'completedAt', 'failure',
+    'remoteState', 'resultSha', 'status', 'validationReceipts',
+  ].sort())
+  assert.deepEqual(result.validationReceipts.map(receipt => ({...receipt, startedAt: '<time>', completedAt: '<time>'})), [{
+    command: translationUnit.validationCommands[0],
+    exitCode: 0,
+    startedAt: '<time>',
+    completedAt: '<time>',
+    candidateSha: result.resultSha,
+    target: 'ja-JP',
+    group: 'guides',
+    sourceCheckpointSha: facts.baselineSha,
+    toolingSha: facts.baselineSha,
+  }])
+})
+
+test('translation validation failure preserves its nonzero receipt and never pushes', async t => {
+  const fixture = setup()
+  t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
+  const facts = translationCheckpoint(fixture, workspace => {
+    put(workspace, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', 'new\n')
+  })
+  const translationUnit = unit(facts, {
+    unitKey: 'translation/ja-JP/guides',
+    strategy: 'checkpoint',
+    target: 'ja-JP',
+    sourceCheckpointSha: facts.baselineSha,
+    validationCommands: ['exit 7'],
+  })
+  const before = git(fixture.remote, 'rev-parse', 'refs/heads/dev')
+  let pushes = 0
+
+  const result = await publish(fixture, facts, {
+    baselineDir: facts.baselineDir,
+    unit: translationUnit,
+    dependencies: {pushCandidate() { pushes += 1 }},
+  })
+
+  assert.equal(result.status, 'publish_failed')
+  assert.equal(result.remoteState, 'known')
+  assert.equal(result.failure.code, 'VALIDATION_FAILED')
+  assert.equal(result.failure.phase, 'validate')
+  assert.equal(result.validationReceipts.length, 1)
+  const [receipt] = result.validationReceipts
+  assert.deepEqual({...receipt, startedAt: '<time>', completedAt: '<time>', candidateSha: '<sha>'}, {
+    command: 'exit 7',
+    exitCode: 7,
+    startedAt: '<time>',
+    completedAt: '<time>',
+    candidateSha: '<sha>',
+    target: 'ja-JP',
+    group: 'guides',
+    sourceCheckpointSha: facts.baselineSha,
+    toolingSha: facts.baselineSha,
+  })
+  assert.match(receipt.candidateSha, /^[0-9a-f]{40}$/)
+  assert.equal(pushes, 0)
+  assert.equal(git(fixture.remote, 'rev-parse', 'refs/heads/dev'), before)
+})
+
+test('translation checkpoint publication rejects missing or mismatched baselines before any push', async t => {
+  const fixture = setup()
+  t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
+  const facts = translationCheckpoint(fixture, workspace => {
+    put(workspace, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', 'new\n')
+  })
+  const translationUnit = unit(facts, {
+    unitKey: 'translation/ja-JP/guides', strategy: 'checkpoint', target: 'ja-JP', sourceCheckpointSha: facts.baselineSha,
+  })
+  let pushes = 0
+  const dependencies = {pushCandidate() { pushes += 1 }}
+
+  const missing = await publish(fixture, facts, {baselineDir: null, unit: translationUnit, dependencies})
+  assert.equal(missing.status, 'publish_failed')
+  assert.match(missing.failure.message, /baseline/i)
+  const baselineManifest = JSON.parse(fs.readFileSync(path.join(facts.baselineDir, 'manifest.json'), 'utf8'))
+  baselineManifest.sourceCheckpointSha = 'a'.repeat(40)
+  baselineManifest.devBaselineSha = 'a'.repeat(40)
+  fs.writeFileSync(path.join(facts.baselineDir, 'manifest.json'), JSON.stringify(baselineManifest))
+  const mismatch = await publish(fixture, facts, {baselineDir: facts.baselineDir, unit: translationUnit, dependencies})
+  assert.equal(mismatch.status, 'publish_failed')
+  assert.match(mismatch.failure.message, /source|baseline|mismatch/i)
+  assert.equal(pushes, 0)
+})
+
+test('translation checkpoint publication recomposes after CAS drift and stops on known rejection or unknown state', async t => {
+  const fixture = setup()
+  t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
+  const facts = translationCheckpoint(fixture, workspace => {
+    put(workspace, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', 'new\n')
+  })
+  const translationUnit = unit(facts, {
+    unitKey: 'translation/ja-JP/guides', strategy: 'checkpoint', target: 'ja-JP', sourceCheckpointSha: facts.baselineSha,
+  })
+  let pushes = 0
+  const drifted = await publish(fixture, facts, {
+    baselineDir: facts.baselineDir,
+    unit: translationUnit,
+    dependencies: {pushCandidate({worktree, remote, branch}) {
+      pushes += 1
+      if (pushes === 1) {
+        put(fixture.repository, 'remote-race.txt', 'keep\n')
+        git(fixture.repository, 'add', 'remote-race.txt')
+        git(fixture.repository, 'commit', '-m', 'remote race')
+        git(fixture.repository, 'push', 'origin', 'dev')
+        throw new Error('non-fast-forward')
+      }
+      push(worktree, remote, branch)
+    }},
+  })
+  assert.equal(drifted.status, 'published', JSON.stringify(drifted.failure))
+  assert.equal(drifted.attempts, 2)
+  assert.equal(git(fixture.remote, 'show', 'refs/heads/dev:remote-race.txt'), 'keep')
+
+  git(fixture.repository, 'fetch', 'origin', 'dev')
+  git(fixture.repository, 'reset', '--hard', 'origin/dev')
+  const rejectedFacts = translationCheckpoint(fixture, workspace => {
+    put(workspace, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', 'again\n')
+  })
+  const rejectedUnit = {...translationUnit, toolingSha: rejectedFacts.baselineSha, sourceBaselineSha: rejectedFacts.baselineSha, sourceCheckpointSha: rejectedFacts.baselineSha}
+  const rejected = await publish(fixture, rejectedFacts, {
+    baselineDir: rejectedFacts.baselineDir, unit: rejectedUnit,
+    dependencies: {pushCandidate() { throw new Error('permission denied') }},
+  })
+  assert.equal(rejected.status, 'publish_failed')
+  assert.equal(rejected.remoteState, 'known')
+  assert.equal(rejected.failure.code, 'PUSH_FAILED')
+
+  let probes = 0
+  const unknown = await publish(fixture, rejectedFacts, {
+    baselineDir: rejectedFacts.baselineDir, unit: rejectedUnit, maxProbeAttempts: 2,
+    dependencies: {
+      pushCandidate() { throw new Error('transport failed') },
+      probeRemoteCandidate() { probes += 1; throw new Error('probe unavailable') },
+    },
+  })
+  assert.equal(unknown.status, 'publish_failed')
+  assert.equal(unknown.remoteState, 'unknown')
+  assert.equal(unknown.failure.code, 'REMOTE_STATE_UNKNOWN')
+  assert.equal(probes, 2)
 })

@@ -18,6 +18,8 @@ const {
 const {createPublicationGitHubClient} = require('./publication-github-client')
 const {createPublicationScheduler} = require('./publication-scheduler')
 const {publicationWorkflowAdapters} = require('./publication-workflow-adapters')
+const {loadTypeScript} = require('../lib/load-typescript')
+const {resolveTranslationTarget} = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
 
 function positiveInteger(value, label) {
   const number = Number(value)
@@ -53,23 +55,74 @@ function extractCheckpointArchive({archive, runnerTemp}) {
   return Object.freeze({artifactDir, cleanupDirectory: extractRoot})
 }
 
+function translationPreflightIdentity(unit) {
+  if (unit.strategy !== 'checkpoint' || !unit.artifacts?.baseline) return {}
+  const target = resolveTranslationTarget(unit.target)
+  return {
+    translationTarget: unit.target,
+    sourceCheckpointSha: unit.sourceCheckpointSha,
+    toolingSha: unit.toolingSha,
+    sourceSite: target.sourceSite,
+    targetSite: target.targetSite || target.sourceSite,
+  }
+}
+
+async function prepareCheckpointArtifact({client, artifactName, descriptor, runnerTemp, unit, label}) {
+  if (!descriptor) throw new Error(`${label} descriptor is missing`)
+  const downloaded = await client.downloadArtifactFiles(artifactName, ['checkpoint-group.tar'])
+  const archive = downloaded.files['checkpoint-group.tar']
+  if (sha256(archive) !== descriptor.archiveSha256) throw new Error(`${label} archive checksum does not match ready descriptor`)
+  const preflightRoot = fs.mkdtempSync(path.join(runnerTemp, 'publication-preflight-'))
+  const manifestOutput = path.join(preflightRoot, 'manifest.json')
+  try {
+    preflightCheckpointArchive({
+      archive,
+      manifestOutput,
+      group: unit.group,
+      masterSha: unit.toolingSha,
+      ...translationPreflightIdentity(unit),
+    })
+    if (sha256(manifestOutput) !== descriptor.manifestSha256) throw new Error(`${label} manifest checksum does not match ready descriptor`)
+    return extractCheckpointArchive({archive, runnerTemp})
+  } finally {
+    fs.rmSync(preflightRoot, {recursive: true, force: true})
+  }
+}
+
 async function resolveCheckpointCandidate({selection, unit, client, runnerTemp}) {
+  let checkpoint = null
+  let baseline = null
   try {
     const ready = await client.downloadReady({selection, unitKey: unit.unitKey, maxPolls: 1, pollMilliseconds: 1})
-    const downloaded = await client.downloadArtifactFiles(unit.artifacts.checkpoint, ['checkpoint-group.tar'])
-    const archive = downloaded.files['checkpoint-group.tar']
-    if (sha256(archive) !== ready.descriptor.artifacts.checkpoint.archiveSha256) throw new Error('Checkpoint archive checksum does not match ready descriptor')
-    const preflightRoot = fs.mkdtempSync(path.join(runnerTemp, 'publication-preflight-'))
-    const manifestOutput = path.join(preflightRoot, 'manifest.json')
-    try {
-      preflightCheckpointArchive({archive, manifestOutput, group: unit.group, masterSha: unit.toolingSha})
-      if (sha256(manifestOutput) !== ready.descriptor.artifacts.checkpoint.manifestSha256) throw new Error('Checkpoint manifest checksum does not match ready descriptor')
-      const extracted = extractCheckpointArchive({archive, runnerTemp})
-      return {status: 'ready', prepared: {...extracted, descriptor: ready.descriptor}}
-    } finally {
-      fs.rmSync(preflightRoot, {recursive: true, force: true})
+    checkpoint = await prepareCheckpointArtifact({
+      client,
+      artifactName: unit.artifacts.checkpoint,
+      descriptor: ready.descriptor.artifacts.checkpoint,
+      runnerTemp,
+      unit,
+      label: 'Checkpoint',
+    })
+    if (unit.strategy !== 'checkpoint' || !unit.artifacts.baseline) return {status: 'ready', prepared: {...checkpoint, descriptor: ready.descriptor}}
+    baseline = await prepareCheckpointArtifact({
+      client,
+      artifactName: unit.artifacts.baseline,
+      descriptor: ready.descriptor.artifacts.baseline,
+      runnerTemp,
+      unit,
+      label: 'Baseline',
+    })
+    return {
+      status: 'ready',
+      prepared: {
+        ...checkpoint,
+        baselineDir: baseline.artifactDir,
+        baselineCleanupDirectory: baseline.cleanupDirectory,
+        descriptor: ready.descriptor,
+      },
     }
   } catch (error) {
+    if (baseline?.cleanupDirectory) fs.rmSync(baseline.cleanupDirectory, {recursive: true, force: true})
+    if (checkpoint?.cleanupDirectory) fs.rmSync(checkpoint.cleanupDirectory, {recursive: true, force: true})
     if (/unavailable|did not settle|not found/iu.test(String(error?.message || error))) {
       return {status: 'settling', failure: {...boundedFailure(error), code: 'CANDIDATE_SETTLING', retryable: true}}
     }
@@ -78,6 +131,7 @@ async function resolveCheckpointCandidate({selection, unit, client, runnerTemp})
 }
 
 function removePrepared(prepared) {
+  if (prepared?.baselineCleanupDirectory) fs.rmSync(prepared.baselineCleanupDirectory, {recursive: true, force: true})
   if (prepared?.cleanupDirectory) fs.rmSync(prepared.cleanupDirectory, {recursive: true, force: true})
 }
 
@@ -108,6 +162,7 @@ async function runPublicationCoordinator(options = {}) {
     repositoryRoot,
     artifactDir: prepared.artifactDir,
     baselineDir: prepared.baselineDir || null,
+    descriptor: prepared.descriptor,
     unit,
     remote: options.remote || 'origin',
     maxAttempts: maxPublishAttempts,
@@ -282,6 +337,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  removePrepared,
   resolveCheckpointCandidate,
   runPublicationCoordinator,
 }
