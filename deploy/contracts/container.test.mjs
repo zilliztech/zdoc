@@ -161,6 +161,18 @@ for (const site of ['en', 'zh-CN']) {
     }
   });
 
+  test(`${site} copies the pnpmfile before installing a checksummed lockfile`, () => {
+    const lockfile = read('pnpm-lock.yaml');
+    const instructions = dockerInstructions(dockerfile(site));
+    const installIndex = instructions.indexOf('RUN pnpm install --frozen-lockfile');
+
+    assert.match(lockfile, /^pnpmfileChecksum:/mu);
+    assert.ok(installIndex >= 0, 'Dockerfile must install dependencies');
+    const copyIndex = instructions.indexOf('COPY .pnpmfile.cjs .pnpmfile.cjs');
+    assert.ok(copyIndex >= 0, 'Dockerfile must copy .pnpmfile.cjs');
+    assert.ok(copyIndex < installIndex, 'Dockerfile must copy .pnpmfile.cjs before pnpm install');
+  });
+
   test(`${site} image declares the required OCI and release labels`, () => {
     const contents = dockerfile(site);
     assert.match(contents, new RegExp(`${labelNames.source}=\\\"${sourceRepository.replaceAll('/', '\\/')}\\\"`));
