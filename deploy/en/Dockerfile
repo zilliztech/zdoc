@@ -10,6 +10,7 @@ COPY packages/docs-tooling/package.json packages/docs-tooling/package.json
 COPY packages/docs-ui/package.json packages/docs-ui/package.json
 COPY packages/publication-adapters/package.json packages/publication-adapters/package.json
 COPY packages/site-config/package.json packages/site-config/package.json
+COPY patches patches
 RUN pnpm install --frozen-lockfile
 
 COPY . .

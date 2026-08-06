@@ -145,6 +145,22 @@ for (const site of ['en', 'zh-CN']) {
     }
   });
 
+  test(`${site} copies pnpm patch inputs before installing dependencies`, () => {
+    const packageJson = JSON.parse(read('package.json'));
+    const patchRoots = new Set(Object.values(packageJson.pnpm?.patchedDependencies ?? {})
+      .map(patchPath => patchPath.split('/')[0]));
+    const instructions = dockerInstructions(dockerfile(site));
+    const installIndex = instructions.indexOf('RUN pnpm install --frozen-lockfile');
+
+    assert.ok(patchRoots.size > 0, 'fixture must declare at least one patched dependency');
+    assert.ok(installIndex >= 0, 'Dockerfile must install dependencies');
+    for (const patchRoot of patchRoots) {
+      const copyIndex = instructions.indexOf(`COPY ${patchRoot} ${patchRoot}`);
+      assert.ok(copyIndex >= 0, `Dockerfile must copy ${patchRoot}`);
+      assert.ok(copyIndex < installIndex, `Dockerfile must copy ${patchRoot} before pnpm install`);
+    }
+  });
+
   test(`${site} image declares the required OCI and release labels`, () => {
     const contents = dockerfile(site);
     assert.match(contents, new RegExp(`${labelNames.source}=\\\"${sourceRepository.replaceAll('/', '\\/')}\\\"`));
