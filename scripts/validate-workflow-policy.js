@@ -824,8 +824,13 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (dispatches.length !== 1) errors.push(`${file}: source workflow must dispatch translate-codex.yml exactly once`)
       const handoff = workflow.jobs?.prepare_translation_handoff
       const handoffNeeds = Array.isArray(handoff?.needs) ? handoff.needs : []
-      if (handoffNeeds.join(',') !== 'prepare,source_publication_barrier,publish_ready' ||
-          !/translation-handoff\.js[\s\S]*--locale all[\s\S]*--fetch-selection[\s\S]*--fetch-results/.test(source) ||
+      const handoffStep = (handoff?.steps || []).find(step => step?.name === 'Validate exact downstream translation handoff')
+      if (handoffNeeds.join(',') !== 'prepare,source_publication_barrier,publish_ready,reconcile_reference_state' ||
+          handoffStep?.env?.TARGET_BASELINE_SHA !== '${{ needs.reconcile_reference_state.outputs.final_target_sha }}' ||
+          !/--target-baseline-sha "\$TARGET_BASELINE_SHA"/.test(handoffStep?.run || '')) {
+        errors.push(`${file}: translation handoff must directly depend on reconciliation and consume its exact final target SHA`)
+      }
+      if (!/translation-handoff\.js[\s\S]*--locale all[\s\S]*--fetch-selection[\s\S]*--fetch-results/.test(source) ||
           !/name: Upload validated schema-v2 translation handoff[\s\S]*name: translation-handoff-v2-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/.test(source) ||
           !/handoff_json=\$HANDOFF_JSON|handoff_json=%s/.test(source) ||
           !/WORKFLOW_REF: \$\{\{ github\.ref_name \}\}/.test(source)) {
@@ -833,12 +838,21 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
       const dispatch = workflow.jobs?.dispatch_translations
       const dispatchNeeds = Array.isArray(dispatch?.needs) ? dispatch.needs : []
+      const dispatchStep = (dispatch?.steps || []).find(step => step?.name === 'Dispatch the single translation workflow')
+      const dispatchRun = dispatchStep?.run || ''
       if (dispatchNeeds.join(',') !== 'prepare,prepare_translation_handoff' ||
           dispatch?.permissions?.actions !== 'write' || dispatch?.permissions?.contents !== 'read' ||
           !String(dispatch?.if || '').includes("needs.prepare_translation_handoff.result == 'success'") ||
           !/request_id="\$REQUEST_ID"[\s\S]*displayTitle[\s\S]*expected_title[\s\S]*run_url/.test(source) ||
           !/run_url[\s\S]*https:\/\/github\\\.com\/[\s\S]*actions\/runs\//.test(source) || !source.includes('[1-9][0-9]*')) {
         errors.push(`${file}: downstream dispatch must wait for a validated handoff and authenticate its run URL`)
+      }
+      if (!/--json displayTitle,url,headBranch/.test(dispatchRun) ||
+          !/--arg title "\$expected_title" --arg ref "\$WORKFLOW_REF"/.test(dispatchRun) ||
+          !/\.displayTitle == \$title and \.headBranch == \$ref/.test(dispatchRun) ||
+          !/\$\{#run_urls\[@\]\} > 1[\s\S]*exit 1[\s\S]*\$\{#run_urls\[@\]\} == 1/.test(dispatchRun) ||
+          /\.headSha == \$sha|TOOLING_SHA/.test(dispatchRun)) {
+        errors.push(`${file}: downstream dispatch must identify one child by exact request title and workflow branch`)
       }
       const aggregate = (workflow.jobs?.aggregate?.steps || []).find(step => step?.id === 'aggregate')
       const temporaryCanaryMarkers = [
@@ -1371,7 +1385,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const handoffNodeIndex = handoffSteps.findIndex(step => step?.uses === 'actions/setup-node@v5')
     const handoffInstallIndex = handoffSteps.findIndex(step => step?.run === 'pnpm install --frozen-lockfile')
     const handoffValidationIndex = handoffSteps.findIndex(step => step?.name === 'Validate exact downstream translation handoff')
-    if (!handoffNeeds.includes('source_publication_barrier') ||
+    const handoffValidation = handoffSteps[handoffValidationIndex]
+    if (handoffNeeds.join(',') !== 'prepare,source_publication_barrier,publish_ready,reconcile_reference_state' ||
+        handoffValidation?.env?.TARGET_BASELINE_SHA !== '${{ needs.reconcile_reference_state.outputs.final_target_sha }}' ||
+        !/--target-baseline-sha "\$TARGET_BASELINE_SHA"/.test(handoffValidation?.run || '') ||
         !(handoffPnpmIndex >= 0 && handoffPnpmIndex < handoffNodeIndex && handoffNodeIndex < handoffInstallIndex && handoffInstallIndex < handoffValidationIndex) ||
         dispatchNeeds.join(',') !== 'prepare,prepare_translation_handoff' ||
         !String(dispatchJob?.if || '').includes("needs.prepare_translation_handoff.result == 'success'")) {
