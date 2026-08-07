@@ -125,6 +125,39 @@ function retainedSourceIdentity(record) {
     digest: record.digest,
     fileSha256: record.fileSha256,
     ...(record.manifestSha256 ? {manifestSha256: record.manifestSha256} : {}),
+    ...(record.devBaselineSha ? {devBaselineSha: record.devBaselineSha} : {}),
+  }
+}
+
+function authenticateRetainedLegacySource({runRoot, record, parent, expectedGroup}) {
+  if (record.group !== expectedGroup || record.runId !== parent.runId || record.runAttempt !== parent.runAttempt ||
+      record.name !== `docs-checkpoint-${expectedGroup === 'guides' ? 'guides-en' : expectedGroup}-${parent.runId}`) {
+    throw new Error(`Legacy parent source archive identity mismatch for ${expectedGroup}`)
+  }
+  normalizeDigest(record.digest, `Legacy parent ${expectedGroup} API`)
+  const expectedFileSha256 = normalizeDigest(record.fileSha256, `Legacy parent ${expectedGroup} file`)
+  const expectedManifestSha256 = normalizeDigest(record.manifestSha256, `Legacy parent ${expectedGroup} manifest`)
+  if (!SHA.test(record.devBaselineSha || '')) throw new Error(`Legacy parent source devBaselineSha is missing for ${expectedGroup}`)
+  const archive = resolveInside(runRoot, record.archive, `Legacy parent ${expectedGroup} source archive`)
+  if (!fs.statSync(archive).isFile() || digest(archive) !== expectedFileSha256) {
+    throw new Error(`Legacy parent source archive checksum mismatch for ${expectedGroup}`)
+  }
+  inspectArchive(archive)
+  const preflightRoot = fs.mkdtempSync(path.join(SAFE_ROOT, 'translation-legacy-source-preflight-'))
+  const manifestOutput = path.join(preflightRoot, 'manifest.json')
+  try {
+    const checked = preflightCheckpointArchive({
+      archive,
+      manifestOutput,
+      group: expectedGroup,
+      masterSha: parent.toolingSha,
+    })
+    if (digest(manifestOutput) !== expectedManifestSha256 || checked.manifest.devBaselineSha !== record.devBaselineSha) {
+      throw new Error(`Legacy parent source baseline authentication mismatch for ${expectedGroup}`)
+    }
+    return checked.manifest
+  } finally {
+    fs.rmSync(preflightRoot, {recursive: true, force: true})
   }
 }
 
@@ -176,6 +209,16 @@ function validateLegacyDerivedProvenance({runRoot, selection, jobs, metadata}) {
     group: record.group, runId: record.runId, runAttempt: record.runAttempt, ...retainedSourceIdentity(record),
   }))
   if (!sameJson(provenance.sourceCheckpointInventory, sourceInventory)) throw new Error('Legacy source checkpoint inventory provenance mismatch')
+  if (!sameJson((metadata.sourceArtifacts || []).map(record => record.group), expectedGroups)) throw new Error('Legacy parent source archive inventory is incomplete')
+  const sourceBaselines = new Map()
+  for (const [index, group] of expectedGroups.entries()) {
+    const manifest = authenticateRetainedLegacySource({runRoot, record: metadata.sourceArtifacts[index], parent: provenance.parent, expectedGroup: group})
+    sourceBaselines.set(group, manifest.devBaselineSha)
+  }
+  if (!Array.isArray(derivation.handoff.units) || derivation.handoff.units.some(unit =>
+    !sourceBaselines.has(unit.sourceGroup) || unit.sourceBaselineSha !== sourceBaselines.get(unit.sourceGroup))) {
+    throw new Error('Legacy handoff parent source baseline authentication mismatch')
+  }
 
   const report = exactObjectKeys(provenance.guidesPublicationReport, [
     'artifact', 'schemaVersion', 'runId', 'runAttempt', 'group', 'masterSha', 'sourceCheckpointSha', 'expectedTargetSha', 'status', 'resultSha',
@@ -1724,7 +1767,10 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
     const manifest = authenticated.manifest
     if (!SHA.test(manifest.devBaselineSha || '')) throw new Error(`Legacy parent source baseline is invalid for ${group}`)
     sourceBaselines.set(group, manifest.devBaselineSha)
-    sourceArtifacts.push({...downloaded, group, runId: parentRunId, runAttempt: parentRunAttempt, manifestSha256: authenticated.manifestSha256})
+    sourceArtifacts.push({
+      ...downloaded, group, runId: parentRunId, runAttempt: parentRunAttempt,
+      manifestSha256: authenticated.manifestSha256, devBaselineSha: manifest.devBaselineSha,
+    })
   }
 
   const handoffUnits = []
@@ -1781,62 +1827,66 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
   const guidesPlanPairs = []
   const guidesPlanExtractRoot = path.join(root, 'derived', 'guides', 'plan-inputs')
   fs.mkdirSync(guidesPlanExtractRoot, {recursive: true})
-  for (const batchNumber of retained.batchNumbers) {
-    const pair = retained.guides.get(batchNumber)
-    const downloadedPair = {}
-    for (const kind of ['checkpoint', 'baseline']) {
-      const downloaded = downloadRetainedArtifact({
-        runId: numericRunId, artifact: pair[kind], root, slot: `legacy/guides-batches/${batchNumber}/${kind}`,
-      })
-      const authenticated = authenticateLegacyArchive({
-        archive: downloaded.file, outputRoot: root, slot: `legacy-guides-${batchNumber}-${kind}`,
-        group: 'guides', masterSha: run.head_sha,
-        translation: {target: 'ja-JP', sourceCheckpointSha: publication.sourceCheckpointSha, toolingSha: run.head_sha},
-      })
-      const extracted = authenticateAndExtractArchive({
-        archive: downloaded.file,
-        runnerTemp: guidesPlanExtractRoot,
-        prefix: `batch-${batchNumber}-${kind}-`,
-        apiDigest: downloaded.digest,
-        fileSha256: downloaded.fileSha256,
-        manifestSha256: authenticated.manifestSha256,
-        preflight: translationArchivePreflight({
-          group: 'guides', toolingSha: run.head_sha, target: 'ja-JP', sourceCheckpointSha: publication.sourceCheckpointSha,
-        }),
-      })
-      downloadedPair[kind] = {...downloaded, artifactDir: extracted.artifactDir, manifestSha256: authenticated.manifestSha256}
-      guidesSources.push({...downloaded, kind, batchNumber, manifestSha256: authenticated.manifestSha256})
-    }
-    originals.set(`guides-batch-${batchNumber}`, downloadedPair)
-    guidesPlanPairs.push({artifactDir: downloadedPair.checkpoint.artifactDir, baselineDir: downloadedPair.baseline.artifactDir})
-  }
   const pairsManifest = path.join(root, 'derived', 'guides', 'pairs-manifest.json')
   const planFile = path.join(root, 'derived', 'guides', 'translation-plan.json')
-  writeJson(pairsManifest, {
-    schemaVersion: 1,
-    group: 'guides',
-    sourceCheckpointSha: publication.sourceCheckpointSha,
-    expectedTargetSha: publication.expectedTargetSha,
-    pairs: guidesPlanPairs,
-  })
+  let plan
   try {
-    execFileSync(process.execPath, [
-      path.join(process.cwd(), 'scripts/docs-workflow/translation-batch-set.js'), 'plan',
-      '--pairs-manifest', pairsManifest,
-      '--source-repository', process.cwd(),
-      '--source-checkpoint-sha', publication.sourceCheckpointSha,
-      '--target-repository', process.cwd(),
-      '--expected-target-sha', publication.expectedTargetSha,
-      '--output', planFile,
-    ], {
-      cwd: process.cwd(), encoding: 'utf8', maxBuffer: 32 * 1024 * 1024,
-      env: {...process.env, RUNNER_TEMP: path.join(root, 'derived', 'guides')},
+    for (const batchNumber of retained.batchNumbers) {
+      const pair = retained.guides.get(batchNumber)
+      const downloadedPair = {}
+      for (const kind of ['checkpoint', 'baseline']) {
+        const downloaded = downloadRetainedArtifact({
+          runId: numericRunId, artifact: pair[kind], root, slot: `legacy/guides-batches/${batchNumber}/${kind}`,
+        })
+        const authenticated = authenticateLegacyArchive({
+          archive: downloaded.file, outputRoot: root, slot: `legacy-guides-${batchNumber}-${kind}`,
+          group: 'guides', masterSha: run.head_sha,
+          translation: {target: 'ja-JP', sourceCheckpointSha: publication.sourceCheckpointSha, toolingSha: run.head_sha},
+        })
+        const extracted = authenticateAndExtractArchive({
+          archive: downloaded.file,
+          runnerTemp: guidesPlanExtractRoot,
+          prefix: `batch-${batchNumber}-${kind}-`,
+          apiDigest: downloaded.digest,
+          fileSha256: downloaded.fileSha256,
+          manifestSha256: authenticated.manifestSha256,
+          preflight: translationArchivePreflight({
+            group: 'guides', toolingSha: run.head_sha, target: 'ja-JP', sourceCheckpointSha: publication.sourceCheckpointSha,
+          }),
+        })
+        downloadedPair[kind] = {...downloaded, artifactDir: extracted.artifactDir, manifestSha256: authenticated.manifestSha256}
+        guidesSources.push({...downloaded, kind, batchNumber, manifestSha256: authenticated.manifestSha256})
+      }
+      originals.set(`guides-batch-${batchNumber}`, downloadedPair)
+      guidesPlanPairs.push({artifactDir: downloadedPair.checkpoint.artifactDir, baselineDir: downloadedPair.baseline.artifactDir})
+    }
+    writeJson(pairsManifest, {
+      schemaVersion: 1,
+      group: 'guides',
+      sourceCheckpointSha: publication.sourceCheckpointSha,
+      expectedTargetSha: publication.expectedTargetSha,
+      pairs: guidesPlanPairs,
     })
-  } catch (error) {
-    throw new Error(`Legacy Guides retained plan reconstruction failed: ${String(error.stderr || error.stdout || error.message).trim()}`)
+    try {
+      execFileSync(process.execPath, [
+        path.join(process.cwd(), 'scripts/docs-workflow/translation-batch-set.js'), 'plan',
+        '--pairs-manifest', pairsManifest,
+        '--source-repository', process.cwd(),
+        '--source-checkpoint-sha', publication.sourceCheckpointSha,
+        '--target-repository', process.cwd(),
+        '--expected-target-sha', publication.expectedTargetSha,
+        '--output', planFile,
+      ], {
+        cwd: process.cwd(), encoding: 'utf8', maxBuffer: 32 * 1024 * 1024,
+        env: {...process.env, RUNNER_TEMP: path.join(root, 'derived', 'guides')},
+      })
+    } catch (error) {
+      throw new Error(`Legacy Guides retained plan reconstruction failed: ${String(error.stderr || error.stdout || error.message).trim()}`)
+    }
+    plan = json(planFile)
+  } finally {
+    fs.rmSync(guidesPlanExtractRoot, {recursive: true, force: true})
   }
-  const plan = json(planFile)
-  fs.rmSync(guidesPlanExtractRoot, {recursive: true, force: true})
   if (plan.masterSha !== run.head_sha || plan.devBaselineSha !== publication.sourceCheckpointSha ||
       plan.sourceCheckpointSha !== publication.sourceCheckpointSha || plan.targetSha !== publication.expectedTargetSha ||
       plan.batchCount !== retained.batchNumbers.length || !Number.isSafeInteger(plan.pendingCount) || plan.pendingCount < 1 ||
@@ -1912,6 +1962,7 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
     digest: artifact.digest,
     fileSha256: artifact.fileSha256,
     manifestSha256: artifact.manifestSha256,
+    devBaselineSha: artifact.devBaselineSha,
   }))
   const derivedArtifacts = artifactRecords.filter(artifact => artifact.derived === true).map(artifact => ({
     unitKey: artifact.unitKey,

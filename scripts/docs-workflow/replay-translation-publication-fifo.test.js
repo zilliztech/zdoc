@@ -142,6 +142,10 @@ function sha256(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')
 }
 
+function valueSha256(value) {
+  return crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex')
+}
+
 function adversarialCheckpointArchive(root, label, kind) {
   const archive = path.join(root, `${label}.tar`)
   const manifest = kind === 'corrupt-manifest'
@@ -875,6 +879,77 @@ test('legacy inspect derives authenticated current selection and ready contracts
   fs.writeFileSync(metadataFile, originalMetadata)
 })
 
+test('legacy load binds rehashed handoff source baselines to authenticated parent manifests', async t => {
+  const fixture = await completeLegacyGhFixture(t)
+  installFakeGh(t, fixture)
+  const outputRoot = temporary('translation-legacy-baseline-binding-')
+  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
+  inspectRun({runId: fixture.runId, outputRoot})
+  const selectionFile = path.join(outputRoot, 'publication-selection.json')
+  const metadataFile = path.join(outputRoot, 'run-metadata.json')
+  const originalSelection = fs.readFileSync(selectionFile)
+  const originalMetadata = fs.readFileSync(metadataFile)
+  const loaded = JSON.parse(originalMetadata)
+  assert.ok(loaded.legacyProvenance.sourceCheckpointInventory.every(record => /^[0-9a-f]{40}$/u.test(record.devBaselineSha)))
+  assert.ok(loaded.sourceArtifacts.every(record => /^[0-9a-f]{40}$/u.test(record.devBaselineSha)))
+
+  async function rejectsBeforeRemote(label, mutate) {
+    fs.writeFileSync(selectionFile, originalSelection)
+    const metadata = JSON.parse(originalMetadata)
+    mutate(metadata)
+    fs.writeFileSync(metadataFile, `${JSON.stringify(metadata)}\n`)
+    const evidenceRoot = temporary(`translation-legacy-baseline-${label}-`)
+    t.after(() => fs.rmSync(evidenceRoot, {recursive: true, force: true}))
+    await assert.rejects(replayRun({
+      runRoot: outputRoot,
+      bareRemote: path.join(path.dirname(evidenceRoot), `${path.basename(evidenceRoot)}.git`),
+      evidenceRoot,
+      mode: 'publish',
+      dependencies: {assertBareRemote() { throw new Error('REMOTE_SETUP_REACHED') }},
+    }), /parent.*baseline|source checkpoint inventory|devBaselineSha/i)
+  }
+
+  await rejectsBeforeRemote('missing', metadata => {
+    delete metadata.legacyProvenance.sourceCheckpointInventory[0].devBaselineSha
+  })
+  await rejectsBeforeRemote('tampered', metadata => {
+    metadata.sourceArtifacts[0].devBaselineSha = SHA('f')
+    metadata.legacyProvenance.sourceCheckpointInventory[0].devBaselineSha = SHA('f')
+  })
+
+  fs.writeFileSync(selectionFile, originalSelection)
+  const metadata = JSON.parse(originalMetadata)
+  const derivation = metadata.legacyProvenance.selectionDerivation
+  derivation.handoff.units[0].sourceBaselineSha = SHA('f')
+  const rebuilt = buildTranslationPublicationSelection({
+    handoff: derivation.handoff,
+    repository: metadata.repository,
+    runId: metadata.runId,
+    runAttempt: metadata.runAttempt,
+    publish: false,
+    runTranslations: true,
+  })
+  writePublicationDocument(selectionFile, rebuilt)
+  metadata.selectionSha256 = rebuilt.selectionSha256
+  metadata.initialTargetSha = rebuilt.initialTargetSha
+  metadata.canonicalUnitKeys = rebuilt.units.map(unit => unit.unitKey)
+  metadata.selectionArtifact.digest = `sha256:${sha256(selectionFile)}`
+  derivation.selectionSha256 = rebuilt.selectionSha256
+  derivation.selectionFileSha256 = sha256(selectionFile)
+  derivation.handoffSha256 = valueSha256(derivation.handoff)
+  derivation.canonicalUnitKeys = metadata.canonicalUnitKeys
+  fs.writeFileSync(metadataFile, `${JSON.stringify(metadata)}\n`)
+  const evidenceRoot = temporary('translation-legacy-baseline-rehashed-')
+  t.after(() => fs.rmSync(evidenceRoot, {recursive: true, force: true}))
+  await assert.rejects(replayRun({
+    runRoot: outputRoot,
+    bareRemote: path.join(path.dirname(evidenceRoot), `${path.basename(evidenceRoot)}.git`),
+    evidenceRoot,
+    mode: 'publish',
+    dependencies: {assertBareRemote() { throw new Error('REMOTE_SETUP_REACHED') }},
+  }), /parent.*baseline|source checkpoint inventory|devBaselineSha/i)
+})
+
 test('legacy inspect fails closed when retained Guides payload cannot reconstruct the canonical plan', async t => {
   const fixture = await completeLegacyGhFixture(t)
   const name = `translation-checkpoint-ja-JP-guides-${fixture.runId}-batch-1`
@@ -892,6 +967,27 @@ test('legacy inspect fails closed when retained Guides payload cannot reconstruc
   const outputRoot = temporary('translation-incomplete-guides-output-')
   t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
   assert.throws(() => inspectRun({runId: fixture.runId, outputRoot}), /Guides|batch input|artifact root|plan reconstruction/i)
+  assert.equal(fs.existsSync(path.join(outputRoot, 'derived', 'guides', 'plan-inputs')), false)
+})
+
+test('legacy inspect removes Guides plan inputs when reading the reconstructed plan fails', async t => {
+  const fixture = await completeLegacyGhFixture(t)
+  installFakeGh(t, fixture)
+  const outputRoot = temporary('translation-invalid-guides-plan-output-')
+  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
+  const originalReadFileSync = fs.readFileSync
+  fs.readFileSync = function injectedPlanReadFailure(file, ...args) {
+    if (String(file) === path.join(outputRoot, 'derived', 'guides', 'translation-plan.json')) {
+      throw new Error('injected reconstructed plan JSON read failure')
+    }
+    return originalReadFileSync.call(this, file, ...args)
+  }
+  try {
+    assert.throws(() => inspectRun({runId: fixture.runId, outputRoot}), /injected reconstructed plan JSON read failure/i)
+  } finally {
+    fs.readFileSync = originalReadFileSync
+  }
+  assert.equal(fs.existsSync(path.join(outputRoot, 'derived', 'guides', 'plan-inputs')), false)
 })
 
 test('legacy inspect rejects ambiguous retained identity before any download', async t => {
