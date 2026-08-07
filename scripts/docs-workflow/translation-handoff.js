@@ -143,13 +143,13 @@ function buildTranslationHandoff({locale, group, toolingSha, targetBranch, targe
   });
 }
 
-function buildTranslationHandoffFromFetchResults({selection, results, locale, group}) {
+function buildTranslationHandoffFromFetchResults({selection, results, locale, group, targetBaselineSha = results.finalTargetSha}) {
   return buildTranslationHandoff({
     locale,
     group,
     toolingSha: selection.toolingSha,
     targetBranch: selection.targetBranch,
-    targetBaselineSha: results.finalTargetSha,
+    targetBaselineSha,
     sourcePublications: sourcePublicationsFromFetchResults({selection, results, locale, group}),
   });
 }
@@ -219,6 +219,7 @@ function main(argv = process.argv.slice(2)) {
       group: args.get('--group'),
       selection,
       results,
+      targetBaselineSha: args.get('--target-baseline-sha'),
     });
   } else {
     handoff = buildTranslationHandoff({
