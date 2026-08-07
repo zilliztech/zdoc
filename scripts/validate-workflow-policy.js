@@ -1030,18 +1030,33 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const observerCheckout = observer?.steps?.find(step => step?.uses === 'actions/checkout@v5')
       const observerSelection = observer?.steps?.find(step => step?.name === 'Download immutable Translation publication selection')
       const observerRun = observer?.steps?.find(step => step?.name === 'Observe ready Translation publication FIFO')
+      const observerScript = String(observerRun?.with?.script || '')
+      const expectedObserverScript = [
+        "await exec.exec('node', [",
+        "  'scripts/docs-workflow/publication-coordinator.js',",
+        "  '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,",
+        "  '--mode', 'artifact_only',",
+        "  '--poll-milliseconds', '10000',",
+        "  '--candidate-polls', '60',",
+        "  '--max-publish-attempts', '1',",
+        '])',
+      ].join('\n')
       const coordinatorSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-coordinator.js'), 'utf8')
       const githubClientSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-github-client.js'), 'utf8')
       const schedulerSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-scheduler.js'), 'utf8')
+      if (observerRun?.uses !== 'actions/github-script@v8' || observerRun?.run !== undefined ||
+          observerRun?.env?.GITHUB_TOKEN !== '${{ github.token }}' ||
+          JSON.stringify(Object.keys(observerRun?.env || {}).sort()) !== JSON.stringify(['GITHUB_TOKEN']) ||
+          observerScript.trim() !== expectedObserverScript) {
+        errors.push(`${file}: Translation publication observer must execute the coordinator through the actions artifact runtime`)
+      }
       if (observer?.name !== 'observe_publication_ready' || observer?.['continue-on-error'] !== true ||
           observer?.permissions?.actions !== 'read' || observer?.permissions?.contents !== 'read' ||
           observerCheckout?.with?.['persist-credentials'] !== false ||
           observerSelection?.uses !== 'actions/download-artifact@v7' ||
           observerSelection?.with?.name !== '${{ needs.prepare.outputs.publication_selection_artifact_name }}' ||
-          observerRun?.env?.GITHUB_TOKEN !== '${{ github.token }}' ||
-          !/publication-selection\.json/.test(String(observerRun?.env?.PUBLICATION_SELECTION || '')) ||
-          !/publication-coordinator\.js[\s\S]*--selection[\s\S]*--mode artifact_only/.test(String(observerRun?.run || '')) ||
-          /contents["']?:["']?write|git push|staging|APP_ID|APP_SECRET|FEISHU/.test(observerSource) ||
+          !/'--mode', 'artifact_only'/.test(observerScript) ||
+          /contents["']?:["']?write|persist-credentials["']?:true|git push|refs\/heads\/staging|refs\/remotes\/origin\/staging|APP_ID|APP_SECRET|FEISHU/.test(observerSource) ||
           !/uploadProgress/.test(coordinatorSource) || !/uploadResults/.test(coordinatorSource) ||
           !/attempts\/\$\{runAttempt\}\/jobs\?filter=all/.test(githubClientSource) ||
           !/completed_at/.test(schedulerSource)) {

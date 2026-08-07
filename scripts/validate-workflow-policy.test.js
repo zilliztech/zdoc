@@ -2705,11 +2705,21 @@ test('Translation shadow observer consumes ready descriptors in artifact-only FI
   assert.equal(download.uses, 'actions/download-artifact@v7')
   assert.equal(download.with.name, '${{ needs.prepare.outputs.publication_selection_artifact_name }}')
   const observe = observer.steps.find(step => step.name === 'Observe ready Translation publication FIFO')
-  assert.match(observe.run, /publication-coordinator\.js/)
-  assert.match(observe.run, /--mode artifact_only/)
+  assert.equal(observe.uses, 'actions/github-script@v8')
+  assert.equal(observe.run, undefined)
+  assert.equal(observe.with.script.trim(), [
+    "await exec.exec('node', [",
+    "  'scripts/docs-workflow/publication-coordinator.js',",
+    "  '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,",
+    "  '--mode', 'artifact_only',",
+    "  '--poll-milliseconds', '10000',",
+    "  '--candidate-polls', '60',",
+    "  '--max-publish-attempts', '1',",
+    '])',
+  ].join('\n'))
   assert.equal(observe.env.GITHUB_TOKEN, '${{ github.token }}')
-  assert.match(observe.env.PUBLICATION_SELECTION, /publication-selection\.json/)
-  assert.doesNotMatch(JSON.stringify(observer), /contents['"]?:['"]?write|git push|staging|APP_ID|APP_SECRET|FEISHU/)
+  assert.deepEqual(Object.keys(observe.env), ['GITHUB_TOKEN'])
+  assert.doesNotMatch(JSON.stringify(observer), /contents['"]?:['"]?write|persist-credentials['"]?:true|git push|refs\/heads\/staging|refs\/remotes\/origin\/staging|APP_ID|APP_SECRET|FEISHU/)
   assert.match(source, /--publish false/)
   assert.doesNotMatch(String(observer.if || ''), /prepare_guides_publication_ready|translate_guides_batches|publish_ja_guides/)
 
@@ -2721,7 +2731,7 @@ test('Translation shadow observer consumes ready descriptors in artifact-only FI
   for (const publisher of publishers) assert.doesNotMatch(JSON.stringify(workflow.jobs[publisher].needs), /observe_publication_ready/)
 })
 
-test('workflow policy rejects writable, blocked, or non-artifact-only Translation shadow observers', () => {
+test('workflow policy rejects writable, blocked, non-artifact-only, or non-action-runtime Translation shadow observers', () => {
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-shadow-policy-'))
   try {
     fs.cpSync('.github/workflows', directory, {recursive: true})
@@ -2730,8 +2740,13 @@ test('workflow policy rejects writable, blocked, or non-artifact-only Translatio
     for (const [changed, expected] of [
       [original.replace('  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare]\n    if: ${{ needs.prepare.result == \'success\' }}\n    continue-on-error: true\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: read', '  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare]\n    if: ${{ needs.prepare.result == \'success\' }}\n    continue-on-error: true\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: write'), 'translate-codex.yml: Translation publication observer must be read-only artifact_only FIFO shadow mode'],
       [original.replace('  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare]', '  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare, prepare_guides_publication_ready]'), 'translate-codex.yml: Translation publication observer must start from prepare without waiting for Guides'],
-      [original.replace('--mode artifact_only', '--mode publish'), 'translate-codex.yml: Translation publication observer must be read-only artifact_only FIFO shadow mode'],
+      [original.replace("'--mode', 'artifact_only'", "'--mode', 'publish'"), 'translate-codex.yml: Translation publication observer must be read-only artifact_only FIFO shadow mode'],
+      [original.replace(
+        "        uses: actions/github-script@v8\n        env:\n          GITHUB_TOKEN: ${{ github.token }}\n        with:\n          script: |\n            await exec.exec('node', [\n              'scripts/docs-workflow/publication-coordinator.js',\n              '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,\n              '--mode', 'artifact_only',\n              '--poll-milliseconds', '10000',\n              '--candidate-polls', '60',\n              '--max-publish-attempts', '1',\n            ])",
+        '        env:\n          GITHUB_TOKEN: ${{ github.token }}\n        run: node scripts/docs-workflow/publication-coordinator.js --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" --mode artifact_only --poll-milliseconds 10000 --candidate-polls 60 --max-publish-attempts 1',
+      ), 'translate-codex.yml: Translation publication observer must execute the coordinator through the actions artifact runtime'],
     ]) {
+      assert.notEqual(changed, original, 'Translation observer policy fixture must apply its mutation')
       fs.writeFileSync(file, changed)
       assert.ok(validateWorkflowPolicies(directory).includes(expected), expected)
     }

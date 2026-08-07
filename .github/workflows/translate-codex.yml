@@ -410,10 +410,19 @@ jobs:
           name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
           path: ${{ runner.temp }}/publication-selection
       - name: Observe ready Translation publication FIFO
+        uses: actions/github-script@v8
         env:
           GITHUB_TOKEN: ${{ github.token }}
-          PUBLICATION_SELECTION: ${{ runner.temp }}/publication-selection/publication-selection.json
-        run: node scripts/docs-workflow/publication-coordinator.js --selection "$PUBLICATION_SELECTION" --mode artifact_only --poll-milliseconds 10000 --candidate-polls 60 --max-publish-attempts 1
+        with:
+          script: |
+            await exec.exec('node', [
+              'scripts/docs-workflow/publication-coordinator.js',
+              '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,
+              '--mode', 'artifact_only',
+              '--poll-milliseconds', '10000',
+              '--candidate-polls', '60',
+              '--max-publish-attempts', '1',
+            ])
 
   publish_ja_guides:
     needs: [prepare, prepare_guides_batches, translate_guides_batches]
