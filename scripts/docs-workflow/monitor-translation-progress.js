@@ -22,6 +22,12 @@ function required(env, key) {
   return value.trim()
 }
 
+function positiveInteger(value, label) {
+  const parsed = Number(value)
+  if (!Number.isSafeInteger(parsed) || parsed <= 0) throw new Error(`${label} must be a positive integer`)
+  return parsed
+}
+
 function parentWorkflowUrl(requestId, repository) {
   if (typeof repository !== 'string' || !/^[^/\s]+\/[^/\s]+$/.test(repository)) throw new Error('repository must be owner/repository')
   const match = String(requestId || '').match(/^([1-9][0-9]*)-([1-9][0-9]*)$/)
@@ -122,6 +128,7 @@ function createTranslationProgressMonitor({
 function readConfiguration(env = process.env) {
   const runId = Number(required(env, 'GITHUB_RUN_ID'))
   if (!Number.isSafeInteger(runId) || runId <= 0) throw new Error('GITHUB_RUN_ID must be a positive integer')
+  const runAttempt = positiveInteger(required(env, 'GITHUB_RUN_ATTEMPT'), 'GITHUB_RUN_ATTEMPT')
   const repository = required(env, 'GITHUB_REPOSITORY')
   if (!/^[^/\s]+\/[^/\s]+$/.test(repository)) throw new Error('GITHUB_REPOSITORY must be owner/repository')
   const startedAt = required(env, 'CARD_STARTED_AT')
@@ -138,6 +145,7 @@ function readConfiguration(env = process.env) {
   if (!requestId) throw new Error('request_id must be <parent_run_id>-<parent_run_attempt>')
   return {
     runId,
+    runAttempt,
     repository,
     token: required(env, 'GITHUB_TOKEN'),
     cardId: required(env, 'CARD_ID'),

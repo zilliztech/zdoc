@@ -335,10 +335,11 @@ test('helpers validate aggregate selection, retry behavior, and CLI configuratio
   assert.throws(() => readConfiguration({ GITHUB_RUN_ID: '0' }, []), /GITHUB_RUN_ID/)
   assert.throws(() => readConfiguration({ GITHUB_RUN_ID: '1', GITHUB_REPOSITORY: 'bad' }, []), /GITHUB_REPOSITORY/)
   assert.throws(() => readConfiguration({
-    GITHUB_RUN_ID: '1', GITHUB_REPOSITORY: 'a/b', GITHUB_TOKEN: 't', CARD_ID: 'c', CARD_STARTED_AT: 'bad', CARD_TARGET_BRANCH: 'x', SELECTED_GROUP: 'guides', PUBLISH_ENABLED: 'false', APP_ID: 'a', APP_SECRET: 's', FEISHU_HOST: 'https://open.feishu.cn',
+    GITHUB_RUN_ID: '1', GITHUB_RUN_ATTEMPT: '1', GITHUB_REPOSITORY: 'a/b', GITHUB_TOKEN: 't', CARD_ID: 'c', CARD_STARTED_AT: 'bad', CARD_TARGET_BRANCH: 'x', SELECTED_GROUP: 'guides', PUBLISH_ENABLED: 'false', APP_ID: 'a', APP_SECRET: 's', FEISHU_HOST: 'https://open.feishu.cn',
   }, []), /CARD_STARTED_AT/)
   const configured = readConfiguration({
     GITHUB_RUN_ID: '42',
+    GITHUB_RUN_ATTEMPT: '3',
     GITHUB_REPOSITORY: 'zilliztech/zdoc',
     GITHUB_TOKEN: 't',
     CARD_ID: 'c',
@@ -353,14 +354,40 @@ test('helpers validate aggregate selection, retry behavior, and CLI configuratio
     APP_SECRET: 's',
     FEISHU_HOST: 'https://open.feishu.cn',
   }, [])
+  assert.equal(configured.runAttempt, 3)
   assert.equal(configured.publicationRunAttempt, 3)
   assert.equal(configured.publicationSelectionSha256, SELECTION_SHA256)
   assert.throws(() => readConfiguration({
     GITHUB_RUN_ID: '42', GITHUB_REPOSITORY: 'zilliztech/zdoc', GITHUB_TOKEN: 't', CARD_ID: 'c',
+    GITHUB_RUN_ATTEMPT: '3',
     CARD_STARTED_AT: '2026-08-04T01:00:00.000Z', CARD_TARGET_BRANCH: 'dev', SELECTED_GROUP: 'java',
     PUBLISH_ENABLED: 'true', RUN_TRANSLATIONS: 'false', PUBLICATION_RUN_ATTEMPT: '3', PUBLICATION_SELECTION_SHA256: 'bad',
     APP_ID: 'a', APP_SECRET: 's', FEISHU_HOST: 'https://open.feishu.cn',
   }, []), /PUBLICATION_SELECTION_SHA256/)
+})
+
+test('GitHub client scopes rerun jobs to the exact current attempt', async () => {
+  const seen = []
+  const client = createGitHubActionsClient({
+    token: 'token',
+    repository: 'zilliztech/zdoc',
+    runId: 42,
+    runAttempt: 2,
+    fetchImpl: async url => {
+      seen.push(url)
+      return {
+        ok: true,
+        json: async () => ({jobs: [
+          {id: 1, name: 'aggregate', run_attempt: 1, status: 'completed', conclusion: 'failure'},
+          {id: 2, name: 'produce_java / produce', run_attempt: 2, status: 'in_progress', conclusion: null},
+        ]}),
+      }
+    },
+  })
+
+  assert.deepEqual((await client.listJobs()).map(job => job.id), [2])
+  assert.equal(seen.length, 1)
+  assert.match(seen[0], /\/actions\/runs\/42\/attempts\/2\/jobs\?filter=all&per_page=100&page=1$/)
 })
 
 test('rejects archive traversal before extraction', () => {
@@ -372,13 +399,13 @@ test('rejects archive traversal before extraction', () => {
 
 test('GitHub client paginates jobs and validates an artifact before extraction', async () => {
   const runnerTemp = fs.mkdtempSync(path.join(os.tmpdir(), 'monitor-github-'))
-  const firstPage = Array.from({ length: 100 }, (_, index) => ({ id: index + 1, name: `job-${index + 1}` }))
+  const firstPage = Array.from({ length: 100 }, (_, index) => ({ id: index + 1, name: `job-${index + 1}`, run_attempt: 3 }))
   let listed = 0
   let extracted = 0
   const fetchImpl = async url => {
     const parsed = new URL(url)
     if (url.includes('/jobs?') && parsed.searchParams.get('page') === '1') return { ok: true, json: async () => ({ jobs: firstPage }) }
-    if (url.includes('/jobs?') && parsed.searchParams.get('page') === '2') return { ok: true, json: async () => ({ jobs: [{ id: 101, name: 'aggregate' }] }) }
+    if (url.includes('/jobs?') && parsed.searchParams.get('page') === '2') return { ok: true, json: async () => ({ jobs: [{ id: 101, name: 'aggregate', run_attempt: 3 }] }) }
     if (url.includes('name=docs-progress-metadata-en-42')) return { ok: true, json: async () => ({ artifacts: [{ id: 2, expired: false, archive_download_url: 'https://api.github.com/metadata-en.zip' }] }) }
     if (url.includes('name=docs-progress-metadata-zh-CN-42')) return { ok: true, json: async () => ({ artifacts: [{ id: 3, expired: false, archive_download_url: 'https://api.github.com/metadata-zh-CN.zip' }] }) }
     if (url.includes('name=docs-translation-handoff-42')) return { ok: true, json: async () => ({ artifacts: [{ id: 4, expired: false, archive_download_url: 'https://api.github.com/handoff.zip' }] }) }
@@ -392,7 +419,7 @@ test('GitHub client paginates jobs and validates an artifact before extraction',
     throw new Error(`unexpected URL: ${url}`)
   }
   const client = createGitHubActionsClient({
-    token: 'token', repository: 'zilliztech/zdoc', runId: 42, fetchImpl, runnerTemp,
+    token: 'token', repository: 'zilliztech/zdoc', runId: 42, runAttempt: 3, fetchImpl, runnerTemp,
     sleep: async () => {},
     listArchive: async archive => {
       listed += 1
