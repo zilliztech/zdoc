@@ -32,10 +32,6 @@ Compared with managed collections, external collections have the following limit
 
 - You cannot use partitions. As a result, partition key and  are not supported.
 
-- You cannot define functions in the schema.
-
-- You cannot use text match with BM25.
-
 - To make external data queryable, you must first create an index and then manually trigger `RefreshExternalCollection` so that Zilliz Cloud can build metadata and indexes for the data.
 
 - Backup, restore, and migration are currently not supported for external collections.
@@ -276,13 +272,13 @@ The following table compares the operations supported by external collections an
    <tr>
      <td><p><strong>Functions</strong></p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p><strong>Full-text Search/Text Match</strong></p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
