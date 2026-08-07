@@ -1240,28 +1240,47 @@ module.exports = [
                 "type": "category",
                 "label": "集群扩缩容",
                 "key": "category:tutorials/management/clusters/dedicated-cluster/scale-cluster",
-                "link": {
-                  "type": "doc",
-                  "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-cluster"
-                },
                 "items": [
                   {
                     "type": "doc",
-                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-query-cu",
-                    "label": "Query CU 扩缩容",
-                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scale-query-cu"
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling",
+                    "label": "规划集群扩缩容",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/plan-cluster-scaling"
                   },
                   {
                     "type": "doc",
-                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/manage-replica",
-                    "label": "Replica 扩缩容",
-                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/manage-replica"
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling",
+                    "label": "手动扩缩容",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/manual-scaling"
                   },
                   {
                     "type": "doc",
-                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression",
-                    "label": "Cron 表达式",
-                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression"
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling",
+                    "label": "自动扩缩容",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling"
+                  },
+                  {
+                    "type": "category",
+                    "label": "定时扩缩容",
+                    "key": "category:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling",
+                    "link": {
+                      "type": "doc",
+                      "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/scheduled-scaling"
+                    },
+                    "items": [
+                      {
+                        "type": "doc",
+                        "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression",
+                        "label": "Cron 表达式",
+                        "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade",
+                    "label": "金丝雀升级",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/canary-upgrade"
                   }
                 ]
               },

@@ -32,10 +32,6 @@ import Admonition from '@theme/Admonition';
 
 - 您不能使用 Partition，因此也不支持 Partition Key 和 。
 
-- 您无法在 Schema 中定义 Functions。
-
-- 您无法使用基于 BM25 的 Text Match。
-
 - 要使外部数据可用于查询，您必须先创建索引，然后手动触发 `RefreshExternalCollection`，以便 Zilliz Cloud 为数据构建元数据和索引。
 
 - External Collection 当前不支持备份恢复和数据迁移。
@@ -276,13 +272,13 @@ import Admonition from '@theme/Admonition';
    <tr>
      <td><p><strong>Functions</strong></p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p><strong>Full-text Search/Text Match</strong></p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
