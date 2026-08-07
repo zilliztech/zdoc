@@ -879,7 +879,7 @@ test('Fetch producers stay parallel while publication and derived-state writers 
     assert.equal(workflow.jobs[legacy], undefined)
   }
   assert.deepEqual(workflow.jobs.source_publication_barrier.needs, ['prepare', 'publish_ready', 'reconcile_reference_state'])
-  assert.deepEqual(workflow.jobs.prepare_translation_handoff.needs, ['prepare', 'source_publication_barrier', 'publish_ready'])
+  assert.deepEqual(workflow.jobs.prepare_translation_handoff.needs, ['prepare', 'source_publication_barrier', 'publish_ready', 'reconcile_reference_state'])
   assert.deepEqual(workflow.jobs.verify.needs, ['prepare', 'publish_ready', 'reconcile_reference_state'])
   assert.deepEqual(workflow.jobs.aggregate.needs, ['prepare', 'publish_ready', 'reconcile_reference_state', 'prepare_translation_handoff', 'dispatch_translations', 'verify'])
   assert.equal(workflow.jobs.monitor_docs_progress.with.publication_run_attempt, '${{ fromJSON(github.run_attempt) }}')
@@ -945,6 +945,19 @@ test('Fetch translation handoff installs its runtime before building schema v2',
   const handoffIndex = steps.findIndex(step => step.name === 'Validate exact downstream translation handoff')
   assert.ok(pnpmSetupIndex >= 0)
   assert.ok(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < handoffIndex)
+})
+
+test('Fetch translation handoff consumes the reconciled target while preserving immutable source evidence', () => {
+  const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
+  const source = fs.readFileSync(workflowPath, 'utf8')
+  const workflow = yaml.load(source)
+  const handoff = workflow.jobs.prepare_translation_handoff
+  const step = handoff.steps.find(candidate => candidate.name === 'Validate exact downstream translation handoff')
+  assert.deepEqual(handoff.needs, ['prepare', 'source_publication_barrier', 'publish_ready', 'reconcile_reference_state'])
+  assert.equal(step.env.TARGET_BASELINE_SHA, '${{ needs.reconcile_reference_state.outputs.final_target_sha }}')
+  assert.match(step.run, /--fetch-selection "\$RUNNER_TEMP\/publication-selection\/publication-selection\.json"/)
+  assert.match(step.run, /--fetch-results "\$RUNNER_TEMP\/publication-results\/publication-results\.json"/)
+  assert.match(step.run, /--target-baseline-sha "\$TARGET_BASELINE_SHA"/)
 })
 
 test('job-level env must not reference the runner context', () => {
@@ -2414,8 +2427,12 @@ test('fetch workflow owns only source production and dispatches translation once
   assert.match(source, /run_url[\s\S]*github\\\.com[\s\S]*actions\/runs\//)
   assert.match(source, /\[1-9\]\[0-9\]\*/)
   assert.match(source, /request_id="\$REQUEST_ID"[\s\S]*displayTitle[\s\S]*expected_title/)
-  assert.doesNotMatch(source, /gh run list[^\n]*--branch/)
-  assert.match(source, /gh run list[^\n]*--json displayTitle,url,headSha[\s\S]*\.headSha == \$sha/)
+  assert.match(source, /gh run list[^\n]*--json displayTitle,url,headBranch/)
+  assert.match(source, /\.displayTitle == \$title and \.headBranch == \$ref/)
+  const dispatchStep = workflow.jobs.dispatch_translations.steps.find(step => step.name === 'Dispatch the single translation workflow')
+  assert.equal(dispatchStep.env.TOOLING_SHA, undefined)
+  assert.doesNotMatch(dispatchStep.run, /\.headSha == \$sha|TOOLING_SHA/)
+  assert.match(source, /\$\{#run_urls\[@\]\} == 1/)
   assert.doesNotMatch(source, /Translate manuals|Publish translations|Publish [a-z]+ translation/)
   assert.match(source, /card_parts\+=\("Handoff"\)/)
   assert.match(source, /Zilliz Cloud Docs Build/)
@@ -2435,7 +2452,61 @@ test('PR-ready Fetch workflow contains no canary-only configuration', () => {
   assert.doesNotMatch(workflow.jobs.dispatch_translations.if, /canary|suppress/iu)
   assert.equal(aggregate.env.TRANSLATION_HANDOFF_REQUESTED, '${{ needs.prepare.outputs.run_translations }}')
   assert.doesNotMatch(source, /canary_suppress_translation_dispatch|fetch-publication-fifo-p0-canary-dev|production\s+shadow|publish_ready_shadow/iu)
-  assert.deepEqual(workflow.jobs.prepare_translation_handoff.needs, ['prepare', 'source_publication_barrier', 'publish_ready'])
+  assert.deepEqual(workflow.jobs.prepare_translation_handoff.needs, ['prepare', 'source_publication_barrier', 'publish_ready', 'reconcile_reference_state'])
+})
+
+test('workflow policy rejects reconciled handoff and branch child lookup regressions', () => {
+  const fixtures = [
+    {
+      mutate: source => source.replace(
+        'needs: [prepare, source_publication_barrier, publish_ready, reconcile_reference_state]',
+        'needs: [prepare, source_publication_barrier, publish_ready]',
+      ),
+      expected: 'fetch-docs.yml: translation handoff must directly depend on reconciliation and consume its exact final target SHA',
+    },
+    {
+      mutate: source => source.replace(
+        'TARGET_BASELINE_SHA: ${{ needs.reconcile_reference_state.outputs.final_target_sha }}',
+        'TARGET_BASELINE_SHA: ${{ needs.publish_ready.outputs.final_target_sha }}',
+      ),
+      expected: 'fetch-docs.yml: translation handoff must directly depend on reconciliation and consume its exact final target SHA',
+    },
+    {
+      mutate: source => source.replace(
+        '--target-baseline-sha "$TARGET_BASELINE_SHA"',
+        '--target-baseline-sha "$PUBLISHED_TARGET_SHA"',
+      ),
+      expected: 'fetch-docs.yml: translation handoff must directly depend on reconciliation and consume its exact final target SHA',
+    },
+    {
+      mutate: source => source.replace(
+        '--json displayTitle,url,headBranch',
+        '--json displayTitle,url,headSha',
+      ),
+      expected: 'fetch-docs.yml: downstream dispatch must identify one child by exact request title and workflow branch',
+    },
+    {
+      mutate: source => source.replace(
+        '.displayTitle == $title and .headBranch == $ref',
+        '.displayTitle == $title and .headSha == $sha',
+      ),
+      expected: 'fetch-docs.yml: downstream dispatch must identify one child by exact request title and workflow branch',
+    },
+  ]
+  for (const fixture of fixtures) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'fetch-reconciled-handoff-policy-'))
+    try {
+      fs.cpSync('.github/workflows', directory, {recursive: true})
+      const file = path.join(directory, 'fetch-docs.yml')
+      const original = fs.readFileSync(file, 'utf8')
+      const mutated = fixture.mutate(original)
+      assert.notEqual(mutated, original)
+      fs.writeFileSync(file, mutated)
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
 })
 
 test('workflow policy rejects reintroduced canary-only configuration', () => {

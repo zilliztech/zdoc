@@ -641,7 +641,7 @@ jobs:
             --results "$RUNNER_TEMP/publication-results/publication-results.json"
 
   prepare_translation_handoff:
-    needs: [prepare, source_publication_barrier, publish_ready]
+    needs: [prepare, source_publication_barrier, publish_ready, reconcile_reference_state]
     if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.publish == 'true' && needs.source_publication_barrier.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -669,6 +669,7 @@ jobs:
         name: Validate exact downstream translation handoff
         env:
           SELECTED_GROUP: ${{ needs.prepare.outputs.selected_group }}
+          TARGET_BASELINE_SHA: ${{ needs.reconcile_reference_state.outputs.final_target_sha }}
           WORKFLOW_REF: ${{ github.ref_name }}
         run: |
           set -euo pipefail
@@ -678,6 +679,7 @@ jobs:
             --group "$SELECTED_GROUP" \
             --fetch-selection "$RUNNER_TEMP/publication-selection/publication-selection.json" \
             --fetch-results "$RUNNER_TEMP/publication-results/publication-results.json" \
+            --target-baseline-sha "$TARGET_BASELINE_SHA" \
             > "$RUNNER_TEMP/validated-translation-handoff.json"
           handoff_json=$(cat "$RUNNER_TEMP/validated-translation-handoff.json")
           node scripts/docs-workflow/translation-handoff.js --handoff-json "$handoff_json" > /dev/null
@@ -708,7 +710,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           WORKFLOW_REF: ${{ needs.prepare_translation_handoff.outputs.workflow_ref }}
           HANDOFF_JSON: ${{ needs.prepare_translation_handoff.outputs.handoff_json }}
-          TOOLING_SHA: ${{ needs.prepare.outputs.master_sha }}
           REQUEST_ID: ${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           set -euo pipefail
@@ -717,10 +718,18 @@ jobs:
           gh workflow run translate-codex.yml --repo "$GITHUB_REPOSITORY" --ref "$WORKFLOW_REF" -f handoff_json="$HANDOFF_JSON" -f mode=auto -f publish=true -f request_id="$REQUEST_ID"
           run_url=
           for _ in {1..12}; do
-            run_url=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow translate-codex.yml --event workflow_dispatch --limit 50 --json displayTitle,url,headSha \
-              | jq -r --arg title "$expected_title" --arg sha "$TOOLING_SHA" '.[] | select(.displayTitle == $title and .headSha == $sha) | .url' \
-              | head -1)
-            [[ -n "$run_url" ]] && break
+            runs_json=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow translate-codex.yml --event workflow_dispatch --limit 50 --json displayTitle,url,headBranch)
+            run_matches=$(jq -r --arg title "$expected_title" --arg ref "$WORKFLOW_REF" '.[] | select(.displayTitle == $title and .headBranch == $ref) | .url' <<< "$runs_json")
+            run_urls=()
+            [[ -z "$run_matches" ]] || mapfile -t run_urls <<< "$run_matches"
+            if (( ${#run_urls[@]} > 1 )); then
+              echo "ambiguous downstream translation runs for $expected_title on $WORKFLOW_REF" >&2
+              exit 1
+            fi
+            if (( ${#run_urls[@]} == 1 )); then
+              run_url=${run_urls[0]}
+              break
+            fi
             sleep 5
           done
           [[ "$run_url" =~ ^https://github\.com/$GITHUB_REPOSITORY/actions/runs/[1-9][0-9]*$ ]]
