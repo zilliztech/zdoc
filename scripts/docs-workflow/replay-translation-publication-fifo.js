@@ -50,7 +50,18 @@ function safeAbsolute(value, label) {
   if (typeof value !== 'string' || !path.isAbsolute(value) || /[\0\r\n]/u.test(value)) {
     throw new Error(`${label} must be an absolute path under /private/tmp`)
   }
-  const resolved = path.resolve(value)
+  if (path.normalize(value) !== value || path.resolve(value) !== value) {
+    throw new Error(`${label} must be a normalized absolute path without lexical dot segments`)
+  }
+  const missing = []
+  let ancestor = value
+  while (!fs.existsSync(ancestor)) {
+    const parent = path.dirname(ancestor)
+    if (parent === ancestor) break
+    missing.unshift(path.basename(ancestor))
+    ancestor = parent
+  }
+  const resolved = path.join(fs.realpathSync(ancestor), ...missing)
   if (resolved === SAFE_ROOT || !resolved.startsWith(`${SAFE_ROOT}${path.sep}`)) {
     throw new Error(`${label} must be an absolute path under /private/tmp`)
   }
@@ -223,6 +234,31 @@ function prepareLaneRepository({bareRemote, evidenceRoot, lane, selection}) {
     if (git(repository, ['cat-file', '-e', `${sha}^{commit}`], {allowFailure: true}).status === 0) continue
     git(repository, ['fetch', '--no-tags', process.cwd(), sha])
   }
+  const dependencyRoots = ['node_modules']
+  for (const directory of ['apps', 'packages']) {
+    const sourceRoot = path.join(process.cwd(), directory)
+    if (!fs.existsSync(sourceRoot)) continue
+    for (const entry of fs.readdirSync(sourceRoot, {withFileTypes: true})) {
+      if (entry.isDirectory()) dependencyRoots.push(path.join(directory, entry.name, 'node_modules'))
+    }
+  }
+  const linked = path.join(repository, 'node_modules')
+  fs.mkdirSync(linked)
+  for (const relative of dependencyRoots) {
+    const installed = path.join(process.cwd(), relative)
+    if (!fs.existsSync(installed) || !fs.lstatSync(installed).isDirectory()) continue
+    for (const entry of fs.readdirSync(installed)) {
+      const destination = path.join(linked, entry)
+      const source = path.join(installed, entry)
+      if (entry.startsWith('@') && fs.lstatSync(source).isDirectory()) {
+        fs.mkdirSync(destination, {recursive: true})
+        for (const scoped of fs.readdirSync(source)) {
+          const scopedDestination = path.join(destination, scoped)
+          if (!fs.existsSync(scopedDestination)) fs.symlinkSync(path.join(source, scoped), scopedDestination, 'junction')
+        }
+      } else if (!fs.existsSync(destination)) fs.symlinkSync(source, destination, 'junction')
+    }
+  }
   return repository
 }
 
@@ -390,7 +426,10 @@ async function replayRun(options = {}) {
     result.selection ||= laneSelection(run.selection, lane)
     laneResults[lane] = result
     laneVerification[lane] = await verifyLane({lane, order, run, evidenceRoot, bareRemote, laneResult: result})
-    if (!laneVerification[lane]?.ancestryVerified || !laneVerification[lane]?.reconciliationVerified) throw new Error(`${lane} replay ancestry or reconciliation verification failed`)
+    if (!laneVerification[lane]?.ancestryVerified || !laneVerification[lane]?.reconciliationVerified) {
+      const failed = result.publicationResults?.units?.find(unit => !['published', 'no_changes'].includes(unit.status))
+      throw new Error(`${lane} replay ancestry or reconciliation verification failed: ${JSON.stringify({overallStatus: result.publicationResults?.overallStatus, orchestratorFailure: result.publicationResults?.orchestratorFailure, failed})}`)
+    }
   }
   if (laneVerification.canonical.tree !== laneVerification.fifo.tree) throw new Error('Canonical and FIFO replay final trees differ')
   const evidence = {
@@ -445,10 +484,132 @@ function faultFailure(code, phase, message) {
   return {code, phase, message, retryable: false}
 }
 
+function prepareFaultRepository({evidenceRoot, sourceRemote, toolingSha, label}) {
+  const remote = path.join(evidenceRoot, `${label}.git`)
+  const repository = path.join(evidenceRoot, `${label}-repository`)
+  const racer = path.join(evidenceRoot, `${label}-racer`)
+  const runnerTemp = path.join(evidenceRoot, `${label}-runner`)
+  git(evidenceRoot, ['clone', '--bare', sourceRemote, remote])
+  git(evidenceRoot, ['clone', '--branch', 'dev', remote, repository])
+  git(evidenceRoot, ['clone', '--branch', 'dev', remote, racer])
+  git(repository, ['fetch', '--no-tags', process.cwd(), toolingSha])
+  for (const checkout of [repository, racer]) {
+    git(checkout, ['config', 'user.name', 'Translation replay fault'])
+    git(checkout, ['config', 'user.email', 'translation-replay@example.com'])
+  }
+  fs.mkdirSync(runnerTemp)
+  return Object.freeze({remote, repository, racer, runnerTemp})
+}
+
+function faultSdkPair({run, evidenceRoot, label}) {
+  const unit = run.selection.units.find(candidate => candidate.strategy === 'checkpoint')
+  if (!unit) throw new Error('Default fault injection requires one Translation checkpoint unit')
+  const records = run.artifacts.get(unit.unitKey)
+  const runnerTemp = path.join(evidenceRoot, `${label}-extract`)
+  fs.mkdirSync(runnerTemp)
+  const checkpoint = extractArchive(records.get('checkpoint').file, runnerTemp, 'checkpoint-')
+  const baseline = extractArchive(records.get('baseline').file, runnerTemp, 'baseline-')
+  return Object.freeze({unit, artifactDir: checkpoint.artifactDir, baselineDir: baseline.artifactDir})
+}
+
+async function executeCasDriftFault({run, evidenceRoot}) {
+  const sourceRemote = path.join(run.runRoot, 'source.git')
+  if (!fs.existsSync(sourceRemote)) throw new Error('Default CAS fault requires retained source.git')
+  const repository = prepareFaultRepository({evidenceRoot, sourceRemote, toolingSha: run.selection.toolingSha, label: 'cas-drift'})
+  const pair = faultSdkPair({run, evidenceRoot, label: 'cas-drift'})
+  let pushes = 0
+  let abandonedCandidateSha = null
+  const result = await publishCheckpointTransaction({
+    repositoryRoot: repository.repository,
+    dependencyRoot: process.cwd(),
+    artifactDir: pair.artifactDir,
+    baselineDir: pair.baselineDir,
+    unit: {...pair.unit, targetBranch: 'dev'},
+    remote: 'origin',
+    maxAttempts: 3,
+    runnerTemp: repository.runnerTemp,
+    dependencies: {
+      pushCandidate({worktree, remote, branch, candidateSha}) {
+        pushes += 1
+        if (pushes === 1) {
+          abandonedCandidateSha = candidateSha
+          putFaultFile(repository.racer, 'remote-race.txt', 'preserved\n')
+          git(repository.racer, ['add', 'remote-race.txt'])
+          git(repository.racer, ['commit', '-m', 'remote CAS race'])
+          git(repository.racer, ['push', 'origin', `HEAD:refs/heads/${branch}`])
+          throw new Error('non-fast-forward after remote CAS drift')
+        }
+        git(worktree, ['push', remote, `HEAD:refs/heads/${branch}`])
+      },
+    },
+  })
+  const remoteSha = git(process.cwd(), ['--git-dir', repository.remote, 'rev-parse', 'refs/heads/dev']).stdout.trim()
+  const remoteRacePreserved = git(process.cwd(), ['--git-dir', repository.remote, 'show', 'refs/heads/dev:remote-race.txt'], {allowFailure: true}).status === 0
+  return Object.freeze({
+    status: 'complete', overallStatus: result.status === 'published' ? 'success' : 'failure',
+    cas: {status: result.status, attempts: result.attempts, abandonedCandidateSha, resultSha: result.resultSha, remoteSha, remoteRacePreserved, failure: result.failure},
+  })
+}
+
+function putFaultFile(root, relative, value) {
+  const file = path.join(root, relative)
+  fs.mkdirSync(path.dirname(file), {recursive: true})
+  fs.writeFileSync(file, value)
+}
+
+async function executeAmbiguousCase({run, evidenceRoot, label, descendant}) {
+  const sourceRemote = path.join(run.runRoot, 'source.git')
+  if (!fs.existsSync(sourceRemote)) throw new Error('Default ambiguous-push fault requires retained source.git')
+  const repository = prepareFaultRepository({evidenceRoot, sourceRemote, toolingSha: run.selection.toolingSha, label})
+  const pair = faultSdkPair({run, evidenceRoot, label})
+  let candidateSha = null
+  const result = await publishCheckpointTransaction({
+    repositoryRoot: repository.repository,
+    dependencyRoot: process.cwd(),
+    artifactDir: pair.artifactDir,
+    baselineDir: pair.baselineDir,
+    unit: {...pair.unit, targetBranch: 'dev'},
+    remote: 'origin',
+    maxAttempts: 3,
+    runnerTemp: repository.runnerTemp,
+    dependencies: {
+      pushCandidate({worktree, remote, branch, candidateSha: candidate}) {
+        candidateSha = candidate
+        git(worktree, ['push', remote, `HEAD:refs/heads/${branch}`])
+        if (descendant) {
+          git(repository.racer, ['fetch', 'origin', branch])
+          git(repository.racer, ['reset', '--hard', `origin/${branch}`])
+          putFaultFile(repository.racer, 'ambiguous-descendant.txt', 'descendant\n')
+          git(repository.racer, ['add', 'ambiguous-descendant.txt'])
+          git(repository.racer, ['commit', '-m', 'ambiguous remote descendant'])
+          git(repository.racer, ['push', 'origin', `HEAD:refs/heads/${branch}`])
+        }
+        throw new Error(descendant ? 'connection closed after descendant update' : 'connection closed after exact update')
+      },
+    },
+  })
+  const remoteSha = git(process.cwd(), ['--git-dir', repository.remote, 'rev-parse', 'refs/heads/dev']).stdout.trim()
+  return Object.freeze({
+    candidateSha,
+    remoteSha,
+    containsCandidate: git(repository.repository, ['merge-base', '--is-ancestor', candidateSha, remoteSha], {allowFailure: true}).status === 0,
+    status: result.status,
+    attempts: result.attempts,
+  })
+}
+
+async function executeAmbiguousPushFault({run, evidenceRoot}) {
+  const exact = await executeAmbiguousCase({run, evidenceRoot, label: 'ambiguous-exact', descendant: false})
+  const descendant = await executeAmbiguousCase({run, evidenceRoot, label: 'ambiguous-descendant', descendant: true})
+  return Object.freeze({status: 'complete', overallStatus: 'success', exact, descendant})
+}
+
 async function executeDefaultFaultScenario({scenario, evidenceRoot}) {
   const sourceRoot = path.join(evidenceRoot, 'retained-run')
   if (!fs.existsSync(sourceRoot)) throw new Error('Default fault injection requires retained-run evidence from replay')
   const run = loadRun(sourceRoot)
+  if (scenario === 'cas-drift') return executeCasDriftFault({run, evidenceRoot})
+  if (scenario === 'ambiguous-push') return executeAmbiguousPushFault({run, evidenceRoot})
   const selection = replaySelection(run.selection, run.selection.targetBranch)
   const jobs = run.jobs.map(job => ({...job}))
   const guides = selection.units.find(unit => unit.strategy === 'ja-guides')
@@ -648,8 +809,8 @@ function parseArgs(argv) {
 
 function usage(commandName) {
   return {
-    'inspect-run': 'inspect-run --run-id 30864046835 --output-root /private/tmp/translation-run-30864046835',
-    replay: 'replay --run-root /private/tmp/translation-run-30864046835 --bare-remote /private/tmp/translation-replay.git --evidence-root /private/tmp/translation-evidence --mode publish',
+    'inspect-run': 'inspect-run --run-id <id> --output-root /private/tmp/translation-run-<id>',
+    replay: 'replay --run-root /private/tmp/translation-run-<id> --bare-remote /private/tmp/translation-replay.git --evidence-root /private/tmp/translation-evidence --mode publish',
     'fault-inject': 'fault-inject --evidence-root /private/tmp/translation-evidence --scenario sdk-before-guides',
     'verify-evidence': 'verify-evidence --evidence-root /private/tmp/translation-evidence',
   }[commandName]
