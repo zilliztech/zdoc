@@ -14,6 +14,7 @@ const {createPublicationScheduler} = require('./publication-scheduler')
 const {runPublicationStrategyTransaction} = require('./publication-transaction')
 const {inspectArchive, preflightCheckpointArchive} = require('./preflight-checkpoint-archive')
 const {buildTranslationPublicationReady, buildTranslationPublicationSelection} = require('./translation-publication-selection')
+const {reconcileTranslationPublication} = require('./translation-publication-reconciliation')
 const {verifyTranslationPublicationRepository} = require('./translation-publication-results')
 
 const SHA = /^[0-9a-f]{40}$/u
@@ -48,6 +49,10 @@ function digest(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')
 }
 
+function valueDigest(value) {
+  return crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex')
+}
+
 function safeAbsolute(value, label) {
   if (typeof value !== 'string' || !path.isAbsolute(value) || /[\0\r\n]/u.test(value)) {
     throw new Error(`${label} must be an absolute path under /private/tmp`)
@@ -76,6 +81,12 @@ function resolveInside(root, relative, label) {
   if (target === root || !target.startsWith(`${root}${path.sep}`)) throw new Error(`${label} escapes run root`)
   const parent = fs.realpathSync(path.dirname(target))
   if (parent !== root && !parent.startsWith(`${root}${path.sep}`)) throw new Error(`${label} resolves outside run root`)
+  if (fs.existsSync(target)) {
+    const stat = fs.lstatSync(target)
+    if (stat.isSymbolicLink()) throw new Error(`${label} final artifact path must not be a symlink`)
+    const resolved = fs.realpathSync(target)
+    if (resolved !== root && !resolved.startsWith(`${root}${path.sep}`)) throw new Error(`${label} resolves outside run root`)
+  }
   return target
 }
 
@@ -105,6 +116,91 @@ function normalizeDigest(value, label) {
   const normalized = String(value || '').replace(/^sha256:/u, '')
   if (!CHECKSUM.test(normalized)) throw new Error(`${label} digest is invalid`)
   return normalized
+}
+
+function retainedSourceIdentity(record) {
+  return {
+    id: record.id,
+    name: record.name,
+    digest: record.digest,
+    fileSha256: record.fileSha256,
+    ...(record.manifestSha256 ? {manifestSha256: record.manifestSha256} : {}),
+  }
+}
+
+function validateLegacyDerivedProvenance({runRoot, selection, jobs, metadata}) {
+  const hasLegacyFacts = metadata.legacyProvenance !== undefined || metadata.publicationArtifact !== undefined ||
+    metadata.sourceArtifacts !== undefined || (metadata.artifacts || []).some(record => record.derived === true)
+  if (!hasLegacyFacts) return
+  if (metadata.legacyDerived !== true) throw new Error('Legacy-derived provenance flag is missing')
+  const provenance = exactObjectKeys(metadata.legacyProvenance, [
+    'parent', 'child', 'selectionDerivation', 'sourceCheckpointInventory', 'guidesPublicationReport', 'derivedArtifacts',
+  ], 'Legacy-derived provenance')
+  exactObjectKeys(provenance.parent, ['runId', 'runAttempt', 'workflow', 'repository', 'toolingSha'], 'Legacy parent provenance')
+  exactObjectKeys(provenance.child, ['runId', 'runAttempt', 'workflow', 'repository', 'toolingSha'], 'Legacy child provenance')
+  if (provenance.parent.runId !== metadata.parentRunId || provenance.parent.runAttempt !== metadata.parentRunAttempt ||
+      provenance.parent.workflow !== '.github/workflows/fetch-docs.yml' || provenance.parent.repository !== selection.repository ||
+      provenance.parent.toolingSha !== selection.toolingSha) throw new Error('Legacy parent provenance identity mismatch')
+  if (provenance.child.runId !== selection.runId || provenance.child.runAttempt !== selection.runAttempt ||
+      provenance.child.workflow !== '.github/workflows/translate-codex.yml' || provenance.child.repository !== selection.repository ||
+      provenance.child.toolingSha !== selection.toolingSha) throw new Error('Legacy child provenance identity mismatch')
+
+  const derivation = exactObjectKeys(provenance.selectionDerivation, [
+    'kind', 'selectionSha256', 'selectionFileSha256', 'handoff', 'handoffSha256', 'jobsSha256', 'canonicalUnitKeys', 'fifoUnitKeys',
+  ], 'Legacy selection derivation')
+  const rebuilt = buildTranslationPublicationSelection({
+    handoff: derivation.handoff,
+    repository: selection.repository,
+    runId: selection.runId,
+    runAttempt: selection.runAttempt,
+    publish: false,
+    runTranslations: true,
+  })
+  const derivationChecks = {
+    kind: derivation.kind === 'legacy-retained-run-v1',
+    selectionSha256: derivation.selectionSha256 === selection.selectionSha256,
+    selectionFileSha256: derivation.selectionFileSha256 === digest(path.join(runRoot, 'publication-selection.json')),
+    handoffSha256: derivation.handoffSha256 === valueDigest(derivation.handoff),
+    jobsSha256: derivation.jobsSha256 === valueDigest({jobs}),
+    rebuiltSelection: rebuilt.selectionSha256 === selection.selectionSha256,
+    canonicalOrder: sameJson(derivation.canonicalUnitKeys, metadata.canonicalUnitKeys),
+    fifoOrder: sameJson(derivation.fifoUnitKeys, metadata.fifoUnitKeys),
+  }
+  if (Object.values(derivationChecks).includes(false)) throw new Error(`Legacy selection derivation provenance mismatch: ${JSON.stringify(derivationChecks)}`)
+
+  const expectedGroups = ['python', 'java', 'node', 'go', 'cli', 'rest', 'guides']
+  if (!Array.isArray(provenance.sourceCheckpointInventory) || !sameJson(provenance.sourceCheckpointInventory.map(record => record.group), expectedGroups)) {
+    throw new Error('Legacy source checkpoint inventory is incomplete')
+  }
+  const sourceInventory = (metadata.sourceArtifacts || []).map(record => ({
+    group: record.group, runId: record.runId, runAttempt: record.runAttempt, ...retainedSourceIdentity(record),
+  }))
+  if (!sameJson(provenance.sourceCheckpointInventory, sourceInventory)) throw new Error('Legacy source checkpoint inventory provenance mismatch')
+
+  const report = exactObjectKeys(provenance.guidesPublicationReport, [
+    'artifact', 'schemaVersion', 'runId', 'runAttempt', 'group', 'masterSha', 'sourceCheckpointSha', 'expectedTargetSha', 'status', 'resultSha',
+  ], 'Legacy Guides publication report')
+  exactObjectKeys(report.artifact, ['id', 'name', 'digest', 'fileSha256'], 'Legacy Guides publication artifact')
+  const publicationArtifact = metadata.publicationArtifact
+  const publicationPayload = json(resolveInside(runRoot, publicationArtifact.archive, 'Legacy Guides publication report'))
+  if (!sameJson(report.artifact, retainedSourceIdentity(publicationArtifact))) throw new Error('Legacy Guides publication artifact provenance mismatch')
+  const reportFacts = {...report}; delete reportFacts.artifact
+  if (!sameJson(reportFacts, publicationPayload)) throw new Error('Legacy Guides publication report provenance mismatch')
+
+  const derived = (metadata.artifacts || []).filter(record => record.derived === true).map(record => ({
+    unitKey: record.unitKey, kind: record.kind, name: record.name, digest: record.digest,
+    fileSha256: record.fileSha256, sources: record.sources,
+  }))
+  if (!sameJson(provenance.derivedArtifacts, derived)) throw new Error('Legacy derived artifact provenance inventory mismatch')
+  const retained = new Map()
+  for (const record of [
+    ...(metadata.sourceArtifacts || []), ...(metadata.guidesBatchArtifacts || []),
+    ...(metadata.artifacts || []).filter(record => record.derived !== true), publicationArtifact,
+  ]) retained.set(String(record.id), retainedSourceIdentity(record))
+  for (const artifact of provenance.derivedArtifacts) {
+    if (!Array.isArray(artifact.sources) || !artifact.sources.length || artifact.sources.some(source =>
+      !sameJson(retained.get(String(source.id)), source))) throw new Error(`Legacy derived artifact source provenance mismatch: ${artifact.unitKey} ${artifact.kind}`)
+  }
 }
 
 function loadRun(runRootInput) {
@@ -167,6 +263,7 @@ function loadRun(runRootInput) {
       throw new Error('Japanese Guides batch artifact identity is invalid')
     }
     normalizeDigest(artifact.digest, artifact.name)
+    if (/^translation-(?:checkpoint|baseline)-/u.test(artifact.name || '')) normalizeDigest(artifact.manifestSha256, `${artifact.name} manifest`)
     const file = resolveInside(runRoot, artifact.archive, `Japanese Guides batch ${artifact.name}`)
     if (!fs.existsSync(file) || !fs.statSync(file).isFile()) throw new Error(`Japanese Guides batch payload is missing: ${artifact.name}`)
     if (artifact.fileSha256 && normalizeDigest(artifact.fileSha256, `${artifact.name} file`) !== digest(file)) {
@@ -174,6 +271,7 @@ function loadRun(runRootInput) {
     }
     return Object.freeze({...artifact, file})
   })
+  validateLegacyDerivedProvenance({runRoot, selection, jobs, metadata})
   return Object.freeze({runRoot, selection, jobs, metadata, artifacts, guidesBatchArtifacts, canonicalUnitKeys, fifoUnitKeys})
 }
 
@@ -221,6 +319,54 @@ function extractArchive(archive, runnerTemp, prefix) {
   const entries = fs.readdirSync(root, {withFileTypes: true})
   if (entries.length !== 1 || !entries[0].isDirectory() || entries[0].isSymbolicLink()) throw new Error('Translation artifact must extract to exactly one real directory')
   return Object.freeze({artifactDir: path.join(root, entries[0].name), cleanupDirectory: root})
+}
+
+function authenticateAndExtractArchive(options = {}) {
+  const archive = options.archive
+  const runnerTemp = options.runnerTemp
+  const prefix = options.prefix
+  normalizeDigest(options.apiDigest, 'archive API')
+  const expectedFileSha256 = normalizeDigest(options.fileSha256, 'archive file')
+  const expectedManifestSha256 = normalizeDigest(options.manifestSha256, 'archive manifest')
+  if (digest(archive) !== expectedFileSha256) throw new Error('Archive file checksum mismatch before extraction')
+  inspectArchive(archive)
+  const preflightRoot = fs.mkdtempSync(path.join(runnerTemp, 'preflight-'))
+  const manifestOutput = path.join(preflightRoot, 'manifest.json')
+  try {
+    if (options.preflight) preflightCheckpointArchive({archive, manifestOutput, ...options.preflight})
+    else {
+      const bytes = execFileSync('tar', ['-xOf', archive, 'checkpoint-group/manifest.json'], {maxBuffer: 2 * 1024 * 1024})
+      fs.writeFileSync(manifestOutput, bytes, {flag: 'wx'})
+    }
+    if (digest(manifestOutput) !== expectedManifestSha256) throw new Error('Archive manifest checksum mismatch before extraction')
+  } finally {
+    fs.rmSync(preflightRoot, {recursive: true, force: true})
+  }
+  return extractArchive(archive, runnerTemp, prefix)
+}
+
+function translationArchivePreflight(unit) {
+  return {
+    group: unit.group,
+    masterSha: unit.toolingSha,
+    translationTarget: unit.target,
+    sourceCheckpointSha: unit.sourceCheckpointSha,
+    toolingSha: unit.toolingSha,
+    sourceSite: 'en',
+    targetSite: unit.target === 'zh-CN-reference' ? 'zh-CN' : 'en',
+  }
+}
+
+function authenticateReplayArchive({artifact, descriptor, unit, runnerTemp, prefix}) {
+  return authenticateAndExtractArchive({
+    archive: artifact.file,
+    runnerTemp,
+    prefix,
+    apiDigest: artifact.digest,
+    fileSha256: artifact.fileSha256 || descriptor.archiveSha256,
+    manifestSha256: descriptor.manifestSha256,
+    ...(unit.strategy === 'checkpoint' ? {preflight: translationArchivePreflight(unit)} : {}),
+  })
 }
 
 function ensureLaneBranches(bareRemote, selection) {
@@ -292,7 +438,11 @@ function guidesBatchNumber(file) {
   return Number(match[1])
 }
 
-function prepareGuidesPairs(prepared, runnerTemp) {
+function cleanupGuidesPairs(cleanupDirectories) {
+  for (const directory of [...new Set(cleanupDirectories || [])]) fs.rmSync(directory, {recursive: true, force: true})
+}
+
+function prepareGuidesPairs(prepared, runnerTemp, unit) {
   const planFiles = filesNamed(prepared.artifactDir, 'translation-plan.json')
   if (planFiles.length !== 1) throw new Error('Japanese Guides replay requires exactly one immutable translation plan')
   const plan = json(planFiles[0])
@@ -301,55 +451,79 @@ function prepareGuidesPairs(prepared, runnerTemp) {
   const baselines = new Map(filesNamed(prepared.baselineDir, 'checkpoint-group.tar').map(file => [guidesBatchNumber(file), file]))
   if (results.size !== plan.batchCount || baselines.size !== plan.batchCount) throw new Error('Japanese Guides replay batch inventory is incomplete')
   const pairs = []
-  for (let batchNumber = 1; batchNumber <= plan.batchCount; batchNumber += 1) {
-    if (!results.has(batchNumber) || !baselines.has(batchNumber)) throw new Error(`Japanese Guides replay is missing batch ${batchNumber}`)
-    pairs.push({
-      artifactDir: extractArchive(results.get(batchNumber), runnerTemp, `guides-result-${batchNumber}-`).artifactDir,
-      baselineDir: extractArchive(baselines.get(batchNumber), runnerTemp, `guides-baseline-${batchNumber}-`).artifactDir,
-    })
+  const cleanupDirectories = []
+  try {
+    for (let batchNumber = 1; batchNumber <= plan.batchCount; batchNumber += 1) {
+      if (!results.has(batchNumber) || !baselines.has(batchNumber)) throw new Error(`Japanese Guides replay is missing batch ${batchNumber}`)
+      const extracted = {}
+      for (const [kind, archives] of [['checkpoint', results], ['baseline', baselines]]) {
+        const expected = (prepared.guidesBatchArtifacts || []).find(artifact =>
+          new RegExp(`^translation-${kind}-ja-JP-guides-[0-9]+-batch-${batchNumber}$`, 'u').test(artifact.name || ''))
+        if (!expected?.manifestSha256) throw new Error(`Japanese Guides batch ${batchNumber} ${kind} authenticated provenance is missing`)
+        const value = authenticateAndExtractArchive({
+          archive: archives.get(batchNumber),
+          runnerTemp,
+          prefix: `guides-${kind}-${batchNumber}-`,
+          apiDigest: expected.digest,
+          fileSha256: expected.fileSha256,
+          manifestSha256: expected.manifestSha256,
+          preflight: translationArchivePreflight(unit),
+        })
+        cleanupDirectories.push(value.cleanupDirectory)
+        extracted[kind] = value.artifactDir
+      }
+      pairs.push({artifactDir: extracted.checkpoint, baselineDir: extracted.baseline})
+    }
+  } catch (error) {
+    cleanupGuidesPairs(cleanupDirectories)
+    throw error
   }
-  return {plan, pairs: Object.freeze(pairs)}
+  return {plan, pairs: Object.freeze(pairs), cleanupDirectories: Object.freeze(cleanupDirectories)}
 }
 
 async function publishGuidesTransaction({selection, unit, prepared, repositoryRoot, runnerTemp}) {
-  const {plan, pairs} = prepareGuidesPairs(prepared, runnerTemp)
+  const {plan, pairs, cleanupDirectories = []} = prepareGuidesPairs(prepared, runnerTemp, unit)
   if (plan.batchCount === 0) {
     git(repositoryRoot, ['fetch', '--no-tags', 'origin', `+refs/heads/${selection.targetBranch}:refs/remotes/origin/${selection.targetBranch}`])
     const resultSha = git(repositoryRoot, ['rev-parse', `refs/remotes/origin/${selection.targetBranch}^{commit}`]).stdout.trim()
     return {status: 'no_changes', baseSha: resultSha, resultSha, commitShas: [], attempts: 1, failure: null, remoteState: 'known'}
   }
-  const strategy = createJapaneseGuidesStrategy()
-  return runPublicationStrategyTransaction({
-    strategy,
-    maxAttempts: 10,
-    maxProbeAttempts: 3,
-    inputs: {
-      repositoryRoot,
-      sourceRepository: repositoryRoot,
-      dependencyRoot: repositoryRoot,
-      runnerTemp,
-      plan,
-      pairs,
-      runId: selection.runId,
-      runAttempt: selection.runAttempt,
-      selectionSha256: selection.selectionSha256,
-      unit,
-      environment: unit.environment,
-    },
-    async readTargetTip() {
-      git(repositoryRoot, ['fetch', '--no-tags', 'origin', `+refs/heads/${selection.targetBranch}:refs/remotes/origin/${selection.targetBranch}`])
-      return git(repositoryRoot, ['rev-parse', `refs/remotes/origin/${selection.targetBranch}^{commit}`]).stdout.trim()
-    },
-    async promoteCandidate({worktree}) {
-      git(worktree, ['push', 'origin', `HEAD:refs/heads/${selection.targetBranch}`])
-      return {status: 'published'}
-    },
-    async probeRemoteCandidate({candidateSha}) {
-      git(repositoryRoot, ['fetch', '--no-tags', 'origin', `+refs/heads/${selection.targetBranch}:refs/remotes/origin/${selection.targetBranch}`])
-      const remoteSha = git(repositoryRoot, ['rev-parse', `refs/remotes/origin/${selection.targetBranch}^{commit}`]).stdout.trim()
-      return {remoteSha, containsCandidate: git(repositoryRoot, ['merge-base', '--is-ancestor', candidateSha, remoteSha], {allowFailure: true}).status === 0}
-    },
-  })
+  try {
+    const strategy = createJapaneseGuidesStrategy()
+    return await runPublicationStrategyTransaction({
+      strategy,
+      maxAttempts: 10,
+      maxProbeAttempts: 3,
+      inputs: {
+        repositoryRoot,
+        sourceRepository: repositoryRoot,
+        dependencyRoot: repositoryRoot,
+        runnerTemp,
+        plan,
+        pairs,
+        runId: selection.runId,
+        runAttempt: selection.runAttempt,
+        selectionSha256: selection.selectionSha256,
+        unit,
+        environment: unit.environment,
+      },
+      async readTargetTip() {
+        git(repositoryRoot, ['fetch', '--no-tags', 'origin', `+refs/heads/${selection.targetBranch}:refs/remotes/origin/${selection.targetBranch}`])
+        return git(repositoryRoot, ['rev-parse', `refs/remotes/origin/${selection.targetBranch}^{commit}`]).stdout.trim()
+      },
+      async promoteCandidate({worktree}) {
+        git(worktree, ['push', 'origin', `HEAD:refs/heads/${selection.targetBranch}`])
+        return {status: 'published'}
+      },
+      async probeRemoteCandidate({candidateSha}) {
+        git(repositoryRoot, ['fetch', '--no-tags', 'origin', `+refs/heads/${selection.targetBranch}:refs/remotes/origin/${selection.targetBranch}`])
+        const remoteSha = git(repositoryRoot, ['rev-parse', `refs/remotes/origin/${selection.targetBranch}^{commit}`]).stdout.trim()
+        return {remoteSha, containsCandidate: git(repositoryRoot, ['merge-base', '--is-ancestor', candidateSha, remoteSha], {allowFailure: true}).status === 0}
+      },
+    })
+  } finally {
+    cleanupGuidesPairs(cleanupDirectories)
+  }
 }
 
 async function defaultRunLane({lane, order, run, evidenceRoot, bareRemote}) {
@@ -372,13 +546,18 @@ async function defaultRunLane({lane, order, run, evidenceRoot, bareRemote}) {
   }
   const resolveCandidate = async ({unit}) => {
     const records = run.artifacts.get(unit.unitKey)
-    const checkpoint = extractArchive(records.get('checkpoint').file, runnerTemp, 'checkpoint-')
-    const baseline = extractArchive(records.get('baseline').file, runnerTemp, 'baseline-')
     const originalReady = readPublicationDocument(records.get('ready').file, 'publication-ready', {selection: run.selection})
+    const checkpoint = authenticateReplayArchive({
+      artifact: records.get('checkpoint'), descriptor: originalReady.artifacts.checkpoint, unit, runnerTemp, prefix: 'checkpoint-',
+    })
+    const baseline = authenticateReplayArchive({
+      artifact: records.get('baseline'), descriptor: originalReady.artifacts.baseline, unit, runnerTemp, prefix: 'baseline-',
+    })
     return {status: 'ready', readyAt: completedByUnit.get(unit.unitKey), prepared: {
       ...checkpoint,
       baselineDir: baseline.artifactDir,
       baselineCleanupDirectory: baseline.cleanupDirectory,
+      guidesBatchArtifacts: run.guidesBatchArtifacts,
       descriptor: {...originalReady, selectionSha256: selection.selectionSha256, targetBranch: selection.targetBranch},
     }}
   }
@@ -490,12 +669,7 @@ function sameJson(left, right) {
 }
 
 function artifactSourceIdentity(record) {
-  return {
-    id: record.id,
-    name: record.name,
-    digest: record.digest,
-    fileSha256: record.fileSha256,
-  }
+  return retainedSourceIdentity(record)
 }
 
 function verifyRetainedPayload(runRoot, record, label) {
@@ -621,72 +795,227 @@ function verifyLaneGitEvidence({lane, run, results, order, bareRemote}) {
   return Object.freeze({tree, finalTargetSha: remoteSha, reconciliationCommits: Object.freeze(reconciliationCommits)})
 }
 
-function verifyFaultEvidence(fault) {
-  if (fault.schemaVersion !== 1 || !FAULT_SCENARIOS.has(fault.scenario) || fault.status !== 'complete') {
-    throw new Error('Fault injection evidence is incomplete')
+function exactObjectKeys(value, keys, label) {
+  if (!value || typeof value !== 'object' || Array.isArray(value) ||
+      Object.keys(value).sort().join('\0') !== [...keys].sort().join('\0')) {
+    throw new Error(`${label} has invalid keys`)
   }
-  const order = fault.calculatedOrder
+  return value
+}
+
+function readFaultHandlerLog(file) {
+  const document = exactObjectKeys(json(file), ['schemaVersion', 'events'], 'Fault handler log')
+  if (document.schemaVersion !== 1 || !Array.isArray(document.events)) throw new Error('Fault handler log is invalid')
+  const active = new Set()
+  const completed = new Set()
+  let reconciliationStarted = false
+  let reconciliationCompleted = false
+  for (const [index, event] of document.events.entries()) {
+    exactObjectKeys(event, ['sequence', 'type', 'unitKey', 'status', 'resultSha', 'commitShas'], `Fault handler event ${index + 1}`)
+    if (event.sequence !== index + 1 || !['handler_started', 'handler_completed', 'reconciliation_started', 'reconciliation_completed'].includes(event.type) ||
+        !Array.isArray(event.commitShas) || event.commitShas.some(sha => !SHA.test(sha))) {
+      throw new Error('Fault handler log sequence or event identity is invalid')
+    }
+    if (event.type === 'handler_started') {
+      if (typeof event.unitKey !== 'string' || event.status !== null || event.resultSha !== null || event.commitShas.length ||
+          active.size || completed.has(event.unitKey) || reconciliationStarted) throw new Error('Fault handler start event is invalid or duplicated')
+      active.add(event.unitKey)
+    } else if (event.type === 'handler_completed') {
+      if (typeof event.unitKey !== 'string' || !active.delete(event.unitKey) || completed.has(event.unitKey) ||
+          typeof event.status !== 'string' || (event.resultSha !== null && !SHA.test(event.resultSha))) {
+        throw new Error('Fault handler completion event is invalid or duplicated')
+      }
+      completed.add(event.unitKey)
+    } else {
+      if (event.unitKey !== null || event.resultSha !== null || event.commitShas.length || active.size) throw new Error('Fault reconciliation event is invalid')
+      if (event.type === 'reconciliation_started') {
+        if (reconciliationStarted || reconciliationCompleted) throw new Error('Fault reconciliation start event is duplicated')
+        reconciliationStarted = true
+      } else {
+        if (!reconciliationStarted || reconciliationCompleted || typeof event.status !== 'string') throw new Error('Fault reconciliation completion event is invalid')
+        reconciliationCompleted = true
+      }
+    }
+  }
+  if (active.size || reconciliationStarted !== reconciliationCompleted) throw new Error('Fault handler log contains an incomplete boundary')
+  return Object.freeze(document.events)
+}
+
+function verifyCoordinatorFaultEvidence({fault, evidenceRoot}) {
+  exactObjectKeys(fault, [
+    'schemaVersion', 'scenario', 'status', 'evidenceContract', 'selection', 'jobs', 'results',
+    'handlerLog', 'bareRemote', 'remoteRef', 'initialTargetSha',
+  ], 'Fault injection evidence')
+  if (fault.schemaVersion !== 2 || fault.status !== 'complete' || fault.evidenceContract !== 'coordinator-git-v1') {
+    throw new Error('Fault injection evidence contract is incomplete')
+  }
+  const selectionFile = resolveInside(evidenceRoot, fault.selection, 'Fault selection')
+  const jobsFile = resolveInside(evidenceRoot, fault.jobs, 'Fault jobs')
+  const resultsFile = resolveInside(evidenceRoot, fault.results, 'Fault results')
+  const handlerLogFile = resolveInside(evidenceRoot, fault.handlerLog, 'Fault handler log')
+  const selection = readPublicationDocument(selectionFile, 'publication-selection')
+  if (selection.workflow !== 'translation' || selection.inputs.publish !== true) throw new Error('Fault selection is not a Translation publish selection')
+  const jobsDocument = json(jobsFile)
+  const jobs = Array.isArray(jobsDocument) ? jobsDocument : jobsDocument.jobs
+  if (!Array.isArray(jobs)) throw new Error('Fault Jobs evidence is invalid')
+  const results = readPublicationDocument(resultsFile, 'publication-results', {selection})
+  const events = readFaultHandlerLog(handlerLogFile)
+  const order = deriveFifoUnitKeys(selection, jobs)
+  const orderedResults = results.units.filter(unit => unit.sequence !== null).sort((left, right) => left.sequence - right.sequence)
+  if (!sameJson(orderedResults.map(unit => unit.unitKey), order.slice(0, orderedResults.length))) {
+    throw new Error('Fault publication results do not match the trusted FIFO order')
+  }
+  const starts = events.filter(event => event.type === 'handler_started')
+  const completions = events.filter(event => event.type === 'handler_completed')
+  if (!sameJson(starts.map(event => event.unitKey), orderedResults.map(unit => unit.unitKey)) ||
+      !sameJson(completions.map(event => event.unitKey), orderedResults.map(unit => unit.unitKey))) {
+    throw new Error('Fault handler log does not match publication results')
+  }
+  for (const result of orderedResults) {
+    const completion = completions.find(event => event.unitKey === result.unitKey)
+    if (!completion || completion.status !== result.status || completion.resultSha !== result.resultSha || !sameJson(completion.commitShas, result.commitShas)) {
+      throw new Error(`Fault handler completion disagrees with publication results: ${result.unitKey}`)
+    }
+  }
+  if (fault.initialTargetSha !== selection.initialTargetSha || fault.remoteRef !== `refs/heads/${selection.targetBranch}`) {
+    throw new Error('Fault remote identity does not match the canonical selection')
+  }
+  const bareRemote = defaultAssertBareRemote(fault.bareRemote)
+  if (bareRemote !== fault.bareRemote) throw new Error('Fault bare remote path identity mismatch')
+  const remoteSha = git(process.cwd(), ['--git-dir', bareRemote, 'rev-parse', `${fault.remoteRef}^{commit}`]).stdout.trim()
+  if (remoteSha !== results.finalTargetSha) throw new Error('Fault remote ref does not match publication results')
+  const resultCommits = new Set()
+  for (const unit of results.units) {
+    if (unit.status === 'publish_failed' && (unit.resultSha !== null || unit.commitShas.length)) throw new Error('Failed fault unit declares a result commit')
+    for (const commitSha of unit.commitShas) {
+      if (git(process.cwd(), ['--git-dir', bareRemote, 'cat-file', '-e', `${commitSha}^{commit}`], {allowFailure: true}).status !== 0 ||
+          git(process.cwd(), ['--git-dir', bareRemote, 'merge-base', '--is-ancestor', commitSha, remoteSha], {allowFailure: true}).status !== 0) {
+        throw new Error(`Fault result commit is absent from the remote: ${unit.unitKey}`)
+      }
+      resultCommits.add(commitSha)
+    }
+  }
+  const commits = git(process.cwd(), ['--git-dir', bareRemote, 'rev-list', '--reverse', `${selection.initialTargetSha}..${remoteSha}`]).stdout.trim().split('\n').filter(Boolean)
+  const reconciliationCommits = commits.filter(sha => !resultCommits.has(sha))
+  if (reconciliationCommits.length > 1 || (reconciliationCommits.length === 1 && reconciliationCommits[0] !== remoteSha)) {
+    throw new Error('Fault remote contains commits outside unit publication and final reconciliation')
+  }
+
   const guidesUnitKey = 'translation/ja-JP/guides'
   const isSdk = unitKey => typeof unitKey === 'string' && /^translation\/(?:ja-JP|zh-CN-reference)\/(?:python|java|node|go|cli|rest)$/u.test(unitKey)
   if (fault.scenario === 'sdk-before-guides' || fault.scenario === 'guides-before-sdk') {
-    if (!Array.isArray(order) || order.length < 2 || new Set(order).size !== order.length || !order.includes(guidesUnitKey) || !order.some(isSdk)) {
-      throw new Error('Fault injection calculated order is incomplete')
+    if (results.overallStatus !== 'success' || order.length < 2 || !order.includes(guidesUnitKey) || !order.some(isSdk)) {
+      throw new Error(`Fault order evidence is incomplete: ${JSON.stringify({overallStatus: results.overallStatus, orchestratorFailure: results.orchestratorFailure, order})}`)
     }
-    if (fault.scenario === 'sdk-before-guides' && (!isSdk(order[0]) || order.indexOf(guidesUnitKey) <= 0)) {
-      throw new Error('SDK-before-Guides fault evidence does not prove an SDK publication first')
+    if (fault.scenario === 'sdk-before-guides' && (!isSdk(order[0]) || order.indexOf(guidesUnitKey) <= 0)) throw new Error('SDK-before-Guides evidence is invalid')
+    if (fault.scenario === 'guides-before-sdk' && (order[0] !== guidesUnitKey || !order.slice(1).some(isSdk))) throw new Error('Guides-before-SDK evidence is invalid')
+  } else if (fault.scenario === 'cache-conflict') {
+    const failed = results.units.find(unit => unit.status === 'publish_failed' && /cache conflict/iu.test(unit.failure?.message || ''))
+    const later = failed && results.units.find(unit => unit.status === 'published' && unit.sequence > failed.sequence)
+    if (results.overallStatus !== 'failure' || !failed || failed.commitShas.length || !later || !later.commitShas.some(sha => commits.includes(sha))) {
+      throw new Error('Cache-conflict evidence does not prove a commit-free conflict followed by a real write')
     }
-    if (fault.scenario === 'guides-before-sdk' && (order[0] !== guidesUnitKey || !order.slice(1).some(isSdk))) {
-      throw new Error('Guides-before-SDK fault evidence does not prove Guides publication first')
+  } else if (fault.scenario === 'reconciliation-failure') {
+    const reconciliationEvents = events.filter(event => event.type.startsWith('reconciliation_'))
+    const successful = orderedResults.filter(unit => ['published', 'no_changes'].includes(unit.status)).at(-1)
+    if (results.overallStatus !== 'orchestrator_failed' || results.orchestratorFailure?.phase !== 'reconciliation' ||
+        !sameJson(reconciliationEvents.map(event => event.type), ['reconciliation_started', 'reconciliation_completed']) ||
+        reconciliationEvents[1].status !== 'publish_failed' || !successful || remoteSha !== successful.resultSha || reconciliationCommits.length) {
+      throw new Error('Reconciliation-failure evidence does not prove the post-queue remote boundary')
     }
-  }
-  if (fault.scenario === 'cache-conflict') {
-    const units = Array.isArray(fault.units) ? fault.units : []
-    const failed = units.find(unit => unit.status === 'publish_failed' && unit.failure?.code === 'CACHE_CONFLICT' && Number.isSafeInteger(unit.sequence))
-    const continued = failed && units.some(unit => unit.status === 'published' && Number.isSafeInteger(unit.sequence) && unit.sequence > failed.sequence)
-    if (fault.overallStatus !== 'failure' || fault.ordinaryFailureContinued !== true || !failed || !continued) {
-      throw new Error('Cache-conflict fault evidence does not prove ordinary failure continuation')
+  } else if (fault.scenario === 'unknown-remote-state') {
+    const unknown = orderedResults.find(unit => unit.status === 'publish_failed' && unit.failure?.code === 'REMOTE_STATE_UNKNOWN')
+    const later = unknown && results.units.filter(unit => order.indexOf(unit.unitKey) > order.indexOf(unknown.unitKey))
+    if (results.overallStatus !== 'orchestrator_failed' || !unknown || starts.at(-1)?.unitKey !== unknown.unitKey ||
+        later.some(unit => unit.sequence !== null || unit.commitShas.length || unit.resultSha !== null)) {
+      throw new Error('Unknown remote-state evidence does not prove that later writes stopped')
     }
-  }
-  if (fault.scenario === 'cas-drift') {
-    const cas = fault.cas || {}
-    if (cas.status !== 'published' || cas.attempts !== 2 || !SHA.test(cas.abandonedCandidateSha || '') ||
-        !SHA.test(cas.resultSha || '') || cas.abandonedCandidateSha === cas.resultSha || cas.remoteSha !== cas.resultSha ||
-        cas.remoteRacePreserved !== true) {
-      throw new Error('CAS-drift fault evidence is incomplete')
-    }
-  }
-  if (fault.scenario === 'ambiguous-push') {
-    const exact = fault.exact || {}
-    const descendant = fault.descendant || {}
-    if (!SHA.test(exact.candidateSha || '') || exact.remoteSha !== exact.candidateSha || exact.containsCandidate !== true || exact.status !== 'published' ||
-        !SHA.test(descendant.candidateSha || '') || !SHA.test(descendant.remoteSha || '') || descendant.remoteSha === descendant.candidateSha ||
-        descendant.containsCandidate !== true || descendant.status !== 'published') {
-      throw new Error('Ambiguous-push exact and descendant containment evidence is incomplete')
-    }
-  }
-  if (fault.scenario === 'reconciliation-failure' &&
-      (fault.overallStatus !== 'orchestrator_failed' || fault.orchestratorFailure?.phase !== 'reconciliation')) {
-    throw new Error('Reconciliation failure boundary evidence is incomplete')
-  }
-  if (fault.scenario === 'unknown-remote-state') {
-    const units = Array.isArray(fault.units) ? fault.units : []
-    const unknown = units.find(unit => unit.unitKey === fault.unknownUnitKey)
-    const invoked = Array.isArray(fault.invoked) ? fault.invoked : []
-    const unknownOrder = Array.isArray(order) ? order.indexOf(fault.unknownUnitKey) : -1
-    const laterInvoked = unknownOrder < 0 || invoked.some(unitKey => order.indexOf(unitKey) > unknownOrder)
-    if (fault.overallStatus !== 'orchestrator_failed' || fault.laterWritesStopped !== true || invoked.at(-1) !== fault.unknownUnitKey ||
-        unknown?.status !== 'publish_failed' || unknown.remoteState !== 'unknown' || laterInvoked) {
-      throw new Error('Unknown remote state evidence does not prove the unsafe write was final')
-    }
+  } else {
+    throw new Error('Fault scenario requires transaction-specific Git evidence')
   }
   return Object.freeze(fault)
+}
+
+function verifyTransactionFaultCase({value, evidenceRoot, label, candidateSha = null}) {
+  const keys = ['selection', 'results', 'handlerLog', 'bareRemote', 'remoteRef', 'initialTargetSha']
+  if (candidateSha !== null) keys.push('candidateSha')
+  exactObjectKeys(value, keys, label)
+  const selection = readPublicationDocument(resolveInside(evidenceRoot, value.selection, `${label} selection`), 'publication-selection')
+  const results = readPublicationDocument(resolveInside(evidenceRoot, value.results, `${label} results`), 'publication-results', {selection})
+  const events = readFaultHandlerLog(resolveInside(evidenceRoot, value.handlerLog, `${label} handler log`))
+  if (selection.units.length !== 1 || results.units.length !== 1 || results.overallStatus !== 'success' ||
+      !sameJson(events.map(event => event.type), ['handler_started', 'handler_completed'])) {
+    throw new Error(`${label} canonical transaction evidence is incomplete`)
+  }
+  const unit = results.units[0]
+  if (events[0].unitKey !== unit.unitKey || events[1].unitKey !== unit.unitKey || events[1].status !== unit.status ||
+      events[1].resultSha !== unit.resultSha || !sameJson(events[1].commitShas, unit.commitShas)) {
+    throw new Error(`${label} handler log disagrees with canonical results`)
+  }
+  if (value.initialTargetSha !== selection.initialTargetSha || value.remoteRef !== `refs/heads/${selection.targetBranch}`) {
+    throw new Error(`${label} remote identity disagrees with selection`)
+  }
+  const bareRemote = defaultAssertBareRemote(value.bareRemote)
+  if (bareRemote !== value.bareRemote) throw new Error(`${label} bare remote path identity mismatch`)
+  const remoteSha = git(process.cwd(), ['--git-dir', bareRemote, 'rev-parse', `${value.remoteRef}^{commit}`]).stdout.trim()
+  if (remoteSha !== results.finalTargetSha || git(process.cwd(), ['--git-dir', bareRemote, 'merge-base', '--is-ancestor', unit.resultSha, remoteSha], {allowFailure: true}).status !== 0) {
+    throw new Error(`${label} result is not retained by the remote ref`)
+  }
+  const commits = git(process.cwd(), ['--git-dir', bareRemote, 'rev-list', '--reverse', `${selection.initialTargetSha}..${remoteSha}`]).stdout.trim().split('\n').filter(Boolean)
+  if (!unit.commitShas.every(sha => commits.includes(sha))) throw new Error(`${label} result commit inventory is incomplete`)
+  return Object.freeze({selection, results, unit, events, bareRemote, remoteSha, commits})
+}
+
+function verifyCasFaultEvidence({fault, evidenceRoot}) {
+  exactObjectKeys(fault, [
+    'schemaVersion', 'scenario', 'status', 'evidenceContract', 'selection', 'results', 'handlerLog',
+    'bareRemote', 'remoteRef', 'initialTargetSha', 'cas',
+  ], 'CAS fault evidence')
+  exactObjectKeys(fault.cas, ['abandonedCandidateSha', 'remoteRacePreserved'], 'CAS fault facts')
+  if (fault.schemaVersion !== 2 || fault.status !== 'complete' || fault.evidenceContract !== 'cas-git-v1') throw new Error('CAS fault evidence contract is incomplete')
+  const verified = verifyTransactionFaultCase({value: {
+    selection: fault.selection,
+    results: fault.results,
+    handlerLog: fault.handlerLog,
+    bareRemote: fault.bareRemote,
+    remoteRef: fault.remoteRef,
+    initialTargetSha: fault.initialTargetSha,
+  }, evidenceRoot, label: 'CAS fault'})
+  if (verified.unit.status !== 'published' || verified.unit.attempts !== 2 || !SHA.test(fault.cas.abandonedCandidateSha || '') ||
+      fault.cas.abandonedCandidateSha === verified.unit.resultSha || fault.cas.remoteRacePreserved !== true ||
+      git(process.cwd(), ['--git-dir', verified.bareRemote, 'cat-file', '-e', `${fault.cas.abandonedCandidateSha}^{commit}`], {allowFailure: true}).status === 0 ||
+      git(process.cwd(), ['--git-dir', verified.bareRemote, 'show', `${verified.remoteSha}:remote-race.txt`], {allowFailure: true}).status !== 0 ||
+      verified.commits.length < 2) {
+    throw new Error('CAS fault Git evidence is incomplete')
+  }
+  return Object.freeze(fault)
+}
+
+function verifyAmbiguousFaultEvidence({fault, evidenceRoot}) {
+  exactObjectKeys(fault, ['schemaVersion', 'scenario', 'status', 'evidenceContract', 'exact', 'descendant'], 'Ambiguous fault evidence')
+  if (fault.schemaVersion !== 2 || fault.status !== 'complete' || fault.evidenceContract !== 'ambiguous-git-v1') throw new Error('Ambiguous fault evidence contract is incomplete')
+  const exact = verifyTransactionFaultCase({value: fault.exact, evidenceRoot, label: 'Exact ambiguous fault', candidateSha: fault.exact.candidateSha})
+  const descendant = verifyTransactionFaultCase({value: fault.descendant, evidenceRoot, label: 'Descendant ambiguous fault', candidateSha: fault.descendant.candidateSha})
+  if (!SHA.test(fault.exact.candidateSha || '') || exact.unit.resultSha !== fault.exact.candidateSha || exact.remoteSha !== fault.exact.candidateSha ||
+      !SHA.test(fault.descendant.candidateSha || '') || descendant.unit.resultSha !== fault.descendant.candidateSha ||
+      descendant.remoteSha === fault.descendant.candidateSha || descendant.commits.at(-1) !== descendant.remoteSha) {
+    throw new Error('Ambiguous push exact and descendant Git evidence is incomplete')
+  }
+  return Object.freeze(fault)
+}
+
+function verifyFaultEvidence(fault, evidenceRoot) {
+  if (!FAULT_SCENARIOS.has(fault?.scenario)) throw new Error('Fault injection scenario is invalid')
+  if (fault.scenario === 'cas-drift') return verifyCasFaultEvidence({fault, evidenceRoot})
+  if (fault.scenario === 'ambiguous-push') return verifyAmbiguousFaultEvidence({fault, evidenceRoot})
+  return verifyCoordinatorFaultEvidence({fault, evidenceRoot})
 }
 
 function verifyEvidence({evidenceRoot: input, allowStructural = false}) {
   const evidenceRoot = fs.realpathSync(safeAbsolute(input, 'evidenceRoot'))
   if (fs.existsSync(path.join(evidenceRoot, 'fault-injection.json'))) {
     const fault = json(path.join(evidenceRoot, 'fault-injection.json'))
-    return verifyFaultEvidence(fault)
+    return verifyFaultEvidence(fault, evidenceRoot)
   }
   const manifest = json(path.join(evidenceRoot, 'evidence-manifest.json'))
   const orders = json(path.join(evidenceRoot, 'orders.json'))
@@ -727,8 +1056,20 @@ function verifyEvidence({evidenceRoot: input, allowStructural = false}) {
   return Object.freeze(manifest)
 }
 
-function faultFailure(code, phase, message) {
-  return {code, phase, message, retryable: false}
+function linkInstalledDependencies(installed, linked) {
+  if (!fs.existsSync(installed) || !fs.lstatSync(installed).isDirectory()) return
+  fs.mkdirSync(linked, {recursive: true})
+  for (const entry of fs.readdirSync(installed)) {
+    const source = path.join(installed, entry)
+    const destination = path.join(linked, entry)
+    if (entry.startsWith('@') && fs.lstatSync(source).isDirectory()) {
+      fs.mkdirSync(destination, {recursive: true})
+      for (const scoped of fs.readdirSync(source)) {
+        const scopedDestination = path.join(destination, scoped)
+        if (!fs.existsSync(scopedDestination)) fs.symlinkSync(path.join(source, scoped), scopedDestination, 'junction')
+      }
+    } else if (!fs.existsSync(destination)) fs.symlinkSync(source, destination, 'junction')
+  }
 }
 
 function prepareFaultRepository({evidenceRoot, sourceRemote, toolingSha, label}) {
@@ -737,6 +1078,7 @@ function prepareFaultRepository({evidenceRoot, sourceRemote, toolingSha, label})
   const racer = path.join(evidenceRoot, `${label}-racer`)
   const runnerTemp = path.join(evidenceRoot, `${label}-runner`)
   git(evidenceRoot, ['clone', '--bare', sourceRemote, remote])
+  git(evidenceRoot, ['--git-dir', remote, 'config', '--remove-section', 'remote.origin'], {allowFailure: true})
   git(evidenceRoot, ['clone', '--branch', 'dev', remote, repository])
   git(evidenceRoot, ['clone', '--branch', 'dev', remote, racer])
   git(repository, ['fetch', '--no-tags', process.cwd(), toolingSha])
@@ -745,7 +1087,18 @@ function prepareFaultRepository({evidenceRoot, sourceRemote, toolingSha, label})
     git(checkout, ['config', 'user.email', 'translation-replay@example.com'])
   }
   fs.mkdirSync(runnerTemp)
-  return Object.freeze({remote, repository, racer, runnerTemp})
+  const initialTargetSha = git(process.cwd(), ['--git-dir', remote, 'rev-parse', 'refs/heads/dev']).stdout.trim()
+  linkInstalledDependencies(path.join(process.cwd(), 'node_modules'), path.join(repository, 'node_modules'))
+  for (const directory of ['apps', 'packages']) {
+    const sourceRoot = path.join(process.cwd(), directory)
+    if (!fs.existsSync(sourceRoot)) continue
+    for (const entry of fs.readdirSync(sourceRoot, {withFileTypes: true})) {
+      const installed = path.join(sourceRoot, entry.name, 'node_modules')
+      if (!entry.isDirectory()) continue
+      linkInstalledDependencies(installed, path.join(repository, 'node_modules'))
+    }
+  }
+  return Object.freeze({remote, repository, racer, runnerTemp, initialTargetSha})
 }
 
 function faultSdkPair({run, evidenceRoot, label}) {
@@ -754,9 +1107,63 @@ function faultSdkPair({run, evidenceRoot, label}) {
   const records = run.artifacts.get(unit.unitKey)
   const runnerTemp = path.join(evidenceRoot, `${label}-extract`)
   fs.mkdirSync(runnerTemp)
-  const checkpoint = extractArchive(records.get('checkpoint').file, runnerTemp, 'checkpoint-')
-  const baseline = extractArchive(records.get('baseline').file, runnerTemp, 'baseline-')
+  const ready = readPublicationDocument(records.get('ready').file, 'publication-ready', {selection: run.selection})
+  const checkpoint = authenticateReplayArchive({artifact: records.get('checkpoint'), descriptor: ready.artifacts.checkpoint, unit, runnerTemp, prefix: 'checkpoint-'})
+  const baseline = authenticateReplayArchive({artifact: records.get('baseline'), descriptor: ready.artifacts.baseline, unit, runnerTemp, prefix: 'baseline-'})
   return Object.freeze({unit, artifactDir: checkpoint.artifactDir, baselineDir: baseline.artifactDir})
+}
+
+function writeSingleUnitFaultEvidence({run, evidenceRoot, label, repository, unit, transaction, remoteSha}) {
+  const initialTargetSha = repository.initialTargetSha
+  const selection = faultSelection(run, [unit], initialTargetSha)
+  const selectionFile = path.join(evidenceRoot, `${label}-selection.json`)
+  const resultsFile = path.join(evidenceRoot, `${label}-results.json`)
+  const handlerLogFile = path.join(evidenceRoot, `${label}-handler-log.json`)
+  writePublicationDocument(selectionFile, selection)
+  writePublicationDocument(resultsFile, {
+    schemaVersion: 1,
+    document: 'publication-results',
+    workflow: 'translation',
+    repository: selection.repository,
+    runId: selection.runId,
+    runAttempt: selection.runAttempt,
+    selectionSha256: selection.selectionSha256,
+    mode: 'publish',
+    targetBranch: selection.targetBranch,
+    initialTargetSha,
+    finalTargetSha: remoteSha,
+    startedAt: '2026-08-06T03:00:00.000Z',
+    completedAt: '2026-08-06T03:00:02.000Z',
+    overallStatus: transaction.status === 'published' ? 'success' : 'failure',
+    units: [{
+      unitKey: unit.unitKey,
+      producerJobId: 800001,
+      producerCompletedAt: '2026-08-06T03:00:00.000Z',
+      readyAt: '2026-08-06T03:00:00.000Z',
+      sequence: 1,
+      publishStartedAt: '2026-08-06T03:00:01.000Z',
+      publishCompletedAt: '2026-08-06T03:00:02.000Z',
+      baseSha: transaction.baseSha,
+      resultSha: transaction.resultSha,
+      commitShas: transaction.commitShas,
+      attempts: transaction.attempts,
+      status: transaction.status,
+      failure: transaction.failure,
+    }],
+    orchestratorFailure: null,
+  }, {selection})
+  writeJson(handlerLogFile, {schemaVersion: 1, events: [
+    {sequence: 1, type: 'handler_started', unitKey: unit.unitKey, status: null, resultSha: null, commitShas: []},
+    {sequence: 2, type: 'handler_completed', unitKey: unit.unitKey, status: transaction.status, resultSha: transaction.resultSha, commitShas: transaction.commitShas},
+  ]})
+  return Object.freeze({
+    selection: path.relative(evidenceRoot, selectionFile),
+    results: path.relative(evidenceRoot, resultsFile),
+    handlerLog: path.relative(evidenceRoot, handlerLogFile),
+    bareRemote: fs.realpathSync(repository.remote),
+    remoteRef: 'refs/heads/dev',
+    initialTargetSha,
+  })
 }
 
 async function executeCasDriftFault({run, evidenceRoot, sourceRemote}) {
@@ -790,9 +1197,10 @@ async function executeCasDriftFault({run, evidenceRoot, sourceRemote}) {
   })
   const remoteSha = git(process.cwd(), ['--git-dir', repository.remote, 'rev-parse', 'refs/heads/dev']).stdout.trim()
   const remoteRacePreserved = git(process.cwd(), ['--git-dir', repository.remote, 'show', 'refs/heads/dev:remote-race.txt'], {allowFailure: true}).status === 0
+  const evidence = writeSingleUnitFaultEvidence({run, evidenceRoot, label: 'cas-drift', repository, unit: pair.unit, transaction: result, remoteSha})
   return Object.freeze({
-    status: 'complete', overallStatus: result.status === 'published' ? 'success' : 'failure',
-    cas: {status: result.status, attempts: result.attempts, abandonedCandidateSha, resultSha: result.resultSha, remoteSha, remoteRacePreserved, failure: result.failure},
+    status: 'complete', evidenceContract: 'cas-git-v1', ...evidence,
+    cas: {abandonedCandidateSha, remoteRacePreserved},
   })
 }
 
@@ -832,19 +1240,17 @@ async function executeAmbiguousCase({run, evidenceRoot, sourceRemote, label, des
     },
   })
   const remoteSha = git(process.cwd(), ['--git-dir', repository.remote, 'rev-parse', 'refs/heads/dev']).stdout.trim()
+  const evidence = writeSingleUnitFaultEvidence({run, evidenceRoot, label, repository, unit: pair.unit, transaction: result, remoteSha})
   return Object.freeze({
+    ...evidence,
     candidateSha,
-    remoteSha,
-    containsCandidate: git(repository.repository, ['merge-base', '--is-ancestor', candidateSha, remoteSha], {allowFailure: true}).status === 0,
-    status: result.status,
-    attempts: result.attempts,
   })
 }
 
 async function executeAmbiguousPushFault({run, evidenceRoot, sourceRemote}) {
   const exact = await executeAmbiguousCase({run, evidenceRoot, sourceRemote, label: 'ambiguous-exact', descendant: false})
   const descendant = await executeAmbiguousCase({run, evidenceRoot, sourceRemote, label: 'ambiguous-descendant', descendant: true})
-  return Object.freeze({status: 'complete', overallStatus: 'success', exact, descendant})
+  return Object.freeze({status: 'complete', evidenceContract: 'ambiguous-git-v1', exact, descendant})
 }
 
 function defaultFaultSourceRemote({run, evidenceRoot}) {
@@ -870,77 +1276,215 @@ async function executeDefaultFaultScenario({scenario, evidenceRoot}) {
   const sourceRoot = path.join(evidenceRoot, 'retained-run')
   if (!fs.existsSync(sourceRoot)) throw new Error('Default fault injection requires retained-run evidence from replay')
   const run = loadRun(sourceRoot)
+  const sourceRemote = defaultFaultSourceRemote({run, evidenceRoot})
   if (scenario === 'cas-drift' || scenario === 'ambiguous-push') {
-    const sourceRemote = defaultFaultSourceRemote({run, evidenceRoot})
     if (scenario === 'cas-drift') return executeCasDriftFault({run, evidenceRoot, sourceRemote})
     return executeAmbiguousPushFault({run, evidenceRoot, sourceRemote})
   }
-  const selection = replaySelection(run.selection, run.selection.targetBranch)
-  const jobs = run.jobs.map(job => ({...job}))
-  const guides = selection.units.find(unit => unit.strategy === 'ja-guides')
-  const sdk = selection.units.find(unit => unit.strategy === 'checkpoint')
-  if (scenario === 'guides-before-sdk') {
-    for (const job of jobs) job.completed_at = job.name === guides.producerJob ? '2026-08-06T00:00:01.000Z' : '2026-08-06T00:00:10.000Z'
-  } else if (scenario === 'sdk-before-guides') {
-    for (const job of jobs) job.completed_at = job.name === sdk.producerJob ? '2026-08-06T00:00:01.000Z' : '2026-08-06T00:00:10.000Z'
+  return executeCoordinatorFault({scenario, evidenceRoot, run, sourceRemote})
+}
+
+function faultUnitInventory(run) {
+  const guides = run.selection.units.find(unit => unit.strategy === 'ja-guides')
+  const sdks = run.selection.units.filter(unit => unit.strategy === 'checkpoint' && unit.target === 'ja-JP')
+  if (!guides || sdks.length < 2) throw new Error('Default fault harness requires Guides and two Japanese SDK units')
+  return {guides, sdks}
+}
+
+function faultSelection(run, units, initialTargetSha) {
+  return finalizePublicationSelection({
+    ...run.selection,
+    initialTargetSha,
+    inputs: {...run.selection.inputs, selectedGroup: 'all', publish: true},
+    units: units.map(unit => ({...unit, targetBranch: run.selection.targetBranch})),
+    selectionSha256: undefined,
+  })
+}
+
+function faultJobs(selection, order) {
+  const completed = new Map(order.map((unitKey, index) => [unitKey, `2026-08-06T02:00:${String(index + 1).padStart(2, '0')}.000Z`]))
+  return selection.units.map((unit, index) => ({
+    id: 700000 + index,
+    name: unit.producerJob,
+    run_attempt: selection.runAttempt,
+    status: 'completed',
+    conclusion: 'success',
+    completed_at: completed.get(unit.unitKey),
+  }))
+}
+
+function changedCacheKey(pair) {
+  const relative = path.join('payload', '.translation-cache', 'ja-JP.json')
+  const baseline = JSON.parse(fs.readFileSync(path.join(pair.baselineDir, relative), 'utf8'))
+  const checkpoint = JSON.parse(fs.readFileSync(path.join(pair.artifactDir, relative), 'utf8'))
+  const keys = [...new Set([...Object.keys(baseline.files || {}), ...Object.keys(checkpoint.files || {})])]
+  const key = keys.find(candidate => !sameJson(baseline.files?.[candidate], checkpoint.files?.[candidate]))
+  if (!key || !checkpoint.files?.[key]) throw new Error('Cache-conflict fault requires a retained Japanese SDK cache update')
+  return {key, baseline, checkpoint}
+}
+
+function seedCacheConflict({repository, pair}) {
+  const {key, baseline, checkpoint} = changedCacheKey(pair)
+  const current = JSON.parse(JSON.stringify(baseline))
+  current.files ||= {}
+  const source = checkpoint.files[key]
+  current.files[key] = {...source, translatedAt: source.translatedAt === '2099-01-01T00:00:00.000Z' ? '2098-01-01T00:00:00.000Z' : '2099-01-01T00:00:00.000Z'}
+  putFaultFile(repository.racer, '.translation-cache/ja-JP.json', `${JSON.stringify(current)}\n`)
+  git(repository.racer, ['add', '.translation-cache/ja-JP.json'])
+  git(repository.racer, ['commit', '-m', 'inject real Translation cache conflict'])
+  git(repository.racer, ['push', 'origin', 'HEAD:refs/heads/dev'])
+  return git(repository.racer, ['rev-parse', 'HEAD']).stdout.trim()
+}
+
+function faultEventRecorder() {
+  const events = []
+  const record = (type, values = {}) => events.push({
+    sequence: events.length + 1,
+    type,
+    unitKey: values.unitKey ?? null,
+    status: values.status ?? null,
+    resultSha: values.resultSha ?? null,
+    commitShas: [...(values.commitShas || [])],
+  })
+  return {events, record}
+}
+
+async function executeCoordinatorFault({scenario, evidenceRoot, run, sourceRemote}) {
+  const inventory = faultUnitInventory(run)
+  const repository = prepareFaultRepository({evidenceRoot, sourceRemote, toolingSha: run.selection.toolingSha, label: scenario})
+  const firstSdk = inventory.sdks[0]
+  const laterSdk = inventory.sdks[1]
+  let units
+  let desiredOrder
+  if (scenario === 'sdk-before-guides') {
+    units = [inventory.guides, firstSdk]
+    desiredOrder = [firstSdk.unitKey, inventory.guides.unitKey]
+  } else if (scenario === 'guides-before-sdk') {
+    units = [inventory.guides, firstSdk]
+    desiredOrder = [inventory.guides.unitKey, firstSdk.unitKey]
+  } else if (scenario === 'cache-conflict') {
+    units = [firstSdk, laterSdk]
+    desiredOrder = [firstSdk.unitKey, laterSdk.unitKey]
+  } else if (scenario === 'reconciliation-failure') {
+    units = [firstSdk]
+    desiredOrder = [firstSdk.unitKey]
+  } else {
+    units = [inventory.guides, firstSdk, laterSdk]
+    desiredOrder = [inventory.guides.unitKey, firstSdk.unitKey, laterSdk.unitKey]
   }
-  const sequence = deriveFifoUnitKeys(selection, jobs)
-  const failedUnitKey = sequence[Math.min(1, sequence.length - 1)]
-  const unknownUnitKey = sequence[Math.min(1, sequence.length - 1)]
-  const invoked = []
-  let shaCounter = 1
+
+  const extractionRoot = path.join(evidenceRoot, `${scenario}-candidate-probe`)
+  fs.mkdirSync(extractionRoot)
+  let initialTargetSha = run.selection.initialTargetSha
+  if (scenario === 'cache-conflict') {
+    const records = run.artifacts.get(firstSdk.unitKey)
+    const ready = readPublicationDocument(records.get('ready').file, 'publication-ready', {selection: run.selection})
+    const checkpoint = authenticateReplayArchive({artifact: records.get('checkpoint'), descriptor: ready.artifacts.checkpoint, unit: firstSdk, runnerTemp: extractionRoot, prefix: 'checkpoint-'})
+    const baseline = authenticateReplayArchive({artifact: records.get('baseline'), descriptor: ready.artifacts.baseline, unit: firstSdk, runnerTemp: extractionRoot, prefix: 'baseline-'})
+    initialTargetSha = seedCacheConflict({repository, pair: {artifactDir: checkpoint.artifactDir, baselineDir: baseline.artifactDir}})
+    fs.rmSync(checkpoint.cleanupDirectory, {recursive: true, force: true})
+    fs.rmSync(baseline.cleanupDirectory, {recursive: true, force: true})
+  }
+  const selection = faultSelection(run, units, initialTargetSha)
+  const jobs = faultJobs(selection, desiredOrder)
+  const runnerTemp = repository.runnerTemp
+  const outputDirectory = path.join(evidenceRoot, 'fault-runtime')
+  const recorder = faultEventRecorder()
+  const completedByUnit = new Map(jobs.map(job => [selection.units.find(unit => unit.producerJob === job.name).unitKey, job.completed_at]))
   const client = {
     async listJobs() { return jobs },
     async uploadProgress() { return {ok: true} },
     async uploadResults() { return {artifactName: 'fault-results', artifactId: 1} },
   }
   let tick = 0
+  const resolveCandidate = async ({unit}) => {
+    const records = run.artifacts.get(unit.unitKey)
+    const originalReady = readPublicationDocument(records.get('ready').file, 'publication-ready', {selection: run.selection})
+    const checkpoint = authenticateReplayArchive({
+      artifact: records.get('checkpoint'), descriptor: originalReady.artifacts.checkpoint, unit, runnerTemp, prefix: 'checkpoint-',
+    })
+    const baseline = authenticateReplayArchive({
+      artifact: records.get('baseline'), descriptor: originalReady.artifacts.baseline, unit, runnerTemp, prefix: 'baseline-',
+    })
+    return {status: 'ready', readyAt: completedByUnit.get(unit.unitKey), prepared: {
+      ...checkpoint,
+      baselineDir: baseline.artifactDir,
+      baselineCleanupDirectory: baseline.cleanupDirectory,
+      guidesBatchArtifacts: run.guidesBatchArtifacts,
+      descriptor: {...originalReady, selectionSha256: selection.selectionSha256, targetBranch: selection.targetBranch},
+    }}
+  }
+  const reconciliationDependencies = {
+    runCommand({cwd, executable, args, environment}) {
+      if (scenario === 'reconciliation-failure') return {status: 41, stdout: '', stderr: 'injected real reconciliation command failure'}
+      return command(cwd, executable, args, {environment, allowFailure: true})
+    },
+  }
+  const transactionContext = {
+    remote: 'origin',
+    async reconcileTranslationPublication(context) {
+      recorder.record('reconciliation_started')
+      const result = await reconcileTranslationPublication({
+        ...context,
+        transactionContext: {...context.transactionContext, remote: 'origin', dependencies: reconciliationDependencies},
+      })
+      recorder.record('reconciliation_completed', {status: result.status})
+      return result
+    },
+  }
   const outcome = await runPublicationCoordinator({
     selection,
     mode: 'publish',
     client,
-    outputDirectory: path.join(evidenceRoot, 'fault-runtime'),
-    runnerTemp: path.join(evidenceRoot, 'fault-runtime'),
+    repositoryRoot: repository.repository,
+    outputDirectory,
+    runnerTemp,
     pollMilliseconds: 1,
     candidatePolls: 1,
     sleep: async () => {},
     now: () => new Date(Date.UTC(2026, 7, 6, 2, 0, tick++)),
-    resolveCandidate: async ({unit}) => ({status: 'ready', prepared: {unitKey: unit.unitKey}}),
-    publishUnit: async ({unit}) => {
-      invoked.push(unit.unitKey)
-      const baseSha = String(shaCounter).padStart(40, '0')
-      shaCounter += 1
-      const resultSha = String(shaCounter).padStart(40, '0')
-      if (scenario === 'cache-conflict' && unit.unitKey === failedUnitKey) return {
-        status: 'publish_failed', baseSha, resultSha: null, commitShas: [], attempts: 1,
-        failure: faultFailure('CACHE_CONFLICT', 'validate', 'injected Translation cache conflict'), remoteState: 'known',
-      }
-      if (scenario === 'unknown-remote-state' && unit.unitKey === unknownUnitKey) return {
-        status: 'publish_failed', baseSha, resultSha: null, commitShas: [], attempts: 1,
-        failure: faultFailure('REMOTE_STATE_UNKNOWN', 'push_probe', 'injected unknown remote state'), remoteState: 'unknown',
-      }
-      return {status: 'published', baseSha, resultSha, commitShas: [resultSha], attempts: scenario === 'cas-drift' ? 2 : 1, failure: null, remoteState: 'known'}
+    resolveCandidate,
+    publishUnit: async ({unit, prepared}) => {
+      recorder.record('handler_started', {unitKey: unit.unitKey})
+      const transaction = unit.strategy === 'ja-guides'
+        ? await publishGuidesTransaction({selection, unit, prepared, repositoryRoot: repository.repository, runnerTemp})
+        : await publishCheckpointTransaction({
+          repositoryRoot: repository.repository,
+          dependencyRoot: process.cwd(),
+          artifactDir: prepared.artifactDir,
+          baselineDir: prepared.baselineDir,
+          descriptor: prepared.descriptor,
+          unit,
+          remote: 'origin',
+          maxAttempts: 3,
+          maxProbeAttempts: 2,
+          runnerTemp,
+          ...(scenario === 'unknown-remote-state' && unit.unitKey === firstSdk.unitKey ? {dependencies: {
+            pushCandidate() { throw new Error('injected transport failure after candidate creation') },
+            probeRemoteCandidate() { throw new Error('injected remote probe outage') },
+          }} : {}),
+        })
+      recorder.record('handler_completed', {unitKey: unit.unitKey, status: transaction.status, resultSha: transaction.resultSha, commitShas: transaction.commitShas})
+      return transaction
     },
-    transactionContext: {
-      reconcileTranslationPublication: async () => scenario === 'reconciliation-failure'
-        ? ({status: 'publish_failed', remoteState: 'known', failure: faultFailure('RECONCILIATION_FAILED', 'reconciliation', 'injected reconciliation failure')})
-        : ({status: 'no_changes', resultSha: String(shaCounter).padStart(40, '0')}),
-    },
+    transactionContext,
   })
-  const failed = outcome.results.units.find(unit => unit.status === 'publish_failed')
+  const selectionFile = path.join(evidenceRoot, 'fault-selection.json')
+  const jobsFile = path.join(evidenceRoot, 'fault-jobs.json')
+  const handlerLogFile = path.join(evidenceRoot, 'fault-handler-log.json')
+  writePublicationDocument(selectionFile, selection)
+  writeJson(jobsFile, {jobs})
+  writeJson(handlerLogFile, {schemaVersion: 1, events: recorder.events})
   return {
     status: 'complete',
-    overallStatus: outcome.results.overallStatus,
-    calculatedOrder: sequence,
-    invoked,
-    units: outcome.results.units.map(unit => ({
-      ...unit,
-      ...(scenario === 'unknown-remote-state' && unit.unitKey === unknownUnitKey ? {remoteState: 'unknown'} : {}),
-    })),
-    orchestratorFailure: outcome.results.orchestratorFailure,
-    unknownUnitKey: scenario === 'unknown-remote-state' ? unknownUnitKey : null,
-    ordinaryFailureContinued: scenario === 'cache-conflict' ? outcome.results.units.some(unit => failed && unit.sequence > failed.sequence && unit.status === 'published') : false,
-    laterWritesStopped: scenario === 'unknown-remote-state' ? invoked.at(-1) === unknownUnitKey : false,
+    evidenceContract: 'coordinator-git-v1',
+    selection: path.relative(evidenceRoot, selectionFile),
+    jobs: path.relative(evidenceRoot, jobsFile),
+    results: path.relative(evidenceRoot, outcome.resultsFile),
+    handlerLog: path.relative(evidenceRoot, handlerLogFile),
+    bareRemote: fs.realpathSync(repository.remote),
+    remoteRef: `refs/heads/${selection.targetBranch}`,
+    initialTargetSha: selection.initialTargetSha,
   }
 }
 
@@ -951,7 +1495,7 @@ async function faultInjectRun(options = {}) {
   const details = options.dependencies?.executeScenario
     ? await options.dependencies.executeScenario({scenario: options.scenario, evidenceRoot})
     : await executeDefaultFaultScenario({scenario: options.scenario, evidenceRoot})
-  const result = {...details, schemaVersion: 1, scenario: options.scenario}
+  const result = {...details, schemaVersion: 2, scenario: options.scenario}
   writeJson(path.join(evidenceRoot, 'fault-injection.json'), result)
   return Object.freeze(result)
 }
@@ -1084,7 +1628,7 @@ function archiveManifestCandidate(archive) {
 function authenticateLegacyArchive({archive, outputRoot, slot, group, masterSha, translation}) {
   const manifestOutput = path.join(outputRoot, 'preflight', slot, 'manifest.json')
   fs.mkdirSync(path.dirname(manifestOutput), {recursive: true})
-  return preflightCheckpointArchive({
+  const checked = preflightCheckpointArchive({
     archive,
     manifestOutput,
     group,
@@ -1096,7 +1640,8 @@ function authenticateLegacyArchive({archive, outputRoot, slot, group, masterSha,
       sourceSite: 'en',
       targetSite: translation.target === 'zh-CN-reference' ? 'zh-CN' : 'en',
     } : {}),
-  }).manifest
+  })
+  return Object.freeze({manifest: checked.manifest, manifestSha256: digest(manifestOutput)})
 }
 
 function writeTarDirectory(directory, archive) {
@@ -1136,7 +1681,10 @@ function derivedArtifactRecord({unitKey, kind, name, file, root, sources}) {
     fileSha256,
     archive: path.relative(root, file),
     derived: true,
-    sources: sources.map(source => ({id: source.id, name: source.name, digest: source.digest, fileSha256: source.fileSha256})),
+    sources: sources.map(source => ({
+      id: source.id, name: source.name, digest: source.digest, fileSha256: source.fileSha256,
+      ...(source.manifestSha256 ? {manifestSha256: source.manifestSha256} : {}),
+    })),
   })
 }
 
@@ -1169,13 +1717,14 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
   const sourceArtifacts = []
   for (const [group, artifact] of sourceInventory) {
     const downloaded = downloadRetainedArtifact({runId: parentRunId, artifact, root, slot: `legacy/parent/${group}`})
-    const manifest = authenticateLegacyArchive({
+    const authenticated = authenticateLegacyArchive({
       archive: downloaded.file, outputRoot: root, slot: `legacy-parent-${group}`,
       group, masterSha: parentRun.head_sha,
     })
+    const manifest = authenticated.manifest
     if (!SHA.test(manifest.devBaselineSha || '')) throw new Error(`Legacy parent source baseline is invalid for ${group}`)
     sourceBaselines.set(group, manifest.devBaselineSha)
-    sourceArtifacts.push({...downloaded, group, runId: parentRunId, runAttempt: parentRunAttempt})
+    sourceArtifacts.push({...downloaded, group, runId: parentRunId, runAttempt: parentRunAttempt, manifestSha256: authenticated.manifestSha256})
   }
 
   const handoffUnits = []
@@ -1201,13 +1750,14 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
           sourceCheckpointSha: candidate.sourceCheckpointSha,
         }
         if (!SHA.test(identity.sourceCheckpointSha || '')) throw new Error(`Legacy source checkpoint identity is invalid for ${unitKey}`)
-        const manifest = authenticateLegacyArchive({
+        const authenticated = authenticateLegacyArchive({
           archive: downloaded.file, outputRoot: root, slot: `legacy-${unitToken(unitKey)}-${kind}`,
           group, masterSha: run.head_sha, translation: identity,
         })
+        const manifest = authenticated.manifest
         if (checkpointIdentity && manifest.sourceCheckpointSha !== checkpointIdentity.sourceCheckpointSha) throw new Error(`Legacy checkpoint pair identity mismatch for ${unitKey}`)
         checkpointIdentity ||= identity
-        pair[kind] = {...downloaded, manifest}
+        pair[kind] = {...downloaded, manifest, manifestSha256: authenticated.manifestSha256}
       }
       originals.set(unitKey, pair)
       handoffUnits.push({
@@ -1238,14 +1788,24 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
       const downloaded = downloadRetainedArtifact({
         runId: numericRunId, artifact: pair[kind], root, slot: `legacy/guides-batches/${batchNumber}/${kind}`,
       })
-      authenticateLegacyArchive({
+      const authenticated = authenticateLegacyArchive({
         archive: downloaded.file, outputRoot: root, slot: `legacy-guides-${batchNumber}-${kind}`,
         group: 'guides', masterSha: run.head_sha,
         translation: {target: 'ja-JP', sourceCheckpointSha: publication.sourceCheckpointSha, toolingSha: run.head_sha},
       })
-      const extracted = extractArchive(downloaded.file, guidesPlanExtractRoot, `batch-${batchNumber}-${kind}-`)
-      downloadedPair[kind] = {...downloaded, artifactDir: extracted.artifactDir}
-      guidesSources.push({...downloaded, kind, batchNumber})
+      const extracted = authenticateAndExtractArchive({
+        archive: downloaded.file,
+        runnerTemp: guidesPlanExtractRoot,
+        prefix: `batch-${batchNumber}-${kind}-`,
+        apiDigest: downloaded.digest,
+        fileSha256: downloaded.fileSha256,
+        manifestSha256: authenticated.manifestSha256,
+        preflight: translationArchivePreflight({
+          group: 'guides', toolingSha: run.head_sha, target: 'ja-JP', sourceCheckpointSha: publication.sourceCheckpointSha,
+        }),
+      })
+      downloadedPair[kind] = {...downloaded, artifactDir: extracted.artifactDir, manifestSha256: authenticated.manifestSha256}
+      guidesSources.push({...downloaded, kind, batchNumber, manifestSha256: authenticated.manifestSha256})
     }
     originals.set(`guides-batch-${batchNumber}`, downloadedPair)
     guidesPlanPairs.push({artifactDir: downloadedPair.checkpoint.artifactDir, baselineDir: downloadedPair.baseline.artifactDir})
@@ -1276,6 +1836,7 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
     throw new Error(`Legacy Guides retained plan reconstruction failed: ${String(error.stderr || error.stdout || error.message).trim()}`)
   }
   const plan = json(planFile)
+  fs.rmSync(guidesPlanExtractRoot, {recursive: true, force: true})
   if (plan.masterSha !== run.head_sha || plan.devBaselineSha !== publication.sourceCheckpointSha ||
       plan.sourceCheckpointSha !== publication.sourceCheckpointSha || plan.targetSha !== publication.expectedTargetSha ||
       plan.batchCount !== retained.batchNumbers.length || !Number.isSafeInteger(plan.pendingCount) || plan.pendingCount < 1 ||
@@ -1320,7 +1881,7 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
       baselineFile = pair.baseline.file
       for (const kind of ['checkpoint', 'baseline']) artifactRecords.push({
         unitKey: unit.unitKey, kind, id: pair[kind].id, name: pair[kind].name, digest: pair[kind].digest,
-        fileSha256: pair[kind].fileSha256, archive: pair[kind].archive,
+        fileSha256: pair[kind].fileSha256, manifestSha256: pair[kind].manifestSha256, archive: pair[kind].archive,
         createdAt: pair[kind].createdAt, updatedAt: pair[kind].updatedAt,
       })
       unitSources.push(pair.checkpoint, pair.baseline)
@@ -1342,6 +1903,69 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
   }
   const fifoUnitKeys = deriveFifoUnitKeys(selection, normalizedJobs)
   writeJson(path.join(root, 'jobs.json'), {jobs: normalizedJobs})
+  const sourceCheckpointInventory = sourceArtifacts.map(artifact => ({
+    group: artifact.group,
+    runId: artifact.runId,
+    runAttempt: artifact.runAttempt,
+    id: artifact.id,
+    name: artifact.name,
+    digest: artifact.digest,
+    fileSha256: artifact.fileSha256,
+    manifestSha256: artifact.manifestSha256,
+  }))
+  const derivedArtifacts = artifactRecords.filter(artifact => artifact.derived === true).map(artifact => ({
+    unitKey: artifact.unitKey,
+    kind: artifact.kind,
+    name: artifact.name,
+    digest: artifact.digest,
+    fileSha256: artifact.fileSha256,
+    sources: artifact.sources,
+  }))
+  const legacyProvenance = {
+    parent: {
+      runId: parentRunId,
+      runAttempt: parentRunAttempt,
+      workflow: '.github/workflows/fetch-docs.yml',
+      repository,
+      toolingSha: parentRun.head_sha,
+    },
+    child: {
+      runId: numericRunId,
+      runAttempt,
+      workflow: '.github/workflows/translate-codex.yml',
+      repository,
+      toolingSha: run.head_sha,
+    },
+    selectionDerivation: {
+      kind: 'legacy-retained-run-v1',
+      selectionSha256: selection.selectionSha256,
+      selectionFileSha256: digest(path.join(root, 'publication-selection.json')),
+      handoff,
+      handoffSha256: valueDigest(handoff),
+      jobsSha256: valueDigest({jobs: normalizedJobs}),
+      canonicalUnitKeys: selection.units.map(unit => unit.unitKey),
+      fifoUnitKeys,
+    },
+    sourceCheckpointInventory,
+    guidesPublicationReport: {
+      artifact: {
+        id: downloadedPublication.id,
+        name: downloadedPublication.name,
+        digest: downloadedPublication.digest,
+        fileSha256: downloadedPublication.fileSha256,
+      },
+      schemaVersion: publication.schemaVersion,
+      runId: publication.runId,
+      runAttempt: publication.runAttempt,
+      group: publication.group,
+      masterSha: publication.masterSha,
+      sourceCheckpointSha: publication.sourceCheckpointSha,
+      expectedTargetSha: publication.expectedTargetSha,
+      status: publication.status,
+      resultSha: publication.resultSha,
+    },
+    derivedArtifacts,
+  }
   writeJson(path.join(root, 'run-metadata.json'), {
     schemaVersion: 1, legacyDerived: true, parentRunId, parentRunAttempt,
     runId: numericRunId, runAttempt, repository, toolingSha: selection.toolingSha,
@@ -1351,6 +1975,7 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
     publicationArtifact: downloadedPublication,
     sourceArtifacts: sourceArtifacts.map(({file, ...artifact}) => artifact),
     rawJobs: jobs,
+    legacyProvenance,
     canonicalUnitKeys: selection.units.map(unit => unit.unitKey), fifoUnitKeys,
     artifacts: artifactRecords,
     guidesBatchArtifacts: guidesSources.map(({file, ...artifact}) => artifact),
@@ -1416,16 +2041,27 @@ function inspectRun({runId, outputRoot}) {
       })
     }
   }
+  const guidesUnit = selection.units.find(unit => unit.strategy === 'ja-guides')
   const guidesBatchArtifacts = available
     .filter(artifact => /^translation-(?:checkpoint|baseline|report)-ja-JP-guides-[0-9]+-batch-/u.test(artifact.name))
     .map(artifact => {
       const directory = path.join(root, 'downloads', 'guides-batches', String(artifact.id))
       execFileSync('gh', ['run', 'download', String(numericRunId), '-n', artifact.name, '-D', directory], {stdio: 'inherit'})
       const file = artifactFile(directory)
+      const kind = /^translation-(checkpoint|baseline)-/u.exec(artifact.name)?.[1]
+      let manifestSha256
+      if (kind) {
+        const manifestOutput = path.join(root, 'preflight', `retained-${artifact.id}`, 'manifest.json')
+        fs.mkdirSync(path.dirname(manifestOutput), {recursive: true})
+        inspectArchive(file)
+        preflightCheckpointArchive({archive: file, manifestOutput, ...translationArchivePreflight(guidesUnit)})
+        manifestSha256 = digest(manifestOutput)
+      }
       return {
         id: artifact.id, name: artifact.name, digest: artifact.digest,
         fileSha256: digest(file), archive: path.relative(root, file),
         createdAt: artifact.created_at, updatedAt: artifact.updated_at,
+        ...(manifestSha256 ? {manifestSha256} : {}),
       }
     })
   if (!guidesBatchArtifacts.length) throw new Error('Retained Translation run has no Japanese Guides batch artifacts')
@@ -1498,10 +2134,13 @@ async function main(argv = process.argv.slice(2)) {
 if (require.main === module) main().catch(error => { console.error(error.message); process.exitCode = 1 })
 
 module.exports = {
+  authenticateAndExtractArchive,
+  cleanupGuidesPairs,
   deriveFifoUnitKeys,
   faultInjectRun,
   inspectRun,
   parseArgs,
+  prepareGuidesPairs,
   replayRun,
   usage,
   verifyEvidence,

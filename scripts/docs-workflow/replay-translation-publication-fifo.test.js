@@ -13,10 +13,13 @@ const {finalizePublicationSelection, writePublicationDocument} = require('./publ
 const {buildTranslationPublicationReady, buildTranslationPublicationSelection} = require('./translation-publication-selection')
 const {translationOwnedPaths} = require('./validate-checkpoint-artifact')
 const {
+  authenticateAndExtractArchive,
+  cleanupGuidesPairs,
   deriveFifoUnitKeys,
   faultInjectRun,
   inspectRun,
   parseArgs,
+  prepareGuidesPairs,
   replayRun,
   usage,
   verifyEvidence,
@@ -139,6 +142,36 @@ function sha256(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')
 }
 
+function adversarialCheckpointArchive(root, label, kind) {
+  const archive = path.join(root, `${label}.tar`)
+  const manifest = kind === 'corrupt-manifest'
+    ? '{not-json\n'
+    : `${JSON.stringify({schemaVersion: 1, stage: 'source', group: 'python', masterSha: SHA('a')})}\n`
+  const script = `
+import io, sys, tarfile
+archive, kind, manifest = sys.argv[1], sys.argv[2], sys.argv[3].encode()
+with tarfile.open(archive, 'w') as tar:
+    directory = tarfile.TarInfo('checkpoint-group')
+    directory.type = tarfile.DIRTYPE
+    tar.addfile(directory)
+    item = tarfile.TarInfo('checkpoint-group/manifest.json')
+    item.size = len(manifest)
+    tar.addfile(item, io.BytesIO(manifest))
+    if kind == 'traversal':
+        payload = b'escaped'
+        item = tarfile.TarInfo('checkpoint-group/../../escaped.txt')
+        item.size = len(payload)
+        tar.addfile(item, io.BytesIO(payload))
+    elif kind == 'symlink':
+        item = tarfile.TarInfo('checkpoint-group/payload-link')
+        item.type = tarfile.SYMTYPE
+        item.linkname = '/private/tmp'
+        tar.addfile(item)
+`
+  execFileSync('python3', ['-c', script, archive, kind, manifest])
+  return {archive, manifestSha256: crypto.createHash('sha256').update(manifest).digest('hex')}
+}
+
 function copyOwnedPaths(source, destination, ownedPaths) {
   fs.mkdirSync(destination, {recursive: true})
   for (const owned of ownedPaths) {
@@ -242,7 +275,7 @@ function fixture(t) {
     fifoUnitKeys: deriveFifoUnitKeys(selection, jobs),
     artifacts,
     guidesBatchArtifacts: [{
-      id: 9001, name: 'translation-checkpoint-ja-JP-guides-30864046835-batch-1', digest: `sha256:${'9'.repeat(64)}`,
+      id: 9001, name: 'translation-report-ja-JP-guides-30864046835-batch-1', digest: `sha256:${'9'.repeat(64)}`,
       archive: path.relative(runRoot, guidesBatchFile),
     }],
   }, null, 2)}\n`)
@@ -257,19 +290,21 @@ async function realFaultFixture(t) {
   const runRoot = path.join(root, 'run')
   const evidenceRoot = path.join(root, 'evidence')
   fs.mkdirSync(runRoot)
+  const toolingSha = git(process.cwd(), 'rev-parse', 'HEAD')
   git(root, 'init', '--bare', sourceRemote)
-  git(root, 'init', sourceRepository)
+  git(root, 'clone', process.cwd(), sourceRepository)
+  git(sourceRepository, 'checkout', '-B', 'dev', toolingSha)
   git(sourceRepository, 'config', 'user.name', 'Replay Test')
   git(sourceRepository, 'config', 'user.email', 'replay@example.com')
   put(sourceRepository, '.translation-cache/ja-JP.json', '{"files":{}}\n')
   put(sourceRepository, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/python.md', 'old\n')
+  put(sourceRepository, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/java.md', 'old\n')
   git(sourceRepository, 'add', '.')
   git(sourceRepository, 'commit', '-m', 'seed')
-  git(sourceRepository, 'branch', '-M', 'dev')
+  git(sourceRepository, 'remote', 'remove', 'origin')
   git(sourceRepository, 'remote', 'add', 'origin', sourceRemote)
   git(sourceRepository, 'push', '-u', 'origin', 'dev')
   const baselineSha = git(sourceRepository, 'rev-parse', 'HEAD')
-  const toolingSha = git(process.cwd(), 'rev-parse', 'HEAD')
   const inputHandoff = handoff()
   inputHandoff.toolingSha = toolingSha
   inputHandoff.targetBaselineSha = baselineSha
@@ -289,6 +324,7 @@ async function realFaultFixture(t) {
   }))
   const artifacts = []
   let selectedSdk = null
+  let laterSdk = null
   for (const unit of selection.units) {
     const token = unit.unitKey.replaceAll('/', '__')
     const directory = path.join(runRoot, 'artifacts', token)
@@ -306,27 +342,99 @@ async function realFaultFixture(t) {
       digest: `sha256:${'b'.repeat(64)}`, archive: path.relative(runRoot, ready),
     })
     if (unit.unitKey === 'translation/ja-JP/python') selectedSdk = unit
+    if (unit.unitKey === 'translation/ja-JP/java') laterSdk = unit
   }
-  const baseline = path.join(root, 'baseline')
-  const workspace = path.join(root, 'workspace')
-  fs.cpSync(sourceRepository, baseline, {recursive: true})
-  fs.cpSync(sourceRepository, workspace, {recursive: true})
-  put(workspace, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/python.md', 'translated\n')
-  const pair = {}
-  for (const [kind, source] of [['baseline', baseline], ['checkpoint', workspace]]) {
-    const output = path.join(root, `${kind}-artifact`)
-    await createCheckpointArtifact({
-      group: 'python', masterSha: toolingSha, devBaselineSha: baselineSha,
-      baselineDir: baseline, workspace: source, output, includeTranslationCache: true,
-      translationTarget: 'ja-JP', sourceSite: 'en', targetSite: 'en',
-      sourceCheckpointSha: baselineSha, toolingSha, validationCommands: ['true'],
+  async function installRealSdkPair(unit, mutate) {
+    const pairRoot = path.join(root, `real-${unit.group}`)
+    const baseline = path.join(pairRoot, 'baseline')
+    const workspace = path.join(pairRoot, 'workspace')
+    fs.mkdirSync(pairRoot)
+    const ownedPaths = translationOwnedPaths(unit.target, getContentGroup(unit.group))
+    copyOwnedPaths(sourceRepository, baseline, ownedPaths)
+    copyOwnedPaths(sourceRepository, workspace, ownedPaths)
+    mutate(workspace)
+    const pair = {}
+    const manifests = {}
+    for (const [kind, source] of [['baseline', baseline], ['checkpoint', workspace]]) {
+      const output = path.join(pairRoot, `${kind}-artifact`)
+      await createCheckpointArtifact({
+        group: unit.group, masterSha: toolingSha, devBaselineSha: baselineSha,
+        baselineDir: baseline, workspace: source, output, includeTranslationCache: true,
+        translationTarget: 'ja-JP', sourceSite: 'en', targetSite: 'en',
+        sourceCheckpointSha: baselineSha, toolingSha, validationCommands: ['true'],
+      })
+      pair[kind] = archiveCheckpoint(pairRoot, output, kind)
+      manifests[kind] = path.join(fs.realpathSync(output), 'manifest.json')
+      const record = artifacts.find(artifact => artifact.unitKey === unit.unitKey && artifact.kind === kind)
+      const destination = path.join(runRoot, record.archive)
+      fs.copyFileSync(pair[kind], destination)
+      record.digest = `sha256:${sha256(destination)}`
+      record.fileSha256 = sha256(destination)
+    }
+    const ready = buildTranslationPublicationReady({
+      selection, unitKey: unit.unitKey,
+      checkpointArchive: pair.checkpoint, checkpointManifest: manifests.checkpoint,
+      baselineArchive: pair.baseline, baselineManifest: manifests.baseline,
     })
-    pair[kind] = archiveCheckpoint(root, output, kind)
+    const readyRecord = artifacts.find(artifact => artifact.unitKey === unit.unitKey && artifact.kind === 'ready')
+    const readyFile = path.join(runRoot, readyRecord.archive)
+    writePublicationDocument(readyFile, ready, {selection})
+    readyRecord.digest = `sha256:${sha256(readyFile)}`
+    readyRecord.fileSha256 = sha256(readyFile)
   }
+  await installRealSdkPair(selectedSdk, workspace => {
+    put(workspace, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/python.md', 'translated\n')
+    put(workspace, '.translation-cache/ja-JP.json', `${JSON.stringify({files: {
+      'content/en/api/python.md': {
+        sourceHash: '1'.repeat(64),
+        targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/python.md',
+        translatedAt: '2026-08-06T00:00:00.000Z',
+      },
+    }})}\n`)
+  })
+  await installRealSdkPair(laterSdk, workspace => {
+    put(workspace, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/java/java/java.md', 'translated\n')
+  })
+  const guides = selection.units.find(unit => unit.strategy === 'ja-guides')
+  const pendingSetSha256 = '0'.repeat(64)
+  const guidesManifest = {
+    schemaVersion: 1, stage: 'translation-guides-batch-set', group: 'guides',
+    runId: selection.runId, runAttempt: selection.runAttempt,
+    sourceCheckpointSha: guides.sourceCheckpointSha, toolingSha: guides.toolingSha,
+    targetSha: selection.initialTargetSha, batchCount: 0, pendingSetSha256,
+  }
+  const guidesPlan = {
+    schemaVersion: 1, group: 'guides', batchCount: 0, pendingSetSha256,
+    sourceCheckpointSha: guides.sourceCheckpointSha, targetSha: selection.initialTargetSha,
+  }
+  const guidesPair = {}
+  const guidesManifests = {}
   for (const kind of ['checkpoint', 'baseline']) {
-    const record = artifacts.find(artifact => artifact.unitKey === selectedSdk.unitKey && artifact.kind === kind)
-    fs.copyFileSync(pair[kind], path.join(runRoot, record.archive))
+    const directory = path.join(root, `guides-${kind}-aggregate`)
+    const group = path.join(directory, 'checkpoint-group')
+    fs.mkdirSync(group, {recursive: true})
+    fs.writeFileSync(path.join(group, 'manifest.json'), `${JSON.stringify(guidesManifest)}\n`)
+    fs.writeFileSync(path.join(group, 'translation-plan.json'), `${JSON.stringify(guidesPlan)}\n`)
+    const archive = path.join(root, `guides-${kind}.tar`)
+    execFileSync('tar', ['-cf', archive, '-C', directory, 'checkpoint-group'])
+    guidesPair[kind] = archive
+    guidesManifests[kind] = path.join(group, 'manifest.json')
+    const record = artifacts.find(artifact => artifact.unitKey === guides.unitKey && artifact.kind === kind)
+    const destination = path.join(runRoot, record.archive)
+    fs.copyFileSync(archive, destination)
+    record.digest = `sha256:${sha256(destination)}`
+    record.fileSha256 = sha256(destination)
   }
+  const guidesReady = buildTranslationPublicationReady({
+    selection, unitKey: guides.unitKey,
+    checkpointArchive: guidesPair.checkpoint, checkpointManifest: guidesManifests.checkpoint,
+    baselineArchive: guidesPair.baseline, baselineManifest: guidesManifests.baseline,
+  })
+  const guidesReadyRecord = artifacts.find(artifact => artifact.unitKey === guides.unitKey && artifact.kind === 'ready')
+  const guidesReadyFile = path.join(runRoot, guidesReadyRecord.archive)
+  writePublicationDocument(guidesReadyFile, guidesReady, {selection})
+  guidesReadyRecord.digest = `sha256:${sha256(guidesReadyFile)}`
+  guidesReadyRecord.fileSha256 = sha256(guidesReadyFile)
   const guidesBatchFile = path.join(runRoot, 'artifacts', 'guides-batch-1.json')
   fs.writeFileSync(guidesBatchFile, '{"batch":1}\n')
   fs.writeFileSync(path.join(runRoot, 'publication-selection.json'), `${JSON.stringify(selection)}\n`)
@@ -336,11 +444,11 @@ async function realFaultFixture(t) {
     schemaVersion: 1, runId: selection.runId, runAttempt: selection.runAttempt, repository: selection.repository,
     toolingSha, initialTargetSha: baselineSha, selectionSha256: selection.selectionSha256,
     canonicalUnitKeys: selection.units.map(unit => unit.unitKey), fifoUnitKeys: deriveFifoUnitKeys(selection, jobs), artifacts,
-    guidesBatchArtifacts: [{id: 9002, name: 'translation-checkpoint-ja-JP-guides-40000000001-batch-1', digest: `sha256:${'9'.repeat(64)}`, archive: path.relative(runRoot, guidesBatchFile)}],
+    guidesBatchArtifacts: [{id: 9002, name: 'translation-report-ja-JP-guides-40000000001-batch-1', digest: `sha256:${'9'.repeat(64)}`, archive: path.relative(runRoot, guidesBatchFile)}],
   }, null, 2)}\n`)
   fs.mkdirSync(evidenceRoot)
   fs.cpSync(runRoot, path.join(evidenceRoot, 'retained-run'), {recursive: true})
-  return {root, runRoot, evidenceRoot, selection, selectedSdk}
+  return {root, runRoot, evidenceRoot, selection, selectedSdk, laterSdk}
 }
 
 async function realReplayFixture(t) {
@@ -707,6 +815,18 @@ test('legacy inspect derives authenticated current selection and ready contracts
   assert.equal(metadata.sourceArtifacts.length, 7)
   assert.equal(metadata.artifacts.length, selection.units.length * 3)
   assert.equal(metadata.artifacts.filter(artifact => artifact.derived).length, selection.units.length + 2)
+  assert.deepEqual(Object.keys(metadata.legacyProvenance).sort(), [
+    'child', 'derivedArtifacts', 'guidesPublicationReport', 'parent', 'selectionDerivation', 'sourceCheckpointInventory',
+  ].sort())
+  assert.deepEqual(metadata.legacyProvenance.parent, {
+    runId: fixture.parentRunId,
+    runAttempt: 1,
+    workflow: '.github/workflows/fetch-docs.yml',
+    repository: fixture.repository,
+    toolingSha: fixture.toolingSha,
+  })
+  assert.equal(metadata.legacyProvenance.sourceCheckpointInventory.length, 7)
+  assert.equal(metadata.legacyProvenance.derivedArtifacts.length, selection.units.length + 2)
   const guidesPlan = JSON.parse(fs.readFileSync(path.join(outputRoot, 'derived', 'guides', 'checkpoint', 'checkpoint-group', 'translation-plan.json'), 'utf8'))
   assert.deepEqual(Object.keys(guidesPlan).sort(), [
     'baselinePayloadSha256', 'batchCount', 'batches', 'devBaselineSha', 'group', 'masterSha',
@@ -728,6 +848,31 @@ test('legacy inspect derives authenticated current selection and ready contracts
   })
   assert.equal(replay.status, 'complete')
   assert.equal(verifyEvidence({evidenceRoot}).status, 'complete')
+
+  const metadataFile = path.join(outputRoot, 'run-metadata.json')
+  const originalMetadata = fs.readFileSync(metadataFile)
+  const tamperCases = [
+    value => { value.legacyDerived = false },
+    value => { delete value.legacyProvenance.parent.workflow },
+    value => { value.legacyProvenance.parent.repository = 'other/repository' },
+    value => { value.legacyProvenance.selectionDerivation.selectionSha256 = '0'.repeat(64) },
+    value => { value.legacyProvenance.sourceCheckpointInventory.pop() },
+    value => { value.legacyProvenance.guidesPublicationReport.resultSha = '0'.repeat(40) },
+    value => { value.legacyProvenance.derivedArtifacts[0].sources[0].fileSha256 = '0'.repeat(64) },
+  ]
+  for (const [index, tamper] of tamperCases.entries()) {
+    const value = JSON.parse(originalMetadata)
+    tamper(value)
+    fs.writeFileSync(metadataFile, `${JSON.stringify(value)}\n`)
+    await assert.rejects(replayRun({
+      runRoot: outputRoot,
+      bareRemote,
+      evidenceRoot: `${evidenceRoot}-tamper-${index}`,
+      mode: 'publish',
+      dependencies: {assertBareRemote() { throw new Error('legacy provenance validation was bypassed') }},
+    }), /legacy.*provenance|parent|selection derivation|source checkpoint inventory|Guides publication|derived artifact/i)
+  }
+  fs.writeFileSync(metadataFile, originalMetadata)
 })
 
 test('legacy inspect fails closed when retained Guides payload cannot reconstruct the canonical plan', async t => {
@@ -888,7 +1033,114 @@ test('replay rejects non-isolated remotes, identity drift, incomplete evidence, 
   }), /Guides batch.*missing|payload.*missing/i)
 })
 
-test('fault injection covers Translation ordering, continuation, CAS, ambiguity, reconciliation, and unknown-state stop', async t => {
+test('authenticated extraction rejects traversal, symlink, and corrupt-manifest archives before writing an extraction target', t => {
+  assert.equal(typeof authenticateAndExtractArchive, 'function')
+  const root = temporary('translation-authenticated-extraction-')
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  const runnerTemp = path.join(root, 'runner')
+  fs.mkdirSync(runnerTemp)
+  for (const kind of ['traversal', 'symlink', 'corrupt-manifest']) {
+    const value = adversarialCheckpointArchive(root, kind, kind)
+    assert.throws(() => authenticateAndExtractArchive({
+      archive: value.archive,
+      runnerTemp,
+      prefix: `extract-${kind}-`,
+      apiDigest: `sha256:${sha256(value.archive)}`,
+      fileSha256: sha256(value.archive),
+      manifestSha256: value.manifestSha256,
+      preflight: {group: 'python', masterSha: SHA('a')},
+    }), /archive|path|entry|symlink|manifest|JSON/i)
+    assert.equal(fs.readdirSync(runnerTemp).some(entry => entry.startsWith(`extract-${kind}-`)), false)
+  }
+})
+
+test('run loading rejects an artifact whose final path is a symlink', async t => {
+  const value = fixture(t)
+  const metadataFile = path.join(value.runRoot, 'run-metadata.json')
+  const metadata = JSON.parse(fs.readFileSync(metadataFile, 'utf8'))
+  const record = metadata.artifacts[0]
+  const target = path.join(value.runRoot, record.archive)
+  const real = path.join(path.dirname(target), 'real-archive.tar')
+  fs.renameSync(target, real)
+  fs.symlinkSync(real, target)
+  await assert.rejects(replayRun({
+    runRoot: value.runRoot,
+    bareRemote: value.bareRemote,
+    evidenceRoot: value.evidenceRoot,
+    mode: 'publish',
+    dependencies: {assertBareRemote() { throw new Error('run loading proceeded past the final artifact path') }},
+  }), /final artifact path must not be a symlink/i)
+})
+
+test('Guides nested preparation removes every earlier extraction when a later archive fails authentication', t => {
+  assert.equal(typeof prepareGuidesPairs, 'function')
+  assert.equal(typeof cleanupGuidesPairs, 'function')
+  const root = temporary('translation-guides-cleanup-')
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  const runnerTemp = path.join(root, 'runner')
+  const artifactDir = path.join(root, 'aggregate-checkpoint')
+  const baselineDir = path.join(root, 'aggregate-baseline')
+  fs.mkdirSync(runnerTemp)
+  const plan = {batchCount: 1}
+  put(artifactDir, 'translation-plan.json', `${JSON.stringify(plan)}\n`)
+  put(baselineDir, 'translation-plan.json', `${JSON.stringify(plan)}\n`)
+  const manifest = {
+    schemaVersion: 2,
+    stage: 'translation',
+    group: 'guides',
+    masterSha: SHA('a'),
+    translationTarget: 'ja-JP',
+    sourceCheckpointSha: SHA('b'),
+    toolingSha: SHA('a'),
+    sourceSite: 'en',
+    targetSite: 'en',
+  }
+  const checkpoint = manifestArchive(root, 'cleanup-checkpoint', manifest)
+  const checkpointManifest = path.join(root, 'cleanup-checkpoint-contents', 'checkpoint-group', 'manifest.json')
+  const corrupt = adversarialCheckpointArchive(root, 'cleanup-corrupt', 'corrupt-manifest')
+  const checkpointTarget = path.join(artifactDir, 'batches', 'batch-1', 'checkpoint-group.tar')
+  const baselineTarget = path.join(baselineDir, 'batches', 'batch-1', 'checkpoint-group.tar')
+  fs.mkdirSync(path.dirname(checkpointTarget), {recursive: true})
+  fs.mkdirSync(path.dirname(baselineTarget), {recursive: true})
+  fs.copyFileSync(checkpoint, checkpointTarget)
+  fs.copyFileSync(corrupt.archive, baselineTarget)
+  const prepared = {
+    artifactDir,
+    baselineDir,
+    guidesBatchArtifacts: [
+      {
+        name: 'translation-checkpoint-ja-JP-guides-40000000001-batch-1',
+        digest: `sha256:${sha256(checkpointTarget)}`,
+        fileSha256: sha256(checkpointTarget),
+        manifestSha256: sha256(checkpointManifest),
+      },
+      {
+        name: 'translation-baseline-ja-JP-guides-40000000001-batch-1',
+        digest: `sha256:${sha256(baselineTarget)}`,
+        fileSha256: sha256(baselineTarget),
+        manifestSha256: corrupt.manifestSha256,
+      },
+    ],
+  }
+  assert.throws(() => prepareGuidesPairs(prepared, runnerTemp, {
+    group: 'guides', toolingSha: SHA('a'), target: 'ja-JP', sourceCheckpointSha: SHA('b'),
+  }), /manifest|JSON/i)
+  assert.equal(fs.readdirSync(runnerTemp).some(entry => entry.startsWith('guides-')), false)
+
+  fs.copyFileSync(checkpoint, baselineTarget)
+  prepared.guidesBatchArtifacts[1].digest = `sha256:${sha256(baselineTarget)}`
+  prepared.guidesBatchArtifacts[1].fileSha256 = sha256(baselineTarget)
+  prepared.guidesBatchArtifacts[1].manifestSha256 = sha256(checkpointManifest)
+  const successful = prepareGuidesPairs(prepared, runnerTemp, {
+    group: 'guides', toolingSha: SHA('a'), target: 'ja-JP', sourceCheckpointSha: SHA('b'),
+  })
+  assert.equal(successful.cleanupDirectories.length, 2)
+  assert.ok(successful.cleanupDirectories.every(directory => fs.existsSync(directory)))
+  cleanupGuidesPairs(successful.cleanupDirectories)
+  assert.ok(successful.cleanupDirectories.every(directory => !fs.existsSync(directory)))
+})
+
+test('fault verification rejects handwritten summaries without retained results, handler logs, and remote evidence', async t => {
   const scenarios = [
     'sdk-before-guides', 'guides-before-sdk', 'cache-conflict', 'cas-drift',
     'ambiguous-push', 'reconciliation-failure', 'unknown-remote-state',
@@ -903,39 +1155,34 @@ test('fault injection covers Translation ordering, continuation, CAS, ambiguity,
       }},
     })
     assert.equal(result.scenario, scenario)
-    assert.equal(verifyEvidence({evidenceRoot: value.evidenceRoot}).scenario, scenario)
-    if (scenario === 'cache-conflict') assert.equal(result.ordinaryFailureContinued, true)
-    if (scenario === 'unknown-remote-state') assert.equal(result.laterWritesStopped, true)
-    const file = path.join(value.evidenceRoot, 'fault-injection.json')
-    const corrupted = JSON.parse(fs.readFileSync(file, 'utf8'))
-    if (scenario === 'sdk-before-guides') corrupted.calculatedOrder = ['translation/ja-JP/guides', 'translation/ja-JP/python']
-    if (scenario === 'guides-before-sdk') corrupted.calculatedOrder = ['translation/ja-JP/python', 'translation/ja-JP/guides']
-    if (scenario === 'cache-conflict') corrupted.units[2].status = 'ready'
-    if (scenario === 'cas-drift') corrupted.cas.attempts = 1
-    if (scenario === 'ambiguous-push') corrupted.descendant.remoteSha = corrupted.descendant.candidateSha
-    if (scenario === 'reconciliation-failure') corrupted.orchestratorFailure.phase = 'publish'
-    if (scenario === 'unknown-remote-state') corrupted.invoked.push('translation/ja-JP/java')
-    fs.writeFileSync(file, `${JSON.stringify(corrupted)}\n`)
-    assert.throws(() => verifyEvidence({evidenceRoot: value.evidenceRoot}), /fault|order|SDK|Guides|continu|CAS|ambiguous|reconciliation|unknown|later/i)
+    assert.throws(() => verifyEvidence({evidenceRoot: value.evidenceRoot}), /fault|selection|results|handler|remote|evidence/i)
   }
 })
 
 test('default fault injection uses real local CAS retry and exact plus descendant ambiguous-push probes', async t => {
   const cas = await realFaultFixture(t)
   const casResult = await faultInjectRun({evidenceRoot: cas.evidenceRoot, scenario: 'cas-drift'})
-  assert.equal(casResult.cas.attempts, 2, JSON.stringify(casResult))
+  const casPublication = JSON.parse(fs.readFileSync(path.join(cas.evidenceRoot, casResult.results), 'utf8'))
+  assert.equal(casPublication.units[0].attempts, 2, JSON.stringify(casResult))
   assert.equal(casResult.cas.remoteRacePreserved, true)
-  assert.match(casResult.cas.resultSha, /^[0-9a-f]{40}$/)
-  assert.notEqual(casResult.cas.abandonedCandidateSha, casResult.cas.resultSha)
+  assert.match(casPublication.units[0].resultSha, /^[0-9a-f]{40}$/)
+  assert.notEqual(casResult.cas.abandonedCandidateSha, casPublication.units[0].resultSha)
   assert.equal(verifyEvidence({evidenceRoot: cas.evidenceRoot}).scenario, 'cas-drift')
+  git(cas.evidenceRoot, '--git-dir', casResult.bareRemote, 'update-ref', casResult.remoteRef, casResult.initialTargetSha)
+  assert.throws(() => verifyEvidence({evidenceRoot: cas.evidenceRoot}), /CAS|remote|result|commit/i)
 
   const ambiguous = await realFaultFixture(t)
   const ambiguousResult = await faultInjectRun({evidenceRoot: ambiguous.evidenceRoot, scenario: 'ambiguous-push'})
-  assert.equal(ambiguousResult.exact.containsCandidate, true)
-  assert.equal(ambiguousResult.exact.remoteSha, ambiguousResult.exact.candidateSha)
-  assert.equal(ambiguousResult.descendant.containsCandidate, true)
-  assert.notEqual(ambiguousResult.descendant.remoteSha, ambiguousResult.descendant.candidateSha)
+  const exactPublication = JSON.parse(fs.readFileSync(path.join(ambiguous.evidenceRoot, ambiguousResult.exact.results), 'utf8'))
+  const descendantPublication = JSON.parse(fs.readFileSync(path.join(ambiguous.evidenceRoot, ambiguousResult.descendant.results), 'utf8'))
+  assert.equal(exactPublication.finalTargetSha, ambiguousResult.exact.candidateSha)
+  assert.notEqual(descendantPublication.finalTargetSha, ambiguousResult.descendant.candidateSha)
   assert.equal(verifyEvidence({evidenceRoot: ambiguous.evidenceRoot}).scenario, 'ambiguous-push')
+  const ambiguousLogFile = path.join(ambiguous.evidenceRoot, ambiguousResult.descendant.handlerLog)
+  const ambiguousLog = JSON.parse(fs.readFileSync(ambiguousLogFile, 'utf8'))
+  ambiguousLog.events.push({...ambiguousLog.events.at(-1), sequence: ambiguousLog.events.length + 1})
+  fs.writeFileSync(ambiguousLogFile, `${JSON.stringify(ambiguousLog)}\n`)
+  assert.throws(() => verifyEvidence({evidenceRoot: ambiguous.evidenceRoot}), /ambiguous|handler|duplicate/i)
 })
 
 test('default Git fault injection uses the standard git-v1 replay remote without synthetic retained source.git', async t => {
@@ -951,12 +1198,12 @@ test('default Git fault injection uses the standard git-v1 replay remote without
     bareRemote,
   })}\n`)
   const cas = await faultInjectRun({evidenceRoot: value.evidenceRoot, scenario: 'cas-drift'})
-  assert.equal(cas.cas.attempts, 2)
+  assert.equal(JSON.parse(fs.readFileSync(path.join(value.evidenceRoot, cas.results), 'utf8')).units[0].attempts, 2)
   assert.equal(verifyEvidence({evidenceRoot: value.evidenceRoot}).scenario, 'cas-drift')
   fs.rmSync(path.join(value.evidenceRoot, 'fault-injection.json'))
   const ambiguous = await faultInjectRun({evidenceRoot: value.evidenceRoot, scenario: 'ambiguous-push'})
-  assert.equal(ambiguous.exact.containsCandidate, true)
-  assert.equal(ambiguous.descendant.containsCandidate, true)
+  assert.equal(JSON.parse(fs.readFileSync(path.join(value.evidenceRoot, ambiguous.exact.results), 'utf8')).units[0].status, 'published')
+  assert.equal(JSON.parse(fs.readFileSync(path.join(value.evidenceRoot, ambiguous.descendant.results), 'utf8')).units[0].status, 'published')
   assert.equal(verifyEvidence({evidenceRoot: value.evidenceRoot}).scenario, 'ambiguous-push')
 })
 
@@ -968,20 +1215,43 @@ test('default fault injection proves both FIFO orders, ordinary continuation, re
     fs.cpSync(path.join(seed.evidenceRoot, 'retained-run'), path.join(evidenceRoot, 'retained-run'), {recursive: true})
     const result = await faultInjectRun({evidenceRoot, scenario})
     assert.equal(verifyEvidence({evidenceRoot}).scenario, scenario)
+    assert.equal(result.evidenceContract, 'coordinator-git-v1')
+    const selected = JSON.parse(fs.readFileSync(path.join(evidenceRoot, result.selection), 'utf8'))
+    const recordedJobs = JSON.parse(fs.readFileSync(path.join(evidenceRoot, result.jobs), 'utf8')).jobs
+    const recordedResults = JSON.parse(fs.readFileSync(path.join(evidenceRoot, result.results), 'utf8'))
+    const recordedEvents = JSON.parse(fs.readFileSync(path.join(evidenceRoot, result.handlerLog), 'utf8')).events
+    const calculatedOrder = deriveFifoUnitKeys(selected, recordedJobs)
     if (scenario === 'sdk-before-guides') {
-      assert.match(result.calculatedOrder[0], /^translation\/(?:ja-JP|zh-CN-reference)\/(?:python|java|node|go|cli|rest)$/)
-      assert.ok(result.calculatedOrder.indexOf('translation/ja-JP/guides') > 0)
+      assert.match(calculatedOrder[0], /^translation\/(?:ja-JP|zh-CN-reference)\/(?:python|java|node|go|cli|rest)$/)
+      assert.ok(calculatedOrder.indexOf('translation/ja-JP/guides') > 0)
     }
-    if (scenario === 'guides-before-sdk') assert.equal(result.calculatedOrder[0], 'translation/ja-JP/guides')
+    if (scenario === 'guides-before-sdk') assert.equal(calculatedOrder[0], 'translation/ja-JP/guides')
     if (scenario === 'cache-conflict') {
-      const failed = result.units.find(unit => unit.status === 'publish_failed')
-      assert.equal(result.ordinaryFailureContinued, true)
-      assert.ok(result.units.some(unit => unit.status === 'published' && unit.sequence > failed.sequence))
+      const failed = recordedResults.units.find(unit => unit.status === 'publish_failed')
+      assert.match(failed.failure.message, /cache conflict/i)
+      assert.deepEqual(failed.commitShas, [])
+      assert.ok(recordedResults.units.some(unit => unit.status === 'published' && unit.sequence > failed.sequence && unit.commitShas.length))
     }
-    if (scenario === 'reconciliation-failure') assert.equal(result.orchestratorFailure.phase, 'reconciliation')
+    if (scenario === 'reconciliation-failure') {
+      assert.equal(recordedResults.orchestratorFailure.phase, 'reconciliation')
+      assert.deepEqual(recordedEvents.slice(-2).map(event => event.type), ['reconciliation_started', 'reconciliation_completed'])
+    }
     if (scenario === 'unknown-remote-state') {
-      assert.equal(result.invoked.at(-1), result.unknownUnitKey)
-      assert.equal(result.laterWritesStopped, true)
+      const unknown = recordedResults.units.find(unit => unit.failure?.code === 'REMOTE_STATE_UNKNOWN')
+      assert.equal(recordedEvents.filter(event => event.type === 'handler_started').at(-1).unitKey, unknown.unitKey)
+      assert.ok(recordedResults.units.some(unit => unit.status === 'ready' && unit.sequence === null && unit.commitShas.length === 0))
     }
+    if (scenario === 'sdk-before-guides') {
+      recordedEvents[0].unexpected = true
+      fs.writeFileSync(path.join(evidenceRoot, result.handlerLog), `${JSON.stringify({schemaVersion: 1, events: recordedEvents})}\n`)
+    } else if (scenario === 'guides-before-sdk') {
+      recordedEvents.push({...recordedEvents.at(-1), sequence: recordedEvents.length + 1})
+      fs.writeFileSync(path.join(evidenceRoot, result.handlerLog), `${JSON.stringify({schemaVersion: 1, events: recordedEvents})}\n`)
+    } else if (scenario === 'unknown-remote-state') {
+      fs.writeFileSync(path.join(evidenceRoot, result.handlerLog), `${JSON.stringify({schemaVersion: 1, events: recordedEvents, unexpected: true})}\n`)
+    } else {
+      git(evidenceRoot, '--git-dir', result.bareRemote, 'update-ref', result.remoteRef, result.initialTargetSha)
+    }
+    assert.throws(() => verifyEvidence({evidenceRoot}), /fault|handler|duplicate|remote|commit|reconciliation/i)
   }
 })
