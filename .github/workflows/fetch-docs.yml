@@ -862,7 +862,7 @@ jobs:
         run: exit 1
   finalize_card_fallback:
     needs: [prepare, aggregate, monitor_docs_progress]
-    if: ${{ always() && needs.prepare.outputs.card_id != '' && needs.monitor_docs_progress.result != 'success' }}
+    if: ${{ always() && needs.prepare.outputs.card_id != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
