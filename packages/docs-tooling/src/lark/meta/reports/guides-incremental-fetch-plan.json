@@ -1,199 +1,17 @@
 {
-  "generated_at": "2026-08-07T03:16:05.445Z",
+  "generated_at": "2026-08-07T04:08:45.201Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "recvm1Rp4w1C43",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "External Collection Limits",
-      "labels": "",
-      "slug": "external-collection-limits",
-      "doc_token": "P9HuwHZyXilwRTkVoDBcjAMlnrb",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/P9HuwHZyXilwRTkVoDBcjAMlnrb",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvlPt8LaurJX",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Text Field",
-      "labels": "Text Field",
-      "slug": "use-text-field",
-      "doc_token": "GBynwwkyBihIHukvJXfc76dMnth",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/GBynwwkyBihIHukvJXfc76dMnth",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvnkLuMYIWeN",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Plan Cluster Scaling",
-      "labels": "",
-      "slug": "plan-cluster-scaling",
-      "doc_token": "GOCJwJktXizGTXkRfCEc9GGLnsb",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/GOCJwJktXizGTXkRfCEc9GGLnsb",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvnkLOI9f0wz",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Auto-scaling",
-      "labels": "",
-      "slug": "auto-scaling",
-      "doc_token": "I5qmw4fxDiBxBQksrNwcLHQpnTc",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/I5qmw4fxDiBxBQksrNwcLHQpnTc?from=from_copylink",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvnkLSNztKb7",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Scheduled Scaling",
-      "labels": "",
-      "slug": "scheduled-scaling",
-      "doc_token": "ZACVwXqTbiCqR3kS9YAccuaQnId",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/ZACVwXqTbiCqR3kS9YAccuaQnId",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "GBynwwkyBihIHukvJXfc76dMnth",
-    "GOCJwJktXizGTXkRfCEc9GGLnsb",
-    "I5qmw4fxDiBxBQksrNwcLHQpnTc",
-    "P9HuwHZyXilwRTkVoDBcjAMlnrb",
-    "ZACVwXqTbiCqR3kS9YAccuaQnId"
-  ],
-  "expanded_tokens": [
-    "ByBTwOfgIie7e2k090Mc1EPknSf",
-    "DjROwgK6ziCf7Rkoji6ccyEUnsg",
-    "EV41wG08BiOWW8kbo9xcTGoPnKd",
-    "G6xpwyghRitwbqkwl86cpb3Gn2g",
-    "GBynwwkyBihIHukvJXfc76dMnth",
-    "GOCJwJktXizGTXkRfCEc9GGLnsb",
-    "Ghq9wEiOOivgeIkmj2HcHC9onXe",
-    "I5qmw4fxDiBxBQksrNwcLHQpnTc",
-    "J2prwh2KLis9oqkqNIAcU1d6nsd",
-    "JzapwWCp7iRPDhky5qWczpTonZf",
-    "KnnBwce9JifxvXkd070cvgUPnag",
-    "KrbjwFhy3iojF3k97XmcvvXMnW7",
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
-    "MYHwwhKtri4MMJku6BbcMjF4n1d",
-    "MZ2WwklE5ifX4hkO4ZOcXz0indc",
-    "P9HuwHZyXilwRTkVoDBcjAMlnrb",
-    "PJ4hwwD1DiVnv0kWPZBceLrdnSf",
-    "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
-    "PyrrwqrGbirtGTkh4oacaov7nHh",
-    "QBXVwP7oiiuEovkprDnckJlEnoK",
-    "RQTRwhOVPiwnwokqr4scAtyfnBf",
-    "RY8ww0NDQi8yU9kNpjicHP7Gn4b",
-    "Vs4YwNnvzitoQ8kunlGcWMJInbf",
-    "WBONwyqFAi02DTkCG41c93wCn6e",
-    "ZACVwXqTbiCqR3kS9YAccuaQnId",
-    "ZBEiwpvlbijhYDkmnNScc7zyn5d"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "P9HuwHZyXilwRTkVoDBcjAMlnrb": [
-      "wiki node edit time changed"
-    ],
-    "GBynwwkyBihIHukvJXfc76dMnth": [
-      "wiki node edit time changed"
-    ],
-    "GOCJwJktXizGTXkRfCEc9GGLnsb": [
-      "wiki node edit time changed"
-    ],
-    "I5qmw4fxDiBxBQksrNwcLHQpnTc": [
-      "wiki node edit time changed"
-    ],
-    "ZACVwXqTbiCqR3kS9YAccuaQnId": [
-      "wiki node edit time changed"
-    ],
-    "DjROwgK6ziCf7Rkoji6ccyEUnsg": [
-      "outgoing reference from GBynwwkyBihIHukvJXfc76dMnth"
-    ],
-    "RQTRwhOVPiwnwokqr4scAtyfnBf": [
-      "outgoing reference from GBynwwkyBihIHukvJXfc76dMnth"
-    ],
-    "QBXVwP7oiiuEovkprDnckJlEnoK": [
-      "incoming reference to GBynwwkyBihIHukvJXfc76dMnth"
-    ],
-    "Vs4YwNnvzitoQ8kunlGcWMJInbf": [
-      "incoming reference to GBynwwkyBihIHukvJXfc76dMnth"
-    ],
-    "JzapwWCp7iRPDhky5qWczpTonZf": [
-      "outgoing reference from GOCJwJktXizGTXkRfCEc9GGLnsb"
-    ],
-    "PuxkwMWvbiHxvTkHsVkcMZP9n5f": [
-      "outgoing reference from GOCJwJktXizGTXkRfCEc9GGLnsb"
-    ],
-    "ByBTwOfgIie7e2k090Mc1EPknSf": [
-      "incoming reference to GOCJwJktXizGTXkRfCEc9GGLnsb"
-    ],
-    "EV41wG08BiOWW8kbo9xcTGoPnKd": [
-      "incoming reference to GOCJwJktXizGTXkRfCEc9GGLnsb"
-    ],
-    "KnnBwce9JifxvXkd070cvgUPnag": [
-      "incoming reference to GOCJwJktXizGTXkRfCEc9GGLnsb"
-    ],
-    "PJ4hwwD1DiVnv0kWPZBceLrdnSf": [
-      "incoming reference to GOCJwJktXizGTXkRfCEc9GGLnsb"
-    ],
-    "PyrrwqrGbirtGTkh4oacaov7nHh": [
-      "incoming reference to GOCJwJktXizGTXkRfCEc9GGLnsb"
-    ],
-    "RY8ww0NDQi8yU9kNpjicHP7Gn4b": [
-      "incoming reference to GOCJwJktXizGTXkRfCEc9GGLnsb"
-    ],
-    "G6xpwyghRitwbqkwl86cpb3Gn2g": [
-      "incoming reference to I5qmw4fxDiBxBQksrNwcLHQpnTc"
-    ],
-    "Ghq9wEiOOivgeIkmj2HcHC9onXe": [
-      "incoming reference to I5qmw4fxDiBxBQksrNwcLHQpnTc"
-    ],
-    "J2prwh2KLis9oqkqNIAcU1d6nsd": [
-      "incoming reference to I5qmw4fxDiBxBQksrNwcLHQpnTc"
-    ],
-    "KrbjwFhy3iojF3k97XmcvvXMnW7": [
-      "incoming reference to I5qmw4fxDiBxBQksrNwcLHQpnTc"
-    ],
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
-      "incoming reference to I5qmw4fxDiBxBQksrNwcLHQpnTc"
-    ],
-    "MYHwwhKtri4MMJku6BbcMjF4n1d": [
-      "incoming reference to I5qmw4fxDiBxBQksrNwcLHQpnTc"
-    ],
-    "MZ2WwklE5ifX4hkO4ZOcXz0indc": [
-      "incoming reference to I5qmw4fxDiBxBQksrNwcLHQpnTc"
-    ],
-    "WBONwyqFAi02DTkCG41c93wCn6e": [
-      "incoming reference to I5qmw4fxDiBxBQksrNwcLHQpnTc"
-    ],
-    "ZBEiwpvlbijhYDkmnNScc7zyn5d": [
-      "incoming reference to I5qmw4fxDiBxBQksrNwcLHQpnTc"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
-  "affected_tables": [
-    "tbl9BeCMjBmalJVb",
-    "tblWv7PjNDsexddH",
-    "tblZMzoITXNsyKmQ"
-  ],
+  "affected_tables": [],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
@@ -279,7 +97,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-08-06T11:11:46.314Z",
+    "generated_at": "2026-08-07T03:17:45.210Z",
     "records": 376
   },
   "source_scope": "partial"
