@@ -1031,6 +1031,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const observerSelection = observer?.steps?.find(step => step?.name === 'Download immutable Translation publication selection')
       const observerRun = observer?.steps?.find(step => step?.name === 'Observe ready Translation publication FIFO')
       const observerScript = String(observerRun?.with?.script || '')
+      const observerHasDirectCoordinatorRun = (observer?.steps || [])
+        .some(step => /publication-coordinator\.js/.test(String(step?.run || '')))
       const expectedObserverScript = [
         "await exec.exec('node', [",
         "  'scripts/docs-workflow/publication-coordinator.js',",
@@ -1044,7 +1046,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const coordinatorSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-coordinator.js'), 'utf8')
       const githubClientSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-github-client.js'), 'utf8')
       const schedulerSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-scheduler.js'), 'utf8')
-      if (observerRun?.uses !== 'actions/github-script@v8' || observerRun?.run !== undefined ||
+      if (observerRun?.uses !== 'actions/github-script@v8' || observerRun?.run !== undefined || observerHasDirectCoordinatorRun ||
           observerRun?.env?.GITHUB_TOKEN !== '${{ github.token }}' ||
           JSON.stringify(Object.keys(observerRun?.env || {}).sort()) !== JSON.stringify(['GITHUB_TOKEN']) ||
           observerScript.trim() !== expectedObserverScript) {

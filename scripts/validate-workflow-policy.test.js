@@ -2745,6 +2745,10 @@ test('workflow policy rejects writable, blocked, non-artifact-only, or non-actio
         "        uses: actions/github-script@v8\n        env:\n          GITHUB_TOKEN: ${{ github.token }}\n        with:\n          script: |\n            await exec.exec('node', [\n              'scripts/docs-workflow/publication-coordinator.js',\n              '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,\n              '--mode', 'artifact_only',\n              '--poll-milliseconds', '10000',\n              '--candidate-polls', '60',\n              '--max-publish-attempts', '1',\n            ])",
         '        env:\n          GITHUB_TOKEN: ${{ github.token }}\n        run: node scripts/docs-workflow/publication-coordinator.js --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" --mode artifact_only --poll-milliseconds 10000 --candidate-polls 60 --max-publish-attempts 1',
       ), 'translate-codex.yml: Translation publication observer must execute the coordinator through the actions artifact runtime'],
+      [original.replace(
+        "              '--max-publish-attempts', '1',\n            ])\n\n  publish_ja_guides:",
+        "              '--max-publish-attempts', '1',\n            ])\n      - name: Bypass Translation artifact runtime\n        run: node scripts/docs-workflow/publication-coordinator.js --selection \"$RUNNER_TEMP/publication-selection/publication-selection.json\" --mode artifact_only --poll-milliseconds 10000 --candidate-polls 60 --max-publish-attempts 1\n\n  publish_ja_guides:",
+      ), 'translate-codex.yml: Translation publication observer must execute the coordinator through the actions artifact runtime'],
     ]) {
       assert.notEqual(changed, original, 'Translation observer policy fixture must apply its mutation')
       fs.writeFileSync(file, changed)
