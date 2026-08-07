@@ -2,15 +2,27 @@
 'use strict'
 
 const {createHash} = require('node:crypto')
+const fs = require('node:fs')
 
 const {
   createDocsToolingCardPatcher,
-  createGitHubActionsClient,
   selectAggregateJob,
   withRetry,
 } = require('./monitor-docs-progress')
+const {artifactNames, validatePublicationProgress, validatePublicationResults} = require('./publication-contracts')
 const {deriveTranslationProgressState} = require('./translation-progress-state')
 const {validateTranslationHandoff} = require('./translation-handoff')
+
+const TRANSLATION_UNIT_ORDER = Object.freeze([
+  'translation/ja-JP/guides',
+  'translation/ja-JP/python', 'translation/zh-CN-reference/python',
+  'translation/ja-JP/java', 'translation/zh-CN-reference/java',
+  'translation/ja-JP/node', 'translation/zh-CN-reference/node',
+  'translation/ja-JP/go', 'translation/zh-CN-reference/go',
+  'translation/ja-JP/cli', 'translation/zh-CN-reference/cli',
+  'translation/ja-JP/rest', 'translation/zh-CN-reference/rest',
+  'translation/zh-CN-reference/reference-landings',
+])
 
 function delay(milliseconds) {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -41,6 +53,93 @@ function terminalStatus(aggregate) {
   return 'failure'
 }
 
+function expectedPublicationUnitKeys(selectedUnits) {
+  const selected = new Set(selectedUnits.map(unit => `translation/${unit.target}/${unit.group}`))
+  return TRANSLATION_UNIT_ORDER.filter(unitKey => selected.has(unitKey))
+}
+
+function validatePublicationIdentity(value, {
+  document,
+  repository,
+  runId,
+  runAttempt,
+  selectionSha256,
+  expectedUnitKeys,
+  publishEnabled,
+  revision,
+}) {
+  const validated = document === 'publication-progress'
+    ? validatePublicationProgress(value, {artifactRevision: revision})
+    : validatePublicationResults(value)
+  if (validated.workflow !== 'translation') throw new Error('Translation publication artifact is required')
+  if (validated.repository !== repository) throw new Error('Translation publication repository mismatch')
+  if (validated.runId !== runId) throw new Error('Translation publication run mismatch')
+  if (validated.runAttempt !== runAttempt) throw new Error('Translation publication run attempt mismatch')
+  if (validated.selectionSha256 !== selectionSha256) throw new Error('Translation publication selection checksum mismatch')
+  if (validated.mode !== (publishEnabled ? 'publish' : 'artifact_only')) throw new Error('Translation publication mode mismatch')
+  const actual = validated.units.map(unit => unit.unitKey)
+  if (actual.length !== expectedUnitKeys.length || actual.some((unitKey, index) => unitKey !== expectedUnitKeys[index])) {
+    throw new Error('Translation publication units do not match the selected handoff')
+  }
+  return validated
+}
+
+function createTranslationPublicationArtifactReader({
+  client,
+  repository,
+  runId,
+  runAttempt,
+  selectionSha256,
+  selectedUnits,
+  publishEnabled,
+}) {
+  const expectedUnitKeys = expectedPublicationUnitKeys(selectedUnits)
+  const identity = {repository, runId, runAttempt, selectionSha256, expectedUnitKeys, publishEnabled}
+  const names = revision => artifactNames({
+    workflow: 'translation', runId, runAttempt, unitKey: expectedUnitKeys[0], revision,
+  })
+
+  async function readArtifact(name, fileName, validate) {
+    const downloaded = await client.downloadArtifactFiles(name, [fileName])
+    try {
+      return validate(JSON.parse(fs.readFileSync(downloaded.files[fileName], 'utf8')))
+    } finally {
+      fs.rmSync(downloaded.directory, {recursive: true, force: true})
+    }
+  }
+
+  async function downloadPublicationProgress({minimumRevision = 0} = {}) {
+    const prefix = names(1).progress.replace(/1$/u, '')
+    const candidates = (await client.listArtifacts())
+      .filter(artifact => artifact.expired !== true && typeof artifact.name === 'string' && artifact.name.startsWith(prefix))
+      .map(artifact => ({artifact, revision: Number(artifact.name.slice(prefix.length))}))
+      .filter(candidate => Number.isSafeInteger(candidate.revision) && candidate.revision > minimumRevision && candidate.revision > 0 && candidate.artifact.name === names(candidate.revision).progress)
+      .sort((left, right) => right.revision - left.revision || Number(right.artifact.id || 0) - Number(left.artifact.id || 0))
+    let stale = false
+    for (const candidate of candidates) {
+      try {
+        const snapshot = await readArtifact(candidate.artifact.name, `publication-progress-${candidate.revision}.json`, value => validatePublicationIdentity(value, {
+          ...identity, document: 'publication-progress', revision: candidate.revision,
+        }))
+        return {snapshot, stale}
+      } catch (_) {
+        stale = true
+      }
+    }
+    return {snapshot: null, stale}
+  }
+
+  async function downloadPublicationResults() {
+    const name = names(1).results
+    if (!await client.findArtifact(name)) return null
+    return readArtifact(name, 'publication-results.json', value => validatePublicationIdentity(value, {
+      ...identity, document: 'publication-results',
+    }))
+  }
+
+  return {downloadPublicationProgress, downloadPublicationResults}
+}
+
 function createTranslationProgressMonitor({
   runId,
   repository,
@@ -49,8 +148,11 @@ function createTranslationProgressMonitor({
   startedAt,
   targetBranch,
   parentUrl,
+  publicationSelectionSha256,
   pollIntervalMs = 60_000,
   listJobs,
+  downloadPublicationProgress = async () => ({snapshot: null, stale: false}),
+  downloadPublicationResults = async () => null,
   patchCard,
   sleep = delay,
   now = () => new Date(),
@@ -60,6 +162,9 @@ function createTranslationProgressMonitor({
   let cancellationPatched = false
   let latestJobs = []
   let latestState = null
+  let publicationProgress = null
+  let publicationProgressStale = false
+  let publicationResults = null
 
   function boundedLog(message) {
     log(String(message).replace(/[\r\n]+/g, ' ').slice(0, 240))
@@ -67,11 +172,39 @@ function createTranslationProgressMonitor({
 
   function derive(jobs, resolvedTerminal = null) {
     return {
-      ...deriveTranslationProgressState({selectedUnits, jobs, publishEnabled, terminalStatus: resolvedTerminal}),
+      ...deriveTranslationProgressState({
+        selectedUnits,
+        jobs,
+        publishEnabled,
+        terminalStatus: resolvedTerminal,
+        publicationProgress,
+        publicationResults,
+        reports: publicationProgressStale ? [{
+          title: 'Publication progress retained',
+          markdown: 'The newest publication progress artifact was invalid; the card retained the highest valid revision.',
+          attention: true,
+        }] : [],
+      }),
       title: 'Zilliz Cloud Docs Translation',
       startedAt,
       targetBranch,
       links: [{label: 'Open parent source workflow', url: parentUrl}],
+    }
+  }
+
+  async function loadPublicationArtifacts() {
+    try {
+      const candidate = await downloadPublicationProgress({minimumRevision: publicationProgress?.revision || 0})
+      if (candidate?.snapshot && (!publicationProgress || candidate.snapshot.revision > publicationProgress.revision)) publicationProgress = candidate.snapshot
+      publicationProgressStale = candidate?.stale === true
+    } catch (_) {
+      publicationProgressStale = publicationProgress !== null
+      boundedLog('translation publication progress unavailable; retaining the highest valid revision')
+    }
+    try {
+      publicationResults = await downloadPublicationResults() || publicationResults
+    } catch (_) {
+      boundedLog('translation publication results unavailable; waiting for terminal reconciliation evidence')
     }
   }
 
@@ -99,8 +232,33 @@ function createTranslationProgressMonitor({
       return false
     }
     latestJobs = jobs
+    const prepare = jobs.find(job => String(job?.name || '').split(' / ')[0] === 'prepare')
+    if (prepare?.status === 'completed' && prepare.conclusion === 'success' && !publicationSelectionSha256) {
+      latestState = derive(jobs, 'failure')
+      await bestEffortPatch(latestState)
+      return true
+    }
+    if (publicationSelectionSha256) await loadPublicationArtifacts()
     const aggregate = selectAggregateJob(jobs)
-    latestState = derive(jobs, aggregate?.status === 'completed' ? terminalStatus(aggregate) : null)
+    if (aggregate?.status === 'completed' && !publicationResults) {
+      if (prepare?.status === 'completed' && prepare.conclusion !== 'success') {
+        latestState = derive(jobs, terminalStatus(aggregate))
+        await bestEffortPatch(latestState)
+        return true
+      }
+      if (aggregate.conclusion !== 'success') {
+        latestState = derive(jobs, terminalStatus(aggregate))
+        await bestEffortPatch(latestState)
+        return true
+      }
+      latestState = derive(jobs, 'running')
+      await bestEffortPatch(latestState)
+      return false
+    }
+    const resolvedTerminal = aggregate?.status === 'completed'
+      ? publicationResults?.overallStatus === 'success' ? terminalStatus(aggregate) : 'failure'
+      : null
+    latestState = derive(jobs, resolvedTerminal)
     await bestEffortPatch(latestState)
     return aggregate?.status === 'completed'
   }
@@ -143,6 +301,13 @@ function readConfiguration(env = process.env) {
   }
   const requestId = typeof env.REQUEST_ID === 'string' ? env.REQUEST_ID.trim() : ''
   if (!requestId) throw new Error('request_id must be <parent_run_id>-<parent_run_attempt>')
+  const publicationRunAttempt = positiveInteger(required(env, 'PUBLICATION_RUN_ATTEMPT'), 'PUBLICATION_RUN_ATTEMPT')
+  if (publicationRunAttempt !== runAttempt) throw new Error('PUBLICATION_RUN_ATTEMPT must match GITHUB_RUN_ATTEMPT')
+  const publicationSelectionText = typeof env.PUBLICATION_SELECTION_SHA256 === 'string' ? env.PUBLICATION_SELECTION_SHA256.trim() : ''
+  const publicationSelectionSha256 = publicationSelectionText || null
+  if (publicationSelectionSha256 !== null && !/^[0-9a-f]{64}$/u.test(publicationSelectionSha256)) {
+    throw new Error('PUBLICATION_SELECTION_SHA256 must be a lowercase SHA-256 checksum')
+  }
   return {
     runId,
     runAttempt,
@@ -153,6 +318,8 @@ function readConfiguration(env = process.env) {
     targetBranch: handoff.targetBranch,
     selectedUnits: handoff.units.map(({target, group}) => ({target, group})),
     publishEnabled: publishText === 'true',
+    publicationRunAttempt,
+    publicationSelectionSha256,
     parentUrl: parentWorkflowUrl(requestId, repository),
     appId: required(env, 'APP_ID'),
     appSecret: required(env, 'APP_SECRET'),
@@ -162,12 +329,30 @@ function readConfiguration(env = process.env) {
 
 async function main() {
   const config = readConfiguration()
-  const github = createGitHubActionsClient(config)
+  const {createPublicationGitHubClient} = require('./publication-github-client')
+  const github = createPublicationGitHubClient({
+    token: config.token,
+    repository: config.repository,
+    runId: config.runId,
+    runAttempt: config.publicationRunAttempt,
+    runnerTemp: process.env.RUNNER_TEMP,
+  })
+  const artifacts = config.publicationSelectionSha256
+    ? createTranslationPublicationArtifactReader({
+      client: github,
+      repository: config.repository,
+      runId: config.runId,
+      runAttempt: config.publicationRunAttempt,
+      selectionSha256: config.publicationSelectionSha256,
+      selectedUnits: config.selectedUnits,
+      publishEnabled: config.publishEnabled,
+    })
+    : {}
   const patchCard = createDocsToolingCardPatcher({
     messageId: config.cardId,
     environment: {...process.env, APP_ID: config.appId, APP_SECRET: config.appSecret, FEISHU_HOST: config.feishuHost},
   })
-  const monitor = createTranslationProgressMonitor({...config, listJobs: github.listJobs, patchCard})
+  const monitor = createTranslationProgressMonitor({...config, ...artifacts, listJobs: github.listJobs, patchCard})
   const stop = () => monitor.stop().finally(() => { process.exitCode = 130 })
   process.once('SIGTERM', stop)
   process.once('SIGINT', stop)
@@ -181,4 +366,10 @@ if (require.main === module) {
   })
 }
 
-module.exports = {createTranslationProgressMonitor, parentWorkflowUrl, readConfiguration}
+module.exports = {
+  createTranslationProgressMonitor,
+  createTranslationPublicationArtifactReader,
+  expectedPublicationUnitKeys,
+  parentWorkflowUrl,
+  readConfiguration,
+}

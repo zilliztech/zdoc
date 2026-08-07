@@ -11,6 +11,15 @@ const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
   ['translate-codex.yml', {conditional: true}],
   ['sync-master-tooling-to-dev.yml', {conditional: false}],
 ]))
+const TOP_LEVEL_WRITER_INVENTORY = Object.freeze(new Map([
+  ['fetch-docs.yml', ['publish_ready', 'reconcile_reference_state']],
+  ['translate-codex.yml', ['publish_ready']],
+  ['sync-master-tooling-to-dev.yml', ['sync']],
+]))
+const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
+  ['fetch-docs.yml', new Set(['reconcile_reference_state'])],
+  ['sync-master-tooling-to-dev.yml', new Set(['sync'])],
+]))
 const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'translate-codex.yml',
@@ -377,17 +386,32 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (publishingWorkflows.has(file)) {
-      if (file === 'fetch-docs.yml') {
+      if (file === 'fetch-docs.yml' || file === 'translate-codex.yml') {
         const writableJobs = Object.entries(workflow.jobs || {}).filter(([, job]) => job?.permissions?.contents === 'write')
+        const expected = TOP_LEVEL_WRITER_INVENTORY.get(file)
         if (workflow.permissions?.contents !== 'read' || workflow.permissions?.actions !== 'read' ||
-            writableJobs.map(([name]) => name).join(',') !== 'publish_ready,reconcile_reference_state') {
-          errors.push(`${file}: only publish_ready and reconcile_reference_state may escalate from the read-only workflow to contents: write`)
+            JSON.stringify(writableJobs.map(([name]) => name)) !== JSON.stringify(expected)) {
+          errors.push(`${file}: Git writer inventory must be exactly ${expected.join(',')}`)
         }
       } else if (!/^  contents: write$/m.test(source)) {
         errors.push(`${file}: publishing workflow requires explicit contents: write`)
       }
     } else if (!/^  contents: read$/m.test(source)) {
       errors.push(`${file}: validation workflow must be read-only`)
+    }
+
+    if (!file.startsWith('_')) {
+      const allowed = TOP_LEVEL_DIRECT_PUSH_JOBS.get(file) || new Set()
+      const directPushJobs = []
+      for (const [jobName, job] of Object.entries(workflow.jobs || {})) {
+        if (/git(?:\s+-C\s+\S+)?\s+push\b/.test(JSON.stringify(job))) {
+          directPushJobs.push(jobName)
+          if (!allowed.has(jobName)) errors.push(`${file}: git push is forbidden outside the declared Git writer inventory: ${jobName}`)
+        }
+      }
+      if (file === 'sync-master-tooling-to-dev.yml' && JSON.stringify(directPushJobs) !== JSON.stringify(['sync'])) {
+        errors.push(`${file}: Git writer inventory must be exactly sync`)
+      }
     }
 
     if (file === 'playwright.yml') {
@@ -1010,9 +1034,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}[\s\S]*REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/, 'must map only the translation agent secrets'],
         [/translation-handoff\.js --handoff-json "\$HANDOFF_JSON" --repository "\$GITHUB_WORKSPACE"/, 'must validate the exact translation handoff before paid work'],
         [/target_branch_sha[\s\S]*EXPECTED_TARGET_SHA[\s\S]*Target branch moved after handoff/, 'must fail closed when the target baseline moves'],
-        [/publish_ja_guides:[\s\S]*publish_ja_python:[\s\S]*publish_zh_python:[\s\S]*publish_ja_java:[\s\S]*publish_zh_java:/, 'must declare the deterministic publication chain'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
+
       const prepare = workflow.jobs?.prepare
       const prepareSteps = prepare?.steps || []
       const selectionStep = prepareSteps.find(step => step?.id === 'publication_selection')
@@ -1020,90 +1044,62 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (prepare?.outputs?.publication_selection_artifact_name !== '${{ steps.publication_selection.outputs.artifact_name }}' ||
           prepare?.outputs?.publication_selection_sha256 !== '${{ steps.publication_selection.outputs.selection_sha256 }}' ||
           !/translation-publication-selection\.js selection/.test(String(selectionStep?.run || '')) ||
-          !/--publish false/.test(String(selectionStep?.run || '')) ||
+          !/--publish "\$PUBLISH_ENABLED"/.test(String(selectionStep?.run || '')) ||
+          selectionStep?.env?.PUBLISH_ENABLED !== '${{ inputs.publish }}' ||
           selectionUpload?.uses !== 'actions/upload-artifact@v6' ||
           selectionUpload?.with?.name !== 'publication-selection-translation-${{ github.run_id }}-${{ github.run_attempt }}') {
-        errors.push(`${file}: prepare must create and upload exactly one immutable Translation publication selection`)
+        errors.push(`${file}: prepare must create one mode-bound immutable Translation publication selection`)
       }
-      const observer = workflow.jobs?.observe_publication_ready
-      const observerSource = JSON.stringify(observer || {})
-      const observerCheckout = observer?.steps?.find(step => step?.uses === 'actions/checkout@v5')
-      const observerSelection = observer?.steps?.find(step => step?.name === 'Download immutable Translation publication selection')
-      const observerRun = observer?.steps?.find(step => step?.name === 'Observe ready Translation publication FIFO')
-      const observerScript = String(observerRun?.with?.script || '')
-      const observerHasDirectCoordinatorRun = (observer?.steps || [])
-        .some(step => /publication-coordinator\.js/.test(String(step?.run || '')))
-      const expectedObserverScript = [
-        "await exec.exec('node', [",
-        "  'scripts/docs-workflow/publication-coordinator.js',",
-        "  '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,",
-        "  '--mode', 'artifact_only',",
-        "  '--poll-milliseconds', '10000',",
-        "  '--candidate-polls', '60',",
-        "  '--max-publish-attempts', '1',",
-        '])',
-      ].join('\n')
-      const coordinatorSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-coordinator.js'), 'utf8')
-      const githubClientSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-github-client.js'), 'utf8')
-      const schedulerSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-scheduler.js'), 'utf8')
-      if (observerRun?.uses !== 'actions/github-script@v8' || observerRun?.run !== undefined || observerHasDirectCoordinatorRun ||
-          observerRun?.env?.GITHUB_TOKEN !== '${{ github.token }}' ||
-          JSON.stringify(Object.keys(observerRun?.env || {}).sort()) !== JSON.stringify(['GITHUB_TOKEN']) ||
-          observerScript.trim() !== expectedObserverScript) {
-        errors.push(`${file}: Translation publication observer must execute the coordinator through the actions artifact runtime`)
-      }
-      if (observer?.name !== 'observe_publication_ready' || observer?.['continue-on-error'] !== true ||
-          observer?.permissions?.actions !== 'read' || observer?.permissions?.contents !== 'read' ||
-          observerCheckout?.with?.['persist-credentials'] !== false ||
-          observerSelection?.uses !== 'actions/download-artifact@v7' ||
-          observerSelection?.with?.name !== '${{ needs.prepare.outputs.publication_selection_artifact_name }}' ||
-          !/'--mode', 'artifact_only'/.test(observerScript) ||
-          /contents["']?:["']?write|persist-credentials["']?:true|git push|refs\/heads\/staging|refs\/remotes\/origin\/staging|APP_ID|APP_SECRET|FEISHU/.test(observerSource) ||
-          !/uploadProgress/.test(coordinatorSource) || !/uploadResults/.test(coordinatorSource) ||
-          !/attempts\/\$\{runAttempt\}\/jobs\?filter=all/.test(githubClientSource) ||
-          !/completed_at/.test(schedulerSource)) {
-        errors.push(`${file}: Translation publication observer must be read-only artifact_only FIFO shadow mode`)
-      }
-      if (JSON.stringify(observer?.needs) !== JSON.stringify(['prepare']) ||
-          /prepare_guides_publication_ready|translate_guides_batches|publish_ja_guides/.test(String(observer?.if || ''))) {
-        errors.push(`${file}: Translation publication observer must start from prepare without waiting for Guides`)
-      }
-      const authoritativePublishers = [
+
+      const legacyJobs = [
+        'observe_publication_ready',
         'publish_ja_guides', 'publish_ja_python', 'publish_zh_python', 'publish_ja_java', 'publish_zh_java',
         'publish_ja_node', 'publish_zh_node', 'publish_ja_go', 'publish_zh_go', 'publish_ja_cli', 'publish_zh_cli',
         'publish_ja_rest', 'publish_zh_rest', 'publish_zh_reference_landings',
+        'reconcile_localization_inventory', 'reconcile_reference_state', 'reconcile_published_state',
       ]
-      const publisherContracts = [
-        ['publish_ja_guides', ['prepare', 'prepare_guides_batches', 'translate_guides_batches'], "${{ always() && inputs.publish && needs.prepare.outputs.guides_selected == 'true' && needs.prepare_guides_batches.result == 'success' && (needs.translate_guides_batches.result == 'success' || needs.translate_guides_batches.result == 'skipped') && needs.prepare_guides_batches.outputs.batch_count != '0' }}"],
-        ['publish_ja_python', ['prepare', 'translate_sdk', 'publish_ja_guides'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python') && needs.translate_sdk.result == 'success' && (needs.publish_ja_guides.result == 'success' || needs.publish_ja_guides.result == 'skipped') }}"],
-        ['publish_zh_python', ['prepare', 'translate_sdk', 'publish_ja_python'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python') && needs.translate_sdk.result == 'success' && (needs.publish_ja_python.result == 'success' || needs.publish_ja_python.result == 'skipped') }}"],
-        ['publish_ja_java', ['prepare', 'translate_sdk', 'publish_zh_python'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'java') && needs.translate_sdk.result == 'success' && (needs.publish_zh_python.result == 'success' || needs.publish_zh_python.result == 'skipped') }}"],
-        ['publish_zh_java', ['prepare', 'translate_sdk', 'publish_ja_java'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'java') && needs.translate_sdk.result == 'success' && (needs.publish_ja_java.result == 'success' || needs.publish_ja_java.result == 'skipped') }}"],
-        ['publish_ja_node', ['prepare', 'translate_sdk', 'publish_zh_java'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'node') && needs.translate_sdk.result == 'success' && (needs.publish_zh_java.result == 'success' || needs.publish_zh_java.result == 'skipped') }}"],
-        ['publish_zh_node', ['prepare', 'translate_sdk', 'publish_ja_node'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'node') && needs.translate_sdk.result == 'success' && (needs.publish_ja_node.result == 'success' || needs.publish_ja_node.result == 'skipped') }}"],
-        ['publish_ja_go', ['prepare', 'translate_sdk', 'publish_zh_node'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'go') && needs.translate_sdk.result == 'success' && (needs.publish_zh_node.result == 'success' || needs.publish_zh_node.result == 'skipped') }}"],
-        ['publish_zh_go', ['prepare', 'translate_sdk', 'publish_ja_go'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'go') && needs.translate_sdk.result == 'success' && (needs.publish_ja_go.result == 'success' || needs.publish_ja_go.result == 'skipped') }}"],
-        ['publish_ja_cli', ['prepare', 'translate_sdk', 'publish_zh_go'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'cli') && needs.translate_sdk.result == 'success' && (needs.publish_zh_go.result == 'success' || needs.publish_zh_go.result == 'skipped') }}"],
-        ['publish_zh_cli', ['prepare', 'translate_sdk', 'publish_ja_cli'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'cli') && needs.translate_sdk.result == 'success' && (needs.publish_ja_cli.result == 'success' || needs.publish_ja_cli.result == 'skipped') }}"],
-        ['publish_ja_rest', ['prepare', 'translate_sdk', 'publish_zh_cli'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'rest') && needs.translate_sdk.result == 'success' && (needs.publish_zh_cli.result == 'success' || needs.publish_zh_cli.result == 'skipped') }}"],
-        ['publish_zh_rest', ['prepare', 'translate_sdk', 'publish_ja_rest'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'rest') && needs.translate_sdk.result == 'success' && (needs.publish_ja_rest.result == 'success' || needs.publish_ja_rest.result == 'skipped') }}"],
-        ['publish_zh_reference_landings', ['prepare', 'translate_sdk', 'publish_zh_rest'], "${{ always() && inputs.publish && needs.prepare.outputs.locale == 'zh-CN' && needs.prepare.outputs.group == 'reference-landings' && needs.translate_sdk.result == 'success' && (needs.publish_zh_rest.result == 'success' || needs.publish_zh_rest.result == 'skipped') }}"],
-      ]
-      const commonWriterNeeds = ['prepare', 'prepare_guides_batches', 'translate_guides_batches', 'translate_sdk', ...authoritativePublishers]
-      const reconciliationContracts = [
-        ['reconcile_localization_inventory', commonWriterNeeds, "${{ always() && inputs.publish && needs.prepare.result == 'success' }}"],
-        ['reconcile_reference_state', [...commonWriterNeeds, 'reconcile_localization_inventory'], "${{ always() && inputs.publish && needs.prepare.result == 'success' && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python' || needs.prepare.outputs.group == 'java' || needs.prepare.outputs.group == 'node' || needs.prepare.outputs.group == 'go' || needs.prepare.outputs.group == 'cli' || needs.prepare.outputs.group == 'rest' || needs.prepare.outputs.group == 'reference-landings') }}"],
-        ['reconcile_published_state', [...commonWriterNeeds, 'reconcile_localization_inventory', 'reconcile_reference_state'], "${{ always() && inputs.publish && needs.prepare.outputs.group == 'all' }}"],
-        ['aggregate', [...commonWriterNeeds, 'reconcile_localization_inventory', 'reconcile_reference_state', 'reconcile_published_state'], '${{ always() }}'],
-      ]
-      const legacyContractChanged = [...publisherContracts, ...reconciliationContracts].some(([jobName, needs, condition]) => {
-        const job = workflow.jobs?.[jobName]
-        return JSON.stringify(job?.needs) !== JSON.stringify(needs) || job?.if !== condition ||
-          JSON.stringify({needs: job?.needs, if: job?.if}).includes('observe_publication_ready')
-      })
-      if (legacyContractChanged) {
-        errors.push(`${file}: legacy Translation writer and reconciliation contract must remain exact and observer-independent`)
+      for (const jobName of legacyJobs) if (workflow.jobs?.[jobName]) {
+        errors.push(`${file}: legacy Translation writer must be absent: ${jobName}`)
       }
+
+      const writer = workflow.jobs?.publish_ready
+      const writerSteps = writer?.steps || []
+      const writerCheckout = writerSteps.find(step => step?.uses === 'actions/checkout@v5')
+      const writerSelection = writerSteps.find(step => step?.name === 'Download immutable Translation publication selection')
+      const writerValidation = writerSteps.find(step => step?.name === 'Validate immutable Translation publication selection')
+      const writerPublish = writerSteps.find(step => step?.id === 'publish')
+      const writerScript = String(writerPublish?.with?.script || '')
+      const writerSource = JSON.stringify(writer || {})
+      const expectedWriterScript = [
+        "const mode = process.env.PUBLISH === 'true' ? 'publish' : 'artifact_only'",
+        "await exec.exec('node', [",
+        "  'scripts/docs-workflow/publication-coordinator.js',",
+        "  '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,",
+        "  '--mode', mode,",
+        "  '--poll-milliseconds', '10000',",
+        "  '--candidate-polls', '6',",
+        "  '--max-publish-attempts', '10',",
+        '])',
+      ].join('\n')
+      if (writer?.name !== 'publish_ready' || JSON.stringify(writer?.needs) !== JSON.stringify(['prepare']) ||
+          writer?.if !== "${{ needs.prepare.result == 'success' }}" ||
+          writer?.permissions?.actions !== 'read' || writer?.permissions?.contents !== 'write' ||
+          writer?.['continue-on-error'] !== undefined ||
+          writerCheckout?.with?.ref !== '${{ needs.prepare.outputs.tooling_sha }}' ||
+          writerCheckout?.with?.['fetch-depth'] !== 0 ||
+          writerCheckout?.with?.['persist-credentials'] !== '${{ inputs.publish }}' ||
+          writerSelection?.uses !== 'actions/download-artifact@v7' ||
+          writerSelection?.with?.name !== '${{ needs.prepare.outputs.publication_selection_artifact_name }}' ||
+          !/publication selection checksum mismatch/.test(String(writerValidation?.run || '')) ||
+          !/publication selection run attempt mismatch/.test(String(writerValidation?.run || '')) ||
+          writerPublish?.uses !== 'actions/github-script@v8' || writerPublish?.run !== undefined ||
+          writerPublish?.env?.GITHUB_TOKEN !== '${{ github.token }}' ||
+          writerPublish?.env?.PUBLISH !== '${{ inputs.publish }}' ||
+          writerScript.trim() !== expectedWriterScript ||
+          /APP_ID|APP_SECRET|FEISHU/.test(writerSource)) {
+        errors.push(`${file}: publish_ready must be the single mode-aware Translation Git writer from prepare`)
+      }
+
       for (const jobName of ['translate_sdk', 'translate_guides_batches']) {
         const job = workflow.jobs?.[jobName]
         if (job?.with?.publication_selection_artifact_name !== '${{ needs.prepare.outputs.publication_selection_artifact_name }}' ||
@@ -1120,6 +1116,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (workflow.jobs?.translate_guides_batches?.if !== "${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}") {
         errors.push(`${file}: Guides translation batch matrix must run whenever its batch count is nonzero`)
       }
+
       const guidesReady = workflow.jobs?.prepare_guides_publication_ready
       const guidesReadySource = JSON.stringify(guidesReady || {})
       if (JSON.stringify(guidesReady?.needs) !== JSON.stringify(['prepare', 'prepare_guides_batches', 'translate_guides_batches']) ||
@@ -1152,6 +1149,36 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!guidesReadyBindings) {
         errors.push(`${file}: Guides ready fan-in must bind run attempt, batch count, pending checksum, and recoverable manifests`)
       }
+
+      const aggregate = workflow.jobs?.aggregate
+      const aggregateSource = JSON.stringify(aggregate || {})
+      const aggregateSteps = aggregate?.steps || []
+      const artifactNamesStep = aggregateSteps.find(step => step?.id === 'artifacts')
+      const selectionDownload = aggregateSteps.find(step => step?.name === 'Download exact immutable Translation publication selection')
+      const resultsDownload = aggregateSteps.find(step => step?.name === 'Download exact terminal Translation publication results')
+      const documents = aggregateSteps.find(step => step?.id === 'documents')
+      const verification = aggregateSteps.find(step => step?.name === 'Verify every successful publication result reaches the final target')
+      if (JSON.stringify(aggregate?.needs) !== JSON.stringify(['prepare', 'publish_ready']) ||
+          aggregate?.if !== "${{ always() && needs.prepare.result == 'success' }}" ||
+          aggregate?.permissions?.actions !== 'read' || aggregate?.permissions?.contents !== 'read' ||
+          !/artifactNames/.test(String(artifactNamesStep?.run || '')) ||
+          selectionDownload?.with?.name !== '${{ steps.artifacts.outputs.selection }}' ||
+          resultsDownload?.with?.name !== '${{ steps.artifacts.outputs.results }}' ||
+          !/readPublicationDocument/.test(String(documents?.run || '')) ||
+          !/validateTranslationPublicationDocuments/.test(String(documents?.run || '')) ||
+          !/selection\.repository !== process\.env\.GITHUB_REPOSITORY/.test(String(documents?.run || '')) ||
+          !/selection\.runAttempt !== Number\(process\.env\.GITHUB_RUN_ATTEMPT\)/.test(String(documents?.run || '')) ||
+          !/selection\.selectionSha256 !== process\.env\.EXPECTED_SELECTION_SHA256/.test(String(documents?.run || '')) ||
+          !/results\.overallStatus !== 'success'/.test(String(documents?.run || '')) ||
+          verification?.env?.TARGET_BRANCH !== '${{ needs.prepare.outputs.target_branch }}' ||
+          verification?.env?.PUBLISH_ENABLED !== '${{ inputs.publish }}' ||
+          !/refs\/heads\/\$TARGET_BRANCH:refs\/remotes\/origin\/\$TARGET_BRANCH/.test(String(verification?.run || '')) ||
+          !/target_sha.*FINAL_TARGET_SHA/.test(String(verification?.run || '')) ||
+          !/verifyTranslationPublicationRepository\(\{selection, results, repository: process\.env\.GITHUB_WORKSPACE\}\)/.test(String(verification?.run || '')) ||
+          /publish_ja_|publish_zh_|reconcile_/.test(aggregateSource)) {
+        errors.push(`${file}: aggregate must consume and authenticate exact terminal Translation selection and results artifacts`)
+      }
+
       if (/secrets: inherit/.test(source)) errors.push(`${file}: reusable translation must receive an explicit secret allowlist`)
       const inputs = workflow.on?.workflow_dispatch?.inputs || {}
       if (inputs.handoff_json?.required !== true || ['locale', 'group', 'tooling_sha', 'source_shas_json', 'target_branch'].some(input => inputs[input] !== undefined)) {
@@ -1164,102 +1191,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!needsPrepare('prepare_guides_batches') || !needsPrepare('translate_sdk') || !needsPrepare('translate_guides_batches')) {
         errors.push(`${file}: translation matrices must wait for complete handoff repository validation`)
       }
-      const inventoryReconcile = workflow.jobs?.reconcile_localization_inventory
-      const inventoryNeeds = Array.isArray(inventoryReconcile?.needs) ? inventoryReconcile.needs : []
-      const requiredInventoryNeeds = [
-        'prepare', 'prepare_guides_batches', 'translate_guides_batches', 'translate_sdk',
-        'publish_ja_guides', 'publish_ja_python', 'publish_zh_python', 'publish_ja_java', 'publish_zh_java',
-        'publish_ja_node', 'publish_zh_node', 'publish_ja_go', 'publish_zh_go', 'publish_ja_cli', 'publish_zh_cli',
-        'publish_ja_rest', 'publish_zh_rest', 'publish_zh_reference_landings',
-      ]
-      const inventoryStep = namedJobStep(workflow, 'reconcile_localization_inventory', 'Reconcile and publish localization inventory')
-      const inventoryRun = String(inventoryStep?.run || '')
-      const fullReconcileNeeds = Array.isArray(workflow.jobs?.reconcile_published_state?.needs)
-        ? workflow.jobs.reconcile_published_state.needs
-        : []
-      const aggregateNeeds = Array.isArray(workflow.jobs?.aggregate?.needs) ? workflow.jobs.aggregate.needs : []
-      if (!inventoryReconcile ||
-          requiredInventoryNeeds.some(job => !inventoryNeeds.includes(job)) ||
-          String(inventoryReconcile.if || '').trim() !== "${{ always() && inputs.publish && needs.prepare.result == 'success' }}" ||
-          inventoryReconcile.steps?.find(step => step?.uses === 'actions/checkout@v5')?.with?.ref !== '${{ needs.prepare.outputs.tooling_sha }}' ||
-          !/restore-generated-state\.sh --exact --ref "\$target_sha"/.test(inventoryRun) ||
-          !/pnpm generate:localization-input-inventory[\s\S]*pnpm check:localization-input-inventory/.test(inventoryRun) ||
-          !/git -C "\$publish_worktree" add -- deploy\/contracts\/localization-inputs\.inventory\.json/.test(inventoryRun) ||
-          !/git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/.test(inventoryRun) ||
-          /validate-translation|reference-manifest/.test(inventoryRun) ||
-          !fullReconcileNeeds.includes('reconcile_localization_inventory') ||
-          !aggregateNeeds.includes('reconcile_localization_inventory')) {
-        errors.push(`${file}: partial translation publication must independently reconcile localization inventory`)
-      }
-
-      const referenceReconcile = workflow.jobs?.reconcile_reference_state
-      const referenceNeeds = Array.isArray(referenceReconcile?.needs) ? referenceReconcile.needs : []
-      const requiredReferenceNeeds = [...requiredInventoryNeeds, 'reconcile_localization_inventory']
-      const requiredReferenceCondition = "${{ always() && inputs.publish && needs.prepare.result == 'success' && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python' || needs.prepare.outputs.group == 'java' || needs.prepare.outputs.group == 'node' || needs.prepare.outputs.group == 'go' || needs.prepare.outputs.group == 'cli' || needs.prepare.outputs.group == 'rest' || needs.prepare.outputs.group == 'reference-landings') }}"
-      const referenceCheckoutSteps = (referenceReconcile?.steps || []).filter(step => String(step?.uses || '').startsWith('actions/checkout@'))
-      const referenceCheckout = referenceCheckoutSteps[0]
-      const referenceStep = namedJobStep(workflow, 'reconcile_reference_state', 'Reconcile and publish Reference derived state')
-      const referenceRun = String(referenceStep?.run || '')
-      const referenceCommands = executableCommandLines(referenceRun)
-      const requiredReferenceCommands = [
-        '[[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]',
-        'git check-ref-format --branch "$TARGET_BRANCH"',
-        'git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"',
-        'target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")',
-        'git merge-base --is-ancestor "$SOURCE_SHA" "$target_sha"',
-        'bash scripts/restore-generated-state.sh --exact --ref "$target_sha"',
-        'pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$SOURCE_SHA" --write',
-        'pnpm docs-tooling validate-reference --site zh-CN',
-        'git worktree add --detach "$publish_worktree" "$target_sha"',
-        'git -C "$publish_worktree" add -- "${paths[@]}"',
-        'git -C "$publish_worktree" push origin "HEAD:refs/heads/$TARGET_BRANCH"',
-      ]
-      const requiredReferencePaths = [
-        'generated/en/manifests/reference.json',
-        'generated/zh-CN/manifests/reference-translations.json',
-        'generated/en/sidebars/python.sidebar.js',
-        'generated/en/sidebars/java.sidebar.js',
-        'generated/en/sidebars/node.sidebar.js',
-        'generated/en/sidebars/go.sidebar.js',
-        'generated/en/sidebars/cli.sidebar.js',
-        'generated/en/sidebars/restful.sidebar.js',
-        'generated/zh-CN/sidebars/python.sidebar.js',
-        'generated/zh-CN/sidebars/java.sidebar.js',
-        'generated/zh-CN/sidebars/node.sidebar.js',
-        'generated/zh-CN/sidebars/go.sidebar.js',
-        'generated/zh-CN/sidebars/cli.sidebar.js',
-        'generated/zh-CN/sidebars/restful.sidebar.js',
-      ]
-      const referencePathBlock = referenceRun.match(/(?:^|\n)\s*paths=\(\n([\s\S]*?)\n\s*\)/)
-      const referencePaths = referencePathBlock
-        ? referencePathBlock[1].split('\n').map(line => line.trim()).filter(Boolean)
-        : []
-      const referenceAddCommands = referenceCommands.filter(command => /(?:^|\s)git(?:\s+-C\s+"\$publish_worktree")?\s+add\b/.test(command))
-      const referenceCommitCommands = referenceCommands.filter(command => command.startsWith('git -C "$publish_worktree" commit '))
-      const referencePushCommands = referenceCommands.filter(command => command.startsWith('git -C "$publish_worktree" push '))
-      if (!referenceReconcile ||
-          JSON.stringify(referenceNeeds) !== JSON.stringify(requiredReferenceNeeds) ||
-          String(referenceReconcile.if || '').trim() !== requiredReferenceCondition ||
-          referenceCheckoutSteps.length !== 1 ||
-          referenceCheckout?.uses !== 'actions/checkout@v5' ||
-          referenceCheckout?.with?.ref !== '${{ needs.prepare.outputs.tooling_sha }}' ||
-          referenceCheckout?.with?.['fetch-depth'] !== 0 ||
-          referenceStep?.env?.SOURCE_SHA !== '${{ needs.prepare.outputs.target_branch_sha }}' ||
-          referenceStep?.env?.TARGET_BRANCH !== '${{ needs.prepare.outputs.target_branch }}' ||
-          !commandsAppearInOrder(referenceCommands, requiredReferenceCommands) ||
-          JSON.stringify(referencePaths) !== JSON.stringify(requiredReferencePaths) ||
-          JSON.stringify(referenceAddCommands) !== JSON.stringify(['git -C "$publish_worktree" add -- "${paths[@]}"']) ||
-          referenceCommitCommands.length !== 1 ||
-          JSON.stringify(referencePushCommands) !== JSON.stringify(['git -C "$publish_worktree" push origin "HEAD:refs/heads/$TARGET_BRANCH"']) ||
-          !/if git -C "\$publish_worktree" diff --cached --quiet; then[\s\S]*?exit 0[\s\S]*?fi/.test(referenceRun) ||
-          /deploy\/contracts\/localization-inputs\.inventory\.json|validate-translation|generate:localization-input-inventory/.test(referenceRun) ||
-          !fullReconcileNeeds.includes('reconcile_reference_state') ||
-          !aggregateNeeds.includes('reconcile_reference_state') ||
-          !aggregateNeeds.includes('reconcile_published_state')) {
-        errors.push(`${file}: partial Chinese Reference publication must independently reconcile Reference derived state`)
-      }
     }
-
     if (file === 'translate-content.yml' && /^concurrency:/m.test(source)) {
       errors.push(`${file}: reusable target-aware workflow must not share its caller's publication concurrency group`)
     }
@@ -1653,16 +1585,32 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push('translate-codex.yml: Translation card must use the approved title, stages, and best-effort creation')
     }
     if (translationMonitor?.uses !== './.github/workflows/_monitor-translation-progress.yml' ||
-        !String(translationMonitor?.if || '').includes("card_id != ''") ||
+        JSON.stringify(translationMonitor?.needs) !== JSON.stringify(['initialize_translation_card', 'prepare']) ||
+        translationMonitor?.if !== "${{ always() && needs.initialize_translation_card.outputs.card_id != '' }}" ||
+        translationMonitor?.with?.publication_run_attempt !== '${{ fromJSON(github.run_attempt) }}' ||
+        translationMonitor?.with?.publication_selection_sha256 !== '${{ needs.prepare.outputs.publication_selection_sha256 }}' ||
         translationAggregateNeeds.includes('monitor_translation_progress')) {
       errors.push('translate-codex.yml: Translation monitor must be independent from the child aggregate')
     }
   }
   if (translationMonitorSource) {
+    let translationMonitorWorkflow = {}
+    try { translationMonitorWorkflow = yaml.load(translationMonitorSource) } catch {}
+    const translationMonitorInputs = translationMonitorWorkflow.on?.workflow_call?.inputs || {}
+    const translationMonitorScript = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/monitor-translation-progress.js'), 'utf8')
     if (!/^permissions:\n  actions: read\n  contents: read$/m.test(translationMonitorSource) ||
-        !/HANDOFF_JSON: \$\{\{ inputs\.handoff_json \}\}[\s\S]*REQUEST_ID: \$\{\{ inputs\.request_id \}\}[\s\S]*PUBLISH_ENABLED: \$\{\{ inputs\.publish_enabled \}\}/.test(translationMonitorSource) ||
+        translationMonitorInputs.publication_run_attempt?.required !== true ||
+        translationMonitorInputs.publication_selection_sha256?.required !== false ||
+        translationMonitorInputs.publication_selection_sha256?.default !== '' ||
+        !/HANDOFF_JSON: \$\{\{ inputs\.handoff_json \}\}[\s\S]*REQUEST_ID: \$\{\{ inputs\.request_id \}\}[\s\S]*PUBLISH_ENABLED: \$\{\{ inputs\.publish_enabled \}\}[\s\S]*PUBLICATION_RUN_ATTEMPT: \$\{\{ inputs\.publication_run_attempt \}\}[\s\S]*PUBLICATION_SELECTION_SHA256: \$\{\{ inputs\.publication_selection_sha256 \}\}/.test(translationMonitorSource) ||
+        !/artifactNames/.test(translationMonitorScript) ||
+        !/candidate\.revision > minimumRevision[\s\S]*sort\(\(left, right\) => right\.revision - left\.revision/.test(translationMonitorScript) ||
+        !/downloadPublicationResults[\s\S]*publication-results\.json/.test(translationMonitorScript) ||
+        !/prepare\?\.status === 'completed' && prepare\.conclusion === 'success' && !publicationSelectionSha256/.test(translationMonitorScript) ||
+        !/if \(publicationSelectionSha256\) await loadPublicationArtifacts\(\)/.test(translationMonitorScript) ||
+        !/aggregate\?\.status === 'completed' && !publicationResults/.test(translationMonitorScript) ||
         /contents: write|actions: write|SPACE_ID|FIGMA_API_KEY|MODEL_API_KEY/.test(translationMonitorSource)) {
-      errors.push('_monitor-translation-progress.yml: Translation monitor must be read-only and receive exact handoff inputs')
+      errors.push('_monitor-translation-progress.yml: Translation monitor must be read-only and consume exact progress and terminal result artifacts')
     }
   } else if (translationSource) {
     errors.push('_monitor-translation-progress.yml: Translation monitor workflow is required')

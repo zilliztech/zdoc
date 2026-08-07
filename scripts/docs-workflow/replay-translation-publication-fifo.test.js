@@ -1177,7 +1177,16 @@ test('Guides nested preparation removes every earlier extraction when a later ar
   const artifactDir = path.join(root, 'aggregate-checkpoint')
   const baselineDir = path.join(root, 'aggregate-baseline')
   fs.mkdirSync(runnerTemp)
-  const plan = {batchCount: 1}
+  const pendingSetSha256 = 'd'.repeat(64)
+  const targetSha = SHA('c')
+  const plan = {
+    schemaVersion: 1,
+    group: 'guides',
+    sourceCheckpointSha: SHA('b'),
+    targetSha,
+    batchCount: 1,
+    pendingSetSha256,
+  }
   put(artifactDir, 'translation-plan.json', `${JSON.stringify(plan)}\n`)
   put(baselineDir, 'translation-plan.json', `${JSON.stringify(plan)}\n`)
   const manifest = {
@@ -1203,6 +1212,16 @@ test('Guides nested preparation removes every earlier extraction when a later ar
   const prepared = {
     artifactDir,
     baselineDir,
+    batchSetManifest: {
+      schemaVersion: 1,
+      stage: 'translation-guides-batch-set',
+      group: 'guides',
+      sourceCheckpointSha: SHA('b'),
+      toolingSha: SHA('a'),
+      targetSha,
+      batchCount: 1,
+      pendingSetSha256,
+    },
     guidesBatchArtifacts: [
       {
         name: 'translation-checkpoint-ja-JP-guides-40000000001-batch-1',
@@ -1221,7 +1240,7 @@ test('Guides nested preparation removes every earlier extraction when a later ar
   assert.throws(() => prepareGuidesPairs(prepared, runnerTemp, {
     group: 'guides', toolingSha: SHA('a'), target: 'ja-JP', sourceCheckpointSha: SHA('b'),
   }), /manifest|JSON/i)
-  assert.equal(fs.readdirSync(runnerTemp).some(entry => entry.startsWith('guides-')), false)
+  assert.deepEqual(fs.readdirSync(runnerTemp), [])
 
   fs.copyFileSync(checkpoint, baselineTarget)
   prepared.guidesBatchArtifacts[1].digest = `sha256:${sha256(baselineTarget)}`
