@@ -20,6 +20,7 @@ const SHA_A = 'a'.repeat(40);
 const SHA_B = 'b'.repeat(40);
 const SHA_C = 'c'.repeat(40);
 const SHA_D = 'd'.repeat(40);
+const SHA_F = 'f'.repeat(40);
 
 function publication(sourceBaselineSha = SHA_A, sourceCheckpointSha = SHA_B) {
   return {sourceBaselineSha, sourceCheckpointSha};
@@ -90,16 +91,43 @@ test('builds schema-v2 units from exact dev publication identities', () => {
   assert.deepEqual(value.units.map(unit => unit.publicationOrder), [0, 1]);
 });
 
-test('builds the unchanged schema-v2 handoff from successful Fetch results', () => {
+test('overrides only the target baseline with the reconciled Fetch SHA', () => {
   const {selection, results} = guidesFetchPublication();
-  const handoff = buildTranslationHandoffFromFetchResults({selection, results, locale: 'all', group: 'guides'});
+  const handoff = buildTranslationHandoffFromFetchResults({
+    selection,
+    results,
+    locale: 'all',
+    group: 'guides',
+    targetBaselineSha: SHA_F,
+  });
   assert.equal(handoff.schemaVersion, 2);
-  assert.equal(handoff.targetBaselineSha, results.finalTargetSha);
-  assert.equal(handoff.units.find(unit => unit.sourceGroup === 'guides').sourceCheckpointSha, SHA_B);
+  assert.equal(handoff.toolingSha, selection.toolingSha);
+  assert.equal(handoff.targetBranch, selection.targetBranch);
+  assert.equal(handoff.targetBaselineSha, SHA_F);
+  assert.deepEqual(handoff.units.map(unit => ({
+    sourceGroup: unit.sourceGroup,
+    sourceBaselineSha: unit.sourceBaselineSha,
+    sourceCheckpointSha: unit.sourceCheckpointSha,
+    targetBaselineSha: unit.targetBaselineSha,
+    publicationOrder: unit.publicationOrder,
+  })), [{
+    sourceGroup: 'guides',
+    sourceBaselineSha: SHA_A,
+    sourceCheckpointSha: SHA_B,
+    targetBaselineSha: SHA_F,
+    publicationOrder: 0,
+  }]);
   assert.doesNotMatch(JSON.stringify(handoff), /source\/guides-zh-CN|c{40}/);
 });
 
-test('CLI accepts Fetch selection/results inputs while retaining schema v2', () => {
+test('defaults Fetch handoff target baseline to the publication result SHA', () => {
+  const {selection, results} = guidesFetchPublication();
+  const handoff = buildTranslationHandoffFromFetchResults({selection, results, locale: 'all', group: 'guides'});
+  assert.equal(handoff.targetBaselineSha, results.finalTargetSha);
+  assert.ok(handoff.units.every(unit => unit.targetBaselineSha === results.finalTargetSha));
+});
+
+test('CLI accepts an exact reconciled target baseline for Fetch selection/results', () => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-handoff-fetch-'));
   const {selection, results} = guidesFetchPublication();
   const selectionFile = path.join(directory, 'selection.json');
@@ -110,9 +138,26 @@ test('CLI accepts Fetch selection/results inputs while retaining schema v2', () 
     path.join(__dirname, 'translation-handoff.js'),
     '--locale', 'all', '--group', 'guides',
     '--fetch-selection', selectionFile, '--fetch-results', resultsFile,
+    '--target-baseline-sha', SHA_F,
   ], {encoding: 'utf8'});
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(JSON.parse(result.stdout).schemaVersion, 2);
+  const handoff = JSON.parse(result.stdout);
+  assert.equal(handoff.schemaVersion, 2);
+  assert.equal(handoff.targetBaselineSha, SHA_F);
+  assert.ok(handoff.units.every(unit => unit.targetBaselineSha === SHA_F));
+  assert.ok(handoff.units.every(unit => unit.sourceBaselineSha === SHA_A));
+  assert.ok(handoff.units.every(unit => unit.sourceCheckpointSha === SHA_B));
+});
+
+test('rejects a malformed reconciled target baseline override', () => {
+  const {selection, results} = guidesFetchPublication();
+  assert.throws(() => buildTranslationHandoffFromFetchResults({
+    selection,
+    results,
+    locale: 'all',
+    group: 'guides',
+    targetBaselineSha: 'dev',
+  }), /target baseline SHA/i);
 });
 
 test('binds every all-group unit to its own dev baseline and checkpoint', () => {
