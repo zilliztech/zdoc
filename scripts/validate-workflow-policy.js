@@ -1339,7 +1339,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const fallback = caller?.jobs?.finalize_card_fallback
     const fallbackNeeds = Array.isArray(fallback?.needs) ? fallback.needs : []
     if (fallbackNeeds.join(',') !== 'prepare,aggregate,monitor_docs_progress') errors.push('fetch-docs.yml: fallback must depend on prepare, aggregate, and monitor')
-    if (!String(fallback?.if || '').includes("needs.monitor_docs_progress.result != 'success'")) errors.push('fetch-docs.yml: fallback must run only when the monitor is unsuccessful')
+    if (String(fallback?.if || '').trim() !== "${{ always() && needs.prepare.outputs.card_id != '' }}") errors.push('fetch-docs.yml: terminal card finalizer must always run after aggregate and monitor when a card exists')
     const aggregateSource = callerSource.slice(callerSource.indexOf('  aggregate:'), callerSource.indexOf('  finalize_card_fallback:'))
     if (!/name: docs-card-report-\$\{\{ github\.run_id \}\}/.test(aggregateSource) || !/name: Upload final card report artifact[\s\S]*if: \$\{\{ always\(\) \}\}[\s\S]*continue-on-error: true/.test(aggregateSource)) {
       errors.push('fetch-docs.yml: aggregate must always attempt the final card report artifact')
