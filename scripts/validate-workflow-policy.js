@@ -1006,9 +1006,44 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (prepare?.outputs?.publication_selection_artifact_name !== '${{ steps.publication_selection.outputs.artifact_name }}' ||
           prepare?.outputs?.publication_selection_sha256 !== '${{ steps.publication_selection.outputs.selection_sha256 }}' ||
           !/translation-publication-selection\.js selection/.test(String(selectionStep?.run || '')) ||
+          !/--publish false/.test(String(selectionStep?.run || '')) ||
           selectionUpload?.uses !== 'actions/upload-artifact@v6' ||
           selectionUpload?.with?.name !== 'publication-selection-translation-${{ github.run_id }}-${{ github.run_attempt }}') {
         errors.push(`${file}: prepare must create and upload exactly one immutable Translation publication selection`)
+      }
+      const observer = workflow.jobs?.observe_publication_ready
+      const observerSource = JSON.stringify(observer || {})
+      const observerCheckout = observer?.steps?.find(step => step?.uses === 'actions/checkout@v5')
+      const observerSelection = observer?.steps?.find(step => step?.name === 'Download immutable Translation publication selection')
+      const observerRun = observer?.steps?.find(step => step?.name === 'Observe ready Translation publication FIFO')
+      const coordinatorSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-coordinator.js'), 'utf8')
+      const githubClientSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-github-client.js'), 'utf8')
+      const schedulerSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-scheduler.js'), 'utf8')
+      if (observer?.name !== 'observe_publication_ready' || observer?.['continue-on-error'] !== true ||
+          observer?.permissions?.actions !== 'read' || observer?.permissions?.contents !== 'read' ||
+          observerCheckout?.with?.['persist-credentials'] !== false ||
+          observerSelection?.uses !== 'actions/download-artifact@v7' ||
+          observerSelection?.with?.name !== '${{ needs.prepare.outputs.publication_selection_artifact_name }}' ||
+          observerRun?.env?.GITHUB_TOKEN !== '${{ github.token }}' ||
+          !/publication-selection\.json/.test(String(observerRun?.env?.PUBLICATION_SELECTION || '')) ||
+          !/publication-coordinator\.js[\s\S]*--selection[\s\S]*--mode artifact_only/.test(String(observerRun?.run || '')) ||
+          /contents["']?:["']?write|git push|staging|APP_ID|APP_SECRET|FEISHU/.test(observerSource) ||
+          !/uploadProgress/.test(coordinatorSource) || !/uploadResults/.test(coordinatorSource) ||
+          !/attempts\/\$\{runAttempt\}\/jobs\?filter=all/.test(githubClientSource) ||
+          !/completed_at/.test(schedulerSource)) {
+        errors.push(`${file}: Translation publication observer must be read-only artifact_only FIFO shadow mode`)
+      }
+      if (JSON.stringify(observer?.needs) !== JSON.stringify(['prepare']) ||
+          /prepare_guides_publication_ready|translate_guides_batches|publish_ja_guides/.test(String(observer?.if || ''))) {
+        errors.push(`${file}: Translation publication observer must start from prepare without waiting for Guides`)
+      }
+      const authoritativePublishers = [
+        'publish_ja_guides', 'publish_ja_python', 'publish_zh_python', 'publish_ja_java', 'publish_zh_java',
+        'publish_ja_node', 'publish_zh_node', 'publish_ja_go', 'publish_zh_go', 'publish_ja_cli', 'publish_zh_cli',
+        'publish_ja_rest', 'publish_zh_rest', 'publish_zh_reference_landings',
+      ]
+      if (authoritativePublishers.some(jobName => JSON.stringify(workflow.jobs?.[jobName]?.needs || '').includes('observe_publication_ready'))) {
+        errors.push(`${file}: Translation shadow observer must not alter the authoritative publisher chain`)
       }
       for (const jobName of ['translate_sdk', 'translate_guides_batches']) {
         const job = workflow.jobs?.[jobName]

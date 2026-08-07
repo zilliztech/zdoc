@@ -2560,6 +2560,55 @@ test('manual translation workflow owns parallel producers and serial publication
   }
 })
 
+test('Translation shadow observer consumes ready descriptors in artifact-only FIFO without joining the writer chain', () => {
+  const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/translate-codex.yml'), 'utf8')
+  const workflow = yaml.load(source)
+  const observer = workflow.jobs.observe_publication_ready
+  assert.ok(observer, 'Translation must declare the publication-ready shadow observer')
+  assert.equal(observer.name, 'observe_publication_ready')
+  assert.deepEqual(observer.needs, ['prepare'])
+  assert.equal(observer['continue-on-error'], true)
+  assert.deepEqual(observer.permissions, {actions: 'read', contents: 'read'})
+  assert.equal(observer.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.['persist-credentials'], false)
+  const download = observer.steps.find(step => step.name === 'Download immutable Translation publication selection')
+  assert.equal(download.uses, 'actions/download-artifact@v7')
+  assert.equal(download.with.name, '${{ needs.prepare.outputs.publication_selection_artifact_name }}')
+  const observe = observer.steps.find(step => step.name === 'Observe ready Translation publication FIFO')
+  assert.match(observe.run, /publication-coordinator\.js/)
+  assert.match(observe.run, /--mode artifact_only/)
+  assert.equal(observe.env.GITHUB_TOKEN, '${{ github.token }}')
+  assert.match(observe.env.PUBLICATION_SELECTION, /publication-selection\.json/)
+  assert.doesNotMatch(JSON.stringify(observer), /contents['"]?:['"]?write|git push|staging|APP_ID|APP_SECRET|FEISHU/)
+  assert.match(source, /--publish false/)
+  assert.doesNotMatch(String(observer.if || ''), /prepare_guides_publication_ready|translate_guides_batches|publish_ja_guides/)
+
+  const publishers = [
+    'publish_ja_guides', 'publish_ja_python', 'publish_zh_python', 'publish_ja_java', 'publish_zh_java',
+    'publish_ja_node', 'publish_zh_node', 'publish_ja_go', 'publish_zh_go', 'publish_ja_cli', 'publish_zh_cli',
+    'publish_ja_rest', 'publish_zh_rest', 'publish_zh_reference_landings',
+  ]
+  for (const publisher of publishers) assert.doesNotMatch(JSON.stringify(workflow.jobs[publisher].needs), /observe_publication_ready/)
+})
+
+test('workflow policy rejects writable, blocked, or non-artifact-only Translation shadow observers', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-shadow-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'translate-codex.yml')
+    const original = fs.readFileSync(file, 'utf8')
+    for (const [changed, expected] of [
+      [original.replace('  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare]\n    if: ${{ needs.prepare.result == \'success\' }}\n    continue-on-error: true\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: read', '  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare]\n    if: ${{ needs.prepare.result == \'success\' }}\n    continue-on-error: true\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: write'), 'translate-codex.yml: Translation publication observer must be read-only artifact_only FIFO shadow mode'],
+      [original.replace('  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare]', '  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare, prepare_guides_publication_ready]'), 'translate-codex.yml: Translation publication observer must start from prepare without waiting for Guides'],
+      [original.replace('--mode artifact_only', '--mode publish'), 'translate-codex.yml: Translation publication observer must be read-only artifact_only FIFO shadow mode'],
+    ]) {
+      fs.writeFileSync(file, changed)
+      assert.ok(validateWorkflowPolicies(directory).includes(expected), expected)
+    }
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('Translation prepare installs exact tooling checkout dependencies before resolving the handoff', () => {
   const workflow = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
   const steps = workflow.jobs.prepare.steps

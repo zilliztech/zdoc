@@ -159,7 +159,6 @@ jobs:
         id: publication_selection
         env:
           HANDOFF_JSON: ${{ inputs.handoff_json }}
-          PUBLISH: ${{ inputs.publish }}
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/publication-selection"
@@ -168,7 +167,7 @@ jobs:
             --repository "$GITHUB_REPOSITORY" \
             --run-id "$GITHUB_RUN_ID" \
             --run-attempt "$GITHUB_RUN_ATTEMPT" \
-            --publish "$PUBLISH" \
+            --publish false \
             --run-translations true \
             --output "$RUNNER_TEMP/publication-selection/publication-selection.json"
           SELECTION_PATH="$RUNNER_TEMP/publication-selection/publication-selection.json" node - <<'NODE'
@@ -384,6 +383,37 @@ jobs:
           name: publication-ready-translation-translation-ja-JP-guides-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/guides-ready/publication-ready.json
           if-no-files-found: error
+
+  observe_publication_ready:
+    name: observe_publication_ready
+    needs: [prepare]
+    if: ${{ needs.prepare.result == 'success' }}
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.prepare.outputs.tooling_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Download immutable Translation publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Observe ready Translation publication FIFO
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PUBLICATION_SELECTION: ${{ runner.temp }}/publication-selection/publication-selection.json
+        run: node scripts/docs-workflow/publication-coordinator.js --selection "$PUBLICATION_SELECTION" --mode artifact_only --poll-milliseconds 10000 --candidate-polls 60 --max-publish-attempts 1
 
   publish_ja_guides:
     needs: [prepare, prepare_guides_batches, translate_guides_batches]
