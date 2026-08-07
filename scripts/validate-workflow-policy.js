@@ -1020,9 +1020,89 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (prepare?.outputs?.publication_selection_artifact_name !== '${{ steps.publication_selection.outputs.artifact_name }}' ||
           prepare?.outputs?.publication_selection_sha256 !== '${{ steps.publication_selection.outputs.selection_sha256 }}' ||
           !/translation-publication-selection\.js selection/.test(String(selectionStep?.run || '')) ||
+          !/--publish false/.test(String(selectionStep?.run || '')) ||
           selectionUpload?.uses !== 'actions/upload-artifact@v6' ||
           selectionUpload?.with?.name !== 'publication-selection-translation-${{ github.run_id }}-${{ github.run_attempt }}') {
         errors.push(`${file}: prepare must create and upload exactly one immutable Translation publication selection`)
+      }
+      const observer = workflow.jobs?.observe_publication_ready
+      const observerSource = JSON.stringify(observer || {})
+      const observerCheckout = observer?.steps?.find(step => step?.uses === 'actions/checkout@v5')
+      const observerSelection = observer?.steps?.find(step => step?.name === 'Download immutable Translation publication selection')
+      const observerRun = observer?.steps?.find(step => step?.name === 'Observe ready Translation publication FIFO')
+      const observerScript = String(observerRun?.with?.script || '')
+      const observerHasDirectCoordinatorRun = (observer?.steps || [])
+        .some(step => /publication-coordinator\.js/.test(String(step?.run || '')))
+      const expectedObserverScript = [
+        "await exec.exec('node', [",
+        "  'scripts/docs-workflow/publication-coordinator.js',",
+        "  '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,",
+        "  '--mode', 'artifact_only',",
+        "  '--poll-milliseconds', '10000',",
+        "  '--candidate-polls', '60',",
+        "  '--max-publish-attempts', '1',",
+        '])',
+      ].join('\n')
+      const coordinatorSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-coordinator.js'), 'utf8')
+      const githubClientSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-github-client.js'), 'utf8')
+      const schedulerSource = fs.readFileSync(path.join(process.cwd(), 'scripts/docs-workflow/publication-scheduler.js'), 'utf8')
+      if (observerRun?.uses !== 'actions/github-script@v8' || observerRun?.run !== undefined || observerHasDirectCoordinatorRun ||
+          observerRun?.env?.GITHUB_TOKEN !== '${{ github.token }}' ||
+          JSON.stringify(Object.keys(observerRun?.env || {}).sort()) !== JSON.stringify(['GITHUB_TOKEN']) ||
+          observerScript.trim() !== expectedObserverScript) {
+        errors.push(`${file}: Translation publication observer must execute the coordinator through the actions artifact runtime`)
+      }
+      if (observer?.name !== 'observe_publication_ready' || observer?.['continue-on-error'] !== true ||
+          observer?.permissions?.actions !== 'read' || observer?.permissions?.contents !== 'read' ||
+          observerCheckout?.with?.['persist-credentials'] !== false ||
+          observerSelection?.uses !== 'actions/download-artifact@v7' ||
+          observerSelection?.with?.name !== '${{ needs.prepare.outputs.publication_selection_artifact_name }}' ||
+          !/'--mode', 'artifact_only'/.test(observerScript) ||
+          /contents["']?:["']?write|persist-credentials["']?:true|git push|refs\/heads\/staging|refs\/remotes\/origin\/staging|APP_ID|APP_SECRET|FEISHU/.test(observerSource) ||
+          !/uploadProgress/.test(coordinatorSource) || !/uploadResults/.test(coordinatorSource) ||
+          !/attempts\/\$\{runAttempt\}\/jobs\?filter=all/.test(githubClientSource) ||
+          !/completed_at/.test(schedulerSource)) {
+        errors.push(`${file}: Translation publication observer must be read-only artifact_only FIFO shadow mode`)
+      }
+      if (JSON.stringify(observer?.needs) !== JSON.stringify(['prepare']) ||
+          /prepare_guides_publication_ready|translate_guides_batches|publish_ja_guides/.test(String(observer?.if || ''))) {
+        errors.push(`${file}: Translation publication observer must start from prepare without waiting for Guides`)
+      }
+      const authoritativePublishers = [
+        'publish_ja_guides', 'publish_ja_python', 'publish_zh_python', 'publish_ja_java', 'publish_zh_java',
+        'publish_ja_node', 'publish_zh_node', 'publish_ja_go', 'publish_zh_go', 'publish_ja_cli', 'publish_zh_cli',
+        'publish_ja_rest', 'publish_zh_rest', 'publish_zh_reference_landings',
+      ]
+      const publisherContracts = [
+        ['publish_ja_guides', ['prepare', 'prepare_guides_batches', 'translate_guides_batches'], "${{ always() && inputs.publish && needs.prepare.outputs.guides_selected == 'true' && needs.prepare_guides_batches.result == 'success' && (needs.translate_guides_batches.result == 'success' || needs.translate_guides_batches.result == 'skipped') && needs.prepare_guides_batches.outputs.batch_count != '0' }}"],
+        ['publish_ja_python', ['prepare', 'translate_sdk', 'publish_ja_guides'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python') && needs.translate_sdk.result == 'success' && (needs.publish_ja_guides.result == 'success' || needs.publish_ja_guides.result == 'skipped') }}"],
+        ['publish_zh_python', ['prepare', 'translate_sdk', 'publish_ja_python'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python') && needs.translate_sdk.result == 'success' && (needs.publish_ja_python.result == 'success' || needs.publish_ja_python.result == 'skipped') }}"],
+        ['publish_ja_java', ['prepare', 'translate_sdk', 'publish_zh_python'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'java') && needs.translate_sdk.result == 'success' && (needs.publish_zh_python.result == 'success' || needs.publish_zh_python.result == 'skipped') }}"],
+        ['publish_zh_java', ['prepare', 'translate_sdk', 'publish_ja_java'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'java') && needs.translate_sdk.result == 'success' && (needs.publish_ja_java.result == 'success' || needs.publish_ja_java.result == 'skipped') }}"],
+        ['publish_ja_node', ['prepare', 'translate_sdk', 'publish_zh_java'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'node') && needs.translate_sdk.result == 'success' && (needs.publish_zh_java.result == 'success' || needs.publish_zh_java.result == 'skipped') }}"],
+        ['publish_zh_node', ['prepare', 'translate_sdk', 'publish_ja_node'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'node') && needs.translate_sdk.result == 'success' && (needs.publish_ja_node.result == 'success' || needs.publish_ja_node.result == 'skipped') }}"],
+        ['publish_ja_go', ['prepare', 'translate_sdk', 'publish_zh_node'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'go') && needs.translate_sdk.result == 'success' && (needs.publish_zh_node.result == 'success' || needs.publish_zh_node.result == 'skipped') }}"],
+        ['publish_zh_go', ['prepare', 'translate_sdk', 'publish_ja_go'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'go') && needs.translate_sdk.result == 'success' && (needs.publish_ja_go.result == 'success' || needs.publish_ja_go.result == 'skipped') }}"],
+        ['publish_ja_cli', ['prepare', 'translate_sdk', 'publish_zh_go'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'cli') && needs.translate_sdk.result == 'success' && (needs.publish_zh_go.result == 'success' || needs.publish_zh_go.result == 'skipped') }}"],
+        ['publish_zh_cli', ['prepare', 'translate_sdk', 'publish_ja_cli'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'cli') && needs.translate_sdk.result == 'success' && (needs.publish_ja_cli.result == 'success' || needs.publish_ja_cli.result == 'skipped') }}"],
+        ['publish_ja_rest', ['prepare', 'translate_sdk', 'publish_zh_cli'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'rest') && needs.translate_sdk.result == 'success' && (needs.publish_zh_cli.result == 'success' || needs.publish_zh_cli.result == 'skipped') }}"],
+        ['publish_zh_rest', ['prepare', 'translate_sdk', 'publish_ja_rest'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'rest') && needs.translate_sdk.result == 'success' && (needs.publish_ja_rest.result == 'success' || needs.publish_ja_rest.result == 'skipped') }}"],
+        ['publish_zh_reference_landings', ['prepare', 'translate_sdk', 'publish_zh_rest'], "${{ always() && inputs.publish && needs.prepare.outputs.locale == 'zh-CN' && needs.prepare.outputs.group == 'reference-landings' && needs.translate_sdk.result == 'success' && (needs.publish_zh_rest.result == 'success' || needs.publish_zh_rest.result == 'skipped') }}"],
+      ]
+      const commonWriterNeeds = ['prepare', 'prepare_guides_batches', 'translate_guides_batches', 'translate_sdk', ...authoritativePublishers]
+      const reconciliationContracts = [
+        ['reconcile_localization_inventory', commonWriterNeeds, "${{ always() && inputs.publish && needs.prepare.result == 'success' }}"],
+        ['reconcile_reference_state', [...commonWriterNeeds, 'reconcile_localization_inventory'], "${{ always() && inputs.publish && needs.prepare.result == 'success' && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python' || needs.prepare.outputs.group == 'java' || needs.prepare.outputs.group == 'node' || needs.prepare.outputs.group == 'go' || needs.prepare.outputs.group == 'cli' || needs.prepare.outputs.group == 'rest' || needs.prepare.outputs.group == 'reference-landings') }}"],
+        ['reconcile_published_state', [...commonWriterNeeds, 'reconcile_localization_inventory', 'reconcile_reference_state'], "${{ always() && inputs.publish && needs.prepare.outputs.group == 'all' }}"],
+        ['aggregate', [...commonWriterNeeds, 'reconcile_localization_inventory', 'reconcile_reference_state', 'reconcile_published_state'], '${{ always() }}'],
+      ]
+      const legacyContractChanged = [...publisherContracts, ...reconciliationContracts].some(([jobName, needs, condition]) => {
+        const job = workflow.jobs?.[jobName]
+        return JSON.stringify(job?.needs) !== JSON.stringify(needs) || job?.if !== condition ||
+          JSON.stringify({needs: job?.needs, if: job?.if}).includes('observe_publication_ready')
+      })
+      if (legacyContractChanged) {
+        errors.push(`${file}: legacy Translation writer and reconciliation contract must remain exact and observer-independent`)
       }
       for (const jobName of ['translate_sdk', 'translate_guides_batches']) {
         const job = workflow.jobs?.[jobName]

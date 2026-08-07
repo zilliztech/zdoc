@@ -2631,6 +2631,134 @@ test('manual translation workflow owns parallel producers and serial publication
   }
 })
 
+test('Translation legacy writers and reconciliation retain their exact authoritative contract', () => {
+  const workflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/translate-codex.yml'), 'utf8'))
+  const publishers = [
+    ['publish_ja_guides', ['prepare', 'prepare_guides_batches', 'translate_guides_batches'], "${{ always() && inputs.publish && needs.prepare.outputs.guides_selected == 'true' && needs.prepare_guides_batches.result == 'success' && (needs.translate_guides_batches.result == 'success' || needs.translate_guides_batches.result == 'skipped') && needs.prepare_guides_batches.outputs.batch_count != '0' }}"],
+    ['publish_ja_python', ['prepare', 'translate_sdk', 'publish_ja_guides'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python') && needs.translate_sdk.result == 'success' && (needs.publish_ja_guides.result == 'success' || needs.publish_ja_guides.result == 'skipped') }}"],
+    ['publish_zh_python', ['prepare', 'translate_sdk', 'publish_ja_python'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python') && needs.translate_sdk.result == 'success' && (needs.publish_ja_python.result == 'success' || needs.publish_ja_python.result == 'skipped') }}"],
+    ['publish_ja_java', ['prepare', 'translate_sdk', 'publish_zh_python'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'java') && needs.translate_sdk.result == 'success' && (needs.publish_zh_python.result == 'success' || needs.publish_zh_python.result == 'skipped') }}"],
+    ['publish_zh_java', ['prepare', 'translate_sdk', 'publish_ja_java'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'java') && needs.translate_sdk.result == 'success' && (needs.publish_ja_java.result == 'success' || needs.publish_ja_java.result == 'skipped') }}"],
+    ['publish_ja_node', ['prepare', 'translate_sdk', 'publish_zh_java'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'node') && needs.translate_sdk.result == 'success' && (needs.publish_zh_java.result == 'success' || needs.publish_zh_java.result == 'skipped') }}"],
+    ['publish_zh_node', ['prepare', 'translate_sdk', 'publish_ja_node'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'node') && needs.translate_sdk.result == 'success' && (needs.publish_ja_node.result == 'success' || needs.publish_ja_node.result == 'skipped') }}"],
+    ['publish_ja_go', ['prepare', 'translate_sdk', 'publish_zh_node'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'go') && needs.translate_sdk.result == 'success' && (needs.publish_zh_node.result == 'success' || needs.publish_zh_node.result == 'skipped') }}"],
+    ['publish_zh_go', ['prepare', 'translate_sdk', 'publish_ja_go'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'go') && needs.translate_sdk.result == 'success' && (needs.publish_ja_go.result == 'success' || needs.publish_ja_go.result == 'skipped') }}"],
+    ['publish_ja_cli', ['prepare', 'translate_sdk', 'publish_zh_go'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'cli') && needs.translate_sdk.result == 'success' && (needs.publish_zh_go.result == 'success' || needs.publish_zh_go.result == 'skipped') }}"],
+    ['publish_zh_cli', ['prepare', 'translate_sdk', 'publish_ja_cli'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'cli') && needs.translate_sdk.result == 'success' && (needs.publish_ja_cli.result == 'success' || needs.publish_ja_cli.result == 'skipped') }}"],
+    ['publish_ja_rest', ['prepare', 'translate_sdk', 'publish_zh_cli'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'rest') && needs.translate_sdk.result == 'success' && (needs.publish_zh_cli.result == 'success' || needs.publish_zh_cli.result == 'skipped') }}"],
+    ['publish_zh_rest', ['prepare', 'translate_sdk', 'publish_ja_rest'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'rest') && needs.translate_sdk.result == 'success' && (needs.publish_ja_rest.result == 'success' || needs.publish_ja_rest.result == 'skipped') }}"],
+    ['publish_zh_reference_landings', ['prepare', 'translate_sdk', 'publish_zh_rest'], "${{ always() && inputs.publish && needs.prepare.outputs.locale == 'zh-CN' && needs.prepare.outputs.group == 'reference-landings' && needs.translate_sdk.result == 'success' && (needs.publish_zh_rest.result == 'success' || needs.publish_zh_rest.result == 'skipped') }}"],
+  ]
+  for (const [name, needs, condition] of publishers) {
+    assert.deepEqual(workflow.jobs[name].needs, needs, `${name} dependencies`)
+    assert.equal(workflow.jobs[name].if, condition, `${name} condition`)
+  }
+  const publisherNames = publishers.map(([name]) => name)
+  const common = ['prepare', 'prepare_guides_batches', 'translate_guides_batches', 'translate_sdk', ...publisherNames]
+  assert.deepEqual(workflow.jobs.reconcile_localization_inventory.needs, common)
+  assert.deepEqual(workflow.jobs.reconcile_reference_state.needs, [...common, 'reconcile_localization_inventory'])
+  assert.deepEqual(workflow.jobs.reconcile_published_state.needs, [...common, 'reconcile_localization_inventory', 'reconcile_reference_state'])
+  assert.deepEqual(workflow.jobs.aggregate.needs, [...common, 'reconcile_localization_inventory', 'reconcile_reference_state', 'reconcile_published_state'])
+  for (const name of [...publisherNames, 'reconcile_localization_inventory', 'reconcile_reference_state', 'reconcile_published_state', 'aggregate']) {
+    assert.doesNotMatch(JSON.stringify({needs: workflow.jobs[name].needs, if: workflow.jobs[name].if}), /observe_publication_ready/)
+  }
+})
+
+test('workflow policy rejects Translation writer-chain or observer dependency mutations', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const original = fs.readFileSync(path.join(sourceDirectory, 'translate-codex.yml'), 'utf8')
+  const mutations = [
+    source => source.replace('needs: [prepare, translate_sdk, publish_ja_guides]', 'needs: [prepare, translate_sdk, observe_publication_ready]'),
+    source => source.replace('needs.publish_ja_guides.result == \'success\'', 'needs.observe_publication_ready.result == \'success\''),
+    source => source.replace(
+      'needs: [prepare, prepare_guides_batches, translate_guides_batches, translate_sdk, publish_ja_guides, publish_ja_python',
+      'needs: [prepare, prepare_guides_batches, translate_guides_batches, translate_sdk, observe_publication_ready, publish_ja_guides, publish_ja_python',
+    ),
+  ]
+  for (const mutate of mutations) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-writer-contract-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const changed = mutate(original)
+      assert.notEqual(changed, original)
+      fs.writeFileSync(path.join(directory, 'translate-codex.yml'), changed)
+      assert.ok(validateWorkflowPolicies(directory).includes(
+        'translate-codex.yml: legacy Translation writer and reconciliation contract must remain exact and observer-independent',
+      ))
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
+})
+
+test('Translation shadow observer consumes ready descriptors in artifact-only FIFO without joining the writer chain', () => {
+  const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/translate-codex.yml'), 'utf8')
+  const workflow = yaml.load(source)
+  const observer = workflow.jobs.observe_publication_ready
+  assert.ok(observer, 'Translation must declare the publication-ready shadow observer')
+  assert.equal(observer.name, 'observe_publication_ready')
+  assert.deepEqual(observer.needs, ['prepare'])
+  assert.equal(observer['continue-on-error'], true)
+  assert.deepEqual(observer.permissions, {actions: 'read', contents: 'read'})
+  assert.equal(observer.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.['persist-credentials'], false)
+  const download = observer.steps.find(step => step.name === 'Download immutable Translation publication selection')
+  assert.equal(download.uses, 'actions/download-artifact@v7')
+  assert.equal(download.with.name, '${{ needs.prepare.outputs.publication_selection_artifact_name }}')
+  const observe = observer.steps.find(step => step.name === 'Observe ready Translation publication FIFO')
+  assert.equal(observe.uses, 'actions/github-script@v8')
+  assert.equal(observe.run, undefined)
+  assert.equal(observe.with.script.trim(), [
+    "await exec.exec('node', [",
+    "  'scripts/docs-workflow/publication-coordinator.js',",
+    "  '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,",
+    "  '--mode', 'artifact_only',",
+    "  '--poll-milliseconds', '10000',",
+    "  '--candidate-polls', '60',",
+    "  '--max-publish-attempts', '1',",
+    '])',
+  ].join('\n'))
+  assert.equal(observe.env.GITHUB_TOKEN, '${{ github.token }}')
+  assert.deepEqual(Object.keys(observe.env), ['GITHUB_TOKEN'])
+  assert.doesNotMatch(JSON.stringify(observer), /contents['"]?:['"]?write|persist-credentials['"]?:true|git push|refs\/heads\/staging|refs\/remotes\/origin\/staging|APP_ID|APP_SECRET|FEISHU/)
+  assert.match(source, /--publish false/)
+  assert.doesNotMatch(String(observer.if || ''), /prepare_guides_publication_ready|translate_guides_batches|publish_ja_guides/)
+
+  const publishers = [
+    'publish_ja_guides', 'publish_ja_python', 'publish_zh_python', 'publish_ja_java', 'publish_zh_java',
+    'publish_ja_node', 'publish_zh_node', 'publish_ja_go', 'publish_zh_go', 'publish_ja_cli', 'publish_zh_cli',
+    'publish_ja_rest', 'publish_zh_rest', 'publish_zh_reference_landings',
+  ]
+  for (const publisher of publishers) assert.doesNotMatch(JSON.stringify(workflow.jobs[publisher].needs), /observe_publication_ready/)
+})
+
+test('workflow policy rejects writable, blocked, non-artifact-only, or non-action-runtime Translation shadow observers', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-shadow-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'translate-codex.yml')
+    const original = fs.readFileSync(file, 'utf8')
+    for (const [changed, expected] of [
+      [original.replace('  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare]\n    if: ${{ needs.prepare.result == \'success\' }}\n    continue-on-error: true\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: read', '  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare]\n    if: ${{ needs.prepare.result == \'success\' }}\n    continue-on-error: true\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: write'), 'translate-codex.yml: Translation publication observer must be read-only artifact_only FIFO shadow mode'],
+      [original.replace('  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare]', '  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare, prepare_guides_publication_ready]'), 'translate-codex.yml: Translation publication observer must start from prepare without waiting for Guides'],
+      [original.replace("'--mode', 'artifact_only'", "'--mode', 'publish'"), 'translate-codex.yml: Translation publication observer must be read-only artifact_only FIFO shadow mode'],
+      [original.replace(
+        "        uses: actions/github-script@v8\n        env:\n          GITHUB_TOKEN: ${{ github.token }}\n        with:\n          script: |\n            await exec.exec('node', [\n              'scripts/docs-workflow/publication-coordinator.js',\n              '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,\n              '--mode', 'artifact_only',\n              '--poll-milliseconds', '10000',\n              '--candidate-polls', '60',\n              '--max-publish-attempts', '1',\n            ])",
+        '        env:\n          GITHUB_TOKEN: ${{ github.token }}\n        run: node scripts/docs-workflow/publication-coordinator.js --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" --mode artifact_only --poll-milliseconds 10000 --candidate-polls 60 --max-publish-attempts 1',
+      ), 'translate-codex.yml: Translation publication observer must execute the coordinator through the actions artifact runtime'],
+      [original.replace(
+        "              '--max-publish-attempts', '1',\n            ])\n\n  publish_ja_guides:",
+        "              '--max-publish-attempts', '1',\n            ])\n      - name: Bypass Translation artifact runtime\n        run: node scripts/docs-workflow/publication-coordinator.js --selection \"$RUNNER_TEMP/publication-selection/publication-selection.json\" --mode artifact_only --poll-milliseconds 10000 --candidate-polls 60 --max-publish-attempts 1\n\n  publish_ja_guides:",
+      ), 'translate-codex.yml: Translation publication observer must execute the coordinator through the actions artifact runtime'],
+    ]) {
+      assert.notEqual(changed, original, 'Translation observer policy fixture must apply its mutation')
+      fs.writeFileSync(file, changed)
+      assert.ok(validateWorkflowPolicies(directory).includes(expected), expected)
+    }
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('Translation prepare installs exact tooling checkout dependencies before resolving the handoff', () => {
   const workflow = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
   const steps = workflow.jobs.prepare.steps
