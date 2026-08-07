@@ -15,6 +15,7 @@ const {translationOwnedPaths} = require('./validate-checkpoint-artifact')
 const {
   deriveFifoUnitKeys,
   faultInjectRun,
+  inspectRun,
   parseArgs,
   replayRun,
   usage,
@@ -23,8 +24,96 @@ const {
 
 const SHA = character => character.repeat(40)
 
+function faultEvidence(scenario) {
+  const sdk = 'translation/ja-JP/python'
+  const guides = 'translation/ja-JP/guides'
+  const later = 'translation/ja-JP/java'
+  const common = {status: 'complete', overallStatus: 'success'}
+  if (scenario === 'sdk-before-guides') return {...common, calculatedOrder: [sdk, guides, later], invoked: [sdk, guides, later]}
+  if (scenario === 'guides-before-sdk') return {...common, calculatedOrder: [guides, sdk, later], invoked: [guides, sdk, later]}
+  if (scenario === 'cache-conflict') return {
+    ...common, overallStatus: 'failure', calculatedOrder: [sdk, guides, later], invoked: [sdk, guides, later], ordinaryFailureContinued: true,
+    units: [
+      {unitKey: sdk, sequence: 1, status: 'published'},
+      {unitKey: guides, sequence: 2, status: 'publish_failed', failure: {code: 'CACHE_CONFLICT'}},
+      {unitKey: later, sequence: 3, status: 'published'},
+    ],
+  }
+  if (scenario === 'cas-drift') return {
+    ...common,
+    cas: {status: 'published', attempts: 2, abandonedCandidateSha: SHA('1'), resultSha: SHA('2'), remoteSha: SHA('2'), remoteRacePreserved: true, failure: null},
+  }
+  if (scenario === 'ambiguous-push') return {
+    ...common,
+    exact: {candidateSha: SHA('3'), remoteSha: SHA('3'), containsCandidate: true, status: 'published', attempts: 1},
+    descendant: {candidateSha: SHA('4'), remoteSha: SHA('5'), containsCandidate: true, status: 'published', attempts: 1},
+  }
+  if (scenario === 'reconciliation-failure') return {
+    ...common, overallStatus: 'orchestrator_failed', calculatedOrder: [sdk, guides], invoked: [sdk, guides],
+    orchestratorFailure: {code: 'RECONCILIATION_FAILED', phase: 'reconciliation', message: 'injected reconciliation failure', retryable: false},
+  }
+  return {
+    ...common, overallStatus: 'orchestrator_failed', calculatedOrder: [sdk, guides, later], invoked: [sdk, guides],
+    unknownUnitKey: guides, laterWritesStopped: true,
+    units: [
+      {unitKey: sdk, sequence: 1, status: 'published'},
+      {unitKey: guides, sequence: 2, status: 'publish_failed', remoteState: 'unknown'},
+      {unitKey: later, sequence: null, status: 'ready'},
+    ],
+  }
+}
+
 function temporary(prefix) {
   return fs.mkdtempSync(path.join('/private/tmp', prefix))
+}
+
+function installFakeGh(t, fixture) {
+  const root = temporary('translation-fake-gh-')
+  const bin = path.join(root, 'bin')
+  const fixtureFile = path.join(root, 'fixture.json')
+  const log = path.join(root, 'calls.jsonl')
+  fs.mkdirSync(bin)
+  fs.writeFileSync(fixtureFile, `${JSON.stringify(fixture)}\n`)
+  const executable = path.join(bin, 'gh')
+  fs.writeFileSync(executable, `#!/usr/bin/env node
+'use strict'
+const fs = require('node:fs')
+const path = require('node:path')
+const fixture = JSON.parse(fs.readFileSync(process.env.TRANSLATION_FAKE_GH_FIXTURE, 'utf8'))
+const args = process.argv.slice(2)
+fs.appendFileSync(process.env.TRANSLATION_FAKE_GH_LOG, JSON.stringify(args) + '\\n')
+if (args[0] === 'repo' && args[1] === 'view') process.stdout.write(fixture.repository + '\\n')
+else if (args[0] === 'api') {
+  const endpoint = args.at(-1)
+  const value = fixture.api[endpoint]
+  if (value === undefined) { console.error('unknown fake gh endpoint: ' + endpoint); process.exit(2) }
+  process.stdout.write(JSON.stringify(value))
+} else if (args[0] === 'run' && args[1] === 'download') {
+  const runId = args[2]
+  const name = args[args.indexOf('-n') + 1]
+  const destination = args[args.indexOf('-D') + 1]
+  const source = path.join(fixture.downloadRoot, runId, encodeURIComponent(name))
+  fs.mkdirSync(destination, {recursive: true})
+  fs.cpSync(source, destination, {recursive: true})
+} else { console.error('unknown fake gh command: ' + args.join(' ')); process.exit(2) }
+`)
+  fs.chmodSync(executable, 0o755)
+  const previous = {
+    PATH: process.env.PATH,
+    TRANSLATION_FAKE_GH_FIXTURE: process.env.TRANSLATION_FAKE_GH_FIXTURE,
+    TRANSLATION_FAKE_GH_LOG: process.env.TRANSLATION_FAKE_GH_LOG,
+  }
+  process.env.PATH = `${bin}:${process.env.PATH}`
+  process.env.TRANSLATION_FAKE_GH_FIXTURE = fixtureFile
+  process.env.TRANSLATION_FAKE_GH_LOG = log
+  t.after(() => {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete process.env[key]
+      else process.env[key] = value
+    }
+    fs.rmSync(root, {recursive: true, force: true})
+  })
+  return {log, calls: () => fs.existsSync(log) ? fs.readFileSync(log, 'utf8').trim().split('\n').filter(Boolean).map(line => JSON.parse(line)) : []}
 }
 
 function git(cwd, ...args) {
@@ -388,6 +477,103 @@ async function realReplayFixture(t) {
   return {root, runRoot, evidenceRoot, bareRemote, selection}
 }
 
+function manifestArchive(root, label, manifest) {
+  const directory = path.join(root, `${label}-contents`)
+  const group = path.join(directory, 'checkpoint-group')
+  fs.mkdirSync(group, {recursive: true})
+  fs.writeFileSync(path.join(group, 'manifest.json'), `${JSON.stringify(manifest)}\n`)
+  const archive = path.join(root, `${label}.tar`)
+  execFileSync('tar', ['-cf', archive, '-C', directory, 'checkpoint-group'])
+  return archive
+}
+
+function completeLegacyGhFixture(t) {
+  const root = temporary('translation-legacy-gh-fixture-')
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  const repository = 'zilliztech/zdoc'
+  const runId = 40000000004
+  const parentRunId = 39999999999
+  const runAttempt = 1
+  const toolingSha = git(process.cwd(), 'rev-parse', 'HEAD')
+  const parentToolingSha = toolingSha
+  const sourceBaselineSha = toolingSha
+  const sourceCheckpointSha = toolingSha
+  const initialTargetSha = toolingSha
+  const downloadRoot = path.join(root, 'downloads')
+  const childArtifacts = []
+  const parentArtifacts = []
+  let artifactId = 10000
+  function addArtifact(run, list, name, file) {
+    const directory = path.join(downloadRoot, String(run), encodeURIComponent(name))
+    fs.mkdirSync(directory, {recursive: true})
+    fs.copyFileSync(file, path.join(directory, path.basename(file)))
+    list.push({
+      id: artifactId++, name, expired: false, digest: `sha256:${sha256(file)}`,
+      created_at: '2026-08-06T00:00:00Z', updated_at: '2026-08-06T00:01:00Z',
+    })
+  }
+  const sourceManifest = group => ({
+    schemaVersion: 1, stage: 'source', group, masterSha: parentToolingSha, devBaselineSha: sourceBaselineSha,
+    createdAt: '2026-08-06T00:00:00.000Z', ownershipVersion: 1, files: [], deletions: [], snapshotManual: group,
+    validation: {commands: [], passed: true},
+  })
+  for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest', 'guides']) {
+    const suffix = group === 'guides' ? 'guides-en' : group
+    addArtifact(parentRunId, parentArtifacts, `docs-checkpoint-${suffix}-${parentRunId}`,
+      manifestArchive(root, `parent-${group}`, sourceManifest(group)))
+  }
+  const translationManifest = (target, group) => ({
+    schemaVersion: 1, stage: 'translation', group, masterSha: toolingSha, devBaselineSha: sourceCheckpointSha,
+    createdAt: '2026-08-06T00:02:00.000Z', ownershipVersion: 1, files: [], deletions: [], snapshotManual: group,
+    translationTarget: target, sourceSite: 'en', targetSite: target === 'zh-CN-reference' ? 'zh-CN' : 'en',
+    sourceCheckpointSha, toolingSha, validation: {commands: [], passed: true},
+  })
+  const jobs = []
+  let completionMinute = 1
+  for (const target of ['ja-JP', 'zh-CN-reference']) {
+    for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest']) {
+      for (const kind of ['checkpoint', 'baseline']) {
+        addArtifact(runId, childArtifacts, `translation-${kind}-${target}-${group}-${runId}`,
+          manifestArchive(root, `${target}-${group}-${kind}`, translationManifest(target, group)))
+      }
+      jobs.push({
+        id: 20000 + jobs.length,
+        name: `translate_sdk (${target}, ${group}, ${group}, ${sourceBaselineSha}, ${sourceCheckpointSha}) / translate`,
+        run_attempt: runAttempt, status: 'completed', conclusion: 'success',
+        completed_at: `2026-08-06T00:${String(completionMinute++).padStart(2, '0')}:00Z`,
+      })
+    }
+  }
+  for (const kind of ['checkpoint', 'baseline']) {
+    addArtifact(runId, childArtifacts, `translation-${kind}-ja-JP-guides-${runId}-batch-1`,
+      manifestArchive(root, `guides-${kind}-batch-1`, translationManifest('ja-JP', 'guides')))
+  }
+  jobs.push({
+    id: 29999, name: 'translate_guides_batches (1) / translate', run_attempt: runAttempt,
+    status: 'completed', conclusion: 'success', completed_at: '2026-08-06T00:24:45Z',
+  })
+  const publicationReport = path.join(root, 'publication-report.json')
+  fs.writeFileSync(publicationReport, `${JSON.stringify({
+    schemaVersion: 1, runId, runAttempt, group: 'guides', masterSha: toolingSha,
+    sourceCheckpointSha, expectedTargetSha: initialTargetSha, status: 'published', resultSha: initialTargetSha,
+  })}\n`)
+  addArtifact(runId, childArtifacts, `docs-translation-publication-guides-${runId}-${runAttempt}`, publicationReport)
+  const api = {
+    [`repos/${repository}/actions/runs/${runId}`]: {
+      id: runId, run_attempt: runAttempt, status: 'completed', conclusion: 'success', head_sha: toolingSha,
+      display_title: `translate docs (${parentRunId}-1)`, created_at: '2026-08-06T00:00:00Z',
+      updated_at: '2026-08-06T00:30:00Z', run_started_at: '2026-08-06T00:00:00Z',
+    },
+    [`repos/${repository}/actions/runs/${runId}/attempts/${runAttempt}/jobs?filter=all&per_page=100`]: [{jobs}],
+    [`repos/${repository}/actions/runs/${runId}/artifacts?per_page=100`]: [{artifacts: childArtifacts}],
+    [`repos/${repository}/actions/runs/${parentRunId}`]: {
+      id: parentRunId, run_attempt: 1, status: 'completed', conclusion: 'success', head_sha: parentToolingSha,
+    },
+    [`repos/${repository}/actions/runs/${parentRunId}/artifacts?per_page=100`]: [{artifacts: parentArtifacts}],
+  }
+  return {root, repository, runId, parentRunId, runAttempt, toolingSha, initialTargetSha, downloadRoot, api}
+}
+
 test('strict CLI accepts only safe absolute /private/tmp paths and the approved command shapes', () => {
   const root = temporary('translation-path-safety-')
   const escape = path.join(root, 'escape')
@@ -409,6 +595,78 @@ test('strict CLI accepts only safe absolute /private/tmp paths and the approved 
   assert.doesNotMatch(usage('inspect-run'), /30864046835/)
   assert.match(usage('inspect-run'), /--run-id <id>/)
   assert.match(usage('replay'), /\/private\/tmp\/.+\.git/)
+})
+
+test('legacy inspect fails closed before downloads when any required artifact is expired', t => {
+  const runId = 40000000003
+  const attempt = 1
+  const repository = 'zilliztech/zdoc'
+  const runEndpoint = `repos/${repository}/actions/runs/${runId}`
+  const jobsEndpoint = `repos/${repository}/actions/runs/${runId}/attempts/${attempt}/jobs?filter=all&per_page=100`
+  const artifactsEndpoint = `repos/${repository}/actions/runs/${runId}/artifacts?per_page=100`
+  const gh = installFakeGh(t, {
+    repository,
+    downloadRoot: temporary('translation-fake-gh-downloads-'),
+    api: {
+      [runEndpoint]: {id: runId, run_attempt: attempt, status: 'completed', conclusion: 'success', head_sha: SHA('a'), display_title: 'translate docs (39999999999-1)'},
+      [jobsEndpoint]: [{jobs: []}],
+      [artifactsEndpoint]: [{artifacts: [{
+        id: 1, name: `translation-checkpoint-ja-JP-python-${runId}`, expired: true,
+        digest: `sha256:${'1'.repeat(64)}`,
+      }]}],
+    },
+  })
+  const outputRoot = temporary('translation-legacy-expired-')
+  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
+  assert.throws(() => inspectRun({runId, outputRoot}), /complete unexpired.*external blocker|retention.*expired/i)
+  assert.equal(gh.calls().some(args => args[0] === 'run' && args[1] === 'download'), false)
+})
+
+test('legacy inspect derives authenticated current selection and ready contracts through the default gh path', async t => {
+  const fixture = completeLegacyGhFixture(t)
+  const gh = installFakeGh(t, fixture)
+  const outputRoot = temporary('translation-legacy-complete-')
+  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
+  const result = inspectRun({runId: fixture.runId, outputRoot})
+  assert.equal(result.legacyDerived, true)
+  assert.equal(result.toolingSha, fixture.toolingSha)
+  assert.equal(result.initialTargetSha, fixture.initialTargetSha)
+  const selection = JSON.parse(fs.readFileSync(path.join(outputRoot, 'publication-selection.json'), 'utf8'))
+  assert.equal(selection.units.length, 13)
+  const metadata = JSON.parse(fs.readFileSync(path.join(outputRoot, 'run-metadata.json'), 'utf8'))
+  assert.equal(metadata.legacyDerived, true)
+  assert.equal(metadata.parentRunId, fixture.parentRunId)
+  assert.equal(metadata.sourceArtifacts.length, 7)
+  assert.equal(metadata.artifacts.length, selection.units.length * 3)
+  assert.equal(metadata.artifacts.filter(artifact => artifact.derived).length, selection.units.length + 2)
+  const calls = gh.calls()
+  const firstDownload = calls.findIndex(args => args[0] === 'run' && args[1] === 'download')
+  const parentInventory = calls.findIndex(args => args[0] === 'api' && args.at(-1).includes(`/runs/${fixture.parentRunId}/artifacts`))
+  assert.ok(parentInventory >= 0 && firstDownload > parentInventory, 'all child and parent retention checks must finish before download')
+  const evidenceRoot = path.join(path.dirname(outputRoot), `${path.basename(outputRoot)}-evidence`)
+  const bareRemote = path.join(path.dirname(outputRoot), `${path.basename(outputRoot)}.git`)
+  fs.mkdirSync(bareRemote)
+  const replay = await replayRun({
+    runRoot: outputRoot, bareRemote, evidenceRoot, mode: 'publish',
+    dependencies: {
+      assertBareRemote() {},
+      async runLane({order}) { return {finalTargetSha: fixture.initialTargetSha, results: order.map(unitKey => ({unitKey, status: 'no_changes', resultSha: fixture.initialTargetSha}))} },
+      async verifyLane() { return {tree: fixture.initialTargetSha, ancestryVerified: true, reconciliationVerified: true} },
+    },
+  })
+  assert.equal(replay.status, 'complete')
+})
+
+test('legacy inspect rejects ambiguous retained identity before any download', t => {
+  const fixture = completeLegacyGhFixture(t)
+  const endpoint = `repos/${fixture.repository}/actions/runs/${fixture.runId}/artifacts?per_page=100`
+  const duplicate = {...fixture.api[endpoint][0].artifacts[0], id: 999999}
+  fixture.api[endpoint][0].artifacts.push(duplicate)
+  const gh = installFakeGh(t, fixture)
+  const outputRoot = temporary('translation-legacy-ambiguous-')
+  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
+  assert.throws(() => inspectRun({runId: fixture.runId, outputRoot}), /retention.*complete unexpired|ambiguous|exactly once/i)
+  assert.equal(gh.calls().some(args => args[0] === 'run' && args[1] === 'download'), false)
 })
 
 test('trusted Jobs completion timestamps calculate SDK-before-Guides FIFO independently from canonical order', t => {
@@ -440,7 +698,8 @@ test('replay authenticates descriptors and artifacts before exercising canonical
   assert.deepEqual(published.fifo, deriveFifoUnitKeys(value.selection, value.jobs))
   assert.equal(result.ancestryVerified, true)
   assert.equal(result.reconciliationVerified, true)
-  assert.equal(verifyEvidence({evidenceRoot: value.evidenceRoot}).status, 'complete')
+  assert.throws(() => verifyEvidence({evidenceRoot: value.evidenceRoot}), /structural.*explicit|independent Git/i)
+  assert.equal(verifyEvidence({evidenceRoot: value.evidenceRoot, allowStructural: true}).status, 'complete')
 })
 
 test('default replay publishes real retained Translation artifacts through canonical and FIFO coordinators on a local bare remote', async t => {
@@ -458,6 +717,20 @@ test('default replay publishes real retained Translation artifacts through canon
   assert.equal(verifyEvidence({evidenceRoot: value.evidenceRoot}).status, 'complete')
   assert.match(git(value.bareRemote, 'rev-parse', 'refs/heads/canonical/dev'), /^[0-9a-f]{40}$/)
   assert.match(git(value.bareRemote, 'rev-parse', 'refs/heads/fifo/dev'), /^[0-9a-f]{40}$/)
+  const resultsFile = path.join(value.evidenceRoot, 'replay-results.json')
+  const originalResults = fs.readFileSync(resultsFile, 'utf8')
+  const corruptedResults = JSON.parse(originalResults)
+  corruptedResults.fifo.finalTargetSha = '0'.repeat(40)
+  fs.writeFileSync(resultsFile, `${JSON.stringify(corruptedResults)}\n`)
+  assert.throws(() => verifyEvidence({evidenceRoot: value.evidenceRoot}), /final target|remote|ancestr|commit/i)
+  fs.writeFileSync(resultsFile, originalResults)
+
+  const retainedMetadata = JSON.parse(fs.readFileSync(path.join(value.runRoot, 'run-metadata.json'), 'utf8'))
+  const retainedArtifact = path.join(value.evidenceRoot, 'retained-run', retainedMetadata.artifacts[0].archive)
+  const originalArtifact = fs.readFileSync(retainedArtifact)
+  fs.appendFileSync(retainedArtifact, 'tampered')
+  assert.throws(() => verifyEvidence({evidenceRoot: value.evidenceRoot}), /checksum|provenance|artifact/i)
+  fs.writeFileSync(retainedArtifact, originalArtifact)
 })
 
 test('replay rejects non-isolated remotes, identity drift, incomplete evidence, and divergent final trees', async t => {
@@ -504,18 +777,24 @@ test('fault injection covers Translation ordering, continuation, CAS, ambiguity,
       evidenceRoot: value.evidenceRoot,
       scenario,
       dependencies: {async executeScenario({scenario: selected}) {
-        return {
-          status: 'complete',
-          overallStatus: selected === 'unknown-remote-state' ? 'orchestrator_failed' : selected === 'reconciliation-failure' ? 'orchestrator_failed' : selected === 'cache-conflict' ? 'failure' : 'success',
-          ordinaryFailureContinued: selected === 'cache-conflict',
-          laterWritesStopped: selected === 'unknown-remote-state',
-        }
+        return faultEvidence(selected)
       }},
     })
     assert.equal(result.scenario, scenario)
     assert.equal(verifyEvidence({evidenceRoot: value.evidenceRoot}).scenario, scenario)
     if (scenario === 'cache-conflict') assert.equal(result.ordinaryFailureContinued, true)
     if (scenario === 'unknown-remote-state') assert.equal(result.laterWritesStopped, true)
+    const file = path.join(value.evidenceRoot, 'fault-injection.json')
+    const corrupted = JSON.parse(fs.readFileSync(file, 'utf8'))
+    if (scenario === 'sdk-before-guides') corrupted.calculatedOrder = ['translation/ja-JP/guides', 'translation/ja-JP/python']
+    if (scenario === 'guides-before-sdk') corrupted.calculatedOrder = ['translation/ja-JP/python', 'translation/ja-JP/guides']
+    if (scenario === 'cache-conflict') corrupted.units[2].status = 'ready'
+    if (scenario === 'cas-drift') corrupted.cas.attempts = 1
+    if (scenario === 'ambiguous-push') corrupted.descendant.remoteSha = corrupted.descendant.candidateSha
+    if (scenario === 'reconciliation-failure') corrupted.orchestratorFailure.phase = 'publish'
+    if (scenario === 'unknown-remote-state') corrupted.invoked.push('translation/ja-JP/java')
+    fs.writeFileSync(file, `${JSON.stringify(corrupted)}\n`)
+    assert.throws(() => verifyEvidence({evidenceRoot: value.evidenceRoot}), /fault|order|SDK|Guides|continu|CAS|ambiguous|reconciliation|unknown|later/i)
   }
 })
 
@@ -526,6 +805,7 @@ test('default fault injection uses real local CAS retry and exact plus descendan
   assert.equal(casResult.cas.remoteRacePreserved, true)
   assert.match(casResult.cas.resultSha, /^[0-9a-f]{40}$/)
   assert.notEqual(casResult.cas.abandonedCandidateSha, casResult.cas.resultSha)
+  assert.equal(verifyEvidence({evidenceRoot: cas.evidenceRoot}).scenario, 'cas-drift')
 
   const ambiguous = await realFaultFixture(t)
   const ambiguousResult = await faultInjectRun({evidenceRoot: ambiguous.evidenceRoot, scenario: 'ambiguous-push'})
@@ -533,4 +813,31 @@ test('default fault injection uses real local CAS retry and exact plus descendan
   assert.equal(ambiguousResult.exact.remoteSha, ambiguousResult.exact.candidateSha)
   assert.equal(ambiguousResult.descendant.containsCandidate, true)
   assert.notEqual(ambiguousResult.descendant.remoteSha, ambiguousResult.descendant.candidateSha)
+  assert.equal(verifyEvidence({evidenceRoot: ambiguous.evidenceRoot}).scenario, 'ambiguous-push')
+})
+
+test('default fault injection proves both FIFO orders, ordinary continuation, reconciliation boundary, and unknown-state stop', async t => {
+  const seed = await realFaultFixture(t)
+  for (const scenario of ['sdk-before-guides', 'guides-before-sdk', 'cache-conflict', 'reconciliation-failure', 'unknown-remote-state']) {
+    const evidenceRoot = temporary(`translation-default-fault-${scenario}-`)
+    t.after(() => fs.rmSync(evidenceRoot, {recursive: true, force: true}))
+    fs.cpSync(path.join(seed.evidenceRoot, 'retained-run'), path.join(evidenceRoot, 'retained-run'), {recursive: true})
+    const result = await faultInjectRun({evidenceRoot, scenario})
+    assert.equal(verifyEvidence({evidenceRoot}).scenario, scenario)
+    if (scenario === 'sdk-before-guides') {
+      assert.match(result.calculatedOrder[0], /^translation\/(?:ja-JP|zh-CN-reference)\/(?:python|java|node|go|cli|rest)$/)
+      assert.ok(result.calculatedOrder.indexOf('translation/ja-JP/guides') > 0)
+    }
+    if (scenario === 'guides-before-sdk') assert.equal(result.calculatedOrder[0], 'translation/ja-JP/guides')
+    if (scenario === 'cache-conflict') {
+      const failed = result.units.find(unit => unit.status === 'publish_failed')
+      assert.equal(result.ordinaryFailureContinued, true)
+      assert.ok(result.units.some(unit => unit.status === 'published' && unit.sequence > failed.sequence))
+    }
+    if (scenario === 'reconciliation-failure') assert.equal(result.orchestratorFailure.phase, 'reconciliation')
+    if (scenario === 'unknown-remote-state') {
+      assert.equal(result.invoked.at(-1), result.unknownUnitKey)
+      assert.equal(result.laterWritesStopped, true)
+    }
+  }
 })
