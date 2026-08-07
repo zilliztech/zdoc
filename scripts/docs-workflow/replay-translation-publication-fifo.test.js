@@ -487,7 +487,7 @@ function manifestArchive(root, label, manifest) {
   return archive
 }
 
-function completeLegacyGhFixture(t) {
+async function completeLegacyGhFixture(t) {
   const root = temporary('translation-legacy-gh-fixture-')
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
   const repository = 'zilliztech/zdoc'
@@ -496,9 +496,31 @@ function completeLegacyGhFixture(t) {
   const runAttempt = 1
   const toolingSha = git(process.cwd(), 'rev-parse', 'HEAD')
   const parentToolingSha = toolingSha
-  const sourceBaselineSha = toolingSha
-  const sourceCheckpointSha = toolingSha
-  const initialTargetSha = toolingSha
+  const sourceCheckpointSha = git(process.cwd(), 'rev-list', '--all', '--max-count=1', '--', 'packages/docs-tooling/src/lark/meta/assembly/guides.json')
+  assert.match(sourceCheckpointSha, /^[0-9a-f]{40}$/)
+  const sourceRepository = path.join(root, 'source-repository')
+  git(root, 'clone', process.cwd(), sourceRepository)
+  git(sourceRepository, 'checkout', '--detach', sourceCheckpointSha)
+  const targetRepository = path.join(root, 'target-repository')
+  git(root, 'clone', process.cwd(), targetRepository)
+  git(targetRepository, 'restore', '--source', sourceCheckpointSha, '--staged', '--worktree', '--',
+    ...getContentGroup('guides').ownedPaths,
+    'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials',
+    '.translation-cache/ja-JP.json')
+  git(targetRepository, 'config', 'user.name', 'translation legacy fixture')
+  git(targetRepository, 'config', 'user.email', 'translation-legacy-fixture@example.com')
+  git(targetRepository, 'commit', '-m', 'test: materialize retained Guides source authority')
+  const initialTargetSha = git(targetRepository, 'rev-parse', 'HEAD')
+  const previousAlternates = process.env.GIT_ALTERNATE_OBJECT_DIRECTORIES
+  const targetObjects = fs.realpathSync(path.join(targetRepository, '.git', 'objects'))
+  process.env.GIT_ALTERNATE_OBJECT_DIRECTORIES = previousAlternates
+    ? `${targetObjects}${path.delimiter}${previousAlternates}`
+    : targetObjects
+  t.after(() => {
+    if (previousAlternates === undefined) delete process.env.GIT_ALTERNATE_OBJECT_DIRECTORIES
+    else process.env.GIT_ALTERNATE_OBJECT_DIRECTORIES = previousAlternates
+  })
   const downloadRoot = path.join(root, 'downloads')
   const childArtifacts = []
   const parentArtifacts = []
@@ -513,7 +535,8 @@ function completeLegacyGhFixture(t) {
     })
   }
   const sourceManifest = group => ({
-    schemaVersion: 1, stage: 'source', group, masterSha: parentToolingSha, devBaselineSha: sourceBaselineSha,
+    schemaVersion: 1, stage: 'source', group, masterSha: parentToolingSha,
+    devBaselineSha: group === 'guides' ? sourceCheckpointSha : toolingSha,
     createdAt: '2026-08-06T00:00:00.000Z', ownershipVersion: 1, files: [], deletions: [], snapshotManual: group,
     validation: {commands: [], passed: true},
   })
@@ -522,31 +545,65 @@ function completeLegacyGhFixture(t) {
     addArtifact(parentRunId, parentArtifacts, `docs-checkpoint-${suffix}-${parentRunId}`,
       manifestArchive(root, `parent-${group}`, sourceManifest(group)))
   }
-  const translationManifest = (target, group) => ({
-    schemaVersion: 1, stage: 'translation', group, masterSha: toolingSha, devBaselineSha: sourceCheckpointSha,
-    createdAt: '2026-08-06T00:02:00.000Z', ownershipVersion: 1, files: [], deletions: [], snapshotManual: group,
-    translationTarget: target, sourceSite: 'en', targetSite: target === 'zh-CN-reference' ? 'zh-CN' : 'en',
-    sourceCheckpointSha, toolingSha, validation: {commands: [], passed: true},
-  })
   const jobs = []
   let completionMinute = 1
   for (const target of ['ja-JP', 'zh-CN-reference']) {
     for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest']) {
+      const output = path.join(root, `${target}-${group}-artifact`)
+      await createCheckpointArtifact({
+        group, masterSha: toolingSha, devBaselineSha: toolingSha,
+        baselineDir: targetRepository, workspace: targetRepository, output, includeTranslationCache: true,
+        translationTarget: target, sourceCheckpointSha: toolingSha, toolingSha, validationCommands: ['true'],
+      })
+      const archive = archiveCheckpoint(root, output, `${target}-${group}`)
       for (const kind of ['checkpoint', 'baseline']) {
-        addArtifact(runId, childArtifacts, `translation-${kind}-${target}-${group}-${runId}`,
-          manifestArchive(root, `${target}-${group}-${kind}`, translationManifest(target, group)))
+        addArtifact(runId, childArtifacts, `translation-${kind}-${target}-${group}-${runId}`, archive)
       }
       jobs.push({
         id: 20000 + jobs.length,
-        name: `translate_sdk (${target}, ${group}, ${group}, ${sourceBaselineSha}, ${sourceCheckpointSha}) / translate`,
+        name: `translate_sdk (${target}, ${group}, ${group}, ${toolingSha}, ${toolingSha}) / translate`,
         run_attempt: runAttempt, status: 'completed', conclusion: 'success',
         completed_at: `2026-08-06T00:${String(completionMinute++).padStart(2, '0')}:00Z`,
       })
     }
   }
-  for (const kind of ['checkpoint', 'baseline']) {
-    addArtifact(runId, childArtifacts, `translation-${kind}-ja-JP-guides-${runId}-batch-1`,
-      manifestArchive(root, `guides-${kind}-batch-1`, translationManifest('ja-JP', 'guides')))
+  const guidesBaseline = path.join(root, 'guides-baseline-workspace')
+  const guidesCheckpoint = path.join(root, 'guides-checkpoint-workspace')
+  copyOwnedPaths(sourceRepository, guidesBaseline, translationOwnedPaths('ja-JP', getContentGroup('guides')))
+  fs.cpSync(guidesBaseline, guidesCheckpoint, {recursive: true})
+  const sourcePath = 'content/en/guides/tutorials/get-started/quickstarts/quick-start.md'
+  const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/quickstarts/quick-start.md'
+  const cachePath = '.translation-cache/ja-JP.json'
+  if (!fs.existsSync(path.join(guidesBaseline, cachePath))) put(guidesBaseline, cachePath, '{"files":{}}\n')
+  if (!fs.existsSync(path.join(guidesCheckpoint, cachePath))) put(guidesCheckpoint, cachePath, '{"files":{}}\n')
+  put(guidesCheckpoint, targetPath, '# Legacy retained Japanese translation\n')
+  const cache = JSON.parse(fs.readFileSync(path.join(guidesCheckpoint, cachePath), 'utf8'))
+  cache.files[sourcePath] = {
+    sourceHash: crypto.createHash('sha256').update(fs.readFileSync(path.join(sourceRepository, sourcePath))).digest('hex'),
+    targetPath,
+    translatedAt: '2026-08-06T00:00:00.000Z',
+  }
+  put(guidesCheckpoint, cachePath, `${JSON.stringify(cache, null, 2)}\n`)
+  const batch = {batchIndex: 0, batchNumber: 1, batchCount: 1, batchSize: 1, pendingCount: 1, pendingSetSha256: 'c'.repeat(64)}
+  const batchInput = path.join(root, 'guides-batch-input.json')
+  fs.writeFileSync(batchInput, `${JSON.stringify({
+    schemaVersion: 1,
+    group: 'guides',
+    sourceCheckpointSha,
+    batch,
+    candidates: [{sourcePath, targetPath, sourceHash: cache.files[sourcePath].sourceHash}],
+    sourceDelta: {deletedI18n: [], renamed: [], retirementCandidates: []},
+  }, null, 2)}\n`)
+  const guidesArtifacts = {}
+  for (const [kind, workspace] of [['checkpoint', guidesCheckpoint], ['baseline', guidesBaseline]]) {
+    const output = path.join(root, `guides-${kind}-artifact`)
+    await createCheckpointArtifact({
+      group: 'guides', masterSha: toolingSha, devBaselineSha: sourceCheckpointSha,
+      baselineDir: guidesBaseline, workspace, output, includeTranslationCache: true,
+      batch, batchInputPath: batchInput,
+    })
+    guidesArtifacts[kind] = archiveCheckpoint(root, output, `guides-${kind}-batch-1`)
+    addArtifact(runId, childArtifacts, `translation-${kind}-ja-JP-guides-${runId}-batch-1`, guidesArtifacts[kind])
   }
   jobs.push({
     id: 29999, name: 'translate_guides_batches (1) / translate', run_attempt: runAttempt,
@@ -561,6 +618,7 @@ function completeLegacyGhFixture(t) {
   const api = {
     [`repos/${repository}/actions/runs/${runId}`]: {
       id: runId, run_attempt: runAttempt, status: 'completed', conclusion: 'success', head_sha: toolingSha,
+      path: '.github/workflows/translate-codex.yml', event: 'workflow_dispatch', repository: {full_name: repository},
       display_title: `translate docs (${parentRunId}-1)`, created_at: '2026-08-06T00:00:00Z',
       updated_at: '2026-08-06T00:30:00Z', run_started_at: '2026-08-06T00:00:00Z',
     },
@@ -568,10 +626,11 @@ function completeLegacyGhFixture(t) {
     [`repos/${repository}/actions/runs/${runId}/artifacts?per_page=100`]: [{artifacts: childArtifacts}],
     [`repos/${repository}/actions/runs/${parentRunId}`]: {
       id: parentRunId, run_attempt: 1, status: 'completed', conclusion: 'success', head_sha: parentToolingSha,
+      path: '.github/workflows/fetch-docs.yml', event: 'workflow_dispatch', repository: {full_name: repository},
     },
     [`repos/${repository}/actions/runs/${parentRunId}/artifacts?per_page=100`]: [{artifacts: parentArtifacts}],
   }
-  return {root, repository, runId, parentRunId, runAttempt, toolingSha, initialTargetSha, downloadRoot, api}
+  return {root, repository, runId, parentRunId, runAttempt, toolingSha, initialTargetSha, targetRepository, downloadRoot, api}
 }
 
 test('strict CLI accepts only safe absolute /private/tmp paths and the approved command shapes', () => {
@@ -599,6 +658,7 @@ test('strict CLI accepts only safe absolute /private/tmp paths and the approved 
 
 test('legacy inspect fails closed before downloads when any required artifact is expired', t => {
   const runId = 40000000003
+  const parentRunId = 39999999999
   const attempt = 1
   const repository = 'zilliztech/zdoc'
   const runEndpoint = `repos/${repository}/actions/runs/${runId}`
@@ -608,7 +668,15 @@ test('legacy inspect fails closed before downloads when any required artifact is
     repository,
     downloadRoot: temporary('translation-fake-gh-downloads-'),
     api: {
-      [runEndpoint]: {id: runId, run_attempt: attempt, status: 'completed', conclusion: 'success', head_sha: SHA('a'), display_title: 'translate docs (39999999999-1)'},
+      [runEndpoint]: {
+        id: runId, run_attempt: attempt, status: 'completed', conclusion: 'success', head_sha: SHA('a'),
+        path: '.github/workflows/translate-codex.yml', event: 'workflow_dispatch', repository: {full_name: repository},
+        display_title: `translate docs (${parentRunId}-1)`,
+      },
+      [`repos/${repository}/actions/runs/${parentRunId}`]: {
+        id: parentRunId, run_attempt: 1, status: 'completed', conclusion: 'success', head_sha: SHA('a'),
+        path: '.github/workflows/fetch-docs.yml', event: 'workflow_dispatch', repository: {full_name: repository},
+      },
       [jobsEndpoint]: [{jobs: []}],
       [artifactsEndpoint]: [{artifacts: [{
         id: 1, name: `translation-checkpoint-ja-JP-python-${runId}`, expired: true,
@@ -623,7 +691,7 @@ test('legacy inspect fails closed before downloads when any required artifact is
 })
 
 test('legacy inspect derives authenticated current selection and ready contracts through the default gh path', async t => {
-  const fixture = completeLegacyGhFixture(t)
+  const fixture = await completeLegacyGhFixture(t)
   const gh = installFakeGh(t, fixture)
   const outputRoot = temporary('translation-legacy-complete-')
   t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
@@ -639,26 +707,50 @@ test('legacy inspect derives authenticated current selection and ready contracts
   assert.equal(metadata.sourceArtifacts.length, 7)
   assert.equal(metadata.artifacts.length, selection.units.length * 3)
   assert.equal(metadata.artifacts.filter(artifact => artifact.derived).length, selection.units.length + 2)
+  const guidesPlan = JSON.parse(fs.readFileSync(path.join(outputRoot, 'derived', 'guides', 'checkpoint', 'checkpoint-group', 'translation-plan.json'), 'utf8'))
+  assert.deepEqual(Object.keys(guidesPlan).sort(), [
+    'baselinePayloadSha256', 'batchCount', 'batches', 'devBaselineSha', 'group', 'masterSha',
+    'pendingCount', 'pendingSetSha256', 'planSha256', 'schemaVersion', 'sourceCheckpointSha', 'targetSha',
+  ].sort())
+  assert.equal(guidesPlan.batchCount, 1)
+  assert.equal(guidesPlan.batches.length, 1)
   const calls = gh.calls()
   const firstDownload = calls.findIndex(args => args[0] === 'run' && args[1] === 'download')
   const parentInventory = calls.findIndex(args => args[0] === 'api' && args.at(-1).includes(`/runs/${fixture.parentRunId}/artifacts`))
   assert.ok(parentInventory >= 0 && firstDownload > parentInventory, 'all child and parent retention checks must finish before download')
   const evidenceRoot = path.join(path.dirname(outputRoot), `${path.basename(outputRoot)}-evidence`)
   const bareRemote = path.join(path.dirname(outputRoot), `${path.basename(outputRoot)}.git`)
-  fs.mkdirSync(bareRemote)
+  git(path.dirname(outputRoot), 'clone', '--bare', fixture.targetRepository, bareRemote)
+  git(path.dirname(outputRoot), '--git-dir', bareRemote, 'config', '--remove-section', 'remote.origin')
+  git(path.dirname(outputRoot), '--git-dir', bareRemote, 'update-ref', 'refs/heads/dev', fixture.initialTargetSha)
   const replay = await replayRun({
     runRoot: outputRoot, bareRemote, evidenceRoot, mode: 'publish',
-    dependencies: {
-      assertBareRemote() {},
-      async runLane({order}) { return {finalTargetSha: fixture.initialTargetSha, results: order.map(unitKey => ({unitKey, status: 'no_changes', resultSha: fixture.initialTargetSha}))} },
-      async verifyLane() { return {tree: fixture.initialTargetSha, ancestryVerified: true, reconciliationVerified: true} },
-    },
   })
   assert.equal(replay.status, 'complete')
+  assert.equal(verifyEvidence({evidenceRoot}).status, 'complete')
 })
 
-test('legacy inspect rejects ambiguous retained identity before any download', t => {
-  const fixture = completeLegacyGhFixture(t)
+test('legacy inspect fails closed when retained Guides payload cannot reconstruct the canonical plan', async t => {
+  const fixture = await completeLegacyGhFixture(t)
+  const name = `translation-checkpoint-ja-JP-guides-${fixture.runId}-batch-1`
+  const directory = path.join(fixture.downloadRoot, String(fixture.runId), encodeURIComponent(name))
+  const archive = path.join(directory, fs.readdirSync(directory)[0])
+  const extracted = temporary('translation-incomplete-guides-')
+  t.after(() => fs.rmSync(extracted, {recursive: true, force: true}))
+  execFileSync('tar', ['-xf', archive, '-C', extracted])
+  fs.rmSync(path.join(extracted, 'checkpoint-group', 'batch-input.json'))
+  execFileSync('tar', ['-cf', archive, '-C', extracted, 'checkpoint-group'])
+  const artifact = fixture.api[`repos/${fixture.repository}/actions/runs/${fixture.runId}/artifacts?per_page=100`][0].artifacts
+    .find(candidate => candidate.name === name)
+  artifact.digest = `sha256:${sha256(archive)}`
+  installFakeGh(t, fixture)
+  const outputRoot = temporary('translation-incomplete-guides-output-')
+  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
+  assert.throws(() => inspectRun({runId: fixture.runId, outputRoot}), /Guides|batch input|artifact root|plan reconstruction/i)
+})
+
+test('legacy inspect rejects ambiguous retained identity before any download', async t => {
+  const fixture = await completeLegacyGhFixture(t)
   const endpoint = `repos/${fixture.repository}/actions/runs/${fixture.runId}/artifacts?per_page=100`
   const duplicate = {...fixture.api[endpoint][0].artifacts[0], id: 999999}
   fixture.api[endpoint][0].artifacts.push(duplicate)
@@ -666,6 +758,36 @@ test('legacy inspect rejects ambiguous retained identity before any download', t
   const outputRoot = temporary('translation-legacy-ambiguous-')
   t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
   assert.throws(() => inspectRun({runId: fixture.runId, outputRoot}), /retention.*complete unexpired|ambiguous|exactly once/i)
+  assert.equal(gh.calls().some(args => args[0] === 'run' && args[1] === 'download'), false)
+})
+
+test('inspect rejects the wrong child workflow identity before any retained download', async t => {
+  const fixture = await completeLegacyGhFixture(t)
+  fixture.api[`repos/${fixture.repository}/actions/runs/${fixture.runId}`].path = '.github/workflows/fetch-docs.yml'
+  const gh = installFakeGh(t, fixture)
+  const outputRoot = temporary('translation-wrong-child-workflow-')
+  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
+  assert.throws(() => inspectRun({runId: fixture.runId, outputRoot}), /child.*workflow|translate-codex/i)
+  assert.equal(gh.calls().some(args => args[0] === 'run' && args[1] === 'download'), false)
+})
+
+test('legacy inspect rejects the wrong parent Fetch workflow before any retained download', async t => {
+  const fixture = await completeLegacyGhFixture(t)
+  fixture.api[`repos/${fixture.repository}/actions/runs/${fixture.parentRunId}`].path = '.github/workflows/translate-codex.yml'
+  const gh = installFakeGh(t, fixture)
+  const outputRoot = temporary('translation-wrong-parent-workflow-')
+  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
+  assert.throws(() => inspectRun({runId: fixture.runId, outputRoot}), /parent.*workflow|fetch-docs/i)
+  assert.equal(gh.calls().some(args => args[0] === 'run' && args[1] === 'download'), false)
+})
+
+test('legacy inspect rejects parent tooling SHA mismatch before any retained download', async t => {
+  const fixture = await completeLegacyGhFixture(t)
+  fixture.api[`repos/${fixture.repository}/actions/runs/${fixture.parentRunId}`].head_sha = SHA('b')
+  const gh = installFakeGh(t, fixture)
+  const outputRoot = temporary('translation-parent-tooling-mismatch-')
+  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
+  assert.throws(() => inspectRun({runId: fixture.runId, outputRoot}), /parent.*tooling|tooling.*mismatch/i)
   assert.equal(gh.calls().some(args => args[0] === 'run' && args[1] === 'download'), false)
 })
 
@@ -814,6 +936,28 @@ test('default fault injection uses real local CAS retry and exact plus descendan
   assert.equal(ambiguousResult.descendant.containsCandidate, true)
   assert.notEqual(ambiguousResult.descendant.remoteSha, ambiguousResult.descendant.candidateSha)
   assert.equal(verifyEvidence({evidenceRoot: ambiguous.evidenceRoot}).scenario, 'ambiguous-push')
+})
+
+test('default Git fault injection uses the standard git-v1 replay remote without synthetic retained source.git', async t => {
+  const value = await realFaultFixture(t)
+  const retainedSource = path.join(value.evidenceRoot, 'retained-run', 'source.git')
+  const bareRemote = path.join(value.root, 'standard-replay.git')
+  fs.renameSync(retainedSource, bareRemote)
+  fs.writeFileSync(path.join(value.evidenceRoot, 'evidence-manifest.json'), `${JSON.stringify({
+    schemaVersion: 1,
+    status: 'complete',
+    workflow: 'translation',
+    verificationContract: 'git-v1',
+    bareRemote,
+  })}\n`)
+  const cas = await faultInjectRun({evidenceRoot: value.evidenceRoot, scenario: 'cas-drift'})
+  assert.equal(cas.cas.attempts, 2)
+  assert.equal(verifyEvidence({evidenceRoot: value.evidenceRoot}).scenario, 'cas-drift')
+  fs.rmSync(path.join(value.evidenceRoot, 'fault-injection.json'))
+  const ambiguous = await faultInjectRun({evidenceRoot: value.evidenceRoot, scenario: 'ambiguous-push'})
+  assert.equal(ambiguous.exact.containsCandidate, true)
+  assert.equal(ambiguous.descendant.containsCandidate, true)
+  assert.equal(verifyEvidence({evidenceRoot: value.evidenceRoot}).scenario, 'ambiguous-push')
 })
 
 test('default fault injection proves both FIFO orders, ordinary continuation, reconciliation boundary, and unknown-state stop', async t => {

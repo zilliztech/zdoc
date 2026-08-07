@@ -326,7 +326,7 @@ async function publishGuidesTransaction({selection, unit, prepared, repositoryRo
     inputs: {
       repositoryRoot,
       sourceRepository: repositoryRoot,
-      dependencyRoot: process.cwd(),
+      dependencyRoot: repositoryRoot,
       runnerTemp,
       plan,
       pairs,
@@ -759,9 +759,7 @@ function faultSdkPair({run, evidenceRoot, label}) {
   return Object.freeze({unit, artifactDir: checkpoint.artifactDir, baselineDir: baseline.artifactDir})
 }
 
-async function executeCasDriftFault({run, evidenceRoot}) {
-  const sourceRemote = path.join(run.runRoot, 'source.git')
-  if (!fs.existsSync(sourceRemote)) throw new Error('Default CAS fault requires retained source.git')
+async function executeCasDriftFault({run, evidenceRoot, sourceRemote}) {
   const repository = prepareFaultRepository({evidenceRoot, sourceRemote, toolingSha: run.selection.toolingSha, label: 'cas-drift'})
   const pair = faultSdkPair({run, evidenceRoot, label: 'cas-drift'})
   let pushes = 0
@@ -804,9 +802,7 @@ function putFaultFile(root, relative, value) {
   fs.writeFileSync(file, value)
 }
 
-async function executeAmbiguousCase({run, evidenceRoot, label, descendant}) {
-  const sourceRemote = path.join(run.runRoot, 'source.git')
-  if (!fs.existsSync(sourceRemote)) throw new Error('Default ambiguous-push fault requires retained source.git')
+async function executeAmbiguousCase({run, evidenceRoot, sourceRemote, label, descendant}) {
   const repository = prepareFaultRepository({evidenceRoot, sourceRemote, toolingSha: run.selection.toolingSha, label})
   const pair = faultSdkPair({run, evidenceRoot, label})
   let candidateSha = null
@@ -845,18 +841,40 @@ async function executeAmbiguousCase({run, evidenceRoot, label, descendant}) {
   })
 }
 
-async function executeAmbiguousPushFault({run, evidenceRoot}) {
-  const exact = await executeAmbiguousCase({run, evidenceRoot, label: 'ambiguous-exact', descendant: false})
-  const descendant = await executeAmbiguousCase({run, evidenceRoot, label: 'ambiguous-descendant', descendant: true})
+async function executeAmbiguousPushFault({run, evidenceRoot, sourceRemote}) {
+  const exact = await executeAmbiguousCase({run, evidenceRoot, sourceRemote, label: 'ambiguous-exact', descendant: false})
+  const descendant = await executeAmbiguousCase({run, evidenceRoot, sourceRemote, label: 'ambiguous-descendant', descendant: true})
   return Object.freeze({status: 'complete', overallStatus: 'success', exact, descendant})
+}
+
+function defaultFaultSourceRemote({run, evidenceRoot}) {
+  const manifestFile = path.join(evidenceRoot, 'evidence-manifest.json')
+  if (fs.existsSync(manifestFile)) {
+    const manifest = json(manifestFile)
+    if (manifest.verificationContract !== 'git-v1' || typeof manifest.bareRemote !== 'string') {
+      throw new Error('Default Git fault injection requires standard git-v1 replay evidence')
+    }
+    const remote = defaultAssertBareRemote(manifest.bareRemote)
+    const devSha = git(process.cwd(), ['--git-dir', remote, 'rev-parse', `refs/heads/${run.selection.targetBranch}^{commit}`], {allowFailure: true})
+    if (devSha.status !== 0 || devSha.stdout.trim() !== run.selection.initialTargetSha) {
+      throw new Error('Standard replay bare remote no longer preserves the retained initial target branch')
+    }
+    return remote
+  }
+  const retained = path.join(run.runRoot, 'source.git')
+  if (!fs.existsSync(retained)) throw new Error('Default Git fault injection requires standard git-v1 replay evidence or retained source.git')
+  return defaultAssertBareRemote(retained)
 }
 
 async function executeDefaultFaultScenario({scenario, evidenceRoot}) {
   const sourceRoot = path.join(evidenceRoot, 'retained-run')
   if (!fs.existsSync(sourceRoot)) throw new Error('Default fault injection requires retained-run evidence from replay')
   const run = loadRun(sourceRoot)
-  if (scenario === 'cas-drift') return executeCasDriftFault({run, evidenceRoot})
-  if (scenario === 'ambiguous-push') return executeAmbiguousPushFault({run, evidenceRoot})
+  if (scenario === 'cas-drift' || scenario === 'ambiguous-push') {
+    const sourceRemote = defaultFaultSourceRemote({run, evidenceRoot})
+    if (scenario === 'cas-drift') return executeCasDriftFault({run, evidenceRoot, sourceRemote})
+    return executeAmbiguousPushFault({run, evidenceRoot, sourceRemote})
+  }
   const selection = replaySelection(run.selection, run.selection.targetBranch)
   const jobs = run.jobs.map(job => ({...job}))
   const guides = selection.units.find(unit => unit.strategy === 'ja-guides')
@@ -940,6 +958,34 @@ async function faultInjectRun(options = {}) {
 
 function ghJson(args) {
   return JSON.parse(execFileSync('gh', args, {encoding: 'utf8', maxBuffer: 128 * 1024 * 1024}))
+}
+
+function exactWorkflowRunIdentity(run, {repository, path: expectedPath, label}) {
+  if (!run || run.path !== expectedPath || run.event !== 'workflow_dispatch' || run.repository?.full_name !== repository) {
+    throw new Error(`${label} workflow identity must be ${expectedPath} in ${repository}`)
+  }
+  if (!Number.isSafeInteger(Number(run.id)) || Number(run.id) < 1 || !Number.isSafeInteger(Number(run.run_attempt)) || Number(run.run_attempt) < 1) {
+    throw new Error(`${label} workflow run identity is invalid`)
+  }
+  return run
+}
+
+function translationParentIdentity({repository, run}) {
+  exactWorkflowRunIdentity(run, {repository, path: '.github/workflows/translate-codex.yml', label: 'Translation child'})
+  const match = /^translate docs \(([1-9][0-9]*)-([1-9][0-9]*)\)$/u.exec(String(run.display_title || ''))
+  if (!match) throw new Error('Translation child parent association is unavailable')
+  const parentRunId = Number(match[1])
+  const parentRunAttempt = Number(match[2])
+  const parentRun = ghJson(['api', `repos/${repository}/actions/runs/${parentRunId}`])
+  exactWorkflowRunIdentity(parentRun, {repository, path: '.github/workflows/fetch-docs.yml', label: 'Translation parent Fetch'})
+  if (Number(parentRun.id) !== parentRunId || Number(parentRun.run_attempt) !== parentRunAttempt ||
+      parentRun.status !== 'completed' || parentRun.conclusion !== 'success') {
+    throw new Error('Translation parent Fetch run association is invalid')
+  }
+  if (!SHA.test(parentRun.head_sha || '') || parentRun.head_sha !== run.head_sha) {
+    throw new Error('Translation parent tooling SHA mismatch')
+  }
+  return Object.freeze({parentRunId, parentRunAttempt, parentRun})
 }
 
 function artifactFile(directory) {
@@ -1094,16 +1140,9 @@ function derivedArtifactRecord({unitKey, kind, name, file, root, sources}) {
   })
 }
 
-function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allArtifacts, root}) {
+function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allArtifacts, root, parentIdentity}) {
   const retained = legacyRetentionPreflight({runId: numericRunId, runAttempt, artifacts: allArtifacts})
-  const parent = /\(([1-9][0-9]*)-([1-9][0-9]*)\)/u.exec(String(run.display_title || run.name || ''))
-  if (!parent) throw new Error('Legacy Translation retention external blocker: parent Fetch run identity is unavailable')
-  const parentRunId = Number(parent[1])
-  const parentRunAttempt = Number(parent[2])
-  const parentRun = ghJson(['api', `repos/${repository}/actions/runs/${parentRunId}`])
-  if (parentRun.status !== 'completed' || parentRun.conclusion !== 'success' || Number(parentRun.run_attempt) !== parentRunAttempt || !SHA.test(parentRun.head_sha || '')) {
-    throw new Error('Legacy Translation retention external blocker: parent Fetch run identity is invalid')
-  }
+  const {parentRunId, parentRunAttempt, parentRun} = parentIdentity
   const parentPages = ghJson(['api', '--paginate', '--slurp', `repos/${repository}/actions/runs/${parentRunId}/artifacts?per_page=100`])
   const parentArtifacts = parentPages.flatMap(page => page.artifacts || [])
   const parentByName = new Map()
@@ -1189,6 +1228,9 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
   writePublicationDocument(path.join(root, 'publication-selection.json'), selection)
 
   const guidesSources = []
+  const guidesPlanPairs = []
+  const guidesPlanExtractRoot = path.join(root, 'derived', 'guides', 'plan-inputs')
+  fs.mkdirSync(guidesPlanExtractRoot, {recursive: true})
   for (const batchNumber of retained.batchNumbers) {
     const pair = retained.guides.get(batchNumber)
     const downloadedPair = {}
@@ -1201,27 +1243,57 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
         group: 'guides', masterSha: run.head_sha,
         translation: {target: 'ja-JP', sourceCheckpointSha: publication.sourceCheckpointSha, toolingSha: run.head_sha},
       })
-      downloadedPair[kind] = downloaded
+      const extracted = extractArchive(downloaded.file, guidesPlanExtractRoot, `batch-${batchNumber}-${kind}-`)
+      downloadedPair[kind] = {...downloaded, artifactDir: extracted.artifactDir}
       guidesSources.push({...downloaded, kind, batchNumber})
     }
     originals.set(`guides-batch-${batchNumber}`, downloadedPair)
+    guidesPlanPairs.push({artifactDir: downloadedPair.checkpoint.artifactDir, baselineDir: downloadedPair.baseline.artifactDir})
   }
-  const pendingSetSha256 = crypto.createHash('sha256').update(guidesSources.map(source => `${source.id}:${source.digest}`).join('\n')).digest('hex')
-  const plan = {
-    schemaVersion: 1, group: 'guides', masterSha: run.head_sha, sourceCheckpointSha: publication.sourceCheckpointSha,
-    targetSha: publication.expectedTargetSha, pendingSetSha256, batchCount: retained.batchNumbers.length,
+  const pairsManifest = path.join(root, 'derived', 'guides', 'pairs-manifest.json')
+  const planFile = path.join(root, 'derived', 'guides', 'translation-plan.json')
+  writeJson(pairsManifest, {
+    schemaVersion: 1,
+    group: 'guides',
+    sourceCheckpointSha: publication.sourceCheckpointSha,
+    expectedTargetSha: publication.expectedTargetSha,
+    pairs: guidesPlanPairs,
+  })
+  try {
+    execFileSync(process.execPath, [
+      path.join(process.cwd(), 'scripts/docs-workflow/translation-batch-set.js'), 'plan',
+      '--pairs-manifest', pairsManifest,
+      '--source-repository', process.cwd(),
+      '--source-checkpoint-sha', publication.sourceCheckpointSha,
+      '--target-repository', process.cwd(),
+      '--expected-target-sha', publication.expectedTargetSha,
+      '--output', planFile,
+    ], {
+      cwd: process.cwd(), encoding: 'utf8', maxBuffer: 32 * 1024 * 1024,
+      env: {...process.env, RUNNER_TEMP: path.join(root, 'derived', 'guides')},
+    })
+  } catch (error) {
+    throw new Error(`Legacy Guides retained plan reconstruction failed: ${String(error.stderr || error.stdout || error.message).trim()}`)
+  }
+  const plan = json(planFile)
+  if (plan.masterSha !== run.head_sha || plan.devBaselineSha !== publication.sourceCheckpointSha ||
+      plan.sourceCheckpointSha !== publication.sourceCheckpointSha || plan.targetSha !== publication.expectedTargetSha ||
+      plan.batchCount !== retained.batchNumbers.length || !Number.isSafeInteger(plan.pendingCount) || plan.pendingCount < 1 ||
+      !Array.isArray(plan.batches) || plan.batches.length !== plan.batchCount || !CHECKSUM.test(plan.pendingSetSha256 || '') ||
+      !CHECKSUM.test(plan.baselinePayloadSha256 || '') || !CHECKSUM.test(plan.planSha256 || '')) {
+    throw new Error('Legacy Guides retained plan identity is incomplete')
   }
   const aggregateManifest = {
     schemaVersion: 1, stage: 'translation-guides-batch-set', group: 'guides', runId: numericRunId, runAttempt,
     sourceCheckpointSha: publication.sourceCheckpointSha, toolingSha: run.head_sha, targetSha: publication.expectedTargetSha,
-    batchCount: retained.batchNumbers.length, pendingSetSha256,
+    batchCount: plan.batchCount, pendingSetSha256: plan.pendingSetSha256,
   }
   const aggregate = {}
   for (const kind of ['checkpoint', 'baseline']) {
     const directory = path.join(root, 'derived', 'guides', kind, 'checkpoint-group')
     fs.mkdirSync(path.join(directory, 'batches'), {recursive: true})
     fs.writeFileSync(path.join(directory, 'manifest.json'), `${JSON.stringify(aggregateManifest)}\n`)
-    fs.writeFileSync(path.join(directory, 'translation-plan.json'), `${JSON.stringify(plan)}\n`)
+    fs.copyFileSync(planFile, path.join(directory, 'translation-plan.json'))
     for (const batchNumber of retained.batchNumbers) {
       const batchDirectory = path.join(directory, 'batches', `batch-${batchNumber}`)
       fs.mkdirSync(batchDirectory, {recursive: true})
@@ -1300,6 +1372,7 @@ function inspectRun({runId, outputRoot}) {
   if (run.status !== 'completed' || run.conclusion !== 'success') throw new Error('Translation replay requires a successful completed run selected by the caller')
   const runAttempt = Number(run.run_attempt)
   if (!Number.isSafeInteger(runAttempt) || runAttempt < 1 || !SHA.test(run.head_sha || '')) throw new Error('Translation retained run identity is invalid')
+  const parentIdentity = translationParentIdentity({repository, run})
   const jobsPages = ghJson(['api', '--paginate', '--slurp', `repos/${repository}/actions/runs/${numericRunId}/attempts/${runAttempt}/jobs?filter=all&per_page=100`])
   const jobs = jobsPages.flatMap(page => page.jobs || []).filter(job => (job.run_attempt ?? runAttempt) === runAttempt)
   const artifactsPages = ghJson(['api', '--paginate', '--slurp', `repos/${repository}/actions/runs/${numericRunId}/artifacts?per_page=100`])
@@ -1313,7 +1386,7 @@ function inspectRun({runId, outputRoot}) {
   const selectionName = `publication-selection-translation-${numericRunId}-${runAttempt}`
   const allSelectionArtifacts = allArtifacts.filter(artifact => artifact.name === selectionName)
   if (allSelectionArtifacts.length === 0) {
-    return inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allArtifacts, root})
+    return inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allArtifacts, root, parentIdentity})
   }
   const selectionArtifact = byName(selectionName)
   const selectionDirectory = path.join(root, 'downloads', 'selection')
@@ -1359,7 +1432,8 @@ function inspectRun({runId, outputRoot}) {
   const fifoUnitKeys = deriveFifoUnitKeys(selection, jobs)
   writeJson(path.join(root, 'jobs.json'), {jobs})
   writeJson(path.join(root, 'run-metadata.json'), {
-    schemaVersion: 1, runId: numericRunId, runAttempt, repository, toolingSha: selection.toolingSha,
+    schemaVersion: 1, parentRunId: parentIdentity.parentRunId, parentRunAttempt: parentIdentity.parentRunAttempt,
+    runId: numericRunId, runAttempt, repository, toolingSha: selection.toolingSha,
     initialTargetSha: selection.initialTargetSha, selectionSha256: selection.selectionSha256,
     runCreatedAt: run.created_at, runUpdatedAt: run.updated_at, runStartedAt: run.run_started_at,
     selectionArtifact: {id: selectionArtifact.id, name: selectionArtifact.name, digest: selectionArtifact.digest},
