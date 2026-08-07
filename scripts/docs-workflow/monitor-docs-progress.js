@@ -48,6 +48,12 @@ function delay(milliseconds) {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
+function positiveInteger(value, label) {
+  const parsed = Number(value)
+  if (!Number.isSafeInteger(parsed) || parsed <= 0) throw new Error(`${label} must be a positive integer`)
+  return parsed
+}
+
 async function withRetry(operation, { sleep = delay, maxAttempts = 3, delays = [1000, 2000, 4000] } = {}) {
   let lastError
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
@@ -357,6 +363,7 @@ function createGitHubActionsClient({
   token,
   repository,
   runId,
+  runAttempt,
   fetchImpl = fetch,
   sleep = delay,
   runnerTemp = process.env.RUNNER_TEMP || os.tmpdir(),
@@ -367,13 +374,14 @@ function createGitHubActionsClient({
   unzip = (archive, destination) => execFileAsync('unzip', ['-q', archive, '-d', destination]),
 }) {
   const base = `https://api.github.com/repos/${repository}`
+  const exactRunAttempt = positiveInteger(runAttempt, 'runAttempt')
 
   async function listJobs() {
     const jobs = []
     for (let page = 1; ; page += 1) {
-      const value = await githubFetch(fetchImpl, `${base}/actions/runs/${runId}/jobs?filter=all&per_page=100&page=${page}`, token)
+      const value = await githubFetch(fetchImpl, `${base}/actions/runs/${runId}/attempts/${exactRunAttempt}/jobs?filter=all&per_page=100&page=${page}`, token)
       const current = Array.isArray(value.jobs) ? value.jobs : []
-      jobs.push(...current)
+      jobs.push(...current.filter(job => (job?.run_attempt ?? job?.runAttempt) === exactRunAttempt))
       if (current.length < 100) return jobs
     }
   }
@@ -521,6 +529,7 @@ function readConfiguration(env = process.env, args = process.argv.slice(2)) {
   if (!Number.isSafeInteger(runId) || runId <= 0) throw new Error('GITHUB_RUN_ID must be a positive integer')
   const repository = required(env, 'GITHUB_REPOSITORY')
   if (!/^[^/\s]+\/[^/\s]+$/.test(repository)) throw new Error('GITHUB_REPOSITORY must be owner/repository')
+  const runAttempt = positiveInteger(required(env, 'GITHUB_RUN_ATTEMPT'), 'GITHUB_RUN_ATTEMPT')
   const startedAt = required(env, 'CARD_STARTED_AT')
   if (Number.isNaN(Date.parse(startedAt))) throw new Error('CARD_STARTED_AT must be an ISO timestamp')
   const selectedGroup = required(env, 'SELECTED_GROUP')
@@ -543,6 +552,7 @@ function readConfiguration(env = process.env, args = process.argv.slice(2)) {
   const cli = parseCliArgs(args)
   return {
     runId,
+    runAttempt,
     repository,
     token: required(env, 'GITHUB_TOKEN'),
     cardId: required(env, 'CARD_ID'),

@@ -134,7 +134,7 @@ test('derives only an authenticated parent workflow URL from request_id', () => 
 
 test('validates configuration, handoff, and reduced selected units', () => {
   const env = {
-    GITHUB_RUN_ID: '99', GITHUB_REPOSITORY: 'zilliztech/zdoc', GITHUB_TOKEN: 'token', CARD_ID: 'om_1',
+    GITHUB_RUN_ID: '99', GITHUB_RUN_ATTEMPT: '4', GITHUB_REPOSITORY: 'zilliztech/zdoc', GITHUB_TOKEN: 'token', CARD_ID: 'om_1',
     CARD_STARTED_AT: '2026-08-03T02:46:00.000Z', HANDOFF_JSON: JSON.stringify(handoff()), REQUEST_ID: '42-3',
     PUBLISH_ENABLED: 'true', APP_ID: 'app', APP_SECRET: 'secret', FEISHU_HOST: 'https://open.feishu.cn',
   }
@@ -142,6 +142,7 @@ test('validates configuration, handoff, and reduced selected units', () => {
   assert.deepEqual(config.selectedUnits, [{target: 'ja-JP', group: 'python'}, {target: 'zh-CN-reference', group: 'python'}])
   assert.equal(config.targetBranch, 'dev')
   assert.equal(config.parentUrl, 'https://github.com/zilliztech/zdoc/actions/runs/42')
+  assert.equal(config.runAttempt, 4)
   assert.equal(config.publishEnabled, true)
   assert.throws(() => readConfiguration({...env, REQUEST_ID: ''}), /request_id/)
   assert.throws(() => readConfiguration({...env, HANDOFF_JSON: '{}'}), /translation handoff/)

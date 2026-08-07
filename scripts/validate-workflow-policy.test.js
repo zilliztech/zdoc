@@ -981,7 +981,7 @@ test('central monitor owns live and terminal card presentation', () => {
   assert.equal(workflow.jobs.monitor_docs_progress.with.run_translations, "${{ needs.prepare.outputs.run_translations == 'true' }}")
   assert.equal(workflow.jobs.aggregate.needs.includes('monitor_docs_progress'), false)
   assert.deepEqual(workflow.jobs.finalize_card_fallback.needs, ['prepare', 'aggregate', 'monitor_docs_progress'])
-  assert.match(workflow.jobs.finalize_card_fallback.if, /monitor_docs_progress\.result != 'success'/)
+  assert.equal(workflow.jobs.finalize_card_fallback.if, "${{ always() && needs.prepare.outputs.card_id != '' }}")
   assert.match(callerSource, /name: docs-card-report-\$\{\{ github\.run_id \}\}/)
   assert.doesNotMatch(callerSource, /name: Finish progress card/)
   const sourceCard = workflow.jobs.prepare.steps.find(step => step.id === 'card')
