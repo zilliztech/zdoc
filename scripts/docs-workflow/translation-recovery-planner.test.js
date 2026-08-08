@@ -7,13 +7,14 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 
-const {finalizePublicationSelection} = require('./publication-contracts')
+const {finalizePublicationSelection, validatePublicationResults} = require('./publication-contracts')
 const {
   buildRecoveryHandoff,
   extractArtifactZip,
   planTranslationRecovery,
   validateDownloadedArtifactTree,
 } = require('./translation-recovery-planner')
+const {buildTranslationPublicationSelection} = require('./translation-publication-selection')
 const {buildSummary} = require('../translation/reportSummary')
 
 const SHA = character => character.repeat(40)
@@ -72,6 +73,41 @@ function selection(runAttempt = 2, toolingSha = RETAINED_TOOLING_SHA) {
     inputs: {selectedGroup: 'all', publish: true, runTranslations: true},
     units,
   })
+}
+
+function successfulPublicationResults(selected) {
+  return validatePublicationResults({
+    schemaVersion: 1,
+    document: 'publication-results',
+    workflow: 'translation',
+    repository: selected.repository,
+    runId: selected.runId,
+    runAttempt: selected.runAttempt,
+    selectionSha256: selected.selectionSha256,
+    mode: 'publish',
+    targetBranch: selected.targetBranch,
+    initialTargetSha: selected.initialTargetSha,
+    finalTargetSha: selected.initialTargetSha,
+    startedAt: '2026-08-08T02:34:02.000Z',
+    completedAt: '2026-08-08T02:35:19.000Z',
+    overallStatus: 'success',
+    units: selected.units.map((unit, index) => ({
+      unitKey: unit.unitKey,
+      producerJobId: index + 1000,
+      producerCompletedAt: '2026-08-08T02:34:02.000Z',
+      readyAt: '2026-08-08T02:34:02.000Z',
+      sequence: index + 1,
+      publishStartedAt: '2026-08-08T02:34:02.000Z',
+      publishCompletedAt: '2026-08-08T02:35:19.000Z',
+      baseSha: selected.initialTargetSha,
+      resultSha: selected.initialTargetSha,
+      commitShas: [],
+      attempts: 1,
+      status: 'no_changes',
+      failure: null,
+    })),
+    orchestratorFailure: null,
+  }, {selection: selected})
 }
 
 function writeJson(root, relative, value) {
@@ -446,6 +482,82 @@ test('authenticates optional progress/results and requires terminal results only
     targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
     client: {...missingRequired.client, listJobs: async () => [...missingRequired.jobs, publishJob]},
   }), /terminal publication results.*required|missing.*publication results/i)
+})
+
+test('canonicalizes seconds-precision publisher timestamps before binding post-cutover recovery provenance', async t => {
+  const value = fixture(t)
+  const publisherJob = {
+    id: 93046385588,
+    name: 'publish_ready',
+    run_attempt: 2,
+    status: 'completed',
+    conclusion: 'success',
+    started_at: '2026-08-08T02:34:02Z',
+    completed_at: '2026-08-08T02:35:19Z',
+  }
+  value.addArtifact(
+    `publication-results-translation-${RUN_ID}-2`,
+    directory => writeJson(directory, 'publication-results.json', successfulPublicationResults(value.selected)),
+    {created_at: '2026-08-08T02:35:19.000Z'},
+  )
+
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc',
+    previousRunId: RUN_ID,
+    outputRoot: path.join(value.root, 'seconds-precision-publisher'),
+    targetBaselineSha: SHA('8'),
+    executionToolingSha: EXECUTION_TOOLING_SHA,
+    publish: true,
+    client: {...value.client, listJobs: async () => [...value.jobs, publisherJob]},
+  })
+  const recoveryPlanBytes = fs.readFileSync(path.join(planned.bundleRoot, 'recovery-plan.json'))
+  const rebuilt = buildTranslationPublicationSelection({
+    handoff: planned.handoff,
+    repository: 'zilliztech/zdoc',
+    runId: RUN_ID + 1,
+    runAttempt: 1,
+    publish: true,
+    runTranslations: false,
+    recoveryProvenance: planned.plan.provenance,
+    recoveryPlanBytes,
+    recoveryPlanSha256: planned.recoveryPlanSha256,
+  })
+  assert.deepEqual(planned.plan.provenance.publicationEvidence.publisherJob, {
+    jobId: 93046385588,
+    status: 'completed',
+    conclusion: 'success',
+    startedAt: '2026-08-08T02:34:02.000Z',
+    completedAt: '2026-08-08T02:35:19.000Z',
+  })
+  assert.equal(rebuilt.inputs.recoveryProvenance.publicationEvidence.publisherJob.startedAt, '2026-08-08T02:34:02.000Z')
+  assert.equal(rebuilt.inputs.recoveryProvenance.publicationEvidence.publisherJob.completedAt, '2026-08-08T02:35:19.000Z')
+})
+
+test('rejects missing, invalid, or reversed publisher timestamps at the Jobs API boundary', async t => {
+  const cases = [
+    {started_at: undefined, completed_at: '2026-08-08T02:35:19Z'},
+    {started_at: 'not-a-timestamp', completed_at: '2026-08-08T02:35:19Z'},
+    {started_at: '2026-08-08T02:35:20Z', completed_at: '2026-08-08T02:35:19Z'},
+  ]
+  for (const [index, timestamps] of cases.entries()) {
+    const value = fixture(t)
+    const publisherJob = {
+      id: 93046385588 + index,
+      name: 'publish_ready',
+      run_attempt: 2,
+      status: 'completed',
+      conclusion: 'failure',
+      ...timestamps,
+    }
+    await assert.rejects(() => planTranslationRecovery({
+      repository: 'zilliztech/zdoc',
+      previousRunId: RUN_ID,
+      outputRoot: path.join(value.root, `invalid-publisher-time-${index}`),
+      targetBaselineSha: SHA('8'),
+      executionToolingSha: EXECUTION_TOOLING_SHA,
+      client: {...value.client, listJobs: async () => [...value.jobs, publisherJob]},
+    }), /publish_ready job timestamps are invalid/i)
+  }
 })
 
 test('builds a new schema-v2 handoff from preserved source provenance and the queue-owned target baseline', () => {

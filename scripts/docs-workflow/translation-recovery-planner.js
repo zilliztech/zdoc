@@ -256,6 +256,14 @@ function exactJob(jobs, name, attemptNumber, {required = true, label = name} = {
   return job
 }
 
+function canonicalJobTimestamps(job, label) {
+  if (typeof job.started_at !== 'string' || typeof job.completed_at !== 'string') throw new Error(`${label} job timestamps are invalid`)
+  const started = Date.parse(job.started_at)
+  const completed = Date.parse(job.completed_at)
+  if (!Number.isFinite(started) || !Number.isFinite(completed) || completed < started) throw new Error(`${label} job timestamps are invalid`)
+  return Object.freeze({startedAt: new Date(started).toISOString(), completedAt: new Date(completed).toISOString()})
+}
+
 function assertArtifactInJobWindow(artifact, job, label) {
   const created = Date.parse(artifact.created_at)
   const started = Date.parse(job.started_at)
@@ -274,7 +282,11 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
   const publisherMatches = jobs.filter(job => job?.name === publisherName && Number(job.run_attempt) === attemptNumber)
   if (publisherMatches.length > 1) throw new Error('publish_ready job identity must exist at most once')
   const publisher = publisherMatches[0] || null
-  if (publisher) exactJob(jobs, publisherName, attemptNumber, {label: 'publish_ready'})
+  let publisherTimestamps = null
+  if (publisher) {
+    exactJob(jobs, publisherName, attemptNumber, {label: 'publish_ready'})
+    publisherTimestamps = canonicalJobTimestamps(publisher, 'publish_ready')
+  }
   const progressPattern = new RegExp(`^publication-progress-translation-${runId}-${attemptNumber}-([1-9][0-9]*)$`, 'u')
   const progressArtifacts = selectedAttempt.artifacts
     .map(artifact => ({artifact, match: progressPattern.exec(artifact.name || '')}))
@@ -315,8 +327,8 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
     jobId: Number(publisher.id),
     status: publisher.status,
     conclusion: publisher.conclusion,
-    startedAt: publisher.started_at,
-    completedAt: publisher.completed_at,
+    startedAt: publisherTimestamps.startedAt,
+    completedAt: publisherTimestamps.completedAt,
   } : null
   return Object.freeze({
     publisherJob,
