@@ -11,6 +11,7 @@ const { readCardReport, validateCardReport } = require('./docs-card-report')
 const { validatePublicationProgress } = require('./publication-contracts')
 
 const execFileAsync = promisify(execFile)
+const DEFAULT_CARD_PATCH_TIMEOUT_MS = 30_000
 const ALL_GROUPS = Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'])
 const PUBLICATION_UNITS = Object.freeze({
   java: ['source/java'],
@@ -26,17 +27,27 @@ const PUBLICATION_UNIT_ORDER = Object.freeze([
   'source/rest', 'source/python', 'source/guides-en', 'source/guides-zh-CN',
 ])
 
-function createDocsToolingCardPatcher({ repositoryRoot = process.cwd(), messageId, environment = process.env, execute = execFileAsync }) {
+function createDocsToolingCardPatcher({
+  repositoryRoot = process.cwd(),
+  messageId,
+  environment = process.env,
+  execute = execFileAsync,
+  timeoutMs = environment.DOCS_CARD_PATCH_TIMEOUT_MS || DEFAULT_CARD_PATCH_TIMEOUT_MS,
+}) {
+  const commandTimeoutMs = positiveInteger(timeoutMs, 'DOCS_CARD_PATCH_TIMEOUT_MS')
   const directory = path.join(repositoryRoot, 'tmp', 'docs-tooling', 'report-card')
+  const toolingEntrypoint = path.join(repositoryRoot, 'scripts', 'docs-tooling.js')
   return async state => {
     fs.mkdirSync(directory, { recursive: true })
     const file = path.join(directory, `monitor-${process.pid}-${randomUUID()}.json`)
     const relative = path.relative(repositoryRoot, file).split(path.sep).join('/')
     fs.writeFileSync(file, JSON.stringify(state), { mode: 0o600 })
     try {
-      await execute('pnpm', ['docs-tooling', 'report-card', 'advance', '--state-file', relative, '--message-id', messageId], {
+      await execute(process.execPath, [toolingEntrypoint, 'report-card', 'advance', '--state-file', relative, '--message-id', messageId], {
         cwd: repositoryRoot,
         env: environment,
+        timeout: commandTimeoutMs,
+        killSignal: 'SIGKILL',
       })
     } finally {
       fs.rmSync(file, { force: true })
