@@ -10,45 +10,18 @@ const GROUP_LABELS = Object.freeze({
   'reference-landings': 'Reference landing pages',
 })
 
-const PUBLISHERS = Object.freeze({
-  'ja-JP/guides': 'publish_ja_guides',
-  'ja-JP/python': 'publish_ja_python',
-  'zh-CN-reference/python': 'publish_zh_python',
-  'ja-JP/java': 'publish_ja_java',
-  'zh-CN-reference/java': 'publish_zh_java',
-  'ja-JP/node': 'publish_ja_node',
-  'zh-CN-reference/node': 'publish_zh_node',
-  'ja-JP/go': 'publish_ja_go',
-  'zh-CN-reference/go': 'publish_zh_go',
-  'ja-JP/cli': 'publish_ja_cli',
-  'zh-CN-reference/cli': 'publish_zh_cli',
-  'ja-JP/rest': 'publish_ja_rest',
-  'zh-CN-reference/rest': 'publish_zh_rest',
-  'zh-CN-reference/reference-landings': 'publish_zh_reference_landings',
-})
-
-const PUBLISH_PREDECESSORS = Object.freeze({
-  publish_ja_python: 'publish_ja_guides', publish_zh_python: 'publish_ja_python',
-  publish_ja_java: 'publish_zh_python', publish_zh_java: 'publish_ja_java',
-  publish_ja_node: 'publish_zh_java', publish_zh_node: 'publish_ja_node',
-  publish_ja_go: 'publish_zh_node', publish_zh_go: 'publish_ja_go',
-  publish_ja_cli: 'publish_zh_go', publish_zh_cli: 'publish_ja_cli',
-  publish_ja_rest: 'publish_zh_cli', publish_zh_rest: 'publish_ja_rest',
-  publish_zh_reference_landings: 'publish_zh_rest',
-})
-
-const PUBLISHER_LABELS = Object.freeze({
-  publish_ja_guides: 'Japanese Guides', publish_ja_python: 'Japanese Python SDK', publish_zh_python: 'Chinese Reference Python SDK',
-  publish_ja_java: 'Japanese Java SDK', publish_zh_java: 'Chinese Reference Java SDK',
-  publish_ja_node: 'Japanese Node.js SDK', publish_zh_node: 'Chinese Reference Node.js SDK',
-  publish_ja_go: 'Japanese Go SDK', publish_zh_go: 'Chinese Reference Go SDK',
-  publish_ja_cli: 'Japanese Zilliz CLI', publish_zh_cli: 'Chinese Reference Zilliz CLI',
-  publish_ja_rest: 'Japanese REST API', publish_zh_rest: 'Chinese Reference REST API',
-})
+const SUPPORTED_UNITS = new Set([
+  'ja-JP/guides',
+  ...['python', 'java', 'node', 'go', 'cli', 'rest'].flatMap(group => [`ja-JP/${group}`, `zh-CN-reference/${group}`]),
+  'zh-CN-reference/reference-landings',
+])
 
 function parseSdkTranslationJob(job) {
-  const match = String(job?.name || '').match(/^translate_sdk \((ja-JP|zh-CN-reference), (python|java|node|go|cli|rest|reference-landings), \2, (?:(?:[^\s,()]+, )?[^\s,()]+\.\.\.|[^\s,()]+, [^\s,()]+\)) \/ translate$/)
-  return match && PUBLISHERS[`${match[1]}/${match[2]}`] ? {target: match[1], group: match[2]} : null
+  const name = String(job?.name || '')
+  const direct = name.match(/^translate:(ja-JP|zh-CN-reference)\/(python|java|node|go|cli|rest|reference-landings) \/ translate$/)
+  if (direct) return SUPPORTED_UNITS.has(`${direct[1]}/${direct[2]}`) ? {target: direct[1], group: direct[2]} : null
+  const match = name.match(/^translate_sdk \((ja-JP|zh-CN-reference), (python|java|node|go|cli|rest|reference-landings), \2, (?:(?:[^\s,()]+, )?[^\s,()]+\.\.\.|[^\s,()]+, [^\s,()]+\)) \/ translate$/)
+  return match && SUPPORTED_UNITS.has(`${match[1]}/${match[2]}`) ? {target: match[1], group: match[2]} : null
 }
 
 function parseGuidesBatchJob(job) {
@@ -150,7 +123,7 @@ function validateSelectedUnits(selectedUnits) {
     if (group === 'guides' && target !== 'ja-JP') throw new Error('Guides translation target must be ja-JP')
     const identity = `${target}/${group}`
     if (identities.has(identity)) throw new Error(`duplicate selected translation unit: ${identity}`)
-    if (!PUBLISHERS[identity]) throw new Error(`unsupported selected translation unit: ${identity}`)
+    if (!SUPPORTED_UNITS.has(identity)) throw new Error(`unsupported selected translation unit: ${identity}`)
     identities.add(identity)
     return {target, group}
   })
@@ -175,17 +148,27 @@ function prepareState(jobs) {
   return {status, currentTask: currentStep(visible) || (status === 'failed' ? 'Prepare translation failed' : status === 'running' ? 'Prepare translation inputs' : 'Waiting for translation preparation')}
 }
 
-function publisherState(identity, byName) {
-  const publisherName = PUBLISHERS[identity]
-  const publisher = byName.get(publisherName)
-  const status = jobStatus(publisher, {skippedAsCompleted: false})
-  if (status === 'completed') return {status, currentTask: 'Workflow completed'}
-  if (status === 'running') return {status, currentTask: currentStep(publisher) || `Publish ${PUBLISHER_LABELS[publisherName] || identity}`}
-  if (status === 'failed' || status === 'cancelled') return {status, currentTask: currentStep(publisher) || `Publish ${PUBLISHER_LABELS[publisherName] || identity} failed`}
-  const predecessorName = PUBLISH_PREDECESSORS[publisherName]
-  const predecessor = byName.get(predecessorName)
-  if (predecessorName && predecessor && jobStatus(predecessor) !== 'completed') {
-    return {status: 'waiting', currentTask: `Waiting for ${PUBLISHER_LABELS[predecessorName] || predecessorName} publisher`}
+function publicationUnitKey(unit) {
+  return `translation/${unitIdentity(unit)}`
+}
+
+function publicationEntryState(unit, entry, queue, coordinator) {
+  const label = unitLabel(unit)
+  if (!entry) {
+    const status = jobStatus(coordinator, {skippedAsCompleted: false})
+    if (status === 'failed' || status === 'cancelled') return {status, currentTask: currentStep(coordinator) || 'Publication coordinator failed'}
+    return {status: 'waiting', currentTask: status === 'running' ? 'Waiting for publication FIFO' : 'Waiting to publish'}
+  }
+  const value = entry.state || entry.status
+  if (value === 'published' || value === 'no_changes') return {status: 'completed', currentTask: 'Workflow completed'}
+  if (value === 'publishing') return {status: 'running', currentTask: `Publish ${label}`}
+  if (value === 'candidate') return {status: 'running', currentTask: `Validate ${label} publication candidate`}
+  if (value === 'ready') {
+    const position = queue.indexOf(publicationUnitKey(unit))
+    return {status: 'waiting', currentTask: position >= 0 ? `Ready to publish · queue #${position + 1}` : 'Ready to publish'}
+  }
+  if (['producer_failed', 'candidate_rejected', 'publish_failed'].includes(value)) {
+    return {status: 'failed', currentTask: entry.failure?.message || `${label} publication failed`}
   }
   return {status: 'waiting', currentTask: 'Waiting to publish'}
 }
@@ -215,13 +198,18 @@ function guideTranslationState(batchJobs) {
   }
 }
 
-function deriveUnit({unit, preparation, sdkJobs, batchJobs, byName, publishEnabled}) {
+function deriveUnit({unit, preparation, sdkJobs, batchJobs, byName, publishEnabled, progressByUnit, resultsByUnit, publicationQueue}) {
   const label = unitLabel(unit)
   if (preparation.status !== 'completed') return {id: unitIdentity(unit), label, phase: 'prepare', status: preparation.status, currentTask: preparation.currentTask, detail: null}
   const translated = unit.group === 'guides' ? guideTranslationState(batchJobs) : sdkTranslationState(unit, sdkJobs)
   if (translated.status !== 'completed') return {id: unitIdentity(unit), label, phase: 'translate', status: translated.status, currentTask: translated.currentTask, detail: translated.detail || null}
   if (!publishEnabled) return {id: unitIdentity(unit), label, phase: 'translate', status: 'completed', currentTask: 'Workflow completed', detail: null}
-  const published = publisherState(unitIdentity(unit), byName)
+  const published = publicationEntryState(
+    unit,
+    resultsByUnit.get(publicationUnitKey(unit)) || progressByUnit.get(publicationUnitKey(unit)),
+    publicationQueue,
+    byName.get('publish_ready'),
+  )
   return {id: unitIdentity(unit), label, phase: 'publish', status: published.status, currentTask: published.currentTask, detail: null}
 }
 
@@ -241,9 +229,14 @@ function translationStatuses(unit, sdkJobs, batchJobs) {
   return [jobStatus(sdkJobs.get(unitIdentity(unit)))]
 }
 
-function publishStatus(unit, byName, publishEnabled) {
+function publishStatus(unit, byName, publishEnabled, progressByUnit, resultsByUnit, publicationQueue) {
   if (!publishEnabled) return 'completed'
-  return publisherState(unitIdentity(unit), byName).status
+  return publicationEntryState(
+    unit,
+    resultsByUnit.get(publicationUnitKey(unit)) || progressByUnit.get(publicationUnitKey(unit)),
+    publicationQueue,
+    byName.get('publish_ready'),
+  ).status
 }
 
 function normalizeSuccess(state, publishEnabled) {
@@ -260,21 +253,34 @@ function normalizeSuccess(state, publishEnabled) {
   }
 }
 
-function deriveTranslationProgressState({selectedUnits, jobs = [], publishEnabled = true, terminalStatus = null, reports = []}) {
+function deriveTranslationProgressState({
+  selectedUnits,
+  jobs = [],
+  publishEnabled = true,
+  terminalStatus = null,
+  reports = [],
+  publicationProgress = null,
+  publicationResults = null,
+}) {
   const selection = validateSelectedUnits(selectedUnits)
   const effectiveJobs = selectEffectiveTranslationJobs(jobs)
   const byName = new Map(effectiveJobs.map(job => [baseJobName(job), job]))
   const sdkJobs = new Map(effectiveJobs.map(job => [parseSdkTranslationJob(job), job]).filter(([parsed]) => parsed).map(([parsed, job]) => [unitIdentity(parsed), job]))
   const batchJobs = effectiveJobs.filter(job => parseGuidesBatchJob(job)).sort((left, right) => parseGuidesBatchJob(left).batchIndex - parseGuidesBatchJob(right).batchIndex)
+  const progressByUnit = new Map((publicationProgress?.units || []).map(unit => [unit.unitKey, unit]))
+  const resultsByUnit = new Map((publicationResults?.units || []).map(unit => [unit.unitKey, unit]))
+  const publicationQueue = Array.isArray(publicationProgress?.queue) ? publicationProgress.queue : []
   const preparationJobs = prepareJobs(selection, byName)
   const preparation = prepareState(preparationJobs)
-  const units = selection.map(unit => deriveUnit({unit, preparation, sdkJobs, batchJobs, byName, publishEnabled}))
+  const units = selection.map(unit => deriveUnit({
+    unit, preparation, sdkJobs, batchJobs, byName, publishEnabled, progressByUnit, resultsByUnit, publicationQueue,
+  }))
 
   const targets = TARGETS.filter(target => selection.some(unit => targetKey(unit) === target.key)).map(target => {
     const targetUnits = selection.filter(unit => targetKey(unit) === target.key)
     const translateStatuses = targetUnits.flatMap(unit => translationStatuses(unit, sdkJobs, batchJobs))
     const guideDetail = target.key === 'ja-guides' ? `${translateStatuses.filter(status => status === 'completed').length}/${translateStatuses.length} batches` : null
-    const publishStatuses = targetUnits.map(unit => publishStatus(unit, byName, publishEnabled))
+    const publishStatuses = targetUnits.map(unit => publishStatus(unit, byName, publishEnabled, progressByUnit, resultsByUnit, publicationQueue))
     return {key: target.key, label: target.label, translate: metric(translateStatuses, guideDetail), publish: metric(publishStatuses, publishEnabled ? null : 'Disabled')}
   })
 
@@ -286,7 +292,7 @@ function deriveTranslationProgressState({selectedUnits, jobs = [], publishEnable
   const phases = [
     phase('prepare', 'Prepare', preparationJobs.map(job => jobStatus(job))),
     phase('translate', 'Translate', selection.flatMap(unit => translationStatuses(unit, sdkJobs, batchJobs))),
-    phase('publish', 'Publish', selection.map(unit => publishStatus(unit, byName, publishEnabled))),
+    phase('publish', 'Publish', selection.map(unit => publishStatus(unit, byName, publishEnabled, progressByUnit, resultsByUnit, publicationQueue))),
     {key: 'aggregate', label: 'Aggregate', done: aggregateJobStatus === 'completed' ? 1 : 0, total: 1, status: aggregateJobStatus},
   ]
   const visibleFailure = units.some(unit => unit.status === 'failed') || phases.some(item => item.status === 'failed')

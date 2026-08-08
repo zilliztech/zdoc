@@ -24,7 +24,7 @@ on:
 
 permissions:
   actions: read
-  contents: write
+  contents: read
 
 concurrency:
   group: ${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}
@@ -60,8 +60,8 @@ jobs:
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
   monitor_translation_progress:
-    needs: [initialize_translation_card]
-    if: ${{ needs.initialize_translation_card.outputs.card_id != '' }}
+    needs: [initialize_translation_card, prepare]
+    if: ${{ always() && needs.initialize_translation_card.outputs.card_id != '' }}
     uses: ./.github/workflows/_monitor-translation-progress.yml
     with:
       tooling_sha: ${{ github.sha }}
@@ -70,6 +70,8 @@ jobs:
       handoff_json: ${{ inputs.handoff_json }}
       request_id: ${{ inputs.request_id }}
       publish_enabled: ${{ inputs.publish }}
+      publication_run_attempt: ${{ fromJSON(github.run_attempt) }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -159,6 +161,7 @@ jobs:
         id: publication_selection
         env:
           HANDOFF_JSON: ${{ inputs.handoff_json }}
+          PUBLISH_ENABLED: ${{ inputs.publish }}
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/publication-selection"
@@ -167,7 +170,7 @@ jobs:
             --repository "$GITHUB_REPOSITORY" \
             --run-id "$GITHUB_RUN_ID" \
             --run-attempt "$GITHUB_RUN_ATTEMPT" \
-            --publish false \
+            --publish "$PUBLISH_ENABLED" \
             --run-translations true \
             --output "$RUNNER_TEMP/publication-selection/publication-selection.json"
           SELECTION_PATH="$RUNNER_TEMP/publication-selection/publication-selection.json" node - <<'NODE'
@@ -384,22 +387,25 @@ jobs:
           path: ${{ runner.temp }}/guides-ready/publication-ready.json
           if-no-files-found: error
 
-  observe_publication_ready:
-    name: observe_publication_ready
+  publish_ready:
+    name: publish_ready
     needs: [prepare]
     if: ${{ needs.prepare.result == 'success' }}
-    continue-on-error: true
     runs-on: ubuntu-latest
     timeout-minutes: 360
     permissions:
       actions: read
-      contents: read
+      contents: write
+    outputs:
+      results_artifact_name: ${{ steps.publish.outputs.results_artifact_name }}
+      overall_status: ${{ steps.publish.outputs.overall_status }}
+      final_target_sha: ${{ steps.publish.outputs.final_target_sha }}
     steps:
       - uses: actions/checkout@v5
         with:
           ref: ${{ needs.prepare.outputs.tooling_sha }}
-          fetch-depth: 1
-          persist-credentials: false
+          fetch-depth: 0
+          persist-credentials: ${{ inputs.publish }}
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
@@ -409,319 +415,128 @@ jobs:
         with:
           name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
           path: ${{ runner.temp }}/publication-selection
-      - name: Observe ready Translation publication FIFO
+      - name: Validate immutable Translation publication selection
+        env:
+          EXPECTED_SELECTION_SHA256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+          EXPECTED_PUBLISH: ${{ inputs.publish }}
+        run: |
+          set -euo pipefail
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          node scripts/docs-workflow/publication-contracts.js validate-selection "$selection"
+          SELECTION="$selection" node - <<'NODE'
+          const fs = require('node:fs')
+          const selection = JSON.parse(fs.readFileSync(process.env.SELECTION, 'utf8'))
+          if (selection.workflow !== 'translation') throw new Error('Translation publication selection is required')
+          if (selection.repository !== process.env.GITHUB_REPOSITORY) throw new Error('publication selection repository mismatch')
+          if (selection.runId !== Number(process.env.GITHUB_RUN_ID)) throw new Error('publication selection run mismatch')
+          if (selection.runAttempt !== Number(process.env.GITHUB_RUN_ATTEMPT)) throw new Error('publication selection run attempt mismatch')
+          if (selection.selectionSha256 !== process.env.EXPECTED_SELECTION_SHA256) throw new Error('publication selection checksum mismatch')
+          if (selection.inputs.publish !== (process.env.EXPECTED_PUBLISH === 'true')) throw new Error('publication selection mode mismatch')
+          NODE
+      - id: publish
+        name: Publish ready Translation units in producer completion FIFO order
         uses: actions/github-script@v8
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          PUBLISH: ${{ inputs.publish }}
         with:
           script: |
+            const mode = process.env.PUBLISH === 'true' ? 'publish' : 'artifact_only'
             await exec.exec('node', [
               'scripts/docs-workflow/publication-coordinator.js',
               '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,
-              '--mode', 'artifact_only',
+              '--mode', mode,
               '--poll-milliseconds', '10000',
-              '--candidate-polls', '60',
-              '--max-publish-attempts', '1',
+              '--candidate-polls', '6',
+              '--max-publish-attempts', '10',
             ])
 
-  publish_ja_guides:
-    needs: [prepare, prepare_guides_batches, translate_guides_batches]
-    if: ${{ always() && inputs.publish && needs.prepare.outputs.guides_selected == 'true' && needs.prepare_guides_batches.result == 'success' && (needs.translate_guides_batches.result == 'success' || needs.translate_guides_batches.result == 'skipped') && needs.prepare_guides_batches.outputs.batch_count != '0' }}
-    uses: ./.github/workflows/_publish-translation-batches.yml
-    with:
-      group: guides
-      target: ja-JP
-      tooling_sha: ${{ needs.prepare.outputs.tooling_sha }}
-      source_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceCheckpointSha }}
-      master_sha: ${{ needs.prepare.outputs.tooling_sha }}
-      source_commit_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceCheckpointSha }}
-      expected_target_sha: ${{ needs.prepare.outputs.target_branch_sha }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      batch_count: ${{ fromJSON(needs.prepare_guides_batches.outputs.batch_count) }}
-
-  publish_ja_python:
-    needs: [prepare, translate_sdk, publish_ja_guides]
-    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python') && needs.translate_sdk.result == 'success' && (needs.publish_ja_guides.result == 'success' || needs.publish_ja_guides.result == 'skipped') }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with: { group: python, target: ja-JP, artifact_name: 'translation-checkpoint-ja-JP-python-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-ja-JP-python-${{ github.run_id }}', commit_message: 'i18n(ja-JP): publish python translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).python }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target ja-JP --group python' }
-  publish_zh_python:
-    needs: [prepare, translate_sdk, publish_ja_python]
-    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python') && needs.translate_sdk.result == 'success' && (needs.publish_ja_python.result == 'success' || needs.publish_ja_python.result == 'skipped') }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with: { group: python, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-python-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-python-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish python translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).python }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group python' }
-  publish_ja_java:
-    needs: [prepare, translate_sdk, publish_zh_python]
-    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'java') && needs.translate_sdk.result == 'success' && (needs.publish_zh_python.result == 'success' || needs.publish_zh_python.result == 'skipped') }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with: { group: java, target: ja-JP, artifact_name: 'translation-checkpoint-ja-JP-java-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-ja-JP-java-${{ github.run_id }}', commit_message: 'i18n(ja-JP): publish java translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).java }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target ja-JP --group java' }
-  publish_zh_java:
-    needs: [prepare, translate_sdk, publish_ja_java]
-    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'java') && needs.translate_sdk.result == 'success' && (needs.publish_ja_java.result == 'success' || needs.publish_ja_java.result == 'skipped') }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with: { group: java, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-java-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-java-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish java translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).java }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group java' }
-  publish_ja_node:
-    needs: [prepare, translate_sdk, publish_zh_java]
-    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'node') && needs.translate_sdk.result == 'success' && (needs.publish_zh_java.result == 'success' || needs.publish_zh_java.result == 'skipped') }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with: { group: node, target: ja-JP, artifact_name: 'translation-checkpoint-ja-JP-node-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-ja-JP-node-${{ github.run_id }}', commit_message: 'i18n(ja-JP): publish node translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).node }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target ja-JP --group node' }
-  publish_zh_node:
-    needs: [prepare, translate_sdk, publish_ja_node]
-    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'node') && needs.translate_sdk.result == 'success' && (needs.publish_ja_node.result == 'success' || needs.publish_ja_node.result == 'skipped') }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with: { group: node, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-node-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-node-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish node translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).node }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group node' }
-  publish_ja_go:
-    needs: [prepare, translate_sdk, publish_zh_node]
-    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'go') && needs.translate_sdk.result == 'success' && (needs.publish_zh_node.result == 'success' || needs.publish_zh_node.result == 'skipped') }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with: { group: go, target: ja-JP, artifact_name: 'translation-checkpoint-ja-JP-go-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-ja-JP-go-${{ github.run_id }}', commit_message: 'i18n(ja-JP): publish go translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).go }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target ja-JP --group go' }
-  publish_zh_go:
-    needs: [prepare, translate_sdk, publish_ja_go]
-    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'go') && needs.translate_sdk.result == 'success' && (needs.publish_ja_go.result == 'success' || needs.publish_ja_go.result == 'skipped') }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with: { group: go, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-go-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-go-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish go translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).go }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group go' }
-  publish_ja_cli:
-    needs: [prepare, translate_sdk, publish_zh_go]
-    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'cli') && needs.translate_sdk.result == 'success' && (needs.publish_zh_go.result == 'success' || needs.publish_zh_go.result == 'skipped') }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with: { group: cli, target: ja-JP, artifact_name: 'translation-checkpoint-ja-JP-cli-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-ja-JP-cli-${{ github.run_id }}', commit_message: 'i18n(ja-JP): publish cli translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).cli }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target ja-JP --group cli' }
-  publish_zh_cli:
-    needs: [prepare, translate_sdk, publish_ja_cli]
-    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'cli') && needs.translate_sdk.result == 'success' && (needs.publish_ja_cli.result == 'success' || needs.publish_ja_cli.result == 'skipped') }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with: { group: cli, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-cli-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-cli-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish cli translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).cli }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group cli' }
-  publish_ja_rest:
-    needs: [prepare, translate_sdk, publish_zh_cli]
-    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'rest') && needs.translate_sdk.result == 'success' && (needs.publish_zh_cli.result == 'success' || needs.publish_zh_cli.result == 'skipped') }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with: { group: rest, target: ja-JP, artifact_name: 'translation-checkpoint-ja-JP-rest-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-ja-JP-rest-${{ github.run_id }}', commit_message: 'i18n(ja-JP): publish rest translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).rest }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target ja-JP --group rest' }
-  publish_zh_rest:
-    needs: [prepare, translate_sdk, publish_ja_rest]
-    if: ${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'rest') && needs.translate_sdk.result == 'success' && (needs.publish_ja_rest.result == 'success' || needs.publish_ja_rest.result == 'skipped') }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with: { group: rest, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-rest-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-rest-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish rest translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: '${{ fromJSON(needs.prepare.outputs.source_checkpoints_json).rest }}', target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group rest' }
-  publish_zh_reference_landings:
-    needs: [prepare, translate_sdk, publish_zh_rest]
-    if: ${{ always() && inputs.publish && needs.prepare.outputs.locale == 'zh-CN' && needs.prepare.outputs.group == 'reference-landings' && needs.translate_sdk.result == 'success' && (needs.publish_zh_rest.result == 'success' || needs.publish_zh_rest.result == 'skipped') }}
-    uses: ./.github/workflows/_publish-content-group.yml
-    with: { group: reference-landings, target: zh-CN-reference, artifact_name: 'translation-checkpoint-zh-CN-reference-reference-landings-${{ github.run_id }}', baseline_artifact_name: 'translation-baseline-zh-CN-reference-reference-landings-${{ github.run_id }}', commit_message: 'i18n(zh-CN-reference): publish reference-landings translations', should_publish: true, master_sha: '${{ needs.prepare.outputs.tooling_sha }}', tooling_sha: '${{ needs.prepare.outputs.tooling_sha }}', source_sha: "${{ fromJSON(needs.prepare.outputs.source_checkpoints_json)['reference-landings'] }}", target_branch: '${{ needs.prepare.outputs.target_branch }}', validate_command: 'node scripts/translation/validate-group.js --target zh-CN-reference --group reference-landings' }
-
-  reconcile_localization_inventory:
-    needs: [prepare, prepare_guides_batches, translate_guides_batches, translate_sdk, publish_ja_guides, publish_ja_python, publish_zh_python, publish_ja_java, publish_zh_java, publish_ja_node, publish_zh_node, publish_ja_go, publish_zh_go, publish_ja_cli, publish_zh_cli, publish_ja_rest, publish_zh_rest, publish_zh_reference_landings]
-    if: ${{ always() && inputs.publish && needs.prepare.result == 'success' }}
+  aggregate:
+    needs: [prepare, publish_ready]
+    if: ${{ always() && needs.prepare.result == 'success' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: read
     steps:
       - uses: actions/checkout@v5
-        with: { ref: '${{ needs.prepare.outputs.tooling_sha }}', fetch-depth: 0 }
+        with: { ref: '${{ needs.prepare.outputs.tooling_sha }}', fetch-depth: 0, persist-credentials: false }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
-      - name: Reconcile and publish localization inventory
-        env:
-          SOURCE_SHA: ${{ needs.prepare.outputs.target_branch_sha }}
-          TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
-        run: |
-          set -euo pipefail
-          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
-          git check-ref-format --branch "$TARGET_BRANCH"
-          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
-          target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
-          git merge-base --is-ancestor "$SOURCE_SHA" "$target_sha"
-          bash scripts/restore-generated-state.sh --exact --ref "$target_sha"
-          pnpm generate:localization-input-inventory
-          pnpm check:localization-input-inventory
-
-          derived_path=deploy/contracts/localization-inputs.inventory.json
-          publish_worktree=$(mktemp -d "$RUNNER_TEMP/localization-inventory.XXXXXX")
-          rmdir "$publish_worktree"
-          cleanup() { git worktree remove --force "$publish_worktree" >/dev/null 2>&1 || true; git worktree prune >/dev/null 2>&1 || true; }
-          trap cleanup EXIT
-          git worktree add --detach "$publish_worktree" "$target_sha"
-          mkdir -p "$publish_worktree/$(dirname "$derived_path")"
-          cp -- "$derived_path" "$publish_worktree/$derived_path"
-          git -C "$publish_worktree" add -- deploy/contracts/localization-inputs.inventory.json
-          if git -C "$publish_worktree" diff --cached --quiet; then
-            echo "Localization inventory is already current."
-            exit 0
-          fi
-          git -C "$publish_worktree" config user.name docs-publish-bot
-          git -C "$publish_worktree" config user.email docs-publish-bot@users.noreply.github.com
-          git -C "$publish_worktree" commit -m 'chore(i18n): reconcile localization inventory' \
-            -m "sourceSha: $SOURCE_SHA" \
-            -m "translationTargetSha: $target_sha"
-          git -C "$publish_worktree" push origin "HEAD:refs/heads/$TARGET_BRANCH"
-
-  reconcile_reference_state:
-    needs: [prepare, prepare_guides_batches, translate_guides_batches, translate_sdk, publish_ja_guides, publish_ja_python, publish_zh_python, publish_ja_java, publish_zh_java, publish_ja_node, publish_zh_node, publish_ja_go, publish_zh_go, publish_ja_cli, publish_zh_cli, publish_ja_rest, publish_zh_rest, publish_zh_reference_landings, reconcile_localization_inventory]
-    if: ${{ always() && inputs.publish && needs.prepare.result == 'success' && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python' || needs.prepare.outputs.group == 'java' || needs.prepare.outputs.group == 'node' || needs.prepare.outputs.group == 'go' || needs.prepare.outputs.group == 'cli' || needs.prepare.outputs.group == 'rest' || needs.prepare.outputs.group == 'reference-landings') }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v5
-        with: { ref: '${{ needs.prepare.outputs.tooling_sha }}', fetch-depth: 0 }
-      - uses: pnpm/action-setup@v5
-      - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
-      - run: pnpm install --frozen-lockfile
-      - name: Reconcile and publish Reference derived state
-        env:
-          SOURCE_SHA: ${{ needs.prepare.outputs.target_branch_sha }}
-          TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
-        run: |
-          set -euo pipefail
-          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
-          git check-ref-format --branch "$TARGET_BRANCH"
-          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
-          target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
-          git merge-base --is-ancestor "$SOURCE_SHA" "$target_sha"
-          bash scripts/restore-generated-state.sh --exact --ref "$target_sha"
-          pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$SOURCE_SHA" --write
-          pnpm docs-tooling validate-reference --site zh-CN
-
-          paths=(
-            generated/en/manifests/reference.json
-            generated/zh-CN/manifests/reference-translations.json
-            generated/en/sidebars/python.sidebar.js
-            generated/en/sidebars/java.sidebar.js
-            generated/en/sidebars/node.sidebar.js
-            generated/en/sidebars/go.sidebar.js
-            generated/en/sidebars/cli.sidebar.js
-            generated/en/sidebars/restful.sidebar.js
-            generated/zh-CN/sidebars/python.sidebar.js
-            generated/zh-CN/sidebars/java.sidebar.js
-            generated/zh-CN/sidebars/node.sidebar.js
-            generated/zh-CN/sidebars/go.sidebar.js
-            generated/zh-CN/sidebars/cli.sidebar.js
-            generated/zh-CN/sidebars/restful.sidebar.js
-          )
-          publish_worktree=$(mktemp -d "$RUNNER_TEMP/reference-derived.XXXXXX")
-          rmdir "$publish_worktree"
-          cleanup() { git worktree remove --force "$publish_worktree" >/dev/null 2>&1 || true; git worktree prune >/dev/null 2>&1 || true; }
-          trap cleanup EXIT
-          git worktree add --detach "$publish_worktree" "$target_sha"
-          for path in "${paths[@]}"; do
-            [[ -f "$path" && ! -L "$path" ]]
-            mkdir -p "$publish_worktree/$(dirname "$path")"
-            cp -- "$path" "$publish_worktree/$path"
-          done
-          git -C "$publish_worktree" add -- "${paths[@]}"
-          if git -C "$publish_worktree" diff --cached --quiet; then
-            echo "Reference derived state is already current."
-            exit 0
-          fi
-          git -C "$publish_worktree" config user.name docs-publish-bot
-          git -C "$publish_worktree" config user.email docs-publish-bot@users.noreply.github.com
-          git -C "$publish_worktree" commit -m 'chore(i18n): reconcile Reference derived state' \
-            -m "sourceSha: $SOURCE_SHA" \
-            -m "translationTargetSha: $target_sha"
-          git -C "$publish_worktree" push origin "HEAD:refs/heads/$TARGET_BRANCH"
-
-  reconcile_published_state:
-    needs: [prepare, prepare_guides_batches, translate_guides_batches, translate_sdk, publish_ja_guides, publish_ja_python, publish_zh_python, publish_ja_java, publish_zh_java, publish_ja_node, publish_zh_node, publish_ja_go, publish_zh_go, publish_ja_cli, publish_zh_cli, publish_ja_rest, publish_zh_rest, publish_zh_reference_landings, reconcile_localization_inventory, reconcile_reference_state]
-    if: ${{ always() && inputs.publish && needs.prepare.outputs.group == 'all' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - name: Require successful translation publication chain
-        env:
-          NEEDS_JSON: ${{ toJSON(needs) }}
+      - id: artifacts
+        name: Derive exact Translation publication artifact names
         run: |
           node - <<'NODE'
-          const needs = JSON.parse(process.env.NEEDS_JSON)
-          const failed = Object.entries(needs).filter(([, value]) => value.result === 'failure' || value.result === 'cancelled')
-          if (failed.length) throw new Error(`Cannot reconcile failed translation publication: ${failed.map(([name, value]) => `${name}=${value.result}`).join(', ')}`)
-          if (needs.prepare?.result !== 'success') throw new Error('Translation handoff preparation did not succeed')
+          const fs = require('node:fs')
+          const {artifactNames} = require('./scripts/docs-workflow/publication-contracts')
+          const names = artifactNames({workflow: 'translation', runId: Number(process.env.GITHUB_RUN_ID), runAttempt: Number(process.env.GITHUB_RUN_ATTEMPT), unitKey: 'translation/ja-JP/python', revision: 1})
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `selection=${names.selection}\nresults=${names.results}\n`)
           NODE
-      - uses: actions/checkout@v5
-        with: { ref: '${{ needs.prepare.outputs.tooling_sha }}', fetch-depth: 0 }
-      - uses: pnpm/action-setup@v5
-      - uses: actions/setup-node@v5
-        with: { node-version: '22.6', cache: pnpm }
-      - run: pnpm install --frozen-lockfile
-      - name: Reconcile and publish derived translation state
+      - name: Download exact immutable Translation publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ steps.artifacts.outputs.selection }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Download exact terminal Translation publication results
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ steps.artifacts.outputs.results }}
+          path: ${{ runner.temp }}/publication-results
+      - id: documents
+        name: Validate exact terminal Translation publication documents
         env:
-          INPUT_LOCALE: ${{ needs.prepare.outputs.locale }}
-          SOURCE_SHA: ${{ needs.prepare.outputs.target_branch_sha }}
-          TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
-        run: |
-          set -euo pipefail
-          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
-          git check-ref-format --branch "$TARGET_BRANCH"
-          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
-          target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
-          git merge-base --is-ancestor "$SOURCE_SHA" "$target_sha"
-          bash scripts/restore-generated-state.sh --exact --ref "$target_sha"
-
-          paths=(deploy/contracts/localization-inputs.inventory.json)
-          if [[ "$INPUT_LOCALE" == zh-CN || "$INPUT_LOCALE" == all ]]; then
-            pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$SOURCE_SHA" --write
-            pnpm docs-tooling validate-reference --site zh-CN
-            paths+=(
-              generated/en/manifests/reference.json
-              generated/zh-CN/manifests/reference-translations.json
-              generated/en/sidebars/python.sidebar.js
-              generated/en/sidebars/java.sidebar.js
-              generated/en/sidebars/node.sidebar.js
-              generated/en/sidebars/go.sidebar.js
-              generated/en/sidebars/cli.sidebar.js
-              generated/en/sidebars/restful.sidebar.js
-              generated/zh-CN/sidebars/python.sidebar.js
-              generated/zh-CN/sidebars/java.sidebar.js
-              generated/zh-CN/sidebars/node.sidebar.js
-              generated/zh-CN/sidebars/go.sidebar.js
-              generated/zh-CN/sidebars/cli.sidebar.js
-              generated/zh-CN/sidebars/restful.sidebar.js
-            )
-          fi
-          pnpm generate:localization-input-inventory
-          pnpm check:localization-input-inventory
-          if [[ "$INPUT_LOCALE" == ja-JP || "$INPUT_LOCALE" == all ]]; then
-            pnpm docs-tooling validate-mdx --path i18n/ja-JP
-            for group in guides python java node go cli rest; do
-              pnpm docs-tooling validate-translation --target ja-JP --group "$group"
-            done
-          fi
-
-          publish_worktree=$(mktemp -d "$RUNNER_TEMP/translation-derived.XXXXXX")
-          rmdir "$publish_worktree"
-          cleanup() { git worktree remove --force "$publish_worktree" >/dev/null 2>&1 || true; git worktree prune >/dev/null 2>&1 || true; }
-          trap cleanup EXIT
-          git worktree add --detach "$publish_worktree" "$target_sha"
-          for path in "${paths[@]}"; do
-            [[ -f "$path" && ! -L "$path" ]]
-            mkdir -p "$publish_worktree/$(dirname "$path")"
-            cp -- "$path" "$publish_worktree/$path"
-          done
-          git -C "$publish_worktree" add -- "${paths[@]}"
-          if git -C "$publish_worktree" diff --cached --quiet; then
-            echo "Derived translation state is already current."
-            exit 0
-          fi
-          git -C "$publish_worktree" config user.name docs-publish-bot
-          git -C "$publish_worktree" config user.email docs-publish-bot@users.noreply.github.com
-          git -C "$publish_worktree" commit -m 'chore(i18n): reconcile derived translation state' \
-            -m "sourceSha: $SOURCE_SHA" \
-            -m "translationTargetSha: $target_sha"
-          git -C "$publish_worktree" push origin "HEAD:refs/heads/$TARGET_BRANCH"
-
-  aggregate:
-    needs: [prepare, prepare_guides_batches, translate_guides_batches, translate_sdk, publish_ja_guides, publish_ja_python, publish_zh_python, publish_ja_java, publish_zh_java, publish_ja_node, publish_zh_node, publish_ja_go, publish_zh_go, publish_ja_cli, publish_zh_cli, publish_ja_rest, publish_zh_rest, publish_zh_reference_landings, reconcile_localization_inventory, reconcile_reference_state, reconcile_published_state]
-    if: ${{ always() }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Report translation orchestration result
-        env:
-          NEEDS_JSON: ${{ toJSON(needs) }}
+          EXPECTED_SELECTION_SHA256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+          EXPECTED_MODE: ${{ inputs.publish && 'publish' || 'artifact_only' }}
+          SELECTION_ARTIFACT_NAME: ${{ steps.artifacts.outputs.selection }}
+          RESULTS_ARTIFACT_NAME: ${{ steps.artifacts.outputs.results }}
         run: |
           set -euo pipefail
           node - <<'NODE'
           const fs = require('node:fs')
-          const needs = JSON.parse(process.env.NEEDS_JSON)
-          const lines = Object.entries(needs).map(([name, value]) => `${name}=${value.result}`)
-          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${lines.join('\n')}\n`)
-          const failed = Object.entries(needs).filter(([, value]) => value.result === 'failure' || value.result === 'cancelled')
-          if (failed.length) throw new Error(`Translation orchestration failed: ${failed.map(([name, value]) => `${name}=${value.result}`).join(', ')}`)
-          if (needs.prepare?.result !== 'success') throw new Error('Translation handoff preparation did not succeed')
+          const {artifactNames, readPublicationDocument} = require('./scripts/docs-workflow/publication-contracts')
+          const {summarizeTranslationPublication, validateTranslationPublicationDocuments} = require('./scripts/docs-workflow/translation-publication-results')
+          const selectionPath = `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`
+          const resultsPath = `${process.env.RUNNER_TEMP}/publication-results/publication-results.json`
+          const selection = readPublicationDocument(selectionPath, 'publication-selection')
+          const expected = artifactNames({workflow: 'translation', runId: Number(process.env.GITHUB_RUN_ID), runAttempt: Number(process.env.GITHUB_RUN_ATTEMPT), unitKey: selection.units[0].unitKey, revision: 1})
+          if (process.env.SELECTION_ARTIFACT_NAME !== expected.selection || process.env.RESULTS_ARTIFACT_NAME !== expected.results) throw new Error('publication artifact name mismatch')
+          if (selection.repository !== process.env.GITHUB_REPOSITORY) throw new Error('publication selection repository mismatch')
+          if (selection.runId !== Number(process.env.GITHUB_RUN_ID)) throw new Error('publication selection run mismatch')
+          if (selection.runAttempt !== Number(process.env.GITHUB_RUN_ATTEMPT)) throw new Error('publication selection run attempt mismatch')
+          if (selection.selectionSha256 !== process.env.EXPECTED_SELECTION_SHA256) throw new Error('publication selection checksum mismatch')
+          const results = readPublicationDocument(resultsPath, 'publication-results', {selection})
+          validateTranslationPublicationDocuments({selection, results})
+          if (results.mode !== process.env.EXPECTED_MODE) throw new Error('publication results mode mismatch')
+          if (results.overallStatus !== 'success') throw new Error(`Translation publication did not succeed: ${results.overallStatus}`)
+          const allowed = results.mode === 'publish' ? new Set(['published', 'no_changes']) : new Set(['ready'])
+          if (results.units.some(unit => !allowed.has(unit.status))) throw new Error('Translation publication results are not terminal successes')
+          const summary = summarizeTranslationPublication({selection, results})
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Translation publication\n\n${summary.units.map(unit => `- ${unit.unitKey}: ${unit.status}`).join('\n')}\n`)
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `final_target_sha=${results.finalTargetSha}\n`)
+          NODE
+      - name: Verify every successful publication result reaches the final target
+        env:
+          FINAL_TARGET_SHA: ${{ steps.documents.outputs.final_target_sha }}
+          PUBLISH_ENABLED: ${{ inputs.publish }}
+          TARGET_BRANCH: ${{ needs.prepare.outputs.target_branch }}
+        run: |
+          set -euo pipefail
+          [[ "$FINAL_TARGET_SHA" =~ ^[0-9a-f]{40}$ ]]
+          git check-ref-format --branch "$TARGET_BRANCH"
+          if [[ "$PUBLISH_ENABLED" == true ]]; then
+            git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+            target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
+            [[ "$target_sha" == "$FINAL_TARGET_SHA" ]] || { echo "Translation target moved after publication: expected $FINAL_TARGET_SHA, got $target_sha" >&2; exit 1; }
+          else
+            git fetch --no-tags origin "$FINAL_TARGET_SHA"
+          fi
+          node - <<'NODE'
+          const {readPublicationDocument} = require('./scripts/docs-workflow/publication-contracts')
+          const {verifyTranslationPublicationRepository} = require('./scripts/docs-workflow/translation-publication-results')
+          const selection = readPublicationDocument(`${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`, 'publication-selection')
+          const results = readPublicationDocument(`${process.env.RUNNER_TEMP}/publication-results/publication-results.json`, 'publication-results', {selection})
+          verifyTranslationPublicationRepository({selection, results, repository: process.env.GITHUB_WORKSPACE})
           NODE
