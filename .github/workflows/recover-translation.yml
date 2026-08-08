@@ -1,0 +1,110 @@
+name: recover Translation safely
+run-name: recover Translation run ${{ inputs.previous_translation_run_id }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      previous_translation_run_id:
+        description: Previous Translation workflow run ID (not a job ID)
+        required: true
+        type: string
+      previous_run_attempt:
+        description: Advanced exact attempt; blank selects the highest valid attempt
+        required: false
+        type: string
+        default: ''
+      publish:
+        description: Publish validated recovered translations
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: ${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}
+  queue: max
+
+jobs:
+  prepare_recovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      handoff_json: ${{ steps.plan.outputs.handoff_json }}
+      recovery_bundle_artifact_name: ${{ steps.identity.outputs.artifact_name }}
+      recovery_plan_sha256: ${{ steps.plan.outputs.recovery_plan_sha256 }}
+      recovery_provenance_json: ${{ steps.plan.outputs.recovery_provenance_json }}
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: '${{ github.sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - id: identity
+        name: Derive immutable recovery bundle identity
+        run: echo "artifact_name=translation-recovery-plan-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" >> "$GITHUB_OUTPUT"
+      - id: plan
+        name: Authenticate previous run and build queue-owned recovery handoff
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PREVIOUS_RUN_ID: ${{ inputs.previous_translation_run_id }}
+          PREVIOUS_RUN_ATTEMPT: ${{ inputs.previous_run_attempt }}
+          PUBLISH_ENABLED: ${{ inputs.publish }}
+        run: |
+          set -euo pipefail
+          args=(
+            --repository "$GITHUB_REPOSITORY"
+            --previous-run-id "$PREVIOUS_RUN_ID"
+            --output-root "$RUNNER_TEMP/translation-recovery"
+            --publish "$PUBLISH_ENABLED"
+          )
+          if [[ -n "$PREVIOUS_RUN_ATTEMPT" ]]; then args+=(--previous-run-attempt "$PREVIOUS_RUN_ATTEMPT"); fi
+          node scripts/docs-workflow/translation-recovery-planner.js "${args[@]}"
+      - name: Upload authenticated immutable recovery plan
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ steps.identity.outputs.artifact_name }}
+          path: ${{ runner.temp }}/translation-recovery/recovery-bundle
+          if-no-files-found: error
+          retention-days: 30
+      - name: Summarize authenticated recovery scope
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const plan = JSON.parse(fs.readFileSync(`${process.env.RUNNER_TEMP}/translation-recovery/recovery-bundle/recovery-plan.json`, 'utf8'))
+          const units = Object.entries(plan.recoveryMap).map(([unit, value]) => `- ${unit}: ${value.artifacts.length} authenticated artifact(s)`)
+          const reasons = plan.rejected.length ? plan.rejected.map(item => `- ${item.unit}: ${item.reason}`) : ['- None']
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+            '## Translation recovery plan', '',
+            `- Source run: ${plan.previousRunId} (attempt ${plan.previousRunAttempt})`,
+            `- Recovered target/groups: ${Object.keys(plan.recoveryMap).join(', ')}`,
+            `- Recovered files: ${plan.recoveredFileCount}`,
+            `- Pending files: ${plan.pendingFileCount}`,
+            `- Rejected recovery records: ${plan.rejectedRecoveryCount}`,
+            `- Paid model calls will occur: ${plan.paidModelCalls}`,
+            `- Publish enabled: ${plan.publish}`,
+            '', '### Authenticated artifacts', ...units,
+            '', '### Rejected recovery reasons', ...reasons, '',
+          ].join('\n'))
+          NODE
+
+  run_translation:
+    needs: [prepare_recovery]
+    uses: ./.github/workflows/translate-codex.yml
+    with:
+      handoff_json: ${{ needs.prepare_recovery.outputs.handoff_json }}
+      mode: auto
+      publish: ${{ inputs.publish }}
+      request_id: ${{ github.run_id }}-${{ github.run_attempt }}
+      recovery_bundle_artifact_name: ${{ needs.prepare_recovery.outputs.recovery_bundle_artifact_name }}
+      recovery_plan_sha256: ${{ needs.prepare_recovery.outputs.recovery_plan_sha256 }}
+      recovery_provenance_json: ${{ needs.prepare_recovery.outputs.recovery_provenance_json }}
+      production_queue_owned: true
+    secrets:
+      TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
+      REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}

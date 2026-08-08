@@ -144,6 +144,33 @@ test('retains schema-v2 handoff identities without widening the handoff contract
   assert.equal(value.units.every(unit => 'targetBaselineSha' in unit), false)
 })
 
+test('binds exact operator recovery provenance into the immutable selection checksum', () => {
+  const recoveryProvenance = {
+    schemaVersion: 1,
+    kind: 'operator-recovery',
+    sourceRepository: 'zilliztech/zdoc',
+    sourceWorkflow: '.github/workflows/translate-codex.yml',
+    sourceRunId: 42,
+    sourceRunAttempt: 2,
+    sourceSelectionSha256: 'e'.repeat(64),
+    artifacts: [{
+      unit: 'ja-JP/guides', artifactId: 9, artifactName: 'translation-recovery-ja-JP-guides-42-1',
+      artifactDigest: `sha256:${'f'.repeat(64)}`, batchNumber: 1, recovered: 3, pending: 4,
+    }],
+  }
+  const value = buildTranslationPublicationSelection(selectionInput({recoveryProvenance}))
+  assert.deepEqual(value.inputs.recoveryProvenance, recoveryProvenance)
+  assert.throws(() => buildTranslationPublicationSelection(selectionInput({
+    recoveryProvenance: {...recoveryProvenance, artifacts: [{...recoveryProvenance.artifacts[0], artifactId: 0}]},
+  })), /recovery provenance artifact/i)
+  assert.throws(() => buildTranslationPublicationSelection(selectionInput({
+    recoveryProvenance: {...recoveryProvenance, sourceRepository: 'other/zdoc'},
+  })), /recovery source repository/i)
+  assert.throws(() => buildTranslationPublicationSelection(selectionInput({
+    recoveryProvenance: {...recoveryProvenance, sourceWorkflow: '.github/workflows/fetch-docs.yml'},
+  })), /recovery source workflow/i)
+})
+
 test('accepts schema-v1 unnumbered translation manifests and hashes both immutable artifacts', () => {
   const pythonUnits = handoff().units.slice(1, 3).map((unit, publicationOrder) => ({...unit, publicationOrder}))
   const selection = buildTranslationPublicationSelection(selectionInput({handoff: {...handoff(), group: 'python', units: pythonUnits}}))

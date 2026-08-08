@@ -89,7 +89,12 @@ function buildTranslationPublicationSelection(input) {
     targetBranch: handoff.targetBranch,
     initialTargetSha: handoff.targetBaselineSha,
     sourceBaselineSha: handoff.targetBaselineSha,
-    inputs: {selectedGroup: handoff.group, publish: input.publish, runTranslations: input.runTranslations},
+    inputs: {
+      selectedGroup: handoff.group,
+      publish: input.publish,
+      runTranslations: input.runTranslations,
+      ...(input.recoveryProvenance ? {recoveryProvenance: input.recoveryProvenance} : {}),
+    },
     units,
   })
 }
@@ -193,6 +198,9 @@ function main(argv = process.argv.slice(2), env = process.env) {
       runAttempt: positiveInteger(values['run-attempt'] || env.GITHUB_RUN_ATTEMPT, 'run-attempt'),
       publish: boolean(required(values.publish || env.PUBLISH, 'publish'), 'publish'),
       runTranslations: boolean(required(values['run-translations'] || env.RUN_TRANSLATIONS, 'run-translations'), 'run-translations'),
+      recoveryProvenance: values['recovery-provenance'] || env.RECOVERY_PROVENANCE_JSON
+        ? JSON.parse(values['recovery-provenance'] || env.RECOVERY_PROVENANCE_JSON)
+        : null,
     })
     writePublicationDocument(required(values.output, 'output'), selection)
     return selection

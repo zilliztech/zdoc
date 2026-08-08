@@ -18,6 +18,8 @@ on:
       pending_set_sha256: { required: false, type: string, default: '' }
       artifact_retention_days: { required: false, type: number, default: 3 }
       recovery_run_id: { required: false, type: string, default: '' }
+      recovery_bundle_artifact_name: { required: false, type: string, default: '' }
+      recovery_plan_sha256: { required: false, type: string, default: '' }
       mode: { required: false, type: string, default: auto }
       bootstrap_group: { required: false, type: string, default: '' }
       publication_selection_artifact_name: { required: true, type: string }
@@ -173,7 +175,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 30
       - name: Download requested recovery artifacts
-        if: ${{ inputs.should_translate && inputs.recovery_run_id != '' && steps.manifest.outputs.count != '0' }}
+        if: ${{ inputs.should_translate && inputs.recovery_bundle_artifact_name == '' && inputs.recovery_run_id != '' && steps.manifest.outputs.count != '0' }}
         continue-on-error: true
         uses: actions/download-artifact@v7
         with:
@@ -182,6 +184,42 @@ jobs:
           github-token: '${{ github.token }}'
           repository: '${{ github.repository }}'
           run-id: '${{ inputs.recovery_run_id }}'
+      - name: Download authenticated recovery bundle
+        if: ${{ inputs.should_translate && inputs.recovery_bundle_artifact_name != '' && steps.manifest.outputs.count != '0' }}
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ inputs.recovery_bundle_artifact_name }}
+          path: ${{ runner.temp }}/translation-recovery-bundle
+      - name: Authenticate recovery bundle unit
+        if: ${{ inputs.should_translate && inputs.recovery_bundle_artifact_name != '' && steps.manifest.outputs.count != '0' }}
+        env:
+          EXPECTED_RECOVERY_PLAN_SHA256: ${{ inputs.recovery_plan_sha256 }}
+        run: |
+          node - <<'NODE'
+          const crypto = require('node:crypto')
+          const fs = require('node:fs')
+          const path = require('node:path')
+          const root = `${process.env.RUNNER_TEMP}/translation-recovery-bundle`
+          const planFile = path.join(root, 'recovery-plan.json')
+          const bytes = fs.readFileSync(planFile)
+          const digest = crypto.createHash('sha256').update(bytes).digest('hex')
+          if (digest !== process.env.EXPECTED_RECOVERY_PLAN_SHA256) throw new Error('recovery plan checksum mismatch')
+          const plan = JSON.parse(bytes)
+          const identity = `${process.env.TRANSLATION_TARGET}/${process.env.GROUP}`
+          const selected = plan.recoveryMap?.[identity]
+          if (!selected || selected.unitToken !== identity.replaceAll('/', '-') || !Array.isArray(selected.artifacts)) throw new Error('recovery artifact identity is not selected in recoveryMap')
+          if (selected.artifacts.length === 0) throw new Error('authenticated recovery artifacts are missing for pending work; stopping before model invocation')
+          fs.rmSync(process.env.RECOVERY_DOWNLOAD_DIR, {recursive: true, force: true})
+          fs.mkdirSync(process.env.RECOVERY_DOWNLOAD_DIR, {recursive: true})
+          for (const artifact of selected.artifacts) {
+            if (!Number.isSafeInteger(artifact.artifactId) || artifact.artifactId < 1 || !/^sha256:[0-9a-f]{64}$/.test(artifact.artifactDigest || '') || !Number.isSafeInteger(artifact.batchNumber) || artifact.batchNumber < 0) throw new Error('recovery artifact identity is invalid')
+            const source = path.join(root, 'artifacts', selected.unitToken, `batch-${artifact.batchNumber}`)
+            const destination = path.join(process.env.RECOVERY_DOWNLOAD_DIR, `artifact-${artifact.artifactId}`)
+            const stat = fs.lstatSync(source)
+            if (!stat.isDirectory() || stat.isSymbolicLink()) throw new Error('recovery artifact identity payload is missing')
+            fs.cpSync(source, destination, {recursive: true, dereference: false, errorOnExist: true})
+          }
+          NODE
       - name: Run translation agents
         id: agents
         if: ${{ inputs.should_translate && steps.manifest.outputs.count != '0' }}

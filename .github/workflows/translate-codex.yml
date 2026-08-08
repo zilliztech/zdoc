@@ -16,6 +16,10 @@ on:
       publish: { required: false, type: boolean, default: false }
       recovery_run_ids_json: { required: false, type: string, default: '{}' }
       request_id: { required: false, type: string, default: '' }
+      recovery_bundle_artifact_name: { required: false, type: string, default: '' }
+      recovery_plan_sha256: { required: false, type: string, default: '' }
+      recovery_provenance_json: { required: false, type: string, default: '' }
+      production_queue_owned: { required: false, type: boolean, default: false }
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
@@ -27,7 +31,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}
+  group: ${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}
   queue: max
 
 jobs:
@@ -109,6 +113,8 @@ jobs:
         env:
           HANDOFF_JSON: ${{ inputs.handoff_json }}
           RECOVERY_RUN_IDS_JSON: ${{ inputs.recovery_run_ids_json }}
+          RECOVERY_BUNDLE_ARTIFACT_NAME: ${{ inputs.recovery_bundle_artifact_name }}
+          RECOVERY_PLAN_SHA256: ${{ inputs.recovery_plan_sha256 }}
           REQUEST_ID: ${{ inputs.request_id }}
         run: |
           set -euo pipefail
@@ -139,6 +145,9 @@ jobs:
             if (!handoff.units.some(unit => `${unit.target}/${unit.group}` === key)) throw new Error(`Recovery run ID is not selected: ${key}`)
             if (value !== '' && !/^[1-9][0-9]*$/.test(String(value))) throw new Error(`Recovery run ID is invalid: ${key}`)
           }
+          const bundleValues = [process.env.RECOVERY_BUNDLE_ARTIFACT_NAME, process.env.RECOVERY_PLAN_SHA256]
+          if (bundleValues.some(Boolean) && !bundleValues.every(Boolean)) throw new Error('authenticated recovery bundle identity must be complete')
+          if (process.env.RECOVERY_PLAN_SHA256 && !/^[0-9a-f]{64}$/.test(process.env.RECOVERY_PLAN_SHA256)) throw new Error('recovery plan checksum is invalid')
           const sdk = handoff.units.filter(unit => unit.group !== 'guides').map(unit => ({...unit, publicationUnitKey: `translation/${unit.target}/${unit.group}`, recoveryRunId: String(recovery[`${unit.target}/${unit.group}`] || '')}))
           const guides = handoff.units.find(unit => unit.target === 'ja-JP' && unit.group === 'guides')
           const sourceCheckpoints = Object.fromEntries(handoff.units.map(unit => [unit.sourceGroup, unit.sourceCheckpointSha]))
@@ -162,6 +171,7 @@ jobs:
         env:
           HANDOFF_JSON: ${{ inputs.handoff_json }}
           PUBLISH_ENABLED: ${{ inputs.publish }}
+          RECOVERY_PROVENANCE_JSON: ${{ inputs.recovery_provenance_json }}
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/publication-selection"
@@ -213,6 +223,8 @@ jobs:
       max_files: '500'
       mode: ${{ inputs.mode }}
       recovery_run_id: ${{ needs.prepare.outputs.guides_recovery_run_id }}
+      recovery_bundle_artifact_name: ${{ inputs.recovery_bundle_artifact_name }}
+      recovery_plan_sha256: ${{ inputs.recovery_plan_sha256 }}
       batch_index: ${{ matrix.batchIndex }}
       batch_number: ${{ matrix.batchNumber }}
       batch_count: ${{ fromJSON(needs.prepare_guides_batches.outputs.batch_count) }}
@@ -245,6 +257,8 @@ jobs:
       max_files: '500'
       mode: ${{ inputs.mode }}
       recovery_run_id: ${{ matrix.recoveryRunId }}
+      recovery_bundle_artifact_name: ${{ inputs.recovery_bundle_artifact_name }}
+      recovery_plan_sha256: ${{ inputs.recovery_plan_sha256 }}
       publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
       publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
       publication_unit_key: ${{ matrix.publicationUnitKey }}
@@ -514,7 +528,9 @@ jobs:
           const allowed = results.mode === 'publish' ? new Set(['published', 'no_changes']) : new Set(['ready'])
           if (results.units.some(unit => !allowed.has(unit.status))) throw new Error('Translation publication results are not terminal successes')
           const summary = summarizeTranslationPublication({selection, results})
-          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Translation publication\n\n${summary.units.map(unit => `- ${unit.unitKey}: ${unit.status}`).join('\n')}\n`)
+          const recoveryProvenance = selection.inputs.recoveryProvenance
+          const recoveryLine = recoveryProvenance ? `\n- Recovery source: ${recoveryProvenance.sourceRunId} attempt ${recoveryProvenance.sourceRunAttempt}` : ''
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Translation publication\n\n${summary.units.map(unit => `- ${unit.unitKey}: ${unit.status}`).join('\n')}${recoveryLine}\n`)
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `final_target_sha=${results.finalTargetSha}\n`)
           NODE
       - name: Verify every successful publication result reaches the final target

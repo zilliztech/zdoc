@@ -14,14 +14,19 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
 
 test('publish-capable top-level workflows share the durable dev queue', () => {
   const fetch = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const recovery = yaml.load(fs.readFileSync('.github/workflows/recover-translation.yml', 'utf8'))
   const translation = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
   const tooling = yaml.load(fs.readFileSync('.github/workflows/sync-master-tooling-to-dev.yml', 'utf8'))
   assert.deepEqual(fetch.concurrency, {group: 'docs-production-dev', queue: 'max'})
   assert.deepEqual(tooling.concurrency, {group: 'docs-production-dev', queue: 'max'})
+  assert.deepEqual(recovery.concurrency, {
+    group: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}",
+    queue: 'max',
+  })
   assert.equal(translation.concurrency.queue, 'max')
   assert.equal(
     translation.concurrency.group,
-    "${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+    "${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
   )
 })
 
@@ -165,7 +170,7 @@ test('workflow policy rejects durable production dev queue regressions', () => {
     {
       file: 'translate-codex.yml',
       mutate: source => source.replace(
-        "  group: ${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+        "  group: ${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
         '  group: docs-production-dev',
       ),
       expected: 'translate-codex.yml: read-only Translation must use a unique concurrency group',
@@ -421,7 +426,7 @@ test('translation workflows declare immutable target identity and exact target v
   for (const input of ['locale', 'group', 'tooling_sha', 'source_shas_json', 'target_branch']) assert.equal(compatibility.on.workflow_dispatch.inputs[input], undefined)
   assert.equal(compatibility.on.workflow_dispatch.inputs.publish.default, false)
   assert.deepEqual(compatibility.concurrency, {
-    group: "${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+    group: "${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
     queue: 'max',
   })
   const compatibilitySource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')

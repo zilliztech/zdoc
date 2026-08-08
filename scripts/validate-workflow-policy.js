@@ -8,7 +8,8 @@ const workflowDirectory = path.join(process.cwd(), '.github', 'workflows')
 const PRODUCTION_DEV_QUEUE = 'docs-production-dev'
 const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
   ['fetch-docs.yml', {conditional: false}],
-  ['translate-codex.yml', {conditional: true}],
+  ['recover-translation.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}"}],
+  ['translate-codex.yml', {conditional: true, expectedGroup: "${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}"}],
   ['sync-master-tooling-to-dev.yml', {conditional: false}],
 ]))
 const TOP_LEVEL_WRITER_INVENTORY = Object.freeze(new Map([
@@ -280,7 +281,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const productionQueueOwner = PRODUCTION_QUEUE_OWNERS.get(file)
     const concurrencyGroup = concurrencyGroupOf(workflow?.concurrency)
     if (productionQueueOwner?.conditional) {
-      const expectedGroup = "${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}"
+      const expectedGroup = productionQueueOwner.expectedGroup
       if (concurrencyGroup !== expectedGroup) {
         errors.push(`${file}: read-only Translation must use a unique concurrency group`)
       }
