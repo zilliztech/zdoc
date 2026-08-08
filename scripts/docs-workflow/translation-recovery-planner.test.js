@@ -17,6 +17,9 @@ const {
 const SHA = character => character.repeat(40)
 const HASH = value => crypto.createHash('sha256').update(value).digest('hex')
 const RUN_ID = 42001
+const RETAINED_TOOLING_SHA = 'b05b782e903716222b3fa08ca939f19737f2ecbd'
+const RETAINED_WORKFLOW_SHA = '3d80c942f12e5e6bdf429240621af1fc723432e5'
+const EXECUTION_TOOLING_SHA = '9'.repeat(40)
 
 function selectedUnit(target, group, order) {
   return {
@@ -41,7 +44,7 @@ function selectedUnit(target, group, order) {
   }
 }
 
-function selection(runAttempt = 2) {
+function selection(runAttempt = 2, toolingSha = RETAINED_TOOLING_SHA) {
   const identities = [
     ['ja-JP', 'guides'],
     ['ja-JP', 'python'], ['zh-CN-reference', 'python'],
@@ -51,7 +54,7 @@ function selection(runAttempt = 2) {
     ['ja-JP', 'cli'], ['zh-CN-reference', 'cli'],
     ['ja-JP', 'rest'], ['zh-CN-reference', 'rest'],
   ]
-  const units = identities.map(([target, group], order) => selectedUnit(target, group, order))
+  const units = identities.map(([target, group], order) => ({...selectedUnit(target, group, order), toolingSha}))
     .map(({publicationOrder: _ignored, ...unit}) => unit)
   return finalizePublicationSelection({
     schemaVersion: 1,
@@ -60,7 +63,7 @@ function selection(runAttempt = 2) {
     repository: 'zilliztech/zdoc',
     runId: RUN_ID,
     runAttempt,
-    toolingSha: SHA('a'),
+    toolingSha,
     targetBranch: 'dev',
     initialTargetSha: SHA('d'),
     sourceBaselineSha: SHA('d'),
@@ -75,17 +78,22 @@ function writeJson(root, relative, value) {
   fs.writeFileSync(target, `${JSON.stringify(value)}\n`)
 }
 
-function reportArtifact(root, pending, target = 'ja-JP') {
+function reportArtifact(root, candidateCount, target = 'ja-JP', group = 'guides', translated = candidateCount) {
+  const locale = target === 'ja-JP' ? 'ja-JP' : 'zh-CN'
+  const results = candidateCount === 0 ? [] : [{
+    sourcePath: `content/en/${group}/source.md`,
+    targetPath: target === 'ja-JP' ? `i18n/ja-JP/docusaurus-plugin-content-docs/current/${group}/source.md` : `content/zh-CN/reference/api/${group}/source.md`,
+    sourceHash: 'f'.repeat(64), locale, target, status: translated ? 'translated' : 'failed',
+    ...(translated ? {review: {pass: true, reviewerPass: true}, validationErrors: []} : {error: 'failed'}),
+  }]
   writeJson(root, 'translation-report.json', {
-    target,
-    locale: target === 'ja-JP' ? 'ja-JP' : 'zh-CN',
-    results: [],
-    checkpoint: {processed: 0, remaining: pending, translated: 0, failed: 0},
+    target, locale, results,
+    checkpoint: {target, processed: candidateCount, remaining: 0, translated, failed: candidateCount - translated, generatedAt: '2026-08-08T01:59:00.000Z'},
   })
-  fs.writeFileSync(path.join(root, 'translation-report.md'), `### Translation report\n\n- Pending: ${pending}\n- Translated: 0\n- Failed: 0\n- Remaining: ${pending}\n`)
+  fs.writeFileSync(path.join(root, 'translation-report.md'), `### Translation report\n\n- Pending: ${candidateCount}\n- Translated: ${translated}\n- Failed: ${candidateCount - translated}\n- Remaining: 0\n`)
 }
 
-function recoveryArtifact(root, {target, group, translated = 1}) {
+function recoveryArtifact(root, {target, group, translated = 1, toolingSha = RETAINED_TOOLING_SHA}) {
   const locale = target === 'ja-JP' ? 'ja-JP' : 'zh-CN'
   const sourcePath = `content/en/${group}/source.md`
   const targetPath = target === 'ja-JP' ? `i18n/ja-JP/docusaurus-plugin-content-docs/current/${group}/source.md` : `content/zh-CN/reference/api/${group}/source.md`
@@ -97,7 +105,7 @@ function recoveryArtifact(root, {target, group, translated = 1}) {
     promptContractSha256: 'e'.repeat(64),
     model: 'translation-model',
     sourceSha: SHA('c'),
-    toolingSha: SHA('a'),
+    toolingSha,
     translated,
   })
   const files = translated ? [{
@@ -123,7 +131,7 @@ function recoveryArtifact(root, {target, group, translated = 1}) {
 function fixture(t, overrides = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-plan-'))
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
-  const selected = selection()
+  const selected = selection(2, overrides.retainedToolingSha || RETAINED_TOOLING_SHA)
   const payloads = new Map()
   const artifacts = []
   let nextId = 1
@@ -142,32 +150,49 @@ function fixture(t, overrides = {}) {
   }
   artifact(`publication-selection-translation-${RUN_ID}-2`, directory => writeJson(directory, 'publication-selection.json', selected))
   for (const unit of selected.units.filter(unit => unit.strategy !== 'ja-guides')) {
-    artifact(`translation-report-${unit.target}-${unit.group}-${RUN_ID}`, directory => reportArtifact(directory, 1, unit.target))
-    artifact(`translation-recovery-${unit.target}-${unit.group}-${RUN_ID}-0`, directory => recoveryArtifact(directory, {target: unit.target, group: unit.group}))
+    artifact(`translation-report-${unit.target}-${unit.group}-${RUN_ID}`, directory => reportArtifact(directory, 1, unit.target, unit.group))
+    artifact(`translation-recovery-${unit.target}-${unit.group}-${RUN_ID}-0`, directory => recoveryArtifact(directory, {target: unit.target, group: unit.group, toolingSha: selected.toolingSha}))
   }
   for (const batch of [1, 2]) {
-    artifact(`translation-report-ja-JP-guides-${RUN_ID}-batch-${batch}`, directory => reportArtifact(directory, 1))
-    artifact(`translation-recovery-ja-JP-guides-${RUN_ID}-${batch}`, directory => recoveryArtifact(directory, {target: 'ja-JP', group: 'guides'}))
+    artifact(`translation-report-ja-JP-guides-${RUN_ID}-batch-${batch}`, directory => reportArtifact(directory, 1, 'ja-JP', 'guides'))
+    artifact(`translation-recovery-ja-JP-guides-${RUN_ID}-${batch}`, directory => recoveryArtifact(directory, {target: 'ja-JP', group: 'guides', toolingSha: selected.toolingSha}))
   }
   const run = {
     id: RUN_ID, status: 'completed', conclusion: 'failure', run_attempt: 2,
-    path: '.github/workflows/translate-codex.yml', repository: {id: 7, full_name: 'zilliztech/zdoc'}, head_sha: SHA('a'),
+    path: '.github/workflows/translate-codex.yml', repository: {id: 7, full_name: 'zilliztech/zdoc'}, head_sha: RETAINED_WORKFLOW_SHA,
   }
   const attempts = new Map([
     [1, {...run, run_attempt: 1, status: 'completed', run_started_at: '2026-08-08T00:00:00.000Z', updated_at: '2026-08-08T00:59:00.000Z'}],
     [2, {...run, run_attempt: 2, status: 'completed', run_started_at: '2026-08-08T01:00:00.000Z', updated_at: '2026-08-08T02:00:00.000Z'}],
   ])
+  const jobs = [{
+    id: 100, name: 'prepare', run_attempt: 2, status: 'completed', conclusion: 'success',
+    started_at: '2026-08-08T01:00:00.000Z', completed_at: '2026-08-08T01:05:00.000Z',
+  }]
+  let nextJobId = 101
+  for (const unit of selected.units) {
+    if (unit.strategy === 'ja-guides') {
+      for (const batchNumber of [1, 2]) jobs.push({
+        id: nextJobId++, name: `translate_guides_batches (${batchNumber - 1}, ${batchNumber}) / translate`,
+        run_attempt: 2, status: 'completed', conclusion: 'failure',
+        started_at: '2026-08-08T01:05:00.000Z', completed_at: '2026-08-08T02:00:00.000Z',
+      })
+    } else jobs.push({
+      id: nextJobId++, name: `${unit.producerJob} / translate`, run_attempt: 2, status: 'completed', conclusion: 'failure',
+      started_at: '2026-08-08T01:05:00.000Z', completed_at: '2026-08-08T02:00:00.000Z',
+    })
+  }
   const client = {
     async getRun() { return overrides.run || run },
     async getJob() { return overrides.job || null },
     async getAttempt(_runId, attempt) { return attempts.get(attempt) },
     async listArtifacts() { return overrides.artifacts || artifacts },
-    async listJobs() { return overrides.jobs || [] },
+    async listJobs() { return overrides.jobs || jobs },
     async downloadArtifact(record, destination) {
       fs.cpSync(payloads.get(record.id), destination, {recursive: true})
     },
   }
-  return {root, artifacts, payloads, client, selected}
+  return {root, artifacts, payloads, client, selected, jobs, addArtifact: artifact}
 }
 
 test('rejects job IDs, wrong workflows, nonterminal attempts, expired selections, and ambiguous attempts before recovery planning', async t => {
@@ -185,19 +210,56 @@ test('authenticates the selection and exact artifact identities, generates the r
   const value = fixture(t)
   const planned = await planTranslationRecovery({
     repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'output'),
-    targetBaselineSha: SHA('9'), publish: true, client: value.client,
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, publish: true, client: value.client,
   })
   assert.equal(planned.plan.previousRunId, RUN_ID)
   assert.equal(planned.plan.previousRunAttempt, 2)
   assert.equal(planned.plan.selectionSha256, value.selected.selectionSha256)
   assert.deepEqual(Object.keys(planned.plan.recoveryMap), value.selected.units.map(unit => `${unit.target}/${unit.group}`))
   assert.deepEqual(planned.plan.recoveryMap['ja-JP/guides'].artifacts.map(item => item.batchNumber), [1, 2])
-  assert.equal(planned.plan.recoveredFileCount, 14)
-  assert.equal(planned.plan.pendingFileCount, 0)
-  assert.equal(planned.plan.paidModelCalls, false)
+  assert.equal(planned.plan.retainedFileCount, 14)
+  assert.equal(planned.plan.sourceCandidateCount, 14)
+  assert.equal(planned.plan.compatibilityStatus, 'pending-current-contract-preflight')
+  assert.equal('paidModelCalls' in planned.plan, false)
+  assert.equal('recoveredFileCount' in planned.plan, false)
   assert.equal(planned.plan.publish, true)
-  assert.equal(planned.handoff.targetBaselineSha, SHA('9'))
-  assert.ok(planned.handoff.units.every(unit => unit.sourceCheckpointSha === SHA('c') && unit.targetBaselineSha === SHA('9')))
+  assert.equal(planned.handoff.toolingSha, EXECUTION_TOOLING_SHA)
+  assert.equal(planned.handoff.targetBaselineSha, SHA('8'))
+  assert.ok(planned.handoff.units.every(unit => unit.sourceCheckpointSha === SHA('c') && unit.targetBaselineSha === SHA('8')))
+  assert.deepEqual({
+    sourceWorkflowSha: planned.plan.provenance.sourceWorkflowSha,
+    sourceToolingSha: planned.plan.provenance.sourceToolingSha,
+    executionToolingSha: planned.plan.provenance.executionToolingSha,
+  }, {
+    sourceWorkflowSha: RETAINED_WORKFLOW_SHA,
+    sourceToolingSha: RETAINED_TOOLING_SHA,
+    executionToolingSha: EXECUTION_TOOLING_SHA,
+  })
+})
+
+test('uses current reviewed execution tooling while preserving exact b05 retained source provenance', async t => {
+  const value = fixture(t)
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'retained-boundary'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: value.client,
+  })
+  assert.equal(value.selected.toolingSha, RETAINED_TOOLING_SHA)
+  assert.equal(planned.handoff.toolingSha, EXECUTION_TOOLING_SHA)
+  assert.equal(planned.plan.provenance.sourceToolingSha, RETAINED_TOOLING_SHA)
+  assert.equal(planned.plan.provenance.sourceWorkflowSha, RETAINED_WORKFLOW_SHA)
+  assert.ok(planned.handoff.units.every((unit, index) => unit.sourceCheckpointSha === value.selected.units[index].sourceCheckpointSha))
+})
+
+test('authenticates exact producer identities through the operator recovery caller prefix', async t => {
+  const value = fixture(t)
+  const run = {...(await value.client.getRun()), path: '.github/workflows/recover-translation.yml'}
+  const jobs = value.jobs.map(job => ({...job, name: `run_translation / ${job.name}`}))
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'nested-recovery'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...value.client, getRun: async () => run, listJobs: async () => jobs},
+  })
+  assert.equal(planned.plan.provenance.sourceWorkflow, '.github/workflows/recover-translation.yml')
 })
 
 test('rejects selection checksum or recovery identity mismatches and missing paid-work recovery artifacts', async t => {
@@ -220,10 +282,72 @@ test('rejects selection checksum or recovery identity mismatches and missing pai
   await assert.rejects(() => planTranslationRecovery({repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(missing.root, 'missing'), targetBaselineSha: SHA('9'), client: {...missing.client, listArtifacts: async () => missing.artifacts.filter(item => !item.name.includes('recovery-ja-JP-python'))}}), /missing recovery artifact.*before model/i)
 })
 
+test('binds strict report JSON and exact producer job identity before accepting retained recovery', async t => {
+  const missingJson = fixture(t)
+  const report = missingJson.artifacts.find(item => item.name === `translation-report-ja-JP-python-${RUN_ID}`)
+  fs.rmSync(path.join(missingJson.payloads.get(report.id), 'translation-report.json'))
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(missingJson.root, 'missing-report-json'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: missingJson.client,
+  }), /translation report.*json|strict report/i)
+
+  const ambiguous = fixture(t)
+  const duplicated = ambiguous.artifacts.find(item => item.name === `translation-report-ja-JP-python-${RUN_ID}`)
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(ambiguous.root, 'ambiguous-report'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...ambiguous.client, listArtifacts: async () => [...ambiguous.artifacts, {...duplicated, id: 9999}]},
+  }), /translation report.*exactly once|ambiguous/i)
+
+  const wrongJob = fixture(t)
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(wrongJob.root, 'wrong-job'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...wrongJob.client, listJobs: async () => wrongJob.jobs.filter(job => job.name !== 'translate:ja-JP/python / translate')},
+  }), /producer job.*ja-JP\/python|job identity/i)
+
+  const outsideWindow = fixture(t)
+  const outsideReport = outsideWindow.artifacts.find(item => item.name === `translation-report-ja-JP-python-${RUN_ID}`)
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(outsideWindow.root, 'outside-job-window'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...outsideWindow.client, listArtifacts: async () => outsideWindow.artifacts.map(artifact => artifact.id === outsideReport.id ? {...artifact, created_at: '2026-08-08T02:30:00.000Z'} : artifact)},
+  }), /producer job time window/i)
+})
+
+test('authenticates optional progress/results and requires terminal results only after a successful publisher', async t => {
+  const tamperedProgress = fixture(t)
+  tamperedProgress.addArtifact(`publication-progress-translation-${RUN_ID}-2-1`, directory => writeJson(directory, 'publication-progress.json', {schemaVersion: 1, document: 'publication-progress'}))
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(tamperedProgress.root, 'tampered-progress'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: tamperedProgress.client,
+  }), /publication-progress|progress.*identity/i)
+
+  const ambiguousResults = fixture(t)
+  const resultName = `publication-results-translation-${RUN_ID}-2`
+  ambiguousResults.addArtifact(resultName, directory => writeJson(directory, 'publication-results.json', {bad: true}))
+  ambiguousResults.addArtifact(resultName, directory => writeJson(directory, 'publication-results.json', {bad: true}))
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(ambiguousResults.root, 'ambiguous-results'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: ambiguousResults.client,
+  }), /publication results.*exactly once|ambiguous/i)
+
+  const missingRequired = fixture(t)
+  const publishJob = {
+    id: 999, name: 'publish_ready', run_attempt: 2, status: 'completed', conclusion: 'success',
+    started_at: '2026-08-08T01:05:00.000Z', completed_at: '2026-08-08T02:00:00.000Z',
+  }
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(missingRequired.root, 'missing-results'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...missingRequired.client, listJobs: async () => [...missingRequired.jobs, publishJob]},
+  }), /terminal publication results.*required|missing.*publication results/i)
+})
+
 test('builds a new schema-v2 handoff from preserved source provenance and the queue-owned target baseline', () => {
-  const handoff = buildRecoveryHandoff(selection(), SHA('9'))
+  const handoff = buildRecoveryHandoff(selection(), SHA('9'), EXECUTION_TOOLING_SHA)
   assert.equal(handoff.schemaVersion, 2)
-  assert.equal(handoff.toolingSha, SHA('a'))
+  assert.equal(handoff.toolingSha, EXECUTION_TOOLING_SHA)
   assert.equal(handoff.targetBaselineSha, SHA('9'))
   assert.ok(handoff.units.every(unit => unit.sourceBaselineSha === SHA('b')))
   assert.ok(handoff.units.every(unit => unit.sourceCheckpointSha === SHA('c')))

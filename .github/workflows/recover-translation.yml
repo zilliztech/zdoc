@@ -18,10 +18,15 @@ on:
         required: false
         type: boolean
         default: false
+      allow_full_retranslate:
+        description: Advanced authorization to continue when no retained file is compatible with the current contract
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   actions: read
-  contents: read
+  contents: write
 
 concurrency:
   group: ${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}
@@ -31,6 +36,9 @@ jobs:
   prepare_recovery:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: read
     outputs:
       handoff_json: ${{ steps.plan.outputs.handoff_json }}
       recovery_bundle_artifact_name: ${{ steps.identity.outputs.artifact_name }}
@@ -59,6 +67,7 @@ jobs:
             --repository "$GITHUB_REPOSITORY"
             --previous-run-id "$PREVIOUS_RUN_ID"
             --output-root "$RUNNER_TEMP/translation-recovery"
+            --execution-tooling-sha "$GITHUB_SHA"
             --publish "$PUBLISH_ENABLED"
           )
           if [[ -n "$PREVIOUS_RUN_ATTEMPT" ]]; then args+=(--previous-run-attempt "$PREVIOUS_RUN_ATTEMPT"); fi
@@ -80,11 +89,11 @@ jobs:
           fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
             '## Translation recovery plan', '',
             `- Source run: ${plan.previousRunId} (attempt ${plan.previousRunAttempt})`,
-            `- Recovered target/groups: ${Object.keys(plan.recoveryMap).join(', ')}`,
-            `- Recovered files: ${plan.recoveredFileCount}`,
-            `- Pending files: ${plan.pendingFileCount}`,
+            `- Authenticated target/groups: ${Object.keys(plan.recoveryMap).join(', ')}`,
+            `- Retained source files: ${plan.retainedFileCount}`,
+            `- Source candidates: ${plan.sourceCandidateCount}`,
+            `- Compatibility status: ${plan.compatibilityStatus}`,
             `- Rejected recovery records: ${plan.rejectedRecoveryCount}`,
-            `- Paid model calls will occur: ${plan.paidModelCalls}`,
             `- Publish enabled: ${plan.publish}`,
             '', '### Authenticated artifacts', ...units,
             '', '### Rejected recovery reasons', ...reasons, '',
@@ -93,6 +102,9 @@ jobs:
 
   run_translation:
     needs: [prepare_recovery]
+    permissions:
+      actions: read
+      contents: write
     uses: ./.github/workflows/translate-codex.yml
     with:
       handoff_json: ${{ needs.prepare_recovery.outputs.handoff_json }}
@@ -103,6 +115,7 @@ jobs:
       recovery_plan_sha256: ${{ needs.prepare_recovery.outputs.recovery_plan_sha256 }}
       recovery_provenance_json: ${{ needs.prepare_recovery.outputs.recovery_provenance_json }}
       production_queue_owned: true
+      allow_full_retranslate: ${{ inputs.allow_full_retranslate }}
     secrets:
       TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
       REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}

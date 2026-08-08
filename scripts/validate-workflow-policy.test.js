@@ -30,6 +30,28 @@ test('publish-capable top-level workflows share the durable dev queue', () => {
   )
 })
 
+test('operator recovery grants the reusable Translation writer permission ceiling', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-recovery-permissions-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, {recursive: true})
+    const file = path.join(directory, 'recover-translation.yml')
+    const source = fs.readFileSync(file, 'utf8')
+    const mutated = source.replace('  contents: write', '  contents: read')
+    assert.notEqual(mutated, source)
+    fs.writeFileSync(file, mutated)
+    assert.ok(validateWorkflowPolicies(directory).includes('recover-translation.yml: caller must grant contents: write so publish_ready can publish'))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
+test('operator recovery keeps preparation read-only while granting only the reusable call its writer ceiling', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/recover-translation.yml', 'utf8'))
+  assert.deepEqual(workflow.jobs.prepare_recovery.permissions, {actions: 'read', contents: 'read'})
+  assert.deepEqual(workflow.jobs.run_translation.permissions, {actions: 'read', contents: 'write'})
+})
+
 test('reusable workflows never reacquire the production dev queue', () => {
   for (const file of fs.readdirSync('.github/workflows').filter(name => name.startsWith('_') && /\.ya?ml$/.test(name))) {
     const workflow = yaml.load(fs.readFileSync(path.join('.github/workflows', file), 'utf8'))

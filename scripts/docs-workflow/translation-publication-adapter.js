@@ -102,23 +102,60 @@ function validateTranslationSelection(value, helpers) {
   if (typeof value.inputs.publish !== 'boolean' || typeof value.inputs.runTranslations !== 'boolean') helpers.invalid(document, 'input booleans are invalid')
   if (Object.hasOwn(value.inputs, 'recoveryProvenance')) {
     const recovery = value.inputs.recoveryProvenance
-    helpers.exactKeys(recovery, ['schemaVersion', 'kind', 'sourceRepository', 'sourceWorkflow', 'sourceRunId', 'sourceRunAttempt', 'sourceSelectionSha256', 'artifacts'], 'recovery provenance', document)
-    if (recovery.schemaVersion !== 1 || recovery.kind !== 'operator-recovery') helpers.invalid(document, 'recovery provenance header is invalid')
+    helpers.exactKeys(recovery, [
+      'schemaVersion', 'kind', 'sourceRepository', 'sourceWorkflow', 'sourceRunId', 'sourceRunAttempt',
+      'sourceWorkflowSha', 'sourceToolingSha', 'executionToolingSha', 'sourceSelectionSha256',
+      'publicationEvidence', 'artifacts',
+    ], 'recovery provenance', document)
+    if (recovery.schemaVersion !== 2 || recovery.kind !== 'operator-recovery') helpers.invalid(document, 'recovery provenance header is invalid')
     helpers.assertString(recovery.sourceRepository, 'recovery source repository', document)
     helpers.assertString(recovery.sourceWorkflow, 'recovery source workflow', document)
     if (recovery.sourceRepository !== value.repository) helpers.invalid(document, 'recovery source repository does not match the publication repository')
     if (!RECOVERY_SOURCE_WORKFLOWS.has(recovery.sourceWorkflow)) helpers.invalid(document, 'recovery source workflow is not allowlisted')
     helpers.assertPositiveInteger(recovery.sourceRunId, 'recovery source run ID', document)
     helpers.assertPositiveInteger(recovery.sourceRunAttempt, 'recovery source run attempt', document)
+    helpers.assertSha(recovery.sourceWorkflowSha, 'recovery source workflow SHA', document)
+    helpers.assertSha(recovery.sourceToolingSha, 'recovery source tooling SHA', document)
+    helpers.assertSha(recovery.executionToolingSha, 'recovery execution tooling SHA', document)
     helpers.assertChecksum(recovery.sourceSelectionSha256, 'recovery source selection checksum', document)
+    const evidence = recovery.publicationEvidence
+    helpers.exactKeys(evidence, ['publisherJob', 'progress', 'results', 'resultsAbsenceReason'], 'recovery publication evidence', document)
+    if (evidence.publisherJob !== null) {
+      helpers.exactKeys(evidence.publisherJob, ['jobId', 'status', 'conclusion', 'startedAt', 'completedAt'], 'recovery publisher job', document)
+      helpers.assertPositiveInteger(evidence.publisherJob.jobId, 'recovery publisher job ID', document)
+      helpers.assertString(evidence.publisherJob.status, 'recovery publisher job status', document)
+      helpers.assertString(evidence.publisherJob.conclusion, 'recovery publisher job conclusion', document)
+      for (const key of ['startedAt', 'completedAt']) {
+        const timestamp = evidence.publisherJob[key]
+        if (timestamp !== null && (typeof timestamp !== 'string' || Number.isNaN(Date.parse(timestamp)) || new Date(timestamp).toISOString() !== timestamp)) helpers.invalid(document, `recovery publisher job ${key} is invalid`)
+      }
+    }
+    if (!Array.isArray(evidence.progress)) helpers.invalid(document, 'recovery publication progress must be an array')
+    for (const [index, progress] of evidence.progress.entries()) {
+      helpers.exactKeys(progress, ['artifactId', 'artifactName', 'artifactDigest', 'revision'], `recovery publication progress ${index}`, document)
+      helpers.assertPositiveInteger(progress.artifactId, `recovery publication progress ${index} ID`, document)
+      helpers.assertArtifactName(progress.artifactName, `recovery publication progress ${index} name`, document)
+      if (typeof progress.artifactDigest !== 'string' || !/^sha256:[0-9a-f]{64}$/u.test(progress.artifactDigest)) helpers.invalid(document, `recovery publication progress ${index} digest is invalid`)
+      helpers.assertPositiveInteger(progress.revision, `recovery publication progress ${index} revision`, document)
+    }
+    if (evidence.results === null) helpers.assertString(evidence.resultsAbsenceReason, 'recovery results absence reason', document)
+    else {
+      if (evidence.resultsAbsenceReason !== null) helpers.invalid(document, 'recovery results absence reason must be null when results exist')
+      helpers.exactKeys(evidence.results, ['artifactId', 'artifactName', 'artifactDigest', 'overallStatus', 'finalTargetSha'], 'recovery publication results', document)
+      helpers.assertPositiveInteger(evidence.results.artifactId, 'recovery publication results ID', document)
+      helpers.assertArtifactName(evidence.results.artifactName, 'recovery publication results name', document)
+      if (typeof evidence.results.artifactDigest !== 'string' || !/^sha256:[0-9a-f]{64}$/u.test(evidence.results.artifactDigest)) helpers.invalid(document, 'recovery publication results digest is invalid')
+      helpers.assertString(evidence.results.overallStatus, 'recovery publication results overall status', document)
+      helpers.assertSha(evidence.results.finalTargetSha, 'recovery publication results final target SHA', document)
+    }
     if (!Array.isArray(recovery.artifacts)) helpers.invalid(document, 'recovery provenance artifacts must be an array')
     for (const [index, artifact] of recovery.artifacts.entries()) {
-      helpers.exactKeys(artifact, ['unit', 'artifactId', 'artifactName', 'artifactDigest', 'batchNumber', 'recovered', 'pending'], `recovery provenance artifact ${index}`, document)
+      helpers.exactKeys(artifact, ['unit', 'artifactId', 'artifactName', 'artifactDigest', 'batchNumber', 'retainedFileCount', 'sourceCandidateCount'], `recovery provenance artifact ${index}`, document)
       helpers.assertString(artifact.unit, `recovery provenance artifact ${index} unit`, document)
       helpers.assertPositiveInteger(artifact.artifactId, `recovery provenance artifact ${index} ID`, document)
       helpers.assertArtifactName(artifact.artifactName, `recovery provenance artifact ${index} name`, document)
       if (typeof artifact.artifactDigest !== 'string' || !/^sha256:[0-9a-f]{64}$/u.test(artifact.artifactDigest)) helpers.invalid(document, `recovery provenance artifact ${index} digest is invalid`)
-      for (const key of ['batchNumber', 'recovered', 'pending']) {
+      for (const key of ['batchNumber', 'retainedFileCount', 'sourceCandidateCount']) {
         if (!Number.isSafeInteger(artifact[key]) || artifact[key] < 0) helpers.invalid(document, `recovery provenance artifact ${index} ${key} is invalid`)
       }
     }

@@ -23,6 +23,7 @@ const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
 ]))
 const publishingWorkflows = new Set([
   'fetch-docs.yml',
+  'recover-translation.yml',
   'translate-codex.yml',
   'translate-content.yml',
   '_translate-selected-group.yml',
@@ -277,6 +278,12 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     } catch (error) {
       errors.push(`${file}: invalid YAML: ${error.message}`)
       continue
+    }
+    if (file === 'recover-translation.yml') {
+      if (workflow.permissions?.contents !== 'write') errors.push('recover-translation.yml: caller must grant contents: write so publish_ready can publish')
+      if (workflow.jobs?.prepare_recovery?.permissions?.contents !== 'read' || workflow.jobs?.run_translation?.permissions?.contents !== 'write') {
+        errors.push('recover-translation.yml: only the reusable Translation call may receive the contents write ceiling')
+      }
     }
     const productionQueueOwner = PRODUCTION_QUEUE_OWNERS.get(file)
     const concurrencyGroup = concurrencyGroupOf(workflow?.concurrency)

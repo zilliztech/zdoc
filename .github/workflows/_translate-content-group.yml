@@ -20,6 +20,7 @@ on:
       recovery_run_id: { required: false, type: string, default: '' }
       recovery_bundle_artifact_name: { required: false, type: string, default: '' }
       recovery_plan_sha256: { required: false, type: string, default: '' }
+      allow_full_retranslate: { required: false, type: boolean, default: false }
       mode: { required: false, type: string, default: auto }
       bootstrap_group: { required: false, type: string, default: '' }
       publication_selection_artifact_name: { required: true, type: string }
@@ -74,6 +75,7 @@ jobs:
             "BASELINE_UPLOAD_DIR=$RUNNER_TEMP/baseline" \
             "PUBLICATION_SELECTION=$RUNNER_TEMP/publication-selection/publication-selection.json" \
             "RECOVERY_DOWNLOAD_DIR=$RUNNER_TEMP/translation-recovery-download" \
+            "RECOVERY_ANALYSIS=$RUNNER_TEMP/recovery-analysis.json" \
             "RECOVERY_OUTPUT_DIR=$RUNNER_TEMP/translation-recovery-output" >> "$GITHUB_ENV"
           suffix=
           if (( ${{ inputs.batch_number }} > 0 )); then suffix="-batch-${{ inputs.batch_number }}"; fi
@@ -205,6 +207,8 @@ jobs:
           const digest = crypto.createHash('sha256').update(bytes).digest('hex')
           if (digest !== process.env.EXPECTED_RECOVERY_PLAN_SHA256) throw new Error('recovery plan checksum mismatch')
           const plan = JSON.parse(bytes)
+          if (plan.schemaVersion !== 2 || plan.provenance?.schemaVersion !== 2) throw new Error('recovery plan schema identity mismatch')
+          if (plan.provenance?.executionToolingSha !== process.env.TOOLING_SHA) throw new Error('recovery plan execution tooling identity mismatch')
           const identity = `${process.env.TRANSLATION_TARGET}/${process.env.GROUP}`
           const selected = plan.recoveryMap?.[identity]
           if (!selected || selected.unitToken !== identity.replaceAll('/', '-') || !Array.isArray(selected.artifacts)) throw new Error('recovery artifact identity is not selected in recoveryMap')
@@ -220,10 +224,46 @@ jobs:
             fs.cpSync(source, destination, {recursive: true, dereference: false, errorOnExist: true})
           }
           NODE
+      - name: Resolve current recovery compatibility
+        if: ${{ inputs.should_translate && inputs.recovery_bundle_artifact_name != '' && steps.manifest.outputs.count != '0' }}
+        env:
+          TRANSLATION_AGENT_MODEL: ${{ vars.TRANSLATION_AGENT_MODEL }}
+        run: |
+          set -euo pipefail
+          node scripts/translation/recovery-preflight.js \
+            --manifest tmp/translation-manifest.json \
+            --recovery-dir "$RECOVERY_DOWNLOAD_DIR" \
+            --output "$RECOVERY_ANALYSIS" \
+            --execution-tooling-sha "$TOOLING_SHA" \
+            --allow-full-retranslate "${{ inputs.allow_full_retranslate }}"
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const analysis = JSON.parse(fs.readFileSync(process.env.RECOVERY_ANALYSIS, 'utf8'))
+          const reasons = analysis.rejected.length
+            ? analysis.rejected.map(item => `- ${item.sourcePath}: ${item.reason}`)
+            : ['- None']
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+            `## Recovery compatibility: ${analysis.target}/${analysis.group}`, '',
+            `- Current candidates: ${analysis.candidateCount}`,
+            `- Recovered now: ${analysis.recoveredCount}`,
+            `- Pending provider work: ${analysis.pendingCount}`,
+            `- Rejected retained records: ${analysis.rejectedCount}`,
+            `- Full retranslation: ${analysis.fullRetranslation}`,
+            '', '### Compatibility reasons', ...reasons, '',
+          ].join('\n'))
+          NODE
       - name: Run translation agents
         id: agents
         if: ${{ inputs.should_translate && steps.manifest.outputs.count != '0' }}
-        run: node scripts/translation/agentRunner.js --manifest tmp/translation-manifest.json --report tmp/translation-report.json --recovery-dir "$RECOVERY_DOWNLOAD_DIR"
+        run: |
+          set -euo pipefail
+          args=(--manifest tmp/translation-manifest.json --report tmp/translation-report.json)
+          if [[ -f "$RECOVERY_ANALYSIS" ]]; then
+            args+=(--recovery-analysis "$RECOVERY_ANALYSIS")
+          elif [[ -d "$RECOVERY_DOWNLOAD_DIR" ]]; then
+            args+=(--recovery-dir "$RECOVERY_DOWNLOAD_DIR")
+          fi
+          node scripts/translation/agentRunner.js "${args[@]}"
         env:
           TRANSLATION_AGENT_API_KEY: ${{ secrets.TRANSLATION_AGENT_API_KEY }}
           TRANSLATION_AGENT_BASE_URL: ${{ vars.TRANSLATION_AGENT_BASE_URL }}

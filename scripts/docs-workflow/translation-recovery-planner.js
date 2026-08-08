@@ -166,13 +166,14 @@ async function selectAttempt({client, run, runId, explicitAttempt, artifacts}) {
   throw new Error('No valid terminal Translation run attempt has an unexpired publication selection')
 }
 
-function buildRecoveryHandoff(selection, targetBaselineSha) {
+function buildRecoveryHandoff(selection, targetBaselineSha, executionToolingSha = selection.toolingSha) {
   if (!SHA.test(targetBaselineSha || '')) throw new Error('Queue-owned target baseline must be an exact commit SHA')
+  if (!SHA.test(executionToolingSha || '')) throw new Error('Recovery execution tooling must be an exact commit SHA')
   const handoff = {
     schemaVersion: 2,
     locale: selection.inputs.selectedGroup === 'all' ? 'all' : selection.units.every(unit => unit.target === 'ja-JP') ? 'ja-JP' : selection.units.every(unit => unit.target === 'zh-CN-reference') ? 'zh-CN' : 'all',
     group: selection.inputs.selectedGroup,
-    toolingSha: selection.toolingSha,
+    toolingSha: executionToolingSha,
     targetBranch: selection.targetBranch,
     targetBaselineSha,
     units: selection.units.map((unit, publicationOrder) => ({
@@ -188,18 +189,132 @@ function buildRecoveryHandoff(selection, targetBaselineSha) {
   return validateTranslationHandoff(handoff)
 }
 
+function exactObjectKeys(value, keys, label) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`)
+  if (JSON.stringify(Object.keys(value).sort()) !== JSON.stringify([...keys].sort())) throw new Error(`${label} keys are invalid`)
+}
+
 function reportPending(directory, expectedTarget) {
   validateRegularTree(directory)
   const markdownFile = path.join(directory, 'translation-report.md')
+  if (!fs.existsSync(markdownFile)) throw new Error('Translation report Markdown is missing')
   const markdown = fs.readFileSync(markdownFile, 'utf8')
   const match = markdown.match(/^- Pending: ([0-9]+)$/mu)
   if (!match || !Number.isSafeInteger(Number(match[1]))) throw new Error('Translation report pending count is invalid')
   const jsonFile = path.join(directory, 'translation-report.json')
-  if (fs.existsSync(jsonFile)) {
-    const report = readJsonFile(jsonFile, 'Translation report')
-    if (report.target !== expectedTarget || !Array.isArray(report.results)) throw new Error('Translation report identity mismatch')
+  if (!fs.existsSync(jsonFile)) throw new Error('Strict Translation report JSON is missing')
+  const report = readJsonFile(jsonFile, 'Translation report')
+  exactObjectKeys(report, ['checkpoint', 'locale', 'results', 'target'], 'Translation report')
+  exactObjectKeys(report.checkpoint, ['failed', 'generatedAt', 'processed', 'remaining', 'target', 'translated'], 'Translation report checkpoint')
+  const expectedLocale = expectedTarget === 'ja-JP' ? 'ja-JP' : 'zh-CN'
+  if (report.target !== expectedTarget || report.locale !== expectedLocale || report.checkpoint.target !== expectedTarget || !Array.isArray(report.results)) {
+    throw new Error('Translation report identity mismatch')
   }
-  return Number(match[1])
+  for (const key of ['processed', 'remaining', 'translated', 'failed']) {
+    if (!Number.isSafeInteger(report.checkpoint[key]) || report.checkpoint[key] < 0) throw new Error(`Translation report checkpoint ${key} is invalid`)
+  }
+  if (!Number.isFinite(Date.parse(report.checkpoint.generatedAt))) throw new Error('Translation report checkpoint generatedAt is invalid')
+  if (report.checkpoint.processed !== report.results.length || report.checkpoint.translated + report.checkpoint.failed !== report.checkpoint.processed) {
+    throw new Error('Translation report checkpoint counts do not match results')
+  }
+  const resultIdentities = new Set()
+  for (const result of report.results) {
+    if (!result || typeof result !== 'object' || Array.isArray(result) || result.target !== expectedTarget || result.locale !== expectedLocale ||
+        !CHECKSUM.test(result.sourceHash || '') || !['translated', 'failed'].includes(result.status)) {
+      throw new Error('Translation report result identity is invalid')
+    }
+    const sourcePath = safeRelativePath(result.sourcePath, 'Translation report source path')
+    const targetPath = safeRelativePath(result.targetPath, 'Translation report target path')
+    const identity = `${sourcePath}\0${targetPath}`
+    if (resultIdentities.has(identity)) throw new Error('Translation report result identity is duplicated')
+    resultIdentities.add(identity)
+  }
+  if (report.results.filter(result => result.status === 'translated').length !== report.checkpoint.translated ||
+      report.results.filter(result => result.status === 'failed').length !== report.checkpoint.failed) {
+    throw new Error('Translation report result statuses do not match checkpoint counts')
+  }
+  const candidateCount = report.checkpoint.processed + report.checkpoint.remaining
+  if (candidateCount !== Number(match[1])) throw new Error('Translation report candidate count does not match the strict JSON checkpoint')
+  return Object.freeze({candidateCount, report})
+}
+
+function exactJob(jobs, name, attemptNumber, {required = true, label = name} = {}) {
+  const matches = jobs.filter(job => job?.name === name && Number(job.run_attempt) === attemptNumber)
+  if (!matches.length && !required) return null
+  if (matches.length !== 1) throw new Error(`${label} job identity must exist exactly once`)
+  const job = matches[0]
+  if (!Number.isSafeInteger(Number(job.id)) || Number(job.id) < 1 || job.status !== 'completed') throw new Error(`${label} job identity is invalid`)
+  return job
+}
+
+function assertArtifactInJobWindow(artifact, job, label) {
+  const created = Date.parse(artifact.created_at)
+  const started = Date.parse(job.started_at)
+  const completed = Date.parse(job.completed_at)
+  if (!Number.isFinite(created) || !Number.isFinite(started) || !Number.isFinite(completed) || completed < started || created < started || created > completed) {
+    throw new Error(`${label} artifact is outside its producer job time window`)
+  }
+}
+
+function jobNameForRun(run, name) {
+  return workflowPath(run) === '.github/workflows/recover-translation.yml' ? `run_translation / ${name}` : name
+}
+
+async function authenticatePublicationEvidence({client, selectedAttempt, selection, jobs, run, runId, attemptNumber, root}) {
+  const publisherName = jobNameForRun(run, 'publish_ready')
+  const publisherMatches = jobs.filter(job => job?.name === publisherName && Number(job.run_attempt) === attemptNumber)
+  if (publisherMatches.length > 1) throw new Error('publish_ready job identity must exist at most once')
+  const publisher = publisherMatches[0] || null
+  if (publisher) exactJob(jobs, publisherName, attemptNumber, {label: 'publish_ready'})
+  const progressPattern = new RegExp(`^publication-progress-translation-${runId}-${attemptNumber}-([1-9][0-9]*)$`, 'u')
+  const progressArtifacts = selectedAttempt.artifacts
+    .map(artifact => ({artifact, match: progressPattern.exec(artifact.name || '')}))
+    .filter(value => value.match)
+    .map(value => ({artifact: value.artifact, revision: Number(value.match[1])}))
+    .sort((left, right) => left.revision - right.revision)
+  if (new Set(progressArtifacts.map(value => value.revision)).size !== progressArtifacts.length) throw new Error('Publication progress artifact identity is ambiguous')
+  const resultsName = `publication-results-translation-${runId}-${attemptNumber}`
+  const resultsArtifact = exactArtifact(selectedAttempt.artifacts, resultsName, {required: false, label: 'Publication results'})
+  if ((progressArtifacts.length || resultsArtifact) && !publisher) throw new Error('Publication progress or results identity has no publish_ready producer job')
+  const progress = []
+  for (const value of progressArtifacts) {
+    const artifact = exactArtifact(selectedAttempt.artifacts, value.artifact.name, {label: 'Publication progress'})
+    assertArtifactInJobWindow(artifact, publisher, 'Publication progress')
+    const destination = path.join(root, 'downloads', 'publication', `progress-${value.revision}`)
+    await downloadArtifact(client, artifact, destination, run, runId)
+    const file = path.join(destination, `publication-progress-${value.revision}.json`)
+    if (!fs.existsSync(file)) throw new Error('Publication progress artifact payload identity is invalid')
+    const document = readPublicationDocument(file, 'publication-progress', {selection, artifactRevision: value.revision})
+    const expectedMode = selection.inputs.publish ? 'publish' : 'artifact_only'
+    if (document.mode !== expectedMode) throw new Error('Publication progress mode identity mismatch')
+    progress.push({artifactId: Number(artifact.id), artifactName: artifact.name, artifactDigest: artifact.digest, revision: value.revision})
+  }
+  let results = null
+  if (resultsArtifact) {
+    assertArtifactInJobWindow(resultsArtifact, publisher, 'Publication results')
+    const destination = path.join(root, 'downloads', 'publication', 'results')
+    await downloadArtifact(client, resultsArtifact, destination, run, runId)
+    const file = path.join(destination, 'publication-results.json')
+    if (!fs.existsSync(file)) throw new Error('Publication results artifact payload identity is invalid')
+    const document = readPublicationDocument(file, 'publication-results', {selection})
+    const expectedMode = selection.inputs.publish ? 'publish' : 'artifact_only'
+    if (document.mode !== expectedMode) throw new Error('Publication results mode identity mismatch')
+    results = {artifactId: Number(resultsArtifact.id), artifactName: resultsArtifact.name, artifactDigest: resultsArtifact.digest, overallStatus: document.overallStatus, finalTargetSha: document.finalTargetSha}
+  }
+  if (publisher?.conclusion === 'success' && !results) throw new Error('Terminal publication results are required after successful publish_ready')
+  const publisherJob = publisher ? {
+    jobId: Number(publisher.id),
+    status: publisher.status,
+    conclusion: publisher.conclusion,
+    startedAt: publisher.started_at,
+    completedAt: publisher.completed_at,
+  } : null
+  return Object.freeze({
+    publisherJob,
+    progress,
+    results,
+    resultsAbsenceReason: results ? null : publisher ? `publish_ready-${publisher.conclusion || 'unknown'}` : 'publish_ready-absent',
+  })
 }
 
 function assertRecoveryIdentity(parsed, selected) {
@@ -221,7 +336,7 @@ function canonicalPlan(value) {
   return `${JSON.stringify(value)}\n`
 }
 
-async function planTranslationRecovery({repository, previousRunId, previousRunAttempt = '', outputRoot, targetBaselineSha, targetResolver, publish = false, client}) {
+async function planTranslationRecovery({repository, previousRunId, previousRunAttempt = '', outputRoot, targetBaselineSha, targetResolver, executionToolingSha = '', publish = false, client}) {
   if (typeof repository !== 'string' || !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u.test(repository)) throw new Error('repository is invalid')
   if (typeof publish !== 'boolean') throw new Error('publish must be a boolean')
   const runId = positiveInteger(previousRunId, 'previous_translation_run_id')
@@ -247,15 +362,20 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
   if (selection.workflow !== 'translation' || selection.repository !== repository || selection.runId !== runId || selection.runAttempt !== attemptNumber) {
     throw new Error('Previous Translation publication selection artifact identity mismatch')
   }
+  if (!SHA.test(run.head_sha || '')) throw new Error('Previous Translation workflow SHA is invalid')
+  const currentExecutionToolingSha = executionToolingSha || selection.toolingSha
+  if (!SHA.test(currentExecutionToolingSha || '')) throw new Error('Recovery execution tooling SHA is invalid')
+  const jobs = await client.listJobs?.(runId, attemptNumber)
+  if (!Array.isArray(jobs)) throw new Error('Previous Translation job inventory is invalid')
   const queueOwnedTargetBaselineSha = targetBaselineSha || await targetResolver?.(selection.targetBranch)
-  const handoff = buildRecoveryHandoff(selection, queueOwnedTargetBaselineSha)
+  const handoff = buildRecoveryHandoff(selection, queueOwnedTargetBaselineSha, currentExecutionToolingSha)
   const bundleRoot = path.join(root, 'recovery-bundle')
   const artifactRoot = path.join(bundleRoot, 'artifacts')
   fs.mkdirSync(artifactRoot, {recursive: true})
   const recoveryMap = {}
   const provenanceArtifacts = []
-  let recoveredFileCount = 0
-  let pendingFileCount = 0
+  let retainedFileCount = 0
+  let sourceCandidateCount = 0
   const rejected = []
 
   for (const selected of selection.units) {
@@ -276,42 +396,54 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
     }
     const plannedArtifacts = []
     for (const batch of batches) {
+      const producerJobName = jobNameForRun(run, selected.strategy === 'ja-guides'
+        ? `translate_guides_batches (${batch.batchNumber - 1}, ${batch.batchNumber}) / translate`
+        : `${selected.producerJob} / translate`)
+      const producerJob = exactJob(jobs, producerJobName, attemptNumber, {label: `Producer job for ${unitIdentity}`})
+      assertArtifactInJobWindow(batch.reportArtifact, producerJob, `${unitIdentity} Translation report`)
       const reportDirectory = path.join(root, 'downloads', unitToken, `report-${batch.batchNumber}`)
       await downloadArtifact(client, batch.reportArtifact, reportDirectory, run, runId)
-      const pending = reportPending(reportDirectory, selected.target)
+      const {candidateCount} = reportPending(reportDirectory, selected.target)
+      sourceCandidateCount += candidateCount
       const recoveryName = `translation-recovery-${selected.target}-${selected.group}-${runId}-${batch.batchNumber}`
       const recoveryArtifact = exactArtifact(selectedAttempt.artifacts, recoveryName, {required: false, label: `${unitIdentity} recovery artifact`})
-      if (pending > 0 && !recoveryArtifact) throw new Error(`Missing recovery artifact for ${unitIdentity}; stopping before model invocation`)
+      if (candidateCount > 0 && !recoveryArtifact) throw new Error(`Missing recovery artifact for ${unitIdentity}; stopping before model invocation`)
       if (!recoveryArtifact) continue
+      assertArtifactInJobWindow(recoveryArtifact, producerJob, `${unitIdentity} recovery artifact`)
       const downloadDirectory = path.join(root, 'downloads', unitToken, `recovery-${batch.batchNumber}`)
       await downloadArtifact(client, recoveryArtifact, downloadDirectory, run, runId)
       const parsed = assertRecoveryIdentity(validateDownloadedArtifactTree(downloadDirectory), selected)
       const bundleDirectory = path.join(artifactRoot, unitToken, `batch-${batch.batchNumber}`)
       fs.mkdirSync(path.dirname(bundleDirectory), {recursive: true})
       fs.cpSync(downloadDirectory, bundleDirectory, {recursive: true})
-      const recovered = parsed.files.length
-      recoveredFileCount += recovered
-      pendingFileCount += Math.max(0, pending - recovered)
-      if (recovered > pending) rejected.push({unit: unitIdentity, batchNumber: batch.batchNumber, reason: 'recovery artifact translated count exceeds authenticated report pending count'})
-      const identity = {artifactId: Number(recoveryArtifact.id), artifactName: recoveryArtifact.name, artifactDigest: recoveryArtifact.digest, batchNumber: batch.batchNumber, recovered, pending}
+      const retained = parsed.files.length
+      retainedFileCount += retained
+      if (retained > candidateCount) rejected.push({unit: unitIdentity, batchNumber: batch.batchNumber, reason: 'recovery artifact translated count exceeds authenticated source candidate count'})
+      const identity = {artifactId: Number(recoveryArtifact.id), artifactName: recoveryArtifact.name, artifactDigest: recoveryArtifact.digest, batchNumber: batch.batchNumber, retainedFileCount: retained, sourceCandidateCount: candidateCount}
       plannedArtifacts.push(identity)
       provenanceArtifacts.push({unit: unitIdentity, ...identity})
     }
     recoveryMap[unitIdentity] = {unitToken, artifacts: plannedArtifacts}
   }
 
+  const publicationEvidence = await authenticatePublicationEvidence({client, selectedAttempt, selection, jobs, run, runId, attemptNumber, root})
+
   const provenance = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     kind: 'operator-recovery',
     sourceRepository: repository,
     sourceWorkflow: workflowPath(run),
     sourceRunId: runId,
     sourceRunAttempt: attemptNumber,
+    sourceWorkflowSha: run.head_sha,
+    sourceToolingSha: selection.toolingSha,
+    executionToolingSha: currentExecutionToolingSha,
     sourceSelectionSha256: selection.selectionSha256,
+    publicationEvidence,
     artifacts: provenanceArtifacts,
   }
   const plan = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     repository,
     previousRunId: runId,
     previousRunAttempt: attemptNumber,
@@ -319,11 +451,11 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
     targetBranch: handoff.targetBranch,
     targetBaselineSha: handoff.targetBaselineSha,
     recoveryMap,
-    recoveredFileCount,
-    pendingFileCount,
+    retainedFileCount,
+    sourceCandidateCount,
+    compatibilityStatus: 'pending-current-contract-preflight',
     rejectedRecoveryCount: rejected.length,
     rejected,
-    paidModelCalls: pendingFileCount > 0,
     publish,
     provenance,
   }
@@ -397,7 +529,7 @@ function resolveQueueOwnedTarget(repositoryRoot, targetBranch) {
 }
 
 function parseArgs(argv) {
-  const allowed = new Set(['--repository', '--previous-run-id', '--previous-run-attempt', '--target-baseline-sha', '--output-root', '--publish'])
+  const allowed = new Set(['--repository', '--previous-run-id', '--previous-run-attempt', '--target-baseline-sha', '--execution-tooling-sha', '--output-root', '--publish'])
   const values = {}
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]
@@ -405,7 +537,7 @@ function parseArgs(argv) {
     if (!allowed.has(flag) || value === undefined || Object.hasOwn(values, flag)) throw new Error('Translation recovery planner arguments are invalid or duplicated')
     values[flag] = value
   }
-  for (const required of ['--repository', '--previous-run-id', '--output-root', '--publish']) if (!values[required]) throw new Error(`${required} is required`)
+  for (const required of ['--repository', '--previous-run-id', '--execution-tooling-sha', '--output-root', '--publish']) if (!values[required]) throw new Error(`${required} is required`)
   if (!['true', 'false'].includes(values['--publish'])) throw new Error('--publish must be true or false')
   return values
 }
@@ -417,6 +549,7 @@ async function main(argv = process.argv.slice(2), env = process.env) {
     previousRunId: args['--previous-run-id'],
     previousRunAttempt: args['--previous-run-attempt'] || '',
     targetBaselineSha: args['--target-baseline-sha'] || '',
+    executionToolingSha: args['--execution-tooling-sha'],
     targetResolver: targetBranch => resolveQueueOwnedTarget(process.cwd(), targetBranch),
     outputRoot: args['--output-root'],
     publish: args['--publish'] === 'true',
@@ -428,10 +561,10 @@ async function main(argv = process.argv.slice(2), env = process.env) {
     recovery_provenance_json: JSON.stringify(result.plan.provenance),
     recovery_plan_sha256: result.recoveryPlanSha256,
     previous_run_attempt: String(result.plan.previousRunAttempt),
-    recovered_file_count: String(result.plan.recoveredFileCount),
-    pending_file_count: String(result.plan.pendingFileCount),
+    retained_file_count: String(result.plan.retainedFileCount),
+    source_candidate_count: String(result.plan.sourceCandidateCount),
+    compatibility_status: result.plan.compatibilityStatus,
     rejected_recovery_count: String(result.plan.rejectedRecoveryCount),
-    paid_model_calls: String(result.plan.paidModelCalls),
   }
   if (env.GITHUB_OUTPUT) fs.appendFileSync(env.GITHUB_OUTPUT, Object.entries(outputs).map(([key, value]) => `${key}=${value}\n`).join(''))
   process.stdout.write(`${JSON.stringify(outputs)}\n`)

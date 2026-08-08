@@ -20,6 +20,7 @@ on:
       recovery_plan_sha256: { required: false, type: string, default: '' }
       recovery_provenance_json: { required: false, type: string, default: '' }
       production_queue_owned: { required: false, type: boolean, default: false }
+      allow_full_retranslate: { required: false, type: boolean, default: false }
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
@@ -225,6 +226,7 @@ jobs:
       recovery_run_id: ${{ needs.prepare.outputs.guides_recovery_run_id }}
       recovery_bundle_artifact_name: ${{ inputs.recovery_bundle_artifact_name }}
       recovery_plan_sha256: ${{ inputs.recovery_plan_sha256 }}
+      allow_full_retranslate: ${{ inputs.allow_full_retranslate }}
       batch_index: ${{ matrix.batchIndex }}
       batch_number: ${{ matrix.batchNumber }}
       batch_count: ${{ fromJSON(needs.prepare_guides_batches.outputs.batch_count) }}
@@ -259,6 +261,7 @@ jobs:
       recovery_run_id: ${{ matrix.recoveryRunId }}
       recovery_bundle_artifact_name: ${{ inputs.recovery_bundle_artifact_name }}
       recovery_plan_sha256: ${{ inputs.recovery_plan_sha256 }}
+      allow_full_retranslate: ${{ inputs.allow_full_retranslate }}
       publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
       publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
       publication_unit_key: ${{ matrix.publicationUnitKey }}

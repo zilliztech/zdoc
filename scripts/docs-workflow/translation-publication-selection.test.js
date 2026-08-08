@@ -146,16 +146,20 @@ test('retains schema-v2 handoff identities without widening the handoff contract
 
 test('binds exact operator recovery provenance into the immutable selection checksum', () => {
   const recoveryProvenance = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     kind: 'operator-recovery',
     sourceRepository: 'zilliztech/zdoc',
     sourceWorkflow: '.github/workflows/translate-codex.yml',
     sourceRunId: 42,
     sourceRunAttempt: 2,
+    sourceWorkflowSha: 'a'.repeat(40),
+    sourceToolingSha: 'b'.repeat(40),
+    executionToolingSha: 'c'.repeat(40),
     sourceSelectionSha256: 'e'.repeat(64),
+    publicationEvidence: {publisherJob: null, progress: [], results: null, resultsAbsenceReason: 'publish_ready-absent'},
     artifacts: [{
       unit: 'ja-JP/guides', artifactId: 9, artifactName: 'translation-recovery-ja-JP-guides-42-1',
-      artifactDigest: `sha256:${'f'.repeat(64)}`, batchNumber: 1, recovered: 3, pending: 4,
+      artifactDigest: `sha256:${'f'.repeat(64)}`, batchNumber: 1, retainedFileCount: 3, sourceCandidateCount: 4,
     }],
   }
   const value = buildTranslationPublicationSelection(selectionInput({recoveryProvenance}))
