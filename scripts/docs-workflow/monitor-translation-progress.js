@@ -23,6 +23,7 @@ const TRANSLATION_UNIT_ORDER = Object.freeze([
   'translation/ja-JP/rest', 'translation/zh-CN-reference/rest',
   'translation/zh-CN-reference/reference-landings',
 ])
+const RUN_TRANSLATION_WRAPPER_PREFIX = 'run_translation / '
 
 function delay(milliseconds) {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -56,6 +57,13 @@ function terminalStatus(aggregate) {
 function expectedPublicationUnitKeys(selectedUnits) {
   const selected = new Set(selectedUnits.map(unit => `translation/${unit.target}/${unit.group}`))
   return TRANSLATION_UNIT_ORDER.filter(unitKey => selected.has(unitKey))
+}
+
+function normalizeTranslationMonitorJobs(jobs) {
+  return (jobs || []).map(job => {
+    if (typeof job?.name !== 'string' || !job.name.startsWith(RUN_TRANSLATION_WRAPPER_PREFIX)) return job
+    return {...job, name: job.name.slice(RUN_TRANSLATION_WRAPPER_PREFIX.length)}
+  })
 }
 
 function validatePublicationIdentity(value, {
@@ -226,7 +234,7 @@ function createTranslationProgressMonitor({
     if (stopping) return true
     let jobs
     try {
-      jobs = await withRetry(() => listJobs(), {sleep})
+      jobs = normalizeTranslationMonitorJobs(await withRetry(() => listJobs(), {sleep}))
     } catch (_) {
       boundedLog('GitHub Jobs API polling failed after retries; retrying on the next translation heartbeat')
       return false
@@ -370,6 +378,7 @@ module.exports = {
   createTranslationProgressMonitor,
   createTranslationPublicationArtifactReader,
   expectedPublicationUnitKeys,
+  normalizeTranslationMonitorJobs,
   parentWorkflowUrl,
   readConfiguration,
 }
