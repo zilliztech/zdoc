@@ -426,7 +426,8 @@ test('translation workflows declare immutable target identity and exact target v
   })
   const compatibilitySource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
   assert.match(compatibilitySource, /strategy:[\s\S]*matrix: \$\{\{ fromJSON\(needs\.prepare\.outputs\.sdk_producer_matrix\) \}\}/)
-  assert.match(compatibilitySource, /publish_ja_guides:[\s\S]*publish_ja_python:[\s\S]*publish_zh_python:[\s\S]*publish_ja_java:[\s\S]*publish_zh_java:/)
+  assert.match(compatibilitySource, /publish_ready:[\s\S]*publication-coordinator\.js[\s\S]*aggregate:/)
+  assert.doesNotMatch(compatibilitySource, /^  publish_(?:ja|zh)_|^  reconcile_(?:localization_inventory|reference_state|published_state):/m)
   assert.doesNotMatch(compatibilitySource, /zh-CN-tools|tools-translations\.json/)
   const source = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
   assert.match(source, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
@@ -1007,6 +1008,7 @@ test('central monitor owns live and terminal card presentation', () => {
   assert.equal(translationCard['continue-on-error'], true)
   assert.match(translationCard.run, /Zilliz Cloud Docs Translation/)
   assert.equal(translation.jobs.monitor_translation_progress.uses, './.github/workflows/_monitor-translation-progress.yml')
+  assert.equal(translation.jobs.monitor_translation_progress.if, "${{ always() && needs.initialize_translation_card.outputs.card_id != '' }}")
   assert.equal(translation.jobs.aggregate.needs.includes('monitor_translation_progress'), false)
 
   const monitor = fs.readFileSync('.github/workflows/_monitor-docs-progress.yml', 'utf8')
@@ -1058,7 +1060,7 @@ test('workflow validator enforces the separate Build and Translation card contra
     },
     {
       file: 'translate-codex.yml',
-      mutate: source => source.replace('reconcile_reference_state, reconcile_published_state]\n    if: ${{ always() }}', 'reconcile_reference_state, reconcile_published_state, monitor_translation_progress]\n    if: ${{ always() }}'),
+      mutate: source => source.replace('    needs: [prepare, publish_ready]\n', '    needs: [prepare, publish_ready, monitor_translation_progress]\n'),
       expected: /Translation monitor must be independent/,
     },
   ]
@@ -2605,160 +2607,95 @@ test('workflow policy rejects aggregate wiring that ignores publication results'
   }
 })
 
-test('manual translation workflow owns parallel producers and serial publication without legacy automation', () => {
-  const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows/translate-codex.yml'), 'utf8')
-  const parsed = yaml.load(workflow)
-  assert.doesNotMatch(workflow, /workflow_run|git-auto-commit|git push/)
-  assert.match(workflow, /workflow_dispatch:/)
-  assert.match(workflow, /uses: \.\/.github\/workflows\/_translate-content-group\.yml/)
-  assert.match(workflow, /matrix: \$\{\{ fromJSON\(needs\.prepare\.outputs\.sdk_producer_matrix\) \}\}/)
-  assert.doesNotMatch(workflow, /secrets: inherit/)
-  assert.match(workflow, /TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}/)
-  assert.match(workflow, /REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/)
-  const publishers = [
-    'publish_ja_guides',
-    'publish_ja_python', 'publish_zh_python',
-    'publish_ja_java', 'publish_zh_java',
-    'publish_ja_node', 'publish_zh_node',
-    'publish_ja_go', 'publish_zh_go',
-    'publish_ja_cli', 'publish_zh_cli',
-    'publish_ja_rest', 'publish_zh_rest',
-    'publish_zh_reference_landings',
+test('manual translation workflow keeps producers parallel and delegates publication to the ready FIFO', () => {
+  const source = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
+  const workflow = yaml.load(source)
+  assert.doesNotMatch(source, /workflow_run|git-auto-commit|git push/)
+  assert.match(source, /uses: \.\/.github\/workflows\/_translate-content-group\.yml/)
+  assert.match(source, /matrix: \$\{\{ fromJSON\(needs\.prepare\.outputs\.sdk_producer_matrix\) \}\}/)
+  assert.deepEqual(workflow.jobs.publish_ready.needs, ['prepare'])
+  assert.deepEqual(workflow.jobs.aggregate.needs, ['prepare', 'publish_ready'])
+})
+test('Translation cuts over to one ready FIFO Git writer and artifact-bound aggregate', () => {
+  const source = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
+  const workflow = yaml.load(source)
+  const legacy = [
+    'observe_publication_ready',
+    'publish_ja_guides', 'publish_ja_python', 'publish_zh_python', 'publish_ja_java', 'publish_zh_java',
+    'publish_ja_node', 'publish_zh_node', 'publish_ja_go', 'publish_zh_go', 'publish_ja_cli', 'publish_zh_cli',
+    'publish_ja_rest', 'publish_zh_rest', 'publish_zh_reference_landings',
+    'reconcile_localization_inventory', 'reconcile_reference_state', 'reconcile_published_state',
   ]
-  for (let index = 1; index < publishers.length; index += 1) {
-    assert.ok(parsed.jobs[publishers[index]].needs.includes(publishers[index - 1]), `${publishers[index]} must wait for ${publishers[index - 1]}`)
-    assert.match(parsed.jobs[publishers[index]].if, new RegExp(`needs\\.${publishers[index - 1]}\\.result`))
-  }
+  for (const job of legacy) assert.equal(workflow.jobs[job], undefined, job)
+
+  assert.deepEqual(workflow.permissions, {actions: 'read', contents: 'read'})
+  const writable = Object.entries(workflow.jobs).filter(([, job]) => job?.permissions?.contents === 'write').map(([name]) => name)
+  assert.deepEqual(writable, ['publish_ready'])
+  const writer = workflow.jobs.publish_ready
+  assert.deepEqual(writer.needs, ['prepare'])
+  assert.deepEqual(writer.permissions, {actions: 'read', contents: 'write'})
+  assert.doesNotMatch(JSON.stringify(writer), /APP_ID|APP_SECRET|FEISHU/)
+  const publish = writer.steps.find(step => step.id === 'publish')
+  assert.equal(publish.uses, 'actions/github-script@v8')
+  assert.match(publish.with.script, /process\.env\.PUBLISH === 'true' \? 'publish' : 'artifact_only'/)
+  assert.match(publish.with.script, /'--poll-milliseconds', '10000'/)
+  assert.match(publish.with.script, /'--candidate-polls', '6'/)
+  assert.match(publish.with.script, /'--max-publish-attempts', '10'/)
+
+  assert.deepEqual(workflow.jobs.aggregate.needs, ['prepare', 'publish_ready'])
+  assert.deepEqual(workflow.jobs.aggregate.permissions, {actions: 'read', contents: 'read'})
+  const aggregate = JSON.stringify(workflow.jobs.aggregate)
+  assert.match(aggregate, /artifactNames/)
+  assert.match(aggregate, /publication-selection\.json/)
+  assert.match(aggregate, /publication-results\.json/)
+  assert.match(aggregate, /verifyTranslationPublicationRepository/)
+  assert.match(source, /refs\/heads\/\$TARGET_BRANCH:refs\/remotes\/origin\/\$TARGET_BRANCH/)
+  assert.match(source, /target_sha.*FINAL_TARGET_SHA/)
+  assert.doesNotMatch(aggregate, /publish_ja_|publish_zh_|reconcile_/)
 })
 
-test('Translation legacy writers and reconciliation retain their exact authoritative contract', () => {
-  const workflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/translate-codex.yml'), 'utf8'))
-  const publishers = [
-    ['publish_ja_guides', ['prepare', 'prepare_guides_batches', 'translate_guides_batches'], "${{ always() && inputs.publish && needs.prepare.outputs.guides_selected == 'true' && needs.prepare_guides_batches.result == 'success' && (needs.translate_guides_batches.result == 'success' || needs.translate_guides_batches.result == 'skipped') && needs.prepare_guides_batches.outputs.batch_count != '0' }}"],
-    ['publish_ja_python', ['prepare', 'translate_sdk', 'publish_ja_guides'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python') && needs.translate_sdk.result == 'success' && (needs.publish_ja_guides.result == 'success' || needs.publish_ja_guides.result == 'skipped') }}"],
-    ['publish_zh_python', ['prepare', 'translate_sdk', 'publish_ja_python'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python') && needs.translate_sdk.result == 'success' && (needs.publish_ja_python.result == 'success' || needs.publish_ja_python.result == 'skipped') }}"],
-    ['publish_ja_java', ['prepare', 'translate_sdk', 'publish_zh_python'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'java') && needs.translate_sdk.result == 'success' && (needs.publish_zh_python.result == 'success' || needs.publish_zh_python.result == 'skipped') }}"],
-    ['publish_zh_java', ['prepare', 'translate_sdk', 'publish_ja_java'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'java') && needs.translate_sdk.result == 'success' && (needs.publish_ja_java.result == 'success' || needs.publish_ja_java.result == 'skipped') }}"],
-    ['publish_ja_node', ['prepare', 'translate_sdk', 'publish_zh_java'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'node') && needs.translate_sdk.result == 'success' && (needs.publish_zh_java.result == 'success' || needs.publish_zh_java.result == 'skipped') }}"],
-    ['publish_zh_node', ['prepare', 'translate_sdk', 'publish_ja_node'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'node') && needs.translate_sdk.result == 'success' && (needs.publish_ja_node.result == 'success' || needs.publish_ja_node.result == 'skipped') }}"],
-    ['publish_ja_go', ['prepare', 'translate_sdk', 'publish_zh_node'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'go') && needs.translate_sdk.result == 'success' && (needs.publish_zh_node.result == 'success' || needs.publish_zh_node.result == 'skipped') }}"],
-    ['publish_zh_go', ['prepare', 'translate_sdk', 'publish_ja_go'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'go') && needs.translate_sdk.result == 'success' && (needs.publish_ja_go.result == 'success' || needs.publish_ja_go.result == 'skipped') }}"],
-    ['publish_ja_cli', ['prepare', 'translate_sdk', 'publish_zh_go'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'cli') && needs.translate_sdk.result == 'success' && (needs.publish_zh_go.result == 'success' || needs.publish_zh_go.result == 'skipped') }}"],
-    ['publish_zh_cli', ['prepare', 'translate_sdk', 'publish_ja_cli'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'cli') && needs.translate_sdk.result == 'success' && (needs.publish_ja_cli.result == 'success' || needs.publish_ja_cli.result == 'skipped') }}"],
-    ['publish_ja_rest', ['prepare', 'translate_sdk', 'publish_zh_cli'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'ja-JP') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'rest') && needs.translate_sdk.result == 'success' && (needs.publish_zh_cli.result == 'success' || needs.publish_zh_cli.result == 'skipped') }}"],
-    ['publish_zh_rest', ['prepare', 'translate_sdk', 'publish_ja_rest'], "${{ always() && inputs.publish && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'rest') && needs.translate_sdk.result == 'success' && (needs.publish_ja_rest.result == 'success' || needs.publish_ja_rest.result == 'skipped') }}"],
-    ['publish_zh_reference_landings', ['prepare', 'translate_sdk', 'publish_zh_rest'], "${{ always() && inputs.publish && needs.prepare.outputs.locale == 'zh-CN' && needs.prepare.outputs.group == 'reference-landings' && needs.translate_sdk.result == 'success' && (needs.publish_zh_rest.result == 'success' || needs.publish_zh_rest.result == 'skipped') }}"],
-  ]
-  for (const [name, needs, condition] of publishers) {
-    assert.deepEqual(workflow.jobs[name].needs, needs, `${name} dependencies`)
-    assert.equal(workflow.jobs[name].if, condition, `${name} condition`)
-  }
-  const publisherNames = publishers.map(([name]) => name)
-  const common = ['prepare', 'prepare_guides_batches', 'translate_guides_batches', 'translate_sdk', ...publisherNames]
-  assert.deepEqual(workflow.jobs.reconcile_localization_inventory.needs, common)
-  assert.deepEqual(workflow.jobs.reconcile_reference_state.needs, [...common, 'reconcile_localization_inventory'])
-  assert.deepEqual(workflow.jobs.reconcile_published_state.needs, [...common, 'reconcile_localization_inventory', 'reconcile_reference_state'])
-  assert.deepEqual(workflow.jobs.aggregate.needs, [...common, 'reconcile_localization_inventory', 'reconcile_reference_state', 'reconcile_published_state'])
-  for (const name of [...publisherNames, 'reconcile_localization_inventory', 'reconcile_reference_state', 'reconcile_published_state', 'aggregate']) {
-    assert.doesNotMatch(JSON.stringify({needs: workflow.jobs[name].needs, if: workflow.jobs[name].if}), /observe_publication_ready/)
-  }
-})
-
-test('workflow policy rejects Translation writer-chain or observer dependency mutations', () => {
+test('workflow policy rejects Translation ready FIFO writer regressions', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const original = fs.readFileSync(path.join(sourceDirectory, 'translate-codex.yml'), 'utf8')
-  const mutations = [
-    source => source.replace('needs: [prepare, translate_sdk, publish_ja_guides]', 'needs: [prepare, translate_sdk, observe_publication_ready]'),
-    source => source.replace('needs.publish_ja_guides.result == \'success\'', 'needs.observe_publication_ready.result == \'success\''),
-    source => source.replace(
-      'needs: [prepare, prepare_guides_batches, translate_guides_batches, translate_sdk, publish_ja_guides, publish_ja_python',
-      'needs: [prepare, prepare_guides_batches, translate_guides_batches, translate_sdk, observe_publication_ready, publish_ja_guides, publish_ja_python',
-    ),
+  const fixtures = [
+    {
+      mutate: source => source.replace('    needs: [prepare]\n    if: ${{ needs.prepare.result == \'success\' }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: write', '    needs: [prepare, prepare_guides_publication_ready]\n    if: ${{ needs.prepare.result == \'success\' }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: write'),
+      expected: 'translate-codex.yml: publish_ready must be the single mode-aware Translation Git writer from prepare',
+    },
+    {
+      mutate: source => source.replace("const mode = process.env.PUBLISH === 'true' ? 'publish' : 'artifact_only'", "const mode = 'artifact_only'"),
+      expected: 'translate-codex.yml: publish_ready must be the single mode-aware Translation Git writer from prepare',
+    },
+    {
+      mutate: source => source.replace("'--candidate-polls', '6'", "'--candidate-polls', '60'"),
+      expected: 'translate-codex.yml: publish_ready must be the single mode-aware Translation Git writer from prepare',
+    },
+    {
+      mutate: source => source.replace('\n  aggregate:\n', '\n  publish_ja_python:\n    runs-on: ubuntu-latest\n\n  aggregate:\n'),
+      expected: 'translate-codex.yml: legacy Translation writer must be absent: publish_ja_python',
+    },
+    {
+      mutate: source => source.replace('  aggregate:\n    needs: [prepare, publish_ready]\n    if: ${{ always() && needs.prepare.result == \'success\' }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    permissions:\n      actions: read\n      contents: read', '  aggregate:\n    needs: [prepare, publish_ready]\n    if: ${{ always() && needs.prepare.result == \'success\' }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    permissions:\n      actions: read\n      contents: write'),
+      expected: 'translate-codex.yml: Git writer inventory must be exactly publish_ready',
+    },
+    {
+      mutate: source => source.replace('      - run: pnpm install --frozen-lockfile\n      - id: artifacts', '      - run: pnpm install --frozen-lockfile\n      - run: git push origin HEAD:refs/heads/dev\n      - id: artifacts'),
+      expected: 'translate-codex.yml: git push is forbidden outside the declared Git writer inventory: aggregate',
+    },
   ]
-  for (const mutate of mutations) {
-    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-writer-contract-'))
+  for (const fixture of fixtures) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-ready-writer-policy-'))
     try {
       fs.cpSync(sourceDirectory, directory, {recursive: true})
-      const changed = mutate(original)
+      const changed = fixture.mutate(original)
       assert.notEqual(changed, original)
       fs.writeFileSync(path.join(directory, 'translate-codex.yml'), changed)
-      assert.ok(validateWorkflowPolicies(directory).includes(
-        'translate-codex.yml: legacy Translation writer and reconciliation contract must remain exact and observer-independent',
-      ))
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
     } finally {
       fs.rmSync(directory, {recursive: true, force: true})
     }
   }
 })
-
-test('Translation shadow observer consumes ready descriptors in artifact-only FIFO without joining the writer chain', () => {
-  const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/translate-codex.yml'), 'utf8')
-  const workflow = yaml.load(source)
-  const observer = workflow.jobs.observe_publication_ready
-  assert.ok(observer, 'Translation must declare the publication-ready shadow observer')
-  assert.equal(observer.name, 'observe_publication_ready')
-  assert.deepEqual(observer.needs, ['prepare'])
-  assert.equal(observer['continue-on-error'], true)
-  assert.deepEqual(observer.permissions, {actions: 'read', contents: 'read'})
-  assert.equal(observer.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.['persist-credentials'], false)
-  const download = observer.steps.find(step => step.name === 'Download immutable Translation publication selection')
-  assert.equal(download.uses, 'actions/download-artifact@v7')
-  assert.equal(download.with.name, '${{ needs.prepare.outputs.publication_selection_artifact_name }}')
-  const observe = observer.steps.find(step => step.name === 'Observe ready Translation publication FIFO')
-  assert.equal(observe.uses, 'actions/github-script@v8')
-  assert.equal(observe.run, undefined)
-  assert.equal(observe.with.script.trim(), [
-    "await exec.exec('node', [",
-    "  'scripts/docs-workflow/publication-coordinator.js',",
-    "  '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,",
-    "  '--mode', 'artifact_only',",
-    "  '--poll-milliseconds', '10000',",
-    "  '--candidate-polls', '60',",
-    "  '--max-publish-attempts', '1',",
-    '])',
-  ].join('\n'))
-  assert.equal(observe.env.GITHUB_TOKEN, '${{ github.token }}')
-  assert.deepEqual(Object.keys(observe.env), ['GITHUB_TOKEN'])
-  assert.doesNotMatch(JSON.stringify(observer), /contents['"]?:['"]?write|persist-credentials['"]?:true|git push|refs\/heads\/staging|refs\/remotes\/origin\/staging|APP_ID|APP_SECRET|FEISHU/)
-  assert.match(source, /--publish false/)
-  assert.doesNotMatch(String(observer.if || ''), /prepare_guides_publication_ready|translate_guides_batches|publish_ja_guides/)
-
-  const publishers = [
-    'publish_ja_guides', 'publish_ja_python', 'publish_zh_python', 'publish_ja_java', 'publish_zh_java',
-    'publish_ja_node', 'publish_zh_node', 'publish_ja_go', 'publish_zh_go', 'publish_ja_cli', 'publish_zh_cli',
-    'publish_ja_rest', 'publish_zh_rest', 'publish_zh_reference_landings',
-  ]
-  for (const publisher of publishers) assert.doesNotMatch(JSON.stringify(workflow.jobs[publisher].needs), /observe_publication_ready/)
-})
-
-test('workflow policy rejects writable, blocked, non-artifact-only, or non-action-runtime Translation shadow observers', () => {
-  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-shadow-policy-'))
-  try {
-    fs.cpSync('.github/workflows', directory, {recursive: true})
-    const file = path.join(directory, 'translate-codex.yml')
-    const original = fs.readFileSync(file, 'utf8')
-    for (const [changed, expected] of [
-      [original.replace('  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare]\n    if: ${{ needs.prepare.result == \'success\' }}\n    continue-on-error: true\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: read', '  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare]\n    if: ${{ needs.prepare.result == \'success\' }}\n    continue-on-error: true\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: write'), 'translate-codex.yml: Translation publication observer must be read-only artifact_only FIFO shadow mode'],
-      [original.replace('  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare]', '  observe_publication_ready:\n    name: observe_publication_ready\n    needs: [prepare, prepare_guides_publication_ready]'), 'translate-codex.yml: Translation publication observer must start from prepare without waiting for Guides'],
-      [original.replace("'--mode', 'artifact_only'", "'--mode', 'publish'"), 'translate-codex.yml: Translation publication observer must be read-only artifact_only FIFO shadow mode'],
-      [original.replace(
-        "        uses: actions/github-script@v8\n        env:\n          GITHUB_TOKEN: ${{ github.token }}\n        with:\n          script: |\n            await exec.exec('node', [\n              'scripts/docs-workflow/publication-coordinator.js',\n              '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,\n              '--mode', 'artifact_only',\n              '--poll-milliseconds', '10000',\n              '--candidate-polls', '60',\n              '--max-publish-attempts', '1',\n            ])",
-        '        env:\n          GITHUB_TOKEN: ${{ github.token }}\n        run: node scripts/docs-workflow/publication-coordinator.js --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" --mode artifact_only --poll-milliseconds 10000 --candidate-polls 60 --max-publish-attempts 1',
-      ), 'translate-codex.yml: Translation publication observer must execute the coordinator through the actions artifact runtime'],
-      [original.replace(
-        "              '--max-publish-attempts', '1',\n            ])\n\n  publish_ja_guides:",
-        "              '--max-publish-attempts', '1',\n            ])\n      - name: Bypass Translation artifact runtime\n        run: node scripts/docs-workflow/publication-coordinator.js --selection \"$RUNNER_TEMP/publication-selection/publication-selection.json\" --mode artifact_only --poll-milliseconds 10000 --candidate-polls 60 --max-publish-attempts 1\n\n  publish_ja_guides:",
-      ), 'translate-codex.yml: Translation publication observer must execute the coordinator through the actions artifact runtime'],
-    ]) {
-      assert.notEqual(changed, original, 'Translation observer policy fixture must apply its mutation')
-      fs.writeFileSync(file, changed)
-      assert.ok(validateWorkflowPolicies(directory).includes(expected), expected)
-    }
-  } finally {
-    fs.rmSync(directory, {recursive: true, force: true})
-  }
-})
-
 test('Translation prepare installs exact tooling checkout dependencies before resolving the handoff', () => {
   const workflow = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
   const steps = workflow.jobs.prepare.steps
@@ -2914,150 +2851,51 @@ test('workflow policy rejects Translation selection and ready-descriptor wiring 
   }
 })
 
-test('full translation publication reconciles derived state before aggregate success', () => {
-  const workflowPath = path.join(process.cwd(), '.github/workflows/translate-codex.yml')
-  const source = fs.readFileSync(workflowPath, 'utf8')
-  const workflow = yaml.load(source)
-  const inventory = workflow.jobs.reconcile_localization_inventory
-  const reference = workflow.jobs.reconcile_reference_state
-  const reconcile = workflow.jobs.reconcile_published_state
-
-  assert.ok(inventory, 'translation publication must reconcile localization inventory independently')
-  assert.ok(inventory.needs.includes('prepare'))
-  assert.ok(inventory.needs.includes('publish_zh_reference_landings'))
-  assert.match(inventory.if, /always\(\)/)
-  assert.match(inventory.if, /inputs\.publish/)
-  assert.match(inventory.if, /needs\.prepare\.result == 'success'/)
-  assert.doesNotMatch(inventory.if, /needs\.prepare\.outputs\.group == 'all'/)
-  assert.equal(inventory.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.ref, '${{ needs.prepare.outputs.tooling_sha }}')
-  const inventoryRun = inventory.steps.find(step => step.name === 'Reconcile and publish localization inventory')?.run || ''
-  assert.match(inventoryRun, /restore-generated-state\.sh --exact --ref "\$target_sha"/)
-  assert.match(inventoryRun, /pnpm generate:localization-input-inventory/)
-  assert.match(inventoryRun, /pnpm check:localization-input-inventory/)
-  assert.match(inventoryRun, /git -C "\$publish_worktree" add -- deploy\/contracts\/localization-inputs\.inventory\.json/)
-  assert.match(inventoryRun, /git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/)
-  assert.doesNotMatch(inventoryRun, /validate-translation|reference-manifest/)
-
-  assert.ok(reference, 'partial Chinese Reference publication must reconcile Reference state independently')
-  assert.deepEqual(reference.needs, [
-    'prepare', 'prepare_guides_batches', 'translate_guides_batches', 'translate_sdk',
-    'publish_ja_guides', 'publish_ja_python', 'publish_zh_python', 'publish_ja_java', 'publish_zh_java',
-    'publish_ja_node', 'publish_zh_node', 'publish_ja_go', 'publish_zh_go', 'publish_ja_cli', 'publish_zh_cli',
-    'publish_ja_rest', 'publish_zh_rest', 'publish_zh_reference_landings', 'reconcile_localization_inventory',
-  ])
-  assert.equal(reference.if, "${{ always() && inputs.publish && needs.prepare.result == 'success' && (needs.prepare.outputs.locale == 'all' || needs.prepare.outputs.locale == 'zh-CN') && (needs.prepare.outputs.group == 'all' || needs.prepare.outputs.group == 'python' || needs.prepare.outputs.group == 'java' || needs.prepare.outputs.group == 'node' || needs.prepare.outputs.group == 'go' || needs.prepare.outputs.group == 'cli' || needs.prepare.outputs.group == 'rest' || needs.prepare.outputs.group == 'reference-landings') }}")
-  assert.equal(reference.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.ref, '${{ needs.prepare.outputs.tooling_sha }}')
-  assert.equal(reference.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.['fetch-depth'], 0)
-  const referenceStep = reference.steps.find(step => step.name === 'Reconcile and publish Reference derived state')
-  assert.equal(referenceStep?.env?.SOURCE_SHA, '${{ needs.prepare.outputs.target_branch_sha }}')
-  assert.equal(referenceStep?.env?.TARGET_BRANCH, '${{ needs.prepare.outputs.target_branch }}')
-  const referenceRun = referenceStep?.run || ''
-  assert.match(referenceRun, /git fetch --no-tags origin "\+refs\/heads\/\$TARGET_BRANCH:refs\/remotes\/origin\/\$TARGET_BRANCH"/)
-  assert.match(referenceRun, /git merge-base --is-ancestor "\$SOURCE_SHA" "\$target_sha"/)
-  assert.match(referenceRun, /restore-generated-state\.sh --exact --ref "\$target_sha"/)
-  assert.match(referenceRun, /reference-manifest --source content\/en\/reference --target content\/zh-CN\/reference --source-commit "\$SOURCE_SHA" --write/)
-  assert.match(referenceRun, /pnpm docs-tooling validate-reference --site zh-CN/)
-  for (const referencePath of [
-    'generated/en/manifests/reference.json',
-    'generated/zh-CN/manifests/reference-translations.json',
-    ...['python', 'java', 'node', 'go', 'cli', 'restful'].flatMap(manual => [
-      `generated/en/sidebars/${manual}.sidebar.js`,
-      `generated/zh-CN/sidebars/${manual}.sidebar.js`,
-    ]),
-  ]) assert.match(referenceRun, new RegExp(referencePath.replaceAll('.', '\\.')))
-  assert.doesNotMatch(referenceRun, /deploy\/contracts\/localization-inputs\.inventory\.json|validate-translation|generate:localization-input-inventory/)
-  assert.match(referenceRun, /git worktree add --detach "\$publish_worktree" "\$target_sha"/)
-  assert.match(referenceRun, /git -C "\$publish_worktree" add -- "\$\{paths\[@\]\}"/)
-  assert.match(referenceRun, /if git -C "\$publish_worktree" diff --cached --quiet; then[\s\S]*exit 0[\s\S]*fi/)
-  assert.equal((referenceRun.match(/git -C "\$publish_worktree" commit /g) || []).length, 1)
-  assert.equal((referenceRun.match(/git -C "\$publish_worktree" push /g) || []).length, 1)
-  assert.match(referenceRun, /git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/)
-
-  assert.ok(reconcile, 'full translation workflow must reconcile derived state')
-  assert.ok(reconcile.needs.includes('prepare'))
-  assert.ok(reconcile.needs.includes('publish_zh_reference_landings'))
-  assert.ok(reconcile.needs.includes('reconcile_localization_inventory'))
-  assert.ok(reconcile.needs.includes('reconcile_reference_state'))
-  assert.match(reconcile.if, /inputs\.publish/)
-  assert.match(reconcile.if, /needs\.prepare\.outputs\.group == 'all'/)
-  assert.equal(reconcile.steps.find(step => step.uses === 'actions/checkout@v5')?.with?.ref, '${{ needs.prepare.outputs.tooling_sha }}')
-
-  const run = reconcile.steps.find(step => step.name === 'Reconcile and publish derived translation state')?.run || ''
-  assert.match(run, /restore-generated-state\.sh --exact --ref "\$target_sha"/)
-  assert.match(run, /reference-manifest --source content\/en\/reference --target content\/zh-CN\/reference --source-commit "\$SOURCE_SHA" --write/)
-  assert.match(run, /pnpm generate:localization-input-inventory/)
-  assert.match(run, /pnpm check:localization-input-inventory/)
-  assert.match(run, /pnpm docs-tooling validate-reference --site zh-CN/)
-  assert.match(run, /deploy\/contracts\/localization-inputs\.inventory\.json/)
-  assert.match(run, /generated\/en\/manifests\/reference\.json/)
-  assert.match(run, /generated\/zh-CN\/manifests\/reference-translations\.json/)
-  assert.match(run, /git worktree add --detach "\$publish_worktree" "\$target_sha"/)
-  assert.match(run, /git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$TARGET_BRANCH"/)
-  assert.ok(workflow.jobs.aggregate.needs.includes('reconcile_localization_inventory'))
-  assert.ok(workflow.jobs.aggregate.needs.includes('reconcile_reference_state'))
-  assert.ok(workflow.jobs.aggregate.needs.includes('reconcile_published_state'))
+test('Translation coordinator reconciliation is terminal before artifact-bound aggregate success', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
+  const adapter = fs.readFileSync('scripts/docs-workflow/translation-publication-adapter.js', 'utf8')
+  assert.match(adapter, /reconcileTranslationPublication/)
+  assert.match(adapter, /overallStatus: 'orchestrator_failed'/)
+  assert.deepEqual(workflow.jobs.aggregate.needs, ['prepare', 'publish_ready'])
+  const aggregate = JSON.stringify(workflow.jobs.aggregate)
+  assert.match(aggregate, /publication-results\.json/)
+  assert.match(aggregate, /results\.overallStatus !== 'success'/)
+  assert.match(aggregate, /verifyTranslationPublicationRepository/)
 })
 
-test('workflow policy rejects translation publication without independent inventory reconciliation', () => {
-  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-inventory-reconcile-policy-'))
+test('workflow policy rejects Translation aggregate that bypasses terminal publication artifacts', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-terminal-results-policy-'))
   try {
     fs.cpSync('.github/workflows', directory, {recursive: true})
     const file = path.join(directory, 'translate-codex.yml')
     const original = fs.readFileSync(file, 'utf8')
-    const mutated = original.replace('  reconcile_localization_inventory:\n', '  disabled_localization_inventory_reconciliation:\n')
-    assert.notEqual(mutated, original)
-    fs.writeFileSync(file, mutated)
+    const changed = original.replace('          verifyTranslationPublicationRepository({selection, results, repository: process.env.GITHUB_WORKSPACE})', '          console.log(results.finalTargetSha)')
+    assert.notEqual(changed, original)
+    fs.writeFileSync(file, changed)
     assert.ok(validateWorkflowPolicies(directory).includes(
-      'translate-codex.yml: partial translation publication must independently reconcile localization inventory',
+      'translate-codex.yml: aggregate must consume and authenticate exact terminal Translation selection and results artifacts',
     ))
   } finally {
     fs.rmSync(directory, {recursive: true, force: true})
   }
 })
 
-for (const fixture of [
-  {
-    name: 'with a renamed job',
-    mutate: block => block.replace('  reconcile_reference_state:\n', '  disabled_reference_state_reconciliation:\n'),
-  },
-  {
-    name: 'without exact source SHA validation',
-    mutate: block => block.replace('          [[ "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]\n', ''),
-  },
-  {
-    name: 'without target branch validation',
-    mutate: block => block.replace('          git check-ref-format --branch "$TARGET_BRANCH"\n', ''),
-  },
-  {
-    name: 'with an extra checkout',
-    mutate: block => block.replace(
-      '      - name: Reconcile and publish Reference derived state\n',
-      '      - uses: actions/checkout@v5\n        with: { ref: master, fetch-depth: 1 }\n      - name: Reconcile and publish Reference derived state\n',
-    ),
-  },
-]) {
-  test(`workflow policy rejects independent Reference reconciliation ${fixture.name}`, () => {
-    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-reference-reconcile-policy-'))
-    try {
-      fs.cpSync('.github/workflows', directory, {recursive: true})
-      const file = path.join(directory, 'translate-codex.yml')
-      const original = fs.readFileSync(file, 'utf8')
-      const start = original.indexOf('  reconcile_reference_state:\n')
-      const end = original.indexOf('\n  reconcile_published_state:', start)
-      assert.ok(start >= 0 && end > start)
-      const originalBlock = original.slice(start, end)
-      const mutatedBlock = fixture.mutate(originalBlock)
-      assert.notEqual(mutatedBlock, originalBlock)
-      fs.writeFileSync(file, `${original.slice(0, start)}${mutatedBlock}${original.slice(end)}`)
-      assert.ok(validateWorkflowPolicies(directory).includes(
-        'translate-codex.yml: partial Chinese Reference publication must independently reconcile Reference derived state',
-      ))
-    } finally {
-      fs.rmSync(directory, {recursive: true, force: true})
-    }
-  })
-}
-
+test('workflow policy rejects Translation aggregate that does not bind the final SHA to the published target tip', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-final-tip-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'translate-codex.yml')
+    const original = fs.readFileSync(file, 'utf8')
+    const changed = original.replace('          [[ "$target_sha" == "$FINAL_TARGET_SHA" ]] || { echo "Translation target moved after publication: expected $FINAL_TARGET_SHA, got $target_sha" >&2; exit 1; }\n', '')
+    assert.notEqual(changed, original)
+    fs.writeFileSync(file, changed)
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: aggregate must consume and authenticate exact terminal Translation selection and results artifacts',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
 test('Guides translation batches take row identity from the matrix and shared metadata from preparation outputs', () => {
   const workflow = yaml.load(fs.readFileSync(path.join(process.cwd(), '.github/workflows/translate-codex.yml'), 'utf8'))
   const inputs = workflow.jobs.translate_guides_batches.with
@@ -3076,8 +2914,8 @@ test('GitHub expressions use single-quoted string literals for property keys', (
     const file = path.join(directory, 'translate-codex.yml')
     const source = fs.readFileSync(file, 'utf8')
     const mutated = source.replace(
-      'fromJSON(needs.prepare.outputs.source_checkpoints_json).python',
-      'fromJSON(needs.prepare.outputs.source_checkpoints_json)["python"]',
+      'fromJSON(needs.prepare.outputs.guides_unit_json).sourceBaselineSha',
+      'fromJSON(needs.prepare.outputs.guides_unit_json)["sourceBaselineSha"]',
     )
     assert.notEqual(mutated, source)
     fs.writeFileSync(file, mutated)

@@ -42,8 +42,7 @@ function terminalJobs(conclusion = 'success') {
     {id: 1, name: 'prepare', status: 'completed', conclusion: 'success'},
     {id: 2, name: 'translate_sdk (ja-JP, python, python, abc, 1) / translate', status: 'completed', conclusion: 'success'},
     {id: 3, name: 'translate_sdk (zh-CN-reference, python, python, abc, 2) / translate', status: 'completed', conclusion: 'success'},
-    {id: 4, name: 'publish_ja_python', status: 'completed', conclusion: 'success'},
-    {id: 5, name: 'publish_zh_python', status: 'completed', conclusion: 'success'},
+    {id: 4, name: 'publish_ready', status: 'completed', conclusion: 'success'},
     {id: 6, name: 'aggregate', status: 'completed', conclusion},
   ]
 }
@@ -57,8 +56,16 @@ function createMonitor(overrides = {}) {
     startedAt: '2026-08-03T02:46:00.000Z',
     targetBranch: 'dev',
     parentUrl: 'https://github.com/zilliztech/zdoc/actions/runs/42',
+    publicationSelectionSha256: 'f'.repeat(64),
     pollIntervalMs: 1,
     listJobs: async () => terminalJobs(),
+    downloadPublicationResults: async () => ({
+      mode: 'publish', overallStatus: 'success',
+      units: [
+        {unitKey: 'translation/ja-JP/python', status: 'published', resultSha: sha('e')},
+        {unitKey: 'translation/zh-CN-reference/python', status: 'no_changes', resultSha: sha('e')},
+      ],
+    }),
     patchCard: async () => {},
     sleep: async () => {},
     now: () => new Date('2026-08-03T02:47:00.000Z'),
@@ -136,7 +143,8 @@ test('validates configuration, handoff, and reduced selected units', () => {
   const env = {
     GITHUB_RUN_ID: '99', GITHUB_RUN_ATTEMPT: '4', GITHUB_REPOSITORY: 'zilliztech/zdoc', GITHUB_TOKEN: 'token', CARD_ID: 'om_1',
     CARD_STARTED_AT: '2026-08-03T02:46:00.000Z', HANDOFF_JSON: JSON.stringify(handoff()), REQUEST_ID: '42-3',
-    PUBLISH_ENABLED: 'true', APP_ID: 'app', APP_SECRET: 'secret', FEISHU_HOST: 'https://open.feishu.cn',
+    PUBLISH_ENABLED: 'true', PUBLICATION_RUN_ATTEMPT: '4', PUBLICATION_SELECTION_SHA256: 'f'.repeat(64),
+    APP_ID: 'app', APP_SECRET: 'secret', FEISHU_HOST: 'https://open.feishu.cn',
   }
   const config = readConfiguration(env)
   assert.deepEqual(config.selectedUnits, [{target: 'ja-JP', group: 'python'}, {target: 'zh-CN-reference', group: 'python'}])
@@ -161,7 +169,7 @@ test('child workflow owns a best-effort card monitor outside aggregate dependenc
   assert.match(create.run, /Zilliz Cloud Docs Translation/)
   assert.match(create.run, /Prepare,Translate,Publish,Aggregate/)
   assert.equal(monitor.uses, './.github/workflows/_monitor-translation-progress.yml')
-  assert.match(monitor.if, /card_id != ''/)
+  assert.equal(monitor.if, "${{ always() && needs.initialize_translation_card.outputs.card_id != '' }}")
   assert.equal(workflow.jobs.aggregate.needs.includes('monitor_translation_progress'), false)
 
   const reusable = yaml.load(fs.readFileSync('.github/workflows/_monitor-translation-progress.yml', 'utf8'))
@@ -169,4 +177,135 @@ test('child workflow owns a best-effort card monitor outside aggregate dependenc
   assert.equal(env.HANDOFF_JSON, '${{ inputs.handoff_json }}')
   assert.equal(env.REQUEST_ID, '${{ inputs.request_id }}')
   assert.equal(env.PUBLISH_ENABLED, '${{ inputs.publish_enabled }}')
+  assert.equal(env.PUBLICATION_RUN_ATTEMPT, '${{ inputs.publication_run_attempt }}')
+  assert.equal(env.PUBLICATION_SELECTION_SHA256, '${{ inputs.publication_selection_sha256 }}')
+})
+
+test('waits for exact publication results after aggregate before reporting terminal state', async () => {
+  const snapshots = [terminalJobs(), terminalJobs()]
+  const results = {
+    mode: 'publish',
+    overallStatus: 'success',
+    units: [
+      {unitKey: 'translation/ja-JP/python', status: 'published', resultSha: sha('e')},
+      {unitKey: 'translation/zh-CN-reference/python', status: 'no_changes', resultSha: sha('e')},
+    ],
+  }
+  const patches = []
+  let resultPolls = 0
+  const monitor = createMonitor({
+    listJobs: async () => snapshots.shift(),
+    downloadPublicationProgress: async () => ({snapshot: null, stale: false}),
+    downloadPublicationResults: async () => (++resultPolls === 1 ? null : results),
+    patchCard: async state => patches.push(state),
+  })
+
+  assert.equal(await monitor.pollOnce(), false)
+  assert.equal(await monitor.pollOnce(), true)
+  assert.equal(resultPolls, 2)
+  assert.equal(patches[0].overallStatus, 'running')
+  assert.equal(patches[1].overallStatus, 'success')
+})
+
+test('terminates a failed aggregate without publication results instead of waiting for the monitor timeout', async () => {
+  const patches = []
+  const monitor = createMonitor({
+    listJobs: async () => terminalJobs('failure'),
+    downloadPublicationProgress: async () => ({snapshot: null, stale: false}),
+    downloadPublicationResults: async () => null,
+    patchCard: async state => patches.push(state),
+  })
+
+  assert.equal(await monitor.pollOnce(), true)
+  assert.equal(patches.length, 1)
+  assert.equal(patches[0].overallStatus, 'failure')
+})
+
+test('a failed prepare finalizes its initialized card without publication artifact readers', async () => {
+  const patches = []
+  let artifactReads = 0
+  const monitor = createMonitor({
+    publicationSelectionSha256: null,
+    listJobs: async () => [
+      {
+        id: 1,
+        name: 'prepare',
+        status: 'completed',
+        conclusion: 'failure',
+        steps: [{name: 'Resolve and validate the complete translation handoff', status: 'completed', conclusion: 'failure'}],
+      },
+      {id: 2, name: 'aggregate', status: 'completed', conclusion: 'skipped'},
+    ],
+    downloadPublicationProgress: async () => { artifactReads += 1; throw new Error('must not read progress') },
+    downloadPublicationResults: async () => { artifactReads += 1; throw new Error('must not read results') },
+    patchCard: async state => patches.push(state),
+  })
+
+  assert.equal(await monitor.pollOnce(), true)
+  assert.equal(artifactReads, 0)
+  assert.equal(patches.length, 1)
+  assert.equal(patches[0].overallStatus, 'failure')
+  assert.equal(patches[0].phases[0].status, 'failed')
+  assert.ok(patches[0].units.every(unit => unit.phase === 'prepare' && unit.status === 'failed'))
+})
+
+test('a successful prepare with no publication checksum terminates failure immediately instead of waiting for aggregate', async () => {
+  const patches = []
+  let artifactReads = 0
+  const monitor = createMonitor({
+    publicationSelectionSha256: null,
+    listJobs: async () => runningJobs(),
+    downloadPublicationProgress: async () => { artifactReads += 1; return {snapshot: null, stale: false} },
+    downloadPublicationResults: async () => { artifactReads += 1; return null },
+    patchCard: async state => patches.push(state),
+  })
+
+  assert.equal(await monitor.pollOnce(), true)
+  assert.equal(artifactReads, 0)
+  assert.equal(patches.length, 1)
+  assert.equal(patches[0].overallStatus, 'failure')
+})
+
+test('a successful prepare with a checksum polls the authenticated publication readers', async () => {
+  let progressReads = 0
+  let resultReads = 0
+  const monitor = createMonitor({
+    listJobs: async () => runningJobs(),
+    downloadPublicationProgress: async () => { progressReads += 1; return {snapshot: null, stale: false} },
+    downloadPublicationResults: async () => { resultReads += 1; return null },
+  })
+
+  assert.equal(await monitor.pollOnce(), false)
+  assert.equal(progressReads, 1)
+  assert.equal(resultReads, 1)
+})
+
+test('allows a missing publication checksum so a failed prepare can finalize its initialized card', () => {
+  const env = {
+    GITHUB_RUN_ID: '99', GITHUB_RUN_ATTEMPT: '4', GITHUB_REPOSITORY: 'zilliztech/zdoc', GITHUB_TOKEN: 'token', CARD_ID: 'om_1',
+    CARD_STARTED_AT: '2026-08-03T02:46:00.000Z', HANDOFF_JSON: JSON.stringify(handoff()), REQUEST_ID: '42-3',
+    PUBLISH_ENABLED: 'true', PUBLICATION_RUN_ATTEMPT: '4', PUBLICATION_SELECTION_SHA256: '',
+    APP_ID: 'app', APP_SECRET: 'secret', FEISHU_HOST: 'https://open.feishu.cn',
+  }
+  assert.equal(readConfiguration(env).publicationSelectionSha256, null)
+})
+
+test('binds the monitor to the publication run attempt and selection checksum', () => {
+  const env = {
+    GITHUB_RUN_ID: '99', GITHUB_RUN_ATTEMPT: '4', GITHUB_REPOSITORY: 'zilliztech/zdoc', GITHUB_TOKEN: 'token', CARD_ID: 'om_1',
+    CARD_STARTED_AT: '2026-08-03T02:46:00.000Z', HANDOFF_JSON: JSON.stringify(handoff()), REQUEST_ID: '42-3',
+    PUBLISH_ENABLED: 'true', PUBLICATION_RUN_ATTEMPT: '4', PUBLICATION_SELECTION_SHA256: 'f'.repeat(64),
+    APP_ID: 'app', APP_SECRET: 'secret', FEISHU_HOST: 'https://open.feishu.cn',
+  }
+  const config = readConfiguration(env)
+  assert.equal(config.publicationRunAttempt, 4)
+  assert.equal(config.publicationSelectionSha256, 'f'.repeat(64))
+
+  const reusable = yaml.load(fs.readFileSync('.github/workflows/_monitor-translation-progress.yml', 'utf8'))
+  assert.equal(reusable.on.workflow_call.inputs.publication_run_attempt.required, true)
+  assert.equal(reusable.on.workflow_call.inputs.publication_selection_sha256.required, false)
+  assert.equal(reusable.on.workflow_call.inputs.publication_selection_sha256.default, '')
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
+  assert.equal(workflow.jobs.monitor_translation_progress.with.publication_run_attempt, '${{ fromJSON(github.run_attempt) }}')
+  assert.equal(workflow.jobs.monitor_translation_progress.with.publication_selection_sha256, '${{ needs.prepare.outputs.publication_selection_sha256 }}')
 })

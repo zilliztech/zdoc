@@ -8,10 +8,14 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 
+const {buildTranslationSelection} = require('../translation/selection')
 const {buildFetchPublicationSelection} = require('./fetch-publication-selection')
+const {buildTranslationPublicationReady, buildTranslationPublicationSelection} = require('./translation-publication-selection')
 const {
+  publishJapaneseGuidesTransaction,
   removePrepared,
   resolveCheckpointCandidate,
+  resolveJapaneseGuidesCandidate,
   runPublicationCoordinator,
 } = require('./publication-coordinator')
 
@@ -119,6 +123,116 @@ function checkpointArchive(root, name, manifestOverrides = {}) {
   }
 }
 
+function guidesBatchSetArchive(root, name, {selection, unit, innerArchive = null, batchCount = 1, planOverrides = {}}) {
+  const archiveRoot = path.join(root, name)
+  const artifactDir = path.join(archiveRoot, 'checkpoint-group')
+  const pendingSetSha256 = '0'.repeat(64)
+  const manifest = {
+    schemaVersion: 1,
+    stage: 'translation-guides-batch-set',
+    group: 'guides',
+    runId: selection.runId,
+    runAttempt: selection.runAttempt,
+    sourceCheckpointSha: unit.sourceCheckpointSha,
+    toolingSha: unit.toolingSha,
+    targetSha: selection.initialTargetSha,
+    batchCount,
+    pendingSetSha256,
+  }
+  const plan = {
+    schemaVersion: 1,
+    group: 'guides',
+    sourceCheckpointSha: unit.sourceCheckpointSha,
+    targetSha: selection.initialTargetSha,
+    masterSha: unit.toolingSha,
+    batchCount,
+    pendingSetSha256,
+    ...planOverrides,
+  }
+  put(artifactDir, 'manifest.json', `${JSON.stringify(manifest)}\n`)
+  put(artifactDir, 'translation-plan.json', `${JSON.stringify(plan)}\n`)
+  if (batchCount > 0) {
+    const batchRoot = path.join(artifactDir, 'batches', `${name}-batch-1`)
+    fs.mkdirSync(batchRoot, {recursive: true})
+    fs.copyFileSync(innerArchive, path.join(batchRoot, 'checkpoint-group.tar'))
+  }
+  const archive = path.join(root, `${name}.tar`)
+  execFileSync('tar', ['-cf', archive, '-C', archiveRoot, 'checkpoint-group'])
+  const manifestFile = path.join(artifactDir, 'manifest.json')
+  return {archive, manifestFile}
+}
+
+function translationGuidesAndPythonSelection() {
+  const selected = buildTranslationSelection({locale: 'ja-JP', group: 'all'})
+  return buildTranslationPublicationSelection({
+    handoff: {
+      schemaVersion: 2,
+      locale: 'ja-JP',
+      group: 'all',
+      toolingSha: SHA('1'),
+      targetBranch: 'dev',
+      targetBaselineSha: SHA('2'),
+      units: selected.map(unit => ({
+        target: unit.target, group: unit.group, sourceGroup: unit.sourceGroup, sourceBaselineSha: SHA('3'),
+        sourceCheckpointSha: SHA('3'), targetBaselineSha: SHA('2'), publicationOrder: unit.publicationOrder,
+      })),
+    },
+    repository: 'zilliztech/zdoc', runId: 123, runAttempt: 1, publish: true, runTranslations: true,
+  })
+}
+
+async function runGuidesFailureCoordinator(t, {checkpoint, baseline, ready, transactionContext = {}}) {
+  const document = translationGuidesAndPythonSelection()
+  const guides = document.units.find(unit => unit.strategy === 'ja-guides')
+  const python = document.units.find(unit => unit.group === 'python')
+  const runnerTemp = path.join(outputRoot(t), 'runner')
+  fs.mkdirSync(runnerTemp)
+  const client = fakeClient(jobsFor(document, {
+    [guides.unitKey]: {conclusion: 'success', completedAt: '2026-08-06T00:00:01.000Z'},
+    [python.unitKey]: {conclusion: 'success', completedAt: '2026-08-06T00:00:02.000Z'},
+  }))
+  client.downloadReady = async () => ({descriptor: ready})
+  client.downloadArtifactFiles = async name => ({files: {
+    'checkpoint-group.tar': name === guides.artifacts.checkpoint ? checkpoint.archive : baseline.archive,
+  }})
+  const published = []
+  const context = {
+    readTargetTip: async () => SHA('2'),
+    reconcileTranslationPublication: async () => ({status: 'no_changes', resultSha: SHA('4')}),
+    ...transactionContext,
+  }
+  const outcome = await runPublicationCoordinator({
+    selection: document,
+    mode: 'publish',
+    client,
+    repositoryRoot: process.cwd(),
+    runnerTemp,
+    outputDirectory: path.join(path.dirname(runnerTemp), 'output'),
+    pollMilliseconds: 1,
+    candidatePolls: 1,
+    maxPublishAttempts: 1,
+    sleep: async () => {},
+    transactionContext: context,
+    resolveCandidate: candidate => candidate.unit.strategy === 'ja-guides'
+      ? resolveJapaneseGuidesCandidate(candidate)
+      : Promise.resolve({status: 'ready', prepared: {unitKey: candidate.unit.unitKey}}),
+    publishUnit: async ({unit, prepared}) => {
+      if (unit.strategy === 'ja-guides') {
+        return publishJapaneseGuidesTransaction({
+          selection: document, unit, prepared, repositoryRoot: process.cwd(), runnerTemp,
+          maxPublishAttempts: 1, transactionContext: context,
+        })
+      }
+      published.push(unit.unitKey)
+      return {
+        status: 'published', baseSha: SHA('2'), resultSha: SHA('4'), commitShas: [SHA('4')], attempts: 1,
+        failure: null, remoteState: 'known', completedAt: '2026-08-06T00:01:00.000Z',
+      }
+    },
+  })
+  return {client, document, guides, outcome, published, runnerTemp}
+}
+
 test('checkpoint candidate resolver downloads and authenticates a Translation baseline and cleans both extractions', async t => {
   const root = outputRoot(t)
   fs.mkdirSync(path.join(root, 'runner'))
@@ -216,6 +330,146 @@ test('checkpoint candidate resolver preserves the Fetch checkpoint-only prepared
   assert.equal(downloads, 1)
   assert.deepEqual(Object.keys(result.prepared).sort(), ['artifactDir', 'cleanupDirectory', 'descriptor'])
   removePrepared(result.prepared)
+})
+
+test('default live coordinator resolves and publishes a real Japanese Guides batch-set candidate', async t => {
+  const root = outputRoot(t)
+  const runnerTemp = path.join(root, 'runner')
+  fs.mkdirSync(runnerTemp)
+  const document = buildTranslationPublicationSelection({
+    handoff: {
+      schemaVersion: 2,
+      locale: 'ja-JP',
+      group: 'guides',
+      toolingSha: SHA('1'),
+      targetBranch: 'dev',
+      targetBaselineSha: SHA('2'),
+      units: [{
+        target: 'ja-JP', group: 'guides', sourceGroup: 'guides', sourceBaselineSha: SHA('3'),
+        sourceCheckpointSha: SHA('3'), targetBaselineSha: SHA('2'), publicationOrder: 0,
+      }],
+    },
+    repository: 'zilliztech/zdoc', runId: 123, runAttempt: 1, publish: true, runTranslations: true,
+  })
+  const unit = document.units[0]
+  const innerCheckpoint = checkpointArchive(root, 'guides-inner-checkpoint')
+  const innerBaseline = checkpointArchive(root, 'guides-inner-baseline')
+  const checkpoint = guidesBatchSetArchive(root, 'guides-checkpoint', {selection: document, unit, innerArchive: innerCheckpoint.archive})
+  const baseline = guidesBatchSetArchive(root, 'guides-baseline', {selection: document, unit, innerArchive: innerBaseline.archive})
+  const ready = buildTranslationPublicationReady({
+    selection: document,
+    unitKey: unit.unitKey,
+    checkpointArchive: checkpoint.archive,
+    checkpointManifest: checkpoint.manifestFile,
+    baselineArchive: baseline.archive,
+    baselineManifest: baseline.manifestFile,
+  })
+  const observed = []
+  const strategy = {
+    async compose({inputs}) {
+      observed.push({plan: inputs.plan, pairs: inputs.pairs})
+      return {status: 'candidate', candidateSha: SHA('4'), commitShas: [SHA('4')]}
+    },
+    async validate() { return {validationReceipts: []} },
+    async promote({candidate}) { return {status: 'published', resultSha: candidate.candidateSha, commitShas: candidate.commitShas} },
+  }
+  const results = []
+  const outcome = await runPublicationCoordinator({
+    selection: document,
+    mode: 'publish',
+    repositoryRoot: process.cwd(),
+    runnerTemp,
+    outputDirectory: path.join(root, 'output'),
+    pollMilliseconds: 1,
+    candidatePolls: 1,
+    maxPublishAttempts: 1,
+    sleep: async () => {},
+    strategies: {'ja-guides': strategy},
+    transactionContext: {
+      readTargetTip: async () => SHA('2'),
+      promoteCandidate: async () => ({status: 'published'}),
+      probeRemoteCandidate: async () => ({remoteSha: SHA('4'), containsCandidate: true}),
+      reconcileTranslationPublication: async () => ({status: 'no_changes', resultSha: SHA('4')}),
+    },
+    client: {
+      async listJobs() {
+        return [{id: 1, name: unit.producerJob, run_attempt: 1, status: 'completed', conclusion: 'success', completed_at: '2026-08-06T00:00:00.000Z'}]
+      },
+      async downloadReady() { return {descriptor: ready} },
+      async downloadArtifactFiles(name) {
+        const file = name === unit.artifacts.checkpoint ? checkpoint.archive : baseline.archive
+        return {files: {'checkpoint-group.tar': file}}
+      },
+      async uploadProgress() { return {ok: true} },
+      async uploadResults({results: value}) { results.push(value); return {artifactName: 'publication-results-translation-123-1', artifactId: 1} },
+    },
+  })
+
+  assert.equal(outcome.results.overallStatus, 'success')
+  assert.equal(outcome.results.units[0].status, 'published')
+  assert.equal(observed.length, 1)
+  assert.equal(observed[0].plan.batchCount, 1)
+  assert.equal(observed[0].pairs.length, 1)
+  assert.equal(results.length, 1)
+})
+
+for (const scenario of ['malformed-plan', 'corrupt-inner-archive']) {
+  test(`Japanese Guides ${scenario} becomes a candidate rejection, cleans every extraction, and continues FIFO publication`, async t => {
+    const root = outputRoot(t)
+    const document = translationGuidesAndPythonSelection()
+    const unit = document.units.find(candidate => candidate.strategy === 'ja-guides')
+    const innerCheckpoint = checkpointArchive(root, 'guides-rejected-inner-checkpoint')
+    const innerBaseline = scenario === 'corrupt-inner-archive'
+      ? (() => { const file = path.join(root, 'corrupt-inner.tar'); fs.writeFileSync(file, 'not a tar archive'); return {archive: file} })()
+      : checkpointArchive(root, 'guides-rejected-inner-baseline')
+    const options = scenario === 'malformed-plan' ? {planOverrides: {targetSha: SHA('9')}} : {}
+    const checkpoint = guidesBatchSetArchive(root, 'guides-rejected-checkpoint', {
+      selection: document, unit, innerArchive: innerCheckpoint.archive, ...options,
+    })
+    const baseline = guidesBatchSetArchive(root, 'guides-rejected-baseline', {
+      selection: document, unit, innerArchive: innerBaseline.archive, ...options,
+    })
+    const ready = buildTranslationPublicationReady({
+      selection: document, unitKey: unit.unitKey,
+      checkpointArchive: checkpoint.archive, checkpointManifest: checkpoint.manifestFile,
+      baselineArchive: baseline.archive, baselineManifest: baseline.manifestFile,
+    })
+
+    const result = await runGuidesFailureCoordinator(t, {checkpoint, baseline, ready})
+
+    assert.equal(result.outcome.results.overallStatus, 'failure')
+    assert.equal(result.outcome.results.units.find(item => item.unitKey === unit.unitKey).status, 'candidate_rejected')
+    assert.deepEqual(result.published, ['translation/ja-JP/python'])
+    assert.equal(result.client.results.length, 1)
+    assert.deepEqual(fs.readdirSync(result.runnerTemp), [])
+  })
+}
+
+test('a zero-batch target probe failure records unknown remote state, uploads terminal results, and cleans outer Guides extractions', async t => {
+  const root = outputRoot(t)
+  const document = translationGuidesAndPythonSelection()
+  const unit = document.units.find(candidate => candidate.strategy === 'ja-guides')
+  const checkpoint = guidesBatchSetArchive(root, 'guides-zero-checkpoint', {selection: document, unit, batchCount: 0})
+  const baseline = guidesBatchSetArchive(root, 'guides-zero-baseline', {selection: document, unit, batchCount: 0})
+  const ready = buildTranslationPublicationReady({
+    selection: document, unitKey: unit.unitKey,
+    checkpointArchive: checkpoint.archive, checkpointManifest: checkpoint.manifestFile,
+    baselineArchive: baseline.archive, baselineManifest: baseline.manifestFile,
+  })
+
+  const result = await runGuidesFailureCoordinator(t, {
+    checkpoint,
+    baseline,
+    ready,
+    transactionContext: {readTargetTip: async () => { throw new Error('target probe unavailable') }},
+  })
+
+  assert.equal(result.outcome.results.overallStatus, 'orchestrator_failed')
+  assert.equal(result.outcome.results.orchestratorFailure.code, 'REMOTE_STATE_UNKNOWN')
+  assert.equal(result.outcome.results.units.find(item => item.unitKey === unit.unitKey).status, 'publish_failed')
+  assert.deepEqual(result.published, [])
+  assert.equal(result.client.results.length, 1)
+  assert.deepEqual(fs.readdirSync(result.runnerTemp), [])
 })
 
 test('publishes ready units in trusted completion order with one active handler', async t => {

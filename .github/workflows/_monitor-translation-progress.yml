@@ -9,6 +9,8 @@ on:
       handoff_json: { required: true, type: string }
       request_id: { required: true, type: string }
       publish_enabled: { required: true, type: boolean }
+      publication_run_attempt: { required: true, type: number }
+      publication_selection_sha256: { required: false, type: string, default: '' }
     secrets:
       APP_ID: { required: true }
       APP_SECRET: { required: true }
@@ -37,6 +39,8 @@ jobs:
           HANDOFF_JSON: ${{ inputs.handoff_json }}
           REQUEST_ID: ${{ inputs.request_id }}
           PUBLISH_ENABLED: ${{ inputs.publish_enabled }}
+          PUBLICATION_RUN_ATTEMPT: ${{ inputs.publication_run_attempt }}
+          PUBLICATION_SELECTION_SHA256: ${{ inputs.publication_selection_sha256 }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
