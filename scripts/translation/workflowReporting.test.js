@@ -6,7 +6,8 @@ const test = require('node:test')
 
 test('reusable translation workflow produces and uploads a group-scoped report', () => {
   const workflow = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
-  assert.match(workflow, /agentRunner\.js --manifest tmp\/translation-manifest\.json --report tmp\/translation-report\.json/)
+  assert.match(workflow, /args=\(--manifest tmp\/translation-manifest\.json --report tmp\/translation-report\.json\)/)
+  assert.match(workflow, /node scripts\/translation\/agentRunner\.js "\$\{args\[@\]\}"/)
   assert.match(workflow, /reportSummary\.js/)
   assert.match(workflow, /name: Upload translation report/)
   assert.match(workflow, /if: \$\{\{ always\(\) \}\}/)

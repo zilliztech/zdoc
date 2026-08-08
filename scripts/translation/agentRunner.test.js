@@ -13,6 +13,7 @@ const {
   createProgressCoordinator,
   isRetryableProviderError,
   loadChunkLimits,
+  loadRecoveryAnalysis,
   parseNonNegativeInteger,
   partitionRecoveryWork,
   promptNamesFor,
@@ -122,6 +123,59 @@ function testRecoveryIdentityUsesAuthoritativeToolingSha() {
   })
 
   assert.equal(identity.toolingSha, toolingSha)
+}
+
+function testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes() {
+  withTempDir(siteDir => {
+    const sourcePath = 'content/en/reference/api/python/page.md'
+    const targetPath = 'content/zh-CN/reference/api/python/page.md'
+    const source = '# Source\n'
+    const target = '# 中文\n'
+    write(path.join(siteDir, sourcePath), source)
+    write(path.join(siteDir, targetPath), target)
+    const manifest = {
+      target: 'zh-CN-reference', locale: 'zh-CN', group: 'python', sourceCheckpointSha: 'a'.repeat(40),
+      items: [{sourcePath, targetPath, sourceHash: sha256(source), locale: 'zh-CN', type: 'reference', reason: 'stale_source'}],
+    }
+    const identity = {promptContractSha256: 'b'.repeat(64), model: 'translation-model', toolingSha: 'c'.repeat(40)}
+    const analysis = {
+      schemaVersion: 1, kind: 'translation-recovery-analysis', target: manifest.target, locale: manifest.locale, group: manifest.group,
+      sourceCheckpointSha: manifest.sourceCheckpointSha, promptContractSha256: identity.promptContractSha256, model: identity.model,
+      executionToolingSha: identity.toolingSha, candidateCount: 1, recoveredCount: 1, pendingCount: 0, rejectedCount: 0,
+      fullRetranslation: false,
+      restored: [{sourcePath, targetPath, sourceHash: sha256(source), targetHash: sha256(target), targetSize: Buffer.byteLength(target)}],
+      pending: [], rejected: [],
+    }
+    const file = path.join(siteDir, 'recovery-analysis.json')
+    fs.writeFileSync(file, JSON.stringify(analysis))
+    const loaded = loadRecoveryAnalysis({file, manifest, siteDir, identity})
+    assert.deepEqual(loaded.restored, [{...manifest.items[0], status: 'translated', recovered: true}])
+    write(path.join(siteDir, targetPath), '# tampered\n')
+    assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /payload changed after preflight/i)
+  })
+}
+
+function testRejectsRecoveryAnalysisThatWidensOrChangesCurrentPendingWork() {
+  withTempDir(siteDir => {
+    const sourcePath = 'content/en/reference/api/python/page.md'
+    const targetPath = 'content/zh-CN/reference/api/python/page.md'
+    const source = '# Source\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {sourcePath, targetPath, sourceHash: sha256(source), locale: 'zh-CN', type: 'reference', reason: 'stale_source'}
+    const manifest = {target: 'zh-CN-reference', locale: 'zh-CN', group: 'python', sourceCheckpointSha: 'a'.repeat(40), items: [item]}
+    const identity = {promptContractSha256: 'b'.repeat(64), model: 'translation-model', toolingSha: 'c'.repeat(40)}
+    const analysis = {
+      schemaVersion: 1, kind: 'translation-recovery-analysis', target: manifest.target, locale: manifest.locale, group: manifest.group,
+      sourceCheckpointSha: manifest.sourceCheckpointSha, promptContractSha256: identity.promptContractSha256, model: identity.model,
+      executionToolingSha: identity.toolingSha, candidateCount: 1, recoveredCount: 0, pendingCount: 1, rejectedCount: 1,
+      fullRetranslation: true, restored: [],
+      pending: [{sourcePath, targetPath: 'content/zh-CN/reference/api/python/other.md', sourceHash: item.sourceHash}],
+      rejected: [{sourcePath, targetPath: 'content/zh-CN/reference/api/python/other.md', reason: 'missing recovery record'}],
+    }
+    const file = path.join(siteDir, 'recovery-analysis.json')
+    fs.writeFileSync(file, JSON.stringify(analysis))
+    assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /pending identity/i)
+  })
 }
 
 function testMessageBuildersSelectPromptsFromTarget() {
@@ -1896,6 +1950,8 @@ async function run() {
   testSelectsPromptsByTranslationTarget()
   testPartitionsRecoveredFilesWithoutChangingOriginalIndexes()
   testRecoveryIdentityUsesAuthoritativeToolingSha()
+  testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes()
+  testRejectsRecoveryAnalysisThatWidensOrChangesCurrentPendingWork()
   testMessageBuildersSelectPromptsFromTarget()
   testTranslationMessagesIncludeOnlyExplicitRetryFeedback()
   testReferenceLandingMessagesContainNavigationContract()

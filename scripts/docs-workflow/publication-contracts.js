@@ -192,6 +192,8 @@ function validateArtifactIdentity(value, label, document) {
 const PUBLICATION_ADAPTER_HELPERS = Object.freeze({
   DOCUMENTS,
   assertArtifactName,
+  assertChecksum,
+  assertPositiveInteger,
   assertSha,
   assertString,
   assertTargetBranch,

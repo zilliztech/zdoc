@@ -914,7 +914,10 @@ function partitionRecoveryWork(manifest, restoredResults = []) {
   const pending = []
   manifest.items.forEach((item, index) => {
     const result = restoredBySource.get(item.sourcePath)
-    if (result && result.targetPath === item.targetPath && result.sourceHash === item.sourceHash) recovered.push({index, result})
+    if (result && result.targetPath === item.targetPath && result.sourceHash === item.sourceHash) {
+      const {recoveryTargetHash: _targetHash, recoveryTargetSize: _targetSize, ...publicResult} = result
+      recovered.push({index, result: publicResult})
+    }
     else pending.push({index, item})
   })
   return {recovered, pending}
@@ -929,6 +932,83 @@ function buildRecoveryIdentity(manifest, siteDir, env = process.env) {
     sourceSha: manifest.sourceCheckpointSha,
     toolingSha: env.TOOLING_SHA,
   }
+}
+
+function exactRecoveryAnalysisKeys(value, keys, label) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`)
+  if (JSON.stringify(Object.keys(value).sort()) !== JSON.stringify([...keys].sort())) throw new Error(`${label} keys are invalid`)
+}
+
+function recoveryEntryIdentity(value) {
+  return `${value.sourcePath}\0${value.targetPath}`
+}
+
+function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
+  let analysis
+  try { analysis = JSON.parse(fs.readFileSync(file, 'utf8')) }
+  catch (error) { throw new Error(`Recovery analysis JSON is invalid: ${String(error?.message || error)}`) }
+  exactRecoveryAnalysisKeys(analysis, [
+    'schemaVersion', 'kind', 'target', 'locale', 'group', 'sourceCheckpointSha', 'promptContractSha256', 'model',
+    'executionToolingSha', 'candidateCount', 'recoveredCount', 'pendingCount', 'rejectedCount', 'fullRetranslation',
+    'restored', 'pending', 'rejected',
+  ], 'Recovery analysis')
+  if (analysis.schemaVersion !== 1 || analysis.kind !== 'translation-recovery-analysis') throw new Error('Recovery analysis header is invalid')
+  for (const key of ['target', 'locale', 'group', 'sourceCheckpointSha']) {
+    if (analysis[key] !== manifest[key]) throw new Error(`Recovery analysis ${key} does not match the current manifest`)
+  }
+  const expectedIdentity = {
+    promptContractSha256: identity.promptContractSha256,
+    model: identity.model,
+    executionToolingSha: identity.toolingSha,
+  }
+  for (const [key, value] of Object.entries(expectedIdentity)) {
+    if (analysis[key] !== value) throw new Error(`Recovery analysis ${key} does not match current execution identity`)
+  }
+  for (const [key, arrayKey] of [['candidateCount', null], ['recoveredCount', 'restored'], ['pendingCount', 'pending'], ['rejectedCount', 'rejected']]) {
+    if (!Number.isSafeInteger(analysis[key]) || analysis[key] < 0) throw new Error(`Recovery analysis ${key} is invalid`)
+    if (arrayKey && (!Array.isArray(analysis[arrayKey]) || analysis[key] !== analysis[arrayKey].length)) throw new Error(`Recovery analysis ${key} does not match ${arrayKey}`)
+  }
+  if (!Array.isArray(analysis.restored) || !Array.isArray(analysis.pending) || !Array.isArray(analysis.rejected)) throw new Error('Recovery analysis lists are invalid')
+  if (analysis.candidateCount !== manifest.items.length || analysis.recoveredCount + analysis.pendingCount !== analysis.candidateCount) {
+    throw new Error('Recovery analysis candidate partition does not match the current manifest')
+  }
+  const manifestByIdentity = new Map(manifest.items.map(item => [recoveryEntryIdentity(item), item]))
+  if (manifestByIdentity.size !== manifest.items.length) throw new Error('Current manifest contains duplicate recovery candidates')
+  const seen = new Set()
+  const restored = []
+  for (const record of analysis.restored) {
+    exactRecoveryAnalysisKeys(record, ['sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'targetSize'], 'Recovery analysis restored record')
+    const key = recoveryEntryIdentity(record)
+    const candidate = manifestByIdentity.get(key)
+    if (!candidate || candidate.sourceHash !== record.sourceHash || seen.has(key)) throw new Error('Recovery analysis restored identity does not match the current manifest')
+    if (!/^[0-9a-f]{64}$/u.test(record.targetHash || '') || !Number.isSafeInteger(record.targetSize) || record.targetSize < 0) throw new Error('Recovery analysis restored target identity is invalid')
+    assertSafeRepositoryRelativePath(record.targetPath, 'Recovery analysis restored target path')
+    const target = path.resolve(siteDir, ...record.targetPath.split('/'))
+    const root = path.resolve(siteDir)
+    if (target !== root && !target.startsWith(`${root}${path.sep}`)) throw new Error('Recovery analysis restored target escapes the repository')
+    const stat = fs.lstatSync(target)
+    if (!stat.isFile() || stat.isSymbolicLink() || stat.size !== record.targetSize || crypto.createHash('sha256').update(fs.readFileSync(target)).digest('hex') !== record.targetHash) {
+      throw new Error('Recovery analysis restored target payload changed after preflight')
+    }
+    seen.add(key)
+    restored.push({...candidate, status: 'translated', recovered: true})
+  }
+  for (const record of analysis.pending) {
+    exactRecoveryAnalysisKeys(record, ['sourcePath', 'targetPath', 'sourceHash'], 'Recovery analysis pending record')
+    const key = recoveryEntryIdentity(record)
+    const candidate = manifestByIdentity.get(key)
+    if (!candidate || candidate.sourceHash !== record.sourceHash || seen.has(key)) throw new Error('Recovery analysis pending identity does not match the current manifest')
+    seen.add(key)
+  }
+  if (seen.size !== manifest.items.length) throw new Error('Recovery analysis does not exactly cover the current manifest')
+  const pendingIdentities = new Set(analysis.pending.map(recoveryEntryIdentity))
+  for (const record of analysis.rejected) {
+    exactRecoveryAnalysisKeys(record, ['sourcePath', 'targetPath', 'reason'], 'Recovery analysis rejected record')
+    if (!pendingIdentities.has(recoveryEntryIdentity(record)) || typeof record.reason !== 'string' || !record.reason) throw new Error('Recovery analysis rejected identity is invalid')
+  }
+  const expectedFullRetranslation = manifest.items.length > 0 && analysis.recoveredCount === 0 && analysis.pendingCount === manifest.items.length
+  if (analysis.fullRetranslation !== expectedFullRetranslation) throw new Error('Recovery analysis full-retranslation state is invalid')
+  return {restored, pending: analysis.pending, rejected: analysis.rejected}
 }
 
 async function main() {
@@ -953,14 +1033,19 @@ async function main() {
   const allowPartial = String(process.env.TRANSLATION_ALLOW_PARTIAL || '').toLowerCase() === 'true'
   const manifest = validateTranslationManifest(JSON.parse(fs.readFileSync(path.join(siteDir, manifestPath), 'utf8')))
   const recoveryDir = args.get('--recovery-dir') || ''
-  const recovery = recoveryDir
-    ? restoreRecoveryFiles({
+  const recoveryAnalysis = args.get('--recovery-analysis') || ''
+  if (recoveryDir && recoveryAnalysis) throw new Error('Use either --recovery-dir or --recovery-analysis, not both')
+  const recoveryIdentity = buildRecoveryIdentity(manifest, siteDir)
+  const recovery = recoveryAnalysis
+    ? loadRecoveryAnalysis({file: path.resolve(siteDir, recoveryAnalysis), manifest, siteDir, identity: recoveryIdentity})
+    : recoveryDir
+      ? restoreRecoveryFiles({
         siteDir,
         candidates: manifest.items,
         artifacts: discoverRecoveryArtifacts(path.resolve(siteDir, recoveryDir)),
-        identity: buildRecoveryIdentity(manifest, siteDir),
+        identity: recoveryIdentity,
       })
-    : {restored: [], pending: manifest.items, rejected: []}
+      : {restored: [], pending: manifest.items, rejected: []}
   const work = partitionRecoveryWork(manifest, recovery.restored)
   const callModel = work.pending.length > 0
     ? await createProviderCall(loadAgentConfigsFromEnv(), {
@@ -1054,6 +1139,7 @@ module.exports = {
   createProgressCoordinator,
   isRetryableProviderError,
   loadChunkLimits,
+  loadRecoveryAnalysis,
   normalizeBaseUrl,
   parsePositiveInteger,
   parseNonNegativeInteger,
