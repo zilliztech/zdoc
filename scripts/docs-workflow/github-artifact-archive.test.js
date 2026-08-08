@@ -20,3 +20,14 @@ test('zip metadata inspection fails closed when names and entry modes are ambigu
     : {stdout: '-rw----  2.0 fat 2 bl 2 stor 20260809.010000 publication-results.json\n'}
   await assert.rejects(() => inspectZipArchive('fixture.zip', execute), /metadata is ambiguous/i)
 })
+
+for (const type of ['b', 'c', 'p', 's']) {
+  test(`zip metadata inspection rejects unsupported ${type} entries before extraction`, async () => {
+    const execute = async (_command, args) => args[0] === '-Z1'
+      ? {stdout: 'publication-results.json\n'}
+      : {stdout: `${type}rw-------  3.0 unx 12 bl 12 stor 20260809.010000 publication-results.json\n`}
+    const entries = await inspectZipArchive('fixture.zip', execute)
+    assert.deepEqual(entries, [{path: 'publication-results.json', type: 'unsupported'}])
+    assert.throws(() => validateArchiveEntries(entries, ['publication-results.json']), /unsupported/i)
+  })
+}

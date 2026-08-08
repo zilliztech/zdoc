@@ -111,10 +111,11 @@ async function inspectZipArchive(archive, execute = execFileAsync) {
   const names = String(namesOutput).split('\n').filter(Boolean)
   const detailLines = String(detailsOutput).split('\n').filter(line => /^[bcdlps-][rwxStTs-]*\s+/u.test(line))
   if (detailLines.length !== names.length) throw new Error('Artifact archive entry metadata is ambiguous')
-  return names.map((entryPath, index) => ({
-    path: entryPath,
-    type: detailLines[index][0] === 'l' ? 'symlink' : detailLines[index][0] === 'd' || entryPath.endsWith('/') ? 'directory' : 'file',
-  }))
+  return names.map((entryPath, index) => {
+    const mode = detailLines[index][0]
+    const type = mode === '-' ? 'file' : mode === 'd' ? 'directory' : mode === 'l' ? 'symlink' : 'unsupported'
+    return {path: entryPath, type}
+  })
 }
 
 async function unzipArchive(archive, destination, execute = execFileAsync) {
