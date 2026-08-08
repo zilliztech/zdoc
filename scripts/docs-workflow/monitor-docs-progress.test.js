@@ -42,10 +42,12 @@ function publicationProgress(revision, state = 'ready') {
   }
 }
 
-test('production monitor patches cards through docs-tooling instead of the retired plugin', () => {
+test('production monitor patches cards through the direct docs-tooling entrypoint instead of a package-manager child tree', () => {
   const source = fs.readFileSync('scripts/docs-workflow/monitor-docs-progress.js', 'utf8')
   assert.doesNotMatch(source, /plugins\/report-to-lark/)
-  assert.match(source, /docs-tooling['"],?\s*['"]report-card['"],?\s*['"]advance/)
+  assert.match(source, /process\.execPath/)
+  assert.match(source, /docs-tooling\.js/)
+  assert.doesNotMatch(source, /execute\(['"]pnpm['"]/)
 })
 
 test('reusable monitor accepts publication attempt and selection identity without gaining write permissions', () => {
@@ -80,6 +82,54 @@ test('docs-tooling card patcher removes its temporary state file when the comman
   await assert.rejects(patch({ overallStatus: 'running' }), /injected patch failure/)
   assert.equal(fs.existsSync(stateFile), false)
   assert.deepEqual(fs.readdirSync(path.dirname(stateFile)), [])
+})
+
+test('docs-tooling card patcher bounds the command and requests forced child cleanup', async () => {
+  const repositoryRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'docs-monitor-patcher-timeout-'))
+  let stateFile
+  const patch = createDocsToolingCardPatcher({
+    repositoryRoot,
+    messageId: 'om_123',
+    environment: { APP_ID: 'app-id' },
+    timeoutMs: 25,
+    execute: async (_command, args, options) => {
+      const stateFileIndex = args.indexOf('--state-file')
+      stateFile = path.join(repositoryRoot, args[stateFileIndex + 1])
+      assert.equal(options.timeout, 25)
+      assert.equal(options.killSignal, 'SIGKILL')
+      throw new Error('injected card patch timeout')
+    },
+  })
+
+  await assert.rejects(patch({ overallStatus: 'running' }), /injected card patch timeout/)
+  assert.equal(fs.existsSync(stateFile), false)
+})
+
+test('docs-tooling card patcher timeout terminates its direct child process', async () => {
+  const repositoryRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'docs-monitor-patcher-tree-'))
+  const scriptsDirectory = path.join(repositoryRoot, 'scripts')
+  const childPidFile = path.join(repositoryRoot, 'child.pid')
+  fs.mkdirSync(scriptsDirectory)
+  fs.writeFileSync(path.join(scriptsDirectory, 'docs-tooling.js'), `'use strict'
+const fs = require('node:fs')
+fs.writeFileSync(process.env.CHILD_PID_FILE, String(process.pid))
+setInterval(() => {}, 1000)
+`)
+  const patch = createDocsToolingCardPatcher({
+    repositoryRoot,
+    messageId: 'om_123',
+    environment: {
+      ...process.env,
+      CHILD_PID_FILE: childPidFile,
+    },
+    timeoutMs: 300,
+  })
+
+  const startedAt = Date.now()
+  await assert.rejects(patch({ overallStatus: 'running' }))
+  assert.ok(Date.now() - startedAt < 900, 'patcher must not wait for a timed-out child to exit on its own')
+  assert.ok(Number.isSafeInteger(Number(fs.readFileSync(childPidFile, 'utf8'))))
+  assert.throws(() => process.kill(Number(fs.readFileSync(childPidFile, 'utf8')), 0), { code: 'ESRCH' })
 })
 
 const RUNNING = [{
