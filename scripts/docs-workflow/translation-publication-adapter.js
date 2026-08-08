@@ -23,6 +23,7 @@ const RECOVERY_SOURCE_WORKFLOWS = new Set([
   '.github/workflows/translate-codex.yml',
   '.github/workflows/recover-translation.yml',
 ])
+const RECOVERY_JOB_PREFIX = 'run_translation / '
 const TRANSLATION_PUBLICATION_UNIT_KEYS = Object.freeze([
   'translation/ja-JP/guides',
   'translation/ja-JP/python',
@@ -199,7 +200,11 @@ const translationPublicationAdapter = definePublicationWorkflowAdapter({
   workflow: 'translation',
   validateSelection: validateTranslationSelection,
   validateReady: validateTranslationReady,
-  normalizeJobs(jobs) { return jobs },
+  normalizeJobs(jobs) {
+    return jobs.map(job => typeof job?.name === 'string' && job.name.startsWith(RECOVERY_JOB_PREFIX)
+      ? {...job, name: job.name.slice(RECOVERY_JOB_PREFIX.length)}
+      : job)
+  },
   resolveCandidate(context) { return context.resolveCandidate(context) },
   publishUnit(context) { return context.publishUnit(context) },
   async projectResults(results, context) {
