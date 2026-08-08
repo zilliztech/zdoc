@@ -24,6 +24,7 @@ const TRANSLATION_UNIT_ORDER = Object.freeze([
   'translation/zh-CN-reference/reference-landings',
 ])
 const RUN_TRANSLATION_WRAPPER_PREFIX = 'run_translation / '
+const MAX_TERMINAL_RESULTS_POLLS = 30
 
 function delay(milliseconds) {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -35,9 +36,9 @@ function required(env, key) {
   return value.trim()
 }
 
-function positiveInteger(value, label) {
+function positiveInteger(value, label, maximum = Number.MAX_SAFE_INTEGER) {
   const parsed = Number(value)
-  if (!Number.isSafeInteger(parsed) || parsed <= 0) throw new Error(`${label} must be a positive integer`)
+  if (!Number.isSafeInteger(parsed) || parsed <= 0 || parsed > maximum) throw new Error(`${label} must be a positive integer no greater than ${maximum}`)
   return parsed
 }
 
@@ -158,6 +159,7 @@ function createTranslationProgressMonitor({
   parentUrl,
   publicationSelectionSha256,
   pollIntervalMs = 60_000,
+  terminalResultsMaxPolls = 5,
   listJobs,
   downloadPublicationProgress = async () => ({snapshot: null, stale: false}),
   downloadPublicationResults = async () => null,
@@ -173,6 +175,9 @@ function createTranslationProgressMonitor({
   let publicationProgress = null
   let publicationProgressStale = false
   let publicationResults = null
+  let terminalResultsMisses = 0
+
+  positiveInteger(terminalResultsMaxPolls, 'terminalResultsMaxPolls', MAX_TERMINAL_RESULTS_POLLS)
 
   function boundedLog(message) {
     log(String(message).replace(/[\r\n]+/g, ' ').slice(0, 240))
@@ -259,6 +264,13 @@ function createTranslationProgressMonitor({
         await bestEffortPatch(latestState)
         return true
       }
+      terminalResultsMisses += 1
+      if (terminalResultsMisses >= terminalResultsMaxPolls) {
+        boundedLog('translation publication results unavailable after terminal settle bound; failing closed')
+        latestState = derive(jobs, 'failure')
+        await bestEffortPatch(latestState)
+        return true
+      }
       latestState = derive(jobs, 'running')
       await bestEffortPatch(latestState)
       return false
@@ -328,6 +340,7 @@ function readConfiguration(env = process.env) {
     publishEnabled: publishText === 'true',
     publicationRunAttempt,
     publicationSelectionSha256,
+    terminalResultsMaxPolls: positiveInteger(env.TRANSLATION_RESULTS_MAX_POLLS || '5', 'TRANSLATION_RESULTS_MAX_POLLS', MAX_TERMINAL_RESULTS_POLLS),
     parentUrl: parentWorkflowUrl(requestId, repository),
     appId: required(env, 'APP_ID'),
     appSecret: required(env, 'APP_SECRET'),
@@ -344,6 +357,7 @@ async function main() {
     runId: config.runId,
     runAttempt: config.publicationRunAttempt,
     runnerTemp: process.env.RUNNER_TEMP,
+    artifactTransport: 'rest',
   })
   const artifacts = config.publicationSelectionSha256
     ? createTranslationPublicationArtifactReader({
