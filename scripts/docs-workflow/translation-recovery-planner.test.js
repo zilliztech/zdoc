@@ -10,9 +10,11 @@ const test = require('node:test')
 const {finalizePublicationSelection} = require('./publication-contracts')
 const {
   buildRecoveryHandoff,
+  extractArtifactZip,
   planTranslationRecovery,
   validateDownloadedArtifactTree,
 } = require('./translation-recovery-planner')
+const {buildSummary} = require('../translation/reportSummary')
 
 const SHA = character => character.repeat(40)
 const HASH = value => crypto.createHash('sha256').update(value).digest('hex')
@@ -91,6 +93,19 @@ function reportArtifact(root, candidateCount, target = 'ja-JP', group = 'guides'
     checkpoint: {target, processed: candidateCount, remaining: 0, translated, failed: candidateCount - translated, generatedAt: '2026-08-08T01:59:00.000Z'},
   })
   fs.writeFileSync(path.join(root, 'translation-report.md'), `### Translation report\n\n- Pending: ${candidateCount}\n- Translated: ${translated}\n- Failed: ${candidateCount - translated}\n- Remaining: 0\n`)
+}
+
+function zeroWorkReportMarkdown(locale = 'ja-JP') {
+  return buildSummary({manifest: {locale, items: []}})
+}
+
+function makeMarkdownOnlyZeroWork(value) {
+  const report = value.artifacts.find(item => item.name === `translation-report-ja-JP-python-${RUN_ID}`)
+  const reportRoot = value.payloads.get(report.id)
+  fs.rmSync(path.join(reportRoot, 'translation-report.json'))
+  fs.writeFileSync(path.join(reportRoot, 'translation-report.md'), zeroWorkReportMarkdown('ja-JP'))
+  const recovery = value.artifacts.find(item => item.name === `translation-recovery-ja-JP-python-${RUN_ID}-0`)
+  return {report, artifacts: value.artifacts.filter(artifact => artifact.id !== recovery.id)}
 }
 
 function recoveryArtifact(root, {target, group, translated = 1, toolingSha = RETAINED_TOOLING_SHA}) {
@@ -289,7 +304,7 @@ test('binds strict report JSON and exact producer job identity before accepting 
   await assert.rejects(() => planTranslationRecovery({
     repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(missingJson.root, 'missing-report-json'),
     targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: missingJson.client,
-  }), /translation report.*json|strict report/i)
+  }), /translation report.*json|strict report|markdown-only.*zero work/i)
 
   const ambiguous = fixture(t)
   const duplicated = ambiguous.artifacts.find(item => item.name === `translation-report-ja-JP-python-${RUN_ID}`)
@@ -313,6 +328,94 @@ test('binds strict report JSON and exact producer job identity before accepting 
     targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
     client: {...outsideWindow.client, listArtifacts: async () => outsideWindow.artifacts.map(artifact => artifact.id === outsideReport.id ? {...artifact, created_at: '2026-08-08T02:30:00.000Z'} : artifact)},
   }), /producer job time window/i)
+})
+
+test('accepts the exact retained zero-work Markdown-only report without requiring a recovery artifact', async t => {
+  const value = fixture(t)
+  const zeroWork = makeMarkdownOnlyZeroWork(value)
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'zero-work'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...value.client, listArtifacts: async () => zeroWork.artifacts},
+  })
+  assert.equal(planned.plan.sourceCandidateCount, 13)
+  assert.equal(planned.plan.retainedFileCount, 13)
+  assert.deepEqual(planned.plan.recoveryMap['ja-JP/python'].artifacts, [])
+  assert.equal(planned.plan.rejectedRecoveryCount, 0)
+})
+
+test('keeps artifact digest, envelope, producer, and time-window authentication mandatory for Markdown-only zero work', async t => {
+  const mutations = [
+    {
+      label: 'digest',
+      artifacts: (zeroWork) => zeroWork.artifacts.map(artifact => artifact.id === zeroWork.report.id ? {...artifact, digest: 'sha256:invalid'} : artifact),
+      jobs: value => value.jobs,
+      error: /translation report artifact identity is invalid/i,
+    },
+    {
+      label: 'envelope',
+      artifacts: (zeroWork) => zeroWork.artifacts.map(artifact => artifact.id === zeroWork.report.id ? {...artifact, workflow_run: {...artifact.workflow_run, id: RUN_ID + 1}} : artifact),
+      jobs: value => value.jobs,
+      error: /recovery artifact identity mismatch/i,
+    },
+    {
+      label: 'producer',
+      artifacts: zeroWork => zeroWork.artifacts,
+      jobs: value => value.jobs.filter(job => job.name !== 'translate:ja-JP/python / translate'),
+      error: /producer job.*ja-JP\/python|job identity/i,
+    },
+    {
+      label: 'time-window',
+      artifacts: (zeroWork) => zeroWork.artifacts.map(artifact => artifact.id === zeroWork.report.id ? {...artifact, created_at: '2026-08-08T02:30:00.000Z'} : artifact),
+      jobs: value => value.jobs,
+      error: /producer job time window/i,
+    },
+  ]
+  for (const mutation of mutations) {
+    const value = fixture(t)
+    const zeroWork = makeMarkdownOnlyZeroWork(value)
+    await assert.rejects(() => planTranslationRecovery({
+      repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, `zero-work-${mutation.label}`),
+      targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+      client: {...value.client, listArtifacts: async () => mutation.artifacts(zeroWork), listJobs: async () => mutation.jobs(value)},
+    }), mutation.error)
+  }
+})
+
+test('rejects downloaded artifact bytes that do not match the authenticated digest', t => {
+  const destination = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-digest-'))
+  t.after(() => fs.rmSync(destination, {recursive: true, force: true}))
+  assert.throws(() => extractArtifactZip(Buffer.from('not-the-authenticated-archive'), destination, `sha256:${'0'.repeat(64)}`), /downloaded artifact digest mismatch/i)
+})
+
+test('keeps strict JSON mandatory for nonzero Markdown-only reports', async t => {
+  const value = fixture(t)
+  const report = value.artifacts.find(item => item.name === `translation-report-ja-JP-python-${RUN_ID}`)
+  fs.rmSync(path.join(value.payloads.get(report.id), 'translation-report.json'))
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'nonzero-markdown-only'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: value.client,
+  }), /strict translation report json|markdown-only.*zero work/i)
+})
+
+test('rejects malformed or ambiguous zero-work Markdown-only reports', async t => {
+  const mutations = [
+    markdown => markdown.replace('- Pending: 0\n', '- Pending: 0\n- Pending: 0\n'),
+    markdown => markdown.replace('- Translated: 0', '- Translated: 1'),
+    markdown => markdown.replace('- Remaining: 0\n', ''),
+    markdown => markdown.replace('\nNo documents require', '\n- Paid model calls: false\n\nNo documents require'),
+  ]
+  for (const [index, mutate] of mutations.entries()) {
+    const value = fixture(t)
+    const report = value.artifacts.find(item => item.name === `translation-report-ja-JP-python-${RUN_ID}`)
+    const reportRoot = value.payloads.get(report.id)
+    fs.rmSync(path.join(reportRoot, 'translation-report.json'))
+    fs.writeFileSync(path.join(reportRoot, 'translation-report.md'), mutate(zeroWorkReportMarkdown('ja-JP')))
+    await assert.rejects(() => planTranslationRecovery({
+      repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, `malformed-zero-${index}`),
+      targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: value.client,
+    }), /markdown-only.*zero work|translation report.*ambiguous/i)
+  }
 })
 
 test('authenticates optional progress/results and requires terminal results only after a successful publisher', async t => {

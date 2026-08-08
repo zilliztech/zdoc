@@ -194,19 +194,28 @@ function exactObjectKeys(value, keys, label) {
   if (JSON.stringify(Object.keys(value).sort()) !== JSON.stringify([...keys].sort())) throw new Error(`${label} keys are invalid`)
 }
 
+function zeroWorkReportMarkdown(locale) {
+  return `### Translation report\n\n- Locale: \`${locale}\`\n- Pending: 0\n- Current English changes: 0\n- Missing Japanese targets: 0\n- Stale translations: 0\n- Translated: 0\n- Failed: 0\n- Remaining: 0\n\nNo documents require translation or translation-state reconciliation.\n`
+}
+
 function reportPending(directory, expectedTarget) {
   validateRegularTree(directory)
   const markdownFile = path.join(directory, 'translation-report.md')
   if (!fs.existsSync(markdownFile)) throw new Error('Translation report Markdown is missing')
   const markdown = fs.readFileSync(markdownFile, 'utf8')
+  const expectedLocale = expectedTarget === 'ja-JP' ? 'ja-JP' : 'zh-CN'
+  const jsonFile = path.join(directory, 'translation-report.json')
+  if (!fs.existsSync(jsonFile)) {
+    if (markdown !== zeroWorkReportMarkdown(expectedLocale)) {
+      throw new Error('Markdown-only Translation report must exactly prove unambiguous zero work')
+    }
+    return Object.freeze({candidateCount: 0, report: null})
+  }
   const match = markdown.match(/^- Pending: ([0-9]+)$/mu)
   if (!match || !Number.isSafeInteger(Number(match[1]))) throw new Error('Translation report pending count is invalid')
-  const jsonFile = path.join(directory, 'translation-report.json')
-  if (!fs.existsSync(jsonFile)) throw new Error('Strict Translation report JSON is missing')
   const report = readJsonFile(jsonFile, 'Translation report')
   exactObjectKeys(report, ['checkpoint', 'locale', 'results', 'target'], 'Translation report')
   exactObjectKeys(report.checkpoint, ['failed', 'generatedAt', 'processed', 'remaining', 'target', 'translated'], 'Translation report checkpoint')
-  const expectedLocale = expectedTarget === 'ja-JP' ? 'ja-JP' : 'zh-CN'
   if (report.target !== expectedTarget || report.locale !== expectedLocale || report.checkpoint.target !== expectedTarget || !Array.isArray(report.results)) {
     throw new Error('Translation report identity mismatch')
   }
