@@ -92,6 +92,30 @@ test('Translation adapter accepts checkpoint and the single ja-guides identity',
   }).units[0].strategy, 'checkpoint')
 })
 
+test('Translation adapter normalizes only the recovery reusable-workflow job prefix', () => {
+  const directTranslate = {id: 1, name: 'translate:ja-JP/python / translate'}
+  const directGuides = {id: 2, name: 'prepare_guides_publication_ready'}
+  const unrelatedWrapper = {id: 3, name: 'other_wrapper / translate:ja-JP/python / translate'}
+  const jobs = translationPublicationAdapter.normalizeJobs([
+    directTranslate,
+    directGuides,
+    {id: 4, name: 'run_translation / translate:ja-JP/python / translate'},
+    {id: 5, name: 'run_translation / prepare_guides_publication_ready'},
+    unrelatedWrapper,
+  ])
+
+  assert.deepEqual(jobs.map(job => job.name), [
+    'translate:ja-JP/python / translate',
+    'prepare_guides_publication_ready',
+    'translate:ja-JP/python / translate',
+    'prepare_guides_publication_ready',
+    'other_wrapper / translate:ja-JP/python / translate',
+  ])
+  assert.equal(jobs[0], directTranslate)
+  assert.equal(jobs[1], directGuides)
+  assert.equal(jobs[4], unrelatedWrapper)
+})
+
 test('Translation adapter preserves the workflow selection order across locale targets', () => {
   const translated = selection({
     inputs: {selectedGroup: 'all', publish: true, runTranslations: true},
