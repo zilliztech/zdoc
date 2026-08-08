@@ -7,6 +7,7 @@ const yaml = require('js-yaml')
 
 const {
   createTranslationProgressMonitor,
+  normalizeTranslationMonitorJobs,
   parentWorkflowUrl,
   readConfiguration,
 } = require('./monitor-translation-progress')
@@ -45,6 +46,10 @@ function terminalJobs(conclusion = 'success') {
     {id: 4, name: 'publish_ready', status: 'completed', conclusion: 'success'},
     {id: 6, name: 'aggregate', status: 'completed', conclusion},
   ]
+}
+
+function recoveryJobs(jobs) {
+  return jobs.map(job => ({...job, name: `run_translation / ${job.name}`}))
 }
 
 function createMonitor(overrides = {}) {
@@ -87,6 +92,31 @@ test('patches unchanged Translation state on every heartbeat and terminates on a
   assert.deepEqual(patches[0].links, [{label: 'Open parent source workflow', url: 'https://github.com/zilliztech/zdoc/actions/runs/42'}])
   assert.equal(patches[2].overallStatus, 'success')
   assert.ok(patches[2].units.every(unit => unit.status === 'completed'))
+})
+
+test('normalizes exactly one recovery wrapper prefix while preserving every other job field', () => {
+  const steps = [{name: 'Translate', status: 'in_progress', conclusion: null}]
+  const direct = {id: 1, name: 'prepare', status: 'completed', conclusion: 'success'}
+  const unrelated = {id: 2, name: 'other_wrapper / aggregate', status: 'completed', conclusion: 'failure'}
+  const nested = {
+    id: 3,
+    name: 'run_translation / aggregate',
+    runAttempt: 4,
+    status: 'completed',
+    conclusion: 'failure',
+    startedAt: '2026-08-08T13:20:00Z',
+    completedAt: '2026-08-08T13:22:22Z',
+    steps,
+  }
+  const doubleNested = {id: 4, name: 'run_translation / run_translation / prepare', status: 'queued', conclusion: null}
+
+  const normalized = normalizeTranslationMonitorJobs([direct, unrelated, nested, doubleNested])
+
+  assert.strictEqual(normalized[0], direct)
+  assert.strictEqual(normalized[1], unrelated)
+  assert.deepEqual(normalized[2], {...nested, name: 'aggregate'})
+  assert.strictEqual(normalized[2].steps, steps)
+  assert.deepEqual(normalized[3], {...doubleNested, name: 'run_translation / prepare'})
 })
 
 test('retries transient Jobs API failures before the next card patch', async () => {
@@ -221,6 +251,27 @@ test('terminates a failed aggregate without publication results instead of waiti
   assert.equal(patches[0].overallStatus, 'failure')
 })
 
+test('terminates a nested recovery aggregate when failure publication results already exist', async () => {
+  const patches = []
+  const monitor = createMonitor({
+    listJobs: async () => recoveryJobs(terminalJobs('failure')),
+    downloadPublicationResults: async () => ({
+      mode: 'publish',
+      overallStatus: 'failure',
+      units: [
+        {unitKey: 'translation/ja-JP/python', status: 'publish_failed', resultSha: null},
+        {unitKey: 'translation/zh-CN-reference/python', status: 'no_changes', resultSha: sha('e')},
+      ],
+    }),
+    patchCard: async state => patches.push(state),
+  })
+
+  assert.equal(await monitor.pollOnce(), true)
+  assert.equal(patches.length, 1)
+  assert.equal(patches[0].overallStatus, 'failure')
+  assert.equal(patches[0].phases.find(phase => phase.key === 'aggregate').status, 'failed')
+})
+
 test('a failed prepare finalizes its initialized card without publication artifact readers', async () => {
   const patches = []
   let artifactReads = 0
@@ -249,12 +300,56 @@ test('a failed prepare finalizes its initialized card without publication artifa
   assert.ok(patches[0].units.every(unit => unit.phase === 'prepare' && unit.status === 'failed'))
 })
 
+test('a nested recovery prepare failure finalizes without publication artifact readers', async () => {
+  const patches = []
+  let artifactReads = 0
+  const monitor = createMonitor({
+    publicationSelectionSha256: null,
+    listJobs: async () => recoveryJobs([
+      {
+        id: 1,
+        name: 'prepare',
+        status: 'completed',
+        conclusion: 'failure',
+        steps: [{name: 'Resolve and validate the complete translation handoff', status: 'completed', conclusion: 'failure'}],
+      },
+      {id: 2, name: 'aggregate', status: 'completed', conclusion: 'skipped'},
+    ]),
+    downloadPublicationProgress: async () => { artifactReads += 1; throw new Error('must not read progress') },
+    downloadPublicationResults: async () => { artifactReads += 1; throw new Error('must not read results') },
+    patchCard: async state => patches.push(state),
+  })
+
+  assert.equal(await monitor.pollOnce(), true)
+  assert.equal(artifactReads, 0)
+  assert.equal(patches[0].overallStatus, 'failure')
+  assert.equal(patches[0].phases[0].status, 'failed')
+  assert.ok(patches[0].units.every(unit => unit.phase === 'prepare' && unit.status === 'failed'))
+})
+
 test('a successful prepare with no publication checksum terminates failure immediately instead of waiting for aggregate', async () => {
   const patches = []
   let artifactReads = 0
   const monitor = createMonitor({
     publicationSelectionSha256: null,
     listJobs: async () => runningJobs(),
+    downloadPublicationProgress: async () => { artifactReads += 1; return {snapshot: null, stale: false} },
+    downloadPublicationResults: async () => { artifactReads += 1; return null },
+    patchCard: async state => patches.push(state),
+  })
+
+  assert.equal(await monitor.pollOnce(), true)
+  assert.equal(artifactReads, 0)
+  assert.equal(patches.length, 1)
+  assert.equal(patches[0].overallStatus, 'failure')
+})
+
+test('a nested successful recovery prepare with no publication checksum terminates immediately', async () => {
+  const patches = []
+  let artifactReads = 0
+  const monitor = createMonitor({
+    publicationSelectionSha256: null,
+    listJobs: async () => recoveryJobs(runningJobs()),
     downloadPublicationProgress: async () => { artifactReads += 1; return {snapshot: null, stale: false} },
     downloadPublicationResults: async () => { artifactReads += 1; return null },
     patchCard: async state => patches.push(state),
