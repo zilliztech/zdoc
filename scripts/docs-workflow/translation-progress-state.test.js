@@ -106,19 +106,18 @@ test('surfaces a failed selected SDK translator and its failed step', () => {
   assert.equal(state.overallStatus, 'failure')
 })
 
-test('shows the serial publisher dependency while a selected SDK waits', () => {
+test('shows the ready FIFO coordinator while a translated SDK waits for publication progress', () => {
   const state = deriveTranslationProgressState({
     selectedUnits: [{target: 'ja-JP', group: 'python'}], publishEnabled: true,
     jobs: [
       {id: 1, name: 'prepare', status: 'completed', conclusion: 'success'},
       {id: 2, name: 'translate_sdk (ja-JP, python, python, abc, 1) / translate', status: 'completed', conclusion: 'success'},
-      {id: 3, name: 'publish_ja_guides', status: 'in_progress', conclusion: null},
-      {id: 4, name: 'publish_ja_python', status: 'queued', conclusion: null},
+      {id: 3, name: 'publish_ready', status: 'in_progress', conclusion: null},
     ],
   })
   assert.equal(state.units[0].phase, 'publish')
   assert.equal(state.units[0].status, 'waiting')
-  assert.equal(state.units[0].currentTask, 'Waiting for Japanese Guides publisher')
+  assert.equal(state.units[0].currentTask, 'Waiting for publication FIFO')
 })
 
 test('does not infer units from skipped unselected publishers', () => {
@@ -156,4 +155,37 @@ test('successful aggregate normalization completes all selected units and metric
   assert.ok(state.phases.every(phase => phase.status === 'completed' && phase.done === phase.total))
   assert.ok(state.units.every(unit => unit.status === 'completed' && unit.currentTask === 'Workflow completed'))
   assert.ok(state.targets.every(target => target.translate.status === 'completed' && target.publish.status === 'completed'))
+})
+
+test('retains a failed publication unit while a later ready unit advances in the FIFO', () => {
+  const units = [
+    {target: 'ja-JP', group: 'python'},
+    {target: 'zh-CN-reference', group: 'python'},
+  ]
+  const state = deriveTranslationProgressState({
+    selectedUnits: units,
+    publishEnabled: true,
+    jobs: [
+      {id: 1, name: 'prepare', status: 'completed', conclusion: 'success'},
+      {id: 2, name: 'translate:ja-JP/python / translate', status: 'completed', conclusion: 'success'},
+      {id: 3, name: 'translate:zh-CN-reference/python / translate', status: 'completed', conclusion: 'success'},
+      {id: 4, name: 'publish_ready', status: 'in_progress', conclusion: null},
+      {id: 5, name: 'aggregate', status: 'queued', conclusion: null},
+    ],
+    publicationProgress: {
+      revision: 7,
+      activeUnitKey: null,
+      queue: ['translation/zh-CN-reference/python'],
+      units: [
+        {unitKey: 'translation/ja-JP/python', state: 'publish_failed', sequence: 1, failure: {message: 'validation failed'}},
+        {unitKey: 'translation/zh-CN-reference/python', state: 'ready', sequence: null, failure: null},
+      ],
+    },
+  })
+
+  assert.deepEqual(state.units.map(unit => ({id: unit.id, status: unit.status, currentTask: unit.currentTask})), [
+    {id: 'ja-JP/python', status: 'failed', currentTask: 'validation failed'},
+    {id: 'zh-CN-reference/python', status: 'waiting', currentTask: 'Ready to publish · queue #1'},
+  ])
+  assert.equal(state.phases.find(item => item.key === 'publish').status, 'failed')
 })

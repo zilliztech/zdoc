@@ -7,11 +7,14 @@ const fs = require('node:fs')
 const path = require('node:path')
 
 const {publishCheckpointTransaction} = require('./checkpoint-publication')
-const {createJapaneseGuidesStrategy} = require('./ja-guides-publication-strategy')
-const {artifactNames, finalizePublicationSelection, readPublicationDocument, unitToken, writePublicationDocument} = require('./publication-contracts')
-const {runPublicationCoordinator} = require('./publication-coordinator')
+const {artifactNames, finalizePublicationSelection, readPublicationDocument, unitToken, validatePublicationReady, writePublicationDocument} = require('./publication-contracts')
+const {
+  cleanupJapaneseGuidesPairs,
+  prepareJapaneseGuidesPairs,
+  publishJapaneseGuidesTransaction,
+  runPublicationCoordinator,
+} = require('./publication-coordinator')
 const {createPublicationScheduler} = require('./publication-scheduler')
-const {runPublicationStrategyTransaction} = require('./publication-transaction')
 const {inspectArchive, preflightCheckpointArchive} = require('./preflight-checkpoint-archive')
 const {buildTranslationPublicationReady, buildTranslationPublicationSelection} = require('./translation-publication-selection')
 const {reconcileTranslationPublication} = require('./translation-publication-reconciliation')
@@ -461,112 +464,16 @@ function prepareLaneRepository({bareRemote, evidenceRoot, lane, selection}) {
   return repository
 }
 
-function filesNamed(root, name) {
-  const files = []
-  function visit(directory) {
-    for (const entry of fs.readdirSync(directory, {withFileTypes: true})) {
-      const target = path.join(directory, entry.name)
-      if (entry.isSymbolicLink()) throw new Error(`Japanese Guides replay input contains a symlink: ${target}`)
-      if (entry.isDirectory()) visit(target)
-      else if (entry.isFile() && entry.name === name) files.push(target)
-    }
-  }
-  visit(root)
-  return files.sort()
-}
-
-function guidesBatchNumber(file) {
-  const match = file.match(/(?:^|[-_/])batch-(\d+)(?:[-_/]|$)/u)
-  if (!match || !Number.isSafeInteger(Number(match[1])) || Number(match[1]) < 1) throw new Error(`Japanese Guides batch artifact identity is invalid: ${file}`)
-  return Number(match[1])
-}
-
 function cleanupGuidesPairs(cleanupDirectories) {
-  for (const directory of [...new Set(cleanupDirectories || [])]) fs.rmSync(directory, {recursive: true, force: true})
+  cleanupJapaneseGuidesPairs(cleanupDirectories)
 }
 
 function prepareGuidesPairs(prepared, runnerTemp, unit) {
-  const planFiles = filesNamed(prepared.artifactDir, 'translation-plan.json')
-  if (planFiles.length !== 1) throw new Error('Japanese Guides replay requires exactly one immutable translation plan')
-  const plan = json(planFiles[0])
-  if (plan.batchCount === 0) return {plan, pairs: []}
-  const results = new Map(filesNamed(prepared.artifactDir, 'checkpoint-group.tar').map(file => [guidesBatchNumber(file), file]))
-  const baselines = new Map(filesNamed(prepared.baselineDir, 'checkpoint-group.tar').map(file => [guidesBatchNumber(file), file]))
-  if (results.size !== plan.batchCount || baselines.size !== plan.batchCount) throw new Error('Japanese Guides replay batch inventory is incomplete')
-  const pairs = []
-  const cleanupDirectories = []
-  try {
-    for (let batchNumber = 1; batchNumber <= plan.batchCount; batchNumber += 1) {
-      if (!results.has(batchNumber) || !baselines.has(batchNumber)) throw new Error(`Japanese Guides replay is missing batch ${batchNumber}`)
-      const extracted = {}
-      for (const [kind, archives] of [['checkpoint', results], ['baseline', baselines]]) {
-        const expected = (prepared.guidesBatchArtifacts || []).find(artifact =>
-          new RegExp(`^translation-${kind}-ja-JP-guides-[0-9]+-batch-${batchNumber}$`, 'u').test(artifact.name || ''))
-        if (!expected?.manifestSha256) throw new Error(`Japanese Guides batch ${batchNumber} ${kind} authenticated provenance is missing`)
-        const value = authenticateAndExtractArchive({
-          archive: archives.get(batchNumber),
-          runnerTemp,
-          prefix: `guides-${kind}-${batchNumber}-`,
-          apiDigest: expected.digest,
-          fileSha256: expected.fileSha256,
-          manifestSha256: expected.manifestSha256,
-          preflight: translationArchivePreflight(unit),
-        })
-        cleanupDirectories.push(value.cleanupDirectory)
-        extracted[kind] = value.artifactDir
-      }
-      pairs.push({artifactDir: extracted.checkpoint, baselineDir: extracted.baseline})
-    }
-  } catch (error) {
-    cleanupGuidesPairs(cleanupDirectories)
-    throw error
-  }
-  return {plan, pairs: Object.freeze(pairs), cleanupDirectories: Object.freeze(cleanupDirectories)}
+  return prepareJapaneseGuidesPairs({prepared, runnerTemp, unit})
 }
 
 async function publishGuidesTransaction({selection, unit, prepared, repositoryRoot, runnerTemp}) {
-  const {plan, pairs, cleanupDirectories = []} = prepareGuidesPairs(prepared, runnerTemp, unit)
-  if (plan.batchCount === 0) {
-    git(repositoryRoot, ['fetch', '--no-tags', 'origin', `+refs/heads/${selection.targetBranch}:refs/remotes/origin/${selection.targetBranch}`])
-    const resultSha = git(repositoryRoot, ['rev-parse', `refs/remotes/origin/${selection.targetBranch}^{commit}`]).stdout.trim()
-    return {status: 'no_changes', baseSha: resultSha, resultSha, commitShas: [], attempts: 1, failure: null, remoteState: 'known'}
-  }
-  try {
-    const strategy = createJapaneseGuidesStrategy()
-    return await runPublicationStrategyTransaction({
-      strategy,
-      maxAttempts: 10,
-      maxProbeAttempts: 3,
-      inputs: {
-        repositoryRoot,
-        sourceRepository: repositoryRoot,
-        dependencyRoot: repositoryRoot,
-        runnerTemp,
-        plan,
-        pairs,
-        runId: selection.runId,
-        runAttempt: selection.runAttempt,
-        selectionSha256: selection.selectionSha256,
-        unit,
-        environment: unit.environment,
-      },
-      async readTargetTip() {
-        git(repositoryRoot, ['fetch', '--no-tags', 'origin', `+refs/heads/${selection.targetBranch}:refs/remotes/origin/${selection.targetBranch}`])
-        return git(repositoryRoot, ['rev-parse', `refs/remotes/origin/${selection.targetBranch}^{commit}`]).stdout.trim()
-      },
-      async promoteCandidate({worktree}) {
-        git(worktree, ['push', 'origin', `HEAD:refs/heads/${selection.targetBranch}`])
-        return {status: 'published'}
-      },
-      async probeRemoteCandidate({candidateSha}) {
-        git(repositoryRoot, ['fetch', '--no-tags', 'origin', `+refs/heads/${selection.targetBranch}:refs/remotes/origin/${selection.targetBranch}`])
-        const remoteSha = git(repositoryRoot, ['rev-parse', `refs/remotes/origin/${selection.targetBranch}^{commit}`]).stdout.trim()
-        return {remoteSha, containsCandidate: git(repositoryRoot, ['merge-base', '--is-ancestor', candidateSha, remoteSha], {allowFailure: true}).status === 0}
-      },
-    })
-  } finally {
-    cleanupGuidesPairs(cleanupDirectories)
-  }
+  return publishJapaneseGuidesTransaction({selection, unit, prepared, repositoryRoot, runnerTemp, maxPublishAttempts: 10})
 }
 
 async function defaultRunLane({lane, order, run, evidenceRoot, bareRemote}) {
@@ -584,36 +491,30 @@ async function defaultRunLane({lane, order, run, evidenceRoot, bareRemote}) {
   const now = () => new Date(Date.UTC(2026, 7, 6, 1, 0, tick++))
   const client = {
     async listJobs() { return jobs },
+    async downloadReady({unitKey}) {
+      const records = run.artifacts.get(unitKey)
+      const original = readPublicationDocument(records.get('ready').file, 'publication-ready', {selection: run.selection})
+      return {descriptor: validatePublicationReady({
+        ...original,
+        selectionSha256: selection.selectionSha256,
+        targetBranch: selection.targetBranch,
+      }, {selection})}
+    },
+    async downloadArtifactFiles(name) {
+      for (const records of run.artifacts.values()) {
+        for (const kind of ['checkpoint', 'baseline']) {
+          const artifact = records.get(kind)
+          if (artifact.name === name) return {files: {'checkpoint-group.tar': artifact.file}}
+        }
+      }
+      throw new Error(`Replay artifact is unavailable: ${name}`)
+    },
     async uploadProgress() { return {ok: true} },
     async uploadResults() { return {artifactName: `publication-results-translation-${selection.runId}-${selection.runAttempt}`, artifactId: 1} },
-  }
-  const resolveCandidate = async ({unit}) => {
-    const records = run.artifacts.get(unit.unitKey)
-    const originalReady = readPublicationDocument(records.get('ready').file, 'publication-ready', {selection: run.selection})
-    const checkpoint = authenticateReplayArchive({
-      artifact: records.get('checkpoint'), descriptor: originalReady.artifacts.checkpoint, unit, runnerTemp, prefix: 'checkpoint-',
-    })
-    const baseline = authenticateReplayArchive({
-      artifact: records.get('baseline'), descriptor: originalReady.artifacts.baseline, unit, runnerTemp, prefix: 'baseline-',
-    })
-    return {status: 'ready', readyAt: completedByUnit.get(unit.unitKey), prepared: {
-      ...checkpoint,
-      baselineDir: baseline.artifactDir,
-      baselineCleanupDirectory: baseline.cleanupDirectory,
-      guidesBatchArtifacts: run.guidesBatchArtifacts,
-      descriptor: {...originalReady, selectionSha256: selection.selectionSha256, targetBranch: selection.targetBranch},
-    }}
   }
   const outcome = await runPublicationCoordinator({
     selection, mode: 'publish', client, repositoryRoot, runnerTemp, outputDirectory,
     pollMilliseconds: 1, candidatePolls: 1, maxPublishAttempts: 10, sleep: async () => {}, now,
-    resolveCandidate,
-    publishUnit: async ({unit, prepared}) => unit.strategy === 'ja-guides'
-      ? publishGuidesTransaction({selection, unit, prepared, repositoryRoot, runnerTemp})
-      : publishCheckpointTransaction({
-        repositoryRoot, artifactDir: prepared.artifactDir, baselineDir: prepared.baselineDir,
-        descriptor: prepared.descriptor, unit, remote: 'origin', maxAttempts: 10, runnerTemp,
-      }),
     transactionContext: {remote: 'origin'},
   })
   return {finalTargetSha: outcome.results.finalTargetSha, results: outcome.results.units, publicationResults: outcome.results, repositoryRoot}
@@ -1449,10 +1350,18 @@ async function executeCoordinatorFault({scenario, evidenceRoot, run, sourceRemot
     const baseline = authenticateReplayArchive({
       artifact: records.get('baseline'), descriptor: originalReady.artifacts.baseline, unit, runnerTemp, prefix: 'baseline-',
     })
+    let batchSetManifest
+    if (unit.strategy === 'ja-guides') {
+      batchSetManifest = json(path.join(checkpoint.artifactDir, 'manifest.json'))
+      if (!sameJson(batchSetManifest, json(path.join(baseline.artifactDir, 'manifest.json')))) {
+        throw new Error('Japanese Guides checkpoint and baseline batch-set manifests differ')
+      }
+    }
     return {status: 'ready', readyAt: completedByUnit.get(unit.unitKey), prepared: {
       ...checkpoint,
       baselineDir: baseline.artifactDir,
       baselineCleanupDirectory: baseline.cleanupDirectory,
+      ...(batchSetManifest ? {batchSetManifest} : {}),
       guidesBatchArtifacts: run.guidesBatchArtifacts,
       descriptor: {...originalReady, selectionSha256: selection.selectionSha256, targetBranch: selection.targetBranch},
     }}
