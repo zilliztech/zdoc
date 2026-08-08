@@ -109,6 +109,12 @@ jobs:
       - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      - name: Download authenticated recovery plan
+        if: ${{ inputs.recovery_bundle_artifact_name != '' }}
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ inputs.recovery_bundle_artifact_name }}
+          path: ${{ runner.temp }}/translation-recovery-bundle
       - name: Resolve and validate the complete translation handoff
         id: handoff
         env:
@@ -116,6 +122,7 @@ jobs:
           RECOVERY_RUN_IDS_JSON: ${{ inputs.recovery_run_ids_json }}
           RECOVERY_BUNDLE_ARTIFACT_NAME: ${{ inputs.recovery_bundle_artifact_name }}
           RECOVERY_PLAN_SHA256: ${{ inputs.recovery_plan_sha256 }}
+          RECOVERY_PROVENANCE_JSON: ${{ inputs.recovery_provenance_json }}
           REQUEST_ID: ${{ inputs.request_id }}
         run: |
           set -euo pipefail
@@ -146,7 +153,7 @@ jobs:
             if (!handoff.units.some(unit => `${unit.target}/${unit.group}` === key)) throw new Error(`Recovery run ID is not selected: ${key}`)
             if (value !== '' && !/^[1-9][0-9]*$/.test(String(value))) throw new Error(`Recovery run ID is invalid: ${key}`)
           }
-          const bundleValues = [process.env.RECOVERY_BUNDLE_ARTIFACT_NAME, process.env.RECOVERY_PLAN_SHA256]
+          const bundleValues = [process.env.RECOVERY_BUNDLE_ARTIFACT_NAME, process.env.RECOVERY_PLAN_SHA256, process.env.RECOVERY_PROVENANCE_JSON]
           if (bundleValues.some(Boolean) && !bundleValues.every(Boolean)) throw new Error('authenticated recovery bundle identity must be complete')
           if (process.env.RECOVERY_PLAN_SHA256 && !/^[0-9a-f]{64}$/.test(process.env.RECOVERY_PLAN_SHA256)) throw new Error('recovery plan checksum is invalid')
           const sdk = handoff.units.filter(unit => unit.group !== 'guides').map(unit => ({...unit, publicationUnitKey: `translation/${unit.target}/${unit.group}`, recoveryRunId: String(recovery[`${unit.target}/${unit.group}`] || '')}))
@@ -172,10 +179,20 @@ jobs:
         env:
           HANDOFF_JSON: ${{ inputs.handoff_json }}
           PUBLISH_ENABLED: ${{ inputs.publish }}
+          RECOVERY_BUNDLE_ARTIFACT_NAME: ${{ inputs.recovery_bundle_artifact_name }}
+          RECOVERY_PLAN_SHA256: ${{ inputs.recovery_plan_sha256 }}
           RECOVERY_PROVENANCE_JSON: ${{ inputs.recovery_provenance_json }}
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/publication-selection"
+          recovery_args=()
+          if [[ -n "$RECOVERY_BUNDLE_ARTIFACT_NAME" ]]; then
+            recovery_args=(
+              --recovery-plan "$RUNNER_TEMP/translation-recovery-bundle/recovery-plan.json"
+              --recovery-plan-sha256 "$RECOVERY_PLAN_SHA256"
+              --recovery-provenance "$RECOVERY_PROVENANCE_JSON"
+            )
+          fi
           node scripts/docs-workflow/translation-publication-selection.js selection \
             --handoff "$HANDOFF_JSON" \
             --repository "$GITHUB_REPOSITORY" \
@@ -183,6 +200,7 @@ jobs:
             --run-attempt "$GITHUB_RUN_ATTEMPT" \
             --publish "$PUBLISH_ENABLED" \
             --run-translations true \
+            "${recovery_args[@]}" \
             --output "$RUNNER_TEMP/publication-selection/publication-selection.json"
           SELECTION_PATH="$RUNNER_TEMP/publication-selection/publication-selection.json" node - <<'NODE'
           const fs = require('node:fs')

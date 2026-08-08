@@ -230,6 +230,7 @@ test('authenticates the selection and exact artifact identities, generates the r
   assert.equal(planned.plan.previousRunId, RUN_ID)
   assert.equal(planned.plan.previousRunAttempt, 2)
   assert.equal(planned.plan.selectionSha256, value.selected.selectionSha256)
+  assert.deepEqual(planned.plan.handoff, planned.handoff)
   assert.deepEqual(Object.keys(planned.plan.recoveryMap), value.selected.units.map(unit => `${unit.target}/${unit.group}`))
   assert.deepEqual(planned.plan.recoveryMap['ja-JP/guides'].artifacts.map(item => item.batchNumber), [1, 2])
   assert.equal(planned.plan.retainedFileCount, 14)

@@ -3,6 +3,7 @@
 
 const crypto = require('node:crypto')
 const fs = require('node:fs')
+const {isDeepStrictEqual} = require('node:util')
 
 const {
   finalizePublicationSelection,
@@ -48,6 +49,62 @@ function validationCommands(target, group) {
   return [`node scripts/translation/validate-group.js --target ${target} --group ${group}`]
 }
 
+function exactKeys(value, keys, label) {
+  if (!value || typeof value !== 'object' || Array.isArray(value) ||
+      JSON.stringify(Object.keys(value).sort()) !== JSON.stringify([...keys].sort())) {
+    throw new Error(`${label} keys are invalid`)
+  }
+}
+
+function bindAuthenticatedRecoveryPlan(input, handoff) {
+  const supplied = [input.recoveryProvenance !== null && input.recoveryProvenance !== undefined, Boolean(input.recoveryPlanBytes), Boolean(input.recoveryPlanSha256)]
+  if (!supplied.some(Boolean)) return null
+  if (!supplied.every(Boolean)) throw new Error('Authenticated recovery plan identity must include provenance, bytes, and checksum')
+  if (!Buffer.isBuffer(input.recoveryPlanBytes) || !/^[0-9a-f]{64}$/u.test(input.recoveryPlanSha256)) throw new Error('Authenticated recovery plan identity is invalid')
+  if (sha256(input.recoveryPlanBytes) !== input.recoveryPlanSha256) throw new Error('Authenticated recovery plan checksum mismatch')
+  let plan
+  try { plan = JSON.parse(input.recoveryPlanBytes.toString('utf8')) } catch { throw new Error('Authenticated recovery plan JSON is invalid') }
+  exactKeys(plan, [
+    'schemaVersion', 'repository', 'previousRunId', 'previousRunAttempt', 'selectionSha256',
+    'targetBranch', 'targetBaselineSha', 'handoff', 'recoveryMap', 'retainedFileCount',
+    'sourceCandidateCount', 'compatibilityStatus', 'rejectedRecoveryCount', 'rejected', 'publish', 'provenance',
+  ], 'Authenticated recovery plan')
+  if (plan.schemaVersion !== 2 || plan.repository !== input.repository) throw new Error('Authenticated recovery plan repository identity mismatch')
+  if (!isDeepStrictEqual(plan.handoff, handoff)) throw new Error('Translation handoff does not match the authenticated recovery plan')
+  if (plan.targetBranch !== handoff.targetBranch || plan.targetBaselineSha !== handoff.targetBaselineSha) throw new Error('Translation handoff target does not match the authenticated recovery plan')
+  if (plan.publish !== input.publish) throw new Error('Translation publish mode does not match the authenticated recovery plan')
+  if (!isDeepStrictEqual(plan.provenance, input.recoveryProvenance)) throw new Error('Claimed recovery provenance does not match the authenticated recovery plan')
+  const provenance = plan.provenance
+  if (!provenance || typeof provenance !== 'object' || Array.isArray(provenance)) throw new Error('Authenticated recovery plan provenance is invalid')
+  if (provenance.executionToolingSha !== handoff.toolingSha) throw new Error('Recovery execution tooling must match publication selection tooling')
+  if (provenance.sourceRepository !== plan.repository || provenance.sourceRunId !== plan.previousRunId ||
+      provenance.sourceRunAttempt !== plan.previousRunAttempt || provenance.sourceSelectionSha256 !== plan.selectionSha256) {
+    throw new Error('Recovery provenance source identity does not match the authenticated recovery plan')
+  }
+  const expectedUnitKeys = handoff.units.map(unit => `${unit.target}/${unit.group}`)
+  if (!plan.recoveryMap || typeof plan.recoveryMap !== 'object' || Array.isArray(plan.recoveryMap) ||
+      !isDeepStrictEqual(Object.keys(plan.recoveryMap), expectedUnitKeys)) {
+    throw new Error('Recovery unit identities do not match the authenticated recovery plan handoff')
+  }
+  const artifacts = []
+  for (const unit of expectedUnitKeys) {
+    const selected = plan.recoveryMap[unit]
+    exactKeys(selected, ['unitToken', 'artifacts'], `Authenticated recovery plan unit ${unit}`)
+    if (selected.unitToken !== unit.replaceAll('/', '-') || !Array.isArray(selected.artifacts)) throw new Error(`Authenticated recovery plan unit identity is invalid: ${unit}`)
+    for (const artifact of selected.artifacts) {
+      exactKeys(artifact, ['artifactId', 'artifactName', 'artifactDigest', 'batchNumber', 'retainedFileCount', 'sourceCandidateCount'], `Authenticated recovery plan artifact ${unit}`)
+      artifacts.push({unit, ...artifact})
+    }
+  }
+  if (!isDeepStrictEqual(artifacts, provenance.artifacts)) throw new Error('Recovery provenance artifacts do not match the authenticated recovery plan')
+  if (plan.retainedFileCount !== artifacts.reduce((sum, artifact) => sum + artifact.retainedFileCount, 0) ||
+      plan.sourceCandidateCount !== artifacts.reduce((sum, artifact) => sum + artifact.sourceCandidateCount, 0)) {
+    throw new Error('Authenticated recovery plan artifact counts are invalid')
+  }
+  if (!Array.isArray(plan.rejected) || plan.rejectedRecoveryCount !== plan.rejected.length) throw new Error('Authenticated recovery plan rejection count is invalid')
+  return provenance
+}
+
 function selectionUnit(handoffUnit, input) {
   const unitKey = `translation/${handoffUnit.target}/${handoffUnit.group}`
   const guides = unitKey === 'translation/ja-JP/guides'
@@ -75,6 +132,7 @@ function selectionUnit(handoffUnit, input) {
 function buildTranslationPublicationSelection(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Translation publication selection input must be an object')
   const handoff = validateTranslationHandoff(input.handoff)
+  const recoveryProvenance = bindAuthenticatedRecoveryPlan(input, handoff)
   const selected = new Map(handoff.units.map(unit => [`translation/${unit.target}/${unit.group}`, unit]))
   const units = TRANSLATION_UNIT_KEYS.filter(unitKey => selected.has(unitKey)).map(unitKey => selectionUnit(selected.get(unitKey), { ...input, handoff }))
   if (units.length !== handoff.units.length) throw new Error('Translation handoff contains an unsupported publication unit')
@@ -93,7 +151,7 @@ function buildTranslationPublicationSelection(input) {
       selectedGroup: handoff.group,
       publish: input.publish,
       runTranslations: input.runTranslations,
-      ...(input.recoveryProvenance ? {recoveryProvenance: input.recoveryProvenance} : {}),
+      ...(recoveryProvenance ? {recoveryProvenance} : {}),
     },
     units,
   })
@@ -191,6 +249,7 @@ function main(argv = process.argv.slice(2), env = process.env) {
   }
   if (command === 'selection') {
     const handoff = JSON.parse(required(values.handoff || env.HANDOFF_JSON, 'handoff'))
+    const recoveryPlanFile = values['recovery-plan'] || env.RECOVERY_PLAN_PATH || ''
     const selection = buildTranslationPublicationSelection({
       handoff,
       repository: required(values.repository || env.GITHUB_REPOSITORY, 'repository'),
@@ -201,6 +260,8 @@ function main(argv = process.argv.slice(2), env = process.env) {
       recoveryProvenance: values['recovery-provenance'] || env.RECOVERY_PROVENANCE_JSON
         ? JSON.parse(values['recovery-provenance'] || env.RECOVERY_PROVENANCE_JSON)
         : null,
+      recoveryPlanBytes: recoveryPlanFile ? readPinnedFile(recoveryPlanFile, 'Authenticated recovery plan') : null,
+      recoveryPlanSha256: values['recovery-plan-sha256'] || env.RECOVERY_PLAN_SHA256 || '',
     })
     writePublicationDocument(required(values.output, 'output'), selection)
     return selection
@@ -226,5 +287,6 @@ module.exports = {
   TRANSLATION_UNIT_KEYS,
   buildTranslationPublicationReady,
   buildTranslationPublicationSelection,
+  bindAuthenticatedRecoveryPlan,
   main,
 }

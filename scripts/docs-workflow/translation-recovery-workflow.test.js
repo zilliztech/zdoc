@@ -70,6 +70,13 @@ test('called Translation orchestration does not reacquire the queue and still re
   assert.match(source, /Target branch moved after handoff/)
   assert.match(source, /recoveryProvenance/)
   assert.match(source, /recovery_bundle_artifact_name/)
+  const steps = workflow.jobs.prepare.steps
+  const download = steps.findIndex(step => step.name === 'Download authenticated recovery plan')
+  const selection = steps.findIndex(step => step.name === 'Create immutable Translation publication selection')
+  assert.ok(download >= 0 && selection > download)
+  assert.equal(steps[download].if, "${{ inputs.recovery_bundle_artifact_name != '' }}")
+  assert.match(steps[selection].run, /--recovery-plan .*recovery-plan\.json/)
+  assert.match(steps[selection].run, /--recovery-plan-sha256/)
 })
 
 test('recovery bundle authentication is fail-closed before agent invocation', () => {

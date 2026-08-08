@@ -68,6 +68,68 @@ function selectionInput(overrides = {}) {
   }
 }
 
+function operatorRecoveryProvenance(overrides = {}) {
+  return {
+    schemaVersion: 2,
+    kind: 'operator-recovery',
+    sourceRepository: 'zilliztech/zdoc',
+    sourceWorkflow: '.github/workflows/translate-codex.yml',
+    sourceRunId: 42,
+    sourceRunAttempt: 2,
+    sourceWorkflowSha: 'a'.repeat(40),
+    sourceToolingSha: 'b'.repeat(40),
+    executionToolingSha: SHA_A,
+    sourceSelectionSha256: 'e'.repeat(64),
+    publicationEvidence: {publisherJob: null, progress: [], results: null, resultsAbsenceReason: 'publish_ready-absent'},
+    artifacts: [{
+      unit: 'ja-JP/guides', artifactId: 9, artifactName: 'translation-recovery-ja-JP-guides-42-1',
+      artifactDigest: `sha256:${'f'.repeat(64)}`, batchNumber: 1, retainedFileCount: 3, sourceCandidateCount: 4,
+    }],
+    ...overrides,
+  }
+}
+
+function recoveryPlanBytes({boundHandoff = handoff(), provenance = operatorRecoveryProvenance(), publish = true, overrides = {}} = {}) {
+  const recoveryMap = Object.fromEntries(boundHandoff.units.map(unit => {
+    const identity = `${unit.target}/${unit.group}`
+    return [identity, {
+      unitToken: identity.replaceAll('/', '-'),
+      artifacts: provenance.artifacts.filter(artifact => artifact.unit === identity).map(({unit: _unit, ...artifact}) => artifact),
+    }]
+  }))
+  const plan = {
+    schemaVersion: 2,
+    repository: 'zilliztech/zdoc',
+    previousRunId: provenance.sourceRunId,
+    previousRunAttempt: provenance.sourceRunAttempt,
+    selectionSha256: provenance.sourceSelectionSha256,
+    targetBranch: boundHandoff.targetBranch,
+    targetBaselineSha: boundHandoff.targetBaselineSha,
+    handoff: boundHandoff,
+    recoveryMap,
+    retainedFileCount: provenance.artifacts.reduce((sum, artifact) => sum + artifact.retainedFileCount, 0),
+    sourceCandidateCount: provenance.artifacts.reduce((sum, artifact) => sum + artifact.sourceCandidateCount, 0),
+    compatibilityStatus: 'pending-current-contract-preflight',
+    rejectedRecoveryCount: 0,
+    rejected: [],
+    publish,
+    provenance,
+    ...overrides,
+  }
+  return Buffer.from(`${JSON.stringify(plan)}\n`)
+}
+
+function recoverySelectionInput(overrides = {}) {
+  const recoveryProvenance = overrides.recoveryProvenance || operatorRecoveryProvenance()
+  const recoveryPlan = overrides.recoveryPlanBytes || recoveryPlanBytes({provenance: recoveryProvenance})
+  return selectionInput({
+    recoveryProvenance,
+    recoveryPlanBytes: recoveryPlan,
+    recoveryPlanSha256: crypto.createHash('sha256').update(recoveryPlan).digest('hex'),
+    ...overrides,
+  })
+}
+
 function checkpointFixture({schemaVersion = 1, translationTarget = 'ja-JP'} = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-publication-selection-'))
   const checkpointArchive = path.join(root, 'checkpoint-group.tar')
@@ -145,34 +207,64 @@ test('retains schema-v2 handoff identities without widening the handoff contract
 })
 
 test('binds exact operator recovery provenance into the immutable selection checksum', () => {
-  const recoveryProvenance = {
-    schemaVersion: 2,
-    kind: 'operator-recovery',
-    sourceRepository: 'zilliztech/zdoc',
-    sourceWorkflow: '.github/workflows/translate-codex.yml',
-    sourceRunId: 42,
-    sourceRunAttempt: 2,
-    sourceWorkflowSha: 'a'.repeat(40),
-    sourceToolingSha: 'b'.repeat(40),
-    executionToolingSha: 'c'.repeat(40),
-    sourceSelectionSha256: 'e'.repeat(64),
-    publicationEvidence: {publisherJob: null, progress: [], results: null, resultsAbsenceReason: 'publish_ready-absent'},
-    artifacts: [{
-      unit: 'ja-JP/guides', artifactId: 9, artifactName: 'translation-recovery-ja-JP-guides-42-1',
-      artifactDigest: `sha256:${'f'.repeat(64)}`, batchNumber: 1, retainedFileCount: 3, sourceCandidateCount: 4,
-    }],
-  }
-  const value = buildTranslationPublicationSelection(selectionInput({recoveryProvenance}))
+  const recoveryProvenance = operatorRecoveryProvenance()
+  const value = buildTranslationPublicationSelection(recoverySelectionInput({recoveryProvenance}))
   assert.deepEqual(value.inputs.recoveryProvenance, recoveryProvenance)
-  assert.throws(() => buildTranslationPublicationSelection(selectionInput({
-    recoveryProvenance: {...recoveryProvenance, artifacts: [{...recoveryProvenance.artifacts[0], artifactId: 0}]},
+  const invalidArtifact = {...recoveryProvenance, artifacts: [{...recoveryProvenance.artifacts[0], artifactId: 0}]}
+  assert.throws(() => buildTranslationPublicationSelection(recoverySelectionInput({
+    recoveryProvenance: invalidArtifact,
+    recoveryPlanBytes: recoveryPlanBytes({provenance: invalidArtifact}),
   })), /recovery provenance artifact/i)
-  assert.throws(() => buildTranslationPublicationSelection(selectionInput({
-    recoveryProvenance: {...recoveryProvenance, sourceRepository: 'other/zdoc'},
-  })), /recovery source repository/i)
-  assert.throws(() => buildTranslationPublicationSelection(selectionInput({
-    recoveryProvenance: {...recoveryProvenance, sourceWorkflow: '.github/workflows/fetch-docs.yml'},
+  const wrongRepository = {...recoveryProvenance, sourceRepository: 'other/zdoc'}
+  assert.throws(() => buildTranslationPublicationSelection(recoverySelectionInput({
+    recoveryProvenance: wrongRepository,
+    recoveryPlanBytes: recoveryPlanBytes({provenance: wrongRepository}),
+  })), /recovery provenance source identity|recovery source repository/i)
+  const wrongWorkflow = {...recoveryProvenance, sourceWorkflow: '.github/workflows/fetch-docs.yml'}
+  assert.throws(() => buildTranslationPublicationSelection(recoverySelectionInput({
+    recoveryProvenance: wrongWorkflow,
+    recoveryPlanBytes: recoveryPlanBytes({provenance: wrongWorkflow}),
   })), /recovery source workflow/i)
+})
+
+test('rejects tampered claimed recovery provenance while the checksum-authenticated plan stays unchanged', () => {
+  const provenance = operatorRecoveryProvenance()
+  const planBytes = recoveryPlanBytes({provenance})
+  const cases = [
+    {...provenance, sourceRunId: provenance.sourceRunId + 1},
+    {...provenance, executionToolingSha: SHA_C},
+    {...provenance, sourceSelectionSha256: 'd'.repeat(64)},
+    {...provenance, artifacts: [{...provenance.artifacts[0], artifactId: 10}]},
+  ]
+  for (const recoveryProvenance of cases) {
+    assert.throws(() => buildTranslationPublicationSelection(recoverySelectionInput({recoveryProvenance, recoveryPlanBytes: planBytes})), /authenticated recovery plan.*provenance|recovery provenance.*plan/i)
+  }
+})
+
+test('binds tooling, handoff target and unit identities, and publish mode to the authenticated recovery plan', () => {
+  const provenance = operatorRecoveryProvenance()
+  const planBytes = recoveryPlanBytes({provenance})
+  const changedBaseline = {...handoff(), targetBaselineSha: SHA_C, units: handoff().units.map(unit => ({...unit, targetBaselineSha: SHA_C}))}
+  const cases = [
+    selectionInput({handoff: {...handoff(), targetBranch: 'release'}, recoveryProvenance: provenance}),
+    selectionInput({handoff: changedBaseline, recoveryProvenance: provenance}),
+    selectionInput({handoff: {...handoff(), units: handoff().units.map(unit => unit.group === 'python' ? {...unit, sourceCheckpointSha: SHA_D} : unit)}, recoveryProvenance: provenance}),
+    selectionInput({publish: false, recoveryProvenance: provenance}),
+  ]
+  for (const input of cases) {
+    assert.throws(() => buildTranslationPublicationSelection({
+      ...input,
+      recoveryPlanBytes: planBytes,
+      recoveryPlanSha256: crypto.createHash('sha256').update(planBytes).digest('hex'),
+    }), /authenticated recovery plan.*handoff|handoff.*plan|publish.*plan/i)
+  }
+
+  const mismatchedToolingProvenance = operatorRecoveryProvenance({executionToolingSha: SHA_C})
+  const mismatchedToolingPlan = recoveryPlanBytes({provenance: mismatchedToolingProvenance})
+  assert.throws(() => buildTranslationPublicationSelection(recoverySelectionInput({
+    recoveryProvenance: mismatchedToolingProvenance,
+    recoveryPlanBytes: mismatchedToolingPlan,
+  })), /execution tooling.*selection tooling|tooling.*authenticated recovery plan/i)
 })
 
 test('accepts schema-v1 unnumbered translation manifests and hashes both immutable artifacts', () => {

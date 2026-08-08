@@ -459,6 +459,7 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
     selectionSha256: selection.selectionSha256,
     targetBranch: handoff.targetBranch,
     targetBaselineSha: handoff.targetBaselineSha,
+    handoff,
     recoveryMap,
     retainedFileCount,
     sourceCandidateCount,
