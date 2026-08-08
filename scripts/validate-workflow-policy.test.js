@@ -14,15 +14,42 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
 
 test('publish-capable top-level workflows share the durable dev queue', () => {
   const fetch = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const recovery = yaml.load(fs.readFileSync('.github/workflows/recover-translation.yml', 'utf8'))
   const translation = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
   const tooling = yaml.load(fs.readFileSync('.github/workflows/sync-master-tooling-to-dev.yml', 'utf8'))
   assert.deepEqual(fetch.concurrency, {group: 'docs-production-dev', queue: 'max'})
   assert.deepEqual(tooling.concurrency, {group: 'docs-production-dev', queue: 'max'})
+  assert.deepEqual(recovery.concurrency, {
+    group: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}",
+    queue: 'max',
+  })
   assert.equal(translation.concurrency.queue, 'max')
   assert.equal(
     translation.concurrency.group,
-    "${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+    "${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
   )
+})
+
+test('operator recovery grants the reusable Translation writer permission ceiling', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-recovery-permissions-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, {recursive: true})
+    const file = path.join(directory, 'recover-translation.yml')
+    const source = fs.readFileSync(file, 'utf8')
+    const mutated = source.replace('  contents: write', '  contents: read')
+    assert.notEqual(mutated, source)
+    fs.writeFileSync(file, mutated)
+    assert.ok(validateWorkflowPolicies(directory).includes('recover-translation.yml: caller must grant contents: write so publish_ready can publish'))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
+test('operator recovery keeps preparation read-only while granting only the reusable call its writer ceiling', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/recover-translation.yml', 'utf8'))
+  assert.deepEqual(workflow.jobs.prepare_recovery.permissions, {actions: 'read', contents: 'read'})
+  assert.deepEqual(workflow.jobs.run_translation.permissions, {actions: 'read', contents: 'write'})
 })
 
 test('reusable workflows never reacquire the production dev queue', () => {
@@ -165,7 +192,7 @@ test('workflow policy rejects durable production dev queue regressions', () => {
     {
       file: 'translate-codex.yml',
       mutate: source => source.replace(
-        "  group: ${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+        "  group: ${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
         '  group: docs-production-dev',
       ),
       expected: 'translate-codex.yml: read-only Translation must use a unique concurrency group',
@@ -421,7 +448,7 @@ test('translation workflows declare immutable target identity and exact target v
   for (const input of ['locale', 'group', 'tooling_sha', 'source_shas_json', 'target_branch']) assert.equal(compatibility.on.workflow_dispatch.inputs[input], undefined)
   assert.equal(compatibility.on.workflow_dispatch.inputs.publish.default, false)
   assert.deepEqual(compatibility.concurrency, {
-    group: "${{ inputs.publish && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+    group: "${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
     queue: 'max',
   })
   const compatibilitySource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
