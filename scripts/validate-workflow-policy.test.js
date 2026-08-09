@@ -540,7 +540,7 @@ test('master tooling sync keeps the full commit graph without downloading histor
   assert.equal(checkout.with.filter, 'blob:none')
 })
 
-test('Chinese Reference validation jobs shallow-checkout the candidate and fetch only the manifest source commit', () => {
+test('Chinese Reference validation jobs retain full history for per-record source checkpoints', () => {
   const workflow = yaml.load(fs.readFileSync('.github/workflows/site-validation.yml', 'utf8'))
   for (const jobName of ['build_zh_cn', 'reference_coverage']) {
     const steps = workflow.jobs[jobName].steps
@@ -548,11 +548,29 @@ test('Chinese Reference validation jobs shallow-checkout the candidate and fetch
     const sourceFetch = steps.find(step => step.name === 'Fetch immutable Reference source commit')
 
     assert.equal(checkout.with.ref, '${{ needs.classify.outputs.source_sha }}')
-    assert.equal(checkout.with['fetch-depth'], 1)
-    assert.match(sourceFetch.run, /generated\/en\/manifests\/reference\.json/)
-    assert.match(sourceFetch.run, /\[\[ "\$source_commit" =~ \^\[0-9a-f\]\{40\}\$ \]\]/)
-    assert.match(sourceFetch.run, /git fetch --no-tags --depth=1 origin -- "\$source_commit"/)
-    assert.match(sourceFetch.run, /git cat-file -e "\$source_commit\^\{commit\}"/)
+    assert.equal(checkout.with['fetch-depth'], 0)
+    assert.equal(sourceFetch, undefined)
+  }
+})
+
+test('workflow policy rejects shallow Chinese Reference validation history', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'reference-history-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, {recursive: true})
+    const file = path.join(directory, 'site-validation.yml')
+    const source = fs.readFileSync(file, 'utf8')
+    const jobStart = source.indexOf('  build_zh_cn:')
+    const jobEnd = source.indexOf('\n  reference_coverage:', jobStart)
+    assert.ok(jobStart >= 0 && jobEnd > jobStart)
+    const job = source.slice(jobStart, jobEnd)
+    assert.match(job, /fetch-depth: 0/)
+    fs.writeFileSync(file, `${source.slice(0, jobStart)}${job.replace('fetch-depth: 0', 'fetch-depth: 1')}${source.slice(jobEnd)}`)
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'site-validation.yml: build_zh_cn must retain full history for per-record Reference source checkpoints',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
   }
 })
 

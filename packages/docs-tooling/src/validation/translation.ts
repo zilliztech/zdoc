@@ -19,7 +19,7 @@ export type TranslationSourceProvenance = Readonly<{
   expectedHistoricalSource: 'blob' | 'missing';
 }>;
 
-export type TranslationSourceProvenanceVerifier = (provenance: TranslationSourceProvenance) => void;
+export type TranslationSourceProvenanceVerifier = (provenance: readonly TranslationSourceProvenance[]) => void;
 
 export type ValidateReferenceTranslationOptions = Readonly<{
   repositoryRoot: string;
@@ -68,6 +68,7 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
 
   const translationsBySource = new Map<string, ReferenceTranslationManifest['records'][number]>();
   const targetPaths = new Set<string>();
+  const sourceProvenance: TranslationSourceProvenance[] = [];
   for (const record of translationManifest.records) {
     assertBelowRoot(record.sourcePath, options.sourceRoot, 'Translation source path');
     assertBelowRoot(record.targetPath, options.targetRoot, 'Translation target path');
@@ -91,10 +92,7 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
     }
     if (source && source.sourceHash !== record.sourceHash) throw new Error(`Declared source hash mismatch: ${record.sourcePath}`);
     if (record.sourceCommit !== sourceManifest.sourceCommit) {
-      if (!options.verifySourceProvenance) {
-        throw new Error(`Translation source provenance cannot be verified for checkpoint mismatch: ${record.sourcePath}`);
-      }
-      options.verifySourceProvenance({
+      sourceProvenance.push({
         sourceCommit: record.sourceCommit,
         sourceManifestCommit: sourceManifest.sourceCommit,
         sourcePath: record.sourcePath,
@@ -114,6 +112,12 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
     if (!translationsBySource.has(source.sourcePath)) {
       throw new Error(`Active canonical source is missing a Chinese target mapping: ${source.sourcePath}`);
     }
+  }
+  if (sourceProvenance.length > 0) {
+    if (!options.verifySourceProvenance) {
+      throw new Error(`Translation source provenance cannot be verified for checkpoint mismatch: ${sourceProvenance[0].sourcePath}`);
+    }
+    options.verifySourceProvenance(sourceProvenance);
   }
 
   if (options.verifyFiles === false) return;

@@ -128,11 +128,29 @@ export type ReferenceCommandDependencies = Readonly<{
   write?: (message: string) => void;
 }>;
 
+export type ReferenceGitCommandResult = Readonly<{
+  error?: Error;
+  status: number | null;
+  signal?: NodeJS.Signals | null;
+  stdout: string | Buffer;
+  stderr: string | Buffer;
+}>;
+
+export type ReferenceGitRunner = (
+  args: readonly string[],
+  options: Readonly<{encoding: 'utf8' | 'buffer'; maxBuffer: number; input?: Buffer}>,
+) => ReferenceGitCommandResult;
+
 const REFERENCE_SOURCE_ROOT = 'content/en/reference';
 const REFERENCE_TARGET_ROOT = 'content/zh-CN/reference';
 const REFERENCE_SOURCE_MANIFEST = 'generated/en/manifests/reference.json';
 const REFERENCE_TRANSLATION_MANIFEST = 'generated/zh-CN/manifests/reference-translations.json';
 const REFERENCE_RETIREMENT_REGISTRY = 'config/reference-retirements.json';
+const EXTERNAL_SNAPSHOT_WORKTREE = 'external-snapshot';
+const EXTERNAL_SNAPSHOT_TRACKED_INPUTS = 'deploy/contracts/localization-inputs.inventory.json';
+const GIT_STDERR_LIMIT = 512;
+const GIT_BATCH_BLOB_LIMIT = 64;
+const GIT_MAX_BUFFER = 64 * 1024 * 1024;
 
 function resolveGitCommit(repositoryRoot: string, revision: string): string {
   const result = nodeSpawnSync('git', ['rev-parse', '--verify', `${revision}^{commit}`], {cwd: repositoryRoot, encoding: 'utf8'});
@@ -180,72 +198,226 @@ function verifyReferenceSourceRevision(
   commit: string,
   sourceRoot: string,
   snapshot: ReferenceTreeSnapshot,
-  environment: NodeJS.ProcessEnv,
+  externalSnapshot: ExternalSnapshotIdentity | undefined,
 ): void {
-  if (environment.ZDOC_PROVENANCE_WORKTREE === 'external-snapshot') return;
+  if (externalSnapshot) return;
   verifyGitSourceRevision(repositoryRoot, commit, sourceRoot, snapshot);
 }
 
-function assertGitCommit(repositoryRoot: string, commit: string, label: string): void {
-  const result = nodeSpawnSync('git', ['cat-file', '-e', `${commit}^{commit}`], {cwd: repositoryRoot, encoding: 'utf8'});
-  if (result.error || result.status !== 0) throw new Error(`${label} is unknown: ${commit}`);
+type ExternalSnapshotIdentity = Readonly<{
+  commit: string;
+  trackedInputInventory: string;
+}>;
+
+function boundedGitOutput(value: string | Buffer | undefined): string {
+  const output = Buffer.isBuffer(value) ? value.toString('utf8') : String(value ?? '');
+  return output.trim().slice(0, GIT_STDERR_LIMIT);
 }
 
-function verifyGitTranslationSourceProvenance(repositoryRoot: string, provenance: TranslationSourceProvenance): void {
-  assertGitCommit(repositoryRoot, provenance.sourceCommit, 'Translation source commit');
-  assertGitCommit(repositoryRoot, provenance.sourceManifestCommit, 'Source manifest commit');
-  const ancestor = nodeSpawnSync(
-    'git',
-    ['merge-base', '--is-ancestor', provenance.sourceCommit, provenance.sourceManifestCommit],
-    {cwd: repositoryRoot, encoding: 'utf8'},
-  );
-  if (ancestor.error || (ancestor.status !== 0 && ancestor.status !== 1)) {
-    throw new Error(`Could not verify Translation source commit ancestry for ${provenance.sourcePath}: ${ancestor.stderr || ancestor.error?.message || 'git failed'}`);
+function gitCommandFailure(result: ReferenceGitCommandResult, context: string): Error {
+  const stderr = boundedGitOutput(result.stderr);
+  if (result.error) return new Error(`${context}: could not start Git: ${result.error.message}${stderr ? `: ${stderr}` : ''}`);
+  if (result.signal) return new Error(`${context}: Git terminated by signal ${result.signal}${stderr ? `: ${stderr}` : ''}`);
+  return new Error(`${context}: Git failed with status ${result.status ?? 'unknown'}${stderr ? `: ${stderr}` : ''}`);
+}
+
+function defaultReferenceGitRunner(repositoryRoot: string): ReferenceGitRunner {
+  return (args, options) => nodeSpawnSync('git', args, {cwd: repositoryRoot, ...options}) as ReferenceGitCommandResult;
+}
+
+function assertGitCommit(runGit: ReferenceGitRunner, commit: string, label: string): void {
+  const result = runGit(['cat-file', '-e', `${commit}^{commit}`], {encoding: 'utf8', maxBuffer: 1024 * 1024});
+  if (result.error || result.signal || result.status === null) throw gitCommandFailure(result, `Could not inspect ${label}`);
+  if (result.status !== 0) {
+    const stderr = boundedGitOutput(result.stderr);
+    throw new Error(`${label} is unknown: ${commit}${stderr ? `: ${stderr}` : ''}`);
   }
-  if (ancestor.status === 1) {
-    throw new Error(`Translation source commit is not an ancestor of the source manifest commit: ${provenance.sourcePath}`);
-  }
-  const listing = nodeSpawnSync(
-    'git',
-    ['ls-tree', '-z', '--full-tree', provenance.sourceCommit, '--', provenance.sourcePath],
-    {cwd: repositoryRoot, encoding: 'buffer', maxBuffer: 1024 * 1024},
-  );
-  if (listing.error || listing.status !== 0) {
-    throw new Error(`Could not inspect historical source path ${provenance.sourcePath} at ${provenance.sourceCommit}: ${listing.stderr?.toString() || listing.error?.message || 'git failed'}`);
-  }
-  const historicalEntry = listing.stdout.toString('utf8');
-  if (provenance.expectedHistoricalSource === 'missing') {
-    if (historicalEntry) {
-      throw new Error(`Historical retired source path must be missing at ${provenance.sourceCommit}: ${provenance.sourcePath}`);
+}
+
+function parseHistoricalTree(listing: Buffer, commit: string): ReadonlyMap<string, Readonly<{mode: string; type: string; objectId: string}>> {
+  const entries = new Map<string, Readonly<{mode: string; type: string; objectId: string}>>();
+  for (const serialized of listing.toString('utf8').split('\0')) {
+    if (!serialized) continue;
+    const tab = serialized.indexOf('\t');
+    const header = tab < 0 ? [] : serialized.slice(0, tab).split(' ');
+    if (header.length !== 3 || !/^[0-7]{6}$/u.test(header[0]) || !/^[a-f0-9]+$/u.test(header[2])) {
+      throw new Error(`Historical Reference tree at ${commit} contains an unsupported entry: ${serialized.slice(0, 160)}`);
     }
-    return;
+    entries.set(serialized.slice(tab + 1), {mode: header[0], type: header[1], objectId: header[2]});
   }
-  const match = /^(100644|100755) blob ([a-f0-9]+)\t(.+)\0$/u.exec(historicalEntry);
-  if (!match || match[3] !== provenance.sourcePath) {
-    throw new Error(`Historical source path is missing or is not a regular Git blob at ${provenance.sourceCommit}: ${provenance.sourcePath}`);
-  }
-  const blob = nodeSpawnSync(
-    'git',
-    ['cat-file', 'blob', match[2]],
-    {cwd: repositoryRoot, encoding: 'buffer', maxBuffer: 64 * 1024 * 1024},
-  );
-  if (blob.error || blob.status !== 0) {
-    throw new Error(`Could not read historical source blob for ${provenance.sourcePath}: ${blob.stderr?.toString() || blob.error?.message || 'git failed'}`);
-  }
-  const historicalHash = createHash('sha256').update(blob.stdout).digest('hex');
-  if (historicalHash !== provenance.sourceHash) {
-    throw new Error(`Historical source hash mismatch at ${provenance.sourceCommit}: ${provenance.sourcePath}`);
-  }
+  return entries;
 }
 
-function translationSourceProvenanceVerifier(
+function parseBlobBatch(output: Buffer, objectIds: readonly string[]): ReadonlyMap<string, string> {
+  const hashes = new Map<string, string>();
+  let offset = 0;
+  for (const expectedObjectId of objectIds) {
+    const headerEnd = output.indexOf(0x0a, offset);
+    if (headerEnd < 0) throw new Error(`Historical source blob batch response is truncated at ${expectedObjectId}`);
+    const [objectId, type, sizeText] = output.subarray(offset, headerEnd).toString('utf8').split(' ');
+    const size = Number(sizeText);
+    if (objectId !== expectedObjectId || type !== 'blob' || !Number.isSafeInteger(size) || size < 0) {
+      throw new Error(`Historical source blob batch returned an invalid header for ${expectedObjectId}`);
+    }
+    const contentsStart = headerEnd + 1;
+    const contentsEnd = contentsStart + size;
+    if (contentsEnd >= output.length || output[contentsEnd] !== 0x0a) {
+      throw new Error(`Historical source blob batch response is truncated at ${expectedObjectId}`);
+    }
+    hashes.set(objectId, createHash('sha256').update(output.subarray(contentsStart, contentsEnd)).digest('hex'));
+    offset = contentsEnd + 1;
+  }
+  if (offset !== output.length) throw new Error('Historical source blob batch returned unexpected trailing data');
+  return hashes;
+}
+
+export function createGitTranslationSourceProvenanceVerifier(
   repositoryRoot: string,
-  environment: NodeJS.ProcessEnv,
-  override?: TranslationSourceProvenanceVerifier,
-): TranslationSourceProvenanceVerifier | undefined {
-  if (override) return override;
-  if (environment.ZDOC_PROVENANCE_WORKTREE === 'external-snapshot') return undefined;
-  return provenance => verifyGitTranslationSourceProvenance(repositoryRoot, provenance);
+  sourceRoot: string,
+  runner: ReferenceGitRunner = defaultReferenceGitRunner(repositoryRoot),
+): TranslationSourceProvenanceVerifier {
+  return provenance => {
+    if (provenance.length === 0) return;
+    const pairs = new Map<string, readonly TranslationSourceProvenance[]>();
+    for (const record of provenance) {
+      const key = `${record.sourceCommit}\0${record.sourceManifestCommit}`;
+      pairs.set(key, [...(pairs.get(key) ?? []), record]);
+    }
+    const verifiedCommits = new Set<string>();
+    for (const records of pairs.values()) {
+      const [record] = records;
+      for (const [commit, label] of [
+        [record.sourceCommit, 'Translation source commit'],
+        [record.sourceManifestCommit, 'Source manifest commit'],
+      ] as const) {
+        if (!verifiedCommits.has(commit)) {
+          assertGitCommit(runner, commit, label);
+          verifiedCommits.add(commit);
+        }
+      }
+      const ancestor = runner(
+        ['merge-base', '--is-ancestor', record.sourceCommit, record.sourceManifestCommit],
+        {encoding: 'utf8', maxBuffer: 1024 * 1024},
+      );
+      if (ancestor.error || ancestor.signal || ancestor.status === null || (ancestor.status !== 0 && ancestor.status !== 1)) {
+        throw gitCommandFailure(ancestor, `Could not verify Translation source commit ancestry for ${record.sourcePath}`);
+      }
+      if (ancestor.status === 1) {
+        throw new Error(`Translation source commit is not an ancestor of the source manifest commit: ${record.sourcePath}`);
+      }
+    }
+
+    const recordsBySourceCommit = new Map<string, TranslationSourceProvenance[]>();
+    for (const record of provenance) {
+      const records = recordsBySourceCommit.get(record.sourceCommit) ?? [];
+      records.push(record);
+      recordsBySourceCommit.set(record.sourceCommit, records);
+    }
+    for (const [sourceCommit, records] of recordsBySourceCommit) {
+      const listing = runner(
+        ['ls-tree', '-r', '-t', '-z', '--full-tree', sourceCommit, '--', sourceRoot],
+        {encoding: 'buffer', maxBuffer: GIT_MAX_BUFFER},
+      );
+      if (listing.error || listing.signal || listing.status !== 0) {
+        throw gitCommandFailure(listing, `Could not enumerate historical Reference tree at ${sourceCommit}`);
+      }
+      const historicalEntries = parseHistoricalTree(Buffer.isBuffer(listing.stdout) ? listing.stdout : Buffer.from(listing.stdout), sourceCommit);
+      const blobs = new Map<string, TranslationSourceProvenance[]>();
+      for (const record of records) {
+        const entry = historicalEntries.get(record.sourcePath);
+        if (record.expectedHistoricalSource === 'missing') {
+          if (entry) throw new Error(`Historical retired source path must be missing at ${record.sourceCommit}: ${record.sourcePath}`);
+          continue;
+        }
+        if (!entry || !['100644', '100755'].includes(entry.mode) || entry.type !== 'blob') {
+          throw new Error(`Historical source path is missing or is not a regular Git blob at ${record.sourceCommit}: ${record.sourcePath}`);
+        }
+        blobs.set(entry.objectId, [...(blobs.get(entry.objectId) ?? []), record]);
+      }
+      const objectIds = [...blobs.keys()];
+      const hashes = new Map<string, string>();
+      for (let index = 0; index < objectIds.length; index += GIT_BATCH_BLOB_LIMIT) {
+        const batch = objectIds.slice(index, index + GIT_BATCH_BLOB_LIMIT);
+        const result = runner(
+          ['cat-file', '--batch'],
+          {encoding: 'buffer', maxBuffer: GIT_MAX_BUFFER, input: Buffer.from(`${batch.join('\n')}\n`)},
+        );
+        if (result.error || result.signal || result.status !== 0) {
+          throw gitCommandFailure(result, `Could not read historical source blob batch at ${sourceCommit}`);
+        }
+        for (const [objectId, hash] of parseBlobBatch(Buffer.isBuffer(result.stdout) ? result.stdout : Buffer.from(result.stdout), batch)) {
+          hashes.set(objectId, hash);
+        }
+      }
+      for (const [objectId, blobRecords] of blobs) {
+        for (const record of blobRecords) {
+          if (hashes.get(objectId) !== record.sourceHash) {
+            throw new Error(`Historical source hash mismatch at ${record.sourceCommit}: ${record.sourcePath}`);
+          }
+        }
+      }
+    }
+  };
+}
+
+function resolveExternalSnapshotIdentity(repositoryRoot: string, environment: NodeJS.ProcessEnv): ExternalSnapshotIdentity | undefined {
+  const hasCommit = Object.hasOwn(environment, 'ZDOC_PROVENANCE_COMMIT');
+  const hasWorktree = Object.hasOwn(environment, 'ZDOC_PROVENANCE_WORKTREE');
+  const hasTrackedInputs = Object.hasOwn(environment, 'ZDOC_PROVENANCE_TRACKED_INPUTS');
+  if (!hasCommit && !hasWorktree && !hasTrackedInputs) return undefined;
+  if (!hasCommit || !hasWorktree || !hasTrackedInputs) {
+    throw new Error('External snapshot provenance requires a complete commit, worktree mode, and tracked inputs identity');
+  }
+  if (environment.ZDOC_PROVENANCE_WORKTREE !== EXTERNAL_SNAPSHOT_WORKTREE) {
+    throw new Error(`External snapshot provenance worktree mode must be ${EXTERNAL_SNAPSHOT_WORKTREE}`);
+  }
+  const commit = String(environment.ZDOC_PROVENANCE_COMMIT);
+  if (!/^[a-f0-9]{40}$/u.test(commit)) {
+    throw new Error('External snapshot provenance commit must be a 40-character lowercase Git SHA');
+  }
+  if (existsSync(path.join(repositoryRoot, '.git'))) {
+    throw new Error('External snapshot prevalidated provenance cannot be used when Git metadata is present');
+  }
+  const trackedInputInventory = String(environment.ZDOC_PROVENANCE_TRACKED_INPUTS);
+  if (trackedInputInventory !== EXTERNAL_SNAPSHOT_TRACKED_INPUTS) {
+    throw new Error(`External snapshot provenance tracked inputs must use ${EXTERNAL_SNAPSHOT_TRACKED_INPUTS}`);
+  }
+  const inventoryPath = assertSafeRepositoryPathChain(repositoryRoot, trackedInputInventory, 'External snapshot tracked inputs');
+  if (!existsSync(inventoryPath) || !lstatSync(inventoryPath).isFile()) {
+    throw new Error(`External snapshot provenance tracked inputs inventory is missing: ${trackedInputInventory}`);
+  }
+  let inventory: unknown;
+  try {
+    inventory = JSON.parse(readFileSync(inventoryPath, 'utf8'));
+  } catch (error) {
+    throw new Error('External snapshot provenance tracked inputs inventory is not valid JSON', {cause: error});
+  }
+  if (!inventory || typeof inventory !== 'object' || Array.isArray(inventory)) {
+    throw new Error('External snapshot provenance tracked inputs inventory must be an object');
+  }
+  const value = inventory as {schemaVersion?: unknown; paths?: unknown};
+  if (JSON.stringify(Object.keys(value).sort()) !== JSON.stringify(['paths', 'schemaVersion']) || value.schemaVersion !== 1 || !Array.isArray(value.paths)) {
+    throw new Error('External snapshot provenance tracked inputs inventory contract is invalid');
+  }
+  let previous = '';
+  for (const [index, entry] of value.paths.entries()) {
+    if (typeof entry !== 'string') throw new Error('External snapshot provenance tracked inputs inventory paths must be strings');
+    assertSafeRepositoryRelativePath(entry, 'External snapshot tracked input');
+    if (index > 0 && previous >= entry) throw new Error('External snapshot provenance tracked inputs inventory paths must be unique and binary sorted');
+    previous = entry;
+  }
+  return {commit, trackedInputInventory};
+}
+
+/**
+ * Git-backed validation proves ancestry and historical blobs before promotion.
+ * A Git-less Docker snapshot revalidates all current manifests, files, hashes,
+ * and retirements while consuming the already-prevalidated exact snapshot identity.
+ */
+function createPrevalidatedExternalSnapshotProvenanceVerifier(
+  _identity: ExternalSnapshotIdentity,
+): TranslationSourceProvenanceVerifier {
+  return () => undefined;
 }
 
 export function defaultReferenceManualForPath(filePath: string): string {
@@ -373,11 +545,6 @@ export async function executeReferenceDocsToolingCommand(
 ): Promise<void> {
   const repositoryRoot = path.resolve(dependencies.repositoryRoot ?? process.cwd());
   const environment = dependencies.environment ?? process.env;
-  const verifyTranslationSourceProvenance = translationSourceProvenanceVerifier(
-    repositoryRoot,
-    environment,
-    dependencies.verifyTranslationSourceProvenance,
-  );
   if (argv[0] === 'reference-sidebar') {
     if (argv.length !== 4 || argv[1] !== '--group' || !argv[2] || argv[3] !== '--write') {
       throw new Error('Usage: docs-tooling reference-sidebar --group <python|java|node|go|rest|cli|reference-landings> --write');
@@ -438,7 +605,8 @@ export async function executeReferenceDocsToolingCommand(
       sourceManifest: manifests.sourceManifest,
       translationManifest: manifests.translationManifest,
       manualForPath,
-      verifySourceProvenance: verifyTranslationSourceProvenance,
+      verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
+        ?? createGitTranslationSourceProvenanceVerifier(repositoryRoot, REFERENCE_SOURCE_ROOT),
     });
     assertSnapshotsEqual(sourceSnapshot, captureReferenceTree(repositoryRoot, REFERENCE_SOURCE_ROOT), 'Reference source snapshot changed during generation');
     assertSnapshotsEqual(targetSnapshot, captureReferenceTree(repositoryRoot, REFERENCE_TARGET_ROOT), 'Reference target snapshot changed during generation');
@@ -460,13 +628,14 @@ export async function executeReferenceDocsToolingCommand(
     }
     const sourceManifest = parseReferenceSourceManifest(readJson(repositoryRoot, REFERENCE_SOURCE_MANIFEST));
     const sourceSnapshot = captureReferenceTree(repositoryRoot, REFERENCE_SOURCE_ROOT);
+    const externalSnapshot = resolveExternalSnapshotIdentity(repositoryRoot, environment);
     if (dependencies.verifySourceRevision) dependencies.verifySourceRevision(sourceManifest.sourceCommit, REFERENCE_SOURCE_ROOT);
     else verifyReferenceSourceRevision(
       repositoryRoot,
       sourceManifest.sourceCommit,
       REFERENCE_SOURCE_ROOT,
       sourceSnapshot,
-      dependencies.environment ?? process.env,
+      externalSnapshot,
     );
     const manualForPath = dependencies.manualForPath ?? defaultReferenceManualForPath;
     validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest, manualForPath});
@@ -486,7 +655,10 @@ export async function executeReferenceDocsToolingCommand(
         sourceManifest,
         translationManifest,
         manualForPath,
-        verifySourceProvenance: verifyTranslationSourceProvenance,
+        verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
+          ?? (externalSnapshot
+            ? createPrevalidatedExternalSnapshotProvenanceVerifier(externalSnapshot)
+            : createGitTranslationSourceProvenanceVerifier(repositoryRoot, REFERENCE_SOURCE_ROOT)),
       });
     }
     const validateNavigation = dependencies.validateReferenceNavigation ?? validateReferenceNavigation;
