@@ -66,7 +66,7 @@ test('called Translation orchestration does not reacquire the queue and still re
   const source = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
   assert.equal(workflow.on.workflow_call.inputs.production_queue_owned.default, false)
   assert.equal(workflow.concurrency.queue, 'max')
-  assert.equal(workflow.concurrency.group, "${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}")
+  assert.equal(workflow.concurrency.group, "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}")
   assert.match(source, /Target branch moved after handoff/)
   assert.match(source, /recoveryProvenance/)
   assert.match(source, /recovery_bundle_artifact_name/)
@@ -74,7 +74,7 @@ test('called Translation orchestration does not reacquire the queue and still re
   const download = steps.findIndex(step => step.name === 'Download authenticated recovery plan')
   const selection = steps.findIndex(step => step.name === 'Create immutable Translation publication selection')
   assert.ok(download >= 0 && selection > download)
-  assert.equal(steps[download].if, "${{ inputs.recovery_bundle_artifact_name != '' }}")
+  assert.equal(steps[download].if, "${{ (inputs.recovery_bundle_artifact_name || '') != '' }}")
   assert.match(steps[selection].run, /--recovery-plan .*recovery-plan\.json/)
   assert.match(steps[selection].run, /--recovery-plan-sha256/)
 })
@@ -108,4 +108,42 @@ test('ordinary Fetch dispatch and internal translate-codex dispatch inputs remai
   assert.equal(translation.on.workflow_dispatch.inputs.handoff_json.required, true)
   assert.equal(translation.on.workflow_dispatch.inputs.recovery_bundle_artifact_name, undefined)
   assert.equal(translation.on.workflow_dispatch.inputs.production_queue_owned, undefined)
+})
+
+test('direct Translation dispatch materializes producer calls with typed internal recovery defaults', () => {
+  const translation = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
+  const dispatchInputs = translation.on.workflow_dispatch.inputs
+  const callInputs = translation.on.workflow_call.inputs
+  const directDispatchContext = Object.fromEntries(Object.entries(dispatchInputs).map(([name, input]) => [name, input.default]))
+  directDispatchContext.handoff_json = '{"schemaVersion":2}'
+
+  const resolveDispatchBinding = expression => {
+    const match = String(expression).match(/^\$\{\{ inputs\.([a-z0-9_]+) \|\| (''|false) \}\}$/)
+    assert.ok(match, `internal direct-dispatch binding must declare an explicit safe default: ${expression}`)
+    const [, name, fallbackLiteral] = match
+    const fallback = fallbackLiteral === "''" ? '' : false
+    return directDispatchContext[name] || fallback
+  }
+
+  const internalInputs = {
+    recovery_bundle_artifact_name: {type: 'string', default: ''},
+    recovery_plan_sha256: {type: 'string', default: ''},
+    recovery_provenance_json: {type: 'string', default: ''},
+    production_queue_owned: {type: 'boolean', default: false},
+    allow_full_retranslate: {type: 'boolean', default: false},
+  }
+  for (const [name, expected] of Object.entries(internalInputs)) {
+    assert.equal(dispatchInputs[name], undefined, `${name} must remain hidden from the operator UI`)
+    assert.equal(callInputs[name].type, expected.type)
+    assert.equal(callInputs[name].default, expected.default)
+  }
+
+  for (const jobName of ['translate_sdk', 'translate_guides_batches']) {
+    const producer = translation.jobs[jobName]
+    for (const name of ['recovery_bundle_artifact_name', 'recovery_plan_sha256', 'allow_full_retranslate']) {
+      const resolved = resolveDispatchBinding(producer.with[name])
+      assert.equal(resolved, internalInputs[name].default, `${jobName}.${name}`)
+      assert.equal(typeof resolved, internalInputs[name].type, `${jobName}.${name} must satisfy the reusable input type`)
+    }
+  }
 })

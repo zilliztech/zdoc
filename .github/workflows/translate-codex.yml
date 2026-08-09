@@ -32,7 +32,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}
+  group: ${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}
   queue: max
 
 jobs:
@@ -110,19 +110,19 @@ jobs:
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Download authenticated recovery plan
-        if: ${{ inputs.recovery_bundle_artifact_name != '' }}
+        if: ${{ (inputs.recovery_bundle_artifact_name || '') != '' }}
         uses: actions/download-artifact@v7
         with:
-          name: ${{ inputs.recovery_bundle_artifact_name }}
+          name: ${{ inputs.recovery_bundle_artifact_name || '' }}
           path: ${{ runner.temp }}/translation-recovery-bundle
       - name: Resolve and validate the complete translation handoff
         id: handoff
         env:
           HANDOFF_JSON: ${{ inputs.handoff_json }}
           RECOVERY_RUN_IDS_JSON: ${{ inputs.recovery_run_ids_json }}
-          RECOVERY_BUNDLE_ARTIFACT_NAME: ${{ inputs.recovery_bundle_artifact_name }}
-          RECOVERY_PLAN_SHA256: ${{ inputs.recovery_plan_sha256 }}
-          RECOVERY_PROVENANCE_JSON: ${{ inputs.recovery_provenance_json }}
+          RECOVERY_BUNDLE_ARTIFACT_NAME: ${{ inputs.recovery_bundle_artifact_name || '' }}
+          RECOVERY_PLAN_SHA256: ${{ inputs.recovery_plan_sha256 || '' }}
+          RECOVERY_PROVENANCE_JSON: ${{ inputs.recovery_provenance_json || '' }}
           REQUEST_ID: ${{ inputs.request_id }}
         run: |
           set -euo pipefail
@@ -179,9 +179,9 @@ jobs:
         env:
           HANDOFF_JSON: ${{ inputs.handoff_json }}
           PUBLISH_ENABLED: ${{ inputs.publish }}
-          RECOVERY_BUNDLE_ARTIFACT_NAME: ${{ inputs.recovery_bundle_artifact_name }}
-          RECOVERY_PLAN_SHA256: ${{ inputs.recovery_plan_sha256 }}
-          RECOVERY_PROVENANCE_JSON: ${{ inputs.recovery_provenance_json }}
+          RECOVERY_BUNDLE_ARTIFACT_NAME: ${{ inputs.recovery_bundle_artifact_name || '' }}
+          RECOVERY_PLAN_SHA256: ${{ inputs.recovery_plan_sha256 || '' }}
+          RECOVERY_PROVENANCE_JSON: ${{ inputs.recovery_provenance_json || '' }}
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/publication-selection"
@@ -242,9 +242,9 @@ jobs:
       max_files: '500'
       mode: ${{ inputs.mode }}
       recovery_run_id: ${{ needs.prepare.outputs.guides_recovery_run_id }}
-      recovery_bundle_artifact_name: ${{ inputs.recovery_bundle_artifact_name }}
-      recovery_plan_sha256: ${{ inputs.recovery_plan_sha256 }}
-      allow_full_retranslate: ${{ inputs.allow_full_retranslate }}
+      recovery_bundle_artifact_name: ${{ inputs.recovery_bundle_artifact_name || '' }}
+      recovery_plan_sha256: ${{ inputs.recovery_plan_sha256 || '' }}
+      allow_full_retranslate: ${{ inputs.allow_full_retranslate || false }}
       batch_index: ${{ matrix.batchIndex }}
       batch_number: ${{ matrix.batchNumber }}
       batch_count: ${{ fromJSON(needs.prepare_guides_batches.outputs.batch_count) }}
@@ -277,9 +277,9 @@ jobs:
       max_files: '500'
       mode: ${{ inputs.mode }}
       recovery_run_id: ${{ matrix.recoveryRunId }}
-      recovery_bundle_artifact_name: ${{ inputs.recovery_bundle_artifact_name }}
-      recovery_plan_sha256: ${{ inputs.recovery_plan_sha256 }}
-      allow_full_retranslate: ${{ inputs.allow_full_retranslate }}
+      recovery_bundle_artifact_name: ${{ inputs.recovery_bundle_artifact_name || '' }}
+      recovery_plan_sha256: ${{ inputs.recovery_plan_sha256 || '' }}
+      allow_full_retranslate: ${{ inputs.allow_full_retranslate || false }}
       publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
       publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
       publication_unit_key: ${{ matrix.publicationUnitKey }}
