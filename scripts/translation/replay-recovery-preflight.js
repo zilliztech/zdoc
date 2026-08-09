@@ -39,6 +39,11 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
   const artifactRoot = fs.realpathSync(recoveryArtifact)
   if (!SHA.test(sourceSha || '') || !SHA.test(executionToolingSha || '')) throw new Error('Replay SHAs must be exact lowercase commits')
   git(repositoryRoot, ['cat-file', '-e', `${sourceSha}^{commit}`], {encoding: 'utf8'})
+  const toolingCheckout = fs.realpathSync(process.cwd())
+  const actualExecutionToolingSha = String(git(toolingCheckout, ['rev-parse', 'HEAD'], {encoding: 'utf8'})).trim()
+  if (!SHA.test(actualExecutionToolingSha) || actualExecutionToolingSha !== executionToolingSha) {
+    throw new Error(`Execution tooling checkout HEAD mismatch: expected ${executionToolingSha}, actual ${actualExecutionToolingSha || 'invalid'}`)
+  }
   const metadata = JSON.parse(fs.readFileSync(path.join(artifactRoot, 'metadata.json'), 'utf8'))
   const artifactManifest = JSON.parse(fs.readFileSync(path.join(artifactRoot, 'manifest.json'), 'utf8'))
   if (metadata.schemaVersion !== 2 || artifactManifest.schemaVersion !== 2 || !Array.isArray(artifactManifest.files) || artifactManifest.files.length === 0) {
@@ -67,7 +72,7 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
       artifacts: [artifactRoot],
       promptContractSha256: promptContractSha256(target, process.cwd()),
       model: metadata.model,
-      executionToolingSha,
+      executionToolingSha: actualExecutionToolingSha,
       allowFullRetranslate: false,
     })
     const first = items[0]
@@ -80,7 +85,7 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
         artifacts: [artifactRoot],
         promptContractSha256: promptContractSha256(target, process.cwd()),
         model: metadata.model,
-        executionToolingSha,
+        executionToolingSha: actualExecutionToolingSha,
         allowFullRetranslate: false,
       })
     } catch (error) {
@@ -93,7 +98,8 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
       kind: 'translation-recovery-retained-replay',
       sourceSha,
       artifactToolingSha: metadata.toolingSha,
-      executionToolingSha,
+      expectedExecutionToolingSha: executionToolingSha,
+      executionToolingSha: actualExecutionToolingSha,
       candidateCount: analysis.candidateCount,
       recoveredCount: analysis.recoveredCount,
       pendingCount: analysis.pendingCount,

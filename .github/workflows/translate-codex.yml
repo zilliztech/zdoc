@@ -224,6 +224,7 @@ jobs:
       tooling_sha: ${{ needs.prepare.outputs.tooling_sha }}
       source_baseline_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceBaselineSha }}
       source_checkpoint_sha: ${{ fromJSON(needs.prepare.outputs.guides_unit_json).sourceCheckpointSha }}
+      target_baseline_sha: ${{ needs.prepare.outputs.target_branch_sha }}
 
   translate_guides_batches:
     needs: [prepare, prepare_guides_batches]

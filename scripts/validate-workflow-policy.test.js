@@ -2405,12 +2405,17 @@ test('workflow policy rejects numbered translation batch validation regressions'
 
 test('durable translation batch preparation uses the same source delta as batch execution', () => {
   const workflow = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_prepare-translation-batches.yml'), 'utf8')
-  const steps = yaml.load(workflow).jobs.prepare.steps
+  const parsed = yaml.load(workflow)
+  const steps = parsed.jobs.prepare.steps
   const pnpmSetupIndex = steps.findIndex(step => step.uses === 'pnpm/action-setup@v5')
   const nodeSetupIndex = steps.findIndex(step => step.uses === 'actions/setup-node@v5')
   const installIndex = steps.findIndex(step => step.name === 'Install dependencies')
   const materializeIndex = steps.findIndex(step => step.name === 'Materialize immutable translation source')
   assert.ok(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < materializeIndex)
+  assert.deepEqual(parsed.on.workflow_call.inputs.target_baseline_sha, {required: false, type: 'string', default: ''})
+  assert.equal(parsed.jobs.prepare.env.TARGET_BASELINE_SHA, '${{ inputs.target_baseline_sha || inputs.source_checkpoint_sha }}')
+  assert.match(steps[materializeIndex].run, /git worktree add --detach "\$target_baseline_dir" "\$TARGET_BASELINE_SHA"/)
+  assert.match(steps[materializeIndex].run, /materialize-translation-baseline\.js[\s\S]*--baseline "\$target_baseline_dir"/)
   assert.match(workflow, /sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/)
   assert.doesNotMatch(workflow, /git diff[^\n]*(?:TOOLING_SHA|MASTER_SHA|tooling_sha)/)
   assert.match(workflow, /manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/)
@@ -2804,7 +2809,7 @@ test('Translation producers bind one immutable selection and emit ready descript
     assert.equal(job.with.publication_selection_sha256, '${{ needs.prepare.outputs.publication_selection_sha256 }}')
     assert.equal(job.with.target_baseline_sha, '${{ needs.prepare.outputs.target_branch_sha }}')
   }
-  assert.equal(workflow.jobs.prepare_guides_batches.with.target_baseline_sha, undefined)
+  assert.equal(workflow.jobs.prepare_guides_batches.with.target_baseline_sha, '${{ needs.prepare.outputs.target_branch_sha }}')
   assert.equal(workflow.jobs.translate_sdk.with.publication_unit_key, '${{ matrix.publicationUnitKey }}')
   assert.equal(workflow.jobs.translate_sdk.name, 'translate:${{ matrix.target }}/${{ matrix.group }}')
   assert.equal(workflow.jobs.translate_guides_batches.if, "${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}")
@@ -3211,6 +3216,20 @@ test('workflow policy rejects Translation selection and ready-descriptor wiring 
     assert.ok(validateWorkflowPolicies(directory).includes(
       'translate-codex.yml: Guides translation batch matrix must run whenever its batch count is nonzero',
     ))
+
+    fs.writeFileSync(workflow, workflowSource.replace('      target_baseline_sha: ${{ needs.prepare.outputs.target_branch_sha }}\n', ''))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: Guides preparation and workers must receive the same queue-owned target baseline',
+    ))
+
+    fs.writeFileSync(workflow, workflowSource)
+    const batchPreparation = path.join(directory, '_prepare-translation-batches.yml')
+    const batchSource = fs.readFileSync(batchPreparation, 'utf8')
+    fs.writeFileSync(batchPreparation, batchSource.replace('          git worktree add --detach "$target_baseline_dir" "$TARGET_BASELINE_SHA"\n', ''))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      '_prepare-translation-batches.yml: must materialize target baseline translation state before deterministic batching',
+    ))
+    fs.writeFileSync(batchPreparation, batchSource)
 
     fs.writeFileSync(workflow, workflowSource.replaceAll('pendingSetSha256: process.env.PENDING_SET_SHA256', 'pendingSetSha256: undefined'))
     assert.ok(validateWorkflowPolicies(directory).includes(

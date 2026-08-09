@@ -61,6 +61,18 @@ test('replays a retained recovery artifact locally without provider invocation a
   assert.equal(replay.pendingCount, 0)
   assert.equal(replay.modelInvocationCount, 0)
   assert.equal(replay.fullRetranslationGuardVerified, true)
+  assert.equal(replay.executionToolingSha, sourceSha)
+
+  const mismatch = spawnSync(process.execPath, [
+    path.join(__dirname, 'replay-recovery-preflight.js'),
+    '--repository', process.cwd(),
+    '--source-sha', sourceSha,
+    '--recovery-artifact', artifactDir,
+    '--execution-tooling-sha', 'f'.repeat(40),
+    '--output', path.join(root, 'mismatch-evidence.json'),
+  ], {encoding: 'utf8'})
+  assert.notEqual(mismatch.status, 0)
+  assert.match(mismatch.stderr, /execution tooling checkout HEAD mismatch/i)
 })
 
 test('retains exact current-contract rejection reasons in replay evidence', t => {
@@ -98,6 +110,7 @@ test('retains exact current-contract rejection reasons in replay evidence', t =>
   git(repository, ['add', '.'])
   git(repository, ['commit', '-m', 'Add replay sources'])
   const sourceSha = git(repository, ['rev-parse', 'HEAD'])
+  const executionToolingSha = git(process.cwd(), ['rev-parse', 'HEAD'])
   createRecoveryArtifact({
     siteDir,
     outputDir: artifactDir,
@@ -119,7 +132,7 @@ test('retains exact current-contract rejection reasons in replay evidence', t =>
     '--repository', repository,
     '--source-sha', sourceSha,
     '--recovery-artifact', artifactDir,
-    '--execution-tooling-sha', sourceSha,
+    '--execution-tooling-sha', executionToolingSha,
     '--output', evidence,
   ], {encoding: 'utf8'})
 
@@ -130,6 +143,7 @@ test('retains exact current-contract rejection reasons in replay evidence', t =>
   assert.equal(replay.pendingCount, 1)
   assert.equal(replay.rejectedCount, 1)
   assert.equal(replay.modelInvocationCount, 0)
+  assert.equal(replay.executionToolingSha, executionToolingSha)
   assert.deepEqual(replay.rejections.map(item => item.sourcePath), [records[1].sourcePath])
   assert.match(replay.rejections[0].reason, /^revalidation failed: locale: line 1 containing endpoint:/)
   assert.match(replay.rejections[0].reason, /requires endpoint to use Endpoint/)

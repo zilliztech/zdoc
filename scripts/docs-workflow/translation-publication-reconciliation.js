@@ -114,20 +114,43 @@ function linkDependencies(repositoryRoot, worktree) {
     if (fs.existsSync(destination)) continue
     fs.mkdirSync(path.dirname(destination), {recursive: true})
     fs.symlinkSync(source, destination)
+    const resolvedSource = fs.realpathSync(source)
     linked.push(Object.freeze({
       relative: path.relative(worktree, destination).split(path.sep).join('/'),
-      source: fs.realpathSync(source),
+      source: resolvedSource,
       destination,
+      linkIdentity: filesystemIdentity(fs.lstatSync(destination, {bigint: true})),
+      sourceIdentity: filesystemIdentity(fs.statSync(resolvedSource, {bigint: true})),
     }))
   }
   return Object.freeze(linked)
 }
 
+function filesystemIdentity(stat) {
+  return Object.freeze({
+    dev: String(stat.dev),
+    ino: String(stat.ino),
+    mode: String(stat.mode),
+    nlink: String(stat.nlink),
+    ctimeNs: String(stat.ctimeNs),
+    birthtimeNs: String(stat.birthtimeNs),
+  })
+}
+
+function sameFilesystemIdentity(left, right) {
+  return Object.keys(left).every(key => left[key] === right[key])
+}
+
 function assertDependencyLinksUnchanged(linkedDependencies) {
   for (const dependency of linkedDependencies) {
-    const stat = fs.lstatSync(dependency.destination)
-    if (!stat.isSymbolicLink() || fs.realpathSync(dependency.destination) !== dependency.source) {
+    const stat = fs.lstatSync(dependency.destination, {bigint: true})
+    if (!stat.isSymbolicLink() || fs.realpathSync(dependency.destination) !== dependency.source ||
+        !sameFilesystemIdentity(dependency.linkIdentity, filesystemIdentity(stat))) {
       throw new Error(`Reconciliation dependency link changed during validation: ${dependency.relative}`)
+    }
+    const sourceStat = fs.statSync(dependency.source, {bigint: true})
+    if (!sourceStat.isDirectory() || !sameFilesystemIdentity(dependency.sourceIdentity, filesystemIdentity(sourceStat))) {
+      throw new Error(`Reconciliation dependency source changed during validation: ${dependency.relative}`)
     }
   }
 }
