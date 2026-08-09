@@ -9,6 +9,11 @@ const { promisify } = require('node:util')
 const { deriveDocsProgressState } = require('./docs-progress-state')
 const { readCardReport, validateCardReport } = require('./docs-card-report')
 const { validatePublicationProgress } = require('./publication-contracts')
+const {
+  assertSafeExtraction,
+  findExactFile,
+  validateArchiveEntries,
+} = require('./github-artifact-archive')
 
 const execFileAsync = promisify(execFile)
 const DEFAULT_CARD_PATCH_TIMEOUT_MS = 30_000
@@ -283,34 +288,6 @@ async function githubFetch(fetchImpl, url, token, binary = false) {
   return binary ? Buffer.from(await response.arrayBuffer()) : response.json()
 }
 
-function assertSafeExtraction(root) {
-  const resolvedRoot = path.resolve(root)
-  const visit = directory => {
-    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-      const file = path.resolve(directory, entry.name)
-      if (file !== resolvedRoot && !file.startsWith(`${resolvedRoot}${path.sep}`)) throw new Error('Artifact extraction escaped its destination')
-      const stats = fs.lstatSync(file)
-      if (stats.isSymbolicLink()) throw new Error('Artifact contains a symbolic link')
-      if (stats.isDirectory()) visit(file)
-    }
-  }
-  visit(resolvedRoot)
-}
-
-function findExactFile(root, expectedName) {
-  const matches = []
-  const visit = directory => {
-    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-      const file = path.join(directory, entry.name)
-      if (entry.isDirectory()) visit(file)
-      else if (entry.name === expectedName) matches.push(file)
-    }
-  }
-  visit(root)
-  if (matches.length !== 1) throw new Error(`Artifact must contain exactly one ${expectedName}`)
-  return matches[0]
-}
-
 function validateProgressMetadata(value, { expectedRunId, expectedLocale } = {}) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Progress metadata must be an object')
   const allowed = ['schemaVersion', 'runId', 'locale', 'tableTotal']
@@ -337,18 +314,6 @@ function validateHandoffMetadata(value, { expectedParentRunId, repository } = {}
   const expectedUrl = `https://github.com/${repository}/actions/runs/${value.childRunId}`
   if (value.childRunUrl !== expectedUrl) throw new Error('Handoff metadata childRunUrl is invalid')
   return { schemaVersion: 1, parentRunId: value.parentRunId, childRunId: value.childRunId, childRunUrl: value.childRunUrl }
-}
-
-function validateArchiveEntries(entries) {
-  if (!Array.isArray(entries) || entries.length === 0) throw new Error('Artifact archive is empty')
-  for (const entry of entries) {
-    if (typeof entry !== 'string' || !entry || entry.includes('\\') || entry.startsWith('/') || entry.split('/').includes('..')) {
-      throw new Error(`unsafe artifact path: ${String(entry)}`)
-    }
-    const normalized = path.posix.normalize(entry)
-    if (normalized === '..' || normalized.startsWith('../')) throw new Error(`unsafe artifact path: ${entry}`)
-  }
-  return entries
 }
 
 function expectedPublicationUnitKeys(requestedGroups) {
