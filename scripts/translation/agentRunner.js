@@ -372,7 +372,8 @@ async function processItemWithRetry(item, options) {
       : /response must be valid JSON/i.test(failure)
         ? structuredResponseRetryFeedback(failure)
       : validatedReviewRetryFeedback(result)
-    if (attempt < maxRetries) {
+    const retryForbidden = result?.errorDetails?.code === 'CORRECTION_PROTECTED_MARKER_VIOLATION'
+    if (attempt < maxRetries && !retryForbidden) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
     } else {
       const chunkCheckpoints = serializeCompletedChunkCheckpoints(chunkCheckpoint)
@@ -442,6 +443,23 @@ function buildTranslationMessages({ target, sourcePath, sourceContent, sourceDoc
   ]
 }
 
+function markerFreeDocumentContext(content) {
+  return String(content).replace(/<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->(?:\r?\n)?/g, '')
+}
+
+function markerFreeCorrectionReview(value) {
+  if (typeof value === 'string') {
+    return value
+      .replace(/<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->/g, '[protected content]')
+      .replaceAll('ZDOC-PROTECTED', 'protected content')
+  }
+  if (Array.isArray(value)) return value.map(markerFreeCorrectionReview)
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, child]) => [key, markerFreeCorrectionReview(child)]))
+  }
+  return value
+}
+
 function buildReviewMessages({ target, sourcePath, sourceContent, translatedContent, sourceDocument, draftDocument, sourceUnits, draftUnits, locale, chunkContext }) {
   const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   const userContent = sourceUnits && draftUnits
@@ -462,9 +480,10 @@ function correctionPromptFor(target) {
 
 function buildCorrectionMessages({ target, sourcePath, sourceContent, translatedContent, sourceDocument, draftDocument, authorizedUnits, review, locale, chunkContext }) {
   const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
+  const safeReview = markerFreeCorrectionReview(review)
   const userContent = authorizedUnits
-    ? `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source_document>\n${sourceDocument}\n</source_document>\n\n<draft_document>\n${draftDocument}\n</draft_document>\n\n<authorized_units>\n${JSON.stringify(authorizedUnits, null, 2)}\n</authorized_units>\n\n<review_json>\n${JSON.stringify(review, null, 2)}\n</review_json>`
-    : `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source>\n${sourceContent}</source>\n\n<draft>\n${translatedContent}</draft>\n\n<review_json>\n${JSON.stringify(review, null, 2)}\n</review_json>`
+    ? `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source_document>\n${sourceDocument}\n</source_document>\n\n<draft_document>\n${draftDocument}\n</draft_document>\n\n<authorized_units>\n${JSON.stringify(authorizedUnits, null, 2)}\n</authorized_units>\n\n<review_json>\n${JSON.stringify(safeReview, null, 2)}\n</review_json>`
+    : `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source>\n${sourceContent}</source>\n\n<draft>\n${translatedContent}</draft>\n\n<review_json>\n${JSON.stringify(safeReview, null, 2)}\n</review_json>`
   return [
     {
       role: 'system',
@@ -530,7 +549,7 @@ async function translateAndReviewUnit({
       target,
       sourcePath,
       sourceContent: protectedSource.content,
-      sourceDocument: protectedSource.content,
+      sourceDocument: markerFreeDocumentContext(protectedSource.content),
       semanticUnits: sourceUnitPayload,
       locale,
       chunkContext,
@@ -607,15 +626,27 @@ async function translateAndReviewUnit({
         sourcePath,
         sourceContent: protectedSource.content,
         translatedContent: protectedDraftDocument.content,
-        sourceDocument: protectedSource.content,
-        draftDocument: protectedDraftDocument.content,
+        sourceDocument: markerFreeDocumentContext(protectedSource.content),
+        draftDocument: markerFreeDocumentContext(protectedDraftDocument.content),
         authorizedUnits: authorizedPayload,
         review: {pass: false, issues},
         locale,
         chunkContext,
       }),
     })
-    const correctedUnits = restoreSemanticUnitResponse(correctedResponse, {field: 'corrections', protectedUnits: authorizedDraftUnits, localeContract})
+    let correctedUnits
+    try {
+      correctedUnits = restoreSemanticUnitResponse(correctedResponse, {field: 'corrections', protectedUnits: authorizedDraftUnits, localeContract})
+    } catch (error) {
+      if (error?.failureCategory === 'protected_content_failed' && /protected marker/i.test(String(error.message || error))) {
+        throw categorizedError(
+          `Correction protected marker violation: ${String(error.message || error)}`,
+          'protected_content_failed',
+          {code: 'CORRECTION_PROTECTED_MARKER_VIOLATION', cause: error},
+        )
+      }
+      throw error
+    }
     const correctedById = new Map(correctedUnits.map(unit => [unit.id, unit.translation]))
     currentUnits = currentUnits.map(unit => correctedById.has(unit.id) ? {...unit, translation: correctedById.get(unit.id)} : unit)
     translatedContent = patchSemanticUnits(sourceContent, units, currentUnits)

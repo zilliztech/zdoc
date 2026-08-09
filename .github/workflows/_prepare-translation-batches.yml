@@ -8,6 +8,7 @@ on:
       tooling_sha: { required: true, type: string }
       source_baseline_sha: { required: true, type: string }
       source_checkpoint_sha: { required: true, type: string }
+      target_baseline_sha: { required: false, type: string, default: '' }
     outputs:
       matrix: { value: '${{ jobs.prepare.outputs.matrix }}' }
       pending_count: { value: '${{ jobs.prepare.outputs.pending_count }}' }
@@ -35,6 +36,7 @@ jobs:
       TRANSLATION_TARGET: ${{ inputs.target }}
       SOURCE_BASELINE_SHA: ${{ inputs.source_baseline_sha }}
       SOURCE_CHECKPOINT_SHA: ${{ inputs.source_checkpoint_sha }}
+      TARGET_BASELINE_SHA: ${{ inputs.target_baseline_sha || inputs.source_checkpoint_sha }}
       TOOLING_SHA: ${{ inputs.tooling_sha }}
     steps:
       - uses: actions/checkout@v5
@@ -47,9 +49,16 @@ jobs:
       - name: Materialize immutable translation source
         run: |
           set -euo pipefail
-          for sha in "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA"; do git fetch --no-tags origin "$sha"; done
+          for sha in "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA" "$TARGET_BASELINE_SHA"; do git fetch --no-tags origin "$sha"; done
           git merge-base --is-ancestor "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA"
+          target_baseline_dir="$RUNNER_TEMP/translation-target-baseline"
+          git worktree add --detach "$target_baseline_dir" "$TARGET_BASELINE_SHA"
           bash scripts/restore-generated-state.sh --exact --ref "$SOURCE_CHECKPOINT_SHA"
+          node scripts/translation/materialize-translation-baseline.js \
+            --repository "$GITHUB_WORKSPACE" \
+            --baseline "$target_baseline_dir" \
+            --target "$TRANSLATION_TARGET" \
+            --group "$GROUP"
           mkdir -p .translation-cache tmp
           test -f .translation-cache/ja-JP.json || printf '{"files":{}}\n' > .translation-cache/ja-JP.json
           node scripts/translation/sourceDelta.js --repository "$GITHUB_WORKSPACE" --source-baseline-sha "$SOURCE_BASELINE_SHA" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target "$TRANSLATION_TARGET" --group "$GROUP" --output tmp/source-delta.json

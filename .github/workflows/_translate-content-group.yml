@@ -8,6 +8,7 @@ on:
       tooling_sha: { required: true, type: string }
       source_baseline_sha: { required: true, type: string }
       source_checkpoint_sha: { required: true, type: string }
+      target_baseline_sha: { required: false, type: string, default: '' }
       should_translate: { required: true, type: boolean }
       max_files: { required: false, type: string, default: '500' }
       batch_index: { required: false, type: number, default: -1 }
@@ -59,6 +60,7 @@ jobs:
       TRANSLATION_TARGET: ${{ inputs.target }}
       SOURCE_BASELINE_SHA: ${{ inputs.source_baseline_sha }}
       SOURCE_CHECKPOINT_SHA: ${{ inputs.source_checkpoint_sha }}
+      TARGET_BASELINE_SHA: ${{ inputs.target_baseline_sha || inputs.source_checkpoint_sha }}
       TOOLING_SHA: ${{ inputs.tooling_sha }}
       PUBLICATION_UNIT_KEY: ${{ inputs.publication_unit_key }}
     steps:
@@ -83,7 +85,7 @@ jobs:
           echo "ARTIFACT_SUFFIX=$suffix" >> "$GITHUB_ENV"
 
       - name: Validate immutable inputs
-        run: node -e 'if(!["ja-JP","zh-CN-reference"].includes(process.env.TRANSLATION_TARGET))throw new Error("invalid translation target");for(const [n,v] of Object.entries({tooling_sha:process.env.TOOLING_SHA,source_baseline_sha:process.env.SOURCE_BASELINE_SHA,source_checkpoint_sha:process.env.SOURCE_CHECKPOINT_SHA}))if(!/^[0-9a-f]{40}$/.test(v))throw new Error(n+" must be a lowercase 40-character Git SHA")'
+        run: node -e 'if(!["ja-JP","zh-CN-reference"].includes(process.env.TRANSLATION_TARGET))throw new Error("invalid translation target");for(const [n,v] of Object.entries({tooling_sha:process.env.TOOLING_SHA,source_baseline_sha:process.env.SOURCE_BASELINE_SHA,source_checkpoint_sha:process.env.SOURCE_CHECKPOINT_SHA,target_baseline_sha:process.env.TARGET_BASELINE_SHA}))if(!/^[0-9a-f]{40}$/.test(v))throw new Error(n+" must be a lowercase 40-character Git SHA")'
       - name: Check out immutable master tooling
         uses: actions/checkout@v5
         with:
@@ -125,10 +127,19 @@ jobs:
       - name: Materialize source checkpoint and baseline
         if: ${{ inputs.should_translate }}
         run: |
-          for sha in "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA"; do git fetch --no-tags origin "$sha"; done
+          for sha in "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA" "$TARGET_BASELINE_SHA"; do git fetch --no-tags origin "$sha"; done
           git merge-base --is-ancestor "$SOURCE_BASELINE_SHA" "$SOURCE_CHECKPOINT_SHA"
-          git worktree add --detach "$BASELINE_DIR" "$SOURCE_CHECKPOINT_SHA"
+          git worktree add --detach "$BASELINE_DIR" "$TARGET_BASELINE_SHA"
           bash scripts/restore-generated-state.sh --exact --ref "$SOURCE_CHECKPOINT_SHA"
+
+      - name: Materialize target baseline translation state
+        if: ${{ inputs.should_translate }}
+        run: |
+          node scripts/translation/materialize-translation-baseline.js \
+            --repository "$GITHUB_WORKSPACE" \
+            --baseline "$BASELINE_DIR" \
+            --target "$TRANSLATION_TARGET" \
+            --group "$GROUP"
           case "$TRANSLATION_TARGET" in
             ja-JP) state=.translation-cache/ja-JP.json; empty='{"files":{}}' ;;
             zh-CN-reference) state=generated/zh-CN/manifests/reference-translations.json; empty='{"schemaVersion":1,"records":[]}' ;;
@@ -228,7 +239,7 @@ jobs:
           }
           NODE
       - name: Resolve current recovery compatibility
-        if: ${{ inputs.should_translate && inputs.recovery_bundle_artifact_name != '' && steps.manifest.outputs.count != '0' }}
+        if: ${{ inputs.should_translate && (inputs.recovery_bundle_artifact_name != '' || inputs.recovery_run_id != '') && steps.manifest.outputs.count != '0' }}
         env:
           TRANSLATION_AGENT_MODEL: ${{ vars.TRANSLATION_AGENT_MODEL }}
         run: |
