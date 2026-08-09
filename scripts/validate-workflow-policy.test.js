@@ -3219,7 +3219,23 @@ test('workflow policy rejects Translation selection and ready-descriptor wiring 
 
     fs.writeFileSync(workflow, workflowSource.replace('      target_baseline_sha: ${{ needs.prepare.outputs.target_branch_sha }}\n', ''))
     assert.ok(validateWorkflowPolicies(directory).includes(
-      'translate-codex.yml: Guides preparation and workers must receive the same queue-owned target baseline',
+      'translate-codex.yml: Translation producers must receive the same queue-owned target baseline',
+    ))
+
+    fs.writeFileSync(workflow, workflowSource.replace(
+      '      source_checkpoint_sha: ${{ matrix.sourceCheckpointSha }}\n      target_baseline_sha: ${{ needs.prepare.outputs.target_branch_sha }}\n',
+      '      source_checkpoint_sha: ${{ matrix.sourceCheckpointSha }}\n',
+    ))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: Translation producers must receive the same queue-owned target baseline',
+    ))
+
+    fs.writeFileSync(workflow, workflowSource.replace(
+      '      source_checkpoint_sha: ${{ matrix.sourceCheckpointSha }}\n      target_baseline_sha: ${{ needs.prepare.outputs.target_branch_sha }}\n',
+      '      source_checkpoint_sha: ${{ matrix.sourceCheckpointSha }}\n      target_baseline_sha: ${{ matrix.sourceCheckpointSha }}\n',
+    ))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: Translation producers must receive the same queue-owned target baseline',
     ))
 
     fs.writeFileSync(workflow, workflowSource)

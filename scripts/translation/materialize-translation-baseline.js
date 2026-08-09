@@ -24,8 +24,12 @@ function safeRelative(root, relative, label) {
 }
 
 function validateRegularTree(target, label) {
-  if (!fs.existsSync(target)) return
-  const stat = fs.lstatSync(target)
+  let stat
+  try { stat = fs.lstatSync(target) }
+  catch (error) {
+    if (error.code === 'ENOENT') return
+    throw error
+  }
   if (stat.isSymbolicLink()) throw new Error(`${label} must not contain symlinks`)
   if (stat.isFile()) return
   if (!stat.isDirectory()) throw new Error(`${label} must contain only regular files and directories`)
@@ -37,37 +41,102 @@ function assertDestinationChain(root, target, label) {
   let current = root
   for (const segment of relative.split(path.sep).filter(Boolean)) {
     current = path.join(current, segment)
-    if (!fs.existsSync(current)) break
-    const stat = fs.lstatSync(current)
+    let stat
+    try { stat = fs.lstatSync(current) }
+    catch (error) {
+      if (error.code === 'ENOENT') break
+      throw error
+    }
     if (stat.isSymbolicLink() || !stat.isDirectory()) throw new Error(`${label} has an unsafe destination ancestor`)
   }
 }
 
-function copyExact(source, destination, repositoryRoot, label) {
-  validateRegularTree(source, label)
-  assertDestinationChain(repositoryRoot, destination, label)
-  fs.rmSync(destination, {recursive: true, force: true})
-  if (!fs.existsSync(source)) return false
-  fs.mkdirSync(path.dirname(destination), {recursive: true})
-  fs.cpSync(source, destination, {recursive: true, dereference: false, errorOnExist: true})
-  validateRegularTree(destination, label)
-  return true
+function canonicalizeOwnedPaths(ownedPaths) {
+  return ownedPaths.filter(relative => !ownedPaths.some(candidate => candidate !== relative && relative.startsWith(`${candidate}/`)))
 }
 
-function materializeTranslationBaseline({repositoryRoot, baselineRoot, target, group}) {
+function createParentDirectories(repositoryRoot, destination, created) {
+  const relative = path.relative(repositoryRoot, path.dirname(destination))
+  let current = repositoryRoot
+  for (const segment of relative.split(path.sep).filter(Boolean)) {
+    current = path.join(current, segment)
+    if (fs.existsSync(current)) continue
+    fs.mkdirSync(current)
+    created.push(current)
+  }
+}
+
+function removeCreatedParents(created) {
+  for (const directory of [...created].reverse()) {
+    try { fs.rmdirSync(directory) }
+    catch (error) {
+      if (!['ENOENT', 'ENOTEMPTY'].includes(error.code)) throw error
+    }
+  }
+}
+
+function materializeTranslationBaseline({repositoryRoot, baselineRoot, target, group, dependencies = {}}) {
   const repository = safeRoot(repositoryRoot, 'Translation repository')
   const baseline = safeRoot(baselineRoot, 'Translation target baseline')
   if (repository === baseline || repository.startsWith(`${baseline}${path.sep}`) || baseline.startsWith(`${repository}${path.sep}`)) {
     throw new Error('Translation repository and target baseline must not overlap')
   }
-  const ownedPaths = translationOwnedPaths(target, getContentGroup(group))
-  const materialized = []
-  const removed = []
-  for (const relative of ownedPaths) {
+  const copyTree = dependencies.copyTree || ((source, destination, options) => fs.cpSync(source, destination, options))
+  const rename = dependencies.rename || ((source, destination) => fs.renameSync(source, destination))
+  const ownedPaths = canonicalizeOwnedPaths(translationOwnedPaths(target, getContentGroup(group)))
+  const operations = ownedPaths.map((relative, index) => {
     const source = safeRelative(baseline, relative, 'Translation baseline path')
     const destination = safeRelative(repository, relative, 'Translation destination path')
-    if (copyExact(source, destination, repository, `Translation baseline ${relative}`)) materialized.push(relative)
-    else removed.push(relative)
+    const label = `Translation baseline ${relative}`
+    validateRegularTree(source, label)
+    assertDestinationChain(repository, destination, label)
+    validateRegularTree(destination, `Translation destination ${relative}`)
+    return {relative, source, destination, exists: fs.existsSync(source), index}
+  })
+  const transaction = fs.mkdtempSync(path.join(path.dirname(repository), `.${path.basename(repository)}.translation-baseline-`))
+  const stagedRoot = path.join(transaction, 'staged')
+  const backupRoot = path.join(transaction, 'backup')
+  const committed = []
+  const createdParents = []
+  const materialized = []
+  const removed = []
+  try {
+    fs.mkdirSync(stagedRoot)
+    fs.mkdirSync(backupRoot)
+    for (const operation of operations) {
+      if (!operation.exists) continue
+      operation.staged = path.join(stagedRoot, String(operation.index).padStart(4, '0'))
+      copyTree(operation.source, operation.staged, {recursive: true, dereference: false, errorOnExist: true})
+      validateRegularTree(operation.staged, `Staged Translation baseline ${operation.relative}`)
+    }
+    for (const operation of operations) {
+      const record = {operation, backupMoved: false, stagedMoved: false}
+      committed.push(record)
+      createParentDirectories(repository, operation.destination, createdParents)
+      if (fs.existsSync(operation.destination)) {
+        operation.backup = path.join(backupRoot, String(operation.index).padStart(4, '0'))
+        rename(operation.destination, operation.backup)
+        record.backupMoved = true
+      }
+      if (operation.exists) {
+        rename(operation.staged, operation.destination)
+        record.stagedMoved = true
+        materialized.push(operation.relative)
+      } else {
+        removed.push(operation.relative)
+      }
+    }
+  } catch (error) {
+    for (const record of [...committed].reverse()) {
+      if (record.stagedMoved && fs.existsSync(record.operation.destination)) {
+        fs.rmSync(record.operation.destination, {recursive: true, force: true})
+      }
+      if (record.backupMoved && fs.existsSync(record.operation.backup)) rename(record.operation.backup, record.operation.destination)
+    }
+    removeCreatedParents(createdParents)
+    throw error
+  } finally {
+    fs.rmSync(transaction, {recursive: true, force: true})
   }
   return Object.freeze({target, group, materialized: Object.freeze(materialized), removed: Object.freeze(removed)})
 }

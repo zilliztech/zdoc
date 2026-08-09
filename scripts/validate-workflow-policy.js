@@ -1265,9 +1265,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (workflow.jobs?.translate_guides_batches?.if !== "${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}") {
         errors.push(`${file}: Guides translation batch matrix must run whenever its batch count is nonzero`)
       }
-      if (workflow.jobs?.prepare_guides_batches?.with?.target_baseline_sha !== '${{ needs.prepare.outputs.target_branch_sha }}' ||
-          workflow.jobs?.translate_guides_batches?.with?.target_baseline_sha !== '${{ needs.prepare.outputs.target_branch_sha }}') {
-        errors.push(`${file}: Guides preparation and workers must receive the same queue-owned target baseline`)
+      if (['prepare_guides_batches', 'translate_guides_batches', 'translate_sdk'].some(jobName =>
+        workflow.jobs?.[jobName]?.with?.target_baseline_sha !== '${{ needs.prepare.outputs.target_branch_sha }}')) {
+        errors.push(`${file}: Translation producers must receive the same queue-owned target baseline`)
       }
 
       const guidesReady = workflow.jobs?.prepare_guides_publication_ready

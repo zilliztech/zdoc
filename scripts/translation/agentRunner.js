@@ -372,7 +372,8 @@ async function processItemWithRetry(item, options) {
       : /response must be valid JSON/i.test(failure)
         ? structuredResponseRetryFeedback(failure)
       : validatedReviewRetryFeedback(result)
-    if (attempt < maxRetries) {
+    const retryForbidden = result?.errorDetails?.code === 'CORRECTION_PROTECTED_MARKER_VIOLATION'
+    if (attempt < maxRetries && !retryForbidden) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
     } else {
       const chunkCheckpoints = serializeCompletedChunkCheckpoints(chunkCheckpoint)
@@ -611,15 +612,27 @@ async function translateAndReviewUnit({
         sourcePath,
         sourceContent: protectedSource.content,
         translatedContent: protectedDraftDocument.content,
-        sourceDocument: protectedSource.content,
-        draftDocument: protectedDraftDocument.content,
+        sourceDocument: markerFreeDocumentContext(protectedSource.content),
+        draftDocument: markerFreeDocumentContext(protectedDraftDocument.content),
         authorizedUnits: authorizedPayload,
         review: {pass: false, issues},
         locale,
         chunkContext,
       }),
     })
-    const correctedUnits = restoreSemanticUnitResponse(correctedResponse, {field: 'corrections', protectedUnits: authorizedDraftUnits, localeContract})
+    let correctedUnits
+    try {
+      correctedUnits = restoreSemanticUnitResponse(correctedResponse, {field: 'corrections', protectedUnits: authorizedDraftUnits, localeContract})
+    } catch (error) {
+      if (error?.failureCategory === 'protected_content_failed' && /protected marker/i.test(String(error.message || error))) {
+        throw categorizedError(
+          `Correction protected marker violation: ${String(error.message || error)}`,
+          'protected_content_failed',
+          {code: 'CORRECTION_PROTECTED_MARKER_VIOLATION', cause: error},
+        )
+      }
+      throw error
+    }
     const correctedById = new Map(correctedUnits.map(unit => [unit.id, unit.translation]))
     currentUnits = currentUnits.map(unit => correctedById.has(unit.id) ? {...unit, translation: correctedById.get(unit.id)} : unit)
     translatedContent = patchSemanticUnits(sourceContent, units, currentUnits)

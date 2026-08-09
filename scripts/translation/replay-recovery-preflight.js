@@ -34,10 +34,11 @@ function writeSource(repository, sourceSha, workspace, sourcePath) {
   fs.writeFileSync(destination, bytes)
 }
 
-function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, executionToolingSha, output}) {
+function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, executionToolingSha, executionModel, output}) {
   const repositoryRoot = fs.realpathSync(repository)
   const artifactRoot = fs.realpathSync(recoveryArtifact)
   if (!SHA.test(sourceSha || '') || !SHA.test(executionToolingSha || '')) throw new Error('Replay SHAs must be exact lowercase commits')
+  if (typeof executionModel !== 'string' || !executionModel.trim()) throw new Error('Replay execution model is required')
   git(repositoryRoot, ['cat-file', '-e', `${sourceSha}^{commit}`], {encoding: 'utf8'})
   const toolingCheckout = fs.realpathSync(process.cwd())
   const actualExecutionToolingSha = String(git(toolingCheckout, ['rev-parse', 'HEAD'], {encoding: 'utf8'})).trim()
@@ -71,7 +72,7 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
       manifest,
       artifacts: [artifactRoot],
       promptContractSha256: promptContractSha256(target, process.cwd()),
-      model: metadata.model,
+      model: executionModel,
       executionToolingSha: actualExecutionToolingSha,
       allowFullRetranslate: false,
     })
@@ -84,7 +85,7 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
         manifest: {...manifest, items: [{...first, targetPath: `${first.targetPath}.guard-pending`}]},
         artifacts: [artifactRoot],
         promptContractSha256: promptContractSha256(target, process.cwd()),
-        model: metadata.model,
+        model: executionModel,
         executionToolingSha: actualExecutionToolingSha,
         allowFullRetranslate: false,
       })
@@ -100,6 +101,8 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
       artifactToolingSha: metadata.toolingSha,
       expectedExecutionToolingSha: executionToolingSha,
       executionToolingSha: actualExecutionToolingSha,
+      artifactModel: metadata.model,
+      executionModel,
       candidateCount: analysis.candidateCount,
       recoveredCount: analysis.recoveredCount,
       pendingCount: analysis.pendingCount,
@@ -120,7 +123,7 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
 }
 
 function parseArgs(argv) {
-  const allowed = new Set(['--repository', '--source-sha', '--recovery-artifact', '--execution-tooling-sha', '--output'])
+  const allowed = new Set(['--repository', '--source-sha', '--recovery-artifact', '--execution-tooling-sha', '--execution-model', '--output'])
   const values = new Map()
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]
@@ -139,6 +142,7 @@ function main(argv = process.argv.slice(2)) {
     sourceSha: args.get('--source-sha'),
     recoveryArtifact: args.get('--recovery-artifact'),
     executionToolingSha: args.get('--execution-tooling-sha'),
+    executionModel: args.get('--execution-model'),
     output: args.get('--output'),
   })
 }

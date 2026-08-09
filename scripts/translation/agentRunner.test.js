@@ -212,6 +212,7 @@ function testMessageBuildersSelectPromptsFromTarget() {
   })[0].content
   assert.match(chineseCorrectionPrompt, /"corrections"/i)
   assert.match(chineseCorrectionPrompt, /ordinary English.*technical identifier.*translate/is)
+  assert.match(chineseCorrectionPrompt, /marker-free source\/draft document context/is)
   assert.match(buildCorrectionMessages({
     target: 'ja-JP',
     sourcePath: 'content/en/guides/tutorials/test.md',
@@ -396,6 +397,65 @@ async function testCorrectionRunsWhenReviewFails() {
     const output = fs.readFileSync(path.join(siteDir, targetPath), 'utf8')
     assert.equal(output.includes('client.search()'), true)
     assert.match(output, /# 使用方法/)
+  })
+}
+
+async function testCorrectionContextCannotLeakCrossUnitProtectedMarkersOrConsumeFileRetry() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/python/correction-marker-boundary.md'
+    const targetPath = 'content/zh-CN/reference/api/python/correction-marker-boundary.md'
+    write(path.join(siteDir, sourcePath), 'Use `alpha`.\n\nUse `beta`.\n')
+    let fileAttempts = 0
+    let translationCalls = 0
+    let correctionCalls = 0
+    let protectedMarkers
+    const item = {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'marker-boundary', locale: 'zh-CN', type: 'reference'}
+    const result = await processItemWithRetry(item, {
+      maxRetries: 1,
+      log: {warn: () => {}},
+      processItem: async value => {
+        fileAttempts += 1
+        return processManifestItem({
+          siteDir,
+          item: value,
+          maxReviewRounds: 1,
+          validate: async () => [],
+          callModel: async ({agent, messages}) => {
+            if (agent === 'translation') {
+              translationCalls += 1
+              const units = taggedJsonContent(messages, 'semantic_units')
+              protectedMarkers = units.map(unit => unit.text.match(/<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->/)[0])
+              return semanticTranslationResponse(messages, text => text.replace('Use ', '使用'))
+            }
+            if (agent === 'review') {
+              const sourceUnits = taggedJsonContent(messages, 'source_units')
+              const draftUnits = taggedJsonContent(messages, 'draft_units')
+              return JSON.stringify({pass: false, issues: [{
+                severity: 'medium', type: 'locale_style', location: sourceUnits[0].id,
+                source_quote: sourceUnits[0].text, draft_quote: draftUnits[0].text,
+                comment: 'Apply a local correction to the first unit.',
+              }]})
+            }
+            correctionCalls += 1
+            assert.doesNotMatch(taggedMessageContent(messages, 'source_document'), /ZDOC-PROTECTED/)
+            assert.doesNotMatch(taggedMessageContent(messages, 'draft_document'), /ZDOC-PROTECTED/)
+            const authorized = taggedJsonContent(messages, 'authorized_units')
+            assert.deepEqual(authorized.map(unit => unit.id), ['document.paragraph.0001'])
+            assert.match(JSON.stringify(authorized), new RegExp(protectedMarkers[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
+            assert.doesNotMatch(JSON.stringify(authorized), new RegExp(protectedMarkers[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
+            return JSON.stringify({corrections: [{id: authorized[0].id, text: `使用 ${protectedMarkers[1]}。`}]})
+          },
+        })
+      },
+    })
+
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'protected_content_failed')
+    assert.equal(result.errorDetails.code, 'CORRECTION_PROTECTED_MARKER_VIOLATION')
+    assert.equal(result.attempts, 1)
+    assert.equal(fileAttempts, 1)
+    assert.equal(translationCalls, 1)
+    assert.equal(correctionCalls, 1)
   })
 }
 
@@ -2548,6 +2608,7 @@ async function run() {
   testValidatesExactManifestTargetContract()
   await testSemanticUnitsUseCoherentContextAndStableIds()
   await testCorrectionRunsWhenReviewFails()
+  await testCorrectionContextCannotLeakCrossUnitProtectedMarkersOrConsumeFileRetry()
   await testRestSpecsUseStructuredLocaleTranslation()
   await testRestSpecReviewFailureDoesNotWriteTarget()
   await testRestReviewerContractConflictFailsStructurally()

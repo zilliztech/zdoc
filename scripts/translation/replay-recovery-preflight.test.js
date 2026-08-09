@@ -8,6 +8,7 @@ const {spawnSync} = require('node:child_process')
 const test = require('node:test')
 
 const {createRecoveryArtifact, promptContractSha256, sha256} = require('./recovery-artifact')
+const {parseArgs} = require('./replay-recovery-preflight')
 
 function git(repository, args) {
   const result = spawnSync('git', ['-C', repository, ...args], {encoding: 'utf8'})
@@ -52,6 +53,7 @@ test('replays a retained recovery artifact locally without provider invocation a
     '--source-sha', sourceSha,
     '--recovery-artifact', artifactDir,
     '--execution-tooling-sha', sourceSha,
+    '--execution-model', 'fixture-model',
     '--output', evidence,
   ], {encoding: 'utf8'})
 
@@ -69,10 +71,15 @@ test('replays a retained recovery artifact locally without provider invocation a
     '--source-sha', sourceSha,
     '--recovery-artifact', artifactDir,
     '--execution-tooling-sha', 'f'.repeat(40),
+    '--execution-model', 'fixture-model',
     '--output', path.join(root, 'mismatch-evidence.json'),
   ], {encoding: 'utf8'})
   assert.notEqual(mismatch.status, 0)
   assert.match(mismatch.stderr, /execution tooling checkout HEAD mismatch/i)
+  assert.throws(() => parseArgs([
+    '--repository', process.cwd(), '--source-sha', sourceSha, '--recovery-artifact', artifactDir,
+    '--execution-tooling-sha', sourceSha, '--output', evidence,
+  ]), /--execution-model is required/)
 })
 
 test('retains exact current-contract rejection reasons in replay evidence', t => {
@@ -133,6 +140,7 @@ test('retains exact current-contract rejection reasons in replay evidence', t =>
     '--source-sha', sourceSha,
     '--recovery-artifact', artifactDir,
     '--execution-tooling-sha', executionToolingSha,
+    '--execution-model', 'current-model',
     '--output', evidence,
   ], {encoding: 'utf8'})
 
@@ -144,6 +152,9 @@ test('retains exact current-contract rejection reasons in replay evidence', t =>
   assert.equal(replay.rejectedCount, 1)
   assert.equal(replay.modelInvocationCount, 0)
   assert.equal(replay.executionToolingSha, executionToolingSha)
+  assert.equal(replay.artifactModel, 'fixture-model')
+  assert.equal(replay.executionModel, 'current-model')
+  assert.equal(replay.compatibilityMode, 'revalidated')
   assert.deepEqual(replay.rejections.map(item => item.sourcePath), [records[1].sourcePath])
   assert.match(replay.rejections[0].reason, /^revalidation failed: locale: line 1 containing endpoint:/)
   assert.match(replay.rejections[0].reason, /requires endpoint to use Endpoint/)
