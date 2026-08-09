@@ -215,11 +215,19 @@ async function createProviderCall(agentConfigs, options = {}) {
         })
         const data = await res.json().catch(() => ({}))
         const content = data?.choices?.[0]?.message?.content
-        if (!res.ok || !content) {
+        if (!res.ok) {
           const error = new Error(`${agent} agent failed with HTTP ${res.status}: ${JSON.stringify(data).slice(0, 500)}`)
           error.status = res.status
-          error.failureCategory = res.status === 408 ? 'provider_timeout' : 'provider_transport'
-          error.code = res.status === 408 ? 'PROVIDER_TIMEOUT' : 'PROVIDER_TRANSPORT'
+          const retryableTransport = [409, 425, 429, 500, 502, 503, 504].includes(res.status)
+          error.failureCategory = res.status === 408 ? 'provider_timeout' : retryableTransport ? 'provider_transport' : 'unknown'
+          error.code = res.status === 408 ? 'PROVIDER_TIMEOUT' : retryableTransport ? 'PROVIDER_TRANSPORT' : 'PROVIDER_HTTP_ERROR'
+          throw error
+        }
+        if (!content) {
+          const error = new Error(`${agent} agent returned no content with HTTP ${res.status}: ${JSON.stringify(data).slice(0, 500)}`)
+          error.status = res.status
+          error.failureCategory = 'provider_transport'
+          error.code = 'PROVIDER_TRANSPORT'
           throw error
         }
         return content.trim()
@@ -244,9 +252,9 @@ async function createProviderCall(agentConfigs, options = {}) {
   }
 }
 
-async function withTimeout(operation, timeoutMs, message) {
+async function withTimeout(operation, timeoutMs, message, details = {}) {
   const controller = new AbortController()
-  const timeoutError = categorizedError(message, 'provider_timeout', {code: 'CHUNK_TIMEOUT', timeoutMs})
+  const timeoutError = categorizedError(message, 'provider_timeout', {code: details.code || 'CHUNK_TIMEOUT', timeoutMs})
   const promise = typeof operation === 'function' ? Promise.resolve().then(() => operation(controller.signal)) : Promise.resolve(operation)
   let timedOut = false
   let timeout
@@ -317,10 +325,22 @@ async function processItemWithRetry(item, options) {
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     let result
     try {
-      result = await options.processItem(item, attempt, retryFeedback, {
+      const executeAttempt = signal => options.processItem(item, attempt, retryFeedback, {
         chunkCheckpoint,
-        onChunkCompleted: checkpoint => chunkCheckpoint.set(checkpoint.index, checkpoint),
+        onChunkCompleted: checkpoint => {
+          if (signal?.aborted) throw signal.reason
+          chunkCheckpoint.set(checkpoint.index, checkpoint)
+        },
+        signal,
       })
+      result = options.fileTimeoutMs > 0
+        ? await withTimeout(
+          executeAttempt,
+          options.fileTimeoutMs,
+          `Timed out translating ${item.sourcePath} after ${options.fileTimeoutMs}ms`,
+          {code: 'FILE_TIMEOUT'},
+        )
+        : await executeAttempt(undefined)
     } catch (error) {
       result = {
         ...stripInternalRecoveryFields(item),
@@ -617,9 +637,9 @@ async function processManifestItem({
   chunkMaxChars = DEFAULT_MAX_CHARS,
   chunkCheckpoint = new Map(),
   onChunkCompleted = null,
-  chunkTimeoutMs = 0,
   validate = validateTranslatedContent,
   retryFeedback = null,
+  signal,
 }) {
   if (item.sourcePath.includes('#')) throw new Error(`Translation source path must be repository-relative: ${item.sourcePath}`)
   const absSourcePath = path.join(siteDir, item.sourcePath)
@@ -639,6 +659,7 @@ async function processManifestItem({
       maxReviewRounds,
       chunkContext: null,
       retryFeedback,
+      signal,
     })
     if (!shell.review.pass) return failedReviewResult(item, shell.review)
     const specResult = await translateRestSpecs({
@@ -649,6 +670,7 @@ async function processManifestItem({
       callModel,
       maxReviewRounds,
       retryFeedback,
+      signal,
     })
     if (!specResult.review.pass) {
       return failedReviewResult(item, specResult.review, {
@@ -661,7 +683,9 @@ async function processManifestItem({
       suffix: restDocument.suffix,
       locale: item.locale,
     }))
+    signal?.throwIfAborted()
     const validationErrors = await validate(translatedContent)
+    signal?.throwIfAborted()
     if (validationErrors.length) return { ...item, status: 'failed', review: shell.review, validationErrors, restSpecEntries: specResult.translatedCount }
     fs.mkdirSync(path.dirname(absTargetPath), { recursive: true })
     fs.writeFileSync(absTargetPath, translatedContent.endsWith('\n') ? translatedContent : `${translatedContent}\n`, 'utf8')
@@ -683,6 +707,7 @@ async function processManifestItem({
   let lastReview = { pass: true, issues: [] }
 
   for (const chunk of chunks) {
+    signal?.throwIfAborted()
     const chunkContext = chunks.length > 1
       ? {
           index: chunk.index,
@@ -698,29 +723,19 @@ async function processManifestItem({
       unit = cached
       reusedChunks += 1
     } else {
-      unit = chunkTimeoutMs > 0
-        ? await withTimeout(signal => translateAndReviewUnit({
-          target: item.target,
-          sourcePath: item.sourcePath,
-          sourceContent: chunk.source,
-          locale: item.locale,
-          callModel,
-          maxReviewRounds,
-          chunkContext,
-          retryFeedback,
-          signal,
-        }), chunkTimeoutMs, `Timed out translating chunk ${chunk.index + 1}/${chunks.length} of ${item.sourcePath} after ${chunkTimeoutMs}ms`)
-        : await translateAndReviewUnit({
-          target: item.target,
-          sourcePath: item.sourcePath,
-          sourceContent: chunk.source,
-          locale: item.locale,
-          callModel,
-          maxReviewRounds,
-          chunkContext,
-          retryFeedback,
-        })
+      unit = await translateAndReviewUnit({
+        target: item.target,
+        sourcePath: item.sourcePath,
+        sourceContent: chunk.source,
+        locale: item.locale,
+        callModel,
+        maxReviewRounds,
+        chunkContext,
+        retryFeedback,
+        signal,
+      })
     }
+    signal?.throwIfAborted()
     lastReview = unit.review
     if (!unit.review.pass) {
       return failedReviewResult(item, unit.review, {
@@ -741,14 +756,21 @@ async function processManifestItem({
     previousTranslatedHeading = extractFirstHeading(unit.translatedContent) || previousTranslatedHeading
   }
 
-  const translatedContent = await applyMdxPatches(stabilizeBareUrlFormatting(
-    translatedChunks.join(''),
-  ), { repairInvalidMdxEsmProse: true })
-
-  const validationErrors = [
-    ...await validate(translatedContent),
-  ]
+  let translatedContent
+  let validationErrors
+  try {
+    translatedContent = await applyMdxPatches(stabilizeBareUrlFormatting(
+      translatedChunks.join(''),
+    ), { repairInvalidMdxEsmProse: true })
+    signal?.throwIfAborted()
+    validationErrors = [...await validate(translatedContent)]
+    signal?.throwIfAborted()
+  } catch (error) {
+    chunkCheckpoint.clear()
+    throw error
+  }
   if (validationErrors.length) {
+    chunkCheckpoint.clear()
     return {
       ...item,
       status: 'failed',
@@ -1311,6 +1333,7 @@ async function main() {
           maxRetries: fileRetries,
           log: console,
           initialChunkCheckpoints: item.recoveryChunkCheckpoints,
+          fileTimeoutMs,
           processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
               siteDir,
               item: targetItem,
@@ -1320,7 +1343,7 @@ async function main() {
               chunkMaxChars: chunkLimits.maxChars,
               chunkCheckpoint: retryContext.chunkCheckpoint,
               onChunkCompleted: retryContext.onChunkCompleted,
-              chunkTimeoutMs: fileTimeoutMs,
+              signal: retryContext.signal,
               retryFeedback,
             }),
         })
