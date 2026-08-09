@@ -195,6 +195,32 @@ test('reports one unexpected protected entry without cascading positional mismat
   assert.doesNotMatch(errors[0], /fenced_code_block|inline_code/i)
 })
 
+test('protects HTML code element contents from locale matching', () => {
+  const source = 'Set <code>collection.ttl.seconds</code> for the collection.\n'
+  const protectedInput = protectTranslationInput(source)
+  const inline = protectedInput.manifest.entries.filter(entry => entry.category === 'inline_code')
+
+  assert.deepEqual(inline.map(entry => entry.original), ['<code>collection.ttl.seconds</code>'])
+  assert.doesNotMatch(protectedInput.content, /collection\.ttl\.seconds/)
+  assert.equal(
+    restoreProtectedContent(protectedInput.content.replace('for the collection', '用于コレクション'), protectedInput.manifest),
+    'Set <code>collection.ttl.seconds</code> 用于コレクション.\n',
+  )
+})
+
+test('reports actionable path and position for invented inline code', () => {
+  const errors = validateProtectedContent(
+    'Set radius in the request.\n',
+    '在请求中设置 `radius`。\n',
+    {sourcePath: 'content/en/reference/api/restful/hybrid-search-v2.mdx'},
+  )
+
+  assert.equal(errors.length, 1)
+  assert.match(errors[0], /content\/en\/reference\/api\/restful\/hybrid-search-v2\.mdx/)
+  assert.match(errors[0], /line 1, column \d+, offset \d+/i)
+  assert.match(errors[0], /`radius`/)
+})
+
 test('protects a multiline ESM import as one byte-identical statement', () => {
   const source = [
     'import {',

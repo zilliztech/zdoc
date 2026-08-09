@@ -128,6 +128,18 @@ test('normalizes lowercase Chinese product concepts to their official English fo
   assert.deepEqual(validateLocaleContractDraft('Create a collection.', '创建一个 Collection。', contract), [])
 })
 
+test('excludes the retained garbage collection fixture without weakening product Collection', () => {
+  const contract = loadLocaleContract('zh-CN-reference')
+  const source = 'Garbage collection releases snapshot data. Create a collection after cleanup.'
+  const valid = '垃圾回收会释放快照数据。清理后创建一个 Collection。'
+
+  assert.deepEqual(validateLocaleContractDraft(source, valid, contract), [])
+  const issues = validateLocaleContractDraft(source, '垃圾回收会释放快照数据。清理后创建一个集合。', contract)
+  assert.equal(issues.length, 1)
+  assert.equal(issues[0].source_quote, 'collection')
+  assert.match(issues[0].comment, /Collection/)
+})
+
 test('matches mandatory ASCII terms as standalone concepts, not word substrings', () => {
   const contract = loadLocaleContract('zh-CN-reference')
 

@@ -35,7 +35,7 @@ function fixture() {
   return {siteDir, artifactDir, sourcePath, targetPath, source, target, candidate, identity};
 }
 
-test('restores an unchanged source file across commit, tooling, and batch changes', () => {
+test('restores an unchanged source file across commit, tooling, and batch changes after current-contract revalidation', () => {
   const value = fixture();
   createRecoveryArtifact({
     siteDir: value.siteDir,
@@ -45,17 +45,61 @@ test('restores an unchanged source file across commit, tooling, and batch change
   });
   fs.rmSync(path.join(value.siteDir, value.targetPath));
 
+  const revalidations = [];
   const restored = restoreRecoveryFiles({
     siteDir: value.siteDir,
     candidates: [value.candidate],
     artifacts: [value.artifactDir],
     identity: {...value.identity, sourceSha: 'd'.repeat(40), toolingSha: 'e'.repeat(40), batchIndex: 7, batchCount: 9},
+    revalidate: input => {
+      revalidations.push(input);
+      return [];
+    },
   });
 
   assert.equal(restored.restored.length, 1);
   assert.equal(restored.pending.length, 0);
   assert.equal(restored.restored[0].recovered, true);
+  assert.equal(restored.restored[0].recoveryCompatibility, 'revalidated');
+  assert.equal(revalidations.length, 1);
   assert.equal(fs.readFileSync(path.join(value.siteDir, value.targetPath), 'utf8'), value.target);
+});
+
+test('records structured terminal failures while keeping translated payloads recoverable', () => {
+  const value = fixture();
+  const created = createRecoveryArtifact({
+    siteDir: value.siteDir,
+    outputDir: value.artifactDir,
+    results: [
+      {...value.candidate, status: 'translated'},
+      {...value.candidate, sourcePath: 'content/en/reference/api/python/failed.md', targetPath: 'content/zh-CN/reference/api/python/failed.md', status: 'failed', failureCategory: 'provider_timeout', error: 'timed out', errorDetails: {name: 'ProviderError', status: 408, code: 'PROVIDER_TIMEOUT', ignored: {secret: true}, cause: {name: 'ProviderCause', status: 599, code: 'INNER_CODE', failureCategory: 'provider_transport', ignored: 'no'}}, retryFailures: [{attempt: 1, category: 'provider_timeout', error: 'timed out'}]},
+    ],
+    identity: value.identity,
+  });
+
+  assert.equal(created.metadata.schemaVersion, 2);
+  assert.deepEqual(created.metadata.failureCounts, {provider_timeout: 1});
+  assert.equal(created.failures[0].failureCategory, 'provider_timeout');
+  assert.deepEqual(created.failures[0].errorDetails, {
+    name: 'ProviderError', status: 408, code: 'PROVIDER_TIMEOUT',
+    cause: {name: 'ProviderCause', status: 599, code: 'INNER_CODE', failureCategory: 'provider_transport'},
+  });
+  assert.deepEqual(created.failures[0].retryFailures.map(item => item.category), ['provider_timeout']);
+});
+
+test('reads retained schema-v1 artifacts', () => {
+  const value = fixture();
+  createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [{...value.candidate, status: 'translated'}], identity: value.identity});
+  const metadataPath = path.join(value.artifactDir, 'metadata.json');
+  const manifestPath = path.join(value.artifactDir, 'manifest.json');
+  const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  write(value.artifactDir, 'metadata.json', `${JSON.stringify({...metadata, schemaVersion: 1, failureCounts: undefined})}\n`);
+  write(value.artifactDir, 'manifest.json', `${JSON.stringify({schemaVersion: 1, files: manifest.files})}\n`);
+  fs.rmSync(path.join(value.siteDir, value.targetPath));
+
+  const restored = restoreRecoveryFiles({siteDir: value.siteDir, candidates: [value.candidate], artifacts: [value.artifactDir], identity: value.identity});
+  assert.equal(restored.restored.length, 1);
 });
 
 test('derives a stable target-specific prompt contract hash', () => {

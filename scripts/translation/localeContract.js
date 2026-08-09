@@ -5,6 +5,7 @@ const path = require('node:path')
 
 const ROOT_KEYS = ['schemaVersion', 'contractId', 'target', 'locale', 'styleRules', 'mandatoryTerms', 'forbiddenTranslations', 'doNotTranslate', 'contextualTerms', 'examples']
 const TERM_KEYS = ['source', 'target', 'caseSensitive']
+const CONTEXT_EXCLUSION_TERM_KEYS = [...TERM_KEYS, 'excludedSourceContexts']
 const CONTEXTUAL_TERM_KEYS = ['source', 'target', 'caseSensitive', 'sourceContexts']
 const FORBIDDEN_KEYS = ['source', 'targets']
 const EXAMPLE_KEYS = ['id', 'source', 'bad', 'good', 'explanation']
@@ -64,10 +65,23 @@ function validateLocaleContract(value, expectedTarget = value?.target) {
   if (!Array.isArray(value.mandatoryTerms) || !value.mandatoryTerms.length) throw new Error('Locale contract mandatoryTerms must be a non-empty array')
   const mandatorySources = new Set()
   for (const [index, term] of value.mandatoryTerms.entries()) {
-    exactKeys(term, TERM_KEYS, `Locale contract mandatoryTerms[${index}]`)
+    const keys = Object.keys(term).sort()
+    const baseKeys = [...TERM_KEYS].sort()
+    const exclusionKeys = [...CONTEXT_EXCLUSION_TERM_KEYS].sort()
+    if (JSON.stringify(keys) !== JSON.stringify(baseKeys) && JSON.stringify(keys) !== JSON.stringify(exclusionKeys)) {
+      throw new Error(`Locale contract mandatoryTerms[${index}] must use the exact schema; unexpected or missing fields`)
+    }
     nonEmptyString(term.source, `Locale contract mandatoryTerms[${index}].source`)
     nonEmptyString(term.target, `Locale contract mandatoryTerms[${index}].target`)
     if (typeof term.caseSensitive !== 'boolean') throw new Error(`Locale contract mandatoryTerms[${index}].caseSensitive must be boolean`)
+    if (Object.hasOwn(term, 'excludedSourceContexts')) {
+      stringArray(term.excludedSourceContexts, `Locale contract mandatoryTerms[${index}].excludedSourceContexts`)
+      for (const context of term.excludedSourceContexts) {
+        const haystack = term.caseSensitive ? context : context.toLocaleLowerCase('en-US')
+        const needle = term.caseSensitive ? term.source : term.source.toLocaleLowerCase('en-US')
+        if (!haystack.includes(needle)) throw new Error(`Locale contract mandatoryTerms[${index}] excludedSourceContexts must contain ${term.source}`)
+      }
+    }
     const key = `${term.caseSensitive}:${term.source}`
     if (mandatorySources.has(key)) throw new Error(`Locale contract contains duplicate mandatory term ${term.source}`)
     mandatorySources.add(key)
@@ -153,7 +167,20 @@ function mandatoryTermOccurrences(content, value, caseSensitive) {
 
 function sourceTermOccurrences(content, term, contract) {
   const hasForbiddenTranslations = contract.forbiddenTranslations.some(item => item.source === term.source)
-  return mandatoryTermOccurrences(content, term.source, term.caseSensitive && !hasForbiddenTranslations)
+  const caseSensitive = term.caseSensitive && !hasForbiddenTranslations
+  const occurrences = mandatoryTermOccurrences(content, term.source, caseSensitive)
+  if (!term.excludedSourceContexts?.length) return occurrences
+  const source = String(content)
+  const haystack = caseSensitive ? source : source.toLocaleLowerCase('en-US')
+  const excludedRanges = term.excludedSourceContexts.flatMap(context => {
+    const needle = caseSensitive ? context : context.toLocaleLowerCase('en-US')
+    const ranges = []
+    for (let index = haystack.indexOf(needle); index !== -1; index = haystack.indexOf(needle, index + needle.length)) {
+      ranges.push({start: index, end: index + needle.length})
+    }
+    return ranges
+  })
+  return occurrences.filter(occurrence => !excludedRanges.some(range => occurrence.index >= range.start && occurrence.index < range.end))
 }
 
 function applyDeterministicLocaleRepairs(sourceContent, draftContent, contract) {

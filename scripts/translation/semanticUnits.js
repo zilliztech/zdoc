@@ -285,6 +285,13 @@ function parseSemanticUnitResponse(modelText, {field, expectedUnits}) {
   })
 }
 
+function protectedContentError(message, cause) {
+  const error = new Error(message, cause ? {cause} : undefined)
+  error.failureCategory = 'protected_content_failed'
+  error.code = 'PROTECTED_CONTENT_FAILED'
+  return error
+}
+
 function restoreSemanticUnitResponse(modelText, {field, protectedUnits, localeContract}) {
   const parsed = parseSemanticUnitResponse(modelText, {field, expectedUnits: protectedUnits})
   const byId = new Map(parsed.map(entry => [entry.id, entry.text]))
@@ -292,9 +299,14 @@ function restoreSemanticUnitResponse(modelText, {field, protectedUnits, localeCo
     const modelTranslation = localeContract
       ? applyDeterministicLocaleRepairs(unit.protection.content, byId.get(unit.id), localeContract)
       : byId.get(unit.id)
-    const translation = restoreProtectedContent(modelTranslation, unit.protection.manifest)
+    let translation
+    try {
+      translation = restoreProtectedContent(modelTranslation, unit.protection.manifest)
+    } catch (error) {
+      throw protectedContentError(`Semantic unit ${unit.id} failed protected marker validation: ${error.message}`, error)
+    }
     const errors = validateProtectedContent(unit.protectedText, translation)
-    if (errors.length) throw new Error(`Semantic unit ${unit.id} changed protected content: ${errors.join('; ')}`)
+    if (errors.length) throw protectedContentError(`Semantic unit ${unit.id} changed protected content: ${errors.join('; ')}`)
     const {protection, protectedText, ...restoredUnit} = unit
     return {...restoredUnit, translation}
   }))

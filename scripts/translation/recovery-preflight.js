@@ -9,6 +9,7 @@ const {
   promptContractSha256,
   restoreRecoveryFiles,
 } = require('./recovery-artifact')
+const {validateRecoveryCandidate} = require('./recoveryValidation')
 
 const SHA = /^[0-9a-f]{40}$/u
 const SHA256 = /^[0-9a-f]{64}$/u
@@ -39,7 +40,7 @@ function validateInput({manifest, promptContractSha256: contract, model, executi
   }
 }
 
-function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContractSha256: contract, model, executionToolingSha, allowFullRetranslate}) {
+function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContractSha256: contract, model, executionToolingSha, allowFullRetranslate, chunkOptions}) {
   validateInput({manifest, promptContractSha256: contract, model, executionToolingSha, allowFullRetranslate})
   if (!Array.isArray(artifacts) || !artifacts.length) throw new Error('Authenticated recovery artifacts are required for compatibility preflight')
   const recovery = restoreRecoveryFiles({
@@ -54,6 +55,8 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
       sourceSha: manifest.sourceCheckpointSha,
       toolingSha: executionToolingSha,
     },
+    revalidate: input => validateRecoveryCandidate({...input, target: manifest.target, locale: manifest.locale}),
+    chunkOptions,
   })
   const restored = recovery.restored.map(result => ({
     sourcePath: result.sourcePath,
@@ -61,11 +64,13 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     sourceHash: result.sourceHash,
     targetHash: result.recoveryTargetHash,
     targetSize: result.recoveryTargetSize,
+    compatibility: result.recoveryCompatibility || 'strict',
   }))
   const pending = recovery.pending.map(candidate => ({
     sourcePath: candidate.sourcePath,
     targetPath: candidate.targetPath,
     sourceHash: candidate.sourceHash,
+    ...(candidate.recoveryChunkResume ? {chunkResume: candidate.recoveryChunkResume} : {}),
   }))
   const rejected = recovery.rejected.map(candidate => ({
     sourcePath: candidate.sourcePath,
@@ -73,9 +78,13 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     reason: candidate.recoveryReason,
   }))
   const candidateCount = manifest.items.length
-  const fullRetranslation = candidateCount > 0 && restored.length === 0 && pending.length === candidateCount
+  const resumableFileCount = pending.filter(candidate => candidate.chunkResume?.recoveredChunkCount > 0).length
+  const recoveredChunkCount = pending.reduce((total, candidate) => total + (candidate.chunkResume?.recoveredChunkCount || 0), 0)
+  const rejectedChunks = recovery.rejectedChunks || []
+  const rejectedChunkCount = rejectedChunks.length
+  const fullRetranslation = candidateCount > 0 && restored.length === 0 && pending.length === candidateCount && resumableFileCount === 0
   const analysis = Object.freeze({
-    schemaVersion: 1,
+    schemaVersion: 2,
     kind: 'translation-recovery-analysis',
     target: manifest.target,
     locale: manifest.locale,
@@ -88,10 +97,17 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     recoveredCount: restored.length,
     pendingCount: pending.length,
     rejectedCount: rejected.length,
+    resumableFileCount,
+    recoveredChunkCount,
+    rejectedChunkCount,
     fullRetranslation,
+    compatibilityMode: restored.some(item => item.compatibility === 'revalidated') || pending.some(item => item.chunkResume?.compatibility === 'revalidated')
+      ? 'revalidated'
+      : restored.length || resumableFileCount ? 'strict' : 'none',
     restored,
     pending,
     rejected,
+    rejectedChunks,
   })
   if (fullRetranslation && !allowFullRetranslate) {
     const error = new Error('Recovery compatibility would require full retranslation; explicit advanced authorization is required')
@@ -117,6 +133,9 @@ function appendBlockedSummary(file, analysis) {
     `- Recovered now: ${analysis.recoveredCount}`,
     `- Pending provider work: ${analysis.pendingCount}`,
     `- Rejected retained records: ${analysis.rejectedCount}`,
+    `- Resumable files: ${analysis.resumableFileCount}`,
+    `- Recovered chunks: ${analysis.recoveredChunkCount}`,
+    `- Rejected chunks: ${analysis.rejectedChunkCount}`,
     '- Full retranslation: true',
     '- Authorization: missing',
     '', '### Compatibility reasons', ...reasons, '',

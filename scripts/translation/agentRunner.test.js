@@ -27,6 +27,7 @@ const {
 } = require('./agentRunner')
 const { chunkDocument } = require('./chunker')
 const { REVIEW_RESPONSE_JSON_SCHEMA } = require('./reviewEvidence')
+const { createRecoveryArtifact } = require('./recovery-artifact')
 const { buildTranslationCandidates } = require('../../packages/docs-tooling/src/translation/candidates.ts')
 const { validateReferenceTranslation } = require('../../packages/docs-tooling/src/validation/translation.ts')
 
@@ -139,17 +140,17 @@ function testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes
     }
     const identity = {promptContractSha256: 'b'.repeat(64), model: 'translation-model', toolingSha: 'c'.repeat(40)}
     const analysis = {
-      schemaVersion: 1, kind: 'translation-recovery-analysis', target: manifest.target, locale: manifest.locale, group: manifest.group,
+      schemaVersion: 2, kind: 'translation-recovery-analysis', target: manifest.target, locale: manifest.locale, group: manifest.group,
       sourceCheckpointSha: manifest.sourceCheckpointSha, promptContractSha256: identity.promptContractSha256, model: identity.model,
       executionToolingSha: identity.toolingSha, candidateCount: 1, recoveredCount: 1, pendingCount: 0, rejectedCount: 0,
-      fullRetranslation: false,
-      restored: [{sourcePath, targetPath, sourceHash: sha256(source), targetHash: sha256(target), targetSize: Buffer.byteLength(target)}],
+      fullRetranslation: false, compatibilityMode: 'revalidated',
+      restored: [{sourcePath, targetPath, sourceHash: sha256(source), targetHash: sha256(target), targetSize: Buffer.byteLength(target), compatibility: 'revalidated'}],
       pending: [], rejected: [],
     }
     const file = path.join(siteDir, 'recovery-analysis.json')
     fs.writeFileSync(file, JSON.stringify(analysis))
     const loaded = loadRecoveryAnalysis({file, manifest, siteDir, identity})
-    assert.deepEqual(loaded.restored, [{...manifest.items[0], status: 'translated', recovered: true}])
+    assert.deepEqual(loaded.restored, [{...manifest.items[0], status: 'translated', recovered: true, recoveryCompatibility: 'revalidated'}])
     write(path.join(siteDir, targetPath), '# tampered\n')
     assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /payload changed after preflight/i)
   })
@@ -351,7 +352,9 @@ async function testCorrectionRunsWhenReviewFails() {
     write(path.join(siteDir, sourcePath), '---\ntitle: Test\n---\n# Hello\n\nUse `client.search()`.\n')
 
     const calls = []
-    const callModel = async ({ agent, messages }) => {
+    const attempt = new AbortController()
+    const callModel = async ({ agent, messages, signal }) => {
+      assert.equal(signal, attempt.signal)
       calls.push(agent)
       if (agent === 'translation') return semanticTranslationResponse(messages, text => text
         .replace('Test', 'テスト')
@@ -382,6 +385,7 @@ async function testCorrectionRunsWhenReviewFails() {
         type: 'docs',
       },
       callModel,
+      signal: attempt.signal,
       maxReviewRounds: 2,
       validate: async () => [],
     })
@@ -464,7 +468,9 @@ async function testRestSpecsUseStructuredLocaleTranslation() {
     write(path.join(siteDir, sourcePath), '# Search\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"summary":"Search","description":"Search a collection.","example":{"message":"User has not authenticated"}}\nexport const endpoint = "/v1/search"\nexport const method = "post"\n')
     const specCalls = []
     let specReviewRound = 0
-    const callModel = async ({ agent, messages }) => {
+    const attempt = new AbortController()
+    const callModel = async ({ agent, messages, signal }) => {
+      assert.equal(signal, attempt.signal)
       if (messages[0].content.includes('structured Zilliz Cloud REST API')) {
         specCalls.push(agent)
         return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({
@@ -499,6 +505,7 @@ async function testRestSpecsUseStructuredLocaleTranslation() {
       siteDir,
       item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: 'rest', locale: 'ja-JP', type: 'reference' },
       callModel,
+      signal: attempt.signal,
       validate: async () => [],
     })
     assert.equal(result.status, 'translated')
@@ -534,7 +541,50 @@ async function testRestSpecReviewFailureDoesNotWriteTarget() {
     })
 
     assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'locale_contract_failed')
+    assert.equal(result.review.localeContractIssues.length, 1)
     assert.match(result.review.issues[0].comment, /Compaction/)
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
+  })
+}
+
+async function testRestReviewerContractConflictFailsStructurally() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/restful/restful/v1/compaction-conflict.mdx'
+    const targetPath = 'content/zh-CN/reference/api/restful/restful/v1/compaction-conflict.mdx'
+    write(path.join(siteDir, sourcePath), '# Compaction\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"description":"Compaction plans merge segments."}\nexport const endpoint = "/v1/compaction"\nexport const method = "post"\n')
+    const calls = []
+    const result = await processManifestItem({
+      siteDir,
+      item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'rest-compaction-conflict', locale: 'zh-CN', type: 'reference'},
+      maxReviewRounds: 2,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        calls.push(agent)
+        if (agent === 'translation' && messages[0].content.includes('structured Zilliz Cloud REST API')) {
+          return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: 'Compaction 计划会合并 Segment。'})))
+        }
+        if (agent === 'translation') return semanticTranslationResponse(messages)
+        if (agent === 'review' && messages.at(-1).content.includes('<source>')) {
+          return JSON.stringify({
+            pass: false,
+            issues: [{
+              severity: 'medium', type: 'terminology', location: '["description"]',
+              source_quote: 'Compaction plans', draft_quote: 'Compaction 计划',
+              comment: 'Compaction should be translated as 压实。',
+            }],
+          })
+        }
+        if (agent === 'review') return '{"pass":true,"issues":[]}'
+        throw new Error('Correction must not run for a REST locale-contract conflict')
+      },
+    })
+
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'contract_conflict')
+    assert.equal(result.review.contractConflicts.length, 1)
+    assert.equal(result.review.unsupportedIssues.length, 0)
+    assert.deepEqual(calls, ['translation', 'review', 'translation', 'review'])
     assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
   })
 }
@@ -565,7 +615,9 @@ async function testRestSpecFileRetryReceivesEntryScopedProtectedFeedback() {
               {id: entries[1].id, text: `使用 ${markers[0]}。`},
             ])
             assert.match(messages[1].content, /<retry_feedback>/)
+            assert.match(messages[1].content, new RegExp(sourcePath.replaceAll('/', '\\/')))
             assert.match(messages[1].content, /REST translation entry \["paths","alpha","description"\]/)
+            assert.match(messages[1].content, /paths\.alpha\.description/)
             return JSON.stringify(entries)
           }
           if (agent === 'translation') return semanticTranslationResponse(messages)
@@ -759,6 +811,69 @@ async function testProviderCallRetriesTransientFailures() {
   }
 }
 
+async function testProviderCallDoesNotRetryPermanentHttpClientErrors() {
+  const originalFetch = global.fetch
+  try {
+    for (const [status, misleadingBody] of [
+      [400, 'request timeout while parsing a permanent validation error'],
+      [401, 'network authentication failed permanently'],
+      [403, 'policy rule 500 denied this request'],
+      [404, 'connection error: deployment name does not exist'],
+    ]) {
+      let calls = 0
+      global.fetch = async () => {
+        calls += 1
+        return {ok: false, status, json: async () => ({error: {message: misleadingBody}})}
+      }
+      const callModel = await createProviderCall({
+        translation: {baseUrl: 'https://example.com', apiKey: 'test-key', model: 'test-model'},
+      }, {maxRetries: 3, retryDelayMs: 1})
+      await assert.rejects(() => callModel({agent: 'translation', messages: []}), error => {
+        assert.equal(error.status, status)
+        assert.equal(error.failureCategory, 'unknown')
+        assert.equal(error.code, 'PROVIDER_HTTP_ERROR')
+        return true
+      })
+      assert.equal(calls, 1, `HTTP ${status} must fail without consuming provider retries`)
+    }
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
+async function testProviderCallRetriesClassifiedFailuresWithUnknownCodes() {
+  const originalFetch = global.fetch
+  try {
+    for (const [label, createError, category] of [
+      ['fetch ECONNREFUSED', () => {
+        const error = new TypeError('fetch failed')
+        error.cause = Object.assign(new Error('connect ECONNREFUSED'), {code: 'ECONNREFUSED'})
+        return error
+      }, 'provider_transport'],
+      ['APITimeoutError unknown code', () => Object.assign(new Error('opaque provider failure'), {
+        name: 'APITimeoutError',
+        code: 'UNRECOGNIZED_PROVIDER_TIMEOUT',
+      }), 'provider_timeout'],
+    ]) {
+      let calls = 0
+      global.fetch = async () => {
+        calls += 1
+        throw createError()
+      }
+      const callModel = await createProviderCall({
+        translation: {baseUrl: 'https://example.com', apiKey: 'test-key', model: 'test-model'},
+      }, {maxRetries: 1, retryDelayMs: 1})
+      await assert.rejects(() => callModel({agent: 'translation', messages: []}), error => {
+        assert.equal(error.failureCategory, category, label)
+        return true
+      })
+      assert.equal(calls, 2, `${label} must consume exactly one bounded provider retry`)
+    }
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
 async function testProviderStructuredOutputIsCapabilityGated() {
   const originalFetch = global.fetch
   const bodies = []
@@ -827,7 +942,12 @@ async function testProviderCallTimesOutHungRequests() {
         agent: 'translation',
         messages: [{ role: 'user', content: 'hello' }],
       }),
-      /aborted/i,
+      error => {
+        assert.match(error.message, /timed out/i)
+        assert.equal(error.failureCategory, 'provider_timeout')
+        assert.equal(error.code, 'PROVIDER_TIMEOUT')
+        return true
+      },
     )
     assert.equal(calls, 2)
   } finally {
@@ -836,10 +956,170 @@ async function testProviderCallTimesOutHungRequests() {
 }
 
 async function testFileTimeoutRejectsSlowWork() {
+  let completed = 0
   await assert.rejects(
-    () => withTimeout(new Promise(() => {}), 1, 'Timed out translating docs/test.md after 1ms'),
-    /Timed out translating docs\/test\.md/,
+    () => withTimeout(signal => new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        completed += 1
+        resolve('late')
+      }, 30)
+      signal.addEventListener('abort', () => {
+        clearTimeout(timer)
+        reject(signal.reason)
+      }, {once: true})
+    }), 1, 'Timed out translating docs/test.md after 900000ms', {code: 'FILE_TIMEOUT'}),
+    error => {
+      assert.equal(error.failureCategory, 'provider_timeout')
+      assert.equal(error.code, 'FILE_TIMEOUT')
+      assert.equal(error.timeoutMs, 1)
+      assert.match(error.message, /after 900000ms/)
+      return true
+    },
   )
+  await new Promise(resolve => setTimeout(resolve, 40))
+  assert.equal(completed, 0)
+}
+
+async function testFileAttemptDeadlineSpansAllMarkdownChunksAndStopsLateCheckpoints() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/file-deadline.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/file-deadline.md'
+    const source = '# One\n\nFirst paragraph.\n\n# Two\n\nSecond paragraph.\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'}
+    const completed = []
+    let active = 0
+    let backgroundCompletions = 0
+
+    const result = await processItemWithRetry(item, {
+      maxRetries: 0,
+      fileTimeoutMs: 25,
+      processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        retryFeedback,
+        chunkTargetChars: 25,
+        chunkMaxChars: 35,
+        chunkCheckpoint: retryContext.chunkCheckpoint,
+        onChunkCompleted: checkpoint => {
+          completed.push(checkpoint.index)
+          retryContext.onChunkCompleted(checkpoint)
+        },
+        signal: retryContext.signal,
+        validate: async () => [],
+        maxReviewRounds: 0,
+        callModel: ({agent, messages, signal}) => {
+          if (agent === 'review') return Promise.resolve('{"pass":true,"issues":[]}')
+          active += 1
+          return new Promise((resolve, reject) => {
+            const onAbort = () => {
+              clearTimeout(timer)
+              active -= 1
+              reject(signal.reason)
+            }
+            const timer = setTimeout(() => {
+              signal?.removeEventListener('abort', onAbort)
+              active -= 1
+              backgroundCompletions += 1
+              resolve(semanticTranslationResponse(messages, text => `JA:${text}`))
+            }, 18)
+            signal?.addEventListener('abort', onAbort, {once: true})
+          })
+        },
+      }),
+    })
+
+    await new Promise(resolve => setTimeout(resolve, 50))
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'provider_timeout')
+    assert.equal(result.errorDetails.code, 'FILE_TIMEOUT')
+    assert.deepEqual(completed, [0], 'only the prefix completed before the shared file deadline may checkpoint')
+    assert.equal(active, 0)
+    assert.equal(backgroundCompletions, 1, 'the second chunk must be aborted instead of completing after the deadline')
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
+  })
+}
+
+async function testFileAttemptDeadlineAbortsRestTranslation() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/restful/restful/deadline.md'
+    const targetPath = 'content/zh-CN/reference/api/restful/restful/deadline.md'
+    const source = '# Search\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"description":"Search a collection."}\nexport const endpoint = "/v1/search"\nexport const method = "post"\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: sha256(source), locale: 'zh-CN', type: 'reference'}
+    let aborted = 0
+
+    const result = await processItemWithRetry(item, {
+      maxRetries: 0,
+      fileTimeoutMs: 10,
+      processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        retryFeedback,
+        signal: retryContext.signal,
+        maxReviewRounds: 0,
+        validate: async () => [],
+        callModel: ({agent, messages, signal}) => {
+          if (agent === 'translation' && messages.at(-1).content.includes('<semantic_units>')) {
+            return Promise.resolve(semanticTranslationResponse(messages, text => text.replace('Search', '搜索')))
+          }
+          if (agent === 'review') return Promise.resolve('{"pass":true,"issues":[]}')
+          return new Promise((resolve, reject) => {
+            const timer = setTimeout(() => resolve('[]'), 50)
+            signal?.addEventListener('abort', () => {
+              aborted += 1
+              clearTimeout(timer)
+              reject(signal.reason)
+            }, {once: true})
+          })
+        },
+      }),
+    })
+
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'provider_timeout')
+    assert.equal(result.errorDetails.code, 'FILE_TIMEOUT')
+    assert.equal(aborted, 1, 'REST translation must receive and honor the file attempt abort signal')
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
+  })
+}
+
+async function testProviderNamedFailuresRetryBoundedlyAndExternalAbortDoesNotRetry() {
+  const originalFetch = global.fetch
+  try {
+    for (const [label, response, category] of [
+      ['HTTP 408', () => ({ok: false, status: 408, json: async () => ({error: 'timeout'})}), 'provider_timeout'],
+      ['APITimeoutError', () => { const error = new Error('opaque'); error.name = 'APITimeoutError'; throw error }, 'provider_timeout'],
+      ['stream before response.completed', () => { throw new Error('stream closed before response.completed') }, 'provider_transport'],
+    ]) {
+      let calls = 0
+      global.fetch = async () => {
+        calls += 1
+        return response()
+      }
+      const callModel = await createProviderCall({translation: {baseUrl: 'https://example.com', apiKey: 'key', model: 'model'}}, {maxRetries: 1, retryDelayMs: 1})
+      await assert.rejects(() => callModel({agent: 'translation', messages: []}), error => {
+        assert.equal(error.failureCategory, category, label)
+        return true
+      })
+      assert.equal(calls, 2, label)
+    }
+
+    let abortedCalls = 0
+    global.fetch = async (_url, options) => new Promise((resolve, reject) => {
+      abortedCalls += 1
+      options.signal.addEventListener('abort', () => reject(options.signal.reason), {once: true})
+    })
+    const callModel = await createProviderCall({translation: {baseUrl: 'https://example.com', apiKey: 'key', model: 'model'}}, {maxRetries: 3, retryDelayMs: 1})
+    const controller = new AbortController()
+    const pending = callModel({agent: 'translation', messages: [], signal: controller.signal})
+    const reason = Object.assign(new Error('file attempt cancelled'), {failureCategory: 'provider_timeout', code: 'CHUNK_TIMEOUT'})
+    controller.abort(reason)
+    await assert.rejects(() => pending, error => error === reason)
+    assert.equal(abortedCalls, 1)
+  } finally {
+    global.fetch = originalFetch
+  }
 }
 
 function testRetryableProviderErrors() {
@@ -957,6 +1237,167 @@ async function testLongDocumentTranslatesChunksSequentially() {
     assert.equal(result.chunks.total, expectedChunks.length)
     assert.deepEqual(calls.map(call => call.agent), expectedChunks.flatMap(() => ['translation', 'review']))
     assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /# セクション Three/)
+  })
+}
+
+async function testChangelogsVisibleLinkLabelsRemainReviewableWhileUrlsStayProtected() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/changelogs.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/changelogs.md'
+    const source = '# Changelog\n\nRead [JSON indexing](https://example.com/json), [collections](https://example.com/collections), and [indexing](https://example.com/indexing).\n'
+    write(path.join(siteDir, sourcePath), source)
+    let reviewerSawLabels = false
+    const result = await processManifestItem({
+      siteDir,
+      item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
+      maxReviewRounds: 0,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        if (agent === 'translation') {
+          const units = taggedJsonContent(messages, 'semantic_units')
+          assert.match(JSON.stringify(units), /JSON indexing/)
+          assert.match(JSON.stringify(units), /collections/)
+          assert.match(JSON.stringify(units), /indexing/)
+          assert.doesNotMatch(JSON.stringify(units), /https:\/\/example\.com/)
+          return semanticTranslationResponse(messages)
+        }
+        const sourceUnits = taggedJsonContent(messages, 'source_units')
+        reviewerSawLabels = /JSON indexing/.test(JSON.stringify(sourceUnits)) && /collections/.test(JSON.stringify(sourceUnits))
+        return JSON.stringify({pass: false, issues: [{
+          severity: 'medium', type: 'untranslated_prose', location: sourceUnits.at(-1).id,
+          source_quote: 'JSON indexing', draft_quote: 'JSON indexing', comment: 'Translate the visible Markdown link label.',
+        }]})
+      },
+    })
+    assert.equal(reviewerSawLabels, true)
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'locale_contract_failed')
+    assert.ok(result.review.issues.some(issue => issue.source_quote === 'JSON indexing'))
+    assert.ok(result.review.localeContractIssues.some(issue => /collection/i.test(issue.source_quote)))
+  })
+}
+
+async function testJapaneseMandatoryTermsUseRealGuidePathsWithoutMatchingHtmlCodePayloads() {
+  await withTempDir(async siteDir => {
+    const modifySourcePath = 'docs/userGuide/manage-collections/modify-collections.md'
+    const modifyTargetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/userGuide/manage-collections/modify-collections.md'
+    const modifySource = '# Modify collections\n\nSet <code>collection.ttl.seconds</code> for the collection in the database.\n'
+    write(path.join(siteDir, modifySourcePath), modifySource)
+    const valid = await processManifestItem({
+      siteDir,
+      item: {target: 'ja-JP', sourcePath: modifySourcePath, targetPath: modifyTargetPath, sourceHash: sha256(modifySource), locale: 'ja-JP', type: 'guides'},
+      maxReviewRounds: 0,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => agent === 'review'
+        ? '{"pass":true,"issues":[]}'
+        : semanticTranslationResponse(messages, text => text
+          .replace('Modify collections', 'コレクションの変更')
+          .replace('for the collection in the database', 'コレクションをデータベースで設定します')),
+    })
+    assert.equal(valid.status, 'translated')
+    assert.match(fs.readFileSync(path.join(siteDir, modifyTargetPath), 'utf8'), /<code>collection\.ttl\.seconds<\/code>/)
+
+    const auditSourcePath = 'docs/userGuide/monitor/audit-logs-ref.md'
+    const auditTargetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/userGuide/monitor/audit-logs-ref.md'
+    const auditSource = '# Audit logs\n\nAudit logs are stored in the database for each collection.\n'
+    write(path.join(siteDir, auditSourcePath), auditSource)
+    const invalid = await processManifestItem({
+      siteDir,
+      item: {target: 'ja-JP', sourcePath: auditSourcePath, targetPath: auditTargetPath, sourceHash: sha256(auditSource), locale: 'ja-JP', type: 'guides'},
+      maxReviewRounds: 0,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => agent === 'review' ? '{"pass":true,"issues":[]}' : semanticTranslationResponse(messages),
+    })
+    assert.equal(invalid.status, 'failed')
+    assert.equal(invalid.failureCategory, 'locale_contract_failed')
+    assert.ok(invalid.review.localeContractIssues.some(issue => /database|collection/i.test(issue.source_quote)))
+  })
+}
+
+async function testFileRetryResumesFromCompletedChunkCheckpoint() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/large-guide.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/large-guide.md'
+    const source = '# One\n\nFirst paragraph.\n\n# Two\n\nSecond paragraph.\n\n# Three\n\nThird paragraph.\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'}
+    const translationCalls = new Map()
+    let failSecondChunk = true
+
+    const result = await processItemWithRetry(item, {
+      maxRetries: 1,
+      log: {warn: () => {}},
+      processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        retryFeedback,
+        chunkTargetChars: 25,
+        chunkMaxChars: 35,
+        chunkCheckpoint: retryContext.chunkCheckpoint,
+        onChunkCompleted: retryContext.onChunkCompleted,
+        validate: async () => [],
+        maxReviewRounds: 0,
+        callModel: async ({agent, messages}) => {
+          if (agent === 'review') return '{"pass":true,"issues":[]}'
+          const unit = taggedJsonContent(messages, 'semantic_units')[0]
+          const chunk = Number(unit.id.match(/chunk\.(\d+)/)?.[1] || 0)
+          translationCalls.set(chunk, (translationCalls.get(chunk) || 0) + 1)
+          if (chunk === 2 && failSecondChunk) {
+            failSecondChunk = false
+            throw new Error('stream disconnected before completion: stream closed before response.completed')
+          }
+          return semanticTranslationResponse(messages, text => `JA:${text}`)
+        },
+      }),
+    })
+
+    assert.equal(result.status, 'translated')
+    assert.equal(result.attempts, 2)
+    assert.equal(translationCalls.get(1), 1, 'completed chunk 1 must be reused')
+    assert.equal(translationCalls.get(2), 2, 'failed chunk 2 must be retried')
+    assert.ok(result.chunks.reused >= 1)
+  })
+}
+
+async function testPostAssemblyFailureDoesNotPoisonTheNextFileAttemptWithACompleteChunkMap() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/assembly-retry.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/assembly-retry.md'
+    const source = '# One\n\nFirst paragraph.\n\n# Two\n\nSecond paragraph.\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'}
+    const translationCalls = new Map()
+
+    const result = await processItemWithRetry(item, {
+      maxRetries: 1,
+      log: {warn: () => {}},
+      processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        retryFeedback,
+        chunkTargetChars: 25,
+        chunkMaxChars: 35,
+        chunkCheckpoint: retryContext.chunkCheckpoint,
+        onChunkCompleted: retryContext.onChunkCompleted,
+        signal: retryContext.signal,
+        maxReviewRounds: 0,
+        validate: async content => content.includes('POISON') ? ['assembled document is invalid'] : [],
+        callModel: async ({agent, messages}) => {
+          if (agent === 'review') return '{"pass":true,"issues":[]}'
+          const unit = taggedJsonContent(messages, 'semantic_units')[0]
+          const chunk = Number(unit.id.match(/chunk\.(\d+)/)?.[1] || 0)
+          const calls = (translationCalls.get(chunk) || 0) + 1
+          translationCalls.set(chunk, calls)
+          return semanticTranslationResponse(messages, text => chunk === 1 && calls === 1 ? `POISON:${text}` : `JA:${text}`)
+        },
+      }),
+    })
+
+    assert.equal(result.status, 'translated')
+    assert.equal(result.attempts, 2)
+    assert.equal(translationCalls.get(1), 2, 'an unlocated failure in a non-final chunk must be regenerated')
+    assert.equal(translationCalls.get(2), 2, 'an unlocated assembly failure must not retain a 100% invalid prefix')
+    assert.doesNotMatch(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /POISON/)
   })
 }
 
@@ -1143,7 +1584,7 @@ async function testFileRetryRecoversFailedTranslation() {
   assert.equal(attempts, 2)
   assert.equal(result.status, 'translated')
   assert.equal(result.attempts, 2)
-  assert.deepEqual(result.retryFailures, [{ attempt: 1, error: 'review failed' }])
+  assert.deepEqual(result.retryFailures, [{ attempt: 1, category: 'unknown', error: 'review failed' }])
   assert.equal(warnings.length, 1)
 }
 
@@ -1237,12 +1678,87 @@ async function testFileRetryRecordsPersistentFailure() {
 
   assert.equal(attempts, 2)
   assert.equal(result.status, 'failed')
+  assert.equal(result.failureCategory, 'unknown')
   assert.equal(result.attempts, 2)
   assert.equal(result.error, 'provider failed 2')
   assert.deepEqual(result.retryFailures, [
-    { attempt: 1, error: 'provider failed 1' },
-    { attempt: 2, error: 'provider failed 2' },
+    { attempt: 1, category: 'unknown', error: 'provider failed 1' },
+    { attempt: 2, category: 'unknown', error: 'provider failed 2' },
   ])
+}
+
+async function testFileRetryPreservesProviderFailureCategories() {
+  const result = await processItemWithRetry({sourcePath: 'docs/boost-ranker.md'}, {
+    maxRetries: 1,
+    log: {warn: () => {}},
+    processItem: async item => {
+      const error = new Error('litellm.APITimeoutError: Request timed out after 240.0s')
+      error.name = 'APITimeoutError'
+      throw error
+    },
+  })
+
+  assert.equal(result.failureCategory, 'provider_timeout')
+  assert.deepEqual(result.retryFailures.map(item => item.category), ['provider_timeout', 'provider_timeout'])
+}
+
+async function testFileRetryPreservesStructuredFailureFieldsWithoutMessageParsing() {
+  const longName = 'ProviderEnvelopeError'.repeat(20)
+  const result = await processItemWithRetry({sourcePath: 'docs/opaque.md'}, {
+    maxRetries: 0,
+    processItem: async () => {
+      const cause = Object.assign(new Error('inner opaque'), {name: 'ProviderCause', status: 599, code: 'INNER_CODE', failureCategory: 'provider_transport'})
+      throw Object.assign(new Error('outer opaque'), {
+        name: longName, status: 598, code: 'OUTER_CODE', failureCategory: 'provider_transport', cause, ignored: {secret: true},
+      })
+    },
+  })
+
+  assert.equal(result.failureCategory, 'provider_transport')
+  assert.deepEqual(result.errorDetails, {
+    name: longName.slice(0, 200), status: 598, code: 'OUTER_CODE',
+    cause: {name: 'ProviderCause', status: 599, code: 'INNER_CODE', failureCategory: 'provider_transport'},
+  })
+  assert.deepEqual(result.retryFailures.map(item => item.category), ['provider_transport'])
+}
+
+async function testInternalRecoveryChunkSeedsNeverEnterPublicResultsOrReports() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/internal-seed.md'
+    const targetPath = 'i18n/ja-JP/internal-seed.md'
+    const source = '# Source\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {
+      target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides',
+      recoveryChunkCheckpoints: [{index: 0, total: 1, sourceHash: sha256(source), translatedContent: '# ソース\n', review: {pass: true, issues: []}, semanticUnits: []}],
+    }
+    const result = await processItemWithRetry(item, {
+      maxRetries: 0,
+      initialChunkCheckpoints: item.recoveryChunkCheckpoints,
+      processItem: async value => ({...value, status: 'translated'}),
+    })
+    assert.equal(Object.hasOwn(result, 'recoveryChunkCheckpoints'), false)
+
+    const reportPath = 'tmp/report.json'
+    const coordinator = createProgressCoordinator({
+      siteDir,
+      manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', items: [item]},
+      reportPath,
+      checkpointFiles: 1,
+      checkpointIntervalMs: 1000,
+    })
+    await coordinator.record(result, 0)
+    await coordinator.checkpoint(true)
+    assert.doesNotMatch(fs.readFileSync(path.join(siteDir, reportPath), 'utf8'), /recoveryChunkCheckpoints/)
+
+    const failed = await processItemWithRetry(item, {
+      maxRetries: 0,
+      initialChunkCheckpoints: item.recoveryChunkCheckpoints,
+      processItem: async value => ({...value, status: 'failed', error: 'opaque'}),
+    })
+    assert.equal(Object.hasOwn(failed, 'recoveryChunkCheckpoints'), false)
+    assert.equal(Object.hasOwn(failed, 'chunkCheckpoints'), true)
+  })
 }
 
 async function testWorkerPoolStopsAssigningNewItems() {
@@ -1725,7 +2241,7 @@ async function testNormalizesPrivateLinkEndpointWithoutRewritingCliCommandHeadin
   })
 }
 
-async function testContractConflictingReviewerIssueDoesNotAuthorizeCorrection() {
+async function testContractConflictingReviewerIssueFailsStructurallyAndEntersRecoveryArtifact() {
   await withTempDir(async siteDir => {
     const sourcePath = 'content/en/reference/api/java/compaction.md'
     const targetPath = 'content/zh-CN/reference/api/java/compaction.md'
@@ -1747,16 +2263,61 @@ async function testContractConflictingReviewerIssueDoesNotAuthorizeCorrection() 
       })
       throw new Error('Correction must not run for a locale-contract conflict')
     }
+    const item = {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'compaction-correct', locale: 'zh-CN', type: 'reference'}
+    const result = await processItemWithRetry(item, {
+      maxRetries: 1,
+      log: {warn: () => {}},
+      processItem: () => processManifestItem({
+        siteDir,
+        item,
+        callModel,
+        maxReviewRounds: 2,
+        validate: async () => [],
+      }),
+    })
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'contract_conflict')
+    assert.equal(result.review.contractConflicts.length, 1)
+    assert.deepEqual(result.retryFailures.map(failure => failure.category), ['contract_conflict', 'contract_conflict'])
+    assert.deepEqual(calls, ['translation', 'review', 'translation', 'review'])
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
+
+    const artifactDir = path.join(siteDir, 'recovery-artifact')
+    const artifact = createRecoveryArtifact({
+      siteDir,
+      outputDir: artifactDir,
+      results: [result],
+      identity: {
+        locale: 'zh-CN', group: 'java', promptContractSha256: 'c'.repeat(64), model: 'translation-model',
+        sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'full', batchIndex: 0, batchCount: 1,
+      },
+    })
+    assert.deepEqual(artifact.metadata.failureCounts, {contract_conflict: 1})
+    assert.equal(artifact.failures[0].failureCategory, 'contract_conflict')
+    assert.deepEqual(artifact.failures[0].retryFailures.map(failure => failure.category), ['contract_conflict', 'contract_conflict'])
+  })
+}
+
+async function testOrdinaryMandatoryLocaleIssueRemainsLocaleContractFailure() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/java/compaction-locale-failure.md'
+    const targetPath = 'content/zh-CN/reference/api/java/compaction-locale-failure.md'
+    write(path.join(siteDir, sourcePath), '# Compaction plans\n')
     const result = await processManifestItem({
       siteDir,
-      item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'compaction-correct', locale: 'zh-CN', type: 'reference'},
-      callModel,
-      maxReviewRounds: 2,
+      item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'compaction-locale-failure', locale: 'zh-CN', type: 'reference'},
+      maxReviewRounds: 0,
       validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        if (agent === 'translation') return semanticTranslationResponse(messages, () => '压实计划')
+        if (agent === 'review') return '{"pass":true,"issues":[]}'
+        throw new Error(`unexpected ${agent} call`)
+      },
     })
-    assert.equal(result.status, 'translated')
-    assert.deepEqual(calls, ['translation', 'review'])
-    assert.equal(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), '# Compaction 计划\n')
+
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'locale_contract_failed')
+    assert.equal(result.review.localeContractIssues.length, 1)
   })
 }
 
@@ -1960,11 +2521,17 @@ async function run() {
   await testCorrectionRunsWhenReviewFails()
   await testRestSpecsUseStructuredLocaleTranslation()
   await testRestSpecReviewFailureDoesNotWriteTarget()
+  await testRestReviewerContractConflictFailsStructurally()
   await testRestSpecFileRetryReceivesEntryScopedProtectedFeedback()
   await testProviderCallRetriesTransientFailures()
+  await testProviderCallDoesNotRetryPermanentHttpClientErrors()
+  await testProviderCallRetriesClassifiedFailuresWithUnknownCodes()
   await testProviderStructuredOutputIsCapabilityGated()
   await testProviderCallTimesOutHungRequests()
   await testFileTimeoutRejectsSlowWork()
+  await testFileAttemptDeadlineSpansAllMarkdownChunksAndStopsLateCheckpoints()
+  await testFileAttemptDeadlineAbortsRestTranslation()
+  await testProviderNamedFailuresRetryBoundedlyAndExternalAbortDoesNotRetry()
   testRetryableProviderErrors()
   testChunkLimitConfiguration()
   testFileRetryConfiguration()
@@ -1973,6 +2540,10 @@ async function run() {
   testChunkMessagesContainContinuityContext()
   testStabilizesBoldBareUrlsBeforeJapanesePunctuation()
   await testLongDocumentTranslatesChunksSequentially()
+  await testChangelogsVisibleLinkLabelsRemainReviewableWhileUrlsStayProtected()
+  await testJapaneseMandatoryTermsUseRealGuidePathsWithoutMatchingHtmlCodePayloads()
+  await testFileRetryResumesFromCompletedChunkCheckpoint()
+  await testPostAssemblyFailureDoesNotPoisonTheNextFileAttemptWithACompleteChunkMap()
   await testRestoresSourceImportsBeforeValidation()
   await testRepairsUnescapedHeadingAnchorsAfterTranslation()
   await testRepairsTranslatedProseThatLooksLikeInvalidMdxEsm()
@@ -1983,6 +2554,9 @@ async function run() {
   await testFileRetryRecoversFailedTranslation()
   await testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBackToTranslation()
   await testFileRetryRecordsPersistentFailure()
+  await testFileRetryPreservesProviderFailureCategories()
+  await testFileRetryPreservesStructuredFailureFieldsWithoutMessageParsing()
+  await testInternalRecoveryChunkSeedsNeverEnterPublicResultsOrReports()
   await testWorkerPoolStopsAssigningNewItems()
   await testChineseReferenceProgressStateUsesItsTargetManifest()
   await testReferenceProgressStateAcceptsNewSourceMissingFromStaleManifest()
@@ -1993,7 +2567,8 @@ async function run() {
   await testRejectsProtectedMarkerMovementAcrossSemanticUnits()
   await testNormalizesPrivateLinkEndpointWithoutRewritingCliCommandHeading()
   await testRestoresFencedCodeCommentsByteForByte()
-  await testContractConflictingReviewerIssueDoesNotAuthorizeCorrection()
+  await testContractConflictingReviewerIssueFailsStructurallyAndEntersRecoveryArtifact()
+  await testOrdinaryMandatoryLocaleIssueRemainsLocaleContractFailure()
   await testDeterministicCompactionIssueCorrectsForbiddenChineseTerms()
   await testOnlyValidatedReviewerIssuesReachCorrection()
   await testIdenticalFrontmatterTokenAllegationDoesNotRewriteDraft()
