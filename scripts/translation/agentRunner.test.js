@@ -433,16 +433,24 @@ async function testCorrectionContextCannotLeakCrossUnitProtectedMarkersOrConsume
               return JSON.stringify({pass: false, issues: [{
                 severity: 'medium', type: 'locale_style', location: sourceUnits[0].id,
                 source_quote: sourceUnits[0].text, draft_quote: draftUnits[0].text,
-                comment: 'Apply a local correction to the first unit.',
+                comment: `Apply a local correction to the first unit, never ${protectedMarkers[1]}.`,
               }]})
             }
             correctionCalls += 1
+            const correctionMessage = messages.at(-1).content
             assert.doesNotMatch(taggedMessageContent(messages, 'source_document'), /ZDOC-PROTECTED/)
             assert.doesNotMatch(taggedMessageContent(messages, 'draft_document'), /ZDOC-PROTECTED/)
+            const sanitizedReview = taggedJsonContent(messages, 'review_json')
+            assert.doesNotMatch(JSON.stringify(sanitizedReview), /ZDOC-PROTECTED/)
+            assert.match(JSON.stringify(sanitizedReview), /\[protected content\]/)
             const authorized = taggedJsonContent(messages, 'authorized_units')
             assert.deepEqual(authorized.map(unit => unit.id), ['document.paragraph.0001'])
             assert.match(JSON.stringify(authorized), new RegExp(protectedMarkers[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
             assert.doesNotMatch(JSON.stringify(authorized), new RegExp(protectedMarkers[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')))
+            assert.deepEqual(
+              [...new Set(correctionMessage.match(/<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->/g))],
+              [protectedMarkers[0]],
+            )
             return JSON.stringify({corrections: [{id: authorized[0].id, text: `使用 ${protectedMarkers[1]}。`}]})
           },
         })

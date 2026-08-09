@@ -447,6 +447,19 @@ function markerFreeDocumentContext(content) {
   return String(content).replace(/<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->(?:\r?\n)?/g, '')
 }
 
+function markerFreeCorrectionReview(value) {
+  if (typeof value === 'string') {
+    return value
+      .replace(/<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->/g, '[protected content]')
+      .replaceAll('ZDOC-PROTECTED', 'protected content')
+  }
+  if (Array.isArray(value)) return value.map(markerFreeCorrectionReview)
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, child]) => [key, markerFreeCorrectionReview(child)]))
+  }
+  return value
+}
+
 function buildReviewMessages({ target, sourcePath, sourceContent, translatedContent, sourceDocument, draftDocument, sourceUnits, draftUnits, locale, chunkContext }) {
   const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   const userContent = sourceUnits && draftUnits
@@ -467,9 +480,10 @@ function correctionPromptFor(target) {
 
 function buildCorrectionMessages({ target, sourcePath, sourceContent, translatedContent, sourceDocument, draftDocument, authorizedUnits, review, locale, chunkContext }) {
   const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
+  const safeReview = markerFreeCorrectionReview(review)
   const userContent = authorizedUnits
-    ? `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source_document>\n${sourceDocument}\n</source_document>\n\n<draft_document>\n${draftDocument}\n</draft_document>\n\n<authorized_units>\n${JSON.stringify(authorizedUnits, null, 2)}\n</authorized_units>\n\n<review_json>\n${JSON.stringify(review, null, 2)}\n</review_json>`
-    : `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source>\n${sourceContent}</source>\n\n<draft>\n${translatedContent}</draft>\n\n<review_json>\n${JSON.stringify(review, null, 2)}\n</review_json>`
+    ? `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source_document>\n${sourceDocument}\n</source_document>\n\n<draft_document>\n${draftDocument}\n</draft_document>\n\n<authorized_units>\n${JSON.stringify(authorizedUnits, null, 2)}\n</authorized_units>\n\n<review_json>\n${JSON.stringify(safeReview, null, 2)}\n</review_json>`
+    : `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source>\n${sourceContent}</source>\n\n<draft>\n${translatedContent}</draft>\n\n<review_json>\n${JSON.stringify(safeReview, null, 2)}\n</review_json>`
   return [
     {
       role: 'system',
