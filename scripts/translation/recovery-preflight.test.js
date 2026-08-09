@@ -86,6 +86,35 @@ test('revalidates prompt and model changes but still rejects source incompatibil
   }
 })
 
+test('tooling-only changes revalidate complete files and reject outputs that fail the current contract', t => {
+  const valid = fixture(t)
+  const validAnalysis = analyzeRecoveryCompatibility({
+    siteDir: valid.siteDir,
+    manifest: {target: 'zh-CN-reference', locale: 'zh-CN', group: 'python', sourceCheckpointSha: 'a'.repeat(40), items: [valid.items[0]]},
+    artifacts: [valid.artifactDir], promptContractSha256: valid.identity.promptContractSha256,
+    model: valid.identity.model, executionToolingSha: 'd'.repeat(40), allowFullRetranslate: true,
+  })
+  assert.equal(validAnalysis.recoveredCount, 1)
+  assert.equal(validAnalysis.restored[0].compatibility, 'revalidated')
+
+  const invalid = fixture(t)
+  write(invalid.artifactDir, `translated-files/${invalid.items[0].targetPath}`, '# `Source 1`\n')
+  const manifestPath = path.join(invalid.artifactDir, 'manifest.json')
+  const artifactManifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  const bytes = fs.readFileSync(path.join(invalid.artifactDir, 'translated-files', invalid.items[0].targetPath))
+  artifactManifest.files[0].targetHash = HASH(bytes)
+  artifactManifest.files[0].targetSize = bytes.length
+  write(invalid.artifactDir, 'manifest.json', `${JSON.stringify(artifactManifest)}\n`)
+  const invalidAnalysis = analyzeRecoveryCompatibility({
+    siteDir: invalid.siteDir,
+    manifest: {target: 'zh-CN-reference', locale: 'zh-CN', group: 'python', sourceCheckpointSha: 'a'.repeat(40), items: [invalid.items[0]]},
+    artifacts: [invalid.artifactDir], promptContractSha256: invalid.identity.promptContractSha256,
+    model: invalid.identity.model, executionToolingSha: 'd'.repeat(40), allowFullRetranslate: true,
+  })
+  assert.equal(invalidAnalysis.recoveredCount, 0)
+  assert.match(invalidAnalysis.rejected[0].reason, /revalidation.*protected/i)
+})
+
 test('rejects a cross-version payload that fails the current protected contract', t => {
   const value = fixture(t)
   write(value.artifactDir, `translated-files/${value.items[0].targetPath}`, '# `Source 1`\n')

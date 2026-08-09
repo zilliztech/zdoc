@@ -19,6 +19,7 @@ const {analyzeRecoveryCompatibility} = require('./recovery-preflight')
 const {
   MAX_PARTIAL_ARTIFACT_BYTES,
   MAX_PARTIAL_CHUNK_BYTES,
+  createArtifactExecution,
 } = require('./chunkRecovery')
 
 const HASH = value => crypto.createHash('sha256').update(value).digest('hex')
@@ -204,6 +205,33 @@ test('revalidates a partial prefix after prompt or model changes and truncates a
   assert.match(invalid.rejectedChunks[0].reason, /revalidation.*protected/i)
 })
 
+test('tooling-only changes revalidate partial chunks with the current contract', async t => {
+  const value = fixture(t)
+  const failed = await createTerminalPartialFailure(value)
+  createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [failed], identity: value.artifactIdentity})
+  const manifestPath = path.join(value.artifactDir, 'manifest.json')
+  const artifactManifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  const checkpoint = artifactManifest.failures[0].chunkCheckpoints.entries[0]
+  checkpoint.translatedContent = '`JA:# One`\n'
+  checkpoint.targetHash = HASH(checkpoint.translatedContent)
+  checkpoint.targetSize = Buffer.byteLength(checkpoint.translatedContent)
+  fs.writeFileSync(manifestPath, JSON.stringify(artifactManifest))
+
+  const analysis = analyzeRecoveryCompatibility({
+    siteDir: value.siteDir,
+    manifest: value.manifest,
+    artifacts: [value.artifactDir],
+    promptContractSha256: value.artifactIdentity.promptContractSha256,
+    model: value.artifactIdentity.model,
+    executionToolingSha: value.currentIdentity.toolingSha,
+    allowFullRetranslate: true,
+    chunkOptions: CHUNK_OPTIONS,
+  })
+  assert.equal(analysis.resumableFileCount, 0)
+  assert.equal(analysis.recoveredChunkCount, 0)
+  assert.match(analysis.rejectedChunks[0].reason, /revalidation.*protected/i)
+})
+
 test('revalidates cross-version chunks again at the agent load boundary', async t => {
   const value = fixture(t)
   const failed = await createTerminalPartialFailure(value)
@@ -291,7 +319,12 @@ test('rejects a retained artifact whose declared aggregate chunk payload exceeds
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
   const template = manifest.failures[0]
   manifest.failures = Array.from({length: 5}, () => JSON.parse(JSON.stringify(template)))
-  for (const failure of manifest.failures) failure.chunkCheckpoints.entries[0].targetSize = 4 * 1024 * 1024
+  for (const failure of manifest.failures) {
+    const entry = failure.chunkCheckpoints.entries[0]
+    entry.translatedContent = 'x'.repeat(4 * 1024 * 1024)
+    entry.targetHash = HASH(entry.translatedContent)
+    entry.targetSize = 1
+  }
   fs.writeFileSync(manifestPath, JSON.stringify(manifest))
 
   const analysis = analyzeRecoveryCompatibility({
@@ -306,6 +339,55 @@ test('rejects a retained artifact whose declared aggregate chunk payload exceeds
   })
   assert.equal(analysis.resumableFileCount, 0)
   assert.match(analysis.rejected[0].reason, /corrupt recovery artifact.*oversized/i)
+})
+
+test('load boundary enforces the aggregate actual-byte limit across resumable files', t => {
+  const value = fixture(t)
+  const chunkOptions = {targetChars: 10, maxChars: 20}
+  const items = []
+  const pending = []
+  const artifactExecution = createArtifactExecution({...value.artifactIdentity, toolingSha: value.currentIdentity.toolingSha})
+  for (let fileIndex = 0; fileIndex < 5; fileIndex++) {
+    const sourcePath = `docs/aggregate-${fileIndex}.md`
+    const targetPath = `i18n/ja-JP/aggregate-${fileIndex}.md`
+    const source = Array.from({length: 16}, (_, index) => `# H${index}\n\ntext${index}\n`).join('')
+    write(value.siteDir, sourcePath, source)
+    const chunks = chunkDocument(source, chunkOptions)
+    assert.equal(chunks.length, 16)
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: HASH(source), locale: 'ja-JP', type: 'guides'}
+    items.push(item)
+    pending.push({
+      sourcePath, targetPath, sourceHash: item.sourceHash,
+      chunkResume: {
+        schemaVersion: 1, compatibility: 'strict', totalChunks: chunks.length, recoveredChunkCount: chunks.length,
+        artifactExecution,
+        chunks: chunks.map(chunk => {
+          const translatedContent = 'x'.repeat(MAX_PARTIAL_CHUNK_BYTES)
+          return {
+            index: chunk.index,
+            sourceHash: HASH(chunk.source),
+            translatedContent,
+            targetHash: HASH(translatedContent),
+            targetSize: Buffer.byteLength(translatedContent),
+          }
+        }),
+      },
+    })
+  }
+  const manifest = {...value.manifest, items}
+  const analysis = {
+    schemaVersion: 2, kind: 'translation-recovery-analysis', target: manifest.target, locale: manifest.locale, group: manifest.group,
+    sourceCheckpointSha: manifest.sourceCheckpointSha, promptContractSha256: value.currentIdentity.promptContractSha256,
+    model: value.currentIdentity.model, executionToolingSha: value.currentIdentity.toolingSha,
+    candidateCount: items.length, recoveredCount: 0, pendingCount: items.length, rejectedCount: 0,
+    resumableFileCount: items.length, recoveredChunkCount: items.length * 16, rejectedChunkCount: 0,
+    fullRetranslation: false, compatibilityMode: 'strict', restored: [], pending, rejected: [], rejectedChunks: [],
+  }
+  const file = path.join(value.siteDir, 'aggregate-analysis.json')
+  fs.writeFileSync(file, JSON.stringify(analysis))
+  assert.throws(() => loadRecoveryAnalysis({
+    file, manifest, siteDir: value.siteDir, identity: value.currentIdentity, chunkOptions,
+  }), /aggregate.*chunk.*payload.*oversized/i)
 })
 
 test('rejects corrupt, duplicate, sparse, layout-incompatible, and schema-v1 partial checkpoints', async t => {

@@ -10,6 +10,13 @@ const {parseAndValidateReviewEvidence} = require('./reviewEvidence')
 const LOCALIZABLE_KEYS = new Set(['summary', 'description', 'title', 'label', 'prompt', 'content'])
 const PRESERVED_SUBTREES = new Set(['example', 'examples', 'default', 'enum', 'enums', 'value'])
 
+function protectedContentError(message, cause) {
+  const error = new Error(message, cause ? {cause} : undefined)
+  error.failureCategory = 'protected_content_failed'
+  error.code = 'PROTECTED_CONTENT_FAILED'
+  return error
+}
+
 const PROMPTS_BY_TARGET = Object.freeze({
   'ja-JP': Object.freeze({
     translation: 'codex-translation-agent.ja-JP.md',
@@ -122,13 +129,13 @@ function parseTranslationEntries(text, expected, localeContract, {sourcePath = '
     try {
       translation = restoreProtectedContent(modelTranslation, entry.protection.manifest)
     } catch (error) {
-      throw new Error(`REST translation entry ${entry.id} (${entryLabel}) failed protected marker validation: ${error.message}`)
+      throw protectedContentError(`REST translation entry ${entry.id} (${entryLabel}) failed protected marker validation: ${error.message}`, error)
     }
     const protectedErrors = validateProtectedContent(entry.protectedText, translation, {
       sourcePath: `${entryLabel} source`,
       targetPath: `${entryLabel} target`,
     })
-    if (protectedErrors.length) throw new Error(`REST translation changed protected content for ${entry.id} (${entryLabel}): ${protectedErrors.join('; ')}`)
+    if (protectedErrors.length) throw protectedContentError(`REST translation changed protected content for ${entry.id} (${entryLabel}): ${protectedErrors.join('; ')}`)
     const {protectedText, protection, ...restoredEntry} = entry
     return {...restoredEntry, translation}
   })

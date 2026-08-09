@@ -123,7 +123,8 @@ function validatePersistedPrefix({value, artifactIdentity, currentIdentity, sour
     }
     const chunks = chunkDocument(sourceContent, chunkOptions)
     if (chunks.length !== value.totalChunks) throw new Error('Current chunk layout does not match retained checkpoint layout')
-    const compatibility = execution.promptContractSha256 === currentIdentity.promptContractSha256 && execution.model === currentIdentity.model
+    const compatibility = execution.promptContractSha256 === currentIdentity.promptContractSha256 && execution.model === currentIdentity.model &&
+      execution.toolingSha === currentIdentity.toolingSha
       ? 'strict'
       : 'revalidated'
     const accepted = []

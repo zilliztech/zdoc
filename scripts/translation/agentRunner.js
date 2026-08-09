@@ -23,7 +23,7 @@ const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
 const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
 const {classifyFailure, failureRecord} = require('./failureClassification')
-const {loadAnalysisChunkResume, serializeCompletedChunkCheckpoints} = require('./chunkRecovery')
+const {MAX_PARTIAL_ARTIFACT_BYTES, loadAnalysisChunkResume, serializeCompletedChunkCheckpoints} = require('./chunkRecovery')
 const {validateRecoveryCandidate} = require('./recoveryValidation')
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
 const { assertSafeRepositoryRelativePath } = loadTypeScript('../../packages/docs-tooling/src/validation/ownership.ts')
@@ -85,8 +85,50 @@ function formatReferenceLandingContract(target, sourcePath) {
   ].join('\n')
 }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
+function sleep(ms, signal) {
+  if (!signal) return new Promise(resolve => setTimeout(resolve, ms))
+  if (signal.aborted) return Promise.reject(signal.reason)
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      signal.removeEventListener('abort', onAbort)
+      resolve()
+    }, ms)
+    const onAbort = () => {
+      clearTimeout(timer)
+      reject(signal.reason)
+    }
+    signal.addEventListener('abort', onAbort, {once: true})
+  })
+}
+
+function categorizedError(message, failureCategory, details = {}) {
+  const error = new Error(message)
+  error.failureCategory = failureCategory
+  Object.assign(error, details)
+  return error
+}
+
+function structuredErrorDetails(error) {
+  const detail = {}
+  for (const key of ['name', 'status', 'code']) {
+    if (typeof error?.[key] === 'string') detail[key] = error[key].slice(0, 200)
+    else if (Number.isFinite(error?.[key])) detail[key] = error[key]
+  }
+  if (error?.cause && typeof error.cause === 'object') {
+    const cause = {}
+    for (const key of ['name', 'status', 'code', 'failureCategory']) {
+      if (typeof error.cause[key] === 'string') cause[key] = error.cause[key].slice(0, 200)
+      else if (Number.isFinite(error.cause[key])) cause[key] = error.cause[key]
+    }
+    if (Object.keys(cause).length) detail.cause = cause
+  }
+  return Object.keys(detail).length ? detail : undefined
+}
+
+function stripInternalRecoveryFields(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return value
+  const {recoveryChunkCheckpoints: _internal, ...publicValue} = value
+  return publicValue
 }
 
 function parsePositiveInteger(value, fallback) {
@@ -121,7 +163,8 @@ function stripCodeFence(text) {
 
 function isRetryableProviderError(error) {
   const message = String(error?.message || error)
-  return /\b(408|409|425|429|500|502|503|504)\b/.test(message) ||
+  return ['provider_timeout', 'provider_transport'].includes(classifyFailure(error)) ||
+    /\b(408|409|425|429|500|502|503|504)\b/.test(message) ||
     error?.name === 'AbortError' ||
     /aborted|connection error|fetch failed|network|timeout|timed out|ECONNRESET|ETIMEDOUT|EAI_AGAIN/i.test(message)
 }
@@ -131,7 +174,7 @@ async function createProviderCall(agentConfigs, options = {}) {
   const retryDelayMs = Number.isFinite(options.retryDelayMs) ? options.retryDelayMs : 1000
   const timeoutMs = parsePositiveInteger(options.timeoutMs, DEFAULT_PROVIDER_TIMEOUT_MS)
 
-  return async function callModel({ agent, messages }) {
+  return async function callModel({ agent, messages, signal: externalSignal }) {
     const config = agentConfigs[agent]
     if (!config?.baseUrl || !config?.apiKey || !config?.model) {
       throw new Error(`Missing provider config for ${agent} agent`)
@@ -139,8 +182,16 @@ async function createProviderCall(agentConfigs, options = {}) {
 
     let lastError
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      if (externalSignal?.aborted) throw externalSignal.reason
       const controller = new AbortController()
-      const timeout = setTimeout(() => controller.abort(), timeoutMs)
+      let providerTimedOut = false
+      const providerTimeout = categorizedError(`${agent} agent timed out after ${timeoutMs}ms`, 'provider_timeout', {code: 'PROVIDER_TIMEOUT', timeoutMs})
+      const timeout = setTimeout(() => {
+        providerTimedOut = true
+        controller.abort(providerTimeout)
+      }, timeoutMs)
+      const onExternalAbort = () => controller.abort(externalSignal.reason)
+      externalSignal?.addEventListener('abort', onExternalAbort, {once: true})
       try {
         const requestBody = {
           model: config.model,
@@ -167,17 +218,25 @@ async function createProviderCall(agentConfigs, options = {}) {
         if (!res.ok || !content) {
           const error = new Error(`${agent} agent failed with HTTP ${res.status}: ${JSON.stringify(data).slice(0, 500)}`)
           error.status = res.status
+          error.failureCategory = res.status === 408 ? 'provider_timeout' : 'provider_transport'
+          error.code = res.status === 408 ? 'PROVIDER_TIMEOUT' : 'PROVIDER_TRANSPORT'
           throw error
         }
         return content.trim()
       } catch (error) {
-        lastError = error
-        if (attempt >= maxRetries || !isRetryableProviderError(error)) break
+        lastError = externalSignal?.aborted
+          ? externalSignal.reason
+          : providerTimedOut
+            ? providerTimeout
+            : error
+        if (!lastError.failureCategory) lastError.failureCategory = classifyFailure(lastError)
+        if (externalSignal?.aborted || attempt >= maxRetries || !isRetryableProviderError(lastError)) break
         const waitMs = retryDelayMs * (2 ** attempt)
-        console.warn(`[translation-agent] ${agent} call failed; retrying in ${waitMs}ms (${attempt + 1}/${maxRetries}): ${error.message}`)
-        await sleep(waitMs)
+        console.warn(`[translation-agent] ${agent} call failed; retrying in ${waitMs}ms (${attempt + 1}/${maxRetries}): ${lastError.message}`)
+        await sleep(waitMs, externalSignal)
       } finally {
         clearTimeout(timeout)
+        externalSignal?.removeEventListener('abort', onExternalAbort)
       }
     }
     lastError.failureCategory = classifyFailure(lastError)
@@ -185,15 +244,27 @@ async function createProviderCall(agentConfigs, options = {}) {
   }
 }
 
-async function withTimeout(promise, timeoutMs, message) {
+async function withTimeout(operation, timeoutMs, message) {
+  const controller = new AbortController()
+  const timeoutError = categorizedError(message, 'provider_timeout', {code: 'CHUNK_TIMEOUT', timeoutMs})
+  const promise = typeof operation === 'function' ? Promise.resolve().then(() => operation(controller.signal)) : Promise.resolve(operation)
+  let timedOut = false
   let timeout
   try {
     return await Promise.race([
       promise,
       new Promise((_, reject) => {
-        timeout = setTimeout(() => reject(new Error(message)), timeoutMs)
+        timeout = setTimeout(() => {
+          timedOut = true
+          controller.abort(timeoutError)
+          reject(timeoutError)
+        }, timeoutMs)
       }),
     ])
+  } catch (error) {
+    if (!timedOut) throw error
+    await promise.catch(() => {})
+    throw timeoutError
   } finally {
     clearTimeout(timeout)
   }
@@ -251,11 +322,18 @@ async function processItemWithRetry(item, options) {
         onChunkCompleted: checkpoint => chunkCheckpoint.set(checkpoint.index, checkpoint),
       })
     } catch (error) {
-      result = { ...item, status: 'failed', error: String(error?.message || error) }
+      result = {
+        ...stripInternalRecoveryFields(item),
+        status: 'failed',
+        error: String(error?.message || error),
+        failureCategory: classifyFailure(error),
+        ...(structuredErrorDetails(error) ? {errorDetails: structuredErrorDetails(error)} : {}),
+      }
     }
 
     if (result.status === 'translated') {
-      return failures.length ? { ...result, attempts: attempt + 1, retryFailures: failures } : result
+      const publicResult = stripInternalRecoveryFields(result)
+      return failures.length ? { ...publicResult, attempts: attempt + 1, retryFailures: failures } : publicResult
     }
 
     const failure = summarizeFailedResult(result)
@@ -271,7 +349,7 @@ async function processItemWithRetry(item, options) {
     } else {
       const chunkCheckpoints = serializeCompletedChunkCheckpoints(chunkCheckpoint)
       return {
-        ...result,
+        ...stripInternalRecoveryFields(result),
         failureCategory: record.category,
         attempts: attempt + 1,
         retryFailures: failures,
@@ -408,6 +486,7 @@ async function translateAndReviewUnit({
   maxReviewRounds,
   chunkContext,
   retryFeedback,
+  signal,
 }) {
   const localeContract = loadLocaleContract(target)
   const idPrefix = chunkContext ? `chunk.${String(chunkContext.index + 1).padStart(4, '0')}` : 'document'
@@ -418,6 +497,7 @@ async function translateAndReviewUnit({
   const sourceUnitPayload = sourceUnits.map(unit => ({id: unit.id, kind: unit.kind, text: unit.protection.content}))
   const initialResponse = await callModel({
     agent: 'translation',
+    signal,
     messages: buildTranslationMessages({
       target,
       sourcePath,
@@ -432,7 +512,7 @@ async function translateAndReviewUnit({
   let currentUnits = restoreSemanticUnitResponse(initialResponse, {field: 'translations', protectedUnits: sourceUnits, localeContract})
   let translatedContent = patchSemanticUnits(sourceContent, units, currentUnits)
   let protectedErrors = validateProtectedContent(sourceContent, translatedContent, {sourcePath})
-  if (protectedErrors.length) throw new Error(protectedErrors.join('; '))
+  if (protectedErrors.length) throw categorizedError(protectedErrors.join('; '), 'protected_content_failed', {code: 'PROTECTED_CONTENT_FAILED'})
 
   let review = { pass: false, issues: [] }
   for (let round = 0; round <= maxReviewRounds; round++) {
@@ -443,6 +523,7 @@ async function translateAndReviewUnit({
     const draftUnitContent = JSON.stringify(draftUnitPayload)
     const evidence = bindSemanticReviewEvidence(parseAndValidateReviewEvidence(await callModel({
       agent: 'review',
+      signal,
       messages: buildReviewMessages({
         target,
         sourcePath,
@@ -492,6 +573,7 @@ async function translateAndReviewUnit({
     }))
     const correctedResponse = await callModel({
       agent: 'correction',
+      signal,
       messages: buildCorrectionMessages({
         target,
         sourcePath,
@@ -510,7 +592,7 @@ async function translateAndReviewUnit({
     currentUnits = currentUnits.map(unit => correctedById.has(unit.id) ? {...unit, translation: correctedById.get(unit.id)} : unit)
     translatedContent = patchSemanticUnits(sourceContent, units, currentUnits)
     protectedErrors = validateProtectedContent(sourceContent, translatedContent, {sourcePath})
-    if (protectedErrors.length) throw new Error(protectedErrors.join('; '))
+    if (protectedErrors.length) throw categorizedError(protectedErrors.join('; '), 'protected_content_failed', {code: 'PROTECTED_CONTENT_FAILED'})
   }
   return { translatedContent, review, semanticUnits: units.length }
 }
@@ -616,19 +698,28 @@ async function processManifestItem({
       unit = cached
       reusedChunks += 1
     } else {
-      const translation = translateAndReviewUnit({
-        target: item.target,
-        sourcePath: item.sourcePath,
-        sourceContent: chunk.source,
-        locale: item.locale,
-        callModel,
-        maxReviewRounds,
-        chunkContext,
-        retryFeedback,
-      })
       unit = chunkTimeoutMs > 0
-        ? await withTimeout(translation, chunkTimeoutMs, `Timed out translating chunk ${chunk.index + 1}/${chunks.length} of ${item.sourcePath} after ${chunkTimeoutMs}ms`)
-        : await translation
+        ? await withTimeout(signal => translateAndReviewUnit({
+          target: item.target,
+          sourcePath: item.sourcePath,
+          sourceContent: chunk.source,
+          locale: item.locale,
+          callModel,
+          maxReviewRounds,
+          chunkContext,
+          retryFeedback,
+          signal,
+        }), chunkTimeoutMs, `Timed out translating chunk ${chunk.index + 1}/${chunks.length} of ${item.sourcePath} after ${chunkTimeoutMs}ms`)
+        : await translateAndReviewUnit({
+          target: item.target,
+          sourcePath: item.sourcePath,
+          sourceContent: chunk.source,
+          locale: item.locale,
+          callModel,
+          maxReviewRounds,
+          chunkContext,
+          retryFeedback,
+        })
     }
     lastReview = unit.review
     if (!unit.review.pass) {
@@ -1082,6 +1173,7 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
   const pending = []
   let recoveredChunkCount = 0
   let resumableFileCount = 0
+  let recoveredChunkBytes = 0
   for (const record of analysis.pending) {
     const pendingKeys = ['sourcePath', 'targetPath', 'sourceHash']
     if (Object.hasOwn(record, 'chunkResume')) pendingKeys.push('chunkResume')
@@ -1117,6 +1209,8 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       })
       recoveredChunkCount += recoveryChunkCheckpoints.length
       resumableFileCount += 1
+      recoveredChunkBytes += recoveryChunkCheckpoints.reduce((total, checkpoint) => total + Buffer.byteLength(checkpoint.translatedContent), 0)
+      if (recoveredChunkBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery analysis aggregate chunk payload is oversized')
     }
     seen.add(key)
     pending.push(recoveryChunkCheckpoints ? {...candidate, recoveryChunkCheckpoints} : candidate)

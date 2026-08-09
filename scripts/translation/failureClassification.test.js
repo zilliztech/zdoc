@@ -31,3 +31,10 @@ test('creates bounded structured retry evidence without parsing downstream text'
     error: 'HTTP 408',
   })
 })
+
+test('prefers explicit structured categories and timeout codes over opaque messages', () => {
+  assert.equal(classifyFailure(Object.assign(new Error('opaque'), {failureCategory: 'provider_transport'})), 'provider_transport')
+  assert.equal(classifyFailure(Object.assign(new Error('opaque'), {code: 'CHUNK_TIMEOUT', timeoutMs: 900000})), 'provider_timeout')
+  assert.equal(classifyFailure(Object.assign(new Error('opaque'), {code: 'PROVIDER_TIMEOUT'})), 'provider_timeout')
+  assert.equal(classifyFailure(Object.assign(new Error('opaque'), {code: 'PROVIDER_TRANSPORT'})), 'provider_transport')
+})

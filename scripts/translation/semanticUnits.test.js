@@ -120,6 +120,17 @@ test('requires exact semantic response fields and IDs while normalizing response
   )
 })
 
+test('marks semantic protected-content failures structurally at their origin', () => {
+  const units = [{id: 'doc.paragraph.0001', kind: 'paragraph', start: 0, end: 12, source: 'Use `alpha`.'}]
+  const protectedUnits = protectSemanticUnits(units)
+  const response = JSON.stringify({translations: [{id: units[0].id, text: '使用 alpha。'}]})
+  assert.throws(() => restoreSemanticUnitResponse(response, {field: 'translations', protectedUnits}), error => {
+    assert.equal(error.failureCategory, 'protected_content_failed')
+    assert.equal(error.code, 'PROTECTED_CONTENT_FAILED')
+    return true
+  })
+})
+
 test('normalizes deterministic locale casing before restoring protected semantic content', () => {
   const units = [{
     id: 'doc.paragraph.0001', kind: 'paragraph', start: 0, end: 49,

@@ -132,7 +132,11 @@ test('rejects translations that change protected API tokens', async () => {
     sourceSpecs: { description: 'Use `offset` with {{TOKEN}} at https://example.com.' },
     target: 'ja-JP', locale: 'ja-JP',
     callModel: withPassingReview(async ({ messages }) => JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({ ...entry, text: '変更されたテキスト' })))),
-  }), /protected (?:marker|content|token)/i)
+  }), error => {
+    assert.match(error.message, /protected (?:marker|content|token)/i)
+    assert.equal(error.failureCategory, 'protected_content_failed')
+    return true
+  })
 })
 
 test('rejects invented inline-code structure around technical identifiers', async () => {

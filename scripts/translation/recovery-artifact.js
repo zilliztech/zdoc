@@ -60,6 +60,26 @@ function writeJson(filePath, value) {
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
 }
 
+function boundedErrorDetails(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
+  const details = {};
+  for (const key of ['name', 'status', 'code']) {
+    const field = value[key];
+    if (typeof field === 'string') details[key] = field.slice(0, 200);
+    else if (Number.isFinite(field)) details[key] = field;
+  }
+  if (value.cause && typeof value.cause === 'object' && !Array.isArray(value.cause)) {
+    const cause = {};
+    for (const key of ['name', 'status', 'code', 'failureCategory']) {
+      const field = value.cause[key];
+      if (typeof field === 'string') cause[key] = field.slice(0, 200);
+      else if (Number.isFinite(field)) cause[key] = field;
+    }
+    if (Object.keys(cause).length) details.cause = cause;
+  }
+  return Object.keys(details).length ? details : undefined;
+}
+
 function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
   assertIdentity(identity);
   fs.rmSync(outputDir, {recursive: true, force: true});
@@ -91,6 +111,7 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
   let partialChunkBytes = 0;
   const failures = results.filter(item => item.status !== 'translated').map(result => {
     let chunkCheckpoints = null;
+    const errorDetails = boundedErrorDetails(result.errorDetails);
     if (result.chunkCheckpoints) {
       const sourcePath = safePath(siteDir, result.sourcePath, 'Recovery partial source path');
       const sourceHash = sha256(fs.readFileSync(sourcePath));
@@ -106,6 +127,7 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
       status: 'failed',
       failureCategory: classifyFailure(result),
       error: String(result.error || 'translation failed').slice(0, 2000),
+      ...(errorDetails ? {errorDetails} : {}),
       retryFailures: Array.isArray(result.retryFailures) ? result.retryFailures.map(failure => ({
         attempt: failure.attempt,
         category: failure.category || classifyFailure(failure),
@@ -142,8 +164,8 @@ function readArtifact(artifactDir) {
       let partialChunkBytes = 0;
       for (const failure of manifest.failures) {
         for (const entry of failure?.chunkCheckpoints?.entries || []) {
-          if (!Number.isSafeInteger(entry?.targetSize) || entry.targetSize < 0) continue;
-          partialChunkBytes += entry.targetSize;
+          if (typeof entry?.translatedContent !== 'string') continue;
+          partialChunkBytes += Buffer.byteLength(entry.translatedContent);
           if (partialChunkBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('partial chunk artifact payload is oversized');
         }
       }
@@ -234,12 +256,17 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
           reasons.push('corrupt recovery record target hash');
           continue;
         }
-        const compatibility = record.promptContractSha256 === identity.promptContractSha256 && record.model === identity.model
+        const compatibility = record.promptContractSha256 === identity.promptContractSha256 && record.model === identity.model &&
+          artifact.metadata.toolingSha === identity.toolingSha
           ? 'strict'
           : 'revalidated'
         if (compatibility === 'revalidated') {
           if (typeof revalidate !== 'function') {
-            reasons.push(record.promptContractSha256 !== identity.promptContractSha256 ? 'recovery prompt contract mismatch' : 'recovery model mismatch');
+            reasons.push(record.promptContractSha256 !== identity.promptContractSha256
+              ? 'recovery prompt contract mismatch'
+              : record.model !== identity.model
+                ? 'recovery model mismatch'
+                : 'recovery tooling validation identity mismatch');
             continue;
           }
           const validationErrors = revalidate({

@@ -874,8 +874,9 @@ async function testProviderCallTimesOutHungRequests() {
         messages: [{ role: 'user', content: 'hello' }],
       }),
       error => {
-        assert.match(error.message, /aborted/i)
+        assert.match(error.message, /timed out/i)
         assert.equal(error.failureCategory, 'provider_timeout')
+        assert.equal(error.code, 'PROVIDER_TIMEOUT')
         return true
       },
     )
@@ -886,10 +887,124 @@ async function testProviderCallTimesOutHungRequests() {
 }
 
 async function testFileTimeoutRejectsSlowWork() {
+  let completed = 0
   await assert.rejects(
-    () => withTimeout(new Promise(() => {}), 1, 'Timed out translating docs/test.md after 1ms'),
-    /Timed out translating docs\/test\.md/,
+    () => withTimeout(signal => new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        completed += 1
+        resolve('late')
+      }, 30)
+      signal.addEventListener('abort', () => {
+        clearTimeout(timer)
+        reject(signal.reason)
+      }, {once: true})
+    }), 1, 'Timed out translating docs/test.md after 900000ms'),
+    error => {
+      assert.equal(error.failureCategory, 'provider_timeout')
+      assert.equal(error.code, 'CHUNK_TIMEOUT')
+      assert.equal(error.timeoutMs, 1)
+      assert.match(error.message, /after 900000ms/)
+      return true
+    },
   )
+  await new Promise(resolve => setTimeout(resolve, 40))
+  assert.equal(completed, 0)
+}
+
+async function testChunkTimeoutAbortsAndSettlesBeforeFileRetry() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/changelogs.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/changelogs.md'
+    const source = '# One\n\nFirst paragraph.\n\n# Two\n\nSecond paragraph.\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'}
+    let active = 0
+    let maxActive = 0
+    let calls = 0
+    let backgroundCompletions = 0
+    let lateCheckpoints = 0
+
+    const result = await processItemWithRetry(item, {
+      maxRetries: 1,
+      log: {warn: () => {}},
+      processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        retryFeedback,
+        chunkTargetChars: 25,
+        chunkMaxChars: 35,
+        chunkCheckpoint: retryContext.chunkCheckpoint,
+        onChunkCompleted: checkpoint => {
+          lateCheckpoints += 1
+          retryContext.onChunkCompleted(checkpoint)
+        },
+        chunkTimeoutMs: 5,
+        validate: async () => [],
+        maxReviewRounds: 0,
+        callModel: ({agent, messages, signal}) => new Promise((resolve, reject) => {
+          calls += 1
+          active += 1
+          maxActive = Math.max(maxActive, active)
+          const timer = setTimeout(() => {
+            active -= 1
+            backgroundCompletions += 1
+            resolve(agent === 'review' ? '{"pass":true,"issues":[]}' : semanticTranslationResponse(messages, text => `JA:${text}`))
+          }, 30)
+          signal?.addEventListener('abort', () => {
+            clearTimeout(timer)
+            active -= 1
+            reject(signal.reason)
+          }, {once: true})
+        }),
+      }),
+    })
+
+    await new Promise(resolve => setTimeout(resolve, 80))
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'provider_timeout')
+    assert.equal(calls, 2, 'one provider call per bounded file attempt')
+    assert.equal(maxActive, 1, 'a retry must not overlap the timed-out attempt')
+    assert.equal(backgroundCompletions, 0, 'aborted provider work must not complete in the background')
+    assert.equal(lateCheckpoints, 0, 'a timed-out attempt must not publish a late checkpoint')
+  })
+}
+
+async function testProviderNamedFailuresRetryBoundedlyAndExternalAbortDoesNotRetry() {
+  const originalFetch = global.fetch
+  try {
+    for (const [label, response, category] of [
+      ['HTTP 408', () => ({ok: false, status: 408, json: async () => ({error: 'timeout'})}), 'provider_timeout'],
+      ['APITimeoutError', () => { const error = new Error('opaque'); error.name = 'APITimeoutError'; throw error }, 'provider_timeout'],
+      ['stream before response.completed', () => { throw new Error('stream closed before response.completed') }, 'provider_transport'],
+    ]) {
+      let calls = 0
+      global.fetch = async () => {
+        calls += 1
+        return response()
+      }
+      const callModel = await createProviderCall({translation: {baseUrl: 'https://example.com', apiKey: 'key', model: 'model'}}, {maxRetries: 1, retryDelayMs: 1})
+      await assert.rejects(() => callModel({agent: 'translation', messages: []}), error => {
+        assert.equal(error.failureCategory, category, label)
+        return true
+      })
+      assert.equal(calls, 2, label)
+    }
+
+    let abortedCalls = 0
+    global.fetch = async (_url, options) => new Promise((resolve, reject) => {
+      abortedCalls += 1
+      options.signal.addEventListener('abort', () => reject(options.signal.reason), {once: true})
+    })
+    const callModel = await createProviderCall({translation: {baseUrl: 'https://example.com', apiKey: 'key', model: 'model'}}, {maxRetries: 3, retryDelayMs: 1})
+    const controller = new AbortController()
+    const pending = callModel({agent: 'translation', messages: [], signal: controller.signal})
+    const reason = Object.assign(new Error('file attempt cancelled'), {failureCategory: 'provider_timeout', code: 'CHUNK_TIMEOUT'})
+    controller.abort(reason)
+    await assert.rejects(() => pending, error => error === reason)
+    assert.equal(abortedCalls, 1)
+  } finally {
+    global.fetch = originalFetch
+  }
 }
 
 function testRetryableProviderErrors() {
@@ -1007,6 +1122,80 @@ async function testLongDocumentTranslatesChunksSequentially() {
     assert.equal(result.chunks.total, expectedChunks.length)
     assert.deepEqual(calls.map(call => call.agent), expectedChunks.flatMap(() => ['translation', 'review']))
     assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /# セクション Three/)
+  })
+}
+
+async function testChangelogsVisibleLinkLabelsRemainReviewableWhileUrlsStayProtected() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/changelogs.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/changelogs.md'
+    const source = '# Changelog\n\nRead [JSON indexing](https://example.com/json), [collections](https://example.com/collections), and [indexing](https://example.com/indexing).\n'
+    write(path.join(siteDir, sourcePath), source)
+    let reviewerSawLabels = false
+    const result = await processManifestItem({
+      siteDir,
+      item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
+      maxReviewRounds: 0,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        if (agent === 'translation') {
+          const units = taggedJsonContent(messages, 'semantic_units')
+          assert.match(JSON.stringify(units), /JSON indexing/)
+          assert.match(JSON.stringify(units), /collections/)
+          assert.match(JSON.stringify(units), /indexing/)
+          assert.doesNotMatch(JSON.stringify(units), /https:\/\/example\.com/)
+          return semanticTranslationResponse(messages)
+        }
+        const sourceUnits = taggedJsonContent(messages, 'source_units')
+        reviewerSawLabels = /JSON indexing/.test(JSON.stringify(sourceUnits)) && /collections/.test(JSON.stringify(sourceUnits))
+        return JSON.stringify({pass: false, issues: [{
+          severity: 'medium', type: 'untranslated_prose', location: sourceUnits.at(-1).id,
+          source_quote: 'JSON indexing', draft_quote: 'JSON indexing', comment: 'Translate the visible Markdown link label.',
+        }]})
+      },
+    })
+    assert.equal(reviewerSawLabels, true)
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'locale_contract_failed')
+    assert.ok(result.review.issues.some(issue => issue.source_quote === 'JSON indexing'))
+    assert.ok(result.review.localeContractIssues.some(issue => /collection/i.test(issue.source_quote)))
+  })
+}
+
+async function testJapaneseMandatoryTermsUseRealGuidePathsWithoutMatchingHtmlCodePayloads() {
+  await withTempDir(async siteDir => {
+    const modifySourcePath = 'docs/userGuide/manage-collections/modify-collections.md'
+    const modifyTargetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/userGuide/manage-collections/modify-collections.md'
+    const modifySource = '# Modify collections\n\nSet <code>collection.ttl.seconds</code> for the collection in the database.\n'
+    write(path.join(siteDir, modifySourcePath), modifySource)
+    const valid = await processManifestItem({
+      siteDir,
+      item: {target: 'ja-JP', sourcePath: modifySourcePath, targetPath: modifyTargetPath, sourceHash: sha256(modifySource), locale: 'ja-JP', type: 'guides'},
+      maxReviewRounds: 0,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => agent === 'review'
+        ? '{"pass":true,"issues":[]}'
+        : semanticTranslationResponse(messages, text => text
+          .replace('Modify collections', 'コレクションの変更')
+          .replace('for the collection in the database', 'コレクションをデータベースで設定します')),
+    })
+    assert.equal(valid.status, 'translated')
+    assert.match(fs.readFileSync(path.join(siteDir, modifyTargetPath), 'utf8'), /<code>collection\.ttl\.seconds<\/code>/)
+
+    const auditSourcePath = 'docs/userGuide/monitor/audit-logs-ref.md'
+    const auditTargetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/userGuide/monitor/audit-logs-ref.md'
+    const auditSource = '# Audit logs\n\nAudit logs are stored in the database for each collection.\n'
+    write(path.join(siteDir, auditSourcePath), auditSource)
+    const invalid = await processManifestItem({
+      siteDir,
+      item: {target: 'ja-JP', sourcePath: auditSourcePath, targetPath: auditTargetPath, sourceHash: sha256(auditSource), locale: 'ja-JP', type: 'guides'},
+      maxReviewRounds: 0,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => agent === 'review' ? '{"pass":true,"issues":[]}' : semanticTranslationResponse(messages),
+    })
+    assert.equal(invalid.status, 'failed')
+    assert.equal(invalid.failureCategory, 'locale_contract_failed')
+    assert.ok(invalid.review.localeContractIssues.some(issue => /database|collection/i.test(issue.source_quote)))
   })
 }
 
@@ -1354,6 +1543,65 @@ async function testFileRetryPreservesProviderFailureCategories() {
 
   assert.equal(result.failureCategory, 'provider_timeout')
   assert.deepEqual(result.retryFailures.map(item => item.category), ['provider_timeout', 'provider_timeout'])
+}
+
+async function testFileRetryPreservesStructuredFailureFieldsWithoutMessageParsing() {
+  const longName = 'ProviderEnvelopeError'.repeat(20)
+  const result = await processItemWithRetry({sourcePath: 'docs/opaque.md'}, {
+    maxRetries: 0,
+    processItem: async () => {
+      const cause = Object.assign(new Error('inner opaque'), {name: 'ProviderCause', status: 599, code: 'INNER_CODE', failureCategory: 'provider_transport'})
+      throw Object.assign(new Error('outer opaque'), {
+        name: longName, status: 598, code: 'OUTER_CODE', failureCategory: 'provider_transport', cause, ignored: {secret: true},
+      })
+    },
+  })
+
+  assert.equal(result.failureCategory, 'provider_transport')
+  assert.deepEqual(result.errorDetails, {
+    name: longName.slice(0, 200), status: 598, code: 'OUTER_CODE',
+    cause: {name: 'ProviderCause', status: 599, code: 'INNER_CODE', failureCategory: 'provider_transport'},
+  })
+  assert.deepEqual(result.retryFailures.map(item => item.category), ['provider_transport'])
+}
+
+async function testInternalRecoveryChunkSeedsNeverEnterPublicResultsOrReports() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/internal-seed.md'
+    const targetPath = 'i18n/ja-JP/internal-seed.md'
+    const source = '# Source\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {
+      target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides',
+      recoveryChunkCheckpoints: [{index: 0, total: 1, sourceHash: sha256(source), translatedContent: '# ソース\n', review: {pass: true, issues: []}, semanticUnits: []}],
+    }
+    const result = await processItemWithRetry(item, {
+      maxRetries: 0,
+      initialChunkCheckpoints: item.recoveryChunkCheckpoints,
+      processItem: async value => ({...value, status: 'translated'}),
+    })
+    assert.equal(Object.hasOwn(result, 'recoveryChunkCheckpoints'), false)
+
+    const reportPath = 'tmp/report.json'
+    const coordinator = createProgressCoordinator({
+      siteDir,
+      manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', items: [item]},
+      reportPath,
+      checkpointFiles: 1,
+      checkpointIntervalMs: 1000,
+    })
+    await coordinator.record(result, 0)
+    await coordinator.checkpoint(true)
+    assert.doesNotMatch(fs.readFileSync(path.join(siteDir, reportPath), 'utf8'), /recoveryChunkCheckpoints/)
+
+    const failed = await processItemWithRetry(item, {
+      maxRetries: 0,
+      initialChunkCheckpoints: item.recoveryChunkCheckpoints,
+      processItem: async value => ({...value, status: 'failed', error: 'opaque'}),
+    })
+    assert.equal(Object.hasOwn(failed, 'recoveryChunkCheckpoints'), false)
+    assert.equal(Object.hasOwn(failed, 'chunkCheckpoints'), true)
+  })
 }
 
 async function testWorkerPoolStopsAssigningNewItems() {
@@ -2122,6 +2370,8 @@ async function run() {
   await testProviderStructuredOutputIsCapabilityGated()
   await testProviderCallTimesOutHungRequests()
   await testFileTimeoutRejectsSlowWork()
+  await testChunkTimeoutAbortsAndSettlesBeforeFileRetry()
+  await testProviderNamedFailuresRetryBoundedlyAndExternalAbortDoesNotRetry()
   testRetryableProviderErrors()
   testChunkLimitConfiguration()
   testFileRetryConfiguration()
@@ -2130,6 +2380,8 @@ async function run() {
   testChunkMessagesContainContinuityContext()
   testStabilizesBoldBareUrlsBeforeJapanesePunctuation()
   await testLongDocumentTranslatesChunksSequentially()
+  await testChangelogsVisibleLinkLabelsRemainReviewableWhileUrlsStayProtected()
+  await testJapaneseMandatoryTermsUseRealGuidePathsWithoutMatchingHtmlCodePayloads()
   await testFileRetryResumesFromCompletedChunkCheckpoint()
   await testRestoresSourceImportsBeforeValidation()
   await testRepairsUnescapedHeadingAnchorsAfterTranslation()
@@ -2142,6 +2394,8 @@ async function run() {
   await testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBackToTranslation()
   await testFileRetryRecordsPersistentFailure()
   await testFileRetryPreservesProviderFailureCategories()
+  await testFileRetryPreservesStructuredFailureFieldsWithoutMessageParsing()
+  await testInternalRecoveryChunkSeedsNeverEnterPublicResultsOrReports()
   await testWorkerPoolStopsAssigningNewItems()
   await testChineseReferenceProgressStateUsesItsTargetManifest()
   await testReferenceProgressStateAcceptsNewSourceMissingFromStaleManifest()
