@@ -154,9 +154,9 @@ jobs:
       group: ${{ inputs.group }}
       bootstrap_group: ${{ inputs.group }}
       tooling_sha: ${{ inputs.tooling_sha }}
-      source_sha: ${{ inputs.source_sha }}
-      master_sha: ${{ inputs.tooling_sha }}
-      source_commit_sha: ${{ inputs.source_sha }}
+      source_baseline_sha: ${{ inputs.tooling_sha }}
+      source_checkpoint_sha: ${{ inputs.source_sha }}
+      legacy_without_publication_selection: true
       should_translate: true
       max_files: ${{ inputs.max_files }}
       mode: ${{ inputs.mode }}
