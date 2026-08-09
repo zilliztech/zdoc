@@ -493,6 +493,11 @@ describe('Reference translation provenance', () => {
     writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
     writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
     writeMinimalReferenceSidebarTemplates(roots.repositoryRoot);
+    mkdirSync(path.join(roots.repositoryRoot, 'deploy/contracts'), {recursive: true});
+    writeFileSync(
+      path.join(roots.repositoryRoot, 'deploy/contracts/localization-inputs.inventory.json'),
+      '{\n  "schemaVersion": 1,\n  "paths": []\n}\n',
+    );
 
     await executeReferenceDocsToolingCommand([
       'reference-manifest', '--source', roots.sourceRoot, '--target', roots.targetRoot, '--source-commit', 'HEAD', '--write',
@@ -507,7 +512,9 @@ describe('Reference translation provenance', () => {
     const dependencies = {
       repositoryRoot: roots.repositoryRoot,
       environment: {
+        ZDOC_PROVENANCE_COMMIT: sourceCommit,
         ZDOC_PROVENANCE_WORKTREE: 'external-snapshot',
+        ZDOC_PROVENANCE_TRACKED_INPUTS: 'deploy/contracts/localization-inputs.inventory.json',
       },
       manualForPath: () => 'python',
       retirementRegistry: {schemaVersion: 2 as const, retirements: []},
