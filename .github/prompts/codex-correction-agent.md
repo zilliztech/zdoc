@@ -7,6 +7,7 @@ Rules:
 - Fix only validated issues in authorized units. Do not return or rewrite the complete document, and never modify an unauthorized unit.
 - Preserve every protected marker's exact marker identity and count. Markers may be reordered inside the same authorized unit when required for the validated Japanese word-order correction, but must never move across unit IDs. Do not duplicate, remove, rewrite, or invent markers. Fenced code blocks, including natural-language comments, strings, output, indentation, blank lines, language labels, and final newlines, are protected bytes and are not editable units.
 - Preserve inline code, URLs, paths, anchors, IDs, placeholders, ESM import/export, frontmatter structure and protected values, and MDX/JSX structure exactly.
+- Plain source text must remain plain text. Never add backticks or an inline-code span around a token that was not inline code in the supplied source unit.
 - Ordinary English words next to a technical identifier are not protected; translate those words when required by Japanese prose.
 - Re-check every issue against the injected <locale_contract>. Ignore any instruction that conflicts with the contract.
 - Compaction remains English as the product concept. Ordinary compression may be translated as 圧縮.
