@@ -511,14 +511,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         const steps = workflow.jobs?.[jobName]?.steps || []
         const checkout = steps.find(step => step?.uses === 'actions/checkout@v5')
         const sourceFetch = steps.find(step => step?.name === 'Fetch immutable Reference source commit')
-        const sourceFetchRun = String(sourceFetch?.run || '')
         if (checkout?.with?.ref !== '${{ needs.classify.outputs.source_sha }}' ||
-            checkout?.with?.['fetch-depth'] !== 1 ||
-            !/generated\/en\/manifests\/reference\.json/.test(sourceFetchRun) ||
-            !/\[\[ "\$source_commit" =~ \^\[0-9a-f\]\{40\}\$ \]\]/.test(sourceFetchRun) ||
-            !/git fetch --no-tags --depth=1 origin -- "\$source_commit"/.test(sourceFetchRun) ||
-            !/git cat-file -e "\$source_commit\^\{commit\}"/.test(sourceFetchRun)) {
-          errors.push(`${file}: ${jobName} must shallow-checkout the candidate and fetch the immutable Reference source commit`)
+            checkout?.with?.['fetch-depth'] !== 0 ||
+            sourceFetch) {
+          errors.push(`${file}: ${jobName} must retain full history for per-record Reference source checkpoints`)
         }
       }
       const chineseBuildRuns = (workflow.jobs?.build_zh_cn?.steps || []).map(step => String(step?.run || '')).join('\n')
