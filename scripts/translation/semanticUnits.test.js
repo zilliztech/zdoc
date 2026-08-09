@@ -131,6 +131,21 @@ test('marks semantic protected-content failures structurally at their origin', (
   })
 })
 
+test('reports the exact semantic unit and location of an invented protected marker', () => {
+  const units = [{id: 'document.frontmatter.description', kind: 'frontmatter', start: 0, end: 17, source: 'Plain description'}]
+  const protectedUnits = protectSemanticUnits(units)
+  const response = JSON.stringify({translations: [{
+    id: units[0].id,
+    text: '中文\n<!-- ZDOC-PROTECTED:000000:0000000000000000 -->',
+  }]})
+  assert.throws(() => restoreSemanticUnitResponse(response, {field: 'translations', protectedUnits}), error => {
+    assert.match(error.message, /document\.frontmatter\.description/)
+    assert.match(error.message, /000000/)
+    assert.match(error.message, /line 2, column 1, offset 3/)
+    return true
+  })
+})
+
 test('normalizes deterministic locale casing before restoring protected semantic content', () => {
   const units = [{
     id: 'doc.paragraph.0001', kind: 'paragraph', start: 0, end: 49,

@@ -107,12 +107,51 @@ function linkDependencies(repositoryRoot, worktree) {
         .map(entry => path.join(root, entry.name, 'node_modules'))
     }),
   ]
+  const linked = []
   for (const source of roots) {
     if (!fs.existsSync(source) || !fs.lstatSync(source).isDirectory()) continue
     const destination = path.join(worktree, path.relative(repositoryRoot, source))
     if (fs.existsSync(destination)) continue
     fs.mkdirSync(path.dirname(destination), {recursive: true})
     fs.symlinkSync(source, destination)
+    const resolvedSource = fs.realpathSync(source)
+    linked.push(Object.freeze({
+      relative: path.relative(worktree, destination).split(path.sep).join('/'),
+      source: resolvedSource,
+      destination,
+      linkIdentity: filesystemIdentity(fs.lstatSync(destination, {bigint: true})),
+      sourceIdentity: filesystemIdentity(fs.statSync(resolvedSource, {bigint: true})),
+    }))
+  }
+  return Object.freeze(linked)
+}
+
+function filesystemIdentity(stat) {
+  return Object.freeze({
+    dev: String(stat.dev),
+    ino: String(stat.ino),
+    mode: String(stat.mode),
+    nlink: String(stat.nlink),
+    ctimeNs: String(stat.ctimeNs),
+    birthtimeNs: String(stat.birthtimeNs),
+  })
+}
+
+function sameFilesystemIdentity(left, right) {
+  return Object.keys(left).every(key => left[key] === right[key])
+}
+
+function assertDependencyLinksUnchanged(linkedDependencies) {
+  for (const dependency of linkedDependencies) {
+    const stat = fs.lstatSync(dependency.destination, {bigint: true})
+    if (!stat.isSymbolicLink() || fs.realpathSync(dependency.destination) !== dependency.source ||
+        !sameFilesystemIdentity(dependency.linkIdentity, filesystemIdentity(stat))) {
+      throw new Error(`Reconciliation dependency link changed during validation: ${dependency.relative}`)
+    }
+    const sourceStat = fs.statSync(dependency.source, {bigint: true})
+    if (!sourceStat.isDirectory() || !sameFilesystemIdentity(dependency.sourceIdentity, filesystemIdentity(sourceStat))) {
+      throw new Error(`Reconciliation dependency source changed during validation: ${dependency.relative}`)
+    }
   }
 }
 
@@ -135,11 +174,13 @@ function allowedPaths(groups) {
   ])
 }
 
-function changedPaths(worktree, baselineTree) {
+function changedPaths(worktree, baselineTree, linkedDependencies = []) {
+  assertDependencyLinksUnchanged(linkedDependencies)
+  const installedLinks = new Set(linkedDependencies.map(dependency => dependency.relative))
   const staged = git(worktree, ['diff', '--cached', '--name-only', '-z', '--no-renames', baselineTree]).stdout.split('\0').filter(Boolean)
   const unstaged = git(worktree, ['diff', '--name-only', '-z', '--no-renames']).stdout.split('\0').filter(Boolean)
   const untracked = git(worktree, ['ls-files', '--others', '-z', '--exclude-standard']).stdout.split('\0').filter(Boolean)
-  return [...new Set([...staged, ...unstaged, ...untracked])].sort()
+  return [...new Set([...staged, ...unstaged, ...untracked])].filter(relative => !installedLinks.has(relative)).sort()
 }
 
 function copyPath(sourceRoot, targetRoot, relative) {
@@ -206,7 +247,7 @@ async function reconcileTranslationPublication(input = {}) {
       const cleanupDebt = []
       try {
         validationWorktree = createWorktree(repositoryRoot, runnerTemp, 'translation-reconciliation-validation.', selection.toolingSha)
-        linkDependencies(repositoryRoot, validationWorktree)
+        const linkedDependencies = linkDependencies(repositoryRoot, validationWorktree)
         await command(runCommand, validationWorktree, 'bash', [
           path.join(validationWorktree, 'scripts/restore-generated-state.sh'), '--exact', '--ref', latestDevSha,
         ], environment)
@@ -214,7 +255,7 @@ async function reconcileTranslationPublication(input = {}) {
         for (const [executable, args] of reconciliationCommands(groups)) {
           await command(runCommand, validationWorktree, executable, args, environment)
         }
-        const changed = changedPaths(validationWorktree, restoredTree)
+        const changed = changedPaths(validationWorktree, restoredTree, linkedDependencies)
         const unexpected = changed.filter(relative => !allowlist.includes(relative))
         if (unexpected.length) throw new Error(`Reconciliation changed paths outside the allowed derived state: ${unexpected.join(', ')}`)
 
