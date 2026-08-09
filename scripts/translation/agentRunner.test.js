@@ -27,6 +27,7 @@ const {
 } = require('./agentRunner')
 const { chunkDocument } = require('./chunker')
 const { REVIEW_RESPONSE_JSON_SCHEMA } = require('./reviewEvidence')
+const { createRecoveryArtifact } = require('./recovery-artifact')
 const { buildTranslationCandidates } = require('../../packages/docs-tooling/src/translation/candidates.ts')
 const { validateReferenceTranslation } = require('../../packages/docs-tooling/src/validation/translation.ts')
 
@@ -534,7 +535,50 @@ async function testRestSpecReviewFailureDoesNotWriteTarget() {
     })
 
     assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'locale_contract_failed')
+    assert.equal(result.review.localeContractIssues.length, 1)
     assert.match(result.review.issues[0].comment, /Compaction/)
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
+  })
+}
+
+async function testRestReviewerContractConflictFailsStructurally() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/restful/restful/v1/compaction-conflict.mdx'
+    const targetPath = 'content/zh-CN/reference/api/restful/restful/v1/compaction-conflict.mdx'
+    write(path.join(siteDir, sourcePath), '# Compaction\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"description":"Compaction plans merge segments."}\nexport const endpoint = "/v1/compaction"\nexport const method = "post"\n')
+    const calls = []
+    const result = await processManifestItem({
+      siteDir,
+      item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'rest-compaction-conflict', locale: 'zh-CN', type: 'reference'},
+      maxReviewRounds: 2,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        calls.push(agent)
+        if (agent === 'translation' && messages[0].content.includes('structured Zilliz Cloud REST API')) {
+          return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: 'Compaction 计划会合并 Segment。'})))
+        }
+        if (agent === 'translation') return semanticTranslationResponse(messages)
+        if (agent === 'review' && messages.at(-1).content.includes('<source>')) {
+          return JSON.stringify({
+            pass: false,
+            issues: [{
+              severity: 'medium', type: 'terminology', location: '["description"]',
+              source_quote: 'Compaction plans', draft_quote: 'Compaction 计划',
+              comment: 'Compaction should be translated as 压实。',
+            }],
+          })
+        }
+        if (agent === 'review') return '{"pass":true,"issues":[]}'
+        throw new Error('Correction must not run for a REST locale-contract conflict')
+      },
+    })
+
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'contract_conflict')
+    assert.equal(result.review.contractConflicts.length, 1)
+    assert.equal(result.review.unsupportedIssues.length, 0)
+    assert.deepEqual(calls, ['translation', 'review', 'translation', 'review'])
     assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
   })
 }
@@ -565,7 +609,9 @@ async function testRestSpecFileRetryReceivesEntryScopedProtectedFeedback() {
               {id: entries[1].id, text: `使用 ${markers[0]}。`},
             ])
             assert.match(messages[1].content, /<retry_feedback>/)
+            assert.match(messages[1].content, new RegExp(sourcePath.replaceAll('/', '\\/')))
             assert.match(messages[1].content, /REST translation entry \["paths","alpha","description"\]/)
+            assert.match(messages[1].content, /paths\.alpha\.description/)
             return JSON.stringify(entries)
           }
           if (agent === 'translation') return semanticTranslationResponse(messages)
@@ -1790,7 +1836,7 @@ async function testNormalizesPrivateLinkEndpointWithoutRewritingCliCommandHeadin
   })
 }
 
-async function testContractConflictingReviewerIssueDoesNotAuthorizeCorrection() {
+async function testContractConflictingReviewerIssueFailsStructurallyAndEntersRecoveryArtifact() {
   await withTempDir(async siteDir => {
     const sourcePath = 'content/en/reference/api/java/compaction.md'
     const targetPath = 'content/zh-CN/reference/api/java/compaction.md'
@@ -1812,16 +1858,61 @@ async function testContractConflictingReviewerIssueDoesNotAuthorizeCorrection() 
       })
       throw new Error('Correction must not run for a locale-contract conflict')
     }
+    const item = {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'compaction-correct', locale: 'zh-CN', type: 'reference'}
+    const result = await processItemWithRetry(item, {
+      maxRetries: 1,
+      log: {warn: () => {}},
+      processItem: () => processManifestItem({
+        siteDir,
+        item,
+        callModel,
+        maxReviewRounds: 2,
+        validate: async () => [],
+      }),
+    })
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'contract_conflict')
+    assert.equal(result.review.contractConflicts.length, 1)
+    assert.deepEqual(result.retryFailures.map(failure => failure.category), ['contract_conflict', 'contract_conflict'])
+    assert.deepEqual(calls, ['translation', 'review', 'translation', 'review'])
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
+
+    const artifactDir = path.join(siteDir, 'recovery-artifact')
+    const artifact = createRecoveryArtifact({
+      siteDir,
+      outputDir: artifactDir,
+      results: [result],
+      identity: {
+        locale: 'zh-CN', group: 'java', promptContractSha256: 'c'.repeat(64), model: 'translation-model',
+        sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'full', batchIndex: 0, batchCount: 1,
+      },
+    })
+    assert.deepEqual(artifact.metadata.failureCounts, {contract_conflict: 1})
+    assert.equal(artifact.failures[0].failureCategory, 'contract_conflict')
+    assert.deepEqual(artifact.failures[0].retryFailures.map(failure => failure.category), ['contract_conflict', 'contract_conflict'])
+  })
+}
+
+async function testOrdinaryMandatoryLocaleIssueRemainsLocaleContractFailure() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/java/compaction-locale-failure.md'
+    const targetPath = 'content/zh-CN/reference/api/java/compaction-locale-failure.md'
+    write(path.join(siteDir, sourcePath), '# Compaction plans\n')
     const result = await processManifestItem({
       siteDir,
-      item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'compaction-correct', locale: 'zh-CN', type: 'reference'},
-      callModel,
-      maxReviewRounds: 2,
+      item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: 'compaction-locale-failure', locale: 'zh-CN', type: 'reference'},
+      maxReviewRounds: 0,
       validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        if (agent === 'translation') return semanticTranslationResponse(messages, () => '压实计划')
+        if (agent === 'review') return '{"pass":true,"issues":[]}'
+        throw new Error(`unexpected ${agent} call`)
+      },
     })
-    assert.equal(result.status, 'translated')
-    assert.deepEqual(calls, ['translation', 'review'])
-    assert.equal(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), '# Compaction 计划\n')
+
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'locale_contract_failed')
+    assert.equal(result.review.localeContractIssues.length, 1)
   })
 }
 
@@ -2025,6 +2116,7 @@ async function run() {
   await testCorrectionRunsWhenReviewFails()
   await testRestSpecsUseStructuredLocaleTranslation()
   await testRestSpecReviewFailureDoesNotWriteTarget()
+  await testRestReviewerContractConflictFailsStructurally()
   await testRestSpecFileRetryReceivesEntryScopedProtectedFeedback()
   await testProviderCallRetriesTransientFailures()
   await testProviderStructuredOutputIsCapabilityGated()
@@ -2060,7 +2152,8 @@ async function run() {
   await testRejectsProtectedMarkerMovementAcrossSemanticUnits()
   await testNormalizesPrivateLinkEndpointWithoutRewritingCliCommandHeading()
   await testRestoresFencedCodeCommentsByteForByte()
-  await testContractConflictingReviewerIssueDoesNotAuthorizeCorrection()
+  await testContractConflictingReviewerIssueFailsStructurallyAndEntersRecoveryArtifact()
+  await testOrdinaryMandatoryLocaleIssueRemainsLocaleContractFailure()
   await testDeterministicCompactionIssueCorrectsForbiddenChineseTerms()
   await testOnlyValidatedReviewerIssuesReachCorrection()
   await testIdenticalFrontmatterTokenAllegationDoesNotRewriteDraft()

@@ -93,12 +93,13 @@ function unsupported(issue, reason) {
   return deepFreeze({issue, reason})
 }
 
-function fatalResult(reviewerPass, error, unsupportedIssues = []) {
+function fatalResult(reviewerPass, error, unsupportedIssues = [], contractConflicts = []) {
   return deepFreeze({
     reviewerPass,
     effectivePass: false,
     validatedIssues: [],
     unsupportedIssues,
+    contractConflicts,
     correctionAuthorized: false,
     fatal: true,
     error,
@@ -114,6 +115,7 @@ function validateReviewEvidence(review, {sourceContent, draftContent, localeCont
 
   const validatedIssues = []
   const unsupportedIssues = []
+  const contractConflicts = []
   const seen = new Set()
   for (const issue of review.issues) {
     if (!source.includes(issue.source_quote)) {
@@ -129,7 +131,7 @@ function validateReviewEvidence(review, {sourceContent, draftContent, localeCont
       continue
     }
     if (issueConflictsWithLocaleContract(issue, localeContract)) {
-      unsupportedIssues.push(unsupported(issue, 'issue conflicts with the locale contract'))
+      contractConflicts.push(unsupported(issue, 'reviewer issue conflicts with the locale contract'))
       continue
     }
     const key = JSON.stringify(issue)
@@ -140,9 +142,10 @@ function validateReviewEvidence(review, {sourceContent, draftContent, localeCont
 
   return deepFreeze({
     reviewerPass: review.pass,
-    effectivePass: validatedIssues.length === 0,
+    effectivePass: validatedIssues.length === 0 && contractConflicts.length === 0,
     validatedIssues,
     unsupportedIssues,
+    contractConflicts,
     correctionAuthorized: validatedIssues.length > 0,
     fatal: false,
     error: null,

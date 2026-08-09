@@ -20,6 +20,8 @@ function messageOf(failure) {
 
 function classifyFailure(failure) {
   if (FAILURE_CATEGORY_SET.has(failure?.failureCategory)) return failure.failureCategory
+  if (Array.isArray(failure?.review?.contractConflicts) && failure.review.contractConflicts.length) return 'contract_conflict'
+  if (Array.isArray(failure?.review?.localeContractIssues) && failure.review.localeContractIssues.length) return 'locale_contract_failed'
   const message = messageOf(failure)
   const status = Number(failure?.status || failure?.statusCode || failure?.cause?.status)
   const name = String(failure?.name || failure?.cause?.name || '')

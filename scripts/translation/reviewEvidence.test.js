@@ -85,7 +85,7 @@ test('rejects identical protected-token allegations and contradictory pass respo
   assert.equal(unsupported.correctionAuthorized, false)
 })
 
-test('filters reviewer demands that conflict with the Compaction locale contract', () => {
+test('separates reviewer demands that conflict with the Compaction locale contract', () => {
   const contract = loadLocaleContract('zh-CN-reference')
   const sourceContent = 'Compaction plans merge segments.'
   const correctDraft = 'Compaction 计划会合并 Segment。'
@@ -96,8 +96,11 @@ test('filters reviewer demands that conflict with the Compaction locale contract
   })
   const rejected = validateReviewEvidence({pass: false, issues: [conflicting]}, {sourceContent, draftContent: correctDraft, localeContract: contract})
   assert.equal(rejected.correctionAuthorized, false)
-  assert.equal(rejected.effectivePass, true)
-  assert.match(rejected.unsupportedIssues[0].reason, /locale contract/i)
+  assert.equal(rejected.effectivePass, false)
+  assert.equal(rejected.unsupportedIssues.length, 0)
+  assert.equal(rejected.contractConflicts.length, 1)
+  assert.deepEqual(rejected.contractConflicts[0].issue, conflicting)
+  assert.match(rejected.contractConflicts[0].reason, /locale contract/i)
 
   const lowercaseRejected = validateReviewEvidence(
     {pass: false, issues: [issue({
@@ -112,8 +115,8 @@ test('filters reviewer demands that conflict with the Compaction locale contract
     },
   )
   assert.equal(lowercaseRejected.correctionAuthorized, false)
-  assert.equal(lowercaseRejected.effectivePass, true)
-  assert.match(lowercaseRejected.unsupportedIssues[0].reason, /locale contract/i)
+  assert.equal(lowercaseRejected.effectivePass, false)
+  assert.equal(lowercaseRejected.contractConflicts.length, 1)
 
   const alreadyWrongDraft = '压缩计划会合并 Segment。'
   const wrongReplacement = issue({
@@ -126,12 +129,32 @@ test('filters reviewer demands that conflict with the Compaction locale contract
     {sourceContent, draftContent: alreadyWrongDraft, localeContract: contract},
   )
   assert.equal(rejectedWrongReplacement.correctionAuthorized, false)
-  assert.match(rejectedWrongReplacement.unsupportedIssues[0].reason, /locale contract/i)
+  assert.equal(rejectedWrongReplacement.contractConflicts.length, 1)
 
   const badDraft = '压缩计划会合并 Segment。'
   const accepted = validateReviewEvidence({pass: false, issues: [issue()]}, {sourceContent, draftContent: badDraft, localeContract: contract})
   assert.equal(accepted.correctionAuthorized, true)
+  assert.deepEqual(accepted.contractConflicts, [])
   assert.deepEqual(accepted.validatedIssues, [issue()])
+})
+
+test('does not report a contract conflict for excluded garbage collection prose', () => {
+  const contract = loadLocaleContract('zh-CN-reference')
+  const result = validateReviewEvidence({
+    pass: false,
+    issues: [issue({
+      source_quote: 'Garbage collection',
+      draft_quote: '垃圾回收',
+      comment: 'Use the ordinary fixed phrase 垃圾回收 here.',
+    })],
+  }, {
+    sourceContent: 'Garbage collection releases snapshot data.',
+    draftContent: '垃圾回收会释放快照数据。',
+    localeContract: contract,
+  })
+
+  assert.deepEqual(result.contractConflicts, [])
+  assert.equal(result.validatedIssues.length, 1)
 })
 
 test('treats malformed or unknown reviewer JSON as a fatal review failure', () => {

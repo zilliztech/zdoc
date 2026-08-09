@@ -89,7 +89,17 @@ function reprotectRestEntries(sourceEntries, translatedEntries) {
   })
 }
 
-function parseTranslationEntries(text, expected, localeContract) {
+function diagnosticRestEntryId(id) {
+  try {
+    const segments = JSON.parse(id)
+    if (Array.isArray(segments) && segments.every(segment => typeof segment === 'string' || Number.isInteger(segment))) {
+      return segments.join('.')
+    }
+  } catch {}
+  return id
+}
+
+function parseTranslationEntries(text, expected, localeContract, {sourcePath = '<REST document>'} = {}) {
   const cleaned = String(text || '').trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '')
   const parsed = JSON.parse(cleaned)
   if (!Array.isArray(parsed) || parsed.length !== expected.length) throw new Error('REST translation response entry count mismatch')
@@ -103,6 +113,8 @@ function parseTranslationEntries(text, expected, localeContract) {
   }
   return expected.map(entry => {
     if (!byId.has(entry.id)) throw new Error(`Missing REST translation entry ${entry.id}`)
+    const entryPath = diagnosticRestEntryId(entry.id)
+    const entryLabel = `${sourcePath} REST entry ${entryPath}`
     const modelTranslation = localeContract
       ? applyDeterministicLocaleRepairs(entry.protection.content, byId.get(entry.id), localeContract)
       : byId.get(entry.id)
@@ -110,10 +122,13 @@ function parseTranslationEntries(text, expected, localeContract) {
     try {
       translation = restoreProtectedContent(modelTranslation, entry.protection.manifest)
     } catch (error) {
-      throw new Error(`REST translation entry ${entry.id} failed protected marker validation: ${error.message}`)
+      throw new Error(`REST translation entry ${entry.id} (${entryLabel}) failed protected marker validation: ${error.message}`)
     }
-    const protectedErrors = validateProtectedContent(entry.protectedText, translation)
-    if (protectedErrors.length) throw new Error(`REST translation changed protected content for ${entry.id}: ${protectedErrors.join('; ')}`)
+    const protectedErrors = validateProtectedContent(entry.protectedText, translation, {
+      sourcePath: `${entryLabel} source`,
+      targetPath: `${entryLabel} target`,
+    })
+    if (protectedErrors.length) throw new Error(`REST translation changed protected content for ${entry.id} (${entryLabel}): ${protectedErrors.join('; ')}`)
     const {protectedText, protection, ...restoredEntry} = entry
     return {...restoredEntry, translation}
   })
@@ -206,7 +221,7 @@ function combinedRestIssues(evidence, deterministicIssues) {
   return issues
 }
 
-async function reviewAndCorrectRestBatch({entries, target, locale, callModel, localeContract, maxReviewRounds}) {
+async function reviewAndCorrectRestBatch({entries, target, locale, callModel, localeContract, maxReviewRounds, sourcePath}) {
   const sourceEntries = protectRestEntries(entries)
   const sourceContent = JSON.stringify(sourceEntries.map(entry => ({id: entry.id, text: entry.protection.content})))
   let currentEntries = entries
@@ -222,11 +237,14 @@ async function reviewAndCorrectRestBatch({entries, target, locale, callModel, lo
         {role: 'user', content: `Locale: ${locale}\n\n<source>\n${sourceContent}\n</source>\n\n<draft>\n${draftContent}\n</draft>`},
       ],
     }), {sourceContent, draftContent, localeContract}), sourceEntries, draftEntries)
-    const issues = combinedRestIssues(evidence, deterministicRestIssues(sourceEntries, draftEntries, localeContract))
+    const localeContractIssues = deterministicRestIssues(sourceEntries, draftEntries, localeContract)
+    const issues = combinedRestIssues(evidence, localeContractIssues)
     review = {
-      pass: !evidence.fatal && issues.length === 0,
+      pass: !evidence.fatal && issues.length === 0 && evidence.contractConflicts.length === 0,
       issues,
       unsupportedIssues: evidence.unsupportedIssues,
+      contractConflicts: evidence.contractConflicts,
+      localeContractIssues,
       reviewerPass: evidence.reviewerPass,
       error: evidence.error,
     }
@@ -239,12 +257,12 @@ async function reviewAndCorrectRestBatch({entries, target, locale, callModel, lo
         {role: 'user', content: `Locale: ${locale}\n\n<source>\n${sourceContent}\n</source>\n\n<draft>\n${draftContent}\n</draft>\n\n<review_json>\n${JSON.stringify({pass: false, issues}, null, 2)}\n</review_json>`},
       ],
     })
-    currentEntries = parseTranslationEntries(corrected, draftEntries, localeContract)
+    currentEntries = parseTranslationEntries(corrected, draftEntries, localeContract, {sourcePath})
   }
   return {entries: currentEntries, review}
 }
 
-async function translateRestSpecs({ sourceSpecs, target, locale, callModel, maxReviewRounds = 2, retryFeedback = null }) {
+async function translateRestSpecs({ sourceSpecs, sourcePath = '<REST document>', target, locale, callModel, maxReviewRounds = 2, retryFeedback = null }) {
   const promptName = promptNamesFor(target).rest
   if (!promptName) throw new Error(`REST translation is unsupported for translation target ${target}`)
   const localeContract = loadLocaleContract(target)
@@ -264,8 +282,8 @@ async function translateRestSpecs({ sourceSpecs, target, locale, callModel, maxR
         { role: 'user', content: `Locale: ${locale}\n\n${retry}${JSON.stringify(protectedBatch.map(({ id, protection }) => ({ id, text: protection.content })))}` },
       ],
     })
-    const restored = parseTranslationEntries(response, protectedBatch, localeContract)
-    const reviewed = await reviewAndCorrectRestBatch({entries: restored, target, locale, callModel, localeContract, maxReviewRounds})
+    const restored = parseTranslationEntries(response, protectedBatch, localeContract, {sourcePath})
+    const reviewed = await reviewAndCorrectRestBatch({entries: restored, target, locale, callModel, localeContract, maxReviewRounds, sourcePath})
     translated.push(...reviewed.entries)
     reviews.push(reviewed.review)
     if (!reviewed.review.pass) break
@@ -276,6 +294,8 @@ async function translateRestSpecs({ sourceSpecs, target, locale, callModel, maxR
     pass: reviews.every(item => item.pass),
     issues: reviews.flatMap(item => item.issues),
     unsupportedIssues: reviews.flatMap(item => item.unsupportedIssues),
+    contractConflicts: reviews.flatMap(item => item.contractConflicts),
+    localeContractIssues: reviews.flatMap(item => item.localeContractIssues),
     reviewerPass: reviews.every(item => item.reviewerPass),
     error: reviews.find(item => item.error)?.error || null,
   }

@@ -457,9 +457,11 @@ async function translateAndReviewUnit({
       issueUnits.push(binding)
     }
     review = {
-      pass: !evidence.fatal && issues.length === 0,
+      pass: !evidence.fatal && issues.length === 0 && evidence.contractConflicts.length === 0,
       issues,
       unsupportedIssues: evidence.unsupportedIssues,
+      contractConflicts: evidence.contractConflicts,
+      localeContractIssues: deterministic.issues,
       reviewerPass: evidence.reviewerPass,
       error: evidence.error,
     }
@@ -497,6 +499,17 @@ async function translateAndReviewUnit({
   return { translatedContent, review, semanticUnits: units.length }
 }
 
+function failedReviewResult(item, review, details = {}) {
+  return {
+    ...item,
+    status: 'failed',
+    review,
+    failureCategory: classifyFailure({review}),
+    validationErrors: [],
+    ...details,
+  }
+}
+
 async function processManifestItem({
   siteDir,
   item,
@@ -529,9 +542,10 @@ async function processManifestItem({
       chunkContext: null,
       retryFeedback,
     })
-    if (!shell.review.pass) return { ...item, status: 'failed', review: shell.review, validationErrors: [] }
+    if (!shell.review.pass) return failedReviewResult(item, shell.review)
     const specResult = await translateRestSpecs({
       sourceSpecs: restDocument.sourceSpecs,
+      sourcePath: item.sourcePath,
       target: item.target,
       locale: item.locale,
       callModel,
@@ -539,13 +553,9 @@ async function processManifestItem({
       retryFeedback,
     })
     if (!specResult.review.pass) {
-      return {
-        ...item,
-        status: 'failed',
-        review: specResult.review,
-        validationErrors: [],
+      return failedReviewResult(item, specResult.review, {
         restSpecEntries: specResult.translatedCount,
-      }
+      })
     }
     const translatedContent = stabilizeBareUrlFormatting(assembleRestDocument({
       translatedPrefix: shell.translatedContent,
@@ -606,13 +616,9 @@ async function processManifestItem({
     }
     lastReview = unit.review
     if (!unit.review.pass) {
-      return {
-        ...item,
-        status: 'failed',
+      return failedReviewResult(item, unit.review, {
         chunk: { index: chunk.index, total: chunks.length, start: chunk.start, end: chunk.end },
-        review: unit.review,
-        validationErrors: [],
-      }
+      })
     }
     translatedChunks.push(unit.translatedContent)
     const checkpoint = Object.freeze({
