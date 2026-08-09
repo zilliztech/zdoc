@@ -26,7 +26,7 @@ test('publish-capable top-level workflows share the durable dev queue', () => {
   assert.equal(translation.concurrency.queue, 'max')
   assert.equal(
     translation.concurrency.group,
-    "${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+    "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
   )
 })
 
@@ -192,7 +192,7 @@ test('workflow policy rejects durable production dev queue regressions', () => {
     {
       file: 'translate-codex.yml',
       mutate: source => source.replace(
-        "  group: ${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+        "  group: ${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
         '  group: docs-production-dev',
       ),
       expected: 'translate-codex.yml: read-only Translation must use a unique concurrency group',
@@ -448,7 +448,7 @@ test('translation workflows declare immutable target identity and exact target v
   for (const input of ['locale', 'group', 'tooling_sha', 'source_shas_json', 'target_branch']) assert.equal(compatibility.on.workflow_dispatch.inputs[input], undefined)
   assert.equal(compatibility.on.workflow_dispatch.inputs.publish.default, false)
   assert.deepEqual(compatibility.concurrency, {
-    group: "${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+    group: "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
     queue: 'max',
   })
   const compatibilitySource = fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8')
@@ -2813,6 +2813,156 @@ test('Translation producers bind one immutable selection and emit ready descript
   assert.equal(fanIn.steps.find(step => step.name === 'Upload immutable Translation ready descriptor').with.name,
     'publication-ready-translation-translation-ja-JP-guides-${{ github.run_id }}-${{ github.run_attempt }}')
   assert.doesNotMatch(fanInSource, /git push|staging/)
+})
+
+test('workflow policy rejects unnormalized workflow_call-only Translation inputs on direct dispatch paths', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const fixtures = [
+    {
+      mutate: source => source.replace("${{ inputs.recovery_bundle_artifact_name || '' }}", '${{ inputs.recovery_bundle_artifact_name }}'),
+      expected: 'translate-codex.yml: workflow_call-only input recovery_bundle_artifact_name must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace("${{ inputs.recovery_plan_sha256 || '' }}", '${{ inputs.recovery_plan_sha256 }}'),
+      expected: 'translate-codex.yml: workflow_call-only input recovery_plan_sha256 must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace("${{ inputs.recovery_provenance_json || '' }}", '${{ inputs.recovery_provenance_json }}'),
+      expected: 'translate-codex.yml: workflow_call-only input recovery_provenance_json must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace('(inputs.production_queue_owned || false)', 'inputs.production_queue_owned'),
+      expected: 'translate-codex.yml: workflow_call-only input production_queue_owned must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace('${{ inputs.allow_full_retranslate || false }}', '${{ inputs.allow_full_retranslate }}'),
+      expected: 'translate-codex.yml: workflow_call-only input allow_full_retranslate must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace('${{ inputs.allow_full_retranslate || false }}', '${{ !(inputs.allow_full_retranslate || false) }}'),
+      expected: 'translate-codex.yml: workflow_call-only input allow_full_retranslate must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace('${{ inputs.allow_full_retranslate || false }}', '${{ inputs.allow_full_retranslate || false || true }}'),
+      expected: 'translate-codex.yml: workflow_call-only input allow_full_retranslate must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace("${{ inputs.recovery_bundle_artifact_name || '' }}", "${{ inputs.recovery_bundle_artifact_name || '' || 'unexpected-artifact' }}"),
+      expected: 'translate-codex.yml: workflow_call-only input recovery_bundle_artifact_name must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace("${{ inputs.recovery_plan_sha256 || '' }}", "${{ (inputs.recovery_plan_sha256 || '') != '' }}"),
+      expected: 'translate-codex.yml: workflow_call-only input recovery_plan_sha256 must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace(
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' }}",
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' && !inputs['allow_full_retranslate'] }}",
+      ),
+      expected: 'translate-codex.yml: workflow_call-only input allow_full_retranslate must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace(
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' }}",
+        'if: ${{ needs.prepare.outputs.sdk_count != \'0\' && !inputs["allow_full_retranslate"] }}',
+      ),
+      expected: 'translate-codex.yml: workflow_call-only input allow_full_retranslate must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace(
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' }}",
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' && !inputs   ['allow_full_retranslate'] }}",
+      ),
+      expected: 'translate-codex.yml: workflow_call-only input allow_full_retranslate must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace(
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' }}",
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' && !inputs\t['allow_full_retranslate'] }}",
+      ),
+      expected: 'translate-codex.yml: workflow_call-only input allow_full_retranslate must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace(
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' }}",
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' && !inputs   .allow_full_retranslate }}",
+      ),
+      expected: 'translate-codex.yml: workflow_call-only input allow_full_retranslate must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace(
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' }}",
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' && !inputs.\tallow_full_retranslate }}",
+      ),
+      expected: 'translate-codex.yml: workflow_call-only input allow_full_retranslate must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace(
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' }}",
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' && !inputs\t.   allow_full_retranslate }}",
+      ),
+      expected: 'translate-codex.yml: workflow_call-only input allow_full_retranslate must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace(
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' }}",
+        "if: ${{ needs.prepare.outputs.sdk_count != '0' && !INPUTS . ALLOW_FULL_RETRANSLATE }}",
+      ),
+      expected: 'translate-codex.yml: workflow_call-only input allow_full_retranslate must use its explicit direct-dispatch default',
+    },
+    {
+      mutate: source => source.replace(
+        '          RECOVERY_PLAN_SHA256: ${{ inputs.recovery_plan_sha256 || \'\' }}',
+        '          RECOVERY_PLAN_SHA256: ${{ inputs.recovery_plan_sha256 || \'\' }}\n          "${{ inputs[\'allow_full_retranslate\'] }}": ignored',
+      ),
+      expected: 'translate-codex.yml: workflow_call-only input allow_full_retranslate must use its explicit direct-dispatch default',
+    },
+  ]
+
+  for (const fixture of fixtures) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-direct-dispatch-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const file = path.join(directory, 'translate-codex.yml')
+      const source = fs.readFileSync(file, 'utf8')
+      const changed = fixture.mutate(source)
+      assert.notEqual(changed, source)
+      fs.writeFileSync(file, changed)
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
+})
+
+test('workflow_call-only Translation input reference counting does not match similar prefixes', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const mutations = [
+    source => source.replace(
+      "if: ${{ needs.prepare.outputs.sdk_count != '0' }}",
+      "if: ${{ needs.prepare.outputs.sdk_count != '0' && !inputs['allow_full_retranslate_extra'] }}",
+    ),
+    source => source.replace(
+      "if: ${{ needs.prepare.outputs.sdk_count != '0' }}",
+      "if: ${{ needs.prepare.outputs.sdk_count != '0' && !otherinputs.allow_full_retranslate }}",
+    ),
+  ]
+  for (const mutate of mutations) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-direct-dispatch-prefix-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const file = path.join(directory, 'translate-codex.yml')
+      const source = fs.readFileSync(file, 'utf8')
+      const changed = mutate(source)
+      assert.notEqual(changed, source)
+      fs.writeFileSync(file, changed)
+      assert.ok(!validateWorkflowPolicies(directory).includes(
+        'translate-codex.yml: workflow_call-only input allow_full_retranslate must use its explicit direct-dispatch default',
+      ))
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
 })
 
 test('retained legacy Translation callers map source identities without gaining publication-selection authority', () => {
