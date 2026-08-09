@@ -22,6 +22,9 @@ const {
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
 const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
+const {classifyFailure, failureRecord} = require('./failureClassification')
+const {MAX_PARTIAL_ARTIFACT_BYTES, loadAnalysisChunkResume, serializeCompletedChunkCheckpoints} = require('./chunkRecovery')
+const {validateRecoveryCandidate} = require('./recoveryValidation')
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
 const { assertSafeRepositoryRelativePath } = loadTypeScript('../../packages/docs-tooling/src/validation/ownership.ts')
 const {
@@ -82,8 +85,50 @@ function formatReferenceLandingContract(target, sourcePath) {
   ].join('\n')
 }
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
+function sleep(ms, signal) {
+  if (!signal) return new Promise(resolve => setTimeout(resolve, ms))
+  if (signal.aborted) return Promise.reject(signal.reason)
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      signal.removeEventListener('abort', onAbort)
+      resolve()
+    }, ms)
+    const onAbort = () => {
+      clearTimeout(timer)
+      reject(signal.reason)
+    }
+    signal.addEventListener('abort', onAbort, {once: true})
+  })
+}
+
+function categorizedError(message, failureCategory, details = {}) {
+  const error = new Error(message)
+  error.failureCategory = failureCategory
+  Object.assign(error, details)
+  return error
+}
+
+function structuredErrorDetails(error) {
+  const detail = {}
+  for (const key of ['name', 'status', 'code']) {
+    if (typeof error?.[key] === 'string') detail[key] = error[key].slice(0, 200)
+    else if (Number.isFinite(error?.[key])) detail[key] = error[key]
+  }
+  if (error?.cause && typeof error.cause === 'object') {
+    const cause = {}
+    for (const key of ['name', 'status', 'code', 'failureCategory']) {
+      if (typeof error.cause[key] === 'string') cause[key] = error.cause[key].slice(0, 200)
+      else if (Number.isFinite(error.cause[key])) cause[key] = error.cause[key]
+    }
+    if (Object.keys(cause).length) detail.cause = cause
+  }
+  return Object.keys(detail).length ? detail : undefined
+}
+
+function stripInternalRecoveryFields(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return value
+  const {recoveryChunkCheckpoints: _internal, ...publicValue} = value
+  return publicValue
 }
 
 function parsePositiveInteger(value, fallback) {
@@ -116,8 +161,17 @@ function stripCodeFence(text) {
   return wrapped ? wrapped[1].trim() : trimmed
 }
 
+const TRANSIENT_PROVIDER_HTTP_STATUSES = new Set([409, 425, 429, 500, 502, 503, 504])
+
 function isRetryableProviderError(error) {
   const message = String(error?.message || error)
+  const status = Number(error?.status ?? error?.statusCode ?? error?.cause?.status)
+  if (Number.isInteger(status) && status >= 400) return status === 408 || TRANSIENT_PROVIDER_HTTP_STATUSES.has(status)
+  const code = String(error?.code || error?.cause?.code || '')
+  if (code === 'PROVIDER_HTTP_ERROR') return false
+  if (['PROVIDER_TIMEOUT', 'PROVIDER_TRANSPORT', 'ECONNRESET', 'ETIMEDOUT', 'EAI_AGAIN'].includes(code)) return true
+  const category = String(error?.failureCategory || error?.cause?.failureCategory || '')
+  if (category) return ['provider_timeout', 'provider_transport'].includes(category)
   return /\b(408|409|425|429|500|502|503|504)\b/.test(message) ||
     error?.name === 'AbortError' ||
     /aborted|connection error|fetch failed|network|timeout|timed out|ECONNRESET|ETIMEDOUT|EAI_AGAIN/i.test(message)
@@ -128,7 +182,7 @@ async function createProviderCall(agentConfigs, options = {}) {
   const retryDelayMs = Number.isFinite(options.retryDelayMs) ? options.retryDelayMs : 1000
   const timeoutMs = parsePositiveInteger(options.timeoutMs, DEFAULT_PROVIDER_TIMEOUT_MS)
 
-  return async function callModel({ agent, messages }) {
+  return async function callModel({ agent, messages, signal: externalSignal }) {
     const config = agentConfigs[agent]
     if (!config?.baseUrl || !config?.apiKey || !config?.model) {
       throw new Error(`Missing provider config for ${agent} agent`)
@@ -136,8 +190,16 @@ async function createProviderCall(agentConfigs, options = {}) {
 
     let lastError
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      if (externalSignal?.aborted) throw externalSignal.reason
       const controller = new AbortController()
-      const timeout = setTimeout(() => controller.abort(), timeoutMs)
+      let providerTimedOut = false
+      const providerTimeout = categorizedError(`${agent} agent timed out after ${timeoutMs}ms`, 'provider_timeout', {code: 'PROVIDER_TIMEOUT', timeoutMs})
+      const timeout = setTimeout(() => {
+        providerTimedOut = true
+        controller.abort(providerTimeout)
+      }, timeoutMs)
+      const onExternalAbort = () => controller.abort(externalSignal.reason)
+      externalSignal?.addEventListener('abort', onExternalAbort, {once: true})
       try {
         const requestBody = {
           model: config.model,
@@ -161,33 +223,64 @@ async function createProviderCall(agentConfigs, options = {}) {
         })
         const data = await res.json().catch(() => ({}))
         const content = data?.choices?.[0]?.message?.content
-        if (!res.ok || !content) {
-          throw new Error(`${agent} agent failed with HTTP ${res.status}: ${JSON.stringify(data).slice(0, 500)}`)
+        if (!res.ok) {
+          const error = new Error(`${agent} agent failed with HTTP ${res.status}: ${JSON.stringify(data).slice(0, 500)}`)
+          error.status = res.status
+          const retryableTransport = TRANSIENT_PROVIDER_HTTP_STATUSES.has(res.status)
+          error.failureCategory = res.status === 408 ? 'provider_timeout' : retryableTransport ? 'provider_transport' : 'unknown'
+          error.code = res.status === 408 ? 'PROVIDER_TIMEOUT' : retryableTransport ? 'PROVIDER_TRANSPORT' : 'PROVIDER_HTTP_ERROR'
+          throw error
+        }
+        if (!content) {
+          const error = new Error(`${agent} agent returned no content with HTTP ${res.status}: ${JSON.stringify(data).slice(0, 500)}`)
+          error.status = res.status
+          error.failureCategory = 'provider_transport'
+          error.code = 'PROVIDER_TRANSPORT'
+          throw error
         }
         return content.trim()
       } catch (error) {
-        lastError = error
-        if (attempt >= maxRetries || !isRetryableProviderError(error)) break
+        lastError = externalSignal?.aborted
+          ? externalSignal.reason
+          : providerTimedOut
+            ? providerTimeout
+            : error
+        if (!lastError.failureCategory) lastError.failureCategory = classifyFailure(lastError)
+        if (externalSignal?.aborted || attempt >= maxRetries || !isRetryableProviderError(lastError)) break
         const waitMs = retryDelayMs * (2 ** attempt)
-        console.warn(`[translation-agent] ${agent} call failed; retrying in ${waitMs}ms (${attempt + 1}/${maxRetries}): ${error.message}`)
-        await sleep(waitMs)
+        console.warn(`[translation-agent] ${agent} call failed; retrying in ${waitMs}ms (${attempt + 1}/${maxRetries}): ${lastError.message}`)
+        await sleep(waitMs, externalSignal)
       } finally {
         clearTimeout(timeout)
+        externalSignal?.removeEventListener('abort', onExternalAbort)
       }
     }
+    lastError.failureCategory = classifyFailure(lastError)
     throw lastError
   }
 }
 
-async function withTimeout(promise, timeoutMs, message) {
+async function withTimeout(operation, timeoutMs, message, details = {}) {
+  const controller = new AbortController()
+  const timeoutError = categorizedError(message, 'provider_timeout', {code: details.code || 'CHUNK_TIMEOUT', timeoutMs})
+  const promise = typeof operation === 'function' ? Promise.resolve().then(() => operation(controller.signal)) : Promise.resolve(operation)
+  let timedOut = false
   let timeout
   try {
     return await Promise.race([
       promise,
       new Promise((_, reject) => {
-        timeout = setTimeout(() => reject(new Error(message)), timeoutMs)
+        timeout = setTimeout(() => {
+          timedOut = true
+          controller.abort(timeoutError)
+          reject(timeoutError)
+        }, timeoutMs)
       }),
     ])
+  } catch (error) {
+    if (!timedOut) throw error
+    await promise.catch(() => {})
+    throw timeoutError
   } finally {
     clearTimeout(timeout)
   }
@@ -228,21 +321,52 @@ async function processItemWithRetry(item, options) {
   const maxRetries = parseNonNegativeInteger(options.maxRetries, DEFAULT_FILE_RETRIES)
   const failures = []
   let retryFeedback = null
+  const initialChunkCheckpoints = options.initialChunkCheckpoints || []
+  if (!Array.isArray(initialChunkCheckpoints)) throw new Error('Initial chunk checkpoints must be an array')
+  const chunkCheckpoint = new Map(initialChunkCheckpoints.map((checkpoint, position) => {
+    if (checkpoint?.index !== position || checkpoint?.review?.pass !== true || typeof checkpoint?.translatedContent !== 'string') {
+      throw new Error('Initial chunk checkpoints must be a reviewed contiguous prefix')
+    }
+    return [checkpoint.index, checkpoint]
+  }))
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     let result
     try {
-      result = await options.processItem(item, attempt, retryFeedback)
+      const executeAttempt = signal => options.processItem(item, attempt, retryFeedback, {
+        chunkCheckpoint,
+        onChunkCompleted: checkpoint => {
+          if (signal?.aborted) throw signal.reason
+          chunkCheckpoint.set(checkpoint.index, checkpoint)
+        },
+        signal,
+      })
+      result = options.fileTimeoutMs > 0
+        ? await withTimeout(
+          executeAttempt,
+          options.fileTimeoutMs,
+          `Timed out translating ${item.sourcePath} after ${options.fileTimeoutMs}ms`,
+          {code: 'FILE_TIMEOUT'},
+        )
+        : await executeAttempt(undefined)
     } catch (error) {
-      result = { ...item, status: 'failed', error: String(error?.message || error) }
+      result = {
+        ...stripInternalRecoveryFields(item),
+        status: 'failed',
+        error: String(error?.message || error),
+        failureCategory: classifyFailure(error),
+        ...(structuredErrorDetails(error) ? {errorDetails: structuredErrorDetails(error)} : {}),
+      }
     }
 
     if (result.status === 'translated') {
-      return failures.length ? { ...result, attempts: attempt + 1, retryFailures: failures } : result
+      const publicResult = stripInternalRecoveryFields(result)
+      return failures.length ? { ...publicResult, attempts: attempt + 1, retryFailures: failures } : publicResult
     }
 
     const failure = summarizeFailedResult(result)
-    failures.push({ attempt: attempt + 1, error: failure })
+    const record = failureRecord({attempt: attempt + 1, failure: result})
+    failures.push(record)
     retryFeedback = /Protected (?:marker|content)/i.test(failure)
       ? protectedContentRetryFeedback(failure)
       : /response must be valid JSON/i.test(failure)
@@ -251,7 +375,14 @@ async function processItemWithRetry(item, options) {
     if (attempt < maxRetries) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
     } else {
-      return { ...result, attempts: attempt + 1, retryFailures: failures }
+      const chunkCheckpoints = serializeCompletedChunkCheckpoints(chunkCheckpoint)
+      return {
+        ...stripInternalRecoveryFields(result),
+        failureCategory: record.category,
+        attempts: attempt + 1,
+        retryFailures: failures,
+        ...(chunkCheckpoints ? {chunkCheckpoints} : {}),
+      }
     }
   }
 }
@@ -383,6 +514,7 @@ async function translateAndReviewUnit({
   maxReviewRounds,
   chunkContext,
   retryFeedback,
+  signal,
 }) {
   const localeContract = loadLocaleContract(target)
   const idPrefix = chunkContext ? `chunk.${String(chunkContext.index + 1).padStart(4, '0')}` : 'document'
@@ -393,6 +525,7 @@ async function translateAndReviewUnit({
   const sourceUnitPayload = sourceUnits.map(unit => ({id: unit.id, kind: unit.kind, text: unit.protection.content}))
   const initialResponse = await callModel({
     agent: 'translation',
+    signal,
     messages: buildTranslationMessages({
       target,
       sourcePath,
@@ -406,8 +539,8 @@ async function translateAndReviewUnit({
   })
   let currentUnits = restoreSemanticUnitResponse(initialResponse, {field: 'translations', protectedUnits: sourceUnits, localeContract})
   let translatedContent = patchSemanticUnits(sourceContent, units, currentUnits)
-  let protectedErrors = validateProtectedContent(sourceContent, translatedContent)
-  if (protectedErrors.length) throw new Error(protectedErrors.join('; '))
+  let protectedErrors = validateProtectedContent(sourceContent, translatedContent, {sourcePath})
+  if (protectedErrors.length) throw categorizedError(protectedErrors.join('; '), 'protected_content_failed', {code: 'PROTECTED_CONTENT_FAILED'})
 
   let review = { pass: false, issues: [] }
   for (let round = 0; round <= maxReviewRounds; round++) {
@@ -418,6 +551,7 @@ async function translateAndReviewUnit({
     const draftUnitContent = JSON.stringify(draftUnitPayload)
     const evidence = bindSemanticReviewEvidence(parseAndValidateReviewEvidence(await callModel({
       agent: 'review',
+      signal,
       messages: buildReviewMessages({
         target,
         sourcePath,
@@ -448,9 +582,11 @@ async function translateAndReviewUnit({
       issueUnits.push(binding)
     }
     review = {
-      pass: !evidence.fatal && issues.length === 0,
+      pass: !evidence.fatal && issues.length === 0 && evidence.contractConflicts.length === 0,
       issues,
       unsupportedIssues: evidence.unsupportedIssues,
+      contractConflicts: evidence.contractConflicts,
+      localeContractIssues: deterministic.issues,
       reviewerPass: evidence.reviewerPass,
       error: evidence.error,
     }
@@ -465,6 +601,7 @@ async function translateAndReviewUnit({
     }))
     const correctedResponse = await callModel({
       agent: 'correction',
+      signal,
       messages: buildCorrectionMessages({
         target,
         sourcePath,
@@ -482,10 +619,21 @@ async function translateAndReviewUnit({
     const correctedById = new Map(correctedUnits.map(unit => [unit.id, unit.translation]))
     currentUnits = currentUnits.map(unit => correctedById.has(unit.id) ? {...unit, translation: correctedById.get(unit.id)} : unit)
     translatedContent = patchSemanticUnits(sourceContent, units, currentUnits)
-    protectedErrors = validateProtectedContent(sourceContent, translatedContent)
-    if (protectedErrors.length) throw new Error(protectedErrors.join('; '))
+    protectedErrors = validateProtectedContent(sourceContent, translatedContent, {sourcePath})
+    if (protectedErrors.length) throw categorizedError(protectedErrors.join('; '), 'protected_content_failed', {code: 'PROTECTED_CONTENT_FAILED'})
   }
   return { translatedContent, review, semanticUnits: units.length }
+}
+
+function failedReviewResult(item, review, details = {}) {
+  return {
+    ...item,
+    status: 'failed',
+    review,
+    failureCategory: classifyFailure({review}),
+    validationErrors: [],
+    ...details,
+  }
 }
 
 async function processManifestItem({
@@ -495,8 +643,11 @@ async function processManifestItem({
   maxReviewRounds = 2,
   chunkTargetChars = DEFAULT_TARGET_CHARS,
   chunkMaxChars = DEFAULT_MAX_CHARS,
+  chunkCheckpoint = new Map(),
+  onChunkCompleted = null,
   validate = validateTranslatedContent,
   retryFeedback = null,
+  signal,
 }) {
   if (item.sourcePath.includes('#')) throw new Error(`Translation source path must be repository-relative: ${item.sourcePath}`)
   const absSourcePath = path.join(siteDir, item.sourcePath)
@@ -516,24 +667,23 @@ async function processManifestItem({
       maxReviewRounds,
       chunkContext: null,
       retryFeedback,
+      signal,
     })
-    if (!shell.review.pass) return { ...item, status: 'failed', review: shell.review, validationErrors: [] }
+    if (!shell.review.pass) return failedReviewResult(item, shell.review)
     const specResult = await translateRestSpecs({
       sourceSpecs: restDocument.sourceSpecs,
+      sourcePath: item.sourcePath,
       target: item.target,
       locale: item.locale,
       callModel,
       maxReviewRounds,
       retryFeedback,
+      signal,
     })
     if (!specResult.review.pass) {
-      return {
-        ...item,
-        status: 'failed',
-        review: specResult.review,
-        validationErrors: [],
+      return failedReviewResult(item, specResult.review, {
         restSpecEntries: specResult.translatedCount,
-      }
+      })
     }
     const translatedContent = stabilizeBareUrlFormatting(assembleRestDocument({
       translatedPrefix: shell.translatedContent,
@@ -541,7 +691,9 @@ async function processManifestItem({
       suffix: restDocument.suffix,
       locale: item.locale,
     }))
+    signal?.throwIfAborted()
     const validationErrors = await validate(translatedContent)
+    signal?.throwIfAborted()
     if (validationErrors.length) return { ...item, status: 'failed', review: shell.review, validationErrors, restSpecEntries: specResult.translatedCount }
     fs.mkdirSync(path.dirname(absTargetPath), { recursive: true })
     fs.writeFileSync(absTargetPath, translatedContent.endsWith('\n') ? translatedContent : `${translatedContent}\n`, 'utf8')
@@ -558,10 +710,12 @@ async function processManifestItem({
   const chunks = chunkDocument(sourceContent, { targetChars: chunkTargetChars, maxChars: chunkMaxChars })
   const documentTitle = extractDocumentTitle(sourceContent)
   const translatedChunks = []
+  let reusedChunks = 0
   let previousTranslatedHeading = null
   let lastReview = { pass: true, issues: [] }
 
   for (const chunk of chunks) {
+    signal?.throwIfAborted()
     const chunkContext = chunks.length > 1
       ? {
           index: chunk.index,
@@ -570,44 +724,67 @@ async function processManifestItem({
           previousTranslatedHeading,
         }
       : null
-    const unit = await translateAndReviewUnit({
-      target: item.target,
-      sourcePath: item.sourcePath,
-      sourceContent: chunk.source,
-      locale: item.locale,
-      callModel,
-      maxReviewRounds,
-      chunkContext,
-      retryFeedback,
-    })
+    const sourceHash = crypto.createHash('sha256').update(chunk.source).digest('hex')
+    const cached = chunkCheckpoint.get(chunk.index)
+    let unit
+    if (cached?.sourceHash === sourceHash && cached?.review?.pass === true && typeof cached.translatedContent === 'string') {
+      unit = cached
+      reusedChunks += 1
+    } else {
+      unit = await translateAndReviewUnit({
+        target: item.target,
+        sourcePath: item.sourcePath,
+        sourceContent: chunk.source,
+        locale: item.locale,
+        callModel,
+        maxReviewRounds,
+        chunkContext,
+        retryFeedback,
+        signal,
+      })
+    }
+    signal?.throwIfAborted()
     lastReview = unit.review
     if (!unit.review.pass) {
-      return {
-        ...item,
-        status: 'failed',
+      return failedReviewResult(item, unit.review, {
         chunk: { index: chunk.index, total: chunks.length, start: chunk.start, end: chunk.end },
-        review: unit.review,
-        validationErrors: [],
-      }
+      })
     }
     translatedChunks.push(unit.translatedContent)
+    const checkpoint = Object.freeze({
+      index: chunk.index,
+      total: chunks.length,
+      sourceHash,
+      translatedContent: unit.translatedContent,
+      review: unit.review,
+      semanticUnits: unit.semanticUnits,
+    })
+    chunkCheckpoint.set(chunk.index, checkpoint)
+    await onChunkCompleted?.(checkpoint)
     previousTranslatedHeading = extractFirstHeading(unit.translatedContent) || previousTranslatedHeading
   }
 
-  const translatedContent = await applyMdxPatches(stabilizeBareUrlFormatting(
-    translatedChunks.join(''),
-  ), { repairInvalidMdxEsmProse: true })
-
-  const validationErrors = [
-    ...await validate(translatedContent),
-  ]
+  let translatedContent
+  let validationErrors
+  try {
+    translatedContent = await applyMdxPatches(stabilizeBareUrlFormatting(
+      translatedChunks.join(''),
+    ), { repairInvalidMdxEsmProse: true })
+    signal?.throwIfAborted()
+    validationErrors = [...await validate(translatedContent)]
+    signal?.throwIfAborted()
+  } catch (error) {
+    chunkCheckpoint.clear()
+    throw error
+  }
   if (validationErrors.length) {
+    chunkCheckpoint.clear()
     return {
       ...item,
       status: 'failed',
       review: lastReview,
       validationErrors,
-      chunks: { total: chunks.length },
+      chunks: { total: chunks.length, reused: reusedChunks },
     }
   }
 
@@ -618,7 +795,7 @@ async function processManifestItem({
     status: 'translated',
     review: lastReview,
     validationErrors: [],
-    chunks: { total: chunks.length },
+    chunks: { total: chunks.length, reused: reusedChunks },
   }
 }
 
@@ -726,6 +903,7 @@ async function runWorkerPool(items, options) {
           ...item,
           status: 'failed',
           error: String(error?.message || error),
+          failureCategory: classifyFailure(error),
         }
       }
       results[index] = result
@@ -908,8 +1086,9 @@ function createProgressCoordinator(options) {
   }
 }
 
-function partitionRecoveryWork(manifest, restoredResults = []) {
+function partitionRecoveryWork(manifest, restoredResults = [], pendingResults = []) {
   const restoredBySource = new Map(restoredResults.map(result => [result.sourcePath, result]))
+  const pendingByIdentity = new Map(pendingResults.map(result => [recoveryEntryIdentity(result), result]))
   const recovered = []
   const pending = []
   manifest.items.forEach((item, index) => {
@@ -918,7 +1097,15 @@ function partitionRecoveryWork(manifest, restoredResults = []) {
       const {recoveryTargetHash: _targetHash, recoveryTargetSize: _targetSize, ...publicResult} = result
       recovered.push({index, result: publicResult})
     }
-    else pending.push({index, item})
+    else {
+      const pendingResult = pendingByIdentity.get(recoveryEntryIdentity(item))
+      pending.push({
+        index,
+        item: pendingResult?.recoveryChunkCheckpoints
+          ? {...item, recoveryChunkCheckpoints: pendingResult.recoveryChunkCheckpoints}
+          : item,
+      })
+    }
   })
   return {recovered, pending}
 }
@@ -943,16 +1130,22 @@ function recoveryEntryIdentity(value) {
   return `${value.sourcePath}\0${value.targetPath}`
 }
 
-function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
+function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions}) {
   let analysis
   try { analysis = JSON.parse(fs.readFileSync(file, 'utf8')) }
   catch (error) { throw new Error(`Recovery analysis JSON is invalid: ${String(error?.message || error)}`) }
-  exactRecoveryAnalysisKeys(analysis, [
+  const rootKeys = [
     'schemaVersion', 'kind', 'target', 'locale', 'group', 'sourceCheckpointSha', 'promptContractSha256', 'model',
     'executionToolingSha', 'candidateCount', 'recoveredCount', 'pendingCount', 'rejectedCount', 'fullRetranslation',
     'restored', 'pending', 'rejected',
-  ], 'Recovery analysis')
-  if (analysis.schemaVersion !== 1 || analysis.kind !== 'translation-recovery-analysis') throw new Error('Recovery analysis header is invalid')
+  ]
+  if (analysis.schemaVersion === 2) rootKeys.push('compatibilityMode')
+  const chunkRecoveryKeys = ['resumableFileCount', 'recoveredChunkCount', 'rejectedChunkCount', 'rejectedChunks']
+  const hasChunkRecovery = chunkRecoveryKeys.some(key => Object.hasOwn(analysis, key))
+  if (hasChunkRecovery) rootKeys.push(...chunkRecoveryKeys)
+  exactRecoveryAnalysisKeys(analysis, rootKeys, 'Recovery analysis')
+  if (![1, 2].includes(analysis.schemaVersion) || analysis.kind !== 'translation-recovery-analysis') throw new Error('Recovery analysis header is invalid')
+  if (analysis.schemaVersion === 2 && !['strict', 'revalidated', 'none'].includes(analysis.compatibilityMode)) throw new Error('Recovery analysis compatibility mode is invalid')
   for (const key of ['target', 'locale', 'group', 'sourceCheckpointSha']) {
     if (analysis[key] !== manifest[key]) throw new Error(`Recovery analysis ${key} does not match the current manifest`)
   }
@@ -969,6 +1162,12 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
     if (arrayKey && (!Array.isArray(analysis[arrayKey]) || analysis[key] !== analysis[arrayKey].length)) throw new Error(`Recovery analysis ${key} does not match ${arrayKey}`)
   }
   if (!Array.isArray(analysis.restored) || !Array.isArray(analysis.pending) || !Array.isArray(analysis.rejected)) throw new Error('Recovery analysis lists are invalid')
+  if (hasChunkRecovery) {
+    for (const key of ['resumableFileCount', 'recoveredChunkCount', 'rejectedChunkCount']) {
+      if (!Number.isSafeInteger(analysis[key]) || analysis[key] < 0) throw new Error(`Recovery analysis ${key} is invalid`)
+    }
+    if (!Array.isArray(analysis.rejectedChunks) || analysis.rejectedChunkCount !== analysis.rejectedChunks.length) throw new Error('Recovery analysis rejected chunk count is invalid')
+  }
   if (analysis.candidateCount !== manifest.items.length || analysis.recoveredCount + analysis.pendingCount !== analysis.candidateCount) {
     throw new Error('Recovery analysis candidate partition does not match the current manifest')
   }
@@ -977,7 +1176,10 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
   const seen = new Set()
   const restored = []
   for (const record of analysis.restored) {
-    exactRecoveryAnalysisKeys(record, ['sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'targetSize'], 'Recovery analysis restored record')
+    const restoredKeys = ['sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'targetSize']
+    if (analysis.schemaVersion === 2) restoredKeys.push('compatibility')
+    exactRecoveryAnalysisKeys(record, restoredKeys, 'Recovery analysis restored record')
+    if (analysis.schemaVersion === 2 && !['strict', 'revalidated'].includes(record.compatibility)) throw new Error('Recovery analysis restored compatibility is invalid')
     const key = recoveryEntryIdentity(record)
     const candidate = manifestByIdentity.get(key)
     if (!candidate || candidate.sourceHash !== record.sourceHash || seen.has(key)) throw new Error('Recovery analysis restored identity does not match the current manifest')
@@ -991,14 +1193,57 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
       throw new Error('Recovery analysis restored target payload changed after preflight')
     }
     seen.add(key)
-    restored.push({...candidate, status: 'translated', recovered: true})
+    restored.push({
+      ...candidate,
+      status: 'translated',
+      recovered: true,
+      ...(analysis.schemaVersion === 2 ? {recoveryCompatibility: record.compatibility} : {}),
+    })
   }
+  const pending = []
+  let recoveredChunkCount = 0
+  let resumableFileCount = 0
+  let recoveredChunkBytes = 0
   for (const record of analysis.pending) {
-    exactRecoveryAnalysisKeys(record, ['sourcePath', 'targetPath', 'sourceHash'], 'Recovery analysis pending record')
+    const pendingKeys = ['sourcePath', 'targetPath', 'sourceHash']
+    if (Object.hasOwn(record, 'chunkResume')) pendingKeys.push('chunkResume')
+    exactRecoveryAnalysisKeys(record, pendingKeys, 'Recovery analysis pending record')
     const key = recoveryEntryIdentity(record)
     const candidate = manifestByIdentity.get(key)
     if (!candidate || candidate.sourceHash !== record.sourceHash || seen.has(key)) throw new Error('Recovery analysis pending identity does not match the current manifest')
+    let recoveryChunkCheckpoints
+    if (record.chunkResume) {
+      const source = path.resolve(siteDir, ...candidate.sourcePath.split('/'))
+      const sourceBytes = fs.readFileSync(source)
+      if (crypto.createHash('sha256').update(sourceBytes).digest('hex') !== candidate.sourceHash) throw new Error('Recovery analysis pending source payload changed after preflight')
+      recoveryChunkCheckpoints = loadAnalysisChunkResume({
+        value: record.chunkResume,
+        sourceContent: sourceBytes.toString('utf8'),
+        chunkOptions,
+        currentIdentity: {
+          locale: manifest.locale,
+          group: manifest.group,
+          promptContractSha256: identity.promptContractSha256,
+          model: identity.model,
+          sourceSha: manifest.sourceCheckpointSha,
+          toolingSha: identity.toolingSha,
+          mode: record.chunkResume.artifactExecution?.mode,
+        },
+        revalidate: input => validateRecoveryCandidate({
+          ...input,
+          sourcePath: candidate.sourcePath,
+          targetPath: candidate.targetPath,
+          target: manifest.target,
+          locale: manifest.locale,
+        }),
+      })
+      recoveredChunkCount += recoveryChunkCheckpoints.length
+      resumableFileCount += 1
+      recoveredChunkBytes += recoveryChunkCheckpoints.reduce((total, checkpoint) => total + Buffer.byteLength(checkpoint.translatedContent), 0)
+      if (recoveredChunkBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery analysis aggregate chunk payload is oversized')
+    }
     seen.add(key)
+    pending.push(recoveryChunkCheckpoints ? {...candidate, recoveryChunkCheckpoints} : candidate)
   }
   if (seen.size !== manifest.items.length) throw new Error('Recovery analysis does not exactly cover the current manifest')
   const pendingIdentities = new Set(analysis.pending.map(recoveryEntryIdentity))
@@ -1006,9 +1251,18 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
     exactRecoveryAnalysisKeys(record, ['sourcePath', 'targetPath', 'reason'], 'Recovery analysis rejected record')
     if (!pendingIdentities.has(recoveryEntryIdentity(record)) || typeof record.reason !== 'string' || !record.reason) throw new Error('Recovery analysis rejected identity is invalid')
   }
-  const expectedFullRetranslation = manifest.items.length > 0 && analysis.recoveredCount === 0 && analysis.pendingCount === manifest.items.length
+  if (hasChunkRecovery) {
+    if (analysis.recoveredChunkCount !== recoveredChunkCount || analysis.resumableFileCount !== resumableFileCount) throw new Error('Recovery analysis resumable chunk counts do not match pending records')
+    for (const record of analysis.rejectedChunks) {
+      exactRecoveryAnalysisKeys(record, ['sourcePath', 'targetPath', 'index', 'reason'], 'Recovery analysis rejected chunk record')
+      if (!pendingIdentities.has(recoveryEntryIdentity(record)) || !Number.isSafeInteger(record.index) || record.index < 0 || typeof record.reason !== 'string' || !record.reason) {
+        throw new Error('Recovery analysis rejected chunk identity is invalid')
+      }
+    }
+  }
+  const expectedFullRetranslation = manifest.items.length > 0 && analysis.recoveredCount === 0 && analysis.pendingCount === manifest.items.length && resumableFileCount === 0
   if (analysis.fullRetranslation !== expectedFullRetranslation) throw new Error('Recovery analysis full-retranslation state is invalid')
-  return {restored, pending: analysis.pending, rejected: analysis.rejected}
+  return {restored, pending, rejected: analysis.rejected, rejectedChunks: analysis.rejectedChunks || []}
 }
 
 async function main() {
@@ -1037,16 +1291,17 @@ async function main() {
   if (recoveryDir && recoveryAnalysis) throw new Error('Use either --recovery-dir or --recovery-analysis, not both')
   const recoveryIdentity = buildRecoveryIdentity(manifest, siteDir)
   const recovery = recoveryAnalysis
-    ? loadRecoveryAnalysis({file: path.resolve(siteDir, recoveryAnalysis), manifest, siteDir, identity: recoveryIdentity})
+    ? loadRecoveryAnalysis({file: path.resolve(siteDir, recoveryAnalysis), manifest, siteDir, identity: recoveryIdentity, chunkOptions: chunkLimits})
     : recoveryDir
       ? restoreRecoveryFiles({
         siteDir,
         candidates: manifest.items,
         artifacts: discoverRecoveryArtifacts(path.resolve(siteDir, recoveryDir)),
         identity: recoveryIdentity,
+        chunkOptions: chunkLimits,
       })
       : {restored: [], pending: manifest.items, rejected: []}
-  const work = partitionRecoveryWork(manifest, recovery.restored)
+  const work = partitionRecoveryWork(manifest, recovery.restored, recovery.pending)
   const callModel = work.pending.length > 0
     ? await createProviderCall(loadAgentConfigsFromEnv(), {
         maxRetries: maxProviderRetries,
@@ -1085,19 +1340,20 @@ async function main() {
         const result = await processItemWithRetry(targetItem, {
           maxRetries: fileRetries,
           log: console,
-          processItem: (_item, _attempt, retryFeedback) => withTimeout(
-            processManifestItem({
+          initialChunkCheckpoints: item.recoveryChunkCheckpoints,
+          fileTimeoutMs,
+          processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
               siteDir,
               item: targetItem,
               callModel,
               maxReviewRounds,
               chunkTargetChars: chunkLimits.targetChars,
               chunkMaxChars: chunkLimits.maxChars,
+              chunkCheckpoint: retryContext.chunkCheckpoint,
+              onChunkCompleted: retryContext.onChunkCompleted,
+              signal: retryContext.signal,
               retryFeedback,
             }),
-            fileTimeoutMs,
-            `Timed out translating ${item.sourcePath} after ${fileTimeoutMs}ms`,
-          ),
         })
         if (result.status !== 'translated') console.error(`[translation-agent] failed ${item.sourcePath}: ${summarizeFailedResult(result)}`)
         return result

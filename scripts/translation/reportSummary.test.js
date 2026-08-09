@@ -61,3 +61,26 @@ test('reports intentionally deferred files from a checkpointed batch', () => {
   assert.match(summary, /Remaining: 2/)
   assert.match(summary, /deferred to the next incremental run/i)
 })
+
+test('renders structured failure categories in the Markdown summary', () => {
+  const summary = buildSummary({
+    manifest: {locale: 'ja-JP', items: [{reason: 'current_delta'}]},
+    report: {results: [{sourcePath: 'docs/boost-ranker.md', status: 'failed', failureCategory: 'provider_timeout', error: 'timed out'}]},
+  })
+
+  assert.match(summary, /provider_timeout/)
+  assert.match(summary, /docs\/boost-ranker\.md/)
+})
+
+test('renders structured resumable file and checkpointed chunk counts', () => {
+  const summary = buildSummary({
+    manifest: {locale: 'ja-JP', items: [{reason: 'current_delta'}, {reason: 'current_delta'}]},
+    report: {results: [
+      {sourcePath: 'docs/large.md', status: 'failed', error: 'timeout', chunkCheckpoints: {schemaVersion: 1, totalChunks: 3, entries: [{index: 0}]}},
+      {sourcePath: 'docs/other.md', status: 'failed', error: 'transport'},
+    ]},
+  })
+
+  assert.match(summary, /Resumable files: 1/)
+  assert.match(summary, /Checkpointed chunks: 1/)
+})

@@ -59,6 +59,8 @@ test('REST prompts declare entry-local protected marker ordering', () => {
   const correction = loadPrompt(promptNamesFor('zh-CN-reference').restCorrection)
   assert.match(correction, /within (?:the )?same (?:REST )?entry|inside one REST entry/i)
   assert.match(correction, /must not.*across.*(?:entry|ID)/is)
+  assert.match(correction, /plain.*remain plain.*(?:backticks|inline code)/is)
+  assert.match(loadPrompt(promptNamesFor('zh-CN-reference').rest), /plain.*remain plain.*(?:backticks|inline code)/is)
 })
 
 test('adds Japanese locale data without changing the source specification', async () => {
@@ -130,7 +132,11 @@ test('rejects translations that change protected API tokens', async () => {
     sourceSpecs: { description: 'Use `offset` with {{TOKEN}} at https://example.com.' },
     target: 'ja-JP', locale: 'ja-JP',
     callModel: withPassingReview(async ({ messages }) => JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({ ...entry, text: '変更されたテキスト' })))),
-  }), /protected (?:marker|content|token)/i)
+  }), error => {
+    assert.match(error.message, /protected (?:marker|content|token)/i)
+    assert.equal(error.failureCategory, 'protected_content_failed')
+    return true
+  })
 })
 
 test('rejects invented inline-code structure around technical identifiers', async () => {
@@ -148,6 +154,33 @@ test('rejects invented inline-code structure around technical identifiers', asyn
       })),
     )),
   }), /protected content|inline_code/i)
+})
+
+test('reports the real REST document and exact entry path for translation protected-content failures', async () => {
+  const sourcePath = 'content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/hybrid-search-v2.mdx'
+  const entryId = 'requestBody.content.application/json.schema.properties.search.items.properties.params.properties.radius.description'
+  const sourceSpecs = {
+    requestBody: {content: {'application/json': {schema: {properties: {
+      search: {items: {properties: {params: {properties: {
+        radius: {description: 'Specifies the search radius.'},
+      }}}}},
+    }}}}},
+  }
+
+  await assert.rejects(translateRestSpecs({
+    sourceSpecs,
+    sourcePath,
+    target: 'zh-CN-reference',
+    locale: 'zh-CN',
+    callModel: withPassingReview(async ({messages}) => JSON.stringify(
+      JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: '指定 `radius` 搜索半径。'})),
+    )),
+  }), error => {
+    assert.match(error.message, new RegExp(sourcePath.replaceAll('/', '\\/')))
+    assert.match(error.message, new RegExp(entryId.replaceAll('/', '\\/')))
+    assert.match(error.message, /line 1, column \d+, offset \d+, token "`radius`"/)
+    return true
+  })
 })
 
 test('rejects invented code identifiers that do not exist in the source prose', async () => {
@@ -250,6 +283,23 @@ test('reports a REST translation that replaces Compaction with 压实 when no co
   })
   assert.equal(review.pass, false)
   assert.match(review.issues[0].comment, /Compaction|locale contract/i)
+})
+
+test('keeps REST Entity protected by the deterministic locale contract', async () => {
+  const {review} = await translateRestSpecs({
+    sourceSpecs: {description: 'The response contains the matching entity.'},
+    target: 'zh-CN-reference',
+    locale: 'zh-CN',
+    maxReviewRounds: 0,
+    callModel: withPassingReview(async ({messages}) => JSON.stringify(
+      JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: '响应包含匹配的实体。'})),
+    )),
+  })
+
+  assert.equal(review.pass, false)
+  assert.equal(review.localeContractIssues.length, 1)
+  assert.equal(review.localeContractIssues[0].source_quote, 'entity')
+  assert.match(review.localeContractIssues[0].comment, /Entity/)
 })
 
 test('requires Reviewer source and draft evidence to belong to the same REST entry', async () => {
@@ -524,6 +574,46 @@ test('rejects a REST Correction that changes protected content', async () => {
       throw new Error(`unexpected ${agent} call`)
     },
   }), /protected marker|protected content/i)
+})
+
+test('reports the real REST document and exact entry path for Correction protected-content failures', async () => {
+  const sourcePath = 'content/en/reference/api/restful/restful/v2/data-plane/vector-operations-v2/hybrid-search-v2.mdx'
+  const entryId = 'requestBody.content.application/json.schema.properties.search.items.properties.params.properties.radius.description'
+  const sourceSpecs = {
+    requestBody: {content: {'application/json': {schema: {properties: {
+      search: {items: {properties: {params: {properties: {
+        radius: {description: 'Specifies the search radius.'},
+      }}}}},
+    }}}}},
+  }
+  let reviewRound = 0
+
+  await assert.rejects(translateRestSpecs({
+    sourceSpecs,
+    sourcePath,
+    target: 'zh-CN-reference',
+    locale: 'zh-CN',
+    callModel: async ({agent, messages}) => {
+      if (agent === 'translation') return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: '指定搜索半径。'})))
+      if (agent === 'review') {
+        reviewRound += 1
+        return JSON.stringify(reviewRound === 1 ? {
+          pass: false,
+          issues: [{
+            severity: 'low', type: 'locale_style', location: JSON.stringify(entryId.split('.')),
+            source_quote: 'search radius', draft_quote: '搜索半径', comment: 'Apply a local style correction.',
+          }],
+        } : {pass: true, issues: []})
+      }
+      if (agent === 'correction') return JSON.stringify(taggedJson(messages, 'draft').map(entry => ({...entry, text: '指定 `radius` 搜索半径。'})))
+      throw new Error(`unexpected ${agent} call`)
+    },
+  }), error => {
+    assert.match(error.message, new RegExp(sourcePath.replaceAll('/', '\\/')))
+    assert.match(error.message, new RegExp(entryId.replaceAll('/', '\\/')))
+    assert.match(error.message, /line 1, column \d+, offset \d+, token "`radius`"/)
+    return true
+  })
 })
 
 test('fails a contradictory REST Reviewer response without Correction', async () => {

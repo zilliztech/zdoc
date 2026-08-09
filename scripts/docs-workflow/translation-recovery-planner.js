@@ -195,7 +195,7 @@ function exactObjectKeys(value, keys, label) {
 }
 
 function zeroWorkReportMarkdown(locale) {
-  return `### Translation report\n\n- Locale: \`${locale}\`\n- Pending: 0\n- Current English changes: 0\n- Missing Japanese targets: 0\n- Stale translations: 0\n- Translated: 0\n- Failed: 0\n- Remaining: 0\n\nNo documents require translation or translation-state reconciliation.\n`
+  return `### Translation report\n\n- Locale: \`${locale}\`\n- Pending: 0\n- Current English changes: 0\n- Missing Japanese targets: 0\n- Stale translations: 0\n- Translated: 0\n- Failed: 0\n- Resumable files: 0\n- Checkpointed chunks: 0\n- Remaining: 0\n\nNo documents require translation or translation-state reconciliation.\n`
 }
 
 function reportPending(directory, expectedTarget) {

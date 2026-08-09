@@ -217,6 +217,10 @@ function addInlineCodeSpans(content, spans) {
   }
 }
 
+function addHtmlCodeSpans(content, spans) {
+  addRegexSpans(content, spans, /<code(?:\s[^<>]*?)?>[\s\S]*?<\/code>/gi, 'inline_code')
+}
+
 function addMdxExpressionSpans(content, spans) {
   for (let start = content.indexOf('{'); start !== -1; start = content.indexOf('{', start + 1)) {
     if (spans.some(span => start >= span.start && start < span.end)) continue
@@ -254,6 +258,7 @@ function protectedSpans(content) {
   addFrontmatterSpans(content, spans)
   addRegexSpans(content, spans, /<!--[\s\S]*?-->(?:\r\n|\n)?/g, 'html_comment')
   addEsmSpans(content, spans)
+  addHtmlCodeSpans(content, spans)
   addJsxSpans(content, spans)
   addInlineCodeSpans(content, spans)
   addRegexSpans(content, spans, /\\?\{#[A-Za-z0-9][\w.-]*\}/g, 'heading_anchor')
@@ -396,6 +401,15 @@ function digest(value) {
   return crypto.createHash('sha256').update(value).digest('hex').slice(0, 12)
 }
 
+function entryLocation(content, entry, pathLabel) {
+  const prefix = String(content).slice(0, entry.start)
+  const line = prefix.split('\n').length
+  const lastBreak = prefix.lastIndexOf('\n')
+  const column = entry.start - lastBreak
+  const token = JSON.stringify(entry.original.length > 160 ? `${entry.original.slice(0, 157)}...` : entry.original)
+  return `${pathLabel}: line ${line}, column ${column}, offset ${entry.start}, token ${token}`
+}
+
 function protectedEntryKey(entry) {
   return `${entry.category}\0${entry.original}`
 }
@@ -415,7 +429,7 @@ function unmatchedEntries(entries, oppositeEntries) {
   })
 }
 
-function validateProtectedContent(sourceContent, targetContent) {
+function validateProtectedContent(sourceContent, targetContent, options = {}) {
   const sourceEntries = manifestEntries(String(sourceContent))
   const targetEntries = manifestEntries(String(targetContent))
   const unmatchedSource = unmatchedEntries(sourceEntries, targetEntries)
@@ -430,10 +444,10 @@ function validateProtectedContent(sourceContent, targetContent) {
     const target = unmatchedTarget.filter(entry => entry.category === category)
     const paired = Math.min(source.length, target.length)
     for (let index = 0; index < paired; index++) {
-      errors.push(`Protected content mismatch for ${category}: source sha256 ${digest(source[index].original)}, target sha256 ${digest(target[index].original)}`)
+      errors.push(`Protected content mismatch for ${category}: source ${entryLocation(sourceContent, source[index], options.sourcePath || '<source>')} sha256 ${digest(source[index].original)}; target ${entryLocation(targetContent, target[index], options.targetPath || options.sourcePath || '<target>')} sha256 ${digest(target[index].original)}`)
     }
-    for (const entry of source.slice(paired)) errors.push(`Missing protected ${category}: source sha256 ${digest(entry.original)}`)
-    for (const entry of target.slice(paired)) errors.push(`Unexpected protected ${category}: target sha256 ${digest(entry.original)}`)
+    for (const entry of source.slice(paired)) errors.push(`Missing protected ${category}: ${entryLocation(sourceContent, entry, options.sourcePath || '<source>')} sha256 ${digest(entry.original)}`)
+    for (const entry of target.slice(paired)) errors.push(`Unexpected protected ${category}: ${entryLocation(targetContent, entry, options.targetPath || options.sourcePath || '<target>')} sha256 ${digest(entry.original)}`)
   }
   return Object.freeze(errors)
 }

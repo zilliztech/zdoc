@@ -248,6 +248,9 @@ jobs:
             `- Recovered now: ${analysis.recoveredCount}`,
             `- Pending provider work: ${analysis.pendingCount}`,
             `- Rejected retained records: ${analysis.rejectedCount}`,
+            `- Resumable files: ${analysis.resumableFileCount}`,
+            `- Recovered chunks: ${analysis.recoveredChunkCount}`,
+            `- Rejected chunks: ${analysis.rejectedChunkCount}`,
             `- Full retranslation: ${analysis.fullRetranslation}`,
             '', '### Compatibility reasons', ...reasons, '',
           ].join('\n'))

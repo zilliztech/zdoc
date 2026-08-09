@@ -63,11 +63,11 @@ test('restores current-compatible files and leaves only true pending candidates 
   assert.deepEqual(analysis.pending.map(item => item.sourcePath), [value.items[1].sourcePath])
 })
 
-test('reports prompt, model, and source incompatibility as explicit rejected pending reasons', t => {
-  for (const [label, mutate, pattern] of [
-    ['prompt', input => { input.promptContractSha256 = 'e'.repeat(64) }, /prompt contract/i],
-    ['model', input => { input.model = 'different-model' }, /model/i],
-    ['source', input => { write(input.siteDir, input.items[0].sourcePath, '# Changed source\n') }, /source hash/i],
+test('revalidates prompt and model changes but still rejects source incompatibility', t => {
+  for (const [label, mutate, recovered, pattern] of [
+    ['prompt', input => { input.promptContractSha256 = 'e'.repeat(64) }, true, /revalidated/i],
+    ['model', input => { input.model = 'different-model' }, true, /revalidated/i],
+    ['source', input => { write(input.siteDir, input.items[0].sourcePath, '# Changed source\n') }, false, /source hash/i],
   ]) {
     const value = fixture(t)
     const input = {
@@ -79,15 +79,72 @@ test('reports prompt, model, and source incompatibility as explicit rejected pen
     }
     mutate(input)
     const analysis = analyzeRecoveryCompatibility(input)
-    assert.equal(analysis.recoveredCount, 0, label)
-    assert.equal(analysis.pendingCount, 1, label)
-    assert.equal(analysis.rejectedCount, 1, label)
-    assert.match(analysis.rejected[0].reason, pattern, label)
+    assert.equal(analysis.recoveredCount, recovered ? 1 : 0, label)
+    assert.equal(analysis.pendingCount, recovered ? 0 : 1, label)
+    assert.equal(analysis.rejectedCount, recovered ? 0 : 1, label)
+    assert.match(recovered ? analysis.restored[0].compatibility : analysis.rejected[0].reason, pattern, label)
   }
+})
+
+test('tooling-only changes revalidate complete files and reject outputs that fail the current contract', t => {
+  const valid = fixture(t)
+  const validAnalysis = analyzeRecoveryCompatibility({
+    siteDir: valid.siteDir,
+    manifest: {target: 'zh-CN-reference', locale: 'zh-CN', group: 'python', sourceCheckpointSha: 'a'.repeat(40), items: [valid.items[0]]},
+    artifacts: [valid.artifactDir], promptContractSha256: valid.identity.promptContractSha256,
+    model: valid.identity.model, executionToolingSha: 'd'.repeat(40), allowFullRetranslate: true,
+  })
+  assert.equal(validAnalysis.recoveredCount, 1)
+  assert.equal(validAnalysis.restored[0].compatibility, 'revalidated')
+
+  const invalid = fixture(t)
+  write(invalid.artifactDir, `translated-files/${invalid.items[0].targetPath}`, '# `Source 1`\n')
+  const manifestPath = path.join(invalid.artifactDir, 'manifest.json')
+  const artifactManifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  const bytes = fs.readFileSync(path.join(invalid.artifactDir, 'translated-files', invalid.items[0].targetPath))
+  artifactManifest.files[0].targetHash = HASH(bytes)
+  artifactManifest.files[0].targetSize = bytes.length
+  write(invalid.artifactDir, 'manifest.json', `${JSON.stringify(artifactManifest)}\n`)
+  const invalidAnalysis = analyzeRecoveryCompatibility({
+    siteDir: invalid.siteDir,
+    manifest: {target: 'zh-CN-reference', locale: 'zh-CN', group: 'python', sourceCheckpointSha: 'a'.repeat(40), items: [invalid.items[0]]},
+    artifacts: [invalid.artifactDir], promptContractSha256: invalid.identity.promptContractSha256,
+    model: invalid.identity.model, executionToolingSha: 'd'.repeat(40), allowFullRetranslate: true,
+  })
+  assert.equal(invalidAnalysis.recoveredCount, 0)
+  assert.match(invalidAnalysis.rejected[0].reason, /revalidation.*protected/i)
+})
+
+test('rejects a cross-version payload that fails the current protected contract', t => {
+  const value = fixture(t)
+  write(value.artifactDir, `translated-files/${value.items[0].targetPath}`, '# `Source 1`\n')
+  const manifestPath = path.join(value.artifactDir, 'manifest.json')
+  const artifactManifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+  const bytes = fs.readFileSync(path.join(value.artifactDir, 'translated-files', value.items[0].targetPath))
+  artifactManifest.files[0].targetHash = HASH(bytes)
+  artifactManifest.files[0].targetSize = bytes.length
+  write(value.artifactDir, 'manifest.json', `${JSON.stringify(artifactManifest)}\n`)
+
+  const analysis = analyzeRecoveryCompatibility({
+    siteDir: value.siteDir,
+    manifest: {target: 'zh-CN-reference', locale: 'zh-CN', group: 'python', sourceCheckpointSha: 'a'.repeat(40), items: [value.items[0]]},
+    artifacts: [value.artifactDir], promptContractSha256: 'e'.repeat(64),
+    model: 'different-model', executionToolingSha: 'd'.repeat(40), allowFullRetranslate: true,
+  })
+  assert.equal(analysis.recoveredCount, 0)
+  assert.equal(analysis.pendingCount, 1)
+  assert.match(analysis.rejected[0].reason, /revalidation.*protected/i)
 })
 
 test('fails closed before providers when compatibility would become full retranslation unless explicitly authorized', t => {
   const value = fixture(t)
+  write(value.artifactDir, `translated-files/${value.items[0].targetPath}`, '# `Source 1`\n')
+  const artifactManifestPath = path.join(value.artifactDir, 'manifest.json')
+  const artifactManifest = JSON.parse(fs.readFileSync(artifactManifestPath, 'utf8'))
+  const invalidBytes = fs.readFileSync(path.join(value.artifactDir, 'translated-files', value.items[0].targetPath))
+  artifactManifest.files[0].targetHash = HASH(invalidBytes)
+  artifactManifest.files[0].targetSize = invalidBytes.length
+  write(value.artifactDir, 'manifest.json', `${JSON.stringify(artifactManifest)}\n`)
   const input = {
     siteDir: value.siteDir,
     manifest: {target: 'zh-CN-reference', locale: 'zh-CN', group: 'python', sourceCheckpointSha: 'a'.repeat(40), items: value.items},

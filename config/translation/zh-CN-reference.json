@@ -11,7 +11,7 @@
   ],
   "mandatoryTerms": [
     {"source": "Compaction", "target": "Compaction", "caseSensitive": true},
-    {"source": "collection", "target": "Collection", "caseSensitive": false},
+    {"source": "collection", "target": "Collection", "caseSensitive": false, "excludedSourceContexts": ["garbage collection"]},
     {"source": "entity", "target": "Entity", "caseSensitive": false},
     {"source": "schema", "target": "Schema", "caseSensitive": false},
     {"source": "database", "target": "Database", "caseSensitive": false},
@@ -57,6 +57,13 @@
       "bad": "启用响应 Compaction。",
       "good": "启用响应压缩。",
       "explanation": "Ordinary compression is not the Compaction product concept and may be translated as 压缩."
+    },
+    {
+      "id": "zh-garbage-collection",
+      "source": "Garbage collection releases snapshot data.",
+      "bad": "垃圾 Collection 会释放快照数据。",
+      "good": "垃圾回收会释放快照数据。",
+      "explanation": "Garbage collection is an ordinary fixed phrase, not the Milvus Collection product concept."
     },
     {
       "id": "zh-code-comment",
