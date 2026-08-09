@@ -21,6 +21,13 @@ const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
   ['fetch-docs.yml', new Set(['reconcile_reference_state'])],
   ['sync-master-tooling-to-dev.yml', new Set(['sync'])],
 ]))
+const LEGACY_TRANSLATION_SELECTION_BYPASS = Object.freeze(new Map([
+  ['_translate-publish-batch.yml', Object.freeze({job: 'translate', sourceBaselineSha: '${{ inputs.tooling_sha }}', sourceCheckpointSha: '${{ inputs.source_sha }}'})],
+  ['_translate-selected-group.yml', Object.freeze({job: 'translate', sourceBaselineSha: '${{ inputs.tooling_sha }}', sourceCheckpointSha: '${{ inputs.source_sha }}'})],
+  ['translate-content.yml', Object.freeze({job: 'translate_exact', sourceBaselineSha: '${{ inputs.tooling_sha }}', sourceCheckpointSha: '${{ inputs.source_sha }}'})],
+]))
+const LEGACY_TRANSLATION_SELECTION_BYPASS_INPUT = 'legacy_without_publication_selection'
+const LEGACY_TRANSLATION_ALIAS_PREFLIGHT_COMMAND = 'node -e \'if(process.env.SOURCE_COMMIT_SHA !== process.env.SOURCE_SHA)throw new Error("source_commit_sha must equal source_sha");if(process.env.MASTER_SHA !== process.env.TOOLING_SHA)throw new Error("master_sha must equal tooling_sha")\''
 const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'recover-translation.yml',
@@ -207,7 +214,8 @@ function validateFetchPublicationProducer({workflow, source, file, jobName, chec
 
 function validateTranslationReadyProducer({workflow, source, file, errors}) {
   const inputs = workflow.on?.workflow_call?.inputs || {}
-  const requiredInputs = ['publication_selection_artifact_name', 'publication_selection_sha256', 'publication_unit_key']
+  const selectionInputs = ['publication_selection_artifact_name', 'publication_selection_sha256', 'publication_unit_key']
+  const legacyInput = inputs.legacy_without_publication_selection
   const steps = workflow.jobs?.translate?.steps || []
   const download = steps.find(step => step?.name === 'Download translation publication selection')
   const validate = steps.find(step => step?.name === 'Validate translation publication selection identity')
@@ -217,9 +225,13 @@ function validateTranslationReadyProducer({workflow, source, file, errors}) {
   const upload = steps.findIndex(step => step?.name === 'Upload immutable Translation ready descriptor')
   const readyRun = String(steps[ready]?.run || '')
   const validationRun = String(validate?.run || '')
-  const validIdentity = requiredInputs.every(input => inputs[input]?.required === true) &&
+  const strictCondition = '${{ !inputs.legacy_without_publication_selection }}'
+  const validIdentity = legacyInput?.required === false && legacyInput?.type === 'boolean' && legacyInput?.default === false &&
+    selectionInputs.every(input => inputs[input]?.required === false && inputs[input]?.type === 'string' && inputs[input]?.default === '') &&
     download?.uses === 'actions/download-artifact@v7' &&
+    download?.if === strictCondition &&
     download?.with?.name === '${{ inputs.publication_selection_artifact_name }}' &&
+    validate?.if === strictCondition &&
     /publication-contracts\.js validate-selection/.test(validationRun) &&
     /inputs\.publication_selection_sha256/.test(String(validate?.env?.PUBLICATION_SELECTION_SHA256 || '')) &&
     /PUBLICATION_UNIT_KEY/.test(String(validate?.run || ''))
@@ -236,6 +248,7 @@ function validateTranslationReadyProducer({workflow, source, file, errors}) {
   if (!exactUnitIdentity) errors.push(`${file}: Translation producer must authenticate the exact selected unit identity`)
   const validDescriptor = checkpoint >= 0 && baseline > checkpoint && ready > baseline && upload > ready &&
     steps[ready]?.id === 'publication_ready' &&
+    String(steps[ready]?.if || '').startsWith('${{ !inputs.legacy_without_publication_selection &&') &&
     /translation-publication-selection\.js ready/.test(readyRun) &&
     /--selection "\$RUNNER_TEMP\/publication-selection\/publication-selection\.json"/.test(readyRun) &&
     /--unit-key "\$PUBLICATION_UNIT_KEY"/.test(readyRun) &&
@@ -245,6 +258,7 @@ function validateTranslationReadyProducer({workflow, source, file, errors}) {
     readyRun.includes('artifact_name=publication-ready-translation-$unit_token-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT') &&
     /artifact_name=publication-ready-translation-\$unit_token-\$GITHUB_RUN_ID-\$GITHUB_RUN_ATTEMPT" >> "\$GITHUB_OUTPUT"/.test(readyRun) &&
     steps[upload]?.uses === 'actions/upload-artifact@v6' &&
+    String(steps[upload]?.if || '').startsWith('${{ !inputs.legacy_without_publication_selection &&') &&
     steps[upload]?.with?.name === '${{ steps.publication_ready.outputs.artifact_name }}'
   if (!validDescriptor) errors.push(`${file}: Translation producer must upload checkpoint and baseline artifacts before its bound ready descriptor`)
   if (!readyRun.includes('artifact_name=publication-ready-translation-$unit_token-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT') ||
@@ -254,6 +268,53 @@ function validateTranslationReadyProducer({workflow, source, file, errors}) {
   }
   if (workflow.permissions?.contents !== 'read' || /git push|contents: write/.test(source)) {
     errors.push(`${file}: Translation producer must remain read-only and coordinator-free`)
+  }
+}
+
+function validateLegacyTranslationSelectionBypass({workflow, file, errors}) {
+  const allowlisted = LEGACY_TRANSLATION_SELECTION_BYPASS.get(file)
+  for (const [jobName, job] of Object.entries(workflow.jobs || {})) {
+    const bypassKeys = Object.keys(job?.with || {}).filter(input => input.includes(LEGACY_TRANSLATION_SELECTION_BYPASS_INPUT))
+    if (bypassKeys.some(input => jobName !== allowlisted?.job || input !== LEGACY_TRANSLATION_SELECTION_BYPASS_INPUT)) {
+      errors.push(`${file}:${jobName}: legacy Translation selection bypass is not allowlisted`)
+    }
+  }
+  if (!allowlisted) return
+
+  const call = workflow.jobs?.[allowlisted.job]
+  if (!Object.hasOwn(call?.with || {}, LEGACY_TRANSLATION_SELECTION_BYPASS_INPUT) || call.with[LEGACY_TRANSLATION_SELECTION_BYPASS_INPUT] !== true) {
+    errors.push(`${file}:${allowlisted.job}: allowlisted legacy Translation selection bypass must be explicit`)
+  }
+  if (call?.uses !== './.github/workflows/_translate-content-group.yml' ||
+      call?.with?.source_baseline_sha !== allowlisted.sourceBaselineSha ||
+      call?.with?.source_checkpoint_sha !== allowlisted.sourceCheckpointSha ||
+      ['source_sha', 'source_commit_sha', 'master_sha'].some(input => call?.with?.[input] !== undefined) ||
+      ['publication_selection_artifact_name', 'publication_selection_sha256', 'publication_unit_key'].some(input => call?.with?.[input] !== undefined)) {
+    errors.push(`${file}:${allowlisted.job}: legacy Translation source identity mapping is invalid`)
+  }
+
+  if (file === '_translate-publish-batch.yml') {
+    const preflight = workflow.jobs?.validate_legacy_aliases
+    const aliasStep = preflight?.steps?.find(step => step?.name === 'Validate retained Translation aliases')
+    const expectedEnvironment = {
+      SOURCE_SHA: '${{ inputs.source_sha }}',
+      SOURCE_COMMIT_SHA: '${{ inputs.source_commit_sha }}',
+      TOOLING_SHA: '${{ inputs.tooling_sha }}',
+      MASTER_SHA: '${{ inputs.master_sha }}',
+    }
+    const validPreflight = call?.needs === 'validate_legacy_aliases' &&
+      call?.if === undefined &&
+      call?.['continue-on-error'] === undefined &&
+      preflight?.['runs-on'] === 'ubuntu-latest' &&
+      preflight?.['timeout-minutes'] === 5 &&
+      preflight?.if === undefined &&
+      preflight?.['continue-on-error'] === undefined &&
+      JSON.stringify(preflight?.permissions) === JSON.stringify({contents: 'read'}) &&
+      aliasStep?.if === undefined &&
+      aliasStep?.['continue-on-error'] === undefined &&
+      JSON.stringify(aliasStep?.env) === JSON.stringify(expectedEnvironment) &&
+      String(aliasStep?.run || '').trim() === LEGACY_TRANSLATION_ALIAS_PREFLIGHT_COMMAND
+    if (!validPreflight) errors.push(`${file}: legacy Translation aliases must fail closed before paid work`)
   }
 }
 
@@ -279,6 +340,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push(`${file}: invalid YAML: ${error.message}`)
       continue
     }
+    validateLegacyTranslationSelectionBypass({workflow, file, errors})
     if (file === 'recover-translation.yml') {
       if (workflow.permissions?.contents !== 'write') errors.push('recover-translation.yml: caller must grant contents: write so publish_ready can publish')
       if (workflow.jobs?.prepare_recovery?.permissions?.contents !== 'read' || workflow.jobs?.run_translation?.permissions?.contents !== 'write') {
@@ -1111,7 +1173,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       for (const jobName of ['translate_sdk', 'translate_guides_batches']) {
         const job = workflow.jobs?.[jobName]
         if (job?.with?.publication_selection_artifact_name !== '${{ needs.prepare.outputs.publication_selection_artifact_name }}' ||
-            job?.with?.publication_selection_sha256 !== '${{ needs.prepare.outputs.publication_selection_sha256 }}') {
+            job?.with?.publication_selection_sha256 !== '${{ needs.prepare.outputs.publication_selection_sha256 }}' ||
+            job?.with?.legacy_without_publication_selection !== undefined) {
           errors.push(`${file}: ${jobName} must receive the immutable Translation publication selection identity`)
         }
       }
