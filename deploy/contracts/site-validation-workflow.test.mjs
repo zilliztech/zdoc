@@ -69,10 +69,8 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(workflow, /if: needs\.classify\.outputs\.build_zh_cn == 'true'/);
   for (const job of ['build_zh_cn', 'reference_coverage']) {
     const block = jobBlock(workflow, job);
-    assert.match(block, /uses: actions\/checkout@v5\n\s+with:\n(?:\s+ref:.*\n)?\s+fetch-depth: 1/);
-    assert.match(block, /name: Fetch immutable Reference source commit/);
-    assert.match(block, /source_commit=\$\(node -e 'const manifest = require\("\.\/generated\/en\/manifests\/reference\.json"\); process\.stdout\.write\(manifest\.sourceCommit\)'\)/);
-    assert.match(block, /git fetch --no-tags --depth=1 origin -- "\$source_commit"\n\s+git cat-file -e "\$source_commit\^\{commit\}"/);
+    assert.match(block, /uses: actions\/checkout@v5\n\s+with:\n(?:\s+ref:.*\n)?\s+fetch-depth: 0/);
+    assert.doesNotMatch(block, /Fetch immutable Reference source commit|git fetch --no-tags --depth=1/);
   }
   assert.match(workflow, /run: pnpm build:zh-CN/);
   assert.match(jobBlock(workflow, 'build_zh_cn'), /pnpm check:localization-input-inventory[\s\S]*pnpm build:zh-CN/);
