@@ -41,6 +41,7 @@ jobs:
           PUBLISH_ENABLED: ${{ inputs.publish_enabled }}
           PUBLICATION_RUN_ATTEMPT: ${{ inputs.publication_run_attempt }}
           PUBLICATION_SELECTION_SHA256: ${{ inputs.publication_selection_sha256 }}
+          TRANSLATION_RESULTS_MAX_POLLS: ${{ vars.TRANSLATION_RESULTS_MAX_POLLS || '5' }}
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}

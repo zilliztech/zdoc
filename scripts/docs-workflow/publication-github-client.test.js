@@ -1,6 +1,7 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const crypto = require('node:crypto')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
@@ -67,6 +68,32 @@ function response(body, options = {}) {
   }
 }
 
+function binaryResponse(bytes, options = {}) {
+  return {
+    ok: options.ok ?? true,
+    status: options.status ?? 200,
+    headers: {get: () => null},
+    arrayBuffer: async () => Buffer.from(bytes),
+    text: async () => '',
+  }
+}
+
+function artifactEnvelope(overrides = {}) {
+  const bytes = Buffer.from('authenticated archive bytes')
+  return {
+    bytes,
+    artifact: {
+      id: 14,
+      name: 'wanted',
+      expired: false,
+      digest: `sha256:${crypto.createHash('sha256').update(bytes).digest('hex')}`,
+      archive_download_url: 'https://api.github.com/repos/zilliztech/zdoc/actions/artifacts/14/zip',
+      workflow_run: {id: 123, repository_id: 77, head_repository_id: 77},
+      ...overrides,
+    },
+  }
+}
+
 function fakeFetch(responses, seen = []) {
   let index = 0
   return Object.assign(async (url, options) => {
@@ -82,6 +109,9 @@ function client(options = {}) {
     token: 'token', repository: 'zilliztech/zdoc', runId: 123, runAttempt: 2,
     fetchImpl: options.fetchImpl || fakeFetch([response({jobs: []})]),
     artifactClient: options.artifactClient || {uploadArtifact: async () => ({id: 1}), downloadArtifact: async () => ({downloadPath: options.runnerTemp})},
+    artifactTransport: options.artifactTransport,
+    inspectArchive: options.inspectArchive,
+    unzip: options.unzip,
     runnerTemp: options.runnerTemp || fs.mkdtempSync(path.join(os.tmpdir(), 'publication-github-client-')),
     sleep: options.sleep || (async () => {}),
   })
@@ -143,6 +173,91 @@ test('artifact download requires one exact regular file under runner temp', asyn
   assert.deepEqual(Object.keys(downloaded.files), ['publication-ready.json'])
   assert.ok(downloaded.directory.startsWith(`${fs.realpathSync(root)}${path.sep}`))
   fs.rmSync(root, {recursive: true, force: true})
+})
+
+test('REST artifact download authenticates the exact envelope and archive before extracting one exact file', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'publication-rest-download-'))
+  const {artifact, bytes} = artifactEnvelope()
+  const seen = []
+  const fetchImpl = async (url, options) => {
+    seen.push({url, options})
+    if (url.includes('/actions/runs/123/artifacts?')) return response({artifacts: [artifact]})
+    if (url === artifact.archive_download_url) return binaryResponse(bytes)
+    throw new Error(`unexpected URL: ${url}`)
+  }
+  let extracted = 0
+  const downloaded = await client({
+    fetchImpl,
+    runnerTemp: root,
+    artifactTransport: 'rest',
+    inspectArchive: async () => [{path: 'publication-results.json', type: 'file'}],
+    unzip: async (_archive, destination) => {
+      extracted += 1
+      fs.writeFileSync(path.join(destination, 'publication-results.json'), '{}\n')
+    },
+  }).downloadArtifactFiles('wanted', ['publication-results.json'])
+
+  assert.equal(downloaded.artifact.id, 14)
+  assert.deepEqual(Object.keys(downloaded.files), ['publication-results.json'])
+  assert.equal(extracted, 1)
+  assert.equal(seen[1].options.headers.Authorization, 'Bearer token')
+  assert.deepEqual(fs.readdirSync(root).length, 1)
+  fs.rmSync(root, {recursive: true, force: true})
+})
+
+test('REST artifact download rejects bad digest, run envelope, duplicates, and expired identities before extraction', async () => {
+  const cases = [
+    {label: 'digest', artifacts: [artifactEnvelope({digest: `sha256:${'0'.repeat(64)}`}).artifact], expected: /digest/i},
+    {label: 'run envelope', artifacts: [artifactEnvelope({workflow_run: {id: 122, repository_id: 77, head_repository_id: 77}}).artifact], expected: /run.*identity|envelope/i},
+    {label: 'duplicate', artifacts: [artifactEnvelope().artifact, artifactEnvelope({id: 15, archive_download_url: 'https://api.github.com/repos/zilliztech/zdoc/actions/artifacts/15/zip'}).artifact], expected: /unique|ambiguous|duplicate/i},
+    {label: 'expired', artifacts: [artifactEnvelope({expired: true}).artifact], expected: /expired|unavailable/i},
+  ]
+  for (const item of cases) {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), `publication-rest-${item.label}-`))
+    let extracted = 0
+    const fetchImpl = async url => {
+      if (url.includes('/actions/runs/123/artifacts?')) return response({artifacts: item.artifacts})
+      return binaryResponse(artifactEnvelope().bytes)
+    }
+    await assert.rejects(() => client({
+      fetchImpl,
+      runnerTemp: root,
+      artifactTransport: 'rest',
+      inspectArchive: async () => [{path: 'publication-results.json', type: 'file'}],
+      unzip: async () => { extracted += 1 },
+    }).downloadArtifactFiles('wanted', ['publication-results.json']), item.expected, item.label)
+    assert.equal(extracted, 0, item.label)
+    assert.deepEqual(fs.readdirSync(root), [], item.label)
+    fs.rmSync(root, {recursive: true, force: true})
+  }
+})
+
+test('REST artifact archive preflight rejects traversal, symlinks, extra, missing, and duplicate files before extraction', async () => {
+  const cases = [
+    {label: 'traversal', entries: [{path: '../publication-results.json', type: 'file'}], expected: /unsafe.*path/i},
+    {label: 'symlink', entries: [{path: 'publication-results.json', type: 'symlink'}], expected: /symlink/i},
+    {label: 'extra', entries: [{path: 'publication-results.json', type: 'file'}, {path: 'extra.txt', type: 'file'}], expected: /unexpected|missing/i},
+    {label: 'missing', entries: [{path: 'other.json', type: 'file'}], expected: /unexpected|missing/i},
+    {label: 'duplicate', entries: [{path: 'publication-results.json', type: 'file'}, {path: 'publication-results.json', type: 'file'}], expected: /duplicate/i},
+  ]
+  for (const item of cases) {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), `publication-rest-archive-${item.label}-`))
+    const {artifact, bytes} = artifactEnvelope()
+    let extracted = 0
+    const fetchImpl = async url => url.includes('/actions/runs/123/artifacts?')
+      ? response({artifacts: [artifact]})
+      : binaryResponse(bytes)
+    await assert.rejects(() => client({
+      fetchImpl,
+      runnerTemp: root,
+      artifactTransport: 'rest',
+      inspectArchive: async () => item.entries,
+      unzip: async () => { extracted += 1 },
+    }).downloadArtifactFiles('wanted', ['publication-results.json']), item.expected, item.label)
+    assert.equal(extracted, 0, item.label)
+    assert.deepEqual(fs.readdirSync(root), [], item.label)
+    fs.rmSync(root, {recursive: true, force: true})
+  }
 })
 
 test('artifact download rejects symlinks, unexpected files, and paths outside runner temp', async () => {

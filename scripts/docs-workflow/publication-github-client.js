@@ -1,8 +1,17 @@
 'use strict'
 
+const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
 const {DefaultArtifactClient} = require('@actions/artifact')
+
+const {
+  inspectExtractedFiles,
+  inspectZipArchive,
+  normalizeExpectedFiles,
+  unzipArchive,
+  validateArchiveEntries,
+} = require('./github-artifact-archive')
 
 const {
   artifactNames,
@@ -35,19 +44,6 @@ function parseNext(link) {
   return null
 }
 
-function safeExpectedFiles(expectedFiles) {
-  if (!Array.isArray(expectedFiles) || !expectedFiles.length) throw new Error('expectedFiles must be a non-empty array')
-  const result = expectedFiles.map(file => {
-    if (typeof file !== 'string' || !file || path.posix.isAbsolute(file) || path.posix.normalize(file) !== file ||
-      file.split('/').some(part => !part || part === '.' || part === '..') || /[\\\0\r\n]/u.test(file)) {
-      throw new Error(`Expected artifact file is unsafe: ${file}`)
-    }
-    return file
-  })
-  if (new Set(result).size !== result.length) throw new Error('Expected artifact files must be unique')
-  return result.sort()
-}
-
 function createPublicationGitHubClient(options) {
   const repository = options?.repository
   const token = options?.token
@@ -57,8 +53,12 @@ function createPublicationGitHubClient(options) {
   if (typeof token !== 'string' || !token) throw new Error('GitHub token is required')
   const fetchImpl = options.fetchImpl || globalThis.fetch
   if (typeof fetchImpl !== 'function') throw new Error('fetch implementation is required')
-  const artifactClient = options.artifactClient || new DefaultArtifactClient()
-  if (typeof artifactClient.uploadArtifact !== 'function' || typeof artifactClient.downloadArtifact !== 'function') throw new Error('artifact client is invalid')
+  const artifactTransport = options.artifactTransport || 'actions'
+  if (!['actions', 'rest'].includes(artifactTransport)) throw new Error('artifactTransport must be actions or rest')
+  const artifactClient = artifactTransport === 'actions' ? options.artifactClient || new DefaultArtifactClient() : options.artifactClient || null
+  if (artifactTransport === 'actions' && (typeof artifactClient.uploadArtifact !== 'function' || typeof artifactClient.downloadArtifact !== 'function')) throw new Error('artifact client is invalid')
+  const inspectArchive = options.inspectArchive || inspectZipArchive
+  const unzip = options.unzip || unzipArchive
   const sleep = typeof options.sleep === 'function' ? options.sleep : milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
   const requestedRunnerTemp = path.resolve(options.runnerTemp || process.env.RUNNER_TEMP || '')
   if (!options.runnerTemp && !process.env.RUNNER_TEMP) throw new Error('runnerTemp is required')
@@ -122,29 +122,66 @@ function createPublicationGitHubClient(options) {
     throw new Error(`Artifact did not settle before the retry bound: ${name}`)
   }
 
-  function inspectDownload(root, expectedFiles) {
-    const actual = []
-    function visit(directory, prefix = '') {
-      for (const entry of fs.readdirSync(directory, {withFileTypes: true})) {
-        const relative = prefix ? `${prefix}/${entry.name}` : entry.name
-        const target = path.join(directory, entry.name)
-        const stat = fs.lstatSync(target)
-        if (stat.isSymbolicLink()) throw new Error(`Artifact download must not contain symlinks: ${relative}`)
-        if (stat.isDirectory()) visit(target, relative)
-        else if (stat.isFile()) actual.push(relative)
-        else throw new Error(`Artifact download contains an unsupported entry: ${relative}`)
-      }
+  function validateRestArtifactEnvelope(artifact, name) {
+    const artifactId = positiveInteger(artifact?.id, 'artifact id')
+    if (artifact.name !== name) throw new Error('Artifact name identity mismatch')
+    if (artifact.expired === true) throw new Error(`Artifact is expired: ${name}`)
+    if (typeof artifact.digest !== 'string' || !/^sha256:[0-9a-f]{64}$/u.test(artifact.digest)) throw new Error('Artifact digest identity is invalid')
+    const envelope = artifact.workflow_run
+    if (!envelope || Number(envelope.id) !== runId || !Number.isSafeInteger(Number(envelope.repository_id)) || Number(envelope.repository_id) <= 0 ||
+      Number(envelope.head_repository_id) !== Number(envelope.repository_id)) {
+      throw new Error('Artifact run envelope identity mismatch')
     }
-    visit(root)
-    actual.sort()
-    if (actual.length !== expectedFiles.length || actual.some((file, index) => file !== expectedFiles[index])) {
-      throw new Error(`Artifact download contains unexpected or missing files: ${actual.join(', ')}`)
+    let archiveUrl
+    try {
+      archiveUrl = new URL(artifact.archive_download_url)
+    } catch (_) {
+      throw new Error('Artifact archive URL identity is invalid')
     }
-    return Object.freeze(Object.fromEntries(actual.map(relative => [relative, path.join(root, ...relative.split('/'))])))
+    const expectedPath = `/repos/${repository}/actions/artifacts/${artifactId}/zip`
+    if (archiveUrl.protocol !== 'https:' || archiveUrl.host !== 'api.github.com' || archiveUrl.pathname !== expectedPath || archiveUrl.search || archiveUrl.hash) {
+      throw new Error('Artifact archive URL identity is invalid')
+    }
+    return {artifactId, archiveUrl: archiveUrl.href, digest: artifact.digest.slice('sha256:'.length)}
+  }
+
+  async function downloadRestArtifactFiles(name, expectedFiles) {
+    const matches = (await listArtifacts()).filter(artifact => artifact.name === name)
+    if (matches.length !== 1) {
+      if (!matches.length) throw new Error(`Artifact is unavailable: ${name}`)
+      throw new Error(`Artifact identity must be unique: ${name}`)
+    }
+    const artifact = matches[0]
+    const envelope = validateRestArtifactEnvelope(artifact, name)
+    const directory = fs.mkdtempSync(path.join(runnerTemp, 'publication-artifact-'))
+    const archive = `${directory}.zip`
+    try {
+      const response = await fetchImpl(envelope.archiveUrl, {
+        headers: {
+          Accept: 'application/vnd.github+json',
+          Authorization: `Bearer ${token}`,
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+      })
+      if (!response?.ok) throw new Error(`GitHub artifact archive request failed (${response?.status || 'unknown'})`)
+      const bytes = Buffer.from(await response.arrayBuffer())
+      if (crypto.createHash('sha256').update(bytes).digest('hex') !== envelope.digest) throw new Error('Downloaded artifact digest mismatch')
+      fs.writeFileSync(archive, bytes, {mode: 0o600})
+      validateArchiveEntries(await inspectArchive(archive), expectedFiles)
+      await unzip(archive, directory)
+      const files = inspectExtractedFiles(directory, expectedFiles)
+      fs.rmSync(archive, {force: true})
+      return deepFreeze({artifact: {...artifact}, directory, files})
+    } catch (error) {
+      fs.rmSync(archive, {force: true})
+      fs.rmSync(directory, {recursive: true, force: true})
+      throw error
+    }
   }
 
   async function downloadArtifactFiles(name, expectedFilesInput) {
-    const expectedFiles = safeExpectedFiles(expectedFilesInput)
+    const expectedFiles = normalizeExpectedFiles(expectedFilesInput)
+    if (artifactTransport === 'rest') return downloadRestArtifactFiles(name, expectedFiles)
     const artifact = await findArtifact(name)
     if (!artifact) throw new Error(`Artifact is unavailable: ${name}`)
     const artifactId = positiveInteger(artifact.id, 'artifact id')
@@ -155,7 +192,7 @@ function createPublicationGitHubClient(options) {
     if (reportedStat.isSymbolicLink() || !reportedStat.isDirectory()) throw new Error('Artifact download path must be a real directory')
     const directory = fs.realpathSync(reported)
     if (directory !== runnerTemp && !directory.startsWith(`${runnerTemp}${path.sep}`)) throw new Error('Artifact download path is outside runner temp')
-    const files = inspectDownload(directory, expectedFiles)
+    const files = inspectExtractedFiles(directory, expectedFiles)
     return deepFreeze({artifact: {...artifact}, directory, files})
   }
 
