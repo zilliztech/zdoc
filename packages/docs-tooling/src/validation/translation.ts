@@ -11,6 +11,16 @@ import {
   type ReferenceTranslationManifest,
 } from '../reference/translationManifest.ts';
 
+export type TranslationSourceProvenance = Readonly<{
+  sourceCommit: string;
+  sourceManifestCommit: string;
+  sourcePath: string;
+  sourceHash: string;
+  expectedHistoricalSource: 'blob' | 'missing';
+}>;
+
+export type TranslationSourceProvenanceVerifier = (provenance: TranslationSourceProvenance) => void;
+
 export type ValidateReferenceTranslationOptions = Readonly<{
   repositoryRoot: string;
   sourceRoot: string;
@@ -19,6 +29,7 @@ export type ValidateReferenceTranslationOptions = Readonly<{
   translationManifest: ReferenceTranslationManifest;
   verifyFiles?: boolean;
   manualForPath?: (repositoryRelativePath: string) => string;
+  verifySourceProvenance?: TranslationSourceProvenanceVerifier;
 }>;
 
 export type ValidateReferenceSourceOptions = Readonly<{
@@ -63,7 +74,6 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
     if (relativeBelowRoot(record.sourcePath, options.sourceRoot) !== relativeBelowRoot(record.targetPath, options.targetRoot)) {
       throw new Error(`Translation mapping must use the same canonical relative path: ${record.sourcePath} -> ${record.targetPath}`);
     }
-    if (record.sourceCommit !== sourceManifest.sourceCommit) throw new Error(`Translation source commit mismatch: ${record.sourcePath}`);
     if (translationsBySource.has(record.sourcePath)) throw new Error(`Duplicate source mapping: ${record.sourcePath}`);
     if (targetPaths.has(record.targetPath)) throw new Error(`Duplicate target mapping: ${record.targetPath}`);
     translationsBySource.set(record.sourcePath, record);
@@ -80,6 +90,18 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
       }
     }
     if (source && source.sourceHash !== record.sourceHash) throw new Error(`Declared source hash mismatch: ${record.sourcePath}`);
+    if (record.sourceCommit !== sourceManifest.sourceCommit) {
+      if (!options.verifySourceProvenance) {
+        throw new Error(`Translation source provenance cannot be verified for checkpoint mismatch: ${record.sourcePath}`);
+      }
+      options.verifySourceProvenance({
+        sourceCommit: record.sourceCommit,
+        sourceManifestCommit: sourceManifest.sourceCommit,
+        sourcePath: record.sourcePath,
+        sourceHash: record.sourceHash,
+        expectedHistoricalSource: source === undefined ? 'missing' : 'blob',
+      });
+    }
     if (record.status === 'unchanged' && record.sourceHash !== record.targetHash) {
       throw new Error(`Unchanged translation must have identical source and target hashes: ${record.targetPath}`);
     }

@@ -48,7 +48,12 @@ import {
 } from './reference/translationManifest.ts';
 import {deriveReferenceSidebarPublicationEntries, deriveZhCnReferenceSidebarGroupEntries} from './reference/sidebarDerivation.ts';
 import {validateReferenceNavigation} from './validation/referenceNavigation.ts';
-import {validateReferenceSource, validateReferenceTranslation} from './validation/translation.ts';
+import {
+  validateReferenceSource,
+  validateReferenceTranslation,
+  type TranslationSourceProvenance,
+  type TranslationSourceProvenanceVerifier,
+} from './validation/translation.ts';
 import {scanIntegrity} from './validation/integrity.mjs';
 import {
   assertPublicationOwnership,
@@ -116,6 +121,7 @@ export type ReferenceCommandDependencies = Readonly<{
   environment?: NodeJS.ProcessEnv;
   resolveSourceCommit?: (revision: string) => string;
   verifySourceRevision?: (commit: string, sourceRoot: string) => void;
+  verifyTranslationSourceProvenance?: TranslationSourceProvenanceVerifier;
   manualForPath?: (repositoryRelativePath: string) => string;
   retirementRegistry?: ReferenceRetirementRegistry;
   validateReferenceNavigation?: typeof validateReferenceNavigation;
@@ -178,6 +184,68 @@ function verifyReferenceSourceRevision(
 ): void {
   if (environment.ZDOC_PROVENANCE_WORKTREE === 'external-snapshot') return;
   verifyGitSourceRevision(repositoryRoot, commit, sourceRoot, snapshot);
+}
+
+function assertGitCommit(repositoryRoot: string, commit: string, label: string): void {
+  const result = nodeSpawnSync('git', ['cat-file', '-e', `${commit}^{commit}`], {cwd: repositoryRoot, encoding: 'utf8'});
+  if (result.error || result.status !== 0) throw new Error(`${label} is unknown: ${commit}`);
+}
+
+function verifyGitTranslationSourceProvenance(repositoryRoot: string, provenance: TranslationSourceProvenance): void {
+  assertGitCommit(repositoryRoot, provenance.sourceCommit, 'Translation source commit');
+  assertGitCommit(repositoryRoot, provenance.sourceManifestCommit, 'Source manifest commit');
+  const ancestor = nodeSpawnSync(
+    'git',
+    ['merge-base', '--is-ancestor', provenance.sourceCommit, provenance.sourceManifestCommit],
+    {cwd: repositoryRoot, encoding: 'utf8'},
+  );
+  if (ancestor.error || (ancestor.status !== 0 && ancestor.status !== 1)) {
+    throw new Error(`Could not verify Translation source commit ancestry for ${provenance.sourcePath}: ${ancestor.stderr || ancestor.error?.message || 'git failed'}`);
+  }
+  if (ancestor.status === 1) {
+    throw new Error(`Translation source commit is not an ancestor of the source manifest commit: ${provenance.sourcePath}`);
+  }
+  const listing = nodeSpawnSync(
+    'git',
+    ['ls-tree', '-z', '--full-tree', provenance.sourceCommit, '--', provenance.sourcePath],
+    {cwd: repositoryRoot, encoding: 'buffer', maxBuffer: 1024 * 1024},
+  );
+  if (listing.error || listing.status !== 0) {
+    throw new Error(`Could not inspect historical source path ${provenance.sourcePath} at ${provenance.sourceCommit}: ${listing.stderr?.toString() || listing.error?.message || 'git failed'}`);
+  }
+  const historicalEntry = listing.stdout.toString('utf8');
+  if (provenance.expectedHistoricalSource === 'missing') {
+    if (historicalEntry) {
+      throw new Error(`Historical retired source path must be missing at ${provenance.sourceCommit}: ${provenance.sourcePath}`);
+    }
+    return;
+  }
+  const match = /^(100644|100755) blob ([a-f0-9]+)\t(.+)\0$/u.exec(historicalEntry);
+  if (!match || match[3] !== provenance.sourcePath) {
+    throw new Error(`Historical source path is missing or is not a regular Git blob at ${provenance.sourceCommit}: ${provenance.sourcePath}`);
+  }
+  const blob = nodeSpawnSync(
+    'git',
+    ['cat-file', 'blob', match[2]],
+    {cwd: repositoryRoot, encoding: 'buffer', maxBuffer: 64 * 1024 * 1024},
+  );
+  if (blob.error || blob.status !== 0) {
+    throw new Error(`Could not read historical source blob for ${provenance.sourcePath}: ${blob.stderr?.toString() || blob.error?.message || 'git failed'}`);
+  }
+  const historicalHash = createHash('sha256').update(blob.stdout).digest('hex');
+  if (historicalHash !== provenance.sourceHash) {
+    throw new Error(`Historical source hash mismatch at ${provenance.sourceCommit}: ${provenance.sourcePath}`);
+  }
+}
+
+function translationSourceProvenanceVerifier(
+  repositoryRoot: string,
+  environment: NodeJS.ProcessEnv,
+  override?: TranslationSourceProvenanceVerifier,
+): TranslationSourceProvenanceVerifier | undefined {
+  if (override) return override;
+  if (environment.ZDOC_PROVENANCE_WORKTREE === 'external-snapshot') return undefined;
+  return provenance => verifyGitTranslationSourceProvenance(repositoryRoot, provenance);
 }
 
 export function defaultReferenceManualForPath(filePath: string): string {
@@ -304,6 +372,12 @@ export async function executeReferenceDocsToolingCommand(
   dependencies: ReferenceCommandDependencies = {},
 ): Promise<void> {
   const repositoryRoot = path.resolve(dependencies.repositoryRoot ?? process.cwd());
+  const environment = dependencies.environment ?? process.env;
+  const verifyTranslationSourceProvenance = translationSourceProvenanceVerifier(
+    repositoryRoot,
+    environment,
+    dependencies.verifyTranslationSourceProvenance,
+  );
   if (argv[0] === 'reference-sidebar') {
     if (argv.length !== 4 || argv[1] !== '--group' || !argv[2] || argv[3] !== '--write') {
       throw new Error('Usage: docs-tooling reference-sidebar --group <python|java|node|go|rest|cli|reference-landings> --write');
@@ -364,6 +438,7 @@ export async function executeReferenceDocsToolingCommand(
       sourceManifest: manifests.sourceManifest,
       translationManifest: manifests.translationManifest,
       manualForPath,
+      verifySourceProvenance: verifyTranslationSourceProvenance,
     });
     assertSnapshotsEqual(sourceSnapshot, captureReferenceTree(repositoryRoot, REFERENCE_SOURCE_ROOT), 'Reference source snapshot changed during generation');
     assertSnapshotsEqual(targetSnapshot, captureReferenceTree(repositoryRoot, REFERENCE_TARGET_ROOT), 'Reference target snapshot changed during generation');
@@ -411,6 +486,7 @@ export async function executeReferenceDocsToolingCommand(
         sourceManifest,
         translationManifest,
         manualForPath,
+        verifySourceProvenance: verifyTranslationSourceProvenance,
       });
     }
     const validateNavigation = dependencies.validateReferenceNavigation ?? validateReferenceNavigation;
