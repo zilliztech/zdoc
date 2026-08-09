@@ -168,7 +168,8 @@ function isRetryableProviderError(error) {
   const status = Number(error?.status ?? error?.statusCode ?? error?.cause?.status)
   if (Number.isInteger(status) && status >= 400) return status === 408 || TRANSIENT_PROVIDER_HTTP_STATUSES.has(status)
   const code = String(error?.code || error?.cause?.code || '')
-  if (code) return ['PROVIDER_TIMEOUT', 'PROVIDER_TRANSPORT', 'ECONNRESET', 'ETIMEDOUT', 'EAI_AGAIN'].includes(code)
+  if (code === 'PROVIDER_HTTP_ERROR') return false
+  if (['PROVIDER_TIMEOUT', 'PROVIDER_TRANSPORT', 'ECONNRESET', 'ETIMEDOUT', 'EAI_AGAIN'].includes(code)) return true
   const category = String(error?.failureCategory || error?.cause?.failureCategory || '')
   if (category) return ['provider_timeout', 'provider_transport'].includes(category)
   return /\b(408|409|425|429|500|502|503|504)\b/.test(message) ||

@@ -841,6 +841,39 @@ async function testProviderCallDoesNotRetryPermanentHttpClientErrors() {
   }
 }
 
+async function testProviderCallRetriesClassifiedFailuresWithUnknownCodes() {
+  const originalFetch = global.fetch
+  try {
+    for (const [label, createError, category] of [
+      ['fetch ECONNREFUSED', () => {
+        const error = new TypeError('fetch failed')
+        error.cause = Object.assign(new Error('connect ECONNREFUSED'), {code: 'ECONNREFUSED'})
+        return error
+      }, 'provider_transport'],
+      ['APITimeoutError unknown code', () => Object.assign(new Error('opaque provider failure'), {
+        name: 'APITimeoutError',
+        code: 'UNRECOGNIZED_PROVIDER_TIMEOUT',
+      }), 'provider_timeout'],
+    ]) {
+      let calls = 0
+      global.fetch = async () => {
+        calls += 1
+        throw createError()
+      }
+      const callModel = await createProviderCall({
+        translation: {baseUrl: 'https://example.com', apiKey: 'test-key', model: 'test-model'},
+      }, {maxRetries: 1, retryDelayMs: 1})
+      await assert.rejects(() => callModel({agent: 'translation', messages: []}), error => {
+        assert.equal(error.failureCategory, category, label)
+        return true
+      })
+      assert.equal(calls, 2, `${label} must consume exactly one bounded provider retry`)
+    }
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
 async function testProviderStructuredOutputIsCapabilityGated() {
   const originalFetch = global.fetch
   const bodies = []
@@ -2492,6 +2525,7 @@ async function run() {
   await testRestSpecFileRetryReceivesEntryScopedProtectedFeedback()
   await testProviderCallRetriesTransientFailures()
   await testProviderCallDoesNotRetryPermanentHttpClientErrors()
+  await testProviderCallRetriesClassifiedFailuresWithUnknownCodes()
   await testProviderStructuredOutputIsCapabilityGated()
   await testProviderCallTimesOutHungRequests()
   await testFileTimeoutRejectsSlowWork()
