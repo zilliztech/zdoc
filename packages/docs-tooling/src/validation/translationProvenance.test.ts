@@ -63,9 +63,9 @@ function addSubmoduleEntry(repositoryRoot: string, entryPath: string): void {
   git(repositoryRoot, ['-c', 'protocol.file.allow=always', 'submodule', 'add', '--quiet', submodule, entryPath]);
 }
 
-function writeExternalTrackedInputs(repositoryRoot: string): void {
+function writeExternalTrackedInputs(repositoryRoot: string, paths: readonly string[] = []): void {
   mkdirSync(path.join(repositoryRoot, path.dirname(externalTrackedInputs)), {recursive: true});
-  writeFileSync(path.join(repositoryRoot, externalTrackedInputs), '{\n  "schemaVersion": 1,\n  "paths": []\n}\n');
+  writeFileSync(path.join(repositoryRoot, externalTrackedInputs), `${JSON.stringify({schemaVersion: 1, paths}, null, 2)}\n`);
 }
 
 type ProvenanceFixture = Readonly<{
@@ -455,5 +455,27 @@ describe('Reference translation source checkpoint provenance', () => {
       ZDOC_PROVENANCE_WORKTREE: 'external-snapshot',
       ZDOC_PROVENANCE_TRACKED_INPUTS: externalTrackedInputs,
     })).rejects.toThrow(/external snapshot.*Git metadata|Git-backed.*cannot.*external/i);
+  });
+
+  it.each([
+    ['localization scope escape', ['README.md'], /out-of-scope path.*README\.md/i],
+    ['NFC and case canonical collision', [
+      'i18n/ja-JP/Caf\u00e9.md',
+      'i18n/ja-JP/cafe\u0301.md',
+    ], /canonical path collision/i],
+    ['non-binary JavaScript ordering', [
+      'i18n/ja-JP/\u{10000}.md',
+      'i18n/ja-JP/\uE000.md',
+    ], /unique and binary sorted/i],
+  ] as const)('rejects an external snapshot inventory with %s', async (_label, paths, expected) => {
+    const fixture = provenanceFixture();
+    writeExternalTrackedInputs(fixture.repositoryRoot, paths);
+    rmSync(path.join(fixture.repositoryRoot, '.git'), {recursive: true});
+
+    await expect(validateChinese(fixture, false, {
+      ZDOC_PROVENANCE_COMMIT: fixture.sourceManifestCommit,
+      ZDOC_PROVENANCE_WORKTREE: 'external-snapshot',
+      ZDOC_PROVENANCE_TRACKED_INPUTS: externalTrackedInputs,
+    })).rejects.toThrow(expected);
   });
 });

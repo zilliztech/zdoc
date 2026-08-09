@@ -5,6 +5,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 
+import {
+  assertNoInputPathCollisions,
+  compareBinary,
+  isInputPath,
+  parseLocalizationInputInventory,
+  pathInRoot,
+  releaseInputDefinition,
+} from '../../packages/docs-tooling/src/validation/localizationInputInventory.mjs';
+
+export {assertNoInputPathCollisions};
+
 const provenanceFile = 'build-provenance.json';
 const externalSnapshotWorktree = 'external-snapshot';
 export const localizationInputInventoryFile = 'deploy/contracts/localization-inputs.inventory.json';
@@ -47,10 +58,6 @@ function hashBytes(value) {
 
 function hashCanonical(value) {
   return hashBytes(canonicalJson(value));
-}
-
-function compareBinary(left, right) {
-  return Buffer.compare(Buffer.from(left), Buffer.from(right));
 }
 
 function validateJsonSafe(value, location = 'profile', ancestors = new Set()) {
@@ -204,10 +211,6 @@ function pathMatchesGitCommit(repositoryRoot, commitSha, relativePath) {
   }
 }
 
-function pathInRoot(relativePath, root) {
-  return relativePath === root || relativePath.startsWith(`${root}/`);
-}
-
 function walkReleaseInputRoot(repositoryRoot, relativeRoot, files = []) {
   const absoluteRoot = confinedPath(repositoryRoot, relativeRoot, 'localization input root');
   if (!fs.existsSync(absoluteRoot)) return files;
@@ -228,21 +231,6 @@ function walkReleaseInputRoot(repositoryRoot, relativeRoot, files = []) {
   return files;
 }
 
-function releaseInputDefinition(site) {
-  if (site === 'en') {
-    return {
-      roots: ['generated/en/sidebars', 'i18n/ja-JP'],
-      required: ['.translation-cache/ja-JP.json'],
-    };
-  }
-  return {
-    roots: ['content/zh-CN/guides/tutorials/tools'],
-    required: [
-      'generated/zh-CN/sidebars/tools.sidebar.js',
-    ],
-  };
-}
-
 function translationTargetInputDefinition(target) {
   if (target.id === 'ja-JP') {
     return {
@@ -256,11 +244,6 @@ function translationTargetInputDefinition(target) {
     roots: [target.targetRoot],
     required: [target.state.path],
   };
-}
-
-function isInputPath(relativePath, definition) {
-  return definition.required.includes(relativePath) ||
-    definition.roots.some(root => pathInRoot(relativePath, root));
 }
 
 function discoverInputDefinitionPaths(repositoryRoot, definition) {
@@ -303,26 +286,10 @@ function resolveCandidateWorkspace(environment, site, externalSnapshot) {
   return {...raw, definition};
 }
 
-export function assertNoInputPathCollisions(relativePaths) {
-  const canonicalPaths = new Map();
-  for (const relativePath of relativePaths) {
-    const canonicalKey = relativePath.normalize('NFC').toLocaleLowerCase('en-US');
-    const existing = canonicalPaths.get(canonicalKey);
-    if (existing && existing !== relativePath) {
-      throw new Error(`Localization input canonical path collision: ${existing} and ${relativePath}`);
-    }
-    canonicalPaths.set(canonicalKey, relativePath);
-  }
-}
-
-function isLocalizationInputPath(relativePath, definition) {
-  return isInputPath(relativePath, definition);
-}
-
 export function localizationInputInventoryPaths(repositoryRoot) {
   const definitions = [releaseInputDefinition('en'), releaseInputDefinition('zh-CN')];
   return [...new Set(trackedFiles(repositoryRoot).filter(relativePath =>
-    definitions.some(definition => isLocalizationInputPath(relativePath, definition))))]
+    definitions.some(definition => isInputPath(relativePath, definition))))]
     .sort(compareBinary);
 }
 
@@ -334,24 +301,7 @@ function readLocalizationInputInventory(repositoryRoot, relativePath) {
   } catch {
     throw new Error(`Localization tracked inventory is not valid JSON: ${relativePath}`);
   }
-  assertExactKeys(inventory, ['schemaVersion', 'paths'], 'localization tracked inventory');
-  if (inventory.schemaVersion !== 1) throw new Error('Localization tracked inventory schemaVersion must be 1');
-  if (!Array.isArray(inventory.paths) || inventory.paths.some(entry => typeof entry !== 'string')) {
-    throw new Error('Localization tracked inventory paths must be an array of strings');
-  }
-  const sorted = [...inventory.paths].sort(compareBinary);
-  if (JSON.stringify(sorted) !== JSON.stringify(inventory.paths) || new Set(inventory.paths).size !== inventory.paths.length) {
-    throw new Error('Localization tracked inventory paths must be unique and binary sorted');
-  }
-  const definitions = [releaseInputDefinition('en'), releaseInputDefinition('zh-CN')];
-  for (const entry of inventory.paths) {
-    if (normalizeRelativePath(entry) !== entry || path.isAbsolute(entry) || entry.startsWith('../') ||
-      !definitions.some(definition => isLocalizationInputPath(entry, definition))) {
-      throw new Error(`Localization tracked inventory contains an out-of-scope path: ${entry}`);
-    }
-  }
-  assertNoInputPathCollisions(inventory.paths);
-  return inventory.paths;
+  return parseLocalizationInputInventory(inventory);
 }
 
 function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, candidateWorkspace} = {}) {
@@ -416,7 +366,7 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, ca
   const candidateDeletedSet = new Set(candidateDeleted);
   const selected = [...new Set([
     ...[...tracked].filter(relativePath =>
-      isLocalizationInputPath(relativePath, definition) && !candidateDeletedSet.has(relativePath)),
+      isInputPath(relativePath, definition) && !candidateDeletedSet.has(relativePath)),
     ...actual.filter(relativePath => allowedCandidates.has(relativePath)),
   ])].sort(compareBinary);
   assertNoInputPathCollisions(selected);

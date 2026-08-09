@@ -48,6 +48,7 @@ import {
 } from './reference/translationManifest.ts';
 import {deriveReferenceSidebarPublicationEntries, deriveZhCnReferenceSidebarGroupEntries} from './reference/sidebarDerivation.ts';
 import {validateReferenceNavigation} from './validation/referenceNavigation.ts';
+import {parseLocalizationInputInventory} from './validation/localizationInputInventory.mjs';
 import {
   validateReferenceSource,
   validateReferenceTranslation,
@@ -392,20 +393,7 @@ function resolveExternalSnapshotIdentity(repositoryRoot: string, environment: No
   } catch (error) {
     throw new Error('External snapshot provenance tracked inputs inventory is not valid JSON', {cause: error});
   }
-  if (!inventory || typeof inventory !== 'object' || Array.isArray(inventory)) {
-    throw new Error('External snapshot provenance tracked inputs inventory must be an object');
-  }
-  const value = inventory as {schemaVersion?: unknown; paths?: unknown};
-  if (JSON.stringify(Object.keys(value).sort()) !== JSON.stringify(['paths', 'schemaVersion']) || value.schemaVersion !== 1 || !Array.isArray(value.paths)) {
-    throw new Error('External snapshot provenance tracked inputs inventory contract is invalid');
-  }
-  let previous = '';
-  for (const [index, entry] of value.paths.entries()) {
-    if (typeof entry !== 'string') throw new Error('External snapshot provenance tracked inputs inventory paths must be strings');
-    assertSafeRepositoryRelativePath(entry, 'External snapshot tracked input');
-    if (index > 0 && previous >= entry) throw new Error('External snapshot provenance tracked inputs inventory paths must be unique and binary sorted');
-    previous = entry;
-  }
+  parseLocalizationInputInventory(inventory);
   return {commit, trackedInputInventory};
 }
 
