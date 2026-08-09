@@ -59,6 +59,8 @@ test('REST prompts declare entry-local protected marker ordering', () => {
   const correction = loadPrompt(promptNamesFor('zh-CN-reference').restCorrection)
   assert.match(correction, /within (?:the )?same (?:REST )?entry|inside one REST entry/i)
   assert.match(correction, /must not.*across.*(?:entry|ID)/is)
+  assert.match(correction, /plain.*remain plain.*(?:backticks|inline code)/is)
+  assert.match(loadPrompt(promptNamesFor('zh-CN-reference').rest), /plain.*remain plain.*(?:backticks|inline code)/is)
 })
 
 test('adds Japanese locale data without changing the source specification', async () => {

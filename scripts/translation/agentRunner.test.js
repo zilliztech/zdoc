@@ -139,17 +139,17 @@ function testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes
     }
     const identity = {promptContractSha256: 'b'.repeat(64), model: 'translation-model', toolingSha: 'c'.repeat(40)}
     const analysis = {
-      schemaVersion: 1, kind: 'translation-recovery-analysis', target: manifest.target, locale: manifest.locale, group: manifest.group,
+      schemaVersion: 2, kind: 'translation-recovery-analysis', target: manifest.target, locale: manifest.locale, group: manifest.group,
       sourceCheckpointSha: manifest.sourceCheckpointSha, promptContractSha256: identity.promptContractSha256, model: identity.model,
       executionToolingSha: identity.toolingSha, candidateCount: 1, recoveredCount: 1, pendingCount: 0, rejectedCount: 0,
-      fullRetranslation: false,
-      restored: [{sourcePath, targetPath, sourceHash: sha256(source), targetHash: sha256(target), targetSize: Buffer.byteLength(target)}],
+      fullRetranslation: false, compatibilityMode: 'revalidated',
+      restored: [{sourcePath, targetPath, sourceHash: sha256(source), targetHash: sha256(target), targetSize: Buffer.byteLength(target), compatibility: 'revalidated'}],
       pending: [], rejected: [],
     }
     const file = path.join(siteDir, 'recovery-analysis.json')
     fs.writeFileSync(file, JSON.stringify(analysis))
     const loaded = loadRecoveryAnalysis({file, manifest, siteDir, identity})
-    assert.deepEqual(loaded.restored, [{...manifest.items[0], status: 'translated', recovered: true}])
+    assert.deepEqual(loaded.restored, [{...manifest.items[0], status: 'translated', recovered: true, recoveryCompatibility: 'revalidated'}])
     write(path.join(siteDir, targetPath), '# tampered\n')
     assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /payload changed after preflight/i)
   })
@@ -827,7 +827,11 @@ async function testProviderCallTimesOutHungRequests() {
         agent: 'translation',
         messages: [{ role: 'user', content: 'hello' }],
       }),
-      /aborted/i,
+      error => {
+        assert.match(error.message, /aborted/i)
+        assert.equal(error.failureCategory, 'provider_timeout')
+        return true
+      },
     )
     assert.equal(calls, 2)
   } finally {
@@ -957,6 +961,51 @@ async function testLongDocumentTranslatesChunksSequentially() {
     assert.equal(result.chunks.total, expectedChunks.length)
     assert.deepEqual(calls.map(call => call.agent), expectedChunks.flatMap(() => ['translation', 'review']))
     assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /# セクション Three/)
+  })
+}
+
+async function testFileRetryResumesFromCompletedChunkCheckpoint() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/large-guide.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/large-guide.md'
+    const source = '# One\n\nFirst paragraph.\n\n# Two\n\nSecond paragraph.\n\n# Three\n\nThird paragraph.\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'}
+    const translationCalls = new Map()
+    let failSecondChunk = true
+
+    const result = await processItemWithRetry(item, {
+      maxRetries: 1,
+      log: {warn: () => {}},
+      processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        retryFeedback,
+        chunkTargetChars: 25,
+        chunkMaxChars: 35,
+        chunkCheckpoint: retryContext.chunkCheckpoint,
+        onChunkCompleted: retryContext.onChunkCompleted,
+        validate: async () => [],
+        maxReviewRounds: 0,
+        callModel: async ({agent, messages}) => {
+          if (agent === 'review') return '{"pass":true,"issues":[]}'
+          const unit = taggedJsonContent(messages, 'semantic_units')[0]
+          const chunk = Number(unit.id.match(/chunk\.(\d+)/)?.[1] || 0)
+          translationCalls.set(chunk, (translationCalls.get(chunk) || 0) + 1)
+          if (chunk === 2 && failSecondChunk) {
+            failSecondChunk = false
+            throw new Error('stream disconnected before completion: stream closed before response.completed')
+          }
+          return semanticTranslationResponse(messages, text => `JA:${text}`)
+        },
+      }),
+    })
+
+    assert.equal(result.status, 'translated')
+    assert.equal(result.attempts, 2)
+    assert.equal(translationCalls.get(1), 1, 'completed chunk 1 must be reused')
+    assert.equal(translationCalls.get(2), 2, 'failed chunk 2 must be retried')
+    assert.ok(result.chunks.reused >= 1)
   })
 }
 
@@ -1143,7 +1192,7 @@ async function testFileRetryRecoversFailedTranslation() {
   assert.equal(attempts, 2)
   assert.equal(result.status, 'translated')
   assert.equal(result.attempts, 2)
-  assert.deepEqual(result.retryFailures, [{ attempt: 1, error: 'review failed' }])
+  assert.deepEqual(result.retryFailures, [{ attempt: 1, category: 'unknown', error: 'review failed' }])
   assert.equal(warnings.length, 1)
 }
 
@@ -1237,12 +1286,28 @@ async function testFileRetryRecordsPersistentFailure() {
 
   assert.equal(attempts, 2)
   assert.equal(result.status, 'failed')
+  assert.equal(result.failureCategory, 'unknown')
   assert.equal(result.attempts, 2)
   assert.equal(result.error, 'provider failed 2')
   assert.deepEqual(result.retryFailures, [
-    { attempt: 1, error: 'provider failed 1' },
-    { attempt: 2, error: 'provider failed 2' },
+    { attempt: 1, category: 'unknown', error: 'provider failed 1' },
+    { attempt: 2, category: 'unknown', error: 'provider failed 2' },
   ])
+}
+
+async function testFileRetryPreservesProviderFailureCategories() {
+  const result = await processItemWithRetry({sourcePath: 'docs/boost-ranker.md'}, {
+    maxRetries: 1,
+    log: {warn: () => {}},
+    processItem: async item => {
+      const error = new Error('litellm.APITimeoutError: Request timed out after 240.0s')
+      error.name = 'APITimeoutError'
+      throw error
+    },
+  })
+
+  assert.equal(result.failureCategory, 'provider_timeout')
+  assert.deepEqual(result.retryFailures.map(item => item.category), ['provider_timeout', 'provider_timeout'])
 }
 
 async function testWorkerPoolStopsAssigningNewItems() {
@@ -1973,6 +2038,7 @@ async function run() {
   testChunkMessagesContainContinuityContext()
   testStabilizesBoldBareUrlsBeforeJapanesePunctuation()
   await testLongDocumentTranslatesChunksSequentially()
+  await testFileRetryResumesFromCompletedChunkCheckpoint()
   await testRestoresSourceImportsBeforeValidation()
   await testRepairsUnescapedHeadingAnchorsAfterTranslation()
   await testRepairsTranslatedProseThatLooksLikeInvalidMdxEsm()
@@ -1983,6 +2049,7 @@ async function run() {
   await testFileRetryRecoversFailedTranslation()
   await testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBackToTranslation()
   await testFileRetryRecordsPersistentFailure()
+  await testFileRetryPreservesProviderFailureCategories()
   await testWorkerPoolStopsAssigningNewItems()
   await testChineseReferenceProgressStateUsesItsTargetManifest()
   await testReferenceProgressStateAcceptsNewSourceMissingFromStaleManifest()

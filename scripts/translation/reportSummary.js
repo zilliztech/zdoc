@@ -37,7 +37,8 @@ function buildSummary({ manifest, report }) {
   } else if (failed.length) {
     lines.push('', 'Failures:')
     for (const item of failed.slice(0, 20)) {
-      lines.push(`- \`${item.sourcePath || 'unknown'}\`: ${item.error || item.status || 'failed'}`)
+      const category = item.failureCategory ? ` [${item.failureCategory}]` : ''
+      lines.push(`- \`${item.sourcePath || 'unknown'}\`${category}: ${item.error || item.status || 'failed'}`)
     }
     if (failed.length > 20) lines.push(`- …and ${failed.length - 20} more failure(s).`)
   }

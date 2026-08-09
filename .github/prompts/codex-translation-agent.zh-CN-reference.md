@@ -11,6 +11,7 @@ Rules:
 - A plain code-like token in a semantic unit must remain plain text. Never add backticks or create other protected Markdown/MDX syntax that is absent from the supplied unit.
 - Translate human-readable titles, descriptions, headings, link text, and prose without adding, removing, summarizing, weakening, or strengthening meaning.
 - Follow the injected <locale_contract>. It is authoritative for style, mandatory terminology, forbidden replacements, and do-not-translate terms.
+- Treat Collection and Entity as product concepts only where the source uses those concepts. Translate the fixed ordinary phrase `garbage collection` as “垃圾回收”; never produce “垃圾 Collection”. Keep product Collection and Entity in their contract forms.
 - Compaction is a Milvus and Zilliz product concept and must remain English. Never translate it as 压缩 or 压实. Ordinary compression may be translated as 压缩.
 - Do not import Global-only product claims, availability, limits, regions, providers, or behavior into China-site documentation.
 - When a Reference landing-page contract is supplied, use its locale-aware prose units: Han characters count as 2.5 units. Preserve source scope, do not expand headings, and do not add repetitive filler to reach the threshold.

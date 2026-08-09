@@ -22,6 +22,7 @@ const {
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
 const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
+const {classifyFailure, failureRecord} = require('./failureClassification')
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
 const { assertSafeRepositoryRelativePath } = loadTypeScript('../../packages/docs-tooling/src/validation/ownership.ts')
 const {
@@ -162,7 +163,9 @@ async function createProviderCall(agentConfigs, options = {}) {
         const data = await res.json().catch(() => ({}))
         const content = data?.choices?.[0]?.message?.content
         if (!res.ok || !content) {
-          throw new Error(`${agent} agent failed with HTTP ${res.status}: ${JSON.stringify(data).slice(0, 500)}`)
+          const error = new Error(`${agent} agent failed with HTTP ${res.status}: ${JSON.stringify(data).slice(0, 500)}`)
+          error.status = res.status
+          throw error
         }
         return content.trim()
       } catch (error) {
@@ -175,6 +178,7 @@ async function createProviderCall(agentConfigs, options = {}) {
         clearTimeout(timeout)
       }
     }
+    lastError.failureCategory = classifyFailure(lastError)
     throw lastError
   }
 }
@@ -228,11 +232,15 @@ async function processItemWithRetry(item, options) {
   const maxRetries = parseNonNegativeInteger(options.maxRetries, DEFAULT_FILE_RETRIES)
   const failures = []
   let retryFeedback = null
+  const chunkCheckpoint = new Map()
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     let result
     try {
-      result = await options.processItem(item, attempt, retryFeedback)
+      result = await options.processItem(item, attempt, retryFeedback, {
+        chunkCheckpoint,
+        onChunkCompleted: checkpoint => chunkCheckpoint.set(checkpoint.index, checkpoint),
+      })
     } catch (error) {
       result = { ...item, status: 'failed', error: String(error?.message || error) }
     }
@@ -242,7 +250,8 @@ async function processItemWithRetry(item, options) {
     }
 
     const failure = summarizeFailedResult(result)
-    failures.push({ attempt: attempt + 1, error: failure })
+    const record = failureRecord({attempt: attempt + 1, failure: result})
+    failures.push(record)
     retryFeedback = /Protected (?:marker|content)/i.test(failure)
       ? protectedContentRetryFeedback(failure)
       : /response must be valid JSON/i.test(failure)
@@ -251,7 +260,7 @@ async function processItemWithRetry(item, options) {
     if (attempt < maxRetries) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
     } else {
-      return { ...result, attempts: attempt + 1, retryFailures: failures }
+      return { ...result, failureCategory: record.category, attempts: attempt + 1, retryFailures: failures }
     }
   }
 }
@@ -406,7 +415,7 @@ async function translateAndReviewUnit({
   })
   let currentUnits = restoreSemanticUnitResponse(initialResponse, {field: 'translations', protectedUnits: sourceUnits, localeContract})
   let translatedContent = patchSemanticUnits(sourceContent, units, currentUnits)
-  let protectedErrors = validateProtectedContent(sourceContent, translatedContent)
+  let protectedErrors = validateProtectedContent(sourceContent, translatedContent, {sourcePath})
   if (protectedErrors.length) throw new Error(protectedErrors.join('; '))
 
   let review = { pass: false, issues: [] }
@@ -482,7 +491,7 @@ async function translateAndReviewUnit({
     const correctedById = new Map(correctedUnits.map(unit => [unit.id, unit.translation]))
     currentUnits = currentUnits.map(unit => correctedById.has(unit.id) ? {...unit, translation: correctedById.get(unit.id)} : unit)
     translatedContent = patchSemanticUnits(sourceContent, units, currentUnits)
-    protectedErrors = validateProtectedContent(sourceContent, translatedContent)
+    protectedErrors = validateProtectedContent(sourceContent, translatedContent, {sourcePath})
     if (protectedErrors.length) throw new Error(protectedErrors.join('; '))
   }
   return { translatedContent, review, semanticUnits: units.length }
@@ -495,6 +504,9 @@ async function processManifestItem({
   maxReviewRounds = 2,
   chunkTargetChars = DEFAULT_TARGET_CHARS,
   chunkMaxChars = DEFAULT_MAX_CHARS,
+  chunkCheckpoint = new Map(),
+  onChunkCompleted = null,
+  chunkTimeoutMs = 0,
   validate = validateTranslatedContent,
   retryFeedback = null,
 }) {
@@ -558,6 +570,7 @@ async function processManifestItem({
   const chunks = chunkDocument(sourceContent, { targetChars: chunkTargetChars, maxChars: chunkMaxChars })
   const documentTitle = extractDocumentTitle(sourceContent)
   const translatedChunks = []
+  let reusedChunks = 0
   let previousTranslatedHeading = null
   let lastReview = { pass: true, issues: [] }
 
@@ -570,16 +583,27 @@ async function processManifestItem({
           previousTranslatedHeading,
         }
       : null
-    const unit = await translateAndReviewUnit({
-      target: item.target,
-      sourcePath: item.sourcePath,
-      sourceContent: chunk.source,
-      locale: item.locale,
-      callModel,
-      maxReviewRounds,
-      chunkContext,
-      retryFeedback,
-    })
+    const sourceHash = crypto.createHash('sha256').update(chunk.source).digest('hex')
+    const cached = chunkCheckpoint.get(chunk.index)
+    let unit
+    if (cached?.sourceHash === sourceHash && cached?.review?.pass === true && typeof cached.translatedContent === 'string') {
+      unit = cached
+      reusedChunks += 1
+    } else {
+      const translation = translateAndReviewUnit({
+        target: item.target,
+        sourcePath: item.sourcePath,
+        sourceContent: chunk.source,
+        locale: item.locale,
+        callModel,
+        maxReviewRounds,
+        chunkContext,
+        retryFeedback,
+      })
+      unit = chunkTimeoutMs > 0
+        ? await withTimeout(translation, chunkTimeoutMs, `Timed out translating chunk ${chunk.index + 1}/${chunks.length} of ${item.sourcePath} after ${chunkTimeoutMs}ms`)
+        : await translation
+    }
     lastReview = unit.review
     if (!unit.review.pass) {
       return {
@@ -591,6 +615,15 @@ async function processManifestItem({
       }
     }
     translatedChunks.push(unit.translatedContent)
+    const checkpoint = Object.freeze({
+      index: chunk.index,
+      sourceHash,
+      translatedContent: unit.translatedContent,
+      review: unit.review,
+      semanticUnits: unit.semanticUnits,
+    })
+    chunkCheckpoint.set(chunk.index, checkpoint)
+    await onChunkCompleted?.(checkpoint)
     previousTranslatedHeading = extractFirstHeading(unit.translatedContent) || previousTranslatedHeading
   }
 
@@ -607,7 +640,7 @@ async function processManifestItem({
       status: 'failed',
       review: lastReview,
       validationErrors,
-      chunks: { total: chunks.length },
+      chunks: { total: chunks.length, reused: reusedChunks },
     }
   }
 
@@ -618,7 +651,7 @@ async function processManifestItem({
     status: 'translated',
     review: lastReview,
     validationErrors: [],
-    chunks: { total: chunks.length },
+    chunks: { total: chunks.length, reused: reusedChunks },
   }
 }
 
@@ -726,6 +759,7 @@ async function runWorkerPool(items, options) {
           ...item,
           status: 'failed',
           error: String(error?.message || error),
+          failureCategory: classifyFailure(error),
         }
       }
       results[index] = result
@@ -947,12 +981,15 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
   let analysis
   try { analysis = JSON.parse(fs.readFileSync(file, 'utf8')) }
   catch (error) { throw new Error(`Recovery analysis JSON is invalid: ${String(error?.message || error)}`) }
-  exactRecoveryAnalysisKeys(analysis, [
+  const rootKeys = [
     'schemaVersion', 'kind', 'target', 'locale', 'group', 'sourceCheckpointSha', 'promptContractSha256', 'model',
     'executionToolingSha', 'candidateCount', 'recoveredCount', 'pendingCount', 'rejectedCount', 'fullRetranslation',
     'restored', 'pending', 'rejected',
-  ], 'Recovery analysis')
-  if (analysis.schemaVersion !== 1 || analysis.kind !== 'translation-recovery-analysis') throw new Error('Recovery analysis header is invalid')
+  ]
+  if (analysis.schemaVersion === 2) rootKeys.push('compatibilityMode')
+  exactRecoveryAnalysisKeys(analysis, rootKeys, 'Recovery analysis')
+  if (![1, 2].includes(analysis.schemaVersion) || analysis.kind !== 'translation-recovery-analysis') throw new Error('Recovery analysis header is invalid')
+  if (analysis.schemaVersion === 2 && !['strict', 'revalidated', 'none'].includes(analysis.compatibilityMode)) throw new Error('Recovery analysis compatibility mode is invalid')
   for (const key of ['target', 'locale', 'group', 'sourceCheckpointSha']) {
     if (analysis[key] !== manifest[key]) throw new Error(`Recovery analysis ${key} does not match the current manifest`)
   }
@@ -977,7 +1014,10 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
   const seen = new Set()
   const restored = []
   for (const record of analysis.restored) {
-    exactRecoveryAnalysisKeys(record, ['sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'targetSize'], 'Recovery analysis restored record')
+    const restoredKeys = ['sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'targetSize']
+    if (analysis.schemaVersion === 2) restoredKeys.push('compatibility')
+    exactRecoveryAnalysisKeys(record, restoredKeys, 'Recovery analysis restored record')
+    if (analysis.schemaVersion === 2 && !['strict', 'revalidated'].includes(record.compatibility)) throw new Error('Recovery analysis restored compatibility is invalid')
     const key = recoveryEntryIdentity(record)
     const candidate = manifestByIdentity.get(key)
     if (!candidate || candidate.sourceHash !== record.sourceHash || seen.has(key)) throw new Error('Recovery analysis restored identity does not match the current manifest')
@@ -991,7 +1031,12 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
       throw new Error('Recovery analysis restored target payload changed after preflight')
     }
     seen.add(key)
-    restored.push({...candidate, status: 'translated', recovered: true})
+    restored.push({
+      ...candidate,
+      status: 'translated',
+      recovered: true,
+      ...(analysis.schemaVersion === 2 ? {recoveryCompatibility: record.compatibility} : {}),
+    })
   }
   for (const record of analysis.pending) {
     exactRecoveryAnalysisKeys(record, ['sourcePath', 'targetPath', 'sourceHash'], 'Recovery analysis pending record')
@@ -1085,19 +1130,18 @@ async function main() {
         const result = await processItemWithRetry(targetItem, {
           maxRetries: fileRetries,
           log: console,
-          processItem: (_item, _attempt, retryFeedback) => withTimeout(
-            processManifestItem({
+          processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
               siteDir,
               item: targetItem,
               callModel,
               maxReviewRounds,
               chunkTargetChars: chunkLimits.targetChars,
               chunkMaxChars: chunkLimits.maxChars,
+              chunkCheckpoint: retryContext.chunkCheckpoint,
+              onChunkCompleted: retryContext.onChunkCompleted,
+              chunkTimeoutMs: fileTimeoutMs,
               retryFeedback,
             }),
-            fileTimeoutMs,
-            `Timed out translating ${item.sourcePath} after ${fileTimeoutMs}ms`,
-          ),
         })
         if (result.status !== 'translated') console.error(`[translation-agent] failed ${item.sourcePath}: ${summarizeFailedResult(result)}`)
         return result

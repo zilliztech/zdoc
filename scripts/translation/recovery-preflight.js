@@ -9,6 +9,7 @@ const {
   promptContractSha256,
   restoreRecoveryFiles,
 } = require('./recovery-artifact')
+const {validateRecoveryCandidate} = require('./recoveryValidation')
 
 const SHA = /^[0-9a-f]{40}$/u
 const SHA256 = /^[0-9a-f]{64}$/u
@@ -54,6 +55,7 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
       sourceSha: manifest.sourceCheckpointSha,
       toolingSha: executionToolingSha,
     },
+    revalidate: input => validateRecoveryCandidate({...input, target: manifest.target, locale: manifest.locale}),
   })
   const restored = recovery.restored.map(result => ({
     sourcePath: result.sourcePath,
@@ -61,6 +63,7 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     sourceHash: result.sourceHash,
     targetHash: result.recoveryTargetHash,
     targetSize: result.recoveryTargetSize,
+    compatibility: result.recoveryCompatibility || 'strict',
   }))
   const pending = recovery.pending.map(candidate => ({
     sourcePath: candidate.sourcePath,
@@ -75,7 +78,7 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
   const candidateCount = manifest.items.length
   const fullRetranslation = candidateCount > 0 && restored.length === 0 && pending.length === candidateCount
   const analysis = Object.freeze({
-    schemaVersion: 1,
+    schemaVersion: 2,
     kind: 'translation-recovery-analysis',
     target: manifest.target,
     locale: manifest.locale,
@@ -89,6 +92,7 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     pendingCount: pending.length,
     rejectedCount: rejected.length,
     fullRetranslation,
+    compatibilityMode: restored.some(item => item.compatibility === 'revalidated') ? 'revalidated' : restored.length ? 'strict' : 'none',
     restored,
     pending,
     rejected,

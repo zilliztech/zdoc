@@ -61,3 +61,13 @@ test('reports intentionally deferred files from a checkpointed batch', () => {
   assert.match(summary, /Remaining: 2/)
   assert.match(summary, /deferred to the next incremental run/i)
 })
+
+test('renders structured failure categories in the Markdown summary', () => {
+  const summary = buildSummary({
+    manifest: {locale: 'ja-JP', items: [{reason: 'current_delta'}]},
+    report: {results: [{sourcePath: 'docs/boost-ranker.md', status: 'failed', failureCategory: 'provider_timeout', error: 'timed out'}]},
+  })
+
+  assert.match(summary, /provider_timeout/)
+  assert.match(summary, /docs\/boost-ranker\.md/)
+})

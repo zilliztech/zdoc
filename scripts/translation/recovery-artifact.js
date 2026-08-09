@@ -8,6 +8,7 @@ const path = require('node:path');
 const {loadTypeScript} = require('../lib/load-typescript');
 const {localeContractPathFor} = require('./localeContract');
 const {promptNamesFor} = require('./restSpecLocalization');
+const {classifyFailure} = require('./failureClassification');
 const {assertSafeRepositoryRelativePath} = loadTypeScript('../../packages/docs-tooling/src/validation/ownership.ts');
 
 const SHA256 = /^[0-9a-f]{64}$/;
@@ -82,23 +83,42 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
       status: 'translated',
     });
   }
+  const failures = results.filter(item => item.status !== 'translated').map(result => ({
+    sourcePath: result.sourcePath,
+    targetPath: result.targetPath,
+    sourceHash: result.sourceHash,
+    status: 'failed',
+    failureCategory: classifyFailure(result),
+    error: String(result.error || 'translation failed').slice(0, 2000),
+    retryFailures: Array.isArray(result.retryFailures) ? result.retryFailures.map(failure => ({
+      attempt: failure.attempt,
+      category: failure.category || classifyFailure(failure),
+      error: String(failure.error || 'translation attempt failed').slice(0, 2000),
+    })) : [],
+  }));
+  failures.sort((left, right) => left.sourcePath.localeCompare(right.sourcePath) || left.targetPath.localeCompare(right.targetPath));
+  const failureCounts = {};
+  for (const failure of failures) failureCounts[failure.failureCategory] = (failureCounts[failure.failureCategory] || 0) + 1;
   files.sort((left, right) => left.sourcePath.localeCompare(right.sourcePath) || left.targetPath.localeCompare(right.targetPath));
   const metadata = {
-    schemaVersion: 1,
+    schemaVersion: 2,
     ...identity,
     translated: files.length,
+    failed: failures.length,
+    failureCounts,
   };
   writeJson(path.join(outputDir, 'metadata.json'), metadata);
-  writeJson(path.join(outputDir, 'manifest.json'), {schemaVersion: 1, files});
-  return {metadata, files};
+  writeJson(path.join(outputDir, 'manifest.json'), {schemaVersion: 2, files, failures});
+  return {metadata, files, failures};
 }
 
 function readArtifact(artifactDir) {
   try {
     const metadata = JSON.parse(fs.readFileSync(path.join(artifactDir, 'metadata.json'), 'utf8'));
     const manifest = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8'));
-    if (metadata.schemaVersion !== 1 || manifest.schemaVersion !== 1 || !Array.isArray(manifest.files)) throw new Error('schema mismatch');
-    return {artifactDir, metadata, files: manifest.files};
+    if (![1, 2].includes(metadata.schemaVersion) || manifest.schemaVersion !== metadata.schemaVersion || !Array.isArray(manifest.files)) throw new Error('schema mismatch');
+    if (manifest.schemaVersion === 2 && !Array.isArray(manifest.failures)) throw new Error('schema mismatch');
+    return {artifactDir, metadata, files: manifest.files, failures: manifest.failures || []};
   } catch (error) {
     return {artifactDir, error: String(error?.message || error), files: []};
   }
@@ -116,8 +136,6 @@ function discoverRecoveryArtifacts(root) {
 
 function metadataCompatibilityReason(metadata, identity) {
   if (metadata.locale !== identity.locale || metadata.group !== identity.group) return 'recovery artifact locale or group mismatch';
-  if (metadata.promptContractSha256 !== identity.promptContractSha256) return 'recovery prompt contract mismatch';
-  if (metadata.model !== identity.model) return 'recovery model mismatch';
   return '';
 }
 
@@ -138,7 +156,7 @@ function preferRecoveryReason(reasons) {
   return reasons[0] || 'missing recovery record';
 }
 
-function restoreCandidate({siteDir, candidate, artifacts, identity}) {
+function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate}) {
   const sourcePath = safePath(siteDir, candidate.sourcePath, 'Recovery candidate source path');
   const currentSourceHash = sha256(fs.readFileSync(sourcePath));
   if (currentSourceHash !== candidate.sourceHash) return {reason: 'current source hash does not match recovery candidate'};
@@ -166,12 +184,8 @@ function restoreCandidate({siteDir, candidate, artifacts, identity}) {
           reasons.push('recovery record source hash mismatch');
           continue;
         }
-        if (record.promptContractSha256 !== identity.promptContractSha256) {
-          reasons.push('recovery record prompt contract mismatch');
-          continue;
-        }
-        if (record.model !== identity.model) {
-          reasons.push('recovery record model mismatch');
+        if (record.promptContractSha256 !== artifact.metadata.promptContractSha256 || record.model !== artifact.metadata.model) {
+          reasons.push('invalid recovery record execution identity');
           continue;
         }
         if (record.status !== 'translated' || record.locale !== identity.locale || record.group !== identity.group ||
@@ -190,9 +204,27 @@ function restoreCandidate({siteDir, candidate, artifacts, identity}) {
           reasons.push('corrupt recovery record target hash');
           continue;
         }
+        const compatibility = record.promptContractSha256 === identity.promptContractSha256 && record.model === identity.model
+          ? 'strict'
+          : 'revalidated'
+        if (compatibility === 'revalidated') {
+          if (typeof revalidate !== 'function') {
+            reasons.push(record.promptContractSha256 !== identity.promptContractSha256 ? 'recovery prompt contract mismatch' : 'recovery model mismatch');
+            continue;
+          }
+          const validationErrors = revalidate({
+            candidate,
+            sourceContent: fs.readFileSync(sourcePath, 'utf8'),
+            targetContent: targetBytes.toString('utf8'),
+          });
+          if (!Array.isArray(validationErrors) || validationErrors.length) {
+            reasons.push(`revalidation failed: ${(validationErrors || ['validator did not return an error list']).join('; ')}`);
+            continue;
+          }
+        }
         fs.mkdirSync(path.dirname(targetPath), {recursive: true});
         fs.writeFileSync(targetPath, targetBytes);
-        return {result: {...candidate, status: 'translated', recovered: true}, targetHash: record.targetHash, targetSize: record.targetSize};
+        return {result: {...candidate, status: 'translated', recovered: true, recoveryCompatibility: compatibility}, targetHash: record.targetHash, targetSize: record.targetSize};
       } catch (error) {
         reasons.push(`invalid recovery record: ${String(error?.message || error)}`);
       }
@@ -201,7 +233,7 @@ function restoreCandidate({siteDir, candidate, artifacts, identity}) {
   return {reason: preferRecoveryReason(reasons)};
 }
 
-function restoreRecoveryFiles({siteDir, candidates, artifacts, identity}) {
+function restoreRecoveryFiles({siteDir, candidates, artifacts, identity, revalidate}) {
   assertIdentity(identity);
   const parsedArtifacts = artifacts.map(readArtifact);
   const restored = [];
@@ -210,7 +242,7 @@ function restoreRecoveryFiles({siteDir, candidates, artifacts, identity}) {
   for (const candidate of candidates) {
     let outcome;
     try {
-      outcome = restoreCandidate({siteDir, candidate, artifacts: parsedArtifacts, identity});
+      outcome = restoreCandidate({siteDir, candidate, artifacts: parsedArtifacts, identity, revalidate});
     } catch (error) {
       outcome = {reason: String(error?.message || error)};
     }
