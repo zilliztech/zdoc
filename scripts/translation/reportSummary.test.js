@@ -71,3 +71,16 @@ test('renders structured failure categories in the Markdown summary', () => {
   assert.match(summary, /provider_timeout/)
   assert.match(summary, /docs\/boost-ranker\.md/)
 })
+
+test('renders structured resumable file and checkpointed chunk counts', () => {
+  const summary = buildSummary({
+    manifest: {locale: 'ja-JP', items: [{reason: 'current_delta'}, {reason: 'current_delta'}]},
+    report: {results: [
+      {sourcePath: 'docs/large.md', status: 'failed', error: 'timeout', chunkCheckpoints: {schemaVersion: 1, totalChunks: 3, entries: [{index: 0}]}},
+      {sourcePath: 'docs/other.md', status: 'failed', error: 'transport'},
+    ]},
+  })
+
+  assert.match(summary, /Resumable files: 1/)
+  assert.match(summary, /Checkpointed chunks: 1/)
+})

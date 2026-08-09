@@ -23,6 +23,8 @@ const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
 const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
 const {classifyFailure, failureRecord} = require('./failureClassification')
+const {loadAnalysisChunkResume, serializeCompletedChunkCheckpoints} = require('./chunkRecovery')
+const {validateRecoveryCandidate} = require('./recoveryValidation')
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
 const { assertSafeRepositoryRelativePath } = loadTypeScript('../../packages/docs-tooling/src/validation/ownership.ts')
 const {
@@ -232,7 +234,14 @@ async function processItemWithRetry(item, options) {
   const maxRetries = parseNonNegativeInteger(options.maxRetries, DEFAULT_FILE_RETRIES)
   const failures = []
   let retryFeedback = null
-  const chunkCheckpoint = new Map()
+  const initialChunkCheckpoints = options.initialChunkCheckpoints || []
+  if (!Array.isArray(initialChunkCheckpoints)) throw new Error('Initial chunk checkpoints must be an array')
+  const chunkCheckpoint = new Map(initialChunkCheckpoints.map((checkpoint, position) => {
+    if (checkpoint?.index !== position || checkpoint?.review?.pass !== true || typeof checkpoint?.translatedContent !== 'string') {
+      throw new Error('Initial chunk checkpoints must be a reviewed contiguous prefix')
+    }
+    return [checkpoint.index, checkpoint]
+  }))
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     let result
@@ -260,7 +269,14 @@ async function processItemWithRetry(item, options) {
     if (attempt < maxRetries) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
     } else {
-      return { ...result, failureCategory: record.category, attempts: attempt + 1, retryFailures: failures }
+      const chunkCheckpoints = serializeCompletedChunkCheckpoints(chunkCheckpoint)
+      return {
+        ...result,
+        failureCategory: record.category,
+        attempts: attempt + 1,
+        retryFailures: failures,
+        ...(chunkCheckpoints ? {chunkCheckpoints} : {}),
+      }
     }
   }
 }
@@ -623,6 +639,7 @@ async function processManifestItem({
     translatedChunks.push(unit.translatedContent)
     const checkpoint = Object.freeze({
       index: chunk.index,
+      total: chunks.length,
       sourceHash,
       translatedContent: unit.translatedContent,
       review: unit.review,
@@ -948,8 +965,9 @@ function createProgressCoordinator(options) {
   }
 }
 
-function partitionRecoveryWork(manifest, restoredResults = []) {
+function partitionRecoveryWork(manifest, restoredResults = [], pendingResults = []) {
   const restoredBySource = new Map(restoredResults.map(result => [result.sourcePath, result]))
+  const pendingByIdentity = new Map(pendingResults.map(result => [recoveryEntryIdentity(result), result]))
   const recovered = []
   const pending = []
   manifest.items.forEach((item, index) => {
@@ -958,7 +976,15 @@ function partitionRecoveryWork(manifest, restoredResults = []) {
       const {recoveryTargetHash: _targetHash, recoveryTargetSize: _targetSize, ...publicResult} = result
       recovered.push({index, result: publicResult})
     }
-    else pending.push({index, item})
+    else {
+      const pendingResult = pendingByIdentity.get(recoveryEntryIdentity(item))
+      pending.push({
+        index,
+        item: pendingResult?.recoveryChunkCheckpoints
+          ? {...item, recoveryChunkCheckpoints: pendingResult.recoveryChunkCheckpoints}
+          : item,
+      })
+    }
   })
   return {recovered, pending}
 }
@@ -983,7 +1009,7 @@ function recoveryEntryIdentity(value) {
   return `${value.sourcePath}\0${value.targetPath}`
 }
 
-function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
+function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions}) {
   let analysis
   try { analysis = JSON.parse(fs.readFileSync(file, 'utf8')) }
   catch (error) { throw new Error(`Recovery analysis JSON is invalid: ${String(error?.message || error)}`) }
@@ -993,6 +1019,9 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
     'restored', 'pending', 'rejected',
   ]
   if (analysis.schemaVersion === 2) rootKeys.push('compatibilityMode')
+  const chunkRecoveryKeys = ['resumableFileCount', 'recoveredChunkCount', 'rejectedChunkCount', 'rejectedChunks']
+  const hasChunkRecovery = chunkRecoveryKeys.some(key => Object.hasOwn(analysis, key))
+  if (hasChunkRecovery) rootKeys.push(...chunkRecoveryKeys)
   exactRecoveryAnalysisKeys(analysis, rootKeys, 'Recovery analysis')
   if (![1, 2].includes(analysis.schemaVersion) || analysis.kind !== 'translation-recovery-analysis') throw new Error('Recovery analysis header is invalid')
   if (analysis.schemaVersion === 2 && !['strict', 'revalidated', 'none'].includes(analysis.compatibilityMode)) throw new Error('Recovery analysis compatibility mode is invalid')
@@ -1012,6 +1041,12 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
     if (arrayKey && (!Array.isArray(analysis[arrayKey]) || analysis[key] !== analysis[arrayKey].length)) throw new Error(`Recovery analysis ${key} does not match ${arrayKey}`)
   }
   if (!Array.isArray(analysis.restored) || !Array.isArray(analysis.pending) || !Array.isArray(analysis.rejected)) throw new Error('Recovery analysis lists are invalid')
+  if (hasChunkRecovery) {
+    for (const key of ['resumableFileCount', 'recoveredChunkCount', 'rejectedChunkCount']) {
+      if (!Number.isSafeInteger(analysis[key]) || analysis[key] < 0) throw new Error(`Recovery analysis ${key} is invalid`)
+    }
+    if (!Array.isArray(analysis.rejectedChunks) || analysis.rejectedChunkCount !== analysis.rejectedChunks.length) throw new Error('Recovery analysis rejected chunk count is invalid')
+  }
   if (analysis.candidateCount !== manifest.items.length || analysis.recoveredCount + analysis.pendingCount !== analysis.candidateCount) {
     throw new Error('Recovery analysis candidate partition does not match the current manifest')
   }
@@ -1044,12 +1079,47 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
       ...(analysis.schemaVersion === 2 ? {recoveryCompatibility: record.compatibility} : {}),
     })
   }
+  const pending = []
+  let recoveredChunkCount = 0
+  let resumableFileCount = 0
   for (const record of analysis.pending) {
-    exactRecoveryAnalysisKeys(record, ['sourcePath', 'targetPath', 'sourceHash'], 'Recovery analysis pending record')
+    const pendingKeys = ['sourcePath', 'targetPath', 'sourceHash']
+    if (Object.hasOwn(record, 'chunkResume')) pendingKeys.push('chunkResume')
+    exactRecoveryAnalysisKeys(record, pendingKeys, 'Recovery analysis pending record')
     const key = recoveryEntryIdentity(record)
     const candidate = manifestByIdentity.get(key)
     if (!candidate || candidate.sourceHash !== record.sourceHash || seen.has(key)) throw new Error('Recovery analysis pending identity does not match the current manifest')
+    let recoveryChunkCheckpoints
+    if (record.chunkResume) {
+      const source = path.resolve(siteDir, ...candidate.sourcePath.split('/'))
+      const sourceBytes = fs.readFileSync(source)
+      if (crypto.createHash('sha256').update(sourceBytes).digest('hex') !== candidate.sourceHash) throw new Error('Recovery analysis pending source payload changed after preflight')
+      recoveryChunkCheckpoints = loadAnalysisChunkResume({
+        value: record.chunkResume,
+        sourceContent: sourceBytes.toString('utf8'),
+        chunkOptions,
+        currentIdentity: {
+          locale: manifest.locale,
+          group: manifest.group,
+          promptContractSha256: identity.promptContractSha256,
+          model: identity.model,
+          sourceSha: manifest.sourceCheckpointSha,
+          toolingSha: identity.toolingSha,
+          mode: record.chunkResume.artifactExecution?.mode,
+        },
+        revalidate: input => validateRecoveryCandidate({
+          ...input,
+          sourcePath: candidate.sourcePath,
+          targetPath: candidate.targetPath,
+          target: manifest.target,
+          locale: manifest.locale,
+        }),
+      })
+      recoveredChunkCount += recoveryChunkCheckpoints.length
+      resumableFileCount += 1
+    }
     seen.add(key)
+    pending.push(recoveryChunkCheckpoints ? {...candidate, recoveryChunkCheckpoints} : candidate)
   }
   if (seen.size !== manifest.items.length) throw new Error('Recovery analysis does not exactly cover the current manifest')
   const pendingIdentities = new Set(analysis.pending.map(recoveryEntryIdentity))
@@ -1057,9 +1127,18 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity}) {
     exactRecoveryAnalysisKeys(record, ['sourcePath', 'targetPath', 'reason'], 'Recovery analysis rejected record')
     if (!pendingIdentities.has(recoveryEntryIdentity(record)) || typeof record.reason !== 'string' || !record.reason) throw new Error('Recovery analysis rejected identity is invalid')
   }
-  const expectedFullRetranslation = manifest.items.length > 0 && analysis.recoveredCount === 0 && analysis.pendingCount === manifest.items.length
+  if (hasChunkRecovery) {
+    if (analysis.recoveredChunkCount !== recoveredChunkCount || analysis.resumableFileCount !== resumableFileCount) throw new Error('Recovery analysis resumable chunk counts do not match pending records')
+    for (const record of analysis.rejectedChunks) {
+      exactRecoveryAnalysisKeys(record, ['sourcePath', 'targetPath', 'index', 'reason'], 'Recovery analysis rejected chunk record')
+      if (!pendingIdentities.has(recoveryEntryIdentity(record)) || !Number.isSafeInteger(record.index) || record.index < 0 || typeof record.reason !== 'string' || !record.reason) {
+        throw new Error('Recovery analysis rejected chunk identity is invalid')
+      }
+    }
+  }
+  const expectedFullRetranslation = manifest.items.length > 0 && analysis.recoveredCount === 0 && analysis.pendingCount === manifest.items.length && resumableFileCount === 0
   if (analysis.fullRetranslation !== expectedFullRetranslation) throw new Error('Recovery analysis full-retranslation state is invalid')
-  return {restored, pending: analysis.pending, rejected: analysis.rejected}
+  return {restored, pending, rejected: analysis.rejected, rejectedChunks: analysis.rejectedChunks || []}
 }
 
 async function main() {
@@ -1088,16 +1167,17 @@ async function main() {
   if (recoveryDir && recoveryAnalysis) throw new Error('Use either --recovery-dir or --recovery-analysis, not both')
   const recoveryIdentity = buildRecoveryIdentity(manifest, siteDir)
   const recovery = recoveryAnalysis
-    ? loadRecoveryAnalysis({file: path.resolve(siteDir, recoveryAnalysis), manifest, siteDir, identity: recoveryIdentity})
+    ? loadRecoveryAnalysis({file: path.resolve(siteDir, recoveryAnalysis), manifest, siteDir, identity: recoveryIdentity, chunkOptions: chunkLimits})
     : recoveryDir
       ? restoreRecoveryFiles({
         siteDir,
         candidates: manifest.items,
         artifacts: discoverRecoveryArtifacts(path.resolve(siteDir, recoveryDir)),
         identity: recoveryIdentity,
+        chunkOptions: chunkLimits,
       })
       : {restored: [], pending: manifest.items, rejected: []}
-  const work = partitionRecoveryWork(manifest, recovery.restored)
+  const work = partitionRecoveryWork(manifest, recovery.restored, recovery.pending)
   const callModel = work.pending.length > 0
     ? await createProviderCall(loadAgentConfigsFromEnv(), {
         maxRetries: maxProviderRetries,
@@ -1136,6 +1216,7 @@ async function main() {
         const result = await processItemWithRetry(targetItem, {
           maxRetries: fileRetries,
           log: console,
+          initialChunkCheckpoints: item.recoveryChunkCheckpoints,
           processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
               siteDir,
               item: targetItem,

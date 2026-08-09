@@ -16,6 +16,8 @@ function buildSummary({ manifest, report }) {
   const results = report?.results || []
   const translated = results.filter(item => item.status === 'translated').length
   const failed = results.filter(item => item.status !== 'translated')
+  const resumableFiles = failed.filter(item => item.chunkCheckpoints?.entries?.length > 0).length
+  const checkpointedChunks = failed.reduce((total, item) => total + (item.chunkCheckpoints?.entries?.length || 0), 0)
   const remaining = Number.isFinite(report?.checkpoint?.remaining)
     ? report.checkpoint.remaining
     : Math.max(0, pending - results.length)
@@ -29,6 +31,8 @@ function buildSummary({ manifest, report }) {
     `- Stale translations: ${candidateCounts.stale_source}`,
     `- Translated: ${translated}`,
     `- Failed: ${failed.length}`,
+    `- Resumable files: ${resumableFiles}`,
+    `- Checkpointed chunks: ${checkpointedChunks}`,
     `- Remaining: ${remaining}`,
   ]
 
