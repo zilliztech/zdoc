@@ -636,7 +636,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (file === '_translate-content-group.yml') {
       validateTranslationReadyProducer({workflow, source, file, errors})
       const requiredPatterns = [
-        [/SOURCE_BASELINE_SHA: \$\{\{ inputs\.source_baseline_sha \}\}[\s\S]*SOURCE_CHECKPOINT_SHA: \$\{\{ inputs\.source_checkpoint_sha \}\}[\s\S]*TOOLING_SHA: \$\{\{ inputs\.tooling_sha \}\}/, 'must bind separate source baseline, source checkpoint, and tooling identities'],
+        [/SOURCE_BASELINE_SHA: \$\{\{ inputs\.source_baseline_sha \}\}[\s\S]*SOURCE_CHECKPOINT_SHA: \$\{\{ inputs\.source_checkpoint_sha \}\}[\s\S]*TARGET_BASELINE_SHA: \$\{\{ inputs\.target_baseline_sha \|\| inputs\.source_checkpoint_sha \}\}[\s\S]*TOOLING_SHA: \$\{\{ inputs\.tooling_sha \}\}/, 'must bind separate source baseline, source checkpoint, target baseline, and tooling identities'],
+        [/materialize-translation-baseline\.js[\s\S]*--baseline "\$BASELINE_DIR"[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"/, 'must materialize selected target translation state before bootstrap resolution'],
         [/sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/, 'must derive translation reconciliation from the group-scoped dev source checkpoint diff'],
         [/applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'source delta application must receive the exact translation target'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
@@ -657,13 +658,22 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const paidWorkOrder = [
         'Validate immutable inputs',
         'Materialize source checkpoint and baseline',
+        'Materialize target baseline translation state',
         'Apply source translation delta',
         'Resolve effective translation mode',
         'Build group translation manifest',
+        'Resolve current recovery compatibility',
         'Run translation agents',
       ].map(name => steps.findIndex(step => step.name === name))
       if (paidWorkOrder.some(index => index < 0) || paidWorkOrder.some((index, position) => position > 0 && index <= paidWorkOrder[position - 1])) {
         errors.push(`${file}: paid translation must follow immutable identity, source delta, mode, and manifest validation`)
+      }
+      const recoveryPreflight = steps.find(step => step.name === 'Resolve current recovery compatibility')
+      const recoveryCondition = String(recoveryPreflight?.if || '')
+      const recoveryRun = String(recoveryPreflight?.run || '')
+      if (!/inputs\.recovery_run_id != ''/.test(recoveryCondition) || !/inputs\.recovery_bundle_artifact_name != ''/.test(recoveryCondition) ||
+          !/recovery-preflight\.js/.test(recoveryRun) || !/--allow-full-retranslate "\$\{\{ inputs\.allow_full_retranslate \}\}"/.test(recoveryRun)) {
+        errors.push(`${file}: every requested recovery path must pass the full-retranslation admission gate before agents`)
       }
       const numbered = steps.find(step => step.name === 'Validate translated batch outputs')
       const unbatched = steps.find(step => step.name === 'Validate unbatched translated group')

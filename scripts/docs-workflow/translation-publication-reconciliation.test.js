@@ -230,6 +230,31 @@ test('Japanese-only reconciliation skips Reference sidebar generation but keeps 
   ])
 })
 
+test('ignores only the exact dependency symlinks installed for the reconciliation worktree', async t => {
+  const setup = fixture(t)
+  for (const relative of [
+    'apps/docs/node_modules',
+    'packages/chat-ui/node_modules',
+    'packages/docs-tooling/node_modules',
+    'packages/docs-ui/node_modules',
+    'packages/site-config/node_modules',
+  ]) fs.mkdirSync(path.join(setup.repository, relative), {recursive: true})
+  const selected = selection(setup.baseline, [unit(setup.baseline)])
+  const reconciled = await reconcileTranslationPublication({
+    selection: selected,
+    results: results(selected, setup.baseline),
+    repositoryRoot: setup.repository,
+    runnerTemp: setup.runnerTemp,
+    transactionContext: {dependencies: {runCommand: deterministicCommands([])}},
+  })
+
+  assert.equal(reconciled.status, 'published')
+  assert.deepEqual(git(setup.repository, ['diff-tree', '--no-commit-id', '--name-only', '-r', reconciled.resultSha]).split('\n').sort(), [
+    'deploy/contracts/localization-inputs.inventory.json',
+    'generated/zh-CN/sidebars/python.sidebar.js',
+  ])
+})
+
 test('rejects any reconciliation write outside the inventory and applicable sidebar allowlist', async t => {
   const setup = fixture(t)
   const selected = selection(setup.baseline, [unit(setup.baseline)])

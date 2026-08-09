@@ -2157,6 +2157,24 @@ test('workflow policy rejects paid translation or matrices before immutable vali
       expected: '_translate-content-group.yml: paid translation must follow immutable identity, source delta, mode, and manifest validation',
     },
     {
+      file: '_translate-content-group.yml',
+      mutate(workflow) {
+        const preflight = workflow.jobs.translate.steps.find(step => step.name === 'Resolve current recovery compatibility')
+        preflight.if = "${{ inputs.should_translate && inputs.recovery_bundle_artifact_name != '' && steps.manifest.outputs.count != '0' }}"
+      },
+      expected: '_translate-content-group.yml: every requested recovery path must pass the full-retranslation admission gate before agents',
+    },
+    {
+      file: '_translate-content-group.yml',
+      mutate(workflow) {
+        const steps = workflow.jobs.translate.steps
+        const materializeIndex = steps.findIndex(step => step.name === 'Materialize target baseline translation state')
+        const [materialize] = steps.splice(materializeIndex, 1)
+        steps.splice(steps.findIndex(step => step.name === 'Resolve effective translation mode') + 1, 0, materialize)
+      },
+      expected: '_translate-content-group.yml: paid translation must follow immutable identity, source delta, mode, and manifest validation',
+    },
+    {
       file: 'translate-codex.yml',
       mutate(workflow) { workflow.jobs.translate_sdk.needs = [] },
       expected: 'translate-codex.yml: translation matrices must wait for complete handoff repository validation',
@@ -2784,7 +2802,9 @@ test('Translation producers bind one immutable selection and emit ready descript
     const job = workflow.jobs[jobName]
     assert.equal(job.with.publication_selection_artifact_name, '${{ needs.prepare.outputs.publication_selection_artifact_name }}')
     assert.equal(job.with.publication_selection_sha256, '${{ needs.prepare.outputs.publication_selection_sha256 }}')
+    assert.equal(job.with.target_baseline_sha, '${{ needs.prepare.outputs.target_branch_sha }}')
   }
+  assert.equal(workflow.jobs.prepare_guides_batches.with.target_baseline_sha, undefined)
   assert.equal(workflow.jobs.translate_sdk.with.publication_unit_key, '${{ matrix.publicationUnitKey }}')
   assert.equal(workflow.jobs.translate_sdk.name, 'translate:${{ matrix.target }}/${{ matrix.group }}')
   assert.equal(workflow.jobs.translate_guides_batches.if, "${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}")
@@ -3331,13 +3351,18 @@ test('translation workers restore and always upload per-file recovery artifacts'
   assert.equal(workflow.on.workflow_call.inputs.recovery_run_id.default, '')
   const steps = workflow.jobs.translate.steps
   const downloadIndex = steps.findIndex(step => step.name === 'Download requested recovery artifacts')
+  const preflightIndex = steps.findIndex(step => step.name === 'Resolve current recovery compatibility')
   const agentsIndex = steps.findIndex(step => step.name === 'Run translation agents')
   const createIndex = steps.findIndex(step => step.name === 'Create per-file recovery artifact')
   const uploadIndex = steps.findIndex(step => step.name === 'Upload per-file recovery artifact')
   const validateIndex = steps.findIndex(step => step.name === 'Validate unbatched translated group')
-  assert.ok(downloadIndex >= 0 && downloadIndex < agentsIndex)
+  assert.ok(downloadIndex >= 0 && downloadIndex < preflightIndex && preflightIndex < agentsIndex)
   assert.ok(agentsIndex < createIndex && createIndex < uploadIndex && uploadIndex < validateIndex)
-  assert.match(steps[agentsIndex].run, /--recovery-dir "\$RECOVERY_DOWNLOAD_DIR"/)
+  assert.match(steps[preflightIndex].if, /inputs\.recovery_run_id != ''/)
+  assert.match(steps[preflightIndex].if, /inputs\.recovery_bundle_artifact_name != ''/)
+  assert.match(steps[preflightIndex].run, /recovery-preflight\.js/)
+  assert.match(steps[preflightIndex].run, /--allow-full-retranslate "\$\{\{ inputs\.allow_full_retranslate \}\}"/)
+  assert.match(steps[agentsIndex].run, /--recovery-analysis "\$RECOVERY_ANALYSIS"/)
   assert.equal(steps[createIndex].if, '${{ always() && inputs.should_translate && steps.manifest.outputs.count != \'0\' }}')
   assert.equal(steps[uploadIndex].if, '${{ always() && inputs.should_translate && steps.manifest.outputs.count != \'0\' }}')
   assert.equal(steps[uploadIndex].with['retention-days'], 30)
@@ -3368,16 +3393,19 @@ test('translation workers resolve bootstrap mode and validate only their selecte
   assert.equal(workflow.on.workflow_call.inputs.mode.default, 'auto')
   const steps = workflow.jobs.translate.steps
   const resolveIndex = steps.findIndex(step => step.name === 'Resolve effective translation mode')
+  const materializeIndex = steps.findIndex(step => step.name === 'Materialize target baseline translation state')
   const manifestIndex = steps.findIndex(step => step.name === 'Build group translation manifest')
   const validationIndex = steps.findIndex(step => step.name === 'Validate unbatched translated group')
   const markerIndex = steps.findIndex(step => step.name === 'Mark completed translation bootstrap')
   const sourceIdentityIndex = steps.findIndex(step => step.name === 'Validate immutable inputs')
   const regenerateIndex = steps.findIndex(step => step.name === 'Regenerate selected Chinese Reference sidebar')
   const checkpointIndex = steps.findIndex(step => step.name === 'Create validated translation checkpoints')
-  assert.ok(resolveIndex >= 0 && resolveIndex < manifestIndex)
+  assert.ok(materializeIndex >= 0 && materializeIndex < resolveIndex && resolveIndex < manifestIndex)
   assert.ok(sourceIdentityIndex >= 0 && sourceIdentityIndex < manifestIndex)
   assert.match(steps[sourceIdentityIndex].run, /source_baseline_sha/)
   assert.match(steps[sourceIdentityIndex].run, /source_checkpoint_sha/)
+  assert.match(steps[sourceIdentityIndex].run, /target_baseline_sha/)
+  assert.match(steps[materializeIndex].run, /materialize-translation-baseline\.js/)
   assert.match(steps[manifestIndex].run, /--mode "\$EFFECTIVE_TRANSLATION_MODE"/)
   assert.match(steps[validationIndex].run, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
   assert.doesNotMatch(steps[validationIndex].run, /validate-reference|build:en|build:zh-CN|reference-manifest/)
@@ -3395,10 +3423,12 @@ test('translation workers authenticate exact source checkpoint inputs without bi
   const job = workflow.jobs.translate
   assert.equal(job.env.SOURCE_BASELINE_SHA, '${{ inputs.source_baseline_sha }}')
   assert.equal(job.env.SOURCE_CHECKPOINT_SHA, '${{ inputs.source_checkpoint_sha }}')
+  assert.equal(job.env.TARGET_BASELINE_SHA, '${{ inputs.target_baseline_sha || inputs.source_checkpoint_sha }}')
   assert.equal(job.env.TOOLING_SHA, '${{ inputs.tooling_sha }}')
   const validation = job.steps.find(step => step.name === 'Validate immutable inputs')
   assert.match(validation.run, /source_baseline_sha/)
   assert.match(validation.run, /source_checkpoint_sha/)
+  assert.match(validation.run, /target_baseline_sha/)
   assert.doesNotMatch(source, /git diff[^\n]*(?:TOOLING_SHA|MASTER_SHA|tooling_sha)/)
   assert.doesNotMatch(source, /generated\/en\/manifests\/reference\.json[\s\S]*sourceCommit/)
 })

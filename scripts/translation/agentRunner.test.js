@@ -193,6 +193,7 @@ function testMessageBuildersSelectPromptsFromTarget() {
   assert.match(buildTranslationMessages(common)[0].content, /document_context.*context only/is)
   assert.match(buildTranslationMessages(common)[0].content, /retry_feedback.*prior attempt.*not source/is)
   assert.match(buildTranslationMessages(common)[0].content, /exact marker identity and count/i)
+  assert.match(buildTranslationMessages(common)[0].content, /unit with no protected marker.*return no protected marker/is)
   assert.match(buildTranslationMessages(common)[0].content, /plain code-like token.*remain plain.*never add backticks/is)
   assert.match(buildTranslationMessages(common)[0].content, /Reference landing-page contract.*Han characters.*2\.5.*do not expand headings/is)
   const reviewPrompt = buildReviewMessages({...common, translatedContent: '# 参考\n'})[0].content
@@ -431,7 +432,7 @@ async function testSemanticUnitsUseCoherentContextAndStableIds() {
           const context = taggedMessageContent(messages, 'document_context')
           const units = taggedJsonContent(messages, 'semantic_units')
           assert.match(context, /# Usage/)
-          assert.match(context, /Keep this English comment|ZDOC-PROTECTED/)
+          assert.doesNotMatch(context, /Keep this English comment|ZDOC-PROTECTED/)
           assert.deepEqual(units.map(unit => unit.id), [
             'document.frontmatter.title',
             'document.heading.0001',
@@ -1413,7 +1414,7 @@ async function testRestoresSourceImportsBeforeValidation() {
         const context = taggedMessageContent(messages, 'document_context')
         const supplied = taggedJsonContent(messages, 'semantic_units')
         assert.doesNotMatch(JSON.stringify(supplied), /import Admonition/)
-        assert.match(context, /ZDOC-PROTECTED/)
+        assert.doesNotMatch(context, /ZDOC-PROTECTED|import Admonition/)
         return semanticTranslationResponse(messages, text => text.replace('Test', 'テスト'))
       }
       if (agent === 'review') return '{"pass":true,"issues":[]}'
@@ -2190,6 +2191,34 @@ async function testRejectsProtectedMarkerMovementAcrossSemanticUnits() {
   })
 }
 
+async function testCrossEncoderFrontmatterContextCannotLeakProtectedMarkers() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/python/python/Rerankers/Rerankers-CrossEncoderRerankFunction/Rerankers-CrossEncoderRerankFunction.md'
+    const targetPath = 'content/zh-CN/reference/api/python/python/Rerankers/Rerankers-CrossEncoderRerankFunction/Rerankers-CrossEncoderRerankFunction.md'
+    const source = fs.readFileSync(path.join(process.cwd(), sourcePath), 'utf8')
+    write(path.join(siteDir, sourcePath), source)
+    const result = await processManifestItem({
+      siteDir,
+      item: {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: sha256(source), locale: 'zh-CN', type: 'reference'},
+      maxReviewRounds: 0,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        if (agent === 'review') return '{"pass":true,"issues":[]}'
+        const context = taggedMessageContent(messages, 'document_context')
+        assert.doesNotMatch(context, /<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->/)
+        const units = taggedJsonContent(messages, 'semantic_units')
+        const description = units.find(unit => unit.id === 'document.frontmatter.description')
+        assert.ok(description)
+        assert.doesNotMatch(description.text, /ZDOC-PROTECTED/)
+        return semanticTranslationResponse(messages, (text, unit) => unit.id === description.id
+          ? 'CrossEncoderRerankFunction 是 milvusmodel 中的一个类，它接收查询和文档作为输入。 | Python'
+          : text)
+      },
+    })
+    assert.equal(result.status, 'translated')
+  })
+}
+
 async function testNormalizesPrivateLinkEndpointWithoutRewritingCliCommandHeading() {
   await withTempDir(async siteDir => {
     const sourcePath = 'content/en/reference/cli/cli/create.md'
@@ -2565,6 +2594,7 @@ async function run() {
   await testJapaneseProgressStatePreservesExistingLocaleCache()
   await testAllowsProtectedMarkerReorderingInsideOneSemanticUnit()
   await testRejectsProtectedMarkerMovementAcrossSemanticUnits()
+  await testCrossEncoderFrontmatterContextCannotLeakProtectedMarkers()
   await testNormalizesPrivateLinkEndpointWithoutRewritingCliCommandHeading()
   await testRestoresFencedCodeCommentsByteForByte()
   await testContractConflictingReviewerIssueFailsStructurallyAndEntersRecoveryArtifact()

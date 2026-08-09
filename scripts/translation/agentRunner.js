@@ -442,6 +442,10 @@ function buildTranslationMessages({ target, sourcePath, sourceContent, sourceDoc
   ]
 }
 
+function markerFreeDocumentContext(content) {
+  return String(content).replace(/<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->(?:\r?\n)?/g, '')
+}
+
 function buildReviewMessages({ target, sourcePath, sourceContent, translatedContent, sourceDocument, draftDocument, sourceUnits, draftUnits, locale, chunkContext }) {
   const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   const userContent = sourceUnits && draftUnits
@@ -530,7 +534,7 @@ async function translateAndReviewUnit({
       target,
       sourcePath,
       sourceContent: protectedSource.content,
-      sourceDocument: protectedSource.content,
+      sourceDocument: markerFreeDocumentContext(protectedSource.content),
       semanticUnits: sourceUnitPayload,
       locale,
       chunkContext,
