@@ -2744,7 +2744,7 @@ test('Translation producers bind one immutable selection and emit ready descript
   const reusable = yaml.load(fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8'))
   const reusableSteps = reusable.jobs.translate.steps
   for (const input of ['publication_selection_artifact_name', 'publication_selection_sha256', 'publication_unit_key']) {
-    assert.equal(reusable.on.workflow_call.inputs[input].required, true, input)
+    assert.deepEqual(reusable.on.workflow_call.inputs[input], {required: false, type: 'string', default: ''}, input)
   }
   const download = reusableSteps.find(step => step.name === 'Download translation publication selection')
   const validate = reusableSteps.find(step => step.name === 'Validate translation publication selection identity')
@@ -2815,6 +2815,196 @@ test('Translation producers bind one immutable selection and emit ready descript
   assert.doesNotMatch(fanInSource, /git push|staging/)
 })
 
+test('retained legacy Translation callers map source identities without gaining publication-selection authority', () => {
+  const reusable = yaml.load(fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8'))
+  const inputs = reusable.on.workflow_call.inputs
+  assert.deepEqual(inputs.legacy_without_publication_selection, {required: false, type: 'boolean', default: false})
+  for (const input of ['publication_selection_artifact_name', 'publication_selection_sha256', 'publication_unit_key']) {
+    assert.deepEqual(inputs[input], {required: false, type: 'string', default: ''}, input)
+  }
+
+  const steps = reusable.jobs.translate.steps
+  assert.equal(steps.find(step => step.name === 'Download translation publication selection').if, '${{ !inputs.legacy_without_publication_selection }}')
+  assert.equal(steps.find(step => step.name === 'Validate translation publication selection identity').if, '${{ !inputs.legacy_without_publication_selection }}')
+  assert.match(steps.find(step => step.name === 'Create immutable Translation ready descriptor').if, /^\$\{\{ !inputs\.legacy_without_publication_selection &&/)
+  assert.match(steps.find(step => step.name === 'Upload immutable Translation ready descriptor').if, /^\$\{\{ !inputs\.legacy_without_publication_selection &&/)
+
+  const legacyCallers = [
+    ['_translate-publish-batch.yml', 'translate', '${{ inputs.tooling_sha }}', '${{ inputs.source_sha }}'],
+    ['_translate-selected-group.yml', 'translate', '${{ inputs.tooling_sha }}', '${{ inputs.source_sha }}'],
+    ['translate-content.yml', 'translate_exact', '${{ inputs.tooling_sha }}', '${{ inputs.source_sha }}'],
+  ]
+  for (const [file, jobName, sourceBaselineSha, sourceCheckpointSha] of legacyCallers) {
+    const workflow = yaml.load(fs.readFileSync(`.github/workflows/${file}`, 'utf8'))
+    const call = workflow.jobs[jobName]
+    assert.equal(call.with.legacy_without_publication_selection, true, file)
+    assert.equal(call.with.source_baseline_sha, sourceBaselineSha, file)
+    assert.equal(call.with.source_checkpoint_sha, sourceCheckpointSha, file)
+    for (const stale of ['source_sha', 'source_commit_sha', 'master_sha']) assert.equal(call.with[stale], undefined, `${file}:${stale}`)
+    for (const selection of ['publication_selection_artifact_name', 'publication_selection_sha256', 'publication_unit_key']) {
+      assert.equal(call.with[selection], undefined, `${file}:${selection}`)
+    }
+  }
+
+  const batch = yaml.load(fs.readFileSync('.github/workflows/_translate-publish-batch.yml', 'utf8'))
+  assert.equal(batch.jobs.translate.needs, 'validate_legacy_aliases')
+  const preflight = batch.jobs.validate_legacy_aliases
+  assert.equal(preflight['runs-on'], 'ubuntu-latest')
+  assert.equal(preflight['timeout-minutes'], 5)
+  assert.deepEqual(preflight.permissions, {contents: 'read'})
+  const aliasStep = preflight.steps.find(step => step.name === 'Validate retained Translation aliases')
+  assert.deepEqual(aliasStep.env, {
+    SOURCE_SHA: '${{ inputs.source_sha }}',
+    SOURCE_COMMIT_SHA: '${{ inputs.source_commit_sha }}',
+    TOOLING_SHA: '${{ inputs.tooling_sha }}',
+    MASTER_SHA: '${{ inputs.master_sha }}',
+  })
+  assert.match(aliasStep.run, /SOURCE_COMMIT_SHA.*!==.*SOURCE_SHA/)
+  assert.match(aliasStep.run, /MASTER_SHA.*!==.*TOOLING_SHA/)
+
+  const strict = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
+  for (const jobName of ['translate_sdk', 'translate_guides_batches']) {
+    const call = strict.jobs[jobName]
+    assert.equal(call.with.legacy_without_publication_selection, undefined, jobName)
+    assert.equal(call.with.publication_selection_artifact_name, '${{ needs.prepare.outputs.publication_selection_artifact_name }}', jobName)
+    assert.equal(call.with.publication_selection_sha256, '${{ needs.prepare.outputs.publication_selection_sha256 }}', jobName)
+    assert.ok(call.with.publication_unit_key, jobName)
+  }
+})
+
+test('workflow policy allowlists exactly three legacy Translation selection bypass callers', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const fixtures = [
+    {
+      file: 'recover-translation.yml',
+      mutate: source => source.replace('      handoff_json: ${{ needs.prepare_recovery.outputs.handoff_json }}\n', '      legacy_without_publication_selection: ${{ true }}\n      handoff_json: ${{ needs.prepare_recovery.outputs.handoff_json }}\n'),
+      expected: 'recover-translation.yml:run_translation: legacy Translation selection bypass is not allowlisted',
+    },
+    {
+      file: 'recover-translation.yml',
+      mutate: source => source.replace('      handoff_json: ${{ needs.prepare_recovery.outputs.handoff_json }}\n', "      ${{ 'legacy_without_publication_selection' }}: true\n      handoff_json: ${{ needs.prepare_recovery.outputs.handoff_json }}\n"),
+      expected: 'recover-translation.yml:run_translation: legacy Translation selection bypass is not allowlisted',
+    },
+    {
+      file: 'translate-codex.yml',
+      mutate: source => source.replace('      publication_unit_key: ${{ matrix.publicationUnitKey }}\n', '      legacy_without_publication_selection: true\n      publication_unit_key: ${{ matrix.publicationUnitKey }}\n'),
+      expected: 'translate-codex.yml:translate_sdk: legacy Translation selection bypass is not allowlisted',
+    },
+    {
+      file: 'translate-codex.yml',
+      mutate: source => source.replace('      publication_unit_key: translation/ja-JP/guides\n', '      legacy_without_publication_selection: true\n      publication_unit_key: translation/ja-JP/guides\n'),
+      expected: 'translate-codex.yml:translate_guides_batches: legacy Translation selection bypass is not allowlisted',
+    },
+    ...[
+      ['_translate-publish-batch.yml', 'translate'],
+      ['_translate-selected-group.yml', 'translate'],
+      ['translate-content.yml', 'translate_exact'],
+    ].map(([file, job]) => ({
+      file,
+      mutate: source => source.replace('      legacy_without_publication_selection: true\n', ''),
+      expected: `${file}:${job}: allowlisted legacy Translation selection bypass must be explicit`,
+    })),
+    {
+      file: '_translate-publish-batch.yml',
+      mutate: source => source.replace('      source_baseline_sha: ${{ inputs.tooling_sha }}\n', '      source_baseline_sha: ${{ inputs.source_sha }}\n'),
+      expected: '_translate-publish-batch.yml:translate: legacy Translation source identity mapping is invalid',
+    },
+    {
+      file: '_translate-publish-batch.yml',
+      mutate: source => source.replace('      source_checkpoint_sha: ${{ inputs.source_sha }}\n', '      source_checkpoint_sha: ${{ inputs.source_commit_sha }}\n'),
+      expected: '_translate-publish-batch.yml:translate: legacy Translation source identity mapping is invalid',
+    },
+    {
+      file: '_translate-selected-group.yml',
+      mutate: source => source.replace('      source_baseline_sha: ${{ inputs.tooling_sha }}\n', '      source_baseline_sha: ${{ inputs.source_sha }}\n'),
+      expected: '_translate-selected-group.yml:translate: legacy Translation source identity mapping is invalid',
+    },
+    {
+      file: '_translate-selected-group.yml',
+      mutate: source => source.replace('      source_checkpoint_sha: ${{ inputs.source_sha }}\n', '      source_checkpoint_sha: ${{ inputs.tooling_sha }}\n'),
+      expected: '_translate-selected-group.yml:translate: legacy Translation source identity mapping is invalid',
+    },
+    {
+      file: 'translate-content.yml',
+      mutate: source => source.replace('      source_baseline_sha: ${{ inputs.tooling_sha }}\n', '      source_baseline_sha: ${{ inputs.source_sha }}\n'),
+      expected: 'translate-content.yml:translate_exact: legacy Translation source identity mapping is invalid',
+    },
+    {
+      file: 'translate-content.yml',
+      mutate: source => source.replace('      source_checkpoint_sha: ${{ inputs.source_sha }}\n', '      source_checkpoint_sha: ${{ inputs.tooling_sha }}\n'),
+      expected: 'translate-content.yml:translate_exact: legacy Translation source identity mapping is invalid',
+    },
+    {
+      file: '_translate-publish-batch.yml',
+      mutate: source => source.replace('    needs: validate_legacy_aliases\n', ''),
+      expected: '_translate-publish-batch.yml: legacy Translation aliases must fail closed before paid work',
+    },
+    {
+      file: '_translate-publish-batch.yml',
+      mutate: source => source.replace('    needs: validate_legacy_aliases\n', '    needs: validate_legacy_aliases\n    continue-on-error: true\n'),
+      expected: '_translate-publish-batch.yml: legacy Translation aliases must fail closed before paid work',
+    },
+    {
+      file: '_translate-publish-batch.yml',
+      mutate: source => source.replace('    needs: validate_legacy_aliases\n', '    needs: validate_legacy_aliases\n    if: ${{ always() }}\n'),
+      expected: '_translate-publish-batch.yml: legacy Translation aliases must fail closed before paid work',
+    },
+    {
+      file: '_translate-publish-batch.yml',
+      mutate: source => source.replace('    timeout-minutes: 5\n', '    timeout-minutes: 5\n    continue-on-error: true\n'),
+      expected: '_translate-publish-batch.yml: legacy Translation aliases must fail closed before paid work',
+    },
+    {
+      file: '_translate-publish-batch.yml',
+      mutate: source => source.replace('    timeout-minutes: 5\n', '    timeout-minutes: 5\n    if: ${{ always() }}\n'),
+      expected: '_translate-publish-batch.yml: legacy Translation aliases must fail closed before paid work',
+    },
+    {
+      file: '_translate-publish-batch.yml',
+      mutate: source => source.replace('      - name: Validate retained Translation aliases\n', '      - name: Validate retained Translation aliases\n        continue-on-error: true\n'),
+      expected: '_translate-publish-batch.yml: legacy Translation aliases must fail closed before paid work',
+    },
+    {
+      file: '_translate-publish-batch.yml',
+      mutate: source => source.replace('      - name: Validate retained Translation aliases\n', '      - name: Validate retained Translation aliases\n        if: ${{ always() }}\n'),
+      expected: '_translate-publish-batch.yml: legacy Translation aliases must fail closed before paid work',
+    },
+    {
+      file: '_translate-publish-batch.yml',
+      mutate: source => source.replace('process.env.SOURCE_COMMIT_SHA !== process.env.SOURCE_SHA', 'process.env.SOURCE_COMMIT_SHA === process.env.SOURCE_SHA'),
+      expected: '_translate-publish-batch.yml: legacy Translation aliases must fail closed before paid work',
+    },
+    {
+      file: '_translate-publish-batch.yml',
+      mutate: source => source.replace('process.env.MASTER_SHA !== process.env.TOOLING_SHA', 'process.env.MASTER_SHA === process.env.TOOLING_SHA'),
+      expected: '_translate-publish-batch.yml: legacy Translation aliases must fail closed before paid work',
+    },
+    {
+      file: '_translate-publish-batch.yml',
+      mutate: source => source.replace(
+        'node -e \'if(process.env.SOURCE_COMMIT_SHA !== process.env.SOURCE_SHA)throw new Error("source_commit_sha must equal source_sha");if(process.env.MASTER_SHA !== process.env.TOOLING_SHA)throw new Error("master_sha must equal tooling_sha")\'',
+        'node -e \'console.log(process.env.SOURCE_COMMIT_SHA !== process.env.SOURCE_SHA, process.env.MASTER_SHA !== process.env.TOOLING_SHA)\'',
+      ),
+      expected: '_translate-publish-batch.yml: legacy Translation aliases must fail closed before paid work',
+    },
+  ]
+
+  for (const fixture of fixtures) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'legacy-translation-bypass-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const target = path.join(directory, fixture.file)
+      const source = fs.readFileSync(target, 'utf8')
+      const changed = fixture.mutate(source)
+      assert.notEqual(changed, source, fixture.file)
+      fs.writeFileSync(target, changed)
+      assert.ok(validateWorkflowPolicies(directory).includes(fixture.expected), fixture.expected)
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
+})
+
 test('workflow policy rejects Translation selection and ready-descriptor wiring regressions', () => {
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-ready-policy-'))
   try {
@@ -2822,7 +3012,7 @@ test('workflow policy rejects Translation selection and ready-descriptor wiring 
     const producer = path.join(directory, '_translate-content-group.yml')
     const workflow = path.join(directory, 'translate-codex.yml')
     const producerSource = fs.readFileSync(producer, 'utf8')
-    fs.writeFileSync(producer, producerSource.replace('      publication_unit_key: { required: true, type: string }\n', ''))
+    fs.writeFileSync(producer, producerSource.replace("      publication_unit_key: { required: false, type: string, default: '' }\n", ''))
     assert.ok(validateWorkflowPolicies(directory).includes(
       '_translate-content-group.yml: Translation producer must require and authenticate the immutable publication selection identity',
     ))
@@ -2832,6 +3022,14 @@ test('workflow policy rejects Translation selection and ready-descriptor wiring 
     fs.writeFileSync(workflow, workflowSource.replace('      publication_unit_key: ${{ matrix.publicationUnitKey }}\n', ''))
     assert.ok(validateWorkflowPolicies(directory).includes(
       'translate-codex.yml: SDK Translation matrix units must receive their exact publication unit key',
+    ))
+
+    fs.writeFileSync(workflow, workflowSource.replace(
+      '      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}\n',
+      '      legacy_without_publication_selection: true\n      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}\n',
+    ))
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'translate-codex.yml: translate_guides_batches must receive the immutable Translation publication selection identity',
     ))
 
     fs.writeFileSync(workflow, workflowSource.replace("    name: translate:${{ matrix.target }}/${{ matrix.group }}\n", ''))

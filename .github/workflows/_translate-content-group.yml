@@ -23,9 +23,10 @@ on:
       allow_full_retranslate: { required: false, type: boolean, default: false }
       mode: { required: false, type: string, default: auto }
       bootstrap_group: { required: false, type: string, default: '' }
-      publication_selection_artifact_name: { required: true, type: string }
-      publication_selection_sha256: { required: true, type: string }
-      publication_unit_key: { required: true, type: string }
+      legacy_without_publication_selection: { required: false, type: boolean, default: false }
+      publication_selection_artifact_name: { required: false, type: string, default: '' }
+      publication_selection_sha256: { required: false, type: string, default: '' }
+      publication_unit_key: { required: false, type: string, default: '' }
     outputs:
       status: { value: '${{ jobs.translate.outputs.status }}' }
       artifact_name: { value: '${{ jobs.translate.outputs.artifact_name }}' }
@@ -94,11 +95,13 @@ jobs:
       - name: Install current master tooling
         run: pnpm install --frozen-lockfile
       - name: Download translation publication selection
+        if: ${{ !inputs.legacy_without_publication_selection }}
         uses: actions/download-artifact@v7
         with:
           name: ${{ inputs.publication_selection_artifact_name }}
           path: ${{ runner.temp }}/publication-selection
       - name: Validate translation publication selection identity
+        if: ${{ !inputs.legacy_without_publication_selection }}
         env:
           PUBLICATION_SELECTION_SHA256: ${{ inputs.publication_selection_sha256 }}
         run: |
@@ -375,7 +378,7 @@ jobs:
         with: { name: 'translation-baseline-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: '${{ runner.temp }}/baseline/checkpoint-group.tar', retention-days: '${{ inputs.artifact_retention_days }}' }
       - name: Create immutable Translation ready descriptor
         id: publication_ready
-        if: ${{ inputs.batch_number == 0 && steps.translation_upload.outcome == 'success' && steps.baseline_upload.outcome == 'success' }}
+        if: ${{ !inputs.legacy_without_publication_selection && inputs.batch_number == 0 && steps.translation_upload.outcome == 'success' && steps.baseline_upload.outcome == 'success' }}
         run: |
           set -euo pipefail
           unit_token=${PUBLICATION_UNIT_KEY//\//-}
@@ -389,7 +392,7 @@ jobs:
             --output "$RUNNER_TEMP/publication-ready/publication-ready.json"
           echo "artifact_name=publication-ready-translation-$unit_token-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" >> "$GITHUB_OUTPUT"
       - name: Upload immutable Translation ready descriptor
-        if: ${{ inputs.batch_number == 0 && steps.translation_upload.outcome == 'success' && steps.baseline_upload.outcome == 'success' }}
+        if: ${{ !inputs.legacy_without_publication_selection && inputs.batch_number == 0 && steps.translation_upload.outcome == 'success' && steps.baseline_upload.outcome == 'success' }}
         uses: actions/upload-artifact@v6
         with:
           name: ${{ steps.publication_ready.outputs.artifact_name }}
