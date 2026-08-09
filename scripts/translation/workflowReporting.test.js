@@ -2,7 +2,19 @@
 
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
+const os = require('node:os')
+const path = require('node:path')
 const test = require('node:test')
+
+const {createBatchSummary} = require('./batches')
+const {buildManifest} = require('./manifest')
+const {materializeTranslationBaseline} = require('./materialize-translation-baseline')
+
+function write(root, relative, contents) {
+  const target = path.join(root, relative)
+  fs.mkdirSync(path.dirname(target), {recursive: true})
+  fs.writeFileSync(target, contents)
+}
 
 test('reusable translation workflow produces and uploads a group-scoped report', () => {
   const workflow = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
@@ -43,6 +55,42 @@ test('batch preparation reports translation candidate reason counts', () => {
   assert.match(prepare, /^      candidate_counts: \$\{\{ steps\.summary\.outputs\.candidate_counts \}\}$/m)
   assert.match(prepare, /candidate_counts: JSON\.stringify\(summary\.candidateCounts\)/)
   assert.match(prepare, /^          console\.log\(`translation candidates: total=\$\{summary\.candidateCounts\.total\} current_delta=\$\{summary\.candidateCounts\.current_delta\} missing_target=\$\{summary\.candidateCounts\.missing_target\} stale_source=\$\{summary\.candidateCounts\.stale_source\}`\)$/m)
+})
+
+test('Guides preparation and workers derive the same pending set from the target baseline', t => {
+  const prepareWorkflow = fs.readFileSync('.github/workflows/_prepare-translation-batches.yml', 'utf8')
+  const workerWorkflow = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
+  assert.match(prepareWorkflow, /^      target_baseline_sha: \{ required: false, type: string, default: '' \}$/m)
+  assert.match(prepareWorkflow, /^      TARGET_BASELINE_SHA: \$\{\{ inputs\.target_baseline_sha \|\| inputs\.source_checkpoint_sha \}\}$/m)
+  assert.match(prepareWorkflow, /materialize-translation-baseline\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"/)
+  assert.match(workerWorkflow, /materialize-translation-baseline\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"/)
+
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-guides-target-baseline-'))
+  const baseline = path.join(root, 'baseline')
+  const preparation = path.join(root, 'preparation')
+  const worker = path.join(root, 'worker')
+  fs.mkdirSync(baseline)
+  fs.mkdirSync(preparation)
+  fs.mkdirSync(worker)
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  const sourcePath = 'content/en/guides/tutorials/completed.md'
+  const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/completed.md'
+  const source = '# Completed guide\n'
+  const sourceHash = require('node:crypto').createHash('sha256').update(source).digest('hex')
+  for (const workspace of [preparation, worker]) write(workspace, sourcePath, source)
+  write(baseline, targetPath, '# 完了したガイド\n')
+  write(baseline, '.translation-cache/ja-JP.json', `${JSON.stringify({files: {
+    [sourcePath]: {sourceHash, targetPath},
+  }})}\n`)
+
+  const summaries = [preparation, worker].map(workspace => {
+    materializeTranslationBaseline({repositoryRoot: workspace, baselineRoot: baseline, target: 'ja-JP', group: 'guides'})
+    const manifest = buildManifest({siteDir: workspace, target: 'ja-JP', group: 'guides', sourceCheckpointSha: 'a'.repeat(40)})
+    assert.deepEqual(manifest.items, [])
+    return createBatchSummary(manifest, 40)
+  })
+  assert.equal(summaries[0].pendingCount, 0)
+  assert.equal(summaries[0].pendingSetSha256, summaries[1].pendingSetSha256)
 })
 
 test('source aggregate records the authenticated downstream translation handoff', () => {

@@ -372,13 +372,22 @@ function compressed(values) {
 function restoreProtectedContent(modelContent, manifest) {
   let restored = String(modelContent)
   const markerPattern = new RegExp(MARKER_SOURCE, 'g')
-  const actualMarkers = [...restored.matchAll(markerPattern)].map(match => match[0])
+  const actualMarkerMatches = [...restored.matchAll(markerPattern)]
+  const actualMarkers = actualMarkerMatches.map(match => match[0])
   const expectedMarkers = manifest.entries.map(entry => entry.marker)
   const withoutExactMarkers = restored.replace(new RegExp(MARKER_SOURCE, 'g'), '')
   if (withoutExactMarkers.includes(MARKER_NAMESPACE)) throw new Error('Protected marker was altered or forged during translation')
   const entryByMarker = new Map(manifest.entries.map(entry => [entry.marker, entry]))
   const markerId = marker => marker.match(/ZDOC-PROTECTED:(\d{6})/)?.[1] || marker.slice(0, 80)
-  const unknown = [...new Set(actualMarkers.filter(marker => !entryByMarker.has(marker)).map(markerId))]
+  const markerLocation = match => {
+    const prefix = restored.slice(0, match.index)
+    const line = prefix.split('\n').length
+    const lastBreak = prefix.lastIndexOf('\n')
+    return `${markerId(match[0])} at line ${line}, column ${match.index - lastBreak}, offset ${match.index}`
+  }
+  const unknown = [...new Map(actualMarkerMatches
+    .filter(match => !entryByMarker.has(match[0]))
+    .map(match => [match[0], markerLocation(match)])).values()]
   if (unknown.length) throw new Error(`Unknown protected marker(s): ${unknown.join(', ')}`)
   const actualCounts = new Map()
   for (const marker of actualMarkers) actualCounts.set(marker, (actualCounts.get(marker) || 0) + 1)

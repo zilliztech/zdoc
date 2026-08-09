@@ -623,7 +623,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/^      candidate_counts: \{ value: '\$\{\{ jobs\.prepare\.outputs\.candidate_counts \}\}' \}$/m, 'must expose translation candidate counts'],
         [/^      candidate_counts: \$\{\{ steps\.summary\.outputs\.candidate_counts \}\}$/m, 'must map prepare candidate counts from the summary step'],
         [/^            candidate_counts: JSON\.stringify\(summary\.candidateCounts\),$/m, 'must emit classified translation candidate counts'],
-        [/SOURCE_BASELINE_SHA: \$\{\{ inputs\.source_baseline_sha \}\}[\s\S]*SOURCE_CHECKPOINT_SHA: \$\{\{ inputs\.source_checkpoint_sha \}\}[\s\S]*TOOLING_SHA: \$\{\{ inputs\.tooling_sha \}\}/, 'must bind separate source baseline, source checkpoint, and tooling identities'],
+        [/SOURCE_BASELINE_SHA: \$\{\{ inputs\.source_baseline_sha \}\}[\s\S]*SOURCE_CHECKPOINT_SHA: \$\{\{ inputs\.source_checkpoint_sha \}\}[\s\S]*TARGET_BASELINE_SHA: \$\{\{ inputs\.target_baseline_sha \|\| inputs\.source_checkpoint_sha \}\}[\s\S]*TOOLING_SHA: \$\{\{ inputs\.tooling_sha \}\}/, 'must bind separate source baseline, source checkpoint, target baseline, and tooling identities'],
+        [/git worktree add --detach "\$target_baseline_dir" "\$TARGET_BASELINE_SHA"[\s\S]*materialize-translation-baseline\.js[\s\S]*--baseline "\$target_baseline_dir"[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"[\s\S]*manifest\.js/, 'must materialize target baseline translation state before deterministic batching'],
         [/sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/, 'must derive durable batches from the group-scoped dev source checkpoint diff'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must build the durable pending set from the source delta'],
       ]
@@ -636,7 +637,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (file === '_translate-content-group.yml') {
       validateTranslationReadyProducer({workflow, source, file, errors})
       const requiredPatterns = [
-        [/SOURCE_BASELINE_SHA: \$\{\{ inputs\.source_baseline_sha \}\}[\s\S]*SOURCE_CHECKPOINT_SHA: \$\{\{ inputs\.source_checkpoint_sha \}\}[\s\S]*TOOLING_SHA: \$\{\{ inputs\.tooling_sha \}\}/, 'must bind separate source baseline, source checkpoint, and tooling identities'],
+        [/SOURCE_BASELINE_SHA: \$\{\{ inputs\.source_baseline_sha \}\}[\s\S]*SOURCE_CHECKPOINT_SHA: \$\{\{ inputs\.source_checkpoint_sha \}\}[\s\S]*TARGET_BASELINE_SHA: \$\{\{ inputs\.target_baseline_sha \|\| inputs\.source_checkpoint_sha \}\}[\s\S]*TOOLING_SHA: \$\{\{ inputs\.tooling_sha \}\}/, 'must bind separate source baseline, source checkpoint, target baseline, and tooling identities'],
+        [/materialize-translation-baseline\.js[\s\S]*--baseline "\$BASELINE_DIR"[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"/, 'must materialize selected target translation state before bootstrap resolution'],
         [/sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/, 'must derive translation reconciliation from the group-scoped dev source checkpoint diff'],
         [/applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'source delta application must receive the exact translation target'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
@@ -657,13 +659,22 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const paidWorkOrder = [
         'Validate immutable inputs',
         'Materialize source checkpoint and baseline',
+        'Materialize target baseline translation state',
         'Apply source translation delta',
         'Resolve effective translation mode',
         'Build group translation manifest',
+        'Resolve current recovery compatibility',
         'Run translation agents',
       ].map(name => steps.findIndex(step => step.name === name))
       if (paidWorkOrder.some(index => index < 0) || paidWorkOrder.some((index, position) => position > 0 && index <= paidWorkOrder[position - 1])) {
         errors.push(`${file}: paid translation must follow immutable identity, source delta, mode, and manifest validation`)
+      }
+      const recoveryPreflight = steps.find(step => step.name === 'Resolve current recovery compatibility')
+      const recoveryCondition = String(recoveryPreflight?.if || '')
+      const recoveryRun = String(recoveryPreflight?.run || '')
+      if (!/inputs\.recovery_run_id != ''/.test(recoveryCondition) || !/inputs\.recovery_bundle_artifact_name != ''/.test(recoveryCondition) ||
+          !/recovery-preflight\.js/.test(recoveryRun) || !/--allow-full-retranslate "\$\{\{ inputs\.allow_full_retranslate \}\}"/.test(recoveryRun)) {
+        errors.push(`${file}: every requested recovery path must pass the full-retranslation admission gate before agents`)
       }
       const numbered = steps.find(step => step.name === 'Validate translated batch outputs')
       const unbatched = steps.find(step => step.name === 'Validate unbatched translated group')
@@ -1253,6 +1264,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
       if (workflow.jobs?.translate_guides_batches?.if !== "${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}") {
         errors.push(`${file}: Guides translation batch matrix must run whenever its batch count is nonzero`)
+      }
+      if (['prepare_guides_batches', 'translate_guides_batches', 'translate_sdk'].some(jobName =>
+        workflow.jobs?.[jobName]?.with?.target_baseline_sha !== '${{ needs.prepare.outputs.target_branch_sha }}')) {
+        errors.push(`${file}: Translation producers must receive the same queue-owned target baseline`)
       }
 
       const guidesReady = workflow.jobs?.prepare_guides_publication_ready
