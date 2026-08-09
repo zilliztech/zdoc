@@ -814,11 +814,16 @@ async function testProviderCallRetriesTransientFailures() {
 async function testProviderCallDoesNotRetryPermanentHttpClientErrors() {
   const originalFetch = global.fetch
   try {
-    for (const status of [400, 401, 403, 404]) {
+    for (const [status, misleadingBody] of [
+      [400, 'request timeout while parsing a permanent validation error'],
+      [401, 'network authentication failed permanently'],
+      [403, 'policy rule 500 denied this request'],
+      [404, 'connection error: deployment name does not exist'],
+    ]) {
       let calls = 0
       global.fetch = async () => {
         calls += 1
-        return {ok: false, status, json: async () => ({error: {message: `permanent ${status}`}})}
+        return {ok: false, status, json: async () => ({error: {message: misleadingBody}})}
       }
       const callModel = await createProviderCall({
         translation: {baseUrl: 'https://example.com', apiKey: 'test-key', model: 'test-model'},

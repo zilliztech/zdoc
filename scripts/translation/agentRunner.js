@@ -161,10 +161,17 @@ function stripCodeFence(text) {
   return wrapped ? wrapped[1].trim() : trimmed
 }
 
+const TRANSIENT_PROVIDER_HTTP_STATUSES = new Set([409, 425, 429, 500, 502, 503, 504])
+
 function isRetryableProviderError(error) {
   const message = String(error?.message || error)
-  return ['provider_timeout', 'provider_transport'].includes(classifyFailure(error)) ||
-    /\b(408|409|425|429|500|502|503|504)\b/.test(message) ||
+  const status = Number(error?.status ?? error?.statusCode ?? error?.cause?.status)
+  if (Number.isInteger(status) && status >= 400) return status === 408 || TRANSIENT_PROVIDER_HTTP_STATUSES.has(status)
+  const code = String(error?.code || error?.cause?.code || '')
+  if (code) return ['PROVIDER_TIMEOUT', 'PROVIDER_TRANSPORT', 'ECONNRESET', 'ETIMEDOUT', 'EAI_AGAIN'].includes(code)
+  const category = String(error?.failureCategory || error?.cause?.failureCategory || '')
+  if (category) return ['provider_timeout', 'provider_transport'].includes(category)
+  return /\b(408|409|425|429|500|502|503|504)\b/.test(message) ||
     error?.name === 'AbortError' ||
     /aborted|connection error|fetch failed|network|timeout|timed out|ECONNRESET|ETIMEDOUT|EAI_AGAIN/i.test(message)
 }
@@ -218,7 +225,7 @@ async function createProviderCall(agentConfigs, options = {}) {
         if (!res.ok) {
           const error = new Error(`${agent} agent failed with HTTP ${res.status}: ${JSON.stringify(data).slice(0, 500)}`)
           error.status = res.status
-          const retryableTransport = [409, 425, 429, 500, 502, 503, 504].includes(res.status)
+          const retryableTransport = TRANSIENT_PROVIDER_HTTP_STATUSES.has(res.status)
           error.failureCategory = res.status === 408 ? 'provider_timeout' : retryableTransport ? 'provider_transport' : 'unknown'
           error.code = res.status === 408 ? 'PROVIDER_TIMEOUT' : retryableTransport ? 'PROVIDER_TRANSPORT' : 'PROVIDER_HTTP_ERROR'
           throw error
