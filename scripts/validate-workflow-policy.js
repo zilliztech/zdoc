@@ -9,7 +9,7 @@ const PRODUCTION_DEV_QUEUE = 'docs-production-dev'
 const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
   ['fetch-docs.yml', {conditional: false}],
   ['recover-translation.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}"}],
-  ['translate-codex.yml', {conditional: true, expectedGroup: "${{ inputs.publish && !inputs.production_queue_owned && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}"}],
+  ['translate-codex.yml', {conditional: true, expectedGroup: "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}"}],
   ['sync-master-tooling-to-dev.yml', {conditional: false}],
 ]))
 const TOP_LEVEL_WRITER_INVENTORY = Object.freeze(new Map([
@@ -1099,6 +1099,76 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (file === 'translate-codex.yml') {
+      const dispatchInputs = workflow.on?.workflow_dispatch?.inputs || {}
+      const callInputs = workflow.on?.workflow_call?.inputs || {}
+      const prepare = workflow.jobs?.prepare
+      const prepareSteps = prepare?.steps || []
+      const recoveryDownload = prepareSteps.find(step => step?.name === 'Download authenticated recovery plan')
+      const handoffStep = prepareSteps.find(step => step?.name === 'Resolve and validate the complete translation handoff')
+      const selectionStep = prepareSteps.find(step => step?.id === 'publication_selection')
+      const guidesProducer = workflow.jobs?.translate_guides_batches
+      const sdkProducer = workflow.jobs?.translate_sdk
+      const stringDefault = input => `\${{ inputs.${input} || '' }}`
+      const booleanDefault = input => `\${{ inputs.${input} || false }}`
+      const internalDispatchDefaults = {
+        recovery_bundle_artifact_name: {
+          type: 'string', default: '', bindings: [
+            [recoveryDownload?.if, "${{ (inputs.recovery_bundle_artifact_name || '') != '' }}"],
+            [recoveryDownload?.with?.name, stringDefault('recovery_bundle_artifact_name')],
+            [handoffStep?.env?.RECOVERY_BUNDLE_ARTIFACT_NAME, stringDefault('recovery_bundle_artifact_name')],
+            [selectionStep?.env?.RECOVERY_BUNDLE_ARTIFACT_NAME, stringDefault('recovery_bundle_artifact_name')],
+            [guidesProducer?.with?.recovery_bundle_artifact_name, stringDefault('recovery_bundle_artifact_name')],
+            [sdkProducer?.with?.recovery_bundle_artifact_name, stringDefault('recovery_bundle_artifact_name')],
+          ],
+        },
+        recovery_plan_sha256: {
+          type: 'string', default: '', bindings: [
+            [handoffStep?.env?.RECOVERY_PLAN_SHA256, stringDefault('recovery_plan_sha256')],
+            [selectionStep?.env?.RECOVERY_PLAN_SHA256, stringDefault('recovery_plan_sha256')],
+            [guidesProducer?.with?.recovery_plan_sha256, stringDefault('recovery_plan_sha256')],
+            [sdkProducer?.with?.recovery_plan_sha256, stringDefault('recovery_plan_sha256')],
+          ],
+        },
+        recovery_provenance_json: {
+          type: 'string', default: '', bindings: [
+            [handoffStep?.env?.RECOVERY_PROVENANCE_JSON, stringDefault('recovery_provenance_json')],
+            [selectionStep?.env?.RECOVERY_PROVENANCE_JSON, stringDefault('recovery_provenance_json')],
+          ],
+        },
+        production_queue_owned: {
+          type: 'boolean', default: false, bindings: [
+            [workflow.concurrency?.group, "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}"],
+          ],
+        },
+        allow_full_retranslate: {
+          type: 'boolean', default: false, bindings: [
+            [guidesProducer?.with?.allow_full_retranslate, booleanDefault('allow_full_retranslate')],
+            [sdkProducer?.with?.allow_full_retranslate, booleanDefault('allow_full_retranslate')],
+          ],
+        },
+      }
+      const countInputReferences = (value, input) => {
+        if (typeof value === 'string') {
+          const propertyReference = new RegExp(`\\binputs\\b(?:\\s*\\.\\s*${input}\\b|\\s*\\[\\s*(['"])${input}\\1\\s*\\])`, 'gi')
+          return (value.match(propertyReference) || []).length
+        }
+        if (Array.isArray(value)) return value.reduce((total, entry) => total + countInputReferences(entry, input), 0)
+        if (value && typeof value === 'object') {
+          return Object.entries(value).reduce((total, [key, entry]) =>
+            total + countInputReferences(key, input) + countInputReferences(entry, input), 0)
+        }
+        return 0
+      }
+      for (const [input, expected] of Object.entries(internalDispatchDefaults)) {
+        const declaration = callInputs[input]
+        const bindingsAreExact = expected.bindings.every(([actual, required]) => actual === required)
+        const referenceCount = countInputReferences(workflow, input)
+        if (dispatchInputs[input] !== undefined || declaration?.type !== expected.type || declaration?.default !== expected.default ||
+            !bindingsAreExact || referenceCount !== expected.bindings.length) {
+          errors.push(`${file}: workflow_call-only input ${input} must use its explicit direct-dispatch default`)
+        }
+      }
+
       const requiredPatterns = [
         [/strategy:[\s\S]*matrix: \$\{\{ fromJSON\(needs\.prepare\.outputs\.sdk_producer_matrix\) \}\}[\s\S]*uses: \.\/\.github\/workflows\/_translate-content-group\.yml/, 'must run selected SDK translation producers through one matrix'],
         [/TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}[\s\S]*REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/, 'must map only the translation agent secrets'],
@@ -1107,9 +1177,6 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
 
-      const prepare = workflow.jobs?.prepare
-      const prepareSteps = prepare?.steps || []
-      const selectionStep = prepareSteps.find(step => step?.id === 'publication_selection')
       const selectionUpload = prepareSteps.find(step => step?.name === 'Upload immutable Translation publication selection')
       if (prepare?.outputs?.publication_selection_artifact_name !== '${{ steps.publication_selection.outputs.artifact_name }}' ||
           prepare?.outputs?.publication_selection_sha256 !== '${{ steps.publication_selection.outputs.selection_sha256 }}' ||
