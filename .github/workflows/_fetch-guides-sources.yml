@@ -59,7 +59,7 @@ jobs:
       - name: Verify Sharp native runtime for no-write validation
         if: ${{ inputs.media_upload_mode == 'skip' }}
         run: |
-          node -e 'const sharp=require("sharp"); console.log(`[sharp-native] node=${process.version} sharp=${sharp.versions.sharp} vips=${sharp.versions.vips}`)'
+          node -e 'const sharp=require("sharp"); console.log("[sharp-native] node="+process.version+" sharp="+sharp.versions.sharp+" vips="+sharp.versions.vips)'
           node --test --test-name-pattern='real Sharp processing trims a board and adds the publication border' scripts/docs-workflow/guides-media-prefetch.test.js
       - name: Resolve site-owned Guides source
         run: pnpm docs-tooling guides-source-config --site "${{ inputs.site }}" --github-output "$GITHUB_ENV"

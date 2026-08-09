@@ -31,16 +31,31 @@ on:
       failed_count: { value: '${{ jobs.translate.outputs.failed_count }}' }
 
 jobs:
+  validate_legacy_aliases:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Validate retained Translation aliases
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          SOURCE_COMMIT_SHA: ${{ inputs.source_commit_sha }}
+          TOOLING_SHA: ${{ inputs.tooling_sha }}
+          MASTER_SHA: ${{ inputs.master_sha }}
+        run: node -e 'if(process.env.SOURCE_COMMIT_SHA !== process.env.SOURCE_SHA)throw new Error("source_commit_sha must equal source_sha");if(process.env.MASTER_SHA !== process.env.TOOLING_SHA)throw new Error("master_sha must equal tooling_sha")'
+
   translate:
     name: translate batch ${{ inputs.batch_number }} of ${{ inputs.batch_count }}
+    needs: validate_legacy_aliases
     uses: ./.github/workflows/_translate-content-group.yml
     with:
       group: ${{ inputs.group }}
       target: ${{ inputs.target }}
       tooling_sha: ${{ inputs.tooling_sha }}
-      source_sha: ${{ inputs.source_sha }}
-      source_commit_sha: ${{ inputs.source_commit_sha }}
-      master_sha: ${{ inputs.master_sha }}
+      source_baseline_sha: ${{ inputs.tooling_sha }}
+      source_checkpoint_sha: ${{ inputs.source_sha }}
+      legacy_without_publication_selection: true
       should_translate: true
       max_files: '0'
       batch_index: ${{ inputs.batch_index }}
