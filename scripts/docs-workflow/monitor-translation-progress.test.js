@@ -2,11 +2,14 @@
 
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
+const os = require('node:os')
+const path = require('node:path')
 const test = require('node:test')
 const yaml = require('js-yaml')
 
 const {
   createTranslationProgressMonitor,
+  createTranslationPublicationArtifactReader,
   normalizeTranslationMonitorJobs,
   parentWorkflowUrl,
   readConfiguration,
@@ -50,6 +53,38 @@ function terminalJobs(conclusion = 'success') {
 
 function recoveryJobs(jobs) {
   return jobs.map(job => ({...job, name: `run_translation / ${job.name}`}))
+}
+
+function publicationProgress(revision, selectionSha256 = 'f'.repeat(64)) {
+  return {
+    schemaVersion: 1,
+    document: 'publication-progress',
+    workflow: 'translation',
+    repository: 'zilliztech/zdoc',
+    runId: 99,
+    runAttempt: 4,
+    selectionSha256,
+    mode: 'publish',
+    revision,
+    generatedAt: `2026-08-03T02:47:0${revision}.000Z`,
+    activeUnitKey: null,
+    queue: ['translation/ja-JP/python', 'translation/zh-CN-reference/python'],
+    units: ['translation/ja-JP/python', 'translation/zh-CN-reference/python'].map((unitKey, index) => ({
+      unitKey,
+      state: 'ready',
+      producerJobId: index + 1,
+      producerCompletedAt: '2026-08-03T02:47:00.000Z',
+      readyAt: '2026-08-03T02:47:01.000Z',
+      sequence: null,
+      publishStartedAt: null,
+      publishCompletedAt: null,
+      baseSha: null,
+      resultSha: null,
+      commitShas: [],
+      attempts: 0,
+      failure: null,
+    })),
+  }
 }
 
 function createMonitor(overrides = {}) {
@@ -182,9 +217,12 @@ test('validates configuration, handoff, and reduced selected units', () => {
   assert.equal(config.parentUrl, 'https://github.com/zilliztech/zdoc/actions/runs/42')
   assert.equal(config.runAttempt, 4)
   assert.equal(config.publishEnabled, true)
+  assert.equal(config.terminalResultsMaxPolls, 5)
   assert.throws(() => readConfiguration({...env, REQUEST_ID: ''}), /request_id/)
   assert.throws(() => readConfiguration({...env, HANDOFF_JSON: '{}'}), /translation handoff/)
   assert.throws(() => readConfiguration({...env, PUBLISH_ENABLED: 'yes'}), /PUBLISH_ENABLED/)
+  assert.throws(() => readConfiguration({...env, TRANSLATION_RESULTS_MAX_POLLS: '0'}), /TRANSLATION_RESULTS_MAX_POLLS/)
+  assert.throws(() => readConfiguration({...env, TRANSLATION_RESULTS_MAX_POLLS: '31'}), /TRANSLATION_RESULTS_MAX_POLLS/)
 })
 
 test('child workflow owns a best-effort card monitor outside aggregate dependencies', () => {
@@ -209,6 +247,9 @@ test('child workflow owns a best-effort card monitor outside aggregate dependenc
   assert.equal(env.PUBLISH_ENABLED, '${{ inputs.publish_enabled }}')
   assert.equal(env.PUBLICATION_RUN_ATTEMPT, '${{ inputs.publication_run_attempt }}')
   assert.equal(env.PUBLICATION_SELECTION_SHA256, '${{ inputs.publication_selection_sha256 }}')
+  assert.equal(env.TRANSLATION_RESULTS_MAX_POLLS, "${{ vars.TRANSLATION_RESULTS_MAX_POLLS || '5' }}")
+  const monitorSource = fs.readFileSync('scripts/docs-workflow/monitor-translation-progress.js', 'utf8')
+  assert.match(monitorSource, /artifactTransport: 'rest'/)
 })
 
 test('waits for exact publication results after aggregate before reporting terminal state', async () => {
@@ -235,6 +276,87 @@ test('waits for exact publication results after aggregate before reporting termi
   assert.equal(resultPolls, 2)
   assert.equal(patches[0].overallStatus, 'running')
   assert.equal(patches[1].overallStatus, 'success')
+})
+
+test('fails closed after the bounded terminal results settle window is exhausted', async () => {
+  const patches = []
+  const logs = []
+  let resultPolls = 0
+  const monitor = createMonitor({
+    terminalResultsMaxPolls: 3,
+    listJobs: async () => terminalJobs(),
+    downloadPublicationProgress: async () => ({snapshot: null, stale: false}),
+    downloadPublicationResults: async () => { resultPolls += 1; throw new Error('secret-token full response body') },
+    patchCard: async state => patches.push(state),
+    log: message => logs.push(message),
+  })
+
+  assert.equal(await monitor.pollOnce(), false)
+  assert.equal(await monitor.pollOnce(), false)
+  assert.equal(await monitor.pollOnce(), true)
+  assert.equal(resultPolls, 3)
+  assert.equal(patches.at(-1).overallStatus, 'failure')
+  assert.match(logs.at(-2), /settle bound|failing closed/i)
+  assert.doesNotMatch(logs.join('\n'), /secret-token|full response body/)
+})
+
+test('a transient terminal results settle delay succeeds before the configured bound', async () => {
+  const results = {
+    mode: 'publish',
+    overallStatus: 'success',
+    units: [
+      {unitKey: 'translation/ja-JP/python', status: 'published', resultSha: sha('e')},
+      {unitKey: 'translation/zh-CN-reference/python', status: 'no_changes', resultSha: sha('e')},
+    ],
+  }
+  let resultPolls = 0
+  const patches = []
+  const monitor = createMonitor({
+    terminalResultsMaxPolls: 3,
+    listJobs: async () => terminalJobs(),
+    downloadPublicationResults: async () => (++resultPolls === 2 ? results : null),
+    patchCard: async state => patches.push(state),
+  })
+
+  assert.equal(await monitor.pollOnce(), false)
+  assert.equal(await monitor.pollOnce(), true)
+  assert.equal(resultPolls, 2)
+  assert.equal(patches.at(-1).overallStatus, 'success')
+})
+
+test('artifact reader retains the highest valid progress revision when a newer exact artifact fails selection identity', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-monitor-progress-'))
+  const artifacts = [3, 2].map(revision => ({
+    id: revision,
+    name: `publication-progress-translation-99-4-${revision}`,
+    expired: false,
+  }))
+  const client = {
+    async listArtifacts() { return artifacts },
+    async downloadArtifactFiles(name, [fileName]) {
+      const revision = Number(name.at(-1))
+      const directory = fs.mkdtempSync(path.join(root, `revision-${revision}-`))
+      const file = path.join(directory, fileName)
+      fs.writeFileSync(file, JSON.stringify(publicationProgress(revision, revision === 3 ? 'e'.repeat(64) : 'f'.repeat(64))))
+      return {directory, files: {[fileName]: file}}
+    },
+  }
+  const reader = createTranslationPublicationArtifactReader({
+    client,
+    repository: 'zilliztech/zdoc',
+    runId: 99,
+    runAttempt: 4,
+    selectionSha256: 'f'.repeat(64),
+    selectedUnits: handoff().units.map(({target, group}) => ({target, group})),
+    publishEnabled: true,
+  })
+
+  assert.deepEqual(await reader.downloadPublicationProgress(), {
+    snapshot: publicationProgress(2),
+    stale: true,
+  })
+  assert.deepEqual(fs.readdirSync(root), [])
+  fs.rmSync(root, {recursive: true, force: true})
 })
 
 test('terminates a failed aggregate without publication results instead of waiting for the monitor timeout', async () => {
