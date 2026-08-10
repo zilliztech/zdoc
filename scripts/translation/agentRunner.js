@@ -527,6 +527,8 @@ async function processItemWithRetry(item, options) {
       ...(hasActionableRetryDetails ? {errorDetails: retryErrorDetails} : {}),
     })
     failures.push(record)
+    const semanticRecoveryEligible = ['provider_timeout', 'provider_transport'].includes(record.category)
+    if (!semanticRecoveryEligible) semanticCheckpoint.clear()
     const errorCode = result?.errorDetails?.code
     retryFeedback = result?.failureCategory === 'semantic_response_failed' || String(errorCode || '').startsWith('SEMANTIC_RESPONSE_')
       ? semanticResponseRetryFeedback(result)
@@ -542,7 +544,7 @@ async function processItemWithRetry(item, options) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
     } else {
       const chunkCheckpoints = serializeCompletedChunkCheckpoints(chunkCheckpoint)
-      const semanticCheckpoints = serializeSemanticCheckpoints(semanticCheckpoint, item)
+      const semanticCheckpoints = semanticRecoveryEligible ? serializeSemanticCheckpoints(semanticCheckpoint, item) : null
       return {
         ...stripInternalRecoveryFields(result),
         failureCategory: record.category,
