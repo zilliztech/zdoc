@@ -237,7 +237,7 @@ client.insert(collection_name="product_catalog", data=entities)
 
 <details>
 
-<summary>显示代码</summary>
+<summary>显示示例代码</summary>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -542,6 +542,12 @@ print(res)
 默认情况下，如果对 JSON 字段的查询没有加速措施，会对所有行执行全表扫描，在大规模数据集上可能会非常慢。
 
  为了加速 JSON 查询，Zilliz Cloud 提供了高级的索引和存储优化功能。
+
+<Admonition type="warning" icon="🚧" title="警告">
+
+从 Milvus 3.0.0 开始，整对象 JSON 索引（`json_cast_type="JSON"`），也称为 JSON 平铺索引，已弃用。为保持兼容性，现有索引和新建索引请求仍受支持，但不再建议在新工作负载中使用此模式。对于已知的查询路径，请使用 JSON 路径索引；若要对复杂或不断演化的文档进行广泛查询加速，请考虑使用 [JSON Shredding](./json-shredding)。
+
+</Admonition>
 
 下表总结了它们的区别及最佳使用场景：
 
