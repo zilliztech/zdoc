@@ -6,6 +6,7 @@ const {chunkDocument} = require('./chunker')
 const {loadLocaleContract} = require('./localeContract')
 const {createArtifactExecution, validateArtifactExecution} = require('./chunkRecovery')
 const {validateProtectedContent} = require('./protectedContent')
+const {parseRestDocument} = require('./restSpecLocalization')
 const {collectSemanticUnitsSync, deterministicSemanticIssues, protectSemanticUnits} = require('./semanticUnits')
 
 const MAX_SEMANTIC_CHECKPOINTS_PER_FILE = 256
@@ -98,17 +99,22 @@ function filterUsableSemanticCheckpoints(checkpoints, sourceUnits, localeContrac
   return usable
 }
 
-function collectProtectedSourceUnits(sourceContent, target, chunkOptions) {
+function collectProtectedSourceUnits(sourceContent, sourcePath, target, chunkOptions) {
   const localeContract = loadLocaleContract(target)
   const protectedOptions = {literalTokens: localeContract.doNotTranslate}
-  const units = [...collectSemanticUnitsSync(sourceContent, {idPrefix: 'document'})]
-  if (chunkOptions) {
-    const chunks = chunkDocument(sourceContent, chunkOptions)
-    if (chunks.length > 1) {
-      for (const chunk of chunks) {
-        units.push(...collectSemanticUnitsSync(chunk.source, {idPrefix: `chunk.${String(chunk.index + 1).padStart(4, '0')}`}))
-      }
+  const restDocument = (
+    sourcePath.startsWith('content/en/reference/api/restful/restful/') ||
+    sourcePath.startsWith('reference/api/restful/restful/')
+  ) ? parseRestDocument(sourceContent) : null
+  const semanticSource = restDocument?.prefix || sourceContent
+  const chunks = !restDocument && chunkOptions ? chunkDocument(semanticSource, chunkOptions) : []
+  const units = []
+  if (chunks.length > 1) {
+    for (const chunk of chunks) {
+      units.push(...collectSemanticUnitsSync(chunk.source, {idPrefix: `chunk.${String(chunk.index + 1).padStart(4, '0')}`}))
     }
+  } else {
+    units.push(...collectSemanticUnitsSync(semanticSource, {idPrefix: 'document'}))
   }
   return {localeContract, sourceUnits: protectSemanticUnits(units, unit => unit.source, protectedOptions)}
 }
@@ -123,7 +129,7 @@ function validatePersistedSemanticCheckpoints({value, artifactIdentity, currentI
   const checkpoints = loadSemanticCheckpoints(value.report, {...candidate, target, locale: currentIdentity.locale})
   let report = value.report
   if (typeof sourceContent === 'string') {
-    const {localeContract, sourceUnits} = collectProtectedSourceUnits(sourceContent, target, chunkOptions)
+    const {localeContract, sourceUnits} = collectProtectedSourceUnits(sourceContent, candidate.sourcePath, target, chunkOptions)
     const usable = filterUsableSemanticCheckpoints(checkpoints, sourceUnits, localeContract)
     if (!usable.size) throw new Error('Retained semantic checkpoint entries do not match current semantic units')
     report = {...value.report, entries: [...usable.values()].sort((left, right) => left.id.localeCompare(right.id)).map(entry => ({...entry}))}

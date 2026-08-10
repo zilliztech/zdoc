@@ -254,6 +254,102 @@ test('persists completed semantic children through artifact preflight and skips 
   assert.deepEqual(new Set(requestedIds), new Set(units.slice(1).map(unit => unit.id)))
 })
 
+test('rejects retained document semantic IDs when the current runtime layout is chunked', async t => {
+  const value = fixture(t)
+  const documentUnits = await collectSemanticUnits(value.source)
+  const completed = documentUnits[0]
+  const semanticCheckpoints = {
+    schemaVersion: 1,
+    sourcePath: value.item.sourcePath,
+    targetPath: value.item.targetPath,
+    sourceHash: value.item.sourceHash,
+    target: value.item.target,
+    locale: value.item.locale,
+    contractId: loadLocaleContract(value.item.target).contractId,
+    entries: [{id: completed.id, sourceHash: HASH(completed.source), translation: completed.source}],
+  }
+  createRecoveryArtifact({
+    siteDir: value.siteDir,
+    outputDir: value.artifactDir,
+    results: [{...value.item, status: 'failed', error: 'later provider interruption', semanticCheckpoints}],
+    identity: value.artifactIdentity,
+  })
+
+  const matching = analyzeRecoveryCompatibility({
+    siteDir: value.siteDir,
+    manifest: value.manifest,
+    artifacts: [value.artifactDir],
+    promptContractSha256: value.currentIdentity.promptContractSha256,
+    model: value.currentIdentity.model,
+    executionToolingSha: value.currentIdentity.toolingSha,
+    allowFullRetranslate: false,
+    chunkOptions: {targetChars: 1000, maxChars: 2000},
+  })
+  assert.equal(matching.semanticResumableFileCount, 1)
+  assert.equal(matching.recoveredSemanticUnitCount, 1)
+
+  const currentChunkOptions = {targetChars: 35, maxChars: 55}
+  const currentChunks = chunkDocument(value.source, currentChunkOptions)
+  assert.equal(currentChunks.length, 2)
+  const mismatched = analyzeRecoveryCompatibility({
+    siteDir: value.siteDir,
+    manifest: value.manifest,
+    artifacts: [value.artifactDir],
+    promptContractSha256: value.currentIdentity.promptContractSha256,
+    model: value.currentIdentity.model,
+    executionToolingSha: value.currentIdentity.toolingSha,
+    allowFullRetranslate: true,
+    chunkOptions: currentChunkOptions,
+  })
+  assert.equal(mismatched.semanticResumableFileCount, 0)
+  assert.equal(mismatched.recoveredSemanticUnitCount, 0)
+  assert.equal(mismatched.fullRetranslation, true)
+  assert.match(mismatched.rejected[0].reason, /semantic recovery checkpoint/i)
+
+  const analysisFile = path.join(value.siteDir, 'semantic-layout-mismatch-analysis.json')
+  fs.writeFileSync(analysisFile, `${JSON.stringify(mismatched)}\n`)
+  const loaded = loadRecoveryAnalysis({
+    file: analysisFile,
+    manifest: value.manifest,
+    siteDir: value.siteDir,
+    identity: value.currentIdentity,
+    chunkOptions: currentChunkOptions,
+  })
+  const work = partitionRecoveryWork(value.manifest, loaded.restored, loaded.pending)
+  assert.equal(Object.hasOwn(work.pending[0].item, 'recoverySemanticCheckpoints'), false)
+
+  const requestedIds = []
+  const result = await processItemWithRetry({...work.pending[0].item, target: value.item.target}, {
+    maxRetries: 0,
+    processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
+      siteDir: value.siteDir,
+      item: value.item,
+      retryFeedback,
+      chunkTargetChars: currentChunkOptions.targetChars,
+      chunkMaxChars: currentChunkOptions.maxChars,
+      semanticCheckpoint: retryContext.semanticCheckpoint,
+      onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
+      validate: validateTranslatedContent,
+      maxReviewRounds: 0,
+      callModel: async ({agent, messages}) => {
+        if (agent === 'review') return '{"pass":true,"issues":[]}'
+        const requested = taggedJsonContent(messages, 'semantic_units')
+        requestedIds.push(...requested.map(unit => unit.id))
+        return semanticTranslationResponse(messages)
+      },
+    }),
+  })
+  const expectedIds = []
+  for (const chunk of currentChunks) {
+    expectedIds.push(...(await collectSemanticUnits(chunk.source, {
+      idPrefix: `chunk.${String(chunk.index + 1).padStart(4, '0')}`,
+    })).map(unit => unit.id))
+  }
+  assert.equal(result.status, 'translated')
+  assert.deepEqual(new Set(requestedIds), new Set(expectedIds))
+  assert.ok(requestedIds.every(id => id.startsWith('chunk.')), 'runtime must use only the current chunk identity layout')
+})
+
 test('bounds semantic checkpoint entry counts and rejects unbounded retained identities', () => {
   const item = {
     target: 'ja-JP',
