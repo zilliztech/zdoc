@@ -12,13 +12,13 @@ type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
 sidebar_position: 9
 keywords: 
-  - cosine distance
-  - what is a vector database
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
-  - multimodal vector database retrieval
+  - 多模态向量 Database 检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describeRole()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -51,13 +51,13 @@ await milvusClient.describeRole({
 
 - **roleName** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
     要描述的角色名称。
 
 - **includeUserInfo** (*boolean*) -
 
-    一个布尔值，用于指示是否包含用户信息。
+    一个布尔值，指示是否包含用户信息。
 
 - **timeout** (*number*)  
 
@@ -65,9 +65,9 @@ await milvusClient.describeRole({
 
     将此项设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise&lt;SelectRoleResponse&gt;*
+**返回** *Promise&lt;SelectRoleResponse&gt;*
 
-此方法返回一个 promise，该 promise 会解析为一个 **SelectRoleResponse** 对象。
+此方法返回一个 promise，解析为 **SelectRoleResponse** 对象。
 
 ```typescript
 {
@@ -79,7 +79,7 @@ await milvusClient.describeRole({
 **参数：**
 
 - **results** (*RoleResult[]*) -<br/>
-  **RoleResult** 对象列表。对于 `describeRole()`，该列表只包含一个条目，用于描述所请求的角色。
+  **RoleResult** 对象列表。对于 `describeRole()`，此列表仅包含一个条目，用于描述所请求的角色。
 
     - **role** (*RoleEntity*) -
 
@@ -95,7 +95,7 @@ await milvusClient.describeRole({
 
     - **users** (*User[]*) -
 
-        持有此角色的用户列表。
+        拥有此角色的用户列表。
 
         - **name** (*string*) -
 
@@ -107,7 +107,7 @@ await milvusClient.describeRole({
 
     - **entities** (*GrantEntity[]*) -
 
-        附加到此角色的授权列表。每个条目都包含已授予的权限、目标对象以及执行授权的用户。
+        附加到此角色的授权列表。每个条目都包含被授予的权限、目标对象以及授予该权限的用户。
 
         - **role** (*RoleEntity*) -
 
@@ -123,7 +123,7 @@ await milvusClient.describeRole({
 
         - **grantor** (*Grantor*) -
 
-        授予该权限的主体。
+        授予此权限的主体。
 
           - **user** (*User*) -
 
@@ -135,7 +135,7 @@ await milvusClient.describeRole({
 
         - **db_name** (*string*) -
 
-        该授权适用的数据库。对所有数据库使用 `*`。
+        该授权适用的 Database。对所有 Database 使用 `*`。
 
         - **role** (*RoleEntity*) -
 
@@ -151,7 +151,7 @@ await milvusClient.describeRole({
 
         - **grantor** (*Grantor*) -
 
-            授予该权限的主体。
+            授予此权限的主体。
 
             - **user** (*User*) -
 
@@ -171,22 +171,22 @@ await milvusClient.describeRole({
 
         - **db_name** (*string*) -
 
-            该授权适用的数据库。对所有数据库使用 `*`。
+            该授权适用的 Database。对所有 Database 使用 `*`。
 
 - **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+  **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则该值始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误码。如果此操作成功，则该值始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则该值始终为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

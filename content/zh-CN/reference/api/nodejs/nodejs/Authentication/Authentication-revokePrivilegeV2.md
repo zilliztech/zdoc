@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会撤销已分配给某个角色的权限。 | Node.js"
+description: "此操作会撤销已授予某个角色的权限。 | Node.js"
 type: docx
 token: UlAUdLNkCo1Mp8xFZYWclSL9n6b
 sidebar_position: 26
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - 深度学习
+  - 知识库
+  - 自然语言处理
+  - AI 聊天机器人
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - revokePrivilegeV2()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # revokePrivilegeV2()
 
-此操作会撤销已分配给某个角色的权限。
+此操作会撤销已授予某个角色的权限。
 
 ```javascript
 await milvusClient.revokePrivilegeV2(data)
@@ -61,31 +61,31 @@ await milvusClient.revokePrivilege({
 
     **[必需]**
 
-    要分配的权限或权限组名称。 
+    要授予的权限或权限组名称。 
 
-    详情请参见[Users and Roles](https://milvus.io/docs/users_and_roles.md)。
+    详情请参见 [用户和角色](https://milvus.io/docs/users_and_roles.md)。
 
 - **db_name** (*string*) -
 
     **[必需]**
 
-    此操作的目标数据库名称。 
+    此次操作的目标 Database 名称。 
 
 - **collection_name** (*string*) -
 
     **[必需]**
 
-    此操作的目标集合名称。 
+    此次操作的目标 Collection 名称。 
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。 
+    此次操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回值** *Promise\<ResStatus>*
 
-此方法返回一个 promise，解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -99,15 +99,15 @@ await milvusClient.revokePrivilege({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。 
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其为空字符串。
 
 ## 示例\{#example}
 

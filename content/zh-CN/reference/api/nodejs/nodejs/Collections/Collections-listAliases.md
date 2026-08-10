@@ -13,12 +13,12 @@ token: KeoKdlitaog6n1xpX8McIIIrnWb
 sidebar_position: 14
 keywords: 
   - 什么是语义搜索
-  - Embedding model
+  - 嵌入模型
   - 图像相似性搜索
-  - Context Window
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 上下文窗口
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - listAliases()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -39,7 +39,7 @@ await milvusClient.listAliases(data)
 
 ## 请求语法\{#request-syntax}
 
-此方法具有以下形式。
+此方法具有以下几种形式。
 
 ```javascript
 listAliases({
@@ -53,23 +53,23 @@ listAliases({
 
 - **db_name** (*string*) -
 
-    持有目标集合的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **timeout** (*number*) -
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作将超时。
+    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作即超时。
 
-**返回值** *Promise&lt;ListAliasesResponse&gt;*
+**返回** *Promise&lt;ListAliasesResponse&gt;*
 
-此方法返回一个 promise，该 promise 会解析为一个 **ListAliasesResponse** 对象。
+此方法返回一个 promise，解析为 **ListAliasesResponse** 对象。
 
 ```typescript
 {
@@ -83,28 +83,28 @@ listAliases({
 **参数：**
 
 - **db_name** (*string*) -<br/>
-  拥有所列别名的数据库。
+  拥有所列别名的 Database。
 
 - **aliases** (*string[]*) -<br/>
-  指向所请求集合的所有别名列表。
+  指向所请求 Collection 的所有别名列表。
 
 - **collection_name** (*string*) -<br/>
-  所列别名指向的集合名称。
+  所列别名指向的 Collection 名称。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则该值保持为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误代码。如果此操作成功，则该值保持为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        指示所报告错误原因的说明。如果此操作成功，则该值保持为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

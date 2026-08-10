@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除集合的一个快照。 | Node.js"
+description: "此操作会删除 Collection 的快照。 | Node.js"
 type: docx
 token: DgiOdVOuLoKWFPxzKyucGV8Tnfb
 sidebar_position: 3
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - milvus 向量 Database
+  - milvus 数据库
+  - milvus 向量 db
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropSnapshot()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropSnapshot()
 
-此操作会删除集合的一个快照。
+此操作会删除 Collection 的快照。
 
 ```typescript
 await milvusClient.dropSnapshot(data: DropSnapshotReq)
@@ -52,21 +52,21 @@ await milvusClient.dropSnapshot({
 **参数：**
 
 - **collection_name** (*string*) -<br/>
-  **[必需]**<br/>
-  快照所属集合的名称。
+  **[REQUIRED]**<br/>
+  快照所属 Collection 的名称。
 
 - **snapshot_name** (*string*) -<br/>
-  **[必需]**<br/>
+  **[REQUIRED]**<br/>
   要删除的快照名称。
 
 - **db_name** (*string*) -<br/>
-  数据库名称。可选。
+  Database 的名称。可选。
 
 - **timeout** (*number*) -<br/>
-  允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+  允许 RPC 持续的可选时长，单位为毫秒。如果将其设置为 undefined，客户端将持续等待，直到服务器响应或发生错误。默认值为 undefined。
 
 - **client_request_id** (*string*) -<br/>
-  用于请求跟踪的 Trace ID。可选。
+  用于请求跟踪的追踪 ID。可选。
 
 **返回：**
 

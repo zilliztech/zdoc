@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出所有现有集合。 | Node.js"
+description: "此操作列出所有现有 Collection。 | Node.js"
 type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 15
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - milvus 如何工作
+  - Zilliz 向量 Database
+  - Zilliz Database
+  - 非结构化数据
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listCollections()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listCollections()
 
-此操作列出所有现有集合。
+此操作列出所有现有 Collection。
 
 ```javascript
 milvusClient.listCollections();
@@ -51,23 +51,23 @@ listCollections({
 
 - **collection_name** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **type** (*ShowCollectionsType*) 
 
-    此操作的范围。可能的值为 **All** 或 **Loaded**。
+    此操作的范围。可能的值包括 **All** 或 **Loaded**。
 
 - **timeout** (*number*) -
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作即超时。
+    将其设置为 **None** 表示此操作会在返回任意响应或发生错误时超时。
 
-**返回** *Promise&lt;ShowCollectionsResponse&gt;*
+**返回值** *Promise&lt;ShowCollectionsResponse&gt;*
 
-此方法返回一个 promise，该 promise 解析为 **ShowCollectionsResponse** 对象。
+此方法返回一个 promise，解析为 **ShowCollectionsResponse** 对象。
 
 ```typescript
 {
@@ -81,28 +81,28 @@ listCollections({
 **参数：**
 
 - **data** (*CollectionData[]*) -<br/>
-  集合数据对象列表。每个条目都包含集合名称、ID、时间戳和加载百分比。
+  Collection 数据对象列表。每个条目都包含 Collection 名称、ID、时间戳和加载百分比。
 
 - **created_timestamps** (*string[]*) -<br/>
-  混合时间戳列表，表示每个集合的创建时间。
+  混合时间戳列表，表示每个 Collection 的创建时间。
 
 - **created_utc_timestamps** (*string[]*) -<br/>
-  UTC 时间戳列表，表示每个集合的创建时间。
+  UTC 时间戳列表，表示每个 Collection 的创建时间。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+        表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

@@ -12,13 +12,13 @@ type: docx
 token: AtLEdt0ZWoUbHoxkfvHcq1ZunUg
 sidebar_position: 6
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 检索增强生成
+  - 大语言模型
+  - 向量化
+  - k 近邻算法
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - DataType
   - nodejs30
 displayed_sidebar: nodeSidebar

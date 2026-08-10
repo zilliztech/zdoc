@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将特定分区的数据加载到内存中。这是一个同步函数，可帮助确保指定分区已完成加载。 | Node.js"
+description: "此操作会将特定 Partition 的数据加载到内存中。这是一个同步函数，可帮助确保指定的 Partition 已完成加载。 | Node.js"
 type: docx
 token: VGofdSRi0o6EagxNkokc9Iinndf
 sidebar_position: 7
 keywords: 
   - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Milvus 向量 Database
+  - Milvus 数据库
+  - Milvus 向量数据库
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - loadPartitionsSync()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # loadPartitionsSync()
 
-此操作会将特定分区的数据加载到内存中。这是一个同步函数，可帮助确保指定分区已完成加载。
+此操作会将特定 Partition 的数据加载到内存中。这是一个同步函数，可帮助确保指定的 Partition 已完成加载。
 
 ```javascript
 await milvusClient.loadPartitionsSync(data)
@@ -54,35 +54,35 @@ await milvusClient.loadPartitionsSync({
 
 - **db_name** (*string*) -
 
-    保存目标集合的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **partition_names** (string[]) -
 
-    **[必填]**
+    **[必需]**
 
-    要加载的分区名称列表。
+    要加载的 Partition 名称列表。
 
 - **replica_number** (*number*) -
 
-    分区的副本数量。
+    该 Partition 的副本数量。
 
 - **resource_groups** (*string[]*) -
 
-    分区所在的资源组列表。
+    该 Partition 中的资源组列表。
 
 - **timeout** (*number*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回** *Promise\<ResStatus>*
 
-此方法返回一个 promise，其解析结果为 **ResStatus** 对象。
+此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -96,15 +96,15 @@ await milvusClient.loadPartitionsSync({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误码。如果此操作成功，则其值保持为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其为空字符串。
 
 ## 示例\{#example}
 

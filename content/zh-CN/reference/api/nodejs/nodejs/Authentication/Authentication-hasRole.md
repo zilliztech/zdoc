@@ -56,11 +56,11 @@ await milvusClient.hasRole({
 
 - **timeout** (*number*) -
 
-    以毫秒为单位的 RPC 超时时间。可选。
+    RPC 超时时间，单位为毫秒。可选。
 
 **返回值** *Promise&lt;HasRoleResponse&gt;*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **HasRoleResponse** 对象。
+此方法返回一个 promise，解析为 **HasRoleResponse** 对象。
 
 ```typescript
 {
@@ -72,22 +72,22 @@ await milvusClient.hasRole({
 **参数：**
 
 - **hasRole** (*boolean*) -<br/>
-  一个布尔值，用于指示请求的角色是否存在。如果角色存在，则为 **true**；如果不存在，则为 **false**。
+  一个布尔值，表示请求的角色是否存在。角色存在时为 **true**，不存在时为 **false**。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则始终为 **0**。
+        一个表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误码。如果此操作成功，则始终为 **Success**。
+        一个表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
+        表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

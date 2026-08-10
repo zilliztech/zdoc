@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出所有现有数据库。 | Node.js"
+description: "此操作会列出所有现有 Database。 | Node.js"
 type: docx
 token: DZMUdKbtfoT1HbxaXEDcgFkJnsh
 sidebar_position: 5
 keywords: 
   - 音频相似性搜索
-  - 弹性向量数据库
+  - 弹性向量 Database
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listDatabases()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listDatabases()
 
-此操作列出所有现有数据库。
+此操作会列出所有现有 Database。
 
 ```javascript
 await milvusClient.listDatabases(data?)
@@ -51,11 +51,11 @@ await milvusClient.listDatabases({
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作将超时。
 
 **返回值** *Promise&lt;ListDatabasesResponse&gt;*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **ListDatabasesResponse** 对象。
+此方法返回一个 promise，该 promise 解析为 **ListDatabasesResponse** 对象。
 
 ```typescript
 {
@@ -69,28 +69,28 @@ await milvusClient.listDatabases({
 **参数：**
 
 - **db_names** (*string[]*) -<br/>
-  当前 Milvus 实例中已定义的数据库名称列表。
+  当前 Milvus 实例中定义的 Database 名称列表。
 
 - **db_ids** (*string[]*) -<br/>
-  数据库的内部标识符，顺序与 **db_names** 相同。
+  Database 的内部标识符，顺序与 **db_names** 相同。
 
 - **created_timestamp** (*string[]*) -<br/>
-  数据库的创建时间戳，顺序与 **db_names** 相同。
+  Database 的创建时间戳，顺序与 **db_names** 相同。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误代码。如果此操作成功，则始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
+        表示所报告错误原因的原因。如果此操作成功，则其值为空字符串。
 
 ## 示例\{#example}
 

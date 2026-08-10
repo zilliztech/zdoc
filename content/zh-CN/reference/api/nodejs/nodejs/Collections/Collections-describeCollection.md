@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出特定集合的详细信息。 | Node.js"
+description: "此操作列出特定 Collection 的详细信息。 | Node.js"
 type: docx
 token: IuTYdjSHHoznXNx5f7jcKqvYnhr
 sidebar_position: 8
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - 自然语言搜索
+  - 相似性搜索
+  - 多模态 RAG
+  - llm 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describeCollection()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeCollection()
 
-此操作列出特定集合的详细信息。
+此操作列出特定 Collection 的详细信息。
 
 ```javascript
 await milvusClient.describeCollection(data)
@@ -50,13 +50,13 @@ await milvusClient.describeCollection({
 
 - **db_name** (*string*) -
 
-    保存目标集合的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
     **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **timeout** (*number*)  
 
@@ -66,7 +66,7 @@ await milvusClient.describeCollection({
 
 **返回值** *Promise&lt;DescribeCollectionResponse&gt;*
 
-此方法返回一个 promise，该 promise 会解析为一个 **DescribeCollectionResponse** 对象。
+此方法返回一个 promise，解析为 **DescribeCollectionResponse** 对象。
 
 ```typescript
 {
@@ -98,19 +98,19 @@ await milvusClient.describeCollection({
 **参数：**
 
 - **schema** (*CollectionSchema*) -<br/>
-  集合的 schema。
+  Collection 的 Schema。
 
     - **name** (*string*) -
 
-        集合名称。
+        Collection 名称。
 
     - **description** (*string*) -
 
-        集合的可选描述。
+        Collection 的可选描述。
 
     - **enable_dynamic_field** (*boolean*) -
 
-        是否启用动态字段。为 **true** 时，schema 中未声明的字段会存储在隐藏的 `$meta` JSON 字段中。
+        是否启用动态字段。当为 **true** 时，Schema 中未声明的字段会存储在隐藏的 `$meta` JSON 字段中。
 
     - **autoID** (*boolean*) -
 
@@ -118,44 +118,44 @@ await milvusClient.describeCollection({
 
     - **fields** (*FieldSchema[]*) -
 
-        集合上声明的所有标量字段和向量字段。完整的 **FieldSchema** 字段参考，请参见 `FieldSchema` 类文档。
+        Collection 上声明的所有标量字段和向量字段。有关完整的 **FieldSchema** 字段参考，请参阅 `FieldSchema` 类文档。
 
     - **functions** (*FunctionObject[]*) -
 
-        附加到集合的 doc-in / doc-out 函数（例如 BM25 sparse-vector 函数）。
+        附加到 Collection 的 doc-in / doc-out 函数（例如 BM25 稀疏向量函数）。
 
 - **collectionID** (*string*) -<br/>
-  由 Milvus 分配的内部集合 ID。
+  由 Milvus 分配的 Collection 内部 ID。
 
 - **collection_name** (*string*) -<br/>
-  集合名称。
+  Collection 名称。
 
 - **consistency_level** (*string*) -<br/>
-  针对此集合执行查询时使用的默认一致性级别。可能的值包括 **Strong**、**Session**、**Bounded**、**Eventually** 和 **Customized**。
+  针对此 Collection 查询的默认一致性级别。可能的值包括 **Strong**、**Session**、**Bounded**、**Eventually** 和 **Customized**。
 
 - **aliases** (*string[]*) -<br/>
-  指向此集合的别名列表。
+  指向此 Collection 的别名列表。
 
 - **properties** (*KeyValuePair[]*) -<br/>
-  集合级属性（例如 **mmap.enabled**、**collection.ttl.seconds**），可在创建时声明或通过 `alterCollectionProperties()` 设置。
+  在创建时声明或通过 `alterCollectionProperties()` 设置的 Collection 级属性（例如 **mmap.enabled**、**collection.ttl.seconds**）。
 
 - **created_timestamp** (*string*) -<br/>
-  集合创建时的混合时间戳。
+  Collection 创建时的混合时间戳。
 
 - **created_utc_timestamp** (*string*) -<br/>
-  集合创建时的 UTC 时间戳（以毫秒为单位）。
+  Collection 创建时的 UTC 时间戳（以毫秒为单位）。
 
 - **shards_num** (*number*) -<br/>
-  为集合配置的分片数量。
+  为 Collection 配置的分片数量。
 
 - **num_partitions** (*string*) -<br/>
-  为集合配置的分区数量。仅当声明了分区键字段时，此值才有意义。
+  为 Collection 配置的 Partition 数量。仅当声明了 Partition 键字段时，此值才有意义。
 
 - **db_name** (*string*) -<br/>
-  拥有此集合的数据库。
+  拥有此 Collection 的 Database。
 
 - **functions** (*FunctionObject[]*) -<br/>
-  附加到集合的 doc-in / doc-out 函数扁平列表。
+  附加到 Collection 的 doc-in / doc-out 函数的扁平列表。
 
 - **external_source** (*string*) -
 
@@ -174,16 +174,16 @@ await milvusClient.describeCollection({
     外部文件资源 ID。可选。
 
 - **update_timestamp_str** (*string*) -<br/>
-  集合最后更新时间的混合时间戳，格式为字符串。
+  Collection 上次更新时的混合时间戳，格式为字符串。
 
 - **update_timestamp** (*number*) -<br/>
-  最后更新时间戳的数值形式。
+  上次更新时间戳的数值形式。
 
 - **anns_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
-  从向量字段名称到其 **FieldSchema** 的映射，涵盖集合上声明的所有向量字段。
+  从向量字段名称到其 **FieldSchema** 的映射，涵盖 Collection 上声明的所有向量字段。
 
 - **scalar_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
-  从标量字段名称到其 **FieldSchema** 的映射，涵盖集合上声明的所有标量字段。
+  从标量字段名称到其 **FieldSchema** 的映射，涵盖 Collection 上声明的所有标量字段。
 
 - **function_fields** (*Record&lt;string, FieldSchema&gt;*) -<br/>
   从函数输出字段名称到其 **FieldSchema** 的映射。
@@ -193,15 +193,15 @@ await milvusClient.describeCollection({
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误代码。如果此操作成功，则始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
+        表示所报告错误原因的原因说明。如果此操作成功，则其值为空字符串。
 
 ## 示例\{#example}
 

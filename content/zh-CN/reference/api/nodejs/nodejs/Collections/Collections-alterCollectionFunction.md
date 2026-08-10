@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会修改现有 collection 中的自定义函数。 | Node.js"
+description: "此操作会修改现有 Collection 中的自定义函数。 | Node.js"
 type: docx
 token: DBEFdVorMomen0x4xNEcKkM1n8O
 sidebar_position: 22
 keywords: 
   - knn
-  - Image Search
+  - 图像搜索
   - LLMs
-  - Machine Learning
+  - 机器学习
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionFunction()
 
-此操作会修改现有 collection 中的自定义函数。
+此操作会修改现有 Collection 中的自定义函数。
 
 ```typescript
 await milvusClient.alterCollectionFunction(data: AlterCollectionFunctionReq)
@@ -55,7 +55,7 @@ await milvusClient.alterCollectionFunction({
 
     **[必需]**
 
-    包含待修改函数的 collection 名称。
+    包含待修改函数的 Collection 名称。
 
 - **function_name** (*string*) -
 
@@ -67,15 +67,15 @@ await milvusClient.alterCollectionFunction({
 
     **[必需]**
 
-    更新后的函数 schema。有关 `FunctionObject` 字段的完整参考，请参阅 `addCollectionFunction()`。
+    更新后的函数 Schema。有关完整的 FunctionObject 字段参考，请参见 `addCollectionFunction()`。
 
 - **db_name** (*string*) -
 
-    collection 所在数据库的名称。
+    Collection 所在的 Database 名称。
 
 - **timeout** (*number*) -
 
-    此操作的超时时长，单位为毫秒。
+    此操作的超时时长，以毫秒为单位。
 
 **返回：**
 

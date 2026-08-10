@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出通过 HTTP 导入作业 API 提交的导入作业。您可以使用它查看作业 ID、集合名称、进度和状态。 | Node.js"
+description: "此操作会列出通过 HTTP 导入任务 API 提交的导入任务。您可以使用它查看任务 ID、Collection 名称、进度和状态。 | Node.js"
 type: docx
 token: CdK7dr8pyo36PZxpGFKcrZsjnEf
 sidebar_position: 8
 keywords: 
-  - k nearest neighbor algorithm
+  - k 近邻算法
   - ANNS
-  - Vector search
-  - knn algorithm
+  - 向量搜索
+  - knn 算法
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listImportJobs()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listImportJobs()
 
-此操作会列出通过 HTTP 导入作业 API 提交的导入作业。您可以使用它查看作业 ID、集合名称、进度和状态。
+此操作会列出通过 HTTP 导入任务 API 提交的导入任务。您可以使用它查看任务 ID、Collection 名称、进度和状态。
 
 ```typescript
 await milvusClient.listImportJobs(params: HttpBaseReq)
@@ -49,7 +49,7 @@ await milvusClient.listImportJobs({
 
 - **dbName** (*string*) -
 
-    指定数据库名称。
+    指定 Database 名称。
 
 **返回：**
 

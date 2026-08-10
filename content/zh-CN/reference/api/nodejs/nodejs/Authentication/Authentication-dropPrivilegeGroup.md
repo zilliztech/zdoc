@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将用户添加到特定角色。 | Node.js"
+description: "此操作会将用户添加到特定角色。 | Node.js"
 type: docx
 token: I63tdWAY2ok8V1xrK4tcrkwjncd
 sidebar_position: 12
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
+  - Faiss 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropPrivilegeGroup()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropPrivilegeGroup()
 
-此操作将用户添加到特定角色。
+此操作会将用户添加到特定角色。
 
 ```javascript
 await milvusClient.dropPrivilegeGroup(data)
@@ -51,9 +51,9 @@ await milvusClient.dropPrivilegeGroup({
 
     此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回** *Promise\<ResStatus>*
 
 此方法返回一个 promise 列表，其中每个 promise 都会解析为一个 **ResStatus** 对象。
 
@@ -73,11 +73,11 @@ await milvusClient.dropPrivilegeGroup({
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误码。如果此操作成功，则其值保持为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+    表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

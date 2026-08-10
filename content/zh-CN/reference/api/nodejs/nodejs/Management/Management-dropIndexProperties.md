@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将索引属性重置为默认值。 | Node.js"
+description: "此操作会将索引属性重置为其默认值。 | Node.js"
 type: docx
 token: Acvxd7t9poXj6nxb0vMco0wsngh
 sidebar_position: 6
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似性搜索
+  - 向量检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropIndexProperties()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropIndexProperties()
 
-此操作会将索引属性重置为默认值。
+此操作会将索引属性重置为其默认值。
 
 ```javascript
 await milvusClient.dropIndexProperties(data)
@@ -53,37 +53,37 @@ await milvusClient.dropIndexProperties({
 
 - **db_name** (*string*) -
 
-    持有目标集合的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **index_name** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
     目标索引的名称。
 
 - **properties** (*string[]*) -
 
-    **[必需]**
+    **[必填]**
 
     要重置的索引属性名称。可选属性如下：
 
     - **mmap.enabled** -
 
-        是否为指定索引启用 mmap。将其设置为 `True` 会将指定索引卸载到磁盘上。详情请参见 [使用 mmap](/docs/use-mmap)
+        是否为指定索引启用 mmap。将其设置为 `True` 会将指定索引卸载到磁盘。详情请参见 [使用 mmap](/docs/use-mmap)
 
 - **timeout** (number) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回** *Promise\<ResStatus>*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -97,15 +97,15 @@ await milvusClient.dropIndexProperties({
 
 - **code** (*number*) -
 
-    表示操作结果的状态码。如果此操作成功，则其值始终为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

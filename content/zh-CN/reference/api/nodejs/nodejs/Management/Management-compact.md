@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会压缩并合并较小的 segment 为更大的 segment，以节省内存使用并提升搜索性能。 | Node.js"
+description: "此操作会对小型 Segment 进行 Compaction 并将其合并为更大的 Segment，以节省内存使用并提升搜索性能。 | Node.js"
 type: docx
 token: DCK5d56UZop0kGxpQu8cLqlvndg
 sidebar_position: 2
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - Agentic RAG
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - compact()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-此操作会压缩并合并较小的 segment 为更大的 segment，以节省内存使用并提升搜索性能。
+此操作会对小型 Segment 进行 Compaction 并将其合并为更大的 Segment，以节省内存使用并提升搜索性能。
 
 ```javascript
 await milvusClient.compact(data)
@@ -47,19 +47,19 @@ milvusClient.compact()
 
 - **collection_name** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
-    要重新分配别名的目标 collection 名称。
+    要重新分配别名的目标 Collection 名称。
 
 - **timeout** (*number*)  
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回值** *Promise&lt;CompactionResponse&gt;*
 
-此方法返回一个 promise，该 promise 会解析为一个 **CompactionResponse** 对象。
+此方法返回一个 promise，该 promise 解析为 **CompactionResponse** 对象。
 
 ```typescript
 {
@@ -72,10 +72,10 @@ milvusClient.compact()
 **参数：**
 
 - **compactionID** (*string*) -<br/>
-  compaction 操作的标识符。将此值传递给 `getCompactionState()` 或 `getCompactionStateWithPlans()` 以轮询进度。
+  Compaction 操作的标识符。传递此值给 `getCompactionState()` 或 `getCompactionStateWithPlans()` 以轮询进度。
 
 - **compactionPlanCount** (*number*) -<br/>
-  为此操作生成的 compaction 计划数量。
+  为此操作生成的 Compaction 计划数量。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。

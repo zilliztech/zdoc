@@ -7,7 +7,7 @@ added_since: v2.6.12
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此接口描述了 `BulkWriter` 用于验证行并生成 Milvus 可导入的 JSON 或 Parquet 文件的集合 schema。 | Node.js"
+description: "此接口描述了 `BulkWriter` 用于验证行并生成可由 Milvus 导入的 JSON 或 Parquet 文件的 Collection Schema。 | Node.js"
 type: docx
 token: U7w6d4gUioGzw2xmYqvcFz1Jnub
 sidebar_position: 12
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # BulkWriterSchema
 
-此接口描述了 `BulkWriter` 使用的集合 schema，用于验证行并生成 Milvus 可导入的 JSON 或 Parquet 文件。
+此接口描述了 `BulkWriter` 用于验证行并生成可由 Milvus 导入的 JSON 或 Parquet 文件的 Collection Schema。
 
 ```typescript
 interface BulkWriterSchema
@@ -41,9 +41,9 @@ interface BulkWriterSchema
 
 - **fields** (*FieldType[]*) -
 
-    **[必填]**
+    **[必需]**
 
-    指定集合字段。标记为 `autoID` 或 `is_function_output` 的字段将不会包含在生成的导入文件中。
+    指定 Collection 字段。标记为 `autoID` 或 `is_function_output` 的字段将从生成的导入文件中排除。
 
 - **enable_dynamic_field** (*boolean*) -
 

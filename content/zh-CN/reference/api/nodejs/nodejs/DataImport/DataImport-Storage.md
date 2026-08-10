@@ -7,7 +7,7 @@ added_since: v2.6.12
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此接口用于存储由 `BulkWriter` 生成的文件。在调用 `bulkInsert()` 之前，可使用它将生成的文件上传到对象存储或其他远程位置。 | Node.js"
+description: "此接口存储由 `BulkWriter` 生成的文件。您可以使用它在调用 `bulkInsert()` 之前，将生成的文件上传到对象存储或其他远程位置。 | Node.js"
 type: docx
 token: DsLHde5AWomjFhxD3K7c4Yklnlh
 sidebar_position: 16
@@ -15,7 +15,7 @@ keywords:
   - milvus lite
   - milvus benchmark
   - managed milvus
-  - Serverless vector database
+  - Serverless 向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Storage
 
-此接口用于存储由 `BulkWriter` 生成的文件。在调用 `bulkInsert()` 之前，可使用它将生成的文件上传到对象存储或其他远程位置。
+此接口存储由 `BulkWriter` 生成的文件。您可以使用它在调用 `bulkInsert()` 之前，将生成的文件上传到对象存储或其他远程位置。
 
 ```typescript
 interface Storage

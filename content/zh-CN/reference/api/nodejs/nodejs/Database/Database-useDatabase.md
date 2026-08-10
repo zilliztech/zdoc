@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 notebook: false
-description: "此操作为 gRPC 客户端设置活动数据库。 | Node.js"
+description: "此操作为 gRPC 客户端设置活动 Database。 | Node.js"
 type: docx
 token: NDcldy9OLo62DLxw1a9cFSLsnYb
 sidebar_position: 6
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - 知识库
+  - 自然语言处理
+  - AI 聊天机器人
+  - 余弦距离
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - useDatabase()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # useDatabase()
 
-此操作为 gRPC 客户端设置活动数据库。
+此操作为 gRPC 客户端设置活动 Database。
 
 ```javascript
 await milvusClient.useDatabase(data?)
@@ -49,13 +49,13 @@ await milvusClient.useDatabase({
 
 - **db_name** (*string*) -
 
-    要使用的数据库名称。
+    要使用的 Database 名称。
 
-    必须存在具有指定名称的数据库。否则，将会发生异常。
+    必须存在具有指定名称的 Database。否则会引发异常。
 
 **返回值** *Promise |&lt;ResStatus&gt;*
 
-此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，并将其解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -69,15 +69,15 @@ await milvusClient.useDatabase({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，该值保持为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误代码。如果此操作成功，该值保持为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，该值保持为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

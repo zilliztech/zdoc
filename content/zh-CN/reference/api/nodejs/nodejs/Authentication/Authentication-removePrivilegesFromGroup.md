@@ -12,13 +12,13 @@ type: docx
 token: EeAfdukBNoIIgCxX248c6VULnOb
 sidebar_position: 22
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 向量化
+  - k 最近邻算法
   - ANNS
-  - Vector search
+  - 向量搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - removePrivilegesFromGroup()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -67,9 +67,9 @@ await milvusClient.removePrivilegesFromGroup({
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回** *Promise\<ResStatus>*
 
-此方法返回一个 promise，该 promise 解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -83,15 +83,15 @@ await milvusClient.removePrivilegesFromGroup({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。 
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
 ## 示例\{#example}
 

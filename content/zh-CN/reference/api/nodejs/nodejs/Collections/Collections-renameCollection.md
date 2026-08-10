@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将重命名现有集合。 | Node.js"
+description: "此操作用于重命名现有 Collection。 | Node.js"
 type: docx
 token: LSwVdMg4SorzZ5xSHHVcQeVDnfh
 sidebar_position: 16
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz Database
+  - 非结构化数据
+  - 向量 Database
   - IVF
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - renameCollection()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # renameCollection()
 
-此操作将重命名现有集合。
+此操作用于重命名现有 Collection。
 
 ```javascript
 await milvusClient.renameCollection(data)
@@ -52,29 +52,29 @@ await milvusClient.renameCollection({
 
 - **db_name** (*string*) -
 
-    保存目标集合的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **new_collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    此操作完成后目标集合的新名称。
+    执行此操作后目标 Collection 的名称。
 
 - **timeout** (*number*) -
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回** *Promise\<ResStatus>*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -92,11 +92,11 @@ await milvusClient.renameCollection({
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+    表示已报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

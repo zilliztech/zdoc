@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将一个集合的别名重新分配给另一个集合。 | Node.js"
+description: "此操作会将一个 Collection 的别名重新分配给另一个 Collection。 | Node.js"
 type: docx
 token: DXTLdtFCso7fo6xJHShc7XLpngh
 sidebar_position: 1
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - 知识库
+  - 自然语言处理
+  - AI 聊天机器人
+  - 余弦距离
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - alterAlias()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterAlias()
 
-此操作将一个集合的别名重新分配给另一个集合。
+此操作会将一个 Collection 的别名重新分配给另一个 Collection。
 
 ```javascript
 await milvusClient.alterAlias(data)
@@ -54,19 +54,19 @@ await milvusClient.alterAlias({
 
     **[必需]**
 
-    集合的别名。请注意，该别名必须预先存在。
+    Collection 的别名。请注意，该别名必须预先存在。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Note">
 
-    什么是集合别名？
+    什么是 Collection 别名？
     
-        集合别名是集合的附加名称。当您希望在不修改代码的情况下将应用切换到新集合时，集合别名会非常有用。
+        Collection 别名是 Collection 的附加名称。当您希望将应用程序切换到新的 Collection 而无需对代码进行任何更改时，Collection 别名会很有用。 
     
-        在 Zilliz Cloud 上，集合别名是全局唯一标识符。一个别名只能分配给一个集合。反过来，一个集合可以拥有多个别名。
+        在 Zilliz Cloud 上，Collection 别名是全局唯一标识符。一个别名只能分配给且仅能分配给一个 Collection。反过来，一个 Collection 可以拥有多个别名。
     
-        以下是将一个集合的别名重新分配给另一个集合的示例：
+        下面是将一个 Collection 的别名重新分配给另一个 Collection 的示例：
     
-        假设有两个集合：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的集合别名，最初分配给了 `collection_1`：
+        假设有两个 Collection：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的 Collection 别名，它最初被分配给 `collection_1`：
     
         - `collection_1` 的别名 = ["bob"]
     
@@ -82,19 +82,19 @@ await milvusClient.alterAlias({
 
 - **db_name** (*str*) -
 
-    包含目标集合的数据库名称。
+    保存目标 Collection 的 Database 名称。
 
 - **collection_name** (*str*) -
 
     **[必需]**
 
-    要重新分配别名的目标集合名称。
+    要重新分配别名的目标 Collection 名称。
 
 - **timeout** (*number*)  
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回** *Promise\<ResStatus>*
 
@@ -112,15 +112,15 @@ await milvusClient.alterAlias({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示发生错误的错误码。如果此操作成功，则其值保持为 **Success**。
+    表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。 
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+    表示已报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
 ## 示例\{#example}
 

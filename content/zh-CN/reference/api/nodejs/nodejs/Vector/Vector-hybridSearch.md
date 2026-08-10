@@ -12,13 +12,13 @@ type: docx
 token: Ph9ldBswooKwebxKI9EcqSu4nlc
 sidebar_position: 4
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - 音频相似性搜索
+  - 弹性向量 Database
+  - Pinecone 与 Milvus 对比
+  - Chroma 与 Milvus 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - hybridSearch()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -66,27 +66,27 @@ await milvusClient.hybridSearch({
 
 - **collection_name** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
-    要搜索的 collection 名称。
+    要搜索的 Collection 名称。
 
 - **data** (*HybridSearchSingleReq[]*) -
 
-    **[必填]**
+    **[必需]**
 
-    子搜索请求列表，每个向量字段对应一个请求。每个元素定义单向量子搜索的查询向量和目标字段。完整字段说明请参见下方的 HybridSearchSingleReq 部分。
+    子搜索请求列表，每个向量字段对应一个请求。每个元素都为单向量子搜索定义查询向量和目标字段。完整字段说明请参见下方的 HybridSearchSingleReq 部分。
 
 - **limit** (*number*) -
 
-    返回实体的总数量。该值与 `offset` 的总和必须小于 16,384。
+    要返回的 Entity 总数。此值与 `offset` 之和必须小于 16,384。
 
 - **offset** (*number*) -
 
-    搜索结果中要跳过的记录数。该值与 `limit` 的总和必须小于 16,384。
+    搜索结果中要跳过的记录数。此值与 `limit` 之和必须小于 16,384。
 
 - **output_fields** (*string[]*) -
 
-    每个返回实体中要包含的字段名称列表。默认仅包含主字段。
+    每个返回 Entity 中要包含的字段名称列表。默认仅包含主字段。
 
 - **filter** (*string*) -
 
@@ -94,31 +94,31 @@ await milvusClient.hybridSearch({
 
 - **rerank** (*RerankerObj \| FunctionObject \| FunctionScore*) -
 
-    用于组合多个子搜索结果的重排策略。完整的 `rerank` 参数结构请参见 `search()`。
+    用于合并多个子搜索结果的重排策略。完整的 rerank 参数 Schema 请参见 `search()`。
 
 - **partition_names** (*string[]*) -
 
-    要搜索的 partition 名称列表。
+    要搜索的 Partition 名称列表。
 
 - **consistency_level** (*ConsistencyLevelEnum*) -
 
-    目标 collection 的一致性级别。可选值：`Strong` (0)、`Bounded` (1)、`Session` (2)、`Eventually` (3)。默认为 `Bounded`。
+    目标 Collection 的一致性级别。可选值：`Strong` (0)、`Bounded` (1)、`Session` (2)、`Eventually` (3)。默认为 `Bounded`。
 
 - **ignore_growing** (*boolean*) -
 
-    搜索时是否跳过 growing segments。
+    是否在搜索期间跳过增长中的 Segment。
 
 - **group_by_field** (*string*) -
 
-    按指定字段对搜索结果进行分组，以确保多样性并避免返回同一组中的多个结果。
+    按指定字段对搜索结果进行分组，以确保结果多样性并避免返回同组中的多个结果。
 
 - **group_size** (*number*) -
 
-    分组搜索中每组目标返回的实体数量。
+    分组搜索中每组目标返回的 Entity 数量。
 
 - **strict_group_size** (*boolean*) -
 
-    是否严格执行 `group_size`。当为 `true` 时，系统会尝试让每组恰好填充 `group_size` 个结果。
+    是否严格执行 `group_size`。当 `true` 时，系统会尝试让每组恰好填满 `group_size` 条结果。
 
 - **hints** (*string*) -
 
@@ -134,7 +134,7 @@ await milvusClient.hybridSearch({
 
 - **db_name** (*string*) -
 
-    包含该 collection 的数据库名称。
+    包含该 Collection 的 Database 名称。
 
 - **timeout** (*number*) -
 
@@ -144,7 +144,7 @@ await milvusClient.hybridSearch({
 
     用于对搜索结果排序的字段。可选。
 
-**返回值：**
+**返回：**
 
 *Promise\<SearchResults\>*
 
@@ -154,7 +154,7 @@ await milvusClient.hybridSearch({
 
 - **MilvusError**
 
-    当此操作期间发生任何错误时，将抛出此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## HybridSearchSingleReq\{#hybridsearchsinglereq}
 
@@ -164,13 +164,13 @@ await milvusClient.hybridSearch({
 
 - **data** (*SearchData*) -
 
-    **[必填]**
+    **[必需]**
 
     此子搜索的查询向量。可以是稠密向量（`number[]`）、稀疏向量（`SparseVectorDic`），或用于基于文本搜索的文本字符串。
 
 - **anns_field** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
     此子请求中要搜索的向量字段名称。
 
@@ -180,19 +180,19 @@ await milvusClient.hybridSearch({
 
 - **exprValues** (*keyValueObj*) -
 
-    过滤表达式中使用的模板值，以键值对形式提供。
+    过滤表达式的模板值，采用键值对形式。
 
 - **params** (*keyValueObj*) -
 
-    以键值对形式提供的索引特定搜索参数。
+    索引特定的搜索参数，采用键值对形式。
 
 - **ignore_growing** (*boolean*) -
 
-    此子搜索期间是否跳过 growing segments。
+    是否在此子搜索期间跳过增长中的 Segment。
 
 - **group_by_field** (*string*) -
 
-    按指定字段对结果进行分组，以确保此子搜索内的多样性。
+    按指定字段对结果进行分组，以确保此子搜索中的结果多样性。
 
 - **transformers** (*OutputTransformers*) -
 

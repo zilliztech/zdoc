@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除指定的集合别名。 | Node.js"
+description: "此操作会删除指定 Collection 的别名。| Node.js"
 type: docx
 token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
 sidebar_position: 9
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - 自然语言处理搜索
+  - 幻觉 大语言模型
+  - 多模态搜索
+  - 向量搜索算法
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropAlias()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropAlias()
 
-此操作会删除指定的集合别名。
+此操作会删除指定 Collection 的别名。
 
 ```javascript
 await milvusClient.dropAlias(data)
@@ -54,17 +54,17 @@ await milvusClient.dropAlias({
 
     **[必需]**
 
-    集合的别名。
+    Collection 的别名。
 
-    在执行此操作之前，请确保该别名已存在。否则会发生异常。
+    执行此操作前，请确保该别名存在。否则会引发异常。
 
 - **db_name** (*string*) -
 
-    保存指定集合的数据库名称。
+    包含指定 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
-    该别名绑定的集合名称。
+    该别名所绑定的 Collection 名称。
 
 - **timeout** (*number*)  
 
@@ -88,15 +88,15 @@ await milvusClient.dropAlias({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
+    表示操作结果的状态码。如果此操作成功，则其值为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
+    表示已发生错误的错误码。如果此操作成功，则其值为 **Success**。
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+    表示已报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
 ## 示例\{#example}
 

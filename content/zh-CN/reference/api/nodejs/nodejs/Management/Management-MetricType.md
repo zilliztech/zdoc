@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "这是一个提供以下常量的枚举。 | Node.js"
+description: "这是一个提供以下常量的枚举。| Node.js"
 type: docx
 token: KQDEdcccXozuKpxDg78cSmxYnQg
 sidebar_position: 21
 keywords: 
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - AI Agent
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - MetricType
   - nodejs30
 displayed_sidebar: nodeSidebar

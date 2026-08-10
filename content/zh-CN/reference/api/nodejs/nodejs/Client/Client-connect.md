@@ -12,10 +12,10 @@ type: docx
 token: SkLsdMpB7oiZLMx8T04cCd9Knqf
 sidebar_position: 4
 keywords: 
-  - Question answering system
+  - 问答系统
   - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - 混合向量搜索
+  - 视频去重
   - zilliz
   - zilliz cloud
   - cloud
@@ -49,11 +49,11 @@ connect({
 
 - **sdkVersion** (*string*) -
 
-    **[必需]**
+    **【必填】**
 
     您的 Node.js SDK 版本。
 
-**返回值** *void*
+**返回** *void*
 
 此方法不返回任何内容。
 

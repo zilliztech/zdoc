@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "这是一个提供以下常量的枚举。 | Node.js"
+description: "这是一个枚举，提供以下常量。| Node.js"
 type: docx
 token: SI3Td00AroRtx8xXQcUce8i2nrb
 sidebar_position: 15
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - 向量 Database 教程
+  - 向量 Database 如何工作
+  - 向量数据库对比
+  - openai 向量数据库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - IndexType
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # IndexType
 
-这是一个提供以下常量的枚举。
+这是一个枚举，提供以下常量。
 
-## Constants\{#constants}
+## 常量\{#constants}
 
 - **ANNOY** = ANNOY<br/>
   将索引类型设置为 ANNOY。

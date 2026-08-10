@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会列出外部集合的所有刷新任务。您可以按集合名称和数据库名称进行过滤。 | Node.js"
+description: "此操作会列出外部 Collection 的所有刷新作业。您可以按 Collection 名称和 Database 名称进行筛选。 | Node.js"
 type: docx
 token: AG5zdQCpXoy11MxWgD0ciYBRnJb
 sidebar_position: 30
 keywords: 
   - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - 语义搜索
+  - 异常检测
   - sentence transformers
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listRefreshExternalCollectionJobs()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listRefreshExternalCollectionJobs()
 
-此操作会列出外部集合的所有刷新任务。您可以按集合名称和数据库名称进行过滤。
+此操作会列出外部 Collection 的所有刷新作业。您可以按 Collection 名称和 Database 名称进行筛选。
 
 ```typescript
 await milvusClient.listRefreshExternalCollectionJobs(data?: ListRefreshExternalCollectionJobsReq)
@@ -51,20 +51,20 @@ await milvusClient.listRefreshExternalCollectionJobs({
 **参数：**
 
 - **collection_name** (*string*) -<br/>
-  可选，按集合名称过滤。
+  可选，按 Collection 名称筛选。
 
 - **db_name** (*string*) -<br/>
-  可选，按数据库名称过滤。
+  可选，按 Database 名称筛选。
 
 - **timeout** (*number*) -<br/>
-  可选的 RPC 允许时长，单位为毫秒。如果设置为 undefined，客户端将持续等待，直到服务器响应或发生错误。默认值为 undefined。
+  RPC 允许的可选时长，单位为毫秒。如果设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
 
 - **client_request_id** (*string*) -<br/>
   用于请求跟踪的追踪 ID。可选。
 
-**返回：** *Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
+**返回值** *Promise&lt;ListRefreshExternalCollectionJobsResponse&gt;*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **ListRefreshExternalCollectionJobsResponse** 对象。
+此方法返回一个 promise，解析为 **ListRefreshExternalCollectionJobsResponse** 对象。
 
 ```typescript
 {
@@ -76,7 +76,7 @@ await milvusClient.listRefreshExternalCollectionJobs({
 **参数：**
 
 - **jobs** (*RefreshExternalCollectionJobInfo[]*) -<br/>
-  与所请求的数据库和集合过滤条件匹配的刷新任务列表。有关 **RefreshExternalCollectionJobInfo** 字段的完整参考，请参阅 `getRefreshExternalCollectionProgress()` 文档。
+  与请求的 Database 和 Collection 筛选条件匹配的刷新作业列表。有关 **RefreshExternalCollectionJobInfo** 的完整字段说明，请参阅 `getRefreshExternalCollectionProgress()` 文档。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。

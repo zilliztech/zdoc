@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于检查指定集合中是否存在指定分区。 | Node.js"
+description: "此操作检查指定 Collection 中是否存在指定的 Partition。 | Node.js"
 type: docx
 token: TVWPdTw2WoPAJYxsbGMc7MX6nEf
 sidebar_position: 4
 keywords: 
   - milvus 的工作原理
-  - Zilliz 向量数据库
-  - Zilliz 数据库
+  - Zilliz 向量 Database
+  - Zilliz Database
   - 非结构化数据
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - hasPartition()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hasPartition()
 
-此操作用于检查指定集合中是否存在指定分区。
+此操作检查指定 Collection 中是否存在指定的 Partition。
 
 ```javascript
 await milvusClient.hasPartition(data)
@@ -52,29 +52,29 @@ await milvusClient.hasPartition({
 
 - **db_name** (*string*) -
 
-    持有目标集合的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    已存在集合的名称。
+    现有 Collection 的名称。
 
 - **partition_name** (*string*)
 
-    **[REQUIRED]**
+    **[必需]**
 
-    要检查的分区名称。
+    要检查的 Partition 名称。
 
 - **timeout** (*number*)  
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回值** *Promise&lt;BoolResponse&gt;*
 
-此方法返回一个 promise，该 promise 会解析为一个 **BoolResponse** 对象。
+此方法返回一个 promise，解析为 **BoolResponse** 对象。
 
 ```typescript
 {
@@ -86,22 +86,22 @@ await milvusClient.hasPartition({
 **参数：**
 
 - **value** (*boolean*) -<br/>
-  一个布尔值，用于指示请求的分区是否存在于集合中。分区存在时为 **true**，不存在时为 **false**。
+  一个布尔值，表示请求的 Partition 在 Collection 中是否存在。当 Partition 存在时为 **true**，不存在时为 **false**。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
 ## 示例\{#example}
 

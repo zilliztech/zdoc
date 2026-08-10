@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "`getImportJobProgress()` 的请求体由此接口定义。 | Node.js"
+description: "此接口定义了 `getImportJobProgress()` 的请求体。| Node.js"
 type: docx
 token: Yb27dGNgwoXKmHx0yyZc4n45nr9
 sidebar_position: 6
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - 幻觉 llm
+  - 多模态搜索
+  - 向量搜索算法
+  - 问答系统
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - HttpImportProgressReq
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # HttpImportProgressReq
 
-`getImportJobProgress()` 的请求体由此接口定义。
+此接口定义了 `getImportJobProgress()` 的请求体。
 
 ```typescript
 interface HttpImportProgressReq
@@ -43,11 +43,11 @@ interface HttpImportProgressReq
 
     **[必需]**
 
-    指定导入任务 ID。
+    指定导入作业 ID。
 
 - **dbName** (*string*) -
 
-    指定数据库名称。
+    指定 Database 名称。
 
 ## 示例\{#example}
 

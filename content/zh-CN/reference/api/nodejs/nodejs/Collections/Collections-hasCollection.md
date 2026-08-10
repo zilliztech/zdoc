@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于检查指定集合是否存在。 | Node.js"
+description: "此操作检查指定的 Collection 是否存在。 | Node.js"
 type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
 sidebar_position: 13
@@ -18,7 +18,7 @@ keywords:
   - llm 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - hasCollection()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hasCollection()
 
-此操作用于检查指定集合是否存在。
+此操作检查指定的 Collection 是否存在。
 
 ```javascript
 await milvusClient.hasCollection(data)
@@ -51,23 +51,23 @@ await milvusClient.hasCollection({
 
 - **db_name** (*str*) -
 
-    保存目标集合的数据库名称。
+    包含目标 Collection 的 Database 名称。
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    集合名称。
+    Collection 的名称。
 
 - **timeout** (*number*) -
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示此操作会在收到任意响应或发生错误时超时。
+    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作即超时。
 
 **返回值** *Promise&lt;BoolResponse&gt;*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **BoolResponse** 对象。
+此方法返回一个解析为 **BoolResponse** 对象的 Promise。
 
 ```typescript
 {
@@ -79,22 +79,22 @@ await milvusClient.hasCollection({
 **参数：**
 
 - **value** (*boolean*) -<br/>
-  一个布尔值，用于指示请求的集合是否存在。集合存在时为 **true**，不存在时为 **false**。
+  一个布尔值，表示请求的 Collection 是否存在。Collection 存在时为 **true**，不存在时为 **false**。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则该值始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误码。如果此操作成功，则该值始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则该值始终为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

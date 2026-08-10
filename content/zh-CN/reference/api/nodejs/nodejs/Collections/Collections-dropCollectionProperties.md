@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将特定 collection 的属性重置为其默认值。 | Node.js"
+description: "此操作会将特定 Collection 的属性重置为默认值。 | Node.js"
 type: docx
 token: EjFMdRFz0ofehXxxCPqc6raSnAg
 sidebar_position: 11
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - 自然语言处理搜索
+  - llm 幻觉
+  - 多模态搜索
+  - 向量搜索算法
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropCollectionProperties()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionProperties()
 
-此操作会将特定 collection 的属性重置为其默认值。
+此操作会将特定 Collection 的属性重置为默认值。
 
 ```javascript
 await milvusClient.dropCollectionProperties(data)
 ```
 
-## Request Syntax\{#request-syntax}
+## 请求语法\{#request-syntax}
 
 ```javascript
 await milvusClient.dropCollectionProperties({
@@ -48,41 +48,41 @@ await milvusClient.dropCollectionProperties({
  })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **db_name** (*string*) -
 
-    持有目标 collection 的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    目标 collection 的名称。
+    目标 Collection 的名称。
 
 - **properties** (*string[]*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    要更改的属性及其预期值，以 TypeScript **Record** 表示。可能的值如下：
+    要更改的属性及其期望值，以 TypeScript **Record** 形式提供。可选值如下：
 
     - **collection.ttl.seconds** -
 
-        collection 的生存时间（TTL），以秒为单位。
+        Collection 的生存时间（TTL），单位为秒。
 
     - **mmap.enabled** -
 
-        是否为 collection 中所有字段的原始数据和索引启用 mmap。
+        是否为 Collection 中所有字段的原始数据和索引启用 mmap。
 
 - **timeout** (*number*)  
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示在收到任何响应或发生任何错误时，此操作即超时。
 
-**RETURNS** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -92,21 +92,21 @@ await milvusClient.dropCollectionProperties({
 }
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **code** (*number*) -
 
-    指示操作结果的代码。如果此操作成功，则其值保持为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    指示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。 
 
 - **reason** (*string*) - 
 
-    指示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
-## Example\{#example}
+## 示例\{#example}
 
 ```java
 const milvusClient = new MilvusClient({

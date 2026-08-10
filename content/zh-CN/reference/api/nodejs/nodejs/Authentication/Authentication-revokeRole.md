@@ -12,13 +12,13 @@ type: docx
 token: W7XJdZDHnoFECDxCYoMcrZqrnnd
 sidebar_position: 27
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 向量 Database 教程
+  - 向量 Database 如何工作
+  - 向量数据库比较
+  - OpenAI 向量数据库
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - revokeRole()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -51,25 +51,25 @@ await milvusClient.revokeRole({
 
 - **username** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
     现有用户的名称。
 
 - **roleName** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
     要撤销的角色名称。
 
 - **timeout** (*number*)  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -87,11 +87,11 @@ await milvusClient.revokeRole({
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
+    表示已发生错误的错误码。如果此操作成功，则其值保持为 **Success**。
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+    表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

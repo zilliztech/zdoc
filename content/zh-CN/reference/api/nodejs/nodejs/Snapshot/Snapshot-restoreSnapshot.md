@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会将集合从快照恢复到一个新的或现有的集合中。 | Node.js"
+description: "此操作会将一个 Collection 从快照恢复到新的或现有的 Collection。 | Node.js"
 type: docx
 token: PpuUdB9bLoL1UUxfIH4cxXkXnSb
 sidebar_position: 8
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - 自然语言处理
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - restoreSnapshot()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # restoreSnapshot()
 
-此操作会将集合从快照恢复到一个新的或现有的集合中。
+此操作会将一个 Collection 从快照恢复到新的或现有的 Collection。
 
 ```typescript
 await milvusClient.restoreSnapshot(data: RestoreSnapshotReq)
@@ -54,28 +54,28 @@ await milvusClient.restoreSnapshot({
 **参数：**
 
 - **snapshot_name** (*string*) -<br/>
-  **[必填]**<br/>
+  **[必需]**<br/>
   要从中恢复的快照名称。
 
 - **source_collection_name** (*string*) -<br/>
-  **[必填]**<br/>
-  源集合的名称。
+  **[必需]**<br/>
+  源 Collection 的名称。
 
 - **target_collection_name** (*string*) -<br/>
-  **[必填]**<br/>
-  要恢复到的目标集合名称。
+  **[必需]**<br/>
+  要恢复到的目标 Collection 名称。
 
 - **source_db_name** (*string*) -<br/>
-  源数据库名称。可选。
+  源 Database 名称。可选。
 
 - **target_db_name** (*string*) -<br/>
-  目标数据库名称。可选。
+  目标 Database 名称。可选。
 
 - **timeout** (*number*) -<br/>
-  允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+  RPC 允许的可选时长，单位为毫秒。如果将其设置为 undefined，客户端将持续等待，直到服务器响应或发生错误。默认值为 undefined。
 
 - **client_request_id** (*string*) -<br/>
-  用于请求跟踪的追踪 ID。可选。
+  用于请求跟踪的跟踪 ID。可选。
 
 **返回值** *Promise&lt;RestoreSnapshotResponse&gt;*
 
@@ -98,15 +98,15 @@ await milvusClient.restoreSnapshot({
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则该值始终为 **0**。
+        表示操作结果的代码。如果此操作成功，其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误代码。如果此操作成功，则该值始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则该值始终为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，其值保持为空字符串。
 
 ## 示例\{#example}
 

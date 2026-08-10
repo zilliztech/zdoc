@@ -12,13 +12,13 @@ type: docx
 token: HtOGdjTpOoG0RcxpGv1cCBcEnAh
 sidebar_position: 3
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - 神经网络
+  - 深度学习
+  - 知识库
+  - 自然语言处理
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - closeConnection()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -49,7 +49,7 @@ milvusClient.closeConnection()
 
 **返回值：**
 
-一个 Promise，会解析为与 Milvus 服务器当前连接的最终状态，该状态应为 `SHUTDOWN`。
+一个 Promise，解析为与 Milvus 服务器当前连接的最终状态，应为 `SHUTDOWN`。
 
 ## 示例\{#example}
 

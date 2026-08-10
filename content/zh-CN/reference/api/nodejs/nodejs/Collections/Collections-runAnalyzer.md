@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会对提供的文本运行分析器，以用于测试。 | Node.js"
+description: "此操作会对提供的文本运行 Analyzer，以用于测试。 | Node.js"
 type: docx
 token: LsMldPd8GodoVqxCAZUcWYjdnwh
 sidebar_position: 18
 keywords: 
-  - Vector search
-  - knn algorithm
+  - 向量搜索
+  - knn 算法
   - HNSW
-  - What is unstructured data
+  - 什么是非结构化数据
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - runAnalyzer()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # runAnalyzer()
 
-此操作会对提供的文本运行分析器，以用于测试。
+此操作会对提供的文本运行 Analyzer，以用于测试。
 
 ```javascript
 await milvusClient.runAnalyzer(data)
@@ -52,7 +52,7 @@ milvusClient({
 
 - **analyzer_params** (*Record&lt;string, any&gt;*) -
 
-    分析器的参数。
+    Analyzer 的参数。
 
 - **text** (*string* | *string[]*) -
 
@@ -66,9 +66,9 @@ milvusClient({
 
     可选标志，指示是否包含基于哈希的处理。
 
-**返回值** *Promise&lt;RunAnalyzerResponse&gt;*
+**返回** *Promise&lt;RunAnalyzerResponse&gt;*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **RunAnalyzerResponse** 对象。
+此方法返回一个 promise，该 promise 会解析为 **RunAnalyzerResponse** 对象。
 
 ```typescript
 {
@@ -84,7 +84,7 @@ milvusClient({
 
     - **tokens** (*AnalyzerToken[]*) -
 
-        分析器生成的 token。
+        Analyzer 生成的 token。
 
         - **token** (*string*) -
 
@@ -96,7 +96,7 @@ milvusClient({
 
         - **end_offset** (*number*) -
 
-        token 结束后紧接位置的从零开始字符偏移量。
+        token 之后紧接位置的从零开始字符偏移量。
 
         - **position** (*number*) -
 
@@ -104,11 +104,11 @@ milvusClient({
 
         - **position_length** (*number*) -
 
-        token 跨越的流位置数。
+        token 跨越的流位置数量。
 
         - **hash** (*number*) -
 
-        token 的哈希值，当请求将 **with_hash** 设置为 **true** 时填充。
+        token 的哈希值；当请求将 **with_hash** 设置为 **true** 时会填充该字段。
 
         - **token** (*string*) -
 
@@ -120,7 +120,7 @@ milvusClient({
 
         - **end_offset** (*number*) -
 
-            token 结束后紧接位置的从零开始字符偏移量。
+            token 之后紧接位置的从零开始字符偏移量。
 
         - **position** (*number*) -
 
@@ -128,23 +128,23 @@ milvusClient({
 
         - **position_length** (*number*) -
 
-            token 跨越的流位置数。
+            token 跨越的流位置数量。
 
         - **hash** (*number*) -
 
-            token 的哈希值，当请求将 **with_hash** 设置为 **true** 时填充。
+            token 的哈希值；当请求将 **with_hash** 设置为 **true** 时会填充该字段。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        指示操作结果的代码。如果此操作成功，则始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        指示已发生错误的错误码。如果此操作成功，则始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        指示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。

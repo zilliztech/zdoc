@@ -12,13 +12,13 @@ type: docx
 token: Cl5PdhU5jouHnrxyYXLcOQAZneb
 sidebar_position: 8
 keywords: 
-  - AI Hallucination
+  - AI 幻觉
   - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - 语义搜索
+  - 异常检测
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - deleteUser()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -39,7 +39,7 @@ await milvusClient.deleteUser(data)
 
 ## 请求语法\{#request-syntax}
 
-此方法有以下可选形式。
+此方法有以下几种形式。
 
 ```javascript
 await milvusClient.deleteUser({
@@ -64,7 +64,7 @@ await milvusClient.deleteUser({
 
 **返回值** *Promise\<ResStatus>*
 
-此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -78,15 +78,15 @@ await milvusClient.deleteUser({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

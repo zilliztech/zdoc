@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取集合的主键字段名称。这是一个便捷方法，用于描述集合并提取主键字段名称。 | Node.js"
+description: "此操作获取 Collection 的主键字段名称。这是一种便捷方法，会描述该 Collection 并提取主键字段名称。 | Node.js"
 type: docx
 token: WiVnd8VXooFQ9PxVgiyc7FkqnAg
 sidebar_position: 26
 keywords: 
-  - milvus 的工作原理
-  - Zilliz 向量数据库
-  - Zilliz 数据库
+  - Milvus 如何工作
+  - Zilliz 向量 Database
+  - Zilliz Database
   - 非结构化数据
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - getPkFieldName()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getPkFieldName()
 
-此操作获取集合的主键字段名称。这是一个便捷方法，用于描述集合并提取主键字段名称。
+此操作获取 Collection 的主键字段名称。这是一种便捷方法，会描述该 Collection 并提取主键字段名称。
 
 ```javascript
 await milvusClient.getPkFieldName(data: DescribeCollectionReq)
@@ -52,7 +52,7 @@ getPkFieldName({
 
     **[必需]**
 
-    集合的名称。
+    Collection 的名称。
 
 - **timeout** (*number*) -
 

@@ -7,18 +7,18 @@ added_since: v2.6.12
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此接口用于配置 `BulkWriter` 实例，包括 schema 验证、存储行为、文件格式、分块大小以及本地输出路径。 | Node.js"
+description: "此接口用于配置 `BulkWriter` 实例，包括 Schema 验证、存储行为、文件格式、分块大小和本地输出路径。 | Node.js"
 type: docx
 token: Q9UUdw8VWojtDtx2h00chPvRnqh
 sidebar_position: 11
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - 深度学习
+  - 知识库
+  - 自然语言处理
+  - AI 聊天机器人
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - BulkWriterOptions
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # BulkWriterOptions
 
-此接口用于配置 `BulkWriter` 实例，包括 schema 验证、存储行为、文件格式、分块大小以及本地输出路径。
+此接口用于配置 `BulkWriter` 实例，包括 Schema 验证、存储行为、文件格式、分块大小和本地输出路径。
 
 ```typescript
 interface BulkWriterOptions
@@ -43,11 +43,11 @@ interface BulkWriterOptions
 
     **[必需]**
 
-    定义 `BulkWriter` 用于验证和序列化的字段。
+    定义由 `BulkWriter` 验证并序列化的字段。
 
 - **[storage](./DataImport-Storage)** (*[Storage](./DataImport-Storage)*) -
 
-    指定自定义存储适配器。若省略，则 `LocalStorage` 会将生成的文件保存在磁盘上。
+    指定自定义存储适配器。如果省略，`LocalStorage` 会将生成的文件保留在磁盘上。
 
 - **format** (*'json' | 'parquet'*) -
 

@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作为集合创建快照。快照会捕获集合及其数据的当前状态。 | Node.js"
+description: "此操作会为 Collection 创建快照。快照会捕获 Collection 及其数据的当前状态。 | Node.js"
 type: docx
 token: NeUFdr0OXo90RExodnccqc3OnYU
 sidebar_position: 1
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - 语义搜索
+  - 异常检测
+  - 句子转换器
+  - 推荐系统
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - createSnapshot()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createSnapshot()
 
-此操作为集合创建快照。快照会捕获集合及其数据的当前状态。
+此操作会为 Collection 创建快照。快照会捕获 Collection 及其数据的当前状态。
 
 ```typescript
 await milvusClient.createSnapshot(data: CreateSnapshotReq)
@@ -54,24 +54,24 @@ await milvusClient.createSnapshot({
 **参数：**
 
 - **collection_name** (*string*) -<br/>
-  **[必填]**<br/>
-  要创建快照的集合名称。
+  **[REQUIRED]**<br/>
+  要创建快照的 Collection 名称。
 
 - **snapshot_name** (*string*) -<br/>
-  **[必填]**<br/>
+  **[REQUIRED]**<br/>
   快照名称。
 
 - **description** (*string*) -<br/>
   可选的快照描述。
 
 - **compaction_protection_seconds** (*number | string*) -<br/>
-  保护被引用 segment 不被压缩的持续时间。可选。
+  保护被引用 Segment 免受 Compaction 影响的时长。可选。
 
 - **db_name** (*string*) -<br/>
-  数据库名称。可选。
+  Database 名称。可选。
 
 - **timeout** (*number*) -<br/>
-  允许 RPC 使用的可选时长，单位为毫秒。如果将其设置为 `undefined`，客户端将持续等待，直到服务器响应或发生错误。默认值为 `undefined`。
+  RPC 允许的可选时长，单位为毫秒。如果设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
 
 - **client_request_id** (*string*) -<br/>
   用于请求跟踪的追踪 ID。可选。
@@ -84,7 +84,7 @@ await milvusClient.createSnapshot({
 
 - **MilvusError**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

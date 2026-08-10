@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将用户添加到特定角色。 | Node.js"
+description: "此操作会将用户添加到特定角色。 | Node.js"
 type: docx
 token: Qc72dTKgroNdHjxIG2xcwNdmnHb
 sidebar_position: 2
 keywords: 
   - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addUserToRole()
 
-此操作将用户添加到特定角色。
+此操作会将用户添加到特定角色。
 
 ```javascript
 await milvusClient.addUserToRole(data)
@@ -65,11 +65,11 @@ await milvusClient.addUserToRole({
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回** *Promise\<ResStatus>*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -83,15 +83,15 @@ await milvusClient.addUserToRole({
 
 - **code** (*number*) -
 
-    指示操作结果的代码。如果此操作成功，则其值保持为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    指示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
 
 - **reason** (*string*) - 
 
-    指示所报告错误原因的原因说明。如果此操作成功，则其值保持为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

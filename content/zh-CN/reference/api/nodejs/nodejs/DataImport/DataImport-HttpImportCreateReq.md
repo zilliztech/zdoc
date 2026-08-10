@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "`createImportJobs()` 的请求体由此接口定义。 | Node.js"
+description: "此接口定义了 `createImportJobs()` 的请求体。 | Node.js"
 type: docx
 token: MUzJdvT3LoZz65xpAPMcnvo2nbb
 sidebar_position: 3
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - 视频去重
+  - 视频相似性搜索
+  - 向量检索
+  - 音频相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # HttpImportCreateReq
 
-`createImportJobs()` 的请求体由此接口定义。
+此接口定义了 `createImportJobs()` 的请求体。
 
 ```typescript
 interface HttpImportCreateReq
@@ -43,7 +43,7 @@ interface HttpImportCreateReq
 
     **[必需]**
 
-    指定目标集合名称。
+    指定目标 Collection 名称。
 
 - **files** (*string[][]*) -
 
@@ -53,7 +53,7 @@ interface HttpImportCreateReq
 
 - **dbName** (*string*) -
 
-    指定数据库名称。
+    指定 Database 名称。
 
 - **options** (*object*) -
 

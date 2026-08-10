@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将集合数据加载到查询节点中，随后你就可以对此集合执行向量搜索。这是一个异步函数——请使用 `getLoadState()` 或 `getLoadingProgress()` 检查加载状态。 | Node.js"
+description: "此操作会将 Collection 数据加载到查询节点中，随后您就可以对该 Collection 执行向量搜索。这是一个异步函数——请使用 `getLoadState()` 或 `getLoadingProgress()` 检查加载状态。 | Node.js"
 type: docx
 token: SqSZdmSoVoBuiSxe1a1cdOuZnDd
 sidebar_position: 30
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Pinecone 对比 Milvus
+  - Chroma 对比 Milvus
+  - Annoy 向量搜索
   - milvus
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # loadCollectionAsync()
 
-此操作会将集合数据加载到查询节点中，随后你就可以对此集合执行向量搜索。这是一个异步函数——请使用 `getLoadState()` 或 `getLoadingProgress()` 检查加载状态。
+此操作会将 Collection 数据加载到查询节点中，随后您就可以对该 Collection 执行向量搜索。这是一个异步函数——请使用 `getLoadState()` 或 `getLoadingProgress()` 检查加载状态。
 
 ```javascript
 await milvusClient.loadCollectionAsync(data: LoadCollectionReq)
@@ -56,13 +56,13 @@ await milvusClient.loadCollectionAsync({
 
 - **collection_name** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
-    要加载的集合名称。
+    要加载的 Collection 名称。
 
 - **db_name** (*string*) -
 
-    数据库名称。可选。
+    Database 名称。可选。
 
 - **replica_number** (*number*) -
 
@@ -96,7 +96,7 @@ await milvusClient.loadCollectionAsync({
 
 - **MilvusError**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

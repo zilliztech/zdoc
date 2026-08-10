@@ -7,17 +7,17 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从现有 collection 中移除自定义函数。 | Node.js"
+description: "此操作会从现有 Collection 中移除自定义函数。 | Node.js"
 type: docx
 token: T6xNdPPtsotGiYxL1WActF3qnxb
 sidebar_position: 24
 keywords: 
   - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Milvus 向量 Database
+  - Milvus db
+  - Milvus 向量 db
   - zilliz
-  - zilliz cloud
+  - Zilliz Cloud
   - cloud
   - dropCollectionFunction()
   - nodejs30
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionFunction()
 
-此操作从现有 collection 中移除自定义函数。
+此操作会从现有 Collection 中移除自定义函数。
 
 ```javascript
 await milvusClient.dropCollectionFunction(data: DropCollectionFunctionReq)
@@ -54,7 +54,7 @@ dropCollectionFunction({
 
     **[必填]**
 
-    包含待移除函数的 collection 名称。
+    包含待移除函数的 Collection 名称。
 
 - **function_name** (*string*) -
 
@@ -64,11 +64,11 @@ dropCollectionFunction({
 
 - **db_name** (*string*) -
 
-    collection 所在数据库的名称。可选。
+    Collection 所在的 Database 名称。可选。
 
 - **timeout** (*number*) -
 
-    此操作的超时时间，单位为毫秒。可选。
+    此操作的超时时长（以毫秒为单位）。可选。
 
 **返回：**
 
@@ -78,7 +78,7 @@ dropCollectionFunction({
 
 - **MilvusError**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

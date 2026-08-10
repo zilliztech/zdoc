@@ -12,9 +12,9 @@ type: docx
 token: PcQcdDwthoSEZaxI6GncpUpGnBh
 sidebar_position: 1
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
   - zilliz
   - zilliz cloud
@@ -53,37 +53,37 @@ await milvusClient.alterIndexProperties({
 
 - **db_name** (*string*) -
 
-    保存目标集合的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **index_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
     目标索引的名称。
 
 - **params** (*Record*\<*string*, *string* | *number* | *boolean*>) -
 
-    **[REQUIRED]**
+    **[必需]**
 
     要修改的索引属性及其预期值。可用属性如下：
 
     - **mmap.enabled** (*bool*) -
 
-        是否为指定索引启用 mmap。将其设置为 `True` 会将指定索引卸载到磁盘上。详情请参见[使用 mmap](/docs/use-mmap)
+        是否为指定索引启用 mmap。将其设置为 `True` 会将指定索引卸载到磁盘。详情请参见 [使用 mmap](/docs/use-mmap)
 
 - **timeout** (number) -
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作才会超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回** *Promise\<ResStatus>*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -97,15 +97,15 @@ await milvusClient.alterIndexProperties({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，则始终为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误码。如果此操作成功，则始终为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
 ## 示例\{#example}
 

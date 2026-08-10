@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作检索特定快照的详细信息。 | Node.js"
+description: "此操作用于检索特定快照的详细信息。 | Node.js"
 type: docx
 token: KNOwdbcYXoVwGEx8ysScLO1CnUd
 sidebar_position: 2
 keywords: 
-  - vector search algorithms
-  - Question answering system
+  - 向量搜索算法
+  - 问答系统
   - llm-as-a-judge
-  - hybrid vector search
+  - 混合向量搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describeSnapshot()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeSnapshot()
 
-此操作检索特定快照的详细信息。
+此操作用于检索特定快照的详细信息。
 
 ```typescript
 await milvusClient.describeSnapshot(data: DescribeSnapshotReq)
@@ -52,25 +52,25 @@ await milvusClient.describeSnapshot({
 **参数：**
 
 - **collection_name** (*string*) -<br/>
-  **[必需]**<br/>
-  该快照所属集合的名称。
+  **[REQUIRED]**<br/>
+  快照所属 Collection 的名称。
 
 - **snapshot_name** (*string*) -<br/>
-  **[必需]**<br/>
+  **[REQUIRED]**<br/>
   要描述的快照名称。
 
 - **db_name** (*string*) -<br/>
-  数据库名称。可选。
+  Database 名称。可选。
 
 - **timeout** (*number*) -<br/>
-  允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+  允许 RPC 运行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认为 undefined。
 
 - **client_request_id** (*string*) -<br/>
   用于请求跟踪的追踪 ID。可选。
 
-**返回值** *Promise&lt;DescribeSnapshotResponse&gt;*
+**返回** *Promise&lt;DescribeSnapshotResponse&gt;*
 
-此方法返回一个 promise，该 promise 会解析为一个 **DescribeSnapshotResponse** 对象。
+此方法返回一个 promise，该 promise 会解析为 **DescribeSnapshotResponse** 对象。
 
 ```typescript
 {
@@ -93,31 +93,31 @@ await milvusClient.describeSnapshot({
   创建快照时提供的描述；如果未提供，则为空字符串。
 
 - **collection_name** (*string*) -<br/>
-  拥有该快照的集合。
+  拥有该快照的 Collection。
 
 - **partition_names** (*string[]*) -<br/>
-  由该快照捕获的分区名称。
+  该快照捕获的 Partition 名称。
 
 - **create_ts** (*string*) -<br/>
-  创建该快照时的混合时间戳。
+  创建快照时的混合时间戳。
 
 - **s3_location** (*string*) -<br/>
-  持久化存储该快照数据的对象存储 URI。
+  持久化存储快照数据的对象存储 URI。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+        表示所报告错误原因的原因说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

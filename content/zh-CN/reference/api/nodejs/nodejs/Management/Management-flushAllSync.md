@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会刷新所有集合，并等待直到刷新操作完成。它在内部先调用 flushAll，然后轮询 getFlushAllState，直到刷新完成。 | Node.js"
+description: "此操作会刷新所有 Collection，并等待刷新操作完成。它会在内部先调用 flushAll，然后轮询 getFlushAllState，直到刷新完成。 | Node.js"
 type: docx
 token: HoRIdZtHjosja7xOdNPc8CConrb
 sidebar_position: 23
 keywords: 
-  - milvus db
-  - milvus vector db
+  - milvus 数据库
+  - milvus 向量数据库
   - Zilliz Cloud
-  - what is milvus
+  - 什么是 milvus
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - flushAllSync()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # flushAllSync()
 
-此操作会刷新所有集合，并等待直到刷新操作完成。它在内部先调用 `flushAll`，然后轮询 `getFlushAllState`，直到刷新完成。
+此操作会刷新所有 Collection，并等待刷新操作完成。它会在内部先调用 flushAll，然后轮询 getFlushAllState，直到刷新完成。
 
 ```typescript
 await milvusClient.flushAllSync(data?: FlushAllReq)
@@ -50,17 +50,17 @@ await milvusClient.flushAllSync({
 **参数：**
 
 - **db_name** (*string*) -<br/>
-  数据库名称。可选。
+  Database 的名称。可选。
 
 - **timeout** (*number*) -<br/>
-  一个可选的时长，单位为毫秒，用于限定 RPC 的等待时间。如果将其设置为 undefined，客户端会一直等待，直到服务器响应或发生错误。默认为 undefined。
+  允许 RPC 使用的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会一直等待，直到服务器响应或发生错误。默认值为 undefined。
 
 - **client_request_id** (*string*) -<br/>
   用于请求跟踪的追踪 ID。可选。
 
 **返回值** *Promise&lt;GetFlushAllStateResponse&gt;*
 
-此方法返回一个 promise，会解析为一个 **GetFlushAllStateResponse** 对象。
+此方法返回一个 promise，该 promise 会解析为 **GetFlushAllStateResponse** 对象。
 
 ```typescript
 {
@@ -83,11 +83,11 @@ await milvusClient.flushAllSync({
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误码。如果此操作成功，该值保持为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，该值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，该值保持为空字符串。
+        表示所报告错误原因的原因。如果此操作成功，该值保持为空字符串。
 
 ## 示例\{#example}
 

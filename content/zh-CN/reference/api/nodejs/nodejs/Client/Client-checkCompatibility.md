@@ -12,13 +12,13 @@ type: docx
 token: Tq1Md4GuIoNbfuxK03ncIa7onMc
 sidebar_position: 1
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - 异常检测
+  - 句子转换器
+  - 推荐系统
+  - 信息检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - checkCompatibility()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -50,7 +50,7 @@ await milvusClient.checkCompatibility({
 
 - **checker** (*Function*) -
 
-    如果当前 SDK 兼容，则会调用的回调函数。
+    如果当前 SDK 兼容，则会调用此回调函数。
 
 - **message** (*string*) -  
 
@@ -62,7 +62,7 @@ await milvusClient.checkCompatibility({
 
 **返回值：**
 
-一个 Promise，会解析为指定 `checker` 函数的结果。
+一个 Promise，会解析为指定 checker 函数的结果。
 
 ## 示例\{#examples}
 

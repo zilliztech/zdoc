@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作显示指定集合或分区是否已加载。 | Node.js"
+description: "此操作显示指定的 Collection 或 Partition 是否已加载。 | Node.js"
 type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
 sidebar_position: 14
@@ -18,7 +18,7 @@ keywords:
   - Context Window
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getLoadState()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getLoadState()
 
-此操作显示指定集合或分区是否已加载。
+此操作显示指定的 Collection 或 Partition 是否已加载。
 
 ```javascript
 await milvusClient.getLoadState(data)
@@ -52,25 +52,25 @@ await milvusClient.getLoadState({
 
 - **db_name** (*string*) -
 
-    保存目标集合的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
     **[必需]**
 
-    集合的名称。
+    Collection 名称。
 
 - **partition_names** (*string[]*) -
 
-    一个或多个分区的名称。
+    一个或多个 Partition 的名称。
 
 - **timeout** (*number*) -
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在任意响应返回或发生错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示此操作会在返回任意响应或发生错误时超时。
 
-**返回值** *Promise&lt;GetLoadStateResponse&gt;*
+**返回** *Promise&lt;GetLoadStateResponse&gt;*
 
-此方法返回一个 promise，该 promise 会解析为一个 **GetLoadStateResponse** 对象。
+此方法返回一个 promise，解析为 **GetLoadStateResponse** 对象。
 
 ```typescript
 {
@@ -82,22 +82,22 @@ await milvusClient.getLoadState({
 **参数：**
 
 - **state** (*LoadState*) -<br/>
-  当前加载状态。可能的值有 **LoadStateNotExist**、**LoadStateNotLoad**、**LoadStateLoading** 和 **LoadStateLoaded**。
+  当前加载状态。可能的值包括 **LoadStateNotExist**、**LoadStateNotLoad**、**LoadStateLoading** 和 **LoadStateLoaded**。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则该值保持为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误代码。如果此操作成功，则该值保持为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则该值保持为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
 ## 示例\{#example}
 

@@ -7,12 +7,12 @@ added_since: inherit
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "列出集合的导入任务，显示批量导入操作的状态和详细信息。 | Node.js"
+description: "列出 Collection 的导入任务，显示批量导入操作的状态和详细信息。 | Node.js"
 type: docx
 token: KX8pd5PnGoo8UAx8QhhcI5YpnHg
 sidebar_position: 15
 keywords: 
-  - milvus database
+  - milvus Database
   - milvus lite
   - milvus benchmark
   - managed milvus
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listImportTasks()
 
-列出集合的导入任务，显示批量导入操作的状态和详细信息。
+列出 Collection 的导入任务，显示批量导入操作的状态和详细信息。
 
 ```javascript
 await milvusClient.listImportTasks(data: ListImportTasksReq)
@@ -51,21 +51,21 @@ await milvusClient.listImportTasks({
 
 - **collection_name** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
-    集合的名称。
+    Collection 的名称。
 
 - **limit** (*number*) -
 
-    返回的最大任务数。设置为 `0` 表示返回所有任务。可选。
+    返回任务的最大数量。将其设置为 `0` 可返回所有任务。可选。
 
 - **timeout** (*number*) -
 
     以毫秒为单位的 RPC 超时时间。可选。
 
-**返回值** *Promise&lt;ListImportTasksResponse&gt;*
+**返回** *Promise&lt;ListImportTasksResponse&gt;*
 
-此方法返回一个 promise，该 promise 会解析为一个 **ListImportTasksResponse** 对象。
+此方法返回一个 promise，该 promise 会解析为 **ListImportTasksResponse** 对象。
 
 ```typescript
 {
@@ -77,7 +77,7 @@ await milvusClient.listImportTasks({
 **参数：**
 
 - **tasks** (*GetImportStateResponse[]*) -<br/>
-  导入任务描述符列表。每个条目都包含任务状态、行数、segment ID 以及创建时间戳。
+  导入任务描述符列表。每个条目都包含任务状态、行数、Segment ID 和创建时间戳。
 
     - **state** (*ImportState*) -
 
@@ -89,11 +89,11 @@ await milvusClient.listImportTasks({
 
     - **id_list** (*number[]*) -
 
-        导入行分配到的自动生成主键（如果可用）。
+        导入行分配到的自动生成主键（如可用）。
 
     - **infos** (*KeyValuePair[]*) -
 
-        诊断用键值对（例如 **failed_reason**）。
+        诊断键值对（例如 **failed_reason**）。
 
     - **id** (*number*) -
 
@@ -101,11 +101,11 @@ await milvusClient.listImportTasks({
 
     - **collection_id** (*number*) -
 
-        接收该导入任务的集合。
+        接收此次导入的 Collection。
 
     - **segment_ids** (*number[]*) -
 
-        该任务生成的 segment ID。
+        该任务生成的 Segment ID。
 
     - **create_ts** (*number*) -
 
@@ -116,15 +116,15 @@ await milvusClient.listImportTasks({
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则该值始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误码。如果此操作成功，则该值始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则该值始终为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

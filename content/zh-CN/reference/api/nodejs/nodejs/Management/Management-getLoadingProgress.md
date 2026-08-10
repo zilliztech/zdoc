@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于获取特定集合的加载进度。 | Node.js"
+description: "此操作用于获取特定 Collection 的加载进度。 | Node.js"
 type: docx
 token: DkImdRkJwoUmdqxzqn1cpQr9nhy
 sidebar_position: 13
@@ -18,7 +18,7 @@ keywords:
   - llm 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getLoadingProgress()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getLoadingProgress()
 
-此操作用于获取特定集合的加载进度。
+此操作用于获取特定 Collection 的加载进度。
 
 ```javascript
 await milvusClient.getLoadingProgress(data)
@@ -52,21 +52,21 @@ await milvusClient.getLoadingProgress({
 
 - **db_name** (*string*) -
 
-    保存目标集合的数据库名称。
+    保存目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
     **[必需]**
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - **partition_names** (*string[]*) -
 
-    目标分区的名称。
+    目标 Partition 的名称。
 
 - **timeout** (number) -
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回值** *Promise&lt;GetLoadingProgressResponse&gt;*
 
@@ -82,22 +82,22 @@ await milvusClient.getLoadingProgress({
 **参数：**
 
 - **progress** (*string*) -<br/>
-  加载操作的完成百分比，以 **"0"** 到 **"100"** 之间的整数字符串表示。当该值达到 **"100"** 时，集合已完全加载。
+  加载操作的完成百分比，以 **"0"** 到 **"100"** 之间的整数表示。当该值达到 **"100"** 时，Collection 即已完全加载。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+        表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

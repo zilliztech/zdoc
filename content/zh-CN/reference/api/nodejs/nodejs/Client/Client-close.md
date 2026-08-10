@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会关闭一个 `MilvusClientSession` 实例，并阻止后续会话请求。 | Node.js"
+description: "此操作会关闭 `MilvusClientSession` 实例，并阻止后续会话请求。 | Node.js"
 type: docx
 token: Xwg8dMovYoRP94xNDjOc1TSNnsg
 sidebar_position: 6
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量 Database 教程
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - close()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # close()
 
-此操作会关闭一个 `MilvusClientSession` 实例，并阻止后续会话请求。
+此操作会关闭 `MilvusClientSession` 实例，并阻止后续会话请求。
 
 ```typescript
 session.close(): void
@@ -47,17 +47,17 @@ session.close()
 
 此操作没有参数。
 
-**返回：**
+**返回值：**
 
 *void*
 
-仅关闭会话句柄。它不会关闭父级 `MilvusClient` 的连接池。
+仅关闭会话句柄，不会关闭父级 `MilvusClient` 连接池。
 
 **异常：**
 
 - **Error**
 
-    后续会话操作会抛出 `MilvusClient session is closed`。
+    后续会话操作将抛出 `MilvusClient session is closed`。
 
 ## 示例\{#example}
 

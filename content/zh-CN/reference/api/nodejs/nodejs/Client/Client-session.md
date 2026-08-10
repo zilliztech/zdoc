@@ -15,10 +15,10 @@ keywords:
   - 视频相似性搜索
   - 向量检索
   - 音频相似性搜索
-  - 弹性向量数据库
+  - 弹性向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - session()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -61,7 +61,7 @@ const session = milvusClient.session('cluster-a')
 
 - **Error**
 
-    当 `clusterId` 为空或不是字符串时抛出。
+    当 `clusterId` 为空或不是字符串时引发。
 
 ## 示例\{#example}
 

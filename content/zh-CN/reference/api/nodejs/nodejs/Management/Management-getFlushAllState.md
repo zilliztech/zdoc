@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于检查 flush-all 操作是否已完成。 | Node.js"
+description: "此操作检查 flush-all 操作是否已完成。 | Node.js"
 type: docx
 token: WgfTdXbMmoFhO9xBpencxLRRnbb
 sidebar_position: 25
@@ -18,7 +18,7 @@ keywords:
   - 相似性搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getFlushAllState()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getFlushAllState()
 
-此操作用于检查 flush-all 操作是否已完成。
+此操作检查 flush-all 操作是否已完成。
 
 ```typescript
 await milvusClient.getFlushAllState(data: GetFlushAllStateReq)
@@ -55,20 +55,20 @@ await milvusClient.getFlushAllState({
   flush-all 时间戳。可选，且已弃用。
 
 - **flush_all_tss** (*Record&lt;string, number&gt;*) -<br/>
-  数据库名称到 flush-all 时间戳的映射。可选。
+  Database 名称到 flush-all 时间戳的映射。可选。
 
 - **db_name** (*string*) -<br/>
-  数据库名称。可选，且已弃用。
+  Database 的名称。可选，且已弃用。
 
 - **timeout** (*number*) -<br/>
-  允许 RPC 执行的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器返回响应或发生错误。默认值为 undefined。
+  允许 RPC 使用的可选时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
 
 - **client_request_id** (*string*) -<br/>
   用于请求跟踪的追踪 ID。可选。
 
 **返回值** *Promise&lt;GetFlushAllStateResponse&gt;*
 
-此方法返回一个 promise，该 promise 会解析为 **GetFlushAllStateResponse** 对象。
+此方法返回一个 promise，并解析为 **GetFlushAllStateResponse** 对象。
 
 ```typescript
 {
@@ -80,22 +80,22 @@ await milvusClient.getFlushAllState({
 **参数：**
 
 - **flushed** (*boolean*) -<br/>
-  由所提供时间戳标识的 flush-all 操作是否已完全完成。当每个通道都达到请求的 flush 时间戳时，该值为 **true**；否则为 **false**。
+  由提供的时间戳标识的 flush-all 操作是否已完全完成。当每个通道都达到请求的 flush 时间戳时，其值为 **true**；否则为 **false**。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，其值保持为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误码。如果此操作成功，其值保持为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，其值保持为空字符串。
+        表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

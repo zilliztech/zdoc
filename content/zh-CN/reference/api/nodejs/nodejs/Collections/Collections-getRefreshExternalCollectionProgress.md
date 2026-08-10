@@ -7,15 +7,15 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于检查外部集合刷新作业的进度。请使用 refreshExternalCollection() 返回的 job_id。 | Node.js"
+description: "此操作检查外部 Collection 刷新作业的进度。请使用 refreshExternalCollection() 返回的 jobid。 | Node.js"
 type: docx
 token: E7pZd2Yfzolgiyxcvz8cSFfKnoc
 sidebar_position: 29
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - 异常检测
+  - 句子转换器
+  - 推荐系统
+  - 信息检索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getRefreshExternalCollectionProgress()
 
-此操作用于检查外部集合刷新作业的进度。请使用 refreshExternalCollection() 返回的 job_id。
+此操作检查外部 Collection 刷新作业的进度。请使用 refreshExternalCollection() 返回的 job_id。
 
 ```typescript
 await milvusClient.getRefreshExternalCollectionProgress(data: GetRefreshExternalCollectionProgressReq)
@@ -50,11 +50,11 @@ await milvusClient.getRefreshExternalCollectionProgress({
 **参数：**
 
 - **job_id** (*number | string*) -<br/>
-  **[必需]**<br/>
+  **[REQUIRED]**<br/>
   refreshExternalCollection() 返回的作业 ID。
 
 - **timeout** (*number*) -<br/>
-  可选的 RPC 允许时长，单位为毫秒。如果将其设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+  允许 RPC 使用的可选时长，单位为毫秒。如果设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
 
 - **client_request_id** (*string*) -<br/>
   用于请求跟踪的追踪 ID。可选。
@@ -81,7 +81,7 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
     - **collection_name** (*string*) -
 
-        正在刷新的外部集合。
+        正在刷新的外部 Collection。
 
     - **state** (*RefreshExternalCollectionState*) -
 
@@ -89,15 +89,15 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
     - **progress** (*string*) -
 
-        完成百分比，为 **"0"** 到 **"100"** 之间的整数。
+        完成百分比，以 **"0"** 到 **"100"** 之间的整数表示。
 
     - **reason** (*string*) -
 
-        当 **state** 为 **RefreshFailed** 时的失败原因，否则为空字符串。
+        当 **state** 为 **RefreshFailed** 时的失败原因；否则为空字符串。
 
     - **external_source** (*string*) -
 
-        作业记录的外部源路径。
+        作业捕获的外部源路径。
 
     - **start_time** (*string*) -
 
@@ -112,15 +112,15 @@ await milvusClient.getRefreshExternalCollectionProgress({
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误代码。如果此操作成功，则始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

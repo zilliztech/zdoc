@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取集合的完整主键字段 schema。这是一种便捷方法，通过描述集合来提取主键字段。 | Node.js"
+description: "此操作获取 Collection 的完整主字段 Schema。这是一种便捷方法，用于描述 Collection 并提取主键字段。 | Node.js"
 type: docx
 token: LmnudtyV5owY2zx5D9WcENcsnFg
 sidebar_position: 25
 keywords: 
-  - vector databases comparison
+  - 向量 Database 对比
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getPkField()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getPkField()
 
-此操作获取集合的完整主键字段 schema。这是一种便捷方法，通过描述集合来提取主键字段。
+此操作获取 Collection 的完整主字段 Schema。这是一种便捷方法，用于描述 Collection 并提取主键字段。
 
 ```javascript
 await milvusClient.getPkField(data: DescribeCollectionReq)
@@ -50,9 +50,9 @@ getPkField({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    集合名称。
+    Collection 的名称。
 
 - **timeout** (*number*) -
 
@@ -62,7 +62,7 @@ getPkField({
 
 *Promise\<FieldSchema\>*
 
-主键的完整字段 schema 对象，包括名称、数据类型、字段 ID 及其他属性。
+主键的完整字段 Schema 对象，包括名称、数据类型、字段 ID 和其他属性。
 
 ## 示例\{#example}
 

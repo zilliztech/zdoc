@@ -53,17 +53,17 @@ await milvusClient.describeIndex(data)
 
 - **db_name** (*string*) -
 
-    持有目标集合的数据库名称。
+    包含目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **field_name** (*string*) -
 
-    集合中现有字段的名称。 
+    Collection 中现有字段的名称。 
 
 - **index_name** (*string*) -
 
@@ -75,7 +75,7 @@ await milvusClient.describeIndex(data)
 
 **返回值** *Promise&lt;DescribeIndexResponse&gt;*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **DescribeIndexResponse** 对象。
+此方法返回一个 promise，该 promise 会解析为 **DescribeIndexResponse** 对象。
 
 ```typescript
 {
@@ -87,7 +87,7 @@ await milvusClient.describeIndex(data)
 **参数：**
 
 - **index_descriptions** (*IndexDescription[]*) -<br/>
-  请求集合的索引描述列表。提供 **field_name** 或 **index_name** 时，该列表仅包含匹配的条目。
+  请求的 Collection 的索引描述列表。提供 **field_name** 或 **index_name** 时，该列表仅包含匹配的条目。
 
     - **index_name** (*string*) -
 
@@ -103,7 +103,7 @@ await milvusClient.describeIndex(data)
 
     - **field_name** (*string*) -
 
-        构建索引的字段。
+        构建该索引所基于的字段。
 
     - **indexed_rows** (*string*) -
 
@@ -111,7 +111,7 @@ await milvusClient.describeIndex(data)
 
     - **total_rows** (*string*) -
 
-        索引覆盖的总行数。
+        该索引覆盖的总行数。
 
     - **state** (*string*) -
 
@@ -130,15 +130,15 @@ await milvusClient.describeIndex(data)
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误代码。如果此操作成功，则始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示已报告错误原因的说明。如果此操作成功，则始终为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

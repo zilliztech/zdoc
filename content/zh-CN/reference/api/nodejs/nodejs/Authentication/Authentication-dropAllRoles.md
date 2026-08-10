@@ -12,13 +12,13 @@ type: docx
 token: E5rYdw3EWo2WKZxEyGac049an3e
 sidebar_position: 11
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似性搜索
+  - 多模态 RAG
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropAllRoles()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -49,9 +49,9 @@ await milvusClient.dropAllRoles({
 
 - **timeout** (*number*) -  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将此项设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回值** *Promise\<ResStatus[]>*
 
@@ -69,15 +69,15 @@ await milvusClient.dropAllRoles({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+    表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

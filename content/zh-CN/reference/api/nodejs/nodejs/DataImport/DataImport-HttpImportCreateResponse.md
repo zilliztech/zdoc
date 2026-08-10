@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此接口描述了 `createImportJobs()` 返回的响应。 | Node.js"
+description: "此接口描述了 `createImportJobs()` 返回的响应。| Node.js"
 type: docx
 token: CZ3DduFXkoyoX9xJs9ic2HkRnqc
 sidebar_position: 4
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Chroma 向量 Database
+  - NLP 搜索
+  - 幻觉 LLM
+  - 多模态搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - HttpImportCreateResponse
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -45,7 +45,7 @@ interface HttpImportCreateResponse
 
 - **data.jobId** (*string*) -
 
-    指定已创建的导入作业 ID。
+    指定创建的导入作业 ID。
 
 - **message** (*string*) -
 

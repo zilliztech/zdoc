@@ -7,18 +7,18 @@ added_since: v2.6.12
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此类为离线批量导入工作流生成与 Milvus 兼容的 JSON 或 Parquet 文件。当数据集过大，不适合使用常规的逐行插入操作时，可先将其准备为文件，再调用 `bulkInsert()`。 | Node.js"
+description: "此类用于生成与 Milvus 兼容的 JSON 或 Parquet 文件，以支持离线批量导入工作流。当数据集过大，不适合逐行执行常规插入操作时，可先将其暂存为文件，再调用 `bulkInsert()`。 | Node.js"
 type: docx
 token: RSrRdD4fLoy50Bx5s2xcQ6lMnVd
 sidebar_position: 10
 keywords: 
-  - cosine distance
-  - what is a vector database
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
-  - multimodal vector database retrieval
+  - 多模态向量 Database 检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - BulkWriter
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # BulkWriter
 
-此类为离线批量导入工作流生成与 Milvus 兼容的 JSON 或 Parquet 文件。当数据集过大，不适合使用常规的逐行插入操作时，可先将其准备为文件，再调用 `bulkInsert()`。
+此类用于生成与 Milvus 兼容的 JSON 或 Parquet 文件，以支持离线批量导入工作流。当数据集过大，不适合逐行执行常规插入操作时，可先将其暂存为文件，再调用 `bulkInsert()`。
 
 ```typescript
 const writer = new BulkWriter(options: BulkWriterOptions)
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
 ```typescript
 new BulkWriter({
@@ -49,17 +49,17 @@ new BulkWriter({
 })
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **schema** (*[BulkWriterSchema](./DataImport-BulkWriterSchema)*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    定义集合字段和动态字段设置，用于验证行数据并序列化文件。
+    定义用于验证行数据并序列化文件的 Collection 字段和动态字段设置。
 
 - **[storage](./DataImport-Storage)** (*[Storage](./DataImport-Storage)*) -
 
-    指定自定义存储适配器。若省略，文件将保留在本地磁盘上。
+    指定自定义存储适配器。如果省略，文件将保留在本地磁盘上。
 
 - **format** (*'json' | 'parquet'*) -
 
@@ -67,13 +67,13 @@ new BulkWriter({
 
 - **chunkSize** (*number*) -
 
-    指定触发自动刷新的近似缓冲字节大小。默认为 128 MB。
+    指定触发自动刷新时的大致缓冲字节大小。默认为 128 MB。
 
 - **localPath** (*string*) -
 
     指定生成分块文件的本地基础目录。默认为当前工作目录。
 
-**METHODS:**
+**方法：**
 
 - `append(row: Record<string, any>): Promise<void>`
 
@@ -85,17 +85,17 @@ new BulkWriter({
 
 - `close(): Promise<string[][]>`
 
-    刷新剩余行数据，并按分块分组返回生成的文件路径。
+    刷新剩余行数据，并返回按分块分组的生成文件路径。
 
 - `writeFrom(source: AsyncIterable<Record<string, any>>): Promise<string[][]>`
 
-    使用异步可迭代对象作为输入，追加其中的每一行，关闭 writer，并返回生成的文件路径。
+    消费一个异步可迭代对象，追加其中的每一行，关闭写入器，并返回生成的文件路径。
 
-**RETURNS:**
+**返回值：**
 
 *BulkWriter*
 
-## Example\{#example}
+## 示例\{#example}
 
 ```javascript
 import { BulkWriter, DataType } from '@zilliz/milvus2-sdk-node';

@@ -7,12 +7,12 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作用于创建数据库。 | Node.js"
+description: "此操作创建一个 Database。 | Node.js"
 type: docx
 token: UouKd4h01oL9Rqx73jjcHM3enSh
 sidebar_position: 2
 keywords: 
-  - milvus database
+  - milvus Database
   - milvus lite
   - milvus benchmark
   - managed milvus
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # createDatabase()
 
-此操作用于创建数据库。
+此操作创建一个 Database。
 
 ```javascript
 await milvusClient.createDatabase(data)
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法仅适用于专用集群。
+此方法仅适用于 Dedicated 集群。
 
 </Admonition>
 
@@ -57,37 +57,37 @@ await milvusClient.createDatabase({
 
 - **db_name** (*string*) -
 
-    要创建的数据库名称。
+    要创建的 Database 名称。
 
-    不应存在具有指定名称的数据库。否则将发生异常。
+    不能存在与指定名称相同的 Database。否则将发生异常。
 
 - **properties** (*Object*) -
 
-    创建数据库时一并设置的属性。可用的数据库属性如下：
+    创建 Database 时一并设置的属性。可选的 Database 属性如下：
 
     - **database.replica.number** (*int*) -
 
-        数据库的副本数量。
+        Database 的副本数量。
 
     - **database.resource_groups** (*[]str*) -
 
-        专用于该数据库的资源组。
+        专用于该 Database 的资源组。
 
     - **database.diskQuota.mb** (*int*) -
 
-        分配给数据库的磁盘配额，单位为兆字节（**MB**）。
+        为该 Database 分配的磁盘配额，单位为兆字节（**MB**）。
 
     - **database.max.collections** (*int*) -
 
-        数据库中允许的最大集合数量。
+        该 Database 中允许的最大 Collection 数量。
 
     - **database.force.deny.writing** (*bool*) -
 
-        是否拒绝该数据库中的所有写操作。
+        是否拒绝该 Database 中的所有写入操作。
 
     - **database.force.deny.reading** (*bool*) -
 
-        是否拒绝该数据库中的所有读操作。
+        是否拒绝该 Database 中的所有读取操作。
 
 - **timeout** (*number*) -
 
@@ -97,7 +97,7 @@ await milvusClient.createDatabase({
 
 **返回值** *Promise |&lt;ResStatus&gt;*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
 
 ```javascript
 {
@@ -111,15 +111,15 @@ await milvusClient.createDatabase({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。 
+    表示已发生错误的错误码。如果此操作成功，则其值为 **Success**。 
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
 ## 示例\{#example}
 

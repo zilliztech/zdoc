@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出在特定 collection 上收集的统计信息。 | Node.js"
+description: "此操作列出在特定 Collection 上收集的统计信息。| Node.js"
 type: docx
 token: CRFLdvgkhoeRikxMcMAcJk3qnIc
 sidebar_position: 9
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - milvus 基准测试
+  - 托管式 Milvus
+  - Serverless 向量 Database
+  - Milvus 开源
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - getCompactionState()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getCompactionState()
 
-此操作列出在特定 collection 上收集的统计信息。
+此操作列出在特定 Collection 上收集的统计信息。
 
 ```javascript
 await milvusClient.getCompactionState(data)
@@ -50,19 +50,19 @@ await milvusClient.getCompactionState({
 
 - **compactionID** (*string | number*) -
 
-    **[必填]**
+    **[必需]**
 
-    由调用 [`compact()`](./Management-compact) 返回的 compaction 作业 ID。
+    由调用 [`compact()`](./Management-compact) 返回的 Compaction 作业 ID。
 
 - **timeout** (*number*) -
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作即超时。
+    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作将超时。
 
-**返回值** *Promise&lt;GetCompactionStateResponse&gt;*
+**返回** *Promise&lt;GetCompactionStateResponse&gt;*
 
-此方法返回一个 promise，解析为 **GetCompactionStateResponse** 对象。
+此方法返回一个 promise，该 promise 会解析为 **GetCompactionStateResponse** 对象。
 
 ```typescript
 {
@@ -78,10 +78,10 @@ await milvusClient.getCompactionState({
 **参数：**
 
 - **state** (*CompactionState*) -<br/>
-  compaction 的聚合状态。可能的值包括 **UndefiedState**、**Executing** 和 **Completed**。
+  Compaction 的聚合状态。可能的值包括 **UndefiedState**、**Executing** 和 **Completed**。
 
 - **executingPlanNo** (*string*) -<br/>
-  仍在执行中的计划数量。
+  仍在执行的计划数量。
 
 - **timeoutPlanNo** (*string*) -<br/>
   已超时的计划数量。
@@ -97,15 +97,15 @@ await milvusClient.getCompactionState({
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
+        指示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误码。如果此操作成功，则其值保持为 **Success**。
+        指示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+        指示所报告错误原因的原因说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

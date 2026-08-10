@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作通过 ID 获取特定实体。 | Node.js"
+description: "此操作通过 ID 获取特定 Entity。 | Node.js"
 type: docx
 token: IbxXdvdZlonJk9xnlk2cZlIinCh
 sidebar_position: 3
 keywords: 
-  - vector databases comparison
+  - 向量 Database 比较
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - get()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get()
 
-此操作通过其 ID 获取特定实体。
+此操作通过 ID 获取特定 Entity。
 
 ```javascript
 await milvusClient.get(data)
@@ -57,47 +57,47 @@ await milvusClient.get({
 
 - **db_name** (*string*) -
 
-    持有目标集合的数据库名称。
+    包含目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **ids** (*string[]* | *number[]*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    一个特定实体 ID 或实体 ID 列表。
+    特定 Entity ID 或 Entity ID 列表。
 
 - **consistency_level** (*string*) -
 
-    目标集合的一致性级别。
+    目标 Collection 的一致性级别。
 
 - **limit** (*number*) -
 
-    要返回的实体总数。
+    要返回的 Entity 总数。
 
-    你可以将此参数与 **param** 中的 **offset** 结合使用，以启用分页。
+    您可以将此参数与 **param** 中的 **offset** 结合使用，以启用分页。
 
     此值与 **param** 中 **offset** 的总和应小于 16,384。 
 
 - **offset** (*number*) -
 
-    在搜索结果中要跳过的记录数。 
+    搜索结果中要跳过的记录数。 
 
-    你可以将此参数与 `limit` 结合使用，以启用分页。
+    您可以将此参数与 `limit` 结合使用，以启用分页。
 
     此值与 `limit` 的总和应小于 16,384。 
 
 - **partition_names** (*string[]*) -
 
-    目标集合中分区名称的列表。
+    目标 Collection 中各个 Partition 的名称列表。
 
 - **output_fields** (*string[]*) -
 
-    返回的每个实体中要包含的字段名称列表。
+    返回的每个 Entity 中要包含的字段名称列表。
 
     该值默认为 **None**。如果未指定，则选择所有字段作为输出字段。
 
@@ -105,11 +105,11 @@ await milvusClient.get({
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-**返回值** *Promise&lt;QueryResults&gt;*
+**返回** *Promise&lt;QueryResults&gt;*
 
-此方法返回一个 promise，解析为 **QueryResults** 对象。
+此方法返回一个 promise，该 promise 会解析为 **QueryResults** 对象。
 
 ```typescript
 {
@@ -121,22 +121,22 @@ await milvusClient.get({
 **参数：**
 
 - **data** (*Record&lt;string, any&gt;[]*) -<br/>
-  主键与提供的 **ids** 匹配的行。每个条目都以字段名为键，并携带每个请求的 **output_fields** 条目的值以及主键。
+  主键与提供的 **ids** 匹配的行。每个条目都以字段名称为键，并包含每个请求的 **output_fields** 条目的值以及主键。
 
 - **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+  **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        指示操作结果的代码。如果此操作成功，则始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        指示已发生错误的错误码。如果此操作成功，则始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        指示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
+        表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

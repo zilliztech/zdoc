@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将指定 collection 中的一组特定 partitions 加载到内存中。 | Node.js"
+description: "此操作会将指定 Collection 中的一组特定 Partition 加载到内存中。 | Node.js"
 type: docx
 token: Pyh3dttWKoBqcBx8FGhcArhAnqg
 sidebar_position: 6
 keywords: 
-  - 向量数据库
+  - 向量 Database
   - IVF
   - knn
   - 图像搜索
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - loadPartitions()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # loadPartitions()
 
-此操作会将指定 collection 中的一组特定 partitions 加载到内存中。
+此操作会将指定 Collection 中的一组特定 Partition 加载到内存中。
 
 ```javascript
 await milvusClient.loadPartitions(data)
@@ -54,33 +54,33 @@ await milvusClient.loadPartitions({
 
 - **db_name** (*string*) -
 
-    保存目标 collection 的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
     **[必需]**
 
-    已存在的 collection 名称。
+    现有 Collection 的名称。
 
 - **partition_names** (string[]) -
 
     **[必需]**
 
-    要加载的 partitions 名称列表。
+    要加载的 Partition 名称列表。
 
 - **replica_number** (*number*) -
 
-    partition 的副本数量。
+    Partition 的副本数量。
 
 - **resource_groups** (*string[]*) -
 
-    partition 所在的资源组列表。
+    Partition 中的资源组列表。
 
 - **timeout** (*number*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作将超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回** *Promise\<ResStatus>*
 
 此方法返回一个 promise，其解析结果为 **ResStatus** 对象。
 
@@ -96,15 +96,15 @@ await milvusClient.loadPartitions({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+    表示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

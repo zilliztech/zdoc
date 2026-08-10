@@ -12,13 +12,13 @@ type: docx
 token: HqE5d2jOroEuObxIjkZcHkX4nWX
 sidebar_position: 12
 keywords: 
-  - k nearest neighbor algorithm
+  - k 最近邻算法
   - ANNS
-  - Vector search
-  - knn algorithm
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 向量搜索
+  - knn 算法
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - getIndexState()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -53,17 +53,17 @@ await milvusClient.getIndexState({
 
 - **db_name** (*string*) -
 
-    持有目标集合的数据库名称。
+    保存目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **index_name** (*string*) -
 
-    目标索引的名称。此参数与 `field_name` 互斥。
+    目标索引的名称。此参数与 `field_name` 互斥。 
 
 - **field_name** (*string*) -
 
@@ -73,7 +73,7 @@ await milvusClient.getIndexState({
 
     此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise&lt;GetIndexStateResponse&gt;*
+**返回** *Promise&lt;GetIndexStateResponse&gt;*
 
 此方法返回一个 promise，该 promise 会解析为 **GetIndexStateResponse** 对象。
 
@@ -94,15 +94,15 @@ await milvusClient.getIndexState({
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

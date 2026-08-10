@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作将数据插入到指定集合中。 | Node.js"
+description: "此操作会将数据插入到指定的 Collection 中。 | Node.js"
 type: docx
 token: SZNQds74zoKniRxtJwdcfdz1nCh
 sidebar_position: 5
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - 音频相似性搜索
+  - 弹性向量 Database
+  - Pinecone 与 Milvus 对比
+  - Chroma 与 Milvus 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - insert()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-此操作将数据插入到指定集合中。
+此操作会将数据插入到指定的 Collection 中。
 
 ```javascript
 await milvusClient.insert(data: InsertReq)
@@ -53,21 +53,21 @@ await milvusClient.insert({
 
 - **db_name** (*string*) -
 
-    持有目标集合的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
     **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **data** (*RowData[]*) -
 
-    要插入当前集合的数据。
+    要插入到当前 Collection 中的数据。
 
-    要插入的数据应为与当前集合 schema 匹配的字典，或此类字典组成的列表。
+    要插入的数据应为与当前 Collection 的 Schema 匹配的字典，或此类字典组成的列表。 
 
-    以下代码假设当前集合的 schema 包含两个名为 **id** 和 **vector** 的字段。前者是主字段，后者是用于存储 5 维向量嵌入的字段。
+    以下代码假设当前 Collection 的 Schema 中包含两个名为 **id** 和 **vector** 的字段。前者是主字段，后者是用于保存 5 维向量嵌入的字段。
 
     ```javascript
     // A dictionary, or
@@ -109,19 +109,19 @@ await milvusClient.insert({
 
 - **timeout** (*number*)  
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **partition_name** (*string* | *None*) -
 
-    当前集合中某个分区的名称。
+    当前 Collection 中某个 Partition 的名称。 
 
-    如果指定，则数据将插入到指定分区中。
+    如果指定，则数据将插入到指定的 Partition 中。
 
 **返回值** *Promise&lt;MutationResult&gt;*
 
-此方法返回一个 promise，解析为一个 **MutationResult** 对象。
+此方法返回一个 promise，解析为 **MutationResult** 对象。
 
 ```typescript
 {
@@ -140,32 +140,32 @@ await milvusClient.insert({
 **参数：**
 
 - **succ_index** (*number[]*) -<br/>
-  输入数据中成功插入的行的零基位置。
+  输入数据中成功插入行的从 0 开始的位置。
 
 - **err_index** (*number[]*) -<br/>
-  被拒绝的行的零基位置。当所有行都成功时，此列表为空。
+  被拒绝行的从 0 开始的位置。当所有行都成功时，此列表为空。
 
 - **acknowledged** (*boolean*) -<br/>
-  此写入是否已被 Milvus 确认。
+  写入是否已被 Milvus 确认。
 
 - **insert_cnt** (*string*) -<br/>
   已插入的行数，格式为字符串。
 
 - **delete_cnt** (*string*) -<br/>
-  此操作删除的行数。对于 `insert()`，该值始终为 **"0"**。
+  此操作删除的行数。对于`insert()`，该值始终为 **"0"**。
 
 - **upsert_cnt** (*string*) -<br/>
-  此操作 upsert 的行数。对于 `insert()`，该值始终为 **"0"**。
+  此操作 upsert 的行数。对于`insert()`，该值始终为 **"0"**。
 
 - **timestamp** (*string*) -<br/>
-  写入变为可见时的混合时间戳。可将此值用于时间旅行查询。
+  此次写入变为可见时的混合时间戳。请将此值用于时间旅行查询。
 
 - **IDs** (*StringArrayId* | *NumberArrayId*) -<br/>
-  分配给已插入行的主键。对于 autoID 集合，这些值由 Milvus 生成；否则，它们与输入键一致。
+  分配给已插入行的主键。对于 autoID Collection，这些值由 Milvus 生成；否则，它们与输入键相同。
 
     - **int_id** (*\{ data: number[] }*) -
 
-        当主键为整数类型字段时设置。
+        当主键为整数字段时设置。
 
     - **str_id** (*\{ data: string[] }*) -
 
@@ -173,22 +173,22 @@ await milvusClient.insert({
 
     - **id_field** (*'int_id' | 'str_id'*) -
 
-        指示两个 id 数组中哪一个携带这些值。
+        指示两个 id 数组中哪一个承载这些值。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        指示操作结果的代码。如果此操作成功，则其值保持为 **0**。
+        表示操作结果的代码。如果此操作成功，则该值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        指示已发生错误的错误码。如果此操作成功，则其值保持为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则该值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        指示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则该值保持为空字符串。
 
 ## 示例\{#example}
 

@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除一个集合。 | Node.js"
+description: "此操作会删除一个 Collection。 | Node.js"
 type: docx
 token: KLknda2VtocQSBx7PKVc6F9Nnug
 sidebar_position: 10
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - 稀疏与稠密
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollection()
 
-此操作会删除一个集合。
+此操作会删除一个 Collection。
 
 ```javascript
 await milvusClient.dropCollection(data)
@@ -51,19 +51,19 @@ await milvusClient.dropCollection({
 
 - **db_name** (*string*) -
 
-    持有目标集合的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **timeout** (*number*)  
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将此参数设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回值** *Promise\<ResStatus>*
 
@@ -81,15 +81,15 @@ await milvusClient.dropCollection({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，则始终为 **0**。
+    表示操作结果的代码。如果此操作成功，则该值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误码。如果此操作成功，则始终为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则该值保持为 **Success**。 
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则该值保持为空字符串。
 
 ## 示例\{#example}
 

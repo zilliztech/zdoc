@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除一个自定义角色。 | Node.js"
+description: "此操作用于删除自定义角色。 | Node.js"
 type: docx
 token: AnkUdEHXmob3Vwx9GIWcDOQanng
 sidebar_position: 13
 keywords: 
   - 向量存储
-  - 开源向量数据库
+  - 开源向量 Database
   - 向量索引
-  - 开源向量数据库
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropRole()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropRole()
 
-此操作会删除一个自定义角色。
+此操作用于删除自定义角色。
 
 ```javascript
 await milvusClient.dropRole(data)
@@ -56,13 +56,13 @@ await milvusClient.dropRole({
 
 - **timeout** (number)  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回** *Promise\<ResStatus>*
 
-此方法返回一个 promise，该 promise 解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，并解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -76,15 +76,15 @@ await milvusClient.dropRole({
 
 - **code** (*number*) -
 
-    表示操作结果的状态码。如果此操作成功，则其值始终为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。 
+    表示已发生错误的错误码。如果此操作成功，则其值为 **Success**。
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
 ## 示例\{#example}
 

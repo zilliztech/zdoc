@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回集合中主键字段的数据类型。这是一个便捷方法，用于描述集合并提取主键字段类型。 | Node.js"
+description: "此操作返回 Collection 主键字段的数据类型。这是一个便捷方法，用于描述 Collection 并提取主键字段类型。 | Node.js"
 type: docx
 token: AKpldMJPTo6MfuxxrpicBKRInCh
 sidebar_position: 27
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
+  - 向量相似性搜索
+  - 近似最近邻搜索
   - DiskANN
-  - Sparse vector
+  - 稀疏向量
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getPkFieldType()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getPkFieldType()
 
-此操作返回集合中主键字段的数据类型。这是一个便捷方法，用于描述集合并提取主键字段类型。
+此操作返回 Collection 主键字段的数据类型。这是一个便捷方法，用于描述 Collection 并提取主键字段类型。
 
 ```javascript
 await milvusClient.getPkFieldType(data: DescribeCollectionReq)
@@ -50,9 +50,9 @@ getPkFieldType({
 
 - **collection_name** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
-    集合名称。
+    Collection 的名称。
 
 - **timeout** (*number*) -
 

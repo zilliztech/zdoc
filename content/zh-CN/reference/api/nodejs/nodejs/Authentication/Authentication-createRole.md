@@ -7,13 +7,13 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作创建一个自定义角色。 | Node.js"
+description: "此操作用于创建自定义角色。 | Node.js"
 type: docx
 token: SDoYdccLWo1W3PxkNFncibwDnch
 sidebar_position: 6
 keywords: 
   - 什么是 milvus
-  - milvus 数据库
+  - milvus Database
   - milvus lite
   - milvus benchmark
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createRole()
 
-此操作创建一个自定义角色。
+此操作用于创建自定义角色。
 
 ```javascript
 await milvusClient.createRole(data)
@@ -58,11 +58,11 @@ await milvusClient.createRole({
 
     此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回值** *Promise\<ResStatus>*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，该 promise 会解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -76,15 +76,15 @@ await milvusClient.createRole({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。
+    表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其为空字符串。
 
 ## 示例\{#example}
 

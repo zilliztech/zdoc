@@ -7,15 +7,15 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于检查快照恢复任务的状态。使用 restoreSnapshot() 返回的 job_id。 | Node.js"
+description: "此操作用于检查快照恢复任务的状态。请使用 restoreSnapshot() 返回的 jobid。 | Node.js"
 type: docx
 token: IHY0di5uzooBe8xOCJqci9vinNh
 sidebar_position: 4
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似性搜索
+  - 多模态 RAG
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getRestoreSnapshotState()
 
-此操作用于检查快照恢复任务的状态。使用 restoreSnapshot() 返回的 `job_id`。
+此操作用于检查快照恢复任务的状态。请使用 restoreSnapshot() 返回的 job_id。
 
 ```typescript
 await milvusClient.getRestoreSnapshotState(data: GetRestoreSnapshotStateReq)
@@ -54,14 +54,14 @@ await milvusClient.getRestoreSnapshotState({
   restoreSnapshot() 返回的恢复任务 ID。
 
 - **timeout** (*number*) -<br/>
-  可选，允许 RPC 持续的时间长度，单位为毫秒。如果设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
+  允许 RPC 使用的可选时长，单位为毫秒。如果设置为 undefined，客户端会持续等待，直到服务器响应或发生错误。默认值为 undefined。
 
 - **client_request_id** (*string*) -<br/>
   用于请求跟踪的追踪 ID。可选。
 
-**返回值** *Promise&lt;GetRestoreSnapshotStateResponse&gt;*
+**返回** *Promise&lt;GetRestoreSnapshotStateResponse&gt;*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **GetRestoreSnapshotStateResponse** 对象。
+此方法返回一个 promise，解析为 **GetRestoreSnapshotStateResponse** 对象。
 
 ```typescript
 {
@@ -85,11 +85,11 @@ await milvusClient.getRestoreSnapshotState({
 
     - **db_name** (*string*) -
 
-        目标数据库。
+        目标 Database。
 
     - **collection_name** (*string*) -
 
-        目标集合名称。
+        目标 Collection 名称。
 
     - **state** (*RestoreSnapshotState*) -
 
@@ -101,7 +101,7 @@ await milvusClient.getRestoreSnapshotState({
 
     - **reason** (*string*) -
 
-        当 **state** 为 **RestoreSnapshotFailed** 时的失败原因；否则为空字符串。
+        当 **state** 为 **RestoreSnapshotFailed** 时，表示失败原因；否则为空字符串。
 
     - **start_time** (*string*) -
 
@@ -109,22 +109,22 @@ await milvusClient.getRestoreSnapshotState({
 
     - **time_cost** (*string*) -
 
-        自任务开始以来经过的总耗时。
+        任务开始以来的总耗时。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误码。如果此操作成功，则始终为 **Success**。
+        表示已发生错误的错误码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将权限或权限组分配给角色。 | Node.js"
+description: "此操作会将权限或权限组授予某个角色。 | Node.js"
 type: docx
 token: R618dfeMYo9GdmxMwe9cQLclncs
 sidebar_position: 15
 keywords: 
-  - AI Hallucination
+  - AI 幻觉
   - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - 语义搜索
+  - 异常检测
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - grantPrivilegeV2()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # grantPrivilegeV2()
 
-此操作将权限或权限组分配给角色。
+此操作会将权限或权限组授予某个角色。
 
 ```javascript
 await milvusClient.grantPrivilegeV2(data)
@@ -55,37 +55,37 @@ await milvusClient.grantPrivilegeV2(data)
 
     **[必需]**
 
-    要分配权限的角色名称。
+    要授予权限的角色名称。
 
 - **privilege** (*string*) -
 
     **[必需]**
 
-    要分配的权限或权限组名称。 
+    要授予的权限或权限组名称。 
 
-    详情请参见 [Users and Roles](https://milvus.io/docs/users_and_roles.md)。
+    有关详细信息，请参见 [用户和角色](https://milvus.io/docs/users_and_roles.md)。
 
 - **db_name** (*string*) -
 
     **[必需]**
 
-    此操作的目标数据库名称。 
+    此次操作的目标 Database 名称。 
 
 - **collection_name** (*string*) -
 
     **[必需]**
 
-    此操作的目标集合名称。 
+    此次操作的目标 Collection 名称。 
 
 - **timeout** (*number*)  
 
-    此操作的超时时长。 
+    此次操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示，当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回值** *Promise\<ResStatus>*
 
-此方法返回一个 Promise，解析为 **ResStatus** 对象。
+此方法返回一个 promise，解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -99,15 +99,15 @@ await milvusClient.grantPrivilegeV2(data)
 
 - **code** (*number*) -
 
-    指示操作结果的代码。如果此操作成功，则其值保持为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    指示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
 
 - **reason** (*string*) - 
 
-    指示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
 ## 示例\{#example}
 

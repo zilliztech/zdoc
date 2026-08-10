@@ -7,18 +7,18 @@ added_since: v2.6.12
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于检索特定导入任务的当前状态和元数据。在调用 `bulkInsert()` 后，可使用此操作轮询任务是否完成。 | Node.js"
+description: "此操作检索特定导入任务的当前状态和元数据。在调用 `bulkInsert()` 后，可使用此操作轮询任务是否完成。| Node.js"
 type: docx
 token: DJ4NdIIQ4oeA7gx4bDQcxT3gn0c
 sidebar_position: 17
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
+  - 向量相似性搜索
+  - 近似最近邻搜索
   - DiskANN
-  - Sparse vector
+  - 稀疏向量
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getImportState()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getImportState()
 
-此操作用于检索特定导入任务的当前状态和元数据。在调用 `bulkInsert()` 后，可使用此操作轮询任务是否完成。
+此操作检索特定导入任务的当前状态和元数据。在调用 `bulkInsert()` 后，可使用此操作轮询任务是否完成。
 
 ```typescript
 await milvusClient.getImportState(data)
@@ -50,15 +50,15 @@ await milvusClient.getImportState({
 
 - **task** (*number*) -
 
-    **[必需]** `bulkInsert()` 返回的导入任务 ID。
+    **[必需]** 由 `bulkInsert()` 返回的导入任务 ID。
 
 - **timeout** (*number*) -
 
-    允许 RPC 执行的可选时长，单位为毫秒。
+    RPC 允许的可选时长，单位为毫秒。
 
-**返回值** *Promise&lt;GetImportStateResponse&gt;*
+**返回** *Promise&lt;GetImportStateResponse&gt;*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **GetImportStateResponse** 对象。
+此方法返回一个 Promise，解析为 **GetImportStateResponse** 对象。
 
 ```typescript
 {
@@ -78,7 +78,7 @@ await milvusClient.getImportState({
 
 - **state** (*ImportState*) -
 
-    导入任务的当前状态。可能的取值包括 **ImportPending**、**ImportStarted**、**ImportPersisted**、**ImportCompleted**、**ImportFailed** 和 **ImportFailedAndCleaned**。
+    导入任务的当前状态。可能的值包括 **ImportPending**、**ImportStarted**、**ImportPersisted**、**ImportCompleted**、**ImportFailed** 和 **ImportFailedAndCleaned**。
 
 - **row_count** (*number*) -
 
@@ -86,7 +86,7 @@ await milvusClient.getImportState({
 
 - **id_list** (*number[]*) -
 
-    如果主键使用 autoID，则返回自动生成 ID 的列表。
+    如果主键使用 autoID，则返回自动生成的 ID 列表。
 
 - **infos** (*KeyValuePair[]*) -
 
@@ -98,7 +98,7 @@ await milvusClient.getImportState({
 
 - **collection_id** (*number*) -
 
-    与导入任务关联的集合 ID。
+    与导入任务关联的 Collection ID。
 
 - **segment_ids** (*number[]*) -
 
@@ -114,15 +114,15 @@ await milvusClient.getImportState({
 
     - **code** (*number*) -
 
-    表示操作结果的状态码。如果此操作成功，该值始终为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误码。如果此操作成功，该值始终为 **Success**。
+    表示已发生错误的错误代码。如果此操作成功，则其值为 **Success**。
 
     - **reason** (*string*) -
 
-    表示所报告错误原因的说明。如果此操作成功，该值始终为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其值为空字符串。
 
 ## 示例\{#example}
 

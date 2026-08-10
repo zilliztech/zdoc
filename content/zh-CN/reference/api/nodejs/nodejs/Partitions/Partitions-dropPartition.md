@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从当前集合中删除指定分区。 | Node.js"
+description: "此操作会从当前 Collection 中删除指定的 Partition。 | Node.js"
 type: docx
 token: BBmsddqZEozxWyxkoADcFfzpncW
 sidebar_position: 2
 keywords: 
-  - 无服务器向量数据库
+  - Serverless 向量 Database
   - Milvus 开源
-  - Milvus 如何工作
-  - Zilliz 向量数据库
+  - Milvus 的工作原理
+  - Zilliz 向量 Database
   - Zilliz
   - Zilliz Cloud
   - 云
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropPartition()
 
-此操作从当前集合中删除指定分区。
+此操作会从当前 Collection 中删除指定的 Partition。
 
 ```javascript
 await milvusClient.dropPartition(data)
@@ -52,29 +52,29 @@ await milvusClient.dropPartition({
 
 - **db_name** (*string*) -
 
-    保存目标集合的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **partition_name** (*string*)
 
-    **[必需]**
+    **[必填]**
 
-    要删除的分区名称。
+    要删除的 Partition 名称。
 
 - **timeout** (*number*)  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
+    将此项设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise\<ResStatus>*
+**返回** *Promise\<ResStatus>*
 
-此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -88,15 +88,15 @@ await milvusClient.dropPartition({
 
 - **code** (*number*) -
 
-    表示操作结果的代码。如果此操作成功，则该值始终为 **0**。
+    表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误代码。如果此操作成功，则该值始终为 **Success**。 
+    表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
 - **reason** (*string*) - 
 
-    表示所报告错误原因的说明。如果此操作成功，则该值始终为空字符串。
+    表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

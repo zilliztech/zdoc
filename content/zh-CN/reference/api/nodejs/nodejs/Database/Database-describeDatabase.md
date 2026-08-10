@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于描述数据库，返回数据库名称、ID、创建时间戳和属性等详细信息。 | Node.js"
+description: "此操作描述一个 Database，返回 Database 名称、ID、创建时间戳和属性等详细信息。 | Node.js"
 type: docx
 token: PzXldcfljoU9rOx9TFUcIoNknt6
 sidebar_position: 8
 keywords: 
   - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Milvus 向量 Database
+  - Milvus 数据库
+  - Milvus 向量数据库
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - describeDatabase()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeDatabase()
 
-此操作用于描述数据库，返回数据库名称、ID、创建时间戳和属性等详细信息。
+此操作描述一个 Database，返回 Database 名称、ID、创建时间戳和属性等详细信息。
 
 ```javascript
 await milvusClient.describeDatabase(data: DescribeDatabaseRequest)
@@ -52,7 +52,7 @@ await milvusClient.describeDatabase({
 
     **[必需]**
 
-    要描述的数据库名称。
+    要描述的 Database 的名称。
 
 - **timeout** (*number*) -
 
@@ -60,7 +60,7 @@ await milvusClient.describeDatabase({
 
 **返回值** *Promise&lt;DescribeDatabaseResponse&gt;*
 
-此方法返回一个 Promise，该 Promise 会解析为 **DescribeDatabaseResponse** 对象。
+此方法返回一个 promise，解析为 **DescribeDatabaseResponse** 对象。
 
 ```typescript
 {
@@ -75,16 +75,16 @@ await milvusClient.describeDatabase({
 **参数：**
 
 - **db_name** (*string*) -<br/>
-  数据库名称。
+  Database 名称。
 
 - **dbID** (*number*) -<br/>
-  数据库的内部标识符。
+  Database 的内部标识符。
 
 - **created_timestamp** (*number*) -<br/>
-  数据库的创建时间戳，以毫秒为单位。
+  Database 的创建时间戳，以毫秒为单位。
 
 - **properties** (*KeyValuePair[]*) -<br/>
-  数据库级属性（例如 **database.replica.number**、**database.resource_groups**），可在创建时声明，或通过 `alterDatabaseProperties()` 设置。
+  在创建时声明或通过 `alterDatabaseProperties()` 设置的 Database 级属性（例如 **database.replica.number**、**database.resource_groups**）。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
@@ -95,7 +95,7 @@ await milvusClient.describeDatabase({
 
     - **error_code** (*string* | *number*) -
 
-        表示发生错误的错误码。如果此操作成功，则其值保持为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 

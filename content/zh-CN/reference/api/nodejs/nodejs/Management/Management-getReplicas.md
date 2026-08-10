@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作获取集合的副本，返回每个副本的信息，包括其 ID、节点分配和分片详细信息。 | Node.js"
+description: "此操作用于获取一个 Collection 的副本，返回每个副本的信息，包括其 ID、节点分配和分片详情。 | Node.js"
 type: docx
 token: XKRWdKvQVolmduxrtrDc0dhjnzc
 sidebar_position: 28
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - 图像相似性搜索
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似性搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getReplicas()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getReplicas()
 
-此操作获取集合的副本，返回每个副本的信息，包括其 ID、节点分配和分片详细信息。
+此操作用于获取一个 Collection 的副本，返回每个副本的信息，包括其 ID、节点分配和分片详情。
 
 ```javascript
 await milvusClient.getReplicas(data: GetReplicaReq)
@@ -53,7 +53,7 @@ await milvusClient.getReplicas({
 
     **[必需]**
 
-    集合的 ID。
+    Collection 的 ID。
 
 - **with_shard_nodes** (*boolean*) -
 
@@ -61,11 +61,11 @@ await milvusClient.getReplicas({
 
 - **timeout** (*number*) -
 
-    以毫秒为单位的 RPC 超时时间。可选。
+    RPC 超时时间，单位为毫秒。可选。
 
-**返回值** *Promise&lt;ReplicasResponse&gt;*
+**返回** *Promise&lt;ReplicasResponse&gt;*
 
-此方法返回一个 promise，该 promise 会解析为一个 **ReplicasResponse** 对象。
+此方法返回一个 promise，解析为 **ReplicasResponse** 对象。
 
 ```typescript
 {
@@ -77,7 +77,7 @@ await milvusClient.getReplicas({
 **参数：**
 
 - **replicas** (*ReplicaInfo[]*) -<br/>
-  当前为所请求集合提供服务的副本列表。
+  当前为所请求 Collection 提供服务的副本列表。
 
     - **replicaID** (*string*) -
 
@@ -85,15 +85,15 @@ await milvusClient.getReplicas({
 
     - **collectionID** (*string*) -
 
-        集合标识符。
+        Collection 标识符。
 
     - **partition_ids** (*string[]*) -
 
-        此副本覆盖的分区标识符。
+        此副本所覆盖的 Partition 标识符。
 
     - **shard_replicas** (*ShardReplica[]*) -
 
-        每个分片的 leader 和节点分配信息。
+        按分片划分的 leader 和节点分配信息。
 
         - **leaderID** (*string*) -
 
@@ -105,7 +105,7 @@ await milvusClient.getReplicas({
 
         - **dm_channel_name** (*string*) -
 
-        此分片服务的 DML 通道。
+        此分片提供服务的 DML 通道。
 
         - **node_ids** (*string[]*) -
 
@@ -121,7 +121,7 @@ await milvusClient.getReplicas({
 
         - **dm_channel_name** (*string*) -
 
-            此分片服务的 DML 通道。
+            此分片提供服务的 DML 通道。
 
         - **node_ids** (*string[]*) -
 
@@ -137,22 +137,22 @@ await milvusClient.getReplicas({
 
     - **num_outbound_node** (*Record&lt;string, number&gt;*) -
 
-        每个资源组的出站节点数量，在重平衡期间使用。
+        每个资源组的出站节点数量，用于重新均衡期间。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误码。如果此操作成功，则始终为 **Success**。
+        表示已发生错误的错误码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的原因描述。如果此操作成功，则始终为空字符串。
+        表示所报告错误原因的原因说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

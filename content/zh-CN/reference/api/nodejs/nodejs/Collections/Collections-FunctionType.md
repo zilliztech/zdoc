@@ -13,12 +13,12 @@ token: Vq2VdsWJaoufsGx5stJcTuyPnDb
 sidebar_position: 17
 keywords: 
   - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - 稀疏与稠密
+  - 稠密向量
+  - 分层可导航小世界
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - FunctionType
   - nodejs30
 displayed_sidebar: nodeSidebar

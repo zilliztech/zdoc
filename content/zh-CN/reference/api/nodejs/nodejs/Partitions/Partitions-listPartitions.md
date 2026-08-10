@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出指定集合中的分区。 | Node.js"
+description: "此操作列出指定 Collection 中的 Partition。 | Node.js"
 type: docx
 token: IvnLd6nXooRR6NxM9jdcDxCHnhh
 sidebar_position: 5
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Serverless 向量 Database
+  - milvus 开源
+  - milvus 的工作原理
+  - Zilliz 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listPartitions()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listPartitions()
 
-此操作列出指定集合中的分区。
+此操作列出指定 Collection 中的 Partition。
 
 ```javascript
 await milvusClient.listPartitions(data)
@@ -52,13 +52,13 @@ await milvusClient.listPartitions({
 
 - **db_name** (*string*) -
 
-    保存目标集合的数据库名称。
+    包含目标 Collection 的 Database 名称。
 
 - **collection_name** (*string*) -
 
     **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **timeout** (*number*)  
 
@@ -66,19 +66,19 @@ await milvusClient.listPartitions({
 
 - **type** (*ShowPartitionsType*) - 
 
-    决定列出所有分区，还是仅列出已加载的分区。**ShowPartitionsType** 具有以下值：
+    确定是列出所有 Partition，还是仅列出已加载的 Partition。**ShowPartitionsType** 具有以下值：
 
     - **All** = 0
 
-        表示列出所有分区。
+        表示列出所有 Partition。
 
     - **Loaded** = 1
 
-        表示仅列出已加载的分区。
+        表示仅列出已加载的 Partition。
 
-**返回值** *Promise&lt;ShowPartitionsResponse&gt;*
+**返回** *Promise&lt;ShowPartitionsResponse&gt;*
 
-此方法返回一个 promise，解析为 **ShowPartitionsResponse** 对象。
+此方法返回一个 Promise，解析为 **ShowPartitionsResponse** 对象。
 
 ```typescript
 {
@@ -92,44 +92,44 @@ await milvusClient.listPartitions({
 **参数：**
 
 - **partition_names** (*string[]*) -<br/>
-  集合上定义的分区名称列表。
+  Collection 上定义的 Partition 名称列表。
 
 - **partitionIDs** (*number[]*) -<br/>
-  分区的内部标识符，顺序与 **partition_names** 相同。
+  Partition 的内部标识符，顺序与 **partition_names** 相同。
 
 - **data** (*PartitionData[]*) -<br/>
-  按分区展平的视图，包含名称、标识符、创建时间戳和加载百分比。
+  按 Partition 展开的视图，包含名称、标识符、创建时间戳和加载百分比。
 
     - **name** (*string*) -
 
-        分区名称。
+        Partition 名称。
 
     - **id** (*string*) -
 
-        分区标识符。
+        Partition 标识符。
 
     - **timestamp** (*string*) -
 
-        分区的创建时间戳。
+        Partition 的创建时间戳。
 
     - **loadedPercentage** (*string*) -
 
-        当前已加载到内存中的分区百分比。
+        当前已加载到内存中的 Partition 百分比。
 
 - **ResStatus**<br/>
   一个 **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误代码。如果此操作成功，则始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
 
 ## 示例\{#example}
 

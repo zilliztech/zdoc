@@ -12,13 +12,13 @@ type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
 sidebar_position: 21
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - llm 幻觉
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listUsers()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -47,13 +47,13 @@ milvusClient.listUsers()
 
 - **timeout** (*number*)  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将此项设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回值** *Promise&lt;ListCredUsersResponse&gt;*
+**返回** *Promise&lt;ListCredUsersResponse&gt;*
 
-此方法返回一个 promise，该 promise 会解析为一个 **ListCredUsersResponse** 对象。
+此方法返回一个 promise，解析为 **ListCredUsersResponse** 对象。
 
 ```typescript
 {
@@ -72,15 +72,15 @@ milvusClient.listUsers()
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则其值始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则该值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。
+        表示已发生错误的错误代码。如果此操作成功，则该值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        表示所报告错误原因的说明。如果此操作成功，则其值始终为空字符串。
+        表示所报告错误原因的原因。如果此操作成功，则该值保持为空字符串。
 
 ## 示例\{#example}
 

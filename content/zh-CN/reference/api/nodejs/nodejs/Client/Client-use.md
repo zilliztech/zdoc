@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作为 gRPC 客户端设置当前活动数据库。调用此方法后，后续所有操作都将以指定的数据库为目标。 | Node.js"
+description: "此操作为 gRPC 客户端设置活动 Database。调用此方法后，所有后续操作都将以指定的 Database 为目标。 | Node.js"
 type: docx
 token: Dc3JdXF5dogLOLxqUPGclM6jn6f
 sidebar_position: 9
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Milvus 基准测试
+  - 托管式 Milvus
+  - Serverless 向量 Database
+  - 开源 Milvus
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - use()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # use()
 
-此操作为 gRPC 客户端设置当前活动数据库。调用此方法后，后续所有操作都将以指定的数据库为目标。
+此操作为 gRPC 客户端设置活动 Database。调用此方法后，所有后续操作都将以指定的 Database 为目标。
 
 ```javascript
 await milvusClient.use({ db_name: string })
@@ -49,9 +49,9 @@ await milvusClient.use({
 
 - **db_name** (*string*) -
 
-    要使用的数据库名称。
+    要使用的 Database 名称。
 
-**返回：**
+**返回值：**
 
 *Promise\<ResStatus\>*
 

@@ -12,13 +12,13 @@ type: docx
 token: WA81dokeYotwt9xAiKKcaaIpnxc
 sidebar_position: 8
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - 向量 Database 示例
+  - RAG 向量 Database
+  - 什么是向量数据库
+  - 什么是向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getVersion()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -37,9 +37,9 @@ import Admonition from '@theme/Admonition';
 await milvusClient.getVersion()
 ```
 
-**返回值** *Promise&lt;GetVersionResponse&gt;*
+**返回** *Promise&lt;GetVersionResponse&gt;*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **GetVersionResponse** 对象。
+此方法返回一个 promise，并解析为 **GetVersionResponse** 对象。
 
 ```typescript
 {

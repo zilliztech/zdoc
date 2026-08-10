@@ -12,13 +12,13 @@ type: docx
 token: DDvudeY20o6tV5xwwo4cKovjnHf
 sidebar_position: 2
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Serverless 向量 Database
+  - milvus 开源
+  - milvus 的工作原理
+  - Zilliz 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - checkHealth()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -47,9 +47,9 @@ milvusClient.checkHealth()
 
 *Promise*\<*CheckHealthResponse*>
 
-**返回：** *Promise&lt;CheckHealthResponse&gt;*
+**返回值** *Promise&lt;CheckHealthResponse&gt;*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **CheckHealthResponse** 对象。
+此方法返回一个 promise，该 promise 会解析为 **CheckHealthResponse** 对象。
 
 ```typescript
 {
@@ -62,11 +62,11 @@ milvusClient.checkHealth()
 
 - **isHealthy** (*boolean*) -
 
-    一个布尔值，表示 Milvus 部署中的所有关键组件是否都处于健康状态。
+    一个布尔值，用于指示 Milvus 部署中的所有关键组件是否都处于健康状态。
 
 - **reasons** (*string[]*) -
 
-    当 **isHealthy** 为 **false** 时，返回一个包含人类可读原因的列表，用于说明哪些组件不健康。当 **isHealthy** 为 **true** 时，该列表为空。
+    当 **isHealthy** 为 **false** 时，返回一个人类可读的原因列表，用于说明哪些组件不健康。当 **isHealthy** 为 **true** 时，该列表为空。
 
 ## 示例\{#examples}
 

@@ -12,13 +12,13 @@ type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
 sidebar_position: 10
 keywords: 
-  - Elastic vector database
+  - Elastic 向量 Database
   - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy 向量搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describeUser()
   - nodejs30
 displayed_sidebar: nodeSidebar
@@ -63,11 +63,11 @@ await milvusClient.describeUser({
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
-**返回值** *Promise&lt;SelectUserResponse&gt;*
+**返回** *Promise&lt;SelectUserResponse&gt;*
 
-此方法返回一个 Promise，该 Promise 解析为一个 **SelectUserResponse** 对象。
+此方法返回一个 promise，解析为 **SelectUserResponse** 对象。
 
 ```typescript
 {
@@ -79,7 +79,7 @@ await milvusClient.describeUser({
 **参数：**
 
 - **results** (*UserResult[]*) -<br/>
-  **UserResult** 对象列表。对于 `describeUser()`，此列表仅包含一个条目，用于描述所请求的用户。
+  **UserResult** 对象列表。对于 `describeUser()`，此列表包含一个条目，用于描述所请求的用户。
 
     - **user** (*User*) -
 
@@ -95,7 +95,7 @@ await milvusClient.describeUser({
 
     - **roles** (*RoleEntity[]*) -
 
-        分配给此用户的角色列表。
+        分配给该用户的角色列表。
 
         - **name** (*string*) -
 
@@ -106,19 +106,19 @@ await milvusClient.describeUser({
             角色名称。
 
 - **ResStatus**<br/>
-  一个 **ResStatus** 对象。
+  **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        指示操作结果的代码。如果此操作成功，则始终为 **0**。
+        指示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        指示发生错误的错误代码。如果此操作成功，则始终为 **Success**。
+        指示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。
 
     - **reason** (*string*) -
 
-        指示所报告错误原因的说明。如果此操作成功，则始终为空字符串。
+        指示所报告错误原因的原因。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

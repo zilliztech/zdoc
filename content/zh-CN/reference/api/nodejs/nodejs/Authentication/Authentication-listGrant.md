@@ -12,10 +12,10 @@ type: docx
 token: HSIDdxQGEoPdyaxkMDjcAWGQnpd
 sidebar_position: 17
 keywords: 
-  - what are vector databases
-  - vector databases comparison
+  - 什么是向量 Database
+  - 向量 Database 比较
   - Faiss
-  - Video search
+  - 视频搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -61,7 +61,7 @@ await milvusClient.listGrant(data)
 
 - **objectName** (*string*)
 
-    指定对象组中特定对象的名称。使用通配符 (*) 表示要授予指定组中的所有权限。
+    指定对象组中特定对象的名称。使用通配符 (*) 表示将授予指定组中的所有权限。
 
 - **timeout** (*number*) 
 
@@ -69,7 +69,7 @@ await milvusClient.listGrant(data)
 
 *返回 Promise\<SelectGrantResponse>*
 
-此方法返回一个 Promise，该 Promise 会解析为一个 **SelectGrantResponse** 对象。
+此方法返回一个 promise，该 promise 解析为 **SelectGrantResponse** 对象。
 
 ```javascript
 {
@@ -89,19 +89,19 @@ await milvusClient.listGrant(data)
 
 - **entities** (*GrantEntity[]*) -
 
-    授权实体列表，每个实体的结构如下：
+    授权 Entity 列表，每个 Entity 的结构如下：
 
     - **db_name** (*string*) -
 
-        已授予权限的数据库名称。
+        已授予权限所在的 Database 名称。
 
     - **grantor** (*Grantor*) -
 
-        一个 **Grantor** 对象，其结构如下：
+        **Grantor** 对象，其结构如下：
 
         - **privilege** (*PrivilegeEntity*) -
 
-            一个 **PrivilegeEntity** 对象，其结构如下：
+            **PrivilegeEntity** 对象，其结构如下：
 
             - **name** (*string*) - 
 
@@ -109,7 +109,7 @@ await milvusClient.listGrant(data)
 
         - **user** (*User*) - 
 
-            一个 **User** 对象，其结构如下：
+            **User** 对象，其结构如下：
 
             - **name** (*string*) - 
 
@@ -117,19 +117,19 @@ await milvusClient.listGrant(data)
 
     - **object** (*ObjectEntity*) -
 
-        一个 **ObjectEntity** 对象，其结构如下：
+        **ObjectEntity** 对象，其结构如下：
 
         - **name** (*string*) - 
 
-            对象实体的名称。
+            对象 Entity 的名称。
 
     - **object_name** (*string*) -
 
-        上述对象实体中特定对象的名称。
+        上述对象 Entity 中特定对象的名称。
 
     - **role** (*RoleEntity*) -   
 
-        一个 **RoleEntity** 对象，其结构如下：
+        **RoleEntity** 对象，其结构如下：
 
         - **name** (*string*) - 
 
@@ -137,19 +137,19 @@ await milvusClient.listGrant(data)
 
 - **status** (*ResStatus*) -
 
-    一个 **ResStatus** 对象。
+    **ResStatus** 对象。
 
     - **code** (*number*) -
 
-        表示操作结果的代码。如果此操作成功，则该值始终为 **0**。
+        表示操作结果的代码。如果此操作成功，则其值保持为 **0**。
 
     - **error_code** (*string* | *number*) -
 
-        表示已发生错误的错误码。如果此操作成功，则该值始终为 **Success**。 
+        表示已发生错误的错误代码。如果此操作成功，则其值保持为 **Success**。 
 
     - **reason** (*string*) - 
 
-        表示所报告错误原因的说明。如果此操作成功，则该值始终为空字符串。
+        表示所报告错误原因的说明。如果此操作成功，则其值保持为空字符串。
 
 ## 示例\{#example}
 

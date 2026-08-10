@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 notebook: false
-description: "此操作为指定集合创建索引。 | Node.js"
+description: "此操作为特定 Collection 创建索引。 | Node.js"
 type: docx
 token: Nu0Id3wzGoJIFyxkC7IcmjAznNf
 sidebar_position: 3
 keywords: 
   - knn
-  - Image Search
+  - 图像搜索
   - LLMs
-  - Machine Learning
+  - 机器学习
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createIndex()
 
-此操作为指定集合创建索引。
+此操作为特定 Collection 创建索引。
 
 ```javascript
 await milvusClient.createIndex(data)
@@ -67,13 +67,13 @@ await milvusClient.createIndex([
 
 - **db_name** (*string*) -
 
-    目标集合所属数据库的名称。
+    目标 Collection 所属的 Database 名称。
 
 - **collection_name** (*string*) -
 
     **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **field_name** (*string*) -
 
@@ -91,21 +91,21 @@ await milvusClient.createIndex([
 
 - **metric_type** (*string*) -
 
-    用于度量向量距离的度量类型。可能的值包括：`IP`、`L2`、`COSINE`、`HAMMING`、`JACCARD`、`BM25`（仅用于全文检索）。更多信息，请参阅 [Metric Types](https://milvus.io/docs/metric.md)。
+    用于衡量向量距离的度量类型。可能的值包括：`IP`、`L2`、`COSINE`、`HAMMING`、`JACCARD`、`BM25`（仅用于全文搜索）。更多信息，请参见 [度量类型](https://milvus.io/docs/metric.md)。
 
-    仅当指定字段是向量字段时，此参数才可用。
+    仅当指定字段是向量字段时可用。
 
 - **params** (*string*) -
 
-    其他特定于索引的参数。
+    其他索引特定参数。
 
 - **timeout** (number) -
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-**返回：** *Promise\<ResStatus>*
+**返回值** *Promise\<ResStatus>*
 
-此方法返回一个 promise，该 promise 会解析为一个 **ResStatus** 对象。
+此方法返回一个 promise，该 promise 解析为 **ResStatus** 对象。
 
 ```javascript
 {
@@ -123,7 +123,7 @@ await milvusClient.createIndex([
 
 - **error_code** (*string* | *number*) -
 
-    表示已发生错误的错误代码。如果此操作成功，则其值始终为 **Success**。 
+    表示已发生错误的错误码。如果此操作成功，则其值始终为 **Success**。 
 
 - **reason** (*string*) - 
 
