@@ -14,11 +14,11 @@ sidebar_position: 2
 
 **96000**
 
-无效的 CloudId。请使用 ListCloudProviders API 获取受支持的 cloudIds 列表。
+无效的 CloudId。请使用 ListCloudProviders API 获取受支持的 cloudId 列表。
 
 **96001**
 
-无效的 RegionId。请使用 ListCloudRegions API 获取受支持的 regionIds 列表。
+无效的 RegionId。请使用 ListCloudRegions API 获取受支持的 regionId 列表。
 
 **96002**
 
@@ -34,15 +34,15 @@ sidebar_position: 2
 
 **96005**
 
-无效的 projectId。projectId 的格式应为 proj-xxxxxxxx。请使用 ListProjects API 获取您有权限访问的项目。
+无效的 projectId。projectId 应类似于 proj-xxxxxxxx。请使用 ListProjects API 获取您有权限访问的项目。
 
 **96006**
 
-UTC 中的 ISO 8601 duration 格式无效。
+UTC 中无效的 ISO 8601 duration 格式。
 
 **96007**
 
-UTC 中的 ISO 8601 timestamp 格式无效。
+UTC 中无效的 ISO 8601 时间戳格式。
 
 **96008**
 
@@ -54,15 +54,15 @@ pageSize 的参数值应在 1 到 100 之间。
 
 **96010**
 
-无效的 clusterName。集群名称只能包含字母数字字符和连字符。
+无效的 clusterName。集群名称只能包含字母、数字和连字符。
 
 **96011**
 
-必须提供有效的 period，或提供有效的 start 和 end 参数。
+应提供有效的 period，或有效的 start 和 end 参数。
 
 **96012**
 
-您没有此项目的权限。Project org 与 Apikey org 不匹配。
+您没有此项目的权限。项目 org 与 Apikey org 不匹配。
 
 **96013**
 
@@ -70,7 +70,7 @@ pageSize 的参数值应在 1 到 100 之间。
 
 **96014**
 
-您没有此集群的权限。Cluster org 与 Apikey org 不匹配。
+您没有此集群的权限。集群 org 与 Apikey org 不匹配。
 
 **96015**
 
@@ -82,7 +82,7 @@ pageSize 的参数值应在 1 到 100 之间。
 
 **96017**
 
-指定的集群名称在项目下已存在。
+指定的集群名称在该项目下已存在。
 
 **96018**
 
@@ -94,15 +94,15 @@ pageSize 的参数值应在 1 到 100 之间。
 
 **96020**
 
-此区域不支持 serverless plan。
+此区域不支持 Serverless plan。
 
 **96021**
 
-Free cluster 不支持此操作。
+免费集群不支持此操作。
 
 **96022**
 
-Serverless cluster 不支持此操作。
+Serverless 集群不支持此操作。
 
 **96023**
 
@@ -138,19 +138,19 @@ clusterId 为空。请指定 clusterId。
 
 **96031**
 
-无效的 backup restore policy。`collectionStatus` 的值应为 KEEP 或 RELEASE。
+无效的备份恢复策略。'collectionStatus' 的值应为 KEEP 或 RELEASE。
 
 **96032**
 
-无效的 backup policy frequency。
+无效的备份策略 frequency。
 
 **96033**
 
-无效的 backup policy startTime。
+无效的备份策略 startTime。
 
 **96034**
 
-无效的 auto backup retentionDays。该值应在 1 到 30 之间。
+无效的自动备份 retentionDays。其值应在 1 到 30 之间。
 
 **96035**
 
@@ -162,7 +162,7 @@ clusterId 为空。请指定 clusterId。
 
 **96037**
 
-无效的 targetCollectionStatus。该值应为 LOADED 或 UNLOADED。
+无效的 targetCollectionStatus。其值应为 LOADED 或 UNLOADED。
 
 **96038**
 
@@ -170,7 +170,7 @@ clusterId 为空。请指定 clusterId。
 
 **96039**
 
-恢复集合备份失败。%s
+恢复 Collection 备份失败。%s
 
 **96040**
 

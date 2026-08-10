@@ -3,10 +3,10 @@ displayed_sidebar: restfulSidebar
 sidebar_position: 2
 slug: /restful/flush-collection-v2
 beta: FALSE
-title: "Flush Collection (V2) | RESTful"
-description: "此操作会刷写流式数据并封存 segment。建议在所有数据都已插入到 collection 后调用此操作。 | RESTful"
+title: "Flush Collection（V2） | RESTful"
+description: "此操作会刷新流式数据并封存 Segment。建议您在所有数据都插入到 Collection 后调用此操作。 | RESTful"
 hide_table_of_contents: true
-sidebar_label: "Flush Collection (V2)"
+sidebar_label: "Flush Collection（V2）"
 sidebar_custom_props:
   badges:
     - "post"
@@ -14,18 +14,18 @@ keywords:
   - zilliz cloud
   - zilliz
   - cloud
-  - "Flush Collection (V2)"
+  - "Flush Collection（V2）"
   - "post"
   - RESTful
   - API
 ---
 
-# Flush Collection (V2)
+# Flush Collection（V2）
 
 import RestSpecs from '@site/src/components/RestSpecs';
 
 <RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
 
-export const specs = {"summary":"Flush Collection","deprecated":false,"description":"This operation flushes the streaming data and seals segments. It is recommended to call this operation after all the data has been inserted into a collection.","x-i18n":{"zh-CN":{"summary":"Flush Collection","description":"此操作会刷新流式数据并封存段。建议在将所有数据插入集合后调用此操作。"}},"tags":["Collection Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`. If you are using a project endpoint, only a valid API key with sufficient permissions applies.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"身份验证令牌应为<include target=\"zilliz\">具有适当权限的 API 密钥，或</include>由冒号连接的用户名和密码，例如 `username:password`。如果您使用的是项目端点，则仅支持具有足够权限的有效 API 密钥。"}}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"dbName":{"type":"string","description":"The name of the database which the collection belongs to. Setting this to a non-existing database results in an error. If not specified, the default database applies.","x-i18n":{"zh-CN":{"description":"集合所属数据库的名称。将其设置为不存在的数据库会导致错误。若未指定，则使用默认数据库。"}}},"collectionName":{"type":"string","description":"The name of the target collection.\nSetting this to a non-existing collection results in an error.","x-i18n":{"zh-CN":{"description":"目标集合的名称。\n将其设置为不存在的集合会导致错误。"}}}},"required":["collectionName"]},"example":{"collectionName":"test_collection"}}}},"responses":{"200":{"description":"Return an empty response.","x-i18n":{"zh-CN":{"description":"返回空响应。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"object","properties":{}}}},{"x-tab-label":"failure","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
+export const specs = {"summary":"Flush Collection","deprecated":false,"description":"This operation flushes the streaming data and seals segments. It is recommended to call this operation after all the data has been inserted into a collection.","x-i18n":{"zh-CN":{"summary":"Flush Collection","description":"此操作会刷写流式数据并封存 Segment。建议在所有数据都已插入 Collection 后调用此操作。"}},"tags":["Collection Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`. If you are using a project endpoint, only a valid API key with sufficient permissions applies.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌应为 <include target=\"zilliz\">具有相应权限的 API 密钥，或 </include>由冒号连接的用户名和密码，例如 `username:password`。如果您使用的是项目 Endpoint，则仅支持具有足够权限的有效 API 密钥。"}}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"dbName":{"type":"string","description":"The name of the database which the collection belongs to. Setting this to a non-existing database results in an error. If not specified, the default database applies.","x-i18n":{"zh-CN":{"description":"该 Collection 所属 Database 的名称。将其设置为不存在的 Database 会导致错误。若未指定，则使用默认 Database。"}}},"collectionName":{"type":"string","description":"The name of the target collection.\nSetting this to a non-existing collection results in an error.","x-i18n":{"zh-CN":{"description":"目标 Collection 的名称。\n将其设置为不存在的 Collection 会导致错误。"}}}},"required":["collectionName"]},"example":{"collectionName":"test_collection"}}}},"responses":{"200":{"description":"Return an empty response.","x-i18n":{"zh-CN":{"description":"返回空响应。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应代码。"}}},"data":{"type":"object","properties":{}}}},{"x-tab-label":"failure","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应代码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
 export const endpoint = "/v2/vectordb/collections/flush"
 export const method = "post"

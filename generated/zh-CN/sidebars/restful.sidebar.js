@@ -10,7 +10,7 @@ module.exports = [
     "items": [
       {
         "type": "category",
-        "label": "Control Plane (V2)",
+        "label": "控制平面（V2）",
         "items": [
           {
             "type": "category",
@@ -19,13 +19,13 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/import-operations-v2/create-import-jobs-v2",
-                "label": "创建导入作业（V2）",
+                "label": "创建导入任务（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/import-operations-v2/create-import-jobs-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/import-operations-v2/list-import-jobs-v2",
-                "label": "列出导入任务（V2）",
+                "label": "列出导入作业（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/import-operations-v2/list-import-jobs-v2"
               },
               {
@@ -39,7 +39,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Cloud Meta (V2)",
+            "label": "Cloud Meta（V2）",
             "items": [
               {
                 "type": "doc",
@@ -58,7 +58,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "提取、加载与转换（V2）",
+            "label": "提取、加载和转换（V2）",
             "items": [
               {
                 "type": "doc",
@@ -82,13 +82,13 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/volume-operations-v2/create-volume-v2",
-                "label": "创建 Volume（V2）",
+                "label": "创建卷（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/volume-operations-v2/create-volume-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/volume-operations-v2/delete-volume-v2",
-                "label": "删除 Volume（V2）",
+                "label": "删除卷（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/volume-operations-v2/delete-volume-v2"
               }
             ],
@@ -96,7 +96,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Project Operations (V2)",
+            "label": "项目操作（V2）",
             "items": [
               {
                 "type": "doc",
@@ -144,13 +144,13 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/cluster-operations-v2/describe-cluster-v2",
-                "label": "查看集群详情（V2）",
+                "label": "描述集群（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/cluster-operations-v2/describe-cluster-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/cluster-operations-v2/create-dedicated-cluster-v2",
-                "label": "创建专属集群 (V2)",
+                "label": "创建 Dedicated 集群（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/cluster-operations-v2/create-dedicated-cluster-v2"
               },
               {
@@ -192,7 +192,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/cluster-operations-v2/modify-cluster-replica-v2",
-                "label": "修改集群副本数（V2）",
+                "label": "修改 Cluster 副本数（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/cluster-operations-v2/modify-cluster-replica-v2"
               }
             ],
@@ -225,12 +225,12 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Cloud Migration (V2)",
+            "label": "Cloud Migration（V2）",
             "items": [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/cloud-migration-v2/migrate-to-new-dedicated-cluster-v2",
-                "label": "迁移到新的专属集群（V2）",
+                "label": "迁移到新的 Dedicated 集群（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/cloud-migration-v2/migrate-to-new-dedicated-cluster-v2"
               },
               {
@@ -255,7 +255,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/backup-and-restore-v2/describe-backup-v2",
-                "label": "Describe Backup (V2)",
+                "label": "查看备份详情（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/backup-and-restore-v2/describe-backup-v2"
               },
               {
@@ -267,7 +267,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/backup-and-restore-v2/export-backup-files-v2",
-                "label": "导出备份文件 (V2)",
+                "label": "导出备份文件（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/backup-and-restore-v2/export-backup-files-v2"
               },
               {
@@ -297,7 +297,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/backup-and-restore-v2/restore-collection-backup-v2",
-                "label": "恢复集合备份（V2）",
+                "label": "恢复 Collection 备份（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/backup-and-restore-v2/restore-collection-backup-v2"
               }
             ],
@@ -305,7 +305,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "指标与告警（V2）",
+            "label": "监控指标和告警（V2）",
             "items": [
               {
                 "type": "doc",
@@ -347,7 +347,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/cloud-job-v2/describe-job-v2",
-                "label": "描述作业（V2）",
+                "label": "查询作业（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/cloud-job-v2/describe-job-v2"
               }
             ],
@@ -360,13 +360,13 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/invoices-v2/list-invoices-v2",
-                "label": "列出发票 (V2)",
+                "label": "列出发票（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/invoices-v2/list-invoices-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/invoices-v2/describe-invoice-v2",
-                "label": "查询发票（V2）",
+                "label": "查看发票（V2）",
                 "key": "doc:api/restful/restful/v2/control-plane/invoices-v2/describe-invoice-v2"
               }
             ],
@@ -374,7 +374,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "用量（V2）",
+            "label": "使用情况（V2）",
             "items": [
               {
                 "type": "doc",
@@ -390,7 +390,7 @@ module.exports = [
       },
       {
         "type": "category",
-        "label": "Data Plane (V2)",
+        "label": "数据平面（V2）",
         "items": [
           {
             "type": "category",
@@ -405,13 +405,13 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/vector-operations-v2/insert-v2",
-                "label": "插入 (V2)",
+                "label": "插入（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/vector-operations-v2/insert-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/vector-operations-v2/upsert-v2",
-                "label": "Upsert (V2)",
+                "label": "Upsert（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/vector-operations-v2/upsert-v2"
               },
               {
@@ -443,42 +443,42 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Collection Operations (V2)",
+            "label": "Collection 操作（V2）",
             "items": [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/list-collections-v2",
-                "label": "列出 Collections（V2）",
+                "label": "列出 Collection（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/list-collections-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/create-collection-v2",
-                "label": "创建集合（V2）",
+                "label": "创建 Collection（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/create-collection-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/flush-collection-v2",
-                "label": "Flush Collection (V2)",
+                "label": "Flush Collection（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/flush-collection-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/compact-collection-v2",
-                "label": "压缩集合（V2）",
+                "label": "Compact Collection（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/compact-collection-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/get-compaction-state-v2",
-                "label": "获取压缩状态（V2）",
+                "label": "获取 Compaction 状态（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/get-compaction-state-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/describe-collection-v2",
-                "label": "描述集合（V2）",
+                "label": "描述 Collection（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/describe-collection-v2"
               },
               {
@@ -496,7 +496,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/get-collection-stats-v2",
-                "label": "获取集合统计信息（V2）",
+                "label": "获取 Collection 统计信息（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/get-collection-stats-v2"
               },
               {
@@ -508,31 +508,31 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/alter-collection-properties-v2",
-                "label": "修改集合属性（V2）",
+                "label": "更改 Collection 属性（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/alter-collection-properties-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/drop-collection-properties-v2",
-                "label": "删除集合属性（V2）",
+                "label": "删除 Collection 属性（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/drop-collection-properties-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/add-collection-field-v2",
-                "label": "添加集合字段（V2）",
+                "label": "添加 Collection 字段（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/add-collection-field-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/alter-field-properties-v2",
-                "label": "修改字段属性（V2）",
+                "label": "更改字段属性（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/alter-field-properties-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/rename-collection-v2",
-                "label": "重命名集合（V2）",
+                "label": "重命名 Collection（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/rename-collection-v2"
               },
               {
@@ -550,25 +550,25 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/get-collection-load-state-v2",
-                "label": "获取集合加载状态 (V2)",
+                "label": "获取 Collection 加载状态（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/get-collection-load-state-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/add-function-to-collection-v2",
-                "label": "为 Collection 添加函数（V2）",
+                "label": "向 Collection 添加函数（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/add-function-to-collection-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/alter-function-in-collection-v2",
-                "label": "在 Collection 中修改 Function（V2）",
+                "label": "更改 Collection 中的函数（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/alter-function-in-collection-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/drop-function-from-collection-v2",
-                "label": "从 Collection 中删除 Function（V2）",
+                "label": "从 Collection 中删除函数（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/drop-function-from-collection-v2"
               },
               {
@@ -582,42 +582,42 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "数据库操作（V2）",
+            "label": "Database 操作（V2）",
             "items": [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/database-operations-v2/create-database-v2",
-                "label": "创建数据库（V2）",
+                "label": "创建 Database（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/create-database-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/database-operations-v2/list-databases-v2",
-                "label": "列出数据库（V2）",
+                "label": "列出 Database（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/list-databases-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/database-operations-v2/describe-database-v2",
-                "label": "描述数据库（V2）",
+                "label": "描述 Database（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/describe-database-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2",
-                "label": "修改数据库属性（V2）",
+                "label": "更改 Database 属性（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/database-operations-v2/drop-database-properties-v2",
-                "label": "删除数据库属性（V2）",
+                "label": "删除 Database 属性（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/drop-database-properties-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/database-operations-v2/drop-database-v2",
-                "label": "删除数据库（V2）",
+                "label": "删除 Database（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/drop-database-v2"
               }
             ],
@@ -642,7 +642,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/index-operations-v2/alter-index-properties-v2",
-                "label": "修改索引属性（V2）",
+                "label": "更改索引属性（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/index-operations-v2/alter-index-properties-v2"
               },
               {
@@ -668,48 +668,48 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "分区操作（V2）",
+            "label": "Partition 操作（V2）",
             "items": [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/partition-operations-v2/list-partitions-v2",
-                "label": "列出分区（V2）",
+                "label": "列出 Partition（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/partition-operations-v2/list-partitions-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/partition-operations-v2/create-partition-v2",
-                "label": "创建分区（V2）",
+                "label": "创建 Partition（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/partition-operations-v2/create-partition-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/partition-operations-v2/load-partitions-v2",
-                "label": "加载分区（V2）",
+                "label": "加载 Partition（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/partition-operations-v2/load-partitions-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/partition-operations-v2/release-partitions-v2",
-                "label": "释放分区 (V2)",
+                "label": "释放 Partition（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/partition-operations-v2/release-partitions-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/partition-operations-v2/has-partition-v2",
-                "label": "Has Partition (V2)",
+                "label": "检查 Partition 是否存在（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/partition-operations-v2/has-partition-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/partition-operations-v2/get-partition-statistics-v2",
-                "label": "获取分区统计信息（V2）",
+                "label": "获取 Partition 统计信息（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/partition-operations-v2/get-partition-statistics-v2"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/partition-operations-v2/drop-partition-v2",
-                "label": "删除分区（V2）",
+                "label": "删除 Partition（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/partition-operations-v2/drop-partition-v2"
               }
             ],
@@ -746,7 +746,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/role-operations-v2/revoke-privilege-from-role-v2",
-                "label": "从角色撤销权限（V2）",
+                "label": "从角色中撤销权限（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/role-operations-v2/revoke-privilege-from-role-v2"
               },
               {
@@ -832,7 +832,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/user-operations-v2/drop-user-v2",
-                "label": "删除用户 (V2)",
+                "label": "删除用户（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/user-operations-v2/drop-user-v2"
               },
               {
@@ -850,7 +850,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/user-operations-v2/revoke-role-from-user-v2",
-                "label": "从用户撤销角色（V2）",
+                "label": "从用户中撤销角色（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/user-operations-v2/revoke-role-from-user-v2"
               }
             ],
@@ -869,7 +869,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/privilege-group-operations-v2/drop-privilege-group-v2",
-                "label": "删除权限组（V2）",
+                "label": "删除 Privilege Group（V2）",
                 "key": "doc:api/restful/restful/v2/data-plane/privilege-group-operations-v2/drop-privilege-group-v2"
               },
               {
@@ -905,16 +905,16 @@ module.exports = [
     "items": [
       {
         "type": "category",
-        "label": "Control Plane (V1)",
+        "label": "控制平面（V1）",
         "items": [
           {
             "type": "category",
-            "label": "Import Operations (V1)",
+            "label": "导入操作（V1）",
             "items": [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v1/control-plane/import-operations/import",
-                "label": "导入 (V1)",
+                "label": "导入（V1）",
                 "key": "doc:api/restful/restful/v1/control-plane/import-operations/import"
               },
               {
@@ -926,7 +926,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v1/control-plane/import-operations/list-import-jobs",
-                "label": "列出导入任务 (V1)",
+                "label": "列出导入任务（V1）",
                 "key": "doc:api/restful/restful/v1/control-plane/import-operations/list-import-jobs"
               }
             ],
@@ -934,7 +934,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Cloud Meta (V1)",
+            "label": "云元数据（V1）",
             "items": [
               {
                 "type": "doc",
@@ -945,7 +945,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v1/control-plane/cloud-meta/list-cloud-regions",
-                "label": "列出云区域 (V1)",
+                "label": "列出云区域（V1）",
                 "key": "doc:api/restful/restful/v1/control-plane/cloud-meta/list-cloud-regions"
               }
             ],
@@ -1000,7 +1000,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v1/control-plane/cluster-operations/suspend-cluster",
-                "label": "暂停集群 (V1)",
+                "label": "暂停集群（V1）",
                 "key": "doc:api/restful/restful/v1/control-plane/cluster-operations/suspend-cluster"
               },
               {
@@ -1020,7 +1020,7 @@ module.exports = [
           },
           {
             "type": "category",
-            "label": "Pipeline 操作（V1）",
+            "label": "管道操作（V1）",
             "items": [
               {
                 "type": "doc",
@@ -1043,7 +1043,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v1/control-plane/pipeline-operations/list-pipelines",
-                "label": "列出 Pipelines（V1）",
+                "label": "列出流水线（V1）",
                 "key": "doc:api/restful/restful/v1/control-plane/pipeline-operations/list-pipelines"
               },
               {
@@ -1060,22 +1060,22 @@ module.exports = [
       },
       {
         "type": "category",
-        "label": "Data Plane (V1)",
+        "label": "数据平面（V1）",
         "items": [
           {
             "type": "category",
-            "label": "Collection Operations (V1)",
+            "label": "Collection 操作（V1）",
             "items": [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v1/data-plane/collection-operations/list-collections",
-                "label": "列出 Collections（V1）",
+                "label": "列出 Collection（V1）",
                 "key": "doc:api/restful/restful/v1/data-plane/collection-operations/list-collections"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v1/data-plane/collection-operations/create-collection",
-                "label": "创建集合（V1）",
+                "label": "创建 Collection（V1）",
                 "key": "doc:api/restful/restful/v1/data-plane/collection-operations/create-collection"
               },
               {
@@ -1106,13 +1106,13 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v1/data-plane/vector-operations/insert",
-                "label": "插入 (V1)",
+                "label": "插入（V1）",
                 "key": "doc:api/restful/restful/v1/data-plane/vector-operations/insert"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v1/data-plane/vector-operations/upsert",
-                "label": "Upsert (V1)",
+                "label": "Upsert（V1）",
                 "key": "doc:api/restful/restful/v1/data-plane/vector-operations/upsert"
               },
               {
@@ -1124,13 +1124,13 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v1/data-plane/vector-operations/query",
-                "label": "Query (V1)",
+                "label": "查询（V1）",
                 "key": "doc:api/restful/restful/v1/data-plane/vector-operations/query"
               },
               {
                 "type": "doc",
                 "id": "api/restful/restful/v1/data-plane/vector-operations/get",
-                "label": "Get (V1)",
+                "label": "获取（V1）",
                 "key": "doc:api/restful/restful/v1/data-plane/vector-operations/get"
               }
             ],

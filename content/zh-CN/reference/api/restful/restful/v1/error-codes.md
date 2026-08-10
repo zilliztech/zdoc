@@ -1,16 +1,16 @@
 ---
 displayed_sidbar: restfulSidebar
 slug: /restful/error-codes
-title: 错误码
-description: 本页列出了 Zilliz Cloud RESTful API 返回的错误码。
+title: 错误代码
+description: 本页列出了 Zilliz Cloud RESTful API 返回的错误代码。
 beta: NEAR DEPRECATE
 notebook: FALSE
 sidebar_position: 2
 ---
 
-# 错误码 (v1)
+# 错误代码（v1）
 
-本页列出了 Zilliz Cloud RESTful API (v1) 返回的错误码。
+本页列出了 Zilliz Cloud RESTful API（v1）返回的错误代码。
 
 
 **80000**
@@ -27,19 +27,19 @@ token 无效
 
 **80003**
 
-参数 `pageSize` 的取值应在 5 到 100 之间。
+参数 'pageSize' 的值应在 5 到 100 之间。
 
 **80004**
 
-参数 `currentPage` 的取值应在 1 到 Int 最大值之间。
+参数 'currentPage' 的值应在 1 到 Int 最大值之间。
 
 **80005**
 
-无效的 clusterType。参数值应为 `Performance-optimized` 或 `Capacity-optimized`。
+clusterType 无效。参数值应为 'Performance-optimized' 或 'Capacity-optimized'。
 
 **80006**
 
-无效的 cuSize。参数值应在 1 到 256 之间。
+cuSize 无效。参数值应在 1 到 256 之间。
 
 **80007**
 
@@ -47,31 +47,31 @@ token 无效
 
 **80008**
 
-如果您想创建超过 32 个 CUs 的集群，请先联系我们。
+如果您想创建超过 32 个 CU 的集群，请先联系我们。
 
 **80009**
 
-无效的 clusterName，仅可包含字母数字字符和连字符。
+clusterName 无效，只能包含字母、数字和连字符。
 
 **80010**
 
-重复的 ClusterName。您已创建了一个同名且正在运行的 Cluster。为避免管理复杂，请修改名称并重新创建一个新的。"
+ClusterName 重复。您已创建一个同名且正在运行的集群。为避免管理复杂性，请修改名称后重新创建。"
 
 **80011**
 
-`description` 的长度已超过 256 个字符的限制。
+'description' 的长度已超过 256 个字符的限制。
 
 **80012**
 
-密码输入无效，密码规则如下：\n1. 密码长度应在 8 到 64 个字符之间。\n2. 密码应由以下四类字符中的任意三类组成：大写字母、小写字母、数字和特殊字符。\n3. 特殊字符包括：!@#$%^&*()_+-=
+密码输入无效，密码规则如下：\n1. 密码长度应在 8 到 64 个字符之间。\n2. 密码应至少包含以下四类中的任意三类：大写字母、小写字母、数字和特殊字符。\n3. 特殊字符包括：!@#$%^&*()_+-=
 
 **80014**
 
-您输入的 cuSize 值暂不支持。
+您输入的 cuSize 值暂不受支持。
 
 **80020**
 
-无效的 clusterId，或者您无权访问该 Cluster。
+clusterId 无效，或您没有权限访问该集群。
 
 **80021**
 
@@ -83,23 +83,23 @@ Dedicated 集群不支持此操作。
 
 **90001**
 
-collection xxx 不存在。您可以使用 ListCollections 查看现有 collection 列表。
+Collection xxx 不存在。您可以使用 ListCollections 查看现有 Collection 列表。
 
 **90002**
 
-返回值属性 xxx 在 collection xxx 上不存在。
+返回值属性 xxx 在 Collection xxx 上不存在。
 
 **90003**
 
-无效的表达式。有关表达式的用法，请参阅文档：https://milvus.io/docs/boolean.md#Boolean-Expression-Rules
+表达式无效。表达式用法请参见文档：https://milvus.io/docs/boolean.md#Boolean-Expression-Rules
 
 **90004**
 
-参数 `limit` 的取值应在 1 到 100 之间。
+参数 'limit' 的值应在 1 到 100 之间。
 
 **90005**
 
-参数 `offset` 的取值不应小于 0。
+参数 'offset' 的值不应小于 0。
 
 **90006**
 
@@ -107,7 +107,7 @@ collection xxx 不存在。您可以使用 ListCollections 查看现有 collecti
 
 **90007**
 
-字段 xxx 的向量维度不匹配。输入向量的维度为 xxx，而期望的向量维度为 xxx。
+字段 xxx 的向量维度不匹配。输入向量维度为 xxx，而预期向量维度为 xxx。
 
 **90008**
 
@@ -119,11 +119,11 @@ collection xxx 不存在。您可以使用 ListCollections 查看现有 collecti
 
 **90010**
 
-字段 xxx 的类型不匹配，期望类型为 xxx，但实际输入的是 xxx。
+字段 xxx 的类型不匹配，预期为 xxx，但输入的是 xxx。
 
 **90011**
 
-无效的 CollectionName。原因：xxx
+CollectionName 无效。原因：xxx
 
 **90013**
 
@@ -143,7 +143,7 @@ collection xxx 不存在。您可以使用 ListCollections 查看现有 collecti
 
 **90017**
 
-每个 collection 只能有一个主键字段。
+每个 Collection 只能有一个主键字段。
 
 **90018**
 
@@ -155,7 +155,7 @@ AutoID 只能添加到主键字段。
 
 **90020**
 
-AutoID 只能添加到 int64 类型的主键字段。
+AutoID 只能添加到类型为 int64 的主键字段。
 
 **90023**
 
@@ -175,11 +175,11 @@ Varchar 类型的长度应在 1 到 **65535** 之间。
 
 **90027**
 
-无效的参数 metricType。仅允许 `L2` 或 `IP`。请参阅文档：https://milvus.io/docs/metric.md
+参数 metricType 无效。仅允许 L2 或 IP。请参阅文档：https://milvus.io/docs/metric.md
 
 **90100**
 
-解析字段 xxx 的数值类型时出错。
+字段 xxx 的数值解析类型错误。
 
 **90101**
 
@@ -187,7 +187,7 @@ varchar 类型必须指定 maxLength。
 
 **90102**
 
-当前区域不存在该集群。
+当前区域中不存在该集群。
 
 **90103**
 
@@ -195,31 +195,31 @@ varchar 类型必须指定 maxLength。
 
 **90106**
 
-该 collection 已存在。
+Collection 已存在。
 
 **90107**
 
-启用 auto id 的 int64 类型时，不能为主字段赋值
+启用 auto id 的 int64 类型时，不能为主字段赋值。
 
 **90108**
 
-json 文件中多余的字段 xxx 需要被移除
+json 文件中存在多余字段 xxx，需要将其移除
 
 **90109**
 
-最大插入批次行数应小于 100。
+单次批量插入的最大行数应小于 100。
 
 **90110**
 
-没有过滤键字段。
+没有 filter 键字段。
 
 **90111**
 
-参数 `level` 的取值应在 1 到 3 之间。
+参数 'level' 的值应在 1 到 3 之间。
 
 **90112**
 
-字段名不能为空。
+字段名称不能为空。
 
 **90113**
 
@@ -235,7 +235,7 @@ json 文件中多余的字段 xxx 需要被移除
 
 **90117**
 
-使用了无效的域名，请检查您正在使用的域名。
+使用的域名无效，请检查您使用的域名。
 
 **90118**
 
@@ -243,15 +243,15 @@ json 文件中多余的字段 xxx 需要被移除
 
 **90119**
 
-参数 `data` 的值应为 JSON 格式。
+参数 'data' 的值应为 JSON 格式。
 
 **90120**
 
-参数 `data` 的值为空。
+参数 'data' 的值为空。
 
 **90121**
 
-参数 `data` 中存在空对象。
+参数 'data' 中存在空对象。
 
 **90122**
 
@@ -259,7 +259,7 @@ json 文件中多余的字段 xxx 需要被移除
 
 **90123**
 
-输入的 ID 值与字段 xxx 不匹配，期望为 xxx，但实际收到的是 xxx。
+输入的 ID 值与字段 xxx 不匹配，预期为 xxx，但接收到的是 xxx。
 
 **90124**
 
@@ -271,7 +271,7 @@ json 文件中多余的字段 xxx 需要被移除
 
 **90126**
 
-参数 `offset` 的值与参数 `limit` 的值之和不应超过 **16384**。
+参数 'offset' 的值与参数 'limit' 的值之和不应超过 **16384**。
 
 **90127**
 
@@ -283,11 +283,11 @@ json 文件中多余的字段 xxx 需要被移除
 
 **90129**
 
-过滤数据类型不受支持，请检查过滤字段
+不支持过滤 dataType，请检查过滤字段
 
 **90130**
 
-属性 xxx 不是此 collection 的向量字段，因此不能用于近似检索。
+属性 xxx 不是此 Collection 的向量字段，因此不能用于近似检索。
 
 **90131**
 
@@ -311,51 +311,51 @@ json 文件中多余的字段 xxx 需要被移除
 
 **90136**
 
-未提供创建 collection 的内容。
+未提供创建 Collection 的内容。
 
 **90138**
 
-未提供删除 collection 的内容。
+未提供删除 Collection 的内容。
 
 **90139**
 
-字段 `xxx` 的类型不匹配。期望类型：xxx，但收到的输入为：xxx。
+字段 'xxx' 的类型不匹配。预期类型：xxx，但接收到的输入为：xxx。
 
 **90140**
 
-参数 `id` 中的元素数量不得超过 100。
+参数 'id' 中的元素数量不应超过 100。
 
 **90011**
 
-无效的 CollectionName。原因：名称只能包含字母数字字符和下划线，且第一个字符必须是下划线、小写字母或大写字母
+CollectionName 无效。原因：名称只能包含字母、数字和下划线，且首字符应为下划线、小写字母或大写字母
 
 **47005**
 
-指定的集群 collection 不存在。
+指定的集群 Collection 不存在。
 
 **47053**
 
-checkFiles \{xxx} 失败。
+检查文件失败 \{xxx}。
 
 **80020**
 
-无效的 clusterId，或者您无权访问该 Cluster。
+clusterId 无效，或您没有权限访问该集群。
 
 **10003**
 
-无效的 s3 ObjectUrl。[xxx]
+s3 ObjectUrl 无效。[xxx]
 
 **83001**
 
-getObjectMeta \{Access denied} 失败。
+获取 ObjectMeta 失败 \{Access denied}。
 
 **47005**
 
-指定的集群 collection 不存在。
+指定的集群 Collection 不存在。
 
 **90144**
 
-在该集群下未找到 jobId 记录，请检查您的请求参数。
+在此集群下未找到 jobId 记录，请检查您的请求参数。
 
 **90103**
 
@@ -363,11 +363,11 @@ getObjectMeta \{Access denied} 失败。
 
 **83001**
 
-getObjectMeta \{xxx} 失败。
+获取 ObjectMeta 失败 \{xxx}。
 
 **40021**
 
-cluster ID 不存在。
+该集群 ID 不存在。
 
 **40022**
 
@@ -375,11 +375,11 @@ cluster ID 不存在。
 
 **40003**
 
-在集群当前状态下，此操作不可用。
+根据集群当前状态，此操作不可用。
 
 **47039**
 
-指定的集群不支持同时进行多个导入。
+指定的集群不支持同时进行多个导入任务。
 
 **83004**
 
@@ -387,15 +387,15 @@ cluster ID 不存在。
 
 **47035**
 
-指定的对象大小超出限制。
+指定对象的大小超出限制。
 
 **47036**
 
-对象数量与 collection 字段数量不一致。
+对象数量与 Collection 字段数量不相等。
 
 **47055**
 
-当前集群正在导入数据 (xxx)。为确保您的 Milvus 集群服务更加稳定，请等待几分钟后再导入数据。
+当前集群正在导入数据（xxx）。为确保您的 Milvus 集群服务更加稳定，请等待几分钟后再导入数据。
 
 **90142**
 
@@ -419,7 +419,7 @@ CloudId 不存在。
 
 **90149**
 
-字段 `%s` 的类型不匹配。期望类型：%s，但收到的输入为：%s。
+字段 '%s' 的类型不匹配。预期类型：%s，但接收到的输入为：%s。
 
 **90150**
 
@@ -427,40 +427,40 @@ CloudId 不存在。
 
 **90151**
 
-参数 `data` 的值为空。
+参数 'data' 的值为空。
 
 **90152**
 
-参数 `data` 中存在空对象。
+参数 'data' 中存在空对象。
 
 **10041**
 
-（可能的 pipeline 错误都归在此错误码下。）
+（可能的 pipeline 错误都归于此错误代码。）
 
 **80005**
 
-无效的 cuType。参数值应为 ['Performance-optimized','Capacity-optimized'] 之一。
+cuType 无效。参数值应为 ['Performance-optimized','Capacity-optimized'] 之一。
 
 **80006**
 
-无效的 cuSize。参数值应为 [1,2,4,6,8,12,16,20,24] 之一。
+cuSize 无效。参数值应为 [1,2,4,6,8,12,16,20,24] 之一。
 
 **80013**
 
-无效的 plan。参数值应为 ['Standard','Enterprise'] 之一。
+plan 无效。参数值应为 ['Standard','Enterprise'] 之一。
 
 **80014**
 
-无效的 projectId。projectId 格式应类似 `proj-xxxxxx`
+projectId 无效。projectId 应类似于 proj-xxxxxx
 
 **80015**
 
-ProjectId 不存在，或者您对此项目没有权限。
+ProjectId 不存在，或您没有此项目的权限。
 
 **80020**
 
-Cluster 不存在或您没有权限。
+集群不存在，或您没有权限。
 
 **80025**
 
-当前区域不提供 serverless！
+当前区域不提供 Serverless！

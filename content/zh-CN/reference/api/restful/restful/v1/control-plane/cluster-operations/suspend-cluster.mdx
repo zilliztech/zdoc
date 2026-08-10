@@ -3,29 +3,29 @@ displayed_sidebar: restfulSidebar
 sidebar_position: 7
 slug: /restful/suspend-cluster
 beta: DEPRECATED
-title: "暂停集群 (V1) | RESTful"
-description: "暂停指定的集群。此操作只会停止集群，您的数据将保持完整。 | RESTful"
+title: "暂停集群（V1） | RESTful"
+description: "暂停指定的集群。此操作只会停止集群，您的数据将保持完好无损。 | RESTful"
 hide_table_of_contents: true
-sidebar_label: "暂停集群 (V1)"
+sidebar_label: "暂停集群（V1）"
 sidebar_custom_props:
   badges:
     - "post"
 keywords: 
-  - zilliz cloud
+  - Zilliz Cloud
   - zilliz
-  - cloud
-  - "暂停集群 (V1)"
+  - 云
+  - "暂停集群（V1）"
   - "post"
   - RESTful
   - API
 ---
 
-# 暂停集群 (V1)
+# 暂停集群（V1）
 
 import RestSpecs from '@site/src/components/RestSpecs';
 
 <RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
 
-export const specs = {"summary":"Suspend Cluster","deprecated":true,"description":"Suspends a specified cluster. This operation will only stop the cluster and your data will remain intact.","x-i18n":{"zh-CN":{"summary":"暂停集群","description":"暂停指定的集群。此操作仅会停止集群，您的数据将保持完好无损。"}},"tags":["Cluster Operations"],"parameters":[{"name":"CLUSTER_ID","in":"path","description":"The ID of the cluster to suspend.","x-i18n":{"zh-CN":{"description":"要暂停的集群 ID。"}},"required":true,"example":"{{CLUSTER_ID}}","schema":{"type":"string"}},{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","x-i18n":{"zh-CN":{"description":"身份验证令牌应为具有相应权限的 API 密钥。"}},"required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"}}],"responses":{"200":{"description":"Returns the ID of the affected cluster.","x-i18n":{"zh-CN":{"description":"返回受影响集群的 ID。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","description":"A success response.","type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"description":"Response payload which is an object containing the ID of the cluster.","x-i18n":{"zh-CN":{"description":"响应负载，为一个包含集群 ID 的对象。"}},"type":"object","properties":{"clusterId":{"type":"string","description":"The ID of the cluster.","x-i18n":{"zh-CN":{"description":"集群的 ID。"}}},"prompt":{"type":"string","description":"The statement indicating that the current operation succeeds.","x-i18n":{"zh-CN":{"description":"表示当前操作成功的说明信息。"}}}},"x-i18n-langs":["zh-CN"]}},"x-i18n-langs":["zh-CN"],"x-i18n":{"zh-CN":{"description":"成功响应。"}}},{"x-tab-label":"failure","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":200,"data":{"clusterId":"inxx-xxxxxxxxxxxxxxx","prompt":"successfully Submitted. The cluster will not incur any computing costs when suspended. You will only be billed for the storage costs during this time."}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":80002,"message":"Token not found or unauthorized: The provided token does not exist in our records, or you do not have the necessary permissions to use this token. Please ensure you have the correct token."}}}}}}},"security":[]}
+export const specs = {"summary":"Suspend Cluster","deprecated":true,"description":"Suspends a specified cluster. This operation will only stop the cluster and your data will remain intact.","x-i18n":{"zh-CN":{"summary":"暂停集群","description":"暂停指定的集群。此操作仅会停止集群，您的数据将保持完整。"}},"tags":["Cluster Operations"],"parameters":[{"name":"CLUSTER_ID","in":"path","description":"The ID of the cluster to suspend.","x-i18n":{"zh-CN":{"description":"要暂停的集群 ID。"}},"required":true,"example":"{{CLUSTER_ID}}","schema":{"type":"string"}},{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","x-i18n":{"zh-CN":{"description":"身份验证令牌应为具有适当权限的 API 密钥。"}},"required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"}}],"responses":{"200":{"description":"Returns the ID of the affected cluster.","x-i18n":{"zh-CN":{"description":"返回受影响集群的 ID。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","description":"A success response.","type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"description":"Response payload which is an object containing the ID of the cluster.","x-i18n":{"zh-CN":{"description":"响应负载，为一个包含集群 ID 的对象。"}},"type":"object","properties":{"clusterId":{"type":"string","description":"The ID of the cluster.","x-i18n":{"zh-CN":{"description":"集群的 ID。"}}},"prompt":{"type":"string","description":"The statement indicating that the current operation succeeds.","x-i18n":{"zh-CN":{"description":"表示当前操作成功的说明。"}}}},"x-i18n-langs":["zh-CN"]}},"x-i18n-langs":["zh-CN"],"x-i18n":{"zh-CN":{"description":"成功响应。"}}},{"x-tab-label":"failure","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":200,"data":{"clusterId":"inxx-xxxxxxxxxxxxxxx","prompt":"successfully Submitted. The cluster will not incur any computing costs when suspended. You will only be billed for the storage costs during this time."}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":80002,"message":"Token not found or unauthorized: The provided token does not exist in our records, or you do not have the necessary permissions to use this token. Please ensure you have the correct token."}}}}}}},"security":[]}
 export const endpoint = "/v1/clusters/{CLUSTER_ID}/suspend"
 export const method = "post"

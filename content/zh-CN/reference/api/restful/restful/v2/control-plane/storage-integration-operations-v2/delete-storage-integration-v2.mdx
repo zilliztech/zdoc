@@ -4,18 +4,18 @@ sidebar_position: 3
 slug: /restful/delete-storage-integration-v2
 beta: FALSE
 title: "删除存储集成（V2） | RESTful"
-description: "此操作会删除一个存储桶存储集成。项目作用域将根据集成 ID 解析。 | RESTful"
+description: "此操作会删除一个存储桶存储集成。项目范围根据集成 ID 确定。 | RESTful"
 hide_table_of_contents: true
 sidebar_label: "删除存储集成（V2）"
 sidebar_custom_props:
   badges:
     - "delete"
 keywords: 
-  - zilliz cloud
-  - zilliz
-  - cloud
-  - "Delete Storage Integration (V2)"
-  - "delete"
+  - Zilliz Cloud
+  - Zilliz
+  - 云
+  - "删除存储集成（V2）"
+  - "删除"
   - RESTful
   - API
 ---
@@ -26,6 +26,6 @@ import RestSpecs from '@site/src/components/RestSpecs';
 
 <RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
 
-export const specs = {"summary":"Delete Storage Integration","deprecated":false,"description":"This operation deletes a bucket storage integration. The project scope is resolved from the integration ID.","x-i18n":{"zh-CN":{"summary":"删除 Storage Integration","description":"此操作会删除一个 bucket storage integration。项目作用域将根据 integration ID 解析。"}},"tags":["Storage Integration Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌应为具有相应权限的 API key。"}}},{"name":"integrationId","in":"path","description":"The ID of the storage integration.","required":true,"schema":{"type":"string"},"example":"integ-xxxxxxxxxxxxxxxxxxx","x-i18n":{"zh-CN":{"description":"storage integration 的 ID。"}}}],"responses":{"200":{"description":"Returns the deleted storage integration.","x-i18n":{"zh-CN":{"description":"返回已删除的 storage integration。"}},"content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","description":"A success response.","x-i18n":{"zh-CN":{"description":"成功响应。"}},"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应代码。"}},"example":0},"data":{"type":"object","properties":{"integrationId":{"type":"string","description":"The ID of the storage integration.","x-i18n":{"zh-CN":{"description":"storage integration 的 ID。"}}},"name":{"type":"string","description":"The name of the storage integration.","x-i18n":{"zh-CN":{"description":"storage integration 的名称。"}}}},"description":"Returns the deleted storage integration.","x-i18n":{"zh-CN":{"description":"返回已删除的 storage integration。"}}}}},{"x-tab-label":"failure","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应代码。"}},"example":1800},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}},"example":"User hasn't authenticated"}}}]},"examples":{"1":{"summary":"Success","value":{"code":0,"data":{"integrationId":"integ-xxxxxxxxxxxxxxxxxxx","name":"analytics-s3"}},"x-target-lang":"en-US"},"2":{"summary":"Alibaba Cloud OSS","x-target-lang":"zh-CN","value":{"code":0,"data":{"integrationId":"integ-xxxxxxxxxxxxxxxxxxx","name":"analytics-oss"}}},"3":{"summary":"failure","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
+export const specs = {"summary":"Delete Storage Integration","deprecated":false,"description":"This operation deletes a bucket storage integration. The project scope is resolved from the integration ID.","x-i18n":{"zh-CN":{"summary":"删除存储集成","description":"此操作会删除一个存储桶存储集成。项目范围将根据集成 ID 确定。"}},"tags":["Storage Integration Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"身份验证令牌应为具有相应权限的 API 密钥。"}}},{"name":"integrationId","in":"path","description":"The ID of the storage integration.","required":true,"schema":{"type":"string"},"example":"integ-xxxxxxxxxxxxxxxxxxx","x-i18n":{"zh-CN":{"description":"存储集成的 ID。"}}}],"responses":{"200":{"description":"Returns the deleted storage integration.","x-i18n":{"zh-CN":{"description":"返回已删除的存储集成。"}},"content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","description":"A success response.","x-i18n":{"zh-CN":{"description":"成功响应。"}},"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应代码。"}},"example":0},"data":{"type":"object","properties":{"integrationId":{"type":"string","description":"The ID of the storage integration.","x-i18n":{"zh-CN":{"description":"存储集成的 ID。"}}},"name":{"type":"string","description":"The name of the storage integration.","x-i18n":{"zh-CN":{"description":"存储集成的名称。"}}}},"description":"Returns the deleted storage integration.","x-i18n":{"zh-CN":{"description":"返回已删除的存储集成。"}}}}},{"x-tab-label":"failure","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应代码。"}},"example":1800},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}},"example":"User hasn't authenticated"}}}]},"examples":{"1":{"summary":"Success","value":{"code":0,"data":{"integrationId":"integ-xxxxxxxxxxxxxxxxxxx","name":"analytics-s3"}},"x-target-lang":"en-US"},"2":{"summary":"Alibaba Cloud OSS","x-target-lang":"zh-CN","value":{"code":0,"data":{"integrationId":"integ-xxxxxxxxxxxxxxxxxxx","name":"analytics-oss"}}},"3":{"summary":"failure","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
 export const endpoint = "/v2/storageIntegrations/{integrationId}"
 export const method = "delete"

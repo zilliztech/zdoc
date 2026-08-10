@@ -3,29 +3,29 @@ displayed_sidebar: restfulSidebar
 sidebar_position: 3
 slug: /restful/delete-volume-v2
 beta: FALSE
-title: "删除 Volume（V2）| RESTful"
-description: "此操作将删除指定项目中的一个 volume。| RESTful"
+title: "删除卷（V2）| RESTful"
+description: "此操作会删除指定项目中的卷。| RESTful"
 hide_table_of_contents: true
-sidebar_label: "删除 Volume（V2）"
+sidebar_label: "删除卷（V2）"
 sidebar_custom_props:
   badges:
     - "delete"
 keywords: 
   - zilliz cloud
   - zilliz
-  - cloud
-  - "删除 Volume（V2）"
-  - "delete"
+  - 云
+  - "删除卷（V2）"
+  - "删除"
   - RESTful
   - API
 ---
 
-# 删除 Volume（V2）
+# 删除卷（V2）
 
 import RestSpecs from '@site/src/components/RestSpecs';
 
 <RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
 
-export const specs = {"summary":"Delete Volume","deprecated":false,"description":"This operation deletes a volume in the specified project.","x-i18n":{"zh-CN":{"summary":"删除卷","description":"此操作会删除指定项目中的卷。"}},"tags":["Volume Operations (V2)"],"parameters":[{"name":"VOLUME_NAME","in":"path","description":"The name of an existing volume to delete.","x-i18n":{"zh-CN":{"description":"要删除的现有卷名称。"}},"required":true,"example":"my_volume","schema":{"type":"string"}},{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"身份验证令牌应为具有适当权限的 API key。"}}}],"responses":{"200":{"description":"Returns the name of the deleted volume.","x-i18n":{"zh-CN":{"description":"返回已删除卷的名称。"}},"content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","description":"Returns the deleted volume name.","x-i18n":{"zh-CN":{"description":"返回已删除的卷名称。"}},"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"object","properties":{"volumeName":{"type":"string","description":"The name of the deleted volume.","x-i18n":{"zh-CN":{"description":"已删除卷的名称。"}}}}}}},{"x-tab-label":"failure","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"volumeName":"my_volume"}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
+export const specs = {"summary":"Delete Volume","deprecated":false,"description":"This operation deletes a volume in the specified project.","x-i18n":{"zh-CN":{"summary":"删除卷","description":"此操作会删除指定项目中的卷。"}},"tags":["Volume Operations (V2)"],"parameters":[{"name":"VOLUME_NAME","in":"path","description":"The name of an existing volume to delete.","x-i18n":{"zh-CN":{"description":"要删除的现有卷名称。"}},"required":true,"example":"my_volume","schema":{"type":"string"}},{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"身份验证令牌应为具有相应权限的 API 密钥。"}}}],"responses":{"200":{"description":"Returns the name of the deleted volume.","x-i18n":{"zh-CN":{"description":"返回已删除卷的名称。"}},"content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","description":"Returns the deleted volume name.","x-i18n":{"zh-CN":{"description":"返回已删除的卷名称。"}},"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应代码。"}}},"data":{"type":"object","properties":{"volumeName":{"type":"string","description":"The name of the deleted volume.","x-i18n":{"zh-CN":{"description":"已删除卷的名称。"}}}}}}},{"x-tab-label":"failure","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应代码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"volumeName":"my_volume"}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
 export const endpoint = "/v2/volumes/{VOLUME_NAME}"
 export const method = "delete"

@@ -3,29 +3,29 @@ displayed_sidebar: restfulSidebar
 sidebar_position: 5
 slug: /restful/add-secondary-clusters-v2
 beta: FALSE
-title: "添加辅助集群（V2） | RESTful"
-description: "添加一个或多个辅助集群。新的辅助集群将使用现有 Global Cluster 的 CU 规格。 | RESTful"
+title: "添加辅助集群 (V2) | RESTful"
+description: "添加一个或多个辅助集群。新的辅助集群将使用现有的 Global Cluster CU 规格。 | RESTful"
 hide_table_of_contents: true
-sidebar_label: "添加辅助集群（V2）"
+sidebar_label: "添加辅助集群 (V2)"
 sidebar_custom_props:
   badges:
     - "post"
 keywords: 
-  - zilliz cloud
-  - zilliz
-  - cloud
-  - "添加辅助集群（V2）"
+  - Zilliz Cloud
+  - Zilliz
+  - 云
+  - "添加辅助集群 (V2)"
   - "post"
   - RESTful
   - API
 ---
 
-# 添加辅助集群（V2）
+# 添加辅助集群 (V2)
 
 import RestSpecs from '@site/src/components/RestSpecs';
 
 <RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
 
-export const specs = {"summary":"Add Secondary Clusters","description":"Adds one or more secondary clusters. New secondary clusters use the existing Global Cluster CU specification.","tags":["Global Clusters (V2)"],"x-i18n":{"zh-CN":{"summary":"添加辅助集群","description":"添加一个或多个辅助集群。新的辅助集群将使用现有 Global Cluster 的 CU 规格。"}},"parameters":[{"name":"globalClusterId","in":"path","description":"ID of the Global Cluster.","required":true,"example":"glo-xxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"Global Cluster 的 ID。"}}},{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"身份验证令牌应为具有相应权限的 API key。"}}}],"requestBody":{"description":"Parameters for adding secondary clusters.","x-i18n":{"zh-CN":{"description":"用于添加辅助集群的参数。"}},"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"secondaryClusters":{"type":"array","description":"Secondary clusters to add.","x-i18n":{"zh-CN":{"description":"要添加的辅助集群。"}},"items":{"type":"object","properties":{"clusterName":{"type":"string","description":"Secondary cluster display name.","x-i18n":{"zh-CN":{"description":"辅助集群显示名称。"}},"example":"secondary-cluster-ap"},"regionId":{"type":"string","description":"Secondary cluster region ID.","x-i18n":{"zh-CN":{"description":"辅助集群区域 ID。"}},"example":"aws-ap-southeast-1"}},"required":["clusterName","regionId"]},"minItems":1}},"required":["secondaryClusters"]},"examples":{"1":{"summary":"example","x-target-response":"OPTION 1","value":{"secondaryClusters":[{"clusterName":"secondary-cluster-ap","regionId":"aws-ap-southeast-1"}]}}}}}},"responses":{"200":{"description":"Returns the add-secondary-cluster job.","x-i18n":{"zh-CN":{"description":"返回添加辅助集群作业。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","properties":{"jobId":{"type":"string","description":"Job ID for the asynchronous operation.","x-i18n":{"zh-CN":{"description":"异步操作的作业 ID。"}},"example":"job-xxxxxxxxxxxxxxx"}}},{"x-tab-label":"failure","type":"object","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}},"example":400},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}},"example":"Invalid request parameters."}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"jobId":"job-xxxxxxxxxxxxxxx"}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":400,"message":"Invalid request parameters."}}}}}}}}
+export const specs = {"summary":"Add Secondary Clusters","description":"Adds one or more secondary clusters. New secondary clusters use the existing Global Cluster CU specification.","tags":["Global Clusters (V2)"],"x-i18n":{"zh-CN":{"summary":"添加辅助集群","description":"添加一个或多个辅助集群。新的辅助集群将使用现有 Global Cluster 的 CU 规格。"}},"parameters":[{"name":"globalClusterId","in":"path","description":"ID of the Global Cluster.","required":true,"example":"glo-xxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"Global Cluster 的 ID。"}}},{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"身份验证令牌应为具有相应权限的 API 密钥。"}}}],"requestBody":{"description":"Parameters for adding secondary clusters.","x-i18n":{"zh-CN":{"description":"用于添加辅助集群的参数。"}},"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"secondaryClusters":{"type":"array","description":"Secondary clusters to add.","x-i18n":{"zh-CN":{"description":"要添加的辅助集群。"}},"items":{"type":"object","properties":{"clusterName":{"type":"string","description":"Secondary cluster display name.","x-i18n":{"zh-CN":{"description":"辅助集群显示名称。"}},"example":"secondary-cluster-ap"},"regionId":{"type":"string","description":"Secondary cluster region ID.","x-i18n":{"zh-CN":{"description":"辅助集群区域 ID。"}},"example":"aws-ap-southeast-1"}},"required":["clusterName","regionId"]},"minItems":1}},"required":["secondaryClusters"]},"examples":{"1":{"summary":"example","x-target-response":"OPTION 1","value":{"secondaryClusters":[{"clusterName":"secondary-cluster-ap","regionId":"aws-ap-southeast-1"}]}}}}}},"responses":{"200":{"description":"Returns the add-secondary-cluster job.","x-i18n":{"zh-CN":{"description":"返回添加辅助集群作业。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","properties":{"jobId":{"type":"string","description":"Job ID for the asynchronous operation.","x-i18n":{"zh-CN":{"description":"异步操作的作业 ID。"}},"example":"job-xxxxxxxxxxxxxxx"}}},{"x-tab-label":"failure","type":"object","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应代码。"}},"example":400},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}},"example":"Invalid request parameters."}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"jobId":"job-xxxxxxxxxxxxxxx"}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":400,"message":"Invalid request parameters."}}}}}}}}
 export const endpoint = "/v2/globalClusters/{globalClusterId}/secondaryClusters"
 export const method = "post"
