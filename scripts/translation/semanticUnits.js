@@ -4,6 +4,7 @@ const {protectTranslationInput, reprotectTranslationInput, restoreProtectedConte
 const {applyDeterministicLocaleRepairs, validateLocaleContractDraft} = require('./localeContract')
 
 let mdxProcessorPromise
+let synchronousMdxProcessor
 
 function deepFreeze(value) {
   if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value
@@ -179,14 +180,22 @@ async function mdxProcessor() {
   return mdxProcessorPromise
 }
 
-async function collectSemanticUnits(sourceContent, {idPrefix = 'document'} = {}) {
+function mdxProcessorSync() {
+  if (!synchronousMdxProcessor) {
+    const {createProcessor} = require('@mdx-js/mdx')
+    synchronousMdxProcessor = createProcessor({format: 'mdx'})
+  }
+  return synchronousMdxProcessor
+}
+
+function collectSemanticUnitsWithProcessor(sourceContent, {idPrefix = 'document'} = {}, processor) {
   const source = String(sourceContent)
   if (typeof idPrefix !== 'string' || !idPrefix.trim()) throw new Error('Semantic unit idPrefix must be a non-empty string')
   const boundary = frontmatterBoundary(source)
   const bodyOffset = boundary?.end || 0
   const units = collectFrontmatterUnits(source, boundary, idPrefix)
   const tables = collectTableUnits(source, bodyOffset, idPrefix)
-  const tree = (await mdxProcessor()).parse(source.slice(bodyOffset))
+  const tree = processor.parse(source.slice(bodyOffset))
   let headingIndex = 0
   let paragraphIndex = 0
   visit(tree, node => {
@@ -219,7 +228,29 @@ async function collectSemanticUnits(sourceContent, {idPrefix = 'document'} = {})
   return deepFreeze(units)
 }
 
-function protectSemanticUnits(units, textForUnit = unit => unit.source) {
+async function collectSemanticUnits(sourceContent, options) {
+  return collectSemanticUnitsWithProcessor(sourceContent, options, await mdxProcessor())
+}
+
+function collectSemanticUnitsSync(sourceContent, options) {
+  try {
+    return collectSemanticUnitsWithProcessor(sourceContent, options, mdxProcessorSync())
+  } catch (error) {
+    if (error?.code !== 'ERR_REQUIRE_ESM') throw error
+    const path = require('node:path')
+    const {spawnSync} = require('node:child_process')
+    const result = spawnSync(process.execPath, [path.join(__dirname, 'semanticUnits.worker.js')], {
+      input: JSON.stringify({sourceContent: String(sourceContent), options}),
+      encoding: 'utf8',
+      maxBuffer: 32 * 1024 * 1024,
+    })
+    if (result.error) throw result.error
+    if (result.status !== 0) throw new Error(`Semantic unit worker failed: ${String(result.stderr || result.stdout).trim()}`)
+    return deepFreeze(JSON.parse(result.stdout))
+  }
+}
+
+function protectSemanticUnits(units, textForUnit = unit => unit.source, protectionOptions = {}) {
   if (!Array.isArray(units)) throw new Error('Semantic units must be an array')
   return deepFreeze(units.map(unit => {
     const text = textForUnit(unit)
@@ -227,7 +258,7 @@ function protectSemanticUnits(units, textForUnit = unit => unit.source) {
     return {
       ...unit,
       protectedText: text,
-      protection: protectTranslationInput(text, {reorderWithin: unit.id}),
+      protection: protectTranslationInput(text, {...protectionOptions, reorderWithin: unit.id}),
     }
   }))
 }
@@ -250,37 +281,99 @@ function stripOuterJsonFence(text) {
   return String(text || '').trim().replace(/^```(?:json)?[\t ]*\r?\n/i, '').replace(/\r?\n```$/, '').trim()
 }
 
-function exactObjectKeys(value, expected, label) {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object with an exact schema`)
+function semanticResponseError(message, code, details = {}) {
+  const error = new Error(message)
+  error.failureCategory = 'semantic_response_failed'
+  error.code = code
+  Object.assign(error, details)
+  return error
+}
+
+function exactObjectKeys(value, expected, label, details = {}) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw semanticResponseError(`${label} must be an object with an exact schema`, 'SEMANTIC_RESPONSE_SCHEMA_MISMATCH', details)
+  }
   const actual = Object.keys(value).sort()
   const wanted = [...expected].sort()
-  if (JSON.stringify(actual) !== JSON.stringify(wanted)) throw new Error(`${label} must use the exact schema fields`)
+  if (JSON.stringify(actual) !== JSON.stringify(wanted)) {
+    throw semanticResponseError(`${label} must use the exact schema fields`, 'SEMANTIC_RESPONSE_SCHEMA_MISMATCH', {
+      ...details,
+      expectedFields: wanted,
+      actualFields: actual,
+    })
+  }
 }
 
 function parseSemanticUnitResponse(modelText, {field, expectedUnits}) {
-  if (typeof field !== 'string' || !field) throw new Error('Semantic unit response field is required')
+  if (typeof field !== 'string' || !field) {
+    throw semanticResponseError('Semantic unit response field is required', 'SEMANTIC_RESPONSE_SCHEMA_MISMATCH')
+  }
   let parsed
   try {
     parsed = JSON.parse(stripOuterJsonFence(modelText))
   } catch (error) {
-    throw new Error(`Semantic unit response must be valid JSON: ${error.message}`)
+    throw semanticResponseError(`Semantic unit response must be valid JSON: ${error.message}`, 'SEMANTIC_RESPONSE_INVALID_JSON', {field})
   }
-  exactObjectKeys(parsed, [field], 'Semantic unit response')
+  exactObjectKeys(parsed, [field], 'Semantic unit response', {field})
   const entries = parsed[field]
-  if (!Array.isArray(entries) || entries.length !== expectedUnits.length) throw new Error('Semantic unit response entry count mismatch')
+  if (!Array.isArray(entries)) {
+    throw semanticResponseError('Semantic unit response entries must be an array', 'SEMANTIC_RESPONSE_SCHEMA_MISMATCH', {field})
+  }
+  const expectedIds = expectedUnits.map(unit => unit.id)
+  if (new Set(expectedIds).size !== expectedIds.length) throw new Error('Expected semantic unit IDs must be unique')
   const byId = new Map()
-  for (const entry of entries) {
-    exactObjectKeys(entry, ['id', 'text'], 'Semantic unit response entry')
-    if (typeof entry.id !== 'string' || typeof entry.text !== 'string' || byId.has(entry.id)) {
-      throw new Error('Semantic unit response entries must use unique string id and text fields')
+  const actualIds = []
+  for (const [entryIndex, entry] of entries.entries()) {
+    exactObjectKeys(entry, ['id', 'text'], 'Semantic unit response entry', {field, entryIndex})
+    if (typeof entry.id !== 'string' || typeof entry.text !== 'string') {
+      throw semanticResponseError(
+        'Semantic unit response entries must use string id and text fields',
+        'SEMANTIC_RESPONSE_SCHEMA_MISMATCH',
+        {field, entryIndex},
+      )
     }
+    actualIds.push(entry.id)
     byId.set(entry.id, entry.text)
   }
-  const expectedIds = new Set(expectedUnits.map(unit => unit.id))
-  const unknown = [...byId.keys()].filter(id => !expectedIds.has(id))
-  if (unknown.length) throw new Error(`Unknown semantic unit ID(s): ${unknown.join(', ')}`)
+  const actualCounts = new Map()
+  for (const id of actualIds) actualCounts.set(id, (actualCounts.get(id) || 0) + 1)
+  const duplicateIds = [...actualCounts].filter(([, count]) => count > 1).map(([id]) => id)
+  const expectedIdSet = new Set(expectedIds)
+  const actualIdSet = new Set(actualIds)
+  const unknownIds = [...actualIdSet].filter(id => !expectedIdSet.has(id))
+  const missingIds = expectedIds.filter(id => !actualIdSet.has(id))
+  const identityDetails = {
+    field,
+    expectedCount: expectedIds.length,
+    actualCount: entries.length,
+    expectedIds,
+    actualIds,
+    duplicateIds,
+    unknownIds,
+    missingIds,
+  }
+  if (duplicateIds.length) {
+    throw semanticResponseError(
+      `Duplicate semantic unit ID(s): ${[...new Set(duplicateIds)].join(', ')}`,
+      'SEMANTIC_RESPONSE_DUPLICATE_IDS',
+      identityDetails,
+    )
+  }
+  if (unknownIds.length) {
+    throw semanticResponseError(
+      `Unknown semantic unit ID(s): ${unknownIds.join(', ')}`,
+      'SEMANTIC_RESPONSE_UNKNOWN_IDS',
+      identityDetails,
+    )
+  }
+  if (missingIds.length) {
+    throw semanticResponseError(
+      `Missing semantic unit ID(s): ${missingIds.join(', ')}`,
+      'SEMANTIC_RESPONSE_MISSING_IDS',
+      identityDetails,
+    )
+  }
   return expectedUnits.map(unit => {
-    if (!byId.has(unit.id)) throw new Error(`Missing semantic unit ID ${unit.id}`)
     return Object.freeze({id: unit.id, text: byId.get(unit.id)})
   })
 }
@@ -288,7 +381,10 @@ function parseSemanticUnitResponse(modelText, {field, expectedUnits}) {
 function protectedContentError(message, cause) {
   const error = new Error(message, cause ? {cause} : undefined)
   error.failureCategory = 'protected_content_failed'
-  error.code = 'PROTECTED_CONTENT_FAILED'
+  error.code = cause?.code || 'PROTECTED_CONTENT_FAILED'
+  for (const key of ['markerId', 'expectedCount', 'actualCount', 'occurrences']) {
+    if (cause?.[key] !== undefined) error[key] = cause[key]
+  }
   return error
 }
 
@@ -303,7 +399,9 @@ function restoreSemanticUnitResponse(modelText, {field, protectedUnits, localeCo
     try {
       translation = restoreProtectedContent(modelTranslation, unit.protection.manifest)
     } catch (error) {
-      throw protectedContentError(`Semantic unit ${unit.id} failed protected marker validation: ${error.message}`, error)
+      const wrapped = protectedContentError(`Semantic unit ${unit.id} failed protected marker validation: ${error.message}`, error)
+      wrapped.semanticUnitId = unit.id
+      throw wrapped
     }
     const errors = validateProtectedContent(unit.protectedText, translation)
     if (errors.length) throw protectedContentError(`Semantic unit ${unit.id} changed protected content: ${errors.join('; ')}`)
@@ -378,7 +476,7 @@ function deterministicSemanticIssues(sourceUnits, draftUnits, localeContract) {
     )) {
       const scoped = Object.freeze({...issue, location: `${sourceUnit.id}; ${issue.location}`})
       issues.push(scoped)
-      issueUnits.push(Object.freeze({unitId: sourceUnit.id, issue: scoped}))
+      if (issue.evidenceAvailable !== false) issueUnits.push(Object.freeze({unitId: sourceUnit.id, issue: scoped}))
     }
   }
   return Object.freeze({issues: Object.freeze(issues), issueUnits: Object.freeze(issueUnits)})
@@ -387,6 +485,7 @@ function deterministicSemanticIssues(sourceUnits, draftUnits, localeContract) {
 module.exports = {
   bindSemanticReviewEvidence,
   collectSemanticUnits,
+  collectSemanticUnitsSync,
   deterministicSemanticIssues,
   parseSemanticUnitResponse,
   patchSemanticUnits,

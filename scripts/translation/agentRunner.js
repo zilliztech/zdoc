@@ -22,7 +22,7 @@ const {
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
 const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
-const {classifyFailure, failureRecord} = require('./failureClassification')
+const {boundedFailureDetails, classifyFailure, failureRecord} = require('./failureClassification')
 const {MAX_PARTIAL_ARTIFACT_BYTES, loadAnalysisChunkResume, serializeCompletedChunkCheckpoints} = require('./chunkRecovery')
 const {validateRecoveryCandidate} = require('./recoveryValidation')
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
@@ -35,6 +35,9 @@ const { defaultReferenceManualForPath } = loadTypeScript('../../packages/docs-to
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
 const DEFAULT_PROVIDER_RETRIES = 3
+const DEFAULT_PROVIDER_RETRY_DELAY_MS = 30000
+const DEFAULT_PROVIDER_RETRY_MAX_DELAY_MS = 120000
+const DEFAULT_PROVIDER_RETRY_JITTER_RATIO = 0.2
 const DEFAULT_FILE_RETRIES = 1
 const DEFAULT_PROVIDER_TIMEOUT_MS = 300000
 const DEFAULT_FILE_TIMEOUT_MS = 900000
@@ -109,20 +112,7 @@ function categorizedError(message, failureCategory, details = {}) {
 }
 
 function structuredErrorDetails(error) {
-  const detail = {}
-  for (const key of ['name', 'status', 'code']) {
-    if (typeof error?.[key] === 'string') detail[key] = error[key].slice(0, 200)
-    else if (Number.isFinite(error?.[key])) detail[key] = error[key]
-  }
-  if (error?.cause && typeof error.cause === 'object') {
-    const cause = {}
-    for (const key of ['name', 'status', 'code', 'failureCategory']) {
-      if (typeof error.cause[key] === 'string') cause[key] = error.cause[key].slice(0, 200)
-      else if (Number.isFinite(error.cause[key])) cause[key] = error.cause[key]
-    }
-    if (Object.keys(cause).length) detail.cause = cause
-  }
-  return Object.keys(detail).length ? detail : undefined
+  return boundedFailureDetails(error)
 }
 
 function stripInternalRecoveryFields(value) {
@@ -177,9 +167,31 @@ function isRetryableProviderError(error) {
     /aborted|connection error|fetch failed|network|timeout|timed out|ECONNRESET|ETIMEDOUT|EAI_AGAIN/i.test(message)
 }
 
+function calculateProviderRetryDelay(attempt, options = {}) {
+  const retryDelayMs = Number.isFinite(options.retryDelayMs) && options.retryDelayMs >= 0
+    ? options.retryDelayMs
+    : DEFAULT_PROVIDER_RETRY_DELAY_MS
+  const retryMaxDelayMs = Number.isFinite(options.retryMaxDelayMs) && options.retryMaxDelayMs >= retryDelayMs
+    ? options.retryMaxDelayMs
+    : DEFAULT_PROVIDER_RETRY_MAX_DELAY_MS
+  const retryJitterRatio = Number.isFinite(options.retryJitterRatio) && options.retryJitterRatio >= 0 && options.retryJitterRatio <= 1
+    ? options.retryJitterRatio
+    : DEFAULT_PROVIDER_RETRY_JITTER_RATIO
+  const random = typeof options.random === 'function' ? options.random : Math.random
+  const sample = Math.max(0, Math.min(1, Number(random())))
+  const exponentialDelay = Math.min(retryMaxDelayMs, retryDelayMs * (2 ** attempt))
+  const jitter = exponentialDelay * retryJitterRatio
+  return Math.min(retryMaxDelayMs, Math.max(0, Math.round(exponentialDelay - jitter + (2 * jitter * sample))))
+}
+
 async function createProviderCall(agentConfigs, options = {}) {
   const maxRetries = Number.isFinite(options.maxRetries) ? options.maxRetries : DEFAULT_PROVIDER_RETRIES
-  const retryDelayMs = Number.isFinite(options.retryDelayMs) ? options.retryDelayMs : 1000
+  const retryOptions = {
+    retryDelayMs: options.retryDelayMs,
+    retryMaxDelayMs: options.retryMaxDelayMs,
+    retryJitterRatio: options.retryJitterRatio,
+    random: options.random,
+  }
   const timeoutMs = parsePositiveInteger(options.timeoutMs, DEFAULT_PROVIDER_TIMEOUT_MS)
 
   return async function callModel({ agent, messages, signal: externalSignal }) {
@@ -247,7 +259,7 @@ async function createProviderCall(agentConfigs, options = {}) {
             : error
         if (!lastError.failureCategory) lastError.failureCategory = classifyFailure(lastError)
         if (externalSignal?.aborted || attempt >= maxRetries || !isRetryableProviderError(lastError)) break
-        const waitMs = retryDelayMs * (2 ** attempt)
+        const waitMs = calculateProviderRetryDelay(attempt, retryOptions)
         console.warn(`[translation-agent] ${agent} call failed; retrying in ${waitMs}ms (${attempt + 1}/${maxRetries}): ${lastError.message}`)
         await sleep(waitMs, externalSignal)
       } finally {
@@ -306,7 +318,20 @@ function validatedReviewRetryFeedback(result) {
   return issues.length ? JSON.stringify({kind: 'validated_review_issues', issues}) : null
 }
 
-function protectedContentRetryFeedback(failure) {
+function protectedContentRetryFeedback(result, failure) {
+  if (result?.errorDetails?.code === 'DUPLICATE_PROTECTED_MARKER') {
+    const details = result.errorDetails
+    return JSON.stringify({
+      kind: 'protected_marker_error',
+      code: details.code,
+      semanticUnitId: details.semanticUnitId,
+      markerId: details.markerId,
+      expectedCount: details.expectedCount,
+      actualCount: details.actualCount,
+      occurrences: details.occurrences,
+      instruction: 'Each supplied protected marker must appear exactly once. Do not duplicate, invent, or delete any protected marker. Plain code-like tokens must remain plain text; never add backticks around text that was not inline code in the supplied semantic unit.',
+    })
+  }
   const evidence = failure.slice(0, 1000)
   if (!/Unexpected protected inline_code/i.test(failure)) return evidence
   return `${evidence}\nPlain code-like tokens must remain plain text. Never add backticks around text that was not inline code in the supplied semantic unit.`
@@ -315,6 +340,22 @@ function protectedContentRetryFeedback(failure) {
 function structuredResponseRetryFeedback(failure) {
   const evidence = failure.slice(0, 1000)
   return `${evidence}\nReturn strict JSON. Escape all control characters inside JSON string values; never emit raw newlines or tabs inside a string.`
+}
+
+function semanticResponseRetryFeedback(result) {
+  const details = result?.errorDetails || {}
+  const expectedCount = Number.isFinite(details.expectedCount) ? details.expectedCount : undefined
+  const instruction = expectedCount === undefined
+    ? 'Return strict JSON using the requested root field and exact entry schema. Escape control characters inside string values. Include every supplied semantic unit ID exactly once; do not duplicate, invent, or omit IDs.'
+    : `Return strict JSON with exactly ${expectedCount} entries. Escape control characters inside string values. Include every supplied semantic unit ID exactly once; do not duplicate, invent, or omit IDs.`
+  return JSON.stringify({
+    kind: 'semantic_response_error',
+    ...Object.fromEntries([
+      'code', 'field', 'entryIndex', 'expectedCount', 'actualCount', 'expectedFields', 'actualFields',
+      'expectedIds', 'actualIds', 'missingIds', 'unknownIds', 'duplicateIds',
+    ].flatMap(key => details[key] === undefined ? [] : [[key, details[key]]])),
+    instruction,
+  })
 }
 
 async function processItemWithRetry(item, options) {
@@ -365,11 +406,19 @@ async function processItemWithRetry(item, options) {
     }
 
     const failure = summarizeFailedResult(result)
-    const record = failureRecord({attempt: attempt + 1, failure: result})
+    const retryErrorDetails = boundedFailureDetails(result?.errorDetails)
+    const hasActionableRetryDetails = typeof retryErrorDetails?.code === 'string'
+    const record = Object.freeze({
+      ...failureRecord({attempt: attempt + 1, failure: result}),
+      ...(hasActionableRetryDetails ? {errorDetails: retryErrorDetails} : {}),
+    })
     failures.push(record)
-    retryFeedback = /Protected (?:marker|content)/i.test(failure)
-      ? protectedContentRetryFeedback(failure)
-      : /response must be valid JSON/i.test(failure)
+    const errorCode = result?.errorDetails?.code
+    retryFeedback = result?.failureCategory === 'semantic_response_failed' || String(errorCode || '').startsWith('SEMANTIC_RESPONSE_')
+      ? semanticResponseRetryFeedback(result)
+      : result?.failureCategory === 'protected_content_failed' || /Protected (?:marker|content)/i.test(failure)
+        ? protectedContentRetryFeedback(result, failure)
+        : /response must be valid JSON/i.test(failure)
         ? structuredResponseRetryFeedback(failure)
       : validatedReviewRetryFeedback(result)
     const retryForbidden = result?.errorDetails?.code === 'CORRECTION_PROTECTED_MARKER_VIOLATION'
@@ -539,8 +588,9 @@ async function translateAndReviewUnit({
   const idPrefix = chunkContext ? `chunk.${String(chunkContext.index + 1).padStart(4, '0')}` : 'document'
   const units = await collectSemanticUnits(sourceContent, {idPrefix})
   if (!units.length) return {translatedContent: sourceContent, review: {pass: true, issues: []}, semanticUnits: 0}
-  const protectedSource = protectTranslationInput(sourceContent)
-  const sourceUnits = protectSemanticUnits(units)
+  const protectedOptions = {literalTokens: localeContract.doNotTranslate}
+  const protectedSource = protectTranslationInput(sourceContent, protectedOptions)
+  const sourceUnits = protectSemanticUnits(units, unit => unit.source, protectedOptions)
   const sourceUnitPayload = sourceUnits.map(unit => ({id: unit.id, kind: unit.kind, text: unit.protection.content}))
   const initialResponse = await callModel({
     agent: 'translation',
@@ -600,6 +650,12 @@ async function translateAndReviewUnit({
       issues.push(issue)
       issueUnits.push(binding)
     }
+    for (const issue of deterministic.issues) {
+      const key = JSON.stringify(issue)
+      if (seen.has(key)) continue
+      seen.add(key)
+      issues.push(issue)
+    }
     review = {
       pass: !evidence.fatal && issues.length === 0 && evidence.contractConflicts.length === 0,
       issues,
@@ -612,6 +668,7 @@ async function translateAndReviewUnit({
     if (review.pass || round === maxReviewRounds) break
     if (evidence.fatal || issues.length === 0) break
     const authorizedIds = [...new Set(issueUnits.map(item => item.unitId))]
+    if (!authorizedIds.length) break
     const authorizedDraftUnits = draftUnits.filter(unit => authorizedIds.includes(unit.id))
     const authorizedPayload = authorizedDraftUnits.map(unit => ({
       id: unit.id,
@@ -1422,6 +1479,7 @@ module.exports = {
   buildRecoveryIdentity,
   buildReviewMessages,
   buildTranslationMessages,
+  calculateProviderRetryDelay,
   createProviderCall,
   createProgressCoordinator,
   isRetryableProviderError,

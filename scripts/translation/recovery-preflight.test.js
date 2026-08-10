@@ -42,6 +42,46 @@ function fixture(t) {
   return {siteDir, artifactDir, items, identity}
 }
 
+function retainedLocaleFixture(t, {source, target}) {
+  const siteDir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-retained-locale-site-'))
+  const artifactDir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-retained-locale-artifact-'))
+  t.after(() => {
+    fs.rmSync(siteDir, {recursive: true, force: true})
+    fs.rmSync(artifactDir, {recursive: true, force: true})
+  })
+  const item = {
+    sourcePath: 'content/en/guides/recovery-contract.md',
+    targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/guides/recovery-contract.md',
+    sourceHash: HASH(source),
+    locale: 'ja-JP',
+    type: 'guides',
+    reason: 'stale_source',
+  }
+  write(siteDir, item.sourcePath, source)
+  write(siteDir, item.targetPath, target)
+  const identity = {
+    locale: 'ja-JP', group: 'guides', promptContractSha256: 'c'.repeat(64), model: 'translation-model',
+    sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'incremental',
+  }
+  createRecoveryArtifact({siteDir, outputDir: artifactDir, results: [{...item, status: 'translated'}], identity})
+  fs.rmSync(path.join(siteDir, item.targetPath))
+  return {siteDir, artifactDir, item, identity}
+}
+
+function analyzeRetainedLocale(value) {
+  return analyzeRecoveryCompatibility({
+    siteDir: value.siteDir,
+    manifest: {
+      target: 'ja-JP', locale: 'ja-JP', group: 'guides', sourceCheckpointSha: value.identity.sourceSha, items: [value.item],
+    },
+    artifacts: [value.artifactDir],
+    promptContractSha256: value.identity.promptContractSha256,
+    model: value.identity.model,
+    executionToolingSha: 'd'.repeat(40),
+    allowFullRetranslate: true,
+  })
+}
+
 test('restores current-compatible files and leaves only true pending candidates for providers', t => {
   const value = fixture(t)
   const analysis = analyzeRecoveryCompatibility({
@@ -113,6 +153,118 @@ test('tooling-only changes revalidate complete files and reject outputs that fai
   })
   assert.equal(invalidAnalysis.recoveredCount, 0)
   assert.match(invalidAnalysis.rejected[0].reason, /revalidation.*protected/i)
+})
+
+test('retained revalidation ignores locale terms inside production protected spans', t => {
+  const source = [
+    '# Search vectors',
+    '',
+    'Create a collection with a vector field.',
+    '',
+    '```java',
+    'import io.milvus.v2.service.vector.request.SearchReq;',
+    'return Collections.singletonList("collection");',
+    '```',
+    '',
+    'Keep these values byte-identical:',
+    '',
+    '- `collection.vector`',
+    '- https://example.com/collection/vector',
+    '- content/en/collection/vector.md',
+    '- <ApiExample path="service.vector" collection="collection" />',
+    '',
+  ].join('\n')
+  const target = [
+    '# ベクトル検索',
+    '',
+    'ベクトルフィールドを持つコレクションを作成します。',
+    '',
+    '```java',
+    'import io.milvus.v2.service.vector.request.SearchReq;',
+    'return Collections.singletonList("collection");',
+    '```',
+    '',
+    '次の値はバイト単位で保持します。',
+    '',
+    '- `collection.vector`',
+    '- https://example.com/collection/vector',
+    '- content/en/collection/vector.md',
+    '- <ApiExample path="service.vector" collection="collection" />',
+    '',
+  ].join('\n')
+  const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {source, target}))
+  assert.equal(analysis.recoveredCount, 1, JSON.stringify(analysis.rejected))
+  assert.equal(analysis.rejectedCount, 0)
+  assert.equal(analysis.restored[0].compatibility, 'revalidated')
+})
+
+test('retained revalidation still rejects a real prose terminology violation', t => {
+  const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {
+    source: '# Create resources\n\nCreate a collection.\n',
+    target: '# リソースを作成\n\nリソースを作成します。\n',
+  }))
+  assert.equal(analysis.recoveredCount, 0)
+  assert.equal(analysis.rejectedCount, 1)
+  assert.match(analysis.rejected[0].reason, /locale:.*collection.*コレクション/i)
+})
+
+test('retained revalidation rejects mandatory-term borrowing across semantic units', t => {
+  const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {
+    source: '# Create resources\n\nCreate a collection.\n',
+    target: '# コレクションの概要\n\nリソースを作成します。\n',
+  }))
+  assert.equal(analysis.recoveredCount, 0)
+  assert.equal(analysis.rejectedCount, 1)
+  assert.match(analysis.rejected[0].reason, /locale:.*collection.*コレクション/i)
+})
+
+test('retained revalidation rejects a missing target semantic unit without locale terms', t => {
+  const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {
+    source: '# Overview\n\nThis guide explains the workflow.\n',
+    target: '# 概要\n',
+  }))
+  assert.equal(analysis.recoveredCount, 0)
+  assert.equal(analysis.rejectedCount, 1)
+  assert.match(analysis.rejected[0].reason, /semantic unit structure.*count/i)
+})
+
+test('retained revalidation rejects an inserted target semantic unit before ordinal locale matching', t => {
+  const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {
+    source: 'Intro.\n\nCreate a collection.\n',
+    target: '概要。\n\nコレクションについて。\n\nリソースを作成します。\n',
+  }))
+  assert.equal(analysis.recoveredCount, 0)
+  assert.equal(analysis.rejectedCount, 1)
+  assert.match(analysis.rejected[0].reason, /semantic unit structure.*count/i)
+})
+
+test('retained revalidation fails closed on a mandatory-term deficit after blank-line drift', t => {
+  const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {
+    source: '# Create resources\n\nCreate a collection.\n',
+    target: '# リソースを作成\n\n\nリソースを作成します。\n',
+  }))
+  assert.equal(analysis.recoveredCount, 0)
+  assert.equal(analysis.rejectedCount, 1)
+  assert.match(analysis.rejected[0].reason, /locale:.*collection.*コレクション/i)
+})
+
+test('retained revalidation allows an additional target do-not-translate product term', t => {
+  const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {
+    source: '# Milvus\n\nMilvus creates a collection.\n',
+    target: '# Milvus\n\nMilvus と Zilliz Cloud でコレクションを作成します。\n',
+  }))
+  assert.equal(analysis.recoveredCount, 1, JSON.stringify(analysis.rejected))
+  assert.equal(analysis.rejectedCount, 0)
+})
+
+test('retained revalidation fails closed when a do-not-translate token is deleted', t => {
+  const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {
+    source: '# Milvus\n\nMilvus creates a collection.\n',
+    target: '# ベクトルデータベース\n\nコレクションを作成します。\n',
+  }))
+  assert.equal(analysis.recoveredCount, 0)
+  assert.equal(analysis.rejectedCount, 1)
+  assert.match(analysis.rejected[0].reason, /protected: Missing protected do_not_translate:.*Milvus/i)
 })
 
 test('rejects a cross-version payload that fails the current protected contract', t => {

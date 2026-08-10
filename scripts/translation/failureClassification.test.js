@@ -37,4 +37,5 @@ test('prefers explicit structured categories and timeout codes over opaque messa
   assert.equal(classifyFailure(Object.assign(new Error('opaque'), {code: 'CHUNK_TIMEOUT', timeoutMs: 900000})), 'provider_timeout')
   assert.equal(classifyFailure(Object.assign(new Error('opaque'), {code: 'PROVIDER_TIMEOUT'})), 'provider_timeout')
   assert.equal(classifyFailure(Object.assign(new Error('opaque'), {code: 'PROVIDER_TRANSPORT'})), 'provider_transport')
+  assert.equal(classifyFailure(Object.assign(new Error('opaque'), {code: 'SEMANTIC_RESPONSE_COUNT_MISMATCH'})), 'semantic_response_failed')
 })

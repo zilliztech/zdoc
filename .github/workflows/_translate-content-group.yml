@@ -289,6 +289,9 @@ jobs:
           REVIEW_AGENT_BASE_URL: ${{ vars.REVIEW_AGENT_BASE_URL }}
           REVIEW_AGENT_MODEL: ${{ vars.REVIEW_AGENT_MODEL }}
           TRANSLATION_ALLOW_PARTIAL: "true"
+          TRANSLATION_CONCURRENCY: ${{ inputs.group == 'guides' && '1' || inputs.target == 'zh-CN-reference' && '2' || '4' }}
+          TRANSLATION_CHUNK_TARGET_CHARS: ${{ inputs.group == 'guides' && '8000' || '16000' }}
+          TRANSLATION_CHUNK_MAX_CHARS: ${{ inputs.group == 'guides' && '12000' || '24000' }}
       - name: Create per-file recovery artifact
         if: ${{ always() && inputs.should_translate && steps.manifest.outputs.count != '0' }}
         run: >-

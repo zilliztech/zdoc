@@ -9,6 +9,7 @@ const {
   buildReviewMessages,
   buildTranslationMessages,
   buildRecoveryIdentity,
+  calculateProviderRetryDelay,
   createProviderCall,
   createProgressCoordinator,
   isRetryableProviderError,
@@ -27,7 +28,7 @@ const {
 } = require('./agentRunner')
 const { chunkDocument } = require('./chunker')
 const { REVIEW_RESPONSE_JSON_SCHEMA } = require('./reviewEvidence')
-const { createRecoveryArtifact } = require('./recovery-artifact')
+const { createRecoveryArtifact, readArtifact } = require('./recovery-artifact')
 const { buildTranslationCandidates } = require('../../packages/docs-tooling/src/translation/candidates.ts')
 const { validateReferenceTranslation } = require('../../packages/docs-tooling/src/validation/translation.ts')
 
@@ -1191,6 +1192,47 @@ async function testProviderNamedFailuresRetryBoundedlyAndExternalAbortDoesNotRet
   }
 }
 
+function testProviderRetryScheduleUsesBoundedExponentialJitter() {
+  const defaultsAtMinimumJitter = [0, 1, 2].map(attempt => calculateProviderRetryDelay(attempt, {random: () => 0}))
+  const defaultsAtMaximumJitter = [0, 1, 2].map(attempt => calculateProviderRetryDelay(attempt, {random: () => 1}))
+  assert.deepEqual(defaultsAtMinimumJitter, [24000, 48000, 96000])
+  assert.deepEqual(defaultsAtMaximumJitter, [36000, 72000, 120000])
+
+  const deterministic = [0, 1, 2, 3, 4].map(attempt => calculateProviderRetryDelay(attempt, {
+    retryDelayMs: 100,
+    retryMaxDelayMs: 500,
+    retryJitterRatio: 0.25,
+    random: () => 0.5,
+  }))
+  assert.deepEqual(deterministic, [100, 200, 400, 500, 500])
+}
+
+async function testProviderBackoffIsAbortableBeforeAnotherCall() {
+  const originalFetch = global.fetch
+  let calls = 0
+  global.fetch = async () => {
+    calls += 1
+    return {ok: false, status: 408, json: async () => ({error: 'timeout'})}
+  }
+  try {
+    const callModel = await createProviderCall({
+      translation: {baseUrl: 'https://example.com', apiKey: 'key', model: 'model'},
+    }, {maxRetries: 3, retryDelayMs: 60000, random: () => 0.5})
+    const controller = new AbortController()
+    const pending = callModel({agent: 'translation', messages: [], signal: controller.signal})
+    await new Promise(resolve => setImmediate(resolve))
+    const reason = Object.assign(new Error('file attempt cancelled during backoff'), {
+      failureCategory: 'provider_timeout',
+      code: 'FILE_TIMEOUT',
+    })
+    controller.abort(reason)
+    await assert.rejects(() => pending, error => error === reason)
+    assert.equal(calls, 1)
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
 function testRetryableProviderErrors() {
   assert.equal(isRetryableProviderError(new Error('translation agent failed with HTTP 500: {}')), true)
   assert.equal(isRetryableProviderError(new Error('fetch failed')), true)
@@ -1686,6 +1728,41 @@ async function testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBack
   assert.match(unexpectedInlineCodeFeedback[1], /plain code-like tokens must remain plain/i)
   assert.match(unexpectedInlineCodeFeedback[1], /never add backticks/i)
 
+  const duplicateMarkerFeedback = []
+  await processItemWithRetry({sourcePath: 'docs/duplicate-marker.md'}, {
+    maxRetries: 1,
+    log: {warn: () => {}},
+    processItem: async (item, attempt, retryFeedback) => {
+      duplicateMarkerFeedback.push(retryFeedback || null)
+      return attempt === 0
+        ? {
+            ...item,
+            status: 'failed',
+            error: 'Semantic unit chunk.0001.paragraph.0007 failed protected marker validation',
+            failureCategory: 'protected_content_failed',
+            errorDetails: {
+              code: 'DUPLICATE_PROTECTED_MARKER',
+              semanticUnitId: 'chunk.0001.paragraph.0007',
+              markerId: '000007',
+              expectedCount: 1,
+              actualCount: 2,
+              occurrences: [{line: 1, column: 8, offset: 7}, {line: 1, column: 92, offset: 91}],
+            },
+          }
+        : {...item, status: 'translated'}
+    },
+  })
+  const duplicateFeedback = JSON.parse(duplicateMarkerFeedback[1])
+  assert.equal(duplicateFeedback.code, 'DUPLICATE_PROTECTED_MARKER')
+  assert.equal(duplicateFeedback.semanticUnitId, 'chunk.0001.paragraph.0007')
+  assert.equal(duplicateFeedback.markerId, '000007')
+  assert.equal(duplicateFeedback.expectedCount, 1)
+  assert.equal(duplicateFeedback.actualCount, 2)
+  assert.deepEqual(duplicateFeedback.occurrences, [{line: 1, column: 8, offset: 7}, {line: 1, column: 92, offset: 91}])
+  assert.match(duplicateFeedback.instruction, /each supplied protected marker.*exactly once/i)
+  assert.match(duplicateFeedback.instruction, /do not duplicate, invent, or delete/i)
+  assert.match(duplicateFeedback.instruction, /never add backticks/i)
+
   const invalidJsonFeedback = []
   await processItemWithRetry({sourcePath: 'docs/invalid-json.md'}, {
     maxRetries: 1,
@@ -1732,6 +1809,172 @@ async function testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBack
   assert.match(reviewFeedback[1], /validated_review_issues/)
   assert.match(reviewFeedback[1], /bulkImport request/)
   assert.doesNotMatch(reviewFeedback[1], /Free-form reviewer instructions/)
+}
+
+async function testSemanticResponseCountMismatchRetriesWithStructuredFeedbackAndRecoveryCategory() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/guides/semantic-count.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/semantic-count.md'
+    const source = '# First\n\nSecond paragraph.\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {
+      target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides', reason: 'stale_source',
+    }
+    let translationCalls = 0
+    let retryEvidence
+    const recovered = await processItemWithRetry(item, {
+      maxRetries: 1,
+      log: {warn: () => {}},
+      processItem: (_value, _attempt, retryFeedback) => processManifestItem({
+        siteDir,
+        item,
+        maxReviewRounds: 0,
+        retryFeedback,
+        validate: async () => [],
+        callModel: async ({agent, messages}) => {
+          if (agent === 'review') return '{"pass":true,"issues":[]}'
+          translationCalls += 1
+          const units = taggedJsonContent(messages, 'semantic_units')
+          if (translationCalls === 1) return JSON.stringify({translations: [{id: units[0].id, text: '最初'}]})
+          retryEvidence = JSON.parse(taggedMessageContent(messages, 'retry_feedback'))
+          return semanticTranslationResponse(messages, text => text === 'First' ? '最初' : '第2段落。')
+        },
+      }),
+    })
+
+    assert.equal(recovered.status, 'translated')
+    assert.equal(recovered.attempts, 2)
+    assert.deepEqual(recovered.retryFailures.map(failure => failure.category), ['semantic_response_failed'])
+    assert.equal(recovered.retryFailures[0].code, 'SEMANTIC_RESPONSE_MISSING_IDS')
+    assert.equal(recovered.retryFailures[0].errorDetails.expectedCount, 2)
+    assert.equal(recovered.retryFailures[0].errorDetails.actualCount, 1)
+    assert.deepEqual(recovered.retryFailures[0].errorDetails.missingIds, ['document.paragraph.0001'])
+    assert.equal(retryEvidence.kind, 'semantic_response_error')
+    assert.equal(retryEvidence.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
+    assert.equal(retryEvidence.expectedCount, 2)
+    assert.equal(retryEvidence.actualCount, 1)
+    assert.deepEqual(retryEvidence.missingIds, ['document.paragraph.0001'])
+    assert.match(retryEvidence.instruction, /strict JSON/i)
+    assert.match(retryEvidence.instruction, /exactly 2 entries/i)
+
+    const failed = await processItemWithRetry(item, {
+      maxRetries: 1,
+      log: {warn: () => {}},
+      processItem: (_value, _attempt, retryFeedback) => processManifestItem({
+        siteDir,
+        item,
+        maxReviewRounds: 0,
+        retryFeedback,
+        validate: async () => [],
+        callModel: async ({agent, messages}) => {
+          assert.equal(agent, 'translation')
+          const units = taggedJsonContent(messages, 'semantic_units')
+          return JSON.stringify({translations: [{id: units[0].id, text: '最初'}]})
+        },
+      }),
+    })
+    assert.equal(failed.status, 'failed')
+    assert.equal(failed.failureCategory, 'semantic_response_failed')
+    assert.equal(failed.errorDetails.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
+    assert.equal(failed.errorDetails.expectedCount, 2)
+    assert.equal(failed.errorDetails.actualCount, 1)
+    assert.deepEqual(failed.retryFailures.map(failure => failure.category), ['semantic_response_failed', 'semantic_response_failed'])
+    for (const retryFailure of failed.retryFailures) {
+      assert.equal(retryFailure.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
+      assert.equal(retryFailure.errorDetails.expectedCount, 2)
+      assert.equal(retryFailure.errorDetails.actualCount, 1)
+      assert.deepEqual(retryFailure.errorDetails.missingIds, ['document.paragraph.0001'])
+    }
+
+    const reportPath = 'tmp/semantic-count-report.json'
+    const coordinator = createProgressCoordinator({
+      siteDir,
+      manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', items: [item]},
+      reportPath,
+      checkpointFiles: 1,
+      checkpointIntervalMs: 1000,
+    })
+    await coordinator.record(failed, 0)
+    await coordinator.checkpoint(true)
+    const persistedReport = JSON.parse(fs.readFileSync(path.join(siteDir, reportPath), 'utf8'))
+    assert.equal(persistedReport.results[0].errorDetails.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
+    assert.equal(persistedReport.results[0].errorDetails.expectedCount, 2)
+    assert.equal(persistedReport.results[0].retryFailures[0].errorDetails.actualCount, 1)
+    assert.deepEqual(persistedReport.results[0].retryFailures[0].errorDetails.missingIds, ['document.paragraph.0001'])
+
+    const artifactDir = path.join(siteDir, 'semantic-count-recovery')
+    const artifact = createRecoveryArtifact({
+      siteDir,
+      outputDir: artifactDir,
+      results: [failed],
+      identity: {
+        locale: 'ja-JP', group: 'guides', promptContractSha256: 'c'.repeat(64), model: 'translation-model',
+        sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'full', batchIndex: 0, batchCount: 1,
+      },
+    })
+    assert.deepEqual(artifact.metadata.failureCounts, {semantic_response_failed: 1})
+    assert.equal(artifact.failures[0].failureCategory, 'semantic_response_failed')
+    assert.equal(artifact.failures[0].errorDetails.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
+    assert.equal(artifact.failures[0].errorDetails.expectedCount, 2)
+    assert.equal(artifact.failures[0].errorDetails.actualCount, 1)
+    const persistedMetadata = JSON.parse(fs.readFileSync(path.join(artifactDir, 'metadata.json'), 'utf8'))
+    const persistedManifest = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8'))
+    assert.deepEqual(persistedMetadata.failureCounts, {semantic_response_failed: 1})
+    assert.equal(persistedManifest.failures[0].errorDetails.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
+    assert.equal(persistedManifest.failures[0].retryFailures[0].errorDetails.expectedCount, 2)
+    assert.equal(persistedManifest.failures[0].retryFailures[0].errorDetails.actualCount, 1)
+    assert.deepEqual(persistedManifest.failures[0].retryFailures[0].errorDetails.missingIds, ['document.paragraph.0001'])
+    const readBackArtifact = readArtifact(artifactDir)
+    assert.equal(readBackArtifact.error, undefined)
+    assert.equal(readBackArtifact.failures[0].errorDetails.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
+    assert.deepEqual(readBackArtifact.failures[0].retryFailures[0].errorDetails.missingIds, ['document.paragraph.0001'])
+  })
+}
+
+async function testStructuredMarkerOccurrencesRemainLosslessAcrossRunnerAndRecovery() {
+  await withTempDir(async siteDir => {
+    const occurrences = Array.from({length: 25}, (_, index) => ({line: index + 1, column: 4, offset: index * 60 + 3}))
+    const item = {
+      sourcePath: 'content/en/guides/marker-positions.md',
+      targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/marker-positions.md',
+      sourceHash: sha256('# source\n'),
+      locale: 'ja-JP',
+      type: 'guides',
+      reason: 'stale_source',
+    }
+    write(path.join(siteDir, item.sourcePath), '# source\n')
+    const failed = await processItemWithRetry(item, {
+      maxRetries: 0,
+      processItem: async () => {
+        throw Object.assign(new Error('duplicate marker'), {
+          failureCategory: 'protected_content_failed',
+          code: 'DUPLICATE_PROTECTED_MARKER',
+          markerId: '000007',
+          expectedCount: 1,
+          actualCount: 25,
+          occurrences,
+        })
+      },
+    })
+    assert.equal(failed.errorDetails.occurrences.length, 25)
+    assert.deepEqual(failed.errorDetails.occurrences.at(-1), occurrences.at(-1))
+    assert.equal(failed.retryFailures[0].errorDetails.occurrences.length, 25)
+
+    const artifactDir = path.join(siteDir, 'marker-recovery')
+    createRecoveryArtifact({
+      siteDir,
+      outputDir: artifactDir,
+      results: [failed],
+      identity: {
+        locale: 'ja-JP', group: 'guides', promptContractSha256: 'c'.repeat(64), model: 'translation-model',
+        sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'full', batchIndex: 0, batchCount: 1,
+      },
+    })
+    const persisted = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8')).failures[0]
+    assert.equal(persisted.errorDetails.occurrences.length, 25)
+    assert.equal(persisted.retryFailures[0].errorDetails.occurrences.length, 25)
+    assert.deepEqual(persisted.retryFailures[0].errorDetails.occurrences.at(-1), occurrences.at(-1))
+  })
 }
 
 async function testFileRetryRecordsPersistentFailure() {
@@ -2418,6 +2661,37 @@ async function testOrdinaryMandatoryLocaleIssueRemainsLocaleContractFailure() {
   })
 }
 
+async function testUnalignedMandatoryLocaleIssueFailsWithoutCorrection() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/guides/blank-line-locale-failure.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/guides/blank-line-locale-failure.md'
+    write(path.join(siteDir, sourcePath), '# Create resources\n\nCreate a collection.\n')
+    const calls = []
+    const result = await processManifestItem({
+      siteDir,
+      item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: 'blank-line-locale-failure', locale: 'ja-JP', type: 'guides'},
+      maxReviewRounds: 2,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        calls.push(agent)
+        if (agent === 'translation') return semanticTranslationResponse(messages, text => (
+          text.includes('collection') ? '\nリソースを作成します。' : 'リソースを作成'
+        ))
+        if (agent === 'review') return '{"pass":true,"issues":[]}'
+        throw new Error('Correction must not run without aligned draft evidence')
+      },
+    })
+
+    assert.deepEqual(calls, ['translation', 'review'])
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'locale_contract_failed')
+    assert.equal(result.review.localeContractIssues.length, 1)
+    assert.equal(result.review.localeContractIssues[0].draft_quote, '')
+    assert.equal(result.review.localeContractIssues[0].evidenceAvailable, false)
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
+  })
+}
+
 async function testDeterministicCompactionIssueCorrectsForbiddenChineseTerms() {
   for (const forbidden of ['压缩', '压实']) {
     await withTempDir(async siteDir => {
@@ -2630,6 +2904,8 @@ async function run() {
   await testFileAttemptDeadlineSpansAllMarkdownChunksAndStopsLateCheckpoints()
   await testFileAttemptDeadlineAbortsRestTranslation()
   await testProviderNamedFailuresRetryBoundedlyAndExternalAbortDoesNotRetry()
+  testProviderRetryScheduleUsesBoundedExponentialJitter()
+  await testProviderBackoffIsAbortableBeforeAnotherCall()
   testRetryableProviderErrors()
   testChunkLimitConfiguration()
   testFileRetryConfiguration()
@@ -2651,6 +2927,8 @@ async function run() {
   await testWorkerPoolIsolatesItemFailures()
   await testFileRetryRecoversFailedTranslation()
   await testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBackToTranslation()
+  await testSemanticResponseCountMismatchRetriesWithStructuredFeedbackAndRecoveryCategory()
+  await testStructuredMarkerOccurrencesRemainLosslessAcrossRunnerAndRecovery()
   await testFileRetryRecordsPersistentFailure()
   await testFileRetryPreservesProviderFailureCategories()
   await testFileRetryPreservesStructuredFailureFieldsWithoutMessageParsing()
@@ -2668,6 +2946,7 @@ async function run() {
   await testRestoresFencedCodeCommentsByteForByte()
   await testContractConflictingReviewerIssueFailsStructurallyAndEntersRecoveryArtifact()
   await testOrdinaryMandatoryLocaleIssueRemainsLocaleContractFailure()
+  await testUnalignedMandatoryLocaleIssueFailsWithoutCorrection()
   await testDeterministicCompactionIssueCorrectsForbiddenChineseTerms()
   await testOnlyValidatedReviewerIssuesReachCorrection()
   await testIdenticalFrontmatterTokenAllegationDoesNotRewriteDraft()

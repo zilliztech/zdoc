@@ -3,9 +3,10 @@
 const assert = require('node:assert/strict')
 const yaml = require('js-yaml')
 const {validateMdxStructure} = require('../../packages/docs-tooling/src/mdx/validate.cjs')
-const {loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
+const {loadLocaleContract} = require('./localeContract')
 const {validateProtectedContent} = require('./protectedContent')
 const {parseRestDocument, removeLocale} = require('./restSpecLocalization')
+const {collectSemanticUnitsSync, deterministicSemanticIssues, protectSemanticUnits} = require('./semanticUnits')
 
 function validateFrontmatter(content) {
   const match = String(content).match(/^---\r?\n([\s\S]*?)\r?\n---/)
@@ -31,12 +32,49 @@ function validateRestIdentity(sourceContent, targetContent, locale) {
   }
 }
 
+function validateRecoveryLocale(sourceContent, targetContent, localeContract, protectedOptions) {
+  const sourceStructure = collectSemanticUnitsSync(sourceContent)
+  const targetStructure = collectSemanticUnitsSync(targetContent)
+  if (sourceStructure.length !== targetStructure.length) {
+    return Object.freeze({
+      structureErrors: Object.freeze([`Semantic unit structure count mismatch: source=${sourceStructure.length}, target=${targetStructure.length}`]),
+      localeIssues: Object.freeze([]),
+    })
+  }
+  for (let index = 0; index < sourceStructure.length; index += 1) {
+    const sourceUnit = sourceStructure[index]
+    const targetUnit = targetStructure[index]
+    if (sourceUnit.id !== targetUnit.id || sourceUnit.kind !== targetUnit.kind) {
+      return Object.freeze({
+        structureErrors: Object.freeze([
+          `Semantic unit structure identity mismatch at position ${index + 1}: source=${sourceUnit.id}/${sourceUnit.kind}, target=${targetUnit.id}/${targetUnit.kind}`,
+        ]),
+        localeIssues: Object.freeze([]),
+      })
+    }
+  }
+  const sourceUnits = protectSemanticUnits(sourceStructure, unit => unit.source, protectedOptions)
+  const targetUnits = protectSemanticUnits(targetStructure, unit => unit.source, protectedOptions)
+  return Object.freeze({
+    structureErrors: Object.freeze([]),
+    localeIssues: deterministicSemanticIssues(sourceUnits, targetUnits, localeContract).issues,
+  })
+}
+
 function validateRecoveryCandidate({sourceContent, targetContent, sourcePath, targetPath, target, locale}) {
-  const protectedErrors = validateProtectedContent(sourceContent, targetContent, {sourcePath, targetPath})
-  const localeIssues = validateLocaleContractDraft(sourceContent, targetContent, loadLocaleContract(target))
+  const localeContract = loadLocaleContract(target)
+  const protectedOptions = {literalTokens: localeContract.doNotTranslate}
+  const protectedErrors = validateProtectedContent(sourceContent, targetContent, {
+    sourcePath,
+    targetPath,
+    allowAdditionalLiteralTokens: true,
+    ...protectedOptions,
+  })
+  const semanticValidation = validateRecoveryLocale(sourceContent, targetContent, localeContract, protectedOptions)
   return Object.freeze([
     ...protectedErrors.map(error => `protected: ${error}`),
-    ...localeIssues.map(issue => `locale: ${issue.location}: ${issue.comment}`),
+    ...semanticValidation.structureErrors.map(error => `semantic: ${error}`),
+    ...semanticValidation.localeIssues.map(issue => `locale: ${issue.location}: ${issue.comment}`),
     ...validateFrontmatter(targetContent),
     ...validateMdxStructure(targetContent).map(error => `MDX structure: ${error}`),
     ...validateRestIdentity(sourceContent, targetContent, locale),
