@@ -387,3 +387,19 @@ test('binds Reviewer and deterministic evidence to one exact semantic unit ID', 
   assert.match(deterministic.issues[0].location, /^doc\.paragraph\.0003;/)
   assert.deepEqual(deterministic.issueUnits.map(item => item.unitId), ['doc.paragraph.0003'])
 })
+
+test('does not authorize correction for a deterministic issue without aligned draft evidence', () => {
+  const sourceUnits = protectSemanticUnits([
+    {id: 'doc.paragraph.0001', kind: 'paragraph', start: 0, end: 20, source: 'Create a collection.'},
+  ])
+  const draftUnits = protectSemanticUnits([
+    {...sourceUnits[0], translation: '\nリソースを作成します。'},
+  ], unit => unit.translation)
+
+  const deterministic = deterministicSemanticIssues(sourceUnits, draftUnits, loadLocaleContract('ja-JP'))
+
+  assert.equal(deterministic.issues.length, 1)
+  assert.equal(deterministic.issues[0].draft_quote, '')
+  assert.equal(deterministic.issues[0].evidenceAvailable, false)
+  assert.deepEqual(deterministic.issueUnits, [])
+})

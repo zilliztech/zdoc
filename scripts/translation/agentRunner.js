@@ -650,6 +650,12 @@ async function translateAndReviewUnit({
       issues.push(issue)
       issueUnits.push(binding)
     }
+    for (const issue of deterministic.issues) {
+      const key = JSON.stringify(issue)
+      if (seen.has(key)) continue
+      seen.add(key)
+      issues.push(issue)
+    }
     review = {
       pass: !evidence.fatal && issues.length === 0 && evidence.contractConflicts.length === 0,
       issues,

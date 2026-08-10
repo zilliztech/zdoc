@@ -2661,6 +2661,37 @@ async function testOrdinaryMandatoryLocaleIssueRemainsLocaleContractFailure() {
   })
 }
 
+async function testUnalignedMandatoryLocaleIssueFailsWithoutCorrection() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/guides/blank-line-locale-failure.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/guides/blank-line-locale-failure.md'
+    write(path.join(siteDir, sourcePath), '# Create resources\n\nCreate a collection.\n')
+    const calls = []
+    const result = await processManifestItem({
+      siteDir,
+      item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: 'blank-line-locale-failure', locale: 'ja-JP', type: 'guides'},
+      maxReviewRounds: 2,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        calls.push(agent)
+        if (agent === 'translation') return semanticTranslationResponse(messages, text => (
+          text.includes('collection') ? '\nリソースを作成します。' : 'リソースを作成'
+        ))
+        if (agent === 'review') return '{"pass":true,"issues":[]}'
+        throw new Error('Correction must not run without aligned draft evidence')
+      },
+    })
+
+    assert.deepEqual(calls, ['translation', 'review'])
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'locale_contract_failed')
+    assert.equal(result.review.localeContractIssues.length, 1)
+    assert.equal(result.review.localeContractIssues[0].draft_quote, '')
+    assert.equal(result.review.localeContractIssues[0].evidenceAvailable, false)
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
+  })
+}
+
 async function testDeterministicCompactionIssueCorrectsForbiddenChineseTerms() {
   for (const forbidden of ['压缩', '压实']) {
     await withTempDir(async siteDir => {
@@ -2915,6 +2946,7 @@ async function run() {
   await testRestoresFencedCodeCommentsByteForByte()
   await testContractConflictingReviewerIssueFailsStructurallyAndEntersRecoveryArtifact()
   await testOrdinaryMandatoryLocaleIssueRemainsLocaleContractFailure()
+  await testUnalignedMandatoryLocaleIssueFailsWithoutCorrection()
   await testDeterministicCompactionIssueCorrectsForbiddenChineseTerms()
   await testOnlyValidatedReviewerIssuesReachCorrection()
   await testIdenticalFrontmatterTokenAllegationDoesNotRewriteDraft()

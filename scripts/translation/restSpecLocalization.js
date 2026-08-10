@@ -257,13 +257,14 @@ async function reviewAndCorrectRestBatch({entries, target, locale, callModel, lo
       error: evidence.error,
     }
     if (review.pass || round === maxReviewRounds) break
-    if (evidence.fatal || issues.length === 0) break
+    const correctionIssues = issues.filter(issue => issue.evidenceAvailable !== false)
+    if (evidence.fatal || correctionIssues.length === 0) break
     const corrected = await callModel({
       agent: 'correction',
       signal,
       messages: [
         {role: 'system', content: `${loadPrompt(promptNamesFor(target).restCorrection)}\n\n${formatLocaleContract(localeContract)}`},
-        {role: 'user', content: `Locale: ${locale}\n\n<source>\n${sourceContent}\n</source>\n\n<draft>\n${draftContent}\n</draft>\n\n<review_json>\n${JSON.stringify({pass: false, issues}, null, 2)}\n</review_json>`},
+        {role: 'user', content: `Locale: ${locale}\n\n<source>\n${sourceContent}\n</source>\n\n<draft>\n${draftContent}\n</draft>\n\n<review_json>\n${JSON.stringify({pass: false, issues: correctionIssues}, null, 2)}\n</review_json>`},
       ],
     })
     currentEntries = parseTranslationEntries(corrected, draftEntries, localeContract, {sourcePath})

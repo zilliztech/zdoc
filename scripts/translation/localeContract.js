@@ -284,7 +284,18 @@ function mandatoryTermIssues(source, draft, contract, term, sourceCount, targetC
 
   if (issues.length || remainingDeficit <= 0) return issues
   const draftQuote = boundedDraftQuote(source, draft, term.source, forbidden)
-  if (!draftQuote) return issues
+  if (!draftQuote) {
+    issues.push(Object.freeze({
+      severity: 'medium',
+      type: 'terminology',
+      location: `text containing ${term.source}`,
+      source_quote: term.source,
+      draft_quote: '',
+      evidenceAvailable: false,
+      comment: `Locale contract ${contract.contractId} requires ${term.source} to use ${term.target}; forbidden replacements do not satisfy this product terminology rule.`,
+    }))
+    return issues
+  }
   issues.push(Object.freeze({
     severity: 'medium',
     type: 'terminology',
