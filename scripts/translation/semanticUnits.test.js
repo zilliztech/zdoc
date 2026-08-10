@@ -120,6 +120,54 @@ test('requires exact semantic response fields and IDs while normalizing response
   )
 })
 
+test('classifies semantic response count mismatches with exact structured evidence', () => {
+  const expectedUnits = [
+    {id: 'chunk.0001.paragraph.0001'},
+    {id: 'chunk.0001.paragraph.0002'},
+  ]
+  const response = JSON.stringify({translations: [{id: expectedUnits[0].id, text: '最初'}]})
+
+  assert.throws(() => parseSemanticUnitResponse(response, {field: 'translations', expectedUnits}), error => {
+    assert.equal(error.failureCategory, 'semantic_response_failed')
+    assert.equal(error.code, 'SEMANTIC_RESPONSE_COUNT_MISMATCH')
+    assert.equal(error.expectedCount, 2)
+    assert.equal(error.actualCount, 1)
+    assert.deepEqual(error.expectedIds, expectedUnits.map(unit => unit.id))
+    assert.deepEqual(error.actualIds, [expectedUnits[0].id])
+    assert.deepEqual(error.missingIds, [expectedUnits[1].id])
+    return true
+  })
+})
+
+test('assigns structured codes to malformed semantic JSON, schema, duplicate IDs, and unknown IDs', () => {
+  const expectedUnits = [
+    {id: 'chunk.0001.paragraph.0001'},
+    {id: 'chunk.0001.paragraph.0002'},
+  ]
+  const cases = [
+    ['{', 'SEMANTIC_RESPONSE_INVALID_JSON'],
+    [JSON.stringify({wrong: []}), 'SEMANTIC_RESPONSE_SCHEMA_MISMATCH'],
+    [JSON.stringify({translations: [
+      {id: expectedUnits[0].id, text: '一'},
+      {id: expectedUnits[0].id, text: '二'},
+    ]}), 'SEMANTIC_RESPONSE_DUPLICATE_IDS'],
+    [JSON.stringify({translations: [
+      {id: expectedUnits[0].id, text: '一'},
+      {id: 'chunk.0001.paragraph.9999', text: '二'},
+    ]}), 'SEMANTIC_RESPONSE_UNKNOWN_IDS'],
+  ]
+
+  for (const [response, code] of cases) assert.throws(
+    () => parseSemanticUnitResponse(response, {field: 'translations', expectedUnits}),
+    error => {
+      assert.equal(error.failureCategory, 'semantic_response_failed')
+      assert.equal(error.code, code)
+      return true
+    },
+    code,
+  )
+})
+
 test('marks semantic protected-content failures structurally at their origin', () => {
   const units = [{id: 'doc.paragraph.0001', kind: 'paragraph', start: 0, end: 12, source: 'Use `alpha`.'}]
   const protectedUnits = protectSemanticUnits(units)
@@ -142,6 +190,30 @@ test('reports the exact semantic unit and location of an invented protected mark
     assert.match(error.message, /document\.frontmatter\.description/)
     assert.match(error.message, /000000/)
     assert.match(error.message, /line 2, column 1, offset 3/)
+    return true
+  })
+})
+
+test('reports duplicate protected marker identity, semantic unit, counts, and every occurrence location', () => {
+  const units = [{id: 'chunk.0001.paragraph.0007', kind: 'paragraph', start: 0, end: 12, source: 'Use `alpha`.'}]
+  const protectedUnits = protectSemanticUnits(units)
+  const marker = protectedUnits[0].protection.manifest.entries[0].marker
+  const text = `使用 ${marker}\n重复 ${marker}。`
+  const response = JSON.stringify({translations: [{id: units[0].id, text}]})
+
+  assert.throws(() => restoreSemanticUnitResponse(response, {field: 'translations', protectedUnits}), error => {
+    assert.equal(error.failureCategory, 'protected_content_failed')
+    assert.equal(error.code, 'DUPLICATE_PROTECTED_MARKER')
+    assert.equal(error.semanticUnitId, units[0].id)
+    assert.equal(error.markerId, '000000')
+    assert.equal(error.expectedCount, 1)
+    assert.equal(error.actualCount, 2)
+    assert.deepEqual(error.occurrences, [
+      {line: 1, column: 4, offset: 3},
+      {line: 2, column: 4, offset: text.lastIndexOf(marker)},
+    ])
+    assert.match(error.message, /chunk\.0001\.paragraph\.0007/)
+    assert.match(error.message, /expected=1, actual=2/)
     return true
   })
 })

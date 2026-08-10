@@ -6,6 +6,7 @@ const FAILURE_CATEGORIES = Object.freeze([
   'review_failed',
   'locale_contract_failed',
   'protected_content_failed',
+  'semantic_response_failed',
   'contract_conflict',
   'unknown',
 ])
@@ -29,6 +30,7 @@ function classifyFailure(failure) {
   const code = String(failure?.code || failure?.cause?.code || '')
   if (['CHUNK_TIMEOUT', 'FILE_TIMEOUT', 'PROVIDER_TIMEOUT'].includes(code)) return 'provider_timeout'
   if (code === 'PROVIDER_TRANSPORT') return 'provider_transport'
+  if (code.startsWith('SEMANTIC_RESPONSE_')) return 'semantic_response_failed'
   if (status === 408 || name === 'AbortError' || name === 'APITimeoutError' || /APITimeoutError|\btimeout\b|timed out|aborted/i.test(message)) return 'provider_timeout'
   if ([409, 425, 429, 500, 502, 503, 504].includes(status)) return 'provider_transport'
   if (/stream (?:disconnected|closed).*response\.completed|fetch failed|connection error|ECONNRESET|EAI_AGAIN|transport/i.test(message)) return 'provider_transport'
@@ -39,10 +41,12 @@ function classifyFailure(failure) {
 }
 
 function failureRecord({attempt, failure}) {
+  const code = failure?.errorDetails?.code || failure?.code
   return Object.freeze({
     attempt,
     category: classifyFailure(failure),
     error: messageOf(failure).slice(0, 2000),
+    ...(typeof code === 'string' ? {code: code.slice(0, 200)} : {}),
   })
 }
 

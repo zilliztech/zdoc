@@ -119,6 +119,19 @@ test('uses the still-invalid mandatory-term occurrence after an earlier occurren
   assert.match(issues[0].location, /line 2/i)
 })
 
+test('aligns repeated do-not-translate deficits to the later offending draft occurrence', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const source = 'Zilliz Cloud provides search, and Zilliz Cloud integrates it into the workflow.'
+  const draft = 'Zilliz Cloud は検索を提供します。また、このサービスは検索ワークフローに統合します。'
+
+  const issues = validateLocaleContractDraft(source, draft, contract)
+
+  assert.equal(issues.length, 1)
+  assert.equal(issues[0].source_quote, 'Zilliz Cloud')
+  assert.equal(issues[0].draft_quote, 'また、このサービスは検索ワークフローに統合します。')
+  assert.equal(issues[0].draft_quote.includes('Zilliz Cloud'), false)
+})
+
 test('normalizes lowercase Chinese product concepts to their official English forms', () => {
   const contract = loadLocaleContract('zh-CN-reference')
   const issues = validateLocaleContractDraft('Create a collection.', '创建一个集合。', contract)

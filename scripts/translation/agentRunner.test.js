@@ -1728,6 +1728,41 @@ async function testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBack
   assert.match(unexpectedInlineCodeFeedback[1], /plain code-like tokens must remain plain/i)
   assert.match(unexpectedInlineCodeFeedback[1], /never add backticks/i)
 
+  const duplicateMarkerFeedback = []
+  await processItemWithRetry({sourcePath: 'docs/duplicate-marker.md'}, {
+    maxRetries: 1,
+    log: {warn: () => {}},
+    processItem: async (item, attempt, retryFeedback) => {
+      duplicateMarkerFeedback.push(retryFeedback || null)
+      return attempt === 0
+        ? {
+            ...item,
+            status: 'failed',
+            error: 'Semantic unit chunk.0001.paragraph.0007 failed protected marker validation',
+            failureCategory: 'protected_content_failed',
+            errorDetails: {
+              code: 'DUPLICATE_PROTECTED_MARKER',
+              semanticUnitId: 'chunk.0001.paragraph.0007',
+              markerId: '000007',
+              expectedCount: 1,
+              actualCount: 2,
+              occurrences: [{line: 1, column: 8, offset: 7}, {line: 1, column: 92, offset: 91}],
+            },
+          }
+        : {...item, status: 'translated'}
+    },
+  })
+  const duplicateFeedback = JSON.parse(duplicateMarkerFeedback[1])
+  assert.equal(duplicateFeedback.code, 'DUPLICATE_PROTECTED_MARKER')
+  assert.equal(duplicateFeedback.semanticUnitId, 'chunk.0001.paragraph.0007')
+  assert.equal(duplicateFeedback.markerId, '000007')
+  assert.equal(duplicateFeedback.expectedCount, 1)
+  assert.equal(duplicateFeedback.actualCount, 2)
+  assert.deepEqual(duplicateFeedback.occurrences, [{line: 1, column: 8, offset: 7}, {line: 1, column: 92, offset: 91}])
+  assert.match(duplicateFeedback.instruction, /each supplied protected marker.*exactly once/i)
+  assert.match(duplicateFeedback.instruction, /do not duplicate, invent, or delete/i)
+  assert.match(duplicateFeedback.instruction, /never add backticks/i)
+
   const invalidJsonFeedback = []
   await processItemWithRetry({sourcePath: 'docs/invalid-json.md'}, {
     maxRetries: 1,
@@ -1774,6 +1809,89 @@ async function testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBack
   assert.match(reviewFeedback[1], /validated_review_issues/)
   assert.match(reviewFeedback[1], /bulkImport request/)
   assert.doesNotMatch(reviewFeedback[1], /Free-form reviewer instructions/)
+}
+
+async function testSemanticResponseCountMismatchRetriesWithStructuredFeedbackAndRecoveryCategory() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/guides/semantic-count.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/semantic-count.md'
+    const source = '# First\n\nSecond paragraph.\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {
+      target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides', reason: 'stale_source',
+    }
+    let translationCalls = 0
+    let retryEvidence
+    const recovered = await processItemWithRetry(item, {
+      maxRetries: 1,
+      log: {warn: () => {}},
+      processItem: (_value, _attempt, retryFeedback) => processManifestItem({
+        siteDir,
+        item,
+        maxReviewRounds: 0,
+        retryFeedback,
+        validate: async () => [],
+        callModel: async ({agent, messages}) => {
+          if (agent === 'review') return '{"pass":true,"issues":[]}'
+          translationCalls += 1
+          const units = taggedJsonContent(messages, 'semantic_units')
+          if (translationCalls === 1) return JSON.stringify({translations: [{id: units[0].id, text: '最初'}]})
+          retryEvidence = JSON.parse(taggedMessageContent(messages, 'retry_feedback'))
+          return semanticTranslationResponse(messages, text => text === 'First' ? '最初' : '第2段落。')
+        },
+      }),
+    })
+
+    assert.equal(recovered.status, 'translated')
+    assert.equal(recovered.attempts, 2)
+    assert.deepEqual(recovered.retryFailures.map(failure => failure.category), ['semantic_response_failed'])
+    assert.equal(recovered.retryFailures[0].code, 'SEMANTIC_RESPONSE_COUNT_MISMATCH')
+    assert.equal(retryEvidence.kind, 'semantic_response_error')
+    assert.equal(retryEvidence.code, 'SEMANTIC_RESPONSE_COUNT_MISMATCH')
+    assert.equal(retryEvidence.expectedCount, 2)
+    assert.equal(retryEvidence.actualCount, 1)
+    assert.deepEqual(retryEvidence.missingIds, ['document.paragraph.0001'])
+    assert.match(retryEvidence.instruction, /strict JSON/i)
+    assert.match(retryEvidence.instruction, /exactly 2 entries/i)
+
+    const failed = await processItemWithRetry(item, {
+      maxRetries: 1,
+      log: {warn: () => {}},
+      processItem: (_value, _attempt, retryFeedback) => processManifestItem({
+        siteDir,
+        item,
+        maxReviewRounds: 0,
+        retryFeedback,
+        validate: async () => [],
+        callModel: async ({agent, messages}) => {
+          assert.equal(agent, 'translation')
+          const units = taggedJsonContent(messages, 'semantic_units')
+          return JSON.stringify({translations: [{id: units[0].id, text: '最初'}]})
+        },
+      }),
+    })
+    assert.equal(failed.status, 'failed')
+    assert.equal(failed.failureCategory, 'semantic_response_failed')
+    assert.equal(failed.errorDetails.code, 'SEMANTIC_RESPONSE_COUNT_MISMATCH')
+    assert.equal(failed.errorDetails.expectedCount, 2)
+    assert.equal(failed.errorDetails.actualCount, 1)
+    assert.deepEqual(failed.retryFailures.map(failure => failure.category), ['semantic_response_failed', 'semantic_response_failed'])
+
+    const artifact = createRecoveryArtifact({
+      siteDir,
+      outputDir: path.join(siteDir, 'semantic-count-recovery'),
+      results: [failed],
+      identity: {
+        locale: 'ja-JP', group: 'guides', promptContractSha256: 'c'.repeat(64), model: 'translation-model',
+        sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'full', batchIndex: 0, batchCount: 1,
+      },
+    })
+    assert.deepEqual(artifact.metadata.failureCounts, {semantic_response_failed: 1})
+    assert.equal(artifact.failures[0].failureCategory, 'semantic_response_failed')
+    assert.equal(artifact.failures[0].errorDetails.code, 'SEMANTIC_RESPONSE_COUNT_MISMATCH')
+    assert.equal(artifact.failures[0].errorDetails.expectedCount, 2)
+    assert.equal(artifact.failures[0].errorDetails.actualCount, 1)
+  })
 }
 
 async function testFileRetryRecordsPersistentFailure() {
@@ -2695,6 +2813,7 @@ async function run() {
   await testWorkerPoolIsolatesItemFailures()
   await testFileRetryRecoversFailedTranslation()
   await testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBackToTranslation()
+  await testSemanticResponseCountMismatchRetriesWithStructuredFeedbackAndRecoveryCategory()
   await testFileRetryRecordsPersistentFailure()
   await testFileRetryPreservesProviderFailureCategories()
   await testFileRetryPreservesStructuredFailureFieldsWithoutMessageParsing()

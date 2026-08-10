@@ -68,6 +68,25 @@ function boundedErrorDetails(value) {
     if (typeof field === 'string') details[key] = field.slice(0, 200);
     else if (Number.isFinite(field)) details[key] = field;
   }
+  for (const key of ['field', 'semanticUnitId', 'markerId']) {
+    const field = value[key];
+    if (typeof field === 'string') details[key] = field.slice(0, 240);
+  }
+  for (const key of ['entryIndex', 'expectedCount', 'actualCount']) {
+    const field = value[key];
+    if (Number.isFinite(field)) details[key] = field;
+  }
+  for (const key of ['expectedFields', 'actualFields', 'expectedIds', 'actualIds', 'missingIds', 'unknownIds', 'duplicateIds']) {
+    const field = value[key];
+    if (Array.isArray(field)) details[key] = field.filter(item => typeof item === 'string').slice(0, 200).map(item => item.slice(0, 240));
+  }
+  if (Array.isArray(value.occurrences)) {
+    details.occurrences = value.occurrences.slice(0, 20).flatMap(position => (
+      Number.isFinite(position?.line) && Number.isFinite(position?.column) && Number.isFinite(position?.offset)
+        ? [{line: position.line, column: position.column, offset: position.offset}]
+        : []
+    ));
+  }
   if (value.cause && typeof value.cause === 'object' && !Array.isArray(value.cause)) {
     const cause = {};
     for (const key of ['name', 'status', 'code', 'failureCategory']) {
@@ -132,6 +151,7 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
         attempt: failure.attempt,
         category: failure.category || classifyFailure(failure),
         error: String(failure.error || 'translation attempt failed').slice(0, 2000),
+        ...(typeof failure.code === 'string' ? {code: failure.code.slice(0, 200)} : {}),
       })) : [],
       ...(chunkCheckpoints ? {chunkCheckpoints} : {}),
     };

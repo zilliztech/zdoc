@@ -117,6 +117,22 @@ function structuredErrorDetails(error) {
     if (typeof error?.[key] === 'string') detail[key] = error[key].slice(0, 200)
     else if (Number.isFinite(error?.[key])) detail[key] = error[key]
   }
+  for (const key of ['field', 'semanticUnitId', 'markerId']) {
+    if (typeof error?.[key] === 'string') detail[key] = error[key].slice(0, 240)
+  }
+  for (const key of ['entryIndex', 'expectedCount', 'actualCount']) {
+    if (Number.isFinite(error?.[key])) detail[key] = error[key]
+  }
+  for (const key of ['expectedFields', 'actualFields', 'expectedIds', 'actualIds', 'missingIds', 'unknownIds', 'duplicateIds']) {
+    if (Array.isArray(error?.[key])) detail[key] = error[key].filter(value => typeof value === 'string').slice(0, 200).map(value => value.slice(0, 240))
+  }
+  if (Array.isArray(error?.occurrences)) {
+    detail.occurrences = error.occurrences.slice(0, 20).flatMap(position => (
+      Number.isFinite(position?.line) && Number.isFinite(position?.column) && Number.isFinite(position?.offset)
+        ? [{line: position.line, column: position.column, offset: position.offset}]
+        : []
+    ))
+  }
   if (error?.cause && typeof error.cause === 'object') {
     const cause = {}
     for (const key of ['name', 'status', 'code', 'failureCategory']) {
@@ -331,7 +347,20 @@ function validatedReviewRetryFeedback(result) {
   return issues.length ? JSON.stringify({kind: 'validated_review_issues', issues}) : null
 }
 
-function protectedContentRetryFeedback(failure) {
+function protectedContentRetryFeedback(result, failure) {
+  if (result?.errorDetails?.code === 'DUPLICATE_PROTECTED_MARKER') {
+    const details = result.errorDetails
+    return JSON.stringify({
+      kind: 'protected_marker_error',
+      code: details.code,
+      semanticUnitId: details.semanticUnitId,
+      markerId: details.markerId,
+      expectedCount: details.expectedCount,
+      actualCount: details.actualCount,
+      occurrences: details.occurrences,
+      instruction: 'Each supplied protected marker must appear exactly once. Do not duplicate, invent, or delete any protected marker. Plain code-like tokens must remain plain text; never add backticks around text that was not inline code in the supplied semantic unit.',
+    })
+  }
   const evidence = failure.slice(0, 1000)
   if (!/Unexpected protected inline_code/i.test(failure)) return evidence
   return `${evidence}\nPlain code-like tokens must remain plain text. Never add backticks around text that was not inline code in the supplied semantic unit.`
@@ -340,6 +369,22 @@ function protectedContentRetryFeedback(failure) {
 function structuredResponseRetryFeedback(failure) {
   const evidence = failure.slice(0, 1000)
   return `${evidence}\nReturn strict JSON. Escape all control characters inside JSON string values; never emit raw newlines or tabs inside a string.`
+}
+
+function semanticResponseRetryFeedback(result) {
+  const details = result?.errorDetails || {}
+  const expectedCount = Number.isFinite(details.expectedCount) ? details.expectedCount : undefined
+  const instruction = expectedCount === undefined
+    ? 'Return strict JSON using the requested root field and exact entry schema. Escape control characters inside string values. Include every supplied semantic unit ID exactly once; do not duplicate, invent, or omit IDs.'
+    : `Return strict JSON with exactly ${expectedCount} entries. Escape control characters inside string values. Include every supplied semantic unit ID exactly once; do not duplicate, invent, or omit IDs.`
+  return JSON.stringify({
+    kind: 'semantic_response_error',
+    ...Object.fromEntries([
+      'code', 'field', 'entryIndex', 'expectedCount', 'actualCount', 'expectedFields', 'actualFields',
+      'expectedIds', 'actualIds', 'missingIds', 'unknownIds', 'duplicateIds',
+    ].flatMap(key => details[key] === undefined ? [] : [[key, details[key]]])),
+    instruction,
+  })
 }
 
 async function processItemWithRetry(item, options) {
@@ -392,9 +437,12 @@ async function processItemWithRetry(item, options) {
     const failure = summarizeFailedResult(result)
     const record = failureRecord({attempt: attempt + 1, failure: result})
     failures.push(record)
-    retryFeedback = /Protected (?:marker|content)/i.test(failure)
-      ? protectedContentRetryFeedback(failure)
-      : /response must be valid JSON/i.test(failure)
+    const errorCode = result?.errorDetails?.code
+    retryFeedback = result?.failureCategory === 'semantic_response_failed' || String(errorCode || '').startsWith('SEMANTIC_RESPONSE_')
+      ? semanticResponseRetryFeedback(result)
+      : result?.failureCategory === 'protected_content_failed' || /Protected (?:marker|content)/i.test(failure)
+        ? protectedContentRetryFeedback(result, failure)
+        : /response must be valid JSON/i.test(failure)
         ? structuredResponseRetryFeedback(failure)
       : validatedReviewRetryFeedback(result)
     const retryForbidden = result?.errorDetails?.code === 'CORRECTION_PROTECTED_MARKER_VIOLATION'

@@ -250,37 +250,102 @@ function stripOuterJsonFence(text) {
   return String(text || '').trim().replace(/^```(?:json)?[\t ]*\r?\n/i, '').replace(/\r?\n```$/, '').trim()
 }
 
-function exactObjectKeys(value, expected, label) {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object with an exact schema`)
+function semanticResponseError(message, code, details = {}) {
+  const error = new Error(message)
+  error.failureCategory = 'semantic_response_failed'
+  error.code = code
+  Object.assign(error, details)
+  return error
+}
+
+function exactObjectKeys(value, expected, label, details = {}) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw semanticResponseError(`${label} must be an object with an exact schema`, 'SEMANTIC_RESPONSE_SCHEMA_MISMATCH', details)
+  }
   const actual = Object.keys(value).sort()
   const wanted = [...expected].sort()
-  if (JSON.stringify(actual) !== JSON.stringify(wanted)) throw new Error(`${label} must use the exact schema fields`)
+  if (JSON.stringify(actual) !== JSON.stringify(wanted)) {
+    throw semanticResponseError(`${label} must use the exact schema fields`, 'SEMANTIC_RESPONSE_SCHEMA_MISMATCH', {
+      ...details,
+      expectedFields: wanted,
+      actualFields: actual,
+    })
+  }
 }
 
 function parseSemanticUnitResponse(modelText, {field, expectedUnits}) {
-  if (typeof field !== 'string' || !field) throw new Error('Semantic unit response field is required')
+  if (typeof field !== 'string' || !field) {
+    throw semanticResponseError('Semantic unit response field is required', 'SEMANTIC_RESPONSE_SCHEMA_MISMATCH')
+  }
   let parsed
   try {
     parsed = JSON.parse(stripOuterJsonFence(modelText))
   } catch (error) {
-    throw new Error(`Semantic unit response must be valid JSON: ${error.message}`)
+    throw semanticResponseError(`Semantic unit response must be valid JSON: ${error.message}`, 'SEMANTIC_RESPONSE_INVALID_JSON', {field})
   }
-  exactObjectKeys(parsed, [field], 'Semantic unit response')
+  exactObjectKeys(parsed, [field], 'Semantic unit response', {field})
   const entries = parsed[field]
-  if (!Array.isArray(entries) || entries.length !== expectedUnits.length) throw new Error('Semantic unit response entry count mismatch')
+  if (!Array.isArray(entries)) {
+    throw semanticResponseError('Semantic unit response entries must be an array', 'SEMANTIC_RESPONSE_SCHEMA_MISMATCH', {field})
+  }
+  const expectedIds = expectedUnits.map(unit => unit.id)
+  const actualIds = entries.flatMap(entry => typeof entry?.id === 'string' ? [entry.id] : [])
+  if (entries.length !== expectedUnits.length) {
+    const actualIdSet = new Set(actualIds)
+    const expectedIdSet = new Set(expectedIds)
+    throw semanticResponseError(
+      `Semantic unit response entry count mismatch: expected ${expectedUnits.length}, actual ${entries.length}`,
+      'SEMANTIC_RESPONSE_COUNT_MISMATCH',
+      {
+        field,
+        expectedCount: expectedUnits.length,
+        actualCount: entries.length,
+        expectedIds,
+        actualIds,
+        missingIds: expectedIds.filter(id => !actualIdSet.has(id)),
+        unknownIds: actualIds.filter(id => !expectedIdSet.has(id)),
+      },
+    )
+  }
   const byId = new Map()
-  for (const entry of entries) {
-    exactObjectKeys(entry, ['id', 'text'], 'Semantic unit response entry')
-    if (typeof entry.id !== 'string' || typeof entry.text !== 'string' || byId.has(entry.id)) {
-      throw new Error('Semantic unit response entries must use unique string id and text fields')
+  const duplicateIds = []
+  for (const [entryIndex, entry] of entries.entries()) {
+    exactObjectKeys(entry, ['id', 'text'], 'Semantic unit response entry', {field, entryIndex})
+    if (typeof entry.id !== 'string' || typeof entry.text !== 'string') {
+      throw semanticResponseError(
+        'Semantic unit response entries must use string id and text fields',
+        'SEMANTIC_RESPONSE_SCHEMA_MISMATCH',
+        {field, entryIndex},
+      )
     }
+    if (byId.has(entry.id)) duplicateIds.push(entry.id)
     byId.set(entry.id, entry.text)
   }
-  const expectedIds = new Set(expectedUnits.map(unit => unit.id))
-  const unknown = [...byId.keys()].filter(id => !expectedIds.has(id))
-  if (unknown.length) throw new Error(`Unknown semantic unit ID(s): ${unknown.join(', ')}`)
+  if (duplicateIds.length) {
+    throw semanticResponseError(
+      `Duplicate semantic unit ID(s): ${[...new Set(duplicateIds)].join(', ')}`,
+      'SEMANTIC_RESPONSE_DUPLICATE_IDS',
+      {field, duplicateIds: [...new Set(duplicateIds)], expectedIds, actualIds},
+    )
+  }
+  const expectedIdSet = new Set(expectedIds)
+  const unknownIds = [...byId.keys()].filter(id => !expectedIdSet.has(id))
+  const missingIds = expectedIds.filter(id => !byId.has(id))
+  if (unknownIds.length) {
+    throw semanticResponseError(
+      `Unknown semantic unit ID(s): ${unknownIds.join(', ')}`,
+      'SEMANTIC_RESPONSE_UNKNOWN_IDS',
+      {field, unknownIds, missingIds, expectedIds, actualIds},
+    )
+  }
+  if (missingIds.length) {
+    throw semanticResponseError(
+      `Missing semantic unit ID(s): ${missingIds.join(', ')}`,
+      'SEMANTIC_RESPONSE_MISSING_IDS',
+      {field, missingIds, expectedIds, actualIds},
+    )
+  }
   return expectedUnits.map(unit => {
-    if (!byId.has(unit.id)) throw new Error(`Missing semantic unit ID ${unit.id}`)
     return Object.freeze({id: unit.id, text: byId.get(unit.id)})
   })
 }
@@ -288,7 +353,10 @@ function parseSemanticUnitResponse(modelText, {field, expectedUnits}) {
 function protectedContentError(message, cause) {
   const error = new Error(message, cause ? {cause} : undefined)
   error.failureCategory = 'protected_content_failed'
-  error.code = 'PROTECTED_CONTENT_FAILED'
+  error.code = cause?.code || 'PROTECTED_CONTENT_FAILED'
+  for (const key of ['markerId', 'expectedCount', 'actualCount', 'occurrences']) {
+    if (cause?.[key] !== undefined) error[key] = cause[key]
+  }
   return error
 }
 
@@ -303,7 +371,9 @@ function restoreSemanticUnitResponse(modelText, {field, protectedUnits, localeCo
     try {
       translation = restoreProtectedContent(modelTranslation, unit.protection.manifest)
     } catch (error) {
-      throw protectedContentError(`Semantic unit ${unit.id} failed protected marker validation: ${error.message}`, error)
+      const wrapped = protectedContentError(`Semantic unit ${unit.id} failed protected marker validation: ${error.message}`, error)
+      wrapped.semanticUnitId = unit.id
+      throw wrapped
     }
     const errors = validateProtectedContent(unit.protectedText, translation)
     if (errors.length) throw protectedContentError(`Semantic unit ${unit.id} changed protected content: ${errors.join('; ')}`)

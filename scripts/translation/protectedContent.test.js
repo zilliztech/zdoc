@@ -105,6 +105,27 @@ test('identifies missing, duplicate, and unknown marker identities', () => {
   )
 })
 
+test('duplicate marker failures include fail-closed counts and exact occurrence positions', () => {
+  const protectedInput = protectTranslationInput('Use `alpha`.')
+  const marker = protectedInput.manifest.entries[0].marker
+  const candidate = `使用 ${marker}\n重复 ${marker}。`
+
+  assert.throws(() => restoreProtectedContent(candidate, protectedInput.manifest), error => {
+    assert.equal(error.code, 'DUPLICATE_PROTECTED_MARKER')
+    assert.equal(error.markerId, '000000')
+    assert.equal(error.expectedCount, 1)
+    assert.equal(error.actualCount, 2)
+    assert.deepEqual(error.occurrences, [
+      {line: 1, column: 4, offset: 3},
+      {line: 2, column: 4, offset: candidate.lastIndexOf(marker)},
+    ])
+    assert.match(error.message, /expected=1, actual=2/)
+    assert.match(error.message, /line 1, column 4, offset 3/)
+    assert.match(error.message, /line 2, column 4/)
+    return true
+  })
+})
+
 test('protects inline code, ESM, URLs, paths, anchors, placeholders, JSX, comments, and frontmatter metadata', () => {
   const source = [
     '---',
