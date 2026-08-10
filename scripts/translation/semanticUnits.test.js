@@ -7,6 +7,7 @@ const {loadLocaleContract} = require('./localeContract')
 const {
   bindSemanticReviewEvidence,
   collectSemanticUnits,
+  collectSemanticUnitsSync,
   deterministicSemanticIssues,
   parseSemanticUnitResponse,
   patchSemanticUnits,
@@ -49,6 +50,7 @@ test('extracts stable semantic units with exact source offsets without serializi
   ].join('\n')
 
   const units = await collectSemanticUnits(source, {idPrefix: 'doc'})
+  assert.deepEqual(collectSemanticUnitsSync(source, {idPrefix: 'doc'}), units)
 
   assert.deepEqual(units.map(unit => unit.id), [
     'doc.frontmatter.title',

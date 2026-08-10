@@ -3,9 +3,10 @@
 const assert = require('node:assert/strict')
 const yaml = require('js-yaml')
 const {validateMdxStructure} = require('../../packages/docs-tooling/src/mdx/validate.cjs')
-const {loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
+const {loadLocaleContract} = require('./localeContract')
 const {protectTranslationInput, validateProtectedContent} = require('./protectedContent')
 const {parseRestDocument, removeLocale} = require('./restSpecLocalization')
+const {collectSemanticUnitsSync, deterministicSemanticIssues, protectSemanticUnits} = require('./semanticUnits')
 
 function validateFrontmatter(content) {
   const match = String(content).match(/^---\r?\n([\s\S]*?)\r?\n---/)
@@ -31,6 +32,17 @@ function validateRestIdentity(sourceContent, targetContent, locale) {
   }
 }
 
+function validateRecoveryLocale(sourceContent, targetContent, localeContract, protectedOptions) {
+  const sourceUnits = protectSemanticUnits(collectSemanticUnitsSync(sourceContent), unit => unit.source, protectedOptions)
+  const targetUnits = protectSemanticUnits(collectSemanticUnitsSync(targetContent), unit => unit.source, protectedOptions)
+  const targetById = new Map(targetUnits.map(unit => [unit.id, unit]))
+  const alignedTargetUnits = sourceUnits.map(sourceUnit => targetById.get(sourceUnit.id) || {
+    id: sourceUnit.id,
+    protection: protectTranslationInput('', {...protectedOptions, reorderWithin: sourceUnit.id}),
+  })
+  return deterministicSemanticIssues(sourceUnits, alignedTargetUnits, localeContract).issues
+}
+
 function validateRecoveryCandidate({sourceContent, targetContent, sourcePath, targetPath, target, locale}) {
   const localeContract = loadLocaleContract(target)
   const protectedOptions = {literalTokens: localeContract.doNotTranslate}
@@ -40,9 +52,7 @@ function validateRecoveryCandidate({sourceContent, targetContent, sourcePath, ta
     allowAdditionalLiteralTokens: true,
     ...protectedOptions,
   })
-  const protectedSource = protectTranslationInput(sourceContent, protectedOptions)
-  const protectedTarget = protectTranslationInput(targetContent, protectedOptions)
-  const localeIssues = validateLocaleContractDraft(protectedSource.content, protectedTarget.content, localeContract)
+  const localeIssues = validateRecoveryLocale(sourceContent, targetContent, localeContract, protectedOptions)
   return Object.freeze([
     ...protectedErrors.map(error => `protected: ${error}`),
     ...localeIssues.map(issue => `locale: ${issue.location}: ${issue.comment}`),

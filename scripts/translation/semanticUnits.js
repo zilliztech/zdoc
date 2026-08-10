@@ -4,6 +4,7 @@ const {protectTranslationInput, reprotectTranslationInput, restoreProtectedConte
 const {applyDeterministicLocaleRepairs, validateLocaleContractDraft} = require('./localeContract')
 
 let mdxProcessorPromise
+let synchronousMdxProcessor
 
 function deepFreeze(value) {
   if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value
@@ -179,14 +180,22 @@ async function mdxProcessor() {
   return mdxProcessorPromise
 }
 
-async function collectSemanticUnits(sourceContent, {idPrefix = 'document'} = {}) {
+function mdxProcessorSync() {
+  if (!synchronousMdxProcessor) {
+    const {createProcessor} = require('@mdx-js/mdx')
+    synchronousMdxProcessor = createProcessor({format: 'mdx'})
+  }
+  return synchronousMdxProcessor
+}
+
+function collectSemanticUnitsWithProcessor(sourceContent, {idPrefix = 'document'} = {}, processor) {
   const source = String(sourceContent)
   if (typeof idPrefix !== 'string' || !idPrefix.trim()) throw new Error('Semantic unit idPrefix must be a non-empty string')
   const boundary = frontmatterBoundary(source)
   const bodyOffset = boundary?.end || 0
   const units = collectFrontmatterUnits(source, boundary, idPrefix)
   const tables = collectTableUnits(source, bodyOffset, idPrefix)
-  const tree = (await mdxProcessor()).parse(source.slice(bodyOffset))
+  const tree = processor.parse(source.slice(bodyOffset))
   let headingIndex = 0
   let paragraphIndex = 0
   visit(tree, node => {
@@ -217,6 +226,28 @@ async function collectSemanticUnits(sourceContent, {idPrefix = 'document'} = {})
     if (overlaps(units[index - 1], units[index])) throw new Error(`Semantic units overlap: ${units[index - 1].id} and ${units[index].id}`)
   }
   return deepFreeze(units)
+}
+
+async function collectSemanticUnits(sourceContent, options) {
+  return collectSemanticUnitsWithProcessor(sourceContent, options, await mdxProcessor())
+}
+
+function collectSemanticUnitsSync(sourceContent, options) {
+  try {
+    return collectSemanticUnitsWithProcessor(sourceContent, options, mdxProcessorSync())
+  } catch (error) {
+    if (error?.code !== 'ERR_REQUIRE_ESM') throw error
+    const path = require('node:path')
+    const {spawnSync} = require('node:child_process')
+    const result = spawnSync(process.execPath, [path.join(__dirname, 'semanticUnits.worker.js')], {
+      input: JSON.stringify({sourceContent: String(sourceContent), options}),
+      encoding: 'utf8',
+      maxBuffer: 32 * 1024 * 1024,
+    })
+    if (result.error) throw result.error
+    if (result.status !== 0) throw new Error(`Semantic unit worker failed: ${String(result.stderr || result.stdout).trim()}`)
+    return deepFreeze(JSON.parse(result.stdout))
+  }
 }
 
 function protectSemanticUnits(units, textForUnit = unit => unit.source, protectionOptions = {}) {
@@ -454,6 +485,7 @@ function deterministicSemanticIssues(sourceUnits, draftUnits, localeContract) {
 module.exports = {
   bindSemanticReviewEvidence,
   collectSemanticUnits,
+  collectSemanticUnitsSync,
   deterministicSemanticIssues,
   parseSemanticUnitResponse,
   patchSemanticUnits,
