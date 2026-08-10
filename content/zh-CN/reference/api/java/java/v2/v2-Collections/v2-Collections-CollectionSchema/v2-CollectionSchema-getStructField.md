@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此 getter 按名称从集合 schema 中返回一个 struct 字段 schema。 | Java | v2"
+description: "此 getter 按名称从 Collection Schema 中返回 struct 字段 Schema。 | Java | v2"
 type: docx
 token: KJSvdrks9o6WOsxr0rZcPXe5ngn
 sidebar_position: 7
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似性搜索
+  - 多模态 RAG
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - getStructField()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getStructField()
 
-此 getter 按名称从集合 schema 中返回一个 struct 字段 schema。
+此 getter 按名称从 Collection Schema 中返回 struct 字段 Schema。
 
 ```java
 public CreateCollectionReq.StructFieldSchema getStructField(String fieldName)
@@ -51,7 +51,7 @@ public CreateCollectionReq.StructFieldSchema getStructField(String fieldName)
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

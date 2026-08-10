@@ -12,13 +12,13 @@ type: docx
 token: RZ8idPxaho5yMoxJzGdc7QAcnNf
 sidebar_position: 10
 keywords: 
-  - 无服务器向量数据库
+  - Serverless 向量 Database
   - milvus 开源
   - milvus 如何工作
-  - Zilliz 向量数据库
+  - Zilliz 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - DataType
   - javaV230
 displayed_sidebar: javaSidebar

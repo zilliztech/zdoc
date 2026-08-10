@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作列出所有现有集合。 | Java | v2"
+description: "此操作会列出所有现有的 Collection。| Java | v2"
 type: docx
 token: Vv4NdWVa5o5BSrx11OZcNVnQnbh
 sidebar_position: 20
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
+  - Faiss 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listCollections()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listCollections()
 
-此操作列出所有现有集合。
+此操作会列出所有现有的 Collection。
 
 ```java
 public ListCollectionsResp listCollections()
@@ -47,15 +47,15 @@ listCollections()
 
 *ListCollectionsResp*
 
-**返回：**
+**返回值：**
 
-一个包含集合名称列表的 **ListCollectionsResp** 对象。如果当前没有任何集合，则返回空列表。
+一个包含 Collection 名称列表的 **ListCollectionsResp** 对象。如果当前没有任何 Collection，则会返回空列表。
 
 **参数：**
 
 - **collectionNames** (*List&lt;String&gt;*)
 
-    一个字符串列表，包含所有现有集合的名称。
+    一个字符串列表，包含所有现有 Collection 的名称。
 
 - **collectionInfos** (*List&lt;CollectionInfo&gt;*)
 
@@ -63,11 +63,11 @@ listCollections()
 
     - **collectionName** (*String*)
 
-        集合名称。
+        Collection 的名称。
 
     - **shardNum** (*Integer*)
 
-        上述集合中的分片数量。
+        上述 Collection 中的分片数量。
 
 **异常：**
 

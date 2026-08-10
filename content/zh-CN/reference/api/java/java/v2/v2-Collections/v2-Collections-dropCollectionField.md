@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "按字段名称或字段 ID 删除现有集合字段。 | Java | v2"
+description: "按字段名称或字段 ID 删除现有 Collection 字段。 | Java | v2"
 type: docx
 token: PcFWdgr7VoPK74xt1mmcmH8gndf
 sidebar_position: 39
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - 视频去重
+  - 视频相似性搜索
+  - 向量检索
+  - 音频相似性搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropCollectionField()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionField()
 
-按字段名称或字段 ID 删除现有集合字段。
+按字段名称或字段 ID 删除现有 Collection 字段。
 
 ```java
 public void dropCollectionField(DropCollectionFieldReq request)
@@ -52,11 +52,11 @@ DropCollectionFieldReq.builder()
 
 - `collectionName(String collectionName)`
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `databaseName(String databaseName)`
 
-    数据库名称。省略时默认使用当前数据库。
+    Database 的名称。省略时默认为当前 Database。
 
 - `fieldName(String fieldName)`
 
@@ -64,19 +64,19 @@ DropCollectionFieldReq.builder()
 
 - `fieldId(Long fieldId)`
 
-    通过 ID 指定字段时，要删除的字段的数字 ID。
+    按 ID 标识字段时，要删除字段的数字 ID。
 
 **返回：**
 
 *void*
 
-此操作不返回值。
+此操作不返回任何值。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当请求校验、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
+    当请求验证、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 

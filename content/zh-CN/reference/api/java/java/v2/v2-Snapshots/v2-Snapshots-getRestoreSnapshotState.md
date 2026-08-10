@@ -12,13 +12,13 @@ type: docx
 token: KXdUdGpt7oD3dkxHZcfcIAQBnNg
 sidebar_position: 4
 keywords: 
-  - Image Search
+  - 图像搜索
   - LLMs
-  - Machine Learning
+  - 机器学习
   - RAG
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getRestoreSnapshotState()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -46,23 +46,23 @@ getRestoreSnapshotState(GetRestoreSnapshotStateReq.builder()
 )
 ```
 
-**BUILDER 方法：**
+**构建器方法：**
 
 - `jobId(Long jobId)`
 
-    `restoreSnapshot()` 返回的恢复快照作业 ID。
+    由 `restoreSnapshot()` 返回的恢复快照作业 ID。
 
 **返回：**
 
 *GetRestoreSnapshotStateResp*
 
-包含恢复作业状态、进度、原因、时间信息和集合元数据的响应。
+返回包含恢复作业状态、进度、原因、时间信息以及 Collection 元数据的响应。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或服务器为此操作返回错误时，将引发此异常。
+    当缺少必需参数、数值参数超出范围，或者服务器为此操作返回错误时，将引发此异常。
 
 ## 示例\{#example}
 

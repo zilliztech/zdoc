@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有数据库名称。 | Java | v2"
+description: "此操作列出所有 Database 名称。| Java | v2"
 type: docx
 token: IHoodknUJohFAbxMFg3c0q8un6f
 sidebar_position: 6
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - llm 评估
+  - 稀疏与稠密
+  - 稠密向量
+  - 分层可导航小世界
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listDatabases()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listDatabases()
 
-此操作列出所有数据库名称。
+此操作列出所有 Database 名称。
 
 ```java
 public ListDatabasesResp listDatabases()
@@ -41,9 +41,9 @@ public ListDatabasesResp listDatabases()
 
 *ListDatabasesResp*
 
-**返回：**
+**返回值：**
 
-一个 ListDatabasesResp 对象，包含所有数据库名称的列表。
+ListDatabasesResp 对象包含所有 Database 名称的列表。
 
 **异常：**
 

@@ -12,13 +12,13 @@ type: docx
 token: TGsXduN5OoAjVyxZTvRc8HR2nse
 sidebar_position: 13
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listPrivilegeGroups()
   - javaV230
 displayed_sidebar: javaSidebar

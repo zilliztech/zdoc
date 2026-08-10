@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此 getter 返回 collection schema 中的所有 struct 字段 schema。 | Java | v2"
+description: "此 getter 返回 Collection Schema 中所有 struct 字段的 Schema。 | Java | v2"
 type: docx
 token: S0Iudxn6NoqusZx4xjRcLWLpnGc
 sidebar_position: 8
 keywords: 
-  - milvus vector database
+  - milvus 向量 Database
   - milvus db
-  - milvus vector db
+  - milvus 向量 db
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getStructFields()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getStructFields()
 
-此 getter 返回 collection schema 中的所有 struct 字段 schema。
+此 getter 返回 Collection Schema 中所有 struct 字段的 Schema。
 
 ```java
 public List<CreateCollectionReq.StructFieldSchema> getStructFields()

@@ -7,13 +7,13 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会从指定集合中删除索引。 | Java | v2"
+description: "此操作会从特定 Collection 中删除一个索引。 | Java | v2"
 type: docx
 token: XHyydLsEAoPwB2xNhcwc9KBwn7g
 sidebar_position: 5
 keywords: 
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy 向量搜索
   - milvus
   - Zilliz
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropIndex()
 
-此操作会从指定集合中删除索引。
+此操作会从特定 Collection 中删除一个索引。
 
 ```java
 public void dropIndex(DropIndexReq request)
@@ -53,15 +53,15 @@ dropIndex(DropIndexReq.builder()
 
 - `databaseName(String databaseName)`
 
-    目标集合所属数据库的名称。
+    目标 Collection 所属 Database 的名称。
 
 - `collectionName(String collectionName)`
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - `fieldName(String fieldName)`
 
-    创建索引的字段名称。
+    创建索引所在字段的名称。
 
 - `indexName(String indexName)`
 

@@ -7,18 +7,18 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "列出卷，可选择使用项目、类型和分页过滤器。 | Java | v2"
+description: "列出卷，并可选择使用项目、类型和分页筛选条件。 | Java | v2"
 type: docx
 token: CWVPd10ixoosYHxkJSScNe8mnoh
 sidebar_position: 3
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - llm 幻觉
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - listVolumes()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listVolumes()
 
-列出卷，可选择使用项目、类型和分页过滤器。
+列出卷，并可选择使用项目、类型和分页筛选条件。
 
 ```java
 public ListVolumesResponse listVolumes(ListVolumesRequest request)
@@ -64,7 +64,7 @@ ListVolumesRequest.builder()
 
 - `type(String type)`
 
-    可选的卷类型过滤器：`MANAGED` 或 `EXTERNAL`。
+    可选的卷类型筛选条件：`MANAGED` 或 `EXTERNAL`。
 
 **返回：**
 
@@ -74,11 +74,11 @@ ListVolumesRequest.builder()
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时引发。请检查异常消息以获取确切的失败原因。
+    在此操作期间发生任何错误时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 
-列出卷，可选择使用项目、类型和分页过滤器。
+列出卷，并可选择使用项目、类型和分页筛选条件。
 
 ```java
 ListVolumesResponse response = volumeManager.listVolumes(

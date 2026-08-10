@@ -12,10 +12,10 @@ type: docx
 token: ANw4d8gGEo46B4xxde3cC0xqndf
 sidebar_position: 7
 keywords: 
-  - lexical search
-  - nearest neighbor search
+  - 词法搜索
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
+  - rag llm 架构
   - zilliz
   - zilliz cloud
   - cloud
@@ -75,19 +75,19 @@ SearchReq.builder()
 
 - `databaseName(String databaseName)`
 
-    数据库名称。省略时默认为当前数据库。
+    Database 的名称。省略时默认为当前 Database。
 
 - `collectionName(String collectionName)`
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `clusterId(String clusterId)`
 
-    此请求对应的 Zilliz Cloud 集群 ID。
+    此请求的 Zilliz Cloud 集群 ID。
 
 - `partitionNames(List<String> partitionNames)`
 
-    要搜索的分区。
+    要搜索的 Partition。
 
 - `annsField(String annsField)`
 
@@ -95,7 +95,7 @@ SearchReq.builder()
 
 - `topK(int topK)`
 
-    从服务器请求的最近邻候选数量。
+    从服务器请求的最近候选项数量。
 
 - `filter(String filter)`
 
@@ -103,15 +103,15 @@ SearchReq.builder()
 
 - `outputFields(List<String> outputFields)`
 
-    每个匹配结果中包含的实体字段。
+    每个匹配结果中包含的 Entity 字段。
 
 - `data(List<BaseVector> data)`
 
-    查询向量。不要与 ids 一起使用。
+    查询向量。请勿与 ids 一起使用。
 
 - `ids(List<Object> ids)`
 
-    使用其已存储向量作为查询向量的主键。不要与 data 一起使用。
+    其存储向量将用作查询向量的主键。请勿与 data 一起使用。
 
 - `offset(long offset)`
 
@@ -119,11 +119,11 @@ SearchReq.builder()
 
 - `limit(long limit)`
 
-    每个查询返回的最大匹配结果数。
+    每个查询返回的最大匹配结果数量。
 
 - `roundDecimal(int roundDecimal)`
 
-    用于对分数进行四舍五入的小数位数。
+    用于对分数进行舍入的小数位数。
 
 - `searchParams(Map<String, Object> searchParams)`
 
@@ -135,7 +135,7 @@ SearchReq.builder()
 
 - `gracefulTime(Long gracefulTime)`
 
-    已弃用的宽限一致性时间窗口。
+    已弃用的宽松一致性时间窗口。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
@@ -143,7 +143,7 @@ SearchReq.builder()
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    是否忽略 growing segments。
+    是否忽略增长中的 Segment。
 
 - `timezone(String timezone)`
 
@@ -155,15 +155,15 @@ SearchReq.builder()
 
 - `groupByFieldName(String groupByFieldName)`
 
-    用于对匹配实体进行分组的字段。
+    用于对匹配 Entity 分组的字段。
 
 - `groupSize(Integer groupSize)`
 
-    每个分组返回的最大实体数量。
+    每组返回的最大 Entity 数量。
 
 - `strictGroupSize(Boolean strictGroupSize)`
 
-    是否要求每个返回的分组都必须包含 groupSize 个实体。
+    每个返回的组是否都必须包含 groupSize 个 Entity。
 
 - `functionScore(FunctionScore functionScore)`
 
@@ -185,17 +185,17 @@ SearchReq.builder()
 
 *SearchResp*
 
-包含搜索结果、召回数、成本、扫描字节数、缓存命中率和聚合分桶。
+包含搜索结果、召回率、开销、扫描字节数、缓存命中率和聚合分桶。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当请求校验、传输或服务器执行失败时抛出。请检查异常消息以获取确切的失败原因。
+    当请求验证、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 
-演示如何在 Zilliz Cloud 集群上调用 search()。
+演示针对 Zilliz Cloud 集群执行 search()。
 
 ```java
 SearchResp response = client.search(SearchReq.builder()

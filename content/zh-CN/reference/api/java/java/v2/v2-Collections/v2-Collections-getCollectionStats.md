@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "除实体数量外，还返回完整的 collection 统计信息映射。 | Java | v2"
+description: "除 Entity 数量外，还返回完整的 Collection 统计信息映射。| Java | v2"
 type: docx
 token: RSNDdgCQ2oRIMWxeVafcNf8LnAc
 sidebar_position: 17
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - 稠密嵌入
+  - Faiss 向量 Database
+  - Chroma 向量 Database
+  - NLP 搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getCollectionStats()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getCollectionStats()
 
-除实体数量外，还返回完整的 collection 统计信息映射。
+除 Entity 数量外，还返回完整的 Collection 统计信息映射。
 
 ```java
 public GetCollectionStatsResp getCollectionStats(GetCollectionStatsReq request)
@@ -50,11 +50,11 @@ GetCollectionStatsReq.builder()
 
 - `databaseName(String databaseName)`
 
-    数据库的名称。省略时默认使用当前数据库。
+    Database 的名称。省略时默认为当前 Database。
 
 - `collectionName(String collectionName)`
 
-    目标 collection 的名称。
+    目标 Collection 的名称。
 
 **返回：**
 
@@ -66,7 +66,7 @@ GetCollectionStatsReq.builder()
 
 - **MilvusClientException**
 
-    当请求验证、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
+    当请求校验、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 

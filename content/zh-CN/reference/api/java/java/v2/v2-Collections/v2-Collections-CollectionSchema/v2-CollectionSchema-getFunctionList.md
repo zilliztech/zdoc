@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此 getter 返回集合 schema 中定义的函数列表。 | Java | v2"
+description: "此 getter 返回 Collection Schema 中定义的函数列表。 | Java | v2"
 type: docx
 token: UJg8dnXiUoB6FnxanBicIzcLnsb
 sidebar_position: 6
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - 嵌入模型
+  - 图像相似性搜索
+  - 上下文窗口
+  - 自然语言搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getFunctionList()
 
-此 getter 返回集合 schema 中定义的函数列表。
+此 getter 返回 Collection Schema 中定义的函数列表。
 
 ```java
 public List<CreateCollectionReq.Function> getFunctionList()

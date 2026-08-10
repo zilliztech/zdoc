@@ -12,13 +12,13 @@ type: docx
 token: IdNAdlMhjoM40pxjpKecpc7inbd
 sidebar_position: 6
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - rag 向量 Database
+  - 什么是向量数据库
+  - 什么是向量 Database
+  - 向量 Database 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropIndexProperties()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -53,11 +53,11 @@ dropIndexProperties(DropIndexPropertiesReq.builder()
 
 - `databaseName(String databaseName)`
 
-    持有目标集合的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - `collectionName(String collectionName)`
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `indexName(String indexName)`
 
@@ -65,7 +65,7 @@ dropIndexProperties(DropIndexPropertiesReq.builder()
 
 - `propertyKeys(List<String> propertyKeys)`
 
-    要删除的属性。请注意，属性值应为字符串。可用的数据库属性如下：
+    要删除的属性。请注意，属性值应为字符串。可用的 Database 属性如下：
 
     - **mmap.enabled** -
 

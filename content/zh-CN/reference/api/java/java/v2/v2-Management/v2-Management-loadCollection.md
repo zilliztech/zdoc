@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会将指定 collection 的数据加载到内存中。 | Java | v2"
+description: "此操作会将特定 Collection 的数据加载到内存中。 | Java | v2"
 type: docx
 token: Y3q1d5FzmoSiNkxsWDLcHnAlnQf
 sidebar_position: 13
 keywords: 
-  - milvus vector database
+  - milvus 向量 Database
   - milvus db
-  - milvus vector db
+  - milvus 向量 db
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - loadCollection()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # loadCollection()
 
-此操作会将指定 collection 的数据加载到内存中。
+此操作会将特定 Collection 的数据加载到内存中。
 
 ```java
 public void loadCollection(LoadCollectionReq request)
@@ -59,43 +59,43 @@ loadCollection(LoadCollectionReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    Database 的名称。如果未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)` -
 
-    目标 collection 的名称。
+    目标 Collection 的名称。
 
 - `numReplicas(Integer numReplicas)` -
 
-    要加载的副本数量。默认为 `1`。
+    要加载的副本数。默认值为 `1`。
 
 - `async(Boolean async)` -
 
-    是否异步运行该操作。默认为 `Boolean.FALSE`。
+    是否异步运行该操作。默认值为 `Boolean.FALSE`。
 
 - `sync(Boolean sync)` -
 
-    是否同步等待操作完成。默认为 `Boolean.TRUE`。
+    是否同步等待直到操作完成。默认值为 `Boolean.TRUE`。
 
 - `timeout(Long timeout)` -
 
-    超时时长，单位为毫秒。默认为 `60000L`。
+    超时时长（以毫秒为单位）。默认值为 `60000L`。
 
 - `refresh(Boolean refresh)` -
 
-    是否刷新加载以包含新字段。默认为 `Boolean.FALSE`。
+    是否刷新加载以包含新字段。默认值为 `Boolean.FALSE`。
 
 - `loadFields(List<String> loadFields)` -
 
-    要加载的特定字段名称列表。默认为 `new ArrayList<>()`。
+    要加载的特定字段名称列表。默认值为 `new ArrayList<>()`。
 
 - `skipLoadDynamicField(Boolean skipLoadDynamicField)` -
 
-    是否跳过加载动态字段。默认为 `Boolean.FALSE`。
+    是否跳过加载动态字段。默认值为 `Boolean.FALSE`。
 
 - `resourceGroups(List<String> resourceGroups)` -
 
-    用于负载均衡的资源组名称列表。默认为 `new ArrayList<>()`。
+    用于负载均衡的资源组名称列表。默认值为 `new ArrayList<>()`。
 
 **返回：**
 
@@ -105,7 +105,7 @@ loadCollection(LoadCollectionReq.builder()
 
 - **MilvusClientException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    在此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

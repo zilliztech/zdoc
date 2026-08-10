@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "WeightedRanker 类继承自 Function 类，并提供额外参数。 | Java | v2"
+description: "WeightedRanker 类扩展自 Function 类，并提供额外参数。 | Java | v2"
 type: docx
 token: V9YUdnfxDoc5Gmx80Wec9P6Sn2d
 sidebar_position: 7
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - milvus 开源
+  - milvus 如何工作
+  - Zilliz 向量 Database
+  - Zilliz Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - WeightedRanker
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # WeightedRanker
 
-**WeightedRanker** 类继承自 **Function** 类，并提供额外参数。
+**WeightedRanker** 类扩展自 **Function** 类，并提供额外参数。
 
 ```java
 public class WeightedRanker extends CreateCollectionReq.Function
@@ -53,19 +53,19 @@ WeightedRanker.builder()
 
 - `name(String name)`
 
-    函数名称。此标识符用于在查询和集合中引用该函数。
+    函数名称。此标识符用于在查询和 Collection 中引用该函数。
 
 - `description(String description)`
 
-    对函数用途的简要描述。这对于文档编写或在较大的项目中提高清晰度很有帮助，默认值为空字符串。
+    对函数用途的简要说明。这有助于在较大的项目中进行文档编写或提升可读性，默认值为空字符串。
 
 - `params(Map<String, String> params)`
 
-    用于配置函数属性的一组键值对。
+    一组用于配置函数属性的键值对。
 
 - `weights(List<Float> weights)`
 
-    与每条搜索路径对应的权重数组；数组中的每个值范围为 `0` 到 `1`。
+    与每个搜索路径对应的权重数组；数组中的每个值范围为 `0` 到 `1`。
 
 **返回类型：**
 

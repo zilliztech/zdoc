@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 notebook: false
-description: "此操作会将一个集合的别名重新分配给另一个集合。 | Java | v2"
+description: "此操作会将一个 Collection 的别名重新分配给另一个 Collection。 | Java | v2"
 type: docx
 token: Fv8EdYIt4oThstxgpzqcm7C0nug
 sidebar_position: 1
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - 向量索引
+  - 开源向量 Database
+  - 开源向量数据库 db
+  - 向量 Database 示例
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - alterAlias()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterAlias()
 
-此操作会将一个集合的别名重新分配给另一个集合。
+此操作会将一个 Collection 的别名重新分配给另一个 Collection。
 
 ```java
 public void alterAlias(AlterAliasReq request)
@@ -48,29 +48,29 @@ alterAlias(AlterAliasReq.builder()
 )
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `alias(String alias)`
 
-    集合的别名。请注意，该别名应预先存在。
+    Collection 的别名。请注意，该别名应预先存在。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Note">
 
-    什么是集合别名？
+    什么是 Collection 别名？
     
-        集合别名是集合的附加名称。当你希望将应用程序切换到一个新集合且无需对代码进行任何修改时，集合别名会非常有用。 
+        Collection 别名是 Collection 的附加名称。当您希望将应用程序切换到新的 Collection，而无需对代码进行任何更改时，Collection 别名会很有用。 
     
-        在 Zilliz Cloud 上，集合别名是全局唯一标识符。一个别名只能分配给一个集合。相反，一个集合可以拥有多个别名。
+        在 Zilliz Cloud 上，Collection 别名是全局唯一标识符。一个别名只能分配给一个 Collection。相反，一个 Collection 可以拥有多个别名。
     
-        以下是将一个集合的别名重新分配给另一个集合的示例：
+        下面是将一个 Collection 的别名重新分配给另一个 Collection 的示例：
     
-        假设有两个集合：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的集合别名，最初它被分配给了 `collection_1`：
+        假设有两个 Collection：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的 Collection 别名，最初分配给了 `collection_1`：
     
         - `collection_1` 的别名 = ["bob"]
     
         - `collection_2` 的别名 = []
     
-        调用 `alterAlias` 函数并传入参数 `collection_2` 和 `bob` 后：
+        使用参数 `collection_2` 和 `bob` 调用 `alterAlias` 函数后：
     
         - `collection_1` 的别名 = []
     
@@ -80,13 +80,13 @@ alterAlias(AlterAliasReq.builder()
 
 - `databaseName(String databaseName)`
 
-    目标集合所属数据库的名称。
+    目标 Collection 所属 Database 的名称。
 
 - `collectionName(String collectionName)`
 
-    要重新分配别名的目标集合名称。
+    要重新分配别名的目标 Collection 名称。
 
-**返回：**
+**返回值：**
 
 *void*
 

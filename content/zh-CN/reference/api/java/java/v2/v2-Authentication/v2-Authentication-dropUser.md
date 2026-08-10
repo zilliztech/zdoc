@@ -12,13 +12,13 @@ type: docx
 token: RFv2dtZ1qoP9XQxJEGqcgLGUnhc
 sidebar_position: 9
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 向量 Database 如何工作
+  - 向量数据库对比
+  - OpenAI 向量数据库
+  - 自然语言处理 Database
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - dropUser()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -50,9 +50,9 @@ dropUser(DropUserReq.builder()
 
 - `userName(String userName)`
 
-    要删除的用户名。
+    要删除的用户名称。
 
-**返回：**
+**返回值：**
 
 *void*
 

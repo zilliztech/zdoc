@@ -13,7 +13,7 @@ token: Ufpqdh2gaossHmxZ4CacIO0Hnyc
 sidebar_position: 21
 keywords: 
   - LLMs
-  - Machine Learning
+  - 机器学习
   - RAG
   - NLP
   - zilliz
@@ -57,7 +57,7 @@ client.alterRole(AlterRoleReq.builder()
 
 - `description(String description)`
 
-    角色的新描述。使用空字符串可清空描述。
+    角色的新描述。使用空字符串可清除该描述。
 
 **返回：**
 
@@ -69,7 +69,7 @@ client.alterRole(AlterRoleReq.builder()
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

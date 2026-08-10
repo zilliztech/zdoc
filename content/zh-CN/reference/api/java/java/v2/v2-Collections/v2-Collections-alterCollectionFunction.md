@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作通过使用新的函数定义替换现有函数定义，来修改集合中的现有函数。 | Java | v2"
+description: "此操作通过使用新的函数定义替换现有函数，来修改 Collection 中的现有函数。 | Java | v2"
 type: docx
 token: A6Vld2dJToRXs8xhq0wcGdiRnDc
 sidebar_position: 31
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - 嵌入模型
+  - 图像相似性搜索
+  - 上下文窗口
+  - 自然语言搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - alterCollectionFunction()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterCollectionFunction()
 
-此操作通过使用新的函数定义替换现有函数定义，来修改集合中的现有函数。
+此操作通过使用新的函数定义替换现有函数，来修改 Collection 中的现有函数。
 
 ```java
 public void alterCollectionFunction(AlterCollectionFunctionReq request)
@@ -54,11 +54,11 @@ alterCollectionFunction(AlterCollectionFunctionReq.builder()
 
     **[必需]**
 
-    集合的名称。
+    Collection 的名称。
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。如果未指定，则默认为当前数据库。
+    Database 的名称。如果未指定，则默认为当前 Database。
 
 - `function(CreateCollectionReq.Function function)` -
 

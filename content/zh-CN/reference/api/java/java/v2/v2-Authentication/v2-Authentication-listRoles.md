@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有自定义角色。| Java | v2"
+description: "此操作会列出所有自定义角色。 | Java | v2"
 type: docx
 token: XIIyd3bMzoAVx3xVsoLcnQ2pnKh
 sidebar_position: 14
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - 向量 Database 示例
+  - RAG 向量 Database
+  - 什么是向量 db
+  - 什么是向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listRoles()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listRoles()
 
-此操作列出所有自定义角色。
+此操作会列出所有自定义角色。
 
 ```java
 public List<String> listRoles()
@@ -49,7 +49,7 @@ List<String> roles = client.listRoles();
 
 *List\<String\>*
 
-**返回：**
+**返回值：**
 
 包含角色名称的字符串列表。
 

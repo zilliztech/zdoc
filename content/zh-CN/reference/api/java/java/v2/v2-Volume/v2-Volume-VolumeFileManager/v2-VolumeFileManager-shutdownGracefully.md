@@ -12,13 +12,13 @@ type: docx
 token: F1GvdNp0rosDfCxonr7cJpzcn9w
 sidebar_position: 3
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz 向量 Database
+  - Zilliz Database
+  - 非结构化数据
+  - 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - shutdownGracefully()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -41,7 +41,7 @@ public void shutdownGracefully()
 
 *void*
 
-此操作不返回任何值。
+此操作不返回值。
 
 **异常：**
 

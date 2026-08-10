@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 notebook: false
-description: "此操作列出特定集合的所有现有别名。 | Java | v2"
+description: "此操作列出特定 Collection 的所有现有别名。 | Java | v2"
 type: docx
 token: X6JXdPN7IoRffJxnaZccBvRanIM
 sidebar_position: 19
 keywords: 
-  - milvus vector db
+  - milvus 向量数据库
   - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - 什么是 milvus
+  - milvus Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listAliases()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listAliases()
 
-此操作列出特定集合的所有现有别名。
+此操作列出特定 Collection 的所有现有别名。
 
 ```java
 public ListAliasResp listAliases()
@@ -51,11 +51,11 @@ MilvusClientV2.listAliases(ListAliasesReq.builder()
 
 - `databaseName(String databaseName)`
 
-    目标集合所属数据库的名称。
+    目标 Collection 所属的 Database 名称。
 
 - `collectionName(String collectionName)`
 
-    此操作的目标集合名称。
+    此操作的目标 Collection 名称。
 
 **返回类型：**
 
@@ -63,17 +63,17 @@ MilvusClientV2.listAliases(ListAliasesReq.builder()
 
 **返回：**
 
-一个 **ListAliasResp** 对象，其中包含指定集合的别名列表。如果该集合没有别名，则返回空列表。
+一个 **ListAliasResp** 对象，其中包含指定 Collection 的别名列表。如果该 Collection 没有别名，则返回空列表。
 
 **参数：**
 
 - **alias** (*List\<String\>*)
 
-    包含别名的字符串列表。
+    包含这些别名的字符串列表。
 
 - **collectionName** (*String*)
 
-    集合的名称。
+    Collection 的名称。
 
 **异常：**
 

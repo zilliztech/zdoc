@@ -12,13 +12,13 @@ type: docx
 token: IzfldHDU4o8dDRx377ecqJmlnSf
 sidebar_position: 3
 keywords: 
-  - Question answering system
+  - 问答系统
   - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - 混合向量搜索
+  - 视频去重
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - createRole()
   - javaV230
 displayed_sidebar: javaSidebar

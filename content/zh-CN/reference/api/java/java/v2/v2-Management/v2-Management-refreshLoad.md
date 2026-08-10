@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作主要用于在 bulkImport 请求生成新分段时，强制将这些新分段加载到内存中。 | Java | v2"
+description: "当 bulkImport 请求生成新的 Segment 时，此操作主要用于强制将新的 Segment 加载到内存中。 | Java | v2"
 type: docx
 token: TCw7d7brCovAUpxA5D8cjOIGn1b
 sidebar_position: 15
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - 自然语言处理
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - refreshLoad()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # refreshLoad()
 
-此操作主要用于在 bulkImport 请求生成新分段时，强制将这些新分段加载到内存中。 
+当 bulkImport 请求生成新的 Segment 时，此操作主要用于强制将新的 Segment 加载到内存中。 
 
 ```java
 public void refreshLoad(RefreshLoadReq request)
@@ -54,11 +54,11 @@ refreshLoad(RefreshLoadReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认为当前数据库。
+    Database 的名称。如果未指定，则默认使用当前 Database。
 
 - `collectionName(String collectionName)` -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `async(Boolean async)` -
 
@@ -66,11 +66,11 @@ refreshLoad(RefreshLoadReq.builder()
 
 - `sync(Boolean sync)` -
 
-    是否同步等待操作完成。默认为 `Boolean.TRUE`。
+    是否同步等待，直到操作完成。默认为 `Boolean.TRUE`。
 
 - `timeout(Long timeout)` -
 
-    超时时长（毫秒）。默认为 `60000L`。
+    超时时长（以毫秒为单位）。默认为 `60000L`。
 
 **返回：**
 
@@ -80,7 +80,7 @@ refreshLoad(RefreshLoadReq.builder()
 
 - **MilvusClientException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

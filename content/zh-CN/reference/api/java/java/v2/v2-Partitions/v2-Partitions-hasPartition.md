@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作检查指定集合中是否存在指定分区。 | Java | v2"
+description: "此操作检查指定 Collection 中是否存在指定的 Partition。 | Java | v2"
 type: docx
 token: KVSUdHV0ho7nnwxeQKMcEL47nKe
 sidebar_position: 4
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - 弹性向量 Database
+  - Pinecone 与 Milvus 对比
+  - Chroma 与 Milvus 对比
+  - Annoy 向量搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - hasPartition()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hasPartition()
 
-此操作检查指定集合中是否存在指定分区。
+此操作检查指定 Collection 中是否存在指定的 Partition。
 
 ```java
 public Boolean hasPartition(HasPartitionReq request)
@@ -48,27 +48,27 @@ hasPartition(HasPartitionReq.builder()
 )
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    目标集合所属数据库的名称。
+    目标 Collection 所属 Database 的名称。
 
 - `collectionName(String collectionName)`
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - `partitionName(String partitionName)`
 
-    要检查的分区名称。
+    要检查的 Partition 的名称。
 
 **返回类型：**
 
 *Boolean*
 
-**返回：**
+**返回值：**
 
-一个布尔值，表示指定分区是否存在。
+一个布尔值，表示指定的 Partition 是否存在。
 
 **异常：**
 

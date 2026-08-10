@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会处理输入数据并生成分词输出。 | Java | v2"
+description: "此操作会处理输入数据并生成分词后的输出。 | Java | v2"
 type: docx
 token: AXt2dvFmQoP04wx9zlVciuitnQf
 sidebar_position: 10
 keywords: 
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - AI Agent
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - runAnalyzer()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # runAnalyzer()
 
-此操作会处理输入数据并生成分词输出。
+此操作会处理输入数据并生成分词后的输出。
 
 ```java
 public RunAnalyzerResp runAnalyzer(RunAnalyzerReq request)
@@ -53,7 +53,7 @@ runAnalyzer(RunAnalyzerReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `texts(List<String> texts)` -
 
@@ -61,7 +61,7 @@ runAnalyzer(RunAnalyzerReq.builder()
 
 - `analyzerParams(Map<String, Object> analyzerParams)` -
 
-    分析器参数映射。
+    Analyzer 参数的映射。
 
 - `withDetail(Boolean withDetail)` -
 
@@ -73,11 +73,11 @@ runAnalyzer(RunAnalyzerReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认为当前数据库。
+    Database 的名称。如未指定，则默认使用当前 Database。
 
 - `collectionName(String collectionName)` -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `fieldName(String fieldName)` -
 
@@ -85,15 +85,15 @@ runAnalyzer(RunAnalyzerReq.builder()
 
 - `analyzerNames(List<String> analyzerNames)` -
 
-    要使用的分析器名称列表。
+    要使用的 Analyzer 名称列表。
 
-**RETURNS:**
+**返回值：**
 
 *RunAnalyzerResp*
 
-**RunAnalyzerResp** 包含一个 **AnalyzerResult** 对象列表，其中每个对象都是一个 **AnalyzerToken** 对象列表。
+一个 **RunAnalyzerResp** 包含一个 **AnalyzerResult** 对象列表，其中每个对象都是一个 **AnalyzerToken** 对象列表。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientException**
 

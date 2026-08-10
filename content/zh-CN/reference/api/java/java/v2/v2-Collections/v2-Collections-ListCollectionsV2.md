@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出指定数据库中所有现有的集合。 | Java | v2"
+description: "此操作会列出指定 Database 中所有现有的 Collection。 | Java | v2"
 type: docx
 token: WY4idJdzCozGGnxmLoFcIjC2ndw
 sidebar_position: 29
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - 句子转换器
+  - 推荐系统
+  - 信息检索
+  - 降维
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ListCollectionsV2()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ListCollectionsV2()
 
-此操作会列出指定数据库中所有现有的集合。
+此操作会列出指定 Database 中所有现有的 Collection。
 
 ```java
 public ListCollectionsResp listCollectionsV2(ListCollectionsReq request)
@@ -46,43 +46,43 @@ listCollectionsV2(ListCollectionsReq.builder()
 )
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    目标数据库的名称。指定后，此操作将返回指定数据库中的所有集合。
+    目标 Database 的名称。指定后，此操作将返回该 Database 中的所有 Collection。
 
 **返回类型：**
 
 *ListCollectionsResp*
 
-**返回值：**
+**返回：**
 
-一个包含集合名称列表的 **ListCollectionsResp** 对象。如果不存在任何集合，则返回空列表。
+包含 Collection 名称列表的 **ListCollectionsResp** 对象。如果没有任何 Collection，则返回空列表。
 
 **参数：**
 
 - **collectionNames** (*List&lt;String&gt;*)
 
-    一个字符串列表，包含所有现有集合的名称。
+    包含所有现有 Collection 名称的字符串列表。
 
 - **collectionInfos** (*List&lt;CollectionInfo&gt;*)
 
-    一个由 **CollectionInfo** 对象组成的列表。**CollectionInfo** 对象包含以下字段：
+    **CollectionInfo** 对象列表。**CollectionInfo** 对象包含以下字段：
 
     - **collectionName** (*String*)
 
-        集合名称。
+        Collection 的名称。
 
     - **shardNum** (*Integer*)
 
-        上述集合中的分片数量。
+        上述 Collection 中的分片数量。
 
 **异常：**
 
 - **MilvusClientExceptions**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

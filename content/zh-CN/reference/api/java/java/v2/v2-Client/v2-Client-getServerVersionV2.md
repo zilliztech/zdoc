@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于获取服务器版本信息。当你除了版本字符串之外还需要构建时间、Git commit、Go 版本和部署模式时，请使用 `detail(true)`。 | Java | v2"
+description: "此操作用于获取服务器版本信息。当您除了版本字符串外，还需要构建时间、Git 提交、Go 版本和部署模式时，请使用 `detail(true)`。 | Java | v2"
 type: docx
 token: KrSgdfCaJosFp5xwHIAcV0tAnec
 sidebar_position: 6
 keywords: 
-  - Image Search
+  - 图像搜索
   - LLMs
-  - Machine Learning
+  - 机器学习
   - RAG
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getServerVersionV2()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getServerVersionV2()
 
-此操作用于获取服务器版本信息。当你除了版本字符串之外还需要构建时间、Git commit、Go 版本和部署模式时，请使用 `detail(true)`。
+此操作用于获取服务器版本信息。当您除了版本字符串外，还需要构建时间、Git 提交、Go 版本和部署模式时，请使用 `detail(true)`。
 
 ```java
 public GetServerVersionResp getServerVersionV2(GetServerVersionReq request)
@@ -59,7 +59,7 @@ getServerVersionV2(GetServerVersionReq.builder()
 
 - **MilvusClientException**
 
-    当校验失败或服务器在此操作中返回错误时，将引发此异常。
+    当验证失败或服务器为此操作返回错误时，将引发此异常。
 
 ## 示例\{#example}
 

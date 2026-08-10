@@ -7,15 +7,15 @@ added_since: false
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "以异步方式将文件或目录上传到 Zilliz Cloud volume，并支持可配置的重试、并发、多部分上传和进度报告。 | Java | v2"
+description: "以异步方式将文件或目录上传到 Zilliz Cloud 卷，并支持可配置的重试、并发、多部分上传和进度报告。 | Java | v2"
 type: docx
 token: Op8ydBXyZo2rlZxhgfNcaC3unRg
 sidebar_position: 5
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量 Database 教程
+  - 向量 Database 如何工作
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # uploadFilesAsync()
 
-以异步方式将文件或目录上传到 Zilliz Cloud volume，并支持可配置的重试、并发、多部分上传和进度报告。
+以异步方式将文件或目录上传到 Zilliz Cloud 卷，并支持可配置的重试、并发、多部分上传和进度报告。
 
 ```java
 public CompletableFuture<UploadFilesResult> uploadFilesAsync(UploadFilesRequest request)
@@ -59,11 +59,11 @@ UploadFilesRequest.builder()
 
 - `targetVolumePath(String targetVolumePath)`
 
-    volume 内的目标目录。
+    卷内的目标目录。
 
 - `uploadConcurrency(int uploadConcurrency)`
 
-    同时上传的最大文件数量。
+    可同时上传的最大文件数。
 
 - `maxRetries(int maxRetries)`
 
@@ -71,7 +71,7 @@ UploadFilesRequest.builder()
 
 - `retryIntervalMillis(long retryIntervalMillis)`
 
-    重试尝试之间的延迟时间，单位为毫秒。
+    重试尝试之间的延迟时间（以毫秒为单位）。
 
 - `progressListener(ProgressListener progressListener)`
 
@@ -79,13 +79,13 @@ UploadFilesRequest.builder()
 
 - `partSizeBytes(long partSizeBytes)`
 
-    多部分上传中每个分片的大小，单位为字节。非正值将启用自动大小设置。
+    多部分上传中每个分片的大小（以字节为单位）。非正值将启用自动大小设置。
 
 **返回：**
 
 *CompletableFuture&lt;UploadFilesResult&gt;*
 
-用于标识目标 volume 和已上传路径。
+标识目标卷和已上传路径。
 
 **异常：**
 

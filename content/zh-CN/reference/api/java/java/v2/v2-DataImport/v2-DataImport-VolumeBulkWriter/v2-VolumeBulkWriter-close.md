@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将关闭当前的 VolumeBulkWriter 实例。 | Java | v2"
+description: "此操作会关闭当前的 VolumeBulkWriter 实例。 | Java | v2"
 type: docx
 token: XNDudZqpgo0Fj3xnXYnckQlYn3d
 sidebar_position: 2
 keywords: 
   - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似度搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # close()
 
-此操作将关闭当前的 VolumeBulkWriter 实例。
+此操作会关闭当前的 VolumeBulkWriter 实例。
 
 ```java
 public void close()

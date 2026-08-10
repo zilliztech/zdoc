@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "ConnectConfig 构建器保存用于创建 `MilvusClientV2` 实例的连接配置。使用构建器模式配置所有连接参数，包括身份验证、TLS、超时和 keepalive 设置。 | Java | v2"
+description: "ConnectConfig 构建器保存创建 `MilvusClientV2` 实例时使用的连接配置。使用构建器模式可配置所有连接参数，包括身份验证、TLS、超时和 keepalive 设置。 | Java | v2"
 type: docx
 token: ErNidktYPodbDxxow0xcV5qHnof
 sidebar_position: 5
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Pinecone 向量 Database
+  - 音频搜索
+  - 什么是语义搜索
+  - Embedding 模型
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ConnectConfig
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ConnectConfig
 
-ConnectConfig 构建器保存用于创建 `MilvusClientV2` 实例的连接配置。使用构建器模式配置所有连接参数，包括身份验证、TLS、超时和 keepalive 设置。
+ConnectConfig 构建器保存创建 `MilvusClientV2` 实例时使用的连接配置。使用构建器模式可配置所有连接参数，包括身份验证、TLS、超时和 keepalive 设置。
 
 ```java
 ConnectConfig.builder()
@@ -64,31 +64,31 @@ ConnectConfig.builder()
 
     **[必需]**
 
-    服务器端点 URI。对于本地 Milvus 实例，接受 `http://host:port`；对于 Zilliz Cloud，接受 HTTPS URL。
+    服务器 Endpoint URI。对于本地 Milvus 实例，可接受 `http://host:port`；对于 Zilliz Cloud，可接受 HTTPS URL。
 
 - `token(String token)` -
 
-    用于身份验证的 API 密钥或 `"username:password"` 字符串。可用于 Zilliz Cloud API 密钥，或作为用户名/密码身份验证的简写。默认值：`null`。
+    用于身份验证的 API key 或 `"username:password"` 字符串。可将其用于 Zilliz Cloud API key，或作为用户名/password身份验证的简写。默认值：`null`。
 
 - `username(String username)` -
 
-    用于身份验证的用户名。需与 `password()` 一起使用。如果设置了 `token()`，则会忽略此项。默认值：`null`。
+    用于身份验证的用户名。与 `password()` 一起使用。如果设置了 `token()`，则会忽略此项。默认值：`null`。
 
 - `password(String password)` -
 
-    用于身份验证的密码。需与 `username()` 一起使用。默认值：`null`。
+    用于身份验证的密码。与 `username()` 一起使用。默认值：`null`。
 
 - `dbName(String dbName)` -
 
-    连接后要使用的默认数据库名称。默认值：`null`（使用服务器默认值）。
+    连接后要使用的默认 Database 名称。默认值：`null`（使用服务器默认值）。
 
 - `connectTimeoutMs(long connectTimeoutMs)` -
 
-    连接期间等待 gRPC 通道进入 READY 状态的超时时间（毫秒）。默认值：`10000`。
+    连接期间，等待 gRPC 通道进入 READY 状态的超时时间（毫秒）。默认值：`10000`。
 
 - `keepAliveTimeMs(long keepAliveTimeMs)` -
 
-    向服务器发送 keepalive ping 的时间间隔（毫秒）。默认值：`10000`。
+    发送到服务器的 keepalive ping 之间的间隔时间（毫秒）。默认值：`10000`。
 
 - `keepAliveTimeoutMs(long keepAliveTimeoutMs)` -
 
@@ -96,11 +96,11 @@ ConnectConfig.builder()
 
 - `keepAliveWithoutCalls(boolean keepAliveWithoutCalls)` -
 
-    当为 `true` 时，即使没有活动中的 RPC，也会发送 keepalive ping。默认值：`true`。
+    当 `true` 时，即使没有活动中的 RPC，也会发送 keepalive ping。默认值：`true`。
 
 - `rpcDeadlineMs(long rpcDeadlineMs)` -
 
-    单次 RPC 调用允许的最长持续时间（毫秒）。值为 `0` 时表示禁用 deadline。默认值：`0`。
+    单次 RPC 调用允许的最大持续时间（毫秒）。值为 `0` 时将禁用 deadline。默认值：`0`。
 
 - `secure(Boolean secure)` -
 
@@ -108,11 +108,11 @@ ConnectConfig.builder()
 
 - `enablePrecheck(boolean enablePrecheck)` -
 
-    当为 `true` 时，在返回客户端之前执行连通性检查。默认值：`false`。
+    当 `true` 时，在返回客户端之前执行连接性检查。默认值：`false`。
 
 - `idleTimeoutMs(long idleTimeoutMs)` -
 
-    空闲连接被关闭前的时间（毫秒）。默认值：`86400000`（24 小时）。
+    空闲连接在经过此时间（毫秒）后关闭。默认值：`86400000`（24 小时）。
 
 - `clientKeyPath(String clientKeyPath)` -
 
@@ -140,7 +140,7 @@ ConnectConfig.builder()
 
 - `option(Map<String, String> option)` -
 
-    任意键值对，会在连接时通过 `ClientInfo.reserved` 字段转发到服务器。适合传递服务器可识别的客户端元数据或功能标志。默认值为空映射。
+    连接时在 `ClientInfo.reserved` 字段中转发到服务器的任意键值对。适合用于传递服务器可识别的客户端元数据或功能标记。默认值为空映射。
 
 ## 示例\{#example}
 

@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出快照，可选择限定到某个数据库和集合。 | Java | v2"
+description: "此操作列出快照，并可选择将范围限定到某个 Database 和 Collection。 | Java | v2"
 type: docx
 token: ZhiOdVH0uoMI0axpcYMcfhQXnkf
 sidebar_position: 6
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - 自然语言处理 Database
+  - 低成本向量 Database
+  - 托管向量 Database
+  - Pinecone 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listSnapshots()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listSnapshots()
 
-此操作列出快照，可选择限定到某个数据库和集合。
+此操作列出快照，并可选择将范围限定到某个 Database 和 Collection。
 
 ```java
 public ListSnapshotsResp listSnapshots(ListSnapshotsReq request)
@@ -51,11 +51,11 @@ listSnapshots(ListSnapshotsReq.builder()
 
 - `databaseName(String databaseName)`
 
-    包含该集合的数据库名称。如果省略，则使用当前数据库。
+    包含该 Collection 的 Database 名称。如果省略，则使用当前 Database。
 
 - `collectionName(String collectionName)`
 
-    与快照操作关联的集合名称。
+    与快照操作关联的 Collection 名称。
 
 **返回：**
 
@@ -67,7 +67,7 @@ listSnapshots(ListSnapshotsReq.builder()
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或服务器为此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或者服务器为此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

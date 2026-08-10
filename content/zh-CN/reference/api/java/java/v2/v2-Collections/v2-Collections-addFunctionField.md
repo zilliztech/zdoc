@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "向现有的 Milvus 3.0 collection 添加一个由函数支持的字段及其显式配置的绑定索引。 | Java | v2"
+description: "向现有的 Milvus 3.0 Collection 添加一个由函数支持的字段及其显式配置的绑定索引。 | Java | v2"
 type: docx
 token: GTZHdG3fMoBZi0x23BNctsO7nEE
 sidebar_position: 38
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - 向量存储
+  - 开源向量 Database
+  - 向量索引
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - addFunctionField()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addFunctionField()
 
-向现有的 Milvus 3.0 collection 添加一个由函数支持的字段及其显式配置的绑定索引。
+向现有的 Milvus 3.0 Collection 添加一个由函数支持的字段及其显式配置的绑定索引。
 
 ```java
 public void addFunctionField(AddFunctionFieldReq request)
@@ -65,11 +65,11 @@ AddFunctionFieldReq.builder()
 
 - `collectionName(String collectionName)`
 
-    目标 collection 的名称。
+    目标 Collection 的名称。
 
 - `databaseName(String databaseName)`
 
-    数据库名称。省略时默认为当前数据库。
+    Database 的名称。省略时默认为当前 Database。
 
 - `fieldName(String fieldName)`
 
@@ -113,7 +113,7 @@ AddFunctionFieldReq.builder()
 
 - `analyzerParams(Map<String, Object> analyzerParams)`
 
-    字段的分析器配置。
+    该字段的 Analyzer 配置。
 
 - `enableMatch(Boolean enableMatch)`
 
@@ -125,23 +125,23 @@ AddFunctionFieldReq.builder()
 
 - `function(CreateCollectionReq.Function function)`
 
-    函数定义。它必须恰好有一个与 fieldName 匹配的输出。
+    函数定义。它必须只有一个与 fieldName 匹配的输出。
 
 - `indexParam(IndexParam indexParam)`
 
-    绑定索引配置。它必须使用相同的字段，并显式指定非 None 或 AUTOINDEX 的索引类型。
+    绑定索引配置。它必须使用相同的字段，并显式指定除 None 或 AUTOINDEX 之外的索引类型。
 
 **返回：**
 
 *void*
 
-此操作不返回任何值。
+此操作不返回值。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当请求验证、传输或服务器执行失败时抛出。请检查异常消息以获取确切的失败原因。
+    当请求验证、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 

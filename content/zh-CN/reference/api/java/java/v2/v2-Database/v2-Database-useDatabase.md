@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会切换当前使用的数据库。 | Java | v2"
+description: "此操作会更改当前使用的 Database。 | Java | v2"
 type: docx
 token: LAJHdQKQQoPjmYxcfQgcvjvLnqh
 sidebar_position: 7
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - 相似性搜索
+  - 多模态 RAG
+  - llm 幻觉
+  - 混合搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # useDatabase()
 
-此操作会切换当前使用的数据库。
+此操作会更改当前使用的 Database。
 
 ```java
 public void useDatabase(String dbName)
@@ -47,7 +47,7 @@ useDatabase(String dbName)
 
 - **dbName** (*String*) -
 
-    目标数据库的名称。
+    目标 Database 的名称。
 
 **返回值**
 

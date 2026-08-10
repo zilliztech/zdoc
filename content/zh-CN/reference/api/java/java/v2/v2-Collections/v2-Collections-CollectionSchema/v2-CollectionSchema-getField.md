@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取特定字段的详细信息，包括 schema 信息。 | Java | v2"
+description: "此操作获取特定字段的详细信息，包括 Schema 信息。 | Java | v2"
 type: docx
 token: AXWod56QkoprlXxOXkwcPXfonHg
 sidebar_position: 3
 keywords: 
-  - knn algorithm
+  - knn 算法
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 什么是非结构化数据
+  - 向量嵌入
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - getField()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getField()
 
-此操作获取特定字段的详细信息，包括 schema 信息。
+此操作获取特定字段的详细信息，包括 Schema 信息。
 
 ```java
 public CreateCollectionReq.FieldSchema getField(String fieldName)
@@ -53,7 +53,7 @@ CollectionSchema.getField(String fieldName)
 
 *CreateCollectionReq.FieldSchema*
 
-**返回：**
+**返回值：**
 
 包含字段详细信息的 [FieldSchema](./v2-Collections-FieldSchema) 对象。
 
@@ -61,7 +61,7 @@ CollectionSchema.getField(String fieldName)
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

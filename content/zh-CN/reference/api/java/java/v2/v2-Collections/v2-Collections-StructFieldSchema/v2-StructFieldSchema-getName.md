@@ -12,13 +12,13 @@ type: docx
 token: DZcddGCD3oh29txhnB5cuxzzn4d
 sidebar_position: 7
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz Database
+  - 非结构化数据
+  - 向量 Database
   - IVF
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getName()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -47,7 +47,7 @@ getName()
 
 *String*
 
-**返回：**
+**返回值：**
 
 返回值将是指定的 Array of Struct 字段的名称。
 

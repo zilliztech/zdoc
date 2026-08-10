@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会从当前集合中删除指定分区。 | Java | v2"
+description: "此操作会从当前 Collection 中删除指定的 Partition。 | Java | v2"
 type: docx
 token: CSaVdr3zao9zFpxaJBgcCTCYnPd
 sidebar_position: 2
 keywords: 
-  - semantic search
-  - Anomaly Detection
+  - 语义搜索
+  - 异常检测
   - sentence transformers
-  - Recommender systems
+  - 推荐系统
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropPartition()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # dropPartition()
 
-此操作会从当前集合中删除指定分区。
+此操作会从当前 Collection 中删除指定的 Partition。
 
-在删除分区之前，您必须先将其释放。
+删除 Partition 之前，您必须先将其释放。
 
 ```java
 public void dropPartition(DropPartitionReq request)
@@ -50,29 +50,29 @@ dropPartition(DropPartitionReq.builder()
 )
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    目标集合所属数据库的名称。
+    目标 Collection 所属 Database 的名称。
 
 - `collectionName(String collectionName)`
 
-    （必需）现有集合的名称。
+    （必需）现有 Collection 的名称。
 
 - `partitionName(String partitionName)`
 
-    （必需）要删除的分区名称。
+    （必需）要删除的 Partition 的名称。
 
-**RETURNS：**
+**返回值：**
 
 *void*
 
-**EXCEPTIONS：**
+**异常：**
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    在此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 
@@ -81,7 +81,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.partition.request.DropPartitionReq;
 
-// 1. 设置客户端
+// 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -89,7 +89,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. 删除分区 "test_partition"
+// 2. Drop partition "test_partition"
 DropPartitionReq dropPartitionReq = DropPartitionReq.builder()
         .collectionName("test")
         .partitionName("test_partition")

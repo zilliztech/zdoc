@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "按主键或过滤条件查询实体，并可通过 `orderByFields` 进行可选排序。 | Java | v2"
+description: "按主键或过滤条件查询 Entity，并可通过 `orderByFields` 选择性地进行排序。 | Java | v2"
 type: docx
 token: U7eQdBzB0opJOXxRUcncnRDInSf
 sidebar_position: 5
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Chroma 向量 Database
+  - NLP 搜索
+  - 幻觉 LLM
+  - 多模态搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - query()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # query()
 
-按主键或过滤条件查询实体，并可通过 `orderByFields` 进行可选排序。
+按主键或过滤条件查询 Entity，并可通过 `orderByFields` 选择性地进行排序。
 
 ```java
 public QueryResp query(QueryReq request)
@@ -63,11 +63,11 @@ QueryReq.builder()
 
 - `databaseName(String databaseName)`
 
-    数据库名称。省略时默认为当前数据库。
+    Database 的名称。省略时默认为当前 Database。
 
 - `collectionName(String collectionName)`
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `clusterId(String clusterId)`
 
@@ -75,7 +75,7 @@ QueryReq.builder()
 
 - `partitionNames(List<String> partitionNames)`
 
-    要查询的分区。
+    要查询的 Partition。
 
 - `outputFields(List<String> outputFields)`
 
@@ -103,7 +103,7 @@ QueryReq.builder()
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    是否忽略 growing segment。
+    是否忽略增长中的 Segment。
 
 - `timezone(String timezone)`
 
@@ -111,11 +111,11 @@ QueryReq.builder()
 
 - `orderByFields(List<OrderByField> orderByFields)`
 
-    用于对匹配行排序的标量字段及其方向。
+    用于对匹配行排序的标量字段及方向。
 
 - `queryParams(Map<String, Object> queryParams)`
 
-    其他查询参数。
+    附加查询参数。
 
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
@@ -125,17 +125,17 @@ QueryReq.builder()
 
 *QueryResp*
 
-包含查询结果行；提供 `orderByFields` 时，将按其指定顺序排序。
+包含查询结果行；如果提供了 orderByFields，则结果将按其排序。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当请求校验、传输或服务器执行失败时抛出。请检查异常消息以获取确切失败原因。
+    当请求校验、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 
-演示如何在 Zilliz Cloud 集群上使用 `query()`。
+演示如何针对 Zilliz Cloud 集群使用 query()。
 
 ```java
 QueryResp response = client.query(QueryReq.builder()

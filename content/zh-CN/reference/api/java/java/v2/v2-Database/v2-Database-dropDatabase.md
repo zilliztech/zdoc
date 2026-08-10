@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作按名称删除数据库。 | Java | v2"
+description: "此操作按名称删除一个 Database。 | Java | v2"
 type: docx
 token: LwqSdN6s5oZBhAxzQsxcnXswnah
 sidebar_position: 4
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似性搜索
+  - 多模态 RAG
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropDatabase()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropDatabase()
 
-此操作按名称删除数据库。 
+此操作按名称删除一个 Database。 
 
 ```java
 public void dropDatabase(DropDatabaseReq request)
@@ -50,9 +50,9 @@ dropDatabase(DropDatabaseReq.builder()
 
 - `databaseName(String databaseName)`
 
-    要删除的数据库名称。
+    要删除的 Database 的名称。
 
-**返回：**
+**返回值：**
 
 *void*
 

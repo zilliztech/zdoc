@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作用于检查特定 collection 是否存在。 | Java | v2"
+description: "此操作用于检查特定 Collection 是否存在。 | Java | v2"
 type: docx
 token: RaBJd4clVo6KX4xjGJoc3Mz7nhg
 sidebar_position: 18
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - 稠密向量
+  - 层次化可导航小世界
+  - 稠密嵌入
+  - Faiss 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - hasCollection()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hasCollection()
 
-此操作用于检查特定 collection 是否存在。
+此操作用于检查特定 Collection 是否存在。
 
 ```java
 public Boolean hasCollection(HasCollectionReq request)
@@ -51,19 +51,19 @@ hasCollection(HasCollectionReq.builder()
 
 - `databaseName(String databaseName)`
 
-    目标 collection 所属数据库的名称。
+    目标 Collection 所属的 Database 名称。
 
 - `collectionName(String collectionName)`
 
-    collection 的名称。
+    Collection 的名称。
 
 **返回类型：**
 
 *bool*
 
-**返回：**
+**返回值：**
 
-一个布尔值，用于指示指定的 collection 是否存在。
+一个布尔值，指示指定的 Collection 是否存在。
 
 **异常：**
 
@@ -78,7 +78,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.collection.request.HasCollectionReq;
 
-// 1. 设置客户端
+// 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -86,7 +86,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. 检查 collection 是否存在
+// 2. Check whether the collection exists
 HasCollectionReq hasCollectionReq = HasCollectionReq.builder()
         .collectionName("test")
         .build();

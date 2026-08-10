@@ -7,15 +7,15 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会启动一个异步作业，将快照恢复到目标集合中。 | Java | v2"
+description: "此操作会启动一个异步作业，将快照恢复到目标 Collection 中。 | Java | v2"
 type: docx
 token: SF5wdcArioRIsxxVzNjcgIhJnrc
 sidebar_position: 8
 keywords: 
   - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # restoreSnapshot()
 
-此操作会启动一个异步作业，将快照恢复到目标集合中。
+此操作会启动一个异步作业，将快照恢复到目标 Collection 中。
 
 ```java
 public RestoreSnapshotResp restoreSnapshot(RestoreSnapshotReq request)
@@ -50,7 +50,7 @@ restoreSnapshot(RestoreSnapshotReq.builder()
 )
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `snapshotName(String snapshotName)`
 
@@ -58,19 +58,19 @@ restoreSnapshot(RestoreSnapshotReq.builder()
 
 - `sourceCollectionName(String sourceCollectionName)`
 
-    创建该快照的集合名称。
+    创建该快照时源 Collection 的名称。
 
 - `targetCollectionName(String targetCollectionName)`
 
-    要将快照恢复到的目标集合名称。
+    要将快照恢复到的 Collection 的名称。
 
 - `sourceDbName(String sourceDbName)`
 
-    包含源集合的数据库。如果省略，则使用当前数据库。
+    包含源 Collection 的 Database。如果省略，则使用当前 Database。
 
 - `targetDbName(String targetDbName)`
 
-    创建恢复后集合所在的数据库。如果省略，则使用当前数据库。
+    要在其中创建已恢复 Collection 的 Database。如果省略，则使用当前 Database。
 
 **返回：**
 
@@ -82,7 +82,7 @@ restoreSnapshot(RestoreSnapshotReq.builder()
 
 - **MilvusClientException**
 
-    当缺少必填参数、数值参数超出范围，或服务器为此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器在此操作中返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

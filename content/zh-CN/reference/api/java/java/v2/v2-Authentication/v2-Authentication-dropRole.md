@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除一个自定义角色。 | Java | v2"
+description: "此操作会删除自定义角色。 | Java | v2"
 type: docx
 token: OLVbdsTOAoQwybx7oLPcZE3wnCf
 sidebar_position: 8
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - 自然语言处理搜索
+  - 幻觉 大语言模型
+  - 多模态搜索
+  - 向量搜索算法
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropRole()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropRole()
 
-此操作会删除一个自定义角色。
+此操作会删除自定义角色。
 
 ```java
 public void dropRole(DropRoleReq request)

@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "列出当前数据库中所有已上传的文件资源。 | Java | v2"
+description: "列出当前 Database 中所有已上传的文件资源。 | Java | v2"
 type: docx
 token: JbG0d6GAdoOpkixsVUpcE0YMnPd
 sidebar_position: 2
 keywords: 
-  - what are vector databases
-  - vector databases comparison
+  - 什么是向量 Database
+  - 向量 Database 比较
   - Faiss
-  - Video search
+  - 视频搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listFileResources()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listFileResources()
 
-列出当前数据库中所有已上传的文件资源。
+列出当前 Database 中所有已上传的文件资源。
 
 ```java
 public ListFileResourcesResp listFileResources(ListFileResourcesReq request)
@@ -49,11 +49,11 @@ listFileResources(ListFileResourcesReq.builder().build());
 
 *ListFileResourcesResp*
 
-该响应封装了可通过 `getResources()` 访问的 `List<FileResourceInfo>`。每个 `FileResourceInfo` 条目包含：
+响应封装了可通过 `getResources()` 访问的 `List<FileResourceInfo>`。每个 `FileResourceInfo` 条目包含：
 
-- `name` (*String*) - 资源的唯一名称。
+- `name`（*String*）- 资源的唯一名称。
 
-- `path` (*String*) - 已上传的原始本地路径。
+- `path`（*String*）- 上传的原始本地路径。
 
 **异常：**
 

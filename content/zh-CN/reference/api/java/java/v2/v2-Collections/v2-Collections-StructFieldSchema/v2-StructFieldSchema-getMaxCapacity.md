@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回 Struct 数组字段的最大容量。 | Java | v2"
+description: "此操作返回 Array of Structs 字段的最大容量。 | Java | v2"
 type: docx
 token: PSdEdxU7ZoTxelx7sLzcAAXsnQH
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getMaxCapacity()
 
-此操作返回 Struct 数组字段的最大容量。
+此操作返回 Array of Structs 字段的最大容量。
 
 ```java
 public Integer getMaxCapacity()
@@ -47,9 +47,9 @@ getMaxCapacity()
 
 *Integer*
 
-**返回：**
+**返回值：**
 
-返回值将是指定 Struct 数组字段的最大容量。
+返回值将是指定 Array of Struct 字段的最大容量。
 
 ## 示例\{#examples}
 

@@ -12,13 +12,13 @@ type: docx
 token: BDqGdp4uqo3XRexslRNcts9knmd
 sidebar_position: 11
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - RAG 向量 Database
+  - 什么是向量数据库
+  - 什么是向量 Database
+  - 向量 Database 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describeAlias()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -51,7 +51,7 @@ describeAlias(DescribeAliasReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。如未指定，则默认使用当前数据库。
+    Database 的名称。若未指定，则默认为当前 Database。
 
 - `alias(String alias)` -
 
@@ -61,13 +61,13 @@ describeAlias(DescribeAliasReq.builder()
 
 *DescribeAliasResp*
 
-一个包含别名详细信息的 **DescribeAliasResp** 对象。
+包含别名详细信息的 **DescribeAliasResp** 对象。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作过程中发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

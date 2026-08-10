@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作使用指定名称创建数据库。 | Java | v2"
+description: "此操作使用名称创建一个 Database。 | Java | v2"
 type: docx
 token: IqQudFVIKot4mVxWD4xclJymn8g
 sidebar_position: 2
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - 信息检索
+  - 降维
+  - hnsw 算法
+  - 向量相似性搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - createDatabase()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createDatabase()
 
-此操作使用指定名称创建数据库。
+此操作使用名称创建一个 Database。 
 
 ```java
 public void createDatabase(CreateDatabaseReq request)
@@ -51,11 +51,11 @@ createDatabase(CreateDatabaseReq.builder()
 
 - `databaseName(String databaseName)`
 
-    要创建的数据库名称。
+    要创建的 Database 的名称。
 
 - `properties(Map<String, String> properties)`
 
-数据库的属性，例如副本数量、资源组。
+Database 的属性，例如副本数量、资源组。
 
 **返回：**
 

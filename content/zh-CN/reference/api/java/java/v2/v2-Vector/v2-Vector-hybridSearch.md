@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作对集合执行多向量搜索，并在重排序后返回搜索结果。 | Java | v2"
+description: "此操作对 Collection 执行多向量搜索，并在重排后返回搜索结果。 | Java | v2"
 type: docx
 token: R1NDdFPnVo4wTuxvHjFcozc8nMa
 sidebar_position: 3
 keywords: 
   - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - 视频搜索
+  - AI 幻觉
+  - AI 智能体
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - hybridSearch()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hybridSearch()
 
-此操作对集合执行多向量搜索，并在重排序后返回搜索结果。
+此操作对 Collection 执行多向量搜索，并在重排后返回搜索结果。
 
 ```java
 public SearchResp hybridSearch(HybridSearchReq request)
@@ -64,19 +64,19 @@ hybridSearch(HybridSearchReq.builder()
 
 - `databaseName(String databaseName)`
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    Database 的名称。若未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)`
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `clusterId(String clusterId)`
 
-    此向量读取请求的目标集群 ID。当多个请求需要共享同一个集群 ID 时，请使用 `session(String clusterId)`。
+    此向量读取请求的目标集群 ID。当多个请求需要共享相同的集群 ID 时，请使用 `session(String clusterId)`。
 
 - `partitionNames(List<String> partitionNames)`
 
-    要搜索的分区名称列表。
+    要搜索的 Partition 名称列表。
 
 - `searchRequests(List<AnnSearchReq> searchRequests)`
 
@@ -84,7 +84,7 @@ hybridSearch(HybridSearchReq.builder()
 
 - `topK(int topK)`
 
-    要返回的前 K 个结果数。
+    要返回的前几个结果数量。
 
 - `limit(long limit)`
 
@@ -96,11 +96,11 @@ hybridSearch(HybridSearchReq.builder()
 
 - `offset(long offset)`
 
-    返回结果前要跳过的结果数量。
+    返回前要跳过的结果数量。
 
 - `roundDecimal(int roundDecimal)`
 
-    对 distance/score 进行舍入时保留的小数位数。
+    距离值/score舍入时保留的小数位数。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
@@ -122,7 +122,7 @@ hybridSearch(HybridSearchReq.builder()
 
     用于自定义评分的 FunctionScore 对象。
 
-**返回值：**
+**返回：**
 
 *SearchResp*
 

@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作通过 ID 获取特定实体。 | Java | v2"
+description: "此操作通过 ID 获取特定 Entity。 | Java | v2"
 type: docx
 token: Xl3QdxmFxo3MNCxWlrxc9jFbnFc
 sidebar_position: 2
 keywords: 
   - llm-as-a-judge
   - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - 视频去重
+  - 视频相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get()
 
-此操作通过其 ID 获取特定实体。
+此操作通过 ID 获取特定 Entity。
 
 ```java
 public GetResp get(GetReq request)
@@ -55,27 +55,27 @@ get(GetReq.builder()
 
 - `databaseName(String databaseName)`
 
-    目标集合所属数据库的名称。
+    目标 Collection 所属 Database 的名称。
 
 - `collectionName(String collectionName)`
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - `clusterId(String clusterId)`
 
-    此向量读取请求的目标集群 ID。当多个请求应共享同一个集群 ID 时，请使用 `session(String clusterId)`。
+    此向量读取请求的目标集群 ID。当多个请求应共享相同集群 ID 时，请使用 `session(String clusterId)`。
 
 - `partitionName(String partitionName)`
 
-    分区名称。
+    Partition 的名称。
 
 - `ids(List<Object> ids)`
 
-    特定实体 ID 或实体 ID 列表。
+    特定 Entity ID 或 Entity ID 列表。
 
 - `outputFields(List<String> outputFields)`
 
-    查询结果中要包含的字段名称列表。
+    要包含在查询结果中的字段名称列表。
 
 **返回类型：**
 
@@ -83,13 +83,13 @@ get(GetReq.builder()
 
 **返回：**
 
-表示一个或多个已查询实体的 **GetResp** 对象。
+表示一个或多个已查询 Entity 的 **GetResp** 对象。
 
 **参数：**
 
 - **getResults** (*List\\\&lt;QueryResp.QueryResult\\\&gt;*)
 
-    **QueryResp.QueryResult** 对象列表。
+    **QueryResp.QueryResult** 对象的列表。
 
 - **fields** (*Map\\\&lt;String,Object\\\&gt;*)
 
@@ -99,7 +99,7 @@ get(GetReq.builder()
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

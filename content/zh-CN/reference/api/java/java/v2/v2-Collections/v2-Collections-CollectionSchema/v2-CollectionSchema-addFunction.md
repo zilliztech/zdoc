@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作添加一个函数，用于将原始数据转换为向量表示。 | Java | v2"
+description: "此操作会添加一个函数，用于将原始数据转换为向量表示。 | Java | v2"
 type: docx
 token: WI76dwejQosQWcxuhkccHOl7nXf
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addFunction()
 
-此操作添加一个函数，用于将原始数据转换为向量表示。
+此操作会添加一个函数，用于将原始数据转换为向量表示。
 
 ```java
 public CollectionSchema addFunction(Function function)
@@ -53,13 +53,13 @@ addFunction(Function.builder()
 
 - `functionType(FunctionType functionType)`
 
-    用于处理原始数据的函数类型。可能的值：
+    用于处理原始数据的函数类型。可能的值包括：
 
     - `FunctionType.BM25`：使用 BM25 算法从 `VARCHAR` 字段生成稀疏嵌入。
 
 - `name(String name)`
 
-    函数名称。此标识符用于在查询和集合中引用该函数。
+    函数的名称。此标识符用于在查询和 Collection 中引用该函数。
 
 - `inputFieldNames(List<String> inputFieldNames)`
 
@@ -67,11 +67,11 @@ addFunction(Function.builder()
 
 - `outputFieldNames(List<String> outputFieldNames)`
 
-    用于存储生成的嵌入的字段名称。该字段应对应于集合 schema 中定义的向量字段。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名。
+    生成的嵌入将存储到的字段名称。该字段应对应于 Collection Schema 中定义的向量字段。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名。
 
 - `description(String description)`
 
-    对函数用途的简要描述。这有助于在较大的项目中进行文档说明或提高可读性，默认值为空字符串。
+    对函数用途的简要说明。这对于文档编写或在较大型项目中提升清晰度会很有帮助，默认值为空字符串。
 
 **返回类型：**
 

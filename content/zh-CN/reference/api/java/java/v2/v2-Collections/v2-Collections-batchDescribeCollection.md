@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作可批量获取多个集合的描述信息。 | Java | v2"
+description: "此操作可批量获取多个 Collection 的描述。 | Java | v2"
 type: docx
 token: B4CpdqvN7oZy3zxB9fscTAG8n7E
 sidebar_position: 32
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - 自然语言处理 Database
+  - 低成本向量 Database
+  - 托管式向量 Database
+  - Pinecone 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - batchDescribeCollection()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # batchDescribeCollection()
 
-此操作可批量获取多个集合的描述信息。
+此操作可批量获取多个 Collection 的描述。
 
 ```java
 public List<DescribeCollectionResp> batchDescribeCollection(BatchDescribeCollectionReq request)
@@ -51,24 +51,24 @@ batchDescribeCollection(BatchDescribeCollectionReq.builder()
 **构建器方法：**
 
 - `databaseName(String databaseName)` -<br/>
-  数据库名称。若未指定，则默认使用当前数据库。
+  Database 的名称。如果未指定，则默认为当前 Database。
 
 - `collectionNames(List<String> collectionNames)` -
 
 - `collectionIds(List<Long> collectionIds)` -<br/>
-  要批量描述的集合 ID 列表。
+  用于批量描述的 Collection ID 列表。
 
 **返回：**
 
 *List&lt;DescribeCollectionResp&gt;*
 
-由 **DescribeCollectionResp** 对象组成的列表。
+**DescribeCollectionResp** 对象列表。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

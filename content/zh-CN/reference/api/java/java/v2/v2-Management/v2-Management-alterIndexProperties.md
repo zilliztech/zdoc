@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于修改指定索引的属性。 | Java | v2"
+description: "此操作会修改指定索引的属性。 | Java | v2"
 type: docx
 token: ITkydrfmroQyLLxusZtc6t1nnjf
 sidebar_position: 1
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz 向量 Database
+  - Zilliz Database
+  - 非结构化数据
+  - 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - alterIndexProperties()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alterIndexProperties()
 
-此操作用于修改指定索引的属性。
+此操作会修改指定索引的属性。
 
 ```java
 public Void alterIndexProperties(AlterIndexPropertiesReq request)
@@ -49,15 +49,15 @@ alterIndexProperties(AlterIndexPropertiesReq.builder()
 )
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    保存目标集合的数据库名称。
+    持有目标 Collection 的 Database 名称。
 
 - `collectionName(String collectionName)`
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `indexName(String indexName)`
 
@@ -65,7 +65,7 @@ alterIndexProperties(AlterIndexPropertiesReq.builder()
 
 - `properties(Map<String, String> properties)`
 
-    要修改的属性及其期望值。请注意，属性值应为字符串。可用的数据库属性如下：
+    要修改的属性及其预期值。请注意，属性值应为字符串。可用的 Database 属性如下：
 
     - **mmap.enabled** -
 

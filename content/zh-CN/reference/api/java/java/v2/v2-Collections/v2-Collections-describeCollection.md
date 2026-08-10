@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作列出特定 collection 的详细信息。 | Java | v2"
+description: "此操作列出特定 Collection 的详细信息。 | Java | v2"
 type: docx
 token: WEE6ddFntowCIixVMCmc3pESnug
 sidebar_position: 12
 keywords: 
-  - knn algorithm
+  - knn 算法
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - 什么是非结构化数据
+  - 向量嵌入
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describeCollection()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeCollection()
 
-此操作列出特定 collection 的详细信息。
+此操作列出特定 Collection 的详细信息。
 
 ```java
 public DescribeCollectionResp describeCollection(DescribeCollectionReq request)
@@ -48,27 +48,27 @@ describeCollection(DescribeCollectionReq.builder()
 );
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。如未指定，则默认使用当前数据库。
+    Database 的名称。如果未指定，则默认使用当前 Database。
 
 - `collectionName(String collectionName)` -
 
-    目标 collection 的名称。
+    目标 Collection 的名称。
 
 - `collectionId(Long collectionId)` -
 
-    collection 的数字 ID。当你需要通过 ID 而不是名称来标识 collection 时，请使用此参数。
+    Collection 的数字 ID。当您需要通过 ID 而不是名称来标识 Collection 时，请使用此项。
 
-**RETURNS：**
+**返回：**
 
 *DescribeCollectionResp*
 
-一个 **DescribeCollectionResp** 对象，其中包含指定 collection 的详细信息。
+包含指定 Collection 详细信息的 **DescribeCollectionResp** 对象。
 
-**EXCEPTIONS：**
+**异常：**
 
 - **MilvusClientException**
 

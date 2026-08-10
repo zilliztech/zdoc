@@ -14,7 +14,7 @@ sidebar_position: 3
 keywords: 
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus 向量 Database
   - milvus db
   - zilliz
   - zilliz cloud
@@ -49,7 +49,7 @@ remoteBulkWriter.commit(
 
 - **async** (*boolean*) -
 
-    commit 操作在被调用后是否立即返回。
+    commit 操作在调用后是否立即返回。
 
 **返回类型：**
 

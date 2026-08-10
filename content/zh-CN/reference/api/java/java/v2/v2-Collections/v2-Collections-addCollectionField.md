@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.1
 deprecate_since: false
 notebook: false
-description: "此操作可在不重新创建集合的情况下，向现有集合添加新的标量或向量字段。现有行不会为新字段提供值，因此新增的向量字段必须可为空。 | Java | v2"
+description: "此操作可向现有 Collection 添加新的标量或向量字段，而无需重新创建 Collection。现有行没有新字段的值，因此新增的向量字段必须可为空。 | Java | v2"
 type: docx
 token: LaHmdGNGZog0JbxA8amcblpsnDR
 sidebar_position: 23
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Milvus 开源
+  - Milvus 的工作原理
+  - Zilliz 向量 Database
+  - Zilliz Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - addCollectionField()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionField()
 
-此操作可在不重新创建集合的情况下，向现有集合添加新的标量或向量字段。现有行不会为新字段提供值，因此新增的向量字段必须可为空。
+此操作可向现有 Collection 添加新的标量或向量字段，而无需重新创建 Collection。现有行没有新字段的值，因此新增的向量字段必须可为空。
 
 ```java
 public void addCollectionField(AddCollectionFieldReq request)
@@ -63,15 +63,15 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `collectionName(String collectionName)` -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。如未指定，则默认使用当前数据库。
+    Database 的名称。如果未指定，则默认为当前 Database。
 
 - `fieldName(String fieldName)` -
 
@@ -79,19 +79,19 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 - `description(String description)` -
 
-    字段的人类可读描述。
+    该字段的便于理解的描述。
 
 - `dataType(DataType dataType)` -
 
-    字段的数据类型。标量、向量、数组、JSON 以及 struct 相关字段类型，均使用与创建集合时相同的 `DataType` 值。
+    字段的数据类型。标量、向量、数组、JSON 和 struct 相关字段类型沿用创建 Collection 时使用的相同 `DataType` 值。
 
 - `maxLength(Integer maxLength)` -
 
-    `DataType.VarChar` 字段的最大字符数。对于 VarChar 字段，这是必需项，除非该值通过 `typeParams` 提供。
+    `DataType.VarChar` 字段的最大字符数。对于 VarChar 字段，此项为必填，除非该值通过 `typeParams` 提供。
 
 - `dimension(Integer dimension)` -
 
-    向量维度。对于固定维度的向量字段（如 `DataType.FloatVector`），这是必需项。
+    向量维度。对于固定维度的向量字段（如 `DataType.FloatVector`），此项为必填。
 
 - `elementType(DataType elementType)` -
 
@@ -99,11 +99,11 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 - `maxCapacity(Integer maxCapacity)` -
 
-    数组字段允许包含的最大元素数量。
+    数组字段允许的最大元素数量。
 
 - `isNullable(Boolean isNullable)` -
 
-    新增字段是否接受 `null` 值。对于 v3.0.1 及更高版本，向现有集合中添加的向量字段必须将此项设置为 `true`；否则 SDK 会抛出 `MilvusClientException`。
+    新增字段是否接受 `null` 值。对于 v3.0.1 及更高版本，添加到现有 Collection 的向量字段必须将此项设置为 `true`；否则 SDK 会引发 `MilvusClientException`。
 
 - `defaultValue(Object defaultValue)` -
 
@@ -115,7 +115,7 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 - `analyzerParams(Map<String, Object> analyzerParams)` -
 
-    VarChar 字段的分析器配置，例如 tokenizer 和 filter 设置。
+    VarChar 字段的 Analyzer 配置，例如分词器和过滤器设置。
 
 - `enableMatch(Boolean enableMatch)` -
 
@@ -123,29 +123,29 @@ client.addCollectionField(AddCollectionFieldReq.builder()
 
 - `typeParams(Map<String, String> typeParams)` -
 
-    额外的字段类型参数。诸如 `dimension` 或 `maxLength` 之类的专用 builder 方法会覆盖此映射中的对应条目。
+    附加的字段类型参数。专用构建器方法（如 `dimension` 或 `maxLength`）会覆盖此映射中的对应条目。
 
 - `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -
 
-    文本字段的多语言分析器配置。
+    文本字段的多语言 Analyzer 配置。
 
 - `structFields(List<CreateCollectionReq.FieldSchema> structFields)` -
 
-    struct 字段的嵌套字段 schema。
+    struct 字段的嵌套字段 Schema。
 
 - `externalField(String externalField)` -
 
-    当集合由外部数据源支持时，映射到此 Milvus 字段的外部源字段。
+    当 Collection 由外部数据源支持时，映射到此 Milvus 字段的外部源字段。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将抛出此异常，包括使用 `isNullable(false)` 添加向量字段，或未设置 `isNullable(true)` 时。
+    当此操作期间发生任何错误时，将引发此异常，包括在使用 `isNullable(false)` 添加向量字段或未设置 `isNullable(true)` 时。
 
 ## 示例\{#example}
 

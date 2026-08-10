@@ -7,15 +7,15 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "表示受支持的服务端函数类型，并提供按名称或数值代码进行转换的能力。 | Java | v2"
+description: "表示受支持的服务器端函数类型，并提供按名称或数字代码进行转换的功能。 | Java | v2"
 type: docx
 token: HShjdZsU3oknh2x1ezkcRqGqn6b
 sidebar_position: 4
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - 视频去重
+  - 视频相似性搜索
+  - 向量检索
+  - 音频相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # FunctionType
 
-表示受支持的服务端函数类型，并提供按名称或数值代码进行转换的能力。
+表示受支持的服务器端函数类型，并提供按名称或数字代码进行转换的功能。
 
 ```java
 public enum FunctionType
@@ -41,7 +41,7 @@ public enum FunctionType
 
 ### UNKNOWN(0)\{#unknown0}
 
-表示未知或不受支持的函数类型。当未找到匹配项时，`fromName()` 和 `fromCode()` 会返回此值。
+表示未知或不受支持的函数类型。未找到匹配项时，`fromName()` 和 `fromCode()` 会返回此值。
 
 ### BM25(1)\{#bm251}
 
@@ -53,7 +53,7 @@ public enum FunctionType
 
 ### RERANK(3)\{#rerank3}
 
-表示重排函数。
+表示重排序函数。
 
 ### MINHASH(4)\{#minhash4}
 
@@ -67,7 +67,7 @@ public enum FunctionType
 
 *FunctionType*
 
-用于描述服务端函数类型的枚举值。
+描述服务器端函数类型的枚举值。
 
 ## 示例\{#example}
 

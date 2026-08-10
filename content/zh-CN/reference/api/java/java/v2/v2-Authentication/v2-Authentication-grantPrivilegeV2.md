@@ -12,13 +12,13 @@ type: docx
 token: MFv3drbbXouqVxxE1OicBBl5ndf
 sidebar_position: 11
 keywords: 
-  - vector database
+  - 向量 Database
   - IVF
   - knn
-  - Image Search
+  - 图像搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - grantPrivilegeV2()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -49,7 +49,7 @@ grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 )
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `roleName(String roleName)`
 
@@ -61,11 +61,11 @@ grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 
 - `dbName(String dbName)`
 
-    目标资源数据库。指定角色将在指定数据库中拥有指定权限的访问权。
+    目标资源 Database。指定角色可在指定 Database 内访问指定的权限。
 
 - `collectionName(String collectionName)`
 
-    指定数据库中的目标资源集合。指定角色将在指定集合中拥有指定权限的访问权。
+    指定 Database 中的目标资源 Collection。指定角色可在指定 Collection 内访问指定的权限。
 
 **返回：**
 
@@ -75,7 +75,7 @@ grantPrivilegeV2(GrantPrivilegeReqV2.builder()
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

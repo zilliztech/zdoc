@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作列出特定集合中某个字段的索引。 | Java | v2"
+description: "此操作列出特定 Collection 中某个字段的索引。 | Java | v2"
 type: docx
 token: LxwIdeFiGoYaRAxKS72cdjNkneh
 sidebar_position: 12
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - AI 幻觉
+  - AI 代理
+  - 语义搜索
+  - 异常检测
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listIndexes()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listIndexes()
 
-此操作列出特定集合中某个字段的索引。
+此操作列出特定 Collection 中某个字段的索引。
 
 ```java
 public List<String> listIndexes(ListIndexesReq request)
@@ -48,15 +48,15 @@ listIndexes(ListIndexesReq.builder()
 )
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    目标集合所属数据库的名称。
+    目标 Collection 所属的 Database 名称。
 
 - `collectionName(String collectionName)`
 
-    集合名称。
+    Collection 的名称。
 
 - `fieldName(String fieldName)`
 

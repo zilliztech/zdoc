@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作用于删除集合。 | Java | v2"
+description: "此操作会删除一个 Collection。 | Java | v2"
 type: docx
 token: SW6Cdt9QeoY1J1x9SYQcZrc6nbg
 sidebar_position: 14
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - llm 幻觉
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropCollection()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollection()
 
-此操作用于删除集合。
+此操作会删除一个 Collection。
 
 ```java
 public void dropCollection(DropCollectionReq request)
@@ -53,11 +53,11 @@ dropCollection(DropCollectionReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。如果未指定，则默认使用当前数据库。
+    Database 的名称。如果未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)` -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `async(Boolean async)` -
 
@@ -65,7 +65,7 @@ dropCollection(DropCollectionReq.builder()
 
 - `timeout(Long timeout)` -
 
-    超时时长，单位为毫秒。
+    超时时长，以毫秒为单位。
 
 **返回：**
 

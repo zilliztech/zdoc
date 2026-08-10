@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作返回已连接服务器的版本字符串。 | Java | v2"
+description: "此操作返回已连接服务器的版本字符串。| Java | v2"
 type: docx
 token: FuDHdadxHoX9qSxe4aac4wzNnRh
 sidebar_position: 26
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - hnsw 算法
+  - 向量相似性搜索
+  - 近似最近邻搜索
   - DiskANN
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - getServerVersion()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -41,7 +41,7 @@ public String getServerVersion()
 
 *String*
 
-服务器的版本字符串（例如：`"2.6.13"`）。
+服务器的版本字符串（例如 `"2.6.13"`）。
 
 **异常：**
 

@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "一个 `Function` 实例，用于从用户提供的原始数据生成向量嵌入，或为搜索配置重排器。 | Java | v2"
+description: "用于根据用户提供的原始数据生成向量嵌入或为搜索配置重排器的 `Function` 实例。 | Java | v2"
 type: docx
 token: CW06d3MZQo2AzuxIv2ycCFpsn4b
 sidebar_position: 3
 keywords: 
   - RAG
   - NLP
-  - Neural Network
-  - Deep Learning
+  - 神经网络
+  - 深度学习
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - Function
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # Function
 
-`Function` 实例用于从用户提供的原始数据生成向量嵌入，或为搜索配置重排器。
+用于根据用户提供的原始数据生成向量嵌入或为搜索配置重排器的 `Function` 实例。
 
 ```java
 io.milvus.v2.service.collection.request.CreateCollectionReq.Function
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
-此构造器会初始化一个新的 `Function` 实例，用于将用户的原始数据转换为向量嵌入，或为搜索配置重排器。这通过自动化流程实现，从而简化相似性搜索操作。
+此构造函数会初始化一个新的 `Function` 实例，用于将用户的原始数据转换为向量嵌入，或为搜索配置重排器。这通过自动化过程实现，从而简化相似性搜索操作。
 
 ```java
 CreateCollectionReq.Function.builder()
@@ -52,49 +52,49 @@ CreateCollectionReq.Function.builder()
     .build()
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `name(String name)`
 
-    函数的名称。此标识符用于在查询和集合中引用该函数。
+    函数的名称。此标识符用于在查询和 Collection 中引用该函数。
 
 - `description(String description)`
 
-    对函数用途的简要描述。这有助于在较大的项目中进行文档说明或提升可读性，默认值为空字符串。
+    对函数用途的简要说明。这有助于文档编写或在较大项目中提高清晰度，默认值为空字符串。
 
 - `functionType(FunctionType functionType)`
 
-    用于处理原始数据的函数类型。可能的值包括：
+    用于处理原始数据的函数类型。可能的值有：
 
     - `FunctionType.BM25`：使用 BM25 算法从 `VARCHAR` 字段生成稀疏嵌入。
 
 - `inputFieldNames(List<String> inputFieldNames)`
 
-    包含需要转换为向量表示的原始数据的字段名称。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名。
+    包含需要转换为向量表示的原始数据的字段名称。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名称。
 
 - `outputFieldNames(List<String> outputFieldNames)`
 
-    用于存储生成嵌入的字段名称。该字段应与集合 schema 中定义的向量字段对应。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名。
+    用于存储生成嵌入的字段名称。该字段应与 Collection Schema 中定义的向量字段对应。对于使用 `FunctionType.BM25` 的函数，此参数仅接受一个字段名称。
 
 - `params(Map<String, String> params)`
 
-    一组用于配置函数属性的键值对。
+    用于配置函数属性的一组键值对。
 
-**RETURN TYPE：**
+**返回类型：**
 
 *Function*
 
-**RETURNS：**
+**返回值：**
 
-一个可注册到 Milvus 集合中的 `Function` 对象，用于在插入数据时自动生成嵌入。
+可注册到 Milvus Collection 的 `Function` 对象，用于在数据插入期间自动生成嵌入。
 
-**EXCEPTIONS：**
+**异常：**
 
 - **MilvusClientExceptions**
 
     当此操作期间发生任何错误时，将引发此异常。
 
-## Example\{#example}
+## 示例\{#example}
 
 ```java
 import io.milvus.common.clientenum.FunctionType;

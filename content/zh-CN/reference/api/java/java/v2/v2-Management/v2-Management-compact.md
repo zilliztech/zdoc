@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作通过将小分段合并为较大的分段来压缩集合。建议在向集合中插入大量数据后调用此操作。 | Java | v2"
+description: "此操作通过将较小的 Segment 合并为较大的 Segment 来对 Collection 执行 Compaction。建议您在向 Collection 插入大量数据后调用此操作。 | Java | v2"
 type: docx
 token: LDQsdzUJQotV2GxWGaqcFkDenuq
 sidebar_position: 2
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - llm 幻觉
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - compact()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-此操作通过将小分段合并为较大的分段来压缩集合。建议在向集合中插入大量数据后调用此操作。
+此操作通过将较小的 Segment 合并为较大的 Segment 来对 Collection 执行 Compaction。建议您在向 Collection 插入大量数据后调用此操作。
 
 ```java
 public CompactResp compact(CompactReq request)
@@ -53,25 +53,25 @@ compact(CompactReq.builder()
 
 - `databaseName(String databaseName)`
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    Database 的名称。若未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)`
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `isClustering(Boolean isClustering)`
 
-    是否执行聚类压缩。默认值为 `Boolean.FALSE`。
+    是否执行聚类 Compaction。默认为 `Boolean.FALSE`。
 
 - `isL0(Boolean isL0)`
 
-    是否请求 L0 压缩。默认值为 `Boolean.FALSE`，并且独立于聚类压缩。
+    是否请求 L0 Compaction。默认为 `Boolean.FALSE`，并且独立于聚类 Compaction。
 
 **返回：**
 
 *CompactResp*
 
-**CompactResp** 对象包含一个压缩 ID。
+**CompactResp** 对象包含一个 Compaction ID。
 
 **异常：**
 

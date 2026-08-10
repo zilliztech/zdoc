@@ -12,13 +12,13 @@ type: docx
 token: MPJ0dxzDIoNKYPxGA5PcD2F8nRb
 sidebar_position: 2
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - 什么是向量数据库
+  - 什么是向量 Database
+  - 向量 Database 对比
   - Faiss
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - getDataType()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -47,7 +47,7 @@ getDataType()
 
 *[DataType](./v2-Collections-DataType)*
 
-**返回：**
+**返回值：**
 
 返回值始终为 `DataType.Array`。
 

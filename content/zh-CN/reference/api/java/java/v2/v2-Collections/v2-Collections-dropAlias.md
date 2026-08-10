@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 notebook: false
-description: "此操作会删除指定集合的别名。 | Java | v2"
+description: "此操作会删除指定 Collection 的别名。 | Java | v2"
 type: docx
 token: ARw0dIb0hojCNbxKkOacs1K7nQf
 sidebar_position: 13
 keywords: 
-  - Machine Learning
+  - 机器学习
   - RAG
   - NLP
-  - Neural Network
+  - 神经网络
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropAlias()
 
-此操作会删除指定集合的别名。 
+此操作会删除指定 Collection 的别名。
 
 ```java
 public void dropAlias(DropAliasReq request)
@@ -51,13 +51,13 @@ dropAlias(DropAliasReq.builder()
 
 - `databaseName(String databaseName)`
 
-    目标别名所属数据库的名称。
+    目标别名所属的 Database 名称。
 
 - `alias(String alias)`
 
-    集合的别名。 
+    Collection 的别名。
 
-    在执行此操作前，请确保该别名已存在。否则，将会发生异常。
+    执行此操作前，请确保该别名已存在。否则将发生异常。
 
 **返回：**
 
@@ -76,7 +76,7 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.utility.request.DropAliasReq;
 
-// 1. 设置客户端
+// 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
@@ -84,7 +84,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. 删除别名 "test_alias"
+// 2. Drop alias "test_alias"
 DropAliasReq dropAliasReq = DropAliasReq.builder()
         .databaseName("my_database")
         .collectionName("my_collection")

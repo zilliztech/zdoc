@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作为指定集合创建索引。 | Java | v2"
+description: "此操作会为指定的 Collection 创建索引。 | Java | v2"
 type: docx
 token: JLCudD7MYoQdxQxLwlpcbBnpn8c
 sidebar_position: 3
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - rag 向量 Database
+  - 什么是向量数据库
+  - 什么是向量 Database
+  - 向量 Database 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - createIndex()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createIndex()
 
-此操作为指定集合创建索引。
+此操作会为指定的 Collection 创建索引。
 
 ```java
 public void createIndex(CreateIndexReq request)
@@ -50,19 +50,19 @@ createIndex(CreateIndexReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    Database 的名称。如未指定，则默认使用当前 Database。
 
 - `collectionName(String collectionName)` -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `indexParams(List<IndexParam> indexParams)` -
 
-    `IndexParam` 对象列表，用于定义索引配置。
+    定义索引配置的 IndexParam 对象列表。
 
 - `sync(Boolean sync)` -
 
@@ -72,11 +72,11 @@ createIndex(CreateIndexReq.builder()
 
     超时时长，单位为毫秒。默认值为 `60000L`。
 
-**RETURNS:**
+**返回值：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientException**
 

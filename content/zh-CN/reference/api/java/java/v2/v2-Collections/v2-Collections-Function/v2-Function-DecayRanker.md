@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "DecayRanker 类继承自 Function 类，并提供额外参数。 | Java | v2"
+description: "DecayRanker 类继承自 Function 类，并提供额外参数。| Java | v2"
 type: docx
 token: QIpldgpB1oP5IYxNSSdcyRNcn1c
 sidebar_position: 2
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - 稀疏向量
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
   - zilliz
   - zilliz cloud
   - cloud
@@ -37,9 +37,9 @@ import Admonition from '@theme/Admonition';
 public class DecayRanker extends CreateCollectionReq.Function
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
-此构造器会初始化一个新的 `DecayRanker` 实例，用于创建一个 decay ranker 实例。
+此构造函数会初始化一个新的 `DecayRanker` 实例，用于创建 decay ranker 实例。
 
 ```java
 DecayRanker.builder()
@@ -60,11 +60,11 @@ DecayRanker.builder()
 
 - `name(String name)`
 
-    函数的名称。该标识符用于在查询和集合中引用此函数。
+    函数的名称。此标识符用于在查询和 Collection 中引用该函数。
 
 - `description(String description)`
 
-    对函数用途的简要说明。这在较大的项目中可用于文档说明或提升可读性，默认为空字符串。
+    对函数用途的简要说明。这对于文档编写或在较大的项目中提高清晰度很有帮助，默认值为空字符串。
 
 - `functionType(FunctionType functionType)`
 
@@ -80,29 +80,29 @@ DecayRanker.builder()
 
 - `function(String function)`
 
-    要创建的 decay ranker 类型。可选值为：`gauss`、`exp` 和 `linear`。
+    要创建的 decay ranker 类型。可能的值包括：`gauss`、`exp` 和 `linear`。
 
 - `origin(Number origin)`
 
-    计算衰减分数的参考点。位于该值处的项会获得最高相关性分数。对于基于时间的衰减，时间单位必须与集合数据保持一致。
+    计算衰减分数的参考点。位于此值的项会获得最高相关性分数。对于基于时间的衰减，时间单位必须与您的 Collection 数据一致。
 
 - `scale(Number scale)`
 
-    相关性下降到 `decay` 值时的距离或时间。它控制相关性下降的速度。对于基于时间的衰减，时间单位必须与集合数据保持一致。较大的值会使相关性下降更平缓；较小的值会使相关性下降更陡峭。
+    相关性下降到 `decay` 值时对应的距离或时间。它控制相关性下降的速度。对于基于时间的衰减，时间单位必须与您的 Collection 数据一致。较大的值会使相关性下降得更平缓；较小的值会使下降更陡峭。
 
 - `offset(Number offset)`
 
-    `origin` 周围的“无衰减区”，该区域内的项保持满分（decay score = 1.0）。
+    围绕 `origin` 的“无衰减区域”，在该区域内，项会保持满分（衰减分数 = 1.0）。
 
-    对于基于时间的衰减，时间单位必须与集合数据保持一致。
+    对于基于时间的衰减，时间单位必须与您的 Collection 数据一致。
 
-    与 `origin` 距离处于该范围内的项将保持最高相关性。
+    在距 `origin` 该范围内的项会保持最高相关性。
 
 - `decay(Number decay)`
 
-    在 `scale` 距离处的分数值，用于控制曲线陡峭程度。较低的值会形成更陡峭的下降曲线；较高的值会形成更平缓的下降曲线。
+    在 `scale` 距离处的分数值，用于控制曲线的陡峭程度。较低的值会产生更陡的下降曲线；较高的值会产生更平缓的下降曲线。
 
-    该值必须介于 0 和 1 之间。
+    必须介于 0 和 1 之间。
 
 **返回类型：**
 

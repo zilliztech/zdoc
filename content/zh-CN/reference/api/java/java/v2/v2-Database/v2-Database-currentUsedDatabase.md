@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作返回此客户端当前正在使用的数据库名称。 | Java | v2"
+description: "此操作返回此客户端当前正在使用的 Database 名称。 | Java | v2"
 type: docx
 token: UCpTdpkNEoHDyjxxCqqcZLSXnAe
 sidebar_position: 8
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - 向量数据库对比
+  - openai 向量数据库
+  - 自然语言处理 Database
+  - 便宜的向量 Database
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - currentUsedDatabase()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # currentUsedDatabase()
 
-此操作返回此客户端当前正在使用的数据库名称。
+此操作返回此客户端当前正在使用的 Database 名称。
 
 ```java
 public String currentUsedDatabase()
@@ -41,7 +41,7 @@ public String currentUsedDatabase()
 
 *String*
 
-当前活动数据库的名称。
+当前活动 Database 的名称。
 
 ## 示例\{#example}
 

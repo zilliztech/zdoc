@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "提交一个已准备好的批量导入任务。 | Java | v2"
+description: "提交已准备好的批量导入任务。 | Java | v2"
 type: docx
 token: DFyndL57goJMr0xAcMEcVq5Lnhh
 sidebar_position: 6
 keywords: 
   - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - 神经网络
+  - 深度学习
+  - 知识库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - commitImport()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # commitImport()
 
-提交一个已准备好的批量导入任务。
+提交已准备好的批量导入任务。
 
 ```java
 public static String commitImport(String url, BaseDescribeImportRequest request)
@@ -51,13 +51,13 @@ CloudDescribeImportRequest.builder()
 
 ### CloudDescribeImportRequest\{#clouddescribeimportrequest}
 
-Zilliz Cloud 使用 `CloudDescribeImportRequest`。设置 `clusterId`，或者为项目数据库部署同时设置 `projectId` 和 `regionId`。
+对于 Zilliz Cloud，使用 `CloudDescribeImportRequest`。设置 `clusterId`，或对于项目 Database 部署，同时设置 `projectId` 和 `regionId`。
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `apiKey(String apiKey)`
 
-    身份验证凭据。对于 Milvus，请使用 `userName:password`；对于 Zilliz Cloud，请使用 API 密钥。
+    身份验证凭证。对于 Milvus，请使用 `userName:password`；对于 Zilliz Cloud，请使用 API 密钥。
 
 - `clusterId(String clusterId)`
 
@@ -65,23 +65,23 @@ Zilliz Cloud 使用 `CloudDescribeImportRequest`。设置 `clusterId`，或者�
 
 - `projectId(String projectId)`
 
-    Zilliz Cloud 项目数据库部署的项目 ID。
+    Zilliz Cloud 项目 Database 部署的项目 ID。
 
 - `regionId(String regionId)`
 
-    Zilliz Cloud 项目数据库部署的区域 ID。
+    Zilliz Cloud 项目 Database 部署的区域 ID。
 
 - `jobId(String jobId)`
 
     要提交的导入任务标识符。
 
-**RETURNS:**
+**返回值：**
 
 *String*
 
-导入端点返回的 JSON 响应体。
+导入 Endpoint 返回的 JSON 响应体。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **Exception**
 
@@ -89,7 +89,7 @@ Zilliz Cloud 使用 `CloudDescribeImportRequest`。设置 `clusterId`，或者�
 
 ## 示例\{#example}
 
-演示如何在 Zilliz Cloud 中调用 commitImport()。
+演示如何在 Zilliz Cloud 中使用 commitImport()。
 
 ```java
 String response = BulkImportUtils.commitImport(CLOUD_URL,

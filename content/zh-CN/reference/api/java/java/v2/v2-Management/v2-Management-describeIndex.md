@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作描述特定索引。 | Java | v2"
+description: "此操作用于描述特定索引。 | Java | v2"
 type: docx
 token: SgJ7dKfisomLkqx1E3BccMO7nqf
 sidebar_position: 4
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - 向量数据库对比
+  - openai 向量数据库
+  - 自然语言处理 Database
+  - 低成本向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describeIndex()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeIndex()
 
-此操作描述特定索引。
+此操作用于描述特定索引。
 
 ```java
 public DescribeIndexResp describeIndex(DescribeIndexReq request)
@@ -54,11 +54,11 @@ describeIndex(DescribeIndexReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。未指定时，默认使用当前数据库。
+    Database 的名称。若未指定，则默认使用当前 Database。
 
 - `collectionName(String collectionName)` -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `fieldName(String fieldName)` -
 

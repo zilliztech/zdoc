@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将向 EmbeddingList 实例添加向量嵌入。 | Java | v2"
+description: "此操作会向 EmbeddingList 实例添加向量嵌入。 | Java | v2"
 type: docx
 token: PUOBd229uoQGUIxnHLWcMSidnQh
 sidebar_position: 1
@@ -15,7 +15,7 @@ keywords:
   - 什么是非结构化数据
   - 向量嵌入
   - 向量存储
-  - 开源向量数据库
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add()
 
-此操作将向 **[EmbeddingList](./v2-Collections-EmbeddingList)** 实例添加向量嵌入。
+此操作会向 **[EmbeddingList](./v2-Collections-EmbeddingList)** 实例添加向量嵌入。
 
 ```java
 public void add(BaseVector vector)
@@ -41,7 +41,7 @@ public void add(BaseVector vector)
 
 - **vector** (*BaseVector*) -
 
-    要添加到当前 EmbeddingList 的向量嵌入。
+    要添加到当前 EmbeddingList 的向量嵌入。 
 
 **返回类型：**
 
@@ -49,7 +49,7 @@ public void add(BaseVector vector)
 
 **返回：**
 
-一个 EmbeddingList 实例，可再次用于链式调用其他 `add()` 方法。
+可再次使用的 EmbeddingList 实例，用于链式调用其他 `add()` 方法。
 
 **异常：**
 

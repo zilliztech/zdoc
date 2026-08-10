@@ -12,13 +12,13 @@ type: docx
 token: OalndLUMRoUqpMxr2QscYTCenre
 sidebar_position: 2
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - 向量检索
+  - 音频相似性搜索
+  - 弹性向量 Database
+  - Pinecone 与 Milvus 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - deleteVolume()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -50,7 +50,7 @@ deleteVolume(DeleteVolumeRequest.builder()
 
 - **volumeName** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
     要删除的卷名称。
 
@@ -58,7 +58,7 @@ deleteVolume(DeleteVolumeRequest.builder()
 
 *void*
 
-**返回**
+**返回值**
 
 无
 

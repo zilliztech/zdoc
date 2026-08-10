@@ -12,13 +12,13 @@ type: docx
 token: HPs6dFV29ovzyBxpgUacXnnjngd
 sidebar_position: 1
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似性搜索
+  - 向量检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - addFunction()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -57,7 +57,7 @@ addFunction(
 
 **返回值**
 
-一个 **[FunctionScore](./v2-Vector-FunctionScore)** 构建器，可用于链式调用多个 `addFunction()` 方法。
+用于链式调用多个 `addFunction()` 方法的 **[FunctionScore](./v2-Vector-FunctionScore)** 构建器。
 
 ## 示例\{#example}
 

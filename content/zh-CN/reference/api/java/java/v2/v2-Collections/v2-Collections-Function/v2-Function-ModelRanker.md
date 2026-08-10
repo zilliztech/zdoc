@@ -12,13 +12,13 @@ type: docx
 token: IW5SdBOhUop0P8xBslCc6OHLnse
 sidebar_position: 5
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - 向量数据库对比
+  - openai 向量数据库
+  - 自然语言处理 Database
+  - 低成本向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ModelRanker
   - javaV230
 displayed_sidebar: javaSidebar
@@ -51,47 +51,47 @@ ModelRanker.builder()
     .build()
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `name(String name)`
 
-    函数名称。此标识符用于在查询和集合中引用该函数。
+    函数的名称。此标识符用于在查询和 Collection 中引用该函数。
 
 - `description(String description)`
 
-    对函数用途的简要描述。它可用于文档说明，或在较大的项目中提升可读性，默认为空字符串。
+    函数用途的简要说明。这可用于文档说明，或在较大的项目中提高清晰度，默认值为空字符串。
 
 - `inputFieldNames(List<String> inputFieldNames)`
 
-    包含原始数据的字段名称，这些原始数据需要转换为向量表示。对于使用 `FunctionType.RERANK` 的函数，此参数只接受一个字段名。
+    包含需要转换为向量表示的原始数据的字段名称。对于使用 `FunctionType.RERANK` 的函数，此参数仅接受一个字段名。
 
 - `params(Map<String, String> params)`
 
-    一组用于配置函数属性的键值对。
+    用于配置函数属性的一组键值对。
 
     - `max_client_batch_size`(int) -
 
-        单个批次中可处理的最大文档数。较大的值会提高吞吐量，但需要更多内存。默认值为 `32`。
+        单批次中可处理的最大文档数。较大的值会提高吞吐量，但需要更多内存。默认值为 `32`。
 
 - `provider(String provider)`
 
-    重排模型提供方的名称。有关可能的取值，请参见 。
+    重排序模型提供方的名称。有关可能的值，请参见 。
 
 - `queries(List<String> queries)`
 
-    由重排模型用于计算相关性分数的查询字符串列表。查询字符串的数量必须与搜索操作中的查询数量完全一致（即使使用的是查询向量而不是文本也是如此）。否则将报错。
+    重排序模型用于计算相关性分数的查询字符串列表。查询字符串的数量必须与您的搜索操作中的查询数量完全一致（即使使用的是查询向量而不是文本）。否则将报错。
 
 - `endpoint(String endpoint)`
 
     模型服务的 URL。
 
-**RETURN TYPE：**
+**返回类型：**
 
 *ModelRanker*
 
-**RETURNS：**
+**返回：**
 
-一个模型排序器实例。
+一个模型重排序器实例。
 
 ## 示例：\{#examples}
 

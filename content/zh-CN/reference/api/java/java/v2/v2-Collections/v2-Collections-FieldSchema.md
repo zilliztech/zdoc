@@ -7,13 +7,13 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "FieldSchema 实例定义了集合中特定字段的数据类型及相关属性。 | Java | v2"
+description: "FieldSchema 实例定义了 Collection 中特定字段的数据类型及其相关属性。 | Java | v2"
 type: docx
 token: ZwKPdk2rzoQUU7xm4CHcPiZqnjh
 sidebar_position: 16
 keywords: 
   - LLMs
-  - Machine Learning
+  - 机器学习
   - RAG
   - NLP
   - zilliz
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # FieldSchema
 
-**FieldSchema** 实例定义了集合中特定字段的数据类型及相关属性。
+**FieldSchema** 实例定义了 Collection 中特定字段的数据类型及其相关属性。
 
 ```java
 io.milvus.v2.service.collection.request.CreateCollectionReq.FieldSchema
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
-通过定义字段名称、数据类型及其他参数来构造字段的 schema。
+通过定义字段名称、数据类型和其他参数来构造字段的 Schema。
 
 ```java
 CreateCollectionReq.FieldSchema.builder()
@@ -63,7 +63,7 @@ CreateCollectionReq.FieldSchema.builder()
     .build();
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `name(String name)` -
 
@@ -75,15 +75,15 @@ CreateCollectionReq.FieldSchema.builder()
 
 - `dataType(DataType dataType)` -
 
-    字段的数据类型。为不同字段选择数据类型时，可使用以下选项：主键字段 — 使用 **DataType.Int64** 或 **DataType.VarChar**；标量字段 — 可从 **DataType.Bool**、**DataType.Int8**、**DataType.Int16**、**DataType.Int32**、**DataType.Int64**、**DataType.Float**、**DataType.Double**、**DataType.VarChar**、**DataType.JSON** 或 **DataType.Array** 中选择；向量字段 — 选择 **DataType.BinaryVector** 或 **DataType.FloatVector**。
+    字段的数据类型。为不同字段选择数据类型时，您可以从以下选项中进行选择：主键字段——使用 **DataType.Int64** 或 **DataType.VarChar**；标量字段——从 **DataType.Bool**、**DataType.Int8**、**DataType.Int16**、**DataType.Int32**、**DataType.Int64**、**DataType.Float**、**DataType.Double**、**DataType.VarChar**、**DataType.JSON** 或 **DataType.Array** 中选择；向量字段——选择 **DataType.BinaryVector** 或 **DataType.FloatVector**。
 
 - `maxLength(Integer maxLength)` -
 
-    值可包含的最大字符数。如果该字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.VarChar**，则此项为必填。
+    值应包含的最大字符数。如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.VarChar**，则此项为必填。
 
 - `dimension(Integer dimension)` -
 
-    值应具有的维度数。如果该字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.FloatVector**，则此项为必填。
+    值应具有的维度数。如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.FloatVector**，则此项为必填。
 
 - `isPrimaryKey(Boolean isPrimaryKey)` -
 
@@ -91,71 +91,71 @@ CreateCollectionReq.FieldSchema.builder()
 
 - `isPartitionKey(Boolean isPartitionKey)` -
 
-    当前字段是否为分区键字段。将其设置为 **True** 会使当前字段成为分区键。
+    当前字段是否为 Partition 键字段。将其设置为 **True** 会使当前字段成为 Partition 键。
 
 - `isClusteringKey(Boolean isClusteringKey)` -
 
-    当前字段是否为聚簇键。聚簇键控制磁盘上 segment 的分组方式，以加速基于该字段进行过滤的查询。
+    当前字段是否为聚类键。聚类键控制磁盘上 Segment 的分组，以加速按此字段过滤的查询。
 
 - `autoID(Boolean autoID)` -
 
-    是否允许主字段自动递增。将其设置为 **True** 会使主字段自动递增。在这种情况下，为避免错误，不应在待插入的数据中包含主字段。请在 **isPrimaryKey** 设置为 **True** 的字段上设置此参数。
+    是否允许主字段自动递增。将其设置为 **True** 会使主字段自动递增。在这种情况下，为避免出错，插入的数据中不应包含主字段。请在 **isPrimaryKey** 设置为 **True** 的字段中设置此参数。
 
 - `elementType(DataType elementType)` -
 
-    数组字段中元素的数据类型。如果该字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此项为必填。 
+    数组字段中元素的数据类型。如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此项为必填。 
 
 - `maxCapacity(Integer maxCapacity)` -
 
-    数组字段可包含的最大元素数量。如果该字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此项为必填。 
+    数组字段可包含的最大元素数量。如果此字段的 **[dataType](./v2-Collections-DataType)** 设置为 **DataType.Array**，则此项为必填。 
 
 - `isNullable(Boolean isNullable)` -
 
-    允许此字段为 `null` 值。默认值：`false`。更多信息，请参见 Nullable & Default。
+    允许此字段使用 `null` 值。默认值：`false`。更多信息，请参见 Nullable & Default。
 
 - `defaultValue(Object defaultValue)` -
 
-    为字段设置默认值；当插入时缺少该字段时将使用此默认值。运行时类型必须与 `dataType` 匹配。
+    为字段设置默认值，当插入时缺少该字段时使用。运行时类型必须与 `dataType` 匹配。
 
 - `enableAnalyzer(Boolean enableAnalyzer)` -
 
-    是否为指定的 `VARCHAR` 字段启用文本分析。设置为 `true` 时，Milvus 会使用文本分析器对该字段的文本内容进行分词和过滤。全文检索需要启用此功能。
+    是否为指定的 `VARCHAR` 字段启用文本分析。设置为 `true` 时，Milvus 会使用文本 Analyzer 对字段的文本内容进行分词和过滤。这是全文搜索所必需的。
 
 - `analyzerParams(Map<String, Object> analyzerParams)` -
 
-    `DataType.VarChar` 字段的按字段分析器配置（分词器、过滤器）。与 `enableAnalyzer` 搭配使用。
+    用于 `DataType.VarChar` 字段的按字段 Analyzer 配置（分词器、过滤器）。与 `enableAnalyzer` 一起使用。
 
 - `enableMatch(Boolean enableMatch)` -
 
-    是否为指定的 `VARCHAR` 字段启用关键词匹配。当为 `true` 时，Milvus 会为该字段创建倒排索引，从而支持快速高效的关键词查找。`enableMatch` 与 `enableAnalyzer` 配合使用，以提供基于结构化术语的文本搜索。
+    是否为指定的 `VARCHAR` 字段启用关键词匹配。当为 `true` 时，Milvus 会为该字段创建倒排索引，从而实现快速高效的关键词查找。`enableMatch` 与 `enableAnalyzer` 配合使用，以提供基于术语的结构化文本搜索。
 
 - `typeParams(Map<String, String> typeParams)` -
 
-    未通过专用 builder 方法暴露的通用类型参数。指定后，此处的值会覆盖上方设置的对应参数值。
+    未作为专用构建器方法公开的通用按类型参数。指定后，此处的值会覆盖上面设置的对应参数值。
 
 - `multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)` -
 
-    多语言分析器，允许你为文本字段配置多个分析器，并在该文本字段中存储多语言文档。
+    一种多语言 Analyzer，允许您为文本字段配置多个 Analyzer，并在该文本字段中存储多语言文档。
 
 - `externalField(String externalField)` -
 
-    将此 Milvus 字段映射到 schema 的 `externalSource` 所标识外部数据源中的某一列。用于外部集合。
+    将此 Milvus 字段映射到 Schema 的 `externalSource` 上标识的外部源中的某一列。用于外部 Collection。
 
-**RETURN TYPE：**
+**返回类型：**
 
 *FieldSchema*
 
-**RETURNS：**
+**返回：**
 
 一个 **FieldSchema** 对象。
 
-**EXCEPTIONS：**
+**异常：**
 
 - **MilvusClientExceptions**
 
     当此操作期间发生任何错误时，将引发此异常。
 
-## Example\{#example}
+## 示例\{#example}
 
 ```java
 // define a id field with autoID set to false

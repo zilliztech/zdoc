@@ -12,10 +12,10 @@ type: docx
 token: DMr4dKSItoNvtYx2XFscQA8RnWf
 sidebar_position: 4
 keywords: 
-  - 无服务器向量数据库
-  - milvus 开源
-  - milvus 如何工作
-  - Zilliz 向量数据库
+  - Serverless 向量 Database
+  - Milvus 开源
+  - Milvus 的工作原理
+  - Zilliz 向量 Database
   - zilliz
   - zilliz cloud
   - 云
@@ -52,13 +52,13 @@ client.createUser(CreateUserReq.builder()
 
 - `userName(String userName)`
 
-    **[必需]**
+    **[必填]**
 
     要创建的用户名。
 
 - `password(String password)`
 
-    **[必需]**
+    **[必填]**
 
     用户的密码。
 

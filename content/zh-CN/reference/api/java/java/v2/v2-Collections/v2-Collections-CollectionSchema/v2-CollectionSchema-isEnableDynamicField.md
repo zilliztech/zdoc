@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此 getter 返回集合 schema 是否启用了动态字段。 | Java | v2"
+description: "此 getter 返回是否为 Collection Schema 启用了动态字段。 | Java | v2"
 type: docx
 token: XoUqdHpskoe2mOxPtITcHpPUnHg
 sidebar_position: 9
 keywords: 
   - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - RAG LLM 架构
+  - 私有 LLM
   - nn search
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # isEnableDynamicField()
 
-此 getter 返回集合 schema 是否启用了动态字段。
+此 getter 返回是否为 Collection Schema 启用了动态字段。
 
 ```java
 public boolean isEnableDynamicField()
 ```
 
-**返回：**
+**返回值：**
 
 *boolean*
 

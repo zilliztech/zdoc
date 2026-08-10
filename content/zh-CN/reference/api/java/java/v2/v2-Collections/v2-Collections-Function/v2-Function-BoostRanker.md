@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "BoostRanker 继承自 Function 类，并提供额外参数。 | Java | v2"
+description: "BoostRanker 继承自 **Function** 类，并提供额外参数。 | Java | v2"
 type: docx
 token: QO5ldltYOoo5uFxS4ZJc24JWnUh
 sidebar_position: 1
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - 什么是 Milvus
+  - Milvus Database
+  - Milvus Lite
+  - Milvus 基准测试
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - BoostRanker
   - javaV230
 displayed_sidebar: javaSidebar
@@ -52,19 +52,19 @@ BoostRanker.builder()
     .build()
 ```
 
-**BUILDER 方法：**
+**构建器方法：**
 
 - `name(String name)`
 
-    函数的名称。该标识符用于在查询和集合中引用该函数。
+    函数的名称。此标识符用于在查询和 Collection 中引用该函数。
 
 - `description(String description)`
 
-    对函数用途的简要描述。这在文档编写或大型项目中有助于提升清晰度，默认值为空字符串。
+    对函数用途的简要描述。这有助于在较大的项目中进行文档说明或提高清晰度，默认值为空字符串。
 
 - `inputFieldNames(List<String> inputFieldNames)`
 
-    包含需要转换为向量表示的原始数据的字段名称。对于使用 `FunctionType.RERANK` 的函数，此参数仅接受一个字段名。
+    包含需要转换为向量表示形式的原始数据的字段名称。对于使用 `FunctionType.RERANK` 的函数，此参数仅接受一个字段名。
 
 - `params(Map<String, String> params)`
 
@@ -72,9 +72,9 @@ BoostRanker.builder()
 
 - `filter(String filter)`
 
-    用于在搜索结果实体中匹配实体的过滤表达式。它可以是 [Filtering Explained](https://milvus.io/docs/boolean.md) 中提到的任何有效基础过滤表达式。
+    用于在搜索结果 Entity 中匹配 Entity 的过滤表达式。它可以是 [过滤说明](https://milvus.io/docs/boolean.md) 中提到的任何有效基础过滤表达式。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Notes">
 
     仅使用基础运算符，例如 `==`、`>` 或 `<`。使用高级运算符（例如 `text_match` 或 `phrase_match`）会降低搜索性能。
 
@@ -82,25 +82,25 @@ BoostRanker.builder()
 
 - `weight(Float weight)`
 
-    将乘以原始搜索结果中任何匹配实体分数的权重。
+    将乘以原始搜索结果中任何匹配 Entity 得分的权重。
 
     该值应为浮点数。
 
-    - 若要强调匹配实体的重要性，请将其设置为能够提高分数的值。
+    - 要强调匹配 Entity 的重要性，请将其设置为能够提高得分的值。
 
-    - 若要降低匹配实体的排名，请为此参数指定一个会降低其分数的值。
+    - 要降低匹配 Entity 的排序，请为此参数指定一个会降低其得分的值。
 
 - `randomScoreSeed(Long randomScoreSeed)`
 
-    该随机函数与 `randomScoreField(String randomScoreField)` 配合使用，以随机生成一个介于 `0` 和 `1` 之间的值。 
+    与 `randomScoreField(String randomScoreField)` 配合使用的随机函数，用于随机生成一个介于 `0` 和 `1` 之间的值。 
 
-    你应指定一个初始值来启动伪随机数生成器（PRNG）。
+    您应指定一个初始值来启动伪随机数生成器（PRNG）。
 
 - `randomScoreField(String randomScoreField)`
 
-    该随机函数与 `randomScoreSeed(Long randomScoreSeed)` 配合使用，以随机生成一个介于 `0` 和 `1` 之间的值。 
+    与 `randomScoreSeed(Long randomScoreSeed)` 配合使用的随机函数，用于随机生成一个介于 `0` 和 `1` 之间的值。 
 
-    你应指定一个字段名称，其字段值将作为生成随机数时的随机因子。具有唯一值的字段即可满足要求。
+    您应指定一个字段名称，该字段的值将作为生成随机数时的随机因子。具有唯一值的字段即可满足要求。
 
 **返回类型：**
 

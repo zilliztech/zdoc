@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作列出指定集合中的分区。 | Java | v2"
+description: "此操作列出指定 Collection 中的 Partition。 | Java | v2"
 type: docx
 token: Bjs5dej7ZoBKhXxZzMjclPCynmd
 sidebar_position: 5
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 向量化
+  - k 最近邻算法
   - ANNS
-  - Vector search
+  - 向量搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listPartitions()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listPartitions()
 
-此操作列出指定集合中的分区。
+此操作列出指定 Collection 中的 Partition。
 
 ```java
 public List<String> listPartitions(ListPartitionsReq request)
@@ -51,19 +51,19 @@ listPartitions(ListPartitionsReq.builder()
 
 - `databaseName(String databaseName)`
 
-    目标集合所属数据库的名称。
+    目标 Collection 所属 Database 的名称。
 
 - `collectionName(String collectionName)`
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 **返回类型：**
 
 *List\<String\>*
 
-**返回值：**
+**返回：**
 
-分区名称列表。
+Partition 名称列表。
 
 **异常：**
 

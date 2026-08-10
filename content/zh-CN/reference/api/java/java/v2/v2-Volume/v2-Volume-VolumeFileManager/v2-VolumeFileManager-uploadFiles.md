@@ -7,7 +7,7 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "以同步方式将文件或目录上传到 Zilliz Cloud volume，并提供重试、并发、分片上传和进度控制。 | Java | v2"
+description: "同步将文件或目录上传到 Zilliz Cloud volume，并提供重试、并发、分段上传和进度控制。 | Java | v2"
 type: docx
 token: FiyGdmoSHoDbrPxhSdncsMWbnhc
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # uploadFiles()
 
-以同步方式将文件或目录上传到 Zilliz Cloud volume，并提供重试、并发、分片上传和进度控制。
+同步将文件或目录上传到 Zilliz Cloud volume，并提供重试、并发、分段上传和进度控制。
 
 ```java
 public UploadFilesResult uploadFiles(UploadFilesRequest request)
@@ -63,7 +63,7 @@ UploadFilesRequest.builder()
 
 - `uploadConcurrency(int uploadConcurrency)`
 
-    并发上传的最大文件数量。
+    并发上传的最大文件数。
 
 - `maxRetries(int maxRetries)`
 
@@ -71,27 +71,27 @@ UploadFilesRequest.builder()
 
 - `retryIntervalMillis(long retryIntervalMillis)`
 
-    重试尝试之间的延迟时间，以毫秒为单位。
+    两次重试之间的延迟时间，单位为毫秒。
 
 - `progressListener(ProgressListener progressListener)`
 
-    接收 UploadProgress 快照的回调。
+    一个接收 UploadProgress 快照的回调。
 
 - `partSizeBytes(long partSizeBytes)`
 
-    分片上传的分片大小（字节）。非正值将启用自动大小设置。
+    分段上传中每个分段的大小，单位为字节。非正值将启用自动大小设置。
 
 **返回：**
 
 *UploadFilesResult*
 
-标识目标 volume 和已上传路径。
+标识目标 volume 和已上传的路径。
 
 **异常：**
 
 - **Exception**
 
-    当请求校验、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
+    当请求验证、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 

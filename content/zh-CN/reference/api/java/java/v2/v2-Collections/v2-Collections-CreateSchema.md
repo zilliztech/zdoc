@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于创建集合模式。 | Java | v2"
+description: "此操作创建 Collection Schema。 | Java | v2"
 type: docx
 token: DAIfdXKk5oCHeNxOUvCc1KcpnNh
 sidebar_position: 24
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - 语义搜索
+  - 异常检测
+  - 句子转换器
+  - 推荐系统
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - CreateSchema()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # CreateSchema()
 
-此操作用于创建集合模式。
+此操作创建 Collection Schema。
 
 ```java
 public static CreateCollectionReq.CollectionSchema CreateSchema()
@@ -51,7 +51,7 @@ MilvusClientV2.createSchema()
 
 *CreateCollectionReq.CollectionSchema*
 
-**返回值：**
+**返回：**
 
 一个 **CreateCollectionReq.CollectionSchema** 对象。
 

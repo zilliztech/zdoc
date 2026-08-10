@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回先前已启动的外部集合刷新任务的进度和当前状态。 | Java | v2"
+description: "此操作返回先前启动的外部 Collection 刷新作业的进度和当前状态。 | Java | v2"
 type: docx
 token: FzEydqTwRoajhnxZOftcKxKpndg
 sidebar_position: 29
 keywords: 
-  - lexical search
-  - nearest neighbor search
+  - 词法搜索
+  - 近邻搜索
   - Agentic RAG
-  - rag llm architecture
+  - RAG LLM 架构
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getRefreshExternalCollectionProgress()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getRefreshExternalCollectionProgress()
 
-此操作返回先前已启动的外部集合刷新任务的进度和当前状态。
+此操作返回先前启动的外部 Collection 刷新作业的进度和当前状态。
 
 ```java
 public GetRefreshExternalCollectionProgressResp getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq request)
@@ -46,41 +46,41 @@ getRefreshExternalCollectionProgress(GetRefreshExternalCollectionProgressReq.bui
 );
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `jobId(long jobId)` -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    由 `refreshExternalCollection()` 返回的任务 ID。
+    由 `refreshExternalCollection()` 返回的作业 ID。
 
 **返回：**
 
 *GetRefreshExternalCollectionProgressResp*
 
-该响应封装了一个可通过 `getJobInfo()` 访问的 `RefreshExternalCollectionJobInfo`。任务信息中的字段包括：
+响应包装了一个可通过 `getJobInfo()` 访问的 `RefreshExternalCollectionJobInfo`。作业信息中的字段包括：
 
-- `jobId` (*long*) - 任务标识符。
+- `jobId` (*long*) - 作业标识符。
 
-- `collectionName` (*String*) - 目标集合名称。
+- `collectionName` (*String*) - 目标 Collection 名称。
 
-- `state` (*String*) - 当前任务状态（例如 `"PENDING"`、`"RUNNING"`、`"SUCCEEDED"`、`"FAILED"`）。
+- `state` (*String*) - 当前作业状态（例如 `"PENDING"`、`"RUNNING"`、`"SUCCEEDED"`、`"FAILED"`）。
 
 - `progress` (*int*) - 完成百分比（0–100）。
 
 - `reason` (*String*) - 如果 `state` 为 `"FAILED"`，则表示失败原因；否则为空。
 
-- `externalSource` (*String*) - 任务使用的外部数据源。
+- `externalSource` (*String*) - 作业使用的外部数据源。
 
-- `startTime` (*long*) - 任务开始时间戳（epoch 毫秒）。
+- `startTime` (*long*) - 作业开始时间戳（epoch 毫秒）。
 
-- `endTime` (*long*) - 任务结束时间戳（epoch 毫秒）；如果仍在运行，则为 0。
+- `endTime` (*long*) - 作业结束时间戳（epoch 毫秒）；如果仍在运行则为 0。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

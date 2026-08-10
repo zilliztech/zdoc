@@ -12,13 +12,13 @@ type: docx
 token: ByKadzyxVodrkxxhaGuc4HtFnWh
 sidebar_position: 2
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - milvus 向量 Database
+  - milvus 数据库
+  - milvus 向量数据库
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - close()
   - javaV230
 displayed_sidebar: javaSidebar

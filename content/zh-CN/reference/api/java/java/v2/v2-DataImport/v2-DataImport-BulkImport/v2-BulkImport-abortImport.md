@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "中止一个现有的批量导入任务。 | Java | v2"
+description: "中止现有的批量导入作业。 | Java | v2"
 type: docx
 token: RayydoBX1oNrb0xAiOtciVyen9c
 sidebar_position: 5
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量 Database 教程
+  - 向量 Database 如何工作
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - abortImport()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # abortImport()
 
-中止一个现有的批量导入任务。
+中止现有的批量导入作业。
 
 ```java
 public static String abortImport(String url, BaseDescribeImportRequest request)
@@ -51,7 +51,7 @@ CloudDescribeImportRequest.builder()
 
 ### CloudDescribeImportRequest\{#clouddescribeimportrequest}
 
-对于 Zilliz Cloud，请使用 `CloudDescribeImportRequest`。设置 `clusterId`，或对于项目数据库部署，同时设置 `projectId` 和 `regionId`。
+Zilliz Cloud 使用 `CloudDescribeImportRequest`。对于项目 Database 部署，请设置 `clusterId`，或同时设置 `projectId` 和 `regionId`。
 
 **构建器方法：**
 
@@ -65,21 +65,21 @@ CloudDescribeImportRequest.builder()
 
 - `projectId(String projectId)`
 
-    Zilliz Cloud 项目数据库部署的项目 ID。
+    Zilliz Cloud 项目 Database 部署的项目 ID。
 
 - `regionId(String regionId)`
 
-    Zilliz Cloud 项目数据库部署的区域 ID。
+    Zilliz Cloud 项目 Database 部署的区域 ID。
 
 - `jobId(String jobId)`
 
-    要中止的导入任务标识符。
+    要中止的导入作业标识符。
 
-**返回：**
+**返回值：**
 
 *String*
 
-导入端点返回的 JSON 响应体。
+导入 Endpoint 返回的 JSON 响应体。
 
 **异常：**
 
@@ -89,7 +89,7 @@ CloudDescribeImportRequest.builder()
 
 ## 示例\{#example}
 
-演示如何在 Zilliz Cloud 上使用 abortImport()。
+演示针对 Zilliz Cloud 的 abortImport()。
 
 ```java
 String response = BulkImportUtils.abortImport(CLOUD_URL,

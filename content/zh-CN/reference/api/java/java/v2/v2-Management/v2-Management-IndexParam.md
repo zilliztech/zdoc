@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "IndexParam 定义了为集合字段配置索引的参数。 | Java | v2"
+description: "IndexParam 定义了在 Collection 字段上配置索引的参数。 | Java | v2"
 type: docx
 token: SXgodgq99ozZoHxfnakc0fpCnJh
 sidebar_position: 10
 keywords: 
-  - milvus db
-  - milvus vector db
+  - milvus 数据库
+  - milvus 向量数据库
   - Zilliz Cloud
-  - what is milvus
+  - 什么是 milvus
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - IndexParam
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # IndexParam
 
-IndexParam 定义了为集合字段配置索引的参数。
+IndexParam 定义了在 Collection 字段上配置索引的参数。
 
 ```java
 IndexParam.builder()
@@ -42,7 +42,7 @@ IndexParam.builder()
     .build()
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `fieldName(String fieldName)` -
 
@@ -50,21 +50,21 @@ IndexParam.builder()
 
 - `indexType(IndexType indexType)` -
 
-    要在该字段上构建的索引类型。有关可用的索引类型，请参见 IndexType。
+    要在该字段上构建的索引类型。可用的索引类型请参见 IndexType。
 
 - `metricType(MetricType metricType)` -
 
-    用于向量相似度度量的指标类型。有关可用的指标类型，请参见 MetricType。
+    用于向量相似性度量的指标类型。可用的指标类型请参见 MetricType。
 
 - `extraParams(Map<String, Object> extraParams)` -
 
-    以键值对形式提供的其他索引特定参数。例如，HNSW 索引可使用 `{"M": 16, "efConstruction": 256}`。
+    其他索引特定参数，以键值对形式提供。例如，对于 HNSW 索引，可使用 `{"M": 16, "efConstruction": 256}`。
 
-**RETURNS:**
+**返回：**
 
 *IndexParam*
 
-**EXCEPTIONS:**
+**异常：**
 
 *MilvusClientException*
 

@@ -12,13 +12,13 @@ type: docx
 token: AAudd8xDRoRfNLx6OpgcsfkpnVb
 sidebar_position: 22
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - 开源向量 Database
+  - 向量索引
+  - 开源向量 Database
+  - 开源向量数据库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - updateUser()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -53,7 +53,7 @@ client.updateUser(UpdateUserReq.builder()
 
     **[必需]**
 
-    要更新的用户名称。
+    要更新的用户名。
 
 - `description(String description)`
 

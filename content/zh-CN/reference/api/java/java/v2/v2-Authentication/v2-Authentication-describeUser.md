@@ -12,13 +12,13 @@ type: docx
 token: TR9OdLX5PoMZbMx4l2tcWKVmn3b
 sidebar_position: 6
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describeUser()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -64,7 +64,7 @@ DescribeUserResp resp = client.describeUser(DescribeUserReq.builder()
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

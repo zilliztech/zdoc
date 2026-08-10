@@ -15,10 +15,10 @@ keywords:
   - 向量维度
   - ANN 搜索
   - 什么是向量嵌入
-  - 向量数据库教程
+  - 向量 Database 教程
   - zilliz
   - zilliz cloud
-  - 云
+  - cloud
   - getFunctions()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -45,7 +45,7 @@ public List<CreateCollectionReq.Function> getFunctions()
 
 - **MilvusClientException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

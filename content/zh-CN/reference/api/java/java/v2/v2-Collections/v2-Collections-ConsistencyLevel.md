@@ -7,14 +7,14 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "这是一个提供以下常量的枚举。 | Java | v2"
+description: "这是一个提供以下常量的枚举。| Java | v2"
 type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 5
 keywords: 
-  - 开源向量数据库
+  - 开源向量 Database
   - 向量索引
-  - 开源向量数据库
+  - 开源向量 Database
   - 开源向量数据库
   - zilliz
   - zilliz cloud

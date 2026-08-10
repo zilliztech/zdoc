@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会创建一个迭代器，供您遍历搜索结果。它尤其适用于搜索结果中包含大量数据的场景。 | Java | v2"
+description: "此操作会创建一个迭代器，供您遍历搜索结果。它尤其适用于搜索结果包含大量数据的情况。 | Java | v2"
 type: docx
 token: ZouQdklUsoSZEDxWkJvc90pvnmg
 sidebar_position: 11
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - 向量数据库对比
+  - openai 向量数据库
+  - 自然语言处理 Database
+  - 低成本向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - SearchIteratorV2()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # SearchIteratorV2()
 
-此操作会创建一个迭代器，供您遍历搜索结果。它尤其适用于搜索结果中包含大量数据的场景。
+此操作会创建一个迭代器，供您遍历搜索结果。它尤其适用于搜索结果包含大量数据的情况。
 
 ```java
 public SearchIteratorV2 searchIteratorV2(SearchIteratorReqV2 request)
@@ -67,19 +67,19 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `databaseName(String databaseName)`
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    Database 的名称。如果未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)`
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `clusterId(String clusterId)`
 
-    此向量读取请求的目标集群 ID。当多个请求需要共享相同的集群 ID 时，请使用 `session(String clusterId)`。
+    此向量读取请求的目标集群 ID。当多个请求应共享相同的集群 ID 时，请使用 `session(String clusterId)`。
 
 - `partitionNames(List<String> partitionNames)`
 
-    要指定的分区名称列表。
+    要定向的 Partition 名称列表。
 
 - `vectorFieldName(String vectorFieldName)`
 
@@ -87,7 +87,7 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `topK(int topK)`
 
-    要返回的前 K 个结果数量。
+    要返回的前几条结果数量。
 
 - `limit(long limit)`
 
@@ -95,7 +95,7 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `filter(String filter)`
 
-    用于筛选结果的布尔表达式。
+    用于过滤结果的布尔表达式。
 
 - `outputFields(List<String> outputFields)`
 
@@ -107,11 +107,11 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `roundDecimal(int roundDecimal)`
 
-    对距离/分数进行舍入时保留的小数位数。
+    距离值四舍五入时保留的小数位数/score。
 
 - `searchParams(Map<String, Object> searchParams)`
 
-    以键值对形式提供的其他搜索参数。
+    以键值对形式提供的附加搜索参数。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
@@ -119,11 +119,11 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    操作期间是否忽略 growing segment。
+    是否在操作期间忽略 growing Segment。
 
 - `timezone(String timezone)`
 
-    用于时间相关筛选条件的时区字符串。
+    用于时间相关过滤器的时区字符串。
 
 - `groupByFieldName(String groupByFieldName)`
 
@@ -131,11 +131,11 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - `batchSize(long batchSize)`
 
-    迭代器操作的批处理大小。
+    迭代器操作的批次大小。
 
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)`
 
-    参数化筛选条件的模板变量值映射。
+    参数化过滤器的模板变量值映射。
 
 **返回：**
 
@@ -147,7 +147,7 @@ searchIteratorV2(SearchIteratorReqV2.builder()
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

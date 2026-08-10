@@ -12,13 +12,13 @@ type: docx
 token: Znb7dcNoeobIkkxGLGfcpVfUnIX
 sidebar_position: 19
 keywords: 
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - AI Agent
-  - semantic search
+  - 语义搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - revokeRole()
   - javaV230
 displayed_sidebar: javaSidebar

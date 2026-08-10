@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作返回此 LocalBulkWriter 实例已写入的总行数。 | Java | v2"
+description: "此操作返回此 LocalBulkWriter 实例写入的总行数。 | Java | v2"
 type: docx
 token: AUQvd5EdFomWEWx3DrwcffYHnmb
 sidebar_position: 7
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - openai 向量数据库
+  - 自然语言处理 Database
+  - 低成本向量 Database
+  - 托管向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getTotalRowCount()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # getTotalRowCount()
 
-此操作返回此 LocalBulkWriter 实例已写入的总行数。
+此操作返回此 LocalBulkWriter 实例写入的总行数。
 
 ```java
 public Long getTotalRowCount()
 ```
 
-**返回：**
+**返回值：**
 
 *Long*
 

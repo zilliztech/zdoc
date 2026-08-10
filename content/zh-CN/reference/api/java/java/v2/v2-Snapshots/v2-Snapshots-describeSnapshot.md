@@ -12,10 +12,10 @@ type: docx
 token: CJEzd0riyoJkcUxdYvjcKPoWn3c
 sidebar_position: 2
 keywords: 
-  - Similarity Search
+  - 相似性搜索
   - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - LLM 幻觉
+  - 混合搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -52,11 +52,11 @@ describeSnapshot(DescribeSnapshotReq.builder()
 
 - `databaseName(String databaseName)`
 
-    包含该集合的数据库名称。如果省略，则使用当前数据库。
+    包含该 Collection 的 Database 名称。如果省略，则使用当前 Database。
 
 - `collectionName(String collectionName)`
 
-    与快照操作关联的集合名称。
+    与快照操作关联的 Collection 名称。
 
 - `snapshotName(String snapshotName)`
 
@@ -66,13 +66,13 @@ describeSnapshot(DescribeSnapshotReq.builder()
 
 *DescribeSnapshotResp*
 
-包含快照元数据的响应，包括快照名称、描述、集合名称、分区名称、创建时间戳和存储位置。
+返回包含快照元数据的响应，包括快照名称、描述、Collection 名称、Partition 名称、创建时间戳和存储位置。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或服务器为此操作返回错误时，将引发此异常。
+    当必需参数缺失、数值参数超出范围，或者服务器为此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

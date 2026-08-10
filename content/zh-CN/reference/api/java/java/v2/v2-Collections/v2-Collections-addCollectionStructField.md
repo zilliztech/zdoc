@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会向现有 collection 添加一个 struct 字段。可在 collection 已创建后，使用它通过一个结构化数组字段来扩展 collection schema。 | Java | v2"
+description: "此操作会向现有 Collection 添加一个 struct 字段。您可以在 Collection 创建完成后，使用它通过一个结构化数组字段来扩展 Collection Schema。 | Java | v2"
 type: docx
 token: RQT1dGVPloPOLAx8G2mcifFEnCc
 sidebar_position: 37
 keywords: 
-  - cosine distance
-  - what is a vector database
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
-  - multimodal vector database retrieval
+  - 多模态向量 Database 检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - addCollectionStructField()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionStructField()
 
-此操作会向现有 collection 添加一个 struct 字段。可在 collection 已创建后，使用它通过一个结构化数组字段来扩展 collection schema。
+此操作会向现有 Collection 添加一个 struct 字段。您可以在 Collection 创建完成后，使用它通过一个结构化数组字段来扩展 Collection Schema。
 
 ```java
 public void addCollectionStructField(AddCollectionStructFieldReq request)
@@ -56,15 +56,15 @@ addCollectionStructField(AddCollectionStructFieldReq.builder()
 
 - `collectionName(String collectionName)`
 
-    目标 collection 的名称。
+    目标 Collection 的名称。
 
 - `databaseName(String databaseName)`
 
-    包含该 collection 的数据库。省略此字段将使用当前数据库。
+    包含该 Collection 的 Database。不填写此字段时，使用当前 Database。
 
 - `fieldName(String fieldName)`
 
-    要添加的 struct 数组字段名称。
+    要添加的 struct 数组字段的名称。
 
 - `description(String description)`
 
@@ -72,7 +72,7 @@ addCollectionStructField(AddCollectionStructFieldReq.builder()
 
 - `maxCapacity(Integer maxCapacity)`
 
-    每一行中允许的 struct 元素最大数量。
+    每一行允许的 struct 元素最大数量。
 
 - `nullable(Boolean nullable)`
 
@@ -80,11 +80,11 @@ addCollectionStructField(AddCollectionStructFieldReq.builder()
 
 - `structFields(List<CreateCollectionReq.FieldSchema> structFields)`
 
-    每个 struct 元素中包含的标量字段或向量字段。
+    每个 struct 元素中包含的标量或向量字段。
 
 - `typeParams(Map<String, String> typeParams)`
 
-    传递给服务器的、用于该 struct 字段的附加类型参数。
+    传递给服务器、用于该 struct 字段的附加类型参数。
 
 **返回：**
 
@@ -94,7 +94,7 @@ addCollectionStructField(AddCollectionStructFieldReq.builder()
 
 - **MilvusClientException**
 
-    当验证失败或服务器为此操作返回错误时，将引发此异常。
+    当验证失败或服务器在此操作中返回错误时，将引发此异常。
 
 ## 示例\{#example}
 

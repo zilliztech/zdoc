@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作提交已追加的数据。 | Java | v2"
+description: "此操作会提交已追加的数据。 | Java | v2"
 type: docx
 token: V39Ady6thoD9cCxBcopcquFKnzc
 sidebar_position: 3
 keywords: 
   - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - RAG LLM 架构
+  - 私有 LLM
+  - 近邻搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - commit()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # commit()
 
-此操作提交已追加的数据。
+此操作会提交已追加的数据。
 
 ```java
  public void commit(boolean async)
@@ -49,7 +49,7 @@ volumeBulkWriter.commit(
 
 - **async** (*boolean*) -
 
-    提交操作在被调用后是否立即返回。
+    commit 操作在被调用后是否立即返回。
 
 **返回类型：**
 

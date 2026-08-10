@@ -12,13 +12,13 @@ type: docx
 token: FZN8dtlIRoMSGBxF7b1cWX48n0b
 sidebar_position: 18
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - 自然语言搜索
+  - 相似性搜索
+  - 多模态 RAG
+  - llm 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - revokePrivilegeV2()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -49,7 +49,7 @@ revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 )
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `roleName(String roleName)`
 
@@ -57,21 +57,21 @@ revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 
 - `privilege(String privilege)`
 
-    要从指定角色中撤销的权限或权限组。有关可用权限的详细信息，请参见 [Privileges](/docs/cluster-privileges)。
+    要从指定角色中撤销的权限或权限组。有关可用权限的详细信息，请参见 [权限](/docs/cluster-privileges)。
 
 - `dbName(String dbName)`
 
-    目标资源所在的数据库。执行此操作后，指定角色将失去在指定数据库中访问指定权限的能力。
+    目标资源所在的 Database。执行此操作后，指定角色将失去对指定 Database 中指定权限的访问权限。
 
 - `collectionName(String collectionName)`
 
-    指定数据库中的目标资源集合。执行此操作后，指定角色将失去在指定集合中访问指定权限的能力。
+    指定 Database 中的目标资源 Collection。执行此操作后，指定角色将失去对指定 Collection 中指定权限的访问权限。
 
-**RETURNS：**
+**返回：**
 
 *void*
 
-**EXCEPTIONS：**
+**异常：**
 
 - **MilvusClientExceptions**
 

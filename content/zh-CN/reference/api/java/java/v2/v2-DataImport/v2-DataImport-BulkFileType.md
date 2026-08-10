@@ -14,7 +14,7 @@ sidebar_position: 1
 keywords: 
   - milvus benchmark
   - managed milvus
-  - Serverless vector database
+  - Serverless 向量 Database
   - milvus open source
   - zilliz
   - zilliz cloud
@@ -37,12 +37,12 @@ import Admonition from '@theme/Admonition';
 
 - **PARQUET**
 
-    将文件类型设置为 [Parquet](https://parquet.apache.org/) (*.parquet*)。
+    将文件类型设置为 [Parquet](https://parquet.apache.org/)（*.parquet*）。
 
 - **JSON**
 
-    将文件类型设置为 JSON (*.json*)。
+    将文件类型设置为 JSON（*.json*）。
 
 - **CSV**
 
-    将文件类型设置为 CSV (*.csv*)。
+    将文件类型设置为 CSV（*.csv*）

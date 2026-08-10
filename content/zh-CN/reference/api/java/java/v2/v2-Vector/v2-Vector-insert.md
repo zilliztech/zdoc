@@ -7,13 +7,13 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "统一 auto-ID 字段、函数输出字段、动态字段和 Struct 值的插入行校验。 | Java | v2"
+description: "统一自动 ID 字段、函数输出字段、动态字段和 Struct 值的插入行校验。 | Java | v2"
 type: docx
 token: DKs7dzHI5oaJvlxezuAcuMVzn9c
 sidebar_position: 4
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Chroma 与 Milvus
+  - Annoy 向量搜索
   - milvus
   - Zilliz
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-统一 auto-ID 字段、函数输出字段、动态字段和 Struct 值的插入行校验。
+统一自动 ID 字段、函数输出字段、动态字段和 Struct 值的插入行校验。
 
 ```java
 public InsertResp insert(InsertReq request)
@@ -52,35 +52,35 @@ InsertReq.builder()
 
 - `data(List<JsonObject> data)`
 
-    要插入的行。字段名称和值必须符合集合 schema。
+    要插入的行。字段名称和值必须符合 Collection Schema。
 
 - `databaseName(String databaseName)`
 
-    数据库名称。省略时默认使用当前数据库。
+    Database 的名称。省略时默认使用当前 Database。
 
 - `collectionName(String collectionName)`
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `partitionName(String partitionName)`
 
-    目标分区的名称。
+    目标 Partition 的名称。
 
 **返回：**
 
 *InsertResp*
 
-包含已插入实体的数量，以及在适用时生成的主键。
+包含已插入的 Entity 数量，以及在适用时生成的主键。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当请求校验、传输或服务器执行失败时抛出。请检查异常消息以获取确切的失败原因。
+    当请求校验、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 
-演示使用已审阅的 v3.0.x API 调用 insert()。
+演示经审查的 v3.0.x API 中的 insert()。
 
 ```java
 InsertResp response = client.insert(InsertReq.builder()

@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作关闭当前的 LocalBulkWriter 实例。 | Java | v2"
+description: "此操作会关闭当前的 LocalBulkWriter 实例。 | Java | v2"
 type: docx
 token: OEcUdoX1yoc94axfwpjcdA2jnEf
 sidebar_position: 2
 keywords: 
-  - nearest neighbor search
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - RAG LLM 架构
+  - 私有 LLM
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - close()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # close()
 
-此操作关闭当前的 LocalBulkWriter 实例。
+此操作会关闭当前的 LocalBulkWriter 实例。
 
 ```java
 public void close()

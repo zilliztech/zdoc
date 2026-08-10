@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作用于更新用户密码，也可以更新用户描述。 | Java | v2"
+description: "此操作会更新用户密码，也可以更新用户描述。 | Java | v2"
 type: docx
 token: AnuCd3jgDojhA8x2kNFcddCynLh
 sidebar_position: 20
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量 Database 教程
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - updatePassword()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # updatePassword()
 
-此操作用于更新用户密码，也可以更新用户描述。
+此操作会更新用户密码，也可以更新用户描述。
 
 ```java
 public void updatePassword(UpdatePasswordReq request)
@@ -56,23 +56,23 @@ client.updatePassword(UpdatePasswordReq.builder()
 
     **[必需]**
 
-    要更新的用户名称。
+    要更新的用户名。
 
 - `password(String password)`
 
-    用户的当前密码。更改密码时，请与 `newPassword` 一并提供。
+    用户的当前密码。更改密码时，请将其与 `newPassword` 一起提供。
 
 - `newPassword(String newPassword)`
 
-    用户的新密码。更改密码时，请与 `password` 一并提供。
+    用户的新密码。更改密码时，请将其与 `password` 一起提供。
 
 - `resetConnection(Boolean resetConnection)`
 
-    更新密码后是否重置当前客户端连接。默认为 `false`。
+    密码更新后，是否重置当前客户端连接。默认为 `false`。
 
 - `description(String description)`
 
-    用户的可选新描述。默认为空字符串。
+    可选的用户新描述。默认为空字符串。
 
 **返回：**
 
@@ -84,7 +84,7 @@ client.updatePassword(UpdatePasswordReq.builder()
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

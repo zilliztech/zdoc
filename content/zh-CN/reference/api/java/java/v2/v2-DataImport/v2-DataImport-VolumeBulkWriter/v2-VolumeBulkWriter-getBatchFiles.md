@@ -13,7 +13,7 @@ token: VlvQdg0fHoy8Uhxr8d6cpUnLn5y
 sidebar_position: 4
 keywords: 
   - 非结构化数据
-  - 向量数据库
+  - 向量 Database
   - IVF
   - knn
   - zilliz

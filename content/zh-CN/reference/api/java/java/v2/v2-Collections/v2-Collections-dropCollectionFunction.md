@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "从现有集合中移除函数定义，而不移除其输出字段。使用 `dropFunctionField()` 可同时移除两者。 | Java | v2"
+description: "从现有 Collection 中移除函数定义，而不删除其输出字段。使用 `dropFunctionField()` 可同时删除两者。 | Java | v2"
 type: docx
 token: K0wedJ57uoHCyXxOFtNc673tnuA
 sidebar_position: 33
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Milvus 向量 Database
+  - Milvus 数据库
+  - Milvus 向量 DB
   - Zilliz Cloud
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - dropCollectionFunction()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropCollectionFunction()
 
-从现有集合中移除函数定义，而不移除其输出字段。使用 [`dropFunctionField()`](./v2-Collections-dropFunctionField) 可同时移除两者。
+从现有 Collection 中移除函数定义，而不删除其输出字段。使用 [`dropFunctionField()`](./v2-Collections-dropFunctionField) 可同时删除两者。
 
 ```java
 public void dropCollectionFunction(DropCollectionFunctionReq request)
@@ -51,11 +51,11 @@ DropCollectionFunctionReq.builder()
 
 - `collectionName(String collectionName)`
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `databaseName(String databaseName)`
 
-    数据库名称。省略时默认使用当前数据库。
+    Database 的名称。省略时默认为当前 Database。
 
 - `functionName(String functionName)`
 

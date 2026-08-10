@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会将指定集合的数据从内存中释放。 | Java | v2"
+description: "此操作会将特定 Collection 的数据从内存中释放。 | Java | v2"
 type: docx
 token: K5t2dl0XloN4VHx1lcpc6Uq3nye
 sidebar_position: 16
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # releaseCollection()
 
-此操作会将指定集合的数据从内存中释放。
+此操作会将特定 Collection 的数据从内存中释放。
 
 ```java
 public void releaseCollection(ReleaseCollectionReq request)
@@ -53,21 +53,21 @@ releaseCollection(ReleaseCollectionReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认使用当前数据库。
+    Database 的名称。如未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)` -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `async(Boolean async)` -
 
-    是否异步运行该操作。默认为 `Boolean.TRUE`。
+    是否异步运行此操作。默认为 `Boolean.TRUE`。
 
 - `timeout(Long timeout)` -
 
-    超时时长，单位为毫秒。默认为 `60000L`。
+    超时时长，以毫秒为单位。默认为 `60000L`。
 
-**返回：**
+**返回值：**
 
 *void*
 

@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会在有限时间内固定快照数据，以便在复制或检查期间不会被垃圾回收。 | Java | v2"
+description: "此操作会在有限时间内固定快照数据，使其在复制或检查期间不会被垃圾回收。 | Java | v2"
 type: docx
 token: BBYgdwIV5onkWxxowAhcCl5rnzc
 sidebar_position: 7
 keywords: 
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - AI Agent
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - pinSnapshotData()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # pinSnapshotData()
 
-此操作会在有限时间内固定快照数据，以便在复制或检查期间不会被垃圾回收。
+此操作会在有限时间内固定快照数据，使其在复制或检查期间不会被垃圾回收。
 
 ```java
 public PinSnapshotDataResp pinSnapshotData(PinSnapshotDataReq request)
@@ -57,27 +57,27 @@ pinSnapshotData(PinSnapshotDataReq.builder()
 
 - `databaseName(String databaseName)`
 
-    包含该集合的数据库名称。如果省略，则使用当前数据库。
+    包含该 Collection 的 Database 名称。如果省略，则使用当前 Database。
 
 - `collectionName(String collectionName)`
 
-    与快照操作关联的集合名称。
+    与快照操作关联的 Collection 名称。
 
 - `ttlSeconds(Long ttlSeconds)`
 
-    快照数据固定的存活时间（以秒为单位）。使用 `0L` 将采用服务器默认行为。
+    快照数据固定的生存时间（TTL），以秒为单位。使用 `0L` 可采用服务器默认行为。
 
 **返回：**
 
 *PinSnapshotDataResp*
 
-包含已固定快照数据的 pin ID 的响应。
+包含已固定快照数据的固定 ID 的响应。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或服务器为此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或服务器针对该操作返回错误时，将引发此异常。
 
 ## 示例\{#example}
 

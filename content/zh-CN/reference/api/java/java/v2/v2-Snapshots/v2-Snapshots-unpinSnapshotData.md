@@ -12,13 +12,13 @@ type: docx
 token: SachdJS5AopAZyxEfloceBnnnqg
 sidebar_position: 9
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - 开源向量数据库
+  - 向量 Database 示例
+  - RAG 向量 Database
+  - 什么是向量数据库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - unpinSnapshotData()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -50,7 +50,7 @@ unpinSnapshotData(UnpinSnapshotDataReq.builder()
 
 - `pinId(Long pinId)`
 
-    `pinSnapshotData()` 返回的固定 ID。
+    由 `pinSnapshotData()` 返回的 pin ID。
 
 **返回：**
 
@@ -60,7 +60,7 @@ unpinSnapshotData(UnpinSnapshotDataReq.builder()
 
 - **MilvusClientException**
 
-    当缺少必需参数、数值参数超出范围，或服务器针对此操作返回错误时，会引发此异常。
+    当缺少必需参数、数值参数超出范围，或者服务器针对此操作返回错误时，会引发此异常。
 
 ## 示例\{#example}
 

@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "将本地文件上传为具名资源，以便其他 Milvus 操作（例如函数、分析器）可以引用它。名称在每个数据库内必须唯一——重复使用同一名称会覆盖现有资源。 | Java | v2"
+description: "将本地文件作为命名资源上传，以便其他 Milvus 操作（例如函数、Analyzer）引用。资源名称在每个 Database 内必须唯一；重复使用同一名称会覆盖现有资源。 | Java | v2"
 type: docx
 token: H0kadFay8oD1d0xserJcuL8wnhf
 sidebar_position: 1
 keywords: 
-  - lexical search
-  - nearest neighbor search
+  - 词法搜索
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
+  - rag llm 架构
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - addFileResource()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addFileResource()
 
-将本地文件上传为具名资源，以便其他 Milvus 操作（例如函数、分析器）可以引用它。名称在每个数据库内必须唯一——重复使用同一名称会覆盖现有资源。
+将本地文件作为命名资源上传，以便其他 Milvus 操作（例如函数、Analyzer）引用。资源名称在每个 Database 内必须唯一；重复使用同一名称会覆盖现有资源。
 
 ```java
 public void addFileResource(AddFileResourceReq request)
@@ -61,7 +61,7 @@ addFileResource(AddFileResourceReq.builder()
 
     要上传文件的本地文件系统路径。
 
-**返回：**
+**返回值：**
 
 *void*
 

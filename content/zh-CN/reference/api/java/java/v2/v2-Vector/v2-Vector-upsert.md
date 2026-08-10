@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "将行 upsert 到集合中。部分更新可应用字段操作，并且每一行都会根据集合 schema 进行校验。 | Java | v2"
+description: "将行插入或更新到 Collection 中。部分更新可应用字段操作，并且每一行都会根据 Collection Schema 进行验证。 | Java | v2"
 type: docx
 token: I7UWdVnAJobbSSxSPdHc024unMe
 sidebar_position: 9
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 向量索引
+  - 开源向量 Database
+  - 开源向量数据库
+  - 向量 Database 示例
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - upsert()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-将行 upsert 到集合中。部分更新可应用字段操作，并且每一行都会根据集合 schema 进行校验。
+将行插入或更新到 Collection 中。部分更新可应用字段操作，并且每一行都会根据 Collection Schema 进行验证。
 
 ```java
 public UpsertResp upsert(UpsertReq request)
@@ -54,39 +54,39 @@ UpsertReq.builder()
 
 - `data(List<JsonObject> data)`
 
-    要插入或更新的行。每个部分更新的行都必须包含其主键。
+    要插入或更新的行。每个部分更新行都必须包含其主键。
 
 - `databaseName(String databaseName)`
 
-    数据库名称。省略时默认使用当前数据库。
+    Database 名称。省略时默认使用当前 Database。
 
 - `collectionName(String collectionName)`
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `partitionName(String partitionName)`
 
-    目标分区的名称。
+    目标 Partition 的名称。
 
 - `partialUpdate(boolean partialUpdate)`
 
-    是否在省略非主键字段时保持其值不变。
+    是否保持被省略的非主键字段不变。
 
 - `fieldOps(List<FieldPartialUpdateOp> fieldOps)`
 
-    字段级操作。`ARRAY_APPEND` 和 `ARRAY_REMOVE` 隐含部分更新语义。
+    字段级操作。`ARRAY_APPEND` 和 `ARRAY_REMOVE` 表示部分更新语义。
 
 **返回：**
 
 *UpsertResp*
 
-包含已插入或已更新实体的数量。
+包含已插入或更新的 Entity 数量。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当请求校验、传输或服务端执行失败时抛出。请查看异常消息以获取确切的失败原因。
+    当请求验证、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 

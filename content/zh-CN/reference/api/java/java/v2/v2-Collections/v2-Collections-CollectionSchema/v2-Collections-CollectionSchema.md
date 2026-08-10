@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "一个 **CollectionSchema** 实例表示集合的 schema。schema 勾勒出集合的结构。 | Java | v2"
+description: "CollectionSchema 实例表示 Collection 的 Schema。Schema 描述了 Collection 的结构。 | Java | v2"
 type: docx
 token: IXVHdXVncoEp64xD6vdcvUJwnlH
 sidebar_position: 2
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - 图像相似度搜索
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似度搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - CollectionSchema
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # CollectionSchema
 
-一个 **CollectionSchema** 实例表示集合的 schema。schema 勾勒出集合的结构。
+**CollectionSchema** 实例表示 Collection 的 Schema。Schema 描述了 Collection 的结构。
 
 ```java
 io.milvus.v2.service.collection.request.CreateCollectionReq.CollectionSchema
@@ -39,7 +39,7 @@ io.milvus.v2.service.collection.request.CreateCollectionReq.CollectionSchema
 
 ## 构造函数\{#constructor}
 
-通过定义字段、数据类型和其他参数来构造集合的 schema。
+通过定义字段、数据类型和其他参数来构造 Collection 的 Schema。
 
 ```java
 CreateCollectionReq.CollectionSchema.builder()
@@ -56,27 +56,27 @@ CreateCollectionReq.CollectionSchema.builder()
 
 - `fieldSchemaList(List<CreateCollectionReq.FieldSchema> fieldSchemaList)` -
 
-    一个 **[FieldSchema](./v2-Collections-FieldSchema)** 对象列表，用于定义集合 schema 中的字段。字段 schema 表示并包含单个字段的元数据，而 **CollectionSchema** 将一组 FieldSchema 对象组合起来，以定义完整的 schema。
+    用于定义 Collection Schema 中各字段的 **[FieldSchema](./v2-Collections-FieldSchema)** 对象列表。字段 Schema 表示单个字段并包含其元数据，而 **CollectionSchema** 则将一组 FieldSchema 对象组合起来，以定义完整的 Schema。
 
 - `structFields(List<CreateCollectionReq.StructFieldSchema> structFields)` -
 
-    schema 的结构体字段（嵌套对象字段）列表。当集合包含其值本身就是结构化记录的字段时，请使用此项。
+    Schema 的结构体字段（嵌套对象字段）列表。当 Collection 包含值本身就是结构化记录的字段时，请使用此项。
 
 - `enableDynamicField(boolean enableDynamicField)` -
 
-    设置为 `true` 时，会启用一个隐藏的动态字段（`$meta`），以便插入操作可携带声明的 schema 之外的任意键值属性。默认值：`false`。
+    当设置为 `true` 时，会启用一个隐藏的动态字段（`$meta`），使插入操作能够携带已声明 Schema 之外的任意键值属性。默认值：`false`。
 
 - `functionList(List<CreateCollectionReq.Function> functionList)` -
 
-    附加函数（例如 BM25、JSON-path 提取），在插入时基于现有字段派生值。每个 `Function` 都会声明其输入、输出和参数。
+    附加函数（例如 BM25、JSON 路径提取），在插入时从现有字段派生值。每个 `Function` 都声明其输入、输出和参数。
 
 - `externalSource(String externalSource)` -
 
-    标识绑定到此集合的外部数据源（例如 S3 bucket、Lakehouse table）。与 `externalSpec` 搭配使用，用于定义一个从 Milvus 外部刷新数据的外部集合。
+    标识绑定到此 Collection 的外部数据源（例如 S3 bucket、Lakehouse 表）。与 `externalSpec` 配合使用，用于定义一个从 Milvus 外部刷新数据的外部 Collection。
 
 - `externalSpec(JsonObject externalSpec)` -
 
-    外部数据源的规格说明——通常是描述连接详细信息和刷新策略的 JSON。与 `externalSource` 一起使用。
+    外部数据源的规格说明，通常是描述连接详细信息和刷新策略的 JSON。与 `externalSource` 一起使用。
 
 **返回类型：**
 

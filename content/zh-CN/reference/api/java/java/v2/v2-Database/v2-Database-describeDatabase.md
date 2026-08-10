@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取特定数据库的详细信息。 | Java | v2"
+description: "此操作用于获取特定 Database 的详细信息。 | Java | v2"
 type: docx
 token: MJjHd3uGcoxEYBx0laKcAIKNnhg
 sidebar_position: 3
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - 稀疏向量
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeDatabase()
 
-此操作获取特定数据库的详细信息。
+此操作用于获取特定 Database 的详细信息。
 
 ```java
 public DescribeDatabaseResp describeDatabase(DescribeDatabaseReq request)
@@ -50,21 +50,21 @@ describeDatabase(DescribeDatabaseReq.builder()
 
 - `databaseName(String databaseName)`
 
-    数据库的名称。
+    Database 的名称。
 
 **返回类型**：
 
 *DescribeDatabaseResp*
 
-**返回：**
+**返回值：**
 
-一个包含指定数据库详细信息的 **DescribeDatabaseResp** 对象。
+包含指定 Database 详细信息的 **DescribeDatabaseResp** 对象。
 
 **异常：**
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

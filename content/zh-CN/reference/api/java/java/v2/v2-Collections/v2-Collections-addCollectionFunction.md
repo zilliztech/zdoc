@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "向现有集合添加函数定义。在 Milvus 3.0 中，当需要同时添加函数输出字段及其索引时，请使用 `addFunctionField()`。 | Java | v2"
+description: "向现有 Collection 添加函数定义。在 Milvus 3.0 中，当需要同时添加函数输出字段及其索引时，请使用 `addFunctionField()`。 | Java | v2"
 type: docx
 token: Qbvcd9DG1ofMpuxVdEqcToU1nIb
 sidebar_position: 30
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - 句子转换器
+  - 推荐系统
+  - 信息检索
+  - 降维
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - addCollectionFunction()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addCollectionFunction()
 
-向现有集合添加函数定义。在 Milvus 3.0 中，当需要同时添加函数输出字段及其索引时，请使用 [`addFunctionField()`](./v2-Collections-addFunctionField)。
+向现有 Collection 添加函数定义。在 Milvus 3.0 中，当需要同时添加函数输出字段及其索引时，请使用 [`addFunctionField()`](./v2-Collections-addFunctionField)。
 
 ```java
 public void addCollectionFunction(AddCollectionFunctionReq request)
@@ -47,19 +47,19 @@ AddCollectionFunctionReq.builder()
     .build();
 ```
 
-**BUILDER 方法：**
+**构建器方法：**
 
 - `collectionName(String collectionName)`
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `databaseName(String databaseName)`
 
-    数据库名称。省略时默认使用当前数据库。
+    Database 的名称。省略时默认使用当前 Database。
 
 - `function(CreateCollectionReq.Function function)`
 
-    要添加到现有集合字段中的函数定义。
+    要添加到现有 Collection 字段中的函数定义。
 
 **返回：**
 
@@ -71,7 +71,7 @@ AddCollectionFunctionReq.builder()
 
 - **MilvusClientException**
 
-    当请求验证、传输或服务器执行失败时抛出。请检查异常消息以获取确切的失败原因。
+    当请求验证、传输或服务器执行失败时引发。请检查异常消息以获取确切的失败原因。
 
 ## 示例\{#example}
 

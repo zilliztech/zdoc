@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作将指定集合中的分区从内存中释放。 | Java | v2"
+description: "此操作会将指定 Collection 中的 Partition 从内存中释放。 | Java | v2"
 type: docx
 token: MH8cdNxkgoliJ5xU0f9cBKqunYe
 sidebar_position: 6
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - RAG 向量 Database
+  - 什么是向量数据库
+  - 什么是向量 Database
+  - 向量 Database 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - loadPartitions()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # loadPartitions()
 
-此操作将指定集合中的分区从内存中释放。
+此操作会将指定 Collection 中的 Partition 从内存中释放。
 
 ```java
 public void loadPartitions(LoadPartitionsReq request)
@@ -55,19 +55,19 @@ loadPartitions(LoadPartitionsReq.builder()
 );
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。如未指定，则默认使用当前数据库。
+    Database 名称。若未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)` -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `partitionNames(List<String> partitionNames)` -
 
-    要操作的分区名称列表。
+    要操作的 Partition 名称列表。
 
 - `numReplicas(Integer numReplicas)` -
 
@@ -79,11 +79,11 @@ loadPartitions(LoadPartitionsReq.builder()
 
 - `timeout(Long timeout)` -
 
-    超时时长，单位为毫秒。
+    超时时长（以毫秒为单位）。
 
 - `refresh(Boolean refresh)` -
 
-    是否刷新加载以包含新字段。
+    是否刷新加载内容以包含新字段。
 
 - `loadFields(List<String> loadFields)` -
 
@@ -97,17 +97,17 @@ loadPartitions(LoadPartitionsReq.builder()
 
     用于负载均衡的资源组名称列表。
 
-**RETURNS：**
+**返回值：**
 
 *void*
 
 *void*
 
-**EXCEPTIONS：**
+**异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将抛出此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

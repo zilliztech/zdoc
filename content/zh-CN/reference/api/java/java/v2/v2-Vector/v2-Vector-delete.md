@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作通过实体 ID 或布尔表达式删除实体。 | Java | v2"
+description: "此操作按 ID 或使用布尔表达式删除 Entity。 | Java | v2"
 type: docx
 token: NTCHdGKwNo9kl2xFzgKcjo8wndg
 sidebar_position: 1
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - 音频搜索
+  - 什么是语义搜索
+  - Embedding 模型
+  - 图像相似性搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - delete()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # delete()
 
-此操作通过实体 ID 或布尔表达式删除实体。
+此操作按 ID 或使用布尔表达式删除 Entity。
 
 ```java
 public DeleteResp delete(DeleteReq request)
@@ -55,15 +55,15 @@ delete(DeleteReq.builder()
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认为当前数据库。
+    Database 的名称。如果未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)` -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `partitionName(String partitionName)` -
 
-    目标分区的名称。
+    目标 Partition 的名称。
 
 - `filter(String filter)` -
 
@@ -71,23 +71,23 @@ delete(DeleteReq.builder()
 
 - `ids(List<Object> ids)` -
 
-    用于标识特定实体的主键值列表。
+    用于标识特定 Entity 的主键值列表。
 
 - `filterTemplateValues(Map<String, Object> filterTemplateValues)` -
 
-    参数化筛选器的模板变量值映射。
+    用于参数化筛选器的模板变量值映射。
 
 **返回：**
 
 *DeleteResp*
 
-**DeleteResp** 对象包含已删除实体的数量。
+**DeleteResp** 对象包含已删除 Entity 的数量。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

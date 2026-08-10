@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作将在目标集合中创建一个分区。 | Java | v2"
+description: "此操作将在目标 Collection 中创建一个 Partition。 | Java | v2"
 type: docx
 token: WE4gduIjooCgQUxcKyLcwQe1n3g
 sidebar_position: 1
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 相似性搜索
+  - 多模态 RAG
+  - llm 幻觉
+  - 混合搜索
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - createPartition()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createPartition()
 
-此操作将在目标集合中创建一个分区。
+此操作将在目标 Collection 中创建一个 Partition。
 
 ```java
 public void createPartition(CreatePartitionReq request)
@@ -52,17 +52,17 @@ createPartition(CreatePartitionReq.builder()
 
 - `databaseName(String databaseName)`
 
-    目标集合所属数据库的名称。
+    目标 Collection 所属的 Database 名称。
 
 - `collectionName(String collectionName)`
 
-    （必需）现有集合的名称。
+    （必需）现有 Collection 的名称。
 
 - `partitionName(String partitionName)`
 
-    （必需）要创建的分区名称。
+    （必需）要创建的 Partition 名称。
 
-**返回：**
+**返回值：**
 
 *void*
 
@@ -70,7 +70,7 @@ createPartition(CreatePartitionReq.builder()
 
 - **MilvusClientExceptions**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

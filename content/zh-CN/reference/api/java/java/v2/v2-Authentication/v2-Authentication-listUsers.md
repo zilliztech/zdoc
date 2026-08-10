@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有现有用户的名称。 | Java | v2"
+description: "此操作会列出所有现有用户的名称。 | Java | v2"
 type: docx
 token: EfM3drSXlo4Yzyxq2GpcmvoHnTm
 sidebar_position: 15
 keywords: 
   - Zilliz
-  - milvus vector database
+  - milvus 向量 Database
   - milvus db
-  - milvus vector db
+  - milvus 向量 db
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listUsers()
 
-此操作列出所有现有用户的名称。
+此操作会列出所有现有用户的名称。
 
 ```java
 public List<String> listUsers()
@@ -47,7 +47,7 @@ listUsers();
 
 *List\<String\>*
 
-**返回：**
+**返回值：**
 
 包含用户名的字符串列表。
 

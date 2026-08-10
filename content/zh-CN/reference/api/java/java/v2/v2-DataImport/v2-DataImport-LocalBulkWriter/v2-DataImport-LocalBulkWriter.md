@@ -7,14 +7,14 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "LocalBulkWriter 实例会在本地将原始数据重写为 Milvus 可理解的格式。 | Java | v2"
+description: "LocalBulkWriter 实例会在本地将您的原始数据重写为 Milvus 可识别的格式。 | Java | v2"
 type: docx
 token: G7F9dQ8DwoZsaVxExdnc7K6an3g
 sidebar_position: 5
 keywords: 
-  - 什么是向量数据库
+  - 什么是向量 Database
   - vectordb
-  - 多模态向量数据库检索
+  - 多模态向量 Database 检索
   - 检索增强生成
   - zilliz
   - zilliz cloud
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # LocalBulkWriter
 
-**LocalBulkWriter** 实例会在本地将原始数据重写为 Milvus 可理解的格式。
+**LocalBulkWriter** 实例会在本地将您的原始数据重写为 Milvus 可识别的格式。
 
 ```java
 io.milvus.bulkwriter.LocalBulkWriter
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
-根据 schema、输出路径、分段大小和文件类型构造一个 **LocalBulkWriter** 实例。
+通过 Schema、输出路径、Segment 大小和文件类型构造 **LocalBulkWriter** 实例。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-**LocalBulkWriter** 对象旨在于本地将原始数据重写为 Milvus 可理解的格式。
+**LocalBulkWriter** 对象旨在本地将您的原始数据重写为 Milvus 可识别的格式。
 
 </Admonition>
 
@@ -59,7 +59,7 @@ LocalBulkWriter(LocalBulkWriterParam bulkWriterParam)
 
 ## LocalBulkWriterParam\{#localbulkwriterparam}
 
-**LocalBulkWriterParam** 允许你在一个位置为 **LocalBulkWriter** 实例配置属性，以便实例化 **LocalBulkWriter** 类。
+**LocalBulkWriterParam** 允许您在一个地方为 **LocalBulkWriter** 实例配置属性，以便实例化 **LocalBulkWriter** 类。
 
 ```java
 LocalBulkWriterParam.newBuilder()
@@ -75,43 +75,43 @@ LocalBulkWriterParam.newBuilder()
 
 - `withCollectionSchema(CreateCollectionReq.CollectionSchema collectionSchema)`
 
-    目标集合的 schema，通过实例化 **CreateCollectionReq.CollectionSchema** 定义。
+    通过实例化 **CreateCollectionReq.CollectionSchema** 定义的目标 Collection 的 Schema。
 
 - `withLocalPath(String localPath)`
 
-    用于存放重写后数据的目录路径。
+    用于保存重写后数据的目录路径。
 
 - `withChunkSize(long chunkSize)`
 
-    文件分段的最大大小。在重写原始数据时，Milvus 会将其拆分为多个分段。
+    文件 Segment 的最大大小。在重写您的原始数据时，Milvus 会将其拆分为多个 Segment。
 
     该值默认为 **536,870,912** 字节，即 **512 MB**。
 
-    <Admonition type="info" icon="📘" title="**BulkWriter 如何对我的数据进行分段？**">
+    <Admonition type="info" icon="📘" title="**How does BulkWriter segment my data?**">
 
-    BulkWriter 对数据进行分段的方式会因目标文件类型而异。
+    BulkWriter 将数据划分为 Segment 的方式会因目标文件类型而异。
     
-    如果生成的文件超过指定的分段大小，BulkWriter 会创建多个文件，并按顺序编号命名，每个文件都不会大于该分段大小。
+    如果生成的文件超过指定的 Segment 大小，BulkWriter 会创建多个文件，并按顺序编号命名，每个文件都不大于该 Segment 大小。
 
     </Admonition>
 
 - `withFileType(BulkFileType fileType)`
 
-    输出文件的类型。可选项见 [BulkFileType](./v2-DataImport-BulkFileType)。
+    输出文件的类型。可选项列在 [BulkFileType](./v2-DataImport-BulkFileType) 中。
 
 - `withConfig(String key, Object val)`
 
-    一个字典，用于指定处理 CSV 文件时的可选配置。仅当你在 `withFileType()` 中将 `fileType` 设置为 `CSV` 时，此参数才适用。该字典包含以下字段：
+    一个字典，用于指定处理 CSV 文件时的可选配置。仅当您在 `withFileType()` 中将 `fileType` 设置为 `CSV` 时，此参数才适用。该字典包含以下字段：
 
     - **sep** (*string*) -
 
-        CSV 文件的分隔符。该值必须是长度为 1 的字符串，默认为 `","`。不允许使用以下字符串：`"\0"`、`"\n"`、`"\r"`、`"""`。
+        CSV 文件的分隔符。该值必须是长度为 1 的字符串，默认值为 `","`。不允许使用以下字符串：`"\0"`、`"\n"`、`"\r"`、`"""`。
 
     - **nullkey** (*string*) -
 
-        表示 null 值的特殊字符串。默认值为空字符串：`""`。
+        表示 null 值的特殊字符串。该值默认为空字符串：`""`。
 
-## Example\{#example}
+## 示例\{#example}
 
 ```java
 import com.google.gson.JsonObject;

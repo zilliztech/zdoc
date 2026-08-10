@@ -14,7 +14,7 @@ sidebar_position: 6
 keywords: 
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus 向量 Database
   - milvus db
   - zilliz
   - zilliz cloud
@@ -52,11 +52,11 @@ RRFRanker.builder()
 
 - `name(String name)`
 
-    函数的名称。该标识符用于在查询和集合中引用该函数。
+    函数的名称。此标识符用于在查询和 Collection 中引用该函数。
 
 - `description(String description)`
 
-    对函数用途的简要说明。这在较大的项目中可用于文档说明或提升可读性，默认为空字符串。
+    对函数用途的简要描述。这对于文档编写或提升大型项目中的清晰度很有帮助，默认为空字符串。
 
 - `params(Map<String, String> params)`
 
@@ -70,9 +70,9 @@ RRFRanker.builder()
 
 *RRFRanker*
 
-**返回：**
+**返回值：**
 
-一个 RRF 排序器实例。
+一个 RRF ranker 实例。
 
 ## 示例：\{#examples}
 

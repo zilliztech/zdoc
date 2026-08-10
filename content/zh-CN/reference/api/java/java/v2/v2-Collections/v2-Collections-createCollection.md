@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作使用默认或自定义设置创建集合。 | Java | v2"
+description: "此操作使用默认或自定义设置创建 Collection。 | Java | v2"
 type: docx
 token: GEvkd6lHion0nUxgdIRcxtqqnHb
 sidebar_position: 7
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - milvus 开源
+  - milvus 如何工作
+  - Zilliz 向量 Database
+  - Zilliz Database
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - createCollection()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # createCollection()
 
-此操作使用默认或自定义设置创建集合。 
+此操作使用默认或自定义设置创建 Collection。 
 
 ```java
 public void createCollection(CreateCollectionReq request)
@@ -62,19 +62,19 @@ createCollection(CreateCollectionReq.builder()
 );
 ```
 
-**BUILDER METHODS：**
+**构建器方法：**
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认为当前数据库。
+    Database 的名称。未指定时，默认为当前 Database。
 
 - `collectionName(String collectionName)` -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `description(String description)` -
 
-    集合的描述。默认为 `""`。
+    Collection 的描述。默认为 `""`。
 
 - `dimension(Integer dimension)` -
 
@@ -110,27 +110,27 @@ createCollection(CreateCollectionReq.builder()
 
 - `numShards(Integer numShards)` -
 
-    集合的分片数量。默认为 `1`。
+    Collection 的分片数量。默认为 `1`。
 
 - `collectionSchema(CollectionSchema collectionSchema)` -
 
-    定义集合结构的 CollectionSchema 对象。
+    定义 Collection 结构的 CollectionSchema 对象。
 
 - `indexParams(List<IndexParam> indexParams)` -
 
-    定义索引配置的 IndexParam 对象列表。默认为 `new ArrayList<>()`。
+    由 IndexParam 对象组成的列表，用于定义索引配置。默认为 `new ArrayList<>()`。
 
 - `numPartitions(Integer numPartitions)` -
 
-    集合的分区数量。
+    Collection 的 Partition 数量。
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)` -
 
-    操作的一致性级别。默认为 `ConsistencyLevel.BOUNDED`。
+    此次操作的一致性级别。默认为 `ConsistencyLevel.BOUNDED`。
 
 - `properties(final Map<String, String> properties)` -
 
-    集合属性的映射。默认为 `new HashMap<>()`。
+    Collection 属性的映射。默认为 `new HashMap<>()`。
 
 **返回：**
 
@@ -140,7 +140,7 @@ createCollection(CreateCollectionReq.builder()
 
 - **MilvusClientException**
 
-    当此操作过程中发生任何错误时，将抛出此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

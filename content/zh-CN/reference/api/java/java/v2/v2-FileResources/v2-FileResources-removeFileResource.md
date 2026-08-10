@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "按名称移除先前上传的文件资源。移除仍被活动函数或分析器引用的资源将因错误而失败。 | Java | v2"
+description: "按名称删除先前上传的文件资源。如果要删除的资源仍被活跃的函数或 Analyzer 引用，则会报错。 | Java | v2"
 type: docx
 token: I5yTdfJXNoHDICxSwWXcNjwxnoc
 sidebar_position: 3
 keywords: 
-  - Dense vector
+  - 稠密向量
   - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - 稠密嵌入
+  - Faiss 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - removeFileResource()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # removeFileResource()
 
-按名称移除先前上传的文件资源。移除仍被活动函数或分析器引用的资源将因错误而失败。
+按名称删除先前上传的文件资源。如果要删除的资源仍被活跃的函数或 Analyzer 引用，则会报错。
 
 ```java
 public void removeFileResource(RemoveFileResourceReq request)
@@ -52,7 +52,7 @@ removeFileResource(RemoveFileResourceReq.builder()
 
     **[必需]**
 
-    要移除的文件资源名称。
+    要删除的文件资源名称。
 
 **返回：**
 
@@ -62,7 +62,7 @@ removeFileResource(RemoveFileResourceReq.builder()
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

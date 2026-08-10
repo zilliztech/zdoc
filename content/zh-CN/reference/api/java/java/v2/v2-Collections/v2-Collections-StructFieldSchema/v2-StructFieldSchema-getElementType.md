@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回 Array of Structs 字段中 Struct 元素的数据类型。 | Java | v2"
+description: "此操作返回 Struct 数组字段中 Struct 元素的数据类型。 | Java | v2"
 type: docx
 token: PvRGdribPou7PHxcoSWcRK3unUc
 sidebar_position: 4
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - 什么是向量数据库
+  - 什么是向量 Database
+  - 向量 Database 比较
   - Faiss
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - getElementType()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getElementType()
 
-此操作返回 Array of Structs 字段中 Struct 元素的数据类型。
+此操作返回 Struct 数组字段中 Struct 元素的数据类型。
 
 ```java
 public DataType getElementType()

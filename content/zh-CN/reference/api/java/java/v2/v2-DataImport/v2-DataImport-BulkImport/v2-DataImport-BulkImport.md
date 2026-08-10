@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "BulkImport 实例提供了用于操作数据导入任务的方法。 | Java | v2"
+description: "BulkImport 实例提供了供您操作数据导入作业的方法。| Java | v2"
 type: docx
 token: NIm8dRx2Aozt4Qxv1Q6cAm3Fn97
 sidebar_position: 1
 keywords: 
-  - nearest neighbor search
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - RAG LLM 架构
+  - 私有 LLM
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - BulkImport
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # BulkImport
 
-**BulkImport** 实例提供了用于操作数据导入任务的方法。
+**BulkImport** 实例提供了供您操作数据导入作业的方法。
 
 ```java
 io.milvus.bulkwriter.BulkImport
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
 *无*
 
-## Public Methods\{#public-methods}
+## 公共方法\{#public-methods}
 
 **BulkImport** 实例提供以下公共方法。
 

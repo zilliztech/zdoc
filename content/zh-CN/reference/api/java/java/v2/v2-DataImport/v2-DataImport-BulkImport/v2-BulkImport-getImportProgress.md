@@ -12,13 +12,13 @@ type: docx
 token: OFZ3dUGwmoarOBx6FHScZwwtn8f
 sidebar_position: 3
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - 深度学习
+  - 知识库
+  - 自然语言处理
+  - AI 聊天机器人
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getImportProgress()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -54,21 +54,21 @@ CloudDescribeImportRequest.builder()
 **参数：**
 
 - **apiKey** (*String*) -<br/>
-  身份验证凭据。对于 Cloud 请求，请使用 Zilliz Cloud API 密钥；对于 Milvus 请求，请使用 `username:password`。
+  身份验证凭证。对于 Cloud 请求，请使用 Zilliz Cloud API 密钥；对于 Milvus 请求，请使用 `username:password`。
 
 - **clusterId** (*String*) -<br/>
-  基于集群部署的集群标识符。对于项目数据库部署，请改用 `projectId` 和 `regionId`。
+  基于集群的部署的集群标识符。对于项目 Database 部署，请改用 `projectId` 和 `regionId`。
 
 - **projectId** (*String*) -<br/>
-  项目数据库部署的项目标识符。与 `regionId` 搭配使用，替代 `clusterId`。
+  项目 Database 部署的项目标识符。请与 `regionId` 配合使用，而不要使用 `clusterId`。
 
 - **regionId** (*String*) -<br/>
-  项目数据库部署的区域标识符。与 `projectId` 搭配使用，替代 `clusterId`。
+  项目 Database 部署的区域标识符。请与 `projectId` 配合使用，而不要使用 `clusterId`。
 
 - **jobId** (*String*) -<br/>
-  要查看的导入作业标识符。
+  要检查的导入作业标识符。
 
-**返回：**
+**返回值：**
 
 *String*
 

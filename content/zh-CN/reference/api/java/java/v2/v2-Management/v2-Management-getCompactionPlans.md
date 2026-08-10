@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作返回特定 compaction 作业的 compaction 计划，包括显示哪些 segment 将被合并的合并计划。 | Java | v2"
+description: "此操作返回特定 Compaction 作业的 Compaction 计划，包括显示将合并哪些 Segment 的合并计划。 | Java | v2"
 type: docx
 token: BDNBdbEOioqnlKxRd3DcY7wRncg
 sidebar_position: 23
 keywords: 
-  - 什么是向量数据库
-  - 向量数据库对比
+  - 什么是向量 Database
+  - 向量 Database 比较
   - Faiss
   - 视频搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - getCompactionPlans()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # getCompactionPlans()
 
-此操作返回特定 compaction 作业的 compaction 计划，包括显示哪些 segment 将被合并的合并计划。
+此操作返回特定 Compaction 作业的 Compaction 计划，包括显示将合并哪些 Segment 的合并计划。
 
 ```java
 public GetCompactionPlansResp getCompactionPlans(GetCompactionPlansReq request)
@@ -52,19 +52,19 @@ getCompactionPlans(GetCompactionPlansReq.builder()
 
     **[必需]**
 
-    由 `compact()` 返回的 compaction 作业 ID。
+    由 `compact()` 返回的 Compaction 作业 ID。
 
-**返回值：**
+**返回：**
 
 *GetCompactionPlansResp*
 
-响应中包含 compaction 状态和合并计划。
+响应包含 Compaction 状态和合并计划。
 
 **异常：**
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

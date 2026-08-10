@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会从集合中永久删除一个快照。 | Java | v2"
+description: "此操作会从 Collection 中永久删除快照。 | Java | v2"
 type: docx
 token: EeWldhw4AoT5WqxO8GgcSfjEnpb
 sidebar_position: 3
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - 向量检索
+  - 音频相似性搜索
+  - 弹性向量 Database
+  - Pinecone 与 Milvus 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - dropSnapshot()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # dropSnapshot()
 
-此操作会从集合中永久删除一个快照。
+此操作会从 Collection 中永久删除快照。
 
 ```java
 public void dropSnapshot(DropSnapshotReq request)
@@ -48,25 +48,25 @@ dropSnapshot(DropSnapshotReq.builder()
 )
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)`
 
-    包含该集合的数据库名称。如果省略，则使用当前数据库。
+    包含该 Collection 的 Database 名称。如省略，则使用当前 Database。
 
 - `collectionName(String collectionName)`
 
-    与快照操作关联的集合名称。
+    与该快照操作关联的 Collection 名称。
 
 - `snapshotName(String snapshotName)`
 
-    快照的名称。
+    快照名称。
 
-**RETURNS:**
+**返回：**
 
 *void*
 
-**EXCEPTIONS:**
+**异常：**
 
 - **MilvusClientException**
 

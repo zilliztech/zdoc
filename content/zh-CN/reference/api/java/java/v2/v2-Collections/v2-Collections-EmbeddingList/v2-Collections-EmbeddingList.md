@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "一个 EmbeddingList 实例表示向量嵌入列表。您可以使用 EmbeddingList 实例来构建查询向量，以便在 Array of Structs 字段中的向量字段上执行搜索。 | Java | v2"
+description: "EmbeddingList 实例表示向量嵌入列表。您可以使用 EmbeddingList 实例在针对 Array of Structs 字段中的向量字段执行搜索时构建查询向量。 | Java | v2"
 type: docx
 token: EXcNdtZrro7Ufkxp3G6cUArOn7b
 sidebar_position: 2
 keywords: 
   - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy 向量搜索
   - milvus
   - zilliz
   - zilliz cloud
@@ -31,29 +31,29 @@ import Admonition from '@theme/Admonition';
 
 # EmbeddingList
 
-**EmbeddingList** 实例表示向量嵌入列表。您可以使用 **EmbeddingList** 实例来构建查询向量，以便在 Array of Structs 字段中的向量字段上执行搜索。
+**EmbeddingList** 实例表示向量嵌入列表。您可以使用 **EmbeddingList** 实例在针对 Array of Structs 字段中的向量字段执行搜索时构建查询向量。
 
 ```java
 io.milvus.v2.service.vector.request.data.EmbeddingList
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
-构造一个空的嵌入列表，或一个包含给定向量嵌入的列表。
+构造一个空的嵌入列表，或由给定向量嵌入组成的列表。
 
 ```java
 EmbeddingList()
 ```
 
-**RETURN TYPE:**
+**返回类型：**
 
 EmbeddingList
 
-**RETURNS:**
+**返回值：**
 
-一个 EmbeddingList 实例由一个或多个向量嵌入组成。您可以使用它在 Array of Structs 字段中 Struct 元素的向量字段上执行搜索。
+EmbeddingList 实例包含一个或多个向量嵌入。您可以使用它在针对 Array of Structs 字段中 Struct 元素的向量字段执行搜索。
 
-## Examples:\{#examples}
+## 示例：\{#examples}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

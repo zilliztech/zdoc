@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "(占位符) | Java | v2"
+description: "（占位符）| Java | v2"
 type: docx
 token: X7Ybdk6yRoVRPZxeHklct1i2n8c
 sidebar_position: 8
 keywords: 
   - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - 稀疏 vs 稠密
+  - 稠密向量
+  - 分层可导航小世界
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 # searchIterator()\{#searchiterator}
 
-此方法返回一个搜索迭代器，用于迭代搜索结果。
+此方法返回一个搜索迭代器，用于遍历搜索结果。
 
 ```java
 public SearchIterator searchIterator(SearchIteratorReq request)
@@ -67,19 +67,19 @@ searchIterator(SearchIteratorReq.builder()
 
 - `databaseName(String databaseName)`
 
-    数据库名称。如未指定，则默认使用当前数据库。
+    Database 的名称。如果未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)`
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - `clusterId(String clusterId)`
 
-    此向量读取请求的目标集群 ID。当多个请求需要共享相同的集群 ID 时，请使用 `session(String clusterId)`。
+    此向量读取请求的目标集群 ID。当多个请求需要共享同一个集群 ID 时，请使用 `session(String clusterId)`。
 
 - `partitionNames(List<String> partitionNames)`
 
-    要查询的分区名称列表。
+    要指定的 Partition 名称列表。
 
 - `vectorFieldName(String vectorFieldName)`
 
@@ -87,19 +87,19 @@ searchIterator(SearchIteratorReq.builder()
 
 - `topK(int topK)`
 
-    返回的前 K 个结果数量。
+    要返回的 top 结果数量。
 
 - `limit(long limit)`
 
-    返回结果的最大数量。
+    要返回的最大结果数。
 
 - `expr(String expr)`
 
-    用于筛选结果的布尔表达式。
+    用于过滤结果的布尔表达式。
 
 - `outputFields(List<String> outputFields)`
 
-    输出中要包含的字段名称列表。
+    要包含在输出中的字段名称列表。
 
 - `vectors(List<BaseVector> vectors)`
 
@@ -107,7 +107,7 @@ searchIterator(SearchIteratorReq.builder()
 
 - `roundDecimal(int roundDecimal)`
 
-    distance/score 的小数位舍入精度。
+    距离/score舍入时的小数位数。
 
 - `params(String params)`
 
@@ -115,25 +115,25 @@ searchIterator(SearchIteratorReq.builder()
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
-    此操作的一致性级别。
+    此次操作的一致性级别。
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-    执行操作时是否忽略 growing segment。
+    是否在操作期间忽略 growing Segment。
 
 - `groupByFieldName(String groupByFieldName)`
 
-    用于对搜索结果进行分组的字段名称。
+    用于对搜索结果进行分组的字段名。
 
 - `batchSize(long batchSize)`
 
-    迭代器操作的批处理大小。
+    迭代器操作的批大小。
 
 **返回值：**
 
 *SearchIterator*
 
-用于迭代搜索结果的 *SearchIterator* 对象，提供以下方法：
+一个用于遍历搜索结果的 *SearchIterator* 对象，它提供以下方法：
 
 **异常：**
 

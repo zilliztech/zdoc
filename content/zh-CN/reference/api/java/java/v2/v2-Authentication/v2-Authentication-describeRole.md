@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作返回授予某个角色的权限以及角色描述。 | Java | v2"
+description: "此操作将返回授予某个角色的权限以及该角色的描述。 | Java | v2"
 type: docx
 token: ZmeDd4zoPo7EynxnyGOckvzvnsh
 sidebar_position: 5
 keywords: 
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - AI Agent
-  - semantic search
+  - 语义搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describeRole()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describeRole()
 
-此操作返回授予某个角色的权限以及角色描述。
+此操作将返回授予某个角色的权限以及该角色的描述。
 
 ```java
 public DescribeRoleResp describeRole(DescribeRoleReq request)
@@ -58,7 +58,7 @@ DescribeRoleResp resp = client.describeRole(DescribeRoleReq.builder()
 
 *DescribeRoleResp*
 
-响应中包含 `roleName`、`grantInfos` 和 `description`。
+响应包含 `roleName`、`grantInfos` 和 `description`。
 
 **异常：**
 

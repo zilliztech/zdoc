@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有外部集合刷新作业，并可选择按集合名称进行筛选。 | Java | v2"
+description: "此操作列出所有外部 Collection 刷新作业，并可按 Collection 名称进行筛选。 | Java | v2"
 type: docx
 token: P9MFdEHMKoAfshxQhamcWrGknWg
 sidebar_position: 30
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 检索增强生成
+  - 大语言模型
+  - 向量化
+  - k 最近邻算法
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - listRefreshExternalCollectionJobs()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # listRefreshExternalCollectionJobs()
 
-此操作列出所有外部集合刷新作业，并可选择按集合名称进行筛选。
+此操作列出所有外部 Collection 刷新作业，并可按 Collection 名称进行筛选。
 
 ```java
 public ListRefreshExternalCollectionJobsResp listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq request)
@@ -47,21 +47,21 @@ listRefreshExternalCollectionJobs(ListRefreshExternalCollectionJobsReq.builder()
 );
 ```
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `databaseName(String databaseName)` -
 
-    数据库名称。若未指定，则默认为当前数据库。
+    Database 的名称。如果未指定，则默认为当前 Database。
 
 - `collectionName(String collectionName)` -
 
-    用于筛选的集合名称。如果为空，则返回该数据库中所有集合的作业。
+    用于筛选的 Collection 名称。如果为空，则返回该 Database 中所有 Collection 的作业。
 
 **返回：**
 
 *ListRefreshExternalCollectionJobsResp*
 
-响应封装了可通过 `getJobs()` 访问的 `List<RefreshExternalCollectionJobInfo>`。每个作业信息条目都包含 `jobId`、`collectionName`、`state`、`progress`、`reason`、`externalSource`、`startTime` 和 `endTime`，其结构与 `getRefreshExternalCollectionProgress()` 返回的条目相同。
+响应封装了可通过 `getJobs()` 访问的 `List<RefreshExternalCollectionJobInfo>`。每个作业信息条目公开 `jobId`、`collectionName`、`state`、`progress`、`reason`、`externalSource`、`startTime` 和 `endTime`，其结构与 `getRefreshExternalCollectionProgress()` 返回的条目相同。
 
 **异常：**
 

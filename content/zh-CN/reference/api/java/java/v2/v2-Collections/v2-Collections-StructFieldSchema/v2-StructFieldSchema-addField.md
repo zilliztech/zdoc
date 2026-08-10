@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会向结构体字段 schema 添加一个子字段。使用此操作可定义结构体类型列的内部字段。 | Java | v2"
+description: "此操作会向 struct 字段的 Schema 添加一个子字段。您可以使用此方法定义 struct 类型列的内部字段。 | Java | v2"
 type: docx
 token: FGO8dhjlTovfOdxpOw0c3wyNntc
 sidebar_position: 1
 keywords: 
-  - vector databases comparison
+  - 向量 Database 对比
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - addField()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # addField()
 
-此操作会向结构体字段 schema 添加一个子字段。使用此操作可定义结构体类型列的内部字段。
+此操作会向 struct 字段的 Schema 添加一个子字段。您可以使用此方法定义 struct 类型列的内部字段。
 
 ```java
 public StructFieldSchema addField(AddFieldReq addFieldReq)
@@ -43,7 +43,7 @@ public StructFieldSchema addField(AddFieldReq addFieldReq)
 
     用于定义子字段属性的 AddFieldReq 对象。
 
-**返回：**
+**返回值：**
 
 *[StructFieldSchema](./v2-Collections-StructFieldSchema)*
 
@@ -51,7 +51,7 @@ public StructFieldSchema addField(AddFieldReq addFieldReq)
 
 - **MilvusClientException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

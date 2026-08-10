@@ -12,13 +12,13 @@ type: docx
 token: OUhTdWnXBoHqKdxTA0HcdMY5n4b
 sidebar_position: 3
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
+  - 向量相似性搜索
+  - 近似最近邻搜索
   - DiskANN
-  - Sparse vector
+  - 稀疏向量
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - commit()
   - javaV230
 displayed_sidebar: javaSidebar
@@ -49,7 +49,7 @@ localBulkWriter.commit(
 
 - **async** (*boolean*) -
 
-    提交操作在被调用后是否立即返回。
+    commit 操作在被调用后是否立即返回。
 
 **返回类型：**
 
