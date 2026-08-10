@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractId": "ja-JP-2026-08-04-p0.2",
+  "contractId": "ja-JP-2026-08-10-p0.4",
   "target": "ja-JP",
   "locale": "ja-JP",
   "styleRules": [
@@ -12,7 +12,14 @@
   "mandatoryTerms": [
     {"source": "collection", "target": "コレクション", "caseSensitive": false},
     {"source": "cluster", "target": "クラスター", "caseSensitive": false},
-    {"source": "vector", "target": "ベクトル", "caseSensitive": false},
+    {
+      "source": "vector",
+      "target": "ベクトル",
+      "caseSensitive": false,
+      "excludedSourceContexts": [
+        "fields: **id**, **vector**, and **doctype**"
+      ]
+    },
     {"source": "scalar", "target": "スカラー", "caseSensitive": false},
     {"source": "index", "target": "インデックス", "caseSensitive": false},
     {"source": "schema", "target": "スキーマ", "caseSensitive": false},
@@ -30,8 +37,24 @@
     "Dedicated",
     "AUTOINDEX"
   ],
-  "contextualTerms": [],
+  "contextualTerms": [
+    {
+      "source": "vector",
+      "target": "vector",
+      "caseSensitive": false,
+      "sourceContexts": [
+        "fields: **id**, **vector**, and **doctype**"
+      ]
+    }
+  ],
   "examples": [
+    {
+      "id": "ja-boost-ranker-vector-identifier",
+      "source": "The collection has the following fields: **id**, **vector**, and **doctype**.",
+      "bad": "コレクションには、**id**、**ベクトル**、**doctype** のフィールドがあります。",
+      "good": "コレクションには、**id**、**vector**、**doctype** のフィールドがあります。",
+      "explanation": "Only in this exact Boost Ranker field-list context, vector is a field identifier and remains unchanged. Ordinary vector terminology still uses ベクトル."
+    },
     {
       "id": "ja-core-terms",
       "source": "Create a collection and build an index.",
