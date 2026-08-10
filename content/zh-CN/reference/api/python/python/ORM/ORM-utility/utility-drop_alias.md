@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除指定集合的别名。 | Python | ORM"
+description: "此操作会删除指定的 Collection 别名。 | Python | ORM"
 type: docx
 token: V7BWdrC39oPAauxoWBzcaldwnVc
 sidebar_position: 9
 keywords: 
   - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似度搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - drop_alias()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_alias()
 
-此操作会删除指定的[集合](./ORM-Collection)别名。 
+此操作会删除指定的 [Collection ](./ORM-Collection)别名。 
 
 ## 请求语法\{#request-syntax}
 
@@ -48,13 +48,13 @@ drop_alias(
 
 - **alias** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     要删除的别名。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Notes">
 
-    删除别名时，无需提供集合名称，因为一个别名只能被分配给且仅分配给一个集合。因此，服务器知道指定别名属于哪个集合。
+    删除别名时，您无需提供 Collection 名称，因为一个别名只能分配给一个 Collection。因此，服务器知道指定别名属于哪个 Collection。
 
     </Admonition>
 
@@ -72,7 +72,7 @@ drop_alias(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 

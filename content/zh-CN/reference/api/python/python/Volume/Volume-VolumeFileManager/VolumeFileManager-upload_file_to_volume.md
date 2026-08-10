@@ -7,18 +7,18 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "增加并发、重试、分片大小、路径和进度回调控制。 | Python"
+description: "添加并发、重试、多部分大小、路径和进度回调控制。 | Python"
 type: docx
 token: SAR6dnlmmohi30x0x2KcioyXnib
 sidebar_position: 1
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - 图像相似性搜索
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似性搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - upload_file_to_volume()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # upload_file_to_volume()
 
-增加并发、重试、分片大小、路径和进度回调控制。
+添加并发、重试、多部分大小、路径和进度回调控制。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 这仅适用于托管卷。外部卷为只读。
 
@@ -73,7 +73,7 @@ upload_file_to_volume(
 
 - **retry_interval** (*float*) -<br/>
   默认值：`5.0`<br/>
-  两次上传尝试之间的延迟时间，单位为秒。
+  两次上传尝试之间的延迟时间（以秒为单位）。
 
 - **progress_callback** (*Callable[[UploadProgress], None] | None*) -<br/>
   默认值：`None`<br/>
@@ -81,7 +81,7 @@ upload_file_to_volume(
 
 - **part_size** (*int*) -<br/>
   默认值：`0`<br/>
-  分片上传的每个分片大小，单位为字节。使用 `0` 可自动选择大小。
+  多部分上传的分片大小，以字节为单位。使用 `0` 可自动选择大小。
 
 **返回类型：**
 
@@ -89,16 +89,16 @@ upload_file_to_volume(
 
 **返回：**
 
-包含 volumeName、volume_name 以及已上传目标路径的字典。
+包含 volumeName、volume_name 和上传目标路径的字典。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取具体失败详情。
+  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
 
 ## 示例\{#examples}
 
-以下示例演示如何将文件上传到卷。
+以下示例演示如何使用上传文件到卷功能。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

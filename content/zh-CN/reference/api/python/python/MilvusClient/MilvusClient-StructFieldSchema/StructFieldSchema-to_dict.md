@@ -15,10 +15,10 @@ keywords:
   - 什么是非结构化数据
   - 向量嵌入
   - 向量存储
-  - 开源向量数据库
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - to_dict()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -49,7 +49,7 @@ to_dict()
 
 **返回值：**
 
-集合 schema 的字典表示形式。
+Collection Schema 的字典表示形式。
 
 **异常：**
 

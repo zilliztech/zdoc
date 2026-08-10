@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从字典表示构造一个 StructFieldSchema 对象。 | Python | MilvusClient"
+description: "此操作从字典表示形式构造一个 StructFieldSchema 对象。 | Python | MilvusClient"
 type: docx
 token: KeoHdMDBCo3PByxKbWncifFMn9e
 sidebar_position: 2
 keywords: 
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus 向量 Database
   - milvus db
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # construct_from_dict()
 
-此操作从字典表示构造一个 **[StructFieldSchema](./MilvusClient-StructFieldSchema)** 对象。
+此操作从字典表示形式构造一个 **[StructFieldSchema](./MilvusClient-StructFieldSchema)** 对象。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,7 +45,7 @@ construct_from_dict(
 
 - **raw** (*dict*)
 
-    包含原始数据的字典，用于构造 struct 数组字段中某个 struct 元素的 schema。
+    一个字典，包含原始数据，用于构造 struct 数组字段中某个 struct 元素的 Schema
 
 **返回类型：**
 

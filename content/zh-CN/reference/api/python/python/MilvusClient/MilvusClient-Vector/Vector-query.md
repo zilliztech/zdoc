@@ -18,7 +18,7 @@ keywords:
   - 视频去重
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - query()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作使用指定的布尔表达式执行标量过滤。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法仅适用于专属服务集群和按需计算。
+此方法仅适用于 Dedicated 服务集群和按需计算。
 
-- 如需在服务集群的 collection 中执行此操作，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 如果要在服务集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 如需在按需计算的 collection 中执行此操作，请使用项目 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话并将其附加到按需集群以执行搜索。
+- 如果要在按需计算的 Collection 中执行此操作，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -70,61 +70,61 @@ query(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    现有 collection 的名称。
+    现有 Collection 的名称。
 
 - **filter** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    用于过滤匹配实体的标量过滤条件。
+    用于过滤匹配 Entity 的标量过滤条件。
 
-    你可以将此参数设置为空字符串以跳过标量过滤。关于如何构建标量过滤条件，请参见 [Filtering Overview](/docs/filtering-overview)。
+    您可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参阅 [Filtering Overview](/docs/filtering-overview)。
 
 - **output_fields** (*list[str]* | *None*) -
 
-    返回结果中每个实体要包含的字段名称列表。
+    返回时要包含在每个 Entity 中的字段名称列表。
 
     默认值为 **None**。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Notes">
 
-    - 将其设置为 `output_fields=["\*"]` 会输出所有字段。
+    - 将其设置为 `output_fields=["\*"]` 时，会输出所有字段。
     
-    - 将其设置为 `output_fields=["count(\*)"]` 会输出与 **filter** 参数中指定条件匹配的已加载实体数量。
+    - 将其设置为 `output_fields=["count(\*)"]` 时，会输出与 **filter** 参数中指定条件匹配的已加载 Entity。
     
-    - 与 `group_by_fields` 一起使用时，此列表还支持聚合表达式：`count(*)`、`count(<field>)`、`min(<field>)`、`max(<field>)`、`sum(<field>)` 和 `avg(<field>)`。聚合值会按组计算，并与分组键一起返回。
+    - 与 `group_by_fields` 一起使用时，此列表还接受聚合表达式：`count(*)`、`count(<field>)`、`min(<field>)`、`max(<field>)`、`sum(<field>)` 和 `avg(<field>)`。聚合值会按组计算，并与组键一同返回。
 
     </Admonition>
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当任意响应到达或发生任意错误时，此操作即超时。
 
 - **partition_names** (*list[str]* | *None*) -
 
-    分区名称列表。
+    Partition 名称列表。
 
-    默认值为 **None**。如果指定，则仅在指定的分区中执行查询。
+    默认值为 **None**。如果指定，则仅在指定的 Partition 中执行查询。
 
 - **kwargs** -
 
     - **consistency_level** (*str* | *int*) -
 
-        目标 collection 的一致性级别。
+        目标 Collection 的一致性级别。
 
-        默认值为创建当前 collection 时指定的值，可选值包括 **Strong**（**0**）、**Bounded**（**1**）、**Session**（**2**）和 **Eventually**（**3**）。
+        默认值为您创建当前 Collection 时指定的值，可选项包括 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" icon="📘" title="Note">
 
         什么是一致性级别？
         
-                在分布式数据库中，一致性特指这样一种属性：在给定时间写入或读取数据时，确保每个节点或副本对数据具有相同的视图。
+                在分布式 Database 中，一致性特指这样一种属性：在给定时刻写入或读取数据时，确保每个节点或副本看到的数据视图相同。
         
                 Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认值为 **Bounded Staleness**。
         
-                在执行向量相似性搜索或查询时，你可以轻松调整一致性级别，使其最适合你的应用。
+                在执行向量相似性搜索或查询时，您可以轻松调整一致性级别，使其更适合您的应用。
 
         </Admonition>
 
@@ -132,31 +132,31 @@ query(
 
         一个有效的时间戳。
 
-        如果设置了此参数，只有在此时间戳之前插入的所有实体都对查询节点可见时，才会执行查询。
+        如果设置了此参数，则  仅在此时间戳之前插入的所有 Entity 对查询节点可见时才会执行查询。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" icon="📘" title="Notes">
 
-        当使用默认一致性级别时，此参数有效。
+        此参数在使用默认一致性级别时有效。
 
         </Admonition>
 
     - **graceful_time** (*int*) -
 
-        一个以秒为单位的时间段。
+        以秒为单位的一段时间。
 
-        默认值为 **5**。如果设置了此参数，则会通过从当前时间戳中减去该值来计算保证时间戳。
+        默认值为 **5**。如果设置了此参数，则  会通过从当前时间戳中减去该值来计算 guarantee timestamp。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" icon="📘" title="Notes">
 
-        当使用非默认一致性级别时，此参数有效。
+        此参数在使用非默认一致性级别时有效。
 
         </Admonition>
 
     - **offset** (*int*) -
 
-        在查询结果中要跳过的记录数。
+        查询结果中要跳过的记录数。
 
-        你可以将此参数与 `limit` 结合使用以启用分页。
+        您可以将此参数与 `limit` 结合使用以启用分页。
 
         此值与 `limit` 的总和应小于 16,384。
 
@@ -164,33 +164,33 @@ query(
 
         查询结果中要返回的记录数。
 
-        你可以将此参数与 `offset` 结合使用以启用分页。
+        您可以将此参数与 `offset` 结合使用以启用分页。
 
         此值与 `offset` 的总和应小于 16,384。
 
     - **timezone** (*str*)
 
-        通过设置一个 [IANA 标识符](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例如 **Asia/Shanghai**、**America/Chicago** 或 **UTC**），可为单次查询临时覆盖 collection 或数据库的默认时区。它仅控制该操作期间如何解释、显示和比较 `TIMESTAMPTZ` 值；不会修改已存储的数据或 collection 设置。
+        通过设置一个 [IANA identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)（例如 **Asia/Shanghai**, **America/Chicago**, 或 **UTC**），可在单次查询中临时覆盖 Collection 或 Database 的默认时区。这仅控制该操作期间如何解释、显示和比较 `TIMESTAMPTZ` 值；不会修改存储的数据或 Collection 设置。
 
-        更多信息，请参见 [TIMESTAMPZ Field](/docs/use-timestamptz-field)。
+        更多信息，请参阅 [TIMESTAMPZ Field](/docs/use-timestamptz-field)。
 
     - **time_fields** (*str*)
 
-        在查询或搜索操作期间，从 `TIMESTAMPTZ` 字段中提取特定的时间组成部分。使用逗号分隔列表指定要提取的元素。支持的元素包括：`year`、`month`、`day`、`hour`、`minute`、`second` 和 `microsecond`。
+        在查询或搜索操作期间，从 `TIMESTAMPTZ` 字段中提取特定时间组成部分。请使用逗号分隔的列表指定要提取的元素。支持的元素包括：`year`、`month`、`day`、`hour`、`minute`、`second` 和 `microsecond`。
 
-        更多信息，请参见 TIMESTAMPZ Field。
+        更多信息，请参阅 TIMESTAMPZ Field。
 
     - **order_by** (*list[str]*)
 
-        用于对查询结果排序的字段列表。每个元素遵循 `"field_name:direction"` 格式，其中 direction 只能是 `asc`（升序）或 `desc`（降序）。请注意，`asc` 和 `desc` 区分大小写。
+        按查询结果排序的字段列表。每个元素都遵循格式 `"field_name:direction"`，其中 direction 可以是 `asc`（升序）或 `desc`（降序）。请注意，`asc` 和 `desc` 区分大小写。
 
         支持的字段类型：INT8、INT16、INT32、INT64、FLOAT、DOUBLE 和 VARCHAR。不支持按向量、JSON 或 ARRAY 字段排序。
 
-        此参数必须与 `limit` 一起使用。对可空字段排序时，升序会将 NULL 值放在最后（NULLS LAST），降序会将 NULL 值放在最前（NULLS FIRST）。
+        此参数必须与 `limit` 一起使用。对可为空字段排序时，升序排序会将 NULL 值放在末尾（NULLS LAST），降序排序会将 NULL 值放在开头（NULLS FIRST）。
 
     - **group_by_fields** (*list[str]*) -
 
-        用于对查询结果进行分组的标量字段列表。设置后，`query()` 会针对指定字段值的每种唯一组合返回一行，并对 `output_fields` 中的任意聚合表达式（`count(*)`、`count(<f>)`、`min(<f>)`、`max(<f>)`、`sum(<f>)`、`avg(<f>)`）按组计算。
+        按查询结果分组的标量字段列表。设置后，`query()` 会针对指定字段值的每个唯一组合返回一行，并按组计算 `output_fields` 中的任意聚合表达式（`count(*)`、`count(<f>)`、`min(<f>)`、`max(<f>)`、`sum(<f>)`、`avg(<f>)`）。
 
         支持的字段类型：INT8、INT16、INT32、INT64、FLOAT、DOUBLE、VARCHAR 和 TIMESTAMPTZ。按向量、JSON 或 Array 字段分组会返回错误。
 
@@ -198,21 +198,21 @@ query(
 
         - `sum` 和 `avg` 仅适用于数值类型。将它们应用于 `VarChar` 字段会返回错误。
 
-        - `sum(int*)` 返回 `INT64`；`sum(float|double)` 返回 `DOUBLE`；`avg(...)` 始终返回 `DOUBLE`；`count(...)` 返回 `INT64`；`min`/`max` 保持列类型不变。
+        - `sum(int*)` 返回 `INT64`；`sum(float|double)` 返回 `DOUBLE`；`avg(...)` 始终返回 `DOUBLE`；`count(...)` 返回 `INT64`；`min`/`max` 保留列类型。
 
-        你可以将 `group_by_fields` 与 `limit` 结合使用，以限制返回的分组数量。
+        您可以将 `group_by_fields` 与 `limit` 结合使用，以限制返回的组数。
 
 **返回类型：**
 
 *list[dict]*
 
-**返回值：**
+**返回：**
 
-由字典组成的列表，其中每个字典表示一个查询到的实体。
+字典列表，其中每个字典表示一个查询到的 Entity。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-如果返回的实体数量少于预期，则你的 collection 中可能存在重复实体。
+如果返回的 Entity 数量少于预期，则您的 Collection 中可能存在重复 Entity。
 
 </Admonition>
 
@@ -220,11 +220,11 @@ query(
 
 - **MilvusException**
 
-    当此操作期间发生任意错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **DataTypeNotMatchException**
 
-    当参数值与要求的数据类型不匹配时，将引发此异常。
+    当参数值与所需数据类型不匹配时，将引发此异常。
 
 ## 示例\{#examples}
 

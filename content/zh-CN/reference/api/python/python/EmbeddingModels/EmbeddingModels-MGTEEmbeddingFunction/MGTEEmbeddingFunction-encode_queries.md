@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。 | Python"
+description: "此操作接受查询字符串列表，并将每个查询编码为向量嵌入。 | Python"
 type: docx
 token: HEWIdid9BoFMyNxN8Bbc0P3nn6g
 sidebar_position: 2
 keywords: 
   - ANNS
   - 向量搜索
-  - knn algorithm
+  - knn 算法
   - HNSW
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - encode_queries()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # encode_queries()
 
-此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。
+此操作接受查询字符串列表，并将每个查询编码为向量嵌入。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,19 +45,19 @@ encode_queries(
 
 - **queries** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的查询。模型将为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的查询。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
 *Dict*
 
-**返回：**
+**返回值：**
 
-一个字典，包含编码后的嵌入，包括稠密和稀疏两种。
+一个字典，包含编码后的嵌入，包括稠密和稀疏嵌入。
 
 **异常：**
 
-*无*
+*None*
 
 ## 示例\{#examples}
 

@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "添加 projectid、regionid、dbname 和 DB-Name 请求头行为。 | Python"
+description: "添加 projectid、regionid、dbname 和 DB-Name 请求头行为。| Python"
 type: docx
 token: CNQIdgQvXoux0KxpXHxca8EMnjg
 sidebar_position: 2
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - 向量嵌入
+  - 向量存储
+  - 开源向量 Database
+  - 向量索引
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - get_import_progress()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_import_progress()
 
-添加 `project_id`、`region_id`、`db_name` 和 `DB-Name` 请求头行为。
+添加 project_id、region_id、db_name 和 DB-Name 请求头行为。
 
 ## 请求语法\{#request-syntax}
 
@@ -55,11 +55,11 @@ get_import_progress(
 - **url** (*str*) -<br/>
   **[必需]**
 
-    Zilliz Cloud API 服务器端点，即 `https://api.cloud.zilliz.com`。
+    Zilliz Cloud API 服务器的 Endpoint，即 `https://api.cloud.zilliz.com`。
 
 - **job_id** (*str*) -<br/>
   **[必需]**<br/>
-  要查看的导入任务 ID。
+  要查询的导入任务 ID。
 
 - **cluster_id** (*str*) -<br/>
   默认值：`""`<br/>
@@ -67,31 +67,31 @@ get_import_progress(
 
 - **project_id** (*str*) -<br/>
   默认值：`""`<br/>
-  包含目标项目数据库的 Zilliz Cloud 项目的 ID。
+  包含目标项目 Database 的 Zilliz Cloud 项目 ID。
 
 - **region_id** (*str*) -<br/>
   默认值：`""`<br/>
-  包含目标项目数据库的 Zilliz Cloud 区域 ID。
+  包含目标项目 Database 的 Zilliz Cloud 区域 ID。
 
 - **api_key** (*str*) -<br/>
   默认值：`""`
 
-    用于验证请求的 Zilliz Cloud API 密钥。
+    用于对请求进行身份验证的 Zilliz Cloud API 密钥。
 
 - **db_name** (*str*) -<br/>
   默认值：`""`<br/>
-  在 `DB-Name` 请求头中发送的数据库名称，用于基于角色的访问控制。
+  在基于角色的访问控制中，于 `DB-Name` 请求头中发送的 Database 名称。
 
 - **verify** (*Optional[Union[bool, str]]*) -<br/>
   默认值：`True`<br/>
-  TLS 验证设置。使用 `True` 表示使用默认信任存储进行验证，或者提供 CA 证书路径。
+  TLS 验证设置。使用 `True` 可通过默认信任存储进行验证，或提供 CA 证书路径。
 
 - **cert** (*Optional[Union[str, tuple]]*) -<br/>
   默认值：`None`<br/>
   客户端证书路径，或用于双向 TLS 的证书和私钥对。
 
 - **kwargs** (*Any*) -<br/>
-  转发给 HTTP 请求的附加选项。
+  转发到 HTTP 请求的附加选项。
 
 **返回类型：**
 

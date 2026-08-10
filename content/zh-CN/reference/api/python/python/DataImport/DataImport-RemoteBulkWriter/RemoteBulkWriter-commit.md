@@ -12,13 +12,13 @@ type: docx
 token: VccVd4MTgoPzCixDVtgcEoKWnPf
 sidebar_position: 3
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - openai 向量数据库
+  - 自然语言处理 Database
+  - 低成本向量 Database
+  - 托管式向量 Database
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - commit()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -45,11 +45,11 @@ commit(
 
 - **kwargs** -
 
-    - **call_back** (function)
+    - **call_back**（函数）
 
-        在此操作完成后调用的回调函数。
+        此操作完成后将调用的回调函数。
 
-        该值默认为 **None**，表示没有可调用的回调。使用此参数可添加提交后的操作。
+        该值默认为 **None**，表示没有可调用的回调函数。您可以使用它来添加提交后的操作。
 
 ## 示例\{#examples}
 

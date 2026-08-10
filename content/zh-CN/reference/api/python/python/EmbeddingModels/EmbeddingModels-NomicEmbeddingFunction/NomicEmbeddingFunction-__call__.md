@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "NomicEmbeddingFunction 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
+description: "NomicEmbeddingFunction 中的此操作会接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: Dsl1dDLBeoGixjxt2lpcFP5ynSA
 sidebar_position: 4
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - milvus 的工作原理
+  - Zilliz 向量 Database
+  - Zilliz Database
+  - 非结构化数据
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - \_\_call\_\_()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[NomicEmbeddingFunction](./EmbeddingModels-NomicEmbeddingFunction) 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。
+[NomicEmbeddingFunction](./EmbeddingModels-NomicEmbeddingFunction) 中的此操作会接收一个文本字符串列表，并将其直接编码为向量嵌入。
 
 NomicEmbeddingFunction 的 **\_\_call\_\_()** 方法与 [encode_documents()](./NomicEmbeddingFunction-encode_documents) 和 [encode_queries()](./NomicEmbeddingFunction-encode_queries) 具有相同的功能。
 
@@ -52,7 +52,7 @@ ef(
 
 - **texts** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
@@ -64,7 +64,7 @@ ef(
 
 **异常：**
 
-*None*
+*无*
 
 ## 示例\{#examples}
 

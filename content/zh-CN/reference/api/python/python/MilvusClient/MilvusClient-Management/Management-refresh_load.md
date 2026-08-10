@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将已加载集合中尚未加载的数据加载到内存中。 | Python | MilvusClient"
+description: "此操作会将已加载 Collection 中尚未加载的数据加载到内存中。 | Python | MilvusClient"
 type: docx
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 12
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - rag llm 架构
+  - 私有 llms
+  - nn 搜索
+  - llm 评估
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - refresh_load()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # refresh_load()
 
-此操作将已加载集合中尚未加载的数据加载到内存中。
+此操作会将已加载 Collection 中尚未加载的数据加载到内存中。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管集合。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -54,19 +54,19 @@ refresh_load(
 
     **[必需]**
 
-    此操作目标集合的名称。
+    此操作的目标 Collection 名称。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作将超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 
@@ -74,7 +74,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

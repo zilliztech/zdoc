@@ -12,13 +12,13 @@ type: docx
 token: VmAIdW9J2oH6iWxDh2PcJYfRnne
 sidebar_position: 4
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - 深度学习
+  - 知识库
+  - 自然语言处理
+  - AI 聊天机器人
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - \_\_call\_\_()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -52,19 +52,19 @@ ef(
 
 - **texts** (*List[str]*)
 
-    字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的文本。模型会为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
 *List[np.array]*
 
-**返回：**
+**返回值：**
 
 一个列表，其中每个元素都是一个 NumPy 数组。
 
 **异常：**
 
-*None*
+*无*
 
 ## 示例\{#examples}
 

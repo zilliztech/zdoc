@@ -18,7 +18,7 @@ keywords:
   - llm-as-a-judge
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - add_batch()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -52,15 +52,15 @@ add_batch(
 
 *[EmbeddingList](./MilvusClient-EmbeddingList)*
 
-**返回值：**
+**返回：**
 
-当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例本身，可用于方法链式调用
+返回当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例本身，以便进行方法链式调用
 
 **异常：**
 
-- **ValueError**:
+- **ValueError**：
 
-    如果提供的向量嵌入在维度上与现有嵌入不匹配，则会引发此异常。
+    如果提供的向量嵌入与现有向量嵌入的维度不匹配，则会引发此异常。
 
 ## 示例\{#examples}
 

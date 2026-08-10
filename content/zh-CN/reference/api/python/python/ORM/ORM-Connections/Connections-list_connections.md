@@ -12,13 +12,13 @@ type: docx
 token: DyPldeRNXo4nMqxQeE0cMnd2nEf
 sidebar_position: 7
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - Agentic RAG
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_connections()
   - pymilvus30
 displayed_sidebar: pythonSidebar

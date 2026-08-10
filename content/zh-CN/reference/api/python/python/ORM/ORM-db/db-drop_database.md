@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作使用提供的数据库名称删除数据库。 | Python | ORM"
+description: "此操作使用提供的 Database 名称删除 Database。 | Python | ORM"
 type: docx
 token: Y7pOdKR4MoqmvVxcS1TcjqUynMc
 sidebar_position: 2
 keywords: 
-  - milvus vector db
+  - milvus 向量数据库
   - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - 什么是 milvus
+  - milvus Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - drop_database()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_database()
 
-此操作使用提供的数据库名称删除数据库。
+此操作使用提供的 Database 名称删除 Database。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,7 +49,7 @@ drop_database(
 
     **[必需]**
 
-    要删除的数据库名称。
+    要删除的 Database 名称。
 
 - **using** (*string*) -
 
@@ -57,7 +57,7 @@ drop_database(
 
 - **timeout** (*float* | *None*)
 
-    此操作的超时时间。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 

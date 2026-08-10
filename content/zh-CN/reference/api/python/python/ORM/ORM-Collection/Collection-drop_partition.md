@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从当前 collection 中删除指定的 partition。 | Python | ORM"
+description: "此操作从当前 Collection 中删除指定的 Partition。 | Python | ORM"
 type: docx
 token: Aym2dpBuIo81mExCqyLcSWhunBe
 sidebar_position: 10
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz 向量 Database
+  - Zilliz Database
+  - 非结构化数据
+  - 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - drop_partition()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_partition()
 
-此操作从当前 collection 中删除指定的 partition。
+此操作从当前 Collection 中删除指定的 Partition。
 
 ```python
 drop_partition(
@@ -58,11 +58,11 @@ collection.drop_partition(
 
 - **partition_name** (*str*) -
 
-    要删除的 partition 名称。
+    要删除的 Partition 名称。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 

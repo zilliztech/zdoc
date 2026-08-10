@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作显示指定集合或分区是否已加载。 | Python | MilvusClient"
+description: "此操作会显示指定 Collection 或 Partition 是否已加载。 | Python | MilvusClient"
 type: docx
 token: KEPYdKup1o3nHdxKbjvcQUzwnnd
 sidebar_position: 8
 keywords: 
   - 音频相似性搜索
-  - 弹性向量数据库
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - 弹性向量 Database
+  - Pinecone 与 Milvus 对比
+  - Chroma 与 Milvus 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - get_load_state()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # get_load_state()
 
-此操作显示指定集合或分区是否已加载。
+此操作会显示指定 Collection 或 Partition 是否已加载。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管集合。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -53,29 +53,29 @@ get_load_state(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    集合名称。
+    Collection 的名称。
 
 - **partition_name** (*str*) -
 
-    分区名称。
+    Partition 的名称。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在任意响应返回或发生错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当返回任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 
 *dict*
 
-**返回：**
+**返回值：**
 
-一个包含指定集合或分区状态的字典。 
+一个包含指定 Collection 或 Partition 状态的字典。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-如果一个集合的任意一个或全部分区已加载，则该集合处于已加载状态。
+如果其任意一个或全部 Partition 已加载，则该 Collection 处于已加载状态。
 
 </Admonition>
 
@@ -83,7 +83,7 @@ get_load_state(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    在此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

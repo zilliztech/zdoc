@@ -12,13 +12,13 @@ type: docx
 token: L4PUdEhrpoS1Q5xN3m2chVVEnWg
 sidebar_position: 4
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
+  - Faiss 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - \_\_call\_\_()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -52,19 +52,19 @@ ef(
 
 - **texts** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
+    一个字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
 *Dict*
 
-**返回：**
+**返回值：**
 
-一个包含编码后嵌入的字典，同时包括稠密和稀疏嵌入。
+一个字典，包含编码后的嵌入，包括稠密嵌入和稀疏嵌入。
 
 **异常：**
 
-*无*
+*None*
 
 ## 示例\{#examples}
 

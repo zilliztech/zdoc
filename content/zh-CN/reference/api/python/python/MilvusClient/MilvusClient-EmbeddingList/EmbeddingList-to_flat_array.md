@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将当前 **EmbeddingList** 实例转换为一个扁平化的 NumPy 数组，其中包含拼接后的所有向量嵌入。 | Python | MilvusClient"
+description: "此操作会将当前 EmbeddingList 实例转换为一个展平的 NumPy 数组，其中包含拼接后的所有向量嵌入。 | Python | MilvusClient"
 type: docx
 token: Z76PdoAJkoGaMPxG4CFcCmShnwh
 sidebar_position: 5
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - 开源向量 Database
+  - 向量索引
+  - 开源向量 Database
+  - 开源向量数据库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - to_flat_array()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # to_flat_array()
 
-此操作将当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例转换为一个扁平化的 NumPy 数组，其中包含拼接后的所有向量嵌入。
+此操作会将当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例转换为一个展平的 NumPy 数组，其中包含拼接后的所有向量嵌入。
 
 ## 请求语法\{#request-syntax}
 
@@ -43,9 +43,9 @@ to_flat_array()
 
 *np.ndarray*
 
-**返回值：**
+**返回：**
 
-一个扁平化的 NumPy 数组，其中包含拼接后的所有向量嵌入。
+一个展平的 NumPy 数组，其中包含拼接后的所有向量嵌入。
 
 **异常：**
 

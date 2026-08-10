@@ -12,13 +12,13 @@ type: docx
 token: S9zrdw1etovCFKx0gcic6AiVn0e
 sidebar_position: 1
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 检索增强生成
+  - 大语言模型
+  - 向量化
+  - k 最近邻算法
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - encode_documents()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -45,7 +45,7 @@ encode_documents(
 
 - **documents** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的文档。模型将为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串表示一个将被传递给嵌入模型进行编码的文档。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 

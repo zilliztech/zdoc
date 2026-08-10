@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "BGERerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的 top k 文档。 | Python"
+description: "BGERerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个包含按分数排序的前 k 个文档的 `RerankResult` 对象列表。 | Python"
 type: docx
 token: C2AbdIReZos7HwxiZXIcyW8nnm1
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[BGERerankFunction](./Rerankers-BGERerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的 top k 文档。
+[BGERerankFunction](./Rerankers-BGERerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个包含按分数排序的前 k 个文档的 `RerankResult` 对象列表。
 
 ## 请求语法\{#request-syntax}
 
@@ -55,11 +55,11 @@ bge_rf(
 
 - `documents` (*List[str]*)
 
-    给定查询下将被排序的文档字符串列表。
+    将针对给定查询进行排序的文档字符串列表。
 
 - `top_k` (*int*)
 
-    要返回的排名最高文档的最大数量。默认为 **5**。
+    返回的排序最高文档的最大数量。默认值为 **5**。
 
 **返回类型：**
 
@@ -78,17 +78,17 @@ bge_rf(
 
 每个 `RerankResult` 对象包含：
 
-- `text`：匹配到的文档文本。
+- `text`：匹配的文档文本。
 
-- `score`：重排模型为该文档分配的分数。
+- `score`：重排序模型为该文档分配的分数。
 
-- `index`：该文档在原始 documents 列表中的索引。
+- `index`：该文档在原始文档列表中的索引。
 
 **异常：**
 
 - **ImportError**
 
-    当未安装 FlagEmbedding 模块时，将引发此异常。
+    未安装 FlagEmbedding 模块时，将引发此异常。
 
 ## 示例\{#examples}
 

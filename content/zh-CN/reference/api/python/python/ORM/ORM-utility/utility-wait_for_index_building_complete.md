@@ -13,9 +13,9 @@ token: MfR8dw5TioPvw3xvrstcgYixnUb
 sidebar_position: 43
 keywords: 
   - 向量索引
-  - 开源向量数据库
-  - open source vector db
-  - 向量数据库示例
+  - 开源向量 Database
+  - 开源向量数据库 db
+  - 向量 Database 示例
   - zilliz
   - zilliz cloud
   - 云
@@ -48,19 +48,19 @@ wait_for_index_building_complete(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    已存在的 collection 名称。
+    现有 Collection 的名称。
 
-    如果将其设置为不存在的 collection，会导致 **CollectionNotExistException**。
+    如果将其设置为不存在的 Collection，则会导致 **CollectionNotExistException**。
 
 - **index_name** (*str*) -
 
     此操作目标索引的名称。
 
-    如果未指定，则使用默认索引。如果 collection 有多个索引，则此参数为必填。
+    如果未指定，则使用默认索引。如果 Collection 有多个索引，则此参数为必填。
 
-    如果将其设置为不存在的索引，会导致 **IndexNotExistException**。
+    如果将其设置为不存在的索引，则会导致 **IndexNotExistException**。
 
 - **using** (*str*) - 
 
@@ -70,7 +70,7 @@ wait_for_index_building_complete(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 
@@ -84,15 +84,15 @@ None
 
 - **CollectionNotExistException**
 
-    如果指定的 collection 不存在，将引发此异常。
+    如果指定的 Collection 不存在，则会引发此异常。
 
 - **IndexNotExistException**
 
-    如果指定的索引不存在，将引发此异常。
+    如果指定的索引不存在，则会引发此异常。
 
 - **AmbiguousIndexName**
 
-    如果存在多个索引但未指定索引名称，将引发此异常。
+    如果存在多个索引但未指定索引名称，则会引发此异常。
 
 ## 示例\{#examples}
 
@@ -153,7 +153,7 @@ utility.wait_for_index_building_complete(
 
 ## 相关操作\{#related-operations}
 
-以下操作与 `wait_for_index_building_complete()` 相关：
+以下操作与 `wait_for_index_building_complete()` 相关
 
 - [create_index()](./Collection-create_index)
 

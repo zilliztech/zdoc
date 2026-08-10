@@ -15,10 +15,10 @@ keywords:
   - 什么是非结构化数据
   - 向量嵌入
   - 向量存储
-  - 开源向量数据库
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - revoke_role()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -61,7 +61,7 @@ revoke_role(
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    将此参数设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -75,11 +75,11 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 - **BaseException**
 
-    当此操作失败时，将引发此异常。
+    此操作失败时，将引发此异常。
 
 ## 示例\{#example}
 

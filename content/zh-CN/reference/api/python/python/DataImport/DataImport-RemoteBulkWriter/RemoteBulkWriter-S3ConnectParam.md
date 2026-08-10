@@ -12,13 +12,13 @@ type: docx
 token: CSpOd0XgWoVAhzx5xbVcpCVfnPg
 sidebar_position: 5
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - 信息检索
+  - 降维
+  - hnsw 算法
+  - 向量相似性搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - S3ConnectParam
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -37,15 +37,15 @@ import Admonition from '@theme/Admonition';
 class pymilvus.RemoteBulkWriter.S3ConnectParam
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
-使用一组参数（例如 **bucket_name**、**access_key**、**secret_key** 等）构造一个 **S3ConnectParam** 对象。
+通过一组参数（如 **bucket_name**、**access_key**、**secret_key** 等）构造 **S3ConnectParam** 对象。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-**S3ConnectParam** 对象定义了 Zilliz Cloud 连接到兼容 AWS S3 的存储桶所需的参数。
+**S3ConnectParam** 对象定义了 Zilliz Cloud 连接到兼容 AWS S3 的 bucket 所需的参数。
 
-在初始化 **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 对象之前，需要先创建此对象。
+在初始化 **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 对象之前，您需要先创建此对象。
 
 </Admonition>
 
@@ -71,9 +71,9 @@ connect_param = RemoteBulkWriter.S3ConnectParam(
 
 - **bucket_name** (*str*)
 
-    要连接的远程存储桶的名称。
+    要连接的远程 bucket 的名称。
 
-- **endpoint** (*str*)
+- **Endpoint** (*str*)
 
     兼容 AWS S3 的服务的 URL。
 
@@ -86,23 +86,23 @@ connect_param = RemoteBulkWriter.S3ConnectParam(
 
 - **access_key** (*str*)
 
-    用于验证对指定存储桶的访问权限的 access key（用户 ID）。
+    用于验证对指定 bucket 访问权限的 access key（用户 ID）。
 
 - **secret_key** (*str*)
 
-    用于验证对指定存储桶的访问权限的 secret_key（密码）。
+    用于验证对指定 bucket 访问权限的 secret_key（密码）。
 
 - **secure** (*bool*)
 
-    是否对兼容 AWS S3 的服务使用安全（TLS）连接。
+    是否使用与兼容 AWS S3 的服务之间的安全（TLS）连接。
 
 - **session_token** (*str*)
 
-    你在兼容 AWS S3 的服务中的账户会话令牌。
+    您在兼容 AWS S3 的服务中的账户的会话令牌。
 
 - **region** (*str*)
 
-    存储桶所在区域的名称或 ID。
+    bucket 所在区域的名称或 ID。
 
 - **http_client** (*urllib3.poolmanager.PoolManager*)
 
@@ -110,15 +110,15 @@ connect_param = RemoteBulkWriter.S3ConnectParam(
 
 - **credentials** (*minio.credentials.Provider*)    
 
-    你在兼容 AWS S3 的服务中的账户凭证提供器。
+    您在兼容 AWS S3 的服务中的账户的凭证提供程序。
 
 **返回类型：**
 
 *[RemoteBulkWriter](./DataImport-RemoteBulkWriter)*
 
-**返回：**
+**返回值：**
 
-一个 **[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 对象。
+**[RemoteBulkWriter](./DataImport-RemoteBulkWriter)** 对象。
 
 **异常：**
 

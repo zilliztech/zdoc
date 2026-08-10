@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作按其 ID 获取特定实体。 | Python | MilvusClient"
+description: "此操作根据 ID 获取特定 Entity。 | Python | MilvusClient"
 type: docx
 token: TEUDde2xbo0JT7xtVvtcF53Nnub
 sidebar_position: 2
 keywords: 
-  - vector databases comparison
+  - 向量 Database 对比
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - get()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # get()
 
-此操作按其 ID 获取特定实体。
+此操作根据 ID 获取特定 Entity。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法仅适用于专用服务集群和按需计算。 
+此方法仅适用于 dedicated serving 集群和按需计算。
 
-- 对于服务集群中的集合上的此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 如需在 serving 集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的集合上的此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+- 如需在按需计算的 Collection 中执行此操作，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话，将其附加到按需集群以执行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -70,41 +70,41 @@ get(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **ids** (*list* | *str* | *int*) -
 
-    **[必填]**
+    **[必需]**
 
-    特定实体 ID 或实体 ID 列表。
+    特定 Entity ID 或 Entity ID 列表。
 
 - **output_fields** (*list[str]* | *None*) -
 
-    返回结果中每个实体要包含的字段名称列表。
+    返回时每个 Entity 中要包含的字段名称列表。
 
-    默认值为 **None**。如果未指定，则选择所有字段作为输出字段。
+    该值默认为 **None**。如果未指定，则选择所有字段作为输出字段。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
     将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 - **partition_names** (*list[str]* | *None*) -
 
-    分区名称列表。
+    Partition 名称列表。
 
-    默认值为 **None**。如果指定，则仅在指定的分区中执行查询。
+    该值默认为 **None**。如果指定，则仅在指定的 Partition 中执行查询。
 
 **返回类型：**
 
 *list[dict]*
 
-**返回：**
+**返回值：**
 
-由字典组成的列表，其中每个字典表示一个被查询的实体。
+字典列表，其中每个字典表示一个查询到的 Entity。
 
 **异常：**
 
@@ -114,7 +114,7 @@ get(
 
 - **DataTypeNotMatchException**
 
-    当参数值与要求的数据类型不匹配时，将引发此异常。
+    当参数值与所需数据类型不匹配时，将引发此异常。
 
 ## 示例\{#examples}
 

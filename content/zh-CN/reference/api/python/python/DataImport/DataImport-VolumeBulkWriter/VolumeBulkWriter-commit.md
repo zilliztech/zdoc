@@ -13,9 +13,9 @@ token: RwmUdNd0WoQ75zxrCndcal6HnXT
 sidebar_position: 2
 keywords: 
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - 什么是非结构化数据
+  - 向量嵌入
+  - 向量存储
   - zilliz
   - zilliz cloud
   - cloud
@@ -47,11 +47,11 @@ VolumeBulkWriter.commit(
 
     是否异步刷新缓冲区。
 
-    如果设置为 `True`，刷新操作将在后台线程中运行，方法会立即返回。如果设置为 `False`（默认值），该方法会阻塞，直到刷新完成。
+    如果设置为 `True`，刷新操作会在后台线程中运行，方法会立即返回。如果设置为 `False`（默认值），则该方法会阻塞，直到刷新完成。
 
 - **call_back** (*Callable[[List[str]], List[str]]*) -
 
-    在本地文件刷新完成后调用的可选回调函数。在 VolumeBulkWriter 中，此回调在内部用于将文件上传到远程卷。
+    可选的回调函数，在本地文件刷新完成后调用。在 VolumeBulkWriter 中，此回调函数会在内部用于将文件上传到远程卷。
 
 **返回类型：**
 
@@ -63,7 +63,7 @@ VolumeBulkWriter.commit(
 
 - **MilvusException**
 
-    当刷新或上传操作失败时抛出。
+    当刷新或上传操作失败时引发。
 
 ## 示例\{#examples}
 

@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将记录追加到写入器。 | Python"
+description: "此操作会向写入器追加记录。 | Python"
 type: docx
 token: F1MFdP8VvoMu17x4Vg9cH6ztnqb
 sidebar_position: 1
 keywords: 
   - 音频相似性搜索
-  - 弹性向量数据库
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - 弹性向量 Database
+  - Pinecone 与 Milvus 对比
+  - Chroma 与 Milvus 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - append_row()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # append_row()
 
-此操作将记录追加到写入器。
+此操作会向写入器追加记录。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,9 +45,9 @@ append_row(
 
 - **row** (*dict*) -
 
-    表示要追加的实体的字典。
+    表示要追加的 Entity 的字典。
 
-    字典中的键及其值应与当前 **[LocalBulkWriter](./DataImport-LocalBulkWriter)** 中引用的 schema 相匹配。
+    该字典中的键及其值应与当前 **[LocalBulkWriter](./DataImport-LocalBulkWriter)** 引用的 Schema 匹配。
 
 ## 示例\{#examples}
 

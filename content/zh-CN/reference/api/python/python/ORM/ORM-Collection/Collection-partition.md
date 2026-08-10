@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取当前 collection 中指定的 partition。 | Python | ORM"
+description: "此操作获取当前 Collection 中指定的 Partition。 | Python | ORM"
 type: docx
 token: SvCrdEJIdosGQYxQZhrc2OAXnpd
 sidebar_position: 21
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - 幻觉 llm
+  - 多模态搜索
+  - 向量搜索算法
+  - 问答系统
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - partition()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # partition()
 
-此操作获取当前 collection 中指定的 partition。
+此操作获取当前 Collection 中指定的 Partition。
 
 ## 请求语法\{#request-syntax}
 
@@ -47,7 +47,7 @@ partition(
 
     **[必需]**
 
-    要获取的 partition 名称。
+    要获取的 Partition 名称。
 
 **返回类型：**
 
@@ -55,7 +55,7 @@ partition(
 
 **返回：**
 
-一个 **Partition** 对象。如果当前 collection 不存在指定名称的 partition，则返回 **None**。
+一个 **Partition** 对象。如果当前 Collection 不包含指定名称的 Partition，则返回 **None**。
 
 **异常：**
 

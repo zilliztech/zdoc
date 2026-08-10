@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "为目标字段创建命名索引，该字段可以是向量字段或标量字段。 | Python | ORM"
+description: "这会为目标字段创建一个命名索引，该字段可以是向量字段，也可以是标量字段。 | Python | ORM"
 type: docx
 token: J76vdPHNgoyp2wxAiTcceIVJnOe
 sidebar_position: 4
 keywords: 
-  - Unstructured Data
-  - vector database
+  - 非结构化数据
+  - 向量 Database
   - IVF
   - knn
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - create_index()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # create_index()
 
-为目标字段创建命名索引，该字段可以是向量字段或标量字段。
+这会为目标字段创建一个命名索引，该字段可以是向量字段，也可以是标量字段。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此操作为非阻塞操作。您可以调用 `utility.wait_for_index_building_complete()` 来阻塞当前进程。
+此操作为非阻塞操作。您可以调用 `utility.wait_for_index_building_complete()` 以阻塞当前进程。
 
 </Admonition>
 
@@ -63,19 +63,19 @@ create_index(
 
         用于构建索引的算法。
 
-        您应始终使用 **AUTOINDEX** 作为索引类型。更多信息请参见 [AUTOINDEX Explained](/docs/autoindex-explained)。
+        您应始终使用 **AUTOINDEX** 作为索引类型。请参阅 [AUTOINDEX Explained](/docs/autoindex-explained) 了解更多信息。
 
     - **metric_type** (*string*) - 
 
         用于构建索引的相似度度量类型。
 
-        可能的值包括 **L2**、**IP** 和 **COSINE**。更多信息请参见 [Similarity Metrics Explained](/docs/search-metrics-explained)。
+        可能的值包括 **L2**、**IP** 和 **COSINE**。请参阅 [Similarity Metrics Explained](/docs/search-metrics-explained) 了解更多信息。
 
     - **params** (*dict*) -
 
         与所选索引类型对应的索引构建参数。
 
-        有关适用的索引构建参数的详细信息，请参见 [AUTOINDEX Explained](/docs/autoindex-explained)。
+        有关适用索引构建参数的详细信息，请参阅 [AUTOINDEX Explained](/docs/autoindex-explained)。
 
 - **timeout** (*float* | *None*)  
 
@@ -85,15 +85,15 @@ create_index(
 
 *Status*
 
-**返回值：**
+**返回：**
 
-一个 **Status** 对象，用于指示此操作是否成功。
+一个 **Status** 对象，指示此操作是否成功。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 
@@ -138,7 +138,7 @@ collection.has_index() # True
 
 ## 相关操作\{#related-operations}
 
-以下操作与 `create_index()` 相关：
+以下操作与 `create_index()` 相关
 
 - [drop_index()](./Collection-drop_index)
 

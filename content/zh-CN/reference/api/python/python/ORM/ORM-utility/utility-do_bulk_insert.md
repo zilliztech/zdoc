@@ -12,13 +12,13 @@ type: docx
 token: BpqpdBWdyoxbmzx0GGCcQxksnBc
 sidebar_position: 8
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - 向量索引
+  - 开源向量 Database
+  - 开源向量数据库
+  - 向量 Database 示例
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - do_bulk_insert()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -50,51 +50,51 @@ do_bulk_insert(
 
 - **collection_name** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
-    此操作目标集合的名称。
+    此操作目标 Collection 的名称。
 
 - **files** (*list[str]*) -
 
-    **[必需]**
+    **[必填]**
 
     包含源数据的文件路径列表。 
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Note">
 
     如何准备源数据文件？
     
-        - 您可以使用一个 JSON 文件（*.json*）或一组 NumPy 文件（*.npy*）作为源数据文件。
+        - 您可以使用一个 JSON 文件 (*.json*) 或一组 NumPy 文件 (*.npy*) 作为源数据文件。
     
-            - 有效的 JSON 文件需要包含一个名为 **rows** 的根键，其值是一个字典列表，其中每个字典表示一个实体，并且该实体需与目标集合的 schema 匹配。
+            - 有效的 JSON 文件包含一个名为 **rows** 的根键，其值为字典列表，其中每个字典表示一个与目标 Collection 的 Schema 匹配的 Entity。
     
-                如果目标集合允许动态字段，请在每个实体字典中包含动态字段及其值。
+                如果目标 Collection 允许动态字段，请在每个 Entity 字典中包含动态字段及其值。
     
-            - 一组有效的 NumPy 文件应以目标集合 schema 中的字段名命名，并且其中的数据应与对应的字段定义匹配。 
+            - 一组有效的 NumPy 文件应以目标 Collection 的 Schema 中的字段命名，且其中的数据应与相应字段定义匹配。 
     
-                如果目标集合允许动态字段，请额外创建一个名为 **&#36;meta.npy** 的文件，以包含动态字段及其值。
+                如果目标 Collection 允许动态字段，请创建一个名为 **&#36;meta.npy** 的额外文件，以包含动态字段及其值。
     
-            有关如何准备源数据文件的详细信息，请参阅 [从文件插入实体](https://milvus.io/docs/bulk_insert.md)。
+            有关如何准备源数据文件的详细信息，请参见 [从文件插入 Entity](https://milvus.io/docs/bulk_insert.md)。
     
-        - 在运行此操作之前，您必须先将源数据文件上传到 Milvus 配置中 `minio.bucketname` 所定义的 bucket。 
+        - 在运行此操作之前，您必须先将源数据文件上传到 Milvus 配置中由 `minio.bucketname` 定义的 bucket。 
     
-            以使用 Docker Compose 部署的 Milvus 实例为例，假设 bucket 名称为 `a-bucket`。
+            以使用 Docker Compose 设置的 Milvus 实例为例，bucket 名称为 `a-bucket`。
     
-            - 如果您将源数据文件上传到此 bucket 的根目录，则应在 **files** 列表中仅包含带扩展名的文件名。例如，`files=["id.npy", "vector.npy"]` 或 `files=["data.json"]`。
+            - 如果您将源数据文件上传到此 bucket，则应仅在 **files** 列表中包含带扩展名的文件名。例如，`files=["id.npy", "vector.npy"]` 或 `files=["data.json"]`。
     
-            - 如果您将源数据文件上传到此 bucket 的某个子目录，则应填写相对于 bucket 的文件路径。例如，如果子目录为 `data`，则参数应设置为 `files=["data/id.npy", "data/vector.py"]` 或 `files=["data.json"]`。
+            - 如果您将源数据文件上传到此 bucket 的某个子目录中，则应包含相对于 bucket 的文件路径。例如，如果子目录为 `data`，则参数设置应为 `files=["data/id.npy", "data/vector.py"]` 或 `files=["data.json"]`。
     
-        - 如需查看您的 Milvus 实例使用的 MinIO bucket 名称，只需登录 MinIO 服务器进行查看。 
+        - 要查找您的 Milvus 实例所使用的 MinIO bucket 名称，只需登录 MinIO 服务器进行查看即可。 
 
     </Admonition>
 
 - **partition_name** (*str*) -
 
-    指定集合中某个分区的名称。
+    指定 Collection 中某个 Partition 的名称。
 
-    设置此参数后，Milvus 会将数据批量插入到指定分区中。
+    设置此参数后，Milvus 会将数据批量插入到指定的 Partition 中。
 
-    如果将此参数设置为不存在的分区名称，则会导致 **MilvusException**。
+    如果将此参数设置为不存在的 Partition 名称，则会导致 **MilvusException**。
 
 - **using** (*str*) - 
 
@@ -104,7 +104,7 @@ do_bulk_insert(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作才会超时。
 
 **返回类型：**
 

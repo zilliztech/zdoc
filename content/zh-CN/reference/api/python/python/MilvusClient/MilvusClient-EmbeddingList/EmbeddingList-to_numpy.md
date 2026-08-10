@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将当前 EmbeddingList 转换为包含所有向量嵌入的 NumPy 数组。 | Python | MilvusClient"
+description: "此操作将当前 EmbeddingList 转换为包含所有向量嵌入的 NumPy 数组。 | Python | MilvusClient"
 type: docx
 token: XQAQd2tPKon4JgxKEoAc0CCHnUg
 sidebar_position: 6
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - 知识库
+  - 自然语言处理
+  - AI 聊天机器人
+  - 余弦距离
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - to_numpy()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # to_numpy()
 
-此操作会将当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例转换为一个二维（2D）NumPy 数组，其中包含所有向量嵌入。
+此操作将当前 **[EmbeddingList](./MilvusClient-EmbeddingList)** 实例转换为包含所有向量嵌入的二维（2D）NumPy 数组。
 
 ## 请求语法\{#request-syntax}
 
@@ -43,9 +43,9 @@ to_numpy()
 
 *np.ndarray*
 
-**返回：**
+**返回值：**
 
-一个形状为 **(num_embeddings, dim)** 的二维 NumPy 数组，包含所有向量嵌入。
+一个二维（2D）NumPy 数组，包含所有向量嵌入，形状为 **(num_embeddings, dim)**。
 
 **异常：**
 

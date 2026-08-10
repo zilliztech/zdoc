@@ -12,13 +12,13 @@ type: docx
 token: Ky0pdpA6WorUvbxwN3ucwUjgnec
 sidebar_position: 4
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - 托管 Milvus
+  - Serverless 向量 Database
+  - Milvus 开源
+  - Milvus 的工作原理
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - get_restore_snapshot_state()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -47,10 +47,10 @@ get_restore_snapshot_state(
 
 - **job_id** (*int*) -<br/>
   **[必需]**<br/>
-  `restore_snapshot()` 返回的恢复作业 ID。
+  由 `restore_snapshot()` 返回的恢复作业 ID。
 
 - **timeout** (*Optional[float]*) -<br/>
-  RPC 允许的可选持续时间，单位为秒。
+  可选的时长，单位为秒，用于设置 RPC 的允许时限。
 
 **返回类型：**
 
@@ -58,7 +58,7 @@ get_restore_snapshot_state(
 
 **返回值：**
 
-一个包含恢复作业信息的数据类，具有以下字段：
+一个包含恢复作业信息的 dataclass，具有以下字段：
 
 ```python
 {
@@ -86,11 +86,11 @@ get_restore_snapshot_state(
 
 - **db_name** (*str*) -
 
-    目标数据库名称。
+    目标 Database 名称。
 
 - **collection_name** (*str*) -
 
-    目标集合名称。
+    目标 Collection 名称。
 
 - **state** (*str*) -
 
@@ -102,7 +102,7 @@ get_restore_snapshot_state(
 
 - **reason** (*str*) -
 
-    如果作业失败，表示错误原因。
+    如果作业失败，则为错误原因。
 
 - **start_time** (*int*) -
 

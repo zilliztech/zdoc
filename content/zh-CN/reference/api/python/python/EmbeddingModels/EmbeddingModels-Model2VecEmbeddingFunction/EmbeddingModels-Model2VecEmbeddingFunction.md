@@ -12,13 +12,13 @@ type: docx
 token: WiT4dJ1SJod0fdx4z23cwFbAn7c
 sidebar_position: 3
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - 向量存储
+  - 开源向量 Database
+  - 向量索引
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - Model2VecEmbeddingFunction
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -39,7 +39,7 @@ pymilvus.model.dense.Model2VecEmbeddingFunction
 
 ## 构造函数\{#constructor}
 
-构造一个适用于常见用例的 Model2VecEmbeddingFunction。
+构造一个用于常见场景的 Model2VecEmbeddingFunction。
 
 ```python
 Model2VecEmbeddingFunction(
@@ -50,15 +50,15 @@ Model2VecEmbeddingFunction(
 
 **参数：**
 
-- **model_source (string) -**
+- **model_source（string）-**
 
-    模型来源，可以是 Hugging Face 模型标识符，也可以是指向 model2vec 嵌入模型的本地路径。
+    模型来源，可以是 Hugging Face 模型标识符，也可以是 model2vec 嵌入模型的本地路径。
 
-    有效的 Hugging Face 模型标识符选项包括 **minishlab/potion-base-8M**（默认）、**minishlab/potion-base-4M**、**minishlab/potion-base-2M**、**minishlab/potion-base-32M** 和 **minishlab/potion-retrieval-32M**
+    Hugging Face 模型标识符的有效选项包括 **minishlab/potion-base-8M**（默认）、**minishlab/potion-base-4M**, **minishlab/potion-base-2M**, **minishlab/potion-base-32M**, 以及 **minishlab/potion-retrieval-32M**
 
 - **&ast;&ast;kwargs**
 
-    允许在从 Hugging Face Hub 加载模型时，将其他关键字参数传递给模型初始化，包括 Hugging Face 身份验证令牌等参数。
+    从 Hugging Face Hub 加载模型时，允许向模型初始化传递额外的关键字参数，包括 huggingface 身份验证令牌等参数。
 
 ## 示例\{#examples}
 

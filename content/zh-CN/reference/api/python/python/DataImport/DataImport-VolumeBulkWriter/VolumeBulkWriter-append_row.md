@@ -7,13 +7,13 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将单行数据追加到内部缓冲区中。当缓冲区大小超过配置的分块大小时，缓冲区会自动刷新到本地文件并上传到远程卷。 | Python"
+description: "此操作会将单行数据追加到内部缓冲区中。当缓冲区大小超过已配置的分块大小时，缓冲区会自动刷新到本地文件，并上传到远程卷。 | Python"
 type: docx
 token: LJKOd7ZDUopRISxNzamcwb1PnMJ
 sidebar_position: 1
 keywords: 
   - LLMs
-  - Machine Learning
+  - 机器学习
   - RAG
   - NLP
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # append_row()
 
-此操作将单行数据追加到内部缓冲区中。当缓冲区大小超过配置的分块大小时，缓冲区会自动刷新到本地文件并上传到远程卷。
+此操作会将单行数据追加到内部缓冲区中。当缓冲区大小超过已配置的分块大小时，缓冲区会自动刷新到本地文件，并上传到远程卷。
 
 ## 请求语法\{#request-syntax}
 
@@ -48,19 +48,19 @@ VolumeBulkWriter.append_row(
 
     **[必需]**
 
-    表示单行数据的字典。键必须与集合 schema 中定义的字段名称匹配，值必须符合相应的字段类型。
+    表示单行数据的字典。键必须与 Collection Schema 中定义的字段名称匹配，值必须符合相应的字段类型。
 
 **返回类型：**
 
 *None*
 
-此方法不返回任何值。
+此方法不返回值。
 
 **异常：**
 
 - **MilvusException**
 
-    当行数据未能通过集合 schema 的校验时引发（例如：类型不匹配、缺少必需字段、向量维度不匹配）。
+    当行数据未通过 Collection Schema 验证时引发，例如类型不匹配、缺少必填字段或向量维度不匹配。
 
 ## 示例\{#examples}
 

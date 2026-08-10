@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有现有集合。 | Python | MilvusClient"
+description: "此操作会列出所有现有 Collection。 | Python | MilvusClient"
 type: docx
 token: BHyidrVcyoPwxexHLrnceOSAnRe
 sidebar_position: 17
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_collections()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # list_collections()
 
-此操作列出所有现有集合。
+此操作会列出所有现有 Collection。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法适用于专属服务集群和按需计算。 
+此方法适用于 Dedicated 服务集群和按需计算。
 
-- 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的集合，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的 Collection，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -65,9 +65,9 @@ list_collections(**kwargs) -> Name
 
     - **timeout** (*float* | *None*) -
 
-        此操作的超时时长。 
+        此操作的超时时长。
 
-        将其设置为 **None** 表示当返回任意响应或发生错误时，此操作超时。
+        将其设置为 **None** 表示当返回任意响应或发生错误时，此操作即超时。
 
 **返回类型：**
 
@@ -75,7 +75,7 @@ list_collections(**kwargs) -> Name
 
 **返回：**
 
-集合名称列表。
+Collection 名称列表。
 
 **异常：**
 

@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有快照名称。也可以按集合名称进行筛选，以列出属于特定集合的快照。 | Python | MilvusClient"
+description: "此操作会列出所有快照名称。您也可以按 Collection 名称进行筛选，以列出属于特定 Collection 的快照。 | Python | MilvusClient"
 type: docx
 token: WgmLdM6nUogd7LxGtmfc5dBKnku
 sidebar_position: 6
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - milvus 向量 Database
+  - milvus 数据库
+  - milvus 向量 db
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_snapshots()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_snapshots()
 
-此操作列出所有快照名称。也可以按集合名称进行筛选，以列出属于特定集合的快照。
+此操作会列出所有快照名称。您也可以按 Collection 名称进行筛选，以列出属于特定 Collection 的快照。
 
 ## 请求语法\{#request-syntax}
 
@@ -46,10 +46,10 @@ list_snapshots(
 **参数：**
 
 - **collection_name** (*str*) -<br/>
-  可选的集合名称，用于筛选快照。如果为空，则列出所有快照。
+  用于筛选快照的可选 Collection 名称。如果为空，则列出所有快照。
 
 - **timeout** (*Optional[float]*) -<br/>
-  可选的超时时长，单位为秒，用于限制 RPC 的执行时间。
+  允许 RPC 执行的可选时长，单位为秒。
 
 **返回类型：**
 

@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作以批量方式向多个不同用途的 Zilliz Cloud 集群添加连接。 | Python | ORM"
+description: "此操作可批量为多个 Zilliz Cloud 集群添加连接，以用于不同目的。 | Python | ORM"
 type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
 keywords: 
-  - Anomaly Detection
+  - 异常检测
   - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - 推荐系统
+  - 信息检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - add_connection()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add_connection()
 
-此操作以批量方式向多个不同用途的 Zilliz Cloud 集群添加 [connections](./ORM-Connections)。
+此操作可批量为多个 Zilliz Cloud 集群添加用于不同目的的[连接](./ORM-Connections)。 
 
 ## 请求语法\{#request-syntax}
 
@@ -47,69 +47,69 @@ add_connection(
 
 - **kwargs** - 
 
-    传递关键字参数时，每个参数的名称都会作为 **connect()** 方法中的连接别名。
+    传递关键字参数时，每个参数的名称都会在 **connect()** 方法中用作连接别名。
 
-    参数值应为包含以下一个或多个字段的字典：
+    参数值应为一个字典，其中包含以下一个或多个字段：
 
     - **address** (*string*) -
 
-        要连接的实际地址。地址示例：**YOUR_CLUSTER_ENDPOINT**。
+        要连接的实际地址。示例地址：**YOUR_CLUSTER_ENDPOINT**。
 
     - **uri** (*string*) -
 
-        Zilliz Cloud 集群的 URI。例如：**`https://in01-&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540`**。
+        Zilliz Cloud 集群的 URI。例如：**https://in01-&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540**.
 
     - **host** (*string*) -
 
-        Zilliz Cloud 集群的主机。该值默认为 **localhost**，如果仅提供 **port**，PyMilvus 将填充默认主机。
+        Zilliz Cloud 集群的主机。该值默认为 **localhost**；如果仅提供了 **port**，PyMilvus 将填充默认主机。
 
     - **port** (*string | int*) -
 
-        Zilliz Cloud 集群监听的端口。该值默认为 **19530**，如果仅提供 **host**，PyMilvus 将填充默认端口。
+        Zilliz Cloud 集群监听的端口。该值默认为 **19530**；如果仅提供了 **host**，PyMilvus 将填充默认端口。
 
     - **user** (*string*) -
 
-        用于连接到指定 Zilliz Cloud 集群的有效用户名。
+        用于连接指定 Zilliz Cloud 集群的有效用户名。
 
         应与 **password** 一起使用。
 
     - **password** (*string*) -
 
-        用于连接到指定 Zilliz Cloud 集群的有效密码。
+        用于连接指定 Zilliz Cloud 集群的有效密码。
 
         应与 **user** 一起使用。
 
     - **token** (string) -
 
-        用于访问指定 Zilliz Cloud 集群的有效访问令牌。可作为分别设置 **user** 和 **password** 的替代方案。
+        用于访问指定 Zilliz Cloud 集群的有效访问令牌。此字段可作为分别设置 **user** 和 **password** 的替代方式。
 
         设置此字段时，请注意：
 
-        有效的 token 必须是以下之一：
+        有效的 token 应为以下任一项
 
         - 具有足够权限的 API key，或
 
-        - 用于访问目标集群的一组用户名和密码，并使用冒号 (:) 连接。例如，可以将其设置为 `username:p@ssw0rd`。
+        - 用于访问目标集群的一组用户名和密码，并以冒号 (:) 连接。例如，您可以将其设置为 `username:p@ssw0rd`。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Note">
 
-如何获取集群 endpoint 和 token？
+如何获取集群 Endpoint 和 token？
 
-- **集群 endpoint**
+- **集群 Endpoint**
 
-    您可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，然后在左侧导航栏中单击 **Clusters**。在集群列表中，单击目标集群的名称，在 **Connect** 区域复制其 endpoint，并将其用作上述 URI。
+    您可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，然后在左侧导航栏中单击 **Clusters**。在集群列表中，单击目标集群名称，复制 **Connect** 区域中的 Endpoint，并将其用作上述 URI。
 
-- **访问 token**
+- **访问令牌**
 
-    要连接到 Zilliz Cloud 集群，您可以使用以下任一方式：
+    要连接到 Zilliz Cloud 集群，您可以使用以下任一方式
 
     - API key
 
         您可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，然后在左侧导航栏中单击 **API Keys**。
 
-    - 一组用于访问集群的用户名和密码，并使用冒号（**:**）连接。
+    - 一组用于访问集群的用户名和密码，并以冒号（**:**）连接。
 
-        您可以使用在 Zilliz Cloud 控制台中创建集群时指定的集群凭据，或任何现有集群用户的凭据。
+        您可以使用在 Zilliz Cloud 控制台创建集群时指定的集群凭据，或任何现有集群用户的凭据。
 
 </Admonition>
 
@@ -117,7 +117,7 @@ add_connection(
 
 None
 
-**返回：**
+**返回值：**
 
 None
 

@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会向集合的 schema 添加一个字段。 | Python | MilvusClient"
+description: "此操作会向 Collection 的 Schema 添加一个字段。 | Python | MilvusClient"
 type: docx
 token: N3Fbd0ZZVoFo8DxJ9r8cNgcCnOd
 sidebar_position: 1
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
+  - 音频相似性搜索
+  - 弹性向量 Database
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - add_field()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add_field()
 
-此操作会向集合的 schema 添加一个字段。
+此操作会向 Collection 的 Schema 添加一个字段。
 
 ## 请求语法\{#request-syntax}
 
@@ -57,7 +57,7 @@ add_field(
 
     字段的数据类型。
 
-    为不同字段选择数据类型时，可以从以下选项中进行选择：
+    为不同字段选择数据类型时，您可以从以下选项中进行选择：
 
     - 主键字段：使用 **DataType.INT64** 或 **DataType.VARCHAR**。
 
@@ -91,57 +91,57 @@ add_field(
 
 - **is_primary** (*bool*) -
 
-    当前字段是否为集合中的主键字段。
+    当前字段是否为 Collection 中的主字段。
 
-    这不适用于外部集合。
+    这不适用于外部 Collection。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Notes">
 
-    - 每个集合只能有一个主键字段。
+    - 每个 Collection 只有一个主字段。
     
-    - 主键字段的数据类型必须是 **DataType.INT64** 或 **DataType.VARCHAR**。
+    - 主字段的数据类型应为 **DataType.INT64** 或 **DataType.VARCHAR**。
 
     </Admonition>
 
 - **max_length** (*int*) -
 
-    允许插入字符串的最大字节长度。请注意，多字节字符（例如 Unicode 字符）每个字符可能占用多个字节，因此请确保插入字符串的字节长度不超过指定限制。取值范围：[1, 65,535]。
+    允许插入的字符串的最大字节长度。请注意，多字节字符（例如 Unicode 字符）每个可能占用多个字节，因此请确保插入字符串的字节长度不超过指定限制。取值范围：[1, 65,535]。
 
-    对于 DataType.VARCHAR 字段，此参数是必需的。对于 DataType.TEXT 字段，请省略此参数。
+    对于 DataType.VARCHAR 字段，此参数为必需。对于 DataType.TEXT 字段，请省略此参数。
 
 - **element_type** (*str*) -
 
     字段值中元素的数据类型。
 
-    对于 **DataType.ARRAY** 字段，此参数是必需的。
+    对于 **DataType.ARRAY** 字段，此参数为必需。
 
 - **max_capacity** (*int*) -
 
     Array 字段值中的元素数量。
 
-    对于 **DataType.ARRAY** 字段，此参数是必需的。
+    对于 **DataType.ARRAY** 字段，此参数为必需。
 
 - **dim** (*int*) -
 
     向量嵌入的维度。该值应为大于 1 的整数。
 
-    对于 **DataType.FLOAT_VECTOR**、**DataType.BINARY_VECTOR**、**DataType.FLOAT16_VECTOR** 或 **DataType.BFLOAT16_VECTOR** 类型的字段，此参数是必需的。如果使用 **DataType.SPARSE_FLOAT_VECTOR**，请省略此参数。
+    对于 **DataType.FLOAT_VECTOR**、**DataType.BINARY_VECTOR**、**DataType.FLOAT16_VECTOR** 或 **DataType.BFLOAT16_VECTOR** 类型的字段，此参数为必需。如果您使用 **DataType.SPARSE_FLOAT_VECTOR**，请省略此参数。
 
 - **is_partition_key** (*bool*) -
 
-    当前字段是否作为分区键。每个集合可以有一个分区键。
+    当前字段是否用作 Partition 键。每个 Collection 可以有一个 Partition 键。
 
-    这不适用于外部集合。
+    这不适用于外部 Collection。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Note">
 
-    什么是分区键？
+    什么是 Partition 键？
     
-        为了支持面向分区的多租户，您可以将某个字段设置为分区键字段，以便 Zilliz Cloud 对该字段值进行哈希，并据此将实体分布到指定数量的分区中。
+        为支持面向 Partition 的多租户，您可以将某个字段设置为 Partition 键字段，以便 Zilliz Cloud 对字段值进行哈希，并据此将 Entity 分配到指定数量的 Partition 中。
     
-        在检索实体时，请确保在布尔表达式中使用分区键字段，以筛选出具有特定字段值的实体。
+        检索 Entity 时，请确保在布尔表达式中使用 Partition 键字段，以筛选出具有特定字段值的 Entity。
     
-        更多信息请参见 [Use Partition Key](/docs/use-partition-key) 和 [Multi-tenancy](https://milvus.io/docs/multi_tenancy.md)。
+        有关详细信息，请参阅 [使用 Partition 键](/docs/use-partition-key) 和 [多租户](https://milvus.io/docs/multi_tenancy.md)。
 
     </Admonition>
 
@@ -151,13 +151,13 @@ add_field(
 
 **返回值：**
 
-一个 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象，其中包含已添加到 schema 的字段。
+**[CollectionSchema](./MilvusClient-CollectionSchema)** 对象包含已添加到 Schema 中的字段。
 
 **异常：**
 
 - **MilvusException**
 
-    在此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

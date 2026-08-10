@@ -7,14 +7,14 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作显示在特定分区上收集的统计信息。 | Python | MilvusClient"
+description: "此操作显示在特定 Partition 上收集的统计信息。 | Python | MilvusClient"
 type: docx
 token: Jjbsd2I8doQ9pBxBp57ckRdZnZd
 sidebar_position: 3
 keywords: 
-  - 什么是向量数据库
+  - 什么是向量 Database
   - vectordb
-  - 多模态向量数据库检索
+  - 多模态向量 Database 检索
   - 检索增强生成
   - zilliz
   - zilliz cloud
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # get_partition_stats()
 
-此操作显示在特定分区上收集的统计信息。
+此操作显示在特定 Partition 上收集的统计信息。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管集合。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -55,27 +55,27 @@ get_partition_stats(
 
     **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **partition_name** (*str*) -
 
     **[必需]**
 
-    现有分区的名称。
+    现有 Partition 的名称。
 
 - **timeout** (*float* | *None*)  
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作将超时。
+    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
 *dict*
 
-**返回：**
+**返回值：**
 
-一个字典，包含指定分区中的行数。
+一个包含指定 Partition 中行数的字典。
 
 ```python
 {
@@ -83,11 +83,11 @@ get_partition_stats(
 }
 ```
 
-<Admonition type="info" icon="📘" title="**为什么行数与插入的实体数量不一致？**">
+<Admonition type="info" icon="📘" title="**Why doesn't the row count match the number of entities inserted?**">
 
-您插入的数据在最终保存之前会经过一个处理过程。最初，数据会以数据流的形式进入。随后，它会作为实体存储在 segment 中。Milvus 会选择合适的 growing segment 来存储流式数据，直到该 segment 达到上限并变为 sealed。
+您插入的数据在最终保存之前会经历一个过程。最初，它会以数据流的形式进入。随后，它会作为 Entity 存储在 Segment 中。Milvus 会选择一个合适的增长中 Segment 来存储流式数据，直到该 Segment 达到上限并变为 sealed。
 
-不过，需要注意的是，显示的行数可能与已插入的记录数不一致，因为数据流中的数据不会被计入。
+不过，需要注意的是，显示的行数可能与插入的记录数不一致，因为数据流中的数据不会被计入。
 
 </Admonition>
 

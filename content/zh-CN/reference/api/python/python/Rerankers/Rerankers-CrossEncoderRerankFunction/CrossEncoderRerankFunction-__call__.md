@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "CrossEncoderRerankFunction 中的此操作接收查询和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的 top k 文档。 | Python"
+description: "CrossEncoderRerankFunction 中的此操作接收查询和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序的前 k 个文档。 | Python"
 type: docx
 token: Vy5GdSeTdoNbSqxCdsOcSmQPnvf
 sidebar_position: 2
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
+  - 向量相似性搜索
+  - 近似最近邻搜索
   - DiskANN
-  - Sparse vector
+  - 稀疏向量
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[CrossEncoderRerankFunction](./Rerankers-CrossEncoderRerankFunction) 中的此操作接收查询和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的 top k 文档。
+[CrossEncoderRerankFunction](./Rerankers-CrossEncoderRerankFunction) 中的此操作接收查询和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序的前 k 个文档。
 
 ## 请求语法\{#request-syntax}
 
@@ -59,13 +59,13 @@ ce_rf(
 
 - `top_k` (*int*)
 
-    要返回的排名最高文档的最大数量。默认值为 **5**。
+    返回的排序结果中前几名文档的最大数量。默认为 **5**。
 
 **返回类型：**
 
 *List[RerankResult]*
 
-**返回：**
+**返回值：**
 
 一个 `RerankResult` 对象列表。
 

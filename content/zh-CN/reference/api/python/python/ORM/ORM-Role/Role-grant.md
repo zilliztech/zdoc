@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作为当前角色授予权限。 | Python | ORM"
+description: "此操作会向当前角色授予权限。 | Python | ORM"
 type: docx
 token: BapSdVXjQoQXnbxnRYScCagAn1f
 sidebar_position: 5
 keywords: 
   - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - 多模态向量 Database 检索
+  - 检索增强生成
+  - 大语言模型
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # grant()
 
-此操作为当前角色授予权限。
+此操作会向当前角色授予权限。
 
 ## 请求语法\{#request-syntax}
 
@@ -60,7 +60,7 @@ grant(
 
     在 **object** 中指定类型的目标对象名称。
 
-    它可以是集合名称、用户名或通配符（*）。
+    它可以是 Collection 名称、用户名或通配符（*）。
 
 - **privilege** (*string*)
 
@@ -70,23 +70,23 @@ grant(
 
     详情请参见 Users & Roles。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Notes">
 
-    - 如需向某类对象授予所有权限，例如 **[Collection](./ORM-Collection)**、**Global**、**User**，请使用 `*` 作为权限名称。
+    - 要向某一类对象授予所有权限，例如 **[Collection](./ORM-Collection)**、**Global**、**User**，请使用 `*` 作为权限名称。
     
-    - 当 `object` 设置为 `Global` 时，将 `privilege` 设置为 `\*` 不等同于将其设置为 `All`。`All` 权限包含所有权限，包括任何 collection 和 user 对象的权限。
+    - 当 `object` 设置为 `Global` 时，将 `privilege` 设置为 `\*` 并不等同于将其设置为 `All`。`All` 权限包含所有权限，包括任何 Collection 和 user 对象。
 
     </Admonition>
 
 - **db_name** (*string*)
 
-    对象所属数据库的名称。如果未指定，则使用默认数据库。
+    对象所属 Database 的名称。如果未指定，则使用默认 Database。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 *None*
 

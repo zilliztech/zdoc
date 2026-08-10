@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会从当前 collection 中删除索引。 | Python | ORM"
+description: "此操作会删除当前 Collection 中的索引。 | Python | ORM"
 type: docx
 token: AtkDdtMAWodFzExARxnco5xLnsg
 sidebar_position: 9
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - RAG 向量 Database
+  - 什么是向量数据库
+  - 什么是向量 Database
+  - 向量 Database 对比
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_index()
 
-此操作会从当前 collection 中删除索引。
+此操作会删除当前 Collection 中的索引。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,7 +49,7 @@ drop_index(timeout: float | None)
 
 *None*
 
-**返回：**
+**返回值：**
 
 *NoneType*
 
@@ -57,7 +57,7 @@ drop_index(timeout: float | None)
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    在此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

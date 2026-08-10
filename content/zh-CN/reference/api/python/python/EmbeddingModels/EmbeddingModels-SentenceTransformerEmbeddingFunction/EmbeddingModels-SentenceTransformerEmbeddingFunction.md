@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "SentenceTransformerEmbeddingFunction 是 pymilvus 中的一个类，使用 Sentence Transformer 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
+description: "SentenceTransformerEmbeddingFunction 是 pymilvus 中的一个类，负责使用 Sentence Transformer 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: JOFedA4h8otTjHxsYQ7cnjsunHd
 sidebar_position: 3
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - 嵌入模型
+  - 图像相似性搜索
+  - 上下文窗口
+  - 自然语言搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - SentenceTransformerEmbeddingFunction
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # SentenceTransformerEmbeddingFunction
 
-**SentenceTransformerEmbeddingFunction** 是 pymilvus 中的一个类，使用 Sentence Transformer 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
+**SentenceTransformerEmbeddingFunction** 是 pymilvus 中的一个类，负责使用 Sentence Transformer 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.dense.SentenceTransformerEmbeddingFunction
@@ -39,7 +39,7 @@ pymilvus.model.dense.SentenceTransformerEmbeddingFunction
 
 ## 构造函数\{#constructor}
 
-构造一个适用于常见使用场景的 SentenceTransformerEmbeddingFunction。
+为常见用例构造一个 SentenceTransformerEmbeddingFunction。
 
 ```python
 SentenceTransformerEmbeddingFunction(
@@ -57,19 +57,19 @@ SentenceTransformerEmbeddingFunction(
 
 - **model_name** (*string*) -
 
-    用于编码的 Sentence Transformer 模型名称。默认值为 **all-MiniLM-L6-v2**。你可以使用任意 Sentence Transformers 的预训练模型。可用模型列表请参见 [Pretrained models](https://www.sbert.net/docs/pretrained_models.html)。
+    用于编码的 Sentence Transformer 模型名称。默认值为 **all-MiniLM-L6-v2**。您可以使用 Sentence Transformers 的任意预训练模型。有关可用模型列表，请参见 [预训练模型](https://www.sbert.net/docs/pretrained_models.html)。
 
 - **batch_size** (*int*) -
 
-    计算时使用的批大小。
+    用于计算的批处理大小。
 
 - **query_instruction** (*string*) -
 
-    在查询文本前添加上下文指令，以提升特定模型的嵌入质量（例如，"Represent the Wikipedia question for retrieving supporting documents:"）。
+    在查询文本前添加上下文指令，以提升特定模型的嵌入质量（例如："Represent the Wikipedia question for retrieving supporting documents:"）。
 
 - **doc_instruction** (*string*) -
 
-    在文档文本前添加上下文指令，以提升特定模型的嵌入质量（例如，"Represent the Wikipedia document for retrieval:"）。
+    在文档文本前添加上下文指令，以提升特定模型的嵌入质量（例如："Represent the Wikipedia document for retrieval:"）。
 
 - **device** (*string*) -
 
@@ -81,7 +81,7 @@ SentenceTransformerEmbeddingFunction(
 
 - **&ast;&ast;kwargs**
 
-    允许向模型初始化传递其他关键字参数。更多信息请参见 [SentenceTransformer](https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/SentenceTransformer.py)。
+    允许向模型初始化传递其他关键字参数。更多信息，请参见 [SentenceTransformer](https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/SentenceTransformer.py)。
 
 ## 示例\{#examples}
 

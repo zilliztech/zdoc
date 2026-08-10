@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取查询集群中 sealed 和 growing segment 的信息。 | Python | ORM"
+description: "此操作用于获取查询集群中 sealed 和 growing Segment 的信息。 | Python | ORM"
 type: docx
 token: CB9edh2ySoJyWhxBoLcchPj9nxg
 sidebar_position: 14
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - 私有 llms
+  - 近邻搜索
+  - llm 评测
+  - 稀疏 vs 稠密
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - get_query_segment_info()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_query_segment_info()
 
-此操作获取查询集群中 sealed 和 growing segment 的信息。
+此操作用于获取查询集群中 sealed 和 growing Segment 的信息。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,7 +49,7 @@ get_query_segment_info(
 
     **[必需]**
 
-    现有 collection 的名称。
+    现有 Collection 的名称。
 
 - **using** (*str*) - 
 
@@ -59,19 +59,19 @@ get_query_segment_info(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 
 *list*
 
-**返回：**
+**返回值：**
 
-由 **QuerySegmentInfo** 对象组成的列表，其中每个对象都报告一个 segment 的状态。
+由 **QuerySegmentInfo** 对象组成的列表，其中每个对象都报告一个 Segment 的状态。
 
 **异常：**
 
-不适用
+N/A
 
 ## 示例\{#examples}
 

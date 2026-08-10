@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于删除现有用户。 | Python | ORM"
+description: "此操作会删除现有用户。 | Python | ORM"
 type: docx
 token: E7zOdU2JpoqaU5xNYXvcAjgPnNh
 sidebar_position: 6
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - 向量索引
+  - 开源向量 Database
+  - 开源向量数据库 db
+  - 向量 Database 示例
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - delete_user()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # delete_user()
 
-此操作用于删除现有用户。
+此操作会删除现有用户。
 
 ## 请求语法\{#request-syntax}
 
@@ -50,7 +50,7 @@ delete_user(
 
     **[必填]**
 
-    要删除的新用户的名称。
+    要删除的新用户名称。
 
 - **password** (*string*) - 
 
@@ -58,7 +58,7 @@ delete_user(
 
     要创建的新用户对应的密码。
 
-    如果将其设置为错误的密码，会导致 **MilvusException**。
+    如果将其设置为错误的密码，将导致 **MilvusException**。
 
 - **using** (*string*) - 
 
@@ -68,7 +68,7 @@ delete_user(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作才会超时。
 
 **返回类型：**
 
@@ -82,7 +82,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    在此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

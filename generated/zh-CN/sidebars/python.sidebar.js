@@ -823,7 +823,7 @@ module.exports = [
       },
       {
         "type": "category",
-        "label": "Function",
+        "label": "函数",
         "key": "category:api/python/python/MilvusClient/milvusclient-function",
         "items": [
           {
@@ -841,7 +841,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "api/python/python/MilvusClient/MilvusClient-Function/MilvusClient-Function",
-            "label": "Function",
+            "label": "函数",
             "key": "doc:api/python/python/MilvusClient/MilvusClient-Function/milvusclient-function"
           },
           {

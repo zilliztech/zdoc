@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会更改指定集合的属性。 | Python | MilvusClient"
+description: "此操作用于修改指定 Collection 的属性。 | Python | MilvusClient"
 type: docx
 token: SJ1FdUQQnohtObxhNgpcHalMnUc
 sidebar_position: 3
 keywords: 
   - 什么是向量数据库
-  - 什么是向量数据库
-  - 向量数据库对比
+  - 什么是向量 Database
+  - 向量 Database 对比
   - Faiss
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - alter_collection_properties()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # alter_collection_properties()
 
-此操作会更改指定集合的属性。
+此操作用于修改指定 Collection 的属性。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这不适用于外部集合。
+这不适用于外部 Collection。
 
 </Admonition>
 
@@ -55,7 +55,7 @@ alter_collection_properties(
 
 - **collection_name** (*str*) -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - **properties** (*dict*) -
 
@@ -63,35 +63,35 @@ alter_collection_properties(
 
     - **collection.ttl.seconds** (*int*) -
 
-        集合的生存时间（TTL），单位为秒。
+        Collection 的生存时间（TTL），单位为秒。
 
     - **ttl_field** (*str*)
 
-        用作实体级 TTL 过期逻辑时间戳的 `TIMESTAMPTZ` 字段名称。
+        用作 Entity 级 TTL 过期逻辑时间戳的`TIMESTAMPTZ`字段名称。
 
     - **mmap.enabled** (*bool*) -
 
-        是否为集合中所有字段的原始数据和索引启用 mmap。详情请参见 [Use mmap](/docs/use-mmap)。
+        是否为 Collection 中所有字段的原始数据和索引启用 mmap。详情请参见 [使用 mmap](/docs/use-mmap)。
 
     - **partitionkey.isolation** (bool) -
 
-        是否启用分区键隔离。详情请参见 [Use Partition Key](/docs/use-partition-key)。
+        是否启用 Partition 键隔离。详情请参见 [使用 Partition 键](/docs/use-partition-key)。
 
     - **dynamicfield.enabled** (bool) -
 
-        是否启用动态字段。详情请参见 [Dynamic Field](/docs/enable-dynamic-field)。
+        是否启用动态字段。详情请参见 [动态字段](/docs/enable-dynamic-field)。
 
 - **timeout** (*Optional[float]*) - 
 
     此操作的超时时长。
 
-    将其设置为 None 表示当收到任意响应或发生任意错误时，此操作即超时结束。
+    将其设置为 None 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 *None*
 

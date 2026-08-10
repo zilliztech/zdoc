@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "JinaRerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的 top k 文档。 | Python"
+description: "JinaRerankFunction 中的此操作接收查询和文档字符串，并返回一个包含按分数排序的前 k 个文档的 `RerankResult` 对象列表。 | Python"
 type: docx
 token: R3gEdUOSfo6JzMxwUsTcevNHn9g
 sidebar_position: 2
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - 向量 Database 如何工作
+  - 向量数据库对比
+  - openai 向量数据库
+  - 自然语言处理 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - \_\_call\_\_()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[JinaRerankFunction](./Rerankers-JinaRerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的 top k 文档。
+[JinaRerankFunction](./Rerankers-JinaRerankFunction) 中的此操作接收查询和文档字符串，并返回一个包含按分数排序的前 k 个文档的 `RerankResult` 对象列表。
 
 ## 请求语法\{#request-syntax}
 
@@ -55,19 +55,19 @@ jina_rf(
 
 - `documents` (*List[str]*)
 
-    一个文档字符串列表，将针对给定查询进行排序。
+    将针对给定查询进行排序的文档字符串列表。
 
 - `top_k` (*int*)
 
-    要返回的排序结果中排名最高的文档最大数量。默认为 **5**。
+    要返回的排名最高文档的最大数量。默认为 **5**。
 
 **返回类型：**
 
 *List[RerankResult]*
 
-**返回：**
+**返回值：**
 
-一个 `RerankResult` 对象列表。
+由 `RerankResult` 对象组成的列表。
 
 ```plaintext
 ├── RerankResult
@@ -88,7 +88,7 @@ jina_rf(
 
 - **RuntimeError**
 
-    当来自 Jina API 的响应中不包含 `results` 键时，将引发此异常。
+    当 Jina API 的响应中不包含 `results` 键时，将引发此异常。
 
 ## 示例\{#examples}
 

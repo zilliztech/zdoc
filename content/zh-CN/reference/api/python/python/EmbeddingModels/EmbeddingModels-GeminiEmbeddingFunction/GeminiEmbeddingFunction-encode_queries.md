@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。 | Python"
+description: "此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。 | Python"
 type: docx
 token: KtyxdkxpSoTvacxJp27cOXwCnhe
 sidebar_position: 2
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - 私有 llms
+  - 近邻搜索
+  - llm 评估
+  - 稀疏与稠密
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - encode_queries()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # encode_queries()
 
-此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。
+此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。
 
 ## 请求语法\{#request-syntax}
 

@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出当前已连接的 Zilliz Cloud 集群中的所有资源组。 | Python | ORM"
+description: "此操作会列出当前已连接的 Zilliz Cloud 集群中的所有资源组。 | Python | ORM"
 type: docx
 token: FXTZd5FgNo9ta0xvjaIclEM1nPf
 sidebar_position: 26
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - 稀疏向量
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_resource_groups()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_resource_groups()
 
-此操作列出当前已连接的 Zilliz Cloud 集群中的所有资源组。
+此操作会列出当前已连接的 Zilliz Cloud 集群中的所有资源组。
 
 ## 请求语法\{#request-syntax}
 
@@ -52,14 +52,14 @@ list_resource_groups(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作才会超时。
 
 **返回类型：**
 
 *list*
 
 **返回：**
-所有资源组名称组成的列表。
+所有资源组名称的列表。
 
 **示例：**
 

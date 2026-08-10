@@ -12,13 +12,13 @@ type: docx
 token: F8WOdIoz4okn5OxMEymcXNuRnkb
 sidebar_position: 6
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 句子转换器
+  - 推荐系统
+  - 信息检索
+  - 降维
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - is_exist()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -41,13 +41,13 @@ is_exist()
 
 **参数：**
 
-N/A
+无/A
 
 **返回类型：**
 
 *bool*
 
-**返回：**
+**返回值：**
 
 一个布尔值，表示当前角色是否存在
 

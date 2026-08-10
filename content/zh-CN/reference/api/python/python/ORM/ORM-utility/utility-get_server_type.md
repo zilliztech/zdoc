@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检查 Zilliz Cloud 集群的类型。 | Python | ORM"
+description: "此操作用于检查 Zilliz Cloud 集群的类型。 | Python | ORM"
 type: docx
 token: UOIddRBUXotHvyx4Yyocer0mnId
 sidebar_position: 15
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Chroma 向量 Database
+  - NLP 搜索
+  - llm 幻觉
+  - 多模态搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - get_server_type()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_server_type()
 
-此操作检查 Zilliz Cloud 集群的类型。
+此操作用于检查 Zilliz Cloud 集群的类型。
 
 ## 请求语法\{#request-syntax}
 
@@ -53,7 +53,7 @@ get_server_type(
 
 *str*
 
-**返回：**
+**返回值：**
 服务器类型。可能的值如下：
 
 - **zilliz**

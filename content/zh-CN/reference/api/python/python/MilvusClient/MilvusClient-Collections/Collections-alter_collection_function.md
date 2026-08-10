@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作通过使用新的函数模式替换集合中的现有函数来对其进行更改。 | Python | MilvusClient"
+description: "此操作通过使用新的函数 Schema 替换现有函数，来修改 Collection 中的现有函数。 | Python | MilvusClient"
 type: docx
 token: N9d9df9IIojLZDxft1HcU0mkn0b
 sidebar_position: 22
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - 向量 Database 示例
+  - RAG 向量 Database
+  - 什么是向量数据库
+  - 什么是向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - alter_collection_function()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # alter_collection_function()
 
-此操作通过使用新的函数模式替换集合中的现有函数来对其进行更改。
+此操作通过使用新的函数 Schema 替换现有函数，来修改 Collection 中的现有函数。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这不适用于外部集合。
+这不适用于外部 Collection。
 
 </Admonition>
 
@@ -57,7 +57,7 @@ client.alter_collection_function(
 
     **[必需]**
 
-    集合的名称。
+    Collection 的名称。
 
 - **function_name** (*str*) -
 
@@ -69,11 +69,11 @@ client.alter_collection_function(
 
     **[必需]**
 
-    用于替换现有函数的新函数模式。
+    用于替换现有函数的新函数 Schema。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 - **kwargs** (*dict*) -
 

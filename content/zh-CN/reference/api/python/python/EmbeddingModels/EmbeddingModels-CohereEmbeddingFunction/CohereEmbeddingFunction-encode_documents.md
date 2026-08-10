@@ -12,10 +12,10 @@ type: docx
 token: FIyedc51So0onWxtPAjcHFkmnHe
 sidebar_position: 2
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似性搜索
+  - 向量检索
   - zilliz
   - zilliz cloud
   - cloud
@@ -59,7 +59,7 @@ encode_documents(
 
 - **ValueError**
 
-    当你在初始化 `CohereEmbeddingFunction` 时指定了多个嵌入类型，或者使用 `int8` 或 `uint8` 数据类型时，将引发此异常。
+    当您指定多个嵌入类型，或在初始化 CohereEmbeddingFunction 时使用 `int8` 或 `uint8` 数据类型时，将引发此异常。
 
 ## 示例\{#examples}
 

@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作为用户授予角色。 | Python | MilvusClient"
+description: "此操作向用户授予角色。 | Python | MilvusClient"
 type: docx
 token: DsnpdZuDGo77TYxFuYvcDpOgnIf
 sidebar_position: 12
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - 向量数据库对比
+  - openai 向量数据库
+  - 自然语言处理 Database
+  - 低成本向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - grant_role()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # grant_role()
 
-此操作为用户授予角色。
+此操作向用户授予角色。
 
 ## 请求语法\{#request-syntax}
 
@@ -61,13 +61,13 @@ grant_role(
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将此参数设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 
@@ -96,9 +96,9 @@ client = MilvusClient(
 client.grant_role(user_name="user_1", role_name="db_ro")
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-每个 Zilliz Cloud 集群都有三个内置角色，即 **db\_ro**、**db\_rw** 和 **db\_admin**。详情请参见 [集群内置角色](/docs/cluster-roles#built-in-cluster-roles)。
+每个 Zilliz Cloud 集群都有三个内置角色，即 **db\_ro**、**db\_rw** 和 **db\_admin**。有关详情，请参见 [集群内置角色](/docs/cluster-roles#built-in-cluster-roles)。
 
 </Admonition>
 

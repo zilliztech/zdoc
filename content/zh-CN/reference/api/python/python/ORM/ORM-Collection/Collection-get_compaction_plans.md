@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取当前的 compaction 计划。 | Python | ORM"
+description: "此操作用于获取当前的 Compaction 计划。 | Python | ORM"
 type: docx
 token: D6Q7dq4USotLS3xxMP0cFiGLnsf
 sidebar_position: 12
@@ -15,10 +15,10 @@ keywords:
   - 什么是非结构化数据
   - 向量嵌入
   - 向量存储
-  - 开源向量数据库
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - get_compaction_plans()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_compaction_plans()
 
-此操作获取当前的 compaction 计划。
+此操作用于获取当前的 Compaction 计划。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,13 +45,13 @@ get_compaction_plans(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 

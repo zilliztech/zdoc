@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "MGTEEmbeddingFunction 是 pymilvus 中的一个类，用于使用 MGTE embedding 模型将文本编码为 embeddings，以支持在 Milvus 中进行 embedding 检索。 | Python"
+description: "MGTEEmbeddingFunction 是 pymilvus 中的一个类，它使用 MGTE 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: OF1mdh4tSo8ZQQxxVgEcdITRndb
 sidebar_position: 3
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Elastic 向量 Database
+  - Pinecone 与 Milvus 对比
+  - Chroma 与 Milvus 对比
+  - Annoy 向量搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # MGTEEmbeddingFunction
 
-MGTEEmbeddingFunction 是 pymilvus 中的一个类，用于使用 MGTE embedding 模型将文本编码为 embeddings，以支持在 Milvus 中进行 embedding 检索。
+MGTEEmbeddingFunction 是 pymilvus 中的一个类，它使用 MGTE 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.hybrid.MGTEEmbeddingFunction
@@ -59,7 +59,7 @@ MGTEEmbeddingFunction(
 
 - **model_name** (*string*)
 
-    用于编码的 GTE embedding 模型名称。默认值为 `Alibaba-NLP/gte-multilingual-base`。更多信息，请参见 [Models](https://huggingface.co/Alibaba-NLP)。
+    用于编码的 GTE 嵌入模型名称。该值默认为 `Alibaba-NLP/gte-multilingual-base`。更多信息，请参见 [模型](https://huggingface.co/Alibaba-NLP)。
 
 - **batch_size** (*int*)
 
@@ -67,15 +67,15 @@ MGTEEmbeddingFunction(
 
 - **device** (*string*)
 
-    用于模型的设备。
+    模型使用的设备。
 
 - **normalize_embeddings** (*bool*)
 
-    是否对 dense embeddings 进行归一化。
+    是否对稠密嵌入进行归一化。
 
 - **dimensions** (*int*)
 
-    dense embeddings 的维度数。如果未提供，将使用模型默认的 hidden size。
+    稠密嵌入的维度数。如果未提供，则使用模型默认的隐藏层大小。
 
 - **use_fp16** (*bool*)
 
@@ -83,15 +83,15 @@ MGTEEmbeddingFunction(
 
 - **return_dense** (*bool*)
 
-    是否返回 dense embeddings。
+    是否返回稠密嵌入。
 
 - **return_sparse** (*bool*)
 
-    是否返回 sparse embeddings。
+    是否返回稀疏嵌入。
 
 - **kwargs**
 
-    允许将额外的关键字参数传递给模型初始化。
+    允许将其他关键字参数传递给模型初始化。
 
 ## 示例\{#examples}
 

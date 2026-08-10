@@ -15,7 +15,7 @@ keywords:
   - 视频相似性搜索
   - 向量检索
   - 音频相似性搜索
-  - 弹性向量数据库
+  - 弹性向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -43,7 +43,7 @@ has_connection(alias: str)
 
 - **alias** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
     连接别名。
 
@@ -53,11 +53,11 @@ has_connection(alias: str)
 
 **返回：**
 
-一个 Boolean 值，用于指示连接是否存在。
+一个 Boolean 值，指示该连接是否存在。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-现有的连接别名并不一定表示相应的连接已经建立。
+已存在的连接别名并不一定表示相应的连接已经建立。
 
 仅当连接别名存在且相应的连接已建立时，此操作才会返回 **True**。
 

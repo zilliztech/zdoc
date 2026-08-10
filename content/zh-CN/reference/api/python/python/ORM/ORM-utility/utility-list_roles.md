@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有现有角色的信息。 | Python | ORM"
+description: "此操作列出现有所有角色的信息。 | Python | ORM"
 type: docx
 token: ClLXdDs64oixJBxlIrCcEB2dngb
 sidebar_position: 27
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 托管 Milvus
+  - Serverless 向量 Database
+  - Milvus 开源
+  - Milvus 如何工作
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - list_roles()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_roles()
 
-此操作列出所有现有角色的信息。
+此操作列出现有所有角色的信息。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,7 +49,7 @@ list_roles(
 
     **[必需]**
 
-    Zilliz Cloud 是否列出与所列角色关联的用户。
+    是否让 Zilliz Cloud 列出与所列角色关联的用户。
 
 - **using** (*str*) - 
 
@@ -59,13 +59,13 @@ list_roles(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作才会超时。
 
 **返回类型：**
 
 *RoleInfo*
 
-**返回：**
+**返回值：**
 
 一个 **RoleInfo** 对象，其中包含 **RoleItem** 对象列表。
 
@@ -77,7 +77,7 @@ list_roles(
 │           ├── users
 ```
 
-一个 **RoleItem** 对象包含以下字段：
+**RoleItem** 对象包含以下字段：
 
 - **role_name** (*str*)
 
@@ -124,7 +124,7 @@ utility.list_roles(include_user_info=True)
 
 ## 相关操作\{#related-operations}
 
-以下操作与 `list_roles()` 相关：
+以下操作与 `list_roles()` 相关
 
 - [Role](./ORM-Role)
 

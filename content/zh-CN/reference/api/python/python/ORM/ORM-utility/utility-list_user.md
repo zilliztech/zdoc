@@ -13,12 +13,12 @@ token: JeG6d5Sg2oPmXPxEhnyciq4snNd
 sidebar_position: 28
 keywords: 
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - AI Agent
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_user()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -48,25 +48,25 @@ list_user(
 
 - **username** (*string*) - 
 
-    **[REQUIRED]**
+    **[必需]**
 
-    要列出的用户名称。
+    要列出信息的用户名。
 
 - **include_role_info** (*bool*) - 
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Zilliz Cloud 是否列出授予指定用户的角色。
+    是否让 Zilliz Cloud 列出授予指定用户的角色。
 
 - **using** (*string*) - 
 
-    所使用连接的别名。
+    所用连接的别名。
 
     默认值为 **default**，表示此操作使用默认连接。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作将超时。
 
 **返回类型：**
 
@@ -98,7 +98,7 @@ list_user(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#examples}
 

@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "更新与用户凭据/描述相关的签名行为。异步变体与同步方法共享相同的参数和响应约定。 | Python | MilvusClient"
+description: "更新用户凭证/description-related签名行为。异步版本与同步方法共享相同的参数和响应约定。 | Python | MilvusClient"
 type: docx
 token: Q8QIdA1DioRRL9xUtlgcCPLHnPc
 sidebar_position: 20
 keywords: 
   - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - rag llm 架构
+  - 私有 llms
+  - nn 搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - update_password()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # update_password()
 
-更新与用户凭据/描述相关的签名行为。异步变体与同步方法共享相同的参数和响应约定。
+更新用户凭证/description-related签名行为。异步版本与同步方法共享相同的参数和响应约定。
 
 ## 请求语法\{#request-syntax}
 
@@ -50,15 +50,15 @@ update_password(
 **参数：**
 
 - **user_name** (*str*) -<br/>
-  **[必需]**<br/>
-  要更改密码的用户名称。
+  **[REQUIRED]**<br/>
+  要更改密码的用户名。
 
 - **old_password** (*str*) -<br/>
-  **[必需]**<br/>
-  用户当前的密码。
+  **[REQUIRED]**<br/>
+  用户的当前密码。
 
 - **new_password** (*str*) -<br/>
-  **[必需]**<br/>
+  **[REQUIRED]**<br/>
   用户的新密码。
 
 - **reset_connection** (*Optional[bool]*) -<br/>
@@ -74,7 +74,7 @@ update_password(
   用户账户的可选更新描述。
 
 - **kwargs** (*Any*) -<br/>
-  附加的请求上下文选项。
+  附加请求上下文选项。
 
 **返回类型：**
 
@@ -82,7 +82,7 @@ update_password(
 
 **返回值：**
 
-密码成功更新后不返回任何值。
+密码成功更新后，不返回任何值。
 
 **异常：**
 
@@ -91,7 +91,7 @@ update_password(
 
 ## 示例\{#examples}
 
-演示如何使用更新密码功能。
+演示 update password 的用法。
 
 ```python
 from pymilvus import MilvusClient

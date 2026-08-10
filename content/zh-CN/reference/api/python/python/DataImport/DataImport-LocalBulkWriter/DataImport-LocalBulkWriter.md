@@ -7,13 +7,13 @@ added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 notebook: false
-description: "LocalBulkWriter 实例会在本地将您的原始数据改写为 Zilliz Cloud 可识别的格式。 | Python"
+description: "LocalBulkWriter 实例会在本地将您的原始数据重写为 Zilliz Cloud 可识别的格式。 | Python"
 type: docx
 token: RcvXdmCVBog9M8xNyUFcwefnneh
 sidebar_position: 3
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Chroma 与 Milvus 对比
+  - Annoy 向量搜索
   - milvus
   - Zilliz
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # LocalBulkWriter
 
-LocalBulkWriter 实例会在本地将您的原始数据改写为 Zilliz Cloud 可识别的格式。
+LocalBulkWriter 实例会在本地将您的原始数据重写为 Zilliz Cloud 可识别的格式。
 
 ```python
 class pymilvus.LocalBulkWriter
@@ -39,11 +39,11 @@ class pymilvus.LocalBulkWriter
 
 ## 构造函数\{#constructor}
 
-通过 schema、输出路径、分段大小和文件类型构造一个 LocalBulkWriter 对象。
+根据 Schema、输出路径、Segment 大小和文件类型构造 LocalBulkWriter 对象。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-**LocalBulkWriter** 对象旨在本地将您的原始数据改写为 Zilliz Cloud 可识别的格式。
+**LocalBulkWriter** 对象旨在于本地将您的原始数据重写为 Zilliz Cloud 可识别的格式。
 
 </Admonition>
 
@@ -65,29 +65,29 @@ writer = LocalBulkWriter(
 
     **[必需]**
 
-    要将改写后的数据导入到的目标 collection 的 schema。
+    目标 Collection 的 Schema，重写后的数据将导入到该 Collection 中。
 
 - **local_path** (*str*) -
 
     **[必需]**
 
-    用于存放改写后数据的目录路径。
+    用于存放重写后数据的目录路径。
 
 - **chunk_size** (*int*) -
 
-    单个文件分段的最大大小。
+    单个文件 Segment 的最大大小。
 
-    在改写原始数据时，Zilliz Cloud 会将原始数据拆分为多个分段。
+    在重写您的原始数据时，Zilliz Cloud 会将原始数据拆分为多个 Segment。
 
     该值默认为 **536,870,912** 字节，即 **512** MB。
 
-    <Admonition type="info" icon="📘" title="注意">
+    <Admonition type="info" icon="📘" title="Note">
 
-    BulkWriter 如何对我的数据进行分段？
+    BulkWriter 如何将我的数据划分为 Segment？
     
-        **BulkWriter** 对数据的分段方式会因目标文件类型而异。
+        **BulkWriter** 将您的数据划分为 Segment 的方式会因目标文件类型而异。
     
-        如果生成的文件超过指定的分段大小，**BulkWriter** 会创建多个文件，并按顺序编号命名，每个文件都不会大于该分段大小。
+        如果生成的文件超过指定的 Segment 大小，**BulkWriter** 会创建多个文件，并按顺序编号命名，每个文件都不会大于该 Segment 大小。
 
     </Admonition>
 
@@ -101,7 +101,7 @@ writer = LocalBulkWriter(
 
 - **config** (*dict*)
 
-    用于指定处理 CSV 文件的可选配置字典。仅当 **file_type** 设置为 **BulkFileType.CSV** 时，此参数才可用。示例配置如下：
+    用于指定处理 CSV 文件时可选配置的字典。仅当 **file_type** 设置为 **BulkFileType.CSV** 时，此参数才可用。示例配置如下：
 
     ```python
     config={
@@ -112,11 +112,11 @@ writer = LocalBulkWriter(
 
     - **sep** (*string*)
 
-        CSV 文件的分隔符。该值必须是长度为 1 的字符串，默认为 `","`。不允许使用以下字符串：`"\0"`、`"\n"`、`"\r"`、`"""`。
+        CSV 文件的分隔符。该值必须是长度为 1 的字符串，默认值为 `","`。不允许使用以下字符串：`"\0"`、`"\n"`、`"\r"`、`"""`。
 
     - **nullkey** (*string*)
 
-        表示 null 值的特殊字符串。该值默认为空字符串：`""`。
+        表示空值的特殊字符串。该值默认为空字符串：`""`。
 
 **返回类型：**
 
@@ -130,7 +130,7 @@ writer = LocalBulkWriter(
 
 - **SchemaNotReadyException**
 
-    当提供的 schema 无效时，将引发此异常。
+    当提供的 Schema 无效时，将引发此异常。
 
 ## 属性\{#properties}
 
@@ -144,7 +144,7 @@ writer = LocalBulkWriter(
 
 - **batch_files** (*str*) -
 
-    已生成文件名的列表。
+    生成的文件名列表。
 
 ## 方法\{#methods}
 

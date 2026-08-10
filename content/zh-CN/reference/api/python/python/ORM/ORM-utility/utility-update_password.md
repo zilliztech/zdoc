@@ -13,8 +13,8 @@ token: SGjed7w9toewDlxmXHKc7BFancf
 sidebar_position: 41
 keywords: 
   - ANNS
-  - Vector search
-  - knn algorithm
+  - 向量搜索
+  - knn 算法
   - HNSW
   - zilliz
   - zilliz cloud
@@ -49,13 +49,13 @@ update_password(
 
 - **user** (*str*) - 
 
-    **[必填]**
+    **【必需】**
 
     要重置密码的特定用户。
 
 - **old_password** (*str*) - 
 
-    **[必填]**
+    **【必需】**
 
     指定用户的原始密码。
 
@@ -63,11 +63,11 @@ update_password(
 
 - **new_password** (*str*) - 
 
-    **[必填]**
+    **【必需】**
 
     指定用户的新密码。 
 
-    密码必须为 8 到 64 个字符的字符串，并且必须至少包含以下字符类型中的三种：大写字母、小写字母、数字和特殊字符。
+    密码必须是一个 8 到 64 个字符的字符串，并且必须至少包含以下字符类型中的三种：大写字母、小写字母、数字和特殊字符。
 
 - **using** (*string*) - 
 
@@ -83,7 +83,7 @@ update_password(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 

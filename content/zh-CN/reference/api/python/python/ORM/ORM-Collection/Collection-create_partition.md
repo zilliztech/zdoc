@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会在目标集合中创建一个分区。 | Python | ORM"
+description: "此操作将在目标 Collection 中创建一个 Partition。 | Python | ORM"
 type: docx
 token: Sh7HdgJOIoJipXx5AoNcicjMnyd
 sidebar_position: 5
 keywords: 
   - knn algorithm
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - 什么是非结构化数据
+  - 向量嵌入
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_partition()
 
-此操作会在目标集合中创建一个分区。
+此操作将在目标 Collection 中创建一个 Partition。
 
 ## 请求语法\{#request-syntax}
 
@@ -46,13 +46,13 @@ create_partition(
 
 - **partition_name** (*string*)
 
-    **[必填]**
+    **[必需]**
 
-    要创建的分区名称。
+    要创建的 Partition 的名称。
 
 - **description** (*string*)
 
-    此分区的描述。
+    此 Partition 的描述。
 
 **返回类型：**
 
@@ -60,7 +60,7 @@ create_partition(
 
 **返回：**
 
-一个分区对象。
+一个 Partition 对象。
 
 **异常：**
 

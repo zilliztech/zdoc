@@ -7,18 +7,18 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "新的公共 volume 描述方法。 | Python"
+description: "新的公开卷描述方法。 | Python"
 type: docx
 token: MwfQdhukeoxOh0xPLySc0wJjn5f
 sidebar_position: 3
 keywords: 
-  - Annoy vector search
+  - Annoy 向量搜索
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describe_volume()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe_volume()
 
-新的公共 volume 描述方法。
+新的公开卷描述方法。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,7 +45,7 @@ describe_volume(
 
 - **volume_name** (*str*) -<br/>
   **[必需]**<br/>
-  要描述的 Zilliz Cloud volume 名称。
+  要描述的 Zilliz Cloud 卷的名称。
 
 **返回类型：**
 
@@ -53,7 +53,7 @@ describe_volume(
 
 **返回：**
 
-包含所请求 volume 详细信息的 HTTP 响应。
+包含所请求卷详细信息的 HTTP 响应。
 
 **异常：**
 
@@ -62,7 +62,7 @@ describe_volume(
 
 ## 示例\{#examples}
 
-以下示例演示了 describe volume 的用法。
+该示例演示了 describe volume 的用法。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

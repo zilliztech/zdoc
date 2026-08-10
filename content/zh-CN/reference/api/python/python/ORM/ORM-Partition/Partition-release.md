@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将当前分区的数据从内存中释放。 | Python | ORM"
+description: "此操作会将当前 Partition 的数据从内存中释放。 | Python | ORM"
 type: docx
 token: ZQ2RdE2AOoH9bfx4k3Sc3Ny0ngb
 sidebar_position: 9
 keywords: 
-  - Machine Learning
+  - 机器学习
   - RAG
   - NLP
-  - Neural Network
+  - 神经网络
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - release()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # release()
 
-此操作会将当前分区的数据从内存中释放。
+此操作会将当前 Partition 的数据从内存中释放。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,13 +45,13 @@ release(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时间。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作才会超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 *None*
 
@@ -59,7 +59,7 @@ release(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时会引发该异常。
+    当此操作期间发生任何错误时，会引发此异常。
 
 ## 示例\{#examples}
 

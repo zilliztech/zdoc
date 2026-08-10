@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作通过实体 ID 或布尔表达式删除实体。 | Python | MilvusClient"
+description: "此操作通过 Entity ID 或布尔表达式删除 Entity。 | Python | MilvusClient"
 type: docx
 token: DWLXdSCYnoPT4ExktRKceEqLnAd
 sidebar_position: 1
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - 廉价向量 Database
+  - 托管向量 Database
+  - Pinecone 向量 Database
+  - 音频搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - delete()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # delete()
 
-此操作通过实体 ID 或布尔表达式删除实体。
+此操作通过 Entity ID 或布尔表达式删除 Entity。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 外部 Collection 不支持此操作。
 
@@ -56,51 +56,51 @@ delete(
 
 - **collection_name** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
     现有 Collection 的名称。
 
 - **ids** (*list* | *str* | *int*) -
 
-    **[必需]**
+    **[必填]**
 
-    指定的实体 ID，或实体 ID 列表。
+    指定的 Entity ID 或 Entity ID 列表。
 
-    默认值为 **None**，表示应用标量过滤条件。同时设置 **ids** 和 **filter** 会导致抛出 **ParamError** 异常。
+    该值默认为 **None**，表示应用标量过滤条件。同时设置 **ids** 和 **filter** 会导致抛出 **ParamError** 异常。
 
 - **timeout** (*float* | *None*) -
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 - **filter** (*str*) -
 
-    用于筛选匹配实体的标量过滤条件。 
+    用于筛选匹配 Entity 的标量过滤条件。 
 
-    默认值为空字符串，表示不应用任何条件。同时设置 **ids** 和 **filter** 会导致抛出 **ParamError** 异常。
+    该值默认为空字符串，表示不应用任何条件。同时设置 **ids** 和 **filter** 会导致抛出 **ParamError** 异常。
 
-    你可以将此参数设置为空字符串以跳过标量过滤。有关构建标量过滤条件的方法，请参见 [布尔表达式规则](https://milvus.io/docs/boolean.md)。 
+    您可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参见 [布尔表达式规则](https://milvus.io/docs/boolean.md)。 
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Notes">
 
-    使用 filter 表达式删除实体时，请确保 Collection 已加载。否则，Zilliz Cloud 将返回错误。
+    使用过滤表达式删除 Entity 时，请确保该 Collection 已加载。否则，Zilliz Cloud 将返回错误。
 
     </Admonition>
 
 - **partition_name** (*str* | *""*) -
 
-    要从中删除实体的 Partition 名称。
+    要从中删除 Entity 的 Partition 名称。
 
-    默认值为空字符串。若指定此参数，则会从指定的 Partition 中删除实体。
+    该值默认为空字符串。若指定，则会从指定的 Partition 中删除 Entity。
 
 **返回类型：**
 
 *dict*
 
-**返回：**
+**返回值：**
 
-包含已删除实体数量的字典。
+一个包含已删除 Entity 数量的字典。
 
 ```python
 {
@@ -112,7 +112,7 @@ delete(
 
 - **MilvusException**
 
-    在此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 - **ParamError**
 

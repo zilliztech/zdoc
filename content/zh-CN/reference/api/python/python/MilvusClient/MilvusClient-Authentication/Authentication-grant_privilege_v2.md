@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将指定的权限或权限组授予指定的角色。 | Python | MilvusClient"
+description: "此操作会将指定的权限或权限组授予指定角色。 | Python | MilvusClient"
 type: docx
 token: EiTMdIbTgoc9vVxDHUQc1zPpnch
 sidebar_position: 11
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - 私有 llms
+  - nn 搜索
+  - llm 评测
+  - 稀疏 vs 稠密
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - grant_privilege_v2()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # grant_privilege_v2()
 
-此操作将指定的权限或权限组授予指定的角色。
+此操作会将指定的权限或权限组授予指定角色。
 
 ## 请求语法\{#request-syntax}
 
@@ -51,35 +51,35 @@ grant_privilege_v2(
 
 - **role_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    要分配权限的角色名称。
+    要授予权限的角色名称。
 
 - **privilege** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    要分配的权限名称。 
+    要授予的权限名称。
 
-    详情请参见[Users and Roles](https://milvus.io/docs/users_and_roles.md)页面表格中的 **Privilege name** 列。
+    有关详细信息，请参见 [Users and Roles](https://milvus.io/docs/users_and_roles.md) 页面表格中的 **Privilege name** 列。
 
 - **collection_name** (*str*) - 
 
-    **[必填]**
+    **[必需]**
 
-    集合名称。若要授予当前数据库中所有集合相关的权限，请将此参数设置为 `*`。 
+    Collection 的名称。要授予与当前 Database 中所有 Collection 相关的权限，请将此参数设置为 `*`。
 
 - **db_name** (*str*) -
 
-    数据库名称。 
+    Database 的名称。
 
-    此参数为可选项。设置此参数后，权限授予将被限制在指定数据库内。
+    此参数为可选。设置此参数会将权限授予限制在指定的 Database 内。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将此参数设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 

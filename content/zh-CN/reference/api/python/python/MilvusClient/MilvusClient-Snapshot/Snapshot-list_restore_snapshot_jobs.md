@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出所有快照恢复任务。也可按集合名称进行筛选，以查看针对特定集合的恢复任务。 | Python | MilvusClient"
+description: "此操作会列出所有恢复快照作业。您也可以按 Collection 名称进行筛选，以查看针对特定 Collection 的恢复作业。 | Python | MilvusClient"
 type: docx
 token: PtHQdGNfaoI4Mux05rbcRWTVnMp
 sidebar_position: 5
 keywords: 
-  - knn algorithm
+  - knn 算法
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - 什么是非结构化数据
+  - 向量嵌入
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_restore_snapshot_jobs()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_restore_snapshot_jobs()
 
-此操作会列出所有快照恢复任务。也可按集合名称进行筛选，以查看针对特定集合的恢复任务。
+此操作会列出所有恢复快照作业。您也可以按 Collection 名称进行筛选，以查看针对特定 Collection 的恢复作业。
 
 ## 请求语法\{#request-syntax}
 
@@ -46,18 +46,18 @@ list_restore_snapshot_jobs(
 **参数：**
 
 - **collection_name** (*str*) -<br/>
-  可选的集合名称，用于筛选恢复任务。若为空，则列出所有恢复任务。
+  用于筛选恢复作业的可选 Collection 名称。如果为空，则列出所有恢复作业。
 
 - **timeout** (*Optional[float]*) -<br/>
-  可选的 RPC 超时时长，单位为秒。
+  允许 RPC 执行的可选时长，单位为秒。
 
 **返回类型：**
 
 *List[RestoreSnapshotJobInfo]*
 
-**返回值：**
+**返回：**
 
-返回一个 `RestoreSnapshotJobInfo` 对象列表，其中每个对象都包含以下字段的恢复任务信息：
+返回一个 RestoreSnapshotJobInfo 对象列表，其中每个对象都包含恢复作业信息，具有以下字段：
 
 ```python
 {
@@ -77,7 +77,7 @@ list_restore_snapshot_jobs(
 
 - **job_id** (*int*) -
 
-    恢复任务 ID。
+    恢复作业 ID。
 
 - **snapshot_name** (*str*) -
 
@@ -85,11 +85,11 @@ list_restore_snapshot_jobs(
 
 - **db_name** (*str*) -
 
-    目标数据库名称。
+    目标 Database 名称。
 
 - **collection_name** (*str*) -
 
-    目标集合名称。
+    目标 Collection 名称。
 
 - **state** (*str*) -
 
@@ -101,15 +101,15 @@ list_restore_snapshot_jobs(
 
 - **reason** (*str*) -
 
-    如果任务失败，对应的错误原因。
+    作业失败时的错误原因。
 
 - **start_time** (*int*) -
 
-    开始时间戳（毫秒）。
+    开始时间戳，单位为毫秒。
 
 - **time_cost** (*int*) -
 
-    耗时（毫秒）。
+    耗时，单位为毫秒。
 
 **异常：**
 

@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取当前已加载副本的信息。 | Python | ORM"
+description: "此操作用于获取当前已加载副本的信息。 | Python | ORM"
 type: docx
 token: YKwldu59qosZBsxdRdSc0l9Hnoe
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_replicas()
 
-此操作获取当前已加载副本的信息。
+此操作用于获取当前已加载副本的信息。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,13 +45,13 @@ get_replicas(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示该操作会在收到任意响应或发生任意错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 
 *Replica*
 
-**返回：**
+**返回值：**
 
 一个 **Replica** 对象，包含以下字段：
 
@@ -65,7 +65,7 @@ get_replicas(
 
     - **group_nodes** (*tuple*)
 
-        包含相关查询节点 ID 的元组。
+        一个元组，包含相关查询节点的 ID。
 
     - **resource_group** (*str*)
 
@@ -81,15 +81,15 @@ get_replicas(
 
         - **shard_nodes** (*set*)
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Note">
 
 什么是副本？
 
-借助副本，Zilliz Cloud 可以将相同的 segments 加载到多个查询节点上。如果某个查询节点发生故障，或者在收到新的搜索请求时正忙于处理当前搜索请求，系统就可以将新请求发送到拥有同一 segment 副本的空闲查询节点。
+借助副本，Zilliz Cloud 可以在多个查询节点上加载相同的 Segment。如果某个查询节点发生故障，或在另一条搜索请求到达时正忙于处理当前搜索请求，系统可以将新请求发送到拥有同一 Segment 副本的空闲查询节点。 
 
-副本按副本组进行组织。每个副本组都包含 [shard](https://milvus.io/docs/v2.1.x/glossary.md#Sharding) 副本。每个 shard 副本都有一个流式副本和一个历史副本，分别对应 shard 中正在增长的和已封存的 [segments](https://milvus.io/docs/v2.1.x/glossary.md#Segment)。
+副本按副本组进行组织。每个副本组都包含 [shard](https://milvus.io/docs/v2.1.x/glossary.md#Sharding) 副本。每个 shard 副本都有一个流式副本和一个历史副本，分别对应该 shard 中正在增长和已封存的 [Segment](https://milvus.io/docs/v2.1.x/glossary.md#Segment)。
 
-可以将 Shards 视为 DML 通道，用于在多个节点之间执行分布式数据写入操作，从而最大限度地发挥 Zilliz Cloud 集群的并行计算潜力。
+Shards 可视为 DML 通道，用于多个节点间的分布式数据写入操作，从而最大化发挥 Zilliz Cloud 集群的并行计算潜力。
 
 </Admonition>
 

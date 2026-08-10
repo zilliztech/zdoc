@@ -13,9 +13,9 @@ token: YXogdv0Dpovi2Pxbyh2cdA4nnbe
 sidebar_position: 5
 keywords: 
   - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - 神经网络
+  - 深度学习
+  - 知识库
   - zilliz
   - zilliz cloud
   - cloud
@@ -57,7 +57,7 @@ verify(
 
 - `MilvusException`
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

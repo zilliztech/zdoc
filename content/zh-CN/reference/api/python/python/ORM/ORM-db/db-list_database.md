@@ -7,13 +7,13 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从已连接的 Milvus 实例返回数据库名称列表。 | Python | ORM"
+description: "此操作返回已连接的 Milvus 实例中的 Database 名称列表。 | Python | ORM"
 type: docx
 token: PV1PdliWZooAB8xAE5scZO2Nn6K
 sidebar_position: 3
 keywords: 
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy 向量搜索
   - milvus
   - Zilliz
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_database()
 
-此操作从已连接的 Milvus 实例返回数据库名称列表。
+此操作返回已连接的 Milvus 实例中的 Database 名称列表。
 
 ```python
 list_database(
@@ -62,9 +62,9 @@ db.list_database()
 
 *List*
 
-**返回：**
+**返回值：**
 
-数据库名称列表。
+Database 名称列表。
 
 **异常：**
 

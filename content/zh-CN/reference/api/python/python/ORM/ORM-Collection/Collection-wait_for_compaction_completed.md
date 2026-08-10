@@ -7,13 +7,13 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会阻塞当前会话，直到 compaction 请求完成。 | Python | ORM"
+description: "此操作会阻塞当前会话，直到 Compaction 请求完成。 | Python | ORM"
 type: docx
 token: VFKIdx0tDoeAzSx4Ud6c3u5Snsf
 sidebar_position: 29
 keywords: 
   - ANNS
-  - Vector search
+  - 向量搜索
   - knn algorithm
   - HNSW
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # wait_for_compaction_completed()
 
-此操作会阻塞当前会话，直到 compaction 请求完成。
+此操作会阻塞当前会话，直到 Compaction 请求完成。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,7 +45,7 @@ wait_for_compaction_completed(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 
@@ -59,7 +59,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时会引发该异常。
+    当此操作期间发生任何错误时，会引发此异常。
 
 ## 示例\{#examples}
 

@@ -12,13 +12,13 @@ type: docx
 token: HRqudGOOnokInhxczclcADBDn8g
 sidebar_position: 3
 keywords: 
-  - what is milvus
-  - milvus database
+  - 什么是 milvus
+  - milvus Database
   - milvus lite
   - milvus benchmark
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - create_role()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -46,7 +46,7 @@ create_role(
 
 - **role_name** (*str*) -
 
-    **[必需]**
+    **【必填】**
 
     要创建的角色名称。
 

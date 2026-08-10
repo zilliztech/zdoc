@@ -12,13 +12,13 @@ type: docx
 token: M2kXd5zWSoMIOnxXWamcgCkznih
 sidebar_position: 15
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Milvus 基准测试
+  - 托管式 Milvus
+  - Serverless 向量 Database
+  - Milvus 开源
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - drop_index_properties()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作会删除指定的索引属性。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法仅适用于专用服务集群和按需计算。 
+此方法仅适用于 dedicated serving 集群和按需计算。
 
-- 对于服务集群中的集合执行此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 如果要对 serving 集群中的 Collection 执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的集合执行此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+- 如果要对按需计算中的 Collection 执行此操作，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以连接到按需集群进行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -70,15 +70,15 @@ drop_index_properties(
 
 - **collection_name** (*str*) -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - **index_name** (*str*) -
 
-    要删除其属性的索引文件名称。
+    要删除的索引文件名称。
 
 - **property_keys** (*List[str]*) -
 
-    要删除的属性名称列表。可用属性如下：
+    要删除的属性名称列表。支持的属性如下：
 
     - `mmap.enabled`
 
@@ -86,13 +86,13 @@ drop_index_properties(
 
     此操作的超时时长。
 
-    将此参数设置为 None 表示在收到任意响应或发生任意错误时，此操作即超时。
+    将其设置为 None 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 
@@ -100,7 +100,7 @@ None
 
 - **MilvusException**
 
-    在此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

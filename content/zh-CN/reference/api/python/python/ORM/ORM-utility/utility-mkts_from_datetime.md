@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从 Python 的 datetime.datetime 对象生成混合时间戳。 | Python | ORM"
+description: "此操作从 Python 的 **datetime.datetime** 对象生成混合时间戳。 | Python | ORM"
 type: docx
 token: LCQTdebkConhUqxwnk7c3EbPnWh
 sidebar_position: 34
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Elastic 向量 Database
+  - Pinecone 与 Milvus 对比
+  - Chroma 与 Milvus 对比
+  - Annoy 向量搜索
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - mkts_from_datetime()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -54,14 +54,14 @@ mkts_from_datetime(
 
 - **delta** (*Optional[timedelta]*) -
 
-    一个 **datetime.timedelta** 对象，用于表示两个 [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time) 或 [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) 实例之间的持续时间差，精确到微秒。
+    一个 **datetime.timedelta** 对象，表示两个 [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time) 或 [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) 实例之间差异所表示的持续时间，精确到微秒。
 
 **返回类型：**
 
 *int*
 
 **返回：**
-混合时间戳，它是一个范围从 **0** 到 **18446744073709551615** 的非负整数。
+混合时间戳，是一个范围从 **0** 到 **18446744073709551615** 的非负整数。
 
 ## 示例\{#examples}
 

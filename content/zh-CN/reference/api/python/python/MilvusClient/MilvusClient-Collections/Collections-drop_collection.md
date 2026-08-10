@@ -7,14 +7,14 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会删除一个 collection。 | Python | MilvusClient"
+description: "此操作会删除一个 Collection。 | Python | MilvusClient"
 type: docx
 token: HZByd7LqQoiorTxCgyrcu3VUnof
 sidebar_position: 11
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Pinecone 与 Milvus 对比
+  - Chroma 与 Milvus 对比
+  - Annoy 向量搜索
   - milvus
   - zilliz
   - zilliz cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # drop_collection()
 
-此操作会删除一个 collection。
+此操作会删除一个 Collection。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法适用于专用服务集群和按需计算。
+此方法适用于 Dedicated 服务集群和按需计算。 
 
-- 对于服务集群中的 collection，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的 collection，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的 Collection，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -67,19 +67,19 @@ drop_collection(
 
 - **collection_name** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
-    现有 collection 的名称。
+    现有 Collection 的名称。
 
 - **timeout** (*Optional[float]*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时结束。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 

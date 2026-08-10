@@ -7,18 +7,18 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于删除卷。 | Python"
+description: "此操作会删除一个卷。 | Python"
 type: docx
 token: FbzLd0f5ToAPRdxa8XWcWfUwnwe
 sidebar_position: 2
 keywords: 
-  - vector database
+  - 向量 Database
   - IVF
   - knn
-  - Image Search
+  - 图像搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - delete_volume()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # delete_volume()
 
-此操作用于删除卷。
+此操作会删除一个卷。
 
 ## 请求语法\{#request-syntax}
 

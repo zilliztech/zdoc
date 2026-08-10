@@ -7,13 +7,13 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "JinaEmbeddingFunction 是 pymilvus 中的一个类，用于使用 Jina AI embedding 模型将文本编码为向量，以支持在 Milvus 中进行 embedding 检索。 | Python"
+description: "JinaEmbeddingFunction 是 pymilvus 中的一个类，它使用 Jina AI 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: U7NJd5eKAo0c1TxYZndcgPj2nlc
 sidebar_position: 3
 keywords: 
   - 非结构化数据
-  - 向量数据库
+  - 向量 Database
   - IVF
   - knn
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # JinaEmbeddingFunction
 
-JinaEmbeddingFunction 是 pymilvus 中的一个类，用于使用 Jina AI embedding 模型将文本编码为向量，以支持在 Milvus 中进行 embedding 检索。
+JinaEmbeddingFunction 是 pymilvus 中的一个类，它使用 Jina AI 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.dense.JinaEmbeddingFunction
@@ -53,7 +53,7 @@ JinaEmbeddingFunction(
 
 - **model_name** (*string*)
 
-    用于编码的 Jina AI embedding 模型名称。你可以指定任何可用的 Jina AI embedding 模型名称，例如 `jina-embeddings-v2-base-en`、`jina-embeddings-v2-small-en` 等。如果未指定此参数，将使用 `jina-embeddings-v2-base-en`。可用模型列表请参见 [Jina Embeddings](https://jina.ai/embeddings/)。
+    用于编码的 Jina AI 嵌入模型名称。您可以指定任何可用的 Jina AI 嵌入模型名称，例如 `jina-embeddings-v2-base-en`、`jina-embeddings-v2-small-en` 等。如果您未指定此参数，则将使用 `jina-embeddings-v2-base-en`。有关可用模型列表，请参见 [Jina Embeddings](https://jina.ai/embeddings/)。
 
 - **api_key** (*string*)
 
@@ -61,7 +61,7 @@ JinaEmbeddingFunction(
 
 - **kwargs**
 
-    允许将额外的关键字参数传递给模型初始化。更多信息请参见 [Embedding API](https://jina.ai/embeddings/)。
+    允许向模型初始化传递其他关键字参数。更多信息，请参见 [Embedding API](https://jina.ai/embeddings/)。
 
 ## 示例\{#examples}
 

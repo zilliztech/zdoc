@@ -13,9 +13,9 @@ token: NV3Ud1M9iojhaSxZY4ec8RjgnlP
 sidebar_position: 1
 keywords: 
   - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - 稀疏 vs 稠密
+  - 稠密向量
+  - 分层可导航小世界
   - zilliz
   - zilliz cloud
   - cloud
@@ -41,7 +41,7 @@ import Admonition from '@theme/Admonition';
 
 - **JSON** = 2
 
-    将文件类型设置为 **JSON** (*.json*)。
+    将文件类型设置为 **JSON** (*.json*)。 
 
 - **PARQUET** = 3
 

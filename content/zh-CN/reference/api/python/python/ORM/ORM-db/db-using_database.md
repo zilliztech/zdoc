@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将一个数据库设置为当前连接的默认数据库。 | Python | ORM"
+description: "此操作将一个 Database 设置为当前连接的默认 Database。 | Python | ORM"
 type: docx
 token: GXXTd7JIgoUKhzxiI6ncWtwjnVc
 sidebar_position: 4
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - 幻觉 llm
+  - 多模态搜索
+  - 向量搜索算法
+  - 问答系统
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # using_database()
 
-此操作将一个数据库设置为当前连接的默认数据库。
+此操作将一个 Database 设置为当前连接的默认 Database。
 
 ## 请求语法\{#request-syntax}
 
-Milvus 集群附带一个名为 **default** 的默认数据库。所有集合操作都在默认数据库中执行。您可以使用此方法更改默认数据库。
+Milvus 集群附带一个名为 **default** 的默认 Database。所有 Collection 操作都在默认 Database 中执行。您可以使用此方法更改默认 Database。
 
 ```python
 using_database(
@@ -50,7 +50,7 @@ using_database(
 
     **[必需]**
 
-    要设置为默认数据库的数据库名称。
+    要设置为默认 Database 的 Database 名称。
 
 - **using** (*string*) -
 
@@ -58,15 +58,15 @@ using_database(
 
 **返回类型：**
 
-None
+无
 
-**返回：**
+**返回值：**
 
-None
+无
 
 **异常：**
 
-None
+无
 
 ## 示例\{#examples}
 

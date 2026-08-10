@@ -48,9 +48,9 @@ Role(
 )
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-仅调用构造函数并不会创建该角色。您必须显式调用角色对象的 `create()` 方法来创建该角色。
+仅调用构造函数不会创建该角色。您必须显式调用角色对象的 `create()` 方法来创建该角色。
 
 </Admonition>
 
@@ -58,7 +58,7 @@ Role(
 
 - **name** (*string*) - 
 
-    **[REQUIRED]**
+    **[必需]**
 
     要创建的角色名称。
 
@@ -72,7 +72,7 @@ Role(
 
 *Role*
 
-**返回：**
+**返回值：**
 
 一个角色对象。
 
@@ -80,7 +80,7 @@ Role(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

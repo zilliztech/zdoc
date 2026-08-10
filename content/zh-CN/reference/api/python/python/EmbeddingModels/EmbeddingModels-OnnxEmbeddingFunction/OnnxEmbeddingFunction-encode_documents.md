@@ -12,13 +12,13 @@ type: docx
 token: XfxvdiIdOokuN1xiVBWct34Wnre
 sidebar_position: 1
 keywords: 
-  - lexical search
-  - nearest neighbor search
+  - 词法搜索
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
+  - RAG LLM 架构
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - encode_documents()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -45,7 +45,7 @@ encode_documents(
 
 - **documents** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的文档。模型将为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的文档。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 

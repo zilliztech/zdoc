@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "为部分数组更新添加 field_ops 支持。异步变体与同步方法共享相同的参数契约。 | Python | MilvusClient"
+description: "为部分数组更新添加 fieldops 支持。异步版本与同步方法共享相同的参数约定。 | Python | MilvusClient"
 type: docx
 token: UjjpdBwaooRDdlxFHScc6dKwnTg
 sidebar_position: 8
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - 向量嵌入
+  - 向量存储
+  - 开源向量 Database
+  - 向量索引
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - upsert()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-为部分数组更新添加 `field_ops` 支持。异步变体与同步方法共享相同的参数契约。
+为部分数组更新添加 field_ops 支持。异步版本与同步方法共享相同的参数约定。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-外部集合不支持此操作。
+外部 Collection 不支持此操作。
 
 </Admonition>
 
@@ -55,38 +55,38 @@ upsert(
 
 - **collection_name** (*str*) -<br/>
   **[必填]**<br/>
-  要将实体 upsert 到的集合名称。
+  要将 Entity upsert 到的 Collection 名称。
 
 - **data** (*Union[Dict, List[Dict]]*) -<br/>
   **[必填]**<br/>
-  要 upsert 的实体。必要时，可迭代输入会被转换为列表。
+  要 upsert 的 Entity。必要时，可迭代输入会被转换为列表。
 
 - **timeout** (*Optional[float]*) -<br/>
   默认值：`None`<br/>
-  等待 RPC 的最长时间，单位为秒。此值会覆盖客户端默认值。
+  等待 RPC 的最长时间（以秒为单位）。此值会覆盖客户端默认值。
 
 - **partition_name** (*Optional[str]*) -<br/>
   默认值：`""`<br/>
-  要将实体 upsert 到的分区名称。
+  要将 Entity upsert 到的 Partition 名称。
 
 - **kwargs** (*Any*) -<br/>
   其他 upsert 选项。
 
     - **partial_update** (*bool*) -<br/>
       默认值：`False`<br/>
-      用于控制是否仅更新指定字段的标志。为 `True` 时，未指定的字段保持不变。
+      用于控制是否仅更新指定字段的标志。当 `True` 时，未指定的字段保持不变。
 
     - **field_ops** (*Optional[Dict[str, Any]]*) -<br/>
       默认值：`None`<br/>
-      在部分更新期间按字段应用的合并操作。每个值都可以是 `FieldOp` 工厂结果、`array_append`、`array_remove` 或 `replace`，也可以是 `FieldPartialUpdateOp` 消息。除 `replace` 之外的任何操作都会启用部分更新。
+      部分更新期间应用于各字段的合并操作。每个值都可以是 `FieldOp` 工厂结果、`array_append`、`array_remove` 或 `replace`，或者是 `FieldPartialUpdateOp` 消息。除 `replace` 之外的任何操作都会启用部分更新。
 
 **返回类型：**
 
 *MutationResult*
 
-**返回值：**
+**返回：**
 
-包含此次 upsert 操作返回的主键和计数信息的变更结果。
+包含为 upsert 操作报告的主键和计数的变更结果。
 
 **异常：**
 

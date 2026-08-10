@@ -13,12 +13,12 @@ token: IU0idURLBoJNlZxgkiUcQaOYnIf
 sidebar_position: 19
 keywords: 
   - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - 稀疏 vs 稠密
+  - 稠密向量
+  - 分层可导航小世界
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - FunctionType
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -41,8 +41,8 @@ import Admonition from '@theme/Admonition';
 
 - TEXTEMBEDDING = 2
 
-    将函数类型设置为 TEXTEMBEDDING。这表示 Milvus 将通过自动调用外部模型提供方，把 VARCHAR 或 TEXT 字段中的原始文本数据转换为向量嵌入。
+    将函数类型设置为 TEXTEMBEDDING。这表示 Milvus 将通过自动调用外部模型提供方，将 VARCHAR 或 TEXT 字段中的原始文本数据转换为向量嵌入。
 
 - RERANK = 3
 
-    将函数类型设置为 **RERANK**。这表示 Milvus 将使用重排器对候选结果进行重排，以提升搜索性能。
+    将函数类型设置为 **RERANK**。这表示 Milvus 将使用重排器对候选结果重新排序，以提升搜索性能。

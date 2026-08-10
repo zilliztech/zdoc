@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作将指定 collection 中的一组特定 partition 加载到内存中。 | Python | MilvusClient"
+description: "此操作会将指定 Collection 中的一组特定 Partition 加载到内存中。 | Python | MilvusClient"
 type: docx
 token: TMq5d6wFmoT8u3xwuruc8k6wnTg
 sidebar_position: 6
 keywords: 
-  - nearest neighbor search
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - RAG LLM 架构
+  - 私有 LLM
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - load_partitions()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # load_partitions()
 
-此操作将指定 collection 中的一组特定 partition 加载到内存中。
+此操作会将指定 Collection 中的一组特定 Partition 加载到内存中。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管 collection。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -55,17 +55,17 @@ load_partitions(
 
     **[必需]**
 
-    现有 collection 的名称。
+    现有 Collection 的名称。
 
 - **partition_names** (*str | list[str]*) -
 
     **[必需]**
 
-    要加载的 partition 名称列表。
+    要加载的 Partition 名称列表。
 
 - **priority** (*string*) -
 
-    当前 collection 的加载优先级。该值可能会影响加载过程中的 CPU 使用率。可能的值为 `low` 和 `high`。
+    当前 Collection 的加载优先级。该值可能会影响加载过程中的 CPU 使用率。可能的值为 `low` 和 `high`。
 
 - **timeout** (*float* | *None*)  
 
@@ -79,9 +79,9 @@ load_partitions(
 
 None
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-仅当 collection 的任意一个或全部 partition 已加载时，该 collection 才处于已加载状态。
+仅当其任意一个或全部 Partition 已加载时，Collection 才处于已加载状态。
 
 </Admonition>
 

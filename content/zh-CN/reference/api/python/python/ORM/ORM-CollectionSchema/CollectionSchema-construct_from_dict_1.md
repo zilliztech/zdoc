@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从字典表示构造一个 CollectionSchema 对象。 | Python | ORM"
+description: "此操作从字典表示中构造一个 CollectionSchema 对象。 | Python | ORM"
 type: docx
 token: DYuUdc503o1TANxuGozcXhCmnRN
 sidebar_position: 3
@@ -18,7 +18,7 @@ keywords:
   - 视频去重
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - construct_from_dict()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # construct_from_dict()
 
-此操作从字典表示构造一个 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象。
+此操作从字典表示中构造一个 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,7 +45,7 @@ construct_from_dict(
 
 - **raw** (*dict*)
 
-    包含用于构造集合模式的原始数据的字典。
+    一个字典，包含用于构造 Collection Schema 的原始数据。
 
 **返回类型：**
 

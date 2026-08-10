@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "`AggregationHit` 表示作为 `AggregationBucket` 中代表性命中的一个返回实体。PyMilvus 会根据服务器响应创建这些对象；应用程序不会直接构造它们。 | Python | MilvusClient"
+description: "`AggregationHit` 表示在 `AggregationBucket` 中作为代表性命中的一个 Entity。PyMilvus 会根据服务器响应创建这些对象；应用程序不会直接构造它们。 | Python | MilvusClient"
 type: docx
 token: SSsbdMWqsoapZ8xQSRtcOXdInAh
 sidebar_position: 12
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - 幻觉 llm
+  - 多模态搜索
+  - 向量搜索算法
+  - 问答系统
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - AggregationHit
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AggregationHit
 
-`AggregationHit` 表示作为 `AggregationBucket` 中代表性命中的一个返回实体。PyMilvus 会根据服务器响应创建这些对象；应用程序不会直接构造它们。
+`AggregationHit` 表示在 `AggregationBucket` 中作为代表性命中的一个 Entity。PyMilvus 会根据服务器响应创建这些对象；应用程序不会直接构造它们。
 
 ```python
 class pymilvus.AggregationHit
@@ -41,21 +41,21 @@ class pymilvus.AggregationHit
 
 - **pk** (*int | str | None*) -
 
-    实体的主键。
+    Entity 主键。
 
 - **score** (*float*) -
 
-    为该实体返回的向量相似度分数或距离。
+    为该 Entity 返回的向量相似度分数或距离。
 
 - **fields** (*dict[str, Any]*) -
 
-    以字段名为键的已请求输出字段。
+    按字段名称作为键组织的请求输出字段。
 
 - **field_ids()** (*dict[str, int]*) -
 
-    返回一个映射，将每个返回字段名映射到其对应的数字 schema 字段 ID。
+    返回一个映射，将每个返回的字段名称映射到其数字 Schema 字段 ID。
 
-`fields` 和 `field_ids()` 映射都是副本。修改它们不会改变 hit 对象。
+`fields` 和 `field_ids()` 映射都是副本。更改它们不会修改该命中对象。
 
 ## 示例\{#example}
 

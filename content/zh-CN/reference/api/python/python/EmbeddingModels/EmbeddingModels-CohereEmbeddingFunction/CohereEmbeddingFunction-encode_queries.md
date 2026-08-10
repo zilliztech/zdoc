@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。 | Python"
+description: "此操作接收查询字符串列表，并将每个查询编码为向量嵌入。 | Python"
 type: docx
 token: BqtYdPHHPoNhyKxhSnEcVOKenFb
 sidebar_position: 3
 keywords: 
-  - nearest neighbor search
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - RAG LLM 架构
+  - 私有 LLM
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - encode_queries()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # encode_queries()
 
-此操作接收一个查询字符串列表，并将每个查询编码为向量嵌入。
+此操作接收查询字符串列表，并将每个查询编码为向量嵌入。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,7 +45,7 @@ encode_queries(
 
 - **queries** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的查询。模型会为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的查询。模型会为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
@@ -59,7 +59,7 @@ encode_queries(
 
 - **ValueError**
 
-    当您在初始化 `CohereEmbeddingFunction` 时指定了多种嵌入类型，或使用了 `int8` 或 `uint8` 数据类型时，将引发此异常。
+    当您指定多个嵌入类型，或在初始化 CohereEmbeddingFunction 时使用 `int8` 或 `uint8` 数据类型时，将引发此异常。
 
 ## 示例\{#examples}
 

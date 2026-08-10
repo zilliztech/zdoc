@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作描述特定索引。 | Python | MilvusClient"
+description: "此操作用于描述特定索引。 | Python | MilvusClient"
 type: docx
 token: WhsHdyIgyoFlsQxNJt9cFCTxnDe
 sidebar_position: 4
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - RAG LLM 架构
+  - 私有 LLM
+  - 近邻搜索
+  - LLM 评估
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describe_index()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # describe_index()
 
-此操作描述特定索引。
+此操作用于描述特定索引。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法仅适用于专属服务集群和按需计算。 
+此方法仅适用于 Dedicated 服务集群和按需计算。
 
-- 对于服务集群中的集合上的此操作，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 要在服务集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中集合上的此操作，请使用项目 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+- 要在按需计算的 Collection 中执行此操作，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话并将其附加到按需集群以执行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -67,29 +67,29 @@ describe_index(
 
 - **collection_name** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
-    如果将其设置为不存在的集合，将导致 **MilvusException**。
+    如果将其设置为不存在的 Collection，会导致 **MilvusException**。
 
 - **index_name** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
     要描述的索引名称。
 
-    如果将其设置为不存在的集合，将导致 **MilvusException**。
+    如果将其设置为不存在的 Collection，会导致 **MilvusException**。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
-**返回类型：** 
+**返回类型：**
 
 *Dict*
 
-**返回：**
+**返回值：**
 
 包含指定索引详细信息的字典。
 
@@ -112,15 +112,15 @@ describe_index(
 
 - **index_type** (*str*) -
 
-    用于构建索引的算法。 
+    用于构建索引的算法。
 
     在 Zilliz Cloud 上，该值始终为 **AUTOINDEX**。详情请参见 [AUTOINDEX Explained](/docs/autoindex-explained)。
 
 - **metric_type** (*str*) -
 
-    用于衡量向量之间相似度的算法。可能的值为 **IP**、**L2** 和 **COSINE**。
+    用于衡量向量之间相似度的算法。可能的值包括 **IP**、**L2** 和 **COSINE**。
 
-    仅当指定字段为向量字段时可用。 
+    仅当指定字段为向量字段时可用。
 
 - **total_rows** (*int*) -
 

@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将特定数量的查询节点从源资源组移动到目标资源组。 | Python | ORM"
+description: "此操作会将指定数量的查询节点从源资源组移动到目标资源组。 | Python | ORM"
 type: docx
 token: QHcpd1aJzo5aYbxJtMXc58een4f
 sidebar_position: 39
 keywords: 
-  - cosine distance
-  - what is a vector database
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
-  - multimodal vector database retrieval
+  - 多模态向量 Database 检索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # transfer_node()
 
-此操作会将特定数量的查询节点从源资源组移动到目标资源组。
+此操作会将指定数量的查询节点从源资源组移动到目标资源组。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,27 +49,27 @@ transfer_node(
 
 - **source_group** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
-    要从中移动查询节点的源资源组名称。
+    移出查询节点的源资源组名称。
 
-    如果将此参数设置为不存在的资源组，将导致 **MilvusException**。
+    如果将其设置为不存在的资源组，则会导致 **MilvusException**。
 
 - **target_group** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
-    要将查询节点移动到其中的源资源组名称。
+    查询节点移动到的源资源组名称。
 
-    如果将此参数设置为不存在的资源组，将导致 **MilvusException**。
+    如果将其设置为不存在的资源组，则会导致 **MilvusException**。
 
 - **num_nodes** (*int*) -
 
-    **[必需]**
+    **[必填]**
 
     要在源资源组和目标资源组之间移动的查询节点数量。
 
-    如果将此参数设置为大于当前 Zilliz Cloud 集群中实际查询节点数量的整数，将导致 **MilvusException**。
+    如果将其设置为大于当前 Zilliz Cloud 集群中实际查询节点数量的整数，则会导致 **MilvusException**。
 
 - **using** (*str*) - 
 
@@ -79,7 +79,7 @@ transfer_node(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 

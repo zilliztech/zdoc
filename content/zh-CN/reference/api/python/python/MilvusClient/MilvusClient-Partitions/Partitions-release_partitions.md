@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将指定 collection 中的 partitions 从内存中释放。 | Python | MilvusClient"
+description: "此操作会将指定 Collection 中的 Partition 从内存中释放。 | Python | MilvusClient"
 type: docx
 token: VblKdUEU4o4t31xcFiicIGtjn9g
 sidebar_position: 7
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - release_partitions()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # release_partitions()
 
-此操作会将指定 collection 中的 partitions 从内存中释放。
+此操作会将指定 Collection 中的 Partition 从内存中释放。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管集合。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -55,19 +55,19 @@ release_partitions(
 
     **[必填]**
 
-    现有 collection 的名称。
+    现有 Collection 的名称。
 
 - **partition_names** (*str | list[str]*) -
 
     **[必填]**
 
-    要释放的 partitions 名称列表。
+    要释放的 Partition 名称列表。
 
 - **timeout** (*float* | *None*)  
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -75,11 +75,11 @@ release_partitions(
 
 **返回值：**
 
-无
+None
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-只有当 collection 的任意一个或全部 partitions 已加载时，该 collection 才处于 loaded 状态。
+仅当其任意一个或全部 Partition 已加载时，Collection 才处于已加载状态。
 
 </Admonition>
 

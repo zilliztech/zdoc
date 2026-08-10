@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出特定集合的所有索引。 | Python | MilvusClient"
+description: "此操作列出特定 Collection 的所有索引。 | Python | MilvusClient"
 type: docx
 token: ZqmudJWyFonUKGxAxXncYrLZn2e
 sidebar_position: 9
 keywords: 
-  - vector databases comparison
+  - 向量 Database 对比
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_indexes()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # list_indexes()
 
-此操作会列出特定集合的所有索引。
+此操作列出特定 Collection 的所有索引。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法仅适用于专属服务集群和按需计算。 
+此方法仅适用于 dedicated serving 集群和按需计算。
 
-- 对于服务集群中的集合上的此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 serving 集群中的 Collection 上的此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的集合上的此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+- 对于按需计算中的 Collection 上的此操作，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话并将其附加到按需集群以执行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -67,19 +67,19 @@ list_indexes(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **field_name** (*str*) -
 
-    字段名称。若不指定此参数，此操作将列出所有索引。
+    字段名称。如果不指定此参数，此操作将列出所有索引。
 
 **返回类型：**
 
 *List*
 
-**返回：**
+**返回值：**
 
 索引名称列表。
 
@@ -87,7 +87,7 @@ list_indexes(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    如果此操作期间发生任何错误，将引发此异常。
 
 ## 示例\{#examples}
 

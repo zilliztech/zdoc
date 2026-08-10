@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "响应现会公开角色描述。异步变体与同步方法共享参数与响应约定。中间包装字段已转换为公开的 describe_role() 响应字典。 | Python | MilvusClient"
+description: "响应现可公开角色描述。异步变体与同步方法共享参数和响应约定。中间包装字段已转换为公开的 describerole() 响应字典。 | Python | MilvusClient"
 type: docx
 token: TYczdPuSNoV9lExR8iCcNIg9nGe
 sidebar_position: 5
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
+  - Faiss 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describe_role()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe_role()
 
-响应现会公开角色描述。异步变体与同步方法共享参数与响应约定。中间包装字段已转换为公开的 describe_role() 响应字典。
+响应现已包含角色描述。异步变体与同步方法共享参数和响应约定。中间包装字段已转换为公开的 describe_role() 响应字典。
 
 ## 请求语法\{#request-syntax}
 
@@ -51,7 +51,7 @@ describe_role(
 
 - **timeout** (*Optional[float]*) -<br/>
   默认值：`None`<br/>
-  等待 RPC 完成的最长时间，单位为秒。
+  等待 RPC 完成的最长时间（以秒为单位）。
 
 - **kwargs** (*Any*) -<br/>
   附加的请求上下文选项。
@@ -60,14 +60,14 @@ describe_role(
 
 *dict*
 
-**返回：**
+**返回值：**
 
 包含角色、描述和权限的字典。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详细信息。
+  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
 
 ## 示例\{#examples}
 

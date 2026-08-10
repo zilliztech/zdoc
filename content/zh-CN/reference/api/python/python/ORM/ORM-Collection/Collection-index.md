@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取当前集合的指定索引。 | Python | ORM"
+description: "此操作获取当前 Collection 的指定索引。 | Python | ORM"
 type: docx
 token: RkQ8dnWDHo3DiDxiCVRcP1xPnob
 sidebar_position: 18
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
+  - Faiss 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - index()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # index()
 
-此操作获取当前集合的指定索引。
+此操作获取当前 Collection 的指定索引。
 
 ## 请求语法\{#request-syntax}
 
@@ -51,7 +51,7 @@ index(
 
         索引名称。如果未指定索引，则使用默认索引名称。
 
-        默认索引名称格式如下：`_default_idx_{field_id}`。
+        默认索引名称的格式如下：`_default_idx_{field_id}`。
 
 **返回类型：**
 
@@ -59,7 +59,7 @@ index(
 
 **返回：**
 
-当前集合的一个 Index 对象。
+当前 Collection 的 Index 对象。
 
 **异常：**
 
@@ -69,7 +69,7 @@ index(
 
 - **AmbiguousIndexName**
 
-    当存在多个索引但未指定索引名称时，将引发此异常。 
+    当存在多个索引但未指定索引名称时，将引发此异常。
 
 ## 示例\{#examples}
 
@@ -117,7 +117,7 @@ collection.index(index_name="_default_idex_101")
 
 ## 相关操作\{#related-operations}
 
-以下操作与 `index()` 相关：
+以下操作与 `index()` 相关
 
 - [create_index()](./Collection-create_index)
 

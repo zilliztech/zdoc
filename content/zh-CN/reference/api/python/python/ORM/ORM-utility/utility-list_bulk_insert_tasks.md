@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有批量导入任务。 | Python | ORM"
+description: "此操作列出所有批量插入任务。 | Python | ORM"
 type: docx
 token: T1CGdXeVkoG2yAxkualc1jVonRb
 sidebar_position: 23
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - 深度学习
+  - 知识库
+  - 自然语言处理
+  - AI 聊天机器人
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_bulk_insert_tasks()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_bulk_insert_tasks()
 
-此操作列出所有批量导入任务。
+此操作列出所有批量插入任务。
 
 ## 请求语法\{#request-syntax}
 
@@ -48,15 +48,15 @@ list_bulk_insert_tasks(
 
 - **limit** (*int*) -
 
-    返回的任务数量。
+    要返回的任务数量。
 
-    默认值为 **0**，表示不设限制。 
+    该值默认为 **0**，表示不设限制。
 
 - **collection_name** (*list[str]*) -
 
-    collection 名称列表。
+    Collection 名称列表。
 
-    默认值为 **None**，表示包含所有 collection。
+    该值默认为 **None**，表示包含所有 Collection。
 
 - **using** (*str*) - 
 
@@ -66,7 +66,7 @@ list_bulk_insert_tasks(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -103,7 +103,7 @@ list_bulk_insert_tasks(
 
 - **state** (*int*)
 
-    指定 `bulk_insert` 任务的整数状态。可能的值如下：
+    指定 bulk_insert 任务的整数状态。可能的值如下：
 
     - **0**：表示任务处于待处理状态
 
@@ -121,7 +121,7 @@ list_bulk_insert_tasks(
 
 - **state_name** (*str*)
 
-    指定 `bulk_insert` 任务的字符串状态名称。可能的值如下：
+    指定 bulk_insert 任务的整数状态。可能的值为以下整数：
 
     - **Pending**：表示任务处于待处理状态
 
@@ -139,63 +139,63 @@ list_bulk_insert_tasks(
 
 - **row_count** (*int*)
 
-    当前批量导入任务中已插入的实体数量。
+    当前批量插入任务中已插入的 Entity 数量。
 
 - **progress** (*int*) 
 
-    当前批量导入任务的进度。
+    当前批量插入任务的进度。
 
 - **infos** (*dict*)
 
-    包含当前批量导入任务信息的字典。可能的键如下：
+    包含当前批量插入任务信息的字典。可能的键如下：
 
     - **files** (*str*)
 
-        当前批量导入任务涉及的文件名称，以逗号分隔的字符串形式表示。
+        以逗号分隔的字符串形式表示当前批量插入任务涉及的文件名。
 
     - **[collection](./ORM-Collection)** (*str*)
 
-        目标 collection 的名称。
+        目标 Collection 的名称。
 
     - **[partition](./ORM-Partition)** (*str*)
 
-        目标 partition 的名称。
+        目标 Partition 的名称。
 
     - **failed_reason** (*str*)
 
-        批量导入失败的原因。如果任务成功，则该值为空字符串。
+        批量插入失败的原因。如果任务成功，则该值为空字符串。
 
     - **progress_percent** (str)
 
-        当前批量导入任务的百分比进度。
+        当前批量插入任务的百分比进度。
 
     - **persist_cost** (str)
 
-        当前批量导入任务的持久化耗时。
+        当前批量插入任务的持久化耗时。
 
 - **ids** (*list*) 
 
-    以列表形式表示的已插入实体的 ID。
+    以列表形式表示已插入 Entity 的 ID。
 
 - **id_ranges** (*google._upb._message.RepeatedScalarContainer*)
 
-- 已插入实体的 ID 范围。
+- 以范围形式表示已插入 Entity 的 ID。
 
 - **files** (str)
 
-    当前批量导入任务涉及的文件名称，以逗号分隔的字符串形式表示。
+    以逗号分隔的字符串形式表示当前批量插入任务涉及的文件名。
 
 - **create_timestamp** (int)
 
-    当前批量导入任务的创建时间戳。
+    当前批量插入任务创建时的时间戳。
 
 - **create_time_str** (str)
 
-    当前批量导入任务的创建时间戳，以人类可读的字符串形式表示。
+    当前批量插入任务创建时的时间戳，以人类可读的字符串形式表示。
 
 - **collection_name** (str)
 
-    目标 collection 的名称。
+    目标 Collection 的名称。
 
 **异常：**
 

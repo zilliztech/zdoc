@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回指定批量导入任务的状态。 | Python | ORM"
+description: "此操作返回指定 bulk-insert 任务的状态。 | Python | ORM"
 type: docx
 token: XzHhd3AdCo9DCsxawYycr69CnAb
 sidebar_position: 13
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - milvus 开源
+  - milvus 的工作原理
+  - Zilliz 向量 Database
+  - Zilliz Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - get_bulk_insert_state()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 # get_bulk_insert_state()
 
-此操作返回指定批量导入任务的状态。
+此操作返回指定 bulk-insert 任务的状态。
 
 ## 请求语法\{#request-syntax}
 
@@ -61,7 +61,7 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 **参数：**
 
 - **task_id** (*int*) -<br/>
-  **[必需]**
+  **[必填]**
 
     由 do_bulk_insert() 函数返回的任务 ID。
 
@@ -73,14 +73,14 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 返回类型：
 
 *[BulkInsertState](./utility-BulkInsertState)*
 
 **返回：**
-一个 **[BulkInsertState](./utility-BulkInsertState)**，其中包含指定批量导入任务状态的信息。
+包含指定 bulk-insert 任务状态信息的 **[BulkInsertState](./utility-BulkInsertState)**。
 
 ```python
 ├── BulkInsertState
@@ -112,13 +112,13 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 - **state** (*int*)
 
-    指定 bulk_insert 任务的整数状态。可能的取值如下：
+    指定 bulk_insert 任务的整数状态。可能的值如下：
 
     - **0**：表示任务处于待处理状态
 
     - **1**：表示任务失败。
 
-    - **2**：表示任务已经开始。
+    - **2**：表示任务已启动。
 
     - **5**：表示数据已持久化。
 
@@ -130,13 +130,13 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 - **state_name** (*str*)
 
-    指定 bulk_insert 任务的整数状态。可能的取值为以下整数：
+    指定 bulk_insert 任务的整数状态。可能的值为以下整数：
 
     - **Pending**：表示任务处于待处理状态
 
     - **Failed**：表示任务失败。
 
-    - **Started**：表示任务已经开始。
+    - **Started**：表示任务已启动。
 
     - **Persisted**：表示数据已持久化。
 
@@ -148,69 +148,69 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 - **row_count** (*int*)
 
-    当前批量导入任务中已插入的实体数量。
+    当前 bulk-insert 任务中已插入的 Entity 数量。
 
 - **progress** (*int*) 
 
-    当前批量导入任务的进度。
+    当前 bulk-insert 任务的进度。
 
 - **infos** (*dict*)
 
-    一个字典，包含当前批量导入任务的信息。可能的键如下：
+    包含当前 bulk-insert 任务信息的字典。可能的键如下：
 
     - **files** (*str*)
 
-        当前批量导入任务涉及的文件名称，以逗号分隔的字符串表示。
+        当前 bulk-insert 任务中涉及的文件名称，以逗号分隔的字符串形式表示。
 
     - **[collection](./ORM-Collection)** (*str*)
 
-        目标集合的名称。
+        目标 Collection 的名称。
 
     - **[partition](./ORM-Partition)** (*str*)
 
-        目标分区的名称。
+        目标 Partition 的名称。
 
     - **failed_reason** (*str*)
 
-        批量导入失败的原因。如果任务成功，则该值为空字符串。
+        bulk-insert 失败的原因。如果任务成功，则此项为空字符串。
 
     - **progress_percent** (str)
 
-        当前批量导入任务的百分比进度。
+        当前 bulk-insert 任务的百分比进度。
 
     - **persist_cost** (str)
 
-        当前批量导入任务的持久化耗时。
+        当前 bulk-insert 任务的持久化耗时。
 
 - **ids** (*list*) 
 
-    以列表形式表示已插入实体的 ID。
+    以列表形式表示的已插入 Entity 的 ID。
 
 - **id_ranges** (*google._upb._message.RepeatedScalarContainer*)
 
-- 已插入实体的 ID 范围。
+- 范围形式的已插入 Entity ID。
 
 - **files** (str)
 
-    当前批量导入任务涉及的文件名称，以逗号分隔的字符串表示。
+    当前 bulk-insert 任务中涉及的文件名称，以逗号分隔的字符串形式表示。
 
 - **create_timestamp** (int)
 
-    当前批量导入任务的创建时间戳。
+    当前 bulk-insert 任务创建时的时间戳。
 
 - **create_time_str** (str)
 
-    当前批量导入任务的创建时间戳，以人类可读的字符串形式表示。
+    当前 bulk-insert 任务创建时的时间戳，以人类可读的字符串形式表示。
 
 - **collection_name** (str)
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    如果此操作期间发生任何错误，将引发此异常。
 
 ## 示例\{#examples}
 
@@ -241,7 +241,7 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 
 ## 相关操作\{#related-operations}
 
-以下操作与 `get_bulk_insert_state()` 相关：
+以下操作与`get_bulk_insert_state()`相关：
 
 - [BulkInsertState](./utility-BulkInsertState)
 

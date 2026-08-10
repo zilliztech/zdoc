@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会清除当前 **EmbeddingList** 实例中的向量嵌入。 | Python | MilvusClient"
+description: "此操作会清除当前 EmbeddingList 实例中的向量嵌入。 | Python | MilvusClient"
 type: docx
 token: M6mrdinAjo8CwrxirOQcR6E1nUc
 sidebar_position: 3
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 低成本向量 Database
+  - 托管向量 Database
+  - Pinecone 向量 Database
+  - 音频搜索
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - clear()
   - pymilvus30
 displayed_sidebar: pythonSidebar

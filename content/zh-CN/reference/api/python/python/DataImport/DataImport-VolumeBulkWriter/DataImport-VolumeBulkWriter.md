@@ -12,10 +12,10 @@ type: docx
 token: L9ozd33RroJ0NZxHUc0czKjpnbh
 sidebar_position: 3
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
+  - Faiss 向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -53,28 +53,28 @@ VolumeBulkWriter(
 **参数：**
 
 - **schema** (*CollectionSchema*) -<br/>
-  **[必需]**<br/>
-  用于验证行数据并生成批量文件的集合 schema。
+  **[REQUIRED]**<br/>
+  用于验证行并生成批量文件的 Collection Schema。
 
 - **remote_path** (*str*) -<br/>
-  **[必需]**<br/>
-  已提交文件上传到目标 volume 中的目录。
+  **[REQUIRED]**<br/>
+  已提交文件将上传到目标 volume 中的该目录。
 
 - **cloud_endpoint** (*str*) -<br/>
-  **[必需]**<br/>
-  Zilliz Cloud API 服务器端点，即 `https://api.cloud.zilliz.com`。
+  **[REQUIRED]**<br/>
+  Zilliz Cloud API 服务器的 Endpoint，即 `https://api.cloud.zilliz.com`。
 
 - **api_key** (*str*) -<br/>
-  **[必需]**<br/>
-  用于向 Zilliz Cloud 进行身份验证的 API 密钥。
+  **[REQUIRED]**<br/>
+  用于通过 Zilliz Cloud 进行身份验证的 API 密钥。
 
 - **volume_name** (*str*) -<br/>
-  **[必需]**<br/>
+  **[REQUIRED]**<br/>
   目标 Zilliz Cloud volume 的名称。
 
 - **chunk_size** (*int*) -<br/>
   默认值：`1024 * MB`<br/>
-  在 writer 开始新文件之前，本地分块的最大大小（以字节为单位）。
+  writer 开始新文件之前的本地 chunk 最大大小，以字节为单位。
 
 - **file_type** ([BulkFileType](./DataImport-BulkFileType)) -<br/>
   默认值：`BulkFileType.PARQUET`<br/>
@@ -95,9 +95,9 @@ VolumeBulkWriter(
 
 *VolumeBulkWriter*
 
-**返回：**
+**返回值：**
 
-一个先在本地暂存批量文件，并将已提交文件上传到已配置 Zilliz Cloud volume 的 writer。
+一种先在本地暂存批量文件、再将已提交文件上传到已配置 Zilliz Cloud volume 的 writer。
 
 **异常：**
 
@@ -106,7 +106,7 @@ VolumeBulkWriter(
 
 ## 示例\{#examples}
 
-以下示例演示了 VolumeBulkWriter 的用法。
+该示例演示了 VolumeBulkWriter 的用法。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

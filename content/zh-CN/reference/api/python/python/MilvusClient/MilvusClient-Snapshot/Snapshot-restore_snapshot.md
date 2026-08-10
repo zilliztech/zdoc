@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将快照恢复到目标集合。恢复过程为异步运行 — 使用 `getrestoresnapshotstate()` 监控进度。 | Python | MilvusClient"
+description: "此操作会将快照恢复到目标 Collection 中。恢复将异步运行——使用 `getrestoresnapshotstate()` 监控进度。 | Python | MilvusClient"
 type: docx
 token: I2OZdk40IomugOx9MTqcooVcnEf
 sidebar_position: 8
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - 深度学习
+  - 知识库
+  - 自然语言处理
+  - AI 聊天机器人
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - restore_snapshot()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # restore_snapshot()
 
-此操作将快照恢复到目标集合。恢复过程为异步运行 —— 使用 `get_restore_snapshot_state()` 监控进度。
+此操作会将快照恢复到目标 Collection 中。恢复将异步运行——使用 `get_restore_snapshot_state()` 监控进度。
 
 ## 请求语法\{#request-syntax}
 
@@ -48,30 +48,30 @@ restore_snapshot(
 **参数：**
 
 - **collection_name** (*str*) -<br/>
-  **[必需]**<br/>
-  要将快照恢复到的目标集合名称。
+  **[REQUIRED]**<br/>
+  要将快照恢复到其中的目标 Collection 名称。
 
 - **snapshot_name** (*str*) -<br/>
-  **[必需]**<br/>
+  **[REQUIRED]**<br/>
   要恢复的快照名称。
 
 - **rewrite_data** (*bool*) -<br/>
-  是否覆盖目标集合中的现有数据。默认为 *False*。
+  是否覆盖目标 Collection 中的现有数据。默认为 *False*。
 
 - **timeout** (*Optional[float]*) -<br/>
-  可选的超时时长（以秒为单位），用于限制 RPC 的执行时间。
+  为 RPC 允许的可选时长，以秒为单位。
 
 **返回类型：**
 
 *int*
 
-恢复任务 ID。使用此 ID 配合 `get_restore_snapshot_state()` 跟踪恢复进度。
+恢复作业 ID。使用此 ID 配合 `get_restore_snapshot_state()` 跟踪恢复进度。
 
 **异常：**
 
 - **MilvusException**
 
-    如果快照不存在、目标集合不可用，或操作失败。
+    如果快照不存在、目标 Collection 不可用，或操作失败，则会引发此异常。
 
 ## 示例\{#examples}
 

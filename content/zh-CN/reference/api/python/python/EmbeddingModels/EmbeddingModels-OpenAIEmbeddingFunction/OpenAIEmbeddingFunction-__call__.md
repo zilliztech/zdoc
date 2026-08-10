@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "OpenAIEmbeddingFunction 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
+description: "OpenAIEmbeddingFunction 中的此操作会接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: FieTdj7WDoVbBVxp5xjcqO02nrh
 sidebar_position: 4
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - 开源向量 Database
+  - 开源向量数据库
+  - 向量 Database 示例
+  - rag 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - \_\_call\_\_()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[OpenAIEmbeddingFunction](./EmbeddingModels-OpenAIEmbeddingFunction) 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。
+[OpenAIEmbeddingFunction](./EmbeddingModels-OpenAIEmbeddingFunction) 中的此操作会接收一个文本字符串列表，并将其直接编码为向量嵌入。
 
 OpenAIEmbeddingFunction 的 **\_\_call\_\_()** 方法与 [encode_documents()](./OpenAIEmbeddingFunction-encode_documents) 和 [encode_queries()](./OpenAIEmbeddingFunction-encode_queries) 具有相同的功能。
 
@@ -51,13 +51,13 @@ openai_ef(
 
 - **texts** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型会为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
 *List[np.array]*
 
-**返回：**
+**返回值：**
 
 一个列表，其中每个元素都是一个 NumPy 数组。
 

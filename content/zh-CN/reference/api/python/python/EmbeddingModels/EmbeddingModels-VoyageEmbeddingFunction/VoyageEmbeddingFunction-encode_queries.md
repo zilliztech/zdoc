@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。 | Python"
+description: "此操作接受一个查询字符串列表，并将每个查询编码为一个向量嵌入。 | Python"
 type: docx
 token: CHnGdE7XlosONPxsVDDc6Fv5n8c
 sidebar_position: 2
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - 嵌入模型
+  - 图像相似性搜索
+  - 上下文窗口
+  - 自然语言搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - encode_queries()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # encode_queries()
 
-此操作接收一个查询字符串列表，并将每个查询编码为一个向量嵌入。
+此操作接受一个查询字符串列表，并将每个查询编码为一个向量嵌入。
 
 ## 请求语法\{#request-syntax}
 
@@ -51,7 +51,7 @@ encode_queries(
 
 *List[np.array]*
 
-**返回：**
+**返回值：**
 
 一个列表，其中每个元素都是一个 NumPy 数组。
 

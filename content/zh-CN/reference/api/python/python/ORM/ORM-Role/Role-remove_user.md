@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将用户从当前角色中移除。移除后，该用户将失去当前角色所允许的权限。 | Python | ORM"
+description: "此操作会从当前角色中移除某个用户。移除后，该用户将失去当前角色所授予的权限。 | Python | ORM"
 type: docx
 token: SlmSdaD7rocMJsxThNHcOtEknVd
 sidebar_position: 9
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - 向量存储
+  - 开源向量 Database
+  - 向量索引
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - remove_user()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # remove_user()
 
-此操作会将用户从当前角色中移除。移除后，该用户将失去当前角色所允许的权限。
+此操作会从当前角色中移除某个用户。移除后，该用户将失去当前角色所授予的权限。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,15 +45,15 @@ remove_user(
 
 - **username** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
-    要从角色中移除的用户名称。
+    要从角色中移除的用户名。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 *None*
 
@@ -61,7 +61,7 @@ remove_user(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    在此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

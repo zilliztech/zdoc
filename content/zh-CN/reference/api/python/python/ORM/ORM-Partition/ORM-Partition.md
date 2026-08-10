@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Partition 实例表示集合中的一个分区。 | Python | ORM"
+description: "Partition 实例表示 Collection 中的一个 Partition。 | Python | ORM"
 type: docx
 token: X9scdVMmxoBTuUxlKhecJXEunHd
 sidebar_position: 7
@@ -15,10 +15,10 @@ keywords:
   - 视频相似性搜索
   - 向量检索
   - 音频相似性搜索
-  - 弹性向量数据库
+  - 弹性向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - Partition
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Partition
 
-**Partition** 实例表示集合中的一个分区。
+**Partition** 实例表示 Collection 中的一个 Partition。
 
 ```python
 class pymilvus.Partition
@@ -39,11 +39,11 @@ class pymilvus.Partition
 
 ## 构造函数\{#constructor}
 
-通过名称、描述和其他参数在集合中构造一个分区。
+通过名称、描述和其他参数在 Collection 中构造一个 Partition。 
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-使用分区时，请确保集合 schema 中的 **enable_partition_key** 未设置为 **True**。否则，将会发生错误。
+使用 Partition 时，请确保 Collection Schema 中的 **enable_partition_key** 未设置为 **True**。否则会报错。
 
 </Admonition>
 
@@ -59,37 +59,37 @@ Partition(
 
 - **[collection](./ORM-Collection)** (*[Collection](./ORM-Collection)* | *str*) - 
 
-    **[必需]**
+    **[必填]**
 
-    要在其中创建分区的集合。
+    要在其中创建 Partition 的 Collection。 
 
-    您既可以引用 **[Collection](./ORM-Collection)** 对象，也可以使用其名称。
+    您可以引用一个 **[Collection](./ORM-Collection)** 对象或其名称。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Note">
 
-    什么是集合？
+    什么是 Collection？
     
-        集合以一个具有固定列数和可变行数的二维表来组织数据。在该表中，每一列对应一个字段，每一行代表一个实体。
+        Collection 在一个列数固定、行数可变的二维表中收集数据。在该表中，每一列对应一个字段，每一行表示一个 Entity。
     
-        一个集合最多可以支持 64 个分区。
+        一个 Collection 最多支持 64 个 Partition。
 
     </Admonition>
 
 - **name** (*string*) - 
 
-    **[必需]**
+    **[必填]**
 
-    要创建的分区名称。
+    要创建的 Partition 的名称。
 
 - **description** (*string*) - 
 
-    要创建的分区描述。
+    要创建的 Partition 的描述。
 
 **返回类型：**
 
 *Partition*
 
-**返回：**
+**返回值：**
 
 一个 **Partition** 对象。
 
@@ -97,17 +97,17 @@ Partition(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    如果此操作期间发生任何错误，将引发此异常。
 
 ## 示例\{#examples}
 
 ```python
 from pymilvus import Collection, Partition
 
-# 获取现有集合
+# Get an existing collection
 collection = Collection("book")
 
-# 在当前集合中创建一个分区对象
+# Create a partition object in the current collection
 partition = Partition(collection, "novel", "")
 ```
 

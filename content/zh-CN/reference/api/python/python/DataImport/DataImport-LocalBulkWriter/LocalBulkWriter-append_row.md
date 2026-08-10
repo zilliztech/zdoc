@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将记录追加到写入器中。 | Python"
+description: "此操作会将记录追加到写入器中。 | Python"
 type: docx
 token: WCxIdVwCpoIaMUxbabWcSRCkn2g
 sidebar_position: 1
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - 向量数据库比较
+  - openai 向量数据库
+  - 自然语言处理 Database
+  - 低成本向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - append_row()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # append_row()
 
-此操作将记录追加到写入器中。
+此操作会将记录追加到写入器中。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,9 +45,9 @@ append_row(
 
 - **row** (*dict*) -
 
-    表示要追加的实体的字典。
+    表示要追加的 Entity 的字典。
 
-    字典中的键及其值应与当前 **[LocalBulkWriter](./DataImport-LocalBulkWriter)** 引用的 schema 相匹配。
+    该字典中的键及其值应与当前 **[LocalBulkWriter](./DataImport-LocalBulkWriter)** 中引用的 Schema 匹配。
 
 ## 示例\{#examples}
 

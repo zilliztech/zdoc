@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将重置特定用户的密码。 | Python | ORM"
+description: "此操作会重置特定用户的密码。 | Python | ORM"
 type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
 keywords: 
-  - 什么是向量数据库
-  - 向量数据库对比
+  - 什么是向量 Database
+  - 向量 Database 对比
   - Faiss
   - 视频搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - reset_password()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # reset_password()
 
-此操作将重置特定用户的密码。 
+此操作会重置特定用户的密码。 
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此操作与 **update_password()** 的不同之处在于，此操作还会使用新设置的凭据重置当前连接。
+此操作与 **update_password()** 的不同之处在于，它还会使用新设置的凭据重置当前连接。
 
 </Admonition>
 
@@ -73,7 +73,7 @@ reset_password(
 
     指定用户的新密码。 
 
-    密码必须是一个长度为 8 到 64 个字符的字符串，并且必须至少包含以下四类字符中的三类：大写字母、小写字母、数字和特殊字符。
+    密码必须是一个 8 到 64 个字符的字符串，并且必须至少包含以下字符类型中的三种：大写字母、小写字母、数字和特殊字符。
 
 - **using** (*string*) - 
 
@@ -89,9 +89,9 @@ reset_password(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
-无
+None
 
 **异常：**
 

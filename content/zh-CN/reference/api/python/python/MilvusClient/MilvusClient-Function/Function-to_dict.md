@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回 `Function` 对象的字典表示形式。 | Python | MilvusClient"
+description: "此操作返回 `Function` 对象的字典表示。 | Python | MilvusClient"
 type: docx
 token: AmwJdW0z6opMPcxhMlBcYPIWn2M
 sidebar_position: 4
 keywords: 
-  - lexical search
-  - nearest neighbor search
+  - 词法搜索
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
+  - RAG LLM 架构
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - to_dict()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # to_dict()
 
-此操作返回 `Function` 对象的字典表示形式。
+此操作返回 `Function` 对象的字典表示。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,7 +49,7 @@ to_dict()
 
 **返回值：**
 
-`Function` 对象的字典表示形式。
+`Function` 对象的字典表示。
 
 **异常：**
 

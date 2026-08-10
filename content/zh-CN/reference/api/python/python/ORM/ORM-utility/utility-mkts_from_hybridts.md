@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从另一个混合时间戳生成一个混合时间戳。 | Python | ORM"
+description: "此操作根据另一个混合时间戳生成一个混合时间戳。 | Python | ORM"
 type: docx
 token: GRarduHPSoFY3Yx9EWRcdcTfn1g
 sidebar_position: 35
 keywords: 
-  - Machine Learning
+  - 机器学习
   - RAG
   - NLP
-  - Neural Network
+  - 神经网络
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - mkts_from_hybridts()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # mkts_from_hybridts()
 
-此操作从另一个混合时间戳生成一个混合时间戳。
+此操作根据另一个混合时间戳生成一个混合时间戳。
 
 ## 请求语法\{#request-syntax}
 
@@ -51,21 +51,21 @@ mkts_from_hybridts(
 
     一个混合时间戳。
 
-    混合时间戳是一个非负整数，取值范围为 **0** 到 **18446744073709551615**。
+    混合时间戳是一个非负整数，范围为 **0** 到 **18446744073709551615**。
 
 - **milliseconds** (*float*) -<br/>
   以毫秒为单位的增量时间间隔。
 
 - **delta** (*Optional[timedelta]*) -
 
-    一个 **datetime.timedelta** 对象，表示两个 [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time) 或 [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) 实例之间的持续时间差，精确到微秒。
+    一个 **datetime.timedelta** 对象，表示两个 [`date`](https://docs.python.org/3/library/datetime.html#datetime.date)、[`time`](https://docs.python.org/3/library/datetime.html#datetime.time) 或 [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) 实例之间差异时长的对象，精确到微秒。
 
 **返回类型：**
 
 *int*
 
 **返回：**
-一个混合时间戳，即一个范围在 **0** 到 **18446744073709551615** 之间的非负整数。
+一个混合时间戳，它是一个非负整数，范围为 **0** 到 **18446744073709551615**。
 
 ## **示例**\{#examples}
 

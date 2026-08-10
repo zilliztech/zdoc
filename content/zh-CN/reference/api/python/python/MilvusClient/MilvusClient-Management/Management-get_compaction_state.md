@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作返回压缩作业的当前状态。在调用 `compact()` 后，使用此操作可验证压缩是否已完成。 | Python | MilvusClient"
+description: "此操作返回 Compaction 作业的当前状态。调用 `compact()` 后，可使用此操作验证 Compaction 是否已完成。 | Python | MilvusClient"
 type: docx
 token: MSDVdu103obklexX8GvcW5cWnCf
 sidebar_position: 19
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似度搜索
+  - 向量检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - get_compaction_state()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # get_compaction_state()
 
-此操作返回压缩作业的当前状态。在调用 `compact()` 后，使用此操作可验证压缩是否已完成。
+此操作返回 Compaction 作业的当前状态。调用 `compact()` 后，可使用此操作验证 Compaction 是否已完成。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法此前名为 `get_compact_state()`。其行为完全相同。
+此方法先前名为 `get_compact_state()`。其行为完全相同。
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管集合。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -60,7 +60,7 @@ client.get_compaction_state(
 
     **[必需]**
 
-    `compact()` 返回的压缩作业 ID。
+    由 `compact()` 返回的 Compaction 作业 ID。
 
 - **timeout** (*float* | *None*) -
 
@@ -70,9 +70,9 @@ client.get_compaction_state(
 
 *str*
 
-**返回值：**
+**返回：**
 
-压缩作业的状态名称。可能的值包括 `"UndefiedState"`、`"Executing"` 和 `"Completed"`。
+Compaction 作业的状态名称。可能的值为 `"UndefiedState"`、`"Executing"` 和 `"Completed"`。
 
 **异常：**
 

@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作会从当前集合中删除指定分区。 | Python | MilvusClient"
+description: "此操作会从当前 Collection 中删除指定的 Partition。 | Python | MilvusClient"
 type: docx
 token: HkOFdhgbOoz1wlxJIgWcU7EonWc
 sidebar_position: 2
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - 多模态向量 Database 检索
+  - 检索增强生成
+  - 大语言模型
+  - 向量化
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # drop_partition()
 
-此操作会从当前集合中删除指定分区。
+此操作会从当前 Collection 中删除指定的 Partition。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-删除分区之前，必须先将其释放。
+在删除 Partition 之前，您必须先释放它。
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管集合。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -62,17 +62,17 @@ drop_partition(
 
     **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **partition_name** (*str*) -
 
     **[必需]**
 
-    要删除的分区名称。
+    要删除的 Partition 的名称。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 

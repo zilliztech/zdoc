@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除一个现有角色。如果指定的角色存在，则该操作会成功。否则，该操作会失败。 | Python | ORM"
+description: "此操作会删除一个现有角色。如果指定的角色存在，则该操作将成功；否则，该操作将失败。 | Python | ORM"
 type: docx
 token: KEzNdJPoDoHOjlx2FC8cNcHqngg
 sidebar_position: 3
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量 Database 教程
+  - 向量 Database 如何工作
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - drop()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop()
 
-此操作会删除一个现有角色。如果指定的角色存在，则该操作会成功。否则，该操作会失败。
+此操作会删除一个现有角色。如果指定的角色存在，则该操作将成功；否则，该操作将失败。
 
 ## 请求语法\{#request-syntax}
 
@@ -41,13 +41,13 @@ drop()
 
 **参数：**
 
-不适用
+无/A
 
 **返回类型：**
 
 *NoneType*
 
-**返回值：**
+**返回：**
 
 *None*
 

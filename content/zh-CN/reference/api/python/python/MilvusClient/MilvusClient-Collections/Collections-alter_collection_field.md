@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会更改指定集合字段的参数。 | Python | MilvusClient"
+description: "此操作会更改指定 Collection 字段的参数。 | Python | MilvusClient"
 type: docx
 token: JdR3dVpCaoq6s2xSFmsc0e13nnh
 sidebar_position: 2
 keywords: 
   - 什么是向量嵌入
-  - 向量数据库教程
-  - 向量数据库如何工作
+  - 向量 Database 教程
+  - 向量 Database 如何工作
   - 向量数据库对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - alter_collection_field()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alter_collection_field()
 
-此操作会更改指定集合字段的参数。
+此操作会更改指定 Collection 字段的参数。
 
 ## 请求语法\{#request-syntax}
 
@@ -50,7 +50,7 @@ alter_collection_field(
 
 - **collection_name** (*str*) -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - **field_name** (*str*) -
 
@@ -70,9 +70,9 @@ alter_collection_field(
 
     将其设置为 None 表示当收到任何响应或发生任何错误时，此操作即超时。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-您必须在加载集合之前更改字段设置。对已加载集合中的字段进行更改会返回错误。要更改已加载集合中的设置，请先释放集合，再更改字段，然后重新加载。
+您必须在加载 Collection 之前更改字段设置。对已加载的 Collection 更改字段会返回错误。若要更改已加载 Collection 的设置，请先释放该 Collection，再更改字段，然后重新加载。
 
 </Admonition>
 
@@ -80,7 +80,7 @@ alter_collection_field(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 *None*
 

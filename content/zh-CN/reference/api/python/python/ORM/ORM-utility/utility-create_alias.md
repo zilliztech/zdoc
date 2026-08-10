@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作为现有集合创建别名。 | Python | ORM"
+description: "此操作为现有 Collection 创建别名。 | Python | ORM"
 type: docx
 token: DthMdlg8Lozw89xNz4TcBv1LnOe
 sidebar_position: 3
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - 深度学习
+  - 知识库
+  - 自然语言处理
+  - AI 聊天机器人
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - create_alias()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_alias()
 
-此操作为现有集合创建别名。
+此操作为现有 Collection 创建别名。
 
 ## 请求语法\{#request-syntax}
 
@@ -48,25 +48,25 @@ create_alias(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    要为其创建别名的集合名称。
+    要为其创建别名的 Collection 名称。
 
 - **alias** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    集合的别名。在执行此操作前，请确保该别名尚不存在。如果已存在，则会发生异常。
+    Collection 的别名。在执行此操作之前，请确保该别名尚不存在。如果已存在，则会发生异常。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Note">
 
-    什么是集合别名？
+    什么是 Collection 别名？
     
-        集合别名是集合的附加名称。当您希望将应用切换到新集合而无需对代码进行任何修改时，集合别名会非常有用。
+        Collection 别名是 Collection 的附加名称。当您希望将应用程序切换到新的 Collection 且无需修改代码时，Collection 别名会很有用。
     
-        集合别名是全局唯一标识符。一个别名只能被分配给且仅能分配给一个集合。反过来，一个集合可以拥有多个别名。
+        在 中，Collection 别名是全局唯一标识符。一个别名只能分配给一个 Collection。反之，一个 Collection 可以有多个别名。
     
-        假设有一个集合：`collection_1`。您可以通过调用 `create_alias("collection_1", "bob")` 和 `create_alias("collection_1", "tom")`，为该集合分配两个不同的别名（`bob` 和 `tom`）。
+        假设有一个 Collection：`collection_1`。您可以通过调用 `create_alias("collection_1", "bob")` 和 `create_alias("collection_1", "tom")`，为此 Collection 分配两个不同的别名（`bob` 和 `tom`）。
 
     </Admonition>
 
@@ -76,9 +76,9 @@ create_alias(
 
     默认值为 **default**，表示此操作使用默认连接。
 
-- **timeout** (*float* | *None*)  
+- **timeout** (*float* | *None*)
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时结束。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -92,7 +92,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常，尤其是在您将 `alias` 设置为已存在的别名时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在您将 `alias` 设置为现有别名时。
 
 - **BaseException**
 

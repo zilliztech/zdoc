@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "JinaEmbeddingFunction 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
+description: "JinaEmbeddingFunction 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: Yf9GddNheoKrFCxcUeYc7NHjnVb
 sidebar_position: 4
@@ -18,7 +18,7 @@ keywords:
   - 语义搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - \_\_call\_\_()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[JinaEmbeddingFunction](./EmbeddingModels-JinaEmbeddingFunction) 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。
+[JinaEmbeddingFunction](./EmbeddingModels-JinaEmbeddingFunction) 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。
 
 JinaEmbeddingFunction 的 **\_\_call\_\_()** 方法与 [encode_documents()](./JinaEmbeddingFunction-encode_documents) 和 [encode_queries()](./JinaEmbeddingFunction-encode_queries) 具有相同的功能。
 
@@ -66,7 +66,7 @@ jina_ef(
 
 - **RuntimeError**
 
-    当 Jina API 的响应中不包含 `data` 键时，将引发此异常。
+    当来自 Jina API 的响应不包含 `data` 键时，将引发此异常。
 
 ## 示例\{#examples}
 

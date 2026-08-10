@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回指定外部 collection 刷新任务的进度。 | Python | MilvusClient"
+description: "此操作返回指定外部 Collection 刷新作业的进度。 | Python | MilvusClient"
 type: docx
 token: HITBdKb0HotcK0xCKsycEeuqnXe
 sidebar_position: 27
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 推荐系统
+  - 信息检索
+  - 降维
+  - HNSW 算法
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - get_refresh_external_collection_progress()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # get_refresh_external_collection_progress()
 
-此操作返回指定外部 collection 刷新任务的进度。
+此操作返回指定外部 Collection 刷新作业的进度。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这要求使用项目端点按如下方式设置 MilvusClient：
+这需要使用项目 Endpoint 按如下方式设置一个 MilvusClient：
 
 `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -57,13 +57,13 @@ def get_refresh_external_collection_progress(
 
     **[必需]**
 
-    `refresh_external_collection()` 返回的任务 ID。
+    由 `refresh_external_collection()` 返回的作业 ID。
 
 - **timeout** (*float*) - 
 
     此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -71,21 +71,21 @@ def get_refresh_external_collection_progress(
 
 **返回：**
 
-一个 **RefreshExternalCollectionJobInfo** 对象，用于记录指定外部 collection 刷新任务的详细信息。
+一个 **RefreshExternalCollectionJobInfo** 对象，用于记录指定外部 Collection 刷新作业的详细信息。
 
 **参数：**
 
 - **job_id** (*int*) -
 
-    当前请求中指定的任务 ID。
+    当前请求中指定的作业 ID。
 
 - **collection_name** (*string*) -
 
-    在 `refresh_external_collection()` 中指定的外部 collection 名称。
+    在 `refresh_external_collection()` 中指定的外部 Collection 名称。
 
 - **state** (*string*) -
 
-    指定任务的当前状态。可能的值包括：
+    指定作业的当前状态。可能的值包括：
 
     - RefreshPending
 
@@ -97,7 +97,7 @@ def get_refresh_external_collection_progress(
 
 - **progress** (*int*) -
 
-    指定任务的当前进度。该值是范围从 0 到 100 的整数。
+    指定作业的当前进度。该值是一个范围为 0 到 100 的整数。
 
 - **external_source** (*str*) -
 
@@ -113,11 +113,11 @@ def get_refresh_external_collection_progress(
 
 - **start_time** (*int*) -
 
-    指定任务开始时的毫秒级时间戳。
+    指定作业开始时的毫秒级时间戳。
 
 - **end_time** (*int*) -  
 
-    指定任务结束时的毫秒级时间戳。
+    指定作业结束时的毫秒级时间戳。
 
 ## 示例\{#example}
 

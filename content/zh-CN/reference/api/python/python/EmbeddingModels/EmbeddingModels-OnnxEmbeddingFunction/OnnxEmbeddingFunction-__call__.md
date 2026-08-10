@@ -12,10 +12,10 @@ type: docx
 token: PlzSdJTGnoFVH6xSlS6cYBHZnph
 sidebar_position: 4
 keywords: 
-  - knn algorithm
+  - knn 算法
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - 什么是非结构化数据
+  - 向量嵌入
   - zilliz
   - zilliz cloud
   - cloud
@@ -51,7 +51,7 @@ onnx_ef(
 
 - **texts** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
@@ -59,11 +59,11 @@ onnx_ef(
 
 **返回值：**
 
-一个列表，其中每个元素都是一个 NumPy 数组。
+一个列表，其中每个元素都是 NumPy 数组。
 
 **异常：**
 
-*None*
+*无*
 
 ## 示例\{#examples}
 

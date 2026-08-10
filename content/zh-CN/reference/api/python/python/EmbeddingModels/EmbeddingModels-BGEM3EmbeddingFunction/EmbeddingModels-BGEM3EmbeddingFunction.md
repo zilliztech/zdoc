@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "BGEM3EmbeddingFunction 是 pymilvus 中的一个类，用于使用 BGE M3 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
+description: "BGEM3EmbeddingFunction 是 pymilvus 中的一个类，它使用 BGE M3 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: XYSVdCqCDoJ9Y5xqKEAceYkpnnh
 sidebar_position: 1
 keywords: 
-  - what is milvus
-  - milvus database
+  - 什么是 milvus
+  - milvus Database
   - milvus lite
-  - milvus benchmark
+  - milvus 基准测试
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - BGEM3EmbeddingFunction
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # BGEM3EmbeddingFunction
 
-**BGEM3EmbeddingFunction** 是 pymilvus 中的一个类，用于使用 BGE M3 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
+**BGEM3EmbeddingFunction** 是 pymilvus 中的一个类，它使用 BGE M3 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.hybrid.BGEM3EmbeddingFunction
@@ -59,11 +59,11 @@ BGEM3EmbeddingFunction(
 
 - **model_name** (*string*) -
 
-    用于编码的模型名称。默认值为 **BAAI/bge-m3**。
+    用于编码的模型名称。默认值为 **BAAI/bge-m3**.
 
 - **batch_size** (*int*) -
 
-    用于计算的批大小。
+    用于计算的批处理大小。
 
 - **device** (*string*) -
 
@@ -79,7 +79,7 @@ BGEM3EmbeddingFunction(
 
 - **return_dense** (*bool*) -
 
-    是否返回稠密嵌入向量。
+    是否返回稠密嵌入向量。 
 
 - **return_sparse** (*bool*) -
 
@@ -91,7 +91,7 @@ BGEM3EmbeddingFunction(
 
 - **&ast;&ast;kwargs**
 
-    允许向模型初始化传递额外的关键字参数。更多信息，请参见 [bge_m3](https://github.com/FlagOpen/FlagEmbedding/blob/master/FlagEmbedding/bge_m3.py)。
+    允许将其他关键字参数传递给模型初始化。更多信息，请参见 [bge_m3](https://github.com/FlagOpen/FlagEmbedding/blob/master/FlagEmbedding/bge_m3.py)。
 
 ## 示例\{#examples}
 

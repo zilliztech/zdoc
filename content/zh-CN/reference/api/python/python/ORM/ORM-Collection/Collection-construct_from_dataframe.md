@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作使用指定的 dataframe 创建集合。 | Python | ORM"
+description: "此操作使用指定的 dataframe 创建 Collection。 | Python | ORM"
 type: docx
 token: ISZadjHwyopWr5xRdJ2cqxVanEg
 sidebar_position: 3
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - 稀疏向量
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - construct_from_dataframe()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # construct_from_dataframe()
 
-此操作使用指定的 dataframe 创建集合。 
+此操作使用指定的 dataframe 创建 Collection。 
 
 ## 请求语法\{#request-syntax}
 
@@ -49,21 +49,21 @@ construct_from_dataframe(
 
     **[必需]**
 
-    要创建的集合名称。
+    要创建的 Collection 的名称。
 
 - **primary_field** (*string*) -
 
     **[必需]**
 
-    主字段的名称。它应是下方 dataframe 中的列标签之一。
+    主字段的名称。它应为下方 dataframe 中的列标签之一。
 
 - **dataframe** (*pandas.DataFrame*) 
 
     **[必需]**
 
-    包含要插入到集合中的数据的 dataframe。
+    包含要插入到 Collection 中的数据的 dataframe。
 
-    你可以用任意方式构造数据框，如 [此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) 的 **Example** 部分所示。
+    您可以用任意方式构造数据框，如[本页](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html)中的 **示例** 部分所示。
 
     ```python
     dataframe = pd.DataFrame({
@@ -82,23 +82,23 @@ construct_from_dataframe(
 
 *tuple (Collection, MutationResults)*
 
-**返回：**
+**返回值：**
 
-一个元组，包含集合以及由 **insert()** 操作返回的 **MutationResult** 对象。
+返回一个元组，其中包含该 Collection 以及由 **insert()** 操作返回的 **MutationResult** 对象。
 
 **MutationResult** 对象包含以下字段：
 
 - **insert_count** (*int*)
 
-    已插入实体的数量。
+    已插入的 Entity 数量。
 
 - **delete_count** (*int*)
 
-    已删除实体的数量。
+    已删除的 Entity 数量。
 
 - **upsert_count** (*int*)
 
-    已 upsert 的实体数量。
+    已 upsert 的 Entity 数量。
 
 - **succ_count** (*int*)
 
@@ -106,7 +106,7 @@ construct_from_dataframe(
 
 - **succ_index** (*list*)
 
-    一个从 0 开始的索引编号列表，其中每个编号表示一次成功的操作。
+    一个从 0 开始的索引编号列表，每个编号表示一次成功的操作。
 
 - **err_count** (*int*)
 
@@ -114,11 +114,11 @@ construct_from_dataframe(
 
 - **err_index** (*list*)
 
-    一个从 0 开始的索引编号列表，其中每个编号表示一次失败的操作。
+    一个从 0 开始的索引编号列表，每个编号表示一次失败的操作。
 
 - **primary_keys** (*list*)
 
-    已插入实体的主键列表。
+    已插入 Entity 的主键列表。
 
 - **timestamp** (*int*)
 

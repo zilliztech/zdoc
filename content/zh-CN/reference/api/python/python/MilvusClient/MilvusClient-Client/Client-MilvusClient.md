@@ -12,13 +12,13 @@ type: docx
 token: SojTdgw1joOuA8xMzb5cMUFYnce
 sidebar_position: 2
 keywords: 
-  - lexical search
-  - nearest neighbor search
+  - 词法搜索
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
+  - RAG LLM 架构
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - MilvusClient
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -41,9 +41,9 @@ pymilvus.MilvusClient
 
 为常见用例构造一个客户端。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此客户端可作为当前这组 API 的易用替代方案，用于处理 Zilliz Cloud 上的创建、读取、更新和删除（CRUD）操作。
+该客户端可作为当前 API 集的易用替代方案，用于处理 Zilliz Cloud 上的创建、读取、更新和删除（CRUD）操作。
 
 </Admonition>
 
@@ -65,7 +65,7 @@ MilvusClient(
 
     Zilliz Cloud 集群的 URI。例如：
 
-    - **集群端点**
+    - **集群 Endpoint**
 
         - **Free & Serverless**
 
@@ -75,7 +75,7 @@ MilvusClient(
 
             `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-    - **项目端点（On-demand）**
+    - **项目 Endpoint（按需）**
 
         `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -93,27 +93,27 @@ MilvusClient(
 
 - **db_name** (*string*) -
 
-    目标 Milvus 实例所属数据库的名称。
+    目标 Milvus 实例所属的 Database 名称。
 
 - **token** (*string*) -
 
     用于访问指定 Zilliz Cloud 集群的有效访问令牌。
 
-    可将其作为分别设置 **user** 和 **password** 的推荐替代方式。
+    这可以作为分别设置 **user** 和 **password** 的推荐替代方式。
 
     设置此字段时，请注意：
 
-    有效的令牌应为以下之一：
+    有效 token 应为以下两者之一
 
     - 具有足够权限的 [API](/docs/manage-api-keys)[ key](/docs/manage-api-keys)，或
 
-    - 用于访问目标集群的一对[用户名和密码](/docs/cluster-credentials)，并通过冒号 (:) 连接。例如，可以将其设置为 `username:p@ssw0rd`。这仅适用于使用集群端点时。
+    - 用于访问目标集群的一组 [用户名和密码 ](/docs/cluster-credentials)，并以冒号（:）连接。例如，您可以将其设置为 `username:p@ssw0rd`。这仅适用于使用集群 Endpoint 时。
 
 - **timeout** (*float* | *None*)  
 
     此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作才会超时。
+    将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作才会超时。
 
 ## 示例\{#examples}
 
@@ -128,9 +128,9 @@ client = MilvusClient(
 )
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-将 **uri** 设置为你的集群端点。**token** 参数可以是具有足够权限的 Zilliz Cloud API key，也可以是格式为 `username:p@ssw0rd` 的集群用户凭证。
+将 **uri** 设置为您的集群 Endpoint。**token** 参数可以是具有足够权限的 Zilliz Cloud API key，也可以是格式为 `username:p@ssw0rd` 的集群用户凭据。
 
 </Admonition>
 

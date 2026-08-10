@@ -12,13 +12,13 @@ type: docx
 token: OVfodiKa6o3qTGxadYicI975nhh
 sidebar_position: 21
 keywords: 
-  - semantic search
-  - Anomaly Detection
+  - 语义搜索
+  - 异常检测
   - sentence transformers
-  - Recommender systems
+  - 推荐系统
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - index_building_progress()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -48,17 +48,17 @@ index_building_progress(
 
 - **collection_name** (*str*) -
 
-    **[必需]**
+    **【必需】**
 
-    现有 collection 的名称。
+    现有 Collection 的名称。
 
-    将其设置为不存在的 collection 会导致 **CollectionNotExistException**。
+    将其设置为不存在的 Collection 会导致 **CollectionNotExistException**。
 
 - **index_name** (*str*) -
 
-    此操作目标索引的名称。
+    此操作的目标索引名称。
 
-    如果未指定，则使用默认索引。如果 collection 有多个索引，则此参数为必填项。
+    如果未指定，则使用默认索引。如果该 Collection 有多个索引，则此参数为必填。
 
     将其设置为不存在的索引会导致 **IndexNotExistException**。
 
@@ -70,41 +70,41 @@ index_building_progress(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *dict*
 
 **返回：**
-一个字典，包含指定 collection 中已建立索引的实体数量以及实体总数。
+一个字典，包含指定 Collection 中已建立索引的 Entity 数量以及 Entity 总数。
 该字典包含以下键：
 
 - **total_rows** (*int*)
 
-    指定 collection 中的实体总数。
+    指定 Collection 中的 Entity 总数。
 
 - **indexed_rows** (*int*)
 
-    指定 collection 中已建立索引的实体数量。
+    指定 Collection 中已建立索引的 Entity 数量。
 
 - **pending_index_rows** (*int*)
 
-    等待建立索引的实体数量。
+    等待建立索引的 Entity 数量。
 
 **异常：**
 
 - **CollectionNotExistException**
 
-    如果指定的 collection 不存在，将引发此异常。
+    如果指定的 Collection 不存在，则会引发此异常。
 
 - **IndexNotExistException**
 
-    如果指定的索引不存在，将引发此异常。
+    如果指定的索引不存在，则会引发此异常。
 
 - **AmbiguousIndexName**
 
-    如果存在多个索引但未指定索引名称，将引发此异常。
+    如果存在多个索引但未指定索引名称，则会引发此异常。
 
 ## 示例\{#examples}
 
@@ -165,7 +165,7 @@ utility.index_building_progress(
 
 ## 相关操作\{#related-operations}
 
-以下操作与 `index_building_progress()` 相关：
+以下操作与 `index_building_progress()` 相关
 
 - [create_index()](./Collection-create_index)
 

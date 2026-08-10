@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "VoyageEmbeddingFunction 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
+description: "VoyageEmbeddingFunction 中的此操作会接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: DQFbdMhfcodFuxxhYFeccDzEnkf
 sidebar_position: 4
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - milvus 向量 Database
+  - milvus 数据库
+  - milvus 向量数据库
   - Zilliz Cloud
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - \_\_call\_\_()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[VoyageEmbeddingFunction](./EmbeddingModels-VoyageEmbeddingFunction) 中的此操作接受一个文本字符串列表，并将其直接编码为向量嵌入。
+[VoyageEmbeddingFunction](./EmbeddingModels-VoyageEmbeddingFunction) 中的此操作会接收一个文本字符串列表，并将其直接编码为向量嵌入。
 
 VoyageEmbeddingFunction 的 **\_\_call\_\_()** 方法与 [encode_documents()](./VoyageEmbeddingFunction-encode_documents) 和 [encode_queries()](./VoyageEmbeddingFunction-encode_queries) 具有相同的功能。
 
@@ -52,13 +52,13 @@ voyage_ef(
 
 - **texts** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的文本。模型会为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
 *List[np.array]*
 
-**返回：**
+**返回值：**
 
 一个列表，其中每个元素都是一个 NumPy 数组。
 

@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将 CollectionSchema 对象转换为字典表示形式。 | Python | MilvusClient"
+description: "此操作会将 CollectionSchema 对象转换为字典表示形式。 | Python | MilvusClient"
 type: docx
 token: NnIxd6VYso9IBPx6bJDcJJmUnNd
 sidebar_position: 4
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - 向量 Database 如何工作
+  - 向量数据库对比
+  - openai 向量数据库
+  - 自然语言处理 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - to_dict()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # to_dict()
 
-此操作将 CollectionSchema 对象转换为字典表示形式。
+此操作会将 CollectionSchema 对象转换为字典表示形式。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,7 +49,7 @@ to_dict()
 
 **返回值：**
 
-集合模式的字典表示形式。
+Collection Schema 的字典表示形式。
 
 **异常：**
 

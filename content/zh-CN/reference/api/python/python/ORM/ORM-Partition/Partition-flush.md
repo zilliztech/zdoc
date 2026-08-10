@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会封存分区中的所有段。此操作之后的任何插入都会生成一个新段。 | Python | ORM"
+description: "此操作会封存 Partition 中的所有 Segment。此操作之后的任何插入都会生成一个新的 Segment。 | Python | ORM"
 type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - 向量 Database 教程
+  - 向量 Database 如何工作
+  - 向量数据库对比
+  - openai 向量数据库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - flush()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # flush()
 
-此操作会封存分区中的所有段。此操作之后的任何插入都会生成一个新段。
+此操作会封存 Partition 中的所有 Segment。此操作之后的任何插入都会生成一个新的 Segment。
 
 ## 请求语法\{#request-syntax}
 
@@ -41,15 +41,15 @@ flush(
 )   
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Note">
 
 我可以在每次插入数据后都调用 `flush()` 吗？
 
-插入新数据时，数据会被写入增长中的段。当增长中的段大小达到上限时，Zilliz Cloud 会自动封存该段。 
+插入新数据时，数据会写入增长中的 Segment。一旦增长中的 Segment 大小达到上限，Zilliz Cloud 会自动封存该 Segment。 
 
-持续调用此操作会产生许多已封存但尺寸较小的段，这会逐渐降低搜索性能。 
+持续调用此操作会产生许多较小的已封存 Segment，这会逐渐降低搜索性能。 
 
-建议在执行任何搜索之前，先等待 Zilliz Cloud 封存所有段。
+建议您等待 Zilliz Cloud 封存所有 Segment 后再执行任何搜索。
 
 </Admonition>
 
@@ -71,7 +71,7 @@ flush(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#examples}
 

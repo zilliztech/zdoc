@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "CohereEmbeddingFunction 是 pymilvus 中的一个类，使用 Cohere embedding 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
+description: "CohereEmbeddingFunction 是 pymilvus 中的一个类，使用 Cohere 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: JzDLdkv3QoCY8OxKpBjc5zsmnId
 sidebar_position: 1
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - 什么是 Milvus
+  - Milvus Database
+  - Milvus Lite
+  - Milvus 基准测试
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - CohereEmbeddingFunction
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # CohereEmbeddingFunction
 
-CohereEmbeddingFunction 是 pymilvus 中的一个类，使用 Cohere embedding 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
+CohereEmbeddingFunction 是 pymilvus 中的一个类，使用 Cohere 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.dense.CohereEmbeddingFunction
@@ -56,7 +56,7 @@ CohereEmbeddingFunction(
 
 - **model_name** (*string*)
 
-    要用于编码的 Cohere embedding 模型名称。你可以指定任何可用的 Cohere embedding 模型名称，例如 `embed-english-v3.0`、`embed-multilingual-v3.0` 等。如果未指定此参数，将使用 `embed-english-light-v3.0`。可用模型列表请参见 [Embed](https://docs.cohere.com/docs/models#embed)。
+    用于编码的 Cohere 嵌入模型名称。您可以指定任何可用的 Cohere 嵌入模型名称，例如 `embed-english-v3.0`、`embed-multilingual-v3.0` 等。如果您未指定此参数，将使用 `embed-english-light-v3.0`。有关可用模型的列表，请参见 [Embed](https://docs.cohere.com/docs/models#embed)。
 
 - **api_key** (*string*)
 
@@ -64,39 +64,39 @@ CohereEmbeddingFunction(
 
 - **input_type** (*string*)
 
-    传递给模型的输入类型。对于 v3 及更高版本的 embedding 模型，此参数为必填。
+    传递给模型的输入类型。嵌入模型 v3 及更高版本需要此参数。
 
-    - `"search_document"`：用于存储在向量数据库中、服务于搜索场景的嵌入。
+    - `"search_document"`：用于存储在向量 Database 中、面向搜索用例的嵌入。
 
-    - `"search_query"`：用于对向量数据库执行搜索时的查询嵌入，以查找相关文档。
+    - `"search_query"`：用于对向量 DB 执行搜索查询时的嵌入，以查找相关文档。
 
     - `"classification"`：用于传递给文本分类器的嵌入。
 
-    - `"clustering"`：用于运行聚类算法的嵌入。
+    - `"clustering"`：用于经过聚类算法处理的嵌入。
 
 - **embedding_types** (*List[str]*)
 
-    你希望返回的嵌入类型。此参数不是必填项，默认值为 None，此时返回 Embed Floats 响应类型。目前，此参数只能指定单个值。可选值包括：
+    您希望返回的嵌入类型。此参数非必需，默认值为 None，此时返回 Embed Floats 响应类型。目前，您只能为此参数指定单个值。可选值如下：
 
-    - `"float"`：当你希望返回默认的 float 嵌入时使用。对所有模型都有效。
+    - `"float"`：当您希望返回默认的浮点嵌入时使用此值。对所有模型均有效。
 
-    - `"binary"`：当你希望返回有符号二进制嵌入时使用。仅对 v3 模型有效。
+    - `"binary"`：当您希望返回有符号二进制嵌入时使用此值。仅对 v3 模型有效。
 
-    - `"ubinary"`：当你希望返回无符号二进制嵌入时使用。仅对 v3 模型有效。
+    - `"ubinary"`：当您希望返回无符号二进制嵌入时使用此值。仅对 v3 模型有效。
 
 - **truncate** (*string*)
 
-    可选值为 `NONE`|`START`|`END`，用于指定当输入长度超过最大 token 长度时，API 将如何处理。
+    可选值为 `NONE`|`START`|`END`，用于指定 API 如何处理超过最大 token 长度的输入。
 
-    传入 `START` 将丢弃输入开头的内容。`END` 将丢弃输入结尾的内容。在这两种情况下，都会持续丢弃输入内容，直到剩余输入恰好等于该模型允许的最大输入 token 长度。
+    传入 `START` 将丢弃输入的开头部分。`END` 将丢弃输入的末尾部分。在这两种情况下，都会持续丢弃输入内容，直到剩余输入恰好等于该模型的最大输入 token 长度。
 
-    如果选择 `NONE`，当输入超过最大输入 token 长度时将返回错误。
+    如果选择 `NONE`，当输入超过最大输入 token 长度时，将返回错误。
 
     默认值：`END`
 
 - **kwargs**
 
-    允许向模型初始化传递额外的关键字参数。更多信息请参见 [Embed](https://docs.cohere.com/reference/embed)。
+    允许在模型初始化时传递其他关键字参数。更多信息，请参见 [Embed](https://docs.cohere.com/reference/embed)。
 
 ## 示例\{#examples}
 

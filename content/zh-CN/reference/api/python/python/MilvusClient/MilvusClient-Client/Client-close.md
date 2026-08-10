@@ -15,10 +15,10 @@ keywords:
   - 向量维度
   - ANN 搜索
   - 什么是向量嵌入
-  - 向量数据库教程
+  - 向量 Database 教程
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - close()
   - pymilvus30
 displayed_sidebar: pythonSidebar

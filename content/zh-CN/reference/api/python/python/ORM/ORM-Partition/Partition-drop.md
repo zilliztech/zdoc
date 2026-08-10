@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除当前分区。 | Python | ORM"
+description: "此操作会删除当前 Partition。 | Python | ORM"
 type: docx
 token: D3sndK8DgoqDkUxaNGcctwcSnuE
 sidebar_position: 2
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - 向量数据库对比
+  - openai 向量数据库
+  - 自然语言处理 Database
+  - 低成本向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - drop()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop()
 
-此操作会删除当前的[分区](./ORM-Partition)。
+此操作会删除当前 [Partition](./ORM-Partition)。 
 
 ## 请求语法\{#request-syntax}
 
@@ -45,13 +45,13 @@ drop(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 *None*
 
@@ -59,7 +59,7 @@ drop(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此异常在此操作期间发生任意错误时出现。
 
 ## 示例\{#examples}
 

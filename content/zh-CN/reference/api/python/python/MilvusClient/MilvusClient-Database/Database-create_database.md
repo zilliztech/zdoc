@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于创建数据库。 | Python | MilvusClient"
+description: "此操作创建一个 Database。 | Python | MilvusClient"
 type: docx
 token: S278drWUVoRZ5fx8XkfcWaZfnwh
 sidebar_position: 2
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - 神经网络
+  - 深度学习
+  - 知识库
+  - 自然语言处理
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - create_database()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # create_database()
 
-此操作用于创建数据库。
+此操作创建一个 Database。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法仅适用于专用服务集群和按需计算。 
+此方法仅适用于 dedicated serving 集群和按需计算。
 
-- 对于专用服务集群中的数据库，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 dedicated serving 集群中的 Database，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算的数据库，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算的 Database，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -70,45 +70,45 @@ create_database(
 
     **[必需]**
 
-    要创建的数据库名称。
+    要创建的 Database 名称。
 
 - **properties** (*dict* | *None*) -
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Note">
 
-    这不适用于按需计算的数据库。
+    这不适用于按需计算的 Database。
 
     </Admonition>
 
-    要创建的数据库属性。可用的数据库属性如下：
+    要创建的 Database 的属性。可用的 Database 属性如下：
 
     - **database.replica.number** (*int*) -
 
-        数据库的副本数量。
+        Database 的副本数。
 
     - **database.resource_groups** (*[]str*) -
 
-        专用于该数据库的资源组。
+        专用于该 Database 的资源组。
 
     - **database.diskQuota.mb** (*int*) -
 
-        分配给该数据库的磁盘配额，单位为 MB。
+        分配给该 Database 的磁盘配额，以兆字节（**MB**）为单位。
 
     - **database.max.collections** (*int*) -
 
-        数据库中允许的最大 collection 数量。
+        该 Database 中允许的最大 Collection 数量。
 
     - **database.force.deny.writing** (*bool*) -
 
-        是否禁止数据库中的所有写入操作。
+        是否拒绝该 Database 中的所有写入操作。
 
     - **database.force.deny.reading** (*bool*) -
 
-        是否禁止数据库中的所有读取操作。
+        是否拒绝该 Database 中的所有读取操作。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 *None* 表示在收到响应或发生错误时才会超时。
+    此操作的超时时长。将其设置为 *None* 表示在收到响应或发生错误时才超时。
 
 **返回类型：**
 
@@ -120,7 +120,7 @@ create_database(
 
 **异常：**
 
-- `MilvusException` - 如果此操作期间发生任何错误，则会引发此异常。
+- `MilvusException` - 如果此操作期间发生任何错误，则会引发该异常。
 
 ## 示例\{#examples}
 

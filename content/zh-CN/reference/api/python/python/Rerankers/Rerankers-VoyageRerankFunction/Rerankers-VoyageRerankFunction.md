@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "VoyageRerankFunction 是 milvusmodel 中的一个类，它以查询和文档作为输入，并直接返回相似度分数而不是嵌入。此功能使用底层的 Voyage 重排序模型。 | Python"
+description: "VoyageRerankFunction 是 milvusmodel 中的一个类，它以 query 和 document 作为输入，并直接返回相似度分数而不是 embeddings。此功能使用底层的 Voyage 重排模型。 | Python"
 type: docx
 token: Smobd2lIho2yQPxtRhLcLcKznCf
 sidebar_position: 1
 keywords: 
   - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - 稀疏 vs 稠密
+  - 稠密向量
+  - 分层可导航小世界
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # VoyageRerankFunction
 
-**VoyageRerankFunction** 是 [milvus_model](https://github.com/milvus-io/milvus-model) 中的一个类，它以查询和文档作为输入，并直接返回相似度分数而不是嵌入。此功能使用底层的 Voyage 重排序模型。
+**VoyageRerankFunction** 是 [milvus_model](https://github.com/milvus-io/milvus-model) 中的一个类，它以 query 和 document 作为输入，并直接返回相似度分数而不是 embeddings。此功能使用底层的 Voyage 重排模型。
 
 ```python
 pymilvus.model.reranker.VoyageRerankFunction
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
 构造一个适用于常见用例的 VoyageRerankFunction。
 
@@ -48,17 +48,17 @@ VoyageRerankFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **model_name** (*string*)
 
-    要用于编码的 Voyage 模型名称。您可以指定任何可用的 Voyage 模型名称，例如 `voyage-law-2`、`voyage-code-2` 等。如果您未指定此参数，将使用 `voyage-2`。有关可用模型的列表，请参阅 [Voyage official documentation](https://docs.voyageai.com/docs/embeddings)。
+    用于编码的 Voyage 模型名称。您可以指定任意可用的 Voyage 模型名称，例如 `voyage-law-2`、`voyage-code-2` 等。如果您未指定此参数，将使用 `voyage-2`。可用模型列表请参见 [Voyage 官方文档](https://docs.voyageai.com/docs/embeddings)。
 
 - **api_key** (*string*)
 
-    用于访问 Voyage API 的 API 密钥。有关如何创建 API 密钥的信息，请参阅 [API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation)。
+    用于访问 Voyage API 的 API 密钥。有关如何创建 API 密钥的信息，请参见 [API Key and Python Client](https://docs.voyageai.com/docs/api-key-and-installation)。
 
-## Examples\{#examples}
+## 示例\{#examples}
 
 ```python
 from pymilvus.model.reranker import VoyageRerankFunction

@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将一个现有用户添加到当前角色。添加后，该用户将获得当前角色允许的权限，并可执行某些操作。 | Python | ORM"
+description: "此操作会将现有用户添加到当前角色。添加后，该用户将获得当前角色允许的权限，并可执行某些操作。 | Python | ORM"
 type: docx
 token: W7GJdpYrYoYhSaxW6uzcVAZinYf
 sidebar_position: 1
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - 向量检索
+  - 音频相似性搜索
+  - 弹性向量 Database
+  - Pinecone 与 Milvus 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - add_user()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # add_user()
 
-此操作将一个现有用户添加到当前角色。添加后，该用户将获得当前角色允许的权限，并可执行某些操作。
+此操作会将现有用户添加到当前角色。添加后，该用户将获得当前角色允许的权限，并可执行某些操作。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,7 +45,7 @@ add_user(
 
 - **username** (*str*) -
 
-    **[必需]**
+    **【必需】**
 
     要添加到角色中的用户名。
 
@@ -61,7 +61,7 @@ add_user(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    在此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

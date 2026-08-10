@@ -14,7 +14,7 @@ sidebar_position: 19
 keywords: 
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus 向量 Database
   - milvus db
   - zilliz
   - zilliz cloud
@@ -48,7 +48,7 @@ hybridts_to_datetime(
 
     **[必需]**
 
-    一个混合时间戳。
+    混合时间戳。
 
 - **tz** (*datetime.timezone*) -
 
@@ -76,7 +76,7 @@ d = utility.hybridts_to_datetime(ts)
 
 ## 相关操作\{#related-operations}
 
-以下操作与 `hybridts_to_datetime()` 相关：
+以下操作与`hybridts_to_datetime()`相关：
 
 - [mkts_from_datetime()](./utility-mkts_from_datetime)
 

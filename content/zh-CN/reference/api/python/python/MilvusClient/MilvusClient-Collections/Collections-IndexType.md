@@ -13,12 +13,12 @@ token: SlrCd1GEbooMh2xLylZc6Oirnrc
 sidebar_position: 15
 keywords: 
   - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - 神经网络
+  - 深度学习
+  - 知识库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - IndexType
   - pymilvus30
 displayed_sidebar: pythonSidebar

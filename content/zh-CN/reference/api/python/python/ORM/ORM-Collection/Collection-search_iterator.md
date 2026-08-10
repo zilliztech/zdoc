@@ -7,13 +7,13 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会返回一个 Python 迭代器，供您遍历搜索结果。在搜索结果包含大量数据时尤其有用。 | Python | ORM"
+description: "此操作返回一个 Python 迭代器，供您遍历搜索结果。当搜索结果包含大量数据时，这一点尤其有用。 | Python | ORM"
 type: docx
 token: HrnndnWtKoPuenxvsXBchF1wnnh
 sidebar_position: 26
 keywords: 
-  - Unstructured Data
-  - vector database
+  - 非结构化数据
+  - 向量 Database
   - IVF
   - knn
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # search_iterator()
 
-此操作会返回一个 Python 迭代器，供您遍历搜索结果。在搜索结果包含大量数据时尤其有用。
+此操作返回一个 Python 迭代器，供您遍历搜索结果。当搜索结果包含大量数据时，这一点尤其有用。
 
 ## 请求语法\{#request-syntax}
 
@@ -64,7 +64,7 @@ search_iterator(
 
     **[必填]**
 
-    当前集合中向量字段的名称。
+    当前 Collection 中向量字段的名称。
 
 - **param** (dict) -
 
@@ -74,9 +74,9 @@ search_iterator(
 
     - **metric_type** (*str*) -
 
-        应用于此操作的度量类型。该值应与为上述指定向量字段创建索引时使用的度量类型保持一致。 
+        应用于此操作的度量类型。该值应与为上述指定向量字段创建索引时使用的度量类型相同。
 
-        可选值包括 **L2**、**IP** 和 **COSINE**。
+        可能的值包括 **L2**、**IP** 和 **COSINE**。
 
     - **params** (dict) -
 
@@ -84,59 +84,59 @@ search_iterator(
 
         - **radius** (float) -
 
-            确定最低相似度的阈值。将 `metric_type` 设置为 `L2` 时，请确保该值大于 **range_filter** 的值。否则，该值应小于 **range_filter** 的值。 
+            确定最低相似度阈值。当将 `metric_type` 设置为 `L2` 时，请确保该值大于 **range_filter** 的值。否则，该值应小于 **range_filter** 的值。
 
         - **range_filter**  (float) -  
 
-            将搜索范围细化为特定相似度区间内的向量。将 `metric_type` 设置为 `IP` 或 `COSINE` 时，请确保该值大于 **radius** 的值。否则，该值应小于 **radius** 的值。
+            将搜索进一步限定为特定相似度范围内的向量。当将 `metric_type` 设置为 `IP` 或 `COSINE` 时，请确保该值大于 **radius** 的值。否则，该值应小于 **radius** 的值。
 
-    有关其他可用搜索参数的详细信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained)。
+    有关其他适用搜索参数的详细信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained) 了解更多内容。
 
 - **batch_size** (*int*) -
 
-    每次对当前迭代器调用 `next()` 时返回的实体数量。
+    每次在当前迭代器上调用 `next()` 时返回的 Entity 数量。
 
-    默认值为 **1000**。请将其设置为合适的值，以控制每次迭代返回的实体数量。
+    该值默认为 **1000**。请将其设置为合适的值，以控制每次迭代返回的 Entity 数量。
 
 - **limit** (*int*) -
 
-    要返回的实体总数。
+    要返回的 Entity 总数。
 
-    默认值为 **-1**，表示返回所有匹配的实体。
+    该值默认为 **-1**，表示将返回所有匹配的 Entity。
 
 - **expr** (*str*) -
 
-    用于筛选匹配实体的标量过滤条件。
+    用于筛选匹配 Entity 的标量过滤条件。
 
-    默认值为 **None**，表示忽略标量过滤。有关如何构建标量过滤条件，请参阅 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。
+    该值默认为 **None**，表示忽略标量过滤。要构建标量过滤条件，请参阅 [Boolean Expression Rules](https://milvus.io/docs/boolean.md)。
 
 - **output_fields** (*list*) -
 
-    返回的每个实体中要包含的字段名称列表。
+    返回结果中每个 Entity 要包含的字段名称列表。
 
-    默认值为 **None**。如果未指定，则仅包含主字段。
+    该值默认为 **None**。如果未指定，则仅包含主字段。
 
 - **partition_names** (*list*) -
 
-    分区名称列表。
+    Partition 名称列表。
 
-    默认值为 **None**。如果指定，则仅在指定分区中执行查询。
+    该值默认为 **None**。如果指定，则仅在指定的 Partition 中执行查询。
 
 - **timeout** (*float*)  -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 - **round_decimal** (int) -
 
-    Zilliz Cloud 对计算得到的距离值进行四舍五入时保留的小数位数。
+    Zilliz Cloud 对计算距离保留的小数位数。
 
-    默认值为 **-1**，表示 Zilliz Cloud 不对计算得到的距离值进行四舍五入，而是返回原始值。
+    该值默认为 **-1**，表示 Zilliz Cloud 跳过对计算距离进行舍入，并返回原始值。
 
 **返回类型：**
 
 *SearchIterator*
 
-**返回：**
+**返回值：**
 
 一个 **SearchIterator**，供您遍历搜索结果。
 

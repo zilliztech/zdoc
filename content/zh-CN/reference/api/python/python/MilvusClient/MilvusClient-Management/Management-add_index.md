@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作为集合中的特定字段添加索引参数。 | Python | MilvusClient"
+description: "此操作会为 Collection 中的特定字段添加索引参数。 | Python | MilvusClient"
 type: docx
 token: SM7ld0ZsEoYLqaxVMZxcSH82n9f
 sidebar_position: 1
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 图像相似性搜索
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似性搜索
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - add_index()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # add_index()
 
-此操作为集合中的特定字段添加索引参数。
+此操作会为 Collection 中的特定字段添加索引参数。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法仅适用于专属服务集群和按需计算。 
+此方法仅适用于 Dedicated 服务集群和按需计算。
 
-- 对于服务集群中的集合上的此操作，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 如果要在服务集群的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的集合上的此操作，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话以附加到按需集群进行搜索。
+- 如果要在按需计算的 Collection 中执行此操作，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话并将其附加到按需集群以执行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -77,25 +77,25 @@ IndexParams.add_index(
 
 - **index_type** (*str*) -
 
-    用于组织特定字段中数据的算法名称。在 Zilliz Cloud 上，索引类型始终为 **AUTOINDEX**。详情请参见 [AUTOINDEX 说明](/docs/autoindex-explained)。
+    用于组织特定字段中数据的算法名称。在 Zilliz Cloud 上，索引类型始终为 **AUTOINDEX**。详情请参见 [AUTOINDEX](/docs/autoindex-explained) 说明。
 
 - **metric_type** (*str*) -
 
     用于衡量向量之间相似度的算法。可能的值包括：`IP`、`L2`、`COSINE`、`HAMMING`、`JACCARD`、`BM25`（仅用于全文搜索）。更多信息请参见 [Metric Types](https://milvus.io/docs/metric.md)。
 
-    仅当指定字段是向量字段时，此参数才可用。
+    仅当指定字段为向量字段时，此参数可用。
 
 - **params** (*dict*) -
 
-    指定索引类型的微调参数。有关可用键及其取值范围的详细信息，请参见 [In-memory Index](https://milvus.io/docs/index.md)。
+    指定索引类型的微调参数。有关可能的键和值范围的详情，请参见 [In-memory Index](https://milvus.io/docs/index.md)。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
-无
+None
 
 **异常：**
 

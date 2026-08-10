@@ -7,13 +7,13 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将混合时间戳转换为 UNIX 纪元时间戳 | Python | ORM"
+description: "此操作会将混合时间戳转换为 UNIX 纪元时间戳 | Python | ORM"
 type: docx
 token: HbMMdqtQGoQqwixsyrjcTTh0nu5
 sidebar_position: 20
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Chroma 与 Milvus 对比
+  - Annoy 向量搜索
   - milvus
   - Zilliz
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hybridts_to_unixtime()
 
-此操作将混合时间戳转换为 UNIX 纪元时间戳
+此操作会将混合时间戳转换为 UNIX 纪元时间戳
 
 ## 请求语法\{#request-syntax}
 
@@ -56,7 +56,7 @@ hybridts_to_unixtime(
 *float*
 
 **返回：**
-一个 UNIX 纪元时间，即一个整数，表示自 1970 年 1 月 1 日（UTC/GMT 午夜）以来经过的秒数。
+UNIX 纪元时间，它是一个整数，表示自 1970 年 1 月 1 日（UTC 午夜/GMT)起经过的时间，以秒为单位。
 
 ## **示例**\{#examples}
 

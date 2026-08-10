@@ -49,13 +49,13 @@ to_dict()
 
 **返回值：**
 
-CollectionSchema 的字典表示。
+Collection Schema 的字典表示。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

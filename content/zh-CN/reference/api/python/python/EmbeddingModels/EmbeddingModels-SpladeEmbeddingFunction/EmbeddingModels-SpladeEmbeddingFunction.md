@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "SpladeEmbeddingFunction 是 pymilvus 中的一个类，使用 SPLADE 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
+description: "SpladeEmbeddingFunction 是 pymilvus 中的一个类，负责使用 SPLADE 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: UdeRd0YVhoDBeVxrQaBcoikVnAI
 sidebar_position: 3
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 检索增强生成
+  - 大语言模型
+  - 向量化
+  - k 近邻算法
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - SpladeEmbeddingFunction
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # SpladeEmbeddingFunction
 
-**SpladeEmbeddingFunction** 是 pymilvus 中的一个类，使用 SPLADE 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
+**SpladeEmbeddingFunction** 是 pymilvus 中的一个类，负责使用 SPLADE 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.sparse.SpladeEmbeddingFunction
@@ -39,7 +39,7 @@ pymilvus.model.sparse.SpladeEmbeddingFunction
 
 ## 构造函数\{#constructor}
 
-构造一个适用于常见用例的 SpladeEmbeddingFunction。
+为常见用例构造一个 SpladeEmbeddingFunction。
 
 ```python
 SpladeEmbeddingFunction(
@@ -58,7 +58,7 @@ SpladeEmbeddingFunction(
 
 - **model_name** (*string*) -
 
-    用于编码的 SPLADE 模型名称。有效选项包括 **naver/splade-cocondenser-ensembledistil**（默认）、**naver/splade_v2_max**、**naver/splade_v2_distil** 和 **naver/splade-cocondenser-selfdistil**。更多信息请参见 [Play with models](https://github.com/naver/splade?tab=readme-ov-file#playing-with-the-model)。
+    用于编码的 SPLADE 模型名称。有效选项包括 **naver/splade-cocondenser-ensembledistil**（默认）、**naver/splade_v2_max**, **naver/splade_v2_distil**, 和 **naver/splade-cocondenser-selfdistil**.。有关更多信息，请参见 [体验模型](https://github.com/naver/splade?tab=readme-ov-file#playing-with-the-model)。
 
 - **batch_size** (*int*) -
 
@@ -74,19 +74,19 @@ SpladeEmbeddingFunction(
 
 - **device** (*string*) -
 
-    要使用的设备，**cpu** 表示 CPU，**cuda:n** 表示第 n 个 GPU 设备。
+    要使用的设备，其中 **cpu** 表示 CPU，**cuda:n** 表示第 n 个 GPU 设备。
 
 - **k_tokens_query** (*int*) -
 
-    用于查询编码的顶部 token 数量。如果未指定，将使用所有非零 token。
+    用于查询编码的 top token 数量。如果未指定，则使用所有非零 token。
 
 - **k_tokens_document** (*int*) -
 
-    用于文档编码的顶部 token 数量。如果未指定，将使用所有非零 token。
+    用于文档编码的 top token 数量。如果未指定，则使用所有非零 token。
 
 - **&ast;&ast;kwargs**
 
-    允许将其他关键字参数传递给模型初始化。更多信息请参见 [AutoModelForMaskedLM](https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoModelForMaskedLM)。
+    允许将其他关键字参数传递给模型初始化。有关更多信息，请参见 [AutoModelForMaskedLM](https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoModelForMaskedLM)。
 
 ## 示例\{#examples}
 

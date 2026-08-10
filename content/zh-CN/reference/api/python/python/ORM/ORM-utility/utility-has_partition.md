@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检查某个分区是否存在。 | Python | ORM"
+description: "此操作用于检查某个 Partition 是否存在。 | Python | ORM"
 type: docx
 token: KsmadNcXRoElO2xJi5HcJO57nwb
 sidebar_position: 18
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - milvus 开源
+  - milvus 如何工作
+  - Zilliz 向量 Database
+  - Zilliz Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - has_partition()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # has_partition()
 
-此操作检查某个分区是否存在。
+此操作用于检查某个 Partition 是否存在。
 
 ## 请求语法\{#request-syntax}
 
@@ -48,15 +48,15 @@ has_partition(
 
 - **collection_name** (*str*) -
 
-    **[必填]**
-    已存在的集合名称。
+    **[必需]**
+    现有 Collection 的名称。
 
-    如果将其设置为不存在的集合，将导致抛出 **MilvusException**。
+    如果将其设置为不存在的 Collection 名称，则会导致 **MilvusException**。
 
 - **partition_name** (*str*) -
 
-    **[必填]**
-    分区名称。
+    **[必需]**
+    Partition 的名称。
 
 - **using** (*str*) - 
 
@@ -66,14 +66,14 @@ has_partition(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作才会超时。
 
 **返回类型：**
 
 *bool*
 
-**返回值：**
-布尔值，表示指定分区是否存在。
+**返回：**
+布尔值，表示指定的 Partition 是否存在。
 
 **异常：**
 

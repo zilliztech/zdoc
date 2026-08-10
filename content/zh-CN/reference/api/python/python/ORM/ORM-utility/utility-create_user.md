@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作会创建一个带有对应密码的新用户。 | Python | ORM"
+description: "此操作会创建一个新用户及其对应的密码。 | Python | ORM"
 type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - llm 幻觉
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - create_user()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 # create_user()
 
-此操作会创建一个带有对应密码的新用户。
+此操作会创建一个新用户及其对应的密码。
 
 ## 请求语法\{#request-syntax}
 
@@ -62,13 +62,13 @@ utility.create_user(
 
     **[必需]**
 
-    要创建的新用户的名称。该值应以字母开头，并且只能包含下划线、字母和数字。
+    要创建的新用户名称。该值应以字母开头，并且只能包含下划线、字母和数字。
 
 - **password** (*string*) - 
 
     **[必需]**
 
-    要创建的新用户对应的密码。
+    要创建的新用户对应的密码。 
 
     密码必须是一个长度为 8 到 64 个字符的字符串，并且必须至少包含以下字符类型中的三种：大写字母、小写字母、数字和特殊字符。
 
@@ -80,13 +80,13 @@ utility.create_user(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将此参数设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作才会超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 
@@ -110,9 +110,9 @@ user = utility.create_user(user="admin", password="123456")
 
 ## 相关操作\{#related-operations}
 
-以下操作与 `create_user()` 相关：
+以下操作与 `create_user()` 相关
 
-- [Role](./ORM-Role)
+- [角色](./ORM-Role)
 
 - [delete_user()](./utility-delete_user)
 

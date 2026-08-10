@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会创建一个新的资源组。 | Python | ORM"
+description: "此操作将创建一个新的资源组。 | Python | ORM"
 type: docx
 token: X5qsdhFQ5oOhkcxOprzcOZq4nMc
 sidebar_position: 4
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - 稠密嵌入
+  - Faiss 向量 Database
+  - Chroma 向量 Database
+  - NLP 搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - create_resource_group()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # create_resource_group()
 
-此操作会创建一个新的资源组。 
+此操作将创建一个新的资源组。 
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Note">
 
 什么是资源组？
 
-资源组可以容纳 Zilliz Cloud 集群中的部分或全部查询节点。当你通过调用 load() 加载集合时，Zilliz Cloud 会将该集合的数据加载到某些查询节点中。
+资源组可以容纳 Zilliz Cloud 集群中的部分或全部查询节点。当您通过调用 load() 加载一个 Collection 时，Zilliz Cloud 会将该 Collection 的数据加载到某些查询节点中。
 
-每个 Zilliz Cloud 集群中都提供一个名为 **__default_resource_group** 的默认资源组，它包含该集群中的所有查询节点。 
+每个 Zilliz Cloud 集群中都有一个名为 **__default_resource_group** 的默认资源组，它包含该集群的所有查询节点。 
 
-使用 **describe_resource_group()** 可查看实际数量。如果有多个可用的查询节点，建议创建资源组并在它们之间分配查询节点。
+使用 **describe_resource_group()** 检查实际数量。如果有多个可用的查询节点，请考虑创建资源组并在它们之间分配查询节点。
 
 </Admonition>
 
@@ -60,7 +60,7 @@ create_resource_group(
 
 - **name** (*str*) -
 
-    **[必填]**
+    **【必填】**
 
     要创建的资源组名称。
 
@@ -74,11 +74,11 @@ create_resource_group(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作才会超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **kwargs**
 
-    可选参数。目前，你可以设置 **config** 来指定资源组的配置。
+    可选参数。当前，您可以设置 **config** 来指定资源组的配置。
 
     - **config** (*ResourceGroupConfig*) -
 
@@ -94,15 +94,15 @@ create_resource_group(
 
         - **requests** (*dict*) -
 
-            用于指定资源组应持有的查询节点数量的字典。该键应包含：
+            用于指定资源组应持有的查询节点数量的字典。此键应包含：
 
-            - **node_num** (*int*) - 为资源组请求的查询节点数量。
+            - **node_num** (*int*) - 资源组请求的查询节点数量。
 
         - **limits** (*dict*) -
 
-            用于指定资源组可持有的最大查询节点数量的字典。该键应包含：
+            用于指定资源组可持有的最大查询节点数量的字典。此键应包含：
 
-            - **node_num** (*int*) - 资源组允许的最大查询节点数量。
+            - **node_num** (*int*) - 资源组允许持有的最大查询节点数量。
 
 **返回类型：**
 

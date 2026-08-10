@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会向集合添加一个新函数。函数允许您定义自定义处理逻辑，例如 BM25 评分或嵌入生成。 | Python | MilvusClient"
+description: "此操作会向 Collection 添加一个新函数。函数支持您定义自定义处理逻辑，例如 BM25 评分或嵌入生成。 | Python | MilvusClient"
 type: docx
 token: Qe3GdWZa9oAxjrx85tkct8ManRe
 sidebar_position: 21
 keywords: 
   - 什么是向量嵌入
-  - 向量数据库教程
-  - 向量数据库如何工作
-  - vector db comparison
+  - 向量 Database 教程
+  - 向量 Database 如何工作
+  - 向量数据库对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - add_collection_function()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # add_collection_function()
 
-此操作会向集合添加一个新函数。函数允许您定义自定义处理逻辑，例如 BM25 评分或嵌入生成。
+此操作会向 Collection 添加一个新函数。函数支持您定义自定义处理逻辑，例如 BM25 评分或嵌入生成。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这不适用于外部集合。
+此操作不适用于外部 Collection。
 
 </Admonition>
 
@@ -56,13 +56,13 @@ client.add_collection_function(
 
     **[必需]**
 
-    集合名称。
+    Collection 的名称。
 
 - **[function](./MilvusClient-Function)** (*[Function](./MilvusClient-Function)*) -
 
     **[必需]**
 
-    要添加的函数模式。这是一个 `Function` 对象，用于定义函数名称、类型、输入字段、输出字段和参数。
+    要添加的函数 Schema。这是一个 `Function` 对象，用于定义函数名称、类型、输入字段、输出字段和参数。
 
 - **timeout** (*float* | *None*) -
 

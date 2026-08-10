@@ -12,13 +12,13 @@ type: docx
 token: WtyZdeFKMoSv5exaYRxcPLCSndg
 sidebar_position: 9
 keywords: 
-  - AI Hallucination
+  - AI 幻觉
   - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - 语义搜索
+  - 异常检测
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - drop_user()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -48,7 +48,7 @@ drop_user(
 
     **[必需]**
 
-    要删除的用户名称。
+    要删除的用户名。
 
 - **timeout** (*float* | *None*)  
 
@@ -60,7 +60,7 @@ drop_user(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 

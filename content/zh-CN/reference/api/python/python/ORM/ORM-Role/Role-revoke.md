@@ -12,13 +12,13 @@ type: docx
 token: UUJWdoEnjoXx69xahsScdMVSnzf
 sidebar_position: 10
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz 向量 Database
+  - Zilliz Database
+  - 非结构化数据
+  - 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - revoke()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -58,9 +58,9 @@ revoke(
 
     **[必需]**
 
-    在 **object** 中指定类型的目标对象名称。
+    由 **object** 指定类型的目标对象名称。
 
-    它可以是集合名称、用户名或通配符（*）。
+    它可以是 Collection 名称、用户名或通配符（*）。
 
 - **privilege** (*string*)
 
@@ -70,23 +70,23 @@ revoke(
 
     详情请参见 Users & Roles。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Notes">
 
-    - 要向某类对象授予所有权限，例如 **[Collection](./ORM-Collection)**、**Global**、**User**，请将权限名称设为 `*`。
+    - 要向某类对象授予所有权限，例如 **[Collection](./ORM-Collection)**、**Global**、**User**，请使用 `*` 作为权限名称。
     
-    - 当 `object` 设为 `Global` 时，将 `privilege` 设为 `\*` 并不等同于将其设为 `All`。`All` 权限包括所有权限，包括任何 collection 和 user 对象的权限。
+    - 当 `object` 设置为 `Global` 时，将 `privilege` 设置为 `\*` 并不等同于将其设置为 `All`。`All` 权限包含所有许可，包括任何 Collection 和用户对象。
 
     </Admonition>
 
 - **db_name** (*string*)
 
-    对象所属数据库的名称。如果未指定，则使用默认数据库。
+    对象所属 Database 的名称。如果未指定，则使用默认 Database。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 *None*
 
@@ -94,7 +94,7 @@ revoke(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    在此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

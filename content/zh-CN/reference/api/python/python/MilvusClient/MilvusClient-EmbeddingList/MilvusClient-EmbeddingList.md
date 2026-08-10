@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "一个 EmbeddingList 实例表示一个向量嵌入列表。您可以使用 EmbeddingList 实例来构建查询向量，以在 Array of Structs 字段中的向量字段上执行搜索。 | Python | MilvusClient"
+description: "EmbeddingList 实例表示向量嵌入列表。您可以使用 EmbeddingList 实例构建查询向量，以便在 Array of Structs 字段中的向量字段上执行搜索。 | Python | MilvusClient"
 type: docx
 token: Ve2WdUAfwoz456xwBIJcGvltn6b
 sidebar_position: 4
 keywords: 
   - IVF
   - knn
-  - Image Search
+  - 图像搜索
   - LLMs
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # EmbeddingList
 
-**EmbeddingList** 实例表示一个向量嵌入列表。您可以使用 **EmbeddingList** 实例来构建查询向量，以在 Array of Structs 字段中的向量字段上执行搜索。
+**EmbeddingList** 实例表示向量嵌入列表。您可以使用 **EmbeddingList** 实例构建查询向量，以便在 Array of Structs 字段中的向量字段上执行搜索。
 
 ```python
 class pymilvus.EmbeddingList
@@ -55,15 +55,15 @@ EmbeddingList(
 
     向量嵌入列表，可以是以下任一类型：
 
-    - 形状为 **(n, dim)** 的 **np.ndarray**，表示包含多个向量嵌入的列表
+    - 形状为 **(n, dim)** 的 **np.ndarray**，表示由多个向量嵌入组成的列表
 
     - 形状为 **(dim,)** 的 **np.ndarray**，表示单个向量嵌入
 
-    - **List[np.ndarray]**，表示一个由向量嵌入数组组成的列表
+    - **List[np.ndarray]**，表示向量嵌入数组列表
 
 - **dim** (*int*) -
 
-    在验证时，用于指定 **embedding** 参数中向量嵌入的维度。 
+    **embedding** 参数中指定的向量嵌入的维度，用于验证。 
 
     如果提供了该参数，则所有指定的向量嵌入都必须符合该维度限制。
 

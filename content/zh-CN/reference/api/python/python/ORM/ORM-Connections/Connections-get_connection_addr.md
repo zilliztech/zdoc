@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作按别名检索指定连接的配置。 | Python | ORM"
+description: "此操作通过别名检索指定连接的配置。 | Python | ORM"
 type: docx
 token: H2zBdRHVtovNQGxvb0xcwpSKnBd
 sidebar_position: 5
 keywords: 
   - knn
-  - Image Search
+  - 图像搜索
   - LLMs
-  - Machine Learning
+  - 机器学习
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_connection_addr()
 
-此操作按别名检索指定连接的配置。
+此操作通过别名检索指定连接的配置。
 
 ## 请求语法\{#request-syntax}
 
@@ -43,7 +43,7 @@ get_connection_addr(alias: str)
 
 - **alias** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
     连接别名。
 
@@ -51,7 +51,7 @@ get_connection_addr(alias: str)
 
 *Dictionary*
 
-**返回：**
+**返回值：**
 
 包含连接配置的字典。
 

@@ -13,9 +13,9 @@ token: JXNXdQuwhoYmZQxSohNcdxtwnzh
 sidebar_position: 7
 keywords: 
   - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -47,31 +47,31 @@ list_grant(
 
 - **object** (*str*)
 
-    **[必需]**
+    **【必填】**
 
     要授予权限的对象类型。
 
-    该值区分大小写。详情请参阅 Users & Roles。
+    该值区分大小写。详情请参见 Users & Roles。
 
 - **object_name** (*str*)
 
-    **[必需]**
+    **【必填】**
 
     **object** 中指定类型的目标对象名称。
 
-    可以是集合名称、用户名或通配符 (*)。
+    可以是 Collection 名称、用户名或通配符（*）。
 
 - **db_name** (*str*)
 
-    对象所属数据库的名称。如果未指定，则使用默认数据库。
+    对象所属 Database 的名称。如果未指定，则使用默认 Database。
 
 **返回类型：**
 
 *GrantInfo*
 
-**返回：**
+**返回值：**
 
-一个 **GrantInfo** 对象，其中包含一个 **GrantItem** 对象列表。
+一个 **GrantInfo** 对象，其中包含 **GrantItem** 对象列表。
 
 ```python
 ├── GrantInfo
@@ -89,11 +89,11 @@ list_grant(
 
 - **object** (*str*)
 
-    权限所属的对象类型。
+    权限所属对象的类型。
 
 - **object_name** (*str*)
 
-    被授予指定权限的角色所对应的对象名称。
+    被授予指定权限的角色所对应对象的名称。
 
 - **role_name** (*str*)
 
@@ -101,15 +101,15 @@ list_grant(
 
 - **grantor_name** (*str*）
 
-    将特定角色授予用户的用户名称。
+    向用户授予特定角色的用户名称。
 
 - **privilege** (*str*)
 
-    授予角色的权限。
+    授予该角色的权限。
 
 - **db_name** (str)
 
-    执行此操作所在的数据库名称。
+    执行此操作所在 Database 的名称。
 
 **异常：**
 

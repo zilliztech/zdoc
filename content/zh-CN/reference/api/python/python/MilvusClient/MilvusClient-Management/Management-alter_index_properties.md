@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作更改指定的索引属性。 | Python | MilvusClient"
+description: "此操作会更改指定索引的属性。 | Python | MilvusClient"
 type: docx
 token: QvyHdbEHholEqXxypKNcHHD5n0c
 sidebar_position: 14
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - 开源向量 Database
+  - 向量索引
+  - 向量 Database 开源
+  - 开源向量数据库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - alter_index_properties()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # alter_index_properties()
 
-此操作更改指定的索引属性。
+此操作会更改指定索引的属性。
 
 ## 请求语法\{#request-syntax}
 
@@ -50,7 +50,7 @@ alter_index_properties(
 
 - **collection_name** (*str*) -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - **index_name** (*str*) -
 
@@ -62,7 +62,7 @@ alter_index_properties(
 
     - **mmap.enabled** (*bool*) -
 
-        是否为指定索引启用 mmap。将其设置为 `true` 会将指定索引卸载到磁盘上。详情请参见 [使用 mmap](/docs/use-mmap)
+        是否为指定索引启用 mmap。将其设置为 `true` 会将指定索引卸载到磁盘上。更多信息，请参见 [使用 mmap](/docs/use-mmap)
 
 - **timeout** (*Optional[float]*) - 
 
@@ -74,9 +74,9 @@ alter_index_properties(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
-无
+None
 
 **异常：**
 
@@ -89,13 +89,13 @@ alter_index_properties(
 ```python
 from pymilvus import MilvusClient
 
-# 1. 创建一个 milvus 客户端
+# 1. Create a milvus client
 client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
     token="YOUR_CLUSTER_TOKEN"
 )
 
-# 更新属性
+# update properties
 properties = {"mmap.enabled": true}
 
 client.alter_index_properties(

@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检查指定集合中是否存在指定分区。 | Python | MilvusClient"
+description: "此操作会检查指定 Collection 中是否存在指定的 Partition。 | Python | MilvusClient"
 type: docx
 token: MxTAd0haboKnRrxQvoOckGghn1T
 sidebar_position: 4
 keywords: 
-  - vector databases comparison
+  - 向量 Database 对比
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - has_partition()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # has_partition()
 
-此操作检查指定集合中是否存在指定分区。
+此操作会检查指定 Collection 中是否存在指定的 Partition。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管集合。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -55,33 +55,33 @@ has_partition(
 
     **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **partition_name** (*string*)
 
     **[必需]**
 
-    要检查的分区名称。
+    要检查的 Partition 名称。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *bool*
 
-**返回：**
+**返回值：**
 
-一个布尔值，表示指定分区是否存在。
+一个布尔值，用于指示指定的 Partition 是否存在。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#example}
 

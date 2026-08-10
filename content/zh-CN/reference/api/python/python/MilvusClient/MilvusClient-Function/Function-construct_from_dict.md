@@ -12,13 +12,13 @@ type: docx
 token: Ulypd24byoDBOpxGnnJcbF3Nnkb
 sidebar_position: 2
 keywords: 
-  - 什么是向量数据库
-  - 向量数据库对比
+  - 什么是向量 Database
+  - 向量 Database 对比
   - Faiss
   - 视频搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - construct_from_dict()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -45,7 +45,7 @@ construct_from_dict(
 
 - `raw` (*dict*)
 
-    包含用于构造集合 schema 的原始数据的字典。
+    包含用于构造 Collection Schema 的原始数据的字典。
 
 **返回类型：**
 

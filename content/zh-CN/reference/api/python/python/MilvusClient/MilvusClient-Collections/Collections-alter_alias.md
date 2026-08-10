@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将一个集合的别名重新分配给另一个集合。 | Python | MilvusClient"
+description: "此操作会将一个 Collection 的别名重新分配给另一个 Collection。 | Python | MilvusClient"
 type: docx
 token: CBc3d1mrdoYqmDxe4Kcc9zxAnzh
 sidebar_position: 1
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似度搜索
+  - 向量检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - alter_alias()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # alter_alias()
 
-此操作会将一个集合的别名重新分配给另一个集合。
+此操作会将一个 Collection 的别名重新分配给另一个 Collection。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法适用于专属服务集群和按需计算。 
+此方法适用于 dedicated serving cluster 和按需计算。
 
-- 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 serving cluster 中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的集合，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的 Collection，请使用项目 Endpoints 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -69,31 +69,31 @@ alter_alias(
 
     **[必需]**
 
-    要重新分配别名到的目标集合名称。
+    要重新分配别名的目标 Collection 名称。
 
 - **alias** (*str*) -
 
     **[必需]**
 
-    集合的别名。请注意，该别名必须事先已存在。
+    Collection 的别名。请注意，该别名必须预先存在。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Note">
 
-    什么是集合别名？
+    什么是 Collection 别名？
     
-        集合别名是集合的附加名称。当你希望将应用程序切换到一个新集合而无需对代码做任何修改时，集合别名会非常有用。 
+        Collection 别名是 Collection 的附加名称。当您希望在不修改代码的情况下将应用切换到新的 Collection 时，Collection 别名会非常有用。
     
-        在 Zilliz Cloud 中，集合别名是全局唯一标识符。一个别名只能被分配给且仅分配给一个集合。反过来，一个集合可以拥有多个别名。
+        在 Zilliz Cloud 中，Collection 别名是全局唯一标识符。一个别名只能分配给且仅能分配给一个 Collection。反过来，一个 Collection 可以有多个别名。
     
-        下面是一个将一个集合的别名重新分配给另一个集合的示例：
+        下面是一个将某个 Collection 的别名重新分配给另一个 Collection 的示例：
     
-        假设有两个集合：`collection_1` 和 `collection_2`。另外还有一个名为 `bob` 的集合别名，它最初被分配给 `collection_1`：
+        假设有两个 Collection：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的 Collection 别名，原本分配给 `collection_1`：
     
         - `collection_1` 的别名 = ["bob"]
     
         - `collection_2` 的别名 = []
     
-        调用 `alter_alias("collection_2", "bob")` 之后：
+        调用 `alter_alias("collection_2", "bob")` 后：
     
         - `collection_1` 的别名 = []
     
@@ -103,15 +103,15 @@ alter_alias(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 

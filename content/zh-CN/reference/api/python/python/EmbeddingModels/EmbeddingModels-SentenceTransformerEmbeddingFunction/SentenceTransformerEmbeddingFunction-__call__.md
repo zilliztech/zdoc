@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "SentenceTransformerEmbeddingFunction 中的此操作会接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
+description: "SentenceTransformerEmbeddingFunction 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。 | Python"
 type: docx
 token: ZWLCdBWwOo4OSVxfnNRcDrv5nhe
 sidebar_position: 4
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Pinecone 向量 Database
+  - 音频搜索
+  - 什么是语义搜索
+  - 嵌入模型
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - \_\_call\_\_()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[SentenceTransformerEmbeddingFunction](./EmbeddingModels-SentenceTransformerEmbeddingFunction) 中的此操作会接收一个文本字符串列表，并将其直接编码为向量嵌入。
+[SentenceTransformerEmbeddingFunction](./EmbeddingModels-SentenceTransformerEmbeddingFunction) 中的此操作接收一个文本字符串列表，并将其直接编码为向量嵌入。
 
-为防止直接使用 **\_\_call()\_\_** 方法时出现潜在错误，请避免在初始化 SentenceTransformerEmbeddingFunction 时使用 **query_instruction** 或 **doc_instruction**。更多信息请参见 [SentenceTransformerEmbeddingFunction](./EmbeddingModels-SentenceTransformerEmbeddingFunction)。
+为防止直接使用 **\_\_call()\_\_** 方法时出现潜在错误，请避免在初始化 SentenceTransformerEmbeddingFunction 时使用 **query_instruction** 或 **doc_instruction**。更多信息，请参阅 [SentenceTransformerEmbeddingFunction](./EmbeddingModels-SentenceTransformerEmbeddingFunction)。
 
 ## 请求语法\{#request-syntax}
 

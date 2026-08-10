@@ -1,25 +1,25 @@
 ---
-title: "Function | Python | MilvusClient"
+title: "函数 | Python | MilvusClient"
 slug: /python/python/MilvusClient-Function
-sidebar_label: "Function"
+sidebar_label: "函数"
 beta: false
 added_since: v2.5.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "用于从用户提供的原始数据生成向量嵌入，或对 Milvus 中的搜索结果应用重排序策略的 `Function` 实例。 | Python | MilvusClient"
+description: "用于根据用户提供的原始数据生成向量嵌入，或对 Milvus 中的搜索结果应用重排序策略的 `Function` 实例。 | Python | MilvusClient"
 type: docx
 token: GaCYdVohYoHFhrx897zcmcNfn6e
 sidebar_position: 3
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - 稀疏向量
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
   - zilliz
   - zilliz cloud
   - cloud
-  - Function
+  - 函数
   - pymilvus30
 displayed_sidebar: pythonSidebar
 
@@ -29,15 +29,15 @@ displayed_sidbar: pythonSidebar
 import Admonition from '@theme/Admonition';
 
 
-# Function
+# 函数
 
-`Function` 实例用于从用户提供的原始数据生成向量嵌入，或对 Milvus 中的搜索结果应用重排序策略。
+用于根据用户提供的原始数据生成向量嵌入，或对 Milvus 中的搜索结果应用重排序策略的 `Function` 实例。
 
 ```python
 class pymilvus.Function
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
 此构造函数会初始化一个新的 `Function` 实例，用于将用户的原始数据转换为向量嵌入，或对搜索结果应用重排序策略。这通过自动化流程实现，从而简化相似性搜索操作。
 
@@ -51,47 +51,47 @@ Function(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - `name` (*str*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    函数的名称。该标识符用于在查询和集合中引用该函数。
+    函数名称。此标识符用于在查询和 Collection 中引用该函数。
 
 - `function_type` (*[FunctionType](./Collections-FunctionType)*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    要使用的嵌入函数类型。可能的值如下：
+    要使用的嵌入函数类型。可能的值包括：
 
-    - FunctionType.BM25：基于 BM25 排序算法，从 VARCHAR 或 TEXT 字段生成稀疏向量。
+    - FunctionType.BM25：根据 VARCHAR 或 TEXT 字段，基于 BM25 排名算法生成稀疏向量。
 
-    - FunctionType.TEXTEMBEDDING：从 VARCHAR 或 TEXT 字段生成可捕捉语义含义的稠密向量。
+    - FunctionType.TEXTEMBEDDING：根据 VARCHAR 或 TEXT 字段生成能够捕获语义含义的稠密向量。
 
-    - `FunctionType.MINHASH`：生成可近似文档间 [Jaccard similarity](https://en.wikipedia.org/wiki/Jaccard_index) 的二进制向量。
+    - `FunctionType.MINHASH`：生成近似文档间 [Jaccard similarity](https://en.wikipedia.org/wiki/Jaccard_index) 的二进制向量。
 
 - `FunctionType.RERANK`：对搜索结果应用重排序策略。
 
 - `input_field_names` (*Union[str, List[str]]*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    包含原始数据的 VARCHAR 或 TEXT 字段名称，这些原始数据需要转换为向量表示。对于 FunctionType.BM25 和 FunctionType.TEXTEMBEDDING，此参数仅接受一个字段名。
+    包含需要转换为向量表示的原始数据的 VARCHAR 或 TEXT 字段名称。对于 FunctionType.BM25 和 FunctionType.TEXTEMBEDDING，此参数仅接受一个字段名。
 
 - `output_field_names` (*Union[str, List[str]]*) -
 
-    用于存储生成的嵌入的字段名称。该字段应与集合 schema 中定义的向量字段对应。此参数仅接受一个字段名。
+    用于存储生成嵌入的字段名称。该字段应对应于 Collection Schema 中定义的向量字段。此参数仅接受一个字段名。
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    这仅适用于将 `function_type` 设置为 `FunctionType.BM25` 和 `FunctionType.TEXTEMBEDDING` 的情况。
+    仅当您将 `function_type` 设置为 `FunctionType.BM25` 和 `FunctionType.TEXTEMBEDDING` 时适用。
 
     </Admonition>
 
 - `params` (*dict*) -
 
-    嵌入/排序函数的配置字典。支持的键会因 `function_type` 而异：
+    嵌入/ranking函数的配置字典。支持的键因 `function_type` 而异：
 
     - `FunctionType.BM25`：无需参数。传入空字典或完全省略即可。
 
@@ -121,31 +121,31 @@ Function(
 
         - `model_name` (*str*) -
 
-            要使用的嵌入模型名称。该值因 provider 而异。详情请参阅各自的文档页面。
+            要使用的嵌入模型名称。其值因提供方而异。详情请参阅对应的文档页面。
 
         - `credential` (*str*) -
 
             在 `milvus.yaml` 顶层 `credential:` 部分中定义的凭证标签。
 
-            - 提供该参数时，Milvus 会检索匹配的密钥对或 API token，并在服务端对请求进行签名。
+            - 提供后，Milvus 会检索匹配的密钥对或 API 令牌，并在服务端对请求进行签名。
 
-            - 省略该参数（`None`）时，Milvus 会回退为使用 `milvus.yaml` 中为目标模型提供方显式配置的凭证。
+            - 省略时（`None`），Milvus 会回退到 `milvus.yaml` 中为目标模型提供方显式配置的凭证。
 
-            - 如果标签未知，或引用的密钥缺失，则调用失败。
+            - 如果标签未知或引用的密钥缺失，则调用会失败。
 
         - `dim` (*str*) -
 
-            输出嵌入的维度数。对于 OpenAI 的第三代模型，你可以缩短完整向量以降低成本和延迟，同时不会显著损失语义信息。更多信息请参阅 [OpenAI announcement blog post](https://openai.com/blog/new-embedding-models-and-api-updates)。
+            输出嵌入的维度数。对于 OpenAI 第三代模型，您可以缩短完整向量，以在不显著损失语义信息的情况下减少成本和延迟。更多信息请参阅 [OpenAI announcement blog post](https://openai.com/blog/new-embedding-models-and-api-updates)。
 
             <Admonition type="info" icon="📘" title="Notes">
 
-            如果你缩短了向量维度，请确保 schema 的 `add_field` 方法中为该向量字段指定的 `dim` 值与嵌入函数最终输出的维度一致。
+            如果您缩短了向量维度，请确保 Schema 的 `add_field` 方法中为该向量字段指定的 `dim` 值，与您的嵌入函数最终输出维度一致。
 
             </Admonition>
 
-    - `FunctionType.RERANK`：根据 reranker 类型配置 `params`：
+    - `FunctionType.RERANK`：根据重排序器类型配置 `params`：
 
-        - **Weighted Ranker**
+        - **加权排序器**
 
             ```python
             params = {
@@ -157,11 +157,11 @@ Function(
 
             - `reranker` (*str*)：指定要使用的重排序方法。必须设置为 `weighted` 才能使用 Weighted Ranker。
 
-            - `weights` (*List[float]*)：与每个搜索路径对应的权重数组；取值 ∈ [0,1]。详情请参阅 [Mechanism of Weighted Ranker](https://milvus.io/docs/weighted-ranker.md#Mechanism-of-Weighted-Ranker)。
+            - `weights` (*List[float]*)：与每条搜索路径对应的权重数组；取值 ∈ [0,1]。详情请参阅 [Mechanism of Weighted Ranker](https://milvus.io/docs/weighted-ranker.md#Mechanism-of-Weighted-Ranker)。
 
             - `norm_score` (*boolean*)：是否在加权前对原始分数进行归一化（使用 arctan）。详情请参阅 [Mechanism of Weighted Ranker](https://milvus.io/docs/weighted-ranker.md#Mechanism-of-Weighted-Ranker)。
 
-        - **RRF Ranker**
+        - **RRF 排序器**
 
             ```python
             params = {
@@ -172,9 +172,9 @@ Function(
 
             - `reranker` (*str*)：指定要使用的重排序方法。必须设置为 `"rrf"` 才能使用 RRF Ranker。
 
-            - `k` (*int*)：平滑参数，用于控制文档排名的影响；更高的 `k` 会降低对顶部排名的敏感度。取值范围：(0, 16384)；默认值：`60`。详情请参阅 [Mechanism of RRF Ranker](https://milvus.io/docs/rrf-ranker.md#Mechanism-of-RRF-Ranker)。
+            - `k` (*int*)：控制文档排名影响的平滑参数；较高的 `k` 会降低对靠前排名的敏感度。取值范围：(0, 16384)；默认值：`60`。详情请参阅 [Mechanism of RRF Ranker](https://milvus.io/docs/rrf-ranker.md#Mechanism-of-RRF-Ranker)。
 
-        - **Decay Ranker**
+        - **Decay 排序器**
 
             ```python
             params={
@@ -191,19 +191,19 @@ Function(
 
             - `function` (*str*)：指定要应用的数学衰减排序器。可能的值：`"gauss"`、`"expr"`、`"linear"`。详情请参阅 [Choose the right decay ranker](https://milvus.io/docs/decay-ranker-overview.md#Choose-the-right-decay-ranker)。
 
-            - `origin` (*int*)：用于计算衰减分数的参考点。
+            - `origin` (*int*)：计算衰减分数的参考点。
 
-            - `scale`  (*int*)：相关性下降到 `decay` 值时所对应的距离或时间。
+            - `scale`  (*int*)：相关性下降到 `decay` 值时的距离或时间。
 
-            - `offset` (*int*)：在 `origin` 周围创建一个“无衰减区”，在该区域内条目保持完整分数（衰减分数 = 1.0）。
+            - `offset` (*int*)：在 `origin` 周围创建一个“无衰减区”，使项目保持满分（衰减分数 = 1.0）。
 
-            - `decay` (*float*)：在 `scale` 距离处的分数值，用于控制曲线陡峭程度。
+            - `decay` (*float*)：在距离 `scale` 处的分数值，用于控制曲线陡峭程度。
 
             有关衰减排序的详细信息，请参阅 [Decay Ranker Overview](https://milvus.io/docs/decay-ranker-overview.md)。
 
-        - **Model Ranker**
+        - **模型排序器**
 
-            **TEI Provider**:
+            **TEI 提供方**：
 
             ```python
             params={
@@ -217,7 +217,7 @@ Function(
             }
             ```
 
-            **vLLM Provider**:
+            **vLLM 提供方**：
 
             ```python
             params={
@@ -230,7 +230,7 @@ Function(
             }
             ```
 
-            **Cohere Provider**:
+            **Cohere 提供方**：
 
             ```python
             params = {
@@ -244,7 +244,7 @@ Function(
             }
             ```
 
-            **Voyage AI Provider**:
+            **Voyage AI 提供方**：
 
             ```python
             params = {
@@ -258,7 +258,7 @@ Function(
             }
             ```
 
-            **SiliconFlow Provider**:
+            **SiliconFlow 提供方**：
 
             ```python
             params = {
@@ -277,45 +277,45 @@ Function(
 
             - `provider` (*str*)：用于重排序的模型服务提供方。可能的值：`"tei"` 或 `"vllm"`。详情请参阅 [Choose a model provider for your needs](https://milvus.io/docs/model-ranker-overview.md#Choose-a-model-provider-for-your-needs)。
 
-            - `queries` (*List[str]*)：查询字符串列表，重排序模型使用它来计算相关性分数。
+            - `queries` (*List[str]*)：重排序模型用于计算相关性分数的查询字符串列表。
 
             - `endpoint` (*str*)：模型服务的 URL。
 
-            - `max_client_batch_size` *(int)*：单批次中可处理的最大文档数。默认值：32。
+            - `max_client_batch_size` *(int)*：单批次处理的最大文档数量。默认值：32。
 
             - `truncate` *(bool)*：**[仅限 TEI]** 是否截断超过最大支持大小的输入。详情请参阅 [TEI Ranker](https://milvus.io/docs/tei-ranker.md)。
 
             - `truncation_direction` (*str*)：**[仅限 TEI]** 截断方向（`"Left"` 或 `"Right"`）。详情请参阅 [TEI Ranker](https://milvus.io/docs/tei-ranker.md)。
 
-            - `truncate_prompt_tokens` *(int)*：**[仅限 vLLM]** 截断时保留的 prompt 末尾 token 数量。详情请参阅 [vLLM Ranker](https://milvus.io/docs/vllm-ranker.md)。
+            - `truncate_prompt_tokens` *(int)*：**[仅限 vLLM]** 截断时从提示末尾保留的 token 数。详情请参阅 [vLLM Ranker](https://milvus.io/docs/vllm-ranker.md)。
 
-            - `max_tokens_per_doc` *(int)*：**[仅限 Cohere]** 每个文档的最大 token 数。较长文档会自动截断到指定 token 数。详情请参阅 [Cohere Ranker](https://milvus.io/docs/cohere-ranker.md)。
+            - `max_tokens_per_doc` *(int)*：**[仅限 Cohere]** 每个文档的最大 token 数。较长文档将自动截断到指定的 token 数。详情请参阅 [Cohere Ranker](https://milvus.io/docs/cohere-ranker.md)。
 
-            - `truncation` *(bool)*：**[仅限 Voyage AI]** 是否截断输入以满足查询和文档的“上下文长度限制”。详情请参阅 [Voyage AI Ranker](https://milvus.io/docs/voyage-ai-ranker.md)。
+            - `truncation` *(bool)*：**[仅限 Voyage AI]** 是否截断输入，以满足查询和文档的“上下文长度限制”。详情请参阅 [Voyage AI Ranker](https://milvus.io/docs/voyage-ai-ranker.md)。
 
-            - `max_chunks_per_doc` *(int)*：**[仅限 SiliconFlow]** 从单个文档中生成的最大分块数。详情请参阅 [SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md)。
+            - `max_chunks_per_doc` *(int)*：**[仅限 SiliconFlow]** 在单个文档内生成的最大分块数。详情请参阅 [SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md)。
 
             - `overlap_tokens`  *(int)*：**[仅限 SiliconFlow]** 文档分块时，相邻分块之间重叠的 token 数。详情请参阅 [SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md)。
 
 - `description` (*str*) -
 
-    **[OPTIONAL]**
+    **[可选]**
 
-    对函数用途的简要描述。这对于文档说明或在较大的项目中提高清晰度会很有帮助，默认值为空字符串。
+    对函数用途的简要说明。这对于文档记录或在较大项目中提高清晰度很有帮助，默认为空字符串。
 
-**RETURN TYPE:**
+**返回类型：**
 
-封装了将原始数据转换为向量嵌入这一特定处理行为的 `Function` 实例。
+`Function` 的实例，封装了将原始数据转换为向量嵌入的具体处理行为。
 
-**RETURNS:**
+**返回值：**
 
-可注册到 Milvus 集合中的 `Function` 对象，从而在数据插入期间自动生成嵌入。
+可注册到 Milvus Collection 的 `Function` 对象，可在数据插入期间自动生成嵌入。
 
-**EXCEPTIONS:**
+**异常：**
 
 - `UnknownFunctionType`
 
-    当指定了不受支持或无法识别的函数类型时，将引发此异常。
+    指定了不受支持或无法识别的函数类型时，将引发此异常。
 
 - `FunctionIncorrectInputOutputType`
 
@@ -331,9 +331,9 @@ Function(
 
 - `FunctionCommonInputOutput`
 
-    当 `input_field_names` 与 `output_field_names` 之间存在重叠时，即同一个字段名同时出现在两者中，将引发此异常。
+    当 `input_field_names` 与 `output_field_names` 之间存在重叠时，即两者中包含相同字段名，将引发此异常。
 
-## Examples\{#examples}
+## 示例\{#examples}
 
 - 使用 `BM25`
 

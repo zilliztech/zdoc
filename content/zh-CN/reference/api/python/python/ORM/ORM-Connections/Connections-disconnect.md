@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将客户端与指定连接断开。 | Python | ORM"
+description: "此操作会将客户端与指定连接断开。 | Python | ORM"
 type: docx
 token: IpSBdcabbosobvxQkAEcv6CvnJd
 sidebar_position: 4
 keywords: 
-  - milvus 的工作原理
-  - Zilliz 向量数据库
-  - Zilliz 数据库
+  - milvus 如何工作
+  - Zilliz 向量 Database
+  - Zilliz Database
   - 非结构化数据
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - disconnect()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # disconnect()
 
-此操作将客户端与指定连接断开。
+此操作会将客户端与指定连接断开。
 
 ## 请求语法\{#request-syntax}
 
@@ -43,7 +43,7 @@ disconnect(alias: str)
 
 - **alias** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
     连接别名。
 

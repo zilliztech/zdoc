@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回特定 collection 的加载状态。 | Python | ORM"
+description: "此操作返回特定 Collection 的加载状态。 | Python | ORM"
 type: docx
 token: BJysdlj1MoksHZxNRxicHn9fnSh
 sidebar_position: 33
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量 Database 教程
+  - 向量 Database 如何工作
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - load_state()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # load_state()
 
-此操作返回特定 collection 的加载状态。
+此操作返回特定 Collection 的加载状态。
 
 ## 请求语法\{#request-syntax}
 
@@ -48,15 +48,15 @@ load_state(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    collection 的名称。
+    Collection 的名称。
 
 - **partition_names** (*list[str]*) -
 
-    partition 名称列表。
+    Partition 名称列表。
 
-    如果指定了任意 partition 名称，释放其中任一 partition 都会导致返回 **NotLoad** 状态。
+    如果指定了任意 Partition 名称，释放其中任意一个 Partition 都会返回 **NotLoad** 状态。
 
 - **using** (*string*) - 
 
@@ -66,40 +66,40 @@ load_state(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
 *LoadState*
 
 **返回：**
-一个 **LoadState** 对象，表示指定 collection 的加载状态。
+表示指定 Collection 加载状态的 **LoadState** 对象。
 
 可能的状态如下：
 
 - **Loaded**
 
-    表示指定的 collection 已加载。
+    表示指定 Collection 已加载。
 
 - **Loading**
 
-    表示指定的 collection 正在加载。
+    表示指定 Collection 正在加载。
 
 - **NotExist**
 
-    表示指定的 collection 不存在。 
+    表示指定 Collection 不存在。 
 
-    如果在 **partition_names** 中包含不存在的 partition，则会导致 **MilvusException**。
+    如果在 **partition_names** 中包含不存在的 Partition，则会导致 **MilvusException**。
 
 - **NotLoad**
 
-    表示指定的 collection 未加载。
+    表示指定 Collection 未加载。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作期间发生任意错误时，将引发此异常。
 
 ## 示例\{#examples}
 

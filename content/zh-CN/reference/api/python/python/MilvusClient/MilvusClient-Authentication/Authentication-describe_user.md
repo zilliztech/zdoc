@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "返回与用户账户关联的 `roles` 和 `description`。当用户不存在时，返回空字典。 | Python | MilvusClient"
+description: "返回与用户账户关联的 `roles` 和 `description`。如果用户不存在，则返回空字典。 | Python | MilvusClient"
 type: docx
 token: TwTnduPOioywHDx8hPQc80tRnKg
 sidebar_position: 6
 keywords: 
-  - 什么是 milvus
-  - milvus 数据库
+  - 什么是 Milvus
+  - Milvus Database
   - milvus lite
-  - milvus 基准测试
+  - Milvus 基准测试
   - zilliz
   - zilliz cloud
   - 云
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe_user()
 
-返回与用户账户关联的 `roles` 和 `description`。当用户不存在时，返回空字典。
+返回与用户账户关联的 `roles` 和 `description`。如果用户不存在，则返回空字典。
 
 ## 请求语法\{#request-syntax}
 
@@ -46,7 +46,7 @@ describe_user(
 **参数：**
 
 - **user_name** (*str*) -<br/>
-  **[必填]**<br/>
+  **[必需]**<br/>
   要描述的用户账户名称。
 
 - **timeout** (*Optional[float]*) -<br/>
@@ -54,18 +54,18 @@ describe_user(
   等待 RPC 完成的最长时间，单位为秒。
 
 - **kwargs** (*Any*) -<br/>
-  附加的请求上下文选项。
+  额外的请求上下文选项。
 
 **返回类型：**
 
 *dict*
 
-**返回：**
+**返回值：**
 
-包含 `user_name`、`roles` 和 `description` 的字典。当未找到用户时，返回空字典。
+包含 `user_name`、`roles` 和 `description` 的字典。如果未找到该用户，则返回空字典。
 
 - **user_name** (*str*) -<br/>
-  被描述的用户账户名称。
+  已描述用户账户的名称。
 
 - **roles** (*list[str]*) -<br/>
   分配给该用户账户的角色。
@@ -76,7 +76,7 @@ describe_user(
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时抛出。请检查服务器错误消息以获取确切的失败详情。
+  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
 
 ## 示例\{#examples}
 

@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "InstructorEmbeddingFunction 是 pymilvus 中的一个类，用于使用 Instructor embedding 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
+description: "InstructorEmbeddingFunction 是 pymilvus 中的一个类，它使用 Instructor 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: YmnmdEeHFoctZexccqNcr8xXn8c
 sidebar_position: 3
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - 音频搜索
+  - 什么是语义搜索
+  - 嵌入模型
+  - 图像相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # InstructorEmbeddingFunction
 
-InstructorEmbeddingFunction 是 pymilvus 中的一个类，用于使用 Instructor embedding 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
+InstructorEmbeddingFunction 是 pymilvus 中的一个类，它使用 Instructor 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.dense.InstructorEmbeddingFunction
@@ -39,7 +39,7 @@ pymilvus.model.dense.InstructorEmbeddingFunction
 
 ## 构造函数\{#constructor}
 
-构造一个用于常见用例的 MistralAIEmbeddingFunction。
+为常见用例构造一个 MistralAIEmbeddingFunction。
 
 ```python
 InstructorEmbeddingFunction(
@@ -57,7 +57,7 @@ InstructorEmbeddingFunction(
 
 - **model_name** (*string*)
 
-    用于编码的 Mistral AI embedding 模型名称。默认值为 `hkunlp/instructor-xl`。更多信息请参考 [Model List](https://github.com/xlang-ai/instructor-embedding?tab=readme-ov-file#model-list)。
+    用于编码的 Mistral AI 嵌入模型名称。该值默认为 `hkunlp/instructor-xl`。更多信息，请参见 [模型列表](https://github.com/xlang-ai/instructor-embedding?tab=readme-ov-file#model-list)。
 
 - **batch_size** (*int*)
 
@@ -77,11 +77,11 @@ InstructorEmbeddingFunction(
 
 - **normalize_embeddings** (*bool*)
 
-    如果设置为 `True`，返回的向量长度将为 1，表示这些向量已被归一化。在这种情况下，相似性搜索将使用更快的点积（`util.dot_score`），而不是余弦相似度。
+    如果设置为 `True`，返回的向量长度将为 1，这表示它们已被归一化。在这种情况下，相似性搜索将使用更快的点积（`util.dot_score`），而不是余弦相似度。
 
 - **kwargs**
 
-    允许向模型初始化传递其他关键字参数。更多信息请参考 [instructor-embedding](https://github.com/xlang-ai/instructor-embedding?tab=readme-ov-file#the-encode-function)。
+    允许将额外的关键字参数传递给模型初始化。更多信息，请参见 [instructor-embedding](https://github.com/xlang-ai/instructor-embedding?tab=readme-ov-file#the-encode-function)。
 
 ## 示例\{#examples}
 

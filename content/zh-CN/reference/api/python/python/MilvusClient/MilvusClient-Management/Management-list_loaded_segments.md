@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出集合当前已加载的所有 segment，包括行数、排序状态、存储级别和内存大小等信息。 | Python | MilvusClient"
+description: "此操作会列出某个 Collection 当前已加载的所有 Segment，包括行数、排序状态、存储级别和内存大小等信息。 | Python | MilvusClient"
 type: docx
 token: QWlfd7SO1ojpdHxM968coTYQnYg
 sidebar_position: 24
 keywords: 
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - 稀疏向量
+  - 向量维度
+  - ANN 搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_loaded_segments()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # list_loaded_segments()
 
-此操作列出集合当前已加载的所有 segment，包括行数、排序状态、存储级别和内存大小等信息。
+此操作会列出某个 Collection 当前已加载的所有 Segment，包括行数、排序状态、存储级别和内存大小等信息。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管集合。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -54,7 +54,7 @@ client.list_loaded_segments(
 
     **[必需]**
 
-    集合的名称。
+    Collection 的名称。
 
 - **timeout** (*float* | *None*) -
 
@@ -66,7 +66,7 @@ client.list_loaded_segments(
 
 **返回：**
 
-已加载 segment 信息对象的列表，包含 `segment_id`、`collection_id`、`collection_name`、`num_rows`、`is_sorted`、`state`、`level`、`storage_version` 和 `mem_size`。
+已加载 Segment 信息对象的列表，包含 segment_id、collection_id、collection_name、num_rows、is_sorted、state、level、storage_version 和 mem_size。
 
 **异常：**
 

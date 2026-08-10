@@ -12,10 +12,10 @@ type: docx
 token: K7qWdSwtNo976VxcvopczGLjnLf
 sidebar_position: 4
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量 Database 教程
   - zilliz
   - zilliz cloud
   - cloud
@@ -51,17 +51,17 @@ bge_m3_ef(
 
 - **texts** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
+    一个字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
 *Dict*
 
-**返回：**
+**返回值：**
 
 一个包含文档嵌入的字典。
 
-初始化 [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) 时，如果 **return_dense**、**return_sparse** 和 **return_colbert_vecs** 设置为 **True**，则返回的字典将包含键 **dense**、**sparse** 和 **colbert_vecs**，分别对应稠密嵌入、稀疏词嵌入和 ColBERT 向量。
+在初始化 [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) 时，如果 **return_dense**、**return_sparse** 和 **return_colbert_vecs** 设置为 **True**，则返回的字典将包含键 **dense**、**sparse** 和 **colbert_vecs**，分别对应稠密嵌入、稀疏词嵌入和 ColBERT 向量。
 
 **异常：**
 

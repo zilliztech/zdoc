@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会刷写流式数据并封存分段。不建议在所有数据都已插入集合后调用此操作，以避免产生小分段，这可能会降低搜索性能。 | Python | MilvusClient"
+description: "此操作会刷新流式数据并封存 Segment。不建议在所有数据都已插入 Collection 后调用此操作，以避免产生较小的 Segment，这可能会降低搜索性能。 | Python | MilvusClient"
 type: docx
 token: JnPrdOiPyo2e5gxzzFycbnvwnSd
 sidebar_position: 6
 keywords: 
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - 什么是非结构化数据
+  - 向量嵌入
+  - 向量数据库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - flush()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # flush()
 
-此操作会刷写流式数据并封存分段。不建议在所有数据都已插入集合后调用此操作，以避免产生小分段，这可能会降低搜索性能。
+此操作会刷新流式数据并封存 Segment。不建议在所有数据都已插入 Collection 后调用此操作，以避免产生较小的 Segment，这可能会降低搜索性能。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管集合。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -54,13 +54,13 @@ flush(
 
 - **collection_name** (*str*) -
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - **timeout** (*Optional[float]*) - 
 
     此操作的超时时长。
 
-    将此参数设置为 None 表示当收到任意响应或发生任意错误时，此操作超时。
+    将其设置为 None 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -74,7 +74,7 @@ flush(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
 
 ## 示例\{#example}
 

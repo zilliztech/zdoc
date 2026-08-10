@@ -12,13 +12,13 @@ type: docx
 token: H8ncdzr6roh9G6xQm8BcJFamnhf
 sidebar_position: 1
 keywords: 
-  - milvus database
+  - milvus Database
   - milvus lite
   - milvus benchmark
-  - managed milvus
+  - 托管 milvus
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - encode_documents()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -45,7 +45,7 @@ encode_documents(
 
 - **documents** (*List[str]*)
 
-    字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的文档。模型将为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的文档。模型会为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
@@ -59,7 +59,7 @@ encode_documents(
 
 - **ValueError**
 
-    当未提供 `api_key` 且也未设置 `NOMIC_API_KEY` 环境变量时，将引发此异常。
+    当未提供 `api_key`，且也未设置 `NOMIC_API_KEY` 环境变量时，将引发此异常。
 
 ## 示例\{#examples}
 

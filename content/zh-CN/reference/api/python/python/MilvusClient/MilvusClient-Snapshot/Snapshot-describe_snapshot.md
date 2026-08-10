@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会检索特定快照的详细元数据，包括源集合、分区名称、创建时间戳和存储位置。 | Python | MilvusClient"
+description: "此操作会检索特定快照的详细元数据，包括源 Collection、Partition 名称、创建时间戳和存储位置。 | Python | MilvusClient"
 type: docx
 token: GF0yd9S4RoImivxbIlPcicEynQb
 sidebar_position: 2
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - 嵌入模型
+  - 图像相似性搜索
+  - 上下文窗口
+  - 自然语言搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describe_snapshot()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe_snapshot()
 
-此操作会检索特定快照的详细元数据，包括源集合、分区名称、创建时间戳和存储位置。
+此操作会检索特定快照的详细元数据，包括源 Collection、Partition 名称、创建时间戳和存储位置。
 
 ## 请求语法\{#request-syntax}
 
@@ -50,13 +50,13 @@ describe_snapshot(
   要描述的快照名称。
 
 - **timeout** (*Optional[float]*) -<br/>
-  允许 RPC 执行的可选时间长度，单位为秒。
+  可选的时长（以秒为单位），用于允许 RPC 完成。
 
 **返回类型：**
 
 *SnapshotInfo*
 
-**返回值：**
+**返回：**
 
 一个包含快照元数据的 dataclass，具有以下字段：
 
@@ -83,11 +83,11 @@ describe_snapshot(
 
 - **collection_name** (*str*) - 
 
-    源集合名称。
+    源 Collection 名称。
 
 - **partition_names** (*List[str]*) - 
 
-    快照中包含的分区名称列表。
+    快照中包含的 Partition 名称列表。
 
 - **create_ts** (*int*) - 
 

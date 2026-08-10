@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会向现有集合添加一个新的标量字段，而无需重新创建集合。由于内部架构同步，该字段几乎会立即可用，仅有极小延迟。 | Python | MilvusClient"
+description: "此操作会向现有 Collection 添加一个新的标量字段，而无需重新创建该 Collection。由于内部 Schema 同步，字段几乎会立即可用，延迟极低。 | Python | MilvusClient"
 type: docx
 token: IquldHhyGo9s4IxF3cicOXGnnNf
 sidebar_position: 20
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - 多模态 RAG
+  - LLM 幻觉
+  - 混合搜索
+  - 词法搜索
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - add_collection_field()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # add_collection_field()
 
-此操作会向现有集合添加一个新的标量字段，而无需重新创建集合。由于内部架构同步，该字段几乎会立即可用，仅有极小延迟。
+此操作会向现有 Collection 添加一个新的标量字段，而无需重新创建该 Collection。由于内部 Schema 同步，字段几乎会立即可用，延迟极低。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-如果集合启用了动态字段，并且你添加了一个与现有动态字段键同名的静态字段，则该静态字段会屏蔽该动态字段键。原始动态值仍可通过 `$meta['field_name']` 语法访问。
+如果该 Collection 启用了动态字段，并且您添加的静态字段与现有动态字段键同名，则静态字段将遮蔽该动态字段键。原始动态值仍可通过 `$meta['field_name']` 语法访问。
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这不适用于外部集合。
+这不适用于外部 Collection。
 
 </Admonition>
 
@@ -61,7 +61,7 @@ add_collection_field(
 
     **[必需]**
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - **field_name** *(string)* –
 
@@ -81,7 +81,7 @@ add_collection_field(
 
 - **timeout** *(float)* –
 
-    RPC 请求的超时时间（以秒为单位）。如果为 `None`，调用将无限期等待。
+    RPC 请求的超时时间（以秒为单位）。如果为 `None`，则调用将无限期等待。
 
 - **kwargs** *(dict, optional)* –
 
@@ -89,7 +89,7 @@ add_collection_field(
 
     - **nullable** *(bool)*:
 
-        对于动态添加的字段，必须将其设置为 `True`，以兼容那些没有新字段值的现有实体。
+        对于动态添加的字段，必须将其设置为 `True`，以适配那些没有新字段值的现有 Entity。
 
     - **default_value** *(DataType-specific)*:
 
@@ -97,15 +97,15 @@ add_collection_field(
 
     - **max_length** *(int)*:
 
-        `DataType.VARCHAR` 字段必需。设置字符串允许的最大字节长度（1 到 65,535）。
+        对于 `DataType.VARCHAR` 字段为必需。设置字符串允许的最大字节长度（1 到 65,535）。
 
     - **element_type** *(DataType)*:
 
-        `DataType.ARRAY` 字段必需。指定数组中元素的数据类型。
+        对于 `DataType.ARRAY` 字段为必需。指定数组内元素的数据类型。
 
     - **max_capacity** *(int)*:
 
-        `DataType.ARRAY` 字段必需。定义数组中的最大元素数量。
+        对于 `DataType.ARRAY` 字段为必需。定义数组中的最大元素数量。
 
 **返回类型：**
 
@@ -115,11 +115,11 @@ add_collection_field(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    当此操作过程中发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 
-**示例 1：** 添加一个基础的可空字段
+**示例 1：** 添加一个基本的可空字段
 
 ```python
 client.add_collection_field(
@@ -130,7 +130,7 @@ client.add_collection_field(
 )
 ```
 
-**示例 2：** 添加带默认值的字段
+**示例 2：** 添加一个带默认值的字段
 
 ```python
 client.add_collection_field(

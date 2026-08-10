@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "一个 Connections 实例表示到您的 Zilliz Cloud 集群的连接池。 | Python | ORM"
+description: "Connections 实例表示您的 Zilliz Cloud 集群的连接池。| Python | ORM"
 type: docx
 token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
+  - 向量相似性搜索
+  - 近似最近邻搜索
   - DiskANN
-  - Sparse vector
+  - 稀疏向量
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - Connections
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Connections
 
-一个 **Connections** 实例表示到您的 Zilliz Cloud 集群的连接池。
+**Connections** 实例表示您的 Zilliz Cloud 集群的连接池。
 
 ```python
 class pymilvus.Connections
@@ -39,11 +39,11 @@ class pymilvus.Connections
 
 ## 构造函数\{#constructor}
 
-构造一个单例实例来管理所有连接。
+构造一个用于管理所有连接的单例实例。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-请不要自行创建此类的新实例，而应像下面的示例所示那样导入现有的单例实例。
+您无需自行创建此类的新实例，而应按如下示例导入现有的单例实例。
 
 </Admonition>
 
@@ -62,13 +62,13 @@ connections.connect(
 ) 
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Note">
 
-如何获取集群端点和访问令牌？
+如何获取集群 Endpoint 和令牌？
 
-- **集群端点**
+- **集群 Endpoint**
 
-    您可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，并在左侧导航栏中点击 **Clusters**。在集群列表中，点击目标集群名称，然后在 **Connect** 区域复制其端点。
+    您可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，然后在左侧导航栏中单击 **Clusters**。在集群列表中，单击目标集群的名称，并在 **Connect** 区域复制其 Endpoint。
 
 - **访问令牌**
 
@@ -76,14 +76,14 @@ connections.connect(
 
     - API 密钥
 
-        您可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，并在左侧导航栏中点击 **API Keys**。
+        您可以登录 [Zilliz Cloud](https://cloud.zilliz.com) 控制台，然后在左侧导航栏中单击 **API Keys**。
 
-    - 用于访问集群的一组用户名和密码，并使用冒号（**:**）连接。
+    - 一组用于访问集群的用户名和密码，并使用冒号（**:**）连接。
 
-        您可以使用在 Zilliz Cloud 控制台创建集群时指定的集群凭据，或任何现有集群用户的凭据。
+        您可以使用在 Zilliz Cloud 控制台创建集群时指定的集群凭据，或任意现有集群用户的凭据。
 
 </Admonition>
 
 ## 方法\{#methods}
 
-以下是 `connections` 单例实例的方法：
+以下是`connections`单例实例的方法：

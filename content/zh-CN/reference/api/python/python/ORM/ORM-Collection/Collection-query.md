@@ -13,9 +13,9 @@ token: JzcYdBQ5zoU4KpxPqUHcPLQonKd
 sidebar_position: 22
 keywords: 
   - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - 神经网络
+  - 深度学习
+  - 知识库
   - zilliz
   - zilliz cloud
   - cloud
@@ -51,45 +51,45 @@ query(
 
     **[必需]**
 
-    用于筛选匹配实体的标量过滤条件。
+    用于筛选匹配 Entity 的标量过滤条件。
 
-    你可以将此参数设置为空字符串以跳过标量过滤。在这种情况下，还应设置 `limit` 以限制返回的实体数量。
+    您可以将此参数设置为空字符串，以跳过标量过滤。在这种情况下，您还应设置 `limit` 来限制返回的 Entity 数量。
 
     要构建标量过滤条件，请参见 [布尔表达式规则](https://milvus.io/docs/boolean.md)。
 
 - **output_fields** (*list*) -
 
-    返回的每个实体中要包含的字段名称列表。
+    返回的每个 Entity 中要包含的字段名称列表。
 
     默认值为 **None**。如果未指定，则仅包含主字段。
 
 - **partition_names** (*list*)
 
-    分区名称列表。
+    Partition 名称列表。
 
-    默认值为 **None**。如果已指定，则仅在指定的分区中执行查询。
+    默认值为 **None**。如果指定，则仅在指定的 Partition 中执行查询。
 
 - **timeout** (*float*)  
 
     此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
-- **kwargs**: 
+- **kwargs**：
 
     - **consistency_level** (*str* | *int*) -
 
-        目标集合的一致性级别。
+        目标 Collection 的一致性级别。
 
-        默认值为创建当前集合时指定的值，可选项包括 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
+        默认值为您创建当前 Collection 时指定的值，可选项包括 **Strong**（**0**）、**Bounded**（**1**）、**Session**（**2**）和 **Eventually**（**3**）。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" icon="📘" title="Note">
 
         什么是一致性级别？
         
-                分布式数据库中的一致性，特指在给定时间写入或读取数据时，确保每个节点或副本对数据具有相同视图的属性。
+                在分布式 Database 中，一致性特指这样一种属性：在给定时刻写入或读取数据时，确保每个节点或副本看到的数据视图相同。
         
-                Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认设置为 **Bounded Staleness**。
+                Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认级别为 **Bounded Staleness**。
         
-                在执行向量相似性搜索或查询时，你可以轻松调整一致性级别，使其最适合你的应用。
+                您可以在执行向量相似性搜索或查询时轻松调整一致性级别，使其更适合您的应用。
 
         </Admonition>
 
@@ -97,9 +97,9 @@ query(
 
         一个有效的时间戳。
 
-        如果设置了此参数，仅当该时间戳之前插入的所有实体对查询节点可见时，才会执行查询。
+        如果设置了此参数，则仅当此时间戳之前插入的所有 Entity 对查询节点可见时，才会执行查询。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" icon="📘" title="Notes">
 
         当使用默认一致性级别时，此参数有效。
 
@@ -107,11 +107,11 @@ query(
 
     - **graceful_time** (*int*) -
 
-        以秒为单位的一段时间。
+        一段以秒为单位的时间。
 
-        默认值为 **5**。如果设置了此参数，则会通过当前时间戳减去该值来计算保证时间戳。
+        默认值为 **5**。如果设置了此参数，则会通过从当前时间戳中减去该值来计算保证时间戳。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" icon="📘" title="Notes">
 
         当使用非默认一致性级别时，此参数有效。
 
@@ -119,9 +119,9 @@ query(
 
     - **offset** (*int*) -
 
-        在查询结果中要跳过的记录数。
+        查询结果中要跳过的记录数。
 
-        你可以将此参数与 `limit` 结合使用以实现分页。
+        您可以将此参数与 `limit` 结合使用，以启用分页。
 
         此值与 `limit` 的总和应小于 16,384。
 
@@ -129,7 +129,7 @@ query(
 
         查询结果中要返回的记录数。
 
-        你可以将此参数与 `offset` 结合使用以实现分页。
+        您可以将此参数与 `offset` 结合使用，以启用分页。
 
         此值与 `offset` 的总和应小于 16,384。
 
@@ -139,7 +139,7 @@ query(
 
 **返回值：**
 
-由字典组成的列表，其中每个字典表示一个查询到的实体。
+由字典组成的列表，其中每个字典表示一个查询到的 Entity。
 
 **异常：**
 
@@ -149,7 +149,7 @@ query(
 
 - **DataTypeNotMatchException**
 
-    当参数值与要求的数据类型不匹配时，将引发此异常。
+    当参数值与所需数据类型不匹配时，将引发此异常。
 
 ## 示例\{#examples}
 

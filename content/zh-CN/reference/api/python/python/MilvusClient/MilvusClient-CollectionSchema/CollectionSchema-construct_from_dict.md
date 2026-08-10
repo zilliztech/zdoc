@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作根据字典表示形式构造一个 CollectionSchema 对象。 | Python | MilvusClient"
+description: "此操作根据字典表示构造一个 CollectionSchema 对象。 | Python | MilvusClient"
 type: docx
 token: Ld10d5YWJofvgGxtwYscGlWunDg
 sidebar_position: 3
 keywords: 
-  - 低成本向量数据库
-  - 托管式向量数据库
-  - Pinecone 向量数据库
+  - 廉价向量 Database
+  - 托管向量 Database
+  - Pinecone 向量 Database
   - 音频搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - construct_from_dict()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # construct_from_dict()
 
-此操作根据字典表示形式构造一个 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象。
+此操作根据字典表示构造一个 **[CollectionSchema](./MilvusClient-CollectionSchema)** 对象。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,7 +45,7 @@ construct_from_dict(
 
 - **raw** (*dict*)
 
-    包含用于构造集合模式的原始数据的字典。
+    一个包含用于构造 Collection Schema 的原始数据的字典。
 
 **返回类型：**
 

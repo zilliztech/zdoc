@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作使用布尔表达式从分区中删除实体。 | Python | ORM"
+description: "此操作使用布尔表达式从 Partition 中删除 Entity。 | Python | ORM"
 type: docx
 token: V9BidASNqoWYrmxo11ecuN99neg
 sidebar_position: 1
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - 句子转换器
+  - 推荐系统
+  - 信息检索
+  - 降维
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - delete()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # delete()
 
-此操作使用布尔表达式从分区中删除实体。
+此操作使用布尔表达式从 Partition 中删除 Entity。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 在 **[Collection](./ORM-Collection)** 对象的 **delete()** 方法中使用 **partition_name** 参数，等同于使用 **[Partition](./ORM-Partition)** 对象的 **delete()** 方法。
 
@@ -54,7 +54,7 @@ delete(
 
     **[必需]** 
 
-    用于筛选待删除实体的布尔表达式。
+    用于筛选待删除 Entity 的布尔表达式。
 
 - **timeout** (*float* | *None*)  
 
@@ -66,19 +66,19 @@ delete(
 
 **返回：**
 
-一个 **MutationResult** 对象，包含以下字段：
+包含以下字段的 **MutationResult** 对象：
 
 - **insert_count** (*int*)
 
-    已插入实体的数量。
+    已插入 Entity 的数量。
 
 - **delete_count** (*int*)
 
-    已删除实体的数量。
+    已删除 Entity 的数量。
 
 - **upsert_count** (*int*)
 
-    已 upsert 实体的数量。
+    已 upsert 的 Entity 数量。
 
 - **succ_count** (*int*)
 
@@ -86,19 +86,19 @@ delete(
 
 - **succ_index** (*list*)
 
-    从 0 开始的索引编号列表，每个编号表示一次成功的操作。
+    从 0 开始的索引号列表，每个索引号表示一次成功的操作。
 
 - **err_count** (*int*)
 
-    此操作中执行失败的次数。
+    此操作中失败执行的次数。
 
 - **err_index** (*list*)
 
-    从 0 开始的索引编号列表，每个编号表示一次失败的操作。
+    从 0 开始的索引号列表，每个索引号表示一次失败的操作。
 
 - **primary_keys** (*list*)
 
-    已插入实体的主键列表。
+    已插入 Entity 的主键列表。
 
 - **timestamp** (*int*)
 
@@ -108,7 +108,7 @@ delete(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时引发。
+    此操作期间发生任何错误时会引发此异常。
 
 ## 示例\{#examples}
 

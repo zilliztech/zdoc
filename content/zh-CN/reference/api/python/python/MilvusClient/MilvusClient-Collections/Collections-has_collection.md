@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于检查指定集合是否存在。 | Python | MilvusClient"
+description: "此操作用于检查特定 Collection 是否存在。| Python | MilvusClient"
 type: docx
 token: SSQ6dFGdxouy7hxRwCOcatnEn0e
 sidebar_position: 14
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Pinecone 向量 Database
+  - 音频搜索
+  - 什么是语义搜索
+  - 嵌入模型
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - has_collection()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # has_collection()
 
-此操作用于检查指定集合是否存在。
+此操作用于检查特定 Collection 是否存在。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法适用于专用服务集群和按需计算。 
+此方法适用于 Dedicated 服务集群和按需计算。
 
-- 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的集合，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的 Collection，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -68,13 +68,13 @@ has_collection(
 
     **[必需]**
 
-    集合名称。
+    Collection 的名称。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将其设置为 **None** 表示此操作会在收到任意响应或发生错误时超时。
+    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作超时。
 
 **返回类型：**
 
@@ -82,13 +82,13 @@ has_collection(
 
 **返回：**
 
-一个布尔值，表示指定集合是否存在。
+一个布尔值，用于指示指定的 Collection 是否存在。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

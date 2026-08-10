@@ -15,10 +15,10 @@ keywords:
   - 视频相似性搜索
   - 向量检索
   - 音频相似性搜索
-  - 弹性向量数据库
+  - 弹性向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - session()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 此操作会创建一个绑定到特定按需集群的轻量级 DQL 会话。通过该会话执行的所有操作都会自动包含目标 `cluster_id`，从而确保在多集群部署中将请求路由到正确的集群。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法仅适用于按需计算。请使用项目端点创建 `MilvusClient`，例如 `https://{project-id}.{region}.api.zillizcloud.com`，并将目标按需集群 ID 传递给 `session()`。
+此方法仅适用于按需计算。使用项目 Endpoint 创建 `MilvusClient`，例如 `https://{project-id}.{region}.api.zillizcloud.com`，然后将目标按需集群 ID 传递给 `session()`。
 
 </Admonition>
 
@@ -51,21 +51,21 @@ MilvusClient.session(
 
 - **cluster_id** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    目标按需集群的标识符。该值必须是非空字符串。
+    目标按需集群的标识符。该值必须为非空字符串。
 
 **返回类型：**
 
 *MilvusClientSession*
 
-一个会话对象，将 search、query 和 get 操作代理到指定的按需集群。
+一个会话对象，用于将 search、query 和 get 操作代理到指定的按需集群。
 
 **异常：**
 
 - **ParamError**
 
-    当 `cluster_id` 不是字符串或为空时抛出。
+    当 `cluster_id` 不是字符串或为空时引发。
 
 ## 示例\{#examples}
 

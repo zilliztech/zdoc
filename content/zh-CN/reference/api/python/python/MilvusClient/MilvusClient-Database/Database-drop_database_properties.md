@@ -16,9 +16,9 @@ keywords:
   - 向量搜索算法
   - 问答系统
   - llm-as-a-judge
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - drop_database_properties()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -47,45 +47,45 @@ drop_database_properties(
 
 - **db_name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
-    要删除其属性的数据库名称。
+    要删除其属性的 Database 名称。
 
 - **property_keys** (*list[str]*) -
 
-    **[必填]**
+    **[必需]**
 
-    要删除的属性名称。可用的数据库属性如下：
+    要删除的属性名称。可用的 Database 属性如下：
 
-    - **database.replica.number** (*int*) - 数据库的副本数量。
+    - **database.replica.number** (*int*) - Database 的副本数量。
 
-    - **database.resource_groups** (*list[str]*) - 专用于该数据库的资源组。
+    - **database.resource_groups** (*list[str]*) - 专用于该 Database 的资源组。
 
-    - **database.diskQuota.mb** (*int*) - 分配给该数据库的磁盘配额，单位为兆字节（**MB**）。
+    - **database.diskQuota.mb** (*int*) - 为该 Database 分配的磁盘配额，单位为兆字节（**MB**）。
 
-    - **database.max.collections** (*int*) - 数据库中允许的最大集合数量。
+    - **database.max.collections** (*int*) - 该 Database 中允许的最大 Collection 数量。
 
-    - **database.force.deny.writing** (*bool*) - 是否拒绝数据库中的所有写操作。
+    - **database.force.deny.writing** (*bool*) - 是否拒绝该 Database 中的所有写入操作。
 
-    - **database.force.deny.reading** (*bool*) - 是否拒绝数据库中的所有读操作。
+    - **database.force.deny.reading** (*bool*) - 是否拒绝该 Database 中的所有读取操作。
 
-    - **database.replica.number** (*int*) - 数据库的副本数量。
+    - **database.replica.number** (*int*) - Database 的副本数量。
 
-    - **database.resource_groups** (*list[str]*) - 专用于该数据库的资源组。
+    - **database.resource_groups** (*list[str]*) - 专用于该 Database 的资源组。
 
-    - **database.diskQuota.mb** (*int*) - 分配给该数据库的磁盘配额，单位为兆字节（**MB**）。
+    - **database.diskQuota.mb** (*int*) - 为该 Database 分配的磁盘配额，单位为兆字节（**MB**）。
 
-    - **database.max.collections** (*int*) - 数据库中允许的最大集合数量。
+    - **database.max.collections** (*int*) - 该 Database 中允许的最大 Collection 数量。
 
-    - **database.force.deny.writing** (*bool*) - 是否拒绝数据库中的所有写操作。
+    - **database.force.deny.writing** (*bool*) - 是否拒绝该 Database 中的所有写入操作。
 
-    - **database.force.deny.reading** (*bool*) - 是否拒绝数据库中的所有读操作。
+    - **database.force.deny.reading** (*bool*) - 是否拒绝该 Database 中的所有读取操作。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 *None*
 

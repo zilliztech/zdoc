@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "此操作修改指定数据库的属性。 | Python | MilvusClient"
+description: "此操作修改指定 Database 的属性。 | Python | MilvusClient"
 type: docx
 token: HCWBdorQdoONw2xaawacJWQkn1e
 sidebar_position: 1
 keywords: 
-  - nearest neighbor search
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - RAG LLM 架构
+  - 私有 LLM
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - alter_database_properties()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # alter_database_properties()
 
-此操作修改指定数据库的属性。
+此操作修改指定 Database 的属性。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法仅适用于专属集群。
+此方法仅适用于 Dedicated 集群。
 
 </Admonition>
 
@@ -56,51 +56,51 @@ alter_database_properties(
 
     **[必需]**
 
-    要修改其属性的数据库名称。
+    要修改其属性的 Database 名称。
 
 - **properties** (*dict* | *None*) -
 
-    要修改的属性及其修改后的值。可用的数据库属性如下：
+    要修改的属性及修改后的值。可用的 Database 属性如下：
 
     - **database.replica.number** (*int*) -
 
-        数据库的副本数量。
+        Database 的副本数。
 
     - **database.resource_groups** (*[]str*) -
 
-        专用于该数据库的资源组。
+        专用于该 Database 的资源组。
 
     - **database.diskQuota.mb** (*int*) -
 
-        分配给数据库的磁盘配额，单位为 MB（兆字节）。
+        分配给该 Database 的磁盘配额，单位为兆字节（**MB**）。
 
     - **database.max.collections** (*int*) -
 
-        数据库中允许的最大集合数量。
+        该 Database 中允许的最大 Collection 数量。
 
     - **database.force.deny.writing** (*bool*) -
 
-        是否拒绝数据库中的所有写操作。
+        是否拒绝该 Database 中的所有写入操作。
 
     - **database.force.deny.reading** (*bool*) -
 
-        是否拒绝数据库中的所有读操作。
+        是否拒绝该 Database 中的所有读取操作。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 *None* 表示当发生任何响应或错误时，此操作即超时。
+    此操作的超时时长。将其设置为 *None* 表示当发生任何响应或错误时，此操作将超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 *None*
 
 **异常：**
 
-- `MilvusException` - 如果此操作期间发生任何错误，则会引发此异常。
+- `MilvusException` - 如果此操作期间发生任何错误，则会引发异常。
 
 ## 示例\{#examples}
 

@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检查当前集合是否已构建索引。 | Python | ORM"
+description: "此操作检查当前 Collection 是否已构建索引。 | Python | ORM"
 type: docx
 token: WDk4dXY8IoV3SJxp9e7c3aq1nBh
 sidebar_position: 15
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - 余弦距离
+  - 什么是向量 Database
+  - 向量数据库
+  - 多模态向量 Database 检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - has_index()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # has_index()
 
-此操作检查当前集合是否已构建索引。
+此操作检查当前 Collection 是否已构建索引。
 
 ## 请求语法\{#request-syntax}
 
@@ -43,7 +43,7 @@ has_index(timeout: float | None)
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作才会超时。
 
 **返回类型：**
 
@@ -51,13 +51,13 @@ has_index(timeout: float | None)
 
 **返回值：**
 
-布尔值，表示当前集合是否已构建索引。
+一个布尔值，表示当前 Collection 是否已构建索引。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

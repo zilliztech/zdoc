@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "从 Milvus 集群中移除此前通过 `addfileresource()` 注册的文件资源。此调用是幂等的：移除当前未注册的名称也会成功完成，而不会引发异常。 | Python"
+description: "从 Milvus 集群中移除之前通过 `addfileresource()` 注册的文件资源。此调用是幂等的，移除当前未注册的名称也会成功完成，而不会引发异常。 | Python"
 type: docx
 token: DLsXdlRA3odugzx4sIccnBVKn0d
 sidebar_position: 3
 keywords: 
   - 向量化
-  - k 最近邻算法
+  - k 近邻算法
   - ANNS
   - 向量搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - remove_file_resource()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # remove_file_resource()
 
-从 Milvus 集群中移除此前通过 `add_file_resource()` 注册的文件资源。此调用是幂等的：移除当前未注册的名称也会成功完成，而不会引发异常。
+从 Milvus 集群中移除之前通过 `add_file_resource()` 注册的文件资源。此调用是幂等的：移除当前未注册的名称也会成功完成，而不会引发异常。
 
 ## 请求语法\{#request-syntax}
 
@@ -51,7 +51,7 @@ remove_file_resource(
 - **timeout** (*float* | *None*) -<br/>
    此操作的超时时长（以秒为单位）。值为 `None` 表示不设置超时。
 
-**返回**：
+**返回值**：
 
 *None*
 

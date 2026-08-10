@@ -12,13 +12,13 @@ type: docx
 token: MtF2dkZcso4XduxM194cUaiinqb
 sidebar_position: 30
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - 向量检索
+  - 音频相似性搜索
+  - 弹性向量 Database
+  - Pinecone 与 Milvus 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_users()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -47,9 +47,9 @@ list_users(
 
 - **include_role_info** (*bool*) - 
 
-    **[REQUIRED]**
+    **[必需]**
 
-    Zilliz Cloud 是否列出授予指定用户的角色。
+    是否由 Zilliz Cloud 列出授予指定用户的角色。
 
 - **using** (*string*) - 
 
@@ -59,13 +59,13 @@ list_users(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 
 *UserInfo*
 
-**返回：**
+**返回值：**
 
 包含用户信息的 **UserInfo** 对象。
 
@@ -81,7 +81,7 @@ list_users(
 
 - **username** (*str*)
 
-    用户名。
+    用户名称。
 
 - **roles** (*str*)
 
@@ -91,7 +91,7 @@ list_users(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    在此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

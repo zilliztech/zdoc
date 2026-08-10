@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会处理输入数据并生成分词后的输出。 | Python | MilvusClient"
+description: "此操作会处理输入数据并生成分词输出。 | Python | MilvusClient"
 type: docx
 token: TWzjdJ61ho613AxKSd7clQt9nrg
 sidebar_position: 6
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似性搜索
+  - 向量检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - run_analyzer()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # run_analyzer()
 
-此操作会处理输入数据并生成分词后的输出。
+此操作会处理输入数据并生成分词输出。
 
 ## 请求语法\{#request-syntax}
 
@@ -53,19 +53,19 @@ run_analyzer(
 
 - `analyzer_params` (*Union[str, Dict, None]*) -
 
-    分析器的参数。如果设置为 `None`，则默认为空字典。
+    Analyzer 的参数。如果设置为 `None`，则默认为空字典。
 
 - `with_hash` (*bool*) -
 
-    可选标志，指示是否包含基于哈希的处理。
+    用于指示是否包含基于哈希的处理的可选标志。
 
 - `with_detail` (*bool*) -
 
-    可选标志，指示是否返回详细的分析输出。
+    用于指示是否返回详细分析输出的可选标志。
 
 - `timeout` (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 *None* 表示当出现任何响应或错误时，此操作会超时。
+    此操作的超时时长。将其设置为 *None* 表示当发生任何响应或错误时，此操作会超时。
 
 **返回类型：**
 

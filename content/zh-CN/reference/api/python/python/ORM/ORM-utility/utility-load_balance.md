@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会为特定 collection 的两个 query node 建立负载均衡组。 | Python | ORM"
+description: "此操作会为特定 Collection 的两个查询节点之间设置一个负载均衡组。 | Python | ORM"
 type: docx
 token: XYNMdg3Vpo3SE7xTRVqcJNvrn0d
 sidebar_position: 32
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 矢量化
+  - k 最近邻算法
   - ANNS
-  - Vector search
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 向量搜索
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - load_balance()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # load_balance()
 
-此操作会为特定 collection 的两个 query node 建立负载均衡组。
+此操作会为特定 Collection 的两个查询节点之间设置一个负载均衡组。
 
 ## 请求语法\{#request-syntax}
 
@@ -51,20 +51,20 @@ load_balance(
 - **collection_name** (*str*) -<br/>
   **[必需]**
 
-    要为其建立负载均衡组的现有 collection 名称。
+    要为其设置负载均衡组的现有 Collection 名称。
 
 - **src_node_id** (*int*) -<br/>
   **[必需]**
 
-    当前该 collection 所使用的 query node 的 ID。
+    该 Collection 当前使用的查询节点 ID。
 
 - **dst_node_ids** (*list[int]*) -
 
-    要添加到负载均衡组中的 query node 的 ID。
+    要添加到负载均衡组中的查询节点 ID。
 
 - **sealed_segment_ids** (*list[int]*) -
 
-    要进行负载均衡的 sealed segment 的 ID。
+    要进行负载均衡的 sealed Segment ID。
 
 - **timeout** (*float*)  
 
@@ -85,7 +85,7 @@ None
 
 **异常：**
 
-N/A
+无/A
 
 ## 示例\{#examples}
 

@@ -14,11 +14,11 @@ sidebar_position: 11
 keywords: 
   - IVF
   - knn
-  - Image Search
+  - 图像搜索
   - LLMs
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - drop_resource_group()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_resource_group()
 
-此操作会删除一个资源组。 
+此操作会删除一个资源组。
 
 ## 请求语法\{#request-syntax}
 
@@ -47,7 +47,7 @@ drop_resource_group(
 
 - **name** (*str*) -
 
-    **[必填]**
+    **[必需]**
 
     要删除的资源组名称。
 
@@ -59,13 +59,13 @@ drop_resource_group(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作才会超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作才会超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 

@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有或指定集合的外部集合刷新任务。 | Python | MilvusClient"
+description: "此操作列出所有或指定 Collection 的外部 Collection 刷新作业。 | Python | MilvusClient"
 type: docx
 token: VkBFdLHwao9hVMxzRurcBYIynFh
 sidebar_position: 28
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 大语言模型
+  - 向量化
+  - k 最近邻算法
   - ANNS
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_refresh_external_collection_jobs()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # list_refresh_external_collection_jobs()
 
-此操作列出所有或指定集合的外部集合刷新任务。
+此操作列出所有或指定 Collection 的外部 Collection 刷新作业。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这要求使用如下项目端点设置 MilvusClient：
+这需要使用项目 Endpoint 按如下方式设置 MilvusClient：
 
 `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -55,13 +55,13 @@ def list_refresh_external_collection_jobs(
 
 - **collection_name** (*string*) -
 
-    目标集合的名称。如果未指定此参数，则返回所有外部集合的刷新任务。
+    目标 Collection 的名称。如果未指定此参数，则返回所有外部 Collection 的刷新作业。
 
 - **timeout** (*float*) - 
 
     此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
+    将此参数设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 
@@ -69,21 +69,21 @@ def list_refresh_external_collection_jobs(
 
 **返回值：**
 
-一个 **RefreshExternalCollectionJobInfo** 对象列表，每个对象都记录一个外部集合刷新任务的详细信息。
+由 **RefreshExternalCollectionJobInfo** 对象组成的列表，每个对象记录一个外部 Collection 刷新作业的详细信息。
 
 **参数：**
 
 - **job_id** (*int*) -
 
-    当前请求中指定的任务 ID。
+    当前请求中指定的作业 ID。
 
 - **collection_name** (*string*) -
 
-    在 `refresh_external_collection()` 中指定的外部集合名称。
+    在 `refresh_external_collection()` 中指定的外部 Collection 名称。
 
 - **state** (*string*) -
 
-    指定任务的当前状态。可能的值包括：
+    指定作业的当前状态。可能的值包括：
 
     - RefreshPending
 
@@ -95,7 +95,7 @@ def list_refresh_external_collection_jobs(
 
 - **progress** (*int*) -
 
-    指定任务的当前进度。该值为 0 到 100 的整数。
+    指定作业的当前进度。该值为 0 到 100 的整数。
 
 - **external_source** (*str*) -
 
@@ -103,19 +103,19 @@ def list_refresh_external_collection_jobs(
 
 - **external_specs** (*str*) -
 
-    在 `refresh_external_collection()` 中指定的外部规格。
+    在 `refresh_external_collection()` 中指定的外部 specs。
 
 - **reason** (*str*) -
 
-    如果刷新操作失败，则为错误提示。在正常情况下，该值为空字符串。
+    如果刷新操作失败，则为错误提示。正常情况下为空字符串。
 
 - **start_time** (*int*) -
 
-    指定任务开始时的毫秒级时间戳。
+    指定作业开始时的毫秒级时间戳。
 
 - **end_time** (*int*) -  
 
-    指定任务结束时的毫秒级时间戳。
+    指定作业结束时的毫秒级时间戳。
 
 ## 示例\{#example}
 

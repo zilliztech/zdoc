@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出与当前角色关联的所有用户。 | Python | ORM"
+description: "此操作会列出与当前角色关联的所有用户。 | Python | ORM"
 type: docx
 token: CCOhd671iog6rRxu8aOcaPncnLK
 sidebar_position: 4
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - 深度学习
+  - 知识库
+  - 自然语言处理
+  - AI 聊天机器人
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - get_users()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_users()
 
-此操作列出与当前角色关联的所有用户。
+此操作会列出与当前角色关联的所有用户。
 
 ## 请求语法\{#request-syntax}
 
@@ -41,7 +41,7 @@ get_users()
 
 **参数**
 
-不适用
+无/A
 
 **返回类型：**
 
@@ -49,7 +49,7 @@ get_users()
 
 **返回：**
 
-一个元组，包含已添加到当前角色的所有用户名称。
+一个 tuple，包含添加到当前角色的所有用户名称。
 
 ## 示例\{#examples}
 

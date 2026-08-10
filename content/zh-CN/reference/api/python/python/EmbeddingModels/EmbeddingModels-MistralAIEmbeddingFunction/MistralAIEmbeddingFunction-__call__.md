@@ -12,13 +12,13 @@ type: docx
 token: Z23IddhHhom7AyxDMXecLORVnDh
 sidebar_position: 4
 keywords: 
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - AI Agent
-  - semantic search
+  - 语义搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - \_\_call\_\_()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -52,13 +52,13 @@ ef(
 
 - **texts** (*List[str]*)
 
-    一个字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串都表示将传递给嵌入模型进行编码的文本。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 
 *List[np.array]*
 
-**返回：**
+**返回值：**
 
 一个列表，其中每个元素都是一个 NumPy 数组。
 
@@ -66,7 +66,7 @@ ef(
 
 - **ValueError**
 
-    当未提供 `api_key` 且也未设置 `MISTRALAI_API_KEY` 环境变量时，将引发此异常。
+    当未提供 `api_key`，且也未设置 `MISTRALAI_API_KEY` 环境变量时，将引发此异常。
 
 ## 示例\{#examples}
 

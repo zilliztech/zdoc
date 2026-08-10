@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检查指定分区是否存在于当前集合中。 | Python | ORM"
+description: "此操作检查当前 Collection 中是否存在指定的 Partition。 | Python | ORM"
 type: docx
 token: QsOsda2lRoJP32xNSLWcbgMOnKI
 sidebar_position: 16
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Milvus 开源
+  - Milvus 如何工作
+  - Zilliz 向量 Database
+  - Zilliz Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - has_partition()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # has_partition()
 
-此操作检查指定分区是否存在于当前集合中。
+此操作检查当前 Collection 中是否存在指定的 Partition。
 
 ## 请求语法\{#request-syntax}
 
@@ -46,7 +46,7 @@ has_partition(
 
 - **partition_name** (*str*) -
 
-    要删除的分区名称。
+    要删除的 Partition 的名称。
 
 - **timeout** (*float* | *None*)  
 
@@ -58,7 +58,7 @@ has_partition(
 
 **返回：**
 
-一个布尔值，表示当前集合是否具有指定分区
+一个布尔值，表示当前 Collection 是否具有指定的 Partition
 
 **异常：**
 

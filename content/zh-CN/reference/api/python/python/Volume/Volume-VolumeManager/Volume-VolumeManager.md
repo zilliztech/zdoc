@@ -7,18 +7,18 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "一个 `VolumeManager` 实例维护与 Zilliz Cloud Volume 服务的连接。在创建、列出或删除卷之前，您需要先初始化一个 `VolumeManager` 实例。 | Python"
+description: "`VolumeManager` 实例维护与 Zilliz Cloud 的 Volume 服务的连接。在创建、列出或删除卷之前，您需要先初始化一个 `VolumeManager` 实例。 | Python"
 type: docx
 token: G5c6dxWkno5FRAxeDMycR6AVntf
 sidebar_position: 5
 keywords: 
-  - Vector search
-  - knn algorithm
+  - 向量搜索
+  - knn 算法
   - HNSW
-  - What is unstructured data
+  - 什么是非结构化数据
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - VolumeManager
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # VolumeManager
 
-一个 `VolumeManager` 实例维护与 Zilliz Cloud Volume 服务的连接。在创建、列出或删除卷之前，您需要先初始化一个 `VolumeManager` 实例。
+`VolumeManager` 实例维护与 Zilliz Cloud 的 Volume 服务的连接。在创建、列出或删除卷之前，您需要先初始化一个 `VolumeManager` 实例。
 
 ```python
 class pymilvus.bulk_writer.volume_manager import VolumeManager
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-卷是一个中间存储位置，您可以在其中保存数据以供后续处理，例如数据合并、迁移或导入。更多信息请参见 [Volume](/docs/volume)。
+卷是一个中间存储位置，您可以在其中保存数据以进行进一步处理，例如数据合并、迁移或导入。有关详细信息，请参阅 [Volume](/docs/volume)。
 
 </Admonition>
 
 ## 构造函数\{#constructor}
 
-此构造函数会初始化一个新的 `VolumeManager` 实例，用于维护与 Zilliz Cloud Volume 服务的连接。
+此构造函数会初始化一个新的 `VolumeManager` 实例，用于维护与 Zilliz Cloud 的 Volume 服务的连接。
 
 ```python
 VolumeManager(
@@ -58,15 +58,15 @@ VolumeManager(
 
 - **cloud_endpoint** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
-    Zilliz Cloud 端点，即 `https:*//*api.cloud.zilliz.com`。
+    Zilliz Cloud 的 Endpoint，即 `https:*//*api.cloud.zilliz.com`。
 
 - **api_key** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
-    您的 Zilliz Cloud API 密钥，且需具备足够的权限以管理 Zilliz Cloud Volume 服务上的卷。要获取 Zilliz Cloud API 密钥，请按照 [API Keys](/docs/manage-api-keys) 中的步骤操作。
+    您在 Zilliz Cloud 的 Volume 服务上管理卷所需的、具有足够权限的 Zilliz Cloud API 密钥。要获取 Zilliz Cloud API 密钥，请按照 [API Keys](/docs/manage-api-keys) 中的步骤操作。
 
 **返回类型：**
 

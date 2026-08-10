@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有自定义角色。 | Python | MilvusClient"
+description: "此操作会列出所有自定义角色。 | Python | MilvusClient"
 type: docx
 token: MApVdDl17oU8OixzbMPcgceKnOh
 sidebar_position: 14
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - 自然语言处理
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_roles()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_roles()
 
-此操作列出所有自定义角色。
+此操作会列出所有自定义角色。
 
 ## 请求语法\{#request-syntax}
 
@@ -45,15 +45,15 @@ list_roles(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    将此项设置为 **None** 表示当收到任何响应或发生任何错误时，此操作才会超时。
 
 **返回类型：**
 
 *list*
 
-**返回：**
+**返回值：**
 
 角色名称列表。
 
@@ -84,9 +84,9 @@ client.list_roles()
 # ['db_admin', 'db_ro', 'db_rw']
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-每个 Zilliz Cloud 集群都有三个内置角色，即 **db\_ro**、**db\_rw** 和 **db\_admin**。详情请参见 [集群内置角色](/docs/cluster-roles#built-in-cluster-roles)。
+每个 Zilliz Cloud 集群都有三个内置角色，即 **db\_ro**、**db\_rw** 和 **db\_admin**。有关详细信息，请参阅 [集群内置角色](/docs/cluster-roles#built-in-cluster-roles)。
 
 </Admonition>
 

@@ -12,13 +12,13 @@ type: docx
 token: PwL1dndmVoxP98xp0pXcOci4nSe
 sidebar_position: 1
 keywords: 
-  - 什么是向量数据库
-  - 向量数据库对比
+  - 什么是向量 Database
+  - 向量 Database 对比
   - Faiss
   - 视频搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - encode_documents()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -45,7 +45,7 @@ encode_documents(
 
 - **documents** (*List[str]*)
 
-    字符串值列表，其中每个字符串表示一个将被传递给嵌入模型进行编码的文档。模型将为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的文档。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 

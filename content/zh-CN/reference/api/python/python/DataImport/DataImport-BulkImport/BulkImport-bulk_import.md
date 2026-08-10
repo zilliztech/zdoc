@@ -7,14 +7,14 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "添加了 projectid/regionid 路由和项目数据库导入行为。 | Python"
+description: "添加 projectid/regionid 路由和项目 Database 导入行为。| Python"
 type: docx
 token: HVwRdVSbAo2jUexpxmdczdqPnzh
 sidebar_position: 1
 keywords: 
   - 什么是向量嵌入
-  - 向量数据库教程
-  - 向量数据库如何工作
+  - 向量 Database 教程
+  - 向量 Database 如何工作
   - 向量数据库对比
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # bulk_import()
 
-添加 `project_id/region_id` 路由和项目数据库导入行为。
+添加 project_id/region_id 路由和项目 Database 导入行为。
 
 ## 请求语法\{#request-syntax}
 
@@ -62,15 +62,15 @@ bulk_import(
 - **url** (*str*) -<br/>
   **[必需]**
 
-    Zilliz Cloud API 服务器端点，即 `https://api.cloud.zilliz.com`。
+    Zilliz Cloud API 服务器的 Endpoint，即 `https://api.cloud.zilliz.com`。
 
 - **collection_name** (*str*) -<br/>
   **[必需]**<br/>
-  目标 collection 的名称。
+  目标 Collection 的名称。
 
 - **db_name** (*str*) -<br/>
   默认值：`""`<br/>
-  目标数据库的名称。
+  目标 Database 的名称。
 
 - **object_url** (*str*) -<br/>
   默认值：`""`<br/>
@@ -86,16 +86,16 @@ bulk_import(
 
 - **project_id** (*str*) -<br/>
   默认值：`""`<br/>
-  包含目标项目数据库的 Zilliz Cloud 项目的 ID。
+  包含目标项目 Database 的 Zilliz Cloud 项目 ID。
 
 - **region_id** (*str*) -<br/>
   默认值：`""`<br/>
-  包含目标项目数据库的 Zilliz Cloud 区域的 ID。
+  包含目标项目 Database 的 Zilliz Cloud 区域 ID。
 
 - **api_key** (*str*) -<br/>
   默认值：`""`
 
-    用于验证请求的 Zilliz Cloud API 密钥。
+    用于对请求进行身份验证的 Zilliz Cloud API 密钥。
 
 - **access_key** (*str*) -<br/>
   默认值：`""`<br/>
@@ -103,7 +103,7 @@ bulk_import(
 
 - **secret_key** (*str*) -<br/>
   默认值：`""`<br/>
-  Zilliz Cloud 使用的对象存储凭证的密钥。
+  Zilliz Cloud 使用的对象存储凭证的秘密密钥。
 
 - **token** (*str*) -<br/>
   默认值：`""`<br/>
@@ -111,22 +111,22 @@ bulk_import(
 
 - **volume_name** (*str*) -<br/>
   默认值：`""`<br/>
-  包含导入数据的 Zilliz Cloud volume 名称。
+  包含导入数据的 Zilliz Cloud 卷名称。
 
 - **data_paths** (*Optional[List[List[str]]]*) -<br/>
   默认值：`None`<br/>
-  Zilliz Cloud volume 中包含导入数据的路径。
+  Zilliz Cloud 卷中包含导入数据的路径。
 
 - **verify** (*Optional[Union[bool, str]]*) -<br/>
   默认值：`True`<br/>
-  TLS 验证设置。使用 `True` 表示使用默认信任存储进行验证，或者提供 CA 证书路径。
+  TLS 验证设置。使用 `True` 可通过默认信任存储进行验证，或提供 CA 证书路径。
 
 - **cert** (*Optional[Union[str, tuple]]*) -<br/>
   默认值：`None`<br/>
   客户端证书路径，或用于双向 TLS 的证书和私钥对。
 
 - **kwargs** (*Any*) -<br/>
-  转发给 HTTP 请求的其他选项。
+  转发到 HTTP 请求的其他选项。
 
 **返回类型：**
 
@@ -134,16 +134,16 @@ bulk_import(
 
 **返回值：**
 
-由批量导入端点返回的 HTTP 响应。请检查 JSON 负载以获取已提交作业的标识符。
+由批量导入 Endpoint 返回的 HTTP 响应。请检查 JSON 负载以获取已提交作业的标识符。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以了解确切的失败详情。
+  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取准确的失败详情。
 
 ## 示例\{#examples}
 
-以下示例将对象存储中的数据提交到 Zilliz Cloud。
+以下示例将对象存储数据提交到 Zilliz Cloud。
 
 ```python
 from pymilvus.bulk_writer import bulk_import

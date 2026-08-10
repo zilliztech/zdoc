@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除指定的集合别名。 | Python | MilvusClient"
+description: "此操作会删除指定的 Collection 别名。 | Python | MilvusClient"
 type: docx
 token: FpWXdmIuforYz9xUCsqclyCXnLe
 sidebar_position: 10
@@ -18,7 +18,7 @@ keywords:
   - llm 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - drop_alias()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # drop_alias()
 
-此操作会删除指定的集合别名。
+此操作会删除指定的 Collection 别名。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法适用于专属服务集群和按需计算。 
+此方法适用于 Dedicated 服务集群和按需计算。
 
-- 对于服务集群中的集合，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的集合，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的 Collection，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -66,17 +66,17 @@ drop_alias(
 
 - **alias** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
-    集合的别名。 
+    Collection 的别名。
 
-    在执行此操作之前，请确保该别名已存在。否则将发生异常。
+    执行此操作前，请确保该别名已存在。否则将发生异常。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作超时。
 
 **返回类型：**
 
@@ -90,7 +90,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常，尤其是在将 `alias` 设置为不存在的别名时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在您将 `alias` 设置为不存在的别名时。
 
 - **BaseException**
 

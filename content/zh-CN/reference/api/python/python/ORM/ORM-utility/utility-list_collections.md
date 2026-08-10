@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出当前连接所使用数据库中的所有集合。 | Python | ORM"
+description: "此操作会列出当前连接所使用的 Database 中的所有 Collection。 | Python | ORM"
 type: docx
 token: QgxEdfBMSodYo6xCg24cH3hInr4
 sidebar_position: 24
 keywords: 
   - knn algorithm
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - 什么是非结构化数据
+  - 向量嵌入
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_collections()
 
-此操作会列出当前连接所使用数据库中的所有集合。
+此操作会列出当前连接所使用的 Database 中的所有 Collection。
 
 ## 请求语法\{#request-syntax}
 
@@ -46,7 +46,7 @@ list_collections(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示，当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 - **using** (*str*) - 
 
@@ -59,13 +59,13 @@ list_collections(
 *list*
 
 **返回：**
-集合名称列表。
+Collection 名称列表。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时将引发此异常，尤其是在指定别名不存在时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
 
 ## 示例\{#examples}
 

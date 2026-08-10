@@ -12,13 +12,13 @@ type: docx
 token: YRoGdgQmWoIEaJx84ICcHTILnMe
 sidebar_position: 8
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 向量化
+  - k 最近邻算法
   - ANNS
-  - Vector search
+  - 向量搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_grants()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -45,9 +45,9 @@ list_grants(
 
 - **db_name** (*str*)
 
-    Zilliz Cloud 在其中执行此操作的数据库名称。
+    Zilliz Cloud 在其中执行此操作的 Database 名称。
 
-    如果指定的数据库不存在，则返回空结果。
+    如果指定的 Database 不存在，则返回空结果。
 
 **返回类型：**
 
@@ -55,7 +55,7 @@ list_grants(
 
 **返回：**
 
-一个 **GrantInfo** 对象，其中包含一个 **GrantItem** 对象列表。
+包含 **GrantItem** 对象列表的 **GrantInfo** 对象。
 
 ```python
 ├── GrantInfo
@@ -75,7 +75,7 @@ list_grants(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    如果在此操作期间发生任何错误，则会引发此异常。
 
 ## 示例\{#examples}
 

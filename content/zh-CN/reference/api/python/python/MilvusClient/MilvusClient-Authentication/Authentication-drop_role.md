@@ -12,13 +12,13 @@ type: docx
 token: KUAXdm3o3opQPex8N69cMlPbnTh
 sidebar_position: 8
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - llm 幻觉
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - drop_role()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -54,17 +54,17 @@ drop_role(
 
 - **force_drop** (*bool*) -
 
-    是否在该角色已分配权限或用户时仍强制删除。默认为 **False**。
+    是否强制删除该角色，即使该角色已被分配权限或用户。默认值为 **False**。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 
@@ -72,7 +72,7 @@ None
 
 - **MilvusException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 - **BaseException**
 

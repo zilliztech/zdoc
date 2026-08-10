@@ -12,10 +12,10 @@ type: docx
 token: RSOkdriHRoRd8ixyVZOch1l9nDd
 sidebar_position: 9
 keywords: 
-  - AI Hallucination
+  - AI 幻觉
   - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - 语义搜索
+  - 异常检测
   - zilliz
   - zilliz cloud
   - cloud
@@ -48,15 +48,15 @@ unpin_snapshot_data(
 
 - **pin_id** (*int*) -
 
-    `pin_snapshot_data()` 返回的 pin ID。
+    由 `pin_snapshot_data()` 返回的固定 ID。
 
 - **timeout** (*Optional[float]*) -
 
-    此操作的超时时间，单位为秒。
+    此操作的超时时间，以秒为单位。
 
 - **kwargs** (*dict*) -
 
-    传递给底层 RPC 的其他请求选项。
+    传递给底层 RPC 的附加请求选项。
 
 **返回类型：**
 
@@ -68,7 +68,7 @@ unpin_snapshot_data(
 
 - **MilvusException**
 
-    当 pin 不存在、已过期，或请求失败时抛出。
+    当固定不存在、已过期或请求失败时引发。
 
 ## 示例\{#example}
 

@@ -7,15 +7,15 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "VoyageRerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序的前 k 个文档。 | Python"
+description: "VoyageRerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个包含按分数排序的前 k 个文档对应 `RerankResult` 对象的列表。 | Python"
 type: docx
 token: N2aHdla1Uohk1HxGyPHcdG4lnnb
 sidebar_position: 2
 keywords: 
-  - cosine distance
-  - what is a vector database
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
-  - multimodal vector database retrieval
+  - 多模态向量 Database 检索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[VoyageRerankFunction](./Rerankers-VoyageRerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序的前 k 个文档。
+[VoyageRerankFunction](./Rerankers-VoyageRerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个包含按分数排序的前 k 个文档对应 `RerankResult` 对象的列表。
 
 ## 请求语法\{#request-syntax}
 
@@ -59,15 +59,15 @@ voyage_rf(
 
 - `top_k` (*int*)
 
-    要返回的排序最高的文档最大数量。默认值为 **5**。
+    返回的排名最高文档的最大数量。默认为 **5**。
 
 **返回类型：**
 
 *List[RerankResult]*
 
-**返回：**
+**返回值：**
 
-一个 `RerankResult` 对象列表。
+一个由 `RerankResult` 对象组成的列表。
 
 ```plaintext
 ├── RerankResult
@@ -76,13 +76,13 @@ voyage_rf(
 |    └── index
 ```
 
-每个 `RerankResult` 对象包含：
+每个 `RerankResult` 对象都包含：
 
 - `text`：匹配到的文档文本。
 
-- `score`：重排模型为该文档分配的分数。
+- `score`：重排序模型为该文档分配的分数。
 
-- `index`：该文档在原始文档列表中的索引。
+- `index`：该文档在原始 documents 列表中的索引。
 
 **异常：**
 

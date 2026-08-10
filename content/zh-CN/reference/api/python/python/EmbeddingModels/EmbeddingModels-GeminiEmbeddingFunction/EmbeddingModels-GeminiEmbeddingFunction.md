@@ -13,8 +13,8 @@ token: DhZRdYbfMoYIBtxrudGcwWjrngd
 sidebar_position: 3
 keywords: 
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - AI Agent
   - zilliz
   - zilliz cloud
@@ -37,9 +37,9 @@ import Admonition from '@theme/Admonition';
 pymilvus.model.dense.GeminiEmbeddingFunction
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
-为常见用例构造一个 GeminiEmbeddingFunction。
+构造一个适用于常见用例的 GeminiEmbeddingFunction。
 
 ```python
 GeminiEmbeddingFunction(
@@ -50,11 +50,11 @@ GeminiEmbeddingFunction(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **model_name (string) -**
 
-    用于编码的 Gemini 模型名称。有效选项包括 **gemini-embedding-exp-03-07**（默认）、**models/embedding-001** 和 **models/text-embedding-004**。
+    用于编码的 Gemini 模型名称。有效选项包括 **gemini-embedding-exp-03-07**（默认）、**models/embedding-001**, 和 **models/text-embedding-004**.
 
 - **api_key (*string*)-**
 
@@ -64,25 +64,25 @@ GeminiEmbeddingFunction(
 
     嵌入模型的可选配置。
 
-    - 可以通过 **output_dimensionality** 指定生成的输出嵌入维度数。
+    - 可以指定 **output_dimensionality** 以设置生成的输出嵌入维数。
 
-        | **Model Name** | **Dimensions** |
+        | **模型名称** | **维度** |
         | --- | --- |
         | emini-embedding-exp-03-07 | 3072(*default*),1536,768 |
         | models/embedding-001 | 768 |
         | models/text-embedding-004 | 768 |
 
-    - 可以通过 **task_type** 指定为特定任务生成优化后的嵌入，从而节省时间和成本并提升性能。仅 **gemini-embedding-exp-03-07** 模型支持。
+    - 可以指定 **task_type** 来为特定任务生成优化后的嵌入，从而节省您的时间和成本并提升性能。仅 **gemini-embedding-exp-03-07** 模型支持此功能。
 
-        | Task Type | Description |
+        | 任务类型 | 说明 |
         | --- | --- |
         | SEMANTIC_SIMILARITY | 用于生成经过优化的嵌入，以评估文本相似性。 |
         | CLASSIFICATION | 用于生成经过优化的嵌入，以根据预设标签对文本进行分类。 |
-        | CLUSTERING | 用于生成经过优化的嵌入，以基于相似性对文本进行聚类。 |
-        | RETRIEVAL_DOCUMENT, RETRIEVAL_QUERY, QUESTION_ANSWERING, and FACT_VERIFICATION | 用于生成经过优化的嵌入，以进行文档搜索或信息检索。 |
+        | CLUSTERING | 用于生成经过优化的嵌入，以根据文本之间的相似性进行聚类。 |
+        | RETRIEVAL_DOCUMENT, RETRIEVAL_QUERY, QUESTION_ANSWERING, and FACT_VERIFICATION | 用于生成针对文档搜索或信息检索进行优化的嵌入。 |
         | CODE_RETRIEVAL_QUERY | 用于根据自然语言查询检索代码块，例如 sort an array 或 reverse a linked list。代码块的嵌入使用 RETRIEVAL_DOCUMENT 计算。 |
 
-## Examples\{#examples}
+## 示例\{#examples}
 
 ```python
 from pymilvus import model

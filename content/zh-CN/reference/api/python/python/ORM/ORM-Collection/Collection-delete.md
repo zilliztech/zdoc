@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作使用布尔表达式删除实体。 | Python | ORM"
+description: "此操作使用布尔表达式删除 Entity。 | Python | ORM"
 type: docx
 token: TJMVdi4U2oBFnAxO95jctzVAnzg
 sidebar_position: 6
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # delete()
 
-此操作使用布尔表达式删除实体。
+此操作使用布尔表达式删除 Entity。
 
 ## 请求语法\{#request-syntax}
 
@@ -47,15 +47,15 @@ delete(
 
 - **expr** (*string*) -
 
-    **[REQUIRED]** 
+    **[必需]** 
 
-    用于筛选要删除实体的布尔表达式。
+    用于筛选待删除 Entity 的布尔表达式。
 
 - **partition_name** (*string*) -
 
-    要从中删除匹配实体的分区名称。
+    要从中删除匹配 Entity 的 Partition 名称。
 
-    如果指定了分区，则仅该分区中的实体会参与筛选。否则，集合中的所有实体都会参与筛选。
+    如果指定了 Partition，则仅其包含的 Entity 会参与筛选。否则，Collection 中的所有 Entity 都会参与。
 
 - **timeout** (*float* | *None*)  
 
@@ -65,21 +65,21 @@ delete(
 
 *MutationResult*
 
-**返回：**
+**返回值：**
 
-一个 **MutationResult** 对象，包含以下字段：
+包含以下字段的 **MutationResult** 对象：
 
 - **insert_count** (*int*)
 
-    已插入实体的数量。
+    已插入 Entity 的数量。
 
 - **delete_count** (*int*)
 
-    已删除实体的数量。
+    已删除 Entity 的数量。
 
 - **upsert_count** (*int*)
 
-    已 upsert 的实体数量。
+    已 upsert 的 Entity 数量。
 
 - **succ_count** (*int*)
 
@@ -87,19 +87,19 @@ delete(
 
 - **succ_index** (*list*)
 
-    从 0 开始的索引号列表，其中每个索引号表示一次成功的操作。
+    一个从 0 开始的索引号列表，每个索引号表示一次成功的操作。
 
 - **err_count** (*int*)
 
-    此操作中失败执行的次数。
+    此操作中执行失败的次数。
 
 - **err_index** (*list*)
 
-    从 0 开始的索引号列表，其中每个索引号表示一次失败的操作。
+    一个从 0 开始的索引号列表，每个索引号表示一次失败的操作。
 
 - **primary_keys** (*list*)
 
-    已插入实体的主键列表。
+    已插入 Entity 的主键列表。
 
 - **timestamp** (*int*)
 
@@ -109,7 +109,7 @@ delete(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    如果此操作期间发生任何错误，将引发此异常。
 
 ## 示例\{#examples}
 

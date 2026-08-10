@@ -12,13 +12,13 @@ type: docx
 token: UehMdosTGoZVzaxdTcUcpy1ynef
 sidebar_position: 3
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - 稀疏 vs 稠密
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - encode_queries()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -53,9 +53,9 @@ encode_queries(
 
 **返回值：**
 
-一个包含查询嵌入的字典。
+包含查询嵌入的字典。
 
-在初始化 [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) 时，如果 **return_dense**、**return_sparse** 和 **return_colbert_vecs** 设置为 **True**，则返回的字典将包含 **dense**、**sparse** 和 **colbert_vecs** 键，分别对应稠密嵌入、稀疏词嵌入和 ColBERT 向量。
+在初始化 [BGEM3EmbeddingFunction](./EmbeddingModels-BGEM3EmbeddingFunction) 时，如果 **return_dense**、**return_sparse** 和 **return_colbert_vecs** 设置为 **True**，则返回的字典将包含键 **dense**、**sparse** 和 **colbert_vecs**，分别对应稠密嵌入、稀疏词嵌入和 ColBERT 向量。
 
 **异常：**
 

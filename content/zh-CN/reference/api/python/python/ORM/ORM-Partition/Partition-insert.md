@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将数据插入到当前分区中。 | Python | ORM"
+description: "此操作会将数据插入当前 Partition。 | Python | ORM"
 type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - LLM 评估
+  - 稀疏 vs 稠密
+  - 稠密向量
+  - 分层可导航小世界
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - insert()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # insert()
 
-此操作将数据插入到当前分区中。
+此操作会将数据插入当前 Partition。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 在 **[Collection](./ORM-Collection)** 对象的 **insert()** 方法中使用 **partition_name** 参数，等同于使用 **[Partition](./ORM-Partition)** 对象的 **insert()** 方法。
 
@@ -54,13 +54,13 @@ insert(
 
     **[必需]**
 
-    要插入到当前集合中的数据。
+    要插入到当前 Collection 中的数据。
 
-    要插入的数据应与当前集合的 schema 匹配。您可以按以下方式组织数据：
+    要插入的数据应与当前 Collection 的 Schema 匹配。您可以按以下形式组织数据：
 
-    - 列表形式的列数据
+    - 列列表
 
-        每一列都是一个列表，包含各实体在该列中的值。
+        每一列都是该列中各个 Entity 值组成的列表。
 
         ```python
         data = [
@@ -77,7 +77,7 @@ insert(
 
     - **pandas.DataFrame**
 
-        您可以按任意方式构造数据框，示例如 [此页面](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) 的 **Example** 部分所示。
+        您可以用任意方式构造数据框，具体可参见[本页](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html)中的 **Example** 部分。
 
         ```python
         data = pd.DataFrame({
@@ -92,9 +92,9 @@ insert(
         })
         ```
 
-    - 行列表或单独一行
+    - 行列表或单行
 
-        每一行都是一个字典，表示一个实体。
+        每一行都是一个表示 Entity 的字典。
 
         ```python
         data = [
@@ -112,7 +112,7 @@ insert(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 
@@ -124,11 +124,11 @@ insert(
 
 - **insert_count** (*int*)
 
-    已插入实体的数量。
+    已插入的 Entity 数量。
 
 - **primary_keys** (*list*)
 
-    已插入实体的主键列表。
+    已插入 Entity 的主键列表。
 
 **异常：**
 
@@ -136,19 +136,19 @@ insert(
 
     - **insert_count** (*int*)
 
-        已插入实体的数量。
+        已插入的 Entity 数量。
 
     - **delete_count** (*int*)
 
-        已删除实体的数量。
+        已删除的 Entity 数量。
 
     - **upsert_count** (*int*)
 
-        已执行 upsert 的实体数量。
+        已 upsert 的 Entity 数量。
 
     - **succ_count** (*int*)
 
-        此操作中成功执行的次数。
+        此操作中执行成功的次数。
 
     - **succ_index** (*list*)
 
@@ -164,7 +164,7 @@ insert(
 
     - **primary_keys** (*list*)
 
-        已插入实体的主键列表。
+        已插入 Entity 的主键列表。
 
     - **timestamp** (*int*)
 

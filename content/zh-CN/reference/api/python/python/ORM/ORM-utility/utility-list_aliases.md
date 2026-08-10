@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出特定 collection 的所有现有别名。 | Python | ORM"
+description: "此操作会列出特定 Collection 的所有现有别名。 | Python | ORM"
 type: docx
 token: XBwxdP96Go8ITyx7UuNcL7EonPd
 sidebar_position: 22
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - 向量存储
+  - 开源向量 Database
+  - 向量索引
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_aliases()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_aliases()
 
-此操作列出特定 collection 的所有现有别名。
+此操作会列出特定 Collection 的所有现有别名。
 
 ## 请求语法\{#request-syntax}
 
@@ -47,9 +47,9 @@ list_aliases(
 
 - **collection_name** (*str*) -
 
-    **[必需]**
+    **【必需】**
 
-    要列出其别名的 collection 名称。
+    要列出其别名的 Collection 名称。
 
 - **using** (*str*) - 
 
@@ -59,21 +59,21 @@ list_aliases(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时结束。
+    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
 
 **返回类型：**
 
 *list*
 
-**返回：**
+**返回值：**
 
-指定 collection 的别名列表。如果该 collection 没有别名，则返回空列表。
+指定 Collection 的别名列表。如果该 Collection 没有别名，则返回空列表。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 - **BaseException**
 

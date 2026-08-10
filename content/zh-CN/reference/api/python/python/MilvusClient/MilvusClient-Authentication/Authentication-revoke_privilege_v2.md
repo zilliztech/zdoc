@@ -12,10 +12,10 @@ type: docx
 token: WazKdTlcOoYoBWxIJEEc7gFMnfC
 sidebar_position: 18
 keywords: 
-  - AI Hallucination
+  - AI 幻觉
   - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - 语义搜索
+  - 异常检测
   - zilliz
   - zilliz cloud
   - cloud
@@ -51,35 +51,35 @@ revoke_privilege_v2(
 
 - **role_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
     要撤销权限的角色名称。
 
 - **privilege** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    要撤销的权限名称。 
+    要撤销的权限名称。
 
-    详情请参见页面 [Users and Roles](https://milvus.io/docs/users_and_roles.md) 中表格的 **Privilege name** 列。
+    有关详细信息，请参见 [Users and Roles](https://milvus.io/docs/users_and_roles.md) 页面表格中的 **Privilege name** 列。
 
 - **collection_name** (*str*) - 
 
-    **[REQUIRED]**
+    **[必需]**
 
-    集合名称。若要撤销当前数据库中所有集合相关的权限，请将此参数设置为 `*`。 
+    Collection 名称。要撤销与当前 Database 中所有 Collection 相关的权限，请将此参数设置为 `*`。
 
 - **db_name** (*str*) -
 
-    数据库名称。 
+    Database 名称。
 
-    此参数为可选。设置该参数会将权限分配限制在指定数据库内。
+    此参数为可选。设置此参数会将权限授予范围限制在指定的 Database 内。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。 
+    此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    将此参数设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
 
 **返回类型：**
 

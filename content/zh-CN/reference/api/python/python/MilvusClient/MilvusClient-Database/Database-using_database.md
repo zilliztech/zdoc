@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会更改当前正在使用的数据库。 | Python | MilvusClient"
+description: "此操作会更改当前正在使用的 Database。 | Python | MilvusClient"
 type: docx
 token: OCfid8DdPo1ga1x24JZcV92xnwd
 sidebar_position: 7
 keywords: 
   - RAG
   - NLP
-  - Neural Network
-  - Deep Learning
+  - 神经网络
+  - 深度学习
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - using_database()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # using_database()
 
-此操作会更改当前正在使用的数据库。
+此操作会更改当前正在使用的 Database。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法仅适用于专属服务集群和按需计算。 
+此方法仅适用于 dedicated serving clusters 和按需计算。 
 
-- 对于专属服务集群中的数据库，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 dedicated serving clusters 中的 Database，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
-    - **Free & Serverless**
+    - **免费版和 Serverless**
 
         `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com`
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算的数据库，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算的 Database，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -68,7 +68,7 @@ using_database(
 
     **[必需]**
 
-    要使用的数据库名称。
+    要使用的 Database 名称。
 
 **返回类型：**
 
@@ -80,7 +80,7 @@ using_database(
 
 **异常：**
 
-- `MilvusException` - 如果此操作期间发生任何错误，则会引发此异常。
+- `MilvusException` - 如果此操作期间发生任何错误，则会引发该异常。
 
 ## 示例\{#examples}
 

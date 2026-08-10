@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作描述当前集合。 | Python | ORM"
+description: "此操作描述当前 Collection。 | Python | ORM"
 type: docx
 token: EZwsd887JojFjLxbMByckhW0nxg
 sidebar_position: 7
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量 Database 教程
+  - 向量 Database 如何工作
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe()
 
-此操作描述当前集合。
+此操作描述当前 Collection。
 
 ## 请求语法\{#request-syntax}
 
@@ -43,15 +43,15 @@ describe(timeout: float | None)
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示，当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
 *dict*
 
-**返回：**
+**返回值：**
 
-一个字典，包含指定集合的详细信息。
+包含指定 Collection 详细信息的字典。
 
 ```python
 {
@@ -92,23 +92,23 @@ describe(timeout: float | None)
 
 - **collection_name** (*str*) -
 
-    当前集合的名称。
+    当前 Collection 的名称。
 
 - **auto_id** (*bool*) -
 
-    Zilliz Cloud 是否为该集合自动生成主键。
+    Zilliz Cloud 是否为该 Collection 自动生成主键。
 
 - **num_shards** (*int*) -
 
-    当前集合拥有的分片数。
+    当前 Collection 拥有的分片数。
 
 - **description** (*str*)
 
-    当前集合的描述。
+    当前 Collection 的描述。
 
 - **fields** (*list*)
 
-    当前集合中的字段列表。
+    当前 Collection 中的字段列表。
 
     - **field_id** (*int*)
 
@@ -138,25 +138,25 @@ describe(timeout: float | None)
 
     - **is_primary** (*bool*)
 
-        当前字段是否作为集合的主键。
+        当前字段是否作为该 Collection 的主键。
 
 - **aliases** (*list*)      
 
-    集合别名列表。您可以使用列表中的任意别名来使用当前集合。  
+    Collection 别名列表。您可以使用列表中的任一别名来使用当前 Collection。  
 
 - **collection_id** (*int*)
 
-    当前集合的 ID。Zilliz Cloud 在创建集合时会为每个集合分配一个 ID。
+    当前 Collection 的 ID。Zilliz Cloud 会在创建每个 Collection 时为其分配一个 ID。
 
 - **consistency_level** (*int*)
 
-    当前集合的一致性级别。详情请参见 ConsistencyLevel。
+    当前 Collection 的一致性级别。详情请参见 ConsistencyLevel。
 
 - **properties** (*dict*)
 
 - **num_partitions** (*int*) 
 
-    当前集合中的分区数量。
+    当前 Collection 中的 Partition 数量。
 
 **异常：**
 

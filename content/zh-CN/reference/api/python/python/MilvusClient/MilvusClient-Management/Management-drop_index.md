@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会从指定 collection 中删除一个索引。 | Python | MilvusClient"
+description: "此操作会从指定的 Collection 中删除一个索引。 | Python | MilvusClient"
 type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 5
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Serverless 向量 Database
+  - milvus 开源
+  - milvus 的工作原理
+  - Zilliz 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - drop_index()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # drop_index()
 
-此操作会从指定 collection 中删除一个索引。
+此操作会从指定的 Collection 中删除一个索引。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-按需计算的 collection 不支持此操作。
+按需计算的 Collection 不支持此操作。
 
 </Admonition>
 
@@ -54,25 +54,25 @@ drop_index(
 
 - **collection_name** (*str*) -
 
-    **[必需]**
+    **[必填]**
 
-    现有 collection 的名称。
+    现有 Collection 的名称。
 
 - **index_name** (str) -
 
-    **[必需]**
+    **[必填]**
 
     要删除的索引名称。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时结束。
+    此操作的超时时长。将此参数设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 

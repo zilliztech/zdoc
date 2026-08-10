@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "NomicEmbeddingFunction 是 pymilvus 中的一个类，它使用 Nomic embedding 模型将文本编码为嵌入，以支持在 Milvus 中进行 embedding 检索。 | Python"
+description: "NomicEmbeddingFunction 是 pymilvus 中的一个类，使用 Nomic 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: OOQvdXDqdoqKfmxEkTecfuVMnsb
 sidebar_position: 3
 keywords: 
-  - vector search algorithms
-  - Question answering system
+  - 向量搜索算法
+  - 问答系统
   - llm-as-a-judge
-  - hybrid vector search
+  - 混合向量搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - NomicEmbeddingFunction
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # NomicEmbeddingFunction
 
-NomicEmbeddingFunction 是 pymilvus 中的一个类，它使用 Nomic embedding 模型将文本编码为嵌入，以支持在 Milvus 中进行 embedding 检索。
+NomicEmbeddingFunction 是 pymilvus 中的一个类，使用 Nomic 嵌入模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.dense.NomicEmbeddingFunction
@@ -39,7 +39,7 @@ pymilvus.model.dense.NomicEmbeddingFunction
 
 ## 构造函数\{#constructor}
 
-构造一个适用于常见用例的 NomicEmbeddingFunction。
+为常见用例构造一个 NomicEmbeddingFunction。
 
 ```python
 NomicEmbeddingFunction(
@@ -54,7 +54,7 @@ NomicEmbeddingFunction(
 
 - **model_name** (*string*)
 
-    用于编码的 Nomic embedding 模型名称。默认值为 `nomic-embed-text-v1.5`。更多信息请参见 [Nomic 官方文档](https://docs.nomic.ai/atlas/models/image-embedding)。
+    用于编码的 Nomic 嵌入模型名称。默认值为 `nomic-embed-text-v1.5`。更多信息，请参见 [Nomic 官方文档](https://docs.nomic.ai/atlas/models/image-embedding)。
 
 - **task_type** (*string*)
 
@@ -68,7 +68,7 @@ NomicEmbeddingFunction(
 
     - **long_text_mode** (*string*)
 
-        如何处理超出模型可接受长度的文本。可选值为 `mean` 或 `truncate`。
+        如何处理长度超过模型可接受范围的文本。可选值为 `mean` 或 `truncate`。
 
 ## 示例\{#examples}
 

@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出指定集合中的分区。 | Python | MilvusClient"
+description: "此操作列出指定 Collection 中的 Partition。 | Python | MilvusClient"
 type: docx
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
 sidebar_position: 5
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_partitions()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # list_partitions()
 
-此操作会列出指定集合中的分区。
+此操作列出指定 Collection 中的 Partition。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管集合。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -54,19 +54,19 @@ list_partitions(
 
     **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 **返回类型：**
 
 *list*
 
-**返回：**
+**返回值：**
 
-分区名称列表。
+Partition 名称列表。
 
 **异常：**
 

@@ -2,7 +2,7 @@
 title: "BulkInsertState | Python | ORM"
 slug: /python/python/utility-BulkInsertState
 sidebar_label: "BulkInsertState"
-beta: 即将弃用
+beta: NEAR DEPRECATE
 added_since: Inherit
 last_modified: false
 deprecate_since: false
@@ -14,7 +14,7 @@ sidebar_position: 2
 keywords: 
   - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy 向量搜索
   - milvus
   - zilliz
   - zilliz cloud

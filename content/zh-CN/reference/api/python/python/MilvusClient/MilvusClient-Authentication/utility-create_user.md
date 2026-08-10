@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "此操作使用密码创建用户。 | Python | MilvusClient"
+description: "此操作使用密码创建一个用户。 | Python | MilvusClient"
 type: docx
 token: EglSdm1jkozDSlxq6SEc4CRonVe
 sidebar_position: 4
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - llm 幻觉
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - create_user()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_user()
 
-此操作使用密码创建用户。
+此操作使用密码创建一个用户。
 
 ## 请求语法\{#request-syntax}
 

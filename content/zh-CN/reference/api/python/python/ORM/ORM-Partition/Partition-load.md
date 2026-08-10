@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将当前分区的数据加载到内存中。 | Python | ORM"
+description: "此操作会将当前 Partition 的数据加载到内存中。 | Python | ORM"
 type: docx
 token: TWxddf6iboyM15xK4Kzc8ASknRb
 sidebar_position: 6
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - 托管式 Milvus
+  - Serverless 向量 Database
+  - Milvus 开源
+  - Milvus 的工作原理
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - load()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # load()
 
-此操作会将当前分区的数据加载到内存中。
+此操作会将当前 Partition 的数据加载到内存中。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 在 **[Collection](./ORM-Collection)** 对象的 **load()** 方法中使用 **partition_names** 参数，等同于对相应的 **[Partition](./ORM-Partition)** 对象使用 **load()** 方法。
 
@@ -52,7 +52,7 @@ load(
 
 - **replica_number** (*int*)
 
-    要在当前分区中加载的副本数量。默认值为 **1**，表示加载当前分区中的一个副本。
+    要在当前 Partition 中加载的副本数。默认值为 **1**，表示加载当前 Partition 中的一个副本。
 
 - **timeout** (*float* | *None*)  
 
@@ -70,7 +70,7 @@ load(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时引发。
+    当此操作期间发生任何错误时，会引发此异常。
 
 ## 示例\{#examples}
 

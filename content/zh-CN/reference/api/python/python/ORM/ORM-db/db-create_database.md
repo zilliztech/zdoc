@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作使用提供的数据库名称创建数据库。 | Python | ORM"
+description: "此操作使用提供的 Database 名称创建 Database。 | Python | ORM"
 type: docx
 token: G4Ftde3kxoHAJbxVNXncI7mpngb
 sidebar_position: 1
 keywords: 
-  - approximate nearest neighbor search
+  - 近似最近邻搜索
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - 稀疏向量
+  - 向量维度
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - create_database()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_database()
 
-此操作使用提供的数据库名称创建数据库。
+此操作使用提供的 Database 名称创建 Database。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,7 +49,7 @@ create_database(
 
     **[必需]**
 
-    要创建的数据库名称。
+    要创建的 Database 的名称。
 
 - **using** (*string*) -
 
@@ -63,7 +63,7 @@ create_database(
 
 None
 
-**返回：**
+**返回值：**
 
 None
 

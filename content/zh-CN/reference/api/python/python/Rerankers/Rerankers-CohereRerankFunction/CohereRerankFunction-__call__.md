@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "CohereRerankFunction 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序的前 k 个文档。 | Python"
+description: "CohereRerankFunction 中的此操作接收查询和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。| Python"
 type: docx
 token: M7pWdbu8foKkJAxY3uBcMfHrnrh
 sidebar_position: 2
 keywords: 
-  - Vector search
-  - knn algorithm
+  - 向量搜索
+  - knn 算法
   - HNSW
-  - What is unstructured data
+  - 什么是非结构化数据
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - \_\_call\_\_()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # \_\_call\_\_()
 
-[CohereRerankFunction](./Rerankers-CohereRerankFunction) 中的此操作接收查询字符串和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序的前 k 个文档。
+[CohereRerankFunction](./Rerankers-CohereRerankFunction) 中的此操作接收查询和文档字符串，并返回一个 `RerankResult` 对象列表，其中包含按分数排序后的前 k 个文档。
 
 ## 请求语法\{#request-syntax}
 
@@ -59,7 +59,7 @@ cohere_rf(
 
 - `top_k` (*int*)
 
-    要返回的排名最高文档的最大数量。默认为 **5**。
+    返回的排序结果中排名最高的文档数量上限。默认为 **5**。
 
 **返回类型：**
 
@@ -80,7 +80,7 @@ cohere_rf(
 
 - `text`：匹配到的文档文本。
 
-- `score`：重排模型为该文档分配的分数。
+- `score`：重排序模型为该文档分配的分数。
 
 - `index`：该文档在原始 documents 列表中的索引。
 
@@ -88,7 +88,7 @@ cohere_rf(
 
 - **ImportError**
 
-    当未安装 Cohere 模块时，将引发此异常。
+    未安装 Cohere 模块时将引发此异常。
 
 ## 示例\{#examples}
 

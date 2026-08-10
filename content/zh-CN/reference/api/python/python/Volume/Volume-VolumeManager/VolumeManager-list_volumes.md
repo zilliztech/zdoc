@@ -7,18 +7,18 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "新增 projectid 和 volumetype 过滤。 | Python"
+description: "添加 projectid 和 volumetype 过滤。 | Python"
 type: docx
 token: SyiHdehPHoO4l4x11tqcjzpOnLd
 sidebar_position: 4
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - openai 向量数据库
+  - 自然语言处理 Database
+  - 低成本向量 Database
+  - 托管向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_volumes()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_volumes()
 
-新增 `project_id` 和 `volume_type` 过滤。
+添加 project_id 和 volume_type 过滤。
 
 ## 请求语法\{#request-syntax}
 
@@ -47,8 +47,8 @@ list_volumes(
 **参数：**
 
 - **project_id** (*str*) -<br/>
-  **[必需]**<br/>
-  要列出其 volumes 的 Zilliz Cloud 项目 ID。
+  **[REQUIRED]**<br/>
+  要列出其卷的 Zilliz Cloud 项目 ID。
 
 - **current_page** (*int*) -<br/>
   默认值：`1`<br/>
@@ -56,28 +56,28 @@ list_volumes(
 
 - **page_size** (*int*) -<br/>
   默认值：`10`<br/>
-  每页返回的 volume 最大数量。
+  每页返回的最大卷数。
 
 - **volume_type** (*Optional[str]*) -<br/>
   默认值：`None`<br/>
-  用于过滤结果的 volume 类型。支持的值为 `MANAGED` 和 `EXTERNAL`。
+  用于筛选结果的卷类型。支持的值为 `MANAGED` 和 `EXTERNAL`。
 
 **返回类型：**
 
 *requests.Response*
 
-**返回：**
+**返回值：**
 
-包含该项目一页 volumes 的 HTTP 响应。
+包含该项目一页卷信息的 HTTP 响应。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
+  当服务器拒绝该请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
 
 ## 示例\{#examples}
 
-以下示例演示了 list volumes 的用法。
+该示例演示了 list volumes 的用法。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

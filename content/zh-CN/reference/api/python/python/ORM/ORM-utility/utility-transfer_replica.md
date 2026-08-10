@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作在资源组之间转移指定数量的副本。 | Python | ORM"
+description: "此操作用于在资源组之间转移指定数量的副本。 | Python | ORM"
 type: docx
 token: SuePdciB0o4du5xtpIhcMVyYnPb
 sidebar_position: 40
 keywords: 
   - ANNS
-  - Vector search
-  - knn algorithm
+  - 向量搜索
+  - knn 算法
   - HNSW
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - transfer_replica()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # transfer_replica()
 
-此操作在资源组之间转移指定数量的副本。
+此操作用于在资源组之间转移指定数量的副本。
 
 ## 请求语法\{#request-syntax}
 
@@ -52,17 +52,17 @@ transfer_replica(
 
     **[必需]**
 
-    要从中迁移查询节点的源资源组名称。
+    要从中移出查询节点的源资源组名称。
 
-    如果将其设置为不存在的资源组，将导致 **MilvusException**。
+    如果将其设置为不存在的资源组，则会导致 **MilvusException**。
 
 - **target_group** (*str*) -
 
     **[必需]**
 
-    要将查询节点迁移到的源资源组名称。
+    要将查询节点移入的源资源组名称。
 
-    如果将其设置为不存在的资源组，将导致 **MilvusException**。
+    如果将其设置为不存在的资源组，则会导致 **MilvusException**。
 
 - **num_replicas** (*int*) -
 
@@ -70,21 +70,21 @@ transfer_replica(
 
     在源资源组和目标资源组之间移动的副本数量。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Note">
 
     什么是副本？
     
-        通过副本，Zilliz Cloud 可以在多个查询节点上加载相同的 segment。如果某个查询节点发生故障，或者在另一个搜索请求到达时正忙于处理当前搜索请求，系统可以将新请求发送到拥有相同 segment 副本的空闲查询节点。 
+        借助副本，Zilliz Cloud 可以在多个查询节点上加载相同的 Segment。如果某个查询节点发生故障，或者在另一个搜索请求到达时正忙于处理当前搜索请求，系统可以将新请求发送到拥有相同 Segment 副本的空闲查询节点。
     
-        副本按副本组进行组织。每个副本组都包含 [shard](https://milvus.io/docs/v2.1.x/glossary.md#Sharding) 副本。每个 shard 副本都有一个流式副本和一个历史副本，分别对应 shard 中正在增长的和已封存的 [segments](https://milvus.io/docs/v2.1.x/glossary.md#Segment)。
+        副本以副本组的形式组织。每个副本组包含 [shard](https://milvus.io/docs/v2.1.x/glossary.md#Sharding) 副本。每个 shard 副本都有一个流式副本和一个历史副本，分别对应 shard 中正在增长和已封存的 [Segment](https://milvus.io/docs/v2.1.x/glossary.md#Segment)。
     
-        Shard 可以视为分布式数据写入操作中的 DML 通道，用于在多个节点之间充分利用 Zilliz Cloud 集群的并行计算能力。
+        Shards 可视为多个节点之间进行分布式数据写入操作的 DML 通道，从而最大化发挥 Zilliz Cloud 集群的并行计算潜力。
 
     </Admonition>
 
 - **using** (*str*) - 
 
-    所使用连接的别名。
+    所用连接的别名。
 
     默认值为 **default**，表示此操作使用默认连接。
 
@@ -96,9 +96,9 @@ transfer_replica(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
-无。
+None。
 
 **异常：**
 

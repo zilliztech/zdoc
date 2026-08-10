@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "一个 FunctionScore 实例以可配置的方式组合多个 Function](./MilvusClient-Function)。您可以将 FunctionScore 实例用作排序器，以组合多个重排序 [Function。 | Python | MilvusClient"
+description: "FunctionScore 实例以可配置的方式组合多个 Function](./MilvusClient-Function)s。您可以将 FunctionScore 实例用作排序器，以组合多个重排序 [Functions. | Python | MilvusClient"
 type: docx
 token: PfJNdkuMDoCqqcxm6S2cDD6TnFh
 sidebar_position: 13
@@ -18,7 +18,7 @@ keywords:
   - 什么是向量嵌入
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - FunctionScore
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -37,7 +37,7 @@ import Admonition from '@theme/Admonition';
 class pymilvus.FunctionScore
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
 构造一个 **FunctionScore** 实例，以可配置的方式组合多个 **[Function](./MilvusClient-Function)**。
 
@@ -48,11 +48,11 @@ FunctionScore(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **functions** (*[Function](./MilvusClient-Function)*, *List[[Function](./MilvusClient-Function)]*) -
 
-    要在当前 FunctionScore 实例中进行组合的一个 Function 实例或一个 Function 实例列表。
+    一个 Function 实例，或要在当前 FunctionScore 实例中组合的 Function 实例列表。
 
 - **params** (*Dict*) -  
 
@@ -60,17 +60,17 @@ FunctionScore(
 
     - **boost_mode** (*str*) - 
 
-        指定所设定权重如何影响任何匹配实体的分数。可能的值包括：
+        指定所设置的权重如何影响任何匹配 Entity 的分数。可能的值包括：
 
         - `Multiply`
 
-            表示加权值等于匹配实体的原始分数乘以指定权重。 
+            表示加权值等于匹配 Entity 的原始分数乘以指定权重。
 
             这是默认值。
 
         - `Sum`
 
-            表示加权值等于匹配实体的原始分数与指定权重之和
+            表示加权值等于匹配 Entity 的原始分数与指定权重之和
 
     - **function_mode** (*str*) -
 
@@ -78,23 +78,23 @@ FunctionScore(
 
         - `Multiply`
 
-            表示匹配实体的最终分数等于所有 Boost Ranker 的加权值乘积。
+            表示匹配 Entity 的最终分数等于所有 Boost Ranker 的加权值之积。
 
             这是默认值。
 
         - `Sum`
 
-            表示匹配实体的最终分数等于所有 Boost Ranker 的加权值之和。
+            表示匹配 Entity 的最终分数等于所有 Boost Ranker 的加权值之和。
 
-    **RETURN TYPE:**
+    **返回类型：**
 
     *FunctionScore*
 
-    **RETURNS:**
+    **返回值：**
 
-    按配置方式组合的 Function 集合
+    按配置方式组合的一组 Function
 
-    ## Examples\{#examples}
+    ## 示例\{#examples}
 
     ```python
     from pymilvus import Function, FunctionType, FunctionScore

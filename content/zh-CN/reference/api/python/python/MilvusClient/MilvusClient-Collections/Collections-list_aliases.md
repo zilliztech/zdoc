@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出特定 collection 的所有现有别名。 | Python | MilvusClient"
+description: "此操作列出特定 Collection 的所有现有别名。 | Python | MilvusClient"
 type: docx
 token: Cpynd2OFJoIXhLx3dQNct7Wgn6f
 sidebar_position: 16
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
+  - 向量相似性搜索
+  - 近似最近邻搜索
   - DiskANN
-  - Sparse vector
+  - 稀疏向量
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - list_aliases()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # list_aliases()
 
-此操作列出特定 collection 的所有现有别名。
+此操作列出特定 Collection 的所有现有别名。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法适用于专用服务集群和按需计算。
+此方法适用于 dedicated serving cluster 和按需计算。
 
-- 对于服务集群中的 collection，请使用集群端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于 serving cluster 中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的 collection，请使用项目端点创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的 Collection，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -68,21 +68,21 @@ list_aliases(
 
     **[必需]**
 
-    要列出其别名的 collection 名称。
+    要列出其别名的 Collection 名称。
 
 - **timeout** (*float* | *None*)  
 
     此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任意响应或发生任何错误时，此操作即超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *dict*
 
-**返回：**
+**返回值：**
 
-一个字典，包含分配给指定 collection 的别名列表。
+一个字典，包含分配给指定 Collection 的别名列表。
 
 ```python
 {
@@ -98,25 +98,25 @@ list_aliases(
 
 - **aliases** (*list*) -
 
-    分配给指定 collection 的别名列表。
+    分配给指定 Collection 的别名列表。
 
 - **collection_name** (*str*) -
 
-    指定的 collection 名称。
+    指定的 Collection 名称。
 
 - **db_name** (*str*) -
 
-    指定 collection 所属数据库的名称。
+    指定 Collection 所属的 Database 名称。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 - **BaseException**
 
-    当此操作失败时，将引发此异常。
+    此操作失败时，将引发此异常。
 
 ## 示例\{#example}
 

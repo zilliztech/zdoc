@@ -12,10 +12,10 @@ type: docx
 token: SeFLdfKVjoGX8Xx11e3cmkY4n7g
 sidebar_position: 1
 keywords: 
-  - Annoy vector search
+  - Annoy 向量搜索
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus 向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -45,7 +45,7 @@ encode_documents(
 
 - **documents** (*List[str]*)
 
-    字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的文档。模型会为列表中的每个字符串生成一个嵌入向量。
+    字符串值列表，其中每个字符串表示一个将传递给嵌入模型进行编码的文档。模型将为列表中的每个字符串生成一个嵌入向量。
 
 **返回类型：**
 

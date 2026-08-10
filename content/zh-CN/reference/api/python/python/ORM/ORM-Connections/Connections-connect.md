@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作使用提供的别名、地址和身份验证参数来建立与 Zilliz Cloud 集群的连接。 | Python | ORM"
+description: "此操作使用提供的别名、地址和身份验证参数，建立与 Zilliz Cloud 集群的连接。 | Python | ORM"
 type: docx
 token: KzCXdTVVSoOmkbxuFjsccDlXnff
 sidebar_position: 2
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - 降维
+  - hnsw 算法
+  - 向量相似性搜索
+  - 近似最近邻搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - connect()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # connect()
 
-此操作使用提供的别名、地址和身份验证参数来建立与 Zilliz Cloud 集群的连接。
+此操作使用提供的别名、地址和身份验证参数，建立与 Zilliz Cloud 集群的连接。
 
 ## 请求语法\{#request-syntax}
 
@@ -50,15 +50,15 @@ connect(
 
 - **alias** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
     连接别名。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Notes">
 
-    - 如果指定的连接别名不存在，则会新增一个，并将下面指定的参数添加为该连接别名的参数。
+    - 如果指定的连接别名不存在，将添加一个新的别名，并将下方指定的参数添加为该连接别名的参数。
     
-    - 如果指定的连接别名已通过调用 **add_connection()** 添加，则下面指定的参数会覆盖该连接别名原有的参数。
+    - 如果指定的连接别名已通过 **add_connection()** 添加，则下方指定的参数会覆盖该连接别名原有的参数。
 
     </Admonition>
 
@@ -76,19 +76,19 @@ connect(
 
 - **db_name** (*string*) -
 
-    目标 Milvus 实例所属数据库的名称。
+    目标 Milvus 实例所属的 Database 名称。
 
 - **token** (*string*) -
 
-    用于访问指定 Zilliz Cloud 集群的有效访问令牌。此参数可替代分别设置 **user** 和 **password**。
+    用于访问指定 Zilliz Cloud 集群的有效访问令牌。可作为分别设置 **user** 和 **password** 的替代方式。
 
     设置此字段时，请注意：
 
-    有效的 token 应当是以下之一：
+    有效的令牌应满足以下任一条件：
 
-    - 具有足够权限的 API key，或
+    - 具有足够权限的 API 密钥，或
 
-    - 用于访问目标集群的一组用户名和密码，并以冒号 (:) 连接。例如，你可以将其设置为 `username:p@ssw0rd`。
+    - 用于访问目标集群的一组用户名和密码，并使用冒号（:）连接。例如，您可以将其设置为 `username:p@ssw0rd`。
 
 - **kwargs** (*dict*) -
 
@@ -96,63 +96,63 @@ connect(
 
     - **address** (*string*) -
 
-        要连接的实际地址。示例地址：**YOUR_CLUSTER_ENDPOINT**。
+        实际连接地址。示例地址：**YOUR_CLUSTER_ENDPOINT**。
 
     - **uri** (*string*) -
 
-        Zilliz Cloud 集群的 URI。例如：**`https://in01-&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540`**。
+        Zilliz Cloud 集群的 URI。例如：**https://in01-&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;&ast;.aws-us-west-2.vectordb-uat3.zillizcloud.com:19540**.
 
     - **host** (*string*) -
 
-        Zilliz Cloud 集群的主机地址。该值默认为 **localhost**；如果仅提供 **port**，PyMilvus 会填入默认主机地址。
+        Zilliz Cloud 集群的主机名。该值默认为 **localhost**；如果仅提供 **port**，PyMilvus 将填充默认主机名。
 
     - **port** (*string | int*) -
 
-        Zilliz Cloud 集群监听的端口。该值默认为 **19530**；如果仅提供 **host**，PyMilvus 会填入默认端口。
+        Zilliz Cloud 集群监听的端口。该值默认为 **19530**；如果仅提供 **host**，PyMilvus 将填充默认端口。
 
     - **secure** (*bool*) -
 
-        一个布尔值，表示连接中是否使用 TLS。
+        布尔值，用于指示连接中是否使用 TLS。
 
     - **client_key_path** (*string*) -
 
-        指向有效 **client.key** 文件的路径，用于客户端侧的 TLS 证书验证。
+        客户端侧 TLS 证书验证所需的有效 **client.key** 文件路径。
 
         当使用自签名 TLS 证书或由未知颁发机构签名的证书时，此参数是必需的。
 
-        如适用，此参数应与 **client_pem_path**、**ca_pem_path**、**server_pem_path** 和 **server_name** 一起使用。
+        如适用，此参数应与 **client_pem_path**、**ca_pem_path**、**server_pem_path** 和 **server_name** 配合使用。
 
     - **client_pem_path** (*string*) -
 
-        指向有效 **client.pem** 文件的路径，用于客户端侧的 TLS 证书验证。
+        客户端侧 TLS 证书验证所需的有效 **client.pem** 文件路径。
 
         当使用自签名 TLS 证书或由未知颁发机构签名的证书时，此参数是必需的。
 
-        如适用，此参数应与 **client_key_path**、**ca_pem_path**、**server_pem_path** 和 **server_name** 一起使用。
+        如适用，此参数应与 **client_key_path**、**ca_pem_path**、**server_pem_path** 和 **server_name** 配合使用。
 
     - **ca_pem_path** (*string*) -
 
-        指向有效 **ca.pem** 文件的路径，用于 TLS 证书验证。
+        用于 TLS 证书验证的有效 **ca.pem** 文件路径。
 
         当使用自签名 TLS 证书或由未知颁发机构签名的证书时，此参数是必需的。
 
-        如适用，此参数应与 **client_key_path**、**client_pem_path**、**server_pem_path** 和 **server_name** 一起使用。
+        如适用，此参数应与 **client_key_path**、**client_pem_path**、**server_pem_path** 和 **server_name** 配合使用。
 
     - **server_pem_path** (*string*) -
 
-        指向有效 **server.pem** 文件的路径，用于服务端侧的 TLS 证书验证。
+        服务器侧 TLS 证书验证所需的有效 **server.pem** 文件路径。
 
         当使用自签名 TLS 证书或由未知颁发机构签名的证书时，此参数是必需的。
 
-        如适用，此参数应与 **client_key_path**、**client_pem_path**、**ca_pem_path** 和 **server_name** 一起使用。
+        如适用，此参数应与 **client_key_path**、**client_pem_path**、**ca_pem_path** 和 **server_name** 配合使用。
 
     - **server_name** (*string*) -
 
-        指向有效服务器名称的路径，用于服务端侧的 TLS 证书验证。
+        服务器侧 TLS 证书验证所需的有效服务器名称路径。
 
         当使用自签名 TLS 证书或由未知颁发机构签名的证书时，此参数是必需的。
 
-        如适用，此参数应与 **client_key_path**、**client_pem_path**、**ca_pem_path** 和 **server_pem_path** 一起使用。
+        如适用，此参数应与 **client_key_path**、**client_pem_path**、**ca_pem_path** 和 **server_pem_path** 配合使用。
 
 **返回类型：**
 
@@ -164,17 +164,17 @@ None
 
 ## 异常\{#exceptions}
 
-- **NotImplementedError**:
+- **NotImplementedError**：
 
     当 handler 参数值不是 GRPC 时，将引发此异常。
 
-- **ParamError**: 
+- **ParamError**：
 
-    当为 pool 参数传入不受支持的值时，将引发此异常。
+    当为 pool 参数传入不支持的值时，将引发此异常。
 
-- **Exception**: 
+- **Exception**：
 
-    当连接参数中指定的服务器不可达/未就绪，且客户端无法连接到该服务器时，将引发此异常。
+    当连接参数中指定的服务器不可达/ready且客户端无法连接到该服务器时，将引发此异常。
 
 ## 示例\{#examples}
 

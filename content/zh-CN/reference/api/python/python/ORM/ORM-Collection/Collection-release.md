@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将当前 collection 的数据从内存中释放。 | Python | ORM"
+description: "此操作会将当前 Collection 的数据从内存中释放。 | Python | ORM"
 type: docx
 token: CBwkdDs7MoKkVKx0kJgcPUNxn6s
 sidebar_position: 24
 keywords: 
   - ANNS
-  - Vector search
-  - knn algorithm
+  - 向量搜索
+  - knn 算法
   - HNSW
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - release()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # release()
 
-此操作会将当前 collection 的数据从内存中释放。
+此操作会将当前 Collection 的数据从内存中释放。
 
 ## 请求语法\{#request-syntax}
 

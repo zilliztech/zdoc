@@ -7,15 +7,15 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将快照数据固定一段时间，以便在导出或备份文件期间，垃圾回收不会将其删除。 | Python | MilvusClient"
+description: "此操作会在一段时间内固定快照数据，以便您在导出或备份文件时，垃圾回收不会将其删除。 | Python | MilvusClient"
 type: docx
 token: NqWDdRxKYoi6uTxHaYEcafx9nGc
 sidebar_position: 7
 keywords: 
   - milvus
   - Zilliz
-  - milvus vector database
-  - milvus db
+  - milvus 向量 Database
+  - milvus 数据库
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # pin_snapshot_data()
 
-此操作会将快照数据固定一段时间，以便在导出或备份文件期间，垃圾回收不会将其删除。
+此操作会在一段时间内固定快照数据，以便您在导出或备份文件时，垃圾回收不会将其删除。
 
 ## 请求语法\{#request-syntax}
 
@@ -55,19 +55,19 @@ pin_snapshot_data(
 
 - **collection_name** (*str*) -
 
-    拥有该快照的集合。
+    拥有该快照的 Collection。
 
 - **db_name** (*str*) -
 
-    数据库名称。留空则使用当前活动数据库。
+    Database 名称。留空则使用当前活动的 Database。
 
 - **ttl_seconds** (*int*) -
 
-    固定生存时间（秒）。`0` 表示使用服务器默认 TTL。
+    固定的存活时间（秒）。`0` 将使用服务器默认 TTL。
 
 - **timeout** (*Optional[float]*) -
 
-    此操作的超时时间（秒）。
+    此操作的超时时间，单位为秒。
 
 - **kwargs** (*dict*) -
 

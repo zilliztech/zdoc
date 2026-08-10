@@ -7,15 +7,15 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将指定 collection 的数据从内存中释放。 | Python | MilvusClient"
+description: "此操作会从内存中释放指定 Collection 的数据。 | Python | MilvusClient"
 type: docx
 token: PRR7dRfi8o1s61xFRovccAdRnHe
 sidebar_position: 13
 keywords: 
-  - 什么是向量数据库
+  - 什么是向量 Database
   - vectordb
-  - 多模态向量数据库检索
-  - 检索增强生成
+  - 多模态向量 Database 检索
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # release_collection()
 
-此操作会将指定 collection 的数据从内存中释放。
+此操作会从内存中释放指定 Collection 的数据。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管 collection。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -54,19 +54,19 @@ release_collection(
 
     **[必需]**
 
-    collection 的名称。
+    Collection 的名称。
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。
+    此操作的超时时长。 
 
-    将其设置为 **None** 表示此操作会在返回任意响应或发生错误时超时。
+    将其设置为 **None** 表示当返回任意响应或发生错误时，此操作超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 
@@ -74,7 +74,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，都会引发此异常。
 
 ## 示例\{#examples}
 
@@ -86,13 +86,13 @@ client = MilvusClient(
     token="user:password"
 )
 
-# 1. 创建 schema
+# 1. Create schema
 schema = MilvusClient.create_schema(
     auto_id=False,
     enable_dynamic_field=False,
 )
 
-# 2. 向 schema 添加字段
+# 2. Add fields to schema
 schema.add_field(field_name="my_id", datatype=DataType.INT64, is_primary=True)
 
 # {
@@ -133,16 +133,16 @@ schema.add_field(field_name="my_vector", datatype=DataType.FLOAT_VECTOR, dim=5)
 #     ]
 # }
 
-# 3. 创建 collection
+# 3. Create a collection
 client.create_collection(
     collection_name="customized_setup",
     schema=schema
 )
 
-# 4. 准备索引参数
+# 4. Prepare index parameters
 index_params = client.prepare_index_params()
 
-# 5. 添加索引
+# 5. Add indexes
 index_params.add_index(
     field_name="my_id",
     index_type="STL_SORT"
@@ -155,30 +155,30 @@ index_params.add_index(
     params={nlist: 1024}
 )
 
-# 6. 创建索引
+# 6. Create indexes
 client.create_index(
     collection_name="customized_setup",
     index_params=index_params
 )
 
-# 7. 加载 collection
+# 7. Load the collection
 client.load_collection(
     collection_name="customized_setup"
 )
 
-# 8. 获取加载状态
+# 8. Get load status
 client.get_load_state(
     collection_name="customized_setup",
 ) # Loaded
 
 # {'state': <LoadState: Loaded>}
 
-# 9. 释放 collection
+# 9. Release the collection
 client.release_collection(
     collection_name="customized_setup"
 )
 
-# 10. 获取加载状态
+# 10. Get load status
 client.get_load_state(
     collection_name="customized_setup"
 ) # Unloaded

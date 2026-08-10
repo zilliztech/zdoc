@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从集合中删除一个现有函数。 | Python | MilvusClient"
+description: "此操作会从 Collection 中删除现有函数。 | Python | MilvusClient"
 type: docx
 token: F1mJdDLyzoMTrxxarPMcqPkqnqg
 sidebar_position: 24
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - RAG LLM 架构
+  - 私有 LLM
+  - 近邻搜索
+  - LLM 评估
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - drop_collection_function()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # drop_collection_function()
 
-此操作从集合中删除一个现有函数。
+此操作会从 Collection 中删除现有函数。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此操作不适用于外部集合。
+这不适用于外部 Collection。
 
 </Admonition>
 
@@ -56,7 +56,7 @@ client.drop_collection_function(
 
     **[必需]**
 
-    集合名称。
+    Collection 的名称。
 
 - **function_name** (*str*) -
 
@@ -66,7 +66,7 @@ client.drop_collection_function(
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时间。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 - **kwargs** (*dict*) -
 
@@ -80,7 +80,7 @@ client.drop_collection_function(
 
 - **MilvusException**
 
-    当此操作过程中发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#example}
 

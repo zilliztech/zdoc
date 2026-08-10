@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将在目标集合中创建一个分区。 | Python | MilvusClient"
+description: "此操作会在目标 Collection 中创建一个 Partition。 | Python | MilvusClient"
 type: docx
 token: I6hvdlYUuoUaw3xWqSnce4Fin9g
 sidebar_position: 1
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - openai 向量数据库
+  - 自然语言处理 Database
+  - 低成本向量 Database
+  - 托管向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - create_partition()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # create_partition()
 
-此操作将在目标集合中创建一个分区。
+此操作会在目标 Collection 中创建一个 Partition。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管集合。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -55,19 +55,19 @@ create_partition(
 
     **[必需]**
 
-    现有集合的名称。
+    现有 Collection 的名称。
 
 - **partition_name** (*string*)
 
     **[必需]**
 
-    要创建的分区名称。
+    要创建的 Partition 的名称。
 
 - **timeout** (*float* | *None*)  
 
     此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作才会超时。
 
 **返回类型：**
 
@@ -75,7 +75,7 @@ create_partition(
 
 **返回：**
 
-一个分区对象。
+一个 Partition 对象。
 
 **异常：**
 

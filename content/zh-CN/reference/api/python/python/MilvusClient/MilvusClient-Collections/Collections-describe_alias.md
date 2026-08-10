@@ -12,13 +12,13 @@ type: docx
 token: HN7nddgueo3scIxmPXAcpjkFnDf
 sidebar_position: 8
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - Agentic RAG
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - describe_alias()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作显示别名的详细信息。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法适用于专用服务集群和按需计算。
+此方法适用于 Dedicated 服务集群和按需计算。
 
-- 对于服务集群中的 collection，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于服务集群中的 Collection，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的 collection，请使用项目 endpoints 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 对于按需计算中的 Collection，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -68,15 +68,15 @@ describe_alias(
 
     **[必需]**
 
-    collection 的别名。
+    Collection 的别名。
 
-    在执行此操作之前，请确保该别名已存在。否则将发生异常。
+    执行此操作前，请确保该别名已存在。否则将引发异常。
 
 - **timeout** (*float* | *None*)  
 
     此操作的超时时长。
 
-    将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
@@ -102,21 +102,21 @@ describe_alias(
 
 - **collection_name** (*str*) -
 
-    绑定的 collection 名称。
+    绑定的 Collection 名称。
 
 - **db_name** (*str*) -
 
-    绑定的 collection 所属的数据库。
+    绑定的 Collection 所属的 Database。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时将引发此异常，尤其是在你将 `alias` 设置为不存在的别名时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在您将 `alias` 设置为不存在的别名时。
 
 - **BaseException**
 
-    当此操作失败时将引发此异常。
+    当此操作失败时，将引发此异常。
 
 ## 示例\{#example}
 

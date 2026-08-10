@@ -7,14 +7,14 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会对 CollectionSchema 执行最终验证检查，以发现任何明显的问题。 | Python | MilvusClient"
+description: "此操作对 CollectionSchema 执行最终验证检查，以检测任何明显的问题。 | Python | MilvusClient"
 type: docx
 token: TfV3dOYPyoKVSMxShrTc9SZ2nqh
 sidebar_position: 5
 keywords: 
   - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - 语义搜索
+  - 异常检测
   - sentence transformers
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # verify()
 
-此操作会对 CollectionSchema 执行最终验证检查，以发现任何明显的问题。
+此操作对 CollectionSchema 执行最终验证检查，以检测任何明显的问题。
 
 ## 请求语法\{#request-syntax}
 
@@ -55,7 +55,7 @@ verify()
 
 - **MilvusException**
 
-    当此操作执行过程中发生任何错误时，将引发此异常。
+    当此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

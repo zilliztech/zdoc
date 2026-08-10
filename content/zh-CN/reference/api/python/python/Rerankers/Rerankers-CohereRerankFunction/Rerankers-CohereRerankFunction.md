@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "CohereRerankFunction 是 milvusmodel 中的一个类，它接收查询和文档作为输入，并直接返回相似度分数而不是 embeddings。此功能使用底层的 Cohere 重排模型。 | Python"
+description: "CohereRerankFunction 是 milvusmodel 中的一个类，它将 query 和 document 作为输入，并直接返回相似度分数而不是 embeddings。此功能使用底层的 Cohere 重排模型。 | Python"
 type: docx
 token: GAWOdft83oZPvHxtxzZcjrQunGg
 sidebar_position: 1
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - RAG 向量 Database
+  - 什么是向量数据库
+  - 什么是向量 Database
+  - 向量 Database 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - CohereRerankFunction
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # CohereRerankFunction
 
-**CohereRerankFunction** 是 [milvus_model](https://github.com/milvus-io/milvus-model) 中的一个类，它接收查询和文档作为输入，并直接返回相似度分数而不是 embeddings。此功能使用底层的 Cohere 重排模型。
+**CohereRerankFunction** 是 [milvus_model](https://github.com/milvus-io/milvus-model) 中的一个类，它将 query 和 document 作为输入，并直接返回相似度分数而不是 embeddings。此功能使用底层的 Cohere 重排模型。
 
 ```python
 pymilvus.model.reranker.CohereRerankFunction
@@ -39,7 +39,7 @@ pymilvus.model.reranker.CohereRerankFunction
 
 ## 构造函数\{#constructor}
 
-为常见使用场景构造一个 CohereRerankFunction。
+为常见用例构造一个 CohereRerankFunction。
 
 ```python
 CohereRerankFunction(
@@ -52,7 +52,7 @@ CohereRerankFunction(
 
 - **model_name** (*string*)
 
-    要使用的模型名称。您可以指定任何可用的 Cohere 重排模型名称，例如 `rerank-english-v3.0`、`rerank-multilingual-v3.0` 等。如果您未指定此参数，则将使用 `rerank-english-v2.0`。可用模型列表请参见 [Rerank](https://docs.cohere.com/docs/rerank-2)。
+    要使用的模型名称。您可以指定任何可用的 Cohere 重排器模型名称，例如 `rerank-english-v3.0`、`rerank-multilingual-v3.0` 等。如果您未指定此参数，将使用 `rerank-english-v2.0`。有关可用模型的列表，请参见 [Rerank](https://docs.cohere.com/docs/rerank-2)。
 
 - **api_key** (*string*)
 

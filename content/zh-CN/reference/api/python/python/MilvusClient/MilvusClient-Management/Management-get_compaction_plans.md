@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回特定压缩作业的压缩计划，包括显示哪些段将被合并的合并计划。 | Python | MilvusClient"
+description: "此操作返回特定 Compaction 作业的 Compaction 计划，包括显示哪些 Segment 将被合并的合并计划。 | Python | MilvusClient"
 type: docx
 token: Qa8ZdRkOKocH60xujcLcOxuBnkh
 sidebar_position: 18
 keywords: 
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - 什么是非结构化数据
+  - 向量嵌入
+  - 向量存储
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # get_compaction_plans()
 
-此操作返回特定压缩作业的压缩计划，包括显示哪些段将被合并的合并计划。
+此操作返回特定 Compaction 作业的 Compaction 计划，包括显示哪些 Segment 将被合并的合并计划。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管集合。
+这仅适用于托管 Collection。
 
 </Admonition>
 
@@ -54,7 +54,7 @@ client.get_compaction_plans(
 
     **[必需]**
 
-    由 `compact()` 返回的压缩作业 ID。
+    由 `compact()` 返回的 Compaction 作业 ID。
 
 - **timeout** (*float* | *None*) -
 

@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检查集合是否存在。 | Python | ORM"
+description: "此操作用于检查 Collection 是否存在。 | Python | ORM"
 type: docx
 token: TWOxdwDYRo4CCHxDdZbc7IOznCg
 sidebar_position: 17
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz 向量 Database
+  - Zilliz Database
+  - 非结构化数据
+  - 向量 Database
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - has_collection()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # has_collection()
 
-此操作检查集合是否存在。
+此操作用于检查 Collection 是否存在。
 
 ## 请求语法\{#request-syntax}
 
@@ -47,8 +47,8 @@ has_collection(
 
 - **collection_name** (*str*) -
 
-    **[必需]**
-    现有集合的名称。
+    **[必填]**
+    现有 Collection 的名称。
 
 - **using** (*str*) - 
 
@@ -58,20 +58,20 @@ has_collection(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作才会超时。
 
 **返回类型：**
 
 *bool*
 
-**返回：**
-一个布尔值，表示指定的分区是否存在。
+**返回值：**
+一个布尔值，表示指定的 Partition 是否存在。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
 
 ## 示例\{#examples}
 

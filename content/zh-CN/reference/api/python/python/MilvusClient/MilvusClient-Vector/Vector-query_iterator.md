@@ -14,8 +14,8 @@ sidebar_position: 5
 keywords: 
   - RAG
   - NLP
-  - Neural Network
-  - Deep Learning
+  - 神经网络
+  - 深度学习
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 此操作以迭代方式使用指定的布尔表达式执行标量过滤。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-外部集合不支持此操作。
+外部 Collection 不支持此操作。
 
 </Admonition>
 
@@ -60,99 +60,99 @@ query_iterator(
 
     **[必填]**
 
-    现有 collection 的名称。
+    现有 Collection 的名称。
 
 - **batch_size** (*int*) -
 
-    每次迭代返回的实体数量。默认值为 1000。
+    每次迭代返回的 Entity 数量。默认值为 1000。
 
 - **limit** (*int*) -
 
-    要返回的实体总数。该参数值应小于 16,384。 
+    要返回的 Entity 总数。参数值应小于 16,384。
 
 - **filter** (*str*) -
 
     **[必填]**
 
-    用于筛选匹配实体的标量过滤条件。 
+    用于筛选匹配 Entity 的标量过滤条件。
 
-    您可以将此参数设置为空字符串以跳过标量过滤。有关构建标量过滤条件的更多信息，请参见[过滤概述](/docs/filtering-overview)。 
+    您可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参见 [过滤概述](/docs/filtering-overview)。
 
 - **output_fields** (*list[str]* | *None*) -
 
-    返回的每个实体中要包含的字段名列表。
+    返回的每个 Entity 中要包含的字段名称列表。
 
-    默认值为 **None**。
+    该值默认为 **None**。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Notes">
 
-    - 将其设置为 `output_fields=["\*"]` 会输出所有字段。
+    - 将其设置为 `output_fields=["\*"]` 时，会输出所有字段。
     
-    - 将其设置为 `output_fields=["count(\*)"]` 会输出与 **filter** 参数中指定条件匹配的已加载实体数量。 
+    - 将其设置为 `output_fields=["count(\*)"]` 时，会输出已加载且匹配 **filter** 参数中指定条件的 Entity。
 
     </Admonition>
 
 - **timeout** (*float* | *None*) -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 - **partition_names** (*list[str]* | *None*) -
 
-    分区名称列表。
+    Partition 名称列表。
 
-    默认值为 **None**。如果指定，则仅在指定分区中执行查询。
+    该值默认为 **None**。如果已指定，则仅在指定的 Partition 中执行查询。
 
 - **kwargs** -
 
     - **consistency_level** (*str* | *int*) -
 
-        目标 collection 的一致性级别。
+        目标 Collection 的一致性级别。
 
-        其值默认与创建当前 collection 时指定的值相同，可选值为 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
+        该值默认为您创建当前 Collection 时指定的值，可选项为 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" icon="📘" title="Note">
 
         什么是一致性级别？
         
-                在分布式数据库中，一致性特指这样一种属性：在给定时间写入或读取数据时，确保每个节点或副本对数据具有相同的视图。
+                在分布式 Database 中，一致性特指这样一种属性：在某一时刻写入或读取数据时，确保每个节点或副本看到的数据视图相同。
         
-                Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认设置为 **Bounded Staleness**。
+                Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认值为 **Bounded Staleness**。
         
-                您可以在执行向量相似性搜索或查询时轻松调整一致性级别，使其最适合您的应用程序。
+                在执行向量相似性搜索或查询时，您可以轻松调整一致性级别，使其最适合您的应用。
 
         </Admonition>
 
     - **guarantee_timestamp** (*int*) -
 
-        一个有效的时间戳。 
+        一个有效的时间戳。
 
-        如果设置了此参数，只有在该时间戳之前插入的所有实体对查询节点可见时，才会执行查询。 
+        如果设置了此参数，只有在该时间戳之前插入的所有 Entity 对查询节点可见时，才会执行查询。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" icon="📘" title="Notes">
 
-        当应用默认一致性级别时，此参数有效。
+        当使用默认一致性级别时，此参数有效。
 
         </Admonition>
 
     - **graceful_time** (*int*) -
 
-        一个以秒为单位的时间段。
+        以秒为单位的一段时间。
 
-        默认值为 **5**。如果设置了此参数，则会通过从当前时间戳中减去该值来计算保证时间戳。
+        该值默认为 **5**。如果设置了此参数，则通过从当前时间戳中减去该值来计算保证时间戳。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" icon="📘" title="Notes">
 
-        当应用的不是默认一致性级别时，此参数有效。
+        当使用非默认一致性级别时，此参数有效。
 
         </Admonition>
 
     - **offset** (*int*) -
 
-        查询结果中要跳过的记录数。 
+        查询结果中要跳过的记录数。
 
         您可以将此参数与 `limit` 结合使用以启用分页。
 
-        此值与 `limit` 的总和应小于 16,384。 
+        此值与 `limit` 的总和应小于 16,384。
 
     - **limit** (*int*) -
 
@@ -160,27 +160,27 @@ query_iterator(
 
         您可以将此参数与 `offset` 结合使用以启用分页。
 
-        此值与 `offset` 的总和应小于 16,384。 
+        此值与 `offset` 的总和应小于 16,384。
 
 **返回类型：**
 
 *QueryIterator*
 
-**返回：**
+**返回值：**
 
 一个 **QueryIterator** 实例，提供以下方法：
 
 - `next()`
 
-    此方法会以迭代方式返回一批实体。每次调用时，都会返回一组新的实体，直到取回最后一个实体为止。
+    此方法以迭代方式返回一批 Entity。每次调用时，都会返回一组新的 Entity，直到检索到最后一个 Entity。
 
 - `close()`
 
     此方法会关闭当前 **QueryIterator** 实例。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-如果返回的实体数量少于预期，您的 collection 中可能存在重复实体。
+如果返回的 Entity 数量少于预期，您的 Collection 中可能存在重复的 Entity。
 
 </Admonition>
 

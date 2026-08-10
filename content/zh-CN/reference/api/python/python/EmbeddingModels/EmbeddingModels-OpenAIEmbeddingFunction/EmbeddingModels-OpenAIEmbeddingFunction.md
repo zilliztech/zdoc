@@ -7,13 +7,13 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "OpenAIEmbeddingFunction 是 pymilvus 中的一个类，用于使用 OpenAI 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
+description: "OpenAIEmbeddingFunction 是 pymilvus 中的一个类，负责使用 OpenAI 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。 | Python"
 type: docx
 token: QPcodlsnAoSMvIxEFmlcMNPbntd
 sidebar_position: 3
 keywords: 
-  - Unstructured Data
-  - vector database
+  - 非结构化数据
+  - 向量 Database
   - IVF
   - knn
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # OpenAIEmbeddingFunction
 
-**OpenAIEmbeddingFunction** 是 pymilvus 中的一个类，用于使用 OpenAI 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
+**OpenAIEmbeddingFunction** 是 pymilvus 中的一个类，负责使用 OpenAI 模型将文本编码为嵌入，以支持在 Milvus 中进行嵌入检索。
 
 ```python
 pymilvus.model.dense.OpenAIEmbeddingFunction
@@ -55,23 +55,23 @@ OpenAIEmbeddingFunction(
 
 - **model_name** (*string*) -
 
-    要用于编码的 OpenAI 模型名称。有效选项包括 **text-embedding-3-small**、**text-embedding-3-large** 和 **text-embedding-ada-002**（默认）。
+    用于编码的 OpenAI 模型名称。有效选项包括 **text-embedding-3-small**、**text-embedding-3-large** 和 **text-embedding-ada-002**（默认值）。
 
 - **api_key** (*string*) -
 
-    用于访问 OpenAI API 的 API 密钥。如果未指定，代码会回退检查环境变量中的 API 密钥。
+    用于访问 OpenAI API 的 API 密钥。如果您未指定，代码将检查环境变量中的 API 密钥作为回退。
 
 - **base_url** (*string*) -
 
-    用于将文本编码为嵌入的 OpenAI API 端点基础 URL。该值默认为 **None**，即使用默认端点上的公共 OpenAI API 服务器。
+    用于将文本编码为嵌入的 OpenAI API Endpoint 的基础 URL。该值默认为 **None**，即使用默认 Endpoint 上的公开 OpenAI API 服务器。
 
 - **dimensions** (*int*) -
 
-    结果输出嵌入应具有的维度数。仅 **text-embedding-3** 及后续模型支持此参数。
+    生成的输出嵌入应具有的维度数。仅在 **text-embedding-3** 及更高版本模型中受支持。
 
 - **&ast;&ast;kwargs**
 
-    允许将其他关键字参数传递给模型初始化。更多信息请参见 [Client](https://github.com/openai/openai-python/blob/main/src/openai/_client.py)。
+    允许将其他关键字参数传递给模型初始化。更多信息，请参阅 [Client](https://github.com/openai/openai-python/blob/main/src/openai/_client.py)。
 
 ## 示例\{#examples}
 

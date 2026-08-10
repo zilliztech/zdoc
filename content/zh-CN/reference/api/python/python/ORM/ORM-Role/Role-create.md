@@ -12,13 +12,13 @@ type: docx
 token: G3h4d3jx6oXFHBxFZlyc9jLKnTO
 sidebar_position: 2
 keywords: 
-  - cosine distance
-  - what is a vector database
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
-  - multimodal vector database retrieval
+  - 多模态向量 Database 检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - create()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create()
 
-此操作创建当前角色。
+此操作创建当前角色。 
 
 ## 请求语法\{#request-syntax}
 
@@ -80,7 +80,7 @@ roles = utility.list_roles(include_user_info=True)
 
 ## 相关操作\{#related-operations}
 
-以下操作与 `create()` 相关：
+以下操作与`create()`相关：
 
 - [add_user()](./Role-add_user)
 

@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有现有用户的名称。 | Python | ORM"
+description: "此操作会列出所有现有用户的名称。 | Python | ORM"
 type: docx
 token: RXi3dgtNYogU0cxmTsgcdT72nsc
 sidebar_position: 29
 keywords: 
-  - 什么是 milvus
-  - milvus 数据库
+  - 什么是 Milvus
+  - Milvus Database
   - milvus lite
-  - milvus 基准测试
+  - Milvus 基准测试
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list_usernames()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_usernames()
 
-此操作列出所有现有用户的名称。
+此操作会列出所有现有用户的名称。
 
 ## 请求语法\{#request-syntax}
 
@@ -52,21 +52,21 @@ list_usernames(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作才会超时。
 
 **返回类型：**
 
 *list*
 
-**返回：**
+**返回值：**
 
-一个包含所有现有用户名称的列表。
+一个包含所有现有用户名的列表。
 
 **异常：**
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作过程中发生任何错误时，都会引发此异常。
 
 ## 示例\{#examples}
 

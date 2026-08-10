@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将删除当前集合。 | Python | ORM"
+description: "此操作会删除当前 Collection。 | Python | ORM"
 type: docx
 token: L8UTdDNkPoeew0x6LoDcfHx4nof
 sidebar_position: 8
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - LLM 评估
+  - 稀疏 vs 稠密
+  - 稠密向量
+  - 分层可导航小世界
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - drop()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop()
 
-此操作将删除当前集合。
+此操作会删除当前 Collection。 
 
 ## 请求语法\{#request-syntax}
 
@@ -51,7 +51,7 @@ drop(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 
@@ -59,7 +59,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常。
+    此操作期间发生任何错误时，将引发此异常。
 
 ## 示例\{#examples}
 

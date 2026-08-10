@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 notebook: false
-description: "RemoteBulkWriter 实例会将您的原始数据以 Zilliz Cloud 可识别的格式写入兼容 AWS S3 的 bucket。 | Python"
+description: "RemoteBulkWriter 实例会将您的原始数据写入 AWS S3 兼容存储桶中，并转换为 Zilliz Cloud 可识别的格式。 | Python"
 type: docx
 token: BDP4dew9to9tQoxNEMPcBR5xnZb
 sidebar_position: 4
 keywords: 
-  - approximate nearest neighbor search
+  - 近似最近邻搜索
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - 稀疏向量
+  - 向量维度
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - RemoteBulkWriter
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # RemoteBulkWriter
 
-**RemoteBulkWriter** 实例会将您的原始数据以 Zilliz Cloud 可识别的格式写入兼容 AWS S3 的 bucket。
+**RemoteBulkWriter** 实例会将您的原始数据写入 AWS S3 兼容存储桶中，并转换为 Zilliz Cloud 可识别的格式。
 
 ```python
 class pymilvus.RemoteBulkWriter
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
-使用一组参数（例如 **schema**、**remote_path**、**connect_param** 等）构造一个 **RemoteBulkWriter** 对象。
+使用一组参数（如 **schema**、**remote_path**、**connect_param** 等）构造 **RemoteBulkWriter** 对象。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-**RemoteBulkWriter** 对象旨在将您的原始数据改写为 Zilliz Cloud 可识别的格式，并写入兼容 AWS S3 的 bucket。
+**RemoteBulkWriter** 对象旨在将您的原始数据重写为 Zilliz Cloud 可识别的格式，并写入 AWS S3 兼容存储桶中。
 
 </Admonition>
 
@@ -60,39 +60,39 @@ writer = RemoteBulkWriter(
 )
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **schema** (*CollectionSchema*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    要导入改写后数据的目标 collection 的 schema。
+    要导入重写后数据的目标 Collection 的 Schema。
 
 - **remote_path** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    用于存放改写后数据的目录路径。
+    用于存放重写后数据的目录路径。
 
 - **connect_param** (*[ConnectParam](./RemoteBulkWriter-S3ConnectParam)*) -
 
-    用于连接远程 bucket 的参数。
+    用于连接远程存储桶的参数。
 
 - **chunk_size** (*int*) -
 
-    文件分片的最大大小。
+    文件 Segment 的最大大小。
 
-    在改写原始数据时，Zilliz Cloud 会将原始数据拆分为多个分片。
+    在重写您的原始数据时，Zilliz Cloud 会将原始数据拆分为多个 Segment。
 
     默认值为 536,870,912 字节，即 512 MB。
 
     <Admonition type="info" icon="📘" title="Note">
 
-    BulkWriter 如何对我的数据进行分片？
+    BulkWriter 如何将我的数据拆分为 Segment？
     
-        **BulkWriter** 对数据的分片方式会因目标文件类型而异。
+        **BulkWriter** 将数据拆分为 Segment 的方式会因目标文件类型而异。
     
-        如果生成的文件超过指定的分片大小，**BulkWriter** 会创建多个文件，并按顺序编号命名，每个文件都不会大于该分片大小。
+        如果生成的文件超过指定的 Segment 大小，**BulkWriter** 会创建多个文件，并按顺序编号命名，每个文件都不会大于该 Segment 大小。
 
     </Admonition>
 
@@ -106,7 +106,7 @@ writer = RemoteBulkWriter(
 
 - **config** (*dict*)
 
-    用于指定处理 CSV 文件时可选配置的字典。仅当 **file_type** 设置为 **BulkFileType.CSV** 时，此参数可用。配置示例如下：
+    用于指定处理 CSV 文件时可选配置的字典。仅当 **file_type** 设置为 **BulkFileType.CSV** 时，此参数才可用。配置示例：
 
     ```python
     config={
@@ -121,23 +121,23 @@ writer = RemoteBulkWriter(
 
     - **nullkey** (*string*)
 
-        表示 null 值的特殊字符串。默认值为空字符串：`""`。
+        表示空值的特殊字符串。默认值为空字符串：`""`。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *RemoteBulkWriter*
 
-**RETURNS:**
+**返回值：**
 
 一个 **RemoteBulkWriter** 对象。
 
-**EXCEPTIONS:**
+**异常：**
 
 - **SchemaNotReadyException**
 
-    当提供的 schema 无效时，将引发此异常。
+    当提供的 Schema 无效时，将引发此异常。
 
-## Properties\{#properties}
+## 属性\{#properties}
 
 - **data_path** (*pathlib.PosixPath*) -
 
@@ -145,14 +145,14 @@ writer = RemoteBulkWriter(
 
 - **batch_files** (*str*) -
 
-    已生成文件名的列表。
+    生成的文件名列表。
 
-## Classes\{#classes}
+## 类\{#classes}
 
-以下是 `RemoteBulkWriter` 类的内部类：
+以下是 `RemoteBulkWriter` 类的类：
 
 - ConnectParam
 
-## Methods\{#methods}
+## 方法\{#methods}
 
 以下是 `RemoteBulkWriter` 类的方法：

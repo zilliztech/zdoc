@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "该操作以迭代方式执行向量相似度搜索，并可选择附加标量过滤表达式。 | Python | MilvusClient"
+description: "此操作以迭代方式执行向量相似性搜索，并可选用标量过滤表达式。 | Python | MilvusClient"
 type: docx
 token: T9KhdDJQColJEuxZ7YOcV2zdnlb
 sidebar_position: 7
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 向量 Database 如何工作
+  - 向量数据库对比
+  - OpenAI 向量数据库
+  - 自然语言处理 Database
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - search_iterator()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # search_iterator()
 
-该操作以迭代方式执行向量相似度搜索，并可选择附加标量过滤表达式。
+此操作以迭代方式执行向量相似性搜索，并可选用标量过滤表达式。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 外部 Collection 不支持此操作。
 
@@ -65,7 +65,7 @@ search_iterator(
 
     **[必需]**
 
-    已存在的 collection 名称。
+    现有 Collection 的名称。
 
 - **data** (*List[list], list]*) -
 
@@ -73,11 +73,11 @@ search_iterator(
 
     向量嵌入列表。
 
-    Zilliz Cloud 会搜索与指定向量嵌入最相似的向量嵌入。
+    Zilliz Cloud 会搜索与指定向量嵌入最相似的结果。
 
 - **batch_size** (*int*) -
 
-    每次迭代返回的实体数量。默认值为 1000。
+    每次迭代返回的 Entity 数量。默认值为 1000。
 
 - **anns_field** (*str*) -
 
@@ -85,29 +85,29 @@ search_iterator(
 
 - **filter** (*str*) -
 
-    用于过滤匹配实体的标量过滤条件。 
+    用于过滤匹配 Entity 的标量过滤条件。 
 
-    默认值为空字符串，表示不应用任何条件。
+    该值默认为空字符串，表示不应用任何条件。
 
-    你可以将此参数设置为空字符串以跳过标量过滤。关于如何构建标量过滤条件，请参见 [Filtering Overview](/docs/filtering-overview)。 
+    您可以将此参数设置为空字符串以跳过标量过滤。要构建标量过滤条件，请参阅 [过滤概述](/docs/filtering-overview)。 
 
 - **limit** (*int*) -
 
-    要返回的实体总数。
+    要返回的 Entity 总数。
 
-    你可以将此参数与 **param** 中的 **offset** 结合使用，以启用分页。
+    您可以将此参数与 **param** 中的 **offset** 结合使用，以启用分页。
 
-    此值与 **param** 中 **offset** 的总和应小于 16,384。 
+    该值与 **param** 中 **offset** 的总和应小于 16,384。 
 
 - **output_fields** (l*ist[str]*) -
 
-    返回结果中每个实体要包含的字段名称列表。
+    返回的每个 Entity 中要包含的字段名称列表。
 
-    默认值为 **None**。如果未指定，则仅包含主字段。
+    该值默认为 **None**。如果未指定，则仅包含主字段。
 
 - **search_params** (*dict*) -
 
-    此操作特有的参数设置。
+    此操作专用的参数设置。
 
     - **params** (dict) -
 
@@ -115,25 +115,25 @@ search_iterator(
 
         - **radius** (float) -
 
-            确定最低相似度阈值。当 collection 的 metric type 设置为 `L2` 时，请确保该值大于 **range_filter** 的值。否则，该值应小于 **range_filter** 的值。 
+            确定最低相似度阈值。当 Collection 的 metric type 设置为 `L2` 时，请确保此值大于 **range_filter** 的值。否则，此值应小于 **range_filter** 的值。 
 
         - **range_filter**  (float) -  
 
-            将搜索限定在特定相似度范围内的向量上。当 collection 的 metric type 为 `IP` 或 `COSINE` 时，请确保该值大于 **radius** 的值。否则，该值应小于 **radius** 的值。
+            将搜索范围细化为特定相似度区间内的向量。当 Collection 的 metric type 为 `IP` 或 `COSINE` 时，请确保此值大于 **radius** 的值。否则，此值应小于 **radius** 的值。
 
         - **level** (*int*)
 
-            Zilliz Cloud 使用统一参数来简化搜索参数调优，而不是让你处理各种索引算法特有的大量搜索参数。
+            Zilliz Cloud 使用统一参数来简化搜索参数调优，而不是让您处理针对各种索引算法的一组搜索参数。
 
-            默认值为 **1**，取值范围为 **1** 到 **10**。增大该值会提高召回率，但会降低搜索性能。详情请参见 [Tune Recall Rate](/docs/tune-recall-rate)。
+            该值默认为 **1**，取值范围为 **1** 到 **10**。增大该值会提高召回率，但会降低搜索性能。有关详情，请参阅 [调整召回率](/docs/tune-recall-rate)。
 
         - **page_retain_order** (*bool*) -
 
-            在提供 `offset` 时，是否保留搜索结果的顺序。 
+            当提供 `offset` 时，是否保留搜索结果的顺序。 
 
-            此参数仅在你同时设置了 `radius` 时适用。
+            此参数仅在您同时设置 `radius` 时适用。
 
-    有关其他适用搜索参数的详细信息，请阅读 [AUTOINDEX Explained](/docs/autoindex-explained)。
+    有关其他适用搜索参数的详细信息，请参阅 [AUTOINDEX 说明](/docs/autoindex-explained)。
 
 - **group_by_field** (*str*)
 
@@ -145,48 +145,48 @@ search_iterator(
 
 - **partition_names** (*list*) -
 
-    分区名称列表。
+    Partition 名称列表。
 
-    默认值为 **None**。如果指定，则仅在指定分区中执行查询。
+    该值默认为 **None**。如果已指定，则仅指定的 Partition 会参与查询。
 
 - **anns_field** (*string*) -
 
-    目标向量字段的名称。如果目标 collection 中只有一个向量字段，则此参数为可选。
+    目标向量字段的名称。如果目标 Collection 中只有一个向量字段，则此参数可选。
 
 - **round_decimal** (*int*) -
 
-    距离值保留的小数位数。默认值为 -1，表示不进行四舍五入。
+    距离值的小数位数。默认值为 -1，表示不进行舍入。
 
 - **kwargs** -
 
     - **offset** (int) -
 
-        在搜索结果中要跳过的记录数。 
+        搜索结果中要跳过的记录数。 
 
-        你可以将此参数与 `limit` 结合使用，以启用分页。
+        您可以将此参数与 `limit` 结合使用，以启用分页。
 
-        此值与 `limit` 的总和应小于 16,384。 
+        该值与 `limit` 的总和应小于 16,384。 
 
     - **round_decimal** (int) -
 
-        Zilliz Cloud 对计算出的距离值进行四舍五入时保留的小数位数。
+        Zilliz Cloud 对计算出的距离值进行舍入时保留的小数位数。
 
-        默认值为 **-1**，表示 Zilliz Cloud 不对计算出的距离值进行四舍五入，而是返回原始值。
+        该值默认为 **-1**，表示 Zilliz Cloud 会跳过对计算距离的舍入并返回原始值。
 
 **返回类型：**
 
 *SearchIterator*
 
-**返回值：**
-一个 **SearchIterator** 实例，提供以下方法：
+**返回：**
+提供以下方法的 **SearchIterator** 实例：
 
 - `next()`
 
-    此方法以迭代方式返回一批实体。每次调用时，都会返回一组新的实体，直到检索到最后一个实体为止。
+    此方法以迭代方式返回一批 Entity。每次调用时，都会返回一组新的 Entity，直到检索到最后一个 Entity。
 
 - `close()`
 
-    此方法关闭当前的 **SearchIterator** 实例。
+    此方法关闭当前 **SearchIterator** 实例。
 
 **异常：**
 

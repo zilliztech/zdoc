@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作为集合设置属性。 | Python | ORM"
+description: "此操作为 Collection 设置属性。 | Python | ORM"
 type: docx
 token: ECmAdaYKboPTNlxqkLxcUEZ4nrh
 sidebar_position: 27
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - RAG 向量 Database
+  - 什么是向量数据库
+  - 什么是向量 Database
+  - 向量 Database 对比
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - set_properties()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # set_properties()
 
-此操作为集合设置属性。
+此操作为 Collection 设置属性。
 
 ## 请求语法\{#request-syntax}
 
@@ -47,27 +47,27 @@ set_properties(
 
 - **properties** (dict) -
 
-    以字典形式提供的一组集合属性。目前，您可以设置以下属性：
+    以字典形式提供的一组 Collection 属性。目前，您可以设置以下属性：
 
     - **collection.ttl.seconds**
 
-        设置此属性后，当前集合中的数据会在指定时间后过期。集合中过期的数据将被清理，并且不会参与搜索或查询。
+        设置此属性后，当前 Collection 中的数据会在指定时间后过期。Collection 中已过期的数据将被清理，且不会参与搜索或查询。
 
     - **mmap.enabled**
 
-        是否在集合级别启用内存映射存储。更多信息，请参见[配置内存映射](https://milvus.io/docs/mmap.md#Configure-memory-mapping)。
+        是否在 Collection 级别启用内存映射存储。更多信息，请参见 [配置内存映射](https://milvus.io/docs/mmap.md#Configure-memory-mapping)。
 
 - **timeout** (*float*)  -
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时结束。
+    此操作的超时时长。将其设置为 **None** 表示当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
-无
+None
 
 ## 示例\{#examples}
 

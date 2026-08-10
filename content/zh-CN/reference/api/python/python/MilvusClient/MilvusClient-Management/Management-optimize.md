@@ -12,13 +12,13 @@ type: docx
 token: MhRidjHwYorxaexS8WXcaxWQnjd
 sidebar_position: 26
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - 开源向量 Database
+  - 向量索引
+  - 开源向量 Database
+  - 开源向量数据库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - optimize()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -33,29 +33,29 @@ import Admonition from '@theme/Admonition';
 
 - **is_l0** (*bool*) -
 
-    是否运行 L0 压缩。
+    是否运行 L0 Compaction。
 
 - **target_size** (*int*) -
 
-    压缩后的目标 segment 大小。必须为正整数。如果省略，则使用服务器默认值。
+    Compaction 后的目标 Segment 大小。必须为正整数。如果省略，则使用服务器默认值。
 
 - **target_size_unit** (*str*) -
 
     `target_size` 的单位。支持的值包括 `"b"`、`"kb"`、`"mb"`、`"gb"`、`"tb"` 和 `"pb"`。客户端会在发送请求前将该值转换为 MB。
 
-此操作会压缩 collection 中的小 segment，并返回一个可用于轮询进度的压缩作业 ID。
+此操作会对 Collection 中的小 Segment 执行 Compaction，并返回一个 Compaction 作业 ID，您可以轮询其进度。
 
-<Admonition type="warning" icon="🚧" title="警告">
+<Admonition type="warning" icon="🚧" title="Warning">
 
-这是一个预览版功能，仅用于非生产环境（Benchmark、POC）。
+这是一个预览版功能，仅供非生产用途使用（Benchmark、POC）。
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此方法仅适用于专有服务集群和按需计算。 
+此方法仅适用于 dedicated serving cluster 和按需计算。
 
-- 对于服务集群中的 collection 执行此操作，请使用集群 endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
+- 如果要在 serving cluster 的 Collection 中执行此操作，请使用集群 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**。
 
     - **Free & Serverless**
 
@@ -65,7 +65,7 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- 对于按需计算中的 collection 执行此操作，请使用项目 endpoints 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个 session 并将其附加到按需集群以进行搜索。
+- 如果要在按需计算的 Collection 中执行此操作，请使用项目 Endpoint 创建 **[MilvusClient](./Client-MilvusClient)**，然后创建一个会话，将其附加到按需集群以执行搜索。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
@@ -89,13 +89,13 @@ client.optimize(
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    要优化的 collection 名称。
+    要优化的 Collection 名称。
 
 - **is_clustering** (*bool*) -
 
-    目标 segment 大小。格式：`"1000MB"`、`"1GB"`、`"1.2gb"`。如果未提供，则使用系统默认值。
+    目标 Segment 大小。格式：`"1000MB"`、`"1GB"`、`"1.2gb"`。如果未提供，则使用系统默认值。
 
 - **wait** (*bool*) -
 
@@ -103,16 +103,16 @@ client.optimize(
 
 - **timeout** (*float*) -
 
-    等待优化完成的最长时间（秒）。仅在 `wait=True` 时生效。
+    等待优化完成的最长时间（秒）。仅在 `wait=True` 时适用。
 
 **返回类型：**
 *OptimizeResult | OptimizeTask*
 
-当 `wait=True` 时返回一个 `OptimizeResult`，当 `wait=False` 时返回一个 `OptimizeTask`。
+当 `wait=True` 时，返回一个 `OptimizeResult`；当 `wait=False` 时，返回一个 `OptimizeTask`。
 
 **返回值：**
 
-当 `wait=True` 时，返回一个包含 status、collection_name、compaction_id、target_size 和 progress 的 **OptimizeResult**。当 `wait=False` 时，返回一个支持 `done()`、`progress()`、`result()` 和 `cancel()` 的 **OptimizeTask**。
+当 `wait=True` 时，返回一个 **OptimizeResult**，包含 status、collection_name、compaction_id、target_size 和 progress。当 `wait=False` 时，返回一个 **OptimizeTask**，支持 `done()`、`progress()`、`result()` 和 `cancel()`。
 
 **异常：**
 
@@ -122,7 +122,7 @@ client.optimize(
 
 - **MilvusException**
 
-    当索引构建失败、压缩失败或发生超时时，将引发此异常。
+    当索引构建失败、Compaction 失败或发生超时时，将引发此异常。
 
 ## 示例\{#examples}
 

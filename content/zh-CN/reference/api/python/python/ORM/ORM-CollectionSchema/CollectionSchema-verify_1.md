@@ -18,7 +18,7 @@ keywords:
   - llm-as-a-judge
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - verify()
   - pymilvus30
 displayed_sidebar: pythonSidebar

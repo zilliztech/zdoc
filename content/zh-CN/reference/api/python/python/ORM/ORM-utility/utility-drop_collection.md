@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作删除特定 collection。 | Python | ORM"
+description: "此操作会删除指定的 Collection。 | Python | ORM"
 type: docx
 token: FHcYdN4apoI5TIx0LxScISvtn0f
 sidebar_position: 10
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - 向量存储
+  - 开源向量 Database
+  - 向量索引
+  - 开源向量 Database
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - drop_collection()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop_collection()
 
-此操作删除特定 collection。
+此操作会删除指定的 Collection。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,11 +49,11 @@ drop_collection(
 
     **[必需]**
 
-    要删除的 collection 名称。
+    要删除的 Collection 名称。
 
 - **timeout** (*float*)  
 
-    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作超时。
+    此操作的超时时长。将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作即超时。
 
 - **using** (*str*) - 
 

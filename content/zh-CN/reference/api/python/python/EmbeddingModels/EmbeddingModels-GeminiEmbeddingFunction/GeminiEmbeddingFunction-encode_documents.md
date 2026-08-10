@@ -12,13 +12,13 @@ type: docx
 token: Tjq5dE0wdodKcgxH0yZcmNdrnSg
 sidebar_position: 1
 keywords: 
-  - cosine distance
-  - what is a vector database
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
-  - multimodal vector database retrieval
+  - 多模态向量 Database 检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - encode_documents()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -59,7 +59,7 @@ encode_documents(
 
 - **ImportError**
 
-    当未安装 model2vec 模块时，将引发此异常。
+    未安装 model2vec 模块时，将引发此异常。
 
 ## 示例\{#examples}
 

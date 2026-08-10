@@ -15,10 +15,10 @@ keywords:
   - 什么是非结构化数据
   - 向量嵌入
   - 向量存储
-  - 开源向量数据库
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - commit()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -45,11 +45,11 @@ pymilvus.LocalBulkWriter.commit(
 
 - **kwargs** -
 
-    - **call_back** (function)
+    - **call_back**（函数）
 
-        此操作完成后调用的回调函数。
+        此操作完成后要调用的回调函数。
 
-        默认值为 **None**，表示没有可调用的回调函数。可使用此参数添加提交后的操作。
+        该值默认为 **None**，表示没有可调用的回调函数。您可以用它来添加提交后的操作。
 
 ## 示例\{#examples}
 

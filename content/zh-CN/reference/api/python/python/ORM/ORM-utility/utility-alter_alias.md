@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将一个集合的别名重新分配给另一个集合。 | Python | ORM"
+description: "此操作会将一个 Collection 的别名重新分配给另一个 Collection。 | Python | ORM"
 type: docx
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
 sidebar_position: 1
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - RAG 向量 Database
+  - 什么是向量数据库
+  - 什么是向量 Database
+  - 向量 Database 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - alter_alias()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 # alter_alias()
 
-此操作会将一个集合的别名重新分配给另一个集合。
+此操作会将一个 Collection 的别名重新分配给另一个 Collection。
 
 ## 请求语法\{#request-syntax}
 
@@ -62,35 +62,35 @@ alter_alias(
 
     **[必需]**
 
-    要重新分配别名的目标集合名称。
+    要重新分配别名的目标 Collection 名称。
 
 - **alias** (*str*) -
 
     **[必需]**
 
-    集合的别名。请注意，该别名必须预先存在。
+    Collection 的别名。请注意，该别名必须预先存在。
 
-    <Admonition type="info" icon="📘" title="说明">
+    <Admonition type="info" icon="📘" title="Note">
 
-    什么是[集合](./ORM-Collection)别名？
+    什么是[ Collection](./ORM-Collection) 别名？
     
-    [集合](./ORM-Collection)别名是集合的附加名称。当您希望将应用程序切换到一个新集合而无需修改代码时，集合别名非常有用。
+        [ Collection](./ORM-Collection) 别名是 Collection 的附加名称。当您希望将应用程序切换到新的 Collection 而无需修改代码时，Collection 别名会非常有用。 
     
-    [集合](./ORM-Collection)别名是全局唯一标识符。一个别名只能分配给且仅能分配给一个集合。反过来，一个集合可以拥有多个别名。
+        在 中，[ Collection](./ORM-Collection) 别名是全局唯一标识符。一个别名只能分配给一个 Collection。反之，一个 Collection 可以拥有多个别名。
     
-    下面是将一个集合的别名重新分配给另一个集合的示例：
+        下面是一个将一个 Collection 的别名重新分配给另一个 Collection 的示例：
     
-    假设有两个集合：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的集合别名，最初它被分配给 `collection_1`：
+        假设有两个 Collection：`collection_1` 和 `collection_2`。还有一个名为 `bob` 的 Collection 别名，它最初分配给了 `collection_1`：
     
-    - `collection_1` 的别名 = ["bob"]
+        - `collection_1` 的别名 = ["bob"]
     
-    - `collection_2` 的别名 = []
+        - `collection_2` 的别名 = []
     
-    调用 `alter_alias("collection_2", "bob")` 后：
+        调用 `alter_alias("collection_2", "bob")` 后：
     
-    - `collection_1` 的别名 = []
+        - `collection_1` 的别名 = []
     
-    - `collection_2` 的别名 = ["bob"]
+        - `collection_2` 的别名 = ["bob"]
 
     </Admonition>
 
@@ -108,7 +108,7 @@ alter_alias(
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 
@@ -116,7 +116,7 @@ None
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时，将引发此异常，尤其是在指定的别名不存在时。
+    当此操作期间发生任何错误时，将引发此异常，尤其是在指定别名不存在时。
 
 ## 示例\{#examples}
 

@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作使用布尔表达式对实体标量字段执行查询。 | Python | ORM"
+description: "此操作使用布尔表达式对 Entity 标量字段执行查询。 | Python | ORM"
 type: docx
 token: N97pdfkjlo9j61xrtL2cbB79nKe
 sidebar_position: 8
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - rag 向量 Database
+  - 什么是向量数据库
+  - 什么是向量 Database
+  - 向量 Database 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - query()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # query()
 
-此操作使用布尔表达式对实体标量字段执行查询。
+此操作使用布尔表达式对 Entity 标量字段执行查询。
 
 ## 请求语法\{#request-syntax}
 
@@ -48,9 +48,9 @@ query(
 
 - **expr** (*string*) -
 
-    **[必需]** 
+    **[必填]** 
 
-    用于过滤实体标量字段的布尔表达式。
+    用于筛选 Entity 标量字段的布尔表达式。
 
 - **output_fields** (List[str] | *None*) -
 
@@ -58,27 +58,27 @@ query(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任何响应或发生任何错误时超时结束。
+    此操作的超时时长。将其设置为 **None** 表示当收到任意响应或发生任意错误时，此操作即超时。
 
 - **kwargs**: 
 
-    其他关键字参数。
+    附加关键字参数。
 
     - **consistency_level** (*str* | *int*) -
 
-        目标 collection 的一致性级别。
+        目标 Collection 的一致性级别。
 
-        该值默认与创建当前 collection 时指定的值相同，可选值包括 **Strong** (**0**)、**Bounded** (**1**)、**Session** (**2**) 和 **Eventually** (**3**)。
+        该值默认为您创建当前 Collection 时指定的值，可选项包括 **Strong**（**0**）、**Bounded**（**1**）、**Session**（**2**）和 **Eventually**（**3**）。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" icon="📘" title="Note">
 
         什么是一致性级别？
         
-                分布式数据库中的一致性，特指在给定时间写入或读取数据时，确保每个节点或副本看到相同数据视图的特性。
+                分布式 Database 中的一致性，特指确保每个节点或副本在给定时间写入或读取数据时，对数据具有相同视图的属性。
         
-                Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认级别为 **Bounded Staleness**。
+                Zilliz Cloud 提供三种一致性级别：**Strong**、**Bounded Staleness** 和 **Eventually**，其中默认设置为 **Bounded Staleness**。
         
-                在执行向量相似性搜索或查询时，您可以轻松调整一致性级别，使其更适合您的应用程序。
+                您可以在执行向量相似性搜索或查询时，轻松调整一致性级别，使其最适合您的应用。
 
         </Admonition>
 
@@ -86,41 +86,41 @@ query(
 
         一个有效的时间戳。 
 
-        如果设置了此参数，Zilliz Cloud 仅当该时间戳之前插入的所有实体对查询节点可见时才会执行查询。 
+        如果设置了此参数，Zilliz Cloud 仅会在此时间戳之前插入的所有 Entity 对查询节点可见时执行查询。 
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" icon="📘" title="Notes">
 
-        当使用默认一致性级别时，此参数有效。
+        此参数在使用默认一致性级别时有效。
 
         </Admonition>
 
     - **graceful_time** (*int*) -
 
-        以秒为单位的一段时间。
+        一段以秒为单位的时间。
 
-        该值默认为 **5**。如果设置了此参数，Zilliz Cloud 会通过用当前时间戳减去该值来计算 guarantee timestamp。
+        该值默认为 **5**。如果设置了此参数，Zilliz Cloud 会通过从当前时间戳中减去该值来计算保证时间戳。
 
-        <Admonition type="info" icon="📘" title="说明">
+        <Admonition type="info" icon="📘" title="Notes">
 
-        当使用非默认一致性级别时，此参数有效。
+        此参数在使用非默认一致性级别时有效。
 
         </Admonition>
 
     - **offset** (*int*) -
 
-        在查询结果中要跳过的记录数。 
+        查询结果中要跳过的记录数。 
 
-        您可以将此参数与 `limit` 结合使用以实现分页。
+        您可以将此参数与 `limit` 结合使用，以启用分页。
 
-        此值与 `limit` 的总和应小于 16,384。 
+        该值与 `limit` 的总和应小于 16,384。 
 
     - **limit** (*int*) -
 
         查询结果中要返回的记录数。
 
-        您可以将此参数与 `offset` 结合使用以实现分页。
+        您可以将此参数与 `offset` 结合使用，以启用分页。
 
-        此值与 `offset` 的总和应小于 16,384。 
+        该值与 `offset` 的总和应小于 16,384。 
 
 **返回类型：**
 
@@ -134,7 +134,7 @@ query(
 
 - **MilvusException**
 
-    当此操作期间发生任何错误时引发。
+    此异常会在此操作期间发生任何错误时出现。
 
 ## 示例\{#examples}
 

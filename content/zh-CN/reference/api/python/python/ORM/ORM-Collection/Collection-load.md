@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将当前 collection 的数据加载到内存中。 | Python | ORM"
+description: "此操作会将当前 Collection 的数据加载到内存中。 | Python | ORM"
 type: docx
 token: HQDndiGwloWKIexgPCUcEZGenOh
 sidebar_position: 20
 keywords: 
   - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - 神经网络
+  - 深度学习
+  - 知识库
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # load()
 
-此操作将当前 collection 的数据加载到内存中。
+此操作会将当前 Collection 的数据加载到内存中。
 
 ## 请求语法\{#request-syntax}
 
@@ -43,7 +43,7 @@ load(
 )
 ```
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 此操作为非阻塞操作。您可以调用 `utility.wait_for_loading_complete()` 来阻塞当前进程。
 
@@ -53,7 +53,7 @@ load(
 
 - **partition_names** (*list(str)* | *None*) - 
 
-    要加载的当前 collection 的分区。如果未指定，则加载所有分区。
+    要加载的当前 Collection 的 Partition。若未指定，则会加载所有 Partition。
 
 - **timeout** (*float* | *None*)  -
 
@@ -73,9 +73,9 @@ load(
 
     当此操作期间发生任何错误时，将引发此异常。
 
-<Admonition type="warning" icon="🚧" title="警告">
+<Admonition type="warning" icon="🚧" title="Warning">
 
-如果您尝试加载一个未建立索引的 collection，将会收到 **MilvusException**。
+如果您尝试加载未建立索引的 Collection，您将收到 **MilvusException**。
 
 </Admonition>
 

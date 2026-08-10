@@ -7,18 +7,18 @@ added_since: Inherit
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会封存所有段。 | Python | ORM"
+description: "此操作会封存所有 Segment。 | Python | ORM"
 type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - 余弦距离
+  - 什么是向量 Database
+  - 向量数据库
+  - 多模态向量 Database 检索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - flush_all()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # flush_all()
 
-此操作会封存所有段。
+此操作会封存所有 Segment。
 
 ## 请求语法\{#request-syntax}
 
@@ -53,13 +53,13 @@ flush_all(
 
 - **timeout** (*float* | *None*)  
 
-    此操作的超时时长。将其设置为 **None** 表示此操作会在收到任意响应或发生任意错误时超时。
+    此操作的超时时长。将其设置为 **None** 表示，当收到任何响应或发生任何错误时，此操作即超时。
 
 **返回类型：**
 
 *NoneType*
 
-**返回：**
+**返回值：**
 
 None
 
