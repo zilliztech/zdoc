@@ -68,7 +68,7 @@ test('adds Japanese locale data without changing the source specification', asyn
     sourceSpecs, target: 'ja-JP', locale: 'ja-JP',
     callModel: withPassingReview(async ({ messages }) => {
       assert.match(messages[0].content, /from English to Japanese/)
-      assert.match(messages[0].content, /ja-JP-2026-08-04-p0/)
+      assert.match(messages[0].content, /ja-JP-2026-08-10-p0\.4/)
       return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({
         ...entry,
         text: entry.text === 'Search a collection.' ? 'コレクションを検索します。' : `JA:${entry.text}`,

@@ -48,6 +48,7 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     candidates: manifest.items,
     artifacts,
     identity: {
+      target: manifest.target,
       locale: manifest.locale,
       group: manifest.group,
       promptContractSha256: contract,
@@ -71,6 +72,7 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     targetPath: candidate.targetPath,
     sourceHash: candidate.sourceHash,
     ...(candidate.recoveryChunkResume ? {chunkResume: candidate.recoveryChunkResume} : {}),
+    ...(candidate.recoverySemanticResume ? {semanticResume: candidate.recoverySemanticResume} : {}),
   }))
   const rejected = recovery.rejected.map(candidate => ({
     sourcePath: candidate.sourcePath,
@@ -80,9 +82,12 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
   const candidateCount = manifest.items.length
   const resumableFileCount = pending.filter(candidate => candidate.chunkResume?.recoveredChunkCount > 0).length
   const recoveredChunkCount = pending.reduce((total, candidate) => total + (candidate.chunkResume?.recoveredChunkCount || 0), 0)
+  const semanticResumableFileCount = pending.filter(candidate => candidate.semanticResume?.report?.entries?.length > 0).length
+  const recoveredSemanticUnitCount = pending.reduce((total, candidate) => total + (candidate.semanticResume?.report?.entries?.length || 0), 0)
   const rejectedChunks = recovery.rejectedChunks || []
   const rejectedChunkCount = rejectedChunks.length
-  const fullRetranslation = candidateCount > 0 && restored.length === 0 && pending.length === candidateCount && resumableFileCount === 0
+  const fullRetranslation = candidateCount > 0 && restored.length === 0 && pending.length === candidateCount &&
+    resumableFileCount === 0 && semanticResumableFileCount === 0
   const analysis = Object.freeze({
     schemaVersion: 2,
     kind: 'translation-recovery-analysis',
@@ -100,10 +105,13 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     resumableFileCount,
     recoveredChunkCount,
     rejectedChunkCount,
+    semanticResumableFileCount,
+    recoveredSemanticUnitCount,
     fullRetranslation,
-    compatibilityMode: restored.some(item => item.compatibility === 'revalidated') || pending.some(item => item.chunkResume?.compatibility === 'revalidated')
+    compatibilityMode: restored.some(item => item.compatibility === 'revalidated') ||
+      pending.some(item => item.chunkResume?.compatibility === 'revalidated' || item.semanticResume?.compatibility === 'revalidated')
       ? 'revalidated'
-      : restored.length || resumableFileCount ? 'strict' : 'none',
+      : restored.length || resumableFileCount || semanticResumableFileCount ? 'strict' : 'none',
     restored,
     pending,
     rejected,
@@ -136,6 +144,8 @@ function appendBlockedSummary(file, analysis) {
     `- Resumable files: ${analysis.resumableFileCount}`,
     `- Recovered chunks: ${analysis.recoveredChunkCount}`,
     `- Rejected chunks: ${analysis.rejectedChunkCount}`,
+    `- Semantic-resumable files: ${analysis.semanticResumableFileCount}`,
+    `- Recovered semantic units: ${analysis.recoveredSemanticUnitCount}`,
     '- Full retranslation: true',
     '- Authorization: missing',
     '', '### Compatibility reasons', ...reasons, '',

@@ -26,6 +26,12 @@ test('loads exact deeply frozen Chinese and Japanese locale contracts', () => {
     ...chinese,
     mandatoryTerms: [...chinese.mandatoryTerms, chinese.mandatoryTerms[0]],
   }, 'zh-CN-reference'), /duplicate/i)
+  assert.throws(() => validateLocaleContract({
+    ...japanese,
+    mandatoryTerms: japanese.mandatoryTerms.map(term => term.source === 'vector'
+      ? {source: term.source, target: term.target, caseSensitive: term.caseSensitive}
+      : term),
+  }, 'ja-JP'), /contextualTerms.*excludedSourceContexts/i)
 })
 
 test('requires Compaction in Chinese without banning ordinary compression', () => {
@@ -69,6 +75,82 @@ test('formats approved Japanese terminology and preserves Compaction', () => {
   assert.match(formatted, /vector.*ベクトル/is)
   assert.match(formatted, /index.*インデックス/is)
   assert.match(formatted, /Compaction/)
+})
+
+test('preserves vector only for the exact Boost Ranker field-identifier fixture', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const identifierSource = 'The collection has the following fields: **id**, **vector**, and **doctype**.'
+  const identifierDraft = 'コレクションには、**id**、**vector**、**doctype** のフィールドがあります。'
+  const translatedIdentifierDraft = 'コレクションには、**id**、**ベクトル**、**doctype** のフィールドがあります。'
+
+  assert.deepEqual(validateLocaleContractDraft(identifierSource, identifierDraft, contract), [])
+  const identifierIssues = validateLocaleContractDraft(identifierSource, translatedIdentifierDraft, contract)
+  assert.equal(identifierIssues.length, 1)
+  assert.equal(identifierIssues[0].source_quote, 'vector')
+  assert.equal(identifierIssues[0].draft_quote, translatedIdentifierDraft)
+  assert.match(identifierIssues[0].comment, /field identifier|remain vector/i)
+  assert.equal(
+    validateLocaleContractDraft('Search a vector field.', 'vector フィールドを検索します。', contract).length,
+    1,
+    'ordinary vector terminology must still require ベクトル',
+  )
+  assert.deepEqual(
+    validateLocaleContractDraft('Search a vector field.', 'ベクトルフィールドを検索します。', contract),
+    [],
+  )
+})
+
+test('binds the Boost Ranker identifier and ordinary vector term to their own occurrences', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const source = 'The collection has the following fields: **id**, **vector**, and **doctype**. Search a vector field.'
+
+  const crossSatisfied = validateLocaleContractDraft(
+    source,
+    'コレクションには **id**、**ベクトル**、**doctype** があります。vector フィールドを検索します。',
+    contract,
+  )
+  assert.equal(crossSatisfied.length, 2)
+  assert.ok(crossSatisfied.some(issue => /field identifier|remain vector/i.test(issue.comment)))
+  assert.ok(crossSatisfied.some(issue => /requires vector to use ベクトル/i.test(issue.comment)))
+
+  assert.deepEqual(validateLocaleContractDraft(
+    source,
+    'コレクションには **id**、**vector**、**doctype** があります。ベクトルフィールドを検索します。',
+    contract,
+  ), [])
+})
+
+test('binds contextual and ordinary bold vector targets to their positional slots', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const source = 'The collection has the following fields: **id**, **vector**, and **doctype**. Search a **vector** field.'
+
+  assert.deepEqual(validateLocaleContractDraft(
+    source,
+    'コレクションには **id**、**vector**、**doctype** があります。**ベクトル** フィールドを検索します。',
+    contract,
+  ), [])
+
+  const swapped = validateLocaleContractDraft(
+    source,
+    'コレクションには **id**、**ベクトル**、**doctype** があります。**vector** フィールドを検索します。',
+    contract,
+  )
+  assert.equal(swapped.length, 2)
+  assert.ok(swapped.some(issue => /remain vector/i.test(issue.comment)))
+  assert.ok(swapped.some(issue => /requires vector to use ベクトル/i.test(issue.comment)))
+})
+
+test('fails closed when the contextual identifier draft line cannot be aligned', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const source = 'Introduction.\nThe collection has the following fields: **id**, **vector**, and **doctype**.\n'
+  const draft = '概要。\n\nコレクションには **id**、**vector**、**doctype** があります。\n'
+
+  const issues = validateLocaleContractDraft(source, draft, contract)
+
+  assert.equal(issues.length, 1)
+  assert.equal(issues[0].source_quote, 'vector')
+  assert.equal(issues[0].draft_quote, '')
+  assert.equal(issues[0].evidenceAvailable, false)
 })
 
 test('enforces do-not-translate product names when they appear in source prose', () => {
