@@ -219,7 +219,7 @@ async function collectSemanticUnits(sourceContent, {idPrefix = 'document'} = {})
   return deepFreeze(units)
 }
 
-function protectSemanticUnits(units, textForUnit = unit => unit.source) {
+function protectSemanticUnits(units, textForUnit = unit => unit.source, protectionOptions = {}) {
   if (!Array.isArray(units)) throw new Error('Semantic units must be an array')
   return deepFreeze(units.map(unit => {
     const text = textForUnit(unit)
@@ -227,7 +227,7 @@ function protectSemanticUnits(units, textForUnit = unit => unit.source) {
     return {
       ...unit,
       protectedText: text,
-      protection: protectTranslationInput(text, {reorderWithin: unit.id}),
+      protection: protectTranslationInput(text, {...protectionOptions, reorderWithin: unit.id}),
     }
   }))
 }
@@ -289,26 +289,9 @@ function parseSemanticUnitResponse(modelText, {field, expectedUnits}) {
     throw semanticResponseError('Semantic unit response entries must be an array', 'SEMANTIC_RESPONSE_SCHEMA_MISMATCH', {field})
   }
   const expectedIds = expectedUnits.map(unit => unit.id)
-  const actualIds = entries.flatMap(entry => typeof entry?.id === 'string' ? [entry.id] : [])
-  if (entries.length !== expectedUnits.length) {
-    const actualIdSet = new Set(actualIds)
-    const expectedIdSet = new Set(expectedIds)
-    throw semanticResponseError(
-      `Semantic unit response entry count mismatch: expected ${expectedUnits.length}, actual ${entries.length}`,
-      'SEMANTIC_RESPONSE_COUNT_MISMATCH',
-      {
-        field,
-        expectedCount: expectedUnits.length,
-        actualCount: entries.length,
-        expectedIds,
-        actualIds,
-        missingIds: expectedIds.filter(id => !actualIdSet.has(id)),
-        unknownIds: actualIds.filter(id => !expectedIdSet.has(id)),
-      },
-    )
-  }
+  if (new Set(expectedIds).size !== expectedIds.length) throw new Error('Expected semantic unit IDs must be unique')
   const byId = new Map()
-  const duplicateIds = []
+  const actualIds = []
   for (const [entryIndex, entry] of entries.entries()) {
     exactObjectKeys(entry, ['id', 'text'], 'Semantic unit response entry', {field, entryIndex})
     if (typeof entry.id !== 'string' || typeof entry.text !== 'string') {
@@ -318,31 +301,45 @@ function parseSemanticUnitResponse(modelText, {field, expectedUnits}) {
         {field, entryIndex},
       )
     }
-    if (byId.has(entry.id)) duplicateIds.push(entry.id)
+    actualIds.push(entry.id)
     byId.set(entry.id, entry.text)
+  }
+  const actualCounts = new Map()
+  for (const id of actualIds) actualCounts.set(id, (actualCounts.get(id) || 0) + 1)
+  const duplicateIds = [...actualCounts].filter(([, count]) => count > 1).map(([id]) => id)
+  const expectedIdSet = new Set(expectedIds)
+  const actualIdSet = new Set(actualIds)
+  const unknownIds = [...actualIdSet].filter(id => !expectedIdSet.has(id))
+  const missingIds = expectedIds.filter(id => !actualIdSet.has(id))
+  const identityDetails = {
+    field,
+    expectedCount: expectedIds.length,
+    actualCount: entries.length,
+    expectedIds,
+    actualIds,
+    duplicateIds,
+    unknownIds,
+    missingIds,
   }
   if (duplicateIds.length) {
     throw semanticResponseError(
       `Duplicate semantic unit ID(s): ${[...new Set(duplicateIds)].join(', ')}`,
       'SEMANTIC_RESPONSE_DUPLICATE_IDS',
-      {field, duplicateIds: [...new Set(duplicateIds)], expectedIds, actualIds},
+      identityDetails,
     )
   }
-  const expectedIdSet = new Set(expectedIds)
-  const unknownIds = [...byId.keys()].filter(id => !expectedIdSet.has(id))
-  const missingIds = expectedIds.filter(id => !byId.has(id))
   if (unknownIds.length) {
     throw semanticResponseError(
       `Unknown semantic unit ID(s): ${unknownIds.join(', ')}`,
       'SEMANTIC_RESPONSE_UNKNOWN_IDS',
-      {field, unknownIds, missingIds, expectedIds, actualIds},
+      identityDetails,
     )
   }
   if (missingIds.length) {
     throw semanticResponseError(
       `Missing semantic unit ID(s): ${missingIds.join(', ')}`,
       'SEMANTIC_RESPONSE_MISSING_IDS',
-      {field, missingIds, expectedIds, actualIds},
+      identityDetails,
     )
   }
   return expectedUnits.map(unit => {
@@ -448,7 +445,7 @@ function deterministicSemanticIssues(sourceUnits, draftUnits, localeContract) {
     )) {
       const scoped = Object.freeze({...issue, location: `${sourceUnit.id}; ${issue.location}`})
       issues.push(scoped)
-      issueUnits.push(Object.freeze({unitId: sourceUnit.id, issue: scoped}))
+      if (issue.evidenceAvailable !== false) issueUnits.push(Object.freeze({unitId: sourceUnit.id, issue: scoped}))
     }
   }
   return Object.freeze({issues: Object.freeze(issues), issueUnits: Object.freeze(issueUnits)})

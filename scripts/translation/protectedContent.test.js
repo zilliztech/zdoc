@@ -126,6 +126,47 @@ test('duplicate marker failures include fail-closed counts and exact occurrence 
   })
 })
 
+test('assigns a unique exactly-once marker to every visible do-not-translate occurrence', () => {
+  const source = 'Use `Zilliz Cloud` first. Zilliz Cloud provides search, and Zilliz Cloud integrates it.'
+  const protectedInput = protectTranslationInput(source, {
+    literalTokens: ['Zilliz Cloud'],
+    reorderWithin: 'document.paragraph.0001',
+  })
+  const literalEntries = protectedInput.manifest.entries.filter(entry => entry.category === 'do_not_translate')
+  const coveringEntries = protectedInput.manifest.entries.filter(entry => entry.original.includes('Zilliz Cloud'))
+
+  assert.equal(literalEntries.length, 2)
+  assert.equal(coveringEntries.length, 3)
+  assert.equal(new Set(coveringEntries.map(entry => entry.marker)).size, 3)
+  assert.equal(protectedInput.content.includes('Zilliz Cloud'), false)
+  assert.equal(restoreProtectedContent(protectedInput.content, protectedInput.manifest), source)
+  assert.throws(
+    () => restoreProtectedContent(protectedInput.content.replace(literalEntries[1].marker, ''), protectedInput.manifest),
+    /missing protected marker/i,
+  )
+  assert.throws(
+    () => restoreProtectedContent(protectedInput.content.replace(literalEntries[1].marker, literalEntries[0].marker), protectedInput.manifest),
+    /duplicate protected marker/i,
+  )
+})
+
+test('preserves every duplicate marker occurrence position beyond the former twenty-item cap', () => {
+  const protectedInput = protectTranslationInput('Use `alpha`.')
+  const marker = protectedInput.manifest.entries[0].marker
+  const candidate = Array.from({length: 25}, (_, index) => `line ${index + 1}: ${marker}`).join('\n')
+
+  assert.throws(() => restoreProtectedContent(candidate, protectedInput.manifest), error => {
+    assert.equal(error.actualCount, 25)
+    assert.equal(error.occurrences.length, 25)
+    assert.deepEqual(error.occurrences.at(-1), {
+      line: 25,
+      column: 10,
+      offset: candidate.lastIndexOf(marker),
+    })
+    return true
+  })
+})
+
 test('protects inline code, ESM, URLs, paths, anchors, placeholders, JSX, comments, and frontmatter metadata', () => {
   const source = [
     '---',

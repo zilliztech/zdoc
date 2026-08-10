@@ -76,10 +76,10 @@ function collectLocalizableEntries(root) {
   return entries
 }
 
-function protectRestEntries(entries, textForEntry = entry => entry.text) {
+function protectRestEntries(entries, textForEntry = entry => entry.text, protectionOptions = {}) {
   return entries.map(entry => {
     const protectedText = textForEntry(entry)
-    return {...entry, protectedText, protection: protectTranslationInput(protectedText, {reorderWithin: entry.id})}
+    return {...entry, protectedText, protection: protectTranslationInput(protectedText, {...protectionOptions, reorderWithin: entry.id})}
   })
 }
 
@@ -229,7 +229,7 @@ function combinedRestIssues(evidence, deterministicIssues) {
 }
 
 async function reviewAndCorrectRestBatch({entries, target, locale, callModel, localeContract, maxReviewRounds, sourcePath, signal}) {
-  const sourceEntries = protectRestEntries(entries)
+  const sourceEntries = protectRestEntries(entries, entry => entry.text, {literalTokens: localeContract.doNotTranslate})
   const sourceContent = JSON.stringify(sourceEntries.map(entry => ({id: entry.id, text: entry.protection.content})))
   let currentEntries = entries
   let review = {pass: false, issues: []}
@@ -283,7 +283,7 @@ async function translateRestSpecs({ sourceSpecs, sourcePath = '<REST document>',
   const translated = []
   const reviews = []
   for (const batch of batchEntries(entries)) {
-    const protectedBatch = protectRestEntries(batch)
+    const protectedBatch = protectRestEntries(batch, entry => entry.text, {literalTokens: localeContract.doNotTranslate})
     const response = await callModel({
       agent: 'translation',
       signal,

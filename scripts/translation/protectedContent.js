@@ -252,7 +252,20 @@ function addMdxExpressionSpans(content, spans) {
   }
 }
 
-function protectedSpans(content) {
+function addLiteralTokenSpans(content, spans, literalTokens) {
+  if (literalTokens === undefined) return
+  if (!Array.isArray(literalTokens) || literalTokens.some(token => typeof token !== 'string' || !token)) {
+    throw new Error('Protected literalTokens must be an array of non-empty strings')
+  }
+  if (new Set(literalTokens).size !== literalTokens.length) throw new Error('Protected literalTokens must be unique')
+  for (const token of [...literalTokens].sort((left, right) => right.length - left.length || left.localeCompare(right))) {
+    for (let index = content.indexOf(token); index !== -1; index = content.indexOf(token, index + token.length)) {
+      addSpan(spans, index, index + token.length, 'do_not_translate')
+    }
+  }
+}
+
+function protectedSpans(content, options = {}) {
   const spans = []
   addFencedCodeSpans(content, spans)
   addFrontmatterSpans(content, spans)
@@ -269,6 +282,7 @@ function protectedSpans(content) {
   addRegexSpans(content, spans, /https?:\/\/[^\s<>"')\]}]+/g, 'url')
   addRegexSpans(content, spans, /(?:\.\.?\/|\/(?!\/)|(?:content|docs|i18n|scripts|config|packages|apps|generated|tmp|\.github)\/)[A-Za-z0-9._~!$&'()*+,;=:@%/-]+/g, 'repository_path')
   addRegexSpans(content, spans, /(?:^|[^A-Za-z0-9-])(--[A-Za-z0-9][A-Za-z0-9-]*)/gm, 'cli_option', 1)
+  addLiteralTokenSpans(content, spans, options.literalTokens)
   return spans.sort((left, right) => left.start - right.start || left.end - right.end)
 }
 
@@ -278,7 +292,7 @@ function markerFor(index, category, original) {
 }
 
 function manifestEntries(source, options = {}) {
-  const entries = protectedSpans(source).map((span, index) => {
+  const entries = protectedSpans(source, options).map((span, index) => {
     const original = source.slice(span.start, span.end)
     const newline = original.endsWith('\r\n') ? '\r\n' : original.endsWith('\n') ? '\n' : ''
     const marker = markerFor(index, span.category, original)

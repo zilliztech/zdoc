@@ -231,73 +231,26 @@ function exactOccurrences(content, token) {
   return occurrences
 }
 
-function semanticSegments(content) {
-  const source = String(content).trim()
-  if (!source) return []
-  const segments = []
-  let start = 0
-  for (const match of source.matchAll(/[.!?。！？;；]+(?:\s+|(?=\S))/g)) {
-    const end = match.index + match[0].length
-    segments.push({start, end, value: source.slice(start, end).trim()})
-    start = end
-  }
-  if (start < source.length) segments.push({start, end: source.length, value: source.slice(start).trim()})
-  return segments.filter(segment => segment.value)
-}
-
-function occurrenceAlignedDraftQuote(sourceLine, draftLine, sourceOccurrence, token) {
-  const source = String(sourceLine)
-  const draft = String(draftLine).trim()
-  if (!draft) return ''
-  const sourceCenter = sourceOccurrence.index + sourceOccurrence.value.length / 2
-  const mappedOffset = source.length ? Math.round(sourceCenter / source.length * draft.length) : 0
-  const segments = semanticSegments(draft)
-  if (!segments.length) return draft.slice(0, 160)
-  let segmentIndex = segments.findIndex(segment => mappedOffset >= segment.start && mappedOffset < segment.end)
-  if (segmentIndex === -1) segmentIndex = segments.length - 1
-  while (segmentIndex < segments.length - 1 && segments[segmentIndex].value.includes(token)) segmentIndex += 1
-  return segments[segmentIndex].value.slice(0, 160)
-}
-
-function doNotTranslateIssues(source, draft, contract, token, sourceCount, draftCount) {
+function doNotTranslateIssues(source, draft, contract, token) {
   const sourceLines = source.split(/\r?\n/)
   const draftLines = draft.split(/\r?\n/)
-  const issues = []
-  let remainingDeficit = sourceCount - draftCount
-
-  for (let lineIndex = 0; lineIndex < sourceLines.length && remainingDeficit > 0; lineIndex += 1) {
-    const sourceOccurrences = exactOccurrences(sourceLines[lineIndex], token)
-    if (!sourceOccurrences.length) continue
-    const draftLine = draftLines[lineIndex] || ''
-    const draftOccurrences = exactOccurrences(draftLine, token)
-    const lineDeficit = sourceOccurrences.length - draftOccurrences.length
-    if (lineDeficit <= 0) continue
-    const sourceOccurrence = sourceOccurrences[Math.min(draftOccurrences.length, sourceOccurrences.length - 1)]
-    const draftQuote = occurrenceAlignedDraftQuote(sourceLines[lineIndex], draftLine, sourceOccurrence, token)
-    if (!draftQuote) continue
-    issues.push(Object.freeze({
-      severity: 'medium',
-      type: 'terminology',
-      location: `line ${lineIndex + 1} containing ${token}`,
-      source_quote: token,
-      draft_quote: draftQuote,
-      comment: `Locale contract ${contract.contractId} lists ${token} as a do-not-translate token and requires it to remain byte-identical.`,
-    }))
-    remainingDeficit -= Math.min(lineDeficit, remainingDeficit)
-  }
-
-  if (issues.length || remainingDeficit <= 0) return issues
-  const draftQuote = boundedDraftQuote(source, draft, token, [])
-  if (!draftQuote) return issues
-  issues.push(Object.freeze({
+  const sourceOccurrences = exactOccurrences(source, token)
+  const sourceLineIndex = sourceOccurrences.length === 1
+    ? source.slice(0, sourceOccurrences[0].index).split(/\r?\n/).length - 1
+    : -1
+  const exactDraftLine = sourceOccurrences.length === 1 && sourceLines.length === draftLines.length
+    ? draftLines[sourceLineIndex]?.trim() || ''
+    : ''
+  const evidenceAvailable = Boolean(exactDraftLine)
+  return [Object.freeze({
     severity: 'medium',
     type: 'terminology',
-    location: `text containing ${token}`,
+    location: evidenceAvailable ? `line ${sourceLineIndex + 1} containing ${token}` : `text containing ${token}`,
     source_quote: token,
-    draft_quote: draftQuote,
+    draft_quote: evidenceAvailable ? exactDraftLine.slice(0, 160) : '',
+    evidenceAvailable,
     comment: `Locale contract ${contract.contractId} lists ${token} as a do-not-translate token and requires it to remain byte-identical.`,
-  }))
-  return issues
+  })]
 }
 
 function mandatoryTermIssues(source, draft, contract, term, sourceCount, targetCount) {
@@ -358,7 +311,7 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
     const sourceCount = countOccurrences(source, token, true)
     const draftCount = countOccurrences(draft, token, true)
     if (!sourceCount || draftCount >= sourceCount) continue
-    issues.push(...doNotTranslateIssues(source, draft, contract, token, sourceCount, draftCount))
+    issues.push(...doNotTranslateIssues(source, draft, contract, token))
   }
   const seenContextual = new Set()
   for (const term of contract.contextualTerms) {

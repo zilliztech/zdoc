@@ -120,7 +120,7 @@ test('requires exact semantic response fields and IDs while normalizing response
   )
 })
 
-test('classifies semantic response count mismatches with exact structured evidence', () => {
+test('classifies a short semantic response as missing IDs with exact structured evidence', () => {
   const expectedUnits = [
     {id: 'chunk.0001.paragraph.0001'},
     {id: 'chunk.0001.paragraph.0002'},
@@ -129,7 +129,7 @@ test('classifies semantic response count mismatches with exact structured eviden
 
   assert.throws(() => parseSemanticUnitResponse(response, {field: 'translations', expectedUnits}), error => {
     assert.equal(error.failureCategory, 'semantic_response_failed')
-    assert.equal(error.code, 'SEMANTIC_RESPONSE_COUNT_MISMATCH')
+    assert.equal(error.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
     assert.equal(error.expectedCount, 2)
     assert.equal(error.actualCount, 1)
     assert.deepEqual(error.expectedIds, expectedUnits.map(unit => unit.id))
@@ -166,6 +166,42 @@ test('assigns structured codes to malformed semantic JSON, schema, duplicate IDs
     },
     code,
   )
+})
+
+test('analyzes all semantic IDs before prioritizing duplicate, unknown, and missing failures', () => {
+  const expectedUnits = [
+    {id: 'chunk.0001.paragraph.0001'},
+    {id: 'chunk.0001.paragraph.0002'},
+    {id: 'chunk.0001.paragraph.0003'},
+  ]
+  const shortDuplicate = JSON.stringify({translations: [
+    {id: expectedUnits[0].id, text: '一'},
+    {id: expectedUnits[0].id, text: '重复'},
+  ]})
+  assert.throws(() => parseSemanticUnitResponse(shortDuplicate, {field: 'translations', expectedUnits}), error => {
+    assert.equal(error.code, 'SEMANTIC_RESPONSE_DUPLICATE_IDS')
+    assert.equal(error.expectedCount, 3)
+    assert.equal(error.actualCount, 2)
+    assert.deepEqual(error.duplicateIds, [expectedUnits[0].id])
+    assert.deepEqual(error.missingIds, [expectedUnits[1].id, expectedUnits[2].id])
+    assert.deepEqual(error.unknownIds, [])
+    return true
+  })
+
+  const unknownAndMissing = JSON.stringify({translations: [
+    {id: expectedUnits[0].id, text: '一'},
+    {id: expectedUnits[1].id, text: '二'},
+    {id: 'chunk.0001.paragraph.9999', text: '未知'},
+  ]})
+  assert.throws(() => parseSemanticUnitResponse(unknownAndMissing, {field: 'translations', expectedUnits}), error => {
+    assert.equal(error.code, 'SEMANTIC_RESPONSE_UNKNOWN_IDS')
+    assert.equal(error.expectedCount, 3)
+    assert.equal(error.actualCount, 3)
+    assert.deepEqual(error.duplicateIds, [])
+    assert.deepEqual(error.unknownIds, ['chunk.0001.paragraph.9999'])
+    assert.deepEqual(error.missingIds, [expectedUnits[2].id])
+    return true
+  })
 })
 
 test('marks semantic protected-content failures structurally at their origin', () => {

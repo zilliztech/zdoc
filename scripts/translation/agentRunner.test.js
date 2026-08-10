@@ -28,7 +28,7 @@ const {
 } = require('./agentRunner')
 const { chunkDocument } = require('./chunker')
 const { REVIEW_RESPONSE_JSON_SCHEMA } = require('./reviewEvidence')
-const { createRecoveryArtifact } = require('./recovery-artifact')
+const { createRecoveryArtifact, readArtifact } = require('./recovery-artifact')
 const { buildTranslationCandidates } = require('../../packages/docs-tooling/src/translation/candidates.ts')
 const { validateReferenceTranslation } = require('../../packages/docs-tooling/src/validation/translation.ts')
 
@@ -1845,9 +1845,12 @@ async function testSemanticResponseCountMismatchRetriesWithStructuredFeedbackAnd
     assert.equal(recovered.status, 'translated')
     assert.equal(recovered.attempts, 2)
     assert.deepEqual(recovered.retryFailures.map(failure => failure.category), ['semantic_response_failed'])
-    assert.equal(recovered.retryFailures[0].code, 'SEMANTIC_RESPONSE_COUNT_MISMATCH')
+    assert.equal(recovered.retryFailures[0].code, 'SEMANTIC_RESPONSE_MISSING_IDS')
+    assert.equal(recovered.retryFailures[0].errorDetails.expectedCount, 2)
+    assert.equal(recovered.retryFailures[0].errorDetails.actualCount, 1)
+    assert.deepEqual(recovered.retryFailures[0].errorDetails.missingIds, ['document.paragraph.0001'])
     assert.equal(retryEvidence.kind, 'semantic_response_error')
-    assert.equal(retryEvidence.code, 'SEMANTIC_RESPONSE_COUNT_MISMATCH')
+    assert.equal(retryEvidence.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
     assert.equal(retryEvidence.expectedCount, 2)
     assert.equal(retryEvidence.actualCount, 1)
     assert.deepEqual(retryEvidence.missingIds, ['document.paragraph.0001'])
@@ -1872,14 +1875,37 @@ async function testSemanticResponseCountMismatchRetriesWithStructuredFeedbackAnd
     })
     assert.equal(failed.status, 'failed')
     assert.equal(failed.failureCategory, 'semantic_response_failed')
-    assert.equal(failed.errorDetails.code, 'SEMANTIC_RESPONSE_COUNT_MISMATCH')
+    assert.equal(failed.errorDetails.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
     assert.equal(failed.errorDetails.expectedCount, 2)
     assert.equal(failed.errorDetails.actualCount, 1)
     assert.deepEqual(failed.retryFailures.map(failure => failure.category), ['semantic_response_failed', 'semantic_response_failed'])
+    for (const retryFailure of failed.retryFailures) {
+      assert.equal(retryFailure.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
+      assert.equal(retryFailure.errorDetails.expectedCount, 2)
+      assert.equal(retryFailure.errorDetails.actualCount, 1)
+      assert.deepEqual(retryFailure.errorDetails.missingIds, ['document.paragraph.0001'])
+    }
 
+    const reportPath = 'tmp/semantic-count-report.json'
+    const coordinator = createProgressCoordinator({
+      siteDir,
+      manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', items: [item]},
+      reportPath,
+      checkpointFiles: 1,
+      checkpointIntervalMs: 1000,
+    })
+    await coordinator.record(failed, 0)
+    await coordinator.checkpoint(true)
+    const persistedReport = JSON.parse(fs.readFileSync(path.join(siteDir, reportPath), 'utf8'))
+    assert.equal(persistedReport.results[0].errorDetails.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
+    assert.equal(persistedReport.results[0].errorDetails.expectedCount, 2)
+    assert.equal(persistedReport.results[0].retryFailures[0].errorDetails.actualCount, 1)
+    assert.deepEqual(persistedReport.results[0].retryFailures[0].errorDetails.missingIds, ['document.paragraph.0001'])
+
+    const artifactDir = path.join(siteDir, 'semantic-count-recovery')
     const artifact = createRecoveryArtifact({
       siteDir,
-      outputDir: path.join(siteDir, 'semantic-count-recovery'),
+      outputDir: artifactDir,
       results: [failed],
       identity: {
         locale: 'ja-JP', group: 'guides', promptContractSha256: 'c'.repeat(64), model: 'translation-model',
@@ -1888,9 +1914,66 @@ async function testSemanticResponseCountMismatchRetriesWithStructuredFeedbackAnd
     })
     assert.deepEqual(artifact.metadata.failureCounts, {semantic_response_failed: 1})
     assert.equal(artifact.failures[0].failureCategory, 'semantic_response_failed')
-    assert.equal(artifact.failures[0].errorDetails.code, 'SEMANTIC_RESPONSE_COUNT_MISMATCH')
+    assert.equal(artifact.failures[0].errorDetails.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
     assert.equal(artifact.failures[0].errorDetails.expectedCount, 2)
     assert.equal(artifact.failures[0].errorDetails.actualCount, 1)
+    const persistedMetadata = JSON.parse(fs.readFileSync(path.join(artifactDir, 'metadata.json'), 'utf8'))
+    const persistedManifest = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8'))
+    assert.deepEqual(persistedMetadata.failureCounts, {semantic_response_failed: 1})
+    assert.equal(persistedManifest.failures[0].errorDetails.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
+    assert.equal(persistedManifest.failures[0].retryFailures[0].errorDetails.expectedCount, 2)
+    assert.equal(persistedManifest.failures[0].retryFailures[0].errorDetails.actualCount, 1)
+    assert.deepEqual(persistedManifest.failures[0].retryFailures[0].errorDetails.missingIds, ['document.paragraph.0001'])
+    const readBackArtifact = readArtifact(artifactDir)
+    assert.equal(readBackArtifact.error, undefined)
+    assert.equal(readBackArtifact.failures[0].errorDetails.code, 'SEMANTIC_RESPONSE_MISSING_IDS')
+    assert.deepEqual(readBackArtifact.failures[0].retryFailures[0].errorDetails.missingIds, ['document.paragraph.0001'])
+  })
+}
+
+async function testStructuredMarkerOccurrencesRemainLosslessAcrossRunnerAndRecovery() {
+  await withTempDir(async siteDir => {
+    const occurrences = Array.from({length: 25}, (_, index) => ({line: index + 1, column: 4, offset: index * 60 + 3}))
+    const item = {
+      sourcePath: 'content/en/guides/marker-positions.md',
+      targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/marker-positions.md',
+      sourceHash: sha256('# source\n'),
+      locale: 'ja-JP',
+      type: 'guides',
+      reason: 'stale_source',
+    }
+    write(path.join(siteDir, item.sourcePath), '# source\n')
+    const failed = await processItemWithRetry(item, {
+      maxRetries: 0,
+      processItem: async () => {
+        throw Object.assign(new Error('duplicate marker'), {
+          failureCategory: 'protected_content_failed',
+          code: 'DUPLICATE_PROTECTED_MARKER',
+          markerId: '000007',
+          expectedCount: 1,
+          actualCount: 25,
+          occurrences,
+        })
+      },
+    })
+    assert.equal(failed.errorDetails.occurrences.length, 25)
+    assert.deepEqual(failed.errorDetails.occurrences.at(-1), occurrences.at(-1))
+    assert.equal(failed.retryFailures[0].errorDetails.occurrences.length, 25)
+
+    const artifactDir = path.join(siteDir, 'marker-recovery')
+    createRecoveryArtifact({
+      siteDir,
+      outputDir: artifactDir,
+      results: [failed],
+      identity: {
+        locale: 'ja-JP', group: 'guides', promptContractSha256: 'c'.repeat(64), model: 'translation-model',
+        sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'full', batchIndex: 0, batchCount: 1,
+      },
+    })
+    const persisted = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8')).failures[0]
+    assert.equal(persisted.errorDetails.occurrences.length, 25)
+    assert.equal(persisted.retryFailures[0].errorDetails.occurrences.length, 25)
+    assert.deepEqual(persisted.retryFailures[0].errorDetails.occurrences.at(-1), occurrences.at(-1))
   })
 }
 
@@ -2814,6 +2897,7 @@ async function run() {
   await testFileRetryRecoversFailedTranslation()
   await testFileRetryFeedsProtectedFailuresAndValidatedReviewEvidenceBackToTranslation()
   await testSemanticResponseCountMismatchRetriesWithStructuredFeedbackAndRecoveryCategory()
+  await testStructuredMarkerOccurrencesRemainLosslessAcrossRunnerAndRecovery()
   await testFileRetryRecordsPersistentFailure()
   await testFileRetryPreservesProviderFailureCategories()
   await testFileRetryPreservesStructuredFailureFieldsWithoutMessageParsing()

@@ -8,7 +8,7 @@ const path = require('node:path');
 const {loadTypeScript} = require('../lib/load-typescript');
 const {localeContractPathFor} = require('./localeContract');
 const {promptNamesFor} = require('./restSpecLocalization');
-const {classifyFailure} = require('./failureClassification');
+const {boundedFailureDetails, classifyFailure} = require('./failureClassification');
 const {
   MAX_PARTIAL_ARTIFACT_BYTES,
   persistChunkCheckpoints,
@@ -60,45 +60,6 @@ function writeJson(filePath, value) {
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
 }
 
-function boundedErrorDetails(value) {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return undefined;
-  const details = {};
-  for (const key of ['name', 'status', 'code']) {
-    const field = value[key];
-    if (typeof field === 'string') details[key] = field.slice(0, 200);
-    else if (Number.isFinite(field)) details[key] = field;
-  }
-  for (const key of ['field', 'semanticUnitId', 'markerId']) {
-    const field = value[key];
-    if (typeof field === 'string') details[key] = field.slice(0, 240);
-  }
-  for (const key of ['entryIndex', 'expectedCount', 'actualCount']) {
-    const field = value[key];
-    if (Number.isFinite(field)) details[key] = field;
-  }
-  for (const key of ['expectedFields', 'actualFields', 'expectedIds', 'actualIds', 'missingIds', 'unknownIds', 'duplicateIds']) {
-    const field = value[key];
-    if (Array.isArray(field)) details[key] = field.filter(item => typeof item === 'string').slice(0, 200).map(item => item.slice(0, 240));
-  }
-  if (Array.isArray(value.occurrences)) {
-    details.occurrences = value.occurrences.slice(0, 20).flatMap(position => (
-      Number.isFinite(position?.line) && Number.isFinite(position?.column) && Number.isFinite(position?.offset)
-        ? [{line: position.line, column: position.column, offset: position.offset}]
-        : []
-    ));
-  }
-  if (value.cause && typeof value.cause === 'object' && !Array.isArray(value.cause)) {
-    const cause = {};
-    for (const key of ['name', 'status', 'code', 'failureCategory']) {
-      const field = value.cause[key];
-      if (typeof field === 'string') cause[key] = field.slice(0, 200);
-      else if (Number.isFinite(field)) cause[key] = field;
-    }
-    if (Object.keys(cause).length) details.cause = cause;
-  }
-  return Object.keys(details).length ? details : undefined;
-}
-
 function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
   assertIdentity(identity);
   fs.rmSync(outputDir, {recursive: true, force: true});
@@ -130,7 +91,7 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
   let partialChunkBytes = 0;
   const failures = results.filter(item => item.status !== 'translated').map(result => {
     let chunkCheckpoints = null;
-    const errorDetails = boundedErrorDetails(result.errorDetails);
+    const errorDetails = boundedFailureDetails(result.errorDetails);
     if (result.chunkCheckpoints) {
       const sourcePath = safePath(siteDir, result.sourcePath, 'Recovery partial source path');
       const sourceHash = sha256(fs.readFileSync(sourcePath));
@@ -147,12 +108,16 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
       failureCategory: classifyFailure(result),
       error: String(result.error || 'translation failed').slice(0, 2000),
       ...(errorDetails ? {errorDetails} : {}),
-      retryFailures: Array.isArray(result.retryFailures) ? result.retryFailures.map(failure => ({
-        attempt: failure.attempt,
-        category: failure.category || classifyFailure(failure),
-        error: String(failure.error || 'translation attempt failed').slice(0, 2000),
-        ...(typeof failure.code === 'string' ? {code: failure.code.slice(0, 200)} : {}),
-      })) : [],
+      retryFailures: Array.isArray(result.retryFailures) ? result.retryFailures.map(failure => {
+        const retryErrorDetails = boundedFailureDetails(failure.errorDetails);
+        return {
+          attempt: failure.attempt,
+          category: failure.category || classifyFailure(failure),
+          error: String(failure.error || 'translation attempt failed').slice(0, 2000),
+          ...(typeof failure.code === 'string' ? {code: failure.code.slice(0, 200)} : {}),
+          ...(retryErrorDetails ? {errorDetails: retryErrorDetails} : {}),
+        };
+      }) : [],
       ...(chunkCheckpoints ? {chunkCheckpoints} : {}),
     };
   });
@@ -406,4 +371,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = {createRecoveryArtifact, discoverRecoveryArtifacts, parseCliArgs, promptContractSha256, restoreRecoveryFiles, sha256};
+module.exports = {createRecoveryArtifact, discoverRecoveryArtifacts, parseCliArgs, promptContractSha256, readArtifact, restoreRecoveryFiles, sha256};

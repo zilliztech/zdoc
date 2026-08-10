@@ -22,7 +22,7 @@ const {
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
 const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
-const {classifyFailure, failureRecord} = require('./failureClassification')
+const {boundedFailureDetails, classifyFailure, failureRecord} = require('./failureClassification')
 const {MAX_PARTIAL_ARTIFACT_BYTES, loadAnalysisChunkResume, serializeCompletedChunkCheckpoints} = require('./chunkRecovery')
 const {validateRecoveryCandidate} = require('./recoveryValidation')
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
@@ -112,36 +112,7 @@ function categorizedError(message, failureCategory, details = {}) {
 }
 
 function structuredErrorDetails(error) {
-  const detail = {}
-  for (const key of ['name', 'status', 'code']) {
-    if (typeof error?.[key] === 'string') detail[key] = error[key].slice(0, 200)
-    else if (Number.isFinite(error?.[key])) detail[key] = error[key]
-  }
-  for (const key of ['field', 'semanticUnitId', 'markerId']) {
-    if (typeof error?.[key] === 'string') detail[key] = error[key].slice(0, 240)
-  }
-  for (const key of ['entryIndex', 'expectedCount', 'actualCount']) {
-    if (Number.isFinite(error?.[key])) detail[key] = error[key]
-  }
-  for (const key of ['expectedFields', 'actualFields', 'expectedIds', 'actualIds', 'missingIds', 'unknownIds', 'duplicateIds']) {
-    if (Array.isArray(error?.[key])) detail[key] = error[key].filter(value => typeof value === 'string').slice(0, 200).map(value => value.slice(0, 240))
-  }
-  if (Array.isArray(error?.occurrences)) {
-    detail.occurrences = error.occurrences.slice(0, 20).flatMap(position => (
-      Number.isFinite(position?.line) && Number.isFinite(position?.column) && Number.isFinite(position?.offset)
-        ? [{line: position.line, column: position.column, offset: position.offset}]
-        : []
-    ))
-  }
-  if (error?.cause && typeof error.cause === 'object') {
-    const cause = {}
-    for (const key of ['name', 'status', 'code', 'failureCategory']) {
-      if (typeof error.cause[key] === 'string') cause[key] = error.cause[key].slice(0, 200)
-      else if (Number.isFinite(error.cause[key])) cause[key] = error.cause[key]
-    }
-    if (Object.keys(cause).length) detail.cause = cause
-  }
-  return Object.keys(detail).length ? detail : undefined
+  return boundedFailureDetails(error)
 }
 
 function stripInternalRecoveryFields(value) {
@@ -435,7 +406,12 @@ async function processItemWithRetry(item, options) {
     }
 
     const failure = summarizeFailedResult(result)
-    const record = failureRecord({attempt: attempt + 1, failure: result})
+    const retryErrorDetails = boundedFailureDetails(result?.errorDetails)
+    const hasActionableRetryDetails = typeof retryErrorDetails?.code === 'string'
+    const record = Object.freeze({
+      ...failureRecord({attempt: attempt + 1, failure: result}),
+      ...(hasActionableRetryDetails ? {errorDetails: retryErrorDetails} : {}),
+    })
     failures.push(record)
     const errorCode = result?.errorDetails?.code
     retryFeedback = result?.failureCategory === 'semantic_response_failed' || String(errorCode || '').startsWith('SEMANTIC_RESPONSE_')
@@ -612,8 +588,9 @@ async function translateAndReviewUnit({
   const idPrefix = chunkContext ? `chunk.${String(chunkContext.index + 1).padStart(4, '0')}` : 'document'
   const units = await collectSemanticUnits(sourceContent, {idPrefix})
   if (!units.length) return {translatedContent: sourceContent, review: {pass: true, issues: []}, semanticUnits: 0}
-  const protectedSource = protectTranslationInput(sourceContent)
-  const sourceUnits = protectSemanticUnits(units)
+  const protectedOptions = {literalTokens: localeContract.doNotTranslate}
+  const protectedSource = protectTranslationInput(sourceContent, protectedOptions)
+  const sourceUnits = protectSemanticUnits(units, unit => unit.source, protectedOptions)
   const sourceUnitPayload = sourceUnits.map(unit => ({id: unit.id, kind: unit.kind, text: unit.protection.content}))
   const initialResponse = await callModel({
     agent: 'translation',
@@ -685,6 +662,7 @@ async function translateAndReviewUnit({
     if (review.pass || round === maxReviewRounds) break
     if (evidence.fatal || issues.length === 0) break
     const authorizedIds = [...new Set(issueUnits.map(item => item.unitId))]
+    if (!authorizedIds.length) break
     const authorizedDraftUnits = draftUnits.filter(unit => authorizedIds.includes(unit.id))
     const authorizedPayload = authorizedDraftUnits.map(unit => ({
       id: unit.id,
