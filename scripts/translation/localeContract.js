@@ -429,22 +429,22 @@ function issueConflictsWithLocaleContract(issue, contract, sourceContent = '') {
       return ranges
     })
     if (!contextualRanges.length) continue
-    const termOccurrences = mandatoryTermOccurrences(source, contextual.source, contextual.caseSensitive)
-    const contextualOccurrences = termOccurrences.filter(occurrence =>
-      contextualRanges.some(range => occurrence.index >= range.start && occurrence.index < range.end),
-    )
-    if (!contextualOccurrences.length) continue
-    const ordinaryOccurrences = termOccurrences.filter(occurrence =>
-      !contextualRanges.some(range => occurrence.index >= range.start && occurrence.index < range.end),
-    )
     const comparableTerm = contextual.caseSensitive ? contextual.source : contextual.source.toLocaleLowerCase('en-US')
     if (!quote.includes(comparableTerm)) continue
+    const quoteRanges = []
+    for (let index = comparableSource.indexOf(quote); index !== -1; index = comparableSource.indexOf(quote, index + quote.length)) {
+      quoteRanges.push({start: index, end: index + quote.length})
+    }
+    const contextualQuoteRanges = quoteRanges.filter(quoteRange =>
+      contextualRanges.some(contextRange => quoteRange.start < contextRange.end && quoteRange.end > contextRange.start),
+    )
+    if (!contextualQuoteRanges.length) continue
+    if (contextualQuoteRanges.length === quoteRanges.length) return true
     for (const context of contextual.sourceContexts) {
       const boundSource = contextBoundToken(context, contextual.source, contextual.source, contextual.caseSensitive)
       const comparableBoundSource = contextual.caseSensitive ? boundSource : boundSource.toLocaleLowerCase('en-US')
-      if (boundSource !== contextual.source && (quote.includes(comparableBoundSource) || draftQuote.includes(comparableBoundSource))) return true
+      if (boundSource !== contextual.source && draftQuote.includes(comparableBoundSource)) return true
     }
-    if (!ordinaryOccurrences.length) return true
     if (quote === comparableTerm && draftQuote === comparableTerm) return true
   }
   return false

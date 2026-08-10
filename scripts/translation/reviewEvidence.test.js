@@ -250,6 +250,26 @@ test('uses draft occurrence evidence to distinguish bare vector quotes in mixed 
   assert.deepEqual(result.contractConflicts[0].issue, contextual)
 })
 
+test('does not treat a unique ordinary bold vector quote as the contextual identifier', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const sourceContent = 'The collection has the following fields: **id**, **vector**, and **doctype**. Search a **vector** field.'
+  const draftContent = 'コレクションには **id**、**vector**、**doctype** があります。**vector** フィールドを検索します。'
+  const ordinary = issue({
+    location: 'ordinary bold vector prose',
+    source_quote: 'Search a **vector** field.',
+    draft_quote: '**vector** フィールドを検索します。',
+    comment: 'Translate the ordinary product term as **ベクトル**.',
+  })
+
+  const result = validateReviewEvidence(
+    {pass: false, issues: [ordinary]},
+    {sourceContent, draftContent, localeContract: contract},
+  )
+  assert.deepEqual(result.validatedIssues, [ordinary])
+  assert.deepEqual(result.contractConflicts, [])
+  assert.equal(result.correctionAuthorized, true)
+})
+
 test('does not report a contract conflict for excluded garbage collection prose', () => {
   const contract = loadLocaleContract('zh-CN-reference')
   const result = validateReviewEvidence({
