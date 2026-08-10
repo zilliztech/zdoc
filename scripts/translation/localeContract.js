@@ -86,6 +86,13 @@ function validateLocaleContract(value, expectedTarget = value?.target) {
     if (mandatorySources.has(key)) throw new Error(`Locale contract contains duplicate mandatory term ${term.source}`)
     mandatorySources.add(key)
   }
+  for (const [index, contextual] of value.contextualTerms.entries()) {
+    const mandatory = value.mandatoryTerms.find(term => term.source === contextual.source && term.caseSensitive === contextual.caseSensitive)
+    if (!mandatory || mandatory.target === contextual.target) continue
+    if (!contextual.sourceContexts.every(context => mandatory.excludedSourceContexts?.includes(context))) {
+      throw new Error(`Locale contract contextualTerms[${index}] overrides mandatory term ${contextual.source} without matching excludedSourceContexts`)
+    }
+  }
   if (!Array.isArray(value.forbiddenTranslations)) throw new Error('Locale contract forbiddenTranslations must be an array')
   const forbiddenSources = new Set()
   for (const [index, item] of value.forbiddenTranslations.entries()) {
@@ -356,12 +363,13 @@ function issueConflictsWithLocaleContract(issue, contract, sourceContent = '') {
     if (demandsForbidden) return true
   }
   const source = String(sourceContent)
-  for (const term of contract.mandatoryTerms) {
-    if (!term.excludedSourceContexts?.length || !issue.comment.includes(term.target)) continue
-    const quote = term.caseSensitive ? issue.source_quote : issue.source_quote.toLocaleLowerCase('en-US')
-    for (const context of term.excludedSourceContexts) {
-      const comparableContext = term.caseSensitive ? context : context.toLocaleLowerCase('en-US')
-      const comparableSource = term.caseSensitive ? source : source.toLocaleLowerCase('en-US')
+  for (const contextual of contract.contextualTerms) {
+    const mandatory = contract.mandatoryTerms.find(term => term.source === contextual.source && term.caseSensitive === contextual.caseSensitive)
+    if (!mandatory || mandatory.target === contextual.target || !issue.comment.includes(mandatory.target)) continue
+    const quote = contextual.caseSensitive ? issue.source_quote : issue.source_quote.toLocaleLowerCase('en-US')
+    for (const context of contextual.sourceContexts) {
+      const comparableContext = contextual.caseSensitive ? context : context.toLocaleLowerCase('en-US')
+      const comparableSource = contextual.caseSensitive ? source : source.toLocaleLowerCase('en-US')
       if (comparableContext.includes(quote) && comparableSource.includes(comparableContext)) return true
     }
   }

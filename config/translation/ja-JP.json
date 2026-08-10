@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractId": "ja-JP-2026-08-10-p0.3",
+  "contractId": "ja-JP-2026-08-10-p0.4",
   "target": "ja-JP",
   "locale": "ja-JP",
   "styleRules": [
@@ -37,7 +37,16 @@
     "Dedicated",
     "AUTOINDEX"
   ],
-  "contextualTerms": [],
+  "contextualTerms": [
+    {
+      "source": "vector",
+      "target": "vector",
+      "caseSensitive": false,
+      "sourceContexts": [
+        "fields: **id**, **vector**, and **doctype**"
+      ]
+    }
+  ],
   "examples": [
     {
       "id": "ja-boost-ranker-vector-identifier",

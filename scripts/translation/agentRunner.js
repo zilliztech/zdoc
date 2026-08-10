@@ -186,6 +186,14 @@ function stripCodeFence(text) {
 }
 
 const TRANSIENT_PROVIDER_HTTP_STATUSES = new Set([409, 425, 429, 500, 502, 503, 504])
+const INCOMPLETE_STREAM_PATTERN = /stream disconnected before completion:\s*stream closed before response\.completed/i
+const HARD_PROVIDER_TIMEOUT_PATTERN = /Request timed out after 240(?:\.0)?s|timed out after 240000ms/i
+
+function shouldRecommendAdaptiveSubdivision(error, {agent, adaptivePayload}) {
+  if (agent !== 'translation' || adaptivePayload !== true) return false
+  const message = String(error?.message || error)
+  return HARD_PROVIDER_TIMEOUT_PATTERN.test(message) || INCOMPLETE_STREAM_PATTERN.test(message)
+}
 
 function isRetryableProviderError(error) {
   const message = String(error?.message || error)
@@ -228,7 +236,7 @@ async function createProviderCall(agentConfigs, options = {}) {
   }
   const timeoutMs = parsePositiveInteger(options.timeoutMs, DEFAULT_PROVIDER_TIMEOUT_MS)
 
-  return async function callModel({ agent, messages, signal: externalSignal, retryBudget = null, retryMode = 'normal' }) {
+  return async function callModel({ agent, messages, signal: externalSignal, retryBudget = null, retryMode = 'normal', adaptivePayload = false }) {
     const config = agentConfigs[agent]
     if (!config?.baseUrl || !config?.apiKey || !config?.model) {
       throw new Error(`Missing provider config for ${agent} agent`)
@@ -277,11 +285,13 @@ async function createProviderCall(agentConfigs, options = {}) {
         const data = await res.json().catch(() => ({}))
         const content = data?.choices?.[0]?.message?.content
         if (!res.ok) {
-          const error = new Error(`${agent} agent failed with HTTP ${res.status}: ${JSON.stringify(data).slice(0, 500)}`)
+          const responseBody = JSON.stringify(data).slice(0, 500)
+          const incompleteStream = INCOMPLETE_STREAM_PATTERN.test(responseBody)
+          const error = new Error(`${agent} agent failed with HTTP ${res.status}: ${responseBody}`)
           error.status = res.status
           const retryableTransport = TRANSIENT_PROVIDER_HTTP_STATUSES.has(res.status)
-          error.failureCategory = res.status === 408 ? 'provider_timeout' : retryableTransport ? 'provider_transport' : 'unknown'
-          error.code = res.status === 408 ? 'PROVIDER_TIMEOUT' : retryableTransport ? 'PROVIDER_TRANSPORT' : 'PROVIDER_HTTP_ERROR'
+          error.failureCategory = incompleteStream ? 'provider_transport' : res.status === 408 ? 'provider_timeout' : retryableTransport ? 'provider_transport' : 'unknown'
+          error.code = incompleteStream ? 'PROVIDER_TRANSPORT' : res.status === 408 ? 'PROVIDER_TIMEOUT' : retryableTransport ? 'PROVIDER_TRANSPORT' : 'PROVIDER_HTTP_ERROR'
           throw error
         }
         if (!content) {
@@ -299,6 +309,10 @@ async function createProviderCall(agentConfigs, options = {}) {
             ? providerTimeout
             : error
         if (!lastError.failureCategory) lastError.failureCategory = classifyFailure(lastError)
+        if (shouldRecommendAdaptiveSubdivision(lastError, {agent, adaptivePayload})) {
+          lastError.adaptiveSubdivisionRecommended = true
+          break
+        }
         if (externalSignal?.aborted || attempt >= perCallRetries || !isRetryableProviderError(lastError)) break
         if (!consumeProviderRetryBudget(retryBudget)) break
         const waitMs = calculateProviderRetryDelay(attempt, retryOptions)
@@ -677,6 +691,7 @@ async function translateAndReviewUnit({
         signal,
         retryBudget: providerRetryBudget,
         retryMode,
+        adaptivePayload: batch.length > 1,
         messages: buildTranslationMessages({
           target,
           sourcePath,
@@ -691,7 +706,7 @@ async function translateAndReviewUnit({
       return restoreSemanticUnitResponse(response, {field: 'translations', protectedUnits: protectedBatch, localeContract})
     } catch (error) {
       const providerFailure = ['provider_timeout', 'provider_transport'].includes(classifyFailure(error))
-      const repeatedProviderFailure = Number(error?.providerAttempts) > 1 || Number(error?.retryBudgetConsumed) > 0
+      const repeatedProviderFailure = error?.adaptiveSubdivisionRecommended === true || Number(error?.providerAttempts) > 1 || Number(error?.retryBudgetConsumed) > 0
       if (providerFailure && batch.length > 1 && (adaptive || repeatedProviderFailure)) {
         const targetChars = Math.max(1, Math.floor(adaptiveTargetChars / (2 ** depth)))
         const maxChars = Math.max(targetChars, Math.floor(adaptiveMaxChars / (2 ** depth)))

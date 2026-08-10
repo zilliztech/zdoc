@@ -1051,21 +1051,142 @@ async function testProviderRetryBudgetStopsNestedFileRetries() {
           agent: 'translation',
           messages: [{role: 'user', content: 'translate'}],
           retryBudget: retryContext.providerRetryBudget,
+          adaptivePayload: true,
         })
       },
     })
 
-    assert.equal(calls, 2, 'one initial request plus one same-payload retry before adaptive fallback')
+    assert.equal(calls, 1, 'a hard 240s timeout must return immediately for adaptive subdivision')
     assert.equal(result.status, 'failed')
     assert.equal(result.attempts, 1, 'an exhausted provider budget must not start a second file attempt')
     assert.equal(result.failureCategory, 'provider_timeout')
     assert.equal(result.errorDetails.retryBudgetLimit, 2)
-    assert.equal(result.errorDetails.retryBudgetConsumed, 1)
-    assert.equal(result.errorDetails.retryBudgetRemaining, 1)
-    assert.equal(result.errorDetails.providerAttempts, 2)
+    assert.equal(result.errorDetails.retryBudgetConsumed, 0)
+    assert.equal(result.errorDetails.retryBudgetRemaining, 2)
+    assert.equal(result.errorDetails.providerAttempts, 1)
   } finally {
     global.fetch = originalFetch
   }
+}
+
+async function testHttp408IncompleteStreamIsTransportAndSkipsIdenticalAdaptiveRetry() {
+  const originalFetch = global.fetch
+  let calls = 0
+  global.fetch = async () => {
+    calls += 1
+    return {
+      ok: false,
+      status: 408,
+      json: async () => ({error: {message: 'stream disconnected before completion: stream closed before response.completed'}}),
+    }
+  }
+
+  try {
+    const callModel = await createProviderCall({
+      translation: {baseUrl: 'https://example.com', apiKey: 'test-key', model: 'test-model'},
+    }, {maxRetries: 3, retryDelayMs: 0})
+    const retryBudget = createProviderRetryBudget(3)
+    await assert.rejects(() => callModel({
+      agent: 'translation',
+      messages: [{role: 'user', content: 'multi-unit translation'}],
+      retryBudget,
+      adaptivePayload: true,
+    }), error => {
+      assert.equal(error.failureCategory, 'provider_transport')
+      assert.equal(error.code, 'PROVIDER_TRANSPORT')
+      assert.equal(error.providerAttempts, 1)
+      assert.equal(error.adaptiveSubdivisionRecommended, true)
+      return true
+    })
+    assert.equal(calls, 1)
+    assert.deepEqual(retryBudget, {limit: 3, consumed: 0, remaining: 3})
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
+async function testAdaptiveTranslationStillRetriesOrdinaryTransientHttpFailures() {
+  const originalFetch = global.fetch
+  let calls = 0
+  global.fetch = async () => {
+    calls += 1
+    return calls === 1
+      ? {ok: false, status: 500, json: async () => ({error: {message: 'temporary upstream failure'}})}
+      : {ok: true, status: 200, json: async () => ({choices: [{message: {content: 'translated'}}]})}
+  }
+  try {
+    const callModel = await createProviderCall({
+      translation: {baseUrl: 'https://example.com', apiKey: 'test-key', model: 'test-model'},
+    }, {maxRetries: 3, retryDelayMs: 0})
+    const retryBudget = createProviderRetryBudget(2)
+    const output = await callModel({agent: 'translation', messages: [], retryBudget, adaptivePayload: true})
+    assert.equal(output, 'translated')
+    assert.equal(calls, 2)
+    assert.deepEqual(retryBudget, {limit: 2, consumed: 1, remaining: 1})
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
+async function testHardProviderTimeoutDirectlySubdividesWithoutDuplicateFullPayload() {
+  const originalFetch = global.fetch
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/direct-adaptive.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/direct-adaptive.md'
+    const source = '# Search fields\n\nThe collection uses a vector field.\n\nBuild an index for the database.\n'
+    write(path.join(siteDir, sourcePath), source)
+    const translationBatchSizes = []
+    let firstTranslation = true
+    global.fetch = async (_url, options = {}) => {
+      const body = JSON.parse(options.body)
+      if (body.model === 'review-model') {
+        return {ok: true, status: 200, json: async () => ({choices: [{message: {content: '{"pass":true,"issues":[]}'}}]})}
+      }
+      const units = taggedJsonContent(body.messages, 'semantic_units')
+      translationBatchSizes.push(units.length)
+      if (firstTranslation) {
+        firstTranslation = false
+        return {
+          ok: false,
+          status: 408,
+          json: async () => ({error: {message: 'litellm.APITimeoutError: Request timed out after 240.0s'}}),
+        }
+      }
+      const content = semanticTranslationResponse(body.messages, text => text
+        .replace('Search fields', '検索フィールド')
+        .replace('collection', 'コレクション')
+        .replace('vector', 'ベクトル')
+        .replace('index', 'インデックス')
+        .replace('database', 'データベース'))
+      return {ok: true, status: 200, json: async () => ({choices: [{message: {content}}]})}
+    }
+
+    try {
+      const callModel = await createProviderCall({
+        translation: {baseUrl: 'https://example.com', apiKey: 'test-key', model: 'translation-model'},
+        review: {baseUrl: 'https://example.com', apiKey: 'test-key', model: 'review-model'},
+      }, {maxRetries: 3, retryDelayMs: 0})
+      const retryBudget = createProviderRetryBudget(2)
+      const result = await processManifestItem({
+        siteDir,
+        item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
+        callModel,
+        providerRetryBudget: retryBudget,
+        maxReviewRounds: 0,
+        chunkTargetChars: 100,
+        chunkMaxChars: 200,
+        validate: async () => [],
+      })
+
+      assert.equal(result.status, 'translated')
+      assert.ok(translationBatchSizes[0] > 1)
+      assert.equal(translationBatchSizes.slice(1).includes(translationBatchSizes[0]), false)
+      assert.equal(translationBatchSizes.slice(1).reduce((sum, size) => sum + size, 0), translationBatchSizes[0])
+      assert.deepEqual(retryBudget, {limit: 2, consumed: 2, remaining: 0})
+    } finally {
+      global.fetch = originalFetch
+    }
+  })
 }
 
 async function testAdaptiveSemanticSubdivisionRecoversProviderTimeouts() {
@@ -1076,7 +1197,7 @@ async function testAdaptiveSemanticSubdivisionRecoversProviderTimeouts() {
     write(path.join(siteDir, sourcePath), source)
     const translationBatchSizes = []
     let initialFailure = true
-    const providerRetryBudget = createProviderRetryBudget(3)
+    const providerRetryBudget = createProviderRetryBudget(2)
     const result = await processManifestItem({
       siteDir,
       item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
@@ -1091,15 +1212,14 @@ async function testAdaptiveSemanticSubdivisionRecoversProviderTimeouts() {
         translationBatchSizes.push(units.length)
         if (initialFailure) {
           initialFailure = false
-          providerRetryBudget.consumed = 1
-          providerRetryBudget.remaining = 2
           throw Object.assign(new Error('stream disconnected before completion: stream closed before response.completed'), {
             failureCategory: 'provider_transport',
             code: 'PROVIDER_TRANSPORT',
-            providerAttempts: 2,
+            providerAttempts: 1,
+            adaptiveSubdivisionRecommended: true,
             retryBudgetLimit: 2,
-            retryBudgetConsumed: 1,
-            retryBudgetRemaining: 1,
+            retryBudgetConsumed: 0,
+            retryBudgetRemaining: 2,
           })
         }
         return semanticTranslationResponse(messages, text => text
@@ -1142,7 +1262,8 @@ async function testAdaptiveSemanticSubdivisionRetainsFailClosedProtectedContent(
           if (initialFailure) {
             initialFailure = false
             throw Object.assign(new Error('translation agent timed out'), {
-              failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 2,
+              failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 1,
+              adaptiveSubdivisionRecommended: true,
             })
           }
           return semanticTranslationResponse(messages, text => text.replace('abstract', '`abstract`'))
@@ -1180,8 +1301,9 @@ async function testAdaptiveSemanticSubdivisionReportsTerminalUnitEvidence() {
           if (initialFailure) {
             initialFailure = false
             throw Object.assign(new Error('translation agent timed out after bounded retries'), {
-              failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 3,
-              retryBudgetLimit: 2, retryBudgetConsumed: 2, retryBudgetRemaining: 0,
+              failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 1,
+              adaptiveSubdivisionRecommended: true,
+              retryBudgetLimit: 2, retryBudgetConsumed: 0, retryBudgetRemaining: 2,
             })
           }
           adaptiveCalls += 1
@@ -1235,10 +1357,9 @@ async function testAdaptiveSemanticSubdivisionPreservesCompletedChunkCheckpoint(
           if (chunk === 1) return semanticTranslationResponse(messages)
           if (!hardFailureStarted) {
             hardFailureStarted = true
-            providerRetryBudget.consumed = 0
-            providerRetryBudget.remaining = 1
             throw Object.assign(new Error('translation agent timed out after bounded retries'), {
-              failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 2,
+              failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 1,
+              adaptiveSubdivisionRecommended: true,
               retryBudgetLimit: 1, retryBudgetConsumed: 0, retryBudgetRemaining: 1,
             })
           }
@@ -1318,7 +1439,7 @@ async function testProductionTimeoutFixturesUseHalfSizedAdaptivePayloads() {
       write(path.join(siteDir, sourcePath), source)
       const payloadChars = []
       let initialFailure = true
-      const providerRetryBudget = createProviderRetryBudget(2)
+      const providerRetryBudget = createProviderRetryBudget(1)
       const result = await processItemWithRetry({sourcePath}, {
         maxRetries: 0,
         providerRetryBudget,
@@ -1336,16 +1457,15 @@ async function testProductionTimeoutFixturesUseHalfSizedAdaptivePayloads() {
             payloadChars.push(units.reduce((sum, unit) => sum + unit.text.length, 0))
             if (initialFailure) {
               initialFailure = false
-              providerRetryBudget.consumed = 1
-              providerRetryBudget.remaining = 1
               throw Object.assign(new Error('litellm.APITimeoutError: Request timed out after 240.0s'), {
-                failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 3,
-                retryBudgetLimit: 2, retryBudgetConsumed: 1, retryBudgetRemaining: 1,
+                failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 1,
+                adaptiveSubdivisionRecommended: true,
+                retryBudgetLimit: 1, retryBudgetConsumed: 0, retryBudgetRemaining: 1,
               })
             }
             throw Object.assign(new Error('stream disconnected before completion: stream closed before response.completed'), {
               failureCategory: 'provider_transport', code: 'PROVIDER_TRANSPORT', providerAttempts: 1,
-              retryBudgetLimit: 2, retryBudgetConsumed: 2, retryBudgetRemaining: 0,
+              retryBudgetLimit: 1, retryBudgetConsumed: 1, retryBudgetRemaining: 0,
             })
           },
         }),
@@ -3237,6 +3357,9 @@ async function run() {
   await testProviderStructuredOutputIsCapabilityGated()
   await testProviderCallTimesOutHungRequests()
   await testProviderRetryBudgetStopsNestedFileRetries()
+  await testHttp408IncompleteStreamIsTransportAndSkipsIdenticalAdaptiveRetry()
+  await testAdaptiveTranslationStillRetriesOrdinaryTransientHttpFailures()
+  await testHardProviderTimeoutDirectlySubdividesWithoutDuplicateFullPayload()
   await testAdaptiveSemanticSubdivisionRecoversProviderTimeouts()
   await testAdaptiveSemanticSubdivisionRetainsFailClosedProtectedContent()
   await testAdaptiveSemanticSubdivisionReportsTerminalUnitEvidence()

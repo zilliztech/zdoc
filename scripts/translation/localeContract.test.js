@@ -26,6 +26,12 @@ test('loads exact deeply frozen Chinese and Japanese locale contracts', () => {
     ...chinese,
     mandatoryTerms: [...chinese.mandatoryTerms, chinese.mandatoryTerms[0]],
   }, 'zh-CN-reference'), /duplicate/i)
+  assert.throws(() => validateLocaleContract({
+    ...japanese,
+    mandatoryTerms: japanese.mandatoryTerms.map(term => term.source === 'vector'
+      ? {source: term.source, target: term.target, caseSensitive: term.caseSensitive}
+      : term),
+  }, 'ja-JP'), /contextualTerms.*excludedSourceContexts/i)
 })
 
 test('requires Compaction in Chinese without banning ordinary compression', () => {
@@ -75,8 +81,14 @@ test('preserves vector only for the exact Boost Ranker field-identifier fixture'
   const contract = loadLocaleContract('ja-JP')
   const identifierSource = 'The collection has the following fields: **id**, **vector**, and **doctype**.'
   const identifierDraft = 'コレクションには、**id**、**vector**、**doctype** のフィールドがあります。'
+  const translatedIdentifierDraft = 'コレクションには、**id**、**ベクトル**、**doctype** のフィールドがあります。'
 
   assert.deepEqual(validateLocaleContractDraft(identifierSource, identifierDraft, contract), [])
+  const identifierIssues = validateLocaleContractDraft(identifierSource, translatedIdentifierDraft, contract)
+  assert.equal(identifierIssues.length, 1)
+  assert.equal(identifierIssues[0].source_quote, 'vector')
+  assert.equal(identifierIssues[0].draft_quote, translatedIdentifierDraft)
+  assert.match(identifierIssues[0].comment, /field identifier|remain vector/i)
   assert.equal(
     validateLocaleContractDraft('Search a vector field.', 'vector フィールドを検索します。', contract).length,
     1,
