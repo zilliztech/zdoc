@@ -469,8 +469,9 @@ function unmatchedEntries(entries, oppositeEntries) {
 }
 
 function validateProtectedContent(sourceContent, targetContent, options = {}) {
-  const sourceEntries = manifestEntries(String(sourceContent))
-  const targetEntries = manifestEntries(String(targetContent))
+  const protectedOptions = {literalTokens: options.literalTokens}
+  const sourceEntries = manifestEntries(String(sourceContent), protectedOptions)
+  const targetEntries = manifestEntries(String(targetContent), protectedOptions)
   const unmatchedSource = unmatchedEntries(sourceEntries, targetEntries)
   const unmatchedTarget = unmatchedEntries(targetEntries, sourceEntries)
   const errors = []

@@ -4,7 +4,7 @@ const assert = require('node:assert/strict')
 const yaml = require('js-yaml')
 const {validateMdxStructure} = require('../../packages/docs-tooling/src/mdx/validate.cjs')
 const {loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
-const {validateProtectedContent} = require('./protectedContent')
+const {protectTranslationInput, validateProtectedContent} = require('./protectedContent')
 const {parseRestDocument, removeLocale} = require('./restSpecLocalization')
 
 function validateFrontmatter(content) {
@@ -32,8 +32,16 @@ function validateRestIdentity(sourceContent, targetContent, locale) {
 }
 
 function validateRecoveryCandidate({sourceContent, targetContent, sourcePath, targetPath, target, locale}) {
-  const protectedErrors = validateProtectedContent(sourceContent, targetContent, {sourcePath, targetPath})
-  const localeIssues = validateLocaleContractDraft(sourceContent, targetContent, loadLocaleContract(target))
+  const localeContract = loadLocaleContract(target)
+  const protectedOptions = {literalTokens: localeContract.doNotTranslate}
+  const protectedErrors = validateProtectedContent(sourceContent, targetContent, {
+    sourcePath,
+    targetPath,
+    ...protectedOptions,
+  })
+  const protectedSource = protectTranslationInput(sourceContent, protectedOptions)
+  const protectedTarget = protectTranslationInput(targetContent, protectedOptions)
+  const localeIssues = validateLocaleContractDraft(protectedSource.content, protectedTarget.content, localeContract)
   return Object.freeze([
     ...protectedErrors.map(error => `protected: ${error}`),
     ...localeIssues.map(issue => `locale: ${issue.location}: ${issue.comment}`),
