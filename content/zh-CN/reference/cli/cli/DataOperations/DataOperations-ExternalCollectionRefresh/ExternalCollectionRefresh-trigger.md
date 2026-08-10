@@ -7,15 +7,15 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会为外部集合触发一个刷新任务，并返回任务 ID。 | Cloud"
+description: "此操作会为外部 Collection 触发一个刷新作业。返回作业 ID。 | Cloud"
 type: docx
 token: ApSLdblNKo7ru0xGTqbconxBnSh
 sidebar_position: 3
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - OpenAI 向量数据库
+  - 自然语言处理 Database
+  - 低成本向量 Database
+  - 托管式向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # trigger
 
-此操作会为外部集合触发一个刷新任务，并返回任务 ID。
+此操作会为外部 Collection 触发一个刷新作业。返回作业 ID。
 
 ## 描述\{#description}
 
-在当前集群上下文中为外部集合启动一个刷新任务。使用返回的 `jobId`，可通过 `zilliz external-collection refresh describe` 查询该任务。
+在当前集群上下文中为外部 Collection 启动一个刷新作业。使用返回的 `jobId`，通过 `zilliz external-collection refresh describe` 检查该作业。
 
-## 简介\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz external-collection refresh trigger
@@ -51,13 +51,13 @@ zilliz external-collection refresh trigger
 
 - **--name** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    指定外部集合名称。
+    指定外部 Collection 名称。
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    指定 Database 名称。
 
 - **--external-source** (*string*) -
 

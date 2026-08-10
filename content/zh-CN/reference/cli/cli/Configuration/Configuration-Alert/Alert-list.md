@@ -12,13 +12,13 @@ type: docx
 token: DTiIdd5NBocV9JxsNHZcoUownwh
 sidebar_position: 5
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - RAG LLM 架构
+  - 私有 LLM
+  - NN 搜索
+  - LLM 评估
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list
   - cliv14
 displayed_sidebar: cliSidebar
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作列出项目的告警规则。
 
-## 概要\{#synopsis}
+## 概述\{#synopsis}
 
 ```bash
 zilliz alert list
@@ -47,21 +47,21 @@ zilliz alert list
 
 - **--project-id** (*string*) -
 
-    指定项目 ID，例如 `proj-xxxxx`。
+    表示项目 ID，例如 `proj-xxxxx`。
 
-    如果已使用 `zilliz context set` 配置项目，则在未配置此选项时会自动应用该项目。
+    如果项目使用 `zilliz context set` 进行了配置，则在未配置此选项时会自动应用该项目。
 
 - **--page-size** (*integer*) -
 
-    指定每页的条目数。默认值为 **10**。
+    表示每页的条目数。默认值为 **10**。
 
 - **--page** (*integer*) -
 
-    指定页码。默认值为 **1**。
+    表示页码。默认值为 **1**。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    表示输出格式。可选值：
 
     - `json`，
 

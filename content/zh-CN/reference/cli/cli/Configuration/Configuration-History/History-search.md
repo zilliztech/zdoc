@@ -7,14 +7,14 @@ added_since: v1.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会从命令历史中筛选出命令行包含给定关键字的条目（不区分大小写的子字符串匹配），并按从新到旧排序。 | Cloud"
+description: "此操作会筛选命令历史记录，找出命令行中包含给定关键字的条目（不区分大小写的子字符串匹配），并按从新到旧的顺序排序。 | Cloud"
 type: docx
 token: FVmwd1ishoRaqUxQQNNch019nOf
 sidebar_position: 3
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - Agentic RAG
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # search
 
-此操作会从命令历史中筛选出命令行包含给定关键字的条目（不区分大小写的子字符串匹配），并按从新到旧排序。
+此操作会筛选命令历史记录，找出命令行中包含给定关键字的条目（不区分大小写的子字符串匹配），并按从新到旧的顺序排序。
 
 ## 概要\{#synopsis}
 
@@ -46,7 +46,7 @@ zilliz history search
 
     **[必需]**
 
-    指定搜索词。对已记录的命令行执行不区分大小写的子字符串匹配。
+    指定搜索词。系统会针对已记录的命令行执行不区分大小写的子字符串匹配。
 
 ## 示例\{#example}
 

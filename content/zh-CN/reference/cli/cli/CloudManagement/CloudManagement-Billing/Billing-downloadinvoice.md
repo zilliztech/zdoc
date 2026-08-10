@@ -7,15 +7,15 @@ added_since: v1.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将发票下载为 PDF。请先使用 `zilliz billing invoices` 列出可用的发票 ID。如果既未提供 `--output-file` 也未提供 `--dir`，PDF 将保存为 `./.pdf`。 | Cloud"
+description: "此操作会将发票下载为 PDF。请先使用 `zilliz billing invoices` 列出可用的发票 ID。如果既未提供 `--output-file`，也未提供 `--dir`，则 PDF 将保存为 `./.pdf`。 | Cloud"
 type: docx
 token: RnGZdWUpmojfvHxReFicTHYEnwd
 sidebar_position: 2
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - 图像相似度搜索
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似度搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # download-invoice
 
-此操作会将发票下载为 PDF。请先使用 `zilliz billing invoices` 列出可用的发票 ID。如果既未提供 `--output-file` 也未提供 `--dir`，PDF 将保存为 `./<invoiceId>.pdf`。
+此操作会将发票下载为 PDF。请先使用 `zilliz billing invoices` 列出可用的发票 ID。如果既未提供 `--output-file`，也未提供 `--dir`，则 PDF 将保存为 `./<invoiceId>.pdf`。
 
-## 简介\{#synopsis}
+## 概述\{#synopsis}
 
 ```bash
 zilliz billing download-invoice
@@ -51,7 +51,7 @@ zilliz billing download-invoice
 
 - **--output-file, -o** (*path*) -
 
-    指定输出文件路径。如果缺少 `.pdf`，会自动追加。与 `--dir` 互斥。
+    指定输出文件路径。如果缺少 `.pdf`，将自动追加。与 `--dir` 互斥。
 
 - **--dir, -d** (*path*) -
 

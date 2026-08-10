@@ -7,14 +7,14 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取一个配置值。| Cloud"
+description: "此操作获取一个配置值。 | Cloud"
 type: docx
 token: G7Gqdc2JzosNPDx3r4ictkbgnyh
 sidebar_position: 2
 keywords: 
   - 视频搜索
   - AI 幻觉
-  - AI Agent
+  - AI 代理
   - 语义搜索
   - zilliz
   - zilliz cloud
@@ -43,7 +43,7 @@ zilliz configure get <KEY>
 
 - **KEY** (*string*) -
 
-    **[必需]**
+    **[REQUIRED]**
 
     表示目标配置项的名称。
 

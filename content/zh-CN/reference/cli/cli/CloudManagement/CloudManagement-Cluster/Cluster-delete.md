@@ -13,9 +13,9 @@ token: S4Omd93kpoyuqtx4E7scLCoXnyB
 sidebar_position: 2
 keywords: 
   - knn
-  - Image Search
+  - 图像搜索
   - LLMs
-  - Machine Learning
+  - 机器学习
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作会删除集群。此操作不可逆。
 
-## 描述\{#description}
+## 说明\{#description}
 
 删除集群也会清除其中存储的数据。请谨慎操作。在不带任何选项的情况下运行此命令，会触发一组交互式提示。
 
-## 概要\{#synopsis}
+## 语法\{#synopsis}
 
 ```bash
 zilliz cluster delete
@@ -55,25 +55,25 @@ zilliz cluster delete
 
     指定要删除的集群 ID，格式类似于 `inxx-xxxxx`。
 
-    如果已使用 `zilliz context set` 配置集群，则在未设置此选项时会自动应用该配置。
+    如果集群是使用 `zilliz context set` 配置的，则在未配置此选项时会自动应用该配置。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    指定输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
     - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 

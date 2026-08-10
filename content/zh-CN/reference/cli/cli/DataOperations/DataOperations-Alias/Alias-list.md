@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有别名。 | Cloud"
+description: "此操作会列出所有别名。 | Cloud"
 type: docx
 token: L8PEdl4Dio11q5x4rPBc4OFZn8b
 sidebar_position: 5
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量 Database 教程
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-此操作列出所有别名。
+此操作会列出所有别名。
 
 ## 概要\{#synopsis}
 
@@ -43,29 +43,29 @@ zilliz alias list [OPTIONS]
 
 - **--database** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    指定数据库名称。
+    指定 Database 名称。
 
-    如果使用 `zilliz context set` 配置了集群，则当此选项未配置时，会自动应用其所属的数据库。
+    如果集群使用 `zilliz context set` 进行配置，而此选项未配置，则会自动应用其所属的 Database。
 
 - **--collection** (*string*) -
 
-    指定按集合名称进行筛选。
+    指定按 Collection 名称进行筛选。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可能的值包括：
+    指定输出格式。指定输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
@@ -73,7 +73,7 @@ zilliz alias list [OPTIONS]
 
 - **--query, -q** (*string*) -
 
-    指定用于过滤输出的 JMESPath 表达式。
+    指定用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

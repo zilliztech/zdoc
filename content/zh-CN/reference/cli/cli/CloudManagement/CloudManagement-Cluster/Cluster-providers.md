@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出所有适用的云服务提供商。| Cloud"
+description: "此操作会列出所有适用的云服务提供商。 | Cloud"
 type: docx
 token: Rhked7rPvopHixxQZe6czSUwnvf
 sidebar_position: 7
 keywords: 
   - knn
-  - Image Search
+  - 图像搜索
   - LLMs
-  - Machine Learning
+  - 机器学习
   - zilliz
   - zilliz cloud
   - cloud
@@ -46,17 +46,17 @@ zilliz cluster providers
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    指定输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 

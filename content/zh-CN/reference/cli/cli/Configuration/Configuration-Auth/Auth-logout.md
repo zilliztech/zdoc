@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将您从 Zilliz Cloud 登出并清除已存储的凭据。 | Go"
+description: "此操作会将您退出 Zilliz Cloud，并清除已存储的凭据。 | Go"
 type: docx
 token: QeHdd8MunoG5Krxwpr1cx0Ninwd
 sidebar_position: 2
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - 多模态 RAG
+  - LLM 幻觉
+  - 混合搜索
+  - 词法搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # logout
 
-此操作会将您从 Zilliz Cloud 登出并清除已存储的凭据。
+此操作会将您退出 Zilliz Cloud，并清除已存储的凭据。
 
 ## 概要\{#synopsis}
 

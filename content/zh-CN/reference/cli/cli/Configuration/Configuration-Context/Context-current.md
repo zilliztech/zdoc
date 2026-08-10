@@ -12,10 +12,10 @@ type: docx
 token: E1lydJB5BorHaExspUKcwQ2ande
 sidebar_position: 2
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - 视频去重
+  - 视频相似性搜索
+  - 向量检索
+  - 音频相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作显示当前上下文。
 
-## 概要\{#synopsis}
+## 简介\{#synopsis}
 
 ```bash
 zilliz context current
@@ -44,7 +44,7 @@ zilliz context current
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：`json`、`table`、`text`。
+    指示输出格式。可选值：`json`、`table`、`text`。
 
 ## 示例\{#example}
 

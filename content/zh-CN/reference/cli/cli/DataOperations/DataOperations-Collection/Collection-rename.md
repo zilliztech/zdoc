@@ -1,5 +1,5 @@
 ---
-title: "rename | Cloud"
+title: "重命名 | Cloud"
 slug: /cli/cli/Collection-rename
 sidebar_label: "rename"
 beta: false
@@ -7,19 +7,19 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于重命名集合。 | Cloud"
+description: "此操作用于重命名 Collection。 | Cloud"
 type: docx
 token: N1uadJS98ojQhixbOQacLOwknke
 sidebar_position: 13
 keywords: 
-  - Vector search
-  - knn algorithm
+  - 向量搜索
+  - knn 算法
   - HNSW
-  - What is unstructured data
+  - 什么是非结构化数据
   - zilliz
   - zilliz cloud
   - cloud
-  - rename
+  - 重命名
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # rename
 
-此操作用于重命名集合。
+此操作用于重命名 Collection。
 
 ## 概要\{#synopsis}
 
@@ -50,37 +50,37 @@ zilliz collection rename
 
 - **--name** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    指定当前集合名称。
+    表示当前 Collection 名称。
 
 - **--new-name** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    指定新的集合名称。
+    表示新的 Collection 名称。
 
-    该值应为最多 255 个字符的字母数字字符串，并且以下划线 (_) 或字母开头。
+    该值应为最多 255 个字符的字母数字字符串，并以下划线 (_) 或字母开头。
 
 - **--database** (*string*) -
 
-    指定当前数据库名称。
+    表示当前 Database 名称。
 
 - **--new-database** (*string*) -
 
-    指定目标数据库名称（用于跨数据库重命名）。
+    表示目标 Database 名称（用于跨 Database 重命名）。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：`json`、`table`、`text`、`yaml`、`csv`。
+    表示输出格式。可选值：`json`、`table`、`text`、`yaml`、`csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

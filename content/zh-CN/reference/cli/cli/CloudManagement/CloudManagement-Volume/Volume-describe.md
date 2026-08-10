@@ -7,15 +7,15 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取卷的详细信息。 | Cloud"
+description: "获取卷的详细信息。 | Cloud"
 type: docx
 token: ZNogdKQgHotZObx7vXbc6FI8nZc
 sidebar_position: 5
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - 知识库
+  - 自然语言处理
+  - AI 聊天机器人
+  - 余弦距离
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe
 
-此操作获取卷的详细信息。
+此操作可获取卷的详细信息。
 
 ## 用法\{#usage}
 

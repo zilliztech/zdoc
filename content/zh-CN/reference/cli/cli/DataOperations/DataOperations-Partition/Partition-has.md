@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检查分区是否存在。 | Cloud"
+description: "此操作检查 Partition 是否存在。 | Cloud"
 type: docx
 token: IQy0d491iojaTEx3teycfP3snCe
 sidebar_position: 4
 keywords: 
   - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Milvus 向量 Database
+  - Milvus 数据库
+  - Milvus 向量数据库
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # has
 
-此操作检查分区是否存在。
+此操作检查 Partition 是否存在。
 
 ## 概要\{#synopsis}
 
@@ -49,19 +49,19 @@ zilliz partition has
 
 - **--collection** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定 collection 名称。
+    指定 Collection 名称。
 
 - **--partition** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定 partition 名称。
+    指定 Partition 名称。
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    指定 Database 名称。
 
 - **--output, -o** (*string*) -
 

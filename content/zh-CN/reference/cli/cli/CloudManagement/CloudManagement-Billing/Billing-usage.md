@@ -12,10 +12,10 @@ type: docx
 token: FpDzdA1nSo6sOHxYxAhcTPCLn5d
 sidebar_position: 4
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似性搜索
+  - 多模态 RAG
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作用于查询指定时间范围内的使用成本。
 
-## 描述\{#description}
+## 说明\{#description}
 
-Zilliz Cloud 为您的组织提供详细的使用信息，使您能够从多个维度进行成本分析。要访问发票，您必须具有 **Organization Owner** 或 **Billing Admin** 权限。
+Zilliz Cloud 为您的组织提供详细的使用信息，便于您从多个维度进行成本分析。要访问发票，您必须具有 **Organization Owner** 或 **Billing Admin** 权限。
 
-## 概要\{#synopsis}
+## 概述\{#synopsis}
 
 ```bash
 zilliz billing usage
@@ -54,11 +54,11 @@ zilliz billing usage
 
     表示相对时间范围。
 
-    使用 `d` 表示天，`m` 表示月。要获取最近 7 天内的使用统计信息，请将此选项设置为 `7d`。
+    按天使用 `d`，按月使用 `m`。要获取最近 7 天内的使用统计信息，请将此选项设置为 `7d`。
 
 - **--month** (*string*) -
 
-    表示按月份查询的表达式。例如，您可以使用 `2026-01`、`last`、`this` 等。
+    表示按月查询的表达式。例如，您可以使用 `2026-01`、`last`、`this` 等。
 
 - **--start** (*string*) -
 
@@ -70,7 +70,7 @@ zilliz billing usage
 
 - **--output, -o** (*string*) -
 
-    表示输出格式。可能的值包括：
+    表示输出格式。可能的值有：
 
     - `json`，
 

@@ -12,9 +12,9 @@ type: docx
 token: CGY6dYpcfoZr3cxbXT5cis6UnZf
 sidebar_position: 3
 keywords: 
-  - 经济实惠的向量数据库
-  - 托管向量数据库
-  - Pinecone 向量数据库
+  - 廉价向量 Database
+  - 托管向量 Database
+  - Pinecone 向量 Database
   - 音频搜索
   - zilliz
   - zilliz cloud
@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 此操作显示当前的身份验证状态。
 
-**注意：** `zilliz auth status` 是一个已弃用的别名，为向后兼容而保留。请在新脚本中使用 `zilliz whoami`（别名 `zilliz info`）。
+**注意：**`zilliz auth status` 是为向后兼容而保留的已弃用别名。请在新脚本中使用 `zilliz whoami`（别名为 `zilliz info`）。
 
-## 概述\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz auth status

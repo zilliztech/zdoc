@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取别名的详细信息。 | Cloud"
+description: "此操作用于获取别名的详细信息。 | Cloud"
 type: docx
 token: QsPodYWJfoSCmAxbWatc6dw0nCp
 sidebar_position: 3
 keywords: 
   - 什么是语义搜索
-  - Embedding model
+  - Embedding 模型
   - 图像相似性搜索
-  - Context Window
+  - 上下文窗口
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe
 
-此操作获取别名的详细信息。
+此操作用于获取别名的详细信息。
 
 ## 概要\{#synopsis}
 
@@ -50,17 +50,17 @@ zilliz alias describe
 
     **[必需]**
 
-    指定别名名称。
+    表示别名名称。
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    表示 Database 名称。
 
-    如果使用 `zilliz context set` 配置了集群，而此选项未配置，则会自动应用该集群所属的数据库。
+    如果集群是使用 `zilliz context set` 配置的，则当此选项未配置时，会自动应用其所属的 Database。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可能的值包括：
+    表示输出格式。可能的值包括：
 
     - `json`，
 
@@ -74,11 +74,11 @@ zilliz alias describe
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

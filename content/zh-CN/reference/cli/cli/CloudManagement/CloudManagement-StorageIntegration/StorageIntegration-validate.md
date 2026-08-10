@@ -1,25 +1,25 @@
 ---
-title: "validate | Cloud"
+title: "验证 | Cloud"
 slug: /cli/cli/StorageIntegration-validate
-sidebar_label: "validate"
+sidebar_label: "验证"
 beta: false
 added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会在创建外部存储集成之前或之后，对其配置进行验证。 | Cloud"
+description: "此操作可在创建集成之前或之后验证外部存储集成配置。 | Cloud"
 type: docx
 token: UCq8dJomCoUqZixRiXsczdtqnfg
 sidebar_position: 6
 keywords: 
-  - cosine distance
-  - what is a vector database
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
-  - multimodal vector database retrieval
+  - 多模态向量 Database 检索
   - zilliz
   - zilliz cloud
   - cloud
-  - validate
+  - 验证
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # validate
 
-此操作会在创建外部存储集成之前或之后，对其配置进行验证。
+此操作可在创建集成之前或之后验证外部存储集成配置。
 
-## 概述\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz storage-integration validate --bucket-name <string> [OPTIONS]
@@ -43,9 +43,9 @@ zilliz storage-integration validate --bucket-name <string> [OPTIONS]
 
 - **--bucket-name** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
-    指定要验证的外部 bucket 或容器名称。
+    指定要验证的外部存储桶或容器名称。
 
 - **--project-id** (*string*) -
 
@@ -61,7 +61,7 @@ zilliz storage-integration validate --bucket-name <string> [OPTIONS]
 
 - **--external-id** (*string*) -
 
-    指定 AWS external ID。此值会从本地命令历史记录中隐藏。
+    指定 AWS 外部 ID。此值会从本地命令历史记录中隐藏。
 
 - **--account-name** (*string*) -
 
@@ -81,11 +81,11 @@ zilliz storage-integration validate --bucket-name <string> [OPTIONS]
 
 - **--service-account-email** (*string*) -
 
-    指定 GCP 服务账号电子邮件地址。
+    指定 GCP 服务账户电子邮件。
 
 - **--body** (*path*) -
 
-    当扁平化标志不足以表达配置时，指定 JSON 正文文件，例如 `file://integration.json`。
+    当平铺标志不足以满足需求时，指定一个 JSON 正文文件，例如 `file://integration.json`。
 
 ## 示例\{#example}
 

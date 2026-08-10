@@ -1,87 +1,88 @@
 {
   "bootstrapCompletedGroups": [
+    "cli",
     "go"
   ],
   "records": [
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "da2361f36c4370c35d97eff2300fe49a4de35f484c41504dd8c74385357e7930",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-create.md",
       "status": "translated",
-      "targetHash": "8b3edef255c99c716af53adc43fdeeb9b9202c87a8df9b157455022d25ca4758",
+      "targetHash": "e9c4f0d5e852f738abc8d46d3b5c712b6f132a6ac178a25180be60f93eab9e9e",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "1ec0bf21466316eab09e8e71018d4c8374efaf2396d9d6e2414ae72c672c497f",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-delete.md",
       "status": "translated",
-      "targetHash": "b9d8e4d766fa3770ee87815c559eb8f27d223edc22f80fcfb427bcf2ddc813fe",
+      "targetHash": "f90193b6bef3598044e2b6dd49a1844336aa32e8e1da6ba5ec97adc33cfbfe7e",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-delete.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "629e4129ca2d9a10e31ff566a47edf8f265d20b30582b97da7fcb19529e97477",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describe.md",
       "status": "translated",
-      "targetHash": "0805fb179bdd77bd52c1a254d1629bc7997a99846811499d43bf0157d5c49a41",
+      "targetHash": "324ad83a5219cd298282e69a2b439cfa3f8b74f881b7191c88ae7cf2d54a967a",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "e19f7089407ed3b49eaf36a9dcd8b80ee8085b04b9154719232584640022e050",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describepolicy.md",
       "status": "translated",
-      "targetHash": "9fa8db55c3fa087ab29b0a042caa33334b8cc8e7579af81681e32c607903f8cd",
+      "targetHash": "20233507696db105e6fe3f6929e94651f0675df8aff63e71127f23801caa9c6d",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-describepolicy.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "3c053fca04051e305c3a4f76dc4501a4664a2d8ca557b0de39ac677e0fd27b6e",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-export.md",
       "status": "translated",
-      "targetHash": "1f2278ea5970c48e56dfe68b9731c7c818bad0aeceb2e87670e23913fc760e42",
+      "targetHash": "a5a96f503e604c9f89271df7d08799aa484af44f7d0696ca6c93b4a60cd5595b",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-export.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "ad2365706d7f9b5e65bbd671edcd67adb165531bd2d178c7598d0a100d85ec29",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-list.md",
       "status": "translated",
-      "targetHash": "5dfa285acedfcb877eafe3200580e288b337c0decd7803db1263597e0483924e",
+      "targetHash": "906b6d9f9ddd4b9c55c9afc13c9779480e1dab784f855bf53a27fb056d3a274e",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "4a5c15059acf53a330b421b43ec245671f084156e9d35511c771205a434bdd91",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecluster.md",
       "status": "translated",
-      "targetHash": "b1d22b9a2d525cbc0b7eeabdc5c32e0436f43067c1bbcb0e15fbcad92023665e",
+      "targetHash": "66828cbbb35af2ebb3e44326f461247e61e3b4e7d2e767bb4c14f0dc671f4537",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecluster.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "654317e454826ecea7507b92719424b8d716993b64952c9e63c12ccc35e97549",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecollection.md",
       "status": "translated",
-      "targetHash": "23f6e3a700aac44d4d03a168954f7043d9d7bcd51512436e5623eaf68f99e327",
+      "targetHash": "bc84340010d0de8804d1c70eb13509bc15acad720d2c925fcf317a08cf0e1229",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-restorecollection.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "81590c21828fb392c1a1c140dfff309050a09251257f125d62b3729398d1014a",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-updatepolicy.md",
       "status": "translated",
-      "targetHash": "d8a52ca67108a090e90b8f2eeed066bc525bde34804b876e1429b5da45daaee7",
+      "targetHash": "ede697d7500860ee9ccd89e5d3f587fc897dbe12538e7c2554b063ea91dd7ba7",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Backup/Backup-updatepolicy.md"
     },
     {
@@ -95,38 +96,38 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "90e7393527ad9dda7fd24ad83000a71aa4c17270bb490d1d74ce5372fe815d81",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-bindcard.md",
       "status": "translated",
-      "targetHash": "d6ffafc5d4cbcc772cbf675a7281b0a9b7aad587554c557d4057463163a864bd",
+      "targetHash": "455f39b647eb8e0ffbabefd2a2860d6e643fea19aa072a0188667ca9d766b02d",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-bindcard.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "693cd6afe842e5448ae3ec5276570fe705f9484f2c30d63b294ae780bb960b77",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-downloadinvoice.md",
       "status": "translated",
-      "targetHash": "68fcd099b528fa3c3de2a1631c1b0d314b0d126489b472d57dbc40f25da3c270",
+      "targetHash": "1c04dbd979db2f4e3020f97acee9e1a1c13405f2034823878456bab55e9d469b",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-downloadinvoice.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "6370cff1965deebebdb1cb8f82391d6c4704d480b5cf2d941dbbcb252c0b3e0d",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-invoices.md",
       "status": "translated",
-      "targetHash": "ae605358677302ad2f823de2afd09db89eb022ab6abc69392f4304509649376f",
+      "targetHash": "4fae9bae32974af8809f9c4d2835b6b945ee61a89271885e4735fd39caabf639",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-invoices.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "2b1f0765ed5431f344a5e334f7ac33621199fb87cf9b5b17dc2809ca09f2e808",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-usage.md",
       "status": "translated",
-      "targetHash": "48e73037571336c6842462ba49f859068034f36b02feec84dcf1f95b243dae58",
+      "targetHash": "315b3ce0e62fd2d2661b49de7322d4b8ee706d132a165be4b78ed4b9e8a82a90",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-usage.md"
     },
     {
@@ -149,92 +150,92 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "e48e9eed62a93f553a157c18f4d4a68727a5594bee458bb6edff29ca410c8b98",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-create.md",
       "status": "translated",
-      "targetHash": "34bb8dfd5fac9b6125e47e2abe40a9e28fc151d2998a7be98a52df127bc168a9",
+      "targetHash": "3aad00ae8b9b7dfa245026040f7ccf07cf913d4085aaf4fb29abe882cd94afe5",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "fc09c57432cbfe342640ebfdfaa9ff01c839f3875e14e599186d6b6c7e3b54da",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-delete.md",
       "status": "translated",
-      "targetHash": "4d4c683c778df88f71192d471cc9509a697d717aac3ba05d9e99addbbcc90f32",
+      "targetHash": "7062032c798902badd4bf014dc0727246af6b587e67349e96413627e72a09d7d",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-delete.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "83da5bd02cbc7d3595515df543bde8aa0a660f85d47abce003b75c86e8ecaa76",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-describe.md",
       "status": "translated",
-      "targetHash": "063c2bbc640bf2425af0eb907161648338b297ccbc392150f6e85f7602436935",
+      "targetHash": "7d668f468c19de94a6281abe7f88611e79122ca87023244e9e5a05ed6d507746",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "ef4332cde006a48eaab10d129214ed5c130d446396199b6a3b691bcca29bb9b6",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-list.md",
       "status": "translated",
-      "targetHash": "d7bd7ed9d8ed5c8363d69136e6bb239f2317c44d08f0134ddb88949c667902f7",
+      "targetHash": "b27a50500080a27ea9e4471eea7dce7258882d284e1e4b7739236453de860e71",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "1a66ee28260bf82cc9bc57299aa6604722084aa88dcaeae510fd841cd8236644",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-metrics.md",
       "status": "translated",
-      "targetHash": "901b0a4652472823170a0af05fab7c26d0be08ec9152cab48d45472345404316",
+      "targetHash": "65aa95cabb13f89645e2005fce015260c506a1b8d6d42fb2f313e6dac3fd8fa2",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-metrics.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "8247625b8b05758225af11d45910b5cf2e9fef846b9ed7daee476ea53f5fb9e6",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-modify.md",
       "status": "translated",
-      "targetHash": "46cdb98b1d9331b3ff0bfaaba668fb99effc4919f21e8f21ffbe3d1c5c5c6ef7",
+      "targetHash": "5467b5b967afa53829c9296e3828f41e39208a6614412bdd80276beebb5bccfe",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-modify.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "a472ef9b76f245ce0ce5f820eeb8e366f55acc34ed6147a25d3159f6a5f07481",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-providers.md",
       "status": "translated",
-      "targetHash": "5a7bb7d56872cde9a189f4c3204f299738f2695c8fb4f8c879b2a0fa393c88d1",
+      "targetHash": "2024538fc46e7292aa242d1b37b24186fa5e5a21477af49a0e1eaa98d2b9fa4d",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-providers.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "5543efafb408ca344cb25026156e19b6a0ff40dc4f456953d5005591971252c1",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-regions.md",
       "status": "translated",
-      "targetHash": "d1abd0f3d54f4643d5d1fd844c83fc11a4a80218091293d4f94eb979336c83a6",
+      "targetHash": "87da2c26595fae1a76a1ea83c496a79d96bb48c69b8e607c6dffcf225da580ad",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-regions.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "f93d441ce12cff449ed5f4bdb0b28029ab60d626ada102be58103c91ace33561",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-resume.md",
       "status": "translated",
-      "targetHash": "5f492d8808052f84d253ad81e15a13d366f67038f075cb35b21b0ea926c0d3c1",
+      "targetHash": "c7fda8e5d89e714308d9abd303a53ed2079202e68c6f7451e7b94745ae2d7d02",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-resume.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "b67b720c0ef7c0213d7f0aaae0636be5adae0c338fd826e6d2e3a9f6e4bdcdd7",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-suspend.md",
       "status": "translated",
-      "targetHash": "56732478842e91e1e66e13ff3c4c8f862cafd0351708829eb5c1361059508fb6",
+      "targetHash": "5920a7118cd72d9db7474faad01decf062b19b1f4030af0209809538c97ce397",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Cluster/Cluster-suspend.md"
     },
     {
@@ -248,29 +249,29 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "e71fa99235929e1e5f16c14f3ff0cb60d28e307f896065f940ff71a0ffc99f66",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-list.md",
       "status": "translated",
-      "targetHash": "bb7aebb073c0a0d9b7823f6e9103e74ee17a80e2332f1ba801e0ef3769349640",
+      "targetHash": "a1bca73fb2fba6327fcfea2e1cfbcf0b38c4d6f2284bcf65b892f39d5993d8db",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "b02852b303cad4672e119d27708bc6cd949ae9425595c1d9bd8a6dfda1d847f4",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-start.md",
       "status": "translated",
-      "targetHash": "d83e624d1d6418fa1f56e766837df3b2a9da738d1308b77707e2c6251590b2a2",
+      "targetHash": "f686fed1a64c7986cfddb354bbdd41ed754d078f77e1a81bf4a49c78c2801ef4",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-start.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "ff8068860e4948c9ef6b44f9e69ce242e8b71e91ff257089a063505f9cfcdc38",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-status.md",
       "status": "translated",
-      "targetHash": "98a8753cad9faa9ad5c4c61e966297db88e5adc1dc754b20356472cf95c68f36",
+      "targetHash": "1dfc60332827d10b6a9d336ddb8dff417158bb5c787d0faba2c260e24f590264",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-status.md"
     },
     {
@@ -284,92 +285,92 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "d367a3fb6e3f4f428343e1c38bc1bbd0dccd8bba3a73c8e0182a7aa826802dcc",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Job/Job-describe.md",
       "status": "translated",
-      "targetHash": "4d23b982b7d305ca7eb8c67a404c5d7ccc550183bcb5476931e0914cf1b329b2",
+      "targetHash": "4c11485f5d40221dc6f32e306cd97d0f7ca8c88fb36bddfad360d81ba2c34032",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Job/Job-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "b2ba2de829d51802deec03d4fa226f5980165c4aae70caab5298114f9437389e",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-create.md",
       "status": "translated",
-      "targetHash": "b19eb2a575406b097c92cba12d06597832415cf48cb7919fb30e33dc38ac11b2",
+      "targetHash": "d2e134d6ed20448436b033a89482969cc7a4110f05b94c04e90618be7def46b9",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "7a8e3d82659daddf1e79abdb896031b7a22a261d5a70ff827fd215623d467196",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-delete.md",
       "status": "translated",
-      "targetHash": "0249d886078b0205525b1bd6d48b018f176005581d9cbdcf8fade63eec802ae7",
+      "targetHash": "6c29f9674e7c24d7cebfcd4b96cbb203cd40085756f6fcb5e076c7c11e60fd04",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-delete.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "01865b2f2fb2d627285140d4956e03443c632fb16c210d7e1497494bcf3d95a8",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-describe.md",
       "status": "translated",
-      "targetHash": "e31ba0247e41b8e138b9e3d55d2c73dfb78d173382ca95c6bf656b23d6cb38a4",
+      "targetHash": "81564031435a2e034fa89e7629317674a217b0e152d28b59a7acb5b473a6775e",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "408d2a70b3327060f41272df71124cb1f5c373bb76cafebd44e8087421173f72",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-list.md",
       "status": "translated",
-      "targetHash": "ef90a4a097fd990c057bebb9c827999439f013a1c1a4194268324e876f064a54",
+      "targetHash": "8b6215693c73a21738ec71934581b929b6295a0ec8c8ef8b994b705152e4887c",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "8816b8ca3dc464f54abe08f1ac7562370c2cd83fdc7da7beda282413b27ee5e2",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-addwhitelist.md",
       "status": "translated",
-      "targetHash": "0f89d789717067bf791d4a6c17b4fc81d79d8ce3c6d67377ec4addf7b632d14b",
+      "targetHash": "50fdd5a56b0594a3ea1946ea7787957e3ff6e2598465c952a3653561147e7d67",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-addwhitelist.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "ea0d018a13a1c21e5c8125e5bf690c0a1ef9ea94b4acc80c3251710ec5cec538",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-create.md",
       "status": "translated",
-      "targetHash": "f850362cc81431bf448b7a0963cada42644309356a56a39572951c72dca8c806",
+      "targetHash": "dac0047487119da23e0d0e46c267fc33fa98ab833907ae863add600157d868fb",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "5428a4d707c6b3dc1445fb78e80b494e69b12d1c022e03088d5f2267f852a02f",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-delete.md",
       "status": "translated",
-      "targetHash": "c11e199e29e84a642b593098e4621f9a5ca8beff6ced2386316c71b92edcea2f",
+      "targetHash": "6169ae1288fd9c63bdb06da0cc350a2579539980d21393490f5ec154db76bdf8",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-delete.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "cef535a26da05165c47c6aeb56e4113194641e650115b40851d1d4fb4b015ea4",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-list.md",
       "status": "translated",
-      "targetHash": "d92b531cccf2055d6f3b95a106fb1a8beae0f8621297ef051b4a265e5b5b4832",
+      "targetHash": "30968defac017141390103b9a2206bb44e7422de2d79fdf24b54295969f646a1",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "09ef9ac75ebf0dae94319c315bdce62da3a8b84bc1146f5f6c67c74311f438ef",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-listservices.md",
       "status": "translated",
-      "targetHash": "afedb81f937f5e4b58b115562ef7588aabd006c11b21964198e30666fae600b6",
+      "targetHash": "7e812599bf8655a3e107938f375e588f0b5632a59fc5492bfde726483fdc1381",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-listservices.md"
     },
     {
@@ -383,101 +384,101 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "80b8af6057aafadac4083a44299017e329517579d43f85f65c4912bd0be7b9b7",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-addregions.md",
       "status": "translated",
-      "targetHash": "5cdd1ad0ff2c33bf01f92d93be1b010b236d6d62e8cb576c7494da99c463850d",
+      "targetHash": "56561dbcff63d1441509478703e46cc088e0e72e84050b6fd06cf24cf5420c1e",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-addregions.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "ac99ccfa2dea8c874fe089d0e5acd13732e8a660caccae21ee8366798a363382",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-create.md",
       "status": "translated",
-      "targetHash": "3d2fe020b27bfd2ded93a653e568cd1f8ab18cc64308839a51b8f269c79a11c9",
+      "targetHash": "c877d00ef9e39854f1c0cf728d0022498c8ef315d5f0a02d580ea82532d83f93",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "4b820cfa894a6f4004e19a5ca8dec854e540698a03f2853d8fff094b20fe82dc",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-describe.md",
       "status": "translated",
-      "targetHash": "63cbe4fc9cd29d63d00bfe7bf5c60b1d6cc9023a96bdb0fd9ae5071712cbab1f",
+      "targetHash": "b905debbde2bab6528c2bdbef867714cf05b8ed7dc6a01b4715c941bde632a61",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "853ccf59a03bc54a5b356aff38f3970de8f24ab638a3a188ccc241aae5817521",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-list.md",
       "status": "translated",
-      "targetHash": "d0b23f4f15249e832e0d5bef653ca6a9133b5cdba8bab3b8364a2d48d0561547",
+      "targetHash": "4568d9358701dc36ab632d86904e62625d8806fc354aa041fb4051872f923a41",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "98c324851d05aedd41c88b071572c24f2a866e268be5e65380121be76816bf82",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-upgrade.md",
       "status": "translated",
-      "targetHash": "478200cc8c0b79c6c7edb99918dc28d62090e2585706c9446f3c2c571b12b343",
+      "targetHash": "e9b353d80115dfd157183c5f255505ab0fc1902e8e423ba769b68723e24289a1",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Project/Project-upgrade.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "1bd68ea9656b291cb2168ddc055a4243d8e19a04e42a6a18114ea1a282ffc62e",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-create.md",
       "status": "translated",
-      "targetHash": "3c22ee8f686888d37a74b999e366861ff9cc06ac1ddc2838cce483bf38b3a58b",
+      "targetHash": "290fb752b9833713d1d6558edd73f28bdc79e9319976061f4b8dc53c31cf623b",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "d6c7dcfb4de7fae3073d31eee1a0e7baf7137b3d1c449d2e61c41991cedcbc6d",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-delete.md",
       "status": "translated",
-      "targetHash": "cebf31df1447e34a09eb5394da2cbfa41d3a87a04874c0ba1933c34582067a79",
+      "targetHash": "6ff48527ec912c8ebf67c5ae5a65bd5a9afdef37436811dba08a31b51eb69242",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-delete.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "0b8defdb6e19fb486a7ff0c0273266a78b2d9e086527fd508ddf5733ca73dc5d",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-describe.md",
       "status": "translated",
-      "targetHash": "17f7ee48895d51de47bf00423d0cf95d48480775d8ab8158a14dc3b934fa32a5",
+      "targetHash": "5096bee457191640929d35722b3d588463191ad7c9f56f77735fb1b7a64540f2",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "7bcb186c3bf4fd7cf8a860071a9c240d1c3730d82f35e3add78c4dde63b8736a",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-generateauthmaterials.md",
       "status": "translated",
-      "targetHash": "08ab8ee5ca4e9a7161eb0099d6c842d5089c68ee9e4e65f858a04e3525df3922",
+      "targetHash": "ec4f774bf731edb1177b3621e66d0266bc46e6abd3e0b52c43f12806423133a2",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-generateauthmaterials.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "ea228a6188f8a1cbd8f012910f71b1fb97b3106ad6907d823578a2edfd19ddc7",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-list.md",
       "status": "translated",
-      "targetHash": "ca9907f7ead8bf1c93fe69413ea2dedff5b967f6e638b7d6398370727aab85b5",
+      "targetHash": "9eefdeb18eb4544b362258224bcae273268b639f55ae6c582200db314d273e86",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "784f979c18bcd213f116444bd1a8f7a3db2078037351fe98273e750665f6cb50",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-validate.md",
       "status": "translated",
-      "targetHash": "e2660032f28cc0d02a4b92f8d6e02647e2ed09f1b55a659418278480441d8914",
+      "targetHash": "f4b813fdad880c46a81d7b66844db471833a9f76a9c27a7a57eaaff3ab43e542",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-validate.md"
     },
     {
@@ -491,47 +492,47 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "74624f6a8325b9b1568025770f862bf1db22543e05ce2860105153e6eb64641b",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-apply.md",
       "status": "translated",
-      "targetHash": "96b9544b7cec20c5f7f3998ddfcd565aaf5b0ae2b62b21b4843dc4e0d3c6103d",
+      "targetHash": "5676a0961926a5ae9e01acec3e1c01307d436d8160576ce7ae6716864925e9b5",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-apply.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "153365f31e69bcfc2887ba6e24caf199accea085b63d53231995ef3e9fc86703",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-create.md",
       "status": "translated",
-      "targetHash": "a56abbc11fd2690928ccd010534a5800a74b896575b2f30ddaa43305ff08af11",
+      "targetHash": "27fdb5f457d4ed55c874405f3d244cbebf019eea0c87f1416240ed84e1a46751",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "ab7ddbf4567e584e070c4701869ae1c336aed4a2f39e1d211eb60a7228816769",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-delete.md",
       "status": "translated",
-      "targetHash": "248266e672d8cd1f7ab0b222613e5cef34b844c60426b0885510b15b255998a6",
+      "targetHash": "43ee7a99c86aacbb70c4ee3c36ebfb2a1215396bcc3d3fc97e9375250e826e44",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-delete.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "74b0a0459184007fac4d4a4b18caab9f1188c840bb3f2644d3f5c0efba21fa23",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-describe.md",
       "status": "translated",
-      "targetHash": "06a48a1ab70955d3c57dff3b7c67bae0cc53d5ee4390f1a2b9adcd4df1e555dd",
+      "targetHash": "51e11f7ca97b21d7b0ee196f7d23084409d0fa2933849d7c83514cd07705f174",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "225819a5986e9ac8a7a9551a8e2f58ddeba2e946f281f28c414fabd822ae2058",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-list.md",
       "status": "translated",
-      "targetHash": "b0fc8e509a677438efcc768d8df1e8f24bc0577098091b46d720cfc68e0ab336",
+      "targetHash": "c9115318c6a7e393994f54a3b9f4634b36abe5cbc68e5883a15cc3c3952d6691",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-list.md"
     },
     {
@@ -545,56 +546,56 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "de9a56221ad5971c06b1091942998c8c14b714cc30140f878b49cdabeee5a45d",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-create.md",
       "status": "translated",
-      "targetHash": "cdea92f22c7475e7586e43107b11bcd42b0dc56d5ca194718fc7e02f980b19c3",
+      "targetHash": "0a9c0eac2f91aeaeb17d324446596e5cdf5054d596b9875527e48023b37d5229",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Alert/Alert-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "e18dede9ecb43a4db628d7fcbf3ca11a28415c4470ee15a3d8566bc2113ff4ed",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-delete.md",
       "status": "translated",
-      "targetHash": "62a6fe7c87481a883b40f2786160120c2004b9217ede76ab7f22a1db5e81c84f",
+      "targetHash": "2f8a499782cb3714b77c40fa8d58e2ce959f70bd3a99bdb0e67e6f593ee79ecb",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Alert/Alert-delete.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "5cbe5a75c770787e6673dd8ec32b0c9e776aef8bafc53d526dd5a289a606d63d",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-disable.md",
       "status": "translated",
-      "targetHash": "cd6a86eda27c51b6365cd4b1a778ea431d0f02eb1b3baf2f23aadd36ec2797b5",
+      "targetHash": "9d6e0ca937d0e2f4dbafbfa8d7b3f9b98f1730e2c34e042a81365ab5597331f5",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Alert/Alert-disable.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "7801250ed2425d9d38b7f42cffdaddfebc4499a96a67155500c572b524c9307f",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-enable.md",
       "status": "translated",
-      "targetHash": "14515598c911c890d9836f5207cd899178aefb284bc6da25a5a804a9371fb1be",
+      "targetHash": "8dd11360748aeb2855efea7b80a08e49207c080f41a0a7caa4e95b3bdd22a010",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Alert/Alert-enable.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "319c79a968ee808bfa45832fc8c19d77c1b4b5b4fc92ea8f902ff81a8d744415",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-list.md",
       "status": "translated",
-      "targetHash": "0a5cf466036b98a6f0f81af9a16ab2cdbafc449d331220cd3a1d43ae21192277",
+      "targetHash": "830df395db30177bc320df03d3fa707cd9c64acd5b7ca9e8d1604ad213ef785e",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Alert/Alert-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "35d5990af64fa467f3b05e7c430717d5b852639be33edc11952b717963d48a96",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Alert-update.md",
       "status": "translated",
-      "targetHash": "0ce9a86e81058e619fdd89d808de225d2df49e23faad3822c0e7be08ad40c52d",
+      "targetHash": "2c4ee393b7026bc5e093bd84586096bb0b7f882d805f56deeee5db2d578e2ef0",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Alert/Alert-update.md"
     },
     {
@@ -608,47 +609,47 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "580ecec56e6e08bbd235fd9b5a10238379f2e642339682d130c3c8997913a153",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-login.md",
       "status": "translated",
-      "targetHash": "b23ff39d0c301bbb89a53876c696e7e8f9cca903a5d6307f3c21cb6f0d62aa56",
+      "targetHash": "9cce7c4d653a200ee47c503a2294e33f9fd747a0cf356c27dc2b691b45b8296b",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Auth/Auth-login.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "5a430c12ae5e07bf1b84408660806d706861e13cfe1cf2c22bd4895d20ab6314",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-logout.md",
       "status": "translated",
-      "targetHash": "6af8536a43c0a2302dbfbcde786080c1ebc36d701ad3b68861b245173bce4a83",
+      "targetHash": "43304661ba5fbbe3c7f5719db27abe856b27c5357e936c41319ccf80d8d77456",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Auth/Auth-logout.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "14cf27dfcfcedaa7c724f37be98c9f947b390ba15c3c70076b8e9992ca9f065f",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-status.md",
       "status": "translated",
-      "targetHash": "757893774cf626d36b1c3766c676d2f0e81f463b975f9b7badee802edf105b33",
+      "targetHash": "9432532aaccdaf35e6281043c28be4ac8fbf0e3fc95c81865f1059c0868ffc15",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Auth/Auth-status.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "aa2c5460a8b2947457003928d267273815245ff1656c8f9cc88685c39c8a0fd5",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-switch.md",
       "status": "translated",
-      "targetHash": "e4d05e7024437b31fb0aa9f0247861cdf6838165c2686890ba2b76d01a41acce",
+      "targetHash": "1a5f746f13b2129e65da2a9e58660140655288f26c56d7be83ac518850c191b6",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Auth/Auth-switch.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "9411b3072ade48b26457b3b0943c7970065ea56b922e672206b4fb309cf82c16",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-whoami.md",
       "status": "translated",
-      "targetHash": "eaf8cb2a763b64aaf9b9bdcaf4b0fae849694fc6ae61c6cb666cf54e1a83b17b",
+      "targetHash": "b37f563381f44395baac21dc6761c6e83276d6938ae177c3ab6373d139c8721b",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Auth/Auth-whoami.md"
     },
     {
@@ -716,25 +717,25 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "7f43e47453bcb38418d93493a95fca76caa3cb1c0468b4971ecbfea43450a76a",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-clear.md",
       "status": "translated",
-      "targetHash": "29996d657e49c18a8ba6aafdeb9cb42f6624feb47c67c56b89c97ab587c3b72f",
+      "targetHash": "6d63d42873def5eec111936cea26e337ae29c79109c7ff2b391d29c6b26b764c",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Configure/Configure-clear.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "4107fafa60057e28eebe03d80f611a1d8933c02d66c0ffd0f1abfc9fb79ea540",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-get.md",
       "status": "translated",
-      "targetHash": "c82ea63ab701f3c8cc5afd2b6a246fe495466a4f11065f65fbe235324dbb0634",
+      "targetHash": "f859f06f0b917204d6d284f20a421aad43051bc5a68836b4506a1f183d53a361",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Configure/Configure-get.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "8d503d80190ce4d83f9c38c6aacf84cc4aab42d4c5f52d8ed5b89f7a1e22be44",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-list.md",
       "status": "translated",
@@ -743,11 +744,11 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "950c848b878faaa5af8cccc262ed50b8e2df75703e66a9c53155aea0aeddf1e6",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-set.md",
       "status": "translated",
-      "targetHash": "25599a3813090363ce7e928bcd67261c1113d0a90760a3b4f1db3f1bcca426d3",
+      "targetHash": "6d8f542a662b0929a5ae3c4560eded7957efb2dd38b5bcad39ec53752ecc2d81",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Configure/Configure-set.md"
     },
     {
@@ -761,29 +762,29 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "d62875e1aa9a641b3b987cfa50ae4c9f042a5231bbbced53ee1046252f4a7850",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Context/Context-clear.md",
       "status": "translated",
-      "targetHash": "69fec072fb7c5522e421d7e7ad609d630f752d2c37f233e1404ceb46818e3907",
+      "targetHash": "6f307d66543b56ed775ecbcdab7e5d5b97a65ab31a91327c574b958c1e7bf680",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Context/Context-clear.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "9cf3c222195d4992b88d28803a93b33a1787d36498cd8e7fa4b53dce84ed5352",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Context/Context-current.md",
       "status": "translated",
-      "targetHash": "21d04dd8ca1121133a64d526326fd12de4005602e879765e6837f6bc431cdd60",
+      "targetHash": "482060f065623151d01dd323eeaa744e3a306802a5d6c6d063b5eb82f2bb1f4c",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Context/Context-current.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "41b5a0fe4166c1933e640017156101e6bb126e39abcf15f906c580beae1b5328",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Context/Context-set.md",
       "status": "translated",
-      "targetHash": "07ad797e89fca38c0a8da4aa301dff3cd7e4ecb63e4d1372d74e999412d9ac3d",
+      "targetHash": "7fab6537c9b1f9b8ed419796d7b645b1aa990766f4d4feb12fccf9b2fcbb7e46",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Context/Context-set.md"
     },
     {
@@ -797,65 +798,65 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "9932eec4079d99dde425d522625b106456e1a627df4c455400827e07dc4d4279",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Global/Global-uninstall.md",
       "status": "translated",
-      "targetHash": "d368e627dbdbb62fc5683ea0e8f9a21f2ad9d6cb254a517e1575c7da19cb7b60",
+      "targetHash": "f8b684383f94f2a25248ea1bd1e792d9372250b6c0fb219a25f6c82a55c99f2f",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Global/Global-uninstall.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "bfb25a6a0055657a9f8a98be82fb2bb18de7484c59237c777176a91f9ae92ce0",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Global/Global-upgrade.md",
       "status": "translated",
-      "targetHash": "0020ac41d24c67577d004814128e2de608f6b490fd29eb5b3c7f4fb7c54957de",
+      "targetHash": "17bf1d09f6799591dea0fc54ccc228acc859b85d68eae51a9b90a0f02b7c7539",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Global/Global-upgrade.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "64503cbf398c4e56cfedf4c09dbc6416ac4572bfb16af39038385bd148cf34d4",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Global/Global-version.md",
       "status": "translated",
-      "targetHash": "9f52aed40378d20549a4693dcf2e2e53ea7880fed79222ba90c8f921cf936982",
+      "targetHash": "407b8a7bb9e06df3a9f3d429637256093a68149baabf42addc4a9704c2db49c2",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Global/Global-version.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "3960ea3373e384bb150891ad072b0d5ed07a2f0c306845bfb2c1484f77bdc909",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-History/History-clear.md",
       "status": "translated",
-      "targetHash": "43a1b35731ce1c4b49865450c2098248d96ad7cee730a420219adddfebf48cf1",
+      "targetHash": "869a30d94dd95333d308187a1e87e68eed7cab248c3c56ff5cb13db48611e431",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-History/History-clear.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "73dfefa9df96e339ac08ac74c36457e8c2c636bfa7cc5ec3a2043ddd5943a3a5",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-History/History-list.md",
       "status": "translated",
-      "targetHash": "f9f785505452c793ba0ae06db1998a467d0307ba0a01b171f4e960ade6465ec3",
+      "targetHash": "92b5d4902fe86ccd4ccf9322b00da85820b773d85208ead714209cfaa0ff7dcc",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-History/History-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "703dbcd852839ba260a713ab8106224f1a930849d64e0c2ee2ad23e090033cad",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-History/History-search.md",
       "status": "translated",
-      "targetHash": "4ce9cc35059802525cf84659a784f9cdbb30e8c537387f9a3beb9238804e18ab",
+      "targetHash": "329409a7de927eb348911895ae547a1539e75c31f42ea6da2e14a041ce6c2889",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-History/History-search.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "c5b31624d71b49445f05be052c28502d7460db3e4a522b4c6851de7ef4e2b944",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Quickstart/Quickstart-quickstart.md",
       "status": "translated",
-      "targetHash": "7d4541daaf62a8ecdbf8cd267025cdc878c431342791491e5c004f098288ffeb",
+      "targetHash": "b1a705553deff1cc347256e31404f5ff14818fa71f1742193817b6caf03aabd8",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Quickstart/Quickstart-quickstart.md"
     },
     {
@@ -869,47 +870,47 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "738ef967c27d5c831ef670acc11758c3cb7cca4879ad50dba229b40ffbfb9433",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-alter.md",
       "status": "translated",
-      "targetHash": "ec5501304a90f3c6d853f4c820fadc65c63ed0509369fefab28e35640e9ec5c5",
+      "targetHash": "9c93c9c3c5126b7431e91e3108cba00378c74539b684f1c87fe99b168afee773",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-alter.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "260019733027b00b319f08a09d51b56719b9184cf1b82b1cf03c5381e2dc128f",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-create.md",
       "status": "translated",
-      "targetHash": "f387b563b19b369f893de578bd2319e104f1b4e11361e6c35d52ed0a18d5d0b4",
+      "targetHash": "555cac6d52de16541f54d706eddf40679c4b5569e719802582d1874437509fcb",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "242ec953f6df3244783685f873993accba72db2b913edffa54caa87b4bae6c2c",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-describe.md",
       "status": "translated",
-      "targetHash": "de4c506f14ea2dae9b98b1fcff9cb38584ad13f87d42aa43115a39d7222b5ff9",
+      "targetHash": "590e4b4ef3138ec22dbfe6bcb29d93a24215b21a09bf3190d9312da0101758e0",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "7cc7703f337b3dc8636e37242442cac00bbf771ab75d48c007d269028b9868d9",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-drop.md",
       "status": "translated",
-      "targetHash": "a05d7f26ac50855dec5a3710e42baeb6d5baa339f1a2ab6209763392b2aacfd4",
+      "targetHash": "1d3e25e33d79a98ea8e6f3b935b8a549985c2d529c7f87644c87805be8ed6ba5",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-drop.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "42ee0aea7120cd9700a3462b3501d5f5ec2481219d52fc8863830d1107b6f470",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-list.md",
       "status": "translated",
-      "targetHash": "f702d196b9adba1a49b2382c1ea503d92f1938abef5697164c48f8ce1d15c511",
+      "targetHash": "dcb8d9650af9733ae4c04edb497e607309047921dbff47230bf4ec42a592ff22",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-list.md"
     },
     {
@@ -923,119 +924,119 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "d1bce97d157e1d9c12706097a06503f16c9f0f23b1b58b9cb1ffc82abc19c24e",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-compact.md",
       "status": "translated",
-      "targetHash": "16804d55ea3e5b18bfc258b280b2aa2dd14deeab2472a0166fed7f26cf61d08f",
+      "targetHash": "9905ff18c7de0392605993ec9ba36b62ab7a7ee3ff55a62a3c9bbce8edb992e7",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-compact.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "d74c77322259225cd5f8f1843b5b5a0f290b7533739fefffe6257567ccd60186",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-create.md",
       "status": "translated",
-      "targetHash": "beff173d8407d555cedf292df8047d49e097737b5d3c974c4b719c5385daab34",
+      "targetHash": "d0bbdd1edf9567caab1601b3a7a60d7973156dda95fa435bc53885b7157982d2",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "8b427d540190c4e4f391ed755f09c440a9abd2cc614afe7e614989353cfe33e7",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-describe.md",
       "status": "translated",
-      "targetHash": "64a2d968279be743eec42ee3c05a18813ef0b4cb1dbe6ff7f643adbaee7b2064",
+      "targetHash": "a6284a7b9a379f715665a9f3e2bab9422b2668796aee13a94e98ba8d65ef6e0a",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "cff2a4574510b40c159c781da972bc1b7490b8a2de89366423f1ce452d79b053",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-drop.md",
       "status": "translated",
-      "targetHash": "c5fa3eb92b4f42912d5bf14dcce7763ee55acc03a147b568537ab748ab433690",
+      "targetHash": "ff4dc4c5b180fc78b3c1ae9fde04c0971241392bb8c76ca7f3e9057c99dc6d62",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-drop.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "52c0a41072e5aef6e1dc01e24ceeaa7ba5755b9193ec442e0771a136925d60bd",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-flush.md",
       "status": "translated",
-      "targetHash": "166dda05bcf2454b1c7198fd84a56a6f4ae2df3f40edf69696a8f43b78b47d24",
+      "targetHash": "155c9892815fe60e5aefd27e69a1af99edaef90008147af43ffcc3ec7d31b9dd",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-flush.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "3b4958186406041c13cbd3a8c28584882d5040b9d06c8e724bebcd7beb14d0f9",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-getloadstate.md",
       "status": "translated",
-      "targetHash": "c1b5dd9083a8a279a9b87640613efed7fce3a570f6f6526b25743aff509af66b",
+      "targetHash": "08c8aa6e4704f680c6b3f7a1935c517a2aa622a26a851dbb9192cccff7ddeb1b",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-getloadstate.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "1a4aaed4bd03eb0fda7ae7466a6f11dfc417c27b1237e34dc84667522a0d00d8",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-getstats.md",
       "status": "translated",
-      "targetHash": "adcb5f51726bc3a2447ebe228419dbe2a0153130759b1486e51b37e8e3d6cb70",
+      "targetHash": "25cedc9a8b7f905798cac35fcde76e4c789b1d49f4a387c2e0d43d585c9dba44",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-getstats.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "651b56ecf3161a5bfba1be23551d3a9298babf8cd089986bf27a1f7374ac1c68",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-has.md",
       "status": "translated",
-      "targetHash": "7462a27007584ce6215e4070734d3c1f8473c75d82ec478be425208b3b456f75",
+      "targetHash": "48952c46f6cab7c7abe76141dc460e9ca8e7dde0728d46087abd27a1fca30b63",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-has.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "ba14d45e80909df4ad7949e750b15905ec58b3ea86f19cfda9baab7a07338ca9",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-list.md",
       "status": "translated",
-      "targetHash": "07b32747ca1753eb09396637096d1db78c009ec4432e03bae537d0ebd352ce7d",
+      "targetHash": "8151136744b4163750761b78ab3903cdad41dd0eebb8f91c011c39521169d22a",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "002dcab666357271bf5f773302288711172bb816e5a6ac8b3325b6d5906c5472",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-load.md",
       "status": "translated",
-      "targetHash": "18a0ed084f22204fa5f78281aae166e8091eda38c31786763caac9cbbda2394d",
+      "targetHash": "82781eb989bcf6f81c2416c4c20e21ece368c49dfa531ee93e11eef97f6b7739",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-load.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "c5d4dc54356befb09b338f262b5b82bc47e00189880d78633f7e8fdaf9574c81",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-metrics.md",
       "status": "translated",
-      "targetHash": "0206efad9dd12999a2b9f44398614102e62bb22b54c649bd6f6168aa316a463e",
+      "targetHash": "ca00210c262fd3108d920b3ffafa10b26003828daa3d6f64072b4ed21963005c",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-metrics.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "01fa13570c69a9c79f91b0c6d7d1f9fb82e59f1959aad39bc63e7fae12f53863",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-release.md",
       "status": "translated",
-      "targetHash": "f0f2447d888d5a21420f98bd7857a09a17999b8c7d560b8b85ca4ed0cebeb870",
+      "targetHash": "d866b1b4fac81668bedbabe8d8085eed63079fe387a077c5873bd8de88fcb1a3",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-release.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "e92b30271e9a8e9e8f23961ef5145de56876383c704b667ef1dbab0966c92a55",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-rename.md",
       "status": "translated",
-      "targetHash": "0be2357c30e2127cacc1477bc79a83b6980e6193bd2211ece7877001c2846389",
+      "targetHash": "69809d4e91a236a23a6406f89b12dd08abfa67536680fe6eee50c88c4638b73b",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/Collection-rename.md"
     },
     {
@@ -1058,65 +1059,65 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "afe18dd829810bfc20f6b5f4c3a732eda4487af5e3787c36aa4ad4df5091c48b",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-create.md",
       "status": "translated",
-      "targetHash": "cf6de979c891685e873b5263ad4305d1f725c5c93f5726b2eb5c683938bddd6a",
+      "targetHash": "f3665d7a89e65865ad9e810104321cf17541548b793fc866354ed5a6f5b0768d",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Database/Database-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "d9efd84b6f615a0407e0d2c296447b6a517148494f1bf4d94b0467011aa1ff34",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-describe.md",
       "status": "translated",
-      "targetHash": "79f8174b735543b7b63f8c9fbe9fd9ad2753258a840b18efaeca5a1c6753f4d6",
+      "targetHash": "db435f459df24fa6fe14e9f925594d8bafe949d25c6d5a56c9d5a70145424890",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Database/Database-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "90b221da6edc05ad671aa4293c159a17726c97c8b25b3a2a34f6a456091d7a0b",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-drop.md",
       "status": "translated",
-      "targetHash": "b0867ed6cfa5faf5e7b0370ca1d874165c1b4a809309528c188051655627766f",
+      "targetHash": "73a8bda87358b98903a848d91073e6e08defd487dfffb2ac8e4a0ad6146e7e8f",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Database/Database-drop.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "4cbb072a78a116424fe0be5445c32355af2f4f83e17ddce953db24795f5367b3",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-list.md",
       "status": "translated",
-      "targetHash": "7c3bf2b668c8b3a0dc4516556bf6785433a887303070e596cd42348f17b900ba",
+      "targetHash": "37f3654ede30a3b385a360df4131f7f8036f4a1a28981d79784ef09d971f8270",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Database/Database-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "863be3deefdb97addec130edd77c5affaed5098715ef9c5896e9c074420ad336",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-describe.md",
       "status": "translated",
-      "targetHash": "7b16f34d1419f47b48b6f16d72b8c6517ebe3a9b21bf78c0a82c25a09026856b",
+      "targetHash": "0e098c9c1ac650225b27aac442583e445b99d2c2ef60d7846c7f373d4002a101",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "b55cbc4b0520070f2709d3902229fe7a438fd50f81f8af83d30db120c3550e87",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-list.md",
       "status": "translated",
-      "targetHash": "0d94c867f78b3d0990a88f186a3b6d1c1b5025df49de62fc8dd3c3e00c6d9f18",
+      "targetHash": "fb6b0011b6ea7515369bc5c28b7a01efbbf034270f9fe0aca51690ec0a677a23",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "a4ad54d3049744cf67ead88b93e67adea12b9d28dfa58a6edce1881017959188",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md",
       "status": "translated",
-      "targetHash": "7687c96cc9973446451dcc632bba96c6790ced4db521da12f9b055c5ef01a6d6",
+      "targetHash": "8f6da40db074c722365242e153e99ecbd365e589638f5153b8b081abf7b026f1",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-ExternalCollectionRefresh/ExternalCollectionRefresh-trigger.md"
     },
     {
@@ -1130,38 +1131,38 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "69fd210469ef6bf0acc9a6edd05225ac82808bd685ffb777db1da7dfda181b95",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-create.md",
       "status": "translated",
-      "targetHash": "1e64b69bdf51d8c955403b177331646b1655c4df646ed60fa21dce7ccc1b146e",
+      "targetHash": "e4ecc37c97ab1666c407c0b0380143cfa5b2efdc4aab2ca3366c43da0efcfa7b",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Index/Index-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "711bb3d8e47941e458c003019e7bdf1f49231eb6b320cfde65020f3ed00c84fa",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-describe.md",
       "status": "translated",
-      "targetHash": "1ae0fca5a77ddf3972d622ad4285466da3a30491a738a3108ed7b45fdb1664df",
+      "targetHash": "e9f6669581e704101f993a46986650c9775432c2457341d75da5cdbff4ffc22f",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Index/Index-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "627b010ab3c9a99bb7d6fcbf4e7936d0329f55ad0ead211ed35f45a1f5e61fd3",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-drop.md",
       "status": "translated",
-      "targetHash": "fefbc1c5fcc6738e02b2f0dbc47555bf5373d92dbc313278909fd6c631ccb1f5",
+      "targetHash": "5675f214b284e01724600bc31af9caee40177752ea232b975072489de085d994",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Index/Index-drop.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "eb260cff3d781d6e686b5449e54b3ad24e3d959f795c91dafec5ee622fcd121a",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-list.md",
       "status": "translated",
-      "targetHash": "b55a8fe8a14d9eb54dadf50da7511b529f9b5b5709da675abb2f1bec86d9a943",
+      "targetHash": "e6f41ccd63c7c2dab8cfd257cce7e90b966869095581e3363a02187637701add",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Index/Index-list.md"
     },
     {
@@ -1175,65 +1176,65 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "e11d9b631c8d1ead14d7763001be533332bd6ff68bdd96afe8f209414e9d9168",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-create.md",
       "status": "translated",
-      "targetHash": "a5e8ab8cb8df06051c509fe9487522d9482e36539431d1800e0457811932dbca",
+      "targetHash": "d72913f3fed62ccb2e7317d92bafb74a63ed489cbf04f3f2b7ed858c804c867a",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "86b919e7b5f41df266f689a42f5f5f05403fdf85f637e9d0079996fca56c544c",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-drop.md",
       "status": "translated",
-      "targetHash": "271819df062c4eea28979ab2ed161e1b09f1b363b290a265a556236689f954cc",
+      "targetHash": "c061774d8d82dc8dfca53c0caa183424d28561f3b5ef710d8b3eb8bfb1b094f5",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-drop.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "31565298a9525f1638784275b96a00c9039c7ea77ac66b597a786339bfb2c4fe",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-getstats.md",
       "status": "translated",
-      "targetHash": "0133bc98b079427a0f00ccdcfb80806895dae748e6243910afc5a875b3ff93ee",
+      "targetHash": "02933ee69cc3e42044e785f4bb823a6931cde0182cafc1a7383aeb64e64d7d5c",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-getstats.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "a40102bfecff2e5ab71c77e0edd4e60617abdcee455a547eff3136aacb6142cf",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-has.md",
       "status": "translated",
-      "targetHash": "46ba6dc4643c5f6dbdf815fbcc50c7918644909c2cbaf3438e23460c379e43ad",
+      "targetHash": "f4309a72122552f0f73add594f96db72bc4ccef52f0b888a99a10e340cbe9717",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-has.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "949361225d0c09291aff3af2ded8a7b319a0ec9559714a20f6e0bd3ace51ff72",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-list.md",
       "status": "translated",
-      "targetHash": "773023b650aa2e3f203ecfc510ab4f12d0ba29a16db95b2f1f76b5fc11616396",
+      "targetHash": "47b4cd54059f398ee7f6d66b5858dab197c83a32c5a752206e0c98e86b9030da",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "a68ffce09c84ee30be656b50ccf29940050ca1d150bfa341827b551b67576db3",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-load.md",
       "status": "translated",
-      "targetHash": "3edd7ba6aaf4ca3d0c436d4e57511d31b8da73a2bd60156f33eda2a16f850f1f",
+      "targetHash": "4cc122094ec652abb82d77dd1ed937cbf5301a7c4001d815c741969e1c88916a",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-load.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "5ce682cae657cf126b4ea837333c33a7cee287128f0e97b4e10d50ad658dbbdc",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-release.md",
       "status": "translated",
-      "targetHash": "cfb178ed8d8c36f38069cc4a30a2a9642507f8b558b86f0c0b2e77cb36aac29a",
+      "targetHash": "91deabc2cd33013affc57595da184db5f6ae27f24a3e060db70e673df29a1084",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Partition/Partition-release.md"
     },
     {
@@ -1247,56 +1248,56 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "4801c220ad30e6446e47185bb7b1d76d5a3e1a78ab9b306b5f45798c8b5438ea",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-create.md",
       "status": "translated",
-      "targetHash": "a932979e25a27454a3c6128dbe610661840d218afd18176b6ff973260a5976ef",
+      "targetHash": "d2d623e21081f95377d0771e00722a3848bc668689fff652e43427a6ce16dcab",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Role/Role-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "051b0e22c7694fa5d37e6f8d945773a7160f9ce5598a762166c6980c8e431e18",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-describe.md",
       "status": "translated",
-      "targetHash": "bccc716adfc2f456fb122330a01a1125838d9dc4aaf6f2316afee7011de321a8",
+      "targetHash": "57f47efc75108c37a018979bc51481e5a8998a49d6dd1aed719cd41cb82e3e88",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Role/Role-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "5af408830389d14651af29666af348cd1f43721ee7f7dc31562558e5a777a36e",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-drop.md",
       "status": "translated",
-      "targetHash": "a34ec3cce008b74f40ccb366d5a70b1c2c94c1329f5f94c13586caf8f1317b8e",
+      "targetHash": "10d197ef26d321f78eb7d757099ee78641a85a9255e65a716299bce15f7680e0",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Role/Role-drop.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "5637c2716bd206b06cbb151b75af31550b702bda014694a90b49df928998a848",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-grantprivilege.md",
       "status": "translated",
-      "targetHash": "dae0ec9b7c979c03940a42fc2193cf2ab1a2065942e1d28f5b0fb9adf4fe15a3",
+      "targetHash": "121f858d74f4aec429b4666d7cdd0a0ca86803c02e39816b15b4bef66c059e91",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Role/Role-grantprivilege.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "1ae91b98e8586f175ab3fea1367f3b5df75988c920921c4683dd1cd7b911af86",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-list.md",
       "status": "translated",
-      "targetHash": "c885fac953322c07a748d05ad8bf17ecdedddebd417c0a15dfeec7cdd9100206",
+      "targetHash": "f6f9b02ad0dffcaeb7b20ca764527e3dfd89321457be131856e9241f7aacdf2a",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Role/Role-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "489da0f3e3218f2bb91d1f54c8cd2940b3e8d786834e6fa399a59acc7c1ee1ae",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-revokeprivilege.md",
       "status": "translated",
-      "targetHash": "348ef8cbe37dbab4694d0626e5494eef1bc93065dac1aaba393de8eecbbc9ab6",
+      "targetHash": "bd24fdb3c57e343c336caac7091c93462c699f67d089e8f35276f6b318236b73",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Role/Role-revokeprivilege.md"
     },
     {
@@ -1310,65 +1311,65 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "4b868da8afbdcc673f6783edcbbddce7e8f51423d865499ec99a58af5b05d093",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-create.md",
       "status": "translated",
-      "targetHash": "d7af30b70c64851ccf1ea18f4b403469006879e89dc959fcb95b81706b019709",
+      "targetHash": "8c855a90800727a81000384d8301a91b259696796a2d711b71a185537ec33ca6",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-User/User-create.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "6b28a838a0d15493d8cd4d1f9b647859b6d86ff612e3bfdf8bf48d8c861af591",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-describe.md",
       "status": "translated",
-      "targetHash": "06a991ccc98a1f97a75ecf702f1f8a2999b6befc57c6d1fdfe11460f2f23fbd4",
+      "targetHash": "75c204f8cfdb198c65dda40eee391f9a6597567990a7d7b81ef1205b62a8926e",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-User/User-describe.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "89006d29c22e8fec6b7f1756875ef06f76c8574f886072aaf158cf96e1567062",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-drop.md",
       "status": "translated",
-      "targetHash": "4f93db4dd91847fc9afdcffde51e33b0b3e2a17f42882b66f94b37d48bb5f672",
+      "targetHash": "c523e8bc734da0d6b6688f7190233b5b7f9069e964c3292752233b9a2f0c0f5f",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-User/User-drop.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "0a3b60eda5d0e1ef5e21e8f627ad96b0518f6de899bdd061376ce55d28a30c09",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-grantrole.md",
       "status": "translated",
-      "targetHash": "05eda2d1daaec3de6173e84ce833d879c2f5c0c0df94d997db42edfbcdd378ff",
+      "targetHash": "674d25bb86787385532ca0b08f2d56263089421ce6d31d93cf1c8e136a844b20",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-User/User-grantrole.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "748bbd6e7531eaf248922f0c18bda34c1d302f5455384383de6a68092107c078",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-list.md",
       "status": "translated",
-      "targetHash": "9cfa8205109876b8b107beccd55625188a2fe716352fd2e9481113754c4e0d53",
+      "targetHash": "4193bae3bfb68217a1d57eccfd039b3f8124f8d7dc66bf2bc6d9543c364008f0",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-User/User-list.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "04a0709f2ae1bef85a547b4ab08302dd3a28a5b7b93dbdb085218e58a058ad2a",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-revokerole.md",
       "status": "translated",
-      "targetHash": "8ec0cf86faedf61470ee069bcb8bd298b050d83fcc0808cd85282b652387402f",
+      "targetHash": "16942df0d4282642ac8110ad3af3c5010145843e6af0002a9eaf8dab9fa5b864",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-User/User-revokerole.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "f44d4f7924e46337387555c8f334432d264c3855df1289935a07215afdc73d21",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/User-updatepassword.md",
       "status": "translated",
-      "targetHash": "a75bdca7b7ac27efe4040f44874faba90f834a3ac9df164d328d2a8630417ef1",
+      "targetHash": "c39b434e193cead4b68300d191f264359d7b5f22f3b16bf1c677712c1be4330c",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-User/User-updatepassword.md"
     },
     {
@@ -1382,65 +1383,65 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "5dffd5d5c7d857daa57d115faf7bf700d64b8835fcfb449e5cf7db3cf5cb5a8f",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-delete.md",
       "status": "translated",
-      "targetHash": "1f8e492309353e8fb1d1740fa723c54592589b4b473e1f21f47e864a102eecfc",
+      "targetHash": "52585b478f39295a29ec7c8a8231bd136888208e340e928c63b30dd69dd61dce",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-delete.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "856768db023bba8f3060e2a502a7d05597335d0083d2eaabb81e98a202da0353",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-get.md",
       "status": "translated",
-      "targetHash": "7281292891124497176bca2dfec713b21a0d3b081d8c31ff011d125041abe751",
+      "targetHash": "50c7dcf2187623ef3db8121797d5c1aa96aace28a869f9743e8a76591026903d",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-get.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "a94e64337518faeb7e878bef3a7fa4c0a5f68c3b3b4485313b22859f880658d6",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-hybridsearch.md",
       "status": "translated",
-      "targetHash": "24ddad301a6c8e686b7881ef77f301c525fa688f35b34a0b464cf75134be5016",
+      "targetHash": "9e033953d735de4428dbbb2d8ccdff5c7c1fa4887830c0155bf21fdaf59d5685",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-hybridsearch.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "07f2f30cfb21903d4fb8499111683e77bab7763efb9c1b96a546f6f9d2d5742e",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-insert.md",
       "status": "translated",
-      "targetHash": "2fecd4dd2d16aef0d67924dd0766110fc95363c14a65449802c9256ab2a8a746",
+      "targetHash": "868599814f7d30abfd1205a16b00fe6a9a8edd69c3b560fa7d77ef9d9e30b8e5",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-insert.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "5f53fa60e713137920a5a24fb9193a68a22ef9fdff798b5a88c364bbce47c511",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-query.md",
       "status": "translated",
-      "targetHash": "d91b791baadbdd79a517a8dc8bb4c162da267e07bfb78b835b7111cb582933e6",
+      "targetHash": "cafd3e63de79e514b027868b8d86c3519f577fd73eb1db0e8c431faa325fcf21",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-query.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "e30b525d693e1456d8b0aa4563e38cca79ea577515eb28e8afdbcb2b800e890f",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-search.md",
       "status": "translated",
-      "targetHash": "47be9085c2d0c02798e6c6ea70cacb7b52578e88540e0238345d51b401a590e1",
+      "targetHash": "fda4c0ca2f828ed6b1d719c866793369ce22d0982c9f48911de9f91f69d6b252",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-search.md"
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "341f254d1949f8b1ef4cbf6528492637f182bc41dd0f9349104be70ad7c9ef7a",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-upsert.md",
       "status": "translated",
-      "targetHash": "f8e1e89a2550b55e894e51c3658edd44d74fd69f4eac9dbd87cf346c684785f8",
+      "targetHash": "1c5df4fc9856d173cf646d0a96f7fc29a184209726016985a00dc9b00d88280d",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-upsert.md"
     },
     {
@@ -1454,11 +1455,11 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "75d338556fbdf4400b5becab137998cf93b648f9",
+      "sourceCommit": "39669010e3b3ce7360ea7aeec56d6ecdda297931",
       "sourceHash": "1c9cd3debc1749a9af5994222f948af61f810d8573490bc55574f9c397669352",
       "sourcePath": "content/en/reference/cli/cli/Overview.md",
       "status": "translated",
-      "targetHash": "a74088c035f3b5ffc261f1c5f9206dcdab7fc979d4041e309852c94145a30308",
+      "targetHash": "de01249363b0770a6fa94e717924d20eb31c8b5031a5873bb4083aaaf4f68012",
       "targetPath": "content/zh-CN/reference/cli/cli/Overview.md"
     },
     {

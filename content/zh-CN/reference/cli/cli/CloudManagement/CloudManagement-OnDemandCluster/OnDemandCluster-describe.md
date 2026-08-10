@@ -12,10 +12,10 @@ type: docx
 token: L2WsdkbDVoD5sGxAkkkcK4UEnHb
 sidebar_position: 3
 keywords: 
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - AI Agent
-  - semantic search
+  - 语义搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 ## 说明\{#description}
 
-获取单个按需集群的详细信息，包括状态、项目、区域和 CU 大小信息。
+获取单个按需集群的详细信息，包括状态、项目、区域和 CU 规格信息。
 
 ## 概要\{#synopsis}
 
@@ -57,7 +57,7 @@ zilliz on-demand-cluster describe
 ```bash
 zilliz -o json on-demand-cluster describe --cluster-id in-xxxxxxxxxxxx
 
-# 示例输出
+# Example output
 # {
 #   "autoSuspend": 60,
 #   "clusterId": "in-xxxxxxxxxxxx",

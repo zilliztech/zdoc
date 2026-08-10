@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将删除一个卷。 | Cloud"
+description: "此操作会删除一个卷。 | Cloud"
 type: docx
 token: CgVKdrm2YoAiM8xBvFacmxpWnrb
 sidebar_position: 2
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - 图像相似性搜索
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # delete
 
-此操作将删除一个卷。
+此操作会删除一个卷。
 
 ## 概要\{#synopsis}
 
@@ -53,7 +53,7 @@ zilliz volume delete
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    指定输出格式。可能的值包括：
 
     - `json`,
 
@@ -63,15 +63,15 @@ zilliz volume delete
 
     - `yaml`,
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    指定用于过滤输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

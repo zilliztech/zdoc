@@ -12,10 +12,10 @@ type: docx
 token: ObdhdVWTpogXQhx3A0YcdU2yntd
 sidebar_position: 1
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - llm 幻觉
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -50,47 +50,47 @@ zilliz import list
 
 - **--cluster-id** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
-    指定集群 ID，格式类似于 `inxx-xxxxx`。
+    表示集群 ID，类似于 `inxx-xxxxx`。
 
-    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该配置。
+    如果使用 `zilliz context set` 配置了集群，则在未配置此选项时会自动应用该配置。
 
 - **--page-size** (*integer*) -
 
-    指定每页的条目数。默认值为 **10**。
+    表示每页的项目数。默认值为 **10**。
 
 - **--page** (*integer*) -
 
-    指定当前页码。默认值为 **1**。
+    表示当前页码。默认值为 **1**。
 
 - **--database** (*string*) -
 
-    指定所选集群中的数据库名称。
+    表示指定集群中的 Database 名称。
 
-    如果已使用 `zilliz context set` 配置数据库，则在未配置此选项时会自动应用该配置。
+    如果使用 `zilliz context set` 配置了 Database，则在未配置此选项时会自动应用该配置。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    表示输出格式。可能的值包括：
 
-    - `json`，
+    - `json`,
 
-    - `table`，
+    - `table`,
 
-    - `text`，
+    - `text`,
 
-    - `yaml`，
+    - `yaml`,
 
     - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    表示用于过滤输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

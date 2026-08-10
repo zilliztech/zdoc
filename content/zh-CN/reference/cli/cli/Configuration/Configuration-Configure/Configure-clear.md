@@ -7,18 +7,18 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会清除所有已存储的凭证。 | Cloud"
+description: "此操作会清除所有已存储的凭据。 | Cloud"
 type: docx
 token: KYQYdyaoToUGCjxVUVTc16fqn1e
 sidebar_position: 1
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Faiss 向量 Database
+  - Chroma 向量 Database
+  - NLP 搜索
+  - 幻觉 LLM
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - clear
   - cliv14
 displayed_sidebar: cliSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # clear
 
-此操作会清除所有已存储的凭证。
+此操作会清除所有已存储的凭据。
 
-## 概要\{#synopsis}
+## 概述\{#synopsis}
 
 ```bash
 zilliz configure clear

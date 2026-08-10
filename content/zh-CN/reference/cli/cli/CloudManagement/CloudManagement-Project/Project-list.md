@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有项目。 | Cloud"
+description: "此操作列出所有项目。| Cloud"
 type: docx
 token: KZ5gdkIy0ojiWixSU0dc6C5KnEd
 sidebar_position: 3
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - 视频去重
+  - 视频相似性搜索
+  - 向量检索
+  - 音频相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作列出所有项目。
 
-## 简介\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz project list
@@ -46,25 +46,25 @@ zilliz project list
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可能的值包括：
+    指示输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
     - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

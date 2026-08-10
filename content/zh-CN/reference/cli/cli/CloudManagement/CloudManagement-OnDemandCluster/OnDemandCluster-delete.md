@@ -7,19 +7,19 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除一个按需集群。| Cloud"
+description: "此操作会删除按需集群。 | Cloud"
 type: docx
 token: HPKQd2dsfoBpcBx84yXc5IhenrM
 sidebar_position: 2
 keywords: 
-  - 廉价向量数据库
-  - 托管向量数据库
-  - Pinecone 向量数据库
+  - 廉价向量 Database
+  - 托管向量 Database
+  - Pinecone 向量 Database
   - 音频搜索
   - zilliz
   - zilliz cloud
   - cloud
-  - 删除
+  - delete
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # delete
 
-此操作会删除一个按需集群。
+此操作会删除按需集群。
 
 ## 用法\{#usage}
 
@@ -43,7 +43,7 @@ zilliz on-demand-cluster delete [OPTIONS]
 
 - **--cluster-id** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
     要删除的按需集群 ID。
 

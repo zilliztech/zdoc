@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作按标量筛选表达式查询实体。 | Cloud"
+description: "此操作通过标量过滤表达式查询 Entity。 | Cloud"
 type: docx
 token: VSRhdmsCvodJ7pxwGgqcuvZ3n7g
 sidebar_position: 5
@@ -18,7 +18,7 @@ keywords:
   - 多模态 RAG
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - query
   - cliv14
 displayed_sidebar: cliSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # query
 
-此操作按标量筛选表达式查询实体。
+此操作通过标量过滤表达式查询 Entity。
 
-## 描述\{#description}
+## 说明\{#description}
 
-Zilliz Cloud 提供了一组实用的筛选运算符，帮助您构建满足需求的筛选表达式。详情请参阅[筛选概览](/docs/filtering-overview)及相关页面。
+Zilliz Cloud 提供了一组实用的过滤运算符，帮助您构建满足需求的过滤表达式。有关详细信息，请参见 [过滤概述](/docs/filtering-overview) 及相关页面。
 
 ## 概要\{#synopsis}
 
@@ -56,43 +56,43 @@ zilliz vector query
 
 - **--collection** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    指定集合名称。
+    指定 Collection 名称。
 
 - **--filter** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    指定标量筛选表达式。
+    指定标量过滤表达式。
 
 - **--limit** (*integer*) -
 
-    指定返回结果的最大数量。
+    指定要返回的最大结果数。 
 
-    该值默认为 **10**，且其与 `offset` 的乘积应小于 **16,384**。
+    该值默认为 **10**，并且它与 `offset` 的乘积应小于 **16,384**。
 
 - **--output-fields** (*array*) -
 
-    指定要返回的字段，格式为 JSON 数组。
+    指定要以 JSON 数组形式返回的字段。
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    指定 Database 名称。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    指定输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
@@ -100,17 +100,17 @@ zilliz vector query
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    指定用于过滤输出的 JMESPath 表达式。
 
 - **--offset** (*integer*) -
 
-    指定在返回匹配结果之前要跳过的结果数量。与 `--limit` 一起用于分页。
+    指定在返回匹配结果前要跳过的结果数。与 `--limit` 配合用于分页。
 
-    其与 `limit` 的乘积应小于 **16,384**。
+    它与 `limit` 的乘积应小于 **16,384**。
 
 - **--partition, -p** (*array*) -
 
-    指定要查询的分区名称列表。未指定时，将查询所有分区。
+    指定要查询的 Partition 名称列表。若未指定，则查询所有 Partition。
 
 ## 示例\{#example}
 

@@ -12,10 +12,10 @@ type: docx
 token: AB6Hd6NHUoNLXIxgXywc3hmtnjc
 sidebar_position: 7
 keywords: 
-  - nearest neighbor search
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - RAG LLM 架构
+  - 私有 LLM
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作用于更新用户密码。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
@@ -71,7 +71,7 @@ zilliz user update-password
 
     指定新密码。
 
-    密码应为至少 **8** 个字符的字符串，并且需包含以下选项中的 **两** 种类型：
+    密码应为一个至少包含 **8** 个字符的字符串，并且包含以下选项中的 **2** 种类型：
 
     - 大写字母 (A-Z)
 
@@ -79,29 +79,29 @@ zilliz user update-password
 
     - 数字 (0-9)
 
-    - 特殊字符（`!`、`@`、`#` 等）
+    - 特殊字符 (`!`, `@`, `#` 等)
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    指定输出格式。可能的值包括：
 
-    - `json`，
+    - `json`,
 
-    - `table`，
+    - `table`,
 
-    - `text`，
+    - `text`,
 
-    - `yaml`，
+    - `yaml`,
 
     - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    指定用于过滤输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

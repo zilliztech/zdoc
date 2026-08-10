@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作按主键 ID 获取实体。 | Cloud"
+description: "此操作通过主键 ID 获取 Entity。 | Cloud"
 type: docx
 token: Nez2dlNZloLWEPxBHOWcad2anLf
 sidebar_position: 2
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似性搜索
+  - 多模态 RAG
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # get
 
-此操作按主键 ID 获取实体。
+此操作通过主键 ID 获取 Entity。
 
-## 概要\{#synopsis}
+## 概述\{#synopsis}
 
 ```bash
 zilliz vector get
@@ -49,27 +49,27 @@ zilliz vector get
 
 - **--collection** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定集合名称。
+    表示 Collection 名称。
 
 - **--id** (*array*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    以 JSON 数组形式指定主键 ID，例如 `'[1, 2, 3]'`。
+    表示以 JSON 数组形式提供的主键 ID，例如 `'[1, 2, 3]'`。
 
 - **--output-fields** (*array*) -
 
-    以 JSON 数组形式指定要返回的字段，例如 `'["title", "abstract"]'`。
+    表示要返回的字段，以 JSON 数组形式提供，例如 `'["title", "abstract"]'`。
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    表示 Database 名称。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可能的值包括：
+    表示输出格式。可能的值包括：
 
     - `json`，
 
@@ -83,11 +83,11 @@ zilliz vector get
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

@@ -7,18 +7,18 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出项目中的所有卷。 | Cloud"
+description: "此操作会列出项目中的所有卷。 | Cloud"
 type: docx
 token: OShTd6lMhoaxK2xDlExcmzXTnLd
 sidebar_position: 3
 keywords: 
-  - Annoy vector search
+  - Annoy 向量搜索
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list
   - cliv14
 displayed_sidebar: cliSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-此操作列出项目中的所有卷。
+此操作会列出项目中的所有卷。
 
 ## 简介\{#synopsis}
 
@@ -50,21 +50,21 @@ zilliz volume list
 
     **[必需]**
 
-    指定项目 ID。
+    表示项目 ID。
 
-    如果已使用 `zilliz context set` 配置项目，则在未配置此选项时会自动应用该项目。
+    如果使用 `zilliz context set` 配置了项目，则在未配置此选项时会自动应用该项目。
 
 - **--page-size** (*integer*) -
 
-    指定每页的条目数量。默认值为 **10**。
+    表示每页的条目数。默认值为 **10**。
 
 - **--page** (*integer*) -
 
-    指定当前页码。默认值为 **1**。
+    表示当前页码。默认值为 **1**。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可能的值包括：
+    表示输出格式。可能的值包括：
 
     - `json`，
 
@@ -78,11 +78,11 @@ zilliz volume list
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于过滤输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

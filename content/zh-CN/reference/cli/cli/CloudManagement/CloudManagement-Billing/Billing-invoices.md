@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出发票或获取特定发票的详细信息。 | Cloud"
+description: "此操作列出发票，或获取特定发票的详细信息。 | Cloud"
 type: docx
 token: Pw8Xd2yoGolKYZxsg1ZcJ0Odnmb
 sidebar_position: 3
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - 私有 llms
+  - nn 搜索
+  - llm 评测
+  - 稀疏 vs 稠密
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 # invoices
 
-此操作列出发票或获取特定发票的详细信息。
+此操作列出发票，或获取特定发票的详细信息。
 
-## 描述\{#description}
+## 说明\{#description}
 
-Zilliz Cloud 按组织级别收费。要访问发票，您必须具有 **Organization Owner** 或 **Billing Admin** 权限。
+Zilliz Cloud 在组织级别收费。要访问发票，您必须具有 **Organization Owner** 或 **Billing Admin** 权限。
 
-运行此命令而不带任何选项时，将触发一组交互式提示。
+运行此命令时如果不带任何选项，将触发一组交互式提示。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-发票中的税费将根据您提供的账单地址计算。对于需要填写 VAT 或 GST ID 的公司，请[联系我们](http://support.zilliz.com)。
+发票上的税费将根据您提供的账单地址计算。对于需要填写 VAT 或 GST ID 的公司，请[联系我们](http://support.zilliz.com)。
 
 </Admonition>
 
@@ -60,27 +60,27 @@ zilliz billing invoices
 
 - **--invoice-id** (*string*) -
 
-    指定发票 ID。提供后，将显示该发票的详细信息。其值类似于 `inv-xxxxx`。
+    表示发票 ID。如果提供此参数，则显示该发票的详细信息。其值类似于 `inv-xxxxx`。
 
 - **--page-size** (*integer*) -
 
-    指定每页的条目数。默认值为 **10**。
+    表示每页的项目数。默认值为 **10**。
 
 - **--page** (*integer*) -
 
-    指定要获取的页码。默认值为 **1**。
+    表示要获取的页码。默认值为 **1**。
 
 - **--all, -a** (*boolean*) -
 
-    指定是否获取所有页面。
+    表示是否获取所有页面。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值包括：
+    表示输出格式。可能的值包括：
 
-    - `json`，
+    - `json`,
 
-    - `table`，
+    - `table`,
 
     - `text`。
 

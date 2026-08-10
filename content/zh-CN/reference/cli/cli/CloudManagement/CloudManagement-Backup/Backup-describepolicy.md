@@ -12,12 +12,12 @@ type: docx
 token: WcQadTMuCo9voCxPT86cxFzFnkf
 sidebar_position: 4
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Milvus 向量 Database
+  - Milvus 数据库
+  - Milvus 向量 db
   - Zilliz Cloud
-  - zilliz
-  - zilliz cloud
+  - Zilliz
+  - Zilliz Cloud
   - cloud
   - describe-policy
   - cliv14
@@ -35,11 +35,11 @@ import Admonition from '@theme/Admonition';
 
 ## 说明\{#description}
 
-Zilliz Cloud 允许你为集群启用**自动备份**，以帮助在发生意外问题时确保数据可恢复。自动备份适用于**整个集群**——不支持自动备份单个 collection。
+Zilliz Cloud 允许您为集群启用**自动备份**，以帮助您在发生意外问题时确保数据可恢复。自动备份适用于**整个集群**，不支持自动备份单个 Collection。
 
-你可以运行此命令来了解适用于指定集群的当前自动备份策略设置。
+您可以运行此命令，了解适用于指定集群的当前自动备份策略设置。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 此功能仅适用于 **Dedicated** 集群。
 
@@ -61,31 +61,31 @@ zilliz backup describe-policy
 
     **[必需]**
 
-    指定一个集群 ID，格式类似于 `inxx-xxxxx`。
+    表示集群 ID，类似于 `inxx-xxxxx`。
 
-    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该配置。
+    如果集群使用 `zilliz context set` 进行配置，则在未配置此选项时会自动应用它。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值包括：
+    表示输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
     - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

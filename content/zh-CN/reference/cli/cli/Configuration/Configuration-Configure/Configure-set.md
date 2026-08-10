@@ -13,9 +13,9 @@ token: Jp9VdKpVoooz9ix1vYMcAun4nwe
 sidebar_position: 4
 keywords: 
   - 音频相似性搜索
-  - 弹性向量数据库
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - 弹性向量 Database
+  - Pinecone 与 Milvus 对比
+  - Chroma 与 Milvus 对比
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 此操作用于设置配置值。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-你也可以改为运行 `zilliz configure`，并按照交互式引导进行操作。设置 `api_key` 可作为 `zilliz login` 的替代方式。
+您也可以改为运行 `zilliz configure`，并按照交互式指引进行操作。设置 `api_key` 可作为 `zilliz login` 的替代方案。
 
 </Admonition>
 
@@ -49,9 +49,9 @@ zilliz configure set <KEY> <VALUE>
 
 - **KEY** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    表示配置项的名称。目前仅支持 `api_key`。
+    表示配置项的名称。目前，只有 `api_key` 适用。
 
 - **VALUE** (*string*) -
 

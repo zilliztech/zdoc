@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除一个分区。 | Cloud"
+description: "此操作会删除一个 Partition。 | Cloud"
 type: docx
 token: DT7Jduvj2osqF0xVhwMcU2t7nmd
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # drop
 
-此操作会删除一个分区。
+此操作会删除一个 Partition。
 
 ## 概要\{#synopsis}
 
@@ -52,21 +52,21 @@ zilliz partition drop
 
     **[必需]**
 
-    指定集合名称。
+    表示 Collection 名称。
 
 - **--partition** (*string*) -
 
     **[必需]**
 
-    指定要删除的分区名称。
+    表示要删除的 Partition 名称。
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    表示 Database 名称。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    表示输出格式。可能的值包括：
 
     - `json`，
 
@@ -80,15 +80,15 @@ zilliz partition drop
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 - **--yes, -y** (*boolean*) -
 
-    指定是否跳过确认提示。
+    表示是否跳过确认提示。
 
 ## 示例\{#example}
 

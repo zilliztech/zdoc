@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从备份中恢复特定集合。 | Cloud"
+description: "此操作可从备份中恢复特定 Collection。 | Cloud"
 type: docx
 token: XvDzdZsb3ojqgXxhEjfcZBxbnNb
 sidebar_position: 8
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - 向量数据库对比
+  - openai 向量数据库
+  - 自然语言处理 Database
+  - 便宜的向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # restore-collection
 
-此操作从备份中恢复特定集合。
+此操作可从备份中恢复特定 Collection。
 
-## 描述\{#description}
+## 说明\{#description}
 
-在 Zilliz Cloud 中，备份是数据的副本，可帮助您在数据丢失或系统故障时恢复整个集群或特定集合。
+在 Zilliz Cloud 中，备份是您数据的一个副本，可用于在发生数据丢失或系统故障时恢复整个集群或特定 Collection。
 
-恢复集群会创建一个新集群，并将所有已备份的集合复制到其中。不带任何选项运行此命令将触发一组交互式提示。
+恢复集群会创建一个新集群，并将所有已备份的 Collection 复制到其中。在不带选项的情况下运行此命令，将触发一组交互式提示。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 此功能仅适用于 **Dedicated** 集群。
 
@@ -66,7 +66,7 @@ zilliz backup restore-collection
 
     表示源集群 ID，格式类似于 `inxx-xxxxx`。
 
-    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该集群。
+    如果集群是使用 `zilliz context set` 配置的，则在未配置此选项时会自动应用。
 
 - **--backup-id** (*string*) -
 
@@ -82,7 +82,7 @@ zilliz backup restore-collection
 
 - **--output, -o** (*string*) -
 
-    表示输出格式。可选值：
+    表示输出格式。可能的值包括：
 
     - `json`，
 
@@ -96,7 +96,7 @@ zilliz backup restore-collection
 
 - **--no-header** (*boolean*) -
 
-    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
@@ -104,7 +104,7 @@ zilliz backup restore-collection
 
 - **--body** (*string*) -
 
-    与以下模式匹配的原始 JSON 字符串。具体示例请参见 [恢复集合备份](/reference/restful/restore-collection-backup-v2)。
+    与以下 Schema 匹配的原始 JSON 字符串。具体示例请参见 [恢复 Collection 备份](/reference/restful/restore-collection-backup-v2)。
 
     ```json
     {

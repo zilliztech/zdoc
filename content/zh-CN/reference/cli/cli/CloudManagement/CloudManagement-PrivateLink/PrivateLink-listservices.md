@@ -7,15 +7,15 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出可用的 PrivateLink 端点服务。 | Cloud"
+description: "此操作列出可用的 PrivateLink Endpoint 服务。 | Cloud"
 type: docx
 token: WIbvdNJNIoOG3Rx4gfncUuD4nBd
 sidebar_position: 5
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - 降维
+  - HNSW 算法
+  - 向量相似性搜索
+  - 近似最近邻搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list-services
 
-此操作列出可用的 PrivateLink 端点服务。
+此操作列出可用的 PrivateLink Endpoint 服务。
 
 ## 用法\{#usage}
 

@@ -1,25 +1,25 @@
 ---
-title: "list | Cloud"
+title: "列出 | Cloud"
 slug: /cli/cli/PrivateLink-list
-sidebar_label: "list"
+sidebar_label: "列出"
 beta: false
 added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出项目的 PrivateLink 端点。 | Cloud"
+description: "此操作列出项目的 PrivateLink Endpoint。| Cloud"
 type: docx
 token: JQ1JdRsfBo1LdpxdTSpcgrx4n3b
 sidebar_position: 4
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - milvus 开源
+  - milvus 的工作原理
+  - Zilliz 向量 Database
+  - Zilliz Database
   - zilliz
   - zilliz cloud
   - cloud
-  - list
+  - 列出
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -29,13 +29,13 @@ displayed_sidbar: cliSidebar
 import Admonition from '@theme/Admonition';
 
 
-# list
+# 列出
 
-此操作列出项目的 PrivateLink 端点。
+此操作列出项目的 PrivateLink Endpoint。
 
-## 描述\{#description}
+## 说明\{#description}
 
-列出某个项目的 PrivateLink 端点，包括 JSON 输出中的分页字段和端点条目。
+列出项目的 PrivateLink Endpoint，包括 JSON 输出中的分页字段和 Endpoint 条目。
 
 ## 概要\{#synopsis}
 
@@ -49,13 +49,13 @@ zilliz privatelink list
 
 - **--project-id** (*string*) -
 
-    指定要列出其 PrivateLink 端点的项目 ID。
+    指定您要列出其 PrivateLink Endpoint 的项目 ID。
 
     项目 ID。
 
 - **--api-key** (*string*) -
 
-    为此命令指定 API 密钥。此值会覆盖环境变量或已配置的 API 密钥。
+    为此命令指定 API 密钥。此值会覆盖环境变量中的 API 密钥或已配置的 API 密钥。
 
 ## 示例\{#example}
 

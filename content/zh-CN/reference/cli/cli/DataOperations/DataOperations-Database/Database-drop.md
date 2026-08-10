@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除一个数据库。（仅 Dedicated）| Cloud"
+description: "此操作用于删除一个 Database。（仅 Dedicated）| Cloud"
 type: docx
 token: WjbrdMFuXoR2etxfpMdcmIebnCh
 sidebar_position: 3
 keywords: 
-  - lexical search
-  - nearest neighbor search
+  - 词法搜索
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
+  - rag llm 架构
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # drop
 
-此操作会删除一个数据库。（仅 Dedicated）
+此操作用于删除一个 Database。（仅 Dedicated）
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 此命令适用于 Dedicated 集群。
 
 </Admonition>
 
-## 概要\{#synopsis}
+## 摘要\{#synopsis}
 
 ```bash
 zilliz database drop
@@ -55,7 +55,7 @@ zilliz database drop
 
     **[必需]**
 
-    指定要删除的数据库名称。
+    指定要删除的 Database 名称。
 
 - **--output, -o** (*string*) -
 

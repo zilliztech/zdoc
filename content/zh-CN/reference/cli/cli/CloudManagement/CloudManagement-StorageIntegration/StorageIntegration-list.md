@@ -7,15 +7,15 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出外部存储集成，以便您在将其用于导入或外部集合工作流之前，查看集成 ID、名称、状态、区域、存储桶和服务器消息。 | Cloud"
+description: "此操作会列出外部存储集成，以便您在将其用于导入或外部 Collection 工作流之前，查看集成 ID、名称、状态、区域、存储桶和服务器消息。 | Cloud"
 type: docx
 token: XScGdoVr8oYyWVxQzqKcy7eQnFG
 sidebar_position: 5
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 向量化
+  - k 最近邻算法
   - ANNS
-  - Vector search
+  - 向量搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-此操作会列出外部存储集成，以便您在将其用于导入或外部集合工作流之前，查看集成 ID、名称、状态、区域、存储桶和服务器消息。
+此操作会列出外部存储集成，以便您在将其用于导入或外部 Collection 工作流之前，查看集成 ID、名称、状态、区域、存储桶和服务器消息。
 
 ## 概要\{#synopsis}
 

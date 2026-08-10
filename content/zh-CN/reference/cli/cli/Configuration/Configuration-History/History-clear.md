@@ -7,15 +7,15 @@ added_since: v1.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会截断本地命令历史文件。脚本在“截断后删除”的过程中会持有独占锁，因此并发的 CLI 调用不会丢失已追加的记录。 | Cloud"
+description: "此操作会截断本地命令历史文件。脚本在先截断再删除的过程中持有独占锁，因此并发的 CLI 调用不会丢失已追加的记录。 | Cloud"
 type: docx
 token: I7fKd8mPNoKYEAxmKpxcgaH8nsb
 sidebar_position: 1
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量 Database 教程
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # clear
 
-此操作会截断本地命令历史文件。脚本在“截断后删除”的过程中会持有独占锁，因此并发的 CLI 调用不会丢失已追加的记录。
+此操作会截断本地命令历史文件。脚本在先截断再删除的过程中持有独占锁，因此并发的 CLI 调用不会丢失已追加的记录。
 
 ## 概要\{#synopsis}
 

@@ -12,10 +12,10 @@ type: docx
 token: VHhWdygYaoyAmQxRpP6cvmIYndc
 sidebar_position: 6
 keywords: 
-  - nearest neighbor search
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - RAG LLM 架构
+  - 私有 LLM
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,13 +33,13 @@ import Admonition from '@theme/Admonition';
 
 此操作列出所有备份。
 
-## 描述\{#description}
+## 说明\{#description}
 
-在 Zilliz Cloud 中，备份是数据的副本，使您能够在数据丢失或系统故障时恢复整个集群或特定集合。
+在 Zilliz Cloud 中，备份是您数据的副本，可在发生数据丢失或系统故障时，用于恢复整个集群或特定 Collection。
 
-当您在不带任何选项的情况下运行此命令时，系统会询问您是否设置其他选项。该提示默认选择 yes，并会引导您完成选项设置。如果您在提示中输入 N，则该命令会检索所有备份。
+如果您在不带任何选项的情况下运行此命令，系统会询问您是否要设置其他选项。该提示默认为 yes，并会引导您完成选项设置。如果您在提示中输入 N，则命令会检索所有备份。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 此功能仅适用于 **Dedicated** 集群。
 
@@ -65,29 +65,29 @@ zilliz backup list
 
 - **--project-id** (*string*) -
 
-    表示一个项目 ID 作为过滤条件，格式类似于 `proj-xxxxx`。
+    表示项目 ID 过滤条件，类似于 `proj-xxxxx`。
 
 - **--cluster-id** (*string*) -
 
-    表示一个集群 ID 作为过滤条件，格式类似于 `inxx-xxxxx`。
+    表示集群 ID 过滤条件，类似于 `inxx-xxxxx`。
 
-    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该集群。
+    如果集群是使用 `zilliz context set` 配置的，则在未配置此选项时会自动应用。
 
 - **--creation-method** (*string*) -
 
-    表示创建方式作为过滤条件。 
+    表示创建方式过滤条件。 
 
-    可能的值为：`manual` 和 `auto`。
+    可能的值包括：`manual` 和 `auto`。
 
 - **--backup-type** (*string*) -
 
-    表示备份类型作为过滤条件。
+    表示备份类型过滤条件。
 
     可能的值为 `CLUSTER` 和 `COLLECTION`。
 
 - **--page-size** (*integer*) -
 
-    表示每页的条目数。默认值为 **10**。
+    表示每页条目数。默认值为 **10**。
 
 - **--page** (*integer*) -
 
@@ -95,7 +95,7 @@ zilliz backup list
 
 - **--output, -o** (*string*) -
 
-    表示输出格式。可能的值：
+    表示输出格式。可能的值包括：
 
     - `json`，
 
@@ -113,7 +113,7 @@ zilliz backup list
 
 - **--query, -q** (*string*) -
 
-    表示用于过滤输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 - **--all, -a** (*boolean*) -
 

@@ -13,9 +13,9 @@ token: T0VYdnnlIo0VwAxLaBjcryM1n7b
 sidebar_position: 2
 keywords: 
   - knn
-  - Image Search
+  - 图像搜索
   - LLMs
-  - Machine Learning
+  - 机器学习
   - zilliz
   - zilliz cloud
   - cloud
@@ -49,23 +49,23 @@ zilliz index describe
 
 - **--collection** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    指定集合名称。
+    表示 Collection 名称。
 
 - **--index-name** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    指定索引名称。
+    表示索引名称。
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    表示 Database 名称。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    表示输出格式。可能的值包括：
 
     - `json`,
 
@@ -75,15 +75,15 @@ zilliz index describe
 
     - `yaml`,
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

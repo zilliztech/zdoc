@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将实体插入到集合中。 | Cloud"
+description: "此操作将 Entity 插入到 Collection 中。| Cloud"
 type: docx
 token: IyKzdBU2zoXcNUxvmhvcJCISnJe
 sidebar_position: 4
 keywords: 
-  - AI Hallucination
+  - AI 幻觉
   - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - 语义搜索
+  - 异常检测
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # insert
 
-此操作会将实体插入到集合中。
+此操作将 Entity 插入到 Collection 中。
 
-## Description\{#description}
+## 说明\{#description}
 
-在插入或 upsert 数据时，请确保数据结构与目标集合的 schema 匹配。你可以选择
+插入或 upsert 数据时，请确保数据结构与目标 Collection 的 Schema 匹配。您可以选择
 
-## Synopsis\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz vector insert
@@ -51,21 +51,21 @@ zilliz vector insert
 [--body <value>]
 ```
 
-## Options\{#options}
+## 选项\{#options}
 
 - **--collection** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定集合名称。
+    表示 Collection 名称。
 
 - **--data** (*array*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定实体，格式为 JSON 数组或 `file://path.json`。除非提供了 `--body`，否则此参数为必需。
+    以 JSON 数组或 `file://path.json` 形式指定 Entity。除非提供了 `--body`，否则此项为必需。
 
-    JSON 数组应符合以下 schema：
+    JSON 数组应符合以下 Schema：
 
     ```json
     {
@@ -81,35 +81,35 @@ zilliz vector insert
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    表示 Database 名称。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    表示输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于过滤输出的 JMESPath 表达式。
+    表示用于过滤输出的 JMESPath 表达式。
 
 - **--body** (*json*) -
 
-    指定原始 JSON 请求体（或 `file://path`）。
+    表示原始 JSON 请求体（或 `file://path`）。
 
-    JSON 请求体应符合以下 schema。
+    JSON 请求体应符合以下 Schema。
 
     ```json
     {
@@ -142,9 +142,9 @@ zilliz vector insert
 
 - **--partition, -p** (*string*) -
 
-    指定要插入数据的分区名称。
+    表示要插入数据的 Partition 名称。
 
-## Example\{#example}
+## 示例\{#example}
 
 ```bash
 # Insert with inline JSON

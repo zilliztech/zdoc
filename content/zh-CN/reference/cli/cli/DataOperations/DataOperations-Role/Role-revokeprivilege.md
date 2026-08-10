@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会从角色中撤销某项权限。 | Cloud"
+description: "此操作从角色中撤销某项权限。 | Cloud"
 type: docx
 token: YXtHdG865oGg7IxwoZRcIJkQn8e
 sidebar_position: 6
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - 句子转换器
+  - 推荐系统
+  - 信息检索
+  - 降维
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # revoke-privilege
 
-此操作会从角色中撤销某项权限。
+此操作从角色中撤销某项权限。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
 此命令仅适用于 Dedicated 集群。
 
@@ -59,13 +59,13 @@ zilliz role revoke-privilege
 
     **[必需]**
 
-    指定角色名称。
+    表示角色名称。
 
 - **--object-type** (*string*) -
 
     **[必需]**
 
-    指定对象类型。可选值：
+    表示对象类型。可能的值为：
 
     - `Global`，
 
@@ -77,21 +77,21 @@ zilliz role revoke-privilege
 
     **[必需]**
 
-    指定对象名称（或使用 * 表示所有对象）。
+    表示对象名称（或使用 * 表示全部）。
 
 - **--privilege** (*string*) -
 
     **[必需]**
 
-    指定权限名称。
+    表示权限名称。
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    表示 Database 名称。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    表示输出格式。可能的值为：
 
     - `json`，
 
@@ -105,11 +105,11 @@ zilliz role revoke-privilege
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

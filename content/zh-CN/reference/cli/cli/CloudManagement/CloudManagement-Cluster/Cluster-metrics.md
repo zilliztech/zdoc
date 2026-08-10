@@ -12,10 +12,10 @@ type: docx
 token: BVHRdq4miotjdVxI72fcI7XznKc
 sidebar_position: 5
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - 开源向量 Database
+  - 开源向量数据库 db
+  - 向量 Database 示例
+  - rag 向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,19 +33,19 @@ import Admonition from '@theme/Admonition';
 
 此操作用于查询集群性能指标（QPS、延迟、存储等）。
 
-## Description\{#description}
+## 说明\{#description}
 
-Zilliz Cloud 将指标组织为以下层级：
+Zilliz Cloud 将指标划分为以下层级：
 
-- **Organization-level metrics**：反映所有项目范围内的账号整体状态（例如许可证额度、使用量）。
+- **组织级指标**：反映所有项目范围内的账户整体状态（例如许可证额度、使用量）。
 
-- **Cluster-level metrics**：反映各个集群内的资源使用情况、性能和数据情况。
+- **集群级指标**：反映各个集群中的资源使用情况、性能和数据。
 
-- **Collection-level metrics**：是按 collection 细分的部分集群指标，可帮助您定位性能问题并为单个 collection 规划容量。
+- **Collection 级指标**：按 Collection 细分的集群指标子集，可帮助您定位性能问题，并为单个 Collection 规划容量。
 
-运行此命令时如果不带任何选项，将触发一组交互式提示，帮助您完成命令设置。
+运行此命令时如果不带任何选项，将触发一组交互式提示，引导您设置该命令。
 
-## Synopsis\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz cluster metrics
@@ -58,21 +58,21 @@ zilliz cluster metrics
 [--output <value>]
 ```
 
-## Options\{#options}
+## 选项\{#options}
 
 - **--cluster-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定集群 ID。例如，`in01-xxxxxxxxxxxx`。
+    表示集群 ID。例如，`in01-xxxxxxxxxxxx`。
 
-    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该集群。
+    如果使用 `zilliz context set` 配置了集群，则在未配置此选项时会自动应用该配置。
 
 - **--metric, -m** (*array*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定指标名称。您可以连续使用此选项来配置多个指标名称。
+    表示指标名称。您可以在另一个此选项后继续追加，以配置多个指标名称。
 
     资源指标：
 
@@ -168,25 +168,25 @@ zilliz cluster metrics
 
 - **--period** (*string*) -
 
-    指定相对于当前时间的时间范围。
+    表示从现在开始的相对时间段。
 
-    使用 `d` 表示天，`m` 表示月。该值默认为 `1h`，表示统计接下来一小时内收集的数据。
+    天使用 `d`，月使用 `m`。默认值为 `1h`，表示统计接下来一小时内收集的数据。
 
 - **--start** (*string*) -
 
-    指定时间范围的开始时间。例如，`2026-03-01` 或 `2026-03-01T10:00:00Z`。
+    表示时间范围的开始时间。例如，`2026-03-01` 或 `2026-03-01T10:00:00Z`。
 
 - **--end** (*string*) -
 
-    指定时间范围的结束时间。例如，`2026-03-15` 或 `2026-03-15T18:00:00Z`。
+    表示时间范围的结束时间。例如，`2026-03-15` 或 `2026-03-15T18:00:00Z`。
 
 - **--granularity, -g** (*string*) -
 
-    指定数据点间隔。例如，`30s`、`5m`、`1h`。此选项默认为 `auto`。
+    表示数据点间隔。例如，`30s`、`5m`、`1h`。此选项默认值为 `auto`。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。省略此选项时，结果会以终端内的盲文图表可视化形式呈现（自 v1.3.1 起）。可显式指定的值包括：
+    表示输出格式。省略此选项时，结果将显示为终端内的盲文图表可视化形式（自 v1.3.1 起）。显式值包括：
 
     - `json`，
 
@@ -194,7 +194,7 @@ zilliz cluster metrics
 
     - `text`。
 
-## Example\{#example}
+## 示例\{#example}
 
 ```bash
 zilliz cluster metrics -m READ_VCU -m WRITE_VCU

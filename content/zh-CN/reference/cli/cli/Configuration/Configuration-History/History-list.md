@@ -7,15 +7,15 @@ added_since: v1.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出记录在本地历史日志中的最近命令，按最新优先排序。每条记录包括时间戳、命令行、命令类型和成功标志。 | Cloud"
+description: "此操作会列出本地历史记录日志中记录的最近命令，并按最新优先排序。每条记录都包含时间戳、命令行、命令类型和成功标志。 | Cloud"
 type: docx
 token: JsXAdb04GodEnVxihb5csm28nze
 sidebar_position: 2
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - 分层可导航小世界
+  - 稠密嵌入
+  - Faiss 向量 Database
+  - Chroma 向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-此操作列出记录在本地历史日志中的最近命令，按最新优先排序。每条记录包括时间戳、命令行、命令类型和成功标志。
+此操作会列出本地历史记录日志中记录的最近命令，并按最新优先排序。每条记录都包含时间戳、命令行、命令类型和成功标志。
 
 ## 概要\{#synopsis}
 
@@ -45,11 +45,11 @@ zilliz history list
 
 - **--limit** (*integer*) -
 
-    指定要显示的最大条目数。默认值：50。设置了 `--all` 时将忽略此选项。
+    指示要显示的最大条目数。默认值：50。当设置 `--all` 时将忽略此选项。
 
 - **--all** (*boolean*) -
 
-    显示所有已记录的条目，而不是最近的 `--limit` 条目。
+    显示所有已记录的条目，而不是仅显示最近的 `--limit` 条。
 
 ## 示例\{#example}
 

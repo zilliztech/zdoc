@@ -7,14 +7,14 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于创建一个 PrivateLink 端点。| Cloud"
+description: "此操作会创建一个 PrivateLink Endpoint。 | Cloud"
 type: docx
 token: GBdVd6bJ1o6VhRxgHxLcsFsVn2b
 sidebar_position: 2
 keywords: 
   - 音频搜索
   - 什么是语义搜索
-  - Embedding model
+  - Embedding 模型
   - 图像相似性搜索
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create
 
-此操作用于创建一个 PrivateLink 端点。
+此操作会创建一个 PrivateLink Endpoint。
 
 ## 用法\{#usage}
 
@@ -43,25 +43,25 @@ zilliz privatelink create [OPTIONS]
 
 - **--project-id** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
     项目 ID。
 
 - **--region-id** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    云区域。
+    Cloud 区域。
 
 - **--endpoint-id** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    VPC 端点 ID（例如 `vpce-xxxx`）。
+    VPC Endpoint ID（例如 vpce-xxxx）。
 
 - **--gcp-project-id** (*string*) -
 
-    GCP 项目 ID（仅适用于 GCP）。
+    GCP 项目 ID（仅 GCP）。
 
 ## 示例\{#example}
 

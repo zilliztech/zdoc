@@ -7,15 +7,15 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出外部集合刷新任务（可选择按集合筛选）。 | Cloud"
+description: "此操作列出外部 Collection 刷新作业（可按 Collection 进行筛选）。 | Cloud"
 type: docx
 token: YRQbd0bSOoMIDixpInlcg05jn4g
 sidebar_position: 2
 keywords: 
   - knn
-  - Image Search
+  - 图像搜索
   - LLMs
-  - Machine Learning
+  - 机器学习
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-此操作列出外部集合刷新任务（可选择按集合筛选）。
+此操作列出外部 Collection 刷新作业（可按 Collection 进行筛选）。
 
 ## 描述\{#description}
 
-列出当前集群上下文中的外部集合刷新任务。使用 `--name` 和 `--database` 可缩小结果范围。
+列出当前集群上下文中的外部 Collection 刷新作业。使用 `--name` 和 `--database` 缩小结果范围。
 
 ## 概要\{#synopsis}
 
@@ -49,11 +49,11 @@ zilliz external-collection refresh list
 
 - **--name** (*string*) -
 
-    按外部集合名称筛选。
+    按外部 Collection 名称筛选。
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    指定 Database 名称。
 
 ## 示例\{#example}
 

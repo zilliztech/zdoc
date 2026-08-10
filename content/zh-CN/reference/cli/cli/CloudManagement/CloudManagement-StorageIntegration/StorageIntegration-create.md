@@ -1,25 +1,25 @@
 ---
-title: "create | Cloud"
+title: "创建 | Cloud"
 slug: /cli/cli/StorageIntegration-create
-sidebar_label: "create"
+sidebar_label: "创建"
 beta: false
 added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于创建外部存储集成。使用它可注册 AWS、Azure 或 GCP 的存储桶凭证，以便 Zilliz Cloud 访问外部数据源。 | Cloud"
+description: "此操作将创建一个外部存储集成。您可以使用它为 AWS、Azure 或 GCP 注册存储桶凭证，以便 Zilliz Cloud 访问外部数据源。 | Cloud"
 type: docx
 token: YCXuddx10oBOujxOcLscTAg0nKc
 sidebar_position: 1
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - 相似性搜索
+  - 多模态 RAG
+  - llm 幻觉
+  - 混合搜索
   - zilliz
   - zilliz cloud
-  - cloud
-  - create
+  - 云
+  - 创建
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create
 
-此操作用于创建外部存储集成。使用它可注册 AWS、Azure 或 GCP 的存储桶凭证，以便 Zilliz Cloud 访问外部数据源。
+此操作将创建一个外部存储集成。您可以使用它为 AWS、Azure 或 GCP 注册存储桶凭证，以便 Zilliz Cloud 访问外部数据源。
 
 ## 概要\{#synopsis}
 
@@ -59,7 +59,7 @@ zilliz storage-integration create --name <string> --bucket-name <string> [OPTION
 
 - **--description** (*string*) -
 
-    指定该集成的易于理解的描述。
+    指定该集成的人类可读描述。
 
 - **--region-id** (*string*) -
 
@@ -71,7 +71,7 @@ zilliz storage-integration create --name <string> --bucket-name <string> [OPTION
 
 - **--external-id** (*string*) -
 
-    指定 AWS external ID。此值会从本地命令历史中隐藏。
+    指定 AWS 外部 ID。此值会从本地命令历史记录中隐藏。
 
 - **--account-name** (*string*) -
 
@@ -79,11 +79,11 @@ zilliz storage-integration create --name <string> --bucket-name <string> [OPTION
 
 - **--client-id** (*string*) -
 
-    指定 Azure client ID。
+    指定 Azure 客户端 ID。
 
 - **--tenant-id** (*string*) -
 
-    指定 Azure tenant ID。
+    指定 Azure 租户 ID。
 
 - **--gcp-project-id** (*string*) -
 
@@ -91,11 +91,11 @@ zilliz storage-integration create --name <string> --bucket-name <string> [OPTION
 
 - **--service-account-email** (*string*) -
 
-    指定 GCP 服务账号电子邮箱。
+    指定 GCP 服务账号电子邮件地址。
 
 - **--body** (*path*) -
 
-    当扁平参数不足以满足需求时，指定 JSON 请求体文件，例如 `file://integration.json`。
+    当扁平标志不足以满足需求时，指定一个 JSON 正文文件，例如 `file://integration.json`。
 
 ## 示例\{#example}
 

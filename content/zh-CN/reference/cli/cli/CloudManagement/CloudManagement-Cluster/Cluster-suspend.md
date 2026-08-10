@@ -7,13 +7,13 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会挂起一个正在运行的集群。挂起将停止计算费用。 | Cloud"
+description: "此操作会挂起正在运行的集群。挂起后将停止计算费用。 | Cloud"
 type: docx
 token: RjlQdGJyzolWm0xZVyUc6yAdnyc
 sidebar_position: 10
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
+  - 音频相似性搜索
+  - 弹性向量 Database
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # suspend
 
-此操作会挂起一个正在运行的集群。挂起将停止计算费用。
+此操作会挂起正在运行的集群。挂起后将停止计算费用。
 
 ## 概要\{#synopsis}
 
@@ -51,25 +51,25 @@ zilliz cluster suspend
 
     指定要挂起的集群 ID。
 
-    如果已使用 `zilliz context set` 配置了集群，则在未配置此选项时会自动应用该配置。
+    如果集群使用 `zilliz context set` 进行了配置，则在未配置此选项时会自动应用。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可能的值：
+    指定输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
     - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 

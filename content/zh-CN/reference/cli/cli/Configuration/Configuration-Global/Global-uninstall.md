@@ -12,10 +12,10 @@ type: docx
 token: LeH5d568MolZfhxAwoZcmjWTnGc
 sidebar_position: 2
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 向量化
+  - k 最近邻算法
   - ANNS
-  - Vector search
+  - 向量搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -35,9 +35,9 @@ import Admonition from '@theme/Admonition';
 
 ## 说明\{#description}
 
-移除已安装的 Zilliz CLI 二进制文件和 `zz` 别名。如果你还希望删除本地 Zilliz CLI 配置目录，请使用 `--purge`。
+移除已安装的 Zilliz CLI 二进制文件和 `zz` 别名。如果您还想删除本地 Zilliz CLI 配置目录，请使用 `--purge`。
 
-## 概要\{#synopsis}
+## 概述\{#synopsis}
 
 ```bash
 zilliz uninstall

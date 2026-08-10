@@ -7,14 +7,14 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除一个索引。| Cloud"
+description: "此操作会删除索引。 | Cloud"
 type: docx
 token: EJO8dhKSYoWk3AxksTrcGCzdnxf
 sidebar_position: 3
 keywords: 
   - 什么是向量数据库
-  - 什么是向量数据库
-  - 向量数据库对比
+  - 什么是向量 Database
+  - 向量 Database 对比
   - Faiss
   - zilliz
   - zilliz cloud
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # drop
 
-此操作会删除一个索引。
+此操作会删除索引。
 
-## 概要\{#synopsis}
+## 概述\{#synopsis}
 
 ```bash
 zilliz index drop
@@ -50,23 +50,23 @@ zilliz index drop
 
 - **--collection** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定集合名称。
+    指示 Collection 名称。
 
 - **--index-name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定要删除的索引名称。
+    指示要删除的索引名称。
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    指示 Database 名称。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可能的值包括：
+    指示输出格式。可能的值包括：
 
     - `json`，
 
@@ -80,15 +80,15 @@ zilliz index drop
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    指示用于过滤输出的 JMESPath 表达式。
 
 - **--yes, -y** (*boolean*) -
 
-    指定是否跳过确认提示。
+    指示是否跳过确认提示。
 
 ## 示例\{#example}
 

@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作使用多个向量并结合重排序执行混合搜索。 | Cloud"
+description: "此操作使用多个向量和重排序执行混合搜索。 | Cloud"
 type: docx
 token: EiCXdUuf2oTB3HxiL20clnSPn8g
 sidebar_position: 3
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - 自然语言处理搜索
+  - 幻觉 大语言模型
+  - 多模态搜索
+  - 向量搜索算法
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,21 +31,21 @@ import Admonition from '@theme/Admonition';
 
 # hybrid-search
 
-此操作使用多个向量并结合重排序执行混合搜索。
+此操作使用多个向量和重排序执行混合搜索。
 
-## Description\{#description}
+## 说明\{#description}
 
-在许多应用中，可以基于丰富的信息集来搜索一个对象，例如标题和描述，或者基于多种模态进行搜索，例如文本、图像和音频。Zilliz Cloud 通过允许跨多个向量字段搜索并同时执行多个 Approximate Nearest Neighbor (ANN) 搜索来支持这一能力。如果你希望同时搜索文本和图像、描述同一对象的多个文本字段，或者结合稠密向量和稀疏向量以提升搜索质量，多向量混合搜索会特别有用。
+在许多应用中，可以使用丰富的信息集来搜索某个对象，例如标题和描述；也可以使用多种模态进行搜索，例如文本、图像和音频。Zilliz Cloud 通过支持跨多个向量字段搜索并同时执行多个近似最近邻（ANN）搜索来实现这一点。如果您想同时搜索文本和图像、描述同一对象的多个文本字段，或者结合稠密向量与稀疏向量来提升搜索质量，多向量混合搜索会特别有用。
 
-主要有两种混合搜索，它们分别是：
+混合搜索主要有两种，分别是：
 
 - 稀疏-稠密向量搜索
 
 - 多模态向量搜索
 
-更多详情请参见 [多向量混合搜索](/docs/hybrid-search)。
+有关详细信息，请参阅 [多向量混合搜索](/docs/hybrid-search)。
 
-## Synopsis\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz vector hybrid-search
@@ -62,21 +62,21 @@ zilliz vector hybrid-search
 [--query <value>]
 ```
 
-## Options\{#options}
+## 选项\{#options}
 
 - **--collection** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定集合名称。
+    表示 Collection 名称。
 
 - **--search** (*array*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定搜索请求的 JSON 数组（除非使用 --body）。除非提供了 `--body`，否则此参数为必填。
+    表示以 JSON 数组形式提供的搜索请求（除非提供 --body）。除非提供 `--body`，否则此项必需。
 
-    该 JSON 数组应符合以下 schema。
+    该 JSON 数组应符合以下 Schema。
 
     ```json
     {
@@ -163,11 +163,11 @@ zilliz vector hybrid-search
 
 - **--rerank** (*object*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定重排序策略的 JSON（除非使用 --body）。除非提供了 `--body`，否则此参数为必填。
+    表示以 JSON 形式提供的重排序策略（除非提供 --body）。除非提供 `--body`，否则此项必需。
 
-    该 JSON 对象应符合以下 schema。
+    该 JSON 对象应符合以下 Schema。
 
     ```json
     {
@@ -206,21 +206,21 @@ zilliz vector hybrid-search
 
 - **--limit** (*integer*) -
 
-    指定要返回的最大结果数。 
+    表示要返回的最大结果数。
 
-    默认值为 **10**，并且该值与 `offset` 的乘积应小于 **16,384**。
+    该值默认为 **10**，并且它与 `offset` 的乘积应小于 **16,384**。
 
 - **--output-fields** (*array*) -
 
-    指定要返回的字段，格式为 JSON 数组，例如 `'["title", "abstract"]'`。
+    表示要返回的字段，采用 JSON 数组形式，例如 `'["title", "abstract"]'`。
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    表示 Database 名称。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值包括：
+    表示输出格式。可能的值包括：
 
     - `json`，
 
@@ -234,17 +234,17 @@ zilliz vector hybrid-search
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于过滤输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 - **--body** (*json*) -
 
-    指定原始 JSON 请求体（或 `file://path`）。
+    表示原始 JSON 请求体（或 `file://path`）。
 
-    该 JSON 对象应符合以下 schema。
+    该 JSON 对象应符合以下 Schema。
 
     ```json
     {
@@ -459,11 +459,11 @@ zilliz vector hybrid-search
 
 - **--partition, -p** (*array*) -
 
-    指定要在其中搜索的分区名称列表。
+    表示要在其中搜索的 Partition 名称列表。
 
 - **--offset** (*integer*) -
 
-    指定在返回匹配结果之前要跳过的结果数。
+    表示在返回匹配结果之前要跳过的结果数量。
 
     该值与 `limit` 的乘积应小于 **16,384**。
 

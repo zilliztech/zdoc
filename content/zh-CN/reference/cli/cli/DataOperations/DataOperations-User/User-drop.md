@@ -7,14 +7,14 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会删除一个数据库用户。 | Cloud"
+description: "此操作会删除一个 Database 用户。 | Cloud"
 type: docx
 token: Isx7dzFS9obGxyxEwgncxs67nXe
 sidebar_position: 3
 keywords: 
   - ANNS
-  - Vector search
-  - knn algorithm
+  - 向量搜索
+  - knn 算法
   - HNSW
   - zilliz
   - zilliz cloud
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # drop
 
-此操作会删除一个数据库用户。
+此操作会删除一个 Database 用户。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
 </Admonition>
 
-## 概述\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz user drop
@@ -54,27 +54,27 @@ zilliz user drop
 
 - **--user** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
     指定要删除的用户名。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值包括：
+    指定输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
     - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 

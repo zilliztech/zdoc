@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于删除角色。 | Cloud"
+description: "此操作会删除角色。 | Cloud"
 type: docx
 token: YzVadE24uorV0gx5Se3ceumqnDh
 sidebar_position: 3
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - 图像相似性搜索
+  - 上下文窗口
+  - 自然语言搜索
+  - 相似性搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # drop
 
-此操作用于删除角色。
+此操作会删除角色。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此命令仅适用于 Dedicated 集群。你可以运行 `zilliz context set` 在集群之间切换。
+此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
 </Admonition>
 
@@ -61,17 +61,17 @@ zilliz role drop
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    指定输出格式。可选值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
@@ -79,7 +79,7 @@ zilliz role drop
 
 - **--query, -q** (*string*) -
 
-    指定用于过滤输出的 JMESPath 表达式。
+    指定用于筛选输出的 JMESPath 表达式。
 
 - **--yes, -y** (*boolean*) -
 
@@ -87,7 +87,7 @@ zilliz role drop
 
 - **--database** (*string*) -
 
-    指定数据库名称。默认值为 `default`。
+    指定 Database 名称。该值默认为 `default`。
 
 ## 示例\{#example}
 

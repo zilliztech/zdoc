@@ -7,15 +7,15 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于删除一个 PrivateLink 端点。 | Cloud"
+description: "此操作会删除一个 PrivateLink Endpoint。 | Cloud"
 type: docx
 token: JYr4dveljoLs84xSAXJclFSkn8d
 sidebar_position: 3
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - AI 幻觉
+  - AI 智能体
+  - 语义搜索
+  - 异常检测
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # delete
 
-此操作用于删除一个 PrivateLink 端点。
+此操作会删除一个 PrivateLink Endpoint。
 
 ## 用法\{#usage}
 
@@ -43,15 +43,15 @@ zilliz privatelink delete [OPTIONS]
 
 - **--project-id** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
     项目 ID。
 
 - **--endpoint-id** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
-    要删除的端点 ID。
+    要删除的 Endpoint ID。
 
 ## 示例\{#example}
 

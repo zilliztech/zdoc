@@ -13,9 +13,9 @@ token: EfaUd8o9LoguWnx6jndcyTJfnzd
 sidebar_position: 9
 keywords: 
   - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - milvus 向量 Database
+  - milvus 数据库
+  - milvus 向量数据库
   - zilliz
   - zilliz cloud
   - cloud
@@ -51,29 +51,29 @@ zilliz cluster resume
 
     指定要恢复的集群 ID。
 
-    如果已使用 `zilliz context set` 配置集群，则在未配置此选项时会自动应用该配置。
+    如果某个集群使用 `zilliz context set` 进行配置，则在未配置此选项时会自动应用。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    指定输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于过滤输出的 JMESPath 表达式。
+    指定用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

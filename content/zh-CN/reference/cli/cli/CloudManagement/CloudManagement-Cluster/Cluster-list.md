@@ -12,13 +12,13 @@ type: docx
 token: F2RtdzmQ0oQlWfxf7SYcT200nNf
 sidebar_position: 4
 keywords: 
-  - milvus db
-  - milvus vector db
+  - Milvus 数据库
+  - Milvus 向量数据库
   - Zilliz Cloud
-  - what is milvus
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 什么是 Milvus
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - list
   - cliv14
 displayed_sidebar: cliSidebar
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会列出所有集群。
 
-## 描述\{#description}
+## 说明\{#description}
 
 此命令会为列出的每个集群返回以下字段：
 
@@ -69,15 +69,15 @@ zilliz cluster list
 
 - **--page-size** (*integer*) -
 
-    指定每页的条目数。默认值为 **10**。
+    表示每页条目数。默认值为 **10**。
 
 - **--page** (*integer*) -
 
-    指定页码。默认值为 **1**。
+    表示页码。默认值为 **1**。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可能的值包括：
+    表示输出格式。可能的值包括：
 
     - `json`,
 
@@ -87,19 +87,19 @@ zilliz cluster list
 
     - `yaml`,
 
-    - `csv`。
+    - `csv`.
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略标题行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 - **--all, -a** (*boolean*) -
 
-    指定是否获取所有页面。
+    表示是否获取所有页面。
 
 ## 示例\{#example}
 

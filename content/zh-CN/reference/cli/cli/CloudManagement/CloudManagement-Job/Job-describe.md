@@ -12,10 +12,10 @@ type: docx
 token: HrwTdhnBeoZwoBxokBJcQZWznKh
 sidebar_position: 1
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - 稠密嵌入
+  - Faiss 向量 Database
+  - Chroma 向量 Database
+  - NLP 搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作用于获取异步作业（备份、恢复、迁移、导入等）的状态。
 
-## 概述\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz job describe
@@ -48,13 +48,13 @@ zilliz job describe
 
 - **--job-id** (*string*) -
 
-    **[必填]**
+    **[必需]**
 
-    表示一个 Job ID。例如，`job-xxxxxxxxxxxxxxxxxxxx`。
+    表示 Job ID。例如，`job-xxxxxxxxxxxxxxxxxxxx`。
 
 - **--wait** (*boolean*) -
 
-    表示是否等待直到作业到达终止状态。
+    表示是否等待直到作业达到终止状态。
 
 - **--timeout** (*integer*) -
 
@@ -62,7 +62,7 @@ zilliz job describe
 
 - **--interval** (*integer*) -
 
-    表示轮询间隔（秒）。默认值为 5，表示 Zilliz Cloud 每 5 秒获取一次指定作业的状态。
+    表示轮询间隔（秒）。默认值为 5，这表示 Zilliz Cloud 每 5 秒检索一次指定作业的状态。
 
 - **--output, -o** (*string*) -
 

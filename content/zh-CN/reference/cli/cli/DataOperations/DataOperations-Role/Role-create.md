@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于创建新角色。 | Cloud"
+description: "此操作会创建一个新角色。 | Cloud"
 type: docx
 token: V9xIdjMEMowIh2xVJUUcvir6nUf
 sidebar_position: 1
 keywords: 
-  - vector databases comparison
+  - 向量 Database 对比
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,19 +31,19 @@ import Admonition from '@theme/Admonition';
 
 # create
 
-此操作用于创建新角色。
+此操作会创建一个新角色。
 
-## 描述\{#description}
+## 说明\{#description}
 
-Zilliz Cloud 提供集群角色，供您在集群级别实施访问控制。详情请参阅[访问控制说明](/docs/access-control-overview)。
+Zilliz Cloud 提供集群角色，供您在集群级别实现访问控制。详情请参阅 [访问控制说明](/docs/access-control-overview)。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在不同集群之间切换。
+此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
 </Admonition>
 
-## 概要\{#synopsis}
+## 概述\{#synopsis}
 
 ```bash
 zilliz role create
@@ -62,21 +62,21 @@ zilliz role create
 
     指定角色名称。
 
-    该值应为长度不超过 **255** 个字符的字符串，并且必须**以下划线 (_) 或字母开头**。
+    该值应为一个长度不超过 **255** 个字符的字符串，且**以下划线 (_) 或字母开头**。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值包括：
+    指定输出格式。可能的值包括：
 
-    - `json`，
+    - `json`,
 
-    - `table`，
+    - `table`,
 
-    - `text`，
+    - `text`,
 
-    - `yaml`，
+    - `yaml`,
 
-    - `csv`。
+    - `csv`.
 
 - **--no-header** (*boolean*) -
 
@@ -88,7 +88,7 @@ zilliz role create
 
 - **--database** (*string*) -
 
-    指定数据库名称。默认值为 `default`。
+    指定 Database 名称。该值默认为 `default`。
 
 ## 示例\{#example}
 

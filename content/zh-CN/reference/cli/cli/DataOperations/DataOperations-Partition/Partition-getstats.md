@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作获取分区统计信息。 | Cloud"
+description: "此操作获取 Partition 统计信息。 | Cloud"
 type: docx
 token: VEEzdJ5tyoaFVbxG6JvcDpULnMg
 sidebar_position: 3
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - 自然语言处理
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # get-stats
 
-此操作获取分区统计信息。
+此操作获取 Partition 统计信息。
 
-## 描述\{#description}
+## 说明\{#description}
 
-该命令返回指定分区中的实体数量。
+此命令返回指定 Partition 中的 Entity 数量。
 
-## 概要\{#synopsis}
+## 语法\{#synopsis}
 
 ```bash
 zilliz partition get-stats
@@ -55,21 +55,21 @@ zilliz partition get-stats
 
     **[必需]**
 
-    指定集合名称。
+    指示 Collection 名称。
 
 - **--partition** (*string*) -
 
     **[必需]**
 
-    指定分区名称。
+    指示 Partition 名称。
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    指示 Database 名称。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    指示输出格式。可能的值包括：
 
     - `json`,
 
@@ -79,15 +79,15 @@ zilliz partition get-stats
 
     - `yaml`,
 
-    - `csv`。
+    - `csv`.
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指示当输出设置为 `table` 或 `csv` 时，是否省略标头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

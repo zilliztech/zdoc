@@ -1,25 +1,25 @@
 ---
-title: "enable | Cloud"
+title: "启用 | Cloud"
 slug: /cli/cli/Alert-enable
-sidebar_label: "enable"
+sidebar_label: "启用"
 beta: false
 added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会启用一条告警规则。 | Cloud"
+description: "此操作用于启用告警规则。| Cloud"
 type: docx
 token: MLrJdT9TdojvcJxhauic8s9anBf
 sidebar_position: 4
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - 开源向量 Database
+  - 向量索引
+  - 开源向量 Database
+  - 开源向量数据库
   - zilliz
   - zilliz cloud
   - cloud
-  - enable
+  - 启用
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -29,15 +29,15 @@ displayed_sidbar: cliSidebar
 import Admonition from '@theme/Admonition';
 
 
-# enable
+# 启用
 
-此操作会启用一条告警规则。
+此操作用于启用告警规则。
 
-## 描述\{#description}
+## 说明\{#description}
 
 只有已启用的告警规则才会生效。您可以根据需要运行此命令以启用指定的告警规则。
 
-## 概要\{#synopsis}
+## 语法\{#synopsis}
 
 ```bash
 zilliz alert enable
@@ -50,23 +50,23 @@ zilliz alert enable
 
 - **--id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定要启用的告警规则 ID，例如 `alert-xxxxx`。要获取现有告警规则的完整列表，请运行 `zilliz alert list`。
+    表示要启用的告警规则 ID，例如 `alert-xxxxx`。要获取现有告警规则的完整列表，请运行 `zilliz alert list`。
 
 - **--project-id** (*string*) -
 
-    如果您希望从列表中选择一条告警规则，请指定项目 ID。
+    如果您希望从列表中选择告警规则，则表示项目 ID。
 
-    如果已使用 `zilliz context set` 配置项目，则在未配置此选项时会自动应用该项目。
+    如果使用 `zilliz context set` 配置了项目，则在未配置此选项时会自动生效。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    表示输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
     - `text`。
 

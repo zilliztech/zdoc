@@ -12,10 +12,10 @@ type: docx
 token: WVn4dXc9FocqhRxmuwlcFcTynBg
 sidebar_position: 4
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
+  - 向量相似性搜索
+  - 近似最近邻搜索
   - DiskANN
-  - Sparse vector
+  - 稀疏向量
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会切换到其他组织。
 
-**注意：** `zilliz auth switch` 是一个已弃用的别名，保留它是为了向后兼容。请在新脚本中使用顶级命令 `zilliz switch`。
+**注意：**`zilliz auth switch` 是为向后兼容而保留的已弃用别名。在新脚本中，请使用顶层 `zilliz switch` 命令。
 
 ## 概要\{#synopsis}
 
@@ -45,9 +45,9 @@ zilliz auth switch <ORG_ID>
 
 - **ORG_ID** (*string*) -
 
-    表示此操作完成后，在 `zilliz status` 结果中显示的组织 ID。如果未指定此项，将显示可供选择的列表。
+    表示此操作后在 `zilliz status` 结果中显示的组织 ID。如果未指定此项，将显示可选项。
 
-    如果未指定此选项，将显示一个交互式选择列表供你选择。
+    如果未指定此选项，将显示交互式选择列表供您选择。
 
 ## 示例\{#example}
 

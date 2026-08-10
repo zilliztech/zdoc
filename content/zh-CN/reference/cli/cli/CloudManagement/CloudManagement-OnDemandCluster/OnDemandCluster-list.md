@@ -7,18 +7,18 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出项目/区域中的按需集群。 | Cloud"
+description: "此操作会列出项目中的按需集群/region. | Cloud"
 type: docx
 token: BZ6WdvA0eoRUJyxAqfMcJe6QnMd
 sidebar_position: 4
 keywords: 
   - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 什么是 Milvus
+  - Milvus Database
+  - Milvus Lite
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - list
   - cliv14
 displayed_sidebar: cliSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-此操作列出项目/区域中的按需集群。
+此操作会列出项目中的按需集群/region.
 
-## 描述\{#description}
+## 说明\{#description}
 
 列出项目和区域中的按需集群，包括集群状态和 CU 大小。
 
-## 概要\{#synopsis}
+## Synopsis\{#synopsis}
 
 ```bash
 zilliz on-demand-cluster list
@@ -49,13 +49,13 @@ zilliz on-demand-cluster list
 
 - **--project-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
     项目 ID。
 
 - **--region-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
     云区域（例如 aws-us-west-2）。
 

@@ -7,7 +7,7 @@ added_since: v1.4.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作为存储集成生成授权材料。使用它可获取在最终完成外部存储访问前所需的云侧凭证材料。 | Cloud"
+description: "此操作会为存储集成生成授权材料。您可使用它获取在最终完成外部存储访问之前所需的云侧凭证材料。 | Cloud"
 type: docx
 token: Wa4Bd7HvNont3WxgFNxcteFqn6g
 sidebar_position: 4
@@ -15,7 +15,7 @@ keywords:
   - 什么是非结构化数据
   - 向量嵌入
   - 向量存储
-  - 开源向量数据库
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # generate-auth-materials
 
-此操作为存储集成生成授权材料。使用它可获取在最终完成外部存储访问前所需的云侧凭证材料。
+此操作会为存储集成生成授权材料。您可使用它获取在最终完成外部存储访问之前所需的云侧凭证材料。
 
-## 概述\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz storage-integration generate-auth-materials --bucket-name <string> [OPTIONS]
@@ -45,7 +45,7 @@ zilliz storage-integration generate-auth-materials --bucket-name <string> [OPTIO
 
     **[必需]**
 
-    指定外部 bucket 或容器名称。
+    指定外部 bucket 或 container 名称。
 
 - **--project-id** (*string*) -
 

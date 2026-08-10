@@ -7,14 +7,14 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会向用户授予角色。 | Cloud"
+description: "此操作会为用户授予角色。 | Cloud"
 type: docx
 token: SvpmdXjkYo3LYTxt2ipcKhLFnZg
 sidebar_position: 4
 keywords: 
   - 什么是向量数据库
-  - 向量数据库是什么
-  - 向量数据库对比
+  - 什么是向量 Database
+  - 向量 Database 对比
   - Faiss
   - zilliz
   - zilliz cloud
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # grant-role
 
-此操作会向用户授予角色。
+此操作会为用户授予角色。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
 </Admonition>
 
-## 概述\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz user grant-role
@@ -56,35 +56,35 @@ zilliz user grant-role
 
     **[必需]**
 
-    指定用户名。
+    表示用户名。
 
 - **--role** (*string*) -
 
     **[必需]**
 
-    指定要授予的角色名称。
+    表示要授予的角色名称。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可能的值包括：
+    表示输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
     - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

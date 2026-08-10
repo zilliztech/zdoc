@@ -12,10 +12,10 @@ type: docx
 token: H86odvFbDomzPjxjOtCc75jDnGf
 sidebar_position: 1
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - 分层导航小世界
+  - 稠密嵌入
+  - Faiss 向量 Database
+  - Chroma 向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 此操作用于创建新 volume。
 
-## 描述\{#description}
+## 说明\{#description}
 
-Volume 是一种对象存储，可保存结构化数据或非结构化数据文件集合。它为访问、存储、治理和组织这些数据资产提供了统一的位置。来自本地文件系统或云对象存储的结构化和非结构化数据会先上传到 Zilliz Cloud 中的 volume。之后，您可以将结构化数据直接导入或迁移到 collection，也可以运行 ETL 管道，将非结构化数据转换为 embedding，然后将这些 embedding 加载到 collection 中。
+volume 是一种对象存储，用于保存结构化数据或非结构化数据文件 Collection。它提供了一个统一的位置，用于访问、存储、治理和组织这些数据资产。来自本地文件系统或云对象存储的结构化和非结构化数据会先上传到 Zilliz Cloud 中的 volume。之后，您可以将结构化数据直接导入或迁移到 Collection 中，或运行 ETL 管道，将非结构化数据转换为嵌入，然后再将这些嵌入加载到 Collection 中。
 
-运行此命令时如果不带任何选项，将触发一组交互式提示，引导您设置该命令。
+运行此命令时如果不带任何选项，将触发一组交互式提示，帮助您设置该命令。
 
 ## 概要\{#synopsis}
 
@@ -55,17 +55,17 @@ zilliz volume create
 
 - **--project-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定项目 ID。
+    表示项目 ID。
 
-    如果已使用 `zilliz context set` 配置项目，则在未配置此选项时会自动应用该项目。
+    如果使用 `zilliz context set` 配置了项目，则在未配置此选项时会自动应用。
 
 - **--region** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定云区域。例如，`aws-us-west-2`。
+    表示云区域。例如，`aws-us-west-2`。
 
     可能的值：
 
@@ -109,33 +109,33 @@ zilliz volume create
 
 - **--name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定 volume 名称。 
+    表示 volume 名称。
 
-    该值为最长 **255** 个字符的字母数字字符串，且必须以字母开头。
+    该值是一个以字母开头、长度最多为 **255** 个字符的字母数字字符串。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可能的值：
+    表示输出格式。可能的值：
 
-    - `json`，
+    - `json`,
 
-    - `table`，
+    - `table`,
 
-    - `text`，
+    - `text`,
 
-    - `yaml`，
+    - `yaml`,
 
-    - `csv`。
+    - `csv`.
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于过滤输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

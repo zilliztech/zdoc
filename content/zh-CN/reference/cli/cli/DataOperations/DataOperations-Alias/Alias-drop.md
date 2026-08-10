@@ -12,10 +12,10 @@ type: docx
 token: CucPdYRmsofWt8xkVj3cK7Vynjg
 sidebar_position: 4
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Faiss 向量 Database
+  - Chroma 向量 Database
+  - NLP 搜索
+  - 幻觉 LLM
   - zilliz
   - zilliz cloud
   - cloud
@@ -51,39 +51,39 @@ zilliz alias drop
 
     **[必需]**
 
-    指定要删除的别名名称。
+    表示要删除的别名名称。
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    表示 Database 名称。
 
-    如果已使用 `zilliz context set` 配置集群，则当此选项未配置时，会自动应用其所属的数据库。
+    如果使用 `zilliz context set` 配置集群，且未配置此选项，则会自动应用该集群所属的 Database。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可能的值包括：
+    表示输出格式。可选值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于过滤输出的 JMESPath 表达式。
+    表示用于过滤输出的 JMESPath 表达式。
 
 - **--yes, -y** (*boolean*) -
 
-    指定是否跳过确认提示。
+    表示是否跳过确认提示。
 
 ## 示例\{#example}
 

@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会将集合加载到内存中以进行搜索。 | Cloud"
+description: "此操作会将 Collection 加载到内存中以供搜索。 | Cloud"
 type: docx
 token: SOaOdH3o6o7dsyx1VjPc4LPynqc
 sidebar_position: 10
@@ -15,7 +15,7 @@ keywords:
   - 推荐系统
   - 信息检索
   - 降维
-  - hnsw algorithm
+  - hnsw 算法
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # load
 
-此操作会将集合加载到内存中以进行搜索。
+此操作会将 Collection 加载到内存中以供搜索。
 
 ## 概要\{#synopsis}
 
@@ -50,17 +50,17 @@ zilliz collection load
 
     **[必需]**
 
-    表示集合名称。
+    表示 Collection 名称。
 
 - **--database** (*string*) -
 
-    表示数据库名称。
+    表示 Database 名称。
 
-    如果使用 `zilliz context set` 配置了集群，则当未配置此选项时，会自动应用其所属的数据库。
+    如果使用 `zilliz context set` 配置了集群，而此选项未配置，则会自动应用其所属的 Database。
 
 - **--output, -o** (*string*) -
 
-    表示输出格式。可选值包括：
+    表示输出格式。可能的值包括：
 
     - `json`，
 
@@ -74,11 +74,11 @@ zilliz collection load
 
 - **--no-header** (*boolean*) -
 
-    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    表示用于过滤输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

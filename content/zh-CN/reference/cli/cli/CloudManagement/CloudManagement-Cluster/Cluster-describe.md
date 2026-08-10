@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于获取集群的详细信息。 | Cloud"
+description: "此操作获取集群的详细信息。 | Cloud"
 type: docx
 token: OgJTdgaTIoMPGGx0EmachVPKnHc
 sidebar_position: 3
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
+  - 向量数据库
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,37 +31,37 @@ import Admonition from '@theme/Admonition';
 
 # describe
 
-此操作用于获取集群的详细信息。
+此操作获取集群的详细信息。
 
-## 描述\{#description}
+## 说明\{#description}
 
 此命令返回集群的详细信息，包括：
 
 - 集群显示名称（`clusterName`），
 
-- 所属项目的 ID（`projectId`），
+- 其所属项目的 ID（`projectId`），
 
-- 所在区域（`regionId`），
+- 其所在区域（`regionId`），
 
-- 使用的订阅计划（`plan`），
+- 其使用的订阅计划（`plan`），
 
-- 当前状态（`status`），
+- 其当前状态（`status`），
 
-- 公共和私有连接端点（`connectAddress` 和 `privateLinkAddress`），
+- 其公网和私网连接 Endpoint（`connectAddress` 和 `privateLinkAddress`），
 
-- 创建时间（`createTime`），
+- 其创建时间（`createTime`），
 
-- 副本数量（`replica`），
+- 其副本数（`replica`），
 
-- CU 大小（`cuSize`，对于免费版和 serverless 集群，该值始终为 0），
+- 其 CU 大小（`cuSize`，对于免费和 Serverless 集群，该值始终为 0），
 
-- 存储大小（`storageSize`）和部署选项（`deploymentOption`），
+- 其存储大小（`storageSize`）和部署选项（`deploymentOption`），
 
-- 已创建备份的数量（`snapshotNumber`，对于免费版和 serverless 集群，该值始终为 0），
+- 已创建的备份数量（`snapshotNumber`，对于免费和 Serverless 集群，该值始终为 0），
 
 - 为其配置的自动扩缩容策略（`autoscaling`）。
 
-## 简介\{#synopsis}
+## 用法\{#synopsis}
 
 ```bash
 zilliz cluster describe
@@ -75,15 +75,15 @@ zilliz cluster describe
 
 - **--cluster-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定集群 ID。例如：`in01-xxxxxxxxxxxx`。
+    表示集群 ID。例如，`in01-xxxxxxxxxxxx`。
 
-    如果使用 `zilliz context set` 配置了集群，则在未配置此选项时会自动应用该集群。
+    如果某个集群使用 `zilliz context set` 进行配置，则在未配置此选项时会自动应用它。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    表示输出格式。可能的值包括：
 
     - `json`，
 
@@ -97,11 +97,11 @@ zilliz cluster describe
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于过滤输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

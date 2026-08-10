@@ -7,18 +7,18 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出所有 collection。 | Cloud"
+description: "此操作会列出所有 Collection。 | Cloud"
 type: docx
 token: N10RdNXeNoseZNxkxBtcLGa1nKf
 sidebar_position: 9
 keywords: 
-  - vector database
+  - 向量 Database
   - IVF
   - knn
-  - Image Search
+  - 图像搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - list
   - cliv14
 displayed_sidebar: cliSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-此操作会列出所有 collection。
+此操作会列出所有 Collection。
 
 ## 概要\{#synopsis}
 
@@ -47,13 +47,13 @@ zilliz collection list
 
 - **--database** (*string*) -
 
-    指定数据库名称。
+    指示 Database 名称。
 
-    如果使用 `zilliz context set` 配置了集群，则当此选项未配置时，将自动应用该集群所属的数据库。
+    如果使用 `zilliz context set` 配置了集群，而此选项未配置，则会自动应用其所属的 Database。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值包括：
+    指示输出格式。可选值包括：
 
     - `json`，
 
@@ -67,11 +67,11 @@ zilliz collection list
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于过滤输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

@@ -12,10 +12,10 @@ type: docx
 token: QIhWdtFpNotKksx7KmxcTdwXnEh
 sidebar_position: 4
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 检索增强生成
+  - 大语言模型
+  - 向量化
+  - k 近邻算法
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作会升级项目的订阅计划。
 
-## 概要\{#synopsis}
+## 摘要\{#synopsis}
 
 ```bash
 zilliz project upgrade [OPTIONS]
@@ -43,13 +43,13 @@ zilliz project upgrade [OPTIONS]
 
 - **--project-id** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
-    表示一个项目 ID，其格式类似于 `proj-xxxxx`。
+    表示项目 ID，类似于 `proj-xxxxx`。
 
 - **--plan** (*string*) -
 
-    表示目标订阅计划。可能的值：<include lang="en-US">`Serverless`, `Standard`, </include>`Enterprise`。
+    表示目标订阅计划。可能的值包括：<include lang="en-US">`Serverless`、`Standard`、</include>`Enterprise`。
 
 ## 示例\{#example}
 

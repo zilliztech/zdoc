@@ -7,7 +7,7 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于删除备份。 | Cloud"
+description: "此操作会删除一个备份。 | Cloud"
 type: docx
 token: F01Gdx5b8onjxOxbhficUecWndf
 sidebar_position: 2
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # delete
 
-此操作用于删除备份。
+此操作会删除一个备份。
 
-## 描述\{#description}
+## 说明\{#description}
 
-在 Zilliz Cloud 中，备份是数据的副本，可用于在数据丢失或系统故障时恢复整个集群或特定集合。
+在 Zilliz Cloud 中，备份是您数据的副本，可在发生数据丢失或系统故障时帮助您恢复整个集群或特定 Collection。
 
-如果不再需要某个备份，您可以将其删除。删除后的备份将立即不可用。请谨慎操作。
+如果某个备份不再需要，您可以将其删除。删除后的备份会立即不可用。请谨慎操作。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 此功能仅适用于 **Dedicated** 集群。
 
@@ -63,19 +63,19 @@ zilliz backup delete
 
     **[必需]**
 
-    指定集群 ID，格式类似于 `inxx-xxxx`。
+    表示集群 ID，格式类似于 `inxx-xxxx`。
 
-    如果已使用 `zilliz context set` 配置集群，则在未设置此选项时会自动应用该配置。
+    如果集群使用 `zilliz context set` 进行配置，则在未配置此选项时会自动应用。
 
 - **--backup-id** (*string*) -
 
     **[必需]**
 
-    指定要删除的备份 ID，格式类似于 `backupx-xxxxx`。
+    表示要删除的备份 ID，格式类似于 `backupx-xxxxx`。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值包括：
+    表示输出格式。可能的值包括：
 
     - `json`，
 
@@ -89,15 +89,15 @@ zilliz backup delete
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于过滤输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 - **--yes, -y** (*boolean*) -
 
-    指定是否跳过交互式提示。
+    表示是否跳过交互式提示。
 
 ## 示例\{#example}
 

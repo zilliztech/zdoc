@@ -7,15 +7,15 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会更新集群的备份策略。 | Cloud"
+description: "此操作用于更新集群的备份策略。| Cloud"
 type: docx
 token: PJsSdI8JBoUchVx1IkrcmakLnCc
 sidebar_position: 9
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - 稀疏向量
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # update-policy
 
-此操作会更新集群的备份策略。
+此操作用于更新集群的备份策略。
 
-## 描述\{#description}
+## 说明\{#description}
 
-Zilliz Cloud 支持为集群启用**自动备份**，帮助您在发生意外问题时确保数据可恢复。自动备份适用于**整个集群**，不支持仅对单个 collection 自动备份。
+Zilliz Cloud 支持为您的集群启用**自动备份**，帮助您在发生意外问题时确保数据可恢复。自动备份适用于**整个集群**，不支持自动备份单个 Collection。
 
 您可以运行此命令来更新自动备份策略。运行此命令时如果不带任何选项，将触发一组交互式提示。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 此功能仅适用于 **Dedicated** 集群。
 
@@ -64,21 +64,21 @@ zilliz backup update-policy
 
 - **--cluster-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    表示集群 ID，格式类似于 `inxx-xxxxx`。
+    表示集群 ID，类似于 `inxx-xxxxx`。
 
-    如果已使用 `zilliz context set` 配置集群，则在未显式设置此选项时会自动应用该配置。
+    如果集群使用 `zilliz context set` 进行了配置，则在未配置此选项时会自动生效。
 
 - **--auto-backup** (*boolean*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
     表示是否启用或禁用自动备份。
 
 - **--frequency** (*string*) -
 
-    表示自动备份任务的执行频率。当 `--auto-backup` 为 `true` 时，此选项为必填。可选值包括：
+    表示自动备份作业的运行频率。当 `--auto-backup` 为 `true` 时，此选项为必需。可能的值包括：
 
     - `daily`
 
@@ -86,19 +86,19 @@ zilliz backup update-policy
 
     - `weekends`，或
 
-    - `1-7`（1=Mon，7=Sun），例如 `1,3,5`。
+    - `1-7`（1=周一，7=周日）。例如，`1,3,5`。
 
 - **--start-time** (*string*) -
 
-    表示 UTC 开始时间，例如 `02:00`。当 `--auto-backup` 为 `true` 时，此选项为必填。
+    表示 UTC 时区的开始小时，例如 `02:00`。当 `--auto-backup` 为 `true` 时，此选项为必需。
 
 - **--retention-days** (*integer*) -
 
-    表示备份保留天数（1-30）。当 `--auto-backup` 为 `true` 时，此选项为必填。
+    备份保留天数（1-30）。当 `--auto-backup` 为 `true` 时为必需。
 
 - **--output, -o** (*string*) -
 
-    表示输出格式。可选值包括：
+    表示输出格式。可能的值包括：
 
     - `json`，
 
@@ -116,11 +116,11 @@ zilliz backup update-policy
 
 - **--query, -q** (*string*) -
 
-    表示用于过滤输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 - **--body** (*string*) -
 
-    与以下 schema 匹配的原始 JSON 字符串。具体示例请参见 [设置备份策略](/reference/restful/set-backup-policy-v2)。
+    与以下 Schema 匹配的原始 JSON 字符串。具体示例请参见 [设置备份策略](/reference/restful/set-backup-policy-v2)。
 
     ```json
     {

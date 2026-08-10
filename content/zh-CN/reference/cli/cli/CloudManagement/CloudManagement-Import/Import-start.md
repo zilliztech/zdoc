@@ -7,18 +7,18 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于启动一个数据导入任务。 | Cloud"
+description: "此操作会启动一个数据导入作业。 | Cloud"
 type: docx
 token: KXgLdSiiZoMou6xEvnQcdVe3n25
 sidebar_position: 2
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Milvus Lite
+  - Milvus benchmark
+  - 托管式 Milvus
+  - Serverless 向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - start
   - cliv14
 displayed_sidebar: cliSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # start
 
-此操作用于启动一个数据导入任务。
+此操作会启动一个数据导入作业。
 
-## Description\{#description}
+## 说明\{#description}
 
-要导入数据，请确保其已转换为可接受的格式。详情请参见 [Use BulkWriter](/docs/use-bulkwriter)。
+要导入数据，请确保其已转换为可接受的格式。有关详细信息，请参阅 [使用 BulkWriter](/docs/use-bulkwriter)。
 
-## Synopsis\{#synopsis}
+## 概要\{#synopsis}
 
 ```bash
 zilliz import start
@@ -49,49 +49,49 @@ zilliz import start
 --body <value>
 ```
 
-## Options\{#options}
+## 选项\{#options}
 
 - **--cluster-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定目标集群 ID，格式类似于 `inxx-xxxxx`。
+    表示目标集群 ID，类似于 `inxx-xxxxx`。
 
-    如果已使用 `zilliz context set` 配置集群，则在未显式配置此选项时会自动应用该集群。
+    如果使用 `zilliz context set` 配置了集群，则在未配置此选项时会自动应用该配置。
 
 - **--collection** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定目标 collection 名称。
+    表示目标 Collection 名称。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    表示输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 - **--body** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    指定请求体。其应为一个字符串化的 JSON 对象，包含多个文件路径，或者是单个文件或文件夹的路径。有关应用程序存储选项和格式选项，请参见 [Storage Options](/docs/data-import-storage-options) 和 [Format Options](/docs/data-import-format-options)。
+    表示请求体，应为包含多个文件路径的字符串化 JSON 对象，或单个文件或文件夹的路径。有关应用存储选项和格式选项，请参阅 [存储选项](/docs/data-import-storage-options) 和 [格式选项](/docs/data-import-format-options)。
 
     ```json
     {
@@ -107,12 +107,12 @@ zilliz import start
     }
     ```
 
-## Example\{#example}
+## 示例\{#example}
 
 ```bash
-# 从 S3 导入
+# Import from S3
 zilliz import start --cluster-id in01-xxxx --collection my_col --body '{"files": [["s3://bucket/data.json"]]}'
 
-# 使用 JSON 文件导入
+# Import using a JSON file
 zilliz import start --cluster-id in01-xxxx --collection my_col --body file://import-spec.json
 ```

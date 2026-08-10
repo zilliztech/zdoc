@@ -12,10 +12,10 @@ type: docx
 token: OBDNd4bW2oCJqhxEPDSccggSnif
 sidebar_position: 2
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Chroma 向量 Database
+  - NLP 搜索
+  - 幻觉 LLM
+  - 多模态搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -33,7 +33,7 @@ import Admonition from '@theme/Admonition';
 
 此操作获取项目的详细信息。
 
-## 概要\{#synopsis}
+## 简介\{#synopsis}
 
 ```bash
 zilliz project describe
@@ -47,13 +47,13 @@ zilliz project describe
 
 - **--project-id** (*string*) -
 
-    **[REQUIRED]**
+    **[必填]**
 
-    指定项目 ID，格式类似于 `proj-xxxxx`。
+    表示项目 ID，类似于 `proj-xxxxx`。
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值：
+    表示输出格式。可能的值有：
 
     - `json`,
 
@@ -63,15 +63,15 @@ zilliz project describe
 
     - `yaml`,
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
 
 - **--query, -q** (*string*) -
 
-    指定用于过滤输出的 JMESPath 表达式。
+    表示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

@@ -12,9 +12,9 @@ type: docx
 token: Fj9Yd4SOPoppxTx7K8WcyMd7ncd
 sidebar_position: 2
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - 什么是向量数据库
+  - 什么是向量 Database
+  - 向量 Database 比较
   - Faiss
   - zilliz
   - zilliz cloud
@@ -33,9 +33,9 @@ import Admonition from '@theme/Admonition';
 
 此操作获取角色的详细信息和权限。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
-此命令仅适用于 Dedicated 集群。你可以运行 `zilliz context set` 在集群之间切换。
+此命令仅适用于 Dedicated 集群。您可以运行 `zilliz context set` 在集群之间切换。
 
 </Admonition>
 
@@ -54,27 +54,27 @@ zilliz role describe
 
 - **--role** (*string*) -
 
-    **[必需]**
+    **[必填]**
 
     表示角色名称。
 
 - **--output, -o** (*string*) -
 
-    表示输出格式。可选值包括：
+    表示输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
     - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    表示当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    表示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
@@ -82,7 +82,7 @@ zilliz role describe
 
 - **--database** (*string*) -
 
-    表示数据库名称。默认值为 `default`。
+    表示 Database 名称。该值默认为 `default`。
 
 ## 示例\{#example}
 

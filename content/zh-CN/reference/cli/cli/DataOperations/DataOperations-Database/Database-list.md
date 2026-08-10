@@ -1,5 +1,5 @@
 ---
-title: "list | Cloud"
+title: "列出 | Cloud"
 slug: /cli/cli/Database-list
 sidebar_label: "list"
 beta: false
@@ -7,19 +7,19 @@ added_since: v0.1.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出所有数据库。 | Cloud"
+description: "此操作会列出所有 Database。 | Cloud"
 type: docx
 token: KiwWdLJ8houEeRxGECEcc3glnoh
 sidebar_position: 4
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - zilliz
-  - zilliz cloud
+  - 语义搜索
+  - 异常检测
+  - 句子转换器
+  - 推荐系统
+  - Zilliz
+  - Zilliz Cloud
   - cloud
-  - list
+  - 列出
   - cliv14
 displayed_sidebar: cliSidebar
 
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list
 
-此操作会列出所有数据库。
+此操作会列出所有 Database。
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 此命令适用于 Dedicated 集群。
 
@@ -52,25 +52,25 @@ zilliz database list
 
 - **--output, -o** (*string*) -
 
-    指定输出格式。可选值包括：
+    指示输出格式。可能的值包括：
 
-    - `json`,
+    - `json`，
 
-    - `table`,
+    - `table`，
 
-    - `text`,
+    - `text`，
 
-    - `yaml`,
+    - `yaml`，
 
-    - `csv`.
+    - `csv`。
 
 - **--no-header** (*boolean*) -
 
-    指定当输出设置为 `table` 或 `csv` 时，是否省略表头行。
+    指示当输出设置为 `table` 或 `csv` 时，是否省略标题行。
 
 - **--query, -q** (*string*) -
 
-    指定用于筛选输出的 JMESPath 表达式。
+    指示用于筛选输出的 JMESPath 表达式。
 
 ## 示例\{#example}
 

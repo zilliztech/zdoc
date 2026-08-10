@@ -41,7 +41,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "cli/cli/CloudManagement/CloudManagement-Backup/Backup-export",
-            "label": "export",
+            "label": "导出",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-Backup/backup-export"
           },
           {
@@ -288,7 +288,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "cli/cli/CloudManagement/CloudManagement-OnDemandCluster/OnDemandCluster-create",
-            "label": "create",
+            "label": "创建",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-OnDemandCluster/ondemandcluster-create"
           },
           {
@@ -337,7 +337,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-list",
-            "label": "list",
+            "label": "列出",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-PrivateLink/privatelink-list"
           },
           {
@@ -356,7 +356,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-create",
-            "label": "create",
+            "label": "创建",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-StorageIntegration/storageintegration-create"
           },
           {
@@ -386,7 +386,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "cli/cli/CloudManagement/CloudManagement-StorageIntegration/StorageIntegration-validate",
-            "label": "validate",
+            "label": "验证",
             "key": "doc:cli/cli/CloudManagement/CloudManagement-StorageIntegration/storageintegration-validate"
           }
         ]
@@ -412,7 +412,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "cli/cli/Configuration/Configuration-Alert/Alert-delete",
-            "label": "delete",
+            "label": "删除",
             "key": "doc:cli/cli/Configuration/Configuration-Alert/alert-delete"
           },
           {
@@ -424,7 +424,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "cli/cli/Configuration/Configuration-Alert/Alert-enable",
-            "label": "enable",
+            "label": "启用",
             "key": "doc:cli/cli/Configuration/Configuration-Alert/alert-enable"
           },
           {
@@ -449,7 +449,7 @@ module.exports = [
           {
             "type": "doc",
             "id": "cli/cli/Configuration/Configuration-Auth/Auth-login",
-            "label": "login",
+            "label": "登录",
             "key": "doc:cli/cli/Configuration/Configuration-Auth/auth-login"
           },
           {
