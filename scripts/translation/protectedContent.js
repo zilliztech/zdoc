@@ -473,7 +473,9 @@ function validateProtectedContent(sourceContent, targetContent, options = {}) {
   const sourceEntries = manifestEntries(String(sourceContent), protectedOptions)
   const targetEntries = manifestEntries(String(targetContent), protectedOptions)
   const unmatchedSource = unmatchedEntries(sourceEntries, targetEntries)
-  const unmatchedTarget = unmatchedEntries(targetEntries, sourceEntries)
+  const unmatchedTarget = unmatchedEntries(targetEntries, sourceEntries).filter(entry => !(
+    options.allowAdditionalLiteralTokens && entry.category === 'do_not_translate'
+  ))
   const errors = []
   const categories = [...new Set([
     ...unmatchedSource.map(entry => entry.category),

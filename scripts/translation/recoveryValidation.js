@@ -37,6 +37,7 @@ function validateRecoveryCandidate({sourceContent, targetContent, sourcePath, ta
   const protectedErrors = validateProtectedContent(sourceContent, targetContent, {
     sourcePath,
     targetPath,
+    allowAdditionalLiteralTokens: true,
     ...protectedOptions,
   })
   const protectedSource = protectTranslationInput(sourceContent, protectedOptions)

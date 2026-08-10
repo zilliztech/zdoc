@@ -150,6 +150,27 @@ test('assigns a unique exactly-once marker to every visible do-not-translate occ
   )
 })
 
+test('allows additional target literal tokens only when explicitly requested', () => {
+  const literalTokens = ['Milvus', 'Zilliz Cloud']
+  const source = 'Milvus creates a collection.\n'
+  const targetWithAdditional = 'Milvus and Zilliz Cloud create a collection.\n'
+  const strictErrors = validateProtectedContent(source, targetWithAdditional, {literalTokens})
+
+  assert.equal(strictErrors.length, 1)
+  assert.match(strictErrors[0], /Unexpected protected do_not_translate:.*Zilliz Cloud/i)
+  assert.deepEqual(validateProtectedContent(source, targetWithAdditional, {
+    literalTokens,
+    allowAdditionalLiteralTokens: true,
+  }), [])
+
+  const missingErrors = validateProtectedContent(source, 'Create a collection.\n', {
+    literalTokens,
+    allowAdditionalLiteralTokens: true,
+  })
+  assert.equal(missingErrors.length, 1)
+  assert.match(missingErrors[0], /Missing protected do_not_translate:.*Milvus/i)
+})
+
 test('preserves every duplicate marker occurrence position beyond the former twenty-item cap', () => {
   const protectedInput = protectTranslationInput('Use `alpha`.')
   const marker = protectedInput.manifest.entries[0].marker

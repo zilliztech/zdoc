@@ -208,6 +208,15 @@ test('retained revalidation still rejects a real prose terminology violation', t
   assert.match(analysis.rejected[0].reason, /locale:.*collection.*コレクション/i)
 })
 
+test('retained revalidation allows an additional target do-not-translate product term', t => {
+  const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {
+    source: '# Milvus\n\nMilvus creates a collection.\n',
+    target: '# Milvus\n\nMilvus と Zilliz Cloud でコレクションを作成します。\n',
+  }))
+  assert.equal(analysis.recoveredCount, 1, JSON.stringify(analysis.rejected))
+  assert.equal(analysis.rejectedCount, 0)
+})
+
 test('retained revalidation fails closed when a do-not-translate token is deleted', t => {
   const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {
     source: '# Milvus\n\nMilvus creates a collection.\n',
