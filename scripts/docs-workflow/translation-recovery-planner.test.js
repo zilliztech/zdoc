@@ -47,7 +47,7 @@ function selectedUnit(target, group, order) {
   }
 }
 
-function selection(runAttempt = 2, toolingSha = RETAINED_TOOLING_SHA) {
+function selection(runAttempt = 2, toolingSha = RETAINED_TOOLING_SHA, recoveryProvenance = null) {
   const identities = [
     ['ja-JP', 'guides'],
     ['ja-JP', 'python'], ['zh-CN-reference', 'python'],
@@ -70,9 +70,34 @@ function selection(runAttempt = 2, toolingSha = RETAINED_TOOLING_SHA) {
     targetBranch: 'dev',
     initialTargetSha: SHA('d'),
     sourceBaselineSha: SHA('d'),
-    inputs: {selectedGroup: 'all', publish: true, runTranslations: true},
+    inputs: {selectedGroup: 'all', publish: true, runTranslations: true, ...(recoveryProvenance ? {recoveryProvenance} : {})},
     units,
   })
+}
+
+function sourceRecoveryProvenance(units = ['ja-JP/guides']) {
+  return {
+    schemaVersion: 2,
+    kind: 'operator-recovery',
+    sourceRepository: 'zilliztech/zdoc',
+    sourceWorkflow: '.github/workflows/translate-codex.yml',
+    sourceRunId: RUN_ID - 1,
+    sourceRunAttempt: 1,
+    sourceWorkflowSha: RETAINED_WORKFLOW_SHA,
+    sourceToolingSha: RETAINED_TOOLING_SHA,
+    executionToolingSha: RETAINED_TOOLING_SHA,
+    sourceSelectionSha256: 'e'.repeat(64),
+    publicationEvidence: {publisherJob: null, progress: [], results: null, resultsAbsenceReason: 'publish_ready-absent'},
+    artifacts: units.map((unit, index) => ({
+      unit,
+      artifactId: 900 + index,
+      artifactName: `translation-recovery-${unit.replace('/', '-')}-${RUN_ID - 1}-${index + 1}`,
+      artifactDigest: `sha256:${'f'.repeat(64)}`,
+      batchNumber: index + 1,
+      retainedFileCount: 1,
+      sourceCandidateCount: 1,
+    })),
+  }
 }
 
 function successfulPublicationResults(selected) {
@@ -182,7 +207,7 @@ function recoveryArtifact(root, {target, group, translated = 1, toolingSha = RET
 function fixture(t, overrides = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-plan-'))
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
-  const selected = selection(2, overrides.retainedToolingSha || RETAINED_TOOLING_SHA)
+  const selected = selection(2, overrides.retainedToolingSha || RETAINED_TOOLING_SHA, overrides.recoveryProvenance || null)
   const payloads = new Map()
   const artifacts = []
   let nextId = 1
@@ -314,6 +339,22 @@ test('authenticates exact producer identities through the operator recovery call
   assert.equal(planned.plan.provenance.sourceWorkflow, '.github/workflows/recover-translation.yml')
 })
 
+test('keeps chained operator recovery inside the authenticated original recovery scope', async t => {
+  const value = fixture(t, {recoveryProvenance: sourceRecoveryProvenance()})
+  const run = {...(await value.client.getRun()), path: '.github/workflows/recover-translation.yml'}
+  const jobs = value.jobs.map(job => ({...job, name: `run_translation / ${job.name}`}))
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'chained-recovery-scope'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...value.client, getRun: async () => run, listJobs: async () => jobs},
+  })
+
+  assert.deepEqual(planned.handoff.units.map(unit => `${unit.target}/${unit.group}`), ['ja-JP/guides'])
+  assert.deepEqual(Object.keys(planned.plan.recoveryMap), ['ja-JP/guides'])
+  assert.equal(planned.plan.sourceCandidateCount, 2)
+  assert.equal(planned.plan.retainedFileCount, 2)
+})
+
 test('rejects selection checksum or recovery identity mismatches and missing paid-work recovery artifacts', async t => {
   const checksum = fixture(t)
   const selectionPayload = checksum.payloads.get(checksum.artifacts[0].id)
@@ -332,6 +373,25 @@ test('rejects selection checksum or recovery identity mismatches and missing pai
 
   const missing = fixture(t)
   await assert.rejects(() => planTranslationRecovery({repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(missing.root, 'missing'), targetBaselineSha: SHA('9'), client: {...missing.client, listArtifacts: async () => missing.artifacts.filter(item => !item.name.includes('recovery-ja-JP-python'))}}), /missing recovery artifact.*before model/i)
+})
+
+test('keeps a genuinely selected positive-candidate unit even when its authenticated recovery artifact retains zero files', async t => {
+  const value = fixture(t)
+  const recovery = value.artifacts.find(item => item.name === `translation-recovery-ja-JP-python-${RUN_ID}-0`)
+  const recoveryRoot = value.payloads.get(recovery.id)
+  fs.rmSync(recoveryRoot, {recursive: true, force: true})
+  fs.mkdirSync(recoveryRoot, {recursive: true})
+  recoveryArtifact(recoveryRoot, {target: 'ja-JP', group: 'python', translated: 0})
+
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'zero-retained-selected'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: value.client,
+  })
+
+  assert.equal(planned.plan.recoveryMap['ja-JP/python'].artifacts.length, 1)
+  assert.equal(planned.plan.recoveryMap['ja-JP/python'].artifacts[0].retainedFileCount, 0)
+  assert.equal(planned.plan.recoveryMap['ja-JP/python'].artifacts[0].sourceCandidateCount, 1)
+  assert.equal(planned.handoff.units.some(unit => unit.target === 'ja-JP' && unit.group === 'python'), true)
 })
 
 test('binds strict report JSON and exact producer job identity before accepting retained recovery', async t => {
@@ -377,8 +437,38 @@ test('accepts the exact retained zero-work Markdown-only report without requirin
   })
   assert.equal(planned.plan.sourceCandidateCount, 13)
   assert.equal(planned.plan.retainedFileCount, 13)
-  assert.deepEqual(planned.plan.recoveryMap['ja-JP/python'].artifacts, [])
+  assert.equal(planned.plan.recoveryMap['ja-JP/python'], undefined)
+  assert.equal(planned.handoff.units.some(unit => unit.target === 'ja-JP' && unit.group === 'python'), false)
   assert.equal(planned.plan.rejectedRecoveryCount, 0)
+})
+
+test('scopes the recovery handoff to authenticated recoverable units and omits proven zero-work units', async t => {
+  const value = fixture(t)
+  const retainedArtifacts = [...value.artifacts]
+  for (const unit of value.selected.units.filter(unit => unit.strategy !== 'ja-guides')) {
+    const reportName = `translation-report-${unit.target}-${unit.group}-${RUN_ID}`
+    const report = retainedArtifacts.find(artifact => artifact.name === reportName)
+    const reportRoot = value.payloads.get(report.id)
+    fs.rmSync(path.join(reportRoot, 'translation-report.json'))
+    fs.writeFileSync(path.join(reportRoot, 'translation-report.md'), zeroWorkReportMarkdown(unit.target === 'ja-JP' ? 'ja-JP' : 'zh-CN'))
+    const recoveryName = `translation-recovery-${unit.target}-${unit.group}-${RUN_ID}-0`
+    const recoveryIndex = retainedArtifacts.findIndex(artifact => artifact.name === recoveryName)
+    retainedArtifacts.splice(recoveryIndex, 1)
+  }
+
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'scoped-zero-work'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...value.client, listArtifacts: async () => retainedArtifacts},
+  })
+
+  assert.deepEqual(planned.handoff.units.map(unit => `${unit.target}/${unit.group}`), ['ja-JP/guides'])
+  assert.deepEqual(Object.keys(planned.plan.recoveryMap), ['ja-JP/guides'])
+  assert.equal(planned.handoff.units[0].sourceBaselineSha, value.selected.units[0].sourceBaselineSha)
+  assert.equal(planned.handoff.units[0].sourceCheckpointSha, value.selected.units[0].sourceCheckpointSha)
+  assert.equal(planned.handoff.units[0].publicationOrder, 0)
+  assert.equal(planned.plan.sourceCandidateCount, 2)
+  assert.equal(planned.plan.retainedFileCount, 2)
 })
 
 test('keeps artifact digest, envelope, producer, and time-window authentication mandatory for Markdown-only zero work', async t => {
@@ -561,13 +651,22 @@ test('rejects missing, invalid, or reversed publisher timestamps at the Jobs API
 })
 
 test('builds a new schema-v2 handoff from preserved source provenance and the queue-owned target baseline', () => {
-  const handoff = buildRecoveryHandoff(selection(), SHA('9'), EXECUTION_TOOLING_SHA)
+  const selected = selection()
+  const handoff = buildRecoveryHandoff(selected, SHA('9'), EXECUTION_TOOLING_SHA)
   assert.equal(handoff.schemaVersion, 2)
   assert.equal(handoff.toolingSha, EXECUTION_TOOLING_SHA)
   assert.equal(handoff.targetBaselineSha, SHA('9'))
   assert.ok(handoff.units.every(unit => unit.sourceBaselineSha === SHA('b')))
   assert.ok(handoff.units.every(unit => unit.sourceCheckpointSha === SHA('c')))
   assert.ok(handoff.units.every(unit => unit.targetBaselineSha === SHA('9')))
+
+  const scoped = buildRecoveryHandoff(selected, SHA('9'), EXECUTION_TOOLING_SHA, [{
+    ...selected.units[0],
+    sourceBaselineSha: SHA('7'),
+    sourceCheckpointSha: SHA('8'),
+  }])
+  assert.equal(scoped.units[0].sourceBaselineSha, selected.units[0].sourceBaselineSha)
+  assert.equal(scoped.units[0].sourceCheckpointSha, selected.units[0].sourceCheckpointSha)
 })
 
 test('resolves the latest target baseline only after authenticating the previous selection', async t => {

@@ -66,7 +66,7 @@ function validateTranslationHandoff(value) {
   if (!Array.isArray(value.units) || value.units.length === 0) throw new Error('translation handoff units must be a non-empty array');
 
   const selection = buildTranslationSelection({locale: value.locale, group: value.group});
-  if (value.units.length !== selection.length) throw new Error('translation handoff units do not match the canonical translation selection');
+  if (value.units.length > selection.length) throw new Error('translation handoff units do not match the canonical translation selection');
 
   const identitiesByGroup = new Map();
   const identities = new Set();
@@ -93,10 +93,15 @@ function validateTranslationHandoff(value) {
     identitiesByGroup.set(unit.sourceGroup, sourceIdentity);
   }
 
-  for (const [index, selected] of selection.entries()) {
-    const unit = value.units[index];
-    if (unit.target !== selected.target || unit.group !== selected.group || unit.sourceGroup !== selected.sourceGroup ||
-      unit.publicationOrder !== selected.publicationOrder) {
+  let selectionIndex = 0;
+  for (const [index, unit] of value.units.entries()) {
+    while (selectionIndex < selection.length) {
+      const selected = selection[selectionIndex++];
+      if (unit.target === selected.target && unit.group === selected.group && unit.sourceGroup === selected.sourceGroup) break;
+    }
+    const selected = selection[selectionIndex - 1];
+    if (!selected || unit.target !== selected.target || unit.group !== selected.group || unit.sourceGroup !== selected.sourceGroup ||
+      unit.publicationOrder !== index) {
       throw new Error('translation handoff units must follow canonical translation selection order');
     }
   }

@@ -215,6 +215,23 @@ test('validates exact handoff keys, unique units, and canonical selection order'
   assert.throws(() => validateTranslationHandoff({...handoff, units: [...handoff.units].reverse()}), /canonical translation selection order/i);
 });
 
+test('accepts a canonically ordered nonempty handoff subset without widening its source identities', () => {
+  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'];
+  const sourcePublications = Object.fromEntries(groups.map((group, index) => [
+    group,
+    publication(String(index + 1).repeat(40), String(index + 2).repeat(40)),
+  ]));
+  const complete = buildTranslationHandoff({
+    locale: 'all', group: 'all', toolingSha: SHA_A, targetBranch: 'dev', targetBaselineSha: SHA_D, sourcePublications,
+  });
+  const scoped = {
+    ...complete,
+    units: [complete.units[0], {...complete.units[5], publicationOrder: 1}],
+  };
+  assert.deepEqual(validateTranslationHandoff(scoped), scoped);
+  assert.throws(() => validateTranslationHandoff({...scoped, units: [...scoped.units].reverse()}), /canonical translation selection order/i);
+});
+
 test('rejects Chinese Guides translation and malformed immutable identities', () => {
   assert.throws(() => buildTranslationHandoff({
     locale: 'zh-CN', group: 'guides', toolingSha: SHA_A, targetBranch: 'dev', targetBaselineSha: SHA_D,
