@@ -75,6 +75,8 @@ test('called Translation orchestration does not reacquire the queue and still re
   const selection = steps.findIndex(step => step.name === 'Create immutable Translation publication selection')
   assert.ok(download >= 0 && selection > download)
   assert.equal(steps[download].if, "${{ (inputs.recovery_bundle_artifact_name || '') != '' }}")
+  assert.match(source, /translation-handoff\.js[\s\S]*--recovery-plan "\$RUNNER_TEMP\/translation-recovery-bundle\/recovery-plan\.json"/)
+  assert.match(source, /translation-handoff\.js[\s\S]*--recovery-plan-sha256 "\$RECOVERY_PLAN_SHA256"/)
   assert.match(steps[selection].run, /--recovery-plan .*recovery-plan\.json/)
   assert.match(steps[selection].run, /--recovery-plan-sha256/)
 })

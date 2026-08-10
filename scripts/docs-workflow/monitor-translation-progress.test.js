@@ -32,6 +32,18 @@ function handoff() {
   }
 }
 
+function recoverySubsetHandoff() {
+  return {
+    ...handoff(),
+    locale: 'ja-JP',
+    group: 'all',
+    units: [
+      {...handoff().units[0], publicationOrder: 0},
+      {target: 'ja-JP', group: 'java', sourceGroup: 'java', sourceBaselineSha: sha('e'), sourceCheckpointSha: sha('f'), targetBaselineSha: sha('b'), publicationOrder: 1},
+    ],
+  }
+}
+
 function runningJobs() {
   return [
     {id: 1, name: 'prepare', status: 'completed', conclusion: 'success'},
@@ -225,19 +237,36 @@ test('validates configuration, handoff, and reduced selected units', () => {
   assert.throws(() => readConfiguration({...env, TRANSLATION_RESULTS_MAX_POLLS: '31'}), /TRANSLATION_RESULTS_MAX_POLLS/)
 })
 
+test('monitor accepts a recovery subset only after the authenticated prepare boundary selects operator recovery mode', () => {
+  const env = {
+    GITHUB_RUN_ID: '99', GITHUB_RUN_ATTEMPT: '4', GITHUB_REPOSITORY: 'zilliztech/zdoc', GITHUB_TOKEN: 'token', CARD_ID: 'om_1',
+    CARD_STARTED_AT: '2026-08-03T02:46:00.000Z', HANDOFF_JSON: JSON.stringify(recoverySubsetHandoff()), REQUEST_ID: '42-3',
+    PUBLISH_ENABLED: 'false', PUBLICATION_RUN_ATTEMPT: '4', PUBLICATION_SELECTION_SHA256: 'f'.repeat(64),
+    OPERATOR_RECOVERY: 'true', APP_ID: 'app', APP_SECRET: 'secret', FEISHU_HOST: 'https://open.feishu.cn',
+  }
+  assert.deepEqual(readConfiguration(env).selectedUnits, [{target: 'ja-JP', group: 'python'}, {target: 'ja-JP', group: 'java'}])
+  assert.throws(() => readConfiguration({...env, OPERATOR_RECOVERY: 'false'}), /translation handoff.*canonical translation selection/i)
+})
+
 test('child workflow owns a best-effort card monitor outside aggregate dependencies', () => {
   const workflow = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
   const initialize = workflow.jobs.initialize_translation_card
   const monitor = workflow.jobs.monitor_translation_progress
   assert.match(initialize.if, /inputs\.request_id != ''/)
+  assert.equal(initialize.needs, undefined)
   assert.equal(initialize.outputs.card_id, '${{ steps.card.outputs.card_id }}')
   assert.equal(initialize.outputs.card_started_at, '${{ steps.card.outputs.card_started_at }}')
   const create = initialize.steps.find(step => step.id === 'card')
   assert.equal(create['continue-on-error'], true)
   assert.match(create.run, /Zilliz Cloud Docs Translation/)
   assert.match(create.run, /Prepare,Translate,Publish,Aggregate/)
+  assert.equal(create.env.TARGET_BRANCH, '${{ steps.target.outputs.target_branch }}')
+  const target = initialize.steps.find(step => step.id === 'target')
+  assert.equal(target.env.RECOVERY_BUNDLE_ARTIFACT_NAME, "${{ inputs.recovery_bundle_artifact_name || '' }}")
+  assert.match(target.run, /validateTranslationRecoveryHandoff/)
   assert.equal(monitor.uses, './.github/workflows/_monitor-translation-progress.yml')
   assert.equal(monitor.if, "${{ always() && needs.initialize_translation_card.outputs.card_id != '' }}")
+  assert.equal(monitor.with.operator_recovery, "${{ (inputs.recovery_bundle_artifact_name || '') != '' }}")
   assert.equal(workflow.jobs.aggregate.needs.includes('monitor_translation_progress'), false)
 
   const reusable = yaml.load(fs.readFileSync('.github/workflows/_monitor-translation-progress.yml', 'utf8'))
@@ -247,6 +276,7 @@ test('child workflow owns a best-effort card monitor outside aggregate dependenc
   assert.equal(env.PUBLISH_ENABLED, '${{ inputs.publish_enabled }}')
   assert.equal(env.PUBLICATION_RUN_ATTEMPT, '${{ inputs.publication_run_attempt }}')
   assert.equal(env.PUBLICATION_SELECTION_SHA256, '${{ inputs.publication_selection_sha256 }}')
+  assert.equal(env.OPERATOR_RECOVERY, '${{ inputs.operator_recovery }}')
   assert.equal(env.TRANSLATION_RESULTS_MAX_POLLS, "${{ vars.TRANSLATION_RESULTS_MAX_POLLS || '5' }}")
   const monitorSource = fs.readFileSync('scripts/docs-workflow/monitor-translation-progress.js', 'utf8')
   assert.match(monitorSource, /artifactTransport: 'rest'/)

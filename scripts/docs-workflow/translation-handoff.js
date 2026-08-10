@@ -1,14 +1,17 @@
 #!/usr/bin/env node
 'use strict';
 
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const {spawnSync} = require('node:child_process');
+const {isDeepStrictEqual} = require('node:util');
 
 const {buildTranslationSelection} = require('../translation/selection');
 const {sourcePublicationsFromFetchResults} = require('./fetch-publication-results');
 const {readPublicationDocument} = require('./publication-contracts');
 
 const COMMIT_SHA = /^[a-f0-9]{40}$/u;
+const CHECKSUM = /^[a-f0-9]{64}$/u;
 const HANDOFF_KEYS = ['schemaVersion', 'locale', 'group', 'toolingSha', 'targetBranch', 'targetBaselineSha', 'units'];
 const UNIT_KEYS = [
   'target', 'group', 'sourceGroup', 'sourceBaselineSha',
@@ -193,9 +196,9 @@ function assertAncestor(repository, baseline, checkpoint, label) {
   if (result.status !== 0) throw new Error(`${label} source baseline is not an ancestor of its source checkpoint`);
 }
 
-function validateTranslationHandoffRepository({repository, handoff}) {
+function validateTranslationHandoffRepositoryContract({repository, handoff, validate}) {
   if (typeof repository !== 'string' || repository === '') throw new Error('repository is required');
-  const value = validateTranslationHandoff(handoff);
+  const value = validate(handoff);
   assertCommit(repository, value.toolingSha, 'tooling SHA');
   assertCommit(repository, value.targetBaselineSha, 'target baseline');
   const checked = new Set();
@@ -208,6 +211,42 @@ function validateTranslationHandoffRepository({repository, handoff}) {
     assertAncestor(repository, unit.sourceBaselineSha, unit.sourceCheckpointSha, unit.sourceGroup);
   }
   return value;
+}
+
+function validateTranslationHandoffRepository({repository, handoff}) {
+  return validateTranslationHandoffRepositoryContract({repository, handoff, validate: validateTranslationHandoff});
+}
+
+function validateTranslationRecoveryHandoffRepository({repository, handoff}) {
+  return validateTranslationHandoffRepositoryContract({repository, handoff, validate: validateTranslationRecoveryHandoff});
+}
+
+function readPinnedRecoveryPlan(file) {
+  const before = fs.lstatSync(file);
+  if (!before.isFile() || before.isSymbolicLink()) throw new Error('recovery plan must be a regular non-symlink file');
+  const descriptor = fs.openSync(file, fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW || 0));
+  try {
+    const opened = fs.fstatSync(descriptor);
+    if (opened.dev !== before.dev || opened.ino !== before.ino) throw new Error('recovery plan identity changed before reading');
+    const bytes = fs.readFileSync(descriptor);
+    const after = fs.fstatSync(descriptor);
+    if (after.dev !== opened.dev || after.ino !== opened.ino || after.size !== opened.size) throw new Error('recovery plan changed while reading');
+    return bytes;
+  } finally {
+    fs.closeSync(descriptor);
+  }
+}
+
+function validateAuthenticatedRecoveryHandoff({handoff, recoveryPlanFile, recoveryPlanSha256}) {
+  if (!CHECKSUM.test(recoveryPlanSha256 || '')) throw new Error('recovery plan checksum is invalid');
+  const bytes = readPinnedRecoveryPlan(recoveryPlanFile);
+  if (crypto.createHash('sha256').update(bytes).digest('hex') !== recoveryPlanSha256) throw new Error('recovery plan checksum mismatch');
+  let plan;
+  try { plan = JSON.parse(bytes.toString('utf8')); } catch { throw new Error('recovery plan JSON is invalid'); }
+  if (!isObject(plan) || plan.schemaVersion !== 2 || !isDeepStrictEqual(plan.handoff, handoff)) {
+    throw new Error('recovery plan does not bind the exact translation handoff');
+  }
+  return validateTranslationRecoveryHandoff(handoff);
 }
 
 function parseArguments(argv) {
@@ -232,10 +271,19 @@ function parseJson(value, label) {
 
 function main(argv = process.argv.slice(2)) {
   const args = parseArguments(argv);
+  const recoveryFlags = ['--recovery-plan', '--recovery-plan-sha256'].filter(flag => args.has(flag));
+  if (recoveryFlags.length !== 0 && recoveryFlags.length !== 2) throw new Error('recovery plan and checksum must be provided together');
+  const operatorRecovery = recoveryFlags.length === 2;
   let handoff;
   if (args.has('--handoff-json')) {
-    handoff = validateTranslationHandoff(parseJson(args.get('--handoff-json'), 'translation handoff'));
+    const input = parseJson(args.get('--handoff-json'), 'translation handoff');
+    handoff = operatorRecovery ? validateAuthenticatedRecoveryHandoff({
+      handoff: input,
+      recoveryPlanFile: args.get('--recovery-plan'),
+      recoveryPlanSha256: args.get('--recovery-plan-sha256'),
+    }) : validateTranslationHandoff(input);
   } else if (args.has('--fetch-selection') || args.has('--fetch-results')) {
+    if (operatorRecovery) throw new Error('recovery plan validation requires an explicit translation handoff');
     if (!args.has('--fetch-selection') || !args.has('--fetch-results')) throw new Error('fetch selection and results must be provided together');
     const selection = readPublicationDocument(args.get('--fetch-selection'), 'publication-selection');
     const results = readPublicationDocument(args.get('--fetch-results'), 'publication-results', {selection});
@@ -247,6 +295,7 @@ function main(argv = process.argv.slice(2)) {
       targetBaselineSha: args.get('--target-baseline-sha'),
     });
   } else {
+    if (operatorRecovery) throw new Error('recovery plan validation requires an explicit translation handoff');
     handoff = buildTranslationHandoff({
       locale: args.get('--locale'),
       group: args.get('--group'),
@@ -256,7 +305,10 @@ function main(argv = process.argv.slice(2)) {
       sourcePublications: parseJson(args.get('--source-publications-json'), 'source publications'),
     });
   }
-  if (args.has('--repository')) validateTranslationHandoffRepository({repository: args.get('--repository'), handoff});
+  if (args.has('--repository')) {
+    const validateRepository = operatorRecovery ? validateTranslationRecoveryHandoffRepository : validateTranslationHandoffRepository;
+    validateRepository({repository: args.get('--repository'), handoff});
+  }
 
   const compact = JSON.stringify(handoff);
   const githubOutput = args.get('--github-output');
@@ -278,5 +330,7 @@ module.exports = {
   main,
   validateTranslationHandoff,
   validateTranslationHandoffRepository,
+  validateAuthenticatedRecoveryHandoff,
   validateTranslationRecoveryHandoff,
+  validateTranslationRecoveryHandoffRepository,
 };

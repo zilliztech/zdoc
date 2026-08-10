@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const os = require('node:os');
 const path = require('node:path');
@@ -232,6 +233,37 @@ test('keeps ordinary handoffs exact while the recovery-only validator accepts a 
   assert.throws(() => validateTranslationHandoff(scoped), /units do not match the canonical translation selection/i);
   assert.deepEqual(validateTranslationRecoveryHandoff(scoped), scoped);
   assert.throws(() => validateTranslationRecoveryHandoff({...scoped, units: [...scoped.units].reverse()}), /canonical translation selection order/i);
+});
+
+test('CLI accepts a recovery subset only when an immutable recovery plan checksum binds the exact handoff', () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-handoff-cli-'));
+  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'];
+  const sourcePublications = Object.fromEntries(groups.map((group, index) => [
+    group,
+    publication(String(index + 1).repeat(40), String(index + 2).repeat(40)),
+  ]));
+  const complete = buildTranslationHandoff({
+    locale: 'all', group: 'all', toolingSha: SHA_A, targetBranch: 'dev', targetBaselineSha: SHA_D, sourcePublications,
+  });
+  const scoped = {...complete, locale: 'ja-JP', units: [{...complete.units[1], publicationOrder: 0}, {...complete.units[3], publicationOrder: 1}]};
+  const planFile = path.join(directory, 'recovery-plan.json');
+  const planBytes = Buffer.from(`${JSON.stringify({schemaVersion: 2, handoff: scoped})}\n`);
+  fs.writeFileSync(planFile, planBytes);
+  const checksum = crypto.createHash('sha256').update(planBytes).digest('hex');
+  const baseArgs = [path.join(__dirname, 'translation-handoff.js'), '--handoff-json', JSON.stringify(scoped)];
+
+  const ordinary = spawnSync(process.execPath, baseArgs, {encoding: 'utf8'});
+  assert.notEqual(ordinary.status, 0);
+  assert.match(ordinary.stderr, /units do not match the canonical translation selection/i);
+
+  const recovery = spawnSync(process.execPath, [...baseArgs, '--recovery-plan', planFile, '--recovery-plan-sha256', checksum], {encoding: 'utf8'});
+  assert.equal(recovery.status, 0, recovery.stderr);
+  assert.deepEqual(JSON.parse(recovery.stdout), scoped);
+
+  const tampered = spawnSync(process.execPath, [...baseArgs, '--recovery-plan', planFile, '--recovery-plan-sha256', '0'.repeat(64)], {encoding: 'utf8'});
+  assert.notEqual(tampered.status, 0);
+  assert.match(tampered.stderr, /recovery plan checksum mismatch/i);
+  fs.rmSync(directory, {recursive: true, force: true});
 });
 
 test('rejects Chinese Guides translation and malformed immutable identities', () => {

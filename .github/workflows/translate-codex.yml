@@ -52,8 +52,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - id: target
         name: Validate card handoff target
-        env: { HANDOFF_JSON: '${{ inputs.handoff_json }}' }
-        run: node -e 'const fs=require("node:fs");const {validateTranslationHandoff}=require("./scripts/docs-workflow/translation-handoff");const value=validateTranslationHandoff(JSON.parse(process.env.HANDOFF_JSON));fs.appendFileSync(process.env.GITHUB_OUTPUT,"target_branch="+value.targetBranch+"\n")'
+        env:
+          HANDOFF_JSON: ${{ inputs.handoff_json }}
+          RECOVERY_BUNDLE_ARTIFACT_NAME: ${{ inputs.recovery_bundle_artifact_name || '' }}
+        run: node -e 'const fs=require("node:fs");const validators=require("./scripts/docs-workflow/translation-handoff");const validate=process.env.RECOVERY_BUNDLE_ARTIFACT_NAME?validators.validateTranslationRecoveryHandoff:validators.validateTranslationHandoff;const value=validate(JSON.parse(process.env.HANDOFF_JSON));fs.appendFileSync(process.env.GITHUB_OUTPUT,"target_branch="+value.targetBranch+"\n")'
       - id: card
         name: Create Translation progress card
         continue-on-error: true
@@ -77,6 +79,7 @@ jobs:
       publish_enabled: ${{ inputs.publish }}
       publication_run_attempt: ${{ fromJSON(github.run_attempt) }}
       publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      operator_recovery: ${{ (inputs.recovery_bundle_artifact_name || '') != '' }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
       APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -143,7 +146,17 @@ jobs:
           git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
           target_branch_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
           [[ "$target_branch_sha" == "$EXPECTED_TARGET_SHA" ]] || { echo "Target branch moved after handoff: expected $EXPECTED_TARGET_SHA, got $target_branch_sha" >&2; exit 1; }
-          node scripts/docs-workflow/translation-handoff.js --handoff-json "$HANDOFF_JSON" --repository "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/translation-handoff.json"
+          handoff_recovery_args=()
+          if [[ -n "$RECOVERY_BUNDLE_ARTIFACT_NAME" ]]; then
+            [[ -n "$RECOVERY_PLAN_SHA256" && -n "$RECOVERY_PROVENANCE_JSON" ]] || { echo "authenticated recovery bundle identity must be complete" >&2; exit 1; }
+            handoff_recovery_args=(
+              --recovery-plan "$RUNNER_TEMP/translation-recovery-bundle/recovery-plan.json"
+              --recovery-plan-sha256 "$RECOVERY_PLAN_SHA256"
+            )
+          else
+            [[ -z "$RECOVERY_PLAN_SHA256" && -z "$RECOVERY_PROVENANCE_JSON" ]] || { echo "authenticated recovery bundle identity must be complete" >&2; exit 1; }
+          fi
+          node scripts/docs-workflow/translation-handoff.js --handoff-json "$HANDOFF_JSON" "${handoff_recovery_args[@]}" --repository "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/translation-handoff.json"
           HANDOFF_PATH="$RUNNER_TEMP/translation-handoff.json" TARGET_BRANCH_SHA="$target_branch_sha" node - <<'NODE'
           const fs = require('node:fs')
           const handoff = JSON.parse(fs.readFileSync(process.env.HANDOFF_PATH, 'utf8'))

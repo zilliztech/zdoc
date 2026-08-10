@@ -227,6 +227,39 @@ test('binds exact operator recovery provenance into the immutable selection chec
   })), /recovery source workflow/i)
 })
 
+test('carries an authenticated multi-group recovery subset through the publication-selection boundary', () => {
+  const complete = handoff()
+  const scopedHandoff = {
+    ...complete,
+    locale: 'ja-JP',
+    group: 'all',
+    units: [{...complete.units[1], publicationOrder: 0}, {...complete.units[3], publicationOrder: 1}],
+  }
+  const recoveryProvenance = operatorRecoveryProvenance({
+    artifacts: scopedHandoff.units.map((unit, index) => ({
+      unit: `${unit.target}/${unit.group}`,
+      artifactId: 20 + index,
+      artifactName: `translation-recovery-${unit.target}-${unit.group}-42-0`,
+      artifactDigest: `sha256:${String(index + 1).repeat(64)}`,
+      batchNumber: 0,
+      retainedFileCount: 1,
+      sourceCandidateCount: 2,
+    })),
+  })
+  const recoveryPlan = recoveryPlanBytes({boundHandoff: scopedHandoff, provenance: recoveryProvenance})
+  const selection = buildTranslationPublicationSelection(recoverySelectionInput({
+    handoff: scopedHandoff,
+    recoveryProvenance,
+    recoveryPlanBytes: recoveryPlan,
+  }))
+
+  assert.deepEqual(selection.units.map(unit => unit.unitKey), [
+    'translation/ja-JP/python',
+    'translation/ja-JP/java',
+  ])
+  assert.deepEqual(selection.inputs.recoveryProvenance, recoveryProvenance)
+})
+
 test('rejects tampered claimed recovery provenance while the checksum-authenticated plan stays unchanged', () => {
   const provenance = operatorRecoveryProvenance()
   const planBytes = recoveryPlanBytes({provenance})
