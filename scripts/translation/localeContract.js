@@ -222,6 +222,37 @@ function boundedDraftQuote(source, draft, sourceQuote, forbiddenTargets) {
   return correspondingDraftLine(source, draft, String(source).indexOf(sourceQuote))
 }
 
+function exactOccurrences(content, token) {
+  const source = String(content)
+  const occurrences = []
+  for (let index = source.indexOf(token); index !== -1; index = source.indexOf(token, index + token.length)) {
+    occurrences.push({index, value: token})
+  }
+  return occurrences
+}
+
+function doNotTranslateIssues(source, draft, contract, token) {
+  const sourceLines = source.split(/\r?\n/)
+  const draftLines = draft.split(/\r?\n/)
+  const sourceOccurrences = exactOccurrences(source, token)
+  const sourceLineIndex = sourceOccurrences.length === 1
+    ? source.slice(0, sourceOccurrences[0].index).split(/\r?\n/).length - 1
+    : -1
+  const exactDraftLine = sourceOccurrences.length === 1 && sourceLines.length === draftLines.length
+    ? draftLines[sourceLineIndex]?.trim() || ''
+    : ''
+  const evidenceAvailable = Boolean(exactDraftLine)
+  return [Object.freeze({
+    severity: 'medium',
+    type: 'terminology',
+    location: evidenceAvailable ? `line ${sourceLineIndex + 1} containing ${token}` : `text containing ${token}`,
+    source_quote: token,
+    draft_quote: evidenceAvailable ? exactDraftLine.slice(0, 160) : '',
+    evidenceAvailable,
+    comment: `Locale contract ${contract.contractId} lists ${token} as a do-not-translate token and requires it to remain byte-identical.`,
+  })]
+}
+
 function mandatoryTermIssues(source, draft, contract, term, sourceCount, targetCount) {
   const forbidden = contract.forbiddenTranslations.find(item => item.source === term.source)?.targets || []
   const sourceLines = source.split(/\r?\n/)
@@ -253,7 +284,18 @@ function mandatoryTermIssues(source, draft, contract, term, sourceCount, targetC
 
   if (issues.length || remainingDeficit <= 0) return issues
   const draftQuote = boundedDraftQuote(source, draft, term.source, forbidden)
-  if (!draftQuote) return issues
+  if (!draftQuote) {
+    issues.push(Object.freeze({
+      severity: 'medium',
+      type: 'terminology',
+      location: `text containing ${term.source}`,
+      source_quote: term.source,
+      draft_quote: '',
+      evidenceAvailable: false,
+      comment: `Locale contract ${contract.contractId} requires ${term.source} to use ${term.target}; forbidden replacements do not satisfy this product terminology rule.`,
+    }))
+    return issues
+  }
   issues.push(Object.freeze({
     severity: 'medium',
     type: 'terminology',
@@ -278,17 +320,9 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
   }
   for (const token of contract.doNotTranslate) {
     const sourceCount = countOccurrences(source, token, true)
-    if (!sourceCount || countOccurrences(draft, token, true) >= sourceCount) continue
-    const draftQuote = boundedDraftQuote(source, draft, token, [])
-    if (!draftQuote) continue
-    issues.push(Object.freeze({
-      severity: 'medium',
-      type: 'terminology',
-      location: `text containing ${token}`,
-      source_quote: token,
-      draft_quote: draftQuote,
-      comment: `Locale contract ${contract.contractId} lists ${token} as a do-not-translate token and requires it to remain byte-identical.`,
-    }))
+    const draftCount = countOccurrences(draft, token, true)
+    if (!sourceCount || draftCount >= sourceCount) continue
+    issues.push(...doNotTranslateIssues(source, draft, contract, token))
   }
   const seenContextual = new Set()
   for (const term of contract.contextualTerms) {
