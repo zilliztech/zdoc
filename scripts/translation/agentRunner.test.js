@@ -9,6 +9,7 @@ const {
   buildReviewMessages,
   buildTranslationMessages,
   buildRecoveryIdentity,
+  calculateProviderRetryDelay,
   createProviderCall,
   createProgressCoordinator,
   isRetryableProviderError,
@@ -1186,6 +1187,47 @@ async function testProviderNamedFailuresRetryBoundedlyAndExternalAbortDoesNotRet
     controller.abort(reason)
     await assert.rejects(() => pending, error => error === reason)
     assert.equal(abortedCalls, 1)
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
+function testProviderRetryScheduleUsesBoundedExponentialJitter() {
+  const defaultsAtMinimumJitter = [0, 1, 2].map(attempt => calculateProviderRetryDelay(attempt, {random: () => 0}))
+  const defaultsAtMaximumJitter = [0, 1, 2].map(attempt => calculateProviderRetryDelay(attempt, {random: () => 1}))
+  assert.deepEqual(defaultsAtMinimumJitter, [24000, 48000, 96000])
+  assert.deepEqual(defaultsAtMaximumJitter, [36000, 72000, 120000])
+
+  const deterministic = [0, 1, 2, 3, 4].map(attempt => calculateProviderRetryDelay(attempt, {
+    retryDelayMs: 100,
+    retryMaxDelayMs: 500,
+    retryJitterRatio: 0.25,
+    random: () => 0.5,
+  }))
+  assert.deepEqual(deterministic, [100, 200, 400, 500, 500])
+}
+
+async function testProviderBackoffIsAbortableBeforeAnotherCall() {
+  const originalFetch = global.fetch
+  let calls = 0
+  global.fetch = async () => {
+    calls += 1
+    return {ok: false, status: 408, json: async () => ({error: 'timeout'})}
+  }
+  try {
+    const callModel = await createProviderCall({
+      translation: {baseUrl: 'https://example.com', apiKey: 'key', model: 'model'},
+    }, {maxRetries: 3, retryDelayMs: 60000, random: () => 0.5})
+    const controller = new AbortController()
+    const pending = callModel({agent: 'translation', messages: [], signal: controller.signal})
+    await new Promise(resolve => setImmediate(resolve))
+    const reason = Object.assign(new Error('file attempt cancelled during backoff'), {
+      failureCategory: 'provider_timeout',
+      code: 'FILE_TIMEOUT',
+    })
+    controller.abort(reason)
+    await assert.rejects(() => pending, error => error === reason)
+    assert.equal(calls, 1)
   } finally {
     global.fetch = originalFetch
   }
@@ -2630,6 +2672,8 @@ async function run() {
   await testFileAttemptDeadlineSpansAllMarkdownChunksAndStopsLateCheckpoints()
   await testFileAttemptDeadlineAbortsRestTranslation()
   await testProviderNamedFailuresRetryBoundedlyAndExternalAbortDoesNotRetry()
+  testProviderRetryScheduleUsesBoundedExponentialJitter()
+  await testProviderBackoffIsAbortableBeforeAnotherCall()
   testRetryableProviderErrors()
   testChunkLimitConfiguration()
   testFileRetryConfiguration()

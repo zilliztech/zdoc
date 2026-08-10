@@ -35,6 +35,9 @@ const { defaultReferenceManualForPath } = loadTypeScript('../../packages/docs-to
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
 const DEFAULT_PROVIDER_RETRIES = 3
+const DEFAULT_PROVIDER_RETRY_DELAY_MS = 30000
+const DEFAULT_PROVIDER_RETRY_MAX_DELAY_MS = 120000
+const DEFAULT_PROVIDER_RETRY_JITTER_RATIO = 0.2
 const DEFAULT_FILE_RETRIES = 1
 const DEFAULT_PROVIDER_TIMEOUT_MS = 300000
 const DEFAULT_FILE_TIMEOUT_MS = 900000
@@ -177,9 +180,31 @@ function isRetryableProviderError(error) {
     /aborted|connection error|fetch failed|network|timeout|timed out|ECONNRESET|ETIMEDOUT|EAI_AGAIN/i.test(message)
 }
 
+function calculateProviderRetryDelay(attempt, options = {}) {
+  const retryDelayMs = Number.isFinite(options.retryDelayMs) && options.retryDelayMs >= 0
+    ? options.retryDelayMs
+    : DEFAULT_PROVIDER_RETRY_DELAY_MS
+  const retryMaxDelayMs = Number.isFinite(options.retryMaxDelayMs) && options.retryMaxDelayMs >= retryDelayMs
+    ? options.retryMaxDelayMs
+    : DEFAULT_PROVIDER_RETRY_MAX_DELAY_MS
+  const retryJitterRatio = Number.isFinite(options.retryJitterRatio) && options.retryJitterRatio >= 0 && options.retryJitterRatio <= 1
+    ? options.retryJitterRatio
+    : DEFAULT_PROVIDER_RETRY_JITTER_RATIO
+  const random = typeof options.random === 'function' ? options.random : Math.random
+  const sample = Math.max(0, Math.min(1, Number(random())))
+  const exponentialDelay = Math.min(retryMaxDelayMs, retryDelayMs * (2 ** attempt))
+  const jitter = exponentialDelay * retryJitterRatio
+  return Math.min(retryMaxDelayMs, Math.max(0, Math.round(exponentialDelay - jitter + (2 * jitter * sample))))
+}
+
 async function createProviderCall(agentConfigs, options = {}) {
   const maxRetries = Number.isFinite(options.maxRetries) ? options.maxRetries : DEFAULT_PROVIDER_RETRIES
-  const retryDelayMs = Number.isFinite(options.retryDelayMs) ? options.retryDelayMs : 1000
+  const retryOptions = {
+    retryDelayMs: options.retryDelayMs,
+    retryMaxDelayMs: options.retryMaxDelayMs,
+    retryJitterRatio: options.retryJitterRatio,
+    random: options.random,
+  }
   const timeoutMs = parsePositiveInteger(options.timeoutMs, DEFAULT_PROVIDER_TIMEOUT_MS)
 
   return async function callModel({ agent, messages, signal: externalSignal }) {
@@ -247,7 +272,7 @@ async function createProviderCall(agentConfigs, options = {}) {
             : error
         if (!lastError.failureCategory) lastError.failureCategory = classifyFailure(lastError)
         if (externalSignal?.aborted || attempt >= maxRetries || !isRetryableProviderError(lastError)) break
-        const waitMs = retryDelayMs * (2 ** attempt)
+        const waitMs = calculateProviderRetryDelay(attempt, retryOptions)
         console.warn(`[translation-agent] ${agent} call failed; retrying in ${waitMs}ms (${attempt + 1}/${maxRetries}): ${lastError.message}`)
         await sleep(waitMs, externalSignal)
       } finally {
@@ -1422,6 +1447,7 @@ module.exports = {
   buildRecoveryIdentity,
   buildReviewMessages,
   buildTranslationMessages,
+  calculateProviderRetryDelay,
   createProviderCall,
   createProgressCoordinator,
   isRetryableProviderError,
