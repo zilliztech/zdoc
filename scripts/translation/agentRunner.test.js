@@ -1034,7 +1034,7 @@ async function testProviderRetryBudgetStopsNestedFileRetries() {
     return {
       ok: false,
       status: 408,
-      json: async () => ({error: {message: 'litellm.APITimeoutError: Request timed out after 240.0s'}}),
+      json: async () => ({error: {message: 'litellm.Timeout: APITimeoutError - Request timed out. Error_str: Request timed out. - timeout value=240.0, time taken=240.0 seconds'}}),
     }
   }
 

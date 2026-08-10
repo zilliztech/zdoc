@@ -192,7 +192,10 @@ const HARD_PROVIDER_TIMEOUT_PATTERN = /Request timed out after 240(?:\.0)?s|time
 function shouldRecommendAdaptiveSubdivision(error, {agent, adaptivePayload}) {
   if (agent !== 'translation' || adaptivePayload !== true) return false
   const message = String(error?.message || error)
-  return HARD_PROVIDER_TIMEOUT_PATTERN.test(message) || INCOMPLETE_STREAM_PATTERN.test(message)
+  const status = Number(error?.status ?? error?.statusCode ?? error?.cause?.status)
+  const code = String(error?.code || error?.cause?.code || '')
+  return (status === 408 && code === 'PROVIDER_TIMEOUT') ||
+    HARD_PROVIDER_TIMEOUT_PATTERN.test(message) || INCOMPLETE_STREAM_PATTERN.test(message)
 }
 
 function isRetryableProviderError(error) {
