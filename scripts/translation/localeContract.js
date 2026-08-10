@@ -137,6 +137,19 @@ function countOccurrences(content, value, caseSensitive) {
   return count
 }
 
+function contextBoundToken(context, source, target, caseSensitive) {
+  const comparableContext = caseSensitive ? context : context.toLocaleLowerCase('en-US')
+  const comparableSource = caseSensitive ? source : source.toLocaleLowerCase('en-US')
+  const index = comparableContext.indexOf(comparableSource)
+  if (index < 0) return target
+  const before = context.slice(0, index)
+  const after = context.slice(index + source.length)
+  for (const wrapper of ['**', '__', '`']) {
+    if (before.endsWith(wrapper) && after.startsWith(wrapper)) return `${wrapper}${target}${wrapper}`
+  }
+  return target
+}
+
 function mandatoryTermVariants(value) {
   if (!/^[A-Za-z][A-Za-z0-9_]*$/.test(value)) return [value]
   let plural
@@ -190,6 +203,40 @@ function sourceTermOccurrences(content, term, contract) {
   return occurrences.filter(occurrence => !excludedRanges.some(range => occurrence.index >= range.start && occurrence.index < range.end))
 }
 
+function mandatoryTargetOccurrences(source, draft, term, contract) {
+  const occurrences = mandatoryTermOccurrences(draft, term.target, term.caseSensitive)
+  const contextualOverrides = contract.contextualTerms.filter(contextual =>
+    contextual.source === term.source &&
+    contextual.caseSensitive === term.caseSensitive &&
+    contextual.target !== term.target,
+  )
+  if (!contextualOverrides.length) return occurrences
+
+  const excluded = new Set()
+  for (const contextual of contextualOverrides) {
+    for (const context of contextual.sourceContexts) {
+      const contextCount = countOccurrences(source, context, contextual.caseSensitive)
+      if (!contextCount) continue
+      const boundTarget = contextBoundToken(context, contextual.source, term.target, contextual.caseSensitive)
+      if (boundTarget === term.target) continue
+      const boundOccurrences = mandatoryTermOccurrences(draft, boundTarget, term.caseSensitive)
+      let remaining = contextCount
+      for (const occurrence of boundOccurrences) {
+        if (!remaining) break
+        const matchingTarget = occurrences.find(candidate =>
+          !excluded.has(candidate.index) &&
+          candidate.index >= occurrence.index &&
+          candidate.index + candidate.value.length <= occurrence.index + occurrence.value.length,
+        )
+        if (!matchingTarget) continue
+        excluded.add(matchingTarget.index)
+        remaining -= 1
+      }
+    }
+  }
+  return occurrences.filter(occurrence => !excluded.has(occurrence.index))
+}
+
 function applyDeterministicLocaleRepairs(sourceContent, draftContent, contract) {
   const source = String(sourceContent)
   let draft = String(draftContent)
@@ -199,7 +246,7 @@ function applyDeterministicLocaleRepairs(sourceContent, draftContent, contract) 
     if (term.source.toLocaleLowerCase('en-US') !== term.target.toLocaleLowerCase('en-US')) continue
     const sourceCount = sourceTermOccurrences(source, term, contract).length
     if (!sourceCount) continue
-    const targetCount = mandatoryTermOccurrences(draft, term.target, true).length
+    const targetCount = mandatoryTargetOccurrences(source, draft, term, contract).length
     let deficit = sourceCount - targetCount
     if (deficit <= 0) continue
     const sourceVariants = mandatoryTermVariants(term.source).map(value => value.toLocaleLowerCase('en-US'))
@@ -272,7 +319,7 @@ function mandatoryTermIssues(source, draft, contract, term, sourceCount, targetC
     const sourceLineCount = sourceLineOccurrences.length
     if (!sourceLineCount) continue
     const draftLine = draftLines[lineIndex] || ''
-    const draftLineCount = mandatoryTermOccurrences(draftLine, term.target, term.caseSensitive).length
+    const draftLineCount = mandatoryTargetOccurrences(sourceLines[lineIndex], draftLine, term, contract).length
     const lineDeficit = sourceLineCount - draftLineCount
     if (lineDeficit <= 0) continue
     const sourceQuote = sourceLineOccurrences[Math.min(draftLineCount, sourceLineOccurrences.length - 1)]?.value || term.source
@@ -321,7 +368,7 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
   for (const term of contract.mandatoryTerms) {
     const sourceCount = sourceTermOccurrences(source, term, contract).length
     if (!sourceCount) continue
-    const targetCount = mandatoryTermOccurrences(draft, term.target, term.caseSensitive).length
+    const targetCount = mandatoryTargetOccurrences(source, draft, term, contract).length
     if (targetCount >= sourceCount) continue
     issues.push(...mandatoryTermIssues(source, draft, contract, term, sourceCount, targetCount))
   }
@@ -338,7 +385,10 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
       const needle = term.caseSensitive ? context : context.toLocaleLowerCase('en-US')
       for (let sourceIndex = haystack.indexOf(needle); sourceIndex !== -1; sourceIndex = haystack.indexOf(needle, sourceIndex + needle.length)) {
         const draftQuote = correspondingDraftLine(source, draft, sourceIndex)
-        if (!draftQuote || countOccurrences(draftQuote, term.target, term.caseSensitive) > 0) continue
+        const boundTarget = contextBoundToken(context, term.source, term.target, term.caseSensitive)
+        const sourceLineStart = Math.max(source.lastIndexOf('\n', sourceIndex), source.lastIndexOf('\r', sourceIndex)) + 1
+        const requiredBoundCount = countOccurrences(source.slice(sourceLineStart, sourceIndex + context.length), context, term.caseSensitive)
+        if (draftQuote && countOccurrences(draftQuote, boundTarget, term.caseSensitive) >= requiredBoundCount) continue
         const issueKey = `${term.source}\0${sourceIndex}\0${draftQuote}`
         if (seenContextual.has(issueKey)) continue
         seenContextual.add(issueKey)
@@ -348,6 +398,7 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
           location: `product context containing ${context}`,
           source_quote: term.source,
           draft_quote: draftQuote,
+          evidenceAvailable: Boolean(draftQuote),
           comment: `Locale contract ${contract.contractId} requires ${term.source} to remain ${term.target} in the declared product context ${context}.`,
         }))
       }
@@ -370,7 +421,12 @@ function issueConflictsWithLocaleContract(issue, contract, sourceContent = '') {
     for (const context of contextual.sourceContexts) {
       const comparableContext = contextual.caseSensitive ? context : context.toLocaleLowerCase('en-US')
       const comparableSource = contextual.caseSensitive ? source : source.toLocaleLowerCase('en-US')
-      if (comparableContext.includes(quote) && comparableSource.includes(comparableContext)) return true
+      const boundSource = contextBoundToken(context, contextual.source, contextual.source, contextual.caseSensitive)
+      const comparableBoundSource = contextual.caseSensitive ? boundSource : boundSource.toLocaleLowerCase('en-US')
+      const quoteMatchesContext = boundSource === contextual.source
+        ? comparableContext.includes(quote)
+        : quote.includes(comparableBoundSource)
+      if (quoteMatchesContext && comparableSource.includes(comparableContext)) return true
     }
   }
   return false

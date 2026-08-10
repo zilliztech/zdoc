@@ -165,6 +165,16 @@ function consumeProviderRetryBudget(budget) {
   return true
 }
 
+function reserveProviderRetryBudget(budget, count) {
+  if (!Number.isInteger(count) || count < 0) throw new Error('Provider retry budget reservation must be a non-negative integer')
+  if (!budget) return true
+  validateProviderRetryBudget(budget)
+  if (budget.remaining < count) return false
+  budget.remaining -= count
+  budget.consumed += count
+  return true
+}
+
 function loadChunkLimits(env = process.env) {
   const targetChars = parsePositiveInteger(env.TRANSLATION_CHUNK_TARGET_CHARS, DEFAULT_TARGET_CHARS)
   const maxChars = parsePositiveInteger(env.TRANSLATION_CHUNK_MAX_CHARS, DEFAULT_MAX_CHARS)
@@ -715,12 +725,13 @@ async function translateAndReviewUnit({
         const maxChars = Math.max(targetChars, Math.floor(adaptiveMaxChars / (2 ** depth)))
         const subdivisions = subdivideSemanticBatch(batch, targetChars, maxChars)
         if (subdivisions.length > 1) {
-          const translated = []
-          for (const subdivision of subdivisions) {
-            if (!consumeProviderRetryBudget(providerRetryBudget)) break
-            translated.push(...await translateBatch(subdivision, depth + 1, true, 'adaptive'))
+          if (reserveProviderRetryBudget(providerRetryBudget, subdivisions.length)) {
+            const translated = []
+            for (const subdivision of subdivisions) {
+              translated.push(...await translateBatch(subdivision, depth + 1, true, 'adaptive'))
+            }
+            if (translated.length === batch.length) return translated
           }
-          if (translated.length === batch.length) return translated
           Object.assign(error, providerRetryBudgetDetails(providerRetryBudget))
         }
       }

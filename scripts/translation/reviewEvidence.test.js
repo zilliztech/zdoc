@@ -178,6 +178,32 @@ test('rejects a reviewer demand to translate the contextual Boost Ranker vector 
   assert.deepEqual(result.contractConflicts[0].issue, conflicting)
 })
 
+test('does not confuse an ordinary vector reviewer issue with the contextual identifier occurrence', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const sourceContent = 'The collection has the following fields: **id**, **vector**, and **doctype**. Search a vector field.'
+  const draftContent = 'コレクションには **id**、**vector**、**doctype** があります。vector フィールドを検索します。'
+  const ordinary = issue({
+    location: 'ordinary vector prose',
+    source_quote: 'Search a vector field.',
+    draft_quote: 'vector フィールドを検索します。',
+    comment: 'Translate ordinary vector terminology as ベクトル.',
+  })
+  const contextual = issue({
+    location: 'Boost Ranker field list',
+    source_quote: '**vector**',
+    draft_quote: '**vector**',
+    comment: 'Translate vector as **ベクトル** to follow the mandatory terminology.',
+  })
+
+  const result = validateReviewEvidence(
+    {pass: false, issues: [ordinary, contextual]},
+    {sourceContent, draftContent, localeContract: contract},
+  )
+  assert.deepEqual(result.validatedIssues, [ordinary])
+  assert.equal(result.contractConflicts.length, 1)
+  assert.deepEqual(result.contractConflicts[0].issue, contextual)
+})
+
 test('does not report a contract conflict for excluded garbage collection prose', () => {
   const contract = loadLocaleContract('zh-CN-reference')
   const result = validateReviewEvidence({

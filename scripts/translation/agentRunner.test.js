@@ -1327,6 +1327,48 @@ async function testAdaptiveSemanticSubdivisionReportsTerminalUnitEvidence() {
   })
 }
 
+async function testAdaptiveSubdivisionPreflightsTheWholeImmediateChildBudget() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/adaptive-budget-preflight.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/adaptive-budget-preflight.md'
+    const source = '# Fields\n\nFirst field description.\n\nSecond field description.\n'
+    write(path.join(siteDir, sourcePath), source)
+    const retryBudget = createProviderRetryBudget(1)
+    let translationCalls = 0
+    const result = await processItemWithRetry({sourcePath}, {
+      maxRetries: 1,
+      providerRetryBudget: retryBudget,
+      processItem: () => processManifestItem({
+        siteDir,
+        item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
+        providerRetryBudget: retryBudget,
+        maxReviewRounds: 0,
+        chunkTargetChars: 100,
+        chunkMaxChars: 200,
+        validate: async () => [],
+        callModel: async ({agent}) => {
+          assert.equal(agent, 'translation')
+          translationCalls += 1
+          throw Object.assign(new Error('litellm.APITimeoutError: Request timed out after 240.0s'), {
+            failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 1,
+            adaptiveSubdivisionRecommended: true,
+            retryBudgetLimit: 1, retryBudgetConsumed: 0, retryBudgetRemaining: 1,
+          })
+        },
+      }),
+    })
+
+    assert.equal(translationCalls, 1, 'no child call may start when the full immediate child set cannot be reserved')
+    assert.deepEqual(retryBudget, {limit: 1, consumed: 0, remaining: 1})
+    assert.equal(result.status, 'failed')
+    assert.equal(result.attempts, 1)
+    assert.equal(result.errorDetails.adaptiveSubdivisionDepth, 0)
+    assert.equal(result.errorDetails.semanticBatchSize, 3)
+    assert.equal(result.errorDetails.retryBudgetConsumed, 0)
+    assert.equal(result.errorDetails.retryBudgetRemaining, 1)
+  })
+}
+
 async function testAdaptiveSemanticSubdivisionPreservesCompletedChunkCheckpoint() {
   await withTempDir(async siteDir => {
     const sourcePath = 'docs/adaptive-checkpoint.md'
@@ -1426,10 +1468,10 @@ async function testBoostRankerVectorIdentifierCorrectionAlignsAllContracts() {
 
 async function testProductionTimeoutFixturesUseHalfSizedAdaptivePayloads() {
   const fixtures = [
-    ['content/en/guides/tutorials/development/collection/external-collection-limits.md', 8636],
-    ['content/en/guides/tutorials/get-started/cloud-providers-and-regions.md', 7733],
+    ['content/en/guides/tutorials/development/collection/external-collection-limits.md', 8636, 10],
+    ['content/en/guides/tutorials/get-started/cloud-providers-and-regions.md', 7733, 7],
   ]
-  for (const [fixturePath, expectedChars] of fixtures) {
+  for (const [fixturePath, expectedChars, immediateChildCount] of fixtures) {
     await withTempDir(async siteDir => {
       const source = fs.readFileSync(path.resolve(__dirname, '../..', fixturePath), 'utf8')
       assert.equal(source.length, expectedChars)
@@ -1439,7 +1481,7 @@ async function testProductionTimeoutFixturesUseHalfSizedAdaptivePayloads() {
       write(path.join(siteDir, sourcePath), source)
       const payloadChars = []
       let initialFailure = true
-      const providerRetryBudget = createProviderRetryBudget(1)
+      const providerRetryBudget = createProviderRetryBudget(immediateChildCount)
       const result = await processItemWithRetry({sourcePath}, {
         maxRetries: 0,
         providerRetryBudget,
@@ -1460,12 +1502,12 @@ async function testProductionTimeoutFixturesUseHalfSizedAdaptivePayloads() {
               throw Object.assign(new Error('litellm.APITimeoutError: Request timed out after 240.0s'), {
                 failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 1,
                 adaptiveSubdivisionRecommended: true,
-                retryBudgetLimit: 1, retryBudgetConsumed: 0, retryBudgetRemaining: 1,
+                retryBudgetLimit: immediateChildCount, retryBudgetConsumed: 0, retryBudgetRemaining: immediateChildCount,
               })
             }
             throw Object.assign(new Error('stream disconnected before completion: stream closed before response.completed'), {
               failureCategory: 'provider_transport', code: 'PROVIDER_TRANSPORT', providerAttempts: 1,
-              retryBudgetLimit: 1, retryBudgetConsumed: 1, retryBudgetRemaining: 0,
+              retryBudgetLimit: immediateChildCount, retryBudgetConsumed: immediateChildCount, retryBudgetRemaining: 0,
             })
           },
         }),
@@ -3363,6 +3405,7 @@ async function run() {
   await testAdaptiveSemanticSubdivisionRecoversProviderTimeouts()
   await testAdaptiveSemanticSubdivisionRetainsFailClosedProtectedContent()
   await testAdaptiveSemanticSubdivisionReportsTerminalUnitEvidence()
+  await testAdaptiveSubdivisionPreflightsTheWholeImmediateChildBudget()
   await testAdaptiveSemanticSubdivisionPreservesCompletedChunkCheckpoint()
   await testProductionTimeoutFixturesUseHalfSizedAdaptivePayloads()
   await testFileTimeoutRejectsSlowWork()

@@ -100,6 +100,39 @@ test('preserves vector only for the exact Boost Ranker field-identifier fixture'
   )
 })
 
+test('binds the Boost Ranker identifier and ordinary vector term to their own occurrences', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const source = 'The collection has the following fields: **id**, **vector**, and **doctype**. Search a vector field.'
+
+  const crossSatisfied = validateLocaleContractDraft(
+    source,
+    'コレクションには **id**、**ベクトル**、**doctype** があります。vector フィールドを検索します。',
+    contract,
+  )
+  assert.equal(crossSatisfied.length, 2)
+  assert.ok(crossSatisfied.some(issue => /field identifier|remain vector/i.test(issue.comment)))
+  assert.ok(crossSatisfied.some(issue => /requires vector to use ベクトル/i.test(issue.comment)))
+
+  assert.deepEqual(validateLocaleContractDraft(
+    source,
+    'コレクションには **id**、**vector**、**doctype** があります。ベクトルフィールドを検索します。',
+    contract,
+  ), [])
+})
+
+test('fails closed when the contextual identifier draft line cannot be aligned', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const source = 'Introduction.\nThe collection has the following fields: **id**, **vector**, and **doctype**.\n'
+  const draft = '概要。\n\nコレクションには **id**、**vector**、**doctype** があります。\n'
+
+  const issues = validateLocaleContractDraft(source, draft, contract)
+
+  assert.equal(issues.length, 1)
+  assert.equal(issues[0].source_quote, 'vector')
+  assert.equal(issues[0].draft_quote, '')
+  assert.equal(issues[0].evidenceAvailable, false)
+})
+
 test('enforces do-not-translate product names when they appear in source prose', () => {
   const contract = loadLocaleContract('zh-CN-reference')
   const issues = validateLocaleContractDraft('Open Zilliz Cloud.', '打开智利兹云。', contract)
