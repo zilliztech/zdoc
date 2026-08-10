@@ -12,13 +12,13 @@ type: docx
 token: VFR6dvKoyo0Pl5x6a44cbIJ8n3f
 sidebar_position: 2
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - 多模态 RAG
+  - LLM 幻觉
+  - 混合搜索
+  - 词法搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - NewAutoAnnParam()
   - gov230
 displayed_sidebar: goSidebar
@@ -41,9 +41,9 @@ func NewAutoAnnParam(level int) autoAnnParam
 
 - **level** (*int*)
 
-    搜索精度级别（1-5）。值越高，召回率越高，但延迟也会增加。
+    搜索精度级别（1-5）。值越高，召回率越高，但会以延迟增加为代价。
 
-**返回：**
+**返回值：**
 
 *[AnnParam](./v2-Vector-AnnParam)*
 

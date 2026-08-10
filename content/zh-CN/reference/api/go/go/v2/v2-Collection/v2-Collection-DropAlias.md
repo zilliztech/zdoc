@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会移除集合别名。 | Go | v2"
+description: "此操作会移除 Collection 别名。 | Go | v2"
 type: docx
 token: PLPKdFJ0aoNUyTxMj7Mc3tPVn5d
 sidebar_position: 12
 keywords: 
-  - nearest neighbor search
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - RAG LLM 架构
+  - 私有 LLM
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - DropAlias()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DropAlias()
 
-此操作会移除集合别名。
+此操作会移除 Collection 别名。
 
 ```go
 func (c *Client) DropAlias(ctx context.Context, option DropAliasOption, callOptions ...grpc.CallOption) error
@@ -49,13 +49,13 @@ err := client.DropAlias(ctx, option)
 
 - **[alias](./v2-Collection-Alias)** (*string*)
 
-    要分配的别名名称。
+    要指定的别名名称。
 
 **返回类型：**
 
 *error*
 
-**返回：**
+**返回值：**
 
 成功时返回 nil，否则返回描述错误原因的 error。
 
@@ -63,7 +63,7 @@ err := client.DropAlias(ctx, option)
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    有关失败详情，请参见 `err != nil`。
 
 ## 示例\{#example}
 

@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作使用指定的配置创建与指定 Zilliz Cloud 集群的连接。 | Go | v2"
+description: "此操作使用指定配置创建与指定 Zilliz Cloud 集群的连接。 | Go | v2"
 type: docx
 token: NvlZd3VOpoMrsoxmavQckdAOnQg
 sidebar_position: 4
 keywords: 
   - 向量存储
-  - 开源向量数据库
+  - 开源向量 Database
   - 向量索引
-  - 开源向量数据库
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
   - 云
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # New()
 
-此操作使用指定的配置创建与指定 Zilliz Cloud 集群的连接。
+此操作使用指定配置创建与指定 Zilliz Cloud 集群的连接。
 
 ```go
 func New(ctx context.Context, config *ClientConfig) (*Client, error)
@@ -43,13 +43,13 @@ func New(ctx context.Context, config *ClientConfig) (*Client, error)
 
 **返回：**
 
-一个已连接且可直接使用的 Client 实例。如果连接失败，则返回错误。
+返回一个已连接且可供使用的 Client 实例。如果连接失败，则返回错误。
 
 **异常：**
 
 - **error**
 
-    请检查 `err != nil` 以获取失败详情。
+    请查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

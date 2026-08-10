@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "表示一个 ArrayOfVector 列，其各行包含具有共享维度的 Float16 值。 | Go | v2"
+description: "表示一个 ArrayOfVector 列，其各行包含共享维度的 Float16 值。 | Go | v2"
 type: docx
 token: Ip2HdObkAodufpxSIoTcJ6rbnWf
 sidebar_position: 4
 keywords: 
-  - vector databases comparison
+  - 向量 Database 对比
   - Faiss
-  - Video search
-  - AI Hallucination
+  - 视频搜索
+  - AI 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ColumnFloat16VectorArray
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ColumnFloat16VectorArray
 
-表示一个 ArrayOfVector 列，其各行包含具有共享维度的 Float16 值。
+表示一个 ArrayOfVector 列，其各行包含共享维度的 Float16 值。
 
 ```go
 type ColumnFloat16VectorArray struct {
@@ -40,7 +40,7 @@ type ColumnFloat16VectorArray struct {
 
 ## 请求语法\{#request-syntax}
 
-根据按行组织的向量数组数据创建一个 ColumnFloat16VectorArray。
+根据面向行的向量数组数据创建 ColumnFloat16VectorArray。
 
 ```go
 column.NewColumnFloat16VectorArray(fieldName string, dim int, data [][][]byte) *ColumnFloat16VectorArray
@@ -50,7 +50,7 @@ column.NewColumnFloat16VectorArray(fieldName string, dim int, data [][][]byte) *
 
 - `AppendValue(value any) error`
 
-    追加一行数据，输入可以是 []entity.Float16Vector 或 [][]byte。
+    此方法追加一行，输入可以是 []entity.Float16Vector 或 [][]byte。
 
 **返回类型：**
 
@@ -58,7 +58,7 @@ column.NewColumnFloat16VectorArray(fieldName string, dim int, data [][][]byte) *
 
 **返回值：**
 
-结构体数组字段中用于 ArrayOfVector float16-vector 数据的列类型。
+结构体数组字段中用于 ArrayOfVector float16 向量数据的列类型。
 
 ## 示例\{#example}
 

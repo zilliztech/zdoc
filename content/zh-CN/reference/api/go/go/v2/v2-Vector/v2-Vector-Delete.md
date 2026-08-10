@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作通过主键值或过滤表达式从集合中删除实体。 | Go | v2"
+description: "此操作通过主键值或筛选表达式从 Collection 中删除 Entity。 | Go | v2"
 type: docx
 token: ZIm2dVn5noFLpAxRkjbc6jiSnee
 sidebar_position: 7
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 向量化
+  - k 最近邻算法
   - ANNS
-  - Vector search
+  - 向量搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Delete()
 
-此操作通过主键值或过滤表达式从集合中删除实体。
+此操作通过主键值或筛选表达式从 Collection 中删除 Entity。
 
 ```go
 func (c *Client) Delete(ctx context.Context, option DeleteOption, callOptions ...grpc.CallOption) (DeleteResult, error)
@@ -53,31 +53,31 @@ result, err := client.Delete(ctx, option)
 
 - **collectionName** (*string*)
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 **可选方法：**
 
 - `WithExpr(expr string)`
 
-    为此操作设置 expr。
+    设置此操作的 expr。
 
 - `WithInt64IDs(fieldName string, ids []int64)`
 
-    为此操作设置 int64 IDs。
+    设置此操作的 int64 i ds。
 
 - `WithStringIDs(fieldName string, ids []string)`
 
-    为此操作设置 string IDs。
+    设置此操作的 string i ds。
 
 - `WithPartition(partitionName string)`
 
-    为此操作设置分区。
+    设置此操作的 Partition。
 
 **返回类型：**
 
 *[DeleteResult](./v2-Vector-DeleteResult), error*
 
-**返回：**
+**返回值：**
 
 删除结果。如果操作失败，则返回错误。
 
@@ -85,7 +85,7 @@ result, err := client.Delete(ctx, option)
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    检查 `err != nil` 以了解失败详情。
 
 ## 示例\{#example}
 

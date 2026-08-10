@@ -12,13 +12,13 @@ type: docx
 token: UN5Yd5ojPoTYrJxAtYzcgFs9nYe
 sidebar_position: 2
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - 托管 Milvus
+  - Serverless 向量 Database
+  - Milvus 开源
+  - Milvus 的工作原理
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - Close()
   - gov230
 displayed_sidebar: goSidebar
@@ -41,15 +41,15 @@ func (c *Client) Close(ctx context.Context) error
 
 *error*
 
-**返回：**
+**返回值：**
 
-成功时返回 nil；否则返回描述错误原因的 error。
+成功时返回 nil，否则返回描述具体错误的 error。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 查看失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

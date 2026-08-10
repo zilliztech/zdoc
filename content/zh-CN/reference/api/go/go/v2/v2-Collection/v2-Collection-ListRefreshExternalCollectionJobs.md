@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出所有或指定集合的外部集合刷新作业。 | Go | v2"
+description: "此操作列出全部或指定 Collection 的外部 Collection 刷新作业。 | Go | v2"
 type: docx
 token: KTeqdqUI2o3YO1xg3EXcJqGcnbe
 sidebar_position: 27
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - 向量 Database 如何工作
+  - 向量数据库对比
+  - openai 向量数据库
+  - 自然语言处理 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ListRefreshExternalCollectionJobs()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ListRefreshExternalCollectionJobs()
 
-此操作列出所有或指定集合的外部集合刷新作业。
+此操作列出全部或指定 Collection 的外部 Collection 刷新作业。
 
 ```go
 func (c *Client) ListRefreshExternalCollectionJobs(ctx context.Context, option ListRefreshExternalCollectionJobsOption, callOptions ...grpc.CallOption) ([]*entity.RefreshExternalCollectionJobInfo, error) {
@@ -49,15 +49,15 @@ result, err := client.ListRefreshExternalCollectionJobs(option)
 
 - **collectionName** (*string*) -
 
-    目标集合的名称。如果未指定此参数，则返回所有外部集合的刷新作业。
+    目标 Collection 的名称。如果未指定此参数，则会返回所有外部 Collection 的刷新作业。
 
 **返回类型：**
 
 *[]&ast;entity.RefreshExternalCollectionJobInfo*
 
-**返回：**
+**返回值：**
 
-一个 *entity.RefreshExternalCollectionJobInfo* 结构体列表，其中每个结构体都记录了一个外部集合刷新作业的详细信息。
+由 *entity.RefreshExternalCollectionJobInfo* 结构体组成的列表，其中每一项都记录一个外部 Collection 刷新作业的详细信息。
 
 ```go
 type RefreshExternalCollectionJobInfo struct {
@@ -82,7 +82,7 @@ type RefreshExternalCollectionJobInfo struct {
 
 - **CollectionName** (*string*) -
 
-    在 `RefreshExternalCollection()` 中指定的外部集合名称。
+    在 `RefreshExternalCollection()` 中指定的外部 Collection 名称。
 
 - **State** (*string*) -
 
@@ -98,11 +98,11 @@ type RefreshExternalCollectionJobInfo struct {
 
 - **Progress** (*int64*) -
 
-    指定作业的当前进度。该值为 0 到 100 之间的整数。
+    指定作业的当前进度。该值为 0 到 100 的整数。
 
 - **Reason** (*string*) -
 
-    如果刷新操作失败，则为错误提示信息。在正常情况下，该值为空字符串。
+    如果刷新操作失败，则显示错误提示。正常情况下，此值为空字符串。
 
 - **ExternalSource** (*string*) -
 

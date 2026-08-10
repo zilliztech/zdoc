@@ -7,13 +7,13 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "定义一个可附加到集合 schema 的内置函数（例如 BM25、文本嵌入）。 | Go | v2"
+description: "定义可附加到 Collection Schema 的内置函数（例如 BM25、文本嵌入）。 | Go | v2"
 type: docx
 token: G4dTdejt8otbQWxUqvucwKnBnYg
 sidebar_position: 17
 keywords: 
   - Chroma vs Milvus
-  - Annoy vector search
+  - Annoy 向量搜索
   - milvus
   - Zilliz
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Function
 
-定义一个可附加到集合 schema 的内置函数（例如 BM25、文本嵌入）。
+定义可附加到 Collection Schema 的内置函数（例如 BM25、文本嵌入）。
 
 ```go
 type Function struct {

@@ -12,13 +12,13 @@ type: docx
 token: EbOodxkWBoRvwAxzJOkcsM6lnic
 sidebar_position: 7
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 降维
+  - hnsw 算法
+  - 向量相似性搜索
+  - 近似最近邻搜索
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - DescribeUser()
   - gov230
 displayed_sidebar: goSidebar
@@ -49,21 +49,21 @@ result, err := client.DescribeUser(ctx, option)
 
 - **userName** (*string*)
 
-    用户名称。
+    用户的名称。
 
 **返回类型：**
 
 **[entity.User](./v2-Authentication-User), error*
 
-**返回：**
+**返回内容：**
 
-包含已分配角色的用户描述。如果操作失败，则返回错误。
+返回包含已分配角色的用户描述。如果操作失败，则返回错误。
 
 **异常：**
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    请查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

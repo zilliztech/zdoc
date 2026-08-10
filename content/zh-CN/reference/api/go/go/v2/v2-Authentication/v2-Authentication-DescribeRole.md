@@ -12,13 +12,13 @@ type: docx
 token: EAs8dmRIuoMvW5xXLHdcDw2Gn0d
 sidebar_position: 6
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - Agentic RAG
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - DescribeRole()
   - gov230
 displayed_sidebar: goSidebar
@@ -56,21 +56,21 @@ result, err := client.DescribeRole(ctx, option)
 
 - `WithDbName(dbName string)`
 
-    指定操作使用的数据库。
+    指定此操作要使用的 Database。
 
 **返回类型：**
 
 **[entity.Role](./v2-Authentication-Role), error*
 
-**返回：**
+**返回值：**
 
-角色详细信息，包括已授予的权限。如果操作失败，则返回错误。
+角色的详细信息，包括已授予的权限。如果操作失败，则返回错误。
 
 **异常：**
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

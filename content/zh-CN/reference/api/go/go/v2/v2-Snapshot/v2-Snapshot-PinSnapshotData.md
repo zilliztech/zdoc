@@ -7,18 +7,18 @@ added_since: v3.0.0
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会为集合固定快照数据，防止其被垃圾回收。返回一个 pin ID，可用于稍后取消固定该数据。 | Go | v2"
+description: "此操作会固定 Collection 的快照数据，防止其被垃圾回收。返回一个 pin ID，您之后可以使用该 ID 取消固定数据。 | Go | v2"
 type: docx
 token: HmEkdVsmRoc2TbxEjtkcKChfnEf
 sidebar_position: 7
 keywords: 
-  - milvus db
-  - milvus vector db
+  - Milvus 数据库
+  - Milvus 向量数据库
   - Zilliz Cloud
-  - what is milvus
+  - 什么是 Milvus
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - PinSnapshotData()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # PinSnapshotData()
 
-此操作会为集合固定快照数据，防止其被垃圾回收。返回一个 pin ID，可用于稍后取消固定该数据。
+此操作会固定 Collection 的快照数据，防止其被垃圾回收。返回一个 pin ID，您之后可以使用该 ID 取消固定数据。
 
 ```go
 func (c *Client) PinSnapshotData(ctx context.Context, opt PinSnapshotDataOption, callOptions ...grpc.CallOption) (int64, error)
@@ -53,22 +53,22 @@ pinID, err := cli.PinSnapshotData(ctx, option)
 
     用于固定快照数据的选项。
 
-**构建方法：**
+**构建器方法：**
 
 - `NewPinSnapshotDataOption(name string, collectionName string)`<br/>
-  该方法会创建一个选项，用于为指定集合固定快照数据。
+  此方法会为指定的 Collection 创建一个用于固定快照数据的选项。
 
 - `WithDbName(dbName string)`<br/>
-  该方法设置集合所在的数据库名称。
+  此方法设置 Collection 的 Database 名称。
 
 - `WithTTL(ttlSeconds int64)`<br/>
-  该方法以秒为单位设置固定的生存时间。
+  此方法以秒为单位设置该 pin 的生存时间。
 
 **返回类型：**
 
 *int64, error*
 
-**返回：**
+**返回值：**
 
 成功时返回 pin ID；如果操作失败，则返回错误。
 
@@ -76,7 +76,7 @@ pinID, err := cli.PinSnapshotData(ctx, option)
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    检查 err != nil 以了解失败详情。
 
 ## 示例\{#example}
 

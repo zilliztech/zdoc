@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回有关集合的统计信息，例如行数。 | Go | v2"
+description: "此操作返回有关 Collection 的统计信息，例如行数。 | Go | v2"
 type: docx
 token: L4CvdyBIVoFsMNx546qcBqrOnJd
 sidebar_position: 18
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Milvus Database
+  - Milvus Lite
+  - Milvus Benchmark
+  - 托管 Milvus
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - GetCollectionStats()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # GetCollectionStats()
 
-此操作返回有关集合的统计信息，例如行数。
+此操作返回有关 Collection 的统计信息，例如行数。
 
 ```go
 func (c *Client) GetCollectionStats(ctx context.Context, opt GetCollectionOption) (map[string]string, error)
@@ -41,15 +41,15 @@ func (c *Client) GetCollectionStats(ctx context.Context, opt GetCollectionOption
 
 *map[string]string, error*
 
-**返回：**
+**返回值：**
 
-统计信息键值对组成的映射。如果操作失败，则返回错误。
+统计信息键值对的映射。如果操作失败，则返回错误。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    请查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

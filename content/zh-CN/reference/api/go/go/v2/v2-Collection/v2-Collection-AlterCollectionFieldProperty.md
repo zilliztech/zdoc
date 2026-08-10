@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会修改集合中特定字段的某个属性。 | Go | v2"
+description: "此操作会修改 Collection 中特定字段的一个属性。 | Go | v2"
 type: docx
 token: MIyedieIBo43Yrxee0lcY3cUn8b
 sidebar_position: 4
 keywords: 
   - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Annoy 向量搜索
+  - Milvus
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - AlterCollectionFieldProperty()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AlterCollectionFieldProperty()
 
-此操作会修改集合中特定字段的某个属性。
+此操作会修改 Collection 中特定字段的一个属性。
 
 ```go
 func (c *Client) AlterCollectionFieldProperty(ctx context.Context, option AlterCollectionFieldPropertiesOption, callOptions ...grpc.CallOption) error
@@ -50,7 +50,7 @@ err := client.AlterCollectionFieldProperty(ctx, option)
 
 - **collectionName** (*string*)
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - **fieldName** (*string*)
 
@@ -60,21 +60,21 @@ err := client.AlterCollectionFieldProperty(ctx, option)
 
 - `WithProperty(key string, value any)`
 
-    在资源上设置自定义属性的键值对。
+    为资源设置自定义属性键值对。
 
 **返回类型：**
 
 *error*
 
-**返回：**
+**返回值：**
 
-成功时返回 nil；否则返回描述错误原因的 error。
+成功时返回 nil，否则返回描述错误原因的错误信息。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

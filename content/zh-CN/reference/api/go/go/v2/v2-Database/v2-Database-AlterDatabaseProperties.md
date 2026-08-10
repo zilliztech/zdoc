@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作用于修改现有数据库的属性。 | Go | v2"
+description: "此操作修改现有 Database 的属性。 | Go | v2"
 type: docx
 token: TxGQdsN2noPbRixebWycWSe0nYt
 sidebar_position: 1
 keywords: 
-  - semantic search
-  - Anomaly Detection
+  - 语义搜索
+  - 异常检测
   - sentence transformers
-  - Recommender systems
+  - 推荐系统
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - AlterDatabaseProperties()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AlterDatabaseProperties()
 
-此操作用于修改现有数据库的属性。
+此操作修改现有 Database 的属性。
 
 ```go
 func (c *Client) AlterDatabaseProperties(ctx context.Context, option AlterDatabasePropertiesOption, callOptions ...grpc.CallOption) error
@@ -50,7 +50,7 @@ err := client.AlterDatabaseProperties(ctx, option)
 
 - **dbName** (*string*)
 
-    数据库名称。
+    Database 的名称。
 
 **可选方法：**
 
@@ -62,15 +62,15 @@ err := client.AlterDatabaseProperties(ctx, option)
 
 *error*
 
-**返回：**
+**返回值：**
 
-成功时返回 nil；否则返回描述错误原因的错误对象。
+成功时返回 nil；否则返回描述错误原因的 error。
 
 **异常：**
 
 - **error**
 
-    可通过检查 `err != nil` 获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

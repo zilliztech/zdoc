@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作从集合中移除指定属性。 | Go | v2"
+description: "此操作会从 Collection 中移除指定属性。 | Go | v2"
 type: docx
 token: Zyf1dXoBIo83V2xWHiKcXUEAnMc
 sidebar_position: 14
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Pinecone 向量 Database
+  - 音频搜索
+  - 什么是语义搜索
+  - Embedding 模型
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - DropCollectionProperties()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DropCollectionProperties()
 
-此操作从集合中移除指定属性。
+此操作会从 Collection 中移除指定属性。
 
 ```go
 func (c *Client) DropCollectionProperties(ctx context.Context, option DropCollectionPropertiesOption, callOptions ...grpc.CallOption) error
@@ -49,7 +49,7 @@ err := client.DropCollectionProperties(ctx, option)
 
 - **[collection](./v2-Collection)** (*string*)
 
-    集合。
+    Collection。
 
 - **propertyKeys** (*...string*)
 
@@ -67,7 +67,7 @@ err := client.DropCollectionProperties(ctx, option)
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

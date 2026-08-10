@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出 Milvus 实例中的所有用户。 | Go | v2"
+description: "此操作会列出 Milvus 实例中的所有用户。 | Go | v2"
 type: docx
 token: S3Vndkuxco3965xyea6cN406nWc
 sidebar_position: 16
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Milvus 如何工作
+  - Zilliz 向量 Database
+  - Zilliz Database
+  - 非结构化数据
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ListUsers()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ListUsers()
 
-此操作列出 Milvus 实例中的所有用户。
+此操作会列出 Milvus 实例中的所有用户。
 
 ```go
 func (c *Client) ListUsers(ctx context.Context, opt ListUserOption, callOpts ...grpc.CallOption) ([]string, error)
@@ -41,7 +41,7 @@ func (c *Client) ListUsers(ctx context.Context, opt ListUserOption, callOpts ...
 
 *[]string, error*
 
-**返回：**
+**返回值：**
 
 名称列表。如果操作失败，则返回错误。
 
@@ -49,7 +49,7 @@ func (c *Client) ListUsers(ctx context.Context, opt ListUserOption, callOpts ...
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    有关失败详情，请查看 `err != nil`。
 
 ## 示例\{#example}
 

@@ -12,13 +12,13 @@ type: docx
 token: Liv8dqreJo6t26xf3UWcC8ePnpe
 sidebar_position: 5
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - 神经网络
+  - 深度学习
+  - 知识库
+  - 自然语言处理
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - CreateUser()
   - gov230
 displayed_sidebar: goSidebar
@@ -49,7 +49,7 @@ err := client.CreateUser(ctx, option)
 
 - **userName** (*string*)
 
-    用户名。
+    用户的名称。
 
 - **password** (*string*)
 
@@ -59,15 +59,15 @@ err := client.CreateUser(ctx, option)
 
 *error*
 
-**返回：**
+**返回值：**
 
-成功时返回 nil，否则返回描述错误原因的 error。
+成功时返回 nil，否则返回一个用于说明错误原因的 error。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

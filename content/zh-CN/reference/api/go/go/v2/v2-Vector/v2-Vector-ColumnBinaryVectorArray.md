@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "表示一个 ArrayOfVector 列，其行包含具有相同维度的 Binary 值。 | Go | v2"
+description: "表示一种 ArrayOfVector 列，其中各行包含具有共享维度的 Binary 值。 | Go | v2"
 type: docx
 token: VKeBdnkoXoI29txzTuncqsaDnte
 sidebar_position: 3
 keywords: 
-  - Vector search
-  - knn algorithm
+  - 向量搜索
+  - knn 算法
   - HNSW
-  - What is unstructured data
+  - 什么是非结构化数据
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ColumnBinaryVectorArray
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ColumnBinaryVectorArray
 
-表示一个 ArrayOfVector 列，其行包含具有相同维度的 Binary 值。
+表示一种 ArrayOfVector 列，其中各行包含具有共享维度的 Binary 值。
 
 ```go
 type ColumnBinaryVectorArray struct {
@@ -40,7 +40,7 @@ type ColumnBinaryVectorArray struct {
 
 ## 请求语法\{#request-syntax}
 
-从按行组织的向量数组数据创建一个 ColumnBinaryVectorArray。
+根据面向行的向量数组数据创建 ColumnBinaryVectorArray。
 
 ```go
 column.NewColumnBinaryVectorArray(fieldName string, dim int, data [][][]byte) *ColumnBinaryVectorArray
@@ -50,13 +50,13 @@ column.NewColumnBinaryVectorArray(fieldName string, dim int, data [][][]byte) *C
 
 - `AppendValue(value any) error`
 
-    追加一行数据，支持以 `[]entity.BinaryVector` 或 `[][]byte` 形式提供。
+    用于追加一行，该行可表示为 []entity.BinaryVector 或 [][]byte。
 
 **返回类型：**
 
 *ColumnBinaryVectorArray*
 
-**返回：**
+**返回值：**
 
 用于结构体数组字段中 ArrayOfVector 二进制向量数据的列类型。
 

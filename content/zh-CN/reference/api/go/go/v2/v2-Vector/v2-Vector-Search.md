@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会在指定集合上执行近似最近邻（ANN）搜索。您可以使用 `NewSearchOption` 执行基于向量的搜索，或使用 `NewSearchByIDsOption` 按主键 ID 搜索。 | Go | v2"
+description: "此操作会对指定的 Collection 执行近似最近邻（ANN）搜索。您可以使用 `NewSearchOption` 进行基于向量的搜索，或使用 `NewSearchByIDsOption` 按主键 ID 搜索。 | Go | v2"
 type: docx
 token: YKm9dpXcVoy277xHVT2cIymfnRj
 sidebar_position: 17
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - 向量索引
+  - 开源向量 Database
+  - 开源向量数据库
+  - 向量 Database 示例
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - Search()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Search()
 
-此操作会在指定集合上执行近似最近邻（ANN）搜索。您可以使用 `NewSearchOption` 执行基于向量的搜索，或使用 `NewSearchByIDsOption` 按主键 ID 搜索。
+此操作会对指定的 Collection 执行近似最近邻（ANN）搜索。您可以使用 `NewSearchOption` 进行基于向量的搜索，或使用 `NewSearchByIDsOption` 按主键 ID 搜索。
 
 ```go
 func (c *Client) Search(ctx context.Context, option SearchOption, callOptions ...grpc.CallOption) ([]ResultSet, error)
@@ -76,7 +76,7 @@ resultSets, err := cli.Search(ctx, option)
 
 - **option** (*SearchOption*) -
 
-    搜索选项。向量搜索使用 `NewSearchOption`，基于主键的搜索使用 `NewSearchByIDsOption`。
+    搜索选项。使用 `NewSearchOption` 进行向量搜索，或使用 `NewSearchByIDsOption` 进行基于 PK 的搜索。
 
 **构建器方法：**
 
@@ -84,28 +84,28 @@ resultSets, err := cli.Search(ctx, option)
   此方法会创建一个用于基于向量的 ANN 搜索的搜索选项。
 
 - `NewSearchByIDsOption(collectionName string, limit int, ids column.Column)`<br/>
-  此方法会创建一个通过主键 ID 查找实体的搜索选项。
+  此方法会创建一个根据主键 ID 查找 Entity 的搜索选项。
 
 - `WithPartitions(partitionNames ...string)`<br/>
-  此方法将搜索范围限制在指定的分区名称内。
+  此方法将搜索范围限制为指定的 Partition 名称。
 
 - `WithFilter(expr string)`<br/>
-  此方法为搜索结果应用布尔表达式过滤。
+  此方法会对搜索结果应用布尔表达式过滤。
 
 - `WithTemplateParam(key string, val any)`<br/>
-  此方法设置用于表达式求值的模板参数。
+  此方法会为表达式求值设置模板参数。
 
 - `WithOffset(offset int)`<br/>
-  此方法设置在返回匹配结果前要跳过的结果数量。
+  此方法会设置返回匹配结果前要跳过的结果数量。
 
 - `WithOutputFields(fieldNames ...string)`<br/>
-  此方法指定在结果集中返回哪些字段。
+  此方法指定结果集中要返回哪些字段。
 
 - `WithConsistencyLevel(consistencyLevel entity.ConsistencyLevel)`<br/>
-  此方法设置搜索的一致性级别。
+  此方法会设置搜索的一致性级别。
 
 - `WithANNSField(annsField string)`<br/>
-  当集合包含多个向量字段时，此方法指定要搜索的向量字段。
+  当 Collection 包含多个向量字段时，此方法指定要搜索的向量字段。
 
 - `WithGroupByField(groupByField string)`<br/>
   此方法按指定字段对搜索结果进行分组。
@@ -114,10 +114,10 @@ resultSets, err := cli.Search(ctx, option)
   启用分组时，此方法设置每组返回的结果数量。
 
 - `WithStrictGroupSize(strictGroupSize bool)`<br/>
-  此方法强制执行严格的分组大小限制。
+  此方法会强制执行严格的组大小限制。
 
 - `WithIgnoreGrowing(ignoreGrowing bool)`<br/>
-  此方法在搜索期间忽略 growing segments。
+  此方法在搜索期间忽略增长中的 Segment。
 
 - `WithAnnParam(ap index.AnnParam)`<br/>
   此方法设置近似最近邻搜索参数（例如 nprobe、ef）。
@@ -126,15 +126,15 @@ resultSets, err := cli.Search(ctx, option)
   此方法设置自定义搜索参数键值对。
 
 - `WithFunctionReranker(fr *entity.Function)`<br/>
-  此方法对搜索结果应用基于函数的重排序器。
+  此方法会对搜索结果应用基于函数的重排器。
 
 **返回类型：**
 
 *[]ResultSet, error*
 
-**返回：**
+**返回值：**
 
-包含匹配实体、分数和字段的搜索或查询结果。如果操作失败，则返回错误。
+搜索或查询结果，包含匹配的 Entity 及其分数和字段。如果操作失败，则返回错误。
 
 **异常：**
 

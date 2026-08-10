@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此类表示 `BulkImport()` 包函数返回的响应。它嵌入了 `ResponseBase` 以提供通用的 `Status` 和 `Message` 字段，并通过 `Data.JobID` 暴露分配的导入任务 ID。在读取 `Data` 之前，请使用嵌入的 `CheckStatus()` 方法验证调用是否成功。 | Go | v2"
+description: "此类表示由 `BulkImport()` 包函数返回的响应。它嵌入了 `ResponseBase`，用于提供通用的 `Status` 和 `Message` 字段，并通过 `Data.JobID` 暴露已分配的导入作业 ID。读取 `Data` 之前，请使用嵌入的 `CheckStatus()` 方法验证调用是否成功。 | Go | v2"
 type: docx
 token: A3WWdqm52oLqtuxaR9EcjmybnwT
 sidebar_position: 3
@@ -15,10 +15,10 @@ keywords:
   - 视频相似性搜索
   - 向量检索
   - 音频相似性搜索
-  - 弹性向量数据库
+  - 弹性向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - BulkImportResponse
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # BulkImportResponse
 
-此类表示 `BulkImport()` 包函数返回的响应。它嵌入了 `ResponseBase` 以提供通用的 `Status` 和 `Message` 字段，并通过 `Data.JobID` 暴露分配的导入任务 ID。在读取 `Data` 之前，请使用嵌入的 `CheckStatus()` 方法验证调用是否成功。
+此类表示由 `BulkImport()` 包函数返回的响应。它嵌入了 `ResponseBase`，用于提供通用的 `Status` 和 `Message` 字段，并通过 `Data.JobID` 暴露已分配的导入作业 ID。读取 `Data` 之前，请使用嵌入的 `CheckStatus()` 方法验证调用是否成功。
 
 ```go
 type BulkImportResponse struct {
@@ -45,13 +45,13 @@ type BulkImportResponse struct {
 **字段：**
 
 - **Status** (*int*) -<br/>
-  继承自 `ResponseBase`。值为 `0` 表示成功；任何其他值都表示错误。
+  继承自 `ResponseBase`。值为 `0` 表示成功；任何其他值都表示发生错误。
 
 - **Message** (*string*) -<br/>
-  继承自 `ResponseBase`。当 `Status` 非零时，表示人类可读的错误描述。
+  继承自 `ResponseBase`。当 `Status` 非零时，人类可读的错误描述。
 
 - **Data.JobID** (*string*) -<br/>
-  分配给已提交批量导入任务的唯一标识符。将其传递给 `GetImportProgress()` 以跟踪完成进度。
+  提交的批量导入作业所分配的唯一标识符。将其传递给 `GetImportProgress()` 以跟踪完成状态。
 
 **方法：**
 

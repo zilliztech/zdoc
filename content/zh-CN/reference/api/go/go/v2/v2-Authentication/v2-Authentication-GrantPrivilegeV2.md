@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作使用具有简化参数的 v2 API 为角色授予权限。 | Go | v2"
+description: "此操作使用简化参数通过 v2 API 向角色授予权限。| Go | v2"
 type: docx
 token: ZO8adFZzAotVzfxEko2cKjHvnfb
 sidebar_position: 12
 keywords: 
-  - Vector search
-  - knn algorithm
+  - 向量搜索
+  - knn 算法
   - HNSW
-  - What is unstructured data
+  - 什么是非结构化数据
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - GrantPrivilegeV2()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # GrantPrivilegeV2()
 
-此操作使用具有简化参数的 v2 API 为角色授予权限。
+此操作使用简化参数通过 v2 API 向角色授予权限。
 
 ```go
 func (c *Client) GrantPrivilegeV2(ctx context.Context, option GrantPrivilegeV2Option, callOptions ...grpc.CallOption) error
@@ -50,27 +50,27 @@ err := client.GrantPrivilegeV2(ctx, option)
 
 - **roleName** (*string*)
 
-    角色名称。
+    角色的名称。
 
 - **privilegeName** (*string*)
 
-    权限名称。
+    权限的名称。
 
 - **collectionName** (*string*)
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 **可选方法：**
 
 - `WithDbName(dbName string)`
 
-    指定用于该操作的数据库。
+    指定操作使用的 Database。
 
 **返回类型：**
 
 *error*
 
-**返回值：**
+**返回：**
 
 成功时返回 nil，否则返回描述错误原因的 error。
 
@@ -78,7 +78,7 @@ err := client.GrantPrivilegeV2(ctx, option)
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

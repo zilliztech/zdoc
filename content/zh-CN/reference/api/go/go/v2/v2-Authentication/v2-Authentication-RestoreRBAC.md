@@ -12,9 +12,9 @@ type: docx
 token: YYvkdK6o5ovGGsxVyEtcEGXnn6b
 sidebar_position: 20
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Pinecone 与 Milvus 对比
+  - Chroma 与 Milvus 对比
+  - Annoy 向量搜索
   - milvus
   - zilliz
   - zilliz cloud
@@ -41,15 +41,15 @@ func (c *Client) RestoreRBAC(ctx context.Context, option RestoreRBACOption, call
 
 *error*
 
-**返回：**
+**返回值：**
 
-成功时返回 nil，失败时返回描述错误原因的 error。
+成功时返回 nil，否则返回描述错误原因的 error。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    有关失败详情，请查看 `err != nil`。
 
 ## 示例\{#example}
 

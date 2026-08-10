@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出 Milvus 实例中的所有数据库。 | Go | v2"
+description: "此操作列出 Milvus 实例中的所有 Database。 | Go | v2"
 type: docx
 token: SV1KdmQUCoLh3nxArLzc9v6In1e
 sidebar_position: 7
 keywords: 
   - milvus lite
   - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - 托管式 Milvus
+  - Serverless 向量 Database
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ListDatabase()
 
-此操作列出 Milvus 实例中的所有数据库。
+此操作列出 Milvus 实例中的所有 Database。
 
 ```go
 func (c *Client) ListDatabase(ctx context.Context, option ListDatabaseOption, callOptions ...grpc.CallOption) (databaseNames []string, err error)
@@ -41,7 +41,7 @@ func (c *Client) ListDatabase(ctx context.Context, option ListDatabaseOption, ca
 
 *databaseNames []string, err error*
 
-**返回：**
+**返回值：**
 
 名称列表。如果操作失败，则返回错误。
 
@@ -49,7 +49,7 @@ func (c *Client) ListDatabase(ctx context.Context, option ListDatabaseOption, ca
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

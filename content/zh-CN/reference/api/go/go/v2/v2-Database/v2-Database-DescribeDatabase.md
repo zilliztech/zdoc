@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回数据库的详细信息，包括其属性。 | Go | v2"
+description: "此操作返回 Database 的详细信息，包括其属性。 | Go | v2"
 type: docx
 token: AR0Bdq0okohr1Cxa1rOcDtvTnoc
 sidebar_position: 4
 keywords: 
-  - lexical search
-  - nearest neighbor search
+  - 词法搜索
+  - 最近邻搜索
   - Agentic RAG
-  - rag llm architecture
+  - RAG LLM 架构
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - DescribeDatabase()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DescribeDatabase()
 
-此操作返回数据库的详细信息，包括其属性。
+此操作返回 Database 的详细信息，包括其属性。
 
 ```go
 func (c *Client) DescribeDatabase(ctx context.Context, option DescribeDatabaseOption, callOptions ...grpc.CallOption) (*entity.Database, error)
@@ -49,21 +49,21 @@ result, err := client.DescribeDatabase(ctx, option)
 
 - **dbName** (*string*)
 
-    数据库的名称。
+    Database 的名称。
 
 **返回类型：**
 
-**entity.Database, error*
+**Entity.Database, error*
 
-**返回：**
+**返回值：**
 
-返回包含属性在内的数据库描述。如果操作失败，则返回错误。
+包含属性的 Database 描述。如果操作失败，则返回错误。
 
 **异常：**
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作创建一个新数据库。 | Go | v2"
+description: "此操作将创建一个新的 Database。 | Go | v2"
 type: docx
 token: BMlVd8UFLor42pxDtr3cnobPnxe
 sidebar_position: 2
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量 Database 教程
+  - 向量 Database 的工作原理
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - CreateDatabase()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # CreateDatabase()
 
-此操作创建一个新数据库。
+此操作将创建一个新的 Database。
 
 ```go
 func (c *Client) CreateDatabase(ctx context.Context, option CreateDatabaseOption, callOptions ...grpc.CallOption) error
@@ -50,27 +50,27 @@ err := client.CreateDatabase(ctx, option)
 
 - **dbName** (*string*)
 
-    数据库的名称。
+    Database 的名称。
 
 **可选方法：**
 
 - `WithProperty(key string, val any)`
 
-    为资源设置自定义属性键值对。
+    在资源上设置自定义属性键值对。
 
 **返回类型：**
 
 *error*
 
-**返回：**
+**返回值：**
 
-成功时返回 nil，否则返回描述错误原因的 error。
+成功时返回 nil；否则返回描述错误原因的错误。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    请查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

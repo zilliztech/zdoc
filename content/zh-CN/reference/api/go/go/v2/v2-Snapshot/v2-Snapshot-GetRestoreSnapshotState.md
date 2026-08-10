@@ -12,13 +12,13 @@ type: docx
 token: SxMgdp3ThoMYHaxkKtKc9EWvnZd
 sidebar_position: 4
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - 什么是向量数据库
+  - 什么是向量 Database
+  - 向量 Database 对比
   - Faiss
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - GetRestoreSnapshotState()
   - gov230
 displayed_sidebar: goSidebar
@@ -49,7 +49,7 @@ result, err := client.GetRestoreSnapshotState(option)
 
 - **JobId** (*int64*) -
 
-    `RestoreSnapshot()` 返回的作业 ID。
+    由 `RestoreSnapshot()` 返回的作业 ID。
 
 **返回类型：**
 
@@ -57,7 +57,7 @@ result, err := client.GetRestoreSnapshotState(option)
 
 **返回值：**
 
-一个 `RestoreSnapshotInfo` 对象，用于记录指定恢复快照作业的详细信息。
+一个 RestoreSnapshotInfo 对象，用于记录指定恢复快照作业的详细信息。
 
 ```go
 type RestoreSnapshotInfo struct {
@@ -85,11 +85,11 @@ type RestoreSnapshotInfo struct {
 
 - **DbName** (*string*) -
 
-    目标数据库名称。
+    目标 Database 名称。
 
 - **CollectionName** (*string*) -
 
-    目标集合名称。
+    目标 Collection 名称。
 
 - **State** (*RestoreSnapshotState*) -
 
@@ -115,7 +115,7 @@ type RestoreSnapshotInfo struct {
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    检查 err != nil 以获取失败详情。
 
 ## 示例\{#example}
 

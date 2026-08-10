@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会从系统中删除一个角色。 | Go | v2"
+description: "此操作从系统中删除一个角色。 | Go | v2"
 type: docx
 token: QKItdAf6HoDzMVxzWEbcDVL9n5r
 sidebar_position: 9
 keywords: 
-  - Vector search
-  - knn algorithm
+  - 向量搜索
+  - knn 算法
   - HNSW
-  - What is unstructured data
+  - 什么是非结构化数据
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - DropRole()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DropRole()
 
-此操作会从系统中删除一个角色。
+此操作从系统中删除一个角色。
 
 ```go
 func (c *Client) DropRole(ctx context.Context, opt DropRoleOption, callOpts ...grpc.CallOption) error
@@ -56,21 +56,21 @@ err := cli.DropRole(ctx, option)
 
 - `WithForce(force bool)`
 
-    此方法会强制执行删除操作，即使该角色已分配给用户或已被授予权限，也会将其删除。
+    这会强制执行删除操作，即使该角色已分配给用户或已被授予权限，也会将其删除。
 
 **返回类型：**
 
 *error*
 
-**返回：**
+**返回值：**
 
-成功时返回 nil；如果失败，则返回描述错误原因的 error。
+成功时返回 nil，否则返回描述错误原因的错误对象。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    检查 err != nil 以获取失败详情。
 
 ## 示例\{#example}
 

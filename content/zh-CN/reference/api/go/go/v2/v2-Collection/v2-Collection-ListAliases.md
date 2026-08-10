@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出与某个集合关联的所有别名。 | Go | v2"
+description: "此操作会列出与 Collection 关联的所有别名。 | Go | v2"
 type: docx
 token: Xq1Dd1B8goDbeRxHfMKc84VOnxg
 sidebar_position: 20
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - 稀疏 vs 稠密
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ListAliases()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ListAliases()
 
-此操作列出与某个集合关联的所有别名。
+此操作会列出与 Collection 关联的所有别名。
 
 ```go
 func (c *Client) ListAliases(ctx context.Context, option ListAliasesOption, callOptions ...grpc.CallOption) ([]string, error)
@@ -49,7 +49,7 @@ result, err := client.ListAliases(ctx, option)
 
 - **collectionName** (*string*)
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 **返回类型：**
 
@@ -63,7 +63,7 @@ result, err := client.ListAliases(ctx, option)
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    查看 `err != nil` 以了解失败详情。
 
 ## 示例\{#example}
 

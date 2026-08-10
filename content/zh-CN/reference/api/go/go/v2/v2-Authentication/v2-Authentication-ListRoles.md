@@ -12,13 +12,13 @@ type: docx
 token: QSmmdf6jgoi8rFxzDnzcqr3cnMe
 sidebar_position: 15
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - 推荐系统
+  - 信息检索
+  - 降维
+  - hnsw 算法
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ListRoles()
   - gov230
 displayed_sidebar: goSidebar
@@ -41,7 +41,7 @@ func (c *Client) ListRoles(ctx context.Context, opt ListRoleOption, callOpts ...
 
 *[]string, error*
 
-**返回：**
+**返回值：**
 
 名称列表。如果操作失败，则返回错误。
 
@@ -49,7 +49,7 @@ func (c *Client) ListRoles(ctx context.Context, opt ListRoleOption, callOpts ...
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

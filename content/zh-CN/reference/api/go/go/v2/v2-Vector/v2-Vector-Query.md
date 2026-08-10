@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检索与布尔筛选表达式匹配的实体。 | Go | v2"
+description: "此操作会检索与布尔筛选表达式匹配的 Entity。 | Go | v2"
 type: docx
 token: P84bd17ncosvh4xuahpcFGzoneb
 sidebar_position: 13
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - 开源向量数据库
+  - 向量 Database 示例
+  - rag 向量 Database
+  - 什么是向量数据库
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - Query()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Query()
 
-此操作检索与布尔筛选表达式匹配的实体。
+此操作会检索与布尔筛选表达式匹配的 Entity。
 
 ```go
 func (c *Client) Query(ctx context.Context, option QueryOption, callOptions ...grpc.CallOption) (ResultSet, error)
@@ -57,7 +57,7 @@ result, err := client.Query(ctx, option)
 
 - **collectionName** (*string*)
 
-    目标 collection 的名称。
+    目标 Collection 的名称。
 
 **可选方法：**
 
@@ -71,7 +71,7 @@ result, err := client.Query(ctx, option)
 
 - `WithOffset(offset int)`
 
-    设置在返回匹配项之前要跳过的结果数量。
+    设置在返回匹配结果前要跳过的结果数量。
 
 - `WithLimit(limit int)`
 
@@ -87,7 +87,7 @@ result, err := client.Query(ctx, option)
 
 - `WithPartitions(partitionNames ...string)`
 
-    将此操作限制在指定的 partition 中。
+    将此操作限制在指定的 Partition 中。
 
 - `WithIDs(ids column.Column)`
 
@@ -97,15 +97,15 @@ result, err := client.Query(ctx, option)
 
 *[ResultSet](./v2-Vector-ResultSet), error*
 
-**返回：**
+**返回值：**
 
-包含匹配实体及其分数和字段的搜索或查询结果。如果操作失败，则返回错误。
+包含匹配 Entity 的搜索或查询结果，其中包括分数和字段。如果操作失败，则返回错误。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

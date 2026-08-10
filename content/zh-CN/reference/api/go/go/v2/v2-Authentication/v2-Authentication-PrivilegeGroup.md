@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "表示可一起授予的具名权限组。 | Go | v2"
+description: "表示一个命名的权限组，可一起授予。 | Go | v2"
 type: docx
 token: IPv6dB9pdoGXeRxdoL4c70pWnmg
 sidebar_position: 17
@@ -15,10 +15,10 @@ keywords:
   - 什么是非结构化数据
   - 向量嵌入
   - 向量存储
-  - 开源向量数据库
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - PrivilegeGroup
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # PrivilegeGroup
 
-表示可一起授予的具名权限组。
+表示一个命名的权限组，可一起授予。
 
 ```go
 type PrivilegeGroup struct {

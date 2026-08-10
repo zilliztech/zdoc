@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回集合的详细信息，包括其 schema 和属性。 | Go | v2"
+description: "此操作返回 Collection 的详细信息，包括其 Schema 和属性。 | Go | v2"
 type: docx
 token: SCP5dY88horVwExBCD2cuSChnZM
 sidebar_position: 11
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
+  - 向量相似性搜索
+  - 近似最近邻搜索
   - DiskANN
-  - Sparse vector
+  - 稀疏向量
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - DescribeCollection()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DescribeCollection()
 
-此操作返回集合的详细信息，包括其 schema 和属性。
+此操作返回 Collection 的详细信息，包括其 Schema 和属性。
 
 ```go
 func (c *Client) DescribeCollection(ctx context.Context, option DescribeCollectionOption, callOptions ...grpc.CallOption) (collection *entity.Collection, err error)
@@ -49,21 +49,21 @@ result, err := client.DescribeCollection(ctx, option)
 
 - **name** (*string*)
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 **返回类型：**
 
 *[collection* ](./v2-Collection)entity.Collection, err error*
 
-**返回：**
+**返回值：**
 
-集合描述，包括 schema、字段和属性。如果操作失败，则返回错误。
+Collection 的描述，包括 Schema、字段和属性。如果操作失败，则返回错误。
 
 **异常：**
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    请检查 `err != nil` 以了解失败详情。
 
 ## 示例\{#example}
 

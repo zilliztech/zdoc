@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会创建 RBAC 元数据的完整备份，包括用户、角色、授权和权限组。 | Go | v2"
+description: "此操作会对 RBAC 元数据创建完整备份，包括用户、角色、授权和权限组。 | Go | v2"
 type: docx
 token: Iz1ZdJDWVo0uoUxQjlPcIbS2nMo
 sidebar_position: 2
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # BackupRBAC()
 
-此操作会创建 RBAC 元数据的完整备份，包括用户、角色、授权和权限组。
+此操作会对 RBAC 元数据创建完整备份，包括用户、角色、授权和权限组。
 
 ```go
 func (c *Client) BackupRBAC(ctx context.Context, option BackupRBACOption, callOptions ...grpc.CallOption) (*entity.RBACMeta, error)
@@ -43,13 +43,13 @@ func (c *Client) BackupRBAC(ctx context.Context, option BackupRBACOption, callOp
 
 **返回：**
 
-完整的 RBAC 元数据快照，包括用户、角色、授权和权限组。如果操作失败，则返回错误。
+返回完整的 RBAC 元数据快照，包括用户、角色、授权和权限组。如果操作失败，则返回错误。
 
 **异常：**
 
 - **error**
 
-    请检查 `err != nil` 以获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

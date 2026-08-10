@@ -12,13 +12,13 @@ type: docx
 token: GKDQd15KkoiLPSxs8UYcFUamnIg
 sidebar_position: 25
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - 低成本向量 Database
+  - 托管式向量 Database
+  - Pinecone 向量 Database
+  - 音频搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - UpdatePassword()
   - gov230
 displayed_sidebar: goSidebar
@@ -49,7 +49,7 @@ err := client.UpdatePassword(ctx, option)
 
 - **userName** (*string*)
 
-    用户名称。
+    用户的名称。
 
 - **oldPassword** (*string*)
 
@@ -63,15 +63,15 @@ err := client.UpdatePassword(ctx, option)
 
 *error*
 
-**返回：**
+**返回值：**
 
-成功时返回 nil，失败时返回描述错误原因的 error。
+成功时返回 nil，否则返回一个描述错误原因的 error。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

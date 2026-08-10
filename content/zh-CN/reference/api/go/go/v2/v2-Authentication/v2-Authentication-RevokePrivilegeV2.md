@@ -12,13 +12,13 @@ type: docx
 token: StUJd0OCho7PKcxWOU7cPNzhn0d
 sidebar_position: 22
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - 音频相似性搜索
+  - 弹性向量 Database
+  - Pinecone 与 Milvus 对比
+  - Chroma 与 Milvus 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - RevokePrivilegeV2()
   - gov230
 displayed_sidebar: goSidebar
@@ -50,21 +50,21 @@ err := client.RevokePrivilegeV2(ctx, option)
 
 - **roleName** (*string*)
 
-    角色名称。
+    角色的名称。
 
 - **privilegeName** (*string*)
 
-    权限名称。
+    权限的名称。
 
 - **collectionName** (*string*)
 
-    目标 collection 的名称。
+    目标 Collection 的名称。
 
 **可选方法：**
 
 - `WithDbName(dbName string)`
 
-    指定此操作要使用的数据库。
+    指定此操作要使用的 Database。
 
 **返回类型：**
 
@@ -72,13 +72,13 @@ err := client.RevokePrivilegeV2(ctx, option)
 
 **返回值：**
 
-成功时返回 nil；否则返回描述错误原因的 error。
+成功时返回 nil，否则返回描述错误原因的 error。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

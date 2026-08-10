@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "指定集合上读取操作的一致性保证级别。 | Go | v2"
+description: "指定 Collection 上读取操作的一致性保证级别。 | Go | v2"
 type: docx
 token: CBg7dbZZ7oxxvJx1eV4cJXWGnbe
 sidebar_position: 7
 keywords: 
   - ANNS
-  - Vector search
-  - knn algorithm
+  - 向量搜索
+  - knn 算法
   - HNSW
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ConsistencyLevel
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ConsistencyLevel
 
-指定集合上读取操作的一致性保证级别。
+指定 Collection 上读取操作的一致性保证级别。
 
 ```go
 type ConsistencyLevel commonpb
@@ -45,15 +45,15 @@ type ConsistencyLevel commonpb
 
 - **ClBounded** = ConsistencyLevel(commonpb.ConsistencyLevel_Bounded)
 
-    有界过期一致性，默认容忍窗口为 5 秒。
+    有界陈旧性，默认容忍时间窗口为 5 秒。
 
 - **ClSession** = ConsistencyLevel(commonpb.ConsistencyLevel_Session)
 
-    会话一致性。读取可以看到同一会话中的写入。
+    会话一致性。读取可见同一会话中的写入。
 
 - **ClEventually** = ConsistencyLevel(commonpb.ConsistencyLevel_Eventually)
 
-    最终一致性。可获得最佳查询性能。
+    最终一致性。查询性能最佳。
 
 - **ClCustomized** = ConsistencyLevel(commonpb.ConsistencyLevel_Customized)
 

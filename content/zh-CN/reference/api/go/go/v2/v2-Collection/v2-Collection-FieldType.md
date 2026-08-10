@@ -14,7 +14,7 @@ sidebar_position: 16
 keywords: 
   - IVF
   - knn
-  - Image Search
+  - 图像搜索
   - LLMs
   - zilliz
   - zilliz cloud
@@ -39,7 +39,7 @@ import Admonition from '@theme/Admonition';
 
 **返回：**
 
-枚举集合字段受支持的数据类型。
+枚举 Collection 字段支持的数据类型。
 
 - **FieldTypeNone** (*int32*) -
 
@@ -145,7 +145,7 @@ fmt.Println(fieldType.Name())
 fmt.Println(fieldType.IsVectorType())
 ```
 
-## 注意事项\{#notes}
+## 说明\{#notes}
 
-- 对于 binary、float、float16、bfloat16、sparse 和 int8 向量字段类型，`IsVectorType()` 返回 true。
+- `IsVectorType()` 对二进制、float、float16、bfloat16、sparse 和 int8 向量字段类型返回 true。
 

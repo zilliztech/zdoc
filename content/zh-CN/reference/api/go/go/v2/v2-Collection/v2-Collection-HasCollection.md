@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检查当前数据库中是否存在某个集合。 | Go | v2"
+description: "此操作检查当前 Database 中是否存在 Collection。 | Go | v2"
 type: docx
 token: JfRidhpQRo2tZFxrL87cNODunWc
 sidebar_position: 19
@@ -18,7 +18,7 @@ keywords:
   - hnsw algorithm
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - HasCollection()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # HasCollection()
 
-此操作检查当前数据库中是否存在某个集合。
+此操作检查当前 Database 中是否存在 Collection。
 
 ```go
 func (c *Client) HasCollection(ctx context.Context, option HasCollectionOption, callOptions ...grpc.CallOption) (has bool, err error)
@@ -49,21 +49,21 @@ result, err := client.HasCollection(ctx, option)
 
 - **name** (*string*)
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 **返回类型：**
 
 *has bool, err error*
 
-**返回值：**
+**返回：**
 
-一个布尔值，用于指示该资源是否存在。如果操作失败，则返回错误。
+一个布尔值，用于指示资源是否存在。如果操作失败，则返回错误。
 
 **异常：**
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    检查 `err != nil` 以了解失败详情。
 
 ## 示例\{#example}
 

@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "包含搜索或查询结果，包括匹配的实体 ID、分数和字段值。 | Go | v2"
+description: "包含搜索或查询结果，包括匹配的 Entity ID、分数和字段值。 | Go | v2"
 type: docx
 token: CCWrdPlSao0pOTx9oIgcA64Nnjd
 sidebar_position: 15
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - 混合向量搜索
+  - 视频去重
+  - 视频相似度搜索
+  - 向量检索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ResultSet
 
-包含搜索或查询结果，包括匹配的实体 ID、分数和字段值。
+包含搜索或查询结果，包括匹配的 Entity ID、分数和字段值。
 
 ```go
 type ResultSet struct {
@@ -49,7 +49,7 @@ type ResultSet struct {
 
 - **ResultCount** (*int*)
 
-    返回的条目数量
+    返回的条目数
 
 - **GroupByValue** (*column.Column*)
 
@@ -57,7 +57,7 @@ type ResultSet struct {
 
 - **IDs** (*column.Column*)
 
-    自动生成的 ID，可映射到 `Insert` API 中的列
+    自动生成的 ID，可映射到 `Insert` API 返回的列
 
 - **Fields** (*DataSet*)
 
@@ -79,7 +79,7 @@ type ResultSet struct {
 
 - `GetColumn(fieldName string) column.Column`
 
-    GetColumn 返回具有所提供字段名称的列。
+    GetColumn 返回具有指定字段名称的列。
 
 - `Len() int`
 

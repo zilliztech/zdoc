@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作列出当前数据库中的所有 collection。 | Go | v2"
+description: "此操作列出当前 Database 中的所有 Collection。 | Go | v2"
 type: docx
 token: AVEcd3SCwoRyiTxcNodcQAepnGf
 sidebar_position: 21
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - 多模态 RAG
+  - LLM 幻觉
+  - 混合搜索
+  - 词法搜索
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ListCollections()
 
-此操作列出当前数据库中的所有 collection。
+此操作列出当前 Database 中的所有 Collection。
 
 ```go
 func (c *Client) ListCollections(ctx context.Context, option ListCollectionOption, callOptions ...grpc.CallOption) (collectionNames []string, err error)
@@ -49,7 +49,7 @@ result, err := client.ListCollections(ctx, option)
 
 *collectionNames []string, err error*
 
-**返回：**
+**返回值：**
 
 名称列表。如果操作失败，则返回错误。
 
@@ -57,7 +57,7 @@ result, err := client.ListCollections(ctx, option)
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

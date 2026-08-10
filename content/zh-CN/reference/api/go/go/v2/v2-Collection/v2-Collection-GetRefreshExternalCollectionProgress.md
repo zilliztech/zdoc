@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回指定外部集合刷新任务的进度。 | Go | v2"
+description: "此操作返回指定外部 Collection 刷新作业的进度。 | Go | v2"
 type: docx
 token: OTM3db7aroAXAYxrTy4cyVbwnGG
 sidebar_position: 26
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - 低成本向量 Database
+  - 托管向量 Database
+  - Pinecone 向量 Database
+  - 音频搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - GetRefreshExternalCollectionProgress()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # GetRefreshExternalCollectionProgress()
 
-此操作返回指定外部集合刷新任务的进度。
+此操作返回指定外部 Collection 刷新作业的进度。
 
 ```go
 func (c *Client) GetRefreshExternalCollectionProgress(ctx context.Context, option GetRefreshExternalCollectionProgressOption, callOptions ...grpc.CallOption) (*entity.RefreshExternalCollectionJobInfo, error)
@@ -49,15 +49,15 @@ result, err := client.GetRefreshExternalCollectionProgress(option)
 
 - **jobID** (*int64*) -
 
-    由 `refresh_external_collection()` 返回的任务 ID。
+    由 `refresh_external_collection()` 返回的作业 ID。
 
 **返回类型：**
 
 *&ast;entity.RefreshExternalCollectionJobInfo*
 
-**返回：**
+**返回值：**
 
-一个记录指定外部集合刷新任务详细信息的结构体类型。
+一个用于记录指定外部 Collection 刷新作业详细信息的结构体类型。
 
 ```go
 type RefreshExternalCollectionJobInfo struct {
@@ -78,15 +78,15 @@ type RefreshExternalCollectionJobInfo struct {
 
 - **JobID** (*int64*) -
 
-    当前请求中指定的任务 ID。
+    当前请求中指定的作业 ID。
 
 - **CollectionName** (*string*) -
 
-    在 `RefreshExternalCollection()` 中指定的外部集合名称。
+    在 `RefreshExternalCollection()` 中指定的外部 Collection 名称。
 
 - **State** (*string*) -
 
-    指定任务的当前状态。可能的值包括：
+    指定作业的当前状态。可能的值包括：
 
     - RefreshPending
 
@@ -98,11 +98,11 @@ type RefreshExternalCollectionJobInfo struct {
 
 - **Progress** (*int64*) -
 
-    指定任务的当前进度。该值为 0 到 100 之间的整数。
+    指定作业的当前进度。该值为 0 到 100 之间的整数。
 
 - **Reason** (*string*) -
 
-    如果刷新操作失败，则为错误提示。在正常情况下，该值为空字符串。
+    如果刷新操作失败，则显示错误提示。在正常情况下，该值为空字符串。
 
 - **ExternalSource** (*string*) -
 
@@ -110,11 +110,11 @@ type RefreshExternalCollectionJobInfo struct {
 
 - **StartTime** (*int64*) -
 
-    指定任务开始时的毫秒级时间戳。
+    指定作业开始时的毫秒级时间戳。
 
 - **EndTime** (*int64*) -  
 
-    指定任务结束时的毫秒级时间戳。
+    指定作业结束时的毫秒级时间戳。
 
 ## 示例：\{#examples}
 

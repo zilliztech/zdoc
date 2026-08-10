@@ -7,13 +7,13 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "表示一个 ArrayOfVector 列，其中每一行都包含具有共享维度的 Int8 值。 | Go | v2"
+description: "表示一个 ArrayOfVector 列，其中各行包含具有共享维度的 Int8 值。 | Go | v2"
 type: docx
 token: Snk1duMEtoe1VexGeJYcXW7VnXe
 sidebar_position: 6
 keywords: 
   - LLMs
-  - Machine Learning
+  - 机器学习
   - RAG
   - NLP
   - zilliz
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ColumnInt8VectorArray
 
-表示一个 ArrayOfVector 列，其中每一行都包含具有共享维度的 Int8 值。
+表示一个 ArrayOfVector 列，其中各行包含具有共享维度的 Int8 值。
 
 ```go
 type ColumnInt8VectorArray struct {
@@ -40,7 +40,7 @@ type ColumnInt8VectorArray struct {
 
 ## 请求语法\{#request-syntax}
 
-从按行组织的向量数组数据创建一个 ColumnInt8VectorArray。
+根据面向行的向量数组数据创建一个 ColumnInt8VectorArray。
 
 ```go
 column.NewColumnInt8VectorArray(fieldName string, dim int, data [][][]int8) *ColumnInt8VectorArray
@@ -50,15 +50,15 @@ column.NewColumnInt8VectorArray(fieldName string, dim int, data [][][]int8) *Col
 
 - `AppendValue(value any) error`
 
-    追加一行数据，输入可以是 []entity.Int8Vector 或 [][]int8。
+    此方法会追加一行，输入可为 []entity.Int8Vector 或 [][]int8。
 
 **返回类型：**
 
 *ColumnInt8VectorArray*
 
-**返回：**
+**返回值：**
 
-用于结构体数组字段中 ArrayOfVector int8-vector 数据的列类型。
+用于结构体数组字段中 ArrayOfVector int8 向量数据的列类型。
 
 ## 示例\{#example}
 

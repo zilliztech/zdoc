@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会永久删除一个 collection 及其所有数据。 | Go | v2"
+description: "此操作会永久删除一个 Collection 及其所有数据。 | Go | v2"
 type: docx
 token: LBTLd1W4UoAbUHxvv6xce1gHnqf
 sidebar_position: 13
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - 稀疏 vs 稠密
+  - 稠密向量
+  - 分层可导航小世界
+  - 稠密嵌入
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - DropCollection()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DropCollection()
 
-此操作会永久删除一个 collection 及其所有数据。
+此操作会永久删除一个 Collection 及其所有数据。
 
 ```go
 func (c *Client) DropCollection(ctx context.Context, option DropCollectionOption, callOptions ...grpc.CallOption) error
@@ -49,7 +49,7 @@ err := client.DropCollection(ctx, option)
 
 - **name** (*string*)
 
-    目标 collection 的名称。
+    目标 Collection 的名称。
 
 **返回类型：**
 
@@ -57,13 +57,13 @@ err := client.DropCollection(ctx, option)
 
 **返回值：**
 
-成功时返回 nil；如果失败，则返回描述具体问题的 error。
+成功时返回 nil，否则返回描述错误原因的错误信息。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    请查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

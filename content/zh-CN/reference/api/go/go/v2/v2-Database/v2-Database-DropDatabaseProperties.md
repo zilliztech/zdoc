@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会从数据库中移除指定的属性。 | Go | v2"
+description: "此操作会移除 Database 中指定的属性。 | Go | v2"
 type: docx
 token: Le2bdLZXCoKVXXxF2kgcuDt2neh
 sidebar_position: 6
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - 稀疏向量
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DropDatabaseProperties()
 
-此操作会从数据库中移除指定的属性。
+此操作会移除 Database 中指定的属性。
 
 ```go
 func (c *Client) DropDatabaseProperties(ctx context.Context, option DropDatabasePropertiesOption, callOptions ...grpc.CallOption) error
@@ -49,7 +49,7 @@ err := client.DropDatabaseProperties(ctx, option)
 
 - **dbName** (*string*)
 
-    数据库名称。
+    Database 的名称。
 
 - **propertyKeys** (*...string*)
 
@@ -59,15 +59,15 @@ err := client.DropDatabaseProperties(ctx, option)
 
 *error*
 
-**返回：**
+**返回值：**
 
-成功时返回 nil；如果失败，则返回描述错误原因的 error。
+成功时返回 nil，否则返回描述错误原因的 error。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "表示集合别名及其关联的数据库和集合名称。 | Go | v2"
+description: "表示一个 Collection Alias，以及与其关联的 Database 和 Collection 名称。 | Go | v2"
 type: docx
 token: GwIxdz90jojeBNx965VcTJHnnFd
 sidebar_position: 2
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Chroma 向量 Database
+  - NLP 搜索
+  - 幻觉 LLM
+  - 多模态搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - Alias
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Alias
 
-表示集合别名及其关联的数据库和集合名称。
+表示一个 Collection Alias，以及与其关联的 Database 和 Collection 名称。
 
 ```go
 type Alias struct {
@@ -45,12 +45,12 @@ type Alias struct {
 
 - **DbName** (*string*)
 
-    关联数据库的名称。
+    关联的 Database 名称。
 
 - **Alias** (*string*)
 
-    别名名称。
+    Alias 名称。
 
 - **CollectionName** (*string*)
 
-    关联集合的名称。
+    关联的 Collection 名称。

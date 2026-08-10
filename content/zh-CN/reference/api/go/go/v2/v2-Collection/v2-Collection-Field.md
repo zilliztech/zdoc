@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: v3.0.0
 deprecate_since: false
 notebook: false
-description: "定义集合 schema 中的字段，包括其数据类型、约束和索引属性。 | Go | v2"
+description: "定义 Collection Schema 中的字段，包括其数据类型、约束和索引属性。 | Go | v2"
 type: docx
 token: DPcJdZceFoes0sxeRVKcKhaunq9
 sidebar_position: 15
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Field
 
-定义集合 schema 中的字段，包括其数据类型、约束和索引属性。
+定义 Collection Schema 中的字段，包括其数据类型、约束和索引属性。
 
 ```go
 type Field struct {
@@ -53,7 +53,7 @@ type Field struct {
 }
 ```
 
-## Constructor\{#constructor}
+## 构造函数\{#constructor}
 
 ```go
 entity.NewField().
@@ -80,27 +80,27 @@ entity.NewField().
 
 - `WithIsPrimaryKey(isPrimaryKey bool)`
 
-    设置该字段是否为主键。
+    设置此字段是否为主键。
 
 - `WithIsAutoID(isAutoID bool)`
 
-    为该字段启用自动 ID 生成。
+    为此字段启用自动 ID 生成。
 
 - `WithIsDynamic(isDynamic bool)`
 
-    将该字段标记为动态字段。
+    将此字段标记为动态字段。
 
 - `WithIsPartitionKey(isPartitionKey bool)`
 
-    将该字段设置为用于数据路由的分区键。
+    将此字段设置为用于数据路由的 Partition 键。
 
 - `WithIsClusteringKey(isClusteringKey bool)`
 
-    将该字段设置为用于数据组织的聚簇键。
+    将此字段设置为用于数据组织的聚类键。
 
 - `WithNullable(nullable bool)`
 
-    设置该字段是否允许空值。
+    设置此字段是否允许空值。
 
 - `WithDefaultValueBool(defaultValue bool)`
 
@@ -132,11 +132,11 @@ entity.NewField().
 
 - `WithTypeParams(key string, value string)`
 
-    为字段设置类型参数的键值对。
+    为字段设置类型参数键值对。
 
 - `WithDim(dim int64)`
 
-    设置该字段的向量维度。
+    设置此字段的向量维度。
 
 - `WithMaxLength(maxLen int64)`
 
@@ -152,23 +152,23 @@ entity.NewField().
 
 - `WithEnableAnalyzer(enable bool)`
 
-    为该字段启用全文检索的文本分析器。
+    为此字段启用用于全文搜索的文本 Analyzer。
 
 - `WithAnalyzerParams(params map[string]any)`
 
-    设置文本处理的分析器参数。
+    设置文本处理的 Analyzer 参数。
 
 - `WithMultiAnalyzerParams(params map[string]any)`
 
-    为字段设置多个分析器配置。
+    为字段设置多个 Analyzer 配置。
 
 - `WithEnableMatch(enable bool)`
 
-    为该字段启用文本匹配。
+    为此字段启用文本匹配。
 
 - `WithStructSchema(schema *StructSchema)`
 
-    为 struct 类型字段设置 struct schema。
+    为 struct 类型字段设置 struct Schema。
 
 - `WithExternalField(externalField string)`
 
@@ -178,9 +178,9 @@ entity.NewField().
 
 - `GetDim() int64, error`
 
-    获取维度。
+    获取 dim。
 
-## Example\{#example}
+## 示例\{#example}
 
 ```go
 import (

@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将现有别名重新分配给另一个 collection。 | Go | v2"
+description: "此操作会将现有别名重新分配给其他 Collection。 | Go | v2"
 type: docx
 token: GNQcdBgh2oMyS9xxJk0cvESGnfe
 sidebar_position: 3
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - 低成本向量 Database
+  - 托管向量 Database
+  - Pinecone 向量 Database
+  - 音频搜索
   - zilliz
-  - zilliz cloud
-  - cloud
+  - Zilliz Cloud
+  - 云
   - AlterAlias()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AlterAlias()
 
-此操作将现有别名重新分配给另一个 collection。
+此操作会将现有别名重新分配给其他 Collection。
 
 ```go
 func (c *Client) AlterAlias(ctx context.Context, option AlterAliasOption, callOptions ...grpc.CallOption) error
@@ -53,7 +53,7 @@ err := client.AlterAlias(ctx, option)
 
 - **collectionName** (*string*)
 
-    目标 collection 的名称。
+    目标 Collection 的名称。
 
 **返回类型：**
 
@@ -61,13 +61,13 @@ err := client.AlterAlias(ctx, option)
 
 **返回值：**
 
-成功时返回 nil；否则返回描述错误原因的 error。
+成功时返回 nil，否则返回描述错误原因的错误对象。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

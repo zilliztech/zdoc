@@ -12,13 +12,13 @@ type: docx
 token: CB8KdOcuqopYf6x9PqYcJhXbntc
 sidebar_position: 24
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 向量化
+  - k 最近邻算法
   - ANNS
-  - Vector search
+  - 向量搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - StructSchema
   - gov230
 displayed_sidebar: goSidebar
@@ -41,7 +41,7 @@ type StructSchema struct {
 
 ## 请求语法\{#request-syntax}
 
-创建一个空的 struct schema。
+创建一个空的 struct Schema。
 
 ```go
 entity.NewStructSchema()
@@ -55,19 +55,19 @@ entity.NewStructSchema()
 
 - `Validate(parentName string) error`
 
-    拒绝空、重复、嵌套、稀疏向量、可空、键、自动 ID、动态以及具有默认值的子字段。
+    拒绝空的、重复的、嵌套的、稀疏向量的、可为空的、键、自动 ID、动态以及带默认值的子字段。
 
 **返回类型：**
 
 *StructSchema*
 
-**返回：**
+**返回值：**
 
-表示 struct 字段的 schema，包括嵌套字段定义。
+表示 struct 字段的 Schema，包括嵌套字段定义。
 
-- **Fields** (*[]*Field*) -
+- **字段** (*[]*Field*) -
 
-    包含 struct-array 子字段定义。
+    包含 struct-array 的子字段定义。
 
 ## 示例\{#example}
 

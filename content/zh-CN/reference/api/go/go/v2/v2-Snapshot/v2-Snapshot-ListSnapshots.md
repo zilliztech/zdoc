@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会列出指定 collection 的所有快照名称。 | Go | v2"
+description: "此操作会列出指定 Collection 的所有快照名称。 | Go | v2"
 type: docx
 token: Bs3OdQ56zohZEbx9KaHcInM4nHh
 sidebar_position: 6
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - 自然语言搜索
+  - 相似性搜索
+  - 多模态 RAG
+  - llm 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - ListSnapshots()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # ListSnapshots()
 
-此操作会列出指定 collection 的所有快照名称。
+此操作会列出指定 Collection 的所有快照名称。
 
 ```go
 func (c *Client) ListSnapshots(ctx context.Context, opt ListSnapshotsOption, callOptions ...grpc.CallOption) ([]string, error)
@@ -50,13 +50,13 @@ result, err := client.ListSnapshots(option)
 
 - **collectionName** (*string*) -
 
-    目标 collection 的名称。
+    目标 Collection 的名称。
 
 **构建器方法：**
 
 - `WithDbName(dbName string)`
 
-    此方法用于设置数据库名称。如果未设置，则使用默认数据库。
+    此项用于设置 Database 名称。如果未设置，则使用默认 Database。
 
 **返回类型：**
 
@@ -70,7 +70,7 @@ result, err := client.ListSnapshots(option)
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    请检查 err != nil 以获取失败详情。
 
 ## 示例\{#example}
 

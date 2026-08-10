@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会重命名现有集合。 | Go | v2"
+description: "此操作会重命名现有 Collection。 | Go | v2"
 type: docx
 token: XJN5dD1ifo5A9xxEfFKcf7Fxn1g
 sidebar_position: 22
@@ -18,7 +18,7 @@ keywords:
   - 语义搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - RenameCollection()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RenameCollection()
 
-此操作会重命名现有集合。
+此操作会重命名现有 Collection。
 
 ```go
 func (c *Client) RenameCollection(ctx context.Context, option RenameCollectionOption, callOptions ...grpc.CallOption) error
@@ -53,13 +53,13 @@ err := client.RenameCollection(ctx, option)
 
 - **newName** (*string*)
 
-    集合的新名称。
+    Collection 的新名称。
 
 **返回类型：**
 
 *error*
 
-**返回：**
+**返回值：**
 
 成功时返回 nil，否则返回描述错误原因的 error。
 
@@ -67,7 +67,7 @@ err := client.RenameCollection(ctx, option)
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

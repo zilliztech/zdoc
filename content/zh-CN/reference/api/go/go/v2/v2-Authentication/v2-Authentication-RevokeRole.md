@@ -12,10 +12,10 @@ type: docx
 token: PKWMdOpDkoIXhFxDsgrc8oQVnIf
 sidebar_position: 23
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - 向量维度
+  - ANN 搜索
+  - 什么是向量嵌入
+  - 向量 Database 教程
   - zilliz
   - zilliz cloud
   - cloud
@@ -49,11 +49,11 @@ err := client.RevokeRole(ctx, option)
 
 - **userName** (*string*)
 
-    用户名称。
+    用户的名称。
 
 - **roleName** (*string*)
 
-    角色名称。
+    角色的名称。
 
 **返回类型：**
 
@@ -67,7 +67,7 @@ err := client.RevokeRole(ctx, option)
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    有关失败的详细信息，请参阅 `err != nil`。
 
 ## 示例\{#example}
 

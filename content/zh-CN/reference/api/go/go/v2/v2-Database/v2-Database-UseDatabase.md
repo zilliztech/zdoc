@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会切换当前客户端连接的活动数据库。 | Go | v2"
+description: "此操作会切换当前客户端连接的活动 Database。 | Go | v2"
 type: docx
 token: GbIAdIuWsoumzoxHWpOcVjVbnle
 sidebar_position: 8
 keywords: 
   - 向量存储
-  - 开源向量数据库
+  - 开源向量 Database
   - 向量索引
-  - 开源向量数据库
+  - 开源向量 Database
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - UseDatabase()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # UseDatabase()
 
-此操作会切换当前客户端连接的活动数据库。
+此操作会切换当前客户端连接的活动 Database。
 
 ```go
 func (c *Client) UseDatabase(ctx context.Context, option UseDatabaseOption) error
@@ -41,15 +41,15 @@ func (c *Client) UseDatabase(ctx context.Context, option UseDatabaseOption) erro
 
 *error*
 
-**返回：**
+**返回值：**
 
-成功时返回 nil，失败时返回描述错误原因的 error。
+成功时返回 nil，否则返回描述错误原因的 error。
 
 **异常：**
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    检查 `err != nil` 以了解失败详情。
 
 ## 示例\{#example}
 

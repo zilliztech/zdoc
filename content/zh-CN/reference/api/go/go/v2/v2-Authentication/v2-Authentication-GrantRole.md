@@ -7,12 +7,12 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作将角色分配给用户。 | Go | v2"
+description: "此操作会为用户授予角色。 | Go | v2"
 type: docx
 token: OPfXdP02ZoeDIUxhBUOcU3vBngb
 sidebar_position: 13
 keywords: 
-  - milvus database
+  - milvus Database
   - milvus lite
   - milvus benchmark
   - managed milvus
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # GrantRole()
 
-此操作将角色分配给用户。
+此操作会为用户授予角色。
 
 ```go
 func (c *Client) GrantRole(ctx context.Context, opt GrantRoleOption, callOpts ...grpc.CallOption) error
@@ -49,17 +49,17 @@ err := client.GrantRole(ctx, option)
 
 - **userName** (*string*)
 
-    用户名称。
+    用户的名称。
 
 - **roleName** (*string*)
 
-    角色名称。
+    角色的名称。
 
 **返回类型：**
 
 *error*
 
-**返回：**
+**返回值：**
 
 成功时返回 nil，否则返回描述错误原因的 error。
 
@@ -67,7 +67,7 @@ err := client.GrantRole(ctx, option)
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    请查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

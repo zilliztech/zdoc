@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "在自动验证公开 `Validate()` 方法的选项（包括结构体数组 schema）后创建集合。 | Go | v2"
+description: "在自动验证公开 `Validate()` 方法的选项（包括结构体数组 Schema）后，创建一个 Collection。 | Go | v2"
 type: docx
 token: Jm5IdnexOoFaMpx0HqDcbXeDnGe
 sidebar_position: 9
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - 多模态向量 Database 检索
+  - 检索增强生成
+  - 大型语言模型
+  - 向量化
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - CreateCollection()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,27 +31,27 @@ import Admonition from '@theme/Admonition';
 
 # CreateCollection()
 
-在自动验证公开 `Validate()` 方法的选项（包括结构体数组 schema）后创建集合。
+在自动验证公开 `Validate()` 方法的选项（包括结构体数组 Schema）后，创建一个 Collection。
 
 ```go
 func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOption, callOptions ...grpc.CallOption) error
 ```
 
-**PARAMETERS:**
+**参数：**
 
 - **name** (*string*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    要创建的集合名称。
+    要创建的 Collection 的名称。
 
 - **collectionSchema** (**entity.Schema*) -
 
-    **[REQUIRED]**
+    **[必需]**
 
-    定义集合字段和配置的 schema。
+    定义 Collection 字段和配置的 Schema。
 
-**BUILDER METHODS:**
+**构建器方法：**
 
 - `WithAutoID(autoID bool)`
 
@@ -59,7 +59,7 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
 
 - `WithShardNum(shardNum int32)`
 
-    设置集合的分片数量。
+    设置 Collection 的分片数量。
 
 - `WithDynamicSchema(dynamicSchema bool)`
 
@@ -71,19 +71,19 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
 
 - `WithIndexOptions(indexOpts ...CreateIndexOption)`
 
-    设置在创建集合期间使用的索引创建选项。
+    设置创建 Collection 时使用的索引创建选项。
 
 - `WithProperty(key string, value any)`
 
-    在将值转换为其字符串表示后设置集合属性。
+    将值转换为其字符串表示形式后，设置 Collection 属性。
 
 - `WithConsistencyLevel(cl entity.ConsistencyLevel)`
 
-    设置集合的一致性级别。
+    设置 Collection 一致性级别。
 
 - `WithMetricType(metricType entity.MetricType)`
 
-    为默认向量索引设置度量类型。
+    设置默认向量索引的度量类型。
 
 - `WithPKFieldName(name string)`
 
@@ -95,25 +95,25 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
 
 - `WithNumPartitions(numPartitions int64)`
 
-    设置与分区键一起使用的分区数量。
+    设置与 Partition 键配合使用的 Partition 数量。
 
-**RETURN TYPE:**
+**返回类型：**
 
 *error*
 
-**RETURNS:**
+**返回值：**
 
-集合创建成功后返回 nil。schema 验证失败或 RPC 失败时返回错误。
+Collection 创建成功后返回 nil。Schema 验证或 RPC 失败时返回错误。
 
-**ERROR HANDLING:**
+**错误处理：**
 
 - **error**
 
-    验证、请求构造或 RPC 失败。请检查返回的错误以了解失败详情。
+    验证、请求构造或 RPC 失败。请检查返回的错误以获取失败详情。
 
-## Example\{#example}
+## 示例\{#example}
 
-演示 `CreateCollection()` 的用法。
+演示 CreateCollection() 的用法。
 
 ```go
 import (

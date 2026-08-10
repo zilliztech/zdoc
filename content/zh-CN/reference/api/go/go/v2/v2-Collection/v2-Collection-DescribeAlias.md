@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作返回集合别名的详细信息，包括它所引用的集合。 | Go | v2"
+description: "此操作返回 Collection 别名的详细信息，包括它所引用的 Collection。 | Go | v2"
 type: docx
 token: EFC0drdqGoG559x5Zqzcpj7innc
 sidebar_position: 10
 keywords: 
   - LLMs
-  - Machine Learning
+  - 机器学习
   - RAG
   - NLP
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - DescribeAlias()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DescribeAlias()
 
-此操作返回集合别名的详细信息，包括它所引用的集合。
+此操作返回 Collection 别名的详细信息，包括它所引用的 Collection。
 
 ```go
 func (c *Client) DescribeAlias(ctx context.Context, option DescribeAliasOption, callOptions ...grpc.CallOption) (*entity.Alias, error)
@@ -55,15 +55,15 @@ result, err := client.DescribeAlias(ctx, option)
 
 **[entity.Alias](./v2-Collection-Alias), error*
 
-**返回：**
+**返回值：**
 
-别名详细信息，包括关联的集合名称。如果操作失败，则返回错误。
+别名的详细信息，包括关联的 Collection 名称。如果操作失败，则返回错误。
 
 **异常：**
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    请查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

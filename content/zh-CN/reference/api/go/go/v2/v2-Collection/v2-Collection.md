@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "表示由 DescribeCollection 返回的集合描述，包括 schema、分片和属性。 | Go | v2"
+description: "表示由 DescribeCollection 返回的 Collection 描述，包括 Schema、分片和属性。 | Go | v2"
 type: docx
 token: PNwFdxMMdo6rtIxERDHcVFgdnxc
 sidebar_position: 6
 keywords: 
-  - 廉价向量数据库
-  - 托管向量数据库
-  - Pinecone 向量数据库
+  - 低成本向量 Database
+  - 托管向量 Database
+  - Pinecone 向量 Database
   - 音频搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - Collection
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # Collection
 
-表示由 DescribeCollection 返回的集合描述，包括 schema、分片和属性。
+表示由 DescribeCollection 返回的 Collection 描述，包括 Schema、分片和属性。
 
 ```go
 type Collection struct {
@@ -52,15 +52,15 @@ type Collection struct {
 
 - **ID** (*int64*)
 
-    集合 ID
+    Collection ID
 
 - **Name** (*string*)
 
-    集合名称
+    Collection 名称
 
 - **[Schema](./v2-Collection-Schema)** (**[Schema](./v2-Collection-Schema)*)
 
-    集合 schema，包含字段 schema 和主键定义
+    Collection 的 Schema，包含字段 Schema 和主键定义
 
 - **PhysicalChannels** (*[]string*)
 
@@ -76,7 +76,7 @@ type Collection struct {
 
 - **[ConsistencyLevel](./v2-Collection-ConsistencyLevel)** (*[ConsistencyLevel](./v2-Collection-ConsistencyLevel)*)
 
-    读操作的一致性级别。
+    读取操作的一致性级别。
 
 - **ShardNum** (*int32*)
 

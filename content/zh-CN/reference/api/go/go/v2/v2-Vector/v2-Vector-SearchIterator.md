@@ -14,11 +14,11 @@ sidebar_position: 18
 keywords: 
   - 向量检索
   - 音频相似性搜索
-  - 弹性向量数据库
-  - Pinecone vs Milvus
+  - 弹性向量 Database
+  - Pinecone 与 Milvus 对比
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - SearchIterator()
   - gov230
 displayed_sidebar: goSidebar
@@ -64,7 +64,7 @@ result, err := client.SearchIterator(ctx, option)
 
 - **collectionName** (*string*)
 
-    目标集合的名称。
+    目标 Collection 的名称。
 
 - **[vector](./v2-Vector)** (*entity.Vector*)
 
@@ -74,11 +74,11 @@ result, err := client.SearchIterator(ctx, option)
 
 - `WithBatchSize(batchSize int)`
 
-    设置每次迭代批次中获取的实体数量。
+    设置每次迭代批次要获取的 Entity 数量。
 
 - `WithPartitions(partitionNames ...string)`
 
-    将操作限制在指定的分区内。
+    将操作限制在指定的 Partition 内。
 
 - `WithFilter(expr string)`
 
@@ -90,7 +90,7 @@ result, err := client.SearchIterator(ctx, option)
 
 - `WithOffset(offset int)`
 
-    设置在返回匹配结果之前要跳过的结果数量。
+    设置在返回匹配结果前要跳过的结果数量。
 
 - `WithOutputFields(fieldNames ...string)`
 
@@ -98,11 +98,11 @@ result, err := client.SearchIterator(ctx, option)
 
 - `WithConsistencyLevel(consistencyLevel [entity.ConsistencyLevel](./v2-Collection-ConsistencyLevel))`
 
-    设置操作的一致性级别（Strong、Bounded、Session 或 Eventually）。
+    设置此操作的一致性级别（Strong、Bounded、Session 或 Eventually）。
 
 - `WithANNSField(annsField string)`
 
-    指定要搜索的向量字段。
+    指定要针对哪个向量字段进行搜索。
 
 - `WithGroupByField(groupByField string)`
 
@@ -110,19 +110,19 @@ result, err := client.SearchIterator(ctx, option)
 
 - `WithGroupSize(groupSize int)`
 
-    设置每个分组返回的结果数量。
+    设置每组返回的结果数量。
 
 - `WithStrictGroupSize(strictGroupSize bool)`
 
-    强制结果中每个分组都具有精确的分组大小。
+    强制结果中每个组都具有精确的组大小。
 
 - `WithIgnoreGrowing(ignoreGrowing bool)`
 
-    跳过在增长段中的搜索，以获得更快但可能不完整的结果。
+    跳过在增长中的 Segment 中进行搜索，以获得更快但可能不完整的结果。
 
 - `WithAnnParam(ap [index.AnnParam](./v2-Vector-AnnParam))`
 
-    设置近似最近邻搜索参数（例如 `nprobe`、`ef`）。
+    设置近似最近邻搜索参数（例如 nprobe、ef）。
 
 - `WithSearchParam(key, value string)`
 
@@ -130,21 +130,21 @@ result, err := client.SearchIterator(ctx, option)
 
 - `WithIteratorLimit(limit int64)`
 
-    WithIteratorLimit 设置要迭代的条目上限；如果 `limit < 0`，则会将其设置为 Unlimited。
+    WithIteratorLimit 用于设置要迭代的条目上限；如果 limit < 0，则将其设置为 Unlimited
 
 **返回类型：**
 
 *[SearchIterator](./v2-Vector-SearchIterator), error*
 
-**返回：**
+**返回值：**
 
-用于对搜索结果进行分页的 SearchIterator。如果操作失败，则返回错误。
+一个用于对搜索结果进行分页的 SearchIterator。如果操作失败，则返回错误。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

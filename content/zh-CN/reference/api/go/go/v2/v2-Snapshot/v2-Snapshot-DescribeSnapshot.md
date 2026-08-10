@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作检索特定快照的详细元数据，包括源集合、分区名称、创建时间戳和存储位置。 | Go | v2"
+description: "此操作用于检索特定快照的详细元数据，包括源 Collection、Partition 名称、创建时间戳和存储位置。 | Go | v2"
 type: docx
 token: NM44dNuQtoKR9UxlEbqcZrVUnpb
 sidebar_position: 2
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - 自然语言搜索
+  - 相似性搜索
+  - 多模态 RAG
+  - LLM 幻觉
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - DescribeSnapshot()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # DescribeSnapshot()
 
-此操作检索特定快照的详细元数据，包括源集合、分区名称、创建时间戳和存储位置。
+此操作用于检索特定快照的详细元数据，包括源 Collection、Partition 名称、创建时间戳和存储位置。
 
 ```go
 func (c *Client) DescribeSnapshot(ctx context.Context, opt DescribeSnapshotOption, callOptions ...grpc.CallOption) (*milvuspb.DescribeSnapshotResponse, error)
@@ -54,19 +54,19 @@ result, err := client.DescribeSnapshot(option)
 
 - **collectionName** (*string*) - 
 
-    该快照所属集合的名称。
+    该快照所属的 Collection 名称。
 
 **构建器方法：**
 
 - `WithDbName(dbName string)`
 
-    设置指定集合所属的数据库。
+    用于设置指定 Collection 所属的 Database。
 
 **返回类型：**
 
 *milvuspb.DescribeSnapshotResponse, error*
 
-**返回值：**
+**返回：**
 
 包含详细快照元数据的 DescribeSnapshotResponse 对象。
 
@@ -93,7 +93,7 @@ type DescribeSnapshotResponse struct {
 
 - **CollectionName** (*string*) -
 
-    源集合名称。
+    源 Collection 名称。
 
 - **CreateTs** (*int64*) -
 
@@ -101,17 +101,17 @@ type DescribeSnapshotResponse struct {
 
 - **S3Location** (*string*) -
 
-    快照数据的 S3 存储位置。
+    快照数据在 S3 中的存储位置。
 
 - **PartitionNames** (*[]string*) -
 
-    快照中包含的分区名称列表。
+    快照中包含的 Partition 名称列表。
 
 **异常：**
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    检查 err != nil 以获取失败详情。
 
 ## 示例\{#example}
 

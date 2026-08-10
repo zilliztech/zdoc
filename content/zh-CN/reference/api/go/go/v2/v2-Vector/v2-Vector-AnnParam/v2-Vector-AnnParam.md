@@ -7,14 +7,14 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "近似最近邻搜索参数的接口。使用 NewCustomAnnParam() 创建可配置实例。 | Go | v2"
+description: "近似最近邻搜索参数的接口。使用 NewCustomAnnParam() 创建可配置的实例。 | Go | v2"
 type: docx
 token: XV3adWSVho0zgfx6CZDc30GAnMc
 sidebar_position: 1
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - 大语言模型
+  - 向量化
+  - k 最近邻算法
   - ANNS
   - zilliz
   - zilliz cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AnnParam
 
-近似最近邻搜索参数的接口。使用 NewCustomAnnParam() 创建可配置实例。
+近似最近邻搜索参数的接口。使用 NewCustomAnnParam() 创建可配置的实例。
 
 ```go
 type AnnParam interface {

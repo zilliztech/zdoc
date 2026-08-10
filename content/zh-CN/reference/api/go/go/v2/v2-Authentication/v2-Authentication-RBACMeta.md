@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "RBAC 元数据的完整快照，包括用户、角色、授权和权限组。与 BackupRBAC/RestoreRBAC 一起使用。 | Go | v2"
+description: "RBAC 元数据的完整快照，包括用户、角色、授权和权限组。与 BackupRBAC 配合使用/RestoreRBAC. | Go | v2"
 type: docx
 token: GyCrdXyvzobrrAxzFRbcRTlSnUb
 sidebar_position: 18
 keywords: 
-  - 什么是向量数据库
-  - 向量数据库对比
+  - 什么是向量 Database
+  - 向量 Database 对比
   - Faiss
   - 视频搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - RBACMeta
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RBACMeta
 
-RBAC 元数据的完整快照，包括用户、角色、授权和权限组。与 BackupRBAC/RestoreRBAC 一起使用。
+RBAC 元数据的完整快照，包括用户、角色、授权和权限组。与 BackupRBAC/RestoreRBAC. 配合使用
 
 ```go
 type RBACMeta struct {

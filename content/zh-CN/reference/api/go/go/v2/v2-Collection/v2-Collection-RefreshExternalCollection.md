@@ -7,18 +7,18 @@ added_since: v3.0.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会扫描 schema 定义的外部存储中的数据文件，并生成元数据文件以记录它们与这些数据文件之间的映射关系。 | Go | v2"
+description: "此操作会扫描 Schema 定义的外部存储中的数据文件，并生成元数据文件，以记录这些文件与数据文件之间的映射关系。 | Go | v2"
 type: docx
 token: Mw42dp2VZoN4gFxdiSYcxDB8n0g
 sidebar_position: 28
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
+  - 向量相似性搜索
+  - 近似最近邻搜索
   - DiskANN
-  - Sparse vector
+  - 稀疏向量
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - RefreshExternalCollection()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RefreshExternalCollection()
 
-此操作会扫描 schema 定义的外部存储中的数据文件，并生成元数据文件以记录它们与这些数据文件之间的映射关系。
+此操作会扫描 Schema 定义的外部存储中的数据文件，并生成元数据文件，以记录这些文件与数据文件之间的映射关系。
 
 ```go
 func (c *Client) RefreshExternalCollection(ctx context.Context, option RefreshExternalCollectionOption, callOptions ...grpc.CallOption) (*RefreshExternalCollectionResult, error)
@@ -52,7 +52,7 @@ result, err := client.RefreshExternalCollection(option)
 
 - **collectionName** (*string*) -
 
-    现有外部集合的名称。
+    现有外部 Collection 的名称。
 
 **构建器方法：**
 
@@ -62,25 +62,25 @@ result, err := client.RefreshExternalCollection(option)
 
 - `WithExternalSpec(externalSpec string)`
 
-    外部源规格，是一组次级参数：
+    外部源规格，是一组二级参数：
 
     - **format** (*string*) - 
 
         目标源数据文件的格式。
 
-        可能的值包括 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
+        可能的值为 `parquet`、`vortex`、`lance-table` 和 `iceberg-table`。
 
 - `WithDbName(dbName string)`
 
-    目标外部集合所属数据库的名称。
+    目标外部 Collection 所属 Database 的名称。
 
 **返回类型：**
 
 *&ast;RefreshExternalCollectionResult*
 
-**返回：**
+**返回值：**
 
-一个具有以下结构的结构体。
+一个具有以下结构的类型结构体。
 
 ```go
 type RefreshExternalCollectionResult struct {

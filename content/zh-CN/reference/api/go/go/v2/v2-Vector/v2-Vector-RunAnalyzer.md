@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "此操作会对输入文本运行文本分析器，并返回分词后的输出。 | Go | v2"
+description: "此操作对输入文本运行文本 Analyzer，并返回分词后的输出。 | Go | v2"
 type: docx
 token: CnuHdninQoBoJXxWe2pczq7snGd
 sidebar_position: 16
 keywords: 
-  - milvus vector db
+  - Milvus 向量数据库
   - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - 什么是 Milvus
+  - Milvus Database
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - RunAnalyzer()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # RunAnalyzer()
 
-此操作会对输入文本运行文本分析器，并返回分词后的输出。
+此操作对输入文本运行文本 Analyzer，并返回分词后的输出。
 
 ```go
 func (c *Client) RunAnalyzer(ctx context.Context, option RunAnalyzerOption, callOptions ...grpc.CallOption) ([]*entity.AnalyzerResult, error)
@@ -61,41 +61,41 @@ result, err := client.RunAnalyzer(ctx, option)
 
 - `WithAnalyzerParamsStr(params string)`
 
-    为此操作设置分析器参数字符串。
+    为此操作设置 Analyzer params str。
 
 - `WithAnalyzerParams(params map[string]any)`
 
-    为此操作设置分析器参数。
+    为此操作设置 Analyzer 参数。
 
 - `WithDetail()`
 
-    为此操作设置详细信息。
+    为此操作设置 detail。
 
 - `WithHash()`
 
-    为此操作设置哈希。
+    为此操作设置 hash。
 
 - `WithField(collectionName, fieldName string)`
 
-    为此操作设置字段。
+    为此操作设置 field。
 
 - `WithAnalyzerName(names ...string)`
 
-    为此操作设置分析器名称。
+    为此操作设置 Analyzer 名称。
 
 **返回类型：**
 
 *[]*entity.AnalyzerResult, error*
 
-**返回：**
+**返回值：**
 
-显示输入文本如何被分词的分析器输出。如果操作失败，则返回错误。
+Analyzer 输出展示了输入文本如何被分词。如果操作失败，则返回错误。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

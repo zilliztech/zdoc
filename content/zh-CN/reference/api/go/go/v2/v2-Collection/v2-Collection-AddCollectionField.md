@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "在客户端验证字段选项后，向现有 collection 添加一个可为空的字段。 | Go | v2"
+description: "在客户端验证字段选项后，为现有 Collection 添加一个可为 null 的字段。 | Go | v2"
 type: docx
 token: NmAwdxspJop8U0xi2DPcNYpmnBe
 sidebar_position: 1
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - AI 聊天机器人
+  - 余弦距离
+  - 什么是向量 Database
   - vectordb
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - AddCollectionField()
   - gov230
 displayed_sidebar: goSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # AddCollectionField()
 
-在客户端验证字段选项后，向现有 collection 添加一个可为空的字段。
+在客户端验证字段选项后，为现有 Collection 添加一个可为 null 的字段。
 
 ```go
 func (c *Client) AddCollectionField(ctx context.Context, opt AddCollectionFieldOption, callOpts ...grpc.CallOption) error
@@ -43,27 +43,27 @@ func (c *Client) AddCollectionField(ctx context.Context, opt AddCollectionFieldO
 
     **[必需]**
 
-    要向其添加字段的 collection 名称。
+    要添加字段的 Collection 名称。
 
 - **field** (**entity.Field*) -
 
     **[必需]**
 
-    要添加的字段定义。向量字段必须可为空。
+    要添加的字段定义。向量字段必须可为 null。
 
 **返回类型：**
 
 *error*
 
-**返回：**
+**返回值：**
 
-字段添加成功后返回 nil。客户端校验失败或 RPC 失败时返回错误。
+字段添加完成后返回 nil。当客户端验证失败或 RPC 失败时，返回错误。
 
 **错误处理：**
 
 - **error**
 
-    校验、请求构造或 RPC 失败。请检查返回的错误以获取失败详情。
+    验证、请求构造或 RPC 失败。请检查返回的错误以获取失败详情。
 
 ## 示例\{#example}
 

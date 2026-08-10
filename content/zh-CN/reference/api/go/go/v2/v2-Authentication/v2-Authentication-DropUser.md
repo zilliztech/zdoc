@@ -12,13 +12,13 @@ type: docx
 token: QM8QdP63jofHxkxwxSEcXVXZnKX
 sidebar_position: 10
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - zilliz
-  - zilliz cloud
-  - cloud
+  - Milvus 基准测试
+  - 托管 Milvus
+  - Serverless 向量 Database
+  - Milvus 开源
+  - Zilliz
+  - Zilliz Cloud
+  - 云
   - DropUser()
   - gov230
 displayed_sidebar: goSidebar
@@ -49,7 +49,7 @@ err := client.DropUser(ctx, option)
 
 - **userName** (*string*)
 
-    用户名称。
+    用户的名称。
 
 **返回类型：**
 
@@ -57,13 +57,13 @@ err := client.DropUser(ctx, option)
 
 **返回：**
 
-成功时返回 nil；否则返回一个描述错误原因的 error。
+成功时返回 nil，失败时返回描述错误原因的 error。
 
 **异常：**
 
 - **error**
 
-    通过检查 `err != nil` 获取失败详情。
+    请查看 `err != nil` 了解失败详情。
 
 ## 示例\{#example}
 

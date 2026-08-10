@@ -12,13 +12,13 @@ type: docx
 token: TUYsd2ko4oAlB4xa9nxc6rhRnpc
 sidebar_position: 3
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - llm 幻觉
+  - 混合搜索
+  - 词法搜索
+  - 最近邻搜索
   - zilliz
   - zilliz cloud
-  - cloud
+  - 云
   - GetServerVersion()
   - gov230
 displayed_sidebar: goSidebar
@@ -41,7 +41,7 @@ func (c *Client) GetServerVersion(ctx context.Context, option GetServerVersionOp
 
 *string, error*
 
-**返回：**
+**返回值：**
 
 请求的字符串值。如果操作失败，则返回错误。
 
@@ -49,7 +49,7 @@ func (c *Client) GetServerVersion(ctx context.Context, option GetServerVersionOp
 
 - **error**
 
-    检查 `err != nil` 以获取失败详情。
+    查看 `err != nil` 以了解失败详情。
 
 ## 示例\{#example}
 
