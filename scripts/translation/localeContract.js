@@ -203,6 +203,32 @@ function sourceTermOccurrences(content, term, contract) {
   return occurrences.filter(occurrence => !excludedRanges.some(range => occurrence.index >= range.start && occurrence.index < range.end))
 }
 
+function contextualDraftSlotRanges(draft, context, source, caseSensitive) {
+  const comparableContext = caseSensitive ? context : context.toLocaleLowerCase('en-US')
+  const comparableSource = caseSensitive ? source : source.toLocaleLowerCase('en-US')
+  const sourceIndex = comparableContext.indexOf(comparableSource)
+  if (sourceIndex < 0) return []
+  const tokens = [...context.matchAll(/(\*\*|__|`)(.+?)\1/g)].map(match => ({
+    start: match.index,
+    end: match.index + match[0].length,
+    value: match[0],
+  }))
+  const before = tokens.filter(token => token.end <= sourceIndex).at(-1)?.value
+  const after = tokens.find(token => token.start >= sourceIndex + source.length)?.value
+  if (!before || !after) return []
+  const comparableDraft = caseSensitive ? String(draft) : String(draft).toLocaleLowerCase('en-US')
+  const comparableBefore = caseSensitive ? before : before.toLocaleLowerCase('en-US')
+  const comparableAfter = caseSensitive ? after : after.toLocaleLowerCase('en-US')
+  const ranges = []
+  for (let beforeIndex = comparableDraft.indexOf(comparableBefore); beforeIndex !== -1; beforeIndex = comparableDraft.indexOf(comparableBefore, beforeIndex + comparableBefore.length)) {
+    const start = beforeIndex + comparableBefore.length
+    const afterIndex = comparableDraft.indexOf(comparableAfter, start)
+    if (afterIndex === -1) break
+    ranges.push({start, end: afterIndex})
+  }
+  return ranges
+}
+
 function mandatoryTargetOccurrences(source, draft, term, contract) {
   const occurrences = mandatoryTermOccurrences(draft, term.target, term.caseSensitive)
   const contextualOverrides = contract.contextualTerms.filter(contextual =>
@@ -219,7 +245,11 @@ function mandatoryTargetOccurrences(source, draft, term, contract) {
       if (!contextCount) continue
       const boundTarget = contextBoundToken(context, contextual.source, term.target, contextual.caseSensitive)
       if (boundTarget === term.target) continue
-      const boundOccurrences = mandatoryTermOccurrences(draft, boundTarget, term.caseSensitive)
+      const slotRanges = contextualDraftSlotRanges(draft, context, contextual.source, contextual.caseSensitive)
+      const allBoundOccurrences = mandatoryTermOccurrences(draft, boundTarget, term.caseSensitive)
+      const boundOccurrences = slotRanges.length
+        ? allBoundOccurrences.filter(occurrence => slotRanges.some(range => occurrence.index >= range.start && occurrence.index < range.end))
+        : allBoundOccurrences
       let remaining = contextCount
       for (const occurrence of boundOccurrences) {
         if (!remaining) break
@@ -388,7 +418,12 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
         const boundTarget = contextBoundToken(context, term.source, term.target, term.caseSensitive)
         const sourceLineStart = Math.max(source.lastIndexOf('\n', sourceIndex), source.lastIndexOf('\r', sourceIndex)) + 1
         const requiredBoundCount = countOccurrences(source.slice(sourceLineStart, sourceIndex + context.length), context, term.caseSensitive)
-        if (draftQuote && countOccurrences(draftQuote, boundTarget, term.caseSensitive) >= requiredBoundCount) continue
+        const slotRanges = contextualDraftSlotRanges(draftQuote, context, term.source, term.caseSensitive)
+        const boundOccurrences = mandatoryTermOccurrences(draftQuote, boundTarget, term.caseSensitive)
+        const boundCount = slotRanges.length
+          ? boundOccurrences.filter(occurrence => slotRanges.some(range => occurrence.index >= range.start && occurrence.index < range.end)).length
+          : boundOccurrences.length
+        if (draftQuote && boundCount >= requiredBoundCount) continue
         const issueKey = `${term.source}\0${sourceIndex}\0${draftQuote}`
         if (seenContextual.has(issueKey)) continue
         seenContextual.add(issueKey)

@@ -17,11 +17,13 @@ const STRUCTURED_NUMBER_KEYS = Object.freeze([
   'status', 'entryIndex', 'expectedCount', 'actualCount', 'providerAttempts',
   'retryBudgetLimit', 'retryBudgetConsumed', 'retryBudgetRemaining',
   'adaptiveCallLimit', 'adaptiveCallsReserved', 'adaptiveCallsRemaining',
+  'completedSemanticUnitCount', 'pendingSemanticUnitCount',
   'adaptiveSubdivisionDepth', 'semanticBatchSize',
   'adaptiveTargetChars', 'adaptiveMaxChars',
 ])
 const STRUCTURED_STRING_ARRAY_KEYS = Object.freeze([
   'expectedFields', 'actualFields', 'expectedIds', 'actualIds', 'missingIds', 'unknownIds', 'duplicateIds',
+  'completedSemanticUnitIds', 'pendingSemanticUnitIds',
 ])
 const MAX_STRUCTURED_STRING_LENGTH = 240
 const MAX_STRUCTURED_SHORT_STRING_LENGTH = 200

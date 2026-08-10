@@ -120,6 +120,26 @@ test('binds the Boost Ranker identifier and ordinary vector term to their own oc
   ), [])
 })
 
+test('binds contextual and ordinary bold vector targets to their positional slots', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const source = 'The collection has the following fields: **id**, **vector**, and **doctype**. Search a **vector** field.'
+
+  assert.deepEqual(validateLocaleContractDraft(
+    source,
+    'コレクションには **id**、**vector**、**doctype** があります。**ベクトル** フィールドを検索します。',
+    contract,
+  ), [])
+
+  const swapped = validateLocaleContractDraft(
+    source,
+    'コレクションには **id**、**ベクトル**、**doctype** があります。**vector** フィールドを検索します。',
+    contract,
+  )
+  assert.equal(swapped.length, 2)
+  assert.ok(swapped.some(issue => /remain vector/i.test(issue.comment)))
+  assert.ok(swapped.some(issue => /requires vector to use ベクトル/i.test(issue.comment)))
+})
+
 test('fails closed when the contextual identifier draft line cannot be aligned', () => {
   const contract = loadLocaleContract('ja-JP')
   const source = 'Introduction.\nThe collection has the following fields: **id**, **vector**, and **doctype**.\n'

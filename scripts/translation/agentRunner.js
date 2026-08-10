@@ -24,6 +24,12 @@ const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, tra
 const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
 const {boundedFailureDetails, classifyFailure, failureRecord} = require('./failureClassification')
 const {MAX_PARTIAL_ARTIFACT_BYTES, loadAnalysisChunkResume, serializeCompletedChunkCheckpoints} = require('./chunkRecovery')
+const {
+  filterUsableSemanticCheckpoints,
+  loadAnalysisSemanticResume,
+  loadSemanticCheckpoints,
+  serializeSemanticCheckpoints,
+} = require('./semanticRecovery')
 const {validateRecoveryCandidate} = require('./recoveryValidation')
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
 const { assertSafeRepositoryRelativePath } = loadTypeScript('../../packages/docs-tooling/src/validation/ownership.ts')
@@ -118,7 +124,7 @@ function structuredErrorDetails(error) {
 
 function stripInternalRecoveryFields(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return value
-  const {recoveryChunkCheckpoints: _internal, ...publicValue} = value
+  const {recoveryChunkCheckpoints: _chunkInternal, recoverySemanticCheckpoints: _semanticInternal, ...publicValue} = value
   return publicValue
 }
 
@@ -283,7 +289,7 @@ async function createProviderCall(agentConfigs, options = {}) {
     if (retryBudget) validateProviderRetryBudget(retryBudget)
     if (!['normal', 'adaptive'].includes(retryMode)) throw new Error('Provider retry mode is invalid')
     const perCallRetries = retryBudget
-      ? retryMode === 'adaptive' ? 0 : Math.min(maxRetries, 1)
+      ? Math.min(maxRetries, 1)
       : maxRetries
     let lastError
     let providerAttempts = 0
@@ -465,6 +471,7 @@ async function processItemWithRetry(item, options) {
     Number.isInteger(options.adaptiveCallLimit) ? options.adaptiveCallLimit : DEFAULT_ADAPTIVE_CALL_LIMIT,
   )
   validateAdaptiveCallBudget(adaptiveCallBudget)
+  const semanticCheckpoint = loadSemanticCheckpoints(options.initialSemanticCheckpoints, item)
   const initialChunkCheckpoints = options.initialChunkCheckpoints || []
   if (!Array.isArray(initialChunkCheckpoints)) throw new Error('Initial chunk checkpoints must be an array')
   const chunkCheckpoint = new Map(initialChunkCheckpoints.map((checkpoint, position) => {
@@ -481,6 +488,8 @@ async function processItemWithRetry(item, options) {
         chunkCheckpoint,
         providerRetryBudget,
         adaptiveCallBudget,
+        semanticCheckpoint,
+        onSemanticUnitCompleted: checkpoint => semanticCheckpoint.set(checkpoint.id, checkpoint),
         onChunkCompleted: checkpoint => {
           if (signal?.aborted) throw signal.reason
           chunkCheckpoint.set(checkpoint.index, checkpoint)
@@ -533,12 +542,14 @@ async function processItemWithRetry(item, options) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
     } else {
       const chunkCheckpoints = serializeCompletedChunkCheckpoints(chunkCheckpoint)
+      const semanticCheckpoints = serializeSemanticCheckpoints(semanticCheckpoint, item)
       return {
         ...stripInternalRecoveryFields(result),
         failureCategory: record.category,
         attempts: attempt + 1,
         retryFailures: failures,
         ...(chunkCheckpoints ? {chunkCheckpoints} : {}),
+        ...(semanticCheckpoints ? {semanticCheckpoints} : {}),
       }
     }
   }
@@ -737,6 +748,8 @@ async function translateAndReviewUnit({
   retryFeedback,
   providerRetryBudget,
   adaptiveCallBudget,
+  semanticCheckpoint,
+  onSemanticUnitCompleted,
   adaptiveTargetChars,
   adaptiveMaxChars,
   signal,
@@ -749,8 +762,20 @@ async function translateAndReviewUnit({
   const protectedSource = protectTranslationInput(sourceContent, protectedOptions)
   const sourceUnits = protectSemanticUnits(units, unit => unit.source, protectedOptions)
   const sourceUnitPayload = sourceUnits.map(unit => ({id: unit.id, kind: unit.kind, text: unit.protection.content}))
+  const sourceUnitById = new Map(sourceUnits.map(unit => [unit.id, unit]))
+  const usableSemanticCheckpoints = filterUsableSemanticCheckpoints(semanticCheckpoint, sourceUnits, localeContract)
+  if (semanticCheckpoint) {
+    semanticCheckpoint.clear()
+    for (const [id, checkpoint] of usableSemanticCheckpoints) semanticCheckpoint.set(id, checkpoint)
+  }
   const translateBatch = async (batch, depth = 0, adaptive = false, retryMode = 'normal') => {
-    const batchIds = new Set(batch.map(unit => unit.id))
+    const checkpointed = new Map(batch.flatMap(unit => {
+      const checkpoint = usableSemanticCheckpoints.get(unit.id)
+      return checkpoint ? [[unit.id, {...unit, translation: checkpoint.translation}]] : []
+    }))
+    const pendingBatch = batch.filter(unit => !checkpointed.has(unit.id))
+    if (!pendingBatch.length) return batch.map(unit => checkpointed.get(unit.id))
+    const batchIds = new Set(pendingBatch.map(unit => unit.id))
     const protectedBatch = sourceUnits.filter(unit => batchIds.has(unit.id))
     try {
       const response = await callModel({
@@ -758,33 +783,44 @@ async function translateAndReviewUnit({
         signal,
         retryBudget: providerRetryBudget,
         retryMode,
-        adaptivePayload: batch.length > 1,
+        adaptivePayload: pendingBatch.length > 1,
         messages: buildTranslationMessages({
           target,
           sourcePath,
           sourceContent: protectedSource.content,
           sourceDocument: markerFreeDocumentContext(protectedSource.content),
-          semanticUnits: batch,
+          semanticUnits: pendingBatch,
           locale,
           chunkContext,
           retryFeedback,
         }),
       })
-      return restoreSemanticUnitResponse(response, {field: 'translations', protectedUnits: protectedBatch, localeContract})
+      const translated = restoreSemanticUnitResponse(response, {field: 'translations', protectedUnits: protectedBatch, localeContract})
+      for (const unit of translated) {
+        const sourceUnit = sourceUnitById.get(unit.id)
+        const checkpoint = {id: unit.id, sourceHash: crypto.createHash('sha256').update(sourceUnit.source).digest('hex'), translation: unit.translation}
+        usableSemanticCheckpoints.set(unit.id, checkpoint)
+        onSemanticUnitCompleted?.(checkpoint)
+      }
+      const translatedById = new Map(translated.map(unit => [unit.id, unit]))
+      return batch.map(unit => checkpointed.get(unit.id) || translatedById.get(unit.id))
     } catch (error) {
       const providerFailure = ['provider_timeout', 'provider_transport'].includes(classifyFailure(error))
       const repeatedProviderFailure = error?.adaptiveSubdivisionRecommended === true || Number(error?.providerAttempts) > 1 || Number(error?.retryBudgetConsumed) > 0
-      if (providerFailure && batch.length > 1 && (adaptive || repeatedProviderFailure)) {
+      if (providerFailure && pendingBatch.length > 1 && (adaptive || repeatedProviderFailure)) {
         const targetChars = Math.max(1, Math.floor(adaptiveTargetChars / (2 ** depth)))
         const maxChars = Math.max(targetChars, Math.floor(adaptiveMaxChars / (2 ** depth)))
-        const subdivisions = subdivideSemanticBatch(batch, targetChars, maxChars)
+        const subdivisions = subdivideSemanticBatch(pendingBatch, targetChars, maxChars)
         if (subdivisions.length > 1) {
           if (reserveAdaptiveCallBudget(adaptiveCallBudget, subdivisions.length)) {
             const translated = []
             for (const subdivision of subdivisions) {
               translated.push(...await translateBatch(subdivision, depth + 1, true, 'adaptive'))
             }
-            if (translated.length === batch.length) return translated
+            if (translated.length === pendingBatch.length) {
+              const translatedById = new Map(translated.map(unit => [unit.id, unit]))
+              return batch.map(unit => checkpointed.get(unit.id) || translatedById.get(unit.id))
+            }
           }
           Object.assign(error, providerRetryBudgetDetails(providerRetryBudget), adaptiveCallBudgetDetails(adaptiveCallBudget))
         }
@@ -792,10 +828,14 @@ async function translateAndReviewUnit({
       if (providerFailure && (adaptive || repeatedProviderFailure)) {
         Object.assign(error, {
           adaptiveSubdivisionDepth: depth,
-          semanticBatchSize: batch.length,
+          semanticBatchSize: pendingBatch.length,
           adaptiveTargetChars: Math.max(1, Math.floor(adaptiveTargetChars / (2 ** Math.max(0, depth - 1)))),
           adaptiveMaxChars: Math.max(1, Math.floor(adaptiveMaxChars / (2 ** Math.max(0, depth - 1)))),
-          ...(batch.length === 1 ? {semanticUnitId: batch[0].id} : {}),
+          ...(pendingBatch.length === 1 ? {semanticUnitId: pendingBatch[0].id} : {}),
+          completedSemanticUnitCount: usableSemanticCheckpoints.size,
+          pendingSemanticUnitCount: sourceUnitPayload.length - usableSemanticCheckpoints.size,
+          completedSemanticUnitIds: [...usableSemanticCheckpoints.keys()].slice(0, 100),
+          pendingSemanticUnitIds: sourceUnitPayload.filter(unit => !usableSemanticCheckpoints.has(unit.id)).map(unit => unit.id).slice(0, 100),
         }, providerRetryBudgetDetails(providerRetryBudget), adaptiveCallBudgetDetails(adaptiveCallBudget))
       }
       throw error
@@ -955,6 +995,8 @@ async function processManifestItem({
   retryFeedback = null,
   providerRetryBudget = null,
   adaptiveCallBudget = createAdaptiveCallBudget(),
+  semanticCheckpoint = new Map(),
+  onSemanticUnitCompleted = null,
   signal,
 }) {
   validateAdaptiveCallBudget(adaptiveCallBudget)
@@ -978,6 +1020,8 @@ async function processManifestItem({
       retryFeedback,
       providerRetryBudget,
       adaptiveCallBudget,
+      semanticCheckpoint,
+      onSemanticUnitCompleted,
       adaptiveTargetChars: Math.max(1, Math.floor(chunkTargetChars / 2)),
       adaptiveMaxChars: Math.max(1, Math.floor(chunkMaxChars / 2)),
       signal,
@@ -1056,6 +1100,8 @@ async function processManifestItem({
         retryFeedback,
         providerRetryBudget,
         adaptiveCallBudget,
+        semanticCheckpoint,
+        onSemanticUnitCompleted,
         adaptiveTargetChars: Math.max(1, Math.floor(chunkTargetChars / 2)),
         adaptiveMaxChars: Math.max(1, Math.floor(chunkMaxChars / 2)),
         signal,
@@ -1417,10 +1463,23 @@ function partitionRecoveryWork(manifest, restoredResults = [], pendingResults = 
     }
     else {
       const pendingResult = pendingByIdentity.get(recoveryEntryIdentity(item))
+      const recoveryChunkCheckpoints = pendingResult?.recoveryChunkCheckpoints || pendingResult?.recoveryChunkResume?.chunks?.map(entry => ({
+        index: entry.index,
+        total: pendingResult.recoveryChunkResume.totalChunks,
+        sourceHash: entry.sourceHash,
+        translatedContent: entry.translatedContent,
+        review: {pass: true, issues: []},
+        semanticUnits: [],
+      }))
+      const recoverySemanticCheckpoints = pendingResult?.recoverySemanticCheckpoints || pendingResult?.recoverySemanticResume?.report
       pending.push({
         index,
-        item: pendingResult?.recoveryChunkCheckpoints
-          ? {...item, recoveryChunkCheckpoints: pendingResult.recoveryChunkCheckpoints}
+        item: recoveryChunkCheckpoints || recoverySemanticCheckpoints
+          ? {
+            ...item,
+            ...(recoveryChunkCheckpoints ? {recoveryChunkCheckpoints} : {}),
+            ...(recoverySemanticCheckpoints ? {recoverySemanticCheckpoints} : {}),
+          }
           : item,
       })
     }
@@ -1430,6 +1489,7 @@ function partitionRecoveryWork(manifest, restoredResults = [], pendingResults = 
 
 function buildRecoveryIdentity(manifest, siteDir, env = process.env) {
   return {
+    target: manifest.target,
     locale: manifest.locale,
     group: manifest.group,
     promptContractSha256: promptContractSha256(manifest.target, siteDir),
@@ -1461,6 +1521,9 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
   const chunkRecoveryKeys = ['resumableFileCount', 'recoveredChunkCount', 'rejectedChunkCount', 'rejectedChunks']
   const hasChunkRecovery = chunkRecoveryKeys.some(key => Object.hasOwn(analysis, key))
   if (hasChunkRecovery) rootKeys.push(...chunkRecoveryKeys)
+  const semanticRecoveryKeys = ['semanticResumableFileCount', 'recoveredSemanticUnitCount']
+  const hasSemanticRecovery = semanticRecoveryKeys.some(key => Object.hasOwn(analysis, key))
+  if (hasSemanticRecovery) rootKeys.push(...semanticRecoveryKeys)
   exactRecoveryAnalysisKeys(analysis, rootKeys, 'Recovery analysis')
   if (![1, 2].includes(analysis.schemaVersion) || analysis.kind !== 'translation-recovery-analysis') throw new Error('Recovery analysis header is invalid')
   if (analysis.schemaVersion === 2 && !['strict', 'revalidated', 'none'].includes(analysis.compatibilityMode)) throw new Error('Recovery analysis compatibility mode is invalid')
@@ -1485,6 +1548,11 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       if (!Number.isSafeInteger(analysis[key]) || analysis[key] < 0) throw new Error(`Recovery analysis ${key} is invalid`)
     }
     if (!Array.isArray(analysis.rejectedChunks) || analysis.rejectedChunkCount !== analysis.rejectedChunks.length) throw new Error('Recovery analysis rejected chunk count is invalid')
+  }
+  if (hasSemanticRecovery) {
+    for (const key of semanticRecoveryKeys) {
+      if (!Number.isSafeInteger(analysis[key]) || analysis[key] < 0) throw new Error(`Recovery analysis ${key} is invalid`)
+    }
   }
   if (analysis.candidateCount !== manifest.items.length || analysis.recoveredCount + analysis.pendingCount !== analysis.candidateCount) {
     throw new Error('Recovery analysis candidate partition does not match the current manifest')
@@ -1522,14 +1590,19 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
   let recoveredChunkCount = 0
   let resumableFileCount = 0
   let recoveredChunkBytes = 0
+  let semanticResumableFileCount = 0
+  let recoveredSemanticUnitCount = 0
+  let recoveredSemanticBytes = 0
   for (const record of analysis.pending) {
     const pendingKeys = ['sourcePath', 'targetPath', 'sourceHash']
     if (Object.hasOwn(record, 'chunkResume')) pendingKeys.push('chunkResume')
+    if (Object.hasOwn(record, 'semanticResume')) pendingKeys.push('semanticResume')
     exactRecoveryAnalysisKeys(record, pendingKeys, 'Recovery analysis pending record')
     const key = recoveryEntryIdentity(record)
     const candidate = manifestByIdentity.get(key)
     if (!candidate || candidate.sourceHash !== record.sourceHash || seen.has(key)) throw new Error('Recovery analysis pending identity does not match the current manifest')
     let recoveryChunkCheckpoints
+    let recoverySemanticCheckpoints
     if (record.chunkResume) {
       const source = path.resolve(siteDir, ...candidate.sourcePath.split('/'))
       const sourceBytes = fs.readFileSync(source)
@@ -1558,10 +1631,44 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       recoveredChunkCount += recoveryChunkCheckpoints.length
       resumableFileCount += 1
       recoveredChunkBytes += recoveryChunkCheckpoints.reduce((total, checkpoint) => total + Buffer.byteLength(checkpoint.translatedContent), 0)
-      if (recoveredChunkBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery analysis aggregate chunk payload is oversized')
+      if (recoveredChunkBytes + recoveredSemanticBytes > MAX_PARTIAL_ARTIFACT_BYTES) {
+        throw new Error(recoveredSemanticBytes
+          ? 'Recovery analysis aggregate partial payload is oversized'
+          : 'Recovery analysis aggregate chunk payload is oversized')
+      }
+    }
+    if (record.semanticResume) {
+      const source = path.resolve(siteDir, ...candidate.sourcePath.split('/'))
+      const sourceBytes = fs.readFileSync(source)
+      if (crypto.createHash('sha256').update(sourceBytes).digest('hex') !== candidate.sourceHash) throw new Error('Recovery analysis pending source payload changed after preflight')
+      recoverySemanticCheckpoints = loadAnalysisSemanticResume({
+        value: record.semanticResume,
+        currentIdentity: {
+          target: manifest.target,
+          locale: manifest.locale,
+          group: manifest.group,
+          promptContractSha256: identity.promptContractSha256,
+          model: identity.model,
+          sourceSha: manifest.sourceCheckpointSha,
+          toolingSha: identity.toolingSha,
+          mode: record.semanticResume.artifactExecution?.mode,
+        },
+        candidate,
+        target: manifest.target,
+        sourceContent: sourceBytes.toString('utf8'),
+        chunkOptions,
+      })
+      semanticResumableFileCount += 1
+      recoveredSemanticUnitCount += recoverySemanticCheckpoints.entries.length
+      recoveredSemanticBytes += recoverySemanticCheckpoints.entries.reduce((total, entry) => total + Buffer.byteLength(entry.translation), 0)
+      if (recoveredChunkBytes + recoveredSemanticBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery analysis aggregate partial payload is oversized')
     }
     seen.add(key)
-    pending.push(recoveryChunkCheckpoints ? {...candidate, recoveryChunkCheckpoints} : candidate)
+    pending.push(recoveryChunkCheckpoints || recoverySemanticCheckpoints ? {
+      ...candidate,
+      ...(recoveryChunkCheckpoints ? {recoveryChunkCheckpoints} : {}),
+      ...(recoverySemanticCheckpoints ? {recoverySemanticCheckpoints} : {}),
+    } : candidate)
   }
   if (seen.size !== manifest.items.length) throw new Error('Recovery analysis does not exactly cover the current manifest')
   const pendingIdentities = new Set(analysis.pending.map(recoveryEntryIdentity))
@@ -1578,7 +1685,11 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       }
     }
   }
-  const expectedFullRetranslation = manifest.items.length > 0 && analysis.recoveredCount === 0 && analysis.pendingCount === manifest.items.length && resumableFileCount === 0
+  if (hasSemanticRecovery && (analysis.recoveredSemanticUnitCount !== recoveredSemanticUnitCount || analysis.semanticResumableFileCount !== semanticResumableFileCount)) {
+    throw new Error('Recovery analysis resumable semantic counts do not match pending records')
+  }
+  const expectedFullRetranslation = manifest.items.length > 0 && analysis.recoveredCount === 0 && analysis.pendingCount === manifest.items.length &&
+    resumableFileCount === 0 && semanticResumableFileCount === 0
   if (analysis.fullRetranslation !== expectedFullRetranslation) throw new Error('Recovery analysis full-retranslation state is invalid')
   return {restored, pending, rejected: analysis.rejected, rejectedChunks: analysis.rejectedChunks || []}
 }
@@ -1660,6 +1771,7 @@ async function main() {
           maxRetries: fileRetries,
           providerRetryLimit: maxProviderRetries,
           adaptiveCallLimit,
+          initialSemanticCheckpoints: item.recoverySemanticCheckpoints,
           log: console,
           initialChunkCheckpoints: item.recoveryChunkCheckpoints,
           fileTimeoutMs,
@@ -1675,6 +1787,8 @@ async function main() {
               signal: retryContext.signal,
               providerRetryBudget: retryContext.providerRetryBudget,
               adaptiveCallBudget: retryContext.adaptiveCallBudget,
+              semanticCheckpoint: retryContext.semanticCheckpoint,
+              onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
               retryFeedback,
             }),
         })
