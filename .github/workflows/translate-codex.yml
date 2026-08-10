@@ -231,6 +231,7 @@ jobs:
     if: ${{ needs.prepare_guides_batches.outputs.batch_count != '0' }}
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix: ${{ fromJSON(needs.prepare_guides_batches.outputs.matrix) }}
     uses: ./.github/workflows/_translate-content-group.yml
     with:
@@ -266,6 +267,7 @@ jobs:
     name: translate:${{ matrix.target }}/${{ matrix.group }}
     strategy:
       fail-fast: false
+      max-parallel: 3
       matrix: ${{ fromJSON(needs.prepare.outputs.sdk_producer_matrix) }}
     uses: ./.github/workflows/_translate-content-group.yml
     with:

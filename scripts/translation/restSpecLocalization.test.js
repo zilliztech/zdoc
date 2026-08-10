@@ -285,6 +285,32 @@ test('reports a REST translation that replaces Compaction with 压实 when no co
   assert.match(review.issues[0].comment, /Compaction|locale contract/i)
 })
 
+test('does not authorize REST correction for a deterministic issue without aligned draft evidence', async () => {
+  const calls = []
+  const {review} = await translateRestSpecs({
+    sourceSpecs: {description: 'Create a collection.'},
+    target: 'ja-JP',
+    locale: 'ja-JP',
+    callModel: async ({agent, messages}) => {
+      calls.push(agent)
+      if (agent === 'translation') {
+        return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({
+          ...entry,
+          text: '\nリソースを作成します。',
+        })))
+      }
+      if (agent === 'review') return '{"pass":true,"issues":[]}'
+      throw new Error('Correction must not be authorized without aligned draft evidence')
+    },
+  })
+
+  assert.deepEqual(calls, ['translation', 'review'])
+  assert.equal(review.pass, false)
+  assert.equal(review.localeContractIssues.length, 1)
+  assert.equal(review.localeContractIssues[0].draft_quote, '')
+  assert.equal(review.localeContractIssues[0].evidenceAvailable, false)
+})
+
 test('keeps REST Entity protected by the deterministic locale contract', async () => {
   const {review} = await translateRestSpecs({
     sourceSpecs: {description: 'The response contains the matching entity.'},

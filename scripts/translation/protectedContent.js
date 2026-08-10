@@ -252,7 +252,20 @@ function addMdxExpressionSpans(content, spans) {
   }
 }
 
-function protectedSpans(content) {
+function addLiteralTokenSpans(content, spans, literalTokens) {
+  if (literalTokens === undefined) return
+  if (!Array.isArray(literalTokens) || literalTokens.some(token => typeof token !== 'string' || !token)) {
+    throw new Error('Protected literalTokens must be an array of non-empty strings')
+  }
+  if (new Set(literalTokens).size !== literalTokens.length) throw new Error('Protected literalTokens must be unique')
+  for (const token of [...literalTokens].sort((left, right) => right.length - left.length || left.localeCompare(right))) {
+    for (let index = content.indexOf(token); index !== -1; index = content.indexOf(token, index + token.length)) {
+      addSpan(spans, index, index + token.length, 'do_not_translate')
+    }
+  }
+}
+
+function protectedSpans(content, options = {}) {
   const spans = []
   addFencedCodeSpans(content, spans)
   addFrontmatterSpans(content, spans)
@@ -269,6 +282,7 @@ function protectedSpans(content) {
   addRegexSpans(content, spans, /https?:\/\/[^\s<>"')\]}]+/g, 'url')
   addRegexSpans(content, spans, /(?:\.\.?\/|\/(?!\/)|(?:content|docs|i18n|scripts|config|packages|apps|generated|tmp|\.github)\/)[A-Za-z0-9._~!$&'()*+,;=:@%/-]+/g, 'repository_path')
   addRegexSpans(content, spans, /(?:^|[^A-Za-z0-9-])(--[A-Za-z0-9][A-Za-z0-9-]*)/gm, 'cli_option', 1)
+  addLiteralTokenSpans(content, spans, options.literalTokens)
   return spans.sort((left, right) => left.start - right.start || left.end - right.end)
 }
 
@@ -278,7 +292,7 @@ function markerFor(index, category, original) {
 }
 
 function manifestEntries(source, options = {}) {
-  const entries = protectedSpans(source).map((span, index) => {
+  const entries = protectedSpans(source, options).map((span, index) => {
     const original = source.slice(span.start, span.end)
     const newline = original.endsWith('\r\n') ? '\r\n' : original.endsWith('\n') ? '\n' : ''
     const marker = markerFor(index, span.category, original)
@@ -379,11 +393,15 @@ function restoreProtectedContent(modelContent, manifest) {
   if (withoutExactMarkers.includes(MARKER_NAMESPACE)) throw new Error('Protected marker was altered or forged during translation')
   const entryByMarker = new Map(manifest.entries.map(entry => [entry.marker, entry]))
   const markerId = marker => marker.match(/ZDOC-PROTECTED:(\d{6})/)?.[1] || marker.slice(0, 80)
-  const markerLocation = match => {
+  const markerPosition = match => {
     const prefix = restored.slice(0, match.index)
     const line = prefix.split('\n').length
     const lastBreak = prefix.lastIndexOf('\n')
-    return `${markerId(match[0])} at line ${line}, column ${match.index - lastBreak}, offset ${match.index}`
+    return {line, column: match.index - lastBreak, offset: match.index}
+  }
+  const markerLocation = match => {
+    const position = markerPosition(match)
+    return `${markerId(match[0])} at line ${position.line}, column ${position.column}, offset ${position.offset}`
   }
   const unknown = [...new Map(actualMarkerMatches
     .filter(match => !entryByMarker.has(match[0]))
@@ -391,8 +409,20 @@ function restoreProtectedContent(modelContent, manifest) {
   if (unknown.length) throw new Error(`Unknown protected marker(s): ${unknown.join(', ')}`)
   const actualCounts = new Map()
   for (const marker of actualMarkers) actualCounts.set(marker, (actualCounts.get(marker) || 0) + 1)
-  const duplicate = expectedMarkers.filter(marker => (actualCounts.get(marker) || 0) > 1).map(markerId)
-  if (duplicate.length) throw new Error(`Duplicate protected marker(s): ${duplicate.join(', ')}`)
+  const duplicateMarker = expectedMarkers.find(marker => (actualCounts.get(marker) || 0) > 1)
+  if (duplicateMarker) {
+    const id = markerId(duplicateMarker)
+    const occurrences = actualMarkerMatches.filter(match => match[0] === duplicateMarker).map(markerPosition)
+    const error = new Error(
+      `Duplicate protected marker ${id}: expected=1, actual=${occurrences.length}; occurrences: ${occurrences.map(position => `line ${position.line}, column ${position.column}, offset ${position.offset}`).join('; ')}`,
+    )
+    error.code = 'DUPLICATE_PROTECTED_MARKER'
+    error.markerId = id
+    error.expectedCount = 1
+    error.actualCount = occurrences.length
+    error.occurrences = occurrences
+    throw error
+  }
   const missing = expectedMarkers.filter(marker => !actualCounts.has(marker)).map(markerId)
   if (missing.length) throw new Error(`Missing protected marker(s): ${missing.join(', ')}`)
   const expectedGroups = compressed(manifest.entries.map(entry => entry.orderGroup || entry.marker))
@@ -439,10 +469,13 @@ function unmatchedEntries(entries, oppositeEntries) {
 }
 
 function validateProtectedContent(sourceContent, targetContent, options = {}) {
-  const sourceEntries = manifestEntries(String(sourceContent))
-  const targetEntries = manifestEntries(String(targetContent))
+  const protectedOptions = {literalTokens: options.literalTokens}
+  const sourceEntries = manifestEntries(String(sourceContent), protectedOptions)
+  const targetEntries = manifestEntries(String(targetContent), protectedOptions)
   const unmatchedSource = unmatchedEntries(sourceEntries, targetEntries)
-  const unmatchedTarget = unmatchedEntries(targetEntries, sourceEntries)
+  const unmatchedTarget = unmatchedEntries(targetEntries, sourceEntries).filter(entry => !(
+    options.allowAdditionalLiteralTokens && entry.category === 'do_not_translate'
+  ))
   const errors = []
   const categories = [...new Set([
     ...unmatchedSource.map(entry => entry.category),
