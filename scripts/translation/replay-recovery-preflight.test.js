@@ -156,6 +156,6 @@ test('retains exact current-contract rejection reasons in replay evidence', t =>
   assert.equal(replay.executionModel, 'current-model')
   assert.equal(replay.compatibilityMode, 'revalidated')
   assert.deepEqual(replay.rejections.map(item => item.sourcePath), [records[1].sourcePath])
-  assert.match(replay.rejections[0].reason, /^revalidation failed: locale: line 1 containing endpoint:/)
+  assert.match(replay.rejections[0].reason, /^revalidation failed: locale: document\.heading\.0001; line 1 containing endpoint:/)
   assert.match(replay.rejections[0].reason, /requires endpoint to use Endpoint/)
 })
