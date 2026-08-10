@@ -138,6 +138,46 @@ test('separates reviewer demands that conflict with the Compaction locale contra
   assert.deepEqual(accepted.validatedIssues, [issue()])
 })
 
+test('accepts the Boost Ranker reviewer correction for the contextual vector identifier', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const sourceContent = 'The collection has the following fields: **id**, **vector**, and **doctype**.'
+  const draftContent = 'コレクションには、**id**、**ベクトル**、**doctype** のフィールドがあります。'
+  const finding = issue({
+    location: 'Boost Ranker field list',
+    source_quote: '**vector**',
+    draft_quote: '**ベクトル**',
+    comment: 'This is the field identifier vector; preserve it as **vector**.',
+  })
+
+  const result = validateReviewEvidence(
+    {pass: false, issues: [finding]},
+    {sourceContent, draftContent, localeContract: contract},
+  )
+  assert.equal(result.correctionAuthorized, true)
+  assert.deepEqual(result.validatedIssues, [finding])
+  assert.deepEqual(result.contractConflicts, [])
+})
+
+test('rejects a reviewer demand to translate the contextual Boost Ranker vector identifier', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const sourceContent = 'The collection has the following fields: **id**, **vector**, and **doctype**.'
+  const draftContent = 'コレクションには、**id**、**vector**、**doctype** のフィールドがあります。'
+  const conflicting = issue({
+    location: 'Boost Ranker field list',
+    source_quote: '**vector**',
+    draft_quote: '**vector**',
+    comment: 'Translate vector as **ベクトル** to follow the mandatory terminology.',
+  })
+
+  const result = validateReviewEvidence(
+    {pass: false, issues: [conflicting]},
+    {sourceContent, draftContent, localeContract: contract},
+  )
+  assert.equal(result.correctionAuthorized, false)
+  assert.equal(result.contractConflicts.length, 1)
+  assert.deepEqual(result.contractConflicts[0].issue, conflicting)
+})
+
 test('does not report a contract conflict for excluded garbage collection prose', () => {
   const contract = loadLocaleContract('zh-CN-reference')
   const result = validateReviewEvidence({

@@ -13,7 +13,12 @@ const FAILURE_CATEGORIES = Object.freeze([
 const FAILURE_CATEGORY_SET = new Set(FAILURE_CATEGORIES)
 const STRUCTURED_SHORT_STRING_KEYS = Object.freeze(['name', 'code'])
 const STRUCTURED_STRING_KEYS = Object.freeze(['field', 'semanticUnitId', 'markerId'])
-const STRUCTURED_NUMBER_KEYS = Object.freeze(['status', 'entryIndex', 'expectedCount', 'actualCount'])
+const STRUCTURED_NUMBER_KEYS = Object.freeze([
+  'status', 'entryIndex', 'expectedCount', 'actualCount', 'providerAttempts',
+  'retryBudgetLimit', 'retryBudgetConsumed', 'retryBudgetRemaining',
+  'adaptiveSubdivisionDepth', 'semanticBatchSize',
+  'adaptiveTargetChars', 'adaptiveMaxChars',
+])
 const STRUCTURED_STRING_ARRAY_KEYS = Object.freeze([
   'expectedFields', 'actualFields', 'expectedIds', 'actualIds', 'missingIds', 'unknownIds', 'duplicateIds',
 ])

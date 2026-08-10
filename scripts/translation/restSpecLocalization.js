@@ -228,7 +228,7 @@ function combinedRestIssues(evidence, deterministicIssues) {
   return issues
 }
 
-async function reviewAndCorrectRestBatch({entries, target, locale, callModel, localeContract, maxReviewRounds, sourcePath, signal}) {
+async function reviewAndCorrectRestBatch({entries, target, locale, callModel, localeContract, maxReviewRounds, sourcePath, providerRetryBudget, signal}) {
   const sourceEntries = protectRestEntries(entries, entry => entry.text, {literalTokens: localeContract.doNotTranslate})
   const sourceContent = JSON.stringify(sourceEntries.map(entry => ({id: entry.id, text: entry.protection.content})))
   let currentEntries = entries
@@ -240,6 +240,7 @@ async function reviewAndCorrectRestBatch({entries, target, locale, callModel, lo
     const evidence = validateRestReviewEvidence(parseAndValidateReviewEvidence(await callModel({
       agent: 'review',
       signal,
+      retryBudget: providerRetryBudget,
       messages: [
         {role: 'system', content: `${loadPrompt(promptNamesFor(target).restReview)}\n\n${formatLocaleContract(localeContract)}`},
         {role: 'user', content: `Locale: ${locale}\n\n<source>\n${sourceContent}\n</source>\n\n<draft>\n${draftContent}\n</draft>`},
@@ -262,6 +263,7 @@ async function reviewAndCorrectRestBatch({entries, target, locale, callModel, lo
     const corrected = await callModel({
       agent: 'correction',
       signal,
+      retryBudget: providerRetryBudget,
       messages: [
         {role: 'system', content: `${loadPrompt(promptNamesFor(target).restCorrection)}\n\n${formatLocaleContract(localeContract)}`},
         {role: 'user', content: `Locale: ${locale}\n\n<source>\n${sourceContent}\n</source>\n\n<draft>\n${draftContent}\n</draft>\n\n<review_json>\n${JSON.stringify({pass: false, issues: correctionIssues}, null, 2)}\n</review_json>`},
@@ -272,7 +274,7 @@ async function reviewAndCorrectRestBatch({entries, target, locale, callModel, lo
   return {entries: currentEntries, review}
 }
 
-async function translateRestSpecs({ sourceSpecs, sourcePath = '<REST document>', target, locale, callModel, maxReviewRounds = 2, retryFeedback = null, signal }) {
+async function translateRestSpecs({ sourceSpecs, sourcePath = '<REST document>', target, locale, callModel, maxReviewRounds = 2, retryFeedback = null, providerRetryBudget = null, signal }) {
   const promptName = promptNamesFor(target).rest
   if (!promptName) throw new Error(`REST translation is unsupported for translation target ${target}`)
   const localeContract = loadLocaleContract(target)
@@ -288,13 +290,24 @@ async function translateRestSpecs({ sourceSpecs, sourcePath = '<REST document>',
     const response = await callModel({
       agent: 'translation',
       signal,
+      retryBudget: providerRetryBudget,
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: `Locale: ${locale}\n\n${retry}${JSON.stringify(protectedBatch.map(({ id, protection }) => ({ id, text: protection.content })))}` },
       ],
     })
     const restored = parseTranslationEntries(response, protectedBatch, localeContract, {sourcePath})
-    const reviewed = await reviewAndCorrectRestBatch({entries: restored, target, locale, callModel, localeContract, maxReviewRounds, sourcePath, signal})
+    const reviewed = await reviewAndCorrectRestBatch({
+      entries: restored,
+      target,
+      locale,
+      callModel,
+      localeContract,
+      maxReviewRounds,
+      sourcePath,
+      providerRetryBudget,
+      signal,
+    })
     translated.push(...reviewed.entries)
     reviews.push(reviewed.review)
     if (!reviewed.review.pass) break

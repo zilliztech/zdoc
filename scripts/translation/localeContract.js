@@ -349,11 +349,21 @@ function validateLocaleContractDraft(sourceContent, draftContent, contract) {
   return Object.freeze(issues)
 }
 
-function issueConflictsWithLocaleContract(issue, contract) {
+function issueConflictsWithLocaleContract(issue, contract, sourceContent = '') {
   for (const item of contract.forbiddenTranslations) {
     if (!issue.source_quote.toLocaleLowerCase('en-US').includes(item.source.toLocaleLowerCase('en-US'))) continue
     const demandsForbidden = item.targets.some(target => issue.comment.includes(target))
     if (demandsForbidden) return true
+  }
+  const source = String(sourceContent)
+  for (const term of contract.mandatoryTerms) {
+    if (!term.excludedSourceContexts?.length || !issue.comment.includes(term.target)) continue
+    const quote = term.caseSensitive ? issue.source_quote : issue.source_quote.toLocaleLowerCase('en-US')
+    for (const context of term.excludedSourceContexts) {
+      const comparableContext = term.caseSensitive ? context : context.toLocaleLowerCase('en-US')
+      const comparableSource = term.caseSensitive ? source : source.toLocaleLowerCase('en-US')
+      if (comparableContext.includes(quote) && comparableSource.includes(comparableContext)) return true
+    }
   }
   return false
 }

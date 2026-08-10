@@ -71,6 +71,23 @@ test('formats approved Japanese terminology and preserves Compaction', () => {
   assert.match(formatted, /Compaction/)
 })
 
+test('preserves vector only for the exact Boost Ranker field-identifier fixture', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const identifierSource = 'The collection has the following fields: **id**, **vector**, and **doctype**.'
+  const identifierDraft = 'コレクションには、**id**、**vector**、**doctype** のフィールドがあります。'
+
+  assert.deepEqual(validateLocaleContractDraft(identifierSource, identifierDraft, contract), [])
+  assert.equal(
+    validateLocaleContractDraft('Search a vector field.', 'vector フィールドを検索します。', contract).length,
+    1,
+    'ordinary vector terminology must still require ベクトル',
+  )
+  assert.deepEqual(
+    validateLocaleContractDraft('Search a vector field.', 'ベクトルフィールドを検索します。', contract),
+    [],
+  )
+})
+
 test('enforces do-not-translate product names when they appear in source prose', () => {
   const contract = loadLocaleContract('zh-CN-reference')
   const issues = validateLocaleContractDraft('Open Zilliz Cloud.', '打开智利兹云。', contract)

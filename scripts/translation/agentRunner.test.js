@@ -11,6 +11,7 @@ const {
   buildRecoveryIdentity,
   calculateProviderRetryDelay,
   createProviderCall,
+  createProviderRetryBudget,
   createProgressCoordinator,
   isRetryableProviderError,
   loadChunkLimits,
@@ -1022,6 +1023,341 @@ async function testProviderCallTimesOutHungRequests() {
     assert.equal(calls, 2)
   } finally {
     global.fetch = originalFetch
+  }
+}
+
+async function testProviderRetryBudgetStopsNestedFileRetries() {
+  const originalFetch = global.fetch
+  let calls = 0
+  global.fetch = async () => {
+    calls += 1
+    return {
+      ok: false,
+      status: 408,
+      json: async () => ({error: {message: 'litellm.APITimeoutError: Request timed out after 240.0s'}}),
+    }
+  }
+
+  try {
+    const callModel = await createProviderCall({
+      translation: {baseUrl: 'https://example.com', apiKey: 'test-key', model: 'test-model'},
+    }, {maxRetries: 3, retryDelayMs: 0, retryJitterRatio: 0})
+    const providerRetryBudget = createProviderRetryBudget(2)
+    const result = await processItemWithRetry({sourcePath: 'docs/provider-budget.md'}, {
+      maxRetries: 1,
+      providerRetryBudget,
+      processItem: async (_item, _attempt, _feedback, retryContext) => {
+        await callModel({
+          agent: 'translation',
+          messages: [{role: 'user', content: 'translate'}],
+          retryBudget: retryContext.providerRetryBudget,
+        })
+      },
+    })
+
+    assert.equal(calls, 2, 'one initial request plus one same-payload retry before adaptive fallback')
+    assert.equal(result.status, 'failed')
+    assert.equal(result.attempts, 1, 'an exhausted provider budget must not start a second file attempt')
+    assert.equal(result.failureCategory, 'provider_timeout')
+    assert.equal(result.errorDetails.retryBudgetLimit, 2)
+    assert.equal(result.errorDetails.retryBudgetConsumed, 1)
+    assert.equal(result.errorDetails.retryBudgetRemaining, 1)
+    assert.equal(result.errorDetails.providerAttempts, 2)
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
+async function testAdaptiveSemanticSubdivisionRecoversProviderTimeouts() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/adaptive-semantic.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/adaptive-semantic.md'
+    const source = '# Search fields\n\nThe collection uses a vector field.\n\nBuild an index for the database.\n'
+    write(path.join(siteDir, sourcePath), source)
+    const translationBatchSizes = []
+    let initialFailure = true
+    const providerRetryBudget = createProviderRetryBudget(3)
+    const result = await processManifestItem({
+      siteDir,
+      item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
+      maxReviewRounds: 0,
+      chunkTargetChars: 100,
+      chunkMaxChars: 200,
+      providerRetryBudget,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        if (agent === 'review') return '{"pass":true,"issues":[]}'
+        const units = taggedJsonContent(messages, 'semantic_units')
+        translationBatchSizes.push(units.length)
+        if (initialFailure) {
+          initialFailure = false
+          providerRetryBudget.consumed = 1
+          providerRetryBudget.remaining = 2
+          throw Object.assign(new Error('stream disconnected before completion: stream closed before response.completed'), {
+            failureCategory: 'provider_transport',
+            code: 'PROVIDER_TRANSPORT',
+            providerAttempts: 2,
+            retryBudgetLimit: 2,
+            retryBudgetConsumed: 1,
+            retryBudgetRemaining: 1,
+          })
+        }
+        return semanticTranslationResponse(messages, text => text
+          .replace('Search fields', '検索フィールド')
+          .replace('collection', 'コレクション')
+          .replace('vector', 'ベクトル')
+          .replace('index', 'インデックス')
+          .replace('database', 'データベース'))
+      },
+    })
+
+    assert.equal(result.status, 'translated')
+    assert.ok(translationBatchSizes[0] > 1)
+    assert.ok(translationBatchSizes.slice(1).every(size => size < translationBatchSizes[0]))
+    assert.equal(translationBatchSizes.slice(1).reduce((sum, size) => sum + size, 0), translationBatchSizes[0])
+    assert.equal(providerRetryBudget.remaining, 0)
+    assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /ベクトル/)
+  })
+}
+
+async function testAdaptiveSemanticSubdivisionRetainsFailClosedProtectedContent() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/adaptive-protected.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/adaptive-protected.md'
+    const source = '# Fields\n\nUse abstract metadata.\n'
+    write(path.join(siteDir, sourcePath), source)
+    let initialFailure = true
+    const result = await processItemWithRetry({sourcePath}, {
+      maxRetries: 0,
+      processItem: item => processManifestItem({
+        siteDir,
+        item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
+        maxReviewRounds: 0,
+        chunkTargetChars: 80,
+        chunkMaxChars: 100,
+        validate: async () => [],
+        callModel: async ({agent, messages}) => {
+          if (agent === 'review') return '{"pass":true,"issues":[]}'
+          const units = taggedJsonContent(messages, 'semantic_units')
+          if (initialFailure) {
+            initialFailure = false
+            throw Object.assign(new Error('translation agent timed out'), {
+              failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 2,
+            })
+          }
+          return semanticTranslationResponse(messages, text => text.replace('abstract', '`abstract`'))
+        },
+      }),
+    })
+
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'protected_content_failed')
+    assert.match(result.error, /Unexpected protected inline_code/i)
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
+  })
+}
+
+async function testAdaptiveSemanticSubdivisionReportsTerminalUnitEvidence() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/adaptive-terminal.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/adaptive-terminal.md'
+    const source = '# Fields\n\nFirst field description.\n\nSecond field description.\n'
+    write(path.join(siteDir, sourcePath), source)
+    let initialFailure = true
+    let adaptiveCalls = 0
+    const result = await processItemWithRetry({sourcePath}, {
+      maxRetries: 0,
+      processItem: () => processManifestItem({
+        siteDir,
+        item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
+        maxReviewRounds: 0,
+        chunkTargetChars: 100,
+        chunkMaxChars: 200,
+        validate: async () => [],
+        callModel: async ({agent, messages}) => {
+          if (agent === 'review') return '{"pass":true,"issues":[]}'
+          const units = taggedJsonContent(messages, 'semantic_units')
+          if (initialFailure) {
+            initialFailure = false
+            throw Object.assign(new Error('translation agent timed out after bounded retries'), {
+              failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 3,
+              retryBudgetLimit: 2, retryBudgetConsumed: 2, retryBudgetRemaining: 0,
+            })
+          }
+          adaptiveCalls += 1
+          if (adaptiveCalls === 1) return semanticTranslationResponse(messages)
+          throw Object.assign(new Error('stream disconnected before completion: stream closed before response.completed'), {
+            failureCategory: 'provider_transport', code: 'PROVIDER_TRANSPORT', providerAttempts: 1,
+            retryBudgetLimit: 2, retryBudgetConsumed: 2, retryBudgetRemaining: 0,
+          })
+        },
+      }),
+    })
+
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'provider_transport')
+    assert.equal(result.errorDetails.retryBudgetRemaining, 0)
+    assert.equal(result.errorDetails.semanticBatchSize, 1)
+    assert.match(result.errorDetails.semanticUnitId, /^document\./)
+    assert.equal(result.errorDetails.adaptiveSubdivisionDepth, 1)
+    assert.equal(result.errorDetails.adaptiveTargetChars, 50)
+    assert.equal(result.errorDetails.adaptiveMaxChars, 100)
+  })
+}
+
+async function testAdaptiveSemanticSubdivisionPreservesCompletedChunkCheckpoint() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'docs/adaptive-checkpoint.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/adaptive-checkpoint.md'
+    const source = '# One\n\nFirst paragraph.\n\n# Two\n\nSecond paragraph.\n\n# Three\n\nThird paragraph.\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'}
+    let hardFailureStarted = false
+    const providerRetryBudget = createProviderRetryBudget(1)
+    const result = await processItemWithRetry(item, {
+      maxRetries: 1,
+      providerRetryBudget,
+      processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        retryFeedback,
+        providerRetryBudget: retryContext.providerRetryBudget,
+        chunkTargetChars: 25,
+        chunkMaxChars: 35,
+        chunkCheckpoint: retryContext.chunkCheckpoint,
+        onChunkCompleted: retryContext.onChunkCompleted,
+        maxReviewRounds: 0,
+        validate: async () => [],
+        callModel: async ({agent, messages}) => {
+          if (agent === 'review') return '{"pass":true,"issues":[]}'
+          const units = taggedJsonContent(messages, 'semantic_units')
+          const chunk = Number(units[0].id.match(/chunk\.(\d+)/)?.[1] || 0)
+          if (chunk === 1) return semanticTranslationResponse(messages)
+          if (!hardFailureStarted) {
+            hardFailureStarted = true
+            providerRetryBudget.consumed = 0
+            providerRetryBudget.remaining = 1
+            throw Object.assign(new Error('translation agent timed out after bounded retries'), {
+              failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 2,
+              retryBudgetLimit: 1, retryBudgetConsumed: 0, retryBudgetRemaining: 1,
+            })
+          }
+          throw Object.assign(new Error('stream disconnected before completion: stream closed before response.completed'), {
+            failureCategory: 'provider_transport', code: 'PROVIDER_TRANSPORT', providerAttempts: 1,
+            retryBudgetLimit: 1, retryBudgetConsumed: 1, retryBudgetRemaining: 0,
+          })
+        },
+      }),
+    })
+
+    assert.equal(result.status, 'failed')
+    assert.equal(result.attempts, 1)
+    assert.equal(result.chunkCheckpoints.entries.length, 1)
+    assert.equal(result.chunkCheckpoints.entries[0].index, 0)
+    assert.equal(result.chunkCheckpoints.entries[0].translatedContent, '# One\n\nFirst paragraph.\n\n')
+  })
+}
+
+async function testBoostRankerVectorIdentifierCorrectionAlignsAllContracts() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/guides/tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/function/reranking-functions/rule-based-rerankers/boost-ranker.md'
+    const source = 'The collection has the following fields: **id**, **vector**, and **doctype**.\n'
+    write(path.join(siteDir, sourcePath), source)
+    const calls = []
+    let reviewRound = 0
+    const result = await processManifestItem({
+      siteDir,
+      item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
+      maxReviewRounds: 1,
+      validate: async () => [],
+      callModel: async ({agent, messages}) => {
+        calls.push(agent)
+        assert.match(messages[0].content, /fields: \*\*id\*\*, \*\*vector\*\*, and \*\*doctype\*\*/)
+        if (agent === 'translation') {
+          return semanticTranslationResponse(messages, text => text
+            .replace('collection', 'コレクション')
+            .replace('vector', 'ベクトル')
+            .replace('has the following fields', 'には次のフィールドがあります'))
+        }
+        if (agent === 'review') {
+          reviewRound += 1
+          if (reviewRound === 2) return '{"pass":true,"issues":[]}'
+          const sourceUnits = taggedJsonContent(messages, 'source_units')
+          const draftUnits = taggedJsonContent(messages, 'draft_units')
+          return JSON.stringify({pass: false, issues: [{
+            severity: 'medium', type: 'terminology', location: sourceUnits[0].id,
+            source_quote: '**vector**', draft_quote: '**ベクトル**',
+            comment: 'This is the field identifier vector; preserve it as **vector**.',
+          }]})
+        }
+        return semanticCorrectionResponse(messages, text => text.replace('**ベクトル**', '**vector**'))
+      },
+    })
+
+    assert.equal(result.status, 'translated')
+    assert.deepEqual(calls, ['translation', 'review', 'correction', 'review'])
+    const output = fs.readFileSync(path.join(siteDir, targetPath), 'utf8')
+    assert.match(output, /\*\*vector\*\*/)
+    assert.doesNotMatch(output, /\*\*ベクトル\*\*/)
+  })
+}
+
+async function testProductionTimeoutFixturesUseHalfSizedAdaptivePayloads() {
+  const fixtures = [
+    ['content/en/guides/tutorials/development/collection/external-collection-limits.md', 8636],
+    ['content/en/guides/tutorials/get-started/cloud-providers-and-regions.md', 7733],
+  ]
+  for (const [fixturePath, expectedChars] of fixtures) {
+    await withTempDir(async siteDir => {
+      const source = fs.readFileSync(path.resolve(__dirname, '../..', fixturePath), 'utf8')
+      assert.equal(source.length, expectedChars)
+      assert.equal(chunkDocument(source, {targetChars: 8000, maxChars: 12000}).length, 1)
+      const sourcePath = `docs/${path.basename(fixturePath)}`
+      const targetPath = `i18n/ja-JP/${path.basename(fixturePath)}`
+      write(path.join(siteDir, sourcePath), source)
+      const payloadChars = []
+      let initialFailure = true
+      const providerRetryBudget = createProviderRetryBudget(2)
+      const result = await processItemWithRetry({sourcePath}, {
+        maxRetries: 0,
+        providerRetryBudget,
+        processItem: () => processManifestItem({
+          siteDir,
+          item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
+          maxReviewRounds: 0,
+          chunkTargetChars: 8000,
+          chunkMaxChars: 12000,
+          providerRetryBudget,
+          validate: async () => [],
+          callModel: async ({agent, messages}) => {
+            assert.equal(agent, 'translation')
+            const units = taggedJsonContent(messages, 'semantic_units')
+            payloadChars.push(units.reduce((sum, unit) => sum + unit.text.length, 0))
+            if (initialFailure) {
+              initialFailure = false
+              providerRetryBudget.consumed = 1
+              providerRetryBudget.remaining = 1
+              throw Object.assign(new Error('litellm.APITimeoutError: Request timed out after 240.0s'), {
+                failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 3,
+                retryBudgetLimit: 2, retryBudgetConsumed: 1, retryBudgetRemaining: 1,
+              })
+            }
+            throw Object.assign(new Error('stream disconnected before completion: stream closed before response.completed'), {
+              failureCategory: 'provider_transport', code: 'PROVIDER_TRANSPORT', providerAttempts: 1,
+              retryBudgetLimit: 2, retryBudgetConsumed: 2, retryBudgetRemaining: 0,
+            })
+          },
+        }),
+      })
+
+      assert.equal(result.status, 'failed')
+      assert.equal(payloadChars.length, 2)
+      assert.ok(payloadChars.slice(1).every(chars => chars < payloadChars[0]), `${fixturePath} must not repeat the full semantic payload`)
+      assert.ok(payloadChars[1] <= 6000, `${fixturePath} adaptive payload must respect half max chars`)
+      assert.ok(result.errorDetails.adaptiveTargetChars <= 4000)
+      assert.ok(result.errorDetails.adaptiveMaxChars <= 6000)
+    })
   }
 }
 
@@ -2900,6 +3236,12 @@ async function run() {
   await testProviderCallRetriesClassifiedFailuresWithUnknownCodes()
   await testProviderStructuredOutputIsCapabilityGated()
   await testProviderCallTimesOutHungRequests()
+  await testProviderRetryBudgetStopsNestedFileRetries()
+  await testAdaptiveSemanticSubdivisionRecoversProviderTimeouts()
+  await testAdaptiveSemanticSubdivisionRetainsFailClosedProtectedContent()
+  await testAdaptiveSemanticSubdivisionReportsTerminalUnitEvidence()
+  await testAdaptiveSemanticSubdivisionPreservesCompletedChunkCheckpoint()
+  await testProductionTimeoutFixturesUseHalfSizedAdaptivePayloads()
   await testFileTimeoutRejectsSlowWork()
   await testFileAttemptDeadlineSpansAllMarkdownChunksAndStopsLateCheckpoints()
   await testFileAttemptDeadlineAbortsRestTranslation()
@@ -2951,6 +3293,7 @@ async function run() {
   await testOnlyValidatedReviewerIssuesReachCorrection()
   await testIdenticalFrontmatterTokenAllegationDoesNotRewriteDraft()
   await testCorrectionsPreserveProtectedBytesAcrossMultipleRounds()
+  await testBoostRankerVectorIdentifierCorrectionAlignsAllContracts()
   console.log('translation agent runner tests passed')
 }
 

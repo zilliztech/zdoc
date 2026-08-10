@@ -131,6 +131,40 @@ function parseNonNegativeInteger(value, fallback) {
   return Number.isInteger(parsed) && parsed >= 0 ? parsed : fallback
 }
 
+function createProviderRetryBudget(limit = DEFAULT_PROVIDER_RETRIES) {
+  if (!Number.isInteger(limit) || limit < 0) throw new Error('Provider retry budget must be a non-negative integer')
+  return {limit, consumed: 0, remaining: limit}
+}
+
+function validateProviderRetryBudget(budget) {
+  if (!budget || !Number.isInteger(budget.limit) || budget.limit < 0 ||
+      !Number.isInteger(budget.consumed) || budget.consumed < 0 ||
+      !Number.isInteger(budget.remaining) || budget.remaining < 0 ||
+      budget.consumed + budget.remaining !== budget.limit) {
+    throw new Error('Provider retry budget is invalid')
+  }
+  return budget
+}
+
+function providerRetryBudgetDetails(budget) {
+  if (!budget) return {}
+  validateProviderRetryBudget(budget)
+  return {
+    retryBudgetLimit: budget.limit,
+    retryBudgetConsumed: budget.consumed,
+    retryBudgetRemaining: budget.remaining,
+  }
+}
+
+function consumeProviderRetryBudget(budget) {
+  if (!budget) return true
+  validateProviderRetryBudget(budget)
+  if (budget.remaining === 0) return false
+  budget.remaining -= 1
+  budget.consumed += 1
+  return true
+}
+
 function loadChunkLimits(env = process.env) {
   const targetChars = parsePositiveInteger(env.TRANSLATION_CHUNK_TARGET_CHARS, DEFAULT_TARGET_CHARS)
   const maxChars = parsePositiveInteger(env.TRANSLATION_CHUNK_MAX_CHARS, DEFAULT_MAX_CHARS)
@@ -194,14 +228,20 @@ async function createProviderCall(agentConfigs, options = {}) {
   }
   const timeoutMs = parsePositiveInteger(options.timeoutMs, DEFAULT_PROVIDER_TIMEOUT_MS)
 
-  return async function callModel({ agent, messages, signal: externalSignal }) {
+  return async function callModel({ agent, messages, signal: externalSignal, retryBudget = null, retryMode = 'normal' }) {
     const config = agentConfigs[agent]
     if (!config?.baseUrl || !config?.apiKey || !config?.model) {
       throw new Error(`Missing provider config for ${agent} agent`)
     }
 
+    if (retryBudget) validateProviderRetryBudget(retryBudget)
+    if (!['normal', 'adaptive'].includes(retryMode)) throw new Error('Provider retry mode is invalid')
+    const perCallRetries = retryBudget
+      ? retryMode === 'adaptive' ? 0 : Math.min(maxRetries, 1)
+      : maxRetries
     let lastError
-    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    let providerAttempts = 0
+    for (let attempt = 0; attempt <= perCallRetries; attempt++) {
       if (externalSignal?.aborted) throw externalSignal.reason
       const controller = new AbortController()
       let providerTimedOut = false
@@ -213,6 +253,7 @@ async function createProviderCall(agentConfigs, options = {}) {
       const onExternalAbort = () => controller.abort(externalSignal.reason)
       externalSignal?.addEventListener('abort', onExternalAbort, {once: true})
       try {
+        providerAttempts += 1
         const requestBody = {
           model: config.model,
           messages,
@@ -258,9 +299,10 @@ async function createProviderCall(agentConfigs, options = {}) {
             ? providerTimeout
             : error
         if (!lastError.failureCategory) lastError.failureCategory = classifyFailure(lastError)
-        if (externalSignal?.aborted || attempt >= maxRetries || !isRetryableProviderError(lastError)) break
+        if (externalSignal?.aborted || attempt >= perCallRetries || !isRetryableProviderError(lastError)) break
+        if (!consumeProviderRetryBudget(retryBudget)) break
         const waitMs = calculateProviderRetryDelay(attempt, retryOptions)
-        console.warn(`[translation-agent] ${agent} call failed; retrying in ${waitMs}ms (${attempt + 1}/${maxRetries}): ${lastError.message}`)
+        console.warn(`[translation-agent] ${agent} call failed; retrying in ${waitMs}ms (${attempt + 1}/${perCallRetries}): ${lastError.message}`)
         await sleep(waitMs, externalSignal)
       } finally {
         clearTimeout(timeout)
@@ -268,6 +310,7 @@ async function createProviderCall(agentConfigs, options = {}) {
       }
     }
     lastError.failureCategory = classifyFailure(lastError)
+    Object.assign(lastError, {providerAttempts}, providerRetryBudgetDetails(retryBudget))
     throw lastError
   }
 }
@@ -362,6 +405,10 @@ async function processItemWithRetry(item, options) {
   const maxRetries = parseNonNegativeInteger(options.maxRetries, DEFAULT_FILE_RETRIES)
   const failures = []
   let retryFeedback = null
+  const providerRetryBudget = options.providerRetryBudget || (
+    Number.isInteger(options.providerRetryLimit) ? createProviderRetryBudget(options.providerRetryLimit) : null
+  )
+  if (providerRetryBudget) validateProviderRetryBudget(providerRetryBudget)
   const initialChunkCheckpoints = options.initialChunkCheckpoints || []
   if (!Array.isArray(initialChunkCheckpoints)) throw new Error('Initial chunk checkpoints must be an array')
   const chunkCheckpoint = new Map(initialChunkCheckpoints.map((checkpoint, position) => {
@@ -376,6 +423,7 @@ async function processItemWithRetry(item, options) {
     try {
       const executeAttempt = signal => options.processItem(item, attempt, retryFeedback, {
         chunkCheckpoint,
+        providerRetryBudget,
         onChunkCompleted: checkpoint => {
           if (signal?.aborted) throw signal.reason
           chunkCheckpoint.set(checkpoint.index, checkpoint)
@@ -421,7 +469,9 @@ async function processItemWithRetry(item, options) {
         : /response must be valid JSON/i.test(failure)
         ? structuredResponseRetryFeedback(failure)
       : validatedReviewRetryFeedback(result)
-    const retryForbidden = result?.errorDetails?.code === 'CORRECTION_PROTECTED_MARKER_VIOLATION'
+    const providerFailureWithSharedBudget = providerRetryBudget &&
+      ['provider_timeout', 'provider_transport'].includes(record.category)
+    const retryForbidden = result?.errorDetails?.code === 'CORRECTION_PROTECTED_MARKER_VIOLATION' || providerFailureWithSharedBudget
     if (attempt < maxRetries && !retryForbidden) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
     } else {
@@ -573,6 +623,29 @@ function stabilizeBareUrlFormatting(content) {
   )
 }
 
+function subdivideSemanticBatch(batch, targetChars, maxChars) {
+  if (!Array.isArray(batch) || batch.length < 2) return [batch]
+  const groups = []
+  let current = []
+  let currentChars = 0
+  for (const unit of batch) {
+    const unitChars = String(unit.text || '').length
+    if (current.length && (currentChars >= targetChars || currentChars + unitChars > maxChars)) {
+      groups.push(current)
+      current = []
+      currentChars = 0
+    }
+    current.push(unit)
+    currentChars += unitChars
+  }
+  if (current.length) groups.push(current)
+  if (groups.length === 1) {
+    const split = Math.ceil(batch.length / 2)
+    return [batch.slice(0, split), batch.slice(split)]
+  }
+  return groups
+}
+
 async function translateAndReviewUnit({
   target,
   sourcePath,
@@ -582,6 +655,9 @@ async function translateAndReviewUnit({
   maxReviewRounds,
   chunkContext,
   retryFeedback,
+  providerRetryBudget,
+  adaptiveTargetChars,
+  adaptiveMaxChars,
   signal,
 }) {
   const localeContract = loadLocaleContract(target)
@@ -592,21 +668,57 @@ async function translateAndReviewUnit({
   const protectedSource = protectTranslationInput(sourceContent, protectedOptions)
   const sourceUnits = protectSemanticUnits(units, unit => unit.source, protectedOptions)
   const sourceUnitPayload = sourceUnits.map(unit => ({id: unit.id, kind: unit.kind, text: unit.protection.content}))
-  const initialResponse = await callModel({
-    agent: 'translation',
-    signal,
-    messages: buildTranslationMessages({
-      target,
-      sourcePath,
-      sourceContent: protectedSource.content,
-      sourceDocument: markerFreeDocumentContext(protectedSource.content),
-      semanticUnits: sourceUnitPayload,
-      locale,
-      chunkContext,
-      retryFeedback,
-    }),
-  })
-  let currentUnits = restoreSemanticUnitResponse(initialResponse, {field: 'translations', protectedUnits: sourceUnits, localeContract})
+  const translateBatch = async (batch, depth = 0, adaptive = false, retryMode = 'normal') => {
+    const batchIds = new Set(batch.map(unit => unit.id))
+    const protectedBatch = sourceUnits.filter(unit => batchIds.has(unit.id))
+    try {
+      const response = await callModel({
+        agent: 'translation',
+        signal,
+        retryBudget: providerRetryBudget,
+        retryMode,
+        messages: buildTranslationMessages({
+          target,
+          sourcePath,
+          sourceContent: protectedSource.content,
+          sourceDocument: markerFreeDocumentContext(protectedSource.content),
+          semanticUnits: batch,
+          locale,
+          chunkContext,
+          retryFeedback,
+        }),
+      })
+      return restoreSemanticUnitResponse(response, {field: 'translations', protectedUnits: protectedBatch, localeContract})
+    } catch (error) {
+      const providerFailure = ['provider_timeout', 'provider_transport'].includes(classifyFailure(error))
+      const repeatedProviderFailure = Number(error?.providerAttempts) > 1 || Number(error?.retryBudgetConsumed) > 0
+      if (providerFailure && batch.length > 1 && (adaptive || repeatedProviderFailure)) {
+        const targetChars = Math.max(1, Math.floor(adaptiveTargetChars / (2 ** depth)))
+        const maxChars = Math.max(targetChars, Math.floor(adaptiveMaxChars / (2 ** depth)))
+        const subdivisions = subdivideSemanticBatch(batch, targetChars, maxChars)
+        if (subdivisions.length > 1) {
+          const translated = []
+          for (const subdivision of subdivisions) {
+            if (!consumeProviderRetryBudget(providerRetryBudget)) break
+            translated.push(...await translateBatch(subdivision, depth + 1, true, 'adaptive'))
+          }
+          if (translated.length === batch.length) return translated
+          Object.assign(error, providerRetryBudgetDetails(providerRetryBudget))
+        }
+      }
+      if (providerFailure && (adaptive || repeatedProviderFailure)) {
+        Object.assign(error, {
+          adaptiveSubdivisionDepth: depth,
+          semanticBatchSize: batch.length,
+          adaptiveTargetChars: Math.max(1, Math.floor(adaptiveTargetChars / (2 ** Math.max(0, depth - 1)))),
+          adaptiveMaxChars: Math.max(1, Math.floor(adaptiveMaxChars / (2 ** Math.max(0, depth - 1)))),
+          ...(batch.length === 1 ? {semanticUnitId: batch[0].id} : {}),
+        })
+      }
+      throw error
+    }
+  }
+  let currentUnits = await translateBatch(sourceUnitPayload)
   let translatedContent = patchSemanticUnits(sourceContent, units, currentUnits)
   let protectedErrors = validateProtectedContent(sourceContent, translatedContent, {sourcePath})
   if (protectedErrors.length) throw categorizedError(protectedErrors.join('; '), 'protected_content_failed', {code: 'PROTECTED_CONTENT_FAILED'})
@@ -621,6 +733,7 @@ async function translateAndReviewUnit({
     const evidence = bindSemanticReviewEvidence(parseAndValidateReviewEvidence(await callModel({
       agent: 'review',
       signal,
+      retryBudget: providerRetryBudget,
       messages: buildReviewMessages({
         target,
         sourcePath,
@@ -678,6 +791,7 @@ async function translateAndReviewUnit({
     const correctedResponse = await callModel({
       agent: 'correction',
       signal,
+      retryBudget: providerRetryBudget,
       messages: buildCorrectionMessages({
         target,
         sourcePath,
@@ -735,6 +849,7 @@ async function processManifestItem({
   onChunkCompleted = null,
   validate = validateTranslatedContent,
   retryFeedback = null,
+  providerRetryBudget = null,
   signal,
 }) {
   if (item.sourcePath.includes('#')) throw new Error(`Translation source path must be repository-relative: ${item.sourcePath}`)
@@ -755,6 +870,9 @@ async function processManifestItem({
       maxReviewRounds,
       chunkContext: null,
       retryFeedback,
+      providerRetryBudget,
+      adaptiveTargetChars: Math.max(1, Math.floor(chunkTargetChars / 2)),
+      adaptiveMaxChars: Math.max(1, Math.floor(chunkMaxChars / 2)),
       signal,
     })
     if (!shell.review.pass) return failedReviewResult(item, shell.review)
@@ -766,6 +884,7 @@ async function processManifestItem({
       callModel,
       maxReviewRounds,
       retryFeedback,
+      providerRetryBudget,
       signal,
     })
     if (!specResult.review.pass) {
@@ -828,6 +947,9 @@ async function processManifestItem({
         maxReviewRounds,
         chunkContext,
         retryFeedback,
+        providerRetryBudget,
+        adaptiveTargetChars: Math.max(1, Math.floor(chunkTargetChars / 2)),
+        adaptiveMaxChars: Math.max(1, Math.floor(chunkMaxChars / 2)),
         signal,
       })
     }
@@ -1427,6 +1549,7 @@ async function main() {
         const targetItem = {...item, target: manifest.target}
         const result = await processItemWithRetry(targetItem, {
           maxRetries: fileRetries,
+          providerRetryLimit: maxProviderRetries,
           log: console,
           initialChunkCheckpoints: item.recoveryChunkCheckpoints,
           fileTimeoutMs,
@@ -1440,6 +1563,7 @@ async function main() {
               chunkCheckpoint: retryContext.chunkCheckpoint,
               onChunkCompleted: retryContext.onChunkCompleted,
               signal: retryContext.signal,
+              providerRetryBudget: retryContext.providerRetryBudget,
               retryFeedback,
             }),
         })
@@ -1481,6 +1605,7 @@ module.exports = {
   buildTranslationMessages,
   calculateProviderRetryDelay,
   createProviderCall,
+  createProviderRetryBudget,
   createProgressCoordinator,
   isRetryableProviderError,
   loadChunkLimits,
