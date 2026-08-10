@@ -218,6 +218,26 @@ test('retained revalidation rejects mandatory-term borrowing across semantic uni
   assert.match(analysis.rejected[0].reason, /locale:.*collection.*コレクション/i)
 })
 
+test('retained revalidation rejects a missing target semantic unit without locale terms', t => {
+  const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {
+    source: '# Overview\n\nThis guide explains the workflow.\n',
+    target: '# 概要\n',
+  }))
+  assert.equal(analysis.recoveredCount, 0)
+  assert.equal(analysis.rejectedCount, 1)
+  assert.match(analysis.rejected[0].reason, /semantic unit structure.*count/i)
+})
+
+test('retained revalidation rejects an inserted target semantic unit before ordinal locale matching', t => {
+  const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {
+    source: 'Intro.\n\nCreate a collection.\n',
+    target: '概要。\n\nコレクションについて。\n\nリソースを作成します。\n',
+  }))
+  assert.equal(analysis.recoveredCount, 0)
+  assert.equal(analysis.rejectedCount, 1)
+  assert.match(analysis.rejected[0].reason, /semantic unit structure.*count/i)
+})
+
 test('retained revalidation fails closed on a mandatory-term deficit after blank-line drift', t => {
   const analysis = analyzeRetainedLocale(retainedLocaleFixture(t, {
     source: '# Create resources\n\nCreate a collection.\n',
