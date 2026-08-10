@@ -57,7 +57,7 @@ function selectedSourceGroups(selection) {
   return [...new Set(selection.map(unit => unit.sourceGroup))];
 }
 
-function validateTranslationHandoff(value) {
+function validateTranslationHandoffContract(value, {allowCanonicalSubset}) {
   assertExactKeys(value, HANDOFF_KEYS, 'translation handoff');
   if (value.schemaVersion !== 2) throw new Error('translation handoff schemaVersion must be 2');
   assertCommitSha(value.toolingSha, 'tooling SHA');
@@ -66,7 +66,9 @@ function validateTranslationHandoff(value) {
   if (!Array.isArray(value.units) || value.units.length === 0) throw new Error('translation handoff units must be a non-empty array');
 
   const selection = buildTranslationSelection({locale: value.locale, group: value.group});
-  if (value.units.length > selection.length) throw new Error('translation handoff units do not match the canonical translation selection');
+  if (allowCanonicalSubset ? value.units.length > selection.length : value.units.length !== selection.length) {
+    throw new Error('translation handoff units do not match the canonical translation selection');
+  }
 
   const identitiesByGroup = new Map();
   const identities = new Set();
@@ -93,19 +95,37 @@ function validateTranslationHandoff(value) {
     identitiesByGroup.set(unit.sourceGroup, sourceIdentity);
   }
 
-  let selectionIndex = 0;
-  for (const [index, unit] of value.units.entries()) {
-    while (selectionIndex < selection.length) {
-      const selected = selection[selectionIndex++];
-      if (unit.target === selected.target && unit.group === selected.group && unit.sourceGroup === selected.sourceGroup) break;
+  if (allowCanonicalSubset) {
+    let selectionIndex = 0;
+    for (const [index, unit] of value.units.entries()) {
+      while (selectionIndex < selection.length) {
+        const selected = selection[selectionIndex++];
+        if (unit.target === selected.target && unit.group === selected.group && unit.sourceGroup === selected.sourceGroup) break;
+      }
+      const selected = selection[selectionIndex - 1];
+      if (!selected || unit.target !== selected.target || unit.group !== selected.group || unit.sourceGroup !== selected.sourceGroup ||
+        unit.publicationOrder !== index) {
+        throw new Error('translation handoff units must follow canonical translation selection order');
+      }
     }
-    const selected = selection[selectionIndex - 1];
-    if (!selected || unit.target !== selected.target || unit.group !== selected.group || unit.sourceGroup !== selected.sourceGroup ||
-      unit.publicationOrder !== index) {
-      throw new Error('translation handoff units must follow canonical translation selection order');
+  } else {
+    for (const [index, selected] of selection.entries()) {
+      const unit = value.units[index];
+      if (unit.target !== selected.target || unit.group !== selected.group || unit.sourceGroup !== selected.sourceGroup ||
+        unit.publicationOrder !== selected.publicationOrder) {
+        throw new Error('translation handoff units must follow canonical translation selection order');
+      }
     }
   }
   return value;
+}
+
+function validateTranslationHandoff(value) {
+  return validateTranslationHandoffContract(value, {allowCanonicalSubset: false});
+}
+
+function validateTranslationRecoveryHandoff(value) {
+  return validateTranslationHandoffContract(value, {allowCanonicalSubset: true});
 }
 
 function buildTranslationHandoff({locale, group, toolingSha, targetBranch, targetBaselineSha, sourcePublications}) {
@@ -258,4 +278,5 @@ module.exports = {
   main,
   validateTranslationHandoff,
   validateTranslationHandoffRepository,
+  validateTranslationRecoveryHandoff,
 };

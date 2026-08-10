@@ -328,7 +328,8 @@ test('uses current reviewed execution tooling while preserving exact b05 retaine
 })
 
 test('authenticates exact producer identities through the operator recovery caller prefix', async t => {
-  const value = fixture(t)
+  const authorizedUnits = selection().units.map(unit => `${unit.target}/${unit.group}`)
+  const value = fixture(t, {recoveryProvenance: sourceRecoveryProvenance(authorizedUnits)})
   const run = {...(await value.client.getRun()), path: '.github/workflows/recover-translation.yml'}
   const jobs = value.jobs.map(job => ({...job, name: `run_translation / ${job.name}`}))
   const planned = await planTranslationRecovery({
@@ -337,6 +338,17 @@ test('authenticates exact producer identities through the operator recovery call
     client: {...value.client, getRun: async () => run, listJobs: async () => jobs},
   })
   assert.equal(planned.plan.provenance.sourceWorkflow, '.github/workflows/recover-translation.yml')
+})
+
+test('rejects chained operator recovery when the immutable selection has no authenticated original recovery scope', async t => {
+  const value = fixture(t)
+  const run = {...(await value.client.getRun()), path: '.github/workflows/recover-translation.yml'}
+  const jobs = value.jobs.map(job => ({...job, name: `run_translation / ${job.name}`}))
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'missing-chained-scope'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...value.client, getRun: async () => run, listJobs: async () => jobs},
+  }), /operator recovery.*provenance|authenticated.*recovery scope/i)
 })
 
 test('keeps chained operator recovery inside the authenticated original recovery scope', async t => {

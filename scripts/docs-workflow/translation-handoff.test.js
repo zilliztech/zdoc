@@ -14,6 +14,7 @@ const {
   buildTranslationHandoffFromFetchResults,
   validateTranslationHandoff,
   validateTranslationHandoffRepository,
+  validateTranslationRecoveryHandoff,
 } = require('./translation-handoff');
 
 const SHA_A = 'a'.repeat(40);
@@ -215,7 +216,7 @@ test('validates exact handoff keys, unique units, and canonical selection order'
   assert.throws(() => validateTranslationHandoff({...handoff, units: [...handoff.units].reverse()}), /canonical translation selection order/i);
 });
 
-test('accepts a canonically ordered nonempty handoff subset without widening its source identities', () => {
+test('keeps ordinary handoffs exact while the recovery-only validator accepts a canonical nonempty subset', () => {
   const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'];
   const sourcePublications = Object.fromEntries(groups.map((group, index) => [
     group,
@@ -228,8 +229,9 @@ test('accepts a canonically ordered nonempty handoff subset without widening its
     ...complete,
     units: [complete.units[0], {...complete.units[5], publicationOrder: 1}],
   };
-  assert.deepEqual(validateTranslationHandoff(scoped), scoped);
-  assert.throws(() => validateTranslationHandoff({...scoped, units: [...scoped.units].reverse()}), /canonical translation selection order/i);
+  assert.throws(() => validateTranslationHandoff(scoped), /units do not match the canonical translation selection/i);
+  assert.deepEqual(validateTranslationRecoveryHandoff(scoped), scoped);
+  assert.throws(() => validateTranslationRecoveryHandoff({...scoped, units: [...scoped.units].reverse()}), /canonical translation selection order/i);
 });
 
 test('rejects Chinese Guides translation and malformed immutable identities', () => {

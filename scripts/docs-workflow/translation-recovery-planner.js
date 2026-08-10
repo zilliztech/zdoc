@@ -8,7 +8,7 @@ const os = require('node:os')
 const path = require('node:path')
 
 const {readPublicationDocument} = require('./publication-contracts')
-const {validateTranslationHandoff} = require('./translation-handoff')
+const {validateTranslationRecoveryHandoff} = require('./translation-handoff')
 
 const SHA = /^[0-9a-f]{40}$/u
 const CHECKSUM = /^[0-9a-f]{64}$/u
@@ -194,7 +194,7 @@ function buildRecoveryHandoff(selection, targetBaselineSha, executionToolingSha 
       publicationOrder,
     })),
   }
-  return validateTranslationHandoff(handoff)
+  return validateTranslationRecoveryHandoff(handoff)
 }
 
 function exactObjectKeys(value, keys, label) {
@@ -362,8 +362,9 @@ function assertRecoveryIdentity(parsed, selected) {
 }
 
 function selectedRecoveryUnits(selection, run) {
+  if (workflowPath(run) !== '.github/workflows/recover-translation.yml') return selection.units
   const provenance = selection.inputs?.recoveryProvenance
-  if (workflowPath(run) !== '.github/workflows/recover-translation.yml' || !provenance) return selection.units
+  if (!provenance) throw new Error('Previous operator recovery selection has no authenticated recovery provenance')
   const authorized = new Set(provenance.artifacts.map(artifact => artifact.unit))
   if (authorized.size === 0) throw new Error('Previous operator recovery has no authenticated source recovery scope')
   const selected = new Set(selection.units.map(unit => `${unit.target}/${unit.group}`))
