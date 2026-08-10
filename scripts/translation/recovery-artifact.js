@@ -14,6 +14,11 @@ const {
   persistChunkCheckpoints,
   validatePersistedPrefix,
 } = require('./chunkRecovery');
+const {
+  persistSemanticCheckpoints,
+  semanticCheckpointBytes,
+  validatePersistedSemanticCheckpoints,
+} = require('./semanticRecovery');
 const {assertSafeRepositoryRelativePath} = loadTypeScript('../../packages/docs-tooling/src/validation/ownership.ts');
 
 const SHA256 = /^[0-9a-f]{64}$/;
@@ -88,18 +93,30 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
       status: 'translated',
     });
   }
-  let partialChunkBytes = 0;
+  let partialArtifactBytes = 0;
   const failures = results.filter(item => item.status !== 'translated').map(result => {
     let chunkCheckpoints = null;
+    let semanticCheckpoints = null;
     const errorDetails = boundedFailureDetails(result.errorDetails);
     if (result.chunkCheckpoints) {
       const sourcePath = safePath(siteDir, result.sourcePath, 'Recovery partial source path');
       const sourceHash = sha256(fs.readFileSync(sourcePath));
       if (sourceHash !== result.sourceHash) throw new Error(`Recovery partial source hash changed: ${result.sourcePath}`);
       chunkCheckpoints = persistChunkCheckpoints(result.chunkCheckpoints, identity);
-      partialChunkBytes += chunkCheckpoints.entries.reduce((total, entry) => total + entry.targetSize, 0);
-      if (partialChunkBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery partial chunk artifact payload is oversized');
+      partialArtifactBytes += chunkCheckpoints.entries.reduce((total, entry) => total + entry.targetSize, 0);
     }
+    if (result.semanticCheckpoints) {
+      const sourcePath = safePath(siteDir, result.sourcePath, 'Recovery semantic source path');
+      const sourceHash = sha256(fs.readFileSync(sourcePath));
+      if (sourceHash !== result.sourceHash) throw new Error(`Recovery semantic source hash changed: ${result.sourcePath}`);
+      semanticCheckpoints = persistSemanticCheckpoints(result.semanticCheckpoints, identity, {
+        ...result,
+        target: result.target || result.semanticCheckpoints.target,
+        locale: result.locale || result.semanticCheckpoints.locale,
+      });
+      partialArtifactBytes += semanticCheckpointBytes(semanticCheckpoints);
+    }
+    if (partialArtifactBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery partial artifact payload is oversized');
     return {
       sourcePath: result.sourcePath,
       targetPath: result.targetPath,
@@ -119,6 +136,7 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
         };
       }) : [],
       ...(chunkCheckpoints ? {chunkCheckpoints} : {}),
+      ...(semanticCheckpoints ? {semanticCheckpoints} : {}),
     };
   });
   failures.sort((left, right) => left.sourcePath.localeCompare(right.sourcePath) || left.targetPath.localeCompare(right.targetPath));
@@ -130,8 +148,9 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
     ...identity,
     translated: files.length,
     failed: failures.length,
-    resumableFiles: failures.filter(failure => failure.chunkCheckpoints?.entries?.length).length,
+    resumableFiles: failures.filter(failure => failure.chunkCheckpoints?.entries?.length || failure.semanticCheckpoints?.report?.entries?.length).length,
     checkpointedChunks: failures.reduce((total, failure) => total + (failure.chunkCheckpoints?.entries?.length || 0), 0),
+    checkpointedSemanticUnits: failures.reduce((total, failure) => total + (failure.semanticCheckpoints?.report?.entries?.length || 0), 0),
     failureCounts,
   };
   writeJson(path.join(outputDir, 'metadata.json'), metadata);
@@ -146,13 +165,14 @@ function readArtifact(artifactDir) {
     if (![1, 2].includes(metadata.schemaVersion) || manifest.schemaVersion !== metadata.schemaVersion || !Array.isArray(manifest.files)) throw new Error('schema mismatch');
     if (manifest.schemaVersion === 2 && !Array.isArray(manifest.failures)) throw new Error('schema mismatch');
     if (manifest.schemaVersion === 2) {
-      let partialChunkBytes = 0;
+      let partialArtifactBytes = 0;
       for (const failure of manifest.failures) {
         for (const entry of failure?.chunkCheckpoints?.entries || []) {
           if (typeof entry?.translatedContent !== 'string') continue;
-          partialChunkBytes += Buffer.byteLength(entry.translatedContent);
-          if (partialChunkBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('partial chunk artifact payload is oversized');
+          partialArtifactBytes += Buffer.byteLength(entry.translatedContent);
         }
+        partialArtifactBytes += semanticCheckpointBytes(failure?.semanticCheckpoints);
+        if (partialArtifactBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('partial artifact payload is oversized');
       }
     }
     return {artifactDir, metadata, files: manifest.files, failures: manifest.failures || []};
@@ -272,7 +292,8 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
       }
     }
   }
-  let bestResume = null;
+  let bestChunkResume = null;
+  let bestSemanticResume = null;
   const rejectedChunks = [];
   for (const artifact of artifacts) {
     if (artifact.error || artifact.metadata?.schemaVersion !== 2) continue;
@@ -280,20 +301,38 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
     if (metadataReason) continue;
     const records = artifact.failures.filter(record => record?.sourcePath === candidate.sourcePath && record?.targetPath === candidate.targetPath);
     for (const record of records) {
-      if (record.sourceHash !== candidate.sourceHash || !record.chunkCheckpoints) continue;
-      const outcome = validatePersistedPrefix({
-        value: record.chunkCheckpoints,
-        artifactIdentity: artifact.metadata,
-        currentIdentity: identity,
-        sourceContent: fs.readFileSync(sourcePath, 'utf8'),
-        chunkOptions,
-        revalidate: input => revalidate?.({...candidate, ...input, candidate}),
-      });
-      rejectedChunks.push(...outcome.rejected.map(rejection => ({...rejection, artifactDir: artifact.artifactDir})));
-      if (outcome.resume && (!bestResume || outcome.resume.recoveredChunkCount > bestResume.recoveredChunkCount)) bestResume = outcome.resume;
+      if (record.sourceHash !== candidate.sourceHash) continue;
+      if (record.chunkCheckpoints) {
+        const outcome = validatePersistedPrefix({
+          value: record.chunkCheckpoints,
+          artifactIdentity: artifact.metadata,
+          currentIdentity: identity,
+          sourceContent: fs.readFileSync(sourcePath, 'utf8'),
+          chunkOptions,
+          revalidate: input => revalidate?.({...candidate, ...input, candidate}),
+        });
+        rejectedChunks.push(...outcome.rejected.map(rejection => ({...rejection, artifactDir: artifact.artifactDir})));
+        if (outcome.resume && (!bestChunkResume || outcome.resume.recoveredChunkCount > bestChunkResume.recoveredChunkCount)) bestChunkResume = outcome.resume;
+      }
+      if (record.semanticCheckpoints) {
+        try {
+          const semanticResume = validatePersistedSemanticCheckpoints({
+            value: record.semanticCheckpoints,
+            artifactIdentity: artifact.metadata,
+            currentIdentity: identity,
+            candidate,
+            target: identity.target || (identity.locale === 'ja-JP' ? 'ja-JP' : 'zh-CN-reference'),
+            sourceContent: fs.readFileSync(sourcePath, 'utf8'),
+            chunkOptions,
+          });
+          if (!bestSemanticResume || semanticResume.report.entries.length > bestSemanticResume.report.entries.length) bestSemanticResume = semanticResume;
+        } catch (error) {
+          reasons.push(`invalid semantic recovery checkpoint: ${String(error?.message || error)}`);
+        }
+      }
     }
   }
-  if (bestResume) return {resume: bestResume, rejectedChunks};
+  if (bestChunkResume || bestSemanticResume) return {chunkResume: bestChunkResume, semanticResume: bestSemanticResume, rejectedChunks};
   return {reason: preferRecoveryReason(reasons), rejectedChunks};
 }
 
@@ -313,8 +352,12 @@ function restoreRecoveryFiles({siteDir, candidates, artifacts, identity, revalid
     }
     if (outcome.result) restored.push({...outcome.result, recoveryTargetHash: outcome.targetHash, recoveryTargetSize: outcome.targetSize});
     else {
-      pending.push(outcome.resume ? {...candidate, recoveryChunkResume: outcome.resume} : candidate);
-      if (artifacts.length > 0 && !outcome.resume) rejected.push({...candidate, recoveryReason: outcome.reason});
+      pending.push({
+        ...candidate,
+        ...(outcome.chunkResume ? {recoveryChunkResume: outcome.chunkResume} : {}),
+        ...(outcome.semanticResume ? {recoverySemanticResume: outcome.semanticResume} : {}),
+      });
+      if (artifacts.length > 0 && !outcome.chunkResume && !outcome.semanticResume) rejected.push({...candidate, recoveryReason: outcome.reason});
     }
     rejectedChunks.push(...(outcome.rejectedChunks || []).map(rejection => ({
       sourcePath: candidate.sourcePath,

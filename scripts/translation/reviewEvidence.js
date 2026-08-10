@@ -130,7 +130,7 @@ function validateReviewEvidence(review, {sourceContent, draftContent, localeCont
       unsupportedIssues.push(unsupported(issue, 'source_quote and draft_quote are identical for a claimed protected-token or structure change'))
       continue
     }
-    if (issueConflictsWithLocaleContract(issue, localeContract)) {
+    if (issueConflictsWithLocaleContract(issue, localeContract, source)) {
       contractConflicts.push(unsupported(issue, 'reviewer issue conflicts with the locale contract'))
       continue
     }

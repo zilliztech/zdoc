@@ -208,5 +208,6 @@ module.exports = {
   loadAnalysisChunkResume,
   persistChunkCheckpoints,
   serializeCompletedChunkCheckpoints,
+  validateArtifactExecution,
   validatePersistedPrefix,
 }
