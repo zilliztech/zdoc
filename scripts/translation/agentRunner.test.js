@@ -1907,7 +1907,7 @@ async function testProviderNamedFailuresRetryBoundedlyAndExternalAbortDoesNotRet
     for (const [label, response, category] of [
       ['HTTP 408', () => ({ok: false, status: 408, json: async () => ({error: 'timeout'})}), 'provider_timeout'],
       ['APITimeoutError', () => { const error = new Error('opaque'); error.name = 'APITimeoutError'; throw error }, 'provider_timeout'],
-      ['stream before response.completed', () => { throw new Error('stream closed before response.completed') }, 'provider_transport'],
+      ['non-adaptive stream before response.completed', () => { throw new Error('stream closed before response.completed') }, 'provider_transport'],
     ]) {
       let calls = 0
       global.fetch = async () => {
@@ -1921,6 +1921,32 @@ async function testProviderNamedFailuresRetryBoundedlyAndExternalAbortDoesNotRet
       })
       assert.equal(calls, 2, label)
     }
+
+    let incompleteStreamCalls = 0
+    global.fetch = async () => {
+      incompleteStreamCalls += 1
+      throw new Error('stream closed before response.completed')
+    }
+    const incompleteStreamBudget = createProviderRetryBudget(1)
+    const incompleteStreamCall = await createProviderCall(
+      {translation: {baseUrl: 'https://example.com', apiKey: 'key', model: 'model'}},
+      {maxRetries: 1, retryDelayMs: 1},
+    )
+    await assert.rejects(() => incompleteStreamCall({
+      agent: 'translation',
+      messages: [],
+      adaptivePayload: true,
+      retryBudget: incompleteStreamBudget,
+    }), error => {
+      assert.equal(error.failureCategory, 'provider_transport')
+      assert.equal(error.adaptiveSubdivisionRecommended, true)
+      assert.equal(error.providerAttempts, 1)
+      assert.equal(error.retryBudgetConsumed, 0)
+      assert.equal(error.retryBudgetRemaining, 1)
+      return true
+    })
+    assert.equal(incompleteStreamCalls, 1)
+    assert.deepEqual(incompleteStreamBudget, {limit: 1, consumed: 0, remaining: 1})
 
     let abortedCalls = 0
     global.fetch = async (_url, options) => new Promise((resolve, reject) => {

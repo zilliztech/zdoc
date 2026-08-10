@@ -227,7 +227,7 @@ function stripCodeFence(text) {
 }
 
 const TRANSIENT_PROVIDER_HTTP_STATUSES = new Set([409, 425, 429, 500, 502, 503, 504])
-const INCOMPLETE_STREAM_PATTERN = /stream disconnected before completion:\s*stream closed before response\.completed/i
+const INCOMPLETE_STREAM_PATTERN = /(?:stream disconnected before completion:\s*)?stream closed before response\.completed/i
 const HARD_PROVIDER_TIMEOUT_PATTERN = /Request timed out after 240(?:\.0)?s|timed out after 240000ms/i
 
 function shouldRecommendAdaptiveSubdivision(error, {agent, adaptivePayload}) {
