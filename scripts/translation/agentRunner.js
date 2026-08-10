@@ -35,6 +35,7 @@ const { defaultReferenceManualForPath } = loadTypeScript('../../packages/docs-to
 
 const DEFAULT_MANIFEST = 'tmp/translation-manifest.json'
 const DEFAULT_PROVIDER_RETRIES = 3
+const DEFAULT_ADAPTIVE_CALL_LIMIT = 32
 const DEFAULT_PROVIDER_RETRY_DELAY_MS = 30000
 const DEFAULT_PROVIDER_RETRY_MAX_DELAY_MS = 120000
 const DEFAULT_PROVIDER_RETRY_JITTER_RATIO = 0.2
@@ -165,13 +166,37 @@ function consumeProviderRetryBudget(budget) {
   return true
 }
 
-function reserveProviderRetryBudget(budget, count) {
-  if (!Number.isInteger(count) || count < 0) throw new Error('Provider retry budget reservation must be a non-negative integer')
-  if (!budget) return true
-  validateProviderRetryBudget(budget)
+function createAdaptiveCallBudget(limit = DEFAULT_ADAPTIVE_CALL_LIMIT) {
+  if (!Number.isInteger(limit) || limit < 0) throw new Error('Adaptive call budget must be a non-negative integer')
+  return {limit, reserved: 0, remaining: limit}
+}
+
+function validateAdaptiveCallBudget(budget) {
+  if (!budget || !Number.isInteger(budget.limit) || budget.limit < 0 ||
+      !Number.isInteger(budget.reserved) || budget.reserved < 0 ||
+      !Number.isInteger(budget.remaining) || budget.remaining < 0 ||
+      budget.reserved + budget.remaining !== budget.limit) {
+    throw new Error('Adaptive call budget is invalid')
+  }
+  return budget
+}
+
+function adaptiveCallBudgetDetails(budget) {
+  if (!budget) return {}
+  validateAdaptiveCallBudget(budget)
+  return {
+    adaptiveCallLimit: budget.limit,
+    adaptiveCallsReserved: budget.reserved,
+    adaptiveCallsRemaining: budget.remaining,
+  }
+}
+
+function reserveAdaptiveCallBudget(budget, count) {
+  if (!Number.isInteger(count) || count < 0) throw new Error('Adaptive call budget reservation must be a non-negative integer')
+  validateAdaptiveCallBudget(budget)
   if (budget.remaining < count) return false
   budget.remaining -= count
-  budget.consumed += count
+  budget.reserved += count
   return true
 }
 
@@ -436,6 +461,10 @@ async function processItemWithRetry(item, options) {
     Number.isInteger(options.providerRetryLimit) ? createProviderRetryBudget(options.providerRetryLimit) : null
   )
   if (providerRetryBudget) validateProviderRetryBudget(providerRetryBudget)
+  const adaptiveCallBudget = options.adaptiveCallBudget || createAdaptiveCallBudget(
+    Number.isInteger(options.adaptiveCallLimit) ? options.adaptiveCallLimit : DEFAULT_ADAPTIVE_CALL_LIMIT,
+  )
+  validateAdaptiveCallBudget(adaptiveCallBudget)
   const initialChunkCheckpoints = options.initialChunkCheckpoints || []
   if (!Array.isArray(initialChunkCheckpoints)) throw new Error('Initial chunk checkpoints must be an array')
   const chunkCheckpoint = new Map(initialChunkCheckpoints.map((checkpoint, position) => {
@@ -451,6 +480,7 @@ async function processItemWithRetry(item, options) {
       const executeAttempt = signal => options.processItem(item, attempt, retryFeedback, {
         chunkCheckpoint,
         providerRetryBudget,
+        adaptiveCallBudget,
         onChunkCompleted: checkpoint => {
           if (signal?.aborted) throw signal.reason
           chunkCheckpoint.set(checkpoint.index, checkpoint)
@@ -673,6 +703,29 @@ function subdivideSemanticBatch(batch, targetChars, maxChars) {
   return groups
 }
 
+function batchSemanticReviewPairs(sourceUnits, draftUnits, targetChars, maxChars) {
+  const draftById = new Map(draftUnits.map(unit => [unit.id, unit]))
+  const pairs = sourceUnits.map(sourceUnit => {
+    const draftUnit = draftById.get(sourceUnit.id)
+    if (!draftUnit) throw new Error(`Missing draft semantic unit ${sourceUnit.id}`)
+    return {sourceUnit, draftUnit, chars: sourceUnit.text.length + draftUnit.text.length}
+  })
+  const batches = []
+  let current = []
+  let currentChars = 0
+  for (const pair of pairs) {
+    if (current.length && (currentChars >= targetChars || currentChars + pair.chars > maxChars)) {
+      batches.push(current)
+      current = []
+      currentChars = 0
+    }
+    current.push(pair)
+    currentChars += pair.chars
+  }
+  if (current.length) batches.push(current)
+  return batches
+}
+
 async function translateAndReviewUnit({
   target,
   sourcePath,
@@ -683,6 +736,7 @@ async function translateAndReviewUnit({
   chunkContext,
   retryFeedback,
   providerRetryBudget,
+  adaptiveCallBudget,
   adaptiveTargetChars,
   adaptiveMaxChars,
   signal,
@@ -725,14 +779,14 @@ async function translateAndReviewUnit({
         const maxChars = Math.max(targetChars, Math.floor(adaptiveMaxChars / (2 ** depth)))
         const subdivisions = subdivideSemanticBatch(batch, targetChars, maxChars)
         if (subdivisions.length > 1) {
-          if (reserveProviderRetryBudget(providerRetryBudget, subdivisions.length)) {
+          if (reserveAdaptiveCallBudget(adaptiveCallBudget, subdivisions.length)) {
             const translated = []
             for (const subdivision of subdivisions) {
               translated.push(...await translateBatch(subdivision, depth + 1, true, 'adaptive'))
             }
             if (translated.length === batch.length) return translated
           }
-          Object.assign(error, providerRetryBudgetDetails(providerRetryBudget))
+          Object.assign(error, providerRetryBudgetDetails(providerRetryBudget), adaptiveCallBudgetDetails(adaptiveCallBudget))
         }
       }
       if (providerFailure && (adaptive || repeatedProviderFailure)) {
@@ -742,7 +796,7 @@ async function translateAndReviewUnit({
           adaptiveTargetChars: Math.max(1, Math.floor(adaptiveTargetChars / (2 ** Math.max(0, depth - 1)))),
           adaptiveMaxChars: Math.max(1, Math.floor(adaptiveMaxChars / (2 ** Math.max(0, depth - 1)))),
           ...(batch.length === 1 ? {semanticUnitId: batch[0].id} : {}),
-        })
+        }, providerRetryBudgetDetails(providerRetryBudget), adaptiveCallBudgetDetails(adaptiveCallBudget))
       }
       throw error
     }
@@ -757,29 +811,42 @@ async function translateAndReviewUnit({
     const draftUnits = reprotectSemanticUnits(sourceUnits, currentUnits)
     const draftUnitPayload = draftUnits.map(unit => ({id: unit.id, kind: unit.kind, text: unit.protection.content}))
     const protectedDraftDocument = reprotectTranslationInput(translatedContent, protectedSource.manifest)
-    const sourceUnitContent = JSON.stringify(sourceUnitPayload)
-    const draftUnitContent = JSON.stringify(draftUnitPayload)
-    const evidence = bindSemanticReviewEvidence(parseAndValidateReviewEvidence(await callModel({
-      agent: 'review',
-      signal,
-      retryBudget: providerRetryBudget,
-      messages: buildReviewMessages({
-        target,
-        sourcePath,
-        sourceContent: protectedSource.content,
-        translatedContent: protectedDraftDocument.content,
-        sourceDocument: protectedSource.content,
-        draftDocument: protectedDraftDocument.content,
-        sourceUnits: sourceUnitPayload,
-        draftUnits: draftUnitPayload,
-        locale,
-        chunkContext,
-      }),
-    }), {
-      sourceContent: sourceUnitContent,
-      draftContent: draftUnitContent,
-      localeContract,
-    }), sourceUnits, draftUnits)
+    const reviewBatches = batchSemanticReviewPairs(sourceUnitPayload, draftUnitPayload, adaptiveTargetChars, adaptiveMaxChars)
+    const evidenceBatches = []
+    for (const batch of reviewBatches) {
+      const batchSourcePayload = batch.map(pair => pair.sourceUnit)
+      const batchDraftPayload = batch.map(pair => pair.draftUnit)
+      const batchIds = new Set(batchSourcePayload.map(unit => unit.id))
+      evidenceBatches.push(bindSemanticReviewEvidence(parseAndValidateReviewEvidence(await callModel({
+        agent: 'review',
+        signal,
+        retryBudget: providerRetryBudget,
+        messages: buildReviewMessages({
+          target,
+          sourcePath,
+          sourceContent: protectedSource.content,
+          translatedContent: protectedDraftDocument.content,
+          sourceDocument: markerFreeDocumentContext(protectedSource.content),
+          draftDocument: markerFreeDocumentContext(protectedDraftDocument.content),
+          sourceUnits: batchSourcePayload,
+          draftUnits: batchDraftPayload,
+          locale,
+          chunkContext,
+        }),
+      }), {
+        sourceContent: JSON.stringify(batchSourcePayload),
+        draftContent: JSON.stringify(batchDraftPayload),
+        localeContract,
+      }), sourceUnits.filter(unit => batchIds.has(unit.id)), draftUnits.filter(unit => batchIds.has(unit.id))))
+    }
+    const evidence = {
+      fatal: evidenceBatches.some(item => item.fatal),
+      issueUnits: evidenceBatches.flatMap(item => item.issueUnits),
+      unsupportedIssues: evidenceBatches.flatMap(item => item.unsupportedIssues),
+      contractConflicts: evidenceBatches.flatMap(item => item.contractConflicts),
+      reviewerPass: evidenceBatches.every(item => item.reviewerPass),
+      error: evidenceBatches.map(item => item.error).filter(Boolean).join('; ') || null,
+    }
     const deterministic = deterministicSemanticIssues(sourceUnits, draftUnits, localeContract)
     const issues = []
     const issueUnits = []
@@ -812,40 +879,48 @@ async function translateAndReviewUnit({
     const authorizedIds = [...new Set(issueUnits.map(item => item.unitId))]
     if (!authorizedIds.length) break
     const authorizedDraftUnits = draftUnits.filter(unit => authorizedIds.includes(unit.id))
-    const authorizedPayload = authorizedDraftUnits.map(unit => ({
-      id: unit.id,
-      source: sourceUnits.find(sourceUnit => sourceUnit.id === unit.id).protection.content,
-      draft: unit.protection.content,
-    }))
-    const correctedResponse = await callModel({
-      agent: 'correction',
-      signal,
-      retryBudget: providerRetryBudget,
-      messages: buildCorrectionMessages({
-        target,
-        sourcePath,
-        sourceContent: protectedSource.content,
-        translatedContent: protectedDraftDocument.content,
-        sourceDocument: markerFreeDocumentContext(protectedSource.content),
-        draftDocument: markerFreeDocumentContext(protectedDraftDocument.content),
-        authorizedUnits: authorizedPayload,
-        review: {pass: false, issues},
-        locale,
-        chunkContext,
-      }),
-    })
-    let correctedUnits
-    try {
-      correctedUnits = restoreSemanticUnitResponse(correctedResponse, {field: 'corrections', protectedUnits: authorizedDraftUnits, localeContract})
-    } catch (error) {
-      if (error?.failureCategory === 'protected_content_failed' && /protected marker/i.test(String(error.message || error))) {
-        throw categorizedError(
-          `Correction protected marker violation: ${String(error.message || error)}`,
-          'protected_content_failed',
-          {code: 'CORRECTION_PROTECTED_MARKER_VIOLATION', cause: error},
-        )
+    const authorizedSourcePayload = sourceUnitPayload.filter(unit => authorizedIds.includes(unit.id))
+    const authorizedDraftPayload = draftUnitPayload.filter(unit => authorizedIds.includes(unit.id))
+    const correctionBatches = batchSemanticReviewPairs(authorizedSourcePayload, authorizedDraftPayload, adaptiveTargetChars, adaptiveMaxChars)
+    const correctedUnits = []
+    for (const batch of correctionBatches) {
+      const batchIds = new Set(batch.map(pair => pair.sourceUnit.id))
+      const batchDraftUnits = authorizedDraftUnits.filter(unit => batchIds.has(unit.id))
+      const authorizedPayload = batch.map(pair => ({
+        id: pair.sourceUnit.id,
+        source: pair.sourceUnit.text,
+        draft: pair.draftUnit.text,
+      }))
+      const batchIssues = issues.filter(issue => [...batchIds].some(id => issue.location === id || issue.location.startsWith(`${id};`)))
+      const correctedResponse = await callModel({
+        agent: 'correction',
+        signal,
+        retryBudget: providerRetryBudget,
+        messages: buildCorrectionMessages({
+          target,
+          sourcePath,
+          sourceContent: protectedSource.content,
+          translatedContent: protectedDraftDocument.content,
+          sourceDocument: markerFreeDocumentContext(protectedSource.content),
+          draftDocument: markerFreeDocumentContext(protectedDraftDocument.content),
+          authorizedUnits: authorizedPayload,
+          review: {pass: false, issues: batchIssues},
+          locale,
+          chunkContext,
+        }),
+      })
+      try {
+        correctedUnits.push(...restoreSemanticUnitResponse(correctedResponse, {field: 'corrections', protectedUnits: batchDraftUnits, localeContract}))
+      } catch (error) {
+        if (error?.failureCategory === 'protected_content_failed' && /protected marker/i.test(String(error.message || error))) {
+          throw categorizedError(
+            `Correction protected marker violation: ${String(error.message || error)}`,
+            'protected_content_failed',
+            {code: 'CORRECTION_PROTECTED_MARKER_VIOLATION', cause: error},
+          )
+        }
+        throw error
       }
-      throw error
     }
     const correctedById = new Map(correctedUnits.map(unit => [unit.id, unit.translation]))
     currentUnits = currentUnits.map(unit => correctedById.has(unit.id) ? {...unit, translation: correctedById.get(unit.id)} : unit)
@@ -879,8 +954,10 @@ async function processManifestItem({
   validate = validateTranslatedContent,
   retryFeedback = null,
   providerRetryBudget = null,
+  adaptiveCallBudget = createAdaptiveCallBudget(),
   signal,
 }) {
+  validateAdaptiveCallBudget(adaptiveCallBudget)
   if (item.sourcePath.includes('#')) throw new Error(`Translation source path must be repository-relative: ${item.sourcePath}`)
   const absSourcePath = path.join(siteDir, item.sourcePath)
   const absTargetPath = path.join(siteDir, item.targetPath)
@@ -900,6 +977,7 @@ async function processManifestItem({
       chunkContext: null,
       retryFeedback,
       providerRetryBudget,
+      adaptiveCallBudget,
       adaptiveTargetChars: Math.max(1, Math.floor(chunkTargetChars / 2)),
       adaptiveMaxChars: Math.max(1, Math.floor(chunkMaxChars / 2)),
       signal,
@@ -977,6 +1055,7 @@ async function processManifestItem({
         chunkContext,
         retryFeedback,
         providerRetryBudget,
+        adaptiveCallBudget,
         adaptiveTargetChars: Math.max(1, Math.floor(chunkTargetChars / 2)),
         adaptiveMaxChars: Math.max(1, Math.floor(chunkMaxChars / 2)),
         signal,
@@ -1515,6 +1594,7 @@ async function main() {
   const reportPath = args.get('--report') || 'tmp/translation-report.json'
   const maxReviewRounds = Number(args.get('--max-review-rounds') || process.env.TRANSLATION_MAX_REVIEW_ROUNDS || 2)
   const maxProviderRetries = parsePositiveInteger(process.env.TRANSLATION_AGENT_RETRIES, DEFAULT_PROVIDER_RETRIES)
+  const adaptiveCallLimit = parsePositiveInteger(process.env.TRANSLATION_ADAPTIVE_CALL_LIMIT, DEFAULT_ADAPTIVE_CALL_LIMIT)
   const providerTimeoutMs = parsePositiveInteger(process.env.TRANSLATION_AGENT_TIMEOUT_MS, DEFAULT_PROVIDER_TIMEOUT_MS)
   const fileTimeoutMs = parsePositiveInteger(process.env.TRANSLATION_FILE_TIMEOUT_MS, DEFAULT_FILE_TIMEOUT_MS)
   const fileRetries = parseNonNegativeInteger(process.env.TRANSLATION_FILE_RETRIES ?? DEFAULT_FILE_RETRIES, DEFAULT_FILE_RETRIES)
@@ -1579,6 +1659,7 @@ async function main() {
         const result = await processItemWithRetry(targetItem, {
           maxRetries: fileRetries,
           providerRetryLimit: maxProviderRetries,
+          adaptiveCallLimit,
           log: console,
           initialChunkCheckpoints: item.recoveryChunkCheckpoints,
           fileTimeoutMs,
@@ -1593,6 +1674,7 @@ async function main() {
               onChunkCompleted: retryContext.onChunkCompleted,
               signal: retryContext.signal,
               providerRetryBudget: retryContext.providerRetryBudget,
+              adaptiveCallBudget: retryContext.adaptiveCallBudget,
               retryFeedback,
             }),
         })
@@ -1634,6 +1716,7 @@ module.exports = {
   buildTranslationMessages,
   calculateProviderRetryDelay,
   createProviderCall,
+  createAdaptiveCallBudget,
   createProviderRetryBudget,
   createProgressCoordinator,
   isRetryableProviderError,

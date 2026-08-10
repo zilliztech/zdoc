@@ -10,6 +10,7 @@ const {
   buildTranslationMessages,
   buildRecoveryIdentity,
   calculateProviderRetryDelay,
+  createAdaptiveCallBudget,
   createProviderCall,
   createProviderRetryBudget,
   createProgressCoordinator,
@@ -25,9 +26,13 @@ const {
   stabilizeBareUrlFormatting,
   stripCodeFence,
   validateTranslationManifest,
+  validateTranslatedContent,
   withTimeout,
 } = require('./agentRunner')
 const { chunkDocument } = require('./chunker')
+const {loadLocaleContract} = require('./localeContract')
+const {validateProtectedContent} = require('./protectedContent')
+const {collectSemanticUnits, deterministicSemanticIssues, protectSemanticUnits} = require('./semanticUnits')
 const { REVIEW_RESPONSE_JSON_SCHEMA } = require('./reviewEvidence')
 const { createRecoveryArtifact, readArtifact } = require('./recovery-artifact')
 const { buildTranslationCandidates } = require('../../packages/docs-tooling/src/translation/candidates.ts')
@@ -1167,11 +1172,13 @@ async function testHardProviderTimeoutDirectlySubdividesWithoutDuplicateFullPayl
         review: {baseUrl: 'https://example.com', apiKey: 'test-key', model: 'review-model'},
       }, {maxRetries: 3, retryDelayMs: 0})
       const retryBudget = createProviderRetryBudget(2)
+      const adaptiveCallBudget = createAdaptiveCallBudget(4)
       const result = await processManifestItem({
         siteDir,
         item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
         callModel,
         providerRetryBudget: retryBudget,
+        adaptiveCallBudget,
         maxReviewRounds: 0,
         chunkTargetChars: 100,
         chunkMaxChars: 200,
@@ -1182,7 +1189,8 @@ async function testHardProviderTimeoutDirectlySubdividesWithoutDuplicateFullPayl
       assert.ok(translationBatchSizes[0] > 1)
       assert.equal(translationBatchSizes.slice(1).includes(translationBatchSizes[0]), false)
       assert.equal(translationBatchSizes.slice(1).reduce((sum, size) => sum + size, 0), translationBatchSizes[0])
-      assert.deepEqual(retryBudget, {limit: 2, consumed: 2, remaining: 0})
+      assert.deepEqual(retryBudget, {limit: 2, consumed: 0, remaining: 2})
+      assert.deepEqual(adaptiveCallBudget, {limit: 4, reserved: 2, remaining: 2})
     } finally {
       global.fetch = originalFetch
     }
@@ -1198,6 +1206,7 @@ async function testAdaptiveSemanticSubdivisionRecoversProviderTimeouts() {
     const translationBatchSizes = []
     let initialFailure = true
     const providerRetryBudget = createProviderRetryBudget(2)
+    const adaptiveCallBudget = createAdaptiveCallBudget(4)
     const result = await processManifestItem({
       siteDir,
       item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
@@ -1205,6 +1214,7 @@ async function testAdaptiveSemanticSubdivisionRecoversProviderTimeouts() {
       chunkTargetChars: 100,
       chunkMaxChars: 200,
       providerRetryBudget,
+      adaptiveCallBudget,
       validate: async () => [],
       callModel: async ({agent, messages}) => {
         if (agent === 'review') return '{"pass":true,"issues":[]}'
@@ -1235,7 +1245,8 @@ async function testAdaptiveSemanticSubdivisionRecoversProviderTimeouts() {
     assert.ok(translationBatchSizes[0] > 1)
     assert.ok(translationBatchSizes.slice(1).every(size => size < translationBatchSizes[0]))
     assert.equal(translationBatchSizes.slice(1).reduce((sum, size) => sum + size, 0), translationBatchSizes[0])
-    assert.equal(providerRetryBudget.remaining, 0)
+    assert.deepEqual(providerRetryBudget, {limit: 2, consumed: 0, remaining: 2})
+    assert.deepEqual(adaptiveCallBudget, {limit: 4, reserved: 2, remaining: 2})
     assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /ベクトル/)
   })
 }
@@ -1286,14 +1297,20 @@ async function testAdaptiveSemanticSubdivisionReportsTerminalUnitEvidence() {
     write(path.join(siteDir, sourcePath), source)
     let initialFailure = true
     let adaptiveCalls = 0
+    const providerRetryBudget = createProviderRetryBudget(2)
+    const adaptiveCallBudget = createAdaptiveCallBudget(2)
     const result = await processItemWithRetry({sourcePath}, {
       maxRetries: 0,
+      providerRetryBudget,
+      adaptiveCallBudget,
       processItem: () => processManifestItem({
         siteDir,
         item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
         maxReviewRounds: 0,
         chunkTargetChars: 100,
         chunkMaxChars: 200,
+        providerRetryBudget,
+        adaptiveCallBudget,
         validate: async () => [],
         callModel: async ({agent, messages}) => {
           if (agent === 'review') return '{"pass":true,"issues":[]}'
@@ -1318,7 +1335,9 @@ async function testAdaptiveSemanticSubdivisionReportsTerminalUnitEvidence() {
 
     assert.equal(result.status, 'failed')
     assert.equal(result.failureCategory, 'provider_transport')
-    assert.equal(result.errorDetails.retryBudgetRemaining, 0)
+    assert.equal(result.errorDetails.retryBudgetRemaining, 2)
+    assert.equal(result.errorDetails.adaptiveCallsReserved, 2)
+    assert.equal(result.errorDetails.adaptiveCallsRemaining, 0)
     assert.equal(result.errorDetails.semanticBatchSize, 1)
     assert.match(result.errorDetails.semanticUnitId, /^document\./)
     assert.equal(result.errorDetails.adaptiveSubdivisionDepth, 1)
@@ -1327,21 +1346,24 @@ async function testAdaptiveSemanticSubdivisionReportsTerminalUnitEvidence() {
   })
 }
 
-async function testAdaptiveSubdivisionPreflightsTheWholeImmediateChildBudget() {
+async function testAdaptiveSubdivisionPreflightsTheWholeImmediateChildCallBudget() {
   await withTempDir(async siteDir => {
     const sourcePath = 'docs/adaptive-budget-preflight.md'
     const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/adaptive-budget-preflight.md'
     const source = '# Fields\n\nFirst field description.\n\nSecond field description.\n'
     write(path.join(siteDir, sourcePath), source)
     const retryBudget = createProviderRetryBudget(1)
+    const adaptiveCallBudget = createAdaptiveCallBudget(1)
     let translationCalls = 0
     const result = await processItemWithRetry({sourcePath}, {
       maxRetries: 1,
       providerRetryBudget: retryBudget,
+      adaptiveCallBudget,
       processItem: () => processManifestItem({
         siteDir,
         item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
         providerRetryBudget: retryBudget,
+        adaptiveCallBudget,
         maxReviewRounds: 0,
         chunkTargetChars: 100,
         chunkMaxChars: 200,
@@ -1360,12 +1382,16 @@ async function testAdaptiveSubdivisionPreflightsTheWholeImmediateChildBudget() {
 
     assert.equal(translationCalls, 1, 'no child call may start when the full immediate child set cannot be reserved')
     assert.deepEqual(retryBudget, {limit: 1, consumed: 0, remaining: 1})
+    assert.deepEqual(adaptiveCallBudget, {limit: 1, reserved: 0, remaining: 1})
     assert.equal(result.status, 'failed')
     assert.equal(result.attempts, 1)
     assert.equal(result.errorDetails.adaptiveSubdivisionDepth, 0)
     assert.equal(result.errorDetails.semanticBatchSize, 3)
     assert.equal(result.errorDetails.retryBudgetConsumed, 0)
     assert.equal(result.errorDetails.retryBudgetRemaining, 1)
+    assert.equal(result.errorDetails.adaptiveCallLimit, 1)
+    assert.equal(result.errorDetails.adaptiveCallsReserved, 0)
+    assert.equal(result.errorDetails.adaptiveCallsRemaining, 1)
   })
 }
 
@@ -1466,34 +1492,54 @@ async function testBoostRankerVectorIdentifierCorrectionAlignsAllContracts() {
   })
 }
 
-async function testProductionTimeoutFixturesUseHalfSizedAdaptivePayloads() {
+async function testRetainedTimeoutFixturesCompleteWithBoundedAdaptivePayloads() {
   const fixtures = [
-    ['content/en/guides/tutorials/development/collection/external-collection-limits.md', 8636, 10],
-    ['content/en/guides/tutorials/get-started/cloud-providers-and-regions.md', 7733, 7],
+    {
+      fixturePath: 'scripts/translation/fixtures/retained-timeout/external-collection-limits.md.base64',
+      sourcePath: 'content/en/guides/tutorials/development/collection/external-collection-limits.md',
+      sha256: 'a34bf461c3bfb825ffbc70cd594b9f033fc16c69f5a654bb1fe3dc0073074897',
+      bytes: 8802,
+      adaptiveGroups: 10,
+    },
+    {
+      fixturePath: 'scripts/translation/fixtures/retained-timeout/cloud-providers-and-regions.md.base64',
+      sourcePath: 'content/en/guides/tutorials/get-started/cloud-providers-and-regions.md',
+      sha256: '96e78b2e7b1501db2abac1058b0079722d61e486d9d0acf1e75d662fc1aab7a0',
+      bytes: 7901,
+      adaptiveGroups: 8,
+    },
   ]
-  for (const [fixturePath, expectedChars, immediateChildCount] of fixtures) {
+  for (const fixture of fixtures) {
     await withTempDir(async siteDir => {
-      const source = fs.readFileSync(path.resolve(__dirname, '../..', fixturePath), 'utf8')
-      assert.equal(source.length, expectedChars)
+      const source = Buffer.from(fs.readFileSync(path.resolve(__dirname, '../..', fixture.fixturePath), 'utf8').trim(), 'base64').toString('utf8')
+      assert.equal(Buffer.byteLength(source), fixture.bytes)
+      assert.equal(sha256(source), fixture.sha256, 'fixture must remain byte-identical to source checkpoint 75d3385')
       assert.equal(chunkDocument(source, {targetChars: 8000, maxChars: 12000}).length, 1)
-      const sourcePath = `docs/${path.basename(fixturePath)}`
-      const targetPath = `i18n/ja-JP/${path.basename(fixturePath)}`
-      write(path.join(siteDir, sourcePath), source)
+      const targetPath = `i18n/ja-JP/${path.basename(fixture.sourcePath)}`
+      write(path.join(siteDir, fixture.sourcePath), source)
       const payloadChars = []
+      const reviewPayloadChars = []
       let initialFailure = true
-      const providerRetryBudget = createProviderRetryBudget(immediateChildCount)
-      const result = await processItemWithRetry({sourcePath}, {
+      const providerRetryBudget = createProviderRetryBudget(3)
+      const adaptiveCallBudget = createAdaptiveCallBudget(32)
+      const result = await processItemWithRetry({sourcePath: fixture.sourcePath}, {
         maxRetries: 0,
         providerRetryBudget,
-        processItem: () => processManifestItem({
+        adaptiveCallBudget,
+        processItem: (_item, _attempt, _feedback, retryContext) => processManifestItem({
           siteDir,
-          item: {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
+          item: {target: 'ja-JP', sourcePath: fixture.sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'},
           maxReviewRounds: 0,
           chunkTargetChars: 8000,
           chunkMaxChars: 12000,
-          providerRetryBudget,
-          validate: async () => [],
+          providerRetryBudget: retryContext.providerRetryBudget,
+          adaptiveCallBudget: retryContext.adaptiveCallBudget,
+          validate: validateTranslatedContent,
           callModel: async ({agent, messages}) => {
+            if (agent === 'review') {
+              reviewPayloadChars.push(JSON.stringify(messages).length)
+              return '{"pass":true,"issues":[]}'
+            }
             assert.equal(agent, 'translation')
             const units = taggedJsonContent(messages, 'semantic_units')
             payloadChars.push(units.reduce((sum, unit) => sum + unit.text.length, 0))
@@ -1502,23 +1548,37 @@ async function testProductionTimeoutFixturesUseHalfSizedAdaptivePayloads() {
               throw Object.assign(new Error('litellm.APITimeoutError: Request timed out after 240.0s'), {
                 failureCategory: 'provider_timeout', code: 'PROVIDER_TIMEOUT', providerAttempts: 1,
                 adaptiveSubdivisionRecommended: true,
-                retryBudgetLimit: immediateChildCount, retryBudgetConsumed: 0, retryBudgetRemaining: immediateChildCount,
+                retryBudgetLimit: 3, retryBudgetConsumed: 0, retryBudgetRemaining: 3,
               })
             }
-            throw Object.assign(new Error('stream disconnected before completion: stream closed before response.completed'), {
-              failureCategory: 'provider_transport', code: 'PROVIDER_TRANSPORT', providerAttempts: 1,
-              retryBudgetLimit: immediateChildCount, retryBudgetConsumed: immediateChildCount, retryBudgetRemaining: 0,
-            })
+            return semanticTranslationResponse(messages, text => text
+              .replace(/collection/gi, 'コレクション')
+              .replace(/cluster/gi, 'クラスター')
+              .replace(/vector/gi, 'ベクトル')
+              .replace(/scalar/gi, 'スカラー')
+              .replace(/index/gi, 'インデックス')
+              .replace(/schema/gi, 'スキーマ')
+              .replace(/database/gi, 'データベース'))
           },
         }),
       })
 
-      assert.equal(result.status, 'failed')
-      assert.equal(payloadChars.length, 2)
-      assert.ok(payloadChars.slice(1).every(chars => chars < payloadChars[0]), `${fixturePath} must not repeat the full semantic payload`)
-      assert.ok(payloadChars[1] <= 6000, `${fixturePath} adaptive payload must respect half max chars`)
-      assert.ok(result.errorDetails.adaptiveTargetChars <= 4000)
-      assert.ok(result.errorDetails.adaptiveMaxChars <= 6000)
+      assert.equal(result.status, 'translated')
+      assert.equal(payloadChars.length, fixture.adaptiveGroups + 1)
+      assert.ok(payloadChars.slice(1).every(chars => chars < payloadChars[0]), `${fixture.sourcePath} must not repeat the full semantic payload`)
+      assert.ok(payloadChars.slice(1).every(chars => chars <= 6000), `${fixture.sourcePath} adaptive payloads must respect half max chars`)
+      assert.ok(reviewPayloadChars.length > 1, `${fixture.sourcePath} review must use bounded semantic batches`)
+      assert.ok(reviewPayloadChars.every(chars => chars <= 30000), `${fixture.sourcePath} reviewer payloads must remain bounded`)
+      assert.deepEqual(providerRetryBudget, {limit: 3, consumed: 0, remaining: 3})
+      assert.deepEqual(adaptiveCallBudget, {limit: 32, reserved: fixture.adaptiveGroups, remaining: 32 - fixture.adaptiveGroups})
+      const translated = fs.readFileSync(path.join(siteDir, targetPath), 'utf8')
+      assert.deepEqual(validateProtectedContent(source, translated, {sourcePath: fixture.sourcePath, targetPath}), [])
+      const localeContract = loadLocaleContract('ja-JP')
+      const protectedOptions = {literalTokens: localeContract.doNotTranslate}
+      const sourceUnits = protectSemanticUnits(await collectSemanticUnits(source), unit => unit.source, protectedOptions)
+      const draftUnits = protectSemanticUnits(await collectSemanticUnits(translated), unit => unit.source, protectedOptions)
+      assert.deepEqual(deterministicSemanticIssues(sourceUnits, draftUnits, localeContract).issues, [])
+      assert.deepEqual(await validateTranslatedContent(translated), [])
     })
   }
 }
@@ -1844,7 +1904,12 @@ async function testLongDocumentTranslatesChunksSequentially() {
 
     assert.equal(result.status, 'translated')
     assert.equal(result.chunks.total, expectedChunks.length)
-    assert.deepEqual(calls.map(call => call.agent), expectedChunks.flatMap(() => ['translation', 'review']))
+    assert.equal(calls.filter(call => call.agent === 'translation').length, expectedChunks.length)
+    assert.equal(calls[0].agent, 'translation')
+    assert.equal(calls.at(-1).agent, 'review')
+    for (let index = 1; index < calls.length; index += 1) {
+      if (calls[index].agent === 'translation') assert.equal(calls[index - 1].agent, 'review')
+    }
     assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /# セクション Three/)
   })
 }
@@ -2108,14 +2173,12 @@ async function testFailedChunkDoesNotWritePartialTarget() {
     const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/long.md'
     const source = '# One\n\nFirst body.\n\n# Two\n\nSecond body.\n\n# Three\n\nThird body.\n'
     write(path.join(siteDir, sourcePath), source)
-    let reviewCount = 0
     const callModel = async ({ agent, messages }) => {
       if (agent === 'translation') {
         return semanticTranslationResponse(messages, text => `JA:${text}`)
       }
-      reviewCount += 1
-      if (reviewCount !== 2) return '{"pass":true,"issues":[]}'
       const sourceUnit = taggedJsonContent(messages, 'source_units')[0]
+      if (!sourceUnit.id.startsWith('chunk.0002.')) return '{"pass":true,"issues":[]}'
       const draftUnit = taggedJsonContent(messages, 'draft_units')[0]
       return JSON.stringify({pass: false, issues: [{
         severity: 'low', type: 'locale_style', location: sourceUnit.id,
@@ -3405,9 +3468,9 @@ async function run() {
   await testAdaptiveSemanticSubdivisionRecoversProviderTimeouts()
   await testAdaptiveSemanticSubdivisionRetainsFailClosedProtectedContent()
   await testAdaptiveSemanticSubdivisionReportsTerminalUnitEvidence()
-  await testAdaptiveSubdivisionPreflightsTheWholeImmediateChildBudget()
+  await testAdaptiveSubdivisionPreflightsTheWholeImmediateChildCallBudget()
   await testAdaptiveSemanticSubdivisionPreservesCompletedChunkCheckpoint()
-  await testProductionTimeoutFixturesUseHalfSizedAdaptivePayloads()
+  await testRetainedTimeoutFixturesCompleteWithBoundedAdaptivePayloads()
   await testFileTimeoutRejectsSlowWork()
   await testFileAttemptDeadlineSpansAllMarkdownChunksAndStopsLateCheckpoints()
   await testFileAttemptDeadlineAbortsRestTranslation()

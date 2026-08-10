@@ -16,6 +16,7 @@ const STRUCTURED_STRING_KEYS = Object.freeze(['field', 'semanticUnitId', 'marker
 const STRUCTURED_NUMBER_KEYS = Object.freeze([
   'status', 'entryIndex', 'expectedCount', 'actualCount', 'providerAttempts',
   'retryBudgetLimit', 'retryBudgetConsumed', 'retryBudgetRemaining',
+  'adaptiveCallLimit', 'adaptiveCallsReserved', 'adaptiveCallsRemaining',
   'adaptiveSubdivisionDepth', 'semanticBatchSize',
   'adaptiveTargetChars', 'adaptiveMaxChars',
 ])
