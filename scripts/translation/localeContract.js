@@ -418,16 +418,34 @@ function issueConflictsWithLocaleContract(issue, contract, sourceContent = '') {
     const mandatory = contract.mandatoryTerms.find(term => term.source === contextual.source && term.caseSensitive === contextual.caseSensitive)
     if (!mandatory || mandatory.target === contextual.target || !issue.comment.includes(mandatory.target)) continue
     const quote = contextual.caseSensitive ? issue.source_quote : issue.source_quote.toLocaleLowerCase('en-US')
-    for (const context of contextual.sourceContexts) {
+    const draftQuote = contextual.caseSensitive ? issue.draft_quote : issue.draft_quote.toLocaleLowerCase('en-US')
+    const comparableSource = contextual.caseSensitive ? source : source.toLocaleLowerCase('en-US')
+    const contextualRanges = contextual.sourceContexts.flatMap(context => {
       const comparableContext = contextual.caseSensitive ? context : context.toLocaleLowerCase('en-US')
-      const comparableSource = contextual.caseSensitive ? source : source.toLocaleLowerCase('en-US')
+      const ranges = []
+      for (let index = comparableSource.indexOf(comparableContext); index !== -1; index = comparableSource.indexOf(comparableContext, index + comparableContext.length)) {
+        ranges.push({start: index, end: index + comparableContext.length})
+      }
+      return ranges
+    })
+    if (!contextualRanges.length) continue
+    const termOccurrences = mandatoryTermOccurrences(source, contextual.source, contextual.caseSensitive)
+    const contextualOccurrences = termOccurrences.filter(occurrence =>
+      contextualRanges.some(range => occurrence.index >= range.start && occurrence.index < range.end),
+    )
+    if (!contextualOccurrences.length) continue
+    const ordinaryOccurrences = termOccurrences.filter(occurrence =>
+      !contextualRanges.some(range => occurrence.index >= range.start && occurrence.index < range.end),
+    )
+    const comparableTerm = contextual.caseSensitive ? contextual.source : contextual.source.toLocaleLowerCase('en-US')
+    if (!quote.includes(comparableTerm)) continue
+    for (const context of contextual.sourceContexts) {
       const boundSource = contextBoundToken(context, contextual.source, contextual.source, contextual.caseSensitive)
       const comparableBoundSource = contextual.caseSensitive ? boundSource : boundSource.toLocaleLowerCase('en-US')
-      const quoteMatchesContext = boundSource === contextual.source
-        ? comparableContext.includes(quote)
-        : quote.includes(comparableBoundSource)
-      if (quoteMatchesContext && comparableSource.includes(comparableContext)) return true
+      if (boundSource !== contextual.source && (quote.includes(comparableBoundSource) || draftQuote.includes(comparableBoundSource))) return true
     }
+    if (!ordinaryOccurrences.length) return true
+    if (quote === comparableTerm && draftQuote === comparableTerm) return true
   }
   return false
 }

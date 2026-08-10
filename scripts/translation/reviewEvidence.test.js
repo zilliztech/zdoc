@@ -178,6 +178,26 @@ test('rejects a reviewer demand to translate the contextual Boost Ranker vector 
   assert.deepEqual(result.contractConflicts[0].issue, conflicting)
 })
 
+test('rejects a bare-term reviewer demand for the only contextual Boost Ranker vector occurrence', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const sourceContent = 'The collection has the following fields: **id**, **vector**, and **doctype**.'
+  const draftContent = 'コレクションには、**id**、**vector**、**doctype** のフィールドがあります。'
+  const conflicting = issue({
+    location: 'Boost Ranker field list',
+    source_quote: 'vector',
+    draft_quote: 'vector',
+    comment: 'Translate vector as ベクトル to follow the mandatory terminology.',
+  })
+
+  const result = validateReviewEvidence(
+    {pass: false, issues: [conflicting]},
+    {sourceContent, draftContent, localeContract: contract},
+  )
+  assert.equal(result.correctionAuthorized, false)
+  assert.equal(result.contractConflicts.length, 1)
+  assert.deepEqual(result.contractConflicts[0].issue, conflicting)
+})
+
 test('does not confuse an ordinary vector reviewer issue with the contextual identifier occurrence', () => {
   const contract = loadLocaleContract('ja-JP')
   const sourceContent = 'The collection has the following fields: **id**, **vector**, and **doctype**. Search a vector field.'
@@ -197,6 +217,32 @@ test('does not confuse an ordinary vector reviewer issue with the contextual ide
 
   const result = validateReviewEvidence(
     {pass: false, issues: [ordinary, contextual]},
+    {sourceContent, draftContent, localeContract: contract},
+  )
+  assert.deepEqual(result.validatedIssues, [ordinary])
+  assert.equal(result.contractConflicts.length, 1)
+  assert.deepEqual(result.contractConflicts[0].issue, contextual)
+})
+
+test('uses draft occurrence evidence to distinguish bare vector quotes in mixed prose', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const sourceContent = 'The collection has the following fields: **id**, **vector**, and **doctype**. Search a vector field.'
+  const draftContent = 'コレクションには **id**、**vector**、**doctype** があります。vector フィールドを検索します。'
+  const contextual = issue({
+    location: 'Boost Ranker field identifier',
+    source_quote: 'vector',
+    draft_quote: '**vector**',
+    comment: 'Translate this identifier as **ベクトル**.',
+  })
+  const ordinary = issue({
+    location: 'ordinary vector prose',
+    source_quote: 'vector',
+    draft_quote: 'vector フィールド',
+    comment: 'Translate this product term as ベクトル.',
+  })
+
+  const result = validateReviewEvidence(
+    {pass: false, issues: [contextual, ordinary]},
     {sourceContent, draftContent, localeContract: contract},
   )
   assert.deepEqual(result.validatedIssues, [ordinary])
