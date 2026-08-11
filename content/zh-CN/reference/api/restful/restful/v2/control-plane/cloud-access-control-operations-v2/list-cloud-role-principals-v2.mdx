@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 5
+slug: /restful/list-cloud-role-principals-v2
+beta: FALSE
+title: "列出 Cloud 角色主体 (V2) | RESTful"
+description: "列出直接绑定到 Cloud ACL 角色的用户、群组和 API Key。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "列出 Cloud 角色主体 (V2)"
+sidebar_custom_props:
+  badges:
+    - "get"
+keywords:
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "列出 Cloud 角色主体 (V2)"
+  - "get"
+  - RESTful
+  - API
+---
+
+# 列出 Cloud 角色主体 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"List Cloud Role Principals","description":"Lists users, groups, and API keys directly bound to a Cloud ACL role.","tags":["Cloud Access Control Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"}}},{"name":"roleId","in":"path","required":true,"description":"The role ID.","example":"r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"角色 ID。"}}},{"name":"projectId","in":"query","required":false,"description":"The project boundary for a predefined project role.","schema":{"type":"string"},"example":"proj-xxxxxxxx","x-i18n":{"zh-CN":{"description":"预定义项目角色的项目边界。"}}},{"name":"currentPage","in":"query","required":false,"description":"The page number to return. The first page is 1.","schema":{"type":"integer","minimum":1,"default":1},"example":1,"x-i18n":{"zh-CN":{"description":"返回的页码，第一页为 1。"}}},{"name":"pageSize","in":"query","required":false,"description":"The number of items to return per page.","schema":{"type":"integer","minimum":1,"maximum":100,"default":10},"example":10,"x-i18n":{"zh-CN":{"description":"每页返回的条目数。"}}}],"responses":{"200":{"description":"Returns a successful result or an error message.","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"}},"properties":{"code":{"type":"integer","example":0,"description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"object","properties":{"count":{"type":"integer","minimum":0,"description":"The total number of matching items.","x-i18n":{"zh-CN":{"description":"匹配条目的总数。"}}},"currentPage":{"type":"integer","minimum":1,"description":"The current page number.","x-i18n":{"zh-CN":{"description":"当前页码。"}}},"pageSize":{"type":"integer","minimum":1,"description":"The requested page size.","x-i18n":{"zh-CN":{"description":"请求的每页条目数。"}}},"principals":{"type":"array","items":{"type":"object","properties":{"principalType":{"type":"string","enum":["user","group","apikey"],"description":"The principal type.","x-i18n":{"zh-CN":{"description":"主体类型。"}}},"email":{"type":"string","format":"email","description":"The email address when the principal is a user.","x-i18n":{"zh-CN":{"description":"主体为用户时的邮箱地址。"}}},"groupId":{"type":"string","description":"The group ID when the principal is a group.","x-i18n":{"zh-CN":{"description":"主体为群组时的群组 ID。"}}},"apiKeyId":{"type":"string","description":"The API key ID when the principal is an API key.","x-i18n":{"zh-CN":{"description":"主体为 API Key 时的 API Key ID。"}}},"principalName":{"type":"string","description":"The display name of the principal.","x-i18n":{"zh-CN":{"description":"主体显示名称。"}}},"assignedBy":{"type":"string","description":"The display name of the assigning user, or a raw non-user value such as `system`.","x-i18n":{"zh-CN":{"description":"授予者的用户显示名称；非用户授予者返回类似 `system` 的原始值。"}}},"assignedAt":{"type":"string","format":"date-time","description":"The assignment time in UTC ISO 8601 format.","x-i18n":{"zh-CN":{"description":"授予时间，采用 UTC ISO 8601 格式。"}}}},"required":["principalType","principalName","assignedBy","assignedAt"]},"description":"The principals returned on this page.","x-i18n":{"zh-CN":{"description":"当前页面返回的主体。"}}}},"required":["count","currentPage","pageSize","principals"]}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"count":3,"currentPage":1,"pageSize":10,"principals":[{"principalType":"user","email":"alice@example.com","principalName":"Alice Wang","assignedBy":"Bob Li","assignedAt":"2026-06-21T00:00:00Z"},{"principalType":"group","groupId":"g-xxxxxxxxxxxxxx","principalName":"engineering","assignedBy":"Bob Li","assignedAt":"2026-06-21T00:00:00Z"},{"principalType":"apikey","apiKeyId":"key-xxxxxxxxxxxxxx","principalName":"Alice's key","assignedBy":"system","assignedAt":"2026-06-21T00:00:00Z"}]}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}},"x-i18n":{"zh-CN":{"summary":"列出 Cloud 角色主体","description":"列出直接绑定到 Cloud ACL 角色的用户、群组和 API Key。"}}}
+export const endpoint = "/v2/roles/{roleId}/principals"
+export const method = "get"

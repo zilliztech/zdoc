@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 9
+slug: /restful/list-groups-v2
+beta: FALSE
+title: "列出群组 (V2) | RESTful"
+description: "列出调用方组织中的 SCIM 群组。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "列出群组 (V2)"
+sidebar_custom_props:
+  badges:
+    - "get"
+keywords:
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "列出群组 (V2)"
+  - "get"
+  - RESTful
+  - API
+---
+
+# 列出群组 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"List Groups","description":"Lists SCIM groups in the calling organization.","tags":["Cloud Access Control Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"}}},{"name":"groupName","in":"query","required":false,"description":"A substring to match against group display names.","schema":{"type":"string"},"example":"eng","x-i18n":{"zh-CN":{"description":"用于匹配群组显示名称的子字符串。"}}},{"name":"currentPage","in":"query","required":false,"description":"The page number to return. The first page is 1.","schema":{"type":"integer","minimum":1,"default":1},"example":1,"x-i18n":{"zh-CN":{"description":"返回的页码，第一页为 1。"}}},{"name":"pageSize","in":"query","required":false,"description":"The number of items to return per page.","schema":{"type":"integer","minimum":1,"maximum":100,"default":10},"example":10,"x-i18n":{"zh-CN":{"description":"每页返回的条目数。"}}}],"responses":{"200":{"description":"Returns a successful result or an error message.","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"}},"properties":{"code":{"type":"integer","example":0,"description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"object","properties":{"count":{"type":"integer","minimum":0,"description":"The total number of matching items.","x-i18n":{"zh-CN":{"description":"匹配条目的总数。"}}},"currentPage":{"type":"integer","minimum":1,"description":"The current page number.","x-i18n":{"zh-CN":{"description":"当前页码。"}}},"pageSize":{"type":"integer","minimum":1,"description":"The requested page size.","x-i18n":{"zh-CN":{"description":"请求的每页条目数。"}}},"groups":{"type":"array","items":{"type":"object","properties":{"groupId":{"type":"string","description":"The SCIM group ID.","x-i18n":{"zh-CN":{"description":"SCIM 群组 ID。"}}},"groupName":{"type":"string","description":"The group display name.","x-i18n":{"zh-CN":{"description":"群组显示名称。"}}},"memberCount":{"type":"integer","minimum":0,"description":"The number of members in the group.","x-i18n":{"zh-CN":{"description":"群组中的成员数量。"}}}},"required":["groupId","groupName","memberCount"]},"description":"The groups returned on this page.","x-i18n":{"zh-CN":{"description":"当前页面返回的群组。"}}}},"required":["count","currentPage","pageSize","groups"]}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"count":2,"currentPage":1,"pageSize":10,"groups":[{"groupId":"g-xxxxxxxxxxxxxx","groupName":"engineering","memberCount":12},{"groupId":"g-yyyyyyyyyyyyyy","groupName":"data-readers","memberCount":3}]}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}},"x-i18n":{"zh-CN":{"summary":"列出群组","description":"列出调用方组织中的 SCIM 群组。"}}}
+export const endpoint = "/v2/groups"
+export const method = "get"

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "cb7ec89c8fd617bcdacbf53d8c6c5d3bae79a591",
+  "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
   "records": [
     {
       "manual": "cli",
@@ -4724,6 +4724,111 @@
     },
     {
       "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/cloud-access-control-operations-v2.mdx",
+      "sourceHash": "91d449b4be275cb2f7583f90bce24e6ab7b99da727d82a3774b1980770f5aa1c"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/create-cloud-role-v2.mdx",
+      "sourceHash": "e2a1c7987f84cc619437f7f45294c642a626eb001ec4fa7615635a96f43e7d6b"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/delete-cloud-role-v2.mdx",
+      "sourceHash": "f5b9a31fef9c736b53e8d970a9f6957a2db263b60f13564a4d83491970d2b7e8"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/describe-cloud-role-v2.mdx",
+      "sourceHash": "948feffa2f28111860ed6fb82c804e1c282bcb1cb307f7344e9a55ee21cb27a3"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-group-v2.mdx",
+      "sourceHash": "c6b7fb76f555f547219e3acc6a0b1398c19511c163785abe645f424df313f6be"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-member-v2.mdx",
+      "sourceHash": "26e035dc3f6e201b46b7675b55289ab695e15a958bb9b04c93877370c8178887"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-cloud-role-principals-v2.mdx",
+      "sourceHash": "0ed6f2239eee45a97d751ebd68cd8a0d2f55d787795e61f49a231433762a8ee7"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-cloud-roles-v2.mdx",
+      "sourceHash": "2c1a0ce29b9d6852e941cb82ef3953804ba34937bdb319b3b22fa38340b66587"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-members-v2.mdx",
+      "sourceHash": "1113f716159e292052dc85926773ca8ac387d8e8d8e7a9398d95eeaeaf458899"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-roles-v2.mdx",
+      "sourceHash": "909bdc16719e5fea05ea6502ebeef3b39155ae2dbddfdc4ac3dda48c365a9f4d"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-groups-v2.mdx",
+      "sourceHash": "a631bcf8c3af85af5a13b39f4dd3e8988433810f52c4251c74cd40bf57ccd54a"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2.mdx",
+      "sourceHash": "535d19efdb54997b37b4ac23ece25f865743f0cf52ea934514fd44c15c7dbe6f"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-group-v2.mdx",
+      "sourceHash": "de643aa2f334333608ca215b9730431d51fa3d907ea819fb2d3081421e19ce28"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2.mdx",
+      "sourceHash": "a226686665858bdea4fed4c8105bfaf694a1f7fee9f147a0d678d10acb46eeea"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/update-cloud-role-v2.mdx",
+      "sourceHash": "8bc365482adb32db8fb5b11d6d47d2c20311f2a4c193cc93951d962d46c96e49"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/cloud-api-key-operations-v2.mdx",
+      "sourceHash": "aedc6558ab5d7d60844f4a2b19b242332b49134480b53a750ec0644592151683"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/create-api-key-v2.mdx",
+      "sourceHash": "9932dbcee3e21d8fd9651d03b959c13dc6ca8f8cf25ac703aaac64bf5e3d5a63"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/delete-api-key-v2.mdx",
+      "sourceHash": "c6f1d8d6440d2dfa1dd8c5ae3e9cb497db28bbaac26b7d6fdef390bdbb7022aa"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/describe-api-key-v2.mdx",
+      "sourceHash": "5dfcc7745ca23278805a11c83c810ffd6d8e3b5628ff727f5ae79a179cb14ade"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/list-api-keys-v2.mdx",
+      "sourceHash": "d0da47bcbd35e268fef30a50468462b3e84e838af364c25ddefc192975d6f017"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/update-api-key-v2.mdx",
+      "sourceHash": "0aefa11434aaca633390e2efd62e55edac327950b9e0da4abe7679896205f456"
+    },
+    {
+      "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-job-v2/cloud-job-v2.mdx",
       "sourceHash": "319f5a378524319d5fa404be8d1d211457aa2a8814ca91df92423705925df101"
     },
@@ -5194,6 +5299,96 @@
     },
     {
       "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/alter-role-v2.mdx",
+      "sourceHash": "c18993f9cd84a7fc1a78d6c32a490ee0ec2f9cb0d54bf6ad7f760d6cce77bf77"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/cluster-role-operations-v2.mdx",
+      "sourceHash": "6454ab02de74574d95147d77efd4ec82d1c90b2a93fcecb35b67b117f6b223bb"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/create-role-v2.mdx",
+      "sourceHash": "c481c0e1a134b14ebb344e7a955c3ad622bf5ee8f9edb01788217e8bcb50aa80"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/describe-role-v2.mdx",
+      "sourceHash": "4d0377c38c9673979042088a4d3d16b26e22621e8f875d94baa931c6f2af3efa"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/drop-role-v2.mdx",
+      "sourceHash": "0aaad12418ad4dcb763eef97f6f8b831bf408ad9598e7b0f000521fae11fd935"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/grant-object-privilege-to-role-v2.mdx",
+      "sourceHash": "c8cfd2332134aeb7ce3299d674b531b5215925ebaf928adf35bbf3ec41951aa6"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/grant-privilege-to-role-v2.mdx",
+      "sourceHash": "2c967fd2450b08c57659b590ba2c125527e33bb1c9bb6cd64418d85e66e3c8a9"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/list-roles-v2.mdx",
+      "sourceHash": "18e78804cd4ad37b0980ccee2164463eba2942a6f16c4aa1681053173a001d99"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/revoke-object-privilege-from-role-v2.mdx",
+      "sourceHash": "8d7acb2974d236fcb48a9fca542665d4e7323477d21cd93aea0c5b1e9951894c"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/revoke-privilege-from-role-v2.mdx",
+      "sourceHash": "f11b2c6fe8548d6326745bf9a04cce0dfbde360a8e59d08082546564de841d39"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/cluster-user-operations-v2.mdx",
+      "sourceHash": "1aa98ce01575bbc944477b7a7c28282a2304d922fed6cde9e88d167b4bc5fe78"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/create-user-v2.mdx",
+      "sourceHash": "82436b35748711803315c25bd45513ca467f4e6273facb658e582f9afe7ffcaa"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/describe-user-v2.mdx",
+      "sourceHash": "40e93d300f80b805b1e9a6e5c1acc9d3650b74f2ad953ca739f199925dbff393"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/drop-user-v2.mdx",
+      "sourceHash": "29c907cb9cb4ca558e0baaeeeff96bc40f815f4eb637f0df7a88866974846a97"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/grant-role-to-user-v2.mdx",
+      "sourceHash": "26d69b5175da2ba33cbdc610d09b0089e3e71c656b6a96365be51675f064ab02"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/list-users-v2.mdx",
+      "sourceHash": "02af17cd25875f588c69315aeee09236a9a140b8504821ea88c6d0fc7c227a67"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/revoke-role-from-user-v2.mdx",
+      "sourceHash": "d02a919a5f56a9d5f60734107eca14435f2ef245d961f4b19ffa8256da835b3b"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/update-user-v2.mdx",
+      "sourceHash": "0da8c9fa3b4871fcb640f00856c7bb526a173639bdbe1165e546b50d1df0b5d6"
+    },
+    {
+      "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/add-collection-field-v2.mdx",
       "sourceHash": "37797272ccc3f430a9f971507c61d335ad71784d8813517fb8c1d32cb5cc60dc"
     },
@@ -5471,96 +5666,6 @@
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/privilege-group-operations-v2/remove-privileges-from-group-v2.mdx",
       "sourceHash": "a1c8e834e8cf311d3cbfcc1a99df9e103d33bd3b01c7575f34d0c95c545e8b8a"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/role-operations-v2/alter-role-v2.mdx",
-      "sourceHash": "cc188483fb0a64d86a56041d963da7be54e5bbcf793edddea88e54ffee29e2f4"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/role-operations-v2/create-role-v2.mdx",
-      "sourceHash": "b5631d6b828333c4a49ce58e41fe16081d179cb7cc5e2a9e29c2c000f862937f"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/role-operations-v2/describe-role-v2.mdx",
-      "sourceHash": "9186f6987aaaa82b6e661de5675f6e33d78ae9d299e114ef848772eaa44393fa"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/role-operations-v2/drop-role-v2.mdx",
-      "sourceHash": "ff78388aa454960db9e86af4fcfbcbb065e7688525e9318f1d9e536115ae872c"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/role-operations-v2/grant-privilege-to-role-v2-v2.mdx",
-      "sourceHash": "71e68a7f19076f945510f974193d29671d5a06af8b4659b3fe2da6564b186b8c"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/role-operations-v2/grant-privilege-to-role-v2.mdx",
-      "sourceHash": "2bf17248a0a9e48f220b5407aed3c968147db309da8e1d978f827e806b0b5b6e"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/role-operations-v2/list-roles-v2.mdx",
-      "sourceHash": "19e38a4f049dd0d1d12a51cc19e0a82a55480b7b8bfe861099a12a9f6c4bcde2"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/role-operations-v2/revoke-privilege-from-role-v2-v2.mdx",
-      "sourceHash": "4e7e37067cb887018c8a8ebc4fffcf8cf1fca9590c190a0356b39956410b87c6"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/role-operations-v2/revoke-privilege-from-role-v2.mdx",
-      "sourceHash": "33393bf23b3580a2cc85c8ad35329caabfb9b835531ec5df83bc8e4b1836221a"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/role-operations-v2/role-operations-v2.mdx",
-      "sourceHash": "76ba45702e850dda7ce9157d8a96866c1faf91795f64d7bd7cbfbe6afcf88b76"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/user-operations-v2/create-user-v2.mdx",
-      "sourceHash": "fd218226ae0809698b4f9d7b2e69528462371c963b1ab32ddc5a3152bddc9a78"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/user-operations-v2/describe-user-v2.mdx",
-      "sourceHash": "5db66c4f7ad607b8f378b511eb286aace4ccc5180a54612977131da8d0534b42"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/user-operations-v2/drop-user-v2.mdx",
-      "sourceHash": "06d7c323188ea0a89e0f2b0425166e68d4718e8a00a441089bcfe58ddd5c981f"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/user-operations-v2/grant-role-to-user-v2.mdx",
-      "sourceHash": "80e0909a1f6a438d88c386559f8b2f7004b4a69ba6cbdb337c08f62618c921b4"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/user-operations-v2/list-users-v2.mdx",
-      "sourceHash": "e53f44dcd5c4f518540b85898aa436b00dc4a2b6f432dc380fcb332b0af5d08d"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/user-operations-v2/revoke-role-from-user-v2.mdx",
-      "sourceHash": "10ebe2dd0cac3016fd1c35fd77e97e90afc0fcb765dfcfd4410bff115eca107c"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/user-operations-v2/update-user-v2.mdx",
-      "sourceHash": "c3c0eb4f66ffab07a5129280f856bd2a286b26fb337afa0466b48f052cf11d3a"
-    },
-    {
-      "manual": "rest",
-      "sourcePath": "content/en/reference/api/restful/restful/v2/data-plane/user-operations-v2/user-operations-v2.mdx",
-      "sourceHash": "e6db26a17b2de905ba11c8107d4baa6cae1acd698707a90089303d3713bed2da"
     },
     {
       "manual": "rest",
