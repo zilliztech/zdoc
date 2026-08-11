@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState, type ComponentProps} from 'react';
 import {createPortal} from 'react-dom';
 import clsx from 'clsx';
+import {useDocsUiText} from '../../i18n/uiText';
 import styles from './Img.module.css';
 
 /**
@@ -9,6 +10,7 @@ import styles from './Img.module.css';
  * (click anywhere or press Esc to close).
  */
 export default function MDXImg(props: ComponentProps<'img'>): JSX.Element {
+  const text = useDocsUiText();
   const {className, ...rest} = props;
   const [loaded, setLoaded] = useState(false);
   const [zoomed, setZoomed] = useState(false);
@@ -53,7 +55,7 @@ export default function MDXImg(props: ComponentProps<'img'>): JSX.Element {
             className={styles.lightbox}
             role="dialog"
             aria-modal="true"
-            aria-label={typeof rest.alt === 'string' ? rest.alt : 'Image preview'}
+            aria-label={typeof rest.alt === 'string' ? rest.alt : text.image.preview}
             onClick={() => setZoomed(false)}>
             <img
               src={rest.src}
@@ -63,7 +65,7 @@ export default function MDXImg(props: ComponentProps<'img'>): JSX.Element {
             <button
               type="button"
               className={styles.lightboxClose}
-              aria-label="Close image preview"
+              aria-label={text.image.closePreview}
               onClick={() => setZoomed(false)}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />

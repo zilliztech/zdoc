@@ -1,9 +1,11 @@
 import React, {createContext, useContext, useState, useRef, useCallback, useEffect} from 'react';
 import {useLocation} from '@docusaurus/router';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import type {Source, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 import {getFeedbackEndpoint} from './endpoints';
 import {createAgentStreamState, parseAgentStreamEvent, type AgentStreamUpdate} from './agentStream';
-import {getChatAgentConfigCode} from './agentConfig';
+import {getChatAgentConfig} from './agentConfig';
+import {useDocsUiText} from '../../i18n/uiText';
 export type {Source, FeedbackRating, ChatMessage, ChatHistoryEntry, AgentType, ConfidenceLevel, GroundingCitation} from './types';
 
 export interface ContextChip {
@@ -127,6 +129,8 @@ interface ChatProviderProps {
 }
 
 export function ChatProvider({chatEndpoint, debugDefault = false, children}: ChatProviderProps) {
+  const {siteConfig} = useDocusaurusContext();
+  const uiText = useDocsUiText();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
@@ -161,7 +165,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
     if (!hasAssistant) return;
 
     const firstUserMsg = messages.find(m => m.role === 'user');
-    const title = firstUserMsg ? firstUserMsg.text.slice(0, 50) : 'New chat';
+    const title = firstUserMsg ? firstUserMsg.text.slice(0, 50) : uiText.chat.defaultHistoryTitle;
 
     if (activeChatIdRef.current) {
       setChatHistory(prev =>
@@ -190,7 +194,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
         conversationId: conversationIdRef.current,
       }, ...prev]);
     }
-  }, [messages]);
+  }, [messages, uiText.chat.defaultHistoryTitle]);
 
   // Persist chat history to localStorage
   useEffect(() => {
@@ -264,13 +268,13 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
       abortRef.current = controller;
       if (!conversationIdRef.current) conversationIdRef.current = uuid();
       const conversationId = conversationIdRef.current;
-      const agentConfigCode = getChatAgentConfigCode();
+      const {agentConfigCode, site} = getChatAgentConfig(siteConfig.customFields?.site);
       const requestBody = {
         message: outgoing,
         session_id: sessionIdRef.current,
         conversationId,
         streaming_mode: 'token',
-        site: 'docs.zilliz.com',
+        site,
         agent_config: {agent_config_code: agentConfigCode},
       };
       chatDebug('chat.client.fetch.started', {
@@ -302,7 +306,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
 
       if (!res.ok) {
         const errorBody = await res.json().catch(() => ({}));
-        const errorText = (errorBody as {detail?: string; error?: string}).detail || (errorBody as {error?: string}).error || `Error: ${res.status}`;
+        const errorText = (errorBody as {detail?: string; error?: string}).detail || (errorBody as {error?: string}).error || uiText.chat.requestFailed(res.status);
         setMessages(prev => {
           const updated = [...prev];
           const last = updated[updated.length - 1];
@@ -450,9 +454,9 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
       if (err instanceof DOMException && err.name === 'AbortError') {
         // User cancelled
       } else {
-        const errorMsg = err instanceof Error ? err.message : 'Something went wrong';
+        const errorMsg = err instanceof Error ? err.message : uiText.chat.requestFailed(0);
         chatDebug('chat.client.error', {requestId, error: errorMsg});
-        setMessages(prev => [...prev, {role: 'assistant', text: `Error: ${errorMsg}`}]);
+        setMessages(prev => [...prev, {role: 'assistant', text: uiText.chat.unexpectedError(errorMsg)}]);
       }
     } finally {
       if (requestGenerationRef.current === generation) {
@@ -462,7 +466,7 @@ export function ChatProvider({chatEndpoint, debugDefault = false, children}: Cha
         }
       }
     }
-  }, [chatDebug, chatEndpoint, location.pathname]);
+  }, [chatDebug, chatEndpoint, location.pathname, siteConfig.customFields?.site, uiText.chat]);
 
   const rateFeedback = useCallback((messageIndex: number, rating: 'up' | 'down') => {
     setMessages(prev => {

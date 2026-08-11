@@ -26,53 +26,27 @@ import {useChatContext} from './ChatContext';
 import type {ChatHistoryEntry} from './types';
 import type {ConfidenceLevel, Source, GroundingCitation} from '@zdoc/chat-ui';
 import IconButton from '../IconButton';
+import {localizeChatStatus, useDocsUiText, type DocsUiText} from '../../i18n/uiText';
 import styles from './styles.module.css';
 
 export {ChatProvider} from './ChatContext';
 
 const IS_MAC = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform);
 
-const DEFAULT_SUGGESTIONS = [
-  'How do I get started with Zilliz Cloud?',
-  'What are the API rate limits?',
-  'Show me integration examples',
-  'How to handle authentication?',
-];
-
-function getSuggestions(pathname: string): string[] {
+function getSuggestions(pathname: string, text: DocsUiText): readonly string[] {
   if (pathname.includes('/reference/python')) {
-    return [
-      'Show me a pymilvus insert example',
-      'How do I search with filters?',
-      'How to create a collection with dynamic schema?',
-      'What index types are available?',
-    ];
+    return text.chat.suggestions.python;
   }
   if (pathname.includes('/reference/')) {
-    return [
-      'Show me a code example for this API',
-      'What are the required parameters?',
-      'How do I handle errors?',
-      'What are the rate limits for this endpoint?',
-    ];
+    return text.chat.suggestions.reference;
   }
   if (pathname.includes('/docs/byoc')) {
-    return [
-      'How do I deploy BYOC on AWS?',
-      'What are the networking requirements?',
-      'How to configure private endpoints?',
-      'Compare BYOC vs Serverless',
-    ];
+    return text.chat.suggestions.byoc;
   }
   if (pathname.includes('/docs')) {
-    return [
-      'Help me design a schema for my use case',
-      'What cluster size do I need?',
-      'Show me a vector search example',
-      'How to optimize search performance?',
-    ];
+    return text.chat.suggestions.docs;
   }
-  return DEFAULT_SUGGESTIONS;
+  return text.chat.suggestions.default;
 }
 
 interface ChatPanelProps {
@@ -123,9 +97,9 @@ function ThinkingGlyph() {
   );
 }
 
-function ThinkingText({label = 'Thinking'}: {label?: string}): React.ReactElement {
+function ThinkingText({label, ariaLabel}: {label: string; ariaLabel: string}): React.ReactElement {
   return (
-    <span className={styles.thinkingText} aria-label="Thinking">
+    <span className={styles.thinkingText} aria-label={ariaLabel}>
       <span className={styles.thinkingLabel}>{label}</span>
       <span className={styles.thinkingDots} aria-hidden="true">
         <span />
@@ -136,7 +110,7 @@ function ThinkingText({label = 'Thinking'}: {label?: string}): React.ReactElemen
   );
 }
 
-function ChatHeader({onClose, onClear, showClear}: {onClose: () => void; onClear?: () => void; showClear?: boolean}) {
+function ChatHeader({onClose, onClear, showClear, text}: {onClose: () => void; onClear?: () => void; showClear?: boolean; text: DocsUiText}) {
   return (
     <div className={styles.chatHeader}>
       <div className={styles.chatTitleGroup}>
@@ -145,15 +119,15 @@ function ChatHeader({onClose, onClear, showClear}: {onClose: () => void; onClear
             <AskAiAvatarIcon />
           </span>
         </span>
-        <span className={styles.chatTitle}>Ask AI</span>
+        <span className={styles.chatTitle}>{text.chat.title}</span>
       </div>
       <div className={styles.chatHeaderActions}>
         {showClear && onClear && (
-          <button type="button" className={`${styles.chatClose} ${styles.chatClear}`} onClick={onClear} aria-label="Clear conversation" title="Clear conversation">
+          <button type="button" className={`${styles.chatClose} ${styles.chatClear}`} onClick={onClear} aria-label={text.chat.clearConversation} title={text.chat.clearConversation}>
             <Trash2 size={12} />
           </button>
         )}
-        <button type="button" className={styles.chatClose} onClick={onClose} aria-label="Close chat">
+        <button type="button" className={styles.chatClose} onClick={onClose} aria-label={text.chat.close}>
           <X size={15} />
         </button>
       </div>
@@ -163,20 +137,20 @@ function ChatHeader({onClose, onClear, showClear}: {onClose: () => void; onClear
 
 /* ── Chat history grouping helpers ── */
 
-function getDateGroup(timestamp: number): string {
+function getDateGroup(timestamp: number, text: DocsUiText): string {
   const now = Date.now();
   const diff = now - timestamp;
   const oneDay = 86400000;
-  if (diff < oneDay) return 'Today';
-  if (diff < 7 * oneDay) return 'Previous 7 days';
-  return 'Older';
+  if (diff < oneDay) return text.chat.today;
+  if (diff < 7 * oneDay) return text.chat.previousSevenDays;
+  return text.chat.older;
 }
 
-function groupHistory(history: ChatHistoryEntry[]): {label: string; items: ChatHistoryEntry[]}[] {
+function groupHistory(history: ChatHistoryEntry[], text: DocsUiText): {label: string; items: ChatHistoryEntry[]}[] {
   const groups: Record<string, ChatHistoryEntry[]> = {};
-  const order = ['Today', 'Previous 7 days', 'Older'];
+  const order = [text.chat.today, text.chat.previousSevenDays, text.chat.older];
   for (const entry of history) {
-    const label = getDateGroup(entry.createdAt);
+    const label = getDateGroup(entry.createdAt, text);
     if (!groups[label]) groups[label] = [];
     groups[label].push(entry);
   }
@@ -191,25 +165,27 @@ function ChatSidebar({
   onNewChat,
   onLoadChat,
   onDeleteChat,
+  text,
 }: {
   chatHistory: ChatHistoryEntry[];
   activeChatId: string | null;
   onNewChat: () => void;
   onLoadChat: (id: string) => void;
   onDeleteChat: (id: string) => void;
+  text: DocsUiText;
 }) {
   const [search, setSearch] = useState('');
   const filtered = search
     ? chatHistory.filter(e => e.title.toLowerCase().includes(search.toLowerCase()))
     : chatHistory;
-  const grouped = groupHistory(filtered);
+  const grouped = groupHistory(filtered, text);
 
   return (
     <div className={styles.chatSidebar}>
       <div className={styles.sidebarHeader}>
         <button type="button" className={styles.newChatBtn} onClick={onNewChat}>
           <SquarePen size={14} />
-          <span>New Chat</span>
+          <span>{text.chat.newChat}</span>
         </button>
         <div className={styles.searchInputWrapper}>
           <Search size={13} className={styles.searchIcon} />
@@ -217,14 +193,14 @@ function ChatSidebar({
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="Search chats..."
+            placeholder={text.chat.searchChats}
             className={styles.searchInput}
           />
         </div>
       </div>
       <div className={styles.chatHistoryList}>
         {grouped.length === 0 && (
-          <p className={styles.chatHistoryEmpty}>No chat history yet</p>
+          <p className={styles.chatHistoryEmpty}>{text.chat.noHistory}</p>
         )}
         {grouped.map(group => (
           <div key={group.label} className={styles.chatHistoryGroup}>
@@ -242,7 +218,7 @@ function ChatSidebar({
                   className={styles.chatHistoryDelete}
                   role="button"
                   tabIndex={0}
-                  aria-label="Delete chat"
+                  aria-label={text.chat.deleteChat}
                   onClick={e => { e.stopPropagation(); onDeleteChat(entry.id); }}
                   onKeyDown={e => { if (e.key === 'Enter') { e.stopPropagation(); onDeleteChat(entry.id); } }}
                 >
@@ -258,10 +234,11 @@ function ChatSidebar({
 }
 
 export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}: ChatPanelProps): React.ReactElement {
+  const text = useDocsUiText();
   const {messages, input, setInput, isStreaming, send, stop, newChat, rateFeedback, chatHistory, activeChatId, loadChat, deleteChat, contextChips, removeContextChip} = useChatContext();
   const location = useLocation();
   const history = useHistory();
-  const suggestions = getSuggestions(location.pathname);
+  const suggestions = getSuggestions(location.pathname, text);
   const conversationRef = useRef<HTMLDivElement>(null);
   const emptyInputRef = useRef<HTMLInputElement>(null);
   const conversationInputRef = useRef<HTMLInputElement>(null);
@@ -294,7 +271,7 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
             type="button"
             className={styles.contextChipClose}
             onClick={() => removeContextChip(c.id)}
-            aria-label="Remove context">
+            aria-label={text.chat.removeContext}>
             <X size={11} />
           </button>
         </span>
@@ -396,9 +373,9 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && send(input)}
-                placeholder="Ask a question..."
+                placeholder={text.chat.placeholder}
                 className={styles.input}
-                aria-label="Chat message"
+                aria-label={text.chat.messageLabel}
               />
               <div className={styles.inputFooter}>
                 <kbd className={styles.inputKbd}>{IS_MAC ? '⌘I' : 'Ctrl I'}</kbd>
@@ -407,7 +384,7 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                   className={styles.sendRound}
                   onClick={() => send(input)}
                   disabled={!input.trim()}
-                  aria-label="Send">
+                  aria-label={text.chat.send}>
                   <ArrowUp size={16} strokeWidth={2.5} />
                 </button>
               </div>
@@ -428,7 +405,10 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                     isStreaming && i === messages.length - 1 && !msg.text ? (
                       <span className={styles.thinkingRow}>
                         <ThinkingGlyph />
-                        <ThinkingText label={msg.status || (msg.toolCallCount ? 'Searching' : 'Thinking')} />
+                        <ThinkingText
+                          label={localizeChatStatus(msg.status, text) || (msg.toolCallCount ? text.chat.searching : text.chat.thinking)}
+                          ariaLabel={text.chat.thinking}
+                        />
                       </span>
                   ) : (
                     <>
@@ -436,7 +416,10 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                       {isStreaming && i === messages.length - 1 && showStreamPauseIndicator && msg.text && (
                         <span className={`${styles.thinkingRow} ${styles.trailingThinkingRow}`}>
                           <ThinkingGlyph />
-                          <ThinkingText label={msg.status || (msg.toolCallCount ? 'Searching' : 'Thinking')} />
+                          <ThinkingText
+                            label={localizeChatStatus(msg.status, text) || (msg.toolCallCount ? text.chat.searching : text.chat.thinking)}
+                            ariaLabel={text.chat.thinking}
+                          />
                         </span>
                       )}
                     </>
@@ -446,7 +429,7 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                   )}
                   {msg.sources && msg.sources.length > 0 && (
                     <div className={styles.sourcesSection}>
-                      <span className={styles.sourcesLabel}>Sources</span>
+                      <span className={styles.sourcesLabel}>{text.chat.sources}</span>
                       <ul className={styles.sourcesList}>
                         {msg.sources.map((src, j) => (
                           <li key={j}>
@@ -473,27 +456,27 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                         type="button"
                         className={`${styles.feedbackBtn} ${msg.feedback === 'up' ? styles.feedbackBtnActive : ''}`}
                         onClick={() => rateFeedback(i, 'up')}
-                        aria-label="Helpful"
-                        title="Helpful">
+                        aria-label={text.chat.helpful}
+                        title={text.chat.helpful}>
                         <ThumbsUp size={14} />
                       </button>
                       <button
                         type="button"
                         className={`${styles.feedbackBtn} ${msg.feedback === 'down' ? styles.feedbackBtnActive : ''}`}
                         onClick={() => rateFeedback(i, 'down')}
-                        aria-label="Not helpful"
-                        title="Not helpful">
+                        aria-label={text.chat.notHelpful}
+                        title={text.chat.notHelpful}>
                         <ThumbsDown size={14} />
                       </button>
                       <button
                         type="button"
                         className={styles.feedbackBtn}
                         onClick={() => copyMessage(i, msg.text)}
-                        aria-label="Copy"
-                        title="Copy">
+                        aria-label={text.common.copy}
+                        title={text.common.copy}>
                         {copiedIdx === i ? <Check size={14} /> : <Copy size={14} />}
                       </button>
-                      <ConfidenceDot level={msg.confidence} />
+                      <ConfidenceDot level={msg.confidence} labels={text.chat.confidence} />
                     </div>
                   )}
                 </div>
@@ -507,7 +490,7 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                 className={styles.jumpToLatest}
                 onClick={scrollToBottom}>
                 <ArrowDown size={13} strokeWidth={2.4} />
-                Bottom
+                {text.chat.bottom}
               </button>
             )}
             <div className={styles.inputBox} onMouseDown={event => focusInputFromBox(event, conversationInputRef)}>
@@ -518,9 +501,9 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && !isStreaming && send(input)}
-                placeholder="Ask a question..."
+                placeholder={text.chat.placeholder}
                 className={styles.input}
-                aria-label="Chat message"
+                aria-label={text.chat.messageLabel}
               />
               <div className={styles.inputFooter}>
                 <kbd className={styles.inputKbd}>{IS_MAC ? '⌘I' : 'Ctrl I'}</kbd>
@@ -529,11 +512,11 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
                   className={`${styles.sendRound} ${isStreaming ? styles.stopRound : ''}`}
                   onClick={() => isStreaming ? stop() : send(input)}
                   disabled={!isStreaming && !input.trim()}
-                  aria-label={isStreaming ? 'Stop response' : 'Send'}>
+                  aria-label={isStreaming ? text.chat.stopResponse : text.chat.send}>
                   {isStreaming ? (
                     <>
                       <span className={styles.stopIcon} aria-hidden="true" />
-                      <span>Stop</span>
+                      <span>{text.chat.stop}</span>
                     </>
                   ) : (
                     <ArrowUp size={16} strokeWidth={2.5} />
@@ -550,7 +533,7 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
   if (isExpanded) {
     return (
       <div className={styles.chatInnerExpanded}>
-        <ChatHeader onClose={onToggle} onClear={newChat} showClear={hasMessages} />
+        <ChatHeader onClose={onToggle} onClear={newChat} showClear={hasMessages} text={text} />
         <div className={styles.expandedWrapper}>
           <ChatSidebar
             chatHistory={chatHistory}
@@ -558,6 +541,7 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
             onNewChat={newChat}
             onLoadChat={loadChat}
             onDeleteChat={deleteChat}
+            text={text}
           />
           <div className={styles.expandedMain}>
             {conversationContent}
@@ -569,7 +553,7 @@ export default function ChatPanel({onToggle, isExpanded, toggleMode = 'expand'}:
 
   return (
     <div className={styles.chatInner}>
-      <ChatHeader onClose={onToggle} onClear={newChat} showClear={hasMessages} />
+      <ChatHeader onClose={onToggle} onClear={newChat} showClear={hasMessages} text={text} />
       {conversationContent}
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useLocation } from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { usePluginData } from '@docusaurus/useGlobalData';
+import {useDocsUiText, type DocsUiText} from '../../i18n/uiText';
 import styles from './CopyPageButton.module.css';
 
 const IS_MAC = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform);
@@ -81,17 +82,20 @@ interface MenuItem {
   external?: boolean;
 }
 
-const MENU_ITEMS: MenuItem[] = [
-  { id: 'copyMarkdown',   icon: <CopyIcon />,     title: 'Copy page',          desc: 'Copy page as Markdown for LLMs' },
-  { id: 'viewSource',     icon: <MarkdownIcon />, title: 'View source',        desc: 'Open raw markdown in new tab',  external: true },
-  { id: 'openChatGPT',    icon: <OpenAIIcon />,   title: 'Open in ChatGPT',    desc: 'Ask questions about this page', external: true },
-  { id: 'openClaude',     icon: <ClaudeIcon />,   title: 'Open in Claude',     desc: 'Ask questions about this page', external: true },
-  { id: 'connectCursor',  icon: <CursorIcon />,   title: 'Connect to Cursor',  desc: 'Install MCP Server on Cursor',  external: true },
-];
+function getMenuItems(text: DocsUiText): MenuItem[] {
+  return [
+    {id: 'copyMarkdown', icon: <CopyIcon />, title: text.copyPage.copyPage, desc: text.copyPage.copyPageAsMarkdown},
+    {id: 'viewSource', icon: <MarkdownIcon />, title: text.copyPage.viewSource, desc: text.copyPage.viewSourceDescription, external: true},
+    {id: 'openChatGPT', icon: <OpenAIIcon />, title: text.copyPage.openInChatGPT, desc: text.copyPage.askAboutPage, external: true},
+    {id: 'openClaude', icon: <ClaudeIcon />, title: text.copyPage.openInClaude, desc: text.copyPage.askAboutPage, external: true},
+    {id: 'connectCursor', icon: <CursorIcon />, title: text.copyPage.connectCursor, desc: text.copyPage.installCursorMcp, external: true},
+  ];
+}
 
 // ── Component ────────────────────────────────────────────────────────────────
 
 export default function CopyPageButton(): React.ReactElement {
+  const text = useDocsUiText();
   const pluginData = usePluginData('embed-markdown') as {
     cursorMcpCommand?: string;
     enableSourceView?: boolean;
@@ -99,7 +103,7 @@ export default function CopyPageButton(): React.ReactElement {
   } | undefined;
   const cursorMcpCommand = pluginData?.cursorMcpCommand ?? 'npx @zilliz/claude-context-mcp@latest';
   const enableSourceView = pluginData?.enableSourceView !== false && (pluginData?.sources?.length ?? 0) > 0;
-  const menuItems = MENU_ITEMS.filter(item => enableSourceView || item.id !== 'viewSource');
+  const menuItems = getMenuItems(text).filter(item => enableSourceView || item.id !== 'viewSource');
 
   const { pathname } = useLocation();
   const { siteConfig } = useDocusaurusContext();
@@ -171,7 +175,7 @@ export default function CopyPageButton(): React.ReactElement {
         await navigator.clipboard.writeText(md);
         setCopySuccess(true);
       } catch {
-        showError('Failed to copy. Please try again.');
+        showError(text.copyPage.copyFailed);
       } finally {
         setIsLoading(false);
       }
@@ -201,7 +205,7 @@ export default function CopyPageButton(): React.ReactElement {
       window.open(`cursor://anysphere.cursor-deeplink/mcp/install?name=zilliz-mcp-server&config=${encoded}`, '_blank');
       return;
     }
-  }, [pathname, siteConfig.url, cursorMcpCommand]);
+  }, [pathname, siteConfig.url, cursorMcpCommand, text.copyPage.copyFailed]);
 
   const handleTriggerKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape' && isOpen) { e.preventDefault(); setIsOpen(false); setFocusedIndex(-1); }
@@ -232,13 +236,13 @@ export default function CopyPageButton(): React.ReactElement {
           type="button"
           className={styles.triggerMain}
           onClick={() => !isLoading && execute('copyMarkdown')}
-          aria-label="Copy page as Markdown"
+          aria-label={text.copyPage.copyPageAsMarkdown}
           disabled={isLoading}>
           <span className={styles.triggerIcon}>
             {isLoading ? <SpinnerIcon /> : copySuccess ? <CheckIcon /> : error ? <ErrorIcon /> : <CopyIcon />}
           </span>
           <span className={styles.triggerLabel}>
-            {isLoading ? 'Copying…' : copySuccess ? 'Copied!' : error ? 'Failed' : 'Copy page'}
+            {isLoading ? text.copyPage.copying : copySuccess ? text.copyPage.copied : error ? text.copyPage.failed : text.copyPage.copyPage}
           </span>
         </button>
         <span className={styles.triggerDivider} aria-hidden="true" />
@@ -247,7 +251,7 @@ export default function CopyPageButton(): React.ReactElement {
           className={styles.triggerChevron}
           onClick={() => !isLoading && setIsOpen(v => !v)}
           onKeyDown={handleTriggerKeyDown}
-          aria-label="More copy options"
+          aria-label={text.copyPage.moreOptions}
           aria-expanded={isOpen}
           aria-haspopup="menu"
           disabled={isLoading}>
@@ -258,7 +262,7 @@ export default function CopyPageButton(): React.ReactElement {
       {error && <div className={styles.errorToast} role="alert">{error}</div>}
 
       {isOpen && !isLoading && (
-        <div className={styles.menu} role="menu" aria-label="Copy page options">
+        <div className={styles.menu} role="menu" aria-label={text.copyPage.options}>
           {menuItems.map((item, idx) => (
             <div
               key={item.id}

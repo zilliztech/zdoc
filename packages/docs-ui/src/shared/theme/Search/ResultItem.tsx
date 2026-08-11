@@ -1,4 +1,5 @@
 import React, {type ReactNode} from 'react';
+import {localizeSearchSection, useDocsUiText} from '../../i18n/uiText';
 import styles from './styles.module.css';
 
 export interface ResultItemData {
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export default function ResultItem({item, active, onClick, onMouseEnter}: Props): ReactNode {
+  const text = useDocsUiText();
   return (
     <button
       type="button"
@@ -25,7 +27,7 @@ export default function ResultItem({item, active, onClick, onMouseEnter}: Props)
       onMouseEnter={onMouseEnter}>
       <div>
         <span>{item.title}</span>
-        {item.section && <span className={styles.searchResultMeta}>{item.section}</span>}
+        {item.section && <span className={styles.searchResultMeta}>{localizeSearchSection(item.section, text)}</span>}
       </div>
       {item.highlightedSnippet ? (
         <div

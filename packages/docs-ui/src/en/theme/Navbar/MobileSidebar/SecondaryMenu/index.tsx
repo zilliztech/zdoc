@@ -12,6 +12,7 @@ import {
   getManualReferenceNavigation,
   type ManualReferenceNavigation,
 } from '../../../../../shared/navigation/manualReferenceNavigation';
+import {getDocsUiText, useDocsUiText} from '../../../../../shared/i18n/uiText';
 
 const useBrowserLayoutEffect =
   typeof window !== 'undefined' ? useLayoutEffect : useEffect;
@@ -58,6 +59,7 @@ function IconLogIn() {
 
 function MobileActionToolbar() {
   const mobileSidebar = useNavbarMobileSidebar();
+  const uiText = useDocsUiText();
 
   function openSearch() {
     mobileSidebar.toggle();
@@ -72,9 +74,9 @@ function MobileActionToolbar() {
         type="button"
         className="mobile-action-search clean-btn"
         onClick={openSearch}
-        aria-label="Search documentation">
+        aria-label={uiText.search.placeholder}>
         <IconSearch />
-        <span>Search documentation…</span>
+        <span>{uiText.search.placeholder}</span>
       </button>
     </div>
   );
@@ -82,6 +84,7 @@ function MobileActionToolbar() {
 
 function MobileActionLinks() {
   const mobileSidebar = useNavbarMobileSidebar();
+  const uiText = useDocsUiText();
   return (
     <div className="mobile-action-links">
       <button
@@ -92,7 +95,7 @@ function MobileActionLinks() {
           document.dispatchEvent(new CustomEvent('toggle-chat'));
         }}>
         <IconBolt />
-        Ask AI
+        {uiText.chat.askAi}
       </button>
       <a
         href="https://support.zilliz.com/hc/en-us"
@@ -100,7 +103,7 @@ function MobileActionLinks() {
         target="_blank"
         rel="noopener noreferrer">
         <IconLifeBuoy />
-        Support
+        {uiText.navbar.support}
       </a>
       <a
         href="https://cloud.zilliz.com/login"
@@ -108,7 +111,7 @@ function MobileActionLinks() {
         target="_blank"
         rel="noopener noreferrer">
         <IconLogIn />
-        Log In
+        {uiText.navbar.logIn}
       </a>
     </div>
   );
@@ -147,7 +150,7 @@ function seedMobileDrillDirection(direction: 'forward' | 'back') {
   }
 }
 
-function showMobileNavRouteGuard() {
+function showMobileNavRouteGuard(searchLabel: string) {
   if (typeof document === 'undefined') return;
   let guard = document.getElementById('zdoc-mobile-nav-route-guard');
   if (!guard) {
@@ -160,10 +163,12 @@ function showMobileNavRouteGuard() {
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <span>Search documentation…</span>
+        <span></span>
       </div>`;
     document.body.appendChild(guard);
   }
+  const searchText = guard.querySelector<HTMLElement>('.zdoc-mobile-nav-route-guard-search span');
+  if (searchText) searchText.textContent = searchLabel;
   const win = window as typeof window & {__zdocMobileNavRouteGuardTimer?: number};
   if (win.__zdocMobileNavRouteGuardTimer) {
     window.clearTimeout(win.__zdocMobileNavRouteGuardTimer);
@@ -183,13 +188,17 @@ export function clearMobileNavRouteGuard() {
   hideMobileNavRouteGuard();
 }
 
-function keepMobileNavOpenOnRouteChange(targetPath: string, direction: 'forward' | 'back' = 'forward') {
+function keepMobileNavOpenOnRouteChange(
+  targetPath: string,
+  direction: 'forward' | 'back' = 'forward',
+  searchLabel = 'Search documentation...',
+) {
   if (typeof window === 'undefined' || window.innerWidth > 996) return;
   try {
     const target = new URL(targetPath, window.location.origin);
     window.sessionStorage.setItem('zdoc-mobile-nav-keep-open', target.pathname);
     seedMobileDrillDirection(direction);
-    showMobileNavRouteGuard();
+    showMobileNavRouteGuard(searchLabel);
     document.documentElement.classList.add('zdoc-mobile-nav-keep-visible');
     document.documentElement.classList.add('zdoc-mobile-nav-route-guard');
     document.documentElement.classList.remove('zdoc-mobile-nav-drill-forward', 'zdoc-mobile-nav-drill-back');
@@ -235,9 +244,11 @@ function isMobileSubnavEntry(pathKey: string, navigation: ManualReferenceNavigat
 function MobileRefHeader({
   route,
   navigation,
+  searchLabel,
 }: {
   route: DocsRouteContext;
   navigation: ManualReferenceNavigation;
+  searchLabel: string;
 }) {
   const history = useHistory();
   const subnav = getRefSubnavLabel(route, navigation);
@@ -255,7 +266,7 @@ function MobileRefHeader({
     event.preventDefault();
     event.stopPropagation();
     event.nativeEvent.stopImmediatePropagation();
-    keepMobileNavOpenOnRouteChange(backHref, 'back');
+    keepMobileNavOpenOnRouteChange(backHref, 'back', searchLabel);
     history.push(backHref);
   };
 
@@ -282,6 +293,7 @@ export default function NavbarMobileSidebarSecondaryMenu(): ReactNode {
   const {pathname} = useLocation();
   const {siteConfig, i18n} = useDocusaurusContext();
   const site = siteConfig.customFields?.site === 'zh-CN' ? 'zh-CN' : 'en';
+  const uiText = getDocsUiText(site);
   const locale = i18n.currentLocale === 'ja-JP' ? 'ja-JP' : site;
   const route = parseDocsRoute(pathname, locale);
   const referenceNavigation = getManualReferenceNavigation(site);
@@ -326,7 +338,7 @@ export default function NavbarMobileSidebarSecondaryMenu(): ReactNode {
     event.preventDefault();
     event.stopPropagation();
     event.nativeEvent.stopImmediatePropagation();
-    keepMobileNavOpenOnRouteChange(normalized.to, 'forward');
+    keepMobileNavOpenOnRouteChange(normalized.to, 'forward', uiText.search.placeholder);
     history.push(normalized.to);
   };
 
@@ -335,7 +347,7 @@ export default function NavbarMobileSidebarSecondaryMenu(): ReactNode {
       <MobileActionToolbar />
       <div className="mobile-secondary-menu-content">
         <div className={`mobile-secondary-menu-stage${drillDirection ? ` mobile-secondary-menu-stage--${drillDirection}` : ''}`}>
-          <MobileRefHeader route={route} navigation={referenceNavigation} />
+          <MobileRefHeader route={route} navigation={referenceNavigation} searchLabel={uiText.search.placeholder} />
           {secondaryMenu.content}
         </div>
       </div>

@@ -1,8 +1,8 @@
-import { jsx as s, Fragment as v, jsxs as u } from "react/jsx-runtime";
-import f, { forwardRef as w, createElement as h } from "react";
+import { jsx as s, Fragment as B, jsxs as u } from "react/jsx-runtime";
+import f, { forwardRef as N, createElement as h } from "react";
 import k from "react-markdown";
 import g from "remark-gfm";
-function j(t, e) {
+function v(t, e) {
   if (t && t !== "cloud-guides") return t;
   if (e) {
     if (/milvus\.io/i.test(e)) return "external-web";
@@ -20,27 +20,29 @@ function C(t) {
     return !1;
   }
 }
-const A = "_dot_4g0w8_1", M = {
-  dot: A
-}, $ = {
+const j = "_dot_4g0w8_1", A = {
+  dot: j
+}, M = {
   high: "#22c55e",
   medium: "#eab308",
   low: "#ef4444"
-}, x = {
+}, $ = {
   high: "High confidence — answer directly supported by documentation",
   medium: "Medium confidence — partially supported by documentation",
   low: "Low confidence — limited documentation available"
 };
-function T({ level: t }) {
-  return t ? /* @__PURE__ */ s(
+function T({ level: t, labels: e }) {
+  if (!t) return null;
+  const n = (e == null ? void 0 : e[t]) ?? $[t];
+  return /* @__PURE__ */ s(
     "span",
     {
-      className: M.dot,
-      style: { backgroundColor: $[t] },
-      title: x[t],
-      "aria-label": x[t]
+      className: A.dot,
+      style: { backgroundColor: M[t] },
+      title: n,
+      "aria-label": n
     }
-  ) : null;
+  );
 }
 const I = "_tag_10jgb_1", H = "_tagByoc_10jgb_13", E = "_tagCloud_10jgb_18", U = "_tagApi_10jgb_23", S = "_tagExternal_10jgb_28", d = {
   tag: I,
@@ -56,7 +58,7 @@ const I = "_tag_10jgb_1", H = "_tagByoc_10jgb_13", E = "_tagCloud_10jgb_18", U =
   "external-github": { label: "GITHUB", className: d.tagExternal }
 };
 function G({ section: t, url: e }) {
-  const n = j(t, e), a = P[n];
+  const n = v(t, e), a = P[n];
   return a ? /* @__PURE__ */ s("span", { className: `${d.tag} ${a.className}`, children: a.label }) : null;
 }
 const R = "_citationSup_1i14i_1", q = "_citationLink_1i14i_9", W = "_citationGroup_1i14i_22", b = {
@@ -107,7 +109,7 @@ function Z({ text: t, sources: e, grounding: n }) {
   for (const r of n)
     a.set(r.paragraphIndex, r.sourceIndices);
   const c = z(t);
-  return /* @__PURE__ */ s(v, { children: c.map((r, i) => {
+  return /* @__PURE__ */ s(B, { children: c.map((r, i) => {
     const l = a.get(i), p = l && l.length > 0 ? O(l, e) : _;
     return /* @__PURE__ */ s(k, { remarkPlugins: [g], components: p, children: r }, i);
   }) });
@@ -118,7 +120,7 @@ function Z({ text: t, sources: e, grounding: n }) {
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const y = (...t) => t.filter((e, n, a) => !!e && e.trim() !== "" && a.indexOf(e) === n).join(" ").trim();
+const w = (...t) => t.filter((e, n, a) => !!e && e.trim() !== "" && a.indexOf(e) === n).join(" ").trim();
 /**
  * @license lucide-react v0.577.0 - ISC
  *
@@ -142,7 +144,7 @@ const V = (t) => t.replace(
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const N = (t) => {
+const x = (t) => {
   const e = V(t);
   return e.charAt(0).toUpperCase() + e.slice(1);
 };
@@ -181,7 +183,7 @@ const X = (t) => {
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const Y = w(
+const Y = N(
   ({
     color: t = "currentColor",
     size: e = 24,
@@ -200,12 +202,12 @@ const Y = w(
       height: e,
       stroke: t,
       strokeWidth: a ? Number(n) * 24 / Number(e) : n,
-      className: y("lucide", c),
+      className: w("lucide", c),
       ...!r && !X(l) && { "aria-hidden": "true" },
       ...l
     },
     [
-      ...i.map(([L, B]) => h(L, B)),
+      ...i.map(([y, L]) => h(y, L)),
       ...Array.isArray(r) ? r : [r]
     ]
   )
@@ -217,19 +219,19 @@ const Y = w(
  * See the LICENSE file in the root directory of this source tree.
  */
 const m = (t, e) => {
-  const n = w(
+  const n = N(
     ({ className: a, ...c }, r) => h(Y, {
       ref: r,
       iconNode: e,
-      className: y(
-        `lucide-${D(N(t))}`,
+      className: w(
+        `lucide-${D(x(t))}`,
         `lucide-${t}`,
         a
       ),
       ...c
     })
   );
-  return n.displayName = N(t), n;
+  return n.displayName = x(t), n;
 };
 /**
  * @license lucide-react v0.577.0 - ISC
@@ -375,5 +377,5 @@ export {
   Z as GroundedMarkdown,
   G as SourceTag,
   C as isExternalUrl,
-  j as resolveSection
+  v as resolveSection
 };

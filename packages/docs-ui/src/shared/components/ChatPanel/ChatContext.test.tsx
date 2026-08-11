@@ -2,16 +2,14 @@ import React from 'react';
 import {act, renderHook, waitFor} from '@testing-library/react';
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 
-const {getChatAgentConfigCodeMock} = vi.hoisted(() => ({
-  getChatAgentConfigCodeMock: vi.fn(() => 'zilliz_agent_dev'),
-}));
+const {siteState} = vi.hoisted(() => ({siteState: {current: 'en'}}));
 
 vi.mock('@docusaurus/router', () => ({
   useLocation: () => ({pathname: '/docs/home'}),
 }));
 
-vi.mock('./agentConfig', () => ({
-  getChatAgentConfigCode: getChatAgentConfigCodeMock,
+vi.mock('@docusaurus/useDocusaurusContext', () => ({
+  default: () => ({siteConfig: {customFields: {site: siteState.current}}}),
 }));
 
 import {ChatProvider, useChatContext} from './ChatContext';
@@ -86,8 +84,7 @@ function wrapper(debugDefault = false) {
 
 describe('ChatProvider request debugging', () => {
   beforeEach(() => {
-    getChatAgentConfigCodeMock.mockReset();
-    getChatAgentConfigCodeMock.mockReturnValue('zilliz_agent_dev');
+    siteState.current = 'en';
     localStorage.clear();
     let uuidCount = 0;
     vi.stubGlobal('crypto', {
@@ -133,12 +130,12 @@ describe('ChatProvider request debugging', () => {
       conversationId: 'client-conversation-1',
       streaming_mode: 'token',
       site: 'docs.zilliz.com',
-      agent_config: {agent_config_code: 'zilliz_agent_dev'},
+      agent_config: {agent_config_code: 'zilliz_docs_agent'},
     });
   });
 
-  it('uses the production agent config in the request contract', async () => {
-    getChatAgentConfigCodeMock.mockReturnValue('zilliz_agent_prod');
+  it('uses the Chinese docs contract for the Chinese site', async () => {
+    siteState.current = 'zh-CN';
     const {result} = renderHook(() => useChatContext(), {wrapper: wrapper(false)});
 
     await act(async () => {
@@ -147,8 +144,8 @@ describe('ChatProvider request debugging', () => {
 
     const [, init] = vi.mocked(fetch).mock.calls[0];
     expect(JSON.parse((init as RequestInit).body as string)).toMatchObject({
-      site: 'docs.zilliz.com',
-      agent_config: {agent_config_code: 'zilliz_agent_prod'},
+      site: 'docs.zilliz.com.cn',
+      agent_config: {agent_config_code: 'zilliz_docs_cn_agent'},
     });
   });
 

@@ -7,20 +7,15 @@ import {useSearch} from './useSearch';
 import {useRecentSearches} from './useRecentSearches';
 import {highlightMatches, groupBySection, type SearchResult} from './utils';
 import {DEFAULT_CHAT_ENDPOINT, getSearchEndpoint} from '../../components/ChatPanel/endpoints';
+import {useDocsUiText} from '../../i18n/uiText';
 import styles from './styles.module.css';
 
 interface Props {
   onClose: () => void;
 }
 
-const POPULAR_PAGES: SearchResult[] = [
-  {title: 'Getting Started', url: '/docs/create-cluster', section: 'Docs'},
-  {title: 'API Reference', url: '/reference/restful', section: 'Reference'},
-  {title: 'Python SDK', url: '/reference/python', section: 'Reference'},
-  {title: 'Search Guide', url: '/docs/single-vector-search', section: 'Docs'},
-];
-
 export default function SearchModal({onClose}: Props): ReactNode {
+  const text = useDocsUiText();
   const inputRef = useRef<HTMLInputElement>(null);
   const [activeIndex, setActiveIndex] = useState(-1);
   const {siteConfig} = useDocusaurusContext();
@@ -33,7 +28,7 @@ export default function SearchModal({onClose}: Props): ReactNode {
   const {recent, add: addRecent, remove: removeRecent, clear: clearRecent} = useRecentSearches();
 
   const displayResults = useMemo(() => {
-    const base = query.trim() ? results : POPULAR_PAGES;
+    const base = query.trim() ? results : text.search.popular;
     const grouped = groupBySection(base);
     return grouped.flatMap(g =>
       g.items.map(item => ({
@@ -41,7 +36,7 @@ export default function SearchModal({onClose}: Props): ReactNode {
         highlightedSnippet: item.snippet ? highlightMatches(query, item.snippet) : undefined,
       }))
     );
-  }, [query, results]);
+  }, [query, results, text.search.popular]);
 
   const totalItems = (query.trim() ? 1 : 0) + displayResults.length;
 
