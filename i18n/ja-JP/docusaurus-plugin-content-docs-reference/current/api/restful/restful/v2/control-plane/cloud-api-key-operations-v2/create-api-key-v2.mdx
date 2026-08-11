@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 1
+slug: /restful/create-api-key-v2
+beta: FALSE
+title: "API キーの作成（V2） | RESTful"
+description: "カスタマイズされた ACL API キーを作成し、完全な初期ロールセットを割り当てます。シークレットが返されるのは 1 回限りです。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "API キーの作成（V2）"
+sidebar_custom_props:
+  badges:
+    - "post"
+keywords: 
+  - Zilliz Cloud
+  - zilliz
+  - cloud
+  - "API キーの作成（V2）"
+  - "post"
+  - RESTful
+  - API
+---
+
+# API キーの作成（V2）
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="ja-JP" />
+
+export const specs = {"summary":"Create API Key","description":"Creates a customized ACL API key and assigns its complete initial role set. The secret is returned only once.","tags":["Cloud API Key Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"},"ja-JP":{"description":"認証トークンには、適切な権限を持つ API キーを使用する必要があります。"}}}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","description":"The customized API key to create. At least one role across orgRoleIds and projectRoles is required.","x-i18n":{"zh-CN":{"description":"要创建的自定义 API Key。`orgRoleIds` 和 `projectRoles` 中至少需要提供一个角色。"},"ja-JP":{"description":"作成するカスタマイズされた API キーです。orgRoleIds と projectRoles 全体で少なくとも 1 つのロールが必要です。"}},"properties":{"name":{"type":"string","minLength":1,"description":"The API key display name. It must not be blank.","x-i18n":{"zh-CN":{"description":"API Key 显示名称，不得为空。"},"ja-JP":{"description":"API キーの表示名です。空白にはできません。"}}},"description":{"type":"string","maxLength":255,"description":"The API key description.","x-i18n":{"zh-CN":{"description":"API Key 描述。"},"ja-JP":{"description":"API キーの説明です。"}}},"orgRoleIds":{"type":"array","items":{"type":"string"},"description":"The complete organization-scoped role ID set.","x-i18n":{"zh-CN":{"description":"完整的组织级角色 ID 集合。"},"ja-JP":{"description":"組織スコープの完全なロール ID セットです。"}}},"projectRoles":{"type":"array","items":{"type":"object","properties":{"projectId":{"type":"string","description":"The project ID.","x-i18n":{"zh-CN":{"description":"项目 ID。"},"ja-JP":{"description":"プロジェクト ID です。"}}},"roleIds":{"type":"array","items":{"type":"string"},"minItems":1,"description":"The project-scoped role IDs.","x-i18n":{"zh-CN":{"description":"项目级角色 ID。"},"ja-JP":{"description":"プロジェクトスコープのロール ID です。"}}}},"required":["projectId","roleIds"]},"description":"The project-scoped role assignments grouped by project.","x-i18n":{"zh-CN":{"description":"按项目分组的项目级角色分配。"},"ja-JP":{"description":"プロジェクトごとにグループ化された、プロジェクトスコープのロール割り当てです。"}}}},"required":["name"]},"examples":{"1":{"summary":"Create an API key","value":{"name":"Data Pipeline","description":"API key used by the ingestion pipeline","orgRoleIds":["r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"],"projectRoles":[{"projectId":"proj-xxxxxxxx","roleIds":["r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"]}]}}}}}},"responses":{"200":{"description":"Returns a successful result or an error message.","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"},"ja-JP":{"description":"成功レスポンスです。"}},"properties":{"code":{"type":"integer","example":0,"description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコードです。"}}},"data":{"type":"object","description":"The newly created API key ID and its one-time secret.","x-i18n":{"zh-CN":{"description":"新创建的 API Key ID 及其仅返回一次的密钥。"},"ja-JP":{"description":"新しく作成された API キー ID とその 1 回限りのシークレットです。"}},"properties":{"apiKeyId":{"type":"string","description":"The public API key ID.","x-i18n":{"zh-CN":{"description":"公开 API Key ID。"},"ja-JP":{"description":"公開 API キー ID です。"}}},"apiKey":{"type":"string","readOnly":true,"description":"The secret credential. This value is returned only once.","x-i18n":{"zh-CN":{"description":"密钥凭据，仅返回一次。"},"ja-JP":{"description":"シークレット認証情報です。この値は 1 回だけ返されます。"}}}},"required":["apiKeyId","apiKey"]}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"},"ja-JP":{"description":"失敗レスポンスです。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコードです。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"},"ja-JP":{"description":"エラーメッセージです。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"apiKeyId":"key-xxxxxxxxxxxxxx","apiKey":"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}},"x-i18n":{"ja-JP":{"description":"成功結果またはエラーメッセージを返します。"}}}},"x-i18n":{"zh-CN":{"summary":"创建 API Key","description":"创建自定义 ACL API Key 并分配完整的初始角色集。密钥仅返回一次。"},"ja-JP":{"summary":"API キーを作成します","description":"カスタマイズされた ACL API キーを作成し、その完全な初期ロールセットを割り当てます。シークレットは 1 回だけ返されます。"}}}
+export const endpoint = "/v2/api-keys"
+export const method = "post"

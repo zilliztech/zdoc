@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 10
+slug: /restful/list-group-roles-v2
+beta: FALSE
+title: "グループロールの一覧表示（V2） | RESTful"
+description: "SCIM グループに直接割り当てられたロールを一覧表示します。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "グループロールの一覧表示（V2）"
+sidebar_custom_props:
+  badges:
+    - "get"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "グループロールの一覧表示（V2）"
+  - "get"
+  - RESTful
+  - API
+---
+
+# グループロールの一覧表示（V2）
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="ja-JP" />
+
+export const specs = {"summary":"List Group Roles","description":"Lists roles directly assigned to a SCIM group.","tags":["Cloud Access Control Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"},"ja-JP":{"description":"認証トークンには、適切な権限を持つ API キーを使用する必要があります。"}}},{"name":"groupId","in":"path","required":true,"description":"The SCIM group ID.","example":"g-xxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"SCIM 群组 ID。"},"ja-JP":{"description":"SCIM グループ ID です。"}}}],"responses":{"200":{"description":"Returns a successful result or an error message.","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"},"ja-JP":{"description":"成功レスポンスです。"}},"properties":{"code":{"type":"integer","example":0,"description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコードです。"}}},"data":{"type":"object","properties":{"orgRoles":{"type":"array","items":{"type":"object","description":"A role directly assigned to a member or group.","x-i18n":{"zh-CN":{"description":"直接授予成员或群组的角色。"},"ja-JP":{"description":"メンバーまたはグループに直接割り当てられているロールです。"}},"properties":{"roleId":{"type":"string","description":"The role ID.","x-i18n":{"zh-CN":{"description":"角色 ID。"},"ja-JP":{"description":"ロール ID です。"}}},"roleName":{"type":"string","description":"The role display name.","x-i18n":{"zh-CN":{"description":"角色显示名称。"},"ja-JP":{"description":"ロールの表示名です。"}}},"roleKind":{"type":"string","enum":["pre-defined","custom"],"description":"Whether the role is predefined or custom.","x-i18n":{"zh-CN":{"description":"角色是预定义角色还是自定义角色。"},"ja-JP":{"description":"ロールが事前定義かカスタムかを示します。"}}},"assignedBy":{"type":"string","description":"The display name of the user who assigned the role, or the raw non-user assigner value.","x-i18n":{"zh-CN":{"description":"授予角色的用户显示名称；非用户授予者则返回原始值。"},"ja-JP":{"description":"ロールを割り当てたユーザーの表示名、またはユーザー以外の割り当て元の生の値です。"}}}},"required":["roleId","roleName","roleKind","assignedBy"]},"description":"The organization-scoped roles directly assigned to the principal.","x-i18n":{"zh-CN":{"description":"直接授予该主体的组织级角色。"},"ja-JP":{"description":"プリンシパルに直接割り当てられている組織スコープのロールです。"}}},"projectRoles":{"type":"array","items":{"type":"object","properties":{"projectId":{"type":"string","description":"The project ID.","x-i18n":{"zh-CN":{"description":"项目 ID。"},"ja-JP":{"description":"プロジェクト ID です。"}}},"roles":{"type":"array","items":{"type":"object","description":"A role directly assigned to a member or group.","x-i18n":{"zh-CN":{"description":"直接授予成员或群组的角色。"},"ja-JP":{"description":"メンバーまたはグループに直接割り当てられているロールです。"}},"properties":{"roleId":{"type":"string","description":"The role ID.","x-i18n":{"zh-CN":{"description":"角色 ID。"},"ja-JP":{"description":"ロール ID です。"}}},"roleName":{"type":"string","description":"The role display name.","x-i18n":{"zh-CN":{"description":"角色显示名称。"},"ja-JP":{"description":"ロールの表示名です。"}}},"roleKind":{"type":"string","enum":["pre-defined","custom"],"description":"Whether the role is predefined or custom.","x-i18n":{"zh-CN":{"description":"角色是预定义角色还是自定义角色。"},"ja-JP":{"description":"ロールが事前定義かカスタムかを示します。"}}},"assignedBy":{"type":"string","description":"The display name of the user who assigned the role, or the raw non-user assigner value.","x-i18n":{"zh-CN":{"description":"授予角色的用户显示名称；非用户授予者则返回原始值。"},"ja-JP":{"description":"ロールを割り当てたユーザーの表示名、またはユーザー以外の割り当て元の生の値です。"}}}},"required":["roleId","roleName","roleKind","assignedBy"]},"description":"The roles assigned within the project.","x-i18n":{"zh-CN":{"description":"在该项目中授予的角色。"},"ja-JP":{"description":"プロジェクト内で割り当てられているロールです。"}}}},"required":["projectId","roles"]},"description":"The project-scoped roles directly assigned to the principal, grouped by project.","x-i18n":{"zh-CN":{"description":"直接授予该主体的项目级角色，按项目分组。"},"ja-JP":{"description":"プリンシパルに直接割り当てられているプロジェクトスコープのロールを、プロジェクトごとにグループ化したものです。"}}}},"required":["orgRoles","projectRoles"]}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"},"ja-JP":{"description":"失敗レスポンスです。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコードです。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"},"ja-JP":{"description":"エラーメッセージです。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"orgRoles":[{"roleId":"r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","roleName":"Public","roleKind":"pre-defined","assignedBy":"Bob Li"}],"projectRoles":[{"projectId":"proj-xxxxxxxx","roles":[{"roleId":"r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy","roleName":"Data Reader","roleKind":"custom","assignedBy":"Bob Li"}]}]}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}},"x-i18n":{"ja-JP":{"description":"成功結果またはエラーメッセージを返します。"}}}},"x-i18n":{"zh-CN":{"summary":"列出群组角色","description":"列出直接授予 SCIM 群组的角色。"},"ja-JP":{"summary":"グループのロールを一覧表示","description":"SCIM グループに直接割り当てられているロールを一覧表示します。"}}}
+export const endpoint = "/v2/groups/{groupId}/roles"
+export const method = "get"

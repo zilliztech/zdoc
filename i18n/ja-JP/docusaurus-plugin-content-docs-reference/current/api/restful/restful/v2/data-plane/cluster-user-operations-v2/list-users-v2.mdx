@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 2
+slug: /restful/list-users-v2
+beta: FALSE
+title: "ユーザー一覧 (V2) | RESTful"
+description: "この操作では、既存のすべてのユーザーの情報を一覧表示します。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "ユーザー一覧 (V2)"
+sidebar_custom_props:
+  badges:
+    - "post"
+keywords: 
+  - Zilliz Cloud
+  - Zilliz
+  - クラウド
+  - "ユーザー一覧 (V2)"
+  - "post"
+  - RESTful
+  - API
+---
+
+# ユーザー一覧 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="ja-JP" />
+
+export const specs = {"summary":"List Users","deprecated":false,"description":"This operation lists the information of all existing users.","x-i18n":{"zh-CN":{"summary":"查看用户列表","description":"本接口可列出所有已创建用户的相关信息。"},"ja-JP":{"summary":"ユーザーを一覧表示します","description":"この操作は、既存のすべてのユーザーの情報を一覧表示します。"}},"tags":["Cluster User Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.","x-i18n":{"zh-CN":{"description":"认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"},"ja-JP":{"description":"認証トークンは、適切な権限を持つ <include target=\"zilliz\">API キー、または </include>コロンで連結されたユーザー名とパスワードの組み合わせ（例: `username:password`）である必要があります。"}},"required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{},"description":"An empty object.","x-i18n":{"zh-CN":{"description":"空对象。"},"ja-JP":{"description":"空のオブジェクトです。"}}},"example":{}}}},"responses":{"200":{"description":"An object that contains contains the user information.","x-i18n":{"zh-CN":{"description":"返回包含所有用户名称的数组。"},"ja-JP":{"description":"ユーザー情報を含むオブジェクトです。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","properties":{"code":{"description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコードです。"}},"type":"integer","example":0},"data":{"type":"array","items":{"type":"string","description":"A username.","x-i18n":{"zh-CN":{"description":"用户名。"},"ja-JP":{"description":"ユーザー名です。"}}},"description":"Response payload which is a list of usernames.","x-i18n":{"zh-CN":{"description":"响应载荷，为所有用户名列表。"},"ja-JP":{"description":"ユーザー名のリストであるレスポンスペイロードです。"}}}},"description":"A success response.","x-i18n":{"zh-CN":{"description":"成功响应。"},"ja-JP":{"description":"成功レスポンスです。"}}},{"x-tab-label":"failure","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"},"ja-JP":{"description":"失敗レスポンスです。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコードです。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"},"ja-JP":{"description":"エラーメッセージです。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","x-include-target":["milvus"],"value":{"code":0,"data":["root"]}},"2":{"summary":"success","x-target-response":"OPTION 1","x-include-target":["zilliz"],"value":{"code":0,"data":["db_admin"]}},"3":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}},"security":[]}
+export const endpoint = "/v2/vectordb/users/list"
+export const method = "post"
