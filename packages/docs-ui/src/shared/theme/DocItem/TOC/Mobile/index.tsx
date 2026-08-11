@@ -1,6 +1,7 @@
 import React, {useState, useRef, useEffect, type ReactNode} from 'react';
 import {useDoc} from '@docusaurus/plugin-content-docs/client';
 import {stripDocHeadingTag} from '../../../../utils/docHeadingTags';
+import {useDocsUiText} from '../../../../i18n/uiText';
 import styles from './styles.module.css';
 
 type TOCItem = {
@@ -26,6 +27,7 @@ function TocItem({item, onClick}: {item: TOCItem; onClick: () => void}) {
 }
 
 export default function DocItemTOCMobile(): ReactNode {
+  const text = useDocsUiText();
   const {toc} = useDoc();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -50,7 +52,7 @@ export default function DocItemTOCMobile(): ReactNode {
         className={styles.trigger}
         onClick={() => setOpen(o => !o)}
         aria-expanded={open}
-        aria-label="On this page">
+        aria-label={text.toc.onThisPage}>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
           <line x1="3" y1="6" x2="21" y2="6" />
           <line x1="3" y1="12" x2="16" y2="12" />
@@ -60,7 +62,7 @@ export default function DocItemTOCMobile(): ReactNode {
 
       {open && (
         <div className={styles.dropdown}>
-          <p className={styles.label}>ON THIS PAGE</p>
+          <p className={styles.label}>{text.toc.onThisPage}</p>
           <ul className={styles.tocList}>
             {toc.map(item => (
               <TocItem key={item.id} item={item} onClick={() => setOpen(false)} />

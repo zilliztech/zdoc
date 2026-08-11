@@ -16,16 +16,18 @@ const labelMap: Record<ConfidenceLevel, string> = {
 
 export interface ConfidenceDotProps {
   level?: ConfidenceLevel;
+  labels?: Partial<Record<ConfidenceLevel, string>>;
 }
 
-export function ConfidenceDot({ level }: ConfidenceDotProps): React.ReactElement | null {
+export function ConfidenceDot({ level, labels }: ConfidenceDotProps): React.ReactElement | null {
   if (!level) return null;
+  const label = labels?.[level] ?? labelMap[level];
   return (
     <span
       className={styles.dot}
       style={{ backgroundColor: colorMap[level] }}
-      title={labelMap[level]}
-      aria-label={labelMap[level]}
+      title={label}
+      aria-label={label}
     />
   );
 }

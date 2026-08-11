@@ -1,4 +1,5 @@
 import React from 'react';
+import {useDocsUiText} from '../../i18n/uiText.ts';
 
 /**
  * FeatureNote — an availability banner placed under a page title.
@@ -38,17 +39,18 @@ function FeatureNoteIcon({variant}) {
   );
 }
 
-function featureNoteTitle(variant, title) {
+function featureNoteTitle(variant, title, text) {
   if (title) return title;
-  if (variant === 'region' || variant === 'globe') return 'Region Availability';
-  return 'Plan Availability';
+  if (variant === 'region' || variant === 'globe') return text.featureNote.regionAvailability;
+  return text.featureNote.planAvailability;
 }
 
 export default function FeatureNote({title, titleHref, variant = 'plan', icon, children}) {
+  const text = useDocsUiText();
   // `icon` overrides which glyph is shown independently of the colour `variant`
   // (e.g. region/cyan style with the flag icon). Defaults to the variant.
   const iconVariant = icon || variant;
-  const resolvedTitle = featureNoteTitle(variant, title);
+  const resolvedTitle = featureNoteTitle(variant, title, text);
   const titleNode = titleHref ? (
     <a className="zd-feature-note__titleLink" href={titleHref}>
       {resolvedTitle}

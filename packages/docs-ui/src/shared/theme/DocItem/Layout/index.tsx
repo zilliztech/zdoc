@@ -11,6 +11,7 @@ import DocItemContent from '@theme/DocItem/Content';
 import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
 import CopyPageButton from '../../Heading/CopyPageButton';
 import DocMetaTags, {hasDocMetaTags} from '../../Heading/DocMetaTags';
+import {useDocsUiText, type DocsUiText} from '../../../i18n/uiText';
 import ContentVisibility from '@theme/ContentVisibility';
 import type {Props} from '@theme/DocItem/Layout';
 import styles from './styles.module.css';
@@ -24,16 +25,16 @@ function normalizePath(path: string): string {
   return path.replace(/\/$/, '');
 }
 
-function getSectionBreadcrumb(pathname: string): BreadcrumbItem {
+function getSectionBreadcrumb(pathname: string, text: DocsUiText): BreadcrumbItem {
   const localePrefix = pathname.startsWith('/ja-JP/') ? '/ja-JP' : '';
-  return {label: 'Docs Home', href: `${localePrefix}/docs/home`};
+  return {label: text.breadcrumbs.docsHome, href: `${localePrefix}/docs/home`};
 }
 
 function withLocalePrefix(pathname: string, href: string): string {
   return pathname.startsWith('/ja-JP/') ? `/ja-JP${href}` : href;
 }
 
-function getTopNavBreadcrumb(pathname: string): BreadcrumbItem | null {
+function getTopNavBreadcrumb(pathname: string, text: DocsUiText): BreadcrumbItem | null {
   const normalizedPathname = normalizePath(pathname.replace(/^\/ja-JP/, ''));
 
   if (normalizedPathname === '/docs/home') {
@@ -41,11 +42,11 @@ function getTopNavBreadcrumb(pathname: string): BreadcrumbItem | null {
   }
 
   if (normalizedPathname.startsWith('/docs/changelogs')) {
-    return {label: 'Releases', href: withLocalePrefix(pathname, '/docs/changelogs')};
+    return {label: text.breadcrumbs.releases, href: withLocalePrefix(pathname, '/docs/changelogs')};
   }
 
   if (normalizedPathname.startsWith('/docs/byoc')) {
-    return {label: 'Bring Your Own Cloud', href: withLocalePrefix(pathname, '/docs/byoc/byoc-intro')};
+    return {label: text.breadcrumbs.byoc, href: withLocalePrefix(pathname, '/docs/byoc/byoc-intro')};
   }
 
   if (normalizedPathname.startsWith('/reference/cli')) {
@@ -73,11 +74,11 @@ function getTopNavBreadcrumb(pathname: string): BreadcrumbItem | null {
   }
 
   if (normalizedPathname.startsWith('/reference')) {
-    return {label: 'API & SDK', href: withLocalePrefix(pathname, '/reference/python')};
+    return {label: text.breadcrumbs.apiAndSdk, href: withLocalePrefix(pathname, '/reference/python')};
   }
 
   if (normalizedPathname.startsWith('/docs')) {
-    return {label: 'Zilliz-Managed Cloud', href: withLocalePrefix(pathname, '/docs/register-with-zilliz-cloud')};
+    return {label: text.breadcrumbs.managedCloud, href: withLocalePrefix(pathname, '/docs/register-with-zilliz-cloud')};
   }
 
   return null;
@@ -109,12 +110,12 @@ function findBreadcrumbTrail(
   return null;
 }
 
-function PageBreadcrumbs(): ReactNode {
+function PageBreadcrumbs({text}: {text: DocsUiText}): ReactNode {
   const sidebar = useDocsSidebar();
   const {pathname} = useLocation();
   const trail = sidebar ? findBreadcrumbTrail(sidebar.items, pathname) ?? [] : [];
-  const section = getSectionBreadcrumb(pathname);
-  const topNavSection = getTopNavBreadcrumb(pathname);
+  const section = getSectionBreadcrumb(pathname, text);
+  const topNavSection = getTopNavBreadcrumb(pathname, text);
   const items = [section, topNavSection, trail[0]]
     .filter((item): item is BreadcrumbItem => Boolean(item))
     .filter((item, index, all) => {
@@ -125,7 +126,7 @@ function PageBreadcrumbs(): ReactNode {
   if (items.length === 0) return null;
 
   return (
-    <nav className={styles.pageBreadcrumbs} aria-label="Breadcrumb">
+    <nav className={styles.pageBreadcrumbs} aria-label={text.breadcrumbs.ariaLabel}>
       {items.map((item, index) => {
         return (
           <React.Fragment key={`${item.label}-${index}`}>
@@ -147,6 +148,7 @@ function PageBreadcrumbs(): ReactNode {
 }
 
 export default function DocItemLayout({children}: Props): ReactNode {
+  const text = useDocsUiText();
   const {frontMatter, metadata, toc} = useDoc();
   const {pathname} = useLocation();
   const windowSize = useWindowSize();
@@ -168,7 +170,7 @@ export default function DocItemLayout({children}: Props): ReactNode {
         <div className={`${styles.docItemCol} ${!showDesktopTOC ? styles.docItemColCentered : ''}`}>
           <article>
             <DocVersionBadge />
-            <PageBreadcrumbs />
+            <PageBreadcrumbs text={text} />
             <DocItemContent>{children}</DocItemContent>
             <DocItemFooter />
           </article>
@@ -192,7 +194,7 @@ export default function DocItemLayout({children}: Props): ReactNode {
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                   </svg>
-                  Contact Sales
+                  {text.breadcrumbs.contactSales}
                 </a>
               )}
             </div>

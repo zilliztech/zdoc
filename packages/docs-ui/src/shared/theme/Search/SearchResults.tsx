@@ -2,6 +2,7 @@ import React, {type ReactNode} from 'react';
 import ResultItem from './ResultItem';
 import RecentSearches from './RecentSearches';
 import type {ResultItemData} from './ResultItem';
+import {useDocsUiText} from '../../i18n/uiText';
 import styles from './styles.module.css';
 
 interface Props {
@@ -31,6 +32,7 @@ export default function SearchResults({
   onAskAi,
   onSetActive,
 }: Props): ReactNode {
+  const text = useDocsUiText();
   const trimmedQuery = query.trim();
   const hasQuery = trimmedQuery.length > 0;
   const askAiIndex = hasQuery ? 0 : -1;
@@ -56,18 +58,18 @@ export default function SearchResults({
           <svg width="10" height="16" viewBox="0 0 8 14" fill="none" aria-hidden="true" style={{flexShrink: 0}}>
             <path d="M0 8.55556L5.6 0L4.8 5.64912H8L1.6 14L3.2 8.55556H0Z" fill="currentColor" />
           </svg>
-          <span>Ask AI: &ldquo;{trimmedQuery}&rdquo;</span>
+          <span>{text.search.askAi(trimmedQuery)}</span>
         </button>
       )}
 
-      {loading && <p className={styles.searchLoading}>Searching...</p>}
+      {loading && <p className={styles.searchLoading}>{text.search.searching}</p>}
 
       {!loading && hasQuery && results.length === 0 && (
-        <p className={styles.noResults}>No results found for &ldquo;{trimmedQuery}&rdquo;</p>
+        <p className={styles.noResults}>{text.search.noResults(trimmedQuery)}</p>
       )}
 
       {!loading && !hasQuery && results.length === 0 && (
-        <p className={styles.searchSection}>Popular pages</p>
+        <p className={styles.searchSection}>{text.search.popularPages}</p>
       )}
 
       {!loading &&

@@ -1,5 +1,6 @@
 import React, {type ReactNode} from 'react';
 import {Clock, X} from 'lucide-react';
+import {useDocsUiText} from '../../i18n/uiText';
 import styles from './styles.module.css';
 
 interface Props {
@@ -10,13 +11,14 @@ interface Props {
 }
 
 export default function RecentSearches({items, onSelect, onRemove, onClear}: Props): ReactNode {
+  const text = useDocsUiText();
   if (items.length === 0) return null;
   return (
     <div>
       <div className={styles.searchSection}>
-        Recent
+        {text.search.recent}
         <button type="button" className={styles.clearAll} onClick={onClear}>
-          Clear all
+          {text.search.clearAll}
         </button>
       </div>
       {items.map(item => (
@@ -32,7 +34,7 @@ export default function RecentSearches({items, onSelect, onRemove, onClear}: Pro
               e.stopPropagation();
               onRemove(item);
             }}
-            aria-label={`Remove ${item}`}>
+            aria-label={text.search.removeRecent(item)}>
             <X size={14} />
           </button>
         </div>
