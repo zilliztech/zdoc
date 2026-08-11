@@ -179,3 +179,75 @@ test('retains exact current-contract rejection reasons in replay evidence', t =>
   assert.match(replay.rejections[0].reason, /^revalidation failed: locale: document\.heading\.0001; line 1 containing endpoint:/)
   assert.match(replay.rejections[0].reason, /requires endpoint to use Endpoint/)
 })
+
+test('replays a long retained Guide through the production Agent-load chunk boundary without model calls', t => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-replay-agent-load-'))
+  const repository = path.join(root, 'repository')
+  const siteDir = path.join(root, 'artifact-source')
+  const artifactDir = path.join(root, 'artifact')
+  const evidence = path.join(root, 'evidence.json')
+  fs.mkdirSync(repository)
+  fs.mkdirSync(siteDir)
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+
+  const sourcePath = 'content/en/guides/recovery/long-guide.md'
+  const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/recovery/long-guide.md'
+  const sourceParagraph = 'This guide explains a reliable workflow with practical details for operators. '.repeat(20).trim()
+  const targetParagraph = 'このガイドでは、運用担当者向けに実用的な詳細を含む信頼性の高いワークフローを説明します。'.repeat(20)
+  const source = ['# Reliable workflow', ...Array.from({length: 7}, (_, index) => `## Step ${index + 1}\n\n${sourceParagraph}`), ''].join('\n\n')
+  const target = ['# 信頼性の高いワークフロー', ...Array.from({length: 7}, (_, index) => `## ステップ ${index + 1}\n\n${targetParagraph}`), ''].join('\n\n')
+  assert.ok(source.length > 8000 && source.length < 16000, `fixture length ${source.length} must cross the Guides production boundary`)
+
+  git(repository, ['init'])
+  git(repository, ['config', 'user.name', 'Translation Replay Test'])
+  git(repository, ['config', 'user.email', 'translation-replay@example.com'])
+  write(repository, sourcePath, source)
+  write(siteDir, sourcePath, source)
+  write(siteDir, targetPath, target)
+  git(repository, ['add', '.'])
+  git(repository, ['commit', '-m', 'Add long replay source'])
+  const sourceSha = git(repository, ['rev-parse', 'HEAD'])
+  const executionToolingSha = git(process.cwd(), ['rev-parse', 'HEAD'])
+  createRecoveryArtifact({
+    siteDir,
+    outputDir: artifactDir,
+    results: [{
+      sourcePath,
+      targetPath,
+      sourceHash: sha256(Buffer.from(source)),
+      locale: 'ja-JP',
+      status: 'translated',
+      recovered: true,
+      recoveryCompatibility: 'revalidated',
+    }],
+    identity: {
+      locale: 'ja-JP', group: 'guides', promptContractSha256: promptContractSha256('ja-JP'),
+      model: 'fixture-model', sourceSha, toolingSha: 'b'.repeat(40), mode: 'incremental',
+    },
+  })
+
+  const result = spawnSync(process.execPath, [
+    path.join(__dirname, 'replay-recovery-preflight.js'),
+    '--repository', repository,
+    '--source-sha', sourceSha,
+    '--recovery-artifact', artifactDir,
+    '--execution-tooling-sha', executionToolingSha,
+    '--execution-model', 'current-model',
+    '--chunk-target-chars', '8000',
+    '--chunk-max-chars', '12000',
+    '--output', evidence,
+  ], {encoding: 'utf8'})
+
+  assert.equal(result.status, 0, result.stderr)
+  const replay = JSON.parse(fs.readFileSync(evidence, 'utf8'))
+  assert.equal(replay.recoveredCount, 0)
+  assert.equal(replay.pendingCount, 1)
+  assert.equal(replay.semanticResumableFileCount, 1)
+  assert.ok(replay.recoveredSemanticUnitCount > 0)
+  assert.equal(replay.chunkTargetChars, 8000)
+  assert.equal(replay.chunkMaxChars, 12000)
+  assert.equal(replay.agentLoadVerified, true)
+  assert.equal(replay.agentLoadedPendingCount, 1)
+  assert.equal(replay.agentLoadedSemanticUnitCount, replay.recoveredSemanticUnitCount)
+  assert.equal(replay.modelInvocationCount, 0)
+})

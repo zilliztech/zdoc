@@ -242,6 +242,8 @@ jobs:
         if: ${{ inputs.should_translate && (inputs.recovery_bundle_artifact_name != '' || inputs.recovery_run_id != '') && steps.manifest.outputs.count != '0' }}
         env:
           TRANSLATION_AGENT_MODEL: ${{ vars.TRANSLATION_AGENT_MODEL }}
+          TRANSLATION_CHUNK_TARGET_CHARS: ${{ inputs.group == 'guides' && '8000' || '16000' }}
+          TRANSLATION_CHUNK_MAX_CHARS: ${{ inputs.group == 'guides' && '12000' || '24000' }}
         run: |
           set -euo pipefail
           node scripts/translation/recovery-preflight.js \
