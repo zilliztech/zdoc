@@ -79,6 +79,10 @@ function messageOf(failure) {
   return String(failure?.message || failure || 'unknown failure')
 }
 
+function isLegacySemanticCountMismatch(message) {
+  return String(message ?? '').trim() === 'Semantic unit response entry count mismatch'
+}
+
 function classifyFailure(failure) {
   const explicitlyUnknown = failure?.failureCategory === 'unknown' || failure?.cause?.failureCategory === 'unknown'
   if (FAILURE_CATEGORY_SET.has(failure?.failureCategory) && failure.failureCategory !== 'unknown') return failure.failureCategory
@@ -88,11 +92,11 @@ function classifyFailure(failure) {
   const message = messageOf(failure)
   const status = Number(failure?.status || failure?.statusCode || failure?.cause?.status)
   const name = String(failure?.name || failure?.cause?.name || '')
-  const code = String(failure?.code || failure?.cause?.code || '')
+  const code = String(failure?.errorDetails?.code || failure?.code || failure?.cause?.errorDetails?.code || failure?.cause?.code || '')
   if (['CHUNK_TIMEOUT', 'FILE_TIMEOUT', 'PROVIDER_TIMEOUT'].includes(code)) return 'provider_timeout'
   if (code === 'PROVIDER_TRANSPORT') return 'provider_transport'
-  if (code.startsWith('SEMANTIC_RESPONSE_')) return 'semantic_response_failed'
-  if (/Semantic unit response entry count mismatch/.test(message)) return 'semantic_response_failed'
+  if (code === 'SEMANTIC_RESPONSE_COUNT_MISMATCH') return 'semantic_response_failed'
+  if (isLegacySemanticCountMismatch(message)) return 'semantic_response_failed'
   if (explicitlyUnknown && code === 'PROVIDER_HTTP_ERROR' && status >= 400 && status < 500 && ![408, 409, 425, 429].includes(status)) return 'unknown'
   if (status === 408 || name === 'AbortError' || name === 'APITimeoutError' || /APITimeoutError|\btimeout\b|timed out|aborted/i.test(message)) return 'provider_timeout'
   if ([409, 425, 429, 500, 502, 503, 504].includes(status)) return 'provider_transport'
@@ -119,5 +123,6 @@ module.exports = {
   boundedFailureDetails,
   classifyFailure,
   failureRecord,
+  isLegacySemanticCountMismatch,
   messageOf,
 }

@@ -10,6 +10,7 @@ const {
   FAILURE_CATEGORIES,
   PARTIAL_SUCCESS_FAILURE_CATEGORIES,
   classifyFailure,
+  isLegacySemanticCountMismatch,
 } = require('../translation/failureClassification')
 const {isConsistentSuccessfulReview} = require('../translation/reviewEvidence')
 const {parseRestDocument} = require('../translation/restSpecLocalization')
@@ -282,9 +283,9 @@ function hasStructuredReviewEvidence(result) {
     .some(key => Array.isArray(review[key]) && review[key].length > 0)
 }
 
-function isPartialSuccessCategoryEligible(rawCategory, effectiveCategory, error) {
+function isPartialSuccessCategoryEligible(rawCategory, effectiveCategory, error, code) {
   if (rawCategory === 'unknown') {
-    return effectiveCategory === 'semantic_response_failed' && /Semantic unit response entry count mismatch/.test(String(error || ''))
+    return code === 'SEMANTIC_RESPONSE_COUNT_MISMATCH' || isLegacySemanticCountMismatch(error)
   }
   return PARTIAL_SUCCESS_FAILURE_CATEGORY_SET.has(effectiveCategory)
 }
@@ -292,7 +293,8 @@ function isPartialSuccessCategoryEligible(rawCategory, effectiveCategory, error)
 function assertFailedResult(result, sourcePath) {
   if (!FAILURE_CATEGORY_SET.has(result.failureCategory)) fail(`translation failure category is invalid for ${sourcePath}`)
   const effectiveCategory = classifyFailure(result)
-  if (!isPartialSuccessCategoryEligible(result.failureCategory, effectiveCategory, result.error)) fail(`translation failure category is not eligible for partial success for ${sourcePath}`)
+  const resultCode = result.errorDetails?.code || result.code
+  if (!isPartialSuccessCategoryEligible(result.failureCategory, effectiveCategory, result.error, resultCode)) fail(`translation failure category is not eligible for partial success for ${sourcePath}`)
   if (result.error !== undefined && result.error !== null && typeof result.error !== 'string') fail(`translation failure error evidence is malformed for ${sourcePath}`)
   if (typeof result.error === 'string' && result.error.length > MAX_FAILURE_ERROR_LENGTH) fail(`translation failure must have bounded error evidence for ${sourcePath}`)
   if (result.retryFailures !== undefined) {
@@ -302,7 +304,7 @@ function assertFailedResult(result, sourcePath) {
         fail(`translation retry failure evidence is malformed for ${sourcePath}`)
       }
       const effectiveRetryCategory = classifyFailure({failureCategory: retry.category, error: retry.error, code: retry.code})
-      if (!isPartialSuccessCategoryEligible(retry.category, effectiveRetryCategory, retry.error)) fail(`translation retry failure category is not eligible for partial success for ${sourcePath}`)
+      if (!isPartialSuccessCategoryEligible(retry.category, effectiveRetryCategory, retry.error, retry.code)) fail(`translation retry failure category is not eligible for partial success for ${sourcePath}`)
       if (index > 0 && result.retryFailures[index - 1].attempt >= retry.attempt) fail(`translation retry failure attempts are not ordered for ${sourcePath}`)
     }
     if (result.retryFailures.length) {

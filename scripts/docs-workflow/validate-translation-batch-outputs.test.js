@@ -292,6 +292,47 @@ test('accepts the deterministic retained semantic mismatch but rejects arbitrary
     fs.rmSync(retainedRoot, {recursive: true, force: true})
   }
 
+  const structured = failedResult(candidate(), {
+    failureCategory: 'unknown',
+    error: 'opaque semantic response failure',
+    code: 'SEMANTIC_RESPONSE_COUNT_MISMATCH',
+    retryFailures: [{attempt: 1, category: 'unknown', error: 'opaque semantic response failure', code: 'SEMANTIC_RESPONSE_COUNT_MISMATCH'}],
+  })
+  const structuredRoot = fixture({
+    report: report({results: [structured], checkpoint: {...report().checkpoint, translated: 0, failed: 1}}),
+    output: false,
+  })
+  try {
+    assert.deepEqual(validate(structuredRoot, {translatedCount: 0, failedCount: 1}), {
+      candidateCount: 1,
+      reconciliationOnly: false,
+    })
+  } finally {
+    fs.rmSync(structuredRoot, {recursive: true, force: true})
+  }
+
+  for (const error of [
+    'prefix: Semantic unit response entry count mismatch',
+    'Semantic unit response entry count mismatch: suffix',
+  ]) {
+    const decoratedRoot = fixture({
+      report: report({
+        results: [failedResult(candidate(), {
+          failureCategory: 'unknown',
+          error,
+          retryFailures: [{attempt: 1, category: 'unknown', error}],
+        })],
+        checkpoint: {...report().checkpoint, translated: 0, failed: 1},
+      }),
+      output: false,
+    })
+    try {
+      assert.throws(() => validate(decoratedRoot, {translatedCount: 0, failedCount: 1}), /partial success|failure category/i)
+    } finally {
+      fs.rmSync(decoratedRoot, {recursive: true, force: true})
+    }
+  }
+
   const unknownRoot = fixture({
     report: report({
       results: [failedResult(candidate(), {

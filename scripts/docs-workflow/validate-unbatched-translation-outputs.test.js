@@ -215,7 +215,7 @@ function referenceFixture() {
   const workspaceState = {
     schemaVersion: 1,
     records: [translatedRecord, retainedRecord].sort((left, right) => left.sourcePath.localeCompare(right.sourcePath)),
-    pendingRecords: [retainedPending],
+    pendingRecords: [pending(failedMissing)],
   }
   writeJson(baseline, 'generated/zh-CN/manifests/reference-translations.json', baselineState)
   writeJson(root, 'generated/zh-CN/manifests/reference-translations.json', workspaceState)
@@ -290,9 +290,9 @@ test('rejects failed new target creation and Chinese Reference record/pending st
 
   fixture = referenceFixture()
   try {
-    const state = {...fixture.workspaceState, pendingRecords: []}
+    const state = {...fixture.workspaceState, pendingRecords: fixture.baselineState.pendingRecords.filter(record => record.sourcePath === fixture.failedMissing.sourcePath)}
     writeJson(fixture.root, 'generated/zh-CN/manifests/reference-translations.json', state)
-    assert.throws(() => validate(fixture.root, {translated: 1, failed: 2}), /pending|reference translation state/i)
+    assert.throws(() => validate(fixture.root, {translated: 1, failed: 2}), /pending|provenance|reference translation state/i)
   } finally {
     fs.rmSync(fixture.root, {recursive: true, force: true})
   }

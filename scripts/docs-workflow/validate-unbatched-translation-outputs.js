@@ -142,7 +142,6 @@ function validateReferenceState({workspace, baseline, manifest, resultBySource})
   const currentState = parsedReferenceManifest(workspace, 'generated/zh-CN/manifests/reference-translations.json', 'workspace Reference translation state')
   const sourceByPath = new Map(sourceManifest.records.map(record => [record.sourcePath, record]))
   const baselineRecordByPath = new Map(baselineState.records.map(record => [record.sourcePath, record]))
-  const baselinePendingByPath = new Map((baselineState.pendingRecords || []).map(record => [record.sourcePath, record]))
   const expected = JSON.parse(JSON.stringify(baselineState))
 
   for (const item of manifest.items) {
@@ -153,9 +152,20 @@ function validateReferenceState({workspace, baseline, manifest, resultBySource})
     const baselineTarget = readOptionalPinnedBytes(baseline, item.targetPath, 'failed candidate baseline target')
     if (result.status === 'failed') {
       if (baselineTarget === null) {
-        const pending = baselinePendingByPath.get(item.sourcePath)
-        if (!pending || pending.manual !== sourceRecord.manual || pending.sourcePath !== item.sourcePath || pending.targetPath !== item.targetPath) {
-          fail(`failed new Reference candidate must preserve its exact authenticated pending record: ${item.sourcePath}`)
+        const pending = {
+          manual: sourceRecord.manual,
+          sourcePath: item.sourcePath,
+          targetPath: item.targetPath,
+          sourceCommit: sourceManifest.sourceCommit,
+          sourceHash: sourceRecord.sourceHash,
+        }
+        expected.records = expected.records.filter(record => record.sourcePath !== item.sourcePath)
+        expected.pendingRecords = [
+          ...(expected.pendingRecords || []).filter(record => record.sourcePath !== item.sourcePath),
+          pending,
+        ].sort(compareReferenceRecords)
+        if (Object.hasOwn(expected, 'languageExcludedRecords')) {
+          expected.languageExcludedRecords = expected.languageExcludedRecords.filter(record => record.sourcePath !== item.sourcePath)
         }
       } else {
         const oldRecord = baselineRecordByPath.get(item.sourcePath)
