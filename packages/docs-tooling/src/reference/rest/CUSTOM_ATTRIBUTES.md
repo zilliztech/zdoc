@@ -29,6 +29,8 @@ These attributes live inside the OpenAPI JSON files (`meta/openapi/*.json`) and 
 
 Provides translations for Chinese (`zh-CN`) documentation. At build time, `refGen.js` reads `x-i18n["zh-CN"].summary` and `x-i18n["zh-CN"].description` to generate Chinese pages. At runtime, `RestSpecs` reads `x-i18n` for property/parameter descriptions and examples.
 
+`x-i18n` must be an object keyed first by locale. Each locale must map to an object containing only supported localized fields: `content`, `description`, `enum`, `example`, `label`, `name`, `prompt`, `summary`, `title`, or `url`. Do not place a localized field directly below `x-i18n`, use a string directly as the locale value, or introduce misspelled field names; REST generation rejects malformed shapes with their JSON path.
+
 ```json
 {
   "summary": "List Cloud Providers",
