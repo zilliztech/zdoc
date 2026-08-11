@@ -7,6 +7,7 @@ const yaml = require('js-yaml')
 const { loadTypeScript } = require('../lib/load-typescript')
 const { applyMdxPatches, validateMdxStructure } = require('../../packages/docs-tooling/src/mdx/validate.cjs')
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
+const {loadChunkLimits, parsePositiveInteger} = require('./chunkLimits')
 const {formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
 const {protectTranslationInput, reprotectTranslationInput, restoreProtectedContent, validateProtectedContent} = require('./protectedContent')
 const {REVIEW_RESPONSE_JSON_SCHEMA, parseAndValidateReviewEvidence, successfulReview} = require('./reviewEvidence')
@@ -130,11 +131,6 @@ function stripInternalRecoveryFields(value) {
   return publicValue
 }
 
-function parsePositiveInteger(value, fallback) {
-  const parsed = Number(value)
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
-}
-
 function parseNonNegativeInteger(value, fallback) {
   const parsed = Number(value)
   return Number.isInteger(parsed) && parsed >= 0 ? parsed : fallback
@@ -206,15 +202,6 @@ function reserveAdaptiveCallBudget(budget, count) {
   budget.remaining -= count
   budget.reserved += count
   return true
-}
-
-function loadChunkLimits(env = process.env) {
-  const targetChars = parsePositiveInteger(env.TRANSLATION_CHUNK_TARGET_CHARS, DEFAULT_TARGET_CHARS)
-  const maxChars = parsePositiveInteger(env.TRANSLATION_CHUNK_MAX_CHARS, DEFAULT_MAX_CHARS)
-  if (maxChars < targetChars) {
-    throw new Error('TRANSLATION_CHUNK_MAX_CHARS must be greater than or equal to TRANSLATION_CHUNK_TARGET_CHARS')
-  }
-  return { targetChars, maxChars }
 }
 
 function normalizeBaseUrl(raw) {

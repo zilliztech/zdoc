@@ -6,6 +6,8 @@ const os = require('node:os')
 const path = require('node:path')
 const {spawnSync} = require('node:child_process')
 
+const {loadRecoveryAnalysis} = require('./agentRunner')
+const {loadChunkLimits} = require('./chunkLimits')
 const {promptContractSha256} = require('./recovery-artifact')
 const {analyzeRecoveryCompatibility} = require('./recovery-preflight')
 
@@ -34,11 +36,12 @@ function writeSource(repository, sourceSha, workspace, sourcePath) {
   fs.writeFileSync(destination, bytes)
 }
 
-function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, executionToolingSha, executionModel, output}) {
+function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, executionToolingSha, executionModel, output, chunkOptions}) {
   const repositoryRoot = fs.realpathSync(repository)
   const artifactRoot = fs.realpathSync(recoveryArtifact)
   if (!SHA.test(sourceSha || '') || !SHA.test(executionToolingSha || '')) throw new Error('Replay SHAs must be exact lowercase commits')
   if (typeof executionModel !== 'string' || !executionModel.trim()) throw new Error('Replay execution model is required')
+  const chunkLimits = chunkOptions || loadChunkLimits()
   git(repositoryRoot, ['cat-file', '-e', `${sourceSha}^{commit}`], {encoding: 'utf8'})
   const toolingCheckout = fs.realpathSync(process.cwd())
   const actualExecutionToolingSha = String(git(toolingCheckout, ['rev-parse', 'HEAD'], {encoding: 'utf8'})).trim()
@@ -67,15 +70,34 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
     }))
     for (const sourcePath of new Set(items.map(item => item.sourcePath))) writeSource(repositoryRoot, sourceSha, workspace, sourcePath)
     const manifest = {target, locale: metadata.locale, group: metadata.group, sourceCheckpointSha: sourceSha, items}
+    const currentPromptContractSha256 = promptContractSha256(target, process.cwd())
     const analysis = analyzeRecoveryCompatibility({
       siteDir: workspace,
       manifest,
       artifacts: [artifactRoot],
-      promptContractSha256: promptContractSha256(target, process.cwd()),
+      promptContractSha256: currentPromptContractSha256,
       model: executionModel,
       executionToolingSha: actualExecutionToolingSha,
       allowFullRetranslate: false,
+      chunkOptions: chunkLimits,
     })
+    const analysisFile = path.join(workspace, 'recovery-analysis.json')
+    fs.writeFileSync(analysisFile, `${JSON.stringify(analysis)}\n`)
+    const loaded = loadRecoveryAnalysis({
+      file: analysisFile,
+      manifest,
+      siteDir: workspace,
+      identity: {
+        promptContractSha256: currentPromptContractSha256,
+        model: executionModel,
+        toolingSha: actualExecutionToolingSha,
+      },
+      chunkOptions: chunkLimits,
+    })
+    const agentLoadedSemanticUnitCount = loaded.pending.reduce(
+      (total, item) => total + (item.recoverySemanticCheckpoints?.entries?.length || 0),
+      0,
+    )
     const first = items[0]
     let fullRetranslationGuardVerified = false
     let guardMessage = null
@@ -84,10 +106,11 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
         siteDir: workspace,
         manifest: {...manifest, items: [{...first, targetPath: `${first.targetPath}.guard-pending`}]},
         artifacts: [artifactRoot],
-        promptContractSha256: promptContractSha256(target, process.cwd()),
+        promptContractSha256: currentPromptContractSha256,
         model: executionModel,
         executionToolingSha: actualExecutionToolingSha,
         allowFullRetranslate: false,
+        chunkOptions: chunkLimits,
       })
     } catch (error) {
       guardMessage = String(error.message || error)
@@ -113,6 +136,12 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
       recoveredSemanticUnitCount: analysis.recoveredSemanticUnitCount,
       rejections: analysis.rejected.map(item => Object.freeze({sourcePath: item.sourcePath, reason: item.reason})),
       compatibilityMode: analysis.compatibilityMode,
+      chunkTargetChars: chunkLimits.targetChars,
+      chunkMaxChars: chunkLimits.maxChars,
+      agentLoadVerified: true,
+      agentLoadedRecoveredCount: loaded.restored.length,
+      agentLoadedPendingCount: loaded.pending.length,
+      agentLoadedSemanticUnitCount,
       modelInvocationCount: 0,
       fullRetranslationGuardVerified,
       guardMessage,
@@ -127,7 +156,8 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
 }
 
 function parseArgs(argv) {
-  const allowed = new Set(['--repository', '--source-sha', '--recovery-artifact', '--execution-tooling-sha', '--execution-model', '--output'])
+  const required = new Set(['--repository', '--source-sha', '--recovery-artifact', '--execution-tooling-sha', '--execution-model', '--output'])
+  const allowed = new Set([...required, '--chunk-target-chars', '--chunk-max-chars'])
   const values = new Map()
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]
@@ -135,12 +165,16 @@ function parseArgs(argv) {
     if (!allowed.has(flag) || value === undefined || values.has(flag)) throw new Error('Recovery replay arguments are invalid')
     values.set(flag, value)
   }
-  for (const flag of allowed) if (!values.get(flag)) throw new Error(`${flag} is required`)
+  for (const flag of required) if (!values.get(flag)) throw new Error(`${flag} is required`)
   return values
 }
 
 function main(argv = process.argv.slice(2)) {
   const args = parseArgs(argv)
+  const chunkOptions = loadChunkLimits({
+    TRANSLATION_CHUNK_TARGET_CHARS: args.get('--chunk-target-chars'),
+    TRANSLATION_CHUNK_MAX_CHARS: args.get('--chunk-max-chars'),
+  })
   return replayRetainedRecovery({
     repository: args.get('--repository'),
     sourceSha: args.get('--source-sha'),
@@ -148,6 +182,7 @@ function main(argv = process.argv.slice(2)) {
     executionToolingSha: args.get('--execution-tooling-sha'),
     executionModel: args.get('--execution-model'),
     output: args.get('--output'),
+    chunkOptions,
   })
 }
 

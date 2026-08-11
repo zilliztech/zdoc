@@ -9,6 +9,7 @@ const {
   promptContractSha256,
   restoreRecoveryFiles,
 } = require('./recovery-artifact')
+const {loadChunkLimits} = require('./chunkLimits')
 const {validateRecoveryCandidate} = require('./recoveryValidation')
 const {MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES, semanticCheckpointBytes} = require('./semanticRecovery')
 
@@ -190,6 +191,7 @@ function main(argv = process.argv.slice(2), env = process.env) {
       model: env.TRANSLATION_AGENT_MODEL,
       executionToolingSha: args['--execution-tooling-sha'],
       allowFullRetranslate: args['--allow-full-retranslate'] === 'true',
+      chunkOptions: loadChunkLimits(env),
     })
   } catch (error) {
     if (error.analysis) {
