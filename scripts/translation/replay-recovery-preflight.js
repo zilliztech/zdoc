@@ -6,7 +6,13 @@ const os = require('node:os')
 const path = require('node:path')
 const {spawnSync} = require('node:child_process')
 
-const {loadRecoveryAnalysis} = require('./agentRunner')
+const {
+  createModelCallCounter,
+  loadRecoveryAnalysis,
+  partitionRecoveryWork,
+  processItemWithRetry,
+  processManifestItem,
+} = require('./agentRunner')
 const {loadChunkLimits} = require('./chunkLimits')
 const {promptContractSha256} = require('./recovery-artifact')
 const {analyzeRecoveryCompatibility} = require('./recovery-preflight')
@@ -36,7 +42,37 @@ function writeSource(repository, sourceSha, workspace, sourcePath) {
   fs.writeFileSync(destination, bytes)
 }
 
-function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, executionToolingSha, executionModel, output, chunkOptions}) {
+function taggedJson(messages, tag) {
+  const content = messages?.at(-1)?.content
+  const match = typeof content === 'string' && content.match(new RegExp(`<${tag}>\\n([\\s\\S]*?)\\n</${tag}>`))
+  if (!match) throw new Error(`Replay fake model request is missing ${tag}`)
+  return JSON.parse(match[1])
+}
+
+function trailingJsonArray(messages) {
+  const content = messages?.at(-1)?.content
+  if (typeof content !== 'string') throw new Error('Replay fake model request is missing content')
+  const start = content.lastIndexOf('\n\n[')
+  if (start === -1) throw new Error('Replay fake REST translation request is missing entries')
+  return JSON.parse(content.slice(start + 2))
+}
+
+function createReplayModelClient() {
+  return async ({agent, messages}) => {
+    if (agent === 'review') return JSON.stringify({pass: true, issues: []})
+    if (agent === 'correction') throw new Error('Replay fake Correction Agent must not be called')
+    if (agent !== 'translation') throw new Error(`Replay fake model does not support ${agent || 'missing'} agent`)
+    const content = messages?.at(-1)?.content || ''
+    if (content.includes('<semantic_units>')) {
+      const units = taggedJson(messages, 'semantic_units')
+      return JSON.stringify({translations: units.map(unit => ({id: unit.id, text: unit.text}))})
+    }
+    const entries = trailingJsonArray(messages)
+    return JSON.stringify(entries.map(entry => ({id: entry.id, text: entry.text})))
+  }
+}
+
+async function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, executionToolingSha, executionModel, output, chunkOptions}) {
   const repositoryRoot = fs.realpathSync(repository)
   const artifactRoot = fs.realpathSync(recoveryArtifact)
   if (!SHA.test(sourceSha || '') || !SHA.test(executionToolingSha || '')) throw new Error('Replay SHAs must be exact lowercase commits')
@@ -98,6 +134,43 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
       (total, item) => total + (item.recoverySemanticCheckpoints?.entries?.length || 0),
       0,
     )
+    const work = partitionRecoveryWork(manifest, loaded.restored, loaded.pending)
+    const modelCalls = createModelCallCounter(createReplayModelClient())
+    const agentResults = []
+    for (const entry of work.pending) {
+      const item = entry.item
+      const targetItem = {...item, target: manifest.target}
+      agentResults.push(await processItemWithRetry(targetItem, {
+        maxRetries: 0,
+        initialSemanticCheckpoints: item.recoverySemanticCheckpoints,
+        initialChunkCheckpoints: item.recoveryChunkCheckpoints,
+        fileTimeoutMs: 0,
+        processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
+          siteDir: workspace,
+          item: targetItem,
+          callModel: modelCalls.callModel,
+          maxReviewRounds: 0,
+          chunkTargetChars: chunkLimits.targetChars,
+          chunkMaxChars: chunkLimits.maxChars,
+          chunkCheckpoint: retryContext.chunkCheckpoint,
+          onChunkCompleted: retryContext.onChunkCompleted,
+          signal: retryContext.signal,
+          providerRetryBudget: retryContext.providerRetryBudget,
+          adaptiveCallBudget: retryContext.adaptiveCallBudget,
+          semanticCheckpoint: retryContext.semanticCheckpoint,
+          restSpecDraft: retryContext.restSpecDraft,
+          onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
+          retryFeedback,
+        }),
+      }))
+    }
+    const agentTranslatedCount = agentResults.filter(result => result.status === 'translated').length
+    const agentFailedCount = agentResults.length - agentTranslatedCount
+    if (agentFailedCount > 0) {
+      const firstFailure = agentResults.find(result => result.status !== 'translated')
+      throw new Error(`Replay Agent Runner boundary failed for ${firstFailure.sourcePath}: ${firstFailure.error || firstFailure.failureCategory || 'unknown failure'}`)
+    }
+    const modelCallCounts = modelCalls.snapshot()
     const first = items[0]
     let fullRetranslationGuardVerified = false
     let guardMessage = null
@@ -142,7 +215,12 @@ function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, execut
       agentLoadedRecoveredCount: loaded.restored.length,
       agentLoadedPendingCount: loaded.pending.length,
       agentLoadedSemanticUnitCount,
-      modelInvocationCount: 0,
+      agentBoundaryVerified: true,
+      agentProcessedCount: agentResults.length,
+      agentTranslatedCount,
+      agentFailedCount,
+      modelCallCounts,
+      modelInvocationCount: modelCallCounts.total,
       fullRetranslationGuardVerified,
       guardMessage,
     })
@@ -169,7 +247,7 @@ function parseArgs(argv) {
   return values
 }
 
-function main(argv = process.argv.slice(2)) {
+async function main(argv = process.argv.slice(2)) {
   const args = parseArgs(argv)
   const chunkOptions = loadChunkLimits({
     TRANSLATION_CHUNK_TARGET_CHARS: args.get('--chunk-target-chars'),
@@ -187,8 +265,7 @@ function main(argv = process.argv.slice(2)) {
 }
 
 if (require.main === module) {
-  try { main() }
-  catch (error) { console.error(error.message); process.exitCode = 1 }
+  main().catch(error => { console.error(error.message); process.exitCode = 1 })
 }
 
 module.exports = {parseArgs, replayRetainedRecovery}
