@@ -936,10 +936,21 @@ describe('docs-tooling CLI boundary', () => {
   it('dispatches the English REST source to the moved REST generator', async () => {
     const repositoryRoot = temporaryRoot();
     seedEnglishRestPreservedFiles(repositoryRoot);
+    writeFileSync(
+      path.join(repositoryRoot, 'content/en/reference/api/restful/restful/restful.md'),
+      '---\nsidebar_label: RESTful API Reference\nsidebar_position: 0\n---\n\n# RESTful API Overview\n',
+    );
     mkdirSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi/spec.json'), '{}\n');
     mkdirSync(path.join(repositoryRoot, 'generated/en/sidebars'), {recursive: true});
-    writeFileSync(path.join(repositoryRoot, 'generated/en/sidebars/restful.sidebar.js'), 'module.exports = []\n');
+    writeFileSync(path.join(repositoryRoot, 'generated/en/sidebars/restful.sidebar.js'), `module.exports = ${JSON.stringify([{
+      type: 'category',
+      label: 'Role Operations (V2)',
+      items: [{
+        type: 'doc',
+        id: 'api/restful/restful/v2/data-plane/role-operations-v2/create-role-v2',
+      }],
+    }])}\n`);
     const spawnSync = vi.fn((command: string, args: readonly string[]) => {
       expect(command).toBe(process.execPath);
       expect(args).toEqual([
@@ -949,8 +960,23 @@ describe('docs-tooling CLI boundary', () => {
         '--lang', 'en-US',
         '--target', 'zilliz',
       ]);
-      mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful'), {recursive: true});
-      writeFileSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful/page.md'), '# generated\n');
+      const output = path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful');
+      const pages = [
+        ['v2/v2.mdx', '---\nslug: /restful/v2\nsidebar_position: 1\n---\n\n# V2\n'],
+        ['v2/control-plane/control-plane.mdx', '---\nslug: /restful/control-plane-v2\nsidebar_position: 1\n---\n\n# Control Plane (V2)\n'],
+        ['v2/control-plane/cloud-access-control-operations-v2/cloud-access-control-operations-v2.mdx', '---\nslug: /restful/cloud-access-control-operations-v2\nsidebar_position: 20\n---\n\n# Cloud Access Control Operations (V2)\n'],
+        ['v2/control-plane/cloud-access-control-operations-v2/create-cloud-role-v2.mdx', '---\nsidebar_label: Create Cloud Role (V2)\nsidebar_position: 0\n---\n\n# Create Cloud Role (V2)\n'],
+        ['v2/control-plane/cloud-api-key-operations-v2/cloud-api-key-operations-v2.mdx', '---\nslug: /restful/cloud-api-key-operations-v2\nsidebar_position: 21\n---\n\n# Cloud API Key Operations (V2)\n'],
+        ['v2/control-plane/cloud-api-key-operations-v2/create-api-key-v2.mdx', '---\nsidebar_label: Create API Key (V2)\nsidebar_position: 0\n---\n\n# Create API Key (V2)\n'],
+        ['v2/data-plane/data-plane.mdx', '---\nslug: /restful/data-plane-v2\nsidebar_position: 2\n---\n\n# Data Plane (V2)\n'],
+        ['v2/data-plane/cluster-role-operations-v2/cluster-role-operations-v2.mdx', '---\nslug: /restful/cluster-role-operations-v2\nsidebar_position: 8\n---\n\n# Cluster Role Operations (V2)\n'],
+        ['v2/data-plane/cluster-role-operations-v2/create-role-v2.mdx', '---\nsidebar_label: Create Role (V2)\nsidebar_position: 0\n---\n\n# Create Role (V2)\n'],
+      ] as const;
+      for (const [relativePath, contents] of pages) {
+        const target = path.join(output, relativePath);
+        mkdirSync(path.dirname(target), {recursive: true});
+        writeFileSync(target, contents);
+      }
       return {status: 0};
     });
 
@@ -960,6 +986,26 @@ describe('docs-tooling CLI boundary', () => {
     );
 
     expect(spawnSync).toHaveBeenCalledOnce();
+    const stagedSidebarPath = path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/generated/en/sidebars/restful.sidebar.js');
+    const require = createRequire(import.meta.url);
+    delete require.cache[require.resolve(stagedSidebarPath)];
+    const stagedSidebar = require(stagedSidebarPath);
+    const ids = new Set<string>();
+    const labels = new Set<string>();
+    const visit = (items: readonly Record<string, unknown>[]): void => {
+      for (const item of items) {
+        if (typeof item.id === 'string') ids.add(item.id);
+        if (typeof item.label === 'string') labels.add(item.label);
+        if (Array.isArray(item.items)) visit(item.items as readonly Record<string, unknown>[]);
+      }
+    };
+    visit(stagedSidebar);
+    expect(ids).toContain('api/restful/restful/v2/data-plane/cluster-role-operations-v2/create-role-v2');
+    expect(ids).toContain('api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/create-cloud-role-v2');
+    expect(ids).toContain('api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/create-api-key-v2');
+    expect(ids).not.toContain('api/restful/restful/v2/data-plane/role-operations-v2/create-role-v2');
+    expect(labels).toContain('Cloud Access Control Operations (V2)');
+    expect(labels).toContain('Cloud API Key Operations (V2)');
   });
 
   it('copies committed local sources without invoking a generator', async () => {

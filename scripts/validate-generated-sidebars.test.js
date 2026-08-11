@@ -11,6 +11,7 @@ const {
   validateAllGeneratedSidebars,
   validateGeneratedSidebarsForSite,
   validateReferenceSidebarTargets,
+  validateRestSidebarCoverage,
   validateSidebar,
   validateSidebarDocTargets,
 } = require('./validate-generated-sidebars')
@@ -51,6 +52,34 @@ test('rejects generated sidebar entries whose document file is missing', () => {
       () => validateSidebarDocTargets({ outputDir, sidebar, idPrefix: 'api/restful/restful', label: 'restful.sidebar.js' }),
       /restful\.sidebar\.js references missing generated document files.*create-on-demand-cluster-v2/s,
     )
+  } finally {
+    fs.rmSync(outputDir, { recursive: true, force: true })
+  }
+})
+
+test('rejects generated REST endpoint documents omitted from the sidebar', () => {
+  const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-sidebar-coverage-'))
+  try {
+    const endpointId = 'api/restful/restful/v2/data-plane/cluster-role-operations-v2/create-role-v2'
+    const endpointPath = path.join(outputDir, `${endpointId}.mdx`)
+    fs.mkdirSync(path.dirname(endpointPath), { recursive: true })
+    fs.writeFileSync(endpointPath, '---\nsidebar_label: Create Role (V2)\n---\n\n# Create Role (V2)\n')
+
+    assert.throws(
+      () => validateRestSidebarCoverage({
+        outputDir,
+        sidebar: [],
+        idPrefix: 'api/restful/restful',
+        label: 'restful.sidebar.js',
+      }),
+      /restful\.sidebar\.js omits generated REST endpoint documents.*cluster-role-operations-v2\/create-role-v2/s,
+    )
+    assert.deepEqual(validateRestSidebarCoverage({
+      outputDir,
+      sidebar: [{ type: 'doc', id: endpointId }],
+      idPrefix: 'api/restful/restful',
+      label: 'restful.sidebar.js',
+    }), { generated: 1, missingFromSidebar: [] })
   } finally {
     fs.rmSync(outputDir, { recursive: true, force: true })
   }
