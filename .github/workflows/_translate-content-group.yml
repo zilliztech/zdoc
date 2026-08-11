@@ -318,10 +318,25 @@ jobs:
       - name: Validate unbatched translated group
         if: ${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         env:
+          AGENTS_OUTCOME: ${{ steps.agents.outcome }}
+          TRANSLATED_COUNT: ${{ steps.agents.outputs.translated_count || '0' }}
+          FAILED_COUNT: ${{ steps.agents.outputs.failed_count || '0' }}
+          REMAINING_COUNT: ${{ steps.agents.outputs.remaining_count || '0' }}
           ZDOC_PROVENANCE_CANDIDATE_TARGET: ${{ inputs.target }}
           ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: ${{ inputs.tooling_sha }}
           ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: ${{ inputs.source_checkpoint_sha }}
-        run: node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/validate-unbatched-translation-outputs.js \
+            --manifest tmp/translation-manifest.json \
+            --report tmp/translation-report.json \
+            --workspace "$GITHUB_WORKSPACE" \
+            --baseline "$BASELINE_DIR" \
+            --agents-outcome "$AGENTS_OUTCOME" \
+            --translated-count "$TRANSLATED_COUNT" \
+            --failed-count "$FAILED_COUNT" \
+            --remaining-count "$REMAINING_COUNT"
+          node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"
       - name: Validate translated batch outputs
         if: ${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         env:

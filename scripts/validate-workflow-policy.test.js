@@ -2321,6 +2321,7 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.ok(unbatched, 'unbatched translations need group-local validation')
   assert.match(unbatched.if, /inputs\.batch_number == 0/)
   assert.match(unbatched.if, /steps\.agents\.outputs\.failed_count \|\| '0'/)
+  assert.match(unbatched.run, /validate-unbatched-translation-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--baseline "\$BASELINE_DIR"[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/)
   assert.match(unbatched.run, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
   assert.doesNotMatch(unbatched.run, /validate-reference|reference-manifest|build:(?:en|zh-CN)/)
 
@@ -2369,6 +2370,10 @@ test('workflow policy rejects numbered translation batch validation regressions'
     {
       mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run = 'node scripts/docs-workflow/translation-batch-input.js validate --input tmp/translation-batch-input.json' },
       expected: `${workflowName}: numbered Guides batches must validate agent report evidence and exact candidate output files`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate unbatched translated group').run = 'node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"' },
+      expected: `${workflowName}: unbatched translations must authenticate terminal agent reports and target-owned outputs`,
     },
     {
       mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run = steps.find(step => step.name === 'Create validated translation checkpoints').run.replace(/\n\s*node scripts\/docs-workflow\/validate-translation-batch\.js[\s\S]*?--batch-count "\$\{\{ inputs\.batch_count \}\}"/, '') },

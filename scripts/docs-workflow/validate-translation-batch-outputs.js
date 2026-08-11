@@ -6,13 +6,18 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { createBatchInput, validateBatchInput } = require('./translation-batch-input')
 const {validateRecoveryReviewReceipt} = require('../translation/recovery-artifact')
-const {FAILURE_CATEGORIES} = require('../translation/failureClassification')
+const {
+  FAILURE_CATEGORIES,
+  PARTIAL_SUCCESS_FAILURE_CATEGORIES,
+  classifyFailure,
+} = require('../translation/failureClassification')
 const {isConsistentSuccessfulReview} = require('../translation/reviewEvidence')
 const {parseRestDocument} = require('../translation/restSpecLocalization')
 
 const MAX_EVIDENCE_BYTES = 8 * 1024 * 1024
 const MAX_FAILURE_ERROR_LENGTH = 2000
 const FAILURE_CATEGORY_SET = new Set(FAILURE_CATEGORIES)
+const PARTIAL_SUCCESS_FAILURE_CATEGORY_SET = new Set(PARTIAL_SUCCESS_FAILURE_CATEGORIES)
 const OPTION_KEYS = Object.freeze([
   'workspace',
   'baseline',
@@ -277,8 +282,17 @@ function hasStructuredReviewEvidence(result) {
     .some(key => Array.isArray(review[key]) && review[key].length > 0)
 }
 
+function isPartialSuccessCategoryEligible(rawCategory, effectiveCategory, error) {
+  if (rawCategory === 'unknown') {
+    return effectiveCategory === 'semantic_response_failed' && /Semantic unit response entry count mismatch/.test(String(error || ''))
+  }
+  return PARTIAL_SUCCESS_FAILURE_CATEGORY_SET.has(effectiveCategory)
+}
+
 function assertFailedResult(result, sourcePath) {
   if (!FAILURE_CATEGORY_SET.has(result.failureCategory)) fail(`translation failure category is invalid for ${sourcePath}`)
+  const effectiveCategory = classifyFailure(result)
+  if (!isPartialSuccessCategoryEligible(result.failureCategory, effectiveCategory, result.error)) fail(`translation failure category is not eligible for partial success for ${sourcePath}`)
   if (result.error !== undefined && result.error !== null && typeof result.error !== 'string') fail(`translation failure error evidence is malformed for ${sourcePath}`)
   if (typeof result.error === 'string' && result.error.length > MAX_FAILURE_ERROR_LENGTH) fail(`translation failure must have bounded error evidence for ${sourcePath}`)
   if (result.retryFailures !== undefined) {
@@ -287,9 +301,15 @@ function assertFailedResult(result, sourcePath) {
       if (!retry || !Number.isSafeInteger(retry.attempt) || retry.attempt < 1 || !FAILURE_CATEGORY_SET.has(retry.category) || typeof retry.error !== 'string' || retry.error.length > MAX_FAILURE_ERROR_LENGTH) {
         fail(`translation retry failure evidence is malformed for ${sourcePath}`)
       }
+      const effectiveRetryCategory = classifyFailure({failureCategory: retry.category, error: retry.error, code: retry.code})
+      if (!isPartialSuccessCategoryEligible(retry.category, effectiveRetryCategory, retry.error)) fail(`translation retry failure category is not eligible for partial success for ${sourcePath}`)
       if (index > 0 && result.retryFailures[index - 1].attempt >= retry.attempt) fail(`translation retry failure attempts are not ordered for ${sourcePath}`)
     }
-    if (result.retryFailures.length && result.retryFailures.at(-1).category !== result.failureCategory) fail(`translation failure category conflicts with retry evidence for ${sourcePath}`)
+    if (result.retryFailures.length) {
+      const retry = result.retryFailures.at(-1)
+      const effectiveRetryCategory = classifyFailure({failureCategory: retry.category, error: retry.error, code: retry.code})
+      if (effectiveRetryCategory !== effectiveCategory) fail(`translation failure category conflicts with retry evidence for ${sourcePath}`)
+    }
   }
   const retryErrorEvidence = Array.isArray(result.retryFailures) && result.retryFailures.some(retry => boundedError(retry.error))
   const validationEvidence = Array.isArray(result.validationErrors) && result.validationErrors.some(error => boundedError(error))
@@ -315,42 +335,24 @@ function assertFailedCandidatePreserved({workspace, baseline, workspaceCache, ba
   }
 }
 
-function validateTranslationBatchOutputs(options) {
-  assertOptions(options)
-  const workspace = assertRealDirectory(options.workspace, 'workspace')
-  const baseline = assertRealDirectory(options.baseline, 'baseline')
-  const manifest = readPinnedJson(workspace, options.manifestPath, 'manifest', options.testHooks)
-  const batchInput = validateBatchInput(readPinnedJson(workspace, options.batchInputPath, 'batch input', options.testHooks))
-  const expectedBatchInput = createBatchInput(manifest)
-  try {
-    assert.deepEqual(batchInput, expectedBatchInput)
-  } catch {
-    fail('manifest and canonical batch input identities differ')
-  }
-
-  const candidates = batchInput.candidates
-  if (candidates.length === 0) {
-    if (options.agentsOutcome !== 'skipped' || options.translatedCount !== 0 || options.failedCount !== 0 || options.remainingCount !== 0) {
-      fail('reconciliation-only batches must skip agents with zero result counts')
-    }
-    const reportPath = path.join(workspace, assertSafeRelativePath(options.reportPath, 'report path'))
-    try {
-      fs.lstatSync(reportPath)
-      fail('reconciliation-only batches must not produce a translation report')
-    } catch (error) {
-      if (error.message.startsWith('Numbered translation batch validation failed:')) throw error
-      if (error.code !== 'ENOENT') fail(`reconciliation-only report path could not be checked safely: ${error.message}`)
-    }
-    return Object.freeze({ candidateCount: 0, reconciliationOnly: true })
-  }
-
-  if (options.agentsOutcome !== 'success') fail('translation agents did not complete successfully')
-  if (options.remainingCount !== 0 || options.translatedCount + options.failedCount !== candidates.length) fail('translation agent output counts do not cover the complete batch')
-
-  const report = readPinnedJson(workspace, options.reportPath, 'report', options.testHooks)
+function validateTerminalResultSet({
+  workspace,
+  manifest,
+  report,
+  candidates,
+  agentsOutcome,
+  translatedCount,
+  failedCount,
+  remainingCount,
+  onFailedResult,
+}) {
+  if (agentsOutcome !== 'success') fail('translation agents did not complete successfully')
+  if (remainingCount !== 0 || translatedCount + failedCount !== candidates.length) fail('translation agent output counts do not cover the complete batch')
   if (report?.locale !== manifest.locale || !Array.isArray(report?.results) || !report.checkpoint || typeof report.checkpoint !== 'object' || Array.isArray(report.checkpoint)) {
     fail('translation report has an invalid envelope')
   }
+  if (report.target !== undefined && report.target !== manifest.target) fail('translation report target does not match the manifest')
+  if (report.checkpoint.target !== undefined && report.checkpoint.target !== manifest.target) fail('translation report checkpoint target does not match the manifest')
   if (report.results.length !== candidates.length) fail('translation report result count does not cover the complete batch')
   const resultBySource = new Map()
   let reportTranslated = 0
@@ -362,12 +364,10 @@ function validateTranslationBatchOutputs(options) {
     else fail(`translation report has an unknown terminal status for ${result.sourcePath}`)
     resultBySource.set(result.sourcePath, result)
   }
-  if (reportTranslated !== options.translatedCount || reportFailed !== options.failedCount) fail('translation report result counts do not match agent outputs')
+  if (reportTranslated !== translatedCount || reportFailed !== failedCount) fail('translation report result counts do not match agent outputs')
   if (report.checkpoint.processed !== candidates.length || report.checkpoint.translated !== reportTranslated || report.checkpoint.failed !== reportFailed || report.checkpoint.remaining !== 0) {
     fail('translation report checkpoint does not attest complete terminal coverage')
   }
-  const workspaceCache = readCacheFiles(workspace, 'workspace translation cache', options.testHooks)
-  const baselineCache = readCacheFiles(baseline, 'baseline translation cache', options.testHooks)
   for (const item of manifest.items) {
     const result = resultBySource.get(item.sourcePath)
     if (!result) fail(`translation report is missing ${item.sourcePath}`)
@@ -378,7 +378,7 @@ function validateTranslationBatchOutputs(options) {
     if (crypto.createHash('sha256').update(sourceBytes).digest('hex') !== item.sourceHash) fail(`candidate source hash mismatch for ${item.sourcePath}`)
     if (result.status === 'failed') {
       assertFailedResult(result, item.sourcePath)
-      assertFailedCandidatePreserved({workspace, baseline, workspaceCache, baselineCache, item})
+      onFailedResult?.({item, result})
       continue
     }
     if (Object.hasOwn(result, 'error')) fail(`translation provider result is not successful for ${item.sourcePath}`)
@@ -411,6 +411,52 @@ function validateTranslationBatchOutputs(options) {
       assertCopiedEvidence(result.restSpecReview, receipt.restSpecReview, 'REST review evidence', item.sourcePath)
     }
   }
+  return Object.freeze({resultBySource, translatedCount: reportTranslated, failedCount: reportFailed})
+}
+
+function validateTranslationBatchOutputs(options) {
+  assertOptions(options)
+  const workspace = assertRealDirectory(options.workspace, 'workspace')
+  const baseline = assertRealDirectory(options.baseline, 'baseline')
+  const manifest = readPinnedJson(workspace, options.manifestPath, 'manifest', options.testHooks)
+  const batchInput = validateBatchInput(readPinnedJson(workspace, options.batchInputPath, 'batch input', options.testHooks))
+  const expectedBatchInput = createBatchInput(manifest)
+  try {
+    assert.deepEqual(batchInput, expectedBatchInput)
+  } catch {
+    fail('manifest and canonical batch input identities differ')
+  }
+
+  const candidates = batchInput.candidates
+  if (candidates.length === 0) {
+    if (options.agentsOutcome !== 'skipped' || options.translatedCount !== 0 || options.failedCount !== 0 || options.remainingCount !== 0) {
+      fail('reconciliation-only batches must skip agents with zero result counts')
+    }
+    const reportPath = path.join(workspace, assertSafeRelativePath(options.reportPath, 'report path'))
+    try {
+      fs.lstatSync(reportPath)
+      fail('reconciliation-only batches must not produce a translation report')
+    } catch (error) {
+      if (error.message.startsWith('Numbered translation batch validation failed:')) throw error
+      if (error.code !== 'ENOENT') fail(`reconciliation-only report path could not be checked safely: ${error.message}`)
+    }
+    return Object.freeze({ candidateCount: 0, reconciliationOnly: true })
+  }
+
+  const report = readPinnedJson(workspace, options.reportPath, 'report', options.testHooks)
+  const workspaceCache = readCacheFiles(workspace, 'workspace translation cache', options.testHooks)
+  const baselineCache = readCacheFiles(baseline, 'baseline translation cache', options.testHooks)
+  validateTerminalResultSet({
+    workspace,
+    manifest,
+    report,
+    candidates,
+    agentsOutcome: options.agentsOutcome,
+    translatedCount: options.translatedCount,
+    failedCount: options.failedCount,
+    remainingCount: options.remainingCount,
+    onFailedResult: ({item}) => assertFailedCandidatePreserved({workspace, baseline, workspaceCache, baselineCache, item}),
+  })
 
   return Object.freeze({ candidateCount: candidates.length, reconciliationOnly: false })
 }
@@ -424,4 +470,17 @@ if (require.main === module) {
   }
 }
 
-module.exports = { parseArgs, validateTranslationBatchOutputs }
+module.exports = {
+  parseArgs,
+  validateTranslationBatchOutputs,
+  sharedValidation: Object.freeze({
+    assertFailedCandidatePreserved,
+    assertRealDirectory,
+    assertSafeRelativePath,
+    readCacheFiles,
+    readOptionalPinnedBytes,
+    readPinnedJson,
+    resolveWithoutSymlinks,
+    validateTerminalResultSet,
+  }),
+}

@@ -273,6 +273,60 @@ test('accepts failed review evidence with a null top-level error and bounded str
   }
 })
 
+test('accepts the deterministic retained semantic mismatch but rejects arbitrary unknown failures', () => {
+  const retained = failedResult(candidate(), {
+    failureCategory: 'unknown',
+    error: 'Semantic unit response entry count mismatch',
+    retryFailures: [{attempt: 1, category: 'unknown', error: 'Semantic unit response entry count mismatch'}],
+  })
+  const retainedRoot = fixture({
+    report: report({results: [retained], checkpoint: {...report().checkpoint, translated: 0, failed: 1}}),
+    output: false,
+  })
+  try {
+    assert.deepEqual(validate(retainedRoot, {translatedCount: 0, failedCount: 1}), {
+      candidateCount: 1,
+      reconciliationOnly: false,
+    })
+  } finally {
+    fs.rmSync(retainedRoot, {recursive: true, force: true})
+  }
+
+  const unknownRoot = fixture({
+    report: report({
+      results: [failedResult(candidate(), {
+        failureCategory: 'unknown',
+        error: 'opaque retained failure',
+        retryFailures: [{attempt: 1, category: 'unknown', error: 'opaque retained failure'}],
+      })],
+      checkpoint: {...report().checkpoint, translated: 0, failed: 1},
+    }),
+    output: false,
+  })
+  try {
+    assert.throws(() => validate(unknownRoot, {translatedCount: 0, failedCount: 1}), /partial success|failure category/i)
+  } finally {
+    fs.rmSync(unknownRoot, {recursive: true, force: true})
+  }
+
+  const inferredTimeoutRoot = fixture({
+    report: report({
+      results: [failedResult(candidate(), {
+        failureCategory: 'unknown',
+        error: 'request timed out',
+        retryFailures: [{attempt: 1, category: 'unknown', error: 'request timed out'}],
+      })],
+      checkpoint: {...report().checkpoint, translated: 0, failed: 1},
+    }),
+    output: false,
+  })
+  try {
+    assert.throws(() => validate(inferredTimeoutRoot, {translatedCount: 0, failedCount: 1}), /partial success|failure category/i)
+  } finally {
+    fs.rmSync(inferredTimeoutRoot, {recursive: true, force: true})
+  }
+})
+
 test('rejects incomplete counts and malformed terminal result coverage', () => {
   const cases = [
     ['remaining work', {remainingCount: 1}, report(), /remaining|complete batch/i],
