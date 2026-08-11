@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 2
+slug: /restful/describe-cloud-role-v2
+beta: FALSE
+title: "Describe Cloud Role (V2) | RESTful"
+description: "Returns one Cloud ACL role and its policy statements. | RESTful"
+hide_table_of_contents: true
+sidebar_label: "Describe Cloud Role (V2)"
+sidebar_custom_props:
+  badges:
+    - "get"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "Describe Cloud Role (V2)"
+  - "get"
+  - RESTful
+  - API
+---
+
+# Describe Cloud Role (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="en-US" />
+
+export const specs = {"summary":"Describe Cloud Role","description":"Returns one Cloud ACL role and its policy statements.","tags":["Cloud Access Control Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"}}},{"name":"roleId","in":"path","required":true,"description":"The role ID.","example":"r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"角色 ID。"}}}],"responses":{"200":{"description":"Returns a successful result or an error message.","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"}},"properties":{"code":{"type":"integer","example":0,"description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"object","description":"A Cloud ACL role.","x-i18n":{"zh-CN":{"description":"Cloud ACL 角色。"}},"properties":{"roleId":{"type":"string","description":"The role ID.","x-i18n":{"zh-CN":{"description":"角色 ID。"}}},"roleName":{"type":"string","description":"The role display name.","x-i18n":{"zh-CN":{"description":"角色显示名称。"}}},"roleType":{"type":"string","enum":["org","project"],"description":"The role scope.","x-i18n":{"zh-CN":{"description":"角色作用域。"}}},"roleKind":{"type":"string","enum":["pre-defined","custom"],"description":"Whether the role is predefined or custom.","x-i18n":{"zh-CN":{"description":"角色是预定义角色还是自定义角色。"}}},"projectId":{"type":"string","description":"The project ID for a project-scoped role. This field is absent for an organization-scoped role.","x-i18n":{"zh-CN":{"description":"项目级角色所属的项目 ID。组织级角色不返回此字段。"}}},"description":{"type":"string","description":"The role description.","x-i18n":{"zh-CN":{"description":"角色描述。"}}},"policies":{"type":"array","items":{"type":"object","description":"A policy statement attached to a custom Cloud role.","x-i18n":{"zh-CN":{"description":"附加到自定义 Cloud 角色的策略语句。"}},"properties":{"resourceType":{"type":"string","description":"The second-level resource type targeted by the statement, such as `serving_cluster`, `volume`, `member`, or `org_role`.","x-i18n":{"zh-CN":{"description":"策略语句针对的二级资源类型，例如 `serving_cluster`、`volume`、`member` 或 `org_role`。"}}},"privileges":{"type":"array","items":{"type":"string"},"minItems":1,"description":"The atomic privileges granted on the resource type.","x-i18n":{"zh-CN":{"description":"针对该资源类型授予的原子权限。"}}},"resources":{"type":"array","items":{"type":"string"},"minItems":1,"description":"The resource instances covered by the statement. Use `*` for all applicable instances. Omit this field when the resource type does not accept instance selection.","x-i18n":{"zh-CN":{"description":"策略覆盖的资源实例。使用 `*` 表示所有适用实例；当资源类型不接受实例选择时省略此字段。"}}},"scope":{"type":"object","additionalProperties":true,"description":"Reserved for future use. Omit this field.","x-i18n":{"zh-CN":{"description":"保留供未来使用，请省略此字段。"}}}},"required":["resourceType","privileges"]},"description":"The policy statements attached to the role.","x-i18n":{"zh-CN":{"description":"附加到角色的策略语句。"}}}},"required":["roleId","roleName","roleType","roleKind"]}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"roleId":"r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","roleName":"Data Reader","roleType":"project","roleKind":"custom","projectId":"proj-xxxxxxxx","description":"Can read serving clusters","policies":[{"resourceType":"serving_cluster","resources":["*"],"privileges":["view"]}]}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}},"x-i18n":{"zh-CN":{"summary":"查看 Cloud 角色","description":"返回一个 Cloud ACL 角色及其策略语句。"}}}
+export const endpoint = "/v2/roles/{roleId}"
+export const method = "get"
