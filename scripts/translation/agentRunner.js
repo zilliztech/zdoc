@@ -1593,17 +1593,27 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       model: identity.model,
       toolingSha: identity.toolingSha,
     }
+    assertSafeRepositoryRelativePath(record.sourcePath, 'Recovery analysis restored source path')
+    const source = path.resolve(siteDir, ...record.sourcePath.split('/'))
+    const root = path.resolve(siteDir)
+    if (source !== root && !source.startsWith(`${root}${path.sep}`)) throw new Error('Recovery analysis restored source escapes the repository')
+    const sourceStat = fs.lstatSync(source)
+    if (!sourceStat.isFile() || sourceStat.isSymbolicLink()) throw new Error('Recovery analysis restored source is not a regular file')
+    const sourceBytes = fs.readFileSync(source)
+    if (crypto.createHash('sha256').update(sourceBytes).digest('hex') !== candidate.sourceHash) {
+      throw new Error('Recovery analysis restored source payload changed after preflight')
+    }
+    const sourceContent = sourceBytes.toString('utf8')
     const reviewReceipt = validateRecoveryReviewReceipt(record.reviewReceipt, {
       ...receiptFileIdentity,
       ...(analysis.schemaVersion === 1 || record.compatibility === 'strict' ? receiptExecutionIdentity : {}),
-    })
+    }, {sourceContent})
     if (analysis.schemaVersion === 2 && record.compatibility === 'revalidated' &&
         Object.entries(receiptExecutionIdentity).every(([key, value]) => reviewReceipt[key] === value)) {
       throw new Error('Recovery analysis revalidated reviewer receipt does not retain its original execution identity')
     }
     assertSafeRepositoryRelativePath(record.targetPath, 'Recovery analysis restored target path')
     const target = path.resolve(siteDir, ...record.targetPath.split('/'))
-    const root = path.resolve(siteDir)
     if (target !== root && !target.startsWith(`${root}${path.sep}`)) throw new Error('Recovery analysis restored target escapes the repository')
     const stat = fs.lstatSync(target)
     if (!stat.isFile() || stat.isSymbolicLink() || stat.size !== record.targetSize || crypto.createHash('sha256').update(fs.readFileSync(target)).digest('hex') !== record.targetHash) {

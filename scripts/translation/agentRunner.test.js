@@ -208,7 +208,61 @@ function testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes
     fs.writeFileSync(file, JSON.stringify(analysis))
     write(path.join(siteDir, targetPath), '# tampered\n')
     assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /payload changed after preflight/i)
+    write(path.join(siteDir, targetPath), target)
+    write(path.join(siteDir, sourcePath), '# tampered source\n')
+    assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /source payload changed after preflight/i)
   })
+}
+
+function testRecoveryAnalysisRequiresRestReviewFromAuthenticatedSourceContent() {
+  for (const value of [
+    {
+      sourcePath: 'content/en/reference/api/restful/restful/v2/control-plane/control-plane.mdx',
+      targetPath: 'content/zh-CN/reference/api/restful/restful/v2/control-plane/control-plane.mdx',
+      source: fs.readFileSync(path.join(process.cwd(), 'content/en/reference/api/restful/restful/v2/control-plane/control-plane.mdx'), 'utf8'),
+      accepted: true,
+    },
+    {
+      sourcePath: 'content/en/reference/api/python/search.mdx',
+      targetPath: 'content/zh-CN/reference/api/python/search.mdx',
+      source: '# Search\n\nexport const specs = {"summary":"Search"}\nexport const endpoint = "/v1/search"\n',
+      accepted: false,
+    },
+  ]) {
+    withTempDir(siteDir => {
+      const target = '# translated\n'
+      write(path.join(siteDir, value.sourcePath), value.source)
+      write(path.join(siteDir, value.targetPath), target)
+      const manifest = {
+        target: 'zh-CN-reference', locale: 'zh-CN', group: 'rest', sourceCheckpointSha: 'a'.repeat(40),
+        items: [{sourcePath: value.sourcePath, targetPath: value.targetPath, sourceHash: sha256(value.source), locale: 'zh-CN', type: 'reference', reason: 'stale_source'}],
+      }
+      const identity = {promptContractSha256: 'b'.repeat(64), model: 'translation-model', toolingSha: 'c'.repeat(40)}
+      const receipt = recoveryReviewReceipt({
+        sourcePath: value.sourcePath,
+        targetPath: value.targetPath,
+        sourceHash: sha256(value.source),
+        targetHash: sha256(target),
+        locale: manifest.locale,
+        group: manifest.group,
+      })
+      const analysis = {
+        schemaVersion: 2, kind: 'translation-recovery-analysis', target: manifest.target, locale: manifest.locale, group: manifest.group,
+        sourceCheckpointSha: manifest.sourceCheckpointSha, promptContractSha256: identity.promptContractSha256, model: identity.model,
+        executionToolingSha: identity.toolingSha, candidateCount: 1, recoveredCount: 1, pendingCount: 0, rejectedCount: 0,
+        fullRetranslation: false, compatibilityMode: 'revalidated',
+        restored: [{sourcePath: value.sourcePath, targetPath: value.targetPath, sourceHash: sha256(value.source), targetHash: sha256(target), targetSize: Buffer.byteLength(target), compatibility: 'revalidated', reviewReceipt: receipt}],
+        pending: [], rejected: [],
+      }
+      const file = path.join(siteDir, 'recovery-analysis.json')
+      fs.writeFileSync(file, JSON.stringify(analysis))
+      if (value.accepted) {
+        assert.equal(loadRecoveryAnalysis({file, manifest, siteDir, identity}).restored.length, 1)
+      } else {
+        assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /REST reviewer success/i)
+      }
+    })
+  }
 }
 
 async function testCompleteSemanticRecoverySkipsTranslationButRequiresCurrentReviewer() {
@@ -3953,6 +4007,7 @@ async function run() {
   testPartitionsRecoveredFilesWithoutChangingOriginalIndexes()
   testRecoveryIdentityUsesAuthoritativeToolingSha()
   testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes()
+  testRecoveryAnalysisRequiresRestReviewFromAuthenticatedSourceContent()
   testRejectsRecoveryAnalysisThatWidensOrChangesCurrentPendingWork()
   await testCompleteSemanticRecoverySkipsTranslationButRequiresCurrentReviewer()
   await testCompleteRestRecoverySkipsTranslationButRequiresBothCurrentReviewers()

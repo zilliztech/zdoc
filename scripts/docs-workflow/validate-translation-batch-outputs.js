@@ -7,6 +7,7 @@ const path = require('node:path')
 const { createBatchInput, validateBatchInput } = require('./translation-batch-input')
 const {validateRecoveryReviewReceipt} = require('../translation/recovery-artifact')
 const {isConsistentSuccessfulReview} = require('../translation/reviewEvidence')
+const {parseRestDocument} = require('../translation/restSpecLocalization')
 
 const MAX_EVIDENCE_BYTES = 8 * 1024 * 1024
 const OPTION_KEYS = Object.freeze([
@@ -81,11 +82,6 @@ function assertCopiedEvidence(actual, expected, label, sourcePath) {
   }
 }
 
-function isRestSourcePath(sourcePath) {
-  return sourcePath.startsWith('content/en/reference/api/restful/restful/') ||
-    sourcePath.startsWith('reference/api/restful/restful/')
-}
-
 function assertSafeRelativePath(value, label) {
   if (typeof value !== 'string' || value.length === 0 || value.includes('\\') || /[\0\r\n]/.test(value) || path.posix.isAbsolute(value)) fail(`${label} must be a safe relative path`)
   if (value !== path.posix.normalize(value) || value === '..' || value.startsWith('../') || value.includes('//') || value.endsWith('/')) fail(`${label} must be a normalized safe relative path`)
@@ -131,6 +127,26 @@ function resolveWithoutSymlinks(workspace, relativePath, label, finalType) {
 
 function sameDescriptorIdentity(before, after) {
   return before.dev === after.dev && before.ino === after.ino && before.size === after.size && before.mtimeMs === after.mtimeMs
+}
+
+function readPinnedBytes(workspace, relativePath, label) {
+  const pinned = resolveWithoutSymlinks(workspace, relativePath, label, 'file')
+  const noFollow = fs.constants.O_NOFOLLOW || 0
+  let descriptor
+  try {
+    descriptor = fs.openSync(pinned.filePath, fs.constants.O_RDONLY | noFollow)
+    const before = fs.fstatSync(descriptor)
+    if (!before.isFile() || before.dev !== pinned.stat.dev || before.ino !== pinned.stat.ino) fail(`${label} identity changed before it was read`)
+    const bytes = fs.readFileSync(descriptor)
+    const after = fs.fstatSync(descriptor)
+    if (bytes.length !== before.size || !sameDescriptorIdentity(before, after)) fail(`${label} changed while it was being read`)
+    return bytes
+  } catch (error) {
+    if (error.message.startsWith('Numbered translation batch validation failed:')) throw error
+    fail(`${label} could not be read safely: ${error.message}`)
+  } finally {
+    if (descriptor !== undefined) fs.closeSync(descriptor)
+  }
 }
 
 function readPinnedJson(workspace, relativePath, label, testHooks) {
@@ -250,8 +266,12 @@ function validateTranslationBatchOutputs(options) {
       if (result[field] !== item[field]) fail(`translation report ${field} mismatch for ${item.sourcePath}`)
     }
     if (result.status !== 'translated' || Object.hasOwn(result, 'error')) fail(`translation provider result is not successful for ${item.sourcePath}`)
+    const sourceBytes = readPinnedBytes(workspace, item.sourcePath, 'candidate source')
+    if (crypto.createHash('sha256').update(sourceBytes).digest('hex') !== item.sourceHash) fail(`candidate source hash mismatch for ${item.sourcePath}`)
+    const sourceContent = sourceBytes.toString('utf8')
+    const requiresRestSpecReview = parseRestDocument(sourceContent) !== null
     if (!isConsistentSuccessfulReview(result.review)) fail(`translation review evidence is not internally consistent for ${item.sourcePath}`)
-    if ((isRestSourcePath(item.sourcePath) || result.restSpecReview !== undefined) && !isConsistentSuccessfulReview(result.restSpecReview)) {
+    if ((requiresRestSpecReview || result.restSpecReview !== undefined) && !isConsistentSuccessfulReview(result.restSpecReview)) {
       fail(`translation REST review evidence is not internally consistent for ${item.sourcePath}`)
     }
     if (!Object.hasOwn(result, 'validationErrors') || !Array.isArray(result.validationErrors) || result.validationErrors.length !== 0) fail(`per-document validation evidence is not clean for ${item.sourcePath}`)
@@ -268,7 +288,7 @@ function validateTranslationBatchOutputs(options) {
           targetHash,
           locale: manifest.locale,
           group: manifest.group,
-        })
+        }, {sourceContent})
       } catch (error) {
         fail(`recovery reviewer receipt is invalid for ${item.sourcePath}: ${String(error?.message || error)}`)
       }

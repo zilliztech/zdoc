@@ -7,7 +7,7 @@ const path = require('node:path');
 
 const {loadTypeScript} = require('../lib/load-typescript');
 const {localeContractPathFor} = require('./localeContract');
-const {promptNamesFor} = require('./restSpecLocalization');
+const {parseRestDocument, promptNamesFor} = require('./restSpecLocalization');
 const {boundedFailureDetails, classifyFailure} = require('./failureClassification');
 const {isConsistentSuccessfulReview} = require('./reviewEvidence');
 const {
@@ -80,11 +80,6 @@ function cloneJson(value, label) {
   return JSON.parse(bytes.toString('utf8'));
 }
 
-function isRestSourcePath(sourcePath) {
-  return sourcePath.startsWith('content/en/reference/api/restful/restful/') ||
-    sourcePath.startsWith('reference/api/restful/restful/');
-}
-
 function exactReceiptKeys(value) {
   const required = [
     'schemaVersion', 'sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'locale', 'group',
@@ -97,7 +92,7 @@ function exactReceiptKeys(value) {
   if (missing.length || unknown.length) throw new Error('Recovery review receipt keys are invalid');
 }
 
-function validateRecoveryReviewReceipt(value, expected = {}) {
+function validateRecoveryReviewReceipt(value, expected = {}, {sourceContent} = {}) {
   const receipt = cloneJson(value, 'Recovery review receipt');
   exactReceiptKeys(receipt);
   if (receipt.schemaVersion !== 1 || !SHA256.test(receipt.sourceHash || '') || !SHA256.test(receipt.targetHash || '') ||
@@ -110,13 +105,16 @@ function validateRecoveryReviewReceipt(value, expected = {}) {
   for (const [key, expectedValue] of Object.entries(expected)) {
     if (expectedValue !== undefined && receipt[key] !== expectedValue) throw new Error(`Recovery review receipt ${key} does not match the recovered file`);
   }
+  if (typeof sourceContent !== 'string' || sha256(Buffer.from(sourceContent, 'utf8')) !== receipt.sourceHash) {
+    throw new Error('Recovery review receipt source content is not authenticated');
+  }
   if (!isConsistentSuccessfulReview(receipt.review)) {
     throw new Error('Recovery review receipt does not attest reviewer success');
   }
   if (!Array.isArray(receipt.validationErrors) || receipt.validationErrors.length !== 0) {
     throw new Error('Recovery review receipt does not attest clean per-document validation');
   }
-  if (isRestSourcePath(receipt.sourcePath) && receipt.restSpecReview === undefined) {
+  if (parseRestDocument(sourceContent) !== null && receipt.restSpecReview === undefined) {
     throw new Error('Recovery review receipt does not attest REST reviewer success');
   }
   if (receipt.restSpecReview !== undefined && (
@@ -127,7 +125,7 @@ function validateRecoveryReviewReceipt(value, expected = {}) {
   return receipt;
 }
 
-function createRecoveryReviewReceipt({result, identity, targetHash}) {
+function createRecoveryReviewReceipt({result, identity, targetHash, sourceContent}) {
   const fileIdentity = {
     sourcePath: result.sourcePath,
     targetPath: result.targetPath,
@@ -142,17 +140,17 @@ function createRecoveryReviewReceipt({result, identity, targetHash}) {
     toolingSha: identity.toolingSha,
   };
   if (result.recovered === true && result.recoveryCompatibility === 'revalidated') {
-    if (result.recoveryReviewReceipt) validateRecoveryReviewReceipt(result.recoveryReviewReceipt, fileIdentity);
+    if (result.recoveryReviewReceipt) validateRecoveryReviewReceipt(result.recoveryReviewReceipt, fileIdentity, {sourceContent});
     return null;
   }
   if (result.recovered === true && !result.recoveryReviewReceipt) return null;
   if (result.recoveryReviewReceipt) {
-    const receipt = validateRecoveryReviewReceipt(result.recoveryReviewReceipt, fileIdentity);
+    const receipt = validateRecoveryReviewReceipt(result.recoveryReviewReceipt, fileIdentity, {sourceContent});
     const matchesCurrentExecution = Object.entries(executionIdentity).every(([key, value]) => receipt[key] === value);
     if (!matchesCurrentExecution) throw new Error('Recovery review receipt execution identity does not match the artifact being created');
     return receipt;
   }
-  const requiresRestSpecReview = isRestSourcePath(result.sourcePath);
+  const requiresRestSpecReview = parseRestDocument(sourceContent) !== null;
   if (!isConsistentSuccessfulReview(result.review) || !Array.isArray(result.validationErrors) || result.validationErrors.length !== 0 ||
       (requiresRestSpecReview ? !isConsistentSuccessfulReview(result.restSpecReview) : result.restSpecReview && !isConsistentSuccessfulReview(result.restSpecReview))) return null;
   return validateRecoveryReviewReceipt({
@@ -162,7 +160,7 @@ function createRecoveryReviewReceipt({result, identity, targetHash}) {
     review: result.review,
     validationErrors: result.validationErrors,
     ...(result.restSpecReview ? {restSpecReview: result.restSpecReview} : {}),
-  }, {...fileIdentity, ...executionIdentity});
+  }, {...fileIdentity, ...executionIdentity}, {sourceContent});
 }
 
 function reviewFields(receipt) {
@@ -190,7 +188,7 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
     const artifactTarget = safePath(path.join(outputDir, 'translated-files'), result.targetPath, 'Recovery artifact target path');
     fs.mkdirSync(path.dirname(artifactTarget), {recursive: true});
     fs.writeFileSync(artifactTarget, targetBytes);
-    const reviewReceipt = createRecoveryReviewReceipt({result, identity, targetHash});
+    const reviewReceipt = createRecoveryReviewReceipt({result, identity, targetHash, sourceContent: sourceBytes.toString('utf8')});
     files.push({
       sourcePath: result.sourcePath,
       targetPath: result.targetPath,
@@ -331,8 +329,9 @@ function preferRecoveryReason(reasons) {
 
 function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, chunkOptions}) {
   const sourcePath = safePath(siteDir, candidate.sourcePath, 'Recovery candidate source path');
-  const sourceContent = fs.readFileSync(sourcePath, 'utf8');
-  const currentSourceHash = sha256(Buffer.from(sourceContent));
+  const sourceBytes = fs.readFileSync(sourcePath);
+  const sourceContent = sourceBytes.toString('utf8');
+  const currentSourceHash = sha256(sourceBytes);
   if (currentSourceHash !== candidate.sourceHash) return {reason: 'current source hash does not match recovery candidate'};
   const reasons = [];
   let bestChunkResume = null;
@@ -417,7 +416,7 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
             promptContractSha256: record.promptContractSha256,
             model: record.model,
             toolingSha: artifact.metadata.toolingSha,
-          });
+          }, {sourceContent});
         } catch (error) {
           reasons.push(`recovery reviewer receipt is missing or invalid: ${String(error?.message || error)}`);
         }

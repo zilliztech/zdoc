@@ -11,9 +11,10 @@ const { createBatchInput } = require('./translation-batch-input')
 const { parseArgs, validateTranslationBatchOutputs } = require('./validate-translation-batch-outputs')
 
 const SOURCE_SHA = 'a'.repeat(40)
-const SOURCE_HASH = 'b'.repeat(64)
 const PENDING_HASH = 'c'.repeat(64)
 const TARGET = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md'
+const SOURCE_CONTENT = '# source\n'
+const SOURCE_HASH = sha256(SOURCE_CONTENT)
 const TARGET_CONTENT = '# translated\n'
 
 function cleanReview() {
@@ -115,6 +116,12 @@ function fixture(options = {}) {
   writeJson(root, 'tmp/translation-manifest.json', selectedManifest)
   writeJson(root, 'tmp/translation-batch-input.json', options.batchInput || createBatchInput(selectedManifest))
   if (options.report !== null) writeJson(root, 'tmp/translation-report.json', options.report || report())
+  for (const item of selectedManifest.items) {
+    const sourceContent = options.sourceContents?.[item.sourcePath] || SOURCE_CONTENT
+    const sourceFile = path.join(root, item.sourcePath)
+    fs.mkdirSync(path.dirname(sourceFile), { recursive: true })
+    fs.writeFileSync(sourceFile, sourceContent)
+  }
   if (options.output !== false && selectedManifest.items.length > 0) writeOutput(root)
   return root
 }
@@ -140,6 +147,16 @@ test('validates one complete numbered candidate batch', () => {
     assert.deepEqual(result, { candidateCount: 1, reconciliationOnly: false })
   } finally {
     fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
+test('rejects current source bytes that do not match the authenticated candidate hash', () => {
+  const root = fixture()
+  try {
+    fs.writeFileSync(path.join(root, candidate().sourcePath), '# tampered source\n')
+    assert.throws(() => validate(root), /candidate source hash mismatch/)
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true})
   }
 })
 
@@ -261,6 +278,73 @@ test('rejects contradictory review evidence and recovered-result receipt bypasse
     assert.deepEqual(validate(validRoot), {candidateCount: 1, reconciliationOnly: false})
   } finally {
     fs.rmSync(validRoot, {recursive: true, force: true})
+  }
+})
+
+test('derives REST review requirements from authenticated current source content', () => {
+  const shellSourcePath = candidate().sourcePath
+  const shellTargetPath = candidate().targetPath
+  const shellSource = '# Control Plane\n\nControl-plane APIs.\n'
+  const shellCandidate = {...candidate(), sourcePath: shellSourcePath, targetPath: shellTargetPath, sourceHash: sha256(shellSource)}
+  const shellManifest = manifest({items: [shellCandidate]})
+  const shellReport = report({
+    results: [{...shellCandidate, status: 'translated', review: cleanReview(), validationErrors: [], chunks: {total: 1}}],
+  })
+  const shellRoot = fixture({manifest: shellManifest, report: shellReport, sourceContents: {[shellSourcePath]: shellSource}, output: false})
+  try {
+    const output = path.join(shellRoot, shellTargetPath)
+    fs.mkdirSync(path.dirname(output), {recursive: true})
+    fs.writeFileSync(output, TARGET_CONTENT)
+    assert.deepEqual(validate(shellRoot), {candidateCount: 1, reconciliationOnly: false})
+
+    Object.assign(shellReport.results[0], {
+      recovered: true,
+      recoveryCompatibility: 'revalidated',
+      recoveryReviewReceipt: recoveryReceipt({
+        sourcePath: shellSourcePath,
+        targetPath: shellTargetPath,
+        sourceHash: sha256(shellSource),
+        locale: 'ja-JP',
+        group: 'guides',
+      }),
+    })
+    writeJson(shellRoot, 'tmp/translation-report.json', shellReport)
+    assert.deepEqual(validate(shellRoot), {candidateCount: 1, reconciliationOnly: false})
+  } finally {
+    fs.rmSync(shellRoot, {recursive: true, force: true})
+  }
+
+  const specsSourcePath = candidate().sourcePath
+  const specsTargetPath = candidate().targetPath
+  const specsSource = '# Search\n\nexport const specs = {"summary":"Search"}\nexport const endpoint = "/v1/search"\n'
+  const specsCandidate = {...candidate(), sourcePath: specsSourcePath, targetPath: specsTargetPath, sourceHash: sha256(specsSource)}
+  const specsManifest = manifest({items: [specsCandidate]})
+  const specsReport = report({
+    results: [{...specsCandidate, status: 'translated', review: cleanReview(), validationErrors: [], chunks: {total: 1}}],
+  })
+  const specsRoot = fixture({manifest: specsManifest, report: specsReport, sourceContents: {[specsSourcePath]: specsSource}, output: false})
+  try {
+    const output = path.join(specsRoot, specsTargetPath)
+    fs.mkdirSync(path.dirname(output), {recursive: true})
+    fs.writeFileSync(output, TARGET_CONTENT)
+    assert.throws(() => validate(specsRoot), /REST review evidence is not internally consistent/i)
+
+    specsReport.results[0].restSpecReview = cleanReview()
+    Object.assign(specsReport.results[0], {
+      recovered: true,
+      recoveryCompatibility: 'revalidated',
+      recoveryReviewReceipt: recoveryReceipt({
+        sourcePath: specsSourcePath,
+        targetPath: specsTargetPath,
+        sourceHash: sha256(specsSource),
+        locale: 'ja-JP',
+        group: 'guides',
+      }),
+    })
+    writeJson(specsRoot, 'tmp/translation-report.json', specsReport)
+    assert.throws(() => validate(specsRoot), /recovery reviewer receipt is invalid.*REST reviewer success/i)
+  } finally {
+    fs.rmSync(specsRoot, {recursive: true, force: true})
   }
 })
 
