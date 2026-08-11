@@ -269,7 +269,7 @@ async function createProviderCall(agentConfigs, options = {}) {
   }
   const timeoutMs = parsePositiveInteger(options.timeoutMs, DEFAULT_PROVIDER_TIMEOUT_MS)
 
-  return async function callModel({ agent, messages, signal: externalSignal, retryBudget = null, retryMode = 'normal', adaptivePayload = false }) {
+  return async function callModel({ agent, messages, signal: externalSignal, retryBudget = null, retryMode = 'normal', adaptivePayload = false, modelCallDeadline = null }) {
     const config = agentConfigs[agent]
     if (!config?.baseUrl || !config?.apiKey || !config?.model) {
       throw new Error(`Missing provider config for ${agent} agent`)
@@ -294,6 +294,8 @@ async function createProviderCall(agentConfigs, options = {}) {
       const onExternalAbort = () => controller.abort(externalSignal.reason)
       externalSignal?.addEventListener('abort', onExternalAbort, {once: true})
       try {
+        admitModelCall(modelCallDeadline, agent)
+        if (attempt > 0 && !consumeProviderRetryBudget(retryBudget)) break
         providerAttempts += 1
         const requestBody = {
           model: config.model,
@@ -347,7 +349,16 @@ async function createProviderCall(agentConfigs, options = {}) {
           break
         }
         if (externalSignal?.aborted || attempt >= perCallRetries || !isRetryableProviderError(lastError)) break
-        if (!consumeProviderRetryBudget(retryBudget)) break
+        try {
+          admitModelCall(modelCallDeadline, agent)
+        } catch (deadlineError) {
+          lastError = deadlineError
+          break
+        }
+        if (retryBudget) {
+          validateProviderRetryBudget(retryBudget)
+          if (retryBudget.remaining === 0) break
+        }
         const waitMs = calculateProviderRetryDelay(attempt, retryOptions)
         console.warn(`[translation-agent] ${agent} call failed; retrying in ${waitMs}ms (${attempt + 1}/${perCallRetries}): ${lastError.message}`)
         await sleep(waitMs, externalSignal)
@@ -377,6 +388,40 @@ function createModelCallCounter(callModel) {
     },
     snapshot: () => Object.freeze({...counts}),
   })
+}
+
+function validateModelCallDeadline(deadline) {
+  if (typeof deadline.now !== 'function' || !Number.isFinite(deadline.expiresAt) ||
+      !Number.isFinite(deadline.providerCallBudgetMs) || deadline.providerCallBudgetMs <= 0) {
+    throw new Error('Model call deadline is invalid')
+  }
+  return deadline
+}
+
+function admitModelCall(deadline, agent) {
+  if (!deadline) return
+  validateModelCallDeadline(deadline)
+  const remainingMs = deadline.expiresAt - deadline.now()
+  if (remainingMs < deadline.providerCallBudgetMs) {
+    throw categorizedError(
+      `Cannot start ${agent || 'model'} provider call with ${Math.max(0, remainingMs)}ms remaining; ${deadline.providerCallBudgetMs}ms is required`,
+      'provider_timeout',
+      {
+        code: 'FILE_DEADLINE_INSUFFICIENT',
+        remainingMs: Math.max(0, remainingMs),
+        providerCallBudgetMs: deadline.providerCallBudgetMs,
+      },
+    )
+  }
+}
+
+function withModelCallDeadline(callModel, deadline) {
+  if (!deadline) return callModel
+  validateModelCallDeadline(deadline)
+  return request => {
+    admitModelCall(deadline, request?.agent)
+    return callModel({...request, modelCallDeadline: deadline})
+  }
 }
 
 async function withTimeout(operation, timeoutMs, message, details = {}) {
@@ -487,10 +532,21 @@ async function processItemWithRetry(item, options) {
     }
     return [checkpoint.index, checkpoint]
   }))
+  const now = typeof options.now === 'function' ? options.now : Date.now
+  const providerCallBudgetMs = Number.isFinite(options.providerCallBudgetMs) && options.providerCallBudgetMs > 0
+    ? options.providerCallBudgetMs
+    : DEFAULT_PROVIDER_TIMEOUT_MS
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     let result
     try {
+      const modelCallDeadline = options.fileTimeoutMs > 0
+        ? Object.freeze({
+            expiresAt: now() + options.fileTimeoutMs,
+            providerCallBudgetMs,
+            now,
+          })
+        : null
       const executeAttempt = signal => options.processItem(item, attempt, retryFeedback, {
         chunkCheckpoint,
         providerRetryBudget,
@@ -502,6 +558,7 @@ async function processItemWithRetry(item, options) {
           if (signal?.aborted) throw signal.reason
           chunkCheckpoint.set(checkpoint.index, checkpoint)
         },
+        modelCallDeadline,
         signal,
       })
       result = options.fileTimeoutMs > 0
@@ -639,10 +696,17 @@ function markerFreeCorrectionReview(value) {
   return value
 }
 
+function formatSemanticReviewDocument(units) {
+  return units.map(unit => [
+    `[${unit.id}] (${unit.kind})`,
+    markerFreeDocumentContext(unit.text),
+  ].join('\n')).join('\n\n')
+}
+
 function buildReviewMessages({ target, sourcePath, sourceContent, translatedContent, sourceDocument, draftDocument, sourceUnits, draftUnits, locale, chunkContext }) {
   const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
   const userContent = sourceUnits && draftUnits
-    ? `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source_document>\n${sourceDocument}\n</source_document>\n\n<draft_document>\n${draftDocument}\n</draft_document>\n\n<source_units>\n${JSON.stringify(sourceUnits, null, 2)}\n</source_units>\n\n<draft_units>\n${JSON.stringify(draftUnits, null, 2)}\n</draft_units>`
+    ? `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source_document>\n${formatSemanticReviewDocument(sourceUnits)}\n</source_document>\n\n<draft_document>\n${formatSemanticReviewDocument(draftUnits)}\n</draft_document>\n\n<source_units>\n${JSON.stringify(sourceUnits, null, 2)}\n</source_units>\n\n<draft_units>\n${JSON.stringify(draftUnits, null, 2)}\n</draft_units>`
     : `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source>\n${sourceContent}</source>\n\n<draft>\n${translatedContent}</draft>`
   return [
     { role: 'system', content: loadSystemPrompt(target, promptNamesFor(target).review) },
@@ -1013,9 +1077,11 @@ async function processManifestItem({
   semanticCheckpoint = new Map(),
   restSpecDraft = null,
   onSemanticUnitCompleted = null,
+  modelCallDeadline = null,
   signal,
 }) {
   validateAdaptiveCallBudget(adaptiveCallBudget)
+  callModel = withModelCallDeadline(callModel, modelCallDeadline)
   if (item.sourcePath.includes('#')) throw new Error(`Translation source path must be repository-relative: ${item.sourcePath}`)
   const absSourcePath = path.join(siteDir, item.sourcePath)
   const absTargetPath = path.join(siteDir, item.targetPath)
@@ -1199,7 +1265,8 @@ function mappedTargetPath(target, sourcePath) {
   return `${target.targetRoot}/${sourcePath.slice(target.sourceRoot.length + 1)}`
 }
 
-function expectedItemType(target, sourcePath) {
+function translationManifestItemType(targetOrId, sourcePath) {
+  const target = typeof targetOrId === 'string' ? resolveTranslationTarget(targetOrId) : targetOrId
   if (target.id === 'zh-CN-reference') return 'reference'
   if (sourcePath.startsWith(`${target.mappings[0].sourceRoot}/`)) return 'guides'
   if (sourcePath.startsWith(`${target.mappings[1].sourceRoot}/`)) return 'byoc'
@@ -1236,7 +1303,7 @@ function validateTranslationManifest(manifest) {
     const expectedTargetPath = mappedTargetPath(target, item.sourcePath)
     if (!expectedTargetPath) throw new Error(`${label} source path is outside target ${target.id}`)
     if (item.targetPath !== expectedTargetPath) throw new Error(`${label} target path must be ${expectedTargetPath}`)
-    const expectedType = expectedItemType(target, item.sourcePath)
+    const expectedType = translationManifestItemType(target, item.sourcePath)
     if (item.type !== expectedType) throw new Error(`${label} type must be ${expectedType}`)
     if (!/^[0-9a-f]{64}$/.test(item.sourceHash || '')) throw new Error(`${label} sourceHash must be 64 lowercase hex characters`)
     if (!['current_delta', 'missing_target', 'stale_source'].includes(item.reason)) throw new Error(`${label} has an unsupported reason`)
@@ -1823,6 +1890,7 @@ async function main() {
           log: console,
           initialChunkCheckpoints: item.recoveryChunkCheckpoints,
           fileTimeoutMs,
+          providerCallBudgetMs: providerTimeoutMs,
           processItem: (_item, _attempt, retryFeedback, retryContext) => processManifestItem({
               siteDir,
               item: targetItem,
@@ -1838,6 +1906,7 @@ async function main() {
               semanticCheckpoint: retryContext.semanticCheckpoint,
               restSpecDraft: retryContext.restSpecDraft,
               onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
+              modelCallDeadline: retryContext.modelCallDeadline,
               retryFeedback,
             }),
         })
@@ -1897,6 +1966,7 @@ module.exports = {
   restoreBoundaryWhitespace,
   stabilizeBareUrlFormatting,
   stripCodeFence,
+  translationManifestItemType,
   validateTranslationManifest,
   validateTranslatedContent,
   withTimeout,
