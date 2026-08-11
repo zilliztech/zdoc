@@ -7,8 +7,8 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 
-const {createRecoveryArtifact} = require('./recovery-artifact')
-const {analyzeRecoveryCompatibility} = require('./recovery-preflight')
+const {createRecoveryArtifact, promptContractSha256} = require('./recovery-artifact')
+const {analyzeRecoveryCompatibility, main: recoveryPreflightMain} = require('./recovery-preflight')
 
 const HASH = value => crypto.createHash('sha256').update(value).digest('hex')
 
@@ -163,6 +163,62 @@ test('receipt-less nested recovered records become semantic reviewer work instea
   assert.equal(analysis.semanticResumableFileCount, 1)
   assert.ok(analysis.pending[0].semanticResume.report.entries.length > 0)
   assert.equal(analysis.fullRetranslation, false)
+})
+
+test('CLI preflight uses the same environment-derived chunk layout as Agent Runner', t => {
+  const repositoryRoot = process.cwd()
+  const siteDir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-preflight-chunk-env-'))
+  const artifactDir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-preflight-chunk-artifact-'))
+  t.after(() => {
+    fs.rmSync(siteDir, {recursive: true, force: true})
+    fs.rmSync(artifactDir, {recursive: true, force: true})
+  })
+  fs.symlinkSync(path.join(repositoryRoot, '.github'), path.join(siteDir, '.github'), 'dir')
+  fs.symlinkSync(path.join(repositoryRoot, 'config'), path.join(siteDir, 'config'), 'dir')
+
+  const sourcePath = 'content/en/guides/recovery/chunk-env.md'
+  const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/recovery/chunk-env.md'
+  const source = ['# Workflow', ...Array.from({length: 4}, (_, index) => `## Step ${index + 1}\n\n${'Reliable operation details. '.repeat(8)}`), ''].join('\n\n')
+  const target = ['# ワークフロー', ...Array.from({length: 4}, (_, index) => `## ステップ ${index + 1}\n\n${'信頼できる運用の詳細です。'.repeat(8)}`), ''].join('\n\n')
+  const item = {sourcePath, targetPath, sourceHash: HASH(source), locale: 'ja-JP', type: 'guides', reason: 'stale_source'}
+  write(siteDir, sourcePath, source)
+  write(siteDir, targetPath, target)
+  const identity = {
+    locale: 'ja-JP', group: 'guides', promptContractSha256: promptContractSha256('ja-JP', repositoryRoot),
+    model: 'translation-model', sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'incremental',
+  }
+  createRecoveryArtifact({
+    siteDir,
+    outputDir: artifactDir,
+    results: [{...item, status: 'translated', recovered: true, recoveryCompatibility: 'revalidated'}],
+    identity,
+  })
+  fs.rmSync(path.join(siteDir, targetPath))
+  write(siteDir, 'tmp/translation-manifest.json', `${JSON.stringify({
+    target: 'ja-JP', locale: 'ja-JP', group: 'guides', sourceCheckpointSha: identity.sourceSha, items: [item],
+  })}\n`)
+
+  const previousCwd = process.cwd()
+  let analysis
+  try {
+    process.chdir(siteDir)
+    analysis = recoveryPreflightMain([
+      '--manifest', 'tmp/translation-manifest.json',
+      '--recovery-dir', artifactDir,
+      '--output', 'tmp/recovery-analysis.json',
+      '--execution-tooling-sha', identity.toolingSha,
+      '--allow-full-retranslate', 'false',
+    ], {
+      TRANSLATION_AGENT_MODEL: identity.model,
+      TRANSLATION_CHUNK_TARGET_CHARS: '400',
+      TRANSLATION_CHUNK_MAX_CHARS: '600',
+    })
+  } finally {
+    process.chdir(previousCwd)
+  }
+
+  assert.equal(analysis.semanticResumableFileCount, 1)
+  assert.ok(analysis.pending[0].semanticResume.report.entries.every(entry => entry.id.startsWith('chunk.')))
 })
 
 test('revalidates prompt and model changes but still rejects source incompatibility', t => {
