@@ -10573,7 +10573,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/cloud-access-control-operations-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "91d449b4be275cb2f7583f90bce24e6ab7b99da727d82a3774b1980770f5aa1c",
-      "targetHash": "47bdda1b93db591c8338ece376e476dd9f0b9d728d929f1492d8aa7b6f588f65",
+      "targetHash": "89204ec377e252d88bebd4bfe63b638ae4e40785ec7440f4496c9f902672b399",
       "status": "translated"
     },
     {
@@ -10582,7 +10582,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/create-cloud-role-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "e2a1c7987f84cc619437f7f45294c642a626eb001ec4fa7615635a96f43e7d6b",
-      "targetHash": "8687c73f57185740b00337905c295f62887f75c0d27fa109621dec9f201ea107",
+      "targetHash": "dfc75c6e4fc8304919dfd1fd620f97d1d99ade89530d1cd7432703444e948f0c",
       "status": "translated"
     },
     {
@@ -10591,7 +10591,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/delete-cloud-role-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "f5b9a31fef9c736b53e8d970a9f6957a2db263b60f13564a4d83491970d2b7e8",
-      "targetHash": "50d3b1678979f54dde109c0580369eefcdece3da21d7671415d291062053341c",
+      "targetHash": "95f075ab7277e6388eeaedfea13540a527283c8c76c0fecc7ae35bf0bcb1275e",
       "status": "translated"
     },
     {
@@ -10600,7 +10600,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/describe-cloud-role-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "948feffa2f28111860ed6fb82c804e1c282bcb1cb307f7344e9a55ee21cb27a3",
-      "targetHash": "df47a9753294499efe42b18273af487c56fab72b07deaa9446c439181af9b76f",
+      "targetHash": "3a526b9fd257452fa6a52e83389f6b1d7e441a0ee8abb8d64bd7895bc194d071",
       "status": "translated"
     },
     {
@@ -10609,7 +10609,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-group-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "c6b7fb76f555f547219e3acc6a0b1398c19511c163785abe645f424df313f6be",
-      "targetHash": "98ceb1f74dbfa25efc1023f20fae56fe6aafb29e5abce4f550c9ab21bbf4f0ce",
+      "targetHash": "466bf53fecc14c864bb80f16f9cef6df079514ee202ad871c48ec5ea8be7cf60",
       "status": "translated"
     },
     {
@@ -10618,7 +10618,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-member-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "26e035dc3f6e201b46b7675b55289ab695e15a958bb9b04c93877370c8178887",
-      "targetHash": "762a44411c842fe45fd6b3ef0293dea13d2586c9755bf855c3142b2cb38783c9",
+      "targetHash": "161f5120f0f2970864697f177d75f45ca420ac7670090eee9c52ffe6b0e5ed49",
       "status": "translated"
     },
     {
@@ -10627,7 +10627,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-cloud-role-principals-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "0ed6f2239eee45a97d751ebd68cd8a0d2f55d787795e61f49a231433762a8ee7",
-      "targetHash": "ee85bb5007ebb1d8b01e7f30e7060d03200632a02f3cb7c875f6c324a5b40a2e",
+      "targetHash": "9cebc47ca4605efdc70dea7362e0f00869c1c43981aa94374d6044e0dcd58c5a",
       "status": "translated"
     },
     {
@@ -10636,7 +10636,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-cloud-roles-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "2c1a0ce29b9d6852e941cb82ef3953804ba34937bdb319b3b22fa38340b66587",
-      "targetHash": "297bbbfc526f9a0b6ed9a24da6c9eb81965e6ed121edd7d8e9e3deb85b363aff",
+      "targetHash": "4ff373babc9a125c8ccad6b2e88b284a70966d5fd3cb217f5a7e8f48bc53576b",
       "status": "translated"
     },
     {
@@ -10645,7 +10645,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-members-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "1113f716159e292052dc85926773ca8ac387d8e8d8e7a9398d95eeaeaf458899",
-      "targetHash": "8a1e3b949b92ee58e37c51e1d58f2e387d8a4def9e2bf3ab11fbdfcb59ba7075",
+      "targetHash": "507b0d9e12e4f2093092c2b3779b170ee0a8105a851c52b9ce2a5caf12280a3d",
       "status": "translated"
     },
     {
@@ -10654,7 +10654,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-roles-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "909bdc16719e5fea05ea6502ebeef3b39155ae2dbddfdc4ac3dda48c365a9f4d",
-      "targetHash": "7bccdb1d369ec5d27bcc837c308b8b84d171e972f084e177b2b645f0ae1e034d",
+      "targetHash": "ee8d503a9591025463bfb4895ae06d5e629363f2f2ba74198369e07f152bb924",
       "status": "translated"
     },
     {
@@ -10663,7 +10663,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-groups-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "a631bcf8c3af85af5a13b39f4dd3e8988433810f52c4251c74cd40bf57ccd54a",
-      "targetHash": "5847b20a021dfd07061939d59b27c6426d7b896a52ed60ebc8c54512b7a680ff",
+      "targetHash": "985d10e5488185dd4e3a2e6187024853e481a869b04eac14155786f195b8d9cf",
       "status": "translated"
     },
     {
@@ -10672,7 +10672,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "535d19efdb54997b37b4ac23ece25f865743f0cf52ea934514fd44c15c7dbe6f",
-      "targetHash": "8e8c8079262b724c3b698392e95aebcf1ad436163f821f83a3bce4b93fdc9bc1",
+      "targetHash": "a60dfe309632841701022e232c0ff73930ed813b1f81a206a171fc4ef2615d7c",
       "status": "translated"
     },
     {
@@ -10681,7 +10681,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-group-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "de643aa2f334333608ca215b9730431d51fa3d907ea819fb2d3081421e19ce28",
-      "targetHash": "968f5e462c0787589b826336eed90e26c97723d72911ecd334d392ab09f6f038",
+      "targetHash": "70ea42c8b7c22fc0212903bc17372f548539a1341239f19b16c8fc071a9e4495",
       "status": "translated"
     },
     {
@@ -10690,7 +10690,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "a226686665858bdea4fed4c8105bfaf694a1f7fee9f147a0d678d10acb46eeea",
-      "targetHash": "d461876610ffddb27afaa0e75d905da2192a57ef41f283323ae071816ef563cf",
+      "targetHash": "543c11ebc26b487fc5e6f5a505999bf94fec8e0e63906d4db090d2615425dcb2",
       "status": "translated"
     },
     {
@@ -10699,7 +10699,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/update-cloud-role-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "8bc365482adb32db8fb5b11d6d47d2c20311f2a4c193cc93951d962d46c96e49",
-      "targetHash": "a982e3151c973ddaa38ae09140e131c9ebad47c96029f9313ac187104ff5b54c",
+      "targetHash": "b8bf5bed823c1b07d74a3b84061ebcd96063438031240f0a767ac29b6cb0adb0",
       "status": "translated"
     },
     {
@@ -10708,7 +10708,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/cloud-api-key-operations-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "aedc6558ab5d7d60844f4a2b19b242332b49134480b53a750ec0644592151683",
-      "targetHash": "6d85737133c570ee039d4c352cfdd29711d96265d600f5fe80f6622e69338ddd",
+      "targetHash": "12feea47f3f2e6f496b1854e860d4c1436bda633712a3f67b33358c3f403f173",
       "status": "translated"
     },
     {
@@ -10717,7 +10717,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/create-api-key-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "9932dbcee3e21d8fd9651d03b959c13dc6ca8f8cf25ac703aaac64bf5e3d5a63",
-      "targetHash": "6d675389ebd36607544275fd110a27ad38ccf847e50b22a758c7300cf3ae19ee",
+      "targetHash": "a9bddad31aaec53b54e41041dd0654da18ce6f0d13e029baae975e10162db4d0",
       "status": "translated"
     },
     {
@@ -10726,7 +10726,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/delete-api-key-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "c6f1d8d6440d2dfa1dd8c5ae3e9cb497db28bbaac26b7d6fdef390bdbb7022aa",
-      "targetHash": "9583898221ff14957235bc6ace5e2968e86700f2e01d74819d780fc52aa6935b",
+      "targetHash": "39718608e2ffc6b493f96725cb87e9da90097ae05ffb817a79442ccad4013ea4",
       "status": "translated"
     },
     {
@@ -10735,7 +10735,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/describe-api-key-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "5dfcc7745ca23278805a11c83c810ffd6d8e3b5628ff727f5ae79a179cb14ade",
-      "targetHash": "1bac7e1a0d43855ac51fad803e10848c055e7ac7e96255fc750f1578a9638532",
+      "targetHash": "1217aa47ed6eec966adc55896a81485540c48e55a2e8f74d66015a0a4a3f20b3",
       "status": "translated"
     },
     {
@@ -10744,7 +10744,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/list-api-keys-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "d0da47bcbd35e268fef30a50468462b3e84e838af364c25ddefc192975d6f017",
-      "targetHash": "429d78549563566f0b2aaf8359119d3234bee59860846bcc6a9893566a942d52",
+      "targetHash": "0de715f71335f9ac9b31c0b35d4a3019320144cc94b3f10a3105b4ab00f3f3c2",
       "status": "translated"
     },
     {
@@ -10753,7 +10753,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/update-api-key-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "0aefa11434aaca633390e2efd62e55edac327950b9e0da4abe7679896205f456",
-      "targetHash": "90a055b03949498b632ed42d063213e0b113d91d5925672ff52447d597f235be",
+      "targetHash": "4ed784a616f7e020eefe236756cb17ce65c721eb1efeee68dcfce496bd72107c",
       "status": "translated"
     },
     {
@@ -11608,7 +11608,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/alter-role-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "c18993f9cd84a7fc1a78d6c32a490ee0ec2f9cb0d54bf6ad7f760d6cce77bf77",
-      "targetHash": "13e55691d485cda4ec73254783bb7286e674e01c7e20b8f1d89a9407d5d15759",
+      "targetHash": "ecfb77a1d5c6ab68104b9d825f5819f5438fff013116c6b9ee5d9fd6494d5452",
       "status": "translated"
     },
     {
@@ -11617,7 +11617,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/cluster-role-operations-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "6454ab02de74574d95147d77efd4ec82d1c90b2a93fcecb35b67b117f6b223bb",
-      "targetHash": "68ff46da1886a4d8c45ace85b61d733be7531484d9c3a5d918349202cb82a229",
+      "targetHash": "0744a21afe5df9aead69ee6fb2a32f18d091b9a472eb605f6d72abfba1be706d",
       "status": "translated"
     },
     {
@@ -11626,7 +11626,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/create-role-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "c481c0e1a134b14ebb344e7a955c3ad622bf5ee8f9edb01788217e8bcb50aa80",
-      "targetHash": "146856c78dd641a2ce504f928530c9bd751e01fbe3b9120c30600948ed50a5e7",
+      "targetHash": "69496b0f919e3a10649efaed0dfea1a124a004b9b227f383b3edc6b7c9c856f6",
       "status": "translated"
     },
     {
@@ -11635,7 +11635,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/describe-role-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "4d0377c38c9673979042088a4d3d16b26e22621e8f875d94baa931c6f2af3efa",
-      "targetHash": "69f628bc06b9c3b166d174d368e2343963c615df3043ba6647bc16694eb7de80",
+      "targetHash": "3ad3c40906fb700fee02003fa91c753d9ce2ef6ea136554141d776383f7c3a45",
       "status": "translated"
     },
     {
@@ -11644,7 +11644,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/drop-role-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "0aaad12418ad4dcb763eef97f6f8b831bf408ad9598e7b0f000521fae11fd935",
-      "targetHash": "f919ac841c9c02e66f31fac7d6411bf766deec1bb439f2460731dcf76fdd6cfd",
+      "targetHash": "84b938d50d33cb2dda4c7599794818096231610dde815ecbdaa4e4c77d9ab1c3",
       "status": "translated"
     },
     {
@@ -11653,7 +11653,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/grant-object-privilege-to-role-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "c8cfd2332134aeb7ce3299d674b531b5215925ebaf928adf35bbf3ec41951aa6",
-      "targetHash": "d9e7e25c0b2d56ad18c7c893e1853674e387b53a2ad1f002b28701d70c01242b",
+      "targetHash": "d6f49cfcf4f09b6b1db3c896a21020a0f0e5a85f0d69e942e802fe6e1f981ef3",
       "status": "translated"
     },
     {
@@ -11662,7 +11662,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/grant-privilege-to-role-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "2c967fd2450b08c57659b590ba2c125527e33bb1c9bb6cd64418d85e66e3c8a9",
-      "targetHash": "bbb52fe75a7ac51c924d4eba232e04ab2e60ce69673cc91187a59104f7fd04f5",
+      "targetHash": "39284953716b451368b65c08a653e74f3ac76b2982ac3aa7e72261f085a47066",
       "status": "translated"
     },
     {
@@ -11671,7 +11671,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/list-roles-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "18e78804cd4ad37b0980ccee2164463eba2942a6f16c4aa1681053173a001d99",
-      "targetHash": "1974212a11b528e33b718a5bd5daccf29b81e88bb7dc4aa5275f216b19fd187b",
+      "targetHash": "7294de4ccc2437189eeeac6035f9d25b5fd68703ffe376073913f8750e722477",
       "status": "translated"
     },
     {
@@ -11680,7 +11680,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/revoke-object-privilege-from-role-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "8d7acb2974d236fcb48a9fca542665d4e7323477d21cd93aea0c5b1e9951894c",
-      "targetHash": "b77e22c78179385dd52bc4a7d4f8a240ebba5df758b70bb10831f13af6bc7621",
+      "targetHash": "65a8ef27205e62fe2dd1c44c7ab21ab80377accf3da554e7c1ed6b3ee8ce22eb",
       "status": "translated"
     },
     {
@@ -11689,7 +11689,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-role-operations-v2/revoke-privilege-from-role-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "f11b2c6fe8548d6326745bf9a04cce0dfbde360a8e59d08082546564de841d39",
-      "targetHash": "2f3ad250e4cb7d72d1ac8a70a9ebc71ebfa98ea92f4b5be5954ea357dc86cd41",
+      "targetHash": "e5f1e64167a26da0e8a8404d592fbed15058640a02a9962dac9728fef7bcb5d6",
       "status": "translated"
     },
     {
@@ -11698,7 +11698,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/cluster-user-operations-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "1aa98ce01575bbc944477b7a7c28282a2304d922fed6cde9e88d167b4bc5fe78",
-      "targetHash": "0a9a095b6b96422cc4b6bc92eef702bae8f533f04a49f36b31d37a267836ec1c",
+      "targetHash": "2533f99b8db4c795d8086efb1ed54ba2884b40a223e4fe8b1bb5453055b81304",
       "status": "translated"
     },
     {
@@ -11707,7 +11707,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/create-user-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "82436b35748711803315c25bd45513ca467f4e6273facb658e582f9afe7ffcaa",
-      "targetHash": "5787408bb9875c3ccf5867bfe302c207f3ba1f93e20e6add7b85e2644a02fd97",
+      "targetHash": "123b156ee92a29fc24227361b22d703d268f608abe3d4e641977e89df6c73cdc",
       "status": "translated"
     },
     {
@@ -11716,7 +11716,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/describe-user-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "40e93d300f80b805b1e9a6e5c1acc9d3650b74f2ad953ca739f199925dbff393",
-      "targetHash": "1aff70c4813746c7bc16c82c09401c12494075becc03f97fb03354d4d860864c",
+      "targetHash": "e097cdfe882660c78ab64ccd514204d0f2ed7138eada8fba2480e755e2f3d3f6",
       "status": "translated"
     },
     {
@@ -11725,7 +11725,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/drop-user-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "29c907cb9cb4ca558e0baaeeeff96bc40f815f4eb637f0df7a88866974846a97",
-      "targetHash": "493fab12383eb0dfea5d7211147d20e30041e8987a0271963a4dd438b5877b42",
+      "targetHash": "075db0ad6a84e986a65d4383b785778f48a05187ae8a8fe5d8892cbc1f944b69",
       "status": "translated"
     },
     {
@@ -11734,7 +11734,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/grant-role-to-user-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "26d69b5175da2ba33cbdc610d09b0089e3e71c656b6a96365be51675f064ab02",
-      "targetHash": "562fe8044afdbc43c855fd1ce0989aad383ae5e343cb5028260a612b9febf0c6",
+      "targetHash": "5008c0d37d836364be9bb1775bbd4023fced5c28f93a5e3825f2686b39899f56",
       "status": "translated"
     },
     {
@@ -11743,7 +11743,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/list-users-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "02af17cd25875f588c69315aeee09236a9a140b8504821ea88c6d0fc7c227a67",
-      "targetHash": "3536004fca128de7e934e964bb3ed2658cd47dc280f8f7d0e5d9ec469d398239",
+      "targetHash": "45552984dae0ff84f1307de337a42d5d6a0d99116ae947a4274929ad7b8e0b33",
       "status": "translated"
     },
     {
@@ -11752,7 +11752,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/revoke-role-from-user-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "d02a919a5f56a9d5f60734107eca14435f2ef245d961f4b19ffa8256da835b3b",
-      "targetHash": "b70bc8a3be3b72fa4ff20a5b9ab98292995bd2bef7d7e48c4800b01cea88f9bf",
+      "targetHash": "c659cc45a12047c95a8006d37a46a37dec0171fc3d69a9d73e61eb1e54285c7f",
       "status": "translated"
     },
     {
@@ -11761,7 +11761,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/data-plane/cluster-user-operations-v2/update-user-v2.mdx",
       "sourceCommit": "a8a639f09739073ceb3749c8aeba62147292762d",
       "sourceHash": "0da8c9fa3b4871fcb640f00856c7bb526a173639bdbe1165e546b50d1df0b5d6",
-      "targetHash": "d05170ef5019ad6fba74e6a1be675bf17ea4aa83d7e10d05a600c1ca5ee29b5e",
+      "targetHash": "6c0ff9e45a04f2f440ab466966491031373612562b2423beeadb9ceb9ae18348",
       "status": "translated"
     },
     {
