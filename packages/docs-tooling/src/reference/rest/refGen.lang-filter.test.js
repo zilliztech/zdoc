@@ -4,6 +4,12 @@ const os = require('node:os')
 const path = require('node:path')
 const RefGen = require('./refGen')
 
+const OPENAPI_DIR = path.join(__dirname, 'meta', 'openapi')
+
+function readJson(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+}
+
 async function withTempDir(callback) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'apifox-refgen-lang-filter-'))
   try {
@@ -237,10 +243,97 @@ async function testSidebarCustomPropsUsesBlockYaml() {
   })
 }
 
+function testGroupDescriptionUsesLocalizedMetadata() {
+  const specifications = {
+    openapi: '3.0.1',
+    info: { title: 'test', version: '1.0.0' },
+    tags: [{ name: 'Cloud API Key Operations (V2)' }],
+    paths: {
+      '/v2/api-keys': {
+        get: {
+          summary: 'List API Keys',
+          tags: ['Cloud API Key Operations (V2)'],
+        },
+      },
+    },
+  }
+
+  const english = new RefGen({
+    specifications,
+    lang: 'en-US',
+    target: 'zilliz',
+    target_path: '/tmp/refgen-description-en',
+  })
+  const chinese = new RefGen({
+    specifications,
+    lang: 'zh-CN',
+    target: 'zilliz',
+    target_path: '/tmp/refgen-description-zh',
+  })
+
+  assert.equal(
+    english.lookupDescription('cloud-api-key-operations-v2', 'fallback'),
+    'This set of APIs provides a way to manage customized ACL API keys and their role assignments.',
+  )
+  assert.equal(
+    chinese.lookupDescription('cloud-api-key-operations-v2', 'fallback'),
+    '本系列 API 提供了管理自定义 ACL API Key 及其角色授权的相关接口。',
+  )
+
+  chinese.descriptions = [{ name: 'fallback-only', description: 'English fallback' }]
+  assert.equal(chinese.lookupDescription('fallback-only', 'spec fallback'), 'English fallback')
+}
+
+function testChineseSidebarInventoryExceptionsAreExplicit() {
+  const titles = readJson(path.join(__dirname, 'meta', 'titles.json'))
+  assert.deepEqual(
+    {
+      '创建按需集群': titles['创建按需集群'],
+      '查看按需集群列表': titles['查看按需集群列表'],
+      '删除按需集群': titles['删除按需集群'],
+    },
+    {
+      '创建按需集群': 'create-on-demand-cluster',
+      '查看按需集群列表': 'list-on-demand-clusters',
+      '删除按需集群': 'delete-on-demand-cluster',
+    },
+  )
+
+  const languageRestrictedOperations = []
+  for (const fileName of fs.readdirSync(OPENAPI_DIR).filter(name => name.endsWith('.json')).sort()) {
+    const spec = readJson(path.join(OPENAPI_DIR, fileName))
+    for (const [route, pathItem] of Object.entries(spec.paths || {})) {
+      for (const method of ['get', 'post', 'put', 'patch', 'delete']) {
+        const operation = pathItem?.[method]
+        if (!operation?.['x-include-langs']) continue
+        languageRestrictedOperations.push({
+          fileName,
+          route,
+          method,
+          summary: operation.summary,
+          includeLangs: operation['x-include-langs'],
+        })
+      }
+    }
+  }
+
+  assert.deepEqual(languageRestrictedOperations, [
+    {
+      fileName: '21-project-operations-v2.json',
+      route: '/v2/projects/{projectId}/plan',
+      method: 'patch',
+      summary: 'Upgrade Project',
+      includeLangs: ['en-US'],
+    },
+  ])
+}
+
 async function run() {
   await testOperationWithIncludeLangExcludesEnUsOutput()
   await testGlobalClustersGenerateUnderControlPlane()
   await testSidebarCustomPropsUsesBlockYaml()
+  testGroupDescriptionUsesLocalizedMetadata()
+  testChineseSidebarInventoryExceptionsAreExplicit()
   console.log('apifox refGen lang filter tests passed')
 }
 

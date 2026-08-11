@@ -79,12 +79,20 @@ export const enProfile = deepFreeze(SiteProfileSchema.parse({
     chatProvider: 'inkeep',
     restApi: {
       planeConfig: {
+        dataPlaneKeywords: {
+          zilliz: [
+            'cluster-role-operations-v2', 'cluster-user-operations-v2',
+            '/v2/vectordb/roles', '/v2/vectordb/users',
+          ],
+          milvus: [],
+        },
         controlPlaneKeywords: {
           zilliz: [
             'cloud', 'cluster', 'import', 'pipeline', 'backup', 'restore',
             'invoices', 'usage', 'metrics', 'extract', 'volume', 'project',
             'on-demand', 'region', 'migration', 'job', 'spark', 'alert',
             'etl', 'stage', 'storage-integration', 'storageIntegrations',
+            '/v2/roles', '/v2/members', '/v2/groups', '/v2/api-keys',
           ],
           milvus: [],
         },
