@@ -23,6 +23,12 @@ import TabItem from '@theme/TabItem';
 
 External Collection 是 Zilliz Cloud 中的一种数据 Collection 类型，可直接访问存储在外部存储系统或数据库表（例如 AWS S3 和 Iceberg）中的数据，而无需将数据复制到 Zilliz Cloud 中。它充当数据湖之上的查询层，同时保持与 Zilliz Cloud 查询接口的兼容性。
 
+<Admonition type="info" icon="📘" title="说明">
+
+仅支持在按需计算场景下的 Database 中创建 External Collection。即将支持在 Serving Dedicated 集群中创建 External Collection。
+
+</Admonition>
+
 ## 概览\{#overview}
 
 在典型的 AI 数据流水线中，用户通常已经将数据以 Parquet 或其他格式存储在自己的存储系统中，例如 AWS S3。要让 Zilliz Cloud 使用这些外部存储的数据，用户通常需要通过 Extract-Transform-Load（ETL）流水线将其导入到 Zilliz Cloud 自身的存储中。

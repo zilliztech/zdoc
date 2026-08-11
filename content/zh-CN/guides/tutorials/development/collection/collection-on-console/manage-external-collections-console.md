@@ -32,7 +32,9 @@ import Supademo from '@site/src/components/Supademo';
 
 <Admonition type="info" icon="📘" title="说明">
 
-在按需计算 Database 中创建的 External Collection 不支持删除索引。
+- 在按需计算 Database 中创建的 External Collection 不支持删除索引。
+
+- 仅支持在按需计算场景下的 Database 中创建 External Collection。即将支持在 Serving Dedicated 集群中创建 External Collection。
 
 </Admonition>
 

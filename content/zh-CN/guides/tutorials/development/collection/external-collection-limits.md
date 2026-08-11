@@ -36,13 +36,15 @@ import Admonition from '@theme/Admonition';
 
 - External Collection 当前不支持备份恢复和数据迁移。
 
+- 仅支持在按需计算场景下的 Database 中创建 External Collection。即将支持在 Serving Dedicated 集群中创建 External Collection。
+
 下表详细比较了 External Collection 和 Managed Collection 所支持的操作。
 
 <table>
    <tr>
      <th colspan="2"></th>
      <th><p><strong>Managed Collection</strong></p><p>(Serving 集群)</p></th>
-     <th><p><strong>External Collection</strong></p><p>(Serving 集群 or 按需计算场景下的 Database)</p></th>
+     <th><p><strong>External Collection</strong></p><p>(按需计算场景下的 Database)</p></th>
      <th><p><strong>Managed Collection</strong></p><p>(按需计算场景下的 Database)</p></th>
    </tr>
    <tr>
