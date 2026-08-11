@@ -1,6 +1,5 @@
 import { default as React } from 'react';
 import { ChatMessage } from '../types';
-
 export interface ChatMessageBubbleProps {
     message: ChatMessage;
     isStreaming?: boolean;

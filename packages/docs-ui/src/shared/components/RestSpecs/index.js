@@ -110,7 +110,7 @@ const Admonitions = ({ admonitions, lang }) => {
                     <Admonition
                         key={index}
                         type={item.type || 'info'}
-                        title={title || item.type || 'Note'}
+                        title={title || item.type || i18n[lang]['admonition.title']}
                     >
                         <div dangerouslySetInnerHTML={{ __html: content }} />
                     </Admonition>
@@ -131,7 +131,7 @@ const Param = ({ name, description, type, format, required, example, inProp, enu
                 <span className={styles.paramName}>{name}</span>
                 <span className={styles.label}>{type + (format ? "\<" + format + "\>" : "")}</span>
                 <span className={styles.label}>{inProp}</span>
-                { required && <span className={styles.required}>required</span> }
+                { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
             </div>
             <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
             <div>
@@ -153,7 +153,7 @@ const Properties = ({ name, description, properties, requiredFields, required, l
                 { name && <div className={styles.paramLabels}>
                     <span className={styles.paramName}>{name}</span>
                     <span className={styles.label}>object</span>
-                    { required && <span className={styles.required}>required</span> }
+                    { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
                 </div> }
                 { description && <div className={styles.description} dangerouslySetInnerHTML={{__html: description ? textFilter(description, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div> }
             </div> }
@@ -233,7 +233,7 @@ const Items = ({ name, description, obj, required, lang, target }) => {
                 { name &&<div className={styles.paramLabels}>
                     <span className={styles.paramName}>{name}</span>
                     <span className={styles.label}>array</span>
-                    { required && <span className={styles.required}>required</span> }
+                    { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
                 </div> }
                 { description && <div className={styles.description} dangerouslySetInnerHTML={{__html: description ? textFilter(description, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div> }
             </div> }
@@ -422,7 +422,7 @@ const AnyOf = ({ name, description, arr, required, lang, target, onValueChange, 
             <div className={styles.paramLabels}>
                 <span className={styles.paramName}>{name}</span>
                 <span className={styles.label}>anyOf</span>
-                { required && <span className={styles.required}>required</span> }
+                { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
             </div>
             <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
         </div> }
@@ -489,7 +489,7 @@ const OneOf = ({ name, description, arr, required, lang, target, onValueChange, 
             <div className={styles.paramLabels}>
                 <span className={styles.paramName}>{name}</span>
                 <span className={styles.label}>oneOf</span>
-                { required && <span className={styles.required}>required</span> }
+                { required && <span className={styles.required}>{i18n[lang]['label.required']}</span> }
             </div>
             <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
         </div> }

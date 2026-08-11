@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import {useCodeBlockContext} from '@docusaurus/theme-common/internal';
 import Container from '@theme/CodeBlock/Container';
 import Content from '@theme/CodeBlock/Content';
+import {useDocsUiText} from '../../../i18n/uiText';
 import styles from './styles.module.css';
 
 // Same icon set as the "Copy page" button, so code copy + page copy match.
@@ -20,13 +21,14 @@ const CheckIcon = () => (
 );
 
 function CodeCopyButton({code}: {code: string}) {
+  const text = useDocsUiText();
   const [copied, setCopied] = useState(false);
   return (
     <button
       type="button"
       className={clsx(styles.copyBtn, copied && styles.copyBtnCopied)}
-      data-tip={copied ? 'Copied' : 'Copy'}
-      aria-label="Copy code"
+      data-tip={copied ? text.common.copied : text.common.copy}
+      aria-label={text.common.copyCode}
       onClick={() => {
         navigator.clipboard.writeText(code).then(() => {
           setCopied(true);
@@ -49,6 +51,7 @@ function TrafficLights() {
 }
 
 function AskAiCodeButton({code, label, lang}: {code: string; label?: string; lang?: string}) {
+  const text = useDocsUiText();
   return (
     <button
       type="button"
@@ -56,14 +59,14 @@ function AskAiCodeButton({code, label, lang}: {code: string; label?: string; lan
       onClick={() => {
         document.dispatchEvent(new CustomEvent('open-chat'));
         document.dispatchEvent(
-          new CustomEvent('ask-ai-context', {detail: {kind: 'code', content: code, lang, label: label || 'Code snippet'}}),
+          new CustomEvent('ask-ai-context', {detail: {kind: 'code', content: code, lang, label: label || text.chat.codeSnippet}}),
         );
       }}
-      aria-label="Ask AI about this code">
+      aria-label={text.chat.askAiAboutCode}>
       <svg width="8" height="13" viewBox="0 0 8 14" fill="none" aria-hidden="true">
         <path d="M0 8.55556L5.6 0L4.8 5.64912H8L1.6 14L3.2 8.55556H0Z" fill="currentColor" />
       </svg>
-      <span>Ask AI</span>
+      <span>{text.chat.askAi}</span>
     </button>
   );
 }

@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { usePluginData } from '@docusaurus/useGlobalData';
 import { Hourglass, CircleCheck, CircleAlert, Copy, FileCode, Eye, ChevronDown } from 'lucide-react';
+import {useDocsUiText} from '../../i18n/uiText.ts';
 import styles from './styles.module.css';
 
 const CopyPage = () => {
+  const text = useDocsUiText();
   const pluginData = usePluginData('embed-markdown');
   const cursorMcpCommand = pluginData?.cursorMcpCommand || 'npx @zilliz/claude-context-mcp@latest';
   const markdownSources = pluginData?.sources || [];
@@ -19,11 +21,11 @@ const CopyPage = () => {
   const errorTimeoutRef = useRef(null);
 
   const menuActions = [
-    { id: 'copy-markdown', label: 'Copy page', action: 'copyMarkdown' },
-    { id: 'view-source', label: 'View source', action: 'viewRawMarkdown' },
-    { id: 'open-chatgpt', label: 'Open in ChatGPT', action: 'openInChatGPT' },
-    { id: 'open-claude', label: 'Open in Claude', action: 'openInClaude' },
-    { id: 'connect-cursor', label: 'Connect to Cursor', action: 'connectToCursor' },
+    { id: 'copy-markdown', label: text.copyPage.copyPage, action: 'copyMarkdown' },
+    { id: 'view-source', label: text.copyPage.viewSource, action: 'viewRawMarkdown' },
+    { id: 'open-chatgpt', label: text.copyPage.openInChatGPT, action: 'openInChatGPT' },
+    { id: 'open-claude', label: text.copyPage.openInClaude, action: 'openInClaude' },
+    { id: 'connect-cursor', label: text.copyPage.connectCursor, action: 'connectToCursor' },
   ];
 
   useEffect(() => {
@@ -109,7 +111,7 @@ const CopyPage = () => {
       const markdown = await getMarkdownSource();
 
       if (!markdown) {
-        showError('Source not found');
+        showError(text.copyPage.sourceNotFound);
         setIsOpen(false);
         setIsLoading(false);
         return;
@@ -120,7 +122,7 @@ const CopyPage = () => {
       setIsOpen(false);
     } catch (error) {
       console.error('Failed to copy to clipboard:', error);
-      showError('Failed to copy. Please try again.');
+      showError(text.copyPage.copyFailed);
       setIsOpen(false);
     } finally {
       setIsLoading(false);
@@ -151,7 +153,7 @@ const CopyPage = () => {
 
   const viewRawMarkdown = () => {
     if (!enableSourceView) {
-      showError('Source view is unavailable for this page.');
+      showError(text.copyPage.sourceUnavailable);
       return;
     }
     const currentPath = window.location.pathname;
@@ -225,7 +227,7 @@ const CopyPage = () => {
         className={`${styles.dropdownTrigger} ${copySuccess ? styles.copySuccess : ''} ${isLoading ? styles.loading : ''} ${error ? styles.error : ''}`}
         onClick={() => !isLoading && setIsOpen(!isOpen)}
         onKeyDown={handleTriggerKeyDown}
-        aria-label="Copy page options"
+        aria-label={text.copyPage.options}
         aria-expanded={isOpen}
         aria-haspopup="menu"
         disabled={isLoading}
@@ -233,7 +235,7 @@ const CopyPage = () => {
         <i className={styles.checkIcon}>
           {isLoading ? <Hourglass size={16} /> : copySuccess ? <CircleCheck size={16} /> : error ? <CircleAlert size={16} /> : <Copy size={16} />}
         </i>
-        <span>{isLoading ? 'Copying...' : copySuccess ? 'Copied!' : error ? 'Failed' : 'Copy page'}</span>
+        <span>{isLoading ? text.copyPage.copying : copySuccess ? text.copyPage.copied : error ? text.copyPage.failed : text.copyPage.copyPage}</span>
         {!isLoading && (
           <ChevronDown size={12} className={`${styles.chevron} ${isOpen ? styles.chevronOpen : ''}`} />
         )}
@@ -246,7 +248,7 @@ const CopyPage = () => {
       )}
 
       {isOpen && !isLoading && (
-        <div className={styles.dropdownMenu} role="menu" aria-label="Copy page options">
+        <div className={styles.dropdownMenu} role="menu" aria-label={text.copyPage.options}>
           <div
             className={styles.menuItem}
             role="menuitem"
@@ -259,8 +261,8 @@ const CopyPage = () => {
               <FileCode size={18} />
             </i>
             <div className={styles.menuItemCaption}>
-              <div className={styles.menuItemTitle}>Copy page</div>
-              <div className={styles.menuItemDesc}>Copy page as Markdown for LLMs</div>
+              <div className={styles.menuItemTitle}>{text.copyPage.copyPage}</div>
+              <div className={styles.menuItemDesc}>{text.copyPage.copyPageAsMarkdown}</div>
             </div>
           </div>
 
@@ -276,8 +278,8 @@ const CopyPage = () => {
               <Eye size={18} />
             </i>
             <div className={styles.menuItemCaption}>
-              <div className={styles.menuItemTitle}>View source</div>
-              <div className={styles.menuItemDesc}>Open raw markdown in new tab</div>
+              <div className={styles.menuItemTitle}>{text.copyPage.viewSource}</div>
+              <div className={styles.menuItemDesc}>{text.copyPage.viewSourceDescription}</div>
             </div>
           </div>
 
@@ -296,8 +298,8 @@ const CopyPage = () => {
               </svg>
             </i>
             <div className={styles.menuItemCaption}>
-              <div className={styles.menuItemTitle}>Open in ChatGPT</div>
-              <div className={styles.menuItemDesc}>Ask questions about this page</div>
+              <div className={styles.menuItemTitle}>{text.copyPage.openInChatGPT}</div>
+              <div className={styles.menuItemDesc}>{text.copyPage.askAboutPage}</div>
             </div>
           </div>
 
@@ -316,8 +318,8 @@ const CopyPage = () => {
               </svg>
             </i>
             <div className={styles.menuItemCaption}>
-              <div className={styles.menuItemTitle}>Open in Claude</div>
-              <div className={styles.menuItemDesc}>Ask questions about this page</div>
+              <div className={styles.menuItemTitle}>{text.copyPage.openInClaude}</div>
+              <div className={styles.menuItemDesc}>{text.copyPage.askAboutPage}</div>
             </div>
           </div>
 
@@ -335,8 +337,8 @@ const CopyPage = () => {
               </svg>
             </i>
             <div className={styles.menuItemCaption}>
-              <div className={styles.menuItemTitle}>Connect to Cursor</div>
-              <div className={styles.menuItemDesc}>Install MCP Server on Cursor</div>
+              <div className={styles.menuItemTitle}>{text.copyPage.connectCursor}</div>
+              <div className={styles.menuItemDesc}>{text.copyPage.installCursorMcp}</div>
             </div>
           </div>
         </div>

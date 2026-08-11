@@ -1,19 +1,26 @@
 import { describe, expect, it } from 'vitest';
 
-import { getChatAgentConfigCode } from './agentConfig';
+import {getChatAgentConfig} from './agentConfig';
 
-describe('getChatAgentConfigCode', () => {
-  it('returns the production agent for docs.zilliz.com', () => {
-    expect(getChatAgentConfigCode('docs.zilliz.com')).toBe('zilliz_agent_prod');
+describe('getChatAgentConfig', () => {
+  it('returns the English docs contract for the English site in every environment', () => {
+    expect(getChatAgentConfig('en')).toEqual({
+      agentConfigCode: 'zilliz_docs_agent',
+      site: 'docs.zilliz.com',
+    });
   });
 
-  it('returns the development agent for UAT and preview hostnames', () => {
-    expect(getChatAgentConfigCode('docs.cloud-uat3.zilliz.com')).toBe('zilliz_agent_dev');
-    expect(getChatAgentConfigCode('preview.example.com')).toBe('zilliz_agent_dev');
+  it('returns the Chinese docs contract for the Chinese site in every environment', () => {
+    expect(getChatAgentConfig('zh-CN')).toEqual({
+      agentConfigCode: 'zilliz_docs_cn_agent',
+      site: 'docs.zilliz.com.cn',
+    });
   });
 
-  it('returns the development agent for localhost and an empty hostname', () => {
-    expect(getChatAgentConfigCode('localhost')).toBe('zilliz_agent_dev');
-    expect(getChatAgentConfigCode('')).toBe('zilliz_agent_dev');
+  it('defaults unknown profiles to the English docs contract', () => {
+    expect(getChatAgentConfig(undefined)).toEqual({
+      agentConfigCode: 'zilliz_docs_agent',
+      site: 'docs.zilliz.com',
+    });
   });
 });

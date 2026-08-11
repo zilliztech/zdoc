@@ -1,6 +1,5 @@
 import { default as React } from 'react';
 import { GroundingCitation, Source } from '../types';
-
 export interface GroundedMarkdownProps {
     text: string;
     sources?: Source[];

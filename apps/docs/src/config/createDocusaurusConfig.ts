@@ -231,7 +231,7 @@ export function createDocusaurusConfig(
       navbar: {
         title: '',
         logo: {
-          alt: 'Zilliz Logo',
+          alt: profile.id === 'zh-CN' ? 'Zilliz 标志' : 'Zilliz Logo',
           src: '/img/logo.svg',
           href: 'https://zilliz.com',
         },
