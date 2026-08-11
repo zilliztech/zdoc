@@ -81,7 +81,7 @@
                       "description": "Index parameters for a specific field.",
                       "x-i18n": {
                         "zh-CN": {
-                          "descripiton": "针对某一字段的索引参数。"
+                          "description": "针对某一字段的索引参数。"
                         }
                       },
                       "properties": {

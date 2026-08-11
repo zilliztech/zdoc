@@ -521,8 +521,11 @@ function authenticateHistoricalReferenceManifestState(options: Readonly<{
   });
 }
 
-function pendingReferenceTargetIds(state: ReferenceManifestState): Set<string> {
-  return new Set((state.translationManifest.pendingRecords ?? [])
+function unavailableReferenceTargetIds(state: ReferenceManifestState): Set<string> {
+  return new Set([
+    ...(state.translationManifest.pendingRecords ?? []),
+    ...(state.translationManifest.languageExcludedRecords ?? []),
+  ]
     .map(record => record.targetPath.slice(`${REFERENCE_TARGET_ROOT}/`.length).replace(/\.mdx?$/u, '')));
 }
 
@@ -665,7 +668,7 @@ export async function executeReferenceDocsToolingCommand(
             ? createPrevalidatedExternalSnapshotProvenanceVerifier(externalSnapshot)
             : createGitTranslationSourceProvenanceVerifier(repositoryRoot, REFERENCE_SOURCE_ROOT)),
       });
-      for (const pendingTargetId of pendingReferenceTargetIds(manifestState)) retiredTargetIds.add(pendingTargetId);
+      for (const unavailableTargetId of unavailableReferenceTargetIds(manifestState)) retiredTargetIds.add(unavailableTargetId);
     }
     writeManifestPair(repositoryRoot, deriveZhCnReferenceSidebarGroupEntries(repositoryRoot, argv[2], retiredTargetIds));
     dependencies.write?.(`wrote Chinese Reference sidebars for ${argv[2]}`);
@@ -738,7 +741,7 @@ export async function executeReferenceDocsToolingCommand(
     const retiredTargetIds = new Set(retirementRegistry.retirements
       .filter(record => !targetSnapshot.has(record.targetPath))
       .map(record => record.targetPath.slice(`${REFERENCE_TARGET_ROOT}/`.length).replace(/\.mdx?$/u, '')));
-    for (const pendingTargetId of pendingReferenceTargetIds(manifests)) retiredTargetIds.add(pendingTargetId);
+    for (const unavailableTargetId of unavailableReferenceTargetIds(manifests)) retiredTargetIds.add(unavailableTargetId);
     const sidebarEntries = deriveReferenceSidebarPublicationEntries(repositoryRoot, retiredTargetIds);
     writeManifestPair(repositoryRoot, [
       [REFERENCE_SOURCE_MANIFEST, serializeReferenceManifest(manifests.sourceManifest)],
@@ -765,7 +768,7 @@ export async function executeReferenceDocsToolingCommand(
     );
     const manualForPath = dependencies.manualForPath ?? defaultReferenceManualForPath;
     validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest, manualForPath});
-    let pendingNavigationIds: ReadonlySet<string> = new Set();
+    let unavailableNavigationIds: ReadonlySet<string> = new Set();
     if (argv[2] === 'en') {
       // Source ownership, revision, and hashes were validated above.
     } else {
@@ -787,11 +790,11 @@ export async function executeReferenceDocsToolingCommand(
             ? createPrevalidatedExternalSnapshotProvenanceVerifier(externalSnapshot)
             : createGitTranslationSourceProvenanceVerifier(repositoryRoot, REFERENCE_SOURCE_ROOT)),
       });
-      pendingNavigationIds = pendingReferenceTargetIds({sourceManifest, translationManifest});
+      unavailableNavigationIds = unavailableReferenceTargetIds({sourceManifest, translationManifest});
     }
     const validateNavigation = dependencies.validateReferenceNavigation ?? validateReferenceNavigation;
-    validateNavigation(pendingNavigationIds.size > 0
-      ? {repositoryRoot, site: argv[2], excludedDocumentIds: pendingNavigationIds}
+    validateNavigation(unavailableNavigationIds.size > 0
+      ? {repositoryRoot, site: argv[2], excludedDocumentIds: unavailableNavigationIds}
       : {repositoryRoot, site: argv[2]});
     dependencies.write?.(`validated Reference provenance for ${argv[2]}`);
     return;

@@ -1309,14 +1309,18 @@
                   "regionIds": {
                     "type": "array",
                     "description": "A region ID list.",
-                    "x-i18n": {
-                      "zh-CN": "地域 ID 列表。"
+                  "x-i18n": {
+                    "zh-CN": {
+                      "description": "地域 ID 列表。"
+                    }
                     },
                     "items": {
                       "type": "string",
                       "description": "A region ID. You can use the [List regions](https://docs.zilliz.com/reference/restful/list-cloud-regions-v2) to list applicable region IDs.",
-                      "x-i18n": {
-                        "zh-CN": "地域 ID。您可以使用 [查看云服务地域](https://docs.zilliz.com.cn/reference/restful/list-cloud-regions-v2) 来获取可用地域 ID。"
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "地域 ID。您可以使用 [查看云服务地域](https://docs.zilliz.com.cn/reference/restful/list-cloud-regions-v2) 来获取可用地域 ID。"
+                      }
                       }
                     }
                   }

@@ -12,7 +12,9 @@
         "zilliz"
       ],
       "x-i18n": {
-        "zh-CN": "Usage (V2)"
+        "zh-CN": {
+          "name": "Usage (V2)"
+        }
       }
     }
   ],

@@ -149,6 +149,7 @@ function mergeManifest(baseline, artifact, target) {
   const metadata = manifests.map((manifest) => Object.fromEntries(Object.entries(manifest).filter(([key]) => (
     key !== 'records'
     && key !== 'pendingRecords'
+    && key !== 'languageExcludedRecords'
     && (!mergesBootstrapGroups || key !== 'bootstrapCompletedGroups')
   ))));
   const result = mergeRecord(metadata[0], metadata[1], metadata[2]);
@@ -165,6 +166,14 @@ function mergeManifest(baseline, artifact, target) {
       recordsBySource(artifact, 'pendingRecords', 'Artifact', true),
       recordsBySource(target, 'pendingRecords', 'Target', true),
       'pendingRecords.',
+    )).sort(compareManifestRecords);
+  }
+  if (manifests.some((manifest) => Object.hasOwn(manifest, 'languageExcludedRecords'))) {
+    result.languageExcludedRecords = Object.values(mergeRecordEntries(
+      recordsBySource(baseline, 'languageExcludedRecords', 'Baseline', true),
+      recordsBySource(artifact, 'languageExcludedRecords', 'Artifact', true),
+      recordsBySource(target, 'languageExcludedRecords', 'Target', true),
+      'languageExcludedRecords.',
     )).sort(compareManifestRecords);
   }
   return Buffer.from(`${JSON.stringify(canonicalize(result), null, 2)}\n`);

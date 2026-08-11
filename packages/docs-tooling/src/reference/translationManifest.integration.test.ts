@@ -212,6 +212,52 @@ describe('Reference manifest executable security boundary', () => {
     expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/restful.sidebar.js'), 'utf8')).toContain(documentId);
     const materializedValidation = validateChinese(root);
     expect(materializedValidation.status, materializedValidation.stderr || materializedValidation.stdout).toBe(0);
+  }, 15_000);
+
+  it('publishes an explicit English-only REST page as language-excluded without dispatching translation', () => {
+    const root = repository();
+    expect(generate(root).status).toBe(0);
+    const sourcePath = 'content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx';
+    const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/');
+    const documentId = sourcePath.slice('content/en/reference/'.length).replace(/\.mdx?$/u, '');
+    mkdirSync(path.dirname(path.join(root, sourcePath)), {recursive: true});
+    writeFileSync(path.join(root, sourcePath), [
+      '# Upgrade Project',
+      '',
+      'export const specs = {"summary":"Upgrade Project","x-include-langs":["en-US"]}',
+      'export const endpoint = "/v2/projects/{projectId}/plan"',
+      'export const method = "patch"',
+      '',
+    ].join('\n'));
+    writeFileSync(path.join(root, 'generated/en/sidebars/restful.sidebar.js'), `module.exports = ["api/python/page", "${documentId}"]\n`);
+    const config = navigationConfig();
+    writeFileSync(path.join(root, 'config/reference-navigation.json'), `${JSON.stringify({
+      ...config,
+      targets: config.targets.map(target => target.manual === 'rest' ? {...target, documentIdPrefix: 'api'} : target),
+    }, null, 2)}\n`);
+    git(root, ['add', '.']);
+    git(root, ['commit', '--quiet', '-m', 'add English-only REST source']);
+    const sourceCommit = gitOutput(root, ['rev-parse', 'HEAD']);
+
+    const result = generate(root);
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    const translationManifest = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
+    expect(translationManifest.records.some((record: {sourcePath: string}) => record.sourcePath === sourcePath)).toBe(false);
+    expect(translationManifest.pendingRecords ?? []).not.toContainEqual(expect.objectContaining({sourcePath}));
+    expect(translationManifest.languageExcludedRecords).toContainEqual({
+      manual: 'rest',
+      sourcePath,
+      targetPath,
+      sourceCommit,
+      sourceHash: expect.stringMatching(/^[a-f0-9]{64}$/u),
+      locale: 'zh-CN',
+      reason: 'x-include-langs',
+    });
+    expect(existsSync(path.join(root, targetPath))).toBe(false);
+    expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/restful.sidebar.js'), 'utf8')).not.toContain(documentId);
+    const validation = validateChinese(root);
+    expect(validation.status, validation.stderr || validation.stdout).toBe(0);
   });
 
   it('fails closed when a previously active target disappears without retirement authorization', () => {
