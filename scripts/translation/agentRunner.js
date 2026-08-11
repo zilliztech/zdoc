@@ -1416,6 +1416,7 @@ function updateReferenceProgressState(siteDir, progressState, result) {
     status: result.sourceHash === targetHash ? 'unchanged' : 'translated',
   }
   const hadPendingRecords = Object.hasOwn(progressState.value, 'pendingRecords')
+  const hadLanguageExcludedRecords = Object.hasOwn(progressState.value, 'languageExcludedRecords')
   progressState.value = parseReferenceTranslationManifest({
     ...progressState.value,
     records: [
@@ -1428,6 +1429,9 @@ function updateReferenceProgressState(siteDir, progressState, result) {
     )),
     ...(hadPendingRecords
       ? {pendingRecords: progressState.value.pendingRecords.filter(existing => existing.sourcePath !== result.sourcePath)}
+      : {}),
+    ...(hadLanguageExcludedRecords
+      ? {languageExcludedRecords: progressState.value.languageExcludedRecords.filter(existing => existing.sourcePath !== result.sourcePath)}
       : {}),
   })
 }

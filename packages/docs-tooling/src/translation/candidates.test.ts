@@ -35,6 +35,17 @@ function writeJson(repositoryRoot: string, relativePath: string, value: unknown)
   write(repositoryRoot, relativePath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+function restMdx(includeLangs?: readonly string[]): string {
+  return [
+    '# Upgrade Project',
+    '',
+    `export const specs = ${JSON.stringify({summary: 'Upgrade Project', ...(includeLangs ? {'x-include-langs': includeLangs} : {})})}`,
+    'export const endpoint = "/v2/projects/{projectId}/plan"',
+    'export const method = "patch"',
+    '',
+  ].join('\n');
+}
+
 function options(repositoryRoot: string, overrides: Partial<CandidateBuildOptions> = {}): CandidateBuildOptions {
   return {
     repositoryRoot,
@@ -159,6 +170,41 @@ describe('translation candidates', () => {
       reason: 'missing_target',
     }]);
     expect(result.retirementCandidates).toEqual([]);
+  });
+
+  it('never emits an explicitly language-excluded REST page as a translation candidate', () => {
+    const repositoryRoot = fixture();
+    const sourcePath = 'content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx';
+    const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/');
+    const source = restMdx(['en-US']);
+    write(repositoryRoot, sourcePath, source);
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {
+      schemaVersion: 1,
+      records: [],
+      languageExcludedRecords: [{
+        manual: 'rest', sourcePath, targetPath, sourceCommit: 'd'.repeat(40), sourceHash: sha256(source), locale: 'zh-CN', reason: 'x-include-langs',
+      }],
+    });
+    const base = {
+      targetId: 'zh-CN-reference' as const,
+      group: 'rest',
+      ownedSourcePaths: ['content/en/reference/api/restful/restful'],
+      preservedSourcePaths: [],
+      forceTranslationPaths: [sourcePath],
+      changedSourcePaths: [sourcePath],
+    };
+
+    expect(buildTranslationCandidates(options(repositoryRoot, {...base, mode: 'incremental'})).candidates).toEqual([]);
+    expect(buildTranslationCandidates(options(repositoryRoot, {...base, mode: 'full'})).candidates).toEqual([]);
+
+    write(repositoryRoot, sourcePath, restMdx());
+    expect(buildTranslationCandidates(options(repositoryRoot, {...base, mode: 'incremental'})).candidates).toEqual([{
+      sourcePath,
+      targetPath,
+      sourceHash: sha256(restMdx()),
+      locale: 'zh-CN',
+      reason: 'current_delta',
+    }]);
   });
 
   it('classifies changed English with unchanged Chinese provenance as stale_source without a changed-path hint', () => {

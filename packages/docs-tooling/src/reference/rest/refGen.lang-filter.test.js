@@ -328,12 +328,76 @@ function testChineseSidebarInventoryExceptionsAreExplicit() {
   ])
 }
 
+function validSpec() {
+  return {
+    openapi: '3.0.1',
+    info: { title: 'test', version: '1.0.0' },
+    tags: [{ name: 'Project Operations (V2)' }],
+    paths: {
+      '/v2/projects': {
+        get: {
+          summary: 'List Projects',
+          tags: ['Project Operations (V2)'],
+          responses: { 200: { description: 'ok' } },
+        },
+      },
+    },
+  }
+}
+
+function testMalformedI18nIsRejectedWithJsonPath() {
+  const cases = [
+    {
+      label: 'locale outside the locale map',
+      mutate: spec => { spec.paths['/v2/projects'].get.responses[200]['x-i18n'] = { description: '返回项目列表。' } },
+      expected: /\$\["paths"\]\["\/v2\/projects"\]\["get"\]\["responses"\]\["200"\]\["x-i18n"\]\["description"\]/,
+    },
+    {
+      label: 'locale string instead of localized fields',
+      mutate: spec => { spec.tags[0]['x-i18n'] = { 'zh-CN': '项目操作' } },
+      expected: /\$\["tags"\]\[0\]\["x-i18n"\]\["zh-CN"\]/,
+    },
+    {
+      label: 'misspelled localized field',
+      mutate: spec => { spec.paths['/v2/projects'].get['x-i18n'] = { 'zh-CN': { descripiton: '返回项目列表。' } } },
+      expected: /\$\["paths"\]\["\/v2\/projects"\]\["get"\]\["x-i18n"\]\["zh-CN"\]\["descripiton"\]/,
+    },
+  ]
+
+  for (const testCase of cases) {
+    const spec = validSpec()
+    testCase.mutate(spec)
+    assert.throws(() => new RefGen({
+      specifications: spec,
+      lang: 'en-US',
+      target: 'zilliz',
+      target_path: '/tmp/refgen-invalid-i18n',
+    }), testCase.expected, testCase.label)
+  }
+}
+
+function testAllRestSegmentsUseCanonicalI18nShape() {
+  const segmentFiles = fs.readdirSync(OPENAPI_DIR).filter(name => name.endsWith('.json')).sort()
+  assert.equal(segmentFiles.length, 35)
+  for (const fileName of segmentFiles) {
+    const spec = readJson(path.join(OPENAPI_DIR, fileName))
+    assert.doesNotThrow(() => new RefGen({
+      specifications: spec,
+      lang: 'en-US',
+      target: 'zilliz',
+      target_path: '/tmp/refgen-valid-i18n',
+    }), fileName)
+  }
+}
+
 async function run() {
   await testOperationWithIncludeLangExcludesEnUsOutput()
   await testGlobalClustersGenerateUnderControlPlane()
   await testSidebarCustomPropsUsesBlockYaml()
   testGroupDescriptionUsesLocalizedMetadata()
   testChineseSidebarInventoryExceptionsAreExplicit()
+  testMalformedI18nIsRejectedWithJsonPath()
+  testAllRestSegmentsUseCanonicalI18nShape()
   console.log('apifox refGen lang filter tests passed')
 }
 

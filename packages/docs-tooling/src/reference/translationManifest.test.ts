@@ -104,6 +104,20 @@ function pendingRecord(overrides: Record<string, unknown> = {}) {
   };
 }
 
+function restMdx(includeLangs?: readonly string[]): string {
+  return [
+    '# Upgrade Project',
+    '',
+    `export const specs = ${JSON.stringify({
+      summary: 'Upgrade Project',
+      ...(includeLangs ? {'x-include-langs': includeLangs} : {}),
+    })}`,
+    'export const endpoint = "/v2/projects/{projectId}/plan"',
+    'export const method = "patch"',
+    '',
+  ].join('\n');
+}
+
 describe('Reference translation provenance', () => {
   it('accepts an authenticated canonical source without a target mapping as pending', () => {
     expect(() => validateReferenceTranslation({
@@ -341,6 +355,137 @@ describe('Reference translation provenance', () => {
       targetHash: sha256('# target\n'),
       status: 'translated',
     }]);
+  });
+
+  it('models an explicitly English-only REST page separately from pending translation', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx';
+    const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/');
+    const source = restMdx(['en-US']);
+    mkdirSync(path.dirname(path.join(roots.repositoryRoot, sourcePath)), {recursive: true});
+    writeFileSync(path.join(roots.repositoryRoot, sourcePath), source);
+
+    const first = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'a'.repeat(40),
+      manualForPath: () => 'rest',
+      previousSourceManifest: sourceManifest({records: []}),
+      previousTranslationManifest: translationManifest({records: []}),
+    });
+
+    expect(first.translationManifest.records).toEqual([]);
+    expect(first.translationManifest.pendingRecords).toEqual([]);
+    expect(first.translationManifest.languageExcludedRecords).toEqual([{
+      manual: 'rest',
+      sourcePath,
+      targetPath,
+      sourceCommit: 'a'.repeat(40),
+      sourceHash: sha256(source),
+      locale: 'zh-CN',
+      reason: 'x-include-langs',
+    }]);
+    expect(() => validateReferenceTranslation({...roots, ...first})).not.toThrow();
+
+    const translatedSource = restMdx();
+    writeFileSync(path.join(roots.repositoryRoot, sourcePath), translatedSource);
+    expect(() => validateReferenceTranslation({...roots, ...first, verifyFiles: false}))
+      .toThrow(/language-excluded.*matching active policy/i);
+    const second = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'rest',
+      previousSourceManifest: first.sourceManifest,
+      previousTranslationManifest: first.translationManifest,
+    });
+    expect(second.translationManifest.languageExcludedRecords).toEqual([]);
+    expect(second.translationManifest.pendingRecords).toEqual([{
+      manual: 'rest',
+      sourcePath,
+      targetPath,
+      sourceCommit: 'b'.repeat(40),
+      sourceHash: sha256(translatedSource),
+    }]);
+  });
+
+  it('rejects a stale target for an actively language-excluded REST page', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx';
+    const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/');
+    mkdirSync(path.dirname(path.join(roots.repositoryRoot, sourcePath)), {recursive: true});
+    mkdirSync(path.dirname(path.join(roots.repositoryRoot, targetPath)), {recursive: true});
+    writeFileSync(path.join(roots.repositoryRoot, sourcePath), restMdx(['en-US']));
+    writeFileSync(path.join(roots.repositoryRoot, targetPath), '# 不应存在\n');
+
+    expect(() => buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'a'.repeat(40),
+      manualForPath: () => 'rest',
+      previousSourceManifest: sourceManifest({records: []}),
+      previousTranslationManifest: translationManifest({records: []}),
+    })).toThrow(/language-excluded.*target.*absent/i);
+  });
+
+  it('fails closed on a malformed generated REST specs export', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx';
+    mkdirSync(path.dirname(path.join(roots.repositoryRoot, sourcePath)), {recursive: true});
+    writeFileSync(path.join(roots.repositoryRoot, sourcePath), '# Upgrade\n\nexport const specs = {not-json}\nexport const endpoint = "/v2/projects"\n');
+
+    expect(() => buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'a'.repeat(40),
+      manualForPath: () => 'rest',
+      previousSourceManifest: sourceManifest({records: []}),
+      previousTranslationManifest: translationManifest({records: []}),
+    })).toThrow(/specs export.*malformed JSON/i);
+  });
+
+  it('rejects language-excluded state outside generated REST pages', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/python/page.md';
+    const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/');
+    writeFileSync(path.join(roots.repositoryRoot, sourcePath), '# source\n');
+
+    expect(() => validateReferenceTranslation({
+      ...roots,
+      sourceManifest: sourceManifest(),
+      translationManifest: translationManifest({
+        records: [],
+        languageExcludedRecords: [{
+          manual: 'python',
+          sourcePath,
+          targetPath,
+          sourceCommit: 'a'.repeat(40),
+          sourceHash: sha256('# source\n'),
+          locale: 'zh-CN',
+          reason: 'x-include-langs',
+        }],
+      }),
+      verifyFiles: false,
+    })).toThrow(/language-excluded.*matching active policy/i);
+  });
+
+  it('rejects overlap between language-excluded and translation or pending state', () => {
+    const record = {
+      manual: 'rest',
+      sourcePath: 'content/en/reference/api/restful/page.mdx',
+      targetPath: 'content/zh-CN/reference/api/restful/page.mdx',
+      sourceCommit: 'a'.repeat(40),
+      sourceHash: 'b'.repeat(64),
+      locale: 'zh-CN' as const,
+      reason: 'x-include-langs' as const,
+    };
+    expect(() => parseReferenceTranslationManifest({
+      schemaVersion: 1,
+      records: [{...record, targetHash: 'c'.repeat(64), status: 'translated'}],
+      languageExcludedRecords: [record],
+    })).toThrow(/overlap/i);
+    expect(() => parseReferenceTranslationManifest({
+      schemaVersion: 1,
+      records: [],
+      pendingRecords: [record],
+      languageExcludedRecords: [record],
+    })).toThrow(/overlap/i);
   });
 
   it.each(['missing-target', 'present-target'] as const)(

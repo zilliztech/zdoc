@@ -226,6 +226,24 @@ describe('validateReferenceNavigation', () => {
       .toThrow(targetError(target, /locale-structure/, /documentId=\(structure\)/));
   });
 
+  it('allows an English-only document declared by the language-excluded manifest state', () => {
+    const root = fixture();
+    const target = targets.find(candidate => candidate.manual === 'rest')!;
+    const excludedId = `${target.documentIdPrefix}/operation`;
+    writeSidebar(root, 'zh-CN', target, [{
+      type: 'category',
+      label: '已翻译标签',
+      items: [{type: 'doc', id: documentId(target.landingPage), label: '首页'}],
+    }]);
+    unlinkSync(path.join(root, `content/zh-CN/reference/${excludedId}.md`));
+
+    expect(() => validateReferenceNavigation({
+      repositoryRoot: root,
+      site: 'zh-CN',
+      excludedDocumentIds: new Set([excludedId]),
+    })).not.toThrow();
+  });
+
   it('allows structural differences only for explicit retirement paths', () => {
     const root = fixture();
     const target = targets[0];

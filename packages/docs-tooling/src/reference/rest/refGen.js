@@ -5,6 +5,19 @@ const { resolveRefs } = require('./specLoader')
 
 const META_DIR = path.join(__dirname, 'meta')
 const TEMPLATES_DIR = path.join(__dirname, 'templates')
+const I18N_LOCALE = /^[a-z]{2}(?:-[A-Z]{2})?$/
+const I18N_FIELDS = new Set([
+  'content',
+  'description',
+  'enum',
+  'example',
+  'label',
+  'name',
+  'prompt',
+  'summary',
+  'title',
+  'url',
+])
 
 const planeConfig = JSON.parse(fs.readFileSync(path.join(META_DIR, 'plane-config.json'), 'utf-8'))
 
@@ -45,6 +58,40 @@ class refGen {
   }
 
   validateSpec(spec) {
+    const validateI18n = (value, jsonPath) => {
+      if (!value || typeof value !== 'object') {
+        return
+      }
+      if (Object.hasOwn(value, 'x-i18n')) {
+        const i18n = value['x-i18n']
+        if (!i18n || typeof i18n !== 'object' || Array.isArray(i18n)) {
+          throw new Error(`Invalid x-i18n at ${jsonPath}["x-i18n"]: expected an object keyed by locale`)
+        }
+        for (const [locale, localized] of Object.entries(i18n)) {
+          const localePath = `${jsonPath}["x-i18n"][${JSON.stringify(locale)}]`
+          if (!I18N_LOCALE.test(locale)) {
+            throw new Error(`Invalid x-i18n locale at ${localePath}: expected a language tag such as zh-CN`)
+          }
+          if (!localized || typeof localized !== 'object' || Array.isArray(localized)) {
+            throw new Error(`Invalid x-i18n value at ${localePath}: expected an object of localized fields`)
+          }
+          for (const field of Object.keys(localized)) {
+            if (!I18N_FIELDS.has(field)) {
+              throw new Error(`Invalid x-i18n field at ${localePath}[${JSON.stringify(field)}]: unsupported localized field`)
+            }
+          }
+        }
+      }
+      if (Array.isArray(value)) {
+        value.forEach((child, index) => validateI18n(child, `${jsonPath}[${index}]`))
+        return
+      }
+      for (const [key, child] of Object.entries(value)) {
+        if (key !== 'x-i18n') validateI18n(child, `${jsonPath}[${JSON.stringify(key)}]`)
+      }
+    }
+
+    validateI18n(spec, '$')
     if (!spec.tags || !Array.isArray(spec.tags) || spec.tags.length === 0) {
       throw new Error('OpenAPI spec must have a non-empty "tags" array')
     }

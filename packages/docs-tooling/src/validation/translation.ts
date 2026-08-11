@@ -7,6 +7,7 @@ import {
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
   readReferenceTree,
+  referenceLanguageExclusionReason,
   type ReferenceSourceManifest,
   type ReferenceTranslationManifest,
 } from '../reference/translationManifest.ts';
@@ -135,9 +136,37 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
     targetPaths.add(record.targetPath);
   }
 
+  const languageExcludedBySource = new Map<string, NonNullable<ReferenceTranslationManifest['languageExcludedRecords']>[number]>();
+  for (const record of translationManifest.languageExcludedRecords ?? []) {
+    assertBelowRoot(record.sourcePath, options.sourceRoot, 'Language-excluded source path');
+    assertBelowRoot(record.targetPath, options.targetRoot, 'Language-excluded target path');
+    if (relativeBelowRoot(record.sourcePath, options.sourceRoot) !== relativeBelowRoot(record.targetPath, options.targetRoot)) {
+      throw new Error(`Language-excluded mapping must use the same canonical relative path: ${record.sourcePath} -> ${record.targetPath}`);
+    }
+    if (translationsBySource.has(record.sourcePath) || pendingBySource.has(record.sourcePath) || languageExcludedBySource.has(record.sourcePath)) {
+      throw new Error(`Reference source coverage overlaps translation, pending, and language-excluded records: ${record.sourcePath}`);
+    }
+    if (targetPaths.has(record.targetPath)) throw new Error(`Duplicate target mapping across translation, pending, and language-excluded records: ${record.targetPath}`);
+    const source = sourceRecords.get(record.sourcePath);
+    if (!source) throw new Error(`Language-excluded source is absent from the active source manifest: ${record.sourcePath}`);
+    if (source.manual !== record.manual) throw new Error(`Language-excluded manual mismatch: ${record.sourcePath}`);
+    if (options.manualForPath) {
+      if (options.manualForPath(record.sourcePath) !== record.manual || options.manualForPath(record.targetPath) !== record.manual) {
+        throw new Error(`Language-excluded manual does not match source and target ownership: ${record.sourcePath}`);
+      }
+    }
+    if (record.sourceCommit !== sourceManifest.sourceCommit) throw new Error(`Language-excluded source commit must match the current source manifest: ${record.sourcePath}`);
+    if (record.sourceHash !== source.sourceHash) throw new Error(`Language-excluded source hash must match the current source manifest: ${record.sourcePath}`);
+    if (referenceLanguageExclusionReason(options.repositoryRoot, record.sourcePath, record.locale) !== record.reason) {
+      throw new Error(`Language-excluded source does not declare a matching active policy: ${record.sourcePath}`);
+    }
+    languageExcludedBySource.set(record.sourcePath, record);
+    targetPaths.add(record.targetPath);
+  }
+
   for (const source of sourceManifest.records) {
-    if (!translationsBySource.has(source.sourcePath) && !pendingBySource.has(source.sourcePath)) {
-      throw new Error(`Active Reference source lacks coverage by a translation record or pending record: ${source.sourcePath}`);
+    if (!translationsBySource.has(source.sourcePath) && !pendingBySource.has(source.sourcePath) && !languageExcludedBySource.has(source.sourcePath)) {
+      throw new Error(`Active Reference source lacks coverage by a translation record, pending record, or language-excluded record: ${source.sourcePath}`);
     }
   }
 
@@ -154,6 +183,11 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
   for (const record of translationManifest.pendingRecords ?? []) {
     if (fileHash(options.repositoryRoot, record.targetPath) !== undefined) {
       throw new Error(`Pending target must be missing: ${record.targetPath}`);
+    }
+  }
+  for (const record of translationManifest.languageExcludedRecords ?? []) {
+    if (fileHash(options.repositoryRoot, record.targetPath) !== undefined) {
+      throw new Error(`Language-excluded target must be missing: ${record.targetPath}`);
     }
   }
   for (const record of translationManifest.records) {
