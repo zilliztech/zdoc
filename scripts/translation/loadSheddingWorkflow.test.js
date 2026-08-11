@@ -12,6 +12,7 @@ function loadWorkflow(file) {
 test('Translation producers use workload-aware worker and chunk limits without operator inputs', () => {
   const workflow = loadWorkflow('.github/workflows/_translate-content-group.yml')
   const inputs = workflow.on.workflow_call.inputs
+  const preflight = workflow.jobs.translate.steps.find(step => step.name === 'Resolve current recovery compatibility')
   const agents = workflow.jobs.translate.steps.find(step => step.name === 'Run translation agents')
 
   for (const unsafeInput of ['concurrency', 'chunk_target_chars', 'chunk_max_chars']) {
@@ -29,6 +30,9 @@ test('Translation producers use workload-aware worker and chunk limits without o
     agents.env.TRANSLATION_CHUNK_MAX_CHARS,
     "${{ inputs.group == 'guides' && '12000' || '24000' }}",
   )
+  for (const name of ['TRANSLATION_CHUNK_TARGET_CHARS', 'TRANSLATION_CHUNK_MAX_CHARS']) {
+    assert.equal(preflight.env[name], agents.env[name], `recovery preflight and Agent Runner must share ${name}`)
+  }
   assert.equal(agents.if, "${{ inputs.should_translate && steps.manifest.outputs.count != '0' }}")
   const result = workflow.jobs.translate.steps.find(step => step.name === 'Emit translation result')
   assert.match(result.run, /steps\.agents\.outcome .*== skipped/)
