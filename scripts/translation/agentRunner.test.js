@@ -60,6 +60,31 @@ function sha256(content) {
   return crypto.createHash('sha256').update(content).digest('hex')
 }
 
+function recoveryReviewReceipt({sourcePath, targetPath, sourceHash, targetHash, locale, group}) {
+  return {
+    schemaVersion: 1,
+    sourcePath,
+    targetPath,
+    sourceHash,
+    targetHash,
+    locale,
+    group,
+    promptContractSha256: 'b'.repeat(64),
+    model: 'translation-model',
+    toolingSha: 'd'.repeat(40),
+    review: {
+      pass: true,
+      issues: [],
+      unsupportedIssues: [],
+      contractConflicts: [],
+      localeContractIssues: [],
+      reviewerPass: true,
+      error: null,
+    },
+    validationErrors: [],
+  }
+}
+
 function taggedMessageContent(messages, tag) {
   const message = messages.at(-1).content
   const match = message.match(new RegExp(`<${tag}>\\n([\\s\\S]*?)<\\/${tag}>`))
@@ -146,20 +171,85 @@ function testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes
       items: [{sourcePath, targetPath, sourceHash: sha256(source), locale: 'zh-CN', type: 'reference', reason: 'stale_source'}],
     }
     const identity = {promptContractSha256: 'b'.repeat(64), model: 'translation-model', toolingSha: 'c'.repeat(40)}
+    const receipt = recoveryReviewReceipt({
+      sourcePath,
+      targetPath,
+      sourceHash: sha256(source),
+      targetHash: sha256(target),
+      locale: manifest.locale,
+      group: manifest.group,
+    })
     const analysis = {
       schemaVersion: 2, kind: 'translation-recovery-analysis', target: manifest.target, locale: manifest.locale, group: manifest.group,
       sourceCheckpointSha: manifest.sourceCheckpointSha, promptContractSha256: identity.promptContractSha256, model: identity.model,
       executionToolingSha: identity.toolingSha, candidateCount: 1, recoveredCount: 1, pendingCount: 0, rejectedCount: 0,
       fullRetranslation: false, compatibilityMode: 'revalidated',
-      restored: [{sourcePath, targetPath, sourceHash: sha256(source), targetHash: sha256(target), targetSize: Buffer.byteLength(target), compatibility: 'revalidated'}],
+      restored: [{sourcePath, targetPath, sourceHash: sha256(source), targetHash: sha256(target), targetSize: Buffer.byteLength(target), compatibility: 'revalidated', reviewReceipt: receipt}],
       pending: [], rejected: [],
     }
     const file = path.join(siteDir, 'recovery-analysis.json')
     fs.writeFileSync(file, JSON.stringify(analysis))
     const loaded = loadRecoveryAnalysis({file, manifest, siteDir, identity})
-    assert.deepEqual(loaded.restored, [{...manifest.items[0], status: 'translated', recovered: true, recoveryCompatibility: 'revalidated'}])
+    assert.deepEqual(loaded.restored, [{
+      ...manifest.items[0],
+      status: 'translated',
+      recovered: true,
+      recoveryCompatibility: 'revalidated',
+      recoveryReviewReceipt: receipt,
+      review: receipt.review,
+      validationErrors: [],
+    }])
     write(path.join(siteDir, targetPath), '# tampered\n')
     assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /payload changed after preflight/i)
+  })
+}
+
+async function testCompleteSemanticRecoverySkipsTranslationButRequiresCurrentReviewer() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-json.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-json.md'
+    const source = '# Overview\n\nThis guide explains JSON imports.\n'
+    const target = '# 概要\n\nこのガイドでは JSON インポートを説明します。\n'
+    write(path.join(siteDir, sourcePath), source)
+    const sourceUnits = await collectSemanticUnits(source, {idPrefix: 'document'})
+    const targetUnits = await collectSemanticUnits(target, {idPrefix: 'document'})
+    assert.equal(sourceUnits.length, targetUnits.length)
+    const semanticCheckpoints = {
+      schemaVersion: 1,
+      sourcePath,
+      targetPath,
+      sourceHash: sha256(source),
+      target: 'ja-JP',
+      locale: 'ja-JP',
+      contractId: loadLocaleContract('ja-JP').contractId,
+      entries: sourceUnits.map((unit, index) => ({
+        id: unit.id,
+        sourceHash: sha256(unit.source),
+        translation: targetUnits[index].source,
+      })),
+    }
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'}
+    const calls = []
+    const result = await processItemWithRetry(item, {
+      maxRetries: 0,
+      initialSemanticCheckpoints: semanticCheckpoints,
+      processItem: (_item, _attempt, _feedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        semanticCheckpoint: retryContext.semanticCheckpoint,
+        onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
+        maxReviewRounds: 0,
+        validate: async () => [],
+        callModel: async ({agent}) => {
+          calls.push(agent)
+          if (agent === 'translation') throw new Error('translation API must not run for complete semantic recovery')
+          return '{"pass":true,"issues":[]}'
+        },
+      }),
+    })
+    assert.equal(result.status, 'translated')
+    assert.deepEqual(calls, ['review'])
+    assert.equal(result.review.pass, true)
   })
 }
 
@@ -3660,6 +3750,7 @@ async function run() {
   testRecoveryIdentityUsesAuthoritativeToolingSha()
   testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes()
   testRejectsRecoveryAnalysisThatWidensOrChangesCurrentPendingWork()
+  await testCompleteSemanticRecoverySkipsTranslationButRequiresCurrentReviewer()
   testMessageBuildersSelectPromptsFromTarget()
   testTranslationMessagesIncludeOnlyExplicitRetryFeedback()
   testReferenceLandingMessagesContainNavigationContract()

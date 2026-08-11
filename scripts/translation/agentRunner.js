@@ -21,7 +21,7 @@ const {
 } = require('./semanticUnits')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
 const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
-const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
+const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles, validateRecoveryReviewReceipt} = require('./recovery-artifact')
 const {boundedFailureDetails, classifyFailure, failureRecord} = require('./failureClassification')
 const {MAX_PARTIAL_ARTIFACT_BYTES, loadAnalysisChunkResume, serializeCompletedChunkCheckpoints} = require('./chunkRecovery')
 const {
@@ -1564,7 +1564,7 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
   const seen = new Set()
   const restored = []
   for (const record of analysis.restored) {
-    const restoredKeys = ['sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'targetSize']
+    const restoredKeys = ['sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'targetSize', 'reviewReceipt']
     if (analysis.schemaVersion === 2) restoredKeys.push('compatibility')
     exactRecoveryAnalysisKeys(record, restoredKeys, 'Recovery analysis restored record')
     if (analysis.schemaVersion === 2 && !['strict', 'revalidated'].includes(record.compatibility)) throw new Error('Recovery analysis restored compatibility is invalid')
@@ -1572,6 +1572,14 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
     const candidate = manifestByIdentity.get(key)
     if (!candidate || candidate.sourceHash !== record.sourceHash || seen.has(key)) throw new Error('Recovery analysis restored identity does not match the current manifest')
     if (!/^[0-9a-f]{64}$/u.test(record.targetHash || '') || !Number.isSafeInteger(record.targetSize) || record.targetSize < 0) throw new Error('Recovery analysis restored target identity is invalid')
+    const reviewReceipt = validateRecoveryReviewReceipt(record.reviewReceipt, {
+      sourcePath: record.sourcePath,
+      targetPath: record.targetPath,
+      sourceHash: record.sourceHash,
+      targetHash: record.targetHash,
+      locale: manifest.locale,
+      group: manifest.group,
+    })
     assertSafeRepositoryRelativePath(record.targetPath, 'Recovery analysis restored target path')
     const target = path.resolve(siteDir, ...record.targetPath.split('/'))
     const root = path.resolve(siteDir)
@@ -1586,6 +1594,10 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       status: 'translated',
       recovered: true,
       ...(analysis.schemaVersion === 2 ? {recoveryCompatibility: record.compatibility} : {}),
+      recoveryReviewReceipt: reviewReceipt,
+      review: reviewReceipt.review,
+      validationErrors: reviewReceipt.validationErrors,
+      ...(reviewReceipt.restSpecReview ? {restSpecReview: reviewReceipt.restSpecReview} : {}),
     })
   }
   const pending = []

@@ -358,12 +358,12 @@ test('bounds semantic checkpoint entry counts and rejects unbounded retained ide
     sourceHash: 'a'.repeat(64),
     locale: 'ja-JP',
   }
-  const checkpoints = new Map(Array.from({length: 300}, (_, index) => {
+  const checkpoints = new Map(Array.from({length: 600}, (_, index) => {
     const id = `document.paragraph.${String(index).padStart(4, '0')}`
     return [id, {id, sourceHash: HASH(`source-${index}`), translation: `translation-${index}`}]
   }))
   const report = serializeSemanticCheckpoints(checkpoints, item)
-  assert.equal(report.entries.length, 256)
+  assert.equal(report.entries.length, 512)
   assert.throws(() => loadSemanticCheckpoints({
     ...report,
     entries: [{...report.entries[0], id: 'x'.repeat(241)}],

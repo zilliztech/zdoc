@@ -66,6 +66,7 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     targetHash: result.recoveryTargetHash,
     targetSize: result.recoveryTargetSize,
     compatibility: result.recoveryCompatibility || 'strict',
+    ...(result.recoveryReviewReceipt ? {reviewReceipt: result.recoveryReviewReceipt} : {}),
   }))
   const pending = recovery.pending.map(candidate => ({
     sourcePath: candidate.sourcePath,

@@ -16,11 +16,11 @@ const TARGET = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md
 
 function candidate() {
   return {
-    sourcePath: 'docs/tutorials/a.md',
+    sourcePath: 'content/en/guides/tutorials/a.md',
     targetPath: TARGET,
     sourceHash: SOURCE_HASH,
     locale: 'ja-JP',
-    type: 'docs',
+    type: 'guides',
     reason: 'current_delta',
   }
 }
@@ -111,6 +111,11 @@ test('rejects report identity, reviewer, validation, count, and cardinality defe
   const cases = [
     ['identity mismatch', value => { value.results[0].targetPath = `${TARGET}.wrong` }, /targetPath mismatch/],
     ['review failure', value => { value.results[0].review.pass = false }, /reviewer did not pass/],
+    ['nested recovered marker without receipt', value => {
+      value.results[0].recovered = true
+      value.results[0].recoveryCompatibility = 'revalidated'
+      delete value.results[0].review
+    }, /reviewer did not pass/],
     ['validation errors', value => { value.results[0].validationErrors = ['bad MDX'] }, /validation evidence is not clean/],
     ['extra result', value => { value.results.push({ ...value.results[0], sourcePath: 'docs/tutorials/extra.md' }) }, /result count/],
     ['duplicate result', value => { value.results.push({ ...value.results[0] }) }, /result count|identities must be unique/],
@@ -138,7 +143,7 @@ test('rejects report identity, reviewer, validation, count, and cardinality defe
 
   const second = {
     ...candidate(),
-    sourcePath: 'docs/tutorials/b.md',
+    sourcePath: 'content/en/guides/tutorials/b.md',
     targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/b.md',
     sourceHash: 'd'.repeat(64),
   }

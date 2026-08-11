@@ -9,7 +9,7 @@ const {validateProtectedContent} = require('./protectedContent')
 const {parseRestDocument} = require('./restSpecLocalization')
 const {collectSemanticUnitsSync, deterministicSemanticIssues, protectSemanticUnits} = require('./semanticUnits')
 
-const MAX_SEMANTIC_CHECKPOINTS_PER_FILE = 256
+const MAX_SEMANTIC_CHECKPOINTS_PER_FILE = 512
 const MAX_SEMANTIC_CHECKPOINT_FILE_BYTES = 4 * 1024 * 1024
 
 function exactKeys(value, keys, label) {
@@ -119,6 +119,34 @@ function collectProtectedSourceUnits(sourceContent, sourcePath, target, chunkOpt
   return {localeContract, sourceUnits: protectSemanticUnits(units, unit => unit.source, protectedOptions)}
 }
 
+function semanticCheckpointsFromCompleteTranslation({sourceContent, targetContent, item, chunkOptions}) {
+  const {localeContract, sourceUnits} = collectProtectedSourceUnits(sourceContent, item.sourcePath, item.target, chunkOptions)
+  const sourceRest = (
+    item.sourcePath.startsWith('content/en/reference/api/restful/restful/') ||
+    item.sourcePath.startsWith('reference/api/restful/restful/')
+  ) ? parseRestDocument(sourceContent) : null
+  const targetRest = sourceRest ? parseRestDocument(targetContent) : null
+  if (sourceRest && !targetRest) throw new Error('Complete recovery target REST structure is invalid')
+  const targetUnits = collectSemanticUnitsSync(targetRest?.prefix || targetContent, {idPrefix: 'document'})
+  if (sourceUnits.length !== targetUnits.length) throw new Error('Complete recovery semantic unit count does not match the source')
+  const checkpoints = new Map()
+  for (let index = 0; index < sourceUnits.length; index += 1) {
+    const sourceUnit = sourceUnits[index]
+    const targetUnit = targetUnits[index]
+    if (sourceUnit.kind !== targetUnit.kind) throw new Error(`Complete recovery semantic unit kind mismatch at position ${index + 1}`)
+    checkpoints.set(sourceUnit.id, {
+      id: sourceUnit.id,
+      sourceHash: crypto.createHash('sha256').update(sourceUnit.source).digest('hex'),
+      translation: targetUnit.source,
+    })
+  }
+  const usable = filterUsableSemanticCheckpoints(checkpoints, sourceUnits, localeContract)
+  if (usable.size !== sourceUnits.length) throw new Error('Complete recovery target does not satisfy current semantic checkpoint validation')
+  const report = serializeSemanticCheckpoints(usable, item)
+  if (!report || report.entries.length !== sourceUnits.length) throw new Error('Complete recovery target exceeds semantic checkpoint retention bounds')
+  return report
+}
+
 function validatePersistedSemanticCheckpoints({value, artifactIdentity, currentIdentity, candidate, target, sourceContent, chunkOptions}) {
   exactKeys(value, ['schemaVersion', 'artifactExecution', 'report'], 'Persisted semantic checkpoints')
   if (value.schemaVersion !== 1) throw new Error('Persisted semantic checkpoint schema is invalid')
@@ -175,6 +203,7 @@ module.exports = {
   loadAnalysisSemanticResume,
   loadSemanticCheckpoints,
   persistSemanticCheckpoints,
+  semanticCheckpointsFromCompleteTranslation,
   semanticCheckpointBytes,
   serializeSemanticCheckpoints,
   validatePersistedSemanticCheckpoints,
