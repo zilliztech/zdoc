@@ -362,6 +362,23 @@ async function createProviderCall(agentConfigs, options = {}) {
   }
 }
 
+function createModelCallCounter(callModel) {
+  if (typeof callModel !== 'function') throw new TypeError('Model call counter requires a callModel function')
+  const counts = {translation: 0, reviewer: 0, correction: 0, total: 0}
+  return Object.freeze({
+    callModel: async request => {
+      const key = request?.agent === 'review' ? 'reviewer' : request?.agent
+      if (!['translation', 'reviewer', 'correction'].includes(key)) {
+        throw new Error(`Unsupported model agent for call counting: ${request?.agent || 'missing'}`)
+      }
+      counts[key] += 1
+      counts.total += 1
+      return callModel(request)
+    },
+    snapshot: () => Object.freeze({...counts}),
+  })
+}
+
 async function withTimeout(operation, timeoutMs, message, details = {}) {
   const controller = new AbortController()
   const timeoutError = categorizedError(message, 'provider_timeout', {code: details.code || 'CHUNK_TIMEOUT', timeoutMs})
@@ -760,7 +777,10 @@ async function translateAndReviewUnit({
   const sourceUnitById = new Map(sourceUnits.map(unit => [unit.id, unit]))
   const usableSemanticCheckpoints = filterUsableSemanticCheckpoints(semanticCheckpoint, sourceUnits, localeContract)
   if (semanticCheckpoint) {
-    semanticCheckpoint.clear()
+    const currentUnitPrefix = `${idPrefix}.`
+    for (const id of semanticCheckpoint.keys()) {
+      if (id.startsWith(currentUnitPrefix) && !usableSemanticCheckpoints.has(id)) semanticCheckpoint.delete(id)
+    }
     for (const [id, checkpoint] of usableSemanticCheckpoints) semanticCheckpoint.set(id, checkpoint)
   }
   const translateBatch = async (batch, depth = 0, adaptive = false, retryMode = 'normal') => {
@@ -1859,6 +1879,7 @@ module.exports = {
   buildTranslationMessages,
   calculateProviderRetryDelay,
   createProviderCall,
+  createModelCallCounter,
   createAdaptiveCallBudget,
   createProviderRetryBudget,
   createProgressCoordinator,
