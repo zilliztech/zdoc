@@ -64,6 +64,7 @@ import {
   type DocsSite,
   type ManualReferenceNavigation,
 } from '../../../shared/navigation/manualReferenceNavigation';
+import {getDocsUiText} from '../../../shared/i18n/uiText';
 
 import styles from './styles.module.css';
 
@@ -154,6 +155,8 @@ function CollapsedIconColumn({
   sidebar: Props['sidebar'];
 }): ReactNode {
   const history = useHistory();
+  const {siteConfig} = useDocusaurusContext();
+  const uiText = getDocsUiText(siteConfig.customFields?.site);
   const [showToast, setShowToast] = useState(!hasEverExpanded);
 
   const handleExpand = () => {
@@ -191,12 +194,12 @@ function CollapsedIconColumn({
           size="sm"
           variant="outlined"
           onClick={handleExpand}
-          title="Expand sidebar"
-          aria-label="Expand sidebar">
+          title={uiText.sidebar.expand}
+          aria-label={uiText.sidebar.expand}>
           <ChevronRight size={16} />
         </IconButton>
         {showToast && (
-          <span className={styles.sidebarToast}>Sidebar</span>
+          <span className={styles.sidebarToast}>{uiText.sidebar.label}</span>
         )}
       </div>
       <div className={styles.collapsedIcons}>
@@ -321,6 +324,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
   const history = useHistory();
   const {siteConfig, i18n} = useDocusaurusContext();
   const site = resolveDocsSite(siteConfig.customFields?.site);
+  const uiText = getDocsUiText(site);
   const locale = resolveDocsLocale(i18n.currentLocale, site);
   const route = parseDocsRoute(pathname, locale);
   const referenceNavigation = getManualReferenceNavigation(site);
@@ -449,7 +453,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
 
   // Merged single-layer: section picker dropdown on top, current section's pages below.
   if (merged) {
-    const selectedLabel = selectedItem && 'label' in selectedItem ? (selectedItem as {label: string}).label : 'Section';
+    const selectedLabel = selectedItem && 'label' in selectedItem ? (selectedItem as {label: string}).label : uiText.sidebar.section;
     // Client-library reference pages (Python, Java, …) carry a language TREE, not
     // guides "sections" — merging by section collapses the tree to a single
     // "Overview" entry. Show the language title + the FULL tree instead so the nav
@@ -493,7 +497,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
                 })
               ) : (
                 props.sidebar.map((item, index) => {
-                  const label = 'label' in item ? item.label : `Section ${index + 1}`;
+                  const label = 'label' in item ? item.label : uiText.sidebar.numberedSection(index + 1);
                   const isActive = index === selectedIndex;
                   return (
                     <button
@@ -521,7 +525,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
           <a
             className={styles.refHeaderRow}
             href={referenceBackHref}
-            aria-label={`Back to ${referenceBackLabel}`}
+            aria-label={uiText.sidebar.backTo(referenceBackLabel)}
             onClick={(e) => {
               e.preventDefault();
               try {
@@ -540,7 +544,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
         <section
           className={`${styles.secondaryPane} ${refMode ? styles.refEnter : (backAnim ? styles.backEnter : '')}`}
           key={refMode ? `ref-${subnavLabel}` : 'section'}
-          aria-label="Documentation pages">
+          aria-label={uiText.sidebar.documentationPages}>
           <div className={styles.sidebarScroll}>
             <div className={styles.secondarySidebarContent}>
               <SidebarIconVisibilityContext.Provider value={false}>
@@ -610,7 +614,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
         }}
         onBlur={hideTooltip}>
         <div className={styles.twoLevelBody}>
-          <nav className={styles.primaryRail} aria-label="Documentation sections">
+          <nav className={styles.primaryRail} aria-label={uiText.sidebar.documentationSections}>
             {guidesRail.map((section, index) => {
               const isActive = index === referenceRailIndex;
               return (
@@ -635,7 +639,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
             })}
           </nav>
 
-          <section className={styles.secondaryPane} aria-label="Documentation pages">
+          <section className={styles.secondaryPane} aria-label={uiText.sidebar.documentationPages}>
             <div className={styles.refViewport}>
               <div className={styles.refPane} data-anim={animDir} key={subnavLabel ?? 'parent'}>
                 {subnavLabel ? (
@@ -643,7 +647,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
                     <a
                       className={styles.refHeaderRow}
                       href={referenceBackHref}
-                      aria-label={`Back to ${referenceBackLabel}`}
+                      aria-label={uiText.sidebar.backTo(referenceBackLabel)}
                       onClick={(e) => {
                         e.preventDefault();
                         try {
@@ -738,7 +742,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
         }}
         onBlur={hideTooltip}>
         <div className={styles.twoLevelBody}>
-          <nav className={styles.primaryRail} aria-label="Documentation sections">
+          <nav className={styles.primaryRail} aria-label={uiText.sidebar.documentationSections}>
             {guidesRail.map((section, index) => {
               const isActive = index === activeReleasesRailIndex;
               return (
@@ -763,11 +767,11 @@ function TwoLevelSidebar(props: Props): ReactNode {
             })}
           </nav>
 
-          <section className={styles.secondaryPane} aria-label="Release notes">
+          <section className={styles.secondaryPane} aria-label={uiText.sidebar.releaseNotes}>
             <a
               className={styles.refHeaderRow}
               href={releasesBackHref}
-              aria-label="Back to Get Started"
+              aria-label={uiText.sidebar.backTo(guidesRail[activeReleasesRailIndex]?.label ?? uiText.sidebar.section)}
               onClick={(e) => {
                 e.preventDefault();
                 history.push(releasesBackHref);
@@ -775,7 +779,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
               <svg className={styles.refHeaderRowArrow} width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path d="M11 8H3M6.5 4.5L3 8 6.5 11.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" strokeLinecap="butt" strokeLinejoin="miter" />
               </svg>
-              <span className={styles.refHeaderRowTitle}>Releases</span>
+              <span className={styles.refHeaderRowTitle}>{uiText.breadcrumbs.releases}</span>
             </a>
             <div className={styles.refPanelScroll}>
               <div className={styles.secondarySidebarContent}>
@@ -830,9 +834,9 @@ function TwoLevelSidebar(props: Props): ReactNode {
       <div className={styles.twoLevelBody}>
         <nav
           className={styles.primaryRail}
-          aria-label="Documentation sections">
+          aria-label={uiText.sidebar.documentationSections}>
           {props.sidebar.map((item, index) => {
-            const label = 'label' in item ? item.label : `Section ${index + 1}`;
+            const label = 'label' in item ? item.label : uiText.sidebar.numberedSection(index + 1);
             const isActive = index === selectedIndex;
             const icon = getSidebarSectionIcon(item, label);
             return (
@@ -869,7 +873,7 @@ function TwoLevelSidebar(props: Props): ReactNode {
         {selectedHasChildren && (
           <section
             className={`${styles.secondaryPane} ${backAnim ? styles.backEnter : ''}`}
-            aria-label="Documentation pages">
+            aria-label={uiText.sidebar.documentationPages}>
             <div className={styles.sidebarScroll}>
               <div className={styles.secondarySidebarContent}>
                 <SidebarIconVisibilityContext.Provider value={false}>

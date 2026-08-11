@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm';
 import {Send, ChevronRight, ThumbsUp, ThumbsDown, FileText, ArrowLeft} from 'lucide-react';
 import {ChatProvider, useChatContext} from '../../../components/ChatPanel/ChatContext';
 import {DEFAULT_CHAT_ENDPOINT} from '../../../components/ChatPanel/endpoints';
+import {useDocsUiText} from '../../../i18n/uiText';
 import styles from '../styles.module.css';
 
 function BgDecor() {
@@ -62,17 +63,12 @@ function BgDecor() {
   );
 }
 
-const SUGGESTIONS = [
-  'How do I get started with Zilliz Cloud?',
-  'Search the documentation',
-  'Show me the API reference',
-];
-
 function ZillizStarIcon({size = 24}: {size?: number}) {
   return <img src="/icons/zilliz-star.svg" width={size} height={size} aria-hidden="true" />;
 }
 
 function NotFoundChat() {
+  const text = useDocsUiText();
   const {messages, input, setInput, isStreaming, send, rateFeedback} = useChatContext();
   const messagesRef = useRef<HTMLDivElement>(null);
 
@@ -90,8 +86,8 @@ function NotFoundChat() {
           <div className={styles.avatar}>
             <ZillizStarIcon />
           </div>
-          <h1 className={styles.heading}>Page not found</h1>
-          <p className={styles.subtitle}>I can help you find what you're looking for</p>
+          <h1 className={styles.heading}>{text.notFound.heading}</h1>
+          <p className={styles.subtitle}>{text.notFound.assistantSubtitle}</p>
 
           <div className={styles.inputRow}>
             <input
@@ -99,23 +95,23 @@ function NotFoundChat() {
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && send(input)}
-              placeholder="Ask a question..."
+              placeholder={text.chat.placeholder}
               className={styles.input}
-              aria-label="Chat message"
+              aria-label={text.chat.messageLabel}
             />
             <button
               type="button"
               className={styles.sendRound}
               onClick={() => send(input)}
               disabled={!input.trim()}
-              aria-label="Send"
+              aria-label={text.chat.send}
             >
               <Send size={15} strokeWidth={2.5} />
             </button>
           </div>
 
           <div className={styles.suggestions}>
-            {SUGGESTIONS.map(q => (
+            {text.notFound.suggestions.map(q => (
               <button type="button" key={q} className={styles.suggestionBtn} onClick={() => send(q)}>
                 <span>{q}</span>
                 <ChevronRight size={14} strokeWidth={2.5} />
@@ -125,7 +121,7 @@ function NotFoundChat() {
 
           <a href="/" className={styles.backLink}>
             <ArrowLeft size={14} />
-            Back to documentation
+            {text.notFound.backToDocs}
           </a>
         </>
       ) : (
@@ -139,7 +135,7 @@ function NotFoundChat() {
                 <div className={msg.role === 'assistant' ? styles.markdownContent : undefined}>
                   {msg.role === 'assistant' ? (
                     isStreaming && i === messages.length - 1 && !msg.text ? (
-                      <span className={styles.thinkingText}>thinking...</span>
+                      <span className={styles.thinkingText}>{text.notFound.thinking}</span>
                     ) : (
                       <Markdown remarkPlugins={[remarkGfm]}>{msg.text}</Markdown>
                     )
@@ -169,8 +165,8 @@ function NotFoundChat() {
                         type="button"
                         className={`${styles.feedbackBtn} ${msg.feedback === 'up' ? styles.feedbackBtnActive : ''}`}
                         onClick={() => rateFeedback(i, 'up')}
-                        aria-label="Helpful"
-                        title="Helpful"
+                        aria-label={text.chat.helpful}
+                        title={text.chat.helpful}
                       >
                         <ThumbsUp size={13} />
                       </button>
@@ -178,8 +174,8 @@ function NotFoundChat() {
                         type="button"
                         className={`${styles.feedbackBtn} ${msg.feedback === 'down' ? styles.feedbackBtnActive : ''}`}
                         onClick={() => rateFeedback(i, 'down')}
-                        aria-label="Not helpful"
-                        title="Not helpful"
+                        aria-label={text.chat.notHelpful}
+                        title={text.chat.notHelpful}
                       >
                         <ThumbsDown size={13} />
                       </button>
@@ -196,9 +192,9 @@ function NotFoundChat() {
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && send(input)}
-              placeholder="Ask a question..."
+              placeholder={text.chat.placeholder}
               className={styles.input}
-              aria-label="Chat message"
+              aria-label={text.chat.messageLabel}
               disabled={isStreaming}
             />
             <button
@@ -206,7 +202,7 @@ function NotFoundChat() {
               className={styles.sendRound}
               onClick={() => send(input)}
               disabled={!input.trim() || isStreaming}
-              aria-label="Send"
+              aria-label={text.chat.send}
             >
               <Send size={15} strokeWidth={2.5} />
             </button>
@@ -214,7 +210,7 @@ function NotFoundChat() {
 
           <a href="/" className={styles.backLink}>
             <ArrowLeft size={14} />
-            Back to documentation
+            {text.notFound.backToDocs}
           </a>
         </div>
       )}
@@ -223,13 +219,14 @@ function NotFoundChat() {
 }
 
 function FallbackCard() {
+  const text = useDocsUiText();
   return (
     <div className={styles.card}>
-      <h1 className={styles.heading}>Page not found</h1>
-      <p className={styles.subtitle}>We couldn't find what you were looking for</p>
+      <h1 className={styles.heading}>{text.notFound.heading}</h1>
+      <p className={styles.subtitle}>{text.notFound.fallbackSubtitle}</p>
       <a href="/" className={styles.backLink}>
         <ArrowLeft size={14} />
-        Back to documentation
+        {text.notFound.backToDocs}
       </a>
     </div>
   );

@@ -347,11 +347,11 @@ describe('site-owned navigation', () => {
     expect(zhCNProfile.navigation.secondaryItems.map(item => item.label)).toEqual([
       'Cloud 开发指南',
       'BYOC 开发指南',
-      'API & SDK',
-      'CLI',
+      'API 与 SDK',
+      'Zilliz CLI',
       '版本文档',
     ]);
-    expect(zhCNProfile.navigation.secondaryItems.find(item => item.label === 'API & SDK')?.items)
+    expect(zhCNProfile.navigation.secondaryItems.find(item => item.label === 'API 与 SDK')?.items)
       .toEqual(expect.arrayContaining([
         expect.objectContaining({label: 'Python SDK', href: '/reference/python'}),
         expect.objectContaining({label: 'RESTful API', href: '/reference/restful'}),

@@ -1,5 +1,4 @@
 import { default as React } from 'react';
-
 export interface SourceTagProps {
     section?: string;
     url?: string;

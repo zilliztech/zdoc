@@ -183,6 +183,18 @@ describe('docs UI Docusaurus integration', () => {
     expect(webpack.resolve?.alias?.['@zilliz/docs-ui/guides-sidebar$']).toMatch(/generated.zh-CN.sidebars.guides\.sidebar\.js$/);
   });
 
+  it('keeps the standalone Chinese developer hub localized', () => {
+    const source = fs.readFileSync(
+      path.join(process.cwd(), 'apps/docs/static/zh-CN/home/index.html'),
+      'utf8',
+    );
+    expect(source).toContain('<html lang="zh-CN">');
+    expect(source).toContain('Zilliz Cloud 开发者中心');
+    expect(source).toContain('查找使用 Zilliz Cloud 所需的文档');
+    expect(source).toContain('开发指南');
+    expect(source).not.toMatch(/>\s*(?:Release Notes|FAQs|Home|Guide|API Reference|Discussion|Getting Started|Quick Start|Free Trials|Install SDKs|Example Dataset)\s*</u);
+  });
+
   it('resolves the Chinese Guides sidebar without colliding with Docusaurus site aliases', async () => {
     const plugin = docsUiPlugin({}, {
       modules: ['shared-theme', 'shared-components', 'chinese-home'],

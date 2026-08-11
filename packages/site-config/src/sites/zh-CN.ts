@@ -37,7 +37,7 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
       {label: 'Cloud 开发指南', href: '/docs/quick-start', prefix: '/docs', icon: 'cloud'},
       {label: 'BYOC 开发指南', href: '/docs/byoc/quick-start', prefix: '/docs/byoc', icon: 'server'},
       {
-        label: 'API & SDK',
+        label: 'API 与 SDK',
         prefix: '/reference',
         icon: 'code',
         items: [
@@ -48,7 +48,7 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
           {label: 'Node.js SDK', href: '/reference/nodejs', prefix: '/reference/nodejs', icon: 'nodejs'},
         ],
       },
-      {label: 'CLI', href: '/reference/cli/cli/overview', prefix: '/reference/cli', icon: 'terminal'},
+      {label: 'Zilliz CLI', href: '/reference/cli/cli/overview', prefix: '/reference/cli', icon: 'terminal'},
       {
         label: '版本文档',
         prefix: '/docs/changelogs',
