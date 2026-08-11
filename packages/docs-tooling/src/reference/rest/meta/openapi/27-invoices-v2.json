@@ -12,7 +12,9 @@
         "zilliz"
       ],
       "x-i18n": {
-        "zh-CN": "Invoices (V2)"
+        "zh-CN": {
+          "name": "Invoices (V2)"
+        }
       }
     }
   ],
@@ -90,7 +92,9 @@
           "200": {
             "description": "Returns a list of invoice records in the organization to which the current user belongs.",
             "x-i18n": {
-              "description": "返回当前用户所属组织的所有发票记录列表。"
+              "zh-CN": {
+                "description": "返回当前用户所属组织的所有发票记录列表。"
+              }
             },
             "content": {
               "application/json": {
@@ -284,8 +288,10 @@
                                     "total": {
                                       "type": "number",
                                       "description": "The total amount of the invoice, which is the subtotal plus the tax.",
-                                      "x-i18n": {
+                                    "x-i18n": {
+                                      "zh-CN": {
                                         "description": "发票含税金额，即小计金额加上税额。"
+                                      }
                                       }
                                     },
                                     "advancePayAmount": {
@@ -613,7 +619,9 @@
                               "type": "number",
                               "description": "The total amount of the invoice, which is the subtotal plus the tax.",
                               "x-i18n": {
-                                "description": "发票含税金额，即小计金额加上税额。"
+                                "zh-CN": {
+                                  "description": "发票含税金额，即小计金额加上税额。"
+                                }
                               }
                             },
                             "advancePayAmount": {

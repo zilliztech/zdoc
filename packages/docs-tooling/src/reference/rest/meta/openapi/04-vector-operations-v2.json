@@ -1625,8 +1625,10 @@
                   "exprParams": {
                     "type": "object",
                     "description": "A set of key-value pairs that can be filled back in to the `filter` parameter to enable filtering templating. For details, refer to <include target=\"milvus\">[Filtering Templating](https://milvus.io/docs/filtering-templating.md)</include><include target=\"zilliz\">[Filter Templating](/docs/filtering-templating)</include>.",
-                    "x-i18n": {
-                      "description": "一组键值对，可以回填 `filter` 字段中的变量，以启用过滤表达式模板。详情请参阅<include target=\"milvus\">[Filtering Templating](https://milvus.io/docs/filtering-templating.md)</include><include target=\"zilliz\">[Filter Templating](/docs/filtering-templating)</include>."
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "一组键值对，可以回填 `filter` 字段中的变量，以启用过滤表达式模板。详情请参阅<include target=\"milvus\">[Filtering Templating](https://milvus.io/docs/filtering-templating.md)</include><include target=\"zilliz\">[Filter Templating](/docs/filtering-templating)</include>."
+                        }
                     }
                   },
                   "functionScore": {
@@ -2484,7 +2486,7 @@
                             "description": "An entity object.",
                             "x-i18n": {
                               "zh-CN": {
-                                "descripiton": "一个返回的 Entity 对象。"
+                                "description": "一个返回的 Entity 对象。"
                               }
                             },
                             "properties": {}

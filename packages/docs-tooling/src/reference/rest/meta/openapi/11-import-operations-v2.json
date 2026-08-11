@@ -192,9 +192,9 @@
                         "example": "aws-us-west-2",
                         "x-i18n": {
                           "zh-CN": {
-                            "description": "Database 和 Collection 所属的地域 ID。设置为不存在的地域将导致错误。您可以通过调用 [`/v2/regions`](/reference/restful/list-cloud-regions-v2) 端点获取地域 ID，或从 [Zilliz Cloud 控制台](/docs/on-zilliz-cloud-console) 复制地域 ID。"
-                          },
-                          "example": "ali-cn-hangzhou"
+                            "description": "Database 和 Collection 所属的地域 ID。设置为不存在的地域将导致错误。您可以通过调用 [`/v2/regions`](/reference/restful/list-cloud-regions-v2) 端点获取地域 ID，或从 [Zilliz Cloud 控制台](/docs/on-zilliz-cloud-console) 复制地域 ID。",
+                            "example": "ali-cn-hangzhou"
+                          }
                         },
                         "x-admonition": [
                           {
@@ -506,9 +506,9 @@
                         "example": "aws-us-west-2",
                         "x-i18n": {
                           "zh-CN": {
-                            "description": "Database 和 Collection 所属的地域 ID。设置为不存在的地域将导致错误。您可以通过调用 [`/v2/regions`](/reference/restful/list-cloud-regions-v2) 端点获取地域 ID，或从 [Zilliz Cloud 控制台](/docs/on-zilliz-cloud-console) 复制地域 ID。"
-                          },
-                          "example": "ali-cn-hangzhou"
+                            "description": "Database 和 Collection 所属的地域 ID。设置为不存在的地域将导致错误。您可以通过调用 [`/v2/regions`](/reference/restful/list-cloud-regions-v2) 端点获取地域 ID，或从 [Zilliz Cloud 控制台](/docs/on-zilliz-cloud-console) 复制地域 ID。",
+                            "example": "ali-cn-hangzhou"
+                          }
                         },
                         "x-admonition": [
                           {

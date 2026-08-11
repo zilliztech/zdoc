@@ -43,6 +43,16 @@ const PendingRecordSchema = z.object({
   sourceHash: z.string().regex(SHA256),
 }).strict();
 
+const LanguageExcludedRecordSchema = z.object({
+  manual: z.string().regex(/^[a-z][a-z0-9-]*$/u),
+  sourcePath: RepositoryPathSchema,
+  targetPath: RepositoryPathSchema,
+  sourceCommit: z.string().regex(COMMIT_SHA),
+  sourceHash: z.string().regex(SHA256),
+  locale: z.literal('zh-CN'),
+  reason: z.literal('x-include-langs'),
+}).strict();
+
 const ReferenceSourceManifestSchema = z.object({
   schemaVersion: z.literal(1),
   sourceCommit: z.string().regex(COMMIT_SHA),
@@ -61,6 +71,7 @@ const ReferenceTranslationManifestSchema = z.object({
   bootstrapCompletedGroups: z.array(z.string().regex(/^[a-z][a-z0-9-]*$/u)).optional(),
   records: z.array(TranslationRecordSchema),
   pendingRecords: z.array(PendingRecordSchema).optional(),
+  languageExcludedRecords: z.array(LanguageExcludedRecordSchema).optional(),
 }).strict().superRefine((manifest, context) => {
   if (manifest.bootstrapCompletedGroups) {
     for (let index = 1; index < manifest.bootstrapCompletedGroups.length; index += 1) {
@@ -76,17 +87,29 @@ const ReferenceTranslationManifestSchema = z.object({
       return;
     }
   }
-  const pendingSourcePaths = new Set<string>();
-  const pendingTargetPaths = new Set<string>();
+  const coveredSourcePaths = new Set(manifest.records.map(record => record.sourcePath));
+  const coveredTargetPaths = new Set(manifest.records.map(record => record.targetPath));
   for (const [index, record] of (manifest.pendingRecords ?? []).entries()) {
-    if (pendingSourcePaths.has(record.sourcePath) || pendingTargetPaths.has(record.targetPath)) {
-      context.addIssue({code: z.ZodIssueCode.custom, path: ['pendingRecords', index], message: 'Pending records must have unique sourcePath and targetPath values'});
+    if (coveredSourcePaths.has(record.sourcePath) || coveredTargetPaths.has(record.targetPath)) {
+      context.addIssue({code: z.ZodIssueCode.custom, path: ['pendingRecords', index], message: 'Pending records must have unique sourcePath and targetPath values and must not overlap translated or retired records'});
       return;
     }
-    pendingSourcePaths.add(record.sourcePath);
-    pendingTargetPaths.add(record.targetPath);
+    coveredSourcePaths.add(record.sourcePath);
+    coveredTargetPaths.add(record.targetPath);
     if (index > 0 && compareRecords(manifest.pendingRecords![index - 1], record) > 0) {
       context.addIssue({code: z.ZodIssueCode.custom, path: ['pendingRecords', index], message: 'Pending records must be canonically sorted by manual, sourcePath, and targetPath'});
+      return;
+    }
+  }
+  for (const [index, record] of (manifest.languageExcludedRecords ?? []).entries()) {
+    if (coveredSourcePaths.has(record.sourcePath) || coveredTargetPaths.has(record.targetPath)) {
+      context.addIssue({code: z.ZodIssueCode.custom, path: ['languageExcludedRecords', index], message: 'Language-excluded records must not overlap translated, retired, pending, or other language-excluded sourcePath and targetPath values'});
+      return;
+    }
+    coveredSourcePaths.add(record.sourcePath);
+    coveredTargetPaths.add(record.targetPath);
+    if (index > 0 && compareRecords(manifest.languageExcludedRecords![index - 1], record) > 0) {
+      context.addIssue({code: z.ZodIssueCode.custom, path: ['languageExcludedRecords', index], message: 'Language-excluded records must be canonically sorted by manual, sourcePath, and targetPath'});
       return;
     }
   }
@@ -150,6 +173,16 @@ export interface ReferencePendingRecord {
   sourceHash: string;
 }
 
+export interface ReferenceLanguageExcludedRecord {
+  manual: string;
+  sourcePath: string;
+  targetPath: string;
+  sourceCommit: string;
+  sourceHash: string;
+  locale: 'zh-CN';
+  reason: 'x-include-langs';
+}
+
 export type ReferenceSourceRecord = z.infer<typeof SourceRecordSchema>;
 export type ReferenceSourceManifest = z.infer<typeof ReferenceSourceManifestSchema>;
 export type ReferenceTranslationManifest = Readonly<{
@@ -157,6 +190,7 @@ export type ReferenceTranslationManifest = Readonly<{
   bootstrapCompletedGroups?: readonly string[];
   records: readonly TranslationRecord[];
   pendingRecords?: readonly ReferencePendingRecord[];
+  languageExcludedRecords?: readonly ReferenceLanguageExcludedRecord[];
 }>;
 export type ReferenceRetirementRecord = z.infer<typeof RetirementRecordSchema>;
 export type ReferenceRetirementRegistry = z.infer<typeof ReferenceRetirementRegistrySchema>;
@@ -263,6 +297,37 @@ function relativeToRoot(filePath: string, root: string): string {
   return filePath.slice(root.length + 1);
 }
 
+export function referenceLanguageExclusionReason(
+  repositoryRoot: string,
+  sourcePath: string,
+  locale: 'zh-CN',
+): 'x-include-langs' | undefined {
+  if (!sourcePath.startsWith('content/en/reference/api/restful/') || !sourcePath.endsWith('.mdx')) return undefined;
+  const absolutePath = assertSafeRepositoryPathChain(repositoryRoot, sourcePath, 'REST Reference source');
+  const source = readRegularFileNoFollow(absolutePath).toString('utf8');
+  const marker = 'export const specs = ';
+  const markerIndex = source.indexOf(marker);
+  if (markerIndex === -1) return undefined;
+  const jsonStart = markerIndex + marker.length;
+  const jsonEnd = source.indexOf('\nexport const endpoint', jsonStart);
+  if (jsonEnd === -1) throw new Error(`REST Reference specs export is missing its endpoint boundary: ${sourcePath}`);
+  let specs: unknown;
+  try {
+    specs = JSON.parse(source.slice(jsonStart, jsonEnd));
+  } catch (error) {
+    throw new Error(`REST Reference specs export is malformed JSON: ${sourcePath}: ${error instanceof Error ? error.message : String(error)}`);
+  }
+  if (!specs || typeof specs !== 'object' || Array.isArray(specs)) {
+    throw new Error(`REST Reference specs export must be a JSON object: ${sourcePath}`);
+  }
+  const includeLangs = (specs as {'x-include-langs'?: unknown})['x-include-langs'];
+  if (includeLangs === undefined) return undefined;
+  if (!Array.isArray(includeLangs) || includeLangs.length === 0 || includeLangs.some(value => typeof value !== 'string')) {
+    throw new Error(`REST Reference x-include-langs must be a non-empty string array: ${sourcePath}`);
+  }
+  return includeLangs.includes(locale) ? undefined : 'x-include-langs';
+}
+
 export function parseReferenceSourceManifest(value: unknown): ReferenceSourceManifest {
   return ReferenceSourceManifestSchema.parse(value);
 }
@@ -319,6 +384,7 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
   const previousSourcePaths = new Set(previousSourceManifest?.records.map(record => record.sourcePath) ?? []);
   const previousBySource = new Map(previousTranslationManifest?.records.map(record => [record.sourcePath, record]) ?? []);
   const previousPendingBySource = new Map(previousTranslationManifest?.pendingRecords?.map(record => [record.sourcePath, record]) ?? []);
+  const previousExcludedBySource = new Map(previousTranslationManifest?.languageExcludedRecords?.map(record => [record.sourcePath, record]) ?? []);
   const registeredRetirements = (options.retirementRegistry?.retirements ?? []).filter(record => (
     sourceFiles.has(record.sourcePath) !== targetFiles.has(record.targetPath)
   ));
@@ -326,6 +392,7 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
   const relativePaths = new Set([...sourceByRelative.keys(), ...targetByRelative.keys()]);
   const records: TranslationRecord[] = [];
   const pendingRecords: ReferencePendingRecord[] = [];
+  const languageExcludedRecords: ReferenceLanguageExcludedRecord[] = [];
   for (const relativePath of [...relativePaths].sort(compareText)) {
     const source = sourceByRelative.get(relativePath);
     const target = targetByRelative.get(relativePath);
@@ -333,8 +400,23 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
     const targetPath = target?.filePath ?? `${options.targetRoot}/${relativePath}`;
     const previous = previousBySource.get(sourcePath);
     const previousPending = previousPendingBySource.get(sourcePath);
-    if (source && previousSourcePaths.has(sourcePath) && !previous && !previousPending) {
-      throw new Error(`Historical Reference source is missing its translation record or pending record: ${sourcePath}`);
+    const previousExcluded = previousExcludedBySource.get(sourcePath);
+    const exclusionReason = source ? referenceLanguageExclusionReason(options.repositoryRoot, sourcePath, 'zh-CN') : undefined;
+    if (source && exclusionReason) {
+      if (target) throw new Error(`Language-excluded Reference target must be absent: ${targetPath}`);
+      languageExcludedRecords.push({
+        manual: options.manualForPath(sourcePath),
+        sourcePath,
+        targetPath,
+        sourceCommit,
+        sourceHash: source.hash,
+        locale: 'zh-CN',
+        reason: exclusionReason,
+      });
+      continue;
+    }
+    if (source && previousSourcePaths.has(sourcePath) && !previous && !previousPending && !previousExcluded) {
+      throw new Error(`Historical Reference source is missing its translation record, pending record, or language-excluded record: ${sourcePath}`);
     }
     if ((!source || !target) && !retired.has(`${sourcePath}\0${targetPath}`)) {
       if (source && !target && !previous) {
@@ -372,6 +454,7 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
   }
   records.sort(compareRecords);
   pendingRecords.sort(compareRecords);
+  languageExcludedRecords.sort(compareRecords);
   return {
     sourceManifest: parseReferenceSourceManifest(sourceManifest),
     translationManifest: parseReferenceTranslationManifest({
@@ -381,6 +464,9 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
         : {}),
       records,
       pendingRecords,
+      ...(languageExcludedRecords.length > 0 || previousTranslationManifest?.languageExcludedRecords
+        ? {languageExcludedRecords}
+        : {}),
     }),
   };
 }

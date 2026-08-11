@@ -61,29 +61,37 @@
                   "projectId": {
                     "type": "string",
                     "description": "The ID of the project to create the cluster in.",
-                    "x-i18n": {
-                      "zh-CN": "待创建集群所所属项目 ID。"
+                  "x-i18n": {
+                    "zh-CN": {
+                      "description": "待创建集群所属项目 ID。"
+                    }
                     }
                   },
                   "regionId": {
                     "type": "string",
                     "description": "The ID of the cloud region to create the cluster in.",
-                    "x-i18n": {
-                      "zh-CN": "待创建集群所属地域。"
+                  "x-i18n": {
+                    "zh-CN": {
+                      "description": "待创建集群所属地域。"
+                    }
                     }
                   },
                   "cuSize": {
                     "type": "integer",
                     "description": "The CU size to use for the cluster. The minimum CU size is 1.",
-                    "x-i18n": {
-                      "zh-CN": "分配给待创建集群的 CU 大小。"
+                  "x-i18n": {
+                    "zh-CN": {
+                      "description": "分配给待创建集群的 CU 大小。"
+                    }
                     }
                   },
                   "clusterName": {
                     "type": "string",
                     "description": "The name of the cluster to create.",
-                    "x-i18n": {
-                      "zh-CN": "待创建集群名称。"
+                  "x-i18n": {
+                    "zh-CN": {
+                      "description": "待创建集群名称。"
+                    }
                     }
                   },
                   "description": {
@@ -101,8 +109,10 @@
                     "type": "integer",
                     "description": "Auto-suspend idle window. The cluster will be automatically suspended if there is no request within the specified period. The value should be an integer representing the number of seconds. For example, `300` means 5 minutes.",
                     "default": 60,
-                    "x-i18n": {
-                      "zh-CN": "自动挂起空闲时间。如果指定的时间段内无任何请求，集群将自动挂起。该值应为一个整数，表示秒数。例如，`300` 表示 5 分钟。"
+                  "x-i18n": {
+                    "zh-CN": {
+                      "description": "自动挂起空闲时间。如果指定的时间段内无任何请求，集群将自动挂起。该值应为一个整数，表示秒数。例如，`300` 表示 5 分钟。"
+                    }
                     }
                   }
                 },
@@ -878,14 +888,18 @@
                               "type": "string",
                               "description": "ID of the project.",
                               "x-i18n": {
-                                "zh-CN": "项目 ID。"
+                                "zh-CN": {
+                                  "description": "项目 ID。"
+                                }
                               }
                             },
                             "clusterId": {
                               "type": "string",
                               "description": "ID of the cluster.",
                               "x-i18n": {
-                                "zh-CN": "集群 ID。"
+                                "zh-CN": {
+                                  "description": "集群 ID。"
+                                }
                               },
                               "example": "inxx-xxxxxxxxxxxxxxx"
                             },
@@ -893,7 +907,9 @@
                               "type": "string",
                               "description": "Name of the cluster.",
                               "x-i18n": {
-                                "zh-CN": "集群名称。"
+                                "zh-CN": {
+                                  "description": "集群名称。"
+                                }
                               }
                             },
                             "description": {
@@ -920,14 +936,18 @@
                               "type": "integer",
                               "description": "CU size of the cluster",
                               "x-i18n": {
-                                "zh-CN": "分配给当前集群的 CU 大小。"
+                                "zh-CN": {
+                                  "description": "分配给当前集群的 CU 大小。"
+                                }
                               }
                             },
                             "status": {
                               "type": "string",
                               "description": "Current cluster status",
                               "x-i18n": {
-                                "zh-CN": "当前集群所处状态。"
+                                "zh-CN": {
+                                  "description": "当前集群所处状态。"
+                                }
                               },
                               "enum": [
                                 "CREATING",
@@ -941,7 +961,9 @@
                               "type": "string",
                               "description": "Cluster public endpoint. For an on-demand cluster, the endpoint is an on-demand compute endpoint, which is shared among all on-demand clusters in the project. Use that with the target cluster ID for searches and queries.",
                               "x-i18n": {
-                                "zh-CN": "访问集群时使用的公共端点。注意对于按需集群来说，该端点是一个项目级别的按需计算端点，项目中的所有按需集群共享该端点。在进行搜索和查询时，请和集群 ID 共同使用。"
+                                "zh-CN": {
+                                  "description": "访问集群时使用的公共端点。注意对于按需集群来说，该端点是一个项目级别的按需计算端点，项目中的所有按需集群共享该端点。在进行搜索和查询时，请和集群 ID 共同使用。"
+                                }
                               },
                               "example": "https://proj-xxxxxxxxxxxxxxx.aws-us-west-2.zillizcloud.com"
                             },
@@ -949,28 +971,36 @@
                               "type": "string",
                               "description": "Cluster private endpoint. This is an empty string if private link is not enabled.",
                               "x-i18n": {
-                                "zh-CN": "访问集群时使用的私有端点。若未开启 Private Link。此参数值为空。"
+                                "zh-CN": {
+                                  "description": "访问集群时使用的私有端点。若未开启 Private Link。此参数值为空。"
+                                }
                               }
                             },
                             "createdBy": {
                               "type": "string",
                               "description": "Email address of the user who create the cluster.",
                               "x-i18n": {
-                                "zh-CN": "集群创建人的邮箱。"
+                                "zh-CN": {
+                                  "description": "集群创建人的邮箱。"
+                                }
                               }
                             },
                             "createTime": {
                               "type": "string",
                               "description": "Time at which the cluster is created in UTC ISO-8601 format.",
                               "x-i18n": {
-                                "zh-CN": "集群创建时间，UTC ISO-8601 格式。"
+                                "zh-CN": {
+                                  "description": "集群创建时间，UTC ISO-8601 格式。"
+                                }
                               }
                             },
                             "autoSuspend": {
                               "type": "integer",
                               "description": "Auto-suspend idle window configured for the cluster. The cluster will be automatically suspended if there is no request within the specified period. The value is an integer representing the number of seconds. For example, `300` means 5 minutes.",
                               "x-i18n": {
-                                "zh-CN": "自动挂起空闲时间。如果指定的时间段内无任何请求，集群将自动挂起。该值为一个整数，表示秒数。例如，`300` 表示 5 分钟。"
+                                "zh-CN": {
+                                  "description": "自动挂起空闲时间。如果指定的时间段内无任何请求，集群将自动挂起。该值为一个整数，表示秒数。例如，`300` 表示 5 分钟。"
+                                }
                               }
                             }
                           }

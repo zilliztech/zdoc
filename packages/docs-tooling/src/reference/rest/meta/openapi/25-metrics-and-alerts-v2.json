@@ -12,7 +12,9 @@
         "zilliz"
       ],
       "x-i18n": {
-        "zh-CN": "Metrics & Alerts (V2)"
+        "zh-CN": {
+          "name": "Metrics & Alerts (V2)"
+        }
       }
     }
   ],

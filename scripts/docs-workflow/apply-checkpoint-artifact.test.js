@@ -172,6 +172,41 @@ test('independently merges records and pending records when two group artifacts 
   });
 });
 
+test('independently merges language-excluded records across group checkpoints', async () => {
+  const statePath = 'generated/zh-CN/manifests/reference-translations.json';
+  const excluded = (manual, sourcePath) => ({
+    manual,
+    sourcePath,
+    targetPath: sourcePath.replace('content/en', 'content/zh-CN'),
+    sourceCommit: 'b'.repeat(40),
+    sourceHash: `${manual === 'java' ? '1' : '2'}`.repeat(64),
+    locale: 'zh-CN',
+    reason: 'x-include-langs',
+  });
+  const javaExcluded = excluded('java', 'content/en/reference/api/java/page.md');
+  const restExcluded = excluded('rest', 'content/en/reference/api/restful/page.mdx');
+  const baseline = {schemaVersion: 1, records: [], languageExcludedRecords: [javaExcluded, restExcluded]};
+  const artifact = {schemaVersion: 1, records: [], languageExcludedRecords: [javaExcluded]};
+  const target = {schemaVersion: 1, records: [], languageExcludedRecords: [restExcluded]};
+  const f = await fixture({files: {[statePath]: `${JSON.stringify(artifact)}\n`}});
+  const manifestPath = path.join(f.artifactDir, 'manifest.json');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  Object.assign(manifest, {stage: 'translation', translationTarget: 'zh-CN-reference', sourceSite: 'en', targetSite: 'zh-CN', sourceCheckpointSha: 'b'.repeat(40), toolingSha: 'a'.repeat(40)});
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  for (const [root, value] of [[f.baselineDir, baseline], [f.targetDir, target]]) {
+    await mkdir(path.dirname(path.join(root, statePath)), {recursive: true});
+    await writeFile(path.join(root, statePath), `${JSON.stringify(value)}\n`);
+  }
+
+  await applyCheckpointArtifact({artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir});
+
+  assert.deepEqual(JSON.parse(await readFile(path.join(f.targetDir, statePath), 'utf8')), {
+    languageExcludedRecords: [],
+    records: [],
+    schemaVersion: 1,
+  });
+});
+
 test('unions completed bootstrap groups while three-way merging Chinese translation manifests', async () => {
   const statePath = 'generated/zh-CN/manifests/reference-translations.json';
   const record = (manual, sourcePath, value) => ({manual, sourcePath, targetPath: sourcePath.replace('content/en', 'content/zh-CN'), value});

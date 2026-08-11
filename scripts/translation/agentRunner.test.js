@@ -3686,6 +3686,60 @@ async function testReferenceProgressStateAcceptsNewSourceMissingFromStaleManifes
   })
 }
 
+async function testReferenceProgressStateReplacesLanguageExcludedRecord() {
+  await withTempDir(async siteDir => {
+    const sourceCommit = 'c'.repeat(40)
+    const workflowSha = 'd'.repeat(40)
+    const sourcePath = 'content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx'
+    const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/')
+    const source = '# Upgrade project\n'
+    const target = '# 升级项目\n'
+    write(path.join(siteDir, sourcePath), source)
+    write(path.join(siteDir, targetPath), target)
+    write(path.join(siteDir, 'generated/en/manifests/reference.json'), JSON.stringify({
+      schemaVersion: 1,
+      sourceCommit,
+      records: [{manual: 'rest', sourcePath, sourceHash: sha256(source)}],
+    }))
+    write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
+      schemaVersion: 1,
+      records: [],
+      languageExcludedRecords: [{
+        manual: 'rest',
+        sourcePath,
+        targetPath,
+        sourceCommit,
+        sourceHash: sha256(source),
+        locale: 'zh-CN',
+        reason: 'x-include-langs',
+      }],
+    }))
+    const manifest = {
+      target: 'zh-CN-reference',
+      locale: 'zh-CN',
+      sourceCheckpointSha: workflowSha,
+      items: [{sourcePath, targetPath, sourceHash: sha256(source), locale: 'zh-CN', type: 'reference', reason: 'missing_target'}],
+    }
+    const coordinator = createProgressCoordinator({
+      siteDir,
+      manifest,
+      cache: {files: {}},
+      reportPath: 'tmp/reference-language-excluded-report.json',
+      checkpointFiles: 1,
+    })
+    await coordinator.record({...manifest.items[0], status: 'translated'}, 0)
+    await coordinator.checkpoint(true)
+
+    const state = JSON.parse(fs.readFileSync(
+      path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'),
+      'utf8',
+    ))
+    assert.deepEqual(state.languageExcludedRecords, [])
+    assert.deepEqual(state.records.map(record => record.sourcePath), [sourcePath])
+    assert.equal(state.records[0].status, 'translated')
+  })
+}
+
 async function testReferenceProgressStateUsesCanonicalRawLexicalOrder() {
   await withTempDir(async siteDir => {
     const sourceCommit = 'c'.repeat(40)
@@ -4310,6 +4364,7 @@ async function run() {
   await testWorkerPoolStopsAssigningNewItems()
   await testChineseReferenceProgressStateUsesItsTargetManifest()
   await testReferenceProgressStateAcceptsNewSourceMissingFromStaleManifest()
+  await testReferenceProgressStateReplacesLanguageExcludedRecord()
   await testReferenceProgressStateUsesCanonicalRawLexicalOrder()
   await testProgressCoordinatorCheckpointsCacheAndReport()
   await testJapaneseProgressStatePreservesExistingLocaleCache()
