@@ -35,6 +35,7 @@ const {validateProtectedContent} = require('./protectedContent')
 const {collectSemanticUnits, deterministicSemanticIssues, protectSemanticUnits} = require('./semanticUnits')
 const { REVIEW_RESPONSE_JSON_SCHEMA } = require('./reviewEvidence')
 const { createRecoveryArtifact, readArtifact } = require('./recovery-artifact')
+const {semanticCheckpointsFromCompleteTranslation} = require('./semanticRecovery')
 const { buildTranslationCandidates } = require('../../packages/docs-tooling/src/translation/candidates.ts')
 const { validateReferenceTranslation } = require('../../packages/docs-tooling/src/validation/translation.ts')
 
@@ -199,6 +200,12 @@ function testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes
       review: receipt.review,
       validationErrors: [],
     }])
+    const strictMismatch = JSON.parse(JSON.stringify(analysis))
+    strictMismatch.restored[0].compatibility = 'strict'
+    strictMismatch.restored[0].reviewReceipt.promptContractSha256 = 'e'.repeat(64)
+    fs.writeFileSync(file, JSON.stringify(strictMismatch))
+    assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /promptContractSha256.*does not match/i)
+    fs.writeFileSync(file, JSON.stringify(analysis))
     write(path.join(siteDir, targetPath), '# tampered\n')
     assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /payload changed after preflight/i)
   })
@@ -250,6 +257,43 @@ async function testCompleteSemanticRecoverySkipsTranslationButRequiresCurrentRev
     assert.equal(result.status, 'translated')
     assert.deepEqual(calls, ['review'])
     assert.equal(result.review.pass, true)
+  })
+}
+
+async function testCompleteRestRecoverySkipsTranslationButRequiresBothCurrentReviewers() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/restful/restful/v1/search.mdx'
+    const targetPath = 'content/zh-CN/reference/api/restful/restful/v1/search.mdx'
+    const source = '# Search\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"summary":"Search","description":"Search a collection."}\nexport const endpoint = "/v1/search"\n'
+    const target = '# 搜索\n<RestSpecs specs={specs} lang="zh-CN" />\n\nexport const specs = {"summary":"Search","description":"Search a collection.","x-i18n":{"zh-CN":{"summary":"搜索","description":"搜索 Collection。"}}}\nexport const endpoint = "/v1/search"\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: sha256(source), locale: 'zh-CN', type: 'reference'}
+    const semanticCheckpoints = semanticCheckpointsFromCompleteTranslation({sourceContent: source, targetContent: target, item})
+    assert.ok(semanticCheckpoints.restSpecDraft.entries.length > 0)
+    const calls = []
+    const result = await processItemWithRetry(item, {
+      maxRetries: 0,
+      initialSemanticCheckpoints: semanticCheckpoints,
+      processItem: (_item, _attempt, _feedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        semanticCheckpoint: retryContext.semanticCheckpoint,
+        restSpecDraft: retryContext.restSpecDraft,
+        onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
+        maxReviewRounds: 0,
+        validate: async () => [],
+        callModel: async ({agent}) => {
+          calls.push(agent)
+          if (agent === 'translation') throw new Error('REST translation API must not run for complete recovery')
+          return '{"pass":true,"issues":[]}'
+        },
+      }),
+    })
+    assert.equal(result.status, 'translated')
+    assert.deepEqual(calls, ['review', 'review'])
+    assert.equal(result.review.pass, true)
+    assert.equal(result.restSpecReview.pass, true)
+    assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /"zh-CN":\{"summary":"搜索","description":"搜索 Collection。"\}/)
   })
 }
 
@@ -3751,6 +3795,7 @@ async function run() {
   testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes()
   testRejectsRecoveryAnalysisThatWidensOrChangesCurrentPendingWork()
   await testCompleteSemanticRecoverySkipsTranslationButRequiresCurrentReviewer()
+  await testCompleteRestRecoverySkipsTranslationButRequiresBothCurrentReviewers()
   testMessageBuildersSelectPromptsFromTarget()
   testTranslationMessagesIncludeOnlyExplicitRetryFeedback()
   testReferenceLandingMessagesContainNavigationContract()

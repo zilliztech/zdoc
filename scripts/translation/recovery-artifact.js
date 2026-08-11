@@ -78,6 +78,11 @@ function cloneJson(value, label) {
   return JSON.parse(bytes.toString('utf8'));
 }
 
+function isRestSourcePath(sourcePath) {
+  return sourcePath.startsWith('content/en/reference/api/restful/restful/') ||
+    sourcePath.startsWith('reference/api/restful/restful/');
+}
+
 function exactReceiptKeys(value) {
   const required = [
     'schemaVersion', 'sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'locale', 'group',
@@ -110,6 +115,9 @@ function validateRecoveryReviewReceipt(value, expected = {}) {
   if (!Array.isArray(receipt.validationErrors) || receipt.validationErrors.length !== 0) {
     throw new Error('Recovery review receipt does not attest clean per-document validation');
   }
+  if (isRestSourcePath(receipt.sourcePath) && receipt.restSpecReview === undefined) {
+    throw new Error('Recovery review receipt does not attest REST reviewer success');
+  }
   if (receipt.restSpecReview !== undefined && (
     !receipt.restSpecReview || typeof receipt.restSpecReview !== 'object' || Array.isArray(receipt.restSpecReview) ||
     receipt.restSpecReview.pass !== true
@@ -120,7 +128,7 @@ function validateRecoveryReviewReceipt(value, expected = {}) {
 }
 
 function createRecoveryReviewReceipt({result, identity, targetHash}) {
-  const expected = {
+  const fileIdentity = {
     sourcePath: result.sourcePath,
     targetPath: result.targetPath,
     sourceHash: result.sourceHash,
@@ -128,19 +136,33 @@ function createRecoveryReviewReceipt({result, identity, targetHash}) {
     locale: identity.locale,
     group: identity.group,
   };
-  if (result.recoveryReviewReceipt) return validateRecoveryReviewReceipt(result.recoveryReviewReceipt, expected);
-  if (!result.review || result.review.pass !== true || !Array.isArray(result.validationErrors) || result.validationErrors.length !== 0 ||
-      (result.restSpecReview && result.restSpecReview.pass !== true)) return null;
-  return validateRecoveryReviewReceipt({
-    schemaVersion: 1,
-    ...expected,
+  const executionIdentity = {
     promptContractSha256: identity.promptContractSha256,
     model: identity.model,
     toolingSha: identity.toolingSha,
+  };
+  if (result.recovered === true && result.recoveryCompatibility === 'revalidated') {
+    if (result.recoveryReviewReceipt) validateRecoveryReviewReceipt(result.recoveryReviewReceipt, fileIdentity);
+    return null;
+  }
+  if (result.recovered === true && !result.recoveryReviewReceipt) return null;
+  if (result.recoveryReviewReceipt) {
+    const receipt = validateRecoveryReviewReceipt(result.recoveryReviewReceipt, fileIdentity);
+    const matchesCurrentExecution = Object.entries(executionIdentity).every(([key, value]) => receipt[key] === value);
+    if (!matchesCurrentExecution) throw new Error('Recovery review receipt execution identity does not match the artifact being created');
+    return receipt;
+  }
+  const requiresRestSpecReview = isRestSourcePath(result.sourcePath);
+  if (!result.review || result.review.pass !== true || !Array.isArray(result.validationErrors) || result.validationErrors.length !== 0 ||
+      (requiresRestSpecReview ? result.restSpecReview?.pass !== true : result.restSpecReview && result.restSpecReview.pass !== true)) return null;
+  return validateRecoveryReviewReceipt({
+    schemaVersion: 1,
+    ...fileIdentity,
+    ...executionIdentity,
     review: result.review,
     validationErrors: result.validationErrors,
     ...(result.restSpecReview ? {restSpecReview: result.restSpecReview} : {}),
-  }, expected);
+  }, {...fileIdentity, ...executionIdentity});
 }
 
 function reviewFields(receipt) {
@@ -388,6 +410,9 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
             targetHash: record.targetHash,
             locale: record.locale,
             group: record.group,
+            promptContractSha256: record.promptContractSha256,
+            model: record.model,
+            toolingSha: artifact.metadata.toolingSha,
           });
         } catch (error) {
           reasons.push(`recovery reviewer receipt is missing or invalid: ${String(error?.message || error)}`);

@@ -20,7 +20,7 @@ const {
   restoreSemanticUnitResponse,
 } = require('./semanticUnits')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
-const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
+const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, reviewRestSpecsDraft, translateRestSpecs } = require('./restSpecLocalization')
 const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles, validateRecoveryReviewReceipt} = require('./recovery-artifact')
 const {boundedFailureDetails, classifyFailure, failureRecord} = require('./failureClassification')
 const {MAX_PARTIAL_ARTIFACT_BYTES, loadAnalysisChunkResume, serializeCompletedChunkCheckpoints} = require('./chunkRecovery')
@@ -28,6 +28,7 @@ const {
   filterUsableSemanticCheckpoints,
   loadAnalysisSemanticResume,
   loadSemanticCheckpoints,
+  semanticCheckpointBytes,
   serializeSemanticCheckpoints,
 } = require('./semanticRecovery')
 const {validateRecoveryCandidate} = require('./recoveryValidation')
@@ -472,6 +473,7 @@ async function processItemWithRetry(item, options) {
   )
   validateAdaptiveCallBudget(adaptiveCallBudget)
   const semanticCheckpoint = loadSemanticCheckpoints(options.initialSemanticCheckpoints, item)
+  const restSpecDraft = options.initialSemanticCheckpoints?.restSpecDraft || null
   const initialChunkCheckpoints = options.initialChunkCheckpoints || []
   if (!Array.isArray(initialChunkCheckpoints)) throw new Error('Initial chunk checkpoints must be an array')
   const chunkCheckpoint = new Map(initialChunkCheckpoints.map((checkpoint, position) => {
@@ -489,6 +491,7 @@ async function processItemWithRetry(item, options) {
         providerRetryBudget,
         adaptiveCallBudget,
         semanticCheckpoint,
+        restSpecDraft,
         onSemanticUnitCompleted: checkpoint => semanticCheckpoint.set(checkpoint.id, checkpoint),
         onChunkCompleted: checkpoint => {
           if (signal?.aborted) throw signal.reason
@@ -544,7 +547,10 @@ async function processItemWithRetry(item, options) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
     } else {
       const chunkCheckpoints = serializeCompletedChunkCheckpoints(chunkCheckpoint)
-      const semanticCheckpoints = semanticRecoveryEligible ? serializeSemanticCheckpoints(semanticCheckpoint, item) : null
+      let semanticCheckpoints = semanticRecoveryEligible ? serializeSemanticCheckpoints(semanticCheckpoint, item) : null
+      if (semanticCheckpoints && restSpecDraft) {
+        semanticCheckpoints = {...semanticCheckpoints, restSpecDraft: JSON.parse(JSON.stringify(restSpecDraft))}
+      }
       return {
         ...stripInternalRecoveryFields(result),
         failureCategory: record.category,
@@ -998,6 +1004,7 @@ async function processManifestItem({
   providerRetryBudget = null,
   adaptiveCallBudget = createAdaptiveCallBudget(),
   semanticCheckpoint = new Map(),
+  restSpecDraft = null,
   onSemanticUnitCompleted = null,
   signal,
 }) {
@@ -1029,8 +1036,9 @@ async function processManifestItem({
       signal,
     })
     if (!shell.review.pass) return failedReviewResult(item, shell.review)
-    const specResult = await translateRestSpecs({
+    const specResult = await (restSpecDraft ? reviewRestSpecsDraft : translateRestSpecs)({
       sourceSpecs: restDocument.sourceSpecs,
+      ...(restSpecDraft ? {draft: restSpecDraft} : {}),
       sourcePath: item.sourcePath,
       target: item.target,
       locale: item.locale,
@@ -1572,14 +1580,27 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
     const candidate = manifestByIdentity.get(key)
     if (!candidate || candidate.sourceHash !== record.sourceHash || seen.has(key)) throw new Error('Recovery analysis restored identity does not match the current manifest')
     if (!/^[0-9a-f]{64}$/u.test(record.targetHash || '') || !Number.isSafeInteger(record.targetSize) || record.targetSize < 0) throw new Error('Recovery analysis restored target identity is invalid')
-    const reviewReceipt = validateRecoveryReviewReceipt(record.reviewReceipt, {
+    const receiptFileIdentity = {
       sourcePath: record.sourcePath,
       targetPath: record.targetPath,
       sourceHash: record.sourceHash,
       targetHash: record.targetHash,
       locale: manifest.locale,
       group: manifest.group,
+    }
+    const receiptExecutionIdentity = {
+      promptContractSha256: identity.promptContractSha256,
+      model: identity.model,
+      toolingSha: identity.toolingSha,
+    }
+    const reviewReceipt = validateRecoveryReviewReceipt(record.reviewReceipt, {
+      ...receiptFileIdentity,
+      ...(analysis.schemaVersion === 1 || record.compatibility === 'strict' ? receiptExecutionIdentity : {}),
     })
+    if (analysis.schemaVersion === 2 && record.compatibility === 'revalidated' &&
+        Object.entries(receiptExecutionIdentity).every(([key, value]) => reviewReceipt[key] === value)) {
+      throw new Error('Recovery analysis revalidated reviewer receipt does not retain its original execution identity')
+    }
     assertSafeRepositoryRelativePath(record.targetPath, 'Recovery analysis restored target path')
     const target = path.resolve(siteDir, ...record.targetPath.split('/'))
     const root = path.resolve(siteDir)
@@ -1674,7 +1695,7 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       })
       semanticResumableFileCount += 1
       recoveredSemanticUnitCount += recoverySemanticCheckpoints.entries.length
-      recoveredSemanticBytes += recoverySemanticCheckpoints.entries.reduce((total, entry) => total + Buffer.byteLength(entry.translation), 0)
+      recoveredSemanticBytes += semanticCheckpointBytes({report: recoverySemanticCheckpoints})
       if (recoveredChunkBytes + recoveredSemanticBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery analysis aggregate partial payload is oversized')
     }
     seen.add(key)
@@ -1802,6 +1823,7 @@ async function main() {
               providerRetryBudget: retryContext.providerRetryBudget,
               adaptiveCallBudget: retryContext.adaptiveCallBudget,
               semanticCheckpoint: retryContext.semanticCheckpoint,
+              restSpecDraft: retryContext.restSpecDraft,
               onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
               retryFeedback,
             }),

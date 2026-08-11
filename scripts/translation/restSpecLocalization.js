@@ -172,6 +172,47 @@ function removeLocale(value, locale) {
   return result
 }
 
+function exactRestSpecDraftKeys(value, keys, label) {
+  if (!value || typeof value !== 'object' || Array.isArray(value) ||
+      JSON.stringify(Object.keys(value).sort()) !== JSON.stringify([...keys].sort())) {
+    throw new Error(`${label} schema is invalid`)
+  }
+}
+
+function validateRestSpecDraft({sourceSpecs, draft, target, locale, sourcePath = '<REST document>'}) {
+  exactRestSpecDraftKeys(draft, ['schemaVersion', 'entries'], 'REST recovery draft')
+  if (draft.schemaVersion !== 1 || !Array.isArray(draft.entries)) throw new Error('REST recovery draft schema is invalid')
+  const expected = collectLocalizableEntries(sourceSpecs)
+  if (draft.entries.length !== expected.length) throw new Error('REST recovery draft entry count mismatch')
+  const serialized = draft.entries.map(entry => {
+    exactRestSpecDraftKeys(entry, ['id', 'translation'], 'REST recovery draft entry')
+    if (typeof entry.id !== 'string' || typeof entry.translation !== 'string') throw new Error('REST recovery draft entry is invalid')
+    return {id: entry.id, text: entry.translation}
+  })
+  const localeContract = loadLocaleContract(target)
+  const protectedEntries = protectRestEntries(expected, entry => entry.text, {literalTokens: localeContract.doNotTranslate})
+  const restored = parseTranslationEntries(JSON.stringify(serialized), protectedEntries, localeContract, {sourcePath})
+  for (const [index, entry] of restored.entries()) {
+    if (entry.translation !== draft.entries[index].translation) throw new Error(`REST recovery draft does not satisfy the current locale contract for ${entry.id}`)
+  }
+  return restored
+}
+
+function extractRestSpecDraft({sourceSpecs, localizedSpecs, target, locale, sourcePath = '<REST document>'}) {
+  assert.deepEqual(removeLocale(localizedSpecs, locale), removeLocale(sourceSpecs, locale), 'Recovered REST specs changed non-locale data')
+  const entries = collectLocalizableEntries(sourceSpecs).map(entry => {
+    let localized = localizedSpecs
+    for (const segment of entry.objectPath) localized = localized?.[segment]
+    const translation = localized?.['x-i18n']?.[locale]?.[entry.key]
+    if (typeof translation !== 'string') throw new Error(`Recovered REST specs are missing locale entry ${entry.id}`)
+    return {id: entry.id, translation}
+  })
+  const draft = {schemaVersion: 1, entries}
+  const restored = validateRestSpecDraft({sourceSpecs, draft, target, locale, sourcePath})
+  assert.deepEqual(applyLocaleEntries(sourceSpecs, restored, locale), localizedSpecs, 'Recovered REST specs contain unexpected locale data')
+  return draft
+}
+
 function batchEntries(entries, maxChars = 12000) {
   const batches = []
   let batch = [], size = 0
@@ -326,9 +367,59 @@ async function translateRestSpecs({ sourceSpecs, sourcePath = '<REST document>',
   return { localized, translatedCount: translated.length, review }
 }
 
+async function reviewRestSpecsDraft({sourceSpecs, draft, sourcePath = '<REST document>', target, locale, callModel, maxReviewRounds = 2, providerRetryBudget = null, signal}) {
+  const localeContract = loadLocaleContract(target)
+  const entries = validateRestSpecDraft({sourceSpecs, draft, target, locale, sourcePath})
+  const translated = []
+  const reviews = []
+  for (const batch of batchEntries(entries)) {
+    const reviewed = await reviewAndCorrectRestBatch({
+      entries: batch,
+      target,
+      locale,
+      callModel,
+      localeContract,
+      maxReviewRounds,
+      sourcePath,
+      providerRetryBudget,
+      signal,
+    })
+    translated.push(...reviewed.entries)
+    reviews.push(reviewed.review)
+    if (!reviewed.review.pass) break
+  }
+  const localized = applyLocaleEntries(sourceSpecs, translated, locale)
+  assert.deepEqual(removeLocale(localized, locale), removeLocale(sourceSpecs, locale), 'Reviewed REST specs changed non-locale data')
+  const review = {
+    pass: reviews.length > 0 && reviews.every(item => item.pass) && translated.length === entries.length,
+    issues: reviews.flatMap(item => item.issues),
+    unsupportedIssues: reviews.flatMap(item => item.unsupportedIssues),
+    contractConflicts: reviews.flatMap(item => item.contractConflicts),
+    localeContractIssues: reviews.flatMap(item => item.localeContractIssues),
+    reviewerPass: reviews.length > 0 && reviews.every(item => item.reviewerPass),
+    error: reviews.find(item => item.error)?.error || null,
+  }
+  return {localized, translatedCount: translated.length, review}
+}
+
 function assembleRestDocument({ translatedPrefix, localizedSpecs, suffix, locale }) {
   const prefix = translatedPrefix.replace(/lang=(['"])en-US\1/g, `lang="${locale}"`)
   return `${prefix}export const specs = ${JSON.stringify(localizedSpecs)}${suffix}`
 }
 
-module.exports = { applyLocaleEntries, assembleRestDocument, batchEntries, collectLocalizableEntries, loadPrompt, parseRestDocument, parseTranslationEntries, promptNamesFor, removeLocale, translateRestSpecs, validateRestReviewEvidence }
+module.exports = {
+  applyLocaleEntries,
+  assembleRestDocument,
+  batchEntries,
+  collectLocalizableEntries,
+  extractRestSpecDraft,
+  loadPrompt,
+  parseRestDocument,
+  parseTranslationEntries,
+  promptNamesFor,
+  removeLocale,
+  reviewRestSpecsDraft,
+  translateRestSpecs,
+  validateRestReviewEvidence,
+  validateRestSpecDraft,
+}
