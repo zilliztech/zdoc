@@ -1,4 +1,5 @@
 import React from 'react';
+import {useDocsUiText} from '../../i18n/uiText';
 import styles from './DocMetaTags.module.css';
 
 // ── Config ───────────────────────────────────────────────────────────────────
@@ -33,6 +34,7 @@ interface Props {
 }
 
 export default function DocMetaTags({ frontMatter }: Props): React.ReactElement | null {
+  const text = useDocsUiText();
   const latestEntry = META_DEFS
     .filter(({ key }) => isVisibleValue(frontMatter[key]))
     .map((meta, index) => ({
@@ -49,8 +51,8 @@ export default function DocMetaTags({ frontMatter }: Props): React.ReactElement 
   if (!latestEntry) return null;
 
   return (
-    <section className={styles.panel} aria-label="Version information">
-      <span className={styles.heading}>Minimum SDK version</span>
+    <section className={styles.panel} aria-label={text.docMeta.versionInformation}>
+      <span className={styles.heading}>{text.docMeta.minimumSdkVersion}</span>
       <span className={styles.value}>{latestEntry.value}</span>
     </section>
   );

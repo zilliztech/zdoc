@@ -6,6 +6,7 @@ import 'prismjs/components/prism-java.min.js';
 import 'prismjs/components/prism-go.min.js';
 import 'prismjs/components/prism-bash.min.js';
 import 'prismjs/components/prism-json.min.js';
+import {useDocsUiText} from '../../i18n/uiText.ts';
 import styles from './styles.module.css';
 
 const PRISM_LANG_MAP = {
@@ -191,6 +192,7 @@ function parseCtasFromChildren(children) {
 const SLIDE_DURATION = 5000;
 
 export default function Hero({ children }) {
+  const text = useDocsUiText();
   // Separate title/subtitle from slide content
   const childArray = React.Children.toArray(children)
     .filter(c => typeof c !== 'string' || c.trim() !== '');
@@ -307,7 +309,7 @@ export default function Hero({ children }) {
           {subtitle}
           <div className={styles.installWidget}>
             <div className={styles.installWidgetItem}>
-              <div className={styles.installWidgetLabel}>For Humans</div>
+              <div className={styles.installWidgetLabel}>{text.hero.forHumans}</div>
               <div className={styles.installCmd}>
                 <span className={styles.installPrompt}>$</span>
                 <span className={styles.installText}>{INSTALL_COMMANDS.humans}</span>
@@ -319,15 +321,15 @@ export default function Hero({ children }) {
                       setTimeout(() => setCopiedInstall(false), 1500);
                     });
                   }}
-                  title="Copy command"
-                  aria-label="Copy command"
+                  title={text.common.copyCommand}
+                  aria-label={text.common.copyCommand}
                 >
                   {copiedInstall ? '✓' : <Copy size={14} />}
                 </button>
               </div>
             </div>
             <div className={styles.installWidgetItem}>
-              <div className={styles.installWidgetLabel}>For Agents</div>
+              <div className={styles.installWidgetLabel}>{text.hero.forAgents}</div>
               <div className={styles.installCmd}>
                 <span className={styles.installPrompt}>$</span>
                 <span className={styles.installText}>{INSTALL_COMMANDS.agents}</span>
@@ -339,8 +341,8 @@ export default function Hero({ children }) {
                       setTimeout(() => setCopiedInstall(false), 1500);
                     });
                   }}
-                  title="Copy command"
-                  aria-label="Copy command"
+                  title={text.common.copyCommand}
+                  aria-label={text.common.copyCommand}
                 >
                   {copiedInstall ? '✓' : <Copy size={14} />}
                 </button>
@@ -384,8 +386,8 @@ export default function Hero({ children }) {
                 <button
                   className={styles.copyBtn}
                   onClick={handleCopyJson}
-                  title="Copy JSON"
-                  aria-label="Copy JSON"
+                  title={text.hero.copyJson}
+                  aria-label={text.hero.copyJson}
                 >
                   {copiedJson ? '✓' : <Copy size={16} />}
                 </button>
@@ -424,8 +426,8 @@ export default function Hero({ children }) {
                   <button
                     className={styles.copyBtn}
                     onClick={handleCopyCode}
-                    title="Copy code"
-                    aria-label="Copy code"
+                    title={text.common.copyCode}
+                    aria-label={text.common.copyCode}
                   >
                     {copiedCode ? '✓' : <Copy size={16} />}
                   </button>
@@ -445,7 +447,7 @@ export default function Hero({ children }) {
                 key={s.id}
                 className={styles.progressTrack}
                 onClick={() => handleSlideChange(i)}
-                aria-label={`Go to ${s.label}`}
+                aria-label={text.hero.goTo(s.label)}
               >
                 <div
                   className={styles.progressFill}

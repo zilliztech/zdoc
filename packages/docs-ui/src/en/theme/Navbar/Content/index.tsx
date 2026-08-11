@@ -9,6 +9,7 @@ import {Search, LifeBuoy, LogIn, Menu} from 'lucide-react';
 import SecondaryNavbar from '../../../navigation/SecondaryNavbar';
 import {inkeepSettings} from '../../../inkeep.config';
 import {hasInkeepCredentials} from '../../../inkeepRuntime';
+import {useDocsUiText} from '../../../../shared/i18n/uiText';
 import InkeepSearchEnhancer from './InkeepSearchEnhancer';
 import styles from './styles.module.css';
 
@@ -56,13 +57,14 @@ function BoltIcon({width = 8.5, height = 14.9}: {width?: number; height?: number
 }
 
 function MediumActionsDropdown(): ReactNode {
+  const uiText = useDocsUiText();
   return (
     <div className={`${styles.mediumActions} navbar-medium-actions`}>
       <button
         type="button"
         className={styles.mediumActionsTrigger}
         aria-haspopup="menu"
-        aria-label="More actions">
+        aria-label={uiText.navbar.moreActions}>
         <Menu size={15} strokeWidth={1.8} aria-hidden="true" />
       </button>
       <div className={styles.mediumActionsMenu} role="menu">
@@ -73,7 +75,7 @@ function MediumActionsDropdown(): ReactNode {
           target="_blank"
           rel="noopener noreferrer">
           <LifeBuoy size={14} strokeWidth={1.9} aria-hidden="true" />
-          <span>Support</span>
+          <span>{uiText.navbar.support}</span>
         </a>
         <a
           role="menuitem"
@@ -82,7 +84,7 @@ function MediumActionsDropdown(): ReactNode {
           target="_blank"
           rel="noopener noreferrer">
           <LogIn size={14} strokeWidth={2} aria-hidden="true" />
-          <span>Log In</span>
+          <span>{uiText.navbar.logIn}</span>
         </a>
       </div>
     </div>
@@ -93,6 +95,7 @@ export default function NavbarContent(): ReactNode {
   const mobileSidebar = useNavbarMobileSidebar();
   const {siteConfig} = useDocusaurusContext();
   const {pathname} = useLocation();
+  const uiText = useDocsUiText();
   const [searchOpen, setSearchOpen] = useState(false);
   const [runtimeInkeep, setRuntimeInkeep] = useState<{
     apiKey?: string;
@@ -265,7 +268,7 @@ export default function NavbarContent(): ReactNode {
     <div className={styles.navbarInner}>
       <div className={styles.navbarLeft}>
         <NavbarLogo />
-        <a className={styles.docsLink} href={getDocsHomePath(pathname)}>Docs</a>
+        <a className={styles.docsLink} href={getDocsHomePath(pathname)}>{uiText.navbar.docs}</a>
         <SecondaryNavbar variant="topbar" />
       </div>
 
@@ -275,11 +278,11 @@ export default function NavbarContent(): ReactNode {
             className={styles.searchBtn}
             onClick={openSearch}
             type="button"
-            aria-label="Search documentation">
+            aria-label={uiText.search.placeholder}>
             <Search size={14} aria-hidden="true" />
-            <span>Search</span>
+            <span>{uiText.navbar.search}</span>
           </button>
-          <span className={styles.navTip} role="tooltip"><span className={styles.navTipLabel}>Search</span><kbd>{mod}</kbd><kbd>K</kbd></span>
+          <span className={styles.navTip} role="tooltip"><span className={styles.navTipLabel}>{uiText.navbar.search}</span><kbd>{mod}</kbd><kbd>K</kbd></span>
         </span>
 
         <span className={`${styles.navTipWrap} navbar-askai-wrap`}>
@@ -287,11 +290,11 @@ export default function NavbarContent(): ReactNode {
             type="button"
             className="navbar-ask-ai-btn"
             onClick={openAskAi}
-            aria-label="Ask AI">
+            aria-label={uiText.chat.askAi}>
             <BoltIcon />
-            <span>Ask AI</span>
+            <span>{uiText.chat.askAi}</span>
           </button>
-          <span className={styles.navTip} role="tooltip"><span className={styles.navTipLabel}>Ask AI</span><kbd>{mod}</kbd><kbd>I</kbd></span>
+          <span className={styles.navTip} role="tooltip"><span className={styles.navTipLabel}>{uiText.chat.askAi}</span><kbd>{mod}</kbd><kbd>I</kbd></span>
         </span>
 
         <span className={`${styles.navTipWrap} ${styles.mediumAskAiWrap} navbar-medium-askai-wrap`}>
@@ -299,24 +302,24 @@ export default function NavbarContent(): ReactNode {
             type="button"
             className={`${styles.mediumAskAi} navbar-medium-askai-btn`}
             onClick={openAskAi}
-            aria-label="Ask AI">
+            aria-label={uiText.chat.askAi}>
             <BoltIcon width={9} height={16} />
           </button>
-          <span className={styles.navTip} role="tooltip"><span className={styles.navTipLabel}>Ask AI</span><kbd>{mod}</kbd><kbd>I</kbd></span>
+          <span className={styles.navTip} role="tooltip"><span className={styles.navTipLabel}>{uiText.chat.askAi}</span><kbd>{mod}</kbd><kbd>I</kbd></span>
         </span>
 
         <MediumActionsDropdown />
 
         <a href="https://support.zilliz.com/hc/en-us" className="navbar-support-link" target="_blank" rel="noopener noreferrer">
           <LifeBuoy size={14} strokeWidth={1.9} aria-hidden="true" />
-          Support
+          {uiText.navbar.support}
         </a>
         <span className="navbar-action-divider" aria-hidden="true" />
         <a href="https://cloud.zilliz.com/login" className="navbar-login-link" target="_blank" rel="noopener noreferrer">
-          Log In
+          {uiText.navbar.logIn}
         </a>
         <a href="https://cloud.zilliz.com/signup" className="navbar-signup-btn" target="_blank" rel="noopener noreferrer">
-          Sign Up Free
+          {uiText.navbar.signUpFree}
         </a>
         {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}
       </div>

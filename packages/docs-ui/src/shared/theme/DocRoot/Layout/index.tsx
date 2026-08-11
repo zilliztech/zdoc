@@ -10,6 +10,7 @@ import ChatPanel, {ChatProvider} from '../../../components/ChatPanel';
 import {useChatContext} from '../../../components/ChatPanel/ChatContext';
 import {DEFAULT_CHAT_ENDPOINT} from '../../../components/ChatPanel/endpoints';
 import {ArrowUp} from 'lucide-react';
+import {useDocsUiText} from '../../../i18n/uiText';
 
 import styles from './styles.module.css';
 
@@ -42,6 +43,7 @@ function FloatingChatInput({
   onOpen: () => void;
   sidebarCollapsed: boolean;
 }): ReactNode {
+  const text = useDocsUiText();
   const {isStreaming, send} = useChatContext();
   const {pathname} = useLocation();
   const [query, setQuery] = useState('');
@@ -125,13 +127,13 @@ function FloatingChatInput({
           type="text"
           value={query}
           onChange={event => setQuery(event.target.value)}
-          placeholder="Ask a question..."
-          aria-label="Ask a question"
+          placeholder={text.chat.placeholder}
+          aria-label={text.chat.placeholder}
           disabled={isStreaming}
         />
         <div className={styles.floatingFooter}>
           <kbd className={styles.chatKbd}>{isMacPlatform() ? '⌘I' : 'Ctrl I'}</kbd>
-          <button type="submit" disabled={!query.trim() || isStreaming} aria-label="Send question">
+          <button type="submit" disabled={!query.trim() || isStreaming} aria-label={text.chat.sendQuestion}>
             <ArrowUp size={14} strokeWidth={2.4} />
           </button>
         </div>
@@ -141,6 +143,7 @@ function FloatingChatInput({
 }
 
 function SelectionAskAiButton(): ReactNode {
+  const text = useDocsUiText();
   const [pos, setPos] = useState<{x: number; y: number} | null>(null);
   const textRef = useRef('');
 
@@ -200,12 +203,13 @@ function SelectionAskAiButton(): ReactNode {
       <svg width="8" height="14" viewBox="0 0 8 14" fill="none" aria-hidden="true">
         <path d="M0 8.55556L5.6 0L4.8 5.64912H8L1.6 14L3.2 8.55556H0Z" fill="currentColor" />
       </svg>
-      Ask AI
+      {text.chat.askAi}
     </button>
   );
 }
 
 function DocRootLayoutInner({children}: Props): ReactNode {
+  const text = useDocsUiText();
   const sidebar = useDocsSidebar();
   const {pathname} = useLocation();
   // The Docs Home landing page renders full-width (no left sidebar).
@@ -474,7 +478,7 @@ function DocRootLayoutInner({children}: Props): ReactNode {
               !isChatVisible ? styles.chatPaneIdle : '',
               chatClosing ? styles.chatPaneClosing : '',
             ].filter(Boolean).join(' ')}
-            aria-label="Zilliz Copilot"
+            aria-label={text.chat.panelLabel}
             aria-hidden={!isChatVisible}>
             <div className={styles.chatResizer} onMouseDown={startChatResize} role="separator" aria-orientation="vertical">
               <span className={styles.chatResizerGrip} />
