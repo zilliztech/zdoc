@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 2
+slug: /restful/describe-api-key-v2
+beta: FALSE
+title: "查看 API Key (V2) | RESTful"
+description: "返回一个自定义 ACL API Key 及其直接分配的角色，不返回密钥。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "查看 API Key (V2)"
+sidebar_custom_props:
+  badges:
+    - "get"
+keywords:
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "查看 API Key (V2)"
+  - "get"
+  - RESTful
+  - API
+---
+
+# 查看 API Key (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"Describe API Key","description":"Returns one customized ACL API key and its directly assigned roles. The secret is never returned.","tags":["Cloud API Key Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"}}},{"name":"apiKeyId","in":"path","required":true,"description":"The public API key ID.","example":"key-xxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"公开 API Key ID。"}}}],"responses":{"200":{"description":"Returns a successful result or an error message.","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"}},"properties":{"code":{"type":"integer","example":0,"description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"object","properties":{"apiKeyId":{"type":"string","description":"The public API key ID.","x-i18n":{"zh-CN":{"description":"公开 API Key ID。"}}},"name":{"type":"string","description":"The API key display name.","x-i18n":{"zh-CN":{"description":"API Key 显示名称。"}}},"description":{"type":"string","description":"The API key description.","x-i18n":{"zh-CN":{"description":"API Key 描述。"}}},"creatorName":{"type":"string","description":"The resolved display name of the creator.","x-i18n":{"zh-CN":{"description":"解析出的创建者显示名称。"}}},"createdBy":{"type":"string","description":"The creator email address or creator API key ID.","x-i18n":{"zh-CN":{"description":"创建者邮箱地址或创建者 API Key ID。"}}},"orgRoles":{"type":"array","items":{"type":"object","properties":{"bindingId":{"type":"string","description":"The ACL role-binding ID.","x-i18n":{"zh-CN":{"description":"ACL 角色绑定 ID。"}}},"roleId":{"type":"string","description":"The ACL role ID.","x-i18n":{"zh-CN":{"description":"ACL 角色 ID。"}}},"roleName":{"type":"string","description":"The ACL role display name.","x-i18n":{"zh-CN":{"description":"ACL 角色显示名称。"}}},"roleType":{"type":"string","enum":["org","project"],"description":"The role scope.","x-i18n":{"zh-CN":{"description":"角色作用域。"}}}},"required":["bindingId","roleId","roleName","roleType"]},"description":"The organization-scoped roles directly assigned to the API key.","x-i18n":{"zh-CN":{"description":"直接授予 API Key 的组织级角色。"}}},"projectRoles":{"type":"array","items":{"type":"object","properties":{"projectId":{"type":"string","description":"The project ID.","x-i18n":{"zh-CN":{"description":"项目 ID。"}}},"roles":{"type":"array","items":{"type":"object","properties":{"bindingId":{"type":"string","description":"The ACL role-binding ID.","x-i18n":{"zh-CN":{"description":"ACL 角色绑定 ID。"}}},"roleId":{"type":"string","description":"The ACL role ID.","x-i18n":{"zh-CN":{"description":"ACL 角色 ID。"}}},"roleName":{"type":"string","description":"The ACL role display name.","x-i18n":{"zh-CN":{"description":"ACL 角色显示名称。"}}},"roleType":{"type":"string","enum":["org","project"],"description":"The role scope.","x-i18n":{"zh-CN":{"description":"角色作用域。"}}}},"required":["bindingId","roleId","roleName","roleType"]},"description":"The project-scoped roles directly assigned to the API key.","x-i18n":{"zh-CN":{"description":"直接授予 API Key 的项目级角色。"}}}},"required":["projectId","roles"]},"description":"The project-scoped roles directly assigned to the API key, grouped by project.","x-i18n":{"zh-CN":{"description":"直接授予 API Key 的项目级角色，按项目分组。"}}},"createTime":{"type":"string","format":"date-time","description":"The creation time in UTC ISO 8601 format.","x-i18n":{"zh-CN":{"description":"创建时间，采用 UTC ISO 8601 格式。"}}}},"required":["apiKeyId","name","creatorName","createdBy","orgRoles","projectRoles","createTime"]}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"apiKeyId":"key-xxxxxxxxxxxxxx","name":"Data Pipeline","description":"API key used by the ingestion pipeline","creatorName":"Alice","createdBy":"alice@example.com","orgRoles":[{"bindingId":"rb-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","roleId":"r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","roleName":"Org Viewer","roleType":"org"}],"projectRoles":[{"projectId":"proj-xxxxxxxx","roles":[{"bindingId":"rb-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy","roleId":"r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy","roleName":"Data Reader","roleType":"project"}]}],"createTime":"2026-07-22T02:30:00Z"}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}},"x-i18n":{"zh-CN":{"summary":"查看 API Key","description":"返回一个自定义 ACL API Key 及其直接分配的角色，不返回密钥。"}}}
+export const endpoint = "/v2/api-keys/{apiKeyId}"
+export const method = "get"

@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 12
+slug: /restful/grant-role-to-group-v2
+beta: FALSE
+title: "为群组授予角色 (V2) | RESTful"
+description: "直接向 SCIM 群组授予一个角色。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "为群组授予角色 (V2)"
+sidebar_custom_props:
+  badges:
+    - "put"
+keywords:
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "为群组授予角色 (V2)"
+  - "put"
+  - RESTful
+  - API
+---
+
+# 为群组授予角色 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"Grant Role To Group","description":"Grants one role directly to a SCIM group.","tags":["Cloud Access Control Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"}}},{"name":"groupId","in":"path","required":true,"description":"The SCIM group ID.","example":"g-xxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"SCIM 群组 ID。"}}},{"name":"roleId","in":"path","required":true,"description":"The role ID.","example":"r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"角色 ID。"}}},{"name":"projectId","in":"query","required":false,"description":"Required when granting a predefined project role.","schema":{"type":"string"},"example":"proj-xxxxxxxx","x-i18n":{"zh-CN":{"description":"授予预定义项目角色时必填。"}}}],"responses":{"200":{"description":"Returns a successful result or an error message.","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"}},"properties":{"code":{"type":"integer","example":0,"description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"boolean","description":"Whether the operation succeeded.","x-i18n":{"zh-CN":{"description":"操作是否成功。"}}}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":true}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}},"x-i18n":{"zh-CN":{"summary":"为群组授予角色","description":"直接向 SCIM 群组授予一个角色。"}}}
+export const endpoint = "/v2/groups/{groupId}/roles/{roleId}"
+export const method = "put"

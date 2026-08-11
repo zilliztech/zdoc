@@ -3,10 +3,10 @@ displayed_sidebar: restfulSidebar
 sidebar_position: 1
 slug: /restful/describe-on-demand-compute-v2
 beta: FALSE
-title: "描述按需计算（V2） | RESTful"
-description: "描述项目区域的按需计算状态。 | RESTful"
+title: "查看按需计算状态 (V2) | RESTful"
+description: "查看指定项目地域的按需计算状态。 | RESTful"
 hide_table_of_contents: true
-sidebar_label: "描述按需计算（V2）"
+sidebar_label: "查看按需计算状态 (V2)"
 sidebar_custom_props:
   badges:
     - "get"
@@ -14,18 +14,18 @@ keywords:
   - zilliz cloud
   - zilliz
   - cloud
-  - "描述按需计算（V2）"
+  - "查看按需计算状态 (V2)"
   - "get"
   - RESTful
   - API
 ---
 
-# 描述按需计算（V2）
+# 查看按需计算状态 (V2)
 
 import RestSpecs from '@site/src/components/RestSpecs';
 
 <RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
 
-export const specs = {"summary":"Describe On-Demand Compute","deprecated":false,"description":"Describe the On-Demand Compute status for a project region.","x-i18n":{"zh-CN":{"summary":"描述 On-Demand Compute","description":"描述项目区域的 On-Demand Compute 状态。"}},"tags":["On-Demand Compute (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"身份验证令牌应为具有相应权限的 API 密钥。"}}},{"name":"projectId","in":"query","description":"The ID of the project.","required":true,"example":"proj-xxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"项目的 ID。"}}},{"name":"regionId","in":"query","description":"The ID of the region.","required":true,"example":"aws-us-west-2","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"区域的 ID。"}}}],"responses":{"200":{"description":"Return the On-Demand Compute status.","x-i18n":{"zh-CN":{"description":"返回 On-Demand Compute 状态。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","description":"A success response","x-i18n":{"zh-CN":{"description":"成功响应"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"description":"Response code.","x-i18n":{"zh-CN":{"description":"响应代码。"}},"type":"integer","example":0},"data":{"type":"object","properties":{"projectId":{"type":"string","description":"ID of the project.","x-i18n":{"zh-CN":{"description":"项目的 ID。"}}},"regionId":{"type":"string","description":"ID of the region.","x-i18n":{"zh-CN":{"description":"区域的 ID。"}}},"status":{"type":"string","description":"The On-Demand Compute status.","enum":["disabled","enabling","enabled","abnormal"],"x-i18n":{"zh-CN":{"description":"On-Demand Compute 状态。"}}}},"description":"Response payload which contains the On-Demand Compute status.","x-i18n":{"zh-CN":{"description":"包含 On-Demand Compute 状态的响应负载。"}}}}},{"x-tab-label":"failure","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应代码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","x-target-lang":"en-US","value":{"code":0,"data":{"projectId":"proj-xxx","regionId":"aws-us-west-2","status":"enabled"}}},"2":{"summary":"success","x-target-response":"OPTION 1","x-target-lang":"zh-CN","value":{"code":0,"data":{"projectId":"proj-xxx","regionId":"ali-cn-hangzhou","status":"enabled"}}},"3":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
+export const specs = {"summary":"Describe On-Demand Compute","deprecated":false,"description":"Describe the On-Demand Compute status for a project region.","x-i18n":{"zh-CN":{"summary":"查看按需计算状态","description":"查看指定项目地域的按需计算状态。"}},"tags":["On-Demand Compute (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}},{"name":"projectId","in":"query","description":"The ID of the project.","required":true,"example":"proj-xxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"项目 ID。"}}},{"name":"regionId","in":"query","description":"The ID of the region.","required":true,"example":"aws-us-west-2","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"地域 ID。"}}}],"responses":{"200":{"description":"Return the On-Demand Compute status.","x-i18n":{"zh-CN":{"description":"返回按需计算状态。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","description":"A success response","x-i18n":{"zh-CN":{"description":"成功响应。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}},"type":"integer","example":0},"data":{"type":"object","properties":{"projectId":{"type":"string","description":"ID of the project.","x-i18n":{"zh-CN":{"description":"项目 ID。"}}},"regionId":{"type":"string","description":"ID of the region.","x-i18n":{"zh-CN":{"description":"地域 ID。"}}},"status":{"type":"string","description":"The On-Demand Compute status.","enum":["disabled","enabling","enabled","abnormal"],"x-i18n":{"zh-CN":{"description":"按需计算状态。可选值为 `disabled`（已禁用）、`enabling`（启用中）、`enabled`（已启用）或 `abnormal`（异常）。"}}}},"description":"Response payload which contains the On-Demand Compute status.","x-i18n":{"zh-CN":{"description":"响应载荷，包含按需计算状态。"}}}}},{"x-tab-label":"failure","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","x-target-lang":"en-US","value":{"code":0,"data":{"projectId":"proj-xxx","regionId":"aws-us-west-2","status":"enabled"}}},"2":{"summary":"success","x-target-response":"OPTION 1","x-target-lang":"zh-CN","value":{"code":0,"data":{"projectId":"proj-xxx","regionId":"ali-cn-hangzhou","status":"enabled"}}},"3":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
 export const endpoint = "/v2/on-demand-compute"
 export const method = "get"

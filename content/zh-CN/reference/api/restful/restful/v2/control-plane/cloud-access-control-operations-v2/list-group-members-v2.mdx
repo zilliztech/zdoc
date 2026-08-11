@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 11
+slug: /restful/list-group-members-v2
+beta: FALSE
+title: "列出群组成员 (V2) | RESTful"
+description: "列出 SCIM 群组的成员。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "列出群组成员 (V2)"
+sidebar_custom_props:
+  badges:
+    - "get"
+keywords:
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "列出群组成员 (V2)"
+  - "get"
+  - RESTful
+  - API
+---
+
+# 列出群组成员 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="zh-CN" />
+
+export const specs = {"summary":"List Group Members","description":"Lists the members of a SCIM group.","tags":["Cloud Access Control Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"}}},{"name":"groupId","in":"path","required":true,"description":"The SCIM group ID.","example":"g-xxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"SCIM 群组 ID。"}}},{"name":"currentPage","in":"query","required":false,"description":"The page number to return. The first page is 1.","schema":{"type":"integer","minimum":1,"default":1},"example":1,"x-i18n":{"zh-CN":{"description":"返回的页码，第一页为 1。"}}},{"name":"pageSize","in":"query","required":false,"description":"The number of items to return per page.","schema":{"type":"integer","minimum":1,"maximum":100,"default":10},"example":10,"x-i18n":{"zh-CN":{"description":"每页返回的条目数。"}}}],"responses":{"200":{"description":"Returns a successful result or an error message.","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"}},"properties":{"code":{"type":"integer","example":0,"description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"object","properties":{"count":{"type":"integer","minimum":0,"description":"The total number of matching items.","x-i18n":{"zh-CN":{"description":"匹配条目的总数。"}}},"currentPage":{"type":"integer","minimum":1,"description":"The current page number.","x-i18n":{"zh-CN":{"description":"当前页码。"}}},"pageSize":{"type":"integer","minimum":1,"description":"The requested page size.","x-i18n":{"zh-CN":{"description":"请求的每页条目数。"}}},"members":{"type":"array","items":{"type":"object","properties":{"username":{"type":"string","description":"The member display name.","x-i18n":{"zh-CN":{"description":"成员显示名称。"}}},"email":{"type":"string","format":"email","description":"The member email address.","x-i18n":{"zh-CN":{"description":"成员邮箱地址。"}}}},"required":["username","email"]},"description":"The members returned on this page.","x-i18n":{"zh-CN":{"description":"当前页面返回的成员。"}}}},"required":["count","currentPage","pageSize","members"]}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"count":12,"currentPage":1,"pageSize":10,"members":[{"username":"Alice","email":"alice@example.com"},{"username":"Bob","email":"bob@example.com"}]}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}},"x-i18n":{"zh-CN":{"summary":"列出群组成员","description":"列出 SCIM 群组的成员。"}}}
+export const endpoint = "/v2/groups/{groupId}/members"
+export const method = "get"
