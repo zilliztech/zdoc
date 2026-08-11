@@ -11,7 +11,7 @@ const {
 } = require('./monitor-docs-progress')
 const {artifactNames, validatePublicationProgress, validatePublicationResults} = require('./publication-contracts')
 const {deriveTranslationProgressState} = require('./translation-progress-state')
-const {validateTranslationHandoff} = require('./translation-handoff')
+const {validateTranslationHandoff, validateTranslationRecoveryHandoff} = require('./translation-handoff')
 
 const TRANSLATION_UNIT_ORDER = Object.freeze([
   'translation/ja-JP/guides',
@@ -313,9 +313,12 @@ function readConfiguration(env = process.env) {
   if (Number.isNaN(Date.parse(startedAt))) throw new Error('CARD_STARTED_AT must be an ISO timestamp')
   const publishText = required(env, 'PUBLISH_ENABLED')
   if (!['true', 'false'].includes(publishText)) throw new Error('PUBLISH_ENABLED must be true or false')
+  const operatorRecoveryText = typeof env.OPERATOR_RECOVERY === 'string' && env.OPERATOR_RECOVERY.trim() ? env.OPERATOR_RECOVERY.trim() : 'false'
+  if (!['true', 'false'].includes(operatorRecoveryText)) throw new Error('OPERATOR_RECOVERY must be true or false')
   let handoff
   try {
-    handoff = validateTranslationHandoff(JSON.parse(required(env, 'HANDOFF_JSON')))
+    const validateHandoff = operatorRecoveryText === 'true' ? validateTranslationRecoveryHandoff : validateTranslationHandoff
+    handoff = validateHandoff(JSON.parse(required(env, 'HANDOFF_JSON')))
   } catch (error) {
     throw new Error(`Invalid translation handoff: ${error.message}`)
   }

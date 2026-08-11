@@ -1110,9 +1110,11 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const callInputs = workflow.on?.workflow_call?.inputs || {}
       const prepare = workflow.jobs?.prepare
       const prepareSteps = prepare?.steps || []
+      const cardTarget = workflow.jobs?.initialize_translation_card?.steps?.find(step => step?.id === 'target')
       const recoveryDownload = prepareSteps.find(step => step?.name === 'Download authenticated recovery plan')
       const handoffStep = prepareSteps.find(step => step?.name === 'Resolve and validate the complete translation handoff')
       const selectionStep = prepareSteps.find(step => step?.id === 'publication_selection')
+      const monitor = workflow.jobs?.monitor_translation_progress
       const guidesProducer = workflow.jobs?.translate_guides_batches
       const sdkProducer = workflow.jobs?.translate_sdk
       const stringDefault = input => `\${{ inputs.${input} || '' }}`
@@ -1122,8 +1124,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           type: 'string', default: '', bindings: [
             [recoveryDownload?.if, "${{ (inputs.recovery_bundle_artifact_name || '') != '' }}"],
             [recoveryDownload?.with?.name, stringDefault('recovery_bundle_artifact_name')],
+            [cardTarget?.env?.RECOVERY_BUNDLE_ARTIFACT_NAME, stringDefault('recovery_bundle_artifact_name')],
             [handoffStep?.env?.RECOVERY_BUNDLE_ARTIFACT_NAME, stringDefault('recovery_bundle_artifact_name')],
             [selectionStep?.env?.RECOVERY_BUNDLE_ARTIFACT_NAME, stringDefault('recovery_bundle_artifact_name')],
+            [monitor?.with?.operator_recovery, "${{ (inputs.recovery_bundle_artifact_name || '') != '' }}"],
             [guidesProducer?.with?.recovery_bundle_artifact_name, stringDefault('recovery_bundle_artifact_name')],
             [sdkProducer?.with?.recovery_bundle_artifact_name, stringDefault('recovery_bundle_artifact_name')],
           ],
@@ -1179,7 +1183,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const requiredPatterns = [
         [/strategy:[\s\S]*matrix: \$\{\{ fromJSON\(needs\.prepare\.outputs\.sdk_producer_matrix\) \}\}[\s\S]*uses: \.\/\.github\/workflows\/_translate-content-group\.yml/, 'must run selected SDK translation producers through one matrix'],
         [/TRANSLATION_AGENT_API_KEY: \$\{\{ secrets\.TRANSLATION_AGENT_API_KEY \}\}[\s\S]*REVIEW_AGENT_API_KEY: \$\{\{ secrets\.REVIEW_AGENT_API_KEY \}\}/, 'must map only the translation agent secrets'],
-        [/translation-handoff\.js --handoff-json "\$HANDOFF_JSON" --repository "\$GITHUB_WORKSPACE"/, 'must validate the exact translation handoff before paid work'],
+        [/translation-handoff\.js --handoff-json "\$HANDOFF_JSON" "\$\{handoff_recovery_args\[@\]\}" --repository "\$GITHUB_WORKSPACE"/, 'must validate the exact translation handoff before paid work'],
         [/target_branch_sha[\s\S]*EXPECTED_TARGET_SHA[\s\S]*Target branch moved after handoff/, 'must fail closed when the target baseline moves'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
