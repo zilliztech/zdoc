@@ -313,15 +313,27 @@ describe('publication adapter profile selection', () => {
 describe('REST API plane configuration', () => {
   it('validates plane keywords as closed profile data', () => {
     expect(IntegrationProfileSchema.parse({
-      restApi: {planeConfig: {controlPlaneKeywords: {zilliz: ['cluster'], milvus: []}}},
+      restApi: {planeConfig: {
+        dataPlaneKeywords: {zilliz: ['cluster-role'], milvus: []},
+        controlPlaneKeywords: {zilliz: ['cluster'], milvus: []},
+      }},
     })).toEqual({
-      restApi: {planeConfig: {controlPlaneKeywords: {zilliz: ['cluster'], milvus: []}}},
+      restApi: {planeConfig: {
+        dataPlaneKeywords: {zilliz: ['cluster-role'], milvus: []},
+        controlPlaneKeywords: {zilliz: ['cluster'], milvus: []},
+      }},
     });
     expect(IntegrationProfileSchema.safeParse({
       restApi: {planeConfig: {controlPlaneKeywords: {zilliz: ['cluster']}, unknown: true}},
     }).success).toBe(false);
     expect(IntegrationProfileSchema.safeParse({
       restApi: {planeConfig: {controlPlaneKeywords: {zilliz: ['']}}},
+    }).success).toBe(false);
+    expect(IntegrationProfileSchema.safeParse({
+      restApi: {planeConfig: {
+        dataPlaneKeywords: {zilliz: ['']},
+        controlPlaneKeywords: {zilliz: ['cluster']},
+      }},
     }).success).toBe(false);
   });
 });

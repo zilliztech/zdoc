@@ -251,6 +251,10 @@ export function createDocusaurusConfig(
       integrations: {...profile.integrations},
       planeConfig: profile.integrations.restApi
         ? {
+            dataPlaneKeywords: Object.fromEntries(
+              Object.entries(profile.integrations.restApi.planeConfig.dataPlaneKeywords ?? {})
+                .map(([target, keywords]) => [target, [...keywords]]),
+            ),
             controlPlaneKeywords: Object.fromEntries(
               Object.entries(profile.integrations.restApi.planeConfig.controlPlaneKeywords)
                 .map(([target, keywords]) => [target, [...keywords]]),

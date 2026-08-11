@@ -151,9 +151,14 @@ export const getExampleLabel = (example, key) => {
 }
 
 export const isControlPlane = (endpoint, target = 'zilliz', planeConfig) => {
-    const keywords = planeConfig?.controlPlaneKeywords?.[target] || planeConfig?.controlPlaneKeywords?.zilliz || []
     const normalizedEndpoint = endpoint.toLowerCase()
-    return keywords.some(k => normalizedEndpoint.includes(k.toLowerCase()))
+    const dataKeywords = planeConfig?.dataPlaneKeywords?.[target] || planeConfig?.dataPlaneKeywords?.zilliz || []
+    if (dataKeywords.some(k => normalizedEndpoint.includes(k.toLowerCase()))) {
+        return false
+    }
+
+    const controlKeywords = planeConfig?.controlPlaneKeywords?.[target] || planeConfig?.controlPlaneKeywords?.zilliz || []
+    return controlKeywords.some(k => normalizedEndpoint.includes(k.toLowerCase()))
 }
 
 export const getTokenPlaceholder = (endpoint, target = 'zilliz', planeConfig, selectedBaseUrl) => {
