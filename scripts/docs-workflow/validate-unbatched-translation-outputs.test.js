@@ -72,11 +72,11 @@ function item({sourcePath, targetPath, source}) {
   }
 }
 
-function manifest(target, items) {
+function manifest(target, items, group) {
   return {
     target,
     locale: target === 'ja-JP' ? 'ja-JP' : 'zh-CN',
-    group: target === 'ja-JP' ? 'guides' : 'python',
+    group: group || (target === 'ja-JP' ? 'guides' : 'python'),
     sourceCheckpointSha: SOURCE_COMMIT,
     generatedAt: '2026-08-12T00:00:00.000Z',
     items,
@@ -233,6 +233,110 @@ function referenceFixture() {
   return {root, baseline, success, failedExisting, failedMissing, retainedTarget, baselineState, workspaceState}
 }
 
+function referenceRawOrderingFixture() {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'unbatched-reference-ordering-')))
+  const baseline = path.join(root, 'baseline')
+  fs.mkdirSync(baseline)
+  const sourcePath = 'content/en/reference/api/go/v2-DataOperations-Database.md'
+  const targetPath = 'content/zh-CN/reference/api/go/v2-DataOperations-Database.md'
+  const existingSourcePath = 'content/en/reference/api/go/v2-Database.md'
+  const existingTargetPath = 'content/zh-CN/reference/api/go/v2-Database.md'
+  const source = '# Data operations database\n'
+  const target = '# 数据操作数据库\n'
+  const existingTarget = '# 数据库\n'
+  const success = item({sourcePath, targetPath, source})
+  const existingRecord = {
+    manual: 'go',
+    sourcePath: existingSourcePath,
+    targetPath: existingTargetPath,
+    sourceCommit: OLD_SOURCE_COMMIT,
+    sourceHash: sha256('# Database\n'),
+    targetHash: sha256(existingTarget),
+    status: 'translated',
+  }
+  const translatedRecord = {
+    manual: 'go',
+    sourcePath,
+    targetPath,
+    sourceCommit: SOURCE_COMMIT,
+    sourceHash: success.sourceHash,
+    targetHash: sha256(target),
+    status: 'translated',
+  }
+  write(root, sourcePath, source)
+  write(root, targetPath, target)
+  writeJson(root, 'generated/en/manifests/reference.json', {
+    schemaVersion: 1,
+    sourceCommit: SOURCE_COMMIT,
+    records: [
+      {manual: 'go', sourcePath, sourceHash: success.sourceHash},
+      {manual: 'go', sourcePath: existingSourcePath, sourceHash: sha256('# Database\n')},
+    ],
+  })
+  writeJson(baseline, 'generated/zh-CN/manifests/reference-translations.json', {
+    schemaVersion: 1,
+    records: [existingRecord],
+    pendingRecords: [{manual: 'go', sourcePath, targetPath, sourceCommit: OLD_SOURCE_COMMIT, sourceHash: sha256('# Data operations database v1\n')}],
+  })
+  writeJson(root, 'generated/zh-CN/manifests/reference-translations.json', {
+    schemaVersion: 1,
+    records: [translatedRecord, existingRecord],
+    pendingRecords: [],
+  })
+  writeJson(root, 'tmp/translation-manifest.json', manifest('zh-CN-reference', [success], 'go'))
+  writeJson(root, 'tmp/translation-report.json', report('zh-CN-reference', [translatedResult(success)]))
+  return {root}
+}
+
+function referenceLanguageExcludedSuccessFixture() {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'unbatched-reference-excluded-')))
+  const baseline = path.join(root, 'baseline')
+  fs.mkdirSync(baseline)
+  const sourcePath = 'content/en/reference/api/restful/restful/v2/upgrade-project-v2.mdx'
+  const targetPath = 'content/zh-CN/reference/api/restful/restful/v2/upgrade-project-v2.mdx'
+  const source = '# Upgrade project\n'
+  const target = '# 升级项目\n'
+  const success = item({sourcePath, targetPath, source})
+  const excludedRecord = {
+    manual: 'rest',
+    sourcePath,
+    targetPath,
+    sourceCommit: OLD_SOURCE_COMMIT,
+    sourceHash: sha256('# Upgrade project v1\n'),
+    locale: 'zh-CN',
+    reason: 'x-include-langs',
+  }
+  const translatedRecord = {
+    manual: 'rest',
+    sourcePath,
+    targetPath,
+    sourceCommit: SOURCE_COMMIT,
+    sourceHash: success.sourceHash,
+    targetHash: sha256(target),
+    status: 'translated',
+  }
+  write(root, sourcePath, source)
+  write(root, targetPath, target)
+  writeJson(root, 'generated/en/manifests/reference.json', {
+    schemaVersion: 1,
+    sourceCommit: SOURCE_COMMIT,
+    records: [{manual: 'rest', sourcePath, sourceHash: success.sourceHash}],
+  })
+  writeJson(baseline, 'generated/zh-CN/manifests/reference-translations.json', {
+    schemaVersion: 1,
+    records: [],
+    languageExcludedRecords: [excludedRecord],
+  })
+  writeJson(root, 'generated/zh-CN/manifests/reference-translations.json', {
+    schemaVersion: 1,
+    records: [translatedRecord],
+    languageExcludedRecords: [],
+  })
+  writeJson(root, 'tmp/translation-manifest.json', manifest('zh-CN-reference', [success], 'rest'))
+  writeJson(root, 'tmp/translation-report.json', report('zh-CN-reference', [translatedResult(success)]))
+  return {root}
+}
+
 test('accepts authenticated unbatched Japanese mixed terminal results and preserves failed target/cache state', () => {
   const fixture = jaFixture()
   try {
@@ -246,6 +350,24 @@ test('accepts Chinese Reference success updates while retaining failed old recor
   const fixture = referenceFixture()
   try {
     assert.deepEqual(validate(fixture.root, {translated: 1, failed: 2}), {candidateCount: 3, target: 'zh-CN-reference'})
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('accepts the schema raw-lexical Reference order for mixed-case source paths', () => {
+  const fixture = referenceRawOrderingFixture()
+  try {
+    assert.deepEqual(validate(fixture.root, {translated: 1, failed: 0}), {candidateCount: 1, target: 'zh-CN-reference'})
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('accepts a successful Reference translation replacing its language-excluded identity', () => {
+  const fixture = referenceLanguageExcludedSuccessFixture()
+  try {
+    assert.deepEqual(validate(fixture.root, {translated: 1, failed: 0}), {candidateCount: 1, target: 'zh-CN-reference'})
   } finally {
     fs.rmSync(fixture.root, {recursive: true, force: true})
   }

@@ -117,8 +117,14 @@ function sha256(bytes) {
   return crypto.createHash('sha256').update(bytes).digest('hex')
 }
 
+function compareCanonicalText(left, right) {
+  return left < right ? -1 : left > right ? 1 : 0
+}
+
 function compareReferenceRecords(left, right) {
-  return left.manual.localeCompare(right.manual) || left.sourcePath.localeCompare(right.sourcePath) || left.targetPath.localeCompare(right.targetPath)
+  return compareCanonicalText(left.manual, right.manual) ||
+    compareCanonicalText(left.sourcePath, right.sourcePath) ||
+    compareCanonicalText(left.targetPath, right.targetPath)
 }
 
 function parsedReferenceManifest(root, relativePath, label) {
@@ -194,6 +200,11 @@ function validateReferenceState({workspace, baseline, manifest, resultBySource})
     ].sort(compareReferenceRecords)
     if (Object.hasOwn(expected, 'pendingRecords')) {
       expected.pendingRecords = expected.pendingRecords.filter(record => record.sourcePath !== item.sourcePath)
+    }
+    if (Object.hasOwn(expected, 'languageExcludedRecords')) {
+      expected.languageExcludedRecords = expected.languageExcludedRecords.filter(record => (
+        record.sourcePath !== item.sourcePath && record.targetPath !== item.targetPath
+      ))
     }
   }
 
