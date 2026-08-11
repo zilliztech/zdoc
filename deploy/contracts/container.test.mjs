@@ -310,6 +310,13 @@ test('Chinese nginx redirects retired standalone Agents routes to translated Gui
   assert.doesNotMatch(nginx, /return\s+301\s+\$scheme:\/\/\$host\/agents\$1;/);
 });
 
+test('English nginx preserves active REST role operation routes while redirecting category and legacy aliases', () => {
+  const nginx = read('deploy/en/nginx.conf');
+  assert.doesNotMatch(nginx, /location\s+=\s+\/reference\/restful\/(?:create|drop)-role-v2\s*\{/);
+  assert.match(nginx, /location\s+=\s+\/reference\/restful\/role-operations-v2\s*\{[\s\S]*?return\s+301\s+\/reference\/restful\/cluster-role-operations-v2;/);
+  assert.match(nginx, /location\s+=\s+\/reference\/restful\/grant-privilege-to-role-v2-v2\s*\{[\s\S]*?return\s+301\s+\/reference\/restful\/grant-privilege-to-role-v2;/);
+});
+
 test('both site-owned images route chat directly to the private agent runtime', () => {
   const entrypoint = read('deploy/runtime/40-zdoc-env.sh');
   assert.match(entrypoint, /upstream docs_agent\s*\{/);

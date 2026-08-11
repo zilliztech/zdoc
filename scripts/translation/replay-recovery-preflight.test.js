@@ -8,7 +8,8 @@ const {spawnSync} = require('node:child_process')
 const test = require('node:test')
 
 const {createRecoveryArtifact, promptContractSha256, sha256} = require('./recovery-artifact')
-const {parseArgs} = require('./replay-recovery-preflight')
+const {buildReplayCandidates, parseArgs} = require('./replay-recovery-preflight')
+const {semanticCheckpointsFromCompleteTranslation} = require('./semanticRecovery')
 
 function reviewedResult(result) {
   return {
@@ -38,6 +39,121 @@ function write(root, relative, contents) {
   fs.mkdirSync(path.dirname(target), {recursive: true})
   fs.writeFileSync(target, contents)
 }
+
+function replayRecord(suffix, overrides = {}) {
+  return {
+    sourcePath: `content/en/guides/tutorials/recovery/${suffix}.md`,
+    targetPath: `i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/recovery/${suffix}.md`,
+    sourceHash: sha256(Buffer.from(suffix)),
+    ...overrides,
+  }
+}
+
+function byocReplayRecord(suffix, overrides = {}) {
+  return {
+    sourcePath: `content/en/byoc/tutorials/recovery/${suffix}.md`,
+    targetPath: `i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/recovery/${suffix}.md`,
+    sourceHash: sha256(Buffer.from(suffix)),
+    ...overrides,
+  }
+}
+
+test('constructs schema-v2 replay candidates from the union of translated files and failures', () => {
+  const translated = replayRecord('translated')
+  const failed = replayRecord('failed')
+  const candidates = buildReplayCandidates({
+    metadata: {schemaVersion: 2, locale: 'ja-JP', group: 'guides', sourceSha: 'a'.repeat(40), translated: 1, failed: 1},
+    artifactManifest: {schemaVersion: 2, files: [translated], failures: [failed]},
+    target: 'ja-JP',
+  })
+
+  assert.deepEqual(candidates.map(item => item.sourcePath), [translated.sourcePath, failed.sourcePath])
+  assert.ok(candidates.every(item => item.locale === 'ja-JP' && item.type === 'guides' && item.reason === 'stale_source'))
+})
+
+test('constructs schema-v2 replay candidates from a failure-only artifact', () => {
+  const failed = replayRecord('failure-only')
+  const candidates = buildReplayCandidates({
+    metadata: {schemaVersion: 2, locale: 'ja-JP', group: 'guides', sourceSha: 'a'.repeat(40), translated: 0, failed: 1},
+    artifactManifest: {schemaVersion: 2, files: [], failures: [failed]},
+    target: 'ja-JP',
+  })
+
+  assert.deepEqual(candidates.map(item => ({
+    sourcePath: item.sourcePath,
+    targetPath: item.targetPath,
+    sourceHash: item.sourceHash,
+  })), [failed])
+})
+
+test('constructs a canonical Japanese BYOC retained candidate with the shared manifest item type', () => {
+  const retained = byocReplayRecord('byoc-retained')
+  const candidates = buildReplayCandidates({
+    metadata: {schemaVersion: 2, locale: 'ja-JP', group: 'guides', sourceSha: 'a'.repeat(40), translated: 1, failed: 0},
+    artifactManifest: {schemaVersion: 2, files: [retained], failures: []},
+    target: 'ja-JP',
+  })
+
+  assert.deepEqual(candidates, [{
+    ...retained,
+    locale: 'ja-JP',
+    type: 'byoc',
+    reason: 'stale_source',
+  }])
+  assert.throws(() => buildReplayCandidates({
+    metadata: {schemaVersion: 2, locale: 'ja-JP', group: 'guides', sourceSha: 'a'.repeat(40), translated: 1, failed: 0},
+    artifactManifest: {
+      schemaVersion: 2,
+      files: [byocReplayRecord('byoc-wrong-target', {
+        targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/recovery/byoc-wrong-target.md',
+      })],
+      failures: [],
+    },
+    target: 'ja-JP',
+  }), /target path must be .*docusaurus-plugin-content-docs-byoc\/current\/tutorials\/recovery\/byoc-wrong-target\.md/i)
+})
+
+test('fails closed on duplicate or conflicting schema-v2 replay identities', () => {
+  const record = replayRecord('duplicate')
+  const base = {
+    metadata: {schemaVersion: 2, locale: 'ja-JP', group: 'guides', sourceSha: 'a'.repeat(40), translated: 1, failed: 1},
+    target: 'ja-JP',
+  }
+  assert.throws(() => buildReplayCandidates({
+    ...base,
+    artifactManifest: {schemaVersion: 2, files: [record], failures: [{...record}]},
+  }), /duplicate.*identity/i)
+  assert.throws(() => buildReplayCandidates({
+    ...base,
+    artifactManifest: {
+      schemaVersion: 2,
+      files: [record],
+      failures: [{...record, sourceHash: 'f'.repeat(64)}],
+    },
+  }), /conflicting.*identity/i)
+})
+
+test('rejects a Japanese Guides replay candidate mapped to a README target', () => {
+  const record = replayRecord('wrong-readme-target', {targetPath: 'README.md'})
+  assert.throws(() => buildReplayCandidates({
+    metadata: {schemaVersion: 2, locale: 'ja-JP', group: 'guides', sourceSha: 'a'.repeat(40), translated: 0, failed: 1},
+    artifactManifest: {schemaVersion: 2, files: [], failures: [record]},
+    target: 'ja-JP',
+  }), /target path must be .*wrong-readme-target\.md/i)
+})
+
+test('rejects a Chinese Reference replay candidate mapped to an incorrect target path', () => {
+  const record = {
+    sourcePath: 'content/en/reference/api/python/python/wrong-target.md',
+    targetPath: 'content/zh-CN/reference/api/java/java/wrong-target.md',
+    sourceHash: sha256(Buffer.from('wrong-target')),
+  }
+  assert.throws(() => buildReplayCandidates({
+    metadata: {schemaVersion: 2, locale: 'zh-CN', group: 'python', sourceSha: 'a'.repeat(40), translated: 0, failed: 1},
+    artifactManifest: {schemaVersion: 2, files: [], failures: [record]},
+    target: 'zh-CN-reference',
+  }), /target path must be content\/zh-CN\/reference\/api\/python\/python\/wrong-target\.md/i)
+})
 
 test('replays a retained recovery artifact with current reviewer receipts through the full Agent Runner boundary without model calls', t => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-replay-'))
@@ -204,8 +320,8 @@ test('replays a long semantic-resumable Guide through the full Agent Runner boun
   fs.mkdirSync(siteDir)
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
 
-  const sourcePath = 'content/en/guides/recovery/long-guide.md'
-  const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/recovery/long-guide.md'
+  const sourcePath = 'content/en/guides/tutorials/recovery/long-guide.md'
+  const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/recovery/long-guide.md'
   const sourceParagraph = 'This guide explains a reliable workflow with practical details for operators. '.repeat(20).trim()
   const targetParagraph = 'このガイドでは、運用担当者向けに実用的な詳細を含む信頼性の高いワークフローを説明します。'.repeat(20)
   const source = ['# Reliable workflow', ...Array.from({length: 7}, (_, index) => `## Step ${index + 1}\n\n${sourceParagraph}`), ''].join('\n\n')
@@ -273,6 +389,89 @@ test('replays a long semantic-resumable Guide through the full Agent Runner boun
   assert.equal(replay.modelInvocationCount, replay.modelCallCounts.total)
 })
 
+test('replays a failure-only semantic checkpoint artifact through the full CLI with Reviewer-only model calls', t => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-replay-failure-only-'))
+  const repository = path.join(root, 'repository')
+  const siteDir = path.join(root, 'artifact-source')
+  const artifactDir = path.join(root, 'artifact')
+  const evidence = path.join(root, 'evidence.json')
+  fs.mkdirSync(repository)
+  fs.mkdirSync(siteDir)
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+
+  const sourcePath = 'content/en/guides/tutorials/recovery/failure-only.md'
+  const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/recovery/failure-only.md'
+  const source = '# Reliable recovery\n\nThis guide explains a reliable recovery workflow.\n\n## Verify recovery\n\nVerify every retained semantic unit before publication.\n'
+  const target = '# 信頼できる復旧\n\nこのガイドでは、信頼できる復旧ワークフローについて説明します。\n\n## 復旧を確認する\n\n公開前に保持されたすべてのセマンティック単位を確認します。\n'
+  const item = {
+    target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(Buffer.from(source)), locale: 'ja-JP', type: 'guides', reason: 'stale_source',
+  }
+
+  git(repository, ['init'])
+  git(repository, ['config', 'user.name', 'Translation Replay Test'])
+  git(repository, ['config', 'user.email', 'translation-replay@example.com'])
+  write(repository, sourcePath, source)
+  write(siteDir, sourcePath, source)
+  git(repository, ['add', '.'])
+  git(repository, ['commit', '-m', 'Add failure-only replay source'])
+  const sourceSha = git(repository, ['rev-parse', 'HEAD'])
+  const executionToolingSha = git(process.cwd(), ['rev-parse', 'HEAD'])
+  const semanticCheckpoints = semanticCheckpointsFromCompleteTranslation({
+    sourceContent: source,
+    targetContent: target,
+    item,
+    chunkOptions: {targetChars: 8000, maxChars: 12000},
+  })
+  createRecoveryArtifact({
+    siteDir,
+    outputDir: artifactDir,
+    results: [{
+      ...item,
+      status: 'failed',
+      error: 'review provider interrupted after translation completed',
+      semanticCheckpoints,
+    }],
+    identity: {
+      locale: 'ja-JP', group: 'guides', promptContractSha256: promptContractSha256('ja-JP'),
+      model: 'current-model', sourceSha, toolingSha: executionToolingSha, mode: 'incremental',
+    },
+  })
+
+  const artifactManifest = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8'))
+  assert.equal(artifactManifest.files.length, 0)
+  assert.equal(artifactManifest.failures.length, 1)
+  assert.ok(artifactManifest.failures[0].semanticCheckpoints.report.entries.length > 0)
+
+  const result = spawnSync(process.execPath, [
+    path.join(__dirname, 'replay-recovery-preflight.js'),
+    '--repository', repository,
+    '--source-sha', sourceSha,
+    '--recovery-artifact', artifactDir,
+    '--execution-tooling-sha', executionToolingSha,
+    '--execution-model', 'current-model',
+    '--chunk-target-chars', '8000',
+    '--chunk-max-chars', '12000',
+    '--output', evidence,
+  ], {encoding: 'utf8'})
+
+  assert.equal(result.status, 0, result.stderr)
+  const replay = JSON.parse(fs.readFileSync(evidence, 'utf8'))
+  assert.equal(replay.candidateCount, 1)
+  assert.equal(replay.recoveredCount, 0)
+  assert.equal(replay.pendingCount, 1)
+  assert.equal(replay.semanticResumableFileCount, 1)
+  assert.ok(replay.recoveredSemanticUnitCount > 0)
+  assert.equal(replay.agentLoadedPendingCount, 1)
+  assert.equal(replay.agentLoadedSemanticUnitCount, replay.recoveredSemanticUnitCount)
+  assert.equal(replay.agentProcessedCount, 1)
+  assert.equal(replay.agentTranslatedCount, 1)
+  assert.equal(replay.agentFailedCount, 0)
+  assert.equal(replay.modelCallCounts.translation, 0)
+  assert.ok(replay.modelCallCounts.reviewer > 0)
+  assert.equal(replay.modelCallCounts.correction, 0)
+  assert.equal(replay.modelInvocationCount, replay.modelCallCounts.total)
+})
+
 test('models cancelled run 31458881310 as 30 pending semantic-resumable files with Reviewer-only model calls', t => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-replay-cancelled-run-'))
   const repository = path.join(root, 'repository')
@@ -286,8 +485,8 @@ test('models cancelled run 31458881310 as 30 pending semantic-resumable files wi
   const records = Array.from({length: 30}, (_, index) => {
     const suffix = String(index + 1).padStart(2, '0')
     return {
-      sourcePath: `content/en/guides/recovery/cancelled-run-${suffix}.md`,
-      targetPath: `i18n/ja-JP/docusaurus-plugin-content-docs/current/recovery/cancelled-run-${suffix}.md`,
+      sourcePath: `content/en/guides/tutorials/recovery/cancelled-run-${suffix}.md`,
+      targetPath: `i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/recovery/cancelled-run-${suffix}.md`,
       source: `# Reliable recovery ${suffix}\n\nThis guide explains a reliable recovery workflow.\n`,
       target: `# 信頼できる復旧 ${suffix}\n\nこのガイドでは、信頼できる復旧ワークフローについて説明します。\n`,
     }

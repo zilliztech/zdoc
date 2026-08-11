@@ -350,9 +350,12 @@ describe('Reference translation source checkpoint provenance', () => {
     await expect(validateChinese(fixture)).rejects.toThrow(/historical source hash mismatch/i);
   });
 
-  it('keeps the current source manifest hash check authoritative', async () => {
+  it('keeps the same-commit source manifest hash check authoritative', async () => {
     const fixture = provenanceFixture();
-    writeTranslationRecord(fixture, {sourceHash: 'b'.repeat(64)});
+    writeTranslationRecord(fixture, {
+      sourceCommit: fixture.sourceManifestCommit,
+      sourceHash: 'b'.repeat(64),
+    });
 
     await expect(validateChinese(fixture)).rejects.toThrow(/declared source hash mismatch/i);
   });

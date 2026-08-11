@@ -503,7 +503,18 @@ test('derives a stable target-specific prompt contract hash', () => {
   assert.notEqual(promptContractSha256('zh-CN-reference'), promptContractSha256('ja-JP'));
 });
 
-test('changes the prompt contract hash when locale, document correction, or REST review/correction prompts change', () => {
+test('Reviewer prompt contracts describe bounded batch context and aligned-unit evidence only', () => {
+  for (const target of ['ja-JP', 'zh-CN-reference']) {
+    const prompt = fs.readFileSync(path.join(process.cwd(), `.github/prompts/codex-review-agent.${target}.md`), 'utf8');
+    assert.match(prompt, /bounded current-batch context/i, `${target} must describe the document tags as bounded batch context`);
+    assert.match(prompt, /document title[\s\S]*previous translated heading[\s\S]*translation_context/i, `${target} must describe optional translation context`);
+    assert.match(prompt, /evidence only[\s\S]*source_units[\s\S]*draft_units/i, `${target} must restrict evidence to aligned unit arrays`);
+    assert.match(prompt, /never restore the full document payload/i, `${target} must forbid restoring the full document payload`);
+    assert.doesNotMatch(prompt, /complete discourse context/i, `${target} must not claim bounded batches are complete context`);
+  }
+});
+
+test('changes the prompt contract hash when locale, document translation/review/correction, or REST review/correction prompts change', () => {
   const repositoryRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-prompt-contract-'));
   const promptNames = [
     'codex-translation-agent.zh-CN-reference.md',
@@ -528,6 +539,11 @@ test('changes the prompt contract hash when locale, document correction, or REST
   assert.notEqual(translationChanged, initial);
 
   write(repositoryRoot, '.github/prompts/codex-translation-agent.zh-CN-reference.md', 'codex-translation-agent.zh-CN-reference.md\n');
+  write(repositoryRoot, '.github/prompts/codex-review-agent.zh-CN-reference.md', 'changed document review\n');
+  const reviewChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
+  assert.notEqual(reviewChanged, initial);
+
+  write(repositoryRoot, '.github/prompts/codex-review-agent.zh-CN-reference.md', 'codex-review-agent.zh-CN-reference.md\n');
   write(repositoryRoot, '.github/prompts/codex-correction-agent.zh-CN-reference.md', 'changed correction\n');
   const correctionChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
   assert.notEqual(correctionChanged, initial);

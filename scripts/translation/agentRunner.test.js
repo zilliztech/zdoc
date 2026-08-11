@@ -578,6 +578,223 @@ function testMessageBuildersSelectPromptsFromTarget() {
   })[0].content, /Correction Agent for Japanese/)
 }
 
+function testSemanticReviewerMessagesContainOnlyBoundedBatchContext() {
+  const message = buildReviewMessages({
+    target: 'ja-JP',
+    sourcePath: 'content/en/guides/tutorials/reviewer-batch.md',
+    sourceContent: 'FULL_SOURCE_SENTINEL',
+    translatedContent: 'FULL_DRAFT_SENTINEL',
+    sourceDocument: 'FULL_SOURCE_DOCUMENT_SENTINEL',
+    draftDocument: 'FULL_DRAFT_DOCUMENT_SENTINEL',
+    sourceUnits: [{id: 'chunk.0001.paragraph.0001', kind: 'paragraph', text: 'Current source unit'}],
+    draftUnits: [{id: 'chunk.0001.paragraph.0001', kind: 'paragraph', text: 'Current draft unit'}],
+    locale: 'ja-JP',
+    chunkContext: {index: 0, total: 2, documentTitle: 'Metrics alerts', previousTranslatedHeading: 'Previous'},
+  }).at(-1).content
+
+  assert.match(message, /<translation_context>[\s\S]*locale: ja-JP[\s\S]*source_path: content\/en\/guides\/tutorials\/reviewer-batch\.md/)
+  assert.match(message, /Chunk: 1 of 2/)
+  assert.match(message, /Document title: Metrics alerts/)
+  assert.match(message, /Previous translated heading: Previous/)
+  assert.match(message, /<source_document>[\s\S]*chunk\.0001\.paragraph\.0001[\s\S]*Current source unit[\s\S]*<\/source_document>/)
+  assert.match(message, /<draft_document>[\s\S]*chunk\.0001\.paragraph\.0001[\s\S]*Current draft unit[\s\S]*<\/draft_document>/)
+  assert.match(message, /<source_units>[\s\S]*Current source unit[\s\S]*<\/source_units>/)
+  assert.match(message, /<draft_units>[\s\S]*Current draft unit[\s\S]*<\/draft_units>/)
+  assert.doesNotMatch(message, /FULL_SOURCE|FULL_DRAFT/)
+}
+
+function testNonSemanticReviewerFallbackRetainsWholeSourceAndDraft() {
+  const message = buildReviewMessages({
+    target: 'ja-JP',
+    sourcePath: 'content/en/guides/tutorials/fallback.md',
+    sourceContent: 'fallback source',
+    translatedContent: 'fallback draft',
+    locale: 'ja-JP',
+  }).at(-1).content
+
+  assert.match(message, /<source>\nfallback source<\/source>/)
+  assert.match(message, /<draft>\nfallback draft<\/draft>/)
+}
+
+async function runRecoveredDeadlineCase({fileTimeoutMs, providerCallBudgetMs, now}) {
+  return withTempDir(async siteDir => {
+    const sourcePath = 'content/en/guides/recovery/deadline-admission.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/recovery/deadline-admission.md'
+    const source = '# Overview\n\nThis guide explains recovery.\n'
+    const target = '# 概要\n\nこのガイドでは復旧について説明します。\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'}
+    const semanticCheckpoints = semanticCheckpointsFromCompleteTranslation({sourceContent: source, targetContent: target, item})
+    let modelCalls = 0
+    const result = await processItemWithRetry(item, {
+      maxRetries: 0,
+      fileTimeoutMs,
+      providerCallBudgetMs,
+      now,
+      initialSemanticCheckpoints: semanticCheckpoints,
+      processItem: (_item, _attempt, _feedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        semanticCheckpoint: retryContext.semanticCheckpoint,
+        onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
+        modelCallDeadline: retryContext.modelCallDeadline,
+        maxReviewRounds: 0,
+        validate: async () => [],
+        callModel: async ({agent}) => {
+          modelCalls += 1
+          assert.equal(agent, 'review')
+          return '{"pass":true,"issues":[]}'
+        },
+      }),
+    })
+    return {result, modelCalls, checkpointCount: semanticCheckpoints.entries.length}
+  })
+}
+
+async function testFileDeadlineRejectsNewModelCallAndRetainsSemanticCheckpoints() {
+  const clock = [0, 60]
+  const {result, modelCalls, checkpointCount} = await runRecoveredDeadlineCase({
+    fileTimeoutMs: 100,
+    providerCallBudgetMs: 50,
+    now: () => clock.shift() ?? 60,
+  })
+
+  assert.equal(modelCalls, 0)
+  assert.equal(result.status, 'failed')
+  assert.equal(result.failureCategory, 'provider_timeout')
+  assert.equal(result.errorDetails.code, 'FILE_DEADLINE_INSUFFICIENT')
+  assert.equal(result.semanticCheckpoints.entries.length, checkpointCount)
+}
+
+async function testFileDeadlineAllowsModelCallWithEnoughBudget() {
+  const clock = [0, 10]
+  const {result, modelCalls} = await runRecoveredDeadlineCase({
+    fileTimeoutMs: 100,
+    providerCallBudgetMs: 50,
+    now: () => clock.shift() ?? 10,
+  })
+
+  assert.equal(modelCalls, 1)
+  assert.equal(result.status, 'translated')
+}
+
+async function testZeroFileTimeoutDisablesModelCallDeadlineAdmission() {
+  const {result, modelCalls} = await runRecoveredDeadlineCase({
+    fileTimeoutMs: 0,
+    providerCallBudgetMs: 500,
+    now: () => 1000,
+  })
+
+  assert.equal(modelCalls, 1)
+  assert.equal(result.status, 'translated')
+}
+
+async function testProviderRetryDoesNotCrossFileDeadline() {
+  const originalFetch = global.fetch
+  try {
+    await withTempDir(async siteDir => {
+      const sourcePath = 'content/en/guides/recovery/provider-retry-deadline.md'
+      const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/recovery/provider-retry-deadline.md'
+      const source = '# Overview\n\nThis guide explains recovery.\n'
+      const target = '# 概要\n\nこのガイドでは復旧について説明します。\n'
+      write(path.join(siteDir, sourcePath), source)
+      const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'}
+      const semanticCheckpoints = semanticCheckpointsFromCompleteTranslation({sourceContent: source, targetContent: target, item})
+      let now = 0
+      let fetchCount = 0
+      global.fetch = async () => {
+        fetchCount += 1
+        if (fetchCount === 1) {
+          now = 90
+          return {ok: false, status: 408, json: async () => ({error: 'timeout'})}
+        }
+        return {ok: true, status: 200, json: async () => ({choices: [{message: {content: '{"pass":true,"issues":[]}'}}]})}
+      }
+      const callModel = await createProviderCall({
+        review: {baseUrl: 'https://example.com', apiKey: 'key', model: 'model'},
+      }, {
+        maxRetries: 1,
+        retryDelayMs: 0,
+        retryMaxDelayMs: 0,
+        retryJitterRatio: 0,
+        timeoutMs: 50,
+      })
+      const result = await processItemWithRetry(item, {
+        maxRetries: 0,
+        providerRetryLimit: 1,
+        fileTimeoutMs: 100,
+        providerCallBudgetMs: 50,
+        now: () => now,
+        initialSemanticCheckpoints: semanticCheckpoints,
+        processItem: (_item, _attempt, _feedback, retryContext) => processManifestItem({
+          siteDir,
+          item,
+          semanticCheckpoint: retryContext.semanticCheckpoint,
+          onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
+          modelCallDeadline: retryContext.modelCallDeadline,
+          providerRetryBudget: retryContext.providerRetryBudget,
+          maxReviewRounds: 0,
+          validate: async () => [],
+          callModel,
+        }),
+      })
+
+      assert.equal(fetchCount, 1)
+      assert.equal(result.status, 'failed')
+      assert.equal(result.failureCategory, 'provider_timeout')
+      assert.equal(result.errorDetails.code, 'FILE_DEADLINE_INSUFFICIENT')
+      assert.equal(result.errorDetails.providerAttempts, 1)
+      assert.equal(result.errorDetails.retryBudgetConsumed, 0)
+      assert.equal(result.errorDetails.retryBudgetRemaining, 1)
+      assert.equal(result.semanticCheckpoints.entries.length, semanticCheckpoints.entries.length)
+    })
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
+async function testProviderRetryBudgetIsNotConsumedWhenBackoffCrossesFileDeadline() {
+  const originalFetch = global.fetch
+  try {
+    let fetchCount = 0
+    global.fetch = async () => {
+      fetchCount += 1
+      return {ok: false, status: 408, json: async () => ({error: 'timeout'})}
+    }
+    const callModel = await createProviderCall({
+      review: {baseUrl: 'https://example.com', apiKey: 'key', model: 'model'},
+    }, {
+      maxRetries: 1,
+      retryDelayMs: 0,
+      retryMaxDelayMs: 0,
+      retryJitterRatio: 0,
+      timeoutMs: 50,
+    })
+    const retryBudget = createProviderRetryBudget(1)
+    const clock = [0, 40, 90]
+    await assert.rejects(() => callModel({
+      agent: 'review',
+      messages: [],
+      retryBudget,
+      modelCallDeadline: {
+        expiresAt: 100,
+        providerCallBudgetMs: 50,
+        now: () => clock.shift() ?? 90,
+      },
+    }), error => {
+      assert.equal(error.failureCategory, 'provider_timeout')
+      assert.equal(error.code, 'FILE_DEADLINE_INSUFFICIENT')
+      assert.equal(error.providerAttempts, 1)
+      assert.equal(error.retryBudgetConsumed, 0)
+      assert.equal(error.retryBudgetRemaining, 1)
+      return true
+    })
+    assert.equal(fetchCount, 1)
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
 function testTranslationMessagesIncludeOnlyExplicitRetryFeedback() {
   const common = {
     target: 'zh-CN-reference',
@@ -3330,6 +3547,10 @@ async function testChineseReferenceProgressStateUsesItsTargetManifest() {
     write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
       schemaVersion: 1,
       records: [retiredReference],
+      pendingRecords: [
+        {manual: 'python', sourcePath: changedSourcePath, targetPath: changedTargetPath, sourceCommit, sourceHash: sha256(changedSource)},
+        {manual: 'python', sourcePath: unchangedSourcePath, targetPath: unchangedTargetPath, sourceCommit, sourceHash: sha256(unchanged)},
+      ],
     }))
 
     const referenceManifest = {
@@ -3383,6 +3604,7 @@ async function testChineseReferenceProgressStateUsesItsTargetManifest() {
     assert.equal(referenceState.records[2].sourceHash, sha256(unchanged))
     assert.equal(referenceState.records[2].targetHash, sha256(unchanged))
     assert.equal(referenceState.records[2].status, 'unchanged')
+    assert.deepEqual(referenceState.pendingRecords, [])
     assert.ok(referenceState.records.every(record => record.sourcePath.startsWith('content/en/reference/')))
     const candidateOptions = {
       repositoryRoot: siteDir,
@@ -3581,9 +3803,11 @@ async function testAllowsProtectedMarkerReorderingInsideOneSemanticUnit() {
       callModel: async ({agent, messages}) => {
         if (agent === 'review') {
           const markerPattern = /<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->/g
+          const draftUnits = JSON.stringify(taggedJsonContent(messages, 'draft_units'))
+          const sourceUnits = JSON.stringify(taggedJsonContent(messages, 'source_units'))
           assert.deepEqual(
-            [...taggedMessageContent(messages, 'draft_document').matchAll(markerPattern)].map(match => match[0]).sort(),
-            [...taggedMessageContent(messages, 'source_document').matchAll(markerPattern)].map(match => match[0]).sort(),
+            [...draftUnits.matchAll(markerPattern)].map(match => match[0]).sort(),
+            [...sourceUnits.matchAll(markerPattern)].map(match => match[0]).sort(),
           )
           return '{"pass":true,"issues":[]}'
         }
@@ -4015,6 +4239,8 @@ async function run() {
   await testCompleteRestRecoveryWithNoLocalizableSpecsNeedsNoRestModelCalls()
   await testRestRetryCheckpointFailsClosedWhenCombinedPayloadExceedsLimit()
   testMessageBuildersSelectPromptsFromTarget()
+  testSemanticReviewerMessagesContainOnlyBoundedBatchContext()
+  testNonSemanticReviewerFallbackRetainsWholeSourceAndDraft()
   testTranslationMessagesIncludeOnlyExplicitRetryFeedback()
   testReferenceLandingMessagesContainNavigationContract()
   testValidatesExactManifestTargetContract()
@@ -4044,6 +4270,11 @@ async function run() {
   await testAdaptiveSemanticSubdivisionPreservesCompletedChunkCheckpoint()
   await testRetainedTimeoutFixturesCompleteWithBoundedAdaptivePayloads()
   await testFileTimeoutRejectsSlowWork()
+  await testFileDeadlineRejectsNewModelCallAndRetainsSemanticCheckpoints()
+  await testFileDeadlineAllowsModelCallWithEnoughBudget()
+  await testZeroFileTimeoutDisablesModelCallDeadlineAdmission()
+  await testProviderRetryDoesNotCrossFileDeadline()
+  await testProviderRetryBudgetIsNotConsumedWhenBackoffCrossesFileDeadline()
   await testFileAttemptDeadlineSpansAllMarkdownChunksAndStopsLateCheckpoints()
   await testFileAttemptDeadlineAbortsRestTranslation()
   await testProviderNamedFailuresRetryBoundedlyAndExternalAbortDoesNotRetry()
