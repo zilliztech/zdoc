@@ -3547,6 +3547,10 @@ async function testChineseReferenceProgressStateUsesItsTargetManifest() {
     write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
       schemaVersion: 1,
       records: [retiredReference],
+      pendingRecords: [
+        {manual: 'python', sourcePath: changedSourcePath, targetPath: changedTargetPath, sourceCommit, sourceHash: sha256(changedSource)},
+        {manual: 'python', sourcePath: unchangedSourcePath, targetPath: unchangedTargetPath, sourceCommit, sourceHash: sha256(unchanged)},
+      ],
     }))
 
     const referenceManifest = {
@@ -3600,6 +3604,7 @@ async function testChineseReferenceProgressStateUsesItsTargetManifest() {
     assert.equal(referenceState.records[2].sourceHash, sha256(unchanged))
     assert.equal(referenceState.records[2].targetHash, sha256(unchanged))
     assert.equal(referenceState.records[2].status, 'unchanged')
+    assert.deepEqual(referenceState.pendingRecords, [])
     assert.ok(referenceState.records.every(record => record.sourcePath.startsWith('content/en/reference/')))
     const candidateOptions = {
       repositoryRoot: siteDir,

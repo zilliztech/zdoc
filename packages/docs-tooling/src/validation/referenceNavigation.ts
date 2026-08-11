@@ -323,9 +323,10 @@ function validateTarget(
   site: Site,
   target: Target,
   retirements: ReferenceRetirementRegistry,
+  excludedDocumentIds: ReadonlySet<string>,
 ): void {
   const selectedSidebarPath = sidebarRelativePath(site, target);
-  const retiredIds = retirementDocumentIds(retirements, target.manual);
+  const retiredIds = new Set([...retirementDocumentIds(retirements, target.manual), ...excludedDocumentIds]);
   const selectedSidebar = loadSidebar(repositoryRoot, site, target, site);
   const selected = sidebarAnalysis({
     sidebar: selectedSidebar,
@@ -404,13 +405,14 @@ function validateTarget(
 export function validateReferenceNavigation(options: Readonly<{
   repositoryRoot: string;
   site: 'en' | 'zh-CN';
+  excludedDocumentIds?: ReadonlySet<string>;
 }>): void {
   const config = loadConfig(options.repositoryRoot, options.site);
   const retirements = loadRetirements(options.repositoryRoot, options.site);
   const errors: string[] = [];
   for (const target of config.targets) {
     try {
-      validateTarget(options.repositoryRoot, options.site, target, retirements);
+      validateTarget(options.repositoryRoot, options.site, target, retirements, options.excludedDocumentIds ?? new Set());
     } catch (error) {
       errors.push(error instanceof Error ? error.message : String(error));
     }

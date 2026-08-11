@@ -83,7 +83,8 @@ function mergeCache(baseline, artifact, target) {
   return Buffer.from(`${JSON.stringify(canonicalize(result), null, 2)}\n`);
 }
 
-function recordsBySource(manifest, field, label) {
+function recordsBySource(manifest, field, label, optional = false) {
+  if (optional && !Object.hasOwn(manifest, field)) return {};
   if (!Array.isArray(manifest[field])) throw new Error(`${label} ${field} must be an array`);
   const records = {};
   for (const record of manifest[field]) {
@@ -142,23 +143,31 @@ function mergeBootstrapCompletedGroups(manifests) {
   return [...new Set(groups)].sort((left, right) => left < right ? -1 : left > right ? 1 : 0);
 }
 
-function mergeRecordCollection(baseline, artifact, target, field) {
+function mergeManifest(baseline, artifact, target) {
   const manifests = [baseline, artifact, target];
   const mergesBootstrapGroups = manifests.some((manifest) => Object.hasOwn(manifest, 'bootstrapCompletedGroups'));
-  const metadata = manifests.map((manifest) => Object.fromEntries(Object.entries(manifest).filter(([key]) => key !== field && (!mergesBootstrapGroups || key !== 'bootstrapCompletedGroups'))));
+  const metadata = manifests.map((manifest) => Object.fromEntries(Object.entries(manifest).filter(([key]) => (
+    key !== 'records'
+    && key !== 'pendingRecords'
+    && (!mergesBootstrapGroups || key !== 'bootstrapCompletedGroups')
+  ))));
   const result = mergeRecord(metadata[0], metadata[1], metadata[2]);
   if (mergesBootstrapGroups) result.bootstrapCompletedGroups = mergeBootstrapCompletedGroups(manifests);
-  result[field] = Object.values(mergeRecordEntries(
-    recordsBySource(baseline, field, 'Baseline'),
-    recordsBySource(artifact, field, 'Artifact'),
-    recordsBySource(target, field, 'Target'),
-    `${field}.`,
+  result.records = Object.values(mergeRecordEntries(
+    recordsBySource(baseline, 'records', 'Baseline'),
+    recordsBySource(artifact, 'records', 'Artifact'),
+    recordsBySource(target, 'records', 'Target'),
+    'records.',
   )).sort(compareManifestRecords);
+  if (manifests.some((manifest) => Object.hasOwn(manifest, 'pendingRecords'))) {
+    result.pendingRecords = Object.values(mergeRecordEntries(
+      recordsBySource(baseline, 'pendingRecords', 'Baseline', true),
+      recordsBySource(artifact, 'pendingRecords', 'Artifact', true),
+      recordsBySource(target, 'pendingRecords', 'Target', true),
+      'pendingRecords.',
+    )).sort(compareManifestRecords);
+  }
   return Buffer.from(`${JSON.stringify(canonicalize(result), null, 2)}\n`);
-}
-
-function mergeManifest(baseline, artifact, target) {
-  return mergeRecordCollection(baseline, artifact, target, 'records');
 }
 
 async function atomicWrite(target, bytes) {

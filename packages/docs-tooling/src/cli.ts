@@ -44,7 +44,9 @@ import {
   parseReferenceTranslationManifest,
   serializeReferenceManifest,
   type ReferenceRetirementRegistry,
+  type ReferenceSourceManifest,
   type ReferenceTreeSnapshot,
+  type ReferenceTranslationManifest,
 } from './reference/translationManifest.ts';
 import {deriveReferenceSidebarPublicationEntries, deriveZhCnReferenceSidebarGroupEntries} from './reference/sidebarDerivation.ts';
 import {deriveRestSidebar, serializeRestSidebar} from './reference/restSidebarDerivation.ts';
@@ -122,7 +124,7 @@ export type ReferenceCommandDependencies = Readonly<{
   repositoryRoot?: string;
   environment?: NodeJS.ProcessEnv;
   resolveSourceCommit?: (revision: string) => string;
-  verifySourceRevision?: (commit: string, sourceRoot: string) => void;
+  verifySourceRevision?: (commit: string, sourceRoot: string, snapshot?: ReferenceTreeSnapshot) => void;
   verifyTranslationSourceProvenance?: TranslationSourceProvenanceVerifier;
   manualForPath?: (repositoryRelativePath: string) => string;
   retirementRegistry?: ReferenceRetirementRegistry;
@@ -441,6 +443,89 @@ function readJson(repositoryRoot: string, relativePath: string): unknown {
   }
 }
 
+type ReferenceManifestState = Readonly<{
+  sourceManifest: ReferenceSourceManifest;
+  translationManifest: ReferenceTranslationManifest;
+}>;
+
+function referenceJsonExists(repositoryRoot: string, relativePath: string): boolean {
+  return existsSync(assertSafeRepositoryPathChain(repositoryRoot, relativePath, 'Reference JSON input'));
+}
+
+function readReferenceManifestState(repositoryRoot: string): ReferenceManifestState | undefined {
+  const sourceExists = referenceJsonExists(repositoryRoot, REFERENCE_SOURCE_MANIFEST);
+  const translationExists = referenceJsonExists(repositoryRoot, REFERENCE_TRANSLATION_MANIFEST);
+  if (sourceExists !== translationExists) {
+    throw new Error('Reference source and translation manifests must either both exist or both be absent');
+  }
+  if (!sourceExists) return undefined;
+  return {
+    sourceManifest: parseReferenceSourceManifest(readJson(repositoryRoot, REFERENCE_SOURCE_MANIFEST)),
+    translationManifest: parseReferenceTranslationManifest(readJson(repositoryRoot, REFERENCE_TRANSLATION_MANIFEST)),
+  };
+}
+
+function sourceManifestSnapshot(
+  sourceManifest: ReferenceSourceManifest,
+  sourceRoot: string,
+  manualForPath: (filePath: string) => string,
+): ReferenceTreeSnapshot {
+  const snapshot = new Map<string, string>();
+  for (const record of sourceManifest.records) {
+    if (!record.sourcePath.startsWith(`${sourceRoot}/`)) {
+      throw new Error(`Source path must stay within ${sourceRoot}: ${record.sourcePath}`);
+    }
+    if (manualForPath(record.sourcePath) !== record.manual) {
+      throw new Error(`Reference source manual does not match authoritative ownership: ${record.sourcePath}`);
+    }
+    if (snapshot.has(record.sourcePath)) throw new Error(`Duplicate canonical source: ${record.sourcePath}`);
+    snapshot.set(record.sourcePath, record.sourceHash);
+  }
+  return snapshot;
+}
+
+function authenticateHistoricalReferenceManifestState(options: Readonly<{
+  repositoryRoot: string;
+  state: ReferenceManifestState;
+  currentSourceCommit: string;
+  manualForPath: (filePath: string) => string;
+  verifySourceRevision?: ReferenceCommandDependencies['verifySourceRevision'];
+  verifyTranslationSourceProvenance?: TranslationSourceProvenanceVerifier;
+}>): void {
+  const snapshot = sourceManifestSnapshot(options.state.sourceManifest, REFERENCE_SOURCE_ROOT, options.manualForPath);
+  if (options.verifySourceRevision) {
+    options.verifySourceRevision(options.state.sourceManifest.sourceCommit, REFERENCE_SOURCE_ROOT, snapshot);
+  } else {
+    verifyGitSourceRevision(options.repositoryRoot, options.state.sourceManifest.sourceCommit, REFERENCE_SOURCE_ROOT, snapshot);
+    const ancestry = defaultReferenceGitRunner(options.repositoryRoot)(
+      ['merge-base', '--is-ancestor', options.state.sourceManifest.sourceCommit, options.currentSourceCommit],
+      {encoding: 'utf8', maxBuffer: 1024 * 1024},
+    );
+    if (ancestry.error || ancestry.signal || ancestry.status === null || (ancestry.status !== 0 && ancestry.status !== 1)) {
+      throw gitCommandFailure(ancestry, 'Could not verify previous Reference source manifest ancestry');
+    }
+    if (ancestry.status === 1) {
+      throw new Error('Previous Reference source manifest commit is not an ancestor of the current source checkpoint');
+    }
+  }
+  validateReferenceTranslation({
+    repositoryRoot: options.repositoryRoot,
+    sourceRoot: REFERENCE_SOURCE_ROOT,
+    targetRoot: REFERENCE_TARGET_ROOT,
+    sourceManifest: options.state.sourceManifest,
+    translationManifest: options.state.translationManifest,
+    verifyFiles: false,
+    manualForPath: options.manualForPath,
+    verifySourceProvenance: options.verifyTranslationSourceProvenance
+      ?? createGitTranslationSourceProvenanceVerifier(options.repositoryRoot, REFERENCE_SOURCE_ROOT),
+  });
+}
+
+function pendingReferenceTargetIds(state: ReferenceManifestState): Set<string> {
+  return new Set((state.translationManifest.pendingRecords ?? [])
+    .map(record => record.targetPath.slice(`${REFERENCE_TARGET_ROOT}/`.length).replace(/\.mdx?$/u, '')));
+}
+
 function writeStagedFile(repositoryRoot: string, relativePath: string, contents: string): {finalPath: string; temporaryPath: string} {
   const parentRelative = path.posix.dirname(relativePath);
   assertSafeRepositoryPathChain(repositoryRoot, parentRelative, 'Reference manifest parent');
@@ -538,12 +623,50 @@ export async function executeReferenceDocsToolingCommand(
     if (argv.length !== 4 || argv[1] !== '--group' || !argv[2] || argv[3] !== '--write') {
       throw new Error('Usage: docs-tooling reference-sidebar --group <python|java|node|go|rest|cli|reference-landings> --write');
     }
+    const sourceSnapshot = captureReferenceTree(repositoryRoot, REFERENCE_SOURCE_ROOT);
     const targetSnapshot = captureReferenceTree(repositoryRoot, REFERENCE_TARGET_ROOT);
+    const manualForPath = dependencies.manualForPath ?? defaultReferenceManualForPath;
     const retirementRegistry = dependencies.retirementRegistry
       ?? parseReferenceRetirementRegistry(readJson(repositoryRoot, REFERENCE_RETIREMENT_REGISTRY));
+    validateRetirementRegistry(retirementRegistry, sourceSnapshot, targetSnapshot, manualForPath);
     const retiredTargetIds = new Set(retirementRegistry.retirements
       .filter(record => !targetSnapshot.has(record.targetPath))
       .map(record => record.targetPath.slice(`${REFERENCE_TARGET_ROOT}/`.length).replace(/\.mdx?$/u, '')));
+    const manifestState = readReferenceManifestState(repositoryRoot);
+    if (manifestState) {
+      const externalSnapshot = resolveExternalSnapshotIdentity(repositoryRoot, environment);
+      if (dependencies.verifySourceRevision) {
+        dependencies.verifySourceRevision(manifestState.sourceManifest.sourceCommit, REFERENCE_SOURCE_ROOT, sourceSnapshot);
+      } else {
+        verifyReferenceSourceRevision(
+          repositoryRoot,
+          manifestState.sourceManifest.sourceCommit,
+          REFERENCE_SOURCE_ROOT,
+          sourceSnapshot,
+          externalSnapshot,
+        );
+      }
+      validateReferenceSource({
+        repositoryRoot,
+        sourceRoot: REFERENCE_SOURCE_ROOT,
+        sourceManifest: manifestState.sourceManifest,
+        manualForPath,
+      });
+      assertRetirementsMatchManifest(retirementRegistry, manifestState.translationManifest, sourceSnapshot, targetSnapshot);
+      validateReferenceTranslation({
+        repositoryRoot,
+        sourceRoot: REFERENCE_SOURCE_ROOT,
+        targetRoot: REFERENCE_TARGET_ROOT,
+        sourceManifest: manifestState.sourceManifest,
+        translationManifest: manifestState.translationManifest,
+        manualForPath,
+        verifySourceProvenance: dependencies.verifyTranslationSourceProvenance
+          ?? (externalSnapshot
+            ? createPrevalidatedExternalSnapshotProvenanceVerifier(externalSnapshot)
+            : createGitTranslationSourceProvenanceVerifier(repositoryRoot, REFERENCE_SOURCE_ROOT)),
+      });
+      for (const pendingTargetId of pendingReferenceTargetIds(manifestState)) retiredTargetIds.add(pendingTargetId);
+    }
     writeManifestPair(repositoryRoot, deriveZhCnReferenceSidebarGroupEntries(repositoryRoot, argv[2], retiredTargetIds));
     dependencies.write?.(`wrote Chinese Reference sidebars for ${argv[2]}`);
     return;
@@ -576,6 +699,17 @@ export async function executeReferenceDocsToolingCommand(
     const retirementRegistry = dependencies.retirementRegistry
       ?? parseReferenceRetirementRegistry(readJson(repositoryRoot, REFERENCE_RETIREMENT_REGISTRY));
     validateRetirementRegistry(retirementRegistry, sourceSnapshot, targetSnapshot, manualForPath);
+    const previousManifestState = readReferenceManifestState(repositoryRoot);
+    if (previousManifestState) {
+      authenticateHistoricalReferenceManifestState({
+        repositoryRoot,
+        state: previousManifestState,
+        currentSourceCommit: sourceCommit,
+        manualForPath,
+        verifySourceRevision: dependencies.verifySourceRevision,
+        verifyTranslationSourceProvenance: dependencies.verifyTranslationSourceProvenance,
+      });
+    }
     const manifests = buildReferenceManifests({
       repositoryRoot,
       sourceRoot: REFERENCE_SOURCE_ROOT,
@@ -583,6 +717,8 @@ export async function executeReferenceDocsToolingCommand(
       sourceCommit,
       manualForPath,
       retirementRegistry,
+      previousSourceManifest: previousManifestState?.sourceManifest,
+      previousTranslationManifest: previousManifestState?.translationManifest,
       sourceSnapshot,
       targetSnapshot,
     });
@@ -602,6 +738,7 @@ export async function executeReferenceDocsToolingCommand(
     const retiredTargetIds = new Set(retirementRegistry.retirements
       .filter(record => !targetSnapshot.has(record.targetPath))
       .map(record => record.targetPath.slice(`${REFERENCE_TARGET_ROOT}/`.length).replace(/\.mdx?$/u, '')));
+    for (const pendingTargetId of pendingReferenceTargetIds(manifests)) retiredTargetIds.add(pendingTargetId);
     const sidebarEntries = deriveReferenceSidebarPublicationEntries(repositoryRoot, retiredTargetIds);
     writeManifestPair(repositoryRoot, [
       [REFERENCE_SOURCE_MANIFEST, serializeReferenceManifest(manifests.sourceManifest)],
@@ -628,6 +765,7 @@ export async function executeReferenceDocsToolingCommand(
     );
     const manualForPath = dependencies.manualForPath ?? defaultReferenceManualForPath;
     validateReferenceSource({repositoryRoot, sourceRoot: REFERENCE_SOURCE_ROOT, sourceManifest, manualForPath});
+    let pendingNavigationIds: ReadonlySet<string> = new Set();
     if (argv[2] === 'en') {
       // Source ownership, revision, and hashes were validated above.
     } else {
@@ -649,9 +787,12 @@ export async function executeReferenceDocsToolingCommand(
             ? createPrevalidatedExternalSnapshotProvenanceVerifier(externalSnapshot)
             : createGitTranslationSourceProvenanceVerifier(repositoryRoot, REFERENCE_SOURCE_ROOT)),
       });
+      pendingNavigationIds = pendingReferenceTargetIds({sourceManifest, translationManifest});
     }
     const validateNavigation = dependencies.validateReferenceNavigation ?? validateReferenceNavigation;
-    validateNavigation({repositoryRoot, site: argv[2]});
+    validateNavigation(pendingNavigationIds.size > 0
+      ? {repositoryRoot, site: argv[2], excludedDocumentIds: pendingNavigationIds}
+      : {repositoryRoot, site: argv[2]});
     dependencies.write?.(`validated Reference provenance for ${argv[2]}`);
     return;
   }

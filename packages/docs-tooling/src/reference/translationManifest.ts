@@ -35,6 +35,14 @@ const TranslationRecordSchema = z.object({
   status: z.enum(['translated', 'unchanged', 'retired']),
 }).strict();
 
+const PendingRecordSchema = z.object({
+  manual: z.string().regex(/^[a-z][a-z0-9-]*$/u),
+  sourcePath: RepositoryPathSchema,
+  targetPath: RepositoryPathSchema,
+  sourceCommit: z.string().regex(COMMIT_SHA),
+  sourceHash: z.string().regex(SHA256),
+}).strict();
+
 const ReferenceSourceManifestSchema = z.object({
   schemaVersion: z.literal(1),
   sourceCommit: z.string().regex(COMMIT_SHA),
@@ -52,6 +60,7 @@ const ReferenceTranslationManifestSchema = z.object({
   schemaVersion: z.literal(1),
   bootstrapCompletedGroups: z.array(z.string().regex(/^[a-z][a-z0-9-]*$/u)).optional(),
   records: z.array(TranslationRecordSchema),
+  pendingRecords: z.array(PendingRecordSchema).optional(),
 }).strict().superRefine((manifest, context) => {
   if (manifest.bootstrapCompletedGroups) {
     for (let index = 1; index < manifest.bootstrapCompletedGroups.length; index += 1) {
@@ -64,6 +73,20 @@ const ReferenceTranslationManifestSchema = z.object({
   for (let index = 1; index < manifest.records.length; index += 1) {
     if (compareRecords(manifest.records[index - 1], manifest.records[index]) > 0) {
       context.addIssue({code: z.ZodIssueCode.custom, path: ['records', index], message: 'Translation manifest records must be canonically sorted by manual, sourcePath, and targetPath'});
+      return;
+    }
+  }
+  const pendingSourcePaths = new Set<string>();
+  const pendingTargetPaths = new Set<string>();
+  for (const [index, record] of (manifest.pendingRecords ?? []).entries()) {
+    if (pendingSourcePaths.has(record.sourcePath) || pendingTargetPaths.has(record.targetPath)) {
+      context.addIssue({code: z.ZodIssueCode.custom, path: ['pendingRecords', index], message: 'Pending records must have unique sourcePath and targetPath values'});
+      return;
+    }
+    pendingSourcePaths.add(record.sourcePath);
+    pendingTargetPaths.add(record.targetPath);
+    if (index > 0 && compareRecords(manifest.pendingRecords![index - 1], record) > 0) {
+      context.addIssue({code: z.ZodIssueCode.custom, path: ['pendingRecords', index], message: 'Pending records must be canonically sorted by manual, sourcePath, and targetPath'});
       return;
     }
   }
@@ -119,12 +142,21 @@ export interface TranslationRecord {
   status: 'translated' | 'unchanged' | 'retired';
 }
 
+export interface ReferencePendingRecord {
+  manual: string;
+  sourcePath: string;
+  targetPath: string;
+  sourceCommit: string;
+  sourceHash: string;
+}
+
 export type ReferenceSourceRecord = z.infer<typeof SourceRecordSchema>;
 export type ReferenceSourceManifest = z.infer<typeof ReferenceSourceManifestSchema>;
 export type ReferenceTranslationManifest = Readonly<{
   schemaVersion: 1;
   bootstrapCompletedGroups?: readonly string[];
   records: readonly TranslationRecord[];
+  pendingRecords?: readonly ReferencePendingRecord[];
 }>;
 export type ReferenceRetirementRecord = z.infer<typeof RetirementRecordSchema>;
 export type ReferenceRetirementRegistry = z.infer<typeof ReferenceRetirementRegistrySchema>;
@@ -137,6 +169,8 @@ export type BuildReferenceManifestOptions = Readonly<{
   sourceCommit: string;
   manualForPath: (repositoryRelativePath: string) => string;
   retirementRegistry?: ReferenceRetirementRegistry;
+  previousSourceManifest?: ReferenceSourceManifest;
+  previousTranslationManifest?: ReferenceTranslationManifest;
   sourceSnapshot?: ReferenceTreeSnapshot;
   targetSnapshot?: ReferenceTreeSnapshot;
 }>;
@@ -276,21 +310,56 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
   };
   const sourceByRelative = new Map([...sourceFiles].map(([filePath, hash]) => [relativeToRoot(filePath, options.sourceRoot), {filePath, hash}]));
   const targetByRelative = new Map([...targetFiles].map(([filePath, hash]) => [relativeToRoot(filePath, options.targetRoot), {filePath, hash}]));
+  const previousSourceManifest = options.previousSourceManifest
+    ? parseReferenceSourceManifest(options.previousSourceManifest)
+    : undefined;
+  const previousTranslationManifest = options.previousTranslationManifest
+    ? parseReferenceTranslationManifest(options.previousTranslationManifest)
+    : undefined;
+  const previousSourcePaths = new Set(previousSourceManifest?.records.map(record => record.sourcePath) ?? []);
+  const previousBySource = new Map(previousTranslationManifest?.records.map(record => [record.sourcePath, record]) ?? []);
+  const previousPendingBySource = new Map(previousTranslationManifest?.pendingRecords?.map(record => [record.sourcePath, record]) ?? []);
   const registeredRetirements = (options.retirementRegistry?.retirements ?? []).filter(record => (
     sourceFiles.has(record.sourcePath) !== targetFiles.has(record.targetPath)
   ));
   const retired = new Set(registeredRetirements.map(record => `${record.sourcePath}\0${record.targetPath}`));
   const relativePaths = new Set([...sourceByRelative.keys(), ...targetByRelative.keys()]);
   const records: TranslationRecord[] = [];
+  const pendingRecords: ReferencePendingRecord[] = [];
   for (const relativePath of [...relativePaths].sort(compareText)) {
     const source = sourceByRelative.get(relativePath);
     const target = targetByRelative.get(relativePath);
     const sourcePath = source?.filePath ?? `${options.sourceRoot}/${relativePath}`;
     const targetPath = target?.filePath ?? `${options.targetRoot}/${relativePath}`;
+    const previous = previousBySource.get(sourcePath);
+    const previousPending = previousPendingBySource.get(sourcePath);
+    if (source && previousSourcePaths.has(sourcePath) && !previous && !previousPending) {
+      throw new Error(`Historical Reference source is missing its translation record or pending record: ${sourcePath}`);
+    }
     if ((!source || !target) && !retired.has(`${sourcePath}\0${targetPath}`)) {
+      if (source && !target && !previous) {
+        pendingRecords.push({
+          manual: options.manualForPath(sourcePath),
+          sourcePath,
+          targetPath,
+          sourceCommit,
+          sourceHash: source.hash,
+        });
+        continue;
+      }
       throw new Error(`Reference path requires an explicit retirement before generation: ${sourcePath} -> ${targetPath}`);
     }
     const manual = options.manualForPath(source?.filePath ?? target!.filePath);
+    if (source && target && previous && (previous.status === 'translated' || previous.status === 'unchanged')) {
+      if (previous.manual !== manual || previous.targetPath !== targetPath) {
+        throw new Error(`Previous Reference translation record does not match the canonical mapping: ${sourcePath}`);
+      }
+      if (previous.targetHash !== target.hash) {
+        throw new Error(`Reference target changed without an updated translation record: ${targetPath}`);
+      }
+      records.push(previous);
+      continue;
+    }
     records.push({
       manual,
       sourcePath,
@@ -302,9 +371,17 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
     });
   }
   records.sort(compareRecords);
+  pendingRecords.sort(compareRecords);
   return {
     sourceManifest: parseReferenceSourceManifest(sourceManifest),
-    translationManifest: parseReferenceTranslationManifest({schemaVersion: 1, records}),
+    translationManifest: parseReferenceTranslationManifest({
+      schemaVersion: 1,
+      ...(previousTranslationManifest?.bootstrapCompletedGroups
+        ? {bootstrapCompletedGroups: previousTranslationManifest.bootstrapCompletedGroups}
+        : {}),
+      records,
+      pendingRecords,
+    }),
   };
 }
 
