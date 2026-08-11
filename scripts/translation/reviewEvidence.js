@@ -160,9 +160,30 @@ function parseAndValidateReviewEvidence(text, options) {
   }
 }
 
+function successfulReview() {
+  return {
+    pass: true,
+    issues: [],
+    unsupportedIssues: [],
+    contractConflicts: [],
+    localeContractIssues: [],
+    reviewerPass: true,
+    error: null,
+  }
+}
+
+function isConsistentSuccessfulReview(review) {
+  return Boolean(review && typeof review === 'object' && !Array.isArray(review) && review.pass === true &&
+    ['issues', 'unsupportedIssues', 'contractConflicts', 'localeContractIssues'].every(key =>
+      Array.isArray(review[key]) && review[key].length === 0) &&
+    review.reviewerPass === true && review.error === null)
+}
+
 module.exports = {
   REVIEW_RESPONSE_JSON_SCHEMA,
+  isConsistentSuccessfulReview,
   parseAndValidateReviewEvidence,
   parseReviewEvidence,
+  successfulReview,
   validateReviewEvidence,
 }

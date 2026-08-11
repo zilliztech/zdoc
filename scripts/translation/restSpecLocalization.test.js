@@ -2,7 +2,7 @@
 
 const assert = require('node:assert/strict')
 const test = require('node:test')
-const { assembleRestDocument, collectLocalizableEntries, loadPrompt, parseRestDocument, promptNamesFor, removeLocale, translateRestSpecs } = require('./restSpecLocalization')
+const { assembleRestDocument, collectLocalizableEntries, loadPrompt, parseRestDocument, promptNamesFor, removeLocale, reviewRestSpecsDraft, translateRestSpecs } = require('./restSpecLocalization')
 
 const sourceSpecs = {
   summary: 'Search',
@@ -470,6 +470,35 @@ test('uses a deterministic REST terminology issue to authorize Correction', asyn
   })
 
   assert.deepEqual(calls, ['translation', 'review', 'correction', 'review'])
+  assert.equal(review.pass, true)
+  assert.equal(localized['x-i18n']['zh-CN'].description, 'Compaction 计划会合并 Segment。')
+})
+
+test('reviews and corrects a recovered REST draft without calling Translation', async () => {
+  const sourceSpecs = {description: 'Compaction plans merge segments.'}
+  const draft = {
+    schemaVersion: 1,
+    entries: collectLocalizableEntries(sourceSpecs).map(entry => ({id: entry.id, translation: '压实计划会合并 Segment。'})),
+  }
+  const calls = []
+  const {localized, review} = await reviewRestSpecsDraft({
+    sourceSpecs,
+    draft,
+    target: 'zh-CN-reference',
+    locale: 'zh-CN',
+    maxReviewRounds: 2,
+    callModel: async ({agent, messages}) => {
+      calls.push(agent)
+      if (agent === 'translation') throw new Error('Recovered REST draft must not call Translation')
+      if (agent === 'review') return '{"pass":true,"issues":[]}'
+      if (agent === 'correction') {
+        return JSON.stringify(taggedJson(messages, 'draft').map(entry => ({...entry, text: 'Compaction 计划会合并 Segment。'})))
+      }
+      throw new Error(`unexpected ${agent} call`)
+    },
+  })
+
+  assert.deepEqual(calls, ['review', 'correction', 'review'])
   assert.equal(review.pass, true)
   assert.equal(localized['x-i18n']['zh-CN'].description, 'Compaction 计划会合并 Segment。')
 })
