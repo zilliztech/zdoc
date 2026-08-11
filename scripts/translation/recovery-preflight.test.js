@@ -18,6 +18,25 @@ function write(root, relative, bytes) {
   fs.writeFileSync(target, bytes)
 }
 
+function reviewedResult(item, overrides = {}) {
+  return {
+    ...item,
+    status: 'translated',
+    review: {
+      pass: true,
+      issues: [],
+      unsupportedIssues: [],
+      contractConflicts: [],
+      localeContractIssues: [],
+      reviewerPass: true,
+      error: null,
+    },
+    validationErrors: [],
+    chunks: {total: 1, reused: 0},
+    ...overrides,
+  }
+}
+
 function fixture(t) {
   const siteDir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-preflight-site-'))
   const artifactDir = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-preflight-artifact-'))
@@ -37,7 +56,7 @@ function fixture(t) {
     locale: 'zh-CN', group: 'python', promptContractSha256: 'c'.repeat(64), model: 'translation-model',
     sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'incremental',
   }
-  createRecoveryArtifact({siteDir, outputDir: artifactDir, results: [{...items[0], status: 'translated'}], identity})
+  createRecoveryArtifact({siteDir, outputDir: artifactDir, results: [reviewedResult(items[0])], identity})
   for (const item of items) fs.rmSync(path.join(siteDir, item.targetPath))
   return {siteDir, artifactDir, items, identity}
 }
@@ -63,7 +82,7 @@ function retainedLocaleFixture(t, {source, target}) {
     locale: 'ja-JP', group: 'guides', promptContractSha256: 'c'.repeat(64), model: 'translation-model',
     sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'incremental',
   }
-  createRecoveryArtifact({siteDir, outputDir: artifactDir, results: [{...item, status: 'translated'}], identity})
+  createRecoveryArtifact({siteDir, outputDir: artifactDir, results: [reviewedResult(item)], identity})
   fs.rmSync(path.join(siteDir, item.targetPath))
   return {siteDir, artifactDir, item, identity}
 }
@@ -101,6 +120,49 @@ test('restores current-compatible files and leaves only true pending candidates 
   assert.equal(fs.readFileSync(path.join(value.siteDir, value.items[0].targetPath), 'utf8'), '# 中文 1\n')
   assert.deepEqual(analysis.restored.map(item => item.sourcePath), [value.items[0].sourcePath])
   assert.deepEqual(analysis.pending.map(item => item.sourcePath), [value.items[1].sourcePath])
+})
+
+test('receipt-less nested recovered records become semantic reviewer work instead of restored successes', t => {
+  const sourcePath = 'content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-json.md'
+  const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-json.md'
+  const value = retainedLocaleFixture(t, {
+    source: '# Overview\n\nThis guide explains JSON imports.\n',
+    target: '# 概要\n\nこのガイドでは JSON インポートを説明します。\n',
+  })
+  value.item.sourcePath = sourcePath
+  value.item.targetPath = targetPath
+  fs.rmSync(value.siteDir, {recursive: true, force: true})
+  fs.rmSync(value.artifactDir, {recursive: true, force: true})
+  fs.mkdirSync(value.siteDir, {recursive: true})
+  fs.mkdirSync(value.artifactDir, {recursive: true})
+  const source = '# Overview\n\nThis guide explains JSON imports.\n'
+  const target = '# 概要\n\nこのガイドでは JSON インポートを説明します。\n'
+  value.item.sourceHash = HASH(source)
+  write(value.siteDir, sourcePath, source)
+  write(value.siteDir, targetPath, target)
+  createRecoveryArtifact({
+    siteDir: value.siteDir,
+    outputDir: value.artifactDir,
+    results: [{...value.item, status: 'translated', recovered: true, recoveryCompatibility: 'revalidated'}],
+    identity: value.identity,
+  })
+  fs.rmSync(path.join(value.siteDir, targetPath))
+
+  const analysis = analyzeRecoveryCompatibility({
+    siteDir: value.siteDir,
+    manifest: {target: 'ja-JP', locale: 'ja-JP', group: 'guides', sourceCheckpointSha: value.identity.sourceSha, items: [value.item]},
+    artifacts: [value.artifactDir],
+    promptContractSha256: value.identity.promptContractSha256,
+    model: value.identity.model,
+    executionToolingSha: 'd'.repeat(40),
+    allowFullRetranslate: false,
+  })
+
+  assert.equal(analysis.recoveredCount, 0)
+  assert.equal(analysis.pendingCount, 1)
+  assert.equal(analysis.semanticResumableFileCount, 1)
+  assert.ok(analysis.pending[0].semanticResume.report.entries.length > 0)
+  assert.equal(analysis.fullRetranslation, false)
 })
 
 test('revalidates prompt and model changes but still rejects source incompatibility', t => {

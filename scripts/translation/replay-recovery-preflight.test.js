@@ -10,6 +10,23 @@ const test = require('node:test')
 const {createRecoveryArtifact, promptContractSha256, sha256} = require('./recovery-artifact')
 const {parseArgs} = require('./replay-recovery-preflight')
 
+function reviewedResult(result) {
+  return {
+    ...result,
+    status: 'translated',
+    review: {
+      pass: true,
+      issues: [],
+      unsupportedIssues: [],
+      contractConflicts: [],
+      localeContractIssues: [],
+      reviewerPass: true,
+      error: null,
+    },
+    validationErrors: [],
+  }
+}
+
 function git(repository, args) {
   const result = spawnSync('git', ['-C', repository, ...args], {encoding: 'utf8'})
   assert.equal(result.status, 0, result.stderr)
@@ -40,7 +57,7 @@ test('replays a retained recovery artifact locally without provider invocation a
   createRecoveryArtifact({
     siteDir,
     outputDir: artifactDir,
-    results: [{sourcePath, targetPath, sourceHash: sha256(source), locale: 'zh-CN', status: 'translated'}],
+    results: [reviewedResult({sourcePath, targetPath, sourceHash: sha256(source), locale: 'zh-CN'})],
     identity: {
       locale: 'zh-CN', group: 'python', promptContractSha256: promptContractSha256('zh-CN-reference'),
       model: 'fixture-model', sourceSha, toolingSha: sourceSha, mode: 'incremental',
@@ -61,6 +78,7 @@ test('replays a retained recovery artifact locally without provider invocation a
   const replay = JSON.parse(fs.readFileSync(evidence, 'utf8'))
   assert.equal(replay.recoveredCount, 1)
   assert.equal(replay.pendingCount, 0)
+  assert.equal(replay.semanticResumableFileCount, 0)
   assert.equal(replay.modelInvocationCount, 0)
   assert.equal(replay.fullRetranslationGuardVerified, true)
   assert.equal(replay.executionToolingSha, sourceSha)
@@ -147,9 +165,11 @@ test('retains exact current-contract rejection reasons in replay evidence', t =>
   assert.equal(result.status, 0, result.stderr)
   const replay = JSON.parse(fs.readFileSync(evidence, 'utf8'))
   assert.equal(replay.candidateCount, 2)
-  assert.equal(replay.recoveredCount, 1)
-  assert.equal(replay.pendingCount, 1)
+  assert.equal(replay.recoveredCount, 0)
+  assert.equal(replay.pendingCount, 2)
   assert.equal(replay.rejectedCount, 1)
+  assert.equal(replay.semanticResumableFileCount, 1)
+  assert.ok(replay.recoveredSemanticUnitCount > 0)
   assert.equal(replay.modelInvocationCount, 0)
   assert.equal(replay.executionToolingSha, executionToolingSha)
   assert.equal(replay.artifactModel, 'fixture-model')

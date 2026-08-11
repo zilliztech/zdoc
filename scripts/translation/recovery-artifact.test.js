@@ -35,12 +35,50 @@ function fixture() {
   return {siteDir, artifactDir, sourcePath, targetPath, source, target, candidate, identity};
 }
 
+function reviewedResult(candidate, overrides = {}) {
+  return {
+    ...candidate,
+    status: 'translated',
+    review: {
+      pass: true,
+      issues: [],
+      unsupportedIssues: [],
+      contractConflicts: [],
+      localeContractIssues: [],
+      reviewerPass: true,
+      error: null,
+    },
+    validationErrors: [],
+    chunks: {total: 1, reused: 0},
+    ...overrides,
+  };
+}
+
+function guidesFixture(t, sourcePath, targetPath) {
+  const siteDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-recovery-guides-site-'));
+  const artifactDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-recovery-guides-artifact-'));
+  t.after(() => {
+    fs.rmSync(siteDir, {recursive: true, force: true});
+    fs.rmSync(artifactDir, {recursive: true, force: true});
+  });
+  const source = '# Overview\n\nThis guide explains the workflow.\n';
+  const target = '# 概要\n\nこのガイドではワークフローを説明します。\n';
+  write(siteDir, sourcePath, source);
+  write(siteDir, targetPath, target);
+  const candidate = {sourcePath, targetPath, sourceHash: HASH(source), locale: 'ja-JP', type: 'guides', reason: 'stale_source'};
+  const identity = {
+    locale: 'ja-JP', group: 'guides', promptContractSha256: CONTRACT, model: 'translation-model',
+    sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'incremental',
+  };
+  return {siteDir, artifactDir, sourcePath, targetPath, source, target, candidate, identity};
+}
+
 test('restores an unchanged source file across commit, tooling, and batch changes after current-contract revalidation', () => {
   const value = fixture();
   createRecoveryArtifact({
     siteDir: value.siteDir,
     outputDir: value.artifactDir,
-    results: [{...value.candidate, status: 'translated'}],
+    results: [reviewedResult(value.candidate)],
     identity: value.identity,
   });
   fs.rmSync(path.join(value.siteDir, value.targetPath));
@@ -61,8 +99,365 @@ test('restores an unchanged source file across commit, tooling, and batch change
   assert.equal(restored.pending.length, 0);
   assert.equal(restored.restored[0].recovered, true);
   assert.equal(restored.restored[0].recoveryCompatibility, 'revalidated');
+  assert.equal(restored.restored[0].review.pass, true);
+  assert.equal(restored.restored[0].recoveryReviewReceipt.review.reviewerPass, true);
   assert.equal(revalidations.length, 1);
   assert.equal(fs.readFileSync(path.join(value.siteDir, value.targetPath), 'utf8'), value.target);
+});
+
+test('preserves an authenticated reviewer receipt across nested recovery artifacts', () => {
+  const value = fixture();
+  createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [reviewedResult(value.candidate)], identity: value.identity});
+  const firstManifest = JSON.parse(fs.readFileSync(path.join(value.artifactDir, 'manifest.json'), 'utf8'));
+  assert.equal(firstManifest.files[0].reviewReceipt.review.pass, true);
+  assert.equal(firstManifest.files[0].reviewReceipt.review.reviewerPass, true);
+
+  fs.rmSync(path.join(value.siteDir, value.targetPath));
+  const firstRestore = restoreRecoveryFiles({
+    siteDir: value.siteDir,
+    candidates: [value.candidate],
+    artifacts: [value.artifactDir],
+    identity: value.identity,
+    revalidate: () => [],
+  });
+  assert.equal(firstRestore.restored.length, 1);
+  assert.equal(firstRestore.restored[0].recoveryCompatibility, 'strict');
+
+  const nestedDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-recovery-nested-artifact-'));
+  try {
+    createRecoveryArtifact({
+      siteDir: value.siteDir,
+      outputDir: nestedDir,
+      results: firstRestore.restored,
+      identity: value.identity,
+    });
+    const nestedManifest = JSON.parse(fs.readFileSync(path.join(nestedDir, 'manifest.json'), 'utf8'));
+    assert.deepEqual(nestedManifest.files[0].reviewReceipt, firstManifest.files[0].reviewReceipt);
+  } finally {
+    fs.rmSync(nestedDir, {recursive: true, force: true});
+  }
+});
+
+test('does not restore a translated payload whose reviewer receipt is not bound to the exact file', () => {
+  for (const mutate of [
+    receipt => { receipt.targetHash = 'f'.repeat(64); },
+    receipt => { receipt.sourcePath = 'content/en/reference/api/python/other.md'; },
+    receipt => { receipt.review.pass = false; },
+    receipt => { receipt.validationErrors = ['stale validation failure']; },
+    receipt => { receipt.restSpecReview = {pass: false}; },
+  ]) {
+    const value = fixture();
+    createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [reviewedResult(value.candidate)], identity: value.identity});
+    const manifestPath = path.join(value.artifactDir, 'manifest.json');
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+    mutate(manifest.files[0].reviewReceipt);
+    write(value.artifactDir, 'manifest.json', `${JSON.stringify(manifest)}\n`);
+    fs.rmSync(path.join(value.siteDir, value.targetPath));
+
+    const restored = restoreRecoveryFiles({
+      siteDir: value.siteDir,
+      candidates: [value.candidate],
+      artifacts: [value.artifactDir],
+      identity: value.identity,
+      revalidate: () => [],
+    });
+
+    assert.equal(restored.restored.length, 0);
+    assert.equal(restored.pending.length, 1);
+    assert.ok(restored.pending[0].recoverySemanticResume?.report?.entries?.length > 0);
+  }
+});
+
+test('does not mint or restore internally contradictory shell reviewer receipts', () => {
+  const mutations = [
+    review => { review.issues = [{type: 'accuracy_mistranslation'}]; },
+    review => { review.unsupportedIssues = [{reason: 'unsupported'}]; },
+    review => { review.contractConflicts = [{reason: 'conflict'}]; },
+    review => { review.localeContractIssues = [{type: 'terminology'}]; },
+    review => { review.reviewerPass = false; },
+    review => { review.error = 'review failed'; },
+  ];
+  for (const mutate of mutations) {
+    const value = fixture();
+    const result = reviewedResult(value.candidate);
+    mutate(result.review);
+    createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [result], identity: value.identity});
+    const manifest = JSON.parse(fs.readFileSync(path.join(value.artifactDir, 'manifest.json'), 'utf8'));
+    assert.equal(Object.hasOwn(manifest.files[0], 'reviewReceipt'), false);
+    fs.rmSync(path.join(value.siteDir, value.targetPath));
+    const restored = restoreRecoveryFiles({
+      siteDir: value.siteDir,
+      candidates: [value.candidate],
+      artifacts: [value.artifactDir],
+      identity: value.identity,
+      revalidate: () => [],
+    });
+    assert.equal(restored.restored.length, 0);
+    assert.equal(restored.pending.length, 1);
+    assert.ok(restored.pending[0].recoverySemanticResume?.report?.entries?.length > 0);
+    fs.rmSync(value.siteDir, {recursive: true, force: true});
+    fs.rmSync(value.artifactDir, {recursive: true, force: true});
+  }
+});
+
+test('rejects a reviewer receipt laundered under different artifact execution metadata', () => {
+  const value = fixture();
+  createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [reviewedResult(value.candidate)], identity: value.identity});
+  const nextIdentity = {
+    ...value.identity,
+    promptContractSha256: 'd'.repeat(64),
+    model: 'next-model',
+    toolingSha: 'e'.repeat(40),
+  };
+  const metadataPath = path.join(value.artifactDir, 'metadata.json');
+  const manifestPath = path.join(value.artifactDir, 'manifest.json');
+  const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  write(value.artifactDir, 'metadata.json', `${JSON.stringify({...metadata, ...nextIdentity})}\n`);
+  manifest.files[0].promptContractSha256 = nextIdentity.promptContractSha256;
+  manifest.files[0].model = nextIdentity.model;
+  write(value.artifactDir, 'manifest.json', `${JSON.stringify(manifest)}\n`);
+  fs.rmSync(path.join(value.siteDir, value.targetPath));
+
+  let revalidations = 0;
+  const restored = restoreRecoveryFiles({
+    siteDir: value.siteDir,
+    candidates: [value.candidate],
+    artifacts: [value.artifactDir],
+    identity: nextIdentity,
+    revalidate: () => { revalidations += 1; return []; },
+  });
+
+  assert.equal(restored.restored.length, 0);
+  assert.equal(restored.pending.length, 1);
+  assert.ok(restored.pending[0].recoverySemanticResume?.report?.entries?.length > 0);
+  assert.equal(revalidations, 1);
+});
+
+test('does not launder a cross-identity receipt into a strict third-generation recovery', () => {
+  const value = fixture();
+  createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [reviewedResult(value.candidate)], identity: value.identity});
+  fs.rmSync(path.join(value.siteDir, value.targetPath));
+  const nextIdentity = {
+    ...value.identity,
+    promptContractSha256: 'd'.repeat(64),
+    model: 'next-model',
+    toolingSha: 'e'.repeat(40),
+  };
+
+  let secondGenerationRevalidations = 0;
+  const secondGeneration = restoreRecoveryFiles({
+    siteDir: value.siteDir,
+    candidates: [value.candidate],
+    artifacts: [value.artifactDir],
+    identity: nextIdentity,
+    revalidate: () => { secondGenerationRevalidations += 1; return []; },
+  });
+  assert.equal(secondGeneration.restored.length, 1);
+  assert.equal(secondGeneration.restored[0].recoveryCompatibility, 'revalidated');
+  assert.equal(secondGeneration.restored[0].recoveryReviewReceipt.toolingSha, value.identity.toolingSha);
+  assert.equal(secondGenerationRevalidations, 1);
+
+  const nestedDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-recovery-cross-identity-nested-'));
+  try {
+    createRecoveryArtifact({
+      siteDir: value.siteDir,
+      outputDir: nestedDir,
+      results: secondGeneration.restored,
+      identity: nextIdentity,
+    });
+    const nestedManifest = JSON.parse(fs.readFileSync(path.join(nestedDir, 'manifest.json'), 'utf8'));
+    assert.equal(nestedManifest.files[0].promptContractSha256, nextIdentity.promptContractSha256);
+    assert.equal(nestedManifest.files[0].model, nextIdentity.model);
+    assert.equal(Object.hasOwn(nestedManifest.files[0], 'reviewReceipt'), false);
+    fs.rmSync(path.join(value.siteDir, value.targetPath));
+
+    let thirdGenerationRevalidations = 0;
+    const thirdGeneration = restoreRecoveryFiles({
+      siteDir: value.siteDir,
+      candidates: [value.candidate],
+      artifacts: [nestedDir],
+      identity: nextIdentity,
+      revalidate: () => { thirdGenerationRevalidations += 1; return []; },
+    });
+    assert.equal(thirdGeneration.restored.length, 0);
+    assert.equal(thirdGeneration.pending.length, 1);
+    assert.ok(thirdGeneration.pending[0].recoverySemanticResume?.report?.entries?.length > 0);
+    assert.equal(thirdGenerationRevalidations, 1);
+  } finally {
+    fs.rmSync(nestedDir, {recursive: true, force: true});
+  }
+});
+
+test('does not mint a current-identity receipt from revalidated recovered review fields', () => {
+  const value = fixture();
+  const revalidated = reviewedResult(value.candidate, {
+    recovered: true,
+    recoveryCompatibility: 'revalidated',
+  });
+  createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [revalidated], identity: value.identity});
+  const manifest = JSON.parse(fs.readFileSync(path.join(value.artifactDir, 'manifest.json'), 'utf8'));
+  assert.equal(Object.hasOwn(manifest.files[0], 'reviewReceipt'), false);
+});
+
+test('does not require REST spec review evidence for shell-only pages in the REST tree', () => {
+  const siteDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-recovery-rest-shell-site-'));
+  const artifactDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-recovery-rest-shell-artifact-'));
+  const sourcePath = 'content/en/reference/api/restful/restful/v2/control-plane/control-plane.mdx';
+  const targetPath = 'content/zh-CN/reference/api/restful/restful/v2/control-plane/control-plane.mdx';
+  const source = fs.readFileSync(path.join(process.cwd(), sourcePath), 'utf8');
+  const target = '# 控制平面\n\n控制平面 API。\n';
+  const candidate = {sourcePath, targetPath, sourceHash: HASH(source), locale: 'zh-CN', type: 'reference', reason: 'stale_source'};
+  const identity = {
+    locale: 'zh-CN', group: 'rest', promptContractSha256: CONTRACT, model: 'translation-model',
+    sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'incremental',
+  };
+  try {
+    write(siteDir, sourcePath, source);
+    write(siteDir, targetPath, target);
+    createRecoveryArtifact({siteDir, outputDir: artifactDir, results: [reviewedResult(candidate)], identity});
+    const manifest = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8'));
+    assert.equal(manifest.files[0].reviewReceipt.review.pass, true);
+    assert.equal(Object.hasOwn(manifest.files[0].reviewReceipt, 'restSpecReview'), false);
+
+    fs.rmSync(path.join(siteDir, targetPath));
+    const restored = restoreRecoveryFiles({
+      siteDir,
+      candidates: [candidate],
+      artifacts: [artifactDir],
+      identity,
+      revalidate: () => [],
+    });
+    assert.equal(restored.restored.length, 1);
+    assert.equal(restored.pending.length, 0);
+    assert.equal(Object.hasOwn(restored.restored[0], 'restSpecReview'), false);
+  } finally {
+    fs.rmSync(siteDir, {recursive: true, force: true});
+    fs.rmSync(artifactDir, {recursive: true, force: true});
+  }
+});
+
+test('requires REST spec reviewer receipts for documents with parseable specs before direct recovery', () => {
+  const siteDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-recovery-rest-site-'));
+  const artifactDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-recovery-rest-artifact-'));
+  const sourcePath = 'content/en/reference/api/python/search.mdx';
+  const targetPath = 'content/zh-CN/reference/api/python/search.mdx';
+  const source = '# Search\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"summary":"Search","description":"Search a collection."}\nexport const endpoint = "/v1/search"\n';
+  const target = '# 搜索\n<RestSpecs specs={specs} lang="zh-CN" />\n\nexport const specs = {"summary":"Search","description":"Search a collection.","x-i18n":{"zh-CN":{"summary":"搜索","description":"搜索 Collection。"}}}\nexport const endpoint = "/v1/search"\n';
+  const candidate = {sourcePath, targetPath, sourceHash: HASH(source), locale: 'zh-CN', type: 'reference', reason: 'stale_source'};
+  const identity = {
+    locale: 'zh-CN', group: 'rest', promptContractSha256: CONTRACT, model: 'translation-model',
+    sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'incremental',
+  };
+  try {
+    write(siteDir, sourcePath, source);
+    write(siteDir, targetPath, target);
+    createRecoveryArtifact({siteDir, outputDir: artifactDir, results: [reviewedResult(candidate)], identity});
+    const withoutSpecReview = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8'));
+    assert.equal(Object.hasOwn(withoutSpecReview.files[0], 'reviewReceipt'), false);
+    fs.rmSync(path.join(siteDir, targetPath));
+    const pending = restoreRecoveryFiles({
+      siteDir,
+      candidates: [candidate],
+      artifacts: [artifactDir],
+      identity,
+      revalidate: () => [],
+    });
+    assert.equal(pending.restored.length, 0);
+    assert.equal(pending.pending.length, 1);
+
+    for (const mutate of [
+      review => { review.issues = [{type: 'accuracy_mistranslation'}]; },
+      review => { review.unsupportedIssues = [{reason: 'unsupported'}]; },
+      review => { review.contractConflicts = [{reason: 'conflict'}]; },
+      review => { review.localeContractIssues = [{type: 'terminology'}]; },
+      review => { review.reviewerPass = false; },
+      review => { review.error = 'review failed'; },
+    ]) {
+      write(siteDir, targetPath, target);
+      const restSpecReview = {...reviewedResult(candidate).review};
+      mutate(restSpecReview);
+      createRecoveryArtifact({
+        siteDir,
+        outputDir: artifactDir,
+        results: [reviewedResult(candidate, {restSpecReview})],
+        identity,
+      });
+      const contradictory = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8'));
+      assert.equal(Object.hasOwn(contradictory.files[0], 'reviewReceipt'), false);
+      fs.rmSync(path.join(siteDir, targetPath));
+      const contradictoryPending = restoreRecoveryFiles({
+        siteDir,
+        candidates: [candidate],
+        artifacts: [artifactDir],
+        identity,
+        revalidate: () => [],
+      });
+      assert.equal(contradictoryPending.restored.length, 0);
+      assert.equal(contradictoryPending.pending.length, 1);
+    }
+
+    write(siteDir, targetPath, target);
+    const restSpecReview = {...reviewedResult(candidate).review};
+    createRecoveryArtifact({
+      siteDir,
+      outputDir: artifactDir,
+      results: [reviewedResult(candidate, {restSpecReview})],
+      identity,
+    });
+    const withSpecReview = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8'));
+    assert.equal(withSpecReview.files[0].reviewReceipt.restSpecReview.pass, true);
+    delete withSpecReview.files[0].reviewReceipt.restSpecReview;
+    write(artifactDir, 'manifest.json', `${JSON.stringify(withSpecReview)}\n`);
+    fs.rmSync(path.join(siteDir, targetPath));
+    const missingSpecReceipt = restoreRecoveryFiles({
+      siteDir,
+      candidates: [candidate],
+      artifacts: [artifactDir],
+      identity,
+      revalidate: () => [],
+    });
+    assert.equal(missingSpecReceipt.restored.length, 0);
+    assert.equal(missingSpecReceipt.pending.length, 1);
+  } finally {
+    fs.rmSync(siteDir, {recursive: true, force: true});
+    fs.rmSync(artifactDir, {recursive: true, force: true});
+  }
+});
+
+test('turns real-path translated records without reviewer receipts into semantic pending work', t => {
+  for (const [sourcePath, targetPath] of [
+    [
+      'content/en/byoc/tutorials/development/analyzer/analyzer-filters/regex-filter.md',
+      'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/development/analyzer/analyzer-filters/regex-filter.md',
+    ],
+    [
+      'content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-json.md',
+      'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-json.md',
+    ],
+  ]) {
+    const value = guidesFixture(t, sourcePath, targetPath);
+    createRecoveryArtifact({
+      siteDir: value.siteDir,
+      outputDir: value.artifactDir,
+      results: [{...value.candidate, status: 'translated', recovered: true, recoveryCompatibility: 'revalidated'}],
+      identity: value.identity,
+    });
+    fs.rmSync(path.join(value.siteDir, value.targetPath));
+
+    const restored = restoreRecoveryFiles({
+      siteDir: value.siteDir,
+      candidates: [value.candidate],
+      artifacts: [value.artifactDir],
+      identity: {...value.identity, toolingSha: 'd'.repeat(40)},
+      revalidate: () => [],
+    });
+
+    assert.equal(restored.restored.length, 0, sourcePath);
+    assert.equal(restored.pending.length, 1, sourcePath);
+    assert.ok(restored.pending[0].recoverySemanticResume?.report?.entries?.length > 0, sourcePath);
+    assert.equal(fs.existsSync(path.join(value.siteDir, value.targetPath)), false, sourcePath);
+  }
 });
 
 test('records structured terminal failures while keeping translated payloads recoverable', () => {
@@ -89,7 +484,7 @@ test('records structured terminal failures while keeping translated payloads rec
 
 test('reads retained schema-v1 artifacts', () => {
   const value = fixture();
-  createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [{...value.candidate, status: 'translated'}], identity: value.identity});
+  createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [reviewedResult(value.candidate)], identity: value.identity});
   const metadataPath = path.join(value.artifactDir, 'metadata.json');
   const manifestPath = path.join(value.artifactDir, 'manifest.json');
   const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));

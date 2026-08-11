@@ -10,6 +10,7 @@ const {
   restoreRecoveryFiles,
 } = require('./recovery-artifact')
 const {validateRecoveryCandidate} = require('./recoveryValidation')
+const {MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES, semanticCheckpointBytes} = require('./semanticRecovery')
 
 const SHA = /^[0-9a-f]{40}$/u
 const SHA256 = /^[0-9a-f]{64}$/u
@@ -59,6 +60,13 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     revalidate: input => validateRecoveryCandidate({...input, target: manifest.target, locale: manifest.locale}),
     chunkOptions,
   })
+  const semanticRecoveryBytes = recovery.pending.reduce(
+    (total, candidate) => total + semanticCheckpointBytes(candidate.recoverySemanticResume),
+    0,
+  )
+  if (semanticRecoveryBytes > MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES) {
+    throw new Error('Recovery semantic aggregate payload is oversized')
+  }
   const restored = recovery.restored.map(result => ({
     sourcePath: result.sourcePath,
     targetPath: result.targetPath,
@@ -66,6 +74,7 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     targetHash: result.recoveryTargetHash,
     targetSize: result.recoveryTargetSize,
     compatibility: result.recoveryCompatibility || 'strict',
+    ...(result.recoveryReviewReceipt ? {reviewReceipt: result.recoveryReviewReceipt} : {}),
   }))
   const pending = recovery.pending.map(candidate => ({
     sourcePath: candidate.sourcePath,

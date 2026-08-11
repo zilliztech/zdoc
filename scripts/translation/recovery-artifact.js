@@ -7,15 +7,18 @@ const path = require('node:path');
 
 const {loadTypeScript} = require('../lib/load-typescript');
 const {localeContractPathFor} = require('./localeContract');
-const {promptNamesFor} = require('./restSpecLocalization');
+const {parseRestDocument, promptNamesFor} = require('./restSpecLocalization');
 const {boundedFailureDetails, classifyFailure} = require('./failureClassification');
+const {isConsistentSuccessfulReview} = require('./reviewEvidence');
 const {
   MAX_PARTIAL_ARTIFACT_BYTES,
   persistChunkCheckpoints,
   validatePersistedPrefix,
 } = require('./chunkRecovery');
 const {
+  MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES,
   persistSemanticCheckpoints,
+  semanticCheckpointsFromCompleteTranslation,
   semanticCheckpointBytes,
   validatePersistedSemanticCheckpoints,
 } = require('./semanticRecovery');
@@ -23,6 +26,7 @@ const {assertSafeRepositoryRelativePath} = loadTypeScript('../../packages/docs-t
 
 const SHA256 = /^[0-9a-f]{64}$/;
 const COMMIT_SHA = /^[0-9a-f]{40}$/;
+const MAX_REVIEW_RECEIPT_BYTES = 512 * 1024;
 
 function sha256(bytes) {
   return crypto.createHash('sha256').update(bytes).digest('hex');
@@ -65,6 +69,109 @@ function writeJson(filePath, value) {
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
 }
 
+function cloneJson(value, label) {
+  let bytes;
+  try {
+    bytes = Buffer.from(JSON.stringify(value));
+  } catch (error) {
+    throw new Error(`${label} is not JSON serializable: ${String(error?.message || error)}`);
+  }
+  if (bytes.length > MAX_REVIEW_RECEIPT_BYTES) throw new Error(`${label} is oversized`);
+  return JSON.parse(bytes.toString('utf8'));
+}
+
+function exactReceiptKeys(value) {
+  const required = [
+    'schemaVersion', 'sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'locale', 'group',
+    'promptContractSha256', 'model', 'toolingSha', 'review', 'validationErrors',
+  ];
+  const optional = ['restSpecReview'];
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Recovery review receipt must be an object');
+  const missing = required.filter(key => !Object.hasOwn(value, key));
+  const unknown = Object.keys(value).filter(key => !required.includes(key) && !optional.includes(key));
+  if (missing.length || unknown.length) throw new Error('Recovery review receipt keys are invalid');
+}
+
+function validateRecoveryReviewReceipt(value, expected = {}, {sourceContent} = {}) {
+  const receipt = cloneJson(value, 'Recovery review receipt');
+  exactReceiptKeys(receipt);
+  if (receipt.schemaVersion !== 1 || !SHA256.test(receipt.sourceHash || '') || !SHA256.test(receipt.targetHash || '') ||
+      !['ja-JP', 'zh-CN'].includes(receipt.locale) || typeof receipt.group !== 'string' || !receipt.group ||
+      !SHA256.test(receipt.promptContractSha256 || '') || typeof receipt.model !== 'string' || !receipt.model ||
+      !COMMIT_SHA.test(receipt.toolingSha || '')) {
+    throw new Error('Recovery review receipt identity is invalid');
+  }
+  for (const key of ['sourcePath', 'targetPath']) safePath(process.cwd(), receipt[key], `Recovery review receipt ${key}`);
+  for (const [key, expectedValue] of Object.entries(expected)) {
+    if (expectedValue !== undefined && receipt[key] !== expectedValue) throw new Error(`Recovery review receipt ${key} does not match the recovered file`);
+  }
+  if (typeof sourceContent !== 'string' || sha256(Buffer.from(sourceContent, 'utf8')) !== receipt.sourceHash) {
+    throw new Error('Recovery review receipt source content is not authenticated');
+  }
+  if (!isConsistentSuccessfulReview(receipt.review)) {
+    throw new Error('Recovery review receipt does not attest reviewer success');
+  }
+  if (!Array.isArray(receipt.validationErrors) || receipt.validationErrors.length !== 0) {
+    throw new Error('Recovery review receipt does not attest clean per-document validation');
+  }
+  if (parseRestDocument(sourceContent) !== null && receipt.restSpecReview === undefined) {
+    throw new Error('Recovery review receipt does not attest REST reviewer success');
+  }
+  if (receipt.restSpecReview !== undefined && (
+    !isConsistentSuccessfulReview(receipt.restSpecReview)
+  )) {
+    throw new Error('Recovery review receipt does not attest REST reviewer success');
+  }
+  return receipt;
+}
+
+function createRecoveryReviewReceipt({result, identity, targetHash, sourceContent}) {
+  const fileIdentity = {
+    sourcePath: result.sourcePath,
+    targetPath: result.targetPath,
+    sourceHash: result.sourceHash,
+    targetHash,
+    locale: identity.locale,
+    group: identity.group,
+  };
+  const executionIdentity = {
+    promptContractSha256: identity.promptContractSha256,
+    model: identity.model,
+    toolingSha: identity.toolingSha,
+  };
+  if (result.recovered === true && result.recoveryCompatibility === 'revalidated') {
+    if (result.recoveryReviewReceipt) validateRecoveryReviewReceipt(result.recoveryReviewReceipt, fileIdentity, {sourceContent});
+    return null;
+  }
+  if (result.recovered === true && !result.recoveryReviewReceipt) return null;
+  if (result.recoveryReviewReceipt) {
+    const receipt = validateRecoveryReviewReceipt(result.recoveryReviewReceipt, fileIdentity, {sourceContent});
+    const matchesCurrentExecution = Object.entries(executionIdentity).every(([key, value]) => receipt[key] === value);
+    if (!matchesCurrentExecution) throw new Error('Recovery review receipt execution identity does not match the artifact being created');
+    return receipt;
+  }
+  const requiresRestSpecReview = parseRestDocument(sourceContent) !== null;
+  if (!isConsistentSuccessfulReview(result.review) || !Array.isArray(result.validationErrors) || result.validationErrors.length !== 0 ||
+      (requiresRestSpecReview ? !isConsistentSuccessfulReview(result.restSpecReview) : result.restSpecReview && !isConsistentSuccessfulReview(result.restSpecReview))) return null;
+  return validateRecoveryReviewReceipt({
+    schemaVersion: 1,
+    ...fileIdentity,
+    ...executionIdentity,
+    review: result.review,
+    validationErrors: result.validationErrors,
+    ...(result.restSpecReview ? {restSpecReview: result.restSpecReview} : {}),
+  }, {...fileIdentity, ...executionIdentity}, {sourceContent});
+}
+
+function reviewFields(receipt) {
+  return {
+    recoveryReviewReceipt: receipt,
+    review: receipt.review,
+    validationErrors: receipt.validationErrors,
+    ...(receipt.restSpecReview ? {restSpecReview: receipt.restSpecReview} : {}),
+  };
+}
+
 function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
   assertIdentity(identity);
   fs.rmSync(outputDir, {recursive: true, force: true});
@@ -76,24 +183,28 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
     const sourceBytes = fs.readFileSync(sourcePath);
     const targetBytes = fs.readFileSync(targetPath);
     const sourceHash = sha256(sourceBytes);
+    const targetHash = sha256(targetBytes);
     if (sourceHash !== result.sourceHash) throw new Error(`Recovery source hash changed: ${result.sourcePath}`);
     const artifactTarget = safePath(path.join(outputDir, 'translated-files'), result.targetPath, 'Recovery artifact target path');
     fs.mkdirSync(path.dirname(artifactTarget), {recursive: true});
     fs.writeFileSync(artifactTarget, targetBytes);
+    const reviewReceipt = createRecoveryReviewReceipt({result, identity, targetHash, sourceContent: sourceBytes.toString('utf8')});
     files.push({
       sourcePath: result.sourcePath,
       targetPath: result.targetPath,
       sourceHash,
-      targetHash: sha256(targetBytes),
+      targetHash,
       targetSize: targetBytes.length,
       locale: identity.locale,
       group: identity.group,
       promptContractSha256: identity.promptContractSha256,
       model: identity.model,
       status: 'translated',
+      ...(reviewReceipt ? {reviewReceipt} : {}),
     });
   }
-  let partialArtifactBytes = 0;
+  let chunkArtifactBytes = 0;
+  let semanticArtifactBytes = 0;
   const failures = results.filter(item => item.status !== 'translated').map(result => {
     let chunkCheckpoints = null;
     let semanticCheckpoints = null;
@@ -103,7 +214,8 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
       const sourceHash = sha256(fs.readFileSync(sourcePath));
       if (sourceHash !== result.sourceHash) throw new Error(`Recovery partial source hash changed: ${result.sourcePath}`);
       chunkCheckpoints = persistChunkCheckpoints(result.chunkCheckpoints, identity);
-      partialArtifactBytes += chunkCheckpoints.entries.reduce((total, entry) => total + entry.targetSize, 0);
+      chunkArtifactBytes += chunkCheckpoints.entries.reduce((total, entry) => total + entry.targetSize, 0);
+      if (chunkArtifactBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery chunk artifact payload is oversized');
     }
     if (result.semanticCheckpoints) {
       const sourcePath = safePath(siteDir, result.sourcePath, 'Recovery semantic source path');
@@ -114,9 +226,9 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
         target: result.target || result.semanticCheckpoints.target,
         locale: result.locale || result.semanticCheckpoints.locale,
       });
-      partialArtifactBytes += semanticCheckpointBytes(semanticCheckpoints);
+      semanticArtifactBytes += semanticCheckpointBytes(semanticCheckpoints);
+      if (semanticArtifactBytes > MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES) throw new Error('Recovery semantic aggregate payload is oversized');
     }
-    if (partialArtifactBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery partial artifact payload is oversized');
     return {
       sourcePath: result.sourcePath,
       targetPath: result.targetPath,
@@ -165,14 +277,16 @@ function readArtifact(artifactDir) {
     if (![1, 2].includes(metadata.schemaVersion) || manifest.schemaVersion !== metadata.schemaVersion || !Array.isArray(manifest.files)) throw new Error('schema mismatch');
     if (manifest.schemaVersion === 2 && !Array.isArray(manifest.failures)) throw new Error('schema mismatch');
     if (manifest.schemaVersion === 2) {
-      let partialArtifactBytes = 0;
+      let chunkArtifactBytes = 0;
+      let semanticArtifactBytes = 0;
       for (const failure of manifest.failures) {
         for (const entry of failure?.chunkCheckpoints?.entries || []) {
           if (typeof entry?.translatedContent !== 'string') continue;
-          partialArtifactBytes += Buffer.byteLength(entry.translatedContent);
+          chunkArtifactBytes += Buffer.byteLength(entry.translatedContent);
         }
-        partialArtifactBytes += semanticCheckpointBytes(failure?.semanticCheckpoints);
-        if (partialArtifactBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('partial artifact payload is oversized');
+        semanticArtifactBytes += semanticCheckpointBytes(failure?.semanticCheckpoints);
+        if (chunkArtifactBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('chunk aggregate payload is oversized');
+        if (semanticArtifactBytes > MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES) throw new Error('semantic aggregate payload is oversized');
       }
     }
     return {artifactDir, metadata, files: manifest.files, failures: manifest.failures || []};
@@ -215,9 +329,13 @@ function preferRecoveryReason(reasons) {
 
 function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, chunkOptions}) {
   const sourcePath = safePath(siteDir, candidate.sourcePath, 'Recovery candidate source path');
-  const currentSourceHash = sha256(fs.readFileSync(sourcePath));
+  const sourceBytes = fs.readFileSync(sourcePath);
+  const sourceContent = sourceBytes.toString('utf8');
+  const currentSourceHash = sha256(sourceBytes);
   if (currentSourceHash !== candidate.sourceHash) return {reason: 'current source hash does not match recovery candidate'};
   const reasons = [];
+  let bestChunkResume = null;
+  let bestSemanticResume = null;
   for (const artifact of artifacts) {
     if (artifact.error) {
       reasons.push(`corrupt recovery artifact: ${artifact.error}`);
@@ -265,6 +383,7 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
           artifact.metadata.toolingSha === identity.toolingSha
           ? 'strict'
           : 'revalidated'
+        let currentContractValidated = false;
         if (compatibility === 'revalidated') {
           if (typeof revalidate !== 'function') {
             reasons.push(record.promptContractSha256 !== identity.promptContractSha256
@@ -276,24 +395,82 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
           }
           const validationErrors = revalidate({
             candidate,
-            sourceContent: fs.readFileSync(sourcePath, 'utf8'),
+            sourceContent,
             targetContent: targetBytes.toString('utf8'),
           });
           if (!Array.isArray(validationErrors) || validationErrors.length) {
             reasons.push(`revalidation failed: ${(validationErrors || ['validator did not return an error list']).join('; ')}`);
             continue;
           }
+          currentContractValidated = true;
         }
-        fs.mkdirSync(path.dirname(targetPath), {recursive: true});
-        fs.writeFileSync(targetPath, targetBytes);
-        return {result: {...candidate, status: 'translated', recovered: true, recoveryCompatibility: compatibility}, targetHash: record.targetHash, targetSize: record.targetSize};
+        let reviewReceipt = null;
+        try {
+          reviewReceipt = validateRecoveryReviewReceipt(record.reviewReceipt, {
+            sourcePath: record.sourcePath,
+            targetPath: record.targetPath,
+            sourceHash: record.sourceHash,
+            targetHash: record.targetHash,
+            locale: record.locale,
+            group: record.group,
+            promptContractSha256: record.promptContractSha256,
+            model: record.model,
+            toolingSha: artifact.metadata.toolingSha,
+          }, {sourceContent});
+        } catch (error) {
+          reasons.push(`recovery reviewer receipt is missing or invalid: ${String(error?.message || error)}`);
+        }
+        if (reviewReceipt) {
+          fs.mkdirSync(path.dirname(targetPath), {recursive: true});
+          fs.writeFileSync(targetPath, targetBytes);
+          return {
+            result: {
+              ...candidate,
+              status: 'translated',
+              recovered: true,
+              recoveryCompatibility: compatibility,
+              ...reviewFields(reviewReceipt),
+            },
+            targetHash: record.targetHash,
+            targetSize: record.targetSize,
+          };
+        }
+        if (typeof revalidate !== 'function') continue;
+        if (!currentContractValidated) {
+          const validationErrors = revalidate({candidate, sourceContent, targetContent: targetBytes.toString('utf8')});
+          if (!Array.isArray(validationErrors) || validationErrors.length) {
+            reasons.push(`revalidation failed: ${(validationErrors || ['validator did not return an error list']).join('; ')}`);
+            continue;
+          }
+        }
+        try {
+          const target = identity.target || (identity.locale === 'ja-JP' ? 'ja-JP' : 'zh-CN-reference');
+          const semanticItem = {...candidate, target, locale: identity.locale};
+          const report = semanticCheckpointsFromCompleteTranslation({
+            sourceContent,
+            targetContent: targetBytes.toString('utf8'),
+            item: semanticItem,
+            chunkOptions,
+          });
+          const persisted = persistSemanticCheckpoints(report, artifact.metadata, semanticItem);
+          const semanticResume = validatePersistedSemanticCheckpoints({
+            value: persisted,
+            artifactIdentity: artifact.metadata,
+            currentIdentity: identity,
+            candidate,
+            target,
+            sourceContent,
+            chunkOptions,
+          });
+          if (!bestSemanticResume || semanticResume.report.entries.length > bestSemanticResume.report.entries.length) bestSemanticResume = semanticResume;
+        } catch (error) {
+          reasons.push(`recovery reviewer receipt is unavailable and the complete target could not be retained as semantic checkpoints: ${String(error?.message || error)}`);
+        }
       } catch (error) {
         reasons.push(`invalid recovery record: ${String(error?.message || error)}`);
       }
     }
   }
-  let bestChunkResume = null;
-  let bestSemanticResume = null;
   const rejectedChunks = [];
   for (const artifact of artifacts) {
     if (artifact.error || artifact.metadata?.schemaVersion !== 2) continue;
@@ -307,7 +484,7 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
           value: record.chunkCheckpoints,
           artifactIdentity: artifact.metadata,
           currentIdentity: identity,
-          sourceContent: fs.readFileSync(sourcePath, 'utf8'),
+          sourceContent,
           chunkOptions,
           revalidate: input => revalidate?.({...candidate, ...input, candidate}),
         });
@@ -322,7 +499,7 @@ function restoreCandidate({siteDir, candidate, artifacts, identity, revalidate, 
             currentIdentity: identity,
             candidate,
             target: identity.target || (identity.locale === 'ja-JP' ? 'ja-JP' : 'zh-CN-reference'),
-            sourceContent: fs.readFileSync(sourcePath, 'utf8'),
+            sourceContent,
             chunkOptions,
           });
           if (!bestSemanticResume || semanticResume.report.entries.length > bestSemanticResume.report.entries.length) bestSemanticResume = semanticResume;
@@ -414,4 +591,13 @@ if (require.main === module) {
   }
 }
 
-module.exports = {createRecoveryArtifact, discoverRecoveryArtifacts, parseCliArgs, promptContractSha256, readArtifact, restoreRecoveryFiles, sha256};
+module.exports = {
+  createRecoveryArtifact,
+  discoverRecoveryArtifacts,
+  parseCliArgs,
+  promptContractSha256,
+  readArtifact,
+  restoreRecoveryFiles,
+  sha256,
+  validateRecoveryReviewReceipt,
+};
