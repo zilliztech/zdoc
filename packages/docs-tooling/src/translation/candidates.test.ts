@@ -53,6 +53,7 @@ function referenceRecord(options: Readonly<{
   sourcePath: string;
   targetPath?: string;
   sourceHash?: string;
+  targetHash?: string;
   status?: 'translated' | 'unchanged' | 'retired';
 }>): Record<string, string> {
   return {
@@ -61,7 +62,7 @@ function referenceRecord(options: Readonly<{
     targetPath: options.targetPath ?? options.sourcePath.replace('content/en/', 'content/zh-CN/'),
     sourceCommit: 'd'.repeat(40),
     sourceHash: options.sourceHash ?? 'a'.repeat(64),
-    targetHash: 'e'.repeat(64),
+    targetHash: options.targetHash ?? 'e'.repeat(64),
     status: options.status ?? 'translated',
   };
 }
@@ -132,6 +133,85 @@ describe('translation candidates', () => {
       preservedSourcePaths: [sourcePath],
       forceTranslationPaths: [sourcePath],
     }));
+    expect(result.candidates).toMatchObject([{sourcePath, targetPath, reason: 'stale_source'}]);
+    expect(result.retirementCandidates).toEqual([]);
+  });
+
+  it('classifies the pending REST source from the failed publication as missing_target', () => {
+    const repositoryRoot = fixture();
+    const sourcePath = 'content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/cloud-access-control-operations-v2.mdx';
+    const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/');
+    write(repositoryRoot, sourcePath, '# Cloud access control operations\n');
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: []});
+
+    const result = buildTranslationCandidates(options(repositoryRoot, {
+      targetId: 'zh-CN-reference',
+      group: 'rest',
+      ownedSourcePaths: ['content/en/reference/api/restful/restful'],
+      preservedSourcePaths: [],
+    }));
+
+    expect(result.candidates).toEqual([{
+      sourcePath,
+      targetPath,
+      sourceHash: sha256('# Cloud access control operations\n'),
+      locale: 'zh-CN',
+      reason: 'missing_target',
+    }]);
+    expect(result.retirementCandidates).toEqual([]);
+  });
+
+  it('classifies changed English with unchanged Chinese provenance as stale_source without a changed-path hint', () => {
+    const repositoryRoot = fixture();
+    const sourcePath = `${PYTHON_ROOT}/changed.md`;
+    const targetPath = 'content/zh-CN/reference/api/python/python/changed.md';
+    write(repositoryRoot, sourcePath, '# new source\n');
+    write(repositoryRoot, targetPath, '# unchanged target\n');
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [
+      referenceRecord({
+        sourcePath,
+        targetPath,
+        sourceHash: sha256('# old source\n'),
+      }),
+    ]});
+
+    const result = buildTranslationCandidates(options(repositoryRoot, {
+      targetId: 'zh-CN-reference',
+      group: 'python',
+      ownedSourcePaths: [PYTHON_ROOT],
+      preservedSourcePaths: [],
+      changedSourcePaths: [],
+    }));
+
+    expect(result.candidates).toMatchObject([{sourcePath, targetPath, reason: 'stale_source'}]);
+    expect(result.retirementCandidates).toEqual([]);
+  });
+
+  it('classifies changed English from a prior unchanged record as stale_source without a changed-path hint', () => {
+    const repositoryRoot = fixture();
+    const sourcePath = `${PYTHON_ROOT}/changed-unchanged.md`;
+    const targetPath = 'content/zh-CN/reference/api/python/python/changed-unchanged.md';
+    const previousHash = sha256('# old shared bytes\n');
+    write(repositoryRoot, sourcePath, '# new source\n');
+    write(repositoryRoot, targetPath, '# old shared bytes\n');
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [
+      referenceRecord({
+        sourcePath,
+        targetPath,
+        sourceHash: previousHash,
+        targetHash: previousHash,
+        status: 'unchanged',
+      }),
+    ]});
+
+    const result = buildTranslationCandidates(options(repositoryRoot, {
+      targetId: 'zh-CN-reference',
+      group: 'python',
+      ownedSourcePaths: [PYTHON_ROOT],
+      preservedSourcePaths: [],
+      changedSourcePaths: [],
+    }));
+
     expect(result.candidates).toMatchObject([{sourcePath, targetPath, reason: 'stale_source'}]);
     expect(result.retirementCandidates).toEqual([]);
   });

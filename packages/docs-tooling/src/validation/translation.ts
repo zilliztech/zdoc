@@ -90,7 +90,9 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
         throw new Error(`Translation manual does not match source and target ownership: ${record.sourcePath}`);
       }
     }
-    if (source && source.sourceHash !== record.sourceHash) throw new Error(`Declared source hash mismatch: ${record.sourcePath}`);
+    if (source && source.sourceHash !== record.sourceHash && record.sourceCommit === sourceManifest.sourceCommit) {
+      throw new Error(`Declared source hash mismatch: ${record.sourcePath}`);
+    }
     if (record.sourceCommit !== sourceManifest.sourceCommit) {
       sourceProvenance.push({
         sourceCommit: record.sourceCommit,
@@ -108,11 +110,37 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
     }
   }
 
+  const pendingBySource = new Map<string, NonNullable<ReferenceTranslationManifest['pendingRecords']>[number]>();
+  for (const record of translationManifest.pendingRecords ?? []) {
+    assertBelowRoot(record.sourcePath, options.sourceRoot, 'Pending source path');
+    assertBelowRoot(record.targetPath, options.targetRoot, 'Pending target path');
+    if (relativeBelowRoot(record.sourcePath, options.sourceRoot) !== relativeBelowRoot(record.targetPath, options.targetRoot)) {
+      throw new Error(`Pending mapping must use the same canonical relative path: ${record.sourcePath} -> ${record.targetPath}`);
+    }
+    if (translationsBySource.has(record.sourcePath) || pendingBySource.has(record.sourcePath)) {
+      throw new Error(`Reference source coverage overlaps translation and pending records: ${record.sourcePath}`);
+    }
+    if (targetPaths.has(record.targetPath)) throw new Error(`Duplicate target mapping across translation and pending records: ${record.targetPath}`);
+    const source = sourceRecords.get(record.sourcePath);
+    if (!source) throw new Error(`Pending source is absent from the active source manifest: ${record.sourcePath}`);
+    if (source.manual !== record.manual) throw new Error(`Pending manual mismatch: ${record.sourcePath}`);
+    if (options.manualForPath) {
+      if (options.manualForPath(record.sourcePath) !== record.manual || options.manualForPath(record.targetPath) !== record.manual) {
+        throw new Error(`Pending manual does not match source and target ownership: ${record.sourcePath}`);
+      }
+    }
+    if (record.sourceCommit !== sourceManifest.sourceCommit) throw new Error(`Pending source commit must match the current source manifest: ${record.sourcePath}`);
+    if (record.sourceHash !== source.sourceHash) throw new Error(`Pending source hash must match the current source manifest: ${record.sourcePath}`);
+    pendingBySource.set(record.sourcePath, record);
+    targetPaths.add(record.targetPath);
+  }
+
   for (const source of sourceManifest.records) {
-    if (!translationsBySource.has(source.sourcePath)) {
-      throw new Error(`Active canonical source is missing a Chinese target mapping: ${source.sourcePath}`);
+    if (!translationsBySource.has(source.sourcePath) && !pendingBySource.has(source.sourcePath)) {
+      throw new Error(`Active Reference source lacks coverage by a translation record or pending record: ${source.sourcePath}`);
     }
   }
+
   if (sourceProvenance.length > 0) {
     if (!options.verifySourceProvenance) {
       throw new Error(`Translation source provenance cannot be verified for checkpoint mismatch: ${sourceProvenance[0].sourcePath}`);
@@ -123,6 +151,11 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
   if (options.verifyFiles === false) return;
   const sourceFiles = readReferenceTree(options.repositoryRoot, options.sourceRoot);
   const targetFiles = readReferenceTree(options.repositoryRoot, options.targetRoot);
+  for (const record of translationManifest.pendingRecords ?? []) {
+    if (fileHash(options.repositoryRoot, record.targetPath) !== undefined) {
+      throw new Error(`Pending target must be missing: ${record.targetPath}`);
+    }
+  }
   for (const record of translationManifest.records) {
     const sourceHash = fileHash(options.repositoryRoot, record.sourcePath);
     const targetHash = fileHash(options.repositoryRoot, record.targetPath);
@@ -135,7 +168,9 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
     } else if (sourceMissing || targetMissing) {
       throw new Error(`Active translation source and target must both exist: ${record.sourcePath}`);
     }
-    if (sourceHash && sourceHash !== record.sourceHash) throw new Error(`Source hash mismatch: ${record.sourcePath}`);
+    if (sourceHash && sourceHash !== record.sourceHash && record.sourceCommit === sourceManifest.sourceCommit) {
+      throw new Error(`Source hash mismatch: ${record.sourcePath}`);
+    }
     if (targetHash && targetHash !== record.targetHash) throw new Error(`Target hash mismatch: ${record.targetPath}`);
     if (sourceMissing && record.sourceHash !== EMPTY_FILE_SHA256) throw new Error(`Missing retired source must use the empty-file hash: ${record.sourcePath}`);
     if (targetMissing && record.targetHash !== EMPTY_FILE_SHA256) throw new Error(`Missing retired target must use the empty-file hash: ${record.targetPath}`);

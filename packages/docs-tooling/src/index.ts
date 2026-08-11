@@ -47,6 +47,7 @@ export {
   serializeReferenceManifest,
 } from './reference/translationManifest.ts';
 export type {
+  ReferencePendingRecord,
   ReferenceRetirementRecord,
   ReferenceRetirementRegistry,
   ReferenceSourceManifest,
