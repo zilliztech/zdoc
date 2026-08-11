@@ -9,6 +9,7 @@ const TEMPLATES_DIR = path.join(__dirname, 'templates')
 const planeConfig = JSON.parse(fs.readFileSync(path.join(META_DIR, 'plane-config.json'), 'utf-8'))
 
 const CONFIG = {
+  dataPlaneKeywords: planeConfig.dataPlaneKeywords || {},
   controlPlaneKeywords: planeConfig.controlPlaneKeywords,
   betaDefaults: { v1: 'DEPRECATED', v2: 'FALSE' },
   betaOverrides: { extract: 'PRIVATE', merge: 'PRIVATE' },
@@ -69,8 +70,14 @@ class refGen {
   }
 
   getPlane(slug, target) {
-    const keywords = CONFIG.controlPlaneKeywords[target] || CONFIG.controlPlaneKeywords.zilliz
-    return keywords.some(k => slug.includes(k)) ? 'control-plane' : 'data-plane'
+    const normalizedSlug = slug.toLowerCase()
+    const dataKeywords = CONFIG.dataPlaneKeywords[target] || CONFIG.dataPlaneKeywords.zilliz || []
+    if (dataKeywords.some(k => normalizedSlug.includes(k.toLowerCase()))) {
+      return 'data-plane'
+    }
+
+    const controlKeywords = CONFIG.controlPlaneKeywords[target] || CONFIG.controlPlaneKeywords.zilliz || []
+    return controlKeywords.some(k => normalizedSlug.includes(k.toLowerCase())) ? 'control-plane' : 'data-plane'
   }
 
   getBetaTag(slug, version) {
@@ -96,7 +103,7 @@ class refGen {
       console.warn(`Warning: No description entry for slug "${slug}", falling back to spec description`)
       return specDescription || ''
     }
-    return entry.description
+    return entry?.["x-i18n"]?.[this.options.lang]?.description || entry.description
   }
 
   lookupMilvusName(slug) {

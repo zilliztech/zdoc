@@ -816,7 +816,10 @@ describe('createDocusaurusConfig', () => {
       integrations: {
         searchProvider: 'search-one',
         analyticsProvider: 'analytics-one',
-        restApi: {planeConfig: {controlPlaneKeywords: {zilliz: ['cluster'], milvus: []}}},
+        restApi: {planeConfig: {
+          dataPlaneKeywords: {zilliz: ['cluster-role'], milvus: []},
+          controlPlaneKeywords: {zilliz: ['cluster'], milvus: []},
+        }},
       },
     }));
     const redirectPlugin = (config.plugins ?? []).find(
@@ -835,9 +838,15 @@ describe('createDocusaurusConfig', () => {
       integrations: {
         searchProvider: 'search-one',
         analyticsProvider: 'analytics-one',
-        restApi: {planeConfig: {controlPlaneKeywords: {zilliz: ['cluster'], milvus: []}}},
+        restApi: {planeConfig: {
+          dataPlaneKeywords: {zilliz: ['cluster-role'], milvus: []},
+          controlPlaneKeywords: {zilliz: ['cluster'], milvus: []},
+        }},
       },
-      planeConfig: {controlPlaneKeywords: {zilliz: ['cluster'], milvus: []}},
+      planeConfig: {
+        dataPlaneKeywords: {zilliz: ['cluster-role'], milvus: []},
+        controlPlaneKeywords: {zilliz: ['cluster'], milvus: []},
+      },
       features: {chat: true, referenceKinds: ['python']},
       redirects: {rules: [{from: '/old', to: '/docs', permanent: true}]},
       secondaryNavbar: [{label: 'Guides', href: '/docs', prefix: '/docs', icon: 'cloud'}],
@@ -924,7 +933,7 @@ describe('createDocusaurusConfig', () => {
       /^NODE_OPTIONS=--max-old-space-size=8192 node \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site en -- docusaurus build /,
     );
     expect(packageJson.scripts['build:zh-CN']).toMatch(
-      /^pnpm --dir \.\.\/\.\. docs-tooling validate-reference --site zh-CN && NODE_OPTIONS=--max-old-space-size=4096 node \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site zh-CN -- docusaurus build /,
+      /^pnpm --dir \.\.\/\.\. docs-tooling validate-reference --site zh-CN && NODE_OPTIONS=--max-old-space-size=8192 node \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site zh-CN -- docusaurus build /,
     );
     expect(packageJson.scripts['build:zh-CN:site']).toMatch(
       /^NODE_OPTIONS=--max-old-space-size=8192 node \.\.\/\.\.\/scripts\/build\/run-with-publication-read-fence\.mjs --site zh-CN -- docusaurus build /,
