@@ -59,6 +59,41 @@ function hasDocFile(root, id) {
   return fs.existsSync(`${base}.md`) || fs.existsSync(`${base}.mdx`)
 }
 
+function collectRestSidebarEligibleDocIds(outputDir, idPrefix) {
+  const ids = new Set()
+  const root = path.join(outputDir, ...idPrefix.split('/'))
+  if (!fs.existsSync(root)) return ids
+
+  function visit(directory) {
+    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+      const target = path.join(directory, entry.name)
+      if (entry.isDirectory()) {
+        visit(target)
+        continue
+      }
+      if (!entry.isFile() || !/\.mdx?$/.test(entry.name)) continue
+      const relative = path.relative(root, target).split(path.sep).join('/').replace(/\.mdx?$/, '')
+      if (relative !== 'restful' && !relative.startsWith('v1/') && !relative.startsWith('v2/')) continue
+      const source = fs.readFileSync(target, 'utf8')
+      if (!/^sidebar_label:\s*\S+/m.test(source)) continue
+      ids.add(`${idPrefix}/${relative}`)
+    }
+  }
+
+  visit(root)
+  return ids
+}
+
+function validateRestSidebarCoverage({ outputDir, sidebar, idPrefix, label = 'restful.sidebar.js' }) {
+  const sidebarIds = collectSidebarDocIds(sidebar)
+  const generatedIds = collectRestSidebarEligibleDocIds(outputDir, idPrefix)
+  const missingFromSidebar = [...generatedIds].filter(id => !sidebarIds.has(id)).sort()
+  if (missingFromSidebar.length) {
+    throw new Error(`${label} omits generated REST endpoint documents:\n- ${missingFromSidebar.join('\n- ')}`)
+  }
+  return { generated: generatedIds.size, missingFromSidebar }
+}
+
 function validateSidebarDocTargets({ outputDir, sidebar, idPrefix, label = 'sidebar' }) {
   const missing = [...collectSidebarDocIds(sidebar)]
     .filter(id => id.startsWith(`${idPrefix}/`) || id === idPrefix)
@@ -88,14 +123,20 @@ function validateReferenceSidebarTargets({ directory, outputDir }) {
     const sidebarPath = path.join(directory, target.sidebar)
     if (!fs.existsSync(sidebarPath)) continue
     delete require.cache[require.resolve(sidebarPath)]
+    const sidebar = require(sidebarPath)
+    const targetValidation = validateSidebarDocTargets({
+      outputDir,
+      sidebar,
+      idPrefix: target.idPrefix,
+      label: target.sidebar,
+    })
+    const coverage = target.sidebar === 'restful.sidebar.js'
+      ? validateRestSidebarCoverage({ outputDir, sidebar, idPrefix: target.idPrefix, label: target.sidebar })
+      : undefined
     results.push({
       sidebar: target.sidebar,
-      ...validateSidebarDocTargets({
-        outputDir,
-        sidebar: require(sidebarPath),
-        idPrefix: target.idPrefix,
-        label: target.sidebar,
-      }),
+      ...targetValidation,
+      ...(coverage ? { coverage } : {}),
     })
   }
   return results
@@ -130,12 +171,14 @@ function main() {
 if (require.main === module) main()
 
 module.exports = {
+  collectRestSidebarEligibleDocIds,
   collectSidebarDocIds,
   parseSite,
   referenceSidebarTargets,
   validateAllGeneratedSidebars,
   validateGeneratedSidebarsForSite,
   validateReferenceSidebarTargets,
+  validateRestSidebarCoverage,
   validateSidebar,
   validateSidebarDocTargets,
 }

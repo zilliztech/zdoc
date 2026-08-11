@@ -47,6 +47,7 @@ import {
   type ReferenceTreeSnapshot,
 } from './reference/translationManifest.ts';
 import {deriveReferenceSidebarPublicationEntries, deriveZhCnReferenceSidebarGroupEntries} from './reference/sidebarDerivation.ts';
+import {deriveRestSidebar, serializeRestSidebar} from './reference/restSidebarDerivation.ts';
 import {validateReferenceNavigation} from './validation/referenceNavigation.ts';
 import {parseLocalizationInputInventory} from './validation/localizationInputInventory.mjs';
 import {
@@ -738,6 +739,18 @@ function stageExistingSidebar(context: CommandContext): void {
   writeSecureAtomicFile(context.repositoryRoot, staged, readSecureFile(context.repositoryRoot, sourcePath, 'Publication sidebar source'), 'Staged publication sidebar');
 }
 
+function stageGeneratedRestSidebar(context: CommandContext): void {
+  const staged = publicationStagePaths(context);
+  const idPrefix = path.relative(staged.contentRootPath, staged.outputPath).split(path.sep).join('/');
+  const sidebar = deriveRestSidebar({targetRoot: staged.outputPath, idPrefix});
+  writeSecureAtomicFile(
+    context.repositoryRoot,
+    staged.sidebarPath,
+    serializeRestSidebar(sidebar),
+    'Staged generated REST sidebar',
+  );
+}
+
 function stagePreservedPublicationFiles(context: CommandContext, replace = false): void {
   const outputPath = publicationStagePaths(context).outputPath;
   for (const relativePath of context.publication.preservedFiles ?? []) {
@@ -1024,7 +1037,7 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
       environment,
       false,
     );
-    stageExistingSidebar(context);
+    stageGeneratedRestSidebar(context);
     return;
   }
   const exhaustive: never = source.sourceType;
