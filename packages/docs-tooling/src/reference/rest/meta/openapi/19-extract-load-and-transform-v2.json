@@ -177,15 +177,19 @@
                             "fieldName": {
                               "type": "string",
                               "description": "Name of the current field to add.",
-                              "x-i18n": {
-                                "zh-CN": "待添加字段的名称。"
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待添加字段的名称。"
+                          }
                               }
                             },
                             "dataType": {
                               "type": "string",
                               "description": "Data type of the current field to add.",
-                              "x-i18n": {
-                                "zh-CN": "待添加字段的数据类型。"
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待添加字段的数据类型。"
+                          }
                               },
                               "enum": [
                                 "VARCHAR",
@@ -201,8 +205,10 @@
                             "params": {
                               "type": "object",
                               "description": "Extra settings for the current field to add.",
-                              "x-i18n": {
-                                "zh-CN": "待添加字段的详细设置。"
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待添加字段的详细设置。"
+                          }
                               },
                               "properties": {
                                 "maxLength": {
@@ -365,15 +371,19 @@
                             "fieldName": {
                               "type": "string",
                               "description": "Name of the current field to add.",
-                              "x-i18n": {
-                                "zh-CN": "待添加字段的名称。"
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待添加字段的名称。"
+                          }
                               }
                             },
                             "dataType": {
                               "type": "string",
                               "description": "Data type of the current field to add.",
-                              "x-i18n": {
-                                "zh-CN": "待添加字段的数据类型。"
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待添加字段的数据类型。"
+                          }
                               },
                               "enum": [
                                 "VARCHAR",
@@ -389,8 +399,10 @@
                             "params": {
                               "type": "object",
                               "description": "Extra settings for the current field to add.",
-                              "x-i18n": {
-                                "zh-CN": "待添加字段的详细设置。"
+                        "x-i18n": {
+                          "zh-CN": {
+                            "description": "待添加字段的详细设置。"
+                          }
                               },
                               "properties": {
                                 "maxLength": {
