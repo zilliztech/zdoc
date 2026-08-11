@@ -93,8 +93,30 @@ function translationManifest(overrides: Partial<ReferenceTranslationManifest> = 
   };
 }
 
+function pendingRecord(overrides: Record<string, unknown> = {}) {
+  return {
+    manual: 'python',
+    sourcePath: 'content/en/reference/api/python/page.md',
+    targetPath: 'content/zh-CN/reference/api/python/page.md',
+    sourceCommit: 'a'.repeat(40),
+    sourceHash: sha256('# source\n'),
+    ...overrides,
+  };
+}
+
 describe('Reference translation provenance', () => {
-  it('rejects an active canonical source without a target mapping', () => {
+  it('accepts an authenticated canonical source without a target mapping as pending', () => {
+    expect(() => validateReferenceTranslation({
+      repositoryRoot: '/unused',
+      sourceRoot: 'content/en/reference',
+      targetRoot: 'content/zh-CN/reference',
+      sourceManifest: sourceManifest(),
+      translationManifest: translationManifest({records: [], pendingRecords: [pendingRecord()]}),
+      verifyFiles: false,
+    })).not.toThrow();
+  });
+
+  it('rejects an active source without a translation or explicit pending record', () => {
     expect(() => validateReferenceTranslation({
       repositoryRoot: '/unused',
       sourceRoot: 'content/en/reference',
@@ -102,7 +124,59 @@ describe('Reference translation provenance', () => {
       sourceManifest: sourceManifest(),
       translationManifest: translationManifest({records: []}),
       verifyFiles: false,
-    })).toThrow(/active canonical source.*target/i);
+    })).toThrow(/coverage|pending|translation record/i);
+  });
+
+  it.each([
+    ['source commit', {sourceCommit: 'b'.repeat(40)}],
+    ['source hash', {sourceHash: 'b'.repeat(64)}],
+  ])('rejects a pending record with a forged %s', (_label, mutation) => {
+    expect(() => validateReferenceTranslation({
+      repositoryRoot: '/unused',
+      sourceRoot: 'content/en/reference',
+      targetRoot: 'content/zh-CN/reference',
+      sourceManifest: sourceManifest(),
+      translationManifest: translationManifest({records: [], pendingRecords: [pendingRecord(mutation)]}),
+      verifyFiles: false,
+    })).toThrow(/pending.*source|commit|hash/i);
+  });
+
+  it.each([
+    ['manual ownership', {manual: 'java'}],
+    ['canonical mapping', {targetPath: 'content/zh-CN/reference/api/python/other.md'}],
+  ])('rejects pending %s drift', (_label, mutation) => {
+    expect(() => validateReferenceTranslation({
+      repositoryRoot: '/unused',
+      sourceRoot: 'content/en/reference',
+      targetRoot: 'content/zh-CN/reference',
+      sourceManifest: sourceManifest(),
+      translationManifest: translationManifest({records: [], pendingRecords: [pendingRecord(mutation)]}),
+      verifyFiles: false,
+      manualForPath: () => 'python',
+    })).toThrow(/pending|manual|mapping|ownership/i);
+  });
+
+  it('rejects overlap between translated and pending state', () => {
+    expect(() => validateReferenceTranslation({
+      repositoryRoot: '/unused',
+      sourceRoot: 'content/en/reference',
+      targetRoot: 'content/zh-CN/reference',
+      sourceManifest: sourceManifest(),
+      translationManifest: translationManifest({pendingRecords: [pendingRecord()]}),
+      verifyFiles: false,
+    })).toThrow(/overlap|duplicate|covered.*twice/i);
+  });
+
+  it('rejects a pending record whose target already exists', () => {
+    const roots = fixture();
+    writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
+    writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
+
+    expect(() => validateReferenceTranslation({
+      ...roots,
+      sourceManifest: sourceManifest(),
+      translationManifest: translationManifest({records: [], pendingRecords: [pendingRecord()]}),
+    })).toThrow(/pending target.*must.*missing|target.*pending/i);
   });
 
   it('rejects an orphan target that does not map to an active or retired source', () => {
@@ -204,15 +278,297 @@ describe('Reference translation provenance', () => {
     })).toThrow(/retired.*exactly one.*missing/i);
   });
 
-  it('does not silently retire a newly unmatched source during generation', () => {
+  it('persists a new pending source across generations and materializes it when the target appears', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/python/page.md';
+    const targetPath = 'content/zh-CN/reference/api/python/page.md';
+    writeFileSync(path.join(roots.repositoryRoot, sourcePath), '# source\n');
+
+    const first = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'a'.repeat(40),
+      manualForPath: () => 'python',
+      previousSourceManifest: sourceManifest({records: []}),
+      previousTranslationManifest: translationManifest({records: []}),
+    });
+
+    expect(first.sourceManifest.records).toEqual([{
+      manual: 'python',
+      sourcePath,
+      sourceHash: sha256('# source\n'),
+    }]);
+    expect(first.translationManifest.records).toEqual([]);
+    expect(first.translationManifest.pendingRecords).toEqual([{
+      manual: 'python',
+      sourcePath,
+      targetPath,
+      sourceCommit: 'a'.repeat(40),
+      sourceHash: sha256('# source\n'),
+    }]);
+
+    writeFileSync(path.join(roots.repositoryRoot, sourcePath), '# source v2\n');
+    const second = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'python',
+      previousSourceManifest: first.sourceManifest,
+      previousTranslationManifest: first.translationManifest,
+    });
+    expect(second.translationManifest.records).toEqual([]);
+    expect(second.translationManifest.pendingRecords).toEqual([{
+      manual: 'python',
+      sourcePath,
+      targetPath,
+      sourceCommit: 'b'.repeat(40),
+      sourceHash: sha256('# source v2\n'),
+    }]);
+
+    writeFileSync(path.join(roots.repositoryRoot, targetPath), '# target\n');
+    const third = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'c'.repeat(40),
+      manualForPath: () => 'python',
+      previousSourceManifest: second.sourceManifest,
+      previousTranslationManifest: second.translationManifest,
+    });
+    expect(third.translationManifest.pendingRecords).toEqual([]);
+    expect(third.translationManifest.records).toEqual([{
+      manual: 'python',
+      sourcePath,
+      targetPath,
+      sourceCommit: 'c'.repeat(40),
+      sourceHash: sha256('# source v2\n'),
+      targetHash: sha256('# target\n'),
+      status: 'translated',
+    }]);
+  });
+
+  it.each(['missing-target', 'present-target'] as const)(
+    'fails closed when a historical source has no translation record with a %s',
+    (targetState) => {
+      const roots = fixture();
+      const sourcePath = 'content/en/reference/api/python/page.md';
+      writeFileSync(path.join(roots.repositoryRoot, sourcePath), '# source\n');
+      if (targetState === 'present-target') {
+        writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
+      }
+
+      expect(() => buildReferenceManifests({
+        ...roots,
+        sourceCommit: 'b'.repeat(40),
+        manualForPath: () => 'python',
+        previousSourceManifest: sourceManifest(),
+        previousTranslationManifest: translationManifest({records: []}),
+      })).toThrow(/historical source|translation record|explicit retirement/i);
+    },
+  );
+
+  it('requires retirement when a previously active mapping loses its target', () => {
     const roots = fixture();
     writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
 
     expect(() => buildReferenceManifests({
       ...roots,
-      sourceCommit: 'a'.repeat(40),
+      sourceCommit: 'b'.repeat(40),
       manualForPath: () => 'python',
+      previousTranslationManifest: translationManifest(),
     })).toThrow(/explicit retirement/i);
+  });
+
+  it('requires retirement for a target-only path even when it was absent from prior state', () => {
+    const roots = fixture();
+    writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
+
+    expect(() => buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'python',
+      previousTranslationManifest: translationManifest({records: []}),
+    })).toThrow(/explicit retirement/i);
+  });
+
+  it('preserves bootstrap state and prior provenance while new records use the passed source checkpoint', () => {
+    const roots = fixture();
+    writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
+    writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
+    writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/new.md'), '# new source\n');
+    writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/new.md'), '# new target\n');
+    const sourceCommit = 'b'.repeat(40);
+
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit,
+      manualForPath: () => 'python',
+      previousTranslationManifest: translationManifest({bootstrapCompletedGroups: ['python']}),
+    });
+
+    expect(result.translationManifest.bootstrapCompletedGroups).toEqual(['python']);
+    expect(result.translationManifest.records.find(record => record.sourcePath.endsWith('/page.md'))?.sourceCommit).toBe('a'.repeat(40));
+    expect(result.translationManifest.records.find(record => record.sourcePath.endsWith('/new.md'))?.sourceCommit).toBe(sourceCommit);
+  });
+
+  it('preserves authenticated translation provenance when English changes but the Chinese target does not', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/python/page.md';
+    const targetPath = 'content/zh-CN/reference/api/python/page.md';
+    const previousRecord = {
+      ...translationManifest().records[0],
+      sourceCommit: 'a'.repeat(40),
+      sourceHash: sha256('# old source\n'),
+      targetHash: sha256('# target\n'),
+    };
+    writeFileSync(path.join(roots.repositoryRoot, sourcePath), '# new source\n');
+    writeFileSync(path.join(roots.repositoryRoot, targetPath), '# target\n');
+
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'python',
+      previousTranslationManifest: translationManifest({records: [previousRecord]}),
+    });
+
+    expect(result.sourceManifest).toMatchObject({
+      sourceCommit: 'b'.repeat(40),
+      records: [{sourcePath, sourceHash: sha256('# new source\n')}],
+    });
+    expect(result.translationManifest.records).toEqual([previousRecord]);
+  });
+
+  it('preserves prior unchanged provenance when English changes but the identical Chinese bytes do not', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/python/page.md';
+    const targetPath = 'content/zh-CN/reference/api/python/page.md';
+    const previousRecord = {
+      ...translationManifest().records[0],
+      sourceCommit: 'a'.repeat(40),
+      sourceHash: sha256('# old shared bytes\n'),
+      targetHash: sha256('# old shared bytes\n'),
+      status: 'unchanged' as const,
+    };
+    writeFileSync(path.join(roots.repositoryRoot, sourcePath), '# new source\n');
+    writeFileSync(path.join(roots.repositoryRoot, targetPath), '# old shared bytes\n');
+
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'python',
+      previousTranslationManifest: translationManifest({records: [previousRecord]}),
+    });
+
+    expect(result.sourceManifest).toMatchObject({
+      sourceCommit: 'b'.repeat(40),
+      records: [{sourcePath, sourceHash: sha256('# new source\n')}],
+    });
+    expect(result.translationManifest.records).toEqual([previousRecord]);
+  });
+
+  it('rebuilds a translated record when both sides return after a retirement', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/python/page.md';
+    const targetPath = 'content/zh-CN/reference/api/python/page.md';
+    writeFileSync(path.join(roots.repositoryRoot, sourcePath), '# restored source\n');
+    writeFileSync(path.join(roots.repositoryRoot, targetPath), '# restored target\n');
+
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'python',
+      previousTranslationManifest: translationManifest({records: [{
+        ...translationManifest().records[0],
+        targetHash: EMPTY_FILE_SHA256,
+        status: 'retired',
+      }]}),
+      retirementRegistry: {schemaVersion: 2, retirements: [{
+        manual: 'python',
+        sourcePath,
+        targetPath,
+        changeKind: null,
+        rationale: 'Obsolete fixture retirement',
+      }]},
+    });
+
+    expect(result.translationManifest.records).toEqual([{
+      manual: 'python',
+      sourcePath,
+      targetPath,
+      sourceCommit: 'b'.repeat(40),
+      sourceHash: sha256('# restored source\n'),
+      targetHash: sha256('# restored target\n'),
+      status: 'translated',
+    }]);
+  });
+
+  it('fails closed when target bytes change without an updated translation record', () => {
+    const roots = fixture();
+    writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
+    writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# changed target\n');
+
+    expect(() => buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'python',
+      previousTranslationManifest: translationManifest(),
+    })).toThrow(/target.*changed|translation record|infer/i);
+  });
+
+  it('fails closed when target bytes change from a prior unchanged record', () => {
+    const roots = fixture();
+    const previousHash = sha256('# old shared bytes\n');
+    writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# new source\n');
+    writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# changed target\n');
+
+    expect(() => buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: () => 'python',
+      previousTranslationManifest: translationManifest({records: [{
+        ...translationManifest().records[0],
+        sourceHash: previousHash,
+        targetHash: previousHash,
+        status: 'unchanged',
+      }]}),
+    })).toThrow(/target.*changed|translation record|infer/i);
+  });
+
+  it('allows a historical source hash only through provenance verification', () => {
+    const historicalRecord = {
+      ...translationManifest().records[0],
+      sourceCommit: 'b'.repeat(40),
+      sourceHash: sha256('# historical source\n'),
+    };
+    const verifySourceProvenance = vi.fn();
+
+    expect(() => validateReferenceTranslation({
+      repositoryRoot: '/unused',
+      sourceRoot: 'content/en/reference',
+      targetRoot: 'content/zh-CN/reference',
+      sourceManifest: sourceManifest(),
+      translationManifest: translationManifest({records: [historicalRecord]}),
+      verifyFiles: false,
+      verifySourceProvenance,
+    })).not.toThrow();
+    expect(verifySourceProvenance).toHaveBeenCalledWith([expect.objectContaining({
+      sourceCommit: 'b'.repeat(40),
+      sourceManifestCommit: 'a'.repeat(40),
+      sourceHash: historicalRecord.sourceHash,
+      expectedHistoricalSource: 'blob',
+    })]);
+  });
+
+  it('rejects a forged historical source hash when provenance verification fails', () => {
+    expect(() => validateReferenceTranslation({
+      repositoryRoot: '/unused',
+      sourceRoot: 'content/en/reference',
+      targetRoot: 'content/zh-CN/reference',
+      sourceManifest: sourceManifest(),
+      translationManifest: translationManifest({records: [{
+        ...translationManifest().records[0],
+        sourceCommit: 'b'.repeat(40),
+        sourceHash: sha256('# forged historical source\n'),
+      }]}),
+      verifyFiles: false,
+      verifySourceProvenance: () => { throw new Error('Historical source hash mismatch'); },
+    })).toThrow(/historical source hash mismatch/i);
   });
 
   it('drops a stale retirement when both source and target are missing', () => {
@@ -336,6 +692,25 @@ describe('Reference translation provenance', () => {
 
     expect(() => parseReferenceSourceManifest({...sourceManifest(), records: sourceRecords.reverse()})).toThrow(/sorted|order/i);
     expect(() => parseReferenceTranslationManifest({...translationManifest(), records: translationRecords.reverse()})).toThrow(/sorted|order/i);
+  });
+
+  it('rejects unsorted and duplicate pending records', () => {
+    const first = pendingRecord();
+    const second = pendingRecord({
+      sourcePath: 'content/en/reference/api/python/z.md',
+      targetPath: 'content/zh-CN/reference/api/python/z.md',
+    });
+
+    expect(() => parseReferenceTranslationManifest({
+      schemaVersion: 1,
+      records: [],
+      pendingRecords: [second, first],
+    })).toThrow(/pending.*sorted|order/i);
+    expect(() => parseReferenceTranslationManifest({
+      schemaVersion: 1,
+      records: [],
+      pendingRecords: [first, first],
+    })).toThrow(/pending.*duplicate|unique/i);
   });
 
   it('rejects a translation whose target is swapped with another canonical relative path', () => {

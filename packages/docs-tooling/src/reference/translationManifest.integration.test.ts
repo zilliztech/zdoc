@@ -1,5 +1,5 @@
 import {spawnSync} from 'node:child_process';
-import {mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
+import {existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 
@@ -32,6 +32,12 @@ function navigationConfig(landingPage = 'api/python/landing.md') {
 function git(repositoryRoot: string, args: string[]): void {
   const result = spawnSync('git', args, {cwd: repositoryRoot, encoding: 'utf8'});
   if (result.status !== 0) throw new Error(result.stderr || `git ${args.join(' ')} failed`);
+}
+
+function gitOutput(repositoryRoot: string, args: string[]): string {
+  const result = spawnSync('git', args, {cwd: repositoryRoot, encoding: 'utf8'});
+  if (result.status !== 0) throw new Error(result.stderr || `git ${args.join(' ')} failed`);
+  return result.stdout.trim();
 }
 
 function repository(): string {
@@ -138,6 +144,128 @@ describe('Reference manifest executable security boundary', () => {
     for (const manual of referenceSidebarNames) {
       expect(readFileSync(path.join(root, `generated/zh-CN/sidebars/${manual}.sidebar.js`), 'utf8')).toContain('module.exports');
     }
+  });
+
+  it('reconciles the failed REST publication as pending without creating a Chinese target or sidebar entry', () => {
+    const root = repository();
+    expect(generate(root).status).toBe(0);
+    const sourcePath = 'content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/cloud-access-control-operations-v2.mdx';
+    const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/');
+    const documentId = sourcePath.slice('content/en/reference/'.length).replace(/\.mdx?$/u, '');
+    mkdirSync(path.dirname(path.join(root, sourcePath)), {recursive: true});
+    writeFileSync(path.join(root, sourcePath), '# Cloud access control operations\n');
+    writeFileSync(path.join(root, 'generated/en/sidebars/restful.sidebar.js'), `module.exports = ["api/python/page", "${documentId}"]\n`);
+    const config = navigationConfig();
+    writeFileSync(path.join(root, 'config/reference-navigation.json'), `${JSON.stringify({
+      ...config,
+      targets: config.targets.map(target => target.manual === 'rest' ? {...target, documentIdPrefix: 'api'} : target),
+    }, null, 2)}\n`);
+    git(root, ['add', '.']);
+    git(root, ['commit', '--quiet', '-m', 'add REST source']);
+    const sourceCommit = gitOutput(root, ['rev-parse', 'HEAD']);
+
+    const result = generate(root);
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    const sourceManifest = JSON.parse(readFileSync(path.join(root, 'generated/en/manifests/reference.json'), 'utf8'));
+    const translationManifest = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
+    expect(sourceManifest.sourceCommit).toBe(sourceCommit);
+    expect(sourceManifest.records.find((record: {sourcePath: string}) => record.sourcePath === sourcePath)).toMatchObject({
+      manual: 'rest',
+      sourcePath,
+    });
+    expect(translationManifest.records.some((record: {sourcePath: string}) => record.sourcePath === sourcePath)).toBe(false);
+    expect(translationManifest.pendingRecords).toContainEqual(expect.objectContaining({
+      manual: 'rest',
+      sourcePath,
+      targetPath,
+      sourceCommit,
+    }));
+    expect(existsSync(path.join(root, targetPath))).toBe(false);
+    expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/restful.sidebar.js'), 'utf8')).not.toContain(documentId);
+    const sidebarResult = runReferenceManifest(root, ['reference-sidebar', '--group', 'rest', '--write']);
+    expect(sidebarResult.status, sidebarResult.stderr || sidebarResult.stdout).toBe(0);
+    expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/restful.sidebar.js'), 'utf8')).not.toContain(documentId);
+    const validation = validateChinese(root);
+    expect(validation.status, validation.stderr || validation.stdout).toBe(0);
+
+    const second = generate(root);
+    expect(second.status, second.stderr || second.stdout).toBe(0);
+    const secondManifest = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
+    expect(secondManifest.pendingRecords).toContainEqual(expect.objectContaining({sourcePath, targetPath, sourceCommit}));
+
+    mkdirSync(path.dirname(path.join(root, targetPath)), {recursive: true});
+    writeFileSync(path.join(root, targetPath), '# 云访问控制操作\n');
+    git(root, ['add', '.']);
+    git(root, ['commit', '--quiet', '-m', 'add REST target']);
+    const materializedCommit = gitOutput(root, ['rev-parse', 'HEAD']);
+    const materialized = generate(root);
+    expect(materialized.status, materialized.stderr || materialized.stdout).toBe(0);
+    const materializedManifest = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
+    expect(materializedManifest.pendingRecords ?? []).toEqual([]);
+    expect(materializedManifest.records).toContainEqual(expect.objectContaining({
+      sourcePath,
+      targetPath,
+      sourceCommit: materializedCommit,
+      status: 'translated',
+    }));
+    expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/restful.sidebar.js'), 'utf8')).toContain(documentId);
+    const materializedValidation = validateChinese(root);
+    expect(materializedValidation.status, materializedValidation.stderr || materializedValidation.stdout).toBe(0);
+  });
+
+  it('fails closed when a previously active target disappears without retirement authorization', () => {
+    const root = repository();
+    expect(generate(root).status).toBe(0);
+    rmSync(path.join(root, 'content/zh-CN/reference/api/python/page.md'));
+    git(root, ['add', '-A']);
+    git(root, ['commit', '--quiet', '-m', 'remove target without retirement']);
+
+    const result = generate(root);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/explicit retirement/i);
+  });
+
+  it('fails closed when a historical target and its translation record are deleted together', () => {
+    const root = repository();
+    expect(generate(root).status).toBe(0);
+    git(root, ['add', '.']);
+    git(root, ['commit', '--quiet', '-m', 'persist Reference manifests']);
+    rmSync(path.join(root, 'content/zh-CN/reference/api/python/page.md'));
+    const manifestPath = path.join(root, 'generated/zh-CN/manifests/reference-translations.json');
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+    manifest.records = manifest.records.filter((record: {sourcePath: string}) => (
+      record.sourcePath !== 'content/en/reference/api/python/page.md'
+    ));
+    writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+    git(root, ['add', '-A']);
+    git(root, ['commit', '--quiet', '-m', 'delete target and translation record']);
+
+    const result = generate(root);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/historical source|translation record|explicit retirement/i);
+    const sidebar = runReferenceManifest(root, ['reference-sidebar', '--group', 'python', '--write']);
+    expect(sidebar.status).not.toBe(0);
+    expect(sidebar.stderr).toMatch(/coverage|pending|translation record/i);
+    const validation = validateChinese(root);
+    expect(validation.status).not.toBe(0);
+    expect(validation.stderr).toMatch(/coverage|pending|translation record/i);
+  });
+
+  it('authenticates previous source manifests before using prior translation state', () => {
+    const root = repository();
+    expect(generate(root).status).toBe(0);
+    const manifestPath = path.join(root, 'generated/en/manifests/reference.json');
+    const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+    manifest.records[0].sourceHash = 'f'.repeat(64);
+    writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+
+    const result = generate(root);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/source.*hash|declared snapshot|commit tree/i);
   });
 
   it('adds each configured landing once to English and Chinese sidebars and is idempotent', () => {

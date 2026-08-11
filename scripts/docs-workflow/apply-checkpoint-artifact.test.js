@@ -138,6 +138,40 @@ test('three-way merges Chinese translation manifests by immutable source-relativ
   });
 });
 
+test('independently merges records and pending records when two group artifacts clear different pending sources', async () => {
+  const statePath = 'generated/zh-CN/manifests/reference-translations.json';
+  const pending = (manual, sourcePath) => ({
+    manual,
+    sourcePath,
+    targetPath: sourcePath.replace('content/en', 'content/zh-CN'),
+    sourceCommit: 'b'.repeat(40),
+    sourceHash: `${manual === 'java' ? '1' : '2'}`.repeat(64),
+  });
+  const translated = (value) => ({...value, targetHash: '3'.repeat(64), status: 'translated'});
+  const javaPending = pending('java', 'content/en/reference/api/java/page.md');
+  const pythonPending = pending('python', 'content/en/reference/api/python/page.md');
+  const baseline = {schemaVersion: 1, records: [], pendingRecords: [javaPending, pythonPending]};
+  const artifact = {schemaVersion: 1, records: [translated(pythonPending)], pendingRecords: [javaPending]};
+  const target = {schemaVersion: 1, records: [translated(javaPending)], pendingRecords: [pythonPending]};
+  const f = await fixture({files: {[statePath]: `${JSON.stringify(artifact)}\n`}});
+  const manifestPath = path.join(f.artifactDir, 'manifest.json');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  Object.assign(manifest, {stage: 'translation', translationTarget: 'zh-CN-reference', sourceSite: 'en', targetSite: 'zh-CN', sourceCheckpointSha: 'b'.repeat(40), toolingSha: 'a'.repeat(40)});
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  for (const [root, value] of [[f.baselineDir, baseline], [f.targetDir, target]]) {
+    await mkdir(path.dirname(path.join(root, statePath)), {recursive: true});
+    await writeFile(path.join(root, statePath), `${JSON.stringify(value)}\n`);
+  }
+
+  await applyCheckpointArtifact({artifactDir: f.artifactDir, targetDir: f.targetDir, baselineDir: f.baselineDir});
+
+  assert.deepEqual(JSON.parse(await readFile(path.join(f.targetDir, statePath), 'utf8')), {
+    pendingRecords: [],
+    records: [translated(javaPending), translated(pythonPending)],
+    schemaVersion: 1,
+  });
+});
+
 test('unions completed bootstrap groups while three-way merging Chinese translation manifests', async () => {
   const statePath = 'generated/zh-CN/manifests/reference-translations.json';
   const record = (manual, sourcePath, value) => ({manual, sourcePath, targetPath: sourcePath.replace('content/en', 'content/zh-CN'), value});

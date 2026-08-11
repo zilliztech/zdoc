@@ -12,12 +12,15 @@ const {
   partitionRecoveryWork,
   processItemWithRetry,
   processManifestItem,
+  translationManifestItemType,
+  validateTranslationManifest,
 } = require('./agentRunner')
 const {loadChunkLimits} = require('./chunkLimits')
 const {promptContractSha256} = require('./recovery-artifact')
 const {analyzeRecoveryCompatibility} = require('./recovery-preflight')
 
 const SHA = /^[0-9a-f]{40}$/u
+const SHA256 = /^[0-9a-f]{64}$/u
 
 function repositoryPath(value, label) {
   if (typeof value !== 'string' || !value || path.isAbsolute(value) || value.includes('\\') || value.includes('\0') ||
@@ -25,6 +28,49 @@ function repositoryPath(value, label) {
     throw new Error(`${label} is not a safe repository-relative path`)
   }
   return value
+}
+
+function buildReplayCandidates({metadata, artifactManifest, target}) {
+  if (metadata?.schemaVersion !== 2 || artifactManifest?.schemaVersion !== 2 ||
+      !Array.isArray(artifactManifest.files) || !Array.isArray(artifactManifest.failures)) {
+    throw new Error('Retained recovery artifact must be a schema-v2 artifact')
+  }
+  if (metadata.translated !== artifactManifest.files.length || metadata.failed !== artifactManifest.failures.length) {
+    throw new Error('Retained recovery artifact translated/failed counts do not match its manifest arrays')
+  }
+  const records = [...artifactManifest.files, ...artifactManifest.failures]
+  if (records.length === 0) throw new Error('Retained recovery artifact must contain at least one replay candidate')
+  const bySourcePath = new Map()
+  const byTargetPath = new Map()
+  const candidates = []
+  for (const record of records) {
+    const sourcePath = repositoryPath(record?.sourcePath, 'Recovery record source path')
+    const targetPath = repositoryPath(record?.targetPath, 'Recovery record target path')
+    if (!SHA256.test(record?.sourceHash || '')) throw new Error('Recovery record source hash is invalid')
+    const identity = {sourcePath, targetPath, sourceHash: record.sourceHash}
+    const sourceIdentity = bySourcePath.get(sourcePath)
+    const targetIdentity = byTargetPath.get(targetPath)
+    if (sourceIdentity || targetIdentity) {
+      const duplicate = sourceIdentity?.targetPath === targetPath && sourceIdentity?.sourceHash === record.sourceHash &&
+        targetIdentity?.sourcePath === sourcePath && targetIdentity?.sourceHash === record.sourceHash
+      throw new Error(`Recovery replay candidate has ${duplicate ? 'duplicate' : 'conflicting'} identity: ${sourcePath}`)
+    }
+    bySourcePath.set(sourcePath, identity)
+    byTargetPath.set(targetPath, identity)
+    candidates.push({
+      ...identity,
+      locale: metadata.locale,
+      type: translationManifestItemType(target, sourcePath),
+      reason: 'stale_source',
+    })
+  }
+  return validateTranslationManifest({
+    target,
+    locale: metadata.locale,
+    group: metadata.group,
+    sourceCheckpointSha: metadata.sourceSha,
+    items: candidates,
+  }).items
 }
 
 function git(repository, args, options = {}) {
@@ -86,24 +132,14 @@ async function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, 
   }
   const metadata = JSON.parse(fs.readFileSync(path.join(artifactRoot, 'metadata.json'), 'utf8'))
   const artifactManifest = JSON.parse(fs.readFileSync(path.join(artifactRoot, 'manifest.json'), 'utf8'))
-  if (metadata.schemaVersion !== 2 || artifactManifest.schemaVersion !== 2 || !Array.isArray(artifactManifest.files) || artifactManifest.files.length === 0) {
-    throw new Error('Retained recovery artifact must be a non-empty schema-v2 artifact')
-  }
-  if (metadata.sourceSha !== sourceSha || metadata.translated !== artifactManifest.files.length || metadata.failed !== artifactManifest.failures.length) {
+  if (metadata.sourceSha !== sourceSha) {
     throw new Error('Retained recovery artifact identity does not match the requested replay')
   }
   const target = metadata.locale === 'zh-CN' ? 'zh-CN-reference' : metadata.locale === 'ja-JP' ? 'ja-JP' : null
   if (!target || typeof metadata.group !== 'string' || typeof metadata.model !== 'string') throw new Error('Retained recovery locale, group, or model is invalid')
+  const items = buildReplayCandidates({metadata, artifactManifest, target})
   const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-retained-replay.'))
   try {
-    const items = artifactManifest.files.map(record => ({
-      sourcePath: repositoryPath(record.sourcePath, 'Recovery record source path'),
-      targetPath: repositoryPath(record.targetPath, 'Recovery record target path'),
-      sourceHash: record.sourceHash,
-      locale: metadata.locale,
-      type: target === 'zh-CN-reference' ? 'reference' : 'docs',
-      reason: 'stale_source',
-    }))
     for (const sourcePath of new Set(items.map(item => item.sourcePath))) writeSource(repositoryRoot, sourceSha, workspace, sourcePath)
     const manifest = {target, locale: metadata.locale, group: metadata.group, sourceCheckpointSha: sourceSha, items}
     const currentPromptContractSha256 = promptContractSha256(target, process.cwd())
@@ -268,4 +304,4 @@ if (require.main === module) {
   main().catch(error => { console.error(error.message); process.exitCode = 1 })
 }
 
-module.exports = {parseArgs, replayRetainedRecovery}
+module.exports = {buildReplayCandidates, parseArgs, replayRetainedRecovery}
