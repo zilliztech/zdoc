@@ -5,7 +5,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const {applyDeterministicLocaleRepairs, formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
 const {protectTranslationInput, reprotectTranslationInput, restoreProtectedContent, validateProtectedContent} = require('./protectedContent')
-const {parseAndValidateReviewEvidence} = require('./reviewEvidence')
+const {parseAndValidateReviewEvidence, successfulReview} = require('./reviewEvidence')
 
 const LOCALIZABLE_KEYS = new Set(['summary', 'description', 'title', 'label', 'prompt', 'content'])
 const PRESERVED_SUBTREES = new Set(['example', 'examples', 'default', 'enum', 'enums', 'value'])
@@ -386,19 +386,25 @@ async function reviewRestSpecsDraft({sourceSpecs, draft, sourcePath = '<REST doc
     })
     translated.push(...reviewed.entries)
     reviews.push(reviewed.review)
+    if (reviewed.review.pass) {
+      const correctedById = new Map(reviewed.entries.map(entry => [entry.id, entry.translation]))
+      for (const entry of draft.entries) {
+        if (correctedById.has(entry.id)) entry.translation = correctedById.get(entry.id)
+      }
+    }
     if (!reviewed.review.pass) break
   }
   const localized = applyLocaleEntries(sourceSpecs, translated, locale)
   assert.deepEqual(removeLocale(localized, locale), removeLocale(sourceSpecs, locale), 'Reviewed REST specs changed non-locale data')
-  const review = {
-    pass: reviews.length > 0 && reviews.every(item => item.pass) && translated.length === entries.length,
+  const review = reviews.length ? {
+    pass: reviews.every(item => item.pass) && translated.length === entries.length,
     issues: reviews.flatMap(item => item.issues),
     unsupportedIssues: reviews.flatMap(item => item.unsupportedIssues),
     contractConflicts: reviews.flatMap(item => item.contractConflicts),
     localeContractIssues: reviews.flatMap(item => item.localeContractIssues),
     reviewerPass: reviews.length > 0 && reviews.every(item => item.reviewerPass),
     error: reviews.find(item => item.error)?.error || null,
-  }
+  } : successfulReview()
   return {localized, translatedCount: translated.length, review}
 }
 

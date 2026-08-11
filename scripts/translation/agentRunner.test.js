@@ -297,6 +297,166 @@ async function testCompleteRestRecoverySkipsTranslationButRequiresBothCurrentRev
   })
 }
 
+async function testCompleteRestRecoveryRetainsSuccessfulBatchCorrectionsAcrossFileRetry() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/restful/restful/v1/retry.mdx'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v1/retry.mdx'
+    const longSummary = `${'Alpha sentence. '.repeat(500)}Summary end.`
+    const longDescription = `${'Beta sentence. '.repeat(520)}Description end.`
+    const sourceSpecs = {summary: longSummary, description: longDescription}
+    const source = `# Search\n\nexport const specs = ${JSON.stringify(sourceSpecs)}\nexport const endpoint = "/v1/retry"\n`
+    const summaryDraft = `${'コレクションを検索します。'.repeat(380)}要約。`
+    const descriptionDraft = `${'コレクションを説明します。'.repeat(340)}説明。`
+    const targetSpecs = {
+      ...sourceSpecs,
+      'x-i18n': {'ja-JP': {summary: summaryDraft, description: descriptionDraft}},
+    }
+    const target = `# 検索\n\nexport const specs = ${JSON.stringify(targetSpecs)}\nexport const endpoint = "/v1/retry"\n`
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'reference'}
+    const semanticCheckpoints = semanticCheckpointsFromCompleteTranslation({sourceContent: source, targetContent: target, item})
+    const restCalls = []
+    let firstAttempt = true
+    const result = await processItemWithRetry(item, {
+      maxRetries: 1,
+      initialSemanticCheckpoints: semanticCheckpoints,
+      processItem: (_item, _attempt, _feedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        semanticCheckpoint: retryContext.semanticCheckpoint,
+        restSpecDraft: retryContext.restSpecDraft,
+        onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
+        maxReviewRounds: 1,
+        validate: async () => [],
+        callModel: async ({agent, messages}) => {
+          if (agent === 'translation') throw new Error('complete REST recovery must never call the Translation provider')
+          const user = messages.at(-1).content
+          if (agent === 'correction') {
+            return JSON.stringify(JSON.parse(taggedMessageContent(messages, 'draft')).map(entry => ({
+              id: entry.id,
+              text: entry.text.replace('コレクションを検索します。', 'データを検索します。'),
+            })))
+          }
+          if (!user.includes('<source>')) return '{"pass":true,"issues":[]}'
+          const draft = JSON.parse(taggedMessageContent(messages, 'draft'))
+          restCalls.push(draft)
+          const firstEntry = draft[0]
+          if (firstAttempt && restCalls.length === 1) {
+            return JSON.stringify({pass: false, issues: [{
+              severity: 'medium',
+              type: 'accuracy_mistranslation',
+              location: firstEntry.id,
+              source_quote: 'Alpha sentence.',
+              draft_quote: 'コレクションを検索します。',
+              comment: 'Use the corrected wording.',
+            }]})
+          }
+          if (firstAttempt && restCalls.length === 2) return '{"pass":true,"issues":[]}'
+          if (firstAttempt) {
+            firstAttempt = false
+            const error = new Error('HTTP 408 while reading the second REST review batch')
+            error.status = 408
+            throw error
+          }
+          return '{"pass":true,"issues":[]}'
+        },
+      }),
+      log: {warn() {}},
+    })
+
+    assert.equal(result.status, 'translated', JSON.stringify(result))
+    assert.equal(result.attempts, 2)
+    assert.equal(restCalls.length, 5)
+    assert.ok(restCalls[3][0].text.startsWith('データを検索します。'), JSON.stringify(restCalls.map(batch => batch[0].text.slice(0, 20))))
+    assert.ok(semanticCheckpoints.restSpecDraft.entries[0].translation.startsWith('データを検索します。'), 'persistent REST draft must retain the correction')
+    assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /データを検索します。/)
+  })
+}
+
+async function testCompleteRestRecoveryWithNoLocalizableSpecsNeedsNoRestModelCalls() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/restful/restful/v1/health.mdx'
+    const targetPath = 'content/zh-CN/reference/api/restful/restful/v1/health.mdx'
+    const sourceSpecs = {operationId: 'health', example: {message: 'healthy'}}
+    const source = `# Health\n\nexport const specs = ${JSON.stringify(sourceSpecs)}\nexport const endpoint = "/v1/health"\n`
+    const target = `# 健康检查\n\nexport const specs = ${JSON.stringify(sourceSpecs)}\nexport const endpoint = "/v1/health"\n`
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: sha256(source), locale: 'zh-CN', type: 'reference'}
+    const semanticCheckpoints = semanticCheckpointsFromCompleteTranslation({sourceContent: source, targetContent: target, item})
+    assert.deepEqual(semanticCheckpoints.restSpecDraft, {schemaVersion: 1, entries: []})
+    const calls = []
+    const result = await processItemWithRetry(item, {
+      maxRetries: 0,
+      initialSemanticCheckpoints: semanticCheckpoints,
+      processItem: (_item, _attempt, _feedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        semanticCheckpoint: retryContext.semanticCheckpoint,
+        restSpecDraft: retryContext.restSpecDraft,
+        onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
+        maxReviewRounds: 0,
+        validate: async () => [],
+        callModel: async ({agent}) => {
+          calls.push(agent)
+          if (agent === 'translation') throw new Error('complete recovery must not translate')
+          return '{"pass":true,"issues":[]}'
+        },
+      }),
+    })
+
+    assert.equal(result.status, 'translated')
+    assert.deepEqual(calls, ['review'])
+    assert.deepEqual(result.restSpecReview, {
+      pass: true,
+      issues: [],
+      unsupportedIssues: [],
+      contractConflicts: [],
+      localeContractIssues: [],
+      reviewerPass: true,
+      error: null,
+    })
+  })
+}
+
+async function testRestRetryCheckpointFailsClosedWhenCombinedPayloadExceedsLimit() {
+  const item = {
+    target: 'ja-JP',
+    sourcePath: 'content/en/reference/api/restful/restful/v1/oversized.mdx',
+    targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v1/oversized.mdx',
+    sourceHash: 'a'.repeat(64),
+    locale: 'ja-JP',
+  }
+  const initialSemanticCheckpoints = {
+    schemaVersion: 1,
+    sourcePath: item.sourcePath,
+    targetPath: item.targetPath,
+    sourceHash: item.sourceHash,
+    target: item.target,
+    locale: item.locale,
+    contractId: loadLocaleContract(item.target).contractId,
+    entries: [{id: 'document.heading.0000', sourceHash: 'b'.repeat(64), translation: '初期'}],
+    restSpecDraft: {schemaVersion: 1, entries: [{id: '["summary"]', translation: 'あ'.repeat(750000)}]},
+  }
+  const result = await processItemWithRetry(item, {
+    maxRetries: 0,
+    initialSemanticCheckpoints,
+    processItem: (_item, _attempt, _feedback, retryContext) => {
+      retryContext.semanticCheckpoint.set('document.heading.0000', {
+        id: 'document.heading.0000',
+        sourceHash: 'b'.repeat(64),
+        translation: 'い'.repeat(750000),
+      })
+      const error = new Error('ECONNRESET after semantic checkpoint completion')
+      error.code = 'ECONNRESET'
+      throw error
+    },
+  })
+
+  assert.equal(result.status, 'failed')
+  assert.equal(result.failureCategory, 'provider_transport')
+  assert.equal(Object.hasOwn(result, 'semanticCheckpoints'), false)
+}
+
 function testRejectsRecoveryAnalysisThatWidensOrChangesCurrentPendingWork() {
   withTempDir(siteDir => {
     const sourcePath = 'content/en/reference/api/python/page.md'
@@ -3796,6 +3956,9 @@ async function run() {
   testRejectsRecoveryAnalysisThatWidensOrChangesCurrentPendingWork()
   await testCompleteSemanticRecoverySkipsTranslationButRequiresCurrentReviewer()
   await testCompleteRestRecoverySkipsTranslationButRequiresBothCurrentReviewers()
+  await testCompleteRestRecoveryRetainsSuccessfulBatchCorrectionsAcrossFileRetry()
+  await testCompleteRestRecoveryWithNoLocalizableSpecsNeedsNoRestModelCalls()
+  await testRestRetryCheckpointFailsClosedWhenCombinedPayloadExceedsLimit()
   testMessageBuildersSelectPromptsFromTarget()
   testTranslationMessagesIncludeOnlyExplicitRetryFeedback()
   testReferenceLandingMessagesContainNavigationContract()

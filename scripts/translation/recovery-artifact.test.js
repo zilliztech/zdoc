@@ -168,6 +168,38 @@ test('does not restore a translated payload whose reviewer receipt is not bound 
   }
 });
 
+test('does not mint or restore internally contradictory shell reviewer receipts', () => {
+  const mutations = [
+    review => { review.issues = [{type: 'accuracy_mistranslation'}]; },
+    review => { review.unsupportedIssues = [{reason: 'unsupported'}]; },
+    review => { review.contractConflicts = [{reason: 'conflict'}]; },
+    review => { review.localeContractIssues = [{type: 'terminology'}]; },
+    review => { review.reviewerPass = false; },
+    review => { review.error = 'review failed'; },
+  ];
+  for (const mutate of mutations) {
+    const value = fixture();
+    const result = reviewedResult(value.candidate);
+    mutate(result.review);
+    createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [result], identity: value.identity});
+    const manifest = JSON.parse(fs.readFileSync(path.join(value.artifactDir, 'manifest.json'), 'utf8'));
+    assert.equal(Object.hasOwn(manifest.files[0], 'reviewReceipt'), false);
+    fs.rmSync(path.join(value.siteDir, value.targetPath));
+    const restored = restoreRecoveryFiles({
+      siteDir: value.siteDir,
+      candidates: [value.candidate],
+      artifacts: [value.artifactDir],
+      identity: value.identity,
+      revalidate: () => [],
+    });
+    assert.equal(restored.restored.length, 0);
+    assert.equal(restored.pending.length, 1);
+    assert.ok(restored.pending[0].recoverySemanticResume?.report?.entries?.length > 0);
+    fs.rmSync(value.siteDir, {recursive: true, force: true});
+    fs.rmSync(value.artifactDir, {recursive: true, force: true});
+  }
+});
+
 test('rejects a reviewer receipt laundered under different artifact execution metadata', () => {
   const value = fixture();
   createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [reviewedResult(value.candidate)], identity: value.identity});
@@ -297,6 +329,38 @@ test('requires REST shell and spec reviewer receipts before direct recovery', ()
     assert.equal(pending.restored.length, 0);
     assert.equal(pending.pending.length, 1);
     assert.ok(pending.pending[0].recoverySemanticResume?.report?.restSpecDraft?.entries?.length > 0);
+
+    for (const mutate of [
+      review => { review.issues = [{type: 'accuracy_mistranslation'}]; },
+      review => { review.unsupportedIssues = [{reason: 'unsupported'}]; },
+      review => { review.contractConflicts = [{reason: 'conflict'}]; },
+      review => { review.localeContractIssues = [{type: 'terminology'}]; },
+      review => { review.reviewerPass = false; },
+      review => { review.error = 'review failed'; },
+    ]) {
+      write(siteDir, targetPath, target);
+      const restSpecReview = {...reviewedResult(candidate).review};
+      mutate(restSpecReview);
+      createRecoveryArtifact({
+        siteDir,
+        outputDir: artifactDir,
+        results: [reviewedResult(candidate, {restSpecReview})],
+        identity,
+      });
+      const contradictory = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8'));
+      assert.equal(Object.hasOwn(contradictory.files[0], 'reviewReceipt'), false);
+      fs.rmSync(path.join(siteDir, targetPath));
+      const contradictoryPending = restoreRecoveryFiles({
+        siteDir,
+        candidates: [candidate],
+        artifacts: [artifactDir],
+        identity,
+        revalidate: () => [],
+      });
+      assert.equal(contradictoryPending.restored.length, 0);
+      assert.equal(contradictoryPending.pending.length, 1);
+      assert.ok(contradictoryPending.pending[0].recoverySemanticResume?.report?.restSpecDraft?.entries?.length > 0);
+    }
 
     write(siteDir, targetPath, target);
     const restSpecReview = {...reviewedResult(candidate).review};

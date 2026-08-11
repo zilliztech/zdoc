@@ -37,7 +37,7 @@ function isRestSourcePath(sourcePath) {
 
 function validateRestSpecDraftShape(draft) {
   exactKeys(draft, ['schemaVersion', 'entries'], 'REST recovery draft')
-  if (draft.schemaVersion !== 1 || !Array.isArray(draft.entries) || draft.entries.length < 1 ||
+  if (draft.schemaVersion !== 1 || !Array.isArray(draft.entries) ||
       draft.entries.length > MAX_REST_SPEC_DRAFT_ENTRIES) {
     throw new Error('REST recovery draft schema is invalid')
   }
@@ -104,6 +104,19 @@ function serializeSemanticCheckpoints(checkpoints, item) {
   const report = {schemaVersion: 1, ...identity, entries}
   loadSemanticCheckpoints(report, item)
   return report
+}
+
+function serializeRecoverySemanticCheckpoints(checkpoints, item, restSpecDraft = null) {
+  const report = serializeSemanticCheckpoints(checkpoints, item)
+  if (!report || !restSpecDraft) return report
+  const completeReport = {...report, restSpecDraft: JSON.parse(JSON.stringify(restSpecDraft))}
+  try {
+    loadSemanticCheckpoints(completeReport, item)
+  } catch (error) {
+    if (/oversized/i.test(String(error?.message || error))) return null
+    throw error
+  }
+  return completeReport
 }
 
 function persistSemanticCheckpoints(report, identity, item) {
@@ -257,6 +270,7 @@ module.exports = {
   persistSemanticCheckpoints,
   semanticCheckpointsFromCompleteTranslation,
   semanticCheckpointBytes,
+  serializeRecoverySemanticCheckpoints,
   serializeSemanticCheckpoints,
   validatePersistedSemanticCheckpoints,
 }

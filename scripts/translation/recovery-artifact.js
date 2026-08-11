@@ -9,6 +9,7 @@ const {loadTypeScript} = require('../lib/load-typescript');
 const {localeContractPathFor} = require('./localeContract');
 const {promptNamesFor} = require('./restSpecLocalization');
 const {boundedFailureDetails, classifyFailure} = require('./failureClassification');
+const {isConsistentSuccessfulReview} = require('./reviewEvidence');
 const {
   MAX_PARTIAL_ARTIFACT_BYTES,
   persistChunkCheckpoints,
@@ -108,8 +109,7 @@ function validateRecoveryReviewReceipt(value, expected = {}) {
   for (const [key, expectedValue] of Object.entries(expected)) {
     if (expectedValue !== undefined && receipt[key] !== expectedValue) throw new Error(`Recovery review receipt ${key} does not match the recovered file`);
   }
-  if (!receipt.review || typeof receipt.review !== 'object' || Array.isArray(receipt.review) || receipt.review.pass !== true ||
-      !Array.isArray(receipt.review.issues) || receipt.review.issues.length !== 0) {
+  if (!isConsistentSuccessfulReview(receipt.review)) {
     throw new Error('Recovery review receipt does not attest reviewer success');
   }
   if (!Array.isArray(receipt.validationErrors) || receipt.validationErrors.length !== 0) {
@@ -119,8 +119,7 @@ function validateRecoveryReviewReceipt(value, expected = {}) {
     throw new Error('Recovery review receipt does not attest REST reviewer success');
   }
   if (receipt.restSpecReview !== undefined && (
-    !receipt.restSpecReview || typeof receipt.restSpecReview !== 'object' || Array.isArray(receipt.restSpecReview) ||
-    receipt.restSpecReview.pass !== true
+    !isConsistentSuccessfulReview(receipt.restSpecReview)
   )) {
     throw new Error('Recovery review receipt does not attest REST reviewer success');
   }
@@ -153,8 +152,8 @@ function createRecoveryReviewReceipt({result, identity, targetHash}) {
     return receipt;
   }
   const requiresRestSpecReview = isRestSourcePath(result.sourcePath);
-  if (!result.review || result.review.pass !== true || !Array.isArray(result.validationErrors) || result.validationErrors.length !== 0 ||
-      (requiresRestSpecReview ? result.restSpecReview?.pass !== true : result.restSpecReview && result.restSpecReview.pass !== true)) return null;
+  if (!isConsistentSuccessfulReview(result.review) || !Array.isArray(result.validationErrors) || result.validationErrors.length !== 0 ||
+      (requiresRestSpecReview ? !isConsistentSuccessfulReview(result.restSpecReview) : result.restSpecReview && !isConsistentSuccessfulReview(result.restSpecReview))) return null;
   return validateRecoveryReviewReceipt({
     schemaVersion: 1,
     ...fileIdentity,

@@ -9,7 +9,7 @@ const { applyMdxPatches, validateMdxStructure } = require('../../packages/docs-t
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
 const {formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
 const {protectTranslationInput, reprotectTranslationInput, restoreProtectedContent, validateProtectedContent} = require('./protectedContent')
-const {REVIEW_RESPONSE_JSON_SCHEMA, parseAndValidateReviewEvidence} = require('./reviewEvidence')
+const {REVIEW_RESPONSE_JSON_SCHEMA, parseAndValidateReviewEvidence, successfulReview} = require('./reviewEvidence')
 const {
   bindSemanticReviewEvidence,
   collectSemanticUnits,
@@ -29,7 +29,7 @@ const {
   loadAnalysisSemanticResume,
   loadSemanticCheckpoints,
   semanticCheckpointBytes,
-  serializeSemanticCheckpoints,
+  serializeRecoverySemanticCheckpoints,
 } = require('./semanticRecovery')
 const {validateRecoveryCandidate} = require('./recoveryValidation')
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
@@ -547,10 +547,9 @@ async function processItemWithRetry(item, options) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
     } else {
       const chunkCheckpoints = serializeCompletedChunkCheckpoints(chunkCheckpoint)
-      let semanticCheckpoints = semanticRecoveryEligible ? serializeSemanticCheckpoints(semanticCheckpoint, item) : null
-      if (semanticCheckpoints && restSpecDraft) {
-        semanticCheckpoints = {...semanticCheckpoints, restSpecDraft: JSON.parse(JSON.stringify(restSpecDraft))}
-      }
+      const semanticCheckpoints = semanticRecoveryEligible
+        ? serializeRecoverySemanticCheckpoints(semanticCheckpoint, item, restSpecDraft)
+        : null
       return {
         ...stripInternalRecoveryFields(result),
         failureCategory: record.category,
@@ -765,7 +764,7 @@ async function translateAndReviewUnit({
   const localeContract = loadLocaleContract(target)
   const idPrefix = chunkContext ? `chunk.${String(chunkContext.index + 1).padStart(4, '0')}` : 'document'
   const units = await collectSemanticUnits(sourceContent, {idPrefix})
-  if (!units.length) return {translatedContent: sourceContent, review: {pass: true, issues: []}, semanticUnits: 0}
+  if (!units.length) return {translatedContent: sourceContent, review: successfulReview(), semanticUnits: 0}
   const protectedOptions = {literalTokens: localeContract.doNotTranslate}
   const protectedSource = protectTranslationInput(sourceContent, protectedOptions)
   const sourceUnits = protectSemanticUnits(units, unit => unit.source, protectedOptions)
