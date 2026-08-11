@@ -2,8 +2,12 @@ import {describe, expect, it} from 'vitest';
 import {chooseParamExample, getBaseUrl, getTokenPlaceholder} from './utils.js';
 
 const planeConfig = {
+  dataPlaneKeywords: {
+    zilliz: ['cluster-role-operations-v2', '/v2/vectordb/roles', '/v2/vectordb/users'],
+    milvus: [],
+  },
   controlPlaneKeywords: {
-    zilliz: ['cluster', 'import', 'volume'],
+    zilliz: ['cluster', 'import', 'volume', '/v2/roles', '/v2/members', '/v2/groups', '/v2/api-keys'],
     milvus: [],
   },
 };
@@ -22,6 +26,22 @@ describe('RestSpecs plane configuration', () => {
       children: 'export CLUSTER_ENDPOINT=""',
     });
     expect(getTokenPlaceholder('/v2/vectordb/entities/search', 'zilliz', planeConfig)).toBe('db_admin:xxxxxxxxxxxxx');
+  });
+
+  it('gives explicit data-plane overrides precedence over control-plane keywords', () => {
+    expect(getBaseUrl('/v2/vectordb/roles/list', 'en-US', 'zilliz', planeConfig)).toMatchObject({
+      server: 'https://${CLUSTER_ENDPOINT}',
+    });
+    expect(getTokenPlaceholder('/v2/vectordb/users/list', 'zilliz', planeConfig)).toBe('db_admin:xxxxxxxxxxxxx');
+  });
+
+  it('classifies Cloud ACL and API Key paths as control-plane endpoints', () => {
+    for (const endpoint of ['/v2/roles', '/v2/members/alice@example.com/roles', '/v2/groups', '/v2/api-keys']) {
+      expect(getBaseUrl(endpoint, 'en-US', 'zilliz', planeConfig)).toMatchObject({
+        server: 'https://api.cloud.zilliz.com',
+      });
+      expect(getTokenPlaceholder(endpoint, 'zilliz', planeConfig)).toBe('YOUR_API_KEY');
+    }
   });
 
   it('keeps target-specific examples on the same publication branch', () => {

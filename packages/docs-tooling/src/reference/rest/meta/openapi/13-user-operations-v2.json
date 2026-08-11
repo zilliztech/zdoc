@@ -7,10 +7,10 @@
   },
   "tags": [
     {
-      "name": "User Operations (V2)",
+      "name": "Cluster User Operations (V2)",
       "x-i18n": {
         "zh-CN": {
-          "name": "User (V2)"
+          "name": "Cluster User (V2)"
         }
       }
     }
@@ -28,7 +28,7 @@
           }
         },
         "tags": [
-          "User Operations (V2)"
+          "Cluster User Operations (V2)"
         ],
         "parameters": [
           {
@@ -216,7 +216,7 @@
           }
         },
         "tags": [
-          "User Operations (V2)"
+          "Cluster User Operations (V2)"
         ],
         "parameters": [
           {
@@ -417,7 +417,7 @@
           }
         },
         "tags": [
-          "User Operations (V2)"
+          "Cluster User Operations (V2)"
         ],
         "parameters": [
           {
@@ -595,7 +595,7 @@
           }
         },
         "tags": [
-          "User Operations (V2)"
+          "Cluster User Operations (V2)"
         ],
         "parameters": [
           {
@@ -760,7 +760,7 @@
           }
         },
         "tags": [
-          "User Operations (V2)"
+          "Cluster User Operations (V2)"
         ],
         "parameters": [
           {
@@ -974,7 +974,7 @@
           }
         },
         "tags": [
-          "User Operations (V2)"
+          "Cluster User Operations (V2)"
         ],
         "parameters": [
           {
@@ -1165,7 +1165,7 @@
           }
         },
         "tags": [
-          "User Operations (V2)"
+          "Cluster User Operations (V2)"
         ],
         "parameters": [
           {

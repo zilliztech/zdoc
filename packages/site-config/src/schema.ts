@@ -238,6 +238,7 @@ export const FeatureProfileSchema = z.object({
 });
 
 export const PlaneConfigSchema = z.object({
+  dataPlaneKeywords: z.record(z.string().min(1), z.array(z.string().min(1))).optional(),
   controlPlaneKeywords: z.record(z.string().min(1), z.array(z.string().min(1))),
 }).strict();
 

@@ -1,0 +1,1318 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Cloud API Key Operations (V2)",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Cloud API Key Operations (V2)",
+      "x-include-target": [
+        "zilliz"
+      ],
+      "x-i18n": {
+        "zh-CN": {
+          "name": "Cloud API Key 操作 (V2)"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/v2/api-keys": {
+      "get": {
+        "summary": "List API Keys",
+        "description": "Lists customized ACL API keys in the calling organization.",
+        "tags": [
+          "Cloud API Key Operations (V2)"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The authentication token should be an API key with appropriate privileges.",
+            "required": true,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为具备适当权限的 API Key。"
+              }
+            }
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "required": false,
+            "description": "The page number to return. The first page is 1.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "example": 1,
+            "x-i18n": {
+              "zh-CN": {
+                "description": "返回的页码，第一页为 1。"
+              }
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "The number of items to return per page.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            },
+            "example": 10,
+            "x-i18n": {
+              "zh-CN": {
+                "description": "每页返回的条目数。"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a successful result or an error message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "x-tab-label": "success",
+                      "type": "object",
+                      "description": "A successful response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "成功响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "example": 0,
+                          "description": "The response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "data": {
+                          "$ref": "#/components/schemas/PagedApiKeys"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "data"
+                      ]
+                    },
+                    {
+                      "x-tab-label": "failure",
+                      "type": "object",
+                      "description": "A failure response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "失败响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "The response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "The error message.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "错误消息。"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ]
+                    }
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "count": 2,
+                        "currentPage": 1,
+                        "pageSize": 10,
+                        "apiKeys": [
+                          {
+                            "apiKeyId": "key-xxxxxxxxxxxxxx",
+                            "name": "Data Pipeline",
+                            "description": "API key used by the ingestion pipeline",
+                            "creatorName": "Alice",
+                            "createdBy": "alice@example.com",
+                            "orgRoles": [
+                              {
+                                "bindingId": "rb-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "roleId": "r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                                "roleName": "Org Viewer",
+                                "roleType": "org"
+                              }
+                            ],
+                            "projectRoles": [
+                              {
+                                "projectId": "proj-xxxxxxxx",
+                                "roles": [
+                                  {
+                                    "bindingId": "rb-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+                                    "roleId": "r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+                                    "roleName": "Data Reader",
+                                    "roleType": "project"
+                                  }
+                                ]
+                              }
+                            ],
+                            "createTime": "2026-07-22T02:30:00Z"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 1800,
+                      "message": "User hasn't authenticated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "列出 API Key",
+            "description": "列出调用方组织中的自定义 ACL API Key。"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create API Key",
+        "description": "Creates a customized ACL API key and assigns its complete initial role set. The secret is returned only once.",
+        "tags": [
+          "Cloud API Key Operations (V2)"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The authentication token should be an API key with appropriate privileges.",
+            "required": true,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为具备适当权限的 API Key。"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApiKeyRequest"
+              },
+              "examples": {
+                "1": {
+                  "summary": "Create an API key",
+                  "value": {
+                    "name": "Data Pipeline",
+                    "description": "API key used by the ingestion pipeline",
+                    "orgRoleIds": [
+                      "r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                    ],
+                    "projectRoles": [
+                      {
+                        "projectId": "proj-xxxxxxxx",
+                        "roleIds": [
+                          "r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a successful result or an error message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "x-tab-label": "success",
+                      "type": "object",
+                      "description": "A successful response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "成功响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "example": 0,
+                          "description": "The response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "data": {
+                          "$ref": "#/components/schemas/CreateApiKeyData"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "data"
+                      ]
+                    },
+                    {
+                      "x-tab-label": "failure",
+                      "type": "object",
+                      "description": "A failure response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "失败响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "The response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "The error message.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "错误消息。"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ]
+                    }
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "apiKeyId": "key-xxxxxxxxxxxxxx",
+                        "apiKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 1800,
+                      "message": "User hasn't authenticated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "创建 API Key",
+            "description": "创建自定义 ACL API Key 并分配完整的初始角色集。密钥仅返回一次。"
+          }
+        }
+      }
+    },
+    "/v2/api-keys/{apiKeyId}": {
+      "get": {
+        "summary": "Describe API Key",
+        "description": "Returns one customized ACL API key and its directly assigned roles. The secret is never returned.",
+        "tags": [
+          "Cloud API Key Operations (V2)"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The authentication token should be an API key with appropriate privileges.",
+            "required": true,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为具备适当权限的 API Key。"
+              }
+            }
+          },
+          {
+            "name": "apiKeyId",
+            "in": "path",
+            "required": true,
+            "description": "The public API key ID.",
+            "example": "key-xxxxxxxxxxxxxx",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "公开 API Key ID。"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a successful result or an error message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "x-tab-label": "success",
+                      "type": "object",
+                      "description": "A successful response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "成功响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "example": 0,
+                          "description": "The response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "data": {
+                          "$ref": "#/components/schemas/ApiKeyDetail"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "data"
+                      ]
+                    },
+                    {
+                      "x-tab-label": "failure",
+                      "type": "object",
+                      "description": "A failure response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "失败响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "The response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "The error message.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "错误消息。"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ]
+                    }
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "apiKeyId": "key-xxxxxxxxxxxxxx",
+                        "name": "Data Pipeline",
+                        "description": "API key used by the ingestion pipeline",
+                        "creatorName": "Alice",
+                        "createdBy": "alice@example.com",
+                        "orgRoles": [
+                          {
+                            "bindingId": "rb-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                            "roleId": "r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                            "roleName": "Org Viewer",
+                            "roleType": "org"
+                          }
+                        ],
+                        "projectRoles": [
+                          {
+                            "projectId": "proj-xxxxxxxx",
+                            "roles": [
+                              {
+                                "bindingId": "rb-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+                                "roleId": "r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+                                "roleName": "Data Reader",
+                                "roleType": "project"
+                              }
+                            ]
+                          }
+                        ],
+                        "createTime": "2026-07-22T02:30:00Z"
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 1800,
+                      "message": "User hasn't authenticated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "查看 API Key",
+            "description": "返回一个自定义 ACL API Key 及其直接分配的角色，不返回密钥。"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update API Key",
+        "description": "Updates a customized ACL API key. Role assignments use full replacement semantics.",
+        "tags": [
+          "Cloud API Key Operations (V2)"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The authentication token should be an API key with appropriate privileges.",
+            "required": true,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为具备适当权限的 API Key。"
+              }
+            }
+          },
+          {
+            "name": "apiKeyId",
+            "in": "path",
+            "required": true,
+            "description": "The public API key ID.",
+            "example": "key-xxxxxxxxxxxxxx",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "公开 API Key ID。"
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateApiKeyRequest"
+              },
+              "examples": {
+                "1": {
+                  "summary": "Replace the complete role set",
+                  "value": {
+                    "name": "Data Pipeline Production",
+                    "description": "Production ingestion pipeline",
+                    "orgRoleIds": [],
+                    "projectRoles": [
+                      {
+                        "projectId": "proj-xxxxxxxx",
+                        "roleIds": [
+                          "r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+                          "r-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns a successful result or an error message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "x-tab-label": "success",
+                      "type": "object",
+                      "description": "A successful response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "成功响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "example": 0,
+                          "description": "The response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "data": {
+                          "$ref": "#/components/schemas/ApiKeyDetail"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "data"
+                      ]
+                    },
+                    {
+                      "x-tab-label": "failure",
+                      "type": "object",
+                      "description": "A failure response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "失败响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "The response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "The error message.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "错误消息。"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ]
+                    }
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "apiKeyId": "key-xxxxxxxxxxxxxx",
+                        "name": "Data Pipeline Production",
+                        "description": "Production ingestion pipeline",
+                        "creatorName": "Alice",
+                        "createdBy": "alice@example.com",
+                        "orgRoles": [],
+                        "projectRoles": [
+                          {
+                            "projectId": "proj-xxxxxxxx",
+                            "roles": [
+                              {
+                                "bindingId": "rb-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+                                "roleId": "r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+                                "roleName": "Data Reader",
+                                "roleType": "project"
+                              },
+                              {
+                                "bindingId": "rb-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+                                "roleId": "r-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+                                "roleName": "Data Writer",
+                                "roleType": "project"
+                              }
+                            ]
+                          }
+                        ],
+                        "createTime": "2026-07-22T02:30:00Z"
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 1800,
+                      "message": "User hasn't authenticated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "更新 API Key",
+            "description": "更新自定义 ACL API Key。角色分配采用完整替换语义。"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete API Key",
+        "description": "Permanently deletes a customized ACL API key and revokes its role bindings.",
+        "tags": [
+          "Cloud API Key Operations (V2)"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The authentication token should be an API key with appropriate privileges.",
+            "required": true,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为具备适当权限的 API Key。"
+              }
+            }
+          },
+          {
+            "name": "apiKeyId",
+            "in": "path",
+            "required": true,
+            "description": "The public API key ID.",
+            "example": "key-xxxxxxxxxxxxxx",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "公开 API Key ID。"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a successful result or an error message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "x-tab-label": "success",
+                      "type": "object",
+                      "description": "A successful response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "成功响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "example": 0,
+                          "description": "The response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "data": {
+                          "$ref": "#/components/schemas/ApiKeyDetail"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "data"
+                      ]
+                    },
+                    {
+                      "x-tab-label": "failure",
+                      "type": "object",
+                      "description": "A failure response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "失败响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "The response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "The error message.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "错误消息。"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ]
+                    }
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "apiKeyId": "key-xxxxxxxxxxxxxx",
+                        "name": "Data Pipeline Production",
+                        "description": "Production ingestion pipeline",
+                        "creatorName": "Alice",
+                        "createdBy": "alice@example.com",
+                        "orgRoles": [],
+                        "projectRoles": [
+                          {
+                            "projectId": "proj-xxxxxxxx",
+                            "roles": [
+                              {
+                                "bindingId": "rb-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+                                "roleId": "r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+                                "roleName": "Data Reader",
+                                "roleType": "project"
+                              },
+                              {
+                                "bindingId": "rb-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+                                "roleId": "r-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+                                "roleName": "Data Writer",
+                                "roleType": "project"
+                              }
+                            ]
+                          }
+                        ],
+                        "createTime": "2026-07-22T02:30:00Z"
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 1800,
+                      "message": "User hasn't authenticated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "删除 API Key",
+            "description": "永久删除自定义 ACL API Key 并撤销其角色绑定。"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiKeyRoleBinding": {
+        "type": "object",
+        "properties": {
+          "bindingId": {
+            "type": "string",
+            "description": "The ACL role-binding ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "ACL 角色绑定 ID。"
+              }
+            }
+          },
+          "roleId": {
+            "type": "string",
+            "description": "The ACL role ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "ACL 角色 ID。"
+              }
+            }
+          },
+          "roleName": {
+            "type": "string",
+            "description": "The ACL role display name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "ACL 角色显示名称。"
+              }
+            }
+          },
+          "roleType": {
+            "type": "string",
+            "enum": [
+              "org",
+              "project"
+            ],
+            "description": "The role scope.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "角色作用域。"
+              }
+            }
+          }
+        },
+        "required": [
+          "bindingId",
+          "roleId",
+          "roleName",
+          "roleType"
+        ]
+      },
+      "ProjectApiKeyRoles": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "description": "The project ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目 ID。"
+              }
+            }
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiKeyRoleBinding"
+            },
+            "description": "The project-scoped roles directly assigned to the API key.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "直接授予 API Key 的项目级角色。"
+              }
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "roles"
+        ]
+      },
+      "ApiKeyDetail": {
+        "type": "object",
+        "properties": {
+          "apiKeyId": {
+            "type": "string",
+            "description": "The public API key ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "公开 API Key ID。"
+              }
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "The API key display name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 显示名称。"
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "The API key description.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 描述。"
+              }
+            }
+          },
+          "creatorName": {
+            "type": "string",
+            "description": "The resolved display name of the creator.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "解析出的创建者显示名称。"
+              }
+            }
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "The creator email address or creator API key ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "创建者邮箱地址或创建者 API Key ID。"
+              }
+            }
+          },
+          "orgRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiKeyRoleBinding"
+            },
+            "description": "The organization-scoped roles directly assigned to the API key.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "直接授予 API Key 的组织级角色。"
+              }
+            }
+          },
+          "projectRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectApiKeyRoles"
+            },
+            "description": "The project-scoped roles directly assigned to the API key, grouped by project.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "直接授予 API Key 的项目级角色，按项目分组。"
+              }
+            }
+          },
+          "createTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The creation time in UTC ISO 8601 format.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "创建时间，采用 UTC ISO 8601 格式。"
+              }
+            }
+          }
+        },
+        "required": [
+          "apiKeyId",
+          "name",
+          "creatorName",
+          "createdBy",
+          "orgRoles",
+          "projectRoles",
+          "createTime"
+        ]
+      },
+      "PagedApiKeys": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The total number of matching items.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "匹配条目的总数。"
+              }
+            }
+          },
+          "currentPage": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The current page number.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "当前页码。"
+              }
+            }
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The requested page size.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "请求的每页条目数。"
+              }
+            }
+          },
+          "apiKeys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiKeyDetail"
+            },
+            "description": "The apiKeys returned on this page.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "当前页面返回的API Key。"
+              }
+            }
+          }
+        },
+        "required": [
+          "count",
+          "currentPage",
+          "pageSize",
+          "apiKeys"
+        ]
+      },
+      "ProjectRoleRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "description": "The project ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目 ID。"
+              }
+            }
+          },
+          "roleIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "The project-scoped role IDs.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目级角色 ID。"
+              }
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "roleIds"
+        ]
+      },
+      "CreateApiKeyRequest": {
+        "type": "object",
+        "description": "The customized API key to create. At least one role across orgRoleIds and projectRoles is required.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "要创建的自定义 API Key。`orgRoleIds` 和 `projectRoles` 中至少需要提供一个角色。"
+          }
+        },
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The API key display name. It must not be blank.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 显示名称，不得为空。"
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 255,
+            "description": "The API key description.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 描述。"
+              }
+            }
+          },
+          "orgRoleIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The complete organization-scoped role ID set.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "完整的组织级角色 ID 集合。"
+              }
+            }
+          },
+          "projectRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectRoleRequest"
+            },
+            "description": "The project-scoped role assignments grouped by project.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "按项目分组的项目级角色分配。"
+              }
+            }
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "UpdateApiKeyRequest": {
+        "type": "object",
+        "description": "The replacement API key metadata and complete desired role set. At least one role must remain.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "替换后的 API Key 元数据和完整目标角色集。最终至少必须保留一个角色。"
+          }
+        },
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The API key display name. It must not be blank.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 显示名称，不得为空。"
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 255,
+            "description": "The API key description.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 描述。"
+              }
+            }
+          },
+          "orgRoleIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The complete organization-scoped role ID set.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "完整的组织级角色 ID 集合。"
+              }
+            }
+          },
+          "projectRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectRoleRequest"
+            },
+            "description": "The project-scoped role assignments grouped by project.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "按项目分组的项目级角色分配。"
+              }
+            }
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "CreateApiKeyData": {
+        "type": "object",
+        "description": "The newly created API key ID and its one-time secret.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "新创建的 API Key ID 及其仅返回一次的密钥。"
+          }
+        },
+        "properties": {
+          "apiKeyId": {
+            "type": "string",
+            "description": "The public API key ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "公开 API Key ID。"
+              }
+            }
+          },
+          "apiKey": {
+            "type": "string",
+            "readOnly": true,
+            "description": "The secret credential. This value is returned only once.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "密钥凭据，仅返回一次。"
+              }
+            }
+          }
+        },
+        "required": [
+          "apiKeyId",
+          "apiKey"
+        ]
+      }
+    }
+  }
+}

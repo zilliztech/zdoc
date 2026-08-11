@@ -62,7 +62,31 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
   },
   markdown: {remarkPlugins: ['math', 'math-brace-fix'], rehypePlugins: ['katex', 'wrap-tables', 'emoji-marks']},
   publicationAdapters: ['zh-CN.markdown-normalizer', 'zh-CN.rest-replacements', 'zh-CN.aliyun-oss'],
-  integrations: {searchProvider: 'local', chatProvider: 'inkeep'},
+  integrations: {
+    searchProvider: 'local',
+    chatProvider: 'inkeep',
+    restApi: {
+      planeConfig: {
+        dataPlaneKeywords: {
+          zilliz: [
+            'cluster-role-operations-v2', 'cluster-user-operations-v2',
+            '/v2/vectordb/roles', '/v2/vectordb/users',
+          ],
+          milvus: [],
+        },
+        controlPlaneKeywords: {
+          zilliz: [
+            'cloud', 'cluster', 'import', 'pipeline', 'backup', 'restore',
+            'invoices', 'usage', 'metrics', 'extract', 'volume', 'project',
+            'on-demand', 'region', 'migration', 'job', 'spark', 'alert',
+            'etl', 'stage', 'storage-integration', 'storageIntegrations',
+            '/v2/roles', '/v2/members', '/v2/groups', '/v2/api-keys',
+          ],
+          milvus: [],
+        },
+      },
+    },
+  },
   redirects: {rules: []},
   robots: {index: true},
 }));

@@ -7,10 +7,10 @@
   },
   "tags": [
     {
-      "name": "Role Operations (V2)",
+      "name": "Cluster Role Operations (V2)",
       "x-i18n": {
         "zh-CN": {
-          "name": "Role (V2)"
+          "name": "Cluster Role (V2)"
         }
       }
     }
@@ -28,7 +28,7 @@
           }
         },
         "tags": [
-          "Role Operations (V2)"
+          "Cluster Role Operations (V2)"
         ],
         "parameters": [
           {
@@ -203,7 +203,7 @@
           }
         },
         "tags": [
-          "Role Operations (V2)"
+          "Cluster Role Operations (V2)"
         ],
         "parameters": [
           {
@@ -513,7 +513,7 @@
           }
         },
         "tags": [
-          "Role Operations (V2)"
+          "Cluster Role Operations (V2)"
         ],
         "parameters": [
           {
@@ -678,17 +678,17 @@
     },
     "/v2/vectordb/roles/grant_privilege": {
       "post": {
-        "summary": "Grant Privilege To Role",
+        "summary": "Grant Object Privilege To Role",
         "deprecated": false,
         "description": "This operation grants a privilege to the current role.",
         "x-i18n": {
           "zh-CN": {
-            "summary": "授予角色权限",
+            "summary": "为角色授予对象权限",
             "description": "本接口将相关权限授予当前角色。"
           }
         },
         "tags": [
-          "Role Operations (V2)"
+          "Cluster Role Operations (V2)"
         ],
         "parameters": [
           {
@@ -868,17 +868,17 @@
     },
     "/v2/vectordb/roles/revoke_privilege": {
       "post": {
-        "summary": "Revoke Privilege From Role",
+        "summary": "Revoke Object Privilege From Role",
         "deprecated": false,
         "description": "This operation revokes a privilege granted to the current role.",
         "x-i18n": {
           "zh-CN": {
-            "summary": "撤销角色权限",
+            "summary": "撤销角色的对象权限",
             "description": "本操作可撤销当前角色所授予的权限。"
           }
         },
         "tags": [
-          "Role Operations (V2)"
+          "Cluster Role Operations (V2)"
         ],
         "parameters": [
           {
@@ -1071,7 +1071,7 @@
           }
         },
         "tags": [
-          "Role Operations (V2)"
+          "Cluster Role Operations (V2)"
         ],
         "parameters": [
           {
@@ -1227,17 +1227,17 @@
     },
     "/v2/vectordb/roles/grant_privilege_v2": {
       "post": {
-        "summary": "Grant Privilege To Role (V2)",
+        "summary": "Grant Privilege To Role",
         "deprecated": false,
         "description": "This operation grants a privilege to a role at the global, database, or collection level.",
         "x-i18n": {
           "zh-CN": {
-            "summary": "授予角色权限（V2）",
+            "summary": "授予角色权限",
             "description": "本接口在全局、数据库或 Collection 级别将权限授予指定角色。"
           }
         },
         "tags": [
-          "Role Operations (V2)"
+          "Cluster Role Operations (V2)"
         ],
         "parameters": [
           {
@@ -1344,17 +1344,17 @@
     },
     "/v2/vectordb/roles/revoke_privilege_v2": {
       "post": {
-        "summary": "Revoke Privilege From Role (V2)",
+        "summary": "Revoke Privilege From Role",
         "deprecated": false,
         "description": "This operation revokes a privilege from a role at the global, database, or collection level.",
         "x-i18n": {
           "zh-CN": {
-            "summary": "撤销角色权限（V2）",
+            "summary": "撤销角色权限",
             "description": "本接口在全局、数据库或 Collection 级别撤销指定角色的权限。"
           }
         },
         "tags": [
-          "Role Operations (V2)"
+          "Cluster Role Operations (V2)"
         ],
         "parameters": [
           {
@@ -1471,7 +1471,7 @@
           }
         },
         "tags": [
-          "Role Operations (V2)"
+          "Cluster Role Operations (V2)"
         ],
         "parameters": [
           {

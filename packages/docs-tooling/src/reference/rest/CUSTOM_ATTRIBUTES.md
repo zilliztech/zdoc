@@ -338,6 +338,11 @@ Provides custom descriptions for tag groups and supports Milvus name overrides.
   {
     "name": "cloud-meta",
     "description": "Endpoints for retrieving cloud provider and region metadata.",
+    "x-i18n": {
+      "zh-CN": {
+        "description": "用于查看云服务提供商和云地域的接口。"
+      }
+    },
     "milvus": {
       "name": "cloud-meta"
     }
@@ -348,13 +353,41 @@ Provides custom descriptions for tag groups and supports Milvus name overrides.
 | Field | Description |
 |-------|-------------|
 | `name` | Slug of the tag group. |
-| `description` | Custom description text used in the group MDX page. |
+| `description` | English custom description text used in the group MDX page. |
+| `x-i18n.zh-CN.description` | Chinese custom description used when `lang === 'zh-CN'`. |
 | `milvus.name` | Overrides the folder name when `target === 'milvus'`. |
 
+For Chinese generation, `refGen.lookupDescription()` prefers
+`x-i18n.zh-CN.description`. If the localized value is absent, it falls back to
+the English `description`. Other languages continue to use `description`.
+
 The group slug is also used for plane routing. `refGen.getPlane()` checks
-`meta/plane-config.json`; for the Zilliz target, any slug containing one of
-`controlPlaneKeywords.zilliz` is generated under `control-plane`, otherwise it
-is generated under `data-plane`.
+`meta/plane-config.json` using this precedence:
+
+1. A matching `dataPlaneKeywords.<target>` entry forces `data-plane`.
+2. Otherwise, a matching `controlPlaneKeywords.<target>` entry selects
+   `control-plane`.
+3. Unmatched values default to `data-plane`.
+
+Build-time matching uses the generated tag slug. Runtime matching in
+`RestSpecs` uses the endpoint path to select the base URL and token placeholder.
+Add coverage for both forms when their spellings differ.
+
+```json
+{
+  "dataPlaneKeywords": {
+    "zilliz": ["cluster-role-operations-v2", "/v2/vectordb/roles"],
+    "milvus": []
+  },
+  "controlPlaneKeywords": {
+    "zilliz": ["cloud", "/v2/roles"],
+    "milvus": []
+  }
+}
+```
+
+Explicit Data Plane overrides are useful when a data-plane category name must
+contain a generic Control Plane keyword, such as `cluster`.
 
 ### 3.2 `meta/positions.json`
 
