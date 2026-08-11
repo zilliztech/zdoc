@@ -8,7 +8,7 @@ const os = require('node:os')
 const path = require('node:path')
 
 const {readPublicationDocument} = require('./publication-contracts')
-const {validateTranslationHandoff} = require('./translation-handoff')
+const {validateTranslationRecoveryHandoff} = require('./translation-handoff')
 
 const SHA = /^[0-9a-f]{40}$/u
 const CHECKSUM = /^[0-9a-f]{64}$/u
@@ -166,17 +166,25 @@ async function selectAttempt({client, run, runId, explicitAttempt, artifacts}) {
   throw new Error('No valid terminal Translation run attempt has an unexpired publication selection')
 }
 
-function buildRecoveryHandoff(selection, targetBaselineSha, executionToolingSha = selection.toolingSha) {
+function buildRecoveryHandoff(selection, targetBaselineSha, executionToolingSha = selection.toolingSha, scopedUnits = selection.units) {
   if (!SHA.test(targetBaselineSha || '')) throw new Error('Queue-owned target baseline must be an exact commit SHA')
   if (!SHA.test(executionToolingSha || '')) throw new Error('Recovery execution tooling must be an exact commit SHA')
+  if (!Array.isArray(scopedUnits) || scopedUnits.length === 0) throw new Error('Authenticated recovery scope has no recoverable Translation units')
+  const selectedByIdentity = new Map(selection.units.map(unit => [`${unit.target}/${unit.group}`, unit]))
+  const authenticatedUnits = scopedUnits.map(unit => {
+    const selected = selectedByIdentity.get(`${unit.target}/${unit.group}`)
+    if (!selected) throw new Error('Authenticated recovery scope contains an unselected Translation unit')
+    return selected
+  })
+  const groups = [...new Set(authenticatedUnits.map(unit => unit.group))]
   const handoff = {
     schemaVersion: 2,
-    locale: selection.inputs.selectedGroup === 'all' ? 'all' : selection.units.every(unit => unit.target === 'ja-JP') ? 'ja-JP' : selection.units.every(unit => unit.target === 'zh-CN-reference') ? 'zh-CN' : 'all',
-    group: selection.inputs.selectedGroup,
+    locale: authenticatedUnits.every(unit => unit.target === 'ja-JP') ? 'ja-JP' : authenticatedUnits.every(unit => unit.target === 'zh-CN-reference') ? 'zh-CN' : 'all',
+    group: groups.length === 1 ? groups[0] : selection.inputs.selectedGroup,
     toolingSha: executionToolingSha,
     targetBranch: selection.targetBranch,
     targetBaselineSha,
-    units: selection.units.map((unit, publicationOrder) => ({
+    units: authenticatedUnits.map((unit, publicationOrder) => ({
       target: unit.target,
       group: unit.group,
       sourceGroup: unit.sourceGroup,
@@ -186,7 +194,7 @@ function buildRecoveryHandoff(selection, targetBaselineSha, executionToolingSha 
       publicationOrder,
     })),
   }
-  return validateTranslationHandoff(handoff)
+  return validateTranslationRecoveryHandoff(handoff)
 }
 
 function exactObjectKeys(value, keys, label) {
@@ -353,6 +361,19 @@ function assertRecoveryIdentity(parsed, selected) {
   return parsed
 }
 
+function selectedRecoveryUnits(selection, run) {
+  if (workflowPath(run) !== '.github/workflows/recover-translation.yml') return selection.units
+  const provenance = selection.inputs?.recoveryProvenance
+  if (!provenance) throw new Error('Previous operator recovery selection has no authenticated recovery provenance')
+  const authorized = new Set(provenance.artifacts.map(artifact => artifact.unit))
+  if (authorized.size === 0) throw new Error('Previous operator recovery has no authenticated source recovery scope')
+  const selected = new Set(selection.units.map(unit => `${unit.target}/${unit.group}`))
+  for (const unit of authorized) {
+    if (!selected.has(unit)) throw new Error(`Previous operator recovery provenance contains an unselected unit: ${unit}`)
+  }
+  return selection.units.filter(unit => authorized.has(`${unit.target}/${unit.group}`))
+}
+
 function canonicalPlan(value) {
   return `${JSON.stringify(value)}\n`
 }
@@ -389,17 +410,17 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
   const jobs = await client.listJobs?.(runId, attemptNumber)
   if (!Array.isArray(jobs)) throw new Error('Previous Translation job inventory is invalid')
   const queueOwnedTargetBaselineSha = targetBaselineSha || await targetResolver?.(selection.targetBranch)
-  const handoff = buildRecoveryHandoff(selection, queueOwnedTargetBaselineSha, currentExecutionToolingSha)
   const bundleRoot = path.join(root, 'recovery-bundle')
   const artifactRoot = path.join(bundleRoot, 'artifacts')
   fs.mkdirSync(artifactRoot, {recursive: true})
   const recoveryMap = {}
+  const scopedUnits = []
   const provenanceArtifacts = []
   let retainedFileCount = 0
   let sourceCandidateCount = 0
   const rejected = []
 
-  for (const selected of selection.units) {
+  for (const selected of selectedRecoveryUnits(selection, run)) {
     const unitIdentity = `${selected.target}/${selected.group}`
     const unitToken = unitIdentity.replaceAll('/', '-')
     const batches = []
@@ -444,9 +465,13 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
       plannedArtifacts.push(identity)
       provenanceArtifacts.push({unit: unitIdentity, ...identity})
     }
-    recoveryMap[unitIdentity] = {unitToken, artifacts: plannedArtifacts}
+    if (plannedArtifacts.length > 0) {
+      scopedUnits.push(selected)
+      recoveryMap[unitIdentity] = {unitToken, artifacts: plannedArtifacts}
+    }
   }
 
+  const handoff = buildRecoveryHandoff(selection, queueOwnedTargetBaselineSha, currentExecutionToolingSha, scopedUnits)
   const publicationEvidence = await authenticatePublicationEvidence({client, selectedAttempt, selection, jobs, run, runId, attemptNumber, root})
 
   const provenance = {
