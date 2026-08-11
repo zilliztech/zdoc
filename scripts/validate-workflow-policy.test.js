@@ -728,7 +728,7 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
     },
     {
       file: 'translate-codex.yml',
-      mutate: source => source.replace('--handoff-json "$HANDOFF_JSON" --repository "$GITHUB_WORKSPACE"', '--handoff-json "$HANDOFF_JSON"'),
+      mutate: source => source.replace('--handoff-json "$HANDOFF_JSON" "${handoff_recovery_args[@]}" --repository "$GITHUB_WORKSPACE"', '--handoff-json "$HANDOFF_JSON" "${handoff_recovery_args[@]}"'),
       expected: 'translate-codex.yml: must validate the exact translation handoff before paid work',
     },
     {
