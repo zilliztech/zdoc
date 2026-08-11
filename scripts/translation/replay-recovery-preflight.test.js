@@ -39,7 +39,7 @@ function write(root, relative, contents) {
   fs.writeFileSync(target, contents)
 }
 
-test('replays a retained recovery artifact locally without provider invocation and proves the full-retranslation guard', t => {
+test('replays a retained recovery artifact with current reviewer receipts through the full Agent Runner boundary without model calls', t => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-replay-'))
   const siteDir = path.join(root, 'artifact-source')
   const artifactDir = path.join(root, 'artifact')
@@ -79,6 +79,16 @@ test('replays a retained recovery artifact locally without provider invocation a
   assert.equal(replay.recoveredCount, 1)
   assert.equal(replay.pendingCount, 0)
   assert.equal(replay.semanticResumableFileCount, 0)
+  assert.equal(replay.agentBoundaryVerified, true)
+  assert.equal(replay.agentProcessedCount, 0)
+  assert.equal(replay.agentTranslatedCount, 0)
+  assert.equal(replay.agentFailedCount, 0)
+  assert.deepEqual(replay.modelCallCounts, {
+    translation: 0,
+    reviewer: 0,
+    correction: 0,
+    total: 0,
+  })
   assert.equal(replay.modelInvocationCount, 0)
   assert.equal(replay.fullRetranslationGuardVerified, true)
   assert.equal(replay.executionToolingSha, sourceSha)
@@ -170,7 +180,11 @@ test('retains exact current-contract rejection reasons in replay evidence', t =>
   assert.equal(replay.rejectedCount, 1)
   assert.equal(replay.semanticResumableFileCount, 1)
   assert.ok(replay.recoveredSemanticUnitCount > 0)
-  assert.equal(replay.modelInvocationCount, 0)
+  assert.equal(replay.agentBoundaryVerified, true)
+  assert.equal(replay.modelCallCounts.translation, 1)
+  assert.ok(replay.modelCallCounts.reviewer > 0)
+  assert.equal(replay.modelCallCounts.correction, 0)
+  assert.equal(replay.modelInvocationCount, replay.modelCallCounts.total)
   assert.equal(replay.executionToolingSha, executionToolingSha)
   assert.equal(replay.artifactModel, 'fixture-model')
   assert.equal(replay.executionModel, 'current-model')
@@ -180,7 +194,7 @@ test('retains exact current-contract rejection reasons in replay evidence', t =>
   assert.match(replay.rejections[0].reason, /requires endpoint to use Endpoint/)
 })
 
-test('replays a long retained Guide through the production Agent-load chunk boundary without model calls', t => {
+test('replays a long semantic-resumable Guide through the full Agent Runner boundary without Translation calls but with current Reviewer calls', t => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-replay-agent-load-'))
   const repository = path.join(root, 'repository')
   const siteDir = path.join(root, 'artifact-source')
@@ -249,5 +263,84 @@ test('replays a long retained Guide through the production Agent-load chunk boun
   assert.equal(replay.agentLoadVerified, true)
   assert.equal(replay.agentLoadedPendingCount, 1)
   assert.equal(replay.agentLoadedSemanticUnitCount, replay.recoveredSemanticUnitCount)
-  assert.equal(replay.modelInvocationCount, 0)
+  assert.equal(replay.agentBoundaryVerified, true)
+  assert.equal(replay.agentProcessedCount, 1)
+  assert.equal(replay.agentTranslatedCount, 1)
+  assert.equal(replay.agentFailedCount, 0)
+  assert.equal(replay.modelCallCounts.translation, 0)
+  assert.ok(replay.modelCallCounts.reviewer > 0)
+  assert.equal(replay.modelCallCounts.correction, 0)
+  assert.equal(replay.modelInvocationCount, replay.modelCallCounts.total)
+})
+
+test('models cancelled run 31458881310 as 30 pending semantic-resumable files with Reviewer-only model calls', t => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-replay-cancelled-run-'))
+  const repository = path.join(root, 'repository')
+  const siteDir = path.join(root, 'artifact-source')
+  const artifactDir = path.join(root, 'artifact')
+  const evidence = path.join(root, 'evidence.json')
+  fs.mkdirSync(repository)
+  fs.mkdirSync(siteDir)
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+
+  const records = Array.from({length: 30}, (_, index) => {
+    const suffix = String(index + 1).padStart(2, '0')
+    return {
+      sourcePath: `content/en/guides/recovery/cancelled-run-${suffix}.md`,
+      targetPath: `i18n/ja-JP/docusaurus-plugin-content-docs/current/recovery/cancelled-run-${suffix}.md`,
+      source: `# Reliable recovery ${suffix}\n\nThis guide explains a reliable recovery workflow.\n`,
+      target: `# 信頼できる復旧 ${suffix}\n\nこのガイドでは、信頼できる復旧ワークフローについて説明します。\n`,
+    }
+  })
+  git(repository, ['init'])
+  git(repository, ['config', 'user.name', 'Translation Replay Test'])
+  git(repository, ['config', 'user.email', 'translation-replay@example.com'])
+  for (const record of records) {
+    write(repository, record.sourcePath, record.source)
+    write(siteDir, record.sourcePath, record.source)
+    write(siteDir, record.targetPath, record.target)
+  }
+  git(repository, ['add', '.'])
+  git(repository, ['commit', '-m', 'Add cancelled-run replay sources'])
+  const sourceSha = git(repository, ['rev-parse', 'HEAD'])
+  const executionToolingSha = git(process.cwd(), ['rev-parse', 'HEAD'])
+  createRecoveryArtifact({
+    siteDir,
+    outputDir: artifactDir,
+    results: records.map(record => ({
+      sourcePath: record.sourcePath,
+      targetPath: record.targetPath,
+      sourceHash: sha256(Buffer.from(record.source)),
+      locale: 'ja-JP',
+      status: 'translated',
+    })),
+    identity: {
+      locale: 'ja-JP', group: 'guides', promptContractSha256: promptContractSha256('ja-JP'),
+      model: 'fixture-model', sourceSha, toolingSha: 'b'.repeat(40), mode: 'incremental',
+    },
+  })
+
+  const result = spawnSync(process.execPath, [
+    path.join(__dirname, 'replay-recovery-preflight.js'),
+    '--repository', repository,
+    '--source-sha', sourceSha,
+    '--recovery-artifact', artifactDir,
+    '--execution-tooling-sha', executionToolingSha,
+    '--execution-model', 'current-model',
+    '--output', evidence,
+  ], {encoding: 'utf8'})
+
+  assert.equal(result.status, 0, result.stderr)
+  const replay = JSON.parse(fs.readFileSync(evidence, 'utf8'))
+  assert.equal(replay.candidateCount, 30)
+  assert.equal(replay.recoveredCount, 0)
+  assert.equal(replay.pendingCount, 30)
+  assert.equal(replay.semanticResumableFileCount, 30)
+  assert.equal(replay.agentProcessedCount, 30)
+  assert.equal(replay.agentTranslatedCount, 30)
+  assert.equal(replay.agentFailedCount, 0)
+  assert.equal(replay.modelCallCounts.translation, 0)
+  assert.equal(replay.modelCallCounts.reviewer, 30)
+  assert.equal(replay.modelCallCounts.correction, 0)
+  assert.equal(replay.modelInvocationCount, 30)
 })
