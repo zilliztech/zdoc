@@ -716,6 +716,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (!/validate-unbatched-translation-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--baseline "\$BASELINE_DIR"[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/.test(unbatchedRun)) {
         errors.push(`${file}: unbatched translations must authenticate terminal agent reports and target-owned outputs`)
       }
+      if (!/validate-unbatched-translation-outputs\.js[\s\S]*if \[\[ "\$TRANSLATION_TARGET" == ja-JP && "\$FAILED_COUNT" != 0 \]\]; then[\s\S]*validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP" --allow-pending[\s\S]*else[\s\S]*validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"[\s\S]*fi/.test(unbatchedRun)) {
+        errors.push(`${file}: only authenticated unbatched Japanese failures may bypass strict translation freshness`)
+      }
       if (!/node scripts\/translation\/validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/.test(unbatchedRun)) {
         errors.push(`${file}: unbatched translations must use group-local target validation`)
       }
