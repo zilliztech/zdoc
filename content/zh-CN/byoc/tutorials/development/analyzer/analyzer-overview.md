@@ -1372,6 +1372,12 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
+## 在 Zilliz Cloud 控制台中使用\{#zilliz-cloud}
+
+您也可以在 Zilliz Cloud 控制台中执行上述操作。有关详细信息，请播放下面的演示。
+
+<Supademo id="cmfxiu7c342st10k8ql0xi1av" title=""  />
+
 在文本处理中，Analyzer 是一个关键组件，用于将原始文本转换为结构化、可搜索的格式。每个 Analyzer 通常由两个核心元素组成：分词器（tokenizer）和过滤器（filter）。它们共同将输入文本转换为词元（token），并对这些词元进行优化，以便为高效的索引和检索做好准备。  
 
 在Zilliz Cloud中， Analyzer 在创建 Collection 时为 Collection Schema 中的 `VARCHAR` 字段进行配置。 Analyzer 生成的词元可用于构建关键字匹配的索引，或转换为稀疏向量以支持全文搜索。更多信息，请参阅[精确文本匹配](./text-match)或[全文搜索](./full-text-search)。  
@@ -2455,8 +2461,6 @@ if err != nil {
 ## 使用示例：通过控制台配置\{#example-use-on-the-zilliz-cloud-console}
 
 您也可以使用 Zilliz Cloud 控制台完成上述配置。具体可参考如下演示。
-
-<Supademo id="cmfxiu7c342st10k8ql0xi1av" title=""  />
 
 <Admonition type="info" icon="📘" title="**说明**">
 
