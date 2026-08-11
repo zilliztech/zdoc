@@ -1,17 +1,127 @@
 {
-  "generated_at": "2026-08-10T18:30:48.365Z",
+  "generated_at": "2026-08-11T02:56:32.508Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [],
-  "changed_tokens": [],
-  "expanded_tokens": [],
+  "changed_records": [
+    {
+      "record_id": "recvlPs65wqwyk",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Create an External Collection",
+      "labels": "External Collection",
+      "slug": "create-external-collection",
+      "doc_token": "RsGAwmgAYiE6fgkOiokcijsBnEg",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/RsGAwmgAYiE6fgkOiokcijsBnEg",
+      "reasons": [
+        "wiki node edit time changed"
+      ]
+    },
+    {
+      "record_id": "recvlPsAL7yguD",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Manage External Collections (Console)",
+      "labels": "",
+      "slug": "manage-external-collections-console",
+      "doc_token": "W04nwxHqNiqyrykxMZOcu4ianle",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/W04nwxHqNiqyrykxMZOcu4ianle",
+      "reasons": [
+        "wiki node edit time changed"
+      ]
+    },
+    {
+      "record_id": "recvm1Rp4w1C43",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "External Collection Limits",
+      "labels": "",
+      "slug": "external-collection-limits",
+      "doc_token": "P9HuwHZyXilwRTkVoDBcjAMlnrb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/P9HuwHZyXilwRTkVoDBcjAMlnrb",
+      "reasons": [
+        "wiki node edit time changed"
+      ]
+    }
+  ],
+  "changed_tokens": [
+    "P9HuwHZyXilwRTkVoDBcjAMlnrb",
+    "RsGAwmgAYiE6fgkOiokcijsBnEg",
+    "W04nwxHqNiqyrykxMZOcu4ianle"
+  ],
+  "expanded_tokens": [
+    "BRsZwqOUTiBbrPk9b5WcvFgTnze",
+    "BcjLwmXTni1fiMkkyx9ct5iWngc",
+    "CPLrwghdWiSvGBkdeEecGjgLnSb",
+    "INoRwFTjfiindPkaNlwc9XAgnkh",
+    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
+    "JaLdw76LPiX003kLpKHcA0n8n2d",
+    "JfJvwdGz0iD9LpkrCMccZ2ypn0g",
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
+    "NRF1wGr3AiWWC1kVfWucZD6Xneb",
+    "O1qjwpv0Ri9afmkSUwWcU2aTn5f",
+    "P9HuwHZyXilwRTkVoDBcjAMlnrb",
+    "PAViwMSb3iVMzuk56z3c1zfRnwh",
+    "RoxawNJhki1vXXkFsEEc7laMnxe",
+    "RsGAwmgAYiE6fgkOiokcijsBnEg",
+    "W04nwxHqNiqyrykxMZOcu4ianle"
+  ],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {},
+  "reasons_by_token": {
+    "RsGAwmgAYiE6fgkOiokcijsBnEg": [
+      "wiki node edit time changed"
+    ],
+    "W04nwxHqNiqyrykxMZOcu4ianle": [
+      "wiki node edit time changed"
+    ],
+    "P9HuwHZyXilwRTkVoDBcjAMlnrb": [
+      "wiki node edit time changed"
+    ],
+    "BRsZwqOUTiBbrPk9b5WcvFgTnze": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "PAViwMSb3iVMzuk56z3c1zfRnwh": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "INoRwFTjfiindPkaNlwc9XAgnkh": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "JaLdw76LPiX003kLpKHcA0n8n2d": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "JfJvwdGz0iD9LpkrCMccZ2ypn0g": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "RoxawNJhki1vXXkFsEEc7laMnxe": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "BcjLwmXTni1fiMkkyx9ct5iWngc": [
+      "outgoing reference from RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
+      "incoming reference to RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "NRF1wGr3AiWWC1kVfWucZD6Xneb": [
+      "incoming reference to RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "O1qjwpv0Ri9afmkSUwWcU2aTn5f": [
+      "incoming reference to RsGAwmgAYiE6fgkOiokcijsBnEg"
+    ],
+    "CPLrwghdWiSvGBkdeEecGjgLnSb": [
+      "incoming reference to W04nwxHqNiqyrykxMZOcu4ianle"
+    ]
+  },
   "warnings": [],
-  "affected_tables": [],
+  "affected_tables": [
+    "tbl9BeCMjBmalJVb",
+    "tblWv7PjNDsexddH",
+    "tblZMzoITXNsyKmQ"
+  ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",

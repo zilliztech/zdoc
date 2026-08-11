@@ -581,7 +581,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "tutorials/development/collection/collection-on-console/manage-collections-console",
-                "label": "On Console",
+                "label": "Manage Collections (Console)",
                 "key": "doc:tutorials/development/collection/collection-on-console/manage-collections-console"
               }
             ]

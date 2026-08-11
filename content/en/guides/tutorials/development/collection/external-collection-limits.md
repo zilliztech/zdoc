@@ -36,13 +36,15 @@ Compared with managed collections, external collections have the following limit
 
 - Backup, restore, and migration are currently not supported for external collections.
 
+- You can create an external collection only in an on-demand compute database. Support for creating external collections in serving Dedicated clusters is coming soon.
+
 The following table compares the operations supported by external collections and managed collections in detail.
 
 <table>
    <tr>
      <th colspan="2"></th>
      <th><p><strong>Managed Collection</strong></p><p>(Serving Cluster)</p></th>
-     <th><p><strong>External Collection</strong></p><p>(Serving Cluster or Databases for On-Demand Compute)</p></th>
+     <th><p><strong>External Collection</strong></p><p>(Databases for On-Demand Compute)</p></th>
      <th><p><strong>Managed Collection</strong></p><p>(On-Demand Compute Database)</p></th>
    </tr>
    <tr>

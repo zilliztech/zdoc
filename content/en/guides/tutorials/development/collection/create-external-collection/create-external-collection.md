@@ -23,6 +23,12 @@ import TabItem from '@theme/TabItem';
 
 An external collection is a type of data collection in Zilliz Cloud that accesses data from external storage systems or database tables such as AWS S3 and Iceberg without copying it into Zilliz Cloud. It acts as a query layer over data lakes while maintaining compatibility with Zilliz Cloud query interfaces.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+You can create an external collection only in an on-demand compute database. Support for creating external collections in serving Dedicated clusters is coming soon.
+
+</Admonition>
+
 ## Overview\{#overview}
 
 In a typical AI data pipeline, users may already have stored their data in Parquet or other formats on their storage system, such as AWS S3. To make Zilliz Cloud consume this externally stored data, users usually need to import it into Zilliz Cloud's own storage using Extract-Transform-Load (ETL) pipelines. 

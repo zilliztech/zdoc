@@ -1,7 +1,7 @@
 ---
 title: "Manage External Collections (Console) | Cloud"
 slug: /manage-external-collections-console
-sidebar_label: "On Console"
+sidebar_label: "Manage External Collections (Console)"
 beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
@@ -32,7 +32,9 @@ Before you start, ensure you have created an [external volume](./external-volume
 
 <Admonition type="info" icon="📘" title="Notes">
 
-External collections created in an on-demand compute database do not support dropping indexes.
+- External collections created in an on-demand compute database do not support dropping indexes.
+
+- You can create an external collection only in an on-demand compute database. Support for creating external collections in serving Dedicated clusters is coming soon.
 
 </Admonition>
 
