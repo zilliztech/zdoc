@@ -25,6 +25,7 @@ const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles, va
 const {boundedFailureDetails, classifyFailure, failureRecord} = require('./failureClassification')
 const {MAX_PARTIAL_ARTIFACT_BYTES, loadAnalysisChunkResume, serializeCompletedChunkCheckpoints} = require('./chunkRecovery')
 const {
+  MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES,
   filterUsableSemanticCheckpoints,
   loadAnalysisSemanticResume,
   loadSemanticCheckpoints,
@@ -1665,11 +1666,7 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       recoveredChunkCount += recoveryChunkCheckpoints.length
       resumableFileCount += 1
       recoveredChunkBytes += recoveryChunkCheckpoints.reduce((total, checkpoint) => total + Buffer.byteLength(checkpoint.translatedContent), 0)
-      if (recoveredChunkBytes + recoveredSemanticBytes > MAX_PARTIAL_ARTIFACT_BYTES) {
-        throw new Error(recoveredSemanticBytes
-          ? 'Recovery analysis aggregate partial payload is oversized'
-          : 'Recovery analysis aggregate chunk payload is oversized')
-      }
+      if (recoveredChunkBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery analysis aggregate chunk payload is oversized')
     }
     if (record.semanticResume) {
       const source = path.resolve(siteDir, ...candidate.sourcePath.split('/'))
@@ -1695,7 +1692,7 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       semanticResumableFileCount += 1
       recoveredSemanticUnitCount += recoverySemanticCheckpoints.entries.length
       recoveredSemanticBytes += semanticCheckpointBytes({report: recoverySemanticCheckpoints})
-      if (recoveredChunkBytes + recoveredSemanticBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery analysis aggregate partial payload is oversized')
+      if (recoveredSemanticBytes > MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES) throw new Error('Recovery analysis semantic aggregate payload is oversized')
     }
     seen.add(key)
     pending.push(recoveryChunkCheckpoints || recoverySemanticCheckpoints ? {

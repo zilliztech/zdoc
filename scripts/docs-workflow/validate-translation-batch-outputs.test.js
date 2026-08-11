@@ -2,6 +2,7 @@
 
 const assert = require('node:assert/strict')
 const { spawnSync } = require('node:child_process')
+const crypto = require('node:crypto')
 const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
@@ -13,6 +14,41 @@ const SOURCE_SHA = 'a'.repeat(40)
 const SOURCE_HASH = 'b'.repeat(64)
 const PENDING_HASH = 'c'.repeat(64)
 const TARGET = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md'
+const TARGET_CONTENT = '# translated\n'
+
+function cleanReview() {
+  return {
+    pass: true,
+    issues: [],
+    unsupportedIssues: [],
+    contractConflicts: [],
+    localeContractIssues: [],
+    reviewerPass: true,
+    error: null,
+  }
+}
+
+function sha256(value) {
+  return crypto.createHash('sha256').update(value).digest('hex')
+}
+
+function recoveryReceipt(overrides = {}) {
+  return {
+    schemaVersion: 1,
+    sourcePath: candidate().sourcePath,
+    targetPath: candidate().targetPath,
+    sourceHash: candidate().sourceHash,
+    targetHash: sha256(TARGET_CONTENT),
+    locale: 'ja-JP',
+    group: 'guides',
+    promptContractSha256: 'd'.repeat(64),
+    model: 'translation-model',
+    toolingSha: 'e'.repeat(40),
+    review: cleanReview(),
+    validationErrors: [],
+    ...overrides,
+  }
+}
 
 function candidate() {
   return {
@@ -49,7 +85,7 @@ function manifest(overrides = {}) {
 function report(overrides = {}) {
   return {
     locale: 'ja-JP',
-    results: [{ ...candidate(), status: 'translated', review: { pass: true, issues: [] }, validationErrors: [], chunks: { total: 1 } }],
+    results: [{ ...candidate(), status: 'translated', review: cleanReview(), validationErrors: [], chunks: { total: 1 } }],
     checkpoint: {
       processed: 1,
       remaining: 0,
@@ -70,7 +106,7 @@ function writeJson(root, relativePath, value) {
 function writeOutput(root) {
   const file = path.join(root, TARGET)
   fs.mkdirSync(path.dirname(file), { recursive: true })
-  fs.writeFileSync(file, '# translated\n')
+  fs.writeFileSync(file, TARGET_CONTENT)
 }
 
 function fixture(options = {}) {
@@ -110,12 +146,11 @@ test('validates one complete numbered candidate batch', () => {
 test('rejects report identity, reviewer, validation, count, and cardinality defects', () => {
   const cases = [
     ['identity mismatch', value => { value.results[0].targetPath = `${TARGET}.wrong` }, /targetPath mismatch/],
-    ['review failure', value => { value.results[0].review.pass = false }, /reviewer did not pass/],
-    ['nested recovered marker without receipt', value => {
+    ['review failure', value => { value.results[0].review.pass = false }, /review evidence is not internally consistent/],
+    ['revalidated recovered marker without receipt', value => {
       value.results[0].recovered = true
       value.results[0].recoveryCompatibility = 'revalidated'
-      delete value.results[0].review
-    }, /reviewer did not pass/],
+    }, /recovery reviewer receipt/i],
     ['validation errors', value => { value.results[0].validationErrors = ['bad MDX'] }, /validation evidence is not clean/],
     ['extra result', value => { value.results.push({ ...value.results[0], sourcePath: 'docs/tutorials/extra.md' }) }, /result count/],
     ['duplicate result', value => { value.results.push({ ...value.results[0] }) }, /result count|identities must be unique/],
@@ -167,6 +202,65 @@ test('rejects report identity, reviewer, validation, count, and cardinality defe
     assert.throws(() => validate(duplicateRoot, { translatedCount: 2 }), /result identities must be unique/)
   } finally {
     fs.rmSync(duplicateRoot, { recursive: true, force: true })
+  }
+})
+
+test('rejects contradictory review evidence and recovered-result receipt bypasses', () => {
+  const cases = [
+    ['fresh contradictory review', value => {
+      value.results[0].review.unsupportedIssues = [{reason: 'unsupported'}]
+    }, /review evidence is not internally consistent/i],
+    ['fresh contradictory REST review', value => {
+      value.results[0].restSpecReview = cleanReview()
+      value.results[0].restSpecReview.error = 'hidden failure'
+    }, /REST review evidence is not internally consistent/i],
+    ['recovered receipt target hash mismatch', value => {
+      Object.assign(value.results[0], {
+        recovered: true,
+        recoveryCompatibility: 'revalidated',
+        recoveryReviewReceipt: recoveryReceipt({targetHash: 'f'.repeat(64)}),
+      })
+    }, /targetHash does not match/i],
+    ['recovered copied review mismatch', value => {
+      Object.assign(value.results[0], {
+        recovered: true,
+        recoveryCompatibility: 'revalidated',
+        recoveryReviewReceipt: recoveryReceipt(),
+      })
+      value.results[0].review.copiedEvidence = 'forged'
+    }, /copied review evidence does not match/i],
+    ['recovered copied REST review mismatch', value => {
+      Object.assign(value.results[0], {
+        recovered: true,
+        recoveryCompatibility: 'revalidated',
+        recoveryReviewReceipt: recoveryReceipt(),
+        restSpecReview: cleanReview(),
+      })
+    }, /copied REST review evidence does not match/i],
+  ]
+
+  for (const [name, mutate, expected] of cases) {
+    const badReport = report()
+    mutate(badReport)
+    const root = fixture({report: badReport})
+    try {
+      assert.throws(() => validate(root), expected, name)
+    } finally {
+      fs.rmSync(root, {recursive: true, force: true})
+    }
+  }
+
+  const validReport = report()
+  Object.assign(validReport.results[0], {
+    recovered: true,
+    recoveryCompatibility: 'revalidated',
+    recoveryReviewReceipt: recoveryReceipt(),
+  })
+  const validRoot = fixture({report: validReport})
+  try {
+    assert.deepEqual(validate(validRoot), {candidateCount: 1, reconciliationOnly: false})
+  } finally {
+    fs.rmSync(validRoot, {recursive: true, force: true})
   }
 })
 

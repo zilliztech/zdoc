@@ -1,9 +1,12 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
 const { createBatchInput, validateBatchInput } = require('./translation-batch-input')
+const {validateRecoveryReviewReceipt} = require('../translation/recovery-artifact')
+const {isConsistentSuccessfulReview} = require('../translation/reviewEvidence')
 
 const MAX_EVIDENCE_BYTES = 8 * 1024 * 1024
 const OPTION_KEYS = Object.freeze([
@@ -68,6 +71,19 @@ function parseArgs(argv) {
 
 function fail(message) {
   throw new Error(`Numbered translation batch validation failed: ${message}`)
+}
+
+function assertCopiedEvidence(actual, expected, label, sourcePath) {
+  try {
+    assert.deepEqual(actual, expected)
+  } catch {
+    fail(`recovered result copied ${label} does not match its receipt for ${sourcePath}`)
+  }
+}
+
+function isRestSourcePath(sourcePath) {
+  return sourcePath.startsWith('content/en/reference/api/restful/restful/') ||
+    sourcePath.startsWith('reference/api/restful/restful/')
 }
 
 function assertSafeRelativePath(value, label) {
@@ -234,10 +250,33 @@ function validateTranslationBatchOutputs(options) {
       if (result[field] !== item[field]) fail(`translation report ${field} mismatch for ${item.sourcePath}`)
     }
     if (result.status !== 'translated' || Object.hasOwn(result, 'error')) fail(`translation provider result is not successful for ${item.sourcePath}`)
-    if (!result.review || result.review.pass !== true) fail(`translation reviewer did not pass ${item.sourcePath}`)
+    if (!isConsistentSuccessfulReview(result.review)) fail(`translation review evidence is not internally consistent for ${item.sourcePath}`)
+    if ((isRestSourcePath(item.sourcePath) || result.restSpecReview !== undefined) && !isConsistentSuccessfulReview(result.restSpecReview)) {
+      fail(`translation REST review evidence is not internally consistent for ${item.sourcePath}`)
+    }
     if (!Object.hasOwn(result, 'validationErrors') || !Array.isArray(result.validationErrors) || result.validationErrors.length !== 0) fail(`per-document validation evidence is not clean for ${item.sourcePath}`)
+    const output = resolveWithoutSymlinks(workspace, item.targetPath, 'candidate output', 'file')
+    if (result.recovered === true) {
+      if (!result.recoveryReviewReceipt) fail(`recovered result is missing its recovery reviewer receipt for ${item.sourcePath}`)
+      const targetHash = crypto.createHash('sha256').update(fs.readFileSync(output.filePath)).digest('hex')
+      let receipt
+      try {
+        receipt = validateRecoveryReviewReceipt(result.recoveryReviewReceipt, {
+          sourcePath: item.sourcePath,
+          targetPath: item.targetPath,
+          sourceHash: item.sourceHash,
+          targetHash,
+          locale: manifest.locale,
+          group: manifest.group,
+        })
+      } catch (error) {
+        fail(`recovery reviewer receipt is invalid for ${item.sourcePath}: ${String(error?.message || error)}`)
+      }
+      assertCopiedEvidence(result.review, receipt.review, 'review evidence', item.sourcePath)
+      assertCopiedEvidence(result.validationErrors, receipt.validationErrors, 'validation evidence', item.sourcePath)
+      assertCopiedEvidence(result.restSpecReview, receipt.restSpecReview, 'REST review evidence', item.sourcePath)
+    }
   }
-  for (const candidate of candidates) resolveWithoutSymlinks(workspace, candidate.targetPath, 'candidate output', 'file')
 
   return Object.freeze({ candidateCount: candidates.length, reconciliationOnly: false })
 }

@@ -11,6 +11,7 @@ const {collectSemanticUnitsSync, deterministicSemanticIssues, protectSemanticUni
 
 const MAX_SEMANTIC_CHECKPOINTS_PER_FILE = 512
 const MAX_SEMANTIC_CHECKPOINT_FILE_BYTES = 4 * 1024 * 1024
+const MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES = 4 * 1024 * 1024
 const MAX_REST_SPEC_DRAFT_ENTRIES = 8192
 
 function exactKeys(value, keys, label) {
@@ -262,6 +263,7 @@ function semanticCheckpointBytes(value) {
 }
 
 module.exports = {
+  MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES,
   MAX_SEMANTIC_CHECKPOINT_FILE_BYTES,
   MAX_SEMANTIC_CHECKPOINTS_PER_FILE,
   filterUsableSemanticCheckpoints,

@@ -16,6 +16,7 @@ const {
   validatePersistedPrefix,
 } = require('./chunkRecovery');
 const {
+  MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES,
   persistSemanticCheckpoints,
   semanticCheckpointsFromCompleteTranslation,
   semanticCheckpointBytes,
@@ -204,7 +205,8 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
       ...(reviewReceipt ? {reviewReceipt} : {}),
     });
   }
-  let partialArtifactBytes = 0;
+  let chunkArtifactBytes = 0;
+  let semanticArtifactBytes = 0;
   const failures = results.filter(item => item.status !== 'translated').map(result => {
     let chunkCheckpoints = null;
     let semanticCheckpoints = null;
@@ -214,7 +216,8 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
       const sourceHash = sha256(fs.readFileSync(sourcePath));
       if (sourceHash !== result.sourceHash) throw new Error(`Recovery partial source hash changed: ${result.sourcePath}`);
       chunkCheckpoints = persistChunkCheckpoints(result.chunkCheckpoints, identity);
-      partialArtifactBytes += chunkCheckpoints.entries.reduce((total, entry) => total + entry.targetSize, 0);
+      chunkArtifactBytes += chunkCheckpoints.entries.reduce((total, entry) => total + entry.targetSize, 0);
+      if (chunkArtifactBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery chunk artifact payload is oversized');
     }
     if (result.semanticCheckpoints) {
       const sourcePath = safePath(siteDir, result.sourcePath, 'Recovery semantic source path');
@@ -225,9 +228,9 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
         target: result.target || result.semanticCheckpoints.target,
         locale: result.locale || result.semanticCheckpoints.locale,
       });
-      partialArtifactBytes += semanticCheckpointBytes(semanticCheckpoints);
+      semanticArtifactBytes += semanticCheckpointBytes(semanticCheckpoints);
+      if (semanticArtifactBytes > MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES) throw new Error('Recovery semantic aggregate payload is oversized');
     }
-    if (partialArtifactBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery partial artifact payload is oversized');
     return {
       sourcePath: result.sourcePath,
       targetPath: result.targetPath,
@@ -276,14 +279,16 @@ function readArtifact(artifactDir) {
     if (![1, 2].includes(metadata.schemaVersion) || manifest.schemaVersion !== metadata.schemaVersion || !Array.isArray(manifest.files)) throw new Error('schema mismatch');
     if (manifest.schemaVersion === 2 && !Array.isArray(manifest.failures)) throw new Error('schema mismatch');
     if (manifest.schemaVersion === 2) {
-      let partialArtifactBytes = 0;
+      let chunkArtifactBytes = 0;
+      let semanticArtifactBytes = 0;
       for (const failure of manifest.failures) {
         for (const entry of failure?.chunkCheckpoints?.entries || []) {
           if (typeof entry?.translatedContent !== 'string') continue;
-          partialArtifactBytes += Buffer.byteLength(entry.translatedContent);
+          chunkArtifactBytes += Buffer.byteLength(entry.translatedContent);
         }
-        partialArtifactBytes += semanticCheckpointBytes(failure?.semanticCheckpoints);
-        if (partialArtifactBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('partial artifact payload is oversized');
+        semanticArtifactBytes += semanticCheckpointBytes(failure?.semanticCheckpoints);
+        if (chunkArtifactBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('chunk aggregate payload is oversized');
+        if (semanticArtifactBytes > MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES) throw new Error('semantic aggregate payload is oversized');
       }
     }
     return {artifactDir, metadata, files: manifest.files, failures: manifest.failures || []};
