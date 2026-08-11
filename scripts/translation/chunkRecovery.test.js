@@ -358,12 +358,12 @@ test('bounds semantic checkpoint entry counts and rejects unbounded retained ide
     sourceHash: 'a'.repeat(64),
     locale: 'ja-JP',
   }
-  const checkpoints = new Map(Array.from({length: 300}, (_, index) => {
+  const checkpoints = new Map(Array.from({length: 600}, (_, index) => {
     const id = `document.paragraph.${String(index).padStart(4, '0')}`
     return [id, {id, sourceHash: HASH(`source-${index}`), translation: `translation-${index}`}]
   }))
   const report = serializeSemanticCheckpoints(checkpoints, item)
-  assert.equal(report.entries.length, 256)
+  assert.equal(report.entries.length, 512)
   assert.throws(() => loadSemanticCheckpoints({
     ...report,
     entries: [{...report.entries[0], id: 'x'.repeat(241)}],
@@ -793,6 +793,112 @@ test('rejects per-chunk and total artifact payloads above the documented bounds'
     }
   })
   assert.throws(() => createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results, identity: value.artifactIdentity}), /artifact payload is oversized/i)
+})
+
+test('enforces a separate four MiB semantic aggregate across artifact creation, preflight, and agent load', async t => {
+  const value = fixture(t)
+  const semanticBytes = 3 * 1024 * 1024
+  const translation = 'あ'.repeat(semanticBytes / 3)
+  const items = []
+  const failures = []
+  for (let index = 0; index < 2; index++) {
+    const sourcePath = `docs/semantic-aggregate-${index}.md`
+    const targetPath = `i18n/ja-JP/semantic-aggregate-${index}.md`
+    const source = `# Semantic ${index}\n`
+    write(value.siteDir, sourcePath, source)
+    const [unit] = await collectSemanticUnits(source)
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: HASH(source), locale: 'ja-JP', type: 'guides'}
+    const semanticCheckpoints = {
+      schemaVersion: 1,
+      sourcePath,
+      targetPath,
+      sourceHash: item.sourceHash,
+      target: item.target,
+      locale: item.locale,
+      contractId: loadLocaleContract(item.target).contractId,
+      entries: [{id: unit.id, sourceHash: HASH(unit.source), translation}],
+    }
+    items.push(item)
+    failures.push({...item, status: 'failed', error: 'provider interrupted', semanticCheckpoints})
+  }
+
+  assert.throws(() => createRecoveryArtifact({
+    siteDir: value.siteDir,
+    outputDir: value.artifactDir,
+    results: failures,
+    identity: value.artifactIdentity,
+  }), /semantic.*aggregate.*oversized/i)
+
+  const artifactDirs = failures.map((failure, index) => {
+    const artifactDir = fs.mkdtempSync(path.join(os.tmpdir(), `translation-semantic-aggregate-${index}-`))
+    t.after(() => fs.rmSync(artifactDir, {recursive: true, force: true}))
+    createRecoveryArtifact({
+      siteDir: value.siteDir,
+      outputDir: artifactDir,
+      results: [failure],
+      identity: value.artifactIdentity,
+    })
+    return artifactDir
+  })
+  const manifest = {...value.manifest, items}
+  assert.throws(() => analyzeRecoveryCompatibility({
+    siteDir: value.siteDir,
+    manifest,
+    artifacts: artifactDirs,
+    promptContractSha256: value.currentIdentity.promptContractSha256,
+    model: value.currentIdentity.model,
+    executionToolingSha: value.currentIdentity.toolingSha,
+    allowFullRetranslate: false,
+    chunkOptions: {targetChars: 1000, maxChars: 2000},
+  }), /semantic.*aggregate.*oversized/i)
+
+  const artifactExecution = createArtifactExecution({...value.artifactIdentity, toolingSha: value.currentIdentity.toolingSha})
+  const pending = failures.map(failure => ({
+    sourcePath: failure.sourcePath,
+    targetPath: failure.targetPath,
+    sourceHash: failure.sourceHash,
+    semanticResume: {
+      schemaVersion: 1,
+      compatibility: 'strict',
+      artifactExecution,
+      report: failure.semanticCheckpoints,
+    },
+  }))
+  const analysis = {
+    schemaVersion: 2,
+    kind: 'translation-recovery-analysis',
+    target: manifest.target,
+    locale: manifest.locale,
+    group: manifest.group,
+    sourceCheckpointSha: manifest.sourceCheckpointSha,
+    promptContractSha256: value.currentIdentity.promptContractSha256,
+    model: value.currentIdentity.model,
+    executionToolingSha: value.currentIdentity.toolingSha,
+    candidateCount: items.length,
+    recoveredCount: 0,
+    pendingCount: items.length,
+    rejectedCount: 0,
+    resumableFileCount: 0,
+    recoveredChunkCount: 0,
+    rejectedChunkCount: 0,
+    semanticResumableFileCount: items.length,
+    recoveredSemanticUnitCount: items.length,
+    fullRetranslation: false,
+    compatibilityMode: 'strict',
+    restored: [],
+    pending,
+    rejected: [],
+    rejectedChunks: [],
+  }
+  const analysisFile = path.join(value.siteDir, 'semantic-aggregate-analysis.json')
+  fs.writeFileSync(analysisFile, JSON.stringify(analysis))
+  assert.throws(() => loadRecoveryAnalysis({
+    file: analysisFile,
+    manifest,
+    siteDir: value.siteDir,
+    identity: value.currentIdentity,
+    chunkOptions: {targetChars: 1000, maxChars: 2000},
+  }), /semantic.*aggregate.*oversized/i)
 })
 
 test('rejects a retained artifact whose declared aggregate chunk payload exceeds the total bound', async t => {

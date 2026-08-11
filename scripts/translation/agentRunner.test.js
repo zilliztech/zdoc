@@ -35,6 +35,7 @@ const {validateProtectedContent} = require('./protectedContent')
 const {collectSemanticUnits, deterministicSemanticIssues, protectSemanticUnits} = require('./semanticUnits')
 const { REVIEW_RESPONSE_JSON_SCHEMA } = require('./reviewEvidence')
 const { createRecoveryArtifact, readArtifact } = require('./recovery-artifact')
+const {semanticCheckpointsFromCompleteTranslation} = require('./semanticRecovery')
 const { buildTranslationCandidates } = require('../../packages/docs-tooling/src/translation/candidates.ts')
 const { validateReferenceTranslation } = require('../../packages/docs-tooling/src/validation/translation.ts')
 
@@ -58,6 +59,31 @@ function write(filePath, content) {
 
 function sha256(content) {
   return crypto.createHash('sha256').update(content).digest('hex')
+}
+
+function recoveryReviewReceipt({sourcePath, targetPath, sourceHash, targetHash, locale, group}) {
+  return {
+    schemaVersion: 1,
+    sourcePath,
+    targetPath,
+    sourceHash,
+    targetHash,
+    locale,
+    group,
+    promptContractSha256: 'b'.repeat(64),
+    model: 'translation-model',
+    toolingSha: 'd'.repeat(40),
+    review: {
+      pass: true,
+      issues: [],
+      unsupportedIssues: [],
+      contractConflicts: [],
+      localeContractIssues: [],
+      reviewerPass: true,
+      error: null,
+    },
+    validationErrors: [],
+  }
 }
 
 function taggedMessageContent(messages, tag) {
@@ -146,21 +172,343 @@ function testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes
       items: [{sourcePath, targetPath, sourceHash: sha256(source), locale: 'zh-CN', type: 'reference', reason: 'stale_source'}],
     }
     const identity = {promptContractSha256: 'b'.repeat(64), model: 'translation-model', toolingSha: 'c'.repeat(40)}
+    const receipt = recoveryReviewReceipt({
+      sourcePath,
+      targetPath,
+      sourceHash: sha256(source),
+      targetHash: sha256(target),
+      locale: manifest.locale,
+      group: manifest.group,
+    })
     const analysis = {
       schemaVersion: 2, kind: 'translation-recovery-analysis', target: manifest.target, locale: manifest.locale, group: manifest.group,
       sourceCheckpointSha: manifest.sourceCheckpointSha, promptContractSha256: identity.promptContractSha256, model: identity.model,
       executionToolingSha: identity.toolingSha, candidateCount: 1, recoveredCount: 1, pendingCount: 0, rejectedCount: 0,
       fullRetranslation: false, compatibilityMode: 'revalidated',
-      restored: [{sourcePath, targetPath, sourceHash: sha256(source), targetHash: sha256(target), targetSize: Buffer.byteLength(target), compatibility: 'revalidated'}],
+      restored: [{sourcePath, targetPath, sourceHash: sha256(source), targetHash: sha256(target), targetSize: Buffer.byteLength(target), compatibility: 'revalidated', reviewReceipt: receipt}],
       pending: [], rejected: [],
     }
     const file = path.join(siteDir, 'recovery-analysis.json')
     fs.writeFileSync(file, JSON.stringify(analysis))
     const loaded = loadRecoveryAnalysis({file, manifest, siteDir, identity})
-    assert.deepEqual(loaded.restored, [{...manifest.items[0], status: 'translated', recovered: true, recoveryCompatibility: 'revalidated'}])
+    assert.deepEqual(loaded.restored, [{
+      ...manifest.items[0],
+      status: 'translated',
+      recovered: true,
+      recoveryCompatibility: 'revalidated',
+      recoveryReviewReceipt: receipt,
+      review: receipt.review,
+      validationErrors: [],
+    }])
+    const strictMismatch = JSON.parse(JSON.stringify(analysis))
+    strictMismatch.restored[0].compatibility = 'strict'
+    strictMismatch.restored[0].reviewReceipt.promptContractSha256 = 'e'.repeat(64)
+    fs.writeFileSync(file, JSON.stringify(strictMismatch))
+    assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /promptContractSha256.*does not match/i)
+    fs.writeFileSync(file, JSON.stringify(analysis))
     write(path.join(siteDir, targetPath), '# tampered\n')
     assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /payload changed after preflight/i)
+    write(path.join(siteDir, targetPath), target)
+    write(path.join(siteDir, sourcePath), '# tampered source\n')
+    assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /source payload changed after preflight/i)
   })
+}
+
+function testRecoveryAnalysisRequiresRestReviewFromAuthenticatedSourceContent() {
+  for (const value of [
+    {
+      sourcePath: 'content/en/reference/api/restful/restful/v2/control-plane/control-plane.mdx',
+      targetPath: 'content/zh-CN/reference/api/restful/restful/v2/control-plane/control-plane.mdx',
+      source: fs.readFileSync(path.join(process.cwd(), 'content/en/reference/api/restful/restful/v2/control-plane/control-plane.mdx'), 'utf8'),
+      accepted: true,
+    },
+    {
+      sourcePath: 'content/en/reference/api/python/search.mdx',
+      targetPath: 'content/zh-CN/reference/api/python/search.mdx',
+      source: '# Search\n\nexport const specs = {"summary":"Search"}\nexport const endpoint = "/v1/search"\n',
+      accepted: false,
+    },
+  ]) {
+    withTempDir(siteDir => {
+      const target = '# translated\n'
+      write(path.join(siteDir, value.sourcePath), value.source)
+      write(path.join(siteDir, value.targetPath), target)
+      const manifest = {
+        target: 'zh-CN-reference', locale: 'zh-CN', group: 'rest', sourceCheckpointSha: 'a'.repeat(40),
+        items: [{sourcePath: value.sourcePath, targetPath: value.targetPath, sourceHash: sha256(value.source), locale: 'zh-CN', type: 'reference', reason: 'stale_source'}],
+      }
+      const identity = {promptContractSha256: 'b'.repeat(64), model: 'translation-model', toolingSha: 'c'.repeat(40)}
+      const receipt = recoveryReviewReceipt({
+        sourcePath: value.sourcePath,
+        targetPath: value.targetPath,
+        sourceHash: sha256(value.source),
+        targetHash: sha256(target),
+        locale: manifest.locale,
+        group: manifest.group,
+      })
+      const analysis = {
+        schemaVersion: 2, kind: 'translation-recovery-analysis', target: manifest.target, locale: manifest.locale, group: manifest.group,
+        sourceCheckpointSha: manifest.sourceCheckpointSha, promptContractSha256: identity.promptContractSha256, model: identity.model,
+        executionToolingSha: identity.toolingSha, candidateCount: 1, recoveredCount: 1, pendingCount: 0, rejectedCount: 0,
+        fullRetranslation: false, compatibilityMode: 'revalidated',
+        restored: [{sourcePath: value.sourcePath, targetPath: value.targetPath, sourceHash: sha256(value.source), targetHash: sha256(target), targetSize: Buffer.byteLength(target), compatibility: 'revalidated', reviewReceipt: receipt}],
+        pending: [], rejected: [],
+      }
+      const file = path.join(siteDir, 'recovery-analysis.json')
+      fs.writeFileSync(file, JSON.stringify(analysis))
+      if (value.accepted) {
+        assert.equal(loadRecoveryAnalysis({file, manifest, siteDir, identity}).restored.length, 1)
+      } else {
+        assert.throws(() => loadRecoveryAnalysis({file, manifest, siteDir, identity}), /REST reviewer success/i)
+      }
+    })
+  }
+}
+
+async function testCompleteSemanticRecoverySkipsTranslationButRequiresCurrentReviewer() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/guides/tutorials/development/data-import/data-import-format-options/data-import-json.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/data-import/data-import-format-options/data-import-json.md'
+    const source = '# Overview\n\nThis guide explains JSON imports.\n'
+    const target = '# 概要\n\nこのガイドでは JSON インポートを説明します。\n'
+    write(path.join(siteDir, sourcePath), source)
+    const sourceUnits = await collectSemanticUnits(source, {idPrefix: 'document'})
+    const targetUnits = await collectSemanticUnits(target, {idPrefix: 'document'})
+    assert.equal(sourceUnits.length, targetUnits.length)
+    const semanticCheckpoints = {
+      schemaVersion: 1,
+      sourcePath,
+      targetPath,
+      sourceHash: sha256(source),
+      target: 'ja-JP',
+      locale: 'ja-JP',
+      contractId: loadLocaleContract('ja-JP').contractId,
+      entries: sourceUnits.map((unit, index) => ({
+        id: unit.id,
+        sourceHash: sha256(unit.source),
+        translation: targetUnits[index].source,
+      })),
+    }
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides'}
+    const calls = []
+    const result = await processItemWithRetry(item, {
+      maxRetries: 0,
+      initialSemanticCheckpoints: semanticCheckpoints,
+      processItem: (_item, _attempt, _feedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        semanticCheckpoint: retryContext.semanticCheckpoint,
+        onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
+        maxReviewRounds: 0,
+        validate: async () => [],
+        callModel: async ({agent}) => {
+          calls.push(agent)
+          if (agent === 'translation') throw new Error('translation API must not run for complete semantic recovery')
+          return '{"pass":true,"issues":[]}'
+        },
+      }),
+    })
+    assert.equal(result.status, 'translated')
+    assert.deepEqual(calls, ['review'])
+    assert.equal(result.review.pass, true)
+  })
+}
+
+async function testCompleteRestRecoverySkipsTranslationButRequiresBothCurrentReviewers() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/restful/restful/v1/search.mdx'
+    const targetPath = 'content/zh-CN/reference/api/restful/restful/v1/search.mdx'
+    const source = '# Search\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"summary":"Search","description":"Search a collection."}\nexport const endpoint = "/v1/search"\n'
+    const target = '# 搜索\n<RestSpecs specs={specs} lang="zh-CN" />\n\nexport const specs = {"summary":"Search","description":"Search a collection.","x-i18n":{"zh-CN":{"summary":"搜索","description":"搜索 Collection。"}}}\nexport const endpoint = "/v1/search"\n'
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: sha256(source), locale: 'zh-CN', type: 'reference'}
+    const semanticCheckpoints = semanticCheckpointsFromCompleteTranslation({sourceContent: source, targetContent: target, item})
+    assert.ok(semanticCheckpoints.restSpecDraft.entries.length > 0)
+    const calls = []
+    const result = await processItemWithRetry(item, {
+      maxRetries: 0,
+      initialSemanticCheckpoints: semanticCheckpoints,
+      processItem: (_item, _attempt, _feedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        semanticCheckpoint: retryContext.semanticCheckpoint,
+        restSpecDraft: retryContext.restSpecDraft,
+        onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
+        maxReviewRounds: 0,
+        validate: async () => [],
+        callModel: async ({agent}) => {
+          calls.push(agent)
+          if (agent === 'translation') throw new Error('REST translation API must not run for complete recovery')
+          return '{"pass":true,"issues":[]}'
+        },
+      }),
+    })
+    assert.equal(result.status, 'translated')
+    assert.deepEqual(calls, ['review', 'review'])
+    assert.equal(result.review.pass, true)
+    assert.equal(result.restSpecReview.pass, true)
+    assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /"zh-CN":\{"summary":"搜索","description":"搜索 Collection。"\}/)
+  })
+}
+
+async function testCompleteRestRecoveryRetainsSuccessfulBatchCorrectionsAcrossFileRetry() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/restful/restful/v1/retry.mdx'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v1/retry.mdx'
+    const longSummary = `${'Alpha sentence. '.repeat(500)}Summary end.`
+    const longDescription = `${'Beta sentence. '.repeat(520)}Description end.`
+    const sourceSpecs = {summary: longSummary, description: longDescription}
+    const source = `# Search\n\nexport const specs = ${JSON.stringify(sourceSpecs)}\nexport const endpoint = "/v1/retry"\n`
+    const summaryDraft = `${'コレクションを検索します。'.repeat(380)}要約。`
+    const descriptionDraft = `${'コレクションを説明します。'.repeat(340)}説明。`
+    const targetSpecs = {
+      ...sourceSpecs,
+      'x-i18n': {'ja-JP': {summary: summaryDraft, description: descriptionDraft}},
+    }
+    const target = `# 検索\n\nexport const specs = ${JSON.stringify(targetSpecs)}\nexport const endpoint = "/v1/retry"\n`
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'reference'}
+    const semanticCheckpoints = semanticCheckpointsFromCompleteTranslation({sourceContent: source, targetContent: target, item})
+    const restCalls = []
+    let firstAttempt = true
+    const result = await processItemWithRetry(item, {
+      maxRetries: 1,
+      initialSemanticCheckpoints: semanticCheckpoints,
+      processItem: (_item, _attempt, _feedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        semanticCheckpoint: retryContext.semanticCheckpoint,
+        restSpecDraft: retryContext.restSpecDraft,
+        onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
+        maxReviewRounds: 1,
+        validate: async () => [],
+        callModel: async ({agent, messages}) => {
+          if (agent === 'translation') throw new Error('complete REST recovery must never call the Translation provider')
+          const user = messages.at(-1).content
+          if (agent === 'correction') {
+            return JSON.stringify(JSON.parse(taggedMessageContent(messages, 'draft')).map(entry => ({
+              id: entry.id,
+              text: entry.text.replace('コレクションを検索します。', 'データを検索します。'),
+            })))
+          }
+          if (!user.includes('<source>')) return '{"pass":true,"issues":[]}'
+          const draft = JSON.parse(taggedMessageContent(messages, 'draft'))
+          restCalls.push(draft)
+          const firstEntry = draft[0]
+          if (firstAttempt && restCalls.length === 1) {
+            return JSON.stringify({pass: false, issues: [{
+              severity: 'medium',
+              type: 'accuracy_mistranslation',
+              location: firstEntry.id,
+              source_quote: 'Alpha sentence.',
+              draft_quote: 'コレクションを検索します。',
+              comment: 'Use the corrected wording.',
+            }]})
+          }
+          if (firstAttempt && restCalls.length === 2) return '{"pass":true,"issues":[]}'
+          if (firstAttempt) {
+            firstAttempt = false
+            const error = new Error('HTTP 408 while reading the second REST review batch')
+            error.status = 408
+            throw error
+          }
+          return '{"pass":true,"issues":[]}'
+        },
+      }),
+      log: {warn() {}},
+    })
+
+    assert.equal(result.status, 'translated', JSON.stringify(result))
+    assert.equal(result.attempts, 2)
+    assert.equal(restCalls.length, 5)
+    assert.ok(restCalls[3][0].text.startsWith('データを検索します。'), JSON.stringify(restCalls.map(batch => batch[0].text.slice(0, 20))))
+    assert.ok(semanticCheckpoints.restSpecDraft.entries[0].translation.startsWith('データを検索します。'), 'persistent REST draft must retain the correction')
+    assert.match(fs.readFileSync(path.join(siteDir, targetPath), 'utf8'), /データを検索します。/)
+  })
+}
+
+async function testCompleteRestRecoveryWithNoLocalizableSpecsNeedsNoRestModelCalls() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/reference/api/restful/restful/v1/health.mdx'
+    const targetPath = 'content/zh-CN/reference/api/restful/restful/v1/health.mdx'
+    const sourceSpecs = {operationId: 'health', example: {message: 'healthy'}}
+    const source = `# Health\n\nexport const specs = ${JSON.stringify(sourceSpecs)}\nexport const endpoint = "/v1/health"\n`
+    const target = `# 健康检查\n\nexport const specs = ${JSON.stringify(sourceSpecs)}\nexport const endpoint = "/v1/health"\n`
+    write(path.join(siteDir, sourcePath), source)
+    const item = {target: 'zh-CN-reference', sourcePath, targetPath, sourceHash: sha256(source), locale: 'zh-CN', type: 'reference'}
+    const semanticCheckpoints = semanticCheckpointsFromCompleteTranslation({sourceContent: source, targetContent: target, item})
+    assert.deepEqual(semanticCheckpoints.restSpecDraft, {schemaVersion: 1, entries: []})
+    const calls = []
+    const result = await processItemWithRetry(item, {
+      maxRetries: 0,
+      initialSemanticCheckpoints: semanticCheckpoints,
+      processItem: (_item, _attempt, _feedback, retryContext) => processManifestItem({
+        siteDir,
+        item,
+        semanticCheckpoint: retryContext.semanticCheckpoint,
+        restSpecDraft: retryContext.restSpecDraft,
+        onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
+        maxReviewRounds: 0,
+        validate: async () => [],
+        callModel: async ({agent}) => {
+          calls.push(agent)
+          if (agent === 'translation') throw new Error('complete recovery must not translate')
+          return '{"pass":true,"issues":[]}'
+        },
+      }),
+    })
+
+    assert.equal(result.status, 'translated')
+    assert.deepEqual(calls, ['review'])
+    assert.deepEqual(result.restSpecReview, {
+      pass: true,
+      issues: [],
+      unsupportedIssues: [],
+      contractConflicts: [],
+      localeContractIssues: [],
+      reviewerPass: true,
+      error: null,
+    })
+  })
+}
+
+async function testRestRetryCheckpointFailsClosedWhenCombinedPayloadExceedsLimit() {
+  const item = {
+    target: 'ja-JP',
+    sourcePath: 'content/en/reference/api/restful/restful/v1/oversized.mdx',
+    targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v1/oversized.mdx',
+    sourceHash: 'a'.repeat(64),
+    locale: 'ja-JP',
+  }
+  const initialSemanticCheckpoints = {
+    schemaVersion: 1,
+    sourcePath: item.sourcePath,
+    targetPath: item.targetPath,
+    sourceHash: item.sourceHash,
+    target: item.target,
+    locale: item.locale,
+    contractId: loadLocaleContract(item.target).contractId,
+    entries: [{id: 'document.heading.0000', sourceHash: 'b'.repeat(64), translation: '初期'}],
+    restSpecDraft: {schemaVersion: 1, entries: [{id: '["summary"]', translation: 'あ'.repeat(750000)}]},
+  }
+  const result = await processItemWithRetry(item, {
+    maxRetries: 0,
+    initialSemanticCheckpoints,
+    processItem: (_item, _attempt, _feedback, retryContext) => {
+      retryContext.semanticCheckpoint.set('document.heading.0000', {
+        id: 'document.heading.0000',
+        sourceHash: 'b'.repeat(64),
+        translation: 'い'.repeat(750000),
+      })
+      const error = new Error('ECONNRESET after semantic checkpoint completion')
+      error.code = 'ECONNRESET'
+      throw error
+    },
+  })
+
+  assert.equal(result.status, 'failed')
+  assert.equal(result.failureCategory, 'provider_transport')
+  assert.equal(Object.hasOwn(result, 'semanticCheckpoints'), false)
 }
 
 function testRejectsRecoveryAnalysisThatWidensOrChangesCurrentPendingWork() {
@@ -3659,7 +4007,13 @@ async function run() {
   testPartitionsRecoveredFilesWithoutChangingOriginalIndexes()
   testRecoveryIdentityUsesAuthoritativeToolingSha()
   testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes()
+  testRecoveryAnalysisRequiresRestReviewFromAuthenticatedSourceContent()
   testRejectsRecoveryAnalysisThatWidensOrChangesCurrentPendingWork()
+  await testCompleteSemanticRecoverySkipsTranslationButRequiresCurrentReviewer()
+  await testCompleteRestRecoverySkipsTranslationButRequiresBothCurrentReviewers()
+  await testCompleteRestRecoveryRetainsSuccessfulBatchCorrectionsAcrossFileRetry()
+  await testCompleteRestRecoveryWithNoLocalizableSpecsNeedsNoRestModelCalls()
+  await testRestRetryCheckpointFailsClosedWhenCombinedPayloadExceedsLimit()
   testMessageBuildersSelectPromptsFromTarget()
   testTranslationMessagesIncludeOnlyExplicitRetryFeedback()
   testReferenceLandingMessagesContainNavigationContract()

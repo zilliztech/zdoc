@@ -9,7 +9,7 @@ const { applyMdxPatches, validateMdxStructure } = require('../../packages/docs-t
 const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./chunker')
 const {formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
 const {protectTranslationInput, reprotectTranslationInput, restoreProtectedContent, validateProtectedContent} = require('./protectedContent')
-const {REVIEW_RESPONSE_JSON_SCHEMA, parseAndValidateReviewEvidence} = require('./reviewEvidence')
+const {REVIEW_RESPONSE_JSON_SCHEMA, parseAndValidateReviewEvidence, successfulReview} = require('./reviewEvidence')
 const {
   bindSemanticReviewEvidence,
   collectSemanticUnits,
@@ -20,15 +20,17 @@ const {
   restoreSemanticUnitResponse,
 } = require('./semanticUnits')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
-const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, translateRestSpecs } = require('./restSpecLocalization')
-const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact')
+const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, reviewRestSpecsDraft, translateRestSpecs } = require('./restSpecLocalization')
+const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles, validateRecoveryReviewReceipt} = require('./recovery-artifact')
 const {boundedFailureDetails, classifyFailure, failureRecord} = require('./failureClassification')
 const {MAX_PARTIAL_ARTIFACT_BYTES, loadAnalysisChunkResume, serializeCompletedChunkCheckpoints} = require('./chunkRecovery')
 const {
+  MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES,
   filterUsableSemanticCheckpoints,
   loadAnalysisSemanticResume,
   loadSemanticCheckpoints,
-  serializeSemanticCheckpoints,
+  semanticCheckpointBytes,
+  serializeRecoverySemanticCheckpoints,
 } = require('./semanticRecovery')
 const {validateRecoveryCandidate} = require('./recoveryValidation')
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
@@ -472,6 +474,7 @@ async function processItemWithRetry(item, options) {
   )
   validateAdaptiveCallBudget(adaptiveCallBudget)
   const semanticCheckpoint = loadSemanticCheckpoints(options.initialSemanticCheckpoints, item)
+  const restSpecDraft = options.initialSemanticCheckpoints?.restSpecDraft || null
   const initialChunkCheckpoints = options.initialChunkCheckpoints || []
   if (!Array.isArray(initialChunkCheckpoints)) throw new Error('Initial chunk checkpoints must be an array')
   const chunkCheckpoint = new Map(initialChunkCheckpoints.map((checkpoint, position) => {
@@ -489,6 +492,7 @@ async function processItemWithRetry(item, options) {
         providerRetryBudget,
         adaptiveCallBudget,
         semanticCheckpoint,
+        restSpecDraft,
         onSemanticUnitCompleted: checkpoint => semanticCheckpoint.set(checkpoint.id, checkpoint),
         onChunkCompleted: checkpoint => {
           if (signal?.aborted) throw signal.reason
@@ -544,7 +548,9 @@ async function processItemWithRetry(item, options) {
       options.log?.warn?.(`[translation-agent] retrying ${item.sourcePath} after failed attempt ${attempt + 1}/${maxRetries + 1}: ${failures.at(-1).error}`)
     } else {
       const chunkCheckpoints = serializeCompletedChunkCheckpoints(chunkCheckpoint)
-      const semanticCheckpoints = semanticRecoveryEligible ? serializeSemanticCheckpoints(semanticCheckpoint, item) : null
+      const semanticCheckpoints = semanticRecoveryEligible
+        ? serializeRecoverySemanticCheckpoints(semanticCheckpoint, item, restSpecDraft)
+        : null
       return {
         ...stripInternalRecoveryFields(result),
         failureCategory: record.category,
@@ -759,7 +765,7 @@ async function translateAndReviewUnit({
   const localeContract = loadLocaleContract(target)
   const idPrefix = chunkContext ? `chunk.${String(chunkContext.index + 1).padStart(4, '0')}` : 'document'
   const units = await collectSemanticUnits(sourceContent, {idPrefix})
-  if (!units.length) return {translatedContent: sourceContent, review: {pass: true, issues: []}, semanticUnits: 0}
+  if (!units.length) return {translatedContent: sourceContent, review: successfulReview(), semanticUnits: 0}
   const protectedOptions = {literalTokens: localeContract.doNotTranslate}
   const protectedSource = protectTranslationInput(sourceContent, protectedOptions)
   const sourceUnits = protectSemanticUnits(units, unit => unit.source, protectedOptions)
@@ -998,6 +1004,7 @@ async function processManifestItem({
   providerRetryBudget = null,
   adaptiveCallBudget = createAdaptiveCallBudget(),
   semanticCheckpoint = new Map(),
+  restSpecDraft = null,
   onSemanticUnitCompleted = null,
   signal,
 }) {
@@ -1029,8 +1036,9 @@ async function processManifestItem({
       signal,
     })
     if (!shell.review.pass) return failedReviewResult(item, shell.review)
-    const specResult = await translateRestSpecs({
+    const specResult = await (restSpecDraft ? reviewRestSpecsDraft : translateRestSpecs)({
       sourceSpecs: restDocument.sourceSpecs,
+      ...(restSpecDraft ? {draft: restSpecDraft} : {}),
       sourcePath: item.sourcePath,
       target: item.target,
       locale: item.locale,
@@ -1564,7 +1572,7 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
   const seen = new Set()
   const restored = []
   for (const record of analysis.restored) {
-    const restoredKeys = ['sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'targetSize']
+    const restoredKeys = ['sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'targetSize', 'reviewReceipt']
     if (analysis.schemaVersion === 2) restoredKeys.push('compatibility')
     exactRecoveryAnalysisKeys(record, restoredKeys, 'Recovery analysis restored record')
     if (analysis.schemaVersion === 2 && !['strict', 'revalidated'].includes(record.compatibility)) throw new Error('Recovery analysis restored compatibility is invalid')
@@ -1572,9 +1580,40 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
     const candidate = manifestByIdentity.get(key)
     if (!candidate || candidate.sourceHash !== record.sourceHash || seen.has(key)) throw new Error('Recovery analysis restored identity does not match the current manifest')
     if (!/^[0-9a-f]{64}$/u.test(record.targetHash || '') || !Number.isSafeInteger(record.targetSize) || record.targetSize < 0) throw new Error('Recovery analysis restored target identity is invalid')
+    const receiptFileIdentity = {
+      sourcePath: record.sourcePath,
+      targetPath: record.targetPath,
+      sourceHash: record.sourceHash,
+      targetHash: record.targetHash,
+      locale: manifest.locale,
+      group: manifest.group,
+    }
+    const receiptExecutionIdentity = {
+      promptContractSha256: identity.promptContractSha256,
+      model: identity.model,
+      toolingSha: identity.toolingSha,
+    }
+    assertSafeRepositoryRelativePath(record.sourcePath, 'Recovery analysis restored source path')
+    const source = path.resolve(siteDir, ...record.sourcePath.split('/'))
+    const root = path.resolve(siteDir)
+    if (source !== root && !source.startsWith(`${root}${path.sep}`)) throw new Error('Recovery analysis restored source escapes the repository')
+    const sourceStat = fs.lstatSync(source)
+    if (!sourceStat.isFile() || sourceStat.isSymbolicLink()) throw new Error('Recovery analysis restored source is not a regular file')
+    const sourceBytes = fs.readFileSync(source)
+    if (crypto.createHash('sha256').update(sourceBytes).digest('hex') !== candidate.sourceHash) {
+      throw new Error('Recovery analysis restored source payload changed after preflight')
+    }
+    const sourceContent = sourceBytes.toString('utf8')
+    const reviewReceipt = validateRecoveryReviewReceipt(record.reviewReceipt, {
+      ...receiptFileIdentity,
+      ...(analysis.schemaVersion === 1 || record.compatibility === 'strict' ? receiptExecutionIdentity : {}),
+    }, {sourceContent})
+    if (analysis.schemaVersion === 2 && record.compatibility === 'revalidated' &&
+        Object.entries(receiptExecutionIdentity).every(([key, value]) => reviewReceipt[key] === value)) {
+      throw new Error('Recovery analysis revalidated reviewer receipt does not retain its original execution identity')
+    }
     assertSafeRepositoryRelativePath(record.targetPath, 'Recovery analysis restored target path')
     const target = path.resolve(siteDir, ...record.targetPath.split('/'))
-    const root = path.resolve(siteDir)
     if (target !== root && !target.startsWith(`${root}${path.sep}`)) throw new Error('Recovery analysis restored target escapes the repository')
     const stat = fs.lstatSync(target)
     if (!stat.isFile() || stat.isSymbolicLink() || stat.size !== record.targetSize || crypto.createHash('sha256').update(fs.readFileSync(target)).digest('hex') !== record.targetHash) {
@@ -1586,6 +1625,10 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       status: 'translated',
       recovered: true,
       ...(analysis.schemaVersion === 2 ? {recoveryCompatibility: record.compatibility} : {}),
+      recoveryReviewReceipt: reviewReceipt,
+      review: reviewReceipt.review,
+      validationErrors: reviewReceipt.validationErrors,
+      ...(reviewReceipt.restSpecReview ? {restSpecReview: reviewReceipt.restSpecReview} : {}),
     })
   }
   const pending = []
@@ -1633,11 +1676,7 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       recoveredChunkCount += recoveryChunkCheckpoints.length
       resumableFileCount += 1
       recoveredChunkBytes += recoveryChunkCheckpoints.reduce((total, checkpoint) => total + Buffer.byteLength(checkpoint.translatedContent), 0)
-      if (recoveredChunkBytes + recoveredSemanticBytes > MAX_PARTIAL_ARTIFACT_BYTES) {
-        throw new Error(recoveredSemanticBytes
-          ? 'Recovery analysis aggregate partial payload is oversized'
-          : 'Recovery analysis aggregate chunk payload is oversized')
-      }
+      if (recoveredChunkBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery analysis aggregate chunk payload is oversized')
     }
     if (record.semanticResume) {
       const source = path.resolve(siteDir, ...candidate.sourcePath.split('/'))
@@ -1662,8 +1701,8 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       })
       semanticResumableFileCount += 1
       recoveredSemanticUnitCount += recoverySemanticCheckpoints.entries.length
-      recoveredSemanticBytes += recoverySemanticCheckpoints.entries.reduce((total, entry) => total + Buffer.byteLength(entry.translation), 0)
-      if (recoveredChunkBytes + recoveredSemanticBytes > MAX_PARTIAL_ARTIFACT_BYTES) throw new Error('Recovery analysis aggregate partial payload is oversized')
+      recoveredSemanticBytes += semanticCheckpointBytes({report: recoverySemanticCheckpoints})
+      if (recoveredSemanticBytes > MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES) throw new Error('Recovery analysis semantic aggregate payload is oversized')
     }
     seen.add(key)
     pending.push(recoveryChunkCheckpoints || recoverySemanticCheckpoints ? {
@@ -1790,6 +1829,7 @@ async function main() {
               providerRetryBudget: retryContext.providerRetryBudget,
               adaptiveCallBudget: retryContext.adaptiveCallBudget,
               semanticCheckpoint: retryContext.semanticCheckpoint,
+              restSpecDraft: retryContext.restSpecDraft,
               onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
               retryFeedback,
             }),
