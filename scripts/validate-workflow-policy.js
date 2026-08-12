@@ -221,6 +221,9 @@ function validateTranslationReadyProducer({workflow, source, file, errors}) {
   const validate = steps.find(step => step?.name === 'Validate translation publication selection identity')
   const checkpoint = steps.findIndex(step => step?.name === 'Upload translation checkpoint')
   const baseline = steps.findIndex(step => step?.name === 'Upload translation baseline')
+  const checkpointCreation = steps.findIndex(step => step?.name === 'Create validated translation checkpoints')
+  const numberedValidation = steps.findIndex(step => step?.name === 'Validate translated batch outputs')
+  const unbatchedValidation = steps.findIndex(step => step?.name === 'Validate unbatched translated group')
   const ready = steps.findIndex(step => step?.name === 'Create immutable Translation ready descriptor')
   const upload = steps.findIndex(step => step?.name === 'Upload immutable Translation ready descriptor')
   const readyRun = String(steps[ready]?.run || '')
@@ -261,6 +264,11 @@ function validateTranslationReadyProducer({workflow, source, file, errors}) {
     String(steps[upload]?.if || '').startsWith('${{ !inputs.legacy_without_publication_selection &&') &&
     steps[upload]?.with?.name === '${{ steps.publication_ready.outputs.artifact_name }}'
   if (!validDescriptor) errors.push(`${file}: Translation producer must upload checkpoint and baseline artifacts before its bound ready descriptor`)
+  const materializationSteps = [checkpointCreation, checkpoint, ready, upload]
+  if ([numberedValidation, unbatchedValidation, ...materializationSteps].some(index => index < 0) ||
+      [numberedValidation, unbatchedValidation].some(validationIndex => materializationSteps.some(index => validationIndex >= index))) {
+    errors.push(`${file}: Translation validators must precede checkpoint and ready-descriptor materialization`)
+  }
   if (!readyRun.includes('artifact_name=publication-ready-translation-$unit_token-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT') ||
       !/artifact_name=publication-ready-translation-\$unit_token-\$GITHUB_RUN_ID-\$GITHUB_RUN_ATTEMPT" >> "\$GITHUB_OUTPUT"/.test(readyRun) ||
       steps[upload]?.with?.name !== '${{ steps.publication_ready.outputs.artifact_name }}') {
@@ -712,6 +720,12 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         Object.hasOwn(step?.env || {}, name) || String(step?.run || '').includes(name)))
       if (!candidateIdentityIsExact || leaksCandidateIdentity) {
         errors.push(`${file}: candidate provenance must receive exact target, tooling, and source identities only in unbatched validation`)
+      }
+      if (!/validate-unbatched-translation-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--baseline "\$BASELINE_DIR"[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/.test(unbatchedRun)) {
+        errors.push(`${file}: unbatched translations must authenticate terminal agent reports and target-owned outputs`)
+      }
+      if (!/validate-unbatched-translation-outputs\.js[\s\S]*if \[\[ "\$TRANSLATION_TARGET" == ja-JP && "\$FAILED_COUNT" != 0 \]\]; then[\s\S]*validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP" --allow-pending[\s\S]*else[\s\S]*validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"[\s\S]*fi/.test(unbatchedRun)) {
+        errors.push(`${file}: only authenticated unbatched Japanese failures may bypass strict translation freshness`)
       }
       if (!/node scripts\/translation\/validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/.test(unbatchedRun)) {
         errors.push(`${file}: unbatched translations must use group-local target validation`)

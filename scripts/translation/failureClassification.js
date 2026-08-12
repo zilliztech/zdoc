@@ -10,6 +10,15 @@ const FAILURE_CATEGORIES = Object.freeze([
   'contract_conflict',
   'unknown',
 ])
+const PARTIAL_SUCCESS_FAILURE_CATEGORIES = Object.freeze([
+  'provider_timeout',
+  'provider_transport',
+  'review_failed',
+  'locale_contract_failed',
+  'protected_content_failed',
+  'semantic_response_failed',
+  'contract_conflict',
+])
 const FAILURE_CATEGORY_SET = new Set(FAILURE_CATEGORIES)
 const STRUCTURED_SHORT_STRING_KEYS = Object.freeze(['name', 'code'])
 const STRUCTURED_STRING_KEYS = Object.freeze(['field', 'semanticUnitId', 'markerId'])
@@ -70,18 +79,25 @@ function messageOf(failure) {
   return String(failure?.message || failure || 'unknown failure')
 }
 
+function isLegacySemanticCountMismatch(message) {
+  return String(message ?? '').trim() === 'Semantic unit response entry count mismatch'
+}
+
 function classifyFailure(failure) {
-  if (FAILURE_CATEGORY_SET.has(failure?.failureCategory)) return failure.failureCategory
-  if (FAILURE_CATEGORY_SET.has(failure?.cause?.failureCategory)) return failure.cause.failureCategory
+  const explicitlyUnknown = failure?.failureCategory === 'unknown' || failure?.cause?.failureCategory === 'unknown'
+  if (FAILURE_CATEGORY_SET.has(failure?.failureCategory) && failure.failureCategory !== 'unknown') return failure.failureCategory
+  if (FAILURE_CATEGORY_SET.has(failure?.cause?.failureCategory) && failure.cause.failureCategory !== 'unknown') return failure.cause.failureCategory
   if (Array.isArray(failure?.review?.contractConflicts) && failure.review.contractConflicts.length) return 'contract_conflict'
   if (Array.isArray(failure?.review?.localeContractIssues) && failure.review.localeContractIssues.length) return 'locale_contract_failed'
   const message = messageOf(failure)
   const status = Number(failure?.status || failure?.statusCode || failure?.cause?.status)
   const name = String(failure?.name || failure?.cause?.name || '')
-  const code = String(failure?.code || failure?.cause?.code || '')
+  const code = String(failure?.errorDetails?.code || failure?.code || failure?.cause?.errorDetails?.code || failure?.cause?.code || '')
   if (['CHUNK_TIMEOUT', 'FILE_TIMEOUT', 'PROVIDER_TIMEOUT'].includes(code)) return 'provider_timeout'
   if (code === 'PROVIDER_TRANSPORT') return 'provider_transport'
-  if (code.startsWith('SEMANTIC_RESPONSE_')) return 'semantic_response_failed'
+  if (code === 'SEMANTIC_RESPONSE_COUNT_MISMATCH') return 'semantic_response_failed'
+  if (isLegacySemanticCountMismatch(message)) return 'semantic_response_failed'
+  if (explicitlyUnknown && code === 'PROVIDER_HTTP_ERROR' && status >= 400 && status < 500 && ![408, 409, 425, 429].includes(status)) return 'unknown'
   if (status === 408 || name === 'AbortError' || name === 'APITimeoutError' || /APITimeoutError|\btimeout\b|timed out|aborted/i.test(message)) return 'provider_timeout'
   if ([409, 425, 429, 500, 502, 503, 504].includes(status)) return 'provider_transport'
   if (/stream (?:disconnected|closed).*response\.completed|fetch failed|connection error|ECONNRESET|EAI_AGAIN|transport/i.test(message)) return 'provider_transport'
@@ -101,4 +117,12 @@ function failureRecord({attempt, failure}) {
   })
 }
 
-module.exports = {FAILURE_CATEGORIES, boundedFailureDetails, classifyFailure, failureRecord, messageOf}
+module.exports = {
+  FAILURE_CATEGORIES,
+  PARTIAL_SUCCESS_FAILURE_CATEGORIES,
+  boundedFailureDetails,
+  classifyFailure,
+  failureRecord,
+  isLegacySemanticCountMismatch,
+  messageOf,
+}

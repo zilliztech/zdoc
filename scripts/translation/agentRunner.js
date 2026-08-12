@@ -1436,6 +1436,40 @@ function updateReferenceProgressState(siteDir, progressState, result) {
   })
 }
 
+function updateFailedReferenceProgressState(siteDir, progressState, result) {
+  if (fs.existsSync(path.join(siteDir, result.targetPath))) return
+  const sourceManifest = parseReferenceSourceManifest(readJsonIfPresent(
+    siteDir,
+    'generated/en/manifests/reference.json',
+    null,
+  ))
+  const previous = progressState.value.records.find(record => record.sourcePath === result.sourcePath)
+  const sourceRecord = sourceManifest.records.find(record => record.sourcePath === result.sourcePath)
+  const pendingRecord = {
+    manual: sourceRecord?.manual || previous?.manual || defaultReferenceManualForPath(result.sourcePath),
+    sourcePath: result.sourcePath,
+    targetPath: result.targetPath,
+    sourceCommit: progressState.sourceCheckpointSha,
+    sourceHash: sourceRecord?.sourceHash || result.sourceHash,
+  }
+  const hadLanguageExcludedRecords = Object.hasOwn(progressState.value, 'languageExcludedRecords')
+  progressState.value = parseReferenceTranslationManifest({
+    ...progressState.value,
+    records: progressState.value.records.filter(existing => existing.sourcePath !== result.sourcePath),
+    pendingRecords: [
+      ...(progressState.value.pendingRecords || []).filter(existing => existing.sourcePath !== result.sourcePath),
+      pendingRecord,
+    ].sort((left, right) => (
+      compareCanonicalText(left.manual, right.manual) ||
+      compareCanonicalText(left.sourcePath, right.sourcePath) ||
+      compareCanonicalText(left.targetPath, right.targetPath)
+    )),
+    ...(hadLanguageExcludedRecords
+      ? {languageExcludedRecords: progressState.value.languageExcludedRecords.filter(existing => existing.sourcePath !== result.sourcePath)}
+      : {}),
+  })
+}
+
 function updateToolsProgressState(progressState, result) {
   const previous = progressState.value.records.find(record => record.sourcePath === result.sourcePath) || {}
   const record = {
@@ -1528,6 +1562,11 @@ function createProgressCoordinator(options) {
       progressState,
       targetResult,
       new Date(options.now?.() || Date.now()).toISOString(),
+    )
+    else if (progressState.kind === 'reference-manifest') updateFailedReferenceProgressState(
+      options.siteDir,
+      progressState,
+      targetResult,
     )
     completedSinceCheckpoint += 1
     await checkpoint(false)
