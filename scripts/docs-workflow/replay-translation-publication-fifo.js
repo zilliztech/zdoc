@@ -1690,7 +1690,7 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
     sourceCheckpointSha: publication.sourceCheckpointSha, targetBaselineSha: publication.expectedTargetSha, publicationOrder: publicationOrder++,
   })
   for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest']) {
-    for (const target of ['ja-JP', 'zh-CN-reference']) {
+    for (const target of group === 'rest' ? ['ja-JP'] : ['ja-JP', 'zh-CN-reference']) {
       const unitKey = `translation/${target}/${group}`
       const pair = {}
       let checkpointIdentity = null

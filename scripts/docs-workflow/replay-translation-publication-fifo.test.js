@@ -195,7 +195,7 @@ function handoff() {
     'translation/ja-JP/node', 'translation/zh-CN-reference/node',
     'translation/ja-JP/go', 'translation/zh-CN-reference/go',
     'translation/ja-JP/cli', 'translation/zh-CN-reference/cli',
-    'translation/ja-JP/rest', 'translation/zh-CN-reference/rest',
+    'translation/ja-JP/rest',
   ]
   return {
     schemaVersion: 2,
@@ -812,7 +812,7 @@ test('legacy inspect derives authenticated current selection and ready contracts
   assert.equal(result.toolingSha, fixture.toolingSha)
   assert.equal(result.initialTargetSha, fixture.initialTargetSha)
   const selection = JSON.parse(fs.readFileSync(path.join(outputRoot, 'publication-selection.json'), 'utf8'))
-  assert.equal(selection.units.length, 13)
+  assert.equal(selection.units.length, 12)
   const metadata = JSON.parse(fs.readFileSync(path.join(outputRoot, 'run-metadata.json'), 'utf8'))
   assert.equal(metadata.legacyDerived, true)
   assert.equal(metadata.parentRunId, fixture.parentRunId)
