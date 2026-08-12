@@ -3638,6 +3638,87 @@ async function testChineseReferenceProgressStateUsesItsTargetManifest() {
   })
 }
 
+async function testFailedReferenceProgressStateRefreshesOnlyMissingTargetPendingProvenance() {
+  await withTempDir(async siteDir => {
+    const currentSourceCommit = 'd'.repeat(40)
+    const oldSourceCommit = 'c'.repeat(40)
+    const missingSourcePath = 'content/en/reference/api/python/drop.md'
+    const missingTargetPath = 'content/zh-CN/reference/api/python/drop.md'
+    const existingSourcePath = 'content/en/reference/api/python/search.md'
+    const existingTargetPath = 'content/zh-CN/reference/api/python/search.md'
+    const missingSource = '# Drop collection v2\n'
+    const existingSource = '# Search v2\n'
+    const existingTarget = '# 搜索 v1\n'
+    const stalePending = {
+      manual: 'python',
+      sourcePath: missingSourcePath,
+      targetPath: missingTargetPath,
+      sourceCommit: oldSourceCommit,
+      sourceHash: sha256('# Drop collection v1\n'),
+    }
+    const existingRecord = {
+      manual: 'python',
+      sourcePath: existingSourcePath,
+      targetPath: existingTargetPath,
+      sourceCommit: oldSourceCommit,
+      sourceHash: sha256('# Search v1\n'),
+      targetHash: sha256(existingTarget),
+      status: 'translated',
+    }
+    write(path.join(siteDir, missingSourcePath), missingSource)
+    write(path.join(siteDir, existingSourcePath), existingSource)
+    write(path.join(siteDir, existingTargetPath), existingTarget)
+    write(path.join(siteDir, 'generated/en/manifests/reference.json'), JSON.stringify({
+      schemaVersion: 1,
+      sourceCommit: currentSourceCommit,
+      records: [
+        {manual: 'python', sourcePath: missingSourcePath, sourceHash: sha256(missingSource)},
+        {manual: 'python', sourcePath: existingSourcePath, sourceHash: sha256(existingSource)},
+      ],
+    }))
+    write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
+      schemaVersion: 1,
+      records: [existingRecord],
+      pendingRecords: [stalePending],
+    }))
+    const manifest = {
+      target: 'zh-CN-reference',
+      locale: 'zh-CN',
+      group: 'python',
+      sourceCheckpointSha: currentSourceCommit,
+      items: [
+        {sourcePath: missingSourcePath, targetPath: missingTargetPath, sourceHash: sha256(missingSource), locale: 'zh-CN', type: 'reference', reason: 'missing_target'},
+        {sourcePath: existingSourcePath, targetPath: existingTargetPath, sourceHash: sha256(existingSource), locale: 'zh-CN', type: 'reference', reason: 'current_delta'},
+      ],
+    }
+    const coordinator = createProgressCoordinator({
+      siteDir,
+      manifest,
+      reportPath: 'tmp/reference-failed-report.json',
+      checkpointFiles: 1,
+    })
+
+    await coordinator.record({...manifest.items[0], status: 'failed', failureCategory: 'provider_timeout', error: 'timed out'}, 0)
+    await coordinator.record({...manifest.items[1], status: 'failed', failureCategory: 'provider_timeout', error: 'timed out'}, 1)
+    await coordinator.checkpoint(true)
+
+    const state = JSON.parse(fs.readFileSync(
+      path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'),
+      'utf8',
+    ))
+    assert.deepEqual(state.records, [existingRecord])
+    assert.deepEqual(state.pendingRecords, [{
+      manual: 'python',
+      sourcePath: missingSourcePath,
+      targetPath: missingTargetPath,
+      sourceCommit: currentSourceCommit,
+      sourceHash: sha256(missingSource),
+    }])
+    assert.equal(fs.existsSync(path.join(siteDir, missingTargetPath)), false)
+    assert.equal(fs.readFileSync(path.join(siteDir, existingTargetPath), 'utf8'), existingTarget)
+  })
+}
+
 async function testReferenceProgressStateAcceptsNewSourceMissingFromStaleManifest() {
   await withTempDir(async siteDir => {
     const staleSourceCommit = 'a'.repeat(40)
@@ -4363,6 +4444,7 @@ async function run() {
   await testInternalRecoveryChunkSeedsNeverEnterPublicResultsOrReports()
   await testWorkerPoolStopsAssigningNewItems()
   await testChineseReferenceProgressStateUsesItsTargetManifest()
+  await testFailedReferenceProgressStateRefreshesOnlyMissingTargetPendingProvenance()
   await testReferenceProgressStateAcceptsNewSourceMissingFromStaleManifest()
   await testReferenceProgressStateReplacesLanguageExcludedRecord()
   await testReferenceProgressStateUsesCanonicalRawLexicalOrder()

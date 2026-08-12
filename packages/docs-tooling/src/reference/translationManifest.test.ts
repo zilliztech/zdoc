@@ -1055,6 +1055,61 @@ describe('Reference translation provenance', () => {
     )).rejects.toThrow(/source hash/i);
   });
 
+  it('does not require a retired record when an authenticated language exclusion covers the registry tuple', async () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx';
+    const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/');
+    const source = restMdx(['en-US']);
+    mkdirSync(path.dirname(path.join(roots.repositoryRoot, sourcePath)), {recursive: true});
+    writeFileSync(path.join(roots.repositoryRoot, sourcePath), source);
+    writeMinimalReferenceSidebarTemplates(roots.repositoryRoot);
+
+    const sourceCommit = 'a'.repeat(40);
+    const sourceRecord = {
+      manual: 'rest',
+      sourcePath,
+      sourceHash: sha256(source),
+    };
+    const excludedRecord = {
+      manual: 'rest' as const,
+      sourcePath,
+      targetPath,
+      sourceCommit,
+      sourceHash: sha256(source),
+      locale: 'zh-CN' as const,
+      reason: 'x-include-langs' as const,
+    };
+    const retirement = {
+      manual: 'rest',
+      sourcePath,
+      targetPath,
+      changeKind: null,
+      rationale: 'Retained historical retirement approval',
+    };
+
+    mkdirSync(path.join(roots.repositoryRoot, 'generated/en/manifests'), {recursive: true});
+    mkdirSync(path.join(roots.repositoryRoot, 'generated/zh-CN/manifests'), {recursive: true});
+    writeFileSync(
+      path.join(roots.repositoryRoot, 'generated/en/manifests/reference.json'),
+      `${JSON.stringify({schemaVersion: 1, sourceCommit, records: [sourceRecord]}, null, 2)}\n`,
+    );
+    writeFileSync(
+      path.join(roots.repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json'),
+      `${JSON.stringify({schemaVersion: 1, records: [], languageExcludedRecords: [excludedRecord]}, null, 2)}\n`,
+    );
+
+    const validateReferenceNavigation = vi.fn();
+    await expect(executeReferenceDocsToolingCommand(['validate-reference', '--site', 'zh-CN'], {
+      repositoryRoot: roots.repositoryRoot,
+      resolveSourceCommit: () => sourceCommit,
+      verifySourceRevision: () => undefined,
+      manualForPath: () => 'rest',
+      retirementRegistry: {schemaVersion: 2, retirements: [retirement]},
+      validateReferenceNavigation,
+    })).resolves.toBeUndefined();
+    expect(validateReferenceNavigation).toHaveBeenCalledWith(expect.objectContaining({repositoryRoot: roots.repositoryRoot, site: 'zh-CN'}));
+  });
+
   it('fails when an English Reference sidebar template is missing', async () => {
     const roots = fixture();
     writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');

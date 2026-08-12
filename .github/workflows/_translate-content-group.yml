@@ -318,10 +318,29 @@ jobs:
       - name: Validate unbatched translated group
         if: ${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         env:
+          AGENTS_OUTCOME: ${{ steps.agents.outcome }}
+          TRANSLATED_COUNT: ${{ steps.agents.outputs.translated_count || '0' }}
+          FAILED_COUNT: ${{ steps.agents.outputs.failed_count || '0' }}
+          REMAINING_COUNT: ${{ steps.agents.outputs.remaining_count || '0' }}
           ZDOC_PROVENANCE_CANDIDATE_TARGET: ${{ inputs.target }}
           ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: ${{ inputs.tooling_sha }}
           ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: ${{ inputs.source_checkpoint_sha }}
-        run: node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/validate-unbatched-translation-outputs.js \
+            --manifest tmp/translation-manifest.json \
+            --report tmp/translation-report.json \
+            --workspace "$GITHUB_WORKSPACE" \
+            --baseline "$BASELINE_DIR" \
+            --agents-outcome "$AGENTS_OUTCOME" \
+            --translated-count "$TRANSLATED_COUNT" \
+            --failed-count "$FAILED_COUNT" \
+            --remaining-count "$REMAINING_COUNT"
+          if [[ "$TRANSLATION_TARGET" == ja-JP && "$FAILED_COUNT" != 0 ]]; then
+            node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP" --allow-pending
+          else
+            node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"
+          fi
       - name: Validate translated batch outputs
         if: ${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
         env:
@@ -337,6 +356,7 @@ jobs:
             --report tmp/translation-report.json \
             --batch-input tmp/translation-batch-input.json \
             --workspace "$GITHUB_WORKSPACE" \
+            --baseline "$BASELINE_DIR" \
             --agents-outcome "$AGENTS_OUTCOME" \
             --translated-count "$TRANSLATED_COUNT" \
             --failed-count "$FAILED_COUNT" \
@@ -418,9 +438,9 @@ jobs:
         id: result
         if: ${{ always() }}
         run: |
-          status=failed; artifact_name=; baseline_artifact_name=; translated_count="${{ steps.agents.outputs.translated_count || '0' }}"; failed_count="${{ steps.agents.outputs.failed_count || '0' }}"; remaining_count="${{ steps.agents.outputs.remaining_count || '0' }}"
+          status=failed; artifact_name=; baseline_artifact_name=; candidate_count="${{ steps.manifest.outputs.count || '0' }}"; translated_count="${{ steps.agents.outputs.translated_count || '0' }}"; failed_count="${{ steps.agents.outputs.failed_count || '0' }}"; remaining_count="${{ steps.agents.outputs.remaining_count || '0' }}"
           if [[ "${{ inputs.should_translate }}" != true ]]; then status=no_changes
-          elif [[ ( "${{ steps.agents.outcome }}" == success || "${{ steps.agents.outcome }}" == skipped ) && "${{ steps.agents.outputs.failed_count || '0' }}" == 0 && "${{ steps.agents.outputs.remaining_count || '0' }}" == 0 && "${{ steps.translation_upload.outcome }}" == success && "${{ steps.baseline_upload.outcome }}" == success ]]; then status=translation_ready; artifact_name="translation-checkpoint-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; baseline_artifact_name="translation-baseline-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; fi
+          elif [[ ( "${{ steps.agents.outcome }}" == success || "${{ steps.agents.outcome }}" == skipped ) && "${{ steps.translation_upload.outcome }}" == success && "${{ steps.baseline_upload.outcome }}" == success && "$candidate_count" =~ ^(0|[1-9][0-9]*)$ && "$translated_count" =~ ^(0|[1-9][0-9]*)$ && "$failed_count" =~ ^(0|[1-9][0-9]*)$ && "$remaining_count" =~ ^(0|[1-9][0-9]*)$ ]] && (( remaining_count == 0 && translated_count + failed_count == candidate_count )); then status=translation_ready; artifact_name="translation-checkpoint-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; baseline_artifact_name="translation-baseline-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; fi
           printf 'status=%s\nartifact_name=%s\nbaseline_artifact_name=%s\ntranslated_count=%s\nfailed_count=%s\nremaining_count=%s\n' "$status" "$artifact_name" "$baseline_artifact_name" "$translated_count" "$failed_count" "$remaining_count" >> "$GITHUB_OUTPUT"
       - name: Fail unsuccessful translation
         if: ${{ always() && steps.result.outputs.status == 'failed' }}
