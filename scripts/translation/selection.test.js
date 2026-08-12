@@ -14,7 +14,7 @@ test('selects one Chinese SDK translation group', () => {
 
 test('orders all Chinese Reference groups', () => {
   assert.deepEqual(buildTranslationSelection({locale: 'zh-CN', group: 'all'}).map(item => item.group), [
-    'python', 'java', 'node', 'go', 'cli', 'rest',
+    'python', 'java', 'node', 'go', 'cli',
   ]);
 });
 
@@ -27,9 +27,21 @@ test('expands all locales deterministically', () => {
     'ja-JP/node', 'zh-CN-reference/node',
     'ja-JP/go', 'zh-CN-reference/go',
     'ja-JP/cli', 'zh-CN-reference/cli',
-    'ja-JP/rest', 'zh-CN-reference/rest',
+    'ja-JP/rest',
   ]);
   assert.deepEqual(selected.map(item => item.publicationOrder), selected.map((_, index) => index));
+});
+
+test('keeps Japanese REST while rejecting Chinese REST as a canonical selection', () => {
+  assert.deepEqual(
+    buildTranslationSelection({locale: 'all', group: 'rest'}).map(item => `${item.target}/${item.group}`),
+    ['ja-JP/rest'],
+  );
+  assert.deepEqual(
+    buildTranslationSelection({locale: 'ja-JP', group: 'rest'}).map(item => `${item.target}/${item.group}`),
+    ['ja-JP/rest'],
+  );
+  assert.throws(() => buildTranslationSelection({locale: 'zh-CN', group: 'rest'}), /unsupported translation selection/i);
 });
 
 test('pairs Japanese and Chinese SDK translations in publication order', () => {

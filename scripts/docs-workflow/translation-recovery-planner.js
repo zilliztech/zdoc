@@ -169,7 +169,9 @@ async function selectAttempt({client, run, runId, explicitAttempt, artifacts}) {
 function buildRecoveryHandoff(selection, targetBaselineSha, executionToolingSha = selection.toolingSha, scopedUnits = selection.units) {
   if (!SHA.test(targetBaselineSha || '')) throw new Error('Queue-owned target baseline must be an exact commit SHA')
   if (!SHA.test(executionToolingSha || '')) throw new Error('Recovery execution tooling must be an exact commit SHA')
-  if (!Array.isArray(scopedUnits) || scopedUnits.length === 0) throw new Error('Authenticated recovery scope has no recoverable Translation units')
+  if (!Array.isArray(scopedUnits)) throw new Error('Authenticated recovery scope has no recoverable Translation units')
+  scopedUnits = scopedUnits.filter(unit => `${unit.target}/${unit.group}` !== 'zh-CN-reference/rest')
+  if (scopedUnits.length === 0) throw new Error('Authenticated recovery scope has no recoverable Translation units')
   const selectedByIdentity = new Map(selection.units.map(unit => [`${unit.target}/${unit.group}`, unit]))
   const authenticatedUnits = scopedUnits.map(unit => {
     const selected = selectedByIdentity.get(`${unit.target}/${unit.group}`)
@@ -313,7 +315,7 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
     await downloadArtifact(client, artifact, destination, run, runId)
     const file = path.join(destination, `publication-progress-${value.revision}.json`)
     if (!fs.existsSync(file)) throw new Error('Publication progress artifact payload identity is invalid')
-    const document = readPublicationDocument(file, 'publication-progress', {selection, artifactRevision: value.revision})
+    const document = readPublicationDocument(file, 'publication-progress', {selection, artifactRevision: value.revision, allowLegacyChineseRest: true})
     const expectedMode = selection.inputs.publish ? 'publish' : 'artifact_only'
     if (document.mode !== expectedMode) throw new Error('Publication progress mode identity mismatch')
     progress.push({artifactId: Number(artifact.id), artifactName: artifact.name, artifactDigest: artifact.digest, revision: value.revision})
@@ -325,7 +327,7 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
     await downloadArtifact(client, resultsArtifact, destination, run, runId)
     const file = path.join(destination, 'publication-results.json')
     if (!fs.existsSync(file)) throw new Error('Publication results artifact payload identity is invalid')
-    const document = readPublicationDocument(file, 'publication-results', {selection})
+    const document = readPublicationDocument(file, 'publication-results', {selection, allowLegacyChineseRest: true})
     const expectedMode = selection.inputs.publish ? 'publish' : 'artifact_only'
     if (document.mode !== expectedMode) throw new Error('Publication results mode identity mismatch')
     results = {artifactId: Number(resultsArtifact.id), artifactName: resultsArtifact.name, artifactDigest: resultsArtifact.digest, overallStatus: document.overallStatus, finalTargetSha: document.finalTargetSha}
@@ -362,16 +364,19 @@ function assertRecoveryIdentity(parsed, selected) {
 }
 
 function selectedRecoveryUnits(selection, run) {
-  if (workflowPath(run) !== '.github/workflows/recover-translation.yml') return selection.units
+  const canonicalUnits = selection.units.filter(unit => `${unit.target}/${unit.group}` !== 'zh-CN-reference/rest')
+  if (workflowPath(run) !== '.github/workflows/recover-translation.yml') return canonicalUnits
   const provenance = selection.inputs?.recoveryProvenance
   if (!provenance) throw new Error('Previous operator recovery selection has no authenticated recovery provenance')
   const authorized = new Set(provenance.artifacts.map(artifact => artifact.unit))
   if (authorized.size === 0) throw new Error('Previous operator recovery has no authenticated source recovery scope')
-  const selected = new Set(selection.units.map(unit => `${unit.target}/${unit.group}`))
+  const selected = new Set(canonicalUnits.map(unit => `${unit.target}/${unit.group}`))
   for (const unit of authorized) {
-    if (!selected.has(unit)) throw new Error(`Previous operator recovery provenance contains an unselected unit: ${unit}`)
+    if (!selected.has(unit) && unit !== 'zh-CN-reference/rest') {
+      throw new Error(`Previous operator recovery provenance contains an unselected unit: ${unit}`)
+    }
   }
-  return selection.units.filter(unit => authorized.has(`${unit.target}/${unit.group}`))
+  return canonicalUnits.filter(unit => authorized.has(`${unit.target}/${unit.group}`))
 }
 
 function canonicalPlan(value) {
@@ -400,7 +405,9 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
   const selectionDirectory = path.join(root, 'downloads', 'selection')
   await downloadArtifact(client, selectedAttempt.selectionArtifact, selectionDirectory, run, runId)
   const selectionFile = path.join(selectionDirectory, 'publication-selection.json')
-  const selection = readPublicationDocument(selectionFile, 'publication-selection')
+  // Old selections are authenticated in their original exact form, then the retired
+  // Chinese REST unit is explicitly excluded before any recovery artifact is read.
+  const selection = readPublicationDocument(selectionFile, 'publication-selection', {allowLegacyChineseRest: true})
   if (selection.workflow !== 'translation' || selection.repository !== repository || selection.runId !== runId || selection.runAttempt !== attemptNumber) {
     throw new Error('Previous Translation publication selection artifact identity mismatch')
   }
@@ -419,6 +426,15 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
   let retainedFileCount = 0
   let sourceCandidateCount = 0
   const rejected = []
+  for (const unit of selection.units) {
+    if (`${unit.target}/${unit.group}` === 'zh-CN-reference/rest') {
+      rejected.push({
+        unit: 'zh-CN-reference/rest',
+        batchNumber: 0,
+        reason: 'Chinese REST is generated from OpenAPI metadata and is incompatible with canonical Translation recovery',
+      })
+    }
+  }
 
   for (const selected of selectedRecoveryUnits(selection, run)) {
     const unitIdentity = `${selected.target}/${selected.group}`

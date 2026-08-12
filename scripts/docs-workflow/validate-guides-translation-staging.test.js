@@ -7,7 +7,7 @@ const path = require('node:path')
 const test = require('node:test')
 const { execFileSync, spawnSync } = require('node:child_process')
 
-const { runGuidesTranslationValidation, validateGuidesTranslationCandidate, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS, REQUIRED_ROOTS } = require('./validate-guides-translation-staging')
+const { linkValidationDependencies, runGuidesTranslationValidation, validateGuidesTranslationCandidate, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS, REQUIRED_ROOTS } = require('./validate-guides-translation-staging')
 
 const ROOT = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'
 const TARGET_BASELINE_SOURCE = 'content/zh-CN/byoc/tutorials/client-libraries/install-sdks.md'
@@ -263,6 +263,65 @@ test('rejects untracked generated files, index contamination, and symlinked stag
   git(symlink.repository, 'switch', '--detach', symlink.masterSha)
   git(symlink.repository, 'checkout', symlink.stagedSha, '--', ROOT)
   assert.throws(() => runGuidesTranslationValidation({ ...symlink, executor() {} }), /symlink|special/i)
+})
+
+test('accepts only authenticated validation dependency links', () => {
+  const state = fixture()
+  const installed = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-installed-dependency-')))
+  fs.mkdirSync(path.join(state.repository, 'apps/docs'), {recursive: true})
+  fs.symlinkSync(installed, path.join(state.repository, 'apps/docs/node_modules'))
+  const dependencies = [{relative: 'apps/docs/node_modules', source: installed}]
+  assert.equal(runGuidesTranslationValidation({
+    ...state,
+    installedDependencies: dependencies,
+    executor() { return {status: 0, signal: null, stderr: ''} },
+  }).result, 'success')
+  fs.unlinkSync(path.join(state.repository, 'apps/docs/node_modules'))
+  fs.symlinkSync(state.repository, path.join(state.repository, 'apps/docs/node_modules'))
+  assert.throws(() => runGuidesTranslationValidation({
+    ...state,
+    installedDependencies: dependencies,
+    executor() { return {status: 0, signal: null, stderr: ''} },
+  }), /dependency link changed/i)
+})
+
+test('relocates pnpm workspace dependencies through stable resolved package links', t => {
+  const dependencyRoot = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-pnpm-dependencies-')))
+  const validationWorktree = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-pnpm-validation-')))
+  t.after(() => fs.rmSync(dependencyRoot, {recursive: true, force: true}))
+  t.after(() => fs.rmSync(validationWorktree, {recursive: true, force: true}))
+  const packageRoot = path.join(dependencyRoot, 'packages/docs-ui')
+  const installedScope = path.join(dependencyRoot, 'apps/docs/node_modules/@zilliz')
+  fs.mkdirSync(packageRoot, {recursive: true})
+  fs.writeFileSync(path.join(packageRoot, 'package.json'), '{"name":"@zilliz/docs-ui"}\n')
+  fs.mkdirSync(installedScope, {recursive: true})
+  fs.symlinkSync('../../../../packages/docs-ui', path.join(installedScope, 'docs-ui'))
+
+  const dependencies = linkValidationDependencies(dependencyRoot, validationWorktree)
+  const relocated = path.join(validationWorktree, 'apps/docs/node_modules/@zilliz/docs-ui')
+
+  assert.equal(fs.realpathSync(relocated), fs.realpathSync(packageRoot))
+  assert.ok(dependencies.some(dependency => dependency.relative === 'apps/docs/node_modules/@zilliz/docs-ui' && dependency.source === fs.realpathSync(packageRoot)))
+})
+
+test('rejects a pre-existing validation dependency that does not match the installed package', t => {
+  const dependencyRoot = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-installed-dependencies-')))
+  const validationWorktree = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-existing-dependency-')))
+  t.after(() => fs.rmSync(dependencyRoot, {recursive: true, force: true}))
+  t.after(() => fs.rmSync(validationWorktree, {recursive: true, force: true}))
+  const installed = path.join(dependencyRoot, 'installed')
+  const replaced = path.join(validationWorktree, 'replaced')
+  fs.mkdirSync(installed)
+  fs.mkdirSync(replaced)
+  fs.mkdirSync(path.join(dependencyRoot, 'node_modules'))
+  fs.mkdirSync(path.join(validationWorktree, 'node_modules'))
+  fs.symlinkSync(installed, path.join(dependencyRoot, 'node_modules/test-package'))
+  fs.symlinkSync(replaced, path.join(validationWorktree, 'node_modules/test-package'))
+
+  assert.throws(
+    () => linkValidationDependencies(dependencyRoot, validationWorktree),
+    /dependency destination.*does not match|dependency link.*changed/i,
+  )
 })
 
 test('rejects hybrid authoritative roots and executable-mode drift', t => {

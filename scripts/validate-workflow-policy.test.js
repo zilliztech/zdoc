@@ -13,6 +13,24 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('workflow policy keeps generated Chinese REST out of canonical Translation selection', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-selection-policy-'))
+  const selection = path.join(directory, 'selection.js')
+  try {
+    const source = fs.readFileSync('scripts/translation/selection.js', 'utf8')
+    fs.writeFileSync(selection, source.replace("if (group === 'rest') return ['ja-JP'];", "if (group === 'rest') return ['ja-JP', 'zh-CN'];").replace("if (group === 'rest') return [];", "if (group === 'rest') return ['zh-CN'];"))
+    assert.ok(validateWorkflowPolicies(undefined, {translationSelectionPath: selection}).includes(
+      'translation selection: canonical REST selection must retain only ja-JP/rest',
+    ))
+    fs.writeFileSync(selection, source.replace("if (group === 'rest') return [];", "if (group === 'rest') return ['zh-CN'];"))
+    assert.ok(validateWorkflowPolicies(undefined, {translationSelectionPath: selection}).includes(
+      'translation selection: canonical REST selection must reject zh-CN-reference/rest',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('publish-capable top-level workflows share the durable dev queue', () => {
   const fetch = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
   const recovery = yaml.load(fs.readFileSync('.github/workflows/recover-translation.yml', 'utf8'))

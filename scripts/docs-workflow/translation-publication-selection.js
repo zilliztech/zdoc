@@ -20,7 +20,7 @@ const TRANSLATION_UNIT_KEYS = Object.freeze([
   'translation/ja-JP/node', 'translation/zh-CN-reference/node',
   'translation/ja-JP/go', 'translation/zh-CN-reference/go',
   'translation/ja-JP/cli', 'translation/zh-CN-reference/cli',
-  'translation/ja-JP/rest', 'translation/zh-CN-reference/rest',
+  'translation/ja-JP/rest',
   'translation/zh-CN-reference/reference-landings',
 ])
 

@@ -20,10 +20,12 @@ function targetsFor(group, locale) {
   if (locale === 'ja-JP') return group === 'reference-landings' ? [] : ['ja-JP'];
   if (locale === 'zh-CN') {
     if (group === 'reference-landings') return ['zh-CN'];
+    if (group === 'rest') return [];
     return group === 'guides' ? [] : ['zh-CN'];
   }
   if (locale === 'all') {
     if (group === 'reference-landings') return [];
+    if (group === 'rest') return ['ja-JP'];
     return group === 'guides' ? ['ja-JP'] : ['ja-JP', 'zh-CN'];
   }
   throw new Error(`Unsupported translation locale: ${locale}`);
