@@ -8,6 +8,7 @@ const {spawnSync} = require('node:child_process')
 const test = require('node:test')
 
 const {finalizePublicationSelection, validatePublicationResults} = require('./publication-contracts')
+const {translationPublicationAdapter} = require('./translation-publication-adapter')
 const {reconcileTranslationPublication} = require('./translation-publication-reconciliation')
 
 function git(repository, args) {
@@ -47,7 +48,7 @@ function fixture(t) {
   return {root, remote, repository, runnerTemp, baseline}
 }
 
-function selection(baseline, units) {
+function selection(baseline, units, selectedGroup = units[0].group) {
   return finalizePublicationSelection({
     schemaVersion: 1,
     document: 'publication-selection',
@@ -59,7 +60,7 @@ function selection(baseline, units) {
     targetBranch: 'dev',
     initialTargetSha: baseline,
     sourceBaselineSha: baseline,
-    inputs: {selectedGroup: units[0].group, publish: true, runTranslations: true},
+    inputs: {selectedGroup, publish: true, runTranslations: true},
     units,
   })
 }
@@ -214,6 +215,78 @@ test('reconciles inventory and only successful Chinese Reference sidebars in one
   })
   assert.equal(second.status, 'no_changes')
   assert.equal(second.resultSha, reconciled.resultSha)
+})
+
+test('ordinary Translation unit failure still reconciles only successful Chinese Reference groups and preserves failure', async t => {
+  const setup = fixture(t)
+  const publishedSha = advanceRemote(setup, 'publish translated Python')
+  const selected = selection(setup.baseline, [
+    unit(setup.baseline, 'zh-CN-reference', 'python'),
+    unit(setup.baseline, 'zh-CN-reference', 'java'),
+  ], 'all')
+  const partial = validatePublicationResults({
+    schemaVersion: 1,
+    document: 'publication-results',
+    workflow: 'translation',
+    repository: selected.repository,
+    runId: selected.runId,
+    runAttempt: selected.runAttempt,
+    selectionSha256: selected.selectionSha256,
+    mode: 'publish',
+    targetBranch: selected.targetBranch,
+    initialTargetSha: setup.baseline,
+    finalTargetSha: publishedSha,
+    startedAt: '2026-08-05T08:00:00.000Z',
+    completedAt: '2026-08-05T09:00:00.000Z',
+    overallStatus: 'failure',
+    units: [{
+      unitKey: selected.units[0].unitKey,
+      producerJobId: 1,
+      producerCompletedAt: '2026-08-05T08:00:01.000Z',
+      readyAt: '2026-08-05T08:00:02.000Z',
+      sequence: 1,
+      publishStartedAt: '2026-08-05T08:00:03.000Z',
+      publishCompletedAt: '2026-08-05T08:00:04.000Z',
+      baseSha: setup.baseline,
+      resultSha: publishedSha,
+      commitShas: [publishedSha],
+      attempts: 1,
+      status: 'published',
+      failure: null,
+    }, {
+      unitKey: selected.units[1].unitKey,
+      producerJobId: 2,
+      producerCompletedAt: '2026-08-05T08:00:05.000Z',
+      readyAt: null,
+      sequence: 2,
+      publishStartedAt: null,
+      publishCompletedAt: null,
+      baseSha: null,
+      resultSha: null,
+      commitShas: [],
+      attempts: 0,
+      status: 'producer_failed',
+      failure: {code: 'PRODUCER_FAILED', phase: 'produce', message: 'Java producer failed', retryable: false},
+    }],
+    orchestratorFailure: null,
+  }, {selection: selected})
+  const calls = []
+
+  const projected = await translationPublicationAdapter.projectResults(partial, {
+    selection: selected,
+    repositoryRoot: setup.repository,
+    runnerTemp: setup.runnerTemp,
+    transactionContext: {dependencies: {runCommand: deterministicCommands(calls)}},
+  })
+
+  assert.equal(projected.overallStatus, 'failure')
+  assert.notEqual(projected.finalTargetSha, publishedSha)
+  assert.equal(git(setup.repository, ['merge-base', '--is-ancestor', publishedSha, projected.finalTargetSha]), '')
+  assert.equal(git(setup.repository, ['rev-parse', `${projected.finalTargetSha}^`]), publishedSha)
+  assert.deepEqual(calls.filter(command => command.includes('reference-sidebar')), [
+    'pnpm docs-tooling reference-sidebar --group python --write',
+  ])
+  assert.doesNotMatch(calls.join('\n'), /--group java(?:\s|$)/)
 })
 
 test('Japanese-only reconciliation skips Reference sidebar generation but keeps inventory validation semantics', async t => {

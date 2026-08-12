@@ -129,6 +129,23 @@ async function runPublicationStrategyTransaction(options = {}) {
       }, now, validationReceipts, cleanupDebt)
     }
     if (candidate.status === 'no_changes') {
+      if (typeof strategy.validateNoChanges === 'function') {
+        try {
+          const validation = await strategy.validateNoChanges(Object.freeze({
+            targetSha: baseSha,
+            candidate: cloneAndFreeze(candidate),
+          }))
+          appendObjects(validationReceipts, validation?.validationReceipts, 'validationReceipts')
+          appendObjects(cleanupDebt, validation?.cleanupDebt, 'validation cleanupDebt')
+        } catch (error) {
+          appendObjects(validationReceipts, error?.validationReceipts, 'validationReceipts')
+          appendObjects(cleanupDebt, error?.cleanupDebt, 'validation cleanupDebt')
+          return terminal({
+            status: 'publish_failed', baseSha, attempts: attempt, remoteState: 'known',
+            failure: failure('VALIDATION_FAILED', 'validate', error),
+          }, now, validationReceipts, cleanupDebt)
+        }
+      }
       return terminal({
         status: 'no_changes', baseSha, resultSha: baseSha, commitShas: [], attempts: attempt,
       }, now, validationReceipts, cleanupDebt)
