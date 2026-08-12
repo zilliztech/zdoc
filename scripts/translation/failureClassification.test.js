@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict')
 const test = require('node:test')
 
-const {classifyFailure, failureRecord} = require('./failureClassification')
+const {PARTIAL_SUCCESS_FAILURE_CATEGORIES, classifyFailure, failureRecord} = require('./failureClassification')
 
 test('classifies retained provider timeout and transport fixtures structurally', () => {
   const timeout = new Error('litellm.APITimeoutError: Request timed out after 240.0s')
@@ -38,4 +38,25 @@ test('prefers explicit structured categories and timeout codes over opaque messa
   assert.equal(classifyFailure(Object.assign(new Error('opaque'), {code: 'PROVIDER_TIMEOUT'})), 'provider_timeout')
   assert.equal(classifyFailure(Object.assign(new Error('opaque'), {code: 'PROVIDER_TRANSPORT'})), 'provider_transport')
   assert.equal(classifyFailure(Object.assign(new Error('opaque'), {code: 'SEMANTIC_RESPONSE_COUNT_MISMATCH'})), 'semantic_response_failed')
+  assert.equal(classifyFailure({error: 'opaque', errorDetails: {code: 'SEMANTIC_RESPONSE_COUNT_MISMATCH'}}), 'semantic_response_failed')
+  assert.equal(classifyFailure({error: 'opaque', code: 'SEMANTIC_RESPONSE_OTHER'}), 'unknown')
+})
+
+test('allows only proven file-level categories for partial success and reclassifies the retained semantic count mismatch', () => {
+  assert.deepEqual(PARTIAL_SUCCESS_FAILURE_CATEGORIES, [
+    'provider_timeout',
+    'provider_transport',
+    'review_failed',
+    'locale_contract_failed',
+    'protected_content_failed',
+    'semantic_response_failed',
+    'contract_conflict',
+  ])
+  assert.equal(classifyFailure({
+    failureCategory: 'unknown',
+    error: '  Semantic unit response entry count mismatch\n',
+  }), 'semantic_response_failed')
+  assert.equal(classifyFailure({failureCategory: 'unknown', error: 'prefix: Semantic unit response entry count mismatch'}), 'unknown')
+  assert.equal(classifyFailure({failureCategory: 'unknown', error: 'Semantic unit response entry count mismatch: suffix'}), 'unknown')
+  assert.equal(classifyFailure({failureCategory: 'unknown', error: 'opaque retained failure'}), 'unknown')
 })

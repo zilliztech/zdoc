@@ -181,7 +181,11 @@ test('exact immutable ref mode removes a large tracked root absent from the sour
     assert.equal(lines(git(fixture.work, 'ls-files', '--', 'docs')).length, 0)
     assert.equal(lines(git(fixture.work, 'ls-tree', '-r', '--name-only', sourceSha, '--', 'docs')).length, 0)
   } finally {
-    fs.rmSync(fixture.root, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 })
+    // The large fixture creates thousands of Git index/object entries. On a
+    // busy CI runner teardown can transiently report ENOTEMPTY while those
+    // entries are being released. Keep retries bounded to a short cleanup
+    // window instead of making the production restore path flaky.
+    fs.rmSync(fixture.root, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 })
   }
 })
 

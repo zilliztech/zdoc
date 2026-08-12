@@ -605,8 +605,16 @@ function assertRetirementsMatchManifest(
   sourceSnapshot: ReferenceTreeSnapshot,
   targetSnapshot: ReferenceTreeSnapshot,
 ): void {
+  // A retirement approval can predate a source becoming explicitly excluded
+  // from the target locale. Once the authenticated translation manifest
+  // records that tuple as language-excluded, it is covered by that state and
+  // must not also be required as a `retired` record. Keep the comparison
+  // tuple-based so unrelated registry entries remain fail-closed.
+  const languageExcluded = new Set((translationManifest.languageExcludedRecords ?? [])
+    .map(record => `${record.manual}\0${record.sourcePath}\0${record.targetPath}`));
   const expected = registry.retirements
     .filter(record => sourceSnapshot.has(record.sourcePath) !== targetSnapshot.has(record.targetPath))
+    .filter(record => !languageExcluded.has(`${record.manual}\0${record.sourcePath}\0${record.targetPath}`))
     .map(record => `${record.manual}\0${record.sourcePath}\0${record.targetPath}`);
   const actual = translationManifest.records
     .filter(record => record.status === 'retired')
