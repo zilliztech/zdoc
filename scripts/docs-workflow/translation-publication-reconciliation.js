@@ -109,7 +109,7 @@ function linkDependencies(repositoryRoot, worktree) {
   ]
   const linked = []
   for (const source of roots) {
-    if (!fs.existsSync(source) || !fs.lstatSync(source).isDirectory()) continue
+    if (!fs.existsSync(source) || !fs.statSync(source).isDirectory()) continue
     const destination = path.join(worktree, path.relative(repositoryRoot, source))
     if (fs.existsSync(destination)) continue
     fs.mkdirSync(path.dirname(destination), {recursive: true})

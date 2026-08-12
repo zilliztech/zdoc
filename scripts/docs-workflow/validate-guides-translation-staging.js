@@ -167,7 +167,7 @@ function linkValidationDependencies(dependencyRoot, validationWorktree) {
     }),
   ]
   for (const source of roots) {
-    if (!fs.existsSync(source) || !fs.lstatSync(source).isDirectory()) continue
+    if (!fs.existsSync(source) || !fs.statSync(source).isDirectory()) continue
     const relative = path.relative(dependencyRoot, source)
     const destination = path.join(validationWorktree, relative)
     if (fs.existsSync(destination)) continue

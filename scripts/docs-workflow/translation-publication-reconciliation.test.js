@@ -239,13 +239,18 @@ test('Japanese-only reconciliation skips Reference sidebar generation but keeps 
 
 test('ignores only the exact dependency symlinks installed for the reconciliation worktree', async t => {
   const setup = fixture(t)
+  const installed = path.join(setup.root, 'installed-node-modules')
+  fs.mkdirSync(installed)
   for (const relative of [
     'apps/docs/node_modules',
     'packages/chat-ui/node_modules',
     'packages/docs-tooling/node_modules',
     'packages/docs-ui/node_modules',
     'packages/site-config/node_modules',
-  ]) fs.mkdirSync(path.join(setup.repository, relative), {recursive: true})
+  ]) {
+    fs.mkdirSync(path.dirname(path.join(setup.repository, relative)), {recursive: true})
+    fs.symlinkSync(installed, path.join(setup.repository, relative))
+  }
   const selected = selection(setup.baseline, [unit(setup.baseline)])
   const reconciled = await reconcileTranslationPublication({
     selection: selected,
