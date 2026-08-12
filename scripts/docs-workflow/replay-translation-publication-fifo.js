@@ -428,31 +428,7 @@ function ensureLaneBranches(bareRemote, selection) {
 }
 
 function linkReplayDependencies(repository, dependencyRoot) {
-  const dependencyRoots = ['node_modules']
-  for (const directory of ['apps', 'packages']) {
-    const sourceRoot = path.join(dependencyRoot, directory)
-    if (!fs.existsSync(sourceRoot)) continue
-    for (const entry of fs.readdirSync(sourceRoot, {withFileTypes: true})) {
-      if (entry.isDirectory()) dependencyRoots.push(path.join(directory, entry.name, 'node_modules'))
-    }
-  }
-  for (const relative of dependencyRoots) {
-    const installed = path.join(dependencyRoot, relative)
-    if (!fs.existsSync(installed) || !fs.statSync(installed).isDirectory()) continue
-    const linked = path.join(repository, relative)
-    fs.mkdirSync(linked, {recursive: true})
-    for (const entry of fs.readdirSync(installed)) {
-      const destination = path.join(linked, entry)
-      const source = path.join(installed, entry)
-      if (entry.startsWith('@') && fs.lstatSync(source).isDirectory()) {
-        fs.mkdirSync(destination, {recursive: true})
-        for (const scoped of fs.readdirSync(source)) {
-          const scopedDestination = path.join(destination, scoped)
-          if (!fs.existsSync(scopedDestination)) fs.symlinkSync(path.join(source, scoped), scopedDestination, 'junction')
-        }
-      } else if (!fs.existsSync(destination)) fs.symlinkSync(source, destination, 'junction')
-    }
-  }
+  if (fs.realpathSync(repository) === fs.realpathSync(dependencyRoot)) throw new Error('Replay dependency root must stay outside the lane repository')
 }
 
 function prepareLaneRepository({bareRemote, evidenceRoot, lane, selection}) {
@@ -464,7 +440,6 @@ function prepareLaneRepository({bareRemote, evidenceRoot, lane, selection}) {
     if (git(repository, ['cat-file', '-e', `${sha}^{commit}`], {allowFailure: true}).status === 0) continue
     git(repository, ['fetch', '--no-tags', process.cwd(), sha])
   }
-  linkReplayDependencies(repository, process.cwd())
   return repository
 }
 
@@ -476,8 +451,8 @@ function prepareGuidesPairs(prepared, runnerTemp, unit) {
   return prepareJapaneseGuidesPairs({prepared, runnerTemp, unit})
 }
 
-async function publishGuidesTransaction({selection, unit, prepared, repositoryRoot, runnerTemp}) {
-  return publishJapaneseGuidesTransaction({selection, unit, prepared, repositoryRoot, runnerTemp, maxPublishAttempts: 10})
+async function publishGuidesTransaction({selection, unit, prepared, repositoryRoot, dependencyRoot, runnerTemp}) {
+  return publishJapaneseGuidesTransaction({selection, unit, prepared, repositoryRoot, dependencyRoot, runnerTemp, maxPublishAttempts: 10})
 }
 
 async function defaultRunLane({lane, order, run, evidenceRoot, bareRemote}) {
@@ -517,9 +492,22 @@ async function defaultRunLane({lane, order, run, evidenceRoot, bareRemote}) {
     async uploadResults() { return {artifactName: `publication-results-translation-${selection.runId}-${selection.runAttempt}`, artifactId: 1} },
   }
   const outcome = await runPublicationCoordinator({
-    selection, mode: 'publish', client, repositoryRoot, runnerTemp, outputDirectory,
+    selection, mode: 'publish', client, repositoryRoot, dependencyRoot: process.cwd(), runnerTemp, outputDirectory,
     pollMilliseconds: 1, candidatePolls: 1, maxPublishAttempts: 10, sleep: async () => {}, now,
-    transactionContext: {remote: 'origin'},
+    transactionContext: {remote: 'origin', dependencyRoot: process.cwd()},
+    publishUnit: context => context.unit.strategy === 'ja-guides'
+      ? publishGuidesTransaction({...context, repositoryRoot, dependencyRoot: process.cwd(), runnerTemp})
+      : publishCheckpointTransaction({
+        repositoryRoot,
+        dependencyRoot: process.cwd(),
+        artifactDir: context.prepared.artifactDir,
+        baselineDir: context.prepared.baselineDir || null,
+        descriptor: context.prepared.descriptor,
+        unit: context.unit,
+        remote: 'origin',
+        maxAttempts: 10,
+        runnerTemp,
+      }),
   })
   return {finalTargetSha: outcome.results.finalTargetSha, results: outcome.results.units, publicationResults: outcome.results, repositoryRoot}
 }
@@ -1382,7 +1370,7 @@ async function executeCoordinatorFault({scenario, evidenceRoot, run, sourceRemot
       recorder.record('reconciliation_started')
       const result = await reconcileTranslationPublication({
         ...context,
-        transactionContext: {...context.transactionContext, remote: 'origin', dependencies: reconciliationDependencies},
+        transactionContext: {...context.transactionContext, remote: 'origin', dependencyRoot: process.cwd(), dependencies: reconciliationDependencies},
       })
       recorder.record('reconciliation_completed', {status: result.status})
       return result
@@ -1403,7 +1391,7 @@ async function executeCoordinatorFault({scenario, evidenceRoot, run, sourceRemot
     publishUnit: async ({unit, prepared}) => {
       recorder.record('handler_started', {unitKey: unit.unitKey})
       const transaction = unit.strategy === 'ja-guides'
-        ? await publishGuidesTransaction({selection, unit, prepared, repositoryRoot: repository.repository, runnerTemp})
+        ? await publishGuidesTransaction({selection, unit, prepared, repositoryRoot: repository.repository, dependencyRoot: process.cwd(), runnerTemp})
         : await publishCheckpointTransaction({
           repositoryRoot: repository.repository,
           dependencyRoot: process.cwd(),

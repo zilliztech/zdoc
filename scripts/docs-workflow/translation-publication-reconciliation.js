@@ -229,6 +229,7 @@ function validateInput(input) {
 async function reconcileTranslationPublication(input = {}) {
   const {selection, results} = validateInput(input)
   const repositoryRoot = fs.realpathSync(input.repositoryRoot)
+  const dependencyRoot = fs.realpathSync(input.transactionContext?.dependencyRoot || input.repositoryRoot)
   const runnerTemp = fs.realpathSync(input.runnerTemp)
   const transactionContext = input.transactionContext || {}
   const dependencies = {...(transactionContext.dependencies || {})}
@@ -247,7 +248,7 @@ async function reconcileTranslationPublication(input = {}) {
       const cleanupDebt = []
       try {
         validationWorktree = createWorktree(repositoryRoot, runnerTemp, 'translation-reconciliation-validation.', selection.toolingSha)
-        const linkedDependencies = linkDependencies(repositoryRoot, validationWorktree)
+        const linkedDependencies = linkDependencies(dependencyRoot, validationWorktree)
         await command(runCommand, validationWorktree, 'bash', [
           path.join(validationWorktree, 'scripts/restore-generated-state.sh'), '--exact', '--ref', latestDevSha,
         ], environment)

@@ -71,25 +71,20 @@ function temporary(prefix) {
   return fs.mkdtempSync(path.join('/private/tmp', prefix))
 }
 
-test('replay dependencies preserve workspace node_modules roots for validation worktrees', t => {
+test('replay keeps installed dependencies outside the lane repository', t => {
   const root = temporary('translation-replay-dependencies-')
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
-  const dependencyRoot = path.join(root, 'dependencies')
   const repository = path.join(root, 'repository')
-  fs.mkdirSync(path.join(dependencyRoot, 'node_modules', 'root-package'), {recursive: true})
-  fs.mkdirSync(path.join(dependencyRoot, 'apps', 'docs', 'node_modules', 'jiti'), {recursive: true})
-  fs.mkdirSync(path.join(dependencyRoot, 'packages', 'docs-tooling', 'node_modules', 'js-yaml'), {recursive: true})
-  fs.mkdirSync(repository, {recursive: true})
+  fs.mkdirSync(repository)
+  git(root, 'init', repository)
+  fs.writeFileSync(path.join(repository, 'tracked.txt'), 'tracked\n')
+  git(repository, 'add', 'tracked.txt')
+  git(repository, '-c', 'user.name=Replay', '-c', 'user.email=replay@example.com', 'commit', '-m', 'baseline')
 
-  linkReplayDependencies(repository, dependencyRoot)
+  linkReplayDependencies(repository, root)
 
-  for (const relative of [
-    'node_modules',
-    'apps/docs/node_modules',
-    'packages/docs-tooling/node_modules',
-  ]) assert.equal(fs.lstatSync(path.join(repository, relative)).isDirectory(), true)
-  assert.equal(fs.lstatSync(path.join(repository, 'apps/docs/node_modules/jiti')).isSymbolicLink(), true)
-  assert.equal(fs.realpathSync(path.join(repository, 'apps/docs/node_modules/jiti')), path.join(dependencyRoot, 'apps/docs/node_modules/jiti'))
+  assert.equal(git(repository, 'ls-files', '--others', '--exclude-standard').trim(), '')
+  assert.equal(fs.existsSync(path.join(repository, 'node_modules')), false)
 })
 
 function installFakeGh(t, fixture) {
