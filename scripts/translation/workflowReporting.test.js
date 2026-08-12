@@ -1,7 +1,9 @@
 'use strict'
 
 const assert = require('node:assert/strict')
+const {spawnSync} = require('node:child_process')
 const fs = require('node:fs')
+const yaml = require('js-yaml')
 const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
@@ -14,6 +16,37 @@ function write(root, relative, contents) {
   const target = path.join(root, relative)
   fs.mkdirSync(path.dirname(target), {recursive: true})
   fs.writeFileSync(target, contents)
+}
+
+function runTranslationResultStep(overrides = {}) {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8'))
+  let script = workflow.jobs.translate.steps.find(step => step.name === 'Emit translation result').run
+  const values = {
+    "${{ inputs.should_translate }}": 'true',
+    "${{ steps.manifest.outputs.count || '0' }}": '30',
+    "${{ steps.agents.outputs.translated_count || '0' }}": '23',
+    "${{ steps.agents.outputs.failed_count || '0' }}": '7',
+    "${{ steps.agents.outputs.remaining_count || '0' }}": '0',
+    "${{ steps.agents.outcome }}": 'success',
+    "${{ steps.translation_upload.outcome }}": 'success',
+    "${{ steps.baseline_upload.outcome }}": 'success',
+    "${{ github.run_id }}": '12345',
+    ...overrides,
+  }
+  for (const [expression, value] of Object.entries(values)) script = script.replaceAll(expression, value)
+  assert.doesNotMatch(script, /\$\{\{/)
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-result-step-'))
+  const output = path.join(root, 'github-output')
+  try {
+    const result = spawnSync('bash', ['-c', script], {
+      encoding: 'utf8',
+      env: {...process.env, GITHUB_OUTPUT: output, TRANSLATION_TARGET: 'ja-JP', GROUP: 'guides', ARTIFACT_SUFFIX: ''},
+    })
+    assert.equal(result.status, 0, result.stderr)
+    return Object.fromEntries(fs.readFileSync(output, 'utf8').trim().split('\n').map(line => line.split(/=(.*)/s, 2)))
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true})
+  }
 }
 
 test('reusable translation workflow produces and uploads a group-scoped report', () => {
@@ -33,6 +66,31 @@ test('reusable translation workflow produces and uploads a group-scoped report',
   }
   assert.match(workflow, /ARTIFACT_SUFFIX/)
   assert.match(workflow, /--expected-pending-set-sha256/)
+})
+
+test('translation readiness accepts complete terminal failures but remains conservative for incomplete and bootstrap work', () => {
+  const workflow = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
+  assert.match(workflow, /translated_count \+ failed_count == candidate_count/)
+  assert.match(workflow, /remaining_count[^\n]*== 0/)
+  assert.doesNotMatch(workflow, /\bfailed_count\s*==\s*0[^\n]*status=translation_ready/)
+  assert.match(workflow, /Mark completed translation bootstrap[\s\S]*failed_count \|\| '0'\) == '0'/)
+  assert.match(workflow, /Regenerate selected Chinese Reference sidebar[\s\S]*failed_count \|\| '0'\) == '0'/)
+
+  assert.equal(runTranslationResultStep().status, 'translation_ready')
+  assert.equal(runTranslationResultStep({
+    "${{ steps.manifest.outputs.count || '0' }}": '7',
+    "${{ steps.agents.outputs.translated_count || '0' }}": '0',
+    "${{ steps.agents.outputs.failed_count || '0' }}": '7',
+  }).status, 'translation_ready')
+  assert.equal(runTranslationResultStep({
+    "${{ steps.manifest.outputs.count || '0' }}": '251',
+    "${{ steps.agents.outputs.translated_count || '0' }}": '243',
+    "${{ steps.agents.outputs.failed_count || '0' }}": '0',
+    "${{ steps.agents.outputs.remaining_count || '0' }}": '8',
+  }).status, 'failed')
+  assert.equal(runTranslationResultStep({"${{ steps.agents.outputs.failed_count || '0' }}": '6'}).status, 'failed')
+  assert.equal(runTranslationResultStep({"${{ steps.agents.outcome }}": 'failure'}).status, 'failed')
+  assert.equal(runTranslationResultStep({"${{ steps.translation_upload.outcome }}": 'failure'}).status, 'failed')
 })
 
 test('batch publisher validates and publishes a reconstructable durable checkpoint', () => {

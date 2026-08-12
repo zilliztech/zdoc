@@ -7,6 +7,7 @@ const {readPublicationDocument} = require('./publication-contracts')
 
 const SHA = /^[0-9a-f]{40}$/u
 const REFERENCE_GROUPS = new Set(['python', 'java', 'node', 'go', 'cli', 'rest'])
+const SUCCESSFUL_TERMINAL_STATUSES = new Set(['published', 'no_changes'])
 
 function planFetchReferenceReconciliation({selection, results}) {
   if (!selection || !results || !Array.isArray(selection.units) || !Array.isArray(results.units)) {
@@ -21,7 +22,7 @@ function planFetchReferenceReconciliation({selection, results}) {
   const resultsByUnit = new Map(results.units.map(unit => [unit.unitKey, unit]))
   const changedUnitKeys = selection.units
     .filter(unit => unit.site === 'en' && REFERENCE_GROUPS.has(unit.translationSourceGroup))
-    .filter(unit => resultsByUnit.get(unit.unitKey)?.status === 'published')
+    .filter(unit => SUCCESSFUL_TERMINAL_STATUSES.has(resultsByUnit.get(unit.unitKey)?.status))
     .map(unit => unit.unitKey)
 
   return Object.freeze({
