@@ -354,7 +354,7 @@ function failedPublicationTransaction(error, {
 }
 
 async function publishJapaneseGuidesTransaction({
-  selection, unit, prepared, repositoryRoot, runnerTemp, remote = 'origin', maxPublishAttempts = 10,
+  selection, unit, prepared, repositoryRoot, dependencyRoot = repositoryRoot, runnerTemp, remote = 'origin', maxPublishAttempts = 10,
   strategies = {}, transactionContext = {},
 }) {
   let plan = prepared.guidesPlan
@@ -396,7 +396,7 @@ async function publishJapaneseGuidesTransaction({
         inputs: {
           repositoryRoot,
           sourceRepository: repositoryRoot,
-          dependencyRoot: repositoryRoot,
+          dependencyRoot,
           runnerTemp,
           plan,
           pairs,
@@ -430,6 +430,7 @@ async function publishDefaultUnit(context) {
   if (context.unit.strategy === 'ja-guides') return publishJapaneseGuidesTransaction(context)
   return publishCheckpointTransaction({
     repositoryRoot: context.repositoryRoot,
+    dependencyRoot: context.dependencyRoot || context.repositoryRoot,
     artifactDir: context.prepared.artifactDir,
     baselineDir: context.prepared.baselineDir || null,
     descriptor: context.prepared.descriptor,
@@ -459,6 +460,7 @@ async function runPublicationCoordinator(options = {}) {
   const candidatePolls = positiveInteger(options.candidatePolls ?? 6, 'candidatePolls')
   const maxPublishAttempts = positiveInteger(options.maxPublishAttempts ?? 10, 'maxPublishAttempts')
   const repositoryRoot = path.resolve(options.repositoryRoot || process.cwd())
+  const dependencyRoot = path.resolve(options.dependencyRoot || repositoryRoot)
   const outputDirectory = path.resolve(options.outputDirectory || process.env.RUNNER_TEMP || process.cwd())
   fs.mkdirSync(outputDirectory, {recursive: true})
   const runnerTemp = path.resolve(options.runnerTemp || process.env.RUNNER_TEMP || outputDirectory)
@@ -476,6 +478,7 @@ async function runPublicationCoordinator(options = {}) {
     ...context,
     selection,
     repositoryRoot,
+    dependencyRoot,
     runnerTemp,
     remote: options.remote || 'origin',
     maxPublishAttempts,

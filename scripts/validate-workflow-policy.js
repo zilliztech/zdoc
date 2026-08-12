@@ -330,6 +330,28 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const errors = []
   const files = fs.readdirSync(directory).filter(file => /\.ya?ml$/.test(file)).sort()
   const sourcePublicationWorkflows = new Set(['_fetch-content-group.yml', '_fetch-guides-sources.yml', '_assemble-guides.yml'])
+  const scriptsRoot = options.scriptsRoot || path.join(process.cwd(), 'scripts', 'docs-workflow')
+
+  if (files.includes('fetch-docs.yml')) {
+    const transactionSource = fs.readFileSync(path.join(scriptsRoot, 'fetch-reference-reconciliation.js'), 'utf8')
+    const transactionRequirements = [
+      'return runPublicationStrategyTransaction({',
+      'restore-generated-state.sh',
+      "'--exact', '--ref', candidate.candidateSha",
+      'async validateNoChanges({targetSha}) {',
+      "'--exact', '--ref', targetSha",
+      "'docs-tooling', 'validate-reference', '--site', 'zh-CN'",
+      "['push', remote, `HEAD:refs/heads/${selection.targetBranch}`]",
+      'async probeRemoteCandidate(context) {',
+      'merge-base',
+      'is-ancestor',
+    ]
+    const referenceValidationCount = transactionSource.split("'docs-tooling', 'validate-reference', '--site', 'zh-CN'").length - 1
+    if (transactionRequirements.some(fragment => !transactionSource.includes(fragment)) || referenceValidationCount < 2 ||
+        /\['push',[^\]]*(?:force-with-lease|--force\b)/.test(transactionSource)) {
+      errors.push('fetch-reference-reconciliation.js: Fetch reconciliation must use the common transaction with exact validation, non-force promotion, and remote probing')
+    }
+  }
 
   for (const file of files) {
     const source = fs.readFileSync(path.join(directory, file), 'utf8')
@@ -1448,19 +1470,22 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const referenceStep = (referenceReconcile?.steps || []).find(step => step?.name === 'Reconcile and publish Fetch Reference derived state')
     const referenceRun = String(referenceStep?.run || '')
     const requiredReferenceCommands = [
-      'fetch-reference-reconciliation.js plan',
-      'git merge-base --is-ancestor "$source_sha" "$target_sha"',
-      'bash scripts/restore-generated-state.sh --exact --ref "$target_sha"',
-      'pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$source_sha" --write',
-      'pnpm docs-tooling validate-reference --site zh-CN',
-      'git -C "$publish_worktree" push origin "HEAD:refs/heads/$target_branch"',
+      'fetch-reference-reconciliation.js reconcile',
+      '--selection "$RUNNER_TEMP/publication-selection/publication-selection.json"',
+      '--results "$RUNNER_TEMP/publication-results/publication-results.json"',
+      '--repository-root "$GITHUB_WORKSPACE"',
+      '--runner-temp "$RUNNER_TEMP"',
+      '--remote origin',
     ]
     if (referenceNeeds.join(',') !== 'prepare,publish_ready' ||
         referenceReconcile?.permissions?.actions !== 'read' || referenceReconcile?.permissions?.contents !== 'write' ||
         String(referenceReconcile?.if || '').includes('run_translations') ||
+        !String(referenceReconcile?.if || '').includes('always()') ||
+        !String(referenceReconcile?.if || '').includes("needs.publish_ready.outputs.results_artifact_name != ''") ||
+        /overall_status|needs\.publish_ready\.result\s*==\s*['\"]success['\"]/.test(String(referenceReconcile?.if || '')) ||
         referenceReconcile?.outputs?.final_target_sha !== '${{ steps.reconcile.outputs.final_target_sha }}' ||
         requiredReferenceCommands.some(command => !referenceRun.includes(command)) ||
-        !/generated\/en\/manifests\/reference\.json[\s\S]*generated\/zh-CN\/manifests\/reference-translations\.json/.test(referenceRun)) {
+        /git\s+(?:-C\s+[^\s]+\s+)?push|reference-manifest|restore-generated-state|validate-reference|publicationPaths|mapfile -t paths/.test(referenceRun)) {
       errors.push('fetch-docs.yml: Fetch must independently reconcile Reference derived state after source publication')
     }
     const sourceBarrier = caller?.jobs?.source_publication_barrier
@@ -1942,6 +1967,24 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   ]) if (!pattern.test(recoveryHelper)) errors.push(`recover-guides-translation.js: ${message}`)
   if (/publish-checkpoint|gh run download|\[['"](?:merge|rebase)['"]|git[^\n]*push[^\n]*(?:--force|-f)|eval\(/.test(recoveryHelper)) {
     errors.push('recover-guides-translation.js: recovery must not replay batches, merge, rebase, eval, or force-push')
+  }
+
+  const selectionPath = options.translationSelectionPath || path.join(process.cwd(), 'scripts/translation/selection.js')
+  try {
+    delete require.cache[require.resolve(selectionPath)]
+    const {buildTranslationSelection} = require(selectionPath)
+    const japaneseRest = buildTranslationSelection({locale: 'ja-JP', group: 'rest'})
+    const allRest = buildTranslationSelection({locale: 'all', group: 'rest'})
+    if (JSON.stringify(japaneseRest.map(unit => `${unit.target}/${unit.group}`)) !== JSON.stringify(['ja-JP/rest']) ||
+        JSON.stringify(allRest.map(unit => `${unit.target}/${unit.group}`)) !== JSON.stringify(['ja-JP/rest'])) {
+      errors.push('translation selection: canonical REST selection must retain only ja-JP/rest')
+    }
+    try {
+      buildTranslationSelection({locale: 'zh-CN', group: 'rest'})
+      errors.push('translation selection: canonical REST selection must reject zh-CN-reference/rest')
+    } catch {}
+  } catch {
+    errors.push('translation selection: canonical REST selection policy could not be evaluated')
   }
 
   return errors

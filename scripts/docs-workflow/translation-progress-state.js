@@ -12,7 +12,8 @@ const GROUP_LABELS = Object.freeze({
 
 const SUPPORTED_UNITS = new Set([
   'ja-JP/guides',
-  ...['python', 'java', 'node', 'go', 'cli', 'rest'].flatMap(group => [`ja-JP/${group}`, `zh-CN-reference/${group}`]),
+  ...['python', 'java', 'node', 'go', 'cli'].flatMap(group => [`ja-JP/${group}`, `zh-CN-reference/${group}`]),
+  'ja-JP/rest',
   'zh-CN-reference/reference-landings',
 ])
 
