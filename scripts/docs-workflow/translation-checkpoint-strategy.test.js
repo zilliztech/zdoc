@@ -11,6 +11,8 @@ const test = require('node:test')
 const {translationCheckpointStrategy} = require('./translation-checkpoint-strategy')
 const {validateTranslationCheckpointPair} = require('./validate-checkpoint-artifact')
 
+const PYTHON_TARGET = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/a.md'
+
 function git(cwd, ...args) {
   return execFileSync('git', args, {cwd, encoding: 'utf8'}).trim()
 }
@@ -31,7 +33,13 @@ function setup() {
   git(repository, 'config', 'user.name', 'Test')
   git(repository, 'config', 'user.email', 'test@example.com')
   put(repository, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', 'old\n')
+  put(repository, PYTHON_TARGET, 'old\n')
   put(repository, '.translation-cache/ja-JP.json', `${JSON.stringify({files: {a: {sourceHash: 'old', targetPath: 'a.md', translatedAt: '2026-08-01T00:00:00.000Z'}}}, null, 2)}\n`)
+  put(repository, 'scripts/translation/validate-group.js', [
+    "'use strict'",
+    "require('node:assert/strict').deepEqual(process.argv.slice(2), ['--target', 'ja-JP', '--group', 'python', '--allow-pending'])",
+    '',
+  ].join('\n'))
   put(repository, 'tooling.txt', 'pinned\n')
   git(repository, 'add', '.')
   git(repository, 'commit', '-m', 'baseline')
@@ -74,6 +82,13 @@ function artifactValues(content = 'old\n', cache = null) {
   return {
     '.translation-cache/ja-JP.json': cache || `${JSON.stringify({files: {a: {sourceHash: 'old', targetPath: 'a.md', translatedAt: '2026-08-01T00:00:00.000Z'}}}, null, 2)}\n`,
     'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md': content,
+  }
+}
+
+function pythonArtifactValues(content = 'old\n') {
+  return {
+    '.translation-cache/ja-JP.json': `${JSON.stringify({files: {}}, null, 2)}\n`,
+    [PYTHON_TARGET]: content,
   }
 }
 
@@ -200,6 +215,21 @@ test('validate runs pinned commands against the candidate and returns exact rece
     sourceCheckpointSha: fixture.baselineSha,
     toolingSha: fixture.baselineSha,
   }])
+})
+
+test('validate executes and preserves the pinned Japanese allow-pending command', async t => {
+  const fixture = setup()
+  t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
+  const pinnedCommand = 'node scripts/translation/validate-group.js --target ja-JP --group python --allow-pending'
+  const strategyInputs = await inputs(fixture, pythonArtifactValues('new\n'), pythonArtifactValues(), {
+    group: 'python',
+    validationCommands: [pinnedCommand],
+  }, {group: 'python', snapshotManual: 'pymilvus30'})
+  const candidate = await translationCheckpointStrategy.compose({latestDevSha: fixture.baselineSha, inputs: strategyInputs})
+  const validation = await translationCheckpointStrategy.validate({candidate})
+
+  assert.deepEqual(validation.validationReceipts.map(receipt => receipt.command), [pinnedCommand])
+  assert.deepEqual(validation.validationReceipts.map(receipt => receipt.exitCode), [0])
 })
 
 test('validate uses pinned tooling with the complete generated state from the exact candidate', async t => {

@@ -74,3 +74,49 @@ test('Reference reconciliation is a no-op when only non-Reference source units p
     changedUnitKeys: [],
   })
 })
+
+test('successful selected Reference no_changes still requires reconciliation', () => {
+  const plan = planFetchReferenceReconciliation({
+    selection: {
+      inputs: {publish: true, runTranslations: false, selectedGroup: 'rest'},
+      targetBranch: 'dev',
+      units: [{unitKey: 'source/rest', site: 'en', translationSourceGroup: 'rest'}],
+    },
+    results: {
+      mode: 'publish',
+      overallStatus: 'success',
+      finalTargetSha: 'b'.repeat(40),
+      units: [{unitKey: 'source/rest', status: 'no_changes'}],
+    },
+  })
+
+  assert.deepEqual(plan, {
+    required: true,
+    sourceCommitSha: 'b'.repeat(40),
+    targetBranch: 'dev',
+    changedUnitKeys: ['source/rest'],
+  })
+})
+
+test('failed selected Reference unit does not require reconciliation', () => {
+  const plan = planFetchReferenceReconciliation({
+    selection: {
+      inputs: {publish: true, runTranslations: false, selectedGroup: 'rest'},
+      targetBranch: 'dev',
+      units: [{unitKey: 'source/rest', site: 'en', translationSourceGroup: 'rest'}],
+    },
+    results: {
+      mode: 'publish',
+      overallStatus: 'success',
+      finalTargetSha: 'c'.repeat(40),
+      units: [{unitKey: 'source/rest', status: 'failed'}],
+    },
+  })
+
+  assert.deepEqual(plan, {
+    required: false,
+    sourceCommitSha: 'c'.repeat(40),
+    targetBranch: 'dev',
+    changedUnitKeys: [],
+  })
+})
