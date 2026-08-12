@@ -31,6 +31,12 @@ function transaction(options = {}) {
       if (options.validationError) throw options.validationError
       return {validationReceipts: [{kind: 'test', candidateSha: context.candidate.candidateSha}]}
     },
+    ...(options.validateNoChanges ? {async validateNoChanges(context) {
+      contexts.validateNoChanges = context
+      calls.push(['validate_no_changes', context.targetSha])
+      if (options.noChangesValidationError) throw options.noChangesValidationError
+      return {validationReceipts: [{kind: 'test_no_changes', targetSha: context.targetSha}]}
+    }} : {}),
     async promote(context) {
       contexts.promote = context
       calls.push(['promote', context.candidate.candidateSha, context.expectedDevSha])
@@ -93,6 +99,35 @@ test('candidate already present returns no_changes without validation or promoti
     completedAt: COMPLETED_AT, remoteState: 'known', validationReceipts: [], cleanupDebt: [], failure: null,
   })
   assert.deepEqual(fixture.calls, [['compose', SHA('a'), {unitKey: 'source/java'}]])
+})
+
+test('an opted-in no_changes candidate validates the exact target before terminal success', async () => {
+  const fixture = transaction({noChanges: true, validateNoChanges: true})
+  const result = await fixture.run()
+
+  assert.equal(result.status, 'no_changes')
+  assert.equal(result.resultSha, SHA('a'))
+  assert.deepEqual(result.validationReceipts, [{kind: 'test_no_changes', targetSha: SHA('a')}])
+  assert.deepEqual(fixture.calls, [
+    ['compose', SHA('a'), {unitKey: 'source/java'}],
+    ['validate_no_changes', SHA('a')],
+  ])
+  assert.deepEqual(fixture.contexts.validateNoChanges, {targetSha: SHA('a'), candidate: {status: 'no_changes'}})
+  assert.equal(Object.isFrozen(fixture.contexts.validateNoChanges), true)
+})
+
+test('an opted-in no_changes validation failure returns VALIDATION_FAILED', async () => {
+  const failure = new Error('no changes target invalid')
+  failure.cleanupDebt = [{kind: 'no_changes_validation_cleanup_failed'}]
+  const fixture = transaction({noChanges: true, validateNoChanges: true, noChangesValidationError: failure})
+  const result = await fixture.run()
+
+  assert.equal(result.status, 'publish_failed')
+  assert.equal(result.resultSha, null)
+  assert.equal(result.failure.code, 'VALIDATION_FAILED')
+  assert.equal(result.failure.phase, 'validate')
+  assert.deepEqual(result.cleanupDebt, [{kind: 'no_changes_validation_cleanup_failed'}])
+  assert.deepEqual(fixture.calls.map(([name]) => name), ['compose', 'validate_no_changes'])
 })
 
 test('exact candidate push validates and publishes the composed candidate', async () => {
