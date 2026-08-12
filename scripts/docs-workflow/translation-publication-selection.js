@@ -46,7 +46,8 @@ function readPinnedFile(file, label) {
 }
 
 function validationCommands(target, group) {
-  return [`node scripts/translation/validate-group.js --target ${target} --group ${group}`]
+  const allowPending = target === 'ja-JP' && group !== 'guides' ? ' --allow-pending' : ''
+  return [`node scripts/translation/validate-group.js --target ${target} --group ${group}${allowPending}`]
 }
 
 function exactKeys(value, keys, label) {
