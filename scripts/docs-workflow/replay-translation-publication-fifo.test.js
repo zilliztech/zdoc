@@ -632,14 +632,8 @@ async function completeLegacyGhFixture(t) {
   git(sourceRepository, 'checkout', '--detach', sourceCheckpointSha)
   const targetRepository = path.join(root, 'target-repository')
   git(root, 'clone', process.cwd(), targetRepository)
-  git(targetRepository, 'restore', '--source', sourceCheckpointSha, '--staged', '--worktree', '--',
-    ...getContentGroup('guides').ownedPaths,
-    'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
-    'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials',
-    '.translation-cache/ja-JP.json')
-  git(targetRepository, 'config', 'user.name', 'translation legacy fixture')
-  git(targetRepository, 'config', 'user.email', 'translation-legacy-fixture@example.com')
-  git(targetRepository, 'commit', '-m', 'test: materialize retained Guides source authority')
+  git(targetRepository, 'checkout', '--detach', sourceCheckpointSha)
+  assert.equal(git(targetRepository, 'status', '--porcelain'), '')
   const initialTargetSha = git(targetRepository, 'rev-parse', 'HEAD')
   const previousAlternates = process.env.GIT_ALTERNATE_OBJECT_DIRECTORIES
   const targetObjects = fs.realpathSync(path.join(targetRepository, '.git', 'objects'))
