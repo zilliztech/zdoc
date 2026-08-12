@@ -304,6 +304,26 @@ test('relocates pnpm workspace dependencies through stable resolved package link
   assert.ok(dependencies.some(dependency => dependency.relative === 'apps/docs/node_modules/@zilliz/docs-ui' && dependency.source === fs.realpathSync(packageRoot)))
 })
 
+test('rejects a pre-existing validation dependency that does not match the installed package', t => {
+  const dependencyRoot = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-installed-dependencies-')))
+  const validationWorktree = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-existing-dependency-')))
+  t.after(() => fs.rmSync(dependencyRoot, {recursive: true, force: true}))
+  t.after(() => fs.rmSync(validationWorktree, {recursive: true, force: true}))
+  const installed = path.join(dependencyRoot, 'installed')
+  const replaced = path.join(validationWorktree, 'replaced')
+  fs.mkdirSync(installed)
+  fs.mkdirSync(replaced)
+  fs.mkdirSync(path.join(dependencyRoot, 'node_modules'))
+  fs.mkdirSync(path.join(validationWorktree, 'node_modules'))
+  fs.symlinkSync(installed, path.join(dependencyRoot, 'node_modules/test-package'))
+  fs.symlinkSync(replaced, path.join(validationWorktree, 'node_modules/test-package'))
+
+  assert.throws(
+    () => linkValidationDependencies(dependencyRoot, validationWorktree),
+    /dependency destination.*does not match|dependency link.*changed/i,
+  )
+})
+
 test('rejects hybrid authoritative roots and executable-mode drift', t => {
   for (const relative of ['content/en/guides/extra.md', 'content/en/byoc/extra.md', 'content/en/reference/extra.md', 'i18n/ja-JP/docusaurus-plugin-content-docs/current/extra.md', '.translation-cache/extra.json', 'generated/en/sidebars/extra.js', 'packages/docs-tooling/src/lark/meta/snapshots/extra.json', 'packages/docs-tooling/src/lark/meta/assembly/extra.json']) {
     const state = fixture()

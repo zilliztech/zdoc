@@ -19,6 +19,7 @@ const {inspectArchive, preflightCheckpointArchive} = require('./preflight-checkp
 const {buildTranslationPublicationReady, buildTranslationPublicationSelection} = require('./translation-publication-selection')
 const {reconcileTranslationPublication} = require('./translation-publication-reconciliation')
 const {verifyTranslationPublicationRepository} = require('./translation-publication-results')
+const {linkWorkspaceDependencies} = require('./link-workspace-dependencies')
 
 const SHA = /^[0-9a-f]{40}$/u
 const CHECKSUM = /^[0-9a-f]{64}$/u
@@ -429,6 +430,7 @@ function ensureLaneBranches(bareRemote, selection) {
 
 function linkReplayDependencies(repository, dependencyRoot) {
   if (fs.realpathSync(repository) === fs.realpathSync(dependencyRoot)) throw new Error('Replay dependency root must stay outside the lane repository')
+  return linkWorkspaceDependencies(dependencyRoot, repository)
 }
 
 function prepareLaneRepository({bareRemote, evidenceRoot, lane, selection}) {
@@ -992,22 +994,6 @@ function verifyEvidence({evidenceRoot: input, allowStructural = false}) {
   return Object.freeze(manifest)
 }
 
-function linkInstalledDependencies(installed, linked) {
-  if (!fs.existsSync(installed) || !fs.lstatSync(installed).isDirectory()) return
-  fs.mkdirSync(linked, {recursive: true})
-  for (const entry of fs.readdirSync(installed)) {
-    const source = path.join(installed, entry)
-    const destination = path.join(linked, entry)
-    if (entry.startsWith('@') && fs.lstatSync(source).isDirectory()) {
-      fs.mkdirSync(destination, {recursive: true})
-      for (const scoped of fs.readdirSync(source)) {
-        const scopedDestination = path.join(destination, scoped)
-        if (!fs.existsSync(scopedDestination)) fs.symlinkSync(path.join(source, scoped), scopedDestination, 'junction')
-      }
-    } else if (!fs.existsSync(destination)) fs.symlinkSync(source, destination, 'junction')
-  }
-}
-
 function prepareFaultRepository({evidenceRoot, sourceRemote, toolingSha, label}) {
   const remote = path.join(evidenceRoot, `${label}.git`)
   const repository = path.join(evidenceRoot, `${label}-repository`)
@@ -1024,16 +1010,7 @@ function prepareFaultRepository({evidenceRoot, sourceRemote, toolingSha, label})
   }
   fs.mkdirSync(runnerTemp)
   const initialTargetSha = git(process.cwd(), ['--git-dir', remote, 'rev-parse', 'refs/heads/dev']).stdout.trim()
-  linkInstalledDependencies(path.join(process.cwd(), 'node_modules'), path.join(repository, 'node_modules'))
-  for (const directory of ['apps', 'packages']) {
-    const sourceRoot = path.join(process.cwd(), directory)
-    if (!fs.existsSync(sourceRoot)) continue
-    for (const entry of fs.readdirSync(sourceRoot, {withFileTypes: true})) {
-      const installed = path.join(sourceRoot, entry.name, 'node_modules')
-      if (!entry.isDirectory()) continue
-      linkInstalledDependencies(installed, path.join(repository, 'node_modules'))
-    }
-  }
+  linkReplayDependencies(repository, process.cwd())
   return Object.freeze({remote, repository, racer, runnerTemp, initialTargetSha})
 }
 

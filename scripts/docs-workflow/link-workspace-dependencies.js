@@ -17,9 +17,20 @@ function dependencyRoots(dependencyRoot) {
 }
 
 function linkResolved(source, destination, validationRoot, linked) {
-  if (fs.existsSync(destination)) return
   const resolvedSource = fs.realpathSync(source)
   if (!fs.statSync(resolvedSource).isDirectory()) return
+  if (fs.existsSync(destination)) {
+    const destinationStat = fs.lstatSync(destination)
+    if (!destinationStat.isSymbolicLink() || fs.realpathSync(destination) !== resolvedSource) {
+      throw new Error(`Validation dependency destination does not match the installed package: ${path.relative(validationRoot, destination)}`)
+    }
+    linked.push(Object.freeze({
+      relative: path.relative(validationRoot, destination).split(path.sep).join('/'),
+      source: resolvedSource,
+      destination,
+    }))
+    return
+  }
   fs.mkdirSync(path.dirname(destination), {recursive: true})
   fs.symlinkSync(resolvedSource, destination)
   linked.push(Object.freeze({
