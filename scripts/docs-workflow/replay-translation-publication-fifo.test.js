@@ -1,7 +1,7 @@
 'use strict'
 
 const assert = require('node:assert/strict')
-const {execFileSync} = require('node:child_process')
+const {execFileSync, spawnSync} = require('node:child_process')
 const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
