@@ -13,9 +13,13 @@ const { parseArgs, validateTranslationBatchOutputs } = require('./validate-trans
 const SOURCE_SHA = 'a'.repeat(40)
 const PENDING_HASH = 'c'.repeat(64)
 const TARGET = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md'
+const SECOND_TARGET = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/b.md'
 const SOURCE_CONTENT = '# source\n'
+const SECOND_SOURCE_CONTENT = '# second source\n'
 const SOURCE_HASH = sha256(SOURCE_CONTENT)
+const SECOND_SOURCE_HASH = sha256(SECOND_SOURCE_CONTENT)
 const TARGET_CONTENT = '# translated\n'
+const BASELINE_TARGET_CONTENT = '# baseline translation\n'
 
 function cleanReview() {
   return {
@@ -59,6 +63,27 @@ function candidate() {
     locale: 'ja-JP',
     type: 'guides',
     reason: 'current_delta',
+  }
+}
+
+function secondCandidate() {
+  return {
+    ...candidate(),
+    sourcePath: 'content/en/guides/tutorials/b.md',
+    targetPath: SECOND_TARGET,
+    sourceHash: SECOND_SOURCE_HASH,
+  }
+}
+
+function failedResult(item = candidate(), overrides = {}) {
+  return {
+    ...item,
+    status: 'failed',
+    failureCategory: 'provider_timeout',
+    error: 'translation provider timed out',
+    attempts: 1,
+    retryFailures: [{attempt: 1, category: 'provider_timeout', error: 'translation provider timed out'}],
+    ...overrides,
   }
 }
 
@@ -112,23 +137,36 @@ function writeOutput(root) {
 
 function fixture(options = {}) {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'translation-batch-outputs-')))
+  const baseline = path.join(root, 'baseline')
+  fs.mkdirSync(baseline)
   const selectedManifest = options.manifest || manifest()
   writeJson(root, 'tmp/translation-manifest.json', selectedManifest)
   writeJson(root, 'tmp/translation-batch-input.json', options.batchInput || createBatchInput(selectedManifest))
   if (options.report !== null) writeJson(root, 'tmp/translation-report.json', options.report || report())
   for (const item of selectedManifest.items) {
-    const sourceContent = options.sourceContents?.[item.sourcePath] || SOURCE_CONTENT
+    const sourceContent = options.sourceContents?.[item.sourcePath]
+      || (item.sourcePath === secondCandidate().sourcePath ? SECOND_SOURCE_CONTENT : SOURCE_CONTENT)
     const sourceFile = path.join(root, item.sourcePath)
     fs.mkdirSync(path.dirname(sourceFile), { recursive: true })
     fs.writeFileSync(sourceFile, sourceContent)
   }
-  if (options.output !== false && selectedManifest.items.length > 0) writeOutput(root)
+  if (options.output !== false && selectedManifest.items.length > 0) {
+    if (options.outputs) {
+      for (const [relativePath, contents] of Object.entries(options.outputs)) write(root, relativePath, contents)
+    } else {
+      writeOutput(root)
+    }
+  }
+  for (const [relativePath, contents] of Object.entries(options.baselineOutputs || {})) write(baseline, relativePath, contents)
+  writeJson(root, '.translation-cache/ja-JP.json', {files: options.workspaceCache || {}})
+  writeJson(baseline, '.translation-cache/ja-JP.json', {files: options.baselineCache || {}})
   return root
 }
 
 function validate(root, overrides = {}) {
   return validateTranslationBatchOutputs({
     workspace: root,
+    baseline: path.join(root, 'baseline'),
     manifestPath: 'tmp/translation-manifest.json',
     reportPath: 'tmp/translation-report.json',
     batchInputPath: 'tmp/translation-batch-input.json',
@@ -140,6 +178,12 @@ function validate(root, overrides = {}) {
   })
 }
 
+function write(root, relativePath, contents) {
+  const file = path.join(root, relativePath)
+  fs.mkdirSync(path.dirname(file), { recursive: true })
+  fs.writeFileSync(file, contents)
+}
+
 test('validates one complete numbered candidate batch', () => {
   const root = fixture()
   try {
@@ -147,6 +191,250 @@ test('validates one complete numbered candidate batch', () => {
     assert.deepEqual(result, { candidateCount: 1, reconciliationOnly: false })
   } finally {
     fs.rmSync(root, { recursive: true, force: true })
+  }
+})
+
+test('accepts complete mixed and all-failed terminal batches without synthesizing failed outputs', () => {
+  const existingCache = {
+    sourceHash: 'f'.repeat(64),
+    targetPath: SECOND_TARGET,
+    translatedAt: '2026-07-01T00:00:00.000Z',
+  }
+  const translatedCache = {
+    sourceHash: SOURCE_HASH,
+    targetPath: TARGET,
+    translatedAt: '2026-07-18T00:00:01.000Z',
+  }
+  const mixedManifest = manifest({
+    items: [candidate(), secondCandidate()],
+    batch: {...manifest().batch, pendingCount: 2},
+  })
+  const mixedReport = report({
+    results: [report().results[0], failedResult(secondCandidate())],
+    checkpoint: {...report().checkpoint, processed: 2, translated: 1, failed: 1},
+  })
+  const mixedRoot = fixture({
+    manifest: mixedManifest,
+    report: mixedReport,
+    outputs: {[TARGET]: TARGET_CONTENT, [SECOND_TARGET]: BASELINE_TARGET_CONTENT},
+    baselineOutputs: {[SECOND_TARGET]: BASELINE_TARGET_CONTENT},
+    baselineCache: {[secondCandidate().sourcePath]: existingCache},
+    workspaceCache: {[candidate().sourcePath]: translatedCache, [secondCandidate().sourcePath]: existingCache},
+  })
+  try {
+    assert.deepEqual(validate(mixedRoot, {translatedCount: 1, failedCount: 1}), {
+      candidateCount: 2,
+      reconciliationOnly: false,
+    })
+  } finally {
+    fs.rmSync(mixedRoot, {recursive: true, force: true})
+  }
+
+  const failedOnlyReport = report({
+    results: [failedResult()],
+    checkpoint: {...report().checkpoint, translated: 0, failed: 1},
+  })
+  const failedOnlyRoot = fixture({report: failedOnlyReport, output: false})
+  try {
+    assert.deepEqual(validate(failedOnlyRoot, {translatedCount: 0, failedCount: 1}), {
+      candidateCount: 1,
+      reconciliationOnly: false,
+    })
+    assert.equal(fs.existsSync(path.join(failedOnlyRoot, TARGET)), false)
+    assert.deepEqual(JSON.parse(fs.readFileSync(path.join(failedOnlyRoot, '.translation-cache/ja-JP.json'), 'utf8')), {files: {}})
+  } finally {
+    fs.rmSync(failedOnlyRoot, {recursive: true, force: true})
+  }
+})
+
+test('accepts failed review evidence with a null top-level error and bounded structured retry evidence', () => {
+  const failed = failedResult(candidate(), {
+    failureCategory: 'locale_contract_failed',
+    error: null,
+    review: {
+      ...cleanReview(),
+      pass: false,
+      reviewerPass: false,
+      localeContractIssues: [{type: 'mandatory_term', message: 'Required locale term was not used'}],
+    },
+    retryFailures: [{attempt: 1, category: 'locale_contract_failed', error: 'Required locale term was not used'}],
+  })
+  const root = fixture({
+    report: report({results: [failed], checkpoint: {...report().checkpoint, translated: 0, failed: 1}}),
+    output: false,
+  })
+  try {
+    assert.deepEqual(validate(root, {translatedCount: 0, failedCount: 1}), {
+      candidateCount: 1,
+      reconciliationOnly: false,
+    })
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true})
+  }
+})
+
+test('accepts the deterministic retained semantic mismatch but rejects arbitrary unknown failures', () => {
+  const retained = failedResult(candidate(), {
+    failureCategory: 'unknown',
+    error: 'Semantic unit response entry count mismatch',
+    retryFailures: [{attempt: 1, category: 'unknown', error: 'Semantic unit response entry count mismatch'}],
+  })
+  const retainedRoot = fixture({
+    report: report({results: [retained], checkpoint: {...report().checkpoint, translated: 0, failed: 1}}),
+    output: false,
+  })
+  try {
+    assert.deepEqual(validate(retainedRoot, {translatedCount: 0, failedCount: 1}), {
+      candidateCount: 1,
+      reconciliationOnly: false,
+    })
+  } finally {
+    fs.rmSync(retainedRoot, {recursive: true, force: true})
+  }
+
+  const structured = failedResult(candidate(), {
+    failureCategory: 'unknown',
+    error: 'opaque semantic response failure',
+    code: 'SEMANTIC_RESPONSE_COUNT_MISMATCH',
+    retryFailures: [{attempt: 1, category: 'unknown', error: 'opaque semantic response failure', code: 'SEMANTIC_RESPONSE_COUNT_MISMATCH'}],
+  })
+  const structuredRoot = fixture({
+    report: report({results: [structured], checkpoint: {...report().checkpoint, translated: 0, failed: 1}}),
+    output: false,
+  })
+  try {
+    assert.deepEqual(validate(structuredRoot, {translatedCount: 0, failedCount: 1}), {
+      candidateCount: 1,
+      reconciliationOnly: false,
+    })
+  } finally {
+    fs.rmSync(structuredRoot, {recursive: true, force: true})
+  }
+
+  for (const error of [
+    'prefix: Semantic unit response entry count mismatch',
+    'Semantic unit response entry count mismatch: suffix',
+  ]) {
+    const decoratedRoot = fixture({
+      report: report({
+        results: [failedResult(candidate(), {
+          failureCategory: 'unknown',
+          error,
+          retryFailures: [{attempt: 1, category: 'unknown', error}],
+        })],
+        checkpoint: {...report().checkpoint, translated: 0, failed: 1},
+      }),
+      output: false,
+    })
+    try {
+      assert.throws(() => validate(decoratedRoot, {translatedCount: 0, failedCount: 1}), /partial success|failure category/i)
+    } finally {
+      fs.rmSync(decoratedRoot, {recursive: true, force: true})
+    }
+  }
+
+  const unknownRoot = fixture({
+    report: report({
+      results: [failedResult(candidate(), {
+        failureCategory: 'unknown',
+        error: 'opaque retained failure',
+        retryFailures: [{attempt: 1, category: 'unknown', error: 'opaque retained failure'}],
+      })],
+      checkpoint: {...report().checkpoint, translated: 0, failed: 1},
+    }),
+    output: false,
+  })
+  try {
+    assert.throws(() => validate(unknownRoot, {translatedCount: 0, failedCount: 1}), /partial success|failure category/i)
+  } finally {
+    fs.rmSync(unknownRoot, {recursive: true, force: true})
+  }
+
+  const inferredTimeoutRoot = fixture({
+    report: report({
+      results: [failedResult(candidate(), {
+        failureCategory: 'unknown',
+        error: 'request timed out',
+        retryFailures: [{attempt: 1, category: 'unknown', error: 'request timed out'}],
+      })],
+      checkpoint: {...report().checkpoint, translated: 0, failed: 1},
+    }),
+    output: false,
+  })
+  try {
+    assert.throws(() => validate(inferredTimeoutRoot, {translatedCount: 0, failedCount: 1}), /partial success|failure category/i)
+  } finally {
+    fs.rmSync(inferredTimeoutRoot, {recursive: true, force: true})
+  }
+})
+
+test('rejects incomplete counts and malformed terminal result coverage', () => {
+  const cases = [
+    ['remaining work', {remainingCount: 1}, report(), /remaining|complete batch/i],
+    ['count mismatch', {translatedCount: 0, failedCount: 0}, report(), /counts do not cover the complete batch/i],
+    ['unknown status', {translatedCount: 0, failedCount: 1}, report({
+      results: [{...failedResult(), status: 'deferred'}],
+      checkpoint: {...report().checkpoint, translated: 0, failed: 1},
+    }), /unknown.*status|terminal status/i],
+    ['missing failure category', {translatedCount: 0, failedCount: 1}, report({
+      results: [failedResult(candidate(), {failureCategory: undefined})],
+      checkpoint: {...report().checkpoint, translated: 0, failed: 1},
+    }), /failure category/i],
+    ['unbounded failure error', {translatedCount: 0, failedCount: 1}, report({
+      results: [failedResult(candidate(), {error: 'x'.repeat(2001)})],
+      checkpoint: {...report().checkpoint, translated: 0, failed: 1},
+    }), /bounded.*error|error evidence/i],
+    ['absent failure evidence', {translatedCount: 0, failedCount: 1}, report({
+      results: [failedResult(candidate(), {error: null, retryFailures: [], review: undefined, validationErrors: []})],
+      checkpoint: {...report().checkpoint, translated: 0, failed: 1},
+    }), /failure evidence/i],
+  ]
+
+  for (const [name, counts, selectedReport, expected] of cases) {
+    const root = fixture({report: selectedReport, output: counts.failedCount ? false : undefined})
+    try {
+      assert.throws(() => validate(root, counts), expected, name)
+    } finally {
+      fs.rmSync(root, {recursive: true, force: true})
+    }
+  }
+})
+
+test('rejects output or cache mutation attributed to a failed candidate', () => {
+  const oldCache = {
+    sourceHash: 'f'.repeat(64),
+    targetPath: TARGET,
+    translatedAt: '2026-07-01T00:00:00.000Z',
+  }
+  const failedReport = report({
+    results: [failedResult()],
+    checkpoint: {...report().checkpoint, translated: 0, failed: 1},
+  })
+  const cases = [
+    ['existing target bytes', {
+      outputs: {[TARGET]: '# unauthorized failed output\n'},
+      baselineOutputs: {[TARGET]: BASELINE_TARGET_CONTENT},
+      baselineCache: {[candidate().sourcePath]: oldCache},
+      workspaceCache: {[candidate().sourcePath]: oldCache},
+    }, /failed candidate target.*baseline|unauthorized.*failed.*output/i],
+    ['new target creation', {
+      outputs: {[TARGET]: '# fake translation\n'},
+    }, /failed candidate target.*absent|unauthorized.*failed.*output/i],
+    ['cache provenance', {
+      outputs: {[TARGET]: BASELINE_TARGET_CONTENT},
+      baselineOutputs: {[TARGET]: BASELINE_TARGET_CONTENT},
+      baselineCache: {[candidate().sourcePath]: oldCache},
+      workspaceCache: {[candidate().sourcePath]: {...oldCache, sourceHash: SOURCE_HASH}},
+    }, /failed candidate.*cache.*baseline|unauthorized.*failed.*cache/i],
+  ]
+
+  for (const [name, options, expected] of cases) {
+    const root = fixture({report: failedReport, ...options})
+    try {
+      assert.throws(() => validate(root, {translatedCount: 0, failedCount: 1}), expected, name)
+    } finally {
+      fs.rmSync(root, {recursive: true, force: true})
+    }
   }
 })
 
@@ -172,7 +460,7 @@ test('rejects report identity, reviewer, validation, count, and cardinality defe
     ['extra result', value => { value.results.push({ ...value.results[0], sourcePath: 'docs/tutorials/extra.md' }) }, /result count/],
     ['duplicate result', value => { value.results.push({ ...value.results[0] }) }, /result count|identities must be unique/],
     ['missing result', value => { value.results = [] }, /result count/],
-    ['checkpoint mismatch', value => { value.checkpoint.failed = 1 }, /checkpoint does not attest complete success/],
+    ['checkpoint mismatch', value => { value.checkpoint.failed = 1 }, /checkpoint does not attest complete terminal coverage/],
   ]
 
   for (const [name, mutate, expected] of cases) {
@@ -508,6 +796,7 @@ test('CLI parsing is strict and converts result counts', () => {
     '--report', 'tmp/translation-report.json',
     '--batch-input', 'tmp/translation-batch-input.json',
     '--workspace', '/tmp/workspace',
+    '--baseline', '/tmp/baseline',
     '--agents-outcome', 'success',
     '--translated-count', '2',
     '--failed-count', '0',
@@ -518,6 +807,7 @@ test('CLI parsing is strict and converts result counts', () => {
     reportPath: 'tmp/translation-report.json',
     batchInputPath: 'tmp/translation-batch-input.json',
     workspace: '/tmp/workspace',
+    baseline: '/tmp/baseline',
     agentsOutcome: 'success',
     translatedCount: 2,
     failedCount: 0,
@@ -534,6 +824,7 @@ test('CLI parsing is strict and converts result counts', () => {
       '--report', 'tmp/translation-report.json',
       '--batch-input', 'tmp/translation-batch-input.json',
       '--workspace', root,
+      '--baseline', path.join(root, 'baseline'),
       '--agents-outcome', 'success',
       '--translated-count', '1',
       '--failed-count', '0',
@@ -550,6 +841,7 @@ test('module API rejects non-object, missing, unknown, and mistyped options', ()
   const root = fixture()
   const valid = {
     workspace: root,
+    baseline: path.join(root, 'baseline'),
     manifestPath: 'tmp/translation-manifest.json',
     reportPath: 'tmp/translation-report.json',
     batchInputPath: 'tmp/translation-batch-input.json',
