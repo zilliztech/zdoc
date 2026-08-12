@@ -246,7 +246,10 @@ test('links validation dependencies from an explicit installed dependency root',
   t.after(() => fs.rmSync(fixture.root, {recursive: true, force: true}))
   const facts = checkpoint(fixture, workspace => put(workspace, 'content/en/guides/tutorials/a.md', 'new\n'))
   const dependencyRoot = path.join(fixture.root, 'installed-dependencies')
-  put(dependencyRoot, 'node_modules/replay-only-package/index.js', 'module.exports = 42\n')
+  const installed = path.join(fixture.root, 'installed-package')
+  put(installed, 'index.js', 'module.exports = 42\n')
+  fs.mkdirSync(path.join(dependencyRoot, 'node_modules'), {recursive: true})
+  fs.symlinkSync(installed, path.join(dependencyRoot, 'node_modules/replay-only-package'))
 
   const result = await publish(fixture, facts, {
     dependencyRoot,

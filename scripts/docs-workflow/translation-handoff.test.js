@@ -171,12 +171,28 @@ test('binds every all-group unit to its own dev baseline and checkpoint', () => 
   const value = buildTranslationHandoff({
     locale: 'all', group: 'all', toolingSha: SHA_A, targetBranch: 'release/docs', targetBaselineSha: SHA_D, sourcePublications,
   });
-  assert.equal(value.units.length, 13);
+  assert.equal(value.units.length, 12);
   for (const unit of value.units) {
     assert.equal(unit.sourceBaselineSha, sourcePublications[unit.sourceGroup].sourceBaselineSha);
     assert.equal(unit.sourceCheckpointSha, sourcePublications[unit.sourceGroup].sourceCheckpointSha);
     assert.equal(unit.targetBaselineSha, SHA_D);
   }
+});
+
+test('canonical all-group handoff excludes Chinese REST while retaining Japanese REST', () => {
+  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'];
+  const sourcePublications = Object.fromEntries(groups.map((group, index) => [
+    group,
+    publication(String(index + 1).repeat(40), String(index + 2).repeat(40)),
+  ]));
+  const value = buildTranslationHandoff({
+    locale: 'all', group: 'all', toolingSha: SHA_A, targetBranch: 'dev', targetBaselineSha: SHA_D, sourcePublications,
+  });
+  assert.deepEqual(value.units.map(unit => `${unit.target}/${unit.group}`).filter(identity => identity.includes('/rest')), ['ja-JP/rest']);
+  assert.throws(() => buildTranslationHandoff({
+    locale: 'zh-CN', group: 'rest', toolingSha: SHA_A, targetBranch: 'dev', targetBaselineSha: SHA_D,
+    sourcePublications: {rest: publication()},
+  }), /unsupported translation selection/i);
 });
 
 test('rejects incomplete, malformed, unexpected, and noncanonical publication identities', () => {

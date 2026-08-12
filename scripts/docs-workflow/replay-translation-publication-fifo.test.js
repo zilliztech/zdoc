@@ -1,7 +1,7 @@
 'use strict'
 
 const assert = require('node:assert/strict')
-const {execFileSync} = require('node:child_process')
+const {execFileSync, spawnSync} = require('node:child_process')
 const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
@@ -18,6 +18,7 @@ const {
   deriveFifoUnitKeys,
   faultInjectRun,
   inspectRun,
+  linkReplayDependencies,
   parseArgs,
   prepareGuidesPairs,
   replayRun,
@@ -26,6 +27,8 @@ const {
 } = require('./replay-translation-publication-fifo')
 
 const SHA = character => character.repeat(40)
+const RETAINED_GUIDES_SOURCE_CHECKPOINT_SHA = 'f3582b0024998d2e26240cd6662d50fa6c4d3741'
+const RECONCILED_TARGET_BASELINE_SHA = '9fd45e907a347095b8aecf232b3fe6d6de18eafb'
 
 function faultEvidence(scenario) {
   const sdk = 'translation/ja-JP/python'
@@ -69,6 +72,47 @@ function faultEvidence(scenario) {
 function temporary(prefix) {
   return fs.mkdtempSync(path.join('/private/tmp', prefix))
 }
+
+function requireRetainedCommit(sha, label) {
+  const available = spawnSync('git', ['cat-file', '-e', `${sha}^{commit}`], {cwd: process.cwd(), encoding: 'utf8'})
+  if (available.status !== 0) {
+    throw new Error(`Retained ${label} commit ${sha} is unavailable; fetch the complete origin/dev history before running the real-artifact replay suite`)
+  }
+  return git(process.cwd(), 'rev-parse', `${sha}^{commit}`)
+}
+
+test('replay keeps installed dependencies outside the lane repository', t => {
+  const root = temporary('translation-replay-dependencies-')
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  const repository = path.join(root, 'repository')
+  fs.mkdirSync(repository)
+  git(root, 'init', repository)
+  fs.writeFileSync(path.join(repository, 'tracked.txt'), 'tracked\n')
+  git(repository, 'add', 'tracked.txt')
+  git(repository, '-c', 'user.name=Replay', '-c', 'user.email=replay@example.com', 'commit', '-m', 'baseline')
+
+  linkReplayDependencies(repository, root)
+
+  assert.equal(git(repository, 'ls-files', '--others', '--exclude-standard').trim(), '')
+  assert.equal(fs.existsSync(path.join(repository, 'node_modules')), false)
+})
+
+test('replay links resolved workspace dependencies without relocating relative pnpm links', t => {
+  const root = temporary('translation-replay-pnpm-dependencies-')
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  const repository = path.join(root, 'repository')
+  const dependencies = path.join(root, 'dependencies')
+  const packageRoot = path.join(dependencies, 'packages/docs-ui')
+  const installedScope = path.join(dependencies, 'apps/docs/node_modules/@zilliz')
+  fs.mkdirSync(repository)
+  fs.mkdirSync(packageRoot, {recursive: true})
+  fs.mkdirSync(installedScope, {recursive: true})
+  fs.symlinkSync('../../../../packages/docs-ui', path.join(installedScope, 'docs-ui'))
+
+  linkReplayDependencies(repository, dependencies)
+
+  assert.equal(fs.realpathSync(path.join(repository, 'apps/docs/node_modules/@zilliz/docs-ui')), fs.realpathSync(packageRoot))
+})
 
 function installFakeGh(t, fixture) {
   const root = temporary('translation-fake-gh-')
@@ -195,7 +239,7 @@ function handoff() {
     'translation/ja-JP/node', 'translation/zh-CN-reference/node',
     'translation/ja-JP/go', 'translation/zh-CN-reference/go',
     'translation/ja-JP/cli', 'translation/zh-CN-reference/cli',
-    'translation/ja-JP/rest', 'translation/zh-CN-reference/rest',
+    'translation/ja-JP/rest',
   ]
   return {
     schemaVersion: 2,
@@ -608,21 +652,20 @@ async function completeLegacyGhFixture(t) {
   const runAttempt = 1
   const toolingSha = git(process.cwd(), 'rev-parse', 'HEAD')
   const parentToolingSha = toolingSha
-  const sourceCheckpointSha = git(process.cwd(), 'rev-list', '--all', '--max-count=1', '--', 'packages/docs-tooling/src/lark/meta/assembly/guides.json')
-  assert.match(sourceCheckpointSha, /^[0-9a-f]{40}$/)
+  const sourceCheckpointSha = RETAINED_GUIDES_SOURCE_CHECKPOINT_SHA
+  const targetBaselineSha = RECONCILED_TARGET_BASELINE_SHA
+  assert.equal(requireRetainedCommit(sourceCheckpointSha, 'source checkpoint'), sourceCheckpointSha)
+  assert.equal(requireRetainedCommit(targetBaselineSha, 'reconciled target baseline'), targetBaselineSha)
+  assert.equal(git(process.cwd(), 'merge-base', '--is-ancestor', sourceCheckpointSha, targetBaselineSha), '')
+  const reconciledManifest = JSON.parse(git(process.cwd(), 'show', `${targetBaselineSha}:generated/en/manifests/reference.json`))
+  assert.equal(reconciledManifest.sourceCommit, sourceCheckpointSha)
   const sourceRepository = path.join(root, 'source-repository')
   git(root, 'clone', process.cwd(), sourceRepository)
   git(sourceRepository, 'checkout', '--detach', sourceCheckpointSha)
   const targetRepository = path.join(root, 'target-repository')
   git(root, 'clone', process.cwd(), targetRepository)
-  git(targetRepository, 'restore', '--source', sourceCheckpointSha, '--staged', '--worktree', '--',
-    ...getContentGroup('guides').ownedPaths,
-    'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
-    'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials',
-    '.translation-cache/ja-JP.json')
-  git(targetRepository, 'config', 'user.name', 'translation legacy fixture')
-  git(targetRepository, 'config', 'user.email', 'translation-legacy-fixture@example.com')
-  git(targetRepository, 'commit', '-m', 'test: materialize retained Guides source authority')
+  git(targetRepository, 'checkout', '--detach', targetBaselineSha)
+  assert.equal(git(targetRepository, 'status', '--porcelain'), '')
   const initialTargetSha = git(targetRepository, 'rev-parse', 'HEAD')
   const previousAlternates = process.env.GIT_ALTERNATE_OBJECT_DIRECTORIES
   const targetObjects = fs.realpathSync(path.join(targetRepository, '.git', 'objects'))
@@ -742,7 +785,7 @@ async function completeLegacyGhFixture(t) {
     },
     [`repos/${repository}/actions/runs/${parentRunId}/artifacts?per_page=100`]: [{artifacts: parentArtifacts}],
   }
-  return {root, repository, runId, parentRunId, runAttempt, toolingSha, initialTargetSha, targetRepository, downloadRoot, api}
+  return {root, repository, runId, parentRunId, runAttempt, toolingSha, sourceCheckpointSha, targetBaselineSha, initialTargetSha, targetRepository, downloadRoot, api}
 }
 
 test('strict CLI accepts only safe absolute /private/tmp paths and the approved command shapes', () => {
@@ -811,8 +854,11 @@ test('legacy inspect derives authenticated current selection and ready contracts
   assert.equal(result.legacyDerived, true)
   assert.equal(result.toolingSha, fixture.toolingSha)
   assert.equal(result.initialTargetSha, fixture.initialTargetSha)
+  assert.equal(fixture.sourceCheckpointSha, RETAINED_GUIDES_SOURCE_CHECKPOINT_SHA)
+  assert.equal(fixture.targetBaselineSha, RECONCILED_TARGET_BASELINE_SHA)
+  assert.notEqual(fixture.sourceCheckpointSha, fixture.initialTargetSha)
   const selection = JSON.parse(fs.readFileSync(path.join(outputRoot, 'publication-selection.json'), 'utf8'))
-  assert.equal(selection.units.length, 13)
+  assert.equal(selection.units.length, 12)
   const metadata = JSON.parse(fs.readFileSync(path.join(outputRoot, 'run-metadata.json'), 'utf8'))
   assert.equal(metadata.legacyDerived, true)
   assert.equal(metadata.parentRunId, fixture.parentRunId)

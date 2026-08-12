@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "provenance": {
+    "runId": 31587351048,
+    "runAttempt": 1,
+    "selectionArtifactId": 9137678806,
+    "selectionArtifactName": "publication-selection-fetch-31587351048-1",
+    "selectionSha256": "b74050452dc8ec1f7b129c621f7f8b05b402e779ab92a1f806ce0beb725175c7",
+    "resultsArtifactId": 9138354567,
+    "resultsArtifactName": "publication-results-fetch-31587351048-1",
+    "toolingSha": "2aa32b82655d1f1831678e1a1bd24a10ab0ca8a7",
+    "initialTargetSha": "e11b5b8e47f09cfe2477787a620a3f9670598cf8",
+    "finalTargetSha": "9cc85fcf38c1b84bec15cdcca4d5be0ee3edd768"
+  },
+  "selection": {
+    "inputs": {
+      "publish": true,
+      "runTranslations": false,
+      "selectedGroup": "all"
+    },
+    "targetBranch": "dev",
+    "units": [
+      {"unitKey": "source/java", "site": "en", "translationSourceGroup": "java"},
+      {"unitKey": "source/node", "site": "en", "translationSourceGroup": "node"},
+      {"unitKey": "source/go", "site": "en", "translationSourceGroup": "go"},
+      {"unitKey": "source/cli", "site": "en", "translationSourceGroup": "cli"},
+      {"unitKey": "source/rest", "site": "en", "translationSourceGroup": "rest"},
+      {"unitKey": "source/python", "site": "en", "translationSourceGroup": "python"},
+      {"unitKey": "source/guides-en", "site": "en", "translationSourceGroup": "guides"},
+      {"unitKey": "source/guides-zh-CN", "site": "zh-CN", "translationSourceGroup": null}
+    ]
+  },
+  "results": {
+    "mode": "publish",
+    "overallStatus": "failure",
+    "finalTargetSha": "9cc85fcf38c1b84bec15cdcca4d5be0ee3edd768",
+    "orchestratorFailure": null,
+    "units": [
+      {"unitKey": "source/java", "status": "published"},
+      {"unitKey": "source/node", "status": "published"},
+      {"unitKey": "source/go", "status": "published"},
+      {"unitKey": "source/cli", "status": "published"},
+      {"unitKey": "source/rest", "status": "no_changes"},
+      {"unitKey": "source/python", "status": "published"},
+      {"unitKey": "source/guides-en", "status": "producer_failed"},
+      {"unitKey": "source/guides-zh-CN", "status": "producer_failed"}
+    ]
+  }
+}

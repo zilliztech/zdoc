@@ -57,14 +57,14 @@ test('parses live truncated SDK matrix names and counts completed SDK translatio
 
   const units = [
     ...sdkGroups.filter(group => group !== 'reference-landings').map(group => ({target: 'ja-JP', group})),
-    ...sdkGroups.map(group => ({target: 'zh-CN-reference', group})),
+    ...sdkGroups.filter(group => group !== 'rest').map(group => ({target: 'zh-CN-reference', group})),
   ]
   const state = deriveTranslationProgressState({selectedUnits: units, publishEnabled: false, jobs: [{name: 'prepare', status: 'completed', conclusion: 'success'}, ...jobs]})
   assert.deepEqual(state.targets.map(target => target.translate), [
     {done: 6, total: 6, status: 'completed', detail: null},
-    {done: 7, total: 7, status: 'completed', detail: null},
+    {done: 6, total: 6, status: 'completed', detail: null},
   ])
-  assert.deepEqual(state.phases.find(phase => phase.key === 'translate'), {key: 'translate', label: 'Translate', done: 13, total: 13, status: 'completed', detail: null})
+  assert.deepEqual(state.phases.find(phase => phase.key === 'translate'), {key: 'translate', label: 'Translate', done: 12, total: 12, status: 'completed', detail: null})
 })
 
 test('derives the approved Translation card categories from selected handoff units', () => {
