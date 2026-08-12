@@ -4,6 +4,7 @@
 const {spawnSync} = require('node:child_process')
 const fs = require('node:fs')
 const path = require('node:path')
+const {linkWorkspaceDependencies} = require('./link-workspace-dependencies')
 
 const {applyCheckpointArtifact} = require('./apply-checkpoint-artifact')
 const {
@@ -131,24 +132,7 @@ function removeTemporaryWorktree(repositoryRoot, worktree) {
 }
 
 function linkDependencies(repositoryRoot, validationWorktree) {
-  const roots = [
-    path.join(repositoryRoot, 'node_modules'),
-    ...['apps', 'packages'].flatMap(directory => {
-      const root = path.join(repositoryRoot, directory)
-      if (!fs.existsSync(root)) return []
-      return fs.readdirSync(root, {withFileTypes: true})
-        .filter(entry => entry.isDirectory())
-        .map(entry => path.join(root, entry.name, 'node_modules'))
-    }),
-  ]
-  for (const source of roots) {
-    if (!fs.existsSync(source) || !fs.statSync(source).isDirectory()) continue
-    const relative = path.relative(repositoryRoot, source)
-    const destination = path.join(validationWorktree, relative)
-    if (fs.existsSync(destination)) continue
-    fs.mkdirSync(path.dirname(destination), {recursive: true})
-    fs.symlinkSync(source, destination)
-  }
+  linkWorkspaceDependencies(repositoryRoot, validationWorktree)
 }
 
 function defaultPushCandidate({worktree, remote, branch}) {

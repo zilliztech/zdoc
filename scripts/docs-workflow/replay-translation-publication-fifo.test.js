@@ -27,6 +27,8 @@ const {
 } = require('./replay-translation-publication-fifo')
 
 const SHA = character => character.repeat(40)
+const RETAINED_GUIDES_SOURCE_CHECKPOINT_SHA = 'f3582b0024998d2e26240cd6662d50fa6c4d3741'
+const RECONCILED_TARGET_BASELINE_SHA = '9fd45e907a347095b8aecf232b3fe6d6de18eafb'
 
 function faultEvidence(scenario) {
   const sdk = 'translation/ja-JP/python'
@@ -625,14 +627,19 @@ async function completeLegacyGhFixture(t) {
   const runAttempt = 1
   const toolingSha = git(process.cwd(), 'rev-parse', 'HEAD')
   const parentToolingSha = toolingSha
-  const sourceCheckpointSha = git(process.cwd(), 'rev-list', '--all', '--max-count=1', '--', 'packages/docs-tooling/src/lark/meta/assembly/guides.json')
-  assert.match(sourceCheckpointSha, /^[0-9a-f]{40}$/)
+  const sourceCheckpointSha = RETAINED_GUIDES_SOURCE_CHECKPOINT_SHA
+  const targetBaselineSha = RECONCILED_TARGET_BASELINE_SHA
+  assert.equal(git(process.cwd(), 'rev-parse', `${sourceCheckpointSha}^{commit}`), sourceCheckpointSha)
+  assert.equal(git(process.cwd(), 'rev-parse', `${targetBaselineSha}^{commit}`), targetBaselineSha)
+  assert.equal(git(process.cwd(), 'merge-base', '--is-ancestor', sourceCheckpointSha, targetBaselineSha), '')
+  const reconciledManifest = JSON.parse(git(process.cwd(), 'show', `${targetBaselineSha}:generated/en/manifests/reference.json`))
+  assert.equal(reconciledManifest.sourceCommit, sourceCheckpointSha)
   const sourceRepository = path.join(root, 'source-repository')
   git(root, 'clone', process.cwd(), sourceRepository)
   git(sourceRepository, 'checkout', '--detach', sourceCheckpointSha)
   const targetRepository = path.join(root, 'target-repository')
   git(root, 'clone', process.cwd(), targetRepository)
-  git(targetRepository, 'checkout', '--detach', sourceCheckpointSha)
+  git(targetRepository, 'checkout', '--detach', targetBaselineSha)
   assert.equal(git(targetRepository, 'status', '--porcelain'), '')
   const initialTargetSha = git(targetRepository, 'rev-parse', 'HEAD')
   const previousAlternates = process.env.GIT_ALTERNATE_OBJECT_DIRECTORIES
@@ -753,7 +760,7 @@ async function completeLegacyGhFixture(t) {
     },
     [`repos/${repository}/actions/runs/${parentRunId}/artifacts?per_page=100`]: [{artifacts: parentArtifacts}],
   }
-  return {root, repository, runId, parentRunId, runAttempt, toolingSha, initialTargetSha, targetRepository, downloadRoot, api}
+  return {root, repository, runId, parentRunId, runAttempt, toolingSha, sourceCheckpointSha, targetBaselineSha, initialTargetSha, targetRepository, downloadRoot, api}
 }
 
 test('strict CLI accepts only safe absolute /private/tmp paths and the approved command shapes', () => {
@@ -822,6 +829,9 @@ test('legacy inspect derives authenticated current selection and ready contracts
   assert.equal(result.legacyDerived, true)
   assert.equal(result.toolingSha, fixture.toolingSha)
   assert.equal(result.initialTargetSha, fixture.initialTargetSha)
+  assert.equal(fixture.sourceCheckpointSha, RETAINED_GUIDES_SOURCE_CHECKPOINT_SHA)
+  assert.equal(fixture.targetBaselineSha, RECONCILED_TARGET_BASELINE_SHA)
+  assert.notEqual(fixture.sourceCheckpointSha, fixture.initialTargetSha)
   const selection = JSON.parse(fs.readFileSync(path.join(outputRoot, 'publication-selection.json'), 'utf8'))
   assert.equal(selection.units.length, 12)
   const metadata = JSON.parse(fs.readFileSync(path.join(outputRoot, 'run-metadata.json'), 'utf8'))

@@ -125,9 +125,9 @@ function deterministicCommands(calls, options = {}) {
     calls.push([executable, ...args].join(' '))
     if (options.replaceDependencyLink && !dependencyReplaced) {
       dependencyReplaced = true
-      const dependency = path.join(cwd, 'node_modules')
+      const dependency = path.join(cwd, options.replaceDependencyLink.relative)
       fs.rmSync(dependency)
-      fs.symlinkSync(options.replaceDependencyLink, dependency)
+      fs.symlinkSync(options.replaceDependencyLink.source, dependency)
     }
     if (executable === 'pnpm' && args[0] === 'generate:localization-input-inventory') {
       fs.writeFileSync(path.join(cwd, 'deploy/contracts/localization-inputs.inventory.json'), '{"version":2}\n')
@@ -269,15 +269,21 @@ test('ignores only the exact dependency symlinks installed for the reconciliatio
 
 test('fails closed when an installed dependency symlink is replaced with the same target', async t => {
   const setup = fixture(t)
-  const dependencySource = path.join(setup.repository, 'node_modules')
+  const dependencySource = path.join(setup.repository, 'installed-package')
+  const dependencyRoot = path.join(setup.repository, 'node_modules')
   fs.mkdirSync(dependencySource)
+  fs.mkdirSync(dependencyRoot)
+  fs.symlinkSync(dependencySource, path.join(dependencyRoot, 'test-package'))
   const selected = selection(setup.baseline, [unit(setup.baseline)])
   const reconciled = await reconcileTranslationPublication({
     selection: selected,
     results: results(selected, setup.baseline),
     repositoryRoot: setup.repository,
     runnerTemp: setup.runnerTemp,
-    transactionContext: {dependencies: {runCommand: deterministicCommands([], {replaceDependencyLink: dependencySource})}},
+    transactionContext: {dependencies: {runCommand: deterministicCommands([], {replaceDependencyLink: {
+      relative: 'node_modules/test-package',
+      source: dependencySource,
+    }})}},
   })
 
   assert.equal(reconciled.status, 'publish_failed')

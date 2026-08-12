@@ -6,6 +6,7 @@ const fs = require('node:fs')
 const os = require('node:os')
 const path = require('node:path')
 const { execFileSync, spawnSync } = require('node:child_process')
+const {linkWorkspaceDependencies} = require('./link-workspace-dependencies')
 const { VALIDATION_SPECS } = require('./translation-publication-report')
 
 const RESTORE_PATHS = Object.freeze([
@@ -168,27 +169,7 @@ function runGuidesTranslationValidation(options) {
 }
 
 function linkValidationDependencies(dependencyRoot, validationWorktree) {
-  const roots = [
-    path.join(dependencyRoot, 'node_modules'),
-    ...['apps', 'packages'].flatMap(directory => {
-      const root = path.join(dependencyRoot, directory)
-      if (!fs.existsSync(root)) return []
-      return fs.readdirSync(root, {withFileTypes: true})
-        .filter(entry => entry.isDirectory())
-        .map(entry => path.join(root, entry.name, 'node_modules'))
-    }),
-  ]
-  const linked = []
-  for (const source of roots) {
-    if (!fs.existsSync(source) || !fs.statSync(source).isDirectory()) continue
-    const relative = path.relative(dependencyRoot, source)
-    const destination = path.join(validationWorktree, relative)
-    if (fs.existsSync(destination)) continue
-    fs.mkdirSync(path.dirname(destination), {recursive: true})
-    fs.symlinkSync(source, destination)
-    linked.push(Object.freeze({relative: path.relative(validationWorktree, destination).split(path.sep).join('/'), source: fs.realpathSync(source)}))
-  }
-  return Object.freeze(linked)
+  return linkWorkspaceDependencies(dependencyRoot, validationWorktree)
 }
 
 function validateGuidesTranslationCandidate(options, dependencies = {}) {
@@ -285,4 +266,4 @@ function main() {
 }
 if (require.main === module) { try { main() } catch (error) { process.stderr.write(`${error.message}\n`); process.exitCode = 1 } }
 
-module.exports = { runGuidesTranslationValidation, validateGuidesTranslationCandidate, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS, REQUIRED_ROOTS }
+module.exports = { linkValidationDependencies, runGuidesTranslationValidation, validateGuidesTranslationCandidate, writeValidationResult, VALIDATION_COMMANDS, RESTORE_PATHS, REQUIRED_ROOTS }
