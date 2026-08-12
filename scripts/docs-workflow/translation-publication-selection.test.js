@@ -182,7 +182,7 @@ test('builds all Translation publication units in the canonical ready-descriptor
   assert.equal(guides.strategy, 'ja-guides')
   assert.equal(guides.producerJob, 'prepare_guides_publication_ready')
   assert.equal(selection.units[1].producerJob, 'translate:ja-JP/python')
-  assert.deepEqual(selection.units[1].validationCommands, ['node scripts/translation/validate-group.js --target ja-JP --group python'])
+  assert.deepEqual(selection.units[1].validationCommands, ['node scripts/translation/validate-group.js --target ja-JP --group python --allow-pending'])
   assert.deepEqual(selection.units.at(-1).environment, {ZDOC_SITE: 'zh-CN'})
 
   const referenceHandoff = {
@@ -196,6 +196,7 @@ test('builds all Translation publication units in the canonical ready-descriptor
   const reference = buildTranslationPublicationSelection(selectionInput({handoff: referenceHandoff})).units[0]
   assert.equal(reference.unitKey, 'translation/zh-CN-reference/reference-landings')
   assert.equal(reference.producerJob, 'translate:zh-CN-reference/reference-landings')
+  assert.deepEqual(reference.validationCommands, ['node scripts/translation/validate-group.js --target zh-CN-reference --group reference-landings'])
   assert.deepEqual(reference.environment, {ZDOC_SITE: 'zh-CN'})
 })
 

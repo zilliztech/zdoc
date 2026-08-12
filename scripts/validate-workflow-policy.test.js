@@ -6,6 +6,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const test = require('node:test')
 const yaml = require('js-yaml')
+const {buildTranslationPublicationSelection} = require('./docs-workflow/translation-publication-selection')
 const { validateWorkflowPolicies } = require('./validate-workflow-policy')
 
 test('GitHub Actions workflows satisfy documentation production safety policy', () => {
@@ -28,6 +29,51 @@ test('publish-capable top-level workflows share the durable dev queue', () => {
     translation.concurrency.group,
     "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
   )
+})
+
+test('Japanese publisher pending validation stays bound to publish-enabled Translation durable queue ownership', () => {
+  const sha = 'a'.repeat(40)
+  const selection = buildTranslationPublicationSelection({
+    repository: 'zilliztech/zdoc',
+    runId: 1,
+    runAttempt: 1,
+    publish: true,
+    runTranslations: true,
+    handoff: {
+      schemaVersion: 2,
+      locale: 'ja-JP',
+      group: 'python',
+      toolingSha: sha,
+      targetBranch: 'dev',
+      targetBaselineSha: sha,
+      units: [{
+        target: 'ja-JP',
+        group: 'python',
+        sourceGroup: 'python',
+        sourceBaselineSha: sha,
+        sourceCheckpointSha: sha,
+        targetBaselineSha: sha,
+        publicationOrder: 0,
+      }],
+    },
+  })
+  assert.deepEqual(selection.units[0].validationCommands, [
+    'node scripts/translation/validate-group.js --target ja-JP --group python --allow-pending',
+  ])
+
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
+  assert.deepEqual(workflow.concurrency, {
+    group: "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
+    queue: 'max',
+  })
+  const selectionStep = workflow.jobs.prepare.steps.find(step => step.id === 'publication_selection')
+  const writer = workflow.jobs.publish_ready
+  const writerPublish = writer.steps.find(step => step.id === 'publish')
+  const writerCheckout = writer.steps.find(step => step.uses === 'actions/checkout@v5')
+  assert.equal(selectionStep.env.PUBLISH_ENABLED, '${{ inputs.publish }}')
+  assert.match(selectionStep.run, /--publish "\$PUBLISH_ENABLED"/)
+  assert.equal(writerCheckout.with['persist-credentials'], '${{ inputs.publish }}')
+  assert.equal(writerPublish.env.PUBLISH, '${{ inputs.publish }}')
 })
 
 test('operator recovery grants the reusable Translation writer permission ceiling', () => {
@@ -751,7 +797,7 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
     },
     {
       file: '_translate-content-group.yml',
-      mutate: source => source.replace(
+      mutate: source => source.replaceAll(
         'validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"',
         'validate-group.js --target zh-CN-tools --group tools',
       ),
@@ -2281,6 +2327,10 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   const numbered = steps.find(step => step.name === 'Validate translated batch outputs')
   const unbatched = steps.find(step => step.name === 'Validate unbatched translated group')
   const checkpoint = steps.find(step => step.name === 'Create validated translation checkpoints')
+  const checkpointIndex = steps.findIndex(step => step.name === 'Create validated translation checkpoints')
+  const checkpointUploadIndex = steps.findIndex(step => step.name === 'Upload translation checkpoint')
+  const readyIndex = steps.findIndex(step => step.name === 'Create immutable Translation ready descriptor')
+  const readyUploadIndex = steps.findIndex(step => step.name === 'Upload immutable Translation ready descriptor')
   const result = steps.find(step => step.name === 'Emit translation result')
   const failureGate = steps.find(step => step.name === 'Fail unsuccessful translation')
 
@@ -2316,12 +2366,20 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.doesNotMatch(numbered.run, /mdx-parse|validate-mdx|validate-translated-coverage|pnpm run build:en/)
   assert.match(numbered.run, /translation-batch-input\.js validate --input tmp\/translation-batch-input\.json/)
   assert.match(numbered.run, /validate-translation-batch-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--batch-input tmp\/translation-batch-input\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/)
+  assert.match(numbered.run, /--baseline "\$BASELINE_DIR"/)
 
   assert.ok(unbatched, 'unbatched translations need group-local validation')
   assert.match(unbatched.if, /inputs\.batch_number == 0/)
   assert.match(unbatched.if, /steps\.agents\.outputs\.failed_count \|\| '0'/)
-  assert.match(unbatched.run, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
+  assert.match(unbatched.run, /validate-unbatched-translation-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--baseline "\$BASELINE_DIR"[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/)
+  assert.match(unbatched.run, /validate-unbatched-translation-outputs\.js[\s\S]*if \[\[ "\$TRANSLATION_TARGET" == ja-JP && "\$FAILED_COUNT" != 0 \]\]; then[\s\S]*validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP" --allow-pending[\s\S]*else[\s\S]*validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"[\s\S]*fi/)
   assert.doesNotMatch(unbatched.run, /validate-reference|reference-manifest|build:(?:en|zh-CN)/)
+  for (const validationIndex of [steps.indexOf(numbered), steps.indexOf(unbatched)]) {
+    assert.ok(validationIndex < checkpointIndex)
+    assert.ok(validationIndex < checkpointUploadIndex)
+    assert.ok(validationIndex < readyIndex)
+    assert.ok(validationIndex < readyUploadIndex)
+  }
 
   assert.match(checkpoint.run, /--include-translation-cache/)
   assert.match(checkpoint.if, /inputs\.batch_number == 0/)
@@ -2334,13 +2392,77 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(source, /translation-checkpoint-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
   assert.match(source, /translation-baseline-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
   assert.match(source, /id: result[\s\S]*if: \$\{\{ always\(\) \}\}/)
-  assert.match(result.run, /steps\.agents\.outputs\.failed_count \|\| '0'[\s\S]*== 0/)
   assert.match(result.run, /steps\.agents\.outputs\.remaining_count \|\| '0'[\s\S]*== 0/)
+  assert.match(result.run, /candidate_count="\$\{\{ steps\.manifest\.outputs\.count \|\| '0' \}\}"/)
+  assert.match(result.run, /translated_count \+ failed_count == candidate_count/)
+  assert.doesNotMatch(result.run, /\bfailed_count\s*==\s*0/)
   assert.match(result.run, /steps\.agents\.outcome[\s\S]*== success/)
   assert.match(result.run, /steps\.agents\.outcome[\s\S]*== skipped/)
   assert.equal(failureGate.if, "${{ always() && steps.result.outputs.status == 'failed' }}")
   for (const status of ['translation_ready', 'no_changes', 'failed']) assert.match(source, new RegExp(`status=${status}`))
   assert.doesNotMatch(source, /git push|git-auto-commit|contents: write/)
+})
+
+test('unbatched validation composes authenticated terminal coverage before the explicit Japanese pending exception', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8'))
+  const run = workflow.jobs.translate.steps.find(step => step.name === 'Validate unbatched translated group').run
+  const execute = ({target, failedCount, preflightExit = 0}) => {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'unbatched-composed-validation-'))
+    const trace = path.join(directory, 'trace.txt')
+    const script = [
+      'node() {',
+      '  printf \'%s\\n\' "$*" >> "$TRACE_FILE"',
+      '  if [[ "$1" == scripts/docs-workflow/validate-unbatched-translation-outputs.js ]]; then return "$PREFLIGHT_EXIT"; fi',
+      '  return 0',
+      '}',
+      run,
+    ].join('\n')
+    try {
+      const result = spawnSync('bash', ['-c', script], {
+        encoding: 'utf8',
+        env: {
+          ...process.env,
+          TRACE_FILE: trace,
+          PREFLIGHT_EXIT: String(preflightExit),
+          TRANSLATION_TARGET: target,
+          GROUP: 'guides',
+          GITHUB_WORKSPACE: process.cwd(),
+          BASELINE_DIR: directory,
+          AGENTS_OUTCOME: 'success',
+          TRANSLATED_COUNT: failedCount === 0 ? '2' : '1',
+          FAILED_COUNT: String(failedCount),
+          REMAINING_COUNT: '0',
+        },
+      })
+      const calls = fs.existsSync(trace) ? fs.readFileSync(trace, 'utf8').trim().split('\n').filter(Boolean) : []
+      return {result, calls}
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
+
+  let execution = execute({target: 'ja-JP', failedCount: 1})
+  assert.equal(execution.result.status, 0, execution.result.stderr)
+  assert.equal(execution.calls.length, 2)
+  assert.match(execution.calls[1], /validate-group\.js --target ja-JP --group guides --allow-pending$/)
+
+  execution = execute({target: 'ja-JP', failedCount: 0})
+  assert.equal(execution.result.status, 0, execution.result.stderr)
+  assert.equal(execution.calls.length, 2)
+  assert.match(execution.calls[1], /validate-group\.js --target ja-JP --group guides$/)
+  assert.doesNotMatch(execution.calls[1], /allow-pending/)
+
+  execution = execute({target: 'zh-CN-reference', failedCount: 1})
+  assert.equal(execution.result.status, 0, execution.result.stderr)
+  assert.equal(execution.calls.length, 2)
+  assert.doesNotMatch(execution.calls[1], /allow-pending/)
+
+  for (const rejectedContract of ['remaining work', 'incomplete coverage', 'unknown failure']) {
+    execution = execute({target: 'ja-JP', failedCount: 1, preflightExit: 1})
+    assert.notEqual(execution.result.status, 0, rejectedContract)
+    assert.equal(execution.calls.length, 1, rejectedContract)
+    assert.match(execution.calls[0], /validate-unbatched-translation-outputs\.js/, rejectedContract)
+  }
 })
 
 test('workflow policy rejects numbered translation batch validation regressions', () => {
@@ -2367,6 +2489,26 @@ test('workflow policy rejects numbered translation batch validation regressions'
       mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run = 'node scripts/docs-workflow/translation-batch-input.js validate --input tmp/translation-batch-input.json' },
       expected: `${workflowName}: numbered Guides batches must validate agent report evidence and exact candidate output files`,
     },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Validate unbatched translated group').run = 'node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"' },
+      expected: `${workflowName}: unbatched translations must authenticate terminal agent reports and target-owned outputs`,
+    },
+    {
+      mutate(steps) {
+        steps.find(step => step.name === 'Validate unbatched translated group').run = steps.find(step => step.name === 'Validate unbatched translated group').run
+          .replace(/if \[\[ "\$TRANSLATION_TARGET" == ja-JP[\s\S]*?fi/, 'node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP" --allow-pending')
+      },
+      expected: `${workflowName}: only authenticated unbatched Japanese failures may bypass strict translation freshness`,
+    },
+    ...['Validate translated batch outputs', 'Validate unbatched translated group'].map(validationName => ({
+      mutate(steps) {
+        const validationIndex = steps.findIndex(step => step.name === validationName)
+        const [validation] = steps.splice(validationIndex, 1)
+        const readyUploadIndex = steps.findIndex(step => step.name === 'Upload immutable Translation ready descriptor')
+        steps.splice(readyUploadIndex + 1, 0, validation)
+      },
+      expected: `${workflowName}: Translation validators must precede checkpoint and ready-descriptor materialization`,
+    })),
     {
       mutate(steps) { steps.find(step => step.name === 'Create validated translation checkpoints').run = steps.find(step => step.name === 'Create validated translation checkpoints').run.replace(/\n\s*node scripts\/docs-workflow\/validate-translation-batch\.js[\s\S]*?--batch-count "\$\{\{ inputs\.batch_count \}\}"/, '') },
       expected: `${workflowName}: numbered Guides checkpoints must validate baseline/result pair identity`,

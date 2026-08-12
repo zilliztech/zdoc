@@ -3,7 +3,7 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 
-const {commandsForTranslationGroup} = require('./validate-group');
+const {commandsForTranslationGroup, parseArgs} = require('./validate-group');
 
 test('Chinese SDK validation is scoped to the selected group', () => {
   const commands = commandsForTranslationGroup({target: 'zh-CN-reference', group: 'python'});
@@ -29,4 +29,33 @@ test('Japanese validation uses its existing group checks and retired Tools is re
     ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'i18n/ja-JP']],
     ['pnpm', ['docs-tooling', 'validate-translation', '--target', 'ja-JP', '--group', 'java']],
   ]);
+});
+
+test('Japanese partial validation keeps MDX safety checks while explicitly allowing authenticated pending candidates', () => {
+  assert.deepEqual(commandsForTranslationGroup({target: 'ja-JP', group: 'guides', allowPending: true}), [
+    ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'i18n/ja-JP']],
+  ]);
+  assert.deepEqual(commandsForTranslationGroup({target: 'ja-JP', group: 'guides', allowPending: false}), [
+    ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'i18n/ja-JP']],
+    ['pnpm', ['docs-tooling', 'validate-translation', '--target', 'ja-JP', '--group', 'guides']],
+  ]);
+  assert.throws(
+    () => commandsForTranslationGroup({target: 'zh-CN-reference', group: 'python', allowPending: true}),
+    /allow-pending.*Japanese|Japanese.*allow-pending/i,
+  );
+});
+
+test('validate-group CLI requires an explicit standalone allow-pending flag', () => {
+  assert.deepEqual(parseArgs(['--target', 'ja-JP', '--group', 'guides']), {
+    target: 'ja-JP',
+    group: 'guides',
+    allowPending: false,
+  });
+  assert.deepEqual(parseArgs(['--target', 'ja-JP', '--group', 'guides', '--allow-pending']), {
+    target: 'ja-JP',
+    group: 'guides',
+    allowPending: true,
+  });
+  assert.throws(() => parseArgs(['--target', 'ja-JP', '--group', 'guides', '--allow-pending', 'true']), /argument|allow-pending/i);
+  assert.throws(() => parseArgs(['--target', 'ja-JP', '--group', 'guides', '--unknown']), /unknown|argument/i);
 });
