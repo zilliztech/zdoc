@@ -13,6 +13,24 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('workflow policy keeps generated Chinese REST out of canonical Translation selection', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-selection-policy-'))
+  const selection = path.join(directory, 'selection.js')
+  try {
+    const source = fs.readFileSync('scripts/translation/selection.js', 'utf8')
+    fs.writeFileSync(selection, source.replace("if (group === 'rest') return ['ja-JP'];", "if (group === 'rest') return ['ja-JP', 'zh-CN'];").replace("if (group === 'rest') return [];", "if (group === 'rest') return ['zh-CN'];"))
+    assert.ok(validateWorkflowPolicies(undefined, {translationSelectionPath: selection}).includes(
+      'translation selection: canonical REST selection must retain only ja-JP/rest',
+    ))
+    fs.writeFileSync(selection, source.replace("if (group === 'rest') return [];", "if (group === 'rest') return ['zh-CN'];"))
+    assert.ok(validateWorkflowPolicies(undefined, {translationSelectionPath: selection}).includes(
+      'translation selection: canonical REST selection must reject zh-CN-reference/rest',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('publish-capable top-level workflows share the durable dev queue', () => {
   const fetch = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
   const recovery = yaml.load(fs.readFileSync('.github/workflows/recover-translation.yml', 'utf8'))
@@ -987,14 +1005,35 @@ test('Fetch independently reconciles Reference derived state before handoff and 
   assert.deepEqual(reconciliation.permissions, {actions: 'read', contents: 'write'})
   assert.doesNotMatch(String(reconciliation.if), /run_translations/)
   const step = reconciliation.steps.find(candidate => candidate.name === 'Reconcile and publish Fetch Reference derived state')
-  assert.match(step.run, /fetch-reference-reconciliation\.js plan/)
-  assert.match(step.run, /restore-generated-state\.sh --exact --ref "\$target_sha"/)
-  assert.match(step.run, /reference-manifest --source content\/en\/reference --target content\/zh-CN\/reference --source-commit "\$source_sha" --write/)
-  assert.match(step.run, /validate-reference --site zh-CN/)
-  assert.match(step.run, /git -C "\$publish_worktree" push origin "HEAD:refs\/heads\/\$target_branch"/)
+  assert.match(step.run, /fetch-reference-reconciliation\.js reconcile/)
+  assert.match(step.run, /--selection "\$RUNNER_TEMP\/publication-selection\/publication-selection\.json"/)
+  assert.match(step.run, /--results "\$RUNNER_TEMP\/publication-results\/publication-results\.json"/)
+  assert.match(step.run, /--repository-root "\$GITHUB_WORKSPACE"/)
+  assert.match(step.run, /--runner-temp "\$RUNNER_TEMP"/)
+  assert.match(step.run, /--remote origin/)
+  assert.doesNotMatch(step.run, /git\s+(?:-C\s+\S+\s+)?push|reference-manifest|restore-generated-state|validate-reference|publicationPaths|mapfile -t paths/)
   assert.deepEqual(workflow.jobs.source_publication_barrier.needs, ['prepare', 'publish_ready', 'reconcile_reference_state'])
   assert.deepEqual(workflow.jobs.verify.needs, ['prepare', 'publish_ready', 'reconcile_reference_state'])
   assert.deepEqual(workflow.jobs.aggregate.needs, ['prepare', 'publish_ready', 'reconcile_reference_state', 'prepare_translation_handoff', 'dispatch_translations', 'verify'])
+})
+
+test('Fetch partial Reference reconciliation stays independent from all-success handoff gates', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const reconciliation = workflow.jobs.reconcile_reference_state
+  const sourceBarrier = workflow.jobs.source_publication_barrier
+  const handoff = workflow.jobs.prepare_translation_handoff
+  const dispatch = workflow.jobs.dispatch_translations
+
+  assert.match(String(reconciliation.if), /always\(\)/)
+  assert.match(String(reconciliation.if), /needs\.publish_ready\.outputs\.results_artifact_name != ''/)
+  assert.doesNotMatch(String(reconciliation.if), /overall_status|needs\.publish_ready\.result == 'success'/)
+  assert.deepEqual(sourceBarrier.needs, ['prepare', 'publish_ready', 'reconcile_reference_state'])
+  assert.match(String(sourceBarrier.if), /needs\.reconcile_reference_state\.result == 'success'/)
+  assert.match(sourceBarrier.steps.find(step => step.name === 'Block paid translation until selected sources are published').run,
+    /source-publication-barrier\.js[\s\S]*--selection[\s\S]*--results/)
+  assert.deepEqual(handoff.needs, ['prepare', 'source_publication_barrier', 'publish_ready', 'reconcile_reference_state'])
+  assert.match(String(handoff.if), /needs\.source_publication_barrier\.result == 'success'/)
+  assert.match(String(dispatch.if), /needs\.prepare_translation_handoff\.result == 'success'/)
 })
 
 test('workflow policy rejects Fetch without independent Reference reconciliation', () => {
@@ -1012,6 +1051,55 @@ test('workflow policy rejects Fetch without independent Reference reconciliation
     ))
   } finally {
     fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
+test('workflow policy rejects bypassing the Fetch reconciliation transaction CLI', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  for (const mutation of [
+    source => source.replace('fetch-reference-reconciliation.js reconcile', 'fetch-reference-reconciliation.js plan'),
+    source => source.replace('            --remote origin\n', '            --remote origin\n          git push origin HEAD:dev\n'),
+    source => source.replace('            --repository-root "$GITHUB_WORKSPACE" \\\n', ''),
+  ]) {
+    const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'fetch-reference-transaction-policy-'))
+    try {
+      fs.cpSync(sourceDirectory, directory, {recursive: true})
+      const file = path.join(directory, 'fetch-docs.yml')
+      const source = fs.readFileSync(file, 'utf8')
+      const mutated = mutation(source)
+      assert.notEqual(mutated, source)
+      fs.writeFileSync(file, mutated)
+      assert.ok(validateWorkflowPolicies(directory).includes(
+        'fetch-docs.yml: Fetch must independently reconcile Reference derived state after source publication',
+      ))
+    } finally {
+      fs.rmSync(directory, {recursive: true, force: true})
+    }
+  }
+})
+
+test('workflow policy rejects weakening Fetch reconciliation transaction, exact validation, non-force push, or remote probe', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const transaction = fs.readFileSync('scripts/docs-workflow/fetch-reference-reconciliation.js', 'utf8')
+  for (const mutation of [
+    source => source.replace('  return runPublicationStrategyTransaction({', '  return runUnsafePublication({'),
+    source => source.replaceAll("'docs-tooling', 'validate-reference', '--site', 'zh-CN'", "'docs-tooling', 'validate-reference', '--site', 'en'"),
+    source => source.replace("'--exact', '--ref', candidate.candidateSha", "'--exact', '--ref', latestDevSha"),
+    source => source.replace("'--exact', '--ref', targetSha", "'--exact', '--ref', latestDevSha"),
+    source => source.replace("['push', remote, `HEAD:refs/heads/${selection.targetBranch}`]", "['push', '--force-with-lease', remote, `HEAD:refs/heads/${selection.targetBranch}`]"),
+    source => source.replace('    async probeRemoteCandidate(context) {', '    async skipRemoteProbe(context) {'),
+  ]) {
+    const scriptsRoot = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'fetch-reference-transaction-scripts-'))
+    try {
+      const mutated = mutation(transaction)
+      assert.notEqual(mutated, transaction)
+      fs.writeFileSync(path.join(scriptsRoot, 'fetch-reference-reconciliation.js'), mutated)
+      assert.ok(validateWorkflowPolicies(sourceDirectory, {scriptsRoot}).includes(
+        'fetch-reference-reconciliation.js: Fetch reconciliation must use the common transaction with exact validation, non-force promotion, and remote probing',
+      ))
+    } finally {
+      fs.rmSync(scriptsRoot, {recursive: true, force: true})
+    }
   }
 })
 

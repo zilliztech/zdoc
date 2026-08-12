@@ -2,6 +2,7 @@
 
 const fs = require('node:fs')
 const path = require('node:path')
+const {linkWorkspaceDependencies} = require('./link-workspace-dependencies')
 const {spawnSync} = require('node:child_process')
 
 const {runPublicationStrategyTransaction} = require('./publication-transaction')
@@ -97,32 +98,11 @@ function removeWorktree(repositoryRoot, worktree, afterCleanup) {
 }
 
 function linkDependencies(repositoryRoot, worktree) {
-  const roots = [
-    path.join(repositoryRoot, 'node_modules'),
-    ...['apps', 'packages'].flatMap(directory => {
-      const root = path.join(repositoryRoot, directory)
-      if (!fs.existsSync(root)) return []
-      return fs.readdirSync(root, {withFileTypes: true})
-        .filter(entry => entry.isDirectory())
-        .map(entry => path.join(root, entry.name, 'node_modules'))
-    }),
-  ]
-  const linked = []
-  for (const source of roots) {
-    if (!fs.existsSync(source) || !fs.lstatSync(source).isDirectory()) continue
-    const destination = path.join(worktree, path.relative(repositoryRoot, source))
-    if (fs.existsSync(destination)) continue
-    fs.mkdirSync(path.dirname(destination), {recursive: true})
-    fs.symlinkSync(source, destination)
-    const resolvedSource = fs.realpathSync(source)
-    linked.push(Object.freeze({
-      relative: path.relative(worktree, destination).split(path.sep).join('/'),
-      source: resolvedSource,
-      destination,
-      linkIdentity: filesystemIdentity(fs.lstatSync(destination, {bigint: true})),
-      sourceIdentity: filesystemIdentity(fs.statSync(resolvedSource, {bigint: true})),
-    }))
-  }
+  const linked = linkWorkspaceDependencies(repositoryRoot, worktree).map(dependency => Object.freeze({
+    ...dependency,
+    linkIdentity: filesystemIdentity(fs.lstatSync(dependency.destination, {bigint: true})),
+    sourceIdentity: filesystemIdentity(fs.statSync(dependency.source, {bigint: true})),
+  }))
   return Object.freeze(linked)
 }
 
@@ -229,6 +209,7 @@ function validateInput(input) {
 async function reconcileTranslationPublication(input = {}) {
   const {selection, results} = validateInput(input)
   const repositoryRoot = fs.realpathSync(input.repositoryRoot)
+  const dependencyRoot = fs.realpathSync(input.transactionContext?.dependencyRoot || input.repositoryRoot)
   const runnerTemp = fs.realpathSync(input.runnerTemp)
   const transactionContext = input.transactionContext || {}
   const dependencies = {...(transactionContext.dependencies || {})}
@@ -247,7 +228,7 @@ async function reconcileTranslationPublication(input = {}) {
       const cleanupDebt = []
       try {
         validationWorktree = createWorktree(repositoryRoot, runnerTemp, 'translation-reconciliation-validation.', selection.toolingSha)
-        const linkedDependencies = linkDependencies(repositoryRoot, validationWorktree)
+        const linkedDependencies = linkDependencies(dependencyRoot, validationWorktree)
         await command(runCommand, validationWorktree, 'bash', [
           path.join(validationWorktree, 'scripts/restore-generated-state.sh'), '--exact', '--ref', latestDevSha,
         ], environment)

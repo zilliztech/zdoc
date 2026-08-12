@@ -367,7 +367,7 @@ test('default live coordinator resolves and publishes a real Japanese Guides bat
   const observed = []
   const strategy = {
     async compose({inputs}) {
-      observed.push({plan: inputs.plan, pairs: inputs.pairs})
+      observed.push({plan: inputs.plan, pairs: inputs.pairs, dependencyRoot: inputs.dependencyRoot})
       return {status: 'candidate', candidateSha: SHA('4'), commitShas: [SHA('4')]}
     },
     async validate() { return {validationReceipts: []} },
@@ -378,6 +378,7 @@ test('default live coordinator resolves and publishes a real Japanese Guides bat
     selection: document,
     mode: 'publish',
     repositoryRoot: process.cwd(),
+    dependencyRoot: '/installed-dependencies',
     runnerTemp,
     outputDirectory: path.join(root, 'output'),
     pollMilliseconds: 1,
@@ -404,6 +405,7 @@ test('default live coordinator resolves and publishes a real Japanese Guides bat
       async uploadResults({results: value}) { results.push(value); return {artifactName: 'publication-results-translation-123-1', artifactId: 1} },
     },
   })
+  assert.equal(observed[0].dependencyRoot, '/installed-dependencies')
 
   assert.equal(outcome.results.overallStatus, 'success')
   assert.equal(outcome.results.units[0].status, 'published')
