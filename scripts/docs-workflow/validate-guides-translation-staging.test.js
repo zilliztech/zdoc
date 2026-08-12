@@ -265,6 +265,26 @@ test('rejects untracked generated files, index contamination, and symlinked stag
   assert.throws(() => runGuidesTranslationValidation({ ...symlink, executor() {} }), /symlink|special/i)
 })
 
+test('accepts only authenticated validation dependency links', () => {
+  const state = fixture()
+  const installed = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'guides-installed-dependency-')))
+  fs.mkdirSync(path.join(state.repository, 'apps/docs'), {recursive: true})
+  fs.symlinkSync(installed, path.join(state.repository, 'apps/docs/node_modules'))
+  const dependencies = [{relative: 'apps/docs/node_modules', source: installed}]
+  assert.equal(runGuidesTranslationValidation({
+    ...state,
+    installedDependencies: dependencies,
+    executor() { return {status: 0, signal: null, stderr: ''} },
+  }).result, 'success')
+  fs.unlinkSync(path.join(state.repository, 'apps/docs/node_modules'))
+  fs.symlinkSync(state.repository, path.join(state.repository, 'apps/docs/node_modules'))
+  assert.throws(() => runGuidesTranslationValidation({
+    ...state,
+    installedDependencies: dependencies,
+    executor() { return {status: 0, signal: null, stderr: ''} },
+  }), /dependency link changed/i)
+})
+
 test('rejects hybrid authoritative roots and executable-mode drift', t => {
   for (const relative of ['content/en/guides/extra.md', 'content/en/byoc/extra.md', 'content/en/reference/extra.md', 'i18n/ja-JP/docusaurus-plugin-content-docs/current/extra.md', '.translation-cache/extra.json', 'generated/en/sidebars/extra.js', 'packages/docs-tooling/src/lark/meta/snapshots/extra.json', 'packages/docs-tooling/src/lark/meta/assembly/extra.json']) {
     const state = fixture()

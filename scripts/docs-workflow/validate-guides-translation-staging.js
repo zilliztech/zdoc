@@ -101,7 +101,18 @@ function repositoryRoot(repository, environment) {
   return resolved
 }
 
-function stagedStateProof(repository, masterSha, expectedTargetSha, stagedSha, environment) {
+function installedDependencyPaths(repository, dependencies) {
+  const installed = new Set()
+  for (const dependency of dependencies || []) {
+    const target = path.join(repository, dependency.relative)
+    const stat = fs.lstatSync(target)
+    if (!stat.isSymbolicLink() || fs.realpathSync(target) !== dependency.source) throw new Error(`validation dependency link changed: ${dependency.relative}`)
+    installed.add(dependency.relative)
+  }
+  return installed
+}
+
+function stagedStateProof(repository, masterSha, expectedTargetSha, stagedSha, environment, dependencies = []) {
   sha(masterSha, 'masterSha')
   if (git(repository, ['rev-parse', 'HEAD'], environment).trim() !== masterSha) throw new Error('repository HEAD does not match masterSha')
   exactCommit(repository, expectedTargetSha, 'expectedTargetSha', environment)
@@ -110,7 +121,8 @@ function stagedStateProof(repository, masterSha, expectedTargetSha, stagedSha, e
   for (const root of REQUIRED_ROOTS) if (!git(repository, ['ls-tree', '--name-only', stagedSha, '--', root], environment).trim()) throw new Error(`required staged generated path is missing: ${root}`)
   const generatedUntracked = nul(git(repository, ['ls-files', '--others', '-z', '--', ...RESTORE_PATHS], environment, true))
   if (generatedUntracked.length) throw new Error(`untracked generated file is not allowed in restored state: ${generatedUntracked[0]}`)
-  const untracked = nul(git(repository, ['ls-files', '--others', '--exclude-standard', '-z'], environment, true))
+  const installed = installedDependencyPaths(repository, dependencies)
+  const untracked = nul(git(repository, ['ls-files', '--others', '--exclude-standard', '-z'], environment, true)).filter(relative => !installed.has(relative))
   if (untracked.length) throw new Error(`untracked file is not allowed in restored state: ${untracked[0]}`)
   const changed = nul(git(repository, ['diff', '--name-only', '-z', 'HEAD', '--'], environment, true))
   const outside = changed.filter(relative => !allowed(relative))
@@ -127,12 +139,12 @@ function defaultExecutor(command, args, options) {
 
 function runGuidesTranslationValidation(options) {
   if (!options || typeof options !== 'object' || Array.isArray(options)) throw new Error('validation options must be an object')
-  const keys = Object.keys(options), allowedKeys = ['repository', 'masterSha', 'expectedTargetSha', 'stagedSha', 'environment', 'executor']
+  const keys = Object.keys(options), allowedKeys = ['repository', 'masterSha', 'expectedTargetSha', 'stagedSha', 'environment', 'executor', 'installedDependencies']
   if (keys.some(key => !allowedKeys.includes(key)) || !['repository', 'masterSha', 'expectedTargetSha', 'stagedSha'].every(key => Object.hasOwn(options, key))) throw new Error('validation options have invalid keys')
   if (options.executor !== undefined && typeof options.executor !== 'function') throw new Error('executor must be a function')
   const isolation = isolatedEnvironment(), environment = {...boundEnvironment(options.environment), ...isolation.environment}
   let repository, proof
-  try { repository = repositoryRoot(options.repository, environment); proof = stagedStateProof(repository, options.masterSha, options.expectedTargetSha, options.stagedSha, environment) } catch (error) { fs.rmSync(isolation.root, { recursive: true, force: true }); throw error }
+  try { repository = repositoryRoot(options.repository, environment); proof = stagedStateProof(repository, options.masterSha, options.expectedTargetSha, options.stagedSha, environment, options.installedDependencies) } catch (error) { fs.rmSync(isolation.root, { recursive: true, force: true }); throw error }
   const executor = options.executor || defaultExecutor, receipts = []
   let failureDetail = null
   try {
@@ -166,6 +178,7 @@ function linkValidationDependencies(dependencyRoot, validationWorktree) {
         .map(entry => path.join(root, entry.name, 'node_modules'))
     }),
   ]
+  const linked = []
   for (const source of roots) {
     if (!fs.existsSync(source) || !fs.statSync(source).isDirectory()) continue
     const relative = path.relative(dependencyRoot, source)
@@ -173,7 +186,9 @@ function linkValidationDependencies(dependencyRoot, validationWorktree) {
     if (fs.existsSync(destination)) continue
     fs.mkdirSync(path.dirname(destination), {recursive: true})
     fs.symlinkSync(source, destination)
+    linked.push(Object.freeze({relative: path.relative(validationWorktree, destination).split(path.sep).join('/'), source: fs.realpathSync(source)}))
   }
+  return Object.freeze(linked)
 }
 
 function validateGuidesTranslationCandidate(options, dependencies = {}) {
@@ -189,7 +204,7 @@ function validateGuidesTranslationCandidate(options, dependencies = {}) {
   try {
     run('git', ['-C', repository, 'worktree', 'add', '--detach', worktree, options.masterSha], {encoding: 'utf8'})
     worktree = fs.realpathSync(worktree)
-    linkValidationDependencies(dependencyRoot, worktree)
+    const installedDependencies = linkValidationDependencies(dependencyRoot, worktree)
     run('bash', [path.join(__dirname, '../restore-generated-state.sh'), '--exact', '--ref', options.stagedSha], {
       cwd: worktree,
       encoding: 'utf8',
@@ -202,6 +217,7 @@ function validateGuidesTranslationCandidate(options, dependencies = {}) {
       expectedTargetSha: options.expectedTargetSha,
       stagedSha: options.stagedSha,
       environment: options.environment,
+      installedDependencies,
       ...(dependencies.executor ? {executor: dependencies.executor} : {}),
     })
   } finally {
