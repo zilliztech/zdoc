@@ -26,7 +26,7 @@ const EXPECTED_UNIT_KEYS = [
   'translation/ja-JP/node', 'translation/zh-CN-reference/node',
   'translation/ja-JP/go', 'translation/zh-CN-reference/go',
   'translation/ja-JP/cli', 'translation/zh-CN-reference/cli',
-  'translation/ja-JP/rest', 'translation/zh-CN-reference/rest',
+  'translation/ja-JP/rest',
   'translation/zh-CN-reference/reference-landings',
 ]
 
@@ -183,7 +183,8 @@ test('builds all Translation publication units in the canonical ready-descriptor
   assert.equal(guides.producerJob, 'prepare_guides_publication_ready')
   assert.equal(selection.units[1].producerJob, 'translate:ja-JP/python')
   assert.deepEqual(selection.units[1].validationCommands, ['node scripts/translation/validate-group.js --target ja-JP --group python --allow-pending'])
-  assert.deepEqual(selection.units.at(-1).environment, {ZDOC_SITE: 'zh-CN'})
+  assert.deepEqual(selection.units.find(unit => unit.unitKey === 'translation/zh-CN-reference/python').environment, {ZDOC_SITE: 'zh-CN'})
+  assert.deepEqual(selection.units.at(-1).environment, {})
 
   const referenceHandoff = {
     ...handoff(), locale: 'zh-CN', group: 'reference-landings',
@@ -205,6 +206,16 @@ test('retains schema-v2 handoff identities without widening the handoff contract
   assert.equal(handoff().schemaVersion, 2)
   assert.equal(value.initialTargetSha, handoff().targetBaselineSha)
   assert.equal(value.units.every(unit => 'targetBaselineSha' in unit), false)
+})
+
+test('rejects an injected Chinese REST unit even if it claims a canonical schema-v2 handoff', () => {
+  const invalid = handoff()
+  invalid.units.push({
+    target: 'zh-CN-reference', group: 'rest', sourceGroup: 'rest',
+    sourceBaselineSha: 'c'.repeat(40), sourceCheckpointSha: 'e'.repeat(40),
+    targetBaselineSha: SHA_B, publicationOrder: invalid.units.length,
+  })
+  assert.throws(() => buildTranslationPublicationSelection(selectionInput({handoff: invalid})), /canonical translation selection/i)
 })
 
 test('binds exact operator recovery provenance into the immutable selection checksum', () => {
