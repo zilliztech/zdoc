@@ -18,6 +18,7 @@ const {
   deriveFifoUnitKeys,
   faultInjectRun,
   inspectRun,
+  linkReplayDependencies,
   parseArgs,
   prepareGuidesPairs,
   replayRun,
@@ -69,6 +70,27 @@ function faultEvidence(scenario) {
 function temporary(prefix) {
   return fs.mkdtempSync(path.join('/private/tmp', prefix))
 }
+
+test('replay dependencies preserve workspace node_modules roots for validation worktrees', t => {
+  const root = temporary('translation-replay-dependencies-')
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  const dependencyRoot = path.join(root, 'dependencies')
+  const repository = path.join(root, 'repository')
+  fs.mkdirSync(path.join(dependencyRoot, 'node_modules', 'root-package'), {recursive: true})
+  fs.mkdirSync(path.join(dependencyRoot, 'apps', 'docs', 'node_modules', 'jiti'), {recursive: true})
+  fs.mkdirSync(path.join(dependencyRoot, 'packages', 'docs-tooling', 'node_modules', 'js-yaml'), {recursive: true})
+  fs.mkdirSync(repository, {recursive: true})
+
+  linkReplayDependencies(repository, dependencyRoot)
+
+  for (const relative of [
+    'node_modules',
+    'apps/docs/node_modules',
+    'packages/docs-tooling/node_modules',
+  ]) assert.equal(fs.lstatSync(path.join(repository, relative)).isDirectory(), true)
+  assert.equal(fs.lstatSync(path.join(repository, 'apps/docs/node_modules/jiti')).isSymbolicLink(), true)
+  assert.equal(fs.realpathSync(path.join(repository, 'apps/docs/node_modules/jiti')), path.join(dependencyRoot, 'apps/docs/node_modules/jiti'))
+})
 
 function installFakeGh(t, fixture) {
   const root = temporary('translation-fake-gh-')

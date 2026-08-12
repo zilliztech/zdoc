@@ -427,28 +427,20 @@ function ensureLaneBranches(bareRemote, selection) {
   for (const lane of ['canonical', 'fifo']) git(process.cwd(), ['--git-dir', bareRemote, 'update-ref', `refs/heads/${lane}/${selection.targetBranch}`, baseline])
 }
 
-function prepareLaneRepository({bareRemote, evidenceRoot, lane, selection}) {
-  const repository = path.join(evidenceRoot, 'scratch', lane, 'repository')
-  fs.mkdirSync(path.dirname(repository), {recursive: true})
-  git(evidenceRoot, ['clone', '--no-checkout', bareRemote, repository])
-  const shas = new Set([selection.toolingSha, selection.initialTargetSha, ...selection.units.flatMap(unit => [unit.sourceBaselineSha, unit.sourceCheckpointSha])])
-  for (const sha of shas) {
-    if (git(repository, ['cat-file', '-e', `${sha}^{commit}`], {allowFailure: true}).status === 0) continue
-    git(repository, ['fetch', '--no-tags', process.cwd(), sha])
-  }
+function linkReplayDependencies(repository, dependencyRoot) {
   const dependencyRoots = ['node_modules']
   for (const directory of ['apps', 'packages']) {
-    const sourceRoot = path.join(process.cwd(), directory)
+    const sourceRoot = path.join(dependencyRoot, directory)
     if (!fs.existsSync(sourceRoot)) continue
     for (const entry of fs.readdirSync(sourceRoot, {withFileTypes: true})) {
       if (entry.isDirectory()) dependencyRoots.push(path.join(directory, entry.name, 'node_modules'))
     }
   }
-  const linked = path.join(repository, 'node_modules')
-  fs.mkdirSync(linked)
   for (const relative of dependencyRoots) {
-    const installed = path.join(process.cwd(), relative)
-    if (!fs.existsSync(installed) || !fs.lstatSync(installed).isDirectory()) continue
+    const installed = path.join(dependencyRoot, relative)
+    if (!fs.existsSync(installed) || !fs.statSync(installed).isDirectory()) continue
+    const linked = path.join(repository, relative)
+    fs.mkdirSync(linked, {recursive: true})
     for (const entry of fs.readdirSync(installed)) {
       const destination = path.join(linked, entry)
       const source = path.join(installed, entry)
@@ -461,6 +453,18 @@ function prepareLaneRepository({bareRemote, evidenceRoot, lane, selection}) {
       } else if (!fs.existsSync(destination)) fs.symlinkSync(source, destination, 'junction')
     }
   }
+}
+
+function prepareLaneRepository({bareRemote, evidenceRoot, lane, selection}) {
+  const repository = path.join(evidenceRoot, 'scratch', lane, 'repository')
+  fs.mkdirSync(path.dirname(repository), {recursive: true})
+  git(evidenceRoot, ['clone', '--no-checkout', bareRemote, repository])
+  const shas = new Set([selection.toolingSha, selection.initialTargetSha, ...selection.units.flatMap(unit => [unit.sourceBaselineSha, unit.sourceCheckpointSha])])
+  for (const sha of shas) {
+    if (git(repository, ['cat-file', '-e', `${sha}^{commit}`], {allowFailure: true}).status === 0) continue
+    git(repository, ['fetch', '--no-tags', process.cwd(), sha])
+  }
+  linkReplayDependencies(repository, process.cwd())
   return repository
 }
 
@@ -2099,6 +2103,7 @@ module.exports = {
   deriveFifoUnitKeys,
   faultInjectRun,
   inspectRun,
+  linkReplayDependencies,
   parseArgs,
   prepareGuidesPairs,
   replayRun,
