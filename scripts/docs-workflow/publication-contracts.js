@@ -150,7 +150,7 @@ function workflowAdapter(value, document) {
   return publicationWorkflowAdapters.require(value.workflow)
 }
 
-function validateSelectionShape(value, requireChecksum) {
+function validateSelectionShape(value, requireChecksum, options = {}) {
   const document = DOCUMENTS.selection
   if (value.schemaVersion !== 1 || value.document !== document) invalid(document, 'header is invalid')
   const adapter = workflowAdapter(value, document)
@@ -158,21 +158,21 @@ function validateSelectionShape(value, requireChecksum) {
   assertPositiveInteger(value.runId, 'runId', document)
   assertPositiveInteger(value.runAttempt, 'runAttempt', document)
   if (requireChecksum) assertChecksum(value.selectionSha256, 'selectionSha256', document)
-  adapter.validateSelection(value, adapterHelpers({requireChecksum}))
+  adapter.validateSelection(value, adapterHelpers({requireChecksum, ...options}))
   if (requireChecksum && checksumSelection(value) !== value.selectionSha256) invalid(document, 'selection checksum mismatch')
 }
 
-function validatePublicationSelection(input) {
+function validatePublicationSelection(input, options = {}) {
   const value = clone(input)
-  validateSelectionShape(value, true)
+  validateSelectionShape(value, true, options)
   return deepFreeze(value)
 }
 
-function finalizePublicationSelection(input) {
+function finalizePublicationSelection(input, options = {}) {
   const value = clone(input)
-  validateSelectionShape(value, false)
+  validateSelectionShape(value, false, options)
   value.selectionSha256 = checksumSelection(value)
-  return validatePublicationSelection(value)
+  return validatePublicationSelection(value, options)
 }
 
 function validateIdentity(value, selection, document) {
@@ -218,10 +218,10 @@ function validatePublicationReady(input, options = {}) {
   assertChecksum(value.selectionSha256, 'selectionSha256', document)
   let selection
   if (options.selection) {
-    selection = validatePublicationSelection(options.selection)
+    selection = validatePublicationSelection(options.selection, options)
     validateIdentity(value, selection, document)
   }
-  adapter.validateReady(value, {selection}, adapterHelpers())
+  adapter.validateReady(value, {selection}, adapterHelpers(options))
   return deepFreeze(value)
 }
 
@@ -286,7 +286,7 @@ function validatePublicationProgress(input, options = {}) {
   for (const unitKey of value.queue) if (unitMap.get(unitKey)?.state !== 'ready') invalid(document, 'queue must contain only ready units')
   if (value.activeUnitKey !== null && unitMap.get(value.activeUnitKey)?.state !== 'publishing') invalid(document, 'activeUnitKey must identify the publishing unit')
   if (options.selection) {
-    const selection = validatePublicationSelection(options.selection)
+    const selection = validatePublicationSelection(options.selection, options)
     validateIdentity(value, selection, document)
     validateDocumentUnits(value, selection, document)
   }
@@ -355,7 +355,7 @@ function validatePublicationResults(input, options = {}) {
   if (value.overallStatus === 'orchestrator_failed') validateFailure(value.orchestratorFailure, 'orchestrator failure', document, false)
   else if (value.orchestratorFailure !== null) invalid(document, 'orchestrator failure must be null unless overallStatus is orchestrator_failed')
   if (options.selection) {
-    const selection = validatePublicationSelection(options.selection)
+    const selection = validatePublicationSelection(options.selection, options)
     validateIdentity(value, selection, document)
     if (value.targetBranch !== selection.targetBranch || value.initialTargetSha !== selection.initialTargetSha) invalid(document, 'target identity mismatch with selection')
     validateDocumentUnits(value, selection, document)

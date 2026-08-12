@@ -125,9 +125,9 @@ function deterministicCommands(calls, options = {}) {
     calls.push([executable, ...args].join(' '))
     if (options.replaceDependencyLink && !dependencyReplaced) {
       dependencyReplaced = true
-      const dependency = path.join(cwd, 'node_modules')
+      const dependency = path.join(cwd, options.replaceDependencyLink.relative)
       fs.rmSync(dependency)
-      fs.symlinkSync(options.replaceDependencyLink, dependency)
+      fs.symlinkSync(options.replaceDependencyLink.source, dependency)
     }
     if (executable === 'pnpm' && args[0] === 'generate:localization-input-inventory') {
       fs.writeFileSync(path.join(cwd, 'deploy/contracts/localization-inputs.inventory.json'), '{"version":2}\n')
@@ -239,13 +239,18 @@ test('Japanese-only reconciliation skips Reference sidebar generation but keeps 
 
 test('ignores only the exact dependency symlinks installed for the reconciliation worktree', async t => {
   const setup = fixture(t)
+  const installed = path.join(setup.root, 'installed-node-modules')
+  fs.mkdirSync(installed)
   for (const relative of [
     'apps/docs/node_modules',
     'packages/chat-ui/node_modules',
     'packages/docs-tooling/node_modules',
     'packages/docs-ui/node_modules',
     'packages/site-config/node_modules',
-  ]) fs.mkdirSync(path.join(setup.repository, relative), {recursive: true})
+  ]) {
+    fs.mkdirSync(path.dirname(path.join(setup.repository, relative)), {recursive: true})
+    fs.symlinkSync(installed, path.join(setup.repository, relative))
+  }
   const selected = selection(setup.baseline, [unit(setup.baseline)])
   const reconciled = await reconcileTranslationPublication({
     selection: selected,
@@ -264,15 +269,21 @@ test('ignores only the exact dependency symlinks installed for the reconciliatio
 
 test('fails closed when an installed dependency symlink is replaced with the same target', async t => {
   const setup = fixture(t)
-  const dependencySource = path.join(setup.repository, 'node_modules')
+  const dependencySource = path.join(setup.repository, 'installed-package')
+  const dependencyRoot = path.join(setup.repository, 'node_modules')
   fs.mkdirSync(dependencySource)
+  fs.mkdirSync(dependencyRoot)
+  fs.symlinkSync(dependencySource, path.join(dependencyRoot, 'test-package'))
   const selected = selection(setup.baseline, [unit(setup.baseline)])
   const reconciled = await reconcileTranslationPublication({
     selection: selected,
     results: results(selected, setup.baseline),
     repositoryRoot: setup.repository,
     runnerTemp: setup.runnerTemp,
-    transactionContext: {dependencies: {runCommand: deterministicCommands([], {replaceDependencyLink: dependencySource})}},
+    transactionContext: {dependencies: {runCommand: deterministicCommands([], {replaceDependencyLink: {
+      relative: 'node_modules/test-package',
+      source: dependencySource,
+    }})}},
   })
 
   assert.equal(reconciled.status, 'publish_failed')
