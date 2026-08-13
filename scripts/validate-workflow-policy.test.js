@@ -3691,6 +3691,7 @@ test('translation workers resolve bootstrap mode and validate only their selecte
   assert.match(steps[materializeIndex].run, /materialize-translation-baseline\.js/)
   assert.match(steps[resolveIndex].run, /bootstrap-state\.js resolve[\s\S]*--summary-file tmp\/bootstrap-decision\.json/)
   assert.match(steps[resolveIndex].run, /Requested mode:[\s\S]*Effective mode:[\s\S]*Decision:[\s\S]*Pending records:/)
+  assert.match(steps[resolveIndex].run, /bootstrap_status=.*bootstrap-decision\.json/)
   assert.match(steps[manifestIndex].run, /--mode "\$EFFECTIVE_TRANSLATION_MODE"/)
   assert.match(steps[validationIndex].run, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
   assert.doesNotMatch(steps[validationIndex].run, /validate-reference|build:en|build:zh-CN|reference-manifest/)
@@ -3700,6 +3701,7 @@ test('translation workers resolve bootstrap mode and validate only their selecte
   assert.doesNotMatch(steps[regenerateIndex].run, /reference-manifest|validate-reference/)
   assert.doesNotMatch(steps[markerIndex].if, /steps\.agents\.outputs\.failed_count.*== '0'/)
   assert.match(steps[markerIndex].if, /steps\.agents\.outputs\.remaining_count.*== '0'/)
+  assert.match(steps[markerIndex].if, /steps\.mode\.outputs\.bootstrap_status == 'safe_repair'/)
 })
 
 test('translation workers authenticate exact source checkpoint inputs without binding to stale Reference manifest provenance', () => {

@@ -43,6 +43,30 @@ function groupRecords(state, group, key) {
   return (Array.isArray(state?.[key]) ? state[key] : []).filter(record => record && record.manual === group);
 }
 
+function groupTargetRoots(group) {
+  return {
+    python: ['content/zh-CN/reference/api/python'],
+    java: ['content/zh-CN/reference/api/java'],
+    node: ['content/zh-CN/reference/api/nodejs'],
+    go: ['content/zh-CN/reference/api/go'],
+    cli: ['content/zh-CN/reference/cli'],
+    rest: ['content/zh-CN/reference/api/restful'],
+  }[group] || [];
+}
+
+function treeHasMarkdown(root, relativePath) {
+  const target = resolveStatePath(root, relativePath);
+  const inspected = inspectPathChain(root, target, 'Bootstrap target group');
+  if (!inspected.exists) return false;
+  const visit = directory => fs.readdirSync(directory, {withFileTypes: true}).some(entry => {
+    const child = path.join(directory, entry.name);
+    if (entry.isSymbolicLink()) throw new Error(`Bootstrap target group must not contain symlinks: ${relativePath}`);
+    if (entry.isDirectory()) return visit(child);
+    return entry.isFile() && /\.mdx?$/.test(entry.name);
+  });
+  return visit(target);
+}
+
 function expectedReferenceManual(sourcePath) {
   if (typeof sourcePath !== 'string' || !sourcePath.startsWith('content/en/reference/')) return undefined;
   const relative = sourcePath.slice('content/en/reference/'.length);
@@ -60,7 +84,12 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
   const pending = groupRecords(state, group, 'pendingRecords');
   const excluded = groupRecords(state, group, 'languageExcludedRecords');
   const stateCount = translated.length + pending.length + excluded.length;
-  if (stateCount === 0) return {status: 'empty', mode: 'full', summary: `${target}/${group}: no historical state; explicit first bootstrap is allowed`};
+  if (stateCount === 0) {
+    const seededTarget = groupTargetRoots(group).some(targetRoot => treeHasMarkdown(repositoryRoot, targetRoot));
+    if (seededTarget) throw new Error(`Bootstrap state for ${group} is inconsistent: existing Chinese target files are not represented in the manifest`);
+    if (sourceRecords.length === 0) throw new Error(`Bootstrap state for ${group} is inconsistent: source manifest has no current group records`);
+    return {status: 'empty', mode: 'full', summary: `${target}/${group}: no historical state; explicit first bootstrap is allowed`};
+  }
   const sourceByPath = new Map(sourceRecords.map(record => [record.sourcePath, record]));
   const coverage = new Map();
   const add = (kind, record) => {
@@ -71,6 +100,9 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
   translated.forEach(record => add('translated', record));
   pending.forEach(record => add('pending', record));
   excluded.forEach(record => add('excluded', record));
+  for (const sourcePath of coverage.keys()) {
+    if (!sourceByPath.has(sourcePath)) throw new Error(`Bootstrap state for ${group} is inconsistent: stale record is outside the current source manifest: ${sourcePath}`);
+  }
   for (const source of sourceRecords) {
     const entry = coverage.get(source.sourcePath);
     if (!entry) throw new Error(`Bootstrap state for ${group} is inconsistent: uncovered current source ${source.sourcePath}`);
@@ -95,7 +127,7 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
         throw new Error(`Bootstrap state for ${group} is inconsistent: target hash mismatch for ${source.sourcePath}`);
       }
     } else if (entry.kind === 'pending') {
-      if (!COMMIT_SHA.test(record.sourceCommit || '') || sha256File(repositoryRoot, record.targetPath)) {
+      if (record.sourceCommit !== sourceManifest.sourceCommit || !COMMIT_SHA.test(record.sourceCommit || '') || sha256File(repositoryRoot, record.targetPath)) {
         throw new Error(`Bootstrap state for ${group} is inconsistent: pending target is not absent for ${source.sourcePath}`);
       }
     } else {
@@ -105,19 +137,18 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
     }
   }
   return {
-    status: 'repaired',
+    status: 'safe_repair',
     mode: 'incremental',
     pendingCount: pending.length,
-    state: markBootstrapComplete({manifest: state, group}),
-    summary: `${target}/${group}: repaired legacy coverage; incremental mode (${translated.length} translated, ${pending.length} pending)`,
+    summary: `${target}/${group}: safely repaired legacy coverage; incremental mode (${translated.length} translated, ${pending.length} pending)`,
   };
 }
 
 function resolveBootstrapDecision({requestedMode = 'auto', target, group, state, sourceManifest, repositoryRoot = canonicalRoot()}) {
   if (!['auto', 'full', 'incremental'].includes(requestedMode)) throw new Error(`Unsupported translation mode: ${requestedMode}`);
   if (typeof group !== 'string' || group === '') throw new Error('Translation group is required');
-  if (requestedMode === 'full') return {mode: 'full', status: 'explicit_full', summary: `${target}/${group}: explicit full mode requested`};
   if (target === 'zh-CN-reference' && group === 'rest') throw new Error('Chinese REST is OpenAPI-owned and excluded from generic Translation bootstrap resolution');
+  if (requestedMode === 'full') return {mode: 'full', status: 'explicit_full', summary: `${target}/${group}: explicit full mode requested`};
   if (state?.bootstrapCompletedGroups?.includes(group)) return {mode: 'incremental', status: 'marked', summary: `${target}/${group}: bootstrap marker present; incremental mode`};
   if (requestedMode === 'incremental') throw new Error(`Translation bootstrap is not complete for group ${group}`);
   return assessLegacyBootstrap({target, group, state, sourceManifest, repositoryRoot});
@@ -328,7 +359,6 @@ function main() {
     const root = canonicalRoot();
     const sourceManifest = readJsonIfPresent(root, 'generated/en/manifests/reference.json');
     const decision = resolveBootstrapDecision({requestedMode, target, group, state, sourceManifest, repositoryRoot: root});
-    if (decision.state) writeState(target, decision.state);
     const summaryFile = args.get('--summary-file');
     if (summaryFile) {
       const summaryTarget = path.resolve(root, summaryFile);

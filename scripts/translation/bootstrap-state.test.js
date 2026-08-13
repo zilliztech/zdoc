@@ -67,8 +67,8 @@ test('auto repairs a complete legacy Reference group and resolves incremental', 
     fs.writeFileSync(path.join(root, fixture.targetPath), fixture.targetContents);
     const decision = resolveBootstrapDecision(fixture);
     assert.equal(decision.mode, 'incremental');
-    assert.equal(decision.status, 'repaired');
-    assert.deepEqual(decision.state.bootstrapCompletedGroups, ['python']);
+    assert.equal(decision.status, 'safe_repair');
+    assert.equal(decision.state, undefined);
     assert.match(decision.summary, /repaired/i);
   } finally {
     fs.rmSync(root, {recursive: true, force: true});
@@ -85,6 +85,35 @@ test('auto keeps genuine empty Reference state as explicit full bootstrap', () =
     assert.equal(decision.mode, 'full');
     assert.equal(decision.status, 'empty');
     assert.equal(decision.state, undefined);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('empty manifest with an existing canonical Chinese target fails closed', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-seeded-target-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    fs.mkdirSync(path.dirname(path.join(root, fixture.targetPath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.targetPath), fixture.targetContents);
+    assert.throws(() => resolveBootstrapDecision({...fixture, state: {schemaVersion: 1, records: []}}), /existing|target|empty|inconsistent/i);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('empty manifest with a stale target-only group file also fails closed', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-stale-target-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    const staleTarget = 'content/zh-CN/reference/api/python/python/retired.md';
+    fs.mkdirSync(path.dirname(path.join(root, staleTarget)), {recursive: true});
+    fs.writeFileSync(path.join(root, staleTarget), '# stale\n');
+    assert.throws(() => resolveBootstrapDecision({...fixture, state: {schemaVersion: 1, records: []}}), /existing|target|empty|inconsistent/i);
   } finally {
     fs.rmSync(root, {recursive: true, force: true});
   }
@@ -140,8 +169,45 @@ test('partial-success state with explicit pending record is incrementally mainta
     fs.writeFileSync(path.join(root, fixture.targetPath), fixture.targetContents);
     const decision = resolveBootstrapDecision(fixture);
     assert.equal(decision.mode, 'incremental');
-    assert.equal(decision.status, 'repaired');
+    assert.equal(decision.status, 'safe_repair');
     assert.equal(decision.pendingCount, 1);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('pending provenance must match the current source checkpoint', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-pending-provenance-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    fixture.state.records = [];
+    fixture.state.pendingRecords = [{
+      manual: 'python', sourcePath: fixture.sourcePath, targetPath: fixture.targetPath,
+      sourceCommit: 'b'.repeat(40), sourceHash: sha256(fixture.source),
+    }];
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    assert.throws(() => resolveBootstrapDecision(fixture), /pending|source commit|checkpoint|inconsistent/i);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('legacy repair rejects extra stale group records outside the current source manifest', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-extra-record-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    const extraSourcePath = 'content/en/reference/api/python/python/stale.md';
+    const extraTargetPath = extraSourcePath.replace('content/en/', 'content/zh-CN/');
+    fixture.state.pendingRecords = [{
+      manual: 'python', sourcePath: extraSourcePath, targetPath: extraTargetPath,
+      sourceCommit: 'a'.repeat(40), sourceHash: sha256('# stale\n'),
+    }];
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    fs.mkdirSync(path.dirname(path.join(root, fixture.targetPath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.targetPath), fixture.targetContents);
+    assert.throws(() => resolveBootstrapDecision(fixture), /extra|stale|current source|inconsistent/i);
   } finally {
     fs.rmSync(root, {recursive: true, force: true});
   }
@@ -164,7 +230,7 @@ test('legacy coverage audit accepts valid current language-excluded records', ()
       }]},
     });
     assert.equal(decision.mode, 'incremental');
-    assert.equal(decision.status, 'repaired');
+    assert.equal(decision.status, 'safe_repair');
   } finally {
     fs.rmSync(root, {recursive: true, force: true});
   }
@@ -176,6 +242,42 @@ test('generic Chinese Translation cannot resolve OpenAPI-owned REST bootstrap', 
     state: {schemaVersion: 1, records: []},
     sourceManifest: {schemaVersion: 1, sourceCommit: 'a'.repeat(40), records: []},
   }), /REST|OpenAPI|generic/i);
+});
+
+test('explicit full cannot bypass the Chinese REST Translation exclusion', () => {
+  assert.throws(() => resolveBootstrapDecision({
+    requestedMode: 'full', target: 'zh-CN-reference', group: 'rest',
+    state: {schemaVersion: 1, records: []},
+  }), /REST|OpenAPI|excluded/i);
+});
+
+test('CLI safe repair is ephemeral and does not persist the marker before provider validation', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-cli-repair-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    for (const [relativePath, value] of [
+      ['generated/en/manifests/reference.json', fixture.sourceManifest],
+      ['generated/zh-CN/manifests/reference-translations.json', fixture.state],
+    ]) {
+      fs.mkdirSync(path.dirname(path.join(root, relativePath)), {recursive: true});
+      fs.writeFileSync(path.join(root, relativePath), `${JSON.stringify(value)}\n`);
+    }
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    fs.mkdirSync(path.dirname(path.join(root, fixture.targetPath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.targetPath), fixture.targetContents);
+    const before = fs.readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'));
+    const result = spawnSync(process.execPath, [
+      path.join(__dirname, 'bootstrap-state.js'), 'resolve', '--target', 'zh-CN-reference',
+      '--group', 'python', '--mode', 'auto', '--summary-file', 'tmp/decision.json',
+    ], {cwd: root, encoding: 'utf8'});
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stdout, 'incremental');
+    assert.deepEqual(fs.readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json')), before);
+    assert.equal(JSON.parse(fs.readFileSync(path.join(root, 'tmp/decision.json'))).status, 'safe_repair');
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
 });
 
 test('explicit full remains explicit and never claims a legacy repair', () => {

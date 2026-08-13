@@ -80,6 +80,8 @@ test('translation readiness accepts complete terminal failures but remains conse
   assert.doesNotMatch(workflow, /\bfailed_count\s*==\s*0[^\n]*status=translation_ready/)
   assert.ok(validationIndex >= 0 && validationIndex < markerIndex)
   assert.match(steps[validationIndex].run, /validate-unbatched-translation-outputs\.js/)
+  assert.match(marker.if, /steps\.mode\.outputs\.bootstrap_status == 'safe_repair'/)
+  assert.match(marker.if, /steps\.mode\.outputs\.effective_mode == 'full'/)
   assert.doesNotMatch(marker.if, /failed_count \|\| '0'\) == '0'/)
   assert.match(marker.if, /remaining_count \|\| '0'\) == '0'/)
   assert.match(workflow, /Regenerate selected Chinese Reference sidebar[\s\S]*failed_count \|\| '0'\) == '0'/)
