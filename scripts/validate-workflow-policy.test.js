@@ -2574,6 +2574,26 @@ test('workflow policy rejects numbered translation batch validation regressions'
       expected: `${workflowName}: full translated validation must be restricted to unbatched runs`,
     },
     {
+      mutate(steps) { steps.find(step => step.name === 'Mark completed translation bootstrap').if = steps.find(step => step.name === 'Mark completed translation bootstrap').if.replace("inputs.batch_number == 0 &&", '') },
+      expected: `${workflowName}: bootstrap markers must require batch zero, full or safe repair mode, zero remaining work, successful validation, and non-Japanese target`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Mark completed translation bootstrap').if = steps.find(step => step.name === 'Mark completed translation bootstrap').if.replace("(steps.mode.outputs.effective_mode == 'full' || steps.mode.outputs.bootstrap_status == 'safe_repair') &&", '') },
+      expected: `${workflowName}: bootstrap markers must require batch zero, full or safe repair mode, zero remaining work, successful validation, and non-Japanese target`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Mark completed translation bootstrap').if = steps.find(step => step.name === 'Mark completed translation bootstrap').if.replace("(steps.agents.outputs.remaining_count || '0') == '0' &&", '') },
+      expected: `${workflowName}: bootstrap markers must require batch zero, full or safe repair mode, zero remaining work, successful validation, and non-Japanese target`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Mark completed translation bootstrap').if = steps.find(step => step.name === 'Mark completed translation bootstrap').if.replace("steps.unbatched_validation.outcome == 'success' &&", '') },
+      expected: `${workflowName}: bootstrap markers must require batch zero, full or safe repair mode, zero remaining work, successful validation, and non-Japanese target`,
+    },
+    {
+      mutate(steps) { steps.find(step => step.name === 'Mark completed translation bootstrap').if = steps.find(step => step.name === 'Mark completed translation bootstrap').if.replace("inputs.target != 'ja-JP'", '') },
+      expected: `${workflowName}: bootstrap markers must require batch zero, full or safe repair mode, zero remaining work, successful validation, and non-Japanese target`,
+    },
+    {
       mutate(steps) { steps.find(step => step.name === 'Validate translated batch outputs').run = 'node scripts/docs-workflow/translation-batch-input.js validate --input tmp/translation-batch-input.json' },
       expected: `${workflowName}: numbered Guides batches must validate agent report evidence and exact candidate output files`,
     },

@@ -738,8 +738,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: full translated validation must be restricted to unbatched runs`)
       }
       const bootstrapMarker = steps.find(step => step.name === 'Mark completed translation bootstrap')
-      if (unbatched?.id !== 'unbatched_validation' || !/steps\.unbatched_validation\.outcome == 'success'/.test(String(bootstrapMarker?.if || ''))) {
-        errors.push(`${file}: bootstrap markers must follow authenticated unbatched validation, including zero-candidate safe repair`)
+      const expectedBootstrapMarkerCondition = "${{ inputs.should_translate && inputs.batch_number == 0 && (steps.mode.outputs.effective_mode == 'full' || steps.mode.outputs.bootstrap_status == 'safe_repair') && (steps.agents.outputs.remaining_count || '0') == '0' && steps.unbatched_validation.outcome == 'success' && inputs.target != 'ja-JP' }}"
+      if (unbatched?.id !== 'unbatched_validation' || normalizeCondition(bootstrapMarker?.if) !== normalizeCondition(expectedBootstrapMarkerCondition)) {
+        errors.push(`${file}: bootstrap markers must require batch zero, full or safe repair mode, zero remaining work, successful validation, and non-Japanese target`)
       }
       const candidateNames = Object.keys(candidateIdentity)
       const candidateIdentityIsExact = candidateNames.every(name => unbatched?.env?.[name] === candidateIdentity[name])

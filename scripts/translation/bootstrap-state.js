@@ -14,6 +14,14 @@ const {
 const NOFOLLOW = typeof fs.constants.O_NOFOLLOW === 'number' ? fs.constants.O_NOFOLLOW : 0;
 const SHA256 = /^[a-f0-9]{64}$/;
 const COMMIT_SHA = /^[a-f0-9]{40}$/;
+const REFERENCE_LANDING_SOURCES = Object.freeze([
+  'content/en/reference/api/python/python/python.md',
+  'content/en/reference/api/java/java/java.md',
+  'content/en/reference/api/nodejs/nodejs/nodejs.md',
+  'content/en/reference/api/go/go/go.md',
+  'content/en/reference/cli/cli/Overview.md',
+]);
+const REFERENCE_LANDING_TARGETS = Object.freeze(REFERENCE_LANDING_SOURCES.map(sourcePath => sourcePath.replace('content/en/', 'content/zh-CN/')));
 
 function canonicalGroups(groups) {
   return [...new Set(groups || [])].sort((left, right) => left.localeCompare(right));
@@ -47,6 +55,12 @@ function groupRecords(state, group, key) {
   return (Array.isArray(state?.[key]) ? state[key] : []).filter(record => record && record.manual === group);
 }
 
+function bootstrapGroupRecords(state, group, key) {
+  if (group !== 'reference-landings') return groupRecords(state, group, key);
+  const landingSources = new Set(REFERENCE_LANDING_SOURCES);
+  return (Array.isArray(state?.[key]) ? state[key] : []).filter(record => record && landingSources.has(record.sourcePath));
+}
+
 function groupTargetRoots(group) {
   return {
     python: ['content/zh-CN/reference/api/python'],
@@ -56,6 +70,11 @@ function groupTargetRoots(group) {
     cli: ['content/zh-CN/reference/cli'],
     rest: ['content/zh-CN/reference/api/restful'],
   }[group] || [];
+}
+
+function groupHasMaterializedTargets(root, group) {
+  if (group === 'reference-landings') return REFERENCE_LANDING_TARGETS.some(targetPath => sha256File(root, targetPath) !== undefined);
+  return groupTargetRoots(group).some(targetRoot => treeHasMarkdown(root, targetRoot));
 }
 
 function treeHasMarkdown(root, relativePath) {
@@ -89,13 +108,16 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
   catch (error) { throw new Error(`Cannot assess legacy bootstrap for ${group}: invalid Reference source manifest: ${error.message}`); }
   try { parsedState = parseReferenceTranslationManifest(state); }
   catch (error) { throw new Error(`Cannot assess legacy bootstrap for ${group}: invalid Reference translation manifest: ${error.message}`); }
-  const sourceRecords = parsedSourceManifest.records.filter(record => record.manual === group);
-  const translated = groupRecords(parsedState, group, 'records');
-  const pending = groupRecords(parsedState, group, 'pendingRecords');
-  const excluded = groupRecords(parsedState, group, 'languageExcludedRecords');
+  const landingSources = new Set(REFERENCE_LANDING_SOURCES);
+  const sourceRecords = parsedSourceManifest.records.filter(record => group === 'reference-landings'
+    ? landingSources.has(record.sourcePath)
+    : record.manual === group);
+  const translated = bootstrapGroupRecords(parsedState, group, 'records');
+  const pending = bootstrapGroupRecords(parsedState, group, 'pendingRecords');
+  const excluded = bootstrapGroupRecords(parsedState, group, 'languageExcludedRecords');
   const stateCount = translated.length + pending.length + excluded.length;
   if (stateCount === 0) {
-    const seededTarget = groupTargetRoots(group).some(targetRoot => treeHasMarkdown(repositoryRoot, targetRoot));
+    const seededTarget = groupHasMaterializedTargets(repositoryRoot, group);
     if (seededTarget) throw new Error(`Bootstrap state for ${group} is inconsistent: existing Chinese target files are not represented in the manifest`);
     if (sourceRecords.length === 0) throw new Error(`Bootstrap state for ${group} is inconsistent: source manifest has no current group records`);
     return {status: 'empty', mode: 'full', summary: `${target}/${group}: no historical state; explicit first bootstrap is allowed`};
@@ -118,7 +140,9 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
     if (!entry) throw new Error(`Bootstrap state for ${group} is inconsistent: uncovered current source ${source.sourcePath}`);
     const record = entry.record;
     const expectedTargetPath = `content/zh-CN/reference/${source.sourcePath.slice('content/en/reference/'.length)}`;
-    if (expectedReferenceManual(source.sourcePath) !== group || record.manual !== group || record.targetPath !== expectedTargetPath) {
+    const expectedManual = expectedReferenceManual(source.sourcePath);
+    const belongsToGroup = group === 'reference-landings' ? landingSources.has(source.sourcePath) : expectedManual === group;
+    if (!belongsToGroup || record.manual !== expectedManual || record.targetPath !== expectedTargetPath) {
       throw new Error(`Bootstrap state for ${group} is inconsistent: canonical ownership mismatch for ${source.sourcePath}`);
     }
     if (record.sourceHash !== source.sourceHash || !SHA256.test(record.sourceHash)) {

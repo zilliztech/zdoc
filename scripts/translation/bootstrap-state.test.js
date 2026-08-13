@@ -57,6 +57,60 @@ function referenceFixture(overrides = {}) {
   };
 }
 
+const REFERENCE_LANDING_SOURCES = [
+  'content/en/reference/api/python/python/python.md',
+  'content/en/reference/api/java/java/java.md',
+  'content/en/reference/api/nodejs/nodejs/nodejs.md',
+  'content/en/reference/api/go/go/go.md',
+  'content/en/reference/cli/cli/Overview.md',
+];
+
+function referenceLandingsFixture({state = {}, targetFiles = true} = {}) {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-landings-'));
+  const sourceCommit = 'c'.repeat(40);
+  const sourceManifest = {
+    schemaVersion: 1,
+    sourceCommit,
+    records: REFERENCE_LANDING_SOURCES.map(sourcePath => ({
+      manual: sourcePath.includes('/api/python/') ? 'python'
+        : sourcePath.includes('/api/java/') ? 'java'
+          : sourcePath.includes('/api/nodejs/') ? 'node'
+            : sourcePath.includes('/api/go/') ? 'go' : 'cli',
+      sourcePath,
+      sourceHash: sha256(`# ${sourcePath}\n`),
+    })).sort((left, right) => left.manual.localeCompare(right.manual) || left.sourcePath.localeCompare(right.sourcePath)),
+  };
+  const records = sourceManifest.records.map(source => {
+    const targetPath = source.sourcePath.replace('content/en/', 'content/zh-CN/');
+    return {
+      manual: source.manual,
+      sourcePath: source.sourcePath,
+      targetPath,
+      sourceCommit,
+      sourceHash: source.sourceHash,
+      targetHash: sha256(`# translated ${source.sourcePath}\n`),
+      status: 'translated',
+    };
+  });
+  for (const source of sourceManifest.records) {
+    fs.mkdirSync(path.dirname(path.join(root, source.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, source.sourcePath), `# ${source.sourcePath}\n`);
+  }
+  if (targetFiles) {
+    for (const record of records) {
+      fs.mkdirSync(path.dirname(path.join(root, record.targetPath)), {recursive: true});
+      fs.writeFileSync(path.join(root, record.targetPath), `# translated ${record.sourcePath}\n`);
+    }
+  }
+  return {
+    root,
+    sourceManifest,
+    state: {schemaVersion: 1, records, ...state},
+    sourceCommit,
+    records,
+  };
+}
+
 test('auto repairs a complete legacy Reference group and resolves incremental', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-repair-'));
   try {
@@ -149,6 +203,75 @@ test('empty manifest fails closed when the canonical target root is a symlink', 
   } finally {
     fs.rmSync(root, {recursive: true, force: true});
     fs.rmSync(outside, {recursive: true, force: true});
+  }
+});
+
+test('Reference landing state without a marker repairs incrementally by canonical landing paths', () => {
+  const fixture = referenceLandingsFixture();
+  try {
+    const decision = resolveBootstrapDecision({
+      target: 'zh-CN-reference', group: 'reference-landings',
+      state: fixture.state, sourceManifest: fixture.sourceManifest, repositoryRoot: fixture.root,
+    });
+    assert.equal(decision.status, 'safe_repair');
+    assert.equal(decision.mode, 'incremental');
+    assert.equal(decision.pendingCount, 0);
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true});
+  }
+});
+
+test('Reference landing empty state permits full bootstrap only when landing targets are absent', () => {
+  const empty = referenceLandingsFixture({targetFiles: false});
+  try {
+    fs.mkdirSync(path.join(empty.root, 'content/zh-CN/reference/api/python/python'), {recursive: true});
+    fs.writeFileSync(path.join(empty.root, 'content/zh-CN/reference/api/python/python/non-landing.md'), '# Existing SDK page\n');
+    const decision = resolveBootstrapDecision({
+      target: 'zh-CN-reference', group: 'reference-landings',
+      state: {schemaVersion: 1, records: []}, sourceManifest: empty.sourceManifest, repositoryRoot: empty.root,
+    });
+    assert.equal(decision.status, 'empty');
+    assert.equal(decision.mode, 'full');
+  } finally {
+    fs.rmSync(empty.root, {recursive: true, force: true});
+  }
+
+  const seeded = referenceLandingsFixture({targetFiles: true});
+  try {
+    assert.throws(() => resolveBootstrapDecision({
+      target: 'zh-CN-reference', group: 'reference-landings',
+      state: {schemaVersion: 1, records: []}, sourceManifest: seeded.sourceManifest, repositoryRoot: seeded.root,
+    }), /existing|target|inconsistent/i);
+  } finally {
+    fs.rmSync(seeded.root, {recursive: true, force: true});
+  }
+});
+
+test('Reference landing pending and changed records remain fail-closed and checkpoint-bound', () => {
+  const fixture = referenceLandingsFixture();
+  try {
+    const pendingSource = fixture.sourceManifest.records[0];
+    const pendingTarget = pendingSource.sourcePath.replace('content/en/', 'content/zh-CN/');
+    fixture.state.records = fixture.state.records.slice(1);
+    fixture.state.pendingRecords = [{
+      manual: pendingSource.manual, sourcePath: pendingSource.sourcePath, targetPath: pendingTarget,
+      sourceCommit: fixture.sourceCommit, sourceHash: pendingSource.sourceHash,
+    }];
+    fs.rmSync(path.join(fixture.root, pendingTarget));
+    const repaired = resolveBootstrapDecision({
+      target: 'zh-CN-reference', group: 'reference-landings',
+      state: fixture.state, sourceManifest: fixture.sourceManifest, repositoryRoot: fixture.root,
+    });
+    assert.equal(repaired.status, 'safe_repair');
+    assert.equal(repaired.pendingCount, 1);
+
+    fixture.state.pendingRecords[0].sourceHash = 'd'.repeat(64);
+    assert.throws(() => resolveBootstrapDecision({
+      target: 'zh-CN-reference', group: 'reference-landings',
+      state: fixture.state, sourceManifest: fixture.sourceManifest, repositoryRoot: fixture.root,
+    }), /source hash|inconsistent/i);
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true});
   }
 });
 
