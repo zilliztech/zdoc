@@ -57,6 +57,71 @@ pnpm test:retirement
 
 GitHub Actions owns source production, translation, validation, and image build orchestration. English/Japanese and Chinese production remain independently addressable. External Jenkins UAT and Prod pipelines consume the selected repository branch through the same site-qualified build interface; Jenkins configuration is maintained outside this repository.
 
+## Production publication runbook
+
+The normal production entry point is [`fetch-docs.yml`](.github/workflows/fetch-docs.yml). It publishes the selected English source units to `dev`, performs final verification, and can dispatch one downstream Translation workflow. Fetch and publish-enabled Translation runs share the `docs-production-dev` concurrency group with `queue: max`; do not bypass that queue with a second manual writer.
+
+### Before publishing
+
+1. Confirm that the intended tooling is already on `dev` through the PR-based [`sync-master-tooling-to-dev.yml`](.github/workflows/sync-master-tooling-to-dev.yml) workflow. The candidate must be an exact master commit and the resulting merge must be identifiable in the workflow and PR history.
+2. Check the current `dev` tip and make sure no production Fetch, Translation, or tooling run is already active.
+3. For a risky workflow or artifact change, run the repository tests and a local real-artifact replay first. A replay must use real retained checkpoint archives, a local bare Git remote, the exact validation commands and site environment, and an isolated dependency layout. It must never push to the real `origin`.
+
+### Start and monitor a publication
+
+For a normal full release, dispatch `fetch lark docs` with:
+
+- `group=all`
+- `target_branch=dev`
+- `publish=true`
+- `media_upload_mode=write`
+- `run_translations=true` when the downstream Translation handoff is required
+- the intended `tooling_ref` and `source_ref` (normally `master` and `dev`)
+
+Use `publish=false` only for an artifact-only validation. `media_upload_mode=skip` is restricted to the controlled artifact-only Guides validation contract; it is not a production publish mode.
+
+Monitor the parent run through these boundaries, in order:
+
+1. producer jobs create and validate the immutable checkpoint artifacts;
+2. `publish_ready` consumes the immutable selection and publishes in producer-completion FIFO order;
+3. `reconcile_reference_state` performs the allowed generated-state reconciliation;
+4. `source_publication_barrier` proves every required source group succeeded before paid Translation is dispatched;
+5. `prepare_translation_handoff` writes the schema-v2 handoff bound to the exact source commits and reconciled target SHA;
+6. `dispatch_translations` starts the single child Translation run;
+7. `verify`, `aggregate`, and card finalization reach terminal state.
+
+Do not treat a successful parent run as proof that Translation finished. When Translation is requested, open the child run from the parent handoff metadata and wait for its own terminal `aggregate`/`publish_ready` evidence. The final production identity is the reconciled `dev` SHA, not merely the last producer result.
+
+### Evidence required after a successful run
+
+Record the run URLs and retain these facts before handing off to Jenkins:
+
+- Fetch selection and terminal results, including the runtime FIFO and final `dev` SHA;
+- every successful result SHA is an ancestor of the final target;
+- source publication barrier and final verification passed;
+- localization input inventory and English revision inventory passed;
+- Guides reports were collected for both `en` and `zh-CN`, and the final card contains exactly nine available notes with no `Unavailable` entry;
+- if Translation ran, its own selection/results, reconciliation result, FIFO order, ancestry, and absence of unknown remote state;
+- the exact `dev` SHA that Jenkins builds.
+
+Jenkins should be started or inspected only after the exact SHA is known. Confirm that the build label contains that SHA and that the intended target (for example `EN+CN → UAT`) is shown. A branch name alone is not sufficient evidence.
+
+### Failure handling and recovery
+
+Stop at the first failed boundary and classify the failure before retrying:
+
+- **Prepare or producer failure:** no publication writer should have run. Inspect the failed job log, selection, and checkpoint artifact preflight. Fix the local cause and rerun the same workflow inputs; do not start Translation from a partial handoff.
+- **Validation or known Git publication failure:** inspect `publication-results.json`, the unit failure code, and the target tip. Ordinary unit failures may allow later ready units to continue, so use the terminal results rather than assuming that a failed producer means nothing was written.
+- **`REMOTE_STATE_UNKNOWN`:** treat the run as a safe stop. Do not cancel a running production Translation, force-push, reset, rebase, or blindly rerun the writer. Inspect the remote branch, candidate/result SHAs, and the exact probe evidence first. Resume only after the remote state is known.
+- **Reference reconciliation failure:** source publication may already be present. Preserve the run artifacts, verify the published ancestry, and repair or rerun only the reconciliation boundary after confirming the current target tip. Do not pay for Translation again until the source barrier and schema-v2 handoff are valid.
+- **Translation unit failure:** a normal unit failure is recorded and later ready units can continue; an unknown remote state stops later writes. Inspect the child run's unit results, reports, remaining count, and reconciliation output before deciding whether recovery is needed.
+- **Expired or incompatible Translation artifacts:** use [`recover-translation.yml`](.github/workflows/recover-translation.yml) with the previous Translation workflow run ID (not a job ID). First run with `publish=false` to authenticate the recovery plan and inspect rejected units. Only after the plan is compatible should you rerun with `publish=true`. `allow_full_retranslate=true` is an advanced, explicitly authorized path for the case where no retained file is compatible; it may invoke paid models and must not be enabled casually.
+- **Card/reporting failure:** the card is observability, not the Git writer. Preserve the publication selection/results and final verification artifacts, then use the final card artifact or monitor finalization evidence to determine whether the business flow actually succeeded.
+
+Never infer success from a green producer job, an artifact-only run, or a Chinese Reference no-candidate Translation run. Those can be useful evidence for their own boundaries, but they do not by themselves prove a complete all-locale Translation FIFO.
+
+For workflow changes, keep the local replay root, artifact identities, logs, final SHA, and ancestry checks as the handoff package. This makes a later recovery auditable and avoids repeating paid work merely to reconstruct missing evidence.
+
 ## Containers
 
 The runtime images contain only Nginx plus the selected static build output. Build from the repository root:
