@@ -112,6 +112,17 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
   const sourceRecords = parsedSourceManifest.records.filter(record => group === 'reference-landings'
     ? landingSources.has(record.sourcePath)
     : record.manual === group);
+  if (group === 'reference-landings') {
+    const sourceByPath = new Map(sourceRecords.map(record => [record.sourcePath, record]));
+    for (const sourcePath of REFERENCE_LANDING_SOURCES) {
+      const record = sourceByPath.get(sourcePath);
+      if (!record) throw new Error(`Bootstrap state for reference-landings is inconsistent: canonical landing source is missing: ${sourcePath}`);
+      const expectedManual = expectedReferenceManual(sourcePath);
+      if (record.manual !== expectedManual) {
+        throw new Error(`Bootstrap state for reference-landings is inconsistent: source manual ownership mismatch for ${sourcePath}`);
+      }
+    }
+  }
   const translated = bootstrapGroupRecords(parsedState, group, 'records');
   const pending = bootstrapGroupRecords(parsedState, group, 'pendingRecords');
   const excluded = bootstrapGroupRecords(parsedState, group, 'languageExcludedRecords');

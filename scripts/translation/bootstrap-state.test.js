@@ -275,6 +275,35 @@ test('Reference landing pending and changed records remain fail-closed and check
   }
 });
 
+test('Reference landing legacy authentication rejects an incomplete canonical source set', () => {
+  const fixture = referenceLandingsFixture();
+  try {
+    fixture.sourceManifest.records = fixture.sourceManifest.records.slice(0, 4);
+    fixture.state.records = fixture.state.records.filter(record => fixture.sourceManifest.records.some(source => source.sourcePath === record.sourcePath));
+    assert.throws(() => resolveBootstrapDecision({
+      target: 'zh-CN-reference', group: 'reference-landings',
+      state: fixture.state, sourceManifest: fixture.sourceManifest, repositoryRoot: fixture.root,
+    }), /canonical|landing|missing|complete|source/i);
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true});
+  }
+});
+
+test('Reference landing legacy authentication rejects source manual ownership mismatch', () => {
+  const fixture = referenceLandingsFixture();
+  try {
+    const python = fixture.sourceManifest.records.find(record => record.sourcePath.includes('/api/python/'));
+    python.manual = 'java';
+    fixture.sourceManifest.records.sort((left, right) => left.manual.localeCompare(right.manual) || left.sourcePath.localeCompare(right.sourcePath));
+    assert.throws(() => resolveBootstrapDecision({
+      target: 'zh-CN-reference', group: 'reference-landings',
+      state: fixture.state, sourceManifest: fixture.sourceManifest, repositoryRoot: fixture.root,
+    }), /manual|ownership|canonical|inconsistent/i);
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true});
+  }
+});
+
 test('auto fails closed when legacy Reference state cannot prove complete coverage', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-blocked-'));
   try {
