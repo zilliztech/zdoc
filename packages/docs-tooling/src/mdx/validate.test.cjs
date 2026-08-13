@@ -18,6 +18,8 @@ const typescriptGenerics = [
     '**RETURNS** *Promise<SearchResults<T>>*',
 ].join('\n');
 const faqHeading = '### Can I leave my organization?{#can-i-leave-my-organization}';
+const lessThanHeading = '### 示例 4：使用小于（`<`）操作符过滤{#example-4-filtering-with-less-than}';
+const lessThanOrEqualHeading = '### 示例 6：使用小于或等于（`<=`）操作符过滤{#example-6-filtering-with-less-than-or-equal-to}';
 const sdkMetadataComment = '<!-- category: Authentication; action: CREATE; addedSince: v3.0.x -->';
 const featureNote = [
     '<FeatureNote variant="plan" titleHref="/docs/pricing">',
@@ -218,6 +220,22 @@ async function testFaqHeadingsArePatchable() {
     assert.equal(patched, '### Can I leave my organization?\\{#can-i-leave-my-organization}');
 }
 
+async function testOperatorHeadingsKeepTextAndCustomAnchors() {
+    const lessThanPatched = await applyMdxPatches(lessThanHeading);
+    const lessThanOrEqualPatched = await applyMdxPatches(lessThanOrEqualHeading);
+
+    assert.equal(
+        lessThanPatched,
+        '### 示例 4：使用小于（`<`）操作符过滤\\{#example-4-filtering-with-less-than}',
+    );
+    assert.equal(
+        lessThanOrEqualPatched,
+        '### 示例 6：使用小于或等于（`<=`）操作符过滤\\{#example-6-filtering-with-less-than-or-equal-to}',
+    );
+    await compileToString(lessThanPatched);
+    await compileToString(lessThanOrEqualPatched);
+}
+
 async function testFeatureNoteIsPreservedAsGlobalMdxComponent() {
     const patched = await applyMdxPatches(featureNote);
     assert.equal(patched, featureNote);
@@ -291,6 +309,7 @@ async function run() {
     await testApplyMdxPatchesConvertsTypescriptGenericsToEntities();
     await testLarkDocWriterConvertsBackslashedJavaTypesToEntities();
     await testFaqHeadingsArePatchable();
+    await testOperatorHeadingsKeepTextAndCustomAnchors();
     await testFeatureNoteIsPreservedAsGlobalMdxComponent();
     await testFeatureCardGridIsPreservedAsGlobalMdxComponent();
     await testHtmlTableClosingTagsAfterUppercaseTextArePreserved();
