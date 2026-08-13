@@ -193,6 +193,19 @@ test('pending provenance must match the current source checkpoint', () => {
   }
 });
 
+test('legacy repair fails closed on malformed source manifest schema', () => {
+  const fixture = referenceFixture();
+  assert.throws(() => resolveBootstrapDecision({...fixture, sourceManifest: {...fixture.sourceManifest, schemaVersion: 999}}), /schema|invalid|source manifest/i);
+  assert.throws(() => resolveBootstrapDecision({...fixture, state: {...fixture.state, schemaVersion: 999}}), /schema|invalid|translation manifest/i);
+});
+
+test('legacy repair fails closed on invalid source commit or forbidden manifest fields', () => {
+  const fixture = referenceFixture();
+  assert.throws(() => resolveBootstrapDecision({...fixture, sourceManifest: {...fixture.sourceManifest, sourceCommit: 'not-a-sha'}}), /schema|invalid|source commit/i);
+  assert.throws(() => resolveBootstrapDecision({...fixture, sourceManifest: {...fixture.sourceManifest, unexpected: true}}), /schema|unrecognized|unknown|source manifest/i);
+  assert.throws(() => resolveBootstrapDecision({...fixture, state: {...fixture.state, unexpected: true}}), /schema|unrecognized|unknown|translation manifest/i);
+});
+
 test('legacy repair rejects extra stale group records outside the current source manifest', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-extra-record-'));
   try {
@@ -231,6 +244,27 @@ test('legacy coverage audit accepts valid current language-excluded records', ()
     });
     assert.equal(decision.mode, 'incremental');
     assert.equal(decision.status, 'safe_repair');
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('language-excluded legacy coverage must preserve current source checkpoint provenance', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-excluded-provenance-'));
+  try {
+    const sourcePath = 'content/en/reference/api/restful/restful/page.mdx';
+    const targetPath = 'content/zh-CN/reference/api/restful/restful/page.mdx';
+    const source = '# REST\n\nexport const specs = {"x-include-langs":["en-US"]}\nexport const endpoint = "/v2/test"\n';
+    fs.mkdirSync(path.dirname(path.join(root, sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, sourcePath), source);
+    assert.throws(() => assessLegacyBootstrap({
+      target: 'zh-CN-reference', group: 'rest', repositoryRoot: root,
+      sourceManifest: {schemaVersion: 1, sourceCommit: 'a'.repeat(40), records: [{manual: 'rest', sourcePath, sourceHash: sha256(source)}]},
+      state: {schemaVersion: 1, records: [], languageExcludedRecords: [{
+        manual: 'rest', sourcePath, targetPath, sourceCommit: 'b'.repeat(40), sourceHash: sha256(source),
+        locale: 'zh-CN', reason: 'x-include-langs',
+      }]},
+    }), /source commit|provenance|inconsistent/i);
   } finally {
     fs.rmSync(root, {recursive: true, force: true});
   }

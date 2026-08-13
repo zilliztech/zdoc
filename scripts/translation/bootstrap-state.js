@@ -5,7 +5,11 @@ const {createHash, randomUUID} = require('node:crypto');
 const path = require('node:path');
 const {loadTypeScript} = require('../lib/load-typescript');
 
-const {referenceLanguageExclusionReason} = loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts');
+const {
+  parseReferenceSourceManifest,
+  parseReferenceTranslationManifest,
+  referenceLanguageExclusionReason,
+} = loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts');
 
 const NOFOLLOW = typeof fs.constants.O_NOFOLLOW === 'number' ? fs.constants.O_NOFOLLOW : 0;
 const SHA256 = /^[a-f0-9]{64}$/;
@@ -78,11 +82,16 @@ function expectedReferenceManual(sourcePath) {
 
 function assessLegacyBootstrap({target, group, state, sourceManifest, repositoryRoot = canonicalRoot()}) {
   if (target !== 'zh-CN-reference') return {status: 'not_applicable', mode: 'incremental', summary: `${target}/${group}: cache state is incremental`};
-  if (!sourceManifest || !Array.isArray(sourceManifest.records)) throw new Error(`Cannot assess legacy bootstrap for ${group}: current Reference source manifest is missing`);
-  const sourceRecords = sourceManifest.records.filter(record => record?.manual === group);
-  const translated = groupRecords(state, group, 'records');
-  const pending = groupRecords(state, group, 'pendingRecords');
-  const excluded = groupRecords(state, group, 'languageExcludedRecords');
+  let parsedSourceManifest;
+  let parsedState;
+  try { parsedSourceManifest = parseReferenceSourceManifest(sourceManifest); }
+  catch (error) { throw new Error(`Cannot assess legacy bootstrap for ${group}: invalid Reference source manifest: ${error.message}`); }
+  try { parsedState = parseReferenceTranslationManifest(state); }
+  catch (error) { throw new Error(`Cannot assess legacy bootstrap for ${group}: invalid Reference translation manifest: ${error.message}`); }
+  const sourceRecords = parsedSourceManifest.records.filter(record => record.manual === group);
+  const translated = groupRecords(parsedState, group, 'records');
+  const pending = groupRecords(parsedState, group, 'pendingRecords');
+  const excluded = groupRecords(parsedState, group, 'languageExcludedRecords');
   const stateCount = translated.length + pending.length + excluded.length;
   if (stateCount === 0) {
     const seededTarget = groupTargetRoots(group).some(targetRoot => treeHasMarkdown(repositoryRoot, targetRoot));
@@ -127,11 +136,11 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
         throw new Error(`Bootstrap state for ${group} is inconsistent: target hash mismatch for ${source.sourcePath}`);
       }
     } else if (entry.kind === 'pending') {
-      if (record.sourceCommit !== sourceManifest.sourceCommit || !COMMIT_SHA.test(record.sourceCommit || '') || sha256File(repositoryRoot, record.targetPath)) {
+      if (record.sourceCommit !== parsedSourceManifest.sourceCommit || !COMMIT_SHA.test(record.sourceCommit || '') || sha256File(repositoryRoot, record.targetPath)) {
         throw new Error(`Bootstrap state for ${group} is inconsistent: pending target is not absent for ${source.sourcePath}`);
       }
     } else {
-      if (record.locale !== 'zh-CN' || record.reason !== referenceLanguageExclusionReason(repositoryRoot, source.sourcePath, 'zh-CN') || sha256File(repositoryRoot, record.targetPath)) {
+      if (record.sourceCommit !== parsedSourceManifest.sourceCommit || record.locale !== 'zh-CN' || record.reason !== referenceLanguageExclusionReason(repositoryRoot, source.sourcePath, 'zh-CN') || sha256File(repositoryRoot, record.targetPath)) {
         throw new Error(`Bootstrap state for ${group} is inconsistent: invalid language exclusion for ${source.sourcePath}`);
       }
     }
