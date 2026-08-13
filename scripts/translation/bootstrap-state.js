@@ -174,7 +174,7 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
   const sourceRecords = selectedSourceRecords.filter(record => !retiredSourcePaths.has(record.sourcePath));
   const sourceByPath = new Map(sourceRecords.map(record => [record.sourcePath, record]));
   const stateCount = translated.length + pending.length + excluded.length;
-  if (group !== 'reference-landings' && stateCount === 0 && retired.length > 0) {
+  if (group !== 'reference-landings' && stateCount === 0 && retired.length > 0 && sourceRecords.length === 0) {
     return {
       status: 'safe_repair',
       mode: 'incremental',

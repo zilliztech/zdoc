@@ -566,6 +566,17 @@ test('registered source-only retired-only group is safe historical incremental s
   }
 });
 
+test('retired history cannot hide an uncovered current active source', () => {
+  const {root, fixture, retired} = legacyRetiredFixture();
+  try {
+    fixture.state.records = [retired];
+    fs.rmSync(path.join(root, fixture.targetPath));
+    assert.throws(() => resolveBootstrapDecision(fixture), /uncovered|current source|coverage|inconsistent/i);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
 test('retired-only state cannot bypass exact current Reference landing sources', () => {
   const fixture = referenceLandingsFixture();
   try {
