@@ -6,7 +6,9 @@ const path = require('node:path');
 const {loadTypeScript} = require('../lib/load-typescript');
 
 const {
+  EMPTY_FILE_SHA256,
   parseReferenceSourceManifest,
+  parseReferenceRetirementRegistry,
   parseReferenceTranslationManifest,
   referenceLanguageExclusionReason,
 } = loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts');
@@ -109,11 +111,11 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
   try { parsedState = parseReferenceTranslationManifest(state); }
   catch (error) { throw new Error(`Cannot assess legacy bootstrap for ${group}: invalid Reference translation manifest: ${error.message}`); }
   const landingSources = new Set(REFERENCE_LANDING_SOURCES);
-  const sourceRecords = parsedSourceManifest.records.filter(record => group === 'reference-landings'
+  const selectedSourceRecords = parsedSourceManifest.records.filter(record => group === 'reference-landings'
     ? landingSources.has(record.sourcePath)
     : record.manual === group);
   if (group === 'reference-landings') {
-    const sourceByPath = new Map(sourceRecords.map(record => [record.sourcePath, record]));
+    const sourceByPath = new Map(selectedSourceRecords.map(record => [record.sourcePath, record]));
     for (const sourcePath of REFERENCE_LANDING_SOURCES) {
       const record = sourceByPath.get(sourcePath);
       if (!record) throw new Error(`Bootstrap state for reference-landings is inconsistent: canonical landing source is missing: ${sourcePath}`);
@@ -123,9 +125,54 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
       }
     }
   }
-  const translated = bootstrapGroupRecords(parsedState, group, 'records');
+  const allTranslated = bootstrapGroupRecords(parsedState, group, 'records');
+  const translated = allTranslated.filter(record => record.status !== 'retired');
+  const retired = allTranslated.filter(record => record.status === 'retired');
   const pending = bootstrapGroupRecords(parsedState, group, 'pendingRecords');
   const excluded = bootstrapGroupRecords(parsedState, group, 'languageExcludedRecords');
+  const selectedSourceByPath = new Map(selectedSourceRecords.map(record => [record.sourcePath, record]));
+  if (retired.length > 0) {
+    let parsedRegistry;
+    try {
+      parsedRegistry = parseReferenceRetirementRegistry(readJsonIfPresent(repositoryRoot, 'config/reference-retirements.json'));
+    } catch (error) {
+      throw new Error(`Cannot assess legacy bootstrap for ${group}: invalid Reference retirement registry: ${error.message}`);
+    }
+    for (const record of retired) {
+      const expectedManual = expectedReferenceManual(record.sourcePath);
+      const expectedTargetPath = `content/zh-CN/reference/${record.sourcePath.slice('content/en/reference/'.length)}`;
+      const belongsToGroup = group === 'reference-landings' ? landingSources.has(record.sourcePath) : expectedManual === group;
+      if (!COMMIT_SHA.test(record.sourceCommit || '') || !belongsToGroup || record.manual !== expectedManual || record.targetPath !== expectedTargetPath) {
+        throw new Error(`Bootstrap state for ${group} is inconsistent: invalid retired record ownership for ${record.sourcePath}`);
+      }
+      const registered = parsedRegistry.retirements.find(candidate => (
+        candidate.manual === record.manual && candidate.sourcePath === record.sourcePath && candidate.targetPath === record.targetPath
+      ));
+      if (!registered) throw new Error(`Bootstrap state for ${group} is inconsistent: retired record is not registered: ${record.sourcePath}`);
+      if (!SHA256.test(record.sourceHash || '') || !SHA256.test(record.targetHash || '')) {
+        throw new Error(`Bootstrap state for ${group} is inconsistent: retired record hashes are invalid: ${record.sourcePath}`);
+      }
+      const actualSourceHash = sha256File(repositoryRoot, record.sourcePath);
+      const actualTargetHash = sha256File(repositoryRoot, record.targetPath);
+      if ((actualSourceHash === undefined) === (actualTargetHash === undefined)) {
+        throw new Error(`Bootstrap state for ${group} is inconsistent: retired record must have exactly one missing side: ${record.sourcePath}`);
+      }
+      if (actualSourceHash === undefined) {
+        if (record.sourceHash !== EMPTY_FILE_SHA256 || actualTargetHash !== record.targetHash) {
+          throw new Error(`Bootstrap state for ${group} is inconsistent: retired target-side record does not match disk: ${record.sourcePath}`);
+        }
+      } else if (record.targetHash !== EMPTY_FILE_SHA256 || actualSourceHash !== record.sourceHash) {
+        throw new Error(`Bootstrap state for ${group} is inconsistent: retired source-side record does not match disk: ${record.sourcePath}`);
+      }
+      const currentSource = selectedSourceByPath.get(record.sourcePath);
+      if (actualSourceHash !== undefined && (!currentSource || currentSource.sourceHash !== record.sourceHash || currentSource.manual !== record.manual)) {
+        throw new Error(`Bootstrap state for ${group} is inconsistent: retired source-side record is not authenticated by the current source manifest: ${record.sourcePath}`);
+      }
+    }
+  }
+  const retiredSourcePaths = new Set(retired.map(record => record.sourcePath));
+  const sourceRecords = selectedSourceRecords.filter(record => !retiredSourcePaths.has(record.sourcePath));
+  const sourceByPath = new Map(sourceRecords.map(record => [record.sourcePath, record]));
   const stateCount = translated.length + pending.length + excluded.length;
   if (stateCount === 0) {
     const seededTarget = groupHasMaterializedTargets(repositoryRoot, group);
@@ -133,7 +180,6 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
     if (sourceRecords.length === 0) throw new Error(`Bootstrap state for ${group} is inconsistent: source manifest has no current group records`);
     return {status: 'empty', mode: 'full', summary: `${target}/${group}: no historical state; explicit first bootstrap is allowed`};
   }
-  const sourceByPath = new Map(sourceRecords.map(record => [record.sourcePath, record]));
   const coverage = new Map();
   const add = (kind, record) => {
     if (!record || typeof record.sourcePath !== 'string') throw new Error(`Bootstrap state for ${group} contains an invalid ${kind} record`);

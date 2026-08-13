@@ -411,6 +411,116 @@ test('legacy repair rejects extra stale group records outside the current source
   }
 });
 
+function legacyRetiredFixture({registered = true} = {}) {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-retired-'));
+  const fixture = referenceFixture({repositoryRoot: root});
+  const retiredSourcePath = 'content/en/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md';
+  const retiredTargetPath = retiredSourcePath.replace('content/en/', 'content/zh-CN/');
+  const retiredTarget = '# Retained Chinese DataImport landing\n';
+  const retired = {
+    manual: 'python', sourcePath: retiredSourcePath, targetPath: retiredTargetPath,
+    sourceCommit: '9'.repeat(40), sourceHash: sha256(''), targetHash: sha256(retiredTarget), status: 'retired',
+  };
+  fixture.state.records.push(retired);
+  fixture.state.records.sort((left, right) => left.manual.localeCompare(right.manual) || left.sourcePath.localeCompare(right.sourcePath) || left.targetPath.localeCompare(right.targetPath));
+  fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+  fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+  fs.mkdirSync(path.dirname(path.join(root, fixture.targetPath)), {recursive: true});
+  fs.writeFileSync(path.join(root, fixture.targetPath), fixture.targetContents);
+  fs.mkdirSync(path.dirname(path.join(root, retiredTargetPath)), {recursive: true});
+  fs.writeFileSync(path.join(root, retiredTargetPath), retiredTarget);
+  fs.mkdirSync(path.join(root, 'config'), {recursive: true});
+  fs.writeFileSync(path.join(root, 'config/reference-retirements.json'), `${JSON.stringify({
+    schemaVersion: 2,
+    retirements: registered ? [{
+      manual: 'python', sourcePath: retiredSourcePath, targetPath: retiredTargetPath,
+      changeKind: null, rationale: 'Imported baseline retirement from the clean-room Reference migration',
+    }] : [],
+  }, null, 2)}\n`);
+  return {root, fixture, retired, retiredTarget};
+}
+
+test('legacy repair authenticates registered target-only retired records without treating them as active coverage', () => {
+  const {root, fixture} = legacyRetiredFixture();
+  try {
+    const decision = resolveBootstrapDecision(fixture);
+    assert.equal(decision.status, 'safe_repair');
+    assert.equal(decision.mode, 'incremental');
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('legacy repair rejects an unregistered retired record', () => {
+  const {root, fixture} = legacyRetiredFixture({registered: false});
+  try {
+    assert.throws(() => resolveBootstrapDecision(fixture), /retired|retirement|registry|registered/i);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('legacy repair rejects malformed retirement registry and retired disk hash drift', () => {
+  let replay = legacyRetiredFixture();
+  try {
+    fs.writeFileSync(path.join(replay.root, 'config/reference-retirements.json'), '{"schemaVersion":1,"retirements":[]}\n');
+    assert.throws(() => resolveBootstrapDecision(replay.fixture), /invalid.*retirement registry|schema/i);
+  } finally {
+    fs.rmSync(replay.root, {recursive: true, force: true});
+  }
+
+  replay = legacyRetiredFixture();
+  try {
+    fs.writeFileSync(path.join(replay.root, replay.retired.targetPath), '# tampered retired target\n');
+    assert.throws(() => resolveBootstrapDecision(replay.fixture), /retired.*disk|target-side|hash|inconsistent/i);
+  } finally {
+    fs.rmSync(replay.root, {recursive: true, force: true});
+  }
+});
+
+test('legacy repair authenticates registered source-only retired records against current source manifest', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-retired-source-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    const retiredSourcePath = 'content/en/reference/api/python/python/retired-source.md';
+    const retiredTargetPath = retiredSourcePath.replace('content/en/', 'content/zh-CN/');
+    const retiredSource = '# Retained English source\n';
+    fixture.sourceManifest.records.push({manual: 'python', sourcePath: retiredSourcePath, sourceHash: sha256(retiredSource)});
+    fixture.sourceManifest.records.sort((left, right) => left.manual.localeCompare(right.manual) || left.sourcePath.localeCompare(right.sourcePath));
+    fixture.state.records.push({
+      manual: 'python', sourcePath: retiredSourcePath, targetPath: retiredTargetPath,
+      sourceCommit: '9'.repeat(40), sourceHash: sha256(retiredSource), targetHash: sha256(''), status: 'retired',
+    });
+    fixture.state.records.sort((left, right) => left.manual.localeCompare(right.manual) || left.sourcePath.localeCompare(right.sourcePath) || left.targetPath.localeCompare(right.targetPath));
+    for (const [relativePath, value] of [[fixture.sourcePath, fixture.source], [fixture.targetPath, fixture.targetContents], [retiredSourcePath, retiredSource]]) {
+      fs.mkdirSync(path.dirname(path.join(root, relativePath)), {recursive: true});
+      fs.writeFileSync(path.join(root, relativePath), value);
+    }
+    fs.mkdirSync(path.join(root, 'config'), {recursive: true});
+    fs.writeFileSync(path.join(root, 'config/reference-retirements.json'), `${JSON.stringify({schemaVersion: 2, retirements: [{
+      manual: 'python', sourcePath: retiredSourcePath, targetPath: retiredTargetPath,
+      changeKind: null, rationale: 'Reviewed target-only retirement',
+    }]})}\n`);
+    const decision = resolveBootstrapDecision(fixture);
+    assert.equal(decision.status, 'safe_repair');
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('retired records cannot overlap pending coverage', () => {
+  const {root, fixture, retired} = legacyRetiredFixture();
+  try {
+    fixture.state.pendingRecords = [{
+      manual: retired.manual, sourcePath: retired.sourcePath, targetPath: retired.targetPath,
+      sourceCommit: fixture.sourceManifest.sourceCommit, sourceHash: retired.sourceHash,
+    }];
+    assert.throws(() => resolveBootstrapDecision(fixture), /overlap|unique|pending|retired|manifest/i);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
 test('legacy coverage audit accepts valid current language-excluded records', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-excluded-'));
   try {
