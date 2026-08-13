@@ -1,7 +1,8 @@
 {
   "bootstrapCompletedGroups": [
     "java",
-    "node"
+    "node",
+    "python"
   ],
   "languageExcludedRecords": [
     {
