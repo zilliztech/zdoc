@@ -166,6 +166,41 @@ function testHeadingSlugDropsVisibilitySuffixes() {
   );
 }
 
+async function testHeadingsPreserveInlineLessThanOperatorsAndCustomAnchors() {
+  const writer = createWriter([]);
+  const lessThan = await writer.__heading({elements: [
+    textRun('示例 4：使用小于'),
+    textRun('（'),
+    textRun('<', {inline_code: true}),
+    textRun('）操作符过滤'),
+    textRun('{#example-4-filtering-with-less-than}'),
+  ]}, 3);
+  const lessThanOrEqual = await writer.__heading({elements: [
+    textRun('示例 6：使用小于或等于'),
+    textRun('（'),
+    textRun('<=', {inline_code: true}),
+    textRun('）操作符过滤'),
+    textRun('{#example-6-filtering-with-less-than-or-equal-to}'),
+  ]}, 3);
+
+  assert.equal(
+    lessThan,
+    '### 示例 4：使用小于（`<`）操作符过滤{#example-4-filtering-with-less-than}'
+  );
+  assert.equal(
+    lessThanOrEqual,
+    '### 示例 6：使用小于或等于（`<=`）操作符过滤{#example-6-filtering-with-less-than-or-equal-to}'
+  );
+}
+
+function testHeadingCleanupStillRemovesActualHtmlTags() {
+  const writer = createWriter([]);
+  assert.equal(
+    writer.__clean_headings('<span>Heading</span>{#heading}'),
+    'Heading{#heading}'
+  );
+}
+
 async function testConvertedHeadingLinkDropsVisibilitySuffixes() {
   const writer = createWriter([]);
   const page = {
@@ -857,6 +892,8 @@ async function run() {
   testExampleHttpUrlsSkipsFencedCodeBlocks();
   testKeywordPickerUsesStableSeed();
   testHeadingSlugDropsVisibilitySuffixes();
+  await testHeadingsPreserveInlineLessThanOperatorsAndCustomAnchors();
+  testHeadingCleanupStillRemovesActualHtmlTags();
   await testConvertedHeadingLinkDropsVisibilitySuffixes();
   await testConvertedAnchorLinkToleratesTargetWithoutBlocks();
   testFeatureCardMarkerParserAcceptsReadableSpacing();

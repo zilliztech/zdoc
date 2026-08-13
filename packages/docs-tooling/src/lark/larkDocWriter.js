@@ -2030,8 +2030,17 @@ class larkDocWriter {
     __clean_headings(content) {
         // filter content 
         content = this.__filter_content(content, this.targets)
-        // remove html tags
+        // Remove HTML tags without interpreting literal operators in inline code
+        // (for example `<` or `<=`) as tag markup. Inline-code content is already
+        // MDX-safe and must remain intact so custom `{#...}` anchors stay attached
+        // to the complete heading text.
+        const inlineCode = []
+        content = content.replace(/(`+[^`\n]+`+)/g, match => {
+            const index = inlineCode.push(match) - 1
+            return `\uE000${index}\uE001`
+        })
         content = content.replace(/<\/?[^>]+(>|$)/g, "")
+        content = content.replace(/\uE000(\d+)\uE001/g, (_, index) => inlineCode[Number(index)])
         // remove trailing and leading spaces
         content = content.trim()
 
