@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "单点登录（SSO）允许您通过使用单一登录凭证便捷地访问 Zilliz Cloud 控制台，而无需注册单独的 Zilliz Cloud 账户。SSO 功能可以简化用户访问，并通过集中身份验证来加强安全性。Zilliz Cloud 的 SSO 功能在组织](./undefined)层面运作，支持 [SAML 2.0](https//en.wikipedia.org/wiki/SAML2.0) 协议。通过与 [Okta 集成，您可以使用 Okta 凭据登录并访问 Zilliz Cloud。 | Cloud"
+description: "单点登录（SSO）允许您通过使用单一登录凭证便捷地访问 Zilliz Cloud 控制台，而无需注册单独的 Zilliz Cloud 账户。SSO 功能可以简化用户访问，并通过集中身份验证来加强安全性。Zilliz Cloud 的 SSO 功能在组织层面运作，支持 SAML 2.0](https//en.wikipedia.org/wiki/SAML2.0) 协议。通过与 [Okta 集成，您可以使用 Okta 凭据登录并访问 Zilliz Cloud。 | Cloud"
 type: origin
 token: BRygwmdMOiyW0Ckd439cJwR6nHf
 sidebar_position: 14
@@ -22,7 +22,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # 使用 Okta 配置 SSO
 
-单点登录（SSO）允许您通过使用单一登录凭证便捷地访问 Zilliz Cloud 控制台，而无需注册单独的 Zilliz Cloud 账户。SSO 功能可以简化用户访问，并通过集中身份验证来加强安全性。Zilliz Cloud 的 SSO 功能在[组织](./undefined)层面运作，支持 [SAML 2.0](https://en.wikipedia.org/wiki/SAML_2.0) 协议。通过与 [Okta](https://www.okta.com/) 集成，您可以使用 Okta 凭据登录并访问 Zilliz Cloud。
+单点登录（SSO）允许您通过使用单一登录凭证便捷地访问 Zilliz Cloud 控制台，而无需注册单独的 Zilliz Cloud 账户。SSO 功能可以简化用户访问，并通过集中身份验证来加强安全性。Zilliz Cloud 的 SSO 功能在组织层面运作，支持 [SAML 2.0](https://en.wikipedia.org/wiki/SAML_2.0) 协议。通过与 [Okta](https://www.okta.com/) 集成，您可以使用 Okta 凭据登录并访问 Zilliz Cloud。
 
 本文介绍如何使用 Okta 启用 SSO。
 
@@ -80,11 +80,11 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 点击 **Finish**，您将被重定向到应用页面。
 
-    ![zh_sso-2-1](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zh_sso-2-1.png "zh_sso-2-1")
+    ![zh_sso-2-1](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zhsso-2-1.png "zh_sso-2-1")
 
 1. 在 **Sign On** 选项卡的 **SAML 2.0** 部分，点击 **More details**，并复制以下凭据和证书：**Sign on URL**、**Issuer** 和 **Signing Certificate**。您将在 Zilliz Cloud 控制台配置 IdP 时用到这些信息。 有关 Okta 设置的详细信息，请参考 [Okta 官方文档](https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_saml.htm)。
 
-    ![zh_sso-2-2](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zh_sso-2-2.png "zh_sso-2-2")
+    ![zh_sso-2-2](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zhsso-2-2.png "zh_sso-2-2")
 
 </Procedures>
 
@@ -92,7 +92,7 @@ import Procedures from '@site/src/components/Procedures';
 
 回到 Zilliz Cloud 控制台，完成 IdP 配置。
 
-![zh_sso-3](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zh_sso-3.png "zh_sso-3")
+![zh_sso-3](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zhsso-3.png "zh_sso-3")
 
 <Procedures>
 
@@ -124,7 +124,7 @@ import Procedures from '@site/src/components/Procedures';
 
 在用户可以通过 SSO 登录 URL 访问 Zilliz Cloud 之前，需要确保已为每位用户正确分配应用集成。
 
-![zh_sso-4](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zh_sso-4.png "zh_sso-4")
+![zh_sso-4](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zhsso-4.png "zh_sso-4")
 
 <Procedures>
 

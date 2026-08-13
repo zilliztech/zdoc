@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 - **新的迁移控制台界面**：清晰简洁的界面帮助您快速定位数据源入口，选择最合适您的迁移方式。
 
-    Zilliz Cloud 支持在 Zilliz Cloud 集群间、从 Milvus、以及从外部数据源迁移数据。关于所有支持的数据源，可以查看[数据迁移](./undefined)。
+    Zilliz Cloud 支持在 Zilliz Cloud 集群间、从 Milvus、以及从外部数据源迁移数据。关于所有支持的数据源，可以查看[数据迁移](./migrate-from-milvus)。 
 
     ![Q9JWbgdiAoOXpFxl9RScyla6nZb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/q9jwbgdiaooxpfxl9rscyla6nzb.png "Q9JWbgdiAoOXpFxl9RScyla6nZb")
 

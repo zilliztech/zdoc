@@ -46,7 +46,7 @@ import Procedures from '@site/src/components/Procedures';
 
     </Admonition>
 
-    ![enable_mfa](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/enable_mfa.png "enable_mfa")
+    ![enable_mfa](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/enablemfa.png "enable_mfa")
 
 1. MFA 开启成功后，页面将自动跳转至登录页。
 
@@ -60,7 +60,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 关闭 MFA\{#disable-mfa}
 
-![disable_mfa](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/disable_mfa.png "disable_mfa")
+![disable_mfa](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/disablemfa.png "disable_mfa")
 
 如果您已开启 MFA，请执行以下步骤以关闭 MFA：
 

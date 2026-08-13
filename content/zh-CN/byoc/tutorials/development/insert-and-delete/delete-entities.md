@@ -25,7 +25,7 @@ Zilliz Cloud 支持通过过滤表达式批量删除 Entity，也支持基于指
 
 ## 基于过滤表达式批量删除 Entity\{#delete-entities-by-filtering-conditions}
 
-在批量删除 Entity 时，可以使用过滤表达式。下方的示例代码中使用了 **in** 操作符，批量删除了所有 **color** 值为 **red** 和 **green** 的 Entity。你也可以使用其它操作符构建符合要求的过滤表达式。关于过滤表达式的更多介绍，可以参考本手册中[过滤表达式](./undefined)一节的内容。
+在批量删除 Entity 时，可以使用过滤表达式。下方的示例代码中使用了 **in** 操作符，批量删除了所有 **color** 值为 **red** 和 **green** 的 Entity。你也可以使用其它操作符构建符合要求的过滤表达式。关于过滤表达式的更多介绍，可以参考本手册中[过滤表达式概览](./filtering-overview)一节的内容。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

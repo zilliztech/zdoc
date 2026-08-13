@@ -49,7 +49,7 @@ Query CU 扩缩容由主集群统一控制。当您更改主集群的 Query CU �
 
 主集群的 Query CU 扩缩容操作步骤与普通 Dedicated 集群相同。详情请参见
 
-- [Query CU 扩缩容](./scale-query-cu)（通过 Web 控制台）
+- [手动扩缩容](./manual-scaling)（通过 Web 控制台）
 
 - [修改全球集群 CU](https://docs.zilliz.com.cn/reference/restful/modify-global-cluster-cu-v2)（通过 RESTful API）
 
@@ -75,7 +75,7 @@ Replica 扩缩容由各集群独立控制。全球集群中的每个集群（包
 
 主集群或从集群的Replica扩缩容操作步骤与普通 Dedicated 集群相同。详情请参见
 
-- [Replica 扩缩容](./manage-replica)（通过 Web 控制台）
+- [手动扩缩容](./manual-scaling)（通过 Web 控制台）
 
 - [修改集群副本数量](https://docs.zilliz.com.cn/reference/restful/modify-cluster-replica-v2)（通过 RESTful API）
 

@@ -36,7 +36,7 @@ Zilliz Cloud 提供 Free 集群，允许您免费使用基础的向量数据库�
 
 ## 免费试用\{#use-free-trial}
 
-Zilliz Cloud 提供 Serverless 和按量计费的 Dedicated 集群的免费试用，帮助您探索向量数据库功能。以下内容将介绍优惠券和集群免费试用。如果您想要免费试用 Volume 功能——用于存储结构化表格或非结构化数据文件的对象存储，请参考了解 Volume。
+Zilliz Cloud 提供 Serverless 和按量计费的 Dedicated 集群的免费试用，帮助您探索向量数据库功能。以下内容将介绍优惠券和集群免费试用。如果您想要免费试用 Volume 功能——用于存储结构化表格或非结构化数据文件的对象存储，请参考[Managed Volume](./managed-volume)。
 
 ### 免费试用说明\{#use-free-trial}
 
@@ -83,14 +83,4 @@ Zilliz Cloud 提供 Serverless 和按量计费的 Dedicated 集群的免费试�
 - 免费试用到期，Serverless 和 Dedicated 集群已被移至回收站。
 
 - 所有优惠券已使用完毕。
-
-## 文档推荐\{#related-topics}
-
-- [连接集群](./connect-to-clusters)
-
-- [创建 Collection](./manage-collections-sdks)
-
-- [插入与删除](./undefined)
-
-- [搜索与重排](./zilliz-search-prompts)
 

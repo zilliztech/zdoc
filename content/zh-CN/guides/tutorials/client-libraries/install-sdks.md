@@ -146,11 +146,11 @@ go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.5.6
 
 ## 相关文档\{#related-docs}
 
-- [创建按量计费集群](./undefined)
+- [创建 On-Demand 集群](./on-demand-cluster)
 
 - [创建 Collection](./manage-collections-sdks)
 
-- [插入与删除](./undefined)
+- [插入 Entity](./insert-entities)
 
-- [搜索与重排](./zilliz-search-prompts)
+- [基本 Vector Search](./single-vector-search)
 

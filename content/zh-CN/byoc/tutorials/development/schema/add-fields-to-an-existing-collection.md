@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 - 本指南介绍托管 Collection 中用户自定义字段，以及 Function 及其生成的向量字段的 Schema 变更。对于字段属性变更，例如修改 `max_length`（针对 `VARCHAR` 字段）或 `max_capacity`（针对 `ARRAY` 字段），请参阅[修改字段设置](./alter-collection-field)。对于动态字段行为，请参阅[动态字段](./enable-dynamic-field)和[修改 Collection](./modify-collections)。
 
-- 本页介绍如何向托管 Collection 添加字段。若要向外部 Collection 添加字段，请参阅修改外部 Collection Schema。
+- 本页介绍如何向托管 Collection 添加字段。若要向外部 Collection 添加字段，请参阅[修改外部 Collection Schema](./alter-external-collection-schema)。
 
 </Admonition>
 
@@ -147,7 +147,7 @@ client.add_collection_field(
 
 使用 `add_collection_struct_field()` 添加可接收 Struct 数组的 StructArray 字段。添加 StructArray 字段的步骤如下：
 
-1. 创建一个 StructSchema，其中包含所需且数据类型受支持的子字段。适用的数据类型请参阅数据类型支持。
+1. 创建一个 StructSchema，其中包含所需且数据类型受支持的子字段。适用的数据类型请参阅[StructArray 概述](./use-array-of-structs)。
 
 1. 引用上一步创建的 StructSchema，并在 `add_collection_struct_field()` 中设置字段的最大容量。
 
@@ -337,7 +337,7 @@ MinHash Function 及其生成的二进制向量字段支持近似重复检测。
 
 - 基于已删除字段构建的索引会作为 Schema 更新的一部分被清理。
 
-存储清理与 Schema 清理是分开处理的。详情请参阅删除字段后何时回收存储空间？
+存储清理与 Schema 清理是分开处理的。详情请参阅[删除字段后何时回收存储空间？](./add-fields-to-an-existing-collection)
 
 **示例：删除用户自定义标量字段**
 

@@ -26,7 +26,7 @@ Zilliz Cloud 的告警通知确保您不会错过集群中的任何重要事件�
 
 ## 开始前\{#before-you-start}
 
-要管理告警渠道，请确保您是组织或项目管理员。有关更多用户角色信息，请参阅[访问控制](./zilliz-access-control-prompts)。
+要管理告警渠道，请确保您是组织或项目管理员。
 
 ## 配置告警渠道\{#set-up-notification-channels}
 

@@ -84,7 +84,7 @@ analyzer_params = {
 
 - **移除停用词**：使用 `stop` 过滤器和内置的 `_arabic_` 词典。
 
-定义 `analyzer_params` 后，在定义 Collection Schema 时，可以将该 Analyzer 应用于 `VARCHAR` 字段。有关详细信息，请参阅[使用示例](./analyzer-overview#example-use)。
+定义 `analyzer_params` 后，在定义 Collection Schema 时，可以将该 Analyzer 应用于 `VARCHAR` 字段。有关详细信息，请参阅[使用示例](./analyzer-overview)。
 
 ## 示例\{#}
 

@@ -46,7 +46,7 @@ Pinecone 是一款支持相似搜索的向量数据库。将数据从 Pinecone �
 
 ## 从 Pinecone 迁移至 Zilliz Cloud\{#migrate-from-pinecone-to-zilliz-cloud}
 
-![zh_migrate_from_pinecone](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zh_migrate_from_pinecone.png "zh_migrate_from_pinecone")
+![zh_migrate_from_pinecone](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/zhmigratefrompinecone.png "zh_migrate_from_pinecone")
 
 您可以将源数据迁移到任何版本类型的 Zilliz Cloud 集群，只要其计算单元（CU）大小能够满足源数据的存储需求。
 
@@ -108,7 +108,7 @@ Pinecone 是一款支持相似搜索的向量数据库。将数据从 Pinecone �
 
 </Admonition>
 
-![view_migration_progress_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/view_migration_progress_cn.png "view_migration_progress_cn")
+![view_migration_progress_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/viewmigrationprogresscn.png "view_migration_progress_cn")
 
 ## 取消迁移任务\{#cancel-migration-job}
 

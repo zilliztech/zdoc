@@ -100,7 +100,7 @@ import Grid from '@site/src/components/Grid';
 
         - **全流程覆盖** — Nullable Vector 已覆盖创建 Collection、Add Field、数据预览、Import、备份恢复及 Migration 等流程。
 
-        更多详情，请参考 [Nullable 属性](./nullable-fields) 及 为已有 Collection 添加字段。
+        更多详情，请参考 [Nullable 属性](./nullable-fields) 及 [修改 Collection Schema](./add-fields-to-an-existing-collection)。
 
         ## 功能增强（Enhancements）\{#enhancements}
 

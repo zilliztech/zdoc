@@ -54,7 +54,7 @@ ColBERT（arXiv: [2004.12832](https://arxiv.org/abs/2004.12832)）是一个文�
 
 向量化完成后，查询 EmbeddingList 会逐 token 与每个文档 EmbeddingList 比较，以确定最终相似度评分。
 
-在一个简化示例中，查询包含两个 token，即 `machine` 和 `learning`；窗口中的文档包含四个 token：`neural`、`network`、`python` 和 `tutorial`。这些 token 被向量化后，每个查询 token 的 Vector Embedding 会与文档中的 Vector Embedding 比较，得到一组相似度评分。随后，对每组评分取最高值并求和，得到最终评分。确定文档最终评分的过程称为 maximum similarity（**MAX_SIM**）。关于 maximum similarity 的详细信息，请参见 Maximum similarity。
+在一个简化示例中，查询包含两个 token，即 `machine` 和 `learning`；窗口中的文档包含四个 token：`neural`、`network`、`python` 和 `tutorial`。这些 token 被向量化后，每个查询 token 的 Vector Embedding 会与文档中的 Vector Embedding 比较，得到一组相似度评分。随后，对每组评分取最高值并求和，得到最终评分。确定文档最终评分的过程称为 maximum similarity（**MAX_SIM**）。关于 maximum similarity 的详细信息，请参见[相似度类型](./search-metrics-explained)。
 
 <Admonition type="info" icon="📘" title="Notes">
 

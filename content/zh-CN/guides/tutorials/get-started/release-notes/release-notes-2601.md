@@ -54,7 +54,7 @@ import Grid from '@site/src/components/Grid';
 
         - **基于查询语义的文本高亮（Semantic Highlighter）**：根据查询意图（而非关键词匹配）自动识别并高亮搜索结果中最相关的文本片段，提升搜索结果的可解释性。
 
-        - 该功能基于 Zilliz 近期开源的语义高亮模型（[zilliz/semantic-highlight-bilingual-v1](https://huggingface.co/zilliz/semantic-highlight-bilingual-v1)），并通过 Zilliz 托管模型服务（详见 [托管模型](./undefined)）提供开箱即用的推理支持。
+        - 该功能基于 Zilliz 近期开源的语义高亮模型（[zilliz/semantic-highlight-bilingual-v1](https://huggingface.co/zilliz/semantic-highlight-bilingual-v1)），并通过 Zilliz 托管模型服务提供开箱即用的推理支持。
 
         更多详情，可参考 [Semantic Highlighter](./semantic-highlighter)。
 
@@ -90,15 +90,13 @@ import Grid from '@site/src/components/Grid';
 
         - **基于模型的向量生成（Model-Based Embedding）**<br/>
           在创建集合时即可定义文本向量生成函数。配置完成后，只需通过 `Insert`、`Upsert` 或 `Import` 写入原始文本，Zilliz Cloud 会自动完成向量生成与存储；在查询阶段，系统会将输入文本实时转换为稠密向量并执行高效的 ANN 搜索。<br/>
-          更多内容，可参考[Model-based Function](./undefined)。
+          更多内容，可参考[Function & 模型推理概述](./function-and-model-inference-overview)。
 
         - **基于模型的结果重排（Model-Based Reranking）**<br/>
-          可根据具体业务场景选择最合适的重排模型，对搜索结果进行二次排序，确保最相关内容优先返回。<br/>
-          更多内容，可参考 [Model Ranker](./undefined)。
+          可根据具体业务场景选择最合适的重排模型，对搜索结果进行二次排序，确保最相关内容优先返回。
 
         - **Zilliz 托管模型（内测版）**<br/>
-          可直接在 Zilliz 基础设施上部署全托管模型实例，实现稳定、高性能的推理能力，并且免数据传输费用。模型运行在 Zilliz Cloud 内部网络中，数据始终处于私有网络环境，兼顾更高安全性与超低延迟。<br/>
-          更多内容，可参考 [托管模型](./undefined)。
+          可直接在 Zilliz 基础设施上部署全托管模型实例，实现稳定、高性能的推理能力，并且免数据传输费用。模型运行在 Zilliz Cloud 内部网络中，数据始终处于私有网络环境，兼顾更高安全性与超低延迟。
 
         此外，为了进一步简化与第三方模型的集成流程，我们新增了 **第三方模型提供商集成** 功能。该功能支持在 Zilliz Cloud 内集中管理 AI 模型的访问凭证，并可随时轮换 API Key，无需修改应用代码，帮助你实现更灵活、更安全的模型集成。
         更多内容，可参考 [模型供应商](./integrate-with-model-providers)。
@@ -111,7 +109,7 @@ import Grid from '@site/src/components/Grid';
 
         - **零接触配置**：通过简单的资源上下限配置，Zilliz Cloud 可以根据负载自动处理突出流量，无须人工介入，即可保证性能体验。
 
-        更多内容，可参考 [Replica 扩缩容](./manage-replica#dynamic-scaling)。
+        更多内容，可参考 [自动扩缩容](./auto-scaling)。
 
         ## 基于 Cron 设置的高级定时扩缩容\{#advanced-scheduled-scaling-with-cron}
 
@@ -121,7 +119,7 @@ import Grid from '@site/src/components/Grid';
 
         - **多级调度逻辑**：您可以为您的集群配置互相独立、分层执行的调度规则，确保您的集群可在工作日流量高峰时获得足够的资源，并在平峰的周末释放冗余资源，从而根据业务实际需要优化集群的资源配置。
 
-        更多内容，可参考 [Replica 扩缩容](./manage-replica#scheduled-scaling)和 [Query CU 扩缩容](./scale-query-cu#scheduled-scaling)。
+        更多内容，可参考 [定时扩缩容](./scheduled-scaling)。
 
         ## BYOC - 完整的自动扩缩容能力\{#byoc-full-autoscaling-aligns-with-saas}
 

@@ -44,7 +44,7 @@ Zilliz Cloud 提供两种用量分析的方式：
 
 </Admonition>
 
-![analyze_cost_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/analyze_cost_cn.png "analyze_cost_cn")
+![analyze_cost_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/analyzecostcn.png "analyze_cost_cn")
 
 - **根据项目分析用量和成本**
 

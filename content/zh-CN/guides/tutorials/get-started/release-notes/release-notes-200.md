@@ -71,4 +71,4 @@ Zilliz Cloud 提供的动态 Schema 特性将极大地提升 Zilliz Cloud 集群
 JSON 是一种在数据管理中经常使用的重要的数据交换格式，因此，我们在 Zilliz Cloud 集群中引入了对 JSON 的支持。现在，您可以在您的 Zilliz Cloud 集群中轻松地存储和管理您的 JSON 数据。
 相信 Zilliz Cloud 集群提供的相似近邻搜索功能结合灵活的JSON数据格式，将为您带来全新的搜索体验。
 
-想了解关于 JSON 数据类型的更多内容，请阅读[JSON 类型](./undefined)。
+想了解关于 JSON 数据类型的更多内容，请阅读[JSON 概述](./json-field-overview)。

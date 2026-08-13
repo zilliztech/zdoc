@@ -36,7 +36,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Geometry 类型支持**：存储和查询如 POINT、LINESTRING 或 POLYGON 等复杂的空间形状来进行地理信息检索，适用于地理围栏、路由导航和地图类应用。更多内容，可参考[Geometry 类型](./use-geometry-field)。
 
-        - **Struct Array 支持**：更自然地为多层嵌套和属性繁多的数据建模，简化 Schema 设计，提升元数据丰富的 AI 工作负载的查询能力。更多内容，可参考 [Struct Array](./undefined)。
+        - **Struct Array 支持**：更自然地为多层嵌套和属性繁多的数据建模，简化 Schema 设计，提升元数据丰富的 AI 工作负载的查询能力。更多内容，可参考 [StructArray 概述](./use-array-of-structs)。
 
         - **在现有 Collection 上开启 Dynamic Field**：自本次发布起，您无需重新创建 Collection，即可为现有 Collection 启用 Dynamic Field，灵活应对业务属性的动态扩展。更多内容，可以阅读[修改 Collection](./modify-collections#example-5-enable-dynamic-field)。
 

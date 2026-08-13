@@ -163,7 +163,7 @@ Build level 设置后不可修改，需要 drop 并重建索引。建议在创�
 
 ### 标量字段加索引\{#index-scalar-fields}
 
-很多用户只关注[向量索引](./undefined)，忽略了[标量字段索引](./undefined)。如果您的查询带有过滤条件（比如 `category == "electronics"` 或 `timestamp > 1700000000`），没有标量索引意味着**每次查询都要全表扫描标量字段**，代价极高。您可以在创建 collection 时为常用过滤字段添加索引。
+很多用户只关注向量索引，忽略了标量字段索引。如果您的查询带有过滤条件（比如 `category == "electronics"` 或 `timestamp > 1700000000`），没有标量索引意味着**每次查询都要全表扫描标量字段**，代价极高。您可以在创建 collection 时为常用过滤字段添加索引。
 
 ```python
 collection.create_index(
@@ -262,7 +262,7 @@ Dedicated 集群最大的成本陷阱是"按峰值配置，全天候运行"。Zi
 
 **典型场景：** 一个电商搜索服务，白天峰值需要 32 CU，凌晨只需要 8 CU。在动态扩缩容设置中选择 min=8, max=32，系统在低峰时自动缩到 8 CU。假设每天有 10 小时低峰期，**月度计算成本可节省约 30–40%**。
 
-详情请参考[动态扩缩容](./scale-query-cu#dynamic-scaling)。
+详情请参考[自动扩缩容](./auto-scaling)。
 
 ### 定时扩缩容\{#scheduled-scaling}
 
@@ -276,13 +276,13 @@ Dedicated 集群最大的成本陷阱是"按峰值配置，全天候运行"。Zi
 
 - 每月月底促销期提前扩容
 
-详情请参考[定时扩缩容](./scale-query-cu#scheduled-scaling)。
+详情请参考[定时扩缩容](./scheduled-scaling)。
 
 ### 手动扩缩容\{#manual-scaling}
 
 不要忽略最简单的操作——当业务进入低谷期（如项目间歇、淡季），主动降低 CU 配置。很多用户在 PoC 结束后忘了缩容，白白多付几周甚至几个月的费用。
 
-详情请参考[手动扩缩容](./scale-query-cu#manual-scaling)。
+详情请参考[手动扩缩容](./manual-scaling)。
 
 ### 扩缩容限制\{#scaling-constraints}
 

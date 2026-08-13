@@ -98,7 +98,7 @@ import Grid from '@site/src/components/Grid';
 
         本次发布后，Volume 将支持如下两种计费方式：免费试用 Volume 以及按量计费 Volume。其中，按量计费版本将基于您的存储用量进行计费。
 
-        更多内容，可参考了解 Volume、管理 Volume (SDK) 以及管理 Volume (控制台)。
+        更多内容，可参考[Managed Volume](./managed-volume)。
 
         ## 组织级 IP 白名单\{#organization-level-ip-access-allowlist}
 

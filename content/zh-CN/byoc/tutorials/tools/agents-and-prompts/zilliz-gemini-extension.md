@@ -50,4 +50,4 @@ gemini extensions link /path/to/gemini-cli-extension
 
 ## 下一步\{#}
 
-Zilliz Claude Code Plugin 和 Zilliz Gemini CLI Extension 底层都共享 Zilliz CLI。你可以阅读 Zilliz Claude Code Plugin Capabilities 和 Zilliz Claude Code Plugin Examples 来学习如何编写提示词。
+Zilliz Claude Code Plugin 和 Zilliz Gemini CLI Extension 底层都共享 Zilliz CLI。你可以阅读[核心能力](./zilliz-plugin-capabilities)和[更多示例](./zilliz-plugin-examples)来学习如何编写提示词。

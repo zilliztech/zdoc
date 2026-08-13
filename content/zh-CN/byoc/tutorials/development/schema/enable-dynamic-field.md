@@ -452,9 +452,9 @@ Zilliz Cloud 允许您使用 **JSON 路径索引**为 dynamic field 内的特定
 
 - **JSON 转换类型**（`json_cast_type`）：Zilliz Cloud 在解释和索引指定路径处的值时应使用的数据类型。
 
-    - 此类型必须与被索引字段的实际数据类型匹配。如果您想在索引期间将数据类型转换为另一种类型，请考虑[使用转换函数](./undefined)。
+    - 此类型必须与被索引字段的实际数据类型匹配。如果您想在索引期间将数据类型转换为另一种类型，请考虑[使用转换函数](./json-indexing)。
 
-    - 完整列表请参见[支持的 JSON 转换类型](./undefined)。
+    - 完整列表请参见[支持的 JSON 转换类型](./json-indexing)。
 
 ### 通过 JSON 路径为 dynamic field 中的键建索引\{#use-json-path-to-index-dynamic-field-keys}
 
@@ -800,7 +800,7 @@ export stringPriceIndex='{
 
 - 如果类型转换失败（例如值 `"not_a_number"` 无法转换为数字），该值将被跳过且不会被索引。
 
-- 有关转换函数参数的详细信息，请参考 [JSON 类型](./undefined)。
+- 有关转换函数参数的详细信息，请参考 [JSON 索引](./json-indexing#supported-cast-types)。
 
 </Admonition>
 
@@ -1116,7 +1116,7 @@ dynamic field 中的键默认不会包含在返回结果中，必须显式指定
 
 - **为您的向量字段创建索引**（每个 collection 中的每个向量字段都必须）  
 
-    参考 [创建 Vector Index](./undefined)
+    参考 [AUTOINDEX](./autoindex-explained)
 
 - **加载 collection**
 

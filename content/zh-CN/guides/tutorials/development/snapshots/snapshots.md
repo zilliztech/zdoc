@@ -26,8 +26,6 @@ Snapshot 是 Milvus Collection 在某一时间点的镜像，适用于快速回�
 
 Snapshots 是快速生成的数据时间点镜像，适用于快速回滚或测试（**数天到数周**）。相比之下，Backup 是独立、完整、单独存储的数据副本，适用于长期灾难恢复（**数周到数年**），也能更好地防范对象存储整体故障。
 
-如需创建 Backup，请参考 Backup & Restore。
-
 </Admonition>
 
 ## Snapshot 结构 \{#snapshot-anatomy}

@@ -43,7 +43,7 @@ JSON Lines 是一种文本格式，每一行都是一个完整且合法的 JSON 
 
 建议您[使用 BulkWriter](./use-bulkwriter) 工具将您的原始数据转换为 JSON 文件。下图演示了您的原始数据如何映射到 JSON 文件中。
 
-![json_data_structure](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/json_data_structure.png "json_data_structure")
+![json_data_structure](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/jsondatastructure.png "json_data_structure")
 
 <Admonition type="info" icon="📘" title="说明">
 

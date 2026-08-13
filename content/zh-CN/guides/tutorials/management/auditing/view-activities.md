@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # 查看平台审计日志
 
-Zilliz Cloud **平台审计日志**页面记录了[组织](./undefined)中的所有事件，包括账单和资源访问情况等。
+Zilliz Cloud **平台审计日志**页面记录了组织中的所有事件，包括账单和资源访问情况等。
 
 ## 查看平台审计日志\{#view-platform-audit-logs}
 

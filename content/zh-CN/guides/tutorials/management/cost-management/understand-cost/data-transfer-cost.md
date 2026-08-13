@@ -57,7 +57,7 @@ import Admonition from '@theme/Admonition';
 
 以下场景会产生数据传输费用：
 
-- [搜索/查询](./zilliz-search-prompts)等操作
+- 搜索/查询等操作
 
 - 转发[审计日志](./audit-logs)到云服务对象存储
 
@@ -65,7 +65,7 @@ import Admonition from '@theme/Admonition';
 
 - [跨地域备份](https://docs.zilliz.com.cn/docs/backup-to-other-regions)
 
-- 使用第三方[模型](./undefined)进行数据 Ingest、Search、Query、Rerank
+- 使用第三方[模型](./function-and-model-inference-overview)进行数据 Ingest、Search、Query、Rerank
 
 <Admonition type="info" icon="📘" title="📘 说明">
 

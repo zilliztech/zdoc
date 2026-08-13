@@ -42,7 +42,7 @@ import Admonition from '@theme/Admonition';
 
 - 创建具备项目和目标数据所需权限的 API key。
 
-- 根据使用场景安装 Milvus SDK。详情请参考 Install SDKs。
+- 根据使用场景安装 Milvus SDK。
 
 ## 连接到项目 Endpoint\{#endpoint}
 

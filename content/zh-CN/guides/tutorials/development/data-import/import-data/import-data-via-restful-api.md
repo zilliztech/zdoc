@@ -40,7 +40,7 @@ Zilliz Cloud 允许您将数据从任意对象存储导入到任意 Zilliz Cloud
 
 ## 从 Volume 中导入数据\{#import-data-via-volume}
 
-如需从 Volume 中导入数据，需要先创建 Volume 并将数据上传至该 Volume 中。在完成这些步骤后，记录文件在 Volume 中的位置，以备调用数据导入接口时使用。更多内容，可以参考管理 Volume (SDK)。
+如需从 Volume 中导入数据，需要先创建 Volume 并将数据上传至该 Volume 中。在完成这些步骤后，记录文件在 Volume 中的位置，以备调用数据导入接口时使用。更多内容，可以参考 [Managed Volume](./managed-volume) 或 [External Volume](./external-volume)。
 
 您可以参考如下代码完成从 Volume 中导入数据的操作。
 

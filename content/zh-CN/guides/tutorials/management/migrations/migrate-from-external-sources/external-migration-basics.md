@@ -152,7 +152,7 @@ Zilliz Cloud 支持从主流向量数据库和搜索平台迁移：
 
 | 限制项 | 影响 | 解决方案 |
 | --- | --- | --- |
-| 无自动索引/Load | Collection 迁移后不可立即查询 | 迁移后手动创建索引并 Load Collection（操作指南见[创建 Vector Index](./undefined) 和 [Load 和 Release](./load-release-collections)）。 |
+| 无自动索引/Load | Collection 迁移后不可立即查询 | 迁移后手动创建索引并 Load Collection。 |
 | 空数据源 | 无法选择空索引/表 | 确保源数据包含有效数据后再迁移 |
 | 向量字段要求 | Collection 必须包含向量数据 | 迁移前验证源数据是否含向量字段 |
 | 不支持的数据类型 | 特殊类型可能无法迁移 | 查阅各数据源专属指南了解数据类型映射 |

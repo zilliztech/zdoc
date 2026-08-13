@@ -24,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 建议您[使用 BulkWriter](./use-bulkwriter) 工具将您的原始数据转换为 Parquet 文件。下图演示了您的原始数据如何映射到 Parquet 文件中。
 
-![parquet_file_structure_zh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/parquet_file_structure_zh.png "parquet_file_structure_zh")
+![parquet_file_structure_zh](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/parquetfilestructurezh.png "parquet_file_structure_zh")
 
 <Admonition type="info" icon="📘" title="说明">
 

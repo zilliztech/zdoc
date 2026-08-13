@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud 除了支持 ANN Search 外，还提供基于标量的过滤查询功能。本节将介绍如何使用 Query、Get 和 QueryIterator 进行标量查询以及进行标量查询时的注意事项。 | Cloud"
 type: origin
 token: GMOpwnUH0iYRN1kbRidcET0cnKg
-sidebar_position: 9
+sidebar_position: 10
 displayed_sidebar: default
 
 ---

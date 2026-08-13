@@ -52,7 +52,7 @@ Skills 通过合适的自然语言提示词调用，例如：
 
 ## 后续步骤\{#}
 
-- Zilliz Plugin
+- [Claude Code 插件](./zilliz-plugin)
 
 - [GitHub Repository](https://github.com/zilliztech/zilliz-skill)
 

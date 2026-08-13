@@ -22,9 +22,17 @@ import Admonition from '@theme/Admonition';
 
 在 Zilliz Cloud 中，具有众多元素的复杂过滤表达式，特别是那些涉及非ASCII字符（如CJK字符）的表达式，会显着影响查询性能。为了解决这个问题，Zilliz Cloud 引入了一种过滤表达式模板机制，旨在通过减少解析复杂表达式所花费的时间来提高效率。本页解释了在搜索、查询和删除操作中使用过滤表达式模板。
 
+<Admonition type="info" icon="📘" title="说明">
+
+过滤表达式左侧的字面量可以是 Collection Field 名称，例如以下示例中使用的 `age`、`city` 等；也可以是特定元素索引处的 StructArray 子字段名称，例如 `filter = 'struct[0][subfield] > {var}'`。
+
+有关在 StructArray Field 中进行标量过滤的详细信息，请参阅 [StructArray 操作符](./struct-array-filtering)。
+
+</Admonition>
+
 ## 概述\{#overview}
 
-过滤表达式模板化允许您创建带有占位符的过滤表达式，在查询执行期间可以动态替换为值。使用模板化，您可以避免将大型数组或复杂表达式直接嵌入过滤器中，减少解析时间并提高查询性能。
+过滤表达式模板允许您使用占位符创建过滤表达式，并在查询执行过程中动态地用具体值替换这些占位符。使用模板可以避免直接 Embedding 大型数组或复杂表达式，从而缩短解析时间并提升查询性能。
 
 假设你有一个包含两个字段的过滤表达式，年龄和城市，你想找到所有年龄大于25且居住在“北京”或“上海”的人。你可以使用模板来代替直接嵌入过滤表达式中的值：
 
@@ -56,7 +64,7 @@ res = client.search(
     filter=expr,
     limit=10,
     output_fields=["age", "city"],
-    search_params={"metric_type": "COSINE", "params": {"search_list": 100}},
+    search_params={"params": {"search_list": 100}},
     filter_params=filter_params,
 )
 ```
@@ -95,6 +103,32 @@ res = client.delete(
 ```
 
 这种方法提高了删除操作的性能，尤其是在处理复杂的过滤条件时。
+
+## 正则表达式过滤模板\{#regex-filter-templates}
+
+您可以将过滤表达式模板与正则表达式过滤条件结合使用。当正则表达式模式在请求时提供时，此功能尤其有用。
+
+```python
+expr = "message =~ {pattern}"
+filter_params = {"pattern": "E[0-9]{4}"}
+res = client.query(
+    "hello_milvus",
+    filter=expr,
+    output_fields=["message"],
+    filter_params=filter_params,
+)
+```
+
+您还可以将模板参数与 `!~` 结合使用：
+
+```python
+expr = "message !~ {pattern}"
+filter_params = {"pattern": "^DEBUG"}
+```
+
+模板值必须是包含有效 RE2 正则表达式模式的字符串。Zilliz Cloud 会在执行过滤操作前验证该模式。
+
+过滤模板会将正则表达式模式作为值传递，而不是将其拼接到过滤表达式中。这样既能降低表达式解析开销，也能避免模式包含引号或操作符时意外改变过滤表达式的结构。
 
 ## 小结\{#conclusion}
 

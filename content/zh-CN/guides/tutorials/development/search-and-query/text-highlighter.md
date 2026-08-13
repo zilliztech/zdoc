@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud 中的 Highlighter 会在文本字段中对匹配到的词项进行标注，通过在其前后包裹可自定义的标签来实现高亮显示。高亮有助于解释文档为何被命中，提升结果的可读性，并支持在搜索与 RAG 应用中的富文本渲染。 | Cloud"
 type: origin
 token: UAiSwzyTxi8EJ4k45cwcXJ10neb
-sidebar_position: 13
+sidebar_position: 14
 displayed_sidebar: default
 
 ---

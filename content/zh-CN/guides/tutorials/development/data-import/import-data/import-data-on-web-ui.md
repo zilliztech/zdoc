@@ -28,7 +28,7 @@ import Supademo from '@site/src/components/Supademo';
 
 请确保已完成以下步骤：
 
-- 已创建集群。详情请参见[创建按量计费集群](./undefined)。
+- 已创建集群。详情请参见[创建 On-Demand 集群](./on-demand-cluster)。
 
 - 已按照格式准备需要导入的数据。更多详情，请参阅[支持的对象存储](./data-import-storage-options)和[支持的数据格式](./data-import-format-options)。
 

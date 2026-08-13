@@ -58,8 +58,6 @@ Struct Array 字段允许您将一组有序的 Structs 存入其中，每个 Str
 
 索引对于向量字段是必需的，包括集合中的向量字段和在结构体中定义的向量字段。对于结构体中的向量字段，您应该使用 `AUTOINDEX` 作为索引类型，使用 `MAX_SIM` 系列相似度类型作为度量类型。
 
-关于 Struct Array 的更多限制，可以阅读[使用限制](./undefined)一节的内容。
-
 ## 一个现实世界的例子：为自动驾驶数据集 CoVLA 建模\{#a-real-world-example-modeling-the-covla-dataset-for-autonomous-driving}
 
 由 [Turing Motors](https://tur.ing/posts/s1QUA1uh) 推出并被 2025 年冬季计算机视觉应用会议（WACV）接受的综合视觉-语言-行动（CoVLA）数据集，为在自动驾驶中训练和评估视觉-语言-行动（VLA）模型提供了丰富的基础。每个数据点（通常是一个视频片段）不仅包含原始视觉输入，还包含如下的结构化的说明信息：

@@ -1626,3 +1626,6 @@ Zilliz Cloud 提供的 AUTOINDEX 已经极大地降低了执行 ANN Search 的�
 
     关于 mmap 设置的相关内容，可以查看[使用 mmap](./use-mmap)。
 
+- 使用搜索重排
+
+    关于如何使用 Ranker 加强搜索结果的相关性，可以查看[模型供应商](./integrate-with-model-providers)。

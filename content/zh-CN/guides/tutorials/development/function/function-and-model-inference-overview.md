@@ -1,5 +1,5 @@
 ---
-title: "Function 概述 | Cloud"
+title: "Function & 模型推理概述 | Cloud"
 slug: /function-and-model-inference-overview
 sidebar_label: "Function 概述"
 beta: FALSE
@@ -9,7 +9,7 @@ deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud 提供了一套统一的搜索架构，用于构建现代检索系统，包括语义搜索、词法搜索、混合搜索以及智能重排。与将这些能力作为孤立功能暴露给用户不同，Zilliz Cloud 将它们统一组织在一个核心抽象之下：Function。 | Cloud"
 type: origin
-token: HNNmwLBt1ijq6XkSwmuc4PtCnud
+token: LWMXw6sG3i0cogkIUa5ctndHnGb
 sidebar_position: 1
 displayed_sidebar: default
 
@@ -18,7 +18,7 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# Function 概述
+# Function & 模型推理概述
 
 Zilliz Cloud 提供了一套统一的搜索架构，用于构建现代检索系统，包括语义搜索、词法搜索、混合搜索以及智能重排。与将这些能力作为孤立功能暴露给用户不同，Zilliz Cloud 将它们统一组织在一个核心抽象之下：**Function**。
 
@@ -42,7 +42,7 @@ Zilliz Cloud 提供了一套统一的搜索架构，用于构建现代检索系�
 
 下图以抽象方式展示了 Function 在搜索工作流中的整体作用方式。
 
-![UUQ4wWNA3htUYtbe7qAcKnESnqe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/UUQ4wWNA3htUYtbe7qAcKnESnqe.png)
+![JeWWwUcdPhNcddbuPrxcmtsZn0d](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/JeWWwUcdPhNcddbuPrxcmtsZn0d.png)
 
 每一次搜索请求都会遵循相同的高层流程：
 
@@ -70,8 +70,8 @@ Pre-search Function 在候选结果检索之前运行。它们的作用是将原
 
 | Function 类型 | 向量类型 | 说明 | 典型场景 |
 | --- | --- | --- | --- |
-| **BM25 Function** | 稀疏向量 | 基于词项匹配、词频以及文档长度归一化计算词法相关性。<br/>作为本地机制完全在数据库引擎内执行；不需要[模型推理](./undefined#understand-model-inference)。 | 以关键词为中心的全文检索、文档搜索、代码搜索，或对精确词项匹配和本地高性能有要求的场景。 |
-| **Model-based Embedding Functions** | 稠密向量 | 使用机器学习模型对文本的语义含义进行编码，实现超越精确关键词匹配的相似性检索。<br/>需要通过托管模型或第三方模型服务进行[模型推理](./undefined#understand-model-inference)。 | 语义搜索、自然语言查询、问答式检索，以及更关注概念相似性而非精确匹配的场景。 |
+| **BM25 Function** | 稀疏向量 | 基于词项匹配、词频以及文档长度归一化计算词法相关性。<br/>作为本地机制完全在数据库引擎内执行；不需要[模型推理](./function-and-model-inference-overview#understand-model-inference)。 | 以关键词为中心的全文检索、文档搜索、代码搜索，或对精确词项匹配和本地高性能有要求的场景。 |
+| **Model-based Embedding Functions** | 稠密向量 | 使用机器学习模型对文本的语义含义进行编码，实现超越精确关键词匹配的相似性检索。<br/>需要通过托管模型或第三方模型服务进行[模型推理](./function-and-model-inference-overview#understand-model-inference)。 | 语义搜索、自然语言查询、问答式检索，以及更关注概念相似性而非精确匹配的场景。 |
 
 所有 Pre-search Function 都会以一致的方式同时作用于文档数据和查询文本，从而确保检索始终在同一表示空间中进行。
 
@@ -90,3 +90,63 @@ Post-search Function 作用于搜索阶段返回的候选结果，通过额外�
 | **Model-based Ranker** | 单一向量检索或混合搜索返回的候选结果 | 使用机器学习模型评估相关性，并基于学习到的语义信号对结果重新排序。 | 智能重排、基于语义理解的相关性优化，以及使用大模型进行相关性评估的场景。 |
 
 由于 Post-search Function 仅作用于已检索到的候选结果，它们只会影响结果顺序，而不会改变检索范围。
+
+## 理解模型推理\{#understand-model-inference}
+
+在 Zilliz Cloud 的 Function 架构中，**模型推理并不是一个独立的概念或执行阶段**，而是某些 Function 类型所采用的一种实现方式。
+
+本节将说明**模型推理在整体架构中的位置**、**何时需要使用**，以及**它是如何被提供的**。
+
+### 模型推理在架构中的作用\{#where-model-inference-fits-in}
+
+**模型推理**指的是在运行时执行机器学习模型，以生成语义信号的过程，例如稠密向量或相关性评分。
+
+在 Zilliz Cloud 中，模型推理**仅由 Model-based Functions 使用**，主要包括：
+
+- [Model-based Pre-search Function](./function-and-model-inference-overview#pre-search-functions-convert-text-to-vector-embeddings)：从文本生成稠密向量
+
+- [Model-based Ranker](./function-and-model-inference-overview#post-search-functions-rerank-candidate-results)：评估相关性并对已检索到的候选结果进行重排
+
+其他 Function（例如 **BM25 Function** 以及基于规则的 Ranker）完全在数据库引擎内执行，**不依赖模型推理**。
+
+### 模型推理的来源\{#where-model-inference-come-from}
+
+Zilliz Cloud 支持两种模型推理来源。二者都提供基于模型的能力，但在模型的提供与管理方式上有所不同：
+
+| 维度 | 托管模型（Hosted Models） | 第三方模型服务（Third-Party Model Services） |
+| --- | --- | --- |
+| 模型运行位置 | Zilliz Cloud 内部 | 外部模型提供方（如 OpenAI、Voyage AI 等） |
+| 模型管理方 | Zilliz Cloud | 外部模型提供方 |
+| 访问方式 | 通过 Zilliz Cloud 支持团队开通 | 由你自行完成模型提供方集成 |
+| 凭证管理 | 在 Zilliz Cloud 入驻过程中提供 | 由你提供（例如 API Key） |
+| 典型使用场景 | 深度集成或定制化部署 | 使用成熟模型提供方的标准模型 |
+| 配置复杂度 | 较高（需要入驻流程） | 较低（直接使用已有凭证） |
+
+**在以下情况下，推荐选择托管模型**：
+
+- 需要与 Zilliz Cloud 深度集成（单一厂商、统一支持）
+
+- 需要模型微调或使用特定定制模型
+
+- 对性能和延迟有更强的可预测性要求
+
+- 希望简化凭证和访问控制的管理
+
+**在以下情况下，推荐选择第三方模型服务**：
+
+- 已与某个模型提供方建立合作关系
+
+- 希望使用 OpenAI 等提供方的最新模型
+
+- 需要在不同模型提供方之间灵活切换
+
+- 已具备可用的 API Key 或访问凭证
+
+### 支持的模型提供方\{#supported-model-providers}
+
+Zilliz Cloud 可与多家主流模型提供方集成，以支持不同类型的模型能力。下表展示了各模型提供方在文本向量（Text Embedding）和重排（Reranking）方面的支持情况：
+
+| 模型提供方 | 文本向量 | 重排 |
+| --- | --- | --- |
+| 硅基流动 | [Yes](https://docs.siliconflow.cn/cn/api-reference/embeddings/create-embeddings) | [Yes](https://docs.siliconflow.cn/cn/api-reference/rerank/create-rerank) |
+

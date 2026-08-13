@@ -74,7 +74,7 @@ import Grid from '@site/src/components/Grid';
 
         - **结构化 JSONL 格式** — 可直接接入任意数据仓库或分析管道。
 
-        更多详情，请参考 [访问日志](./undefined)。
+        更多详情，请参考 [访问日志概述](./access-log-overview)。
 
         ## 运维窗口\{#maintenance-window}
 

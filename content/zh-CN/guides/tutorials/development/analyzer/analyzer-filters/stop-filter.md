@@ -113,9 +113,9 @@ analyzerParams='{
 | --- | --- |
 | `stop_words` | 要从分词中移除的单词列表。默认情况下，使用预定义的 `_english_` 列表，其中包含常见的英语停用词。有关 `_english_` 的详细信息，请查看[这里](https://github.com/milvus-io/milvus/blob/master/internal/core/thirdparty/tantivy/tantivy-binding/src/stop_words.rs)。 |
 
-`stop` 过滤器作用于分词器生成的词项，因此必须与分词器结合使用。有关 Zilliz Cloud 中可用的分词器列表，请参阅[分词器参考](./undefined)。
+`stop` 过滤器作用于分词器生成的词项，因此必须与分词器结合使用。有关 Zilliz Cloud 中可用的分词器列表，请参阅[Analyzer 概述](./analyzer-overview)。
 
-定义 `analyzer_params` 后，您可以在定义 Collection Schema 时将其应用于 VARCHAR 字段。这使得 Zilliz Cloud 能够使用指定的分析器处理该字段中的文本，以实现高效的分词和过滤。更多信息，请参阅[使用示例](./analyzer-overview#example-use)。  
+定义 `analyzer_params` 后，您可以在定义 Collection Schema 时将其应用于 VARCHAR 字段。这使得 Zilliz Cloud 能够使用指定的分析器处理该字段中的文本，以实现高效的分词和过滤。更多信息，请参阅[使用示例](./analyzer-overview)。  
 
 ## 使用示例\{#examples}
 

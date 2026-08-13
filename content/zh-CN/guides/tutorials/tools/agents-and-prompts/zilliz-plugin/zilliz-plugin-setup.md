@@ -50,7 +50,7 @@ import Admonition from '@theme/Admonition';
 
 ## 后续步骤\{#}
 
-- 能力参考
+- [核心能力](./zilliz-plugin-capabilities)
 
-- 示例
+- [更多示例](./zilliz-plugin-examples)
 

@@ -150,7 +150,7 @@ go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.5.6
 
 - [创建 Collection](./manage-collections-sdks)
 
-- [插入与删除](./undefined)
+- [插入 Entity](./insert-entities)
 
-- [搜索与重排](./zilliz-search-prompts)
+- [基本 Vector Search](./single-vector-search)
 

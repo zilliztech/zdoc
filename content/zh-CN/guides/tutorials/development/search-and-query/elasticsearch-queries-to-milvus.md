@@ -10,7 +10,7 @@ notebook: FALSE
 description: "基于 Apache Lucene 构建的 Elasticsearch 是领先的开源搜索引擎。然而，它在现代 AI 应用程序中面临挑战，包括高更新成本、较差的实时性能、低效的分片管理、非云原生设计以及过度的资源需求。作为云原生向量数据库，Zilliz Cloud 通过解耦的存储和计算、高维数据的高效索引以及与现代基础设施的无缝集成克服了这些问题，并为 AI 工作负载提供了卓越的性能和可扩展性。 | Cloud"
 type: origin
 token: QOwXwYCBMiR8pQkHDcKcL3z3nDh
-sidebar_position: 17
+sidebar_position: 18
 displayed_sidebar: default
 
 ---
@@ -199,7 +199,7 @@ res = client.query(
 )
 ```
 
-您可在[此页面](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-ids-query.html)找到 Elasticsearch 的相关示例可。关于如何在 Zilliz Cloud 中执行 Query 和 Get 操作以及过滤表达式的相关内容，可以参考 [Query](./get-and-scalar-query) 和[过滤表达式](./undefined)。
+您可在[此页面](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-ids-query.html)找到 Elasticsearch 的相关示例可。关于如何在 Zilliz Cloud 中执行 Query 和 Get 操作以及过滤表达式的相关内容，可以参考 [Query](./get-and-scalar-query) 和[过滤表达式概览](./filtering-overview)。
 
 ### 前缀查询（Prefix Query）\{#prefix-query}
 
@@ -428,7 +428,7 @@ resp = client.search(
 )
 ```
 
-Zilliz Cloud 作为一款专门的向量数据库，使用索引类型来优化向量检索。通常，它优先采用近似最近邻（ANN）检索来处理高维向量数据。虽然使用 `FLAT` 索引类型的暴力 kNN 检索能够提供精确结果，但它既耗时又耗资源。相比之下，使用 `AUTOINDEX` 或其他索引类型的 ANN 检索，能更好地平衡速度和准确性，提供比 KNN 更快的性能，且更节省资源。关于索引类型和 AUTOINDEX 的相关内容，可以参考[管理 Index](./undefined)  和 [AUTOINDEX](./autoindex-explained)。
+Zilliz Cloud 作为一款专门的向量数据库，使用索引类型来优化向量检索。通常，它优先采用近似最近邻（ANN）检索来处理高维向量数据。虽然使用 `FLAT` 索引类型的暴力 kNN 检索能够提供精确结果，但它既耗时又耗资源。相比之下，使用 `AUTOINDEX` 或其他索引类型的 ANN 检索，能更好地平衡速度和准确性，提供比 KNN 更快的性能，且更节省资源。关于索引类型和 AUTOINDEX 的相关内容，可以参考[AUTOINDEX](./autoindex-explained)。
 
 在 Zilliz Cloud 中，与上述向量查询类似的操作如下：
 
@@ -491,7 +491,7 @@ client.search(
 
 每个检索器最多贡献 50 个匹配项，这些匹配项通过 RRF 重新排序，最终返回前 10 个结果。
 
-在 Zilliz Cloud 中，您可以通过结合多个向量字段的检索、使用重排策略，并从组合列表中检索前 K 个结果，来实现类似的混合检索。Zilliz Cloud 支持 RRF 和加权重排策略。更多内容可以参考 [重排](./undefined)。
+在 Zilliz Cloud 中，您可以通过结合多个向量字段的检索、使用重排策略，并从组合列表中检索前 K 个结果，来实现类似的混合检索。Zilliz Cloud 支持 RRF 和加权重排策略。
 
 以下是上述 Elasticsearch 示例在 Zilliz Cloud 中的非严格等效实现：
 

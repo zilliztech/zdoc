@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "按需计算中的数据库由平台管理，您无需为其预配置或维护集群。您可以指定按需计算集群，对这类数据库中的数据执行 Query 和 Search。详情请参见 Database 概述。 | Cloud"
+description: "按需计算中的数据库由平台管理，您无需为其预配置或维护集群。您可以指定按需计算集群，对这类数据库中的数据执行 Query 和 Search。详情请参见 Database。 | Cloud"
 type: origin
 token: CV70wkhwiiBsplkxFJicEbgEnab
 sidebar_position: 3
@@ -22,7 +22,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # 按需计算中的 Database
 
-按需计算中的数据库由平台管理，您无需为其预配置或维护集群。您可以指定按需计算集群，对这类数据库中的数据执行 Query 和 Search。详情请参见 [Database 概述](./undefined)。
+按需计算中的数据库由平台管理，您无需为其预配置或维护集群。您可以指定按需计算集群，对这类数据库中的数据执行 Query 和 Search。详情请参见 [Database](./database-concept)。
 
 本指南说明如何管理按需计算中的数据库。
 
@@ -38,7 +38,7 @@ import Procedures from '@site/src/components/Procedures';
 
 - 在每个项目中，最多可以在按需计算中创建 100 个 Database。
 
-- 按需计算下的 Database 中所有 Collection（[Managed](./undefined) 或 [External](./undefined)） 均不支持删除 Index。
+- 按需计算下的 Database 中所有 Collection（[Managed](./manage-collections-sdks) 或 [External](./create-external-collection)） 均不支持删除 Index。
 
 ## 创建 Database\{#create-database}
 

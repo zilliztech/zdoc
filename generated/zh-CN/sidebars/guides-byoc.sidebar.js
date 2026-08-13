@@ -176,6 +176,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "tutorials/development/search-and-query/search-aggregation",
+            "label": "搜索聚合",
+            "key": "doc:tutorials/development/search-and-query/search-aggregation"
+          },
+          {
+            "type": "doc",
             "id": "tutorials/development/search-and-query/primary-key-search",
             "label": "Primary Key Search",
             "key": "doc:tutorials/development/search-and-query/primary-key-search"
@@ -1909,25 +1915,6 @@ module.exports = [
         "href": "/reference/cli/cli/overview",
         "label": "Zilliz CLI",
         "key": "link:tutorials/tools/zilliz-cli"
-      }
-    ]
-  },
-  {
-    "type": "category",
-    "label": "AI 模型",
-    "key": "category:tutorials/ai-models",
-    "items": [
-      {
-        "type": "category",
-        "label": "文本嵌入模型",
-        "key": "category:tutorials/ai-models/text-embedding-models",
-        "items": []
-      },
-      {
-        "type": "category",
-        "label": "重排序模型",
-        "key": "category:tutorials/ai-models/reranking-models",
-        "items": []
       }
     ]
   }

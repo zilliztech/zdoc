@@ -76,7 +76,7 @@ import Procedures from '@site/src/components/Procedures';
 
     如果您的汇款资金未到账，请通过 finance@zilliz.com 联系我们或[提交工单](http://support.zilliz.com.cn)。
 
-    ![add_fund_history](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/add_fund_history.png "add_fund_history")
+    ![add_fund_history](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/addfundhistory.png "add_fund_history")
 
 </Procedures>
 

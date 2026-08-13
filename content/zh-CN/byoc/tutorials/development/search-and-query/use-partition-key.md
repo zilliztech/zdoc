@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Partition Key 是一种搜索优化解决方案，通过作为 Collection 的 Namespace 来实现逻辑数据隔离。通过将特定标量字段（如租户 ID 或项目名称）指定为 Partition Key，您可以在单个 Collection 内将数据有效分割成不同的 Namespace。这使得搜索请求能够通过筛选条件限定在特定 Namespace 内，从而显著缩小搜索范围并提升整体效率。本文介绍如何实现这种基于 Namepsace 的优化以及使用 Partition Key 时的注意事项。 | BYOC"
 type: origin
 token: QT2Vw3FvJiuwzBkeZvicRBlsnae
-sidebar_position: 19
+sidebar_position: 20
 displayed_sidebar: default
 
 ---

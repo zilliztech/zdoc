@@ -50,7 +50,7 @@ import Admonition from '@theme/Admonition';
 
 ## 数据导入能力增强\{#enhanced-data-import-capabilities}
 
-我们重新设计了您向 Zilliz Cloud 导入数据的方式。具体内容，可[查阅此处](./undefined)。
+我们重新设计了您向 Zilliz Cloud 导入数据的方式。
 
 - 导入目录
 

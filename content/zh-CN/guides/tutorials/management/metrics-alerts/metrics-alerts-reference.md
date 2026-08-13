@@ -61,10 +61,10 @@ import Admonition from '@theme/Admonition';
 | --- | --- | --- |
 | Read vCUs | Search 和 Query 操作消耗的 vCU 用量。<br/>该指标仅适用于 **Free** 或 **Serverless** 集群。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | - |
 | Write vCUs | Insert、Delete 和 Upsert 操作消耗的 vCU 用量。<br/>该指标仅适用于 **Free** 或 **Serverless** 集群。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | - |
-| Query CU 计算资源 | 衡量查询执行对 CPU 资源的使用程度。该指标根据 QueryNode 的 CPU 使用量相对于其 CPU limit 计算得出。<br/>该指标仅适用于 **Dedicated 企业版** 或 **BYOC**。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | 如果该指标持续处于高位，说明查询执行受 CPU 资源限制。可以考虑[扩展 replica](./manage-replica)，以提升并行查询处理能力。 |
+| Query CU 计算资源 | 衡量查询执行对 CPU 资源的使用程度。该指标根据 QueryNode 的 CPU 使用量相对于其 CPU limit 计算得出。<br/>该指标仅适用于 **Dedicated 企业版** 或 **BYOC**。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | 如果该指标持续处于高位，说明查询执行受 CPU 资源限制。可以考虑扩展 replica，以提升并行查询处理能力。 |
 | Query CU 加载容量 | 衡量当前 Query CU 距离容量上限的接近程度。该指标取两个信号中的较高值：已加载数据占用的内存，以及已存储数据量相对于集群存储配额的比例。<br/>该指标仅适用于 **Free**, **Dedicated 企业版** 或 **BYOC**。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | 如果该指标持续处于高位，说明当前 Query CU 规格可能没有足够容量。可以考虑扩容 Query CU，以提供更多容量。 |
-| Query CU 总数 | 当前集群中 Query CU 总数。该数值可以通过集群 Query CU × Replica 数量计算得出。<br/>例如，如果集群的 Query CU为 2，Replica 数量为 2，则此处显示的Query CU 规格总数为 4。<br/>该指标仅适用于 **Dedicated 企业版** 或 **BYOC**。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | 监控该指标，可以识别 Query CU 的[扩缩容](./scale-cluster)事件。 |
-| Replica 数量 | 当前集群中的 Replica 数量。<br/>该指标仅适用于 **Dedicated 企业版** 或 **BYOC**。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | 监控该指标，可以识别 Replica 的[扩缩容](./manage-replica)事件。 |
+| Query CU 总数 | 当前集群中 Query CU 总数。该数值可以通过集群 Query CU × Replica 数量计算得出。<br/>例如，如果集群的 Query CU为 2，Replica 数量为 2，则此处显示的Query CU 规格总数为 4。<br/>该指标仅适用于 **Dedicated 企业版** 或 **BYOC**。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | 监控该指标，可以识别 Query CU 的扩缩容事件。 |
+| Replica 数量 | 当前集群中的 Replica 数量。<br/>该指标仅适用于 **Dedicated 企业版** 或 **BYOC**。有关更多集群类型信息，请参阅 [Zilliz Cloud 版本对比](./select-zilliz-cloud-service-plans)。 | 监控该指标，可以识别 Replica 的扩缩容事件。 |
 | 存储用量 | 数据和索引消耗的持久存储总量。 | [配置监控告警](./manage-project-alerts)，以了解存储用量情况。 |
 
 ### 性能\{#performance}

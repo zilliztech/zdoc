@@ -10,7 +10,7 @@ notebook: FALSE
 description: "短语匹配允许您搜索包含查询词为精确短语的文档。默认情况下，这些词必须按相同顺序且彼此直接相邻出现。例如，查询 \"robotics machine learning\" 会匹配类似 \"…typical robotics machine learning models…\" 这样的文本，其中 \"robotics\"、\"machine\" 和 \"learning\" 按顺序出现，中间没有其他词。 | Cloud"
 type: origin
 token: AXhtwvmowicwpskTZCWcNhgOnog
-sidebar_position: 15
+sidebar_position: 16
 displayed_sidebar: default
 
 ---

@@ -49,7 +49,7 @@ MinHash 是 Zilliz Cloud 内置 Function，不需要外部模型推理或预处�
 
 文档写入和查询处理都会将原始文本传入同一套四阶段转换流程：
 
-1. **文本分析**：当 `token_level` 为 `"word"` 时，文本会由 Analyzer Overview 处理；当 `token_level` 为 `"char"` 时，文本会直接使用原始字符。词级别分词会使用输入字段上配置的 Analyzer 将文本切分为词元。例如，`"milvus is vector db"` 会被切分为 `["milvus", "is", "vector", "db"]`。
+1. **文本分析**：当 `token_level` 为 `"word"` 时，文本会由 [Analyzer 概述](./analyzer-overview)处理；当 `token_level` 为 `"char"` 时，文本会直接使用原始字符。词级别分词会使用输入字段上配置的 Analyzer 将文本切分为词元。例如，`"milvus is vector db"` 会被切分为 `["milvus", "is", "vector", "db"]`。
 
 1. **Shingling**：词元会被切分为大小为 `shingle_size` 的重叠 n-gram（Shingle）。例如，在词级别使用 3-gram 时，词元 `["information", "retrieval", "is", "a", "field"]` 会生成 `["information retrieval is", "retrieval is a", "is a field"]` 等 Shingle。
 
@@ -527,9 +527,9 @@ for hits in results:
 
 ## 下一步 \{#whats-next}
 
-- Full Text Search：使用 BM25 进行词法相关性排序，而不是近重复检测。
+- [Full Text Search](./full-text-search)：使用 BM25 进行词法相关性排序，而不是近重复检测。
 
 - [Analyzer 概述](./analyzer-overview)：配置用于文本分词的自定义 Analyzer。
 
-- MINHASH_LSH：了解如何调整 LSH 参数以平衡召回率和性能。
+- [MINHASH_LSH](./minhash-lsh)：了解如何调整 LSH 参数以平衡召回率和性能。
 

@@ -104,7 +104,7 @@ import Supademo from '@site/src/components/Supademo';
 
 - 当前组织下的[集群已全部删除](./manage-cluster#drop-cluster)。
 
-- 当前组织下的 Volume 已全部删除。
+- 当前组织下的 [Volume 已全部删除](./managed-volume)。
 
 - 当前组织中的[账单](./view-invoice)已全部付清。
 

@@ -149,7 +149,7 @@ Zilliz Cloud 提供了一个备份工具，可用于从 Milvus 迁移数据至 Z
 
 </Admonition>
 
-![view_migration_progress_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/view_migration_progress_cn.png "view_migration_progress_cn")
+![view_migration_progress_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/viewmigrationprogresscn.png "view_migration_progress_cn")
 
 ## 迁移后\{#post-migration}
 

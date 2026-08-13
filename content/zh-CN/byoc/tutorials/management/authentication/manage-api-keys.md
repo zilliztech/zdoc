@@ -44,7 +44,7 @@ import Admonition from '@theme/Admonition';
 
 ![YElywNKSghmTLabpy7ice4vdnFe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/YElywNKSghmTLabpy7ice4vdnFe.png)
 
-下表展示了不同角色的用户所具备的 API 密钥权限范围。更多有关角色和权限信息，请参考[访问控制](./zilliz-access-control-prompts)。
+下表展示了不同角色的用户所具备的 API 密钥权限范围。更多有关角色和权限信息，请参考[访问控制概览](./access-control-overview)。
 
 <table>
    <tr>

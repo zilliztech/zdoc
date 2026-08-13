@@ -96,9 +96,9 @@ Zilliz Cloud 允许您以编程方式或在Zilliz Cloud控制台中设置 `build
 
 ### 以编程方式设置 build_level\{#set-build_level-programmatically}
 
-要设置 `build_level`，你需要在[为浮点类型的向量字段创建索引](./undefined#index-a-collection)时进行，例如 **FLOAT_VECTOR**、**FLOAT16_VECTOR** 和 **BFLOAT16_VECTOR**。
+要设置 `build_level`，你需要在为浮点类型的向量字段创建索引时进行，例如 **FLOAT_VECTOR**、**FLOAT16_VECTOR** 和 **BFLOAT16_VECTOR**。
 
-以下示例假设您已完成[准备工作](./undefined#preparations)中的步骤。将 `build_level` 设置为 `1` 表示使用**平衡型**选项。
+以下示例假设您已完成准备工作中的步骤。将 `build_level` 设置为 `1` 表示使用**平衡型**选项。
 
 ```python
 # 4. Set up index

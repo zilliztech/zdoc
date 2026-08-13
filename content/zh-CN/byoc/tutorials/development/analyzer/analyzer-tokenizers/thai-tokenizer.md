@@ -66,7 +66,7 @@ analyzer_params = {
 
 - **位置语义**：采用基于字符的词元位置，并计入跳过的空白字符和标点符号，从而使短语匹配和邻近匹配行为与其他非拉丁文字分词器保持一致。
 
-定义 `analyzer_params` 后，在定义 Collection Schema 时，可以将该 Analyzer 应用于 `VARCHAR` 字段。有关详细信息，请参阅[使用示例](./analyzer-overview#example-use)。
+定义 `analyzer_params` 后，在定义 Collection Schema 时，可以将该 Analyzer 应用于 `VARCHAR` 字段。有关详细信息，请参阅[使用示例](./analyzer-overview)。
 
 ## 示例\{#}
 

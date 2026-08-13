@@ -242,7 +242,7 @@ Private Endpoint 创建完成后，您可以前往**集群详情**页查看该�
 
 </Admonition>
 
-![disable_public_endpoint_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/disable_public_endpoint_cn.png "disable_public_endpoint_cn")
+![disable_public_endpoint_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/disablepublicendpointcn.png "disable_public_endpoint_cn")
 
 ## 常见问题\{#faq}
 

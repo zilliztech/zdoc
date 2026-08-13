@@ -20,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # Hugging Face
 
-通常情况下，使用 Hugging Face Embedding 模型要求应用自行管理凭证、单独调用模型，并确保为 Insert 数据和搜索查询生成一致的 Embedding。借助 Hugging Face 模型服务集成和 Text Embedding Function，Zilliz Cloud 可在 Insert 和搜索期间将原始文本转换为向量。
+通常情况下，使用 Hugging Face Embedding 模型要求应用自行管理凭证、单独调用模型，并确保为 Insert 数据和搜索查询生成一致的 Embedding。借助 [Hugging Face 模型服务集成](./integrate-with-model-providers)和 Text Embedding Function，Zilliz Cloud 可在 Insert 和搜索期间将原始文本转换为向量。
 
 ## 工作原理\{#}
 
@@ -63,7 +63,7 @@ Insert 和搜索使用相同的 Function 配置，从而确保模型和推理参
 
 使用 Hugging Face 文本 Embedding 前：
 
-- 创建 Hugging Face 模型服务集成并复制其集成 ID。将 **Provider** 设置为 `hf-inference`。有关操作说明，请参阅集成模型服务。
+- 创建 Hugging Face 模型服务集成并复制其集成 ID。将 **Provider** 设置为 `hf-inference`。有关操作说明，请参阅[集成模型服务](./integrate-with-model-providers)。
 
 - 打开模型的 Hugging Face 页面，查看 **Inference Providers** 部分。确认 `hf-inference` 当前为该模型提供 `feature-extraction` 任务服务。
 
@@ -150,7 +150,7 @@ schema.add_function(text_embedding_function)
 | --- | --- | --- |
 | `provider` | 是 | Zilliz Cloud 模型服务提供商。将此值设置为 `huggingface`。 |
 | `model_name` | 是 | 当前通过 `hf-inference` 为 `feature-extraction` 任务提供服务的模型所对应的 Hugging Face Model ID。 |
-| `integration_id` | 是 | Hugging Face 模型服务集成的 ID。有关操作说明，请参阅集成模型服务。 |
+| `integration_id` | 是 | Hugging Face 模型服务集成的 ID。有关操作说明，请参阅[集成模型服务](./integrate-with-model-providers)。 |
 | `normalize` | 否 | 是否请求归一化 Embedding。如省略，Zilliz Cloud 不会在 Hugging Face 请求中设置此选项；具体行为取决于所选模型。 |
 | `prompt_name` | 否 | 所选模型的 Sentence Transformers 配置中定义的 prompt 名称。Hugging Face 会在编码前添加对应的 prompt 文本。如省略，则不请求使用 prompt。 |
 | `truncate` | 否 | 当输入超出模型支持的长度时，是否请求执行截断。如省略，Zilliz Cloud 不会在 Hugging Face 请求中设置此选项；具体行为取决于所选模型。 |
@@ -241,6 +241,6 @@ print(results)
 
 ## 后续步骤\{#}
 
-有关 Function 的一般信息，请参阅 [Function 概述](./undefined)。
+有关 Function 的一般信息，请参阅 [Function & 模型推理概述](./function-and-model-inference-overview)。
 
 要使用 Hugging Face Sentence Similarity 分数对向量搜索候选项重新排序，请参阅 [Hugging Face Ranker](./hugging-face-ranker)。

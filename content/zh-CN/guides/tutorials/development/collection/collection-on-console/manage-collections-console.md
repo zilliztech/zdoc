@@ -29,7 +29,7 @@ Collection 是一张二维表格，用于存储 Embedding向量和元数据。�
 <Admonition type="info" icon="📘" title="说明">
 
 如需租户间数据物理隔离，且租户数量较少，可以为每个租户创建一个独立的 Collection。
-但是，根据您的集群版本，您最多可创建 16,384 个 Collection。因此，对于大规模多租户场景，建议根据具体情况，采用基于 Partition 或 Partition key 的多租户策略。详情请见[多租户策略](./undefined)。
+但是，根据您的集群版本，您最多可创建 16,384 个 Collection。因此，对于大规模多租户场景，建议根据具体情况，采用基于 Partition 或 Partition key 的多租户策略。
 
 </Admonition>
 
@@ -91,7 +91,7 @@ Index 是一种用于加速搜索与查询的数据结构。Zilliz Cloud 支持�
 
 - **Scalar Index**：Zilliz Cloud 默认不会为标量字段自动创建 Index。但您可以手动为常用于过滤的标量字段创建 Index，以加快搜索与查询性能。
 
-您可以在创建 Collection 时跳过 Index 配置，后续随时添加。详情请见[管理 Index](./undefined)。
+您可以在创建 Collection 时跳过 Index 配置，后续随时添加。
 
 ### Function\{#functions}
 
@@ -105,7 +105,7 @@ Index 是一种用于加速搜索与查询的数据结构。Zilliz Cloud 支持�
 
     常见的 Pre-search Function 包括：BM25 Function、Model-based Function。
 
-    有关 Pre-search Function 工作机制的概念性说明，请参见 [Function & 模型推理概述](./undefined#pre-search-functions-convert-text-to-vector-embeddings)。
+    有关 Pre-search Function 工作机制的概念性说明，请参见 [Function & 模型推理概述](./function-and-model-inference-overview#pre-search-functions-convert-text-to-vector-embeddings)。
 
     在 Zilliz Cloud 控制台中创建 Collection 时，你可以在 Collection 创建流程中添加 Function。
 
@@ -123,7 +123,7 @@ Index 是一种用于加速搜索与查询的数据结构。Zilliz Cloud 支持�
 
     - 不影响 candidate retrieval
 
-    有关 Post-search Function 的工作原理，请参见 [Function & 模型推理概述](./undefined#post-search-functions-rerank-candidate-results)。
+    有关 Post-search Function 的工作原理，请参见 [Function & 模型推理概述](./function-and-model-inference-overview#post-search-functions-rerank-candidate-results)。
 
 ### Partition 和 Partition key\{#partition-partition-key}
 
@@ -135,7 +135,7 @@ Index 是一种用于加速搜索与查询的数据结构。Zilliz Cloud 支持�
 
 在决定使用 Partition 还是 Partition Key 时，你可以根据以下因素进行权衡：
 
-- **多租户策略**：如果需要支持百万级租户，建议使用 Partition Key；如果需要在租户之间实现强物理隔离，建议使用 Partition。详情请见[多租户策略](./undefined)。
+- **多租户策略**：如果需要支持百万级租户，建议使用 Partition Key；如果需要在租户之间实现强物理隔离，建议使用 Partition。
 
 - **资源管理方式**：如果希望自行创建和管理 Partition，可选择使用 Partition；如果希望系统自动创建和管理 Partition，建议使用 Partition Key。
 

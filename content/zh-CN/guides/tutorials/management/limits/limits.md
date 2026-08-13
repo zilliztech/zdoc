@@ -112,7 +112,7 @@ vCU 是用于衡量读取（如 search、query）和写入操作（如 insert、
 
 <Admonition type="info" icon="📘" title="说明">
 
-Dedicated 集群的容量上限会根据您选择的 CU 类型与 CU 大小的不同而发生变化。如果容量不足，可以尝试调整 CU 类型和大小。具体操作步骤，可以参考[集群扩缩容](./scale-cluster)。
+Dedicated 集群的容量上限会根据您选择的 CU 类型与 CU 大小的不同而发生变化。如果容量不足，可以尝试调整 CU 类型和大小。具体操作步骤，可以参考[全球集群扩缩容](./scale-global-cluster)。
 
 </Admonition>
 

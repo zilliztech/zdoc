@@ -32,9 +32,9 @@ Zilliz Cloud AI 提示词库为 AI 驱动的 IDE 提供精选提示词，帮助 
 
 ## 提示词\{#}
 
-| Base Prompt | Resource Planning | Pricing | Cluster Connection | Search |
+| [基础提示词](./zilliz-base-prompts) | [资源规划](./zilliz-resource-planning-prompts) | [定价](./zilliz-pricing-prompts) | [集群连接](./zilliz-cluster-connection-prompts) | [搜索](./zilliz-search-prompts) |
 | --- | --- | --- | --- | --- |
-| Import | Migration | Integrations | Access Control | Schema Design |
+| [导入](./zilliz-import-prompts) | [迁移](./zilliz-migration-prompts) | [访问控制](./zilliz-access-control-prompts) | [集成](./zilliz-integrations-prompts) | [Schema 设计](./zilliz-schema-design-prompts) |
 
 
 import DocCardList from '@theme/DocCardList';

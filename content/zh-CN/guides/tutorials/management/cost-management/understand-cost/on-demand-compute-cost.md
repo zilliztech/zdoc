@@ -52,7 +52,7 @@ Query CU 费用 = Query CU 单价 × Query CU 数量 × 运行时长
 
 ## Indexing CU 费用\{#indexing-cu-cost}
 
-Indexing CU 费用用于衡量在按需计算中为 Managed Collection 和 [External Collection](./undefined) 构建索引时所消耗的计算资源。
+Indexing CU 费用用于衡量在按需计算中为 [Managed Collection](./manage-collections-sdks) 和 [External Collection](./create-external-collection) 构建索引时所消耗的计算资源。
 
 ### Indexing CU 费用来源\{#sources-of-indexing-cu-cost}
 

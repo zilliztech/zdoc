@@ -66,6 +66,12 @@ module.exports = [
         "key": "doc:tutorials/get-started/cloud-providers-and-regions"
       },
       {
+        "type": "doc",
+        "id": "tutorials/get-started/feature-availability",
+        "label": "功能支持情况",
+        "key": "doc:tutorials/get-started/feature-availability"
+      },
+      {
         "type": "category",
         "label": "常见问题",
         "key": "category:tutorials/get-started/faqs",
@@ -402,6 +408,12 @@ module.exports = [
             "id": "tutorials/development/search-and-query/grouping-search",
             "label": "Grouping Search",
             "key": "doc:tutorials/development/search-and-query/grouping-search"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/search-and-query/search-aggregation",
+            "label": "搜索聚合",
+            "key": "doc:tutorials/development/search-and-query/search-aggregation"
           },
           {
             "type": "doc",
@@ -1633,7 +1645,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "tutorials/management/clusters/on-demand-compute/on-demand-cluster",
-                "label": "创建按需集群",
+                "label": "创建 On-Demand 集群",
                 "key": "doc:tutorials/management/clusters/on-demand-compute/on-demand-cluster"
               },
               {
@@ -2561,6 +2573,12 @@ module.exports = [
             "key": "ref:tutorials/ai-models/text-embedding-models/hugging-face"
           }
         ]
+      },
+      {
+        "type": "doc",
+        "id": "tutorials/ai-models/hosted-models",
+        "label": "托管模型",
+        "key": "doc:tutorials/ai-models/hosted-models"
       },
       {
         "type": "category",

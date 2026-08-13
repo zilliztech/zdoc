@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Semantic Highlighter 在句子级别识别并高亮搜索结果中语义最相关的部分，帮助您从检索到的 top-K 文档中提取关键信息。 | Cloud"
 type: origin
 token: N8GrwhtgwiXDAzklITacqFQknSe
-sidebar_position: 14
+sidebar_position: 15
 displayed_sidebar: default
 
 ---
@@ -40,7 +40,7 @@ Confidence score: 0.999
 
 <Admonition type="info" icon="📘" title="说明">
 
-Semantic Highlighter 功能依赖托管在 Zilliz Cloud 的 Highlight Model。有关更多信息，请参考[托管模型](./undefined#supported-models)。
+Semantic Highlighter 功能依赖托管在 Zilliz Cloud 的 Highlight Model。
 
 </Admonition>
 
@@ -80,7 +80,7 @@ Semantic Highlighter 在语义搜索之后运行，仅对 top-K 结果进行处�
 
 - **执行搜索时**：同一个 Embedding Function 将您的查询文本转换为向量，并在向量索引中搜索，基于向量相似度返回 top-K 文档
 
-本文档中的所有示例都使用此方法。有关更多信息，请参阅 [Model-based Embedding Function](./undefined)。
+本文档中的所有示例都使用此方法。
 
 **选项 2：外部 Embedding 模型**
 
@@ -88,7 +88,7 @@ Semantic Highlighter 在语义搜索之后运行，仅对 top-K 结果进行处�
 
 ### 阶段 2：语义高亮\{#semantic-highlight}
 
-高亮阶段由部署在 Zilliz Cloud 上的托管 [Highlight Model](./undefined) 驱动。该模型处理检索到的文档，识别与查询语义相关的文本片段：
+高亮阶段由部署在 Zilliz Cloud 上的托管 Highlight Model 驱动。该模型处理检索到的文档，识别与查询语义相关的文本片段：
 
 - **评分文本片段**：高亮模型分析每个文档中的文本内容，为每个片段计算置信度分数（0.0-1.0）。分数越高表示与查询的语义相关性越强。
 
@@ -296,7 +296,7 @@ SemanticHighlighter highlighter = SemanticHighlighter.builder()
 
     - 获取 `model_deployment_id` 以在 `SemanticHighlighter` 配置中使用。
 
-    有关可用的 Highlight 模型和部署说明，请参阅[托管模型](./undefined)。
+    有关可用的 Highlight 模型和部署说明，请参阅[托管模型](./hosted-models)。
 
 - **用于语义搜索的 Embedding 模型**
 
@@ -310,7 +310,7 @@ SemanticHighlighter highlighter = SemanticHighlighter.builder()
 
     - **第三方模型提供商**：与硅基流动等服务提供商集成，并从 Zilliz Cloud 控制台获取其 `integration_id`。有关设置说明，请参阅[模型供应商](./integrate-with-model-providers)。
 
-    - **托管 Embedding 模型**：通过 Zilliz Cloud 部署托管的 embedding 模型，并获取其 `model_deployment_id`。有关可用模型和部署说明，请参阅[托管模型](./undefined)。
+    - **托管 Embedding 模型**：通过 Zilliz Cloud 部署托管的 embedding 模型，并获取其 `model_deployment_id`。有关可用模型和部署说明，请参阅[托管模型](./hosted-models)。
 
     **选项 2：外部 Embedding 模型**
 

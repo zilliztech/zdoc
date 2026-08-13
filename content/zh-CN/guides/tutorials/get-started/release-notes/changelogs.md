@@ -124,13 +124,13 @@ import Grid from '@site/src/components/Grid';
 
         - 🏠 Zilliz Cloud 从向量数据库产品演进为 Vector Lakebase 平台，重点功能包括： 
 
-            - [按需搜索](./undefined)
+            - [按需搜索](./connect-for-on-demand-search)
 
-            - [外部数据湖搜索](./undefined)
+            - [外部数据湖搜索](./create-external-collection)
 
         - 🐦 Milvus v3.0.x 在 Zilliz Cloud 针对按需计算能力进入公测（Public Review），主要功能包括：    
 
-            - [外部集合](./undefined)与回填
+            - [外部集合](./create-external-collection)与回填
 
             - [可空向量](./nullable-fields)
 
@@ -140,7 +140,7 @@ import Grid from '@site/src/components/Grid';
 
             - [搜索](./single-vector-search#sort-search-results-by-scalar-fields)与[查询](./get-and-scalar-query#aggregate-query-results)的 Order by
 
-            - [快照](./undefined)（Snapshots）
+            - [快照](./snapshots)（Snapshots）
 
             - [Entity](./set-collection-ttl#set-entity-ttl)[ TTL](./set-collection-ttl#set-entity-ttl)
 
@@ -254,11 +254,11 @@ import Grid from '@site/src/components/Grid';
 
             - [Lexical Highlighter](./text-highlighter)
 
-        - 🤖 基于[模型的 Embedding](./undefined) 和[重排序 Function](./undefined) 开始公测。
+        - 🤖 基于[模型的 Embedding](./integrate-with-model-providers) 和[重排序 Function](./integrate-with-model-providers) 开始公测。
 
-        - 🛠️ [智能动态扩缩容](./scale-query-cu#dynamic-scaling)上线。
+        - 🛠️ [智能动态扩缩容](./auto-scaling)上线。
 
-        - 📅 基于 Cron 表达式的高级[定时扩缩容](./scale-query-cu#scheduled-scaling)上线。
+        - 📅 基于 Cron 表达式的高级[定时扩缩容](./scheduled-scaling)上线。
 
         - ☁️ BYOC 上线如下功能增强，进一步提升易用性：
 
@@ -300,7 +300,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - 📦  Stage 功能正式更名为 Volume，并全面可用（GA）
+        - 📦  Stage 功能正式更名为 [Volume](./managed-volume)，并全面可用（GA）
 
         - 🔐  [组织级别的 IP 白名单](./setup-console-ip-allowlist)能力，丰富您的访问控制方式
 
@@ -340,7 +340,7 @@ import Grid from '@site/src/components/Grid';
 
             - [Geometry 类型](./use-geometry-field)和
 
-            - [Struct Array](./undefined)
+            - [StructArray 概述](./use-array-of-structs)
 
         - 🔍   在[迁移时](./via-endpoint#getting-started)可以同步开启 Full-text search 能力。
 
@@ -372,7 +372,7 @@ import Grid from '@site/src/components/Grid';
 
             - [JSON 索引](./json-indexing)和 [JSON Shredding](./json-shredding) 加速 JSON 字段内搜索
 
-            - [Boost Ranker](./boost-ranker) 和 [Decay Ranker](./undefined) 优化相似性搜索结果
+            - [Boost Ranker](./boost-ranker) 和 [Decay Ranker 概述](./decay-ranker-oveview) 优化相似性搜索结果
 
             - 支持 [INT8_VECTOR 数据类型](./use-dense-vector)
 
@@ -398,9 +398,9 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - 📈  简单配置，尽享[集群自动扩缩容](./scale-cluster)
+        - 📈  简单配置，尽享[集群自动扩缩容](./auto-scaling)
 
-        - 📋  [审计日志](./undefined)功能全面可用（GA）
+        - 📋  [审计日志](./audit-logs-ref)功能全面可用（GA）
 
     </div>
 
@@ -416,15 +416,13 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - 🔗  [合并数据](./undefined) API 实现 Schema 演进
+        - 📦  [Stage](./managed-volume) 为数据迁移和导入提供数据层基础能力
 
-        - 📦  Stage 为数据迁移和导入提供数据层基础能力
-
-        - 📅  [集群定时扩缩容](./scale-cluster)
+        - 📅  [定时扩缩容](./scheduled-scaling)
 
         - 🔄  从集群备份中跨数据库[恢复部分数据](./restore-from-backup-files#restore-a-partial-cluster)
 
-        - ⚙️  在 Zilliz Cloud 控制台上[创建 JSON Path 索引](./undefined)
+        - ⚙️  在 Zilliz Cloud 控制台上[创建 JSON Path 索引](./json-indexing)
 
         - 💳  包年集群支持阿里云市场、亚马逊云市场支付
 
@@ -444,7 +442,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - 📚  重新设计的数据迁移界面和[最佳实践文档](./undefined)
+        - 📚  重新设计的数据迁移界面
 
         - 🚨  [基于策略的告警规则](./manage-project-alerts)
 
@@ -506,7 +504,7 @@ import Grid from '@site/src/components/Grid';
 
         - 💳  全新的预付费包年订阅计划
 
-        - 🗂️  增加 [Database](./database-concept) 层级支持
+        - 🗂️  增加 [Database](./database) 层级支持
 
         - 💾  增加 [mmap](./use-mmap) 支持，扩展 Collection 容量
 
@@ -568,7 +566,7 @@ import Grid from '@site/src/components/Grid';
 
             - Float16 和 BFloat 向量字段支持
 
-        - 🔄  [多 Replica 支持](./manage-replica)
+        - 🔄  多 Replica 支持
 
         - 📦  数据迁移服务上线，支持如下来源：
 
@@ -692,7 +690,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🔐  [API 密钥](./manage-api-keys)分层控制，支持 RBAC
 
-        - 📊  [指标和告警](./undefined)上新
+        - 📊  [指标和告警](./metrics-alerts-reference)上新
 
     </div>
 
@@ -736,7 +734,7 @@ import Grid from '@site/src/components/Grid';
 
             - [Cosine 相似度类型](./search-metrics-explained)
 
-            - [访问控制](./zilliz-access-control-prompts)
+            - [访问控制](./access-control-overview)
 
             - [查询结果返回原始向量](./single-vector-search)
 
@@ -780,7 +778,7 @@ import Grid from '@site/src/components/Grid';
 
         - [🔄  ](./migrate-from-elasticsearch)[从 Elasticsearch 迁移](./migrate-from-elasticsearch)
 
-        - [📥  ](./undefined)[数据导入](./undefined)能力增强，支持导入目录和任务监控
+        - 📥  数据导入能力增强，支持导入目录和任务监控
 
     </div>
 

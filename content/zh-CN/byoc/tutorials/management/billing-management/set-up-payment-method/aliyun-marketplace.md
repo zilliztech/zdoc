@@ -30,7 +30,7 @@ Zilliz Cloud 现已登录阿里云云市场。本章主要介绍如何在阿里�
 
 </Admonition>
 
-![alibabacloud_procedure](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/alibabacloud_procedure.png "alibabacloud_procedure")
+![alibabacloud_procedure](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/alibabacloudprocedure.png "alibabacloud_procedure")
 
 ## 准备工作\{#before-you-start}
 

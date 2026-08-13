@@ -42,7 +42,7 @@ import Grid from '@site/src/components/Grid';
 
         - **JSON 过滤再加速** - 使用 JSON 索引和 Shredding，加速结构复杂、多重嵌套的元数据过滤能力，**性能提升 100 倍**。更多内容可参考 [JSON 索引](./json-indexing)和 [JSON Shredding](./json-shredding)。
 
-        - **全新重排 Function** - **Boost Ranker** 和 **Decay Ranker** 将语义检索和上下文关联相结合，提供更有意义的搜索结果。更多内容，可参考 [Boost Ranker](./boost-ranker) 和 [Decay Ranker](./undefined)。
+        - **全新重排 Function** - **Boost Ranker** 和 **Decay Ranker** 将语义检索和上下文关联相结合，提供更有意义的搜索结果。更多内容，可参考 [Boost Ranker](./boost-ranker) 和 [Decay Ranker 概述](./decay-ranker-oveview)。
 
         - **支持 INT8_VECTOR 数据类型** - 存储量化向量数据，提供更加轻量化的深度学习推理。更多内容，可参考[稠密向量](./use-dense-vector)。
 
@@ -90,7 +90,7 @@ import Grid from '@site/src/components/Grid';
 
         ## 更多增强\{#enhancements}
 
-        - 现在，您可以使用 **Anlayzer 设置界面**快速配置**特定语言的 Analyzer 模板**，并**测试结果**。这有助于用户了解其 Analyzer 配置如何影响分词，以及最终如何影响 Full-Text Search 结果。如需演示，请查看[Analyzer 概述](./analyzer-overview#example-use-on-the-zilliz-cloud-console)。
+        - 现在，您可以使用 **Anlayzer 设置界面**快速配置**特定语言的 Analyzer 模板**，并**测试结果**。这有助于用户了解其 Analyzer 配置如何影响分词，以及最终如何影响 Full-Text Search 结果。如需演示，请查看[Analyzer 概述](./analyzer-overview)。
 
         - 在数据迁移前，更清晰的错误信息和增强的体验**有助于用户诊断连接问题**，更轻松地设置源数据库以进行迁移。
 

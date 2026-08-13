@@ -57,11 +57,11 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
          <td><p>将备份文件导出至指定对象存储服务中。</p></td>
        </tr>
        <tr>
-         <td><p><a href="./undefined">迁移</a></p></td>
+         <td><p>迁移</p></td>
          <td><p>将数据迁移至集群。</p><ul><li><p>迁移外部数据</p><ul><li><p>从 Milvus 迁移至 Zilliz Cloud 集群</p></li><li><p>从 Qdrant 迁移至 Zilliz Cloud 集群</p></li><li><p>从 Elasticsearch 迁移至 Zilliz Cloud 集群</p></li><li><p>从 OpenSearch 迁移至 Zilliz Cloud 集群</p></li><li><p>从 PostgreSQL 迁移至 Zilliz Cloud 集群</p></li><li><p>从腾讯云向量数据库迁移至 Zilliz Cloud 集群</p></li></ul></li><li><p>Zilliz Cloud 跨集群迁移</p><ul><li><p>在当前组织中进行跨集群迁移</p></li><li><p>跨组织进行集群间迁移</p></li></ul></li></ul></td>
        </tr>
        <tr>
-         <td><p><a href="./undefined">导入</a></p></td>
+         <td><p>导入</p></td>
          <td><p>将数据导入至 Collection。</p></td>
        </tr>
        <tr>
@@ -81,11 +81,11 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
          <td><p>将集群恢复运行。</p></td>
        </tr>
        <tr>
-         <td><p><a href="./scale-cluster">Query CU 扩缩容</a></p></td>
+         <td><p>Query CU 扩缩容</p></td>
          <td><p>手动或动态增加或减少集群中的 Query CU 数量。</p></td>
        </tr>
        <tr>
-         <td><p><a href="./manage-replica">Replica 扩缩容</a></p></td>
+         <td><p>Replica 扩缩容</p></td>
          <td><p>手动或动态增加或减少集群中的 Replica 数量。</p></td>
        </tr>
     </table>
@@ -102,7 +102,7 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
 
 点击**操作**栏中的**...**，选择**查看详情**。或者，您也可以通过[查看任务详情](https://docs.zilliz.com.cn/reference/restful/describe-job-v2)的 RESTful API 接口获取任务详情。
 
-![view_job_details_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/view_job_details_cn.png "view_job_details_cn")
+![view_job_details_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/viewjobdetailscn.png "view_job_details_cn")
 
 ## 取消任务\{#}
 
@@ -120,7 +120,7 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
 
 </Admonition>
 
-![cancel_job_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/cancel_job_cn.png "cancel_job_cn")
+![cancel_job_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/canceljobcn.png "cancel_job_cn")
 
 ## 重试失败任务\{#}
 
@@ -136,4 +136,4 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
 
 如果您在查看失败原因后对需要导入的数据文件进行相应调整，您可以重试导入任务。
 
-![retry_failed_job_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/retry_failed_job_cn.png "retry_failed_job_cn")
+![retry_failed_job_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/retryfailedjobcn.png "retry_failed_job_cn")

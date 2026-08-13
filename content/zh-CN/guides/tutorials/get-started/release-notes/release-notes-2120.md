@@ -32,7 +32,7 @@ Zilliz Cloud 新版本正式推出了：预付费包年集群和订单管理功�
 
 ## 增加 Database 层级支持\{#support-for-database-layer}
 
-您现在可以在集群中创建 Database，并在 Database 中创建 Collection。让您的数据管理体验更有效率，还为您的多租户方案提供更多选择。Database 作为组织和管理数据的逻辑层，用户可以通过创建多个 Database 为不同的应用和租户实现逻辑上的数据隔离，进一步保障数据安全。更多内容，可以参考 [Database](./database-concept)。
+您现在可以在集群中创建 Database，并在 Database 中创建 Collection。让您的数据管理体验更有效率，还为您的多租户方案提供更多选择。Database 作为组织和管理数据的逻辑层，用户可以通过创建多个 Database 为不同的应用和租户实现逻辑上的数据隔离，进一步保障数据安全。更多内容，可以参考 [Serving 集群中的 Database](./database)。
 
 ## 增加 mmap 支持，扩展 Collection 容量\{#mmap-support-for-expanded-data-capacity}
 

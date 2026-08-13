@@ -69,7 +69,7 @@ analyzer_params = {
 
 此分析器执行以下处理步骤：
 
-- **分词**：使用 `thai` 分词器将泰语文本切分为词元，无需依赖空格。该分词器会过滤掉仅包含空白字符或标点符号的片段。有关详细信息，请参阅泰语分词器。
+- **分词**：使用 `thai` 分词器将泰语文本切分为词元，无需依赖空格。该分词器会过滤掉仅包含空白字符或标点符号的片段。有关详细信息，请参阅[泰语 Analyzer](./thai-analyzer)。
 
 - **大小写规范化**：使用 `lowercase` 过滤器，该过滤器会处理泰语和英语混合文本中的拉丁字母。
 
@@ -79,7 +79,7 @@ analyzer_params = {
 
 - **不进行词干提取**：内置的 `thai` 分析器不应用 `stemmer` 过滤器。
 
-定义 `analyzer_params` 后，您可以在定义 Collection Schema 时，将该分析器应用于 `VARCHAR` 字段。有关详细信息，请参阅[使用示例](./analyzer-overview#example-use)。
+定义 `analyzer_params` 后，您可以在定义 Collection Schema 时，将该分析器应用于 `VARCHAR` 字段。有关详细信息，请参阅[使用示例](./analyzer-overview)。
 
 ## 示例\{#}
 

@@ -62,7 +62,7 @@ Zilliz Cloud Pipelines 已经集成了 Rerankers，为需要提升搜索结果�
 
 ## 跨云数据导入和数据迁移\{#cross-cloud-data-import-and-migration}
 
-Zilliz Cloud 用户可以方便的从他们的阿里云 OSS 或腾讯云 COS 向 Zilliz Cloud 上任何数据库导入数据了。详细情况，可参考[数据导入](./undefined)和[数据迁移](./undefined)。
+Zilliz Cloud 用户可以方便的从他们的阿里云 OSS 或腾讯云 COS 向 Zilliz Cloud 上任何数据库导入数据了。详细情况，可参考[阿里云对象存储](./integrate-with-alibaba-cloud-oss)和 [Amazon S3](./integrate-with-amazon-s3-cn)。
 
 ## EOS 通告：经济型 CU 下线\{#end-of-service-announcement-cost-optimized-cu}
 

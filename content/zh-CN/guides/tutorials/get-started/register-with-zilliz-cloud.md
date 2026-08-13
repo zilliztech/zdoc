@@ -28,7 +28,7 @@ import Procedures from '@site/src/components/Procedures';
 
 欢迎访问并[注册 Zilliz Cloud](https://cloud.zilliz.com.cn/signup)。
 
-![register_account](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/register_account.png "register_account")
+![register_account](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/registeraccount.png "register_account")
 
 ## 注册账号\{#registration-options}
 

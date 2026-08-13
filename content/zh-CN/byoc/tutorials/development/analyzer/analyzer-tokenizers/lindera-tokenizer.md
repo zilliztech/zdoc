@@ -183,7 +183,7 @@ const analyzer_params = {
    </tr>
 </table>
 
-在定义了 `analyzer_params` 后，您可以在定义 Collection Schema 时将其应用到 VARCHAR 类型的字段上。Zilliz Cloud 将会根据 Analyzer 的设置对该字段的内容进行分词和过滤。更多详情，可参考[使用示例](./analyzer-overview#example-use)。
+在定义了 `analyzer_params` 后，您可以在定义 Collection Schema 时将其应用到 VARCHAR 类型的字段上。Zilliz Cloud 将会根据 Analyzer 的设置对该字段的内容进行分词和过滤。更多详情，可参考[使用示例](./analyzer-overview)。
 
 ## 使用示例\{#examples}
 

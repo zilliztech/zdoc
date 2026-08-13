@@ -108,7 +108,7 @@ import Grid from '@site/src/components/Grid';
 
         **外部数据与存储格式**
 
-        - **External Collection** —— 可直接引用对象存储中的数据（Parquet、Lance、Vortex、Iceberg），无需先拷贝到 Milvus。Milvus 仅管理 schema、索引与查询执行。通过增量 Refresh 可保持与源文件变更同步，同一数据集也可被多个实例同时服务。        详情请参见 [External Collection](./undefined)。
+        - **External Collection** —— 可直接引用对象存储中的数据（Parquet、Lance、Vortex、Iceberg），无需先拷贝到 Milvus。Milvus 仅管理 schema、索引与查询执行。通过增量 Refresh 可保持与源文件变更同步，同一数据集也可被多个实例同时服务。        详情请参见 [创建 External Collection](./create-external-collection)。
 
         - **External Backfill** *（内测版）* —— 可在不停机的情况下为在线集合升级 embedding 模型。先通过 `AddCollectionField` 添加新向量字段，用 Snapshot 冻结一致性起点，离线运行 embedding 任务，再通过常规写入路径回填数据。新列完成索引后，应用即可切换。
 
@@ -122,7 +122,7 @@ import Grid from '@site/src/components/Grid';
 
         - **EmbList + DiskANN** —— 每个实体可存储变长向量列表，并通过 DiskANN 在磁盘侧建立索引。适用于长文档、ColBERT 等晚交互模型和多模态实体，在大规模语料下有助于控制内存占用。
 
-            详情请参见 [StructArray](./undefined)与 [StructArray 操作符](./struct-array-filtering)。
+            详情请参见 [StructArray 概述](./use-array-of-structs)与 [StructArray 操作符](./struct-array-filtering)。
 
         - **MinHash DIDO（Doc-in, Doc-out）** —— 为 MINHASH_LSH 增加服务端 MinHash 函数。Milvus 在插入、批量插入和搜索时可自动计算签名，无需应用侧预处理，适用于去重、指纹比对和抄袭检测等流程。
 
@@ -138,7 +138,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Snapshot** —— 集合的时间点只读视图，引用现有 segment 而不复制数据。批任务可在类 MVCC 隔离下运行，在线集合仍可持续写入；适用于 A/B 评估、去重和回填验证。
 
-            详情请参见[快照](./undefined)与[管理快照](./undefined)。
+            详情请参见[Snapshot](./snapshots)与[管理 Snapshot](./manage-snapshots)。
 
         - **Entity TTL（行级 TTL）** —— 通过 `Timestamptz` TTL 字段按行过期。过期行自动回收，覆盖保留期合规、会话数据、对话历史等场景，无需应用侧清理。
 

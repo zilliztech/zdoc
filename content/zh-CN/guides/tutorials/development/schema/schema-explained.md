@@ -559,7 +559,7 @@ schema->AddField(milvus::FieldSchema("my_bool", milvus::DataType::BOOL));
 
 ### 添加 JSON 类型的字段\{#add-json-fields}
 
-JSON 类型的字段用于存放半结构化的 JSON 数据。关于 JSON 类型的更多内容，可参考[JSON 类型](./undefined)。
+JSON 类型的字段用于存放半结构化的 JSON 数据。关于 JSON 类型的更多内容，可参考[JSON 概述](./json-field-overview)。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>

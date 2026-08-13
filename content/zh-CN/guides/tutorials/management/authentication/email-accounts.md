@@ -36,7 +36,7 @@ import Admonition from '@theme/Admonition';
 
 ## 修改账号邮箱地址\{#update-account-email-address}
 
-![update_email_address_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/update_email_address_cn.png "update_email_address_cn")
+![update_email_address_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/updateemailaddresscn.png "update_email_address_cn")
 
 <Admonition type="info" icon="📘" title="📘 说明">
 
@@ -46,7 +46,7 @@ import Admonition from '@theme/Admonition';
 
 ## 修改手机号码\{#update-mobile-phone-number}
 
-![update_mobile_phone_number_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/update_mobile_phone_number_cn.png "update_mobile_phone_number_cn")
+![update_mobile_phone_number_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/updatemobilephonenumbercn.png "update_mobile_phone_number_cn")
 
 <Admonition type="info" icon="📘" title="📘 说明">
 
@@ -56,7 +56,7 @@ import Admonition from '@theme/Admonition';
 
 ## 更改密码\{#change-account-password}
 
-![change_password_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/change_password_cn.png "change_password_cn")
+![change_password_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/changepasswordcn.png "change_password_cn")
 
 您的密码必须符合以下要求：
 

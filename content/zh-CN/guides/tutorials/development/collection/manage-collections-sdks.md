@@ -27,7 +27,7 @@ import TabItem from '@theme/TabItem';
 
 如果您管理的租户数量较少且希望能够对各租户间的数据进行物理隔离，可以考虑为每个租户创建一个 Collection。
 
-但是，根据您的集群版本不同，可以创建最多 16,384 个 Collection。因此，对于有租户数量较多的场景，可以根据您的实际需求，考虑使用基于 Partition 或基于 Partition Key 的多租户方案。关于多租户方案的更多内容，可以参考[多租户策略](./undefined)。
+但是，根据您的集群版本不同，可以创建最多 16,384 个 Collection。因此，对于有租户数量较多的场景，可以根据您的实际需求，考虑使用基于 Partition 或基于 Partition Key 的多租户方案。 
 
 </Admonition>
 
@@ -259,8 +259,6 @@ schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).Wi
 
 在上述代码示例中，你需要为向量字段设置索引类型和度量类型。对于标量字段而言，只需要设置索引类型。值得注意的是，向量字段必须创建索引。您可以根据实际情况，有选择地为需要进行搜索加速的标量字段创建索引。
 
-关于创建索引的详细内容，可以参考[创建 Vector Index](./undefined) 和 [创建 Scalar Index](./undefined)。
-
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
 
@@ -377,8 +375,6 @@ std::vector<milvus::IndexDesc> indexes = {
 </Tabs>
 
 上述代码展示了如何为向量字段和标量字段设置索引参数。向量字段需要同时设置 `index_type` 和 `metric_type`。标量字段仅需设置 `index_type`。每个向量字段都需要创建索引。建议您为在过滤时常用的标量字段创建索引。
-
-更多关于索引类型详情，请参考[管理 Index](./undefined)。
 
 ## 创建 Collection\{#create-collection}
 

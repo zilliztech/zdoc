@@ -84,7 +84,7 @@ Collection 中的 Entity 是指共享相同字段集的数据记录。存储在�
 
 关于相似度类型的更多内容，可参考[相似度类型](./search-metrics-explained)。
 
-更多关于搜索和查询的内容，可参考[搜索与重排](./zilliz-search-prompts)中的章节。其中，基本功能包括：
+更多关于搜索和查询的内容，可参考搜索中的章节。其中，基本功能包括：
 
 - [基本 ANN Search](./single-vector-search)
 

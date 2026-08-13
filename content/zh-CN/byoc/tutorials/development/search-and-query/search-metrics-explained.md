@@ -10,7 +10,7 @@ notebook: FALSE
 description: "在度量向量相似性时，相似度类型发挥着关键作用。选择恰当的相似度类型可以极大地提升分类与聚类的效果。 | BYOC"
 type: origin
 token: U7tHwmHPCikQxWkzoSzcr8Lunmf
-sidebar_position: 22
+sidebar_position: 23
 displayed_sidebar: default
 
 ---

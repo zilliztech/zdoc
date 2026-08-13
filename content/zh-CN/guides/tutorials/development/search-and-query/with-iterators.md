@@ -10,7 +10,7 @@ notebook: FALSE
 description: "ANN Search 单次召回的 Entity 有最大数量限制，单纯使用基本 ANN Search 可能无法应对大规模召回的需求。对于 topK 大于 16,384 的 ANN Search 请求，可以考虑使用 Search Iterator。本节将介绍如何使用 Search Iterator 以及与相关的注意事项。 | Cloud"
 type: origin
 token: GsLqwoJK6iZgfZkyNMscbpzmn5l
-sidebar_position: 18
+sidebar_position: 19
 displayed_sidebar: default
 
 ---

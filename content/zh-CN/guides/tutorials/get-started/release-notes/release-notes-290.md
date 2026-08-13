@@ -66,7 +66,7 @@ Milvus 2.4 稳定版尚未发布。请谨慎在生产环境中使用 Milvus 2.4 
 
 此版本还支持在标量过滤中使用前缀、内缀和后缀进行模糊匹配。
 
-如需了解更多，可查阅[Binary 向量](./use-binary-vector), [创建 Scalar Index](./undefined) 以及[使用 ](./basic-filtering-operators)[`like`](./basic-filtering-operators)[ 操作符](./basic-filtering-operators) 等内容。您还可以运行 [inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) 和 [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py) 中的示例代码深入了解相关概念。在运行示例代码前，须将代码中的连接信息指向您的 Zilliz Cloud 集群。
+如需了解更多，可查阅[Binary 向量](./use-binary-vector)以及[使用 ](./basic-filtering-operators)[`like`](./basic-filtering-operators)[ 操作符](./basic-filtering-operators) 等内容。您还可以运行 [inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) 和 [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py) 中的示例代码深入了解相关概念。在运行示例代码前，须将代码中的连接信息指向您的 Zilliz Cloud 集群。
 
 ### 分组检索\{#grouping-search}
 
@@ -78,7 +78,7 @@ Milvus 2.4 稳定版尚未发布。请谨慎在生产环境中使用 Milvus 2.4 
 
 机器学习和神经网络经常使用半精度数据类型，如 Float16 和 BFloat16。虽然这些数据类型可以提高查询效率并减少内存使用，但它们以牺牲精度为代价。在这次发布中，Zilliz Cloud 现在支持向量字段使用这些数据类型。
 
-如需了解更多，可查阅[支持的数据类型](./undefined)并运行 [float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/float16_example.py) 及 [bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/bfloat16_example.py) 中的示例代码。在运行示例代码前，须将代码中的连接信息指向您的 Zilliz Cloud 集群。
+如需了解更多，可查阅[稠密向量](./use-dense-vector)并运行 [float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/float16_example.py) 及 [bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/bfloat16_example.py) 中的示例代码。在运行示例代码前，须将代码中的连接信息指向您的 Zilliz Cloud 集群。
 
 ## Pipelines\{#pipelines}
 

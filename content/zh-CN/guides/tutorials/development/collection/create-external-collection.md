@@ -665,7 +665,7 @@ Refresh 操作是异步操作，因此您需要通过轮询来监控其进度。
 
 ## 后续操作\{#follow-ups}
 
-Refresh External Collection 后，您就可以像使用任意 Managed Collection 一样，在 External Collection 中执行相似性搜索和查询。但需要注意的是，对于按需计算 Database 中的 Collection，在执行 Search 和 Query 之前，必须先将其附加到某个 On-demand 集群。有关详细信息，请参见[按需计算](./undefined)。
+Refresh External Collection 后，您就可以像使用任意 Managed Collection 一样，在 External Collection 中执行相似性搜索和查询。但需要注意的是，对于按需计算 Database 中的 Collection，在执行 Search 和 Query 之前，必须先将其附加到某个 On-demand 集群。有关详细信息，请参见[创建 On-Demand 集群](./on-demand-cluster)。
 
 在执行 Search、Query、Get 和 Hybrid Search 等 DQL 操作之前，您需要先创建一个 Session，以制定 On-demand 集群的计算资源。有关详细信息，请参见[按需 DQL 操作](./dql-sessions-external-collection)。
 

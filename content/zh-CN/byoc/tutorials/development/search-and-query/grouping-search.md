@@ -23,6 +23,12 @@ import TabItem from '@theme/TabItem';
 
 如果搜索结果中所有 Entity 在某个标量字段上的取值都相同时，搜索结果可能并不能真实反映与查询向量相似的所有向量在向量空间中的分布情况。为了提升召回结果的多样性，可以考虑使用 Grouping Search。本节将介绍如何使用 Grouping Search 以及与之相关的注意事项。
 
+<Admonition type="info" icon="📘" title="说明">
+
+Milvus 3.0 还支持[搜索聚合](./search-aggregation)，该功能使用 `group_by=GroupBy(...)` 支持高级分组工作流。如果您只需要按一个标量字段对向量搜索结果进行分组，并返回每个分组中的代表性实体，请使用 Grouping Search。如果您需要分组级统计信息、多字段分组、分组排序、组内结果排序或嵌套分组，请使用搜索聚合。
+
+</Admonition>
+
 ## 概述\{#overview}
 
 当搜索结果中所有 Entity 在某个标量字段上的取值都相同时，表明这些 Entity 在某个属性上相似，可能会对搜索结果带来负面影响。

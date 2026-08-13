@@ -36,7 +36,7 @@ import Admonition from '@theme/Admonition';
 
     - External Collection 中的索引。
 
-- **备份存储**：为数据容灾创建的[备份](./undefined)文件。
+- **备份存储**：为数据容灾创建的备份文件。
 
 - **Managed Volume 存储**：在 [Managed Volume](./managed-volume) 中存储的结构化数据表或非结构化数据文件，用于后续导入或迁移操作。
 

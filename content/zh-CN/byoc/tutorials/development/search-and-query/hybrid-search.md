@@ -10,7 +10,7 @@ notebook: FALSE
 description: "在许多应用中，可以通过丰富的信息集来搜索对象，例如标题和描述，或者通过多种模态，如文本、图像和音频。例如，如果文本或图像与搜索查询的语义匹配，则应搜索包含一段文本和一张图像的推文。混合搜索通过结合跨这些不同字段的搜索来增强搜索体验。Zilliz Cloud 通过允许在多个向量字段上进行搜索，同时执行多个近似最近邻（ANN）搜索来支持这一点。如果您想同时搜索文本和图像、描述同一对象的多个文本字段，或者密集和稀疏向量以提高搜索质量，多向量混合搜索特别有用。 | BYOC"
 type: origin
 token: SU1DwjEeii0p2ik3odJcQ55Unbf
-sidebar_position: 8
+sidebar_position: 9
 displayed_sidebar: default
 
 ---
@@ -890,7 +890,7 @@ export req='[
 
 ### 步骤 2：配置重排序策略\{#step-2-configure-a-reranking-strategy}
 
-为了合并和重新排序 ANN 搜索结果集，选择合适的重排序策略至关重要。Zilliz Cloud 提供多种重排序策略。有关这些重排序机制的更多详细信息，请参阅[重排](./undefined)。
+为了合并和重新排序 ANN 搜索结果集，选择合适的重排序策略至关重要。Zilliz Cloud 提供多种重排序策略。
 
 在这个例子中，由于没有特别强调特定的搜索查询，我们将采用 RRFRanker 策略。
 

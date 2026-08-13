@@ -817,5 +817,3 @@ curl --request POST \
 默认情况下，如果 TIMESTAMPTZ 字段未建立索引，查询将对所有行执行全表扫描，这在大型数据集中会非常缓慢。
 
 要加速时间戳相关的查询，请在 TIMESTAMPTZ 字段上创建 AUTOINDEX 索引。
-
-更多详情请参考 [创建 Scalar Index](./undefined)。

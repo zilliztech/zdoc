@@ -10,7 +10,7 @@ notebook: FALSE
 description: "在相似性搜索时，您通常需要提供一个或多个查询向量，无论这些查询向量是否已经存在于您的 Collection 中。为了避免在搜索前从 Collection 中获取需要的查询向量，您可以考虑使用主键搜索（Primary Key Search）。 | BYOC"
 type: origin
 token: BkBywFWTzi8uS3k8WjHc5nU9npY
-sidebar_position: 7
+sidebar_position: 8
 displayed_sidebar: default
 
 ---

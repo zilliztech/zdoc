@@ -52,7 +52,7 @@ Zilliz Cloud 不会针对私网连接收费，但您的云服务提供商可能�
 
 请先确保：
 
-- 您已[创建](./undefined)了 1 个部署在亚马逊云科技上的 Dedicated 集群。
+- 您已创建了 1 个部署在亚马逊云科技上的 Dedicated 集群。
 
 ## 创建 Private Endpoint\{#create-private-endpoint}
 
@@ -194,7 +194,7 @@ Zilliz Cloud 不会针对私网连接收费，但您的云服务提供商可能�
 
 </Admonition>
 
-![disable_public_endpoint_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/disable_public_endpoint_cn.png "disable_public_endpoint_cn")
+![disable_public_endpoint_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/disablepublicendpointcn.png "disable_public_endpoint_cn")
 
 ## 常见问题\{#faq}
 

@@ -67,11 +67,3 @@ import Procedures from '@site/src/components/Procedures';
 
 ![whitelist-ip-access](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/whitelist-ip-access.png "whitelist-ip-access")
 
-## 相关文档\{#related-topics}
-
-- [管理 API 密钥](./manage-api-keys)
-
-- [管理身份凭证](./cluster-credentials)
-
-- [创建私网连接](./undefined)
-

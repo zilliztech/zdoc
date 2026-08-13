@@ -91,7 +91,7 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
 |  | **Free** | **Serverless** | **Dedicated 企业版** | **Bring Your Own Cloud (BYOC)** |
 | --- | --- | --- | --- | --- |
 | 可用区 |  | 单个 | 多个 | 多个 |
-| [多副本（Replica）](./manage-replica) |  |  | ✔ | ✔ |
+| 多副本（Replica） |  |  | ✔ | ✔ |
 | 快照 Snapshot |  |  | ✔ | ✔ |
 | Global Cluster |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 
@@ -100,8 +100,8 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
 |  | **Free** | **Serverless** | **Dedicated 企业版** | **Bring Your Own Cloud (BYOC)** |
 | --- | --- | --- | --- | --- |
 | [跨集群迁移](./offline-migration) |  | 从 Free 集群迁移 | ✔ | ✔ |
-| [在线迁移](./undefined) |  | ✔ | ✔ | ✔ |
-| [从外部数据源迁移](./undefined) | ✔ | ✔ | ✔ | ✔ |
+| 在线迁移 |  | ✔ | ✔ | ✔ |
+| [从外部数据源迁移](./migrate-from-pinecone) | ✔ | ✔ | ✔ | ✔ |
 | [Volume](./managed-volume) | ✔ | ✔ | ✔ | ✔ |
 | [高速数据传输](./import-data) |  | ✔ | ✔ | ✔ |
 | [回收站](./use-recycle-bin) | ✔ | ✔ | ✔ | ✔ |
@@ -112,16 +112,16 @@ Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。�
 | --- | --- | --- | --- | --- |
 | CMEK |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 | [MFA](./multi-factor-auth) |  | ✔ | ✔ | ✔ |
-| [审计系统](./undefined) |  |  | ✔ | ✔ |
+| [审计系统](./audit-logs-ref) |  |  | ✔ | ✔ |
 | [API 密钥管理](./manage-api-keys) |  | ✔ | ✔ | ✔ |
-| [数据传输加密和静态加密](./undefined#data-encryption) | ✔ | ✔ | ✔ | ✔ |
-| [备份与恢复](./undefined) |  |  | ✔ | ✔ |
+| 数据传输加密和静态加密 | ✔ | ✔ | ✔ | ✔ |
+| [备份与恢复](./create-backup) |  |  | ✔ | ✔ |
 | [跨地域备份](./backup-to-other-regions) |  |  | ✔ | ✔ |
 | 持续数据保护 |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 | PITR |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 | 数据脱敏（Tokenization） |  |  | [联系我们](http://zilliz.com.cn/contact-sales) | [联系我们](http://zilliz.com.cn/contact-sales) |
 | [IP 地址访问控制](./setup-whitelist) |  |  | ✔ | ✔ |
-| [VPC 私网连接（Private Link）](./undefined) |  |  | ✔ | ✔ |
+| [VPC 私网连接（Private Link）](./setup-a-private-link-aws) |  |  | ✔ | ✔ |
 | ISO/ICE 27001、GDPR 合规与安全认证 | ✔ | ✔ | ✔ | ✔ |
 | HIPPA 合规 |  |  | ✔ | ✔ |
 

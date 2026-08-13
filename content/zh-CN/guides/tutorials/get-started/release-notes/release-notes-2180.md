@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 本次发布后创建的所有集群均兼容 **Milvus v2.5.x**。同时，所有 Milvus v2.5.x 相关特性在 Zilliz Cloud 上均已全面可用。
 
-关于各项功能的可用性，可以参考[当前功能支持情况](./undefined#current-feature-availability)。
+关于各项功能的可用性，可以参考[当前功能支持情况](./feature-availability#current-feature-availability)。
 
 ## 通过 Merge Data API 实现 Schema 演进 | PRIVATE\{#schema-evolution-via-merge-data-api}
 
@@ -76,7 +76,7 @@ Zilliz Cloud 现在支持集群级别的定时扩缩容 ，让您能够根据可
 
 - **主动审计功能** ：我们提供透明的电子邮件通知系统和审计日志，确保您对资源交付和成本支出更加安心。
 
-更多内容，可以参考[定时扩缩容](./scale-cluster)。
+更多内容，可以参考[定时扩缩容](./scheduled-scaling)。
 
 ## 从集群备份中跨数据库恢复部分数据\{#partial-restore-from-cluster-level-backups-with-cross-database-selection}
 
@@ -92,7 +92,7 @@ Zilliz Cloud 现在支持通过 Web 控制台直接创建 JSON Path 索引 ，�
 
 ![ViLvb57Oook1fux8BWncEP4an2d](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/vilvb57oook1fux8bwncep4an2d.png "ViLvb57Oook1fux8BWncEP4an2d")
 
-关于 JSON Path 索引的更多内容，可以查看[为 JSON 字段内的值创建索引](./undefined)和[为 Dynamic Field 中的键创建索引](./enable-dynamic-field#index-keys-in-the-dynamic-field)。
+关于 JSON Path 索引的更多内容，可以查看[JSON 索引](./json-indexing)。
 
 ## 包年集群支持阿里云市场/亚马逊云市场支付\{#anual-payment-clusters-support-aliyun-and-amazon-marketplaces}
 
