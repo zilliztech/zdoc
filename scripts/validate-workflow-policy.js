@@ -669,6 +669,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'source delta application must receive the exact translation target'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
         [/manifest\.js[\s\S]*--mode "\$EFFECTIVE_TRANSLATION_MODE"/, 'must build candidates with the resolved bootstrap mode'],
+        [/bootstrap-state\.js resolve[\s\S]*--summary-file tmp\/bootstrap-decision\.json[\s\S]*Requested mode:[\s\S]*Effective mode:[\s\S]*Decision:/, 'must fail closed and summarize bootstrap repair before paid translation'],
         [/steps\.source_delta\.outputs\.has_mutation == 'true'/, 'must create checkpoints for deletion-only translation mutations'],
         [/\(steps\.agents\.outputs\.failed_count \|\| '0'\) != '0'/, 'must create checkpoints for batches that only record failed translations'],
         [/translation-checkpoint-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}/, 'checkpoint artifacts must include target and group'],
@@ -718,7 +719,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       validateTargetBranches(steps.map(step => String(step?.run || '')).join('\n'), file, errors)
       const normalizeCondition = value => String(value || '').trim().replace(/\s+/g, ' ')
       const expectedNumberedCondition = "${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}"
-      const expectedUnbatchedCondition = "${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}"
+      const expectedUnbatchedCondition = "${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true' || steps.mode.outputs.bootstrap_status == 'safe_repair') }}"
 
       if (!numbered || normalizeCondition(numberedCondition) !== normalizeCondition(expectedNumberedCondition)) {
         errors.push(`${file}: numbered Guides batches must use the dedicated mutation-aware local validation step`)
@@ -735,6 +736,11 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
       if (!unbatched || normalizeCondition(unbatchedCondition) !== normalizeCondition(expectedUnbatchedCondition)) {
         errors.push(`${file}: full translated validation must be restricted to unbatched runs`)
+      }
+      const bootstrapMarker = steps.find(step => step.name === 'Mark completed translation bootstrap')
+      const expectedBootstrapMarkerCondition = "${{ inputs.should_translate && inputs.batch_number == 0 && (steps.mode.outputs.effective_mode == 'full' || steps.mode.outputs.bootstrap_status == 'safe_repair') && (steps.agents.outputs.remaining_count || '0') == '0' && steps.unbatched_validation.outcome == 'success' && inputs.target != 'ja-JP' }}"
+      if (unbatched?.id !== 'unbatched_validation' || normalizeCondition(bootstrapMarker?.if) !== normalizeCondition(expectedBootstrapMarkerCondition)) {
+        errors.push(`${file}: bootstrap markers must require batch zero, full or safe repair mode, zero remaining work, successful validation, and non-Japanese target`)
       }
       const candidateNames = Object.keys(candidateIdentity)
       const candidateIdentityIsExact = candidateNames.every(name => unbatched?.env?.[name] === candidateIdentity[name])

@@ -92,6 +92,45 @@ function testBuildManifestIncludesChangedAndMissingDocs() {
   })
 }
 
+function testPendingReferenceStateSelectsOnlyPendingAndChangedWork() {
+  withTempDir(siteDir => {
+    const completePath = 'content/en/reference/api/python/python/complete.md'
+    const pendingPath = 'content/en/reference/api/python/python/pending.md'
+    const changedPath = 'content/en/reference/api/python/python/changed.md'
+    const completeTarget = completePath.replace('content/en/', 'content/zh-CN/')
+    const pendingTarget = pendingPath.replace('content/en/', 'content/zh-CN/')
+    const changedTarget = changedPath.replace('content/en/', 'content/zh-CN/')
+    for (const [sourcePath, contents] of [
+      [completePath, '# complete\n'], [pendingPath, '# pending\n'], [changedPath, '# changed v2\n'],
+    ]) write(path.join(siteDir, sourcePath), contents)
+    write(path.join(siteDir, completeTarget), '# 完成\n')
+    write(path.join(siteDir, changedTarget), '# 旧版本\n')
+    write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
+      schemaVersion: 1,
+      bootstrapCompletedGroups: ['python'],
+      records: [
+        referenceRecord({manual: 'python', sourcePath: changedPath, targetPath: changedTarget, sourceHash: hashContent('# changed v1\n')}),
+        referenceRecord({manual: 'python', sourcePath: completePath, targetPath: completeTarget, sourceHash: hashContent('# complete\n')}),
+      ].sort((left, right) => left.sourcePath.localeCompare(right.sourcePath)),
+      pendingRecords: [{
+        manual: 'python', sourcePath: pendingPath, targetPath: pendingTarget,
+        sourceCommit: 'a'.repeat(40), sourceHash: hashContent('# pending\n'),
+      }],
+    }))
+
+    const manifest = buildManifest({
+      siteDir,
+      target: 'zh-CN-reference',
+      locale: 'zh-CN',
+      group: 'python',
+      sourceCheckpointSha: 'c'.repeat(40),
+      mode: 'incremental',
+    })
+
+    assert.deepEqual(manifest.items.map(item => item.sourcePath).sort(), [changedPath, pendingPath].sort())
+  })
+}
+
 function testExplicitTargetLocales() {
   assert.equal(localeForTarget('ja-JP'), 'ja-JP')
   assert.equal(localeForTarget('zh-CN-reference'), 'zh-CN')
@@ -703,6 +742,7 @@ function testCurrentDeltaReasonTakesPrecedenceOverMissingTarget() {
 function run() {
   testMissingForcedReferenceLandingIsPreservedFromRetirement()
   testBuildManifestIncludesChangedAndMissingDocs()
+  testPendingReferenceStateSelectsOnlyPendingAndChangedWork()
   testExplicitTargetLocales()
   testActiveReferenceSourceIsNotHiddenByStaleRetirement()
   testAuthorizedHistoricalReferenceOrphanIsSerializedUnchanged()
