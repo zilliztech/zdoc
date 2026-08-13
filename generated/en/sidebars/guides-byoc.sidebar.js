@@ -1721,7 +1721,32 @@ module.exports = [
             "type": "category",
             "label": "SCIM Provisioning",
             "key": "category:tutorials/management/access-control/scim-provisioning",
-            "items": []
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/management/access-control/scim-provisioning/scim-provisioning-overview",
+                "label": "SCIM Provisioning Overview",
+                "key": "doc:tutorials/management/access-control/scim-provisioning/scim-provisioning-overview"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/access-control/scim-provisioning/configure-scim-provisioning-with-okta",
+                "label": "Configure SCIM Provisioning with Okta",
+                "key": "doc:tutorials/management/access-control/scim-provisioning/configure-scim-provisioning-with-okta"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/access-control/scim-provisioning/configure-scim-provisioning-with-microsoft-entra",
+                "label": "Configure SCIM Provisioning with Microsoft Entra",
+                "key": "doc:tutorials/management/access-control/scim-provisioning/configure-scim-provisioning-with-microsoft-entra"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/access-control/scim-provisioning/view-scim-synced-groups",
+                "label": "View SCIM-Synced Groups",
+                "key": "doc:tutorials/management/access-control/scim-provisioning/view-scim-synced-groups"
+              }
+            ]
           }
         ]
       },

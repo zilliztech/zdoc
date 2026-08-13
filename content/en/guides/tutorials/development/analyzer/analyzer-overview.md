@@ -463,7 +463,7 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
     **Example of using a built-in filter:**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
     <TabItem value='python'>
 
     ```python
@@ -515,14 +515,18 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
     ```
 
     </TabItem>
-    </Tabs>
 
-```c++
-nlohmann::json analyzer_params = {
-    {"type", "standard"},
-    {"filter", {"lowercase"}},
-};
-```
+    <TabItem value='c++'>
+
+    ```c++
+    nlohmann::json analyzer_params = {
+        {"type", "standard"},
+        {"filter", {"lowercase"}},
+    };
+    ```
+
+    </TabItem>
+    </Tabs>
 
 - **Custom filters**: Custom filters allow for specialized configurations. You can define a custom filter by choosing a valid filter type (`filter.type`) and adding specific settings for each filter type. Examples of filter types that support customization:
 
@@ -534,7 +538,7 @@ nlohmann::json analyzer_params = {
 
     **Example of configuring a custom filter:**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
     <TabItem value='python'>
 
     ```python
@@ -608,14 +612,18 @@ nlohmann::json analyzer_params = {
     ```
 
     </TabItem>
-    </Tabs>
 
-```java
-nlohmann::json analyzer_params = {
-    {"type", "standard"},
-    {"filter", {{{"type", "stop"}, {"stop_words", {"a", "an", "for"}}}}},
-};
-```
+    <TabItem value='c++'>
+
+    ```c++
+    nlohmann::json analyzer_params = {
+        {"type", "standard"},
+        {"filter", {{{"type", "stop"}, {"stop_words", {"a", "an", "for"}}}}},
+    };
+    ```
+
+    </TabItem>
+    </Tabs>
 
 ## Example use\{#example-use}
 
@@ -773,7 +781,7 @@ schema->SetEnableDynamicField(false);
 
     - **Verification:** Use `run_analyzer` to check that the configuration produces the expected tokenization.
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
     <TabItem value='python'>
 
     ```python
@@ -862,24 +870,28 @@ schema->SetEnableDynamicField(false);
     ```
 
     </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    nlohmann::json analyzer_params_built_in = {
+            {"type", "standard"}
+    };
+    
+    std::string sample_text = "Milvus simplifies text analysis for search.";
+    auto request = milvus::RunAnalyzerRequest()
+                       .AddText(sample_text)
+                       .WithAnalyzerParams(analyzer_params_built_in);
+    
+    milvus::RunAnalyzerResponse response;
+    auto status = client->RunAnalyzer(request, response);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+    ```
+
+    </TabItem>
     </Tabs>
-
-```c++
-nlohmann::json analyzer_params_built_in = {
-        {"type", "standard"}
-};
-
-std::string sample_text = "Milvus simplifies text analysis for search.";
-auto request = milvus::RunAnalyzerRequest()
-                   .AddText(sample_text)
-                   .WithAnalyzerParams(analyzer_params_built_in);
-
-milvus::RunAnalyzerResponse response;
-auto status = client->RunAnalyzer(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
 
 1. **Configure and verify a custom analyzer:**
 
@@ -887,7 +899,7 @@ if (!status.IsOk()) {
 
     - **Verification:** Use `run_analyzer` to ensure the custom configuration processes text as intended.
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
     <TabItem value='python'>
 
     ```python
@@ -1010,7 +1022,6 @@ if (!status.IsOk()) {
     export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
     export SAMPLE_TEXT="Milvus provides flexible, customizable analyzers for robust text processing."
     
-    # 使用自定义分析器配置
     curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
       -H "Content-Type: application/json" \
       -H "Request-Timeout: 10" \
@@ -1021,32 +1032,36 @@ if (!status.IsOk()) {
     ```
 
     </TabItem>
+
+    <TabItem value='c++'>
+
+    ```c++
+    nlohmann::json analyzer_params_custom = {
+        {"tokenizer", "standard"},
+        {"filter", {
+            "lowercase", 
+            {{"type", "length"}, {"max", 40}},
+            {{"type", "stop"}, {"stop_words", {"of", "to"}}}
+        }},
+    };
+    
+    const std::vector<std::string> texts = {
+            "Milvus provides flexible, customizable analyzers for robust text processing."
+    };
+    
+    auto request = milvus::RunAnalyzerRequest()
+                           .WithTexts(text_content)
+                           .WithAnalyzerParams(analyzer_params_custom);
+    
+    milvus::RunAnalyzerResponse response;
+    auto status = client->RunAnalyzer(request, response);
+    if (!status.IsOk()) {
+        std::cout << status.Message() << std::endl;
+    }
+    ```
+
+    </TabItem>
     </Tabs>
-
-```c++
-nlohmann::json analyzer_params_custom = {
-    {"tokenizer", "standard"},
-    {"filter", {
-        "lowercase", 
-        {{"type", "length"}, {"max", 40}},
-        {{"type", "stop"}, {"stop_words", {"of", "to"}}}
-    }},
-};
-
-const std::vector<std::string> texts = {
-        "Milvus provides flexible, customizable analyzers for robust text processing."
-};
-
-auto request = milvus::RunAnalyzerRequest()
-                       .WithTexts(text_content)
-                       .WithAnalyzerParams(analyzer_params_custom);
-
-milvus::RunAnalyzerResponse response;
-auto status = client->RunAnalyzer(request, response);
-if (!status.IsOk()) {
-    std::cout << status.Message() << std::endl;
-}
-```
 
 ### Step 3: Add analyzer to schema field\{#step-3-add-analyzer-to-schema-field}
 

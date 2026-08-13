@@ -1,17 +1,311 @@
 {
-  "generated_at": "2026-08-12T03:20:09.005Z",
+  "generated_at": "2026-08-13T01:53:26.221Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [],
-  "changed_tokens": [],
-  "expanded_tokens": [],
+  "changed_records": [
+    {
+      "record_id": "recvlPpqLltfoK",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Filter Templating",
+      "labels": "Template",
+      "slug": "filtering-templating",
+      "doc_token": "TumJwDYrhiDYcUkKsUIcuSnbnCf",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/TumJwDYrhiDYcUkKsUIcuSnbnCf",
+      "reasons": [
+        "wiki node edit time changed"
+      ]
+    },
+    {
+      "record_id": "recvlPuZpqn2Ng",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "title": "Analyzer Overview",
+      "labels": "Overview",
+      "slug": "analyzer-overview",
+      "doc_token": "H8MVwnjdgihp0hkRHHKcjBe9n5e",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/H8MVwnjdgihp0hkRHHKcjBe9n5e",
+      "reasons": [
+        "wiki node edit time changed"
+      ]
+    },
+    {
+      "record_id": "recvlVZi9Q1725",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Privileges & Privilege Groups",
+      "labels": "Privileges & Privilege Groups",
+      "slug": "cluster-privileges",
+      "doc_token": "NitBwKVzzi0hXBkjdDFcfwRsngb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/NitBwKVzzi0hXBkjdDFcfwRsngb",
+      "reasons": [
+        "wiki node edit time changed"
+      ]
+    },
+    {
+      "record_id": "recvs43L1HW6b9",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "SCIM Provisioning Overview",
+      "labels": "SCIM Provisioning Overview",
+      "slug": "scim-provisioning-overview",
+      "doc_token": "KhJhw2lOBirGhekK8jbcZkb2nVg",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/KhJhw2lOBirGhekK8jbcZkb2nVg",
+      "reasons": [
+        "new canonical record"
+      ]
+    },
+    {
+      "record_id": "recvs44ibqtfTw",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Configure SCIM Provisioning with Okta",
+      "labels": "Configure SCIM Provisioning with Okta",
+      "slug": "configure-scim-provisioning-with-okta",
+      "doc_token": "DBrAwCfu3ids0Okxhlbcz12KnPc",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/DBrAwCfu3ids0Okxhlbcz12KnPc",
+      "reasons": [
+        "new canonical record"
+      ]
+    },
+    {
+      "record_id": "recvs44Cg6HIEG",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Configure SCIM Provisioning with Microsoft Entra",
+      "labels": "Configure SCIM Provisioning with Microsoft Entra",
+      "slug": "configure-scim-provisioning-with-microsoft-entra",
+      "doc_token": "TqR1wKJMni2xCkkwNf4c52eKnKd",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/TqR1wKJMni2xCkkwNf4c52eKnKd",
+      "reasons": [
+        "new canonical record"
+      ]
+    },
+    {
+      "record_id": "recvs454feGPAG",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "View SCIM-Synced Groups",
+      "labels": "View SCIM-Synced Groups",
+      "slug": "view-scim-synced-groups",
+      "doc_token": "Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
+      "reasons": [
+        "new canonical record"
+      ]
+    }
+  ],
+  "changed_tokens": [
+    "DBrAwCfu3ids0Okxhlbcz12KnPc",
+    "Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
+    "H8MVwnjdgihp0hkRHHKcjBe9n5e",
+    "KhJhw2lOBirGhekK8jbcZkb2nVg",
+    "NitBwKVzzi0hXBkjdDFcfwRsngb",
+    "TqR1wKJMni2xCkkwNf4c52eKnKd",
+    "TumJwDYrhiDYcUkKsUIcuSnbnCf"
+  ],
+  "expanded_tokens": [
+    "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
+    "AhAhw08MFiB9OpkDjbPcVUTVnlg",
+    "AwmtwHGQii1j9Wk1W04cNxvBnth",
+    "BZkiw99tkiDkLXktLhqcJtjKnmb",
+    "BnYLwepruiGNpwkJfBHcdrrOnOh",
+    "CEJrwt9sYizQgtkPlBBcJXvRnff",
+    "DBrAwCfu3ids0Okxhlbcz12KnPc",
+    "DDrHwdsb7idJa9kVU6zc2VwInBf",
+    "EAwdw2ZbtiBKttk66FTctUebn7f",
+    "EV41wG08BiOWW8kbo9xcTGoPnKd",
+    "EhXXwmJzBi8pg9kJcC4ccm9OnDe",
+    "Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
+    "F2QrwjFSziSUkJkyXzbcwovUnCg",
+    "GAX8wkC1QiTZhXkLBocc1GoTnke",
+    "H8MVwnjdgihp0hkRHHKcjBe9n5e",
+    "JGURwBQNOijp2DkspFFctbAGnLh",
+    "JksSwTwJPidjsnk18Olc2TjWnZe",
+    "KhJhw2lOBirGhekK8jbcZkb2nVg",
+    "LBbUwOGcwi1UMak3eE2cM1gvnUe",
+    "MKdvwWBDRi5MMAkkn5PcD1x9nfh",
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
+    "NitBwKVzzi0hXBkjdDFcfwRsngb",
+    "O2YiwLai5iSjT1k1WEsc06E8nEe",
+    "OJVrwOiE4i3fFjk2J3NcneLznfh",
+    "Of8PwuunCihBfxksNJJcSCRYnsf",
+    "PBZwwNqWjiikeYkXgHPcGhLznTh",
+    "PV2bwNENViEjXWkOgzZcXoKHnce",
+    "PmaowiSUaiTa8ckPMYJcqdRYnQg",
+    "Pulhw06e5iXJTFkidFXcGbylnod",
+    "PvwZwtu3FiBQNqkPa5VcqH6qnmg",
+    "Q3gKwc5lkilAbKkalCWcW2AbnLe",
+    "R3r7wFHUbi8KxUk2t2FcUXoJnic",
+    "RQQKwqhZUiubFzkHo4WcR62Gnvh",
+    "RQTRwhOVPiwnwokqr4scAtyfnBf",
+    "SFLCweOuaiChuVkjazqcqyE7neb",
+    "ScncwBnDBiVoLjksXAwcUgrgnod",
+    "TVfnwtCEQico7Bk9bngcnV1cnGb",
+    "TqR1wKJMni2xCkkwNf4c52eKnKd",
+    "TumJwDYrhiDYcUkKsUIcuSnbnCf",
+    "UDjcwWISuixYjqkQy3GcmBpsnmV",
+    "VmGMwsTliiGZdFkzzeBckRNlnCh",
+    "W0WhwqRyciRMRLklcsdca1U2nae",
+    "WMSvwXXz4iR7mZkGmUscF3Y1nxs",
+    "X16rw3C4giUT6bkPLXAcsBapnpe",
+    "X6wiwFkuFiF8nekse05cnBIPnic",
+    "YHG0wCYxfiZILvkZ2VLclmvsn7g",
+    "YbChwcPMBim5ryk1EQocEbDenDd"
+  ],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {},
+  "reasons_by_token": {
+    "TumJwDYrhiDYcUkKsUIcuSnbnCf": [
+      "wiki node edit time changed"
+    ],
+    "H8MVwnjdgihp0hkRHHKcjBe9n5e": [
+      "wiki node edit time changed"
+    ],
+    "NitBwKVzzi0hXBkjdDFcfwRsngb": [
+      "wiki node edit time changed"
+    ],
+    "KhJhw2lOBirGhekK8jbcZkb2nVg": [
+      "new canonical record"
+    ],
+    "DBrAwCfu3ids0Okxhlbcz12KnPc": [
+      "new canonical record"
+    ],
+    "TqR1wKJMni2xCkkwNf4c52eKnKd": [
+      "new canonical record"
+    ],
+    "Er7Yw6Qnuiy8CBkDkH3cetOHnDf": [
+      "new canonical record"
+    ],
+    "RQTRwhOVPiwnwokqr4scAtyfnBf": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "O2YiwLai5iSjT1k1WEsc06E8nEe": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "RQQKwqhZUiubFzkHo4WcR62Gnvh": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "WMSvwXXz4iR7mZkGmUscF3Y1nxs": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "Of8PwuunCihBfxksNJJcSCRYnsf": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "PvwZwtu3FiBQNqkPa5VcqH6qnmg": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "Q3gKwc5lkilAbKkalCWcW2AbnLe": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "AhAhw08MFiB9OpkDjbPcVUTVnlg": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "SFLCweOuaiChuVkjazqcqyE7neb": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "BZkiw99tkiDkLXktLhqcJtjKnmb": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "R3r7wFHUbi8KxUk2t2FcUXoJnic": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "X16rw3C4giUT6bkPLXAcsBapnpe": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "EhXXwmJzBi8pg9kJcC4ccm9OnDe": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "ScncwBnDBiVoLjksXAwcUgrgnod": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "MKdvwWBDRi5MMAkkn5PcD1x9nfh": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "JksSwTwJPidjsnk18Olc2TjWnZe": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "CEJrwt9sYizQgtkPlBBcJXvRnff": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "Pulhw06e5iXJTFkidFXcGbylnod": [
+      "outgoing reference from H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "AwmtwHGQii1j9Wk1W04cNxvBnth": [
+      "incoming reference to H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "BnYLwepruiGNpwkJfBHcdrrOnOh": [
+      "incoming reference to H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "DDrHwdsb7idJa9kVU6zc2VwInBf": [
+      "incoming reference to H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "EAwdw2ZbtiBKttk66FTctUebn7f": [
+      "incoming reference to H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "F2QrwjFSziSUkJkyXzbcwovUnCg": [
+      "incoming reference to H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "GAX8wkC1QiTZhXkLBocc1GoTnke": [
+      "incoming reference to H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "JGURwBQNOijp2DkspFFctbAGnLh": [
+      "incoming reference to H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "PV2bwNENViEjXWkOgzZcXoKHnce": [
+      "incoming reference to H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "PmaowiSUaiTa8ckPMYJcqdRYnQg": [
+      "incoming reference to H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "TVfnwtCEQico7Bk9bngcnV1cnGb": [
+      "incoming reference to H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "W0WhwqRyciRMRLklcsdca1U2nae": [
+      "incoming reference to H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "X6wiwFkuFiF8nekse05cnBIPnic": [
+      "incoming reference to H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "YbChwcPMBim5ryk1EQocEbDenDd": [
+      "incoming reference to H8MVwnjdgihp0hkRHHKcjBe9n5e"
+    ],
+    "YHG0wCYxfiZILvkZ2VLclmvsn7g": [
+      "outgoing reference from NitBwKVzzi0hXBkjdDFcfwRsngb"
+    ],
+    "PBZwwNqWjiikeYkXgHPcGhLznTh": [
+      "outgoing reference from NitBwKVzzi0hXBkjdDFcfwRsngb"
+    ],
+    "EV41wG08BiOWW8kbo9xcTGoPnKd": [
+      "incoming reference to NitBwKVzzi0hXBkjdDFcfwRsngb"
+    ],
+    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
+      "incoming reference to NitBwKVzzi0hXBkjdDFcfwRsngb"
+    ],
+    "OJVrwOiE4i3fFjk2J3NcneLznfh": [
+      "incoming reference to NitBwKVzzi0hXBkjdDFcfwRsngb"
+    ],
+    "UDjcwWISuixYjqkQy3GcmBpsnmV": [
+      "incoming reference to NitBwKVzzi0hXBkjdDFcfwRsngb"
+    ],
+    "VmGMwsTliiGZdFkzzeBckRNlnCh": [
+      "outgoing reference from TumJwDYrhiDYcUkKsUIcuSnbnCf"
+    ],
+    "AIb1wNAE3iiKVSk8MHAcVA4QnJb": [
+      "incoming reference to TumJwDYrhiDYcUkKsUIcuSnbnCf"
+    ],
+    "LBbUwOGcwi1UMak3eE2cM1gvnUe": [
+      "incoming reference to TumJwDYrhiDYcUkKsUIcuSnbnCf"
+    ]
+  },
   "warnings": [],
-  "affected_tables": [],
+  "affected_tables": [
+    "tbl9BeCMjBmalJVb",
+    "tblWv7PjNDsexddH",
+    "tblZMzoITXNsyKmQ"
+  ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
