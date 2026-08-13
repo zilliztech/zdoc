@@ -521,6 +521,72 @@ test('retired records cannot overlap pending coverage', () => {
   }
 });
 
+test('registered target-only retired-only group is safe historical incremental state', () => {
+  const {root, fixture, retired} = legacyRetiredFixture();
+  try {
+    fixture.sourceManifest.records = [];
+    fixture.state.records = [retired];
+    fs.rmSync(path.join(root, fixture.sourcePath));
+    fs.rmSync(path.join(root, fixture.targetPath));
+    const decision = resolveBootstrapDecision(fixture);
+    assert.equal(decision.status, 'safe_repair');
+    assert.equal(decision.mode, 'incremental');
+    assert.equal(decision.pendingCount, 0);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('registered source-only retired-only group is safe historical incremental state', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-retired-only-source-'));
+  try {
+    const sourcePath = 'content/en/reference/api/python/python/retired-source.md';
+    const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/');
+    const source = '# Retained English source\n';
+    const sourceManifest = {
+      schemaVersion: 1, sourceCommit: 'a'.repeat(40),
+      records: [{manual: 'python', sourcePath, sourceHash: sha256(source)}],
+    };
+    const state = {schemaVersion: 1, records: [{
+      manual: 'python', sourcePath, targetPath, sourceCommit: '9'.repeat(40),
+      sourceHash: sha256(source), targetHash: sha256(''), status: 'retired',
+    }]};
+    fs.mkdirSync(path.dirname(path.join(root, sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, sourcePath), source);
+    fs.mkdirSync(path.join(root, 'config'), {recursive: true});
+    fs.writeFileSync(path.join(root, 'config/reference-retirements.json'), `${JSON.stringify({schemaVersion: 2, retirements: [{
+      manual: 'python', sourcePath, targetPath, changeKind: null, rationale: 'Reviewed target retirement',
+    }]})}\n`);
+    const decision = resolveBootstrapDecision({target: 'zh-CN-reference', group: 'python', state, sourceManifest, repositoryRoot: root});
+    assert.equal(decision.status, 'safe_repair');
+    assert.equal(decision.mode, 'incremental');
+    assert.equal(decision.pendingCount, 0);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('retired-only state cannot bypass exact current Reference landing sources', () => {
+  const fixture = referenceLandingsFixture();
+  try {
+    const landing = fixture.records[0];
+    fixture.sourceManifest.records = fixture.sourceManifest.records.filter(record => record.sourcePath !== landing.sourcePath);
+    fixture.state.records = [{...landing, sourceHash: sha256(''), status: 'retired'}];
+    fs.rmSync(path.join(fixture.root, landing.sourcePath));
+    fs.mkdirSync(path.join(fixture.root, 'config'), {recursive: true});
+    fs.writeFileSync(path.join(fixture.root, 'config/reference-retirements.json'), `${JSON.stringify({schemaVersion: 2, retirements: [{
+      manual: landing.manual, sourcePath: landing.sourcePath, targetPath: landing.targetPath,
+      changeKind: null, rationale: 'Retired landing should not bypass current landing contract',
+    }]})}\n`);
+    assert.throws(() => resolveBootstrapDecision({
+      target: 'zh-CN-reference', group: 'reference-landings', state: fixture.state,
+      sourceManifest: fixture.sourceManifest, repositoryRoot: fixture.root,
+    }), /canonical landing source is missing|reference-landings.*inconsistent/i);
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true});
+  }
+});
+
 test('legacy coverage audit accepts valid current language-excluded records', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-excluded-'));
   try {

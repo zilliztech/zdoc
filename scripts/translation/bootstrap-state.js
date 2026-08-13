@@ -174,6 +174,14 @@ function assessLegacyBootstrap({target, group, state, sourceManifest, repository
   const sourceRecords = selectedSourceRecords.filter(record => !retiredSourcePaths.has(record.sourcePath));
   const sourceByPath = new Map(sourceRecords.map(record => [record.sourcePath, record]));
   const stateCount = translated.length + pending.length + excluded.length;
+  if (group !== 'reference-landings' && stateCount === 0 && retired.length > 0) {
+    return {
+      status: 'safe_repair',
+      mode: 'incremental',
+      pendingCount: 0,
+      summary: `${target}/${group}: safely authenticated retired-only historical state; incremental mode`,
+    };
+  }
   if (stateCount === 0) {
     const seededTarget = groupHasMaterializedTargets(repositoryRoot, group);
     if (seededTarget) throw new Error(`Bootstrap state for ${group} is inconsistent: existing Chinese target files are not represented in the manifest`);
