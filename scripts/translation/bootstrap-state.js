@@ -60,8 +60,9 @@ function groupTargetRoots(group) {
 
 function treeHasMarkdown(root, relativePath) {
   const target = resolveStatePath(root, relativePath);
-  const inspected = inspectPathChain(root, target, 'Bootstrap target group');
+  const inspected = inspectPathChain(root, target, 'Bootstrap target group', {allowFinalDirectory: true});
   if (!inspected.exists) return false;
+  if (inspected.bound.at(-1).identity.kind !== 'directory') throw new Error(`Bootstrap target group must be a directory: ${relativePath}`);
   const visit = directory => fs.readdirSync(directory, {withFileTypes: true}).some(entry => {
     const child = path.join(directory, entry.name);
     if (entry.isSymbolicLink()) throw new Error(`Bootstrap target group must not contain symlinks: ${relativePath}`);
@@ -215,7 +216,7 @@ function resolveStatePath(root, relativePath) {
   return target;
 }
 
-function inspectPathChain(root, target, label) {
+function inspectPathChain(root, target, label, options = {}) {
   const relative = path.relative(root, target);
   if (relative.startsWith('..') || path.isAbsolute(relative)) throw new Error(`${label} escapes its root`);
   const bound = [{path: root, identity: identityOf(root, `${label} root`)}];
@@ -226,7 +227,7 @@ function inspectPathChain(root, target, label) {
     const identity = identityOf(current, label);
     const final = index === relative.split(path.sep).filter(Boolean).length - 1;
     if (!final && identity.kind !== 'directory') throw new Error(`${label} has a non-directory ancestor`);
-    if (final && identity.kind !== 'file') throw new Error(`${label} must be a regular file`);
+    if (final && identity.kind !== 'file' && !(options.allowFinalDirectory && identity.kind === 'directory')) throw new Error(`${label} must be a regular file`);
     bound.push({path: current, identity});
   }
   return {bound, exists: true};
@@ -352,6 +353,47 @@ function writeState(target, value) {
   }
 }
 
+function writeRootBoundFile(root, relativePath, contents, label) {
+  if (typeof relativePath !== 'string' || relativePath === '' || path.isAbsolute(relativePath)) throw new Error(`${label} path must be relative to its root`);
+  const target = resolveStatePath(root, relativePath);
+  const parentBinding = ensureParentDirectories(root, target);
+  const inspected = inspectPathChain(root, target, label);
+  const originalIdentity = inspected.exists ? inspected.bound.at(-1).identity : null;
+  const temporary = path.join(path.dirname(target), `.${path.basename(target)}.tmp-${process.pid}-${randomUUID()}`);
+  let descriptor;
+  let temporaryIdentity;
+  let renamed = false;
+  try {
+    revalidateBoundPaths(parentBinding, `${label} parent`);
+    descriptor = fs.openSync(temporary, fs.constants.O_CREAT | fs.constants.O_EXCL | fs.constants.O_WRONLY | NOFOLLOW, 0o600);
+    const opened = fs.fstatSync(descriptor);
+    if (!opened.isFile() || opened.nlink !== 1) throw new Error(`${label} temporary must be a regular file`);
+    temporaryIdentity = {dev: opened.dev, ino: opened.ino, mode: opened.mode, nlink: opened.nlink, kind: 'file'};
+    fs.writeFileSync(descriptor, contents);
+    fs.fsyncSync(descriptor);
+    fs.closeSync(descriptor);
+    descriptor = undefined;
+
+    revalidateBoundPaths(parentBinding, `${label} parent`);
+    if (originalIdentity) {
+      if (!pathEntryExists(target) || !sameIdentity(identityOf(target, label), originalIdentity)) throw new Error(`${label} identity changed before replacement`);
+    } else if (pathEntryExists(target)) {
+      throw new Error(`${label} appeared before replacement`);
+    }
+    if (!sameIdentity(identityOf(temporary, `${label} temporary`), temporaryIdentity)) throw new Error(`${label} temporary identity changed before replacement`);
+    fs.renameSync(temporary, target);
+    renamed = true;
+    if (!sameIdentity(identityOf(target, label), temporaryIdentity)) throw new Error(`${label} identity changed during replacement`);
+    fsyncDirectory(path.dirname(target));
+  } finally {
+    if (descriptor !== undefined) fs.closeSync(descriptor);
+    if (!renamed && temporaryIdentity && pathEntryExists(temporary)) {
+      if (!sameIdentity(identityOf(temporary, `${label} temporary`), temporaryIdentity)) throw new Error(`${label} temporary identity changed during cleanup`);
+      fs.unlinkSync(temporary);
+    }
+  }
+}
+
 function main() {
   const [operation, ...rest] = process.argv.slice(2);
   const args = new Map();
@@ -370,11 +412,8 @@ function main() {
     const decision = resolveBootstrapDecision({requestedMode, target, group, state, sourceManifest, repositoryRoot: root});
     const summaryFile = args.get('--summary-file');
     if (summaryFile) {
-      const summaryTarget = path.resolve(root, summaryFile);
-      if (!summaryTarget.startsWith(`${root}${path.sep}`)) throw new Error('Bootstrap summary path escapes its root');
-      fs.mkdirSync(path.dirname(summaryTarget), {recursive: true});
       const {state: repairedState, ...summaryDecision} = decision;
-      fs.writeFileSync(summaryTarget, `${JSON.stringify({target, group, requestedMode, ...summaryDecision}, null, 2)}\n`);
+      writeRootBoundFile(root, summaryFile, `${JSON.stringify({target, group, requestedMode, ...summaryDecision}, null, 2)}\n`, 'Bootstrap summary');
     }
     process.stdout.write(decision.mode);
     return;

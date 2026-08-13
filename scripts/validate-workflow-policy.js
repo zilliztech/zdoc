@@ -719,7 +719,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       validateTargetBranches(steps.map(step => String(step?.run || '')).join('\n'), file, errors)
       const normalizeCondition = value => String(value || '').trim().replace(/\s+/g, ' ')
       const expectedNumberedCondition = "${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}"
-      const expectedUnbatchedCondition = "${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}"
+      const expectedUnbatchedCondition = "${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true' || steps.mode.outputs.bootstrap_status == 'safe_repair') }}"
 
       if (!numbered || normalizeCondition(numberedCondition) !== normalizeCondition(expectedNumberedCondition)) {
         errors.push(`${file}: numbered Guides batches must use the dedicated mutation-aware local validation step`)
@@ -736,6 +736,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
       if (!unbatched || normalizeCondition(unbatchedCondition) !== normalizeCondition(expectedUnbatchedCondition)) {
         errors.push(`${file}: full translated validation must be restricted to unbatched runs`)
+      }
+      const bootstrapMarker = steps.find(step => step.name === 'Mark completed translation bootstrap')
+      if (unbatched?.id !== 'unbatched_validation' || !/steps\.unbatched_validation\.outcome == 'success'/.test(String(bootstrapMarker?.if || ''))) {
+        errors.push(`${file}: bootstrap markers must follow authenticated unbatched validation, including zero-candidate safe repair`)
       }
       const candidateNames = Object.keys(candidateIdentity)
       const candidateIdentityIsExact = candidateNames.every(name => unbatched?.env?.[name] === candidateIdentity[name])

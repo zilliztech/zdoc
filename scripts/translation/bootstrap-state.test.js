@@ -119,6 +119,39 @@ test('empty manifest with a stale target-only group file also fails closed', () 
   }
 });
 
+test('empty manifest allows an existing canonical target directory without Markdown files', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-empty-directory-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    fs.mkdirSync(path.join(root, 'content/zh-CN/reference/api/python'), {recursive: true});
+    fs.writeFileSync(path.join(root, 'content/zh-CN/reference/api/python/README.txt'), 'bootstrap placeholder\n');
+    const decision = resolveBootstrapDecision({...fixture, state: {schemaVersion: 1, records: []}});
+    assert.equal(decision.status, 'empty');
+    assert.equal(decision.mode, 'full');
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('empty manifest fails closed when the canonical target root is a symlink', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-symlink-directory-'));
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-symlink-directory-outside-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    fs.mkdirSync(path.join(outside, 'python'), {recursive: true});
+    fs.mkdirSync(path.join(root, 'content/zh-CN/reference/api'), {recursive: true});
+    fs.symlinkSync(path.join(outside, 'python'), path.join(root, 'content/zh-CN/reference/api/python'));
+    assert.throws(() => resolveBootstrapDecision({...fixture, state: {schemaVersion: 1, records: []}}), /symlink|target group|regular/i);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+    fs.rmSync(outside, {recursive: true, force: true});
+  }
+});
+
 test('auto fails closed when legacy Reference state cannot prove complete coverage', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-blocked-'));
   try {
@@ -311,6 +344,98 @@ test('CLI safe repair is ephemeral and does not persist the marker before provid
     assert.equal(JSON.parse(fs.readFileSync(path.join(root, 'tmp/decision.json'))).status, 'safe_repair');
   } finally {
     fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('CLI summary rejects a symlink final path and preserves the outside file', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-summary-final-'));
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-summary-final-outside-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    for (const [relativePath, value] of [
+      ['generated/en/manifests/reference.json', fixture.sourceManifest],
+      ['generated/zh-CN/manifests/reference-translations.json', fixture.state],
+    ]) {
+      fs.mkdirSync(path.dirname(path.join(root, relativePath)), {recursive: true});
+      fs.writeFileSync(path.join(root, relativePath), `${JSON.stringify(value)}\n`);
+    }
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    fs.mkdirSync(path.dirname(path.join(root, fixture.targetPath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.targetPath), fixture.targetContents);
+    const sentinel = path.join(outside, 'summary.json');
+    fs.writeFileSync(sentinel, 'outside\n');
+    fs.mkdirSync(path.join(root, 'tmp'), {recursive: true});
+    fs.symlinkSync(sentinel, path.join(root, 'tmp/decision.json'));
+    const result = spawnSync(process.execPath, [
+      path.join(__dirname, 'bootstrap-state.js'), 'resolve', '--target', 'zh-CN-reference',
+      '--group', 'python', '--mode', 'auto', '--summary-file', 'tmp/decision.json',
+    ], {cwd: root, encoding: 'utf8'});
+    assert.notEqual(result.status, 0);
+    assert.equal(fs.readFileSync(sentinel, 'utf8'), 'outside\n');
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+    fs.rmSync(outside, {recursive: true, force: true});
+  }
+});
+
+test('CLI summary rejects a symlink ancestor', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-summary-ancestor-'));
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-summary-ancestor-outside-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    for (const [relativePath, value] of [
+      ['generated/en/manifests/reference.json', fixture.sourceManifest],
+      ['generated/zh-CN/manifests/reference-translations.json', fixture.state],
+    ]) {
+      fs.mkdirSync(path.dirname(path.join(root, relativePath)), {recursive: true});
+      fs.writeFileSync(path.join(root, relativePath), `${JSON.stringify(value)}\n`);
+    }
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    fs.mkdirSync(path.dirname(path.join(root, fixture.targetPath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.targetPath), fixture.targetContents);
+    fs.symlinkSync(outside, path.join(root, 'tmp'));
+    const result = spawnSync(process.execPath, [
+      path.join(__dirname, 'bootstrap-state.js'), 'resolve', '--target', 'zh-CN-reference',
+      '--group', 'python', '--mode', 'auto', '--summary-file', 'tmp/decision.json',
+    ], {cwd: root, encoding: 'utf8'});
+    assert.notEqual(result.status, 0);
+    assert.equal(fs.readdirSync(outside).length, 0);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+    fs.rmSync(outside, {recursive: true, force: true});
+  }
+});
+
+test('CLI summary rejects absolute and escaping paths', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-summary-root-'));
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-summary-root-outside-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    for (const [relativePath, value] of [
+      ['generated/en/manifests/reference.json', fixture.sourceManifest],
+      ['generated/zh-CN/manifests/reference-translations.json', fixture.state],
+    ]) {
+      fs.mkdirSync(path.dirname(path.join(root, relativePath)), {recursive: true});
+      fs.writeFileSync(path.join(root, relativePath), `${JSON.stringify(value)}\n`);
+    }
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    fs.mkdirSync(path.dirname(path.join(root, fixture.targetPath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.targetPath), fixture.targetContents);
+    for (const summaryPath of [path.join(outside, 'absolute.json'), '../escaping.json']) {
+      const result = spawnSync(process.execPath, [
+        path.join(__dirname, 'bootstrap-state.js'), 'resolve', '--target', 'zh-CN-reference',
+        '--group', 'python', '--mode', 'auto', '--summary-file', summaryPath,
+      ], {cwd: root, encoding: 'utf8'});
+      assert.notEqual(result.status, 0, `${summaryPath} unexpectedly succeeded`);
+    }
+    assert.equal(fs.readdirSync(outside).length, 0);
+    assert.equal(fs.existsSync(path.join(path.dirname(root), 'escaping.json')), false);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+    fs.rmSync(outside, {recursive: true, force: true});
   }
 });
 

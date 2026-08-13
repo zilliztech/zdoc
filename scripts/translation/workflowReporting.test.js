@@ -49,6 +49,17 @@ function runTranslationResultStep(overrides = {}) {
   }
 }
 
+function evaluateWorkflowCondition(expression, state) {
+  let source = expression.replace(/^\$\{\{\s*|\s*\}\}$/g, '')
+  const references = [...source.matchAll(/\b(?:inputs|steps)\.[a-zA-Z0-9_.]+/g)].map(match => match[0])
+  for (const reference of [...new Set(references)].sort((left, right) => right.length - left.length)) {
+    assert.ok(Object.hasOwn(state, reference), `missing workflow state for ${reference}`)
+    source = source.replaceAll(reference, JSON.stringify(state[reference]))
+  }
+  assert.doesNotMatch(source, /\b(?:inputs|steps)\./)
+  return Boolean(Function(`"use strict"; return (${source})`)())
+}
+
 test('reusable translation workflow produces and uploads a group-scoped report', () => {
   const workflow = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
   assert.match(workflow, /args=\(--manifest tmp\/translation-manifest\.json --report tmp\/translation-report\.json\)/)
@@ -79,11 +90,13 @@ test('translation readiness accepts complete terminal failures but remains conse
   assert.match(workflow, /remaining_count[^\n]*== 0/)
   assert.doesNotMatch(workflow, /\bfailed_count\s*==\s*0[^\n]*status=translation_ready/)
   assert.ok(validationIndex >= 0 && validationIndex < markerIndex)
+  assert.equal(steps[validationIndex].id, 'unbatched_validation')
   assert.match(steps[validationIndex].run, /validate-unbatched-translation-outputs\.js/)
   assert.match(marker.if, /steps\.mode\.outputs\.bootstrap_status == 'safe_repair'/)
   assert.match(marker.if, /steps\.mode\.outputs\.effective_mode == 'full'/)
   assert.doesNotMatch(marker.if, /failed_count \|\| '0'\) == '0'/)
   assert.match(marker.if, /remaining_count \|\| '0'\) == '0'/)
+  assert.match(marker.if, /steps\.unbatched_validation\.outcome == 'success'/)
   assert.match(workflow, /Regenerate selected Chinese Reference sidebar[\s\S]*failed_count \|\| '0'\) == '0'/)
 
   assert.equal(runTranslationResultStep().status, 'translation_ready')
@@ -101,6 +114,37 @@ test('translation readiness accepts complete terminal failures but remains conse
   assert.equal(runTranslationResultStep({"${{ steps.agents.outputs.failed_count || '0' }}": '6'}).status, 'failed')
   assert.equal(runTranslationResultStep({"${{ steps.agents.outcome }}": 'failure'}).status, 'failed')
   assert.equal(runTranslationResultStep({"${{ steps.translation_upload.outcome }}": 'failure'}).status, 'failed')
+})
+
+test('safe repair with zero candidates validates before persisting its bootstrap marker', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8'))
+  const steps = workflow.jobs.translate.steps
+  const validation = steps.find(step => step.name === 'Validate unbatched translated group')
+  const marker = steps.find(step => step.name === 'Mark completed translation bootstrap')
+  const validationState = {
+    'inputs.should_translate': true,
+    'inputs.batch_number': 0,
+    'steps.agents.outputs.translated_count': '',
+    'steps.agents.outputs.failed_count': '',
+    'steps.source_delta.outputs.has_mutation': 'false',
+    'steps.mode.outputs.bootstrap_status': 'safe_repair',
+  }
+  assert.equal(evaluateWorkflowCondition(validation.if, validationState), true)
+
+  const markerState = {
+    'inputs.should_translate': true,
+    'inputs.batch_number': 0,
+    'steps.mode.outputs.effective_mode': 'incremental',
+    'steps.mode.outputs.bootstrap_status': 'safe_repair',
+    'steps.agents.outputs.remaining_count': '',
+    'steps.unbatched_validation.outcome': 'skipped',
+    'inputs.target': 'zh-CN-reference',
+  }
+  assert.equal(evaluateWorkflowCondition(marker.if, markerState), false, 'marker must not persist before authenticated validation')
+  markerState['steps.unbatched_validation.outcome'] = 'failure'
+  assert.equal(evaluateWorkflowCondition(marker.if, markerState), false, 'marker must not persist after failed validation')
+  markerState['steps.unbatched_validation.outcome'] = 'success'
+  assert.equal(evaluateWorkflowCondition(marker.if, markerState), true, 'marker persists after zero-candidate validation succeeds')
 })
 
 test('batch publisher validates and publishes a reconstructable durable checkpoint', () => {

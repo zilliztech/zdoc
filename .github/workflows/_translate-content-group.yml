@@ -330,7 +330,8 @@ jobs:
           if-no-files-found: error
           retention-days: 30
       - name: Validate unbatched translated group
-        if: ${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
+        id: unbatched_validation
+        if: ${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true' || steps.mode.outputs.bootstrap_status == 'safe_repair') }}
         env:
           AGENTS_OUTCOME: ${{ steps.agents.outcome }}
           TRANSLATED_COUNT: ${{ steps.agents.outputs.translated_count || '0' }}
@@ -376,7 +377,7 @@ jobs:
             --failed-count "$FAILED_COUNT" \
             --remaining-count "$REMAINING_COUNT"
       - name: Mark completed translation bootstrap
-        if: ${{ inputs.should_translate && inputs.batch_number == 0 && (steps.mode.outputs.effective_mode == 'full' || steps.mode.outputs.bootstrap_status == 'safe_repair') && (steps.agents.outputs.remaining_count || '0') == '0' && steps.agents.outcome == 'success' && inputs.target != 'ja-JP' }}
+        if: ${{ inputs.should_translate && inputs.batch_number == 0 && (steps.mode.outputs.effective_mode == 'full' || steps.mode.outputs.bootstrap_status == 'safe_repair') && (steps.agents.outputs.remaining_count || '0') == '0' && steps.unbatched_validation.outcome == 'success' && inputs.target != 'ja-JP' }}
         run: node scripts/translation/bootstrap-state.js mark --target "$TRANSLATION_TARGET" --group "$BOOTSTRAP_GROUP"
       - name: Regenerate selected Chinese Reference sidebar
         if: ${{ inputs.should_translate && inputs.target == 'zh-CN-reference' && inputs.batch_number == 0 && (steps.agents.outputs.failed_count || '0') == '0' && (steps.agents.outputs.remaining_count || '0') == '0' && steps.agents.outcome == 'success' }}
