@@ -8,7 +8,9 @@ const path = require('node:path');
 const test = require('node:test');
 
 const {
+  assessLegacyBootstrap,
   markBootstrapComplete,
+  resolveBootstrapDecision,
   resolveTranslationMode,
 } = require('./bootstrap-state');
 
@@ -20,6 +22,170 @@ test('auto selects full until the group bootstrap is complete', () => {
     () => resolveTranslationMode({requestedMode: 'incremental', bootstrapCompletedGroups: [], group: 'python'}),
     /bootstrap/i,
   );
+});
+
+function sha256(value) {
+  return require('node:crypto').createHash('sha256').update(value).digest('hex');
+}
+
+function referenceFixture(overrides = {}) {
+  const sourcePath = 'content/en/reference/api/python/python/page.md';
+  const targetPath = 'content/zh-CN/reference/api/python/python/page.md';
+  const source = '# source\n';
+  const targetContents = '# translated\n';
+  return {
+    target: 'zh-CN-reference',
+    group: 'python',
+    repositoryRoot: overrides.repositoryRoot,
+    sourceManifest: {
+      schemaVersion: 1,
+      sourceCommit: 'a'.repeat(40),
+      records: [{manual: 'python', sourcePath, sourceHash: sha256(source)}],
+    },
+    state: {
+      schemaVersion: 1,
+      records: [{
+        manual: 'python', sourcePath, targetPath, sourceCommit: 'a'.repeat(40),
+        sourceHash: sha256(source), targetHash: sha256(targetContents), status: 'translated',
+      }],
+    },
+    sourcePath,
+    targetPath,
+    source,
+    targetContents,
+    ...overrides,
+  };
+}
+
+test('auto repairs a complete legacy Reference group and resolves incremental', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-repair-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    fs.mkdirSync(path.dirname(path.join(root, fixture.targetPath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.targetPath), fixture.targetContents);
+    const decision = resolveBootstrapDecision(fixture);
+    assert.equal(decision.mode, 'incremental');
+    assert.equal(decision.status, 'repaired');
+    assert.deepEqual(decision.state.bootstrapCompletedGroups, ['python']);
+    assert.match(decision.summary, /repaired/i);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('auto keeps genuine empty Reference state as explicit full bootstrap', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-empty-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    const decision = resolveBootstrapDecision({...fixture, state: {schemaVersion: 1, records: []}});
+    assert.equal(decision.mode, 'full');
+    assert.equal(decision.status, 'empty');
+    assert.equal(decision.state, undefined);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('auto fails closed when legacy Reference state cannot prove complete coverage', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-blocked-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    fixture.state.records[0].sourceHash = 'f'.repeat(64);
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    fs.mkdirSync(path.dirname(path.join(root, fixture.targetPath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.targetPath), fixture.targetContents);
+    assert.throws(() => resolveBootstrapDecision(fixture), /inconsistent|source hash|blocked/i);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('auto fails closed on noncanonical target ownership or an unauthenticated target hash', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-target-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    fs.mkdirSync(path.dirname(path.join(root, fixture.targetPath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.targetPath), '# tampered\n');
+    assert.throws(() => resolveBootstrapDecision(fixture), /target hash|inconsistent/i);
+    fixture.state.records[0].targetPath = 'content/zh-CN/reference/api/java/page.md';
+    assert.throws(() => resolveBootstrapDecision(fixture), /ownership|canonical|inconsistent/i);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('partial-success state with explicit pending record is incrementally maintainable', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-pending-'));
+  try {
+    const fixture = referenceFixture({repositoryRoot: root});
+    const pendingPath = 'content/en/reference/api/python/python/pending.md';
+    const pendingTargetPath = 'content/zh-CN/reference/api/python/python/pending.md';
+    const pendingSource = '# pending\n';
+    fixture.sourceManifest.records.push({manual: 'python', sourcePath: pendingPath, sourceHash: sha256(pendingSource)});
+    fixture.state.pendingRecords = [{
+      manual: 'python', sourcePath: pendingPath, targetPath: pendingTargetPath,
+      sourceCommit: 'a'.repeat(40), sourceHash: sha256(pendingSource),
+    }];
+    fs.mkdirSync(path.dirname(path.join(root, fixture.sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.sourcePath), fixture.source);
+    fs.writeFileSync(path.join(root, pendingPath), pendingSource);
+    fs.mkdirSync(path.dirname(path.join(root, fixture.targetPath)), {recursive: true});
+    fs.writeFileSync(path.join(root, fixture.targetPath), fixture.targetContents);
+    const decision = resolveBootstrapDecision(fixture);
+    assert.equal(decision.mode, 'incremental');
+    assert.equal(decision.status, 'repaired');
+    assert.equal(decision.pendingCount, 1);
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('legacy coverage audit accepts valid current language-excluded records', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-excluded-'));
+  try {
+    const sourcePath = 'content/en/reference/api/restful/restful/page.mdx';
+    const targetPath = 'content/zh-CN/reference/api/restful/restful/page.mdx';
+    const source = '# REST\n\nexport const specs = {"x-include-langs":["en-US"]}\nexport const endpoint = "/v2/test"\n';
+    fs.mkdirSync(path.dirname(path.join(root, sourcePath)), {recursive: true});
+    fs.writeFileSync(path.join(root, sourcePath), source);
+    const decision = assessLegacyBootstrap({
+      target: 'zh-CN-reference', group: 'rest', repositoryRoot: root,
+      sourceManifest: {schemaVersion: 1, sourceCommit: 'a'.repeat(40), records: [{manual: 'rest', sourcePath, sourceHash: sha256(source)}]},
+      state: {schemaVersion: 1, records: [], languageExcludedRecords: [{
+        manual: 'rest', sourcePath, targetPath, sourceCommit: 'a'.repeat(40), sourceHash: sha256(source),
+        locale: 'zh-CN', reason: 'x-include-langs',
+      }]},
+    });
+    assert.equal(decision.mode, 'incremental');
+    assert.equal(decision.status, 'repaired');
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('generic Chinese Translation cannot resolve OpenAPI-owned REST bootstrap', () => {
+  assert.throws(() => resolveBootstrapDecision({
+    target: 'zh-CN-reference', group: 'rest',
+    state: {schemaVersion: 1, records: []},
+    sourceManifest: {schemaVersion: 1, sourceCommit: 'a'.repeat(40), records: []},
+  }), /REST|OpenAPI|generic/i);
+});
+
+test('explicit full remains explicit and never claims a legacy repair', () => {
+  const decision = resolveBootstrapDecision({
+    requestedMode: 'full', target: 'zh-CN-reference', group: 'python',
+    state: {schemaVersion: 1, records: [{legacy: true}]},
+  });
+  assert.equal(decision.mode, 'full');
+  assert.equal(decision.status, 'explicit_full');
+  assert.equal(decision.state, undefined);
 });
 
 test('marks a completed group once and preserves canonical order', () => {

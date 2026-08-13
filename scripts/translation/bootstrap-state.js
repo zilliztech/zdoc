@@ -1,10 +1,15 @@
 'use strict';
 
 const fs = require('node:fs');
-const {randomUUID} = require('node:crypto');
+const {createHash, randomUUID} = require('node:crypto');
 const path = require('node:path');
+const {loadTypeScript} = require('../lib/load-typescript');
+
+const {referenceLanguageExclusionReason} = loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts');
 
 const NOFOLLOW = typeof fs.constants.O_NOFOLLOW === 'number' ? fs.constants.O_NOFOLLOW : 0;
+const SHA256 = /^[a-f0-9]{64}$/;
+const COMMIT_SHA = /^[a-f0-9]{40}$/;
 
 function canonicalGroups(groups) {
   return [...new Set(groups || [])].sort((left, right) => left.localeCompare(right));
@@ -17,6 +22,105 @@ function resolveTranslationMode({requestedMode = 'auto', bootstrapCompletedGroup
   if (requestedMode === 'auto') return complete ? 'incremental' : 'full';
   if (requestedMode === 'incremental' && !complete) throw new Error(`Translation bootstrap is not complete for group ${group}`);
   return requestedMode;
+}
+
+function readJsonIfPresent(root, relativePath) {
+  const target = resolveStatePath(root, relativePath);
+  const inspected = inspectPathChain(root, target, 'Bootstrap source manifest');
+  if (!inspected.exists) return undefined;
+  return JSON.parse(readRegularFileNoFollow(target, inspected.bound.at(-1).identity, inspected.bound));
+}
+
+function sha256File(root, relativePath) {
+  const target = resolveStatePath(root, relativePath);
+  const identity = inspectPathChain(root, target, 'Bootstrap target');
+  if (!identity.exists || identity.bound.at(-1).identity.kind !== 'file') return undefined;
+  const bytes = readRegularFileNoFollow(target, identity.bound.at(-1).identity, identity.bound);
+  return createHash('sha256').update(bytes).digest('hex');
+}
+
+function groupRecords(state, group, key) {
+  return (Array.isArray(state?.[key]) ? state[key] : []).filter(record => record && record.manual === group);
+}
+
+function expectedReferenceManual(sourcePath) {
+  if (typeof sourcePath !== 'string' || !sourcePath.startsWith('content/en/reference/')) return undefined;
+  const relative = sourcePath.slice('content/en/reference/'.length);
+  return [
+    ['api/python', 'python'], ['api/java', 'java'], ['api/nodejs', 'node'],
+    ['api/go', 'go'], ['api/restful', 'rest'], ['cli', 'cli'],
+  ].find(([prefix]) => relative === prefix || relative.startsWith(`${prefix}/`))?.[1];
+}
+
+function assessLegacyBootstrap({target, group, state, sourceManifest, repositoryRoot = canonicalRoot()}) {
+  if (target !== 'zh-CN-reference') return {status: 'not_applicable', mode: 'incremental', summary: `${target}/${group}: cache state is incremental`};
+  if (!sourceManifest || !Array.isArray(sourceManifest.records)) throw new Error(`Cannot assess legacy bootstrap for ${group}: current Reference source manifest is missing`);
+  const sourceRecords = sourceManifest.records.filter(record => record?.manual === group);
+  const translated = groupRecords(state, group, 'records');
+  const pending = groupRecords(state, group, 'pendingRecords');
+  const excluded = groupRecords(state, group, 'languageExcludedRecords');
+  const stateCount = translated.length + pending.length + excluded.length;
+  if (stateCount === 0) return {status: 'empty', mode: 'full', summary: `${target}/${group}: no historical state; explicit first bootstrap is allowed`};
+  const sourceByPath = new Map(sourceRecords.map(record => [record.sourcePath, record]));
+  const coverage = new Map();
+  const add = (kind, record) => {
+    if (!record || typeof record.sourcePath !== 'string') throw new Error(`Bootstrap state for ${group} contains an invalid ${kind} record`);
+    if (coverage.has(record.sourcePath)) throw new Error(`Bootstrap state for ${group} has duplicate coverage for ${record.sourcePath}`);
+    coverage.set(record.sourcePath, {kind, record});
+  };
+  translated.forEach(record => add('translated', record));
+  pending.forEach(record => add('pending', record));
+  excluded.forEach(record => add('excluded', record));
+  for (const source of sourceRecords) {
+    const entry = coverage.get(source.sourcePath);
+    if (!entry) throw new Error(`Bootstrap state for ${group} is inconsistent: uncovered current source ${source.sourcePath}`);
+    const record = entry.record;
+    const expectedTargetPath = `content/zh-CN/reference/${source.sourcePath.slice('content/en/reference/'.length)}`;
+    if (expectedReferenceManual(source.sourcePath) !== group || record.manual !== group || record.targetPath !== expectedTargetPath) {
+      throw new Error(`Bootstrap state for ${group} is inconsistent: canonical ownership mismatch for ${source.sourcePath}`);
+    }
+    if (record.sourceHash !== source.sourceHash || !SHA256.test(record.sourceHash)) {
+      throw new Error(`Bootstrap state for ${group} is inconsistent: source hash mismatch for ${source.sourcePath}`);
+    }
+    const actualSourceHash = sha256File(repositoryRoot, source.sourcePath);
+    if (!actualSourceHash || actualSourceHash !== source.sourceHash) {
+      throw new Error(`Bootstrap state for ${group} is inconsistent: current source manifest is not materialized for ${source.sourcePath}`);
+    }
+    if (entry.kind === 'translated') {
+      if (!['translated', 'unchanged'].includes(record.status) || !COMMIT_SHA.test(record.sourceCommit || '') || !SHA256.test(record.targetHash || '')) {
+        throw new Error(`Bootstrap state for ${group} is inconsistent: invalid translated record for ${source.sourcePath}`);
+      }
+      const actualTargetHash = sha256File(repositoryRoot, record.targetPath);
+      if (!actualTargetHash || actualTargetHash !== record.targetHash) {
+        throw new Error(`Bootstrap state for ${group} is inconsistent: target hash mismatch for ${source.sourcePath}`);
+      }
+    } else if (entry.kind === 'pending') {
+      if (!COMMIT_SHA.test(record.sourceCommit || '') || sha256File(repositoryRoot, record.targetPath)) {
+        throw new Error(`Bootstrap state for ${group} is inconsistent: pending target is not absent for ${source.sourcePath}`);
+      }
+    } else {
+      if (record.locale !== 'zh-CN' || record.reason !== referenceLanguageExclusionReason(repositoryRoot, source.sourcePath, 'zh-CN') || sha256File(repositoryRoot, record.targetPath)) {
+        throw new Error(`Bootstrap state for ${group} is inconsistent: invalid language exclusion for ${source.sourcePath}`);
+      }
+    }
+  }
+  return {
+    status: 'repaired',
+    mode: 'incremental',
+    pendingCount: pending.length,
+    state: markBootstrapComplete({manifest: state, group}),
+    summary: `${target}/${group}: repaired legacy coverage; incremental mode (${translated.length} translated, ${pending.length} pending)`,
+  };
+}
+
+function resolveBootstrapDecision({requestedMode = 'auto', target, group, state, sourceManifest, repositoryRoot = canonicalRoot()}) {
+  if (!['auto', 'full', 'incremental'].includes(requestedMode)) throw new Error(`Unsupported translation mode: ${requestedMode}`);
+  if (typeof group !== 'string' || group === '') throw new Error('Translation group is required');
+  if (requestedMode === 'full') return {mode: 'full', status: 'explicit_full', summary: `${target}/${group}: explicit full mode requested`};
+  if (target === 'zh-CN-reference' && group === 'rest') throw new Error('Chinese REST is OpenAPI-owned and excluded from generic Translation bootstrap resolution');
+  if (state?.bootstrapCompletedGroups?.includes(group)) return {mode: 'incremental', status: 'marked', summary: `${target}/${group}: bootstrap marker present; incremental mode`};
+  if (requestedMode === 'incremental') throw new Error(`Translation bootstrap is not complete for group ${group}`);
+  return assessLegacyBootstrap({target, group, state, sourceManifest, repositoryRoot});
 }
 
 function markBootstrapComplete({manifest, group}) {
@@ -220,7 +324,20 @@ function main() {
       process.stdout.write(requestedMode === 'auto' ? 'incremental' : requestedMode);
       return;
     }
-    process.stdout.write(resolveTranslationMode({requestedMode, bootstrapCompletedGroups: readState(target).bootstrapCompletedGroups || [], group}));
+    const state = readState(target);
+    const root = canonicalRoot();
+    const sourceManifest = readJsonIfPresent(root, 'generated/en/manifests/reference.json');
+    const decision = resolveBootstrapDecision({requestedMode, target, group, state, sourceManifest, repositoryRoot: root});
+    if (decision.state) writeState(target, decision.state);
+    const summaryFile = args.get('--summary-file');
+    if (summaryFile) {
+      const summaryTarget = path.resolve(root, summaryFile);
+      if (!summaryTarget.startsWith(`${root}${path.sep}`)) throw new Error('Bootstrap summary path escapes its root');
+      fs.mkdirSync(path.dirname(summaryTarget), {recursive: true});
+      const {state: repairedState, ...summaryDecision} = decision;
+      fs.writeFileSync(summaryTarget, `${JSON.stringify({target, group, requestedMode, ...summaryDecision}, null, 2)}\n`);
+    }
+    process.stdout.write(decision.mode);
     return;
   }
   if (operation === 'mark') {
@@ -234,4 +351,4 @@ if (require.main === module) {
   try { main(); } catch (error) { console.error(error.message); process.exitCode = 1; }
 }
 
-module.exports = {markBootstrapComplete, resolveTranslationMode, statePathForTarget};
+module.exports = {assessLegacyBootstrap, markBootstrapComplete, resolveBootstrapDecision, resolveTranslationMode, statePathForTarget};

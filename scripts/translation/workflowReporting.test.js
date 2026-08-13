@@ -70,10 +70,18 @@ test('reusable translation workflow produces and uploads a group-scoped report',
 
 test('translation readiness accepts complete terminal failures but remains conservative for incomplete and bootstrap work', () => {
   const workflow = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
+  const parsed = yaml.load(workflow)
+  const steps = parsed.jobs.translate.steps
+  const validationIndex = steps.findIndex(step => step.name === 'Validate unbatched translated group')
+  const markerIndex = steps.findIndex(step => step.name === 'Mark completed translation bootstrap')
+  const marker = steps[markerIndex]
   assert.match(workflow, /translated_count \+ failed_count == candidate_count/)
   assert.match(workflow, /remaining_count[^\n]*== 0/)
   assert.doesNotMatch(workflow, /\bfailed_count\s*==\s*0[^\n]*status=translation_ready/)
-  assert.match(workflow, /Mark completed translation bootstrap[\s\S]*failed_count \|\| '0'\) == '0'/)
+  assert.ok(validationIndex >= 0 && validationIndex < markerIndex)
+  assert.match(steps[validationIndex].run, /validate-unbatched-translation-outputs\.js/)
+  assert.doesNotMatch(marker.if, /failed_count \|\| '0'\) == '0'/)
+  assert.match(marker.if, /remaining_count \|\| '0'\) == '0'/)
   assert.match(workflow, /Regenerate selected Chinese Reference sidebar[\s\S]*failed_count \|\| '0'\) == '0'/)
 
   assert.equal(runTranslationResultStep().status, 'translation_ready')

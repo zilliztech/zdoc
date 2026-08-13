@@ -164,9 +164,22 @@ jobs:
           REQUESTED_TRANSLATION_MODE: ${{ inputs.mode }}
         run: |
           set -euo pipefail
-          effective_mode=$(node scripts/translation/bootstrap-state.js resolve --target "$TRANSLATION_TARGET" --group "$BOOTSTRAP_GROUP" --mode "$REQUESTED_TRANSLATION_MODE")
+          effective_mode=$(node scripts/translation/bootstrap-state.js resolve --target "$TRANSLATION_TARGET" --group "$BOOTSTRAP_GROUP" --mode "$REQUESTED_TRANSLATION_MODE" --summary-file tmp/bootstrap-decision.json)
           echo "EFFECTIVE_TRANSLATION_MODE=$effective_mode" >> "$GITHUB_ENV"
           echo "effective_mode=$effective_mode" >> "$GITHUB_OUTPUT"
+          node - <<'NODE'
+          const fs = require('node:fs')
+          const decision = JSON.parse(fs.readFileSync('tmp/bootstrap-decision.json', 'utf8'))
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, [
+            `## Translation bootstrap: ${decision.target}/${decision.group}`, '',
+            `- Requested mode: ${decision.requestedMode}`,
+            `- Effective mode: ${decision.mode}`,
+            `- Decision: ${decision.status}`,
+            `- Pending records: ${decision.pendingCount || 0}`,
+            `- Detail: ${decision.summary}`,
+            '',
+          ].join('\n'))
+          NODE
       - name: Build group translation manifest
         id: manifest
         if: ${{ inputs.should_translate }}
@@ -362,7 +375,7 @@ jobs:
             --failed-count "$FAILED_COUNT" \
             --remaining-count "$REMAINING_COUNT"
       - name: Mark completed translation bootstrap
-        if: ${{ inputs.should_translate && inputs.batch_number == 0 && steps.mode.outputs.effective_mode == 'full' && (steps.agents.outputs.failed_count || '0') == '0' && (steps.agents.outputs.remaining_count || '0') == '0' && steps.agents.outcome == 'success' && inputs.target != 'ja-JP' }}
+        if: ${{ inputs.should_translate && inputs.batch_number == 0 && steps.mode.outputs.effective_mode == 'full' && (steps.agents.outputs.remaining_count || '0') == '0' && steps.agents.outcome == 'success' && inputs.target != 'ja-JP' }}
         run: node scripts/translation/bootstrap-state.js mark --target "$TRANSLATION_TARGET" --group "$BOOTSTRAP_GROUP"
       - name: Regenerate selected Chinese Reference sidebar
         if: ${{ inputs.should_translate && inputs.target == 'zh-CN-reference' && inputs.batch_number == 0 && (steps.agents.outputs.failed_count || '0') == '0' && (steps.agents.outputs.remaining_count || '0') == '0' && steps.agents.outcome == 'success' }}

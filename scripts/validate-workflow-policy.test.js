@@ -3689,6 +3689,8 @@ test('translation workers resolve bootstrap mode and validate only their selecte
   assert.match(steps[sourceIdentityIndex].run, /source_checkpoint_sha/)
   assert.match(steps[sourceIdentityIndex].run, /target_baseline_sha/)
   assert.match(steps[materializeIndex].run, /materialize-translation-baseline\.js/)
+  assert.match(steps[resolveIndex].run, /bootstrap-state\.js resolve[\s\S]*--summary-file tmp\/bootstrap-decision\.json/)
+  assert.match(steps[resolveIndex].run, /Requested mode:[\s\S]*Effective mode:[\s\S]*Decision:[\s\S]*Pending records:/)
   assert.match(steps[manifestIndex].run, /--mode "\$EFFECTIVE_TRANSLATION_MODE"/)
   assert.match(steps[validationIndex].run, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
   assert.doesNotMatch(steps[validationIndex].run, /validate-reference|build:en|build:zh-CN|reference-manifest/)
@@ -3696,7 +3698,7 @@ test('translation workers resolve bootstrap mode and validate only their selecte
   assert.ok(markerIndex < regenerateIndex && regenerateIndex < checkpointIndex)
   assert.match(steps[regenerateIndex].run, /reference-sidebar[\s\S]*--group "\$GROUP"[\s\S]*--write/)
   assert.doesNotMatch(steps[regenerateIndex].run, /reference-manifest|validate-reference/)
-  assert.match(steps[markerIndex].if, /steps\.agents\.outputs\.failed_count.*== '0'/)
+  assert.doesNotMatch(steps[markerIndex].if, /steps\.agents\.outputs\.failed_count.*== '0'/)
   assert.match(steps[markerIndex].if, /steps\.agents\.outputs\.remaining_count.*== '0'/)
 })
 
