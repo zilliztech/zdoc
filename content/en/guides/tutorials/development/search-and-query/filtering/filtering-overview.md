@@ -186,8 +186,8 @@ Zilliz Cloud uses Tantivy to support inverted indexing and term-based text searc
 
 For more details, refer to Text Match.
 
-#### `PHRASE_MATCH` operator |\{#phrasematch-operator-or}
+#### `PHRASE_MATCH` operator\{#phrasematch-operator}
 
 The **PHRASE_MATCH** operator enables precise retrieval of documents based on exact phrase matches, considering both the order and adjacency of query terms.
 
-For more details, refer to Phrase Match.
+For more details, refer to [Phrase Match](./phrase-match).
