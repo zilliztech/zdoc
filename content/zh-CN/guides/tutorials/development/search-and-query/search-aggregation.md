@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 搜索聚合不会对整个 Collection 执行精确聚合。桶是否存在、计数、指标、顺序和代表性命中，都取决于 ANN 和分组阶段保留的候选项。
 
-## 工作原理\{#}
+## 工作原理\{#how-it-works}
 
 ![L5Ouw22n6hvAzabeBcuchhtmnLd](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/L5Ouw22n6hvAzabeBcuchhtmnLd.png)
 
@@ -44,7 +44,7 @@ import Admonition from '@theme/Admonition';
 
 使用 `sub_aggregation` 时，Zilliz Cloud 会在每个父桶内重复步骤 2 和 3。ANN 召回率或每个键候选预算的变化，可能改变桶计数、指标、顺序、命中结果和嵌套结果。
 
-## 限制\{#}
+## 限制\{#limits}
 
 使用搜索聚合前，请注意以下限制：
 
@@ -68,15 +68,15 @@ import Admonition from '@theme/Admonition';
 
     最后一个因子使用 `1`（如果任何层级都未配置 `TopHits`）。例如，一个查询向量、10 个根桶、每个根桶 5 个子桶，以及每个子桶 2 个命中结果，计算得到的最大值为 `1 × 10 × 5 × 2 = 100`。
 
-## 使用搜索聚合\{#}
+## 使用搜索聚合\{#use-search-aggregation}
 
 请根据目标选择示例：
 
 | 跳转到 | 说明 | 关键设置 |
 | --- | --- | --- |
-| [比较桶并对桶排序](./search-aggregation) | 计算每个桶的统计信息以比较各桶，然后按指标、计数或键对返回的桶排序。 | `fields`、`size`、`metrics`、`order` |
-| [显示每个桶中的代表性结果](./search-aggregation) | 从每个桶返回有限数量的实体，并按标量字段或向量分数独立排序这些实体。 | `top_hits`、`TopHits.size`、`TopHits.sort` |
-| [对结果进行多级分组](./search-aggregation) | 将结果组织为父桶和子桶层级，以便按顺序分析多个维度。 | `sub_aggregation` |
+| [比较桶并对桶排序](./search-aggregation#compare-and-sort-buckets) | 计算每个桶的统计信息以比较各桶，然后按指标、计数或键对返回的桶排序。 | `fields`、`size`、`metrics`、`order` |
+| [显示每个桶中的代表性结果](./search-aggregation#show-representative-results-from-each-bucket) | 从每个桶返回有限数量的实体，并按标量字段或向量分数独立排序这些实体。 | `top_hits`、`TopHits.size`、`TopHits.sort` |
+| [对结果进行多级分组](./search-aggregation#group-results-at-multiple-levels) | 将结果组织为父桶和子桶层级，以便按顺序分析多个维度。 | `sub_aggregation` |
 
 以下示例使用包含 brand、category、color、price 和 rating 字段的商品 Collection。所有品牌名称、商品名称、价格、评分和搜索结果均为合成示例数据。展开下一部分以创建 Collection 并定义共用的搜索变量。
 
@@ -230,7 +230,7 @@ search_params = {
 
 上述设置同时为向量索引和搜索参数配置 `COSINE`。因此，后续示例使用 `{"_score": "desc"}` 让余弦相似度较高的结果排在前面。对于 `L2` 等距离指标，请使用 `{"_score": "asc"}`。
 
-### 比较桶并排序\{#}
+### 比较桶并排序\{#compare-and-sort-buckets}
 
 当你需要利用计算得出的统计信息比较检索到的实体分组，并控制桶的返回顺序时，可使用此模式。在本例中，Zilliz Cloud 按 `brand` 对检索到的商品分桶，为每个品牌桶计算价格指标，再按平均价格对桶排序。
 
@@ -421,15 +421,15 @@ aggregation = SearchAggregation(
 
 此配置可生成 `(Brand A, black)`、`(Brand A, blue)` 和 `(Brand B, white)` 等键。只有两个实体的两个值都匹配时，它们才属于同一个桶。Zilliz Cloud 保留列表顺序，因此 `brand` 是第一个键分量，`color` 是第二个。`order` 中使用 `_key` 时，Zilliz Cloud 会按相同顺序比较复合键分量。请在一个扁平列表中传入多个字符串；不支持嵌套列表。
 
-`size=6` 是该聚合层级可返回的复合桶最大数量。示例数据包含五种不同的品牌-颜色组合，因此五个桶都可以返回。在[返回条目限制](./search-aggregation)中，此请求贡献 `1 query vector × 6 buckets × 1 = 6` 个配置结果条目。
+`size=6` 是该聚合层级可返回的复合桶最大数量。示例数据包含五种不同的品牌-颜色组合，因此五个桶都可以返回。在[返回条目限制](./search-aggregation#limits)中，此请求贡献 `1 query vector × 6 buckets × 1 = 6` 个配置结果条目。
 
-一个 `SearchAggregation.fields` 列表中的多个字段会在该聚合层级创建复合桶键。要创建父子桶层级，请使用[嵌套聚合](./search-aggregation)。
+一个 `SearchAggregation.fields` 列表中的多个字段会在该聚合层级创建复合桶键。要创建父子桶层级，请使用[嵌套聚合](./search-aggregation#group-results-at-multiple-levels)。
 
 </details>
 
 后续示例会重新定义 `aggregation`。请将更新后的对象传给同一个 `search_aggregation` 参数，然后重新运行搜索调用。
 
-### 显示每个桶中的代表性结果\{#}
+### 显示每个桶中的代表性结果\{#show-representative-results-from-each-bucket}
 
 当应用需要展示每个桶中的实际商品时，请包含代表性实体。在本例中，Zilliz Cloud 从每个品牌桶最多返回两个商品，先按评分排序，再按向量分数排序。
 
@@ -511,7 +511,7 @@ aggregation = SearchAggregation(
 | `TopHits.size` | 从每个选定桶最多返回两个代表性实体，并将整个聚合树中每个键的候选预算设为 2。 |
 | `TopHits.sort` | 使用列出的条件对每个桶内的实体排序。 |
 
-当应用需要代表性实体，或计数和指标需要更宽的每键候选窗口时，请配置 `top_hits`。较大的 `TopHits.size` 会同时增加候选预算和[限制](./search-aggregation)中的最大返回条目计算值。
+当应用需要代表性实体，或计数和指标需要更宽的每键候选窗口时，请配置 `top_hits`。较大的 `TopHits.size` 会同时增加候选预算和[限制](./search-aggregation#limits)中的最大返回条目计算值。
 
 `SearchAggregation.order` 对桶排序，而 `TopHits.sort` 对每个桶内保留的实体排序。排序顺序不会改变哪些候选项被保留用于计算 `count` 和指标。`TopHits.sort` 接受受支持的可比较标量字段名，以及表示 ANN 相似度或距离的内置 `_score` 字段。Zilliz Cloud 会从前到后依次评估 `sort` 条目。在本例中，它按 `rating` 从高到低排列商品，仅在两个评分相同时使用 `_score`。由于设置使用 `COSINE`，按 `_score` 降序会将相似度更高的商品排在前面。
 
@@ -519,7 +519,7 @@ aggregation = SearchAggregation(
 
 每个返回的 `AggregationHit` 都通过 `pk` 提供主键、通过 `score` 提供向量分数，并通过 `fields` 提供请求的输出字段。
 
-### 对结果进行多级分组\{#}
+### 对结果进行多级分组\{#group-results-at-multiple-levels}
 
 当需要在一个桶内再创建一层桶时，请使用嵌套聚合。在本例中，Zilliz Cloud 先创建类别桶，再在每个类别中创建品牌桶。
 
@@ -639,9 +639,9 @@ Zilliz Cloud 首先按 `product_count` 排序，最多选择两个类别桶。�
 
 - 根桶的 `hits` 列表为空，因为根聚合未配置 `top_hits`。Brand B 子桶包含一个代表性命中，因为 `top_hits` 已在 `sub_aggregation` 中配置。
 
-## 常见问题\{#}
+## 常见问题\{#faq}
 
-### 桶计数和指标的准确性如何？\{#}
+### 桶计数和指标的准确性如何？\{##how-accurate-are-bucket-counts-and-metrics}
 
 搜索聚合汇总的是保留的 ANN 候选项，而不是对整个 Collection 执行聚合。
 
@@ -653,7 +653,7 @@ Zilliz Cloud 首先按 `product_count` 排序，最多选择两个类别桶。�
 
 如果需要针对每个匹配实体获得精确统计信息，请使用精确查询聚合工作流，而不是搜索聚合。
 
-### 搜索聚合与分组搜索有何区别？\{#}
+### 搜索聚合与分组搜索有何区别？\{#how-does-search-aggregation-differ-from-grouping-search}
 
 请根据应用主要需要的结果结构进行选择：
 

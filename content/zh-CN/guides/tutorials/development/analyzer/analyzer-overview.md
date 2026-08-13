@@ -37,7 +37,7 @@ import Supademo from '@site/src/components/Supademo';
 
 </Admonition>
 
-## Analyzer 的构成\{#analyzer}
+## Analyzer 的构成\{#anatomy-of-an-analyzer}
 
 Zilliz Cloud 中的 Analyzer 由且仅由**一个分词器**和**零个或多个**过滤器组成。
 
@@ -55,7 +55,7 @@ Zilliz Cloud 中的 Analyzer 由且仅由**一个分词器**和**零个或多个
 
 ![M9uBwhxNthRHjabVCFlchrXMnIf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/M9uBwhxNthRHjabVCFlchrXMnIf.png)
 
-## Analyzer 类型\{#analyzer}
+## Analyzer 类型\{#analyzer-types}
 
 Zilliz Cloud 提供两类 Analyzer，以满足不同的文本处理需求：
 
@@ -71,7 +71,7 @@ Zilliz Cloud 提供两类 Analyzer，以满足不同的文本处理需求：
 
 </Admonition>
 
-### 内置 Analyzer\{#analyzer}
+### 内置 Analyzer\{#built-in-analyzer}
 
 Zilliz Cloud 集群中的内置 Analyzer 已预先配置特定的分词器和过滤器，无需自行定义这些组件即可直接使用。每个内置 Analyzer 都是一个模板，包含预设的分词器和过滤器，并提供可选参数用于自定义。
 
@@ -362,11 +362,11 @@ Zilliz Cloud 提供以下内置 Analyzer，每种 Analyzer 都针对特定的文
 
 - `chinese`：专用于处理中文文本，采用适合中文语言结构的分词方式。
 
-### 自定义 Analyzer\{#analyzer}
+### 自定义 Analyzer\{#custom-analyzer}
 
 对于更高级的文本处理，Zilliz Cloud 中的自定义 Analyzer 允许您同时指定**分词器**和**过滤器**，构建定制的文本处理管道。这种配置非常适合需要精确控制的专用场景。
 
-#### 分词器\{#}
+#### 分词器\{#tokenizer}
 
 **分词器**是自定义 Analyzer 的**必需**组件，它通过将输入文本拆分为独立单元（即 **token**）来启动 Analyzer 管道。根据分词器类型，分词过程会遵循特定规则，例如按空格或标点符号拆分。这样可以更精确、独立地处理每个单词或短语。
 
@@ -437,7 +437,7 @@ nlohmann::json analyzer_params = {
 </TabItem>
 </Tabs>
 
-#### 过滤器\{#}
+#### 过滤器\{#filter}
 
 **过滤器**是**可选**组件，用于按需转换或处理分词器生成的 token。例如，对分词结果 `["Vector", "Database", "Built", "for", "Scale"]` 应用 `lowercase` 过滤器后，结果可能如下：
 
@@ -625,7 +625,7 @@ nlohmann::json analyzer_params = {
     </TabItem>
     </Tabs>
 
-## 使用示例\{#}
+## 使用示例\{#example-use}
 
 在本例中，您将创建一个包含以下字段的 Collection Schema：
 
@@ -639,7 +639,7 @@ nlohmann::json analyzer_params = {
 
 将这些配置添加到 Collection 前，请先使用 `run_analyzer` 方法验证每个 Analyzer。
 
-### 步骤 1：初始化 MilvusClient 并创建 Schema\{#1-milvusclient-schema}
+### 步骤 1：初始化 MilvusClient 并创建 Schema\{#step-1-initialize-milvusclient-and-create-schema}
 
 首先设置 Milvus 客户端并创建一个新的 Schema。
 
@@ -773,9 +773,9 @@ schema->SetEnableDynamicField(false);
 </TabItem>
 </Tabs>
 
-### 步骤 2：定义并验证 Analyzer 配置\{#2-analyzer}
+### 步骤 2：定义并验证 Analyzer 配置\{#step-2-define-and-verify-analyzer-configurations}
 
-1. **配置并验证内置 Analyzer** \（`english`\）**：**
+1. **配置并验证内置 Analyzer** （`english`）**：**
 
     - **配置：**定义内置英语 Analyzer 的参数。
 
@@ -1063,7 +1063,7 @@ schema->SetEnableDynamicField(false);
     </TabItem>
     </Tabs>
 
-### 步骤 3：将 Analyzer 添加到 Schema 字段\{#3-analyzer-schema}
+### 步骤 3：将 Analyzer 添加到 Schema 字段\{#step-3-add-fields-to-the-schema}
 
 验证 Analyzer 配置后，将其添加到 Schema 字段：
 
@@ -1268,7 +1268,7 @@ schema->AddField(milvus::FieldSchema("embedding", milvus::DataType::FLOAT_VECTOR
 </TabItem>
 </Tabs>
 
-### 步骤 4：准备索引参数并创建 Collection\{#4-collection}
+### 步骤 4：准备索引参数并创建 Collection\{#step-4-prepare-index-parameters-and-create-the-collection}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"},{"label":"C++","value":"c++"}]}>
 <TabItem value='python'>
@@ -1387,7 +1387,7 @@ if (!status.IsOk()) {
 </TabItem>
 </Tabs>
 
-## 在 Zilliz Cloud 控制台中使用\{#zilliz-cloud}
+## 在 Zilliz Cloud 控制台中使用\{#use-in-zilliz-cloud-console}
 
 您也可以在 Zilliz Cloud 控制台中执行上述操作。有关详细信息，请播放下面的演示。
 
@@ -1399,7 +1399,7 @@ if (!status.IsOk()) {
 
 </Admonition>
 
-## 后续步骤\{#}
+## 后续步骤\{#whats-next}
 
 配置 Analyzer 时，建议阅读以下最佳实践文章，以确定最适合您使用场景的配置：
 
@@ -1410,4 +1410,6 @@ if (!status.IsOk()) {
 - [Full text search](./full-text-search)
 
 - [Text Match](./text-match)
+
+- [Phrase Match](./phrase-match)
 

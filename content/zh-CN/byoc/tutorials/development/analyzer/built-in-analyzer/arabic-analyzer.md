@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 `arabic` Analyzer 是一款用于处理阿拉伯语文本的内置 Analyzer。当您需要 Zilliz Cloud 对阿拉伯字母变体进行规范化、移除变音符号和 Tatweel 延长符、转换阿拉伯-印度数字、执行阿拉伯语词干提取以及移除阿拉伯语停用词时，可使用此 Analyzer。
 
-## 配置\{#}
+## 配置\{#configuration}
 
 内置 Analyzer 是由 Milvus 提供的 Analyzer 模板。要使用内置 Analyzer，请在 `analyzer_params` 中将 `type` 设置为预定义的 Analyzer 名称。
 
@@ -86,11 +86,11 @@ analyzer_params = {
 
 定义 `analyzer_params` 后，在定义 Collection Schema 时，可以将该 Analyzer 应用于 `VARCHAR` 字段。有关详细信息，请参阅[使用示例](./analyzer-overview)。
 
-## 示例\{#}
+## 示例\{#examples}
 
 将 Analyzer 配置应用于 Collection Schema 前，请使用 `run_analyzer` 方法验证其行为。
 
-### Analyzer 配置\{#analyzer}
+### Analyzer 配置\{#analyzer-configuration}
 
 ```python
 analyzer_params = {
@@ -98,7 +98,7 @@ analyzer_params = {
 }
 ```
 
-### 使用 `run_analyzer` 验证\{#runanalyzer}
+### 使用 `run_analyzer` 验证\{#verification-using-runanalyzer}
 
 ```python
 from pymilvus import MilvusClient
@@ -111,7 +111,7 @@ result = client.run_analyzer(sample_text, analyzer_params)
 print(result)
 ```
 
-### 预期输出\{#}
+### 预期输出\{#expected-output}
 
 ```python
 ['كتاب', 'عرب', '123']

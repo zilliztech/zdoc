@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 `arabic_normalization` 过滤器是用于阿拉伯语文本的内置 token 过滤器。它会规范化阿拉伯语特有的字母变体，并移除可选标记，避免等效的阿拉伯语词项在文本分析时呈现为不同形式。
 
-## 配置\{#}
+## 配置\{#configuration}
 
 <Admonition type="info" icon="📘" title="说明">
 
@@ -53,11 +53,11 @@ analyzer_params = {
 
 该过滤器作用于分词器生成的词元。上述配置特意展示一个自定义 Analyzer 示例，并不包含完整的阿拉伯语处理流水线。
 
-## 示例\{#}
+## 示例\{#examples}
 
 在将 Analyzer 配置应用到 Collection Schema 之前，请使用 `run_analyzer` 方法验证其行为。
 
-### Analyzer 配置\{#analyzer}
+### Analyzer 配置\{#analyzer-configuration}
 
 ```python
 analyzer_params = {
@@ -66,7 +66,7 @@ analyzer_params = {
 }
 ```
 
-### 使用 `run_analyzer` 验证\{#runanalyzer}
+### 使用 `run_analyzer` 验证\{#verification-using-runanalyzer}
 
 ```python
 from pymilvus import MilvusClient
@@ -79,7 +79,7 @@ result = client.run_analyzer(sample_text, analyzer_params)
 print(result)
 ```
 
-### 预期输出\{#}
+### 预期输出\{#expected-output}
 
 ```plaintext
 ['ادم', 'احمد', 'اسلام', 'مدرسه', 'كبري', 'كتاب', 'عربي']

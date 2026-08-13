@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud 提供了一套丰富的基本操作符，可帮助您高效地过滤和查询数据。通过这些操作符，您可以根据标量字段、数字计算、逻辑条件等细化搜索条件。了解如何使用这些操作符对于建立精确查询和最大限度地提高搜索效率至关重要。 | BYOC"
+description: "Zilliz Cloud 提供了丰富的基本操作符，可帮助您高效过滤和查询数据。您可以使用这些操作符，根据标量字段、数值计算、逻辑条件等细化搜索条件。掌握这些操作符的用法，是构建精确查询并提升搜索效率的关键。 | BYOC"
 type: origin
 token: OEw6wSUvXiKQKpkOLIAcYk6unbc
 sidebar_position: 2
@@ -20,11 +20,19 @@ import Admonition from '@theme/Admonition';
 
 # 基本操作符
 
-Zilliz Cloud 提供了一套丰富的基本操作符，可帮助您高效地过滤和查询数据。通过这些操作符，您可以根据标量字段、数字计算、逻辑条件等细化搜索条件。了解如何使用这些操作符对于建立精确查询和最大限度地提高搜索效率至关重要。
+Zilliz Cloud 提供了丰富的基本操作符，可帮助您高效过滤和查询数据。您可以使用这些操作符，根据标量字段、数值计算、逻辑条件等细化搜索条件。掌握这些操作符的用法，是构建精确查询并提升搜索效率的关键。
+
+<Admonition type="info" icon="📘" title="说明">
+
+过滤表达式左侧的值既可以是 Collection 字段名称（例如下文示例中的 `status`、`color` 等），也可以是指定元素索引处的 StructArray 子字段名称，例如 `filter = 'struct[0][subfield] > 10'`。
+
+有关 StructArray 字段中标量过滤的详细信息，请参阅 [StructArray 操作符](./struct-array-filtering)。
+
+</Admonition>
 
 ## 比较操作符\{#comparison-operators}
 
-比较运算符用于根据相等、不等或大小过滤数据。它们适用于数字和文本字段。
+比较操作符用于根据相等、不等或大小关系过滤数据，适用于数值字段和文本字段。
 
 ### 支持的比较操作符\{#supported-comparison-operators}
 
@@ -36,53 +44,53 @@ Zilliz Cloud 提供了一套丰富的基本操作符，可帮助您高效地过�
 
 - `<`（小于）
 
-- `>=`（大于等于）
+- `>=`（大于或等于）
 
-- `<=`（小于等于）
+- `<=`（小于或等于）
 
-### 示例1：使用等于（`==`）操作符过滤\{#example-1-filtering-with-equal-to}
+### 示例 1：使用等于（`==`）操作符过滤\{#example-1-filtering-with-equal-to}
 
-假设有名为 `status` 的字段，需要过滤出 `status` 字段值为 `active` 的所有 Entity，可以使用如下过滤表达式：
+假设有一个名为 `status` 的字段，您需要查找 `status` 为 "active" 的所有实体。可以使用等于操作符 `==`：
 
 ```python
 filter = 'status == "active"'
 ```
 
-### 示例2：使用不等于（`!=`）操作符过滤\{#example-2-filtering-with-not-equal-to}
+### 示例 2：使用不等于（`!=`）操作符过滤\{#example-2-filtering-with-not-equal-to}
 
-如果需要过滤出 `status` 字段值不为 `active` 的所有 Entity，可以使用如下过滤表达式：
+要查找 `status` 不为 "inactive" 的实体：
 
 ```python
 filter = 'status != "inactive"'
 ```
 
-### 示例3：使用大于（`>`）操作符过滤\{#example-3-filtering-with-greater-than-greater}
+### 示例 3：使用大于（`>`）操作符过滤\{#example-3-filtering-with-greater-than-greater}
 
-如果需要过滤出 `age` 字段值大于 `30` 的所有 Entity，可以使用如下过滤表达式：
+要查找 `age` 大于 30 的所有实体：
 
 ```python
 filter = 'age > 30'
 ```
 
-### 示例4：使用小于（`\{#4}
+### 示例 4：使用小于（`<`）操作符过滤\{#example-4-filtering-with-less-than}
 
-如果需要过滤出 `price` 字段小于 `100` 的所有 Entity，可以使用如下过滤表达式：
+要查找 `price` 小于 100 的实体：
 
 ```python
 filter = 'price < 100'
 ```
 
-### 示例5：使用大于等于（`>=`）操作符过滤\{#example-5-filtering-with-greater-than-or-equal-to-greater}
+### 示例 5：使用大于或等于（`>=`）操作符过滤\{#example-5-filtering-with-greater-than-or-equal-to-greater}
 
-如果需要过滤出 `rating` 字段大于等于 `4` 的所有 Entity，可以使用如下过滤表达式：
+要查找 `rating` 大于或等于 4 的所有实体：
 
 ```python
 filter = 'rating >= 4'
 ```
 
-### 示例6：使用小于等于（`\{#6}
+### 示例 6：使用小于或等于（`<=`）操作符过滤\{#example-6-filtering-with-less-than-or-equal-to}
 
-如果需要过滤出 `discount` 字段小于等于 `10%` 的所有 Entity，可以使用如下过滤表达式：
+要查找 `discount` 小于或等于 10% 的实体：
 
 ```python
 filter = 'discount <= 10'
@@ -90,125 +98,158 @@ filter = 'discount <= 10'
 
 ## 范围操作符\{#range-operators}
 
-范围操作符可以根据特定的数值集或数值范围过滤数据。
+范围操作符用于根据一组特定值过滤数据。Zilliz Cloud 支持使用 `IN` 检查值是否属于指定集合。
 
-### 支持的范围操作符\{#supported-range-operators}
-
-- `IN`：用于过滤出某字段的值在指定范围内的所有 Entity。
-
-- `LIKE`：用于过滤出某字段的值匹配指定模式的所有 Entity。
-
-### 示例1：使用 `IN`操作符匹配多个指定值\{#example-1-using-in-to-match-multiple-values}
-
-如果需要过滤出 `color` 字段中包含了 `red`、`green` 或 `blue` 的所有 Entity，可以使用如下表达式：
+要查找 `color` 为 "red"、"green" 或 "blue" 的所有实体：
 
 ```python
 filter = 'color in ["red", "green", "blue"]'
 ```
 
-这对于希望检查某参数值是否在某个指定范围来说十分有用。
+需要检查某个值是否属于值列表时，这种方法非常有用。
 
-### 示例2：使用 `LIKE` 操作符进行模式匹配\{#example-2-using-like-for-pattern-matching}
+## 模式匹配操作符\{#pattern-matching-operators}
 
-对于文本字段来说，可以使用 `LIKE` 操作符对其进行模式匹配。具体来说，您可以检查某个文本字段的值是否在前缀、后缀或中缀等指定位置上包含某个子字符串。在 `LIKE` 操作符中，您可以使用 `%` 作为通配符，用于匹配零个或多个字符。
+模式匹配操作符用于根据通配符模式或正则表达式过滤字符串值。
 
-### 前缀匹配\{#prefix-match-starts-with}
+- `LIKE`：用于匹配字符串值中的简单通配符模式。例如，`name LIKE "Prod%"` 可以匹配以 `Prod` 开头的值。
 
-如果需要进行前缀匹配，可以将 `%` 通配符放在需要匹配的子字符串的后面。如下面的例子所示，如果需要找出 `name` 字段值以 `Prod` 开头的所有 Entity，可以使用如下过滤表达式。
+- `=~`：使用 RE2 正则表达式匹配字符串值。例如，`code =~ "E[0-9]{4}"` 可以匹配包含 `E1001` 等错误代码的值。
+
+- `!~`：排除与 RE2 正则表达式匹配的字符串值，等同于 `NOT (field =~ "pattern")`。
+
+要查找 `name` 以 `Prod` 开头的实体：
 
 ```python
 filter = 'name LIKE "Prod%"'
 ```
 
-This will match any product whose name starts with "Prod", such as "Product A", "Product B", etc.
-
-该过滤表达式将匹配 `name` 字段值为 `ProductA`、`ProductB` 等以 `Prod` 开头的所有 Entity。
-
-### 后缀匹配\{#suffix-match-ends-with}
-
-对于后缀匹配来说，可以将 `%` 通配符放在需要匹配的子字符串的前面。例如，需要找出 `name` 字段以 `XYZ` 结尾的所有 Entity，可以使用如下过滤表达式。
+要查找 `code` 中包含 `E1001` 等错误代码的实体：
 
 ```python
-filter = 'name LIKE "%XYZ"'
+filter = 'code =~ "E[0-9]{4}"'
 ```
 
-该过滤表达式将匹配 `name` 字段值为 `ProductXYZ`、`SampleXYZ` 等以 `XYZ` 结尾的所有 Entity。
-
-### 中缀匹配\{#infix-match-contains}
-
-进行中缀匹配，也就是匹配那些包含指定模式文本的字段值，可以在模式文本前后都加上一个 `%` 通配符。例如，需要找出 `name` 字段包含了 `Pro` 字样的所有 Entity，可以使用如下过滤表达式：
+要排除 `message` 以 `DEBUG` 开头的实体：
 
 ```python
-filter = 'name LIKE "%Pro%"'
+filter = 'message !~ "^DEBUG"'
 ```
 
-该过滤表达式将匹配 `name` 字段值为 `Product`、`ProLine` 或 `SuperPro` 等包含了 `Pro` 字符串的所有 Entity。
+有关如何选择 `LIKE` 或正则表达式，以及支持的字段类型、正则表达式语法、转义规则和性能等详细信息，请参阅[模式匹配](./pattern-match)。Zilliz Cloud 还支持在 `VARCHAR` 字段或 JSON 字符串路径上构建 `NGRAM` 索引，以加速符合条件的模式匹配过滤。有关详细信息，请参阅 [NGRAM](./ngram-index-type)。
 
 ## 算术操作符\{#arithmetic-operators}
 
-您可以使用算术操作符根据涉及数值字段的算术计算式创建过滤条件。
+算术操作符用于根据数值字段的计算结果构建过滤条件。
 
 ### 支持的算术操作符\{#supported-arithmetic-operators}
 
-- `+`（加）
+- `+`（加法）
 
-- `-`（减）
+- `-`（减法）
 
-- `*`（乘）
+- `*`（乘法）
 
-- `/`（除）
+- `/`（除法）
 
-- `%`（余）
+- `%`（取模）
 
-- `**`（幂）
+- `**`（幂运算）
 
-### 示例 1：使用余（`%`）操作符\{#example-5-using-modulus-percent}
+### 示例 1：使用取模（`%`）操作符\{#example-1-using-modulus-percent}
 
-可以使用如下过滤表达式找出 `id` 字段值为偶数的所有 Entity。
+要查找 `id` 为偶数（即能被 2 整除）的实体：
 
 ```python
 filter = 'id % 2 == 0'
 ```
 
-### 示例 2：使用幂（`**`）操作符\{#example-6-using-exponentiation}
+### 示例 2：使用幂运算（`**`）操作符\{#example-2-using-exponentiation}
 
-可以使用如下过滤表达式找出所有 `price` 字段值的平方大于 1000 的所有 Entity。
+要查找 `price` 的平方大于 1000 的实体：
 
 ```python
 filter = 'price ** 2 > 1000'
 ```
 
+## 按位操作符\{#bitwise-operators}
+
+当整数值用于编码权限、功能开关或状态位等多个标志时，按位操作符非常有用。您可以在过滤表达式中使用这些操作符，检查、组合或比较整数值中的各个位。
+
+对于标量字段，按位操作符适用于 `INT8`、`INT16`、`INT32` 和 `INT64` 等整数字段类型。
+
+### 支持的按位操作符\{#supported-bitwise-operators}
+
+| **操作符** | **名称** | **典型用途** |
+| --- | --- | --- |
+| `&` | 按位与 | 检查特定位是否已设置。 |
+| `\|` | 按位或 | 在比较前组合多个位。 |
+| `^` | 按位异或 | 比较两个值之间不同的位。 |
+
+### 示例：按权限位过滤\{#example-filtering-by-permission-bits}
+
+假设有一个名为 `permissions` 的整数字段，其中每一位分别代表一个权限标志：
+
+| **权限标志** | **位值** |
+| --- | --- |
+| `READ` | `1` |
+| `WRITE` | `2` |
+| `SHARE` | `4` |
+| `ADMIN` | `8` |
+
+例如，`permissions = 5` 表示 `READ` 和 `SHARE` 位已设置，因为 `5 = 1 + 4`。
+
+要查找已设置 `SHARE` 位的实体，请使用按位与（`&`）：
+
+```python
+filter = "(permissions & 4) == 4"
+```
+
+要查找设置 `WRITE` 位后得到 `READ + WRITE + SHARE` 权限组合的实体，请使用按位或（`|`）：
+
+```python
+filter = "(permissions | 2) == 7"
+```
+
+要查找权限位与 `READ + WRITE + SHARE` 仅相差 `WRITE` 位的实体，请使用按位异或（`^`）：
+
+```python
+filter = "(permissions ^ 7) == 2"
+```
+
+注意：在比较结果前，始终需要用括号包裹按位运算，例如 `(permissions & 4) == 4`。
+
 ## 逻辑操作符\{#logical-operators}
 
-逻辑操作符通常用来连接多个过滤条件以实现复杂的过滤条件，包括 `AND`、`OR` 和 `NOT`。
+逻辑操作符用于将多个条件组合成更复杂的过滤表达式，包括 `AND`、`OR` 和 `NOT`。
 
-### 支持的逻辑操作符\{#supported-logical-operators}
+### 支持的逻辑操作符\{#logical-operators}
 
-- `AND`：连接多个过滤条件，每个条件都为真时为真。
+- `AND`：组合多个必须全部为真的条件。
 
-- `OR`：连接多个过滤条件，其中一个条件为真时为真。
+- `OR`：组合多个条件，其中至少一个条件必须为真。
 
-- `NOT`：后接一个过滤条件，当该条件为假时为真。
+- `NOT`：对条件取反。
 
-### 示例 1：使用 `AND` 操作符连接多个条件\{#example-1-using-and-to-combine-conditions}
+### 示例 1：使用 `AND` 组合条件\{#example-1-using-and-to-combine-conditions}
 
-可以使用如下过滤表达式找出 `price` 字段值大于 `100` 且 `stock` 字段值大于 `50` 的所有 Entity。
+要查找 `price` 大于 100 且 `stock` 大于 50 的所有产品：
 
 ```python
 filter = 'price > 100 AND stock > 50'
 ```
 
-### 示例 2：使用 `OR` 操作符连接多个条件\{#example-2-using-or-to-combine-conditions}
+### 示例 2：使用 `OR` 组合条件\{#example-2-using-or-to-combine-conditions}
 
-可以使用如下过滤表达式找出 `color` 字段值为 `red` 或 `blue` 的所有 Entity。
+要查找 `color` 为 "red" 或 "blue" 的所有产品：
 
 ```python
 filter = 'color == "red" OR color == "blue"'
 ```
 
-### 示例 3：使用 `NOT` 操作符排除某个条件\{#example-3-using-not-to-exclude-a-condition}
+### 示例 3：使用 `NOT` 排除条件\{#example-3-using-not-to-exclude-a-condition}
 
-可以使用如下过滤表达式找出所有 `color` 字段值不为 `green` 的所有 Entity。
+要查找 `color` 不为 "green" 的所有产品：
 
 ```python
 filter = 'NOT color == "green"'
@@ -216,61 +257,61 @@ filter = 'NOT color == "green"'
 
 ## IS NULL 和 IS NOT NULL 操作符\{#is-null-and-is-not-null-operators}
 
-`IS NULL` 和 `IS NOT NULL` 操作符用来根据某个 Entity 指定字段的取值是否为 `null` （即值为空）进行过滤。
+`IS NULL` 和 `IS NOT NULL` 操作符用于根据字段是否包含 null 值（即缺少数据）进行过滤。
 
-- `IS NULL` 判断 Entity 中指定字段的取值是否为 `null`，即为空或未定义。
+- `IS NULL`：查找指定字段包含 null 值（即值缺失或未定义）的实体。
 
-- `IS NOT NULL` 判断 Entity 中指定字段的取值不为空，即 Entity 在该字段上的值为一个合法的值。
-
-<Admonition type="info" icon="📘" title="说明">
-
-此操作符大小写不敏感。因此，`IS NULL`、`is null`、`IS NOT NULL`、`is not null` 均合法。
-
-</Admonition>
-
-### 普通标量字段中的 Null 值\{#regular-scalar-fields-with-null-values}
-
-Zilliz Cloud 支持针对普通标量字段是否为空进行过滤。这些字段类型包括字段串或数值类型等。
+- `IS NOT NULL`：查找指定字段包含 null 以外的任意值（即字段具有有效定义值）的实体。
 
 <Admonition type="info" icon="📘" title="说明">
 
-在 `VARCHAR` 类型的字段中，Zilliz Cloud 不会将 `""` 识别为 `nulll` 值。
+这些操作符不区分大小写，因此可以使用 `IS NULL` 或 `is null`，也可以使用 `IS NOT NULL` 或 `is not null`。
 
 </Admonition>
 
-如下过滤表达式可以过滤出 `description` 字段为空的 Entity。
+### 包含 Null 值的常规标量字段\{#regular-scalar-fields-with-null-values}
+
+Zilliz Cloud 支持对包含 null 值的常规标量字段（例如字符串或数值字段）进行过滤。
+
+<Admonition type="info" icon="📘" title="说明">
+
+空字符串 `""` 不会被视为 `VARCHAR` 字段的 null 值。
+
+</Admonition>
+
+要检索 `description` 字段为 null 的实体：
 
 ```python
 filter = 'description IS NULL'
 ```
 
-如下过滤表达式可以过滤出 `description` 字段不为空的 Entity。
+要检索 `description` 字段不为 null 的实体：
 
 ```python
 filter = 'description IS NOT NULL'
 ```
 
-如下过滤表达式可以过滤出 `description` 字段为空且 `price` 字段大于 `10` 的 Entity。
+要检索 `description` 字段不为 null 且 `price` 字段大于 10 的实体：
 
 ```python
 filter = 'description IS NOT NULL AND price > 10'
 ```
 
-### JSON 字段中的 Null 值\{#json-fields-with-null-values}
+### 包含 Null 值的 JSON 字段\{#json-fields-with-null-values}
 
-Zilliz Cloud 支持针对 JSON 字段是否为空进行过滤，并将符合如下条件的 JSON 字段判定为 `null`：
+Zilliz Cloud 支持对包含 null 值的 JSON 字段进行过滤。在以下情况下，JSON 字段会被视为 null：
 
-- JSON 字段的值显式定义为 `None`，如 `{"metadata": None}`。
+- 整个 JSON 对象被显式设置为 None（null），例如 `{"metadata": None}`。
 
-- Entity 中未包含该 JSON 字段。
+- Entity 中完全缺少该 JSON 字段。
 
 <Admonition type="info" icon="📘" title="说明">
 
-如果 JSON 字段值中某些元素（例如，某些键值）为 `null`，该字段的值仍为非空。例如，某 Entity 的 JSON 字段的取值为 `\{"metadata": \{"category": None, "price": 99.99}}` 中。虽然 `category` 的值为 `None`，但该 JSON 字段的取值不会被当作 `null`。
+如果 JSON 对象中的部分元素（例如单个键）为 null，该字段仍会被视为非 null。例如，`\{"metadata": \{"category": None, "price": 99.99}}` 不会被视为 null，即使其中的 `category` 键为 null。
 
 </Admonition>
 
-为了更好地演示 Zilliz Cloud 如何处理允许为空的 JSON 字段，我们将使用如下数据结合相关示例进行说明：
+为了进一步说明 Zilliz Cloud 如何处理包含 null 值的 JSON 字段，请考虑以下带有 JSON 字段 `metadata` 的示例数据：
 
 ```python
 data = [
@@ -296,9 +337,9 @@ data = [
 ]
 ```
 
-**示例 1： 获取 metadata 为空的 Entity**
+**示例 1：检索** `metadata` **为 null 的实体**
 
-只有当不存在 `metadata` 字段或该字段显式设置为 `None` 时，才会被认定为 `null`。
+要查找 `metadata` 字段缺失或被显式设置为 None 的实体：
 
 ```python
 filter = 'metadata IS NULL'
@@ -310,7 +351,9 @@ filter = 'metadata IS NULL'
 # ]
 ```
 
-**示例 2：获取 metadata 为非空的 Entity**
+**示例 2：检索** `metadata` **不为 null 的实体**
+
+要查找 `metadata` 字段不为 null 的实体：
 
 ```python
 filter = 'metadata IS NOT NULL'
@@ -322,21 +365,21 @@ filter = 'metadata IS NOT NULL'
 # ]
 ```
 
-### ARRAY 字段中的 Null 值\{#array-fields-with-null-values}
+### 包含 Null 值的 ARRAY 字段\{#array-fields-with-null-values}
 
-Zilliz Cloud 支持针对 ARRAY 字段是否为空进行过滤，并将符合如下条件的 ARRAY 字段判定为 `null`：
+Zilliz Cloud 支持对包含 null 值的 ARRAY 字段进行过滤。在以下情况下，ARRAY 字段会被视为 null：
 
-- ARRAY 字段的值显式定义为 `None`，如 `{"metadata": None}`。
+- 整个 ARRAY 字段被显式设置为 None（null），例如 `"tags": None`。
 
-- Entity 中未包含该 JSON 字段。
+- Entity 中完全缺少该 ARRAY 字段。
 
 <Admonition type="info" icon="📘" title="说明">
 
-由于 ARRAY 字段中各元素的数值类型需要保持一致，因此 ARRAY 字段不支持部分元素值为 `null`。具体可参考[Array 类型](./use-array-fields)。
+ARRAY 字段不能包含部分 null 值，因为 ARRAY 字段中的所有元素必须具有相同的数据类型。有关详细信息，请参阅 [Array 类型](./use-array-fields)。
 
 </Admonition>
 
-为了更好地演示 Zilliz Cloud 如何处理允许为空的 ARRAY 字段，我们将使用如下数据结合相关示例进行说明：
+为了进一步说明 Zilliz Cloud 如何处理包含 null 值的 ARRAY 字段，请考虑以下带有 ARRAY 字段 `tags` 的示例数据：
 
 ```python
 data = [
@@ -360,9 +403,9 @@ data = [
 ]
 ```
 
-**示例 1： 获取 tags 为空的 Entity**
+**示例 1：检索** `tags` **为 null 的实体**
 
-只有当不存在 `tags` 字段或该字段显式设置为 `None` 时，才会被认定为 `null`。
+要检索 `tags` 字段缺失或被显式设置为 `None` 的实体：
 
 ```python
 filter = 'tags IS NULL'
@@ -374,7 +417,9 @@ filter = 'tags IS NULL'
 # ]
 ```
 
-**示例 2：获取 tags 为非空的 Entity**
+**示例 2：检索** `tags` **不为 null 的实体**
+
+要检索 `tags` 字段不为 null 的实体：
 
 ```python
 filter = 'tags IS NOT NULL'
@@ -386,28 +431,29 @@ filter = 'tags IS NOT NULL'
 # ]
 ```
 
-## 在针对 JSON 和 ARRAY 类型的字段进行过滤时使用基本操作符需要注意的问题\{#tips-on-using-basic-operators-with-json-and-array-fields}
+## 在 JSON 和 ARRAY 字段中使用基本操作符的注意事项\{#tips-on-using-basic-operators-with-json-and-array-fields}
 
-Zilliz Cloud 集群中的基本运算符用途广泛，可用于标量字段，但它们也可有效地用于 JSON 和 ARRAY 字段中的键和索引。
+Zilliz Cloud 集群 中的基本操作符用途广泛，不仅适用于标量字段，也可以有效应用于 JSON 和 ARRAY 字段中的键和索引。
 
-假设 `product` 字段中有多个键，其键名分别为 `price`、`model` 和 `tags`，您可以使用这些键名构建过滤条件表达式来实现针对这些键值的过滤。如下示例可以找出 `product` 字段中 `price` 键值大于 `1000` 的所有 Entity。
+例如，如果 `product` 字段包含 `price`、`model` 和 `tags` 等多个键，应始终直接引用目标键：
 
 ```python
 filter = 'product["price"] > 1000'
 ```
 
-您还可以使用如下过滤表达式找出 `history_temperatures` 中第一个记录大于 `30` 的所有 Entity。
+要查找温度记录数组中第一个温度值超过指定数值的记录，可以使用：
 
 ```python
 filter = 'history_temperatures[0] > 30'
 ```
 
-## 小结\{#conclusion}
+## 总结\{#conclusion}
 
-Zilliz Cloud 提供了一系列基本运算符，可让您灵活地过滤和查询数据。通过结合比较、范围、算术和逻辑运算符，您可以创建功能强大的过滤表达式，以缩小搜索结果的范围并高效检索所需数据。
+Zilliz Cloud 提供了多种基本操作符，使您可以灵活地过滤和查询数据。通过组合比较、范围、算术和逻辑操作符，您可以构建功能强大的过滤表达式，缩小搜索结果范围并高效检索所需数据。
 
 ## 常见问题\{#faq}
 
-**过滤条件中（例如 filter='color in ["red", "green", "blue"]'）匹配值列表长度是否有限制？列表过长时我该怎么办？**
+**过滤条件中的匹配值列表是否有长度限制（例如** `filter='color in ["red", "green", "blue"]'`**）？列表过长时应该怎么办？**
 
-Zilliz Cloud 对过滤条件中的匹配值列表没有长度限制。但是过长的列表会大幅影响查询性能。因此，当您的过滤条件中匹配值列表较长或过滤表达式较为复杂且包含众多元素时，推荐使用[过滤表达式模板](./filtering-templating)以提升查询性能。
+Zilliz Cloud 不限制过滤条件中匹配值列表的长度。但是，列表过长会显著影响查询性能。
+如果过滤条件包含很长的匹配值列表，或包含大量元素的复杂表达式，建议使用[过滤表达式模板](./filtering-templating)来提升查询性能。

@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 `thai` 分析器是一款用于处理泰语文本的内置分析器。当您需要 Zilliz Cloud 对泰语文本进行分词、规范化泰文数字、将混合文本中的拉丁字母转换为小写，以及移除泰语停用词时，可使用此分析器。
 
-## 配置\{#}
+## 配置\{#configuration}
 
 内置分析器是由 Milvus 提供的分析器模板。要使用内置分析器，请在 `analyzer_params` 中将 `type` 设置为预定义的分析器名称。
 
@@ -81,11 +81,11 @@ analyzer_params = {
 
 定义 `analyzer_params` 后，您可以在定义 Collection Schema 时，将该分析器应用于 `VARCHAR` 字段。有关详细信息，请参阅[使用示例](./analyzer-overview)。
 
-## 示例\{#}
+## 示例\{#examples}
 
 将分析器配置应用于 Collection Schema 前，请使用 `run_analyzer` 方法验证其行为。
 
-### 分析器配置\{#}
+### Analyzer 配置\{#analyzer-configuration}
 
 ```python
 analyzer_params = {
@@ -93,7 +93,7 @@ analyzer_params = {
 }
 ```
 
-### 使用 `run_analyzer` 验证\{#runanalyzer}
+### 使用 `run_analyzer` 验证\{#verification-using-runanalyzer}
 
 ```python
 from pymilvus import MilvusClient
@@ -106,7 +106,7 @@ result = client.run_analyzer(sample_text, analyzer_params)
 print(result)
 ```
 
-### 预期输出\{#}
+### 预期输出\{#expected-output}
 
 ```plaintext
 ['ฉัน', 'รัก', 'ค้นหา', 'ข้อความ', 'milvus', '123']

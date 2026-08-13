@@ -560,7 +560,7 @@ import Grid from '@site/src/components/Grid';
 
             - [多向量混合搜索](./hybrid-search)
 
-            - [增强的元数据过滤和子串匹配](./basic-filtering-operators#range-operators)
+            - [增强的元数据过滤和子串匹配](./basic-filtering-operators)
 
             - [Grouping Search](./grouping-search)
 

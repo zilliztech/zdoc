@@ -231,7 +231,7 @@ res = client.query(
 )
 ```
 
-您可以[此页面](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html)找到 Elasticsearch 的相关示例。关于如何在 Zilliz Cloud 搜索和查询中使用 `like` 操作符，可以参考[使用 LIKE 操作符](./basic-filtering-operators#example-2-using-like-for-pattern-matching)一节的相关内容。
+您可以[此页面](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html)找到 Elasticsearch 的相关示例。关于如何在 Zilliz Cloud 搜索和查询中使用 `like` 操作符，可以参考[使用 LIKE 操作符](./basic-filtering-operators)一节的相关内容。
 
 ### 范围查询（Range query）\{#range-query}
 
@@ -264,7 +264,7 @@ res = client.query(
 )
 ```
 
-您可在[此页面](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html)找到 Elasticsearch 的相关操作示例。关于如何在 Zilliz Cloud 搜索和查询中使用比较操作符，可以参考[比较操作符](./basic-filtering-operators#comparison-operators)一节的相关内容。
+您可在[此页面](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html)找到 Elasticsearch 的相关操作示例。关于如何在 Zilliz Cloud 搜索和查询中使用比较操作符，可以参考[比较操作符](./basic-filtering-operators)一节的相关内容。
 
 ### 词项查询（Term query）\{#term-query}
 
@@ -296,7 +296,7 @@ res = client.query(
 )
 ```
 
-您可在[此页面](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html)找到 Elasticsearch 的相关操作示例。关于如何在 Zilliz Cloud 搜索和查询中使用比较操作符，可以参考[比较操作符](./basic-filtering-operators#comparison-operators)一节的相关内容。
+您可在[此页面](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html)找到 Elasticsearch 的相关操作示例。关于如何在 Zilliz Cloud 搜索和查询中使用比较操作符，可以参考[比较操作符](./basic-filtering-operators)一节的相关内容。
 
 ### 多词项查询（Terms query）\{#terms-query}
 
@@ -329,7 +329,7 @@ res = client.query(
 )
 ```
 
-您可在[此页面](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html)找到 Elasticsearch 的相关操作示例。关于如何在 Zilliz Cloud 搜索和查询中使用比较操作符，可以参考[范围操作符](./basic-filtering-operators#range-operators)一节的相关内容。
+您可在[此页面](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html)找到 Elasticsearch 的相关操作示例。关于如何在 Zilliz Cloud 搜索和查询中使用比较操作符，可以参考[范围操作符](./basic-filtering-operators)一节的相关内容。
 
 ### 通配符查询（Wildcard query）\{#wildcard-query}
 
@@ -361,7 +361,7 @@ res = client.query(
 )
 ```
 
-您可在[此页面](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html)找到 Elasticsearch 的相关操作示例。关于如何在 Zilliz Cloud 搜索和查询中使用比较操作符，可以参考[范围操作符](./basic-filtering-operators#range-operators)一节的相关内容。
+您可在[此页面](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html)找到 Elasticsearch 的相关操作示例。关于如何在 Zilliz Cloud 搜索和查询中使用比较操作符，可以参考[范围操作符](./basic-filtering-operators)一节的相关内容。
 
 ## 布尔查询（Boolean query）\{#boolean-query}
 

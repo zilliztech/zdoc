@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="说明">
 
-关于过滤表达式语法的更多细节，请参考[基本操作符](./basic-filtering-operators)。
+有关更多 LIKE 关键字或过滤表达式的信息，请参考 [模式匹配](./pattern-match)。
 
 </Admonition>
 

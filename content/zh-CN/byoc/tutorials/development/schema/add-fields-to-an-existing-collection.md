@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-## 限制\{#}
+## 限制\{#limits}
 
 **添加用户自定义字段**
 
@@ -72,19 +72,19 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-## 向现有 Collection 添加字段和 Function\{#collection-function}
+## 向现有 Collection 添加字段和 Function\{#add-fields-and-functions-to-an-existing-collection}
 
 请根据要添加的是用户自定义字段，还是生成向量字段的 Function 来选择工作流：
 
-- [添加用户自定义标量字段](./add-fields-to-an-existing-collection)，适用于需要用于过滤、查询输出或应用逻辑的新 Metadata 的场景。
+- [添加用户自定义标量字段](./add-fields-to-an-existing-collection#add-user-defined-scalar-fields)，适用于需要用于过滤、查询输出或应用逻辑的新 Metadata 的场景。
 
-- [添加用户自定义向量字段](./add-fields-to-an-existing-collection)，适用于应用生成 Embedding，并将向量值写入 Zilliz Cloud 的场景。
+- [添加用户自定义向量字段](./add-fields-to-an-existing-collection#add-user-defined-vector-fields)，适用于应用生成 Embedding，并将向量值写入 Zilliz Cloud 的场景。
 
-- [添加 Function 及其生成的向量字段](./add-fields-to-an-existing-collection#function)，适用于需要由 Zilliz Cloud 根据现有字段生成向量值的场景，例如根据文本生成 BM25 稀疏向量或 MinHash 签名。
+- [添加 Function 及其生成的向量字段](./add-fields-to-an-existing-collection#add-a-function-and-its-generated-vector-field)，适用于需要由 Zilliz Cloud 根据现有字段生成向量值的场景，例如根据文本生成 BM25 稀疏向量或 MinHash 签名。
 
 在这些情况下，字段总数不能超过 Zilliz Cloud 的字段数量限制。详情请参阅 [Zilliz Cloud 限制](./limits#fields)。
 
-### 添加用户自定义标量字段\{#}
+### 添加用户自定义标量字段\{#add-user-defined-scalar-fields}
 
 使用 `add_collection_field()` 向现有 Collection 添加用户自定义标量字段。
 
@@ -143,7 +143,7 @@ client.add_collection_field(
 
 字段添加后，Collection 中原有 Entity 的 `review_status` 返回 `&quot;unreviewed&quot;`。新 Entity 可以设置其他值；如果未提供值，则使用默认值。
 
-### 添加 StructArray 字段\{#structarray}
+### 添加 StructArray 字段\{#add-structarray-fields}
 
 使用 `add_collection_struct_field()` 添加可接收 Struct 数组的 StructArray 字段。添加 StructArray 字段的步骤如下：
 
@@ -184,7 +184,7 @@ client.add_collection_struct_field(
 
 添加 StructArray 字段后，Collection 中原有 Entity 的 `chunks` 及其所有子字段均返回 null。插入新 Entity 时，请确保所有子字段要么均为 null，要么均具有有效值。如果部分子字段设置为 null，而其他子字段具有有效值，插入操作会报错。
 
-### 添加用户自定义向量字段\{#}
+### 添加用户自定义向量字段\{#add-user-defined-vector-fields}
 
 当应用生成 Embedding，并将向量值写入 Zilliz Cloud 时，使用 `add_collection_field()` 添加用户自定义向量字段。
 
@@ -229,7 +229,7 @@ client.create_index(
 
 现有 Entity 的 `embedding_v2` 值为 `NULL`，因此在该字段上搜索时会被跳过。若要让现有 Entity 可通过 `embedding_v2` 搜索，请通过 Upsert 工作流写入非 NULL 向量值。新 Entity 可以在 Insert 时包含 `embedding_v2`。
 
-### 添加 Function 及其生成的向量字段\{#function}
+### 添加 Function 及其生成的向量字段\{#add-a-function-and-its-generated-vector-field}
 
 此 Milvus 3.0 Schema 变更工作流目前仅针对 Zilliz Cloud 按量付费 Cluster 提供文档说明。本页不界定首个受支持的 Cloud 补丁版本，也不说明 Serving Cluster 的可用性。
 
@@ -323,11 +323,11 @@ Bound index:
 
 MinHash Function 及其生成的二进制向量字段支持近似重复检测。MinHash Function 使用 `FunctionType.MINHASH`，并写入新的 `BINARY_VECTOR` 输出字段。配置详情请参阅 [MinHash Function](./minhash-function)。
 
-## 从现有 Collection 中删除字段和 Function\{#collection-function}
+## 从现有 Collection 中删除字段和 Function\{#drop-fields-and-functions-from-an-existing-collection}
 
 当用户自定义字段不再属于 Collection 模型时，可以直接将其删除。若要删除 Function 及其生成的向量字段，请删除该 Function；生成的字段及其索引会在同一次 Schema 变更中一并删除。
 
-### 删除用户自定义字段\{#}
+### 删除用户自定义字段\{#drop-user-defined-fields}
 
 使用 `drop_collection_field()` 删除不再属于 Collection 模型的用户自定义标量字段或向量字段。
 
@@ -337,7 +337,7 @@ MinHash Function 及其生成的二进制向量字段支持近似重复检测。
 
 - 基于已删除字段构建的索引会作为 Schema 更新的一部分被清理。
 
-存储清理与 Schema 清理是分开处理的。详情请参阅[删除字段后何时回收存储空间？](./add-fields-to-an-existing-collection)
+存储清理与 Schema 清理是分开处理的。详情请参阅[删除字段后何时回收存储空间？](./add-fields-to-an-existing-collection#when-is-storage-space-reclaimed-after-dropping-a-field)
 
 **示例：删除用户自定义标量字段**
 
@@ -396,7 +396,7 @@ client.drop_collection_field(
 
 如果 `image_vector` 是 Collection 中的最后一个向量字段，删除操作会被拒绝。
 
-### 删除 Function 及其生成的向量字段\{#function}
+### 删除 Function 及其生成的向量字段\{#drop-a-function-and-its-generated-vector-field}
 
 当不再需要某个 Function 或其生成的向量字段时，请使用此操作，例如删除 BM25 Function 及其生成的稀疏向量字段。
 
@@ -423,9 +423,9 @@ client.drop_function_field(
 
 如果删除 Function 输出字段会导致 Collection 中不再包含任何向量字段，则该操作会被拒绝。
 
-## 常见问题\{#}
+## 常见问题\{#faq}
 
-### 应该使用哪种方法添加字段或 Function？\{#function}
+### 应该使用哪种方法添加字段或 Function？\{#which-method-should-I-use-to-add-a-field-or-function}
 
 当应用提供用于过滤、查询输出或应用逻辑的标量值时，使用 `add_collection_field()` 添加用户自定义标量字段。
 
@@ -433,41 +433,41 @@ client.drop_function_field(
 
 当需要根据现有字段生成向量值时，使用 `add_function_field()`。该方法会在同一次 Schema 变更中添加 Function、其生成的向量字段和绑定的索引定义。本指南展示用于词法搜索的 BM25 路径；MinHash Function 则生成用于近似重复检测的二进制向量字段。
 
-### 为什么新增的用户自定义字段必须可为空？\{#}
+### 为什么新增的用户自定义字段必须可为空？\{#why-must-added-user-defined-fields-be-nullable}
 
 现有 Entity 是在新字段存在之前插入的，因此没有该字段的值。设置 `nullable=True` 后，在应用写入值之前，或者对于标量字段，在默认值生效之前，Zilliz Cloud 可以使用 `NULL` 表示缺失值。
 
 此规则适用于通过 `add_collection_field()` 添加的用户自定义标量字段和用户自定义向量字段，但不适用于 Function 生成的向量字段，因为该字段不能可为空。
 
-### 添加用户自定义字段后，现有 Entity 会发生什么变化？\{#entity}
+### 添加用户自定义字段后，现有 Entity 会发生什么变化？\{#what-happens-to-existing-entities-after-I-add-a-user-defined-field}
 
 对于用户自定义标量字段，除非设置 `default_value`，否则现有 Entity 返回 `NULL`。如果设置了 `default_value`，现有 Entity 会返回该默认值。
 
 对于用户自定义向量字段，现有 Entity 的新向量字段值为 `NULL`。在新增字段上执行向量搜索时，会跳过向量值为 `NULL` 的 Entity。若要让现有 Entity 可通过新向量字段搜索，请通过 Upsert 或回填工作流写入非 NULL 向量值。新 Entity 可以在 Insert 时包含该向量字段。
 
-### 可以向现有 Collection 添加 BM25 Function 及其生成的稀疏向量字段吗？\{#collection-bm25-function}
+### 可以向现有 Collection 添加 BM25 Function 及其生成的稀疏向量字段吗？\{#can-I-add-bm25-lexical-search-to-an-existing-collection}
 
 可以。如果 Collection 已经包含启用了 Analyzer 的 `VARCHAR` 字段，则可以添加 BM25 Function 及其生成的稀疏向量字段，用于词法搜索。该操作会在同一次 Schema 变更中添加 Function、新的 `SPARSE_FLOAT_VECTOR` 输出字段和绑定的索引定义。在此 Schema 变更工作流中，不能使用现有 `TEXT` 字段作为 BM25 输入。若要使用 `TEXT`，请在创建 Collection 时定义该字段和 BM25 Function；否则，请重新创建或迁移 Collection，并在其 Schema 中包含该 Function。
 
 调用 `add_function_field()` 时，请提供一个 `index_params` 对象，其中针对新的输出字段包含一个指标类型为 `metric_type=&quot;BM25&quot;` 的 `SPARSE_INVERTED_INDEX` 索引。该索引定义会作为同一次 Schema 变更的一部分绑定到生成字段。
 
-### 如何删除 Function 及其生成的向量字段？\{#function}
+### 如何删除 Function 及其生成的向量字段？\{#how-do-I-drop-a-function-and-its-generated-vector-field}
 
 使用 Function 名称调用 `drop_function_field()`。该操作会一并删除 Function、其生成的向量字段和关联索引，同时保留 Function 的输入字段。
 
-### 修改 Collection Schema 后需要等待吗？\{#collection-schema}
+### 修改 Collection Schema 后需要等待吗？\{#do-I-need-to-wait-after-altering-a-collection-schema}
 
 通常无需手动等待。如果后续操作依赖更新后的 Schema，可以先调用 `describe_collection()`，确认 Zilliz Cloud 当前返回的 Schema。
 
 在分布式部署中，Zilliz Cloud 各组件刷新 Collection Metadata 时，可能存在短暂的传播窗口。如果 Schema 变更后的操作立即因 Schema 相关错误而失败，请刷新 Schema 并重试该操作。
 
-### 删除字段后何时回收存储空间？\{#}
+### 删除字段后何时回收存储空间？\{#when-is-storage-space-reclaimed-after-dropping-a-field}
 
 删除字段会将其从当前 Schema 以及常规 Query/Search 的可见范围中移除，但对象存储中该字段的历史数据不会立即被物理删除。
 
 之后可通过 Compaction 回收存储空间。Compaction 是一种后台过程，用于将现有数据文件重新组织为更紧凑的新文件。字段删除后，新生成的 Compaction 文件会遵循当前 Schema，并省略已删除字段。Zilliz Cloud 不保证删除字段后会立即回收存储空间，也不保证在固定时间内减少存储占用。
 
-### 如果添加与动态字段键同名的标量字段，会发生什么？\{#}
+### 如果添加与动态字段键同名的标量字段，会发生什么？\{#what-happens-if-I-add-a-scalar-field-with-the-same-name-as-a-dynamic-field-key}
 
 如果启用了动态字段，可以添加与现有动态字段键同名的标量字段。在常规 Query 输出中，新标量字段会遮蔽该动态字段键，但原始动态数据仍保留在 `$meta` 中。
 
