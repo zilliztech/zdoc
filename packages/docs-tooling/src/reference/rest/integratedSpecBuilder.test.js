@@ -1,0 +1,151 @@
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const {buildIntegratedSpec} = require('./integratedSpecBuilder');
+
+const fixture = name => JSON.parse(fs.readFileSync(
+  path.join(__dirname, 'test-fixtures/integrated-spec', name),
+  'utf8',
+));
+
+test('latest policy keeps only the selected zdoc api surface', () => {
+  const latest = buildIntegratedSpec(fixture('canonical.json'), {
+    publicationPolicy: 'latest',
+    target: 'zilliz',
+    language: 'en-US',
+    apiSurface: 'v2',
+  });
+
+  assert.equal(latest.releaseTrack, null);
+  assert.ok(latest.spec.paths['/v2/projects']);
+  assert.equal(latest.spec.paths['/v1/clusters'], undefined);
+});
+
+test('track policy filters fields added after the selected track', () => {
+  const track26 = buildIntegratedSpec(fixture('milvus-2.6.x.json'), {
+    publicationPolicy: 'track',
+    target: 'milvus',
+    language: 'en-US',
+    releaseTrack: '2.6.x',
+  });
+
+  assert.equal(
+    track26.spec.components.schemas.SearchRequest.properties.functionChains,
+    undefined,
+  );
+  assert.deepEqual(
+    track26.spec.components.schemas.SearchRequest.required,
+    ['collectionName'],
+  );
+});
+
+test('latest policy rejects a release track', () => {
+  assert.throws(
+    () => buildIntegratedSpec(fixture('canonical.json'), {
+      publicationPolicy: 'latest',
+      target: 'zilliz',
+      language: 'en-US',
+      apiSurface: 'v2',
+      releaseTrack: '2.6.x',
+    }),
+    /REST_LATEST_POLICY_REJECTS_TRACK/,
+  );
+});
+
+test('track policy requires a release track and rejects an api surface', () => {
+  assert.throws(
+    () => buildIntegratedSpec(fixture('milvus-2.6.x.json'), {
+      publicationPolicy: 'track',
+      target: 'milvus',
+      language: 'en-US',
+    }),
+    /REST_TRACK_POLICY_REQUIRES_TRACK/,
+  );
+
+  assert.throws(
+    () => buildIntegratedSpec(fixture('milvus-2.6.x.json'), {
+      publicationPolicy: 'track',
+      target: 'milvus',
+      language: 'en-US',
+      releaseTrack: '2.6.x',
+      apiSurface: 'v2',
+    }),
+    /REST_TRACK_POLICY_REJECTS_API_SURFACE/,
+  );
+});
+
+test('latest policy requires an api surface', () => {
+  assert.throws(
+    () => buildIntegratedSpec(fixture('canonical.json'), {
+      publicationPolicy: 'latest',
+      target: 'zilliz',
+      language: 'en-US',
+    }),
+    /REST_LATEST_POLICY_REQUIRES_API_SURFACE/,
+  );
+});
+
+test('applies zh-CN localization before stripping x-i18n', () => {
+  const localized = buildIntegratedSpec(fixture('milvus-3.0.x.json'), {
+    publicationPolicy: 'track',
+    target: 'milvus',
+    language: 'zh-CN',
+    releaseTrack: '3.0.x',
+  });
+
+  assert.equal(localized.spec.paths['/v2/vectordb/entities/search'].post.summary, 'Search');
+  assert.equal(
+    localized.spec.components.schemas.SearchRequest.properties.collectionName['x-i18n'],
+    undefined,
+  );
+});
+
+test('english output strips internal x-* authoring metadata but keeps deprecated', () => {
+  const spec = fixture('milvus-3.0.x.json');
+  spec.paths['/v2/vectordb/entities/search'].post['x-deprecated-since'] = '3.0.x';
+  spec.paths['/v2/vectordb/entities/search'].post.deprecated = false;
+  spec.components.schemas.SearchRequest.properties.functionChains['x-last-modified'] = '3.0.x';
+
+  const built = buildIntegratedSpec(spec, {
+    publicationPolicy: 'track',
+    target: 'milvus',
+    language: 'en-US',
+    releaseTrack: '3.0.x',
+  });
+
+  assert.equal(built.spec.paths['/v2/vectordb/entities/search'].post.deprecated, true);
+  assert.equal(built.spec.paths['/v2/vectordb/entities/search'].post['x-added-at'], undefined);
+  assert.equal(
+    built.spec.components.schemas.SearchRequest.properties.functionChains['x-added-at'],
+    undefined,
+  );
+});
+
+test('target and language filters prune operations, properties, and examples', () => {
+  const spec = fixture('canonical.json');
+  spec.paths['/v2/projects'].post.parameters.push({
+    name: 'hidden',
+    in: 'query',
+    schema: {type: 'string'},
+    'x-include-target': ['milvus'],
+  });
+  spec.components.schemas.Project.properties.internalNote = {
+    type: 'string',
+    'x-include-target': ['milvus'],
+  };
+
+  const built = buildIntegratedSpec(spec, {
+    publicationPolicy: 'latest',
+    target: 'zilliz',
+    language: 'en-US',
+    apiSurface: 'v2',
+  });
+
+  assert.equal(
+    built.spec.paths['/v2/projects'].post.parameters.some(param => param.name === 'hidden'),
+    false,
+  );
+  assert.equal(built.spec.components.schemas.Project.properties.internalNote, undefined);
+  assert.equal(built.spec.components.schemas.Unused, undefined);
+});
