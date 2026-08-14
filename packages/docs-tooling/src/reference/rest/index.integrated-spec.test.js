@@ -26,13 +26,18 @@ function collection(specPath, apiSurface, releaseTrack) {
   const bytes = Buffer.from(`${JSON.stringify(spec, null, 2)}\n`);
   fs.writeFileSync(path.join(dir, filename), bytes);
   const digest = value => `sha256:${crypto.createHash('sha256').update(value).digest('hex')}`;
+  const httpMethods = new Set(['get', 'put', 'post', 'delete', 'patch', 'options', 'head', 'trace']);
+  const operationCount = Object.values(spec.paths || {}).reduce(
+    (count, pathItem) => count + Object.keys(pathItem || {}).filter(method => httpMethods.has(method.toLowerCase())).length,
+    0,
+  );
   const manifest = {
     schemaVersion: '1.0', collectionId: `${apiSurface}-fixture`, apiSurface,
     ...(releaseTrack ? {releaseTrack} : {}),
     source: {repository: apiSurface === 'control-plane' ? 'zilliz-cloud' : 'milvus', revision: 'a'.repeat(40)},
     generator: {repository: 'feishu-markdown-bridge', revision: 'b'.repeat(40), configDigest: `sha256:${'1'.repeat(64)}`},
     review: {manifestDigest: `sha256:${'2'.repeat(64)}`, approvalDigest: `sha256:${'3'.repeat(64)}`},
-    services: [{id: serviceId, fragment: filename, sha256: digest(bytes), operationCount: 1}],
+    services: [{id: serviceId, fragment: filename, sha256: digest(bytes), operationCount}],
   };
   fs.writeFileSync(path.join(dir, 'collection-manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
   return dir;
