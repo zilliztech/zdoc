@@ -104,7 +104,7 @@ Database 准备就绪后，您可以在其中创建 External Collection。Extern
 
 与需要将原始数据导入 Collection 的 Managed Collection 不同，External Collection 通过亚秒级的 Refresh 操作从原始数据生成元数据。
 
-以下示例演示了如何建立 Collection 字段与数据文件之间的映射关系。初始化 Schema 时，请传入数据的 Volume 路径和文件格式。
+以下示例演示了如何建立 Collection 字段与数据文件之间的映射关系。创建 Schema 时，请指定数据所在的 Volume 路径和数据格式。本快速入门使用 Iceberg 表作为示例。有关支持的数据源和格式的完整列表，请参阅[支持的数据源和格式](./create-external-collection#support-data-sources)。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
