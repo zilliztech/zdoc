@@ -51,7 +51,10 @@
                       "zh-CN": {
                         "description": "要创建的新 Database 的名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "properties": {
                     "type": "object",
@@ -69,7 +72,10 @@
                           "zh-CN": {
                             "description": "新 Database 的副本数量。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.resource_groups": {
                         "type": "string",
@@ -78,7 +84,10 @@
                           "zh-CN": {
                             "description": "与新 Database 关联的资源组名称，以逗号分隔的列表形式提供。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.diskQuota.mb": {
                         "type": "integer",
@@ -87,7 +96,10 @@
                           "zh-CN": {
                             "description": "新 Database 的磁盘空间最大容量，以兆字节 (MB) 为单位。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.max.collections": {
                         "type": "integer",
@@ -96,7 +108,10 @@
                           "zh-CN": {
                             "description": "新 Database 中允许的最大 Collection 数量。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.writing": {
                         "type": "boolean",
@@ -105,7 +120,10 @@
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝写入操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.reading": {
                         "type": "boolean",
@@ -114,7 +132,10 @@
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝读取操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.ddl": {
                         "type": "boolean",
@@ -123,7 +144,10 @@
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝所有 DDL 操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.collectionDDL": {
                         "type": "boolean",
@@ -132,7 +156,10 @@
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝 Collection DDL 操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.partitionDDL": {
                         "type": "boolean",
@@ -141,7 +168,10 @@
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝 Partition DDL 操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.index": {
                         "type": "boolean",
@@ -150,7 +180,10 @@
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝 Index DDL 操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.flush": {
                         "type": "boolean",
@@ -159,7 +192,10 @@
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝 Flush DDL 操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.compaction": {
                         "type": "boolean",
@@ -168,7 +204,10 @@
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝 Compaction DDL 操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "timezone": {
                         "type": "string",
@@ -177,7 +216,10 @@
                           "zh-CN": {
                             "description": "新 Database 的 IANA 时区 ID。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "cipher.enabled": {
                         "type": "string",
@@ -186,7 +228,10 @@
                           "zh-CN": {
                             "description": "是否为新 Database 启用 CMEK 加密。可选值为 \"true\" 或 \"false\"。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "cipher.key": {
                         "type": "string",
@@ -195,14 +240,23 @@
                           "zh-CN": {
                             "description": "新 Database 的 CMEK 加密根密钥。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "dbName"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "dbName": "my_database",
@@ -211,7 +265,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -236,7 +293,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -246,9 +306,15 @@
                               "description": "响应载荷，为空对象。"
                             }
                           },
-                          "properties": {}
+                          "properties": {},
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -267,7 +333,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -276,11 +345,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -301,9 +379,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/databases/list": {
@@ -333,11 +417,17 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {}
+                "properties": {},
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {}
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -362,21 +452,33 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "array",
                           "items": {
-                            "type": "string"
+                            "type": "string",
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           },
                           "description": "A list of database names.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "Database 名称列表。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -395,7 +497,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -404,11 +509,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -432,9 +546,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/databases/describe": {
@@ -472,18 +592,27 @@
                       "zh-CN": {
                         "description": "要创建的新 Database 的名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "dbName"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "dbName": "my_database"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -508,7 +637,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -526,7 +658,10 @@
                                 "zh-CN": {
                                   "description": "Database 名称。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "dbID": {
                               "type": "integer",
@@ -535,7 +670,10 @@
                                 "zh-CN": {
                                   "description": "Database ID。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "properties": {
                               "type": "array",
@@ -578,7 +716,10 @@
                                       "timezone",
                                       "cipher.enabled",
                                       "cipher.key"
-                                    ]
+                                    ],
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "value": {
                                     "type": "string",
@@ -587,14 +728,29 @@
                                       "zh-CN": {
                                         "description": "属性值。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   }
-                                }
-                              }
+                                },
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -613,7 +769,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -622,11 +781,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -657,15 +825,20 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/databases/alter": {
       "post": {
         "summary": "Alter Database Properties",
-        "operationId": "alterDatabaseProperties",
         "deprecated": false,
         "description": "This operation alters the properties of the specified database.",
         "x-i18n": {
@@ -698,7 +871,10 @@
                       "zh-CN": {
                         "description": "要创建的新 Database 的名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "properties": {
                     "type": "object",
@@ -716,7 +892,10 @@
                           "zh-CN": {
                             "description": "指定 Database 的副本数量。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.resource_groups": {
                         "type": "string",
@@ -725,7 +904,10 @@
                           "zh-CN": {
                             "description": "与指定 Database 关联的资源组名称，以逗号分隔的列表形式提供。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.diskQuota.mb": {
                         "type": "integer",
@@ -734,7 +916,10 @@
                           "zh-CN": {
                             "description": "指定 Database 的磁盘空间最大容量，以兆字节 (MB) 为单位。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.max.collections": {
                         "type": "integer",
@@ -743,7 +928,10 @@
                           "zh-CN": {
                             "description": "指定 Database 中允许的最大 Collection 数量。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.writing": {
                         "type": "boolean",
@@ -752,7 +940,10 @@
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝写入操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.reading": {
                         "type": "boolean",
@@ -761,7 +952,10 @@
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝读取操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.ddl": {
                         "type": "boolean",
@@ -770,7 +964,10 @@
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝所有 DDL 操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.collectionDDL": {
                         "type": "boolean",
@@ -779,7 +976,10 @@
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝 Collection DDL 操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.partitionDDL": {
                         "type": "boolean",
@@ -788,7 +988,10 @@
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝 Partition DDL 操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.index": {
                         "type": "boolean",
@@ -797,7 +1000,10 @@
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝 Index DDL 操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.flush": {
                         "type": "boolean",
@@ -806,7 +1012,10 @@
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝 Flush DDL 操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "database.force.deny.compaction": {
                         "type": "boolean",
@@ -815,7 +1024,10 @@
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝 Compaction DDL 操作。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "timezone": {
                         "type": "string",
@@ -824,7 +1036,10 @@
                           "zh-CN": {
                             "description": "指定 Database 的 IANA 时区 ID。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "cipher.enabled": {
                         "type": "string",
@@ -833,7 +1048,10 @@
                           "zh-CN": {
                             "description": "是否为指定 Database 启用 CMEK 加密。可选值为 \"true\" 或 \"false\"。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "cipher.key": {
                         "type": "string",
@@ -842,15 +1060,24 @@
                           "zh-CN": {
                             "description": "指定 Database 的 CMEK 加密根密钥。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "dbName",
                   "properties"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "dbName": "my_database",
@@ -859,7 +1086,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -884,7 +1114,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -893,9 +1126,15 @@
                             "zh-CN": {
                               "description": "空响应。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -914,7 +1153,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -923,11 +1165,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -948,9 +1199,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null,
+        "operationId": "alterDatabaseProperties"
       }
     },
     "/v2/vectordb/databases/drop_properties": {
@@ -988,7 +1246,10 @@
                       "zh-CN": {
                         "description": "要创建的新 Database 的名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "propertyKeys": {
                     "type": "array",
@@ -1019,14 +1280,23 @@
                         "database.force.deny.index",
                         "database.force.deny.flush",
                         "database.force.deny.compaction"
-                      ]
-                    }
+                      ],
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "dbName",
                   "propertyKeys"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "dbName": "my_database",
@@ -1035,7 +1305,10 @@
                 ]
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1060,7 +1333,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -1069,9 +1345,15 @@
                             "zh-CN": {
                               "description": "空响应。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -1090,7 +1372,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -1099,11 +1384,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1124,9 +1418,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/databases/drop": {
@@ -1164,18 +1464,27 @@
                       "zh-CN": {
                         "description": "要创建的新 Database 的名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "dbName"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "dbName": "my_database"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1200,7 +1509,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -1209,9 +1521,15 @@
                             "zh-CN": {
                               "description": "空响应。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -1230,7 +1548,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -1239,11 +1560,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1264,15 +1594,20 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/databases/alter_properties": {
       "post": {
         "summary": "Alter Database Properties (Compatibility Alias)",
-        "operationId": "alterDatabasePropertiesCompatibilityAlias",
         "deprecated": false,
         "description": "This compatibility alias alters the properties of a database. It uses the same server handler as `/v2/vectordb/databases/alter`.",
         "x-i18n": {
@@ -1305,7 +1640,10 @@
                       "zh-CN": {
                         "description": "待修改的数据库名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "properties": {
                     "type": "object",
@@ -1314,12 +1652,18 @@
                       "zh-CN": {
                         "description": "以键值对形式设置的数据库属性。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "dbName"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "dbName": "my_database",
@@ -1328,7 +1672,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1343,7 +1690,10 @@
                     {
                       "$ref": "#/components/schemas/ErrorResponse"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1364,9 +1714,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null,
+        "operationId": "alterDatabasePropertiesCompatibilityAlias"
       }
     }
   },
@@ -1428,7 +1785,10 @@
               "zh-CN": {
                 "description": "响应码。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "message": {
             "type": "string",
@@ -1437,9 +1797,15 @@
               "zh-CN": {
                 "description": "错误描述。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "EmptyResponse": {
         "x-tab-label": "success",
@@ -1452,13 +1818,22 @@
               "zh-CN": {
                 "description": "响应码。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "data": {
             "type": "object",
-            "properties": {}
+            "properties": {},
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "parameters": {
@@ -1469,13 +1844,19 @@
         "required": true,
         "example": "Bearer {{TOKEN}}",
         "schema": {
-          "type": "string"
+          "type": "string",
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "x-i18n": {
           "zh-CN": {
             "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。如果您使用的是项目端点，则仅具备足够权限的有效 API 密钥适用。"
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     }
   },

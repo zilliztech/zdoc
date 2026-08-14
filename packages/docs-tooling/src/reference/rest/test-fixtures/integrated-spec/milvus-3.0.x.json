@@ -17,10 +17,18 @@
             "x-added-at": "2.6.x",
             "x-last-modified": "2.6.x",
             "x-deprecated-since": null,
-            "schema": { "type": "integer" }
+            "schema": {
+              "type": "integer",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
+            }
           }
         ],
         "requestBody": {
+          "x-added-at": "2.6.x",
+          "x-last-modified": "3.0.x",
+          "x-deprecated-since": null,
           "content": {
             "application/json": {
               "schema": { "$ref": "#/components/schemas/SearchRequest" }
@@ -29,6 +37,9 @@
         },
         "responses": {
           "200": {
+            "x-added-at": "2.6.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null,
             "description": "ok",
             "content": {
               "application/json": {
@@ -57,7 +68,12 @@
           },
           "functionChains": {
             "type": "array",
-            "items": { "type": "object" },
+            "items": {
+              "type": "object",
+              "x-added-at": "3.0.x",
+              "x-last-modified": "3.0.x",
+              "x-deprecated-since": null
+            },
             "x-added-at": "3.0.x",
             "x-last-modified": "3.0.x",
             "x-deprecated-since": null

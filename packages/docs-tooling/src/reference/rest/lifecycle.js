@@ -89,6 +89,29 @@ function validateLifecycle(node, jsonPointer, options = {}) {
   return {addedAt, lastModified, deprecatedSince};
 }
 
+function validateLifecycleTransition(previousNode, nextNode, targetTrack, jsonPointer, options = {}) {
+  const previous = validateLifecycle(previousNode, jsonPointer, {required: true});
+  const next = validateLifecycle(nextNode, jsonPointer, {required: true});
+  const target = normalizeReleaseTrack(targetTrack);
+
+  if (previous.addedAt !== next.addedAt) {
+    throw lifecycleError('REST_LIFECYCLE_ADDED_AT_REWRITE', jsonPointer, `"x-added-at" must remain ${previous.addedAt}`);
+  }
+  if (compareReleaseTracks(next.lastModified, previous.lastModified) < 0) {
+    throw lifecycleError('REST_LIFECYCLE_LAST_MODIFIED_REGRESSION', jsonPointer, `"x-last-modified" moved backward from ${previous.lastModified} to ${next.lastModified}`);
+  }
+  if (compareReleaseTracks(next.lastModified, target) > 0) {
+    throw lifecycleError('REST_LIFECYCLE_FUTURE_MODIFICATION', jsonPointer, `"x-last-modified" ${next.lastModified} is after ${target}`);
+  }
+  if (previous.deprecatedSince !== null && previous.deprecatedSince !== next.deprecatedSince) {
+    throw lifecycleError('REST_LIFECYCLE_DEPRECATION_REWRITE', jsonPointer, `"x-deprecated-since" must remain ${previous.deprecatedSince}`);
+  }
+  if (options.publicContractChanged === false && previous.lastModified !== next.lastModified) {
+    throw lifecycleError('REST_LIFECYCLE_METADATA_ONLY_ADVANCE', jsonPointer, 'description, translation, example, or formatting-only changes must not advance "x-last-modified"');
+  }
+  return next;
+}
+
 function applyLifecycleForTrack(node, releaseTrack, jsonPointer = '$', options = {}) {
   const targetTrack = normalizeReleaseTrack(releaseTrack);
   const stats = {omittedElements: 0, deprecatedElements: 0};
@@ -175,5 +198,6 @@ function applyLifecycleForTrack(node, releaseTrack, jsonPointer = '$', options =
 
 module.exports = {
   validateLifecycle,
+  validateLifecycleTransition,
   applyLifecycleForTrack,
 };
