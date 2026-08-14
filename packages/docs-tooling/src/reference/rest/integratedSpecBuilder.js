@@ -92,6 +92,7 @@ function filterSelection(value, options, stats, pointer = '$') {
   const omittedByFilter = new Set();
   for (const [key, child] of Object.entries(value)) {
     if (key === 'properties' && child && typeof child === 'object' && !Array.isArray(child)) {
+      result.properties = {};
       for (const [propertyName, propertySchema] of Object.entries(child)) {
         const propertyResult = filterSelection(propertySchema, options, stats, pointerFor(pointerFor(pointer, key), propertyName));
         if (propertyResult === FILTER_OMIT) {
@@ -108,15 +109,8 @@ function filterSelection(value, options, stats, pointer = '$') {
     if (childResult !== FILTER_OMIT) result[key] = childResult;
   }
 
-  if (Array.isArray(result.required)) {
-    if (!result.properties || typeof result.properties !== 'object' || Array.isArray(result.properties)) {
-      throw new Error(`REST_TARGET_FILTER_REQUIRED_UNRESOLVED ${pointer}: "required" must reference a retained schema "properties" object`);
-    }
+  if (Array.isArray(result.required) && result.properties && typeof result.properties === 'object' && !Array.isArray(result.properties)) {
     const retainedProperties = new Set(Object.keys(result.properties));
-    const unresolved = result.required.filter(name => !retainedProperties.has(name) && !omittedByFilter.has(name));
-    if (unresolved.length > 0) {
-      throw new Error(`REST_TARGET_FILTER_REQUIRED_UNRESOLVED ${pointer}: required field ${unresolved.map(name => JSON.stringify(name)).join(', ')} has no retained property`);
-    }
     result.required = result.required.filter(name => retainedProperties.has(name));
   }
 

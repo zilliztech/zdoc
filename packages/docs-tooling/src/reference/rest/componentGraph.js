@@ -42,10 +42,17 @@ function collectReachableRefs(spec) {
   const reachable = new Set();
   const queued = new Set();
 
+  function normalizeComponentRef(ref) {
+    const parts = ref.substring(REF_PREFIX.length).split('/');
+    if (parts.length < 2) return ref;
+    return `${REF_PREFIX}${parts[0]}/${parts[1]}`;
+  }
+
   function enqueue(ref) {
-    if (!queued.has(ref)) {
-      queued.add(ref);
-      reachable.add(ref);
+    const componentRef = normalizeComponentRef(ref);
+    if (!queued.has(componentRef)) {
+      queued.add(componentRef);
+      reachable.add(componentRef);
     }
   }
 

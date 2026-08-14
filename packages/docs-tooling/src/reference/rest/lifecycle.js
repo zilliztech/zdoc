@@ -126,6 +126,7 @@ function applyLifecycleForTrack(node, releaseTrack, jsonPointer = '$', options =
     const omittedByLifecycle = new Set();
     for (const [key, child] of Object.entries(value)) {
       if (key === 'properties' && child && typeof child === 'object' && !Array.isArray(child)) {
+        result.properties = {};
         for (const [propertyName, propertySchema] of Object.entries(child)) {
           const propertyResult = walk(propertySchema, pointerFor(pointerFor(pointer, key), propertyName));
           if (propertyResult === OMIT) {
@@ -147,14 +148,7 @@ function applyLifecycleForTrack(node, releaseTrack, jsonPointer = '$', options =
       stats.deprecatedElements++;
     }
 
-    if (Array.isArray(result.required)) {
-      if (!result.properties || typeof result.properties !== 'object' || Array.isArray(result.properties)) {
-        throw lifecycleError(
-          'REST_LIFECYCLE_REQUIRED_UNRESOLVED',
-          pointer,
-          '"required" must reference a retained schema "properties" object',
-        );
-      }
+    if (Array.isArray(result.required) && result.properties && typeof result.properties === 'object' && !Array.isArray(result.properties)) {
 
       const retainedProperties = new Set(Object.keys(result.properties));
       const unresolved = result.required.filter(name => !retainedProperties.has(name) && !omittedByLifecycle.has(name));
