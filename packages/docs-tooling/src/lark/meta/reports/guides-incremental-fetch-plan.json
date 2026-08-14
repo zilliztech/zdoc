@@ -1,171 +1,17 @@
 {
-  "generated_at": "2026-08-14T03:07:59.516Z",
+  "generated_at": "2026-08-14T10:33:43.995Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "recvlPmHUapDaN",
-      "table_id": "tbl9BeCMjBmalJVb",
-      "table_name": "Get Started",
-      "title": "Quickstart to External Data Lake Search",
-      "labels": "Quickstart to External Data Lake Search",
-      "slug": "quick-start-to-external-data-lake-search",
-      "doc_token": "KdwFwQnDNisT4skHH6Hc16uInji",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/KdwFwQnDNisT4skHH6Hc16uInji",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvocTcHJKW8p",
-      "table_id": "tbl9BeCMjBmalJVb",
-      "table_name": "Get Started",
-      "title": "August 2025 Release Notes",
-      "labels": "August, 2025",
-      "slug": "release-notes-2508",
-      "doc_token": "JNWZwEqkwiDmeSkVPBlc4hnanEe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/JNWZwEqkwiDmeSkVPBlc4hnanEe",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvocTcHJUu0F",
-      "table_id": "tbl9BeCMjBmalJVb",
-      "table_name": "Get Started",
-      "title": "Release Notes (April 24, 2025)",
-      "labels": "April 24, 2025",
-      "slug": "release-notes-2150",
-      "doc_token": "JPNiwF6rPiNe0pkx460cr321nTc",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/JPNiwF6rPiNe0pkx460cr321nTc",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvqUTMkZiY2l",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Search Aggregation",
-      "labels": "",
-      "slug": "search-aggregation",
-      "doc_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/Fighwx5zFiwaoIkV4q5cAJ1enDg",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvlW22dFcBHg",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Marketplace Subscription",
-      "labels": "",
-      "slug": "marketplace-subscription",
-      "doc_token": "OFjswbvuoit64pk5eGqc9Yx3nGg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/OFjswbvuoit64pk5eGqc9Yx3nGg",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "Fighwx5zFiwaoIkV4q5cAJ1enDg",
-    "JNWZwEqkwiDmeSkVPBlc4hnanEe",
-    "JPNiwF6rPiNe0pkx460cr321nTc",
-    "KdwFwQnDNisT4skHH6Hc16uInji",
-    "OFjswbvuoit64pk5eGqc9Yx3nGg"
-  ],
-  "expanded_tokens": [
-    "Fighwx5zFiwaoIkV4q5cAJ1enDg",
-    "INoRwFTjfiindPkaNlwc9XAgnkh",
-    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ",
-    "JNWZwEqkwiDmeSkVPBlc4hnanEe",
-    "JPNiwF6rPiNe0pkx460cr321nTc",
-    "JYXswRlj9i5KE5kJ2U0cdaM5nBh",
-    "JaLdw76LPiX003kLpKHcA0n8n2d",
-    "KdwFwQnDNisT4skHH6Hc16uInji",
-    "LMfdwRwKIiJtywkwbHVcGnOFnRf",
-    "M5dXwsGOOiPdAjkWLZUc2Pxonuh",
-    "MBVVww2Zii8k6Bk77GJcXbZJnpf",
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
-    "NRF1wGr3AiWWC1kVfWucZD6Xneb",
-    "OFjswbvuoit64pk5eGqc9Yx3nGg",
-    "PAViwMSb3iVMzuk56z3c1zfRnwh",
-    "SXBNw91txiJhL6kq2ARcvYbRntg",
-    "TVnkwXupUiX3zDkzYPWcxKP3nvg",
-    "VpBXd70zuoEq2Cx7KIJcJz7Zn7c",
-    "X6nAwrgYAiJ3Lzku8mBczdbXnuo"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "KdwFwQnDNisT4skHH6Hc16uInji": [
-      "wiki node edit time changed"
-    ],
-    "JNWZwEqkwiDmeSkVPBlc4hnanEe": [
-      "wiki node edit time changed"
-    ],
-    "JPNiwF6rPiNe0pkx460cr321nTc": [
-      "wiki node edit time changed"
-    ],
-    "Fighwx5zFiwaoIkV4q5cAJ1enDg": [
-      "wiki node edit time changed"
-    ],
-    "OFjswbvuoit64pk5eGqc9Yx3nGg": [
-      "wiki node edit time changed"
-    ],
-    "VpBXd70zuoEq2Cx7KIJcJz7Zn7c": [
-      "outgoing reference from Fighwx5zFiwaoIkV4q5cAJ1enDg"
-    ],
-    "M5dXwsGOOiPdAjkWLZUc2Pxonuh": [
-      "outgoing reference from JNWZwEqkwiDmeSkVPBlc4hnanEe"
-    ],
-    "SXBNw91txiJhL6kq2ARcvYbRntg": [
-      "outgoing reference from JNWZwEqkwiDmeSkVPBlc4hnanEe"
-    ],
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
-      "incoming reference to JNWZwEqkwiDmeSkVPBlc4hnanEe"
-    ],
-    "MBVVww2Zii8k6Bk77GJcXbZJnpf": [
-      "outgoing reference from JPNiwF6rPiNe0pkx460cr321nTc"
-    ],
-    "PAViwMSb3iVMzuk56z3c1zfRnwh": [
-      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
-    ],
-    "INoRwFTjfiindPkaNlwc9XAgnkh": [
-      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
-    ],
-    "IzXPwUlJ5isTa4kH9KTcC6SfnvZ": [
-      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
-    ],
-    "JaLdw76LPiX003kLpKHcA0n8n2d": [
-      "outgoing reference from KdwFwQnDNisT4skHH6Hc16uInji"
-    ],
-    "NRF1wGr3AiWWC1kVfWucZD6Xneb": [
-      "incoming reference to KdwFwQnDNisT4skHH6Hc16uInji"
-    ],
-    "X6nAwrgYAiJ3Lzku8mBczdbXnuo": [
-      "outgoing reference from OFjswbvuoit64pk5eGqc9Yx3nGg"
-    ],
-    "JYXswRlj9i5KE5kJ2U0cdaM5nBh": [
-      "incoming reference to OFjswbvuoit64pk5eGqc9Yx3nGg"
-    ],
-    "LMfdwRwKIiJtywkwbHVcGnOFnRf": [
-      "incoming reference to OFjswbvuoit64pk5eGqc9Yx3nGg"
-    ],
-    "TVnkwXupUiX3zDkzYPWcxKP3nvg": [
-      "incoming reference to OFjswbvuoit64pk5eGqc9Yx3nGg"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
-  "affected_tables": [
-    "tbl9BeCMjBmalJVb",
-    "tblWv7PjNDsexddH",
-    "tblZMzoITXNsyKmQ"
-  ],
+  "affected_tables": [],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
@@ -251,7 +97,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-08-13T10:38:01.252Z",
+    "generated_at": "2026-08-14T03:08:59.793Z",
     "records": 380
   },
   "source_scope": "partial"
