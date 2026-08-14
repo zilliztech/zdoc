@@ -20,16 +20,14 @@
     "releaseTrack": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.x$"},
     "source": {"$ref": "#/$defs/revision"},
     "generator": {
-      "allOf": [
-        {"$ref": "#/$defs/revision"},
-        {
-          "type": "object",
-          "required": ["configDigest"],
-          "properties": {
-            "configDigest": {"$ref": "#/$defs/digest"}
-          }
-        }
-      ]
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "revision", "configDigest"],
+      "properties": {
+        "repository": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "configDigest": {"$ref": "#/$defs/digest"}
+      }
     },
     "review": {
       "type": "object",

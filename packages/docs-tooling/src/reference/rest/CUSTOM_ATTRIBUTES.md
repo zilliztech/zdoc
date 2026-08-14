@@ -352,10 +352,11 @@ x-deprecated-since <= T => retain and mark deprecated
 
 ### 1.11 Integrated publication policy
 
-The shared integrated spec builder supports two explicit source-selection policies and never infers one from the other:
+The shared integrated spec builder supports plane-aware source-selection policies and never infers one from another:
 
-- `latest` targets zdoc/Zilliz. It builds from the latest canonical fragments and requires `--api-version v1` or `--api-version v2`. It rejects `--release-track`.
-- `track` targets Milvus. It builds from one minor snapshot and requires `--release-track 2.6.x` or `--release-track 3.0.x`. It rejects `--api-version`.
+- Data-plane `latest` targets zdoc/Zilliz and requires `--protocol-version v1` or `--protocol-version v2`. It rejects `--release-track`.
+- Data-plane `track` targets Milvus and requires `--release-track 2.6.x` or `--release-track 3.0.x`. It rejects `--protocol-version`.
+- Control-plane publication supports only Zilliz `latest`, rejects protocol and release-track selectors, and prepares English and Chinese artifacts together.
 
 Both policies share localization, target filtering, component pruning, lifecycle validation, deterministic serialization, manifest generation, local artifact writing, and prepared-byte S3 upload.
 
@@ -603,10 +604,11 @@ Latest zdoc output:
 
 ```bash
 node packages/docs-tooling/src/reference/rest/index.js generate-integrated-spec \
-  --specifications packages/docs-tooling/src/reference/rest/meta/openapi \
+  --fragment-collection /path/to/data-plane-latest-collection \
+  --api-surface data-plane \
   --publication-policy latest \
   --target zilliz \
-  --api-version v2 \
+  --protocol-version v2 \
   --lang en-US \
   --integrated-spec-output /tmp/rest-artifacts
 ```
@@ -615,7 +617,8 @@ Track Milvus output:
 
 ```bash
 node packages/docs-tooling/src/reference/rest/index.js generate-integrated-spec \
-  --specifications packages/docs-tooling/src/reference/rest/meta/releases/milvus/2.6.x/openapi.json \
+  --fragment-collection /path/to/data-plane-2.6.x-collection \
+  --api-surface data-plane \
   --publication-policy track \
   --target milvus \
   --release-track 2.6.x \
@@ -625,18 +628,20 @@ node packages/docs-tooling/src/reference/rest/index.js generate-integrated-spec 
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `--specifications` | — | Canonical fragment directory for `latest`, or snapshot file/path for `track`. |
+| `--fragment-collection` | — | Canonical manifest-backed fragment collection directory. |
+| `--api-surface` | — | Required plane identity: `data-plane` or `control-plane`. |
 | `--publication-policy` | — | `latest` or `track`. |
 | `--target` | `zilliz` | Publication target (`zilliz` or `milvus`). |
-| `--api-version` | — | Required for `latest`; `v1` or `v2`. Rejected for `track`. |
+| `--protocol-version` | — | Required for data-plane `latest`; `v1` or `v2`. Rejected for tracks and control plane. |
 | `--release-track` | — | Required for `track`; `2.6.x` or `3.0.x`. Rejected for `latest`. |
 | `--lang` | `en-US` | Generated language (`en-US` or `zh-CN`). |
 | `--integrated-spec-output` | — | Directory for local artifact writes. Local generation does not require AWS credentials. |
 | `--upload-s3` | `false` | Upload the already-prepared bytes with the same filename and SHA256. |
-| `--enable-compatibility-aliases` | `false` | Emit explicit legacy unqualified aliases from the same prepared bytes. |
 | `--generator-git-sha` | — | Optional generator Git SHA recorded in the manifest. |
 
 S3 failure never invalidates or deletes the successfully generated local artifact. Local artifact paths and upload status are reported separately.
+
+Control-plane publication always prepares both `en-US` and `zh-CN` artifacts from one validated collection. Existing files under `meta/openapi` remain inputs to `fetch-apifox-docs`; they are not accepted by `generate-integrated-spec` until a producer-backed manifest, fragment identity, and review provenance are available.
 
 ## 6. Attribute Resolution Quick Reference
 
