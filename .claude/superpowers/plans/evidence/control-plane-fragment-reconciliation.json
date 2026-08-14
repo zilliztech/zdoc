@@ -1,0 +1,903 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "repository": "zilliz-cloud",
+    "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+  },
+  "configDigest": "sha256:791373ed1274eb9b84b5db74169c9ac56d8fd7f773596eee77468f4a6ef46ea1",
+  "services": [
+    {
+      "id": "backup-restore",
+      "status": "MATCHED",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenBackupController.java"
+      ],
+      "fragmentFiles": [
+        "24-backup-and-restore-v2.json"
+      ],
+      "counts": {
+        "source": 9,
+        "zdoc": 9,
+        "matched": 9,
+        "sourceOnly": 0,
+        "zdocOnly": 0
+      },
+      "matched": [
+        "DELETE /v2/clusters/{clusterId}/backups/{backupId}",
+        "GET /v2/backups",
+        "GET /v2/clusters/{clusterId}/backups/policy",
+        "GET /v2/clusters/{clusterId}/backups/{backupId}",
+        "POST /v2/clusters/{clusterId}/backups/create",
+        "POST /v2/clusters/{clusterId}/backups/policy",
+        "POST /v2/clusters/{clusterId}/backups/{backupId}/export",
+        "POST /v2/clusters/{clusterId}/backups/{backupId}/restoreCluster",
+        "POST /v2/clusters/{clusterId}/backups/{backupId}/restoreCollection"
+      ],
+      "parameterNameDifferences": [
+        {
+          "method": "POST",
+          "sourcePath": "/v2/clusters/{clusterId}/backups/{backupId}/export",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}/backups/{BACKUP_ID}/export",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            },
+            {
+              "source": "backupId",
+              "zdoc": "BACKUP_ID"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "sourcePath": "/v2/clusters/{clusterId}/backups/{backupId}/restoreCluster",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}/backups/{BACKUP_ID}/restoreCluster",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            },
+            {
+              "source": "backupId",
+              "zdoc": "BACKUP_ID"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "sourcePath": "/v2/clusters/{clusterId}/backups/{backupId}/restoreCollection",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}/backups/{BACKUP_ID}/restoreCollection",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            },
+            {
+              "source": "backupId",
+              "zdoc": "BACKUP_ID"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "sourcePath": "/v2/clusters/{clusterId}/backups/{backupId}",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}/backups/{BACKUP_ID}",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            },
+            {
+              "source": "backupId",
+              "zdoc": "BACKUP_ID"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "sourcePath": "/v2/clusters/{clusterId}/backups/{backupId}",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}/backups/{BACKUP_ID}",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            },
+            {
+              "source": "backupId",
+              "zdoc": "BACKUP_ID"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "sourcePath": "/v2/clusters/{clusterId}/backups/create",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}/backups/create",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "sourcePath": "/v2/clusters/{clusterId}/backups/policy",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}/backups/policy",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "sourcePath": "/v2/clusters/{clusterId}/backups/policy",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}/backups/policy",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            }
+          ]
+        }
+      ],
+      "sourceOnly": [],
+      "zdocOnly": [],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "cloud-access-control",
+      "status": "MAPPING_REQUIRED",
+      "controllers": [
+        "vdc/global/cloud-service/src/main/java/com/zilliz/cloud/controller/RoleController.java"
+      ],
+      "fragmentFiles": [
+        "34-cloud-access-control-operations-v2.json"
+      ],
+      "counts": {
+        "source": 13,
+        "zdoc": 14,
+        "matched": 0,
+        "sourceOnly": 13,
+        "zdocOnly": 14
+      },
+      "matched": [],
+      "parameterNameDifferences": [],
+      "sourceOnly": [
+        "GET /cloud/v1/org/role/binding/list",
+        "GET /cloud/v1/org/role/get",
+        "GET /cloud/v1/permission/effective",
+        "GET /cloud/v1/project/role/binding/list",
+        "GET /cloud/v1/project/role/get",
+        "GET /cloud/v1/project/role/resource-basic-list",
+        "GET /cloud/v1/role/action/catalog",
+        "GET /cloud/v1/role/list",
+        "POST /cloud/v1/org/role/delete",
+        "POST /cloud/v1/org/role/edit",
+        "POST /cloud/v1/project/role/create",
+        "POST /cloud/v1/project/role/delete",
+        "POST /cloud/v1/project/role/edit"
+      ],
+      "zdocOnly": [
+        "DELETE /v2/groups/{groupId}/roles/{roleId}",
+        "DELETE /v2/members/{email}/roles/{roleId}",
+        "DELETE /v2/roles/{roleId}",
+        "GET /v2/groups",
+        "GET /v2/groups/{groupId}/members",
+        "GET /v2/groups/{groupId}/roles",
+        "GET /v2/members/{email}/roles",
+        "GET /v2/roles",
+        "GET /v2/roles/{roleId}",
+        "GET /v2/roles/{roleId}/principals",
+        "POST /v2/roles",
+        "PUT /v2/groups/{groupId}/roles/{roleId}",
+        "PUT /v2/members/{email}/roles/{roleId}",
+        "PUT /v2/roles/{roleId}"
+      ],
+      "missingFragments": [],
+      "investigation": {
+        "reason": "The latest source exposes ACL role operations through /cloud/v1 constants, while zdoc documents consolidated /v2/roles, /v2/members, and /v2/groups operations. Role scope and member/group ownership are not one-to-one.",
+        "requiredEvidence": [
+          "RoleUriConstants and RoleController route/request semantics",
+          "member and group binding controller ownership",
+          "gateway or public API translation from /cloud/v1 to /v2"
+        ]
+      }
+    },
+    {
+      "id": "cloud-api-keys",
+      "status": "MATCHED",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenApiKeyController.java"
+      ],
+      "fragmentFiles": [
+        "35-cloud-api-key-operations-v2.json"
+      ],
+      "counts": {
+        "source": 5,
+        "zdoc": 5,
+        "matched": 5,
+        "sourceOnly": 0,
+        "zdocOnly": 0
+      },
+      "matched": [
+        "DELETE /v2/api-keys/{apiKeyId}",
+        "GET /v2/api-keys",
+        "GET /v2/api-keys/{apiKeyId}",
+        "POST /v2/api-keys",
+        "PUT /v2/api-keys/{apiKeyId}"
+      ],
+      "parameterNameDifferences": [],
+      "sourceOnly": [],
+      "zdocOnly": [],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "cloud-jobs",
+      "status": "DIFF",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenJobController.java"
+      ],
+      "fragmentFiles": [
+        "26-cloud-job-v2.json"
+      ],
+      "counts": {
+        "source": 2,
+        "zdoc": 1,
+        "matched": 1,
+        "sourceOnly": 1,
+        "zdocOnly": 0
+      },
+      "matched": [
+        "GET /v2/jobs/{jobID}"
+      ],
+      "parameterNameDifferences": [
+        {
+          "method": "GET",
+          "sourcePath": "/v2/jobs/{jobID}",
+          "zdocPath": "/v2/jobs/{JOB_ID}",
+          "parameters": [
+            {
+              "source": "jobID",
+              "zdoc": "JOB_ID"
+            }
+          ]
+        }
+      ],
+      "sourceOnly": [
+        "GET /v2/jobs"
+      ],
+      "zdocOnly": [],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "cloud-meta",
+      "status": "DIFF",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenMetaController.java"
+      ],
+      "fragmentFiles": [
+        "15-cloud-meta.json",
+        "18-cloud-meta-v2.json"
+      ],
+      "counts": {
+        "source": 2,
+        "zdoc": 4,
+        "matched": 2,
+        "sourceOnly": 0,
+        "zdocOnly": 2
+      },
+      "matched": [
+        "GET /v2/clouds",
+        "GET /v2/regions"
+      ],
+      "parameterNameDifferences": [],
+      "sourceOnly": [],
+      "zdocOnly": [
+        "GET /v1/clouds",
+        "GET /v1/regions"
+      ],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "cluster-management",
+      "status": "DIFF",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenClusterController.java"
+      ],
+      "fragmentFiles": [
+        "16-cluster-operations.json",
+        "22-cluster-operations-v2.json"
+      ],
+      "counts": {
+        "source": 25,
+        "zdoc": 21,
+        "matched": 11,
+        "sourceOnly": 14,
+        "zdocOnly": 10
+      },
+      "matched": [
+        "DELETE /v2/clusters/{clusterId}/drop",
+        "GET /v2/clusters",
+        "GET /v2/clusters/{clusterId}",
+        "PATCH /v2/clusters/{clusterId}",
+        "POST /v2/clusters/createDedicated",
+        "POST /v2/clusters/createFree",
+        "POST /v2/clusters/createServerless",
+        "POST /v2/clusters/{clusterId}/modify",
+        "POST /v2/clusters/{clusterId}/modifyReplica",
+        "POST /v2/clusters/{clusterId}/resume",
+        "POST /v2/clusters/{clusterId}/suspend"
+      ],
+      "parameterNameDifferences": [
+        {
+          "method": "DELETE",
+          "sourcePath": "/v2/clusters/{clusterId}/drop",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}/drop",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "sourcePath": "/v2/clusters/{clusterId}/modify",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}/modify",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "sourcePath": "/v2/clusters/{clusterId}/modifyReplica",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}/modifyReplica",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "sourcePath": "/v2/clusters/{clusterId}/resume",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}/resume",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "sourcePath": "/v2/clusters/{clusterId}/suspend",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}/suspend",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "sourcePath": "/v2/clusters/{clusterId}",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            }
+          ]
+        },
+        {
+          "method": "PATCH",
+          "sourcePath": "/v2/clusters/{clusterId}",
+          "zdocPath": "/v2/clusters/{CLUSTER_ID}",
+          "parameters": [
+            {
+              "source": "clusterId",
+              "zdoc": "CLUSTER_ID"
+            }
+          ]
+        }
+      ],
+      "sourceOnly": [
+        "DELETE /v2/clusters/onDemandClusters/{clusterId}",
+        "GET /v2/clusters/onDemandClusters",
+        "GET /v2/clusters/onDemandClusters/{clusterId}",
+        "GET /v2/clusters/{clusterId}/labels",
+        "GET /v2/clusters/{clusterId}/metrics/export",
+        "GET /v2/clusters/{clusterId}/securityGroups",
+        "PATCH /v2/clusters/onDemandClusters/{clusterId}",
+        "POST /v2/clusters/createOnDemandCluster",
+        "POST /v2/clusters/createVectorLake",
+        "POST /v2/clusters/onDemandClusters/{clusterId}/modifyProperties",
+        "POST /v2/clusters/{clusterId}/metrics/query",
+        "POST /v2/clusters/{clusterId}/modifyProperties",
+        "PUT /v2/clusters/{clusterId}/labels",
+        "PUT /v2/clusters/{clusterId}/securityGroups"
+      ],
+      "zdocOnly": [
+        "DELETE /v1/clusters/{CLUSTER_ID}/drop",
+        "GET /v1/clusters",
+        "GET /v1/clusters/{CLUSTER_ID}",
+        "GET /v1/projects",
+        "POST /v1/clusters/create",
+        "POST /v1/clusters/createServerless",
+        "POST /v1/clusters/{CLUSTER_ID}/metrics/query",
+        "POST /v1/clusters/{CLUSTER_ID}/modify",
+        "POST /v1/clusters/{CLUSTER_ID}/resume",
+        "POST /v1/clusters/{CLUSTER_ID}/suspend"
+      ],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "etl",
+      "status": "MATCHED",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenMigrationController.java"
+      ],
+      "fragmentFiles": [
+        "19-extract-load-and-transform-v2.json"
+      ],
+      "counts": {
+        "source": 1,
+        "zdoc": 1,
+        "matched": 1,
+        "sourceOnly": 0,
+        "zdocOnly": 0
+      },
+      "matched": [
+        "POST /v2/etl/merge"
+      ],
+      "parameterNameDifferences": [],
+      "sourceOnly": [],
+      "zdocOnly": [],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "global-clusters",
+      "status": "DIFF",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenGlobalClusterController.java"
+      ],
+      "fragmentFiles": [
+        "30-global-clusters.json"
+      ],
+      "counts": {
+        "source": 14,
+        "zdoc": 12,
+        "matched": 0,
+        "sourceOnly": 14,
+        "zdocOnly": 12
+      },
+      "matched": [],
+      "parameterNameDifferences": [],
+      "sourceOnly": [
+        "DELETE /v2/globalClusterss/{globalClusterId}/clusters/{clusterId}",
+        "GET /v2/globalClusters/lag",
+        "GET /v2/globalClusterss",
+        "GET /v2/globalClusterss/availableRegions",
+        "GET /v2/globalClusterss/{globalClusterId}",
+        "GET /v2/globalClusterss/{globalClusterId}/replicationLag",
+        "POST /v2/globalClusters/switchover",
+        "POST /v2/globalClusterss/convert",
+        "POST /v2/globalClusterss/create",
+        "POST /v2/globalClusterss/{globalClusterId}/failover",
+        "POST /v2/globalClusterss/{globalClusterId}/modifyCU",
+        "POST /v2/globalClusterss/{globalClusterId}/removeGlobalEndpoint",
+        "POST /v2/globalClusterss/{globalClusterId}/secondaryClusters",
+        "POST /v2/globalClusterss/{globalClusterId}/switchover"
+      ],
+      "zdocOnly": [
+        "DELETE /v2/globalClusters/{globalClusterId}/clusters/{clusterId}",
+        "GET /v2/globalClusters",
+        "GET /v2/globalClusters/availableRegions",
+        "GET /v2/globalClusters/{globalClusterId}",
+        "GET /v2/globalClusters/{globalClusterId}/replicationLag",
+        "POST /v2/globalClusters/convert",
+        "POST /v2/globalClusters/create",
+        "POST /v2/globalClusters/{globalClusterId}/failover",
+        "POST /v2/globalClusters/{globalClusterId}/modifyCU",
+        "POST /v2/globalClusters/{globalClusterId}/removeGlobalEndpoint",
+        "POST /v2/globalClusters/{globalClusterId}/secondaryClusters",
+        "POST /v2/globalClusters/{globalClusterId}/switchover"
+      ],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "invoices",
+      "status": "DIFF",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenInvoiceController.java"
+      ],
+      "fragmentFiles": [
+        "27-invoices-v2.json"
+      ],
+      "counts": {
+        "source": 3,
+        "zdoc": 2,
+        "matched": 2,
+        "sourceOnly": 1,
+        "zdocOnly": 0
+      },
+      "matched": [
+        "GET /v2/invoices",
+        "GET /v2/invoices/{invoiceId}"
+      ],
+      "parameterNameDifferences": [
+        {
+          "method": "GET",
+          "sourcePath": "/v2/invoices/{invoiceId}",
+          "zdocPath": "/v2/invoices/{INVOICE_ID}",
+          "parameters": [
+            {
+              "source": "invoiceId",
+              "zdoc": "INVOICE_ID"
+            }
+          ]
+        }
+      ],
+      "sourceOnly": [
+        "GET /v2/invoices/{invoiceId}/downloadPdf"
+      ],
+      "zdocOnly": [],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "metrics-alerts",
+      "status": "DIFF",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenAlertController.java"
+      ],
+      "fragmentFiles": [
+        "25-metrics-and-alerts-v2.json"
+      ],
+      "counts": {
+        "source": 4,
+        "zdoc": 5,
+        "matched": 4,
+        "sourceOnly": 0,
+        "zdocOnly": 1
+      },
+      "matched": [
+        "DELETE /v2/alertRules/{id}",
+        "GET /v2/alertRules",
+        "POST /v2/alertRules",
+        "PUT /v2/alertRules/{id}"
+      ],
+      "parameterNameDifferences": [
+        {
+          "method": "DELETE",
+          "sourcePath": "/v2/alertRules/{id}",
+          "zdocPath": "/v2/alertRules/{ALERT_RULE_ID}",
+          "parameters": [
+            {
+              "source": "id",
+              "zdoc": "ALERT_RULE_ID"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "sourcePath": "/v2/alertRules/{id}",
+          "zdocPath": "/v2/alertRules/{ALERT_RULE_ID}",
+          "parameters": [
+            {
+              "source": "id",
+              "zdoc": "ALERT_RULE_ID"
+            }
+          ]
+        }
+      ],
+      "sourceOnly": [],
+      "zdocOnly": [
+        "POST /v2/clusters/{CLUSTER_ID}/metrics/query"
+      ],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "migrations",
+      "status": "MATCHED",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenMigrationController.java"
+      ],
+      "fragmentFiles": [
+        "23-cloud-migration-v2.json"
+      ],
+      "counts": {
+        "source": 3,
+        "zdoc": 3,
+        "matched": 3,
+        "sourceOnly": 0,
+        "zdocOnly": 0
+      },
+      "matched": [
+        "POST /v2/migrations/startByRemote",
+        "POST /v2/migrations/toExisting",
+        "POST /v2/migrations/toNewDedicated"
+      ],
+      "parameterNameDifferences": [],
+      "sourceOnly": [],
+      "zdocOnly": [],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "on-demand-compute",
+      "status": "DIFF",
+      "controllers": [
+        "vdc/global/cloud-service/src/main/java/com/zilliz/cloud/controller/vectorlake/VectorLakeController.java"
+      ],
+      "fragmentFiles": [
+        "29-on-demand-compute-v2.json",
+        "33-on-demand-cluster-operations-v2.json"
+      ],
+      "counts": {
+        "source": 12,
+        "zdoc": 7,
+        "matched": 0,
+        "sourceOnly": 12,
+        "zdocOnly": 7
+      },
+      "matched": [],
+      "parameterNameDifferences": [],
+      "sourceOnly": [
+        "DELETE /cloud/v1/vectorlake/query-cluster/{clusterId}",
+        "GET /cloud/v1/vectorlake",
+        "GET /cloud/v1/vectorlake/database/list",
+        "GET /cloud/v1/vectorlake/query-cluster",
+        "GET /cloud/v1/vectorlake/query-cluster/{clusterId}",
+        "POST /cloud/v1/vectorlake",
+        "POST /cloud/v1/vectorlake/database/create",
+        "POST /cloud/v1/vectorlake/database/drop",
+        "POST /cloud/v1/vectorlake/query-cluster",
+        "POST /cloud/v1/vectorlake/query-cluster/{clusterId}/modify",
+        "POST /cloud/v1/vectorlake/query-cluster/{clusterId}/properties",
+        "POST /cloud/v1/vectorlake/query-cluster/{clusterId}/rename"
+      ],
+      "zdocOnly": [
+        "DELETE /v2/clusters/onDemandClusters/{CLUSTER_ID}",
+        "GET /v2/clusters/onDemandClusters",
+        "GET /v2/clusters/onDemandClusters/{CLUSTER_ID}",
+        "GET /v2/on-demand-compute",
+        "PATCH /v2/clusters/onDemandClusters/{CLUSTER_ID}",
+        "POST /v2/clusters/createOnDemandCluster",
+        "POST /v2/on-demand-compute/enable"
+      ],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "pipelines",
+      "status": "CONTROLLER_MISSING",
+      "controllers": [],
+      "fragmentFiles": [
+        "17-pipeline-operations.json"
+      ],
+      "counts": {
+        "source": 0,
+        "zdoc": 5,
+        "matched": 0,
+        "sourceOnly": 0,
+        "zdocOnly": 5
+      },
+      "matched": [],
+      "parameterNameDifferences": [],
+      "sourceOnly": [],
+      "zdocOnly": [
+        "DELETE /v1/pipelines/{PIPELINE_ID}",
+        "GET /v1/pipelines",
+        "GET /v1/pipelines/{PIPELINE_ID}",
+        "POST /v1/pipeline/{PIPELINE_ID}/run",
+        "POST /v1/pipelines"
+      ],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "projects",
+      "status": "DIFF",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenMetaController.java"
+      ],
+      "fragmentFiles": [
+        "21-project-operations-v2.json"
+      ],
+      "counts": {
+        "source": 8,
+        "zdoc": 7,
+        "matched": 7,
+        "sourceOnly": 1,
+        "zdocOnly": 0
+      },
+      "matched": [
+        "DELETE /v2/projects/{projectId}",
+        "GET /v2/projects",
+        "GET /v2/projects/{projectId}",
+        "PATCH /v2/projects/{projectId}",
+        "PATCH /v2/projects/{projectId}/plan",
+        "POST /v2/projects",
+        "POST /v2/projects/{projectId}/regions"
+      ],
+      "parameterNameDifferences": [],
+      "sourceOnly": [
+        "DELETE /v2/projects/{projectId}/regions/{regionId}"
+      ],
+      "zdocOnly": [],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "spark-jobs",
+      "status": "CONTROLLER_MISSING",
+      "controllers": [],
+      "fragmentFiles": [
+        "32-spark-job-v2.json"
+      ],
+      "counts": {
+        "source": 0,
+        "zdoc": 5,
+        "matched": 0,
+        "sourceOnly": 0,
+        "zdocOnly": 5
+      },
+      "matched": [],
+      "parameterNameDifferences": [],
+      "sourceOnly": [],
+      "zdocOnly": [
+        "GET /v2/jobs",
+        "GET /v2/jobs/spark/{JOB_ID}",
+        "POST /v2/jobs/spark",
+        "POST /v2/jobs/spark/artifacts/validate",
+        "POST /v2/jobs/spark/{JOB_ID}/cancel"
+      ],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "storage-integrations",
+      "status": "MATCHED",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenStorageIntegrationController.java"
+      ],
+      "fragmentFiles": [
+        "31-storage-integration-v2.json"
+      ],
+      "counts": {
+        "source": 6,
+        "zdoc": 6,
+        "matched": 6,
+        "sourceOnly": 0,
+        "zdocOnly": 0
+      },
+      "matched": [
+        "DELETE /v2/storageIntegrations/{integrationId}",
+        "GET /v2/storageIntegrations",
+        "GET /v2/storageIntegrations/{integrationId}",
+        "POST /v2/storageIntegrations",
+        "POST /v2/storageIntegrations/authorizationMaterials",
+        "POST /v2/storageIntegrations/validate"
+      ],
+      "parameterNameDifferences": [],
+      "sourceOnly": [],
+      "zdocOnly": [],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "usage",
+      "status": "MATCHED",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenUsageController.java"
+      ],
+      "fragmentFiles": [
+        "28-usage-v2.json"
+      ],
+      "counts": {
+        "source": 1,
+        "zdoc": 1,
+        "matched": 1,
+        "sourceOnly": 0,
+        "zdocOnly": 0
+      },
+      "matched": [
+        "POST /v2/usage/query"
+      ],
+      "parameterNameDifferences": [],
+      "sourceOnly": [],
+      "zdocOnly": [],
+      "missingFragments": [],
+      "investigation": null
+    },
+    {
+      "id": "volumes",
+      "status": "DIFF",
+      "controllers": [
+        "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenVolumeController.java"
+      ],
+      "fragmentFiles": [
+        "20-volume-operations-v2.json"
+      ],
+      "counts": {
+        "source": 6,
+        "zdoc": 5,
+        "matched": 5,
+        "sourceOnly": 1,
+        "zdocOnly": 0
+      },
+      "matched": [
+        "DELETE /v2/volumes/{volumeName}",
+        "GET /v2/volumes",
+        "GET /v2/volumes/{volumeName}",
+        "PATCH /v2/volumes/{volumeName}",
+        "POST /v2/volumes/create"
+      ],
+      "parameterNameDifferences": [
+        {
+          "method": "DELETE",
+          "sourcePath": "/v2/volumes/{volumeName}",
+          "zdocPath": "/v2/volumes/{VOLUME_NAME}",
+          "parameters": [
+            {
+              "source": "volumeName",
+              "zdoc": "VOLUME_NAME"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "sourcePath": "/v2/volumes/{volumeName}",
+          "zdocPath": "/v2/volumes/{VOLUME_NAME}",
+          "parameters": [
+            {
+              "source": "volumeName",
+              "zdoc": "VOLUME_NAME"
+            }
+          ]
+        },
+        {
+          "method": "PATCH",
+          "sourcePath": "/v2/volumes/{volumeName}",
+          "zdocPath": "/v2/volumes/{VOLUME_NAME}",
+          "parameters": [
+            {
+              "source": "volumeName",
+              "zdoc": "VOLUME_NAME"
+            }
+          ]
+        }
+      ],
+      "sourceOnly": [
+        "POST /v2/volumes/apply"
+      ],
+      "zdocOnly": [],
+      "missingFragments": [],
+      "investigation": null
+    }
+  ],
+  "summary": {
+    "services": 18,
+    "matched": 6,
+    "blockers": 12
+  },
+  "reportDigest": "sha256:84d8ce552b9e9728a71ebfdedcf3c840f06899f45fa3f2682a517d7f181068cb"
+}
