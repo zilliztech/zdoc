@@ -960,6 +960,8 @@ describe('docs-tooling CLI boundary', () => {
         '--lang', 'en-US',
         '--target', 'zilliz',
       ]);
+      expect(args).not.toContain('--publication-policy');
+      expect(args).not.toContain('--release-track');
       const output = path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful');
       const pages = [
         ['v2/v2.mdx', '---\nslug: /restful/v2\nsidebar_position: 1\n---\n\n# V2\n'],
