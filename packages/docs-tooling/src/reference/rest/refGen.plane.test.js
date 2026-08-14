@@ -27,6 +27,15 @@ assert.equal(generator.getPlane('cloud-api-key-operations-v2', 'zilliz'), 'contr
 assert.equal(generator.getPlane('collection-operations-v2', 'zilliz'), 'data-plane')
 assert.equal(generator.getPlane('cluster-role-operations-v2', 'milvus'), 'data-plane')
 
+const explicit = new RefGen({
+  specifications: generator.options.specifications,
+  lang: 'en-US',
+  target: 'zilliz',
+  target_path: '/tmp/refgen-plane-explicit-test',
+  apiSurface: 'control-plane',
+})
+assert.equal(explicit.getPlane('collection-operations-v2', 'zilliz'), 'control-plane')
+
 const listCloudRoleParameters = cloudAccessControlSpec.paths['/v2/roles'].get.parameters
 assert.equal(listCloudRoleParameters.some(parameter => parameter.name === 'roleType'), false)
 assert.equal(

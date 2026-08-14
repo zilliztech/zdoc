@@ -33,6 +33,7 @@ class refGen {
   constructor(options) {
     this.options = options
     this.options.parents = []
+    this.routeRegistry = new Map()
 
     this.validateSpec(options.specifications)
 
@@ -117,6 +118,7 @@ class refGen {
   }
 
   getPlane(slug, target) {
+    if (this.options.apiSurface) return this.options.apiSurface
     const normalizedSlug = slug.toLowerCase()
     const dataKeywords = CONFIG.dataPlaneKeywords[target] || CONFIG.dataPlaneKeywords.zilliz || []
     if (dataKeywords.some(k => normalizedSlug.includes(k.toLowerCase()))) {
@@ -219,6 +221,10 @@ class refGen {
         var upper_folder = this.getPlane(page_parent, target)
 
         var page_slug = (this.get_slug(page_title, target)) + slug_suffix
+        const page_route = `/restful/${page_slug}`
+        const existingRoute = this.routeRegistry.get(page_route)
+        if (existingRoute) throw new Error(`REST_PAGE_ROUTE_CONFLICT: ${page_route} for ${existingRoute} and ${method}`)
+        this.routeRegistry.set(page_route, `${method.toUpperCase()} ${page_url}`)
 
         // Check x-beta on operation, then tag, then fall back to defaults
         let beta_tag = specification['x-beta']
@@ -315,6 +321,7 @@ class refGen {
           page_title: page_title + (version === 'v2' ? ' (V2)' : ' (V1)'),
           page_excerpt,
           page_slug,
+          page_route,
           beta_tag,
           page_url,
           page_method,
@@ -370,7 +377,8 @@ class refGen {
         position,
         slug,
         beta_tag,
-        description
+        description,
+        group_route: `/restful/${slug}`
       })
 
       var folder_path = `${target_path}/${version}/${upper_folder}/${slug}`
@@ -392,6 +400,7 @@ class refGen {
             group_name: version === 'v2' ? 'V2' : 'V1',
             position: version === 'v2' ? 1 : 2,
             slug: version,
+            group_route: `/restful/${version}`,
             beta_tag: CONFIG.betaDefaults[version],
             description: ''
           }))
@@ -406,6 +415,7 @@ class refGen {
             group_name: title + (version === 'v2' ? ' (V2)' : ' (V1)'),
             position: pos,
             slug: `${upper_folder}-${version}`,
+            group_route: `/restful/${upper_folder}-${version}`,
             beta_tag: CONFIG.betaDefaults[version],
             description: desc
           }))

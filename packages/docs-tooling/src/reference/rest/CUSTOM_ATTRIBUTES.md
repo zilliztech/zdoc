@@ -22,6 +22,9 @@ These attributes live inside the OpenAPI JSON files (`meta/openapi/*.json`) and 
 | `x-base-urls` | operation | — | Yes | Provides custom base URL configurations for an endpoint. **Honored only when `target === 'zilliz'`.** |
 | `x-base-url-target` | parameters, schema properties, examples | — | Yes | Filters content by selected base URL `key`. Companion to `x-base-urls`. |
 | `x-i18n-langs` | examples | No | No | Lists available i18n languages for an example block (data-only, not processed). |
+| `x-added-at` | Milvus data-plane operations and public contract elements | Yes | — | First managed minor track in which the element exists. Format: `major.minor.x`. |
+| `x-last-modified` | Milvus data-plane operations and public contract elements | Yes | — | Most recent managed minor track in which the element changed. Audit-only; never controls visibility. |
+| `x-deprecated-since` | Milvus data-plane operations and public contract elements | Yes | — | First managed minor track in which the element is deprecated; `null` means not deprecated. |
 
 *Build-time stripping in `s3Uploader.js` preserves `x-i18n` only when generating the `zh-CN` S3 artifact.
 
@@ -297,6 +300,75 @@ Filters parameters and schema properties by the currently selected base URL. Com
 
 ---
 
+### 1.10 Lifecycle attributes (`x-added-at`, `x-last-modified`, `x-deprecated-since`)
+
+Milvus data-plane lifecycle metadata is tracked at operation and public contract-element scope. All non-null values use the minor-track format:
+
+```text
+major.minor.x
+```
+
+For example:
+
+```json
+{
+  "x-added-at": "2.6.x",
+  "x-last-modified": "3.0.x",
+  "x-deprecated-since": null
+}
+```
+
+Meanings:
+
+- `x-added-at`: the first managed minor track in which the public contract element exists.
+- `x-last-modified`: the most recent managed minor track in which its public contract changed.
+- `x-deprecated-since`: the first managed minor track in which the element is deprecated; `null` means it is not deprecated.
+
+Managed scopes:
+
+- Every HTTP operation identified by `(endpoint, method)`.
+- Path, query, header, and cookie parameter objects.
+- Request and response schema properties.
+- Reusable schemas and reusable parameter, header, request-body, and response objects when they carry a public contract identity.
+- Object-valued `oneOf`, `anyOf`, and `allOf` branches when the branch itself is version-sensitive.
+
+Validation order is numeric by major and minor, never lexical:
+
+```text
+x-added-at <= x-last-modified
+x-deprecated-since is null or x-added-at <= x-deprecated-since
+x-deprecated-since is null or x-last-modified <= x-deprecated-since
+```
+
+Visibility for target track `T`:
+
+```text
+x-added-at > T  => omit the object
+x-added-at <= T => retain the object
+x-deprecated-since <= T => retain and mark deprecated
+```
+
+`x-last-modified` is audit-only and never controls visibility. Deprecated elements remain present and receive standard OpenAPI `deprecated: true` at and after `x-deprecated-since`. This design does not introduce `x-removed-since`; removal requires a future explicit contract rather than overloading deprecation.
+
+### 1.11 Integrated publication policy
+
+The shared integrated spec builder supports two explicit source-selection policies and never infers one from the other:
+
+- `latest` targets zdoc/Zilliz. It builds from the latest canonical fragments and requires `--api-version v1` or `--api-version v2`. It rejects `--release-track`.
+- `track` targets Milvus. It builds from one minor snapshot and requires `--release-track 2.6.x` or `--release-track 3.0.x`. It rejects `--api-version`.
+
+Both policies share localization, target filtering, component pruning, lifecycle validation, deterministic serialization, manifest generation, local artifact writing, and prepared-byte S3 upload.
+
+Public generated files strip internal lifecycle and authoring `x-*` extensions. Standard OpenAPI `deprecated` remains in the public output.
+
+Lifecycle enforcement is staged:
+
+1. **Tooling merge:** lifecycle validation is audit-compatible for incomplete legacy fragments.
+2. **Bootstrap migration:** all managed Milvus data-plane operations and fields are populated.
+3. **Post-bootstrap:** missing lifecycle metadata is a hard validation failure.
+
+---
+
 ## 2. Generated MDX Frontmatter
 
 These fields are written into every generated `.mdx` file by the Nunjucks templates (`templates/reference.mdx` and `templates/group.mdx`). They control Docusaurus sidebar behavior, SEO metadata, and page layout.
@@ -508,7 +580,9 @@ Both processors strip the tags and return the inner text if the condition is sat
 
 ## 5. CLI Options
 
-The plugin exposes a CLI command with the following options:
+### 5.1 `fetch-apifox-docs`
+
+The existing page-publication command remains latest-only and its options are unchanged:
 
 | Option | Short | Default | Description |
 |--------|-------|---------|-------------|
@@ -517,9 +591,52 @@ The plugin exposes a CLI command with the following options:
 | `--output_path` | `-o` | `reference/api/restful/restful` | Target directory for generated `.mdx` files. |
 | `--strings` | `-i` | — | Localization strings file for Chinese docs (required when `lang === 'zh-CN'`). |
 | `--target` | `-t` | `zilliz` | Publication target (`zilliz` or `milvus`). |
-| `--upload-s3` | — | `false` | Upload merged OpenAPI specs to S3 and update the about page. |
+| `--upload-s3` | — | `false` | Upload prepared latest integrated specs to S3 through the compatibility upload path. |
 
----
+This command never passes `--publication-policy` or `--release-track` during MDX staging.
+
+### 5.2 `generate-integrated-spec`
+
+Generates localized complete OpenAPI files and a deterministic manifest without coupling the operation to MDX page generation.
+
+Latest zdoc output:
+
+```bash
+node packages/docs-tooling/src/reference/rest/index.js generate-integrated-spec \
+  --specifications packages/docs-tooling/src/reference/rest/meta/openapi \
+  --publication-policy latest \
+  --target zilliz \
+  --api-version v2 \
+  --lang en-US \
+  --integrated-spec-output /tmp/rest-artifacts
+```
+
+Track Milvus output:
+
+```bash
+node packages/docs-tooling/src/reference/rest/index.js generate-integrated-spec \
+  --specifications packages/docs-tooling/src/reference/rest/meta/releases/milvus/2.6.x/openapi.json \
+  --publication-policy track \
+  --target milvus \
+  --release-track 2.6.x \
+  --lang zh-CN \
+  --integrated-spec-output /tmp/rest-artifacts
+```
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--specifications` | — | Canonical fragment directory for `latest`, or snapshot file/path for `track`. |
+| `--publication-policy` | — | `latest` or `track`. |
+| `--target` | `zilliz` | Publication target (`zilliz` or `milvus`). |
+| `--api-version` | — | Required for `latest`; `v1` or `v2`. Rejected for `track`. |
+| `--release-track` | — | Required for `track`; `2.6.x` or `3.0.x`. Rejected for `latest`. |
+| `--lang` | `en-US` | Generated language (`en-US` or `zh-CN`). |
+| `--integrated-spec-output` | — | Directory for local artifact writes. Local generation does not require AWS credentials. |
+| `--upload-s3` | `false` | Upload the already-prepared bytes with the same filename and SHA256. |
+| `--enable-compatibility-aliases` | `false` | Emit explicit legacy unqualified aliases from the same prepared bytes. |
+| `--generator-git-sha` | — | Optional generator Git SHA recorded in the manifest. |
+
+S3 failure never invalidates or deletes the successfully generated local artifact. Local artifact paths and upload status are reported separately.
 
 ## 6. Attribute Resolution Quick Reference
 
@@ -551,4 +668,4 @@ The plugin exposes a CLI command with the following options:
 
 - **`x-18n` (typo)**: A handful of places in `25-metrics-and-alerts-v2.json` use `x-18n` instead of `x-i18n`. This is **not** processed by the plugin and should be corrected to `x-i18n`.
 - **V1 Auto-Deprecation**: All `v1` endpoints are automatically marked as `deprecated: true` in `refGen.js` regardless of the `x-beta` value.
-- **S3 Stripping**: `s3Uploader.js` strips **all** `x-*` keys before upload, except that `x-i18n` is used to inline Chinese translations when `lang === 'zh-CN'`.
+- **Public stripping**: `integratedSpecBuilder.js` strips **all** internal `x-*` authoring and lifecycle keys after localization. `s3Uploader.js` uploads only the already-prepared bytes; it never re-merges or re-localizes.

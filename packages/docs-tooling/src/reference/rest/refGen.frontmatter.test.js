@@ -37,3 +37,23 @@ test('synthetic REST version pages serialize empty descriptions as YAML strings'
     fs.rmSync(targetPath, { recursive: true, force: true })
   }
 })
+
+test('explicit control-plane generation preserves the established public REST slug', async () => {
+  const targetPath = fs.mkdtempSync(path.join(os.tmpdir(), 'rest-control-plane-slug-'))
+  try {
+    const generator = new RefGen({
+      lang: 'en-US', target: 'zilliz', target_path: targetPath, apiSurface: 'control-plane',
+      specifications: {
+        tags: [{name: 'Projects (V2)'}],
+        paths: {'/v2/projects': {get: {summary: 'List Projects', tags: ['Projects (V2)'], responses: {200: {description: 'ok'}}}}},
+      },
+    })
+    generator.make_groups()
+    await generator.write_refs()
+    const page = fs.readFileSync(path.join(targetPath, 'v2/control-plane/projects-v2/list-projects-v2.mdx'), 'utf8')
+    assert.match(page, /^slug: \/restful\/list-projects-v2$/m)
+    assert.doesNotMatch(page, /\/restful\/control-plane\//)
+  } finally {
+    fs.rmSync(targetPath, {recursive: true, force: true})
+  }
+})

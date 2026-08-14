@@ -1,0 +1,1183 @@
+{
+  "schemaVersion": 1,
+  "repository": "milvus-io/milvus",
+  "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/aliases/alter",
+      "handler": "alterAlias",
+      "requestType": "AliasCollectionReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 304
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/aliases/create",
+      "handler": "createAlias",
+      "requestType": "AliasCollectionReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 302
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/aliases/describe",
+      "handler": "describeAlias",
+      "requestType": "AliasReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 300
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/aliases/drop",
+      "handler": "dropAlias",
+      "requestType": "AliasReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 303
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/aliases/list",
+      "handler": "listAlias",
+      "requestType": "OptionalCollectionNameReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 299
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/add_function",
+      "handler": "addCollectionFunction",
+      "requestType": "CollectionAddFunction",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 191
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/alter_function",
+      "handler": "alterCollectionFunction",
+      "requestType": "CollectionAlterFunction",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 192
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/alter_properties",
+      "handler": "alterCollectionProperties",
+      "requestType": "CollectionReqWithProperties",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 190
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/compact",
+      "handler": "compact",
+      "requestType": "CompactReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 195
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/create",
+      "handler": "createCollection",
+      "requestType": "CollectionReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 183
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/describe",
+      "handler": "getCollectionDetails",
+      "requestType": "CollectionNameReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 180
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/drop_function",
+      "handler": "dropCollectionFunction",
+      "requestType": "CollectionDropFunction",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 193
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/drop_properties",
+      "handler": "dropCollectionProperties",
+      "requestType": "DropCollectionPropertiesReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 194
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/drop",
+      "handler": "dropCollection",
+      "requestType": "CollectionNameReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 184
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/fields/add",
+      "handler": "addCollectionField",
+      "requestType": "CollectionFieldReqWithSchema",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 202
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/fields/alter_properties",
+      "handler": "alterCollectionFieldProperties",
+      "requestType": "CollectionFieldReqWithParams",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 199
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/flush",
+      "handler": "flush",
+      "requestType": "FlushReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 197
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/get_compaction_state",
+      "handler": "getcompactionState",
+      "requestType": "GetCompactionStateReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 196
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/get_load_state",
+      "handler": "getCollectionLoadState",
+      "requestType": "CollectionNameReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 182
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/get_stats",
+      "handler": "getCollectionStats",
+      "requestType": "CollectionNameReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 181
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/has",
+      "handler": "hasCollection",
+      "requestType": "CollectionNameReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 178
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/list",
+      "handler": "listCollections",
+      "requestType": "DatabaseReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 177
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/load",
+      "handler": "loadCollection",
+      "requestType": "CollectionNameReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 187
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/refresh_load",
+      "handler": "refreshLoadCollection",
+      "requestType": "CollectionNameReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 188
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/release",
+      "handler": "releaseCollection",
+      "requestType": "CollectionNameReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 189
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/rename",
+      "handler": "renameCollection",
+      "requestType": "RenameCollectionReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 186
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/collections/truncate",
+      "handler": "truncateCollection",
+      "requestType": "CollectionNameReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 185
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/common/run_analyzer",
+      "handler": "runAnalyzer",
+      "requestType": "RunAnalyzerReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 324
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/databases/alter_properties",
+      "handler": "alterDatabase",
+      "requestType": "DatabaseReqWithProperties",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 210
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/databases/alter",
+      "handler": "alterDatabase",
+      "requestType": "DatabaseReqWithProperties",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 209
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/databases/create",
+      "handler": "createDatabase",
+      "requestType": "DatabaseReqWithProperties",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 204
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/databases/describe",
+      "handler": "describeDatabase",
+      "requestType": "DatabaseReqRequiredName",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 208
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/databases/drop_properties",
+      "handler": "dropDatabaseProperties",
+      "requestType": "DropDatabasePropertiesReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 206
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/databases/drop",
+      "handler": "dropDatabase",
+      "requestType": "DatabaseReqRequiredName",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 205
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/databases/list",
+      "handler": "listDatabases",
+      "requestType": "EmptyReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 207
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/entities/advanced_search",
+      "handler": "true",
+      "requestType": "HybridSearchReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 243
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/entities/delete",
+      "handler": "false",
+      "requestType": "CollectionFilterReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 225
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/entities/get",
+      "handler": "true",
+      "requestType": "CollectionIDReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 219
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/entities/hybrid_search",
+      "handler": "true",
+      "requestType": "HybridSearchReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 249
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/entities/insert",
+      "handler": "false",
+      "requestType": "CollectionDataReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 229
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/entities/query",
+      "handler": "true",
+      "requestType": "QueryReqV2",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 212
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/entities/search",
+      "handler": "true",
+      "requestType": "SearchReqV2",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 237
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/entities/upsert",
+      "handler": "false",
+      "requestType": "CollectionDataReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 233
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/indexes/alter_properties",
+      "handler": "alterIndexProperties",
+      "requestType": "IndexReqWithProperties",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 296
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/indexes/create",
+      "handler": "createIndex",
+      "requestType": "IndexParamReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 293
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/indexes/describe",
+      "handler": "describeIndex",
+      "requestType": "IndexReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 291
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/indexes/drop_properties",
+      "handler": "dropIndexProperties",
+      "requestType": "DropIndexPropertiesReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 297
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/indexes/drop",
+      "handler": "dropIndex",
+      "requestType": "IndexReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 295
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/indexes/list",
+      "handler": "listIndexes",
+      "requestType": "CollectionNameReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 290
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/jobs/import/create",
+      "handler": "createImportJob",
+      "requestType": "ImportReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 307
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/jobs/import/describe",
+      "handler": "getImportJobProcess",
+      "requestType": "JobIDReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 309
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/jobs/import/get_progress",
+      "handler": "getImportJobProcess",
+      "requestType": "JobIDReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 308
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/jobs/import/list",
+      "handler": "listImportJob",
+      "requestType": "OptionalCollectionNameReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 306
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/partitions/create",
+      "handler": "createPartition",
+      "requestType": "PartitionReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 259
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/partitions/drop",
+      "handler": "dropPartition",
+      "requestType": "PartitionReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 260
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/partitions/get_stats",
+      "handler": "statsPartition",
+      "requestType": "PartitionReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 257
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/partitions/has",
+      "handler": "hasPartitions",
+      "requestType": "PartitionReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 256
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/partitions/list",
+      "handler": "listPartitions",
+      "requestType": "CollectionNameReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 255
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/partitions/load",
+      "handler": "loadPartitions",
+      "requestType": "PartitionsReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 261
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/partitions/release",
+      "handler": "releasePartitions",
+      "requestType": "PartitionsReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 262
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/privilege_groups/add_privileges_to_group",
+      "handler": "addPrivilegesToGroup",
+      "requestType": "PrivilegeGroupReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 287
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/privilege_groups/create",
+      "handler": "createPrivilegeGroup",
+      "requestType": "PrivilegeGroupReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 284
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/privilege_groups/drop",
+      "handler": "dropPrivilegeGroup",
+      "requestType": "PrivilegeGroupReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 285
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/privilege_groups/list",
+      "handler": "listPrivilegeGroups",
+      "requestType": "DatabaseReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 286
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/privilege_groups/remove_privileges_from_group",
+      "handler": "removePrivilegesFromGroup",
+      "requestType": "PrivilegeGroupReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 288
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/quotacenter/describe",
+      "handler": "getQuotaMetrics",
+      "requestType": "GetQuotaMetricsReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 321
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/resource_groups/alter",
+      "handler": "updateResourceGroup",
+      "requestType": "UpdateResourceGroupReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 314
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/resource_groups/create",
+      "handler": "createResourceGroup",
+      "requestType": "ResourceGroupReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 312
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/resource_groups/describe",
+      "handler": "describeResourceGroup",
+      "requestType": "ResourceGroupReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 315
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/resource_groups/drop",
+      "handler": "dropResourceGroup",
+      "requestType": "ResourceGroupReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 313
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/resource_groups/list",
+      "handler": "listResourceGroups",
+      "requestType": "EmptyReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 316
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/resource_groups/transfer_replica",
+      "handler": "transferReplica",
+      "requestType": "TransferReplicaReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 317
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/roles/create",
+      "handler": "createRole",
+      "requestType": "RoleReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 276
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/roles/describe",
+      "handler": "describeRole",
+      "requestType": "RoleReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 274
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/roles/drop",
+      "handler": "dropRole",
+      "requestType": "RoleReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 277
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/roles/grant_privilege_v2",
+      "handler": "grantV2",
+      "requestType": "GrantV2Req",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 280
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/roles/grant_privilege",
+      "handler": "addPrivilegeToRole",
+      "requestType": "GrantReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 278
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/roles/list",
+      "handler": "listRoles",
+      "requestType": "DatabaseReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 273
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/roles/revoke_privilege_v2",
+      "handler": "revokeV2",
+      "requestType": "GrantV2Req",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 281
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/roles/revoke_privilege",
+      "handler": "removePrivilegeFromRole",
+      "requestType": "GrantReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 279
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/segments/describe",
+      "handler": "getSegmentsInfo",
+      "requestType": "GetSegmentsInfoReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 320
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/users/create",
+      "handler": "createUser",
+      "requestType": "PasswordReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 267
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/users/describe",
+      "handler": "describeUser",
+      "requestType": "UserReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 265
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/users/drop",
+      "handler": "dropUser",
+      "requestType": "UserReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 269
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/users/grant_role",
+      "handler": "addRoleToUser",
+      "requestType": "UserRoleReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 270
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/users/list",
+      "handler": "listUsers",
+      "requestType": "DatabaseReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 264
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/users/revoke_role",
+      "handler": "removeRoleFromUser",
+      "requestType": "UserRoleReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 271
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/v2/vectordb/users/update_password",
+      "handler": "updateUser",
+      "requestType": "NewPasswordReq",
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v2.go",
+        "line": 268
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/vector/collections/create",
+      "handler": "createCollection",
+      "requestType": null,
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v1.go",
+        "line": 181
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/vector/collections/describe",
+      "handler": "getCollectionDetails",
+      "requestType": null,
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v1.go",
+        "line": 182
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/vector/collections/drop",
+      "handler": "dropCollection",
+      "requestType": null,
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v1.go",
+        "line": 183
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/vector/collections",
+      "handler": "listCollections",
+      "requestType": null,
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v1.go",
+        "line": 180
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/vector/delete",
+      "handler": "delete",
+      "requestType": null,
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v1.go",
+        "line": 186
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/vector/get",
+      "handler": "get",
+      "requestType": null,
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v1.go",
+        "line": 185
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/vector/insert",
+      "handler": "insert",
+      "requestType": null,
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v1.go",
+        "line": 187
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/vector/query",
+      "handler": "query",
+      "requestType": null,
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v1.go",
+        "line": 184
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/vector/search",
+      "handler": "search",
+      "requestType": null,
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v1.go",
+        "line": 189
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/vector/upsert",
+      "handler": "upsert",
+      "requestType": null,
+      "source": {
+        "repository": "milvus-io/milvus",
+        "revision": "487e2b95e3a5e4f150a33efd33ad9d12a834f3a8",
+        "file": "internal/distributed/proxy/httpserver/handler_v1.go",
+        "line": 188
+      }
+    }
+  ]
+}
