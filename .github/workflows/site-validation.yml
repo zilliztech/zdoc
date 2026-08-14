@@ -187,6 +187,23 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test:retirement
 
+  rest_publication_contract:
+    name: Validate REST publication contract
+    needs: classify
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.classify.outputs.source_sha }}
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:rest-publication-contract
+
   site_validation:
     name: Site validation gate
     needs:
@@ -196,6 +213,7 @@ jobs:
       - reference_coverage
       - tools_coverage
       - retirement
+      - rest_publication_contract
     if: ${{ always() }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -206,11 +224,13 @@ jobs:
       REFERENCE_RESULT: ${{ needs.reference_coverage.result }}
       TOOLS_RESULT: ${{ needs.tools_coverage.result }}
       RETIREMENT_RESULT: ${{ needs.retirement.result }}
+      REST_PUBLICATION_RESULT: ${{ needs.rest_publication_contract.result }}
     steps:
       - name: Require every selected validation to pass
         run: |
           test "$CLASSIFY_RESULT" = success
           test "$RETIREMENT_RESULT" = success
+          test "$REST_PUBLICATION_RESULT" = success
           for result in "$EN_RESULT" "$ZH_CN_RESULT" "$REFERENCE_RESULT" "$TOOLS_RESULT"; do
             test "$result" = success || test "$result" = skipped
           done
