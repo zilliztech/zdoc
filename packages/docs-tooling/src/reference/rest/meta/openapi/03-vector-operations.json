@@ -38,13 +38,19 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -60,7 +66,10 @@
                       "zh-CN": {
                         "description": "数据库名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
                     "type": "string",
@@ -69,7 +78,10 @@
                       "zh-CN": {
                         "description": "Collection 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "id": {
                     "oneOf": [
@@ -80,19 +92,28 @@
                           "zh-CN": {
                             "description": "Entity ID。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       {
                         "type": "array",
                         "items": {
-                          "type": "string"
+                          "type": "string",
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "description": "An array of IDs of the entities to be deleted",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Entity ID 列表。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       {
                         "type": "integer",
@@ -101,27 +122,42 @@
                           "zh-CN": {
                             "description": "Entity ID。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       {
                         "type": "array",
                         "items": {
-                          "type": "integer"
+                          "type": "integer",
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "description": "An array of IDs of the entities to be deleted",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Entity ID 列表。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "collectionName",
                   "id"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "examples": {
                 "1": {
@@ -147,7 +183,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -172,7 +211,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -182,9 +224,15 @@
                               "description": "响应载荷，为空对象。"
                             }
                           },
-                          "properties": {}
+                          "properties": {},
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -203,7 +251,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -212,11 +263,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -237,10 +297,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v1/vector/insert": {
@@ -265,13 +331,19 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -288,7 +360,10 @@
                       "zh-CN": {
                         "description": "数据库名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
                     "type": "string",
@@ -297,7 +372,10 @@
                       "zh-CN": {
                         "description": "Collection 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "partitionName": {
                     "type": "string",
@@ -306,7 +384,10 @@
                       "zh-CN": {
                         "description": "Partition 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "data": {
                     "description": "An entity object or an array of entity objects. Note that the keys in an entity object should match the collection schema",
@@ -324,7 +405,10 @@
                             "description": "单个 Entity 对象，其结构应与目标 Collection 的 Schema 一致。"
                           }
                         },
-                        "properties": {}
+                        "properties": {},
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       {
                         "type": "array",
@@ -336,16 +420,28 @@
                               "description": "Entity 对象列表，每个对象应与目标 Collection 的 Schema 一致。"
                             }
                           },
-                          "properties": {}
-                        }
+                          "properties": {},
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "collectionName",
                   "data"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "examples": {
                 "1": {
@@ -394,7 +490,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -419,7 +518,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -432,7 +534,10 @@
                           "properties": {
                             "insertCount": {
                               "type": "integer",
-                              "description": "The number of inserted entities."
+                              "description": "The number of inserted entities.",
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "insertIds": {
                               "type": "array",
@@ -443,18 +548,30 @@
                                   "zh-CN": {
                                     "description": "插入的 Entity ID。"
                                   }
-                                }
+                                },
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
                               },
                               "description": "Response payload which is an array of the IDs of inserted entities.",
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "插入的 Entity ID 数组。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -476,7 +593,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -485,11 +605,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -516,10 +645,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v1/vector/upsert": {
@@ -549,8 +684,14 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
-            }
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -567,7 +708,10 @@
                       "zh-CN": {
                         "description": "数据库名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
                     "type": "string",
@@ -576,7 +720,10 @@
                       "zh-CN": {
                         "description": "待插入或更新记录的目标 Collection 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "data": {
                     "description": "An entity object or an array of entity objects. Note that the keys in an entity object should match the collection schema",
@@ -594,7 +741,10 @@
                             "description": "单个 Entity 对象，其结构应与目标 Collection 的 Schema 一致。"
                           }
                         },
-                        "properties": {}
+                        "properties": {},
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       {
                         "type": "array",
@@ -612,16 +762,28 @@
                               "description": "一个 Entity 对象，应与目标 Collection 的 Schema 一致。"
                             }
                           },
-                          "properties": {}
-                        }
+                          "properties": {},
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "collectionName",
                   "data"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "data": [
@@ -739,7 +901,10 @@
                 "collectionName": "quick_setup"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -764,7 +929,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -783,7 +951,10 @@
                                 "zh-CN": {
                                   "description": "插入或更新的 Entity 数量。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "upsertIds": {
                               "type": "array",
@@ -794,18 +965,30 @@
                                   "zh-CN": {
                                     "description": "一个插入或更新的 Entity ID。"
                                   }
-                                }
+                                },
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
                               },
                               "description": "An array of the IDs of inserted entities.",
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "插入或更新的 Entity ID 数组。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -827,7 +1010,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -836,11 +1022,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -875,10 +1070,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v1/vector/search": {
@@ -908,8 +1109,14 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
-            }
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -925,7 +1132,10 @@
                       "zh-CN": {
                         "description": "数据库名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
                     "type": "string",
@@ -934,20 +1144,29 @@
                       "zh-CN": {
                         "description": "Collection 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "partitionNames": {
                     "type": "array",
                     "items": {
                       "type": "string",
-                      "description": "partitionName"
+                      "description": "partitionName",
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     "description": "The name of the partitions to which this operation applies. Setting this parameter indicates that the search scope should be limited to the specified partitions. If not specified, the search scope is the entire collection.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Partition 名称。如果指定该参数，则只在指定 Partition 中进行搜索。如果未指定，则搜索整个 Collection。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "filter": {
                     "type": "string",
@@ -956,7 +1175,10 @@
                       "zh-CN": {
                         "description": "搜索时使用的标量过滤条件。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "limit": {
                     "type": "integer",
@@ -968,7 +1190,10 @@
                     },
                     "default": 100,
                     "minimum": 1,
-                    "maximum": 16384
+                    "maximum": 16384,
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "offset": {
                     "type": "integer",
@@ -980,7 +1205,10 @@
                     },
                     "minimum": 0,
                     "maximum": 16384,
-                    "exclusiveMinimum": true
+                    "exclusiveMinimum": true,
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "outputFields": {
                     "type": "array",
@@ -995,14 +1223,20 @@
                         "zh-CN": {
                           "description": "随查询结果返回的字段名称。"
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     "description": "An array of fields to return along with the search results.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "要求在搜索结果中包含的字段名称列表。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "vector": {
                     "type": "array",
@@ -1014,14 +1248,20 @@
                         "zh-CN": {
                           "description": "搜索向量的某个维度的浮点数。"
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     "description": "The query vector in the form of a list of floating numbers. The length of the query vector should match the dimension of the vector field in the collection.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "以浮点数列表形式表示的查询向量。该查询向量的长度应与 Collection 中向量字段的维度相同。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "params": {
                     "type": "object",
@@ -1034,7 +1274,10 @@
                           "zh-CN": {
                             "description": "与 `range_filter` 参数一起使用，用于指定查询向量最不相似的向量所在的角度。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "range_filter": {
                         "type": "number",
@@ -1044,7 +1287,10 @@
                           "zh-CN": {
                             "description": "与 `radius` 参数一起使用，用于过滤相似度范围内的向量字段值。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
                     },
                     "required": [
@@ -1055,13 +1301,19 @@
                       "zh-CN": {
                         "description": "搜索参数列表。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "collectionName",
                   "vector"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "collectionName": "quick_setup",
@@ -1081,7 +1333,10 @@
                 ]
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1106,7 +1361,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "array",
@@ -1132,7 +1390,10 @@
                                   "zh-CN": {
                                     "description": "Entity ID。"
                                   }
-                                }
+                                },
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
                               },
                               "distance": {
                                 "type": "number",
@@ -1142,12 +1403,24 @@
                                   "zh-CN": {
                                     "description": "与查询向量的相似度分数。"
                                   }
-                                }
+                                },
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
                               }
-                            }
-                          }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "description": "Returns an error message.",
@@ -1169,7 +1442,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -1178,11 +1454,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1219,10 +1504,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v1/vector/query": {
@@ -1252,8 +1543,14 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
-            }
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -1269,7 +1566,10 @@
                       "zh-CN": {
                         "description": "数据库名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
                     "type": "string",
@@ -1278,20 +1578,29 @@
                       "zh-CN": {
                         "description": "Collection 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "partitionNames": {
                     "type": "array",
                     "items": {
                       "type": "string",
-                      "description": "PartitionName"
+                      "description": "PartitionName",
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     "description": "The name of the partitions to which this operation applies.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Partition 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "filter": {
                     "type": "string",
@@ -1300,7 +1609,10 @@
                       "zh-CN": {
                         "description": "查询的过滤条件。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "limit": {
                     "type": "integer",
@@ -1311,7 +1623,10 @@
                       }
                     },
                     "minimum": 1,
-                    "maximum": 16384
+                    "maximum": 16384,
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "offset": {
                     "type": "integer",
@@ -1323,7 +1638,10 @@
                     },
                     "minimum": 0,
                     "exclusiveMinimum": true,
-                    "maximum": 16384
+                    "maximum": 16384,
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "outputFields": {
                     "type": "array",
@@ -1334,20 +1652,29 @@
                         "zh-CN": {
                           "description": "随查询结果返回的字段名称。"
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     "description": "An array of fields to return along with the search results. When setting this to `count(*)`, you need to set `limit` to 0 to get the total count of the entities that match the filter.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "每条返回的查询结果中需要包含的字段名称列表。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "collectionName",
                   "filter"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "collectionName": "medium_articles",
@@ -1361,7 +1688,10 @@
                 "offset": 0
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1386,7 +1716,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "array",
@@ -1404,10 +1737,19 @@
                                 "description": "响应负载，为包含了指定字段及其对应值的对象。"
                               }
                             },
-                            "properties": {}
-                          }
+                            "properties": {},
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -1429,7 +1771,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -1438,11 +1783,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1476,10 +1830,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v1/vector/get": {
@@ -1509,8 +1869,14 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
-            }
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -1526,7 +1892,10 @@
                       "zh-CN": {
                         "description": "数据库名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
                     "type": "string",
@@ -1535,7 +1904,10 @@
                       "zh-CN": {
                         "description": "Collection 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "partitionNames": {
                     "type": "array",
@@ -1546,14 +1918,20 @@
                         "zh-CN": {
                           "description": "Partition 名称。"
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     "description": "The name of the partitions to which this operation applies. Setting this indicates that the operation should be applied to only these partitions. If not set, the operation will be applied to all partitions in the collection.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Partition 名称列表。设置后，当前操作只会应用到这些分区。如果不设置，当前操作会应用到 Collection 中的所有分区。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "outputFields": {
                     "type": "array",
@@ -1564,14 +1942,20 @@
                         "zh-CN": {
                           "description": "字段名称。"
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     "description": "An array of fields to return along with the query results.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "查询结果中要返回的字段列表。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "id": {
                     "oneOf": [
@@ -1582,7 +1966,10 @@
                           "zh-CN": {
                             "description": "需要获取的 Entity ID。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       {
                         "type": "array",
@@ -1593,14 +1980,20 @@
                             "zh-CN": {
                               "description": "Entity ID。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "description": "An array of IDs of the entities to be retrieved",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "需要获取的 Entity ID 列表。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       {
                         "type": "integer",
@@ -1609,27 +2002,42 @@
                           "zh-CN": {
                             "description": "需要获取的 Entity ID。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       {
                         "type": "array",
                         "items": {
-                          "type": "integer"
+                          "type": "integer",
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "description": "An array of IDs of the entities to be retrieved",
                         "x-i18n": {
                           "zh-CN": {
                             "description": "需要获取的 Entity ID 列表。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "collectionName",
                   "id"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "collectionName": "quick_setup",
@@ -1643,7 +2051,10 @@
                 ]
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1668,7 +2079,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "array",
@@ -1686,10 +2100,19 @@
                                 "description": "返回的一个 Entity 对象。"
                               }
                             },
-                            "properties": {}
-                          }
+                            "properties": {},
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -1711,7 +2134,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -1720,11 +2146,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1758,10 +2193,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     }
   },

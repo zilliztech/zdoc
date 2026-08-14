@@ -41,7 +41,10 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
@@ -50,7 +53,10 @@
             },
             "x-base-url-target": [
               "cluster"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           {
             "name": "Authorization",
@@ -59,7 +65,10 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
@@ -68,7 +77,10 @@
             },
             "x-base-url-target": [
               "on-demand-compute"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -78,15 +90,24 @@
                 "type": "object",
                 "properties": {
                   "dbName": {
-                    "$ref": "#/components/schemas/CollectionCommons/properties/dbName"
+                    "$ref": "#/components/schemas/CollectionCommons/properties/dbName",
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "dbName": "my_database"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -108,7 +129,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -133,10 +157,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/create": {
@@ -445,7 +475,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -467,7 +500,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -496,10 +532,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/flush": {
@@ -531,7 +573,10 @@
                 "collectionName": "test_collection"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -553,7 +598,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -574,9 +622,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/compact": {
@@ -605,10 +659,16 @@
                 "type": "object",
                 "properties": {
                   "dbName": {
-                    "$ref": "#/components/schemas/CollectionCommons/properties/dbName"
+                    "$ref": "#/components/schemas/CollectionCommons/properties/dbName",
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
-                    "$ref": "#/components/schemas/CollectionCommons/properties/collectionName"
+                    "$ref": "#/components/schemas/CollectionCommons/properties/collectionName",
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "isClustering": {
                     "type": "boolean",
@@ -617,19 +677,28 @@
                       "zh-CN": {
                         "description": "是否进行 Clustering Compaction。更多细节请参考 [Clustering Compaction](https://milvus.io/docs/clustering-compaction.md)。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "collectionName"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "collectionName": "test_collection",
                 "isClustering": "true"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -651,7 +720,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -673,9 +745,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/get_compaction_state": {
@@ -710,15 +788,24 @@
                       "zh-CN": {
                         "description": "Compaction 任务的 ID。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "jobID": "xxxxxxxxxxxxxxxxxxxxxx"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -740,7 +827,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -767,9 +857,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/describe": {
@@ -804,7 +900,10 @@
                 "collectionName": "test_collection"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1045,10 +1144,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/drop": {
@@ -1083,7 +1188,10 @@
                 "collectionName": "my_collection"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1100,7 +1208,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1121,9 +1232,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/truncate": {
@@ -1158,7 +1275,10 @@
                 "collectionName": "my_collection"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1175,7 +1295,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1196,9 +1319,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/has": {
@@ -1233,7 +1362,10 @@
                 "collectionName": "quick_setup"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1255,7 +1387,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1278,10 +1413,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/get_stats": {
@@ -1316,7 +1457,10 @@
                 "collectionName": "quick_setup"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1338,7 +1482,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1361,10 +1508,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/refresh_load": {
@@ -1393,21 +1546,33 @@
                 "type": "object",
                 "properties": {
                   "dbName": {
-                    "$ref": "#/components/schemas/CollectionCommons/properties/dbName"
+                    "$ref": "#/components/schemas/CollectionCommons/properties/dbName",
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
-                    "$ref": "#/components/schemas/CollectionCommons/properties/collectionName"
+                    "$ref": "#/components/schemas/CollectionCommons/properties/collectionName",
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "collectionName"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "collectionName": "quick_setup"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1429,7 +1594,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1450,9 +1618,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/alter_properties": {
@@ -1490,7 +1664,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1512,7 +1689,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1533,9 +1713,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/drop_properties": {
@@ -1570,7 +1756,10 @@
                 ]
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1592,7 +1781,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1614,9 +1806,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/fields/add": {
@@ -1658,7 +1856,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1680,7 +1881,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1701,9 +1905,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/fields/alter_properties": {
@@ -1739,7 +1949,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1761,7 +1974,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1782,9 +1998,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/rename": {
@@ -1820,7 +2042,10 @@
                 "newCollectionName": "quick_setup"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1837,7 +2062,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1858,9 +2086,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/load": {
@@ -1889,21 +2123,33 @@
                 "type": "object",
                 "properties": {
                   "dbName": {
-                    "$ref": "#/components/schemas/CollectionCommons/properties/dbName"
+                    "$ref": "#/components/schemas/CollectionCommons/properties/dbName",
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
-                    "$ref": "#/components/schemas/CollectionCommons/properties/collectionName"
+                    "$ref": "#/components/schemas/CollectionCommons/properties/collectionName",
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "collectionName"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "collectionName": "quick_setup"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1920,7 +2166,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1941,10 +2190,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/release": {
@@ -1973,21 +2228,33 @@
                 "type": "object",
                 "properties": {
                   "dbName": {
-                    "$ref": "#/components/schemas/CollectionCommons/properties/dbName"
+                    "$ref": "#/components/schemas/CollectionCommons/properties/dbName",
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
-                    "$ref": "#/components/schemas/CollectionCommons/properties/collectionName"
+                    "$ref": "#/components/schemas/CollectionCommons/properties/collectionName",
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "collectionName"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "collectionName": "quick_setup"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -2004,7 +2271,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -2025,10 +2295,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/get_load_state": {
@@ -2060,7 +2336,10 @@
                 "collectionName": "quick_setup"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -2082,7 +2361,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -2107,10 +2389,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/add_function": {
@@ -2145,7 +2433,10 @@
                       "zh-CN": {
                         "description": "数据库名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
                     "type": "string",
@@ -2154,16 +2445,25 @@
                       "zh-CN": {
                         "description": "Collection 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "function": {
-                    "$ref": "#/components/schemas/FunctionSchema"
+                    "$ref": "#/components/schemas/FunctionSchema",
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "collectionName",
                   "function"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "collectionName": "my_collection",
@@ -2179,7 +2479,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -2196,7 +2499,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -2217,9 +2523,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/alter_function": {
@@ -2254,7 +2566,10 @@
                       "zh-CN": {
                         "description": "数据库名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
                     "type": "string",
@@ -2263,7 +2578,10 @@
                       "zh-CN": {
                         "description": "Collection 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "functionName": {
                     "type": "string",
@@ -2272,17 +2590,26 @@
                       "zh-CN": {
                         "description": "待修改的 Function 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "function": {
-                    "$ref": "#/components/schemas/FunctionSchema"
+                    "$ref": "#/components/schemas/FunctionSchema",
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "collectionName",
                   "functionName",
                   "function"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "collectionName": "my_collection",
@@ -2299,7 +2626,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -2316,7 +2646,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -2337,9 +2670,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/collections/drop_function": {
@@ -2374,7 +2713,10 @@
                       "zh-CN": {
                         "description": "数据库名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
                     "type": "string",
@@ -2383,7 +2725,10 @@
                       "zh-CN": {
                         "description": "Collection 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "FunctionName": {
                     "type": "string",
@@ -2392,20 +2737,29 @@
                       "zh-CN": {
                         "description": "待删除的 Function 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "collectionName",
                   "FunctionName"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "collectionName": "my_collection",
                 "FunctionName": "bm25_fn"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -2422,7 +2776,10 @@
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -2443,9 +2800,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/common/run_analyzer": {
@@ -2483,19 +2846,28 @@
                       "zh-CN": {
                         "description": "数据库名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "text": {
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     "description": "A list of text strings to analyze.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待分析的文本字符串列表。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "analyzerParams": {
                     "type": "string",
@@ -2504,7 +2876,10 @@
                       "zh-CN": {
                         "description": "以 JSON 字符串形式表示的分析器参数。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "withDetail": {
                     "type": "boolean",
@@ -2513,7 +2888,10 @@
                       "zh-CN": {
                         "description": "是否返回详细的词元信息。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "withHash": {
                     "type": "boolean",
@@ -2522,7 +2900,10 @@
                       "zh-CN": {
                         "description": "是否在结果中包含哈希值。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
                     "type": "string",
@@ -2531,7 +2912,10 @@
                       "zh-CN": {
                         "description": "使用其字段分析器的 Collection 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "fieldName": {
                     "type": "string",
@@ -2540,24 +2924,36 @@
                       "zh-CN": {
                         "description": "使用其分析器的字段名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "analyzerNames": {
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     "description": "A list of analyzer names to use.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待使用的分析器名称列表。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "text"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "text": [
@@ -2567,7 +2963,10 @@
                 "withDetail": false
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -2580,7 +2979,10 @@
                       "type": "object",
                       "properties": {
                         "code": {
-                          "type": "integer"
+                          "type": "integer",
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "array",
@@ -2590,20 +2992,38 @@
                               "tokens": {
                                 "type": "array",
                                 "items": {
-                                  "type": "string"
-                                }
+                                  "type": "string",
+                                  "x-added-at": "2.6.x",
+                                  "x-last-modified": "2.6.x",
+                                  "x-deprecated-since": null
+                                },
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
                               }
-                            }
-                          }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
                       },
-                      "x-tab-label": "success"
+                      "x-tab-label": "success",
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "$ref": "#/components/schemas/ErrorResponse",
                       "x-tab-label": "failure"
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -2631,9 +3051,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/jobs/external_collection/refresh": {
@@ -2687,7 +3113,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -2713,7 +3142,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -2732,11 +3164,20 @@
                                 "zh-CN": {
                                   "description": "新建刷新任务的 ID。请使用该值通过 describe 接口查询任务进度。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -2758,7 +3199,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -2767,11 +3211,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -2808,10 +3261,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/jobs/external_collection/describe": {
@@ -2846,7 +3305,10 @@
                 "jobId": 449503829274509300
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -2872,7 +3334,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -2891,7 +3356,10 @@
                                 "zh-CN": {
                                   "description": "刷新任务的 ID。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "collectionName": {
                               "type": "string",
@@ -2900,7 +3368,10 @@
                                 "zh-CN": {
                                   "description": "该刷新任务关联的外部 Collection 名称。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "state": {
                               "type": "string",
@@ -2915,7 +3386,10 @@
                                 "RefreshInProgress",
                                 "RefreshCompleted",
                                 "RefreshFailed"
-                              ]
+                              ],
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "progress": {
                               "type": "integer",
@@ -2924,7 +3398,10 @@
                                 "zh-CN": {
                                   "description": "刷新进度百分比(0-100)。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "externalSource": {
                               "type": "string",
@@ -2933,7 +3410,10 @@
                                 "zh-CN": {
                                   "description": "本任务所使用的外部数据源 JSON 配置。<include target=\"milvus\">S3 存储桶中的对象 URL 适用。</include><include target=\"zilliz\">Zilliz Cloud Volume 中的对象 URL 适用。</include>"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "startTime": {
                               "type": "integer",
@@ -2943,7 +3423,10 @@
                                 "zh-CN": {
                                   "description": "刷新任务的开始时间(Unix 时间戳)。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "endTime": {
                               "type": "integer",
@@ -2953,7 +3436,10 @@
                                 "zh-CN": {
                                   "description": "刷新任务的结束时间(Unix 时间戳)；任务仍在进行中时为 `0`。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "reason": {
                               "type": "string",
@@ -2962,11 +3448,20 @@
                                 "zh-CN": {
                                   "description": "失败原因。仅当 `state` 为 `RefreshFailed` 时返回。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -2988,7 +3483,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -2997,11 +3495,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -3066,10 +3573,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/jobs/external_collection/list": {
@@ -3107,7 +3620,10 @@
                       "zh-CN": {
                         "description": "用于列出刷新任务的数据库名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
                     "type": "string",
@@ -3116,16 +3632,25 @@
                       "zh-CN": {
                         "description": "外部 Collection 名称。留空或省略时，将返回数据库下所有外部 Collection 的刷新任务。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "dbName": "default",
                 "collectionName": "ext_books"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -3151,7 +3676,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -3187,7 +3715,10 @@
                                       "zh-CN": {
                                         "description": "刷新任务的 ID。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "collectionName": {
                                     "type": "string",
@@ -3196,7 +3727,10 @@
                                       "zh-CN": {
                                         "description": "该刷新任务关联的外部 Collection 名称。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "state": {
                                     "type": "string",
@@ -3211,7 +3745,10 @@
                                       "RefreshInProgress",
                                       "RefreshCompleted",
                                       "RefreshFailed"
-                                    ]
+                                    ],
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "progress": {
                                     "type": "integer",
@@ -3220,7 +3757,10 @@
                                       "zh-CN": {
                                         "description": "刷新进度百分比(0-100)。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "externalSource": {
                                     "type": "string",
@@ -3229,7 +3769,10 @@
                                       "zh-CN": {
                                         "description": "本任务所使用的外部数据源 JSON 配置。<include target=\"milvus\">S3 存储桶中的对象 URL 适用。</include><include target=\"zilliz\">Zilliz Cloud Volume 中的对象 URL 适用。</include>"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "startTime": {
                                     "type": "integer",
@@ -3239,7 +3782,10 @@
                                       "zh-CN": {
                                         "description": "刷新任务的开始时间(Unix 时间戳)。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "endTime": {
                                     "type": "integer",
@@ -3249,7 +3795,10 @@
                                       "zh-CN": {
                                         "description": "刷新任务的结束时间(Unix 时间戳)；任务仍在进行中时为 `0`。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "reason": {
                                     "type": "string",
@@ -3258,14 +3807,29 @@
                                       "zh-CN": {
                                         "description": "失败原因。仅当 `state` 为 `RefreshFailed` 时返回。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   }
-                                }
-                              }
+                                },
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -3287,7 +3851,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -3296,11 +3863,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -3391,10 +3967,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     }
   },
@@ -3440,10 +4022,16 @@
         "type": "object",
         "properties": {
           "dbName": {
-            "$ref": "#/components/schemas/CollectionCommons/properties/dbName"
+            "$ref": "#/components/schemas/CollectionCommons/properties/dbName",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collectionName": {
-            "$ref": "#/components/schemas/CollectionCommons/properties/collectionName"
+            "$ref": "#/components/schemas/CollectionCommons/properties/collectionName",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "propertyKeys": {
             "type": "array",
@@ -3487,14 +4075,23 @@
                 "warmup.scalarIndex",
                 "warmup.vectorField",
                 "warmup.vectorIndex"
-              ]
-            }
+              ],
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
           "collectionName",
           "propertyKeys"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "DescribeCollectionSuccessResponse": {
         "x-tab-label": "success",
@@ -3508,7 +4105,10 @@
               }
             },
             "type": "integer",
-            "example": 0
+            "example": 0,
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "data": {
             "type": "object",
@@ -3528,14 +4128,20 @@
                     "zh-CN": {
                       "description": "Collection 的别名。"
                     }
-                  }
+                  },
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "description": "A list aliases assigned to the collection.",
                 "x-i18n": {
                   "zh-CN": {
                     "description": "已分配给 Collection 的别名列表。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "autoID": {
                 "type": "boolean",
@@ -3544,7 +4150,10 @@
                   "zh-CN": {
                     "description": "当前 Collection 的主键是否自动增长。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "collectionID": {
                 "type": "integer",
@@ -3554,7 +4163,10 @@
                   "zh-CN": {
                     "description": "创建当前 Collection 时分配的 ID。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "collectionName": {
                 "type": "string",
@@ -3563,7 +4175,10 @@
                   "zh-CN": {
                     "description": "当前 Collection 的名称。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "consistencyLevel": {
                 "type": "string",
@@ -3578,7 +4193,10 @@
                   "Bounded",
                   "<include target=\"milvus\">Session</include>",
                   "Eventual"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "description": {
                 "type": "string",
@@ -3587,7 +4205,10 @@
                   "zh-CN": {
                     "description": "当前 Collection 的描述。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "enableDynamicField": {
                 "type": "boolean",
@@ -3596,7 +4217,10 @@
                   "zh-CN": {
                     "description": "是否已启用保留的动态字段，用于以键值对的形式存放 Schema 中未定义的字段。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "externalSource": {
                 "type": "string",
@@ -3605,7 +4229,10 @@
                   "zh-CN": {
                     "description": "如果当前 Collection 是外部 Collection，则返回 JSON 编码的外部数据源配置。<include target=\"milvus\">S3 存储桶中的对象 URL 适用。</include><include target=\"zilliz\">Zilliz Cloud Volume 中的对象 URL 适用。</include>"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "externalSpec": {
                 "type": "string",
@@ -3614,7 +4241,10 @@
                   "zh-CN": {
                     "description": "如果当前 Collection 是外部 Collection，则返回 JSON 编码的外部规范。该字段的内容可能因连接器类型和源数据格式而异，可能包括但不限于文件格式、字段映射等。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "fields": {
                 "type": "array",
@@ -3626,7 +4256,10 @@
                   "zh-CN": {
                     "description": "当前 Collection 的字段列表。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "functions": {
                 "type": "array",
@@ -3638,7 +4271,10 @@
                   "zh-CN": {
                     "description": "当前 Collection 的函数列表。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "indexes": {
                 "type": "array",
@@ -3650,7 +4286,10 @@
                   "zh-CN": {
                     "description": "索引列表。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "load": {
                 "type": "string",
@@ -3659,7 +4298,10 @@
                   "zh-CN": {
                     "description": "当前 Collection 的载入状态。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "partitionsNum": {
                 "type": "integer",
@@ -3668,7 +4310,10 @@
                   "zh-CN": {
                     "description": "当前 Collection 的 Partition 数量。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "properties": {
                 "type": "array",
@@ -3682,7 +4327,10 @@
                         "zh-CN": {
                           "description": "属性名称。"
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     "value": {
                       "type": "string",
@@ -3691,7 +4339,10 @@
                         "zh-CN": {
                           "description": "属性取值。"
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
                   },
                   "description": "A collection property object in a key-value pair.",
@@ -3699,14 +4350,20 @@
                     "zh-CN": {
                       "description": "以键值对形式呈现的 Collection 属性。"
                     }
-                  }
+                  },
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "description": "Extra collection properties in an array.",
                 "x-i18n": {
                   "zh-CN": {
                     "description": "当前 Collection 的额外属性。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "shardsNum": {
                 "type": "integer",
@@ -3718,7 +4375,10 @@
                 },
                 "x-include-target": [
                   "milvus"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "structFields": {
                 "type": "array",
@@ -3730,11 +4390,20 @@
                 },
                 "items": {
                   "$ref": "#/components/schemas/StructArrayFieldDetails"
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "ErrorResponse": {
         "x-tab-label": "failure",
@@ -3756,7 +4425,10 @@
               "zh-CN": {
                 "description": "响应码。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "message": {
             "type": "string",
@@ -3765,9 +4437,15 @@
               "zh-CN": {
                 "description": "错误描述。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "EmptyResponse": {
         "x-tab-label": "success",
@@ -3780,13 +4458,22 @@
               "zh-CN": {
                 "description": "响应码。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "data": {
             "type": "object",
-            "properties": {}
+            "properties": {},
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "DescribeCollectionResponse": {
         "oneOf": [
@@ -3796,7 +4483,10 @@
           {
             "$ref": "#/components/schemas/ErrorResponse"
           }
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "QuickSetupCollection": {
         "x-tab-label": "quick setup",
@@ -3809,7 +4499,10 @@
               "zh-CN": {
                 "description": "数据库名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collectionName": {
             "type": "string",
@@ -3818,7 +4511,10 @@
               "zh-CN": {
                 "description": "待创建 Collection 的名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "dimension": {
             "type": "integer",
@@ -3827,7 +4523,10 @@
               "zh-CN": {
                 "description": "向量值的维度数。\n若该字段的 **idType** 为 **DataType.FLOAT\\_VECTOR** 或 **DataType.Binary\\_VECTOR**，则该字段为必填项。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "metricType": {
             "type": "string",
@@ -3844,7 +4543,10 @@
               "JACCARD",
               "HAMMING"
             ],
-            "default": "COSINE"
+            "default": "COSINE",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "idType": {
             "type": "string",
@@ -3857,7 +4559,10 @@
             "enum": [
               "VarChar",
               "Int64"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "autoID": {
             "type": "boolean",
@@ -3867,7 +4572,10 @@
               "zh-CN": {
                 "description": "主键是否自动增长。该参数为快速创建 Collection 而设计，若您已定义 __schema__ 字段，则该参数将被忽略。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "primaryFieldName": {
             "type": "string",
@@ -3876,7 +4584,10 @@
               "zh-CN": {
                 "description": "主键字段名称。该参数为快速创建 Collection 而设计，若您已定义 __schema__ 字段，则该参数将被忽略。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "vectorFieldName": {
             "type": "string",
@@ -3885,7 +4596,10 @@
               "zh-CN": {
                 "description": "向量字段名称。该参数为快速创建 Collection 而设计，若您已定义 __schema__ 字段，则该参数将被忽略。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "description": {
             "type": "string",
@@ -3894,16 +4608,25 @@
               "zh-CN": {
                 "description": "当前 Collection 的描述信息。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "params": {
-            "$ref": "#/components/schemas/QuickCollectionParams"
+            "$ref": "#/components/schemas/QuickCollectionParams",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
           "collectionName",
           "dimension"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "QuickCollectionParams": {
         "description": "Extra parameters for the collection.",
@@ -3921,7 +4644,10 @@
               "zh-CN": {
                 "description": "当前 Collection 允许的最大字节数。如果当前 Collection 的主键字段是字符串类型，则该参数可用。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "enableDynamicField": {
             "type": "boolean",
@@ -3931,7 +4657,10 @@
                 "description": "是否启用动态字段功能。"
               }
             },
-            "default": true
+            "default": true,
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "shardsNum": {
             "type": "integer",
@@ -3943,7 +4672,10 @@
             },
             "x-include-target": [
               "milvus"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "consistencyLevel": {
             "type": "string",
@@ -3959,7 +4691,10 @@
               "<include target=\"milvus\">Session</include>",
               "Bounded"
             ],
-            "default": "Bounded"
+            "default": "Bounded",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "ttlSeconds": {
             "type": "integer",
@@ -3968,7 +4703,10 @@
               "zh-CN": {
                 "description": "当前 Collection 的 TTL 时间。如果设置，则在 TTL 时间结束后，该 Collection 将被删除。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "mmap.enabled": {
             "type": "boolean",
@@ -3977,7 +4715,10 @@
               "zh-CN": {
                 "description": "是否为当前 Collection 启用内存映射功能。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "ttlField": {
             "type": "string",
@@ -3986,7 +4727,10 @@
               "zh-CN": {
                 "description": "用于 TTL 过期策略的字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "warmup.scalarField": {
             "type": "boolean",
@@ -3995,7 +4739,10 @@
               "zh-CN": {
                 "description": "是否在加载时将标量字段数据预加载到内存中。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "warmup.scalarIndex": {
             "type": "boolean",
@@ -4004,7 +4751,10 @@
               "zh-CN": {
                 "description": "是否在加载时将标量索引数据预加载到内存中。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "warmup.vectorField": {
             "type": "boolean",
@@ -4013,7 +4763,10 @@
               "zh-CN": {
                 "description": "是否在加载时将向量字段数据预加载到内存中。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "warmup.vectorIndex": {
             "type": "boolean",
@@ -4022,9 +4775,15 @@
               "zh-CN": {
                 "description": "是否在加载时将向量索引数据预加载到内存中。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "StructArraySubFieldSchema": {
         "type": "object",
@@ -4042,7 +4801,10 @@
               "zh-CN": {
                 "description": "子字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "dataType": {
             "type": "string",
@@ -4066,7 +4828,10 @@
               "Float16Vector",
               "BFloat16Vector",
               "Int8Vector"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "elementTypeParams": {
             "type": "object",
@@ -4075,13 +4840,19 @@
               "zh-CN": {
                 "description": "元素类型参数，例如 VarChar 的 max_length 或向量类型的 dim。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
           "fieldName",
           "dataType"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "StructArrayFieldSchema": {
         "type": "object",
@@ -4099,7 +4870,10 @@
               "zh-CN": {
                 "description": "Struct Array 字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "description": {
             "type": "string",
@@ -4108,7 +4882,10 @@
               "zh-CN": {
                 "description": "Struct Array 字段描述。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "fields": {
             "type": "array",
@@ -4120,7 +4897,10 @@
             },
             "items": {
               "$ref": "#/components/schemas/StructArraySubFieldSchema"
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "typeParams": {
             "type": "object",
@@ -4140,20 +4920,29 @@
                   "zh-CN": {
                     "description": "每条 Entity 中允许包含的 Struct 元素数量上限。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               }
             },
             "required": [
               "max_capacity"
             ],
-            "additionalProperties": false
+            "additionalProperties": false,
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
           "fieldName",
           "fields",
           "typeParams"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "StructArraySubFieldDetails": {
         "type": "object",
@@ -4171,7 +4960,10 @@
               "zh-CN": {
                 "description": "子字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "id": {
             "type": "string",
@@ -4180,7 +4972,10 @@
               "zh-CN": {
                 "description": "子字段的唯一标识符。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "type": {
             "type": "string",
@@ -4204,7 +4999,10 @@
               "Float16Vector",
               "BFloat16Vector",
               "Int8Vector"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "params": {
             "type": "array",
@@ -4218,15 +5016,30 @@
               "type": "object",
               "properties": {
                 "key": {
-                  "type": "string"
+                  "type": "string",
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "value": {
-                  "type": "string"
+                  "type": "string",
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 }
-              }
-            }
+              },
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "StructArrayFieldDetails": {
         "type": "object",
@@ -4244,7 +5057,10 @@
               "zh-CN": {
                 "description": "Struct Array 字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "id": {
             "type": "string",
@@ -4253,7 +5069,10 @@
               "zh-CN": {
                 "description": "Struct Array 字段的唯一标识符。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "description": {
             "type": "string",
@@ -4262,7 +5081,10 @@
               "zh-CN": {
                 "description": "Struct Array 字段描述。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "type": {
             "type": "string",
@@ -4274,7 +5096,10 @@
               "zh-CN": {
                 "description": "字段数据类型。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "fields": {
             "type": "array",
@@ -4286,7 +5111,10 @@
             },
             "items": {
               "$ref": "#/components/schemas/StructArraySubFieldDetails"
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "params": {
             "type": "array",
@@ -4300,15 +5128,30 @@
               "type": "object",
               "properties": {
                 "key": {
-                  "type": "string"
+                  "type": "string",
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "value": {
-                  "type": "string"
+                  "type": "string",
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 }
-              }
-            }
+              },
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "CollectionSchema": {
         "type": "object",
@@ -4326,7 +5169,10 @@
               "zh-CN": {
                 "description": "是否允许主键字段自动增长。将该参数设置为 `True` 则主键字段将自动增长。在这种情况下，请不要在插入数据时包含主键字段，以避免错误。如果当前字段的 `is_primary` 参数设置为 `True`，则本参数为必填项。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "enableDynamicField": {
             "type": "boolean",
@@ -4335,7 +5181,10 @@
               "zh-CN": {
                 "description": "是否允许使用保留字段 __$meta__ 来保存 Schema 中未定义的字段。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "fields": {
             "type": "array",
@@ -4347,7 +5196,10 @@
               "zh-CN": {
                 "description": "字段列表。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "functions": {
             "type": "array",
@@ -4359,7 +5211,10 @@
             },
             "items": {
               "$ref": "#/components/schemas/FunctionSchema"
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "externalSource": {
             "type": "string",
@@ -4368,7 +5223,10 @@
               "zh-CN": {
                 "description": "外部数据源标识符（例如 \"mysql\"）。创建外部集合时必填。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "externalSpec": {
             "type": "string",
@@ -4377,7 +5235,10 @@
               "zh-CN": {
                 "description": "描述外部数据源连接参数的 JSON 字符串。创建外部集合时必填。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "structFields": {
             "type": "array",
@@ -4389,9 +5250,15 @@
             },
             "items": {
               "$ref": "#/components/schemas/StructArrayFieldSchema"
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "CustomSetupCollection": {
         "x-tab-label": "custom setup",
@@ -4404,7 +5271,10 @@
               "zh-CN": {
                 "description": "数据库名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collectionName": {
             "type": "string",
@@ -4413,7 +5283,10 @@
               "zh-CN": {
                 "description": "待创建 Collection 的名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "schema": {
             "description": "The schema is responsible for organizing data in the target collection. A valid schema should have multiple fields, which must include a primary key, a vector field, and several scalar fields. Setting this parameter means that `dimension`, `idType`, `autoID`, `primaryFieldName`, and `vectorFieldName` will be ignored.",
@@ -4426,7 +5299,10 @@
               {
                 "$ref": "#/components/schemas/CollectionSchema"
               }
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "indexParams": {
             "type": "array",
@@ -4438,10 +5314,16 @@
               "zh-CN": {
                 "description": "索引构建所需相关参数。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "params": {
-            "$ref": "#/components/schemas/CustomCollectionParams"
+            "$ref": "#/components/schemas/CustomCollectionParams",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "description": {
             "type": "string",
@@ -4450,9 +5332,15 @@
               "zh-CN": {
                 "description": "当前 Collection 的描述信息。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "ExternalSetupCollection": {
         "x-tab-label": "external setup",
@@ -4465,7 +5353,10 @@
               "zh-CN": {
                 "description": "数据库名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collectionName": {
             "type": "string",
@@ -4474,7 +5365,10 @@
               "zh-CN": {
                 "description": "待创建 Collection 的名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "schema": {
             "description": "The schema for an external collection. Must include fields with externalField mappings, plus externalSource and externalSpec.",
@@ -4491,7 +5385,10 @@
             "required": [
               "externalSource",
               "externalSpec"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "indexParams": {
             "type": "array",
@@ -4503,10 +5400,16 @@
               "zh-CN": {
                 "description": "索引构建所需相关参数。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "params": {
-            "$ref": "#/components/schemas/CustomCollectionParams"
+            "$ref": "#/components/schemas/CustomCollectionParams",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "description": {
             "type": "string",
@@ -4515,9 +5418,15 @@
               "zh-CN": {
                 "description": "当前 Collection 的描述信息。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "CustomCollectionParams": {
         "description": "Extra parameters for the collection.",
@@ -4538,7 +5447,10 @@
             },
             "x-include-target": [
               "milvus"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "consistencyLevel": {
             "type": "string",
@@ -4554,7 +5466,10 @@
               "<include target=\"milvus\">Session</include>",
               "Bounded"
             ],
-            "default": "Bounded"
+            "default": "Bounded",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "partitionsNum": {
             "type": "integer",
@@ -4563,7 +5478,10 @@
               "zh-CN": {
                 "description": "随当前 Collection 创建的 Partition 数量。如果当前 Collection 中有指定为 Partition Key 的字段，则该参数为必填项。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "ttlSeconds": {
             "type": "integer",
@@ -4572,7 +5490,10 @@
               "zh-CN": {
                 "description": "当前 Collection 的 TTL 时间。如果设置，则在 TTL 时间结束后，该 Collection 将被删除。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "partitionKeyIsolation": {
             "type": "boolean",
@@ -4582,7 +5503,10 @@
                 "description": "是否为当前 Collection 启用 Partition Key 隔离功能。"
               }
             },
-            "default": false
+            "default": false,
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "mmap.enabled": {
             "type": "boolean",
@@ -4591,7 +5515,10 @@
               "zh-CN": {
                 "description": "是否为当前 Collection 启用内存映射功能。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "ttlField": {
             "type": "string",
@@ -4600,7 +5527,10 @@
               "zh-CN": {
                 "description": "用于 TTL 过期策略的字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "warmup.scalarField": {
             "type": "boolean",
@@ -4609,7 +5539,10 @@
               "zh-CN": {
                 "description": "是否在加载时将标量字段数据预加载到内存中。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "warmup.scalarIndex": {
             "type": "boolean",
@@ -4618,7 +5551,10 @@
               "zh-CN": {
                 "description": "是否在加载时将标量索引数据预加载到内存中。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "warmup.vectorField": {
             "type": "boolean",
@@ -4627,7 +5563,10 @@
               "zh-CN": {
                 "description": "是否在加载时将向量字段数据预加载到内存中。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "warmup.vectorIndex": {
             "type": "boolean",
@@ -4636,9 +5575,15 @@
               "zh-CN": {
                 "description": "是否在加载时将向量索引数据预加载到内存中。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "CreateCollectionRequest": {
         "oneOf": [
@@ -4651,7 +5596,10 @@
           {
             "$ref": "#/components/schemas/ExternalSetupCollection"
           }
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "CollectionAlterProperties": {
         "type": "object",
@@ -4669,7 +5617,10 @@
               "zh-CN": {
                 "description": "当前 Collection 的 TTL 时间，单位为秒。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.autocompaction.enabled": {
             "type": "boolean",
@@ -4678,7 +5629,10 @@
               "zh-CN": {
                 "description": "是否为当前 Collection 启用自动 Compaction 功能。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.description": {
             "type": "string",
@@ -4687,7 +5641,10 @@
               "zh-CN": {
                 "description": "当前 Collection 的描述信息。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.on.truncating": {
             "type": "boolean",
@@ -4696,7 +5653,10 @@
               "zh-CN": {
                 "description": "当前 Collection 是否正在执行截断操作。为 true 时禁止执行 Compaction。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.function.allowInsertNonBM25FunctionOutputs": {
             "type": "boolean",
@@ -4705,7 +5665,10 @@
               "zh-CN": {
                 "description": "是否允许插入非 BM25 函数的输出。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.insertRate.max.mb": {
             "type": "number",
@@ -4714,7 +5677,10 @@
               "zh-CN": {
                 "description": "最大插入速率限制，单位为 MB/s。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.insertRate.min.mb": {
             "type": "number",
@@ -4723,7 +5689,10 @@
               "zh-CN": {
                 "description": "最小插入速率限制，单位为 MB/s。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.deleteRate.max.mb": {
             "type": "number",
@@ -4732,7 +5701,10 @@
               "zh-CN": {
                 "description": "最大删除速率限制，单位为 MB/s。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.deleteRate.min.mb": {
             "type": "number",
@@ -4741,7 +5713,10 @@
               "zh-CN": {
                 "description": "最小删除速率限制，单位为 MB/s。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.bulkLoadRate.max.mb": {
             "type": "number",
@@ -4750,7 +5725,10 @@
               "zh-CN": {
                 "description": "最大批量加载速率限制，单位为 MB/s。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.bulkLoadRate.min.mb": {
             "type": "number",
@@ -4759,7 +5737,10 @@
               "zh-CN": {
                 "description": "最小批量加载速率限制，单位为 MB/s。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.queryRate.max.qps": {
             "type": "number",
@@ -4768,7 +5749,10 @@
               "zh-CN": {
                 "description": "最大查询速率限制，单位为 QPS。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.queryRate.min.qps": {
             "type": "number",
@@ -4777,7 +5761,10 @@
               "zh-CN": {
                 "description": "最小查询速率限制，单位为 QPS。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.searchRate.max.vps": {
             "type": "number",
@@ -4786,7 +5773,10 @@
               "zh-CN": {
                 "description": "最大搜索速率限制，单位为 VPS。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.searchRate.min.vps": {
             "type": "number",
@@ -4795,7 +5785,10 @@
               "zh-CN": {
                 "description": "最小搜索速率限制，单位为 VPS。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.diskProtection.diskQuota.mb": {
             "type": "number",
@@ -4804,7 +5797,10 @@
               "zh-CN": {
                 "description": "当前 Collection 的磁盘配额上限，单位为 MB。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.replica.number": {
             "type": "integer",
@@ -4813,7 +5809,10 @@
               "zh-CN": {
                 "description": "当前 Collection 的副本数量。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collection.resource_groups": {
             "type": "string",
@@ -4822,7 +5821,10 @@
               "zh-CN": {
                 "description": "与当前 Collection 关联的资源组名称列表，以逗号分隔。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "mmap.enabled": {
             "type": "boolean",
@@ -4831,7 +5833,10 @@
               "zh-CN": {
                 "description": "是否为当前 Collection 启用内存映射功能。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "partitionkey.isolation": {
             "type": "boolean",
@@ -4840,7 +5845,10 @@
               "zh-CN": {
                 "description": "是否为当前 Collection 启用 Partition Key 隔离功能。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "ttl_field": {
             "type": "string",
@@ -4849,7 +5857,10 @@
               "zh-CN": {
                 "description": "用于 TTL 过期策略的字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "warmup.scalarField": {
             "type": "boolean",
@@ -4858,7 +5869,10 @@
               "zh-CN": {
                 "description": "是否在加载时将标量字段数据预加载到内存中。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "warmup.scalarIndex": {
             "type": "boolean",
@@ -4867,7 +5881,10 @@
               "zh-CN": {
                 "description": "是否在加载时将标量索引数据预加载到内存中。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "warmup.vectorField": {
             "type": "boolean",
@@ -4876,7 +5893,10 @@
               "zh-CN": {
                 "description": "是否在加载时将向量字段数据预加载到内存中。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "warmup.vectorIndex": {
             "type": "boolean",
@@ -4885,18 +5905,30 @@
               "zh-CN": {
                 "description": "是否在加载时将向量索引数据预加载到内存中。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "AlterCollectionPropertiesRequest": {
         "type": "object",
         "properties": {
           "dbName": {
-            "$ref": "#/components/schemas/CollectionCommons/properties/dbName"
+            "$ref": "#/components/schemas/CollectionCommons/properties/dbName",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collectionName": {
-            "$ref": "#/components/schemas/CollectionCommons/properties/collectionName"
+            "$ref": "#/components/schemas/CollectionCommons/properties/collectionName",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "properties": {
             "type": "object",
@@ -4906,40 +5938,64 @@
                 "description": "待修改 Collection 属性。"
               }
             },
-            "$ref": "#/components/schemas/CollectionAlterProperties"
+            "$ref": "#/components/schemas/CollectionAlterProperties",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
           "collectionName",
           "properties"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "AddCollectionFieldRequest": {
         "type": "object",
         "properties": {
           "dbName": {
-            "$ref": "#/components/schemas/CollectionCommons/properties/dbName"
+            "$ref": "#/components/schemas/CollectionCommons/properties/dbName",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collectionName": {
-            "$ref": "#/components/schemas/CollectionCommons/properties/collectionName"
+            "$ref": "#/components/schemas/CollectionCommons/properties/collectionName",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "schema": {
-            "$ref": "#/components/schemas/FieldSchema"
+            "$ref": "#/components/schemas/FieldSchema",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
           "collectionName",
           "schema"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "AlterFieldPropertiesRequest": {
         "type": "object",
         "properties": {
           "dbName": {
-            "$ref": "#/components/schemas/CollectionCommons/properties/dbName"
+            "$ref": "#/components/schemas/CollectionCommons/properties/dbName",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collectionName": {
-            "$ref": "#/components/schemas/CollectionCommons/properties/collectionName"
+            "$ref": "#/components/schemas/CollectionCommons/properties/collectionName",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "fieldName": {
             "type": "string",
@@ -4948,7 +6004,10 @@
               "zh-CN": {
                 "description": "待修改属性的字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "fieldParams": {
             "type": "object",
@@ -4966,7 +6025,10 @@
                   "zh-CN": {
                     "description": "字段的最大长度。将该属性设置为非零值将限制字段的最大长度为指定值。<br/>该参数仅适用于 `VarChar` 类型的字段。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "max_capacity": {
                 "type": "integer",
@@ -4975,7 +6037,10 @@
                   "zh-CN": {
                     "description": "字段的最大容量。将该属性设置为非零值将限制字段的最大容量为指定值。<br/>该参数仅适用于 `Array` 类型的字段。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "mmap_enabled": {
                 "type": "boolean",
@@ -4984,24 +6049,39 @@
                   "zh-CN": {
                     "description": "是否为字段启用内存映射文件。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
           "collectionName",
           "fieldName"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "CollectionLoadStateRequest": {
         "type": "object",
         "properties": {
           "dbName": {
-            "$ref": "#/components/schemas/CollectionCommons/properties/dbName"
+            "$ref": "#/components/schemas/CollectionCommons/properties/dbName",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collectionName": {
-            "$ref": "#/components/schemas/CollectionCommons/properties/collectionName"
+            "$ref": "#/components/schemas/CollectionCommons/properties/collectionName",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "partitionNames": {
             "type": "array",
@@ -5010,12 +6090,18 @@
               "zh-CN": {
                 "description": "Partition 名称列表。如果指定了 Partition 名称，释放任何一个 Partition 都会导致返回 NotLoad 状态。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
           "collectionName"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "CollectionLoadStateResponse": {
         "x-tab-label": "success",
@@ -5029,7 +6115,10 @@
               }
             },
             "type": "integer",
-            "example": 0
+            "example": 0,
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "data": {
             "type": "object",
@@ -5047,7 +6136,10 @@
                   "zh-CN": {
                     "description": "指定 Collection 的加载状态。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "loadProgress": {
                 "type": "integer",
@@ -5056,11 +6148,20 @@
                   "zh-CN": {
                     "description": "指定 Collection 的加载进度。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "CollectionCommons": {
         "type": "object",
@@ -5072,7 +6173,10 @@
               "zh-CN": {
                 "description": "Database 名称。设置为不存在的 Database 会导致错误。如果未指定，则使用默认 Database。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collectionName": {
             "type": "string",
@@ -5081,12 +6185,18 @@
               "zh-CN": {
                 "description": "Collection 名称。设置为不存在的 Collection 会导致错误。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
           "collectionName"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "CompactionStateResponse": {
         "x-tab-label": "success",
@@ -5099,7 +6209,10 @@
               "zh-CN": {
                 "description": "响应码。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "data": {
             "type": "object",
@@ -5111,7 +6224,10 @@
                   "zh-CN": {
                     "description": "Compaction 任务的 ID。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "state": {
                 "type": "string",
@@ -5120,7 +6236,10 @@
                   "zh-CN": {
                     "description": "Compaction 任务的状态。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "executingPlanNumber": {
                 "type": "number",
@@ -5129,7 +6248,10 @@
                   "zh-CN": {
                     "description": "正在执行的计划数。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "timeoutPlanNumber": {
                 "type": "number",
@@ -5138,7 +6260,10 @@
                   "zh-CN": {
                     "description": "超时计划数。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "completedPlanNumber": {
                 "type": "number",
@@ -5147,11 +6272,20 @@
                   "zh-CN": {
                     "description": "已完成的计划数。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "GetCollectionStatsResponse": {
         "x-tab-label": "success",
@@ -5165,7 +6299,10 @@
               }
             },
             "type": "integer",
-            "example": 0
+            "example": 0,
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "data": {
             "type": "object",
@@ -5183,11 +6320,20 @@
                   "zh-CN": {
                     "description": "Entity 数量。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "HasCollectionResponse": {
         "x-tab-label": "success",
@@ -5201,7 +6347,10 @@
               }
             },
             "type": "integer",
-            "example": 0
+            "example": 0,
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "data": {
             "type": "object",
@@ -5219,11 +6368,20 @@
                   "zh-CN": {
                     "description": "表示指定 Collection 是否存在的布尔值。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "ListCollectionResponse": {
         "x-tab-label": "success",
@@ -5236,7 +6394,10 @@
                 "description": "响应码。"
               }
             },
-            "type": "integer"
+            "type": "integer",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "data": {
             "type": "array",
@@ -5247,25 +6408,40 @@
                 "zh-CN": {
                   "description": "Collection 名称。"
                 }
-              }
+              },
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "description": "Response payload which is a list of collection names.",
             "x-i18n": {
               "zh-CN": {
                 "description": "响应载荷，一个 Collection 名称列表。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "RenameCollectionRequest": {
         "type": "object",
         "properties": {
           "dbName": {
-            "$ref": "#/components/schemas/CollectionCommons/properties/dbName"
+            "$ref": "#/components/schemas/CollectionCommons/properties/dbName",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collectionName": {
-            "$ref": "#/components/schemas/CollectionCommons/properties/collectionName"
+            "$ref": "#/components/schemas/CollectionCommons/properties/collectionName",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "newDbName": {
             "type": "string",
@@ -5274,7 +6450,10 @@
               "zh-CN": {
                 "description": "操作完成后 Collection 所属的数据库名称。默认为 **default**。若指定的值不是 Collection 原先所属的数据库，则该操作将移动 Collection 到指定的数据库。设置为不存在的数据库将导致错误。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "newCollectionName": {
             "type": "string",
@@ -5283,13 +6462,19 @@
               "zh-CN": {
                 "description": "操作完成后 Collection 的名称。设置为 Collection 的原有名称将导致错误。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
           "newCollectionName",
           "collectionName"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "FieldSchema": {
         "type": "object",
@@ -5307,7 +6492,10 @@
               "zh-CN": {
                 "description": "目标 Collection 中待创建的字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "dataType": {
             "type": "string",
@@ -5335,7 +6523,10 @@
               "BFloat16Vector",
               "SparseFloatVector",
               "Int8Vector"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "elementDataType": {
             "type": "string",
@@ -5354,7 +6545,10 @@
               "Float",
               "Double",
               "VarChar"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "nullable": {
             "type": "boolean",
@@ -5363,7 +6557,10 @@
               "zh-CN": {
                 "description": "字段是否可以为 null。如果设置为 `true`，则该字段可以包含 null 值。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "defaultValue": {
             "type": "string",
@@ -5372,7 +6569,10 @@
               "zh-CN": {
                 "description": "字段的默认值。若当前字段为 `VarChar` 类型，则该参数为必填项。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "isPrimary": {
             "type": "boolean",
@@ -5381,7 +6581,10 @@
               "zh-CN": {
                 "description": "当前字段是否为主键字段。将该参数设置为 `True` 则当前字段将成为主键字段。此时，还需要确定 `autoID` 参数的取值。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "isPartitionKey": {
             "type": "boolean",
@@ -5390,7 +6593,10 @@
               "zh-CN": {
                 "description": "当前字段是否为 Partition Key。将该参数设置为 `True` 则当前字段将作为 Partition Key。在这种情况下，<include target=\"milvus\">Milvus</include><include target=\"milvus\">Zilliz Cloud</include> 会管理当前 Collection 中的所有 Partition。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "isClusteringKey": {
             "type": "boolean",
@@ -5402,7 +6608,10 @@
             },
             "x-include-target": [
               "milvus"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "elementTypeParams": {
             "type": "object",
@@ -5420,7 +6629,10 @@
                   "zh-CN": {
                     "description": "如果当前字段的数据类型为 VarChar，则该参数为必填项，用于设置该字段值的最大长度。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "dim": {
                 "type": "integer",
@@ -5429,7 +6641,10 @@
                   "zh-CN": {
                     "description": "如果当前字段的数据类型为 FloatVector 或 BinaryVector，则该参数为必填项，用于设置向量维度。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "max_capacity": {
                 "type": "integer",
@@ -5438,9 +6653,15 @@
                   "zh-CN": {
                     "description": "如果当前字段的数据类型为 Array，则该参数为必填项，用于设置该字段值的最大元素数量。"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "externalField": {
             "type": "string",
@@ -5449,13 +6670,19 @@
               "zh-CN": {
                 "description": "外部数据源中对应列的名称。创建外部集合时必填。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
           "fieldName",
           "dataType"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "FieldDetails": {
         "type": "object",
@@ -5473,7 +6700,10 @@
               "zh-CN": {
                 "description": "当前字段的名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "primaryKey": {
             "type": "boolean",
@@ -5482,7 +6712,10 @@
               "zh-CN": {
                 "description": "指示当前字段是否为主键。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "partitionKey": {
             "type": "boolean",
@@ -5491,7 +6724,10 @@
               "zh-CN": {
                 "description": "指示当前字段是否为 Partition Key。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "clusteringKey": {
             "type": "boolean",
@@ -5503,7 +6739,10 @@
             },
             "x-include-target": [
               "milvus"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "autoId": {
             "type": "boolean",
@@ -5512,7 +6751,10 @@
               "zh-CN": {
                 "description": "指示当前字段是否为自动生成的 ID。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "description": {
             "type": "string",
@@ -5521,7 +6763,10 @@
               "zh-CN": {
                 "description": "当前字段的描述。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "nullable": {
             "type": "boolean",
@@ -5530,7 +6775,10 @@
               "zh-CN": {
                 "description": "指示当前字段是否允许空值。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "defaultValue": {
             "type": "string",
@@ -5539,7 +6787,10 @@
               "zh-CN": {
                 "description": "当前字段的默认值。当前值仅在字段有默认值时可用。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "isFunctionOutput": {
             "type": "boolean",
@@ -5548,7 +6799,10 @@
               "zh-CN": {
                 "description": "指示当前字段是否为函数的派生字段。当前值仅在字段是从函数派生时可用。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "type": {
             "type": "string",
@@ -5557,7 +6811,10 @@
               "zh-CN": {
                 "description": "当前字段的数据类型。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "id": {
             "type": "string",
@@ -5566,7 +6823,10 @@
               "zh-CN": {
                 "description": "当前字段的唯一标识符。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "params": {
             "type": "object",
@@ -5575,7 +6835,10 @@
               "zh-CN": {
                 "description": "当前字段的参数。当前值仅在字段有参数时可用。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "elementType": {
             "type": "string",
@@ -5584,9 +6847,15 @@
               "zh-CN": {
                 "description": "当前字段中元素的数据类型。当前值仅在字段为 Array 时可用。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "FunctionSchema": {
         "type": "object",
@@ -5604,7 +6873,10 @@
               "zh-CN": {
                 "description": "待创建 Function 的名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "description": {
             "type": "string",
@@ -5613,7 +6885,10 @@
               "zh-CN": {
                 "description": "待创建 Function 的描述。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "type": {
             "type": "string",
@@ -5627,7 +6902,10 @@
               "FunctionType.BM25",
               "FunctionType.TEXTEMBEDDING",
               "FunctionType.RERANK"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "inputFieldNames": {
             "type": "array",
@@ -5638,14 +6916,20 @@
                 "zh-CN": {
                   "description": "字段名称。"
                 }
-              }
+              },
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "description": "The names of the input fields for the function to create.",
             "x-i18n": {
               "zh-CN": {
                 "description": "待创建 Function 的输入字段名称列表。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "outputFieldNames": {
             "type": "array",
@@ -5656,14 +6940,20 @@
                 "zh-CN": {
                   "description": "字段名称。"
                 }
-              }
+              },
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "description": "The names of the output fields for the function to create.",
             "x-i18n": {
               "zh-CN": {
                 "description": "待创建 Function 的输出字段名称列表。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "params": {
             "type": "object",
@@ -5672,7 +6962,10 @@
               "zh-CN": {
                 "description": "当前 Function 的配置参数。当函数类型为 `FunctionType.BM25`，无须设置该参数。当函数类型为其它两类时，可以查看<a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> and <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a>获取详细的可用参数列表。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
@@ -5680,7 +6973,10 @@
           "type",
           "inputFieldNames",
           "outputFieldNames"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "FunctionDetails": {
         "type": "object",
@@ -5698,7 +6994,10 @@
               "zh-CN": {
                 "description": "当前 Function 的名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "description": {
             "type": "string",
@@ -5707,7 +7006,10 @@
               "zh-CN": {
                 "description": "当前 Function 的描述。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "type": {
             "type": "string",
@@ -5716,7 +7018,10 @@
               "zh-CN": {
                 "description": "当前 Function 的类型。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "id": {
             "type": "string",
@@ -5725,7 +7030,10 @@
               "zh-CN": {
                 "description": "当前 Function 的 ID。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "inputFieldNames": {
             "type": "array",
@@ -5736,14 +7044,20 @@
                 "zh-CN": {
                   "description": "输入字段的名称。"
                 }
-              }
+              },
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "description": "The input field names of the current function.",
             "x-i18n": {
               "zh-CN": {
                 "description": "当前 Function 的输入字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "outputFieldNames": {
             "type": "array",
@@ -5754,14 +7068,20 @@
                 "zh-CN": {
                   "description": "输出字段的名称。"
                 }
-              }
+              },
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "description": "The output field names of the current function.",
             "x-i18n": {
               "zh-CN": {
                 "description": "当前 Function 的输出字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "params": {
             "type": "object",
@@ -5770,9 +7090,15 @@
               "zh-CN": {
                 "description": "当前 Function 的参数。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "IndexParams": {
         "type": "object",
@@ -5798,7 +7124,10 @@
               "JACCARD",
               "HAMMING"
             ],
-            "default": "COSINE"
+            "default": "COSINE",
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "fieldName": {
             "type": "string",
@@ -5807,7 +7136,10 @@
               "zh-CN": {
                 "description": "要创建索引的目标字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "indexName": {
             "type": "string",
@@ -5816,7 +7148,10 @@
               "zh-CN": {
                 "description": "要创建的索引名称。该值默认为目标字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "params": {
             "description": "The index type and related settings. <include target=\"milvus\">For details, refer to [Vector Indexes](https://milvus.io/docs/index.md).</include><include target=\"zilliz\">For Zilliz Cloud clusters, you should always set `index_type` to `AUTOINDEX`.</include>",
@@ -5834,7 +7169,10 @@
                   "zh-CN": {
                     "description": "要创建的索引类型。<include target=\"zilliz\">对于 Zilliz Cloud 集群而言，请始终将 `index_type` 设置成 `AUTOINDEX`</include>"
                   }
-                }
+                },
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "M": {
                 "type": "integer",
@@ -5846,7 +7184,10 @@
                 },
                 "x-include-target": [
                   "milvus"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "efConstruction": {
                 "type": "integer",
@@ -5858,7 +7199,10 @@
                 },
                 "x-include-target": [
                   "milvus"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "nlist": {
                 "type": "integer",
@@ -5870,7 +7214,10 @@
                 },
                 "x-include-target": [
                   "milvus"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               }
             },
             "x-i18n-langs": [
@@ -5878,7 +7225,10 @@
             ],
             "required": [
               "index_type"
-            ]
+            ],
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "x-i18n-langs": [
@@ -5888,7 +7238,10 @@
           "metricType",
           "fieldName",
           "indexName"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "IndexDetails": {
         "type": "object",
@@ -5906,7 +7259,10 @@
               "zh-CN": {
                 "description": "当前索引的名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "fieldName": {
             "type": "string",
@@ -5915,7 +7271,10 @@
               "zh-CN": {
                 "description": "与当前索引关联的字段名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "metricType": {
             "type": "string",
@@ -5924,9 +7283,15 @@
               "zh-CN": {
                 "description": "当前索引的度量类型。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "RefreshExternalCollectionRequest": {
         "type": "object",
@@ -5938,7 +7303,10 @@
               "zh-CN": {
                 "description": "数据库名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "collectionName": {
             "type": "string",
@@ -5947,7 +7315,10 @@
               "zh-CN": {
                 "description": "待刷新 Collection 的名称。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "externalSource": {
             "type": "string",
@@ -5956,7 +7327,10 @@
               "zh-CN": {
                 "description": "外部数据源的 JSON 配置。提供该字段时必须同时提供 `externalSpec`；省略时将复用 Collection 此前已持久化的 source 配置。<include target=\"milvus\">S3 存储桶中的对象 URL 适用。</include><include target=\"zilliz\">Zilliz Cloud Volume 中的对象 URL 适用。</include><br/>此参数仅适用于 Iceberg 表。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           "externalSpec": {
             "type": "string",
@@ -5965,12 +7339,18 @@
               "zh-CN": {
                 "description": "描述外部数据与 Collection 字段映射关系的 JSON 配置。提供该字段时必须同时提供 `externalSource`；省略时将复用 Collection 此前已持久化的 spec 配置。<br/>此参数仅适用于 Iceberg 表。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
           "collectionName"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       },
       "RefreshExternalCollectionProgressRequest": {
         "type": "object",
@@ -5983,12 +7363,18 @@
               "zh-CN": {
                 "description": "要查询的刷新任务 ID。该值可通过 refresh 接口的返回结果获取。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
         "required": [
           "jobId"
-        ]
+        ],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "parameters": {
@@ -5999,13 +7385,19 @@
         "required": true,
         "example": "Bearer {{TOKEN}}",
         "schema": {
-          "type": "string"
+          "type": "string",
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "x-i18n": {
           "zh-CN": {
             "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。如果您使用的是项目端点，则仅具备足够权限的有效 API 密钥适用。"
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     }
   },

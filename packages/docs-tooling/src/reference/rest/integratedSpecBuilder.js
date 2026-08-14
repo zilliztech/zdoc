@@ -164,7 +164,9 @@ function requireSchemaProperties(schema, pointer) {
     }
   }
   if (schema.items && typeof schema.items === 'object' && !Array.isArray(schema.items)) {
-    requireSchemaProperties(schema.items, pointerFor(pointer, 'items'));
+    const itemsPointer = pointerFor(pointer, 'items');
+    if (!schema.items.$ref) requireLifecycle(schema.items, itemsPointer);
+    requireSchemaProperties(schema.items, itemsPointer);
   }
   for (const combinator of ['oneOf', 'anyOf', 'allOf']) {
     if (Array.isArray(schema[combinator])) {
@@ -180,29 +182,46 @@ function requireSchemaProperties(schema, pointer) {
 }
 
 function requireTrackLifecycle(spec) {
+  function requireParameterSchema(parameter, pointer) {
+    if (!parameter?.schema || parameter.schema.$ref) return;
+    const schemaPointer = pointerFor(pointer, 'schema');
+    requireLifecycle(parameter.schema, schemaPointer);
+    requireSchemaProperties(parameter.schema, schemaPointer);
+  }
+
+  function requireMediaSchemas(content, pointer) {
+    for (const [mediaType, media] of Object.entries(content || {})) {
+      if (!media?.schema || media.schema.$ref) continue;
+      const schemaPointer = pointerFor(pointerFor(pointer, 'content'), mediaType);
+      requireLifecycle(media.schema, schemaPointer);
+      requireSchemaProperties(media.schema, schemaPointer);
+    }
+  }
+
   function requireOperation(operation, pointer) {
     requireLifecycle(operation, pointer);
     for (const [location, value] of [['parameters', operation.parameters], ['requestBody', operation.requestBody], ['responses', operation.responses]]) {
       if (location === 'parameters' && Array.isArray(value)) {
         value.forEach((parameter, index) => {
           if (parameter && typeof parameter === 'object' && !parameter.$ref) {
-            requireLifecycle(parameter, pointerFor(pointerFor(pointer, 'parameters'), index));
+            const parameterPointer = pointerFor(pointerFor(pointer, 'parameters'), index);
+            requireLifecycle(parameter, parameterPointer);
+            requireParameterSchema(parameter, parameterPointer);
           }
         });
         continue;
       }
-      if (location === 'requestBody' && value?.content) {
-        for (const media of Object.values(value.content)) {
-          requireSchemaProperties(media?.schema, pointerFor(pointer, 'requestBody'));
-        }
+      if (location === 'requestBody' && value && !value.$ref) {
+        const requestPointer = pointerFor(pointer, 'requestBody');
+        requireLifecycle(value, requestPointer);
+        requireMediaSchemas(value.content, requestPointer);
       }
       if (location === 'responses' && value && typeof value === 'object') {
         for (const [status, response] of Object.entries(value)) {
-          if (response?.content) {
-            for (const media of Object.values(response.content)) {
-              requireSchemaProperties(media?.schema, pointerFor(pointerFor(pointer, 'responses'), status));
-            }
-          }
+          if (!response || response.$ref) continue;
+          const responsePointer = pointerFor(pointerFor(pointer, 'responses'), status);
+          requireLifecycle(response, responsePointer);
+          requireMediaSchemas(response.content, responsePointer);
         }
       }
     }
@@ -210,6 +229,14 @@ function requireTrackLifecycle(spec) {
 
   for (const [endpoint, methods] of Object.entries(spec.paths || {})) {
     if (!methods || typeof methods !== 'object') continue;
+    if (Array.isArray(methods.parameters)) {
+      methods.parameters.forEach((parameter, index) => {
+        if (parameter && typeof parameter === 'object' && !parameter.$ref) {
+          requireLifecycle(parameter, `${pointerFor(pointerFor('$', 'paths'), endpoint)}.parameters[${index}]`);
+          requireParameterSchema(parameter, `${pointerFor(pointerFor('$', 'paths'), endpoint)}.parameters[${index}]`);
+        }
+      });
+    }
     for (const [method, operation] of Object.entries(methods)) {
       if (!HTTP_METHODS.has(method)) continue;
       requireOperation(operation, `${pointerFor(pointerFor('$', 'paths'), endpoint)}.${method}`);
@@ -232,6 +259,10 @@ function requireTrackLifecycle(spec) {
       const pointer = pointerFor(pointerFor('$', 'components'), `${category}/${name}`);
       requireLifecycle(component, pointer);
       if (category === 'schemas') requireSchemaProperties(component, pointer);
+      if (category === 'parameters' || category === 'headers') requireParameterSchema(component, pointer);
+      if (category === 'requestBodies' || category === 'responses') {
+        requireMediaSchemas(component.content, pointer);
+      }
     }
   }
 }
