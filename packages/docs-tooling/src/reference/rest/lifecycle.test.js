@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const {
   applyLifecycleForTrack,
   validateLifecycle,
+  validateLifecycleTransition,
 } = require('./lifecycle');
 const {compareReleaseTracks, normalizeReleaseTrack} = require('./releaseTrack');
 
@@ -125,6 +126,34 @@ test('validateLifecycle rejects deprecated true without x-deprecated-since', () 
     }, '#/paths/~1search/post', {required: true}),
     /REST_LIFECYCLE_DEPRECATION/,
   );
+});
+
+test('base/head lifecycle comparison rejects x-added-at rewrites', () => {
+  assert.throws(() => validateLifecycleTransition(
+    lifecycleField('2.6.x', {type: 'string'}),
+    lifecycleField('3.0.x', {type: 'string'}),
+    '3.0.x',
+    '#/components/schemas/Request/properties/name',
+  ), /REST_LIFECYCLE_ADDED_AT_REWRITE/);
+});
+
+test('base/head lifecycle comparison rejects x-last-modified regression', () => {
+  assert.throws(() => validateLifecycleTransition(
+    lifecycleObject('2.6.x', '3.0.x', {type: 'string'}),
+    lifecycleObject('2.6.x', '2.6.x', {type: 'string'}),
+    '3.0.x',
+    '#/components/schemas/Request/properties/name',
+  ), /REST_LIFECYCLE_LAST_MODIFIED_REGRESSION/);
+});
+
+test('metadata-only changes cannot advance x-last-modified', () => {
+  assert.throws(() => validateLifecycleTransition(
+    lifecycleObject('2.6.x', '2.6.x', {description: 'Before'}),
+    lifecycleObject('2.6.x', '3.0.x', {description: 'After'}),
+    '3.0.x',
+    '#/components/schemas/Request/properties/name',
+    {publicContractChanged: false},
+  ), /REST_LIFECYCLE_METADATA_ONLY_ADVANCE/);
 });
 
 test('filtering rejects a retained required name without a retained property', () => {

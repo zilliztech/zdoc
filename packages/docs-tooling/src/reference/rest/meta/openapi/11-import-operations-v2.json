@@ -38,13 +38,19 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -83,7 +89,10 @@
                         ],
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "dbName": {
                         "type": "string",
@@ -92,7 +101,10 @@
                           "zh-CN": {
                             "description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "collectionName": {
                         "type": "string",
@@ -101,7 +113,10 @@
                           "zh-CN": {
                             "description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "partitionName": {
                         "type": "string",
@@ -110,7 +125,10 @@
                           "zh-CN": {
                             "description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "volumeName": {
                         "type": "string",
@@ -119,7 +137,10 @@
                           "zh-CN": {
                             "description": "数据文件上传的源 volume 名称。该 volume 需事先创建。详情请参考 [创建 volume](/reference/restful/create-volume-v2)"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "dataPaths": {
                         "type": "array",
@@ -144,14 +165,26 @@
                               "zh-CN": {
                                 "description": "待上传数据文件路径。"
                               }
-                            }
-                          }
-                        }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
                     },
                     "required": [
                       "collectionName"
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   {
                     "x-tab-label": "Volume (On-demand)",
@@ -184,7 +217,10 @@
                         ],
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "regionId": {
                         "type": "string",
@@ -211,7 +247,10 @@
                         ],
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "dbName": {
                         "type": "string",
@@ -220,7 +259,10 @@
                           "zh-CN": {
                             "description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "collectionName": {
                         "type": "string",
@@ -229,7 +271,10 @@
                           "zh-CN": {
                             "description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "partitionName": {
                         "type": "string",
@@ -238,7 +283,10 @@
                           "zh-CN": {
                             "description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "volumeName": {
                         "type": "string",
@@ -247,7 +295,10 @@
                           "zh-CN": {
                             "description": "数据文件上传的源 volume 名称。该 volume 需事先创建。详情请参考 [创建 volume](/reference/restful/create-volume-v2)"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "dataPaths": {
                         "type": "array",
@@ -272,14 +323,26 @@
                               "zh-CN": {
                                 "description": "待上传数据文件路径。"
                               }
-                            }
-                          }
-                        }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
                     },
                     "required": [
                       "collectionName"
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   {
                     "x-tab-label": "External storage (Serving)",
@@ -309,7 +372,10 @@
                         ],
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "dbName": {
                         "type": "string",
@@ -318,7 +384,10 @@
                           "zh-CN": {
                             "description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "collectionName": {
                         "type": "string",
@@ -327,7 +396,10 @@
                           "zh-CN": {
                             "description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "partitionName": {
                         "type": "string",
@@ -336,7 +408,10 @@
                           "zh-CN": {
                             "description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "files": {
                         "type": "array",
@@ -349,14 +424,20 @@
                               "zh-CN": {
                                 "description": "文件路径列表，列表中的路径均需位于 MinIO 实例上 Milvus 附带的 Milvus 根目录。"
                               }
-                            }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           },
                           "description": "A sub-list that contains a single JSON or Parquet file, or a set of NumPy files.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "包含单个 JSON 文件, Parquet 文件或一组 NumPy 文件的子列表。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "description": "The files that contain the data to import. The files should reside within the Milvus bucket on the MinIO instance deployed along with your Milvus instance.",
                         "x-i18n": {
@@ -366,7 +447,10 @@
                         },
                         "x-include-target": [
                           "milvus"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "options": {
                         "type": "object",
@@ -378,7 +462,10 @@
                               "zh-CN": {
                                 "description": "创建导入任务的超时时长。该值应为一个以秒、分钟或小时为单位的正数。例如，300s、1.5h、1h45 都是有效值。"
                               }
-                            }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           }
                         },
                         "description": "Bulk-import options.",
@@ -389,7 +476,10 @@
                         },
                         "x-include-target": [
                           "milvus"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "objectUrl": {
                         "type": "string",
@@ -402,7 +492,10 @@
                         "x-include-target": [
                           "zilliz"
                         ],
-                        "deprecated": true
+                        "deprecated": true,
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": "2.6.x"
                       },
                       "objectUrls": {
                         "type": "array",
@@ -422,17 +515,26 @@
                               "zh-CN": {
                                 "description": "包含待导入 Entity 的数据文件 URL。每个 URL 独占一个列表。"
                               }
-                            }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           },
                           "x-i18n": {
                             "zh-CN": {
                               "description": "待导入 Entity 所在的数据文件或文件夹 URL 列表。每个 列表包含一个 URL。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "accessKey": {
                         "type": "string",
@@ -444,7 +546,10 @@
                         },
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "secretKey": {
                         "type": "string",
@@ -456,19 +561,28 @@
                         },
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "token": {
                         "type": "string",
                         "description": "A temporary token for you to access the object storage service. The token name and the way to obtain it may vary with cloud providers. For details, refer to [the FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).",
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
                     },
                     "required": [
                       "collectionName"
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   {
                     "x-tab-label": "External storage (On-demand)",
@@ -498,7 +612,10 @@
                         ],
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "regionId": {
                         "type": "string",
@@ -525,7 +642,10 @@
                         ],
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "dbName": {
                         "type": "string",
@@ -534,7 +654,10 @@
                           "zh-CN": {
                             "description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "collectionName": {
                         "type": "string",
@@ -543,7 +666,10 @@
                           "zh-CN": {
                             "description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "partitionName": {
                         "type": "string",
@@ -552,7 +678,10 @@
                           "zh-CN": {
                             "description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "files": {
                         "type": "array",
@@ -565,14 +694,20 @@
                               "zh-CN": {
                                 "description": "文件路径列表，列表中的路径均需位于 MinIO 实例上 Milvus 附带的 Milvus 根目录。"
                               }
-                            }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           },
                           "description": "A sub-list that contains a single JSON or Parquet file, or a set of NumPy files.",
                           "x-i18n": {
                             "zh-CN": {
                               "description": "包含单个 JSON 文件, Parquet 文件或一组 NumPy 文件的子列表。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "description": "The files that contain the data to import. The files should reside within the Milvus bucket on the MinIO instance deployed along with your Milvus instance.",
                         "x-i18n": {
@@ -582,7 +717,10 @@
                         },
                         "x-include-target": [
                           "milvus"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "options": {
                         "type": "object",
@@ -594,7 +732,10 @@
                               "zh-CN": {
                                 "description": "创建导入任务的超时时长。该值应为一个以秒、分钟或小时为单位的正数。例如，300s、1.5h、1h45 都是有效值。"
                               }
-                            }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           }
                         },
                         "description": "Bulk-import options.",
@@ -605,7 +746,10 @@
                         },
                         "x-include-target": [
                           "milvus"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "objectUrl": {
                         "type": "string",
@@ -618,7 +762,10 @@
                         "x-include-target": [
                           "zilliz"
                         ],
-                        "deprecated": true
+                        "deprecated": true,
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": "2.6.x"
                       },
                       "objectUrls": {
                         "type": "array",
@@ -638,17 +785,26 @@
                               "zh-CN": {
                                 "description": "包含待导入 Entity 的数据文件 URL。每个 URL 独占一个列表。"
                               }
-                            }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           },
                           "x-i18n": {
                             "zh-CN": {
                               "description": "待导入 Entity 所在的数据文件或文件夹 URL 列表。每个 列表包含一个 URL。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "accessKey": {
                         "type": "string",
@@ -660,7 +816,10 @@
                         },
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "secretKey": {
                         "type": "string",
@@ -672,21 +831,33 @@
                         },
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "token": {
                         "type": "string",
                         "description": "A temporary token for you to access the object storage service. The token name and the way to obtain it may vary with cloud providers. For details, refer to [the FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).",
                         "x-include-target": [
                           "zilliz"
-                        ]
+                        ],
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
                     },
                     "required": [
                       "collectionName"
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "examples": {
                 "1": {
@@ -882,7 +1053,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -908,7 +1082,10 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "array",
@@ -934,12 +1111,24 @@
                                   "zh-CN": {
                                     "description": "当前创建的批量导入任务 ID。"
                                   }
-                                }
+                                },
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
                               }
-                            }
-                          }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -961,7 +1150,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -970,11 +1162,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1011,10 +1212,16 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/jobs/import/list": {
@@ -1039,13 +1246,19 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           {
             "name": "Accept",
@@ -1059,8 +1272,14 @@
             "required": false,
             "example": "application/json",
             "schema": {
-              "type": "string"
-            }
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -1079,7 +1298,10 @@
                     },
                     "x-include-target": [
                       "zilliz"
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "pageSize": {
                     "type": "integer",
@@ -1091,7 +1313,10 @@
                     },
                     "x-include-target": [
                       "zilliz"
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "currentPage": {
                     "type": "integer",
@@ -1103,22 +1328,34 @@
                     },
                     "x-include-target": [
                       "zilliz"
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "dbName": {
                     "type": "string",
-                    "description": "Name of the database to which the import job belongs."
+                    "description": "Name of the database to which the import job belongs.",
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "clusterId"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "clusterId": "inxx-xxxxxxxxxxxxxxx"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1142,7 +1379,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -1157,7 +1397,10 @@
                               },
                               "x-include-target": [
                                 "zilliz"
-                              ]
+                              ],
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "currentPage": {
                               "type": "integer",
@@ -1169,7 +1412,10 @@
                               },
                               "x-include-target": [
                                 "zilliz"
-                              ]
+                              ],
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "pageSize": {
                               "type": "integer",
@@ -1181,7 +1427,10 @@
                               },
                               "x-include-target": [
                                 "zilliz"
-                              ]
+                              ],
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "records": {
                               "type": "array",
@@ -1195,7 +1444,10 @@
                                       "zh-CN": {
                                         "description": "当前导入任务的目标 Collection 名称。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "jobId": {
                                     "type": "string",
@@ -1204,7 +1456,10 @@
                                       "zh-CN": {
                                         "description": "当前导入任务的 ID。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "state": {
                                     "type": "string",
@@ -1219,7 +1474,10 @@
                                       "InProgress",
                                       "Completed",
                                       "Failed"
-                                    ]
+                                    ],
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "progress": {
                                     "type": "number",
@@ -1231,7 +1489,10 @@
                                     },
                                     "x-include-target": [
                                       "milvus"
-                                    ]
+                                    ],
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "reason": {
                                     "type": "string",
@@ -1243,7 +1504,10 @@
                                     },
                                     "x-include-target": [
                                       "milvus"
-                                    ]
+                                    ],
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   }
                                 },
                                 "description": "An import job in detail.",
@@ -1251,14 +1515,20 @@
                                   "zh-CN": {
                                     "description": "导入任务的详细信息。"
                                   }
-                                }
+                                },
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
                               },
                               "description": "List of import jobs in detail.",
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "导入任务详情列表。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
                           },
                           "description": "Response payload, which is a list of import jobs in detail.",
@@ -1266,10 +1536,16 @@
                             "zh-CN": {
                               "description": "响应负载，为导入任务详情列表。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
                       },
-                      "x-tab-label": "success"
+                      "x-tab-label": "success",
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "description": "Returns an error message.",
@@ -1290,7 +1566,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -1299,12 +1578,21 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
                       },
-                      "x-tab-label": "failure"
+                      "x-tab-label": "failure",
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1347,21 +1635,27 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/jobs/import/get_progress": {
       "post": {
         "summary": "Get Import Job Progress",
-        "deprecated": false,
-        "description": "Retrieves the progress of a specified import job.",
+        "deprecated": true,
+        "description": "Deprecated compatibility route. Use `/v2/vectordb/jobs/import/describe` instead to retrieve the progress of a specified import job.",
         "x-i18n": {
           "zh-CN": {
             "summary": "查看导入任务进度",
-            "description": "本接口可获取指定导入任务的进度信息。"
+            "description": "已弃用的兼容路由。请改用 `/v2/vectordb/jobs/import/describe` 获取指定导入任务的进度信息。"
           }
         },
         "x-include-target": [
@@ -1378,13 +1672,19 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           },
           {
             "name": "Accept",
@@ -1398,8 +1698,14 @@
             "required": false,
             "example": "application/json",
             "schema": {
-              "type": "string"
-            }
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -1421,7 +1727,10 @@
                           "zh-CN": {
                             "description": "指定导入任务 ID。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "clusterId": {
                         "type": "string",
@@ -1430,13 +1739,19 @@
                           "zh-CN": {
                             "description": "指定集群 ID。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
                     },
                     "required": [
                       "jobId",
                       "clusterId"
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   {
                     "x-tab-label": "On-Demand Compute",
@@ -1452,7 +1767,10 @@
                           "zh-CN": {
                             "description": "指定导入任务 ID。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "projectId": {
                         "type": "string",
@@ -1461,7 +1779,10 @@
                           "zh-CN": {
                             "description": "指定项目 ID。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "regionId": {
                         "type": "string",
@@ -1470,16 +1791,25 @@
                           "zh-CN": {
                             "description": "指定地域 ID。"
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
                     },
                     "required": [
                       "jobId",
                       "projectId",
                       "regionId"
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "examples": {
                 "1": {
@@ -1521,7 +1851,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1546,7 +1879,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -1558,7 +1894,10 @@
                                 "zh-CN": {
                                   "description": "导入任务 ID。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "collectionName": {
                               "type": "string",
@@ -1567,7 +1906,10 @@
                                 "zh-CN": {
                                   "description": "导入任务的目标 Collection 名称。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "fileName": {
                               "type": "string",
@@ -1576,7 +1918,10 @@
                                 "zh-CN": {
                                   "description": "对象存储中存放的数据文件对象的路径。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "fileSize": {
                               "type": "integer",
@@ -1585,7 +1930,10 @@
                                 "zh-CN": {
                                   "description": "数据文件对象的大小。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "state": {
                               "type": "string",
@@ -1600,7 +1948,10 @@
                                 "Importing",
                                 "Completed",
                                 "Failed"
-                              ]
+                              ],
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "progress": {
                               "type": "integer",
@@ -1609,7 +1960,10 @@
                                 "zh-CN": {
                                   "description": "当前导入任务的进度百分比。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "completeTime": {
                               "type": "string",
@@ -1618,7 +1972,10 @@
                                 "zh-CN": {
                                   "description": "当前导入任务的完成时间。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "reason": {
                               "type": "string",
@@ -1627,7 +1984,10 @@
                                 "zh-CN": {
                                   "description": "当前导入任务失败的原因。任务成功时为空字符串。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "totalRows": {
                               "type": "integer",
@@ -1636,7 +1996,10 @@
                                 "zh-CN": {
                                   "description": "当前导入任务在目标 Collection 中插入的 Entity 数量。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "details": {
                               "type": "array",
@@ -1656,7 +2019,10 @@
                                       "zh-CN": {
                                         "description": "数据文件名称。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "fileSize": {
                                     "type": "integer",
@@ -1665,7 +2031,10 @@
                                       "zh-CN": {
                                         "description": "数据文件大小。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "state": {
                                     "type": "string",
@@ -1680,7 +2049,10 @@
                                       "Importing",
                                       "Completed",
                                       "Failed"
-                                    ]
+                                    ],
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "progress": {
                                     "type": "integer",
@@ -1689,7 +2061,10 @@
                                       "zh-CN": {
                                         "description": "数据文件处理进度。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "completeTime": {
                                     "type": "string",
@@ -1698,7 +2073,10 @@
                                       "zh-CN": {
                                         "description": "数据文件完成处理时间。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "reason": {
                                     "type": "string",
@@ -1707,7 +2085,10 @@
                                       "zh-CN": {
                                         "description": "数据文件导入失败原因。当数据文件成功处理时，该值为空。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "totalRows": {
                                     "type": "integer",
@@ -1716,16 +2097,25 @@
                                       "zh-CN": {
                                         "description": "当前文件在目标 Collection 中插入的 Entity 数量。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   }
-                                }
+                                },
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
                               },
                               "description": "Statistics on data import oriented to data files.",
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "按数据文件维度分别收集的数据导入统计信息。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
                           },
                           "description": "Response payload.",
@@ -1733,9 +2123,15 @@
                             "zh-CN": {
                               "description": "响应负载。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -1757,7 +2153,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -1766,11 +2165,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1825,10 +2233,17 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": "2.6.x",
+        "operationId": "getImportJobProgressLegacy"
       }
     },
     "/v2/vectordb/jobs/import/describe": {
@@ -1856,13 +2271,19 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -1881,7 +2302,10 @@
                     },
                     "x-include-target": [
                       "zilliz"
-                    ]
+                    ],
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "dbName": {
                     "type": "string",
@@ -1891,7 +2315,10 @@
                       "zh-CN": {
                         "description": "当前操作的目标数据库名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "jobId": {
                     "type": "string",
@@ -1900,18 +2327,27 @@
                       "zh-CN": {
                         "description": "需要查询的导入任务 ID。\n[创建导入任务](/reference/restful/create-import-jobs-v2)操作通常会返回一个任务 ID。您也可以调用[列出导入任务](/reference/restful/list-import-jobs-v2)获取特定集群相关的所有导入任务的 ID。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "jobId"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "jobId": "job-xxxxxxxxxxxxxxxx"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1932,7 +2368,10 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -1950,7 +2389,10 @@
                                 "zh-CN": {
                                   "description": "当前导入任务的目标 Collection 名称。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "completeTime": {
                               "type": "string",
@@ -1959,7 +2401,10 @@
                                 "zh-CN": {
                                   "description": "当前导入任务完成时间。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "details": {
                               "type": "array",
@@ -1973,7 +2418,10 @@
                                       "zh-CN": {
                                         "description": "当前数据文件完成处理时间。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "fileName": {
                                     "type": "string",
@@ -1982,7 +2430,10 @@
                                       "zh-CN": {
                                         "description": "数据文件名称。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "fileSize": {
                                     "type": "string",
@@ -1991,7 +2442,10 @@
                                       "zh-CN": {
                                         "description": "数据文件大小。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "progress": {
                                     "type": "string",
@@ -2000,7 +2454,10 @@
                                       "zh-CN": {
                                         "description": "进度百分比。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "state": {
                                     "type": "string",
@@ -2015,7 +2472,10 @@
                                       "Importing",
                                       "Completed",
                                       "Failed"
-                                    ]
+                                    ],
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "reason": {
                                     "type": "string",
@@ -2024,7 +2484,10 @@
                                       "zh-CN": {
                                         "description": "导入失败原因。如果导入成功，该字段为空。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "importedRows": {
                                     "type": "string",
@@ -2033,7 +2496,10 @@
                                       "zh-CN": {
                                         "description": "从当前文件导入的行数。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   },
                                   "totalRows": {
                                     "type": "string",
@@ -2042,7 +2508,10 @@
                                       "zh-CN": {
                                         "description": "从当前文件导入数据完成后，目标 Collection 中的总行数。"
                                       }
-                                    }
+                                    },
+                                    "x-added-at": "2.6.x",
+                                    "x-last-modified": "2.6.x",
+                                    "x-deprecated-since": null
                                   }
                                 },
                                 "description": "Statistics on data import from a file.",
@@ -2050,14 +2519,20 @@
                                   "zh-CN": {
                                     "description": "从某个数据文件中导入数据的统计信息。"
                                   }
-                                }
+                                },
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
                               },
                               "description": "Statistics on data import oriented to data files.",
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "按数据文件维度分别收集的数据导入统计信息。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "fileSize": {
                               "type": "integer",
@@ -2066,7 +2541,10 @@
                                 "zh-CN": {
                                   "description": "已上传文件大小（字节）。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "jobId": {
                               "type": "integer",
@@ -2075,7 +2553,10 @@
                                 "zh-CN": {
                                   "description": "批量导入任务 ID。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "progress": {
                               "type": "integer",
@@ -2084,7 +2565,10 @@
                                 "zh-CN": {
                                   "description": "当前导入任务的进度百分比。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "state": {
                               "type": "string",
@@ -2099,7 +2583,10 @@
                                 "Importing",
                                 "Completed",
                                 "Failed"
-                              ]
+                              ],
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "reason": {
                               "type": "string",
@@ -2108,7 +2595,10 @@
                                 "zh-CN": {
                                   "description": "当前导入任务失败的原因。任务成功时为空字符串。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "importedRows": {
                               "type": "integer",
@@ -2117,7 +2607,10 @@
                                 "zh-CN": {
                                   "description": "当前任务完成导入完成后，向目标 Collection 中插入的行数。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             },
                             "totalRows": {
                               "type": "integer",
@@ -2126,11 +2619,20 @@
                                 "zh-CN": {
                                   "description": "当前导入任务完成后，目标 Collection 中的总行数。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -2152,7 +2654,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -2161,11 +2666,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -2206,10 +2720,17 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         },
-        "security": []
+        "security": [],
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null,
+        "operationId": "describeImportJob"
       }
     }
   },

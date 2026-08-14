@@ -44,13 +44,19 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -66,7 +72,10 @@
                       "zh-CN": {
                         "description": "资源组名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "config": {
                     "type": "object",
@@ -93,9 +102,15 @@
                               "zh-CN": {
                                 "description": "资源组中需要的 QueryNodes 的数量。"
                               }
-                            }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "limits": {
                         "type": "object",
@@ -113,9 +128,15 @@
                               "zh-CN": {
                                 "description": "资源组中需要的 QueryNodes 的最大数量。"
                               }
-                            }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "transfer_from": {
                         "type": "array",
@@ -141,10 +162,19 @@
                                 "zh-CN": {
                                   "description": "当前源资源组名称。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
-                          }
-                        }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       },
                       "transfer_to": {
                         "type": "array",
@@ -170,17 +200,32 @@
                                 "zh-CN": {
                                   "description": "当前目标资源组名称。"
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
-                          }
-                        }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "name"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "name": "group1",
@@ -204,7 +249,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -239,7 +287,10 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -249,9 +300,15 @@
                             "zh-CN": {
                               "description": "响应载荷。为空对象。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -270,7 +327,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -279,11 +339,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -305,9 +374,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/resource_groups/alter": {
@@ -335,13 +410,19 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -384,9 +465,15 @@
                                   "zh-CN": {
                                     "description": "资源组中需要的 QueryNodes 的数量。"
                                   }
-                                }
+                                },
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
                               }
-                            }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           },
                           "limits": {
                             "type": "object",
@@ -404,9 +491,15 @@
                                   "zh-CN": {
                                     "description": "资源组中需要的 QueryNodes 的最大数量。"
                                   }
-                                }
+                                },
+                                "x-added-at": "2.6.x",
+                                "x-last-modified": "2.6.x",
+                                "x-deprecated-since": null
                               }
-                            }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           },
                           "transfer_from": {
                             "type": "array",
@@ -432,10 +525,19 @@
                                     "zh-CN": {
                                       "description": "当前源资源组名称。"
                                     }
-                                  }
+                                  },
+                                  "x-added-at": "2.6.x",
+                                  "x-last-modified": "2.6.x",
+                                  "x-deprecated-since": null
                                 }
-                              }
-                            }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           },
                           "transfer_to": {
                             "type": "array",
@@ -461,19 +563,37 @@
                                     "zh-CN": {
                                       "description": "当前目标资源组名称。"
                                     }
-                                  }
+                                  },
+                                  "x-added-at": "2.6.x",
+                                  "x-last-modified": "2.6.x",
+                                  "x-deprecated-since": null
                                 }
-                              }
-                            }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
                           }
-                        }
+                        },
+                        "x-added-at": "2.6.x",
+                        "x-last-modified": "2.6.x",
+                        "x-deprecated-since": null
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "resource_groups"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "resource_groups": {
@@ -498,7 +618,10 @@
                 }
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -533,7 +656,10 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -543,9 +669,15 @@
                             "zh-CN": {
                               "description": "响应载荷。为空对象。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -564,7 +696,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -573,11 +708,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -598,9 +742,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/resource_groups/describe": {
@@ -628,13 +778,19 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -650,18 +806,27 @@
                       "zh-CN": {
                         "description": "需要查看详情的资源组名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "name"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "name": "group1"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -693,7 +858,10 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -732,9 +900,15 @@
                                             "zh-CN": {
                                               "description": "资源组中需要的 QueryNodes 的数量。"
                                             }
-                                          }
+                                          },
+                                          "x-added-at": "2.6.x",
+                                          "x-last-modified": "2.6.x",
+                                          "x-deprecated-since": null
                                         }
-                                      }
+                                      },
+                                      "x-added-at": "2.6.x",
+                                      "x-last-modified": "2.6.x",
+                                      "x-deprecated-since": null
                                     },
                                     "limits": {
                                       "type": "object",
@@ -752,9 +926,15 @@
                                             "zh-CN": {
                                               "description": "资源组中需要的 QueryNodes 的最大数量。"
                                             }
-                                          }
+                                          },
+                                          "x-added-at": "2.6.x",
+                                          "x-last-modified": "2.6.x",
+                                          "x-deprecated-since": null
                                         }
-                                      }
+                                      },
+                                      "x-added-at": "2.6.x",
+                                      "x-last-modified": "2.6.x",
+                                      "x-deprecated-since": null
                                     },
                                     "transfer_from": {
                                       "type": "array",
@@ -780,10 +960,19 @@
                                               "zh-CN": {
                                                 "description": "当前源资源组名称。"
                                               }
-                                            }
+                                            },
+                                            "x-added-at": "2.6.x",
+                                            "x-last-modified": "2.6.x",
+                                            "x-deprecated-since": null
                                           }
-                                        }
-                                      }
+                                        },
+                                        "x-added-at": "2.6.x",
+                                        "x-last-modified": "2.6.x",
+                                        "x-deprecated-since": null
+                                      },
+                                      "x-added-at": "2.6.x",
+                                      "x-last-modified": "2.6.x",
+                                      "x-deprecated-since": null
                                     },
                                     "transfer_to": {
                                       "type": "array",
@@ -809,18 +998,39 @@
                                               "zh-CN": {
                                                 "description": "当前目标资源组名称。"
                                               }
-                                            }
+                                            },
+                                            "x-added-at": "2.6.x",
+                                            "x-last-modified": "2.6.x",
+                                            "x-deprecated-since": null
                                           }
-                                        }
-                                      }
+                                        },
+                                        "x-added-at": "2.6.x",
+                                        "x-last-modified": "2.6.x",
+                                        "x-deprecated-since": null
+                                      },
+                                      "x-added-at": "2.6.x",
+                                      "x-last-modified": "2.6.x",
+                                      "x-deprecated-since": null
                                     }
-                                  }
+                                  },
+                                  "x-added-at": "2.6.x",
+                                  "x-last-modified": "2.6.x",
+                                  "x-deprecated-since": null
                                 }
-                              }
+                              },
+                              "x-added-at": "2.6.x",
+                              "x-last-modified": "2.6.x",
+                              "x-deprecated-since": null
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -839,7 +1049,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -848,11 +1061,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -894,9 +1116,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/resource_groups/list": {
@@ -924,13 +1152,19 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -938,11 +1172,17 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "properties": {}
+                "properties": {},
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {}
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -974,7 +1214,10 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "array",
@@ -991,10 +1234,19 @@
                               "zh-CN": {
                                 "description": "资源组名称。"
                               }
-                            }
-                          }
+                            },
+                            "x-added-at": "2.6.x",
+                            "x-last-modified": "2.6.x",
+                            "x-deprecated-since": null
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -1013,7 +1265,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -1022,11 +1277,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1050,9 +1314,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/resource_groups/drop": {
@@ -1080,13 +1350,19 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -1102,18 +1378,27 @@
                       "zh-CN": {
                         "description": "需要删除的资源组名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
                   "name"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "name": "group1"
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1148,7 +1433,10 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -1158,9 +1446,15 @@
                             "zh-CN": {
                               "description": "响应载荷。为空对象。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -1179,7 +1473,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -1188,11 +1485,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1213,9 +1519,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     },
     "/v2/vectordb/resource_groups/transfer_replica": {
@@ -1243,13 +1555,19 @@
             "required": true,
             "example": "Bearer {{TOKEN}}",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "x-added-at": "2.6.x",
+              "x-last-modified": "2.6.x",
+              "x-deprecated-since": null
             },
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
         ],
         "requestBody": {
@@ -1265,7 +1583,10 @@
                       "zh-CN": {
                         "description": "源资源组名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "targetRgName": {
                     "type": "string",
@@ -1274,7 +1595,10 @@
                       "zh-CN": {
                         "description": "目标资源组名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "collectionName": {
                     "type": "string",
@@ -1283,7 +1607,10 @@
                       "zh-CN": {
                         "description": "目标 Collection 名称。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   },
                   "replicaNum": {
                     "type": "integer",
@@ -1292,7 +1619,10 @@
                       "zh-CN": {
                         "description": "需要转移的副本数量。"
                       }
-                    }
+                    },
+                    "x-added-at": "2.6.x",
+                    "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
@@ -1300,7 +1630,10 @@
                   "targetRgName",
                   "collectionName",
                   "replicaNum"
-                ]
+                ],
+                "x-added-at": "2.6.x",
+                "x-last-modified": "2.6.x",
+                "x-deprecated-since": null
               },
               "example": {
                 "sourceRgName": "__default_resource_group",
@@ -1309,7 +1642,10 @@
                 "replicaNum": 1
               }
             }
-          }
+          },
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
         },
         "responses": {
           "200": {
@@ -1344,7 +1680,10 @@
                             }
                           },
                           "type": "integer",
-                          "example": 0
+                          "example": 0,
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "data": {
                           "type": "object",
@@ -1354,9 +1693,15 @@
                             "zh-CN": {
                               "description": "响应载荷。为空对象。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     },
                     {
                       "x-tab-label": "failure",
@@ -1375,7 +1720,10 @@
                             "zh-CN": {
                               "description": "响应码。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         },
                         "message": {
                           "type": "string",
@@ -1384,11 +1732,20 @@
                             "zh-CN": {
                               "description": "错误描述。"
                             }
-                          }
+                          },
+                          "x-added-at": "2.6.x",
+                          "x-last-modified": "2.6.x",
+                          "x-deprecated-since": null
                         }
-                      }
+                      },
+                      "x-added-at": "2.6.x",
+                      "x-last-modified": "2.6.x",
+                      "x-deprecated-since": null
                     }
-                  ]
+                  ],
+                  "x-added-at": "2.6.x",
+                  "x-last-modified": "2.6.x",
+                  "x-deprecated-since": null
                 },
                 "examples": {
                   "1": {
@@ -1410,9 +1767,15 @@
                   }
                 }
               }
-            }
+            },
+            "x-added-at": "2.6.x",
+            "x-last-modified": "2.6.x",
+            "x-deprecated-since": null
           }
-        }
+        },
+        "x-added-at": "2.6.x",
+        "x-last-modified": "2.6.x",
+        "x-deprecated-since": null
       }
     }
   },

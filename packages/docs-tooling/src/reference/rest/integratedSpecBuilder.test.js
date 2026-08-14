@@ -42,6 +42,62 @@ test('track policy filters fields added after the selected track', () => {
   );
 });
 
+test('track policy requires lifecycle on request bodies, responses, and root schemas', () => {
+  const cases = [
+    spec => { delete spec.paths['/v2/vectordb/entities/search'].post.requestBody['x-added-at']; },
+    spec => { spec.paths['/v2/vectordb/entities/search'].post.requestBody.content['application/json'].schema = {type: 'object'}; },
+    spec => { delete spec.paths['/v2/vectordb/entities/search'].post.responses['200']['x-added-at']; },
+    spec => { spec.paths['/v2/vectordb/entities/search'].post.responses['200'].content['application/json'].schema = {type: 'object'}; },
+  ];
+
+  for (const mutate of cases) {
+    const spec = fixture('milvus-2.6.x.json');
+    mutate(spec);
+    assert.throws(() => buildIntegratedSpec(spec, {
+      publicationPolicy: 'track',
+      target: 'milvus',
+      language: 'en-US',
+      apiSurface: 'data-plane',
+      releaseTrack: '2.6.x',
+    }), /REST_LIFECYCLE_MISSING/);
+  }
+});
+
+test('track policy requires lifecycle on parameter schemas and array items', () => {
+  const cases = [
+    spec => {
+      spec.paths['/v2/vectordb/entities/search'].post.parameters = [{
+        name: 'limit', in: 'query',
+        'x-added-at': '2.6.x', 'x-last-modified': '2.6.x', 'x-deprecated-since': null,
+        schema: {type: 'integer'},
+      }];
+    },
+    spec => {
+      spec.paths['/v2/vectordb/entities/search'].parameters = [{
+        name: 'tenant', in: 'header',
+        'x-added-at': '2.6.x', 'x-last-modified': '2.6.x', 'x-deprecated-since': null,
+        schema: {type: 'string'},
+      }];
+    },
+    spec => {
+      spec.components.schemas.SearchRequest.properties.collectionName = {
+        type: 'array',
+        'x-added-at': '2.6.x', 'x-last-modified': '2.6.x', 'x-deprecated-since': null,
+        items: {type: 'string'},
+      };
+    },
+  ];
+
+  for (const mutate of cases) {
+    const spec = fixture('milvus-2.6.x.json');
+    mutate(spec);
+    assert.throws(() => buildIntegratedSpec(spec, {
+      publicationPolicy: 'track', target: 'milvus', language: 'en-US',
+      apiSurface: 'data-plane', releaseTrack: '2.6.x',
+    }), /REST_LIFECYCLE_MISSING/);
+  }
+});
+
 test('latest policy rejects a release track', () => {
   assert.throws(
     () => buildIntegratedSpec(fixture('canonical.json'), {
