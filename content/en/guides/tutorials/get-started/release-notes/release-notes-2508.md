@@ -52,7 +52,7 @@ import Grid from '@site/src/components/Grid';
 
         - For usage details, see [VectorDB Audit Logs User Guide](./audit-logs).
 
-        - For pricing information, see Pricing Guide.
+        - For pricing information, see [Audit Log Cost](./audit-log-cost).
 
         ## Improved SSO Experience\{#improved-sso-experience}
 

@@ -58,7 +58,7 @@ The following table compares the subscription options.
 
 An AWS Marketplace Free Trial is started and managed through AWS Marketplace.If you upgrade after the trial, future charges are billed through AWS Marketplace. This option is suitable for teams that want procurement and billing through AWS Marketplace.
 
-A Zilliz Cloud Free Trial is started directly from the Zilliz Cloud console and is managed within Zilliz Cloud. After the trial, you can choose to add a supported [payment method](./undefined). This option is suitable for users who want to try Zilliz Cloud directly before setting up external billing.
+A Zilliz Cloud Free Trial is started directly from the Zilliz Cloud console and is managed within Zilliz Cloud. After the trial, you can choose to add a [credit card](./subscribe-by-adding-credit-card), a [marketplace subscription](./marketplace-subscription), or [advance pay](./advance-pay) as the payment method. This option is suitable for users who want to try Zilliz Cloud directly before setting up external billing.
 
 </Admonition>
 

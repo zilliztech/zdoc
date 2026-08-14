@@ -234,7 +234,7 @@ The setup above configures `COSINE` for both the vector index and the search par
 
 Use this pattern when you need to compare groups of retrieved entities using calculated statistics and control the order in which the buckets are returned. In this example, Zilliz Cloud groups retrieved products by `brand`, calculates price metrics for each brand bucket, and sorts the buckets by average price.
 
-If your goal is only to improve result diversity by returning one or more entities per field value, use Grouping Search instead.
+If your goal is only to improve result diversity by returning one or more entities per field value, use [Grouping Search](./grouping-search) instead.
 
 The following configuration creates up to three brand buckets, calculates metrics for each bucket, and sorts the buckets by average price:
 
@@ -659,7 +659,7 @@ Choose based on the application's primary result shape:
 
 | Primary need | Prefer | Response to consume |
 | --- | --- | --- |
-| Return a standard ranked entity list with fewer repeated values in a grouping field | Grouping Search | Flat search hits for each query vector |
+| Return a standard ranked entity list with fewer repeated values in a grouping field | [Grouping Search](./grouping-search) | Flat search hits for each query vector |
 | Inspect or compare groups as buckets, with keys, counts, metrics, ordering, representative hits, or child buckets | Search Aggregation | `AggregationBucket` objects in `result.agg_buckets` |
 
 Even when Search Aggregation configures `top_hits`, its primary response remains a bucket tree. Grouping Search remains useful when the application already processes ordinary search hits and primarily wants result diversity.

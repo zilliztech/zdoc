@@ -104,7 +104,7 @@ Once the database is ready, you can create external collections in it. An extern
 
 Unlike managed collections that require you to import your raw data into the collection, external collections generate metadata from your raw data via sub-second refresh operations.
 
-The following example demonstrates how to set up the mapping relationship between collection fields and your data files. When initiating the schema, pass in the volume path and file format of your data.
+The following example demonstrates how to set up the mapping relationship between collection fields and your data files. When creating the schema, specify the volume path and data format. This quickstart uses an Iceberg table. For the complete list of supported data sources and formats, see [Supported data sources and formats](./create-external-collection#support-data-sources).
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
