@@ -381,6 +381,67 @@
                       ]
                     }
                   }
+                },
+                "8": {
+                  "summary": "Custom setup with a struct array field",
+                  "x-target-request": "OPTION 2",
+                  "x-include-target": [
+                    "milvus"
+                  ],
+                  "value": {
+                    "collectionName": "documents_with_chunks",
+                    "schema": {
+                      "autoId": false,
+                      "fields": [
+                        {
+                          "fieldName": "document_id",
+                          "dataType": "Int64",
+                          "isPrimary": true
+                        },
+                        {
+                          "fieldName": "document_vector",
+                          "dataType": "FloatVector",
+                          "elementTypeParams": {
+                            "dim": 2
+                          }
+                        }
+                      ],
+                      "structFields": [
+                        {
+                          "fieldName": "chunks",
+                          "description": "Chunk-level scalar and vector values.",
+                          "typeParams": {
+                            "max_capacity": 4
+                          },
+                          "fields": [
+                            {
+                              "fieldName": "positions",
+                              "dataType": "Int32"
+                            },
+                            {
+                              "fieldName": "vectors",
+                              "dataType": "FloatVector",
+                              "elementTypeParams": {
+                                "dim": 2
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "indexParams": [
+                      {
+                        "fieldName": "document_vector",
+                        "indexName": "document_vector_idx",
+                        "metricType": "L2"
+                      },
+                      {
+                        "fieldName": "chunks[vectors]",
+                        "indexName": "chunk_vectors_idx",
+                        "metricType": "L2"
+                      }
+                    ]
+                  }
                 }
               }
             }
@@ -886,8 +947,8 @@
                         "consistencyLevel": "Bounded",
                         "description": "",
                         "enableDynamicField": true,
-                        "externalSource":"volume://volume-vdc/demo_lance/",
-                        "externalSpec":"{\"format\":\"lance-table\"}",
+                        "externalSource": "volume://volume-vdc/demo_lance/",
+                        "externalSpec": "{\"format\":\"lance-table\"}",
                         "fields": [
                           {
                             "autoId": false,
@@ -933,6 +994,53 @@
                     "value": {
                       "code": 1800,
                       "message": "User hasn't authenticated"
+                    }
+                  },
+                  "5": {
+                    "summary": "Collection with a struct array field",
+                    "x-target-response": "OPTION 1",
+                    "x-include-target": [
+                      "milvus"
+                    ],
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "collectionName": "documents_with_chunks",
+                        "fields": [
+                          {
+                            "id": 100,
+                            "name": "document_id",
+                            "primaryKey": true,
+                            "type": "Int64"
+                          },
+                          {
+                            "id": 101,
+                            "name": "document_vector",
+                            "primaryKey": false,
+                            "type": "FloatVector"
+                          }
+                        ],
+                        "structFields": [
+                          {
+                            "id": 102,
+                            "name": "chunks",
+                            "description": "Chunk-level scalar and vector values.",
+                            "type": "ArrayOfStruct",
+                            "fields": [
+                              {
+                                "id": 103,
+                                "name": "positions",
+                                "type": "Int32"
+                              },
+                              {
+                                "id": 104,
+                                "name": "vectors",
+                                "type": "FloatVector"
+                              }
+                            ]
+                          }
+                        ]
+                      }
                     }
                   }
                 }
@@ -3611,6 +3719,18 @@
                 "x-include-target": [
                   "milvus"
                 ]
+              },
+              "structFields": {
+                "type": "array",
+                "description": "The struct array fields in the collection.",
+                "x-i18n": {
+                  "zh-CN": {
+                    "description": "当前 Collection 中的 Struct Array 字段列表。"
+                  }
+                },
+                "items": {
+                  "$ref": "#/components/schemas/StructArrayFieldDetails"
+                }
               }
             }
           }
@@ -3906,6 +4026,290 @@
           }
         }
       },
+      "StructArraySubFieldSchema": {
+        "type": "object",
+        "description": "A sub-field definition within a struct array. The dataType refers to the scalar or vector type of each struct field.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "Struct Array 中的子字段定义。dataType 表示 Struct 字段的标量或向量类型。"
+          }
+        },
+        "properties": {
+          "fieldName": {
+            "type": "string",
+            "description": "The name of the sub-field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "子字段名称。"
+              }
+            }
+          },
+          "dataType": {
+            "type": "string",
+            "description": "The scalar or vector type of the struct field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Struct 字段的标量或向量类型。"
+              }
+            },
+            "enum": [
+              "Bool",
+              "Int8",
+              "Int16",
+              "Int32",
+              "Int64",
+              "Float",
+              "Double",
+              "VarChar",
+              "BinaryVector",
+              "FloatVector",
+              "Float16Vector",
+              "BFloat16Vector",
+              "Int8Vector"
+            ]
+          },
+          "elementTypeParams": {
+            "type": "object",
+            "description": "Parameters for the element type, such as max_length for VarChar or dim for vector types.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "元素类型参数，例如 VarChar 的 max_length 或向量类型的 dim。"
+              }
+            }
+          }
+        },
+        "required": [
+          "fieldName",
+          "dataType"
+        ]
+      },
+      "StructArrayFieldSchema": {
+        "type": "object",
+        "description": "A struct array field that groups multiple sub-fields.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "Struct Array 字段，用于组合多个子字段。"
+          }
+        },
+        "properties": {
+          "fieldName": {
+            "type": "string",
+            "description": "The name of the struct array field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Struct Array 字段名称。"
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of the struct array field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Struct Array 字段描述。"
+              }
+            }
+          },
+          "fields": {
+            "type": "array",
+            "description": "The sub-fields in the struct array. Each dataType refers to the scalar or vector type of a struct field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Struct Array 中的子字段。每个 dataType 表示 Struct 字段的标量或向量类型。"
+              }
+            },
+            "items": {
+              "$ref": "#/components/schemas/StructArraySubFieldSchema"
+            }
+          },
+          "typeParams": {
+            "type": "object",
+            "description": "Parameters of the struct array field. max_capacity is required and specifies the maximum number of struct elements allowed per entity.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Struct Array 字段的参数。max_capacity 为必填参数，指定每条 Entity 中允许包含的 Struct 元素数量上限。"
+              }
+            },
+            "properties": {
+              "max_capacity": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4096,
+                "description": "The maximum number of struct elements allowed per entity.",
+                "x-i18n": {
+                  "zh-CN": {
+                    "description": "每条 Entity 中允许包含的 Struct 元素数量上限。"
+                  }
+                }
+              }
+            },
+            "required": [
+              "max_capacity"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "fieldName",
+          "fields",
+          "typeParams"
+        ]
+      },
+      "StructArraySubFieldDetails": {
+        "type": "object",
+        "description": "Details of a sub-field within a struct array.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "Struct Array 中的子字段详情。"
+          }
+        },
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the sub-field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "子字段名称。"
+              }
+            }
+          },
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the sub-field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "子字段的唯一标识符。"
+              }
+            }
+          },
+          "type": {
+            "type": "string",
+            "description": "The scalar or vector type of the struct field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Struct 字段的标量或向量类型。"
+              }
+            },
+            "enum": [
+              "Bool",
+              "Int8",
+              "Int16",
+              "Int32",
+              "Int64",
+              "Float",
+              "Double",
+              "VarChar",
+              "BinaryVector",
+              "FloatVector",
+              "Float16Vector",
+              "BFloat16Vector",
+              "Int8Vector"
+            ]
+          },
+          "params": {
+            "type": "array",
+            "description": "Parameters for the element type.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "元素类型参数。"
+              }
+            },
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "StructArrayFieldDetails": {
+        "type": "object",
+        "description": "Details of a struct array field.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "Struct Array 字段详情。"
+          }
+        },
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the struct array field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Struct Array 字段名称。"
+              }
+            }
+          },
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the struct array field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Struct Array 字段的唯一标识符。"
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the struct array field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Struct Array 字段描述。"
+              }
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ArrayOfStruct"
+            ],
+            "description": "The data type of the field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "字段数据类型。"
+              }
+            }
+          },
+          "fields": {
+            "type": "array",
+            "description": "The nested sub-fields. Each type is the scalar or vector type of the struct field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "嵌套的子字段列表。每个 type 表示 Struct 字段的标量或向量类型。"
+              }
+            },
+            "items": {
+              "$ref": "#/components/schemas/StructArraySubFieldDetails"
+            }
+          },
+          "params": {
+            "type": "array",
+            "description": "Additional field parameters.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "字段附加参数。"
+              }
+            },
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
       "CollectionSchema": {
         "type": "object",
         "description": "The schema is responsible for organizing data in the target collection. A valid schema should have multiple fields, which must include a primary key, a vector field, and several scalar fields.",
@@ -3973,6 +4377,18 @@
               "zh-CN": {
                 "description": "描述外部数据源连接参数的 JSON 字符串。创建外部集合时必填。"
               }
+            }
+          },
+          "structFields": {
+            "type": "array",
+            "description": "A list of struct array fields.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Struct Array 字段列表。"
+              }
+            },
+            "items": {
+              "$ref": "#/components/schemas/StructArrayFieldSchema"
             }
           }
         }

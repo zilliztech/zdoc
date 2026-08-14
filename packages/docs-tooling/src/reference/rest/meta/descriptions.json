@@ -352,5 +352,14 @@
                 "description": "本系列 API 提供了管理自定义 ACL API Key 及其角色授权的相关接口。"
             }
         }
+    },
+    {
+        "name": "private-endpoint-operations-v2",
+        "description": "This set of APIs provides a way to manage private endpoints in Zilliz Cloud.",
+        "x-i18n": {
+            "zh-CN": {
+                "description": "本系列 API 提供了管理 Zilliz Cloud Private Endpoint 的相关接口。"
+            }
+        }
     }
 ]
