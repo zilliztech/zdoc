@@ -390,6 +390,31 @@ function testAllRestSegmentsUseCanonicalI18nShape() {
   }
 }
 
+function testAllRestSegmentsUseUniquePageRoutes() {
+  for (const target of ['zilliz', 'milvus']) {
+    for (const fileName of fs.readdirSync(OPENAPI_DIR).filter(name => name.endsWith('.json')).sort()) {
+      const spec = readJson(path.join(OPENAPI_DIR, fileName))
+      const generator = new RefGen({
+        specifications: spec,
+        lang: 'en-US',
+        target,
+        target_path: '/tmp/refgen-unique-routes',
+      })
+      const routes = new Map()
+      for (const [endpoint, pathItem] of Object.entries(spec.paths || {})) {
+        for (const [method, operation] of Object.entries(pathItem || {})) {
+          if (!['get', 'put', 'post', 'delete', 'patch', 'options', 'head', 'trace'].includes(method.toLowerCase())) continue
+          if (operation['x-include-target'] && !operation['x-include-target'].includes(target)) continue
+          const suffix = target === 'zilliz' && operation.tags?.[0]?.includes('(V2)') ? '-v2' : ''
+          const route = `/restful/${generator.get_slug(operation.summary, target)}${suffix}`
+          assert.ok(!routes.has(route), `${target}/${fileName}: ${route} conflicts for ${routes.get(route)} and ${method.toUpperCase()} ${endpoint}`)
+          routes.set(route, `${method.toUpperCase()} ${endpoint}`)
+        }
+      }
+    }
+  }
+}
+
 async function run() {
   await testOperationWithIncludeLangExcludesEnUsOutput()
   await testGlobalClustersGenerateUnderControlPlane()
@@ -398,6 +423,7 @@ async function run() {
   testChineseSidebarInventoryExceptionsAreExplicit()
   testMalformedI18nIsRejectedWithJsonPath()
   testAllRestSegmentsUseCanonicalI18nShape()
+  testAllRestSegmentsUseUniquePageRoutes()
   console.log('apifox refGen lang filter tests passed')
 }
 

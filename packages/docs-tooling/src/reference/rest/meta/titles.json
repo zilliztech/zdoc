@@ -128,6 +128,7 @@
     "查看备份列表": "list-backups",
     "创建 Database": "create-database",
     "修改 Database 属性": "alter-database-properties",
+    "修改数据库属性（兼容别名）": "alter-database-properties-compatibility-alias",
     "查看 Database 详情": "describe-database",
     "删除 Database": "drop-database",
     "删除 Database 属性": "drop-database-properties",
