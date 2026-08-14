@@ -17,7 +17,7 @@
     {
       "id": "milvus-rest",
       "fragment": "milvus-rest.openapi.json",
-      "sha256": "sha256:adb854e889172f095eb5f8427e45c700d903012f525484ec526c5be640928c5b",
+      "sha256": "sha256:fc72cfb5f97ac470491f233b9923536e5e3e4de4cef63e55e8f40821d0836669",
       "operationCount": 1
     }
   ]

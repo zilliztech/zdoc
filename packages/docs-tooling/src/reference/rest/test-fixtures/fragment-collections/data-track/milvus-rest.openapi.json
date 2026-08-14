@@ -11,7 +11,12 @@
         "x-last-modified": "2.6.x",
         "x-deprecated-since": null,
         "tags": ["Collections"],
-        "responses": {"200": {"description": "Success"}}
+        "responses": {"200": {
+          "description": "Success",
+          "x-added-at": "2.6.x",
+          "x-last-modified": "2.6.x",
+          "x-deprecated-since": null
+        }}
       }
     }
   }
