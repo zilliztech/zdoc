@@ -1,0 +1,2389 @@
+{
+  "schemaVersion": 1,
+  "apiSurface": "control-plane",
+  "source": {
+    "repository": "zilliz-cloud",
+    "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+    "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+  },
+  "services": [
+    {
+      "serviceId": "backup-restore",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "backup-restore",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:backup-restore:delete:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fbackups%2F%7BbackupId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "backup-restore",
+            "endpoint": "/v2/clusters/{clusterId}/backups/{backupId}",
+            "method": "delete",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:dc2b6a84d816f387fe05496e000247a02a3b7f26042767e569736c045eee832a",
+            "afterDigest": "sha256:dc2b6a84d816f387fe05496e000247a02a3b7f26042767e569736c045eee832a",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:backup-restore:get:%2Fv2%2Fbackups",
+            "apiSurface": "control-plane",
+            "serviceId": "backup-restore",
+            "endpoint": "/v2/backups",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:bbeadd0297bcfc501d85decfc28abbdac98d427ce7f01bc5fd5bd0120dad16e5",
+            "afterDigest": "sha256:bbeadd0297bcfc501d85decfc28abbdac98d427ce7f01bc5fd5bd0120dad16e5",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:backup-restore:get:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fbackups%2Fpolicy",
+            "apiSurface": "control-plane",
+            "serviceId": "backup-restore",
+            "endpoint": "/v2/clusters/{clusterId}/backups/policy",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:16dc8543cb1064dc1de1321c33eb51824799c6c97606665b8df2c9c782b5e16c",
+            "afterDigest": "sha256:16dc8543cb1064dc1de1321c33eb51824799c6c97606665b8df2c9c782b5e16c",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:backup-restore:get:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fbackups%2F%7BbackupId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "backup-restore",
+            "endpoint": "/v2/clusters/{clusterId}/backups/{backupId}",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:4ce5cc9e783f96bdfd6b72d289316a466e90632c0aea03dd189f33e45125cf27",
+            "afterDigest": "sha256:4ce5cc9e783f96bdfd6b72d289316a466e90632c0aea03dd189f33e45125cf27",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:backup-restore:post:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fbackups%2Fcreate",
+            "apiSurface": "control-plane",
+            "serviceId": "backup-restore",
+            "endpoint": "/v2/clusters/{clusterId}/backups/create",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:4b4e4a7dc2588e78f10e297be96938c8b6603e4ab563b248bba6ab61aab55f43",
+            "afterDigest": "sha256:4b4e4a7dc2588e78f10e297be96938c8b6603e4ab563b248bba6ab61aab55f43",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:backup-restore:post:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fbackups%2Fpolicy",
+            "apiSurface": "control-plane",
+            "serviceId": "backup-restore",
+            "endpoint": "/v2/clusters/{clusterId}/backups/policy",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:7d11138b29b66c701b01ef64ee8ea69a7efbf81ab52487e90cf0bed3f4dce9d6",
+            "afterDigest": "sha256:7d11138b29b66c701b01ef64ee8ea69a7efbf81ab52487e90cf0bed3f4dce9d6",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:backup-restore:post:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fbackups%2F%7BbackupId%7D%2Fexport",
+            "apiSurface": "control-plane",
+            "serviceId": "backup-restore",
+            "endpoint": "/v2/clusters/{clusterId}/backups/{backupId}/export",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:b6e6b5f1acf03fee9f4441eca6db742ccc27512249189998b610c0204b9eff09",
+            "afterDigest": "sha256:b6e6b5f1acf03fee9f4441eca6db742ccc27512249189998b610c0204b9eff09",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:backup-restore:post:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fbackups%2F%7BbackupId%7D%2FrestoreCluster",
+            "apiSurface": "control-plane",
+            "serviceId": "backup-restore",
+            "endpoint": "/v2/clusters/{clusterId}/backups/{backupId}/restoreCluster",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:2cf801f2147b1544da9c983f984756f60f92837a5e4cf922351c31c7b005e32a",
+            "afterDigest": "sha256:2cf801f2147b1544da9c983f984756f60f92837a5e4cf922351c31c7b005e32a",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:backup-restore:post:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fbackups%2F%7BbackupId%7D%2FrestoreCollection",
+            "apiSurface": "control-plane",
+            "serviceId": "backup-restore",
+            "endpoint": "/v2/clusters/{clusterId}/backups/{backupId}/restoreCollection",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:573433157455a528981afa0541b3056e91f5f6759901dd7d7924d197bc74ab1c",
+            "afterDigest": "sha256:573433157455a528981afa0541b3056e91f5f6759901dd7d7924d197bc74ab1c",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 9,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:8292d7a9cd9720ab0135ce04bfbe696d8fec41b3e1db1dfd6553591f00323655"
+      }
+    },
+    {
+      "serviceId": "cloud-access-control",
+      "status": "MAPPING_REQUIRED",
+      "blockers": [
+        {
+          "code": "MAPPING_REQUIRED",
+          "investigation": {
+            "reason": "The latest source exposes ACL role operations through /cloud/v1 constants, while zdoc documents consolidated /v2/roles, /v2/members, and /v2/groups operations. Role scope and member/group ownership are not one-to-one.",
+            "requiredEvidence": [
+              "RoleUriConstants and RoleController route/request semantics",
+              "member and group binding controller ownership",
+              "gateway or public API translation from /cloud/v1 to /v2"
+            ]
+          }
+        }
+      ],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "cloud-access-control",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:cloud-access-control:get:%2Fcloud%2Fv1%2Forg%2Frole%2Fbinding%2Flist",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-access-control",
+            "endpoint": "/cloud/v1/org/role/binding/list",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:86e9b1fcf0d5f8f604bda77d189f0e5e08f85c2278d4c259c17dfed1cfba45f2",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-access-control:get:%2Fcloud%2Fv1%2Forg%2Frole%2Fget",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-access-control",
+            "endpoint": "/cloud/v1/org/role/get",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:9f43a8f12b0658c99009adfd0a5d8e9e4373fb25543819bfb032bfe30a41a9c4",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-access-control:get:%2Fcloud%2Fv1%2Fpermission%2Feffective",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-access-control",
+            "endpoint": "/cloud/v1/permission/effective",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:4a9d3e5b9c6977cc70fb181838c0cb260ec3842fa36dd2b6002e76f0545d6386",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-access-control:get:%2Fcloud%2Fv1%2Fproject%2Frole%2Fbinding%2Flist",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-access-control",
+            "endpoint": "/cloud/v1/project/role/binding/list",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:fd6cc0150060e699aa9028f5e3e33996d07fcd55c97752ef303635bb7a6abfc2",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-access-control:get:%2Fcloud%2Fv1%2Fproject%2Frole%2Fget",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-access-control",
+            "endpoint": "/cloud/v1/project/role/get",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:0f86144b7675944c3522e00d978be1f13c4b96dc801a2644d15e9fedafb7a657",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-access-control:get:%2Fcloud%2Fv1%2Fproject%2Frole%2Fresource-basic-list",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-access-control",
+            "endpoint": "/cloud/v1/project/role/resource-basic-list",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:5b0e21bd1cacb250c217cff059e838373f51f2c0edab22e43df125f575e6659e",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-access-control:get:%2Fcloud%2Fv1%2Frole%2Faction%2Fcatalog",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-access-control",
+            "endpoint": "/cloud/v1/role/action/catalog",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:4c427de61c4ae22c61a067d123a90b699cb2655a376b0db6a01c3816cc4f6420",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-access-control:get:%2Fcloud%2Fv1%2Frole%2Flist",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-access-control",
+            "endpoint": "/cloud/v1/role/list",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:da7c64dc3cd9f66d3c142661b5124978f0860470ddf6b6555a1c41405d5c9454",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-access-control:post:%2Fcloud%2Fv1%2Forg%2Frole%2Fdelete",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-access-control",
+            "endpoint": "/cloud/v1/org/role/delete",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:86fc0286eff8351f1b40cc261f94e508a4e69a0d5fcead8d225d14442f8a6ed6",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-access-control:post:%2Fcloud%2Fv1%2Forg%2Frole%2Fedit",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-access-control",
+            "endpoint": "/cloud/v1/org/role/edit",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:2b81880ab5011cafb07dbab386f92c4c34978b8df689130f002efa978b2f3e20",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-access-control:post:%2Fcloud%2Fv1%2Fproject%2Frole%2Fcreate",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-access-control",
+            "endpoint": "/cloud/v1/project/role/create",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:5c6c3ac91f22c80c541cd94df5ced236b1be9ff485099820894898f337a65125",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-access-control:post:%2Fcloud%2Fv1%2Fproject%2Frole%2Fdelete",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-access-control",
+            "endpoint": "/cloud/v1/project/role/delete",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:cc056d651fe1125c8cb8cbaf58359eacd065220d3531fe29aeb716556baa8ad4",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-access-control:post:%2Fcloud%2Fv1%2Fproject%2Frole%2Fedit",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-access-control",
+            "endpoint": "/cloud/v1/project/role/edit",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:f362fecd91e1a7db597ea15288fc6c79d96a32f358d2039592d2c365e020b5eb",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 13,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:2b13cb72a0933423613bf0163b6fd9967c91af6fefbc047c37e63c498a077b4b"
+      }
+    },
+    {
+      "serviceId": "cloud-api-keys",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "cloud-api-keys",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:cloud-api-keys:delete:%2Fv2%2Fapi-keys%2F%7BapiKeyId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-api-keys",
+            "endpoint": "/v2/api-keys/{apiKeyId}",
+            "method": "delete",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:69cbccb915c7c9db6961f11c908585664a261a8129abc1c5150cc651729a0db3",
+            "afterDigest": "sha256:69cbccb915c7c9db6961f11c908585664a261a8129abc1c5150cc651729a0db3",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-api-keys:get:%2Fv2%2Fapi-keys",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-api-keys",
+            "endpoint": "/v2/api-keys",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:78be2b61ac39d1997bf8fbe0154f58c267b4bb435880fe2ee7725e88a76a5fd9",
+            "afterDigest": "sha256:78be2b61ac39d1997bf8fbe0154f58c267b4bb435880fe2ee7725e88a76a5fd9",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-api-keys:get:%2Fv2%2Fapi-keys%2F%7BapiKeyId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-api-keys",
+            "endpoint": "/v2/api-keys/{apiKeyId}",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:d7ddd6897c7c80e4fa72e99f1942c0ef84f62754309a6edc26b23d54e492fce5",
+            "afterDigest": "sha256:d7ddd6897c7c80e4fa72e99f1942c0ef84f62754309a6edc26b23d54e492fce5",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-api-keys:post:%2Fv2%2Fapi-keys",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-api-keys",
+            "endpoint": "/v2/api-keys",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:83f27215cea0471b34f21141815d0d925c053e99041b70d3a3f513ab733fc771",
+            "afterDigest": "sha256:83f27215cea0471b34f21141815d0d925c053e99041b70d3a3f513ab733fc771",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-api-keys:put:%2Fv2%2Fapi-keys%2F%7BapiKeyId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-api-keys",
+            "endpoint": "/v2/api-keys/{apiKeyId}",
+            "method": "put",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:432dec7010e2c8700475fb77c58ac44dd632c96f3fa210687dc4e4f6a1f5e9db",
+            "afterDigest": "sha256:432dec7010e2c8700475fb77c58ac44dd632c96f3fa210687dc4e4f6a1f5e9db",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 5,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:37c6c1d708e961d1188140d2b41d5807eba4e5788b1d0d5eb8befac88d3b9d65"
+      }
+    },
+    {
+      "serviceId": "cloud-jobs",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "cloud-jobs",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:cloud-jobs:get:%2Fv2%2Fjobs",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-jobs",
+            "endpoint": "/v2/jobs",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:e034dc64a4151875e1ec57020814c9de5bc9c27d1a9623b8517e38f1a8141df3",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-jobs:get:%2Fv2%2Fjobs%2F%7BjobID%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-jobs",
+            "endpoint": "/v2/jobs/{jobID}",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:6b6487a1f9ccf2f803c2b23a8eeae331e7ebbda0397cdd8ac324434252d0f5c0",
+            "afterDigest": "sha256:6b6487a1f9ccf2f803c2b23a8eeae331e7ebbda0397cdd8ac324434252d0f5c0",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 2,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:7be0f5c8ddad17a625f4da56c00ee88ccad3982fde4775bd52a64cd150d01968"
+      }
+    },
+    {
+      "serviceId": "cloud-meta",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "cloud-meta",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:cloud-meta:get:%2Fv2%2Fclouds",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-meta",
+            "endpoint": "/v2/clouds",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:d79c1a4ce2b74569d1d9b1b8920c0273e877c556a8018de03dd6e1eeb471c888",
+            "afterDigest": "sha256:d79c1a4ce2b74569d1d9b1b8920c0273e877c556a8018de03dd6e1eeb471c888",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cloud-meta:get:%2Fv2%2Fregions",
+            "apiSurface": "control-plane",
+            "serviceId": "cloud-meta",
+            "endpoint": "/v2/regions",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:879f7207718a9b40faabd31ff6c50ba454ab2ae2806e72f65c2075a7e6bfb077",
+            "afterDigest": "sha256:879f7207718a9b40faabd31ff6c50ba454ab2ae2806e72f65c2075a7e6bfb077",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 2,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:a3a97b9a153f1439b2e91bcc2b891449fb634b7f62c1444b6196d865211caa4a"
+      }
+    },
+    {
+      "serviceId": "cluster-management",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "cluster-management",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:delete:%2Fv2%2Fclusters%2FonDemandClusters%2F%7BclusterId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/onDemandClusters/{clusterId}",
+            "method": "delete",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:479f64d24ab59321c93e77365e7ef2cf9ef4d4841406e631e1eb658fb7c80bb4",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:delete:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fdrop",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}/drop",
+            "method": "delete",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:80af0c7aa4966a1e95c000e5e930656322ba66a1e7b35652810e16d1a00b47a3",
+            "afterDigest": "sha256:80af0c7aa4966a1e95c000e5e930656322ba66a1e7b35652810e16d1a00b47a3",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:get:%2Fv2%2Fclusters",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:ccf1b17e57210b9dddf0ead262b5bfffcb0da0210f1aca4b6cd2d09ca36e3054",
+            "afterDigest": "sha256:ccf1b17e57210b9dddf0ead262b5bfffcb0da0210f1aca4b6cd2d09ca36e3054",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:get:%2Fv2%2Fclusters%2FonDemandClusters",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/onDemandClusters",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:d3cd920c687c49110a5e81d19f1159807f7ee08770bc328517fd804b9307c78f",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:get:%2Fv2%2Fclusters%2FonDemandClusters%2F%7BclusterId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/onDemandClusters/{clusterId}",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:17add55cbc4a195c10bc08dd9e7e7ccfa0507f8db90d64d9df2f804041020bab",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:get:%2Fv2%2Fclusters%2F%7BclusterId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:f7ce7743de40064e310323c510ab0409f38625cd684251e8e8c45584b617977b",
+            "afterDigest": "sha256:f7ce7743de40064e310323c510ab0409f38625cd684251e8e8c45584b617977b",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:get:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Flabels",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}/labels",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:7353b753451a39ba28a3732db744b5fedd26f54a9b80fdb648c21b7f7464973b",
+            "afterDigest": "sha256:7353b753451a39ba28a3732db744b5fedd26f54a9b80fdb648c21b7f7464973b",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:get:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fmetrics%2Fexport",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}/metrics/export",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:fb4ab9453baf76384e0736b52166e2ad93ade4008ef53c38dcca5aa49810e859",
+            "afterDigest": "sha256:fb4ab9453baf76384e0736b52166e2ad93ade4008ef53c38dcca5aa49810e859",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:get:%2Fv2%2Fclusters%2F%7BclusterId%7D%2FsecurityGroups",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}/securityGroups",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:8d1e07f117b8eee2b71f56c8eb2d05d5f22cbfd278a93316a5035a4fb60fedf0",
+            "afterDigest": "sha256:8d1e07f117b8eee2b71f56c8eb2d05d5f22cbfd278a93316a5035a4fb60fedf0",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:patch:%2Fv2%2Fclusters%2FonDemandClusters%2F%7BclusterId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/onDemandClusters/{clusterId}",
+            "method": "patch",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:70945a96b4f7b24bbc6df99b7b8cbdebe7d43176b9769f5021e0ba17e3cd5efd",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:patch:%2Fv2%2Fclusters%2F%7BclusterId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}",
+            "method": "patch",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:65b64cf9c4c1e9d53847a612d84fbfe1098649cfa3bb406e52a0ec4c921441bf",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:post:%2Fv2%2Fclusters%2FcreateDedicated",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/createDedicated",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:58458a6921e80c18857656366accf7e33932cfc155538ca1a422cd086c26afb4",
+            "afterDigest": "sha256:58458a6921e80c18857656366accf7e33932cfc155538ca1a422cd086c26afb4",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:post:%2Fv2%2Fclusters%2FcreateFree",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/createFree",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:2b6cd56ea628313b8082afe48b20dced833557b38b2c7b8199b0c1e9ed6d439c",
+            "afterDigest": "sha256:2b6cd56ea628313b8082afe48b20dced833557b38b2c7b8199b0c1e9ed6d439c",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:post:%2Fv2%2Fclusters%2FcreateOnDemandCluster",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/createOnDemandCluster",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:3750d8ad0455bab4eb34a0f33444532634ebaae82b42a2c68f5988cb321fd2ca",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:post:%2Fv2%2Fclusters%2FcreateServerless",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/createServerless",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:3d8dc4d68aa0d5bfad03ef59a6f53f301bd51d9257b3b948b15aa3f29cb0a893",
+            "afterDigest": "sha256:3d8dc4d68aa0d5bfad03ef59a6f53f301bd51d9257b3b948b15aa3f29cb0a893",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:post:%2Fv2%2Fclusters%2FcreateVectorLake",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/createVectorLake",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:aae4c83ecf0965e06bab386b44c67e59071e6503d7fd13c1d027b839bcbd0e08",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:post:%2Fv2%2Fclusters%2FonDemandClusters%2F%7BclusterId%7D%2FmodifyProperties",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/onDemandClusters/{clusterId}/modifyProperties",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:63b471a4b8cbf0bb1133ab6338050dd36b31b7c7ec5c50126e40ddfbe83e0ed9",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:post:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fmetrics%2Fquery",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}/metrics/query",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:0bec4cdd823379562bd6c0ef680077644edd159f69143097d24403ef7d6b2f29",
+            "afterDigest": "sha256:0bec4cdd823379562bd6c0ef680077644edd159f69143097d24403ef7d6b2f29",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:post:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fmodify",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}/modify",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:b054d93ebc9b28831ca4eaf4ea2e875fb39c235c080501894a672dab92c32f3b",
+            "afterDigest": "sha256:b054d93ebc9b28831ca4eaf4ea2e875fb39c235c080501894a672dab92c32f3b",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:post:%2Fv2%2Fclusters%2F%7BclusterId%7D%2FmodifyProperties",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}/modifyProperties",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:76bba3e02aacf1dce3fb842da91fcd5fc8d785e6996cc04ed54d3ab778ff303f",
+            "afterDigest": "sha256:76bba3e02aacf1dce3fb842da91fcd5fc8d785e6996cc04ed54d3ab778ff303f",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:post:%2Fv2%2Fclusters%2F%7BclusterId%7D%2FmodifyReplica",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}/modifyReplica",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:4cc2013b1660678cfb68a31976913f6e6faa5ccca24ee8c21856726fd662c2aa",
+            "afterDigest": "sha256:4cc2013b1660678cfb68a31976913f6e6faa5ccca24ee8c21856726fd662c2aa",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:post:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fresume",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}/resume",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:efb900798aaf3c4baa281ecd8d880999a50f647fba1e21dc9768d91802292a86",
+            "afterDigest": "sha256:efb900798aaf3c4baa281ecd8d880999a50f647fba1e21dc9768d91802292a86",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:post:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Fsuspend",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}/suspend",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:0e67bf0cd3fd079988a8ca7dcfc56ed5e08efc30b62c45681a185d6f72128b29",
+            "afterDigest": "sha256:0e67bf0cd3fd079988a8ca7dcfc56ed5e08efc30b62c45681a185d6f72128b29",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:put:%2Fv2%2Fclusters%2F%7BclusterId%7D%2Flabels",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}/labels",
+            "method": "put",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:39957814cc6fbdc336d1ebf511dd78462dcf651566076a0be1c253d410c7a353",
+            "afterDigest": "sha256:39957814cc6fbdc336d1ebf511dd78462dcf651566076a0be1c253d410c7a353",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:cluster-management:put:%2Fv2%2Fclusters%2F%7BclusterId%7D%2FsecurityGroups",
+            "apiSurface": "control-plane",
+            "serviceId": "cluster-management",
+            "endpoint": "/v2/clusters/{clusterId}/securityGroups",
+            "method": "put",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:989a848d7bea987541b891dad27ad68af8f22186b100b3d8186e7f2ded8faf54",
+            "afterDigest": "sha256:989a848d7bea987541b891dad27ad68af8f22186b100b3d8186e7f2ded8faf54",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 25,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:0ced9af9f1e804458a1c747448d64a98cf9945e60cbdbd541da0736a84c20c82"
+      }
+    },
+    {
+      "serviceId": "etl",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "etl",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:etl:post:%2Fv2%2Fetl%2Fmerge",
+            "apiSurface": "control-plane",
+            "serviceId": "etl",
+            "endpoint": "/v2/etl/merge",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:8b473f5df037fa034eee3ff6cedacc8872686a7ac5404ba1e174cc4906964c4d",
+            "afterDigest": "sha256:8b473f5df037fa034eee3ff6cedacc8872686a7ac5404ba1e174cc4906964c4d",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 1,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:827be905ef5b99581a263d0aa02cc5454bed3389e11ec49d4606d8f8801719e7"
+      }
+    },
+    {
+      "serviceId": "global-clusters",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "global-clusters",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:delete:%2Fv2%2FglobalClusterss%2F%7BglobalClusterId%7D%2Fclusters%2F%7BclusterId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusterss/{globalClusterId}/clusters/{clusterId}",
+            "method": "delete",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:a57bee9d84bfe439932b3088e86e2aaabd6d75ab48e7e2272d9458923ddde250",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:get:%2Fv2%2FglobalClusters%2Flag",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusters/lag",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:5f11a23af9531544f6140dad4df654f372ff28498747ffd9d40cb06aa8e72fe2",
+            "afterDigest": "sha256:5f11a23af9531544f6140dad4df654f372ff28498747ffd9d40cb06aa8e72fe2",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:get:%2Fv2%2FglobalClusterss",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusterss",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:c737892f562fb2de03bb569c096faaeea421b58761a9aaacb4b463dd0c74ed0d",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:get:%2Fv2%2FglobalClusterss%2FavailableRegions",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusterss/availableRegions",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:532a1efc26d345e09e9c05cdc9269a02b7a5aa4f0e21ff1885596ec0c90295b3",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:get:%2Fv2%2FglobalClusterss%2F%7BglobalClusterId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusterss/{globalClusterId}",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:c690fc7a07c025b84c30499892813b0c0225c6706c61f6685131900116a882c8",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:get:%2Fv2%2FglobalClusterss%2F%7BglobalClusterId%7D%2FreplicationLag",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusterss/{globalClusterId}/replicationLag",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:9313ca5f86cfdda2fee3ade750ef0875e8569ff0ec6ddfa14acf6ae03cea0572",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:post:%2Fv2%2FglobalClusters%2Fswitchover",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusters/switchover",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:d9246233888dd0b2bf0651bf2324edb5163a2b571684ef2d9913efc6c7473a4f",
+            "afterDigest": "sha256:d9246233888dd0b2bf0651bf2324edb5163a2b571684ef2d9913efc6c7473a4f",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:post:%2Fv2%2FglobalClusterss%2Fconvert",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusterss/convert",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:67cf394637b7cfeda4d6505de5ee0569518e3cc5646bb54d110460d0b668e03f",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:post:%2Fv2%2FglobalClusterss%2Fcreate",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusterss/create",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:80dec059c3ce33076bd70a6fe56a649d7caf88507fd9720d2830a5c4950d78c9",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:post:%2Fv2%2FglobalClusterss%2F%7BglobalClusterId%7D%2Ffailover",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusterss/{globalClusterId}/failover",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:680cde12d27ca8bfba38f2b9def8d6858018704c97ffc55e2caa45984813490e",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:post:%2Fv2%2FglobalClusterss%2F%7BglobalClusterId%7D%2FmodifyCU",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusterss/{globalClusterId}/modifyCU",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:6deadcb8eec9904ddf389eacdbb38af66b800dbbf85566dfdf4d66edd7fb4a47",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:post:%2Fv2%2FglobalClusterss%2F%7BglobalClusterId%7D%2FremoveGlobalEndpoint",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusterss/{globalClusterId}/removeGlobalEndpoint",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:2b00f5589aa10180621b134ec49791b7d77edb7e162b9c8b464fc045e4f71b76",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:post:%2Fv2%2FglobalClusterss%2F%7BglobalClusterId%7D%2FsecondaryClusters",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusterss/{globalClusterId}/secondaryClusters",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:ef0386f0926383489ac7e6b6d79d2de695d95f45de336090f4b35f14a080c8a8",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:global-clusters:post:%2Fv2%2FglobalClusterss%2F%7BglobalClusterId%7D%2Fswitchover",
+            "apiSurface": "control-plane",
+            "serviceId": "global-clusters",
+            "endpoint": "/v2/globalClusterss/{globalClusterId}/switchover",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:de729d48d12923df6f991018b20e0b255e38545c81dc74be5bd44e4788fec1fb",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 14,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:6c5426c324f4c53fd4d2d532dc3ead2e8c232eefb8d1c84e3ea026b41395d856"
+      }
+    },
+    {
+      "serviceId": "invoices",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "invoices",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:invoices:get:%2Fv2%2Finvoices",
+            "apiSurface": "control-plane",
+            "serviceId": "invoices",
+            "endpoint": "/v2/invoices",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:d50166fc0e27eb738d2fecbe4eea3f874e4d6824c6e9e4209c1bea3da9659c2b",
+            "afterDigest": "sha256:d50166fc0e27eb738d2fecbe4eea3f874e4d6824c6e9e4209c1bea3da9659c2b",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:invoices:get:%2Fv2%2Finvoices%2F%7BinvoiceId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "invoices",
+            "endpoint": "/v2/invoices/{invoiceId}",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:1c6804f1591ad8d2381ce772a50703d977a1472b455fe9d13fda4995ad2a7ce1",
+            "afterDigest": "sha256:1c6804f1591ad8d2381ce772a50703d977a1472b455fe9d13fda4995ad2a7ce1",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:invoices:get:%2Fv2%2Finvoices%2F%7BinvoiceId%7D%2FdownloadPdf",
+            "apiSurface": "control-plane",
+            "serviceId": "invoices",
+            "endpoint": "/v2/invoices/{invoiceId}/downloadPdf",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:f6ef106103beaaa1e964df94828e56bd0224c5e84d49314d886f9baef74ff543",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 3,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:e58dce6b2ea3b98390f8e79e4b8ade40293f17db5e0d773a7157a25b755e3177"
+      }
+    },
+    {
+      "serviceId": "metrics-alerts",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "metrics-alerts",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:metrics-alerts:delete:%2Fv2%2FalertRules%2F%7Bid%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "metrics-alerts",
+            "endpoint": "/v2/alertRules/{id}",
+            "method": "delete",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:bf2e9a6cf3f0b415cb21a0a34d8cafaea0be0b9da5e22ad643414dd58b4c338e",
+            "afterDigest": "sha256:bf2e9a6cf3f0b415cb21a0a34d8cafaea0be0b9da5e22ad643414dd58b4c338e",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:metrics-alerts:get:%2Fv2%2FalertRules",
+            "apiSurface": "control-plane",
+            "serviceId": "metrics-alerts",
+            "endpoint": "/v2/alertRules",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:6287415965d278233abb9bc180bfbf4bdc084e7380842d01461447372c52f966",
+            "afterDigest": "sha256:6287415965d278233abb9bc180bfbf4bdc084e7380842d01461447372c52f966",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:metrics-alerts:post:%2Fv2%2FalertRules",
+            "apiSurface": "control-plane",
+            "serviceId": "metrics-alerts",
+            "endpoint": "/v2/alertRules",
+            "method": "post",
+            "action": "UPDATE",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:35155c399cb745fe731b631fdf03cd79f475084e20696bb173c63aac84e02b29",
+            "afterDigest": "sha256:2952f12d636b823189bafb5ae87f70a6eddfbefeb4aac8ccaac159ce7cae3e2f",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:metrics-alerts:put:%2Fv2%2FalertRules%2F%7Bid%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "metrics-alerts",
+            "endpoint": "/v2/alertRules/{id}",
+            "method": "put",
+            "action": "UPDATE",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:a6c4ff7715ba6cbce6d510f092e06309658af34bfc25cf2f051a19209cd68942",
+            "afterDigest": "sha256:6e5f0237475b2ba11a6a5889522b3c47f04e016f05c73e5c8c2e6030c9dcc910",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 4,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:e5b69ad1f44d741be844e122c3a3a9eab499fbd94052ee2880ad086b8991b983"
+      }
+    },
+    {
+      "serviceId": "migrations",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "migrations",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:migrations:post:%2Fv2%2Fmigrations%2FstartByRemote",
+            "apiSurface": "control-plane",
+            "serviceId": "migrations",
+            "endpoint": "/v2/migrations/startByRemote",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:003635b420d18abf1d80c931a4eb412bf95626a81c1167865d1bedd054a08bfb",
+            "afterDigest": "sha256:003635b420d18abf1d80c931a4eb412bf95626a81c1167865d1bedd054a08bfb",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:migrations:post:%2Fv2%2Fmigrations%2FtoExisting",
+            "apiSurface": "control-plane",
+            "serviceId": "migrations",
+            "endpoint": "/v2/migrations/toExisting",
+            "method": "post",
+            "action": "UPDATE",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:2e6b45a51f13be19da9cd89af56711efac98001b3f4b76a0cbe237caa40c3ad2",
+            "afterDigest": "sha256:6ec02a3645fab215469da2b169f4158bb96e94059ffc9a4eaee17e939cc1a3c6",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:migrations:post:%2Fv2%2Fmigrations%2FtoNewDedicated",
+            "apiSurface": "control-plane",
+            "serviceId": "migrations",
+            "endpoint": "/v2/migrations/toNewDedicated",
+            "method": "post",
+            "action": "UPDATE",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:e9e064ef3a5caf25f54f1345034ffdcebb697927ef64b957fad81206981241b9",
+            "afterDigest": "sha256:81537b5283ff811170d09ebb86350d5a251f8353db88bae2f504876c0039c35f",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 3,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:bd43937ad1e97fdf9f815813aab46a0de7763261e2c0c13b982bb79acdc51347"
+      }
+    },
+    {
+      "serviceId": "on-demand-compute",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "on-demand-compute",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:on-demand-compute:delete:%2Fcloud%2Fv1%2Fvectorlake%2Fquery-cluster%2F%7BclusterId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "on-demand-compute",
+            "endpoint": "/cloud/v1/vectorlake/query-cluster/{clusterId}",
+            "method": "delete",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:9872140e56023db69f9d5c91adc15da5c511b1bf185bcff71248aa6e2d009b51",
+            "afterDigest": "sha256:9872140e56023db69f9d5c91adc15da5c511b1bf185bcff71248aa6e2d009b51",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:on-demand-compute:get:%2Fcloud%2Fv1%2Fvectorlake",
+            "apiSurface": "control-plane",
+            "serviceId": "on-demand-compute",
+            "endpoint": "/cloud/v1/vectorlake",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:60497a181402e49864a537c962741f2434ec68d5b13dd93e023a12679bc941c9",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:on-demand-compute:get:%2Fcloud%2Fv1%2Fvectorlake%2Fdatabase%2Flist",
+            "apiSurface": "control-plane",
+            "serviceId": "on-demand-compute",
+            "endpoint": "/cloud/v1/vectorlake/database/list",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:7d06c3ef5f57422fcc28a28ac1ba9256139f072e12ac48deaa435140b99b2737",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:on-demand-compute:get:%2Fcloud%2Fv1%2Fvectorlake%2Fquery-cluster",
+            "apiSurface": "control-plane",
+            "serviceId": "on-demand-compute",
+            "endpoint": "/cloud/v1/vectorlake/query-cluster",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:afd7813edbb2e1e8961431bc4985238391992b3a7b21adff0112e62028f3726b",
+            "afterDigest": "sha256:afd7813edbb2e1e8961431bc4985238391992b3a7b21adff0112e62028f3726b",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:on-demand-compute:get:%2Fcloud%2Fv1%2Fvectorlake%2Fquery-cluster%2F%7BclusterId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "on-demand-compute",
+            "endpoint": "/cloud/v1/vectorlake/query-cluster/{clusterId}",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:c4fe5a2b3a659d3e6d69937fb1fed93ddc0a3dae41de1f83f0ca83639b4706b3",
+            "afterDigest": "sha256:c4fe5a2b3a659d3e6d69937fb1fed93ddc0a3dae41de1f83f0ca83639b4706b3",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:on-demand-compute:post:%2Fcloud%2Fv1%2Fvectorlake",
+            "apiSurface": "control-plane",
+            "serviceId": "on-demand-compute",
+            "endpoint": "/cloud/v1/vectorlake",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:f414e8615ac32c12fdc7c83dec47d624af1bf55217193c95a6a66d9b81eb6c60",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:on-demand-compute:post:%2Fcloud%2Fv1%2Fvectorlake%2Fdatabase%2Fcreate",
+            "apiSurface": "control-plane",
+            "serviceId": "on-demand-compute",
+            "endpoint": "/cloud/v1/vectorlake/database/create",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:0724f0276010bde26986e5f3708bdab6bde673ed78c0db2ff3c7b4b45c836c4a",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:on-demand-compute:post:%2Fcloud%2Fv1%2Fvectorlake%2Fdatabase%2Fdrop",
+            "apiSurface": "control-plane",
+            "serviceId": "on-demand-compute",
+            "endpoint": "/cloud/v1/vectorlake/database/drop",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:038b0eefc0dab5530fb4e9dc3376ca9f82240798846af57c8ef38b34150cf14f",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:on-demand-compute:post:%2Fcloud%2Fv1%2Fvectorlake%2Fquery-cluster",
+            "apiSurface": "control-plane",
+            "serviceId": "on-demand-compute",
+            "endpoint": "/cloud/v1/vectorlake/query-cluster",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:ef9d247ec1effbf4fa0c742b2b831686de1458a52dd79d1059e9f014a6935712",
+            "afterDigest": "sha256:ef9d247ec1effbf4fa0c742b2b831686de1458a52dd79d1059e9f014a6935712",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:on-demand-compute:post:%2Fcloud%2Fv1%2Fvectorlake%2Fquery-cluster%2F%7BclusterId%7D%2Fmodify",
+            "apiSurface": "control-plane",
+            "serviceId": "on-demand-compute",
+            "endpoint": "/cloud/v1/vectorlake/query-cluster/{clusterId}/modify",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:01bb92ed55e07c4088bcf9e97cd90c240b3db7297166c3de20d6f0cc4b0a279c",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:on-demand-compute:post:%2Fcloud%2Fv1%2Fvectorlake%2Fquery-cluster%2F%7BclusterId%7D%2Fproperties",
+            "apiSurface": "control-plane",
+            "serviceId": "on-demand-compute",
+            "endpoint": "/cloud/v1/vectorlake/query-cluster/{clusterId}/properties",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:fc7cad5cf1773e135b2794b5b43954fba303e0a767fe93e45cb611e71f06d8ed",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:on-demand-compute:post:%2Fcloud%2Fv1%2Fvectorlake%2Fquery-cluster%2F%7BclusterId%7D%2Frename",
+            "apiSurface": "control-plane",
+            "serviceId": "on-demand-compute",
+            "endpoint": "/cloud/v1/vectorlake/query-cluster/{clusterId}/rename",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:63b1d260d990db77186d56db654b2fc780fa65af6fadc3f506867e2cbfc487b8",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 12,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:5aaf771fb2601fd7d0ee2d3a92c1a8a6cd442be7f7c86cbc65dd28d42605dc36"
+      }
+    },
+    {
+      "serviceId": "pipelines",
+      "status": "CONTROLLER_MISSING",
+      "blockers": [
+        {
+          "code": "CONTROLLER_MISSING",
+          "investigation": null
+        }
+      ],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "pipelines",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 0,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:030d4f4f1059b85aa643fd9d7189d456ffce4c097a93201430c5af2cd11808aa"
+      }
+    },
+    {
+      "serviceId": "projects",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "projects",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:projects:delete:%2Fv2%2Fprojects%2F%7BprojectId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "projects",
+            "endpoint": "/v2/projects/{projectId}",
+            "method": "delete",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:c4a7f8203c959f9727dfe9964e39862aabd8249b18422014589a3fd3eecb06ee",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:projects:delete:%2Fv2%2Fprojects%2F%7BprojectId%7D%2Fregions%2F%7BregionId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "projects",
+            "endpoint": "/v2/projects/{projectId}/regions/{regionId}",
+            "method": "delete",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:279ca792083652836a94cfcf54f943e033132777bf100035a51e0cc4e44e1ea3",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:projects:get:%2Fv2%2Fprojects",
+            "apiSurface": "control-plane",
+            "serviceId": "projects",
+            "endpoint": "/v2/projects",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:d04f93f70a176538827bc3ab80d7089f8a001c25a988bf0e495001cafd362c01",
+            "afterDigest": "sha256:d04f93f70a176538827bc3ab80d7089f8a001c25a988bf0e495001cafd362c01",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:projects:get:%2Fv2%2Fprojects%2F%7BprojectId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "projects",
+            "endpoint": "/v2/projects/{projectId}",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:681e8cd8d8ae4f683ba7cba17a3a7509094b83c06cb4becdae60f3109d7f0aea",
+            "afterDigest": "sha256:681e8cd8d8ae4f683ba7cba17a3a7509094b83c06cb4becdae60f3109d7f0aea",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:projects:patch:%2Fv2%2Fprojects%2F%7BprojectId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "projects",
+            "endpoint": "/v2/projects/{projectId}",
+            "method": "patch",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:e479e15ebf5c3423486e84d8e20132ce7d9535e15201777c74db17d01ea10558",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:projects:patch:%2Fv2%2Fprojects%2F%7BprojectId%7D%2Fplan",
+            "apiSurface": "control-plane",
+            "serviceId": "projects",
+            "endpoint": "/v2/projects/{projectId}/plan",
+            "method": "patch",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:8ceec3c38c97e320d37993bbef9bb7596d27c52e631f83aaf8014df7b2aae4fb",
+            "afterDigest": "sha256:8ceec3c38c97e320d37993bbef9bb7596d27c52e631f83aaf8014df7b2aae4fb",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:projects:post:%2Fv2%2Fprojects",
+            "apiSurface": "control-plane",
+            "serviceId": "projects",
+            "endpoint": "/v2/projects",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:29cf2f52abef08bb5d74c871af0156626b995af1ffcf1b9f3d04154e5a6b0ae7",
+            "afterDigest": "sha256:29cf2f52abef08bb5d74c871af0156626b995af1ffcf1b9f3d04154e5a6b0ae7",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:projects:post:%2Fv2%2Fprojects%2F%7BprojectId%7D%2Fregions",
+            "apiSurface": "control-plane",
+            "serviceId": "projects",
+            "endpoint": "/v2/projects/{projectId}/regions",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:4f74184ce9cf36a620dbdbc4662517671f751ea4c79e3ac9118f4395aabf614a",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 8,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:74592bee82dd16f7612f8afbabd38f1647296e5cad97f54e9512f04adfafc996"
+      }
+    },
+    {
+      "serviceId": "spark-jobs",
+      "status": "CONTROLLER_MISSING",
+      "blockers": [
+        {
+          "code": "CONTROLLER_MISSING",
+          "investigation": null
+        }
+      ],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "spark-jobs",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 0,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:eb7176755ff551c29857294e014f51239baa2fa5136c2c283e7d512550cdb95a"
+      }
+    },
+    {
+      "serviceId": "storage-integrations",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "storage-integrations",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:storage-integrations:delete:%2Fv2%2FstorageIntegrations%2F%7BintegrationId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "storage-integrations",
+            "endpoint": "/v2/storageIntegrations/{integrationId}",
+            "method": "delete",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:7074b11a538696fd2f5d842717ad2eee2e99a325918128ac8af49381acee20fa",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:storage-integrations:get:%2Fv2%2FstorageIntegrations",
+            "apiSurface": "control-plane",
+            "serviceId": "storage-integrations",
+            "endpoint": "/v2/storageIntegrations",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:a6fe90e375e07de0b1a22474a17a7ea270054aa486b13036f8ebad09786e75b2",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:storage-integrations:get:%2Fv2%2FstorageIntegrations%2F%7BintegrationId%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "storage-integrations",
+            "endpoint": "/v2/storageIntegrations/{integrationId}",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:4d4a2a58ff0fa4fb0b332d872e37b4a9556c9772cc83255a3c0cd752ae43460a",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:storage-integrations:post:%2Fv2%2FstorageIntegrations",
+            "apiSurface": "control-plane",
+            "serviceId": "storage-integrations",
+            "endpoint": "/v2/storageIntegrations",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:ecf9c99382e5de49630a031e969e18c168147e16e5b0cbe4a37776608ac6ce22",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:storage-integrations:post:%2Fv2%2FstorageIntegrations%2FauthorizationMaterials",
+            "apiSurface": "control-plane",
+            "serviceId": "storage-integrations",
+            "endpoint": "/v2/storageIntegrations/authorizationMaterials",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:e220d8960b868ab9729651698c0d49c266100dd59e44f97a7c1576d621e0aaa6",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:storage-integrations:post:%2Fv2%2FstorageIntegrations%2Fvalidate",
+            "apiSurface": "control-plane",
+            "serviceId": "storage-integrations",
+            "endpoint": "/v2/storageIntegrations/validate",
+            "method": "post",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:0c2ea31659711f7050145d234ccdaabc494dcedea2da0e9c9a1b1acb46a2efe5",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 6,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:0b5da05364d3dda43743bcc3738d0c40c1895026d31eee0a6b825e29044e82cf"
+      }
+    },
+    {
+      "serviceId": "usage",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "usage",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:usage:post:%2Fv2%2Fusage%2Fquery",
+            "apiSurface": "control-plane",
+            "serviceId": "usage",
+            "endpoint": "/v2/usage/query",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:6fbbf20099b7aefc5681a8ec9bfa9cd275ca3257f096b18a4e84a3eb5e2bd13d",
+            "afterDigest": "sha256:6fbbf20099b7aefc5681a8ec9bfa9cd275ca3257f096b18a4e84a3eb5e2bd13d",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 1,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:ff05d2dacf8d36213c49b7be1b67670f1a5f642883e5a70726938e7d67dfc0cf"
+      }
+    },
+    {
+      "serviceId": "volumes",
+      "status": "SCANNED",
+      "blockers": [],
+      "manifest": {
+        "schemaVersion": 1,
+        "apiSurface": "control-plane",
+        "serviceId": "volumes",
+        "source": {
+          "repository": "zilliz-cloud",
+          "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+          "headRevision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+        },
+        "units": [
+          {
+            "reviewUnitId": "rest:control-plane:volumes:delete:%2Fv2%2Fvolumes%2F%7BvolumeName%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "volumes",
+            "endpoint": "/v2/volumes/{volumeName}",
+            "method": "delete",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:4c8252095d236ce51966e98b8b0c1a3e0f5eb73b7ceb22d70658ccf00fa959a5",
+            "afterDigest": "sha256:4c8252095d236ce51966e98b8b0c1a3e0f5eb73b7ceb22d70658ccf00fa959a5",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:volumes:get:%2Fv2%2Fvolumes",
+            "apiSurface": "control-plane",
+            "serviceId": "volumes",
+            "endpoint": "/v2/volumes",
+            "method": "get",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:64504b3bcb5c1857126360b14198ae21ddb959ceaeadf93ea37dcccf9ee6638a",
+            "afterDigest": "sha256:64504b3bcb5c1857126360b14198ae21ddb959ceaeadf93ea37dcccf9ee6638a",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:volumes:get:%2Fv2%2Fvolumes%2F%7BvolumeName%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "volumes",
+            "endpoint": "/v2/volumes/{volumeName}",
+            "method": "get",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:23a8f1b2c47eaea149090466863b95ffc001c14c01080359136de0f133ed50ed",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:volumes:patch:%2Fv2%2Fvolumes%2F%7BvolumeName%7D",
+            "apiSurface": "control-plane",
+            "serviceId": "volumes",
+            "endpoint": "/v2/volumes/{volumeName}",
+            "method": "patch",
+            "action": "ADD",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": null,
+            "afterDigest": "sha256:e7737e156c9d430c764377450d196e1c774322ffe5ca07bde8c7d37bce6ab25e",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:volumes:post:%2Fv2%2Fvolumes%2Fapply",
+            "apiSurface": "control-plane",
+            "serviceId": "volumes",
+            "endpoint": "/v2/volumes/apply",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:c4d724b3347bb6c94f8360293864efd37c86e803697c2983dbb8f612f7233387",
+            "afterDigest": "sha256:c4d724b3347bb6c94f8360293864efd37c86e803697c2983dbb8f612f7233387",
+            "affectedComponents": [],
+            "blockers": []
+          },
+          {
+            "reviewUnitId": "rest:control-plane:volumes:post:%2Fv2%2Fvolumes%2Fcreate",
+            "apiSurface": "control-plane",
+            "serviceId": "volumes",
+            "endpoint": "/v2/volumes/create",
+            "method": "post",
+            "action": "NOOP",
+            "sourceEvidence": {
+              "repository": "zilliz-cloud",
+              "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+              "revision": "cad69e5b51d7bc62a6bf3ab9871d1e76a5afd6ec"
+            },
+            "beforeDigest": "sha256:460503a17379079b85ed9108902155197ceb768b467d3974abc8d86c07921c89",
+            "afterDigest": "sha256:460503a17379079b85ed9108902155197ceb768b467d3974abc8d86c07921c89",
+            "affectedComponents": [],
+            "blockers": []
+          }
+        ],
+        "changedComponents": [],
+        "summary": {
+          "unitCount": 6,
+          "blockerCount": 0
+        },
+        "manifestDigest": "sha256:dc7b89b90e64bb6a472dd46db8673ac057e1e715f30593310b73cc95ab82ec01"
+      }
+    }
+  ],
+  "summary": {
+    "serviceCount": 18,
+    "blockedServiceCount": 3,
+    "reviewUnitCount": 114
+  },
+  "reviewDigest": "sha256:c6c0e424933b59fc262d27943c335d72fb98a52a9fd0313c9331131264aa8af5"
+}

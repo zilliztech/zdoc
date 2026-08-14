@@ -9,12 +9,13 @@ const fixture = name => JSON.parse(fs.readFileSync(
   'utf8',
 ));
 
-test('latest policy keeps only the selected zdoc api surface', () => {
+test('data-plane latest keeps only the selected protocol version', () => {
   const latest = buildIntegratedSpec(fixture('canonical.json'), {
     publicationPolicy: 'latest',
     target: 'zilliz',
     language: 'en-US',
-    apiSurface: 'v2',
+    apiSurface: 'data-plane',
+    protocolVersion: 'v2',
   });
 
   assert.equal(latest.releaseTrack, null);
@@ -27,6 +28,7 @@ test('track policy filters fields added after the selected track', () => {
     publicationPolicy: 'track',
     target: 'milvus',
     language: 'en-US',
+    apiSurface: 'data-plane',
     releaseTrack: '2.6.x',
   });
 
@@ -46,19 +48,21 @@ test('latest policy rejects a release track', () => {
       publicationPolicy: 'latest',
       target: 'zilliz',
       language: 'en-US',
-      apiSurface: 'v2',
+      apiSurface: 'data-plane',
+      protocolVersion: 'v2',
       releaseTrack: '2.6.x',
     }),
     /REST_LATEST_POLICY_REJECTS_TRACK/,
   );
 });
 
-test('track policy requires a release track and rejects an api surface', () => {
+test('data-plane track requires a release track and rejects a protocol version', () => {
   assert.throws(
     () => buildIntegratedSpec(fixture('milvus-2.6.x.json'), {
       publicationPolicy: 'track',
       target: 'milvus',
       language: 'en-US',
+      apiSurface: 'data-plane',
     }),
     /REST_TRACK_POLICY_REQUIRES_TRACK/,
   );
@@ -69,20 +73,22 @@ test('track policy requires a release track and rejects an api surface', () => {
       target: 'milvus',
       language: 'en-US',
       releaseTrack: '2.6.x',
-      apiSurface: 'v2',
+      apiSurface: 'data-plane',
+      protocolVersion: 'v2',
     }),
-    /REST_TRACK_POLICY_REJECTS_API_SURFACE/,
+    /REST_TRACK_POLICY_REJECTS_PROTOCOL_VERSION/,
   );
 });
 
-test('latest policy requires an api surface', () => {
+test('data-plane latest requires a protocol version', () => {
   assert.throws(
     () => buildIntegratedSpec(fixture('canonical.json'), {
       publicationPolicy: 'latest',
       target: 'zilliz',
       language: 'en-US',
+      apiSurface: 'data-plane',
     }),
-    /REST_LATEST_POLICY_REQUIRES_API_SURFACE/,
+    /REST_LATEST_POLICY_REQUIRES_PROTOCOL_VERSION/,
   );
 });
 
@@ -92,6 +98,7 @@ test('applies zh-CN localization before stripping x-i18n', () => {
     target: 'milvus',
     language: 'zh-CN',
     releaseTrack: '3.0.x',
+    apiSurface: 'data-plane',
   });
 
   assert.equal(localized.spec.paths['/v2/vectordb/entities/search'].post.summary, 'Search');
@@ -112,6 +119,7 @@ test('english output strips internal x-* authoring metadata but keeps deprecated
     target: 'milvus',
     language: 'en-US',
     releaseTrack: '3.0.x',
+    apiSurface: 'data-plane',
   });
 
   assert.equal(built.spec.paths['/v2/vectordb/entities/search'].post.deprecated, true);
@@ -139,7 +147,8 @@ test('target and language filters prune operations, properties, and examples', (
     publicationPolicy: 'latest',
     target: 'zilliz',
     language: 'en-US',
-    apiSurface: 'v2',
+    apiSurface: 'data-plane',
+    protocolVersion: 'v2',
   });
 
   assert.equal(
@@ -148,4 +157,21 @@ test('target and language filters prune operations, properties, and examples', (
   );
   assert.equal(built.spec.components.schemas.Project.properties.internalNote, undefined);
   assert.equal(built.spec.components.schemas.Unused, undefined);
+});
+
+test('control-plane accepts only zilliz latest without track or protocol version', () => {
+  const built = buildIntegratedSpec(fixture('canonical.json'), {
+    publicationPolicy: 'latest', target: 'zilliz', language: 'en-US', apiSurface: 'control-plane',
+  });
+  assert.equal(built.apiSurface, 'control-plane');
+  assert.equal(built.protocolVersion, null);
+  assert.throws(() => buildIntegratedSpec(fixture('canonical.json'), {
+    publicationPolicy: 'latest', target: 'milvus', language: 'en-US', apiSurface: 'control-plane',
+  }), /REST_CONTROL_PLANE_REJECTS_TARGET/);
+  assert.throws(() => buildIntegratedSpec(fixture('canonical.json'), {
+    publicationPolicy: 'track', target: 'zilliz', language: 'en-US', apiSurface: 'control-plane', releaseTrack: '2.6.x',
+  }), /REST_CONTROL_PLANE_REJECTS_POLICY/);
+  assert.throws(() => buildIntegratedSpec(fixture('canonical.json'), {
+    publicationPolicy: 'latest', target: 'zilliz', language: 'en-US', apiSurface: 'control-plane', protocolVersion: 'v2',
+  }), /REST_CONTROL_PLANE_REJECTS_PROTOCOL_VERSION/);
 });

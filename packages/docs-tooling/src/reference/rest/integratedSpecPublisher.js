@@ -8,19 +8,10 @@ const {
   writeIntegratedArtifacts,
 } = require('./integratedSpecArtifacts');
 const {loadSpecifications} = require('./specLoader');
+const {artifactKeys} = require('./artifactKeyLayout');
 
 function clone(value) {
   return structuredClone(value);
-}
-
-function createAliasArtifact(primary, filename) {
-  return {
-    filename,
-    bytes: primary.bytes,
-    length: primary.length,
-    sha256: primary.sha256,
-    contentType: 'application/json',
-  };
 }
 
 function sourceDigestForFile(filePath) {
@@ -69,6 +60,7 @@ async function publishIntegratedSpecs(options) {
     target,
     language,
     apiSurface,
+    protocolVersion,
     releaseTrack,
     outputDirectory,
     uploader,
@@ -83,32 +75,26 @@ async function publishIntegratedSpecs(options) {
     target,
     language,
     apiSurface,
+    protocolVersion,
     releaseTrack,
   });
-
-  const primaryFilename = built.releaseTrack
-    ? `openapi-${target}-${built.releaseTrack}-${language}.json`
-    : `openapi-${target}-${built.apiSurface}-${language}.json`;
 
   const prepared = prepareIntegratedArtifact(built, {
     publicationPolicy,
     target,
     releaseTrack: built.releaseTrack,
     apiSurface: built.apiSurface,
+    protocolVersion: built.protocolVersion,
     language,
     sourceIdentity: sourceIdentity || source.identity,
     sourceDigest: source.digest,
     generatorGitSha,
+    collection: options.collection || null,
+    review: options.review || null,
   }, []);
 
-  let aliases = [];
-  if (enableCompatibilityAliases && publicationPolicy === 'latest') {
-    aliases = [createAliasArtifact(prepared.artifacts[0], `openapi-${target}-${built.apiSurface}.json`)];
-  }
-
-  const artifacts = prepared.artifacts.length === 2 && aliases.length > 0
-    ? [prepared.artifacts[0], ...aliases, prepared.artifacts[1]]
-    : prepared.artifacts;
+  if (enableCompatibilityAliases) throw new Error('REST_COMPATIBILITY_ALIASES_UNSUPPORTED');
+  const artifacts = prepared.artifacts;
 
   const localArtifacts = writeIntegratedArtifacts(outputDirectory, artifacts);
 
@@ -116,14 +102,36 @@ async function publishIntegratedSpecs(options) {
     const uploads = [];
     try {
       for (const artifact of localArtifacts) {
-        uploads.push({
+        const keys = artifactKeys({
+          apiSurface: built.apiSurface,
+          publicationPolicy,
+          target,
+          protocolVersion: built.protocolVersion,
+          releaseTrack: built.releaseTrack,
+          language,
+        }, artifact);
+        const immutableUrl = await uploader.uploadArtifact({
           filename: artifact.filename,
+          key: keys.immutableKey,
+          bytes: artifact.bytes,
           sha256: artifact.sha256,
-          url: await uploader.uploadArtifact({
+        });
+        const url = uploader.promoteArtifact
+          ? await uploader.promoteArtifact({
             filename: artifact.filename,
+            key: keys.latestKey,
             bytes: artifact.bytes,
             sha256: artifact.sha256,
-          }),
+            expectedCurrentSha256: options.expectedCurrentSha256?.[keys.latestKey] ?? null,
+          })
+          : immutableUrl;
+        uploads.push({
+          filename: artifact.filename,
+          immutableKey: keys.immutableKey,
+          latestKey: keys.latestKey,
+          sha256: artifact.sha256,
+          immutableUrl,
+          url,
         });
       }
     } catch (err) {
@@ -135,6 +143,68 @@ async function publishIntegratedSpecs(options) {
   return {localArtifacts, uploads: [], manifest: prepared.manifest};
 }
 
+async function publishBilingualControlPlaneSpecs(options) {
+  if (options.apiSurface !== 'control-plane' || options.publicationPolicy !== 'latest' || options.target !== 'zilliz') {
+    throw new Error('REST_BILINGUAL_CONTROL_PLANE_OPTIONS_INVALID');
+  }
+  const results = [];
+  for (const language of ['en-US', 'zh-CN']) {
+    results.push(await publishIntegratedSpecs({
+      ...options,
+      language,
+      outputDirectory: path.join(options.outputDirectory, language),
+      uploader: null,
+    }));
+  }
+  const releaseManifest = {
+    schemaVersion: '1.0',
+    apiSurface: 'control-plane',
+    target: 'zilliz',
+    languages: results.map((result, index) => ({
+      language: ['en-US', 'zh-CN'][index],
+      semanticDigest: result.manifest.semanticDigest,
+      files: result.localArtifacts.map(artifact => ({filename: artifact.filename, sha256: artifact.sha256})),
+    })),
+  };
+  const releaseBytes = Buffer.from(deterministicStringify(releaseManifest), 'utf8');
+  const releaseArtifact = {
+    filename: 'bilingual-manifest.json',
+    bytes: releaseBytes,
+    sha256: sha256(releaseBytes),
+    length: releaseBytes.length,
+    contentType: 'application/json',
+  };
+  const releasePath = path.join(options.outputDirectory, releaseArtifact.filename);
+  fs.mkdirSync(options.outputDirectory, {recursive: true});
+  fs.writeFileSync(releasePath, releaseBytes);
+
+  const uploads = [];
+  if (options.uploader) {
+    for (let index = 0; index < results.length; index += 1) {
+      const language = ['en-US', 'zh-CN'][index];
+      for (const artifact of results[index].localArtifacts) {
+        const keys = artifactKeys({apiSurface: 'control-plane', publicationPolicy: 'latest', target: 'zilliz', language}, artifact);
+        uploads.push({
+          language,
+          filename: artifact.filename,
+          key: keys.immutableKey,
+          url: await options.uploader.uploadArtifact({...artifact, key: keys.immutableKey}),
+        });
+      }
+    }
+    const immutableReleaseKey = `openapi/v2/control-plane/zilliz/releases/${releaseArtifact.sha256}/bilingual-manifest.json`;
+    await options.uploader.uploadArtifact({...releaseArtifact, key: immutableReleaseKey});
+    if (!options.uploader.promoteArtifact) throw new Error('REST_BILINGUAL_PROMOTION_UNSUPPORTED');
+    await options.uploader.promoteArtifact({
+      ...releaseArtifact,
+      key: 'openapi/v2/control-plane/zilliz/latest/bilingual/manifest.json',
+      expectedCurrentSha256: options.expectedCurrentBilingualSha256 ?? null,
+    });
+  }
+  return {results, releaseManifest, releaseArtifact: {...releaseArtifact, path: releasePath}, uploads};
+}
+
 module.exports = {
+  publishBilingualControlPlaneSpecs,
   publishIntegratedSpecs,
 };

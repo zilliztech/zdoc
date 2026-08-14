@@ -63,9 +63,9 @@ function collectHttpOperations(spec) {
   return operations;
 }
 
-function filterApiSurface(spec, apiSurface) {
-  if (!apiSurface) return;
-  const prefix = apiSurface === 'v1' ? '/v1/' : '/v2/';
+function filterProtocolVersion(spec, protocolVersion) {
+  if (!protocolVersion) return;
+  const prefix = protocolVersion === 'v1' ? '/v1/' : '/v2/';
   for (const endpoint of Object.keys(spec.paths || {})) {
     if (!endpoint.startsWith(prefix)) delete spec.paths[endpoint];
   }
@@ -274,35 +274,47 @@ function stripInternalExtensions(value) {
 }
 
 function validatePolicyOptions(options) {
+  if (options.apiSurface !== 'data-plane' && options.apiSurface !== 'control-plane') {
+    throw new Error('REST_API_SURFACE_INVALID: apiSurface must be "data-plane" or "control-plane"');
+  }
+
+  if (options.apiSurface === 'control-plane') {
+    if (options.target !== 'zilliz') throw new Error('REST_CONTROL_PLANE_REJECTS_TARGET: control-plane publishes only to zilliz');
+    if (options.publicationPolicy !== 'latest') throw new Error('REST_CONTROL_PLANE_REJECTS_POLICY: control-plane publishes only latest');
+    if (options.releaseTrack !== undefined && options.releaseTrack !== null) throw new Error('REST_CONTROL_PLANE_REJECTS_TRACK');
+    if (options.protocolVersion !== undefined && options.protocolVersion !== null) throw new Error('REST_CONTROL_PLANE_REJECTS_PROTOCOL_VERSION');
+    return {apiSurface: 'control-plane', protocolVersion: null, releaseTrack: null};
+  }
+
   if (options.publicationPolicy === 'latest') {
     if (options.releaseTrack !== undefined && options.releaseTrack !== null) {
       throw new Error('REST_LATEST_POLICY_REJECTS_TRACK: latest policy must not receive --release-track');
     }
-    if (options.apiSurface !== 'v1' && options.apiSurface !== 'v2') {
-      throw new Error('REST_LATEST_POLICY_REQUIRES_API_SURFACE: latest policy requires apiSurface "v1" or "v2"');
+    if (options.protocolVersion !== 'v1' && options.protocolVersion !== 'v2') {
+      throw new Error('REST_LATEST_POLICY_REQUIRES_PROTOCOL_VERSION: data-plane latest requires protocolVersion "v1" or "v2"');
     }
-    return {apiSurface: options.apiSurface, releaseTrack: null};
+    return {apiSurface: 'data-plane', protocolVersion: options.protocolVersion, releaseTrack: null};
   }
 
   if (options.publicationPolicy === 'track') {
-    if (options.apiSurface !== undefined && options.apiSurface !== null) {
-      throw new Error('REST_TRACK_POLICY_REJECTS_API_SURFACE: track policy must not receive --api-version');
+    if (options.protocolVersion !== undefined && options.protocolVersion !== null) {
+      throw new Error('REST_TRACK_POLICY_REJECTS_PROTOCOL_VERSION: data-plane track must not receive protocolVersion');
     }
     if (options.releaseTrack === undefined || options.releaseTrack === null) {
       throw new Error('REST_TRACK_POLICY_REQUIRES_TRACK: track policy requires --release-track');
     }
     const releaseTrack = normalizeReleaseTrack(options.releaseTrack);
-    return {apiSurface: null, releaseTrack};
+    return {apiSurface: 'data-plane', protocolVersion: null, releaseTrack};
   }
 
   throw new Error(`REST_PUBLICATION_POLICY_INVALID: "${options.publicationPolicy}" must be "latest" or "track"`);
 }
 
 function buildIntegratedSpec(specifications, options) {
-  const {apiSurface, releaseTrack} = validatePolicyOptions(options);
+  const {apiSurface, protocolVersion, releaseTrack} = validatePolicyOptions(options);
   let spec = clone(specifications);
 
-  filterApiSurface(spec, apiSurface);
+  filterProtocolVersion(spec, protocolVersion);
 
   const filterStats = {omittedElements: 0};
   spec.tags = filterSelection(spec.tags || [], options, filterStats, '$.tags');
@@ -347,6 +359,7 @@ function buildIntegratedSpec(specifications, options) {
     spec,
     releaseTrack,
     apiSurface,
+    protocolVersion,
     endpointInventory,
     stats: {
       operations: {

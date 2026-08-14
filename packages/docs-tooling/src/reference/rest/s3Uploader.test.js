@@ -51,7 +51,19 @@ test('accepts an injected client and uploads the exact supplied bytes', async ()
   assert.equal(put.Key, 'rest/openapi-zilliz-v2-en-US.json');
   assert.equal(put.ContentType, 'application/json');
   assert.deepEqual(put.Body, bytes);
+  assert.equal(put.Metadata.sha256, sha256);
   assert.equal(url, 'https://bucket.s3.us-east-1.amazonaws.com/rest/openapi-zilliz-v2-en-US.json');
+});
+
+test('rejects stale latest promotion before writing', async () => {
+  const client = new MockClient();
+  client.headResponse = {Metadata: {sha256: 'newer'}};
+  const uploader = new S3Uploader({client, bucket: 'bucket', region: 'us-east-1'});
+  await assert.rejects(() => uploader.promoteArtifact({
+    filename: 'manifest.json', key: 'openapi/latest/manifest.json', bytes: Buffer.from('{}'),
+    sha256: 'incoming', expectedCurrentSha256: 'older',
+  }), /REST_STALE_LATEST_REJECTED/);
+  assert.equal(client.commands.filter(command => command instanceof PutObjectCommand).length, 0);
 });
 
 test('skips upload when the remote checksum is unchanged', async () => {
@@ -84,4 +96,18 @@ test('propagates head and put failures without deleting prepared content', async
     () => uploader.uploadArtifact({filename: 'x.json', bytes: Buffer.from('{}'), sha256: 'abc'}),
     /network down/,
   );
+});
+
+test('legacy upload keeps the established unversioned key layout separate from the new publisher', async () => {
+  const client = new MockClient();
+  const uploader = new S3Uploader({client, bucket: 'bucket', region: 'us-east-1', prefix: 'rest'});
+  uploader.updateAboutPage = () => {};
+  await uploader.upload({
+    info: {title: 'API', version: '1'},
+    tags: [{name: 'Collections (V2)'}],
+    paths: {'/v2/collections': {get: {tags: ['Collections (V2)'], responses: {200: {description: 'ok'}}}}},
+  }, 'en-US');
+  const put = client.commands.find(command => command instanceof PutObjectCommand);
+  assert.equal(put.input.Key, 'rest/openapi-zilliz-v2.json');
+  assert.doesNotMatch(put.input.Key, /data-plane|control-plane|openapi\/v2/);
 });

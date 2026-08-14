@@ -29,17 +29,18 @@ test('publishes latest local artifacts and uploads identical prepared bytes', as
     specifications: fixturePath('canonical.json'),
     publicationPolicy: 'latest',
     target: 'zilliz',
-    apiSurface: 'v2',
+    apiSurface: 'data-plane',
+    protocolVersion: 'v2',
     language: 'en-US',
     outputDirectory: dir,
     uploader,
   });
 
-  const local = fs.readFileSync(path.join(dir, 'openapi-zilliz-v2-en-US.json'));
-  const uploaded = uploader.uploads.find(entry => entry.filename === 'openapi-zilliz-v2-en-US.json');
+  const local = fs.readFileSync(path.join(dir, 'openapi-zilliz-data-plane-v2-en-US.json'));
+  const uploaded = uploader.uploads.find(entry => entry.filename === 'openapi-zilliz-data-plane-v2-en-US.json');
   assert.ok(uploaded);
   assert.deepEqual(Buffer.from(uploaded.bytes), local);
-  assert.equal(uploaded.sha256, result.localArtifacts.find(entry => entry.filename === 'openapi-zilliz-v2-en-US.json').sha256);
+  assert.equal(uploaded.sha256, result.localArtifacts.find(entry => entry.filename === 'openapi-zilliz-data-plane-v2-en-US.json').sha256);
   assert.ok(result.manifest);
   fs.rmSync(dir, {recursive: true, force: true});
 });
@@ -52,37 +53,32 @@ test('publishes track artifacts without an api surface', async () => {
     publicationPolicy: 'track',
     target: 'milvus',
     releaseTrack: '2.6.x',
+    apiSurface: 'data-plane',
     language: 'zh-CN',
     outputDirectory: dir,
     uploader,
   });
 
-  assert.equal(fs.existsSync(path.join(dir, 'openapi-milvus-2.6.x-zh-CN.json')), true);
+  assert.equal(fs.existsSync(path.join(dir, 'openapi-milvus-data-plane-2.6.x-zh-CN.json')), true);
   assert.equal(result.manifest.releaseTrack, '2.6.x');
-  assert.equal(result.manifest.apiSurface, null);
+  assert.equal(result.manifest.apiSurface, 'data-plane');
   fs.rmSync(dir, {recursive: true, force: true});
 });
 
-test('compatibility aliases reuse the exact prepared bytes and digest', async () => {
+test('compatibility aliases are rejected because the integrated interface is unlaunched', async () => {
   const dir = tempDir();
   const uploader = new RecordingUploader();
-  const result = await publishIntegratedSpecs({
+  await assert.rejects(() => publishIntegratedSpecs({
     specifications: fixturePath('canonical.json'),
     publicationPolicy: 'latest',
     target: 'zilliz',
-    apiSurface: 'v2',
+    apiSurface: 'data-plane',
+    protocolVersion: 'v2',
     language: 'en-US',
     outputDirectory: dir,
     uploader,
     enableCompatibilityAliases: true,
-  });
-
-  const primary = result.localArtifacts.find(entry => entry.filename === 'openapi-zilliz-v2-en-US.json');
-  const alias = result.localArtifacts.find(entry => entry.filename === 'openapi-zilliz-v2.json');
-  assert.ok(primary);
-  assert.ok(alias);
-  assert.deepEqual(alias.bytes, primary.bytes);
-  assert.equal(alias.sha256, primary.sha256);
+  }), /REST_COMPATIBILITY_ALIASES_UNSUPPORTED/);
   fs.rmSync(dir, {recursive: true, force: true});
 });
 
@@ -99,7 +95,8 @@ test('upload failure leaves local artifacts intact', async () => {
       specifications: fixturePath('canonical.json'),
       publicationPolicy: 'latest',
       target: 'zilliz',
-      apiSurface: 'v2',
+      apiSurface: 'data-plane',
+      protocolVersion: 'v2',
       language: 'en-US',
       outputDirectory: dir,
       uploader,
@@ -107,7 +104,7 @@ test('upload failure leaves local artifacts intact', async () => {
     /upload failed/,
   );
 
-  assert.equal(fs.existsSync(path.join(dir, 'openapi-zilliz-v2-en-US.json')), true);
+  assert.equal(fs.existsSync(path.join(dir, 'openapi-zilliz-data-plane-v2-en-US.json')), true);
   assert.equal(fs.existsSync(path.join(dir, 'manifest.json')), true);
   fs.rmSync(dir, {recursive: true, force: true});
 });

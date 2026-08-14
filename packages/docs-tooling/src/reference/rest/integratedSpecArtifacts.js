@@ -25,14 +25,17 @@ function integratedSpecFilename(options) {
     if (!options.target || !options.apiSurface || !options.language) {
       throw new Error('REST_ARTIFACT_FILENAME_INVALID: latest artifacts require target, apiSurface, and language');
     }
-    return `openapi-${options.target}-${options.apiSurface}-${options.language}.json`;
+    if (options.apiSurface === 'control-plane') return `openapi-${options.target}-control-plane-${options.language}.json`;
+    if (!options.protocolVersion) throw new Error('REST_ARTIFACT_FILENAME_INVALID: data-plane latest requires protocolVersion');
+    return `openapi-${options.target}-data-plane-${options.protocolVersion}-${options.language}.json`;
   }
 
   if (options.publicationPolicy === 'track') {
     if (!options.target || !options.releaseTrack || !options.language) {
       throw new Error('REST_ARTIFACT_FILENAME_INVALID: track artifacts require target, releaseTrack, and language');
     }
-    return `openapi-${options.target}-${options.releaseTrack}-${options.language}.json`;
+    if (options.apiSurface !== 'data-plane') throw new Error('REST_ARTIFACT_FILENAME_INVALID: track artifacts require data-plane');
+    return `openapi-${options.target}-data-plane-${options.releaseTrack}-${options.language}.json`;
   }
 
   throw new Error(`REST_ARTIFACT_FILENAME_INVALID: unsupported publication policy "${options.publicationPolicy}"`);
@@ -54,7 +57,8 @@ function buildManifest(buildResult, metadata, files) {
     target: metadata.target,
     publicationPolicy: metadata.publicationPolicy,
     releaseTrack: metadata.releaseTrack ?? null,
-    apiSurface: metadata.apiSurface ?? null,
+    apiSurface: metadata.apiSurface,
+    protocolVersion: metadata.protocolVersion ?? null,
     language: metadata.language,
     source: {
       identity: metadata.sourceIdentity || null,
@@ -63,6 +67,8 @@ function buildManifest(buildResult, metadata, files) {
     generator: {
       gitSha: metadata.generatorGitSha || null,
     },
+    collection: metadata.collection || null,
+    review: metadata.review || null,
     files: files.map(({filename, length, sha256: digest}) => ({filename, length, sha256: digest})),
     operations: buildResult.endpointInventory || [],
     stats: buildResult.stats || {},

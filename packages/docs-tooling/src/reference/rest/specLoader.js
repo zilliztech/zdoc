@@ -285,5 +285,6 @@ function loadSpecifications(inputPath) {
 
 module.exports = {
     loadSpecifications,
+    mergeSpecification,
     resolveRefs,
 }

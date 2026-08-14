@@ -3,50 +3,9 @@ const { Command, program } = require('commander')
 const RefGen = require('./refGen')
 const S3Uploader = require('./s3Uploader')
 const fs = require('node:fs')
-const os = require('node:os')
-const path = require('node:path')
 const { loadSpecifications } = require('./specLoader')
-const { publishIntegratedSpecs } = require('./integratedSpecPublisher')
-
-async function uploadLegacyPageSpecs(specifications, target, lang) {
-    const uploader = new S3Uploader({})
-    const outputDirectory = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-rest-legacy-upload-'))
-    const uploaded = []
-
-    try {
-        if (target === 'milvus') {
-            const result = await publishIntegratedSpecs({
-                specifications,
-                publicationPolicy: 'latest',
-                target,
-                language: lang,
-                apiSurface: 'v1',
-                outputDirectory,
-                uploader,
-                enableCompatibilityAliases: true,
-            })
-            uploaded.push(...result.uploads)
-            return uploaded
-        }
-
-        for (const apiSurface of ['v1', 'v2']) {
-            const result = await publishIntegratedSpecs({
-                specifications,
-                publicationPolicy: 'latest',
-                target,
-                language: lang,
-                apiSurface,
-                outputDirectory,
-                uploader,
-                enableCompatibilityAliases: true,
-            })
-            uploaded.push(...result.uploads)
-        }
-        return uploaded
-    } finally {
-        fs.rmSync(outputDirectory, { recursive: true, force: true })
-    }
-}
+const { loadFragmentCollection } = require('./fragmentCollection')
+const { publishBilingualControlPlaneSpecs, publishIntegratedSpecs } = require('./integratedSpecPublisher')
 
 function registerFetchCommand(command) {
     command
@@ -56,6 +15,7 @@ function registerFetchCommand(command) {
         .option('-o, --output_path <target_path>', 'Target path of the API Reference', 'content/en/reference/api/restful/restful')
         .option('-i, --strings <strings>', 'Localization strings for Chinese docs')
         .option('-t, --target <string>', 'Publication target of the API Reference', 'zilliz')
+        .option('--api-surface <apiSurface>', 'Explicit page surface: data-plane or control-plane')
         .option('--upload-s3', 'Upload merged OpenAPI specs to S3 and update about page', false)
         .action(async (opts) => {
             let lang = opts.lang
@@ -94,6 +54,7 @@ function registerFetchCommand(command) {
                 target,
                 target_path,
                 strings,
+                apiSurface: opts.apiSurface,
             })
 
             fs.mkdirSync(target_path, { recursive: true })
@@ -107,7 +68,8 @@ function registerFetchCommand(command) {
 
             if (opts.upload_s3) {
                 try {
-                    await uploadLegacyPageSpecs(specifications, target, lang)
+                    const uploader = new S3Uploader({ target, lang })
+                    await uploader.upload(specifications, lang)
                 } catch (err) {
                     throw new Error(`S3 upload failed: ${err.message}`, { cause: err })
                 }
@@ -118,20 +80,17 @@ function registerFetchCommand(command) {
 function registerGenerateIntegratedSpecCommand(command) {
     command
         .description('Generate localized integrated OpenAPI specs for latest or track publication')
-        .option('-s, --specifications <specifications>', 'Path to a canonical fragment directory, snapshot file, or spec directory')
+        .requiredOption('--fragment-collection <fragmentCollection>', 'Path to a canonical manifest-backed fragment collection')
+        .requiredOption('--api-surface <apiSurface>', 'API surface: data-plane or control-plane')
         .option('-p, --publication-policy <publicationPolicy>', 'Publication policy: latest or track')
         .option('-t, --target <target>', 'Publication target', 'zilliz')
-        .option('--api-version <apiVersion>', 'API surface for latest publication: v1 or v2')
+        .option('--protocol-version <protocolVersion>', 'Data-plane protocol path projection: v1 or v2')
         .option('--release-track <releaseTrack>', 'Minor track for track publication: 2.6.x or 3.0.x')
         .option('-l, --lang <lang>', 'Language of the generated spec', 'en-US')
         .option('--integrated-spec-output <integratedSpecOutput>', 'Output directory for local artifacts')
         .option('--upload-s3', 'Upload the prepared artifacts to S3', false)
-        .option('--enable-compatibility-aliases', 'Write legacy unqualified aliases from the same prepared bytes', false)
         .option('--generator-git-sha <generatorGitSha>', 'Generator Git SHA recorded in the manifest')
         .action(async (opts) => {
-            if (!opts.specifications) {
-                throw new Error('Please provide specifications')
-            }
             if (!opts.publicationPolicy) {
                 throw new Error('Please provide --publication-policy (latest or track)')
             }
@@ -140,21 +99,32 @@ function registerGenerateIntegratedSpecCommand(command) {
             }
 
             const uploader = opts.uploadS3 ? new S3Uploader({}) : null
+            const collection = loadFragmentCollection(opts.fragmentCollection, {
+                apiSurface: opts.apiSurface,
+                ...(opts.releaseTrack ? { releaseTrack: opts.releaseTrack } : {}),
+            })
 
-            const result = await publishIntegratedSpecs({
-                specifications: opts.specifications,
+            const publicationOptions = {
+                specifications: collection.spec,
                 publicationPolicy: opts.publicationPolicy,
                 target: opts.target,
                 language: opts.lang,
-                apiSurface: opts.apiVersion,
+                apiSurface: opts.apiSurface,
+                protocolVersion: opts.protocolVersion,
                 releaseTrack: opts.releaseTrack,
                 outputDirectory: opts.integratedSpecOutput,
                 uploader,
-                enableCompatibilityAliases: opts.enableCompatibilityAliases,
                 generatorGitSha: opts.generatorGitSha || null,
-            })
+                sourceIdentity: collection.provenance.collectionId,
+                collection: collection.provenance,
+                review: collection.provenance.review,
+            }
+            const result = opts.apiSurface === 'control-plane'
+                ? await publishBilingualControlPlaneSpecs(publicationOptions)
+                : await publishIntegratedSpecs(publicationOptions)
 
-            for (const artifact of result.localArtifacts) {
+            const localArtifacts = result.localArtifacts || [result.releaseArtifact, ...result.results.flatMap(entry => entry.localArtifacts)]
+            for (const artifact of localArtifacts) {
                 console.log(`Wrote ${artifact.path}`)
             }
             for (const upload of result.uploads) {

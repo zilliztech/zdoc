@@ -20,27 +20,30 @@ test('builds exact latest and track filenames', () => {
   assert.equal(integratedSpecFilename({
     publicationPolicy: 'latest',
     target: 'zilliz',
-    apiSurface: 'v2',
+    apiSurface: 'data-plane',
+    protocolVersion: 'v2',
     language: 'en-US',
-  }), 'openapi-zilliz-v2-en-US.json');
+  }), 'openapi-zilliz-data-plane-v2-en-US.json');
   assert.equal(integratedSpecFilename({
     publicationPolicy: 'latest',
     target: 'zilliz',
-    apiSurface: 'v2',
+    apiSurface: 'control-plane',
     language: 'zh-CN',
-  }), 'openapi-zilliz-v2-zh-CN.json');
+  }), 'openapi-zilliz-control-plane-zh-CN.json');
   assert.equal(integratedSpecFilename({
     publicationPolicy: 'track',
     target: 'milvus',
     releaseTrack: '2.6.x',
+    apiSurface: 'data-plane',
     language: 'en-US',
-  }), 'openapi-milvus-2.6.x-en-US.json');
+  }), 'openapi-milvus-data-plane-2.6.x-en-US.json');
   assert.equal(integratedSpecFilename({
     publicationPolicy: 'track',
     target: 'milvus',
     releaseTrack: '3.0.x',
+    apiSurface: 'data-plane',
     language: 'zh-CN',
-  }), 'openapi-milvus-3.0.x-zh-CN.json');
+  }), 'openapi-milvus-data-plane-3.0.x-zh-CN.json');
 });
 
 test('deterministic serialization produces identical bytes and sha256', () => {
@@ -50,19 +53,22 @@ test('deterministic serialization produces identical bytes and sha256', () => {
     target: 'milvus',
     language: 'zh-CN',
     releaseTrack: '3.0.x',
+    apiSurface: 'data-plane',
   });
   const second = buildIntegratedSpec(spec, {
     publicationPolicy: 'track',
     target: 'milvus',
     language: 'zh-CN',
     releaseTrack: '3.0.x',
+    apiSurface: 'data-plane',
   });
 
   const metadata = {
     publicationPolicy: 'track',
     target: 'milvus',
     releaseTrack: '3.0.x',
-    apiSurface: null,
+    apiSurface: 'data-plane',
+    protocolVersion: null,
     language: 'zh-CN',
     sourceIdentity: 'fixture',
     sourceDigest: 'sha256:abc',
@@ -87,12 +93,14 @@ test('manifest contains deterministic metadata and inventory', () => {
     target: 'milvus',
     language: 'en-US',
     releaseTrack: '2.6.x',
+    apiSurface: 'data-plane',
   });
   const prepared = prepareIntegratedArtifact(built, {
     publicationPolicy: 'track',
     target: 'milvus',
     releaseTrack: '2.6.x',
-    apiSurface: null,
+    apiSurface: 'data-plane',
+    protocolVersion: null,
     language: 'en-US',
     sourceIdentity: 'fixture',
     sourceDigest: 'sha256:abc',
@@ -109,14 +117,15 @@ test('manifest contains deterministic metadata and inventory', () => {
   assert.ok(Array.isArray(manifest.operations));
   assert.ok(manifest.operations.length >= 1);
   assert.ok(manifest.stats.operations.retained >= 1);
-  assert.ok(manifest.files.some(file => file.filename === 'openapi-milvus-2.6.x-en-US.json'));
+  assert.ok(manifest.files.some(file => file.filename === 'openapi-milvus-data-plane-2.6.x-en-US.json'));
   assert.match(manifest.semanticDigest, /^[a-f0-9]{64}$/);
 
   const second = prepareIntegratedArtifact(built, {
     publicationPolicy: 'track',
     target: 'milvus',
     releaseTrack: '2.6.x',
-    apiSurface: null,
+    apiSurface: 'data-plane',
+    protocolVersion: null,
     language: 'en-US',
     sourceIdentity: 'fixture',
     sourceDigest: 'sha256:abc',
@@ -132,13 +141,15 @@ test('writes artifacts atomically without AWS credentials', () => {
     publicationPolicy: 'latest',
     target: 'zilliz',
     language: 'en-US',
-    apiSurface: 'v2',
+    apiSurface: 'data-plane',
+    protocolVersion: 'v2',
   });
   const prepared = prepareIntegratedArtifact(built, {
     publicationPolicy: 'latest',
     target: 'zilliz',
     releaseTrack: null,
-    apiSurface: 'v2',
+    apiSurface: 'data-plane',
+    protocolVersion: 'v2',
     language: 'en-US',
     sourceIdentity: 'fixture',
     sourceDigest: 'sha256:abc',
@@ -146,10 +157,10 @@ test('writes artifacts atomically without AWS credentials', () => {
   });
 
   const written = writeIntegratedArtifacts(dir, prepared.artifacts);
-  assert.equal(fs.existsSync(path.join(dir, 'openapi-zilliz-v2-en-US.json')), true);
+  assert.equal(fs.existsSync(path.join(dir, 'openapi-zilliz-data-plane-v2-en-US.json')), true);
   assert.equal(fs.existsSync(path.join(dir, 'manifest.json')), true);
   assert.equal(
-    fs.readFileSync(path.join(dir, 'openapi-zilliz-v2-en-US.json')).toString('utf8'),
+    fs.readFileSync(path.join(dir, 'openapi-zilliz-data-plane-v2-en-US.json')).toString('utf8'),
     Buffer.from(written[0].bytes).toString('utf8'),
   );
   fs.rmSync(dir, {recursive: true, force: true});
