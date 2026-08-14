@@ -24,7 +24,7 @@
     {"file": "18-cloud-meta-v2.json", "apiSurface": "control-plane", "service": "cloud-meta-v2", "operationCount": 2, "migrationState": "legacy-shadow-required"},
     {"file": "19-extract-load-and-transform-v2.json", "apiSurface": "control-plane", "service": "etl-v2", "operationCount": 1, "migrationState": "legacy-shadow-required"},
     {"file": "20-volume-operations-v2.json", "apiSurface": "control-plane", "service": "volumes-v2", "operationCount": 5, "migrationState": "legacy-shadow-required"},
-    {"file": "21-project-operations-v2.json", "apiSurface": "control-plane", "service": "projects-v2", "operationCount": 7, "migrationState": "legacy-shadow-required"},
+    {"file": "21-project-operations-v2.json", "apiSurface": "control-plane", "service": "projects-v2", "operationCount": 8, "migrationState": "legacy-shadow-required"},
     {"file": "22-cluster-operations-v2.json", "apiSurface": "control-plane", "service": "clusters-v2", "operationCount": 11, "migrationState": "legacy-shadow-required"},
     {"file": "23-cloud-migration-v2.json", "apiSurface": "control-plane", "service": "cloud-migration-v2", "operationCount": 3, "migrationState": "legacy-shadow-required"},
     {"file": "24-backup-and-restore-v2.json", "apiSurface": "control-plane", "service": "backup-restore-v2", "operationCount": 9, "migrationState": "legacy-shadow-required"},
@@ -35,9 +35,10 @@
     {"file": "29-on-demand-compute-v2.json", "apiSurface": "control-plane", "service": "on-demand-compute-v2", "operationCount": 2, "migrationState": "legacy-shadow-required"},
     {"file": "30-global-clusters.json", "apiSurface": "control-plane", "service": "global-clusters", "operationCount": 12, "migrationState": "legacy-shadow-required"},
     {"file": "31-storage-integration-v2.json", "apiSurface": "control-plane", "service": "storage-integrations-v2", "operationCount": 6, "migrationState": "legacy-shadow-required"},
-    {"file": "32-spark-job-v2.json", "apiSurface": "control-plane", "service": "spark-jobs-v2", "operationCount": 5, "migrationState": "legacy-shadow-required"},
+    {"file": "32-spark-job-v2.json", "apiSurface": "control-plane", "service": "spark-jobs-v2", "operationCount": 8, "migrationState": "legacy-shadow-required"},
     {"file": "33-on-demand-cluster-operations-v2.json", "apiSurface": "control-plane", "service": "on-demand-clusters-v2", "operationCount": 5, "migrationState": "legacy-shadow-required"},
     {"file": "34-cloud-access-control-operations-v2.json", "apiSurface": "control-plane", "service": "cloud-access-control-v2", "operationCount": 14, "migrationState": "legacy-shadow-required"},
-    {"file": "35-cloud-api-key-operations-v2.json", "apiSurface": "control-plane", "service": "cloud-api-keys-v2", "operationCount": 5, "migrationState": "legacy-shadow-required"}
+    {"file": "35-cloud-api-key-operations-v2.json", "apiSurface": "control-plane", "service": "cloud-api-keys-v2", "operationCount": 5, "migrationState": "legacy-shadow-required"},
+    {"file": "36-private-endpoint-operations-v2.json", "apiSurface": "control-plane", "service": "private-endpoints-v2", "operationCount": 5, "migrationState": "legacy-shadow-required"}
   ]
 }

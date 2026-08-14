@@ -35,7 +35,9 @@
       "/v2/roles",
       "/v2/members",
       "/v2/groups",
-      "/v2/api-keys"
+      "/v2/api-keys",
+      "private-endpoint",
+      "privateEndpoint"
     ],
     "milvus": []
   }
