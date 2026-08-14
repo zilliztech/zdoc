@@ -94,3 +94,29 @@ test('control-plane collections reject publication tracks and undeclared files',
     assert.throws(() => loadFragmentCollection(root), /REST_COLLECTION_UNDECLARED_FILE/)
     fs.rmSync(root, {recursive: true, force: true})
 })
+
+test('validates the collection schema and declared operation counts', () => {
+    let root = writeCollection([{id: 'projects', spec: fragment('projects', '/v2/projects', 'listProjects')}])
+    let manifestPath = path.join(root, 'collection-manifest.json')
+    let manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+    manifest.unexpected = true
+    fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
+    assert.throws(() => loadFragmentCollection(root), /REST_COLLECTION_SCHEMA_INVALID/)
+    fs.rmSync(root, {recursive: true, force: true})
+
+    root = writeCollection([{id: 'projects', spec: fragment('projects', '/v2/projects', 'listProjects')}])
+    manifestPath = path.join(root, 'collection-manifest.json')
+    manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+    manifest.services[0].operationCount = 2
+    fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)
+    assert.throws(() => loadFragmentCollection(root), /REST_OPERATION_COUNT_MISMATCH/)
+    fs.rmSync(root, {recursive: true, force: true})
+})
+
+test('rejects dangling local references before publication transforms', () => {
+    const spec = fragment('projects', '/v2/projects', 'listProjects')
+    spec.paths['/v2/projects'].get.responses[200] = {$ref: '#/components/responses/Missing'}
+    const root = writeCollection([{id: 'projects', spec}])
+    assert.throws(() => loadFragmentCollection(root), /REST_OPENAPI_REF_MISSING/)
+    fs.rmSync(root, {recursive: true, force: true})
+})

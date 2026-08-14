@@ -2,11 +2,15 @@ const fs = require('node:fs')
 const path = require('node:path')
 const crypto = require('node:crypto')
 const { isDeepStrictEqual } = require('node:util')
+const Ajv2020 = require('ajv/dist/2020')
 const { mergeSpecification } = require('./specLoader')
+const { assertNoDanglingLocalRefs } = require('./componentGraph')
 
 const FULL_SHA = /^[a-f0-9]{40}$/
 const DIGEST = /^sha256:[a-f0-9]{64}$/
 const HTTP_METHODS = new Set(['get', 'put', 'post', 'delete', 'patch', 'options', 'head', 'trace'])
+const collectionSchema = JSON.parse(fs.readFileSync(path.join(__dirname, 'contracts/rest-fragment-collection.schema.json'), 'utf8'))
+const validateCollectionManifest = new Ajv2020({allErrors: true, strict: false}).compile(collectionSchema)
 
 function sha256Digest(bytes) {
     return `sha256:${crypto.createHash('sha256').update(bytes).digest('hex')}`
@@ -31,15 +35,21 @@ function assertManifestShape(manifest) {
         ['review.approvalDigest', manifest.review?.approvalDigest],
     ]) if (!DIGEST.test(value || '')) fail('REST_DIGEST_INVALID', label)
     if (!Array.isArray(manifest.services) || manifest.services.length === 0) fail('REST_SERVICES_REQUIRED', 'services must be non-empty')
+    if (!validateCollectionManifest(manifest)) {
+        const details = validateCollectionManifest.errors.map(error => `${error.instancePath || '/'} ${error.message}`).join('; ')
+        fail('REST_COLLECTION_SCHEMA_INVALID', details)
+    }
 }
 
 function collectOperations(spec, serviceId, seenPaths, seenOperationIds) {
+    let operationCount = 0
     for (const [endpoint, pathItem] of Object.entries(spec.paths || {})) {
         if (!pathItem || typeof pathItem !== 'object') continue
         for (const [method, operation] of Object.entries(pathItem)) {
             const normalizedMethod = method.toLowerCase()
             if (!HTTP_METHODS.has(normalizedMethod)) continue
             const key = `${normalizedMethod} ${endpoint}`
+            operationCount++
             if (seenPaths.has(key)) fail('REST_PATH_METHOD_CONFLICT', `${key} in ${seenPaths.get(key)} and ${serviceId}`)
             seenPaths.set(key, serviceId)
             if (operation?.operationId) {
@@ -50,6 +60,7 @@ function collectOperations(spec, serviceId, seenPaths, seenOperationIds) {
             }
         }
     }
+    return operationCount
 }
 
 function collectComponents(spec, serviceId, seenComponents) {
@@ -100,13 +111,18 @@ function loadFragmentCollection(inputPath, expected = {}) {
         if (identity?.schemaVersion !== '1.0' || identity?.apiSurface !== manifest.apiSurface || identity?.service !== service.id) {
             fail('REST_FRAGMENT_IDENTITY_MISMATCH', service.fragment)
         }
-        collectOperations(fragment, service.id, seenPaths, seenOperationIds)
+        const operationCount = collectOperations(fragment, service.id, seenPaths, seenOperationIds)
+        if (operationCount !== service.operationCount) {
+            fail('REST_OPERATION_COUNT_MISMATCH', `${service.fragment}: ${operationCount} != ${service.operationCount}`)
+        }
         collectComponents(fragment, service.id, seenComponents)
         const mergeable = structuredClone(fragment)
         delete mergeable['x-zdoc-fragment']
         if (!spec) spec = mergeable
         else mergeSpecification(spec, mergeable)
     }
+
+    assertNoDanglingLocalRefs(spec)
 
     const actualFiles = fs.readdirSync(root).filter(name => fs.statSync(path.join(root, name)).isFile())
     const undeclared = actualFiles.filter(name => !declaredFiles.has(name)).sort()
