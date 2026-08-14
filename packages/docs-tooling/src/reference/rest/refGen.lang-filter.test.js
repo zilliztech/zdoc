@@ -378,7 +378,7 @@ function testMalformedI18nIsRejectedWithJsonPath() {
 
 function testAllRestSegmentsUseCanonicalI18nShape() {
   const segmentFiles = fs.readdirSync(OPENAPI_DIR).filter(name => name.endsWith('.json')).sort()
-  assert.equal(segmentFiles.length, 35)
+  assert.equal(segmentFiles.length, 36)
   for (const fileName of segmentFiles) {
     const spec = readJson(path.join(OPENAPI_DIR, fileName))
     assert.doesNotThrow(() => new RefGen({
@@ -390,6 +390,18 @@ function testAllRestSegmentsUseCanonicalI18nShape() {
   }
 }
 
+function testPrivateEndpointMetadataIsComplete() {
+  const descriptions = readJson(path.join(__dirname, 'meta', 'descriptions.json'))
+  const planeConfig = readJson(path.join(__dirname, 'meta', 'plane-config.json'))
+  const titles = readJson(path.join(__dirname, 'meta', 'titles.json'))
+
+  assert.ok(descriptions.some(entry => entry.name === 'private-endpoint-operations-v2'))
+  assert.ok(planeConfig.controlPlaneKeywords.zilliz.includes('private-endpoint'))
+  assert.ok(planeConfig.controlPlaneKeywords.zilliz.includes('privateEndpoint'))
+  assert.equal(titles['列出 Private Endpoint 服务'], 'list-private-endpoint-services')
+  assert.equal(titles['添加 Private Endpoint 白名单条目'], 'add-private-endpoint-whitelist-entry')
+}
+
 async function run() {
   await testOperationWithIncludeLangExcludesEnUsOutput()
   await testGlobalClustersGenerateUnderControlPlane()
@@ -398,6 +410,7 @@ async function run() {
   testChineseSidebarInventoryExceptionsAreExplicit()
   testMalformedI18nIsRejectedWithJsonPath()
   testAllRestSegmentsUseCanonicalI18nShape()
+  testPrivateEndpointMetadataIsComplete()
   console.log('apifox refGen lang filter tests passed')
 }
 
