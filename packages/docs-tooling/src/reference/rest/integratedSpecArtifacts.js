@@ -75,15 +75,15 @@ function buildManifest(buildResult, metadata, files) {
   return {...semanticManifest, semanticDigest};
 }
 
-function prepareIntegratedArtifact(buildResult, metadata) {
+function prepareIntegratedArtifact(buildResult, metadata, extraArtifacts = []) {
   const filename = integratedSpecFilename(metadata);
   const bytes = Buffer.from(deterministicStringify(buildResult.spec), 'utf8');
   const specArtifact = createArtifact(filename, bytes);
-  const manifest = buildManifest(buildResult, metadata, [specArtifact]);
+  const manifest = buildManifest(buildResult, metadata, [specArtifact, ...extraArtifacts]);
   const manifestArtifact = createArtifact('manifest.json', Buffer.from(deterministicStringify(manifest), 'utf8'));
 
   return {
-    artifacts: [specArtifact, manifestArtifact],
+    artifacts: [specArtifact, ...extraArtifacts, manifestArtifact],
     manifest,
     semanticDigest: manifest.semanticDigest,
   };
