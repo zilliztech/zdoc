@@ -665,6 +665,7 @@
     "/v2/vectordb/databases/alter": {
       "post": {
         "summary": "Alter Database Properties",
+        "operationId": "alterDatabaseProperties",
         "deprecated": false,
         "description": "This operation alters the properties of the specified database.",
         "x-i18n": {
@@ -1270,13 +1271,14 @@
     },
     "/v2/vectordb/databases/alter_properties": {
       "post": {
-        "summary": "Alter Database Properties",
+        "summary": "Alter Database Properties (Compatibility Alias)",
+        "operationId": "alterDatabasePropertiesCompatibilityAlias",
         "deprecated": false,
-        "description": "This operation alters the properties of a database.",
+        "description": "This compatibility alias alters the properties of a database. It uses the same server handler as `/v2/vectordb/databases/alter`.",
         "x-i18n": {
           "zh-CN": {
-            "summary": "修改数据库属性",
-            "description": "本接口修改指定数据库的属性。"
+            "summary": "修改数据库属性（兼容别名）",
+            "description": "本兼容别名接口修改指定数据库的属性，与 `/v2/vectordb/databases/alter` 使用相同的服务端处理逻辑。"
           }
         },
         "tags": [

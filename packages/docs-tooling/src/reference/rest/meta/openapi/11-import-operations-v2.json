@@ -1356,12 +1356,13 @@
     "/v2/vectordb/jobs/import/get_progress": {
       "post": {
         "summary": "Get Import Job Progress",
-        "deprecated": false,
-        "description": "Retrieves the progress of a specified import job.",
+        "operationId": "getImportJobProgressLegacy",
+        "deprecated": true,
+        "description": "Deprecated compatibility route. Use `/v2/vectordb/jobs/import/describe` instead to retrieve the progress of a specified import job.",
         "x-i18n": {
           "zh-CN": {
             "summary": "查看导入任务进度",
-            "description": "本接口可获取指定导入任务的进度信息。"
+            "description": "已弃用的兼容路由。请改用 `/v2/vectordb/jobs/import/describe` 获取指定导入任务的进度信息。"
           }
         },
         "x-include-target": [
@@ -1834,6 +1835,7 @@
     "/v2/vectordb/jobs/import/describe": {
       "post": {
         "summary": "Get Import Job Progress",
+        "operationId": "describeImportJob",
         "deprecated": false,
         "description": "This operation gets the progress of the specified bulk-import job.",
         "x-i18n": {
