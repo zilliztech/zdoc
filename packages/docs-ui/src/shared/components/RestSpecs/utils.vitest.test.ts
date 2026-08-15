@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {chooseParamExample, getBaseUrl, getTokenPlaceholder} from './utils.js';
+import {chooseParamExample, getBaseUrl, getDefaultResponseStatus, getResponseEntries, getTokenPlaceholder} from './utils.js';
 
 const planeConfig = {
   dataPlaneKeywords: {
@@ -52,5 +52,41 @@ describe('RestSpecs plane configuration', () => {
       },
     }, 'en-US', 'zilliz');
     expect(parameter.example).toBe('zilliz-value');
+  });
+});
+
+describe('RestSpecs response selection', () => {
+  it('uses the declared 2xx response instead of assuming HTTP 200', () => {
+    const responses = {
+      '201': {description: 'Created', content: {'application/json': {schema: {type: 'object'}}}},
+    };
+
+    expect(getDefaultResponseStatus(responses)).toBe('201');
+    expect(getResponseEntries(responses)).toEqual([
+      expect.objectContaining({status: '201', label: 'Created'}),
+    ]);
+  });
+
+  it('keeps no-content responses renderable without inventing a response body', () => {
+    const responses = {'204': {description: 'Canceled'}};
+
+    expect(getDefaultResponseStatus(responses)).toBe('204');
+    expect(getResponseEntries(responses)[0]).toMatchObject({
+      status: '204',
+      label: 'No Content',
+      response: {description: 'Canceled'},
+    });
+  });
+
+  it('sorts multiple response statuses and selects the first success response', () => {
+    const responses = {
+      default: {description: 'Fallback'},
+      '500': {description: 'Failure'},
+      '202': {description: 'Accepted'},
+      '200': {description: 'OK'},
+    };
+
+    expect(getResponseEntries(responses).map(({status}) => status)).toEqual(['200', '202', '500', 'default']);
+    expect(getDefaultResponseStatus(responses)).toBe('200');
   });
 });

@@ -150,6 +150,35 @@ export const getExampleLabel = (example, key) => {
     return example?.summary || example?.["x-tab-label"] || `OPTION ${key}`
 }
 
+const HTTP_STATUS_LABELS = {
+    '200': 'OK',
+    '201': 'Created',
+    '202': 'Accepted',
+    '204': 'No Content',
+}
+
+export const getResponseEntries = (responses = {}) => {
+    if (!responses || typeof responses !== 'object' || Array.isArray(responses)) return []
+
+    return Object.entries(responses)
+        .filter(([status, response]) => (/^[1-5]\d\d$/.test(status) || status === 'default') && response && typeof response === 'object')
+        .map(([status, response]) => ({
+            status,
+            label: HTTP_STATUS_LABELS[status] || '',
+            response,
+        }))
+        .sort((left, right) => {
+            if (left.status === 'default') return 1
+            if (right.status === 'default') return -1
+            return Number(left.status) - Number(right.status)
+        })
+}
+
+export const getDefaultResponseStatus = (responses = {}) => {
+    const entries = getResponseEntries(responses)
+    return entries.find(({status}) => /^2\d\d$/.test(status))?.status || entries[0]?.status || ''
+}
+
 export const isControlPlane = (endpoint, target = 'zilliz', planeConfig) => {
     const normalizedEndpoint = endpoint.toLowerCase()
     const dataKeywords = planeConfig?.dataPlaneKeywords?.[target] || planeConfig?.dataPlaneKeywords?.zilliz || []
