@@ -298,6 +298,22 @@ test('run 30996821699 reviewed target-only Node paths have explicit retirement d
   }
 })
 
+test('run 31859142233 removed Spark REST paths have explicit source deletion decisions', () => {
+  const registered = new Map(retirementRegistry.retirements.map(record => [record.sourcePath, record]))
+  const sourcePaths = [
+    'content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-job-v2.mdx',
+    'content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/validate-spark-job-artifact-v2.mdx',
+  ]
+
+  for (const sourcePath of sourcePaths) {
+    const record = registered.get(sourcePath)
+    assert.ok(record)
+    assert.equal(record.manual, 'rest')
+    assert.equal(record.targetPath, sourcePath.replace('content/en/', 'content/zh-CN/'))
+    assert.equal(record.changeKind, 'source_deleted')
+  }
+})
+
 test('Reference reconciliation is a no-op when only non-Reference source units publish', () => {
   const plan = planFetchReferenceReconciliation({
     selection: {

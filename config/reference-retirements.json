@@ -3440,6 +3440,20 @@
     },
     {
       "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-job-v2.mdx",
+      "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-job-v2.mdx",
+      "changeKind": "source_deleted",
+      "rationale": "Approved REST source deletion from Fetch run 31859142233"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/validate-spark-job-artifact-v2.mdx",
+      "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/spark-job-v2/validate-spark-job-artifact-v2.mdx",
+      "changeKind": "source_deleted",
+      "rationale": "Approved REST source deletion from Fetch run 31859142233"
+    },
+    {
+      "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/volume-operations-v2/update-volume-v2.mdx",
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/volume-operations-v2/update-volume-v2.mdx",
       "changeKind": null,
