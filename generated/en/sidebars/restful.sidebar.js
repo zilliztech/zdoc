@@ -1018,6 +1018,30 @@ module.exports = [
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/list-external-collection-refresh-jobs-v2",
                 "label": "List External Collection Refresh Jobs (V2)",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/list-external-collection-refresh-jobs-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/collection-operations-v2/add-function-field-to-collection-v2",
+                "label": "Add Function Field to Collection (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/add-function-field-to-collection-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/collection-operations-v2/drop-function-field-from-collection-v2",
+                "label": "Drop Function Field from Collection (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/drop-function-field-from-collection-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/collection-operations-v2/drop-collection-field-v2",
+                "label": "Drop Collection Field (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/drop-collection-field-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/collection-operations-v2/add-collection-struct-field-v2",
+                "label": "Add Collection Struct Field (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/add-collection-struct-field-v2"
               }
             ]
           },
