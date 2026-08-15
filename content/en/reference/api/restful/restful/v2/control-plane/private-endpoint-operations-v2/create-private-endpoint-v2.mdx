@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 2
+slug: /restful/create-private-endpoint-v2
+beta: FALSE
+title: "Create Private Endpoint (V2) | RESTful"
+description: "Creates a private endpoint in a project. | RESTful"
+hide_table_of_contents: true
+sidebar_label: "Create Private Endpoint (V2)"
+sidebar_custom_props:
+  badges:
+    - "post"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "Create Private Endpoint (V2)"
+  - "post"
+  - RESTful
+  - API
+---
+
+# Create Private Endpoint (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="en-US" />
+
+export const specs = {"summary":"Create Private Endpoint","description":"Creates a private endpoint in a project.","tags":["Private Endpoint Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","required":true,"example":"Bearer {{TOKEN}}","description":"The authentication token should be an API key with appropriate privileges.","x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"}},"schema":{"type":"string"}},{"name":"projectId","in":"path","required":true,"description":"The ID of the project.","x-i18n":{"zh-CN":{"description":"项目 ID。"}},"schema":{"type":"string"},"example":"proj-xxxxxxxxxxxxxxxxxxx"}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","description":"The request for creating a private endpoint.","x-i18n":{"zh-CN":{"description":"创建 Private Endpoint 的请求。"}},"properties":{"regionId":{"type":"string","description":"The ID of the cloud region in which to create the private endpoint.","x-i18n":{"zh-CN":{"description":"创建 Private Endpoint 的云地域 ID。"}}},"endpointId":{"type":"string","description":"The VPC endpoint ID provided by the cloud provider.","x-i18n":{"zh-CN":{"description":"云服务提供商提供的 VPC Endpoint ID。"}}},"gcpProjectId":{"type":"string","description":"The Google Cloud project ID. This field is required for Google Cloud regions.","x-i18n":{"zh-CN":{"description":"Google Cloud 项目 ID。Google Cloud 地域需要此字段。"}}}},"required":["regionId","endpointId"]},"examples":{"1":{"summary":"AWS PrivateLink","x-target-lang":"en-US","value":{"regionId":"aws-us-west-2","endpointId":"vpce-xxxxxxxxxxxxxxxxx"}},"2":{"summary":"Alibaba Cloud PrivateLink","x-target-lang":"zh-CN","value":{"regionId":"ali-cn-hangzhou","endpointId":"ep-xxxxxxxxxxxxxxxxx"}}}}}},"responses":{"200":{"description":"Returns a successful result or an error message.","x-i18n":{"zh-CN":{"description":"返回成功结果或错误消息。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}},"example":0},"data":{"type":"object","description":"The created private endpoint identifiers.","x-i18n":{"zh-CN":{"description":"已创建的 Private Endpoint 标识。"}},"properties":{"endpointId":{"type":"string","description":"The private endpoint ID.","x-i18n":{"zh-CN":{"description":"Private Endpoint ID。"}}},"regionId":{"type":"string","description":"The cloud region ID.","x-i18n":{"zh-CN":{"description":"云地域 ID。"}}}}}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"Success","x-target-response":"OPTION 1","x-target-lang":"en-US","value":{"code":0,"data":{"endpointId":"vpce-xxxxxxxxxxxxxxxxx","regionId":"aws-us-west-2"}}},"2":{"summary":"Success","x-target-response":"OPTION 1","x-target-lang":"zh-CN","value":{"code":0,"data":{"endpointId":"ep-xxxxxxxxxxxxxxxxx","regionId":"ali-cn-hangzhou"}}},"3":{"summary":"Failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}},"x-i18n":{"zh-CN":{"summary":"创建 Private Endpoint","description":"在项目中创建 Private Endpoint。"}}}
+export const endpoint = "/v2/projects/{projectId}/privateEndpoints"
+export const method = "post"

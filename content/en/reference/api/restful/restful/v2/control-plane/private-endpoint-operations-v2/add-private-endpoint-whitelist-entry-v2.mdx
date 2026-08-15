@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 4
+slug: /restful/add-private-endpoint-whitelist-entry-v2
+beta: FALSE
+title: "Add Private Endpoint Whitelist Entry (V2) | RESTful"
+description: "Adds an external cloud account to the private endpoint whitelist of a project. | RESTful"
+hide_table_of_contents: true
+sidebar_label: "Add Private Endpoint Whitelist Entry (V2)"
+sidebar_custom_props:
+  badges:
+    - "post"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "Add Private Endpoint Whitelist Entry (V2)"
+  - "post"
+  - RESTful
+  - API
+---
+
+# Add Private Endpoint Whitelist Entry (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="en-US" />
+
+export const specs = {"summary":"Add Private Endpoint Whitelist Entry","description":"Adds an external cloud account to the private endpoint whitelist of a project.","tags":["Private Endpoint Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","required":true,"example":"Bearer {{TOKEN}}","description":"The authentication token should be an API key with appropriate privileges.","x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"}},"schema":{"type":"string"}},{"name":"projectId","in":"path","required":true,"description":"The ID of the project.","x-i18n":{"zh-CN":{"description":"项目 ID。"}},"schema":{"type":"string"},"example":"proj-xxxxxxxxxxxxxxxxxxx"}],"requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","description":"The request for adding an external cloud account to the private endpoint whitelist.","x-i18n":{"zh-CN":{"description":"将外部云账号添加到 Private Endpoint 白名单的请求。"}},"properties":{"regionId":{"type":"string","description":"The cloud region ID.","x-i18n":{"zh-CN":{"description":"云地域 ID。"}}},"outerUserId":{"type":"string","description":"The external cloud account identifier, such as an Azure subscription ID or an Alibaba Cloud account ID.","x-i18n":{"zh-CN":{"description":"外部云账号标识，例如 Azure 订阅 ID 或阿里云账号 ID。"}}}},"required":["regionId","outerUserId"]},"examples":{"1":{"summary":"AWS account","x-target-lang":"en-US","value":{"regionId":"aws-us-west-2","outerUserId":"123456789012"}},"2":{"summary":"Alibaba Cloud account","x-target-lang":"zh-CN","value":{"regionId":"ali-cn-hangzhou","outerUserId":"1234567890123456"}}}}}},"responses":{"200":{"description":"Returns a successful result or an error message.","x-i18n":{"zh-CN":{"description":"返回成功结果或错误消息。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}},"example":0},"data":{"type":"string","description":"The operation result.","x-i18n":{"zh-CN":{"description":"操作结果。"}}}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"Success","x-target-response":"OPTION 1","value":{"code":0,"data":"success"}},"3":{"summary":"Failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}},"x-i18n":{"zh-CN":{"summary":"添加 Private Endpoint 白名单条目","description":"将外部云账号添加到项目的 Private Endpoint 白名单。"}}}
+export const endpoint = "/v2/projects/{projectId}/privateEndpointWhitelist"
+export const method = "post"

@@ -154,6 +154,12 @@ module.exports = [
                 "id": "api/restful/restful/v2/control-plane/project-operations-v2/add-project-region-v2",
                 "label": "Add Project Region (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/project-operations-v2/add-project-region-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/project-operations-v2/remove-project-region-v2",
+                "label": "Remove Project Region (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/project-operations-v2/remove-project-region-v2"
               }
             ]
           },
@@ -552,15 +558,33 @@ module.exports = [
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-job-v2",
-                "label": "Create Spark Job (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-job-v2"
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-jar-job-v2",
+                "label": "Create Spark JAR Job (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-jar-job-v2"
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/validate-spark-job-artifact-v2",
-                "label": "Validate Spark Job Artifact (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/validate-spark-job-artifact-v2"
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-pk-deduplication-job-v2",
+                "label": "Create Spark PK Deduplication Job (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-pk-deduplication-job-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-vector-deduplication-job-v2",
+                "label": "Create Spark Vector Deduplication Job (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-vector-deduplication-job-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-k-means-job-v2",
+                "label": "Create Spark K-means Job (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-k-means-job-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2",
+                "label": "Create Spark Anomaly Detection Job (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2"
               },
               {
                 "type": "doc",
@@ -738,6 +762,43 @@ module.exports = [
                 "id": "api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/delete-api-key-v2",
                 "label": "Delete API Key (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/delete-api-key-v2"
+              }
+            ]
+          },
+          {
+            "type": "category",
+            "label": "Private Endpoint Operations (V2)",
+            "key": "category:v2/control-plane-v2/private-endpoint-operations-v2",
+            "items": [
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/private-endpoint-operations-v2/list-private-endpoint-services-v2",
+                "label": "List Private Endpoint Services (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/private-endpoint-operations-v2/list-private-endpoint-services-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/private-endpoint-operations-v2/list-private-endpoints-v2",
+                "label": "List Private Endpoints (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/private-endpoint-operations-v2/list-private-endpoints-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/private-endpoint-operations-v2/create-private-endpoint-v2",
+                "label": "Create Private Endpoint (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/private-endpoint-operations-v2/create-private-endpoint-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/private-endpoint-operations-v2/delete-private-endpoint-v2",
+                "label": "Delete Private Endpoint (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/private-endpoint-operations-v2/delete-private-endpoint-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/private-endpoint-operations-v2/add-private-endpoint-whitelist-entry-v2",
+                "label": "Add Private Endpoint Whitelist Entry (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/private-endpoint-operations-v2/add-private-endpoint-whitelist-entry-v2"
               }
             ]
           }
@@ -985,6 +1046,12 @@ module.exports = [
               },
               {
                 "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2",
+                "label": "Alter Database Properties (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2"
+              },
+              {
+                "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/database-operations-v2/drop-database-properties-v2",
                 "label": "Drop Database Properties (V2)",
                 "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/drop-database-properties-v2"
@@ -997,9 +1064,9 @@ module.exports = [
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2",
-                "label": "Alter Database Properties (V2)",
-                "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2"
+                "id": "api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-compatibility-alias-v2",
+                "label": "Alter Database Properties (Compatibility Alias) (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-compatibility-alias-v2"
               }
             ]
           },
