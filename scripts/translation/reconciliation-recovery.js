@@ -7,6 +7,9 @@ const {
 } = require('./reconciliation-plan')
 const {validateApprovalReceipt} = require('./reconciliation-policy')
 
+const SHA = /^[0-9a-f]{40}$/u
+const TARGET_TRANSITION_KEYS = ['previousTargetBaselineSha', 'currentTargetBaselineSha', 'ancestryVerified', 'postStateCompatible']
+
 function assertIdentity(selected) {
   const required = ['target', 'group', 'toolingSha', 'sourceBaselineSha', 'sourceCheckpointSha', 'targetBaselineSha']
   for (const key of required) {
@@ -21,36 +24,45 @@ function operationBody(operation) {
 }
 
 function operationIdentity(operation) {
-  return `${operation.sourcePath}\0${operation.targetPath}\0${operation.kind}`
+  return `${operation.sourcePath}\0${operation.targetPath}`
 }
 
-function validateRecoveryReconciliationEvidence({previousPlan, currentPlan, previousResult, selected, approvalReceipts = [], now}) {
+function validateRecoveryReconciliationEvidence({previousPlan, currentPlan, previousResult, selected, approvalReceipts = [], now}, options = {}) {
   const identity = assertIdentity(selected)
   const previous = validateReconciliationPlan(previousPlan)
   const current = validateReconciliationPlan(currentPlan)
   if (previous.target !== identity.target || previous.group !== identity.group ||
       previous.toolingSha !== identity.toolingSha ||
       previous.sourceBaselineSha !== identity.sourceBaselineSha ||
-      previous.sourceCheckpointSha !== identity.sourceCheckpointSha ||
-      previous.targetBaselineSha !== identity.targetBaselineSha) {
+      previous.sourceCheckpointSha !== identity.sourceCheckpointSha) {
     throw new Error('Previous reconciliation plan identity does not match the recovery unit')
+  }
+  if (!options.allowBaselineChange && previous.targetBaselineSha !== identity.targetBaselineSha) {
+    throw new Error('Previous reconciliation plan target baseline does not match the recovery unit')
   }
   if (current.target !== identity.target || current.group !== identity.group || current.toolingSha !== identity.toolingSha ||
       current.sourceBaselineSha !== identity.sourceBaselineSha ||
       current.sourceCheckpointSha !== identity.sourceCheckpointSha) {
     throw new Error('Current reconciliation plan identity does not match the recovery unit')
   }
+  if (current.targetBaselineSha !== identity.targetBaselineSha) {
+    throw new Error('Current reconciliation plan target baseline does not match the recovery unit')
+  }
   const result = validateReconciliationResult(previousResult, previous)
-  if (result.targetBaselineSha !== identity.targetBaselineSha) throw new Error('Previous reconciliation result target baseline does not match the recovery unit')
+  if (result.targetBaselineSha !== previous.targetBaselineSha) throw new Error('Previous reconciliation result target baseline does not match the previous plan')
   const receipts = approvalReceipts.map(receipt => validateApprovalReceipt(receipt, current, {now}))
   return Object.freeze({previous, current, result, approvalReceipts: receipts})
 }
 
 function classifyReconciliationRecovery(input) {
-  const {previous, current, result, approvalReceipts} = validateRecoveryReconciliationEvidence(input)
+  const {previous, current, result, approvalReceipts} = validateRecoveryReconciliationEvidence(input, {
+    allowBaselineChange: true,
+  })
   const previousById = new Map(previous.operations.map(operation => [operation.operationId, operation]))
   const previousByIdentity = new Map(previous.operations.map(operation => [operationIdentity(operation), operation]))
   const resultById = new Map(result.operations.map(operation => [operation.operationId, operation]))
+  const humanApproved = approvalReceipts.some(receipt =>
+    receipt.authorization.method === 'human' && receipt.planSha256 === current.planSha256)
   const classifications = []
 
   for (const operation of current.operations) {
@@ -60,7 +72,7 @@ function classifyReconciliationRecovery(input) {
     const identityMatch = previousByIdentity.get(operationIdentity(operation))
     let status
     if (authorization === 'rejected') status = 'rejected'
-    else if (authorization === 'review_required' && approvalReceipts.length === 0) status = 'missing_approval'
+    else if (authorization === 'review_required' && !humanApproved) status = 'missing_approval'
     else if (prior && canonicalJson(operationBody(prior)) === canonicalJson(operationBody(operation)) &&
       priorResult && ['applied', 'already_applied'].includes(priorResult.status)) status = 'reusable'
     else if (prior || identityMatch) status = 'changed'
@@ -105,8 +117,80 @@ function classifyReconciliationRecovery(input) {
   })
 }
 
+function validateRecoveryTargetTransition(value) {
+  if (value === null || value === undefined) return null
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Recovery reconciliation target transition is invalid')
+  const actual = Object.keys(value).sort()
+  const expected = [...TARGET_TRANSITION_KEYS].sort()
+  if (JSON.stringify(actual) !== JSON.stringify(expected)) throw new Error('Recovery reconciliation target transition keys are invalid')
+  for (const key of ['previousTargetBaselineSha', 'currentTargetBaselineSha']) {
+    if (!SHA.test(value[key] || '')) throw new Error(`Recovery reconciliation target transition ${key} is invalid`)
+  }
+  for (const key of ['ancestryVerified', 'postStateCompatible']) {
+    if (typeof value[key] !== 'boolean') throw new Error(`Recovery reconciliation target transition ${key} must be boolean`)
+  }
+  return Object.freeze({...value})
+}
+
+function evaluateReconciliationRecovery(input) {
+  const targetTransition = validateRecoveryTargetTransition(input.targetTransition)
+  const evidence = validateRecoveryReconciliationEvidence(input, {allowBaselineChange: true})
+  const baselineChanged = evidence.previous.targetBaselineSha !== input.selected.targetBaselineSha
+  let baselineCompatible = !baselineChanged
+  if (baselineChanged) {
+    baselineCompatible = Boolean(targetTransition &&
+      targetTransition.previousTargetBaselineSha === evidence.previous.targetBaselineSha &&
+      targetTransition.currentTargetBaselineSha === input.selected.targetBaselineSha &&
+      targetTransition.ancestryVerified === true &&
+      targetTransition.postStateCompatible === true)
+  }
+  const classification = classifyReconciliationRecovery(input)
+  const unsafeOperations = classification.counts.rejected + classification.counts.missing_approval
+  return Object.freeze({
+    classification,
+    baselineChanged,
+    baselineCompatible,
+    preflightRequired: Boolean(input.publish && !input.preflight),
+    remoteStateKnown: input.remoteState !== 'unknown',
+    publishSafe: baselineCompatible && !input.preflightRequired && input.remoteState !== 'unknown' && unsafeOperations === 0,
+  })
+}
+
+function assertRecoveryReconciliationPublicationSafety(input) {
+  const evaluation = evaluateReconciliationRecovery(input)
+  if (input.remoteState === 'unknown') {
+    const error = new Error('Recovery reconciliation cannot replay while remote state is unknown')
+    error.code = 'REMOTE_STATE_UNKNOWN'
+    throw error
+  }
+  if (!evaluation.baselineCompatible) {
+    const error = new Error('Recovery reconciliation target baseline changed without verified ancestry and post-state compatibility')
+    error.code = 'RECONCILIATION_BASELINE_CHANGED'
+    throw error
+  }
+  if (input.publish && !input.preflight) {
+    const error = new Error('Plan-based recovery publication requires a prior publish=false preflight')
+    error.code = 'RECONCILIATION_PREFLIGHT_REQUIRED'
+    throw error
+  }
+  if (evaluation.classification.counts.rejected > 0) {
+    const error = new Error('Recovery reconciliation contains rejected operations')
+    error.code = 'RECONCILIATION_REJECTED'
+    throw error
+  }
+  if (evaluation.classification.counts.missing_approval > 0) {
+    const error = new Error('Recovery reconciliation requires human approval before publication')
+    error.code = 'RECONCILIATION_REVIEW_REQUIRED'
+    throw error
+  }
+  return evaluation
+}
+
 module.exports = {
+  assertRecoveryReconciliationPublicationSafety,
   classifyReconciliationRecovery,
+  evaluateReconciliationRecovery,
   operationIdentity,
+  validateRecoveryTargetTransition,
   validateRecoveryReconciliationEvidence,
 }

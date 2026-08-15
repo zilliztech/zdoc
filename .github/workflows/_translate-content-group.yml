@@ -279,12 +279,17 @@ jobs:
           TRANSLATION_CHUNK_MAX_CHARS: ${{ inputs.group == 'guides' && '12000' || '24000' }}
         run: |
           set -euo pipefail
+          reconciliation_preflight_args=()
+          if [[ -f tmp/reconciliation-plan.json ]]; then
+            reconciliation_preflight_args+=(--reconciliation-plan tmp/reconciliation-plan.json)
+          fi
           node scripts/translation/recovery-preflight.js \
             --manifest tmp/translation-manifest.json \
             --recovery-dir "$RECOVERY_DOWNLOAD_DIR" \
             --output "$RECOVERY_ANALYSIS" \
             --execution-tooling-sha "$TOOLING_SHA" \
-            --allow-full-retranslate "${{ inputs.allow_full_retranslate }}"
+            --allow-full-retranslate "${{ inputs.allow_full_retranslate }}" \
+            "${reconciliation_preflight_args[@]}"
           node - <<'NODE'
           const fs = require('node:fs')
           const analysis = JSON.parse(fs.readFileSync(process.env.RECOVERY_ANALYSIS, 'utf8'))
@@ -329,15 +334,23 @@ jobs:
           TRANSLATION_CHUNK_MAX_CHARS: ${{ inputs.group == 'guides' && '12000' || '24000' }}
       - name: Create per-file recovery artifact
         if: ${{ always() && inputs.should_translate && steps.manifest.outputs.count != '0' }}
-        run: >-
-          node scripts/translation/recovery-artifact.js create
-          --report tmp/translation-report.json
-          --output "$RECOVERY_OUTPUT_DIR"
-          --target "$TRANSLATION_TARGET"
-          --group "$GROUP"
-          --source-sha "$SOURCE_CHECKPOINT_SHA"
-          --tooling-sha "$TOOLING_SHA"
-          --model "$TRANSLATION_AGENT_MODEL"
+        run: |
+          reconciliation_args=()
+          if [[ -f tmp/reconciliation-plan.json ]]; then
+            reconciliation_args+=(--reconciliation-plan tmp/reconciliation-plan.json)
+          fi
+          if [[ -f tmp/reconciliation-result.json ]]; then
+            reconciliation_args+=(--reconciliation-result tmp/reconciliation-result.json)
+          fi
+          node scripts/translation/recovery-artifact.js create \
+            --report tmp/translation-report.json \
+            --output "$RECOVERY_OUTPUT_DIR" \
+            --target "$TRANSLATION_TARGET" \
+            --group "$GROUP" \
+            --source-sha "$SOURCE_CHECKPOINT_SHA" \
+            --tooling-sha "$TOOLING_SHA" \
+            --model "$TRANSLATION_AGENT_MODEL" \
+            "${reconciliation_args[@]}"
         env:
           TRANSLATION_AGENT_MODEL: ${{ vars.TRANSLATION_AGENT_MODEL }}
       - name: Upload per-file recovery artifact

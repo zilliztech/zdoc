@@ -4,7 +4,12 @@ const assert = require('node:assert/strict')
 const test = require('node:test')
 
 const {createReconciliationPlan, createReconciliationResult} = require('./reconciliation-plan')
-const {classifyReconciliationRecovery, validateRecoveryReconciliationEvidence} = require('./reconciliation-recovery')
+const {
+  assertRecoveryReconciliationPublicationSafety,
+  classifyReconciliationRecovery,
+  evaluateReconciliationRecovery,
+  validateRecoveryReconciliationEvidence,
+} = require('./reconciliation-recovery')
 
 const SOURCE = 'content/en/reference/api/python/python/v2/old.md'
 const TARGET = 'content/zh-CN/reference/api/python/python/v2/old.md'
@@ -147,5 +152,91 @@ test('rejects recovery evidence whose plan identities do not match the selected 
     previousPlan: previous,
     currentPlan: current,
     previousResult: result(previous),
-  }), /previous reconciliation plan identity/i)
+  }), /previous reconciliation plan (identity|target baseline)/i)
+})
+
+test('treats a validated human approval receipt as approval for the complete plan', () => {
+  const previous = plan({operations: []})
+  const current = plan({operations: [operation({status: 'review_required'})]})
+  const {createApprovalReceipt} = require('./reconciliation-policy')
+  const approvalReceipts = [createApprovalReceipt({
+    schemaVersion: 1,
+    document: 'translation-reconciliation-approval',
+    planSha256: current.planSha256,
+    target: current.target,
+    group: current.group,
+    toolingSha: current.toolingSha,
+    sourceBaselineSha: current.sourceBaselineSha,
+    sourceCheckpointSha: current.sourceCheckpointSha,
+    targetBaselineSha: current.targetBaselineSha,
+    policyId: current.policyId,
+    authorization: {method: 'human', identity: 'reviewer@example.com', rationale: 'approved complete plan'},
+    issuedAt: '2026-08-15T00:00:00.000Z',
+    expiresAt: '2026-08-16T00:00:00.000Z',
+  }, current, {now: '2026-08-15T12:00:00.000Z'})]
+  const classification = classifyReconciliationRecovery({
+    selected: selected(),
+    previousPlan: previous,
+    currentPlan: current,
+    previousResult: result(previous),
+    approvalReceipts,
+    now: '2026-08-15T12:00:00.000Z',
+  })
+  assert.equal(classification.counts.missing_approval, 0)
+  assert.equal(classification.counts.new, 1)
+})
+
+test('allows a changed target baseline only with verified ancestry and post-state compatibility', () => {
+  const previous = plan({operations: [operation()]})
+  const current = plan({operations: [operation()], targetBaselineSha: 'e'.repeat(40)})
+  const base = {
+    selected: selected({targetBaselineSha: 'e'.repeat(40)}),
+    previousPlan: previous,
+    currentPlan: current,
+    previousResult: result(previous),
+  }
+  assert.equal(evaluateReconciliationRecovery({...base}).baselineCompatible, false)
+  const transition = {
+    previousTargetBaselineSha: TARGET_BASELINE,
+    currentTargetBaselineSha: 'e'.repeat(40),
+    ancestryVerified: true,
+    postStateCompatible: true,
+  }
+  assert.equal(evaluateReconciliationRecovery({...base, targetTransition: transition}).baselineCompatible, true)
+  assert.throws(() => assertRecoveryReconciliationPublicationSafety({...base, targetTransition: {...transition, postStateCompatible: false}}), error => error.code === 'RECONCILIATION_BASELINE_CHANGED')
+})
+
+test('requires a prior publish=false preflight before publish-mode recovery publication', () => {
+  const previous = plan({operations: []})
+  const current = plan({operations: []})
+  assert.throws(() => assertRecoveryReconciliationPublicationSafety({
+    selected: selected(),
+    previousPlan: previous,
+    currentPlan: current,
+    previousResult: result(previous),
+    publish: true,
+    preflight: false,
+  }), error => error.code === 'RECONCILIATION_PREFLIGHT_REQUIRED')
+  assert.doesNotThrow(() => assertRecoveryReconciliationPublicationSafety({
+    selected: selected(),
+    previousPlan: previous,
+    currentPlan: current,
+    previousResult: result(previous),
+    publish: true,
+    preflight: true,
+  }))
+})
+
+test('stops on unknown remote state without replay', () => {
+  const previous = plan({operations: []})
+  const current = plan({operations: []})
+  assert.throws(() => assertRecoveryReconciliationPublicationSafety({
+    selected: selected(),
+    previousPlan: previous,
+    currentPlan: current,
+    previousResult: result(previous),
+    publish: false,
+    preflight: true,
+    remoteState: 'unknown',
+  }), error => error.code === 'REMOTE_STATE_UNKNOWN')
 })
