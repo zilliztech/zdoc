@@ -981,7 +981,7 @@ test('Fetch producers stay parallel while publication and derived-state writers 
     assert.equal(job.with.publication_unit_key, unitKey)
   }
   const coordinator = workflow.jobs.publish_ready
-  assert.deepEqual(coordinator.needs, ['prepare'])
+  assert.deepEqual(coordinator.needs, ['prepare', 'reconciliation_preflight'])
   assert.deepEqual(coordinator.permissions, {actions: 'read', contents: 'write'})
   const coordinatorPublish = coordinator.steps.find(step => step.id === 'publish')
   assert.equal(coordinatorPublish.uses, 'actions/github-script@v8')
@@ -1119,7 +1119,7 @@ test('Fetch source publication barrier installs its runtime before validating re
   assert.ok(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < barrierIndex)
 })
 
-test('Fetch translation handoff installs its runtime before building schema v2', () => {
+test('Fetch translation handoff installs its runtime before building schema v3', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
   const workflow = yaml.load(fs.readFileSync(workflowPath, 'utf8'))
   const steps = workflow.jobs.prepare_translation_handoff.steps
@@ -1142,6 +1142,7 @@ test('Fetch translation handoff consumes the reconciled target while preserving 
   assert.match(step.run, /--fetch-selection "\$RUNNER_TEMP\/publication-selection\/publication-selection\.json"/)
   assert.match(step.run, /--fetch-results "\$RUNNER_TEMP\/publication-results\/publication-results\.json"/)
   assert.match(step.run, /--target-baseline-sha "\$TARGET_BASELINE_SHA"/)
+  assert.match(step.run, /--reconciliation-plans-dir "\$RUNNER_TEMP\/reconciliation-plans"/)
 })
 
 test('job-level env must not reference the runner context', () => {
@@ -2745,7 +2746,7 @@ test('fetch workflow owns only source production and dispatches translation once
   assert.deepEqual(workflow.jobs.dispatch_translations.needs, ['prepare', 'prepare_translation_handoff'])
   assert.match(workflow.jobs.dispatch_translations.if, /needs\.prepare_translation_handoff\.result == 'success'/)
   assert.match(source, /translation-handoff\.js[\s\S]*--locale all[\s\S]*--fetch-selection[\s\S]*--fetch-results/)
-  assert.match(source, /name: translation-handoff-v2-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/)
+  assert.match(source, /name: translation-handoff-v3-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/)
   assert.match(source, /-f handoff_json="\$HANDOFF_JSON"/)
   assert.match(source, /WORKFLOW_REF: \$\{\{ github\.ref_name \}\}/)
   assert.match(source, /run_url[\s\S]*github\\\.com[\s\S]*actions\/runs\//)
@@ -2789,17 +2790,19 @@ test('workflow policy rejects reconciled handoff and branch child lookup regress
       expected: 'fetch-docs.yml: translation handoff must directly depend on reconciliation and consume its exact final target SHA',
     },
     {
-      mutate: source => source.replace(
+      mutate: source => source.replaceAll(
         'TARGET_BASELINE_SHA: ${{ needs.reconcile_reference_state.outputs.final_target_sha }}',
         'TARGET_BASELINE_SHA: ${{ needs.publish_ready.outputs.final_target_sha }}',
       ),
       expected: 'fetch-docs.yml: translation handoff must directly depend on reconciliation and consume its exact final target SHA',
     },
     {
-      mutate: source => source.replace(
-        '--target-baseline-sha "$TARGET_BASELINE_SHA"',
-        '--target-baseline-sha "$PUBLISHED_TARGET_SHA"',
-      ),
+      mutate: source => {
+        const needle = '--target-baseline-sha "$TARGET_BASELINE_SHA"'
+        const index = source.lastIndexOf(needle)
+        const replacement = '--target-baseline-sha "$PUBLISHED_TARGET_SHA"'
+        return `${source.slice(0, index)}${replacement}${source.slice(index + needle.length)}`
+      },
       expected: 'fetch-docs.yml: translation handoff must directly depend on reconciliation and consume its exact final target SHA',
     },
     {

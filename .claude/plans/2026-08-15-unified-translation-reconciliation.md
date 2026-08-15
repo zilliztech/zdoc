@@ -276,15 +276,19 @@ git diff --check
 - Modify: `scripts/docs-workflow/fetch-publication-selection.js`
 - Modify: `scripts/docs-workflow/fetch-publication-results.js`
 - Modify: `scripts/docs-workflow/fetch-reference-reconciliation.js`
+- Modify: `scripts/docs-workflow/translation-handoff.js`
+- Modify: `scripts/translation/reconciliation-plan.js`
+- Create: `scripts/docs-workflow/fetch-reconciliation-plans.js`
+- Create: `scripts/docs-workflow/fetch-reconciliation-preflight.js`
 - Modify: related tests
 
-- [ ] Generate per-source-group reconciliation plans from immutable staged checkpoints.
-- [ ] Validate plan status before `publish_ready` can write source commits when `run_translations=true`.
-- [ ] Stop review-required production publication before any writer runs.
-- [ ] Allow source-only publication when `run_translations=false`, but record pending reconciliation evidence in results.
-- [ ] Build handoff v3 only after source publication, Reference reconciliation, and target baseline reconciliation succeed.
-- [ ] Remove the late failure mode where a missing retirement is first discovered after all source commits publish.
-- [ ] Preserve Fetch FIFO and production queue ownership.
+- [x] Generate per-source-group reconciliation plans from immutable staged checkpoints.
+- [x] Validate plan status before `publish_ready` can write source commits when `run_translations=true`.
+- [x] Stop review-required production publication before any writer runs.
+- [x] Allow source-only publication when `run_translations=false`, but record pending reconciliation evidence in results.
+- [x] Build handoff v3 only after source publication, Reference reconciliation, and target baseline reconciliation succeed.
+- [x] Remove the late failure mode where a missing retirement is first discovered after all source commits publish.
+- [x] Preserve Fetch FIFO and production queue ownership.
 
 Focused verification:
 

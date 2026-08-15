@@ -3,6 +3,7 @@
 
 const crypto = require('node:crypto');
 const fs = require('node:fs');
+const path = require('node:path');
 const {spawnSync} = require('node:child_process');
 const {isDeepStrictEqual} = require('node:util');
 
@@ -84,6 +85,24 @@ function unitFromSelection(selected, publication, targetBaselineSha, toolingSha,
 
 function selectedSourceGroups(selection) {
   return [...new Set(selection.map(unit => unit.sourceGroup))];
+}
+
+function readReconciliationPlansDir(directory) {
+  if (!directory) return {};
+  const absolute = path.resolve(directory);
+  const stat = fs.statSync(absolute);
+  if (!stat.isDirectory()) throw new Error('reconciliation plans directory is invalid');
+  const plans = {};
+  for (const entry of fs.readdirSync(absolute, {withFileTypes: true})) {
+    const match = /^translation-reconciliation-plan-([A-Za-z0-9._-]+)-([A-Za-z0-9._-]+)\.json$/u.exec(entry.name);
+    if (!match || !entry.isFile()) continue;
+    const target = match[1];
+    const group = match[2];
+    const plan = JSON.parse(fs.readFileSync(path.join(absolute, entry.name), 'utf8'));
+    validateReconciliationPlan(plan);
+    plans[`${target}/${group}`] = plan;
+  }
+  return plans;
 }
 
 function validateTranslationHandoffContract(value, {allowCanonicalSubset, allowLegacyV2 = false}) {
@@ -204,7 +223,7 @@ function buildTranslationHandoff({locale, group, toolingSha, targetBranch, targe
   });
 }
 
-function buildTranslationHandoffFromFetchResults({selection, results, locale, group, targetBaselineSha = results.finalTargetSha}) {
+function buildTranslationHandoffFromFetchResults({selection, results, locale, group, targetBaselineSha = results.finalTargetSha, reconciliationPlans = {}}) {
   return buildTranslationHandoff({
     locale,
     group,
@@ -212,6 +231,7 @@ function buildTranslationHandoffFromFetchResults({selection, results, locale, gr
     targetBranch: selection.targetBranch,
     targetBaselineSha,
     sourcePublications: sourcePublicationsFromFetchResults({selection, results, locale, group}),
+    reconciliationPlans,
   });
 }
 
@@ -326,6 +346,7 @@ function main(argv = process.argv.slice(2)) {
       selection,
       results,
       targetBaselineSha: args.get('--target-baseline-sha'),
+      reconciliationPlans: readReconciliationPlansDir(args.get('--reconciliation-plans-dir')),
     });
   } else {
     if (operatorRecovery) throw new Error('recovery plan validation requires an explicit translation handoff');
@@ -361,6 +382,7 @@ module.exports = {
   buildTranslationHandoff,
   buildTranslationHandoffFromFetchResults,
   main,
+  readReconciliationPlansDir,
   validateTranslationHandoff,
   validateTranslationHandoffRepository,
   validateAuthenticatedRecoveryHandoff,

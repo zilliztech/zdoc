@@ -468,8 +468,137 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+  reconciliation_preflight:
+    needs: [prepare, produce_guides, produce_zh_guides, produce_python, produce_java, produce_node, produce_go, produce_cli, produce_rest]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: read
+    outputs:
+      plans_artifact_name: ${{ steps.upload_plans.outputs.artifact_name }}
+      status: ${{ steps.status.outputs.status }}
+    env:
+      RUN_TRANSLATIONS: ${{ needs.prepare.outputs.run_translations }}
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Download immutable Fetch publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - id: validate_producers
+        name: Validate selected reconciliation producers
+        if: ${{ needs.prepare.outputs.run_translations == 'true' }}
+        env:
+          GUIDES_RESULT: ${{ needs.produce_guides.result }}
+          PYTHON_RESULT: ${{ needs.produce_python.result }}
+          JAVA_RESULT: ${{ needs.produce_java.result }}
+          NODE_RESULT: ${{ needs.produce_node.result }}
+          GO_RESULT: ${{ needs.produce_go.result }}
+          CLI_RESULT: ${{ needs.produce_cli.result }}
+          REST_RESULT: ${{ needs.produce_rest.result }}
+        run: |
+          set -euo pipefail
+          node - "$RUNNER_TEMP/publication-selection/publication-selection.json" <<'NODE'
+          const fs = require('node:fs')
+          const selection = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
+          const needed = new Set(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'])
+          const results = {
+            'source/guides-en': process.env.GUIDES_RESULT,
+            'source/python': process.env.PYTHON_RESULT,
+            'source/java': process.env.JAVA_RESULT,
+            'source/node': process.env.NODE_RESULT,
+            'source/go': process.env.GO_RESULT,
+            'source/cli': process.env.CLI_RESULT,
+            'source/rest': process.env.REST_RESULT,
+          }
+          const required = selection.units.filter(unit => unit.site === 'en' && needed.has(unit.translationSourceGroup))
+          const failed = required.filter(unit => results[unit.unitKey] !== 'success')
+          if (failed.length) throw new Error(`Reconciliation producers are not ready: ${failed.map(unit => unit.unitKey).join(', ')}`)
+          NODE
+      - name: Download required source checkpoint artifacts
+        if: ${{ needs.prepare.outputs.run_translations == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          mkdir -p "$RUNNER_TEMP/reconciliation-checkpoints"
+          node - "$selection" <<'NODE' > "$RUNNER_TEMP/reconciliation-artifacts.txt"
+          const fs = require('node:fs')
+          const selection = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
+          const needed = new Set(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'])
+          for (const unit of selection.units) {
+            if (unit.site !== 'en' || !needed.has(unit.translationSourceGroup)) continue
+            const token = unit.unitKey.replaceAll('/', '-')
+            process.stdout.write(`${token} ${unit.artifacts.checkpoint}\n`)
+          }
+          NODE
+          while IFS=' ' read -r unit_token artifact_name; do
+            [[ "$unit_token" =~ ^source-[A-Za-z0-9_-]+$ ]]
+            gh run download -n "$artifact_name" -D "$RUNNER_TEMP/reconciliation-checkpoints/$unit_token"
+          done < "$RUNNER_TEMP/reconciliation-artifacts.txt"
+      - id: preflight
+        name: Validate reconciliation plans before source publication
+        if: ${{ needs.prepare.outputs.run_translations == 'true' }}
+        env:
+          TARGET_BASELINE_SHA: ${{ needs.prepare.outputs.initial_target_sha }}
+        run: |
+          set -euo pipefail
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          node scripts/docs-workflow/fetch-reconciliation-preflight.js preflight \
+            --selection "$selection" \
+            --checkpoint-root "$RUNNER_TEMP/reconciliation-checkpoints" \
+            --repository "$GITHUB_WORKSPACE" \
+            --runner-temp "$RUNNER_TEMP" \
+            --target-baseline-sha "$TARGET_BASELINE_SHA" \
+            --output "$RUNNER_TEMP/reconciliation-plans"
+      - id: status
+        name: Finalize reconciliation preflight status
+        if: ${{ always() }}
+        env:
+          PREFLIGHT_OUTCOME: ${{ steps.preflight.outcome }}
+          PRODUCERS_OUTCOME: ${{ steps.validate_producers.outcome }}
+        run: |
+          set -euo pipefail
+          if [[ "$RUN_TRANSLATIONS" == false ]]; then
+            echo 'status=approved' >> "$GITHUB_OUTPUT"
+          elif [[ "$PRODUCERS_OUTCOME" == success && "$PREFLIGHT_OUTCOME" == success ]]; then
+            echo 'status=approved' >> "$GITHUB_OUTPUT"
+          else
+            echo 'status=failed' >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+      - id: upload_plans
+        name: Upload reconciliation preflight evidence
+        if: ${{ always() && steps.preflight.outcome == 'success' }}
+        run: echo "artifact_name=fetch-reconciliation-plans-${{ github.run_id }}-${{ github.run_attempt }}" >> "$GITHUB_OUTPUT"
+      - name: Upload reconciliation plan evidence
+        if: ${{ always() && steps.preflight.outcome == 'success' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: fetch-reconciliation-plans-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/reconciliation-plans
+          if-no-files-found: error
+          retention-days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+      - name: Upload reconciliation plan and review evidence
+        if: ${{ always() && steps.preflight.outcome == 'failure' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: fetch-reconciliation-review-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/reconciliation-plans
+          if-no-files-found: ignore
+          retention-days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+
   publish_ready:
-    needs: [prepare]
+    needs: [prepare, reconciliation_preflight]
     runs-on: ubuntu-latest
     timeout-minutes: 360
     permissions:
@@ -559,6 +688,51 @@ jobs:
             --runner-temp "$RUNNER_TEMP" \
             --remote origin
 
+  record_pending_reconciliation:
+    needs: [prepare, publish_ready, reconcile_reference_state]
+    if: ${{ always() && needs.prepare.outputs.publish == 'true' && needs.prepare.outputs.run_translations == 'false' && needs.publish_ready.result == 'success' && needs.reconcile_reference_state.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 0 }
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Download immutable Fetch publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Download immutable Fetch publication results
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.publish_ready.outputs.results_artifact_name }}
+          path: ${{ runner.temp }}/publication-results
+      - name: Record pending reconciliation evidence
+        env:
+          TARGET_BASELINE_SHA: ${{ needs.reconcile_reference_state.outputs.final_target_sha }}
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/fetch-reconciliation-plans.js generate \
+            --allow-review \
+            --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" \
+            --results "$RUNNER_TEMP/publication-results/publication-results.json" \
+            --repository "$GITHUB_WORKSPACE" \
+            --target-baseline-sha "$TARGET_BASELINE_SHA" \
+            --output "$RUNNER_TEMP/pending-reconciliation"
+      - name: Upload pending reconciliation evidence
+        uses: actions/upload-artifact@v6
+        with:
+          name: fetch-pending-reconciliation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/pending-reconciliation
+          if-no-files-found: error
+          retention-days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+
   source_publication_barrier:
     needs: [prepare, publish_ready, reconcile_reference_state]
     if: ${{ always() && needs.prepare.outputs.run_translations == 'true' && needs.prepare.outputs.publish == 'true' && needs.reconcile_reference_state.result == 'success' }}
@@ -597,7 +771,7 @@ jobs:
       workflow_ref: ${{ steps.handoff.outputs.workflow_ref }}
     steps:
       - uses: actions/checkout@v5
-        with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 1 }
+        with: { ref: '${{ needs.prepare.outputs.master_sha }}', fetch-depth: 0 }
       - uses: pnpm/action-setup@v5
       - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
@@ -612,6 +786,17 @@ jobs:
         with:
           name: ${{ needs.publish_ready.outputs.results_artifact_name }}
           path: ${{ runner.temp }}/publication-results
+      - name: Prepare authenticated reconciliation plans
+        env:
+          TARGET_BASELINE_SHA: ${{ needs.reconcile_reference_state.outputs.final_target_sha }}
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/fetch-reconciliation-plans.js generate \
+            --selection "$RUNNER_TEMP/publication-selection/publication-selection.json" \
+            --results "$RUNNER_TEMP/publication-results/publication-results.json" \
+            --repository "$GITHUB_WORKSPACE" \
+            --target-baseline-sha "$TARGET_BASELINE_SHA" \
+            --output "$RUNNER_TEMP/reconciliation-plans"
       - id: handoff
         name: Validate exact downstream translation handoff
         env:
@@ -627,14 +812,15 @@ jobs:
             --fetch-selection "$RUNNER_TEMP/publication-selection/publication-selection.json" \
             --fetch-results "$RUNNER_TEMP/publication-results/publication-results.json" \
             --target-baseline-sha "$TARGET_BASELINE_SHA" \
+            --reconciliation-plans-dir "$RUNNER_TEMP/reconciliation-plans" \
             > "$RUNNER_TEMP/validated-translation-handoff.json"
           handoff_json=$(cat "$RUNNER_TEMP/validated-translation-handoff.json")
           node scripts/docs-workflow/translation-handoff.js --handoff-json "$handoff_json" > /dev/null
           printf 'handoff_json=%s\nworkflow_ref=%s\n' "$handoff_json" "$WORKFLOW_REF" >> "$GITHUB_OUTPUT"
-      - name: Upload validated schema-v2 translation handoff
+      - name: Upload validated schema-v3 translation handoff
         uses: actions/upload-artifact@v6
         with:
-          name: translation-handoff-v2-${{ github.run_id }}-${{ github.run_attempt }}
+          name: translation-handoff-v3-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/validated-translation-handoff.json
           if-no-files-found: error
           retention-days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}

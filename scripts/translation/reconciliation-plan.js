@@ -185,7 +185,7 @@ function validateReconciliationPlan(value, options = {}) {
   for (const key of ['toolingSha', 'sourceBaselineSha', 'sourceCheckpointSha', 'targetBaselineSha']) {
     if (!SHA.test(value[key])) throw new Error(`Reconciliation plan ${key} must be a lowercase 40-character commit SHA`)
   }
-  if (value.sourceBaselineSha === value.sourceCheckpointSha) throw new Error('Reconciliation source baseline and checkpoint SHAs must differ')
+  if (value.sourceBaselineSha === value.sourceCheckpointSha && value.operations.length !== 0) throw new Error('Reconciliation source baseline and checkpoint SHAs must differ for non-empty plans')
   if (typeof value.policyId !== 'string' || !/^[a-z0-9][a-z0-9._-]*$/u.test(value.policyId)) throw new Error('Reconciliation plan policyId is invalid')
   if (!Array.isArray(value.operations)) throw new Error('Reconciliation plan operations must be an array')
   const operationIds = new Set()

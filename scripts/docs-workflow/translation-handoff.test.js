@@ -10,6 +10,7 @@ const test = require('node:test');
 
 const {buildFetchPublicationSelection} = require('./fetch-publication-selection');
 const {validatePublicationResults} = require('./publication-contracts');
+const {createReconciliationPlan} = require('../translation/reconciliation-plan');
 const {
   buildTranslationHandoff,
   buildTranslationHandoffFromFetchResults,
@@ -94,6 +95,26 @@ test('builds schema-v3 units with authenticated empty plans from exact dev publi
   assert.deepEqual(value.units.map(unit => unit.publicationOrder), [0, 1]);
 });
 
+test('uses supplied reconciliation plans instead of constructing empty plans', () => {
+  const plan = createReconciliationPlan({
+    schemaVersion: 1,
+    document: 'translation-reconciliation-plan',
+    target: 'ja-JP',
+    group: 'python',
+    toolingSha: SHA_C,
+    sourceBaselineSha: SHA_A,
+    sourceCheckpointSha: SHA_B,
+    targetBaselineSha: SHA_D,
+    policyId: 'test-policy',
+    operations: [],
+  });
+  const value = pythonHandoff({reconciliationPlans: {'ja-JP/python': plan}});
+  const unit = value.units.find(candidate => candidate.target === 'ja-JP' && candidate.group === 'python');
+  assert.equal(unit.reconciliationPlanSha256, plan.planSha256);
+  assert.equal(unit.reconciliationPolicyId, 'test-policy');
+  assert.equal(unit.reconciliationOperationCount, 0);
+});
+
 test('overrides only the target baseline with the reconciled Fetch SHA', () => {
   const {selection, results} = guidesFetchPublication();
   const handoff = buildTranslationHandoffFromFetchResults({
@@ -150,6 +171,41 @@ test('CLI accepts an exact reconciled target baseline for Fetch selection/result
   assert.ok(handoff.units.every(unit => unit.targetBaselineSha === SHA_F));
   assert.ok(handoff.units.every(unit => unit.sourceBaselineSha === SHA_A));
   assert.ok(handoff.units.every(unit => unit.sourceCheckpointSha === SHA_B));
+});
+
+test('CLI consumes canonical reconciliation plans from a dedicated directory', () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-handoff-plans-'));
+  const {selection, results} = guidesFetchPublication();
+  const selectionFile = path.join(directory, 'selection.json');
+  const resultsFile = path.join(directory, 'results.json');
+  const plansDir = path.join(directory, 'plans');
+  fs.mkdirSync(plansDir);
+  fs.writeFileSync(selectionFile, JSON.stringify(selection));
+  fs.writeFileSync(resultsFile, JSON.stringify(results));
+  const plan = createReconciliationPlan({
+    schemaVersion: 1,
+    document: 'translation-reconciliation-plan',
+    target: 'ja-JP',
+    group: 'guides',
+    toolingSha: 'e'.repeat(40),
+    sourceBaselineSha: SHA_A,
+    sourceCheckpointSha: SHA_B,
+    targetBaselineSha: SHA_F,
+    policyId: 'test-policy',
+    operations: [],
+  });
+  fs.writeFileSync(path.join(plansDir, 'translation-reconciliation-plan-ja-JP-guides.json'), `${JSON.stringify(plan, null, 2)}\n`);
+  const result = spawnSync(process.execPath, [
+    path.join(__dirname, 'translation-handoff.js'),
+    '--locale', 'all', '--group', 'guides',
+    '--fetch-selection', selectionFile, '--fetch-results', resultsFile,
+    '--target-baseline-sha', SHA_F,
+    '--reconciliation-plans-dir', plansDir,
+  ], {encoding: 'utf8'});
+  assert.equal(result.status, 0, result.stderr);
+  const handoff = JSON.parse(result.stdout);
+  assert.equal(handoff.units[0].reconciliationPlanSha256, plan.planSha256);
+  assert.equal(handoff.units[0].reconciliationPolicyId, 'test-policy');
 });
 
 test('rejects a malformed reconciled target baseline override', () => {
