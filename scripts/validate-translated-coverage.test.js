@@ -6,7 +6,7 @@ const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 
-const { validateTranslatedCoverage } = require('./validate-translated-coverage')
+const { analyzeTranslatedCoverage, validateTranslatedCoverage } = require('./validate-translated-coverage')
 
 function write(root, relativePath) {
   const file = path.join(root, relativePath)
@@ -79,4 +79,16 @@ test('reports pending documents inside a canonical reference group root', () => 
 
   const result = validateTranslatedCoverage({ group: 'java', cwd: root })
   assert.deepEqual(result.pendingTranslations, ['content/en/reference/api/java/java/v2/missing.md'])
+})
+
+test('uses the shared target mapping for Chinese Reference coverage', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translated-coverage-chinese-'))
+  write(root, 'content/en/reference/api/python/python/translated.md')
+  write(root, 'content/en/reference/api/python/python/pending.md')
+  write(root, 'content/zh-CN/reference/api/python/python/translated.md')
+  write(root, 'content/zh-CN/reference/api/python/python/orphan.md')
+
+  const result = analyzeTranslatedCoverage({group: 'python', target: 'zh-CN-reference', cwd: root})
+  assert.deepEqual(result.pendingTranslations, ['content/en/reference/api/python/python/pending.md'])
+  assert.deepEqual(result.orphanTranslations, ['content/zh-CN/reference/api/python/python/orphan.md'])
 })

@@ -54,14 +54,14 @@ git diff --check
 - Modify: `scripts/validate-translated-coverage.js`
 - Modify: relevant coverage tests
 
-- [ ] Extract target/group mapping and owned-path discovery from `sourceDelta.js` into reusable functions.
-- [ ] Collect source changes with `--no-renames` from immutable baseline/checkpoint SHAs.
-- [ ] Compare checkpoint source inventory, target baseline inventory, and target state to find current deletions and historical orphans.
-- [ ] Preserve current `preservedEnglish` behavior.
-- [ ] Emit replacement hints separately from authorized operations; do not use Git similarity as authority.
-- [ ] Require authoritative replacement metadata or later human approval for `replace_path`.
-- [ ] Produce identical canonical `delete_target` candidates for equivalent Japanese and Chinese mappings.
-- [ ] Keep `sourceDelta.js` as a compatibility adapter during migration.
+- [x] Extract target/group mapping and owned-path discovery from `sourceDelta.js` into reusable functions.
+- [x] Collect source changes with `--no-renames` from immutable baseline/checkpoint SHAs.
+- [x] Compare checkpoint source inventory, target baseline inventory, and target state to find current deletions and historical orphans.
+- [x] Preserve current `preservedEnglish` behavior.
+- [x] Emit replacement hints separately from authorized operations; do not use Git similarity as authority.
+- [x] Require authoritative replacement metadata or later human approval for `replace_path`.
+- [x] Produce identical canonical `delete_target` candidates for equivalent Japanese and Chinese mappings.
+- [x] Keep `sourceDelta.js` as a compatibility adapter during migration.
 
 Focused verification:
 
