@@ -306,10 +306,12 @@ git diff --check
 
 - Modify: `.github/workflows/recover-translation.yml`
 - Modify: recovery planning and artifact modules under `scripts/translation/`
+- Create: `scripts/translation/reconciliation-recovery.js`
+- Create: `scripts/translation/reconciliation-recovery.test.js`
 - Modify: recovery tests
 
 - [ ] Include plan/policy/approval identities in recovery metadata.
-- [ ] Classify operations as reusable, already applied, changed, rejected, or missing approval.
+- [x] Classify operations as reusable, already applied, changed, rejected, or missing approval.
 - [ ] Reuse paid files independently from changed reconciliation operations only after revalidation.
 - [ ] Require `publish=false` preflight before plan-based recovery publication.
 - [ ] Reject a changed target baseline unless ancestry and post-state checks establish compatibility.
