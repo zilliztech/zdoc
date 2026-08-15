@@ -77,9 +77,10 @@ function commit(repository, message, content) {
   return git(repository, ['rev-parse', 'HEAD']);
 }
 
-test('builds schema-v2 units from exact dev publication identities', () => {
+test('builds schema-v3 units with authenticated empty plans from exact dev publication identities', () => {
   const value = pythonHandoff();
-  assert.equal(value.schemaVersion, 2);
+  assert.equal(value.schemaVersion, 3);
+  assert.ok(value.units.every(unit => unit.reconciliationOperationCount === 0 && /^sha256:[a-f0-9]{64}$/u.test(unit.reconciliationPlanSha256)));
   assert.deepEqual(value.units.map(unit => ({
     target: unit.target,
     group: unit.group,
@@ -102,7 +103,7 @@ test('overrides only the target baseline with the reconciled Fetch SHA', () => {
     group: 'guides',
     targetBaselineSha: SHA_F,
   });
-  assert.equal(handoff.schemaVersion, 2);
+  assert.equal(handoff.schemaVersion, 3);
   assert.equal(handoff.toolingSha, selection.toolingSha);
   assert.equal(handoff.targetBranch, selection.targetBranch);
   assert.equal(handoff.targetBaselineSha, SHA_F);
@@ -144,7 +145,7 @@ test('CLI accepts an exact reconciled target baseline for Fetch selection/result
   ], {encoding: 'utf8'});
   assert.equal(result.status, 0, result.stderr);
   const handoff = JSON.parse(result.stdout);
-  assert.equal(handoff.schemaVersion, 2);
+  assert.equal(handoff.schemaVersion, 3);
   assert.equal(handoff.targetBaselineSha, SHA_F);
   assert.ok(handoff.units.every(unit => unit.targetBaselineSha === SHA_F));
   assert.ok(handoff.units.every(unit => unit.sourceBaselineSha === SHA_A));

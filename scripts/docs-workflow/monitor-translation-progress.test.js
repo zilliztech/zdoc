@@ -18,16 +18,22 @@ const {
 const sha = character => character.repeat(40)
 
 function handoff() {
+  const plan = (target, group) => ({
+    reconciliationPlanArtifact: `translation-reconciliation-plan-${target}-${group}`,
+    reconciliationPlanSha256: `sha256:${'1'.repeat(64)}`,
+    reconciliationPolicyId: 'translation-reconciliation-v1',
+    reconciliationOperationCount: 0,
+  })
   return {
-    schemaVersion: 2,
+    schemaVersion: 3,
     locale: 'all',
     group: 'python',
     toolingSha: sha('a'),
     targetBranch: 'dev',
     targetBaselineSha: sha('b'),
     units: [
-      {target: 'ja-JP', group: 'python', sourceGroup: 'python', sourceBaselineSha: sha('c'), sourceCheckpointSha: sha('d'), targetBaselineSha: sha('b'), publicationOrder: 0},
-      {target: 'zh-CN-reference', group: 'python', sourceGroup: 'python', sourceBaselineSha: sha('c'), sourceCheckpointSha: sha('d'), targetBaselineSha: sha('b'), publicationOrder: 1},
+      {target: 'ja-JP', group: 'python', sourceGroup: 'python', sourceBaselineSha: sha('c'), sourceCheckpointSha: sha('d'), targetBaselineSha: sha('b'), publicationOrder: 0, ...plan('ja-JP', 'python')},
+      {target: 'zh-CN-reference', group: 'python', sourceGroup: 'python', sourceBaselineSha: sha('c'), sourceCheckpointSha: sha('d'), targetBaselineSha: sha('b'), publicationOrder: 1, ...plan('zh-CN-reference', 'python')},
     ],
   }
 }
@@ -39,7 +45,7 @@ function recoverySubsetHandoff() {
     group: 'all',
     units: [
       {...handoff().units[0], publicationOrder: 0},
-      {target: 'ja-JP', group: 'java', sourceGroup: 'java', sourceBaselineSha: sha('e'), sourceCheckpointSha: sha('f'), targetBaselineSha: sha('b'), publicationOrder: 1},
+      {target: 'ja-JP', group: 'java', sourceGroup: 'java', sourceBaselineSha: sha('e'), sourceCheckpointSha: sha('f'), targetBaselineSha: sha('b'), publicationOrder: 1, ...handoff().units[0], target: 'ja-JP', group: 'java', sourceGroup: 'java', sourceBaselineSha: sha('e'), sourceCheckpointSha: sha('f'), publicationOrder: 1, reconciliationPlanArtifact: 'translation-reconciliation-plan-ja-JP-java'},
     ],
   }
 }
@@ -224,7 +230,7 @@ test('validates configuration, handoff, and reduced selected units', () => {
     APP_ID: 'app', APP_SECRET: 'secret', FEISHU_HOST: 'https://open.feishu.cn',
   }
   const config = readConfiguration(env)
-  assert.deepEqual(config.selectedUnits, [{target: 'ja-JP', group: 'python'}, {target: 'zh-CN-reference', group: 'python'}])
+  assert.deepEqual(config.selectedUnits, [{target: 'ja-JP', group: 'python', planStatus: 'authenticated_empty'}, {target: 'zh-CN-reference', group: 'python', planStatus: 'authenticated_empty'}])
   assert.equal(config.targetBranch, 'dev')
   assert.equal(config.parentUrl, 'https://github.com/zilliztech/zdoc/actions/runs/42')
   assert.equal(config.runAttempt, 4)
@@ -244,7 +250,7 @@ test('monitor accepts a recovery subset only after the authenticated prepare bou
     PUBLISH_ENABLED: 'false', PUBLICATION_RUN_ATTEMPT: '4', PUBLICATION_SELECTION_SHA256: 'f'.repeat(64),
     OPERATOR_RECOVERY: 'true', APP_ID: 'app', APP_SECRET: 'secret', FEISHU_HOST: 'https://open.feishu.cn',
   }
-  assert.deepEqual(readConfiguration(env).selectedUnits, [{target: 'ja-JP', group: 'python'}, {target: 'ja-JP', group: 'java'}])
+  assert.deepEqual(readConfiguration(env).selectedUnits, [{target: 'ja-JP', group: 'python', planStatus: 'authenticated_empty'}, {target: 'ja-JP', group: 'java', planStatus: 'authenticated_empty'}])
   assert.throws(() => readConfiguration({...env, OPERATOR_RECOVERY: 'false'}), /translation handoff.*canonical translation selection/i)
 })
 

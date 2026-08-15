@@ -248,12 +248,12 @@ git diff --check
 - Modify: related monitor tests
 - Modify: `.github/workflows/translate-codex.yml`
 
-- [ ] Add plan artifact, plan digest, and policy ID to every handoff unit.
-- [ ] Require an authenticated empty plan for units with no operations.
-- [ ] Verify plan source identities, target baseline, tooling SHA, target, and group.
-- [ ] Keep schema-v2 recovery reads behind an explicit compatibility path.
-- [ ] Reject mixed v2/v3 unit identities in one orchestration.
-- [ ] Surface plan status in progress state and cards.
+- [x] Add plan artifact, plan digest, and policy ID to every handoff unit.
+- [x] Require an authenticated empty plan for units with no operations.
+- [x] Verify plan source identities, target baseline, tooling SHA, target, and group.
+- [x] Keep schema-v2 recovery reads behind an explicit compatibility path.
+- [x] Reject mixed v2/v3 unit identities in one orchestration.
+- [x] Surface plan status in progress state and cards.
 
 Focused verification:
 

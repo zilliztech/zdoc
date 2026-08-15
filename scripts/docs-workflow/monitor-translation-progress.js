@@ -339,7 +339,11 @@ function readConfiguration(env = process.env) {
     cardId: required(env, 'CARD_ID'),
     startedAt,
     targetBranch: handoff.targetBranch,
-    selectedUnits: handoff.units.map(({target, group}) => ({target, group})),
+    selectedUnits: handoff.units.map(({target, group, reconciliationOperationCount}) => ({
+      target,
+      group,
+      planStatus: reconciliationOperationCount === 0 ? 'authenticated_empty' : 'approved_operations',
+    })),
     publishEnabled: publishText === 'true',
     publicationRunAttempt,
     publicationSelectionSha256,

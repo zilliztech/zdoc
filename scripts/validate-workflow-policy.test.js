@@ -58,7 +58,7 @@ test('Japanese publisher pending validation stays bound to publish-enabled Trans
     publish: true,
     runTranslations: true,
     handoff: {
-      schemaVersion: 2,
+      schemaVersion: 3,
       locale: 'ja-JP',
       group: 'python',
       toolingSha: sha,
@@ -72,6 +72,10 @@ test('Japanese publisher pending validation stays bound to publish-enabled Trans
         sourceCheckpointSha: sha,
         targetBaselineSha: sha,
         publicationOrder: 0,
+        reconciliationPlanArtifact: 'translation-reconciliation-plan-ja-JP-python',
+        reconciliationPlanSha256: `sha256:${'b'.repeat(64)}`,
+        reconciliationPolicyId: 'translation-reconciliation-v1',
+        reconciliationOperationCount: 0,
       }],
     },
   })

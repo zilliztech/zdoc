@@ -118,7 +118,7 @@ function validateSelectedUnits(selectedUnits) {
   const identities = new Set()
   return selectedUnits.map((unit, index) => {
     if (!unit || typeof unit !== 'object' || Array.isArray(unit)) throw new Error(`selectedUnits[${index}] must be an object`)
-    const {target, group} = unit
+    const {target, group, planStatus = 'unknown'} = unit
     if (!['ja-JP', 'zh-CN-reference'].includes(target)) throw new Error(`selectedUnits[${index}].target is invalid`)
     if (group !== 'guides' && !SDK_GROUPS.has(group)) throw new Error(`selectedUnits[${index}].group is invalid`)
     if (group === 'guides' && target !== 'ja-JP') throw new Error('Guides translation target must be ja-JP')
@@ -126,7 +126,8 @@ function validateSelectedUnits(selectedUnits) {
     if (identities.has(identity)) throw new Error(`duplicate selected translation unit: ${identity}`)
     if (!SUPPORTED_UNITS.has(identity)) throw new Error(`unsupported selected translation unit: ${identity}`)
     identities.add(identity)
-    return {target, group}
+    if (!['unknown', 'authenticated_empty', 'approved_operations'].includes(planStatus)) throw new Error(`selectedUnits[${index}].planStatus is invalid`)
+    return {target, group, planStatus}
   })
 }
 
@@ -203,15 +204,16 @@ function deriveUnit({unit, preparation, sdkJobs, batchJobs, byName, publishEnabl
   const label = unitLabel(unit)
   if (preparation.status !== 'completed') return {id: unitIdentity(unit), label, phase: 'prepare', status: preparation.status, currentTask: preparation.currentTask, detail: null}
   const translated = unit.group === 'guides' ? guideTranslationState(batchJobs) : sdkTranslationState(unit, sdkJobs)
-  if (translated.status !== 'completed') return {id: unitIdentity(unit), label, phase: 'translate', status: translated.status, currentTask: translated.currentTask, detail: translated.detail || null}
-  if (!publishEnabled) return {id: unitIdentity(unit), label, phase: 'translate', status: 'completed', currentTask: 'Workflow completed', detail: null}
+  const planDetail = unit.planStatus === 'approved_operations' ? 'Reconciliation approved' : unit.planStatus === 'authenticated_empty' ? 'No reconciliation operations' : null
+  if (translated.status !== 'completed') return {id: unitIdentity(unit), label, phase: 'translate', status: translated.status, currentTask: translated.currentTask, detail: translated.detail || planDetail}
+  if (!publishEnabled) return {id: unitIdentity(unit), label, phase: 'translate', status: 'completed', currentTask: 'Workflow completed', detail: planDetail}
   const published = publicationEntryState(
     unit,
     resultsByUnit.get(publicationUnitKey(unit)) || progressByUnit.get(publicationUnitKey(unit)),
     publicationQueue,
     byName.get('publish_ready'),
   )
-  return {id: unitIdentity(unit), label, phase: 'publish', status: published.status, currentTask: published.currentTask, detail: null}
+  return {id: unitIdentity(unit), label, phase: 'publish', status: published.status, currentTask: published.currentTask, detail: planDetail}
 }
 
 function targetKey(unit) {

@@ -7,6 +7,7 @@ const {spawnSync} = require('node:child_process');
 const {isDeepStrictEqual} = require('node:util');
 
 const {buildTranslationSelection} = require('../translation/selection');
+const {createReconciliationPlan, validateReconciliationPlan} = require('../translation/reconciliation-plan');
 const {sourcePublicationsFromFetchResults} = require('./fetch-publication-results');
 const {readPublicationDocument} = require('./publication-contracts');
 
@@ -16,7 +17,9 @@ const HANDOFF_KEYS = ['schemaVersion', 'locale', 'group', 'toolingSha', 'targetB
 const UNIT_KEYS = [
   'target', 'group', 'sourceGroup', 'sourceBaselineSha',
   'sourceCheckpointSha', 'targetBaselineSha', 'publicationOrder',
+  'reconciliationPlanArtifact', 'reconciliationPlanSha256', 'reconciliationPolicyId', 'reconciliationOperationCount',
 ];
+const UNIT_V2_KEYS = UNIT_KEYS.slice(0, 7);
 const PUBLICATION_KEYS = ['sourceBaselineSha', 'sourceCheckpointSha'];
 
 function isObject(value) {
@@ -44,7 +47,26 @@ function assertTargetBranch(value) {
   }
 }
 
-function unitFromSelection(selected, publication, targetBaselineSha) {
+function emptyPlan(selected, publication, targetBaselineSha, toolingSha, policyId) {
+  return createReconciliationPlan({
+    schemaVersion: 1,
+    document: 'translation-reconciliation-plan',
+    target: selected.target,
+    group: selected.group,
+    toolingSha,
+    sourceBaselineSha: publication.sourceBaselineSha,
+    sourceCheckpointSha: publication.sourceCheckpointSha,
+    targetBaselineSha,
+    policyId,
+    operations: [],
+  });
+}
+
+function unitFromSelection(selected, publication, targetBaselineSha, toolingSha, providedPlan) {
+  const plan = providedPlan ? validateReconciliationPlan(providedPlan) : emptyPlan(selected, publication, targetBaselineSha, toolingSha, 'translation-reconciliation-v1');
+  if (plan.target !== selected.target || plan.group !== selected.group || plan.toolingSha !== toolingSha ||
+    plan.sourceBaselineSha !== publication.sourceBaselineSha || plan.sourceCheckpointSha !== publication.sourceCheckpointSha ||
+    plan.targetBaselineSha !== targetBaselineSha) throw new Error(`reconciliation plan identity mismatch for ${selected.target}/${selected.group}`);
   return {
     target: selected.target,
     group: selected.group,
@@ -53,6 +75,10 @@ function unitFromSelection(selected, publication, targetBaselineSha) {
     sourceCheckpointSha: publication.sourceCheckpointSha,
     targetBaselineSha,
     publicationOrder: selected.publicationOrder,
+    reconciliationPlanArtifact: `translation-reconciliation-plan-${selected.target}-${selected.group}`,
+    reconciliationPlanSha256: plan.planSha256,
+    reconciliationPolicyId: plan.policyId,
+    reconciliationOperationCount: plan.operations.length,
   };
 }
 
@@ -60,9 +86,10 @@ function selectedSourceGroups(selection) {
   return [...new Set(selection.map(unit => unit.sourceGroup))];
 }
 
-function validateTranslationHandoffContract(value, {allowCanonicalSubset}) {
+function validateTranslationHandoffContract(value, {allowCanonicalSubset, allowLegacyV2 = false}) {
   assertExactKeys(value, HANDOFF_KEYS, 'translation handoff');
-  if (value.schemaVersion !== 2) throw new Error('translation handoff schemaVersion must be 2');
+  if (value.schemaVersion !== 3 && !(allowLegacyV2 && value.schemaVersion === 2)) throw new Error('translation handoff schemaVersion must be 3');
+  const legacy = value.schemaVersion === 2;
   assertCommitSha(value.toolingSha, 'tooling SHA');
   assertTargetBranch(value.targetBranch);
   assertCommitSha(value.targetBaselineSha, 'target baseline SHA');
@@ -76,7 +103,7 @@ function validateTranslationHandoffContract(value, {allowCanonicalSubset}) {
   const identitiesByGroup = new Map();
   const identities = new Set();
   for (const [index, unit] of value.units.entries()) {
-    assertExactKeys(unit, UNIT_KEYS, `translation handoff unit ${index}`);
+    assertExactKeys(unit, legacy ? UNIT_V2_KEYS : UNIT_KEYS, `translation handoff unit ${index}`);
     assertCommitSha(unit.sourceBaselineSha, `source baseline SHA for ${unit.sourceGroup}`);
     assertCommitSha(unit.sourceCheckpointSha, `source checkpoint SHA for ${unit.sourceGroup}`);
     assertCommitSha(unit.targetBaselineSha, `unit target baseline SHA for ${unit.sourceGroup}`);
@@ -85,6 +112,12 @@ function validateTranslationHandoffContract(value, {allowCanonicalSubset}) {
     }
     if (!Number.isSafeInteger(unit.publicationOrder) || unit.publicationOrder < 0) {
       throw new Error(`publication order for translation handoff unit ${index} must be a non-negative integer`);
+    }
+    if (!legacy) {
+      if (typeof unit.reconciliationPlanArtifact !== 'string' || !/^translation-reconciliation-plan-[A-Za-z0-9._-]+-[A-Za-z0-9._-]+$/u.test(unit.reconciliationPlanArtifact)) throw new Error('reconciliation plan artifact is invalid');
+      if (typeof unit.reconciliationPlanSha256 !== 'string' || !/^sha256:[a-f0-9]{64}$/u.test(unit.reconciliationPlanSha256)) throw new Error('reconciliation plan digest is invalid');
+      if (typeof unit.reconciliationPolicyId !== 'string' || !/^[a-z0-9][a-z0-9._-]*$/u.test(unit.reconciliationPolicyId)) throw new Error('reconciliation policy ID is invalid');
+      if (!Number.isSafeInteger(unit.reconciliationOperationCount) || unit.reconciliationOperationCount < 0) throw new Error('reconciliation operation count is invalid');
     }
     const identity = `${unit.target}\0${unit.group}`;
     if (identities.has(identity)) throw new Error(`duplicate translation unit: ${unit.target}/${unit.group}`);
@@ -128,10 +161,10 @@ function validateTranslationHandoff(value) {
 }
 
 function validateTranslationRecoveryHandoff(value) {
-  return validateTranslationHandoffContract(value, {allowCanonicalSubset: true});
+  return validateTranslationHandoffContract(value, {allowCanonicalSubset: true, allowLegacyV2: true});
 }
 
-function buildTranslationHandoff({locale, group, toolingSha, targetBranch, targetBaselineSha, sourcePublications}) {
+function buildTranslationHandoff({locale, group, toolingSha, targetBranch, targetBaselineSha, sourcePublications, reconciliationPlans = {}}) {
   assertCommitSha(toolingSha, 'tooling SHA');
   assertTargetBranch(targetBranch);
   assertCommitSha(targetBaselineSha, 'target baseline SHA');
@@ -161,13 +194,13 @@ function buildTranslationHandoff({locale, group, toolingSha, targetBranch, targe
   }
 
   return validateTranslationHandoff({
-    schemaVersion: 2,
+    schemaVersion: 3,
     locale,
     group,
     toolingSha,
     targetBranch,
     targetBaselineSha,
-    units: selection.map(selected => unitFromSelection(selected, sourcePublications[selected.sourceGroup], targetBaselineSha)),
+    units: selection.map(selected => unitFromSelection(selected, sourcePublications[selected.sourceGroup], targetBaselineSha, toolingSha, reconciliationPlans[`${selected.target}/${selected.group}`])),
   });
 }
 
