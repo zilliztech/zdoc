@@ -5,5 +5,5 @@
     "allowImportingTsExtensions": true,
     "baseUrl": "."
   },
-  "exclude": [".docusaurus", "build"]
+  "exclude": [".docusaurus", "build", "tmp"]
 }
