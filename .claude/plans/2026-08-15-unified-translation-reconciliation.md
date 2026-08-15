@@ -312,11 +312,11 @@ git diff --check
 
 - [x] Include plan/policy/approval identities in recovery metadata.
 - [x] Classify operations as reusable, already applied, changed, rejected, or missing approval.
-- [ ] Reuse paid files independently from changed reconciliation operations only after revalidation.
-- [ ] Require `publish=false` preflight before plan-based recovery publication.
-- [ ] Reject a changed target baseline unless ancestry and post-state checks establish compatibility.
-- [ ] Preserve the `allow_full_retranslate` authorization boundary.
-- [ ] Stop on `REMOTE_STATE_UNKNOWN` without replay.
+- [x] Reuse paid files independently from changed reconciliation operations only after revalidation.
+- [x] Require `publish=false` preflight before plan-based recovery publication.
+- [x] Reject a changed target baseline unless ancestry and post-state checks establish compatibility.
+- [x] Preserve the `allow_full_retranslate` authorization boundary.
+- [x] Stop on `REMOTE_STATE_UNKNOWN` without replay.
 
 Focused verification:
 
@@ -339,11 +339,11 @@ git diff --check
 - Modify producer checkpoint artifact tooling
 - Modify reconciliation policy tests
 
-- [ ] Bind complete OpenAPI input inventory, generator fingerprint, exclusions, and output inventory to a receipt.
-- [ ] Require all selected specs and fragments to validate before marking generation complete.
-- [ ] Prove a deleted path existed at the baseline and is absent from the complete checkpoint output.
-- [ ] Reject partial spec selection, missing fragments, or changed ownership metadata.
-- [ ] Add deletion count/percentage/root-disappearance thresholds.
+- [x] Bind complete OpenAPI input inventory, generator fingerprint, exclusions, and output inventory to a receipt.
+- [x] Require all selected specs and fragments to validate before marking generation complete.
+- [x] Prove a deleted path existed at the baseline and is absent from the complete checkpoint output.
+- [x] Reject partial spec selection, missing fragments, or changed ownership metadata.
+- [x] Add deletion count/percentage/root-disappearance thresholds.
 - [ ] Enable automatic `zh-CN-reference/rest` `source_deleted` approval only after receipt validation.
 
 Focused verification:
@@ -363,13 +363,13 @@ git diff --check
 - Modify workflow policy tests
 - Update `README.md`
 
-- [ ] Generate a deterministic branch and PR body from a review artifact.
-- [ ] Add durable policy exceptions only for decisions intended to remain standing.
-- [ ] Never write master-authoritative policy directly to `dev`.
+- [x] Generate a deterministic branch and PR body from a review artifact.
+- [x] Add durable policy exceptions only for decisions intended to remain standing.
+- [x] Never write master-authoritative policy directly to `dev`.
 - [ ] Deduplicate PRs by plan SHA and policy ID.
-- [ ] Link source run, target baseline, candidate paths, evidence, and expected mutation.
-- [ ] Trigger normal tooling sync after merge; do not directly promote policy files.
-- [ ] Document operator approval and rejection procedures in `README.md`.
+- [x] Link source run, target baseline, candidate paths, evidence, and expected mutation.
+- [x] Trigger normal tooling sync after merge; do not directly promote policy files.
+- [x] Document operator approval and rejection procedures in `README.md`.
 
 Focused verification:
 

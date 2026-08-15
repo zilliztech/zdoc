@@ -12,6 +12,8 @@ const {
   validateApprovalReceipt,
   validateReconciliationPolicy,
 } = require('./reconciliation-policy')
+const {createRestCompletenessReceipt} = require('../../packages/docs-tooling/src/reference/rest/restCompletenessReceipt')
+const {sha256Digest} = require('../../packages/docs-tooling/src/reference/rest/fragmentCollection')
 
 const IDENTITIES = Object.freeze({
   toolingSha: '1'.repeat(40),
@@ -50,6 +52,41 @@ function evaluate(overrides = {}) {
     candidates: [candidate()],
     activeSourceCount: 100,
     ...overrides,
+  })
+}
+
+function restReceipt({sourcePath}) {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'reconciliation-rest-receipt-'))
+  const fragment = {
+    openapi: '3.0.3',
+    info: {title: 'REST', version: 'v2'},
+    'x-zdoc-fragment': {schemaVersion: '1.0', apiSurface: 'control-plane', service: 'projects'},
+    tags: [{name: 'projects'}],
+    paths: {'/v2/projects': {get: {operationId: 'listProjects', tags: ['projects'], responses: {200: {$ref: '#/components/responses/Shared'}}}}},
+    components: {responses: {Shared: {description: 'shared'}}},
+  }
+  const fragmentName = 'projects.openapi.json'
+  const fragmentBytes = Buffer.from(`${JSON.stringify(fragment, null, 2)}\n`)
+  fs.writeFileSync(path.join(root, fragmentName), fragmentBytes)
+  const manifest = {
+    schemaVersion: '1.0', collectionId: 'control-plane-policy', apiSurface: 'control-plane',
+    source: {repository: 'zilliz-cloud', revision: 'a'.repeat(40)},
+    generator: {repository: 'feishu-markdown-bridge', revision: 'b'.repeat(40), configDigest: `sha256:${'1'.repeat(64)}`},
+    review: {manifestDigest: `sha256:${'1'.repeat(64)}`, approvalDigest: `sha256:${'2'.repeat(64)}`},
+    services: [{id: 'projects', fragment: fragmentName, sha256: sha256Digest(fragmentBytes), operationCount: 1}],
+  }
+  fs.writeFileSync(path.join(root, 'collection-manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`)
+  const outputPath = 'content/en/reference/api/restful/restful/v2/projects.mdx'
+  const outputRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'reconciliation-rest-output-'))
+  const outputBytes = Buffer.from('# Projects\n')
+  const outputFile = path.join(outputRoot, ...outputPath.split('/'))
+  fs.mkdirSync(path.dirname(outputFile), {recursive: true})
+  fs.writeFileSync(outputFile, outputBytes)
+  return createRestCompletenessReceipt({
+    collectionDirectory: root,
+    sourceBaselineSha: IDENTITIES.sourceBaselineSha,
+    sourceCheckpointSha: IDENTITIES.sourceCheckpointSha,
+    outputInventory: [{path: outputPath, sha256: sha256Digest(outputBytes)}],
   })
 }
 
@@ -164,6 +201,39 @@ test('required completeness evidence fails closed even under an automatic rule',
     evidence: {...restCandidate.evidence, generatorCompletenessReceipt: `sha256:${'8'.repeat(64)}`},
   }]})
   assert.equal(complete.status, 'approved')
+})
+
+test('validates REST completeness receipts before automatic Chinese REST deletion', () => {
+  const policy = structuredClone(loadReconciliationPolicy())
+  policy.targets['zh-CN-reference'].rest.mode = 'automatic'
+  policy.targets['zh-CN-reference'].rest.automaticKinds = ['delete_target']
+  const restCandidate = candidate({
+    sourcePath: 'content/en/reference/api/restful/restful/v2/old.md',
+    targetPath: 'content/zh-CN/reference/api/restful/restful/v2/old.md',
+  })
+  const receipt = restReceipt({sourcePath: restCandidate.sourcePath})
+  const approved = evaluate({
+    policy,
+    group: 'rest',
+    candidates: [{
+      ...restCandidate,
+      evidence: {...restCandidate.evidence, generatorCompletenessReceipt: receipt.receiptSha256},
+    }],
+    completenessReceipts: [receipt],
+  })
+  assert.equal(approved.status, 'approved')
+
+  const malformed = evaluate({
+    policy,
+    group: 'rest',
+    candidates: [{
+      ...restCandidate,
+      evidence: {...restCandidate.evidence, generatorCompletenessReceipt: receipt.receiptSha256},
+    }],
+    completenessReceipts: [{...receipt, receiptSha256: receipt.receiptSha256, generator: {...receipt.generator, revision: 'c'.repeat(40)}}],
+  })
+  assert.equal(malformed.status, 'review_required')
+  assert.equal(malformed.decisions[0].reason, 'completeness_evidence_invalid')
 })
 
 test('approval receipts bind every plan identity, rationale, reviewer, and expiry', () => {

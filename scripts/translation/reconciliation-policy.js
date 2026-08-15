@@ -7,6 +7,10 @@ const {
   createReconciliationPlan,
 } = require('./reconciliation-plan')
 const {TARGET_GROUPS, normalizeRelativePath} = require('./reconciliation-discovery')
+const {
+  validateRestCompletenessReceipt,
+  validateRestDeletionEvidence,
+} = require('../../packages/docs-tooling/src/reference/rest/restCompletenessReceipt')
 
 const SHA = /^[0-9a-f]{40}$/u
 const DIGEST = /^sha256:[0-9a-f]{64}$/u
@@ -184,6 +188,7 @@ function evaluateReconciliationPolicy(options) {
   if (!Array.isArray(options.candidates)) throw new Error('Reconciliation policy candidates must be an array')
   if (!Number.isSafeInteger(options.activeSourceCount) || options.activeSourceCount < 0) throw new Error('Reconciliation policy activeSourceCount must be a non-negative integer')
   const retirements = options.retirementRegistry?.retirements || []
+  const completenessReceipts = options.completenessReceipts || null
   const rule = policy.targets[target][group]
   const operationCount = options.candidates.length
   const percentage = options.activeSourceCount === 0 ? (operationCount === 0 ? 0 : 100) : operationCount * 100 / options.activeSourceCount
@@ -211,9 +216,33 @@ function evaluateReconciliationPolicy(options) {
     } else if (thresholdExceeded) {
       authorization = {status: 'review_required', method: 'none', ruleId: null, receiptSha256: null}
       decisionReason = 'blast_radius_exceeded'
-    } else if (rule.requiresCompletenessEvidence && !candidate.evidence.generatorCompletenessReceipt) {
-      authorization = {status: 'review_required', method: 'none', ruleId: null, receiptSha256: null}
-      decisionReason = 'completeness_evidence_required'
+    } else if (rule.requiresCompletenessEvidence) {
+      const digest = candidate.evidence.generatorCompletenessReceipt
+      if (!digest) {
+        authorization = {status: 'review_required', method: 'none', ruleId: null, receiptSha256: null}
+        decisionReason = 'completeness_evidence_required'
+      } else if (completenessReceipts) {
+        const receipt = Array.isArray(completenessReceipts)
+          ? completenessReceipts.find(item => item?.receiptSha256 === digest)
+          : completenessReceipts[digest]
+        try {
+          const validated = validateRestCompletenessReceipt(receipt)
+          validateRestDeletionEvidence({
+            receipt: validated,
+            sourcePath: candidate.sourcePath,
+            sourceExistedAtBaseline: candidate.evidence.sourceExistedAtBaseline,
+            sourceMissingAtCheckpoint: candidate.evidence.sourceMissingAtCheckpoint,
+          })
+          authorization = {status: 'approved', method: 'automatic', ruleId: `${policy.policyId}:${target}:${group}`, receiptSha256: null}
+          decisionReason = 'automatic_policy'
+        } catch {
+          authorization = {status: 'review_required', method: 'none', ruleId: null, receiptSha256: null}
+          decisionReason = 'completeness_evidence_invalid'
+        }
+      } else {
+        authorization = {status: 'approved', method: 'automatic', ruleId: `${policy.policyId}:${target}:${group}`, receiptSha256: null}
+        decisionReason = 'automatic_policy'
+      }
     } else {
       authorization = {status: 'approved', method: 'automatic', ruleId: `${policy.policyId}:${target}:${group}`, receiptSha256: null}
       decisionReason = 'automatic_policy'
