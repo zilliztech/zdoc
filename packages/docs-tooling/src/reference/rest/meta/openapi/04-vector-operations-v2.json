@@ -1484,7 +1484,12 @@
                     "description": "Expression template parameter values for parameterized filter expressions.",
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null
+                    "x-deprecated-since": null,
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "参数化过滤表达式中使用的表达式模板参数值。"
+                      }
+                    }
                   },
                   "consistencyLevel": {
                     "type": "string",
@@ -1497,6 +1502,40 @@
                     ],
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
+                    "x-deprecated-since": null,
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "一致性级别。可选值为 **Strong**、**Session**、**Bounded** 和 **Eventually**。"
+                      }
+                    }
+                  },
+                  "orderByFields": {
+                    "type": "array",
+                    "description": "The scalar fields used to sort query results. Each item can be a field name, `fieldName:asc`, or `fieldName:desc`. The default sort direction is ascending.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "用于对查询结果排序的标量字段列表。每个元素可以是字段名称、`fieldName:asc` 或 `fieldName:desc`。默认按升序排列。"
+                      }
+                    },
+                    "items": {
+                      "type": "string",
+                      "description": "A scalar field and optional sort direction.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "标量字段及可选的排序方向。"
+                        }
+                      },
+                      "example": "word_count:desc",
+                      "x-added-at": "3.0.x",
+                      "x-last-modified": "3.0.x",
+                      "x-deprecated-since": null
+                    },
+                    "example": [
+                      "word_count:desc",
+                      "book_id:asc"
+                    ],
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
                     "x-deprecated-since": null
                   }
                 },
@@ -1504,7 +1543,7 @@
                   "collectionName"
                 ],
                 "x-added-at": "2.6.x",
-                "x-last-modified": "2.6.x",
+                "x-last-modified": "3.0.x",
                 "x-deprecated-since": null
               },
               "example": {
@@ -1513,12 +1552,15 @@
                 "outputFields": [
                   "color"
                 ],
-                "limit": 3
+                "limit": 3,
+                "orderByFields": [
+                  "color:asc"
+                ]
               }
             }
           },
           "x-added-at": "2.6.x",
-          "x-last-modified": "2.6.x",
+          "x-last-modified": "3.0.x",
           "x-deprecated-since": null
         },
         "responses": {
@@ -1715,7 +1757,7 @@
         },
         "security": [],
         "x-added-at": "2.6.x",
-        "x-last-modified": "2.6.x",
+        "x-last-modified": "3.0.x",
         "x-deprecated-since": null
       }
     },
@@ -2237,6 +2279,36 @@
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
                     "x-deprecated-since": null
+                  },
+                  "functionChains": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/FunctionChainRequest",
+                      "x-added-at": "3.0.x",
+                      "x-last-modified": "3.0.x",
+                      "x-deprecated-since": null
+                    },
+                    "description": "Function chains applied during search reranking.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "搜索重排期间应用的 Function Chain 列表。"
+                      }
+                    },
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
+                    "x-deprecated-since": null
+                  },
+                  "searchAggregation": {
+                    "$ref": "#/components/schemas/SearchAggregationRequest",
+                    "description": "Aggregation settings for the search results. This parameter cannot be combined with `ids`, `offset`, or grouping parameters.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "搜索结果的聚合设置。此参数不能与 `ids`、`offset` 或分组参数同时使用。"
+                      }
+                    },
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
+                    "x-deprecated-since": null
                   }
                 },
                 "required": [
@@ -2244,7 +2316,7 @@
                   "data"
                 ],
                 "x-added-at": "2.6.x",
-                "x-last-modified": "2.6.x",
+                "x-last-modified": "3.0.x",
                 "x-deprecated-since": null
               },
               "example": {
@@ -2262,12 +2334,52 @@
                 "limit": 3,
                 "outputFields": [
                   "color"
-                ]
+                ],
+                "functionChains": [
+                  {
+                    "name": "l2",
+                    "stage": "FunctionChainStageL2Rerank",
+                    "ops": [
+                      {
+                        "op": "map",
+                        "outputs": [
+                          "new_score"
+                        ],
+                        "expr": {
+                          "name": "num_combine",
+                          "args": [
+                            {
+                              "column": "$score"
+                            },
+                            {
+                              "literal": 2.5
+                            }
+                          ],
+                          "params": {
+                            "mode": "weighted"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "searchAggregation": {
+                  "fields": [
+                    "color"
+                  ],
+                  "size": 10,
+                  "order": [
+                    {
+                      "key": "_count",
+                      "direction": "desc"
+                    }
+                  ]
+                }
               }
             }
           },
           "x-added-at": "2.6.x",
-          "x-last-modified": "2.6.x",
+          "x-last-modified": "3.0.x",
           "x-deprecated-since": null
         },
         "responses": {
@@ -2502,7 +2614,7 @@
         },
         "security": [],
         "x-added-at": "2.6.x",
-        "x-last-modified": "2.6.x",
+        "x-last-modified": "3.0.x",
         "x-deprecated-since": null
       }
     },
@@ -2786,14 +2898,24 @@
                           },
                           "x-added-at": "2.6.x",
                           "x-last-modified": "2.6.x",
-                          "x-deprecated-since": null
+                          "x-deprecated-since": null,
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "额外的搜索参数。"
+                            }
+                          }
                         },
                         "exprParams": {
                           "type": "object",
                           "description": "Expression template parameter values for parameterized filter expressions.",
                           "x-added-at": "2.6.x",
                           "x-last-modified": "2.6.x",
-                          "x-deprecated-since": null
+                          "x-deprecated-since": null,
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "参数化过滤表达式中使用的表达式模板参数值。"
+                            }
+                          }
                         }
                       },
                       "required": [
@@ -3080,14 +3202,24 @@
                     "description": "Number of records to skip in the search results.",
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null
+                    "x-deprecated-since": null,
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "搜索结果中需要跳过的记录数。"
+                      }
+                    }
                   },
                   "groupingField": {
                     "type": "string",
                     "description": "Name of the field to group search results by.",
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null
+                    "x-deprecated-since": null,
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "用于对搜索结果进行分组的字段名称。"
+                      }
+                    }
                   }
                 },
                 "required": [
@@ -3881,6 +4013,580 @@
           "shell": "export PROJECT_ENDPOINT=\"https://{project-id}.{region}.api.zillizcloud.com\""
         }
       ]
+    },
+    "schemas": {
+      "FunctionChainExprArgRequest": {
+        "type": "object",
+        "properties": {
+          "column": {
+            "type": "string",
+            "description": "A column name. Exactly one of `column` and `literal` must be specified.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "列名称。`column` 与 `literal` 必须且只能指定一个。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "literal": {
+            "description": "A literal value. Exactly one of `column` and `literal` must be specified.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "字面量值。`column` 与 `literal` 必须且只能指定一个。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "description": "An expression argument supplied as either a column or a literal.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "表达式参数，可以是列或字面量。"
+          }
+        },
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "FunctionChainExprRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The expression function name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "表达式函数名称。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "args": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FunctionChainExprArgRequest",
+              "x-added-at": "3.0.x",
+              "x-last-modified": "3.0.x",
+              "x-deprecated-since": null
+            },
+            "description": "The ordered expression arguments.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "有序的表达式参数列表。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Expression parameters in key-value pairs.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "表达式参数，以键值对形式提供。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "description": "An expression evaluated by a function-chain operation.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "Function Chain 操作执行的表达式。"
+          }
+        },
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "FunctionChainOpRequest": {
+        "type": "object",
+        "properties": {
+          "op": {
+            "type": "string",
+            "description": "The operation name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "操作名称。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "expr": {
+            "$ref": "#/components/schemas/FunctionChainExprRequest",
+            "description": "The optional expression evaluated by this operation.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "此操作执行的可选表达式。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "An input column name.",
+              "x-i18n": {
+                "zh-CN": {
+                  "description": "输入列名称。"
+                }
+              },
+              "x-added-at": "3.0.x",
+              "x-last-modified": "3.0.x",
+              "x-deprecated-since": null
+            },
+            "description": "Input column names.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "输入列名称列表。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "outputs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "An output column name.",
+              "x-i18n": {
+                "zh-CN": {
+                  "description": "输出列名称。"
+                }
+              },
+              "x-added-at": "3.0.x",
+              "x-last-modified": "3.0.x",
+              "x-deprecated-since": null
+            },
+            "description": "Output column names.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "输出列名称列表。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Operation parameters in key-value pairs.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "操作参数，以键值对形式提供。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "required": [
+          "op"
+        ],
+        "description": "An operation in a function chain.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "Function Chain 中的一个操作。"
+          }
+        },
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "FunctionChainRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The function-chain name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Function Chain 名称。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "stage": {
+            "type": "string",
+            "enum": [
+              "FunctionChainStageL2Rerank"
+            ],
+            "description": "The execution stage of the function chain.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Function Chain 的执行阶段。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "ops": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FunctionChainOpRequest",
+              "x-added-at": "3.0.x",
+              "x-last-modified": "3.0.x",
+              "x-deprecated-since": null
+            },
+            "description": "The ordered operations in the function chain.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Function Chain 中的有序操作列表。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "required": [
+          "stage",
+          "ops"
+        ],
+        "description": "A function chain applied during search reranking.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "搜索重排期间应用的 Function Chain。"
+          }
+        },
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "MetricAggregationRequest": {
+        "type": "object",
+        "properties": {
+          "op": {
+            "type": "string",
+            "description": "The metric aggregation operation.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "指标聚合操作。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "fieldName": {
+            "type": "string",
+            "description": "The scalar field used by the metric.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "指标使用的标量字段。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "required": [
+          "op",
+          "fieldName"
+        ],
+        "description": "A named metric aggregation definition.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "命名指标聚合定义。"
+          }
+        },
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "AggregationOrderRequest": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "The bucket count or metric key used for ordering.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "用于排序的 Bucket 数量或指标键。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "description": "The sort direction.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "排序方向。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "required": [
+          "key",
+          "direction"
+        ],
+        "description": "An ordering rule for aggregation buckets.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "Aggregation Bucket 的排序规则。"
+          }
+        },
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "AggregationSortRequest": {
+        "type": "object",
+        "properties": {
+          "fieldName": {
+            "type": "string",
+            "description": "The field used to sort top hits.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "用于对 Top Hits 排序的字段。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "description": "The sort direction.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "排序方向。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "required": [
+          "fieldName",
+          "direction"
+        ],
+        "description": "A sort rule for top hits.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "Top Hits 的排序规则。"
+          }
+        },
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "TopHitsRequest": {
+        "type": "object",
+        "properties": {
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The number of top hits returned for each bucket.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "每个 Bucket 返回的 Top Hits 数量。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "sort": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AggregationSortRequest",
+              "x-added-at": "3.0.x",
+              "x-last-modified": "3.0.x",
+              "x-deprecated-since": null
+            },
+            "description": "Sort rules for top hits.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Top Hits 的排序规则列表。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "required": [
+          "size"
+        ],
+        "description": "Top-hit settings for each aggregation bucket.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "每个 Aggregation Bucket 的 Top Hits 设置。"
+          }
+        },
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "SearchAggregationRequest": {
+        "type": "object",
+        "properties": {
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "A scalar field used to form aggregation buckets.",
+              "x-i18n": {
+                "zh-CN": {
+                  "description": "用于形成 Aggregation Bucket 的标量字段。"
+                }
+              },
+              "x-added-at": "3.0.x",
+              "x-last-modified": "3.0.x",
+              "x-deprecated-since": null
+            },
+            "description": "The non-empty scalar fields used to form aggregation buckets.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "用于形成 Aggregation Bucket 的非空标量字段列表。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The number of aggregation buckets to return.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "需要返回的 Aggregation Bucket 数量。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "searchSize": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The number of buckets considered during search. When specified, it must be greater than or equal to `size`.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "搜索期间参与计算的 Bucket 数量。指定时必须大于或等于 `size`。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "metrics": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/MetricAggregationRequest",
+              "x-added-at": "3.0.x",
+              "x-last-modified": "3.0.x",
+              "x-deprecated-since": null
+            },
+            "description": "Named metric aggregations keyed by result name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "按结果名称索引的命名指标聚合。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "order": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AggregationOrderRequest",
+              "x-added-at": "3.0.x",
+              "x-last-modified": "3.0.x",
+              "x-deprecated-since": null
+            },
+            "description": "Ordering rules for aggregation buckets.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Aggregation Bucket 的排序规则列表。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "topHits": {
+            "$ref": "#/components/schemas/TopHitsRequest",
+            "description": "Top-hit settings for each aggregation bucket.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "每个 Aggregation Bucket 的 Top Hits 设置。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "subAggregation": {
+            "$ref": "#/components/schemas/SearchAggregationRequest",
+            "description": "A nested aggregation applied within each bucket.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "在每个 Bucket 内执行的嵌套聚合。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "required": [
+          "fields",
+          "size"
+        ],
+        "description": "Aggregation settings for a search request.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "搜索请求的聚合设置。"
+          }
+        },
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
     }
   },
   "servers": []

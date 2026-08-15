@@ -1,0 +1,662 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "File Resource Operations (V2)",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "x-zdoc-fragment": {
+    "schemaVersion": "1.0",
+    "apiSurface": "data-plane",
+    "service": "file-resources-v2"
+  },
+  "tags": [
+    {
+      "name": "File Resource Operations (V2)",
+      "x-i18n": {
+        "zh-CN": {
+          "name": "文件资源 (V2)"
+        }
+      },
+      "x-include-target": [
+        "milvus"
+      ]
+    }
+  ],
+  "servers": [],
+  "paths": {
+    "/v2/vectordb/file_resources/add": {
+      "post": {
+        "operationId": "addFileResource",
+        "summary": "Add File Resource",
+        "deprecated": false,
+        "description": "Adds a file resource that can be referenced by Milvus features such as analyzers.",
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "添加文件资源",
+            "description": "添加可供 Analyzer 等 Milvus 功能引用的文件资源。"
+          }
+        },
+        "tags": [
+          "File Resource Operations (V2)"
+        ],
+        "x-base-urls": {
+          "$ref": "#/components/x-base-urls/ZillizVectorV2"
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string",
+              "x-added-at": "3.0.x",
+              "x-last-modified": "3.0.x",
+              "x-deprecated-since": null
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The unique name of the file resource.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "文件资源的唯一名称。"
+                      }
+                    },
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
+                    "x-deprecated-since": null
+                  },
+                  "path": {
+                    "type": "string",
+                    "description": "The object path of the file in the bucket used by Milvus persistent storage. Include the `minio.rootPath` prefix configured in the Milvus configuration file (typically `milvus.yaml`), if any. The file must already exist. For details, refer to [Manage File Resources](https://milvus.io/docs/manage-file-resources.md#Manage-File-Resources).",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "文件在 Milvus 持久化存储所用 bucket 中的对象路径。如已在 Milvus 配置文件（通常为 `milvus.yaml`）中配置 `minio.rootPath`，需包含该前缀。该文件必须已存在。详情请参阅 [Manage File Resources](https://milvus.io/docs/manage-file-resources.md#Manage-File-Resources)。"
+                      }
+                    },
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
+                    "x-deprecated-since": null
+                  }
+                },
+                "required": [
+                  "name",
+                  "path"
+                ],
+                "x-added-at": "3.0.x",
+                "x-last-modified": "3.0.x",
+                "x-deprecated-since": null
+              },
+              "example": {
+                "name": "synonyms",
+                "path": "files/synonyms.txt"
+              }
+            }
+          },
+          "x-added-at": "3.0.x",
+          "x-last-modified": "3.0.x",
+          "x-deprecated-since": null
+        },
+        "responses": {
+          "200": {
+            "description": "Returns an empty object.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "返回空对象。"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/EmptyResponse",
+                      "x-tab-label": "success",
+                      "x-added-at": "3.0.x",
+                      "x-last-modified": "3.0.x",
+                      "x-deprecated-since": null
+                    },
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse",
+                      "x-tab-label": "failure",
+                      "x-added-at": "3.0.x",
+                      "x-last-modified": "3.0.x",
+                      "x-deprecated-since": null
+                    }
+                  ],
+                  "x-added-at": "3.0.x",
+                  "x-last-modified": "3.0.x",
+                  "x-deprecated-since": null
+                },
+                "examples": {
+                  "1": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "value": {
+                      "code": 0,
+                      "data": {}
+                    }
+                  },
+                  "2": {
+                    "summary": "failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 1100,
+                      "message": "file resource already exists"
+                    }
+                  }
+                }
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "security": [],
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null,
+        "x-include-target": [
+          "milvus"
+        ]
+      }
+    },
+    "/v2/vectordb/file_resources/list": {
+      "post": {
+        "operationId": "listFileResources",
+        "summary": "List File Resources",
+        "deprecated": false,
+        "description": "Lists the file resources registered with Milvus.",
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "查看文件资源列表",
+            "description": "列出已在 Milvus 中注册的文件资源。"
+          }
+        },
+        "tags": [
+          "File Resource Operations (V2)"
+        ],
+        "x-base-urls": {
+          "$ref": "#/components/x-base-urls/ZillizVectorV2"
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The authentication token should be a pair of colon-joined username and password, like `username:password`.",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string",
+              "x-added-at": "3.0.x",
+              "x-last-modified": "3.0.x",
+              "x-deprecated-since": null
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为用冒号分隔的用户名和密码，如 `username:password`。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {},
+                "x-added-at": "3.0.x",
+                "x-last-modified": "3.0.x",
+                "x-deprecated-since": null
+              },
+              "example": {}
+            }
+          },
+          "x-added-at": "3.0.x",
+          "x-last-modified": "3.0.x",
+          "x-deprecated-since": null
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the registered file resources.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "返回已注册的文件资源列表。"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ListFileResourcesResponse",
+                      "x-tab-label": "success",
+                      "x-added-at": "3.0.x",
+                      "x-last-modified": "3.0.x",
+                      "x-deprecated-since": null
+                    },
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse",
+                      "x-tab-label": "failure",
+                      "x-added-at": "3.0.x",
+                      "x-last-modified": "3.0.x",
+                      "x-deprecated-since": null
+                    }
+                  ],
+                  "x-added-at": "3.0.x",
+                  "x-last-modified": "3.0.x",
+                  "x-deprecated-since": null
+                },
+                "examples": {
+                  "1": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "value": {
+                      "code": 0,
+                      "data": [
+                        {
+                          "id": 451799928999570200,
+                          "name": "synonyms",
+                          "path": "files/synonyms.txt"
+                        }
+                      ]
+                    }
+                  },
+                  "2": {
+                    "summary": "failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 65535,
+                      "message": "service unavailable"
+                    }
+                  }
+                }
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "security": [],
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null,
+        "x-include-target": [
+          "milvus"
+        ]
+      }
+    },
+    "/v2/vectordb/file_resources/remove": {
+      "post": {
+        "operationId": "removeFileResource",
+        "summary": "Remove File Resource",
+        "deprecated": false,
+        "description": "Removes a file resource registered with Milvus.",
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "移除文件资源",
+            "description": "移除已在 Milvus 中注册的文件资源。"
+          }
+        },
+        "tags": [
+          "File Resource Operations (V2)"
+        ],
+        "x-base-urls": {
+          "$ref": "#/components/x-base-urls/ZillizVectorV2"
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "The authentication token should be a pair of colon-joined username and password, like `username:password`.",
+            "required": false,
+            "example": "Bearer {{TOKEN}}",
+            "schema": {
+              "type": "string",
+              "x-added-at": "3.0.x",
+              "x-last-modified": "3.0.x",
+              "x-deprecated-since": null
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为用冒号分隔的用户名和密码，如 `username:password`。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The unique name of the file resource to remove.",
+                    "x-i18n": {
+                      "zh-CN": {
+                        "description": "要移除的文件资源的唯一名称。"
+                      }
+                    },
+                    "x-added-at": "3.0.x",
+                    "x-last-modified": "3.0.x",
+                    "x-deprecated-since": null
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "x-added-at": "3.0.x",
+                "x-last-modified": "3.0.x",
+                "x-deprecated-since": null
+              },
+              "example": {
+                "name": "synonyms"
+              }
+            }
+          },
+          "x-added-at": "3.0.x",
+          "x-last-modified": "3.0.x",
+          "x-deprecated-since": null
+        },
+        "responses": {
+          "200": {
+            "description": "Returns an empty object.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "返回空对象。"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/EmptyResponse",
+                      "x-tab-label": "success",
+                      "x-added-at": "3.0.x",
+                      "x-last-modified": "3.0.x",
+                      "x-deprecated-since": null
+                    },
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse",
+                      "x-tab-label": "failure",
+                      "x-added-at": "3.0.x",
+                      "x-last-modified": "3.0.x",
+                      "x-deprecated-since": null
+                    }
+                  ],
+                  "x-added-at": "3.0.x",
+                  "x-last-modified": "3.0.x",
+                  "x-deprecated-since": null
+                },
+                "examples": {
+                  "1": {
+                    "summary": "success",
+                    "x-target-response": "OPTION 1",
+                    "value": {
+                      "code": 0,
+                      "data": {}
+                    }
+                  },
+                  "2": {
+                    "summary": "failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 1100,
+                      "message": "file resource not found"
+                    }
+                  }
+                }
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "security": [],
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null,
+        "x-include-target": [
+          "milvus"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EmptyResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "Response code.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "响应码。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "data": {
+            "type": "object",
+            "properties": {},
+            "description": "An empty result object.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "空结果对象。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "description": "A successful empty response.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "成功的空响应。"
+          }
+        },
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "Response code.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "响应码。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "错误描述。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "description": "Returns an error message.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "返回错误消息。"
+          }
+        },
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "FileResourceInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier of the file resource.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "文件资源的唯一标识符。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "name": {
+            "type": "string",
+            "description": "The unique name of the file resource.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "文件资源的唯一名称。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "path": {
+            "type": "string",
+            "description": "The object path recorded for the file resource in the bucket used by Milvus persistent storage. The path includes the `minio.rootPath` prefix configured in the Milvus configuration file (typically `milvus.yaml`), if any. For details, refer to [Manage File Resources](https://milvus.io/docs/manage-file-resources.md#Manage-File-Resources).",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "文件资源记录在 Milvus 持久化存储所用 bucket 中的对象路径。如已在 Milvus 配置文件（通常为 `milvus.yaml`）中配置 `minio.rootPath`，该路径包含相应前缀。详情请参阅 [Manage File Resources](https://milvus.io/docs/manage-file-resources.md#Manage-File-Resources)。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "path"
+        ],
+        "description": "A registered file resource.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "已注册的文件资源。"
+          }
+        },
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      },
+      "ListFileResourcesResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "Response code.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "响应码。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileResourceInfo",
+              "x-added-at": "3.0.x",
+              "x-last-modified": "3.0.x",
+              "x-deprecated-since": null
+            },
+            "description": "The registered file resources.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "已注册的文件资源列表。"
+              }
+            },
+            "x-added-at": "3.0.x",
+            "x-last-modified": "3.0.x",
+            "x-deprecated-since": null
+          }
+        },
+        "required": [
+          "code",
+          "data"
+        ],
+        "description": "A successful response containing the registered file resources.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "包含已注册文件资源列表的成功响应。"
+          }
+        },
+        "x-added-at": "3.0.x",
+        "x-last-modified": "3.0.x",
+        "x-deprecated-since": null
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "x-base-urls": {
+      "ZillizVectorV2": [
+        {
+          "key": "cluster",
+          "label": "Cluster Endpoint",
+          "url": "https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530",
+          "prompt": "Use the cluster endpoint if you are using serving clusters.",
+          "x-i18n": {
+            "zh-CN": {
+              "label": "集群端点",
+              "prompt": "如果您使用的是服务集群，请使用集群端点。"
+            }
+          },
+          "shell": "export CLUSTER_ENDPOINT=\"https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530\""
+        }
+      ]
+    }
+  }
+}
