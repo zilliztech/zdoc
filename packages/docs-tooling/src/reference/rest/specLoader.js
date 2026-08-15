@@ -232,6 +232,7 @@ function resolveLocalPathRefs(spec) {
 function mergeSpecification(spec, content) {
     for (const field of Object.keys(content)) {
         if (content[field] === undefined) continue
+        if (field === 'x-zdoc-fragment') continue
 
         if (field === 'components') {
             mergeComponents(spec, content)
