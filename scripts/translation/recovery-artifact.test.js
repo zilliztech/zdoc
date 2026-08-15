@@ -105,6 +105,30 @@ test('restores an unchanged source file across commit, tooling, and batch change
   assert.equal(fs.readFileSync(path.join(value.siteDir, value.targetPath), 'utf8'), value.target);
 });
 
+test('records validated reconciliation identities in recovery metadata', () => {
+  const value = fixture();
+  const created = createRecoveryArtifact({
+    siteDir: value.siteDir,
+    outputDir: value.artifactDir,
+    results: [reviewedResult(value.candidate)],
+    identity: value.identity,
+    reconciliation: {
+      planArtifact: 'translation-reconciliation-plan-zh-CN-reference-python',
+      planSha256: `sha256:${'d'.repeat(64)}`,
+      policyId: 'translation-reconciliation-2026-08-15-v1',
+      resultSha256: `sha256:${'e'.repeat(64)}`,
+      approvalReceiptShas: [`sha256:${'f'.repeat(64)}`],
+    },
+  });
+  assert.deepEqual(created.metadata.reconciliation, {
+    planArtifact: 'translation-reconciliation-plan-zh-CN-reference-python',
+    planSha256: `sha256:${'d'.repeat(64)}`,
+    policyId: 'translation-reconciliation-2026-08-15-v1',
+    resultSha256: `sha256:${'e'.repeat(64)}`,
+    approvalReceiptShas: [`sha256:${'f'.repeat(64)}`],
+  });
+});
+
 test('preserves an authenticated reviewer receipt across nested recovery artifacts', () => {
   const value = fixture();
   createRecoveryArtifact({siteDir: value.siteDir, outputDir: value.artifactDir, results: [reviewedResult(value.candidate)], identity: value.identity});

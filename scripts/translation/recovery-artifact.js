@@ -64,6 +64,27 @@ function assertIdentity(identity) {
   }
 }
 
+function validateRecoveryReconciliationMetadata(value) {
+  if (value === null || value === undefined) return null
+  const keys = ['planArtifact', 'planSha256', 'policyId', 'resultSha256', 'approvalReceiptShas']
+  if (!value || typeof value !== 'object' || Array.isArray(value) || JSON.stringify(Object.keys(value).sort()) !== JSON.stringify([...keys].sort())) {
+    throw new Error('Recovery reconciliation metadata keys are invalid')
+  }
+  for (const key of ['planSha256', 'resultSha256']) if (!/^sha256:[0-9a-f]{64}$/u.test(value[key] || '')) throw new Error(`Recovery reconciliation ${key} is invalid`)
+  if (typeof value.planArtifact !== 'string' || !value.planArtifact) throw new Error('Recovery reconciliation plan artifact is invalid')
+  if (typeof value.policyId !== 'string' || !value.policyId) throw new Error('Recovery reconciliation policy ID is invalid')
+  if (!Array.isArray(value.approvalReceiptShas) || value.approvalReceiptShas.some(sha => !/^sha256:[0-9a-f]{64}$/u.test(sha))) {
+    throw new Error('Recovery reconciliation approval receipt identities are invalid')
+  }
+  return Object.freeze({
+    planArtifact: value.planArtifact,
+    planSha256: value.planSha256,
+    policyId: value.policyId,
+    resultSha256: value.resultSha256,
+    approvalReceiptShas: Object.freeze([...value.approvalReceiptShas]),
+  })
+}
+
 function writeJson(filePath, value) {
   fs.mkdirSync(path.dirname(filePath), {recursive: true});
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
@@ -172,8 +193,9 @@ function reviewFields(receipt) {
   };
 }
 
-function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
+function createRecoveryArtifact({siteDir, outputDir, results, identity, reconciliation = null}) {
   assertIdentity(identity);
+  const reconciliationMetadata = validateRecoveryReconciliationMetadata(reconciliation)
   fs.rmSync(outputDir, {recursive: true, force: true});
   fs.mkdirSync(outputDir, {recursive: true});
   const files = [];
@@ -258,6 +280,7 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
   const metadata = {
     schemaVersion: 2,
     ...identity,
+    ...(reconciliationMetadata ? {reconciliation: reconciliationMetadata} : {}),
     translated: files.length,
     failed: failures.length,
     resumableFiles: failures.filter(failure => failure.chunkCheckpoints?.entries?.length || failure.semanticCheckpoints?.report?.entries?.length).length,
@@ -592,6 +615,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  validateRecoveryReconciliationMetadata,
   createRecoveryArtifact,
   discoverRecoveryArtifacts,
   parseCliArgs,

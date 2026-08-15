@@ -310,7 +310,7 @@ git diff --check
 - Create: `scripts/translation/reconciliation-recovery.test.js`
 - Modify: recovery tests
 
-- [ ] Include plan/policy/approval identities in recovery metadata.
+- [x] Include plan/policy/approval identities in recovery metadata.
 - [x] Classify operations as reusable, already applied, changed, rejected, or missing approval.
 - [ ] Reuse paid files independently from changed reconciliation operations only after revalidation.
 - [ ] Require `publish=false` preflight before plan-based recovery publication.
