@@ -523,7 +523,7 @@ test('translation workflows declare immutable target identity and exact target v
   const source = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
   assert.match(source, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
   assert.doesNotMatch(source, /validate-reference --site zh-CN|pnpm run build:(?:en|zh-CN)/)
-  assert.match(source, /applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
+  assert.match(source, /prepare-reconciliation-plan\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*apply-reconciliation-plan\.js/)
   for (const name of [
     'ZDOC_PROVENANCE_CANDIDATE_TARGET',
     'ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA',
@@ -777,8 +777,8 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
     },
     {
       file: '_translate-content-group.yml',
-      mutate: source => source.replace('applySourceDelta.js --target "$TRANSLATION_TARGET"', 'applySourceDelta.js'),
-      expected: '_translate-content-group.yml: source delta application must receive the exact translation target',
+      mutate: source => source.replaceAll('--target "$TRANSLATION_TARGET"', ''),
+      expected: '_translate-content-group.yml: reconciliation application must receive the exact translation target and immutable identities',
     },
     {
       file: 'translate-content.yml',
@@ -2429,7 +2429,7 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(source, /restore-generated-state\.sh --exact --ref "\$SOURCE_CHECKPOINT_SHA"/)
   assert.match(source, /sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/)
   assert.doesNotMatch(source, /git diff[^\n]*(?:TOOLING_SHA|MASTER_SHA|tooling_sha)/)
-  assert.match(source, /applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
+  assert.match(source, /prepare-reconciliation-plan\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*apply-reconciliation-plan\.js/)
   assert.match(source, /manifest\.js[\s\S]*--group "\$GROUP"[\s\S]*--source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA"[\s\S]*--source-delta tmp\/source-delta\.json/)
   assert.match(source, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
   assert.match(source, /\(steps\.agents\.outputs\.failed_count \|\| '0'\) != '0'/)

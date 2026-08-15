@@ -220,12 +220,12 @@ git diff --check
 - Modify: `.github/workflows/_translate-content-group.yml`
 - Modify: `.github/workflows/_prepare-translation-batches.yml`
 
-- [ ] Replace direct retirement-registry candidate gating with reconciliation policy evaluation.
-- [ ] Convert existing exact registry entries into legacy approval receipts.
-- [ ] Generate a review artifact and stop before paid work when approval is absent.
-- [ ] Create reconciliation-only Chinese batches with zero translation candidates.
-- [ ] Apply deletion and manifest updates in the same checkpoint as translated replacements.
-- [ ] Keep group ownership isolation so one manual cannot fail on another manual's pending review.
+- [x] Replace direct retirement-registry candidate gating with reconciliation policy evaluation.
+- [x] Convert existing exact registry entries into legacy approval receipts.
+- [x] Generate a review artifact and stop before paid work when approval is absent.
+- [x] Create reconciliation-only Chinese batches with zero translation candidates.
+- [x] Apply deletion and manifest updates in the same checkpoint as translated replacements.
+- [x] Keep group ownership isolation so one manual cannot fail on another manual's pending review.
 
 Focused verification:
 

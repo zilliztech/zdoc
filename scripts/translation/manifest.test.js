@@ -424,7 +424,7 @@ function testRetirementReviewSeparatesPolicyRetirementReplacementAndTargetExclus
   })
 }
 
-function testCliWritesRetirementReviewBeforeFailingWithoutMutatingRegistry() {
+function testCliLeavesRetirementAuthorizationToReconciliationPolicy() {
   withTempDir(siteDir => {
     git(siteDir, ['init', '-b', 'main'])
     git(siteDir, ['config', 'user.email', 'retirement-cli@example.com'])
@@ -467,14 +467,11 @@ function testCliWritesRetirementReviewBeforeFailingWithoutMutatingRegistry() {
       '--source-checkpoint-sha', sourceCheckpointSha,
     ], {cwd: siteDir, encoding: 'utf8'})
 
-    assert.notEqual(result.status, 0)
-    assert.match(result.stderr, /retirement review written/i)
-    assert.equal(fs.existsSync(path.join(siteDir, 'tmp/translation-manifest.json')), false)
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.existsSync(path.join(siteDir, 'tmp/translation-retirement-review.json')), false)
     assert.equal(fs.readFileSync(registryPath, 'utf8'), registryBefore)
-    const review = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/translation-retirement-review.json'), 'utf8'))
-    assert.equal(review.status, 'retirement_review_required')
-    assert.equal(review.candidates.length, 1)
-    assert.equal(review.candidates[0].sourcePath, sourcePath)
+    const manifest = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/translation-manifest.json'), 'utf8'))
+    assert.deepEqual(manifest.source_delta.retirement_candidates, [{manual: 'java', sourcePath, targetPath, changeKind: 'source_deleted'}])
   })
 }
 
@@ -817,7 +814,7 @@ function run() {
   testActiveReferenceSourceIsNotHiddenByStaleRetirement()
   testAuthorizedHistoricalReferenceOrphanIsSerializedUnchanged()
   testRetirementReviewSeparatesPolicyRetirementReplacementAndTargetExclusion()
-  testCliWritesRetirementReviewBeforeFailingWithoutMutatingRegistry()
+  testCliLeavesRetirementAuthorizationToReconciliationPolicy()
   testFullChineseBootstrapIncludesEveryActiveSource()
   testReferenceLandingGroupForcesExactlyFiveCurrentTargets()
   testLegacyJapaneseCacheKeysMapToCanonicalSources()

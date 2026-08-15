@@ -159,22 +159,17 @@ jobs:
           set -euo pipefail
           mkdir -p tmp
           node scripts/translation/sourceDelta.js --repository "$GITHUB_WORKSPACE" --source-baseline-sha "$SOURCE_BASELINE_SHA" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target "$TRANSLATION_TARGET" --group "$GROUP" --output tmp/source-delta.json
-          if [[ "$TRANSLATION_TARGET" == ja-JP ]]; then
-            node scripts/translation/prepare-reconciliation-plan.js \
-              --repository "$GITHUB_WORKSPACE" --target "$TRANSLATION_TARGET" --group "$GROUP" \
-              --tooling-sha "$TOOLING_SHA" --source-baseline-sha "$SOURCE_BASELINE_SHA" \
-              --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target-baseline-sha "$TARGET_BASELINE_SHA" \
-              --plan-output tmp/reconciliation-plan.json --review-output tmp/translation-reconciliation-review.json
-            node scripts/translation/apply-reconciliation-plan.js \
-              --plan tmp/reconciliation-plan.json --result tmp/reconciliation-result.json \
-              --workspace "$GITHUB_WORKSPACE" --source-repository "$GITHUB_WORKSPACE" \
-              --target-baseline "$BASELINE_DIR" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
-              --target-baseline-sha "$TARGET_BASELINE_SHA"
-            echo "has_mutation=$(node -p "require('./tmp/reconciliation-result.json').status === 'applied' ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"
-          else
-            node scripts/translation/applySourceDelta.js --target "$TRANSLATION_TARGET" --delta tmp/source-delta.json --report tmp/source-delta-report.json
-            echo "has_mutation=$(node -p "require('./tmp/source-delta-report.json').hasTranslationMutation ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"
-          fi
+          node scripts/translation/prepare-reconciliation-plan.js \
+            --repository "$GITHUB_WORKSPACE" --target "$TRANSLATION_TARGET" --group "$GROUP" \
+            --tooling-sha "$TOOLING_SHA" --source-baseline-sha "$SOURCE_BASELINE_SHA" \
+            --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target-baseline-sha "$TARGET_BASELINE_SHA" \
+            --plan-output tmp/reconciliation-plan.json --review-output tmp/translation-reconciliation-review.json
+          node scripts/translation/apply-reconciliation-plan.js \
+            --plan tmp/reconciliation-plan.json --result tmp/reconciliation-result.json \
+            --workspace "$GITHUB_WORKSPACE" --source-repository "$GITHUB_WORKSPACE" \
+            --target-baseline "$BASELINE_DIR" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
+            --target-baseline-sha "$TARGET_BASELINE_SHA"
+          echo "has_mutation=$(node -p "require('./tmp/reconciliation-result.json').status === 'applied' ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"
       - name: Resolve effective translation mode
         id: mode
         if: ${{ inputs.should_translate }}
@@ -204,10 +199,7 @@ jobs:
         if: ${{ inputs.should_translate }}
         run: |
           batch_args=()
-          reconciliation_args=()
-          if [[ "$TRANSLATION_TARGET" == ja-JP ]]; then
-            reconciliation_args=(--reconciliation-plan tmp/reconciliation-plan.json --reconciliation-plan-artifact "translation-reconciliation-plan-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX")
-          fi
+          reconciliation_args=(--reconciliation-plan tmp/reconciliation-plan.json --reconciliation-plan-artifact "translation-reconciliation-plan-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX")
           if (( ${{ inputs.batch_number }} > 0 )); then
             batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-size "${{ inputs.batch_size }}" --expected-pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
           fi
@@ -215,7 +207,7 @@ jobs:
           echo "count=$(node -p "require('./tmp/translation-manifest.json').items.length")" >> "$GITHUB_OUTPUT"
           if (( ${{ inputs.batch_number }} > 0 )) && [[ "$GROUP" == guides ]]; then
             plan_input_args=()
-            if [[ "$TRANSLATION_TARGET" == ja-JP ]]; then plan_input_args=(--plan tmp/reconciliation-plan.json); fi
+            plan_input_args=(--plan tmp/reconciliation-plan.json)
             node scripts/docs-workflow/translation-batch-input.js create \
               --manifest tmp/translation-manifest.json \
               "${plan_input_args[@]}" \
@@ -420,12 +412,8 @@ jobs:
             if [[ "$GROUP" == guides ]]; then batch_input_args=(--batch-input tmp/translation-batch-input.json); fi
           fi
           identity_args=(--translation-target "$TRANSLATION_TARGET" --source-site en --target-site "$([[ "$TRANSLATION_TARGET" == ja-JP ]] && echo en || echo zh-CN)" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --tooling-sha "$TOOLING_SHA")
-          baseline_reconciliation_args=()
-          checkpoint_reconciliation_args=()
-          if [[ "$TRANSLATION_TARGET" == ja-JP ]]; then
-            baseline_reconciliation_args=(--reconciliation-plan "$GITHUB_WORKSPACE/tmp/reconciliation-plan.json")
-            checkpoint_reconciliation_args=(--reconciliation-plan "$GITHUB_WORKSPACE/tmp/reconciliation-plan.json" --reconciliation-result "$GITHUB_WORKSPACE/tmp/reconciliation-result.json")
-          fi
+          baseline_reconciliation_args=(--reconciliation-plan "$GITHUB_WORKSPACE/tmp/reconciliation-plan.json")
+          checkpoint_reconciliation_args=(--reconciliation-plan "$GITHUB_WORKSPACE/tmp/reconciliation-plan.json" --reconciliation-result "$GITHUB_WORKSPACE/tmp/reconciliation-result.json")
           node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$TOOLING_SHA" --dev-baseline-sha "$SOURCE_CHECKPOINT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$BASELINE_DIR" --output "$BASELINE_CHECKPOINT_DIR" --include-translation-cache "${identity_args[@]}" "${batch_args[@]}" "${batch_input_args[@]}" "${baseline_reconciliation_args[@]}"
           node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$TOOLING_SHA" --dev-baseline-sha "$SOURCE_CHECKPOINT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$GITHUB_WORKSPACE" --output "$CHECKPOINT_DIR" --include-translation-cache "${identity_args[@]}" "${batch_args[@]}" "${batch_input_args[@]}" "${checkpoint_reconciliation_args[@]}"
           node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$BASELINE_CHECKPOINT_DIR" --group "$GROUP" --master-sha "$TOOLING_SHA" --dev-baseline-sha "$SOURCE_CHECKPOINT_SHA" --translation-target "$TRANSLATION_TARGET" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --tooling-sha "$TOOLING_SHA"
