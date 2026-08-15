@@ -80,13 +80,13 @@ git diff --check
 - Modify: `scripts/translation/manifest.js`
 - Modify: `scripts/translation/manifest.test.js`
 
-- [ ] Define versioned target/group policy, thresholds, preserved roots, and completeness-evidence requirements.
-- [ ] Start with current Japanese automatic behavior, Chinese REST complete-generation automation disabled, and Chinese SDK/CLI/landing review required.
-- [ ] Adapt exact matching `config/reference-retirements.json` records into human-approved legacy operations.
-- [ ] Write deterministic review artifacts for unresolved operations.
-- [ ] Bind approval receipts to plan SHA, source SHAs, target baseline, tooling SHA, policy ID, reviewer/rule identity, rationale, and expiry.
-- [ ] Ensure missing approval stops before model invocation.
-- [ ] Add count and percentage blast-radius tests.
+- [x] Define versioned target/group policy, thresholds, preserved roots, and completeness-evidence requirements.
+- [x] Start with current Japanese automatic behavior, Chinese REST complete-generation automation disabled, and Chinese SDK/CLI/landing review required.
+- [x] Adapt exact matching `config/reference-retirements.json` records into human-approved legacy operations.
+- [x] Write deterministic review artifacts for unresolved operations.
+- [x] Bind approval receipts to plan SHA, source SHAs, target baseline, tooling SHA, policy ID, reviewer/rule identity, rationale, and expiry.
+- [x] Ensure missing approval stops before model invocation.
+- [x] Add count and percentage blast-radius tests.
 
 Focused verification:
 

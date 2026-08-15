@@ -14,6 +14,7 @@ const productionEntries = [
   'scripts/translation/applySourceDelta.js',
   'scripts/translation/reconciliation-discovery.js',
   'scripts/translation/reconciliation-plan.js',
+  'scripts/translation/reconciliation-policy.js',
   'scripts/translation/agentRunner.js',
   'scripts/docs-workflow/create-checkpoint-artifact.js',
   'scripts/docs-workflow/validate-checkpoint-artifact.js',

@@ -7,6 +7,10 @@ const { getContentGroup } = require('../docs-workflow/content-groups')
 const { getGroupPaths } = require('../docs-workflow/group-paths')
 const { loadTypeScript } = require('../lib/load-typescript')
 const { selectManifestBatch } = require('./batches')
+const {
+  evaluateReconciliationPolicy,
+  loadReconciliationPolicy,
+} = require('./reconciliation-policy')
 
 const {
   buildTranslationCandidates,
@@ -16,6 +20,15 @@ const { resolveManualPublication } = loadTypeScript('../../packages/docs-tooling
 const { resolvePublicationGroupWorkflow } = loadTypeScript('../../packages/docs-tooling/src/workflows/groups.ts')
 
 const SHA = /^[0-9a-f]{40}$/
+
+class ReconciliationReviewRequiredError extends Error {
+  constructor(evaluation) {
+    super(`Translation reconciliation review required for ${evaluation.summary.reviewRequired} operation(s)`)
+    this.name = 'ReconciliationReviewRequiredError'
+    this.evaluation = evaluation
+    this.reviewArtifact = evaluation.reviewArtifact
+  }
+}
 
 function cachePathForLocale(siteDir, locale) {
   return path.join(siteDir, '.translation-cache', `${locale}.json`)
@@ -331,10 +344,32 @@ function createManifest({ target, locale, group, sourceCheckpointSha, sourceDelt
   return manifest
 }
 
-function buildManifest({ siteDir, target = 'ja-JP', locale = localeForTarget(target), maxFiles = 0, group, sourceCheckpointSha, sourceDelta = null, mode = 'incremental' }) {
+function evaluateManifestReconciliation({siteDir, target, group, toolingSha, discovery, approvalReceipts = [], now}) {
+  if (!discovery || typeof discovery !== 'object' || Array.isArray(discovery)) throw new Error('Manifest reconciliation discovery is required')
+  const evaluation = evaluateReconciliationPolicy({
+    policy: loadReconciliationPolicy(siteDir),
+    target,
+    group,
+    toolingSha,
+    sourceBaselineSha: discovery.sourceBaselineSha,
+    sourceCheckpointSha: discovery.sourceCheckpointSha,
+    targetBaselineSha: discovery.targetBaselineSha,
+    candidates: discovery.candidates,
+    activeSourceCount: discovery.sourceCheckpointInventory.length,
+    retirementRegistry: readRetirementRegistry(siteDir, target),
+    approvalReceipts,
+    now,
+  })
+  if (evaluation.status === 'review_required') throw new ReconciliationReviewRequiredError(evaluation)
+  if (evaluation.status === 'rejected') throw new Error('Translation reconciliation policy rejected one or more operations')
+  return evaluation
+}
+
+function buildManifest({ siteDir, target = 'ja-JP', locale = localeForTarget(target), maxFiles = 0, group, sourceCheckpointSha, sourceDelta = null, mode = 'incremental', reconciliation = null }) {
   if (!['full', 'incremental'].includes(mode)) throw new Error(`Unsupported effective translation mode: ${mode}`)
   if (typeof group !== 'string' || group === '') throw new Error('A canonical translation group is required')
   if (!SHA.test(sourceCheckpointSha || '')) throw new Error('A valid 40-character source checkpoint SHA is required with --group')
+  if (reconciliation) evaluateManifestReconciliation({siteDir, target, group, ...reconciliation})
   const ownership = candidateOwnership({group, target})
   const result = buildTranslationCandidates({
     repositoryRoot: siteDir,
@@ -417,10 +452,12 @@ function main() {
 if (require.main === module) main()
 
 module.exports = {
+  ReconciliationReviewRequiredError,
   buildManifest,
   buildRetirementReview,
   cachePathForLocale,
   localeForTarget,
+  evaluateManifestReconciliation,
   readCache,
   writeCache,
   writeJsonAtomic,

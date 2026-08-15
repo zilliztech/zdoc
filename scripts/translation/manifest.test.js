@@ -9,6 +9,7 @@ const {
   buildManifest,
   buildRetirementReview,
   cachePathForLocale,
+  ReconciliationReviewRequiredError,
   localeForTarget,
   writeCache,
 } = require('./manifest')
@@ -135,6 +136,36 @@ function testExplicitTargetLocales() {
   assert.equal(localeForTarget('ja-JP'), 'ja-JP')
   assert.equal(localeForTarget('zh-CN-reference'), 'zh-CN')
   assert.throws(() => localeForTarget('zh-CN-tools'), /unknown translation target/i)
+}
+
+function testReconciliationReviewStopsManifestBeforeCandidateScanning() {
+  withTempDir(siteDir => {
+    const policy = fs.readFileSync(path.join(__dirname, '../../config/translation/reconciliation-policy.json'), 'utf8')
+    write(path.join(siteDir, 'config/translation/reconciliation-policy.json'), policy)
+    const sourcePath = 'content/en/reference/api/python/python/old.md'
+    const targetPath = 'content/zh-CN/reference/api/python/python/old.md'
+    const discovery = {
+      sourceBaselineSha: '2'.repeat(40),
+      sourceCheckpointSha: '3'.repeat(40),
+      targetBaselineSha: '4'.repeat(40),
+      sourceCheckpointInventory: [],
+      candidates: [{
+        kind: 'delete_target', sourcePath, targetPath, replacementSourcePath: null, replacementTargetPath: null, reason: 'source_deleted',
+        evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null},
+      }],
+    }
+    assert.throws(() => buildManifest({
+      siteDir,
+      target: 'zh-CN-reference',
+      group: 'python',
+      sourceCheckpointSha: discovery.sourceCheckpointSha,
+      reconciliation: {toolingSha: '1'.repeat(40), discovery},
+    }), error => {
+      assert.equal(error instanceof ReconciliationReviewRequiredError, true)
+      assert.equal(error.reviewArtifact.document, 'translation-reconciliation-review')
+      return true
+    })
+  })
 }
 
 function testActiveReferenceSourceIsNotHiddenByStaleRetirement() {
@@ -744,6 +775,7 @@ function run() {
   testBuildManifestIncludesChangedAndMissingDocs()
   testPendingReferenceStateSelectsOnlyPendingAndChangedWork()
   testExplicitTargetLocales()
+  testReconciliationReviewStopsManifestBeforeCandidateScanning()
   testActiveReferenceSourceIsNotHiddenByStaleRetirement()
   testAuthorizedHistoricalReferenceOrphanIsSerializedUnchanged()
   testRetirementReviewSeparatesPolicyRetirementReplacementAndTargetExclusion()
