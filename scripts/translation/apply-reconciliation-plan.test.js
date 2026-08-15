@@ -44,6 +44,22 @@ function apply(f, overrides = {}) {
   return applyReconciliationPlan({workspaceRoot: f.workspace, sourceRepositoryRoot: f.source, targetBaselineRoot: f.baseline, sourceCheckpointSha: f.sourceSha, targetBaselineSha: f.baselineSha, plan: f.plan, ...overrides})
 }
 
+function chineseFixture() {
+  const f = fixture()
+  const sourcePath = 'content/en/reference/api/python/python/old.md'
+  const targetPath = 'content/zh-CN/reference/api/python/python/old.md'
+  write(f.baseline, targetPath, 'old Chinese\n')
+  git(f.baseline, ['add', '.']); git(f.baseline, ['commit', '-m', 'Chinese baseline'])
+  f.baselineSha = git(f.baseline, ['rev-parse', 'HEAD'])
+  fs.rmSync(f.workspace, {recursive: true})
+  fs.mkdirSync(f.workspace)
+  fs.cpSync(f.baseline, f.workspace, {recursive: true})
+  f.sourcePath = sourcePath
+  f.targetPath = targetPath
+  f.plan = createReconciliationPlan({schemaVersion: 1, document: 'translation-reconciliation-plan', target: 'zh-CN-reference', group: 'python', toolingSha: '1'.repeat(40), sourceBaselineSha: '2'.repeat(40), sourceCheckpointSha: f.sourceSha, targetBaselineSha: f.baselineSha, policyId: 'test-v1', operations: [{kind: 'delete_target', sourcePath, targetPath, replacementSourcePath: null, replacementTargetPath: null, reason: 'source_deleted', evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null}, authorization: {status: 'approved', method: 'human', ruleId: 'reviewer', receiptSha256: null}}]})
+  return f
+}
+
 test('applies Japanese deletion and cache cleanup, then reports already_applied', () => {
   const f = fixture()
   const first = apply(f)
@@ -72,4 +88,22 @@ test('interruption before mutation changes nothing and interruption after mutati
   assert.equal(fs.existsSync(path.join(after.workspace, after.targetPath)), false)
   assert.equal(apply(after).status, 'already_applied')
   assert.equal(fs.existsSync(path.join(after.baseline, after.targetPath)), true)
+})
+
+test('applies Chinese Reference deletion, rebuilds state, and records immutable ledger evidence', () => {
+  const f = chineseFixture()
+  let rebuilds = 0
+  const rebuildChineseReferenceState = () => { rebuilds += 1 }
+  const first = apply(f, {rebuildChineseReferenceState})
+  assert.equal(first.status, 'applied')
+  assert.equal(fs.existsSync(path.join(f.workspace, f.targetPath)), false)
+  const ledgerPath = path.join(f.workspace, 'generated/zh-CN/manifests/reference-reconciliation-ledger.json')
+  const firstLedger = JSON.parse(fs.readFileSync(ledgerPath, 'utf8'))
+  assert.equal(firstLedger.entries.length, 1)
+  assert.equal(firstLedger.entries[0].operationId, f.plan.operations[0].operationId)
+  assert.equal(firstLedger.entries[0].resultSha256, first.resultSha256)
+  const second = apply(f, {rebuildChineseReferenceState})
+  assert.equal(second.status, 'already_applied')
+  assert.deepEqual(JSON.parse(fs.readFileSync(ledgerPath, 'utf8')), firstLedger)
+  assert.equal(rebuilds, 2)
 })

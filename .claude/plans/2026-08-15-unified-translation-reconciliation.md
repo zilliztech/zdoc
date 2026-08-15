@@ -190,14 +190,14 @@ git diff --check
 - Modify: related validation tests
 - Create: generated ledger schema module and tests in `packages/docs-tooling/src/reference/`
 
-- [ ] Remove approved Chinese targets in a staged workspace.
-- [ ] Rebuild source and translation manifests from the post-operation trees.
-- [ ] Stop creating target-only `retired` records for new plan-based deletions.
-- [ ] Record applied operation evidence in `generated/zh-CN/manifests/reference-reconciliation-ledger.json`.
-- [ ] Keep legacy retired records valid during compatibility reads.
-- [ ] Normalize stale both-missing legacy retirements without deleting unrelated records.
-- [ ] Ensure a restored source/target pair can become active again.
-- [ ] Validate Reference navigation after deletion.
+- [x] Remove approved Chinese targets in a staged workspace.
+- [x] Rebuild source and translation manifests from the post-operation trees.
+- [x] Stop creating target-only `retired` records for new plan-based deletions.
+- [x] Record applied operation evidence in `generated/zh-CN/manifests/reference-reconciliation-ledger.json`.
+- [x] Keep legacy retired records valid during compatibility reads.
+- [x] Normalize stale both-missing legacy retirements without deleting unrelated records.
+- [x] Ensure a restored source/target pair can become active again.
+- [x] Validate Reference navigation after deletion.
 
 Focused verification:
 

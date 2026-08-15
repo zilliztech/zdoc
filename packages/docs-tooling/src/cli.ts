@@ -50,11 +50,13 @@ import {
 } from './reference/translationManifest.ts';
 import {deriveReferenceSidebarPublicationEntries, deriveZhCnReferenceSidebarGroupEntries} from './reference/sidebarDerivation.ts';
 import {deriveRestSidebar, serializeRestSidebar} from './reference/restSidebarDerivation.ts';
+import {parseReferenceReconciliationLedger} from './reference/reconciliationLedger.ts';
 import {validateReferenceNavigation} from './validation/referenceNavigation.ts';
 import {parseLocalizationInputInventory} from './validation/localizationInputInventory.mjs';
 import {
   validateReferenceSource,
   validateReferenceTranslation,
+  validateReferenceReconciliationLedger,
   type TranslationSourceProvenance,
   type TranslationSourceProvenanceVerifier,
 } from './validation/translation.ts';
@@ -150,6 +152,7 @@ const REFERENCE_TARGET_ROOT = 'content/zh-CN/reference';
 const REFERENCE_SOURCE_MANIFEST = 'generated/en/manifests/reference.json';
 const REFERENCE_TRANSLATION_MANIFEST = 'generated/zh-CN/manifests/reference-translations.json';
 const REFERENCE_RETIREMENT_REGISTRY = 'config/reference-retirements.json';
+const REFERENCE_RECONCILIATION_LEDGER = 'generated/zh-CN/manifests/reference-reconciliation-ledger.json';
 const EXTERNAL_SNAPSHOT_WORKTREE = 'external-snapshot';
 const EXTERNAL_SNAPSHOT_TRACKED_INPUTS = 'deploy/contracts/localization-inputs.inventory.json';
 const GIT_STDERR_LIMIT = 512;
@@ -780,6 +783,9 @@ export async function executeReferenceDocsToolingCommand(
     if (argv[2] === 'en') {
       // Source ownership, revision, and hashes were validated above.
     } else {
+      if (existsSync(path.join(repositoryRoot, REFERENCE_RECONCILIATION_LEDGER))) {
+        validateReferenceReconciliationLedger(parseReferenceReconciliationLedger(readJson(repositoryRoot, REFERENCE_RECONCILIATION_LEDGER)));
+      }
       const translationManifest = parseReferenceTranslationManifest(readJson(repositoryRoot, REFERENCE_TRANSLATION_MANIFEST));
       const targetSnapshot = captureReferenceTree(repositoryRoot, REFERENCE_TARGET_ROOT);
       const retirementRegistry = dependencies.retirementRegistry

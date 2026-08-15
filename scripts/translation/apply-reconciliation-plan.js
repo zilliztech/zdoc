@@ -7,6 +7,7 @@ const {createReconciliationResult, validateReconciliationPlan} = require('./reco
 const {validateApprovalReceipt} = require('./reconciliation-policy')
 
 const CACHE_PATH = '.translation-cache/ja-JP.json'
+const REFERENCE_LEDGER_PATH = 'generated/zh-CN/manifests/reference-reconciliation-ledger.json'
 
 function safeFile(root, relative, label) {
   let current = path.resolve(root)
@@ -36,6 +37,56 @@ function writeAtomic(file, value) {
   fs.renameSync(temporary, file)
 }
 
+function readLedger(root) {
+  const file = safeFile(root, REFERENCE_LEDGER_PATH, 'Reference reconciliation ledger')
+  if (!fs.existsSync(file)) return {schemaVersion: 1, document: 'reference-reconciliation-ledger', entries: []}
+  const value = JSON.parse(fs.readFileSync(file, 'utf8'))
+  if (!value || value.schemaVersion !== 1 || value.document !== 'reference-reconciliation-ledger' || !Array.isArray(value.entries)) throw new Error('Reference reconciliation ledger has an invalid schema')
+  return value
+}
+
+function rebuildChineseReferenceState(options) {
+  if (options.rebuildChineseReferenceState) return options.rebuildChineseReferenceState()
+  const command = spawnSync('pnpm', ['docs-tooling', 'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference', '--source-commit', options.sourceCheckpointSha, '--write'], {
+    cwd: options.workspaceRoot,
+    encoding: 'utf8',
+  })
+  if (command.status !== 0) throw new Error(`Chinese Reference manifest rebuild failed: ${command.stderr || command.stdout}`)
+}
+
+function updateChineseLedger(options, plan, result) {
+  const ledger = readLedger(options.workspaceRoot)
+  const byOperation = new Map(ledger.entries.map(entry => [entry.operationId, entry]))
+  for (const operationResult of result.operations) {
+    const operation = plan.operations.find(candidate => candidate.operationId === operationResult.operationId)
+    const entry = {
+      operationId: operation.operationId,
+      planSha256: plan.planSha256,
+      resultSha256: result.resultSha256,
+      target: plan.target,
+      group: plan.group,
+      sourceCheckpointSha: plan.sourceCheckpointSha,
+      targetBaselineSha: plan.targetBaselineSha,
+      sourcePath: operation.sourcePath,
+      targetPath: operation.targetPath,
+      kind: operation.kind,
+      status: operationResult.status,
+      removedPaths: [...operationResult.removedPaths],
+      removedStateKeys: [...operationResult.removedStateKeys],
+    }
+    const prior = byOperation.get(entry.operationId)
+    if (prior) {
+      for (const key of ['planSha256', 'target', 'group', 'sourceCheckpointSha', 'targetBaselineSha', 'sourcePath', 'targetPath', 'kind']) {
+        if (prior[key] !== entry[key]) throw new Error(`Reference reconciliation ledger operation identity conflict: ${entry.operationId}`)
+      }
+      continue
+    }
+    byOperation.set(entry.operationId, entry)
+  }
+  ledger.entries = [...byOperation.values()].sort((left, right) => left.sourceCheckpointSha.localeCompare(right.sourceCheckpointSha) || left.group.localeCompare(right.group) || left.sourcePath.localeCompare(right.sourcePath) || left.operationId.localeCompare(right.operationId))
+  writeAtomic(path.join(options.workspaceRoot, REFERENCE_LEDGER_PATH), ledger)
+}
+
 function legacyCacheKeys(targetPath) {
   const mappings = [
     ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/', 'content/en/guides/tutorials/', 'docs/tutorials/'],
@@ -50,7 +101,7 @@ function legacyCacheKeys(targetPath) {
 
 function applyReconciliationPlan(options) {
   const plan = validateReconciliationPlan(options.plan, {repositoryRoot: options.workspaceRoot})
-  if (plan.target !== 'ja-JP') throw new Error('Japanese reconciliation executor only supports ja-JP')
+  if (!['ja-JP', 'zh-CN-reference'].includes(plan.target)) throw new Error(`Unsupported reconciliation target: ${plan.target}`)
   if (options.sourceCheckpointSha !== plan.sourceCheckpointSha || options.targetBaselineSha !== plan.targetBaselineSha) throw new Error('Reconciliation source checkpoint or target baseline identity mismatch')
   if (!options.allowLegacyIdentityBypass) {
     for (const [root, label] of [[options.sourceRepositoryRoot, 'Source repository'], [options.targetBaselineRoot, 'Target baseline']]) {
@@ -64,10 +115,10 @@ function applyReconciliationPlan(options) {
   }
   for (const operation of plan.operations) {
     if (operation.authorization.status !== 'approved' && !(options.approvalReceipts || []).some(receipt => validateApprovalReceipt(receipt, plan, {now: options.now}))) throw new Error('Reconciliation operation lacks approval')
-    if (!['delete_target', 'replace_path'].includes(operation.kind)) throw new Error(`Japanese executor does not mutate operation kind: ${operation.kind}`)
+    if (!['delete_target', 'replace_path'].includes(operation.kind)) throw new Error(`Reconciliation executor does not mutate operation kind: ${operation.kind}`)
   }
   if (options.hooks?.beforeMutation) options.hooks.beforeMutation()
-  const cache = readCache(options.workspaceRoot)
+  const cache = plan.target === 'ja-JP' ? readCache(options.workspaceRoot) : undefined
   const operationResults = []
   let cacheChanged = false
   for (const operation of plan.operations) {
@@ -79,22 +130,29 @@ function applyReconciliationPlan(options) {
       fs.rmSync(target)
       applied = true
     }
-    const keys = new Set(legacyCacheKeys(operation.targetPath))
-    keys.add(operation.sourcePath)
-    for (const [key, entry] of Object.entries(cache.files)) if (entry?.targetPath === operation.targetPath) keys.add(key)
     const removedStateKeys = []
-    for (const key of [...keys].sort()) if (Object.hasOwn(cache.files, key)) {
-      delete cache.files[key]
-      removedStateKeys.push(key)
-      cacheChanged = true
-      applied = true
+    if (cache) {
+      const keys = new Set(legacyCacheKeys(operation.targetPath))
+      keys.add(operation.sourcePath)
+      for (const [key, entry] of Object.entries(cache.files)) if (entry?.targetPath === operation.targetPath) keys.add(key)
+      for (const key of [...keys].sort()) if (Object.hasOwn(cache.files, key)) {
+        delete cache.files[key]
+        removedStateKeys.push(key)
+        cacheChanged = true
+        applied = true
+      }
+    } else {
+      removedStateKeys.push(operation.sourcePath)
     }
     operationResults.push({operationId: operation.operationId, status: applied ? 'applied' : 'already_applied', removedPaths: [operation.targetPath], removedStateKeys})
   }
   if (cacheChanged) writeAtomic(path.join(options.workspaceRoot, CACHE_PATH), cache)
+  if (plan.target === 'zh-CN-reference') rebuildChineseReferenceState(options)
   if (options.hooks?.afterMutation) options.hooks.afterMutation()
   const status = operationResults.some(result => result.status === 'applied') ? 'applied' : 'already_applied'
-  return createReconciliationResult({schemaVersion: 1, document: 'translation-reconciliation-result', planSha256: plan.planSha256, targetBaselineSha: plan.targetBaselineSha, status, operations: operationResults}, plan)
+  const result = createReconciliationResult({schemaVersion: 1, document: 'translation-reconciliation-result', planSha256: plan.planSha256, targetBaselineSha: plan.targetBaselineSha, status, operations: operationResults}, plan)
+  if (plan.target === 'zh-CN-reference') updateChineseLedger(options, plan, result)
+  return result
 }
 
 module.exports = {applyReconciliationPlan}
