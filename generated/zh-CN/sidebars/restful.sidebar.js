@@ -546,18 +546,6 @@ module.exports = [
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-job-v2",
-                "label": "创建 Spark 任务 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-job-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/validate-spark-job-artifact-v2",
-                "label": "校验 Spark 任务 Artifact (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/validate-spark-job-artifact-v2"
-              },
-              {
-                "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/spark-job-v2/describe-spark-job-v2",
                 "label": "查看 Spark 任务详情 (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/describe-spark-job-v2"
@@ -979,6 +967,12 @@ module.exports = [
               },
               {
                 "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2",
+                "label": "修改数据库属性 (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2"
+              },
+              {
+                "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/database-operations-v2/drop-database-properties-v2",
                 "label": "删除 Database 属性 (V2)",
                 "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/drop-database-properties-v2"
@@ -988,12 +982,6 @@ module.exports = [
                 "id": "api/restful/restful/v2/data-plane/database-operations-v2/drop-database-v2",
                 "label": "删除 Database (V2)",
                 "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/drop-database-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2",
-                "label": "修改数据库属性 (V2)",
-                "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2"
               }
             ]
           },
