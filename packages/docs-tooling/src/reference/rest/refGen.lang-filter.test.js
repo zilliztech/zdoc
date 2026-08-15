@@ -378,7 +378,7 @@ function testMalformedI18nIsRejectedWithJsonPath() {
 
 function testAllRestSegmentsUseCanonicalI18nShape() {
   const segmentFiles = fs.readdirSync(OPENAPI_DIR).filter(name => name.endsWith('.json')).sort()
-  assert.equal(segmentFiles.length, 36)
+  assert.equal(segmentFiles.length, 38)
   for (const fileName of segmentFiles) {
     const spec = readJson(path.join(OPENAPI_DIR, fileName))
     assert.doesNotThrow(() => new RefGen({

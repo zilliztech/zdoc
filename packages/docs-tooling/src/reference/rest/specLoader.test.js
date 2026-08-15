@@ -236,6 +236,25 @@ function testRejectsIncompatibleInfoVersion() {
     });
 }
 
+function testIgnoresCanonicalFragmentIdentityDuringLegacyMerge() {
+    withTempDir(dir => {
+        writeMergeFragment(dir, '01-legacy.json');
+        writeMergeFragment(dir, '02-canonical.json', {
+            'x-zdoc-fragment': {
+                schemaVersion: '1.0',
+                apiSurface: 'data-plane',
+                service: 'canonical-service',
+            },
+        });
+
+        const spec = loadSpecifications(dir);
+
+        assert.equal(Object.hasOwn(spec, 'x-zdoc-fragment'), false);
+        assert.ok(spec.paths['/01-legacy.json/list']);
+        assert.ok(spec.paths['/02-canonical.json/list']);
+    });
+}
+
 function run() {
     testPathRefsResolveAgainstTheirSourceFileBeforeMerge();
     testPreResolutionLeavesCrossFileRefsForMergedResolutionWithoutWarning();
@@ -244,6 +263,7 @@ function run() {
     testDeduplicatesTagsByName();
     testRejectsConflictingOpenApiVersion();
     testRejectsIncompatibleInfoVersion();
+    testIgnoresCanonicalFragmentIdentityDuringLegacyMerge();
     console.log('apifox spec loader tests passed');
 }
 
