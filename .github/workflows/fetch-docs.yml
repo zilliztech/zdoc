@@ -599,6 +599,7 @@ jobs:
 
   publish_ready:
     needs: [prepare, reconciliation_preflight]
+    if: ${{ always() && needs.prepare.result == 'success' && (needs.prepare.outputs.publish == 'false' || needs.reconciliation_preflight.result == 'success') }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
     permissions:
