@@ -246,6 +246,7 @@ git diff --check
 - Modify: `scripts/docs-workflow/translation-handoff.test.js`
 - Modify: `scripts/docs-workflow/monitor-translation-progress.js`
 - Modify: related monitor tests
+- Modify: `scripts/docs-workflow/translation-publication-selection.js`
 - Modify: `.github/workflows/translate-codex.yml`
 
 - [x] Add plan artifact, plan digest, and policy ID to every handoff unit.
@@ -260,7 +261,8 @@ Focused verification:
 ```bash
 node --test scripts/docs-workflow/translation-handoff.test.js \
   scripts/docs-workflow/monitor-translation-progress.test.js \
-  scripts/docs-workflow/translation-progress-state.test.js
+  scripts/docs-workflow/translation-progress-state.test.js \
+  scripts/docs-workflow/translation-publication-selection.test.js
 pnpm test:workflow-policy
 git diff --check
 ```
