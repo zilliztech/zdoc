@@ -133,12 +133,12 @@ git diff --check
 - Modify: `scripts/translation/agentRunner.js`
 - Modify: relevant agent runner tests
 
-- [ ] Replace writer output for `deleted_i18n`/`renamed` with a reconciliation plan artifact reference and digest.
-- [ ] Retain readers for legacy manifests and convert them in memory.
-- [ ] Assign operation ownership to exactly one canonical batch.
-- [ ] Keep reconciliation-only batch creation when candidate count is zero.
-- [ ] Ensure paid model work is skipped for operation-only batches.
-- [ ] Preserve candidate reason ordering and backlog behavior.
+- [x] Replace writer output for `deleted_i18n`/`renamed` with a reconciliation plan artifact reference and digest.
+- [x] Retain readers for legacy manifests and convert them in memory.
+- [x] Assign operation ownership to exactly one canonical batch.
+- [x] Keep reconciliation-only batch creation when candidate count is zero.
+- [x] Ensure paid model work is skipped for operation-only batches.
+- [x] Preserve candidate reason ordering and backlog behavior.
 
 Focused verification:
 

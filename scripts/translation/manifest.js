@@ -332,9 +332,15 @@ function candidateOwnership({group, target}) {
   }
 }
 
-function createManifest({ target, locale, group, sourceCheckpointSha, sourceDelta, items }) {
+function createManifest({ target, locale, group, sourceCheckpointSha, sourceDelta, reconciliation, items }) {
   const manifest = { target, locale, group, sourceCheckpointSha, generatedAt: new Date().toISOString(), items }
-  if (sourceDelta) {
+  if (reconciliation) {
+    manifest.reconciliation = {
+      planArtifact: reconciliation.planArtifact,
+      planSha256: reconciliation.plan.planSha256,
+      operationCount: reconciliation.plan.operations.length,
+    }
+  } else if (sourceDelta) {
     manifest.source_delta = {
       deleted_i18n: [...(sourceDelta.deletedI18n || [])],
       renamed: [...(sourceDelta.renamed || [])],
@@ -369,7 +375,11 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = localeForTarget(tar
   if (!['full', 'incremental'].includes(mode)) throw new Error(`Unsupported effective translation mode: ${mode}`)
   if (typeof group !== 'string' || group === '') throw new Error('A canonical translation group is required')
   if (!SHA.test(sourceCheckpointSha || '')) throw new Error('A valid 40-character source checkpoint SHA is required with --group')
-  if (reconciliation) evaluateManifestReconciliation({siteDir, target, group, ...reconciliation})
+  let reconciliationEvaluation = null
+  if (reconciliation) {
+    if (typeof reconciliation.planArtifact !== 'string' || !reconciliation.planArtifact || /[\0\r\n/\\]/.test(reconciliation.planArtifact)) throw new Error('A valid reconciliation plan artifact name is required')
+    reconciliationEvaluation = evaluateManifestReconciliation({siteDir, target, group, ...reconciliation})
+  }
   const ownership = candidateOwnership({group, target})
   const result = buildTranslationCandidates({
     repositoryRoot: siteDir,
@@ -394,7 +404,15 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = localeForTarget(tar
         retirementCandidates: result.retirementCandidates,
       }
     : null
-  return createManifest({target, locale, group, sourceCheckpointSha, sourceDelta: effectiveSourceDelta, items: selectedItems})
+  return createManifest({
+    target,
+    locale,
+    group,
+    sourceCheckpointSha,
+    sourceDelta: effectiveSourceDelta,
+    reconciliation: reconciliationEvaluation ? {...reconciliationEvaluation, planArtifact: reconciliation.planArtifact} : null,
+    items: selectedItems,
+  })
 }
 
 function main() {

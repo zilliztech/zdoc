@@ -159,12 +159,49 @@ function testReconciliationReviewStopsManifestBeforeCandidateScanning() {
       target: 'zh-CN-reference',
       group: 'python',
       sourceCheckpointSha: discovery.sourceCheckpointSha,
-      reconciliation: {toolingSha: '1'.repeat(40), discovery},
+      reconciliation: {toolingSha: '1'.repeat(40), discovery, planArtifact: 'translation-reconciliation-plan-zh-CN-reference-python-123'},
     }), error => {
       assert.equal(error instanceof ReconciliationReviewRequiredError, true)
       assert.equal(error.reviewArtifact.document, 'translation-reconciliation-review')
       return true
     })
+  })
+}
+
+function testApprovedJapaneseReconciliationUsesPlanTransport() {
+  withTempDir(siteDir => {
+    const policy = fs.readFileSync(path.join(__dirname, '../../config/translation/reconciliation-policy.json'), 'utf8')
+    write(path.join(siteDir, 'config/translation/reconciliation-policy.json'), policy)
+    const sourcePath = 'content/en/guides/tutorials/removed.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/removed.md'
+    const discovery = {
+      sourceBaselineSha: '2'.repeat(40),
+      sourceCheckpointSha: '3'.repeat(40),
+      targetBaselineSha: '4'.repeat(40),
+      sourceCheckpointInventory: Array.from({length: 20}, (_, index) => `content/en/guides/tutorials/current-${index}.md`),
+      candidates: [{
+        kind: 'delete_target', sourcePath, targetPath, replacementSourcePath: null, replacementTargetPath: null, reason: 'source_deleted',
+        evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null},
+      }],
+    }
+    const manifest = buildManifest({
+      siteDir,
+      target: 'ja-JP',
+      group: 'guides',
+      sourceCheckpointSha: discovery.sourceCheckpointSha,
+      reconciliation: {
+        toolingSha: '1'.repeat(40),
+        discovery,
+        planArtifact: 'translation-reconciliation-plan-ja-JP-guides-123',
+      },
+    })
+    assert.equal(manifest.source_delta, undefined)
+    assert.deepEqual(manifest.reconciliation, {
+      planArtifact: 'translation-reconciliation-plan-ja-JP-guides-123',
+      planSha256: manifest.reconciliation.planSha256,
+      operationCount: 1,
+    })
+    assert.match(manifest.reconciliation.planSha256, /^sha256:[0-9a-f]{64}$/)
   })
 }
 
@@ -776,6 +813,7 @@ function run() {
   testPendingReferenceStateSelectsOnlyPendingAndChangedWork()
   testExplicitTargetLocales()
   testReconciliationReviewStopsManifestBeforeCandidateScanning()
+  testApprovedJapaneseReconciliationUsesPlanTransport()
   testActiveReferenceSourceIsNotHiddenByStaleRetirement()
   testAuthorizedHistoricalReferenceOrphanIsSerializedUnchanged()
   testRetirementReviewSeparatesPolicyRetirementReplacementAndTargetExclusion()

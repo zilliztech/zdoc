@@ -3,6 +3,7 @@
 const crypto = require('node:crypto')
 
 const SHA256 = /^[0-9a-f]{64}$/
+const DIGEST = /^sha256:[0-9a-f]{64}$/
 const CANDIDATE_REASONS = Object.freeze(['current_delta', 'missing_target', 'stale_source'])
 
 function assertManifest(manifest) {
@@ -33,13 +34,40 @@ function canonicalPendingItems(manifest) {
   })).sort((a, b) => a.sourcePath.localeCompare(b.sourcePath))
 }
 
+function legacyReconciliationMetadata(sourceDelta) {
+  if (!sourceDelta) return null
+  const operationCount = (sourceDelta.deleted_i18n?.length || 0)
+    + (sourceDelta.renamed?.length || 0)
+    + (sourceDelta.retirement_candidates?.length || 0)
+  if (operationCount === 0) return null
+  const digest = crypto.createHash('sha256').update(JSON.stringify(sourceDelta)).digest('hex')
+  return {
+    planArtifact: 'legacy-source-delta',
+    planSha256: `sha256:${digest}`,
+    operationCount,
+  }
+}
+
+function reconciliationMetadata(manifest) {
+  assertManifest(manifest)
+  const metadata = manifest.reconciliation || legacyReconciliationMetadata(manifest.source_delta)
+  if (!metadata) return null
+  if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) throw new Error('Translation reconciliation metadata must be an object')
+  const keys = Object.keys(metadata).sort()
+  if (JSON.stringify(keys) !== JSON.stringify(['operationCount', 'planArtifact', 'planSha256'])) throw new Error('Translation reconciliation metadata must use the exact schema')
+  if (typeof metadata.planArtifact !== 'string' || !metadata.planArtifact || /[\0\r\n/\\]/.test(metadata.planArtifact)) throw new Error('Translation reconciliation plan artifact is invalid')
+  if (!DIGEST.test(metadata.planSha256 || '')) throw new Error('Translation reconciliation plan digest is invalid')
+  if (!Number.isSafeInteger(metadata.operationCount) || metadata.operationCount < 0) throw new Error('Translation reconciliation operation count is invalid')
+  return {...metadata}
+}
+
 function pendingSetSha256(manifest) {
   assertManifest(manifest)
   const identity = {
     locale: manifest.locale,
     group: manifest.group,
     sourceCheckpointSha: manifest.sourceCheckpointSha,
-    sourceDelta: manifest.source_delta || null,
+    reconciliation: reconciliationMetadata(manifest),
     items: canonicalPendingItems(manifest),
   }
   return crypto.createHash('sha256').update(JSON.stringify(identity)).digest('hex')
@@ -49,11 +77,8 @@ function createBatchSummary(manifest, batchSize) {
   assertManifest(manifest)
   assertBatchSize(batchSize)
   const pendingCount = manifest.items.length
-  const hasReconciliationMutation = Boolean(
-    manifest.source_delta?.deleted_i18n?.length
-    || manifest.source_delta?.renamed?.length
-    || manifest.source_delta?.retirement_candidates?.length,
-  )
+  const reconciliation = reconciliationMetadata(manifest)
+  const hasReconciliationMutation = (reconciliation?.operationCount || 0) > 0
   const batchCount = pendingCount > 0 ? Math.ceil(pendingCount / batchSize) : hasReconciliationMutation ? 1 : 0
   return {
     pendingCount,
@@ -84,8 +109,13 @@ function selectManifestBatch(manifest, options = {}) {
       batchSize: options.batchSize,
       pendingCount: summary.pendingCount,
       pendingSetSha256: summary.pendingSetSha256,
+      reconciliationOwner: options.batchIndex === 0 && hasReconciliationOperations(manifest),
     },
   }
 }
 
-module.exports = { countCandidateReasons, createBatchSummary, pendingSetSha256, selectManifestBatch }
+function hasReconciliationOperations(manifest) {
+  return (reconciliationMetadata(manifest)?.operationCount || 0) > 0
+}
+
+module.exports = { countCandidateReasons, createBatchSummary, pendingSetSha256, reconciliationMetadata, selectManifestBatch }
