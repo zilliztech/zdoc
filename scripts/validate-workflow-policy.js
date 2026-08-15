@@ -687,7 +687,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         'Validate immutable inputs',
         'Materialize source checkpoint and baseline',
         'Materialize target baseline translation state',
-        'Apply source translation delta',
+        'Prepare and apply translation reconciliation',
         'Resolve effective translation mode',
         'Build group translation manifest',
         'Resolve current recovery compatibility',

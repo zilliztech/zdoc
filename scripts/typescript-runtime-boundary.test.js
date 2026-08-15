@@ -13,6 +13,7 @@ const productionEntries = [
   'scripts/docs-workflow/guides-render-readiness.js',
   'scripts/translation/applySourceDelta.js',
   'scripts/translation/apply-reconciliation-plan.js',
+  'scripts/translation/prepare-reconciliation-plan.js',
   'scripts/translation/reconciliation-discovery.js',
   'scripts/translation/reconciliation-plan.js',
   'scripts/translation/reconciliation-policy.js',

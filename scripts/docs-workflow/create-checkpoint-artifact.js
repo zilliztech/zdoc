@@ -10,6 +10,8 @@ const { getContentGroup } = require('./content-groups');
 const { translationOwnedPaths, validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts');
 const { validateBatchInput } = require('./translation-batch-input');
+const { validateReconciliationPlan, validateReconciliationResult } = require('../translation/reconciliation-plan');
+const { validateApprovalReceipt } = require('../translation/reconciliation-policy');
 
 const SHA = /^[0-9a-f]{40}$/;
 const DEFAULT_GC_GRACE_MS = 24 * 60 * 60 * 1000;
@@ -98,6 +100,19 @@ async function readCanonicalBatchInput(file, { group, devBaselineSha, batch }) {
   return { bytes, document, sha256: crypto.createHash('sha256').update(bytes).digest('hex') };
 }
 
+async function readCanonicalJsonEvidence(file, label, validate) {
+  if (typeof file !== 'string' || !path.isAbsolute(file) || /[\0\r\n]/.test(file)) throw new Error(`${label} path must be absolute`);
+  const stat = await lstat(file);
+  if (stat.isSymbolicLink() || !stat.isFile()) throw new Error(`${label} must be a regular non-symlink file`);
+  const bytes = await readRegularNoFollow(file, stat);
+  let document;
+  try { document = JSON.parse(bytes.toString('utf8')); } catch (error) { throw new Error(`${label} JSON is invalid: ${error.message}`); }
+  const validated = validate(document);
+  const canonical = Buffer.from(`${JSON.stringify(validated, null, 2)}\n`);
+  if (!bytes.equals(canonical)) throw new Error(`${label} must use canonical JSON bytes`);
+  return {bytes, document: validated, size: bytes.length, sha256: crypto.createHash('sha256').update(bytes).digest('hex')};
+}
+
 async function collect(root, ownedPaths) {
   const files = new Map();
   async function visit(rel) {
@@ -172,6 +187,20 @@ async function createCheckpointArtifact(options) {
   const batchInput = numberedTranslation
     ? await readCanonicalBatchInput(options.batchInputPath, { group: groupName, devBaselineSha, batch })
     : null;
+  let reconciliation = null;
+  if (options.reconciliationPlanPath !== undefined || options.reconciliationResultPath !== undefined || options.reconciliationApprovalPath !== undefined) {
+    if (!options.includeTranslationCache) throw new Error('Reconciliation evidence is only allowed for translation artifacts');
+    if (!options.reconciliationPlanPath) throw new Error('Reconciliation plan path is required with reconciliation evidence');
+    const plan = await readCanonicalJsonEvidence(options.reconciliationPlanPath, 'Reconciliation plan', value => validateReconciliationPlan(value));
+    if (plan.document.target !== translationIdentity.translationTarget || plan.document.group !== groupName || plan.document.sourceCheckpointSha !== translationIdentity.sourceCheckpointSha || plan.document.toolingSha !== translationIdentity.toolingSha) throw new Error('Reconciliation plan translation identity mismatch');
+    const approval = options.reconciliationApprovalPath
+      ? await readCanonicalJsonEvidence(options.reconciliationApprovalPath, 'Reconciliation approval', value => validateApprovalReceipt(value, plan.document))
+      : null;
+    const result = options.reconciliationResultPath
+      ? await readCanonicalJsonEvidence(options.reconciliationResultPath, 'Reconciliation result', value => validateReconciliationResult(value, plan.document))
+      : null;
+    reconciliation = {plan, approval, result};
+  }
   const baselineDir = path.resolve(options.baselineDir), workspace = path.resolve(options.workspace), requestedOutput = path.resolve(options.output);
   const initialSafety = await safeOutputLocation(requestedOutput, workspace, baselineDir);
   const output = initialSafety.canonicalOutput;
@@ -219,11 +248,25 @@ async function createCheckpointArtifact(options) {
       files.push({ path: rel, sha256: crypto.createHash('sha256').update(bytes).digest('hex'), size: bytes.length });
     }
     if (batchInput) await writeFile(path.join(staging, 'batch-input.json'), batchInput.bytes, { flag: 'wx' });
+    if (reconciliation) {
+      await writeFile(path.join(staging, 'reconciliation-plan.json'), reconciliation.plan.bytes, {flag: 'wx'});
+      if (reconciliation.approval) await writeFile(path.join(staging, 'reconciliation-approval.json'), reconciliation.approval.bytes, {flag: 'wx'});
+      if (reconciliation.result) await writeFile(path.join(staging, 'reconciliation-result.json'), reconciliation.result.bytes, {flag: 'wx'});
+    }
     const createdAt = options.createdAt === undefined ? new Date().toISOString() : new Date(options.createdAt).toISOString();
     const common = { stage: options.includeTranslationCache ? 'translation' : 'source', group: groupName, masterSha, devBaselineSha, createdAt, ownershipVersion: 1, files, deletions, snapshotManual: group.snapshotManual, ...(translationIdentity || {}) };
+    const evidenceEntry = (name, value, documentSha256) => value ? {path: name, size: value.size, sha256: value.sha256, documentSha256} : null;
+    const reconciliationManifest = reconciliation ? {
+      contractVersion: 1,
+      plan: evidenceEntry('reconciliation-plan.json', reconciliation.plan, reconciliation.plan.document.planSha256),
+      approval: evidenceEntry('reconciliation-approval.json', reconciliation.approval, reconciliation.approval?.document.receiptSha256),
+      result: evidenceEntry('reconciliation-result.json', reconciliation.result, reconciliation.result?.document.resultSha256),
+    } : null;
     const manifest = batchInput
-      ? { schemaVersion: 2, ...common, batch, batchInput: { path: 'batch-input.json', size: batchInput.bytes.length, sha256: batchInput.sha256 } }
-      : { schemaVersion: 1, ...common, validation: { commands: options.validationCommands || [], passed: true } };
+      ? { schemaVersion: reconciliation ? 3 : 2, ...common, batch, batchInput: { path: 'batch-input.json', size: batchInput.bytes.length, sha256: batchInput.sha256 }, ...(reconciliation ? {reconciliation: reconciliationManifest} : {}) }
+      : reconciliation
+        ? {schemaVersion: 3, ...common, validation: {commands: options.validationCommands || [], passed: true}, reconciliation: reconciliationManifest}
+        : { schemaVersion: 1, ...common, validation: { commands: options.validationCommands || [], passed: true } };
     const temporary = path.join(staging, `.manifest.${process.pid}.tmp`);
     await writeFile(temporary, `${JSON.stringify(manifest, null, 2)}\n`, { flag: 'wx' });
     await rename(temporary, path.join(staging, 'manifest.json'));
@@ -245,12 +288,12 @@ async function createCheckpointArtifact(options) {
   }
 }
 
-function usage() { return 'Usage: node create-checkpoint-artifact.js --group <group> --master-sha <sha> --dev-baseline-sha <sha> --baseline-dir <dir> --workspace <dir> --output <dir> [--include-translation-cache --translation-target <target> --source-site <site> --target-site <site> --source-checkpoint-sha <sha> --tooling-sha <sha>] [--batch-index <n> --batch-number <n> --batch-count <n> --batch-size <n> --pending-count <n> --pending-set-sha256 <sha> --batch-input <path>] [--validation-command <string> ...]'; }
+function usage() { return 'Usage: node create-checkpoint-artifact.js --group <group> --master-sha <sha> --dev-baseline-sha <sha> --baseline-dir <dir> --workspace <dir> --output <dir> [--include-translation-cache --translation-target <target> --source-site <site> --target-site <site> --source-checkpoint-sha <sha> --tooling-sha <sha>] [--batch-index <n> --batch-number <n> --batch-count <n> --batch-size <n> --pending-count <n> --pending-set-sha256 <sha> --batch-input <path>] [--reconciliation-plan <path> [--reconciliation-approval <path>] [--reconciliation-result <path>]] [--validation-command <string> ...]'; }
 function parseArgs(args) {
   if (args.length === 1 && args[0] === '--help') return { help: true };
   if (args.includes('--help')) throw new Error('--help must be used alone');
   const result = { validationCommands: [] };
-  const names = { group: 'group', 'master-sha': 'masterSha', 'dev-baseline-sha': 'devBaselineSha', 'baseline-dir': 'baselineDir', workspace: 'workspace', output: 'output', 'batch-input': 'batchInputPath', 'translation-target': 'translationTarget', 'source-site': 'sourceSite', 'target-site': 'targetSite', 'source-checkpoint-sha': 'sourceCheckpointSha', 'tooling-sha': 'toolingSha' };
+  const names = { group: 'group', 'master-sha': 'masterSha', 'dev-baseline-sha': 'devBaselineSha', 'baseline-dir': 'baselineDir', workspace: 'workspace', output: 'output', 'batch-input': 'batchInputPath', 'translation-target': 'translationTarget', 'source-site': 'sourceSite', 'target-site': 'targetSite', 'source-checkpoint-sha': 'sourceCheckpointSha', 'tooling-sha': 'toolingSha', 'reconciliation-plan': 'reconciliationPlanPath', 'reconciliation-approval': 'reconciliationApprovalPath', 'reconciliation-result': 'reconciliationResultPath' };
   const batchNames = { 'batch-index': 'batchIndex', 'batch-number': 'batchNumber', 'batch-count': 'batchCount', 'batch-size': 'batchSize', 'pending-count': 'pendingCount', 'pending-set-sha256': 'pendingSetSha256' };
   const seen = new Set();
   for (let i = 0; i < args.length;) {
@@ -266,7 +309,7 @@ function parseArgs(args) {
     else throw new Error(`Unknown argument: --${key}`);
     i += 2;
   }
-  for (const [flag, name] of Object.entries(names)) if (!['batch-input', 'translation-target', 'source-site', 'target-site', 'source-checkpoint-sha', 'tooling-sha'].includes(flag) && result[name] === undefined) throw new Error(`Missing required argument: --${flag}`);
+  for (const [flag, name] of Object.entries(names)) if (!['batch-input', 'translation-target', 'source-site', 'target-site', 'source-checkpoint-sha', 'tooling-sha', 'reconciliation-plan', 'reconciliation-approval', 'reconciliation-result'].includes(flag) && result[name] === undefined) throw new Error(`Missing required argument: --${flag}`);
   const presentBatch = Object.values(batchNames).filter((name) => result[name] !== undefined);
   if (presentBatch.length !== 0 && presentBatch.length !== Object.keys(batchNames).length) throw new Error('All translation batch arguments must be provided together');
   if (presentBatch.length) {

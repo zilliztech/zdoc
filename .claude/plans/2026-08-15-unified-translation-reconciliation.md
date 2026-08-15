@@ -159,12 +159,12 @@ git diff --check
 - Modify: `scripts/docs-workflow/apply-translation-batch.test.js`
 - Modify: `.github/workflows/_translate-content-group.yml`
 
-- [ ] Package plan, approval, result, and updated cache in checkpoint artifacts.
-- [ ] Validate exact artifact identities and reject plan/result mismatches.
-- [ ] Ensure only the publisher writes Git state.
-- [ ] Preserve target/group-qualified artifact names.
-- [ ] Add workflow outputs for plan and result digests.
-- [ ] Verify `publish=false` performs no branch mutation.
+- [x] Package plan, approval, result, and updated cache in checkpoint artifacts.
+- [x] Validate exact artifact identities and reject plan/result mismatches.
+- [x] Ensure only the publisher writes Git state.
+- [x] Preserve target/group-qualified artifact names.
+- [x] Add workflow outputs for plan and result digests.
+- [x] Verify `publish=false` performs no branch mutation.
 
 Focused verification:
 

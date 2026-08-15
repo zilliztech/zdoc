@@ -11,6 +11,7 @@ const {
   evaluateReconciliationPolicy,
   loadReconciliationPolicy,
 } = require('./reconciliation-policy')
+const {validateReconciliationPlan} = require('./reconciliation-plan')
 
 const {
   buildTranslationCandidates,
@@ -378,7 +379,11 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = localeForTarget(tar
   let reconciliationEvaluation = null
   if (reconciliation) {
     if (typeof reconciliation.planArtifact !== 'string' || !reconciliation.planArtifact || /[\0\r\n/\\]/.test(reconciliation.planArtifact)) throw new Error('A valid reconciliation plan artifact name is required')
-    reconciliationEvaluation = evaluateManifestReconciliation({siteDir, target, group, ...reconciliation})
+    if (reconciliation.plan) {
+      const plan = validateReconciliationPlan(reconciliation.plan, {repositoryRoot: siteDir})
+      if (plan.target !== target || plan.group !== group || plan.sourceCheckpointSha !== sourceCheckpointSha) throw new Error('Reconciliation plan manifest identity mismatch')
+      reconciliationEvaluation = {plan}
+    } else reconciliationEvaluation = evaluateManifestReconciliation({siteDir, target, group, ...reconciliation})
   }
   const ownership = candidateOwnership({group, target})
   const result = buildTranslationCandidates({
@@ -427,6 +432,8 @@ function main() {
   const sourceCheckpointSha = args.get('--source-checkpoint-sha')
   const sourceDeltaPath = args.get('--source-delta') || null
   const retirementReportPath = args.get('--retirement-report') || null
+  const reconciliationPlanPath = args.get('--reconciliation-plan') || null
+  const reconciliationPlanArtifact = args.get('--reconciliation-plan-artifact') || null
   const mode = args.get('--mode') || process.env.TRANSLATION_MODE || 'incremental'
   const sourceDelta = sourceDeltaPath ? JSON.parse(fs.readFileSync(path.join(siteDir, sourceDeltaPath), 'utf8')) : null
   const batchFlags = ['--batch-index', '--batch-size', '--expected-pending-set-sha256']
@@ -434,7 +441,11 @@ function main() {
   if (presentBatchFlags.length !== 0 && presentBatchFlags.length !== batchFlags.length) throw new Error('Batch manifest flags must be provided together')
   let manifest
   try {
-    manifest = buildManifest({siteDir, target, locale, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha, sourceDelta, mode})
+    const reconciliation = reconciliationPlanPath ? {
+      plan: JSON.parse(fs.readFileSync(path.join(siteDir, reconciliationPlanPath), 'utf8')),
+      planArtifact: reconciliationPlanArtifact,
+    } : null
+    manifest = buildManifest({siteDir, target, locale, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha, sourceDelta, mode, reconciliation})
   } catch (error) {
     if (retirementReportPath && error instanceof TranslationRetirementRequiredError) {
       try {

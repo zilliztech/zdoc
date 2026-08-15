@@ -98,3 +98,34 @@ function applyReconciliationPlan(options) {
 }
 
 module.exports = {applyReconciliationPlan}
+
+function parseArgs(args) {
+  const names = new Map([
+    ['--plan', 'planPath'], ['--approval', 'approvalPath'], ['--result', 'resultPath'],
+    ['--workspace', 'workspaceRoot'], ['--source-repository', 'sourceRepositoryRoot'],
+    ['--target-baseline', 'targetBaselineRoot'], ['--source-checkpoint-sha', 'sourceCheckpointSha'],
+    ['--target-baseline-sha', 'targetBaselineSha'],
+  ])
+  const result = {approvalReceipts: []}
+  for (let index = 0; index < args.length; index += 2) {
+    const key = names.get(args[index])
+    if (!key || args[index + 1] === undefined || Object.hasOwn(result, key)) throw new Error('Invalid reconciliation apply arguments')
+    result[key] = args[index + 1]
+  }
+  for (const key of ['planPath', 'resultPath', 'workspaceRoot', 'sourceRepositoryRoot', 'targetBaselineRoot', 'sourceCheckpointSha', 'targetBaselineSha']) if (!result[key]) throw new Error(`Missing reconciliation apply argument: ${key}`)
+  result.plan = JSON.parse(fs.readFileSync(path.resolve(result.planPath), 'utf8'))
+  if (result.approvalPath) result.approvalReceipts.push(JSON.parse(fs.readFileSync(path.resolve(result.approvalPath), 'utf8')))
+  for (const key of ['workspaceRoot', 'sourceRepositoryRoot', 'targetBaselineRoot', 'resultPath']) result[key] = path.resolve(result[key])
+  return result
+}
+
+if (require.main === module) {
+  try {
+    const options = parseArgs(process.argv.slice(2))
+    const result = applyReconciliationPlan(options)
+    writeAtomic(options.resultPath, result)
+  } catch (error) {
+    console.error(`Reconciliation apply failed: ${error.message}`)
+    process.exitCode = 1
+  }
+}
