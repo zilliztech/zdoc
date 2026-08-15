@@ -3,6 +3,9 @@
 
 const fs = require('node:fs')
 const path = require('node:path')
+const {applyReconciliationPlan} = require('./apply-reconciliation-plan')
+const {createReconciliationPlan} = require('./reconciliation-plan')
+const {mapTargetPathForSource} = require('./reconciliation-discovery')
 
 const CACHE_PATH = '.translation-cache/ja-JP.json'
 const I18N_PREFIX = 'i18n/ja-JP/'
@@ -91,33 +94,34 @@ function applySourceDelta({ cwd = process.cwd(), target = 'ja-JP', delta }) {
     renamedI18n.push({ oldI18nPath, newI18nPath })
   }
 
-  const deletedI18n = []
-  for (const relativePath of [...deletedPaths].sort()) {
-    assertNoSymlinkAncestors(cwd, relativePath)
-    const fullPath = path.join(cwd, ...relativePath.split('/'))
-    if (!fs.existsSync(fullPath)) continue
-    fs.rmSync(fullPath, { recursive: true, force: true })
-    deletedI18n.push(relativePath)
-  }
-
-  const cache = readTranslationCache(cwd)
-  const cacheKeys = new Set()
-  for (const i18nPath of deletedPaths) {
-    cacheKeys.add(i18nPath)
-    for (const englishPath of englishPathsForI18n(i18nPath)) cacheKeys.add(englishPath)
-  }
-  for (const rename of renames) cacheKeys.add(normalizeSafeRelative(rename.oldPath))
-  for (const [sourcePath, entry] of Object.entries(cache.files)) {
-    if (entry && typeof entry === 'object' && deletedPaths.has(entry.targetPath)) cacheKeys.add(sourcePath)
-  }
-
-  const removedCacheKeys = []
-  for (const key of [...cacheKeys].sort()) {
-    if (!Object.hasOwn(cache.files, key)) continue
-    delete cache.files[key]
-    removedCacheKeys.push(key)
-  }
-  if (removedCacheKeys.length) writeJsonAtomic(path.join(cwd, CACHE_PATH), cache)
+  const existed = new Set([...deletedPaths].filter(relativePath => fs.existsSync(path.join(cwd, relativePath))))
+  const renameByTarget = new Map(renames.map(rename => [normalizeSafeRelative(rename.oldI18nPath, I18N_PREFIX), rename]))
+  const group = delta.group || (() => {
+    const sample = [...deletedPaths][0] || ''
+    if (sample.includes('docusaurus-plugin-content-docs-reference/current/api/restful/')) return 'rest'
+    if (sample.includes('docusaurus-plugin-content-docs-reference/current/api/python/')) return 'python'
+    return 'guides'
+  })()
+  const plan = createReconciliationPlan({
+    schemaVersion: 1, document: 'translation-reconciliation-plan', target: 'ja-JP', group,
+    toolingSha: '0'.repeat(40), sourceBaselineSha: '1'.repeat(40), sourceCheckpointSha: '2'.repeat(40), targetBaselineSha: '3'.repeat(40),
+    policyId: 'legacy-source-delta-adapter-v1',
+    operations: [...deletedPaths].map(targetPath => {
+      const sourcePath = mapTargetPathForSource('ja-JP', targetPath)
+      const rename = renameByTarget.get(targetPath)
+      return {
+        kind: rename ? 'replace_path' : 'delete_target', sourcePath, targetPath,
+        replacementSourcePath: rename ? normalizeSafeRelative(rename.newPath).replace(/^docs\//u, 'content/en/guides/').replace(/^docs-byoc\//u, 'content/en/byoc/') : null,
+        replacementTargetPath: rename ? normalizeSafeRelative(rename.newI18nPath, I18N_PREFIX) : null,
+        reason: rename ? 'source_replaced' : 'source_deleted',
+        evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: existed.has(targetPath), mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null},
+        authorization: {status: 'approved', method: 'legacy', ruleId: 'legacy-source-delta-adapter-v1', receiptSha256: null},
+      }
+    }),
+  })
+  const result = applyReconciliationPlan({workspaceRoot: path.resolve(cwd), plan, sourceCheckpointSha: plan.sourceCheckpointSha, targetBaselineSha: plan.targetBaselineSha, allowLegacyIdentityBypass: true})
+  const deletedI18n = [...existed].sort()
+  const removedCacheKeys = result.operations.flatMap(operation => operation.removedStateKeys).sort()
 
   return {
     target,
@@ -125,7 +129,7 @@ function applySourceDelta({ cwd = process.cwd(), target = 'ja-JP', delta }) {
     renamedI18n,
     removedCacheKeys,
     cacheChanged: removedCacheKeys.length > 0,
-    hasTranslationMutation: deletedI18n.length > 0 || removedCacheKeys.length > 0,
+    hasTranslationMutation: result.status === 'applied',
   }
 }
 

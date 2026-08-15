@@ -107,13 +107,13 @@ git diff --check
 - Modify: `scripts/translation/applySourceDelta.js`
 - Modify: `scripts/translation/applySourceDelta.test.js`
 
-- [ ] Validate plan, approval, source checkpoint, and target baseline before mutation.
-- [ ] Implement filesystem safety checks equivalent to or stronger than current Japanese deletion checks.
-- [ ] Remove Japanese target files and related `.translation-cache/ja-JP.json` entries.
-- [ ] Generate a strict reconciliation result with `applied` and `already_applied` semantics.
-- [ ] Make legacy `applySourceDelta` convert its input to a plan and delegate to the new executor.
-- [ ] Prove existing Japanese deletion and cache tests remain behaviorally identical.
-- [ ] Test interruption before and after staged mutation without touching the target baseline checkout.
+- [x] Validate plan, approval, source checkpoint, and target baseline before mutation.
+- [x] Implement filesystem safety checks equivalent to or stronger than current Japanese deletion checks.
+- [x] Remove Japanese target files and related `.translation-cache/ja-JP.json` entries.
+- [x] Generate a strict reconciliation result with `applied` and `already_applied` semantics.
+- [x] Make legacy `applySourceDelta` convert its input to a plan and delegate to the new executor.
+- [x] Prove existing Japanese deletion and cache tests remain behaviorally identical.
+- [x] Test interruption before and after staged mutation without touching the target baseline checkout.
 
 Focused verification:
 
