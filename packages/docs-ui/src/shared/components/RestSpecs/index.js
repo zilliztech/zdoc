@@ -3,7 +3,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import RestHeader from '../RestHeader/index.js';
 import Admonition from '@theme/Admonition'
 import CodeBlock from '@theme/CodeBlock'
-import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, getExampleLabel, isControlPlane, getTokenPlaceholder } from './utils.js'
+import { textFilter, getBaseUrl, getRandomString, chooseParamExample, filterSchemaOptions, getExampleLabel, getResponseEntries, getDefaultResponseStatus, isControlPlane, getTokenPlaceholder } from './utils.js'
 import { i18n } from './i18n.js'
 import styles from'./index.module.css';
 import { cond, set } from 'lodash';
@@ -435,7 +435,7 @@ const AnyOf = ({ name, description, arr, required, lang, target, onValueChange, 
                             name={`${name}-${r}`} 
                             id={originalIndex+1}
                             content={item} 
-                            lang={lang} 
+                            lang={lang}
                             target={target}
                             selected={selected}
                             setSelected={setSelectedOption}
@@ -716,10 +716,25 @@ export default function RestSpecs(props) {
         param = chooseParamExample(param, lang, target)
         return (param.required ? `${param.name}=${param.example}` : '')
     }).filter(param => param !== '').join('&')
-    const responseExample = responses?.['200']?.content['application/json']?.examples
+    const responseEntries = getResponseEntries(responses)
+    const responseStatusKey = responseEntries.map(({ status }) => status).join(',')
+    const defaultResponseStatus = getDefaultResponseStatus(responses)
+    const [ selectedResponseStatus, setSelectedResponseStatus ] = useState(defaultResponseStatus)
+    const selectedResponseEntry = responseEntries.find(({ status }) => status === selectedResponseStatus) || responseEntries[0]
+    const selectedHttpResponse = selectedResponseEntry?.response
+    const responseMediaType = selectedHttpResponse?.content?.['application/json']
+    const responseSchema = responseMediaType?.schema
+    const responseExample = responseMediaType?.examples
+    const responseDescription = selectedHttpResponse?.['x-i18n']?.[lang]?.description ?? selectedHttpResponse?.description
 
     const [ selectedRequest, setSelectedRequest ] = useState("OPTION 1")
     const [ selectedResponse, setSelectedResponse ] = useState("OPTION 1")
+
+    useEffect(() => {
+        if (defaultResponseStatus && !responseEntries.some(({ status }) => status === selectedResponseStatus)) {
+            setSelectedResponseStatus(defaultResponseStatus)
+        }
+    }, [defaultResponseStatus, selectedResponseStatus, responseStatusKey])
 
     const handleMultipleRequests = (value) => {
         setSelectedRequest(value.toUpperCase())
@@ -863,51 +878,64 @@ export default function RestSpecs(props) {
                     </>}
                 </div>
                 
-                { responses && <div className={styles.specLayout}>
+                { responseEntries.length > 0 && <div className={styles.specLayout}>
                     <section>
                         <div className={styles.sectionHeader}>
                             <span>{i18n[lang]['section.responses']}</span>
-                            { Object.keys(responses).includes('200') && <span className={styles.sectionMeta}>
-                                200 { Object.keys(responses['200'].content).includes('application/json') && ' - application/json' }
+                            { selectedResponseEntry && <span className={styles.sectionMeta}>
+                                {selectedResponseEntry.status}{selectedResponseEntry.label && ` ${selectedResponseEntry.label}`}
+                                {responseMediaType && ' - application/json'}
                             </span>}
                         </div>
                         <div style={{ margin: '1rem' }} />
-                        { responses['200']?.content['application/json']?.schema?.anyOf && <AnyOf name="responses" 
-                            arr={responses['200'].content['application/json'].schema.anyOf}
+                        { responseEntries.length > 1 && <div className={styles.responseStatuses} role="group" aria-label={i18n[lang]['section.responses']}>
+                            {responseEntries.map(({ status, label }) => <button
+                                key={status}
+                                type="button"
+                                className={status === selectedResponseEntry?.status ? styles.responseStatusActive : styles.responseStatus}
+                                onClick={() => setSelectedResponseStatus(status)}>
+                                <span>{status}</span>
+                                {label && <span className={styles.responseStatusLabel}>{label}</span>}
+                            </button>)}
+                        </div> }
+                        { responseDescription && <div className={styles.responseDescription} dangerouslySetInnerHTML={{__html: textFilter(responseDescription, target)}} /> }
+                        { responseSchema?.anyOf && <AnyOf name="responses"
+                            arr={responseSchema.anyOf}
                             lang={lang}
                             target={target}
                             onValueChange={handleMultipleResponses}
-                            x_i18n={responses['200'].content['application/json'].schema["x-i18n"]} /> }
-                        { responses['200']?.content['application/json']?.schema?.oneOf && <OneOf name="responses" 
-                            arr={responses['200'].content['application/json'].schema.oneOf}
+                            x_i18n={responseSchema["x-i18n"]} /> }
+                        { responseSchema?.oneOf && <OneOf name="responses"
+                            arr={responseSchema.oneOf}
                             lang={lang}
                             target={target}
                             onValueChange={handleMultipleResponses}
-                            x_i18n={responses['200'].content['application/json'].schema["x-i18n"]} /> }
-                        { responses['200']?.content['application/json']?.schema?.type === 'object' && <Properties properties={responses['200'].content['application/json'].schema.properties} 
-                            requiredFields={responses['200'].content['application/json'].schema.required}
+                            x_i18n={responseSchema["x-i18n"]} /> }
+                        { responseSchema?.type === 'object' && <Properties properties={responseSchema.properties}
+                            requiredFields={responseSchema.required}
                             lang={lang}
                             target={target} /> }
-                        { responses['200']?.content['application/json']?.schema?.type === 'array' && <Items name="responses[]"
-                            description= {responses['200'].content['application/json'].schema.description}
-                            obj={responses['200'].content['application/json'].schema.items}
-                            required={responses['200'].content['application/json'].schema.items.required}
+                        { responseSchema?.type === 'array' && <Items name="responses[]"
+                            description={responseSchema.description}
+                            obj={responseSchema.items}
+                            required={responseSchema.items?.required}
                             lang={lang}
                             target={target} /> }
-                        { responses['200']?.content['application/json']?.schema?.type !== 'object' && responses['200']?.content['application/json']?.schema?.type !== 'array' 
-                         && !Object.keys(responses['200'].content['application/json'].schema).includes('anyOf') && !Object.keys(responses['200'].content['application/json'].schema).includes('oneOf') && <Primitive name="responses"
-                            obj={responses['200'].content['application/json'].schema}
+                        { responseSchema && responseSchema.type !== 'object' && responseSchema.type !== 'array'
+                         && !responseSchema.anyOf && !responseSchema.oneOf && <Primitive name="responses"
+                            obj={responseSchema}
                             lang={lang}
                             target={target} /> }
+                        { !selectedHttpResponse?.content && <p className={styles.emptyResponse}>{i18n[lang]['response.no.content']}</p> }
                     </section>
-                    <section className={styles.exampleContainer}>
-                        { responseExample && <ExampleResponses 
-                            examples={responseExample} 
-                            schema={responses['200']?.content['application/json']?.schema}
+                    { responseExample && <section className={styles.exampleContainer}>
+                        <ExampleResponses
+                            examples={responseExample}
+                            schema={responseSchema}
                             lang={lang} 
                             target={target}
-                            selectedResponse={selectedResponse} /> }
-                    </section>
+                            selectedResponse={selectedResponse} />
+                    </section> }
                 </div>}
             </div>
         </>)
