@@ -13,6 +13,9 @@ function writeCanonical(file, value) {
 }
 
 function prepareReconciliationPlan(options) {
+  const completenessReceipts = options.completenessReceipts || (options.completenessReceipt ? [options.completenessReceipt] : null)
+  const completenessReceipt = options.completenessReceipt || completenessReceipts?.find(receipt =>
+    receipt.target === options.target && receipt.group === options.group) || null
   const discovery = discoverReconciliation({
     repository: options.repository,
     target: options.target,
@@ -21,6 +24,7 @@ function prepareReconciliationPlan(options) {
     sourceCheckpointSha: options.sourceCheckpointSha,
     targetBaselineSha: options.targetBaselineSha,
     authoritativeReplacements: options.authoritativeReplacements || [],
+    completenessReceipt,
   })
   const evaluation = evaluateReconciliationPolicy({
     policy: loadReconciliationPolicy(options.repository),
@@ -33,6 +37,7 @@ function prepareReconciliationPlan(options) {
     candidates: discovery.candidates,
     activeSourceCount: discovery.sourceCheckpointInventory.length,
     approvalReceipts: options.approvalReceipts || [],
+    completenessReceipts,
     now: options.now,
   })
   writeCanonical(options.planOutput, evaluation.plan)

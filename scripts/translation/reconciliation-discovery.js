@@ -218,7 +218,7 @@ function normalizeReplacementHints(values, context) {
   }).sort((left, right) => compareText(left.sourcePath, right.sourcePath) || compareText(left.replacementSourcePath, right.replacementSourcePath) || left.similarity - right.similarity)
 }
 
-function candidateFor(context, sourcePath, targetPath, evidence, replacement) {
+function candidateFor(context, sourcePath, targetPath, evidence, replacement, completenessReceiptSha256) {
   const replacementSourcePath = replacement?.replacementSourcePath ?? null
   return {
     kind: replacement ? 'replace_path' : 'delete_target',
@@ -234,7 +234,7 @@ function candidateFor(context, sourcePath, targetPath, evidence, replacement) {
       mappingIsCanonical: true,
       ownedByGroup: true,
       preserved: false,
-      generatorCompletenessReceipt: null,
+      generatorCompletenessReceipt: completenessReceiptSha256 || null,
     },
     replacementAuthority: replacement?.authority ?? null,
     discovery: evidence.discovery,
@@ -246,6 +246,15 @@ function discoverReconciliation(options) {
   const ownedSources = ownedSourcePaths(group, target)
   const ownedTargets = ownedTargetPaths(group, target)
   const context = {target, group, ownedSources, ownedTargets}
+  let completenessReceiptSha256 = null
+  if (options.completenessReceipt) {
+    const receipt = options.completenessReceipt
+    if (!receipt || typeof receipt !== 'object' || Array.isArray(receipt) || receipt.target !== target || receipt.group !== group ||
+        typeof receipt.receiptSha256 !== 'string' || !/^sha256:[0-9a-f]{64}$/u.test(receipt.receiptSha256)) {
+      throw new Error('Reconciliation completeness receipt does not match the selected unit')
+    }
+    completenessReceiptSha256 = receipt.receiptSha256
+  }
   const preserved = new Set(preservedSourcePaths(group, target))
   const sourceBaseline = new Set(collectGitDocumentInventory({repository, commitSha: sourceBaselineSha, roots: ownedSources, label: 'Source baseline inventory'}))
   const sourceCheckpoint = new Set(collectGitDocumentInventory({repository, commitSha: sourceCheckpointSha, roots: ownedSources, label: 'Source checkpoint inventory'}))
@@ -274,7 +283,7 @@ function discoverReconciliation(options) {
       sourceExistedAtBaseline: sourceBaseline.has(sourcePath),
       targetExistsAtBaseline: targetBaseline.has(targetPath),
       discovery,
-    }, replacements.get(sourcePath)))
+    }, replacements.get(sourcePath), completenessReceiptSha256))
   }
 
   for (const change of changes) if (change.status === 'D') addCandidate(change.path, 'source_delta')

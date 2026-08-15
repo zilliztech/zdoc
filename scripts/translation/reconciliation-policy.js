@@ -11,6 +11,10 @@ const {
   validateRestCompletenessReceipt,
   validateRestDeletionEvidence,
 } = require('../../packages/docs-tooling/src/reference/rest/restCompletenessReceipt')
+const {
+  validateSdkCliCompletenessReceipt,
+  validateSdkCliDeletionEvidence,
+} = require('./sdkCliCompletenessReceipt')
 
 const SHA = /^[0-9a-f]{40}$/u
 const DIGEST = /^sha256:[0-9a-f]{64}$/u
@@ -226,13 +230,23 @@ function evaluateReconciliationPolicy(options) {
           ? completenessReceipts.find(item => item?.receiptSha256 === digest)
           : completenessReceipts[digest]
         try {
-          const validated = validateRestCompletenessReceipt(receipt)
-          validateRestDeletionEvidence({
-            receipt: validated,
-            sourcePath: candidate.sourcePath,
-            sourceExistedAtBaseline: candidate.evidence.sourceExistedAtBaseline,
-            sourceMissingAtCheckpoint: candidate.evidence.sourceMissingAtCheckpoint,
-          })
+          const sdkCli = target === 'zh-CN-reference' && ['python', 'java', 'node', 'go', 'cli'].includes(group)
+          const validated = sdkCli ? validateSdkCliCompletenessReceipt(receipt) : validateRestCompletenessReceipt(receipt)
+          if (sdkCli) {
+            validateSdkCliDeletionEvidence({
+              receipt: validated,
+              sourcePath: candidate.sourcePath,
+              sourceExistedAtBaseline: candidate.evidence.sourceExistedAtBaseline,
+              sourceMissingAtCheckpoint: candidate.evidence.sourceMissingAtCheckpoint,
+            })
+          } else {
+            validateRestDeletionEvidence({
+              receipt: validated,
+              sourcePath: candidate.sourcePath,
+              sourceExistedAtBaseline: candidate.evidence.sourceExistedAtBaseline,
+              sourceMissingAtCheckpoint: candidate.evidence.sourceMissingAtCheckpoint,
+            })
+          }
           authorization = {status: 'approved', method: 'automatic', ruleId: `${policy.policyId}:${target}:${group}`, receiptSha256: null}
           decisionReason = 'automatic_policy'
         } catch {

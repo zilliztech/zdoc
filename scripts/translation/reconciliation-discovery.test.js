@@ -100,6 +100,22 @@ test('discovers source-delta deletion from immutable SHAs with canonical evidenc
   assert.equal(Object.isFrozen(result.candidates[0].evidence), true)
 })
 
+test('injects the authenticated completeness receipt digest into reconciliation evidence', () => {
+  const repository = fixture()
+  const source = 'content/en/reference/api/python/python/old.md'
+  const target = 'content/zh-CN/reference/api/python/python/old.md'
+  write(repository, source)
+  write(repository, target)
+  const baseline = commit(repository, 'baseline')
+  remove(repository, source)
+  const checkpoint = commit(repository, 'checkpoint')
+  const receiptSha256 = `sha256:${'d'.repeat(64)}`
+  const result = discover(repository, {sourceBaselineSha: baseline, sourceCheckpointSha: checkpoint, targetBaselineSha: baseline}, {
+    completenessReceipt: {target: 'zh-CN-reference', group: 'python', receiptSha256},
+  })
+  assert.equal(result.candidates[0].evidence.generatorCompletenessReceipt, receiptSha256)
+})
+
 test('finds historical target orphans even when the source delta is empty', () => {
   const repository = fixture()
   const target = 'content/zh-CN/reference/api/python/python/orphan.md'

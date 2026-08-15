@@ -14,6 +14,7 @@ const {
 } = require('./reconciliation-policy')
 const {createRestCompletenessReceipt} = require('../../packages/docs-tooling/src/reference/rest/restCompletenessReceipt')
 const {sha256Digest} = require('../../packages/docs-tooling/src/reference/rest/fragmentCollection')
+const {createSdkCliCompletenessReceipt} = require('./sdkCliCompletenessReceipt')
 
 const IDENTITIES = Object.freeze({
   toolingSha: '1'.repeat(40),
@@ -87,6 +88,27 @@ function restReceipt({sourcePath}) {
     sourceBaselineSha: IDENTITIES.sourceBaselineSha,
     sourceCheckpointSha: IDENTITIES.sourceCheckpointSha,
     outputInventory: [{path: outputPath, sha256: sha256Digest(outputBytes)}],
+  })
+}
+
+function sdkCliReceipt() {
+  return createSdkCliCompletenessReceipt({
+    manifest: {
+      schemaVersion: 1,
+      stage: 'source',
+      group: 'python',
+      masterSha: IDENTITIES.toolingSha,
+      devBaselineSha: IDENTITIES.sourceCheckpointSha,
+      files: [{
+        path: 'content/en/reference/api/python/python/python.md',
+        sha256: 'e'.repeat(64),
+        size: 100,
+      }],
+      deletions: [],
+      validation: {passed: true, commands: []},
+    },
+    sourceBaselineSha: IDENTITIES.sourceBaselineSha,
+    sourceCheckpointSha: IDENTITIES.sourceCheckpointSha,
   })
 }
 
@@ -231,6 +253,40 @@ test('validates REST completeness receipts before automatic Chinese REST deletio
       evidence: {...restCandidate.evidence, generatorCompletenessReceipt: receipt.receiptSha256},
     }],
     completenessReceipts: [{...receipt, receiptSha256: receipt.receiptSha256, generator: {...receipt.generator, revision: 'c'.repeat(40)}}],
+  })
+  assert.equal(malformed.status, 'review_required')
+  assert.equal(malformed.decisions[0].reason, 'completeness_evidence_invalid')
+})
+
+test('validates SDK/CLI completeness receipts before automatic Chinese SDK deletion', () => {
+  const policy = structuredClone(loadReconciliationPolicy())
+  policy.targets['zh-CN-reference'].python.mode = 'automatic'
+  policy.targets['zh-CN-reference'].python.automaticKinds = ['delete_target']
+  policy.targets['zh-CN-reference'].python.requiresCompletenessEvidence = true
+  const sdkCandidate = candidate({
+    sourcePath: 'content/en/reference/api/python/python/old.md',
+    targetPath: 'content/zh-CN/reference/api/python/python/old.md',
+  })
+  const receipt = sdkCliReceipt()
+  const approved = evaluate({
+    policy,
+    group: 'python',
+    candidates: [{
+      ...sdkCandidate,
+      evidence: {...sdkCandidate.evidence, generatorCompletenessReceipt: receipt.receiptSha256},
+    }],
+    completenessReceipts: [receipt],
+  })
+  assert.equal(approved.status, 'approved')
+
+  const malformed = evaluate({
+    policy,
+    group: 'python',
+    candidates: [{
+      ...sdkCandidate,
+      evidence: {...sdkCandidate.evidence, generatorCompletenessReceipt: receipt.receiptSha256},
+    }],
+    completenessReceipts: [{...receipt, receiptSha256: receipt.receiptSha256, sourceBaselineSha: 'f'.repeat(40)}],
   })
   assert.equal(malformed.status, 'review_required')
   assert.equal(malformed.decisions[0].reason, 'completeness_evidence_invalid')
