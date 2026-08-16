@@ -49,12 +49,17 @@ async function validateTranslationBatch({ artifactDir, baselineDir, batchNumber,
     batchCount = manifests[0].batch?.batchCount
   }
   for (const manifest of manifests) {
-    if (manifest.schemaVersion !== 2 || manifest.stage !== 'translation') throw new Error('Numbered translation batch checkpoints must use schema 2')
+    if (![2, 3].includes(manifest.schemaVersion) || manifest.stage !== 'translation') throw new Error('Numbered translation batch checkpoints must use schema 2 or 3')
     if (manifest.batch?.batchNumber !== batchNumber || manifest.batch?.batchCount !== batchCount) {
       throw new Error('Checkpoint translation batch identity mismatch')
     }
   }
   const [result, baseline] = manifests
+  if (result.schemaVersion !== baseline.schemaVersion) throw new Error('Checkpoint translation reconciliation contract mismatch')
+  if (result.schemaVersion === 3) {
+    if (result.reconciliationEvidence.plan.planSha256 !== baseline.reconciliationEvidence.plan.planSha256) throw new Error('Checkpoint translation reconciliation plan mismatch')
+    if (!result.reconciliationEvidence.result || baseline.reconciliationEvidence.result) throw new Error('Checkpoint translation reconciliation result placement is invalid')
+  }
   for (const field of ['group', 'masterSha', 'devBaselineSha']) {
     if (result[field] !== baseline[field]) throw new Error(`Checkpoint translation ${field} identity mismatch`)
   }

@@ -735,6 +735,48 @@ describe('Reference translation provenance', () => {
     expect(result.translationManifest.records).toEqual([]);
   });
 
+  it('drops a stale both-missing legacy record without touching unrelated active records', () => {
+    const roots = fixture();
+    const activeSourcePath = 'content/en/reference/api/java/page.md';
+    const activeTargetPath = 'content/zh-CN/reference/api/java/page.md';
+    const sourceHash = sha256('# source\n');
+    const targetHash = sha256('# target\n');
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'a'.repeat(40),
+      manualForPath: value => value.includes('/java/') ? 'java' : 'python',
+      sourceSnapshot: new Map([[activeSourcePath, sourceHash]]),
+      targetSnapshot: new Map([[activeTargetPath, targetHash]]),
+      previousTranslationManifest: translationManifest({records: [{
+        manual: 'python',
+        sourcePath: 'content/en/reference/api/python/old.md',
+        targetPath: 'content/zh-CN/reference/api/python/old.md',
+        sourceCommit: '9'.repeat(40),
+        sourceHash: EMPTY_FILE_SHA256,
+        targetHash: EMPTY_FILE_SHA256,
+        status: 'retired',
+      }]}),
+    });
+    expect(result.translationManifest.records).toEqual([expect.objectContaining({sourcePath: activeSourcePath, targetPath: activeTargetPath})]);
+  });
+
+  it('reactivates a restored source and target pair after plan-based deletion', () => {
+    const roots = fixture();
+    const sourcePath = 'content/en/reference/api/python/page.md';
+    const targetPath = 'content/zh-CN/reference/api/python/page.md';
+    const sourceHash = sha256('# restored source\n');
+    const targetHash = sha256('# restored target\n');
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'a'.repeat(40),
+      manualForPath: () => 'python',
+      sourceSnapshot: new Map([[sourcePath, sourceHash]]),
+      targetSnapshot: new Map([[targetPath, targetHash]]),
+      previousTranslationManifest: translationManifest({records: []}),
+    });
+    expect(result.translationManifest.records).toEqual([expect.objectContaining({sourcePath, targetPath, status: 'translated'})]);
+  });
+
   it.each(['source-only', 'target-only'] as const)('builds a retired record for a registered %s Reference path', (side) => {
     const roots = fixture();
     const sourcePath = 'content/en/reference/api/python/page.md';

@@ -3,6 +3,7 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const crypto = require('node:crypto')
+const {validateReconciliationPlan} = require('../translation/reconciliation-plan')
 
 const SHA1 = /^[0-9a-f]{40}$/
 const SHA256 = /^[0-9a-f]{64}$/
@@ -10,6 +11,7 @@ const MARKDOWN = /\.(?:md|mdx)$/
 const REASONS = new Set(['current_delta', 'missing_target', 'stale_source'])
 const ROOT_KEYS = ['schemaVersion', 'group', 'sourceCheckpointSha', 'batch', 'candidates', 'sourceDelta']
 const MANIFEST_KEYS = ['target', 'locale', 'group', 'sourceCheckpointSha', 'generatedAt', 'items', 'source_delta', 'batch']
+const PLAN_MANIFEST_KEYS = ['target', 'locale', 'group', 'sourceCheckpointSha', 'generatedAt', 'items', 'reconciliation', 'batch']
 const BATCH_KEYS = ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount', 'pendingSetSha256']
 const ITEM_KEYS = ['sourcePath', 'targetPath', 'sourceHash', 'locale', 'type', 'reason']
 const CANDIDATE_KEYS = ['sourcePath', 'targetPath', 'sourceHash']
@@ -239,36 +241,59 @@ function validateBatchInput(input) {
 }
 
 function assertSelectedManifest(manifest) {
-  assertExactKeys(manifest, MANIFEST_KEYS, 'selected translation manifest')
+  assertExactKeys(manifest, manifest.reconciliation ? PLAN_MANIFEST_KEYS : MANIFEST_KEYS, 'selected translation manifest')
   if (manifest.target !== 'ja-JP') throw new Error('selected manifest target must be ja-JP')
   if (manifest.locale !== 'ja-JP') throw new Error('selected manifest locale must be ja-JP')
   if (manifest.group !== 'guides') throw new Error('selected manifest group must be guides')
   if (!SHA1.test(manifest.sourceCheckpointSha || '')) throw new Error('selected manifest source checkpoint SHA is invalid')
   assertTimestamp(manifest.generatedAt, 'selected manifest generatedAt')
   if (!Array.isArray(manifest.items)) throw new Error('selected manifest items must be an array')
-  assertExactKeys(manifest.source_delta, MANIFEST_SOURCE_DELTA_KEYS, 'selected manifest source_delta')
-  if (!Array.isArray(manifest.source_delta.deleted_i18n) || !Array.isArray(manifest.source_delta.renamed) || !Array.isArray(manifest.source_delta.retirement_candidates)) throw new Error('selected manifest source_delta arrays are required')
+  const batchKeys = Object.keys(manifest.batch || {})
+  if (BATCH_KEYS.some(key => !Object.hasOwn(manifest.batch || {}, key)) || batchKeys.some(key => ![...BATCH_KEYS, 'reconciliationOwner'].includes(key))) throw new Error('selected manifest batch has invalid keys')
+  if (manifest.reconciliation && typeof manifest.batch.reconciliationOwner !== 'boolean') throw new Error('selected manifest reconciliation ownership is required')
+  if (manifest.reconciliation) {
+    assertExactKeys(manifest.reconciliation, ['planArtifact', 'planSha256', 'operationCount'], 'selected manifest reconciliation')
+    if (!/^sha256:[0-9a-f]{64}$/.test(manifest.reconciliation.planSha256) || !Number.isSafeInteger(manifest.reconciliation.operationCount) || manifest.reconciliation.operationCount < 0) throw new Error('selected manifest reconciliation identity is invalid')
+  } else {
+    assertExactKeys(manifest.source_delta, MANIFEST_SOURCE_DELTA_KEYS, 'selected manifest source_delta')
+    if (!Array.isArray(manifest.source_delta.deleted_i18n) || !Array.isArray(manifest.source_delta.renamed) || !Array.isArray(manifest.source_delta.retirement_candidates)) throw new Error('selected manifest source_delta arrays are required')
+  }
   for (const item of manifest.items) assertCandidate(item, true)
-  for (const entry of manifest.source_delta.renamed) assertRename(entry, 'manifest rename')
-  for (const entry of manifest.source_delta.retirement_candidates) assertRetirementCandidate(entry, 'manifest retirement candidate')
+  for (const entry of manifest.source_delta?.renamed || []) assertRename(entry, 'manifest rename')
+  for (const entry of manifest.source_delta?.retirement_candidates || []) assertRetirementCandidate(entry, 'manifest retirement candidate')
 }
 
-function createBatchInput(manifest) {
+function sourceDeltaFromPlan(manifest, plan) {
+  const validated = validateReconciliationPlan(plan)
+  if (validated.target !== 'ja-JP' || validated.group !== 'guides' || validated.sourceCheckpointSha !== manifest.sourceCheckpointSha || validated.planSha256 !== manifest.reconciliation.planSha256 || validated.operations.length !== manifest.reconciliation.operationCount) throw new Error('Selected manifest reconciliation plan identity mismatch')
+  if (manifest.batch.reconciliationOwner !== true) return {deletedI18n: [], renamed: [], retirementCandidates: []}
+  const deletedI18n = []
+  const renamed = []
+  for (const operation of validated.operations) {
+    if (operation.kind === 'delete_target') deletedI18n.push(operation.targetPath)
+    else if (operation.kind === 'replace_path') renamed.push({oldPath: operation.sourcePath, newPath: operation.replacementSourcePath, oldI18nPath: operation.targetPath, newI18nPath: operation.replacementTargetPath})
+  }
+  return {deletedI18n: deletedI18n.sort(compareText), renamed: renamed.sort((a, b) => compareText(a.oldPath, b.oldPath) || compareText(a.newPath, b.newPath)), retirementCandidates: []}
+}
+
+function createBatchInput(manifest, plan = null) {
   assertSelectedManifest(manifest)
+  const sourceDelta = manifest.reconciliation ? sourceDeltaFromPlan(manifest, plan) : {
+    deletedI18n: [...manifest.source_delta.deleted_i18n].sort(compareText),
+    renamed: manifest.source_delta.renamed.map(entry => ({ ...entry }))
+      .sort((a, b) => compareText(a.oldPath, b.oldPath) || compareText(a.newPath, b.newPath)),
+    retirementCandidates: manifest.source_delta.retirement_candidates.map(entry => ({ ...entry }))
+      .sort((a, b) => compareText(a.manual, b.manual) || compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath) || compareText(a.changeKind, b.changeKind)),
+  }
+  const batch = Object.fromEntries(BATCH_KEYS.map(key => [key, manifest.batch[key]]))
   const result = {
     schemaVersion: 1,
     group: 'guides',
     sourceCheckpointSha: manifest.sourceCheckpointSha,
-    batch: { ...manifest.batch },
+    batch,
     candidates: manifest.items.map(({ sourcePath, targetPath, sourceHash }) => ({ sourcePath, targetPath, sourceHash }))
       .sort((a, b) => compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath)),
-    sourceDelta: {
-      deletedI18n: [...manifest.source_delta.deleted_i18n].sort(compareText),
-      renamed: manifest.source_delta.renamed.map(entry => ({ ...entry }))
-        .sort((a, b) => compareText(a.oldPath, b.oldPath) || compareText(a.newPath, b.newPath)),
-      retirementCandidates: manifest.source_delta.retirement_candidates.map(entry => ({ ...entry }))
-        .sort((a, b) => compareText(a.manual, b.manual) || compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath) || compareText(a.changeKind, b.changeKind)),
-    },
+    sourceDelta,
   }
   return validateBatchInput(result)
 }
@@ -412,7 +437,7 @@ function readRegularJson(filePath, label) {
 function parseCli(argv) {
   const command = argv[0]
   const definitions = command === 'create'
-    ? new Set(['--manifest', '--output'])
+    ? new Set(['--manifest', '--output', '--plan'])
     : command === 'validate' ? new Set(['--input']) : null
   if (!definitions) throw new Error('Usage: create --manifest <path> --output <path> | validate --input <path>')
   const values = {}
@@ -424,14 +449,16 @@ function parseCli(argv) {
     }
     values[flag] = value
   }
-  for (const flag of definitions) if (!Object.hasOwn(values, flag)) throw new Error(`Missing required CLI flag: ${flag}`)
+  const required = command === 'create' ? ['--manifest', '--output'] : ['--input']
+  for (const flag of required) if (!Object.hasOwn(values, flag)) throw new Error(`Missing required CLI flag: ${flag}`)
   return { command, values }
 }
 
 function main(argv) {
   const { command, values } = parseCli(argv)
   if (command === 'create') {
-    return writeBatchInput(values['--output'], createBatchInput(readRegularJson(values['--manifest'], 'Manifest input')))
+    const plan = values['--plan'] ? readRegularJson(values['--plan'], 'Reconciliation plan input') : null
+    return writeBatchInput(values['--output'], createBatchInput(readRegularJson(values['--manifest'], 'Manifest input'), plan))
   }
   return validateBatchInput(readRegularJson(values['--input'], 'Batch input'))
 }

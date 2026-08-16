@@ -22,6 +22,7 @@ const {
   semanticCheckpointBytes,
   validatePersistedSemanticCheckpoints,
 } = require('./semanticRecovery');
+const {validateReconciliationPlan, validateReconciliationResult} = require('./reconciliation-plan');
 const {assertSafeRepositoryRelativePath} = loadTypeScript('../../packages/docs-tooling/src/validation/ownership.ts');
 
 const SHA256 = /^[0-9a-f]{64}$/;
@@ -62,6 +63,42 @@ function assertIdentity(identity) {
   for (const name of ['sourceSha', 'toolingSha']) {
     if (!COMMIT_SHA.test(identity[name] || '')) throw new Error(`Recovery ${name} is invalid`);
   }
+}
+
+function validateRecoveryReconciliationMetadata(value) {
+  if (value === null || value === undefined) return null
+  const keys = ['planArtifact', 'planSha256', 'policyId', 'resultSha256', 'approvalReceiptShas']
+  const optional = ['plan', 'result']
+  const actualKeys = Object.keys(value).sort()
+  const unknown = actualKeys.filter(key => !keys.includes(key) && !optional.includes(key))
+  if (!value || typeof value !== 'object' || Array.isArray(value) || unknown.length) {
+    throw new Error('Recovery reconciliation metadata keys are invalid')
+  }
+  for (const key of ['planSha256', 'resultSha256']) if (!/^sha256:[0-9a-f]{64}$/u.test(value[key] || '')) throw new Error(`Recovery reconciliation ${key} is invalid`)
+  if (typeof value.planArtifact !== 'string' || !value.planArtifact) throw new Error('Recovery reconciliation plan artifact is invalid')
+  if (typeof value.policyId !== 'string' || !value.policyId) throw new Error('Recovery reconciliation policy ID is invalid')
+  if (!Array.isArray(value.approvalReceiptShas) || value.approvalReceiptShas.some(sha => !/^sha256:[0-9a-f]{64}$/u.test(sha))) {
+    throw new Error('Recovery reconciliation approval receipt identities are invalid')
+  }
+  const metadata = Object.freeze({
+    planArtifact: value.planArtifact,
+    planSha256: value.planSha256,
+    policyId: value.policyId,
+    resultSha256: value.resultSha256,
+    approvalReceiptShas: Object.freeze([...value.approvalReceiptShas]),
+  })
+  let plan = null
+  let result = null
+  if (value.plan !== undefined) {
+    plan = validateReconciliationPlan(value.plan)
+    if (plan.planSha256 !== metadata.planSha256) throw new Error('Recovery reconciliation plan checksum does not match its metadata')
+  }
+  if (value.result !== undefined) {
+    if (!plan) throw new Error('Recovery reconciliation result requires the matching plan')
+    result = validateReconciliationResult(value.result, plan)
+    if (result.resultSha256 !== metadata.resultSha256) throw new Error('Recovery reconciliation result checksum does not match its metadata')
+  }
+  return Object.freeze({metadata, plan, result})
 }
 
 function writeJson(filePath, value) {
@@ -172,8 +209,10 @@ function reviewFields(receipt) {
   };
 }
 
-function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
+function createRecoveryArtifact({siteDir, outputDir, results, identity, reconciliation = null}) {
   assertIdentity(identity);
+  const reconciliationEvidence = validateRecoveryReconciliationMetadata(reconciliation)
+  const reconciliationMetadata = reconciliationEvidence?.metadata || null
   fs.rmSync(outputDir, {recursive: true, force: true});
   fs.mkdirSync(outputDir, {recursive: true});
   const files = [];
@@ -258,6 +297,7 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
   const metadata = {
     schemaVersion: 2,
     ...identity,
+    ...(reconciliationMetadata ? {reconciliation: reconciliationMetadata} : {}),
     translated: files.length,
     failed: failures.length,
     resumableFiles: failures.filter(failure => failure.chunkCheckpoints?.entries?.length || failure.semanticCheckpoints?.report?.entries?.length).length,
@@ -265,6 +305,12 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity}) {
     checkpointedSemanticUnits: failures.reduce((total, failure) => total + (failure.semanticCheckpoints?.report?.entries?.length || 0), 0),
     failureCounts,
   };
+  if (reconciliationEvidence?.plan) {
+    writeJson(path.join(outputDir, 'reconciliation-plan.json'), reconciliationEvidence.plan);
+  }
+  if (reconciliationEvidence?.result) {
+    writeJson(path.join(outputDir, 'reconciliation-result.json'), reconciliationEvidence.result);
+  }
   writeJson(path.join(outputDir, 'metadata.json'), metadata);
   writeJson(path.join(outputDir, 'manifest.json'), {schemaVersion: 2, files, failures});
   return {metadata, files, failures};
@@ -289,7 +335,20 @@ function readArtifact(artifactDir) {
         if (semanticArtifactBytes > MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES) throw new Error('semantic aggregate payload is oversized');
       }
     }
-    return {artifactDir, metadata, files: manifest.files, failures: manifest.failures || []};
+    let reconciliation = null;
+    const planFile = path.join(artifactDir, 'reconciliation-plan.json');
+    const resultFile = path.join(artifactDir, 'reconciliation-result.json');
+    if (fs.existsSync(planFile) && fs.existsSync(resultFile)) {
+      const plan = validateReconciliationPlan(JSON.parse(fs.readFileSync(planFile, 'utf8')));
+      const result = validateReconciliationResult(JSON.parse(fs.readFileSync(resultFile, 'utf8')), plan);
+      if (metadata.reconciliation?.planSha256 !== plan.planSha256 || metadata.reconciliation?.resultSha256 !== result.resultSha256) {
+        throw new Error('recovery reconciliation file identity mismatch');
+      }
+      reconciliation = Object.freeze({plan, result});
+    } else if (fs.existsSync(planFile) !== fs.existsSync(resultFile)) {
+      throw new Error('recovery reconciliation evidence must include both plan and result');
+    }
+    return {artifactDir, metadata, files: manifest.files, failures: manifest.failures || [], reconciliation};
   } catch (error) {
     return {artifactDir, error: String(error?.message || error), files: []};
   }
@@ -566,6 +625,22 @@ function main() {
   const outputDir = args.get('--output');
   const target = args.get('--target');
   const report = reportPath && fs.existsSync(reportPath) ? JSON.parse(fs.readFileSync(reportPath, 'utf8')) : {results: []};
+  let reconciliation = null;
+  const reconciliationPlanPath = args.get('--reconciliation-plan');
+  if (reconciliationPlanPath) {
+    const plan = validateReconciliationPlan(JSON.parse(fs.readFileSync(reconciliationPlanPath, 'utf8')));
+    const reconciliationResultPath = args.get('--reconciliation-result');
+    const result = reconciliationResultPath ? validateReconciliationResult(JSON.parse(fs.readFileSync(reconciliationResultPath, 'utf8')), plan) : null;
+    reconciliation = {
+      planArtifact: `translation-reconciliation-plan-${target}-${args.get('--group')}`,
+      planSha256: plan.planSha256,
+      policyId: plan.policyId,
+      resultSha256: result?.resultSha256 || null,
+      approvalReceiptShas: [],
+      plan,
+      ...(result ? {result} : {}),
+    };
+  }
   createRecoveryArtifact({
     siteDir: process.cwd(),
     outputDir,
@@ -579,6 +654,7 @@ function main() {
       toolingSha: args.get('--tooling-sha'),
       mode: args.get('--mode') || 'incremental',
     },
+    reconciliation,
   });
 }
 
@@ -592,6 +668,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  validateRecoveryReconciliationMetadata,
   createRecoveryArtifact,
   discoverRecoveryArtifacts,
   parseCliArgs,

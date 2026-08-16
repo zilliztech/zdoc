@@ -666,7 +666,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/SOURCE_BASELINE_SHA: \$\{\{ inputs\.source_baseline_sha \}\}[\s\S]*SOURCE_CHECKPOINT_SHA: \$\{\{ inputs\.source_checkpoint_sha \}\}[\s\S]*TARGET_BASELINE_SHA: \$\{\{ inputs\.target_baseline_sha \|\| inputs\.source_checkpoint_sha \}\}[\s\S]*TOOLING_SHA: \$\{\{ inputs\.tooling_sha \}\}/, 'must bind separate source baseline, source checkpoint, target baseline, and tooling identities'],
         [/materialize-translation-baseline\.js[\s\S]*--baseline "\$BASELINE_DIR"[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"/, 'must materialize selected target translation state before bootstrap resolution'],
         [/sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/, 'must derive translation reconciliation from the group-scoped dev source checkpoint diff'],
-        [/applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/, 'source delta application must receive the exact translation target'],
+        [/prepare-reconciliation-plan\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*apply-reconciliation-plan\.js[\s\S]*--source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA"[\s\S]*--target-baseline-sha "\$TARGET_BASELINE_SHA"/, 'reconciliation application must receive the exact translation target and immutable identities'],
         [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
         [/manifest\.js[\s\S]*--mode "\$EFFECTIVE_TRANSLATION_MODE"/, 'must build candidates with the resolved bootstrap mode'],
         [/bootstrap-state\.js resolve[\s\S]*--summary-file tmp\/bootstrap-decision\.json[\s\S]*Requested mode:[\s\S]*Effective mode:[\s\S]*Decision:/, 'must fail closed and summarize bootstrap repair before paid translation'],
@@ -687,7 +687,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         'Validate immutable inputs',
         'Materialize source checkpoint and baseline',
         'Materialize target baseline translation state',
-        'Apply source translation delta',
+        'Prepare and apply translation reconciliation',
         'Resolve effective translation mode',
         'Build group translation manifest',
         'Resolve current recovery compatibility',
@@ -974,10 +974,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: translation handoff must directly depend on reconciliation and consume its exact final target SHA`)
       }
       if (!/translation-handoff\.js[\s\S]*--locale all[\s\S]*--fetch-selection[\s\S]*--fetch-results/.test(source) ||
-          !/name: Upload validated schema-v2 translation handoff[\s\S]*name: translation-handoff-v2-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/.test(source) ||
+          !/name: Upload validated schema-v3 translation handoff[\s\S]*name: translation-handoff-v3-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/.test(source) ||
           !/handoff_json=\$HANDOFF_JSON|handoff_json=%s/.test(source) ||
           !/WORKFLOW_REF: \$\{\{ github\.ref_name \}\}/.test(source)) {
-        errors.push(`${file}: translation handoff must consume publication results, preserve schema v2 evidence, and use the trusted workflow ref`)
+        errors.push(`${file}: translation handoff must consume publication results, preserve schema v3 evidence, and use the trusted workflow ref`)
       }
       const dispatch = workflow.jobs?.dispatch_translations
       const dispatchNeeds = Array.isArray(dispatch?.needs) ? dispatch.needs : []
@@ -1463,7 +1463,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const coordinatorSteps = coordinator?.steps || []
     const coordinatorPublish = coordinatorSteps.find(step => step?.id === 'publish')
     const coordinatorScript = String(coordinatorPublish?.with?.script || '')
-    if (coordinatorNeeds.join(',') !== 'prepare' || coordinator?.permissions?.contents !== 'write' || coordinator?.permissions?.actions !== 'read' ||
+    if (coordinatorNeeds.join(',') !== 'prepare,reconciliation_preflight' || coordinator?.permissions?.contents !== 'write' || coordinator?.permissions?.actions !== 'read' ||
         coordinatorPublish?.uses !== 'actions/github-script@v8' || coordinatorPublish?.run !== undefined ||
         !/process\.env\.PUBLISH === 'true' \? 'publish' : 'artifact_only'[\s\S]*exec\.exec\('node', \[[\s\S]*publication-coordinator\.js[\s\S]*'--selection'[\s\S]*'--mode', mode/.test(coordinatorScript)) {
       errors.push('fetch-docs.yml: publish_ready must be the single Git writer and poll ready units from prepare only')
@@ -1533,13 +1533,17 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const handoffInstallIndex = handoffSteps.findIndex(step => step?.run === 'pnpm install --frozen-lockfile')
     const handoffValidationIndex = handoffSteps.findIndex(step => step?.name === 'Validate exact downstream translation handoff')
     const handoffValidation = handoffSteps[handoffValidationIndex]
+    const handoffPlanIndex = handoffSteps.findIndex(step => step?.name === 'Prepare authenticated reconciliation plans')
+    const handoffPlanStep = handoffSteps[handoffPlanIndex]
     if (handoffNeeds.join(',') !== 'prepare,source_publication_barrier,publish_ready,reconcile_reference_state' ||
         handoffValidation?.env?.TARGET_BASELINE_SHA !== '${{ needs.reconcile_reference_state.outputs.final_target_sha }}' ||
         !/--target-baseline-sha "\$TARGET_BASELINE_SHA"/.test(handoffValidation?.run || '') ||
+        !/fetch-reconciliation-plans\.js generate[\s\S]*--selection[\s\S]*--results[\s\S]*--repository "\$GITHUB_WORKSPACE"[\s\S]*--target-baseline-sha "\$TARGET_BASELINE_SHA"[\s\S]*--output "\$RUNNER_TEMP\/reconciliation-plans"/.test(handoffPlanStep?.run || '') ||
+        !/--reconciliation-plans-dir "\$RUNNER_TEMP\/reconciliation-plans"/.test(handoffValidation?.run || '') ||
         !(handoffPnpmIndex >= 0 && handoffPnpmIndex < handoffNodeIndex && handoffNodeIndex < handoffInstallIndex && handoffInstallIndex < handoffValidationIndex) ||
         dispatchNeeds.join(',') !== 'prepare,prepare_translation_handoff' ||
         !String(dispatchJob?.if || '').includes("needs.prepare_translation_handoff.result == 'success'")) {
-      errors.push('fetch-docs.yml: downstream translation handoff must install its runtime before validated schema-v2 dispatch')
+      errors.push('fetch-docs.yml: downstream translation handoff must install its runtime before validated schema-v3 dispatch')
     }
     const dispatchSteps = dispatchJob?.steps || []
     const handoffMetadata = dispatchSteps.find(step => step?.name === 'Create translation handoff monitor metadata')

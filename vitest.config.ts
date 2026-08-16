@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test-setup.ts'],
-    include: ['src/**/*.test.{ts,tsx}', 'apps/docs/src/**/*.test.{ts,tsx}', 'packages/site-config/**/*.test.{ts,tsx}', 'packages/docs-tooling/**/*.test.{ts,tsx}', 'packages/docs-ui/**/*.test.{ts,tsx}', 'packages/publication-adapters/**/*.test.{ts,tsx}'],
+    include: ['src/**/*.test.{ts,tsx}', 'apps/docs/src/**/*.test.{ts,tsx}', 'packages/site-config/**/*.test.{ts,tsx}', 'packages/docs-tooling/**/*.test.{ts,tsx}', 'packages/docs-ui/**/*.test.{ts,tsx}', 'packages/publication-adapters/**/*.test.{ts,tsx}', 'scripts/translation/schema.test.ts'],
     coverage: {
       provider: 'v8',
       include: ['packages/docs-ui/src/shared/components/ChatPanel/**/*.tsx', 'packages/docs-ui/src/shared/theme/Search/**/*.tsx'],

@@ -1,0 +1,26 @@
+[Unit]
+Description=ZDoc Translation Reconciliation Feishu Card Action Consumer
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=zdoc
+Group=zdoc
+WorkingDirectory=/opt/zdoc
+EnvironmentFile=-/etc/zdoc/reconciliation-card-action-consumer.env
+ExecStart=/usr/bin/env node scripts/docs-workflow/reconciliation-card-action-consumer.js --repository zilliztech/zdoc --token-env GITHUB_TOKEN --evidence-root /var/lib/zdoc/reconciliation-card-actions --runner-temp /tmp --durable-pr
+Restart=on-failure
+RestartSec=5s
+TimeoutStopSec=30s
+KillSignal=SIGTERM
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=read-only
+ReadWritePaths=/var/lib/zdoc/reconciliation-card-actions
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

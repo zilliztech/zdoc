@@ -9,6 +9,7 @@ const {
   deriveTranslationProgressState,
   parseGuidesBatchJob,
   parseSdkTranslationJob,
+  reviewActionsFor,
   selectEffectiveTranslationJobs,
 } = require('./translation-progress-state')
 
@@ -188,4 +189,27 @@ test('retains a failed publication unit while a later ready unit advances in the
     {id: 'zh-CN-reference/python', status: 'waiting', currentTask: 'Ready to publish · queue #1'},
   ])
   assert.equal(state.phases.find(item => item.key === 'publish').status, 'failed')
+})
+
+test('derives approve and reject actions from worker review-state JSON', () => {
+  const state = {
+    schemaVersion: 1,
+    document: 'translation-reconciliation-review-state',
+    runId: 99,
+    runAttempt: 4,
+    target: 'zh-CN-reference',
+    group: 'python',
+    planSha256: `sha256:${'1'.repeat(64)}`,
+    policyId: 'translation-reconciliation-v1',
+    status: 'review_required',
+    operationCount: 1,
+    operations: [],
+    reviewArtifactSha256: `sha256:${'3'.repeat(64)}`,
+    githubRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/99',
+    batchNumber: 0,
+  }
+  const actions = reviewActionsFor([state])
+  assert.deepEqual(actions.map(action => action.type), ['primary_filled', 'danger'])
+  assert.deepEqual(actions.map(action => JSON.parse(action.value).action), ['approve', 'reject'])
+  assert.equal(JSON.parse(actions[0].value).batchNumber, 0)
 })

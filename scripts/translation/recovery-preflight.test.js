@@ -8,6 +8,7 @@ const path = require('node:path')
 const test = require('node:test')
 
 const {createRecoveryArtifact, promptContractSha256} = require('./recovery-artifact')
+const {createReconciliationPlan, createReconciliationResult} = require('./reconciliation-plan')
 const {analyzeRecoveryCompatibility, main: recoveryPreflightMain} = require('./recovery-preflight')
 
 const HASH = value => crypto.createHash('sha256').update(value).digest('hex')
@@ -35,6 +36,39 @@ function reviewedResult(item, overrides = {}) {
     chunks: {total: 1, reused: 0},
     ...overrides,
   }
+}
+
+function reconciliationPlan({sourcePath, targetPath, replacement = null, targetBaselineSha = 'd'.repeat(40)}) {
+  const operation = {
+    kind: replacement ? 'replace_path' : 'delete_target',
+    sourcePath,
+    targetPath,
+    replacementSourcePath: replacement,
+    replacementTargetPath: replacement ? targetPath.replace(/\/[^/]+$/, `/${replacement.split('/').at(-1)}`) : null,
+    reason: replacement ? 'source_replaced' : 'source_deleted',
+    evidence: {
+      sourceExistedAtBaseline: true,
+      sourceMissingAtCheckpoint: true,
+      targetExistsAtBaseline: true,
+      mappingIsCanonical: true,
+      ownedByGroup: true,
+      preserved: false,
+      generatorCompletenessReceipt: null,
+    },
+    authorization: {status: 'approved', method: 'automatic', ruleId: 'test', receiptSha256: null},
+  }
+  return createReconciliationPlan({
+    schemaVersion: 1,
+    document: 'translation-reconciliation-plan',
+    target: 'zh-CN-reference',
+    group: 'python',
+    toolingSha: 'd'.repeat(40),
+    sourceBaselineSha: 'b'.repeat(40),
+    sourceCheckpointSha: 'a'.repeat(40),
+    targetBaselineSha,
+    policyId: 'test-policy',
+    operations: [operation],
+  })
 }
 
 function fixture(t) {
@@ -120,6 +154,64 @@ test('restores current-compatible files and leaves only true pending candidates 
   assert.equal(fs.readFileSync(path.join(value.siteDir, value.items[0].targetPath), 'utf8'), '# 中文 1\n')
   assert.deepEqual(analysis.restored.map(item => item.sourcePath), [value.items[0].sourcePath])
   assert.deepEqual(analysis.pending.map(item => item.sourcePath), [value.items[1].sourcePath])
+})
+
+test('reuses revalidated paid files while reporting changed reconciliation operations separately', t => {
+  const value = fixture(t)
+  const reconciledSourcePath = 'content/en/reference/api/python/python/v2/page-1.md'
+  const reconciledTargetPath = 'content/zh-CN/reference/api/python/python/v2/page-1.md'
+  const previousPlan = reconciliationPlan({
+    sourcePath: reconciledSourcePath,
+    targetPath: reconciledTargetPath,
+  })
+  const previousResult = createReconciliationResult({
+    schemaVersion: 1,
+    document: 'translation-reconciliation-result',
+    planSha256: previousPlan.planSha256,
+    targetBaselineSha: previousPlan.targetBaselineSha,
+    status: 'applied',
+    operations: [{
+      operationId: previousPlan.operations[0].operationId,
+      status: 'applied',
+      removedPaths: [reconciledTargetPath],
+      removedStateKeys: [],
+    }],
+  }, previousPlan)
+  write(value.siteDir, value.items[0].targetPath, '# 中文 1\n')
+  createRecoveryArtifact({
+    siteDir: value.siteDir,
+    outputDir: value.artifactDir,
+    results: [reviewedResult(value.items[0])],
+    identity: value.identity,
+    reconciliation: {
+      planArtifact: 'translation-reconciliation-plan-zh-CN-reference-python',
+      planSha256: previousPlan.planSha256,
+      policyId: previousPlan.policyId,
+      resultSha256: previousResult.resultSha256,
+      approvalReceiptShas: [],
+      plan: previousPlan,
+      result: previousResult,
+    },
+  })
+  fs.rmSync(path.join(value.siteDir, value.items[0].targetPath))
+  const currentPlan = reconciliationPlan({
+    sourcePath: reconciledSourcePath,
+    targetPath: reconciledTargetPath,
+    replacement: 'content/en/reference/api/python/python/v2/page-1-new.md',
+  })
+  const analysis = analyzeRecoveryCompatibility({
+    siteDir: value.siteDir,
+    manifest: {target: 'zh-CN-reference', locale: 'zh-CN', group: 'python', sourceCheckpointSha: 'a'.repeat(40), items: [value.items[0]]},
+    artifacts: [value.artifactDir],
+    promptContractSha256: value.identity.promptContractSha256,
+    model: value.identity.model,
+    executionToolingSha: 'd'.repeat(40),
+    allowFullRetranslate: false,
+    currentReconciliationPlan: currentPlan,
+  })
+  assert.equal(analysis.recoveredCount, 1)
+  assert.equal(analysis.reconciliation.classification.counts.changed, 1)
+  assert.equal(fs.readFileSync(path.join(value.siteDir, value.items[0].targetPath), 'utf8'), '# 中文 1\n')
 })
 
 test('receipt-less nested recovered records become semantic reviewer work instead of restored successes', t => {

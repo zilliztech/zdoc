@@ -12,6 +12,8 @@ const {
 const {artifactNames, validatePublicationProgress, validatePublicationResults} = require('./publication-contracts')
 const {deriveTranslationProgressState} = require('./translation-progress-state')
 const {validateTranslationHandoff, validateTranslationRecoveryHandoff} = require('./translation-handoff')
+const {validateReviewState} = require('../translation/reconciliation-review-state')
+const {findExactFile} = require('./github-artifact-archive')
 
 const TRANSLATION_UNIT_ORDER = Object.freeze([
   'translation/ja-JP/guides',
@@ -149,6 +151,58 @@ function createTranslationPublicationArtifactReader({
   return {downloadPublicationProgress, downloadPublicationResults}
 }
 
+function createTranslationReviewStateReader({client, repository, runId, selectedUnits}) {
+  const selected = selectedUnits.map(unit => ({
+    identity: `${unit.target}-${unit.group}`,
+    target: unit.target,
+    group: unit.group,
+  }))
+  const prefix = 'translation-reconciliation-review-state-'
+
+  function parseArtifactIdentity(artifact) {
+    if (typeof artifact?.name !== 'string' || !artifact.name.startsWith(prefix)) return null
+    for (const unit of selected) {
+      const base = `${prefix}${unit.target}-${unit.group}-`
+      if (!artifact.name.startsWith(base)) continue
+      const suffix = artifact.name.slice(base.length)
+      const match = suffix.match(/^([1-9][0-9]*)-([0-9]+)$/u)
+      if (!match || Number(match[1]) !== runId) return null
+      return {
+        artifact,
+        target: unit.target,
+        group: unit.group,
+        runId: Number(match[1]),
+        batchNumber: Number(match[2]),
+      }
+    }
+    return null
+  }
+
+  async function downloadReviewStates() {
+    const artifacts = (await client.listArtifacts())
+      .filter(artifact => artifact.expired !== true && typeof artifact.name === 'string' && artifact.name.startsWith(prefix))
+      .map(parseArtifactIdentity)
+      .filter(Boolean)
+    const states = []
+    for (const candidate of artifacts) {
+      const downloaded = await client.downloadArtifactArchive(candidate.artifact.name)
+      try {
+        const file = findExactFile(downloaded.directory, 'translation-reconciliation-review-state.json')
+        const state = validateReviewState(JSON.parse(fs.readFileSync(file, 'utf8')))
+        if (state.runId !== candidate.runId || state.batchNumber !== candidate.batchNumber ||
+            state.target !== candidate.target || state.group !== candidate.group) {
+          throw new Error('Review state artifact name does not match its content identity')
+        }
+        states.push(state)
+      } finally {
+        fs.rmSync(downloaded.directory, {recursive: true, force: true})
+      }
+    }
+    return states
+  }
+  return {downloadReviewStates}
+}
+
 function createTranslationProgressMonitor({
   runId,
   repository,
@@ -163,6 +217,7 @@ function createTranslationProgressMonitor({
   listJobs,
   downloadPublicationProgress = async () => ({snapshot: null, stale: false}),
   downloadPublicationResults = async () => null,
+  downloadReviewStates = async () => [],
   patchCard,
   sleep = delay,
   now = () => new Date(),
@@ -175,6 +230,7 @@ function createTranslationProgressMonitor({
   let publicationProgress = null
   let publicationProgressStale = false
   let publicationResults = null
+  let reviewStates = []
   let terminalResultsMisses = 0
 
   positiveInteger(terminalResultsMaxPolls, 'terminalResultsMaxPolls', MAX_TERMINAL_RESULTS_POLLS)
@@ -192,6 +248,7 @@ function createTranslationProgressMonitor({
         terminalStatus: resolvedTerminal,
         publicationProgress,
         publicationResults,
+        reviewStates,
         reports: publicationProgressStale ? [{
           title: 'Publication progress retained',
           markdown: 'The newest publication progress artifact was invalid; the card retained the highest valid revision.',
@@ -221,6 +278,14 @@ function createTranslationProgressMonitor({
     }
   }
 
+  async function loadReviewStates() {
+    try {
+      reviewStates = await downloadReviewStates()
+    } catch (_) {
+      boundedLog('translation reconciliation review states unavailable; retaining the highest valid review states')
+    }
+  }
+
   async function bestEffortPatch(state) {
     try {
       await patchCard(state)
@@ -245,6 +310,7 @@ function createTranslationProgressMonitor({
       return false
     }
     latestJobs = jobs
+    await loadReviewStates()
     const prepare = jobs.find(job => String(job?.name || '').split(' / ')[0] === 'prepare')
     if (prepare?.status === 'completed' && prepare.conclusion === 'success' && !publicationSelectionSha256) {
       latestState = derive(jobs, 'failure')
@@ -339,7 +405,11 @@ function readConfiguration(env = process.env) {
     cardId: required(env, 'CARD_ID'),
     startedAt,
     targetBranch: handoff.targetBranch,
-    selectedUnits: handoff.units.map(({target, group}) => ({target, group})),
+    selectedUnits: handoff.units.map(({target, group, reconciliationOperationCount}) => ({
+      target,
+      group,
+      planStatus: reconciliationOperationCount === 0 ? 'authenticated_empty' : 'approved_operations',
+    })),
     publishEnabled: publishText === 'true',
     publicationRunAttempt,
     publicationSelectionSha256,
@@ -373,11 +443,17 @@ async function main() {
       publishEnabled: config.publishEnabled,
     })
     : {}
+  const reviewStates = createTranslationReviewStateReader({
+    client: github,
+    repository: config.repository,
+    runId: config.runId,
+    selectedUnits: config.selectedUnits,
+  })
   const patchCard = createDocsToolingCardPatcher({
     messageId: config.cardId,
     environment: {...process.env, APP_ID: config.appId, APP_SECRET: config.appSecret, FEISHU_HOST: config.feishuHost},
   })
-  const monitor = createTranslationProgressMonitor({...config, ...artifacts, listJobs: github.listJobs, patchCard})
+  const monitor = createTranslationProgressMonitor({...config, ...artifacts, ...reviewStates, listJobs: github.listJobs, patchCard})
   const stop = () => monitor.stop().finally(() => { process.exitCode = 130 })
   process.once('SIGTERM', stop)
   process.once('SIGINT', stop)
@@ -394,6 +470,7 @@ if (require.main === module) {
 module.exports = {
   createTranslationProgressMonitor,
   createTranslationPublicationArtifactReader,
+  createTranslationReviewStateReader,
   expectedPublicationUnitKeys,
   normalizeTranslationMonitorJobs,
   parentWorkflowUrl,

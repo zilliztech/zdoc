@@ -6,6 +6,7 @@ const path = require('node:path')
 const {DefaultArtifactClient} = require('@actions/artifact')
 
 const {
+  assertSafeExtraction,
   inspectExtractedFiles,
   inspectZipArchive,
   normalizeExpectedFiles,
@@ -179,6 +180,57 @@ function createPublicationGitHubClient(options) {
     }
   }
 
+  async function downloadRestArtifactArchive(name) {
+    const matches = (await listArtifacts()).filter(artifact => artifact.name === name)
+    if (matches.length !== 1) {
+      if (!matches.length) throw new Error(`Artifact is unavailable: ${name}`)
+      throw new Error(`Artifact identity must be unique: ${name}`)
+    }
+    const artifact = matches[0]
+    const envelope = validateRestArtifactEnvelope(artifact, name)
+    const directory = fs.mkdtempSync(path.join(runnerTemp, 'publication-artifact-archive-'))
+    const archive = `${directory}.zip`
+    try {
+      const response = await fetchImpl(envelope.archiveUrl, {
+        headers: {
+          Accept: 'application/vnd.github+json',
+          Authorization: `Bearer ${token}`,
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+      })
+      if (!response?.ok) throw new Error(`GitHub artifact archive request failed (${response?.status || 'unknown'})`)
+      const bytes = Buffer.from(await response.arrayBuffer())
+      if (crypto.createHash('sha256').update(bytes).digest('hex') !== envelope.digest) throw new Error('Downloaded artifact digest mismatch')
+      fs.writeFileSync(archive, bytes, {mode: 0o600})
+      validateArchiveEntries(await inspectArchive(archive))
+      await unzip(archive, directory)
+      assertSafeExtraction(directory)
+      fs.rmSync(archive, {force: true})
+      return deepFreeze({artifact: {...artifact}, directory})
+    } catch (error) {
+      fs.rmSync(archive, {force: true})
+      fs.rmSync(directory, {recursive: true, force: true})
+      throw error
+    }
+  }
+
+  async function downloadArtifactArchive(name) {
+    if (typeof name !== 'string' || !name) throw new Error('Artifact name is required')
+    if (artifactTransport === 'rest') return downloadRestArtifactArchive(name)
+    const artifact = await findArtifact(name)
+    if (!artifact) throw new Error(`Artifact is unavailable: ${name}`)
+    const artifactId = positiveInteger(artifact.id, 'artifact id')
+    const requested = fs.mkdtempSync(path.join(runnerTemp, 'publication-artifact-archive-'))
+    const result = await artifactClient.downloadArtifact(artifactId, {path: requested})
+    const reported = path.resolve(result?.downloadPath || requested)
+    const reportedStat = fs.lstatSync(reported)
+    if (reportedStat.isSymbolicLink() || !reportedStat.isDirectory()) throw new Error('Artifact download path must be a real directory')
+    const directory = fs.realpathSync(reported)
+    if (directory !== runnerTemp && !directory.startsWith(`${runnerTemp}${path.sep}`)) throw new Error('Artifact download path is outside runner temp')
+    assertSafeExtraction(directory)
+    return deepFreeze({artifact: {...artifact}, directory})
+  }
+
   async function downloadArtifactFiles(name, expectedFilesInput) {
     const expectedFiles = normalizeExpectedFiles(expectedFilesInput)
     if (artifactTransport === 'rest') return downloadRestArtifactFiles(name, expectedFiles)
@@ -240,6 +292,7 @@ function createPublicationGitHubClient(options) {
   }
 
   return Object.freeze({
+    downloadArtifactArchive,
     downloadArtifactFiles,
     downloadReady,
     findArtifact,

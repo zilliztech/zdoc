@@ -11,6 +11,10 @@ import {
   type ReferenceSourceManifest,
   type ReferenceTranslationManifest,
 } from '../reference/translationManifest.ts';
+import {
+  parseReferenceReconciliationLedger,
+  type ReferenceReconciliationLedger,
+} from '../reference/reconciliationLedger.ts';
 
 export type TranslationSourceProvenance = Readonly<{
   sourceCommit: string;
@@ -241,4 +245,8 @@ export function validateReferenceSource(options: ValidateReferenceSourceOptions)
   for (const record of sourceManifest.records) {
     if (!files.has(record.sourcePath)) throw new Error(`Source manifest path is missing: ${record.sourcePath}`);
   }
+}
+
+export function validateReferenceReconciliationLedger(value: ReferenceReconciliationLedger): void {
+  parseReferenceReconciliationLedger(value);
 }

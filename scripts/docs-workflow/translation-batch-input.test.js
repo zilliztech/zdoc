@@ -14,6 +14,7 @@ const {
 const { buildManifest } = require('../translation/manifest')
 const { createBatchSummary, selectManifestBatch } = require('../translation/batches')
 const { classifySourceDelta } = require('../translation/sourceDelta')
+const {createReconciliationOperation, createReconciliationPlan} = require('../translation/reconciliation-plan')
 
 test('exports the translation batch input API', () => {
   assert.equal(typeof assertAuthorizedCacheChanges, 'function')
@@ -107,6 +108,20 @@ function batchInput(overrides = {}) {
 
 test('creates exact canonical output and retains intrinsic rename overlaps', () => {
   assert.deepEqual(createBatchInput(selectedManifest()), batchInput())
+})
+
+test('derives legacy batch authority from the exact plan and assigns it only to batch zero', () => {
+  const operation = createReconciliationOperation({kind: 'delete_target', sourcePath: 'content/en/guides/tutorials/old.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md', replacementSourcePath: null, replacementTargetPath: null, reason: 'source_deleted', evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null}, authorization: {status: 'approved', method: 'automatic', ruleId: 'test-policy:ja-JP:guides', receiptSha256: null}})
+  const plan = createReconciliationPlan({schemaVersion: 1, document: 'translation-reconciliation-plan', target: 'ja-JP', group: 'guides', toolingSha: '4'.repeat(40), sourceBaselineSha: '2'.repeat(40), sourceCheckpointSha: SHA, targetBaselineSha: '3'.repeat(40), policyId: 'test-policy', operations: [operation]})
+  const base = {
+    target: 'ja-JP', locale: 'ja-JP', group: 'guides', sourceCheckpointSha: SHA,
+    generatedAt: '2026-07-18T00:00:00.000Z', items: [candidate('new.md')],
+    reconciliation: {planArtifact: 'translation-reconciliation-plan-ja-JP-guides-1', planSha256: plan.planSha256, operationCount: 1},
+  }
+  const first = createBatchInput({...base, batch: {batchIndex: 0, batchNumber: 1, batchCount: 2, batchSize: 1, pendingCount: 2, pendingSetSha256: HASH_B, reconciliationOwner: true}}, plan)
+  const second = createBatchInput({...base, batch: {batchIndex: 1, batchNumber: 2, batchCount: 2, batchSize: 1, pendingCount: 2, pendingSetSha256: HASH_B, reconciliationOwner: false}}, plan)
+  assert.deepEqual(first.sourceDelta.deletedI18n, [operation.targetPath])
+  assert.deepEqual(second.sourceDelta, {deletedI18n: [], renamed: [], retirementCandidates: []})
 })
 
 test('creates durable batch input from a canonical unified Guides manifest', () => {

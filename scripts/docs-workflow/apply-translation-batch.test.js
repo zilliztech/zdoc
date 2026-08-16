@@ -12,6 +12,7 @@ const { execFileSync } = require('node:child_process')
 const { createCheckpointArtifact } = require('./create-checkpoint-artifact')
 const { planTranslationBatchSet } = require('./translation-batch-set')
 const { applyTranslationBatch } = require('./apply-translation-batch')
+const {createReconciliationOperation, createReconciliationPlan, createReconciliationResult} = require('../translation/reconciliation-plan')
 
 const MASTER_SHA = 'a'.repeat(40)
 const PENDING_SHA = 'c'.repeat(64)
@@ -87,6 +88,7 @@ async function createPair(fixture, {
   pendingCount = 1,
   changes = [{ targetPath: `${SAAS_ROOT}/a.md`, bytes: '# 翻訳 A\n' }],
   deletions = [],
+  planAuthorized = false,
 } = {}) {
   const suffix = `${batchNumber}-${Math.random().toString(16).slice(2)}`
   const baselineDir = path.join(fixture.root, `baseline-${suffix}`)
@@ -125,7 +127,7 @@ async function createPair(fixture, {
     sourceCheckpointSha: fixture.sourceCheckpointSha,
     batch,
     candidates,
-    sourceDelta: { deletedI18n: [...deletions].sort(), renamed: [], retirementCandidates: [] },
+    sourceDelta: { deletedI18n: planAuthorized ? [] : [...deletions].sort(), renamed: [], retirementCandidates: [] },
   }
   const batchInputPath = path.join(fixture.root, `batch-input-${suffix}.json`)
   fs.writeFileSync(batchInputPath, `${JSON.stringify(batchInput, null, 2)}\n`)
@@ -140,8 +142,21 @@ async function createPair(fixture, {
     batch,
     batchInputPath,
   }
-  await createCheckpointArtifact({ ...common, workspace: baselineDir, output: baselineOutput })
-  await createCheckpointArtifact({ ...common, workspace, output: resultOutput })
+  let baselineEvidence = {}
+  let resultEvidence = {}
+  if (planAuthorized) {
+    const operations = deletions.map(targetPath => createReconciliationOperation({kind: 'delete_target', sourcePath: sourcePathForTarget(targetPath), targetPath, replacementSourcePath: null, replacementTargetPath: null, reason: 'source_deleted', evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null}, authorization: {status: 'approved', method: 'automatic', ruleId: 'test-policy:ja-JP:guides', receiptSha256: null}}))
+    const reconciliationPlan = createReconciliationPlan({schemaVersion: 1, document: 'translation-reconciliation-plan', target: 'ja-JP', group: 'guides', toolingSha: MASTER_SHA, sourceBaselineSha: 'b'.repeat(40), sourceCheckpointSha: fixture.sourceCheckpointSha, targetBaselineSha: fixture.expectedTargetSha, policyId: 'test-policy', operations})
+    const reconciliationResult = createReconciliationResult({schemaVersion: 1, document: 'translation-reconciliation-result', planSha256: reconciliationPlan.planSha256, targetBaselineSha: reconciliationPlan.targetBaselineSha, status: 'applied', operations: operations.map(operation => ({operationId: operation.operationId, status: 'applied', removedPaths: [operation.targetPath], removedStateKeys: []}))}, reconciliationPlan)
+    const planPath = path.join(fixture.root, `reconciliation-plan-${suffix}.json`)
+    const resultPath = path.join(fixture.root, `reconciliation-result-${suffix}.json`)
+    fs.writeFileSync(planPath, `${JSON.stringify(reconciliationPlan, null, 2)}\n`)
+    fs.writeFileSync(resultPath, `${JSON.stringify(reconciliationResult, null, 2)}\n`)
+    baselineEvidence = {reconciliationPlanPath: planPath}
+    resultEvidence = {reconciliationPlanPath: planPath, reconciliationResultPath: resultPath}
+  }
+  await createCheckpointArtifact({ ...common, workspace: baselineDir, output: baselineOutput, ...baselineEvidence })
+  await createCheckpointArtifact({ ...common, workspace, output: resultOutput, ...resultEvidence })
   return { artifactDir: fs.realpathSync(resultOutput), baselineDir: fs.realpathSync(baselineOutput) }
 }
 
@@ -223,6 +238,14 @@ test('applies authorized writes, deletions, and semantic cache changes', async (
   assert.deepEqual(result, { changedPaths: [newPath], deletedPaths: [oldPath], cacheChanged: true, idempotent: false })
   assert.equal(Object.isFrozen(result), true)
   assert.equal(Object.isFrozen(result.changedPaths), true)
+})
+
+test('publishes a schema 3 deletion authorized only by reconciliation plan evidence', async () => {
+  const oldPath = `${SAAS_ROOT}/old.md`
+  const {fixture, pair, plan} = await plannedSingleBatch({deletions: [oldPath], planAuthorized: true})
+  const result = await applyTranslationBatch({plan, batchNumber: 1, artifactDir: pair.artifactDir, baselineDir: pair.baselineDir, targetDir: fixture.targetRepository})
+  assert.equal(fs.existsSync(path.join(fixture.targetRepository, ...oldPath.split('/'))), false)
+  assert.deepEqual(result.deletedPaths, [oldPath])
 })
 
 test('batch 2 preserves accumulated batch 1 files and cache entries', async () => {

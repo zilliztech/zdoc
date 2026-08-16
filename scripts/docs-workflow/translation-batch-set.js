@@ -228,7 +228,7 @@ function isTranslationFile(relative) {
 }
 
 function normalizedBaselineIdentity(manifest) {
-  if (!manifest || manifest.schemaVersion !== 2 || manifest.stage !== 'translation' || manifest.group !== 'guides') throw new Error('Normalized baseline requires a validated schema 2 Guides translation manifest')
+  if (!manifest || ![2, 3].includes(manifest.schemaVersion) || manifest.stage !== 'translation' || manifest.group !== 'guides') throw new Error('Normalized baseline requires a validated schema 2 or 3 Guides translation manifest')
   const files = manifest.files.filter(entry => isMutablePath(entry.path))
     .map(entry => ({ path: entry.path, size: entry.size, sha256: entry.sha256 }))
     .sort((a, b) => compareText(a.path, b.path))
@@ -299,10 +299,15 @@ function deriveBatchPlan(result, baseline) {
   const baselineFiles = new Map(baseline.files.filter(entry => isTranslationFile(entry.path)).map(entry => [entry.path, entry]))
   const resultFiles = new Map(result.files.filter(entry => isTranslationFile(entry.path)).map(entry => [entry.path, entry]))
   const candidateTargets = new Set(result.parsedBatchInput.candidates.map(candidate => candidate.targetPath))
-  const authorizedDeletions = new Set([
-    ...result.parsedBatchInput.sourceDelta.deletedI18n,
-    ...result.parsedBatchInput.sourceDelta.renamed.map(rename => rename.oldI18nPath),
-  ])
+  const reconciliationPlan = result.reconciliationEvidence?.plan || null
+  const ownsReconciliation = result.batch.batchIndex === 0
+  const authorizedDeletions = reconciliationPlan
+    ? new Set(ownsReconciliation ? reconciliationPlan.operations.filter(operation => ['delete_target', 'replace_path'].includes(operation.kind)).map(operation => operation.targetPath) : [])
+    : new Set([
+        ...result.parsedBatchInput.sourceDelta.deletedI18n,
+        ...result.parsedBatchInput.sourceDelta.renamed.map(rename => rename.oldI18nPath),
+      ])
+  if (reconciliationPlan && (!result.reconciliationEvidence.result || baseline.reconciliationEvidence.result)) throw new Error('Translation reconciliation result evidence placement is invalid')
   const paths = [...new Set([...baselineFiles.keys(), ...resultFiles.keys()])].sort(compareText)
   const writes = [], deletions = []
   for (const relative of paths) {

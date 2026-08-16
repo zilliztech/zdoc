@@ -116,7 +116,52 @@ Stop at the first failed boundary and classify the failure before retrying:
 - **Reference reconciliation failure:** source publication may already be present. Preserve the run artifacts, verify the published ancestry, and repair or rerun only the reconciliation boundary after confirming the current target tip. Do not pay for Translation again until the source barrier and schema-v2 handoff are valid.
 - **Translation unit failure:** a normal unit failure is recorded and later ready units can continue; an unknown remote state stops later writes. Inspect the child run's unit results, reports, remaining count, and reconciliation output before deciding whether recovery is needed.
 - **Expired or incompatible Translation artifacts:** use [`recover-translation.yml`](.github/workflows/recover-translation.yml) with the previous Translation workflow run ID (not a job ID). First run with `publish=false` to authenticate the recovery plan and inspect rejected units. Only after the plan is compatible should you rerun with `publish=true`. `allow_full_retranslate=true` is an advanced, explicitly authorized path for the case where no retained file is compatible; it may invoke paid models and must not be enabled casually.
+- **Reconciliation review:** a `translation-reconciliation-review-*.json` artifact is produced when a deletion or path change requires human authorization. Generate the deterministic approval PR with `scripts/docs-workflow/reconciliation-review-pr.js`, review the exact plan, expected mutations, source/target identities, and policy exception body, then merge only when the decision should remain standing. Do not hand-edit or push policy files directly to `dev`; after merge, run the normal master-to-dev tooling sync.
 - **Card/reporting failure:** the card is observability, not the Git writer. Preserve the publication selection/results and final verification artifacts, then use the final card artifact or monitor finalization evidence to determine whether the business flow actually succeeded.
+
+#### Feishu reconciliation approval card
+
+When a Translation unit enters reconciliation review, the monitor reads `translation-reconciliation-review-state-<target>-<group>-<run_id>-<batch>.json` and renders Approve / Reject buttons on the Feishu progress card.
+
+Run one long-lived consumer to handle those callbacks:
+
+```bash
+node scripts/docs-workflow/reconciliation-card-action-consumer.js \
+  --repository zilliztech/zdoc \
+  --token-env GITHUB_TOKEN \
+  --evidence-root tmp/reconciliation-card-actions \
+  --durable-pr
+```
+
+The consumer uses `lark-cli event consume card.action.trigger --as bot`; the Feishu app must be the same app that sent the card and must have the `card.action.trigger` callback enabled. `GITHUB_TOKEN` needs `actions:read`; when `--durable-pr` is enabled it also needs `contents:write` and `pull_requests:write`.
+
+Pass `--durable-pr` when Approve should also create a durable policy-exception PR against `master`. The PR updates `config/translation/reconciliation-policy-exceptions.json` and follows the normal master-to-dev tooling sync path. Without that flag, Approve only writes the run-scoped receipt and updates the card.
+
+For a newly processed callback, the consumer downloads and validates both the standalone review state and the full review artifact before writing evidence:
+
+- `approve`: writes a run-scoped human approval receipt bound to `planSha256`, source/target/tooling identities, reviewer, and expiry; the card is updated to `approved`. With `--durable-pr`, it also creates a PR adding the matching durable policy exception.
+- `reject`: writes run-scoped rejection evidence and updates the card to `rejected`; no policy file is modified and no PR is created.
+
+Evidence is written atomically below `<evidence-root>/<target>/<group>/<run_id>/<batch>/<action>-<event_id>.json`. The same Feishu `event_id` is idempotent.
+
+For a durable decision, the generated PR targets `master`. Merge it and run the normal master-to-dev tooling sync; never hand-edit or push policy files directly to `dev`.
+
+#### Hosting the Feishu callback consumer
+
+A systemd unit template is provided at `deploy/systemd/reconciliation-card-action-consumer.service`:
+
+```bash
+sudo install -o root -g root -m 0644 \
+  deploy/systemd/reconciliation-card-action-consumer.service \
+  /etc/systemd/system/reconciliation-card-action-consumer.service
+sudo install -o root -g zdoc -m 0600 \
+  deploy/systemd/reconciliation-card-action-consumer.env.example \
+  /etc/zdoc/reconciliation-card-action-consumer.env
+sudo systemctl daemon-reload
+sudo systemctl enable --now reconciliation-card-action-consumer
+```
+
+Adjust `User`, `Group`, `WorkingDirectory`, `ReadWritePaths`, and the env file path for the actual host. The service keeps the `lark-cli` bot identity from the host and never receives Feishu credentials through the unit file.
 
 Never infer success from a green producer job, an artifact-only run, or a Chinese Reference no-candidate Translation run. Those can be useful evidence for their own boundaries, but they do not by themselves prove a complete all-locale Translation FIFO.
 

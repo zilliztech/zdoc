@@ -139,7 +139,10 @@ function selectionUnit(handoffUnit, input) {
 function buildTranslationPublicationSelection(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Translation publication selection input must be an object')
   const operatorRecovery = hasAuthenticatedRecoveryPlan(input)
-  const handoff = operatorRecovery ? validateTranslationRecoveryHandoff(input.handoff) : validateTranslationHandoff(input.handoff)
+  // Retained-artifact replay reconstructs schema-v2 handoffs without the newer
+  // authenticated recovery envelope, so keep that read path explicitly separate.
+  const legacyV2 = input.handoff?.schemaVersion === 2
+  const handoff = operatorRecovery || legacyV2 ? validateTranslationRecoveryHandoff(input.handoff) : validateTranslationHandoff(input.handoff)
   const recoveryProvenance = bindAuthenticatedRecoveryPlan(input, handoff)
   const selected = new Map(handoff.units.map(unit => [`translation/${unit.target}/${unit.group}`, unit]))
   const units = TRANSLATION_UNIT_KEYS.filter(unitKey => selected.has(unitKey)).map(unitKey => selectionUnit(selected.get(unitKey), { ...input, handoff }))

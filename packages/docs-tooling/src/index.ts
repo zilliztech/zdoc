@@ -46,6 +46,15 @@ export {
   parseReferenceTranslationManifest,
   serializeReferenceManifest,
 } from './reference/translationManifest.ts';
+export {
+  appendReferenceReconciliationLedger,
+  parseReferenceReconciliationLedger,
+  serializeReferenceReconciliationLedger,
+} from './reference/reconciliationLedger.ts';
+export type {
+  ReferenceReconciliationLedger,
+  ReferenceReconciliationLedgerEntry,
+} from './reference/reconciliationLedger.ts';
 export type {
   ReferencePendingRecord,
   ReferenceRetirementRecord,
@@ -56,7 +65,7 @@ export type {
   ReferenceTreeSnapshot,
   TranslationRecord,
 } from './reference/translationManifest.ts';
-export {validateReferenceSource, validateReferenceTranslation} from './validation/translation.ts';
+export {validateReferenceReconciliationLedger, validateReferenceSource, validateReferenceTranslation} from './validation/translation.ts';
 export {
   parseTranslationTargets,
   resolveTranslationTarget,

@@ -1,44 +1,23 @@
 #!/usr/bin/env node
 'use strict'
 
-const fs = require('node:fs')
 const path = require('node:path')
-const { getGroupPaths } = require('./docs-workflow/group-paths')
-const { mapEnglishToI18nPath } = require('./translation/sourceDelta')
+const {
+  mapSourcePathForTarget,
+  ownedSourcePaths,
+  ownedTargetPaths,
+  walkDocuments: collectDocuments,
+} = require('./translation/reconciliation-discovery')
 
 function walkDocuments(cwd, relativeRoot) {
-  const absoluteRoot = path.join(cwd, ...relativeRoot.split('/'))
-  if (!fs.existsSync(absoluteRoot)) return []
-  const rootStat = fs.lstatSync(absoluteRoot)
-  if (rootStat.isSymbolicLink()) throw new Error(`Translated coverage does not allow symlinks: ${relativeRoot}`)
-  if (rootStat.isFile()) return /\.(?:md|mdx)$/.test(relativeRoot) ? [relativeRoot] : []
-  const documents = []
-
-  function visit(directory) {
-    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-      const fullPath = path.join(directory, entry.name)
-      if (entry.isSymbolicLink()) throw new Error(`Translated coverage does not allow symlinks: ${path.relative(cwd, fullPath)}`)
-      if (entry.isDirectory()) visit(fullPath)
-      else if (entry.isFile() && /\.(?:md|mdx)$/.test(entry.name)) {
-        documents.push(path.relative(cwd, fullPath).split(path.sep).join('/'))
-      }
-    }
-  }
-
-  visit(absoluteRoot)
-  return documents.sort()
+  return collectDocuments(path.resolve(cwd), [relativeRoot], 'Translated coverage')
 }
 
-function analyzeTranslatedCoverage({ group, cwd = process.cwd() }) {
-  const paths = getGroupPaths(group)
-  const englishRoots = paths.englishOutputs.filter(relativePath => (
-    relativePath === 'content/en/guides' ||
-    relativePath === 'content/en/byoc' ||
-    relativePath.startsWith('content/en/reference/')
-  ))
-  const englishDocuments = englishRoots.flatMap(relativeRoot => walkDocuments(cwd, relativeRoot)).sort()
-  const translatedDocuments = paths.translationOutputs.flatMap(relativeRoot => walkDocuments(cwd, relativeRoot)).sort()
-  const expectedTranslations = new Map(englishDocuments.map(englishPath => [mapEnglishToI18nPath(englishPath), englishPath]))
+function analyzeTranslatedCoverage({ group, target = 'ja-JP', cwd = process.cwd() }) {
+  const repository = path.resolve(cwd)
+  const englishDocuments = collectDocuments(repository, ownedSourcePaths(group, target), 'Translated coverage source inventory')
+  const translatedDocuments = collectDocuments(repository, ownedTargetPaths(group, target), 'Translated coverage target inventory')
+  const expectedTranslations = new Map(englishDocuments.map(englishPath => [mapSourcePathForTarget(target, englishPath), englishPath]))
   const translatedSet = new Set(translatedDocuments)
   const orphanTranslations = translatedDocuments.filter(translatedPath => !expectedTranslations.has(translatedPath))
   const pendingTranslations = [...expectedTranslations]
