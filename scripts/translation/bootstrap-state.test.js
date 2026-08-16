@@ -686,6 +686,24 @@ test('CLI safe repair is ephemeral and does not persist the marker before provid
   }
 });
 
+test('CLI resolves Japanese translation and writes a bootstrap summary for reconciliation-only runs', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-ja-summary-'));
+  try {
+    fs.mkdirSync(path.join(root, 'tmp'), {recursive: true});
+    const result = spawnSync(process.execPath, [
+      path.join(__dirname, 'bootstrap-state.js'), 'resolve', '--target', 'ja-JP',
+      '--group', 'rest', '--mode', 'auto', '--summary-file', 'tmp/decision.json',
+    ], {cwd: root, encoding: 'utf8'});
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stdout, 'incremental');
+    const decision = JSON.parse(fs.readFileSync(path.join(root, 'tmp/decision.json'), 'utf8'));
+    assert.equal(decision.mode, 'incremental');
+    assert.equal(decision.status, 'not_applicable');
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
 test('CLI summary rejects a symlink final path and preserves the outside file', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-summary-final-'));
   const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-summary-final-outside-'));
