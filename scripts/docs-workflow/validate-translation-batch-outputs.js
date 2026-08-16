@@ -285,7 +285,10 @@ function hasStructuredReviewEvidence(result) {
 
 function isPartialSuccessCategoryEligible(rawCategory, effectiveCategory, error, code) {
   if (rawCategory === 'unknown') {
-    return code === 'SEMANTIC_RESPONSE_COUNT_MISMATCH' || isLegacySemanticCountMismatch(error)
+    // Unknown failures are still reportable partial-success candidates as long
+    // as the caller separately proves bounded error evidence and preserves the
+    // failed target. They must not block the rest of the translation unit.
+    return true
   }
   return PARTIAL_SUCCESS_FAILURE_CATEGORY_SET.has(effectiveCategory)
 }
