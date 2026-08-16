@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Adds projectid and volumetype filtering. | Python"
+description: "This operation lists volumes under a project with pagination. | Python"
 type: docx
 token: SyiHdehPHoO4l4x11tqcjzpOnLd
 sidebar_position: 4
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_volumes()
 
-Adds project_id and volume_type filtering.
+This operation lists volumes under a project with pagination.
 
 ## Request Syntax\{#request-syntax}
 

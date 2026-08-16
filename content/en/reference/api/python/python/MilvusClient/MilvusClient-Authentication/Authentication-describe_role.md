@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Response now exposes the role description. Async variant shares the sync method parameter and response contract. Intermediate wrapper field converted into the public describerole() response dictionary. | Python | MilvusClient"
+description: "This operation returns the description and privileges of a specific role. | Python | MilvusClient"
 type: docx
 token: TYczdPuSNoV9lExR8iCcNIg9nGe
 sidebar_position: 5
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe_role()
 
-Response now exposes the role description. Async variant shares the sync method parameter and response contract. Intermediate wrapper field converted into the public describe_role() response dictionary.
+This operation returns the description and privileges of a specific role.
 
 ## Request Syntax\{#request-syntax}
 

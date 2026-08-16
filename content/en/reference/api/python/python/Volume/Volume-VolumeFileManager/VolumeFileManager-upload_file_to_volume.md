@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Adds concurrency, retry, multipart-size, path, and progress callback controls. | Python"
+description: "This operation uploads the local file at the specified source path to the target file path within the specified managed volume. | Python"
 type: docx
 token: SAR6dnlmmohi30x0x2KcioyXnib
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # upload_file_to_volume()
 
-Adds concurrency, retry, multipart-size, path, and progress callback controls.
+This operation uploads the local file at the specified source path to the target file path within the specified managed volume.
 
 <Admonition type="info" icon="📘" title="Notes">
 

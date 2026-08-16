@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "Adds projectid and regionid filtering. | Python"
+description: "This function lists bulk import jobs with optional collection and pagination filters. | Python"
 type: docx
 token: N13hd7jVjoA6B1xlgwic2GKRn5f
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_import_jobs()
 
-Adds project_id and region_id filtering.
+This function lists bulk import jobs with optional collection and pagination filters.
 
 ## Request Syntax\{#request-syntax}
 

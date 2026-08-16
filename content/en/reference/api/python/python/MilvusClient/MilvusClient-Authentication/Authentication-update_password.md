@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Updates user credential/description-related signature behavior. Async variant shares the sync method parameter and response contract. | Python | MilvusClient"
+description: "This operation updates the password of a specific user and can also update the user description. | Python | MilvusClient"
 type: docx
 token: Q8QIdA1DioRRL9xUtlgcCPLHnPc
 sidebar_position: 20
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # update_password()
 
-Updates user credential/description-related signature behavior. Async variant shares the sync method parameter and response contract.
+This operation updates the password of a specific user and can also update the user description.
 
 ## Request Syntax\{#request-syntax}
 

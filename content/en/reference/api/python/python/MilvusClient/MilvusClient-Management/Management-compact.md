@@ -7,7 +7,7 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "Adds targetsize/targetsizeunit and positive-size validation. Async variant shares the sync method contract. | Python | MilvusClient"
+description: "This operation triggers a manual compaction to merge small segments in a collection and returns the compaction job ID. | Python | MilvusClient"
 type: docx
 token: ZANCdUPeBoCis1xylRUcR90Pndb
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-Adds target_size/target_size_unit and positive-size validation. Async variant shares the sync method contract.
+This operation triggers a manual compaction to merge small segments in a collection and returns the compaction job ID.
 
 ## Request Syntax\{#request-syntax}
 

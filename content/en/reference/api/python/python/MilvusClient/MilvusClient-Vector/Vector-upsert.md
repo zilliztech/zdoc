@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "Adds fieldops support for partial array updates. Async variant shares the sync method parameter contract. | Python | MilvusClient"
+description: "This operation inserts new data or updates existing data in a specific collection, with optional partial updates for array fields. | Python | MilvusClient"
 type: docx
 token: UjjpdBwaooRDdlxFHScc6dKwnTg
 sidebar_position: 8
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-Adds field_ops support for partial array updates. Async variant shares the sync method parameter contract.
+This operation inserts new data or updates existing data in a specific collection, with optional partial updates for array fields.
 
 <Admonition type="info" icon="📘" title="Notes">
 

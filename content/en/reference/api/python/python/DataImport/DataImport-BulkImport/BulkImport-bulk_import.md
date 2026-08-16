@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "Adds projectid/regionid routing and project-database import behavior. | Python"
+description: "This function submits a bulk import job for open-source Milvus or Zilliz Cloud. | Python"
 type: docx
 token: HVwRdVSbAo2jUexpxmdczdqPnzh
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # bulk_import()
 
-Adds project_id/region_id routing and project-database import behavior.
+This function submits a bulk import job for open-source Milvus or Zilliz Cloud.
 
 ## Request Syntax\{#request-syntax}
 

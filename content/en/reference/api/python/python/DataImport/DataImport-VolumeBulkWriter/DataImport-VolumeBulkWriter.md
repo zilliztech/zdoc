@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Adds connection and local output-path behavior. | Python"
+description: "VolumeBulkWriter handles writing local bulk files to a remote volume. | Python"
 type: docx
 token: L9ozd33RroJ0NZxHUc0czKjpnbh
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # VolumeBulkWriter
 
-Adds connection and local output-path behavior.
+VolumeBulkWriter handles writing local bulk files to a remote volume.
 
 ## Request Syntax\{#request-syntax}
 

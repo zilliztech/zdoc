@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Adds project/region and external-volume parameters. | Python"
+description: "This operation creates a volume in the specified project and region. | Python"
 type: docx
 token: GtNKdyeDCoPxQXxvohIcYQ47nee
 sidebar_position: 1
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_volume()
 
-Adds project/region and external-volume parameters.
+This operation creates a volume in the specified project and region.
 
 ## Request Syntax\{#request-syntax}
 

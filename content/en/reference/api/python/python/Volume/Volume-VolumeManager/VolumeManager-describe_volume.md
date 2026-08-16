@@ -7,7 +7,7 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "New public volume-description method. | Python"
+description: "This operation returns detailed information about a specific volume. | Python"
 type: docx
 token: MwfQdhukeoxOh0xPLySc0wJjn5f
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe_volume()
 
-New public volume-description method.
+This operation returns detailed information about a specific volume.
 
 ## Request Syntax\{#request-syntax}
 

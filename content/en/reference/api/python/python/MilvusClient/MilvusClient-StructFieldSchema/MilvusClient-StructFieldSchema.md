@@ -7,7 +7,7 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "Constructor behavior changed. New nullable property documented on the existing class page. | Python | MilvusClient"
+description: "A StructFieldSchema instance describes a struct-typed field that contains one or more child fields. | Python | MilvusClient"
 type: docx
 token: ZnKKd2PsyoRc1MxtC1BcJQjgnBh
 sidebar_position: 3
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # StructFieldSchema
 
-Constructor behavior changed. New nullable property documented on the existing class page.
+A **StructFieldSchema** instance describes a struct-typed field that contains one or more child fields.
 
 ## Request Syntax\{#request-syntax}
 

@@ -7,7 +7,7 @@ added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "Update the embedded AnnSearchRequest parameter documentation and examples. Async variant shares the sync parameter contract. Document filter as an alias for expr and the mutual-exclusion validation. Document the read-only filter property inline; it is accessed as request.filter, not request.filter(). | Python | MilvusClient"
+description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Python | MilvusClient"
 type: docx
 token: Iv1PdIVxYoDOMax47xDcLnbEnXb
 sidebar_position: 9
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # hybrid_search()
 
-Update the embedded AnnSearchRequest parameter documentation and examples. Async variant shares the sync parameter contract. Document filter as an alias for expr and the mutual-exclusion validation. Document the read-only filter property inline; it is accessed as request.filter, not request.filter().
+This operation performs multi-vector search on a collection and returns search results after reranking.
 
 <Admonition type="info" icon="📘" title="Notes">
 

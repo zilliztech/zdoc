@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "Adds projectid, regionid, dbname, and DB-Name header behavior. | Python"
+description: "This function returns the current status of a bulk import job. | Python"
 type: docx
 token: CNQIdgQvXoux0KxpXHxca8EMnjg
 sidebar_position: 2
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # get_import_progress()
 
-Adds project_id, region_id, db_name, and DB-Name header behavior.
+This function returns the current status of a bulk import job.
 
 ## Request Syntax\{#request-syntax}
 
