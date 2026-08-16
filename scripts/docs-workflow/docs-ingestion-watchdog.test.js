@@ -30,7 +30,6 @@ function run(overrides = {}) {
 
 function jobs(overrides = {}) {
   return [
-    { name: 'resolve_final', status: 'completed', conclusion: 'success' },
     { name: 'verify / verify', status: 'completed', conclusion: 'success' },
     { name: 'aggregate', status: 'completed', conclusion: 'success' },
   ].map(job => overrides[job.name] ? { ...job, ...overrides[job.name] } : job)
@@ -63,7 +62,7 @@ test('stale production run fails', () => {
   assert.equal(result.reason, 'last qualifying production run is older than 24 hours')
 })
 
-for (const required of ['resolve_final', 'verify / verify', 'aggregate']) {
+for (const required of ['verify / verify', 'aggregate']) {
   test(`missing required job fails: ${required}`, () => {
     const result = evaluate([run()], { jobsByRunId: { 42: jobs().filter(job => job.name !== required) } })
     assert.equal(result.ok, false)
@@ -134,7 +133,7 @@ test('GitHub adapter fetches completed runs, details, and jobs with injected fet
   const observed = await adapter.inspectRecentRuns()
   assert.equal(observed.runs.length, 1)
   assert.deepEqual(observed.detailsByRunId[42].inputs, { group: 'all', publish: 'true' })
-  assert.equal(observed.jobsByRunId[42].length, 3)
+  assert.equal(observed.jobsByRunId[42].length, 2)
   assert.deepEqual(observed.reportsByRunId, {})
   assert.deepEqual(calls, [...responses.keys()])
 })

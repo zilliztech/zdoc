@@ -374,6 +374,7 @@ test('docs ingestion watchdog is read-only and preserves evaluator failures afte
   assert.match(source, /continue-on-error: true[\s\S]*docs-ingestion-watchdog\.js/)
   assert.match(source, /if-no-files-found: error/)
   assert.match(source, /report-card create[\s\S]*report-card note --file[\s\S]*report-card finish/)
+  assert.match(source, /report-card finish[\s\S]*--message-id "\$CARD_ID"/)
   assert.match(source, /if \[ "\$WATCHDOG_OUTCOME" != "success" \][\s\S]*exit 1/)
   assert.doesNotMatch(source, /git push|workflow_dispatches|gh workflow run|fetch-lark-docs|deploy|contents: write|actions: write/)
 })
