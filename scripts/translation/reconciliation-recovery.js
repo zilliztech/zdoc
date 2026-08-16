@@ -31,8 +31,9 @@ function validateRecoveryReconciliationEvidence({previousPlan, currentPlan, prev
   const identity = assertIdentity(selected)
   const previous = validateReconciliationPlan(previousPlan)
   const current = validateReconciliationPlan(currentPlan)
+  const toolingCompatible = previous.toolingSha === identity.toolingSha || previous.policyId === current.policyId
   if (previous.target !== identity.target || previous.group !== identity.group ||
-      previous.toolingSha !== identity.toolingSha ||
+      !toolingCompatible ||
       previous.sourceBaselineSha !== identity.sourceBaselineSha ||
       previous.sourceCheckpointSha !== identity.sourceCheckpointSha) {
     throw new Error('Previous reconciliation plan identity does not match the recovery unit')
