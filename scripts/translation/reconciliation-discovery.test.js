@@ -116,25 +116,29 @@ test('injects the authenticated completeness receipt digest into reconciliation 
   assert.equal(result.candidates[0].evidence.generatorCompletenessReceipt, receiptSha256)
 })
 
-test('finds historical target orphans even when the source delta is empty', () => {
+test('does not reconcile target orphans when the source checkpoint is unchanged', () => {
   const repository = fixture()
   const target = 'content/zh-CN/reference/api/python/python/orphan.md'
   write(repository, target)
   const checkpoint = commit(repository, 'orphan baseline')
   const result = discover(repository, {sourceBaselineSha: checkpoint, sourceCheckpointSha: checkpoint, targetBaselineSha: checkpoint})
   assert.equal(result.changes.length, 0)
-  assert.equal(result.candidates.length, 1)
-  assert.equal(result.candidates[0].discovery, 'inventory_orphan')
-  assert.equal(result.candidates[0].evidence.sourceExistedAtBaseline, false)
+  assert.equal(result.candidates.length, 0)
 })
 
-test('compares current target state in addition to the immutable target baseline', () => {
+test('finds historical target orphans when the source checkpoint has another delta', () => {
   const repository = fixture()
-  write(repository, 'README.md', '# fixture\n')
-  const checkpoint = commit(repository, 'empty baseline')
+  const source = 'content/en/reference/api/python/python/changed.md'
+  write(repository, source)
+  const baseline = commit(repository, 'baseline')
+  remove(repository, source)
+  const checkpoint = commit(repository, 'checkpoint')
   const target = 'content/zh-CN/reference/api/python/python/late-orphan.md'
   write(repository, target)
-  const result = discover(repository, {sourceBaselineSha: checkpoint, sourceCheckpointSha: checkpoint, targetBaselineSha: checkpoint})
+  const result = discover(repository, {sourceBaselineSha: baseline, sourceCheckpointSha: checkpoint, targetBaselineSha: baseline})
+  assert.equal(result.changes.length, 1)
+  assert.equal(result.candidates.length, 1)
+  assert.equal(result.candidates[0].discovery, 'inventory_orphan')
   assert.equal(result.candidates[0].targetPath, target)
   assert.equal(result.candidates[0].evidence.targetExistsAtBaseline, false)
 })

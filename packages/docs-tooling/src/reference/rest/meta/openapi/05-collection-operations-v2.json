@@ -20,7 +20,7 @@
       "post": {
         "summary": "List Collections",
         "deprecated": false,
-        "description": "This operation lists all collection names.",
+        "description": "This operation lists all collection names for the current connection.",
         "x-i18n": {
           "zh-CN": {
             "summary": "查看 Collection 列表",
