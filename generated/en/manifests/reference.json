@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "81510928e30065399cd3868505f9f83353c42048",
+  "sourceCommit": "af476aea78fad03f8360834d61eff89039601594",
   "records": [
     {
       "manual": "cli",
@@ -2820,17 +2820,17 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-bulk_import.md",
-      "sourceHash": "97bf3f1868e323c718c3434305ed704a9151a99557c3679a025f78402ac39216"
+      "sourceHash": "0da0daa5bcd430dfda17095f143e65b3d18c159d3d1ab4466cb3dd78e7cb8bc9"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-get_import_progress.md",
-      "sourceHash": "baabc45043e03eddcd8fa40cdba794b9e4a0a1936717ece51c1ba700317a3c8a"
+      "sourceHash": "c9889d26133910c356d1c8d0f433ccae16fe16334b84fa21b0247b28d05462c2"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/BulkImport-list_import_jobs.md",
-      "sourceHash": "53754572ee8699dc6edf5ce56344b940b6ca46582a693cacaf777ca7a02e4d51"
+      "sourceHash": "01e3339a8227ef8c3904c9ede4b7a69c7a3c62ff96f3285797309c912478f073"
     },
     {
       "manual": "python",
@@ -2875,7 +2875,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-VolumeBulkWriter/DataImport-VolumeBulkWriter.md",
-      "sourceHash": "07b1d647cc6d37c10c080b1dd85de36368eda4539a7c0c06b4d8bde9743c003f"
+      "sourceHash": "cbb3203572fc13413c0d46856bfd8a8dfc60760ed3a5981979905eac3f2cacbd"
     },
     {
       "manual": "python",
@@ -3190,7 +3190,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-describe_role.md",
-      "sourceHash": "16f6d9d4d09e706d326bccf12c219eaa449688d7ab7a0f2819eeae275adf40d8"
+      "sourceHash": "05c63cf5dc0182c50448d372848c1c396ecb8730337a45ddcd2df4e5125de300"
     },
     {
       "manual": "python",
@@ -3245,7 +3245,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-update_password.md",
-      "sourceHash": "4f40cc6b9d8b22c88d00d31e73bc798aae19113605a5bf9b3216c40c9ae04112"
+      "sourceHash": "f11e84d813c5d192253d4586b282b775407fbe6016dabdcc6f9c4cd2ac348713"
     },
     {
       "manual": "python",
@@ -3565,7 +3565,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/Management-compact.md",
-      "sourceHash": "2c00e4719240ccf29f1e390d0a33d1286dbf0157c0c4c95a2f187e6e24533ac6"
+      "sourceHash": "ab561748d5dfb81f672d6fa832d4515cd47fc93aa5e49f8c125f5af0331bf821"
     },
     {
       "manual": "python",
@@ -3745,7 +3745,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-StructFieldSchema/MilvusClient-StructFieldSchema.md",
-      "sourceHash": "4cf6d8a82d2db5e5563a6deef1ddb8477dc034d761945928198a4c56be98ca35"
+      "sourceHash": "a3e8a9ee9d15e7e6f84864e0d66c42618f7c5f9f00c8373cd6b0dd41de66661e"
     },
     {
       "manual": "python",
@@ -3795,7 +3795,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-hybrid_search.md",
-      "sourceHash": "16036139ac54f6fa6a3c843064500e27aac8052b7698193cfa4bf0ab9543fa1f"
+      "sourceHash": "85428b56c36d8a61cae94f4675935175fa9f7b11c73330f86e02ee474a443d54"
     },
     {
       "manual": "python",
@@ -3825,7 +3825,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-upsert.md",
-      "sourceHash": "66f879c9eee6dc0487dc5fae0f3900ed9795c6e68e2b0c59c33632e9d81b2c20"
+      "sourceHash": "9bc133d4e17851f6246f554f89cb99cf6bfe2b1c43cfdd385c5e767232a0c451"
     },
     {
       "manual": "python",
@@ -4435,7 +4435,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Volume/Volume-VolumeFileManager/VolumeFileManager-upload_file_to_volume.md",
-      "sourceHash": "c28568dc13f81698137b5171c5bf0755da13bc0da5bd06a9adf8a216fbfa5e75"
+      "sourceHash": "d91de75d437fac9d45561b55081e1e7468970e6f34adfc52078c80e05d4faee9"
     },
     {
       "manual": "python",
@@ -4445,7 +4445,7 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-create_volume.md",
-      "sourceHash": "dc3cfae3b3abbcc419e5311918051792e1d9eeca70908643356eece510a73934"
+      "sourceHash": "830d9071c0507cad4dbf0da355eb359d575a016d5ee5464b32a470965911b33a"
     },
     {
       "manual": "python",
@@ -4455,12 +4455,12 @@
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-describe_volume.md",
-      "sourceHash": "81e54d706876cef41a4d2d1dd8f33b4e706160ef46e1cafeb069fc980ec5b086"
+      "sourceHash": "2a16dacb92e91d687c1343e980a4b047145d944048044f964ff10d4a2dc872dd"
     },
     {
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Volume/Volume-VolumeManager/VolumeManager-list_volumes.md",
-      "sourceHash": "5a8312f8c98a7e68dd3c2881ed9ff5d6730743deddeaacdda61335a8773a65ef"
+      "sourceHash": "bdc4240da79a218a28f9e4dcdb36e1022def4462f885fd00cadf84ebf010acb7"
     },
     {
       "manual": "python",
