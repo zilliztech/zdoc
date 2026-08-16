@@ -185,6 +185,7 @@ function testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes
       sourceCheckpointSha: manifest.sourceCheckpointSha, promptContractSha256: identity.promptContractSha256, model: identity.model,
       executionToolingSha: identity.toolingSha, candidateCount: 1, recoveredCount: 1, pendingCount: 0, rejectedCount: 0,
       fullRetranslation: false, compatibilityMode: 'revalidated',
+      reconciliation: {classification: {counts: {reusable: 0}}},
       restored: [{sourcePath, targetPath, sourceHash: sha256(source), targetHash: sha256(target), targetSize: Buffer.byteLength(target), compatibility: 'revalidated', reviewReceipt: receipt}],
       pending: [], rejected: [],
     }

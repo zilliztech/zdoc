@@ -1674,6 +1674,7 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
   const semanticRecoveryKeys = ['semanticResumableFileCount', 'recoveredSemanticUnitCount']
   const hasSemanticRecovery = semanticRecoveryKeys.some(key => Object.hasOwn(analysis, key))
   if (hasSemanticRecovery) rootKeys.push(...semanticRecoveryKeys)
+  if (Object.hasOwn(analysis, 'reconciliation')) rootKeys.push('reconciliation')
   exactRecoveryAnalysisKeys(analysis, rootKeys, 'Recovery analysis')
   if (![1, 2].includes(analysis.schemaVersion) || analysis.kind !== 'translation-recovery-analysis') throw new Error('Recovery analysis header is invalid')
   if (analysis.schemaVersion === 2 && !['strict', 'revalidated', 'none'].includes(analysis.compatibilityMode)) throw new Error('Recovery analysis compatibility mode is invalid')
