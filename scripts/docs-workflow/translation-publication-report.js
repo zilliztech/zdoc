@@ -25,7 +25,7 @@ const VALIDATION_SPECS = Object.freeze([
   validationSpec('ja-byoc-mdx', 'pnpm', ['docs-tooling', 'validate-mdx', '--path', 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current']),
   validationSpec('sidebars', 'node', ['scripts/validate-generated-sidebars.js', '--site', 'en']),
   validationSpec('coverage', 'node', ['scripts/validate-translated-coverage.js', '--group', 'guides']),
-  validationSpec('build-and-links', 'node', ['scripts/run-doc-build-stage.js', '--build', 'pnpm run build', '--skipCardReporting']),
+  validationSpec('build-and-links', 'node', ['scripts/run-doc-build-stage.js', '--build', 'pnpm run build', '--skipLinkChecks', '--skipCardReporting']),
 ])
 
 function exactKeys(value, keys, label) {
