@@ -15,7 +15,12 @@ function collectSourceInventory(repository, roots) {
   const files = []
   function visit(root, relative) {
     const absolute = path.join(repository, relative)
-    const stat = fs.lstatSync(absolute)
+    let stat
+    try { stat = fs.lstatSync(absolute) }
+    catch (error) {
+      if (error.code === 'ENOENT') return
+      throw error
+    }
     if (stat.isSymbolicLink()) throw new Error(`SDK/CLI completeness inventory must not contain symlinks: ${relative}`)
     if (stat.isFile()) {
       const bytes = fs.readFileSync(absolute)
