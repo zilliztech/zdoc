@@ -63,6 +63,12 @@ export interface CardLink {
   url: string;
 }
 
+export interface CardReviewAction {
+  label: string;
+  value: string;
+  type?: 'default' | 'primary' | 'primary_filled' | 'danger' | 'danger_filled';
+}
+
 export interface CardHandoff {
   status: PhaseStatus;
   label: string;
@@ -92,6 +98,7 @@ export interface ExactCardState {
   targets?: CardTargetSummary[];
   units?: CardWorkItem[];
   links?: CardLink[];
+  reviewActions?: CardReviewAction[];
   reports: CardReportInput[];
 }
 
@@ -392,6 +399,20 @@ function parseCardLink(value: unknown): CardLink {
   return {label: optionalString(value.label) || 'Open workflow', url: parseWorkflowUrl(value.url)};
 }
 
+function parseReviewAction(value: unknown): CardReviewAction {
+  if (!isRecord(value) || typeof value.label !== 'string' || !value.label.trim() || typeof value.value !== 'string' || !value.value.trim()) {
+    throw new Error('review action is invalid');
+  }
+  if (value.type !== undefined && !['default', 'primary', 'primary_filled', 'danger', 'danger_filled'].includes(String(value.type))) {
+    throw new Error('review action type is invalid');
+  }
+  return {
+    label: value.label,
+    value: value.value,
+    ...(optionalString(value.type) ? {type: value.type as CardReviewAction['type']} : {}),
+  };
+}
+
 function parseHandoff(value: unknown): CardHandoff | null {
   if (value === null || value === undefined) return null;
   if (!isRecord(value) || !isPhaseStatus(value.status)) throw new Error('handoff is invalid');
@@ -438,6 +459,7 @@ function normalizeCardState(input: unknown): NormalizedCardState {
       normalized.targets = Array.isArray(state.targets) ? state.targets.map(parseTargetSummary) : [];
       normalized.units = Array.isArray(state.units) ? state.units.map(parseWorkItem) : [];
       normalized.links = Array.isArray(state.links) ? state.links.map(parseCardLink) : [];
+      normalized.reviewActions = Array.isArray(state.reviewActions) ? state.reviewActions.map(parseReviewAction) : [];
     }
     return normalized;
   }
@@ -628,6 +650,32 @@ function reportPanel(report: CardReportInput, index: number): CardElement {
   }
 }
 
+function reviewActionButton(action: CardReviewAction, index: number, total: number): CardElement {
+  const type = action.type || (total === 1 ? 'primary_filled' : index === 0 ? 'primary_filled' : 'danger')
+  return {
+    tag: 'button',
+    text: {tag: 'plain_text', content: bounded(action.label, 100)},
+    type,
+    width: 'fill',
+    behaviors: [{type: 'callback', value: {action: action.value}}],
+  }
+}
+
+function reviewActionsPanel(actions: CardReviewAction[]): CardElement {
+  return {
+    tag: 'column_set',
+    flex_mode: 'flow',
+    horizontal_spacing: '8px',
+    columns: actions.map((action, index) => ({
+      tag: 'column',
+      width: 'weighted',
+      weight: 1,
+      vertical_align: 'center',
+      elements: [reviewActionButton(action, index, actions.length)],
+    })),
+  }
+}
+
 function buildCardV2(input: unknown, options: BuildCardOptions = {}): CardV2 {
   const state = normalizeCardState(input)
   const presentation = OVERALL[state.overallStatus]
@@ -663,6 +711,7 @@ function buildCardV2(input: unknown, options: BuildCardOptions = {}): CardV2 {
     if (completedManuals.length) elements.push(completedPanel(completedManuals))
   }
   for (const [index, report] of state.reports.entries()) elements.push(reportPanel(report, index))
+  if (state.reviewActions?.length) elements.push(reviewActionsPanel(state.reviewActions))
   elements.push({ tag: 'hr' })
   const started = Number.isNaN(Date.parse(state.startedAt)) ? 'unavailable' : new Date(state.startedAt).toUTCString()
   const footer = [
