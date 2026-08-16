@@ -175,11 +175,7 @@ jobs:
         run: |
           set -euo pipefail
           node scripts/validate-generated-sidebars.js --site "$SITE"
-          if [[ "$GROUP" == guides ]]; then
-            node scripts/run-doc-build-stage.js --build "pnpm run build:$SITE" --skipLinkChecks
-          else
-            node scripts/run-doc-build-stage.js --build "pnpm run build:$SITE"
-          fi
+          node scripts/run-doc-build-stage.js --build "pnpm run build:$SITE" --skipLinkChecks
         env:
           DOCS_BUILD_ENV: uat
           DOCS_PUBLISH_URL: https://docs.cloud-uat3.zilliz.com
@@ -256,10 +252,7 @@ jobs:
 
       - name: Create source checkpoint artifact
         run: |
-          validation_command="node scripts/run-doc-build-stage.js --build \"pnpm run build:$SITE\""
-          if [[ "$GROUP" == guides ]]; then
-            validation_command+=' --skipLinkChecks'
-          fi
+          validation_command="node scripts/run-doc-build-stage.js --build \"pnpm run build:$SITE\" --skipLinkChecks"
           node scripts/docs-workflow/create-checkpoint-artifact.js \
             --group "$GROUP" \
             --master-sha "$MASTER_SHA" \
