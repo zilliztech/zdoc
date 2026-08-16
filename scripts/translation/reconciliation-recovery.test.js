@@ -44,13 +44,13 @@ function operation({status = 'approved', replacement = null, authority = 'genera
   }
 }
 
-function plan({operations, targetBaselineSha = TARGET_BASELINE, sourceCheckpointSha = SOURCE_CHECKPOINT}) {
+function plan({operations, targetBaselineSha = TARGET_BASELINE, sourceCheckpointSha = SOURCE_CHECKPOINT, toolingSha = TOOLING}) {
   return createReconciliationPlan({
     schemaVersion: 1,
     document: 'translation-reconciliation-plan',
     target: 'zh-CN-reference',
     group: 'python',
-    toolingSha: TOOLING,
+    toolingSha,
     sourceBaselineSha: SOURCE_BASELINE,
     sourceCheckpointSha,
     targetBaselineSha,
@@ -153,6 +153,21 @@ test('rejects recovery evidence whose plan identities do not match the selected 
     currentPlan: current,
     previousResult: result(previous),
   }), /previous reconciliation plan (identity|target baseline)/i)
+})
+
+test('allows a tooling-only plan change when the reconciliation policy is unchanged', () => {
+  const previous = plan({operations: [operation()]})
+  const currentTooling = 'e'.repeat(40)
+  const current = plan({operations: [operation()], toolingSha: currentTooling})
+  const evaluation = evaluateReconciliationRecovery({
+    selected: selected({toolingSha: currentTooling}),
+    previousPlan: previous,
+    currentPlan: current,
+    previousResult: result(previous),
+  })
+  assert.equal(evaluation.baselineChanged, false)
+  assert.equal(evaluation.baselineCompatible, true)
+  assert.equal(evaluation.classification.counts.reusable, 1)
 })
 
 test('treats a validated human approval receipt as approval for the complete plan', () => {
