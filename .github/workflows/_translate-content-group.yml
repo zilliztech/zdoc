@@ -185,6 +185,17 @@ jobs:
             --target-baseline "$BASELINE_DIR" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
             --target-baseline-sha "$TARGET_BASELINE_SHA"
           echo "has_mutation=$(node -p "require('./tmp/reconciliation-result.json').status === 'applied' ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"
+      - name: Build reconciliation review state
+        if: ${{ failure() && inputs.should_translate && steps.source_delta.outcome == 'failure' }}
+        run: |
+          if [[ -f tmp/translation-reconciliation-review.json ]]; then
+            node scripts/translation/reconciliation-review-state.js \
+              --review-artifact tmp/translation-reconciliation-review.json \
+              --run-id "${{ github.run_id }}" \
+              --run-attempt "${{ github.run_attempt }}" \
+              --github-run-url "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+              --output tmp/translation-reconciliation-review-state.json
+          fi
       - name: Resolve effective translation mode
         id: mode
         if: ${{ inputs.should_translate }}
@@ -236,6 +247,7 @@ jobs:
           path: |
             tmp/translation-retirement-review.json
             tmp/translation-reconciliation-review.json
+            tmp/translation-reconciliation-review-state.json
           if-no-files-found: ignore
           retention-days: 30
       - name: Download requested recovery artifacts
