@@ -491,12 +491,25 @@ function main() {
   const group = args.get('--group');
   if (operation === 'resolve') {
     const requestedMode = args.get('--mode') || 'auto';
+    const root = canonicalRoot();
     if (target === 'ja-JP') {
-      process.stdout.write(requestedMode === 'auto' ? 'incremental' : requestedMode);
+      if (!['auto', 'full', 'incremental'].includes(requestedMode)) throw new Error(`Unsupported translation mode: ${requestedMode}`);
+      const mode = requestedMode === 'auto' ? 'incremental' : requestedMode;
+      const summaryFile = args.get('--summary-file');
+      if (summaryFile) {
+        writeRootBoundFile(root, summaryFile, `${JSON.stringify({
+          target,
+          group,
+          requestedMode,
+          mode,
+          status: 'not_applicable',
+          summary: `${target}/${group}: Japanese translation uses incremental cache state`,
+        }, null, 2)}\n`, 'Bootstrap summary');
+      }
+      process.stdout.write(mode);
       return;
     }
     const state = readState(target);
-    const root = canonicalRoot();
     const sourceManifest = readJsonIfPresent(root, 'generated/en/manifests/reference.json');
     const decision = resolveBootstrapDecision({requestedMode, target, group, state, sourceManifest, repositoryRoot: root});
     const summaryFile = args.get('--summary-file');

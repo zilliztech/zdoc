@@ -153,6 +153,33 @@ test('uses generic publication waiting text before FIFO progress is available', 
   assert.equal(manuals.rest.currentTask, 'Publish checkpoint')
 })
 
+test('marks publish blocked and downstream phases waiting when reconciliation preflight fails', () => {
+  const state = deriveDocsProgressState({
+    requestedGroups: ['rest'],
+    publishEnabled: true,
+    runTranslations: true,
+    terminalStatus: 'failure',
+    jobs: [
+      { id: 1, name: 'produce_rest / produce', status: 'completed', conclusion: 'success' },
+      { id: 2, name: 'reconciliation_preflight', status: 'completed', conclusion: 'failure', steps: [{ name: 'Validate reconciliation plans before source publication', status: 'completed', conclusion: 'failure' }] },
+      { id: 3, name: 'publish_ready', status: 'completed', conclusion: 'skipped' },
+      { id: 4, name: 'verify', status: 'completed', conclusion: 'skipped' },
+      { id: 5, name: 'prepare_translation_handoff', status: 'completed', conclusion: 'skipped' },
+      { id: 6, name: 'dispatch_translations', status: 'completed', conclusion: 'skipped' },
+    ],
+  })
+
+  assert.deepEqual(state.phases.map(phase => [phase.key, phase.status]), [
+    ['produce', 'completed'],
+    ['publish', 'failed'],
+    ['verify', 'waiting'],
+    ['handoff', 'waiting'],
+  ])
+  assert.equal(state.items[0].status, 'failed')
+  assert.equal(state.items[0].currentTask, 'Reconciliation preflight failed')
+  assert.equal(state.overallStatus, 'failure')
+})
+
 test('keeps generic waiting text when GitHub exposes a queued legacy publisher job', () => {
   const state = deriveDocsProgressState({
     requestedGroups: ['java', 'node'],

@@ -105,7 +105,7 @@ function normalizeCurrentTask(name) {
 function jobStatus(job) {
   if (!job) return 'waiting'
   if (job.status === 'completed') {
-    if (job.conclusion === 'success' || job.conclusion === 'neutral' || job.conclusion === 'skipped') return 'completed'
+    if (job.conclusion === 'success' || job.conclusion === 'neutral') return 'completed'
     if (FAILURE_CONCLUSIONS.has(job.conclusion)) return 'failed'
     return 'waiting'
   }
@@ -212,19 +212,30 @@ function selectLanePresentation(phases, keys, progressUnit) {
   return selectPresentation(phases, keys)
 }
 
+function preflightPublishPhase(effectiveJobs) {
+  const preflight = effectiveJobs.find(job => logicalJobIdentity(job) === 'reconciliation_preflight')
+  if (!preflight) return null
+  const status = jobStatus(preflight)
+  if (status === 'completed') return null
+  if (status === 'failed') return {status: 'failed', currentTask: 'Reconciliation preflight failed', detail: null}
+  if (status === 'running') return {status: 'running', currentTask: currentStep(preflight) || 'Validating reconciliation plans before source publication', detail: null}
+  return {status: 'waiting', currentTask: 'Waiting for reconciliation preflight', detail: null}
+}
+
 function deriveGuideLane({ lane, effectiveJobs, publishEnabled, tableTotal, publicationProgress, publicationProgressStale }) {
   const byIdentity = new Map(effectiveJobs.map(job => [logicalJobIdentity(job), job]))
   const phases = { produce: deriveGuideProduce(lane, effectiveJobs, tableTotal) }
   const keys = ['produce']
   const progressUnit = publicationUnit(publicationProgress, `source/${lane.id}`)
   if (publishEnabled) {
-    phases.publish = publicationProgress
+    const preflightPhase = preflightPublishPhase(effectiveJobs)
+    phases.publish = preflightPhase || (publicationProgress
       ? publicationPhase(progressUnit, publicationProgress, publicationProgressStale)
       : phases.produce.status !== 'completed'
         ? { status: 'waiting', currentTask: 'Waiting for production', detail: null }
         : byIdentity.get(lane.publishJob) && jobStatus(byIdentity.get(lane.publishJob)) !== 'waiting'
           ? phaseResult(byIdentity.get(lane.publishJob), `Publish ${lane.label}`)
-          : { status: 'waiting', currentTask: 'Waiting to publish', detail: null }
+          : { status: 'waiting', currentTask: 'Waiting to publish', detail: null })
     keys.push('publish')
   }
   return { id: lane.id, locale: lane.locale, label: lane.label, ...selectLanePresentation(phases, keys, progressUnit), phaseResults: phases }
@@ -237,13 +248,14 @@ function deriveSdkItem({ group, effectiveJobs, publishEnabled, publicationProgre
   const progressUnit = publicationUnit(publicationProgress, `source/${group}`)
   if (publishEnabled) {
     const publishJob = byIdentity.get(`publish_${group}`)
-    phases.publish = publicationProgress
+    const preflightPhase = preflightPublishPhase(effectiveJobs)
+    phases.publish = preflightPhase || (publicationProgress
       ? publicationPhase(progressUnit, publicationProgress, publicationProgressStale)
       : phases.produce.status !== 'completed'
         ? { status: 'waiting', currentTask: 'Waiting for production', detail: null }
         : publishJob && jobStatus(publishJob) !== 'waiting'
           ? phaseResult(publishJob, `Publish ${SDK_LABELS[group]}`)
-          : { status: 'waiting', currentTask: 'Waiting to publish', detail: null }
+          : { status: 'waiting', currentTask: 'Waiting to publish', detail: null })
     keys.push('publish')
   }
   return { id: group, label: SDK_LABELS[group], ...selectLanePresentation(phases, keys, progressUnit), phaseResults: phases }
