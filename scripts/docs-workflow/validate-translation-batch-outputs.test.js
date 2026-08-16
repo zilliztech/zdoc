@@ -273,7 +273,7 @@ test('accepts failed review evidence with a null top-level error and bounded str
   }
 })
 
-test('accepts the deterministic retained semantic mismatch but rejects arbitrary unknown failures', () => {
+test('accepts evidenced unknown failures as reportable partial-success candidates', () => {
   const retained = failedResult(candidate(), {
     failureCategory: 'unknown',
     error: 'Semantic unit response entry count mismatch',
@@ -327,7 +327,10 @@ test('accepts the deterministic retained semantic mismatch but rejects arbitrary
       output: false,
     })
     try {
-      assert.throws(() => validate(decoratedRoot, {translatedCount: 0, failedCount: 1}), /partial success|failure category/i)
+      assert.deepEqual(validate(decoratedRoot, {translatedCount: 0, failedCount: 1}), {
+        candidateCount: 1,
+        reconciliationOnly: false,
+      })
     } finally {
       fs.rmSync(decoratedRoot, {recursive: true, force: true})
     }
@@ -345,7 +348,10 @@ test('accepts the deterministic retained semantic mismatch but rejects arbitrary
     output: false,
   })
   try {
-    assert.throws(() => validate(unknownRoot, {translatedCount: 0, failedCount: 1}), /partial success|failure category/i)
+    assert.deepEqual(validate(unknownRoot, {translatedCount: 0, failedCount: 1}), {
+      candidateCount: 1,
+      reconciliationOnly: false,
+    })
   } finally {
     fs.rmSync(unknownRoot, {recursive: true, force: true})
   }
@@ -362,7 +368,10 @@ test('accepts the deterministic retained semantic mismatch but rejects arbitrary
     output: false,
   })
   try {
-    assert.throws(() => validate(inferredTimeoutRoot, {translatedCount: 0, failedCount: 1}), /partial success|failure category/i)
+    assert.deepEqual(validate(inferredTimeoutRoot, {translatedCount: 0, failedCount: 1}), {
+      candidateCount: 1,
+      reconciliationOnly: false,
+    })
   } finally {
     fs.rmSync(inferredTimeoutRoot, {recursive: true, force: true})
   }
