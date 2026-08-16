@@ -85,8 +85,15 @@ jobs:
       - name: Finish watchdog alert card
         if: ${{ always() && steps.watchdog.outcome != 'success' && steps.alert_card.outputs.card_id != '' }}
         continue-on-error: true
-        run: pnpm docs-tooling report-card finish --status fail
-        env: *alert_credentials
+        run: |
+          pnpm docs-tooling report-card finish \
+            --message-id "$CARD_ID" \
+            --status fail
+        env:
+          CARD_ID: ${{ steps.alert_card.outputs.card_id }}
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
       - name: Preserve watchdog result
         if: ${{ always() }}

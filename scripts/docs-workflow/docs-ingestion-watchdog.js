@@ -5,7 +5,6 @@ const path = require('node:path')
 
 const MAX_AGE_MS = 24 * 60 * 60 * 1000
 const REQUIRED_JOBS = Object.freeze([
-  { label: 'resolve_final', names: ['resolve_final', 'resolve final'] },
   { label: 'verify / verify', names: ['verify / verify'] },
   { label: 'aggregate', names: ['aggregate'] },
 ])
