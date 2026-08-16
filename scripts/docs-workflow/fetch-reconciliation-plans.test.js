@@ -28,7 +28,7 @@ function write(repository, relative, bytes) {
   fs.writeFileSync(file, bytes)
 }
 
-function repositoryFixture(group = 'guides') {
+function repositoryFixture(group = 'guides', options = {}) {
   const repository = fs.mkdtempSync(path.join(os.tmpdir(), 'fetch-reconciliation-plans-'))
   git(repository, ['init', '-q'])
   git(repository, ['config', 'user.name', 'Fetch Reconciliation Plans Test'])
@@ -38,6 +38,7 @@ function repositoryFixture(group = 'guides') {
   if (group === 'guides') {
     for (let index = 0; index < 5; index += 1) write(repository, `content/en/guides/tutorials/doc-${index}.md`, `# Doc ${index}\n`)
     write(repository, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/doc-0.md', '# 翻訳\n')
+    if (options.orphan) write(repository, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/orphan.md', '# 翻訳\n')
   } else {
     const sourceRoot = `content/en/reference/api/${group}/${group}/v2`
     const targetRoot = `content/zh-CN/reference/api/${group}/${group}/v2`
@@ -102,8 +103,8 @@ test('prepares approved plans for Japanese Guides from exact source checkpoint i
   }
 })
 
-test('prepares an authenticated empty plan when the source checkpoint has not changed', () => {
-  const fixture = repositoryFixture('guides')
+test('prepares an authenticated empty plan when the source checkpoint is unchanged even with a target orphan', () => {
+  const fixture = repositoryFixture('guides', {orphan: true})
   try {
     const selection = selectionFixture('guides', fixture.baseline)
     const outputDir = path.join(fixture.repository, 'tmp/plans')
