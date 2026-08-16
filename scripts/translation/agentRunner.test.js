@@ -1481,6 +1481,39 @@ async function testProviderCallRetriesTransientFailures() {
   }
 }
 
+async function testProviderCallFallsBackToReasoningContent() {
+  const originalFetch = global.fetch
+  try {
+    global.fetch = async () => ({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        choices: [{
+          message: {
+            content: '',
+            role: 'assistant',
+            reasoning_content: ' translated ',
+          },
+        }],
+      }),
+    })
+    const callModel = await createProviderCall({
+      translation: {
+        baseUrl: 'https://example.com',
+        apiKey: 'test-key',
+        model: 'test-model',
+      },
+    })
+    const content = await callModel({
+      agent: 'translation',
+      messages: [{ role: 'user', content: 'hello' }],
+    })
+    assert.equal(content, 'translated')
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
 async function testProviderCallDoesNotRetryPermanentHttpClientErrors() {
   const originalFetch = global.fetch
   try {
@@ -4418,6 +4451,7 @@ async function run() {
   await testRestReviewerContractConflictFailsStructurally()
   await testRestSpecFileRetryReceivesEntryScopedProtectedFeedback()
   await testProviderCallRetriesTransientFailures()
+  await testProviderCallFallsBackToReasoningContent()
   await testProviderCallDoesNotRetryPermanentHttpClientErrors()
   await testProviderCallRetriesClassifiedFailuresWithUnknownCodes()
   await testProviderStructuredOutputIsCapabilityGated()

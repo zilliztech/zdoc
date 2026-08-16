@@ -318,7 +318,11 @@ async function createProviderCall(agentConfigs, options = {}) {
           signal: controller.signal,
         })
         const data = await res.json().catch(() => ({}))
-        const content = data?.choices?.[0]?.message?.content
+        const message = data?.choices?.[0]?.message || {}
+        let content = message.content
+        if (!content && typeof message.reasoning_content === 'string' && message.reasoning_content.trim()) {
+          content = message.reasoning_content
+        }
         if (!res.ok) {
           const responseBody = JSON.stringify(data).slice(0, 500)
           const incompleteStream = INCOMPLETE_STREAM_PATTERN.test(responseBody)
