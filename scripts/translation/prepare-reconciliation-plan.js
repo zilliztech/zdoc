@@ -57,6 +57,7 @@ function parseArgs(args) {
     ['--tooling-sha', 'toolingSha'], ['--source-baseline-sha', 'sourceBaselineSha'],
     ['--source-checkpoint-sha', 'sourceCheckpointSha'], ['--target-baseline-sha', 'targetBaselineSha'],
     ['--plan-output', 'planOutput'], ['--review-output', 'reviewOutput'],
+    ['--completeness-receipt', 'completenessReceipt'],
   ])
   const result = {}
   for (let index = 0; index < args.length; index += 2) {
@@ -66,6 +67,9 @@ function parseArgs(args) {
   }
   for (const key of ['repository', 'target', 'group', 'toolingSha', 'sourceBaselineSha', 'sourceCheckpointSha', 'targetBaselineSha', 'planOutput']) if (!result[key]) throw new Error(`Missing reconciliation preparation argument: ${key}`)
   for (const key of ['repository', 'planOutput', 'reviewOutput']) if (result[key] !== undefined) result[key] = path.resolve(result[key])
+  if (result.completenessReceipt) {
+    result.completenessReceipt = JSON.parse(fs.readFileSync(path.resolve(result.completenessReceipt), 'utf8'))
+  }
   return result
 }
 

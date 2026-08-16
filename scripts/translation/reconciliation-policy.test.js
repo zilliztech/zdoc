@@ -118,7 +118,9 @@ test('loads the exact initial automatic and review-required policy', () => {
   assert.equal(policy.targets['ja-JP'].rest.mode, 'automatic')
   assert.equal(policy.targets['zh-CN-reference'].rest.mode, 'review_required')
   assert.equal(policy.targets['zh-CN-reference'].rest.requiresCompletenessEvidence, true)
-  for (const group of ['python', 'java', 'node', 'go', 'cli', 'reference-landings']) assert.equal(policy.targets['zh-CN-reference'][group].mode, 'review_required')
+  assert.equal(policy.targets['zh-CN-reference'].cli.mode, 'automatic')
+  assert.equal(policy.targets['zh-CN-reference'].cli.requiresCompletenessEvidence, true)
+  for (const group of ['python', 'java', 'node', 'go', 'reference-landings']) assert.equal(policy.targets['zh-CN-reference'][group].mode, 'review_required')
   assert.equal(Object.isFrozen(policy.targets['ja-JP'].guides), true)
 })
 

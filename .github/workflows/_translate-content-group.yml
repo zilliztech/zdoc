@@ -152,18 +152,33 @@ jobs:
           mkdir -p "$(dirname "$state")" "$BASELINE_DIR/$(dirname "$state")"
           test -f "$state" || printf '%s\n' "$empty" > "$state"
           test -f "$BASELINE_DIR/$state" || cp "$state" "$BASELINE_DIR/$state"
+      - name: Create SDK/CLI completeness receipt
+        if: ${{ inputs.should_translate && inputs.target == 'zh-CN-reference' }}
+        run: |
+          node scripts/translation/create-sdk-cli-completeness-receipt.js \
+            --repository "$GITHUB_WORKSPACE" \
+            --group "$GROUP" \
+            --tooling-sha "$TOOLING_SHA" \
+            --source-baseline-sha "$SOURCE_BASELINE_SHA" \
+            --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
+            --output tmp/sdk-cli-completeness-receipt.json
       - name: Prepare and apply translation reconciliation
         id: source_delta
         if: ${{ inputs.should_translate }}
         run: |
           set -euo pipefail
           mkdir -p tmp
+          reconciliation_receipt_args=()
+          if [[ -f tmp/sdk-cli-completeness-receipt.json ]]; then
+            reconciliation_receipt_args+=(--completeness-receipt tmp/sdk-cli-completeness-receipt.json)
+          fi
           node scripts/translation/sourceDelta.js --repository "$GITHUB_WORKSPACE" --source-baseline-sha "$SOURCE_BASELINE_SHA" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target "$TRANSLATION_TARGET" --group "$GROUP" --output tmp/source-delta.json
           node scripts/translation/prepare-reconciliation-plan.js \
             --repository "$GITHUB_WORKSPACE" --target "$TRANSLATION_TARGET" --group "$GROUP" \
             --tooling-sha "$TOOLING_SHA" --source-baseline-sha "$SOURCE_BASELINE_SHA" \
             --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target-baseline-sha "$TARGET_BASELINE_SHA" \
-            --plan-output tmp/reconciliation-plan.json --review-output tmp/translation-reconciliation-review.json
+            --plan-output tmp/reconciliation-plan.json --review-output tmp/translation-reconciliation-review.json \
+            "${reconciliation_receipt_args[@]}"
           node scripts/translation/apply-reconciliation-plan.js \
             --plan tmp/reconciliation-plan.json --result tmp/reconciliation-result.json \
             --workspace "$GITHUB_WORKSPACE" --source-repository "$GITHUB_WORKSPACE" \

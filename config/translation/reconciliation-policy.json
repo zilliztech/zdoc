@@ -16,7 +16,7 @@
       "java": {"mode": "review_required", "automaticKinds": [], "maxOperations": 25, "maxPercent": 10, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/api/java/java/java.md"]},
       "node": {"mode": "review_required", "automaticKinds": [], "maxOperations": 25, "maxPercent": 10, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/api/nodejs/nodejs/nodejs.md"]},
       "go": {"mode": "review_required", "automaticKinds": [], "maxOperations": 25, "maxPercent": 10, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/api/go/go/go.md"]},
-      "cli": {"mode": "review_required", "automaticKinds": [], "maxOperations": 25, "maxPercent": 10, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/cli/cli/Overview.md"]},
+      "cli": {"mode": "automatic", "automaticKinds": ["delete_target", "remove_navigation_only"], "maxOperations": 25, "maxPercent": 10, "requiresCompletenessEvidence": true, "preservedRoots": ["content/en/reference/cli/cli/Overview.md"]},
       "rest": {"mode": "review_required", "automaticKinds": [], "maxOperations": 25, "maxPercent": 10, "requiresCompletenessEvidence": true, "preservedRoots": []},
       "reference-landings": {"mode": "review_required", "automaticKinds": [], "maxOperations": 5, "maxPercent": 20, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/api/go/go/go.md", "content/en/reference/api/java/java/java.md", "content/en/reference/api/nodejs/nodejs/nodejs.md", "content/en/reference/api/python/python/python.md", "content/en/reference/cli/cli/Overview.md"]}
     }
