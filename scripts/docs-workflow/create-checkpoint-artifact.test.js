@@ -9,7 +9,8 @@ const test = require('node:test');
 
 const { createCheckpointArtifact, garbageCollectArtifactVersions } = require('./create-checkpoint-artifact');
 const { applyCheckpointArtifact } = require('./apply-checkpoint-artifact');
-const { validateCheckpointArtifact } = require('./validate-checkpoint-artifact');
+const { validateCheckpointArtifact, validateTranslationCheckpointPair } = require('./validate-checkpoint-artifact');
+const {createReconciliationOperation, createReconciliationPlan, createReconciliationResult} = require('../translation/reconciliation-plan');
 
 const SHA_A = 'a'.repeat(40);
 const SHA_B = 'b'.repeat(40);
@@ -52,6 +53,26 @@ async function prepareGuidesTranslation(f) {
   await mkdir(path.join(f.workspace, '.translation-cache'), { recursive: true });
   await writeFile(path.join(f.baselineDir, '.translation-cache/ja-JP.json'), '{"files":{}}\n');
   await writeFile(path.join(f.workspace, '.translation-cache/ja-JP.json'), '{"files":{}}\n');
+}
+
+async function writeReconciliationEvidence(f) {
+  const operation = createReconciliationOperation({
+    kind: 'delete_target',
+    sourcePath: 'content/en/guides/tutorials/old.md',
+    targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md',
+    replacementSourcePath: null,
+    replacementTargetPath: null,
+    reason: 'source_deleted',
+    evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null},
+    authorization: {status: 'approved', method: 'automatic', ruleId: 'test-policy:ja-JP:guides', receiptSha256: null},
+  });
+  const plan = createReconciliationPlan({schemaVersion: 1, document: 'translation-reconciliation-plan', target: 'ja-JP', group: 'guides', toolingSha: SHA_A, sourceBaselineSha: '1'.repeat(40), sourceCheckpointSha: SHA_B, targetBaselineSha: SHA_B, policyId: 'test-policy', operations: [operation]});
+  const result = createReconciliationResult({schemaVersion: 1, document: 'translation-reconciliation-result', planSha256: plan.planSha256, targetBaselineSha: plan.targetBaselineSha, status: 'applied', operations: [{operationId: operation.operationId, status: 'applied', removedPaths: [operation.targetPath], removedStateKeys: [operation.sourcePath]}]}, plan);
+  const planPath = path.join(path.dirname(f.output), 'reconciliation-plan.json');
+  const resultPath = path.join(path.dirname(f.output), 'reconciliation-result.json');
+  await writeFile(planPath, `${JSON.stringify(plan, null, 2)}\n`);
+  await writeFile(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+  return {plan, result, planPath, resultPath};
 }
 
 async function fixture() {
@@ -166,6 +187,56 @@ test('numbered Guides artifact creation requires batch input and records exact s
     'ownershipVersion', 'schemaVersion', 'snapshotManual', 'sourceCheckpointSha', 'sourceSite', 'stage',
     'targetSite', 'toolingSha', 'translationTarget',
   ].sort());
+});
+
+test('packages and validates exact reconciliation plan and result evidence as schema 3', async () => {
+  const f = await fixture();
+  await prepareGuidesTranslation(f);
+  const batch = numberedBatch({pendingCount: 0});
+  const input = await writeCanonicalBatchInput(f, batch);
+  const evidence = await writeReconciliationEvidence(f);
+  const manifest = await createCheckpointArtifact({
+    group: 'guides', masterSha: SHA_A, devBaselineSha: SHA_B, ...f,
+    includeTranslationCache: true, batch, batchInputPath: input.file,
+    reconciliationPlanPath: evidence.planPath,
+    reconciliationResultPath: evidence.resultPath,
+  });
+  assert.equal(manifest.schemaVersion, 3);
+  assert.equal(manifest.reconciliation.plan.documentSha256, evidence.plan.planSha256);
+  assert.equal(manifest.reconciliation.result.documentSha256, evidence.result.resultSha256);
+  const validated = await validateCheckpointArtifact(f.output);
+  assert.equal(validated.reconciliationEvidence.plan.planSha256, evidence.plan.planSha256);
+  assert.equal(validated.reconciliationEvidence.result.resultSha256, evidence.result.resultSha256);
+
+  const baselineOutput = path.join(path.dirname(f.output), 'baseline-artifact');
+  await createCheckpointArtifact({
+    group: 'guides', masterSha: SHA_A, devBaselineSha: SHA_B,
+    baselineDir: f.baselineDir, workspace: f.baselineDir, output: baselineOutput,
+    includeTranslationCache: true, batch, batchInputPath: input.file,
+    reconciliationPlanPath: evidence.planPath,
+  });
+  const pair = await validateTranslationCheckpointPair({checkpointDir: f.output, baselineDir: baselineOutput});
+  assert.equal(pair.checkpoint.reconciliationEvidence.result.resultSha256, evidence.result.resultSha256);
+  assert.equal(pair.baseline.reconciliationEvidence.result, null);
+});
+
+test('packages unbatched Japanese Reference reconciliation evidence as schema 3', async () => {
+  const f = await fixture();
+  await mkdir(path.join(f.baselineDir, '.translation-cache'), {recursive: true});
+  await mkdir(path.join(f.workspace, '.translation-cache'), {recursive: true});
+  await writeFile(path.join(f.baselineDir, '.translation-cache/ja-JP.json'), '{"files":{}}\n');
+  await writeFile(path.join(f.workspace, '.translation-cache/ja-JP.json'), '{"files":{}}\n');
+  const operation = createReconciliationOperation({kind: 'delete_target', sourcePath: 'content/en/reference/api/python/python/old.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/old.md', replacementSourcePath: null, replacementTargetPath: null, reason: 'source_deleted', evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null}, authorization: {status: 'approved', method: 'automatic', ruleId: 'test-policy:ja-JP:python', receiptSha256: null}});
+  const plan = createReconciliationPlan({schemaVersion: 1, document: 'translation-reconciliation-plan', target: 'ja-JP', group: 'python', toolingSha: SHA_A, sourceBaselineSha: '1'.repeat(40), sourceCheckpointSha: SHA_B, targetBaselineSha: SHA_B, policyId: 'test-policy', operations: [operation]});
+  const result = createReconciliationResult({schemaVersion: 1, document: 'translation-reconciliation-result', planSha256: plan.planSha256, targetBaselineSha: plan.targetBaselineSha, status: 'already_applied', operations: [{operationId: operation.operationId, status: 'already_applied', removedPaths: [operation.targetPath], removedStateKeys: []}]}, plan);
+  const planPath = path.join(path.dirname(f.output), 'python-plan.json');
+  const resultPath = path.join(path.dirname(f.output), 'python-result.json');
+  await writeFile(planPath, `${JSON.stringify(plan, null, 2)}\n`);
+  await writeFile(resultPath, `${JSON.stringify(result, null, 2)}\n`);
+  const manifest = await createCheckpointArtifact({group: 'python', masterSha: SHA_A, devBaselineSha: SHA_B, ...f, includeTranslationCache: true, reconciliationPlanPath: planPath, reconciliationResultPath: resultPath});
+  assert.equal(manifest.schemaVersion, 3);
+  assert.equal(manifest.batch, undefined);
+  assert.equal((await validateCheckpointArtifact(f.output)).reconciliationEvidence.result.resultSha256, result.resultSha256);
 });
 
 test('numbered creation rejects malformed, symlinked, and non-file batch inputs', async () => {
@@ -490,11 +561,17 @@ test('creation CLI accepts a complete numbered Guides batch input', async () => 
   assert.equal(JSON.parse(await readFile(path.join(f.output, 'manifest.json'), 'utf8')).schemaVersion, 2);
 });
 
-test('translation workflow creates one numbered Guides batch input and keeps both schema 2 checkpoints build-free', async () => {
+test('translation workflow creates plan-bound Guides inputs and schema 3 checkpoints without becoming a Git writer', async () => {
   const workflow = await readFile(path.join(__dirname, '../../.github/workflows/_translate-content-group.yml'), 'utf8');
   assert.match(workflow, /inputs\.batch_number[\s\S]*GROUP[\s\S]*translation-batch-input\.js create[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--output tmp\/translation-batch-input\.json/);
   assert.match(workflow, /batch_input_args=\(\)[\s\S]*batch_input_args=\(--batch-input tmp\/translation-batch-input\.json\)/);
   assert.match(workflow, /create-checkpoint-artifact\.js[^\n]*BASELINE_CHECKPOINT_DIR[^\n]*batch_input_args/);
   assert.match(workflow, /create-checkpoint-artifact\.js[^\n]*CHECKPOINT_DIR[^\n]*batch_input_args/);
+  assert.match(workflow, /prepare-reconciliation-plan\.js[\s\S]*apply-reconciliation-plan\.js[\s\S]*Build group translation manifest/);
+  assert.match(workflow, /baseline_reconciliation_args=.*--reconciliation-plan/);
+  assert.match(workflow, /checkpoint_reconciliation_args=.*--reconciliation-plan[\s\S]*--reconciliation-result/);
+  assert.match(workflow, /reconciliation_plan_sha256/);
+  assert.match(workflow, /reconciliation_result_sha256/);
+  assert.doesNotMatch(workflow, /git (?:commit|push)/);
   assert.doesNotMatch(workflow, /validation_args|--validation-command|pnpm run build:(?:en|zh-CN)/);
 });

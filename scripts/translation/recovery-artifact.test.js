@@ -7,7 +7,8 @@ const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
 
-const {createRecoveryArtifact, promptContractSha256, restoreRecoveryFiles} = require('./recovery-artifact');
+const {createRecoveryArtifact, promptContractSha256, readArtifact, restoreRecoveryFiles} = require('./recovery-artifact');
+const {createReconciliationPlan, createReconciliationResult} = require('./reconciliation-plan');
 
 const HASH = value => crypto.createHash('sha256').update(value).digest('hex');
 const CONTRACT = 'c'.repeat(64);
@@ -103,6 +104,73 @@ test('restores an unchanged source file across commit, tooling, and batch change
   assert.equal(restored.restored[0].recoveryReviewReceipt.review.reviewerPass, true);
   assert.equal(revalidations.length, 1);
   assert.equal(fs.readFileSync(path.join(value.siteDir, value.targetPath), 'utf8'), value.target);
+});
+
+test('records validated reconciliation identities in recovery metadata', () => {
+  const value = fixture();
+  const created = createRecoveryArtifact({
+    siteDir: value.siteDir,
+    outputDir: value.artifactDir,
+    results: [reviewedResult(value.candidate)],
+    identity: value.identity,
+    reconciliation: {
+      planArtifact: 'translation-reconciliation-plan-zh-CN-reference-python',
+      planSha256: `sha256:${'d'.repeat(64)}`,
+      policyId: 'translation-reconciliation-2026-08-15-v1',
+      resultSha256: `sha256:${'e'.repeat(64)}`,
+      approvalReceiptShas: [`sha256:${'f'.repeat(64)}`],
+    },
+  });
+  assert.deepEqual(created.metadata.reconciliation, {
+    planArtifact: 'translation-reconciliation-plan-zh-CN-reference-python',
+    planSha256: `sha256:${'d'.repeat(64)}`,
+    policyId: 'translation-reconciliation-2026-08-15-v1',
+    resultSha256: `sha256:${'e'.repeat(64)}`,
+    approvalReceiptShas: [`sha256:${'f'.repeat(64)}`],
+  });
+});
+
+test('packages validated reconciliation plan and result identities with the recovery artifact', () => {
+  const value = fixture();
+  const plan = createReconciliationPlan({
+    schemaVersion: 1,
+    document: 'translation-reconciliation-plan',
+    target: 'zh-CN-reference',
+    group: 'python',
+    toolingSha: '1'.repeat(40),
+    sourceBaselineSha: '2'.repeat(40),
+    sourceCheckpointSha: '3'.repeat(40),
+    targetBaselineSha: '4'.repeat(40),
+    policyId: 'test-policy',
+    operations: [],
+  });
+  const reconciliationResult = createReconciliationResult({
+    schemaVersion: 1,
+    document: 'translation-reconciliation-result',
+    planSha256: plan.planSha256,
+    targetBaselineSha: plan.targetBaselineSha,
+    status: 'already_applied',
+    operations: [],
+  }, plan);
+  createRecoveryArtifact({
+    siteDir: value.siteDir,
+    outputDir: value.artifactDir,
+    results: [reviewedResult(value.candidate)],
+    identity: value.identity,
+    reconciliation: {
+      planArtifact: 'translation-reconciliation-plan-zh-CN-reference-python',
+      planSha256: plan.planSha256,
+      policyId: plan.policyId,
+      resultSha256: reconciliationResult.resultSha256,
+      approvalReceiptShas: [],
+      plan,
+      result: reconciliationResult,
+    },
+  });
+  const artifact = readArtifact(value.artifactDir);
+  assert.equal(artifact.error, undefined);
+  assert.equal(artifact.reconciliation.plan.planSha256, plan.planSha256);
+  assert.equal(artifact.reconciliation.result.resultSha256, reconciliationResult.resultSha256);
 });
 
 test('preserves an authenticated reviewer receipt across nested recovery artifacts', () => {

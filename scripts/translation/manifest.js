@@ -7,6 +7,11 @@ const { getContentGroup } = require('../docs-workflow/content-groups')
 const { getGroupPaths } = require('../docs-workflow/group-paths')
 const { loadTypeScript } = require('../lib/load-typescript')
 const { selectManifestBatch } = require('./batches')
+const {
+  evaluateReconciliationPolicy,
+  loadReconciliationPolicy,
+} = require('./reconciliation-policy')
+const {validateReconciliationPlan} = require('./reconciliation-plan')
 
 const {
   buildTranslationCandidates,
@@ -16,6 +21,15 @@ const { resolveManualPublication } = loadTypeScript('../../packages/docs-tooling
 const { resolvePublicationGroupWorkflow } = loadTypeScript('../../packages/docs-tooling/src/workflows/groups.ts')
 
 const SHA = /^[0-9a-f]{40}$/
+
+class ReconciliationReviewRequiredError extends Error {
+  constructor(evaluation) {
+    super(`Translation reconciliation review required for ${evaluation.summary.reviewRequired} operation(s)`)
+    this.name = 'ReconciliationReviewRequiredError'
+    this.evaluation = evaluation
+    this.reviewArtifact = evaluation.reviewArtifact
+  }
+}
 
 function cachePathForLocale(siteDir, locale) {
   return path.join(siteDir, '.translation-cache', `${locale}.json`)
@@ -319,9 +333,15 @@ function candidateOwnership({group, target}) {
   }
 }
 
-function createManifest({ target, locale, group, sourceCheckpointSha, sourceDelta, items }) {
+function createManifest({ target, locale, group, sourceCheckpointSha, sourceDelta, reconciliation, items }) {
   const manifest = { target, locale, group, sourceCheckpointSha, generatedAt: new Date().toISOString(), items }
-  if (sourceDelta) {
+  if (reconciliation) {
+    manifest.reconciliation = {
+      planArtifact: reconciliation.planArtifact,
+      planSha256: reconciliation.plan.planSha256,
+      operationCount: reconciliation.plan.operations.length,
+    }
+  } else if (sourceDelta) {
     manifest.source_delta = {
       deleted_i18n: [...(sourceDelta.deletedI18n || [])],
       renamed: [...(sourceDelta.renamed || [])],
@@ -331,10 +351,41 @@ function createManifest({ target, locale, group, sourceCheckpointSha, sourceDelt
   return manifest
 }
 
-function buildManifest({ siteDir, target = 'ja-JP', locale = localeForTarget(target), maxFiles = 0, group, sourceCheckpointSha, sourceDelta = null, mode = 'incremental' }) {
+function evaluateManifestReconciliation({siteDir, target, group, toolingSha, discovery, approvalReceipts = [], now}) {
+  if (!discovery || typeof discovery !== 'object' || Array.isArray(discovery)) throw new Error('Manifest reconciliation discovery is required')
+  const evaluation = evaluateReconciliationPolicy({
+    policy: loadReconciliationPolicy(siteDir),
+    repositoryRoot: siteDir,
+    target,
+    group,
+    toolingSha,
+    sourceBaselineSha: discovery.sourceBaselineSha,
+    sourceCheckpointSha: discovery.sourceCheckpointSha,
+    targetBaselineSha: discovery.targetBaselineSha,
+    candidates: discovery.candidates,
+    activeSourceCount: discovery.sourceCheckpointInventory.length,
+    retirementRegistry: readRetirementRegistry(siteDir, target),
+    approvalReceipts,
+    now,
+  })
+  if (evaluation.status === 'review_required') throw new ReconciliationReviewRequiredError(evaluation)
+  if (evaluation.status === 'rejected') throw new Error('Translation reconciliation policy rejected one or more operations')
+  return evaluation
+}
+
+function buildManifest({ siteDir, target = 'ja-JP', locale = localeForTarget(target), maxFiles = 0, group, sourceCheckpointSha, sourceDelta = null, mode = 'incremental', reconciliation = null }) {
   if (!['full', 'incremental'].includes(mode)) throw new Error(`Unsupported effective translation mode: ${mode}`)
   if (typeof group !== 'string' || group === '') throw new Error('A canonical translation group is required')
   if (!SHA.test(sourceCheckpointSha || '')) throw new Error('A valid 40-character source checkpoint SHA is required with --group')
+  let reconciliationEvaluation = null
+  if (reconciliation) {
+    if (typeof reconciliation.planArtifact !== 'string' || !reconciliation.planArtifact || /[\0\r\n/\\]/.test(reconciliation.planArtifact)) throw new Error('A valid reconciliation plan artifact name is required')
+    if (reconciliation.plan) {
+      const plan = validateReconciliationPlan(reconciliation.plan, {repositoryRoot: siteDir})
+      if (plan.target !== target || plan.group !== group || plan.sourceCheckpointSha !== sourceCheckpointSha) throw new Error('Reconciliation plan manifest identity mismatch')
+      reconciliationEvaluation = {plan}
+    } else reconciliationEvaluation = evaluateManifestReconciliation({siteDir, target, group, ...reconciliation})
+  }
   const ownership = candidateOwnership({group, target})
   const result = buildTranslationCandidates({
     repositoryRoot: siteDir,
@@ -359,7 +410,15 @@ function buildManifest({ siteDir, target = 'ja-JP', locale = localeForTarget(tar
         retirementCandidates: result.retirementCandidates,
       }
     : null
-  return createManifest({target, locale, group, sourceCheckpointSha, sourceDelta: effectiveSourceDelta, items: selectedItems})
+  return createManifest({
+    target,
+    locale,
+    group,
+    sourceCheckpointSha,
+    sourceDelta: effectiveSourceDelta,
+    reconciliation: reconciliationEvaluation ? {...reconciliationEvaluation, planArtifact: reconciliation.planArtifact} : null,
+    items: selectedItems,
+  })
 }
 
 function main() {
@@ -374,6 +433,8 @@ function main() {
   const sourceCheckpointSha = args.get('--source-checkpoint-sha')
   const sourceDeltaPath = args.get('--source-delta') || null
   const retirementReportPath = args.get('--retirement-report') || null
+  const reconciliationPlanPath = args.get('--reconciliation-plan') || null
+  const reconciliationPlanArtifact = args.get('--reconciliation-plan-artifact') || null
   const mode = args.get('--mode') || process.env.TRANSLATION_MODE || 'incremental'
   const sourceDelta = sourceDeltaPath ? JSON.parse(fs.readFileSync(path.join(siteDir, sourceDeltaPath), 'utf8')) : null
   const batchFlags = ['--batch-index', '--batch-size', '--expected-pending-set-sha256']
@@ -381,7 +442,11 @@ function main() {
   if (presentBatchFlags.length !== 0 && presentBatchFlags.length !== batchFlags.length) throw new Error('Batch manifest flags must be provided together')
   let manifest
   try {
-    manifest = buildManifest({siteDir, target, locale, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha, sourceDelta, mode})
+    const reconciliation = reconciliationPlanPath ? {
+      plan: JSON.parse(fs.readFileSync(path.join(siteDir, reconciliationPlanPath), 'utf8')),
+      planArtifact: reconciliationPlanArtifact,
+    } : null
+    manifest = buildManifest({siteDir, target, locale, maxFiles: presentBatchFlags.length ? 0 : maxFiles, group, sourceCheckpointSha, sourceDelta, mode, reconciliation})
   } catch (error) {
     if (retirementReportPath && error instanceof TranslationRetirementRequiredError) {
       try {
@@ -417,10 +482,12 @@ function main() {
 if (require.main === module) main()
 
 module.exports = {
+  ReconciliationReviewRequiredError,
   buildManifest,
   buildRetirementReview,
   cachePathForLocale,
   localeForTarget,
+  evaluateManifestReconciliation,
   readCache,
   writeCache,
   writeJsonAtomic,

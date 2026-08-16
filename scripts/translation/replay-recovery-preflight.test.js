@@ -86,6 +86,20 @@ test('constructs schema-v2 replay candidates from a failure-only artifact', () =
   })), [failed])
 })
 
+test('normalizes a retained schema-v1 translated artifact into replay candidates', () => {
+  const translated = replayRecord('schema-v1-translated')
+  const candidates = buildReplayCandidates({
+    metadata: {schemaVersion: 1, locale: 'ja-JP', group: 'guides', sourceSha: 'a'.repeat(40), translated: 1, toolingSha: 'b'.repeat(40), model: 'legacy-model'},
+    artifactManifest: {schemaVersion: 1, files: [translated]},
+    target: 'ja-JP',
+  })
+  assert.deepEqual(candidates.map(item => ({
+    sourcePath: item.sourcePath,
+    targetPath: item.targetPath,
+    sourceHash: item.sourceHash,
+  })), [translated])
+})
+
 test('constructs a canonical Japanese BYOC retained candidate with the shared manifest item type', () => {
   const retained = byocReplayRecord('byoc-retained')
   const candidates = buildReplayCandidates({

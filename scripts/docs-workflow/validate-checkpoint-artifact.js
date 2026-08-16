@@ -8,6 +8,8 @@ const path = require('node:path');
 const { loadTypeScript } = require('../lib/load-typescript');
 const { getContentGroup } = require('./content-groups');
 const { validateBatchInput } = require('./translation-batch-input');
+const { validateReconciliationPlan, validateReconciliationResult } = require('../translation/reconciliation-plan');
+const { validateApprovalReceipt } = require('../translation/reconciliation-policy');
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts');
 
 const COMMON_KEYS = ['schemaVersion', 'stage', 'group', 'masterSha', 'devBaselineSha', 'createdAt', 'ownershipVersion', 'files', 'deletions', 'snapshotManual'];
@@ -15,10 +17,14 @@ const TRANSLATION_IDENTITY_KEYS = ['translationTarget', 'sourceSite', 'targetSit
 const SCHEMA_1_KEYS = [...COMMON_KEYS, 'validation'];
 const SCHEMA_1_TRANSLATION_KEYS = [...SCHEMA_1_KEYS, ...TRANSLATION_IDENTITY_KEYS];
 const SCHEMA_2_KEYS = [...COMMON_KEYS, 'batch', 'batchInput', ...TRANSLATION_IDENTITY_KEYS];
+const SCHEMA_3_NUMBERED_KEYS = [...SCHEMA_2_KEYS, 'reconciliation'];
+const SCHEMA_3_UNBATCHED_KEYS = [...SCHEMA_1_TRANSLATION_KEYS, 'reconciliation'];
 const FILE_KEYS = ['path', 'sha256', 'size'];
 const VALIDATION_KEYS = ['commands', 'passed'];
 const BATCH_KEYS = ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount', 'pendingSetSha256'];
 const BATCH_INPUT_KEYS = ['path', 'size', 'sha256'];
+const RECONCILIATION_KEYS = ['contractVersion', 'plan', 'approval', 'result'];
+const EVIDENCE_KEYS = ['path', 'size', 'sha256', 'documentSha256'];
 
 function exactKeys(value, keys, label) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`);
@@ -125,8 +131,14 @@ async function pinArtifactDirectory(artifactDir) {
   return canonical;
 }
 
-async function validateSchema2Root(artifactDir) {
-  const expected = new Set(['manifest.json', 'payload', 'batch-input.json']);
+async function validateTranslationRoot(artifactDir, {numbered, reconciliation}) {
+  const expected = new Set(['manifest.json', 'payload']);
+  if (numbered) expected.add('batch-input.json');
+  if (reconciliation) {
+    expected.add('reconciliation-plan.json');
+    if (reconciliation.approval) expected.add('reconciliation-approval.json');
+    if (reconciliation.result) expected.add('reconciliation-result.json');
+  }
   const entries = await readdir(artifactDir);
   for (const name of entries) if (!expected.has(name)) throw new Error(`Unexpected schema 2 artifact root entry: ${name}`);
   for (const name of expected) {
@@ -146,9 +158,11 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   const manifest = JSON.parse((await readRegularNoFollow(manifestPath, 'Manifest')).toString('utf8'));
   await expected.testHooks?.afterManifestRead?.({ artifactDir: pinnedArtifactDir, manifest });
   if (manifest.schemaVersion === 1) exactKeys(manifest, manifest.stage === 'translation' ? SCHEMA_1_TRANSLATION_KEYS : SCHEMA_1_KEYS, 'manifest');
-  else if (manifest.schemaVersion === 2) {
-    exactKeys(manifest, SCHEMA_2_KEYS, 'manifest');
-    await validateSchema2Root(pinnedArtifactDir);
+  else if (manifest.schemaVersion === 2 || manifest.schemaVersion === 3) {
+    if (manifest.stage !== 'translation') throw new Error(`Unsupported schemaVersion for ${manifest.stage || 'unknown'} stage: ${manifest.schemaVersion}`);
+    const numbered = Object.hasOwn(manifest, 'batch');
+    exactKeys(manifest, manifest.schemaVersion === 3 ? (numbered ? SCHEMA_3_NUMBERED_KEYS : SCHEMA_3_UNBATCHED_KEYS) : SCHEMA_2_KEYS, 'manifest');
+    await validateTranslationRoot(pinnedArtifactDir, {numbered, reconciliation: manifest.reconciliation});
   }
   else throw new Error(`Unsupported schemaVersion: ${manifest.schemaVersion}`);
   if (manifest.stage !== 'source' && manifest.stage !== 'translation') throw new Error(`Invalid artifact stage: ${manifest.stage}`);
@@ -168,7 +182,8 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
     if (manifest.toolingSha !== manifest.masterSha) throw new Error('Translation tooling/master SHA mismatch');
     ownedPaths = translationOwnedPaths(target.id, group);
   }
-  if (manifest.schemaVersion === 2) {
+  const numberedArtifact = manifest.schemaVersion === 2 || (manifest.schemaVersion === 3 && Object.hasOwn(manifest, 'batch'));
+  if (numberedArtifact) {
     if (!translationArtifact || manifest.stage !== 'translation') throw new Error('Schema 2 is only allowed for numbered translation artifacts');
     if (manifest.group !== 'guides') throw new Error('Schema 2 numbered translation artifacts currently require group guides');
     exactKeys(manifest.batch, BATCH_KEYS, 'batch');
@@ -181,7 +196,7 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   if (!sha.test(manifest.devBaselineSha)) throw new Error('Invalid devBaselineSha');
   if (typeof manifest.createdAt !== 'string' || Number.isNaN(Date.parse(manifest.createdAt)) || new Date(manifest.createdAt).toISOString() !== manifest.createdAt) throw new Error('Invalid createdAt timestamp');
   if (manifest.snapshotManual !== group.snapshotManual) throw new Error('snapshotManual mismatch');
-  if (manifest.schemaVersion === 1) {
+  if (manifest.schemaVersion === 1 || (manifest.schemaVersion === 3 && !numberedArtifact)) {
     exactKeys(manifest.validation, VALIDATION_KEYS, 'validation');
     if (!Array.isArray(manifest.validation.commands) || !manifest.validation.commands.every((x) => typeof x === 'string') || manifest.validation.passed !== true) throw new Error('Invalid validation');
   }
@@ -240,7 +255,7 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
   }
   let parsedBatchInput = null;
   let batchInputBytes = null;
-  if (manifest.schemaVersion === 2) {
+  if (numberedArtifact) {
     exactKeys(manifest.batchInput, BATCH_INPUT_KEYS, 'batchInput');
     if (manifest.batchInput.path !== 'batch-input.json') throw new Error('Schema 2 batch input path must be exactly batch-input.json');
     if (!Number.isSafeInteger(manifest.batchInput.size) || manifest.batchInput.size < 0) throw new Error('Invalid batch input size');
@@ -262,16 +277,45 @@ async function validateCheckpointArtifact(artifactDir, expected = {}) {
     if (BATCH_KEYS.some((key) => parsedBatchInput.batch[key] !== manifest.batch[key])) throw new Error('Batch input batch identity mismatch');
     deepFreeze(parsedBatchInput);
   }
+  let reconciliationEvidence = null;
+  if (manifest.schemaVersion === 3) {
+    exactKeys(manifest.reconciliation, RECONCILIATION_KEYS, 'reconciliation');
+    if (manifest.reconciliation.contractVersion !== 1) throw new Error('Unsupported reconciliation contract version');
+    const readEvidence = async (entry, expectedPath, label) => {
+      if (entry === null) return null;
+      exactKeys(entry, EVIDENCE_KEYS, `${label} evidence`);
+      if (entry.path !== expectedPath || !Number.isSafeInteger(entry.size) || entry.size < 0 || !/^[0-9a-f]{64}$/.test(entry.sha256) || !/^sha256:[0-9a-f]{64}$/.test(entry.documentSha256)) throw new Error(`${label} evidence identity is invalid`);
+      const bytes = await readRegularNoFollow(path.join(pinnedArtifactDir, entry.path), label);
+      if (bytes.length !== entry.size || crypto.createHash('sha256').update(bytes).digest('hex') !== entry.sha256) throw new Error(`${label} evidence checksum mismatch`);
+      let document;
+      try { document = JSON.parse(bytes.toString('utf8')); } catch (error) { throw new Error(`${label} evidence JSON is invalid: ${error.message}`); }
+      if (!bytes.equals(Buffer.from(`${JSON.stringify(document, null, 2)}\n`))) throw new Error(`${label} evidence bytes are not canonical JSON`);
+      return {bytes, document};
+    };
+    const planEvidence = await readEvidence(manifest.reconciliation.plan, 'reconciliation-plan.json', 'Reconciliation plan');
+    if (!planEvidence) throw new Error('Reconciliation plan evidence is required');
+    const plan = validateReconciliationPlan(planEvidence.document);
+    if (plan.planSha256 !== manifest.reconciliation.plan.documentSha256) throw new Error('Reconciliation plan document digest mismatch');
+    if (plan.target !== manifest.translationTarget || plan.group !== manifest.group || plan.sourceCheckpointSha !== manifest.sourceCheckpointSha || plan.toolingSha !== manifest.toolingSha) throw new Error('Reconciliation plan artifact identity mismatch');
+    const approvalEvidence = await readEvidence(manifest.reconciliation.approval, 'reconciliation-approval.json', 'Reconciliation approval');
+    const approval = approvalEvidence ? validateApprovalReceipt(approvalEvidence.document, plan) : null;
+    if (approval && approval.receiptSha256 !== manifest.reconciliation.approval.documentSha256) throw new Error('Reconciliation approval document digest mismatch');
+    const resultEvidence = await readEvidence(manifest.reconciliation.result, 'reconciliation-result.json', 'Reconciliation result');
+    const result = resultEvidence ? validateReconciliationResult(resultEvidence.document, plan) : null;
+    if (result && result.resultSha256 !== manifest.reconciliation.result.documentSha256) throw new Error('Reconciliation result document digest mismatch');
+    reconciliationEvidence = {plan, approval, result};
+  }
   Object.defineProperty(manifest, 'resolvedDir', { value: pinnedArtifactDir, enumerable: false });
   if (translationArtifact) {
     Object.defineProperty(manifest, 'translationCacheBytes', { get: () => Buffer.from(translationCacheBytes), enumerable: false });
   }
-  if (manifest.schemaVersion === 2) {
+  if (numberedArtifact) {
     Object.defineProperties(manifest, {
       parsedBatchInput: { value: parsedBatchInput, enumerable: false },
       batchInputBytes: { get: () => Buffer.from(batchInputBytes), enumerable: false },
     });
   }
+  if (reconciliationEvidence) Object.defineProperty(manifest, 'reconciliationEvidence', {value: reconciliationEvidence, enumerable: false});
   return deepFreeze(manifest);
 }
 
@@ -302,6 +346,17 @@ async function validateTranslationCheckpointPair(options = {}) {
   if (checkpoint.stage !== 'translation' || baseline.stage !== 'translation') throw new Error('Translation checkpoint pair must contain translation artifacts');
   for (const key of ['group', 'translationTarget', 'sourceSite', 'targetSite', 'sourceCheckpointSha', 'toolingSha', 'masterSha', 'devBaselineSha']) {
     if (checkpoint[key] !== baseline[key]) throw new Error(`Translation checkpoint/baseline ${key} mismatch`);
+  }
+  if (checkpoint.schemaVersion === 3 || baseline.schemaVersion === 3) {
+    if (checkpoint.schemaVersion !== 3 || baseline.schemaVersion !== 3) throw new Error('Translation checkpoint/baseline reconciliation contract mismatch');
+    const checkpointPlan = checkpoint.reconciliationEvidence.plan;
+    const baselinePlan = baseline.reconciliationEvidence.plan;
+    if (checkpointPlan.planSha256 !== baselinePlan.planSha256) throw new Error('Translation checkpoint/baseline reconciliation plan mismatch');
+    const checkpointApproval = checkpoint.reconciliationEvidence.approval?.receiptSha256 || null;
+    const baselineApproval = baseline.reconciliationEvidence.approval?.receiptSha256 || null;
+    if (checkpointApproval !== baselineApproval) throw new Error('Translation checkpoint/baseline reconciliation approval mismatch');
+    if (!checkpoint.reconciliationEvidence.result) throw new Error('Translation checkpoint reconciliation result is required');
+    if (baseline.reconciliationEvidence.result) throw new Error('Translation baseline must not contain a reconciliation result');
   }
   const checksums = [
     ['checkpoint', checkpoint, expected.checkpointManifestSha256],

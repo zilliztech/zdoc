@@ -250,6 +250,31 @@ test('renders translation targets, active units, and collapsed completed units',
   assert.match(serialized, /Open parent source workflow/)
 })
 
+test('renders reconciliation review actions as callback buttons with complete payloads', () => {
+  const actionValue = JSON.stringify({
+    action: 'approve',
+    planSha256: 'sha256:1111111111111111111111111111111111111111111111111111111111111111',
+    target: 'zh-CN-reference',
+    group: 'python',
+    runId: 42,
+    runAttempt: 1,
+    batchNumber: 0,
+    reviewArtifactSha256: 'sha256:2222222222222222222222222222222222222222222222222222222222222222',
+  })
+  const state = {
+    ...translationCardState(),
+    reviewActions: [
+      {label: 'Approve zh-CN-reference/python', value: actionValue, type: 'primary_filled'},
+      {label: 'Reject zh-CN-reference/python', value: actionValue.replace('"approve"', '"reject"'), type: 'danger'},
+    ],
+  } as unknown as ExactCardState
+  const card = buildCardV2(state)
+  const buttons = descendants(card).filter(element => element.tag === 'button')
+  assert.equal(buttons.length, 2)
+  assert.deepEqual(buttons[0].behaviors, [{type: 'callback', value: {action: actionValue}}])
+  assert.match(JSON.stringify(card), /Approve zh-CN-reference\/python/)
+})
+
 test('renders a narrow Card V2 with two phase rows and active manual blocks', () => {
   const card = buildCardV2(portedCardState(), {
     now: new Date('2026-07-16T10:10:00.000Z'),

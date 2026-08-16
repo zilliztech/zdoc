@@ -10,6 +10,7 @@ const yaml = require('js-yaml')
 const {
   createTranslationProgressMonitor,
   createTranslationPublicationArtifactReader,
+  createTranslationReviewStateReader,
   normalizeTranslationMonitorJobs,
   parentWorkflowUrl,
   readConfiguration,
@@ -18,16 +19,22 @@ const {
 const sha = character => character.repeat(40)
 
 function handoff() {
+  const plan = (target, group) => ({
+    reconciliationPlanArtifact: `translation-reconciliation-plan-${target}-${group}`,
+    reconciliationPlanSha256: `sha256:${'1'.repeat(64)}`,
+    reconciliationPolicyId: 'translation-reconciliation-v1',
+    reconciliationOperationCount: 0,
+  })
   return {
-    schemaVersion: 2,
+    schemaVersion: 3,
     locale: 'all',
     group: 'python',
     toolingSha: sha('a'),
     targetBranch: 'dev',
     targetBaselineSha: sha('b'),
     units: [
-      {target: 'ja-JP', group: 'python', sourceGroup: 'python', sourceBaselineSha: sha('c'), sourceCheckpointSha: sha('d'), targetBaselineSha: sha('b'), publicationOrder: 0},
-      {target: 'zh-CN-reference', group: 'python', sourceGroup: 'python', sourceBaselineSha: sha('c'), sourceCheckpointSha: sha('d'), targetBaselineSha: sha('b'), publicationOrder: 1},
+      {target: 'ja-JP', group: 'python', sourceGroup: 'python', sourceBaselineSha: sha('c'), sourceCheckpointSha: sha('d'), targetBaselineSha: sha('b'), publicationOrder: 0, ...plan('ja-JP', 'python')},
+      {target: 'zh-CN-reference', group: 'python', sourceGroup: 'python', sourceBaselineSha: sha('c'), sourceCheckpointSha: sha('d'), targetBaselineSha: sha('b'), publicationOrder: 1, ...plan('zh-CN-reference', 'python')},
     ],
   }
 }
@@ -39,7 +46,7 @@ function recoverySubsetHandoff() {
     group: 'all',
     units: [
       {...handoff().units[0], publicationOrder: 0},
-      {target: 'ja-JP', group: 'java', sourceGroup: 'java', sourceBaselineSha: sha('e'), sourceCheckpointSha: sha('f'), targetBaselineSha: sha('b'), publicationOrder: 1},
+      {target: 'ja-JP', group: 'java', sourceGroup: 'java', sourceBaselineSha: sha('e'), sourceCheckpointSha: sha('f'), targetBaselineSha: sha('b'), publicationOrder: 1, ...handoff().units[0], target: 'ja-JP', group: 'java', sourceGroup: 'java', sourceBaselineSha: sha('e'), sourceCheckpointSha: sha('f'), publicationOrder: 1, reconciliationPlanArtifact: 'translation-reconciliation-plan-ja-JP-java'},
     ],
   }
 }
@@ -141,6 +148,35 @@ test('patches unchanged Translation state on every heartbeat and terminates on a
   assert.ok(patches[2].units.every(unit => unit.status === 'completed'))
 })
 
+test('surfaces downloaded worker review states as Feishu review actions', async () => {
+  const patches = []
+  const reviewState = {
+    schemaVersion: 1,
+    document: 'translation-reconciliation-review-state',
+    runId: 99,
+    runAttempt: 4,
+    target: 'zh-CN-reference',
+    group: 'python',
+    planSha256: `sha256:${'1'.repeat(64)}`,
+    policyId: 'translation-reconciliation-v1',
+    status: 'review_required',
+    operationCount: 1,
+    operations: [],
+    reviewArtifactSha256: `sha256:${'3'.repeat(64)}`,
+    githubRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/99',
+    batchNumber: 0,
+  }
+  const monitor = createMonitor({
+    listJobs: async () => terminalJobs(),
+    downloadReviewStates: async () => [reviewState],
+    patchCard: async state => patches.push(state),
+  })
+  await monitor.pollOnce()
+  assert.equal(patches[0].reviewActions.length, 2)
+  assert.deepEqual(patches[0].reviewActions.map(action => JSON.parse(action.value).action), ['approve', 'reject'])
+  assert.equal(JSON.parse(patches[0].reviewActions[0].value).batchNumber, 0)
+})
+
 test('normalizes exactly one recovery wrapper prefix while preserving every other job field', () => {
   const steps = [{name: 'Translate', status: 'in_progress', conclusion: null}]
   const direct = {id: 1, name: 'prepare', status: 'completed', conclusion: 'success'}
@@ -224,7 +260,7 @@ test('validates configuration, handoff, and reduced selected units', () => {
     APP_ID: 'app', APP_SECRET: 'secret', FEISHU_HOST: 'https://open.feishu.cn',
   }
   const config = readConfiguration(env)
-  assert.deepEqual(config.selectedUnits, [{target: 'ja-JP', group: 'python'}, {target: 'zh-CN-reference', group: 'python'}])
+  assert.deepEqual(config.selectedUnits, [{target: 'ja-JP', group: 'python', planStatus: 'authenticated_empty'}, {target: 'zh-CN-reference', group: 'python', planStatus: 'authenticated_empty'}])
   assert.equal(config.targetBranch, 'dev')
   assert.equal(config.parentUrl, 'https://github.com/zilliztech/zdoc/actions/runs/42')
   assert.equal(config.runAttempt, 4)
@@ -244,7 +280,7 @@ test('monitor accepts a recovery subset only after the authenticated prepare bou
     PUBLISH_ENABLED: 'false', PUBLICATION_RUN_ATTEMPT: '4', PUBLICATION_SELECTION_SHA256: 'f'.repeat(64),
     OPERATOR_RECOVERY: 'true', APP_ID: 'app', APP_SECRET: 'secret', FEISHU_HOST: 'https://open.feishu.cn',
   }
-  assert.deepEqual(readConfiguration(env).selectedUnits, [{target: 'ja-JP', group: 'python'}, {target: 'ja-JP', group: 'java'}])
+  assert.deepEqual(readConfiguration(env).selectedUnits, [{target: 'ja-JP', group: 'python', planStatus: 'authenticated_empty'}, {target: 'ja-JP', group: 'java', planStatus: 'authenticated_empty'}])
   assert.throws(() => readConfiguration({...env, OPERATOR_RECOVERY: 'false'}), /translation handoff.*canonical translation selection/i)
 })
 
@@ -385,6 +421,54 @@ test('artifact reader retains the highest valid progress revision when a newer e
     snapshot: publicationProgress(2),
     stale: true,
   })
+  assert.deepEqual(fs.readdirSync(root), [])
+  fs.rmSync(root, {recursive: true, force: true})
+})
+
+test('review-state reader downloads only selected current-run artifacts and derives review state', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-review-state-reader-'))
+  const state = {
+    schemaVersion: 1,
+    document: 'translation-reconciliation-review-state',
+    runId: 99,
+    runAttempt: 4,
+    target: 'zh-CN-reference',
+    group: 'python',
+    planSha256: `sha256:${'1'.repeat(64)}`,
+    policyId: 'translation-reconciliation-v1',
+    status: 'review_required',
+    operationCount: 1,
+    operations: [{
+      operationId: `sha256:${'2'.repeat(64)}`,
+      kind: 'delete_target',
+      sourcePath: 'content/en/reference/api/python/python/old.md',
+      targetPath: 'content/zh-CN/reference/api/python/python/old.md',
+      reason: 'source_deleted',
+    }],
+    reviewArtifactSha256: `sha256:${'3'.repeat(64)}`,
+    githubRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/99',
+    batchNumber: 0,
+  }
+  const artifacts = [
+    {id: 1, name: 'translation-reconciliation-review-state-zh-CN-reference-python-99-0', expired: false},
+    {id: 2, name: 'translation-reconciliation-review-state-zh-CN-reference-python-98-0', expired: false},
+    {id: 3, name: 'translation-reconciliation-review-state-zh-CN-reference-rest-99-0', expired: false},
+  ]
+  const client = {
+    async listArtifacts() { return artifacts },
+    async downloadArtifactArchive(name) {
+      const directory = fs.mkdtempSync(path.join(root, 'review-'))
+      fs.writeFileSync(path.join(directory, 'translation-reconciliation-review-state.json'), JSON.stringify(state))
+      return {directory}
+    },
+  }
+  const reader = createTranslationReviewStateReader({
+    client,
+    repository: 'zilliztech/zdoc',
+    runId: 99,
+    selectedUnits: [{target: 'zh-CN-reference', group: 'python'}, {target: 'ja-JP', group: 'cli'}],
+  })
+  assert.deepEqual(await reader.downloadReviewStates(), [state])
   assert.deepEqual(fs.readdirSync(root), [])
   fs.rmSync(root, {recursive: true, force: true})
 })

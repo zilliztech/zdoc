@@ -9,6 +9,7 @@ const {
   buildManifest,
   buildRetirementReview,
   cachePathForLocale,
+  ReconciliationReviewRequiredError,
   localeForTarget,
   writeCache,
 } = require('./manifest')
@@ -135,6 +136,73 @@ function testExplicitTargetLocales() {
   assert.equal(localeForTarget('ja-JP'), 'ja-JP')
   assert.equal(localeForTarget('zh-CN-reference'), 'zh-CN')
   assert.throws(() => localeForTarget('zh-CN-tools'), /unknown translation target/i)
+}
+
+function testReconciliationReviewStopsManifestBeforeCandidateScanning() {
+  withTempDir(siteDir => {
+    const policy = fs.readFileSync(path.join(__dirname, '../../config/translation/reconciliation-policy.json'), 'utf8')
+    write(path.join(siteDir, 'config/translation/reconciliation-policy.json'), policy)
+    const sourcePath = 'content/en/reference/api/python/python/old.md'
+    const targetPath = 'content/zh-CN/reference/api/python/python/old.md'
+    const discovery = {
+      sourceBaselineSha: '2'.repeat(40),
+      sourceCheckpointSha: '3'.repeat(40),
+      targetBaselineSha: '4'.repeat(40),
+      sourceCheckpointInventory: [],
+      candidates: [{
+        kind: 'delete_target', sourcePath, targetPath, replacementSourcePath: null, replacementTargetPath: null, reason: 'source_deleted',
+        evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null},
+      }],
+    }
+    assert.throws(() => buildManifest({
+      siteDir,
+      target: 'zh-CN-reference',
+      group: 'python',
+      sourceCheckpointSha: discovery.sourceCheckpointSha,
+      reconciliation: {toolingSha: '1'.repeat(40), discovery, planArtifact: 'translation-reconciliation-plan-zh-CN-reference-python-123'},
+    }), error => {
+      assert.equal(error instanceof ReconciliationReviewRequiredError, true)
+      assert.equal(error.reviewArtifact.document, 'translation-reconciliation-review')
+      return true
+    })
+  })
+}
+
+function testApprovedJapaneseReconciliationUsesPlanTransport() {
+  withTempDir(siteDir => {
+    const policy = fs.readFileSync(path.join(__dirname, '../../config/translation/reconciliation-policy.json'), 'utf8')
+    write(path.join(siteDir, 'config/translation/reconciliation-policy.json'), policy)
+    const sourcePath = 'content/en/guides/tutorials/removed.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/removed.md'
+    const discovery = {
+      sourceBaselineSha: '2'.repeat(40),
+      sourceCheckpointSha: '3'.repeat(40),
+      targetBaselineSha: '4'.repeat(40),
+      sourceCheckpointInventory: Array.from({length: 20}, (_, index) => `content/en/guides/tutorials/current-${index}.md`),
+      candidates: [{
+        kind: 'delete_target', sourcePath, targetPath, replacementSourcePath: null, replacementTargetPath: null, reason: 'source_deleted',
+        evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null},
+      }],
+    }
+    const manifest = buildManifest({
+      siteDir,
+      target: 'ja-JP',
+      group: 'guides',
+      sourceCheckpointSha: discovery.sourceCheckpointSha,
+      reconciliation: {
+        toolingSha: '1'.repeat(40),
+        discovery,
+        planArtifact: 'translation-reconciliation-plan-ja-JP-guides-123',
+      },
+    })
+    assert.equal(manifest.source_delta, undefined)
+    assert.deepEqual(manifest.reconciliation, {
+      planArtifact: 'translation-reconciliation-plan-ja-JP-guides-123',
+      planSha256: manifest.reconciliation.planSha256,
+      operationCount: 1,
+    })
+    assert.match(manifest.reconciliation.planSha256, /^sha256:[0-9a-f]{64}$/)
+  })
 }
 
 function testActiveReferenceSourceIsNotHiddenByStaleRetirement() {
@@ -356,7 +424,7 @@ function testRetirementReviewSeparatesPolicyRetirementReplacementAndTargetExclus
   })
 }
 
-function testCliWritesRetirementReviewBeforeFailingWithoutMutatingRegistry() {
+function testCliLeavesRetirementAuthorizationToReconciliationPolicy() {
   withTempDir(siteDir => {
     git(siteDir, ['init', '-b', 'main'])
     git(siteDir, ['config', 'user.email', 'retirement-cli@example.com'])
@@ -399,14 +467,11 @@ function testCliWritesRetirementReviewBeforeFailingWithoutMutatingRegistry() {
       '--source-checkpoint-sha', sourceCheckpointSha,
     ], {cwd: siteDir, encoding: 'utf8'})
 
-    assert.notEqual(result.status, 0)
-    assert.match(result.stderr, /retirement review written/i)
-    assert.equal(fs.existsSync(path.join(siteDir, 'tmp/translation-manifest.json')), false)
+    assert.equal(result.status, 0, result.stderr)
+    assert.equal(fs.existsSync(path.join(siteDir, 'tmp/translation-retirement-review.json')), false)
     assert.equal(fs.readFileSync(registryPath, 'utf8'), registryBefore)
-    const review = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/translation-retirement-review.json'), 'utf8'))
-    assert.equal(review.status, 'retirement_review_required')
-    assert.equal(review.candidates.length, 1)
-    assert.equal(review.candidates[0].sourcePath, sourcePath)
+    const manifest = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/translation-manifest.json'), 'utf8'))
+    assert.deepEqual(manifest.source_delta.retirement_candidates, [{manual: 'java', sourcePath, targetPath, changeKind: 'source_deleted'}])
   })
 }
 
@@ -744,10 +809,12 @@ function run() {
   testBuildManifestIncludesChangedAndMissingDocs()
   testPendingReferenceStateSelectsOnlyPendingAndChangedWork()
   testExplicitTargetLocales()
+  testReconciliationReviewStopsManifestBeforeCandidateScanning()
+  testApprovedJapaneseReconciliationUsesPlanTransport()
   testActiveReferenceSourceIsNotHiddenByStaleRetirement()
   testAuthorizedHistoricalReferenceOrphanIsSerializedUnchanged()
   testRetirementReviewSeparatesPolicyRetirementReplacementAndTargetExclusion()
-  testCliWritesRetirementReviewBeforeFailingWithoutMutatingRegistry()
+  testCliLeavesRetirementAuthorizationToReconciliationPolicy()
   testFullChineseBootstrapIncludesEveryActiveSource()
   testReferenceLandingGroupForcesExactlyFiveCurrentTargets()
   testLegacyJapaneseCacheKeysMapToCanonicalSources()

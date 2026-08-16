@@ -58,7 +58,7 @@ test('Japanese publisher pending validation stays bound to publish-enabled Trans
     publish: true,
     runTranslations: true,
     handoff: {
-      schemaVersion: 2,
+      schemaVersion: 3,
       locale: 'ja-JP',
       group: 'python',
       toolingSha: sha,
@@ -72,6 +72,10 @@ test('Japanese publisher pending validation stays bound to publish-enabled Trans
         sourceCheckpointSha: sha,
         targetBaselineSha: sha,
         publicationOrder: 0,
+        reconciliationPlanArtifact: 'translation-reconciliation-plan-ja-JP-python',
+        reconciliationPlanSha256: `sha256:${'b'.repeat(64)}`,
+        reconciliationPolicyId: 'translation-reconciliation-v1',
+        reconciliationOperationCount: 0,
       }],
     },
   })
@@ -523,7 +527,7 @@ test('translation workflows declare immutable target identity and exact target v
   const source = fs.readFileSync('.github/workflows/_translate-content-group.yml', 'utf8')
   assert.match(source, /validate-group\.js --target "\$TRANSLATION_TARGET" --group "\$GROUP"/)
   assert.doesNotMatch(source, /validate-reference --site zh-CN|pnpm run build:(?:en|zh-CN)/)
-  assert.match(source, /applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
+  assert.match(source, /prepare-reconciliation-plan\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*apply-reconciliation-plan\.js/)
   for (const name of [
     'ZDOC_PROVENANCE_CANDIDATE_TARGET',
     'ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA',
@@ -777,8 +781,8 @@ test('workflow policy rejects Task 8 translation safety mutations', () => {
     },
     {
       file: '_translate-content-group.yml',
-      mutate: source => source.replace('applySourceDelta.js --target "$TRANSLATION_TARGET"', 'applySourceDelta.js'),
-      expected: '_translate-content-group.yml: source delta application must receive the exact translation target',
+      mutate: source => source.replaceAll('--target "$TRANSLATION_TARGET"', ''),
+      expected: '_translate-content-group.yml: reconciliation application must receive the exact translation target and immutable identities',
     },
     {
       file: 'translate-content.yml',
@@ -977,7 +981,7 @@ test('Fetch producers stay parallel while publication and derived-state writers 
     assert.equal(job.with.publication_unit_key, unitKey)
   }
   const coordinator = workflow.jobs.publish_ready
-  assert.deepEqual(coordinator.needs, ['prepare'])
+  assert.deepEqual(coordinator.needs, ['prepare', 'reconciliation_preflight'])
   assert.deepEqual(coordinator.permissions, {actions: 'read', contents: 'write'})
   const coordinatorPublish = coordinator.steps.find(step => step.id === 'publish')
   assert.equal(coordinatorPublish.uses, 'actions/github-script@v8')
@@ -1115,7 +1119,7 @@ test('Fetch source publication barrier installs its runtime before validating re
   assert.ok(pnpmSetupIndex < nodeSetupIndex && nodeSetupIndex < installIndex && installIndex < barrierIndex)
 })
 
-test('Fetch translation handoff installs its runtime before building schema v2', () => {
+test('Fetch translation handoff installs its runtime before building schema v3', () => {
   const workflowPath = path.join(process.cwd(), '.github/workflows/fetch-docs.yml')
   const workflow = yaml.load(fs.readFileSync(workflowPath, 'utf8'))
   const steps = workflow.jobs.prepare_translation_handoff.steps
@@ -1138,6 +1142,7 @@ test('Fetch translation handoff consumes the reconciled target while preserving 
   assert.match(step.run, /--fetch-selection "\$RUNNER_TEMP\/publication-selection\/publication-selection\.json"/)
   assert.match(step.run, /--fetch-results "\$RUNNER_TEMP\/publication-results\/publication-results\.json"/)
   assert.match(step.run, /--target-baseline-sha "\$TARGET_BASELINE_SHA"/)
+  assert.match(step.run, /--reconciliation-plans-dir "\$RUNNER_TEMP\/reconciliation-plans"/)
 })
 
 test('job-level env must not reference the runner context', () => {
@@ -2429,7 +2434,7 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(source, /restore-generated-state\.sh --exact --ref "\$SOURCE_CHECKPOINT_SHA"/)
   assert.match(source, /sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/)
   assert.doesNotMatch(source, /git diff[^\n]*(?:TOOLING_SHA|MASTER_SHA|tooling_sha)/)
-  assert.match(source, /applySourceDelta\.js --target "\$TRANSLATION_TARGET" --delta tmp\/source-delta\.json --report tmp\/source-delta-report\.json/)
+  assert.match(source, /prepare-reconciliation-plan\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*apply-reconciliation-plan\.js/)
   assert.match(source, /manifest\.js[\s\S]*--group "\$GROUP"[\s\S]*--source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA"[\s\S]*--source-delta tmp\/source-delta\.json/)
   assert.match(source, /steps\.source_delta\.outputs\.has_mutation == 'true'/)
   assert.match(source, /\(steps\.agents\.outputs\.failed_count \|\| '0'\) != '0'/)
@@ -2741,7 +2746,7 @@ test('fetch workflow owns only source production and dispatches translation once
   assert.deepEqual(workflow.jobs.dispatch_translations.needs, ['prepare', 'prepare_translation_handoff'])
   assert.match(workflow.jobs.dispatch_translations.if, /needs\.prepare_translation_handoff\.result == 'success'/)
   assert.match(source, /translation-handoff\.js[\s\S]*--locale all[\s\S]*--fetch-selection[\s\S]*--fetch-results/)
-  assert.match(source, /name: translation-handoff-v2-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/)
+  assert.match(source, /name: translation-handoff-v3-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/)
   assert.match(source, /-f handoff_json="\$HANDOFF_JSON"/)
   assert.match(source, /WORKFLOW_REF: \$\{\{ github\.ref_name \}\}/)
   assert.match(source, /run_url[\s\S]*github\\\.com[\s\S]*actions\/runs\//)
@@ -2785,17 +2790,19 @@ test('workflow policy rejects reconciled handoff and branch child lookup regress
       expected: 'fetch-docs.yml: translation handoff must directly depend on reconciliation and consume its exact final target SHA',
     },
     {
-      mutate: source => source.replace(
+      mutate: source => source.replaceAll(
         'TARGET_BASELINE_SHA: ${{ needs.reconcile_reference_state.outputs.final_target_sha }}',
         'TARGET_BASELINE_SHA: ${{ needs.publish_ready.outputs.final_target_sha }}',
       ),
       expected: 'fetch-docs.yml: translation handoff must directly depend on reconciliation and consume its exact final target SHA',
     },
     {
-      mutate: source => source.replace(
-        '--target-baseline-sha "$TARGET_BASELINE_SHA"',
-        '--target-baseline-sha "$PUBLISHED_TARGET_SHA"',
-      ),
+      mutate: source => {
+        const needle = '--target-baseline-sha "$TARGET_BASELINE_SHA"'
+        const index = source.lastIndexOf(needle)
+        const replacement = '--target-baseline-sha "$PUBLISHED_TARGET_SHA"'
+        return `${source.slice(0, index)}${replacement}${source.slice(index + needle.length)}`
+      },
       expected: 'fetch-docs.yml: translation handoff must directly depend on reconciliation and consume its exact final target SHA',
     },
     {
@@ -3685,9 +3692,29 @@ test('translation workers always upload retirement review evidence without maski
   assert.equal(steps[uploadIndex].if, '${{ always() && inputs.should_translate }}')
   assert.equal(steps[uploadIndex].uses, 'actions/upload-artifact@v6')
   assert.match(steps[uploadIndex].with.name, /translation-retirement-review-/)
-  assert.equal(steps[uploadIndex].with.path, 'tmp/translation-retirement-review.json')
+  assert.match(steps[uploadIndex].with.path, /tmp\/translation-retirement-review\.json/)
+  assert.match(steps[uploadIndex].with.path, /tmp\/translation-reconciliation-review\.json/)
   assert.equal(steps[uploadIndex].with['if-no-files-found'], 'ignore')
   assert.equal(steps[manifestIndex]['continue-on-error'], undefined)
+})
+
+test('translation workers upload a standalone review state for Feishu review actions', () => {
+  const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
+  const workflow = yaml.load(source)
+  const steps = workflow.jobs.translate.steps
+  const buildIndex = steps.findIndex(step => step.name === 'Build reconciliation review state')
+  const uploadIndex = steps.findIndex(step => step.name === 'Upload reconciliation review state')
+  const resolveIndex = steps.findIndex(step => step.name === 'Resolve effective translation mode')
+
+  assert.ok(buildIndex >= 0 && buildIndex < uploadIndex && uploadIndex < resolveIndex)
+  assert.equal(steps[buildIndex].if, '${{ failure() && inputs.should_translate && steps.source_delta.outcome == \'failure\' }}')
+  assert.equal(steps[uploadIndex].if, '${{ failure() && inputs.should_translate && steps.source_delta.outcome == \'failure\' }}')
+  assert.match(steps[buildIndex].run, /reconciliation-review-state\.js/)
+  assert.match(steps[buildIndex].run, /--batch-number "\$\{\{ inputs\.batch_number \}\}"/)
+  assert.equal(steps[uploadIndex].uses, 'actions/upload-artifact@v6')
+  assert.match(steps[uploadIndex].with.name, /^translation-reconciliation-review-state-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}-\$\{\{ inputs\.batch_number \}\}$/)
+  assert.match(steps[uploadIndex].with.path, /tmp\/translation-reconciliation-review-state\.json/)
+  assert.equal(steps[uploadIndex].with['retention-days'], 30)
 })
 
 test('translation workers resolve bootstrap mode and validate only their selected group', () => {

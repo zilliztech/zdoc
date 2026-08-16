@@ -175,6 +175,52 @@ test('artifact download requires one exact regular file under runner temp', asyn
   fs.rmSync(root, {recursive: true, force: true})
 })
 
+test('artifact archive download extracts authenticated regular trees without an exact file list', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'publication-archive-download-'))
+  const fetchImpl = fakeFetch([response({artifacts: [{id: 14, name: 'wanted', expired: false}]})])
+  const artifactClient = {
+    async downloadArtifact(id, {path: destination}) {
+      assert.equal(id, 14)
+      fs.mkdirSync(path.join(destination, 'nested'), {recursive: true})
+      fs.writeFileSync(path.join(destination, 'nested', 'evidence.json'), '{}')
+      return {downloadPath: destination}
+    },
+    async uploadArtifact() { return {id: 1} },
+  }
+  const downloaded = await client({fetchImpl, artifactClient, runnerTemp: root}).downloadArtifactArchive('wanted')
+  assert.ok(downloaded.directory.startsWith(`${fs.realpathSync(root)}${path.sep}`))
+  assert.equal(fs.readFileSync(path.join(downloaded.directory, 'nested', 'evidence.json'), 'utf8'), '{}')
+  fs.rmSync(root, {recursive: true, force: true})
+})
+
+test('REST artifact archive download accepts a bounded multi-file archive after envelope authentication', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'publication-rest-archive-download-'))
+  const {artifact, bytes} = artifactEnvelope()
+  const fetchImpl = async url => url.includes('/actions/runs/123/artifacts?')
+    ? response({artifacts: [artifact]})
+    : binaryResponse(bytes)
+  let extracted = 0
+  const downloaded = await client({
+    fetchImpl,
+    runnerTemp: root,
+    artifactTransport: 'rest',
+    inspectArchive: async () => [
+      {path: 'tmp/translation-reconciliation-review.json', type: 'file'},
+      {path: 'tmp/translation-retirement-review.json', type: 'file'},
+    ],
+    unzip: async (_archive, destination) => {
+      extracted += 1
+      fs.mkdirSync(path.join(destination, 'tmp'))
+      fs.writeFileSync(path.join(destination, 'tmp', 'translation-reconciliation-review.json'), '{}\n')
+      fs.writeFileSync(path.join(destination, 'tmp', 'translation-retirement-review.json'), '{}\n')
+    },
+  }).downloadArtifactArchive('wanted')
+  assert.equal(extracted, 1)
+  assert.ok(downloaded.directory.startsWith(`${fs.realpathSync(root)}${path.sep}`))
+  assert.equal(fs.existsSync(path.join(downloaded.directory, 'tmp', 'translation-reconciliation-review.json')), true)
+  fs.rmSync(root, {recursive: true, force: true})
+})
+
 test('REST artifact download authenticates the exact envelope and archive before extracting one exact file', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'publication-rest-download-'))
   const {artifact, bytes} = artifactEnvelope()

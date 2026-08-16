@@ -5,7 +5,6 @@ import path from 'node:path';
 
 import {
   assertSafeRepositoryPathChain,
-  parseReferenceRetirementRegistry,
   parseReferenceTranslationManifest,
   referenceLanguageExclusionReason,
   type ReferenceRetirementRegistry,
@@ -217,27 +216,6 @@ function targetIsRegular(repositoryRoot: string, relativePath: string): boolean 
   return true;
 }
 
-function retirementRegistryPath(targetId: TranslationTargetId): string | undefined {
-  if (targetId === 'zh-CN-reference') return 'config/reference-retirements.json';
-  return undefined;
-}
-
-function retirementRegistry(repositoryRoot: string, targetId: TranslationTargetId, provided?: ReferenceRetirementRegistry): ReferenceRetirementRegistry | undefined {
-  if (provided) return parseReferenceRetirementRegistry(provided);
-  const registryPath = retirementRegistryPath(targetId);
-  const value = registryPath ? readJson(repositoryRoot, registryPath) : undefined;
-  return value === undefined ? undefined : parseReferenceRetirementRegistry(value);
-}
-
-function registeredRetirements(repositoryRoot: string, targetId: TranslationTargetId, provided?: ReferenceRetirementRegistry): Set<string> {
-  const registry = retirementRegistry(repositoryRoot, targetId, provided);
-  const keys = new Set<string>();
-  for (const record of registry?.retirements ?? []) {
-    if (record.changeKind !== null) keys.add(`${record.manual}\0${record.sourcePath}\0${record.targetPath}\0${record.changeKind}`);
-  }
-  return keys;
-}
-
 function normalizePaths(values: readonly string[], label: string): string[] {
   const result: string[] = [];
   const seen = new Set<string>();
@@ -370,8 +348,5 @@ export function buildTranslationCandidates(options: CandidateBuildOptions): Read
 
   candidates.sort(compareCandidates);
   retirementCandidates.sort(compareRetirements);
-  const registered = registeredRetirements(options.repositoryRoot, target.id, options.retirementRegistry);
-  const unresolved = retirementCandidates.filter(record => !registered.has(`${record.manual}\0${record.sourcePath}\0${record.targetPath}\0${record.changeKind}`));
-  if (unresolved.length > 0) throw new TranslationRetirementRequiredError(unresolved);
   return deepFreeze({candidates, retirementCandidates});
 }
