@@ -430,7 +430,7 @@ test('rejects failed new target creation and Chinese Reference record/pending st
   }
 })
 
-test('rejects arbitrary unknown unbatched failures', () => {
+test('accepts evidenced unknown unbatched failures as reportable partial-success candidates', () => {
   const fixture = jaFixture()
   try {
     const value = JSON.parse(fs.readFileSync(path.join(fixture.root, 'tmp/translation-report.json'), 'utf8'))
@@ -440,7 +440,10 @@ test('rejects arbitrary unknown unbatched failures', () => {
       retryFailures: [{attempt: 1, category: 'unknown', error: 'opaque failure'}],
     })
     writeJson(fixture.root, 'tmp/translation-report.json', value)
-    assert.throws(() => validate(fixture.root, {translated: 1, failed: 1}), /partial success|failure category/i)
+    assert.deepEqual(validate(fixture.root, {translated: 1, failed: 1}), {
+      candidateCount: 2,
+      target: 'ja-JP',
+    })
   } finally {
     fs.rmSync(fixture.root, {recursive: true, force: true})
   }
