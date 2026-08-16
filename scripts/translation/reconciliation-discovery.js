@@ -287,9 +287,11 @@ function discoverReconciliation(options) {
   }
 
   for (const change of changes) if (change.status === 'D') addCandidate(change.path, 'source_delta')
-  for (const targetPath of new Set([...targetBaseline, ...targetState])) {
-    const sourcePath = mapTargetPathForSource(target, targetPath)
-    if (sourcePath && isOwnedPath(sourcePath, ownedSources)) addCandidate(sourcePath, 'inventory_orphan')
+  if (sourceBaselineSha !== sourceCheckpointSha) {
+    for (const targetPath of new Set([...targetBaseline, ...targetState])) {
+      const sourcePath = mapTargetPathForSource(target, targetPath)
+      if (sourcePath && isOwnedPath(sourcePath, ownedSources)) addCandidate(sourcePath, 'inventory_orphan')
+    }
   }
 
   const orderedCandidates = [...candidates.values()].sort((left, right) => compareText(left.sourcePath, right.sourcePath) || compareText(left.targetPath, right.targetPath))
