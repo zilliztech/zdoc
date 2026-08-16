@@ -38,6 +38,7 @@ test('creates a bounded Feishu-facing review state from a review artifact', () =
     runId: 42,
     runAttempt: 1,
     githubRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/42',
+    batchNumber: 0,
   })
   assert.equal(validateReviewState(state), state)
   assert.equal(state.status, 'review_required')
@@ -51,7 +52,9 @@ test('rejects malformed review state identities', () => {
     runId: 42,
     runAttempt: 1,
     githubRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/42',
+    batchNumber: 0,
   })
   assert.throws(() => validateReviewState({...state, operationCount: 2}), /operation count/i)
   assert.throws(() => validateReviewState({...state, githubRunUrl: 'https://example.com'}), /run URL/i)
+  assert.throws(() => validateReviewState({...state, batchNumber: -1}), /batchNumber/i)
 })

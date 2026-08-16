@@ -3698,6 +3698,25 @@ test('translation workers always upload retirement review evidence without maski
   assert.equal(steps[manifestIndex]['continue-on-error'], undefined)
 })
 
+test('translation workers upload a standalone review state for Feishu review actions', () => {
+  const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
+  const workflow = yaml.load(source)
+  const steps = workflow.jobs.translate.steps
+  const buildIndex = steps.findIndex(step => step.name === 'Build reconciliation review state')
+  const uploadIndex = steps.findIndex(step => step.name === 'Upload reconciliation review state')
+  const resolveIndex = steps.findIndex(step => step.name === 'Resolve effective translation mode')
+
+  assert.ok(buildIndex >= 0 && buildIndex < uploadIndex && uploadIndex < resolveIndex)
+  assert.equal(steps[buildIndex].if, '${{ failure() && inputs.should_translate && steps.source_delta.outcome == \'failure\' }}')
+  assert.equal(steps[uploadIndex].if, '${{ failure() && inputs.should_translate && steps.source_delta.outcome == \'failure\' }}')
+  assert.match(steps[buildIndex].run, /reconciliation-review-state\.js/)
+  assert.match(steps[buildIndex].run, /--batch-number "\$\{\{ inputs\.batch_number \}\}"/)
+  assert.equal(steps[uploadIndex].uses, 'actions/upload-artifact@v6')
+  assert.match(steps[uploadIndex].with.name, /^translation-reconciliation-review-state-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}-\$\{\{ inputs\.batch_number \}\}$/)
+  assert.match(steps[uploadIndex].with.path, /tmp\/translation-reconciliation-review-state\.json/)
+  assert.equal(steps[uploadIndex].with['retention-days'], 30)
+})
+
 test('translation workers resolve bootstrap mode and validate only their selected group', () => {
   const source = fs.readFileSync(path.join(process.cwd(), '.github/workflows/_translate-content-group.yml'), 'utf8')
   const workflow = yaml.load(source)

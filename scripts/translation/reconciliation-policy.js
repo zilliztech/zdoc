@@ -19,9 +19,13 @@ const {
 const SHA = /^[0-9a-f]{40}$/u
 const DIGEST = /^sha256:[0-9a-f]{64}$/u
 const POLICY_PATH = 'config/translation/reconciliation-policy.json'
+const POLICY_EXCEPTIONS_PATH = 'config/translation/reconciliation-policy-exceptions.json'
 const RULE_KEYS = ['mode', 'automaticKinds', 'maxOperations', 'maxPercent', 'requiresCompletenessEvidence', 'preservedRoots']
 const RECEIPT_KEYS = ['schemaVersion', 'document', 'planSha256', 'target', 'group', 'toolingSha', 'sourceBaselineSha', 'sourceCheckpointSha', 'targetBaselineSha', 'policyId', 'authorization', 'issuedAt', 'expiresAt', 'receiptSha256']
 const RECEIPT_AUTHORIZATION_KEYS = ['method', 'identity', 'rationale']
+const POLICY_EXCEPTION_KEYS = ['target', 'group', 'policyId', 'planSha256', 'operations', 'authorization', 'approvedAt']
+const POLICY_EXCEPTION_OPERATION_KEYS = ['kind', 'sourcePath', 'targetPath', 'replacementSourcePath', 'replacementTargetPath', 'reason']
+const POLICY_EXCEPTION_AUTHORIZATION_KEYS = ['method', 'identity', 'rationale']
 
 function deepFreeze(value) {
   if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value
@@ -73,6 +77,95 @@ function validateReconciliationPolicy(value) {
 
 function loadReconciliationPolicy(repositoryRoot = path.resolve(__dirname, '../..')) {
   return validateReconciliationPolicy(JSON.parse(fs.readFileSync(path.join(repositoryRoot, POLICY_PATH), 'utf8')))
+}
+
+function validatePolicyExceptionOperation(value, label) {
+  exactKeys(value, POLICY_EXCEPTION_OPERATION_KEYS, label)
+  if (!['delete_target', 'replace_path', 'remove_navigation_only', 'preserve_target'].includes(value.kind)) throw new Error(`${label}.kind is invalid`)
+  for (const key of ['sourcePath', 'targetPath']) normalizeRelativePath(value[key], `${label}.${key}`)
+  for (const key of ['replacementSourcePath', 'replacementTargetPath']) {
+    if (value[key] !== null) normalizeRelativePath(value[key], `${label}.${key}`)
+  }
+  if ((value.replacementSourcePath === null) !== (value.replacementTargetPath === null)) throw new Error(`${label} replacement paths must both be null or both be present`)
+  if (value.kind === 'replace_path' && value.replacementSourcePath === null) throw new Error(`${label} replace_path requires replacement paths`)
+  if (value.kind !== 'replace_path' && value.replacementSourcePath !== null) throw new Error(`${label} only replace_path may declare replacement paths`)
+  if (!['source_deleted', 'source_replaced', 'navigation_removed', 'reviewed_exception'].includes(value.reason)) throw new Error(`${label}.reason is invalid`)
+  return {
+    kind: value.kind,
+    sourcePath: value.sourcePath,
+    targetPath: value.targetPath,
+    replacementSourcePath: value.replacementSourcePath,
+    replacementTargetPath: value.replacementTargetPath,
+    reason: value.reason,
+  }
+}
+
+function validateReconciliationPolicyExceptions(value) {
+  exactKeys(value, ['schemaVersion', 'document', 'policyId', 'exceptions'], 'Reconciliation policy exceptions')
+  if (value.schemaVersion !== 1 || value.document !== 'translation-reconciliation-policy-exceptions') throw new Error('Reconciliation policy exceptions identity is invalid')
+  if (typeof value.policyId !== 'string' || !/^[a-z0-9][a-z0-9._-]*$/u.test(value.policyId)) throw new Error('Reconciliation policy exceptions policyId is invalid')
+  if (!Array.isArray(value.exceptions)) throw new Error('Reconciliation policy exceptions must be an array')
+  const seen = new Set()
+  return deepFreeze(value.exceptions.map((exception, index) => {
+    const label = `Reconciliation policy exception[${index}]`
+    exactKeys(exception, POLICY_EXCEPTION_KEYS, label)
+    if (!['ja-JP', 'zh-CN-reference'].includes(exception.target) || !TARGET_GROUPS[exception.target]?.includes(exception.group)) throw new Error(`${label} target/group is invalid`)
+    if (exception.policyId !== value.policyId) throw new Error(`${label} policyId must match the exceptions document`)
+    if (!DIGEST.test(exception.planSha256 || '')) throw new Error(`${label} planSha256 is invalid`)
+    if (!Array.isArray(exception.operations) || exception.operations.length === 0) throw new Error(`${label} operations must be non-empty`)
+    if (seen.has(exception.planSha256)) throw new Error(`${label} duplicate planSha256`)
+    seen.add(exception.planSha256)
+    exactKeys(exception.authorization, POLICY_EXCEPTION_AUTHORIZATION_KEYS, `${label}.authorization`)
+    if (exception.authorization.method !== 'human') throw new Error(`${label}.authorization.method must be human`)
+    for (const key of ['identity', 'rationale']) {
+      if (typeof exception.authorization[key] !== 'string' || !exception.authorization[key].trim()) throw new Error(`${label}.authorization.${key} must be non-empty`)
+    }
+    timestamp(exception.approvedAt, `${label}.approvedAt`)
+    return {
+      target: exception.target,
+      group: exception.group,
+      policyId: exception.policyId,
+      planSha256: exception.planSha256,
+      operations: exception.operations.map((operation, operationIndex) => validatePolicyExceptionOperation(operation, `${label}.operations[${operationIndex}]`)),
+      authorization: {
+        method: 'human',
+        identity: exception.authorization.identity.trim(),
+        rationale: exception.authorization.rationale.trim(),
+      },
+      approvedAt: exception.approvedAt,
+    }
+  }))
+}
+
+function loadReconciliationPolicyExceptions(repositoryRoot = path.resolve(__dirname, '../..')) {
+  const file = path.join(repositoryRoot, POLICY_EXCEPTIONS_PATH)
+  if (!fs.existsSync(file)) return Object.freeze([])
+  return validateReconciliationPolicyExceptions(JSON.parse(fs.readFileSync(file, 'utf8')))
+}
+
+function policyExceptionMatchesOperation(operation, candidate) {
+  return operation.kind === candidate.kind &&
+    operation.sourcePath === candidate.sourcePath &&
+    operation.targetPath === candidate.targetPath &&
+    operation.replacementSourcePath === candidate.replacementSourcePath &&
+    operation.replacementTargetPath === candidate.replacementTargetPath &&
+    operation.reason === candidate.reason
+}
+
+function durablePolicyAuthorization(candidate, policy, exceptions, target, group) {
+  const exception = exceptions.find(item =>
+    item.policyId === policy.policyId &&
+    item.target === target &&
+    item.group === group &&
+    item.operations.some(operation => policyExceptionMatchesOperation(operation, candidate)))
+  if (!exception) return null
+  return {
+    status: 'approved',
+    method: 'human',
+    ruleId: `durable-policy-exception:${exception.planSha256}`,
+    receiptSha256: null,
+    rationale: exception.authorization.rationale,
+  }
 }
 
 function manualForCandidate(group, sourcePath) {
@@ -193,6 +286,7 @@ function evaluateReconciliationPolicy(options) {
   if (!Number.isSafeInteger(options.activeSourceCount) || options.activeSourceCount < 0) throw new Error('Reconciliation policy activeSourceCount must be a non-negative integer')
   const retirements = options.retirementRegistry?.retirements || []
   const completenessReceipts = options.completenessReceipts || null
+  const policyExceptions = options.policyExceptions || (options.repositoryRoot ? loadReconciliationPolicyExceptions(options.repositoryRoot) : [])
   const rule = policy.targets[target][group]
   const operationCount = options.candidates.length
   const percentage = options.activeSourceCount === 0 ? (operationCount === 0 ? 0 : 100) : operationCount * 100 / options.activeSourceCount
@@ -211,6 +305,8 @@ function evaluateReconciliationPolicy(options) {
     } else if (rule.preservedRoots.some(root => isWithin(candidate.sourcePath, root))) {
       authorization = {status: 'rejected', method: 'none', ruleId: null, receiptSha256: null}
       decisionReason = 'preserved_root'
+    } else if ((authorization = durablePolicyAuthorization(candidate, policy, policyExceptions, target, group))) {
+      decisionReason = 'durable_policy_exception'
     } else if (candidate.kind === 'replace_path' && (typeof candidate.replacementAuthority !== 'string' || !candidate.replacementAuthority.trim())) {
       authorization = {status: 'review_required', method: 'none', ruleId: null, receiptSha256: null}
       decisionReason = 'authoritative_replacement_required'
@@ -261,7 +357,7 @@ function evaluateReconciliationPolicy(options) {
       authorization = {status: 'approved', method: 'automatic', ruleId: `${policy.policyId}:${target}:${group}`, receiptSha256: null}
       decisionReason = 'automatic_policy'
     }
-    decisions.push({sourcePath: candidate.sourcePath, targetPath: candidate.targetPath, status: authorization.status, reason: decisionReason, rationale: legacy?.rationale || null})
+    decisions.push({sourcePath: candidate.sourcePath, targetPath: candidate.targetPath, status: authorization.status, reason: decisionReason, rationale: authorization.rationale || null})
     return operationInput(candidate, authorization)
   })
   const plan = createReconciliationPlan({
@@ -288,11 +384,14 @@ function evaluateReconciliationPolicy(options) {
 }
 
 module.exports = {
+  POLICY_EXCEPTIONS_PATH,
   POLICY_PATH,
   createApprovalReceipt,
   evaluateReconciliationPolicy,
   loadReconciliationPolicy,
+  loadReconciliationPolicyExceptions,
   receiptSha256For,
   validateApprovalReceipt,
   validateReconciliationPolicy,
+  validateReconciliationPolicyExceptions,
 }

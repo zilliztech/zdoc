@@ -8,7 +8,7 @@ const DIGEST = /^sha256:[0-9a-f]{64}$/
 const STATE_KEYS = [
   'schemaVersion', 'document', 'runId', 'runAttempt', 'target', 'group',
   'planSha256', 'policyId', 'status', 'operationCount', 'operations',
-  'reviewArtifactSha256', 'githubRunUrl',
+  'reviewArtifactSha256', 'githubRunUrl', 'batchNumber',
 ]
 
 function exactKeys(value, expected, label) {
@@ -20,6 +20,7 @@ function validateReviewState(value) {
   exactKeys(value, STATE_KEYS, 'Reconciliation review state')
   if (value.schemaVersion !== 1 || value.document !== 'translation-reconciliation-review-state') throw new Error('Reconciliation review state identity is invalid')
   if (!Number.isSafeInteger(value.runId) || value.runId <= 0 || !Number.isSafeInteger(value.runAttempt) || value.runAttempt <= 0) throw new Error('Reconciliation review state run identity is invalid')
+  if (!Number.isSafeInteger(value.batchNumber) || value.batchNumber < 0) throw new Error('Reconciliation review state batchNumber is invalid')
   if (!['ja-JP', 'zh-CN-reference'].includes(value.target) || typeof value.group !== 'string' || !value.group) throw new Error('Reconciliation review state target/group is invalid')
   if (!DIGEST.test(value.planSha256 || '') || !DIGEST.test(value.reviewArtifactSha256 || '')) throw new Error('Reconciliation review state digest is invalid')
   if (value.status !== 'review_required') throw new Error('Reconciliation review state status must be review_required')
@@ -29,7 +30,7 @@ function validateReviewState(value) {
   return value
 }
 
-function createReviewState({reviewArtifact, runId, runAttempt, githubRunUrl}) {
+function createReviewState({reviewArtifact, runId, runAttempt, githubRunUrl, batchNumber = 0}) {
   if (!reviewArtifact || typeof reviewArtifact !== 'object' || Array.isArray(reviewArtifact)) throw new Error('Review artifact is invalid')
   exactKeys(reviewArtifact, [
     'schemaVersion', 'document', 'target', 'group', 'toolingSha', 'sourceBaselineSha',
@@ -59,6 +60,7 @@ function createReviewState({reviewArtifact, runId, runAttempt, githubRunUrl}) {
     operations,
     reviewArtifactSha256: reviewArtifact.reviewArtifactSha256,
     githubRunUrl,
+    batchNumber,
   })
 }
 
@@ -81,6 +83,7 @@ function main(argv = process.argv.slice(2)) {
     runId: Number(args['run-id']),
     runAttempt: Number(args['run-attempt']),
     githubRunUrl: args['github-run-url'],
+    batchNumber: Number(args['batch-number'] || 0),
   })
   const output = path.resolve(args.output)
   fs.mkdirSync(path.dirname(output), {recursive: true})

@@ -10,6 +10,7 @@ const yaml = require('js-yaml')
 const {
   createTranslationProgressMonitor,
   createTranslationPublicationArtifactReader,
+  createTranslationReviewStateReader,
   normalizeTranslationMonitorJobs,
   parentWorkflowUrl,
   readConfiguration,
@@ -145,6 +146,35 @@ test('patches unchanged Translation state on every heartbeat and terminates on a
   assert.deepEqual(patches[0].links, [{label: 'Open parent source workflow', url: 'https://github.com/zilliztech/zdoc/actions/runs/42'}])
   assert.equal(patches[2].overallStatus, 'success')
   assert.ok(patches[2].units.every(unit => unit.status === 'completed'))
+})
+
+test('surfaces downloaded worker review states as Feishu review actions', async () => {
+  const patches = []
+  const reviewState = {
+    schemaVersion: 1,
+    document: 'translation-reconciliation-review-state',
+    runId: 99,
+    runAttempt: 4,
+    target: 'zh-CN-reference',
+    group: 'python',
+    planSha256: `sha256:${'1'.repeat(64)}`,
+    policyId: 'translation-reconciliation-v1',
+    status: 'review_required',
+    operationCount: 1,
+    operations: [],
+    reviewArtifactSha256: `sha256:${'3'.repeat(64)}`,
+    githubRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/99',
+    batchNumber: 0,
+  }
+  const monitor = createMonitor({
+    listJobs: async () => terminalJobs(),
+    downloadReviewStates: async () => [reviewState],
+    patchCard: async state => patches.push(state),
+  })
+  await monitor.pollOnce()
+  assert.equal(patches[0].reviewActions.length, 2)
+  assert.deepEqual(patches[0].reviewActions.map(action => JSON.parse(action.value).action), ['approve', 'reject'])
+  assert.equal(JSON.parse(patches[0].reviewActions[0].value).batchNumber, 0)
 })
 
 test('normalizes exactly one recovery wrapper prefix while preserving every other job field', () => {
@@ -391,6 +421,54 @@ test('artifact reader retains the highest valid progress revision when a newer e
     snapshot: publicationProgress(2),
     stale: true,
   })
+  assert.deepEqual(fs.readdirSync(root), [])
+  fs.rmSync(root, {recursive: true, force: true})
+})
+
+test('review-state reader downloads only selected current-run artifacts and derives review state', async () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-review-state-reader-'))
+  const state = {
+    schemaVersion: 1,
+    document: 'translation-reconciliation-review-state',
+    runId: 99,
+    runAttempt: 4,
+    target: 'zh-CN-reference',
+    group: 'python',
+    planSha256: `sha256:${'1'.repeat(64)}`,
+    policyId: 'translation-reconciliation-v1',
+    status: 'review_required',
+    operationCount: 1,
+    operations: [{
+      operationId: `sha256:${'2'.repeat(64)}`,
+      kind: 'delete_target',
+      sourcePath: 'content/en/reference/api/python/python/old.md',
+      targetPath: 'content/zh-CN/reference/api/python/python/old.md',
+      reason: 'source_deleted',
+    }],
+    reviewArtifactSha256: `sha256:${'3'.repeat(64)}`,
+    githubRunUrl: 'https://github.com/zilliztech/zdoc/actions/runs/99',
+    batchNumber: 0,
+  }
+  const artifacts = [
+    {id: 1, name: 'translation-reconciliation-review-state-zh-CN-reference-python-99-0', expired: false},
+    {id: 2, name: 'translation-reconciliation-review-state-zh-CN-reference-python-98-0', expired: false},
+    {id: 3, name: 'translation-reconciliation-review-state-zh-CN-reference-rest-99-0', expired: false},
+  ]
+  const client = {
+    async listArtifacts() { return artifacts },
+    async downloadArtifactArchive(name) {
+      const directory = fs.mkdtempSync(path.join(root, 'review-'))
+      fs.writeFileSync(path.join(directory, 'translation-reconciliation-review-state.json'), JSON.stringify(state))
+      return {directory}
+    },
+  }
+  const reader = createTranslationReviewStateReader({
+    client,
+    repository: 'zilliztech/zdoc',
+    runId: 99,
+    selectedUnits: [{target: 'zh-CN-reference', group: 'python'}, {target: 'ja-JP', group: 'cli'}],
+  })
+  assert.deepEqual(await reader.downloadReviewStates(), [state])
   assert.deepEqual(fs.readdirSync(root), [])
   fs.rmSync(root, {recursive: true, force: true})
 })

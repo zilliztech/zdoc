@@ -256,6 +256,26 @@ function normalizeSuccess(state, publishEnabled) {
   }
 }
 
+function reviewActionsFor(reviewStates) {
+  return (reviewStates || []).flatMap(state => ['approve', 'reject'].map(action => {
+    const payload = {
+      action,
+      planSha256: state.planSha256,
+      target: state.target,
+      group: state.group,
+      runId: state.runId,
+      runAttempt: state.runAttempt,
+      batchNumber: state.batchNumber,
+      reviewArtifactSha256: state.reviewArtifactSha256,
+    }
+    return {
+      label: `${action === 'approve' ? 'Approve' : 'Reject'} ${state.target}/${state.group}`,
+      value: JSON.stringify(payload),
+      type: action === 'approve' ? 'primary_filled' : 'danger',
+    }
+  }))
+}
+
 function deriveTranslationProgressState({
   selectedUnits,
   jobs = [],
@@ -264,6 +284,7 @@ function deriveTranslationProgressState({
   reports = [],
   publicationProgress = null,
   publicationResults = null,
+  reviewStates = [],
 }) {
   const selection = validateSelectedUnits(selectedUnits)
   const effectiveJobs = selectEffectiveTranslationJobs(jobs)
@@ -309,6 +330,7 @@ function deriveTranslationProgressState({
     units,
     reports: Array.isArray(reports) ? reports : [],
     links: [],
+    reviewActions: reviewActionsFor(reviewStates),
   }
   return resolvedTerminal === 'success' ? normalizeSuccess(state, publishEnabled) : state
 }
@@ -317,5 +339,6 @@ module.exports = {
   deriveTranslationProgressState,
   parseGuidesBatchJob,
   parseSdkTranslationJob,
+  reviewActionsFor,
   selectEffectiveTranslationJobs,
 }

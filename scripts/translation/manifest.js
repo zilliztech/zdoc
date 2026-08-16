@@ -355,6 +355,7 @@ function evaluateManifestReconciliation({siteDir, target, group, toolingSha, dis
   if (!discovery || typeof discovery !== 'object' || Array.isArray(discovery)) throw new Error('Manifest reconciliation discovery is required')
   const evaluation = evaluateReconciliationPolicy({
     policy: loadReconciliationPolicy(siteDir),
+    repositoryRoot: siteDir,
     target,
     group,
     toolingSha,

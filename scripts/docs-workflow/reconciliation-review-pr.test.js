@@ -2,10 +2,10 @@
 
 const assert = require('node:assert/strict')
 const test = require('node:test')
-const {buildReviewPullRequest} = require('./reconciliation-review-pr')
+const {buildReviewPullRequest, reviewArtifactSha256For} = require('./reconciliation-review-pr')
 
 function reviewArtifact() {
-  return {
+  const value = {
     schemaVersion: 1,
     document: 'translation-reconciliation-review',
     target: 'zh-CN-reference',
@@ -28,8 +28,10 @@ function reviewArtifact() {
       evidence: {generatorCompletenessReceipt: null},
       authorization: {status: 'review_required', method: 'none', ruleId: null, receiptSha256: null},
     }],
-    reviewArtifactSha256: `sha256:${'7'.repeat(64)}`,
+    reviewArtifactSha256: 'sha256:'.padEnd(71, '0'),
   }
+  value.reviewArtifactSha256 = reviewArtifactSha256For(value)
+  return value
 }
 
 test('builds a deterministic branch and review body bound to the plan', () => {

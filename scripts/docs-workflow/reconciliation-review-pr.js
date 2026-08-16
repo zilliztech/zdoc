@@ -2,7 +2,9 @@
 'use strict'
 
 const fs = require('node:fs')
+const crypto = require('node:crypto')
 const path = require('node:path')
+const {canonicalJson} = require('../translation/reconciliation-plan')
 
 const SHA = /^[0-9a-f]{40}$/
 const DIGEST = /^sha256:[0-9a-f]{64}$/
@@ -11,6 +13,15 @@ const REVIEW_KEYS = [
   'sourceCheckpointSha', 'targetBaselineSha', 'policyId', 'planSha256', 'summary', 'operations',
   'reviewArtifactSha256',
 ]
+
+function reviewArtifactBody(value) {
+  const {reviewArtifactSha256, ...body} = value
+  return body
+}
+
+function reviewArtifactSha256For(value) {
+  return `sha256:${crypto.createHash('sha256').update(canonicalJson(reviewArtifactBody(value))).digest('hex')}`
+}
 
 function exactKeys(value, expected, label) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} must be an object`)
@@ -26,6 +37,7 @@ function validateReviewArtifact(value) {
   }
   if (typeof value.policyId !== 'string' || !/^[a-z0-9][a-z0-9._-]*$/.test(value.policyId)) throw new Error('Reconciliation review policyId is invalid')
   if (!DIGEST.test(value.planSha256 || '') || !DIGEST.test(value.reviewArtifactSha256 || '')) throw new Error('Reconciliation review digest is invalid')
+  if (reviewArtifactSha256For(value) !== value.reviewArtifactSha256) throw new Error('Reconciliation review artifact checksum mismatch')
   if (!Array.isArray(value.operations)) throw new Error('Reconciliation review operations must be an array')
   return value
 }
@@ -79,6 +91,8 @@ function buildReviewPullRequest({reviewArtifact, sourceRunId, targetBaselineSha,
       kind: operation.kind,
       sourcePath: operation.sourcePath,
       targetPath: operation.targetPath,
+      replacementSourcePath: operation.replacementSourcePath,
+      replacementTargetPath: operation.replacementTargetPath,
       reason: operation.reason,
     })),
   } : null
@@ -123,4 +137,4 @@ if (require.main === module) {
   catch (error) { console.error(error.message); process.exitCode = 1 }
 }
 
-module.exports = {buildReviewPullRequest, validateReviewArtifact}
+module.exports = {buildReviewPullRequest, reviewArtifactSha256For, validateReviewArtifact}

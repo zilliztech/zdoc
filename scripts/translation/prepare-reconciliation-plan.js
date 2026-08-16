@@ -28,6 +28,7 @@ function prepareReconciliationPlan(options) {
   })
   const evaluation = evaluateReconciliationPolicy({
     policy: loadReconciliationPolicy(options.repository),
+    repositoryRoot: options.repository,
     target: options.target,
     group: options.group,
     toolingSha: options.toolingSha,

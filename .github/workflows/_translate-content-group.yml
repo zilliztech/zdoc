@@ -194,8 +194,17 @@ jobs:
               --run-id "${{ github.run_id }}" \
               --run-attempt "${{ github.run_attempt }}" \
               --github-run-url "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+              --batch-number "${{ inputs.batch_number }}" \
               --output tmp/translation-reconciliation-review-state.json
           fi
+      - name: Upload reconciliation review state
+        if: ${{ failure() && inputs.should_translate && steps.source_delta.outcome == 'failure' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: 'translation-reconciliation-review-state-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-${{ inputs.batch_number }}'
+          path: tmp/translation-reconciliation-review-state.json
+          if-no-files-found: ignore
+          retention-days: 30
       - name: Resolve effective translation mode
         id: mode
         if: ${{ inputs.should_translate }}

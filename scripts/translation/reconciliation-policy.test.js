@@ -9,6 +9,7 @@ const {
   createApprovalReceipt,
   evaluateReconciliationPolicy,
   loadReconciliationPolicy,
+  validateReconciliationPolicyExceptions,
   validateApprovalReceipt,
   validateReconciliationPolicy,
 } = require('./reconciliation-policy')
@@ -321,6 +322,60 @@ test('approval receipts bind every plan identity, rationale, reviewer, and expir
   assert.throws(() => validateApprovalReceipt(receipt, pending.plan, {now: '2026-08-17T00:00:00.000Z'}), /expired/i)
   assert.throws(() => validateApprovalReceipt(receipt, pending.plan, {now: '2026-08-15T09:00:00.000Z'}), /future/i)
   assert.throws(() => evaluate({approvalReceipts: [receipt, receipt], now: '2026-08-15T11:00:00.000Z'}), /unique/i)
+})
+
+test('a durable human policy exception approves the exact future operation shape', () => {
+  const policy = loadReconciliationPolicy()
+  const planSha256 = `sha256:${'e'.repeat(64)}`
+  const exception = {
+    target: 'zh-CN-reference',
+    group: 'python',
+    policyId: policy.policyId,
+    planSha256,
+    operations: [{
+      kind: 'delete_target',
+      sourcePath: candidate().sourcePath,
+      targetPath: candidate().targetPath,
+      replacementSourcePath: null,
+      replacementTargetPath: null,
+      reason: 'source_deleted',
+    }],
+    authorization: {method: 'human', identity: 'ou_reviewer', rationale: 'reviewed deletion'},
+    approvedAt: '2026-08-16T10:00:00.000Z',
+  }
+  const result = evaluate({policyExceptions: [exception]})
+  assert.equal(result.status, 'approved')
+  assert.equal(result.decisions[0].reason, 'durable_policy_exception')
+  assert.equal(result.plan.operations[0].authorization.method, 'human')
+  assert.match(result.plan.operations[0].authorization.ruleId, /^durable-policy-exception:/)
+})
+
+test('durable policy exceptions do not override preserved roots or malformed shapes', () => {
+  const policy = loadReconciliationPolicy()
+  const exception = {
+    target: 'zh-CN-reference',
+    group: 'python',
+    policyId: policy.policyId,
+    planSha256: `sha256:${'e'.repeat(64)}`,
+    operations: [{
+      kind: 'delete_target',
+      sourcePath: candidate().sourcePath,
+      targetPath: candidate().targetPath,
+      replacementSourcePath: null,
+      replacementTargetPath: null,
+      reason: 'source_deleted',
+    }],
+    authorization: {method: 'human', identity: 'ou_reviewer', rationale: 'reviewed deletion'},
+    approvedAt: '2026-08-16T10:00:00.000Z',
+  }
+  const preserved = candidate({sourcePath: 'content/en/reference/api/python/python/python.md', targetPath: 'content/zh-CN/reference/api/python/python/python.md'})
+  assert.equal(evaluate({candidates: [preserved], policyExceptions: [exception]}).decisions[0].reason, 'preserved_root')
+  assert.throws(() => validateReconciliationPolicyExceptions({
+    schemaVersion: 1,
+    document: 'translation-reconciliation-policy-exceptions',
+    policyId: policy.policyId,
+    exceptions: [{...exception, operations: []}],
+  }), /operations must be non-empty/i)
 })
 
 test('rejects unknown policy keys and unsorted preserved roots', () => {
