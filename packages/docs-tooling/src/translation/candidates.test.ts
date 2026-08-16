@@ -322,7 +322,7 @@ describe('translation candidates', () => {
     }]);
   });
 
-  it('throws with the exact unreviewed retirement tuple', () => {
+  it('returns the exact unreviewed retirement tuple for shared policy evaluation', () => {
     const repositoryRoot = fixture();
     const sourcePath = `${PYTHON_ROOT}/removed.md`;
     const targetPath = 'content/zh-CN/reference/api/python/python/removed.md';
@@ -331,26 +331,20 @@ describe('translation candidates', () => {
       referenceRecord({sourcePath, targetPath}),
     ]});
 
-    expect(() => buildTranslationCandidates(options(repositoryRoot, {
+    const result = buildTranslationCandidates(options(repositoryRoot, {
       targetId: 'zh-CN-reference',
       group: 'python',
       ownedSourcePaths: [PYTHON_ROOT],
       preservedSourcePaths: [],
-    }))).toThrowError(TranslationRetirementRequiredError);
-    try {
-      buildTranslationCandidates(options(repositoryRoot, {
-        targetId: 'zh-CN-reference', group: 'python', ownedSourcePaths: [PYTHON_ROOT], preservedSourcePaths: [],
-      }));
-    } catch (error) {
-      const retirementCandidates = (error as TranslationRetirementRequiredError).retirementCandidates;
-      expect(retirementCandidates).toEqual([{
-        manual: 'python', sourcePath, targetPath, changeKind: 'source_deleted',
-      }]);
-      expect(Object.isFrozen(retirementCandidates)).toBe(true);
-      expect(Object.isFrozen(retirementCandidates[0])).toBe(true);
-      expect(() => (retirementCandidates as RetirementCandidate[]).push(retirementCandidates[0])).toThrow();
-      expect(() => ((retirementCandidates[0] as {manual: string}).manual = 'java')).toThrow();
-    }
+    }));
+    const retirementCandidates = result.retirementCandidates;
+    expect(retirementCandidates).toEqual([{
+      manual: 'python', sourcePath, targetPath, changeKind: 'source_deleted',
+    }]);
+    expect(Object.isFrozen(retirementCandidates)).toBe(true);
+    expect(Object.isFrozen(retirementCandidates[0])).toBe(true);
+    expect(() => (retirementCandidates as RetirementCandidate[]).push(retirementCandidates[0])).toThrow();
+    expect(() => ((retirementCandidates[0] as {manual: string}).manual = 'java')).toThrow();
   });
 
   it.each([
@@ -371,7 +365,7 @@ describe('translation candidates', () => {
     }
   });
 
-  it('requires a strict schema-v2 exact retirement authorization', () => {
+  it('leaves retirement authorization to the shared policy boundary', () => {
     const repositoryRoot = fixture();
     const sourcePath = `${PYTHON_ROOT}/removed.md`;
     const targetPath = 'content/zh-CN/reference/api/python/python/removed.md';
@@ -383,23 +377,12 @@ describe('translation candidates', () => {
       targetId: 'zh-CN-reference', group: 'python', ownedSourcePaths: [PYTHON_ROOT], preservedSourcePaths: [], retirementRegistry,
     }));
 
-    expect(() => build({schemaVersion: 2, retirements: [{
+    expect(build({schemaVersion: 2, retirements: [{
       manual: 'python', sourcePath, targetPath, changeKind: null, rationale: 'source_deleted',
-    }]})).toThrow(TranslationRetirementRequiredError);
+    }]}).retirementCandidates).toHaveLength(1);
 
-    for (const malformed of [
-      {schemaVersion: 1, retirements: [{manual: 'python', sourcePath, targetPath, reason: 'source_deleted'}]},
-      {schemaVersion: 2, retirements: [{manual: 'python', sourcePath, targetPath, reason: 'source_deleted', rationale: 'legacy'}]},
-      {schemaVersion: 2, retirements: [{manual: 'python', sourcePath, targetPath, changeKind: 'source_deleted', rationale: 'reviewed', extra: true}]},
-      {schemaVersion: 2, retirements: [{manual: 'java', sourcePath, targetPath, changeKind: 'source_deleted', rationale: 'wrong owner'}]},
-      {schemaVersion: 2, retirements: [
-        {manual: 'python', sourcePath: `${PYTHON_ROOT}/z.md`, targetPath: 'content/zh-CN/reference/api/python/python/z.md', changeKind: 'source_deleted', rationale: 'z'},
-        {manual: 'python', sourcePath, targetPath, changeKind: 'source_deleted', rationale: 'a'},
-      ]},
-    ]) {
-      writeJson(repositoryRoot, 'config/reference-retirements.json', malformed);
-      expect(() => build()).toThrow(/schema|literal|unrecognized|manual|ownership|sorted|order/i);
-    }
+    writeJson(repositoryRoot, 'config/reference-retirements.json', {schemaVersion: 1, retirements: [{manual: 'wrong'}]});
+    expect(build().retirementCandidates).toHaveLength(1);
   });
 
   it('adapts legacy Japanese cache keys to canonical content sources', () => {

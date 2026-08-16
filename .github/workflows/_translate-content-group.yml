@@ -35,6 +35,8 @@ on:
       translated_count: { value: '${{ jobs.translate.outputs.translated_count }}' }
       failed_count: { value: '${{ jobs.translate.outputs.failed_count }}' }
       remaining_count: { value: '${{ jobs.translate.outputs.remaining_count }}' }
+      reconciliation_plan_sha256: { value: '${{ jobs.translate.outputs.reconciliation_plan_sha256 }}' }
+      reconciliation_result_sha256: { value: '${{ jobs.translate.outputs.reconciliation_result_sha256 }}' }
     secrets:
       TRANSLATION_AGENT_API_KEY: { required: true }
       REVIEW_AGENT_API_KEY: { required: true }
@@ -54,6 +56,8 @@ jobs:
       translated_count: ${{ steps.result.outputs.translated_count }}
       failed_count: ${{ steps.result.outputs.failed_count }}
       remaining_count: ${{ steps.result.outputs.remaining_count }}
+      reconciliation_plan_sha256: ${{ steps.result.outputs.reconciliation_plan_sha256 }}
+      reconciliation_result_sha256: ${{ steps.result.outputs.reconciliation_result_sha256 }}
     env:
       GROUP: ${{ inputs.group }}
       BOOTSTRAP_GROUP: ${{ inputs.bootstrap_group || inputs.group }}
@@ -148,15 +152,59 @@ jobs:
           mkdir -p "$(dirname "$state")" "$BASELINE_DIR/$(dirname "$state")"
           test -f "$state" || printf '%s\n' "$empty" > "$state"
           test -f "$BASELINE_DIR/$state" || cp "$state" "$BASELINE_DIR/$state"
-      - name: Apply source translation delta
+      - name: Create SDK/CLI completeness receipt
+        if: ${{ inputs.should_translate && inputs.target == 'zh-CN-reference' }}
+        run: |
+          node scripts/translation/create-sdk-cli-completeness-receipt.js \
+            --repository "$GITHUB_WORKSPACE" \
+            --group "$GROUP" \
+            --tooling-sha "$TOOLING_SHA" \
+            --source-baseline-sha "$SOURCE_BASELINE_SHA" \
+            --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
+            --output tmp/sdk-cli-completeness-receipt.json
+      - name: Prepare and apply translation reconciliation
         id: source_delta
         if: ${{ inputs.should_translate }}
         run: |
           set -euo pipefail
           mkdir -p tmp
+          reconciliation_receipt_args=()
+          if [[ -f tmp/sdk-cli-completeness-receipt.json ]]; then
+            reconciliation_receipt_args+=(--completeness-receipt tmp/sdk-cli-completeness-receipt.json)
+          fi
           node scripts/translation/sourceDelta.js --repository "$GITHUB_WORKSPACE" --source-baseline-sha "$SOURCE_BASELINE_SHA" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target "$TRANSLATION_TARGET" --group "$GROUP" --output tmp/source-delta.json
-          node scripts/translation/applySourceDelta.js --target "$TRANSLATION_TARGET" --delta tmp/source-delta.json --report tmp/source-delta-report.json
-          echo "has_mutation=$(node -p "require('./tmp/source-delta-report.json').hasTranslationMutation ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"
+          node scripts/translation/prepare-reconciliation-plan.js \
+            --repository "$GITHUB_WORKSPACE" --target "$TRANSLATION_TARGET" --group "$GROUP" \
+            --tooling-sha "$TOOLING_SHA" --source-baseline-sha "$SOURCE_BASELINE_SHA" \
+            --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target-baseline-sha "$TARGET_BASELINE_SHA" \
+            --plan-output tmp/reconciliation-plan.json --review-output tmp/translation-reconciliation-review.json \
+            "${reconciliation_receipt_args[@]}"
+          node scripts/translation/apply-reconciliation-plan.js \
+            --plan tmp/reconciliation-plan.json --result tmp/reconciliation-result.json \
+            --workspace "$GITHUB_WORKSPACE" --source-repository "$GITHUB_WORKSPACE" \
+            --target-baseline "$BASELINE_DIR" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
+            --target-baseline-sha "$TARGET_BASELINE_SHA"
+          echo "has_mutation=$(node -p "require('./tmp/reconciliation-result.json').status === 'applied' ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"
+      - name: Build reconciliation review state
+        if: ${{ failure() && inputs.should_translate && steps.source_delta.outcome == 'failure' }}
+        run: |
+          if [[ -f tmp/translation-reconciliation-review.json ]]; then
+            node scripts/translation/reconciliation-review-state.js \
+              --review-artifact tmp/translation-reconciliation-review.json \
+              --run-id "${{ github.run_id }}" \
+              --run-attempt "${{ github.run_attempt }}" \
+              --github-run-url "https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+              --batch-number "${{ inputs.batch_number }}" \
+              --output tmp/translation-reconciliation-review-state.json
+          fi
+      - name: Upload reconciliation review state
+        if: ${{ failure() && inputs.should_translate && steps.source_delta.outcome == 'failure' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: 'translation-reconciliation-review-state-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-${{ inputs.batch_number }}'
+          path: tmp/translation-reconciliation-review-state.json
+          if-no-files-found: ignore
+          retention-days: 30
       - name: Resolve effective translation mode
         id: mode
         if: ${{ inputs.should_translate }}
@@ -186,14 +234,18 @@ jobs:
         if: ${{ inputs.should_translate }}
         run: |
           batch_args=()
+          reconciliation_args=(--reconciliation-plan tmp/reconciliation-plan.json --reconciliation-plan-artifact "translation-reconciliation-plan-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX")
           if (( ${{ inputs.batch_number }} > 0 )); then
             batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-size "${{ inputs.batch_size }}" --expected-pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
           fi
-          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --retirement-report tmp/translation-retirement-review.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-delta tmp/source-delta.json --mode "$EFFECTIVE_TRANSLATION_MODE" "${batch_args[@]}"
+          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --retirement-report tmp/translation-retirement-review.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-delta tmp/source-delta.json --mode "$EFFECTIVE_TRANSLATION_MODE" "${batch_args[@]}" "${reconciliation_args[@]}"
           echo "count=$(node -p "require('./tmp/translation-manifest.json').items.length")" >> "$GITHUB_OUTPUT"
           if (( ${{ inputs.batch_number }} > 0 )) && [[ "$GROUP" == guides ]]; then
+            plan_input_args=()
+            plan_input_args=(--plan tmp/reconciliation-plan.json)
             node scripts/docs-workflow/translation-batch-input.js create \
               --manifest tmp/translation-manifest.json \
+              "${plan_input_args[@]}" \
               --output tmp/translation-batch-input.json
           fi
       - name: Upload translation retirement review
@@ -201,7 +253,10 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: 'translation-retirement-review-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-${{ inputs.batch_number }}'
-          path: tmp/translation-retirement-review.json
+          path: |
+            tmp/translation-retirement-review.json
+            tmp/translation-reconciliation-review.json
+            tmp/translation-reconciliation-review-state.json
           if-no-files-found: ignore
           retention-days: 30
       - name: Download requested recovery artifacts
@@ -260,12 +315,17 @@ jobs:
           TRANSLATION_CHUNK_MAX_CHARS: ${{ inputs.group == 'guides' && '12000' || '24000' }}
         run: |
           set -euo pipefail
+          reconciliation_preflight_args=()
+          if [[ -f tmp/reconciliation-plan.json ]]; then
+            reconciliation_preflight_args+=(--reconciliation-plan tmp/reconciliation-plan.json)
+          fi
           node scripts/translation/recovery-preflight.js \
             --manifest tmp/translation-manifest.json \
             --recovery-dir "$RECOVERY_DOWNLOAD_DIR" \
             --output "$RECOVERY_ANALYSIS" \
             --execution-tooling-sha "$TOOLING_SHA" \
-            --allow-full-retranslate "${{ inputs.allow_full_retranslate }}"
+            --allow-full-retranslate "${{ inputs.allow_full_retranslate }}" \
+            "${reconciliation_preflight_args[@]}"
           node - <<'NODE'
           const fs = require('node:fs')
           const analysis = JSON.parse(fs.readFileSync(process.env.RECOVERY_ANALYSIS, 'utf8'))
@@ -310,15 +370,23 @@ jobs:
           TRANSLATION_CHUNK_MAX_CHARS: ${{ inputs.group == 'guides' && '12000' || '24000' }}
       - name: Create per-file recovery artifact
         if: ${{ always() && inputs.should_translate && steps.manifest.outputs.count != '0' }}
-        run: >-
-          node scripts/translation/recovery-artifact.js create
-          --report tmp/translation-report.json
-          --output "$RECOVERY_OUTPUT_DIR"
-          --target "$TRANSLATION_TARGET"
-          --group "$GROUP"
-          --source-sha "$SOURCE_CHECKPOINT_SHA"
-          --tooling-sha "$TOOLING_SHA"
-          --model "$TRANSLATION_AGENT_MODEL"
+        run: |
+          reconciliation_args=()
+          if [[ -f tmp/reconciliation-plan.json ]]; then
+            reconciliation_args+=(--reconciliation-plan tmp/reconciliation-plan.json)
+          fi
+          if [[ -f tmp/reconciliation-result.json ]]; then
+            reconciliation_args+=(--reconciliation-result tmp/reconciliation-result.json)
+          fi
+          node scripts/translation/recovery-artifact.js create \
+            --report tmp/translation-report.json \
+            --output "$RECOVERY_OUTPUT_DIR" \
+            --target "$TRANSLATION_TARGET" \
+            --group "$GROUP" \
+            --source-sha "$SOURCE_CHECKPOINT_SHA" \
+            --tooling-sha "$TOOLING_SHA" \
+            --model "$TRANSLATION_AGENT_MODEL" \
+            "${reconciliation_args[@]}"
         env:
           TRANSLATION_AGENT_MODEL: ${{ vars.TRANSLATION_AGENT_MODEL }}
       - name: Upload per-file recovery artifact
@@ -393,8 +461,10 @@ jobs:
             if [[ "$GROUP" == guides ]]; then batch_input_args=(--batch-input tmp/translation-batch-input.json); fi
           fi
           identity_args=(--translation-target "$TRANSLATION_TARGET" --source-site en --target-site "$([[ "$TRANSLATION_TARGET" == ja-JP ]] && echo en || echo zh-CN)" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --tooling-sha "$TOOLING_SHA")
-          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$TOOLING_SHA" --dev-baseline-sha "$SOURCE_CHECKPOINT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$BASELINE_DIR" --output "$BASELINE_CHECKPOINT_DIR" --include-translation-cache "${identity_args[@]}" "${batch_args[@]}" "${batch_input_args[@]}"
-          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$TOOLING_SHA" --dev-baseline-sha "$SOURCE_CHECKPOINT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$GITHUB_WORKSPACE" --output "$CHECKPOINT_DIR" --include-translation-cache "${identity_args[@]}" "${batch_args[@]}" "${batch_input_args[@]}"
+          baseline_reconciliation_args=(--reconciliation-plan "$GITHUB_WORKSPACE/tmp/reconciliation-plan.json")
+          checkpoint_reconciliation_args=(--reconciliation-plan "$GITHUB_WORKSPACE/tmp/reconciliation-plan.json" --reconciliation-result "$GITHUB_WORKSPACE/tmp/reconciliation-result.json")
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$TOOLING_SHA" --dev-baseline-sha "$SOURCE_CHECKPOINT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$BASELINE_DIR" --output "$BASELINE_CHECKPOINT_DIR" --include-translation-cache "${identity_args[@]}" "${batch_args[@]}" "${batch_input_args[@]}" "${baseline_reconciliation_args[@]}"
+          node scripts/docs-workflow/create-checkpoint-artifact.js --group "$GROUP" --master-sha "$TOOLING_SHA" --dev-baseline-sha "$SOURCE_CHECKPOINT_SHA" --baseline-dir "$BASELINE_DIR" --workspace "$GITHUB_WORKSPACE" --output "$CHECKPOINT_DIR" --include-translation-cache "${identity_args[@]}" "${batch_args[@]}" "${batch_input_args[@]}" "${checkpoint_reconciliation_args[@]}"
           node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$BASELINE_CHECKPOINT_DIR" --group "$GROUP" --master-sha "$TOOLING_SHA" --dev-baseline-sha "$SOURCE_CHECKPOINT_SHA" --translation-target "$TRANSLATION_TARGET" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --tooling-sha "$TOOLING_SHA"
           node scripts/docs-workflow/validate-checkpoint-artifact.js --artifact "$CHECKPOINT_DIR" --group "$GROUP" --master-sha "$TOOLING_SHA" --dev-baseline-sha "$SOURCE_CHECKPOINT_SHA" --translation-target "$TRANSLATION_TARGET" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --tooling-sha "$TOOLING_SHA"
           if (( ${{ inputs.batch_number }} > 0 )) && [[ "$GROUP" == guides ]]; then
@@ -456,7 +526,10 @@ jobs:
           status=failed; artifact_name=; baseline_artifact_name=; candidate_count="${{ steps.manifest.outputs.count || '0' }}"; translated_count="${{ steps.agents.outputs.translated_count || '0' }}"; failed_count="${{ steps.agents.outputs.failed_count || '0' }}"; remaining_count="${{ steps.agents.outputs.remaining_count || '0' }}"
           if [[ "${{ inputs.should_translate }}" != true ]]; then status=no_changes
           elif [[ ( "${{ steps.agents.outcome }}" == success || "${{ steps.agents.outcome }}" == skipped ) && "${{ steps.translation_upload.outcome }}" == success && "${{ steps.baseline_upload.outcome }}" == success && "$candidate_count" =~ ^(0|[1-9][0-9]*)$ && "$translated_count" =~ ^(0|[1-9][0-9]*)$ && "$failed_count" =~ ^(0|[1-9][0-9]*)$ && "$remaining_count" =~ ^(0|[1-9][0-9]*)$ ]] && (( remaining_count == 0 && translated_count + failed_count == candidate_count )); then status=translation_ready; artifact_name="translation-checkpoint-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; baseline_artifact_name="translation-baseline-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX"; fi
-          printf 'status=%s\nartifact_name=%s\nbaseline_artifact_name=%s\ntranslated_count=%s\nfailed_count=%s\nremaining_count=%s\n' "$status" "$artifact_name" "$baseline_artifact_name" "$translated_count" "$failed_count" "$remaining_count" >> "$GITHUB_OUTPUT"
+          reconciliation_plan_sha256=; reconciliation_result_sha256=
+          if [[ -f tmp/reconciliation-plan.json ]]; then reconciliation_plan_sha256=$(node -p "require('./tmp/reconciliation-plan.json').planSha256"); fi
+          if [[ -f tmp/reconciliation-result.json ]]; then reconciliation_result_sha256=$(node -p "require('./tmp/reconciliation-result.json').resultSha256"); fi
+          printf 'status=%s\nartifact_name=%s\nbaseline_artifact_name=%s\ntranslated_count=%s\nfailed_count=%s\nremaining_count=%s\nreconciliation_plan_sha256=%s\nreconciliation_result_sha256=%s\n' "$status" "$artifact_name" "$baseline_artifact_name" "$translated_count" "$failed_count" "$remaining_count" "$reconciliation_plan_sha256" "$reconciliation_result_sha256" >> "$GITHUB_OUTPUT"
       - name: Fail unsuccessful translation
         if: ${{ always() && steps.result.outputs.status == 'failed' }}
         run: exit 1

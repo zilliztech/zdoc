@@ -4,14 +4,14 @@ run-name: ${{ inputs.request_id != '' && format('translate docs ({0})', inputs.r
 on:
   workflow_dispatch:
     inputs:
-      handoff_json: { description: Complete schema-v2 translation handoff, required: true, type: string }
+      handoff_json: { description: Complete schema-v3 translation handoff, required: true, type: string }
       mode: { description: Translation mode, required: false, type: choice, options: [auto, full, incremental], default: auto }
       publish: { description: Publish validated translations, required: false, type: boolean, default: false }
       recovery_run_ids_json: { description: Recovery run IDs by target/group, required: false, type: string, default: '{}' }
       request_id: { description: Parent workflow correlation ID, required: false, type: string, default: '' }
   workflow_call:
     inputs:
-      handoff_json: { description: Complete schema-v2 translation handoff, required: true, type: string }
+      handoff_json: { description: Complete schema-v3 translation handoff, required: true, type: string }
       mode: { required: false, type: string, default: auto }
       publish: { required: false, type: boolean, default: false }
       recovery_run_ids_json: { required: false, type: string, default: '{}' }

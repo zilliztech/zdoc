@@ -18,6 +18,7 @@
     "test:containers": "node --test deploy/contracts/container.test.mjs",
     "test:profiles": "pnpm vitest run packages/site-config",
     "docs-tooling": "node scripts/docs-tooling.js",
+    "reconciliation-card-action-consumer": "node scripts/docs-workflow/reconciliation-card-action-consumer.js",
     "test:architecture": "node --test scripts/migration/check-profile-env.test.mjs && node scripts/migration/check-profile-env.mjs",
     "test:retirement": "node --test scripts/architecture/verify-retired-layout.test.mjs && node scripts/architecture/verify-retired-layout.mjs",
     "test:rest-publication-contract": "node scripts/verify-rest-fragment-migration.mjs && node scripts/verify-rest-lifecycle-evidence.mjs && node scripts/verify-integrated-rest-publication.mjs",

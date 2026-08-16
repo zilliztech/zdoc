@@ -19,7 +19,9 @@
     "sidebar-overrides/en"
   ],
   "masterAuthoritativePaths": [
-    "config/reference-retirements.json"
+    "config/reference-retirements.json",
+    "config/translation/reconciliation-policy.json",
+    "config/translation/reconciliation-policy-exceptions.json"
   ],
   "candidateDerivedPaths": [
     "deploy/contracts/localization-inputs.inventory.json"

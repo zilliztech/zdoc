@@ -202,10 +202,20 @@ function revalidateBatchPlan(batch, result, baseline) {
   const before = new Map(baseline.files.filter(entry => translationFile(entry.path)).map(entry => [entry.path, entry]))
   const after = new Map(result.files.filter(entry => translationFile(entry.path)).map(entry => [entry.path, entry]))
   const candidateTargets = new Set(result.parsedBatchInput.candidates.map(candidate => candidate.targetPath))
-  const authorizedDeletions = new Set([
-    ...result.parsedBatchInput.sourceDelta.deletedI18n,
-    ...result.parsedBatchInput.sourceDelta.renamed.map(rename => rename.oldI18nPath),
-  ])
+  const reconciliationPlan = result.reconciliationEvidence?.plan || null
+  const ownsReconciliation = result.parsedBatchInput.batch.reconciliationOwner === undefined
+    ? result.parsedBatchInput.batch.batchIndex === 0
+    : result.parsedBatchInput.batch.reconciliationOwner
+  const authorizedDeletions = reconciliationPlan
+    ? new Set(ownsReconciliation ? reconciliationPlan.operations.filter(operation => ['delete_target', 'replace_path'].includes(operation.kind)).map(operation => operation.targetPath) : [])
+    : new Set([
+        ...result.parsedBatchInput.sourceDelta.deletedI18n,
+        ...result.parsedBatchInput.sourceDelta.renamed.map(rename => rename.oldI18nPath),
+      ])
+  if (reconciliationPlan) {
+    if (!result.reconciliationEvidence.result) throw new Error('Reconciliation result evidence is required for plan-based publication')
+    if (result.reconciliationEvidence.result.status !== 'applied' && result.reconciliationEvidence.result.status !== 'already_applied') throw new Error('Reconciliation result is not terminally applicable')
+  }
   const writes = [], deletions = []
   for (const relative of [...new Set([...before.keys(), ...after.keys()])].sort(compareText)) {
     const oldEntry = before.get(relative), newEntry = after.get(relative)

@@ -31,6 +31,19 @@ function repositoryPath(value, label) {
 }
 
 function buildReplayCandidates({metadata, artifactManifest, target}) {
+  if (metadata?.schemaVersion === 1 && artifactManifest?.schemaVersion === 1 &&
+      Array.isArray(artifactManifest.files)) {
+    metadata = {
+      ...metadata,
+      schemaVersion: 2,
+      failed: 0,
+      resumableFiles: 0,
+      checkpointedChunks: 0,
+      checkpointedSemanticUnits: 0,
+      failureCounts: {},
+    }
+    artifactManifest = {schemaVersion: 2, files: artifactManifest.files, failures: []}
+  }
   if (metadata?.schemaVersion !== 2 || artifactManifest?.schemaVersion !== 2 ||
       !Array.isArray(artifactManifest.files) || !Array.isArray(artifactManifest.failures)) {
     throw new Error('Retained recovery artifact must be a schema-v2 artifact')

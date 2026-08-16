@@ -62,11 +62,16 @@ jobs:
           mkdir -p .translation-cache tmp
           test -f .translation-cache/ja-JP.json || printf '{"files":{}}\n' > .translation-cache/ja-JP.json
           node scripts/translation/sourceDelta.js --repository "$GITHUB_WORKSPACE" --source-baseline-sha "$SOURCE_BASELINE_SHA" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target "$TRANSLATION_TARGET" --group "$GROUP" --output tmp/source-delta.json
+          node scripts/translation/prepare-reconciliation-plan.js \
+            --repository "$GITHUB_WORKSPACE" --target "$TRANSLATION_TARGET" --group "$GROUP" \
+            --tooling-sha "$TOOLING_SHA" --source-baseline-sha "$SOURCE_BASELINE_SHA" \
+            --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target-baseline-sha "$TARGET_BASELINE_SHA" \
+            --plan-output tmp/reconciliation-plan.json --review-output tmp/translation-reconciliation-review.json
       - id: summary
         name: Build deterministic batch matrix
         run: |
           set -euo pipefail
-          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-delta tmp/source-delta.json
+          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-delta tmp/source-delta.json --reconciliation-plan tmp/reconciliation-plan.json --reconciliation-plan-artifact "translation-reconciliation-plan-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}"
           node - <<'NODE'
           const fs = require('node:fs')
           const { getContentGroup } = require('./scripts/docs-workflow/content-groups')

@@ -91,7 +91,11 @@ test('the ownership contract covers every generated publication root and keeps r
     'packages/docs-tooling/src/lark/meta/snapshots',
     'sidebar-overrides/en',
   ]) assert.ok(contract.devOwnedPaths.includes(root), `missing dev-owned root: ${root}`);
-  assert.deepEqual(contract.masterAuthoritativePaths, ['config/reference-retirements.json']);
+  assert.deepEqual(contract.masterAuthoritativePaths, [
+    'config/reference-retirements.json',
+    'config/translation/reconciliation-policy.json',
+    'config/translation/reconciliation-policy-exceptions.json',
+  ]);
   assert.deepEqual(contract.candidateDerivedPaths, ['deploy/contracts/localization-inputs.inventory.json']);
 });
 

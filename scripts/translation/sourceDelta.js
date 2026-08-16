@@ -3,43 +3,18 @@
 
 const fs = require('node:fs')
 const path = require('node:path')
-const { spawnSync } = require('node:child_process')
 const { getGroupPaths } = require('../docs-workflow/group-paths')
-
-const COMMIT_SHA = /^[a-f0-9]{40}$/
-
-const TARGET_MAPPINGS = Object.freeze({
-  'ja-JP': [
-    ['content/en/guides/tutorials', 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials'],
-    ['content/en/byoc/tutorials', 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials'],
-    ['content/en/reference', 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current'],
-  ],
-  'zh-CN-reference': [['content/en/reference', 'content/zh-CN/reference']],
-})
-
-function normalizeRelativePath(filePath) {
-  if (typeof filePath !== 'string' || !filePath || path.isAbsolute(filePath)) {
-    throw new Error(`Unsafe source path: ${filePath}`)
-  }
-  const normalized = filePath.replace(/\\/g, '/')
-  if (normalized.split('/').some(part => !part || part === '.' || part === '..')) {
-    throw new Error(`Unsafe source path: ${filePath}`)
-  }
-  return normalized
-}
+const {
+  collectGitSourceChanges,
+  isOwnedPath,
+  mapSourcePathForTarget,
+  normalizeRelativePath,
+  ownedSourcePaths,
+  parseGitNameStatusZ,
+} = require('./reconciliation-discovery')
 
 function mapEnglishToI18nPath(filePath) {
   return mapSourcePathForTarget('ja-JP', filePath)
-}
-
-function mapSourcePathForTarget(target, filePath) {
-  const normalized = normalizeRelativePath(filePath)
-  const mappings = TARGET_MAPPINGS[target]
-  if (!mappings) throw new Error(`Unknown translation target: ${target}`)
-  for (const [sourceRoot, targetRoot] of mappings) {
-    if (normalized.startsWith(`${sourceRoot}/`)) return `${targetRoot}/${normalized.slice(sourceRoot.length + 1)}`
-  }
-  return null
 }
 
 function parseGitNameStatus(text) {
@@ -61,70 +36,12 @@ function parseGitNameStatus(text) {
   })
 }
 
-function parseGitNameStatusZ(text) {
-  if (typeof text !== 'string') throw new Error('Git name-status input must be text')
-  const fields = text.split('\0')
-  if (fields.at(-1) === '') fields.pop()
-  const changes = []
-  for (let index = 0; index < fields.length;) {
-    const status = fields[index++]
-    if (/^[RC]\d{1,3}$/.test(status)) {
-      throw new Error(`Rename-form git status is forbidden by the --no-renames source delta contract: ${status}`)
-    }
-    if (!['A', 'M', 'D'].includes(status)) throw new Error(`Unsupported git status: ${status}`)
-    const filePath = fields[index++]
-    if (filePath === undefined) throw new Error(`Malformed NUL-delimited name-status entry: ${status}`)
-    changes.push({status, path: normalizeRelativePath(filePath)})
-  }
-  return changes
-}
-
-function isOwnedPath(filePath, ownedPrefixes) {
-  return ownedPrefixes.some(prefix => filePath === prefix || filePath.startsWith(`${prefix}/`))
-}
-
-function ownedSourcePaths(group, target) {
-  const mappings = TARGET_MAPPINGS[target]
-  if (!mappings) throw new Error(`Unknown translation target: ${target}`)
-  const englishOutputs = getGroupPaths(group).englishOutputs
-  return target === 'ja-JP'
-    ? englishOutputs.filter(prefix => prefix.startsWith('content/en/'))
-    : englishOutputs.filter(prefix => mappings.some(([sourceRoot]) => (
-        prefix === sourceRoot || prefix.startsWith(`${sourceRoot}/`)
-      )))
-}
-
-function collectGitSourceChanges({repository, sourceBaselineSha, sourceCheckpointSha, group, target}) {
-  if (typeof repository !== 'string' || !path.isAbsolute(repository)) {
-    throw new Error('Source delta repository must be an absolute path')
-  }
-  for (const [label, value] of [
-    ['source baseline SHA', sourceBaselineSha],
-    ['source checkpoint SHA', sourceCheckpointSha],
-  ]) {
-    if (typeof value !== 'string' || !COMMIT_SHA.test(value)) throw new Error(`${label} must be a lowercase 40-character commit SHA`)
-  }
-  const ownedPaths = ownedSourcePaths(group, target)
-  if (ownedPaths.length === 0) throw new Error(`No owned source paths for ${target}/${group}`)
-  const args = [
-    '-C', repository,
-    'diff', '--no-renames', '--name-status', '-z',
-    sourceBaselineSha, sourceCheckpointSha,
-    '--', ...ownedPaths,
-  ]
-  const result = spawnSync('git', args, {encoding: 'utf8', maxBuffer: 16 * 1024 * 1024})
-  if (result.status !== 0) {
-    throw new Error(`Cannot collect source delta: ${(result.stderr || result.stdout || `git exited ${result.status}`).trim()}`)
-  }
-  return parseGitNameStatusZ(result.stdout)
-}
 
 function classifySourceDelta({ group, target = 'ja-JP', changes, orphanTranslations = [] }) {
   if (!Array.isArray(changes)) throw new Error('Source changes must be an array')
   if (!Array.isArray(orphanTranslations)) throw new Error('Orphan translations must be an array')
-  const mappings = TARGET_MAPPINGS[target]
-  if (!mappings) throw new Error(`Unknown translation target: ${target}`)
-  const groupPaths = getGroupPaths(group)
+  ownedSourcePaths(group, target)
+  const groupPaths = getGroupPaths(group, 'en')
   const ownedPrefixes = ownedSourcePaths(group, target)
   const preservedEnglish = new Set(groupPaths.preservedEnglish.map(normalizeRelativePath))
   const preservedTargets = new Set([...preservedEnglish].map(sourcePath => mapSourcePathForTarget(target, sourcePath)).filter(Boolean))

@@ -919,6 +919,35 @@ function testValidatesExactManifestTargetContract() {
   }]})), /exact schema/i)
 }
 
+function testNormalizesLegacyReconciliationTransportWithoutModelCandidates() {
+  const normalized = validateTranslationManifest(validManifest({
+    items: [],
+    source_delta: {deleted_i18n: ['i18n/ja-JP/old.md'], renamed: [], retirement_candidates: []},
+    batch: {batchIndex: 0},
+  }))
+  assert.equal(normalized.reconciliation.operationCount, 1)
+  assert.equal(normalized.reconciliation.planArtifact, 'legacy-source-delta')
+  assert.equal(normalized.batch.reconciliationOwner, true)
+}
+
+function testValidatesPlanReconciliationTransportAndOwnership() {
+  const reconciliation = {
+    planArtifact: 'translation-reconciliation-plan-ja-JP-guides-123',
+    planSha256: `sha256:${'b'.repeat(64)}`,
+    operationCount: 2,
+  }
+  const normalized = validateTranslationManifest(validManifest({
+    reconciliation,
+    batch: {batchIndex: 0, reconciliationOwner: true},
+  }))
+  assert.deepEqual(normalized.reconciliation, reconciliation)
+  assert.throws(() => validateTranslationManifest(validManifest({reconciliation, source_delta: {deleted_i18n: [], renamed: []}})), /cannot mix/i)
+  assert.throws(() => validateTranslationManifest(validManifest({
+    reconciliation: {...reconciliation, operationCount: 0},
+    batch: {batchIndex: 0, reconciliationOwner: true},
+  })), /cannot own an empty/i)
+}
+
 async function testCorrectionRunsWhenReviewFails() {
   await withTempDir(async siteDir => {
     const sourcePath = 'docs/tutorials/test.md'
@@ -4379,6 +4408,8 @@ async function run() {
   testTranslationMessagesIncludeOnlyExplicitRetryFeedback()
   testReferenceLandingMessagesContainNavigationContract()
   testValidatesExactManifestTargetContract()
+  testNormalizesLegacyReconciliationTransportWithoutModelCandidates()
+  testValidatesPlanReconciliationTransportAndOwnership()
   await testSemanticUnitsUseCoherentContextAndStableIds()
   await testCorrectionRunsWhenReviewFails()
   await testCorrectionContextCannotLeakCrossUnitProtectedMarkersOrConsumeFileRetry()

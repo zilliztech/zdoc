@@ -7,11 +7,14 @@ const path = require('node:path')
 const {
   discoverRecoveryArtifacts,
   promptContractSha256,
+  readArtifact,
   restoreRecoveryFiles,
 } = require('./recovery-artifact')
 const {loadChunkLimits} = require('./chunkLimits')
 const {validateRecoveryCandidate} = require('./recoveryValidation')
 const {MAX_SEMANTIC_CHECKPOINT_AGGREGATE_BYTES, semanticCheckpointBytes} = require('./semanticRecovery')
+const {validateReconciliationPlan} = require('./reconciliation-plan')
+const {evaluateReconciliationRecovery} = require('./reconciliation-recovery')
 
 const SHA = /^[0-9a-f]{40}$/u
 const SHA256 = /^[0-9a-f]{64}$/u
@@ -42,7 +45,7 @@ function validateInput({manifest, promptContractSha256: contract, model, executi
   }
 }
 
-function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContractSha256: contract, model, executionToolingSha, allowFullRetranslate, chunkOptions}) {
+function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContractSha256: contract, model, executionToolingSha, allowFullRetranslate, chunkOptions, currentReconciliationPlan = null, reconciliationApprovalReceipts = [], reconciliationPublish = false, reconciliationPreflight = false, reconciliationRemoteState = 'known'}) {
   validateInput({manifest, promptContractSha256: contract, model, executionToolingSha, allowFullRetranslate})
   if (!Array.isArray(artifacts) || !artifacts.length) throw new Error('Authenticated recovery artifacts are required for compatibility preflight')
   const recovery = restoreRecoveryFiles({
@@ -98,6 +101,36 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
   const rejectedChunkCount = rejectedChunks.length
   const fullRetranslation = candidateCount > 0 && restored.length === 0 && pending.length === candidateCount &&
     resumableFileCount === 0 && semanticResumableFileCount === 0
+  let reconciliation = null
+  if (currentReconciliationPlan) {
+    const currentPlan = validateReconciliationPlan(currentReconciliationPlan)
+    const previous = artifacts.map(readArtifact).find(artifact => artifact.reconciliation)
+    if (previous?.reconciliation) {
+      const evaluation = evaluateReconciliationRecovery({
+        selected: {
+          target: currentPlan.target,
+          group: currentPlan.group,
+          toolingSha: executionToolingSha,
+          sourceBaselineSha: currentPlan.sourceBaselineSha,
+          sourceCheckpointSha: currentPlan.sourceCheckpointSha,
+          targetBaselineSha: currentPlan.targetBaselineSha,
+        },
+        previousPlan: previous.reconciliation.plan,
+        currentPlan,
+        previousResult: previous.reconciliation.result,
+        approvalReceipts: reconciliationApprovalReceipts,
+        publish: reconciliationPublish,
+        preflight: reconciliationPreflight,
+        remoteState: reconciliationRemoteState,
+      })
+      reconciliation = evaluation
+      if (reconciliationRemoteState === 'unknown') {
+        const error = new Error('Recovery reconciliation cannot replay while remote state is unknown')
+        error.code = 'REMOTE_STATE_UNKNOWN'
+        throw error
+      }
+    }
+  }
   const analysis = Object.freeze({
     schemaVersion: 2,
     kind: 'translation-recovery-analysis',
@@ -126,6 +159,7 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
     pending,
     rejected,
     rejectedChunks,
+    ...(reconciliation ? {reconciliation} : {}),
   })
   if (fullRetranslation && !allowFullRetranslate) {
     const error = new Error('Recovery compatibility would require full retranslation; explicit advanced authorization is required')
@@ -163,7 +197,8 @@ function appendBlockedSummary(file, analysis) {
 }
 
 function parseArgs(argv) {
-  const allowed = new Set(['--manifest', '--recovery-dir', '--output', '--execution-tooling-sha', '--allow-full-retranslate'])
+  const allowed = new Set(['--manifest', '--recovery-dir', '--output', '--execution-tooling-sha', '--allow-full-retranslate', '--reconciliation-plan', '--publish', '--preflight'])
+  const required = new Set(['--manifest', '--recovery-dir', '--output', '--execution-tooling-sha', '--allow-full-retranslate'])
   const values = {}
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]
@@ -171,8 +206,9 @@ function parseArgs(argv) {
     if (!allowed.has(flag) || value === undefined || Object.hasOwn(values, flag)) throw new Error('Recovery preflight arguments are invalid or duplicated')
     values[flag] = value
   }
-  for (const flag of allowed) if (!values[flag]) throw new Error(`${flag} is required`)
+  for (const flag of required) if (!values[flag]) throw new Error(`${flag} is required`)
   if (!['true', 'false'].includes(values['--allow-full-retranslate'])) throw new Error('--allow-full-retranslate must be true or false')
+  for (const flag of ['--publish', '--preflight']) if (values[flag] && !['true', 'false'].includes(values[flag])) throw new Error(`${flag} must be true or false`)
   return values
 }
 
@@ -192,6 +228,9 @@ function main(argv = process.argv.slice(2), env = process.env) {
       executionToolingSha: args['--execution-tooling-sha'],
       allowFullRetranslate: args['--allow-full-retranslate'] === 'true',
       chunkOptions: loadChunkLimits(env),
+      currentReconciliationPlan: args['--reconciliation-plan'] ? JSON.parse(fs.readFileSync(path.resolve(siteDir, args['--reconciliation-plan']), 'utf8')) : null,
+      reconciliationPublish: args['--publish'] === 'true',
+      reconciliationPreflight: args['--preflight'] === 'true',
     })
   } catch (error) {
     if (error.analysis) {

@@ -51,6 +51,7 @@ test('creates deterministic matrix and selects the final partial batch', () => {
     batchSize: 30,
     pendingCount: 65,
     pendingSetSha256: summary.pendingSetSha256,
+    reconciliationOwner: false,
   })
 })
 
@@ -97,6 +98,26 @@ test('creates one reconciliation-only batch for a deletion-only source delta', (
   })
   assert.deepEqual(selected.items, [])
   assert.equal(selected.batch.pendingCount, 0)
+  assert.equal(selected.batch.reconciliationOwner, true)
+})
+
+test('assigns a new reconciliation plan to exactly the first canonical batch', () => {
+  const source = {
+    ...manifest(65),
+    reconciliation: {
+      planArtifact: 'translation-reconciliation-plan-ja-JP-guides-123',
+      planSha256: `sha256:${'c'.repeat(64)}`,
+      operationCount: 2,
+    },
+  }
+  const summary = createBatchSummary(source, 30)
+  const batches = summary.matrix.include.map(({batchIndex}) => selectManifestBatch(source, {
+    batchIndex,
+    batchSize: 30,
+    expectedPendingSetSha256: summary.pendingSetSha256,
+  }))
+  assert.deepEqual(batches.map(batch => batch.batch.reconciliationOwner), [true, false, false])
+  assert.ok(batches.every(batch => batch.reconciliation.planSha256 === source.reconciliation.planSha256))
 })
 
 test('creates one reconciliation-only batch for approved Chinese retirements', () => {
