@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-15T18:15:59.998Z",
+  "generated_at": "2026-08-16T18:16:16.673Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
@@ -97,8 +97,8 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-08-14T03:08:59.793Z",
-    "records": 380
+    "generated_at": "2026-08-16T09:12:37.512Z",
+    "records": 388
   },
   "source_scope": "partial"
 }

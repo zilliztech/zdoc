@@ -10,7 +10,7 @@ notebook: FALSE
 description: "A snapshot is a point-in-time image of a Milvus collection, ideal for quick rollbacks, versioning, and testing. It captures the collection's state at a specific timestamp and stores only metadata and manifest files, such as the schema, indexes, and vector data files (binlogs), for efficient storage and restoration. | Cloud"
 type: origin
 token: XC1ow3jGBi7hVvkINtBcXhQ6n8g
-sidebar_position: 15
+sidebar_position: 16
 displayed_sidebar: default
 
 ---
