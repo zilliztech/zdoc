@@ -150,6 +150,7 @@ function checkpointFixture({schemaVersion = 1, translationTarget = 'ja-JP'} = {}
     files: [{path: 'i18n/ja-JP/python.md', sha256: SHA_A.repeat(2).slice(0, 64), size: 1}],
     deletions: [],
     validation: {commands: [], passed: true},
+    ...(schemaVersion === 3 ? {reconciliation: {contractVersion: 1, plan: null, approval: null, result: null}} : {}),
   }
   fs.writeFileSync(checkpointManifest, `${JSON.stringify(manifest)}\n`)
   fs.writeFileSync(baselineManifest, `${JSON.stringify(manifest)}\n`)
@@ -331,6 +332,26 @@ test('accepts schema-v1 unnumbered translation manifests and hashes both immutab
     assert.equal(ready.artifacts.baseline.name, `translation-baseline-ja-JP-python-${RUN_ID}`)
     assert.equal(ready.artifacts.checkpoint.archiveSha256, crypto.createHash('sha256').update(fs.readFileSync(fixture.checkpointArchive)).digest('hex'))
     assert.equal(ready.artifacts.baseline.manifestSha256, crypto.createHash('sha256').update(fs.readFileSync(fixture.baselineManifest)).digest('hex'))
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('accepts schema-v3 unnumbered translation manifests', () => {
+  const pythonUnits = handoff().units.slice(1, 3).map((unit, publicationOrder) => ({...unit, publicationOrder}))
+  const selection = buildTranslationPublicationSelection(selectionInput({handoff: {...handoff(), group: 'python', units: pythonUnits}}))
+  const fixture = checkpointFixture({schemaVersion: 3})
+  try {
+    const ready = buildTranslationPublicationReady({
+      selection,
+      unitKey: 'translation/ja-JP/python',
+      checkpointArchive: fixture.checkpointArchive,
+      checkpointManifest: fixture.checkpointManifest,
+      baselineArchive: fixture.baselineArchive,
+      baselineManifest: fixture.baselineManifest,
+    })
+    assert.equal(ready.outcome, 'candidate')
+    assert.equal(ready.artifacts.checkpoint.name, `translation-checkpoint-ja-JP-python-${RUN_ID}`)
   } finally {
     fs.rmSync(fixture.root, {recursive: true, force: true})
   }

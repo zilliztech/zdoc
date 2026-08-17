@@ -21,22 +21,10 @@ const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
   ['fetch-docs.yml', new Set(['reconcile_reference_state'])],
   ['sync-master-tooling-to-dev.yml', new Set(['sync'])],
 ]))
-const LEGACY_TRANSLATION_SELECTION_BYPASS = Object.freeze(new Map([
-  ['_translate-publish-batch.yml', Object.freeze({job: 'translate', sourceBaselineSha: '${{ inputs.tooling_sha }}', sourceCheckpointSha: '${{ inputs.source_sha }}'})],
-  ['_translate-selected-group.yml', Object.freeze({job: 'translate', sourceBaselineSha: '${{ inputs.tooling_sha }}', sourceCheckpointSha: '${{ inputs.source_sha }}'})],
-  ['translate-content.yml', Object.freeze({job: 'translate_exact', sourceBaselineSha: '${{ inputs.tooling_sha }}', sourceCheckpointSha: '${{ inputs.source_sha }}'})],
-]))
-const LEGACY_TRANSLATION_SELECTION_BYPASS_INPUT = 'legacy_without_publication_selection'
-const LEGACY_TRANSLATION_ALIAS_PREFLIGHT_COMMAND = 'node -e \'if(process.env.SOURCE_COMMIT_SHA !== process.env.SOURCE_SHA)throw new Error("source_commit_sha must equal source_sha");if(process.env.MASTER_SHA !== process.env.TOOLING_SHA)throw new Error("master_sha must equal tooling_sha")\''
 const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'recover-translation.yml',
   'translate-codex.yml',
-  'translate-content.yml',
-  '_translate-selected-group.yml',
-  '_publish-content-group.yml',
-  '_publish-translation-batches.yml',
-  '_translate-publish-batch.yml',
   'sync-master-tooling-to-dev.yml',
 ])
 
@@ -215,7 +203,6 @@ function validateFetchPublicationProducer({workflow, source, file, jobName, chec
 function validateTranslationReadyProducer({workflow, source, file, errors}) {
   const inputs = workflow.on?.workflow_call?.inputs || {}
   const selectionInputs = ['publication_selection_artifact_name', 'publication_selection_sha256', 'publication_unit_key']
-  const legacyInput = inputs.legacy_without_publication_selection
   const steps = workflow.jobs?.translate?.steps || []
   const download = steps.find(step => step?.name === 'Download translation publication selection')
   const validate = steps.find(step => step?.name === 'Validate translation publication selection identity')
@@ -228,13 +215,11 @@ function validateTranslationReadyProducer({workflow, source, file, errors}) {
   const upload = steps.findIndex(step => step?.name === 'Upload immutable Translation ready descriptor')
   const readyRun = String(steps[ready]?.run || '')
   const validationRun = String(validate?.run || '')
-  const strictCondition = '${{ !inputs.legacy_without_publication_selection }}'
-  const validIdentity = legacyInput?.required === false && legacyInput?.type === 'boolean' && legacyInput?.default === false &&
-    selectionInputs.every(input => inputs[input]?.required === false && inputs[input]?.type === 'string' && inputs[input]?.default === '') &&
+  const validIdentity = selectionInputs.every(input => inputs[input]?.required === false && inputs[input]?.type === 'string' && inputs[input]?.default === '') &&
     download?.uses === 'actions/download-artifact@v7' &&
-    download?.if === strictCondition &&
+    download?.if === undefined &&
     download?.with?.name === '${{ inputs.publication_selection_artifact_name }}' &&
-    validate?.if === strictCondition &&
+    validate?.if === undefined &&
     /publication-contracts\.js validate-selection/.test(validationRun) &&
     /inputs\.publication_selection_sha256/.test(String(validate?.env?.PUBLICATION_SELECTION_SHA256 || '')) &&
     /PUBLICATION_UNIT_KEY/.test(String(validate?.run || ''))
@@ -251,7 +236,7 @@ function validateTranslationReadyProducer({workflow, source, file, errors}) {
   if (!exactUnitIdentity) errors.push(`${file}: Translation producer must authenticate the exact selected unit identity`)
   const validDescriptor = checkpoint >= 0 && baseline > checkpoint && ready > baseline && upload > ready &&
     steps[ready]?.id === 'publication_ready' &&
-    String(steps[ready]?.if || '').startsWith('${{ !inputs.legacy_without_publication_selection &&') &&
+    String(steps[ready]?.if || '').startsWith('${{ inputs.batch_number == 0 &&') &&
     /translation-publication-selection\.js ready/.test(readyRun) &&
     /--selection "\$RUNNER_TEMP\/publication-selection\/publication-selection\.json"/.test(readyRun) &&
     /--unit-key "\$PUBLICATION_UNIT_KEY"/.test(readyRun) &&
@@ -261,7 +246,7 @@ function validateTranslationReadyProducer({workflow, source, file, errors}) {
     readyRun.includes('artifact_name=publication-ready-translation-$unit_token-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT') &&
     /artifact_name=publication-ready-translation-\$unit_token-\$GITHUB_RUN_ID-\$GITHUB_RUN_ATTEMPT" >> "\$GITHUB_OUTPUT"/.test(readyRun) &&
     steps[upload]?.uses === 'actions/upload-artifact@v6' &&
-    String(steps[upload]?.if || '').startsWith('${{ !inputs.legacy_without_publication_selection &&') &&
+    String(steps[upload]?.if || '').startsWith('${{ inputs.batch_number == 0 &&') &&
     steps[upload]?.with?.name === '${{ steps.publication_ready.outputs.artifact_name }}'
   if (!validDescriptor) errors.push(`${file}: Translation producer must upload checkpoint and baseline artifacts before its bound ready descriptor`)
   const materializationSteps = [checkpointCreation, checkpoint, ready, upload]
@@ -276,53 +261,6 @@ function validateTranslationReadyProducer({workflow, source, file, errors}) {
   }
   if (workflow.permissions?.contents !== 'read' || /git push|contents: write/.test(source)) {
     errors.push(`${file}: Translation producer must remain read-only and coordinator-free`)
-  }
-}
-
-function validateLegacyTranslationSelectionBypass({workflow, file, errors}) {
-  const allowlisted = LEGACY_TRANSLATION_SELECTION_BYPASS.get(file)
-  for (const [jobName, job] of Object.entries(workflow.jobs || {})) {
-    const bypassKeys = Object.keys(job?.with || {}).filter(input => input.includes(LEGACY_TRANSLATION_SELECTION_BYPASS_INPUT))
-    if (bypassKeys.some(input => jobName !== allowlisted?.job || input !== LEGACY_TRANSLATION_SELECTION_BYPASS_INPUT)) {
-      errors.push(`${file}:${jobName}: legacy Translation selection bypass is not allowlisted`)
-    }
-  }
-  if (!allowlisted) return
-
-  const call = workflow.jobs?.[allowlisted.job]
-  if (!Object.hasOwn(call?.with || {}, LEGACY_TRANSLATION_SELECTION_BYPASS_INPUT) || call.with[LEGACY_TRANSLATION_SELECTION_BYPASS_INPUT] !== true) {
-    errors.push(`${file}:${allowlisted.job}: allowlisted legacy Translation selection bypass must be explicit`)
-  }
-  if (call?.uses !== './.github/workflows/_translate-content-group.yml' ||
-      call?.with?.source_baseline_sha !== allowlisted.sourceBaselineSha ||
-      call?.with?.source_checkpoint_sha !== allowlisted.sourceCheckpointSha ||
-      ['source_sha', 'source_commit_sha', 'master_sha'].some(input => call?.with?.[input] !== undefined) ||
-      ['publication_selection_artifact_name', 'publication_selection_sha256', 'publication_unit_key'].some(input => call?.with?.[input] !== undefined)) {
-    errors.push(`${file}:${allowlisted.job}: legacy Translation source identity mapping is invalid`)
-  }
-
-  if (file === '_translate-publish-batch.yml') {
-    const preflight = workflow.jobs?.validate_legacy_aliases
-    const aliasStep = preflight?.steps?.find(step => step?.name === 'Validate retained Translation aliases')
-    const expectedEnvironment = {
-      SOURCE_SHA: '${{ inputs.source_sha }}',
-      SOURCE_COMMIT_SHA: '${{ inputs.source_commit_sha }}',
-      TOOLING_SHA: '${{ inputs.tooling_sha }}',
-      MASTER_SHA: '${{ inputs.master_sha }}',
-    }
-    const validPreflight = call?.needs === 'validate_legacy_aliases' &&
-      call?.if === undefined &&
-      call?.['continue-on-error'] === undefined &&
-      preflight?.['runs-on'] === 'ubuntu-latest' &&
-      preflight?.['timeout-minutes'] === 5 &&
-      preflight?.if === undefined &&
-      preflight?.['continue-on-error'] === undefined &&
-      JSON.stringify(preflight?.permissions) === JSON.stringify({contents: 'read'}) &&
-      aliasStep?.if === undefined &&
-      aliasStep?.['continue-on-error'] === undefined &&
-      JSON.stringify(aliasStep?.env) === JSON.stringify(expectedEnvironment) &&
-      String(aliasStep?.run || '').trim() === LEGACY_TRANSLATION_ALIAS_PREFLIGHT_COMMAND
-    if (!validPreflight) errors.push(`${file}: legacy Translation aliases must fail closed before paid work`)
   }
 }
 
@@ -370,7 +308,6 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       errors.push(`${file}: invalid YAML: ${error.message}`)
       continue
     }
-    validateLegacyTranslationSelectionBypass({workflow, file, errors})
     if (file === 'recover-translation.yml') {
       if (workflow.permissions?.contents !== 'write') errors.push('recover-translation.yml: caller must grant contents: write so publish_ready can publish')
       if (workflow.jobs?.prepare_recovery?.permissions?.contents !== 'read' || workflow.jobs?.run_translation?.permissions?.contents !== 'write') {
@@ -474,8 +411,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     const immutableTranslationToolingFiles = new Set([
-      '_prepare-translation-batches.yml', '_translate-content-group.yml', '_translate-publish-batch.yml',
-      '_publish-translation-batches.yml',
+      '_prepare-translation-batches.yml', '_translate-content-group.yml',
     ])
     if (immutableTranslationToolingFiles.has(file)) {
       const checkoutSteps = Object.values(workflow.jobs || {}).flatMap(job => Array.isArray(job?.steps) ? job.steps : [])
@@ -651,8 +587,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         [/^            candidate_counts: JSON\.stringify\(summary\.candidateCounts\),$/m, 'must emit classified translation candidate counts'],
         [/SOURCE_BASELINE_SHA: \$\{\{ inputs\.source_baseline_sha \}\}[\s\S]*SOURCE_CHECKPOINT_SHA: \$\{\{ inputs\.source_checkpoint_sha \}\}[\s\S]*TARGET_BASELINE_SHA: \$\{\{ inputs\.target_baseline_sha \|\| inputs\.source_checkpoint_sha \}\}[\s\S]*TOOLING_SHA: \$\{\{ inputs\.tooling_sha \}\}/, 'must bind separate source baseline, source checkpoint, target baseline, and tooling identities'],
         [/git worktree add --detach "\$target_baseline_dir" "\$TARGET_BASELINE_SHA"[\s\S]*materialize-translation-baseline\.js[\s\S]*--baseline "\$target_baseline_dir"[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"[\s\S]*manifest\.js/, 'must materialize target baseline translation state before deterministic batching'],
-        [/sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/, 'must derive durable batches from the group-scoped dev source checkpoint diff'],
-        [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must build the durable pending set from the source delta'],
+        [/sourceChanges\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-changes\.json/, 'must derive durable batches from the group-scoped dev source checkpoint diff'],
+        [/manifest\.js[\s\S]*--source-changes tmp\/source-changes\.json/, 'must build the durable pending set from current source changes'],
       ]
       for (const [pattern, message] of requiredPatterns) if (!pattern.test(source)) errors.push(`${file}: ${message}`)
       if (/git diff[^\n]*(?:TOOLING_SHA|MASTER_SHA|tooling_sha)/.test(source)) {
@@ -665,12 +601,12 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const requiredPatterns = [
         [/SOURCE_BASELINE_SHA: \$\{\{ inputs\.source_baseline_sha \}\}[\s\S]*SOURCE_CHECKPOINT_SHA: \$\{\{ inputs\.source_checkpoint_sha \}\}[\s\S]*TARGET_BASELINE_SHA: \$\{\{ inputs\.target_baseline_sha \|\| inputs\.source_checkpoint_sha \}\}[\s\S]*TOOLING_SHA: \$\{\{ inputs\.tooling_sha \}\}/, 'must bind separate source baseline, source checkpoint, target baseline, and tooling identities'],
         [/materialize-translation-baseline\.js[\s\S]*--baseline "\$BASELINE_DIR"[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*--group "\$GROUP"/, 'must materialize selected target translation state before bootstrap resolution'],
-        [/sourceDelta\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-delta\.json/, 'must derive translation reconciliation from the group-scoped dev source checkpoint diff'],
+        [/sourceChanges\.js --repository "\$GITHUB_WORKSPACE" --source-baseline-sha "\$SOURCE_BASELINE_SHA" --source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA" --target "\$TRANSLATION_TARGET" --group "\$GROUP" --output tmp\/source-changes\.json/, 'must derive translation candidates from the group-scoped dev source checkpoint diff'],
         [/prepare-reconciliation-plan\.js[\s\S]*--target "\$TRANSLATION_TARGET"[\s\S]*apply-reconciliation-plan\.js[\s\S]*--source-checkpoint-sha "\$SOURCE_CHECKPOINT_SHA"[\s\S]*--target-baseline-sha "\$TARGET_BASELINE_SHA"/, 'reconciliation application must receive the exact translation target and immutable identities'],
-        [/manifest\.js[\s\S]*--source-delta tmp\/source-delta\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
+        [/manifest\.js[\s\S]*--source-changes tmp\/source-changes\.json/, 'must prioritize current source changes and preserve reconciliation metadata'],
         [/manifest\.js[\s\S]*--mode "\$EFFECTIVE_TRANSLATION_MODE"/, 'must build candidates with the resolved bootstrap mode'],
         [/bootstrap-state\.js resolve[\s\S]*--summary-file tmp\/bootstrap-decision\.json[\s\S]*Requested mode:[\s\S]*Effective mode:[\s\S]*Decision:/, 'must fail closed and summarize bootstrap repair before paid translation'],
-        [/steps\.source_delta\.outputs\.has_mutation == 'true'/, 'must create checkpoints for deletion-only translation mutations'],
+        [/steps\.reconciliation\.outputs\.has_mutation == 'true'/, 'must create checkpoints for deletion-only translation mutations'],
         [/\(steps\.agents\.outputs\.failed_count \|\| '0'\) != '0'/, 'must create checkpoints for batches that only record failed translations'],
         [/translation-checkpoint-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}/, 'checkpoint artifacts must include target and group'],
         [/translation-baseline-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}/, 'baseline artifacts must include target and group'],
@@ -718,8 +654,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
       validateTargetBranches(steps.map(step => String(step?.run || '')).join('\n'), file, errors)
       const normalizeCondition = value => String(value || '').trim().replace(/\s+/g, ' ')
-      const expectedNumberedCondition = "${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}"
-      const expectedUnbatchedCondition = "${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true' || steps.mode.outputs.bootstrap_status == 'safe_repair') }}"
+      const expectedNumberedCondition = "${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.reconciliation.outputs.has_mutation == 'true') }}"
+      const expectedUnbatchedCondition = "${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.reconciliation.outputs.has_mutation == 'true' || steps.mode.outputs.bootstrap_status == 'safe_repair') }}"
 
       if (!numbered || normalizeCondition(numberedCondition) !== normalizeCondition(expectedNumberedCondition)) {
         errors.push(`${file}: numbered Guides batches must use the dedicated mutation-aware local validation step`)
@@ -959,7 +895,6 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (file === 'fetch-docs.yml') {
       const forbidden = [
         '_translate-content-group.yml', '_prepare-translation-batches.yml',
-        '_publish-translation-batches.yml', 'translate-content.yml',
         'TRANSLATION_AGENT_API_KEY', 'REVIEW_AGENT_API_KEY',
       ]
       for (const value of forbidden) if (source.includes(value)) errors.push(`${file}: source workflow must not embed translation implementation: ${value}`)
@@ -1413,15 +1348,6 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   const readWorkflow = (file) => fs.existsSync(path.join(directory, file))
     ? fs.readFileSync(path.join(directory, file), 'utf8')
     : ''
-  const translationWorkflow = yaml.load(readWorkflow('_translate-content-group.yml'))
-  const publisherWorkflow = yaml.load(readWorkflow('_publish-content-group.yml'))
-  const nodeVersion = (workflow, jobName) => (workflow?.jobs?.[jobName]?.steps || [])
-    .find(step => step?.uses === 'actions/setup-node@v5')?.with?.['node-version']
-  const translationNodeVersion = nodeVersion(translationWorkflow, 'translate')
-  const publisherNodeVersion = nodeVersion(publisherWorkflow, 'publish')
-  if (!translationNodeVersion || publisherNodeVersion !== translationNodeVersion) {
-    errors.push('_publish-content-group.yml: publisher Node runtime must match the translation runtime')
-  }
   const callerSource = readWorkflow('fetch-docs.yml')
   if (callerSource) {
     let caller
@@ -1620,8 +1546,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
 
   const distributedFiles = [
     '_fetch-content-group.yml', '_fetch-guides-sources.yml', '_assemble-guides.yml',
-    '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml',
-    '_translate-publish-batch.yml', '_verify-docs.yml',
+    '_translate-content-group.yml', '_verify-docs.yml',
   ]
   const distributedPattern = /report-live-card\.sh|report-to-lark --card-(?:phase|finish|state-file|advance)|docs-tooling report-card (?:advance|finish|note)/
   for (const file of distributedFiles) {
@@ -1759,7 +1684,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
   }
 
-  for (const file of ['_assemble-guides.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_publish-translation-batches.yml', '_translate-publish-batch.yml', '_verify-docs.yml']) {
+  for (const file of ['_assemble-guides.yml', '_translate-content-group.yml', '_verify-docs.yml']) {
     if (/APP_ID|APP_SECRET/.test(readWorkflow(file))) errors.push(`${file}: non-source job must not receive Feishu app credentials`)
   }
 
@@ -1941,22 +1866,6 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       !/validationSpec\('build-and-links',[\s\S]*'pnpm run build'/.test(publicationReportSource) ||
       /validate-mdx', '--path', 'docs(?:-byoc)?'/.test(publicationReportSource)) {
     errors.push('translation-publication-report.js: validation receipts must use canonical tracked commands')
-  }
-
-  const checkpointPublicationPath = options.checkpointPublicationPath || path.join(process.cwd(), 'scripts/docs-workflow/checkpoint-publication.js')
-  const checkpointPublicationSource = fs.readFileSync(checkpointPublicationPath, 'utf8')
-  for (const [pattern, message] of [
-    [/writeStagePathFile\(\{artifactDir, worktree: publicationWorktree, output: stagePathFile, site\}\)/, 'checkpoint publisher must select stageable manifest paths'],
-    [/--pathspec-from-file=\$\{stagePathFile\}[\s\S]*--pathspec-file-nul/, 'checkpoint publisher must use NUL-delimited literal pathspec staging'],
-    [/verifyStagedCheckpointPaths\(\{artifactDir, worktree: publicationWorktree, site\}\)/, 'checkpoint publisher must verify staged manifest scope'],
-    [/createTemporaryWorktree\(repositoryRoot, runnerTemp, 'docs-validation\.', validationToolingSha\)/, 'checkpoint publisher must validate with pinned tooling'],
-    [/path\.join\(__dirname, '\.\.\/restore-generated-state\.sh'\), '--exact', '--ref', baseSha/, 'checkpoint publisher must materialize the exact target state for validation'],
-    [/command\(validationWorktree, 'bash', \['-o', 'errexit', '-o', 'nounset', '-o', 'pipefail', '-c', validationCommand\]/, 'checkpoint publisher must run validation in the pinned tooling worktree'],
-  ]) {
-    if (!pattern.test(checkpointPublicationSource)) errors.push(`publish-checkpoint.sh: ${message}`)
-  }
-  if (/git add --all -- "\$\{paths\[@\]\}"/.test(checkpointPublicationSource)) {
-    errors.push('publish-checkpoint.sh: direct manifest pathspec staging is not idempotent')
   }
 
   const recoveryShell = fs.readFileSync(options.recoveryShellPath || path.join(process.cwd(), 'scripts/docs-workflow/recover-translation-batches.sh'), 'utf8')
