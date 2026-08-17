@@ -20,9 +20,19 @@ function validateFrontmatter(content) {
 }
 
 function validateRestIdentity(sourceContent, targetContent, locale) {
-  const source = parseRestDocument(sourceContent)
+  let source
+  try {
+    source = parseRestDocument(sourceContent)
+  } catch (error) {
+    return [`REST revalidation source parse error: ${String(error?.message || error)}`]
+  }
   if (!source) return []
-  const target = parseRestDocument(targetContent)
+  let target
+  try {
+    target = parseRestDocument(targetContent)
+  } catch (error) {
+    return [`REST revalidation target parse error: ${String(error?.message || error)}`]
+  }
   if (!target) return ['REST revalidation could not parse the retained target document']
   try {
     assert.deepEqual(removeLocale(target.sourceSpecs, locale), source.sourceSpecs)
@@ -30,6 +40,41 @@ function validateRestIdentity(sourceContent, targetContent, locale) {
   } catch {
     return ['REST revalidation found changed non-locale specification data']
   }
+}
+
+function restProtectedValidation({sourceContent, targetContent, sourcePath, targetPath, locale, localeContract}) {
+  let source
+  try {
+    source = parseRestDocument(sourceContent)
+  } catch (error) {
+    return [`REST recovery source parse error: ${String(error?.message || error)}`]
+  }
+  if (!source) return null
+
+  let target
+  try {
+    target = parseRestDocument(targetContent)
+  } catch (error) {
+    return [`REST recovery target parse error: ${String(error?.message || error)}`]
+  }
+  if (!target) return ['REST revalidation could not parse the retained target document']
+
+  const protectedOptions = {literalTokens: localeContract.doNotTranslate}
+  const normalizedSourcePrefix = source.prefix.replace(/lang=(['"])en-US\1/g, `lang="${locale}"`)
+  return Object.freeze([
+    ...validateProtectedContent(normalizedSourcePrefix, target.prefix, {
+      sourcePath: `${sourcePath}#prefix`,
+      targetPath: `${targetPath}#prefix`,
+      allowAdditionalLiteralTokens: true,
+      ...protectedOptions,
+    }).map(error => `protected: ${error}`),
+    ...validateProtectedContent(source.suffix, target.suffix, {
+      sourcePath: `${sourcePath}#suffix`,
+      targetPath: `${targetPath}#suffix`,
+      allowAdditionalLiteralTokens: true,
+      ...protectedOptions,
+    }).map(error => `protected: ${error}`),
+  ])
 }
 
 function validateRecoveryLocale(sourceContent, targetContent, localeContract, protectedOptions) {
@@ -64,15 +109,25 @@ function validateRecoveryLocale(sourceContent, targetContent, localeContract, pr
 function validateRecoveryCandidate({sourceContent, targetContent, sourcePath, targetPath, target, locale}) {
   const localeContract = loadLocaleContract(target)
   const protectedOptions = {literalTokens: localeContract.doNotTranslate}
-  const protectedErrors = validateProtectedContent(sourceContent, targetContent, {
+  const restErrors = restProtectedValidation({
+    sourceContent,
+    targetContent,
     sourcePath,
     targetPath,
-    allowAdditionalLiteralTokens: true,
-    ...protectedOptions,
+    locale,
+    localeContract,
   })
+  const protectedErrors = restErrors === null
+    ? validateProtectedContent(sourceContent, targetContent, {
+        sourcePath,
+        targetPath,
+        allowAdditionalLiteralTokens: true,
+        ...protectedOptions,
+      }).map(error => `protected: ${error}`)
+    : restErrors
   const semanticValidation = validateRecoveryLocale(sourceContent, targetContent, localeContract, protectedOptions)
   return Object.freeze([
-    ...protectedErrors.map(error => `protected: ${error}`),
+    ...protectedErrors,
     ...semanticValidation.structureErrors.map(error => `semantic: ${error}`),
     ...semanticValidation.localeIssues.map(issue => `locale: ${issue.location}: ${issue.comment}`),
     ...validateFrontmatter(targetContent),

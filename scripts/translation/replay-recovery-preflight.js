@@ -16,6 +16,7 @@ const {
   validateTranslationManifest,
 } = require('./agentRunner')
 const {loadChunkLimits} = require('./chunkLimits')
+const {loadLocaleContract} = require('./localeContract')
 const {promptContractSha256} = require('./recovery-artifact')
 const {analyzeRecoveryCompatibility} = require('./recovery-preflight')
 
@@ -116,7 +117,33 @@ function trailingJsonArray(messages) {
   return JSON.parse(content.slice(start + 2))
 }
 
-function createReplayModelClient() {
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function replayTermVariants(value) {
+  if (!/^[A-Za-z][A-Za-z0-9_]*$/.test(value)) return [value]
+  if (/[^aeiou]y$/i.test(value)) return [value, `${value.slice(0, -1)}ies`]
+  if (/(?:s|x|z|ch|sh)$/i.test(value)) return [value, `${value}es`]
+  return [value, `${value}s`]
+}
+
+function replayLocalizeProtectedText(content, localeContract) {
+  let localized = String(content)
+  for (const term of localeContract.mandatoryTerms) {
+    if (term.caseSensitive && term.source === term.target) continue
+    const variants = replayTermVariants(term.source).sort((left, right) => right.length - left.length)
+    for (const variant of variants) {
+      const pattern = new RegExp(`\\b${escapeRegExp(variant)}\\b`, term.caseSensitive ? 'g' : 'gi')
+      localized = localized.replace(pattern, term.target)
+    }
+  }
+  return localized
+}
+
+function createReplayModelClient(target) {
+  const localeContract = loadLocaleContract(target)
+  const localize = text => replayLocalizeProtectedText(text, localeContract)
   return async ({agent, messages}) => {
     if (agent === 'review') return JSON.stringify({pass: true, issues: []})
     if (agent === 'correction') throw new Error('Replay fake Correction Agent must not be called')
@@ -124,10 +151,10 @@ function createReplayModelClient() {
     const content = messages?.at(-1)?.content || ''
     if (content.includes('<semantic_units>')) {
       const units = taggedJson(messages, 'semantic_units')
-      return JSON.stringify({translations: units.map(unit => ({id: unit.id, text: unit.text}))})
+      return JSON.stringify({translations: units.map(unit => ({id: unit.id, text: localize(unit.text)}))})
     }
     const entries = trailingJsonArray(messages)
-    return JSON.stringify(entries.map(entry => ({id: entry.id, text: entry.text})))
+    return JSON.stringify(entries.map(entry => ({id: entry.id, text: localize(entry.text)})))
   }
 }
 
@@ -184,7 +211,7 @@ async function replayRetainedRecovery({repository, sourceSha, recoveryArtifact, 
       0,
     )
     const work = partitionRecoveryWork(manifest, loaded.restored, loaded.pending)
-    const modelCalls = createModelCallCounter(createReplayModelClient())
+    const modelCalls = createModelCallCounter(createReplayModelClient(target))
     const agentResults = []
     for (const entry of work.pending) {
       const item = entry.item
