@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 3
+slug: /restful/delete-private-endpoint-v2
+beta: FALSE
+title: "プライベートエンドポイントの削除 (V2) | RESTful"
+description: "プロジェクトからプライベートエンドポイントを削除します。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "プライベートエンドポイントの削除 (V2)"
+sidebar_custom_props:
+  badges:
+    - "delete"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - クラウド
+  - "プライベートエンドポイントの削除 (V2)"
+  - "削除"
+  - RESTful
+  - API
+---
+
+# プライベートエンドポイントの削除 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="ja-JP" />
+
+export const specs = {"summary":"Delete Private Endpoint","description":"Deletes a private endpoint from a project.","tags":["Private Endpoint Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","required":true,"example":"Bearer {{TOKEN}}","description":"The authentication token should be an API key with appropriate privileges.","x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"},"ja-JP":{"description":"認証トークンは、適切な権限を持つ API キーである必要があります。"}},"schema":{"type":"string"}},{"name":"projectId","in":"path","required":true,"description":"The ID of the project.","x-i18n":{"zh-CN":{"description":"项目 ID。"},"ja-JP":{"description":"プロジェクトの ID。"}},"schema":{"type":"string"},"example":"proj-xxxxxxxxxxxxxxxxxxx"},{"name":"endpointId","in":"path","required":true,"description":"The ID of the private endpoint.","x-i18n":{"zh-CN":{"description":"Private Endpoint ID。"},"ja-JP":{"description":"プライベートエンドポイントの ID。"}},"schema":{"type":"string"},"examples":{"1":{"summary":"AWS PrivateLink","x-target-lang":"en-US","value":"vpce-xxxxxxxxxxxxxxxxx"},"2":{"summary":"Alibaba Cloud PrivateLink","x-target-lang":"zh-CN","value":"ep-xxxxxxxxxxxxxxxxx"}}},{"name":"regionId","in":"query","required":true,"description":"The ID of the cloud region that contains the private endpoint.","x-i18n":{"zh-CN":{"description":"Private Endpoint 所在的云地域 ID。"},"ja-JP":{"description":"プライベートエンドポイントを含むクラウドリージョンの ID。"}},"schema":{"type":"string"},"examples":{"1":{"summary":"AWS","x-target-lang":"en-US","value":"aws-us-west-2"},"2":{"summary":"Alibaba Cloud","x-target-lang":"zh-CN","value":"ali-cn-hangzhou"}}},{"name":"gcpProjectId","in":"query","required":false,"description":"The Google Cloud project ID. This parameter applies to Google Cloud regions.","x-i18n":{"zh-CN":{"description":"Google Cloud 项目 ID。该参数适用于 Google Cloud 地域。"},"ja-JP":{"description":"Google Cloud プロジェクト ID。このパラメーターは Google Cloud リージョンに適用されます。"}},"schema":{"type":"string"}}],"responses":{"200":{"description":"Returns a successful result or an error message.","x-i18n":{"zh-CN":{"description":"返回成功结果或错误消息。"},"ja-JP":{"description":"成功結果またはエラーメッセージを返します。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"},"ja-JP":{"description":"成功時の応答。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"応答コード。"}},"example":0},"data":{"type":"object","description":"The deleted private endpoint identifier.","x-i18n":{"zh-CN":{"description":"已删除的 Private Endpoint 标识。"},"ja-JP":{"description":"削除されたプライベートエンドポイントの識別子。"}},"properties":{"endpointId":{"type":"string","description":"The deleted private endpoint ID.","x-i18n":{"zh-CN":{"description":"已删除的 Private Endpoint ID。"},"ja-JP":{"description":"削除されたプライベートエンドポイントの ID。"}}}}}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"},"ja-JP":{"description":"失敗時の応答。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"応答コード。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"},"ja-JP":{"description":"エラーメッセージ。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"Success","x-target-response":"OPTION 1","x-target-lang":"en-US","value":{"code":0,"data":{"endpointId":"vpce-xxxxxxxxxxxxxxxxx"}}},"2":{"summary":"Success","x-target-response":"OPTION 1","x-target-lang":"zh-CN","value":{"code":0,"data":{"endpointId":"ep-xxxxxxxxxxxxxxxxx"}}},"3":{"summary":"Failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}},"x-i18n":{"zh-CN":{"summary":"删除 Private Endpoint","description":"从项目中删除 Private Endpoint。"},"ja-JP":{"summary":"プライベートエンドポイントの削除","description":"プロジェクトからプライベートエンドポイントを削除します。"}}}
+export const endpoint = "/v2/projects/{projectId}/privateEndpoints/{endpointId}"
+export const method = "delete"

@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 7
+slug: /restful/remove-project-region-v2
+beta: FALSE
+title: "プロジェクトのリージョンを削除（V2） | RESTful"
+description: "この操作は、指定したプロジェクトからリージョンを削除します。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "プロジェクトのリージョンを削除（V2）"
+sidebar_custom_props:
+  badges:
+    - "delete"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - クラウド
+  - "プロジェクトのリージョンを削除（V2）"
+  - "削除"
+  - RESTful
+  - API
+---
+
+# プロジェクトのリージョンを削除（V2）
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="ja-JP" />
+
+export const specs = {"summary":"Remove Project Region","deprecated":false,"description":"This operation removes a region from a specified project.","x-i18n":{"zh-CN":{"summary":"移除项目地域","description":"本接口可从指定项目中移除一个地域。"},"ja-JP":{"summary":"プロジェクトリージョンの削除","description":"この操作は、指定したプロジェクトからリージョンを削除します。"}},"tags":["Project Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"},"ja-JP":{"description":"認証トークンには、適切な権限を持つAPIキーを使用する必要があります。"}}},{"name":"projectId","in":"path","description":"The ID of the project from which to remove the region.","required":true,"example":"proj-xxxxxxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"待移除地域的项目 ID。"},"ja-JP":{"description":"リージョンを削除するプロジェクトのID。"}}},{"name":"regionId","in":"path","description":"The ID of the region to remove from the project.","required":true,"example":"aws-us-west-2","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"待从项目中移除的地域 ID。"},"ja-JP":{"description":"プロジェクトから削除するリージョンのID。"}}}],"responses":{"200":{"description":"Returns the region IDs that remain bound to the project.","x-i18n":{"zh-CN":{"description":"返回移除操作完成后仍绑定到项目的地域 ID。"},"ja-JP":{"description":"プロジェクトにバインドされているリージョンIDを返します。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","description":"A success response.","x-i18n":{"zh-CN":{"description":"成功响应。"},"ja-JP":{"description":"成功レスポンス。"}},"type":"object","properties":{"code":{"type":"integer","description":"Response code.","example":0,"x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"data":{"type":"array","description":"The region IDs that remain bound to the project.","x-i18n":{"zh-CN":{"description":"移除操作完成后仍绑定到项目的地域 ID。"},"ja-JP":{"description":"プロジェクトにバインドされているリージョンID。"}},"items":{"type":"string"}}}},{"x-tab-label":"failure","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"},"ja-JP":{"description":"失敗レスポンス。"}},"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"},"ja-JP":{"description":"エラーメッセージ。"}}}}}]},"examples":{"1":{"summary":"Success","x-target-response":"OPTION 1","x-target-lang":"en-US","value":{"code":0,"data":["aws-us-east-1"]}},"2":{"summary":"Success","x-target-response":"OPTION 1","x-target-lang":"zh-CN","value":{"code":0,"data":["ali-cn-hangzhou"]}},"3":{"summary":"Failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
+export const endpoint = "/v2/projects/{projectId}/regions/{regionId}"
+export const method = "delete"
