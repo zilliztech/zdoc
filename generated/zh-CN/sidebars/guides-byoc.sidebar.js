@@ -32,6 +32,18 @@ module.exports = [
             "id": "tutorials/get-started/quickstarts/quick-start",
             "label": "快速开始：使用 Serving 集群",
             "key": "doc:tutorials/get-started/quickstarts/quick-start"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/quickstarts/quick-start-to-on-demand-search",
+            "label": "快速开始：按需搜索",
+            "key": "doc:tutorials/get-started/quickstarts/quick-start-to-on-demand-search"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search",
+            "label": "快速开始：External Data Lake Search",
+            "key": "doc:tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search"
           }
         ]
       },
@@ -149,6 +161,12 @@ module.exports = [
             "id": "tutorials/development/search-and-query/single-vector-search",
             "label": "基本 Vector Search",
             "key": "doc:tutorials/development/search-and-query/single-vector-search"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/search-and-query/dql-sessions-external-collection",
+            "label": "按需 DQL 操作",
+            "key": "doc:tutorials/development/search-and-query/dql-sessions-external-collection"
           },
           {
             "type": "doc",
@@ -365,9 +383,21 @@ module.exports = [
         "items": [
           {
             "type": "doc",
+            "id": "tutorials/development/database/database-concept",
+            "label": "Database",
+            "key": "doc:tutorials/development/database/database-concept"
+          },
+          {
+            "type": "doc",
             "id": "tutorials/development/database/database",
             "label": "Serving 集群中的 Database",
             "key": "doc:tutorials/development/database/database"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/database/on-demand-database",
+            "label": "按需计算中的 Database",
+            "key": "doc:tutorials/development/database/on-demand-database"
           }
         ]
       },
@@ -387,6 +417,12 @@ module.exports = [
             "id": "tutorials/development/collection/manage-collections-sdks",
             "label": "创建 Collection",
             "key": "doc:tutorials/development/collection/manage-collections-sdks"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/collection/create-external-collection",
+            "label": "创建 External Collection",
+            "key": "doc:tutorials/development/collection/create-external-collection"
           },
           {
             "type": "doc",
@@ -446,8 +482,20 @@ module.exports = [
                 "id": "tutorials/development/collection/collection-on-console/manage-collections-console",
                 "label": "管理 Collection (控制台)",
                 "key": "doc:tutorials/development/collection/collection-on-console/manage-collections-console"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/collection/collection-on-console/manage-external-collections-console",
+                "label": "管理 External Collection",
+                "key": "doc:tutorials/development/collection/collection-on-console/manage-external-collections-console"
               }
             ]
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/collection/external-collection-limits",
+            "label": "External Collection 限制",
+            "key": "doc:tutorials/development/collection/external-collection-limits"
           }
         ]
       },
@@ -458,9 +506,9 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/development/volume/managed-volume",
-            "label": "Managed Volume",
-            "key": "doc:tutorials/development/volume/managed-volume"
+            "id": "tutorials/development/volume/external-volume",
+            "label": "External Volume",
+            "key": "doc:tutorials/development/volume/external-volume"
           },
           {
             "type": "category",
@@ -1302,7 +1350,14 @@ module.exports = [
             "type": "category",
             "label": "按需计算",
             "key": "category:tutorials/management/clusters/on-demand-compute",
-            "items": []
+            "items": [
+              {
+                "type": "link",
+                "href": "/docs/byoc/on-demand-database",
+                "label": "按需计算中的 Database",
+                "key": "ref:tutorials/management/clusters/on-demand-compute/on-demand-database"
+              }
+            ]
           },
           {
             "type": "category",
@@ -1319,9 +1374,9 @@ module.exports = [
         "items": [
           {
             "type": "link",
-            "href": "/docs/byoc/managed-volume",
-            "label": "Managed Volume",
-            "key": "ref:tutorials/management/volume/managed-volume"
+            "href": "/docs/byoc/external-volume",
+            "label": "External Volume",
+            "key": "ref:tutorials/management/volume/external-volume"
           },
           {
             "type": "category",
