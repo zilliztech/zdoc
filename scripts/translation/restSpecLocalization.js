@@ -290,7 +290,8 @@ async function reviewAndCorrectRestBatch({entries, target, locale, callModel, lo
     const localeContractIssues = deterministicRestIssues(sourceEntries, draftEntries, localeContract)
     const issues = combinedRestIssues(evidence, localeContractIssues)
     review = {
-      pass: !evidence.fatal && issues.length === 0 && evidence.contractConflicts.length === 0,
+      pass: !evidence.fatal && issues.length === 0 && evidence.unsupportedIssues.length === 0 &&
+        evidence.contractConflicts.length === 0 && evidence.error === null,
       issues,
       unsupportedIssues: evidence.unsupportedIssues,
       contractConflicts: evidence.contractConflicts,
