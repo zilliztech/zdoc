@@ -1666,6 +1666,252 @@
         "rationale": "Approved after reviewing the reconciliation plan: deletes retired v1/legacy Chinese reference orphans that no longer have English sources. Verified post-deletion target paths align one-to-one with the English checkpoint."
       },
       "approvedAt": "2026-08-17T12:19:44.619Z"
+    },
+    {
+      "target": "zh-CN-reference",
+      "group": "cli",
+      "policyId": "translation-reconciliation-2026-08-15-v1",
+      "planSha256": "sha256:444e4e6394802a1cb21a9f0f119978f337d102e0a18f8c5c2b52045f68e0f201",
+      "operations": [
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/CloudManagement-Backup.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Backup/CloudManagement-Backup.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/CloudManagement-Billing.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Billing/CloudManagement-Billing.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/CloudManagement-Cluster.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Cluster/CloudManagement-Cluster.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/CloudManagement-Import.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Import/CloudManagement-Import.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Job/CloudManagement-Job.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Job/CloudManagement-Job.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/CloudManagement-Project.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Project/CloudManagement-Project.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/CloudManagement-Volume.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Volume/CloudManagement-Volume.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Configuration-Alert.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Alert/Configuration-Alert.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Configuration-Auth.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Auth/Configuration-Auth.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Completion-install.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Completion/Completion-install.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Completion-show.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Completion/Completion-show.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Completion-status.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Completion/Completion-status.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Completion-uninstall.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Completion/Completion-uninstall.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Configuration-Completion.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Completion/Configuration-Completion.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configuration-Configure.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Configure/Configuration-Configure.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Context/Configuration-Context.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Context/Configuration-Context.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Global/Configuration-Global.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Global/Configuration-Global.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/DataOperations-Alias.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Alias/DataOperations-Alias.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/DataOperations-Collection.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/DataOperations-Collection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Database/DataOperations-Database.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Database/DataOperations-Database.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Index/DataOperations-Index.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Index/DataOperations-Index.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/DataOperations-Partition.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Partition/DataOperations-Partition.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/DataOperations-Role.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Role/DataOperations-Role.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/DataOperations-User.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-User/DataOperations-User.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/DataOperations-Vector.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Vector/DataOperations-Vector.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/cli/cli/zilliz-cli.md",
+          "targetPath": "content/zh-CN/reference/cli/cli/zilliz-cli.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        }
+      ],
+      "authorization": {
+        "method": "human",
+        "identity": "AnthonyTsu1984",
+        "rationale": "Approved after reviewing the reconciliation plan: deletes retired v1/legacy Chinese reference orphans that no longer have English sources. Verified post-deletion target paths align one-to-one with the English checkpoint."
+      },
+      "approvedAt": "2026-08-17T12:22:44.749Z"
     }
   ]
 }
