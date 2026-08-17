@@ -1596,6 +1596,76 @@
         "rationale": "Approved after reviewing the reconciliation plan: deletes retired v1/legacy Chinese reference orphans that no longer have English sources. Verified post-deletion target paths align one-to-one with the English checkpoint."
       },
       "approvedAt": "2026-08-17T12:18:27.865Z"
+    },
+    {
+      "target": "zh-CN-reference",
+      "group": "node",
+      "policyId": "translation-reconciliation-2026-08-15-v1",
+      "planSha256": "sha256:1468ea9f43078d1303fe3a2ba83a517d64519190caa8b8fbeefb5e159e1ee903",
+      "operations": [
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication.md",
+          "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/nodejs/nodejs/Client/Client.md",
+          "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Client/Client.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections.md",
+          "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database.md",
+          "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management.md",
+          "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Management/Management.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/nodejs/nodejs/Partitions/Partitions.md",
+          "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Partitions/Partitions.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector.md",
+          "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Vector/Vector.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        }
+      ],
+      "authorization": {
+        "method": "human",
+        "identity": "AnthonyTsu1984",
+        "rationale": "Approved after reviewing the reconciliation plan: deletes retired v1/legacy Chinese reference orphans that no longer have English sources. Verified post-deletion target paths align one-to-one with the English checkpoint."
+      },
+      "approvedAt": "2026-08-17T12:19:44.619Z"
     }
   ]
 }
