@@ -4379,9 +4379,10 @@ async function testIdenticalFrontmatterTokenAllegationDoesNotRewriteDraft() {
       maxReviewRounds: 2,
       validate: async () => [],
     })
-    assert.equal(result.status, 'translated')
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'review_failed')
     assert.deepEqual(calls, ['translation', 'review'])
-    assert.equal(fs.readFileSync(path.join(siteDir, targetPath), 'utf8').includes('token: same-token'), true)
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
   })
 }
 
