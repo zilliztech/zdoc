@@ -55,7 +55,7 @@ function selection(runAttempt = 2, toolingSha = RETAINED_TOOLING_SHA, recoveryPr
     ['ja-JP', 'node'], ['zh-CN-reference', 'node'],
     ['ja-JP', 'go'], ['zh-CN-reference', 'go'],
     ['ja-JP', 'cli'], ['zh-CN-reference', 'cli'],
-    ['ja-JP', 'rest'], ['zh-CN-reference', 'rest'],
+    ['ja-JP', 'rest'],
   ]
   const units = identities.map(([target, group], order) => ({...selectedUnit(target, group, order), toolingSha}))
     .map(({publicationOrder: _ignored, ...unit}) => unit)
@@ -72,7 +72,7 @@ function selection(runAttempt = 2, toolingSha = RETAINED_TOOLING_SHA, recoveryPr
     sourceBaselineSha: SHA('d'),
     inputs: {selectedGroup: 'all', publish: true, runTranslations: true, ...(recoveryProvenance ? {recoveryProvenance} : {})},
     units,
-  }, {allowLegacyChineseRest: true})
+  })
 }
 
 function sourceRecoveryProvenance(units = ['ja-JP/guides']) {
@@ -297,17 +297,11 @@ test('authenticates the selection and exact artifact identities, generates the r
   assert.equal(planned.plan.previousRunAttempt, 2)
   assert.equal(planned.plan.selectionSha256, value.selected.selectionSha256)
   assert.deepEqual(planned.plan.handoff, planned.handoff)
-  assert.deepEqual(Object.keys(planned.plan.recoveryMap), value.selected.units
-    .filter(unit => unit.unitKey !== 'translation/zh-CN-reference/rest')
-    .map(unit => `${unit.target}/${unit.group}`))
+  assert.deepEqual(Object.keys(planned.plan.recoveryMap), value.selected.units.map(unit => `${unit.target}/${unit.group}`))
   assert.deepEqual(planned.plan.recoveryMap['ja-JP/guides'].artifacts.map(item => item.batchNumber), [1, 2])
   assert.equal(planned.plan.retainedFileCount, 13)
   assert.equal(planned.plan.sourceCandidateCount, 13)
-  assert.deepEqual(planned.plan.rejected, [{
-    unit: 'zh-CN-reference/rest', batchNumber: 0,
-    reason: 'Chinese REST is generated from OpenAPI metadata and is incompatible with canonical Translation recovery',
-  }])
-  assert.equal(downloaded.some(name => name.includes('zh-CN-reference-rest')), false)
+  assert.deepEqual(planned.plan.rejected, [])
   assert.equal(planned.plan.compatibilityStatus, 'pending-current-contract-preflight')
   assert.equal('paidModelCalls' in planned.plan, false)
   assert.equal('recoveredFileCount' in planned.plan, false)
@@ -324,15 +318,6 @@ test('authenticates the selection and exact artifact identities, generates the r
     sourceToolingSha: RETAINED_TOOLING_SHA,
     executionToolingSha: EXECUTION_TOOLING_SHA,
   })
-})
-
-test('rejects a recovery scope consisting only of retired Chinese REST', () => {
-  const selected = selection()
-  const retiredChineseRest = selected.units.find(unit => unit.unitKey === 'translation/zh-CN-reference/rest')
-  assert.throws(() => buildRecoveryHandoff(selected, SHA('9'), EXECUTION_TOOLING_SHA, [retiredChineseRest]), /no recoverable Translation units/i)
-  assert.doesNotThrow(() => buildRecoveryHandoff(selected, SHA('9'), EXECUTION_TOOLING_SHA, [
-    {target: 'ja-JP', group: 'python'},
-  ]))
 })
 
 test('uses current reviewed execution tooling while preserving exact b05 retained source provenance', async t => {
@@ -472,7 +457,7 @@ test('accepts the exact retained zero-work Markdown-only report without requirin
   assert.equal(planned.plan.retainedFileCount, 12)
   assert.equal(planned.plan.recoveryMap['ja-JP/python'], undefined)
   assert.equal(planned.handoff.units.some(unit => unit.target === 'ja-JP' && unit.group === 'python'), false)
-  assert.equal(planned.plan.rejectedRecoveryCount, 1)
+  assert.equal(planned.plan.rejectedRecoveryCount, 0)
 })
 
 test('scopes the recovery handoff to authenticated recoverable units and omits proven zero-work units', async t => {

@@ -209,8 +209,8 @@ function revalidateBatchPlan(batch, result, baseline) {
   const authorizedDeletions = reconciliationPlan
     ? new Set(ownsReconciliation ? reconciliationPlan.operations.filter(operation => ['delete_target', 'replace_path'].includes(operation.kind)).map(operation => operation.targetPath) : [])
     : new Set([
-        ...result.parsedBatchInput.sourceDelta.deletedI18n,
-        ...result.parsedBatchInput.sourceDelta.renamed.map(rename => rename.oldI18nPath),
+        ...result.parsedBatchInput.reconciliation.deletions,
+        ...result.parsedBatchInput.reconciliation.renames.map(rename => rename.oldI18nPath),
       ])
   if (reconciliationPlan) {
     if (!result.reconciliationEvidence.result) throw new Error('Reconciliation result evidence is required for plan-based publication')
