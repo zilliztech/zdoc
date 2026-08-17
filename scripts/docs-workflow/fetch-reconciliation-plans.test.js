@@ -122,7 +122,7 @@ test('prepares an authenticated empty plan when the source checkpoint is unchang
   }
 })
 
-test('marks Chinese SDK deletions review-required and writes deterministic review artifacts', () => {
+test('approves Chinese SDK deletions automatically and writes plans', () => {
   const fixture = repositoryFixture('java')
   try {
     const selection = selectionFixture('java', fixture.baseline)
@@ -136,10 +136,11 @@ test('marks Chinese SDK deletions review-required and writes deterministic revie
       outputDir,
       reviewOutputDir: reviewDir,
     })
-    assert.equal(summary.status, 'review_required')
-    assert.equal(summary.reviewRequired, 1)
-    assert.equal(summary.approved, 1)
-    assert.equal(fs.existsSync(path.join(reviewDir, 'translation-reconciliation-review-zh-CN-reference-java.json')), true)
+    assert.equal(summary.status, 'approved')
+    assert.equal(summary.reviewRequired, 0)
+    assert.equal(summary.approved, 2)
+    assert.equal(fs.existsSync(path.join(outputDir, 'translation-reconciliation-plan-ja-JP-java.json')), true)
+    assert.equal(fs.existsSync(path.join(outputDir, 'translation-reconciliation-plan-zh-CN-reference-java.json')), true)
   } finally {
     fs.rmSync(fixture.repository, {recursive: true, force: true})
   }
