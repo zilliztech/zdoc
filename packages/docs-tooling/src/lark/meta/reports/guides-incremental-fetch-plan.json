@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-16T18:16:16.673Z",
+  "generated_at": "2026-08-17T02:50:24.560Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
@@ -7,11 +7,420 @@
   "changed_records": [],
   "changed_tokens": [],
   "expanded_tokens": [],
-  "removed_records": [],
-  "removed_tokens": [],
-  "reasons_by_token": {},
-  "warnings": [],
-  "affected_tables": [],
+  "removed_records": [
+    {
+      "record_id": "recvsp9OcjDGNq",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "placement_type": "canonical",
+      "title": "Spark Batch Jobs",
+      "slug": "spark-batch-jobs",
+      "doc_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/K4F3wDpFciHWwJkZd5qc302OnWg",
+      "source_file": "K4F3wDpFciHWwJkZd5qc302OnWg.json",
+      "source_hash": "2cfaa28ef2843228a43a6c4265bcd8722058a76216741e4986c26d52455b3caf",
+      "node_metadata": {
+        "requested_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "requested_node_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "node_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "origin_node_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "obj_token": "ABq9db5qfose7axbwgwcL3ivn9f",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "Spark Batch Jobs",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "wikcnPmFelIIcvmXr8rzXkUMtzd",
+        "node_create_time": "1785914275",
+        "obj_create_time": "1785914275",
+        "obj_edit_time": "1786431716",
+        "revision_id": null
+      },
+      "node_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
+      "origin_node_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
+      "obj_token": "ABq9db5qfose7axbwgwcL3ivn9f",
+      "obj_type": "docx",
+      "obj_edit_time": "1786431716",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
+        "IQDjwxyWIi2V3VkuxKCcJV6fndb",
+        "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+        "M3L7wIGgCiC7URkvruEcGS4RnGd",
+        "SpMPwIX9diuiqfkHEAZcBSmnnOc",
+        "Wh2Kw8tn7ivDZOkDy2jcqFU7nje"
+      ],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvsp9UCXcgMN",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "placement_type": "canonical",
+      "title": "Primary-Key Deduplication",
+      "slug": "primary-key-dedup",
+      "doc_token": "Wh2Kw8tn7ivDZOkDy2jcqFU7nje",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/Wh2Kw8tn7ivDZOkDy2jcqFU7nje",
+      "source_file": "Wh2Kw8tn7ivDZOkDy2jcqFU7nje.json",
+      "source_hash": "8790d0fc893f43c83761a5deff1bcf8126d4451c6d46813997838ff46a88678e",
+      "node_metadata": {
+        "requested_token": "Wh2Kw8tn7ivDZOkDy2jcqFU7nje",
+        "requested_node_token": "Wh2Kw8tn7ivDZOkDy2jcqFU7nje",
+        "node_token": "Wh2Kw8tn7ivDZOkDy2jcqFU7nje",
+        "origin_node_token": "Wh2Kw8tn7ivDZOkDy2jcqFU7nje",
+        "obj_token": "J1wzdiSPkoT7Oqx2k8cc1hC0nlg",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "Primary-Key Deduplication",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "node_create_time": "1785914327",
+        "obj_create_time": "1785914327",
+        "obj_edit_time": "1786432055",
+        "revision_id": null
+      },
+      "node_token": "Wh2Kw8tn7ivDZOkDy2jcqFU7nje",
+      "origin_node_token": "Wh2Kw8tn7ivDZOkDy2jcqFU7nje",
+      "obj_token": "J1wzdiSPkoT7Oqx2k8cc1hC0nlg",
+      "obj_type": "docx",
+      "obj_edit_time": "1786432055",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
+        "IQDjwxyWIi2V3VkuxKCcJV6fndb",
+        "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+        "M3L7wIGgCiC7URkvruEcGS4RnGd",
+        "SpMPwIX9diuiqfkHEAZcBSmnnOc",
+        "Wh2Kw8tn7ivDZOkDy2jcqFU7nje"
+      ],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvsp9VXckkUB",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "placement_type": "canonical",
+      "title": "Vector Similarity Deduplication",
+      "slug": "vector-similarity-dedup",
+      "doc_token": "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/Dr1SwNSqriPKTEkeNjDcDE2XnGb",
+      "source_file": "Dr1SwNSqriPKTEkeNjDcDE2XnGb.json",
+      "source_hash": "865d7f33c13ed490466bb9780ec6679ec69c1e68365ccd30a491787d4354034a",
+      "node_metadata": {
+        "requested_token": "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
+        "requested_node_token": "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
+        "node_token": "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
+        "origin_node_token": "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
+        "obj_token": "RoHadbxzyoo8CAxILofcQrRZnhd",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "Vector Similarity Deduplication",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "node_create_time": "1786006347",
+        "obj_create_time": "1786006347",
+        "obj_edit_time": "1786586036",
+        "revision_id": null
+      },
+      "node_token": "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
+      "origin_node_token": "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
+      "obj_token": "RoHadbxzyoo8CAxILofcQrRZnhd",
+      "obj_type": "docx",
+      "obj_edit_time": "1786586036",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "IQDjwxyWIi2V3VkuxKCcJV6fndb",
+        "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+        "M3L7wIGgCiC7URkvruEcGS4RnGd",
+        "SpMPwIX9diuiqfkHEAZcBSmnnOc",
+        "Wh2Kw8tn7ivDZOkDy2jcqFU7nje"
+      ],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvsp9X8DpI2F",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "placement_type": "canonical",
+      "title": "K-Means Clustering",
+      "slug": "k-means-clustering",
+      "doc_token": "SpMPwIX9diuiqfkHEAZcBSmnnOc",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/SpMPwIX9diuiqfkHEAZcBSmnnOc",
+      "source_file": "SpMPwIX9diuiqfkHEAZcBSmnnOc.json",
+      "source_hash": "d9ab124e5122f931a4c365daf6221888a7857c8b90c64e3a644a945ea934ec84",
+      "node_metadata": {
+        "requested_token": "SpMPwIX9diuiqfkHEAZcBSmnnOc",
+        "requested_node_token": "SpMPwIX9diuiqfkHEAZcBSmnnOc",
+        "node_token": "SpMPwIX9diuiqfkHEAZcBSmnnOc",
+        "origin_node_token": "SpMPwIX9diuiqfkHEAZcBSmnnOc",
+        "obj_token": "V1Ccdlqgjoxbfvxjba7cWU4inah",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "K-Means Clustering",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "node_create_time": "1786006361",
+        "obj_create_time": "1786006361",
+        "obj_edit_time": "1786606772",
+        "revision_id": null
+      },
+      "node_token": "SpMPwIX9diuiqfkHEAZcBSmnnOc",
+      "origin_node_token": "SpMPwIX9diuiqfkHEAZcBSmnnOc",
+      "obj_token": "V1Ccdlqgjoxbfvxjba7cWU4inah",
+      "obj_type": "docx",
+      "obj_edit_time": "1786606772",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
+        "IQDjwxyWIi2V3VkuxKCcJV6fndb",
+        "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+        "M3L7wIGgCiC7URkvruEcGS4RnGd",
+        "Wh2Kw8tn7ivDZOkDy2jcqFU7nje"
+      ],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvsp9YoOB931",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "placement_type": "canonical",
+      "title": "Anomaly Detection",
+      "slug": "anomaly-detection",
+      "doc_token": "IQDjwxyWIi2V3VkuxKCcJV6fndb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/IQDjwxyWIi2V3VkuxKCcJV6fndb",
+      "source_file": "IQDjwxyWIi2V3VkuxKCcJV6fndb.json",
+      "source_hash": "680f2e33829c82f68f8d855e0dc15ca5ffeec35cbf4f0fcd54766766e0909e2d",
+      "node_metadata": {
+        "requested_token": "IQDjwxyWIi2V3VkuxKCcJV6fndb",
+        "requested_node_token": "IQDjwxyWIi2V3VkuxKCcJV6fndb",
+        "node_token": "IQDjwxyWIi2V3VkuxKCcJV6fndb",
+        "origin_node_token": "IQDjwxyWIi2V3VkuxKCcJV6fndb",
+        "obj_token": "GBqAdwx2PoyvtKxFwXvcxL7RnFc",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "Anomaly Detection",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "node_create_time": "1786006373",
+        "obj_create_time": "1786006373",
+        "obj_edit_time": "1786429320",
+        "revision_id": null
+      },
+      "node_token": "IQDjwxyWIi2V3VkuxKCcJV6fndb",
+      "origin_node_token": "IQDjwxyWIi2V3VkuxKCcJV6fndb",
+      "obj_token": "GBqAdwx2PoyvtKxFwXvcxL7RnFc",
+      "obj_type": "docx",
+      "obj_edit_time": "1786429320",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
+        "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+        "M3L7wIGgCiC7URkvruEcGS4RnGd",
+        "SpMPwIX9diuiqfkHEAZcBSmnnOc",
+        "Wh2Kw8tn7ivDZOkDy2jcqFU7nje"
+      ],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvspa0Z0wVKh",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "placement_type": "canonical",
+      "title": "Custom Spark JAR Jobs",
+      "slug": "custom-spark-jar-jobs",
+      "doc_token": "M3L7wIGgCiC7URkvruEcGS4RnGd",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/M3L7wIGgCiC7URkvruEcGS4RnGd",
+      "source_file": "M3L7wIGgCiC7URkvruEcGS4RnGd.json",
+      "source_hash": "c4caf8859b778d19eb5623356a8c5e4f65651f4649b5bf2ed8b3e8ae03fd2d05",
+      "node_metadata": {
+        "requested_token": "M3L7wIGgCiC7URkvruEcGS4RnGd",
+        "requested_node_token": "M3L7wIGgCiC7URkvruEcGS4RnGd",
+        "node_token": "M3L7wIGgCiC7URkvruEcGS4RnGd",
+        "origin_node_token": "M3L7wIGgCiC7URkvruEcGS4RnGd",
+        "obj_token": "N8SKdQqS5omFAMxSPilcrdVVn91",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "Custom Spark JAR Jobs",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "node_create_time": "1786007047",
+        "obj_create_time": "1786007047",
+        "obj_edit_time": "1786429340",
+        "revision_id": null
+      },
+      "node_token": "M3L7wIGgCiC7URkvruEcGS4RnGd",
+      "origin_node_token": "M3L7wIGgCiC7URkvruEcGS4RnGd",
+      "obj_token": "N8SKdQqS5omFAMxSPilcrdVVn91",
+      "obj_type": "docx",
+      "obj_edit_time": "1786429340",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "HtOmwWLISiB2zokBdjXcDtlTn6g",
+        "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+        "Wh2Kw8tn7ivDZOkDy2jcqFU7nje"
+      ],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvspa3410Jxy",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "placement_type": "canonical",
+      "title": "Prepare a Compatible Spark JAR",
+      "slug": "prepare-a-compatible-spark-jar",
+      "doc_token": "HtOmwWLISiB2zokBdjXcDtlTn6g",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/HtOmwWLISiB2zokBdjXcDtlTn6g",
+      "source_file": "HtOmwWLISiB2zokBdjXcDtlTn6g.json",
+      "source_hash": "57109071e0035162f169e4aed1a16dd5abba2a55d6c18324125356ed6533c799",
+      "node_metadata": {
+        "requested_token": "HtOmwWLISiB2zokBdjXcDtlTn6g",
+        "requested_node_token": "HtOmwWLISiB2zokBdjXcDtlTn6g",
+        "node_token": "HtOmwWLISiB2zokBdjXcDtlTn6g",
+        "origin_node_token": "HtOmwWLISiB2zokBdjXcDtlTn6g",
+        "obj_token": "Re6kd8InOoQD2ZxHPr2clDRknof",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "Prepare a Compatible Spark JAR",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "M3L7wIGgCiC7URkvruEcGS4RnGd",
+        "node_create_time": "1786346410",
+        "obj_create_time": "1786346410",
+        "obj_edit_time": "1786359928",
+        "revision_id": null
+      },
+      "node_token": "HtOmwWLISiB2zokBdjXcDtlTn6g",
+      "origin_node_token": "HtOmwWLISiB2zokBdjXcDtlTn6g",
+      "obj_token": "Re6kd8InOoQD2ZxHPr2clDRknof",
+      "obj_type": "docx",
+      "obj_edit_time": "1786359928",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "M3L7wIGgCiC7URkvruEcGS4RnGd"
+      ],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvspa1EIhuIs",
+      "table_id": "tblWv7PjNDsexddH",
+      "table_name": "Development",
+      "placement_type": "canonical",
+      "title": "Manage Spark Batch Jobs",
+      "slug": "manage-spark-batch-jobs",
+      "doc_token": "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+      "source_file": "LYncwOT8Mi9Lfqk9asdcNPvFnWe.json",
+      "source_hash": "19a992febafb2c354de0ab10b3e5ff5603932d6c0a582a02c7db33eca66435fe",
+      "node_metadata": {
+        "requested_token": "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+        "requested_node_token": "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+        "node_token": "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+        "origin_node_token": "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+        "obj_token": "TWK5dCIwjo7SdCxOU2qcjTTYnld",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "Manage Spark Batch Jobs",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
+        "node_create_time": "1786061276",
+        "obj_create_time": "1786061276",
+        "obj_edit_time": "1786162289",
+        "revision_id": null
+      },
+      "node_token": "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+      "origin_node_token": "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+      "obj_token": "TWK5dCIwjo7SdCxOU2qcjTTYnld",
+      "obj_type": "docx",
+      "obj_edit_time": "1786162289",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    }
+  ],
+  "removed_tokens": [
+    "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
+    "HtOmwWLISiB2zokBdjXcDtlTn6g",
+    "IQDjwxyWIi2V3VkuxKCcJV6fndb",
+    "K4F3wDpFciHWwJkZd5qc302OnWg",
+    "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
+    "M3L7wIGgCiC7URkvruEcGS4RnGd",
+    "SpMPwIX9diuiqfkHEAZcBSmnnOc",
+    "Wh2Kw8tn7ivDZOkDy2jcqFU7nje"
+  ],
+  "reasons_by_token": {
+    "K4F3wDpFciHWwJkZd5qc302OnWg": [
+      "record removed"
+    ],
+    "Wh2Kw8tn7ivDZOkDy2jcqFU7nje": [
+      "record removed"
+    ],
+    "Dr1SwNSqriPKTEkeNjDcDE2XnGb": [
+      "record removed"
+    ],
+    "SpMPwIX9diuiqfkHEAZcBSmnnOc": [
+      "record removed"
+    ],
+    "IQDjwxyWIi2V3VkuxKCcJV6fndb": [
+      "record removed"
+    ],
+    "M3L7wIGgCiC7URkvruEcGS4RnGd": [
+      "record removed"
+    ],
+    "HtOmwWLISiB2zokBdjXcDtlTn6g": [
+      "record removed"
+    ],
+    "LYncwOT8Mi9Lfqk9asdcNPvFnWe": [
+      "record removed"
+    ]
+  },
+  "warnings": [
+    "Record removed since last snapshot: Spark Batch Jobs",
+    "Record removed since last snapshot: Primary-Key Deduplication",
+    "Record removed since last snapshot: Vector Similarity Deduplication",
+    "Record removed since last snapshot: K-Means Clustering",
+    "Record removed since last snapshot: Anomaly Detection",
+    "Record removed since last snapshot: Custom Spark JAR Jobs",
+    "Record removed since last snapshot: Prepare a Compatible Spark JAR",
+    "Record removed since last snapshot: Manage Spark Batch Jobs"
+  ],
+  "affected_tables": [
+    "tbl9BeCMjBmalJVb",
+    "tblWv7PjNDsexddH"
+  ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",

@@ -163,6 +163,18 @@ module.exports = [
             "id": "tutorials/get-started/quickstarts/quick-start",
             "label": "Quickstart to Serving Cluster",
             "key": "doc:tutorials/get-started/quickstarts/quick-start"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/quickstarts/quick-start-to-on-demand-search",
+            "label": "Quickstart to On-Demand Search",
+            "key": "doc:tutorials/get-started/quickstarts/quick-start-to-on-demand-search"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search",
+            "label": "Quickstart to External Data Lake Search",
+            "key": "doc:tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search"
           }
         ]
       },
@@ -280,6 +292,12 @@ module.exports = [
             "id": "tutorials/development/search-and-query/single-vector-search",
             "label": "Basic Vector Search",
             "key": "doc:tutorials/development/search-and-query/single-vector-search"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/search-and-query/dql-sessions-external-collection",
+            "label": "DQL sessions",
+            "key": "doc:tutorials/development/search-and-query/dql-sessions-external-collection"
           },
           {
             "type": "doc",
@@ -502,9 +520,21 @@ module.exports = [
         "items": [
           {
             "type": "doc",
+            "id": "tutorials/development/database/database-concept",
+            "label": "Database Explained",
+            "key": "doc:tutorials/development/database/database-concept"
+          },
+          {
+            "type": "doc",
             "id": "tutorials/development/database/database",
             "label": "Database in Serving Clusters",
             "key": "doc:tutorials/development/database/database"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/database/on-demand-database",
+            "label": "Database for On-Demand Search",
+            "key": "doc:tutorials/development/database/on-demand-database"
           }
         ]
       },
@@ -524,6 +554,23 @@ module.exports = [
             "id": "tutorials/development/collection/manage-collections-sdks",
             "label": "Managed Collection",
             "key": "doc:tutorials/development/collection/manage-collections-sdks"
+          },
+          {
+            "type": "category",
+            "label": "External Collection",
+            "key": "category:tutorials/development/collection/create-external-collection",
+            "link": {
+              "type": "doc",
+              "id": "tutorials/development/collection/create-external-collection/create-external-collection"
+            },
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source",
+                "label": "Snapshot as Source",
+                "key": "doc:tutorials/development/collection/create-external-collection/use-milvus-snapshot-as-data-source"
+              }
+            ]
           },
           {
             "type": "doc",
@@ -583,8 +630,20 @@ module.exports = [
                 "id": "tutorials/development/collection/collection-on-console/manage-collections-console",
                 "label": "Manage Collections (Console)",
                 "key": "doc:tutorials/development/collection/collection-on-console/manage-collections-console"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/collection/collection-on-console/manage-external-collections-console",
+                "label": "Manage External Collections (Console)",
+                "key": "doc:tutorials/development/collection/collection-on-console/manage-external-collections-console"
               }
             ]
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/collection/external-collection-limits",
+            "label": "External Collection Limits",
+            "key": "doc:tutorials/development/collection/external-collection-limits"
           }
         ]
       },
@@ -776,6 +835,12 @@ module.exports = [
             "id": "tutorials/development/schema/add-fields-to-an-existing-collection",
             "label": "Alter Schema (Managed Collection)",
             "key": "doc:tutorials/development/schema/add-fields-to-an-existing-collection"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/schema/alter-external-collection-schema",
+            "label": "Alter Schema (External Collection)",
+            "key": "doc:tutorials/development/schema/alter-external-collection-schema"
           },
           {
             "type": "category",
@@ -1450,7 +1515,14 @@ module.exports = [
             "type": "category",
             "label": "On-Demand Cluster",
             "key": "category:tutorials/management/clusters/on-demand-compute",
-            "items": []
+            "items": [
+              {
+                "type": "link",
+                "href": "/docs/byoc/on-demand-database",
+                "label": "Database for On-Demand Search",
+                "key": "ref:tutorials/management/clusters/on-demand-compute/on-demand-database"
+              }
+            ]
           },
           {
             "type": "category",
