@@ -1350,6 +1350,252 @@
         "rationale": "Approved after reviewing the reconciliation plan: deletes retired v1/legacy Chinese reference orphans that no longer have English sources. Verified post-deletion target paths align one-to-one with the English checkpoint."
       },
       "approvedAt": "2026-08-17T12:17:23.588Z"
+    },
+    {
+      "target": "zh-CN-reference",
+      "group": "python",
+      "policyId": "translation-reconciliation-2026-08-15-v1",
+      "planSha256": "sha256:ca823a925a6ae270fc964d534de46f6506f5629c17b9e96c2de3ca0346ff8968",
+      "operations": [
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/DataImport/DataImport.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/EmbeddingModels/EmbeddingModels.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/MilvusClient-Authentication.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/MilvusClient-Authentication.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/MilvusClient-Client.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Client/MilvusClient-Client.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/MilvusClient-Collections.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/MilvusClient-Collections.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Database/MilvusClient-Database.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Database/MilvusClient-Database.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/MilvusClient-Management.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/MilvusClient-Management.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Partitions/MilvusClient-Partitions.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Partitions/MilvusClient-Partitions.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Vector.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Vector.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-GroupBy.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-GroupBy.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-add_field.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-add_field.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-construct_from_dict.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-construct_from_dict.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-to_dict.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-to_dict.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/ORM-FieldSchema.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-FieldSchema/ORM-FieldSchema.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/ORM/ORM-db/ORM-db.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-db/ORM-db.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/ORM/ORM-utility/ORM-utility.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-utility/ORM-utility.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/ORM/ORM.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/Rerankers/Rerankers.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/Rerankers/Rerankers.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/python/python/Volume/Volume.md",
+          "targetPath": "content/zh-CN/reference/api/python/python/Volume/Volume.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        }
+      ],
+      "authorization": {
+        "method": "human",
+        "identity": "AnthonyTsu1984",
+        "rationale": "Approved after reviewing the reconciliation plan: deletes retired v1/legacy Chinese reference orphans that no longer have English sources. Verified post-deletion target paths align one-to-one with the English checkpoint."
+      },
+      "approvedAt": "2026-08-17T12:18:27.865Z"
     }
   ]
 }
