@@ -366,7 +366,7 @@ test('requires Reviewer source and draft evidence to belong to the same REST ent
   })
 
   assert.deepEqual(calls, ['translation', 'review'])
-  assert.equal(review.pass, true)
+  assert.equal(review.pass, false)
   assert.equal(review.unsupportedIssues.length, 1)
   assert.equal(localized.paths.alpha['x-i18n']['ja-JP'].description, 'アルファ翻訳。')
   assert.equal(localized.paths.beta['x-i18n']['ja-JP'].description, 'ベータ翻訳。')
@@ -398,7 +398,7 @@ test('requires Reviewer location to name the matching REST entry ID', async () =
     },
   })
 
-  assert.equal(review.pass, true)
+  assert.equal(review.pass, false)
   assert.equal(review.issues.length, 0)
   assert.equal(review.unsupportedIssues.length, 1)
 })
@@ -424,7 +424,7 @@ test('rejects a forged REST entry ID suffix in Reviewer evidence', async () => {
     },
   })
 
-  assert.equal(review.pass, true)
+  assert.equal(review.pass, false)
   assert.equal(review.issues.length, 0)
   assert.equal(review.unsupportedIssues.length, 1)
 })
@@ -693,6 +693,31 @@ test('fails a contradictory REST Reviewer response without Correction', async ()
 
   assert.equal(review.pass, false)
   assert.match(review.error, /pass=true/i)
+  assert.deepEqual(calls, ['translation', 'review'])
+})
+
+test('fails a REST Reviewer response with unsupported issue evidence', async () => {
+  const calls = []
+  const {review} = await translateRestSpecs({
+    sourceSpecs: {description: 'Search results.'},
+    target: 'ja-JP',
+    locale: 'ja-JP',
+    callModel: async ({agent, messages}) => {
+      calls.push(agent)
+      if (agent === 'translation') return JSON.stringify(JSON.parse(messages[1].content.split('\n\n')[1]).map(entry => ({...entry, text: '検索結果。'})))
+      if (agent === 'review') return JSON.stringify({
+        pass: false,
+        issues: [{
+          severity: 'high', type: 'mdx_structure', location: '["description"]',
+          source_quote: 'Search results.', draft_quote: 'not present in draft', comment: 'Unsupported issue evidence.',
+        }],
+      })
+      throw new Error('Correction must not run for unsupported reviewer evidence')
+    },
+  })
+
+  assert.equal(review.pass, false)
+  assert.equal(review.unsupportedIssues.length, 1)
   assert.deepEqual(calls, ['translation', 'review'])
 })
 
