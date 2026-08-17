@@ -989,7 +989,8 @@ async function translateAndReviewUnit({
       issues.push(issue)
     }
     review = {
-      pass: !evidence.fatal && issues.length === 0 && evidence.contractConflicts.length === 0,
+      pass: !evidence.fatal && issues.length === 0 && evidence.unsupportedIssues.length === 0 &&
+        evidence.contractConflicts.length === 0 && evidence.error === null,
       issues,
       unsupportedIssues: evidence.unsupportedIssues,
       contractConflicts: evidence.contractConflicts,
