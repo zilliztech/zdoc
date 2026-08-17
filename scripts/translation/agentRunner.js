@@ -1280,7 +1280,7 @@ function translationManifestItemType(targetOrId, sourcePath) {
 }
 
 function validateTranslationManifest(manifest) {
-  assertExactKeys(manifest, ['target', 'locale', 'group', 'sourceCheckpointSha', 'generatedAt', 'items', 'source_delta', 'reconciliation', 'batch'], 'Translation manifest')
+  assertExactKeys(manifest, ['target', 'locale', 'group', 'sourceCheckpointSha', 'generatedAt', 'items', 'reconciliation', 'batch'], 'Translation manifest')
   if (typeof manifest.target !== 'string') throw new Error('Translation manifest target is required')
   let target
   try {
@@ -1292,12 +1292,9 @@ function validateTranslationManifest(manifest) {
   if (manifest.locale !== target.locale) throw new Error(`Translation manifest locale must be ${target.locale} for target ${target.id}`)
   if (!Array.isArray(manifest.items)) throw new Error('Translation manifest items must be an array')
   const reconciliation = require('./batches').reconciliationMetadata(manifest)
-  if (manifest.reconciliation && manifest.source_delta) throw new Error('Translation manifest cannot mix reconciliation and legacy source_delta transport')
   let normalizedBatch = manifest.batch
   if (manifest.batch) {
-    const reconciliationOwner = manifest.batch.reconciliationOwner === undefined && manifest.source_delta
-      ? manifest.batch.batchIndex === 0 && Boolean(reconciliation?.operationCount)
-      : manifest.batch.reconciliationOwner
+    const reconciliationOwner = manifest.batch.reconciliationOwner
     if (typeof reconciliationOwner !== 'boolean') throw new Error('Translation manifest batch reconciliation ownership is required')
     if (reconciliationOwner && !reconciliation?.operationCount) throw new Error('Translation manifest batch cannot own an empty reconciliation plan')
     normalizedBatch = {...manifest.batch, reconciliationOwner}

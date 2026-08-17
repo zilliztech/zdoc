@@ -23,6 +23,10 @@ const SHA = /^[0-9a-f]{40}$/u
 const activeCleanups = new Set()
 const checkpointStrategyRegistry = createPublicationStrategyRegistry([translationCheckpointStrategy])
 
+function osTemp() {
+  return require('node:os').tmpdir()
+}
+
 function bounded(value) {
   return String(value?.stderr || value?.message || value || 'Unknown checkpoint publication failure')
     .replace(/[\u0000-\u001f\u007f]+/gu, ' ')
@@ -35,7 +39,7 @@ function failure(code, phase, error, retryable = false) {
   return Object.freeze({code, phase, message: bounded(error), retryable})
 }
 
-function legacyTransactionResult(values, now) {
+function transactionResult(values, now) {
   return Object.freeze({
     status: values.status,
     baseSha: values.baseSha ?? null,
@@ -181,7 +185,7 @@ function installSignalCleanup() {
   }
 }
 
-async function publishLegacyCheckpointTransaction(options = {}) {
+async function publishGeneralCheckpointTransaction(options = {}) {
   const repositoryRoot = realDirectory(options.repositoryRoot || process.cwd(), 'repositoryRoot')
   const dependencyRoot = options.dependencyRoot ? realDirectory(options.dependencyRoot, 'dependencyRoot') : repositoryRoot
   const artifactDir = realDirectory(options.artifactDir, 'artifactDir')
@@ -222,7 +226,7 @@ async function publishLegacyCheckpointTransaction(options = {}) {
       site,
     })
   } catch (error) {
-    return legacyTransactionResult({
+    return transactionResult({
       status: 'publish_failed', attempts: 0, failure: failure('CHECKPOINT_INVALID', 'artifact_validation', error), remoteState: 'known',
     }, now)
   }
@@ -270,7 +274,7 @@ async function publishLegacyCheckpointTransaction(options = {}) {
       }
       await deps.verifyStagedCheckpointPaths({artifactDir, worktree: publicationWorktree, site})
       if (git(publicationWorktree, ['diff', '--cached', '--quiet'], {allowFailure: true}).status === 0) {
-        return legacyTransactionResult({status: 'no_changes', baseSha, resultSha: baseSha, commitShas: [], attempts: attempt}, now)
+        return transactionResult({status: 'no_changes', baseSha, resultSha: baseSha, commitShas: [], attempts: attempt}, now)
       }
 
       git(publicationWorktree, ['config', 'user.name', authorName])
@@ -279,7 +283,7 @@ async function publishLegacyCheckpointTransaction(options = {}) {
       const candidateSha = git(publicationWorktree, ['rev-parse', 'HEAD']).stdout.trim()
       try {
         await deps.pushCandidate({repositoryRoot, worktree: publicationWorktree, remote, branch: unit.targetBranch, baseSha, candidateSha})
-        return legacyTransactionResult({status: 'published', baseSha, resultSha: candidateSha, commitShas: [candidateSha], attempts: attempt}, now)
+        return transactionResult({status: 'published', baseSha, resultSha: candidateSha, commitShas: [candidateSha], attempts: attempt}, now)
       } catch (pushError) {
         let probe = null
         let probeError = null
@@ -293,28 +297,28 @@ async function publishLegacyCheckpointTransaction(options = {}) {
           }
         }
         if (!probe) {
-          return legacyTransactionResult({
+          return transactionResult({
             status: 'publish_failed', baseSha, resultSha: null, commitShas: [], attempts: attempt,
             failure: failure('REMOTE_STATE_UNKNOWN', 'push_probe', probeError || pushError), remoteState: 'unknown',
           }, now)
         }
         if (probe.containsCandidate) {
-          return legacyTransactionResult({status: 'published', baseSha, resultSha: candidateSha, commitShas: [candidateSha], attempts: attempt}, now)
+          return transactionResult({status: 'published', baseSha, resultSha: candidateSha, commitShas: [candidateSha], attempts: attempt}, now)
         }
         if (probe.remoteSha !== baseSha) {
           if (attempt < maxAttempts) continue
-          return legacyTransactionResult({
+          return transactionResult({
             status: 'publish_failed', baseSha, resultSha: null, commitShas: [], attempts: attempt,
             failure: failure('TARGET_DRIFT_EXHAUSTED', 'push', pushError), remoteState: 'known',
           }, now)
         }
-        return legacyTransactionResult({
+        return transactionResult({
           status: 'publish_failed', baseSha, resultSha: null, commitShas: [], attempts: attempt,
           failure: failure('PUSH_FAILED', 'push', pushError), remoteState: 'known',
         }, now)
       }
     } catch (error) {
-      return legacyTransactionResult({
+      return transactionResult({
         status: 'publish_failed', baseSha, resultSha: null, commitShas: [], attempts: attempt,
         failure: failure(phase === 'validation' ? 'VALIDATION_FAILED' : 'CHECKPOINT_COMPOSITION_FAILED', phase, error),
         remoteState: 'known',
@@ -330,6 +334,7 @@ async function publishLegacyCheckpointTransaction(options = {}) {
 function translationUnit(input) {
   return input?.strategy === 'checkpoint' && typeof input.target === 'string' && typeof input.sourceCheckpointSha === 'string'
 }
+
 
 function descriptorChecksums(options) {
   const descriptor = options.descriptor || options.artifactDescriptor
@@ -444,80 +449,7 @@ async function publishTranslationCheckpointTransaction(options = {}) {
 
 async function publishCheckpointTransaction(options = {}) {
   if (translationUnit(options.unit)) return publishTranslationCheckpointTransaction(options)
-  return publishLegacyCheckpointTransaction(options)
-}
-
-function osTemp() {
-  return require('node:os').tmpdir()
-}
-
-function usage() {
-  return 'Usage: node checkpoint-publication.js legacy-json --artifact <dir> --branch <branch> --message <text> --max-attempts <1-10> --validate-command <command> [--remote <name>] [--author-name <name>] [--author-email <email>] [--baseline-dir <dir>]'
-}
-
-function parseLegacyArguments(argv) {
-  if (argv.length === 1 && argv[0] === '--help') return {help: true}
-  if (argv.includes('--help')) throw new Error('--help must be used alone')
-  const allowed = new Set(['artifact', 'branch', 'message', 'max-attempts', 'validate-command', 'remote', 'author-name', 'author-email', 'baseline-dir'])
-  const values = {}
-  for (let index = 0; index < argv.length; index += 2) {
-    const flag = argv[index]
-    if (!flag?.startsWith('--') || !allowed.has(flag.slice(2))) throw new Error(`Unknown argument: ${flag || ''}`)
-    const key = flag.slice(2)
-    if (Object.hasOwn(values, key)) throw new Error(`Duplicate argument: ${flag}`)
-    if (index + 1 >= argv.length) throw new Error(`Missing value for ${flag}`)
-    values[key] = argv[index + 1]
-  }
-  for (const required of ['artifact', 'branch', 'message', 'validate-command']) {
-    if (!Object.hasOwn(values, required)) throw new Error(`Missing required argument: --${required}`)
-  }
-  return {help: false, values}
-}
-
-async function legacyJson(argv) {
-  const parsed = parseLegacyArguments(argv)
-  if (parsed.help) {
-    process.stdout.write(`${usage()}\n`)
-    return
-  }
-  const repositoryRoot = fs.realpathSync(process.cwd())
-  const manifest = await validateCheckpointArtifact(parsed.values.artifact)
-  const validationToolingSha = git(repositoryRoot, ['rev-parse', 'HEAD']).stdout.trim()
-  const result = await publishCheckpointTransaction({
-    repositoryRoot,
-    artifactDir: parsed.values.artifact,
-    baselineDir: parsed.values['baseline-dir'] || null,
-    remote: parsed.values.remote || 'origin',
-    maxAttempts: parsed.values['max-attempts'] || 3,
-    authorName: parsed.values['author-name'],
-    authorEmail: parsed.values['author-email'],
-    validationToolingSha,
-    unit: {
-      unitKey: `legacy/${manifest.group}`,
-      group: manifest.group,
-      toolingSha: manifest.masterSha,
-      sourceBaselineSha: manifest.devBaselineSha,
-      targetBranch: parsed.values.branch,
-      commitMessage: parsed.values.message,
-      validationCommands: [parsed.values['validate-command']],
-      environment: {},
-    },
-  })
-  process.stdout.write(`${JSON.stringify(result)}\n`)
-}
-
-if (require.main === module) {
-  installSignalCleanup()
-  const [commandName, ...args] = process.argv.slice(2)
-  if (commandName !== 'legacy-json') {
-    console.error(usage())
-    process.exitCode = 1
-  } else {
-    legacyJson(args).catch(error => {
-      console.error(`Checkpoint publication failed: ${bounded(error)}`)
-      process.exitCode = 1
-    })
-  }
+  return publishGeneralCheckpointTransaction(options)
 }
 
 module.exports = {

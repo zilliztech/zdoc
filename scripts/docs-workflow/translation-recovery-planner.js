@@ -315,7 +315,7 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
     await downloadArtifact(client, artifact, destination, run, runId)
     const file = path.join(destination, `publication-progress-${value.revision}.json`)
     if (!fs.existsSync(file)) throw new Error('Publication progress artifact payload identity is invalid')
-    const document = readPublicationDocument(file, 'publication-progress', {selection, artifactRevision: value.revision, allowLegacyChineseRest: true})
+    const document = readPublicationDocument(file, 'publication-progress', {selection, artifactRevision: value.revision})
     const expectedMode = selection.inputs.publish ? 'publish' : 'artifact_only'
     if (document.mode !== expectedMode) throw new Error('Publication progress mode identity mismatch')
     progress.push({artifactId: Number(artifact.id), artifactName: artifact.name, artifactDigest: artifact.digest, revision: value.revision})
@@ -327,7 +327,7 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
     await downloadArtifact(client, resultsArtifact, destination, run, runId)
     const file = path.join(destination, 'publication-results.json')
     if (!fs.existsSync(file)) throw new Error('Publication results artifact payload identity is invalid')
-    const document = readPublicationDocument(file, 'publication-results', {selection, allowLegacyChineseRest: true})
+    const document = readPublicationDocument(file, 'publication-results', {selection})
     const expectedMode = selection.inputs.publish ? 'publish' : 'artifact_only'
     if (document.mode !== expectedMode) throw new Error('Publication results mode identity mismatch')
     results = {artifactId: Number(resultsArtifact.id), artifactName: resultsArtifact.name, artifactDigest: resultsArtifact.digest, overallStatus: document.overallStatus, finalTargetSha: document.finalTargetSha}
@@ -407,7 +407,7 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
   const selectionFile = path.join(selectionDirectory, 'publication-selection.json')
   // Old selections are authenticated in their original exact form, then the retired
   // Chinese REST unit is explicitly excluded before any recovery artifact is read.
-  const selection = readPublicationDocument(selectionFile, 'publication-selection', {allowLegacyChineseRest: true})
+  const selection = readPublicationDocument(selectionFile, 'publication-selection')
   if (selection.workflow !== 'translation' || selection.repository !== repository || selection.runId !== runId || selection.runAttempt !== attemptNumber) {
     throw new Error('Previous Translation publication selection artifact identity mismatch')
   }

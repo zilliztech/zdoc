@@ -24,7 +24,6 @@ on:
       allow_full_retranslate: { required: false, type: boolean, default: false }
       mode: { required: false, type: string, default: auto }
       bootstrap_group: { required: false, type: string, default: '' }
-      legacy_without_publication_selection: { required: false, type: boolean, default: false }
       publication_selection_artifact_name: { required: false, type: string, default: '' }
       publication_selection_sha256: { required: false, type: string, default: '' }
       publication_unit_key: { required: false, type: string, default: '' }
@@ -101,13 +100,11 @@ jobs:
       - name: Install current master tooling
         run: pnpm install --frozen-lockfile
       - name: Download translation publication selection
-        if: ${{ !inputs.legacy_without_publication_selection }}
         uses: actions/download-artifact@v7
         with:
           name: ${{ inputs.publication_selection_artifact_name }}
           path: ${{ runner.temp }}/publication-selection
       - name: Validate translation publication selection identity
-        if: ${{ !inputs.legacy_without_publication_selection }}
         env:
           PUBLICATION_SELECTION_SHA256: ${{ inputs.publication_selection_sha256 }}
         run: |
@@ -163,7 +160,7 @@ jobs:
             --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
             --output tmp/sdk-cli-completeness-receipt.json
       - name: Prepare and apply translation reconciliation
-        id: source_delta
+        id: reconciliation
         if: ${{ inputs.should_translate }}
         run: |
           set -euo pipefail
@@ -172,7 +169,7 @@ jobs:
           if [[ -f tmp/sdk-cli-completeness-receipt.json ]]; then
             reconciliation_receipt_args+=(--completeness-receipt tmp/sdk-cli-completeness-receipt.json)
           fi
-          node scripts/translation/sourceDelta.js --repository "$GITHUB_WORKSPACE" --source-baseline-sha "$SOURCE_BASELINE_SHA" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target "$TRANSLATION_TARGET" --group "$GROUP" --output tmp/source-delta.json
+          node scripts/translation/sourceChanges.js --repository "$GITHUB_WORKSPACE" --source-baseline-sha "$SOURCE_BASELINE_SHA" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target "$TRANSLATION_TARGET" --group "$GROUP" --output tmp/source-changes.json
           node scripts/translation/prepare-reconciliation-plan.js \
             --repository "$GITHUB_WORKSPACE" --target "$TRANSLATION_TARGET" --group "$GROUP" \
             --tooling-sha "$TOOLING_SHA" --source-baseline-sha "$SOURCE_BASELINE_SHA" \
@@ -186,7 +183,7 @@ jobs:
             --target-baseline-sha "$TARGET_BASELINE_SHA"
           echo "has_mutation=$(node -p "require('./tmp/reconciliation-result.json').status === 'applied' ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"
       - name: Build reconciliation review state
-        if: ${{ failure() && inputs.should_translate && steps.source_delta.outcome == 'failure' }}
+        if: ${{ failure() && inputs.should_translate && steps.reconciliation.outcome == 'failure' }}
         run: |
           if [[ -f tmp/translation-reconciliation-review.json ]]; then
             node scripts/translation/reconciliation-review-state.js \
@@ -198,7 +195,7 @@ jobs:
               --output tmp/translation-reconciliation-review-state.json
           fi
       - name: Upload reconciliation review state
-        if: ${{ failure() && inputs.should_translate && steps.source_delta.outcome == 'failure' }}
+        if: ${{ failure() && inputs.should_translate && steps.reconciliation.outcome == 'failure' }}
         uses: actions/upload-artifact@v6
         with:
           name: 'translation-reconciliation-review-state-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}-${{ inputs.batch_number }}'
@@ -238,7 +235,7 @@ jobs:
           if (( ${{ inputs.batch_number }} > 0 )); then
             batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-size "${{ inputs.batch_size }}" --expected-pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
           fi
-          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --retirement-report tmp/translation-retirement-review.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-delta tmp/source-delta.json --mode "$EFFECTIVE_TRANSLATION_MODE" "${batch_args[@]}" "${reconciliation_args[@]}"
+          node scripts/translation/manifest.js --target "$TRANSLATION_TARGET" --output tmp/translation-manifest.json --max-files "${{ inputs.max_files }}" --group "$GROUP" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --source-changes tmp/source-changes.json --mode "$EFFECTIVE_TRANSLATION_MODE" "${batch_args[@]}" "${reconciliation_args[@]}"
           echo "count=$(node -p "require('./tmp/translation-manifest.json').items.length")" >> "$GITHUB_OUTPUT"
           if (( ${{ inputs.batch_number }} > 0 )) && [[ "$GROUP" == guides ]]; then
             plan_input_args=()
@@ -399,7 +396,7 @@ jobs:
           retention-days: 30
       - name: Validate unbatched translated group
         id: unbatched_validation
-        if: ${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true' || steps.mode.outputs.bootstrap_status == 'safe_repair') }}
+        if: ${{ inputs.should_translate && inputs.batch_number == 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.reconciliation.outputs.has_mutation == 'true' || steps.mode.outputs.bootstrap_status == 'safe_repair') }}
         env:
           AGENTS_OUTCOME: ${{ steps.agents.outcome }}
           TRANSLATED_COUNT: ${{ steps.agents.outputs.translated_count || '0' }}
@@ -425,7 +422,7 @@ jobs:
             node scripts/translation/validate-group.js --target "$TRANSLATION_TARGET" --group "$GROUP"
           fi
       - name: Validate translated batch outputs
-        if: ${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
+        if: ${{ inputs.should_translate && inputs.group == 'guides' && inputs.batch_number > 0 && ((steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.reconciliation.outputs.has_mutation == 'true') }}
         env:
           AGENTS_OUTCOME: ${{ steps.agents.outcome }}
           TRANSLATED_COUNT: ${{ steps.agents.outputs.translated_count || '0' }}
@@ -452,7 +449,7 @@ jobs:
         run: pnpm docs-tooling reference-sidebar --group "$GROUP" --write
       - name: Create validated translation checkpoints
         id: checkpoint
-        if: ${{ inputs.should_translate && ((inputs.batch_number == 0 && (steps.agents.outcome == 'success' || steps.agents.outcome == 'skipped')) || (steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.source_delta.outputs.has_mutation == 'true') }}
+        if: ${{ inputs.should_translate && ((inputs.batch_number == 0 && (steps.agents.outcome == 'success' || steps.agents.outcome == 'skipped')) || (steps.agents.outputs.translated_count || '0') != '0' || (steps.agents.outputs.failed_count || '0') != '0' || steps.reconciliation.outputs.has_mutation == 'true') }}
         run: |
           batch_args=()
           batch_input_args=()
@@ -499,7 +496,7 @@ jobs:
         with: { name: 'translation-baseline-${{ inputs.target }}-${{ inputs.group }}-${{ github.run_id }}${{ env.ARTIFACT_SUFFIX }}', path: '${{ runner.temp }}/baseline/checkpoint-group.tar', retention-days: '${{ inputs.artifact_retention_days }}' }
       - name: Create immutable Translation ready descriptor
         id: publication_ready
-        if: ${{ !inputs.legacy_without_publication_selection && inputs.batch_number == 0 && steps.translation_upload.outcome == 'success' && steps.baseline_upload.outcome == 'success' }}
+        if: ${{ inputs.batch_number == 0 && steps.translation_upload.outcome == 'success' && steps.baseline_upload.outcome == 'success' }}
         run: |
           set -euo pipefail
           unit_token=${PUBLICATION_UNIT_KEY//\//-}
@@ -513,7 +510,7 @@ jobs:
             --output "$RUNNER_TEMP/publication-ready/publication-ready.json"
           echo "artifact_name=publication-ready-translation-$unit_token-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" >> "$GITHUB_OUTPUT"
       - name: Upload immutable Translation ready descriptor
-        if: ${{ !inputs.legacy_without_publication_selection && inputs.batch_number == 0 && steps.translation_upload.outcome == 'success' && steps.baseline_upload.outcome == 'success' }}
+        if: ${{ inputs.batch_number == 0 && steps.translation_upload.outcome == 'success' && steps.baseline_upload.outcome == 'success' }}
         uses: actions/upload-artifact@v6
         with:
           name: ${{ steps.publication_ready.outputs.artifact_name }}

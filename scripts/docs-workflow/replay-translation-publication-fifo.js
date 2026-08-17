@@ -268,10 +268,8 @@ function loadRun(runRootInput) {
     selectionSha256: selection.selectionSha256,
   })) if (metadata[key] !== expected) throw new Error(`Run metadata ${key} identity mismatch`)
   if (metadata.schemaVersion !== 1) throw new Error('Run metadata schema is invalid')
-  const canonicalUnitKeys = selection.units.map(unit => unit.unitKey)
   const fifoUnitKeys = deriveFifoUnitKeys(selection, jobs)
-  if (JSON.stringify(metadata.canonicalUnitKeys) !== JSON.stringify(canonicalUnitKeys) ||
-      JSON.stringify(metadata.fifoUnitKeys) !== JSON.stringify(fifoUnitKeys)) {
+  if (JSON.stringify(metadata.fifoUnitKeys) !== JSON.stringify(fifoUnitKeys)) {
     throw new Error('Recorded Translation orders do not match selection and trusted Jobs timestamps')
   }
   if (!Array.isArray(metadata.artifacts)) throw new Error('Run metadata artifact inventory is missing')
@@ -304,22 +302,27 @@ function loadRun(runRootInput) {
       throw new Error(`Artifact inventory is incomplete for ${unitKey}`)
     }
   }
-  if (!Array.isArray(metadata.guidesBatchArtifacts) || metadata.guidesBatchArtifacts.length < 1) throw new Error('Japanese Guides batch artifact provenance is missing')
-  const guidesBatchArtifacts = metadata.guidesBatchArtifacts.map(artifact => {
-    if (!Number.isSafeInteger(Number(artifact.id)) || Number(artifact.id) < 1 || !/^translation-(?:checkpoint|baseline|report)-ja-JP-guides-/u.test(artifact.name || '')) {
-      throw new Error('Japanese Guides batch artifact identity is invalid')
-    }
-    normalizeDigest(artifact.digest, artifact.name)
-    if (/^translation-(?:checkpoint|baseline)-/u.test(artifact.name || '')) normalizeDigest(artifact.manifestSha256, `${artifact.name} manifest`)
-    const file = resolveInside(runRoot, artifact.archive, `Japanese Guides batch ${artifact.name}`)
-    if (!fs.existsSync(file) || !fs.statSync(file).isFile()) throw new Error(`Japanese Guides batch payload is missing: ${artifact.name}`)
-    if (artifact.fileSha256 && normalizeDigest(artifact.fileSha256, `${artifact.name} file`) !== digest(file)) {
-      throw new Error(`Japanese Guides batch payload checksum mismatch: ${artifact.name}`)
-    }
-    return Object.freeze({...artifact, file})
-  })
+  const requiresGuides = selection.units.some(unit => unit.unitKey === 'translation/ja-JP/guides')
+  if (requiresGuides && (!Array.isArray(metadata.guidesBatchArtifacts) || metadata.guidesBatchArtifacts.length < 1)) {
+    throw new Error('Japanese Guides batch artifact provenance is missing')
+  }
+  const guidesBatchArtifacts = requiresGuides
+    ? metadata.guidesBatchArtifacts.map(artifact => {
+        if (!Number.isSafeInteger(Number(artifact.id)) || Number(artifact.id) < 1 || !/^translation-(?:checkpoint|baseline|report)-ja-JP-guides-/u.test(artifact.name || '')) {
+          throw new Error('Japanese Guides batch artifact identity is invalid')
+        }
+        normalizeDigest(artifact.digest, artifact.name)
+        if (/^translation-(?:checkpoint|baseline)-/u.test(artifact.name || '')) normalizeDigest(artifact.manifestSha256, `${artifact.name} manifest`)
+        const file = resolveInside(runRoot, artifact.archive, `Japanese Guides batch ${artifact.name}`)
+        if (!fs.existsSync(file) || !fs.statSync(file).isFile()) throw new Error(`Japanese Guides batch payload is missing: ${artifact.name}`)
+        if (artifact.fileSha256 && normalizeDigest(artifact.fileSha256, `${artifact.name} file`) !== digest(file)) {
+          throw new Error(`Japanese Guides batch payload checksum mismatch: ${artifact.name}`)
+        }
+        return Object.freeze({...artifact, file})
+      })
+    : []
   validateLegacyDerivedProvenance({runRoot, selection, jobs, metadata})
-  return Object.freeze({runRoot, selection, jobs, metadata, artifacts, guidesBatchArtifacts, canonicalUnitKeys, fifoUnitKeys})
+  return Object.freeze({runRoot, selection, jobs, metadata, artifacts, guidesBatchArtifacts, fifoUnitKeys})
 }
 
 function defaultAssertBareRemote(input) {
@@ -425,7 +428,7 @@ function ensureLaneBranches(bareRemote, selection) {
     if (local.status !== 0) throw new Error('Retained initial target SHA is unavailable for isolated replay')
     git(process.cwd(), ['push', bareRemote, `${baseline}:refs/heads/${selection.targetBranch}`])
   }
-  for (const lane of ['canonical', 'fifo']) git(process.cwd(), ['--git-dir', bareRemote, 'update-ref', `refs/heads/${lane}/${selection.targetBranch}`, baseline])
+  git(process.cwd(), ['--git-dir', bareRemote, 'update-ref', `refs/heads/fifo/${selection.targetBranch}`, baseline])
 }
 
 function linkReplayDependencies(repository, dependencyRoot) {
@@ -555,19 +558,15 @@ async function replayRun(options = {}) {
   }
   const runLane = dependencies.runLane || defaultRunLane
   const verifyLane = dependencies.verifyLane || defaultVerifyLane
-  const laneResults = {}
-  const laneVerification = {}
-  for (const [lane, order] of [['canonical', run.canonicalUnitKeys], ['fifo', run.fifoUnitKeys]]) {
-    const result = await runLane({lane, order, run, evidenceRoot, bareRemote})
-    result.selection ||= laneSelection(run.selection, lane)
-    laneResults[lane] = result
-    laneVerification[lane] = await verifyLane({lane, order, run, evidenceRoot, bareRemote, laneResult: result})
-    if (!laneVerification[lane]?.ancestryVerified || !laneVerification[lane]?.reconciliationVerified) {
-      const failed = result.publicationResults?.units?.find(unit => !['published', 'no_changes'].includes(unit.status))
-      throw new Error(`${lane} replay ancestry or reconciliation verification failed: ${JSON.stringify({overallStatus: result.publicationResults?.overallStatus, orchestratorFailure: result.publicationResults?.orchestratorFailure, failed})}`)
-    }
+  const lane = 'fifo'
+  const order = run.fifoUnitKeys
+  const result = await runLane({lane, order, run, evidenceRoot, bareRemote})
+  result.selection ||= laneSelection(run.selection, lane)
+  const laneVerification = await verifyLane({lane, order, run, evidenceRoot, bareRemote, laneResult: result})
+  if (!laneVerification?.ancestryVerified || !laneVerification?.reconciliationVerified) {
+    const failed = result.publicationResults?.units?.find(unit => !['published', 'no_changes'].includes(unit.status))
+    throw new Error(`${lane} replay ancestry or reconciliation verification failed: ${JSON.stringify({overallStatus: result.publicationResults?.overallStatus, orchestratorFailure: result.publicationResults?.orchestratorFailure, failed})}`)
   }
-  if (laneVerification.canonical.tree !== laneVerification.fifo.tree) throw new Error('Canonical and FIFO replay final trees differ')
   const verificationContract = !dependencies.assertBareRemote && !dependencies.runLane && !dependencies.verifyLane
     ? 'git-v1'
     : 'structural-v1'
@@ -580,23 +579,22 @@ async function replayRun(options = {}) {
     selectionSha256: run.selection.selectionSha256,
     toolingSha: run.selection.toolingSha,
     initialTargetSha: run.selection.initialTargetSha,
-    canonicalUnitKeys: run.canonicalUnitKeys,
     fifoUnitKeys: run.fifoUnitKeys,
     artifactProvenance: provenance,
     guidesBatchArtifacts: run.guidesBatchArtifacts.map(({file, ...artifact}) => artifact),
-    finalTree: laneVerification.fifo.tree,
+    finalTree: laneVerification.tree,
     ancestryVerified: true,
     reconciliationVerified: true,
     verificationContract,
     bareRemote: verificationContract === 'git-v1' ? bareRemote : null,
   }
-  writeJson(path.join(evidenceRoot, 'orders.json'), {canonicalUnitKeys: run.canonicalUnitKeys, fifoUnitKeys: run.fifoUnitKeys})
-  writeJson(path.join(evidenceRoot, 'replay-results.json'), Object.fromEntries(['canonical', 'fifo'].map(lane => [lane,
-    laneResults[lane].publicationResults || {
-      finalTargetSha: laneResults[lane].finalTargetSha,
-      units: laneResults[lane].results,
+  writeJson(path.join(evidenceRoot, 'orders.json'), {fifoUnitKeys: run.fifoUnitKeys})
+  writeJson(path.join(evidenceRoot, 'replay-results.json'), {
+    fifo: result.publicationResults || {
+      finalTargetSha: result.finalTargetSha,
+      units: result.results,
     },
-  ])))
+  })
   writeJson(path.join(evidenceRoot, 'artifact-provenance.json'), provenance)
   writeJson(path.join(evidenceRoot, 'evidence-manifest.json'), evidence)
   return Object.freeze(evidence)
@@ -673,11 +671,16 @@ function verifyRetainedArtifactEvidence({run, manifest, provenance}) {
     }
   }
 
-  const guides = run.metadata.guidesBatchArtifacts
-  if (!Array.isArray(guides) || !guides.length || !sameJson(manifest.guidesBatchArtifacts, guides)) {
-    throw new Error('Translation replay Guides batch provenance is incomplete or inconsistent')
+  const requiresGuides = run.selection.units.some(unit => unit.unitKey === 'translation/ja-JP/guides')
+  if (requiresGuides) {
+    const guides = run.metadata.guidesBatchArtifacts
+    if (!Array.isArray(guides) || !guides.length || !sameJson(manifest.guidesBatchArtifacts, guides)) {
+      throw new Error('Translation replay Guides batch provenance is incomplete or inconsistent')
+    }
+    for (const artifact of guides) registerSource(artifact, `Japanese Guides batch ${artifact.name}`)
+  } else if (!Array.isArray(manifest.guidesBatchArtifacts) || manifest.guidesBatchArtifacts.length) {
+    throw new Error('Translation replay Guides batch provenance is unexpected')
   }
-  for (const artifact of guides) registerSource(artifact, `Japanese Guides batch ${artifact.name}`)
   for (const artifact of run.metadata.sourceArtifacts || []) registerSource(artifact, `source artifact ${artifact.name}`)
   if (run.metadata.publicationArtifact?.archive) registerSource(run.metadata.publicationArtifact, `publication artifact ${run.metadata.publicationArtifact.name}`)
 
@@ -960,14 +963,16 @@ function verifyEvidence({evidenceRoot: input, allowStructural = false}) {
   const results = json(path.join(evidenceRoot, 'replay-results.json'))
   const provenance = json(path.join(evidenceRoot, 'artifact-provenance.json'))
   if (manifest.schemaVersion !== 1 || manifest.status !== 'complete' || manifest.workflow !== 'translation') throw new Error('Translation replay evidence manifest is incomplete')
-  if (JSON.stringify(orders.canonicalUnitKeys) !== JSON.stringify(manifest.canonicalUnitKeys) ||
-      JSON.stringify(orders.fifoUnitKeys) !== JSON.stringify(manifest.fifoUnitKeys)) throw new Error('Translation replay evidence orders disagree')
-  if (!Array.isArray(manifest.guidesBatchArtifacts) || !manifest.guidesBatchArtifacts.length) throw new Error('Translation replay Guides batch provenance is incomplete')
+  if (JSON.stringify(orders.fifoUnitKeys) !== JSON.stringify(manifest.fifoUnitKeys)) throw new Error('Translation replay evidence orders disagree')
+  if (manifest.fifoUnitKeys.includes('translation/ja-JP/guides') &&
+      (!Array.isArray(manifest.guidesBatchArtifacts) || !manifest.guidesBatchArtifacts.length)) {
+    throw new Error('Translation replay Guides batch provenance is incomplete')
+  }
   if (manifest.verificationContract === 'structural-v1') {
     if (allowStructural !== true) throw new Error('Structural replay evidence requires explicit test-only verification; independent Git evidence is required by default')
     if (manifest.ancestryVerified !== true || manifest.reconciliationVerified !== true ||
-        !Array.isArray(provenance) || provenance.length !== manifest.canonicalUnitKeys.length * 3 ||
-        !results.canonical || !results.fifo) throw new Error('Translation replay structural evidence is incomplete')
+        !Array.isArray(provenance) || provenance.length !== manifest.fifoUnitKeys.length * 3 ||
+        !results.fifo) throw new Error('Translation replay structural evidence is incomplete')
     return Object.freeze(manifest)
   }
   if (manifest.verificationContract !== 'git-v1' || typeof manifest.bareRemote !== 'string') {
@@ -981,16 +986,14 @@ function verifyEvidence({evidenceRoot: input, allowStructural = false}) {
     toolingSha: run.selection.toolingSha,
     initialTargetSha: run.selection.initialTargetSha,
   })) if (manifest[key] !== expected) throw new Error(`Translation replay manifest ${key} identity mismatch`)
-  if (!sameJson(orders.canonicalUnitKeys, run.canonicalUnitKeys) || !sameJson(orders.fifoUnitKeys, run.fifoUnitKeys) ||
-      !sameJson(manifest.canonicalUnitKeys, run.canonicalUnitKeys) || !sameJson(manifest.fifoUnitKeys, run.fifoUnitKeys)) {
+  if (!sameJson(orders.fifoUnitKeys, run.fifoUnitKeys) || !sameJson(manifest.fifoUnitKeys, run.fifoUnitKeys)) {
     throw new Error('Translation replay orders do not match retained selection and Jobs evidence')
   }
   verifyRetainedArtifactEvidence({run, manifest, provenance})
   const bareRemote = defaultAssertBareRemote(manifest.bareRemote)
   if (bareRemote !== manifest.bareRemote) throw new Error('Translation replay bare remote path identity mismatch')
-  const canonical = verifyLaneGitEvidence({lane: 'canonical', run, results: results.canonical, order: run.canonicalUnitKeys, bareRemote})
   const fifo = verifyLaneGitEvidence({lane: 'fifo', run, results: results.fifo, order: run.fifoUnitKeys, bareRemote})
-  if (canonical.tree !== fifo.tree || canonical.tree !== manifest.finalTree) throw new Error('Canonical and FIFO replay final trees differ from retained Git evidence')
+  if (fifo.tree !== manifest.finalTree) throw new Error('FIFO replay final tree differs from retained Git evidence')
   return Object.freeze(manifest)
 }
 
@@ -1940,7 +1943,7 @@ function inspectRun({runId, outputRoot}) {
   const selectionName = `publication-selection-translation-${numericRunId}-${runAttempt}`
   const allSelectionArtifacts = allArtifacts.filter(artifact => artifact.name === selectionName)
   if (allSelectionArtifacts.length === 0) {
-    return inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allArtifacts, root, parentIdentity})
+    throw new Error('Retained Translation publication selection is missing')
   }
   const selectionArtifact = byName(selectionName)
   const selectionDirectory = path.join(root, 'downloads', 'selection')

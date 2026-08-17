@@ -71,8 +71,7 @@ function validateTranslationUnit(unit, selection, index, helpers) {
   helpers.assertString(unit.sourceGroup, `unit ${index} sourceGroup`, document)
   const expectedUnitKey = `translation/${unit.target}/${unit.group}`
   if (unit.unitKey !== expectedUnitKey) helpers.invalid(document, `unit ${index} unitKey mismatch`)
-  const legacyChineseRest = helpers.allowLegacyChineseRest === true && unit.unitKey === 'translation/zh-CN-reference/rest'
-  if (!legacyChineseRest && !TRANSLATION_PUBLICATION_UNIT_KEYS.includes(unit.unitKey)) helpers.invalid(document, `unit ${index} unitKey is not a supported Translation publication unit`)
+  if (!TRANSLATION_PUBLICATION_UNIT_KEYS.includes(unit.unitKey)) helpers.invalid(document, `unit ${index} unitKey is not a supported Translation publication unit`)
   if (unit.strategy === 'ja-guides' && unit.unitKey !== 'translation/ja-JP/guides') helpers.invalid(document, 'ja-guides is only valid for translation/ja-JP/guides')
   helpers.assertSha(unit.toolingSha, `unit ${index} toolingSha`, document)
   helpers.assertSha(unit.sourceBaselineSha, `unit ${index} sourceBaselineSha`, document)
@@ -176,8 +175,7 @@ function validateTranslationReady(value, {selection}, helpers) {
   const document = helpers.DOCUMENTS.ready
   helpers.exactKeys(value, READY_KEYS, 'root', document)
   helpers.assertString(value.unitKey, 'unitKey', document)
-  const legacyChineseRest = helpers.allowLegacyChineseRest === true && value.unitKey === 'translation/zh-CN-reference/rest'
-  if (!legacyChineseRest && !TRANSLATION_PUBLICATION_UNIT_KEYS.includes(value.unitKey)) helpers.invalid(document, 'unitKey is not a supported Translation publication unit')
+  if (!TRANSLATION_PUBLICATION_UNIT_KEYS.includes(value.unitKey)) helpers.invalid(document, 'unitKey is not a supported Translation publication unit')
   helpers.assertString(value.producerJob, 'producerJob', document)
   helpers.assertSha(value.toolingSha, 'toolingSha', document)
   helpers.assertSha(value.sourceBaselineSha, 'sourceBaselineSha', document)

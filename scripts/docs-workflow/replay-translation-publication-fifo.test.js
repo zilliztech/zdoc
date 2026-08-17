@@ -747,7 +747,7 @@ async function completeLegacyGhFixture(t) {
     sourceCheckpointSha,
     batch,
     candidates: [{sourcePath, targetPath, sourceHash: cache.files[sourcePath].sourceHash}],
-    sourceDelta: {deletedI18n: [], renamed: [], retirementCandidates: []},
+    reconciliation: {deletions: [], renames: []},
   }, null, 2)}\n`)
   const guidesArtifacts = {}
   for (const [kind, workspace] of [['checkpoint', guidesCheckpoint], ['baseline', guidesBaseline]]) {
@@ -811,242 +811,11 @@ test('strict CLI accepts only safe absolute /private/tmp paths and the approved 
   assert.match(usage('replay'), /\/private\/tmp\/.+\.git/)
 })
 
-test('legacy inspect fails closed before downloads when any required artifact is expired', t => {
-  const runId = 40000000003
-  const parentRunId = 39999999999
-  const attempt = 1
-  const repository = 'zilliztech/zdoc'
-  const runEndpoint = `repos/${repository}/actions/runs/${runId}`
-  const jobsEndpoint = `repos/${repository}/actions/runs/${runId}/attempts/${attempt}/jobs?filter=all&per_page=100`
-  const artifactsEndpoint = `repos/${repository}/actions/runs/${runId}/artifacts?per_page=100`
-  const gh = installFakeGh(t, {
-    repository,
-    downloadRoot: temporary('translation-fake-gh-downloads-'),
-    api: {
-      [runEndpoint]: {
-        id: runId, run_attempt: attempt, status: 'completed', conclusion: 'success', head_sha: SHA('a'),
-        path: '.github/workflows/translate-codex.yml', event: 'workflow_dispatch', repository: {full_name: repository},
-        display_title: `translate docs (${parentRunId}-1)`,
-      },
-      [`repos/${repository}/actions/runs/${parentRunId}`]: {
-        id: parentRunId, run_attempt: 1, status: 'completed', conclusion: 'success', head_sha: SHA('a'),
-        path: '.github/workflows/fetch-docs.yml', event: 'workflow_dispatch', repository: {full_name: repository},
-      },
-      [jobsEndpoint]: [{jobs: []}],
-      [artifactsEndpoint]: [{artifacts: [{
-        id: 1, name: `translation-checkpoint-ja-JP-python-${runId}`, expired: true,
-        digest: `sha256:${'1'.repeat(64)}`,
-      }]}],
-    },
-  })
-  const outputRoot = temporary('translation-legacy-expired-')
-  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
-  assert.throws(() => inspectRun({runId, outputRoot}), /complete unexpired.*external blocker|retention.*expired/i)
-  assert.equal(gh.calls().some(args => args[0] === 'run' && args[1] === 'download'), false)
-})
 
-test('legacy inspect derives authenticated current selection and ready contracts through the default gh path', async t => {
-  const fixture = await completeLegacyGhFixture(t)
-  const gh = installFakeGh(t, fixture)
-  const outputRoot = temporary('translation-legacy-complete-')
-  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
-  const result = inspectRun({runId: fixture.runId, outputRoot})
-  assert.equal(result.legacyDerived, true)
-  assert.equal(result.toolingSha, fixture.toolingSha)
-  assert.equal(result.initialTargetSha, fixture.initialTargetSha)
-  assert.equal(fixture.sourceCheckpointSha, RETAINED_GUIDES_SOURCE_CHECKPOINT_SHA)
-  assert.equal(fixture.targetBaselineSha, RECONCILED_TARGET_BASELINE_SHA)
-  assert.notEqual(fixture.sourceCheckpointSha, fixture.initialTargetSha)
-  const selection = JSON.parse(fs.readFileSync(path.join(outputRoot, 'publication-selection.json'), 'utf8'))
-  assert.equal(selection.units.length, 12)
-  const metadata = JSON.parse(fs.readFileSync(path.join(outputRoot, 'run-metadata.json'), 'utf8'))
-  assert.equal(metadata.legacyDerived, true)
-  assert.equal(metadata.parentRunId, fixture.parentRunId)
-  assert.equal(metadata.sourceArtifacts.length, 7)
-  assert.equal(metadata.artifacts.length, selection.units.length * 3)
-  assert.equal(metadata.artifacts.filter(artifact => artifact.derived).length, selection.units.length + 2)
-  assert.deepEqual(Object.keys(metadata.legacyProvenance).sort(), [
-    'child', 'derivedArtifacts', 'guidesPublicationReport', 'parent', 'selectionDerivation', 'sourceCheckpointInventory',
-  ].sort())
-  assert.deepEqual(metadata.legacyProvenance.parent, {
-    runId: fixture.parentRunId,
-    runAttempt: 1,
-    workflow: '.github/workflows/fetch-docs.yml',
-    repository: fixture.repository,
-    toolingSha: fixture.toolingSha,
-  })
-  assert.equal(metadata.legacyProvenance.sourceCheckpointInventory.length, 7)
-  assert.equal(metadata.legacyProvenance.derivedArtifacts.length, selection.units.length + 2)
-  const guidesPlan = JSON.parse(fs.readFileSync(path.join(outputRoot, 'derived', 'guides', 'checkpoint', 'checkpoint-group', 'translation-plan.json'), 'utf8'))
-  assert.deepEqual(Object.keys(guidesPlan).sort(), [
-    'baselinePayloadSha256', 'batchCount', 'batches', 'devBaselineSha', 'group', 'masterSha',
-    'pendingCount', 'pendingSetSha256', 'planSha256', 'schemaVersion', 'sourceCheckpointSha', 'targetSha',
-  ].sort())
-  assert.equal(guidesPlan.batchCount, 1)
-  assert.equal(guidesPlan.batches.length, 1)
-  const calls = gh.calls()
-  const firstDownload = calls.findIndex(args => args[0] === 'run' && args[1] === 'download')
-  const parentInventory = calls.findIndex(args => args[0] === 'api' && args.at(-1).includes(`/runs/${fixture.parentRunId}/artifacts`))
-  assert.ok(parentInventory >= 0 && firstDownload > parentInventory, 'all child and parent retention checks must finish before download')
-  const evidenceRoot = path.join(path.dirname(outputRoot), `${path.basename(outputRoot)}-evidence`)
-  const bareRemote = path.join(path.dirname(outputRoot), `${path.basename(outputRoot)}.git`)
-  git(path.dirname(outputRoot), 'clone', '--bare', fixture.targetRepository, bareRemote)
-  git(path.dirname(outputRoot), '--git-dir', bareRemote, 'config', '--remove-section', 'remote.origin')
-  git(path.dirname(outputRoot), '--git-dir', bareRemote, 'update-ref', 'refs/heads/dev', fixture.initialTargetSha)
-  const replay = await replayRun({
-    runRoot: outputRoot, bareRemote, evidenceRoot, mode: 'publish',
-  })
-  assert.equal(replay.status, 'complete')
-  assert.equal(verifyEvidence({evidenceRoot}).status, 'complete')
 
-  const metadataFile = path.join(outputRoot, 'run-metadata.json')
-  const originalMetadata = fs.readFileSync(metadataFile)
-  const tamperCases = [
-    value => { value.legacyDerived = false },
-    value => { delete value.legacyProvenance.parent.workflow },
-    value => { value.legacyProvenance.parent.repository = 'other/repository' },
-    value => { value.legacyProvenance.selectionDerivation.selectionSha256 = '0'.repeat(64) },
-    value => { value.legacyProvenance.sourceCheckpointInventory.pop() },
-    value => { value.legacyProvenance.guidesPublicationReport.resultSha = '0'.repeat(40) },
-    value => { value.legacyProvenance.derivedArtifacts[0].sources[0].fileSha256 = '0'.repeat(64) },
-  ]
-  for (const [index, tamper] of tamperCases.entries()) {
-    const value = JSON.parse(originalMetadata)
-    tamper(value)
-    fs.writeFileSync(metadataFile, `${JSON.stringify(value)}\n`)
-    await assert.rejects(replayRun({
-      runRoot: outputRoot,
-      bareRemote,
-      evidenceRoot: `${evidenceRoot}-tamper-${index}`,
-      mode: 'publish',
-      dependencies: {assertBareRemote() { throw new Error('legacy provenance validation was bypassed') }},
-    }), /legacy.*provenance|parent|selection derivation|source checkpoint inventory|Guides publication|derived artifact/i)
-  }
-  fs.writeFileSync(metadataFile, originalMetadata)
-})
 
-test('legacy load binds rehashed handoff source baselines to authenticated parent manifests', async t => {
-  const fixture = await completeLegacyGhFixture(t)
-  installFakeGh(t, fixture)
-  const outputRoot = temporary('translation-legacy-baseline-binding-')
-  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
-  inspectRun({runId: fixture.runId, outputRoot})
-  const selectionFile = path.join(outputRoot, 'publication-selection.json')
-  const metadataFile = path.join(outputRoot, 'run-metadata.json')
-  const originalSelection = fs.readFileSync(selectionFile)
-  const originalMetadata = fs.readFileSync(metadataFile)
-  const loaded = JSON.parse(originalMetadata)
-  assert.ok(loaded.legacyProvenance.sourceCheckpointInventory.every(record => /^[0-9a-f]{40}$/u.test(record.devBaselineSha)))
-  assert.ok(loaded.sourceArtifacts.every(record => /^[0-9a-f]{40}$/u.test(record.devBaselineSha)))
 
-  async function rejectsBeforeRemote(label, mutate) {
-    fs.writeFileSync(selectionFile, originalSelection)
-    const metadata = JSON.parse(originalMetadata)
-    mutate(metadata)
-    fs.writeFileSync(metadataFile, `${JSON.stringify(metadata)}\n`)
-    const evidenceRoot = temporary(`translation-legacy-baseline-${label}-`)
-    t.after(() => fs.rmSync(evidenceRoot, {recursive: true, force: true}))
-    await assert.rejects(replayRun({
-      runRoot: outputRoot,
-      bareRemote: path.join(path.dirname(evidenceRoot), `${path.basename(evidenceRoot)}.git`),
-      evidenceRoot,
-      mode: 'publish',
-      dependencies: {assertBareRemote() { throw new Error('REMOTE_SETUP_REACHED') }},
-    }), /parent.*baseline|source checkpoint inventory|devBaselineSha/i)
-  }
 
-  await rejectsBeforeRemote('missing', metadata => {
-    delete metadata.legacyProvenance.sourceCheckpointInventory[0].devBaselineSha
-  })
-  await rejectsBeforeRemote('tampered', metadata => {
-    metadata.sourceArtifacts[0].devBaselineSha = SHA('f')
-    metadata.legacyProvenance.sourceCheckpointInventory[0].devBaselineSha = SHA('f')
-  })
-
-  fs.writeFileSync(selectionFile, originalSelection)
-  const metadata = JSON.parse(originalMetadata)
-  const derivation = metadata.legacyProvenance.selectionDerivation
-  derivation.handoff.units[0].sourceBaselineSha = SHA('f')
-  const rebuilt = buildTranslationPublicationSelection({
-    handoff: derivation.handoff,
-    repository: metadata.repository,
-    runId: metadata.runId,
-    runAttempt: metadata.runAttempt,
-    publish: false,
-    runTranslations: true,
-  })
-  writePublicationDocument(selectionFile, rebuilt)
-  metadata.selectionSha256 = rebuilt.selectionSha256
-  metadata.initialTargetSha = rebuilt.initialTargetSha
-  metadata.canonicalUnitKeys = rebuilt.units.map(unit => unit.unitKey)
-  metadata.selectionArtifact.digest = `sha256:${sha256(selectionFile)}`
-  derivation.selectionSha256 = rebuilt.selectionSha256
-  derivation.selectionFileSha256 = sha256(selectionFile)
-  derivation.handoffSha256 = valueSha256(derivation.handoff)
-  derivation.canonicalUnitKeys = metadata.canonicalUnitKeys
-  fs.writeFileSync(metadataFile, `${JSON.stringify(metadata)}\n`)
-  const evidenceRoot = temporary('translation-legacy-baseline-rehashed-')
-  t.after(() => fs.rmSync(evidenceRoot, {recursive: true, force: true}))
-  await assert.rejects(replayRun({
-    runRoot: outputRoot,
-    bareRemote: path.join(path.dirname(evidenceRoot), `${path.basename(evidenceRoot)}.git`),
-    evidenceRoot,
-    mode: 'publish',
-    dependencies: {assertBareRemote() { throw new Error('REMOTE_SETUP_REACHED') }},
-  }), /parent.*baseline|source checkpoint inventory|devBaselineSha/i)
-})
-
-test('legacy inspect fails closed when retained Guides payload cannot reconstruct the canonical plan', async t => {
-  const fixture = await completeLegacyGhFixture(t)
-  const name = `translation-checkpoint-ja-JP-guides-${fixture.runId}-batch-1`
-  const directory = path.join(fixture.downloadRoot, String(fixture.runId), encodeURIComponent(name))
-  const archive = path.join(directory, fs.readdirSync(directory)[0])
-  const extracted = temporary('translation-incomplete-guides-')
-  t.after(() => fs.rmSync(extracted, {recursive: true, force: true}))
-  execFileSync('tar', ['-xf', archive, '-C', extracted])
-  fs.rmSync(path.join(extracted, 'checkpoint-group', 'batch-input.json'))
-  execFileSync('tar', ['-cf', archive, '-C', extracted, 'checkpoint-group'])
-  const artifact = fixture.api[`repos/${fixture.repository}/actions/runs/${fixture.runId}/artifacts?per_page=100`][0].artifacts
-    .find(candidate => candidate.name === name)
-  artifact.digest = `sha256:${sha256(archive)}`
-  installFakeGh(t, fixture)
-  const outputRoot = temporary('translation-incomplete-guides-output-')
-  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
-  assert.throws(() => inspectRun({runId: fixture.runId, outputRoot}), /Guides|batch input|artifact root|plan reconstruction/i)
-  assert.equal(fs.existsSync(path.join(outputRoot, 'derived', 'guides', 'plan-inputs')), false)
-})
-
-test('legacy inspect removes Guides plan inputs when reading the reconstructed plan fails', async t => {
-  const fixture = await completeLegacyGhFixture(t)
-  installFakeGh(t, fixture)
-  const outputRoot = temporary('translation-invalid-guides-plan-output-')
-  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
-  const originalReadFileSync = fs.readFileSync
-  fs.readFileSync = function injectedPlanReadFailure(file, ...args) {
-    if (String(file) === path.join(outputRoot, 'derived', 'guides', 'translation-plan.json')) {
-      throw new Error('injected reconstructed plan JSON read failure')
-    }
-    return originalReadFileSync.call(this, file, ...args)
-  }
-  try {
-    assert.throws(() => inspectRun({runId: fixture.runId, outputRoot}), /injected reconstructed plan JSON read failure/i)
-  } finally {
-    fs.readFileSync = originalReadFileSync
-  }
-  assert.equal(fs.existsSync(path.join(outputRoot, 'derived', 'guides', 'plan-inputs')), false)
-})
-
-test('legacy inspect rejects ambiguous retained identity before any download', async t => {
-  const fixture = await completeLegacyGhFixture(t)
-  const endpoint = `repos/${fixture.repository}/actions/runs/${fixture.runId}/artifacts?per_page=100`
-  const duplicate = {...fixture.api[endpoint][0].artifacts[0], id: 999999}
-  fixture.api[endpoint][0].artifacts.push(duplicate)
-  const gh = installFakeGh(t, fixture)
-  const outputRoot = temporary('translation-legacy-ambiguous-')
-  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
-  assert.throws(() => inspectRun({runId: fixture.runId, outputRoot}), /retention.*complete unexpired|ambiguous|exactly once/i)
-  assert.equal(gh.calls().some(args => args[0] === 'run' && args[1] === 'download'), false)
-})
 
 test('inspect rejects the wrong child workflow identity before any retained download', async t => {
   const fixture = await completeLegacyGhFixture(t)
@@ -1058,25 +827,7 @@ test('inspect rejects the wrong child workflow identity before any retained down
   assert.equal(gh.calls().some(args => args[0] === 'run' && args[1] === 'download'), false)
 })
 
-test('legacy inspect rejects the wrong parent Fetch workflow before any retained download', async t => {
-  const fixture = await completeLegacyGhFixture(t)
-  fixture.api[`repos/${fixture.repository}/actions/runs/${fixture.parentRunId}`].path = '.github/workflows/translate-codex.yml'
-  const gh = installFakeGh(t, fixture)
-  const outputRoot = temporary('translation-wrong-parent-workflow-')
-  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
-  assert.throws(() => inspectRun({runId: fixture.runId, outputRoot}), /parent.*workflow|fetch-docs/i)
-  assert.equal(gh.calls().some(args => args[0] === 'run' && args[1] === 'download'), false)
-})
 
-test('legacy inspect rejects parent tooling SHA mismatch before any retained download', async t => {
-  const fixture = await completeLegacyGhFixture(t)
-  fixture.api[`repos/${fixture.repository}/actions/runs/${fixture.parentRunId}`].head_sha = SHA('b')
-  const gh = installFakeGh(t, fixture)
-  const outputRoot = temporary('translation-parent-tooling-mismatch-')
-  t.after(() => fs.rmSync(outputRoot, {recursive: true, force: true}))
-  assert.throws(() => inspectRun({runId: fixture.runId, outputRoot}), /parent.*tooling|tooling.*mismatch/i)
-  assert.equal(gh.calls().some(args => args[0] === 'run' && args[1] === 'download'), false)
-})
 
 test('trusted Jobs completion timestamps calculate SDK-before-Guides FIFO independently from canonical order', t => {
   const value = fixture(t)
@@ -1086,10 +837,10 @@ test('trusted Jobs completion timestamps calculate SDK-before-Guides FIFO indepe
   assert.equal(fifo.at(-1), 'translation/ja-JP/guides')
 })
 
-test('replay authenticates descriptors and artifacts before exercising canonical and FIFO publication through the coordinator', async t => {
+test('replay authenticates descriptors and artifacts before exercising FIFO publication through the coordinator', async t => {
   const value = fixture(t)
   const calls = []
-  const published = {canonical: [], fifo: []}
+  const published = []
   const result = await replayRun({
     runRoot: value.runRoot,
     bareRemote: value.bareRemote,
@@ -1098,20 +849,19 @@ test('replay authenticates descriptors and artifacts before exercising canonical
     dependencies: {
       assertBareRemote() { calls.push('bare') },
       async authenticateArtifact({artifact}) { calls.push(`auth:${artifact.kind}:${artifact.unitKey}`); return {prepared: {artifact}} },
-      async runLane({lane, order}) { published[lane].push(...order); return {finalTargetSha: SHA('7'), results: order.map((unitKey, index) => ({unitKey, status: 'published', sequence: index + 1, resultSha: SHA('7')}))} },
+      async runLane({order}) { published.push(...order); return {finalTargetSha: SHA('7'), results: order.map((unitKey, index) => ({unitKey, status: 'published', sequence: index + 1, resultSha: SHA('7')}))} },
       async verifyLane() { return {tree: SHA('8'), ancestryVerified: true, reconciliationVerified: true} },
     },
   })
   assert.equal(calls.filter(call => call.startsWith('auth:')).length, value.selection.units.length * 3)
-  assert.deepEqual(published.canonical, value.selection.units.map(unit => unit.unitKey))
-  assert.deepEqual(published.fifo, deriveFifoUnitKeys(value.selection, value.jobs))
+  assert.deepEqual(published, deriveFifoUnitKeys(value.selection, value.jobs))
   assert.equal(result.ancestryVerified, true)
   assert.equal(result.reconciliationVerified, true)
   assert.throws(() => verifyEvidence({evidenceRoot: value.evidenceRoot}), /structural.*explicit|independent Git/i)
   assert.equal(verifyEvidence({evidenceRoot: value.evidenceRoot, allowStructural: true}).status, 'complete')
 })
 
-test('default replay publishes real retained Translation artifacts through canonical and FIFO coordinators on a local bare remote', async t => {
+test('default replay publishes real retained Translation artifacts through the FIFO coordinator on a local bare remote', async t => {
   const value = await realReplayFixture(t)
   const result = await replayRun({
     runRoot: value.runRoot,
@@ -1124,7 +874,6 @@ test('default replay publishes real retained Translation artifacts through canon
   assert.equal(result.ancestryVerified, true)
   assert.equal(result.reconciliationVerified, true)
   assert.equal(verifyEvidence({evidenceRoot: value.evidenceRoot}).status, 'complete')
-  assert.match(git(value.bareRemote, 'rev-parse', 'refs/heads/canonical/dev'), /^[0-9a-f]{40}$/)
   assert.match(git(value.bareRemote, 'rev-parse', 'refs/heads/fifo/dev'), /^[0-9a-f]{40}$/)
   const resultsFile = path.join(value.evidenceRoot, 'replay-results.json')
   const originalResults = fs.readFileSync(resultsFile, 'utf8')
@@ -1142,7 +891,7 @@ test('default replay publishes real retained Translation artifacts through canon
   fs.writeFileSync(retainedArtifact, originalArtifact)
 })
 
-test('replay rejects non-isolated remotes, identity drift, incomplete evidence, and divergent final trees', async t => {
+test('replay rejects non-isolated remotes, identity drift, and incomplete evidence', async t => {
   const value = fixture(t)
   await assert.rejects(replayRun({
     runRoot: value.runRoot, bareRemote: value.bareRemote, evidenceRoot: value.evidenceRoot, mode: 'publish',
@@ -1155,16 +904,6 @@ test('replay rejects non-isolated remotes, identity drift, incomplete evidence, 
   metadata.selectionSha256 = '0'.repeat(64)
   fs.writeFileSync(metadataPath, `${JSON.stringify(metadata)}\n`)
   await assert.rejects(replayRun({runRoot: drift.runRoot, bareRemote: drift.bareRemote, evidenceRoot: drift.evidenceRoot, mode: 'publish'}), /selection.*checksum|identity/i)
-
-  const trees = fixture(t)
-  await assert.rejects(replayRun({
-    runRoot: trees.runRoot, bareRemote: trees.bareRemote, evidenceRoot: trees.evidenceRoot, mode: 'publish',
-    dependencies: {
-      assertBareRemote() {}, authenticateArtifact() { return {prepared: {}} },
-      runLane: async ({order}) => ({finalTargetSha: SHA('7'), results: order.map(unitKey => ({unitKey, status: 'published'}))}),
-      verifyLane: async ({lane}) => ({tree: lane === 'canonical' ? SHA('8') : SHA('9'), ancestryVerified: true, reconciliationVerified: true}),
-    },
-  }), /tree/i)
 
   const missingGuidesBatch = fixture(t)
   const missingMetadata = JSON.parse(fs.readFileSync(path.join(missingGuidesBatch.runRoot, 'run-metadata.json'), 'utf8'))
