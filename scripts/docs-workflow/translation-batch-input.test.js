@@ -13,7 +13,6 @@ const {
 } = require('./translation-batch-input')
 const { buildManifest } = require('../translation/manifest')
 const { createBatchSummary, selectManifestBatch } = require('../translation/batches')
-const { classifySourceDelta } = require('../translation/sourceDelta')
 const {createReconciliationOperation, createReconciliationPlan} = require('../translation/reconciliation-plan')
 
 test('exports the translation batch input API', () => {
@@ -59,8 +58,23 @@ function rename(oldName = 'old.md', newName = 'new.md', oldRoot = 'content/en/gu
   }
 }
 
+function reconciliationPlan(renames = [rename()], deletions = []) {
+  const list = Array.isArray(renames) ? renames : [renames]
+  const operations = [
+    ...list.map(renamed => createReconciliationOperation({kind: 'replace_path', sourcePath: renamed.oldPath, targetPath: renamed.oldI18nPath, replacementSourcePath: renamed.newPath, replacementTargetPath: renamed.newI18nPath, reason: 'source_replaced', evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null}, authorization: {status: 'approved', method: 'automatic', ruleId: 'test-policy:ja-JP:guides', receiptSha256: null}})),
+    ...deletions.map(({sourcePath, targetPath}) => createReconciliationOperation({kind: 'delete_target', sourcePath, targetPath, replacementSourcePath: null, replacementTargetPath: null, reason: 'source_deleted', evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null}, authorization: {status: 'approved', method: 'automatic', ruleId: 'test-policy:ja-JP:guides', receiptSha256: null}})),
+  ]
+  return createReconciliationPlan({schemaVersion: 1, document: 'translation-reconciliation-plan', target: 'ja-JP', group: 'guides', toolingSha: '4'.repeat(40), sourceBaselineSha: '2'.repeat(40), sourceCheckpointSha: SHA, targetBaselineSha: '3'.repeat(40), policyId: 'test-policy', operations})
+}
+
+function canonicalBatch(overrides = {}) {
+  const { reconciliationOwner, ...batch } = selectedManifest().batch
+  return { ...batch, ...overrides }
+}
+
 function selectedManifest(overrides = {}) {
   const renamed = rename()
+  const plan = reconciliationPlan(renamed)
   return {
     target: 'ja-JP',
     locale: 'ja-JP',
@@ -68,10 +82,10 @@ function selectedManifest(overrides = {}) {
     sourceCheckpointSha: SHA,
     generatedAt: '2026-07-18T00:00:00.000Z',
     items: [candidate('new.md')],
-    source_delta: {
-      deleted_i18n: [renamed.oldI18nPath],
-      renamed: [renamed],
-      retirement_candidates: [],
+    reconciliation: {
+      planArtifact: 'translation-reconciliation-plan-ja-JP-guides-1',
+      planSha256: plan.planSha256,
+      operationCount: plan.operations.length,
     },
     batch: {
       batchIndex: 0,
@@ -80,6 +94,7 @@ function selectedManifest(overrides = {}) {
       batchSize: 10,
       pendingCount: 1,
       pendingSetSha256: HASH_B,
+      reconciliationOwner: true,
     },
     ...overrides,
   }
@@ -91,23 +106,22 @@ function batchInput(overrides = {}) {
     schemaVersion: 1,
     group: 'guides',
     sourceCheckpointSha: SHA,
-    batch: selectedManifest().batch,
+    batch: canonicalBatch(),
     candidates: [{
       sourcePath: renamed.newPath,
       targetPath: renamed.newI18nPath,
       sourceHash: HASH_A,
     }],
-    sourceDelta: {
-      deletedI18n: [renamed.oldI18nPath],
-      renamed: [renamed],
-      retirementCandidates: [],
+    reconciliation: {
+      deletions: [],
+      renames: [renamed],
     },
     ...overrides,
   }
 }
 
 test('creates exact canonical output and retains intrinsic rename overlaps', () => {
-  assert.deepEqual(createBatchInput(selectedManifest()), batchInput())
+  assert.deepEqual(createBatchInput(selectedManifest(), reconciliationPlan()), batchInput())
 })
 
 test('derives legacy batch authority from the exact plan and assigns it only to batch zero', () => {
@@ -120,8 +134,8 @@ test('derives legacy batch authority from the exact plan and assigns it only to 
   }
   const first = createBatchInput({...base, batch: {batchIndex: 0, batchNumber: 1, batchCount: 2, batchSize: 1, pendingCount: 2, pendingSetSha256: HASH_B, reconciliationOwner: true}}, plan)
   const second = createBatchInput({...base, batch: {batchIndex: 1, batchNumber: 2, batchCount: 2, batchSize: 1, pendingCount: 2, pendingSetSha256: HASH_B, reconciliationOwner: false}}, plan)
-  assert.deepEqual(first.sourceDelta.deletedI18n, [operation.targetPath])
-  assert.deepEqual(second.sourceDelta, {deletedI18n: [], renamed: [], retirementCandidates: []})
+  assert.deepEqual(first.reconciliation.deletions, [operation.targetPath])
+  assert.deepEqual(second.reconciliation, {deletions: [], renames: []})
 })
 
 test('creates durable batch input from a canonical unified Guides manifest', () => {
@@ -129,8 +143,8 @@ test('creates durable batch input from a canonical unified Guides manifest', () 
   const sourcePath = 'content/en/guides/tutorials/new.md'
   fs.mkdirSync(path.join(siteDir, path.dirname(sourcePath)), {recursive: true})
   fs.writeFileSync(path.join(siteDir, sourcePath), '# New\n')
-  const sourceDelta = classifySourceDelta({group: 'guides', changes: [{status: 'A', path: sourcePath}]})
-  const manifest = buildManifest({siteDir, group: 'guides', sourceCheckpointSha: SHA, sourceDelta})
+  const plan = reconciliationPlan()
+  const manifest = buildManifest({siteDir, group: 'guides', sourceCheckpointSha: SHA, reconciliation: {plan, planArtifact: 'translation-reconciliation-plan-ja-JP-guides-1'}})
   const summary = createBatchSummary(manifest, 10)
   const selected = selectManifestBatch(manifest, {
     batchIndex: 0,
@@ -138,100 +152,31 @@ test('creates durable batch input from a canonical unified Guides manifest', () 
     expectedPendingSetSha256: summary.pendingSetSha256,
   })
 
-  const input = createBatchInput(selected)
+  const input = createBatchInput(selected, plan)
   assert.equal(input.candidates[0].sourcePath, sourcePath)
-  assert.deepEqual(input.sourceDelta.retirementCandidates, [])
-})
-
-test('preserves Chinese retirement metadata without granting deletion authority', () => {
-  const candidate = {
-    manual: 'tools',
-    sourcePath: 'content/en/guides/tutorials/tools/old.md',
-    targetPath: 'content/zh-CN/guides/tutorials/tools/old.md',
-    changeKind: 'source_deleted',
-  }
-  const manifest = selectedManifest({
-    items: [],
-    source_delta: {deleted_i18n: [], renamed: [], retirement_candidates: [candidate]},
-    batch: {...selectedManifest().batch, pendingCount: 0},
-  })
-
-  const input = createBatchInput(manifest)
-  assert.deepEqual(input.sourceDelta, {deletedI18n: [], renamed: [], retirementCandidates: [candidate]})
-})
-
-test('rejects malformed cross-target retirement metadata', () => {
-  const candidate = {
-    manual: 'tools',
-    sourcePath: 'content/en/guides/tutorials/tools/old.md',
-    targetPath: 'content/zh-CN/guides/tutorials/tools/old.md',
-    changeKind: 'source_deleted',
-  }
-  for (const mutate of [
-    value => { delete value.manual },
-    value => { value.reason = value.changeKind; delete value.changeKind },
-    value => { value.changeKind = 'unknown' },
-  ]) {
-    const malformed = structuredClone(candidate)
-    mutate(malformed)
-    const manifest = selectedManifest({
-      items: [],
-      source_delta: {deleted_i18n: [], renamed: [], retirement_candidates: [malformed]},
-      batch: {...selectedManifest().batch, pendingCount: 0},
-    })
-    assert.throws(() => createBatchInput(manifest), /key|manual|change.kind|authorized/i)
-    const input = batchInput({
-      candidates: [],
-      sourceDelta: {deletedI18n: [], renamed: [], retirementCandidates: [malformed]},
-      batch: {...selectedManifest().batch, pendingCount: 0},
-    })
-    assert.throws(() => validateBatchInput(input), /key|manual|change.kind|authorized/i)
-  }
-})
-
-test('sorts and deduplicates retirement candidates by the exact authorization tuple', () => {
-  const python = {
-    manual: 'python',
-    sourcePath: 'content/en/reference/api/python/python/old.md',
-    targetPath: 'content/zh-CN/reference/api/python/python/old.md',
-    changeKind: 'source_deleted',
-  }
-  const java = {
-    manual: 'java',
-    sourcePath: 'content/en/reference/api/java/java/old.md',
-    targetPath: 'content/zh-CN/reference/api/java/java/old.md',
-    changeKind: 'source_deleted',
-  }
-  const manifest = selectedManifest({
-    items: [],
-    source_delta: {deleted_i18n: [], renamed: [], retirement_candidates: [python, java]},
-    batch: {...selectedManifest().batch, pendingCount: 0},
-  })
-  assert.deepEqual(createBatchInput(manifest).sourceDelta.retirementCandidates, [java, python])
-
-  const duplicate = batchInput({
-    candidates: [],
-    sourceDelta: {deletedI18n: [], renamed: [], retirementCandidates: [java, {...java}]},
-    batch: {...selectedManifest().batch, pendingCount: 0},
-  })
-  assert.throws(() => validateBatchInput(duplicate), /duplicate.*retirement/i)
+  assert.deepEqual(input.reconciliation, {deletions: [], renames: [rename()]})
 })
 
 test('sorts candidates, deletions, and renames deterministically', () => {
   const zRename = rename('z-old.md', 'z-new.md')
   const aRename = rename('a-old.md', 'a-new.md')
+  const deleted = {
+    sourcePath: 'content/en/guides/tutorials/deleted.md',
+    targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/deleted.md',
+  }
+  const plan = reconciliationPlan([aRename, zRename], [deleted])
   const actual = createBatchInput(selectedManifest({
     items: [candidate('z-new.md', HASH_B), candidate('a-new.md', HASH_A)],
-    batch: { ...selectedManifest().batch, pendingCount: 2 },
-    source_delta: {
-      deleted_i18n: [zRename.oldI18nPath, aRename.oldI18nPath],
-      renamed: [zRename, aRename],
-      retirement_candidates: [],
+    reconciliation: {
+      planArtifact: 'translation-reconciliation-plan-ja-JP-guides-1',
+      planSha256: plan.planSha256,
+      operationCount: plan.operations.length,
     },
-  }))
+    batch: { ...selectedManifest().batch, pendingCount: 2 },
+  }), plan)
   assert.deepEqual(actual.candidates.map(item => item.sourcePath), [aRename.newPath, zRename.newPath])
-  assert.deepEqual(actual.sourceDelta.deletedI18n, [aRename.oldI18nPath, zRename.oldI18nPath])
-  assert.deepEqual(actual.sourceDelta.renamed, [aRename, zRename])
+  assert.deepEqual(actual.reconciliation.deletions, [deleted.targetPath])
+  assert.deepEqual(actual.reconciliation.renames, [aRename, zRename])
 })
 
 test('rejects unknown or missing keys at every manifest level', () => {
@@ -242,11 +187,11 @@ test('rejects unknown or missing keys at every manifest level', () => {
     value => { delete value.batch.batchSize },
     value => { value.items[0].extra = true },
     value => { delete value.items[0].reason },
-    value => { value.source_delta.extra = true },
-    value => { delete value.source_delta.renamed },
-    value => { delete value.source_delta.retirement_candidates },
-    value => { value.source_delta.renamed[0].extra = true },
-    value => { delete value.source_delta.renamed[0].newPath },
+    value => { value.reconciliation.extra = true },
+    value => { delete value.reconciliation.planSha256 },
+    value => { delete value.reconciliation.operationCount },
+    value => { value.batch.reconciliationOwner = 'yes' },
+    value => { delete value.reconciliation.planArtifact },
   ]
   for (const mutate of mutations) {
     const value = structuredClone(selectedManifest())
@@ -263,11 +208,11 @@ test('rejects unknown or missing keys at every canonical input level', () => {
     value => { delete value.batch.pendingCount },
     value => { value.candidates[0].extra = true },
     value => { delete value.candidates[0].sourceHash },
-    value => { value.sourceDelta.extra = true },
-    value => { delete value.sourceDelta.deletedI18n },
-    value => { delete value.sourceDelta.retirementCandidates },
-    value => { value.sourceDelta.renamed[0].extra = true },
-    value => { delete value.sourceDelta.renamed[0].oldPath },
+    value => { value.reconciliation.extra = true },
+    value => { delete value.reconciliation.deletions },
+    value => { delete value.reconciliation.renames },
+    value => { value.reconciliation.renames[0].extra = true },
+    value => { delete value.reconciliation.renames[0].oldPath },
   ]
   for (const mutate of mutations) {
     const value = structuredClone(batchInput())
@@ -303,11 +248,10 @@ test('enforces selected item metadata and reconciliation batch arithmetic', () =
   }
   const reconciliationOnly = batchInput({
     candidates: [],
-    batch: { ...selectedManifest().batch, pendingCount: 0 },
-    sourceDelta: {
-      deletedI18n: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/deleted.md'],
-      renamed: [],
-      retirementCandidates: [],
+    batch: canonicalBatch({ pendingCount: 0 }),
+    reconciliation: {
+      deletions: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/deleted.md'],
+      renames: [],
     },
   })
   assert.doesNotThrow(() => validateBatchInput(reconciliationOnly))
@@ -341,7 +285,7 @@ test('rejects unsafe paths, wrong roots, suffix mismatches, and invalid extensio
       targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/cafe\u0301.md',
       sourceHash: HASH_A,
     }],
-    sourceDelta: { deletedI18n: [], renamed: [], retirementCandidates: [] },
+    reconciliation: { deletions: [], renames: [] },
   })
   assert.throws(() => validateBatchInput(ambiguous), /normal|ambiguous|path/i)
 })
@@ -352,16 +296,17 @@ test('rejects duplicate entries, unrelated overlaps, and ancestor conflicts', ()
   assert.throws(() => validateBatchInput(duplicateCandidate), /duplicate/i)
 
   const duplicateDeletion = batchInput()
-  duplicateDeletion.sourceDelta.deletedI18n.push(duplicateDeletion.sourceDelta.deletedI18n[0])
+  duplicateDeletion.reconciliation.deletions = [duplicateDeletion.reconciliation.renames[0].oldI18nPath]
+  duplicateDeletion.reconciliation.deletions.push(duplicateDeletion.reconciliation.deletions[0])
   assert.throws(() => validateBatchInput(duplicateDeletion), /duplicate/i)
 
   const duplicateRename = batchInput()
-  duplicateRename.sourceDelta.renamed.push({ ...duplicateRename.sourceDelta.renamed[0] })
+  duplicateRename.reconciliation.renames.push({ ...duplicateRename.reconciliation.renames[0] })
   assert.throws(() => validateBatchInput(duplicateRename), /duplicate|multiple/i)
 
   const unrelated = batchInput()
-  unrelated.sourceDelta.deletedI18n.push(unrelated.candidates[0].targetPath)
-  unrelated.sourceDelta.deletedI18n.sort()
+  unrelated.reconciliation.deletions.push(unrelated.candidates[0].targetPath)
+  unrelated.reconciliation.deletions.sort()
   assert.throws(() => validateBatchInput(unrelated), /overlap|rename|conflict/i)
 
   const ancestor = batchInput({
@@ -369,7 +314,7 @@ test('rejects duplicate entries, unrelated overlaps, and ancestor conflicts', ()
       { sourcePath: 'content/en/guides/tutorials/a.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', sourceHash: HASH_A },
       { sourcePath: 'content/en/guides/tutorials/a.md/b.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md/b.md', sourceHash: HASH_B },
     ],
-    sourceDelta: { deletedI18n: [], renamed: [], retirementCandidates: [] },
+    reconciliation: { deletions: [], renames: [] },
   })
   assert.throws(() => validateBatchInput(ancestor), /ancestor|directory|conflict/i)
 
@@ -380,7 +325,7 @@ test('rejects duplicate entries, unrelated overlaps, and ancestor conflicts', ()
       { sourcePath: 'content/en/guides/tutorials/a.md/b.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md/b.md', sourceHash: 'c'.repeat(64) },
     ],
     batch: { ...selectedManifest().batch, pendingCount: 3 },
-    sourceDelta: { deletedI18n: [], renamed: [], retirementCandidates: [] },
+    reconciliation: { deletions: [], renames: [] },
   })
   assert.throws(() => validateBatchInput(nonAdjacentAncestor), /ancestor|directory|conflict/i)
 })
@@ -389,35 +334,34 @@ test('accepts only exact intrinsic rename overlaps and rejects near misses', () 
   assert.doesNotThrow(() => validateBatchInput(batchInput()))
 
   const deletionAtNew = batchInput()
-  deletionAtNew.sourceDelta.deletedI18n = [deletionAtNew.sourceDelta.renamed[0].newI18nPath]
+  deletionAtNew.reconciliation.deletions = [deletionAtNew.reconciliation.renames[0].newI18nPath]
   assert.throws(() => validateBatchInput(deletionAtNew), /overlap|rename|conflict/i)
 
   const candidateAtOld = batchInput()
-  const r = candidateAtOld.sourceDelta.renamed[0]
+  const r = candidateAtOld.reconciliation.renames[0]
   candidateAtOld.candidates[0] = { sourcePath: r.oldPath, targetPath: r.oldI18nPath, sourceHash: HASH_A }
   assert.throws(() => validateBatchInput(candidateAtOld), /overlap|rename|conflict/i)
 
   const mismatchedRename = batchInput()
-  mismatchedRename.sourceDelta.renamed[0].newI18nPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/other.md'
+  mismatchedRename.reconciliation.renames[0].newI18nPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/other.md'
   assert.throws(() => validateBatchInput(mismatchedRename), /mapping|suffix|rename/i)
 
   const twoRenamesOneDeletion = batchInput()
   const second = rename('old.md', 'other-new.md')
-  twoRenamesOneDeletion.sourceDelta.renamed.push(second)
+  twoRenamesOneDeletion.reconciliation.renames.push(second)
   assert.throws(() => validateBatchInput(twoRenamesOneDeletion), /duplicate|multiple|rename|overlap/i)
 
   const twoRenamesOneCandidate = batchInput()
   const duplicateNew = rename('other-old.md', 'new.md')
-  twoRenamesOneCandidate.sourceDelta.renamed.push(duplicateNew)
+  twoRenamesOneCandidate.reconciliation.renames.push(duplicateNew)
   assert.throws(() => validateBatchInput(twoRenamesOneCandidate), /duplicate|multiple|rename|overlap/i)
 
   const chainedRenames = batchInput({
     candidates: [],
-    batch: { ...selectedManifest().batch, pendingCount: 0 },
-    sourceDelta: {
-      deletedI18n: [],
-      renamed: [rename('a.md', 'b.md'), rename('b.md', 'c.md')],
-      retirementCandidates: [],
+    batch: canonicalBatch({ pendingCount: 0 }),
+    reconciliation: {
+      deletions: [],
+      renames: [rename('a.md', 'b.md'), rename('b.md', 'c.md')],
     },
   })
   assert.throws(() => validateBatchInput(chainedRenames), /duplicate|overlap|conflict/i)
@@ -429,8 +373,8 @@ test('canonical validation rejects non-deterministic array ordering', () => {
       { sourcePath: 'content/en/guides/tutorials/z.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/z.md', sourceHash: HASH_A },
       { sourcePath: 'content/en/guides/tutorials/a.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/a.md', sourceHash: HASH_B },
     ],
-    batch: { ...selectedManifest().batch, pendingCount: 2 },
-    sourceDelta: { deletedI18n: [], renamed: [], retirementCandidates: [] },
+    batch: canonicalBatch({ pendingCount: 2 }),
+    reconciliation: { deletions: [], renames: [] },
   })
   assert.throws(() => validateBatchInput(input), /canonical|sort|order/i)
 })
@@ -438,7 +382,7 @@ test('canonical validation rejects non-deterministic array ordering', () => {
 test('rejects non-Guides manifests and unauthorized source-delta shapes', () => {
   assert.throws(() => createBatchInput(selectedManifest({ group: 'java' })), /guides|group/i)
   assert.throws(() => createBatchInput(selectedManifest({ locale: 'zh-CN' })), /ja-JP|locale/i)
-  assert.throws(() => createBatchInput(selectedManifest({ source_delta: { changedEnglish: [], deleted_i18n: [], renamed: [] } })), /key|source.delta|schema/i)
+  assert.throws(() => createBatchInput(selectedManifest({ reconciliation: { planArtifact: 'x', planSha256: 'sha256:' + '0'.repeat(64), operationCount: 1 } })), /key|schema|identity/i)
 })
 
 function cacheEntry(sourcePath, hash = HASH_A) {
@@ -467,8 +411,8 @@ test('authorizes only candidate, rename, and deletion-derived cache changes', ()
     'docs/tutorials/deleted.md': cacheEntry('docs/tutorials/deleted.md'),
     'docs/tutorials/stable.md': cacheEntry('docs/tutorials/stable.md'),
   } }
-  input.sourceDelta.deletedI18n.push('i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/deleted.md')
-  input.sourceDelta.deletedI18n.sort()
+  input.reconciliation.deletions.push('i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/deleted.md')
+  input.reconciliation.deletions.sort()
   const after = structuredClone(before)
   delete after.files['docs/tutorials/old.md']
   delete after.files['docs/tutorials/deleted.md']
@@ -486,8 +430,8 @@ test('authorizes only candidate, rename, and deletion-derived cache changes', ()
 
   const renameOnly = batchInput({
     candidates: [],
-    batch: { ...selectedManifest().batch, pendingCount: 0 },
-    sourceDelta: { deletedI18n: [], renamed: [rename()], retirementCandidates: [] },
+    batch: canonicalBatch({ pendingCount: 0 }),
+    reconciliation: { deletions: [], renames: [rename()] },
   })
   const beforeRename = { files: { 'docs/tutorials/old.md': cacheEntry('docs/tutorials/old.md') } }
   const afterOldRemoval = { files: {} }
@@ -510,7 +454,7 @@ test('accepts unchanged unified reference entries in a Guides batch cache', () =
       targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
       sourceHash: HASH_A,
     }],
-    sourceDelta: {deletedI18n: [], renamed: [], retirementCandidates: []},
+    reconciliation: {deletions: [], renames: []},
   }
   assert.doesNotThrow(() => assertAuthorizedCacheChanges(before, after, input))
 })
@@ -553,10 +497,10 @@ test('binds candidate cache additions and changes to exact batch values', () => 
 
 test('allows deletion and rename-old cache identities to be removed only', () => {
   const input = batchInput()
-  const renameOld = input.sourceDelta.renamed[0].oldPath
+  const renameOld = input.reconciliation.renames[0].oldPath
   const deletionKey = 'docs/tutorials/deleted.md'
-  input.sourceDelta.deletedI18n.push('i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/deleted.md')
-  input.sourceDelta.deletedI18n.sort()
+  input.reconciliation.deletions.push('i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/deleted.md')
+  input.reconciliation.deletions.sort()
 
   for (const key of [renameOld, deletionKey]) {
     const existing = cacheEntry(key)
@@ -609,9 +553,11 @@ test('writes canonical JSON atomically and preserves an existing file on validat
 test('CLI create and validate use strict flags and reject symlink reads', () => {
   const dir = temporaryDirectory('translation-batch-cli-')
   const manifest = path.join(dir, 'manifest.json')
+  const planPath = path.join(dir, 'plan.json')
   const output = path.join(dir, 'batch.json')
   fs.writeFileSync(manifest, JSON.stringify(selectedManifest()))
-  assert.equal(runCli(['create', '--manifest', manifest, '--output', output]).status, 0)
+  fs.writeFileSync(planPath, JSON.stringify(reconciliationPlan()))
+  assert.equal(runCli(['create', '--manifest', manifest, '--plan', planPath, '--output', output]).status, 0)
   assert.deepEqual(JSON.parse(fs.readFileSync(output, 'utf8')), batchInput())
   assert.equal(runCli(['validate', '--input', output]).status, 0)
   for (const args of [
@@ -623,7 +569,7 @@ test('CLI create and validate use strict flags and reject symlink reads', () => 
 
   const link = path.join(dir, 'manifest-link.json')
   fs.symlinkSync(manifest, link)
-  const linked = runCli(['create', '--manifest', link, '--output', output])
+  const linked = runCli(['create', '--manifest', link, '--plan', planPath, '--output', output])
   assert.notEqual(linked.status, 0)
   assert.match(linked.stderr, /symlink|regular/i)
 })
@@ -655,16 +601,18 @@ test('CLI rejects output beneath a symlinked parent without touching outside fil
   const alias = path.join(root, 'outside-alias')
   const sentinel = path.join(outside, 'batch.json')
   const missing = path.join(outside, 'missing.json')
+  const planPath = path.join(root, 'plan.json')
   fs.writeFileSync(manifest, JSON.stringify(selectedManifest()))
+  fs.writeFileSync(planPath, JSON.stringify(reconciliationPlan()))
   fs.writeFileSync(sentinel, 'outside sentinel\n')
   fs.symlinkSync(outside, alias)
 
-  const replace = runCli(['create', '--manifest', manifest, '--output', path.join(alias, 'batch.json')])
+  const replace = runCli(['create', '--manifest', manifest, '--plan', planPath, '--output', path.join(alias, 'batch.json')])
   assert.notEqual(replace.status, 0)
   assert.match(replace.stderr, /symlink|path chain|parent/i)
   assert.equal(fs.readFileSync(sentinel, 'utf8'), 'outside sentinel\n')
 
-  const create = runCli(['create', '--manifest', manifest, '--output', path.join(alias, 'missing.json')])
+  const create = runCli(['create', '--manifest', manifest, '--plan', planPath, '--output', path.join(alias, 'missing.json')])
   assert.notEqual(create.status, 0)
   assert.match(create.stderr, /symlink|path chain|parent/i)
   assert.equal(fs.existsSync(missing), false)
@@ -680,8 +628,10 @@ test('CLI rejects nested non-directory parents for reads and writes', () => {
   assert.match(read.stderr, /directory|path chain|ENOTDIR/i)
 
   const manifest = path.join(root, 'manifest.json')
+  const planPath = path.join(root, 'plan.json')
   fs.writeFileSync(manifest, JSON.stringify(selectedManifest()))
-  const write = runCli(['create', '--manifest', manifest, '--output', path.join(notDirectory, 'output.json')])
+  fs.writeFileSync(planPath, JSON.stringify(reconciliationPlan()))
+  const write = runCli(['create', '--manifest', manifest, '--plan', planPath, '--output', path.join(notDirectory, 'output.json')])
   assert.notEqual(write.status, 0)
   assert.match(write.stderr, /directory|path chain|ENOTDIR/i)
   assert.equal(fs.readFileSync(notDirectory, 'utf8'), 'sentinel\n')

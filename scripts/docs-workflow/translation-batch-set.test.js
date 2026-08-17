@@ -146,7 +146,7 @@ async function createPair(fixture, batchNumber, options = {}) {
     sourceCheckpointSha: options.sourceCheckpointSha || fixture.sourceCheckpointSha,
     batch,
     candidates: includeCandidate ? [{ sourcePath, targetPath, sourceHash: sha256(sourceBytes) }] : [],
-    sourceDelta: { deletedI18n, renamed: [], retirementCandidates: [] },
+    reconciliation: { deletions: deletedI18n, renames: [] },
   }
   if (options.batchInput) Object.assign(batchInput, options.batchInput)
   const batchInputPath = path.join(fixture.root, `batch-input-${suffix}.json`)
@@ -536,15 +536,14 @@ test('authorizes the old Japanese path deletion from a validated rename', async 
     targetPath: newI18nPath,
     deletions: [oldI18nPath],
     batchInput: {
-      sourceDelta: {
-        deletedI18n: [],
-        renamed: [{
+      reconciliation: {
+        deletions: [],
+        renames: [{
           oldPath: 'content/en/guides/tutorials/old.md',
           newPath: 'content/en/guides/tutorials/a.md',
           oldI18nPath,
           newI18nPath,
         }],
-        retirementCandidates: [],
       },
     },
   })
