@@ -119,21 +119,26 @@ test('loads the exact initial automatic and review-required policy', () => {
   assert.equal(policy.targets['ja-JP'].rest.mode, 'automatic')
   assert.equal(policy.targets['zh-CN-reference'].rest.mode, 'review_required')
   assert.equal(policy.targets['zh-CN-reference'].rest.requiresCompletenessEvidence, true)
-  assert.equal(policy.targets['zh-CN-reference'].cli.mode, 'automatic')
-  assert.equal(policy.targets['zh-CN-reference'].cli.requiresCompletenessEvidence, true)
-  for (const group of ['python', 'java', 'node', 'go', 'reference-landings']) assert.equal(policy.targets['zh-CN-reference'][group].mode, 'review_required')
+  for (const group of ['python', 'java', 'node', 'go', 'cli']) {
+    assert.equal(policy.targets['zh-CN-reference'][group].mode, 'automatic')
+    assert.equal(policy.targets['zh-CN-reference'][group].requiresCompletenessEvidence, false)
+    assert.deepEqual(policy.targets['zh-CN-reference'][group].automaticKinds, ['delete_target', 'remove_navigation_only', 'replace_path'])
+    assert.equal(policy.targets['zh-CN-reference'][group].maxOperations, 1000)
+    assert.equal(policy.targets['zh-CN-reference'][group].maxPercent, 100)
+  }
+  assert.equal(policy.targets['zh-CN-reference']['reference-landings'].mode, 'review_required')
   assert.equal(Object.isFrozen(policy.targets['ja-JP'].guides), true)
 })
 
-test('keeps Japanese deletion automatic while Chinese SDK and REST require review', () => {
+test('keeps Japanese and Chinese SDK deletion automatic while REST requires review', () => {
   const japaneseCandidate = candidate({targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/old.md'})
   const japanese = evaluate({target: 'ja-JP', candidates: [japaneseCandidate]})
   assert.equal(japanese.status, 'approved')
   assert.equal(japanese.plan.operations[0].authorization.method, 'automatic')
 
   const chinese = evaluate()
-  assert.equal(chinese.status, 'review_required')
-  assert.equal(chinese.plan.operations[0].authorization.status, 'review_required')
+  assert.equal(chinese.status, 'approved')
+  assert.equal(chinese.plan.operations[0].authorization.method, 'automatic')
 
   const restCandidate = candidate({
     sourcePath: 'content/en/reference/api/restful/restful/v2/old.md',
@@ -163,28 +168,30 @@ test('automates Japanese replace_path only with authoritative replacement metada
 })
 
 test('adapts only an exact non-null retirement registry match as legacy human approval', () => {
+  const restCandidate = candidate({sourcePath: 'content/en/reference/api/restful/restful/v2/old.md', targetPath: 'content/zh-CN/reference/api/restful/restful/v2/old.md'})
   const record = {
-    manual: 'python',
-    sourcePath: candidate().sourcePath,
-    targetPath: candidate().targetPath,
+    manual: 'rest',
+    sourcePath: restCandidate.sourcePath,
+    targetPath: restCandidate.targetPath,
     changeKind: 'source_deleted',
     rationale: 'Reviewed exact source deletion',
   }
-  const approved = evaluate({retirementRegistry: {schemaVersion: 2, retirements: [record]}})
+  const approved = evaluate({group: 'rest', candidates: [restCandidate], retirementRegistry: {schemaVersion: 2, retirements: [record]}})
   assert.equal(approved.status, 'approved')
   assert.equal(approved.plan.operations[0].authorization.method, 'legacy')
   assert.match(approved.plan.operations[0].authorization.receiptSha256, /^sha256:[0-9a-f]{64}$/)
   assert.equal(approved.decisions[0].rationale, record.rationale)
 
-  const nullDecision = evaluate({retirementRegistry: {schemaVersion: 2, retirements: [{...record, changeKind: null}]}})
+  const nullDecision = evaluate({group: 'rest', candidates: [restCandidate], retirementRegistry: {schemaVersion: 2, retirements: [{...record, changeKind: null}]}})
   assert.equal(nullDecision.status, 'review_required')
-  const wrongManual = evaluate({retirementRegistry: {schemaVersion: 2, retirements: [{...record, manual: 'java'}]}})
+  const wrongManual = evaluate({group: 'rest', candidates: [restCandidate], retirementRegistry: {schemaVersion: 2, retirements: [{...record, manual: 'java'}]}})
   assert.equal(wrongManual.status, 'review_required')
 })
 
 test('emits byte-stable deterministic review artifacts without timestamps', () => {
-  const first = evaluate()
-  const second = evaluate()
+  const restCandidate = candidate({sourcePath: 'content/en/reference/api/restful/restful/v2/old.md', targetPath: 'content/zh-CN/reference/api/restful/restful/v2/old.md'})
+  const first = evaluate({group: 'rest', candidates: [restCandidate]})
+  const second = evaluate({group: 'rest', candidates: [restCandidate]})
   assert.deepEqual(first.reviewArtifact, second.reviewArtifact)
   assert.match(first.reviewArtifact.reviewArtifactSha256, /^sha256:[0-9a-f]{64}$/)
   assert.equal(JSON.stringify(first.reviewArtifact).includes('generatedAt'), false)
@@ -296,7 +303,8 @@ test('validates SDK/CLI completeness receipts before automatic Chinese SDK delet
 })
 
 test('approval receipts bind every plan identity, rationale, reviewer, and expiry', () => {
-  const pending = evaluate()
+  const restCandidate = candidate({sourcePath: 'content/en/reference/api/restful/restful/v2/old.md', targetPath: 'content/zh-CN/reference/api/restful/restful/v2/old.md'})
+  const pending = evaluate({group: 'rest', candidates: [restCandidate]})
   const receipt = createApprovalReceipt({
     schemaVersion: 1,
     document: 'translation-reconciliation-approval',
@@ -312,7 +320,7 @@ test('approval receipts bind every plan identity, rationale, reviewer, and expir
     issuedAt: '2026-08-15T10:00:00.000Z',
     expiresAt: '2026-08-16T10:00:00.000Z',
   }, pending.plan, {now: '2026-08-15T11:00:00.000Z'})
-  const approved = evaluate({approvalReceipts: [receipt], now: '2026-08-15T11:00:00.000Z'})
+  const approved = evaluate({group: 'rest', candidates: [restCandidate], approvalReceipts: [receipt], now: '2026-08-15T11:00:00.000Z'})
   assert.equal(approved.status, 'approved')
   assert.equal(approved.approvalReceipts[0].authorization.identity, 'reviewer@example.com')
 
@@ -321,7 +329,7 @@ test('approval receipts bind every plan identity, rationale, reviewer, and expir
   assert.throws(() => validateApprovalReceipt(changed, pending.plan, {now: '2026-08-15T11:00:00.000Z'}), /toolingSha.*match/i)
   assert.throws(() => validateApprovalReceipt(receipt, pending.plan, {now: '2026-08-17T00:00:00.000Z'}), /expired/i)
   assert.throws(() => validateApprovalReceipt(receipt, pending.plan, {now: '2026-08-15T09:00:00.000Z'}), /future/i)
-  assert.throws(() => evaluate({approvalReceipts: [receipt, receipt], now: '2026-08-15T11:00:00.000Z'}), /unique/i)
+  assert.throws(() => evaluate({group: 'rest', candidates: [restCandidate], approvalReceipts: [receipt, receipt], now: '2026-08-15T11:00:00.000Z'}), /unique/i)
 })
 
 test('a durable human policy exception approves the exact future operation shape', () => {

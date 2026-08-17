@@ -217,7 +217,7 @@ The policy determines one of:
 | `ja-JP/guides` | automatic after scoped immutable diff or orphan proof | delete old plus translate new; no inferred rename | automatic for generated navigation | reject automatic deletion |
 | `ja-JP/Reference` | automatic after scoped immutable diff or orphan proof | delete old plus translate new; no inferred rename | automatic for generated navigation | reject automatic deletion |
 | `zh-CN-reference/rest` | automatic only with complete OpenAPI generation receipt and thresholds | review required unless authoritative operation identity proves replacement | automatic for generated navigation | reject automatic deletion |
-| `zh-CN-reference/SDK/CLI` | review required initially | review required | automatic only for generated navigation | reject automatic deletion |
+| `zh-CN-reference/SDK/CLI` | automatic after retained checkpoint artifact proves complete source inventories | delete old plus translate new; no inferred rename | automatic for generated navigation | reject automatic deletion |
 | `zh-CN-reference/reference-landings` | review required | review required | review required | manual only |
 
 ### Automatic approval thresholds
@@ -520,7 +520,7 @@ Add stable reconciliation failure codes:
 3. Add Chinese Reference plan generation and review artifacts while retaining registry-backed `preserve_target` behavior.
 4. Enable physical Chinese target deletion and ledger updates for reviewed operations.
 5. Enable strict automatic REST deletion with complete-generation receipts and blast-radius limits.
-6. Add SDK/CLI automatic policies only after retained-artifact evidence proves complete source inventories.
+6. Enable SDK/CLI automatic policies after retained checkpoint artifacts prove complete source inventories (fetch checkpoints include the full owned file inventory plus build validation).
 7. Move Fetch reconciliation preflight before publication and advance handoff to schema v3.
 8. Retire legacy transport fields and, in a later explicit task, the static retirement registry.
 
