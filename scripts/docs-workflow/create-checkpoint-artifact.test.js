@@ -32,11 +32,10 @@ function canonicalBatchInput(batch = numberedBatch(), overrides = {}) {
       targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md',
       sourceHash: 'd'.repeat(64),
     }],
-    sourceDelta: reconciliationOnly ? {
-      deletedI18n: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md'],
-      renamed: [],
-      retirementCandidates: [],
-    } : { deletedI18n: [], renamed: [], retirementCandidates: [] },
+    reconciliation: reconciliationOnly ? {
+      deletions: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md'],
+      renames: [],
+    } : { deletions: [], renames: [] },
     ...overrides,
   };
 }

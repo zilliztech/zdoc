@@ -108,7 +108,7 @@ async function createPair(fixture, batchNumber) {
     sourceCheckpointSha: fixture.sourceCheckpointSha,
     batch,
     candidates: [{sourcePath, targetPath, sourceHash: resultCache.files[sourcePath].sourceHash}],
-    sourceDelta: {deletedI18n: [], renamed: [], retirementCandidates: []},
+    reconciliation: {deletions: [], renames: []},
   }
   const batchInputPath = path.join(fixture.root, `batch-input-${suffix}.json`)
   fs.writeFileSync(batchInputPath, `${JSON.stringify(batchInput, null, 2)}\n`)
