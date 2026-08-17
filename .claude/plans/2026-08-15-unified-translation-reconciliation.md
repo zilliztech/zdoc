@@ -82,6 +82,7 @@ git diff --check
 
 - [x] Define versioned target/group policy, thresholds, preserved roots, and completeness-evidence requirements.
 - [x] Start with current Japanese automatic behavior, Chinese REST complete-generation automation disabled, and Chinese SDK/CLI/landing review required.
+- [x] Enable Chinese SDK/CLI automatic deletion after fetch checkpoint artifacts prove complete source inventories (aligns zh-CN-reference SDK/CLI with ja-JP).
 - [x] Adapt exact matching `config/reference-retirements.json` records into human-approved legacy operations.
 - [x] Write deterministic review artifacts for unresolved operations.
 - [x] Bind approval receipts to plan SHA, source SHAs, target baseline, tooling SHA, policy ID, reviewer/rule identity, rationale, and expiry.
@@ -460,7 +461,7 @@ Recommended pull-request sequence:
 3. Chinese reviewed deletion and ledger;
 4. handoff v3, Fetch preflight, and recovery;
 5. REST completeness receipts and controlled automation;
-6. per-manual SDK/CLI policy enablement;
+6. per-manual SDK/CLI policy enablement (zh-CN-reference python/java/node/go/cli aligned with ja-JP automatic; REST and reference-landings remain review-required);
 7. legacy retirement after the recovery window.
 
 Each PR must remain independently deployable and must not require a later PR to restore existing production safety.
