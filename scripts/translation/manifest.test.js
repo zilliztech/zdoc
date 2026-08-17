@@ -7,7 +7,6 @@ const { spawnSync } = require('node:child_process')
 
 const {
   buildManifest,
-  buildRetirementReview,
   cachePathForLocale,
   ReconciliationReviewRequiredError,
   localeForTarget,
@@ -229,200 +228,7 @@ function testActiveReferenceSourceIsNotHiddenByStaleRetirement() {
   })
 }
 
-function testAuthorizedHistoricalReferenceOrphanIsSerializedUnchanged() {
-  withTempDir(siteDir => {
-    const sourcePath = 'content/en/reference/api/python/python/removed.md'
-    const targetPath = 'content/zh-CN/reference/api/python/python/removed.md'
-    const retirement = {manual: 'python', sourcePath, targetPath, changeKind: 'source_deleted'}
-    write(path.join(siteDir, targetPath), '# 已翻译\n')
-    write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
-      schemaVersion: 1,
-      records: [referenceRecord({manual: 'python', sourcePath, targetPath, sourceHash: 'a'.repeat(64)})],
-    }))
-    write(path.join(siteDir, 'config/reference-retirements.json'), JSON.stringify({
-      schemaVersion: 2,
-      retirements: [{manual: 'python', sourcePath, targetPath, changeKind: 'source_deleted', rationale: 'Reviewed source deletion'}],
-    }))
 
-    const manifest = buildManifest({
-      siteDir,
-      target: 'zh-CN-reference',
-      group: 'python',
-      sourceCheckpointSha: 'e'.repeat(40),
-    })
-
-    assert.deepEqual(manifest.items, [])
-    assert.deepEqual(manifest.source_delta, {
-      deleted_i18n: [],
-      renamed: [],
-      retirement_candidates: [retirement],
-    })
-  })
-}
-
-function testRetirementReviewSeparatesPolicyRetirementReplacementAndTargetExclusion() {
-  withTempDir(siteDir => {
-    git(siteDir, ['init', '-b', 'main'])
-    git(siteDir, ['config', 'user.email', 'retirement-review@example.com'])
-    git(siteDir, ['config', 'user.name', 'Retirement Review Test'])
-
-    const declaredSource = 'content/en/reference/api/java/java/v1/v1-About.md'
-    const renamedSource = 'content/en/reference/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md'
-    const renamedCurrent = 'content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-VolumeFileManager-shutdownGracefully.md'
-    const missingOutputSource = 'content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions-getPartitionStats.md'
-    const snapshotPath = 'packages/docs-tooling/src/lark/meta/snapshots/javaV230-uat-last-success.json'
-    const targetFor = sourcePath => sourcePath.replace('content/en/', 'content/zh-CN/')
-
-    write(path.join(siteDir, declaredSource), '# Java v1\n')
-    write(path.join(siteDir, renamedSource), '# shutdownGracefully\n\nSame API content.\n')
-    write(path.join(siteDir, missingOutputSource), '# getPartitionStats\n')
-    write(path.join(siteDir, 'generated/en/manifests/lark-revisions/java.json'), JSON.stringify({
-      schemaVersion: 1,
-      group: 'java',
-      generatedAt: '2026-08-01T00:00:00.000Z',
-      sourceRunId: '1',
-      records: [
-        {canonicalToken: 'declared-old', title: 'About', contentPath: declaredSource, objectToken: null, parentToken: null, revisionId: null, objectEditTime: null},
-        {canonicalToken: 'partition-old', title: 'getPartitionStats()', contentPath: missingOutputSource, objectToken: null, parentToken: null, revisionId: null, objectEditTime: null},
-        {canonicalToken: 'shutdown-old', title: 'shutdownGracefully()', contentPath: renamedSource, objectToken: null, parentToken: null, revisionId: null, objectEditTime: null},
-      ],
-    }))
-    write(path.join(siteDir, snapshotPath), JSON.stringify({
-      schema_version: 2,
-      manual: 'javaV230',
-      targets_built: ['zilliz'],
-      records: [
-        {record_id: 'rec-declared', title: 'About', doc_token: 'declared-old', output_paths: [declaredSource], publish_targets: ['zilliz'], publish_status: 'Draft'},
-        {record_id: 'rec-partition', title: 'getPartitionStats()', doc_token: 'partition-old', output_paths: [missingOutputSource], publish_targets: ['zilliz'], publish_status: 'Draft'},
-        {record_id: 'rec-shutdown', title: 'shutdownGracefully()', doc_token: 'shutdown-old', output_paths: [renamedSource], publish_targets: ['zilliz'], publish_status: 'Draft'},
-      ],
-    }))
-    git(siteDir, ['add', '.'])
-    git(siteDir, ['commit', '-m', 'historical source state'])
-    const sourceCommit = git(siteDir, ['rev-parse', 'HEAD'])
-
-    fs.rmSync(path.join(siteDir, declaredSource))
-    fs.rmSync(path.join(siteDir, missingOutputSource))
-    fs.mkdirSync(path.dirname(path.join(siteDir, renamedCurrent)), {recursive: true})
-    fs.renameSync(path.join(siteDir, renamedSource), path.join(siteDir, renamedCurrent))
-    const candidates = [declaredSource, renamedSource, missingOutputSource].map(sourcePath => ({
-      manual: 'java',
-      sourcePath,
-      targetPath: targetFor(sourcePath),
-      changeKind: 'source_deleted',
-    }))
-    for (const candidate of candidates) write(path.join(siteDir, candidate.targetPath), '# translated\n')
-    write(path.join(siteDir, 'generated/zh-CN/manifests/reference-translations.json'), JSON.stringify({
-      schemaVersion: 1,
-      records: candidates.map(candidate => referenceRecord({
-        manual: candidate.manual,
-        sourcePath: candidate.sourcePath,
-        targetPath: candidate.targetPath,
-        sourceCommit,
-        sourceHash: 'a'.repeat(64),
-      })).sort((left, right) => left.sourcePath.localeCompare(right.sourcePath)),
-    }))
-    write(path.join(siteDir, 'generated/en/manifests/lark-revisions/java.json'), JSON.stringify({
-      schemaVersion: 1,
-      group: 'java',
-      generatedAt: '2026-08-02T00:00:00.000Z',
-      sourceRunId: '2',
-      records: [
-        {canonicalToken: 'partition-new', title: 'getPartitionStats()', contentPath: null, objectToken: null, parentToken: null, revisionId: null, objectEditTime: null},
-        {canonicalToken: 'shutdown-new', title: 'shutdownGracefully()', contentPath: renamedCurrent, objectToken: null, parentToken: null, revisionId: null, objectEditTime: null},
-      ],
-    }))
-    write(path.join(siteDir, snapshotPath), JSON.stringify({
-      schema_version: 2,
-      manual: 'javaV230',
-      targets_built: ['zilliz'],
-      records: [
-        {record_id: 'rec-partition', title: 'getPartitionStats()', doc_token: 'partition-new', output_paths: [], publish_targets: [], publish_status: 'Draft'},
-        {record_id: 'rec-shutdown', title: 'shutdownGracefully()', doc_token: 'shutdown-new', output_paths: [renamedCurrent], publish_targets: ['zilliz'], publish_status: 'Draft'},
-      ],
-    }))
-    write(path.join(siteDir, 'config/reference-retirements.json'), JSON.stringify({schemaVersion: 2, retirements: []}))
-    git(siteDir, ['add', '-A'])
-    git(siteDir, ['commit', '-m', 'current source checkpoint'])
-    const sourceCheckpointSha = git(siteDir, ['rev-parse', 'HEAD'])
-
-    const review = buildRetirementReview({
-      siteDir,
-      target: 'zh-CN-reference',
-      locale: 'zh-CN',
-      group: 'java',
-      sourceCheckpointSha,
-      sourceDelta: {group: 'java', changedEnglish: [], deletedI18n: [], renamed: [], retirementCandidates: []},
-      candidates,
-    })
-
-    assert.equal(review.schemaVersion, 1)
-    assert.equal(review.status, 'retirement_review_required')
-    assert.deepEqual(review.summary, {
-      total: 3,
-      currentRunRetirements: 0,
-      historicalReconciliations: 3,
-      classifications: {
-        declared_retired_path: 1,
-        source_replacement_with_path_move: 1,
-        source_target_excluded: 1,
-      },
-    })
-    assert.deepEqual(review.candidates.map(candidate => ({
-      sourcePath: candidate.sourcePath,
-      classification: candidate.classification,
-      recommendedDisposition: candidate.recommendedDisposition,
-      currentRun: candidate.evidence.currentRun,
-      declaredRetiredRoot: candidate.evidence.declaredRetiredRoot,
-      probableReplacementPath: candidate.evidence.probableReplacementPath,
-      baseRecordId: candidate.evidence.baseRecordId,
-      previousCanonicalToken: candidate.evidence.previousCanonicalToken,
-      replacementCanonicalToken: candidate.evidence.replacementCanonicalToken,
-      publishTargets: candidate.evidence.publishTargets,
-      targetsBuilt: candidate.evidence.targetsBuilt,
-    })), [
-      {
-        sourcePath: declaredSource,
-        classification: 'declared_retired_path',
-        recommendedDisposition: 'approve_declared_retirement',
-        currentRun: false,
-        declaredRetiredRoot: 'content/en/reference/api/java/java/v1',
-        probableReplacementPath: null,
-        baseRecordId: 'rec-declared',
-        previousCanonicalToken: 'declared-old',
-        replacementCanonicalToken: null,
-        publishTargets: null,
-        targetsBuilt: ['zilliz'],
-      },
-      {
-        sourcePath: missingOutputSource,
-        classification: 'source_target_excluded',
-        recommendedDisposition: 'review_source_target_configuration',
-        currentRun: false,
-        declaredRetiredRoot: null,
-        probableReplacementPath: null,
-        baseRecordId: 'rec-partition',
-        previousCanonicalToken: 'partition-old',
-        replacementCanonicalToken: 'partition-new',
-        publishTargets: [],
-        targetsBuilt: ['zilliz'],
-      },
-      {
-        sourcePath: renamedSource,
-        classification: 'source_replacement_with_path_move',
-        recommendedDisposition: 'retranslate_and_move',
-        currentRun: false,
-        declaredRetiredRoot: null,
-        probableReplacementPath: renamedCurrent,
-        baseRecordId: 'rec-shutdown',
-        previousCanonicalToken: 'shutdown-old',
-        replacementCanonicalToken: 'shutdown-new',
-        publishTargets: ['zilliz'],
-        targetsBuilt: ['zilliz'],
-      },
-    ])
-  })
-}
 
 function testCliLeavesRetirementAuthorizationToReconciliationPolicy() {
   withTempDir(siteDir => {
@@ -462,16 +268,14 @@ function testCliLeavesRetirementAuthorizationToReconciliationPolicy() {
       path.join(__dirname, 'manifest.js'),
       '--target', 'zh-CN-reference',
       '--output', 'tmp/translation-manifest.json',
-      '--retirement-report', 'tmp/translation-retirement-review.json',
       '--group', 'java',
       '--source-checkpoint-sha', sourceCheckpointSha,
     ], {cwd: siteDir, encoding: 'utf8'})
 
     assert.equal(result.status, 0, result.stderr)
-    assert.equal(fs.existsSync(path.join(siteDir, 'tmp/translation-retirement-review.json')), false)
     assert.equal(fs.readFileSync(registryPath, 'utf8'), registryBefore)
     const manifest = JSON.parse(fs.readFileSync(path.join(siteDir, 'tmp/translation-manifest.json'), 'utf8'))
-    assert.deepEqual(manifest.source_delta.retirement_candidates, [{manual: 'java', sourcePath, targetPath, changeKind: 'source_deleted'}])
+    assert.equal(manifest.source_delta, undefined)
   })
 }
 
@@ -689,11 +493,10 @@ function testGroupAndCheckpointAreRequired() {
   })
 }
 
-function testSourceDeltaPrioritizesCurrentChangesAndPreservesPendingBacklog() {
+function testSourceChangesPrioritizesCurrentChangesAndPreservesPendingBacklog() {
   withTempDir(siteDir => {
     const sha = 'b'.repeat(40)
     const changed = 'content/en/reference/api/restful/restful/new.mdx'
-    const deletedI18n = 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/old.mdx'
     write(path.join(siteDir, changed), '# new\n')
     const backlog = 'content/en/reference/api/restful/restful/a-backlog.mdx'
     write(path.join(siteDir, backlog), '# backlog\n')
@@ -702,29 +505,15 @@ function testSourceDeltaPrioritizesCurrentChangesAndPreservesPendingBacklog() {
       siteDir,
       group: 'rest',
       sourceCheckpointSha: sha,
-      sourceDelta: {
-        changedEnglish: [changed, 'content/en/reference/api/restful/restful/missing.mdx'],
-        deletedI18n: [deletedI18n],
-        renamed: [],
-      },
+      sourceChanges: {changedEnglish: [changed, 'content/en/reference/api/restful/restful/missing.mdx']},
     })
 
     assert.deepEqual(manifest.items.map(item => item.sourcePath), [changed, backlog])
-    assert.deepEqual(manifest.source_delta, {
-      deleted_i18n: [deletedI18n],
-      renamed: [],
-      retirement_candidates: [],
-    })
-
     const limited = buildManifest({
       siteDir,
       group: 'rest',
       sourceCheckpointSha: sha,
-      sourceDelta: {
-        changedEnglish: [changed],
-        deletedI18n: [],
-        renamed: [],
-      },
+      sourceChanges: {changedEnglish: [changed]},
       maxFiles: 1,
     })
     assert.deepEqual(limited.items.map(item => item.sourcePath), [changed])
@@ -768,11 +557,7 @@ function testManifestClassifiesAndOrdersTranslationCandidates() {
       siteDir,
       group: 'guides',
       sourceCheckpointSha: sha,
-      sourceDelta: {
-        changedEnglish: [sources.current],
-        deletedI18n: [],
-        renamed: [],
-      },
+      sourceChanges: {changedEnglish: [sources.current]},
     })
 
     assert.deepEqual(
@@ -794,11 +579,7 @@ function testCurrentDeltaReasonTakesPrecedenceOverMissingTarget() {
       siteDir,
       group: 'guides',
       sourceCheckpointSha: 'd'.repeat(40),
-      sourceDelta: {
-        changedEnglish: [sourcePath],
-        deletedI18n: [],
-        renamed: [],
-      },
+      sourceChanges: {changedEnglish: [sourcePath]},
     })
     assert.equal(manifest.items[0].reason, 'current_delta')
   })
@@ -812,8 +593,6 @@ function run() {
   testReconciliationReviewStopsManifestBeforeCandidateScanning()
   testApprovedJapaneseReconciliationUsesPlanTransport()
   testActiveReferenceSourceIsNotHiddenByStaleRetirement()
-  testAuthorizedHistoricalReferenceOrphanIsSerializedUnchanged()
-  testRetirementReviewSeparatesPolicyRetirementReplacementAndTargetExclusion()
   testCliLeavesRetirementAuthorizationToReconciliationPolicy()
   testFullChineseBootstrapIncludesEveryActiveSource()
   testReferenceLandingGroupForcesExactlyFiveCurrentTargets()
@@ -821,7 +600,7 @@ function run() {
   testCheckpointedCacheRemovesCompletedFilesFromNextManifest()
   testContentGroupsFilterBeforeMaxFilesAndRecordCheckpoint()
   testGroupAndCheckpointAreRequired()
-  testSourceDeltaPrioritizesCurrentChangesAndPreservesPendingBacklog()
+  testSourceChangesPrioritizesCurrentChangesAndPreservesPendingBacklog()
   testManifestClassifiesAndOrdersTranslationCandidates()
   testCurrentDeltaReasonTakesPrecedenceOverMissingTarget()
   console.log('translation manifest tests passed')

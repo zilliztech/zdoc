@@ -920,17 +920,6 @@ function testValidatesExactManifestTargetContract() {
   }]})), /exact schema/i)
 }
 
-function testNormalizesLegacyReconciliationTransportWithoutModelCandidates() {
-  const normalized = validateTranslationManifest(validManifest({
-    items: [],
-    source_delta: {deleted_i18n: ['i18n/ja-JP/old.md'], renamed: [], retirement_candidates: []},
-    batch: {batchIndex: 0},
-  }))
-  assert.equal(normalized.reconciliation.operationCount, 1)
-  assert.equal(normalized.reconciliation.planArtifact, 'legacy-source-delta')
-  assert.equal(normalized.batch.reconciliationOwner, true)
-}
-
 function testValidatesPlanReconciliationTransportAndOwnership() {
   const reconciliation = {
     planArtifact: 'translation-reconciliation-plan-ja-JP-guides-123',
@@ -942,7 +931,6 @@ function testValidatesPlanReconciliationTransportAndOwnership() {
     batch: {batchIndex: 0, reconciliationOwner: true},
   }))
   assert.deepEqual(normalized.reconciliation, reconciliation)
-  assert.throws(() => validateTranslationManifest(validManifest({reconciliation, source_delta: {deleted_i18n: [], renamed: []}})), /cannot mix/i)
   assert.throws(() => validateTranslationManifest(validManifest({
     reconciliation: {...reconciliation, operationCount: 0},
     batch: {batchIndex: 0, reconciliationOwner: true},
@@ -4443,7 +4431,6 @@ async function run() {
   testTranslationMessagesIncludeOnlyExplicitRetryFeedback()
   testReferenceLandingMessagesContainNavigationContract()
   testValidatesExactManifestTargetContract()
-  testNormalizesLegacyReconciliationTransportWithoutModelCandidates()
   testValidatesPlanReconciliationTransportAndOwnership()
   await testSemanticUnitsUseCoherentContextAndStableIds()
   await testCorrectionRunsWhenReviewFails()

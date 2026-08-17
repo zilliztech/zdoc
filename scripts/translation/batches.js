@@ -34,23 +34,9 @@ function canonicalPendingItems(manifest) {
   })).sort((a, b) => a.sourcePath.localeCompare(b.sourcePath))
 }
 
-function legacyReconciliationMetadata(sourceDelta) {
-  if (!sourceDelta) return null
-  const operationCount = (sourceDelta.deleted_i18n?.length || 0)
-    + (sourceDelta.renamed?.length || 0)
-    + (sourceDelta.retirement_candidates?.length || 0)
-  if (operationCount === 0) return null
-  const digest = crypto.createHash('sha256').update(JSON.stringify(sourceDelta)).digest('hex')
-  return {
-    planArtifact: 'legacy-source-delta',
-    planSha256: `sha256:${digest}`,
-    operationCount,
-  }
-}
-
 function reconciliationMetadata(manifest) {
   assertManifest(manifest)
-  const metadata = manifest.reconciliation || legacyReconciliationMetadata(manifest.source_delta)
+  const metadata = manifest.reconciliation
   if (!metadata) return null
   if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) throw new Error('Translation reconciliation metadata must be an object')
   const keys = Object.keys(metadata).sort()

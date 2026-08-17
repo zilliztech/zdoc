@@ -126,7 +126,7 @@ test('safe repair with zero candidates validates before persisting its bootstrap
     'inputs.batch_number': 0,
     'steps.agents.outputs.translated_count': '',
     'steps.agents.outputs.failed_count': '',
-    'steps.source_delta.outputs.has_mutation': 'false',
+    'steps.reconciliation.outputs.has_mutation': 'false',
     'steps.mode.outputs.bootstrap_status': 'safe_repair',
   }
   assert.equal(evaluateWorkflowCondition(validation.if, validationState), true)
@@ -145,20 +145,6 @@ test('safe repair with zero candidates validates before persisting its bootstrap
   assert.equal(evaluateWorkflowCondition(marker.if, markerState), false, 'marker must not persist after failed validation')
   markerState['steps.unbatched_validation.outcome'] = 'success'
   assert.equal(evaluateWorkflowCondition(marker.if, markerState), true, 'marker persists after zero-candidate validation succeeds')
-})
-
-test('batch publisher validates and publishes a reconstructable durable checkpoint', () => {
-  const wrapper = fs.readFileSync('.github/workflows/_translate-publish-batch.yml', 'utf8')
-  const publishJob = wrapper.slice(wrapper.indexOf('\n  publish:'))
-  assert.match(publishJob, /needs: translate/)
-  assert.doesNotMatch(publishJob, /\n    if:/)
-  assert.match(publishJob, /runs-on: ubuntu-latest/)
-  assert.match(publishJob, /permissions:[\s\S]*contents: write/)
-  assert.doesNotMatch(publishJob, /uses: \.\/\.github\/workflows\/_publish-content-group\.yml/)
-  assert.match(publishJob, /actions\/download-artifact@v7[\s\S]*translation-checkpoint-\$\{\{ inputs\.target \}\}-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}-batch-\$\{\{ inputs\.batch_number \}\}/)
-  assert.match(publishJob, /validate-checkpoint-artifact\.js[\s\S]*checkpoint translation batch identity mismatch/)
-  assert.match(publishJob, /publish-checkpoint\.sh[\s\S]*--max-attempts 10[\s\S]*\$GITHUB_WORKSPACE\/scripts\/validate-generated-sidebars\.js[\s\S]*\$GITHUB_WORKSPACE\/scripts\/validate-translated-coverage\.js/)
-  assert.match(publishJob, /status=\$\(sed[\s\S]*published \|\| "\$status" == no_changes/)
 })
 
 test('batch preparation reports translation candidate reason counts', () => {

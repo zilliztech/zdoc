@@ -179,7 +179,7 @@ function parseManifest(bytes, selected, label, {selectionRunId, selectionRunAtte
         !Number.isSafeInteger(manifest.batchCount) || manifest.batchCount < 0 || !/^[a-f0-9]{64}$/u.test(manifest.pendingSetSha256 || '')) {
       throw new Error(`${label} Guides batch-set manifest does not match the selected identity`)
     }
-  } else if (manifest.schemaVersion !== 1 || manifest.stage !== 'translation' || manifest.group !== selected.group ||
+  } else if (![1, 3].includes(manifest.schemaVersion) || manifest.stage !== 'translation' || manifest.group !== selected.group ||
       manifest.masterSha !== selected.toolingSha || manifest.devBaselineSha !== selected.sourceCheckpointSha ||
       manifest.translationTarget !== selected.target || manifest.sourceCheckpointSha !== selected.sourceCheckpointSha || manifest.toolingSha !== selected.toolingSha ||
       !Array.isArray(manifest.files) || !Array.isArray(manifest.deletions) || manifest.validation?.passed !== true) {

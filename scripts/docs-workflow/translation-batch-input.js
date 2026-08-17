@@ -9,17 +9,13 @@ const SHA1 = /^[0-9a-f]{40}$/
 const SHA256 = /^[0-9a-f]{64}$/
 const MARKDOWN = /\.(?:md|mdx)$/
 const REASONS = new Set(['current_delta', 'missing_target', 'stale_source'])
-const ROOT_KEYS = ['schemaVersion', 'group', 'sourceCheckpointSha', 'batch', 'candidates', 'sourceDelta']
-const MANIFEST_KEYS = ['target', 'locale', 'group', 'sourceCheckpointSha', 'generatedAt', 'items', 'source_delta', 'batch']
 const PLAN_MANIFEST_KEYS = ['target', 'locale', 'group', 'sourceCheckpointSha', 'generatedAt', 'items', 'reconciliation', 'batch']
 const BATCH_KEYS = ['batchIndex', 'batchNumber', 'batchCount', 'batchSize', 'pendingCount', 'pendingSetSha256']
 const ITEM_KEYS = ['sourcePath', 'targetPath', 'sourceHash', 'locale', 'type', 'reason']
 const CANDIDATE_KEYS = ['sourcePath', 'targetPath', 'sourceHash']
-const SOURCE_DELTA_KEYS = ['deletedI18n', 'renamed', 'retirementCandidates']
-const MANIFEST_SOURCE_DELTA_KEYS = ['deleted_i18n', 'renamed', 'retirement_candidates']
 const RENAME_KEYS = ['oldPath', 'newPath', 'oldI18nPath', 'newI18nPath']
-const RETIREMENT_KEYS = ['manual', 'sourcePath', 'targetPath', 'changeKind']
-const RETIREMENT_CHANGE_KINDS = new Set(['source_deleted', 'source_renamed', 'sidebar_removed'])
+const RECONCILIATION_KEYS = ['deletions', 'renames']
+const ROOT_KEYS = ['schemaVersion', 'group', 'sourceCheckpointSha', 'batch', 'candidates', 'reconciliation']
 const CACHE_ENTRY_KEYS = ['sourceHash', 'targetPath', 'translatedAt']
 
 const GUIDES_MAPPINGS = Object.freeze([
@@ -143,14 +139,6 @@ function assertRename(rename, label = 'rename') {
   if (rename.oldPath === rename.newPath || rename.oldI18nPath === rename.newI18nPath) throw new Error(`${label} must change paths`)
 }
 
-function assertRetirementCandidate(candidate, label = 'retirement candidate') {
-  assertExactKeys(candidate, RETIREMENT_KEYS, label)
-  if (typeof candidate.manual !== 'string' || !/^[a-z][a-z0-9-]*$/.test(candidate.manual)) throw new Error(`${label} manual is invalid`)
-  assertSafeRelativePath(candidate.sourcePath, `${label} source path`)
-  assertSafeRelativePath(candidate.targetPath, `${label} target path`)
-  if (!RETIREMENT_CHANGE_KINDS.has(candidate.changeKind)) throw new Error(`${label} changeKind is not authorized`)
-}
-
 function assertNoDuplicates(values, label) {
   if (new Set(values).size !== values.length) throw new Error(`Duplicate ${label}`)
 }
@@ -172,13 +160,11 @@ function assertCanonicalOrder(values, comparator, label) {
 
 function validateCrossRelationships(input) {
   const candidates = input.candidates
-  const deletions = input.sourceDelta.deletedI18n
-  const renames = input.sourceDelta.renamed
-  const retirements = input.sourceDelta.retirementCandidates
+  const deletions = input.reconciliation.deletions
+  const renames = input.reconciliation.renames
   assertNoDuplicates(candidates.map(item => item.sourcePath), 'candidate source path')
   assertNoDuplicates(candidates.map(item => item.targetPath), 'candidate target path')
   assertNoDuplicates(deletions, 'deleted i18n path')
-  assertNoDuplicates(retirements.map(item => `${item.manual}\0${item.sourcePath}\0${item.targetPath}\0${item.changeKind}`), 'retirement candidate')
   for (const field of RENAME_KEYS) assertNoDuplicates(renames.map(item => item[field]), `rename ${field}`)
   assertNoDuplicates(renames.flatMap(item => [item.oldPath, item.newPath]), 'rename English path overlap')
   assertNoDuplicates(renames.flatMap(item => [item.oldI18nPath, item.newI18nPath]), 'rename Japanese path overlap')
@@ -186,7 +172,6 @@ function validateCrossRelationships(input) {
   assertCanonicalOrder(candidates, (a, b) => compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath), 'candidates')
   assertCanonicalOrder(deletions, compareText, 'deleted i18n paths')
   assertCanonicalOrder(renames, (a, b) => compareText(a.oldPath, b.oldPath) || compareText(a.newPath, b.newPath), 'renames')
-  assertCanonicalOrder(retirements, (a, b) => compareText(a.manual, b.manual) || compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath) || compareText(a.changeKind, b.changeKind), 'retirement candidates')
 
   const candidateSources = new Set(candidates.map(item => item.sourcePath))
   const candidateTargets = new Set(candidates.map(item => item.targetPath))
@@ -224,24 +209,23 @@ function validateBatchInput(input) {
   if (input.group !== 'guides') throw new Error('translation batch input group must be guides')
   if (!SHA1.test(input.sourceCheckpointSha || '')) throw new Error('source checkpoint SHA must be 40 lowercase hexadecimal characters')
   if (!Array.isArray(input.candidates)) throw new Error('candidates must be an array')
-  assertExactKeys(input.sourceDelta, SOURCE_DELTA_KEYS, 'sourceDelta')
-  if (!Array.isArray(input.sourceDelta.deletedI18n) || !Array.isArray(input.sourceDelta.renamed) || !Array.isArray(input.sourceDelta.retirementCandidates)) throw new Error('sourceDelta arrays are required')
+  assertExactKeys(input.reconciliation, RECONCILIATION_KEYS, 'reconciliation')
+  if (!Array.isArray(input.reconciliation.deletions) || !Array.isArray(input.reconciliation.renames)) throw new Error('reconciliation arrays are required')
   for (const item of input.candidates) assertCandidate(item)
-  for (const deleted of input.sourceDelta.deletedI18n) {
+  for (const deleted of input.reconciliation.deletions) {
     assertSafeRelativePath(deleted, 'deleted i18n path')
     const mapping = GUIDES_MAPPINGS.find(item => deleted.startsWith(`${item.targetRoot}/`))
     if (!mapping || !MARKDOWN.test(deleted.slice(mapping.targetRoot.length + 1))) throw new Error('deleted i18n path is outside exact Guides roots or has an invalid extension')
   }
-  for (const entry of input.sourceDelta.renamed) assertRename(entry)
-  for (const entry of input.sourceDelta.retirementCandidates) assertRetirementCandidate(entry)
+  for (const entry of input.reconciliation.renames) assertRename(entry)
   validateCrossRelationships(input)
-  const hasReconciliation = input.sourceDelta.deletedI18n.length > 0 || input.sourceDelta.renamed.length > 0 || input.sourceDelta.retirementCandidates.length > 0
+  const hasReconciliation = input.reconciliation.deletions.length > 0 || input.reconciliation.renames.length > 0
   assertBatch(input.batch, input.candidates.length, hasReconciliation)
   return input
 }
 
 function assertSelectedManifest(manifest) {
-  assertExactKeys(manifest, manifest.reconciliation ? PLAN_MANIFEST_KEYS : MANIFEST_KEYS, 'selected translation manifest')
+  assertExactKeys(manifest, PLAN_MANIFEST_KEYS, 'selected translation manifest')
   if (manifest.target !== 'ja-JP') throw new Error('selected manifest target must be ja-JP')
   if (manifest.locale !== 'ja-JP') throw new Error('selected manifest locale must be ja-JP')
   if (manifest.group !== 'guides') throw new Error('selected manifest group must be guides')
@@ -251,40 +235,28 @@ function assertSelectedManifest(manifest) {
   const batchKeys = Object.keys(manifest.batch || {})
   if (BATCH_KEYS.some(key => !Object.hasOwn(manifest.batch || {}, key)) || batchKeys.some(key => ![...BATCH_KEYS, 'reconciliationOwner'].includes(key))) throw new Error('selected manifest batch has invalid keys')
   if (manifest.reconciliation && typeof manifest.batch.reconciliationOwner !== 'boolean') throw new Error('selected manifest reconciliation ownership is required')
-  if (manifest.reconciliation) {
-    assertExactKeys(manifest.reconciliation, ['planArtifact', 'planSha256', 'operationCount'], 'selected manifest reconciliation')
-    if (!/^sha256:[0-9a-f]{64}$/.test(manifest.reconciliation.planSha256) || !Number.isSafeInteger(manifest.reconciliation.operationCount) || manifest.reconciliation.operationCount < 0) throw new Error('selected manifest reconciliation identity is invalid')
-  } else {
-    assertExactKeys(manifest.source_delta, MANIFEST_SOURCE_DELTA_KEYS, 'selected manifest source_delta')
-    if (!Array.isArray(manifest.source_delta.deleted_i18n) || !Array.isArray(manifest.source_delta.renamed) || !Array.isArray(manifest.source_delta.retirement_candidates)) throw new Error('selected manifest source_delta arrays are required')
-  }
+  if (!manifest.reconciliation) throw new Error('selected manifest reconciliation is required')
+  assertExactKeys(manifest.reconciliation, ['planArtifact', 'planSha256', 'operationCount'], 'selected manifest reconciliation')
+  if (!/^sha256:[0-9a-f]{64}$/.test(manifest.reconciliation.planSha256) || !Number.isSafeInteger(manifest.reconciliation.operationCount) || manifest.reconciliation.operationCount < 0) throw new Error('selected manifest reconciliation identity is invalid')
   for (const item of manifest.items) assertCandidate(item, true)
-  for (const entry of manifest.source_delta?.renamed || []) assertRename(entry, 'manifest rename')
-  for (const entry of manifest.source_delta?.retirement_candidates || []) assertRetirementCandidate(entry, 'manifest retirement candidate')
 }
 
-function sourceDeltaFromPlan(manifest, plan) {
+function reconciliationFromPlan(manifest, plan) {
   const validated = validateReconciliationPlan(plan)
   if (validated.target !== 'ja-JP' || validated.group !== 'guides' || validated.sourceCheckpointSha !== manifest.sourceCheckpointSha || validated.planSha256 !== manifest.reconciliation.planSha256 || validated.operations.length !== manifest.reconciliation.operationCount) throw new Error('Selected manifest reconciliation plan identity mismatch')
-  if (manifest.batch.reconciliationOwner !== true) return {deletedI18n: [], renamed: [], retirementCandidates: []}
-  const deletedI18n = []
-  const renamed = []
+  if (manifest.batch.reconciliationOwner !== true) return {deletions: [], renames: []}
+  const deletions = []
+  const renames = []
   for (const operation of validated.operations) {
-    if (operation.kind === 'delete_target') deletedI18n.push(operation.targetPath)
-    else if (operation.kind === 'replace_path') renamed.push({oldPath: operation.sourcePath, newPath: operation.replacementSourcePath, oldI18nPath: operation.targetPath, newI18nPath: operation.replacementTargetPath})
+    if (operation.kind === 'delete_target') deletions.push(operation.targetPath)
+    else if (operation.kind === 'replace_path') renames.push({oldPath: operation.sourcePath, newPath: operation.replacementSourcePath, oldI18nPath: operation.targetPath, newI18nPath: operation.replacementTargetPath})
   }
-  return {deletedI18n: deletedI18n.sort(compareText), renamed: renamed.sort((a, b) => compareText(a.oldPath, b.oldPath) || compareText(a.newPath, b.newPath)), retirementCandidates: []}
+  return {deletions: deletions.sort(compareText), renames: renames.sort((a, b) => compareText(a.oldPath, b.oldPath) || compareText(a.newPath, b.newPath))}
 }
 
 function createBatchInput(manifest, plan = null) {
   assertSelectedManifest(manifest)
-  const sourceDelta = manifest.reconciliation ? sourceDeltaFromPlan(manifest, plan) : {
-    deletedI18n: [...manifest.source_delta.deleted_i18n].sort(compareText),
-    renamed: manifest.source_delta.renamed.map(entry => ({ ...entry }))
-      .sort((a, b) => compareText(a.oldPath, b.oldPath) || compareText(a.newPath, b.newPath)),
-    retirementCandidates: manifest.source_delta.retirement_candidates.map(entry => ({ ...entry }))
-      .sort((a, b) => compareText(a.manual, b.manual) || compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath) || compareText(a.changeKind, b.changeKind)),
-  }
+  const reconciliation = reconciliationFromPlan(manifest, plan)
   const batch = Object.fromEntries(BATCH_KEYS.map(key => [key, manifest.batch[key]]))
   const result = {
     schemaVersion: 1,
@@ -293,7 +265,7 @@ function createBatchInput(manifest, plan = null) {
     batch,
     candidates: manifest.items.map(({ sourcePath, targetPath, sourceHash }) => ({ sourcePath, targetPath, sourceHash }))
       .sort((a, b) => compareText(a.sourcePath, b.sourcePath) || compareText(a.targetPath, b.targetPath)),
-    sourceDelta,
+    reconciliation,
   }
   return validateBatchInput(result)
 }
@@ -352,8 +324,8 @@ function assertAuthorizedCacheChanges(beforeCache, afterCache, batchInput) {
   validateCache(beforeCache, 'before cache')
   validateCache(afterCache, 'after cache')
   const candidates = new Map(batchInput.candidates.map(item => [item.sourcePath, item]))
-  const removalOnly = new Set(batchInput.sourceDelta.renamed.flatMap(entry => cacheSourceIdentities(entry.oldPath)))
-  for (const targetPath of batchInput.sourceDelta.deletedI18n) {
+  const removalOnly = new Set(batchInput.reconciliation.renames.flatMap(entry => cacheSourceIdentities(entry.oldPath)))
+  for (const targetPath of batchInput.reconciliation.deletions) {
     for (const sourcePath of sourcesForDeletedI18n(targetPath)) removalOnly.add(sourcePath)
   }
   for (const key of candidates.keys()) {
