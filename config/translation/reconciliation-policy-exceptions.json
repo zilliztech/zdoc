@@ -800,6 +800,556 @@
         "rationale": "Approved after reviewing the reconciliation plan: deletes retired v1/legacy Chinese reference orphans that no longer have English sources. Verified post-deletion target paths align one-to-one with the English checkpoint."
       },
       "approvedAt": "2026-08-17T12:10:07.617Z"
+    },
+    {
+      "target": "zh-CN-reference",
+      "group": "go",
+      "policyId": "translation-reconciliation-2026-08-15-v1",
+      "planSha256": "sha256:424ce0285cffceed7e9c6e23c39d8183f75046fe7908fe9202b3de6d48266d78",
+      "operations": [
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Columns.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-Columns.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-CreateCollection.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-CreateCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Delete.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-Delete.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-DeleteByPks.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-DeleteByPks.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-DescribeCollection.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-DescribeCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-DropCollection.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-DropCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Flush.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-Flush.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Get.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-Get.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-GetLoadState.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-GetLoadState.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Insert.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-Insert.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-InsertRows.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-InsertRows.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-ListCollections.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-ListCollections.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-LoadCollection.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-LoadCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-NewCollection.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-NewCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Query.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-Query.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-ReleaseCollection.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-ReleaseCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Search.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-Search.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-SearchParams.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-SearchParams.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Upsert.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-Upsert.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Vectors.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection-Vectors.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Collection/v1-Collection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Connections/v1-Connections-Close.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Connections/v1-Connections-Close.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Connections/v1-Connections-NewClient.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Connections/v1-Connections-NewClient.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Connections/v1-Connections.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Connections/v1-Connections.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-CreateIndex.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Index/v1-Index-CreateIndex.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-DescribeIndex.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Index/v1-Index-DescribeIndex.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-DropIndex.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Index/v1-Index-DropIndex.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-GetIndexBuildProgress.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Index/v1-Index-GetIndexBuildProgress.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-Indexes.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Index/v1-Index-Indexes.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Index/v1-Index.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-CreatePartition.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Partition/v1-Partition-CreatePartition.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-DropPartition.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Partition/v1-Partition-DropPartition.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-HasPartition.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Partition/v1-Partition-HasPartition.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-LoadPartitions.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Partition/v1-Partition-LoadPartitions.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-ReleasePartitions.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Partition/v1-Partition-ReleasePartitions.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-ShowPartitions.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Partition/v1-Partition-ShowPartitions.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1-Partition/v1-Partition.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v1/v1.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v1/v1.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantV2.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantV2.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeV2.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeV2.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Authentication/v2-Authentication.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Client/v2-Client.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RunAnalyzer.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Collection/v2-Collection-RunAnalyzer.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-DataImport/v2-DataImport.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Compact.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-Compact.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndex.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndex.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DescribeIndex.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-DescribeIndex.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndexProperties.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-DropIndexProperties.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetCompactionState.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-GetCompactionState.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetLoadState.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-GetLoadState.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ListIndexes.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-ListIndexes.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadCollection.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-LoadCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadPartitions.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-LoadPartitions.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-RefreshLoad.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-RefreshLoad.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleaseCollection.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-ReleaseCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleasePartitions.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management-ReleasePartitions.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Management/v2-Management.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-DropPartition.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-DropPartition.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Partition/v2-Partition.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Flush.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2-Vector/v2-Vector-Flush.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/go/go/v2/v2.md",
+          "targetPath": "content/zh-CN/reference/api/go/go/v2/v2.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        }
+      ],
+      "authorization": {
+        "method": "human",
+        "identity": "AnthonyTsu1984",
+        "rationale": "Approved after reviewing the reconciliation plan: deletes retired v1/legacy Chinese reference orphans that no longer have English sources. Verified post-deletion target paths align one-to-one with the English checkpoint."
+      },
+      "approvedAt": "2026-08-17T12:17:23.588Z"
     }
   ]
 }
