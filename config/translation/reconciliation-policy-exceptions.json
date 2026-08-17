@@ -2,5 +2,804 @@
   "schemaVersion": 1,
   "document": "translation-reconciliation-policy-exceptions",
   "policyId": "translation-reconciliation-2026-08-15-v1",
-  "exceptions": []
+  "exceptions": [
+    {
+      "target": "zh-CN-reference",
+      "group": "java",
+      "policyId": "translation-reconciliation-2026-08-15-v1",
+      "planSha256": "sha256:ddc35694225d1a597295100c01f77ede03e47a37398a8a2789b823c5c16adfac",
+      "operations": [
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-About.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-About.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias-alterAlias.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Alias/v1-Alias-alterAlias.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias-createAlias.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Alias/v1-Alias-createAlias.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias-dropAlias.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Alias/v1-Alias-dropAlias.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias-listAliases.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Alias/v1-Alias-listAliases.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Alias/v1-Alias.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Alias/v1-Alias.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication-createCredential.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Authentication/v1-Authentication-createCredential.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication-deleteCredential.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Authentication/v1-Authentication-deleteCredential.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication-listCredUsers.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Authentication/v1-Authentication-listCredUsers.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication-updateCredential.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Authentication/v1-Authentication-updateCredential.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Authentication/v1-Authentication.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Authentication/v1-Authentication.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter-LocalBulkWriter.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter-LocalBulkWriter.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter-RemoteBulkWriter.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter-RemoteBulkWriter.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-BulkWriter/v1-BulkWriter.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-alterCollection.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-alterCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-createCollection.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-createCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-delete.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-delete.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-describeCollection.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-describeCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-dropCollection.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-dropCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-flush.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-flush.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-getCollectionStatistics.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-getCollectionStatistics.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadState.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadState.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadingProgress.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-getLoadingProgress.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-insert.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-insert.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-insertAsync.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-insertAsync.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-loadCollection.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-loadCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-releaseCollection.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-releaseCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-renameCollection.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-renameCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-showCollections.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-showCollections.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-upsert.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-upsert.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection-upsertAsync.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection-upsertAsync.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Collection/v1-Collection.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Collection/v1-Collection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Connections/v1-Connections-MilvusClient.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Connections/v1-Connections-MilvusClient.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Connections/v1-Connections-MilvusClientV1Pool.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Connections/v1-Connections-MilvusClientV1Pool.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Connections/v1-Connections.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Connections/v1-Connections.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-createCollection.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-createCollection.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-delete.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-delete.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-get.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-get.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-insert.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-insert.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-listCollections.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-listCollections.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-query.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-query.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-search.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI-search.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-HighlevelAPI/v1-HighlevelAPI.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-alterIndex.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index-alterIndex.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-createIndex.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index-createIndex.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-describeIndex.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index-describeIndex.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-dropIndex.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index-dropIndex.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-getIndexBuildingProgress.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index-getIndexBuildingProgress.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index-getIndexState.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index-getIndexState.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Index/v1-Index.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Index/v1-Index.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-ConsistencyLevelEnum.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-ConsistencyLevelEnum.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-Constant.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-Constant.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-DataType.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-DataType.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-IndexType.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-IndexType.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-LogLevel.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-LogLevel.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-MetricType.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-MetricType.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc-RT.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc-RT.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Misc/v1-Misc.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Misc/v1-Misc.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-createPartition.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-createPartition.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-dropPartition.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-dropPartition.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-getPartitionStatistics.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-getPartitionStatistics.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-hasPartition.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-hasPartition.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-loadPartitions.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-loadPartitions.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-releasePartitions.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-releasePartitions.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition-showPartitions.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition-showPartitions.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-Partition/v1-Partition.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-Partition/v1-Partition.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-hybridSearch.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-hybridSearch.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-query.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-query.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-queryAsync.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-queryAsync.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-queryIterator.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-queryIterator.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-search.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-search.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-searchAsync.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-searchAsync.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-searchIterator.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch-searchIterator.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-QuerySearch/v1-QuerySearch.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-addUserToRole.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC-addUserToRole.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-removeUserFromRole.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC-removeUserFromRole.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectGrantForRole.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectGrantForRole.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectGrantForRoleAndObject.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectGrantForRoleAndObject.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectRole.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectRole.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectUser.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC-selectUser.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-RBAC/v1-RBAC.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-RBAC/v1-RBAC.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-System/v1-System-checkHealth.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-System/v1-System-checkHealth.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-System/v1-System-getVersion.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-System/v1-System-getVersion.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1-System/v1-System.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1-System/v1-System.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v1/v1.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v1/v1.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v2/v2-Authentication/v2-Authentication.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Authentication/v2-Authentication.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v2/v2-Client/v2-Client.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Client/v2-Client.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v2/v2-Collections/v2-Collections.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Collections/v2-Collections.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-append_row.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-LocalBulkWriter/v2-LocalBulkWriter-append_row.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-append_row.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport-RemoteBulkWriter/v2-RemoteBulkWriter-append_row.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v2/v2-DataImport/v2-DataImport.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-DataImport/v2-DataImport.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v2/v2-Database/v2-Database.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Database/v2-Database.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v2/v2-Management/v2-Management.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Management/v2-Management.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v2/v2-Partitions/v2-Partitions.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Partitions/v2-Partitions.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v2/v2-Vector/v2-Vector.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Vector/v2-Vector.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Volume/v2-Volume.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v2/v2-Volume/v2-VolumeFileManager-shutdownGracefully.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        },
+        {
+          "kind": "delete_target",
+          "sourcePath": "content/en/reference/api/java/java/v2/v2.md",
+          "targetPath": "content/zh-CN/reference/api/java/java/v2/v2.md",
+          "replacementSourcePath": null,
+          "replacementTargetPath": null,
+          "reason": "source_deleted"
+        }
+      ],
+      "authorization": {
+        "method": "human",
+        "identity": "AnthonyTsu1984",
+        "rationale": "Approved after reviewing the reconciliation plan: deletes retired v1/legacy Chinese reference orphans that no longer have English sources. Verified post-deletion target paths align one-to-one with the English checkpoint."
+      },
+      "approvedAt": "2026-08-17T12:10:07.617Z"
+    }
+  ]
 }
