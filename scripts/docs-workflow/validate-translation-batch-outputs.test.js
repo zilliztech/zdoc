@@ -9,6 +9,7 @@ const path = require('node:path')
 const test = require('node:test')
 const { createBatchInput } = require('./translation-batch-input')
 const { parseArgs, validateTranslationBatchOutputs } = require('./validate-translation-batch-outputs')
+const {createReconciliationOperation, createReconciliationPlan} = require('../translation/reconciliation-plan')
 
 const SOURCE_SHA = 'a'.repeat(40)
 const PENDING_HASH = 'c'.repeat(64)
@@ -95,7 +96,11 @@ function manifest(overrides = {}) {
     sourceCheckpointSha: SOURCE_SHA,
     generatedAt: '2026-07-18T00:00:00.000Z',
     items: [candidate()],
-    source_delta: { deleted_i18n: [], renamed: [], retirement_candidates: [] },
+    reconciliation: {
+      planArtifact: 'translation-reconciliation-plan-ja-JP-guides-1',
+      planSha256: reconciliationPlan().planSha256,
+      operationCount: reconciliationPlan().operations.length,
+    },
     batch: {
       batchIndex: 0,
       batchNumber: 1,
@@ -103,9 +108,19 @@ function manifest(overrides = {}) {
       batchSize: 10,
       pendingCount: 1,
       pendingSetSha256: PENDING_HASH,
+      reconciliationOwner: false,
     },
     ...overrides,
   }
+}
+
+function reconciliationPlan(renames = [], deletions = []) {
+  const list = Array.isArray(renames) ? renames : [renames]
+  const operations = [
+    ...list.map(renamed => createReconciliationOperation({kind: 'replace_path', sourcePath: renamed.oldPath, targetPath: renamed.oldI18nPath, replacementSourcePath: renamed.newPath, replacementTargetPath: renamed.newI18nPath, reason: 'source_replaced', evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null}, authorization: {status: 'approved', method: 'automatic', ruleId: 'test-policy:ja-JP:guides', receiptSha256: null}})),
+    ...deletions.map(({sourcePath, targetPath}) => createReconciliationOperation({kind: 'delete_target', sourcePath, targetPath, replacementSourcePath: null, replacementTargetPath: null, reason: 'source_deleted', evidence: {sourceExistedAtBaseline: true, sourceMissingAtCheckpoint: true, targetExistsAtBaseline: true, mappingIsCanonical: true, ownedByGroup: true, preserved: false, generatorCompletenessReceipt: null}, authorization: {status: 'approved', method: 'automatic', ruleId: 'test-policy:ja-JP:guides', receiptSha256: null}})),
+  ]
+  return createReconciliationPlan({schemaVersion: 1, document: 'translation-reconciliation-plan', target: 'ja-JP', group: 'guides', toolingSha: '4'.repeat(40), sourceBaselineSha: '2'.repeat(40), sourceCheckpointSha: SOURCE_SHA, targetBaselineSha: '3'.repeat(40), policyId: 'test-policy', operations})
 }
 
 function report(overrides = {}) {
@@ -140,8 +155,10 @@ function fixture(options = {}) {
   const baseline = path.join(root, 'baseline')
   fs.mkdirSync(baseline)
   const selectedManifest = options.manifest || manifest()
+  const plan = options.reconciliationPlan === undefined ? reconciliationPlan() : options.reconciliationPlan
   writeJson(root, 'tmp/translation-manifest.json', selectedManifest)
-  writeJson(root, 'tmp/translation-batch-input.json', options.batchInput || createBatchInput(selectedManifest))
+  writeJson(root, 'tmp/translation-batch-input.json', options.batchInput || createBatchInput(selectedManifest, plan))
+  if (plan !== null) writeJson(root, 'tmp/reconciliation-plan.json', plan)
   if (options.report !== null) writeJson(root, 'tmp/translation-report.json', options.report || report())
   for (const item of selectedManifest.items) {
     const sourceContent = options.sourceContents?.[item.sourcePath]
@@ -170,6 +187,7 @@ function validate(root, overrides = {}) {
     manifestPath: 'tmp/translation-manifest.json',
     reportPath: 'tmp/translation-report.json',
     batchInputPath: 'tmp/translation-batch-input.json',
+    reconciliationPlanPath: 'tmp/reconciliation-plan.json',
     agentsOutcome: 'success',
     translatedCount: 1,
     failedCount: 0,
@@ -505,6 +523,7 @@ test('rejects report identity, reviewer, validation, count, and cardinality defe
       batchSize: 10,
       pendingCount: 2,
       pendingSetSha256: PENDING_HASH,
+      reconciliationOwner: false,
     },
   })
   const duplicateResult = report({
@@ -749,12 +768,14 @@ test('rejects oversized JSON evidence before allocation', () => {
 })
 
 test('accepts reconciliation-only batches only with skipped agents, zero counts, and no report requirement', () => {
+  const deleted = {sourcePath: 'content/en/guides/tutorials/old.md', targetPath: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md'}
+  const plan = reconciliationPlan([], [deleted])
   const reconciliationManifest = manifest({
     items: [],
-    source_delta: {
-      deleted_i18n: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md'],
-      renamed: [],
-      retirement_candidates: [],
+    reconciliation: {
+      planArtifact: 'translation-reconciliation-plan-ja-JP-guides-1',
+      planSha256: plan.planSha256,
+      operationCount: plan.operations.length,
     },
     batch: {
       batchIndex: 0,
@@ -763,9 +784,10 @@ test('accepts reconciliation-only batches only with skipped agents, zero counts,
       batchSize: 10,
       pendingCount: 0,
       pendingSetSha256: PENDING_HASH,
+      reconciliationOwner: true,
     },
   })
-  const root = fixture({ manifest: reconciliationManifest, report: null })
+  const root = fixture({ manifest: reconciliationManifest, report: null, reconciliationPlan: plan })
   try {
     assert.deepEqual(validate(root, {
       agentsOutcome: 'skipped',
@@ -786,6 +808,7 @@ test('accepts reconciliation-only batches only with skipped agents, zero counts,
   const contradictoryReport = fixture({
     manifest: reconciliationManifest,
     report: { locale: 'ja-JP', results: [], checkpoint: { processed: 0, translated: 0, failed: 0, remaining: 0 } },
+    reconciliationPlan: plan,
   })
   try {
     assert.throws(() => validate(contradictoryReport, {
@@ -817,11 +840,14 @@ test('CLI parsing is strict and converts result counts', () => {
     batchInputPath: 'tmp/translation-batch-input.json',
     workspace: '/tmp/workspace',
     baseline: '/tmp/baseline',
+    reconciliationPlanPath: undefined,
     agentsOutcome: 'success',
     translatedCount: 2,
     failedCount: 0,
     remainingCount: 0,
   })
+  const withPlan = parseArgs([...args.slice(0, 6), '--reconciliation-plan', 'tmp/reconciliation-plan.json', ...args.slice(6)])
+  assert.equal(withPlan.reconciliationPlanPath, 'tmp/reconciliation-plan.json')
   assert.throws(() => parseArgs([...args, '--unknown', 'x']), /Unknown argument/)
   assert.throws(() => parseArgs(args.slice(0, -2)), /Usage:/)
   assert.throws(() => parseArgs(args.with(args.indexOf('2'), '-1')), /non-negative integer/)
@@ -834,6 +860,7 @@ test('CLI parsing is strict and converts result counts', () => {
       '--batch-input', 'tmp/translation-batch-input.json',
       '--workspace', root,
       '--baseline', path.join(root, 'baseline'),
+      '--reconciliation-plan', 'tmp/reconciliation-plan.json',
       '--agents-outcome', 'success',
       '--translated-count', '1',
       '--failed-count', '0',
