@@ -7,18 +7,18 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "新しい公開ボリューム記述メソッド。 | Python"
+description: "この操作は、特定のボリュームに関する詳細情報を返します。 | Python"
 type: docx
 token: MwfQdhukeoxOh0xPLySc0wJjn5f
 sidebar_position: 3
 keywords: 
-  - Annoy vector search
+  - Annoy ベクトル検索
   - milvus
   - Zilliz
-  - milvus vector database
+  - milvus ベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - describe_volume()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe_volume()
 
-新しい公開ボリューム記述メソッド。
+この操作は、特定のボリュームに関する詳細情報を返します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -41,11 +41,11 @@ describe_volume(
 ) -> requests.Response
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **volume_name** (*str*) -<br/>
   **[必須]**<br/>
-  説明する Zilliz Cloud ボリュームの名前。
+  説明するZilliz Cloudボリュームの名前。
 
 **戻り値の型:**
 
@@ -53,7 +53,7 @@ describe_volume(
 
 **戻り値:**
 
-要求されたボリュームの詳細を含む HTTP レスポンス。
+リクエストされたボリュームの詳細情報を含む HTTP レスポンスです。
 
 **例外:**
 
@@ -62,7 +62,7 @@ describe_volume(
 
 ## 例\{#examples}
 
-この例では、ボリュームの説明の使用方法を示します。
+この例では、describe volume の使用方法を示しています。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

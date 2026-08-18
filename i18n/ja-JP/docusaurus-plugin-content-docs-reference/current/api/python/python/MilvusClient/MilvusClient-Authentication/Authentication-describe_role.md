@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "レスポンスでロールの説明が公開されるようになりました。Async バリアントは sync メソッドのパラメータとレスポンス契約を共有します。中間ラッパーフィールドは公開 describerole() レスポンス辞書に変換されました。 | Python | MilvusClient"
+description: "この操作は、特定のロールの説明と権限を返します。 | Python | MilvusClient"
 type: docx
 token: TYczdPuSNoV9lExR8iCcNIg9nGe
 sidebar_position: 5
 keywords: 
-  - Dense vector
+  - Dense ベクトル
   - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Dense 埋め込み
+  - Faiss ベクトルデータベース
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - describe_role()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # describe_role()
 
-レスポンスでロールの説明が公開されるようになりました。Async バリアントは sync メソッドのパラメータとレスポンス契約を共有します。中間ラッパーフィールドは公開 describe_role() レスポンス辞書に変換されました。
+この操作は、特定のロールの説明と権限を返します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 describe_role(
@@ -43,35 +43,35 @@ describe_role(
 ) -> dict
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **role_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  説明を取得するロールの名前。
+  **[必須]**<br/>
+  説明するロールの名前です。
 
 - **timeout** (*Optional[float]*) -<br/>
   デフォルト: `None`<br/>
-  RPC の完了を待機する最大時間（秒単位）。
+  RPC の完了を待機する最大時間（秒）です。
 
 - **kwargs** (*Any*) -<br/>
-  追加のリクエストコンテキストオプション。
+  追加のリクエストコンテキストオプションです。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *dict*
 
-**RETURNS:**
+**戻り値:**
 
-ロール、説明、権限を含む辞書。
+ロール、説明、権限を含む辞書です。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**<br/>
   サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-ロール記述の使用方法を示します。
+describe_role の使用例を示します。
 
 ```python
 from pymilvus import MilvusClient

@@ -7,15 +7,15 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "projectid/regionid ルーティングと project-database インポート動作を追加します。 | Python"
+description: "この関数は、オープンソースの Milvus または Zilliz Cloud に一括インポートジョブを送信します。 | Python"
 type: docx
 token: HVwRdVSbAo2jUexpxmdczdqPnzh
 sidebar_position: 1
 keywords: 
   - ベクトル埋め込みとは
-  - vector database tutorial
-  - ベクトルデータベースはどのように動作するか
-  - vector db comparison
+  - ベクトルデータベースチュートリアル
+  - ベクトルデータベースの仕組み
+  - ベクトルDB比較
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # bulk_import()
 
-project_id/region_id ルーティングと project-database インポート動作を追加します。
+この関数は、オープンソースの Milvus または Zilliz Cloud に一括インポートジョブを送信します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 bulk_import(
@@ -57,93 +57,93 @@ bulk_import(
 ) -> requests.Response
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **url** (*str*) -<br/>
-  **[REQUIRED]**
+  **[必須]**
 
-    Zilliz Cloud API サーバーのエンドポイントです。`https://api.cloud.zilliz.com` を指定します。
+    Zilliz Cloud APIサーバーのエンドポイント（`https://api.cloud.zilliz.com`）です。
 
 - **collection_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  対象 collection の名前です。
+  **[必須]**<br/>
+  対象コレクションの名前です。
 
 - **db_name** (*str*) -<br/>
-  Default: `""`<br/>
-  対象 database の名前です。
+  デフォルト: `""`<br/>
+  対象データベースの名前です。
 
 - **object_url** (*str*) -<br/>
-  Default: `""`<br/>
-  非推奨の object-storage URL です。新しい Zilliz Cloud 統合では `object_urls` を使用してください。
+  デフォルト: `""`<br/>
+  非推奨のオブジェクトストレージURLです。新しい Zilliz Cloud 統合には `object_urls` を使用してください。
 
 - **object_urls** (*Optional[List[List[str]]]*) -<br/>
-  Default: `None`<br/>
-  インポートデータを含む object-storage URL です。各ネストされたリストは 1 つのオブジェクトまたはフォルダを識別します。
+  デフォルト: `None`<br/>
+  インポートデータを含むオブジェクトストレージURLです。入れ子になった各リストは、1つのオブジェクトまたはフォルダーを識別します。
 
 - **cluster_id** (*str*) -<br/>
-  Default: `""`<br/>
-  対象 Zilliz Cloud cluster の ID です。
+  デフォルト: `""`<br/>
+  対象の Zilliz Cloud クラスターのIDです。
 
 - **project_id** (*str*) -<br/>
-  Default: `""`<br/>
-  対象 project database を含む Zilliz Cloud project の ID です。
+  デフォルト: `""`<br/>
+  対象のプロジェクトデータベースを含む Zilliz Cloud プロジェクトのIDです。
 
 - **region_id** (*str*) -<br/>
-  Default: `""`<br/>
-  対象 project database を含む Zilliz Cloud region の ID です。
+  デフォルト: `""`<br/>
+  対象のプロジェクトデータベースを含む Zilliz Cloud リージョンのIDです。
 
 - **api_key** (*str*) -<br/>
-  Default: `""`
+  デフォルト: `""`
 
-    リクエストの認証に使用する Zilliz Cloud API key です。
+    リクエストの認証に使用する Zilliz Cloud APIキーです。
 
 - **access_key** (*str*) -<br/>
-  Default: `""`<br/>
-  Zilliz Cloud が使用する object-storage 認証情報の access key です。
+  デフォルト: `""`<br/>
+  Zilliz Cloud が使用するオブジェクトストレージの認証情報のアクセスキーです。
 
 - **secret_key** (*str*) -<br/>
-  Default: `""`<br/>
-  Zilliz Cloud が使用する object-storage 認証情報の secret key です。
+  デフォルト: `""`<br/>
+  Zilliz Cloud が使用するオブジェクトストレージの認証情報のシークレットキーです。
 
 - **token** (*str*) -<br/>
-  Default: `""`<br/>
-  Zilliz Cloud が使用する一時的な object-storage 認証情報のセッショントークンです。
+  デフォルト: `""`<br/>
+  Zilliz Cloud が使用する一時的なオブジェクトストレージ認証情報のセッショントークンです。
 
 - **volume_name** (*str*) -<br/>
-  Default: `""`<br/>
-  インポートデータを含む Zilliz Cloud volume の名前です。
+  デフォルト: `""`<br/>
+  インポートデータを含む Zilliz Cloud ボリュームの名前です。
 
 - **data_paths** (*Optional[List[List[str]]]*) -<br/>
-  Default: `None`<br/>
-  インポートデータを含む Zilliz Cloud volume 内のパスです。
+  デフォルト: `None`<br/>
+  インポートデータを含む Zilliz Cloud ボリューム内のパスです。
 
 - **verify** (*Optional[Union[bool, str]]*) -<br/>
-  Default: `True`<br/>
-  TLS 検証設定です。デフォルトの信頼ストアで検証するには `True` を使用するか、CA 証明書のパスを指定します。
+  デフォルト: `True`<br/>
+  TLS検証の設定です。デフォルトのトラストストアで検証するには `True` を使用するか、CA証明書のパスを指定します。
 
 - **cert** (*Optional[Union[str, tuple]]*) -<br/>
-  Default: `None`<br/>
-  クライアント証明書のパス、または相互 TLS 用の証明書と秘密鍵のペアです。
+  デフォルト: `None`<br/>
+  クライアント証明書のパス、または相互TLS用の証明書と秘密鍵のペアです。
 
 - **kwargs** (*Any*) -<br/>
-  HTTP リクエストに転送される追加オプションです。
+  HTTPリクエストに転送される追加オプションです。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *requests.Response*
 
-**RETURNS:**
+**戻り値:**
 
-bulk-import エンドポイントから返される HTTP レスポンスです。送信されたジョブ識別子については JSON ペイロードを確認してください。
+一括インポートエンドポイントが返すHTTPレスポンスです。送信されたジョブIDを確認するには、JSONペイロードを調べてください。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**<br/>
-  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+  サーバーがリクエストを拒否した場合、またはRPCが失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-この例では、object-storage データを Zilliz Cloud に送信します。
+この例では、オブジェクトストレージのデータを Zilliz Cloud に送信します。
 
 ```python
 from pymilvus.bulk_writer import bulk_import

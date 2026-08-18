@@ -7,13 +7,13 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "target_size/target_size_unit と正のサイズ検証を追加します。非同期バリアントは同期メソッドと同じ仕様に従います。 | Python | MilvusClient"
+description: "この操作は、コレクション内の小さなセグメントをマージするための手動 Compaction をトリガーし、Compaction ジョブ ID を返します。 | Python | MilvusClient"
 type: docx
 token: ZANCdUPeBoCis1xylRUcR90Pndb
 sidebar_position: 2
 keywords: 
   - ハイブリッド検索
-  - 語彙検索
+  - 字句検索
   - 最近傍探索
   - Agentic RAG
   - zilliz
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-target_size/target_size_unit と正のサイズ検証を追加します。非同期バリアントは同期メソッドと同じ仕様に従います。
+この操作は、コレクション内の小さなセグメントをマージするための手動 Compaction をトリガーし、Compaction ジョブ ID を返します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 compact(
@@ -47,51 +47,51 @@ compact(
 ) -> int
 ```
 
-**PARAMETERS:**
+**パラメーター：**
 
 - **collection_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  コンパクション対象のコレクション名。
+  **[必須]**<br/>
+  Compaction するコレクションの名前。
 
 - **is_clustering** (*Optional[bool]*) -<br/>
-  デフォルト: `False`<br/>
-  クラスタリングコンパクションを要求するフラグ。
+  デフォルト： `False`<br/>
+  クラスタリング Compaction を要求するフラグ。
 
 - **is_l0** (*Optional[bool]*) -<br/>
-  デフォルト: `False`<br/>
-  レベルゼロコンパクションを要求するフラグ。
+  デフォルト： `False`<br/>
+  レベルゼロ Compaction を要求するフラグ。
 
 - **target_size** (*Optional[int]*) -<br/>
-  デフォルト: `None`<br/>
-  コンパクション後の希望するセグメントサイズ。値は正の整数である必要があります。省略した場合はサーバーのデフォルトが使用されます。
+  デフォルト： `None`<br/>
+  Compaction 後の目標セグメントサイズ。値は正の整数である必要があります。省略した場合はサーバーのデフォルトが使用されます。
 
 - **target_size_unit** (*str*) -<br/>
-  デフォルト: `"mb"`<br/>
-  `target_size` の単位。サポートされる値は `b`、`kb`、`mb`、`gb`、`tb`、`pb` で、デフォルトは `mb` です。
+  デフォルト： `"mb"`<br/>
+  `target_size` の単位。サポートされている値は `b`、`kb`、`mb`、`gb`、`tb`、`pb` です。デフォルトは `mb` です。
 
 - **timeout** (*Optional[float]*) -<br/>
-  デフォルト: `None`<br/>
-  RPC を待機する最大時間（秒）。省略した場合、クライアントはサーバーが応答するかエラーが発生するまで待機します。
+  デフォルト： `None`<br/>
+  RPC を待機する最大時間（秒）。省略した場合、クライアントはサーバーが応答するか、エラーが発生するまで待機します。
 
 - **kwargs** (*Any*) -<br/>
   追加のリクエストコンテキストオプション。
 
-**RETURN TYPE:**
+**戻り値の型：**
 
 *int*
 
-**RETURNS:**
+**戻り値：**
 
-Milvus によって返されるコンパクションジョブ識別子。
+Milvus によって返される Compaction ジョブ ID。
 
-**EXCEPTIONS:**
+**例外：**
 
 - **MilvusException**<br/>
-  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合にスローされます。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-compact の使用方法を示します。
+compact() の使用例を示します。
 
 ```python
 from pymilvus import MilvusClient

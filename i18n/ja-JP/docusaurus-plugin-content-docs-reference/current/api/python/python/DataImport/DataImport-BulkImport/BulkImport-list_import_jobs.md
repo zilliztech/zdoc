@@ -7,7 +7,7 @@ added_since: Inherit
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "projectid と regionid のフィルタリングを追加します。 | Python"
+description: "この関数は、オプションのコレクションとページネーションフィルターを使用して一括インポートジョブを一覧表示します。 | Python"
 type: docx
 token: N13hd7jVjoA6B1xlgwic2GKRn5f
 sidebar_position: 3
@@ -15,10 +15,10 @@ keywords:
   - 質問応答システム
   - llm-as-a-judge
   - ハイブリッドベクトル検索
-  - 動画重複排除
+  - ビデオ重複排除
   - zilliz
   - zilliz cloud
-  - クラウド
+  - cloud
   - list_import_jobs()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # list_import_jobs()
 
-project_id と region_id のフィルタリングを追加します。
+この関数は、オプションのコレクションとページネーションフィルターを使用して一括インポートジョブを一覧表示します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -52,56 +52,56 @@ list_import_jobs(
 ) -> requests.Response
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **url** (*str*) -<br/>
-  **[REQUIRED]**
+  **[必須]**
 
-    `https://api.cloud.zilliz.com` である Zilliz Cloud API サーバーエンドポイントです。
+    Zilliz Cloud API サーバーのエンドポイント（`https://api.cloud.zilliz.com`）。
 
 - **collection_name** (*str*) -<br/>
   デフォルト: `""`<br/>
-  import ジョブを一覧表示する対象 collection の名前です。
+  インポートジョブを一覧表示するコレクションの名前。
 
 - **db_name** (*str*) -<br/>
   デフォルト: `""`<br/>
-  import ジョブを一覧表示する対象データベースの名前です。
+  インポートジョブを一覧表示するデータベースの名前。
 
 - **cluster_id** (*str*) -<br/>
   デフォルト: `""`<br/>
-  対象の Zilliz Cloud cluster の ID です。
+  ターゲットの Zilliz Cloud クラスターの ID。
 
 - **project_id** (*str*) -<br/>
   デフォルト: `""`<br/>
-  対象 project データベースを含む Zilliz Cloud project の ID です。
+  ターゲットのプロジェクトデータベースを含む Zilliz Cloud プロジェクトの ID。
 
 - **region_id** (*str*) -<br/>
   デフォルト: `""`<br/>
-  対象 project データベースを含む Zilliz Cloud region の ID です。
+  ターゲットのプロジェクトデータベースを含む Zilliz Cloud リージョンの ID。
 
 - **api_key** (*str*) -<br/>
   デフォルト: `""`
 
-    リクエストの認証に使用される Zilliz Cloud API key です。
+    リクエストの認証に使用する Zilliz Cloud API キー。
 
 - **page_size** (*int*) -<br/>
   デフォルト: `10`<br/>
-  1 ページあたりに返される import ジョブの最大数です。
+  1ページあたりに返すインポートジョブの最大数。
 
 - **current_page** (*int*) -<br/>
   デフォルト: `1`<br/>
-  返される 1 始まりのページ番号です。
+  返すページ番号（1始まり）。
 
 - **verify** (*Optional[Union[bool, str]]*) -<br/>
   デフォルト: `True`<br/>
-  TLS 検証設定です。デフォルトの信頼ストアで検証するには `True` を使用するか、CA 証明書パスを指定します。
+  TLS 検証設定。`True` を使用してデフォルトのトラストストアで検証するか、CA 証明書のパスを指定します。
 
 - **cert** (*Optional[Union[str, tuple]]*) -<br/>
   デフォルト: `None`<br/>
-  クライアント証明書パス、または相互 TLS 用の証明書と秘密鍵のペアです。
+  クライアント証明書のパス、または相互 TLS 用の証明書と秘密鍵のペア。
 
 - **kwargs** (*Any*) -<br/>
-  HTTP リクエストに転送される追加オプションです。
+  HTTP リクエストに転送される追加オプション。
 
 **戻り値の型:**
 
@@ -109,7 +109,7 @@ list_import_jobs(
 
 **戻り値:**
 
-一致する import ジョブとページネーション情報を含む HTTP レスポンスです。
+一致するインポートジョブとページネーション情報を含む HTTP レスポンス。
 
 **例外:**
 
@@ -118,7 +118,7 @@ list_import_jobs(
 
 ## 例\{#examples}
 
-この例では、Zilliz Cloud から import ジョブを一覧表示します。
+次の例は、Zilliz Cloud からインポートジョブを一覧表示します。
 
 ```python
 from pymilvus.bulk_writer import list_import_jobs

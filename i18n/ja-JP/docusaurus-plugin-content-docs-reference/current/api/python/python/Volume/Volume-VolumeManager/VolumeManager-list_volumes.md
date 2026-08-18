@@ -7,15 +7,15 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "projectid と volumetype のフィルタリングを追加します。 | Python"
+description: "この操作は、プロジェクト内のボリュームをページネーション付きで一覧表示します。 | Python"
 type: docx
 token: SyiHdehPHoO4l4x11tqcjzpOnLd
 sidebar_position: 4
 keywords: 
-  - openai ベクターデータベース
+  - openai ベクトルDB
   - 自然言語処理データベース
-  - 安価なベクターデータベース
-  - マネージドベクターデータベース
+  - 低価格のベクトルデータベース
+  - マネージドベクトルデータベース
   - zilliz
   - zilliz cloud
   - クラウド
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # list_volumes()
 
-project_id および volume_type によるフィルタリングを追加します。
+この操作は、プロジェクト内のボリュームをページネーション付きで一覧表示します。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 list_volumes(
@@ -44,40 +44,40 @@ list_volumes(
 ) -> requests.Response
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **project_id** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  volume を一覧表示する対象の Zilliz Cloud project の ID。
+  **[必須]**<br/>
+  ボリュームが一覧表示される Zilliz Cloud プロジェクトの ID。
 
 - **current_page** (*int*) -<br/>
-  Default: `1`<br/>
-  返される 1 始まりのページ番号。
+  デフォルト: `1`<br/>
+  返すページ番号（1から始まる）。
 
 - **page_size** (*int*) -<br/>
-  Default: `10`<br/>
-  1 ページあたりに返される volume の最大数。
+  デフォルト: `10`<br/>
+  1ページあたりに返すボリュームの最大数。
 
 - **volume_type** (*Optional[str]*) -<br/>
-  Default: `None`<br/>
-  結果をフィルタリングする volume type。サポートされる値は `MANAGED` と `EXTERNAL` です。
+  デフォルト: `None`<br/>
+  結果をフィルタリングするボリュームタイプ。サポートされている値は `MANAGED` と `EXTERNAL` です。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *requests.Response*
 
-**RETURNS:**
+**戻り値:**
 
-project の volume の 1 ページ分を含む HTTP レスポンス。
+このプロジェクトのボリュームを1ページ分含む HTTP レスポンス。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**<br/>
-  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細は、サーバーのエラーメッセージを確認してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-この例では、list volumes の使用方法を示します。
+この例では、ボリューム一覧の使用方法を示しています。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

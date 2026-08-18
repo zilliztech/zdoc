@@ -7,18 +7,18 @@ added_since: v2.5.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "埋め込み AnnSearchRequest パラメータのドキュメントと例を更新します。非同期バリアントは同期版と同じパラメータ契約を共有します。filter を expr のエイリアスとして、および相互排他のバリデーションを文書化します。読み取り専用の filter プロパティをインラインで文書化します。これは request.filter としてアクセスし、request.filter() ではありません。 | Python | MilvusClient"
+description: "この操作は、コレクションに対してマルチベクトル検索を実行し、再ランキング後に検索結果を返します。 | Python | MilvusClient"
 type: docx
 token: Iv1PdIVxYoDOMax47xDcLnbEnXb
 sidebar_position: 9
 keywords: 
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - 非構造化データとは
+  - ベクトル埋め込み
+  - ベクトルストア
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - hybrid_search()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 # hybrid_search()
 
-埋め込み AnnSearchRequest パラメータのドキュメントと例を更新します。非同期バリアントは同期版と同じパラメータ契約を共有します。filter を expr のエイリアスとして、および相互排他のバリデーションを文書化します。読み取り専用の filter プロパティをインラインで文書化します。これは `request.filter` としてアクセスし、`request.filter()` ではありません。
+この操作は、コレクションに対してマルチベクトル検索を実行し、再ランキング後に検索結果を返します。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-このメソッドは dedicated serving cluster と on-demand compute にのみ適用されます。 
+このメソッドは、Dedicated サービングクラスターとオンデマンドコンピュートにのみ適用されます。 
 
-- serving cluster の collection でこの操作を行うには、cluster endpoint を使用して **[MilvusClient](./Client-MilvusClient)** を作成してください。
+- サービングクラスターのコレクションでこの操作を実行するには、クラスターエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成してください。
 
     - **Free & Serverless**
 
@@ -47,13 +47,13 @@ import Admonition from '@theme/Admonition';
 
         `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530`
 
-- on-demand compute 用の collection でこの操作を行うには、project endpoints を使用して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のために on-demand cluster にアタッチするセッションを作成してください。
+- オンデマンドコンピュートのコレクションでこの操作を実行するには、プロジェクトエンドポイントを指定して **[MilvusClient](./Client-MilvusClient)** を作成し、その後、検索のためオンデマンドクラスターに接続するセッションを作成してください。
 
     `https://{project-id}.{region}.api.zillizcloud.com`
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 hybrid_search(
@@ -68,83 +68,83 @@ hybrid_search(
 ) -> SearchResult
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  検索する collection の名前。
+  **[必須]**<br/>
+  検索対象のコレクションの名前。
 
 - **reqs** (*List[AnnSearchRequest]*) -<br/>
-  **[REQUIRED]**<br/>
-  ハイブリッド検索で組み合わせる ANN 検索リクエスト。各リクエストは `AnnSearchRequest(data, anns_field, param, limit, expr=None, expr_params=None, filter=None)` を使って構築します。
+  **[必須]**<br/>
+  ハイブリッド検索で組み合わせる ANN 検索リクエスト。各リクエストは `AnnSearchRequest(data, anns_field, param, limit, expr=None, expr_params=None, filter=None)` を使用して構築します。
 
     - **data** (*Union[List, SparseMatrixInputType]*) -<br/>
-      **[REQUIRED]**<br/>
-      この ANN 検索リクエストで使用するクエリ vector または疎行列。
+      **[必須]**<br/>
+      この ANN 検索リクエストで使用するクエリベクトルまたはスパース行列。
 
     - **anns_field** (*str*) -<br/>
-      **[REQUIRED]**<br/>
-      検索対象の vector field の名前。
+      **[必須]**<br/>
+      検索対象のベクトルフィールドの名前。
 
     - **param** (*Dict*) -<br/>
-      **[REQUIRED]**<br/>
-      metric type や検索固有の設定などの ANN 検索パラメータ。
+      **[必須]**<br/>
+      メトリックタイプや検索固有の設定など、ANN 検索のパラメーター。
 
     - **limit** (*int*) -<br/>
-      **[REQUIRED]**<br/>
-      この ANN 検索リクエストで返される一致結果の最大数。
+      **[必須]**<br/>
+      この ANN 検索リクエストが返す一致結果の最大数。
 
     - **expr** (*Optional[str]*) -<br/>
       Default: `None`<br/>
-      ANN 検索の前に適用されるブールフィルタリング式。`expr` と `filter` の両方を指定しないでください。
+      ANN 検索の前に適用するブールフィルタリング式。`expr` と `filter` の両方を指定しないでください。
 
     - **expr_params** (*Optional[dict]*) -<br/>
       Default: `None`<br/>
-      式テンプレートのプレースホルダーに代入される値。
+      式テンプレートのプレースホルダーに代入する値。
 
     - **filter** (*Optional[str]*) -<br/>
       Default: `None`<br/>
-      `expr` のエイリアスです。両方の値を指定しないでください。解決された式は、読み取り専用の `filter` プロパティを通じて `request.filter` として利用できます。
+      `expr` のエイリアス。両方の値を指定しないでください。解決された式は、読み取り専用の `filter` プロパティで `request.filter` として利用できます。
 
 - **ranker** (*Union[BaseRanker, Function]*) -<br/>
-  **[REQUIRED]**<br/>
-  検索リクエストからの結果を組み合わせて並べ替えるために使用する ranker。
+  **[必須]**<br/>
+  検索リクエストの結果を統合して順序付けるために使用するランカー。
 
 - **limit** (*int*) -<br/>
   Default: `10`<br/>
-  返すレコードの最大数で、`topk` とも呼ばれます。
+  返すレコードの最大数。`topk` とも呼ばれます。
 
 - **output_fields** (*Optional[List[str]]*) -<br/>
   Default: `None`<br/>
-  各検索結果に含める scalar field。
+  各検索結果に含めるスカラーフィールド。
 
 - **timeout** (*Optional[float]*) -<br/>
   Default: `None`<br/>
-  RPC を待機する最大時間（秒）。省略した場合、クライアントはサーバーが応答するかエラーが発生するまで待機します。
+  RPC を待機する最大時間（秒）。省略した場合、クライアントはサーバーが応答するか、エラーが発生するまで待機します。
 
 - **partition_names** (*Optional[List[str]]*) -<br/>
   Default: `None`<br/>
-  検索する partition の名前。
+  検索対象のパーティションの名前。
 
 - **kwargs** (*Any*) -<br/>
-  ページネーションのオフセットや整合性レベルなど、追加の検索オプション。
+  ページネーションのオフセットや整合性レベルなどの追加の検索オプション。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *SearchResult*
 
-**RETURNS:**
+**戻り値:**
 
-各リクエストの式または filter を適用した後の、結合された ANN リクエストの検索結果。
+各リクエストの式またはフィルターを適用した後の、結合された ANN リクエストの検索結果。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**<br/>
   サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-この例では、ANN リクエストを構築してハイブリッド検索を実行します。
+この例では、ANN リクエストを構築し、ハイブリッド検索を実行します。
 
 ```python
 from pymilvus import AnnSearchRequest, MilvusClient

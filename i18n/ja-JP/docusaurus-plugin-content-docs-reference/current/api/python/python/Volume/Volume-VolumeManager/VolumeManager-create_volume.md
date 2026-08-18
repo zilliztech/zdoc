@@ -7,12 +7,12 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "project/region および external-volume パラメータを追加します。 | Python"
+description: "この操作は、指定したプロジェクトとリージョンにボリュームを作成します。| Python"
 type: docx
 token: GtNKdyeDCoPxQXxvohIcYQ47nee
 sidebar_position: 1
 keywords: 
-  - ベクターデータベース
+  - ベクトルデータベース
   - IVF
   - knn
   - 画像検索
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_volume()
 
-project/region および external-volume パラメータを追加します。
+この操作は、指定したプロジェクトとリージョンにボリュームを作成します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -46,31 +46,31 @@ create_volume(
 ) -> requests.Response
 ```
 
-**パラメータ:**
+**パラメーター:**
 
 - **project_id** (*str*) -<br/>
   **[必須]**<br/>
-  volume を作成する対象の Zilliz Cloud project の ID。
+  ボリュームを作成するZilliz CloudプロジェクトのIDです。
 
 - **region_id** (*str*) -<br/>
   **[必須]**<br/>
-  volume を作成する対象の Zilliz Cloud region の ID。
+  ボリュームを作成するZilliz CloudリージョンのIDです。
 
 - **volume_name** (*str*) -<br/>
   **[必須]**<br/>
-  作成する volume の名前。
+  作成するボリュームの名前です。
 
 - **volume_type** (*Optional[str]*) -<br/>
   デフォルト: `None`<br/>
-  volume のタイプ。サポートされる値は `MANAGED` と `EXTERNAL` で、デフォルトは `MANAGED` です。
+  ボリュームタイプです。サポートされている値は `MANAGED` と `EXTERNAL` で、デフォルトは `MANAGED` です。
 
 - **storage_integration_id** (*Optional[str]*) -<br/>
   デフォルト: `None`<br/>
-  `EXTERNAL` volume に必要な storage integration ID。
+  `EXTERNAL`ボリュームに必要なストレージ統合IDです。
 
 - **path** (*Optional[str]*) -<br/>
   デフォルト: `None`<br/>
-  `EXTERNAL` volume のストレージパス。省略した場合は storage integration のルートが使用されます。指定する path は `/` で終わる必要があります。
+  `EXTERNAL`ボリュームのストレージパスです。省略した場合は、ストレージ統合のルートが使用されます。指定したパスは `/` で終わる必要があります。
 
 **戻り値の型:**
 
@@ -78,16 +78,16 @@ create_volume(
 
 **戻り値:**
 
-volume 作成リクエストを示す HTTP レスポンス。
+ボリューム作成リクエストを説明するHTTPレスポンスです。
 
 **例外:**
 
 - **MilvusException**<br/>
-  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
+  サーバーがリクエストを拒否した場合、またはRPCが失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
 ## 例\{#examples}
 
-この例では、create volume の使用方法を示します。
+この例では、ボリュームの作成方法を示します。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

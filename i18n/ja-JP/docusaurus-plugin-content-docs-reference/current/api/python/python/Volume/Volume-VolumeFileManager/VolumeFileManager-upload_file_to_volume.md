@@ -7,18 +7,18 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "同時実行、再試行、マルチパートサイズ、パス、進捗コールバックの制御を追加します。 | Python"
+description: "この操作は、指定されたソースパスにあるローカルファイルを、指定されたマネージドボリューム内のターゲットファイルパスにアップロードします。| Python"
 type: docx
 token: SAR6dnlmmohi30x0x2KcioyXnib
 sidebar_position: 1
 keywords: 
-  - 画像類似検索
+  - 画像類似度検索
   - コンテキストウィンドウ
   - 自然言語検索
-  - 類似検索
+  - 類似度検索
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - upload_file_to_volume()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # upload_file_to_volume()
 
-同時実行、再試行、マルチパートサイズ、パス、進捗コールバックの制御を追加します。
+この操作は、指定されたソースパスにあるローカルファイルを、指定されたマネージドボリューム内のターゲットファイルパスにアップロードします。
 
-<Admonition type="info" icon="📘" title="注意">
+<Admonition type="info" icon="📘" title="Notes">
 
-これは管理対象 volume にのみ適用されます。外部 volume は読み取り専用です。
+この操作はマネージドボリュームにのみ適用されます。外部ボリュームは読み取り専用です。
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 upload_file_to_volume(
@@ -53,52 +53,52 @@ upload_file_to_volume(
 ) -> dict
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **source_file_path** (*str*) -<br/>
-  **[REQUIRED]**<br/>
+  **[必須]**<br/>
   アップロードするローカルファイルまたはディレクトリのパス。
 
 - **target_volume_path** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  Zilliz Cloud volume 内の宛先パス。
+  **[必須]**<br/>
+  Zilliz Cloudボリューム内の宛先パス。
 
 - **upload_concurrency** (*int*) -<br/>
-  Default: `5`<br/>
+  デフォルト: `5`<br/>
   同時にアップロードするファイルの最大数。
 
 - **max_retries** (*int*) -<br/>
-  Default: `5`<br/>
-  各ファイルに対するアップロード試行の最大回数。
+  デフォルト: `5`<br/>
+  各ファイルのアップロード試行の最大回数。
 
 - **retry_interval** (*float*) -<br/>
-  Default: `5.0`<br/>
-  アップロード試行の間の待機時間（秒）。
+  デフォルト: `5.0`<br/>
+  アップロード試行間の遅延（秒単位）。
 
 - **progress_callback** (*Callable[[UploadProgress], None] | None*) -<br/>
-  Default: `None`<br/>
-  アップロード進捗のスナップショットとともに呼び出されるコールバック。
+  デフォルト: `None`<br/>
+  アップロードの進捗スナップショットとともに呼び出されるコールバック。
 
 - **part_size** (*int*) -<br/>
-  Default: `0`<br/>
-  マルチパートアップロードのパートサイズ（バイト単位）。サイズを自動選択するには `0` を使用します。
+  デフォルト: `0`<br/>
+  マルチパートアップロードのパートサイズ（バイト単位）。`0` を使用すると、サイズが自動的に選択されます。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *dict*
 
-**RETURNS:**
+**戻り値:**
 
 volumeName、volume_name、およびアップロードされたターゲットパスを含む辞書。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**<br/>
-  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーエラーメッセージを確認してください。
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-この例では、volume へのファイルアップロードの使用方法を示します。
+この例では、ファイルをボリュームにアップロードする方法を示しています。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

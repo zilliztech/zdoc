@@ -7,15 +7,15 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "接続およびローカル出力パスの動作を追加します。 | Python"
+description: "VolumeBulkWriter は、ローカルの一括ファイルをリモートボリュームに書き込む処理を担当します。 | Python"
 type: docx
 token: L9ozd33RroJ0NZxHUc0czKjpnbh
 sidebar_position: 3
 keywords: 
-  - Dense vector
+  - Dense ベクトル
   - Hierarchical Navigable Small Worlds
   - Dense embedding
-  - Faiss vector database
+  - Faiss ベクトルデータベース
   - zilliz
   - zilliz cloud
   - cloud
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # VolumeBulkWriter
 
-接続およびローカル出力パスの動作を追加します。
+VolumeBulkWriter は、ローカルの一括ファイルをリモートボリュームに書き込む処理を担当します。
 
 ## リクエスト構文\{#request-syntax}
 
@@ -50,43 +50,43 @@ VolumeBulkWriter(
 )
 ```
 
-**パラメータ:**
+**パラメーター:**
 
-- **schema** (*CollectionSchema*) -<br/>
-  **[REQUIRED]**<br/>
-  行を検証し、bulk ファイルを生成するために使用される collection スキーマ。
+- **スキーマ** (*CollectionSchema*) -<br/>
+  **[必須]**<br/>
+  行の検証と一括ファイルの生成に使用するコレクションスキーマ。
 
 - **remote_path** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  コミットされたファイルのアップロード先となる、対象 volume 内のディレクトリ。
+  **[必須]**<br/>
+  コミット済みファイルのアップロード先となる、ターゲットボリューム内のディレクトリ。
 
 - **cloud_endpoint** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  `https://api.cloud.zilliz.com` である Zilliz Cloud API サーバーのエンドポイント。
+  **[必須]**<br/>
+  Zilliz Cloud の API サーバーエンドポイント（`https://api.cloud.zilliz.com`）。
 
 - **api_key** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  Zilliz Cloud で認証するために使用される API key。
+  **[必須]**<br/>
+  Zilliz Cloud との認証に使用する API キー。
 
 - **volume_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  対象の Zilliz Cloud volume の名前。
+  **[必須]**<br/>
+  ターゲットの Zilliz Cloud ボリュームの名前。
 
 - **chunk_size** (*int*) -<br/>
   デフォルト: `1024 * MB`<br/>
-  writer が新しいファイルの作成を開始する前の、ローカル chunk の最大サイズ（バイト単位）。
+  ライターが新しいファイルを開始するまでのローカルチャンクサイズの最大値（バイト単位）。
 
 - **file_type** ([BulkFileType](./DataImport-BulkFileType)) -<br/>
   デフォルト: `BulkFileType.PARQUET`<br/>
-  writer によって生成される bulk ファイル形式。
+  ライターが生成する一括ファイルの形式。
 
 - **config** (*Optional[dict]*) -<br/>
   デフォルト: `None`<br/>
-  オプションの writer 設定。
+  オプションのライター設定。
 
 - **connect_type** (*ConnectType*) -<br/>
   デフォルト: `ConnectType.AUTO`<br/>
-  volume 操作に使用される接続モード。
+  ボリューム操作に使用する接続モード。
 
 - **kwargs** (*Any*) -<br/>
   `LocalBulkWriter` に転送される追加オプション。
@@ -97,7 +97,7 @@ VolumeBulkWriter(
 
 **戻り値:**
 
-bulk ファイルをローカルにステージングし、コミットされたファイルを設定済みの Zilliz Cloud volume にアップロードする writer。
+一括ファイルをローカルにステージングし、コミット済みファイルを設定済みの Zilliz Cloud ボリュームにアップロードするライター。
 
 **例外:**
 

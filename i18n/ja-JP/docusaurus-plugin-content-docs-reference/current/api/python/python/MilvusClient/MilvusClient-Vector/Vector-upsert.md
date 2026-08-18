@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "部分配列更新のための fieldops サポートを追加します。非同期バリアントは同期メソッドと同じパラメータ契約を共有します。 | Python | MilvusClient"
+description: "この操作は、特定のコレクション内の新しいデータを挿入するか、既存のデータを更新します。配列フィールドの部分更新もオプションでサポートしています。 | Python | MilvusClient"
 type: docx
 token: UjjpdBwaooRDdlxFHScc6dKwnTg
 sidebar_position: 8
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - ベクトル埋め込み
+  - ベクトルストア
+  - オープンソースベクトルデータベース
+  - ベクトルインデックス
   - zilliz
   - zilliz cloud
-  - cloud
+  - クラウド
   - upsert()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,15 +31,15 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-部分配列更新のための field_ops サポートを追加します。非同期バリアントは同期メソッドと同じパラメータ契約を共有します。
+この操作は、特定のコレクションに新しいデータを挿入するか、既存のデータを更新します。配列フィールドの部分更新もオプションでサポートしています。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-External collection ではこの操作はサポートされていません。
+外部コレクションではこの操作をサポートしていません。
 
 </Admonition>
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 upsert(
@@ -51,51 +51,51 @@ upsert(
 ) -> MutationResult
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **collection_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  entity を upsert する collection の名前です。
+  **[必須]**<br/>
+  エンティティをアップサートするコレクションの名前。
 
 - **data** (*Union[Dict, List[Dict]]*) -<br/>
-  **[REQUIRED]**<br/>
-  upsert する entity です。反復可能な入力は、必要に応じてリストに変換されます。
+  **[必須]**<br/>
+  アップサートするエンティティ。必要に応じて、イテラブル入力はリストに変換されます。
 
 - **timeout** (*Optional[float]*) -<br/>
-  Default: `None`<br/>
-  RPC を待機する最大時間（秒）です。この値はクライアントのデフォルト設定を上書きします。
+  デフォルト: `None`<br/>
+  RPC を待機する最大時間（秒）。この値はクライアントのデフォルトを上書きします。
 
 - **partition_name** (*Optional[str]*) -<br/>
-  Default: `""`<br/>
-  entity を upsert する partition の名前です。
+  デフォルト: `""`<br/>
+  エンティティをアップサートするパーティションの名前。
 
 - **kwargs** (*Any*) -<br/>
-  追加の upsert オプションです。
+  追加のアップサートオプション。
 
     - **partial_update** (*bool*) -<br/>
-      Default: `False`<br/>
-      指定されたフィールドのみを更新するかどうかを制御するフラグです。`True` の場合、指定されていないフィールドは変更されません。
+      デフォルト: `False`<br/>
+      指定したフィールドのみを更新するかどうかを制御するフラグ。`True` の場合、指定されていないフィールドは変更されません。
 
     - **field_ops** (*Optional[Dict[str, Any]]*) -<br/>
-      Default: `None`<br/>
-      部分更新時に適用されるフィールドごとのマージ操作です。各値には、`FieldOp` ファクトリの結果、`array_append`、`array_remove`、`replace`、または `FieldPartialUpdateOp` メッセージを指定できます。`replace` 以外の操作はすべて部分更新を有効にします。
+      デフォルト: `None`<br/>
+      部分更新時に適用されるフィールドごとのマージ操作。各値には、`FieldOp` ファクトリの結果、`array_append`、`array_remove`、または `replace`、あるいは `FieldPartialUpdateOp` メッセージを指定できます。`replace` 以外の操作は部分更新を有効にします。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *MutationResult*
 
-**RETURNS:**
+**戻り値:**
 
-upsert 操作について報告された主キーと件数を含む Mutation result。
+アップサート操作で報告された主キーと件数を含む変更結果。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**<br/>
   サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-upsert の使用方法を示します。
+アップサートの使用方法を示します。
 
 ```python
 from pymilvus import FieldOp, MilvusClient

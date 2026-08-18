@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "ユーザー認証情報/説明に関連するシグネチャの動作を更新します。Async バリアントは sync メソッドのパラメータおよびレスポンス仕様を共有します。 | Python | MilvusClient"
+description: "この操作は、特定のユーザーのパスワードを更新し、ユーザーの説明も更新できます。 | Python | MilvusClient"
 type: docx
 token: Q8QIdA1DioRRL9xUtlgcCPLHnPc
 sidebar_position: 20
@@ -31,9 +31,9 @@ import Admonition from '@theme/Admonition';
 
 # update_password()
 
-ユーザー認証情報/説明に関連するシグネチャの動作を更新します。Async バリアントは sync メソッドのパラメータおよびレスポンス仕様を共有します。
+この操作は、特定のユーザーのパスワードを更新し、ユーザーの説明も更新できます。
 
-## Request Syntax\{#request-syntax}
+## リクエスト構文\{#request-syntax}
 
 ```python
 update_password(
@@ -47,51 +47,51 @@ update_password(
 ) -> None
 ```
 
-**PARAMETERS:**
+**パラメーター:**
 
 - **user_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  パスワードを変更するユーザーの名前。
+  **[必須]**<br/>
+  パスワードを変更するユーザーの名前です。
 
 - **old_password** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  ユーザーの現在のパスワード。
+  **[必須]**<br/>
+  ユーザーの現在のパスワードです。
 
 - **new_password** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  ユーザーの新しいパスワード。
+  **[必須]**<br/>
+  ユーザーの新しいパスワードです。
 
 - **reset_connection** (*Optional[bool]*) -<br/>
-  Default: `False`<br/>
-  更新後に新しいパスワードでクライアントを再接続するフラグ。
+  デフォルト: `False`<br/>
+  更新後にクライアントを新しいパスワードで再接続するかどうかを示すフラグです。
 
 - **timeout** (*Optional[float]*) -<br/>
-  Default: `None`<br/>
-  RPC の完了を待機する最大時間（秒）。
+  デフォルト: `None`<br/>
+  RPC が完了するまでの最大待機時間（秒）です。
 
 - **description** (*Optional[str]*) -<br/>
-  Default: `None`<br/>
-  ユーザーアカウントの更新後の説明（省略可能）。
+  デフォルト: `None`<br/>
+  ユーザーアカウントの更新後の説明（任意）です。
 
 - **kwargs** (*Any*) -<br/>
-  追加のリクエストコンテキストオプション。
+  追加のリクエストコンテキストオプションです。
 
-**RETURN TYPE:**
+**戻り値の型:**
 
 *None*
 
-**RETURNS:**
+**戻り値:**
 
-パスワードが正常に更新されると、値は返されません。
+パスワードが正常に更新された場合、戻り値はありません。
 
-**EXCEPTIONS:**
+**例外:**
 
 - **MilvusException**<br/>
-  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーエラーメッセージを確認してください。
+  サーバーがリクエストを拒否した場合、または RPC が失敗した場合に発生します。正確な失敗の詳細については、サーバーのエラーメッセージを確認してください。
 
-## Examples\{#examples}
+## 例\{#examples}
 
-パスワード更新の使用方法を示します。
+パスワード更新の使用例を示します。
 
 ```python
 from pymilvus import MilvusClient
