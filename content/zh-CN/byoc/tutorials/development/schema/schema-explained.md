@@ -313,7 +313,7 @@ schema->AddField(milvus::FieldSchema("my_vector", milvus::DataType::FLOAT_VECTOR
 
 通常情况下，您可以将标量字段做为向量字段的元数据添加到 Collection 中，通过向量搜索和标量过滤相结合的方式来提升搜索结果的准确性。Zilliz Cloud 支持多种标量数据类型，包括 **VarChar**、**Boolean**、**Int**、**Float**、**Double**、**Array** 和 **JSON**。
 
-### 添加字符串类型的字段\{#add-string-fields}
+### 添加 VARCHAR 类型的字段\{#add-varchar-fields}
 
 在 Zilliz Cloud 中，您可以使用 VarChar 类型的字段来存放字符串数据。关于 VarChar 字段的更多内容，可参考[字符串类型](./use-string-field)。
 
@@ -395,6 +395,55 @@ export schema="{
 
 ```c++
 schema->AddField(milvus::FieldSchema("my_varchar", milvus::DataType::VARCHAR).WithMaxLength(512));
+```
+
+</TabItem>
+</Tabs>
+
+### 添加 TEXT 类型的字段\{#add-text-fields}
+
+在 Milvus 3.0 及以上版本中，你可以使用 TEXT 字段来存储文档正文、段落、日志等长文本内容。与 VARCHAR 不同，TEXT 字段不需要设置 `max_length`。关于 TEXT 字段的更多信息，请参阅 [Text 类型](./use-text-field)。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+schema.add_field(
+    field_name="my_text",
+    datatype=DataType.TEXT,
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// nodejs
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
 ```
 
 </TabItem>
@@ -556,6 +605,10 @@ schema->AddField(milvus::FieldSchema("my_bool", milvus::DataType::BOOL));
 
 </TabItem>
 </Tabs>
+
+## 添加复合字段\{#add-composite-fields}
+
+在 Zilliz Cloud 中，复合字段是可以再细分为更小子字段的字段，例如 JSON 字段中的各个键，或 Array 字段中的各个下标元素。
 
 ### 添加 JSON 类型的字段\{#add-json-fields}
 

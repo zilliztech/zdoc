@@ -110,10 +110,26 @@ Zilliz Cloud 支持在亚马逊云科技以下地域部署集群。
 
 ### 计算类型支持\{#compute-type-support}
 
-| 计算类型 | 阿里云 | 腾讯云 | 亚马逊云科技 |
-| --- | --- | --- | --- |
-| Serving 集群 | ✅ 全部地域 | ✅ 全部地域 | ✅ 全部地域 |
-| 按需计算 | ✅ 全部地域 | ❌ | ❌ |
+<table>
+   <tr>
+     <th><p>计算类型</p></th>
+     <th><p>阿里云</p></th>
+     <th><p>腾讯云</p></th>
+     <th><p>亚马逊云科技</p></th>
+   </tr>
+   <tr>
+     <td><p>Serving 集群</p></td>
+     <td><p>✅ 全部地域</p></td>
+     <td><p>✅ 全部地域</p></td>
+     <td><p>✅ 全部地域</p></td>
+   </tr>
+   <tr>
+     <td><p>按需计算</p></td>
+     <td><p>✅ 全部地域</p></td>
+     <td><p>ℹ️ 部分地域：</p><ul><li>华北地区（北京）</li></ul></td>
+     <td><p>❌</p></td>
+   </tr>
+</table>
 
 <Admonition type="info" icon="📘" title="说明">
 

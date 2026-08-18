@@ -25,6 +25,8 @@ Collection 中的 Entity 是指共享相同字段集的数据记录。存储在�
 
 <Admonition type="info" icon="📘" title="说明">
 
+- **Collection 创建完成后添加的字段**：如果您在 Collection 创建完成后向其添加字段，但在插入数据时并未指定该字段的取值，Milvus 会自动使用该字段的默认值（如有）或 NULL（如开启）填充。更多内容，可以参阅[向 Collection 添加字段](./add-fields-to-an-existing-collection)。
+
 - **重复数据处理**：标准的 `insert` 操作并不会检查主键重复的记录。如果您在插入数据时指定了一个重复的主键，仍然会创建一个新的 Entity，从而导致重复数据和潜在的应用问题。您可以通过使用 `upsert` 操作来更新相关 Entity 或修复重复主键的问题。更多内容，可以参阅 [Upsert Entity](./upsert-entities)。
 
 </Admonition>

@@ -32,13 +32,14 @@ ARRAY 字段中的所有元素必须是相同的类型，ARRAY 中的嵌套结�
 
 ARRAY 操作符允许 Zilliz Cloud clusters中的 ARRAY 类型的字段进行精细查询。这些操作符包括：
 
-- [`ARRAY_CONTAINS(identifier, expr)`](./array-filtering-operators#arraycontains)：用于判断指定 ARRAY 字段值是否包含指定的表达式。
-
-- [`ARRAY_CONTAINS_ALL(identifier, expr)`](./array-filtering-operators#arraycontainsall)：用于判断指定 ARRAY 字段值是否包含指定表达式中的所有元素。
-
-- [`ARRAY_CONTAINS_ANY(identifier, expr)`](./array-filtering-operators#arraycontainsany)：用于判断指定 ARRAY 字段值是否包含指定表达式中的任一元素。
-
-- [`ARRAY_LENGTH(identifier)`](./array-filtering-operators#arraylength)：用于计算指定 ARRAY 字段值的元素个数。
+| **操作符** | **使用场景** | **描述** |
+| --- | --- | --- |
+| [ARRAY_CONTAINS(identifier, expr)](./array-filtering-operators#arraycontains) | 过滤表达式 | 检查 ARRAY 字段中是否存在指定元素。 |
+| [ARRAY_CONTAINS_ALL(identifier, expr)](./array-filtering-operators#arraycontainsall) | 过滤表达式 | 检查 ARRAY 字段中是否包含指定列表中的所有元素。 |
+| [ARRAY_CONTAINS_ANY(identifier, expr)](./array-filtering-operators#arraycontainsany) | 过滤表达式 | 检查 ARRAY 字段中是否包含指定列表中的任一元素。 |
+| [ARRAY_LENGTH(identifier)](./array-filtering-operators#arraylength) | 过滤表达式 | 返回 ARRAY 字段中的元素个数，可与比较运算符组合用于过滤。 |
+| [ARRAY_APPEND](./array-filtering-operators#array-append) | 搭配 field_ops 的 upsert | 将请求负载中的元素追加到已有的 ARRAY 字段中。 |
+| [ARRAY_REMOVE](./array-filtering-operators#array-remove) | 搭配 field_ops 的 upsert | 从已有的 ARRAY 字段中移除所有与请求负载中给定值相匹配的元素。 |
 
 ## ARRAY_CONTAINS\{#arraycontains}
 
@@ -87,3 +88,39 @@ filter = 'ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])'
 ```python
 filter = 'ARRAY_LENGTH(history_temperatures) < 10'
 ```
+
+## ARRAY_APPEND\{#array-append}
+
+ARRAY_APPEND 操作符会在一次 upsert 请求中，将负载中的元素追加到已有的 ARRAY 字段上。它不是过滤表达式。当你想向数组中追加新值、且不想先查询当前数组内容时，可以使用该操作符。
+
+下面示例会将 `"premium"` 追加到主键为 1 的实体的 `tags` ARRAY 字段中：
+
+```python
+from pymilvus import FieldOp
+
+client.upsert(
+    collection_name="users",
+    data=[{"pk": 1, "tags": ["premium"]}],
+    field_ops={"tags": FieldOp.array_append()},
+)
+```
+
+将 ARRAY_APPEND 附加到某个字段的 `field_ops` 中，可以为该字段启用部分更新语义。有关完整的工作流程、支持的元素类型以及相关限制，请参见[在合并模式下 upsert ARRAY 字段](./upsert-entities#upsert-entities-in-merge-mode)。
+
+## ARRAY_REMOVE\{#array-remove}
+
+ARRAY_REMOVE 操作符会在一次 upsert 请求中，从已有的 ARRAY 字段中移除所有与请求负载中给定值相匹配的元素。它不是过滤表达式。当你想从数组中移除匹配的值、且不想先查询当前数组内容时，可以使用该操作符。
+
+下面示例会将 `"trial"` 从主键为 1 的实体的 `tags` ARRAY 字段中移除：
+
+```python
+from pymilvus import FieldOp
+
+client.upsert(
+    collection_name="users",
+    data=[{"pk": 1, "tags": ["trial"]}],
+    field_ops={"tags": FieldOp.array_remove()},
+)
+```
+
+将 ARRAY_REMOVE 附加到某个字段的 `field_ops` 中，可以为该字段启用部分更新语义。有关完整的工作流程、支持的元素类型以及相关限制，请参见[在合并模式下 upsert ARRAY 字段](./upsert-entities#upsert-entities-in-merge-mode)。

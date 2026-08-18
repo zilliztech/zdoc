@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Chinese Analyzer 专门设计用于处理中文文本，提供有效的分段和分词。 | BYOC"
+description: "中文 Analyzer 专门设计用于处理中文文本，提供有效的分段和分词。 | BYOC"
 type: origin
 token: UlMPwmPO5iJBn1kDTLzc5cJVnXO
 sidebar_position: 3
@@ -21,17 +21,23 @@ import TabItem from '@theme/TabItem';
 
 # 中文 Analyzer
 
-Chinese Analyzer 专门设计用于处理中文文本，提供有效的分段和分词。
+中文 Analyzer 专门设计用于处理中文文本，提供有效的分段和分词。
 
 ## 定义\{#definition}
 
-Chinese Analyzer 由以下部分组成：
+中文 Analyzer 由以下部分组成：
 
 - 分词器：使用 `jieba` 分词器根据词汇和上下文将中文文本分割成标记。更多内容，可以参考[Jieba](./jieba-tokenizer)。
 
 - 过滤器：使用 `cnalphanumonly` 过滤器去除包含任何非中文字符的标记。更多内容，可以参考[Cnalphanumonly](./cnalphanumonly-filter)。
 
-Chinese Analyzer 的功能等同于以下自定义分析器配置：
+中文 Analyzer 的功能等同于以下自定义分析器配置：
+
+<Admonition type="info" icon="📘" title="说明">
+
+内置的中文 Analyzer 不会输出拼音形式的分词。若需要用拼音查询词匹配中文文本，请创建自定义 Analyzer，并在其中同时使用 `jieba` 分词器和 `pinyin` 过滤器。
+
+</Admonition>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -91,7 +97,7 @@ analyzerParams='{
 
 ## 配置\{#configuration}
 
-要将 Chinese Analyzer 应用于字段，只需在 `analyzer_params` 中将 `type` 设置为 `chinese`，并根据需要包含可选参数。  
+要将中文 Analyzer 应用于字段，只需在 `analyzer_params` 中将 `type` 设置为 `chinese`，并根据需要包含可选参数。  
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -145,7 +151,7 @@ analyzerParams='{
 
 <Admonition type="info" icon="📘" title="说明">
 
-Chinese Analyzer 不接受任何可选参数。
+中文 Analyzer 不接受任何可选参数。
 
 </Admonition>
 

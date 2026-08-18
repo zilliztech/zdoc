@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "在 Zilliz Cloud 中，`VARCHAR` 是用于存储字符串类型的数据类型，适用于可变长度字符串的存储。 | BYOC"
+description: "在 Zilliz Cloud 中，文本标量数据可以存储在 VARCHAR 和 TEXT 字段中。本页介绍 VARCHAR 字段，它适用于存储长度较短且有上限的字符串元数据，例如名称、标签、分类和外部 ID。 | BYOC"
 type: origin
 token: Z1kKwms8miXdCnkQEzWc9hNyn9f
 sidebar_position: 6
@@ -21,7 +21,9 @@ import TabItem from '@theme/TabItem';
 
 # VarChar 类型
 
-在 Zilliz Cloud 中，`VARCHAR` 是用于存储字符串类型的数据类型，适用于可变长度字符串的存储。
+在 Zilliz Cloud 中，文本标量数据可以存储在 VARCHAR 和 TEXT 字段中。本页介绍 VARCHAR 字段，它适用于存储长度较短且有上限的字符串元数据，例如名称、标签、分类和外部 ID。
+
+如果需要保存更长的源文本，如文档片段、文章正文、工单内容或日志，并在查询实体时一并返回，则应使用 TEXT 字段。详情可参阅 [Text 类型](./use-text-field)。
 
 在定义一个 `VARCHAR` 类型的字段时，需要完成如下设置：
 
