@@ -1384,12 +1384,6 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/management/organizations/organization-users",
-            "label": "Organization Users",
-            "key": "doc:tutorials/management/organizations/organization-users"
-          },
-          {
-            "type": "doc",
             "id": "tutorials/management/organizations/organization-settings",
             "label": "Organization Settings",
             "key": "doc:tutorials/management/organizations/organization-settings"
@@ -1412,12 +1406,6 @@ module.exports = [
             "id": "tutorials/management/projects/manage-projects",
             "label": "Projects",
             "key": "doc:tutorials/management/projects/manage-projects"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/projects/project-users",
-            "label": "Project Users",
-            "key": "doc:tutorials/management/projects/project-users"
           },
           {
             "type": "doc",
@@ -1487,17 +1475,19 @@ module.exports = [
                   {
                     "type": "category",
                     "label": "Scheduled Scaling",
-                    "key": "category:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling",
-                    "link": {
-                      "type": "doc",
-                      "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/scheduled-scaling"
-                    },
+                    "key": "category:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled",
                     "items": [
                       {
                         "type": "doc",
-                        "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression",
+                        "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled/cron-expression",
                         "label": "Cron Expression",
-                        "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression"
+                        "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled/cron-expression"
+                      },
+                      {
+                        "type": "doc",
+                        "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled/scheduled-scaling",
+                        "label": "Scheduled Scaling",
+                        "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled/scheduled-scaling"
                       }
                     ]
                   },
@@ -1762,6 +1752,122 @@ module.exports = [
       },
       {
         "type": "category",
+        "label": "Identity Management",
+        "key": "category:tutorials/management/identity-management",
+        "items": [
+          {
+            "type": "category",
+            "label": "Single Sign-on (SSO)",
+            "key": "category:tutorials/management/identity-management/single-sign-on",
+            "link": {
+              "type": "doc",
+              "id": "tutorials/management/identity-management/single-sign-on/single-sign-on"
+            },
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/single-sign-on/openid-connect",
+                "label": "Okta (OIDC)",
+                "key": "doc:tutorials/management/identity-management/single-sign-on/openid-connect"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta",
+                "label": "Okta (SAML 2.0)",
+                "key": "doc:tutorials/management/identity-management/single-sign-on/single-sign-on-with-okta"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace",
+                "label": "Google Workspace (SAML 2.0)",
+                "key": "doc:tutorials/management/identity-management/single-sign-on/single-sign-on-with-google-workspace"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/single-sign-on/single-sign-on-with-microsoft-entra",
+                "label": "Microsoft Entra (SAML 2.0)",
+                "key": "doc:tutorials/management/identity-management/single-sign-on/single-sign-on-with-microsoft-entra"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp",
+                "label": "Other IdP (SAML 2.0)",
+                "key": "doc:tutorials/management/identity-management/single-sign-on/single-sign-on-with-other-idp"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization",
+                "label": "Enforce SSO in Your Organization",
+                "key": "doc:tutorials/management/identity-management/single-sign-on/enforce-sso-in-your-organization"
+              }
+            ]
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/identity-management/identity-management-overview",
+            "label": "Identity Management Overview",
+            "key": "doc:tutorials/management/identity-management/identity-management-overview"
+          },
+          {
+            "type": "category",
+            "label": "SCIM Provisioning",
+            "key": "category:tutorials/management/identity-management/scim-provisioning",
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/scim-provisioning/scim-provisioning-overview",
+                "label": "SCIM Provisioning Overview",
+                "key": "doc:tutorials/management/identity-management/scim-provisioning/scim-provisioning-overview"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-okta",
+                "label": "Configure SCIM Provisioning with Okta",
+                "key": "doc:tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-okta"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-microsoft-entra",
+                "label": "Configure SCIM Provisioning with Microsoft Entra",
+                "key": "doc:tutorials/management/identity-management/scim-provisioning/configure-scim-provisioning-with-microsoft-entra"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/scim-provisioning/view-scim-synced-groups",
+                "label": "View SCIM-Synced Groups",
+                "key": "doc:tutorials/management/identity-management/scim-provisioning/view-scim-synced-groups"
+              }
+            ]
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/identity-management/manage-platform-users",
+            "label": "Manage Platform Users",
+            "key": "doc:tutorials/management/identity-management/manage-platform-users"
+          },
+          {
+            "type": "category",
+            "label": "Manage Cluster Users",
+            "key": "category:tutorials/management/identity-management/manage-cluster-users",
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/manage-cluster-users/cluster-users",
+                "label": "Manage Cluster Users (Console)",
+                "key": "doc:tutorials/management/identity-management/manage-cluster-users/cluster-users"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk",
+                "label": "Manage Cluster User (SDK)",
+                "key": "doc:tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "category",
         "label": "Access Control",
         "key": "category:tutorials/management/access-control",
         "items": [
@@ -1772,75 +1878,46 @@ module.exports = [
             "key": "doc:tutorials/management/access-control/access-control-overview"
           },
           {
-            "type": "link",
-            "href": "/docs/byoc/organization-users",
-            "label": "Manage Organization Users",
-            "key": "ref:tutorials/management/access-control/organization-users"
-          },
-          {
-            "type": "link",
-            "href": "/docs/byoc/project-users",
-            "label": "Manage Project Users",
-            "key": "ref:tutorials/management/access-control/project-users"
-          },
-          {
             "type": "doc",
-            "id": "tutorials/management/access-control/cluster-users",
-            "label": "Manage Cluster Users (Console)",
-            "key": "doc:tutorials/management/access-control/cluster-users"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/access-control/cluster-users-sdk",
-            "label": "Manage Cluster User (SDK)",
-            "key": "doc:tutorials/management/access-control/cluster-users-sdk"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/access-control/cluster-roles",
-            "label": "Manage Cluster Roles (Console)",
-            "key": "doc:tutorials/management/access-control/cluster-roles"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/access-control/cluster-roles-sdk",
-            "label": "Manage Cluster Roles (SDK)",
-            "key": "doc:tutorials/management/access-control/cluster-roles-sdk"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/access-control/cluster-privileges",
-            "label": "Privileges & Privilege Groups",
-            "key": "doc:tutorials/management/access-control/cluster-privileges"
+            "id": "tutorials/management/access-control/manage-platform-roles",
+            "label": "Manage Platform Roles",
+            "key": "doc:tutorials/management/access-control/manage-platform-roles"
           },
           {
             "type": "category",
-            "label": "SCIM Provisioning",
-            "key": "category:tutorials/management/access-control/scim-provisioning",
+            "label": "Manage Cluster Roles",
+            "key": "category:tutorials/management/access-control/manage-cluster-roles",
             "items": [
               {
                 "type": "doc",
-                "id": "tutorials/management/access-control/scim-provisioning/scim-provisioning-overview",
-                "label": "SCIM Provisioning Overview",
-                "key": "doc:tutorials/management/access-control/scim-provisioning/scim-provisioning-overview"
+                "id": "tutorials/management/access-control/manage-cluster-roles/cluster-roles",
+                "label": "Manage Cluster Roles (Console)",
+                "key": "doc:tutorials/management/access-control/manage-cluster-roles/cluster-roles"
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/access-control/scim-provisioning/configure-scim-provisioning-with-okta",
-                "label": "Configure SCIM Provisioning with Okta",
-                "key": "doc:tutorials/management/access-control/scim-provisioning/configure-scim-provisioning-with-okta"
+                "id": "tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk",
+                "label": "Manage Cluster Roles (SDK)",
+                "key": "doc:tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk"
+              }
+            ]
+          },
+          {
+            "type": "category",
+            "label": "Privilege Reference",
+            "key": "category:tutorials/management/access-control/privilege-reference",
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/management/access-control/privilege-reference/platform-privileges",
+                "label": "Platform Privileges",
+                "key": "doc:tutorials/management/access-control/privilege-reference/platform-privileges"
               },
               {
                 "type": "doc",
-                "id": "tutorials/management/access-control/scim-provisioning/configure-scim-provisioning-with-microsoft-entra",
-                "label": "Configure SCIM Provisioning with Microsoft Entra",
-                "key": "doc:tutorials/management/access-control/scim-provisioning/configure-scim-provisioning-with-microsoft-entra"
-              },
-              {
-                "type": "doc",
-                "id": "tutorials/management/access-control/scim-provisioning/view-scim-synced-groups",
-                "label": "View SCIM-Synced Groups",
-                "key": "doc:tutorials/management/access-control/scim-provisioning/view-scim-synced-groups"
+                "id": "tutorials/management/access-control/privilege-reference/cluster-privileges",
+                "label": "Cluster Privileges & Privilege Groups",
+                "key": "doc:tutorials/management/access-control/privilege-reference/cluster-privileges"
               }
             ]
           }
@@ -1874,53 +1951,6 @@ module.exports = [
             "id": "tutorials/management/authentication/multi-factor-auth",
             "label": "MFA",
             "key": "doc:tutorials/management/authentication/multi-factor-auth"
-          },
-          {
-            "type": "category",
-            "label": "Single Sign-on (SSO)",
-            "key": "category:tutorials/management/authentication/single-sign-on",
-            "link": {
-              "type": "doc",
-              "id": "tutorials/management/authentication/single-sign-on/single-sign-on"
-            },
-            "items": [
-              {
-                "type": "doc",
-                "id": "tutorials/management/authentication/single-sign-on/openid-connect",
-                "label": "Okta (OIDC)",
-                "key": "doc:tutorials/management/authentication/single-sign-on/openid-connect"
-              },
-              {
-                "type": "doc",
-                "id": "tutorials/management/authentication/single-sign-on/single-sign-on-with-okta",
-                "label": "Okta (SAML 2.0)",
-                "key": "doc:tutorials/management/authentication/single-sign-on/single-sign-on-with-okta"
-              },
-              {
-                "type": "doc",
-                "id": "tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace",
-                "label": "Google Workspace (SAML 2.0)",
-                "key": "doc:tutorials/management/authentication/single-sign-on/single-sign-on-with-google-workspace"
-              },
-              {
-                "type": "doc",
-                "id": "tutorials/management/authentication/single-sign-on/single-sign-on-with-microsoft-entra",
-                "label": "Microsoft Entra (SAML 2.0)",
-                "key": "doc:tutorials/management/authentication/single-sign-on/single-sign-on-with-microsoft-entra"
-              },
-              {
-                "type": "doc",
-                "id": "tutorials/management/authentication/single-sign-on/single-sign-on-with-other-idp",
-                "label": "Other IdP (SAML 2.0)",
-                "key": "doc:tutorials/management/authentication/single-sign-on/single-sign-on-with-other-idp"
-              },
-              {
-                "type": "doc",
-                "id": "tutorials/management/authentication/single-sign-on/enforce-sso-in-your-organization",
-                "label": "Enforce SSO in Your Organization",
-                "key": "doc:tutorials/management/authentication/single-sign-on/enforce-sso-in-your-organization"
-              }
-            ]
           }
         ]
       },

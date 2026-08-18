@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud encrypts data at rest on disk/object storage using the 256-bit Advanced Encryption Standard (AES-256) algorithm by default. For customers with the highest security requirements, Zilliz Cloud adds an additional layer of security by leveraging the customer's cloud provider's Key Management Service (KMS) in combination with Zilliz Cloud's Customer-Managed Encryption Key (CMEK) feature. | BYOC"
 type: origin
 token: GLxhwO5vWiWkTBkoNCPcg4ahnbe
-sidebar_position: 12
+sidebar_position: 13
 displayed_sidebar: default
 
 ---

@@ -1,5 +1,5 @@
 ---
-title: "Manage Cluster Users (Console) | BYOC"
+title: "Manage Cluster Users (Console) | Cloud"
 slug: /cluster-users
 sidebar_label: "Manage Cluster Users (Console)"
 beta: FALSE
@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security. | BYOC"
+description: "In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security. | Cloud"
 type: origin
 token: CWT2wh5YriZfPZkGlgCcWxVnnAf
-sidebar_position: 4
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -25,6 +25,12 @@ In Zilliz Cloud, you can create cluster users and assign them cluster roles to d
 Upon the creation of a cluster, a default user named `db_admin` is automatically generated. This user cannot be dropped. In addition to this default user, you can create more cluster users for fine-grained access control.
 
 To manage cluster users, you must be an **Organization Owner** or a **Project Admin** or have a role with **Cluster_Admin** privileges.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+This feature is available only to **Dedicated** clusters.
+
+</Admonition>
 
 ## Create a cluster user\{#create-a-cluster-user}
 

@@ -1,5 +1,5 @@
 ---
-title: "Manage Cluster Roles (Console) | Cloud"
+title: "Manage Cluster Roles (Console) | BYOC"
 slug: /cluster-roles
 sidebar_label: "Manage Cluster Roles (Console)"
 beta: FALSE
@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "A cluster role defines the privileges that a user has within the cluster. More specifically, the cluster role controls a cluster user's privileges on the cluster, database, and collection level. | Cloud"
+description: "A cluster role defines the privileges that a user has within the cluster. More specifically, the cluster role controls a cluster user's privileges on the cluster, database, and collection level. | BYOC"
 type: origin
 token: YHG0wCYxfiZILvkZ2VLclmvsn7g
-sidebar_position: 6
+sidebar_position: 1
 displayed_sidebar: default
 
 ---

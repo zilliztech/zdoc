@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This page provides information about limits on the Zilliz Cloud platform. You can use the OPS system that Zilliz provides to tune most of the settings mentioned on this page. You can still contact us if you need further help. | BYOC"
 type: origin
 token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
-sidebar_position: 18
+sidebar_position: 19
 displayed_sidebar: default
 
 ---

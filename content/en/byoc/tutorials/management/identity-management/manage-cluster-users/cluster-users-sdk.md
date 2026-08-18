@@ -10,7 +10,7 @@ notebook: FALSE
 description: "In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security. | BYOC"
 type: origin
 token: I2CHwfDHKilTMukoZ13cR2M4nzb
-sidebar_position: 5
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

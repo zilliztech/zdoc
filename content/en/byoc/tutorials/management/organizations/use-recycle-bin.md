@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration. | BYOC"
 type: origin
 token: JQvjwCDxhiMcj0kpaWicqXsTn1e
-sidebar_position: 3
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

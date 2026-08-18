@@ -10,7 +10,7 @@ notebook: FALSE
 description: "A cluster role defines the privileges that a user has within the cluster. More specifically, the cluster role controls a cluster user's privileges on the cluster, database, and collection level. | Cloud"
 type: origin
 token: PBZwwNqWjiikeYkXgHPcGhLznTh
-sidebar_position: 7
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

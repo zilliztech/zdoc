@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud offers an intuitive Jobs page that integrates all historical and asynchronous data tasks within the same project. | BYOC"
 type: origin
 token: RY8ww0NDQi8yU9kNpjicHP7Gn4b
-sidebar_position: 3
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This page provides information about limits on the Zilliz Cloud platform. Submit a request to us if you need to report issues related to these limits. | Cloud"
 type: origin
 token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
-sidebar_position: 18
+sidebar_position: 19
 displayed_sidebar: default
 
 ---

@@ -1,16 +1,16 @@
 ---
-title: "Privileges & Privilege Groups | Cloud"
+title: "Cluster Resource Privileges & Privilege Groups | BYOC"
 slug: /cluster-privileges
-sidebar_label: "Privileges & Privilege Groups"
+sidebar_label: "Cluster Privileges & Privilege Groups"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "A privilege refers to the permission of specific operations on certain Zilliz Cloud resources such as clusters, databases, and collections. Privileges are assigned to roles, which are then granted to users, defining the operations users can perform on the resources. An example of a privilege could be the permission to insert data into a collection named `collection01`. | Cloud"
+description: "A privilege refers to the permission of specific operations on certain Zilliz Cloud resources such as clusters, databases, and collections. Privileges are assigned to roles, which are then granted to users, defining the operations users can perform on the resources. An example of a privilege could be the permission to insert data into a collection named `collection01`. | BYOC"
 type: origin
 token: NitBwKVzzi0hXBkjdDFcfwRsngb
-sidebar_position: 8
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
