@@ -45,9 +45,14 @@ function readLedger(root) {
   return value
 }
 
+function referenceManifestSourceCommit(options) {
+  return options.sourceCommitSha || options.targetBaselineSha || options.sourceCheckpointSha
+}
+
 function rebuildChineseReferenceState(options) {
-  if (options.rebuildChineseReferenceState) return options.rebuildChineseReferenceState()
-  const command = spawnSync('pnpm', ['docs-tooling', 'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference', '--source-commit', options.sourceCheckpointSha, '--write'], {
+  if (options.rebuildChineseReferenceState) return options.rebuildChineseReferenceState(options)
+  const sourceCommit = referenceManifestSourceCommit(options)
+  const command = spawnSync('pnpm', ['docs-tooling', 'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference', '--source-commit', sourceCommit, '--write'], {
     cwd: options.workspaceRoot,
     encoding: 'utf8',
   })
@@ -155,14 +160,14 @@ function applyReconciliationPlan(options) {
   return result
 }
 
-module.exports = {applyReconciliationPlan}
+module.exports = {applyReconciliationPlan, referenceManifestSourceCommit}
 
 function parseArgs(args) {
   const names = new Map([
     ['--plan', 'planPath'], ['--approval', 'approvalPath'], ['--result', 'resultPath'],
     ['--workspace', 'workspaceRoot'], ['--source-repository', 'sourceRepositoryRoot'],
     ['--target-baseline', 'targetBaselineRoot'], ['--source-checkpoint-sha', 'sourceCheckpointSha'],
-    ['--target-baseline-sha', 'targetBaselineSha'],
+    ['--target-baseline-sha', 'targetBaselineSha'], ['--source-commit-sha', 'sourceCommitSha'],
   ])
   const result = {approvalReceipts: []}
   for (let index = 0; index < args.length; index += 2) {
