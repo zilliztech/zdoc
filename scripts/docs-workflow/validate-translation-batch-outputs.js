@@ -30,7 +30,7 @@ const OPTION_KEYS = Object.freeze([
   'failedCount',
   'remainingCount',
 ])
-const OPTIONAL_OPTION_KEYS = Object.freeze(['testHooks'])
+const OPTIONAL_OPTION_KEYS = Object.freeze(['reconciliationPlanPath', 'testHooks'])
 const TEST_HOOK_KEYS = Object.freeze(['afterJsonLstat', 'afterJsonOpen'])
 
 const INPUT_KEYS = Object.freeze([
@@ -44,9 +44,10 @@ const INPUT_KEYS = Object.freeze([
   'failed-count',
   'remaining-count',
 ])
+const OPTIONAL_INPUT_KEYS = Object.freeze(['reconciliation-plan'])
 
 function usage() {
-  return 'Usage: validate-translation-batch-outputs.js --manifest <file> --report <file> --batch-input <file> --workspace <absolute-dir> --baseline <absolute-dir> --agents-outcome <success|skipped> --translated-count <n> --failed-count <n> --remaining-count <n>'
+  return 'Usage: validate-translation-batch-outputs.js --manifest <file> --report <file> --batch-input <file> --workspace <absolute-dir> --baseline <absolute-dir> [--reconciliation-plan <file>] --agents-outcome <success|skipped> --translated-count <n> --failed-count <n> --remaining-count <n>'
 }
 
 function nonNegativeInteger(value, label) {
@@ -64,7 +65,7 @@ function parseArgs(argv) {
     const value = argv[index + 1]
     if (!flag?.startsWith('--') || value === undefined) throw new Error(usage())
     const key = flag.slice(2)
-    if (!INPUT_KEYS.includes(key)) throw new Error(`Unknown argument: ${flag}`)
+    if (!INPUT_KEYS.includes(key) && !OPTIONAL_INPUT_KEYS.includes(key)) throw new Error(`Unknown argument: ${flag}`)
     if (Object.hasOwn(values, key)) throw new Error(`Duplicate argument: ${flag}`)
     values[key] = value
   }
@@ -75,6 +76,7 @@ function parseArgs(argv) {
     batchInputPath: values['batch-input'],
     workspace: values.workspace,
     baseline: values.baseline,
+    reconciliationPlanPath: values['reconciliation-plan'],
     agentsOutcome: values['agents-outcome'],
     translatedCount: nonNegativeInteger(values['translated-count'], 'translated count'),
     failedCount: nonNegativeInteger(values['failed-count'], 'failed count'),
@@ -425,7 +427,10 @@ function validateTranslationBatchOutputs(options) {
   const baseline = assertRealDirectory(options.baseline, 'baseline')
   const manifest = readPinnedJson(workspace, options.manifestPath, 'manifest', options.testHooks)
   const batchInput = validateBatchInput(readPinnedJson(workspace, options.batchInputPath, 'batch input', options.testHooks))
-  const expectedBatchInput = createBatchInput(manifest)
+  const reconciliationPlan = options.reconciliationPlanPath
+    ? readPinnedJson(workspace, options.reconciliationPlanPath, 'reconciliation plan', options.testHooks)
+    : null
+  const expectedBatchInput = createBatchInput(manifest, reconciliationPlan)
   try {
     assert.deepEqual(batchInput, expectedBatchInput)
   } catch {
