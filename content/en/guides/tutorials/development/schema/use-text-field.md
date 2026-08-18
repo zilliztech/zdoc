@@ -2,7 +2,7 @@
 title: "Text Field | Cloud"
 slug: /use-text-field
 sidebar_label: "Text Field"
-beta: FALSE
+beta: PUBLIC
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE

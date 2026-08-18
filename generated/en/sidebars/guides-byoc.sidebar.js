@@ -283,6 +283,12 @@ module.exports = [
         "key": "doc:tutorials/development/connect-to-serving-cluster"
       },
       {
+        "type": "doc",
+        "id": "tutorials/development/connect-for-on-demand-search",
+        "label": "Connect for On-Demand Search",
+        "key": "doc:tutorials/development/connect-for-on-demand-search"
+      },
+      {
         "type": "category",
         "label": "Search & Query",
         "key": "category:tutorials/development/search-and-query",
@@ -1516,6 +1522,24 @@ module.exports = [
             "label": "On-Demand Cluster",
             "key": "category:tutorials/management/clusters/on-demand-compute",
             "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/management/clusters/on-demand-compute/on-demand-cluster",
+                "label": "Create Cluster",
+                "key": "doc:tutorials/management/clusters/on-demand-compute/on-demand-cluster"
+              },
+              {
+                "type": "link",
+                "href": "/docs/byoc/connect-for-on-demand-search",
+                "label": "Connect for On-Demand Search",
+                "key": "ref:tutorials/management/clusters/on-demand-compute/connect-for-on-demand-search"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters",
+                "label": "Manage Cluster",
+                "key": "doc:tutorials/management/clusters/on-demand-compute/manage-on-demand-clusters"
+              },
               {
                 "type": "link",
                 "href": "/docs/byoc/on-demand-database",

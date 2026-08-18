@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-08-18T02:37:33.552Z",
+  "generated_at": "2026-08-18T06:28:54.740Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
@@ -3352,7 +3352,7 @@
       "doc_token": "BTrNwoEfYii1e9kf0BScWDpcnA2",
       "doc_link": "https://zilliverse.feishu.cn/wiki/BTrNwoEfYii1e9kf0BScWDpcnA2",
       "source_file": "BTrNwoEfYii1e9kf0BScWDpcnA2.json",
-      "source_hash": "fb89ea10f7fccbd4f5ab4d15419b15b6cebfb7917422bb8eea9a2e31d90b2c70",
+      "source_hash": "b73344ee24e1be154c50f4836e9e03cbb278de3c43f359d2603d796eee27d24e",
       "node_metadata": {
         "requested_token": "BTrNwoEfYii1e9kf0BScWDpcnA2",
         "requested_node_token": "BTrNwoEfYii1e9kf0BScWDpcnA2",
@@ -3376,6 +3376,7 @@
       "obj_edit_time": "1783301996",
       "revision_id": null,
       "publish_targets": [
+        "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
@@ -6428,7 +6429,7 @@
       "doc_token": "GBynwwkyBihIHukvJXfc76dMnth",
       "doc_link": "https://zilliverse.feishu.cn/wiki/GBynwwkyBihIHukvJXfc76dMnth",
       "source_file": "GBynwwkyBihIHukvJXfc76dMnth.json",
-      "source_hash": "a959e53e805c012afffc22d0727ab3b735cdfb1a43a55bd7c72f76d197bbf1ce",
+      "source_hash": "8f2180119ff075bd693e5d63e6a05d5a18466618f1304ddffac61bf9536c72a7",
       "node_metadata": {
         "requested_token": "GBynwwkyBihIHukvJXfc76dMnth",
         "requested_node_token": "GBynwwkyBihIHukvJXfc76dMnth",
@@ -11401,7 +11402,7 @@
       "doc_token": "RoxawNJhki1vXXkFsEEc7laMnxe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/RoxawNJhki1vXXkFsEEc7laMnxe",
       "source_file": "RoxawNJhki1vXXkFsEEc7laMnxe.json",
-      "source_hash": "07ae52e9521ce8f06c41b40007c639081cf41e6032bd9e72a30373fa73fc76cb",
+      "source_hash": "8eb20102983d9f6f0e2c35860680369759e7ab3ebf9b518375ebf19ebd8dc382",
       "node_metadata": {
         "requested_token": "RoxawNJhki1vXXkFsEEc7laMnxe",
         "requested_node_token": "RoxawNJhki1vXXkFsEEc7laMnxe",
@@ -11425,6 +11426,7 @@
       "obj_edit_time": "1783323320",
       "revision_id": null,
       "publish_targets": [
+        "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
@@ -11445,7 +11447,7 @@
       "doc_token": "L11Mw0GRTiKALikJaEycwj1wnKg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/L11Mw0GRTiKALikJaEycwj1wnKg",
       "source_file": "L11Mw0GRTiKALikJaEycwj1wnKg.json",
-      "source_hash": "7f12391ef4d775534200aad7a0533c5652a3b3d564a3f962036e000a7e0388b1",
+      "source_hash": "5729d9f3e6a559cc1c03e2ce88513fad3a7f861fcfbe48e583a3b9a7a461e185",
       "node_metadata": {
         "requested_token": "L11Mw0GRTiKALikJaEycwj1wnKg",
         "requested_node_token": "L11Mw0GRTiKALikJaEycwj1wnKg",
@@ -11469,6 +11471,7 @@
       "obj_edit_time": "1786001696",
       "revision_id": null,
       "publish_targets": [
+        "Zilliz.PaaS",
         "Zilliz.SaaS"
       ],
       "publish_status": "Draft",
@@ -19931,6 +19934,7 @@
       "labels": "",
       "slug": "connect-for-on-demand-search",
       "targets": [
+        "zilliz.paas",
         "zilliz.saas"
       ],
       "progress": "Draft",
@@ -24786,6 +24790,7 @@
       "labels": "Create Cluster",
       "slug": "on-demand-cluster",
       "targets": [
+        "zilliz.paas",
         "zilliz.saas"
       ],
       "progress": "Draft",
@@ -24828,6 +24833,7 @@
       "labels": "Manage Cluster",
       "slug": "manage-on-demand-clusters",
       "targets": [
+        "zilliz.paas",
         "zilliz.saas"
       ],
       "progress": "Draft",
@@ -27688,7 +27694,7 @@
     "tblh7utKxg0dgdTo": "40e474ddcd6ad1cde66796d0a41f0d9ffd2d8cdc6a779ec8991091b9ce71168a",
     "tblLMqwkNDtAEK5p": "d279543a03d3c80eb39c2f43282fcc439af4f92731fd8bb067b036e2e23344f1",
     "tblm1SbEPZaZrGZQ": "0fa74989e1f3a450950188b37734120c6a1abb24d1b07f15ffdd7de17c69ab60",
-    "tblWv7PjNDsexddH": "d7ff2d0a091cf506110a97fc3b9c317fdf8cb4b45d08289db4951522c921b2da",
-    "tblZMzoITXNsyKmQ": "eb4ec36bbab187eba2a22b6e074ef9f08c679633537aa268080da726c5d8597f"
+    "tblWv7PjNDsexddH": "fac75b9930dd2c5fc2da7dbd4d8ef723b6650968a96775d4cbbfe13d7eedcc4e",
+    "tblZMzoITXNsyKmQ": "aeeb200e0794e2942d8801b1db85238a5f2b46c80cccdbda173ccda4e16e0a1a"
   }
 }
