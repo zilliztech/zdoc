@@ -49,9 +49,41 @@ function referenceManifestSourceCommit(options) {
   return options.sourceCommitSha || options.targetBaselineSha || options.sourceCheckpointSha
 }
 
+function alignChineseReferenceManifestPair(options) {
+  const sourceManifest = 'generated/en/manifests/reference.json'
+  const targetManifest = 'generated/zh-CN/manifests/reference-translations.json'
+  const sourceFile = safeFile(options.workspaceRoot, sourceManifest, 'Chinese Reference source manifest')
+  const targetFile = safeFile(options.workspaceRoot, targetManifest, 'Chinese Reference translation manifest')
+  const baselineSourceFile = safeFile(options.targetBaselineRoot, sourceManifest, 'Chinese Reference target baseline source manifest')
+  if (!fs.existsSync(sourceFile) || !fs.existsSync(targetFile)) {
+    throw new Error('Chinese Reference manifests must exist before rebuilding')
+  }
+  if (!fs.existsSync(baselineSourceFile)) {
+    throw new Error(`Chinese Reference target baseline source manifest is missing: ${sourceManifest}`)
+  }
+  const workspaceSource = JSON.parse(fs.readFileSync(sourceFile, 'utf8'))
+  const workspaceTarget = JSON.parse(fs.readFileSync(targetFile, 'utf8'))
+  const baselineSource = JSON.parse(fs.readFileSync(baselineSourceFile, 'utf8'))
+  const workspacePending = workspaceTarget.pendingRecords ?? []
+  const pendingCommits = [...new Set(workspacePending.map(record => record.sourceCommit))]
+  const baselineCommit = baselineSource.sourceCommit
+  if (!baselineCommit) throw new Error('Chinese Reference target baseline source manifest has no sourceCommit')
+  if (pendingCommits.length > 1) throw new Error('Chinese Reference pending records must share a single sourceCommit')
+  const pendingCommit = pendingCommits[0]
+  if (pendingCommit && pendingCommit !== baselineCommit) {
+    throw new Error(`Chinese Reference pending sourceCommit ${pendingCommit} does not match target baseline sourceCommit ${baselineCommit}`)
+  }
+  if (workspaceSource.sourceCommit === baselineCommit) return
+  const baselineSourceJson = fs.readFileSync(baselineSourceFile, 'utf8')
+  const temporary = `${sourceFile}.${process.pid}.tmp`
+  fs.writeFileSync(temporary, baselineSourceJson, {flag: 'wx'})
+  fs.renameSync(temporary, sourceFile)
+}
+
 function rebuildChineseReferenceState(options) {
   if (options.rebuildChineseReferenceState) return options.rebuildChineseReferenceState(options)
   const sourceCommit = referenceManifestSourceCommit(options)
+  alignChineseReferenceManifestPair(options)
   const command = spawnSync('pnpm', ['docs-tooling', 'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference', '--source-commit', sourceCommit, '--write'], {
     cwd: options.workspaceRoot,
     encoding: 'utf8',
@@ -160,7 +192,7 @@ function applyReconciliationPlan(options) {
   return result
 }
 
-module.exports = {applyReconciliationPlan, referenceManifestSourceCommit}
+module.exports = {applyReconciliationPlan, referenceManifestSourceCommit, alignChineseReferenceManifestPair}
 
 function parseArgs(args) {
   const names = new Map([
