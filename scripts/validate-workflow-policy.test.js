@@ -2046,7 +2046,7 @@ test('reusable translation producer creates group-scoped checkpoint artifacts wi
   assert.match(numbered.if, /steps\.reconciliation\.outputs\.has_mutation == 'true'/)
   assert.doesNotMatch(numbered.run, /mdx-parse|validate-mdx|validate-translated-coverage|pnpm run build:en/)
   assert.match(numbered.run, /translation-batch-input\.js validate --input tmp\/translation-batch-input\.json/)
-  assert.match(numbered.run, /validate-translation-batch-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--batch-input tmp\/translation-batch-input\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/)
+  assert.match(numbered.run, /validate-translation-batch-outputs\.js[\s\S]*--manifest tmp\/translation-manifest\.json[\s\S]*--report tmp\/translation-report\.json[\s\S]*--batch-input tmp\/translation-batch-input\.json[\s\S]*--workspace "\$GITHUB_WORKSPACE"[\s\S]*--baseline "\$BASELINE_DIR"[\s\S]*--reconciliation-plan tmp\/reconciliation-plan\.json[\s\S]*--agents-outcome "\$AGENTS_OUTCOME"[\s\S]*--translated-count "\$TRANSLATED_COUNT"[\s\S]*--failed-count "\$FAILED_COUNT"[\s\S]*--remaining-count "\$REMAINING_COUNT"/)
   assert.match(numbered.run, /--baseline "\$BASELINE_DIR"/)
 
   assert.ok(unbatched, 'unbatched translations need group-local validation')

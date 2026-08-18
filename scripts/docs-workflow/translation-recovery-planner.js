@@ -208,7 +208,7 @@ function zeroWorkReportMarkdown(locale) {
   return `### Translation report\n\n- Locale: \`${locale}\`\n- Pending: 0\n- Current English changes: 0\n- Missing Japanese targets: 0\n- Stale translations: 0\n- Translated: 0\n- Failed: 0\n- Resumable files: 0\n- Checkpointed chunks: 0\n- Remaining: 0\n\nNo documents require translation or translation-state reconciliation.\n`
 }
 
-function reportPending(directory, expectedTarget) {
+function reportPending(directory, expectedTarget, {allowUnknownLocale = false} = {}) {
   validateRegularTree(directory)
   const markdownFile = path.join(directory, 'translation-report.md')
   if (!fs.existsSync(markdownFile)) throw new Error('Translation report Markdown is missing')
@@ -216,7 +216,7 @@ function reportPending(directory, expectedTarget) {
   const expectedLocale = expectedTarget === 'ja-JP' ? 'ja-JP' : 'zh-CN'
   const jsonFile = path.join(directory, 'translation-report.json')
   if (!fs.existsSync(jsonFile)) {
-    if (markdown !== zeroWorkReportMarkdown(expectedLocale)) {
+    if (markdown !== zeroWorkReportMarkdown(expectedLocale) && !(allowUnknownLocale && markdown === zeroWorkReportMarkdown('unknown'))) {
       throw new Error('Markdown-only Translation report must exactly prove unambiguous zero work')
     }
     return Object.freeze({candidateCount: 0, report: null})
@@ -461,12 +461,14 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
       assertArtifactInJobWindow(batch.reportArtifact, producerJob, `${unitIdentity} Translation report`)
       const reportDirectory = path.join(root, 'downloads', unitToken, `report-${batch.batchNumber}`)
       await downloadArtifact(client, batch.reportArtifact, reportDirectory, run, runId)
-      const {candidateCount} = reportPending(reportDirectory, selected.target)
-      sourceCandidateCount += candidateCount
       const recoveryName = `translation-recovery-${selected.target}-${selected.group}-${runId}-${batch.batchNumber}`
       const recoveryArtifact = exactArtifact(selectedAttempt.artifacts, recoveryName, {required: false, label: `${unitIdentity} recovery artifact`})
+      const {candidateCount} = reportPending(reportDirectory, selected.target, {allowUnknownLocale: !recoveryArtifact})
+      sourceCandidateCount += candidateCount
       if (candidateCount > 0 && !recoveryArtifact) throw new Error(`Missing recovery artifact for ${unitIdentity}; stopping before model invocation`)
-      if (!recoveryArtifact) continue
+      if (!recoveryArtifact) {
+        continue
+      }
       assertArtifactInJobWindow(recoveryArtifact, producerJob, `${unitIdentity} recovery artifact`)
       const downloadDirectory = path.join(root, 'downloads', unitToken, `recovery-${batch.batchNumber}`)
       await downloadArtifact(client, recoveryArtifact, downloadDirectory, run, runId)

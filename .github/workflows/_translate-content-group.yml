@@ -437,6 +437,7 @@ jobs:
             --batch-input tmp/translation-batch-input.json \
             --workspace "$GITHUB_WORKSPACE" \
             --baseline "$BASELINE_DIR" \
+            --reconciliation-plan tmp/reconciliation-plan.json \
             --agents-outcome "$AGENTS_OUTCOME" \
             --translated-count "$TRANSLATED_COUNT" \
             --failed-count "$FAILED_COUNT" \

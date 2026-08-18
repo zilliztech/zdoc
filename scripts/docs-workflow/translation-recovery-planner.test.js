@@ -489,6 +489,31 @@ test('scopes the recovery handoff to authenticated recoverable units and omits p
   assert.equal(planned.plan.retainedFileCount, 2)
 })
 
+test('skips failed units whose placeholder report proves zero work without a recovery artifact', async t => {
+  const value = fixture(t)
+  const retainedArtifacts = [...value.artifacts]
+  for (const unit of value.selected.units.filter(unit => unit.strategy !== 'ja-guides' && unit.target === 'zh-CN-reference')) {
+    const reportName = `translation-report-${unit.target}-${unit.group}-${RUN_ID}`
+    const report = retainedArtifacts.find(artifact => artifact.name === reportName)
+    const reportRoot = value.payloads.get(report.id)
+    fs.rmSync(path.join(reportRoot, 'translation-report.json'))
+    fs.writeFileSync(path.join(reportRoot, 'translation-report.md'), zeroWorkReportMarkdown('unknown'))
+    const recoveryName = `translation-recovery-${unit.target}-${unit.group}-${RUN_ID}-0`
+    const recoveryIndex = retainedArtifacts.findIndex(artifact => artifact.name === recoveryName)
+    retainedArtifacts.splice(recoveryIndex, 1)
+  }
+
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'unknown-locale-zero-work'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...value.client, listArtifacts: async () => retainedArtifacts},
+  })
+
+  assert.deepEqual(planned.plan.recoveryMap['zh-CN-reference/python'], undefined)
+  assert.equal(planned.handoff.units.some(unit => unit.target === 'zh-CN-reference'), false)
+  assert.equal(planned.plan.rejectedRecoveryCount, 0)
+})
+
 test('keeps artifact digest, envelope, producer, and time-window authentication mandatory for Markdown-only zero work', async t => {
   const mutations = [
     {
