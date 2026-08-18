@@ -180,7 +180,7 @@ jobs:
             --plan tmp/reconciliation-plan.json --result tmp/reconciliation-result.json \
             --workspace "$GITHUB_WORKSPACE" --source-repository "$GITHUB_WORKSPACE" \
             --target-baseline "$BASELINE_DIR" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
-            --target-baseline-sha "$TARGET_BASELINE_SHA"
+            --target-baseline-sha "$TARGET_BASELINE_SHA" --source-commit-sha "$TARGET_BASELINE_SHA"
           echo "has_mutation=$(node -p "require('./tmp/reconciliation-result.json').status === 'applied' ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"
       - name: Build reconciliation review state
         if: ${{ failure() && inputs.should_translate && steps.reconciliation.outcome == 'failure' }}
@@ -231,7 +231,7 @@ jobs:
         if: ${{ inputs.should_translate }}
         run: |
           batch_args=()
-          reconciliation_args=(--reconciliation-plan tmp/reconciliation-plan.json --reconciliation-plan-artifact "translation-reconciliation-plan-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}$ARTIFACT_SUFFIX")
+          reconciliation_args=(--reconciliation-plan tmp/reconciliation-plan.json --reconciliation-plan-artifact "translation-reconciliation-plan-$TRANSLATION_TARGET-$GROUP-${{ github.run_id }}")
           if (( ${{ inputs.batch_number }} > 0 )); then
             batch_args=(--batch-index "${{ inputs.batch_index }}" --batch-size "${{ inputs.batch_size }}" --expected-pending-set-sha256 "${{ inputs.pending_set_sha256 }}")
           fi

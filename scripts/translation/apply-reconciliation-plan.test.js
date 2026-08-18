@@ -6,7 +6,7 @@ const os = require('node:os')
 const path = require('node:path')
 const {spawnSync} = require('node:child_process')
 const test = require('node:test')
-const {applyReconciliationPlan} = require('./apply-reconciliation-plan')
+const {applyReconciliationPlan, referenceManifestSourceCommit} = require('./apply-reconciliation-plan')
 const {createReconciliationPlan} = require('./reconciliation-plan')
 
 function git(root, args) {
@@ -106,4 +106,13 @@ test('applies Chinese Reference deletion, rebuilds state, and records immutable 
   assert.equal(second.status, 'already_applied')
   assert.deepEqual(JSON.parse(fs.readFileSync(ledgerPath, 'utf8')), firstLedger)
   assert.equal(rebuilds, 2)
+})
+
+test('Chinese Reference manifest rebuild uses the reconciled target baseline source commit, not the source checkpoint', () => {
+  const sourceSha = 'a'.repeat(40)
+  const baselineSha = 'b'.repeat(40)
+  const reconciledSha = 'c'.repeat(40)
+  assert.equal(referenceManifestSourceCommit({sourceCheckpointSha: sourceSha, targetBaselineSha: baselineSha}), baselineSha)
+  assert.equal(referenceManifestSourceCommit({sourceCheckpointSha: sourceSha, targetBaselineSha: baselineSha, sourceCommitSha: reconciledSha}), reconciledSha)
+  assert.equal(referenceManifestSourceCommit({sourceCheckpointSha: sourceSha}), sourceSha)
 })
