@@ -65,6 +65,18 @@ export default function docsUiPlugin(_context: unknown, options: Options): Plugi
     ...exactModuleAliases('@site/src/components', path.join(sharedRoot, 'components')),
     ...exactModuleAliases('@site/src/theme', path.join(sharedRoot, 'theme')),
     ...exactModuleAliases('@site/src/utils', path.join(sharedRoot, 'utils')),
+    // Overrides @theme/Root contributed by @inkeep/cxkit-docusaurus, whose static
+    // ChatButton import would otherwise pull @inkeep/cxkit-react into the main bundle.
+    // No trailing '$' on purpose: App.js requests '@theme/Root' without a subpath, and
+    // the docs-ui passthrough Root (shared/theme/Root.tsx) is transparent for zh-CN.
+    '@theme/Root': path.join(sharedRoot, 'theme', 'Root'),
+    // Replaces the cxkit @theme/SearchBar, which statically imports InkeepSearchBar
+    // from @inkeep/cxkit-react. Docusaurus' NavbarItem ComponentTypes registry always
+    // pulls SearchNavbarItem -> @theme/SearchBar into the main bundle, so the cxkit
+    // SearchBar would keep the entire Inkeep widget library in main.js even after the
+    // Root/ChatButton override. docs-ui renders its own search UI and loads Inkeep on
+    // demand, so this placeholder is never rendered by the navigation shell.
+    '@theme/SearchBar': path.join(sharedRoot, 'theme', 'SearchBar'),
     ...(englishNavigationSelected
       ? {
           '@theme/Navbar/Content$': path.join(__dirname, 'en/theme/Navbar/Content/index.tsx'),
