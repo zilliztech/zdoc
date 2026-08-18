@@ -41,6 +41,7 @@ jobs:
       status: ${{ steps.result.outputs.status }}
       revision_status: ${{ steps.revision_result.outputs.status }}
     env:
+      LEGACY_FINAL_DEV_SHA: ${{ inputs.final_dev_sha }}
       MASTER_SHA: ${{ inputs.master_sha }}
       TARGET_BRANCH: ${{ inputs.target_branch }}
     steps:
@@ -50,6 +51,11 @@ jobs:
           results_artifact='${{ inputs.publication_results_artifact_name }}'
           if [[ -n "$selection_artifact" || -n "$results_artifact" ]]; then
             [[ -n "$selection_artifact" && -n "$results_artifact" ]] || { echo "publication selection and results artifacts must be provided together" >&2; exit 1; }
+            if [[ -n "$LEGACY_FINAL_DEV_SHA" ]]; then
+              [[ "$LEGACY_FINAL_DEV_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "final_dev_sha must be a lowercase 40-character SHA" >&2; exit 1; }
+            fi
+          else
+            [[ "$LEGACY_FINAL_DEV_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "final_dev_sha must be a lowercase 40-character SHA" >&2; exit 1; }
           fi
           [[ "$MASTER_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "master_sha must be a lowercase 40-character SHA" >&2; exit 1; }
           git check-ref-format --branch "$TARGET_BRANCH"
@@ -86,7 +92,10 @@ jobs:
             results="$RUNNER_TEMP/publication-results/publication-results.json"
             node scripts/docs-workflow/fetch-publication-results.js verify-documents --selection "$selection" --results "$results"
             PUBLISHED_FINAL_SHA=$(node -e 'const fs=require("fs");process.stdout.write(JSON.parse(fs.readFileSync(process.argv[1], "utf8")).finalTargetSha)' "$results")
-            FINAL_DEV_SHA="$PUBLISHED_FINAL_SHA"
+            FINAL_DEV_SHA=${LEGACY_FINAL_DEV_SHA:-$PUBLISHED_FINAL_SHA}
+          else
+            FINAL_DEV_SHA="$LEGACY_FINAL_DEV_SHA"
+            PUBLISHED_FINAL_SHA="$FINAL_DEV_SHA"
           fi
           printf 'FINAL_DEV_SHA=%s\nPUBLISHED_FINAL_SHA=%s\n' "$FINAL_DEV_SHA" "$PUBLISHED_FINAL_SHA" >> "$GITHUB_ENV"
       - name: Materialize exact final dev state
