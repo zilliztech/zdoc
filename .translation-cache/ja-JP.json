@@ -3335,6 +3335,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/data-plane/collection-operations-v2/run-analyzer-v2.mdx",
       "translatedAt": "2026-08-17T07:49:11.270Z"
     },
+    "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/truncate-collection-v2.mdx": {
+      "sourceHash": "def1223126ebceb03be607e14de6dfcdeccb38b8bd5eacfd1d6914a23990d12e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/data-plane/collection-operations-v2/truncate-collection-v2.mdx",
+      "translatedAt": "2026-08-18T07:24:47.165Z"
+    },
     "content/en/reference/api/restful/restful/v2/data-plane/data-plane.mdx": {
       "sourceHash": "43d57bf94e6de84dc634d96d5bdca87921836b02ea9926c898c7f035165ca69e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/data-plane/data-plane.mdx",
