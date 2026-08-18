@@ -618,7 +618,7 @@ schema->AddField(milvus::FieldSchema("my_bool", milvus::DataType::BOOL));
 
 ## Add Composite Fields\{#add-composite-fields}
 
-In Milvus, a composite field is a field that can be divided into smaller sub-fields, such as the keys in a JSON field or the indices in an Array field.
+In Zilliz Cloud, a composite field is a field that can be divided into smaller sub-fields, such as the keys in a JSON field or the indices in an Array field.
 
 ### Add JSON fields\{#add-json-fields}
 

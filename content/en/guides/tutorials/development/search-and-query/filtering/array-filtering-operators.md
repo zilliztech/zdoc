@@ -40,7 +40,7 @@ The following table lists ARRAY operators available in Zilliz Cloud.
 | [ARRAY_CONTAINS_ALL(identifier, expr)](./array-filtering-operators#arraycontainsall) | Filter expression | Checks whether all elements in a specified list exist in an ARRAY field. |
 | [ARRAY_CONTAINS_ANY(identifier, expr)](./array-filtering-operators#arraycontainsany) | Filter expression | Checks whether any element in a specified list exists in an ARRAY field. |
 | [ARRAY_LENGTH(identifier)](./array-filtering-operators#arraylength) | Filter expression | Returns the number of elements in an ARRAY field and can be combined with comparison operators for filtering. |
-| [ARRAY_APPEND](./array-filtering-operators#arrayappend) | `upsert` with `field_ops` | Appends payload elements to an existing ARRAY field. Available in Zilliz Cloud v2.6.17 and later. |
+| [ARRAY_APPEND](./array-filtering-operators#arrayappend) | `upsert` with `field_ops` | Appends payload elements to an existing ARRAY field. |
 | [ARRAY_REMOVE](./array-filtering-operators#arrayremove) | `upsert` with `field_ops` | Removes every element from an existing ARRAY field that matches a value in the request payload. |
 
 ## ARRAY_CONTAINS\{#arraycontains}
@@ -103,7 +103,7 @@ This will return all entities where the `history_temperatures` array has fewer t
 
 The `ARRAY_APPEND` operator appends payload elements to an existing ARRAY field during an `upsert` request. It is not a filter expression. Use it when you want to add values to an array without first querying the current array value.
 
-The following Python example appends `"premium"` to the `tags` ARRAY field of the entity whose primary key is `1`:
+The following example appends `"premium"` to the `tags` ARRAY field of the entity whose primary key is `1`:
 
 ```python
 from pymilvus import FieldOp
@@ -121,7 +121,7 @@ Attaching `ARRAY_APPEND` to a field through `field_ops` enables partial-update s
 
 The `ARRAY_REMOVE` operator removes every element from an existing ARRAY field that matches a value in the request payload during an `upsert` request. It is not a filter expression. Use it when you want to remove matching values from an array without first querying the current array value.
 
-The following Python example removes `"trial"` from the `tags` ARRAY field of the entity whose primary key is `1`:
+The following example removes `"trial"` from the `tags` ARRAY field of the entity whose primary key is `1`:
 
 ```python
 from pymilvus import FieldOp
