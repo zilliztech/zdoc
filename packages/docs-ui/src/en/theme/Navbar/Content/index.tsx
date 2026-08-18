@@ -1,16 +1,15 @@
-import React, {type ReactNode, useState, useEffect, useLayoutEffect, useCallback, useMemo} from 'react';
+import React, {type ReactNode, useState, useEffect, useLayoutEffect, useCallback} from 'react';
 import {useLocation} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
 import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
 import NavbarLogo from '@theme/Navbar/Logo';
-import {InkeepModalSearchAndChat} from '@inkeep/cxkit-react';
 import {Search, LifeBuoy, LogIn, Menu} from 'lucide-react';
 import SecondaryNavbar from '../../../navigation/SecondaryNavbar';
-import {inkeepSettings} from '../../../inkeep.config';
 import {hasInkeepCredentials} from '../../../inkeepRuntime';
 import {useDocsUiText} from '../../../../shared/i18n/uiText';
 import InkeepSearchEnhancer from './InkeepSearchEnhancer';
+import LazyInkeepModal from './LazyInkeepModal';
 import styles from './styles.module.css';
 
 type InkeepPluginOptions = {
@@ -131,20 +130,6 @@ export default function NavbarContent(): ReactNode {
     setSearchOpen(isOpen);
     if (isOpen) window.setTimeout(resetSearchInput, 0);
   }, [resetSearchInput]);
-
-  const inkeepSearchConfig = useMemo(() => ({
-    ...inkeepSettings,
-    baseSettings: {
-      ...inkeepSettings.baseSettings,
-      apiKey,
-      integrationId,
-      organizationId,
-    },
-    modalSettings: {
-      isOpen: searchOpen,
-      onOpenChange: handleOpenChange,
-    },
-  }), [apiKey, handleOpenChange, integrationId, organizationId, searchOpen]);
 
   useEffect(() => {
     const handler = () => openSearch();
@@ -326,11 +311,12 @@ export default function NavbarContent(): ReactNode {
 
       {hasInkeepCredentials({apiKey, integrationId, organizationId}) && (
         <>
-          <InkeepModalSearchAndChat
-            {...(inkeepSearchConfig as any)}
-            defaultView="search"
-            forceDefaultView
-            shouldShowAskAICard
+          <LazyInkeepModal
+            apiKey={apiKey}
+            integrationId={integrationId}
+            organizationId={organizationId}
+            isOpen={searchOpen}
+            onOpenChange={handleOpenChange}
           />
           <InkeepSearchEnhancer />
         </>

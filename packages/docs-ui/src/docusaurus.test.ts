@@ -170,6 +170,8 @@ describe('docs UI Docusaurus integration', () => {
     expect(webpack.resolve?.alias?.['@theme/Navbar/MobileSidebar/SecondaryMenu$']).toMatch(/docs-ui[/\\]src[/\\]en[/\\]theme[/\\]Navbar[/\\]MobileSidebar[/\\]SecondaryMenu[/\\]index\.tsx$/);
     expect(webpack.resolve?.alias?.['@theme/DocSidebar$']).toMatch(/docs-ui[/\\]src[/\\]en[/\\]theme[/\\]DocSidebar[/\\]index\.tsx$/);
     expect(webpack.resolve?.alias?.['@zilliz/docs-ui/guides-sidebar$']).toMatch(/generated.en.sidebars.guides\.sidebar\.js$/);
+    expect(webpack.resolve?.alias?.['@theme/Root']).toMatch(/docs-ui[/\\]src[/\\]shared[/\\]theme[/\\]Root(?:\.tsx)?$/);
+    expect(webpack.resolve?.alias?.['@theme/SearchBar']).toMatch(/docs-ui[/\\]src[/\\]shared[/\\]theme[/\\]SearchBar(?:\.tsx)?$/);
   });
 
   it('selects the Chinese Guides sidebar for the complete Chinese module selection', () => {
