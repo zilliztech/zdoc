@@ -1,129 +1,17 @@
 {
-  "generated_at": "2026-08-19T10:21:42.340Z",
+  "generated_at": "2026-08-19T18:23:23.735Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "recvlVUEVTk9b3",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Manage Cluster",
-      "labels": "Manage Cluster",
-      "slug": "manage-cluster",
-      "doc_token": "PharwAysCiBzvgkuqqecmNzunQf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/PharwAysCiBzvgkuqqecmNzunQf",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvlVU6HDfP71",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Create Global Cluster",
-      "labels": "Create Global Cluster",
-      "slug": "create-global-cluster",
-      "doc_token": "MZ2WwklE5ifX4hkO4ZOcXz0indc",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/MZ2WwklE5ifX4hkO4ZOcXz0indc",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "MZ2WwklE5ifX4hkO4ZOcXz0indc",
-    "PharwAysCiBzvgkuqqecmNzunQf"
-  ],
-  "expanded_tokens": [
-    "AAqUwQW3qia3akkjfDNc0kwanlh",
-    "AICcwQ55yiNqEPkjdV6cb2i8nqe",
-    "CPLrwghdWiSvGBkdeEecGjgLnSb",
-    "DbPIw4jLOiEabCk5uptc6EZ1nbf",
-    "EO58wVRLpiTBXQkceRjccN28nrh",
-    "EV41wG08BiOWW8kbo9xcTGoPnKd",
-    "GMdhwQQCRi2QaLkimNOcc3qNnbh",
-    "I5qmw4fxDiBxBQksrNwcLHQpnTc",
-    "LQwnwNY73iCd8Hkj55ZczQTOn6g",
-    "M5dXwsGOOiPdAjkWLZUc2Pxonuh",
-    "MTqjwwUKhiyns4kGV7Lc7PRlnwb",
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
-    "MZ2WwklE5ifX4hkO4ZOcXz0indc",
-    "NXypwJ2ySiv7RAkyKb5cZ9SKnvf",
-    "PharwAysCiBzvgkuqqecmNzunQf",
-    "RY8ww0NDQi8yU9kNpjicHP7Gn4b",
-    "RlhDw3Fr9iCpWSkylfAcyes1nLh",
-    "Ti5uwysf0iZhuyk4xvjcFmsSnhG",
-    "ZBEiwpvlbijhYDkmnNScc7zyn5d"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "PharwAysCiBzvgkuqqecmNzunQf": [
-      "wiki node edit time changed"
-    ],
-    "MZ2WwklE5ifX4hkO4ZOcXz0indc": [
-      "wiki node edit time changed"
-    ],
-    "I5qmw4fxDiBxBQksrNwcLHQpnTc": [
-      "outgoing reference from MZ2WwklE5ifX4hkO4ZOcXz0indc"
-    ],
-    "NXypwJ2ySiv7RAkyKb5cZ9SKnvf": [
-      "outgoing reference from MZ2WwklE5ifX4hkO4ZOcXz0indc"
-    ],
-    "ZBEiwpvlbijhYDkmnNScc7zyn5d": [
-      "incoming reference to MZ2WwklE5ifX4hkO4ZOcXz0indc"
-    ],
-    "RY8ww0NDQi8yU9kNpjicHP7Gn4b": [
-      "outgoing reference from PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "AICcwQ55yiNqEPkjdV6cb2i8nqe": [
-      "outgoing reference from PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "AAqUwQW3qia3akkjfDNc0kwanlh": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "CPLrwghdWiSvGBkdeEecGjgLnSb": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "DbPIw4jLOiEabCk5uptc6EZ1nbf": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "EO58wVRLpiTBXQkceRjccN28nrh": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "EV41wG08BiOWW8kbo9xcTGoPnKd": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "GMdhwQQCRi2QaLkimNOcc3qNnbh": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "LQwnwNY73iCd8Hkj55ZczQTOn6g": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "M5dXwsGOOiPdAjkWLZUc2Pxonuh": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "MTqjwwUKhiyns4kGV7Lc7PRlnwb": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "RlhDw3Fr9iCpWSkylfAcyes1nLh": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ],
-    "Ti5uwysf0iZhuyk4xvjcFmsSnhG": [
-      "incoming reference to PharwAysCiBzvgkuqqecmNzunQf"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
-  "affected_tables": [
-    "tbl9BeCMjBmalJVb",
-    "tblZMzoITXNsyKmQ",
-    "tblh7utKxg0dgdTo"
-  ],
+  "affected_tables": [],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
@@ -209,7 +97,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-08-19T02:41:22.315Z",
+    "generated_at": "2026-08-19T10:22:43.984Z",
     "records": 382
   },
   "source_scope": "partial"
