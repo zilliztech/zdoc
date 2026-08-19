@@ -207,6 +207,12 @@ curl --request POST \
 
 如果您需要将现有的 Dedicated 集群转换为[全球集群](./global-cluster-explained)，请参考以下 Demo。
 
+<Admonition type="info" icon="📘" title="说明">
+
+全球集群当前仅兼容 Milvus 2.6.x 版本。因此您无法将兼容 Milvus 3.0.x 版本的 Dedicated 集群转换为全球集群。
+
+</Admonition>
+
 <Supademo id="cmm5p53sh3hogdtfhemesjhv0" title=""  />
 
 ## 删除集群\{#drop-cluster}

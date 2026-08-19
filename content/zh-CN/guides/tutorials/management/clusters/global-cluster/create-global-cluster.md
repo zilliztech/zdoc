@@ -36,6 +36,8 @@ import Procedures from '@site/src/components/Procedures';
 
 - 请确保具备项目管理员权限。
 
+- 全球集群当前仅兼容 Milvus 2.6.x 版本。
+
 ## 创建全球集群\{#create-a-global-cluster}
 
 - **通过 Web 控制台**
