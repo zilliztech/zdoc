@@ -265,7 +265,36 @@ test('accepts complete mixed and all-failed terminal batches without synthesizin
   }
 })
 
+
+test('accepts failed review evidence when only the bounded review error is present', () => {
+  const failed = failedResult(candidate(), {
+    failureCategory: 'review_failed',
+    error: null,
+    review: {
+      ...cleanReview(),
+      pass: false,
+      reviewerPass: false,
+      error: "Expected ',' or '}' after property value in JSON at position 252",
+    },
+    retryFailures: [],
+    validationErrors: [],
+  })
+  const root = fixture({
+    report: report({results: [failed], checkpoint: {...report().checkpoint, translated: 0, failed: 1}}),
+    output: false,
+  })
+  try {
+    assert.deepEqual(validate(root, {translatedCount: 0, failedCount: 1}), {
+      candidateCount: 1,
+      reconciliationOnly: false,
+    })
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true})
+  }
+})
+
 test('accepts failed review evidence with a null top-level error and bounded structured retry evidence', () => {
+
   const failed = failedResult(candidate(), {
     failureCategory: 'locale_contract_failed',
     error: null,
