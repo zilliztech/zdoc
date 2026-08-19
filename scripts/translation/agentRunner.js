@@ -456,6 +456,7 @@ async function withTimeout(operation, timeoutMs, message, details = {}) {
 
 function summarizeFailedResult(result) {
   if (result?.error) return String(result.error)
+  if (result?.review?.error) return String(result.review.error)
   if (Array.isArray(result?.validationErrors) && result.validationErrors.length) return result.validationErrors.join('; ')
   if (Array.isArray(result?.review?.issues) && result.review.issues.length) {
     return result.review.issues.map(issue => issue?.comment || issue?.type || JSON.stringify(issue)).join('; ')
@@ -1062,6 +1063,7 @@ function failedReviewResult(item, review, details = {}) {
     review,
     failureCategory: classifyFailure({review}),
     validationErrors: [],
+    ...(review?.error ? {error: String(review.error)} : {}),
     ...details,
   }
 }

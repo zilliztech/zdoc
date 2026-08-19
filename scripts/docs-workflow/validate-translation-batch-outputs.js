@@ -320,7 +320,8 @@ function assertFailedResult(result, sourcePath) {
   }
   const retryErrorEvidence = Array.isArray(result.retryFailures) && result.retryFailures.some(retry => boundedError(retry.error))
   const validationEvidence = Array.isArray(result.validationErrors) && result.validationErrors.some(error => boundedError(error))
-  if (!boundedError(result.error) && !retryErrorEvidence && !validationEvidence && !hasStructuredReviewEvidence(result)) {
+  const reviewErrorEvidence = boundedError(result.review?.error)
+  if (!boundedError(result.error) && !retryErrorEvidence && !validationEvidence && !reviewErrorEvidence && !hasStructuredReviewEvidence(result)) {
     fail(`translation failure evidence is absent for ${sourcePath}`)
   }
 }

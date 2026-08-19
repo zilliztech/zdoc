@@ -4115,6 +4115,64 @@ async function testNormalizesPrivateLinkEndpointWithoutRewritingCliCommandHeadin
   })
 }
 
+async function testMalformedReviewerJsonCarriesBoundedErrorIntoRetriesAndRecoveryArtifact() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/guides/decay-ranker-oveview.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/guides/decay-ranker-oveview.md'
+    write(path.join(siteDir, sourcePath), '# Decay rankers\\n\\nConfigure a decay ranker.\\n')
+    const calls = []
+    const warnMessages = []
+    const callModel = async ({agent, messages}) => {
+      calls.push(agent)
+      if (agent === 'translation') return semanticTranslationResponse(messages, text => text.replace('Decay rankers', 'Decay ランカー'))
+      if (agent === 'review') return '{"pass":false,"issues":[{"severity":"high","type":"style","source_quote":"Decay rankers","draft_quote":"Decay ランカー","comment":"broken'
+      throw new Error('Correction must not run for malformed reviewer JSON')
+    }
+    const item = {target: 'ja-JP', sourcePath, targetPath, sourceHash: 'decay-ranker-oveview', locale: 'ja-JP', type: 'guides'}
+    const result = await processItemWithRetry(item, {
+      maxRetries: 1,
+      log: {warn: message => warnMessages.push(message)},
+      processItem: () => processManifestItem({
+        siteDir,
+        item,
+        callModel,
+        maxReviewRounds: 2,
+        validate: async () => [],
+      }),
+    })
+
+    assert.equal(result.status, 'failed')
+    assert.equal(result.failureCategory, 'review_failed')
+    assert.match(result.error, /Expected|JSON|property value/i)
+    assert.match(result.review.error, /Expected|JSON|property value/i)
+    assert.equal(result.retryFailures.length, 2)
+    for (const failure of result.retryFailures) {
+      assert.equal(failure.category, 'review_failed')
+      assert.ok(failure.error.length > 0, 'retry failure must carry bounded error evidence')
+      assert.match(failure.error, /Expected|JSON|property value/i)
+    }
+    assert.ok(warnMessages.length >= 1)
+    assert.match(warnMessages[0], /retrying .*decay-ranker-oveview/)
+    assert.match(warnMessages[0], /Expected|JSON|property value/i)
+    assert.equal(fs.existsSync(path.join(siteDir, targetPath)), false)
+
+    const artifactDir = path.join(siteDir, 'recovery-artifact')
+    const artifact = createRecoveryArtifact({
+      siteDir,
+      outputDir: artifactDir,
+      results: [result],
+      identity: {
+        locale: 'ja-JP', group: 'guides', promptContractSha256: 'c'.repeat(64), model: 'translation-model',
+        sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'full', batchIndex: 0, batchCount: 1,
+      },
+    })
+    assert.equal(artifact.metadata.failureCounts.review_failed, 1)
+    assert.equal(artifact.failures[0].failureCategory, 'review_failed')
+    assert.match(artifact.failures[0].error, /Expected|JSON|property value/i)
+    assert.ok(artifact.failures[0].retryFailures.every(failure => failure.error.length > 0))
+  })
+}
+
 async function testContractConflictingReviewerIssueFailsStructurallyAndEntersRecoveryArtifact() {
   await withTempDir(async siteDir => {
     const sourcePath = 'content/en/reference/api/java/compaction.md'
@@ -4509,6 +4567,7 @@ async function run() {
   await testCrossEncoderFrontmatterContextCannotLeakProtectedMarkers()
   await testNormalizesPrivateLinkEndpointWithoutRewritingCliCommandHeading()
   await testRestoresFencedCodeCommentsByteForByte()
+  await testMalformedReviewerJsonCarriesBoundedErrorIntoRetriesAndRecoveryArtifact()
   await testContractConflictingReviewerIssueFailsStructurallyAndEntersRecoveryArtifact()
   await testOrdinaryMandatoryLocaleIssueRemainsLocaleContractFailure()
   await testUnalignedMandatoryLocaleIssueFailsWithoutCorrection()

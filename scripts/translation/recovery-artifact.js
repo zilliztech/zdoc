@@ -274,7 +274,7 @@ function createRecoveryArtifact({siteDir, outputDir, results, identity, reconcil
       sourceHash: result.sourceHash,
       status: 'failed',
       failureCategory: classifyFailure(result),
-      error: String(result.error || 'translation failed').slice(0, 2000),
+      error: String(result.error || result.review?.error || 'translation failed').slice(0, 2000),
       ...(errorDetails ? {errorDetails} : {}),
       retryFailures: Array.isArray(result.retryFailures) ? result.retryFailures.map(failure => {
         const retryErrorDetails = boundedFailureDetails(failure.errorDetails);
