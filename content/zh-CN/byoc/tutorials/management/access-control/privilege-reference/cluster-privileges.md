@@ -1,16 +1,16 @@
 ---
-title: "权限与权限组 | Cloud"
+title: "集群资源权限与权限组 | BYOC"
 slug: /cluster-privileges
-sidebar_label: "权限与权限组"
+sidebar_label: "集群权限与权限组"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "权限指的是对 Zilliz Cloud 资源（如集群、Database 和 Collection）进行特定操作的权限。权限被分配给角色，然后将角色授权给用户，用户就可以在资源上根据权限执行的操作。例如，权限可以是允许将数据插入名为 `collection01` 的集合的权限。 | Cloud"
+description: "权限指的是对 Zilliz Cloud 资源（如集群、Database 和 Collection）进行特定操作的权限。权限被分配给角色，然后将角色授权给用户，用户就可以在资源上根据权限执行的操作。例如，权限可以是允许将数据插入名为 `collection01` 的集合的权限。 | BYOC"
 type: origin
 token: PTadwccZmiQ6PpkcQYtcH9OAnSe
-sidebar_position: 8
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

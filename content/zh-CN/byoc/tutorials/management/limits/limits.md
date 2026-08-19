@@ -10,7 +10,7 @@ notebook: FALSE
 description: "本文介绍了 Zilliz Cloud 平台和集群的使用限制信息。如需了解更多限制信息，您可以使用 Zilliz Cloud 提供的 OPS 系统对大多数设置进行调整。如需更多帮助，可联系我们。 | BYOC"
 type: origin
 token: A8UFwSbMniMl6IkpJkNc4HsHnLc
-sidebar_position: 17
+sidebar_position: 20
 displayed_sidebar: default
 
 ---

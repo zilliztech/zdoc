@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-08-18T06:29:04.622Z",
+  "generated_at": "2026-08-19T02:47:10.239Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides-zh-CN",
   "base_app_token": "I6YUb1M0JajHrqsJGcLcZNh7neP",
   "records": [
@@ -515,7 +515,7 @@
       "doc_token": "YVAzwqHdti7uHSkZL6icsY7hnpe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/YVAzwqHdti7uHSkZL6icsY7hnpe",
       "source_file": "YVAzwqHdti7uHSkZL6icsY7hnpe.json",
-      "source_hash": "e008ae25cf312a8fb717846d8d3acd673f119e6d62bc0f20f5269f2b1b2ed40a",
+      "source_hash": "5dadf5924cce1c05bf1a5f7737267ca758613561e6872edf1d1128e107b04669",
       "node_metadata": {
         "requested_token": "YVAzwqHdti7uHSkZL6icsY7hnpe",
         "requested_node_token": "YVAzwqHdti7uHSkZL6icsY7hnpe",
@@ -975,7 +975,7 @@
       "doc_token": "QIEew7qWOiHucGkw1qicgPUjnsc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/QIEew7qWOiHucGkw1qicgPUjnsc",
       "source_file": "QIEew7qWOiHucGkw1qicgPUjnsc.json",
-      "source_hash": "2d19b9964cdd745228a153b10b4d7c302131faccf5879b624c0a110ce746a374",
+      "source_hash": "ee0a20d355c484e20750dda02c9665b5daf26b01660acbc2d7f03786c6f2fecb",
       "node_metadata": {
         "requested_token": "QIEew7qWOiHucGkw1qicgPUjnsc",
         "requested_node_token": "QIEew7qWOiHucGkw1qicgPUjnsc",
@@ -1216,7 +1216,7 @@
       "doc_token": "QxMewBHpRisntJkA1NncBNSZnQc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/QxMewBHpRisntJkA1NncBNSZnQc",
       "source_file": "QxMewBHpRisntJkA1NncBNSZnQc.json",
-      "source_hash": "ef1f1f98be23ca3043f91351a3569a00ea8c1eb896b711dacf7c131b8dd3802f",
+      "source_hash": "653ef48c866a4d44e9e36afcd761881d5f4507954748ed052b083e04c3def750",
       "node_metadata": {
         "requested_token": "QxMewBHpRisntJkA1NncBNSZnQc",
         "requested_node_token": "QxMewBHpRisntJkA1NncBNSZnQc",
@@ -1526,7 +1526,7 @@
       "doc_token": "R8XCwgfEGiPOrLkI03WcdDVAnMg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/R8XCwgfEGiPOrLkI03WcdDVAnMg",
       "source_file": "R8XCwgfEGiPOrLkI03WcdDVAnMg.json",
-      "source_hash": "0b5dc640b0ac99933a9e72c34fccf3fcba46cb9781f53682a158d710e76e76d5",
+      "source_hash": "860b28a5348b7810a62241ab58a1ef072b261f4d235f221217b57b3fe929841e",
       "node_metadata": {
         "requested_token": "R8XCwgfEGiPOrLkI03WcdDVAnMg",
         "requested_node_token": "R8XCwgfEGiPOrLkI03WcdDVAnMg",
@@ -1929,7 +1929,7 @@
       "doc_token": "P1JAwZEf4i1ALqkidS9cYfLZnef",
       "doc_link": "https://zilliverse.feishu.cn/wiki/P1JAwZEf4i1ALqkidS9cYfLZnef",
       "source_file": "P1JAwZEf4i1ALqkidS9cYfLZnef.json",
-      "source_hash": "125c2af0c16d93bebecc09b83791ece64566e8bb4e26ce74d3d321b6543d8778",
+      "source_hash": "72503715fcf1f0a2df59f4697d713a4be099cd2569776077a1d07a525afc9d92",
       "node_metadata": {
         "requested_token": "P1JAwZEf4i1ALqkidS9cYfLZnef",
         "requested_node_token": "P1JAwZEf4i1ALqkidS9cYfLZnef",
@@ -4196,7 +4196,7 @@
       "doc_token": "G7jYwhWH4iVtGakm2BHcGuzIn3f",
       "doc_link": "https://zilliverse.feishu.cn/wiki/G7jYwhWH4iVtGakm2BHcGuzIn3f",
       "source_file": "G7jYwhWH4iVtGakm2BHcGuzIn3f.json",
-      "source_hash": "80f851e360fb08eaaf215c911c93ef1eae6994375851051fd72d4486bb7f4880",
+      "source_hash": "029d05eff280ac2c92ab9d6aeff5c682ea321c306908ecb76af1720e59971f29",
       "node_metadata": {
         "requested_token": "G7jYwhWH4iVtGakm2BHcGuzIn3f",
         "requested_node_token": "G7jYwhWH4iVtGakm2BHcGuzIn3f",
@@ -8998,57 +8998,6 @@
       "output_paths": []
     },
     {
-      "record_id": "recvmSENzjWLj3",
-      "table_id": "tblMuHkoG4qMugeX",
-      "table_name": "运维指南",
-      "placement_type": "canonical",
-      "title": "组织用户",
-      "slug": "organization-users",
-      "doc_token": "PzjhwZkgqiiVmakWT03c8VDAnTh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/PzjhwZkgqiiVmakWT03c8VDAnTh",
-      "source_file": "PzjhwZkgqiiVmakWT03c8VDAnTh.json",
-      "source_hash": "9372d5816d1b1bf01e694f2432420db7fdc9a7fb5a6f4773188e034859a9748e",
-      "node_metadata": {
-        "requested_token": "PzjhwZkgqiiVmakWT03c8VDAnTh",
-        "requested_node_token": "PzjhwZkgqiiVmakWT03c8VDAnTh",
-        "node_token": "PzjhwZkgqiiVmakWT03c8VDAnTh",
-        "origin_node_token": "PzjhwZkgqiiVmakWT03c8VDAnTh",
-        "obj_token": "Wu26dBcTNoh05qxMeY0cTQb6ncM",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "组织用户",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "B1rYwr4rJi0UM7kpppxcQvwin7l",
-        "node_create_time": "1735029913",
-        "obj_create_time": "1735029913",
-        "obj_edit_time": "1778499096",
-        "revision_id": null
-      },
-      "node_token": "PzjhwZkgqiiVmakWT03c8VDAnTh",
-      "origin_node_token": "PzjhwZkgqiiVmakWT03c8VDAnTh",
-      "obj_token": "Wu26dBcTNoh05qxMeY0cTQb6ncM",
-      "obj_type": "docx",
-      "obj_edit_time": "1778499096",
-      "revision_id": null,
-      "publish_targets": [
-        "Zilliz.PaaS",
-        "Zilliz.SaaS"
-      ],
-      "publish_status": "Draft",
-      "outgoing_tokens": [
-        "A1MewOIxbi6Lq3kmiFkcqVt7nZf",
-        "AkYpwsObJihszLkXBz6ca0XDnOc",
-        "FgDZw6JJuiICETkqrqHckN4pneb",
-        "GZriwpM0Gi7fcukuo8xc736VnBh",
-        "L7IZwws2oiiByGk53YWcJJ3ynFg",
-        "PzjhwZkgqiiVmakWT03c8VDAnTh",
-        "UGzNwB4TmiqTozkJvarceRdenif",
-        "Uj7IwJpneijPROkAZN7cJRLInrc",
-        "WpDVwYaHMizLWuklBJlcypTzn2d"
-      ],
-      "output_paths": []
-    },
-    {
       "record_id": "recvmSEOe6XUxP",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
@@ -9058,7 +9007,7 @@
       "doc_token": "AkYpwsObJihszLkXBz6ca0XDnOc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/AkYpwsObJihszLkXBz6ca0XDnOc",
       "source_file": "AkYpwsObJihszLkXBz6ca0XDnOc.json",
-      "source_hash": "8d2f59840f041bdc1edd3a29eb8c6df94e6f93f1d2afe52503df8a44d5dd75dd",
+      "source_hash": "f8022c87346021e312e8366363ae2723804dc3f5a17b698611ed31a609a841ed",
       "node_metadata": {
         "requested_token": "AkYpwsObJihszLkXBz6ca0XDnOc",
         "requested_node_token": "AkYpwsObJihszLkXBz6ca0XDnOc",
@@ -9106,7 +9055,7 @@
       "doc_token": "FgDZw6JJuiICETkqrqHckN4pneb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/FgDZw6JJuiICETkqrqHckN4pneb",
       "source_file": "FgDZw6JJuiICETkqrqHckN4pneb.json",
-      "source_hash": "64a8c80d5870bb0f571a141ce2e3f2f71c5a337bb555efc533dfc7557dea14fa",
+      "source_hash": "33693e7cc6529b77d7f071b05a6e364e4e75b8a4c3a053aed162e66edc994e24",
       "node_metadata": {
         "requested_token": "FgDZw6JJuiICETkqrqHckN4pneb",
         "requested_node_token": "FgDZw6JJuiICETkqrqHckN4pneb",
@@ -9147,7 +9096,7 @@
       "doc_token": "KHwEwoWy3iSRO1kTpIjc21jNnsb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/KHwEwoWy3iSRO1kTpIjc21jNnsb",
       "source_file": "KHwEwoWy3iSRO1kTpIjc21jNnsb.json",
-      "source_hash": "cc5643b385321b73e79c80379a8b9851565b0cbdeaca31eec311afb1a617f8b2",
+      "source_hash": "d580f6e587b01388059a012c2376e028882c61d70c35aa813208d28f0e73c07f",
       "node_metadata": {
         "requested_token": "KHwEwoWy3iSRO1kTpIjc21jNnsb",
         "requested_node_token": "KHwEwoWy3iSRO1kTpIjc21jNnsb",
@@ -9187,50 +9136,6 @@
       "output_paths": []
     },
     {
-      "record_id": "recvmSEQchGUTJ",
-      "table_id": "tblMuHkoG4qMugeX",
-      "table_name": "运维指南",
-      "placement_type": "canonical",
-      "title": "项目用户",
-      "slug": "project-users",
-      "doc_token": "GZriwpM0Gi7fcukuo8xc736VnBh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/GZriwpM0Gi7fcukuo8xc736VnBh",
-      "source_file": "GZriwpM0Gi7fcukuo8xc736VnBh.json",
-      "source_hash": "826b2452592e960dac37f2318db4ff4c0f86fe3e1c53eebdcf324a7ecb04a67f",
-      "node_metadata": {
-        "requested_token": "GZriwpM0Gi7fcukuo8xc736VnBh",
-        "requested_node_token": "GZriwpM0Gi7fcukuo8xc736VnBh",
-        "node_token": "GZriwpM0Gi7fcukuo8xc736VnBh",
-        "origin_node_token": "GZriwpM0Gi7fcukuo8xc736VnBh",
-        "obj_token": "Su6sdKAWAoltSQxkuB2cJzf1nGf",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "项目用户",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "FqTCwzQ7pifaAKkajQdchERrnEd",
-        "node_create_time": "1735030009",
-        "obj_create_time": "1735030009",
-        "obj_edit_time": "1784870899",
-        "revision_id": null
-      },
-      "node_token": "GZriwpM0Gi7fcukuo8xc736VnBh",
-      "origin_node_token": "GZriwpM0Gi7fcukuo8xc736VnBh",
-      "obj_token": "Su6sdKAWAoltSQxkuB2cJzf1nGf",
-      "obj_type": "docx",
-      "obj_edit_time": "1784870899",
-      "revision_id": null,
-      "publish_targets": [
-        "Zilliz.PaaS",
-        "Zilliz.SaaS"
-      ],
-      "publish_status": "Draft",
-      "outgoing_tokens": [
-        "GZriwpM0Gi7fcukuo8xc736VnBh",
-        "PzjhwZkgqiiVmakWT03c8VDAnTh"
-      ],
-      "output_paths": []
-    },
-    {
       "record_id": "recvmSEQPN3tSU",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
@@ -9240,7 +9145,7 @@
       "doc_token": "YtLLwrOl0in7OqkdMpPc4ZkxnVd",
       "doc_link": "https://zilliverse.feishu.cn/wiki/YtLLwrOl0in7OqkdMpPc4ZkxnVd",
       "source_file": "YtLLwrOl0in7OqkdMpPc4ZkxnVd.json",
-      "source_hash": "a5d052f42ba8e1f44375ad10393feb0b40f90b6a12194bc718b9947170af91b6",
+      "source_hash": "6bf45af240882652096254dad3b795ec731cf78a6dda6e49f61a0ffbded24fa7",
       "node_metadata": {
         "requested_token": "YtLLwrOl0in7OqkdMpPc4ZkxnVd",
         "requested_node_token": "YtLLwrOl0in7OqkdMpPc4ZkxnVd",
@@ -9287,7 +9192,7 @@
       "doc_token": "M3fWwcqJpimd7YkaoLucY7eBnne",
       "doc_link": "https://zilliverse.feishu.cn/wiki/M3fWwcqJpimd7YkaoLucY7eBnne",
       "source_file": "M3fWwcqJpimd7YkaoLucY7eBnne.json",
-      "source_hash": "9517186fa086bf6d80ce18767a0a2ef8f8ca760bf20f9ebe44b636edec8d9a1d",
+      "source_hash": "d4a1a7d5c1a4506a922769ea8561aa4fd83cab93d9fa3966761f65046add8117",
       "node_metadata": {
         "requested_token": "M3fWwcqJpimd7YkaoLucY7eBnne",
         "requested_node_token": "M3fWwcqJpimd7YkaoLucY7eBnne",
@@ -9330,7 +9235,7 @@
       "doc_token": "HU31wDHCCiN9qIknZ2fcLmconNh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/HU31wDHCCiN9qIknZ2fcLmconNh",
       "source_file": "HU31wDHCCiN9qIknZ2fcLmconNh.json",
-      "source_hash": "827e9bd1ceaf3becfa491d3ad59d50748c0779cda901dba3c5b0ec2d2ab51ab4",
+      "source_hash": "3e0d48f0439a2160fdba291593ccea091ada2b6c00e3b9caf0e572a01c4e1d64",
       "node_metadata": {
         "requested_token": "HU31wDHCCiN9qIknZ2fcLmconNh",
         "requested_node_token": "HU31wDHCCiN9qIknZ2fcLmconNh",
@@ -9378,7 +9283,7 @@
       "doc_token": "IRirwe30tilo1qkJlR7ca2MUnvn",
       "doc_link": "https://zilliverse.feishu.cn/wiki/IRirwe30tilo1qkJlR7ca2MUnvn",
       "source_file": "IRirwe30tilo1qkJlR7ca2MUnvn.json",
-      "source_hash": "eb52b04d26043bb803edf348032a3bb57d459efa49acb2964aefb8518adaef53",
+      "source_hash": "ec21eaa939b664d4212415e5e14db3a14de8ac9d0d1a93b499246dc1cb08cd28",
       "node_metadata": {
         "requested_token": "IRirwe30tilo1qkJlR7ca2MUnvn",
         "requested_node_token": "IRirwe30tilo1qkJlR7ca2MUnvn",
@@ -9422,7 +9327,7 @@
       "doc_token": "CGA8w8CE3iHjGJkkax9cISiwnTc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/CGA8w8CE3iHjGJkkax9cISiwnTc",
       "source_file": "CGA8w8CE3iHjGJkkax9cISiwnTc.json",
-      "source_hash": "cfa125c5b6a0d7693d7549fff36cba555125ed7d7514ce45a0d56c34a2839fca",
+      "source_hash": "e301566dd3d06ba92d99eef652055659b5358ceb7d6eed926245df125900b302",
       "node_metadata": {
         "requested_token": "CGA8w8CE3iHjGJkkax9cISiwnTc",
         "requested_node_token": "CGA8w8CE3iHjGJkkax9cISiwnTc",
@@ -9467,7 +9372,7 @@
       "doc_token": "I64FwCeMBi2DmokaO2McbxTQn9f",
       "doc_link": "https://zilliverse.feishu.cn/wiki/I64FwCeMBi2DmokaO2McbxTQn9f",
       "source_file": "I64FwCeMBi2DmokaO2McbxTQn9f.json",
-      "source_hash": "680df9d9aa5f4d94d43805f7d1659ed1ca26c736af188d6abc58d1ee5206c3c1",
+      "source_hash": "237a4a2c2e9f0a0bf82059ece6cf1019760c78694c6e217550ad782535662006",
       "node_metadata": {
         "requested_token": "I64FwCeMBi2DmokaO2McbxTQn9f",
         "requested_node_token": "I64FwCeMBi2DmokaO2McbxTQn9f",
@@ -9510,7 +9415,7 @@
       "doc_token": "CZ2KwDHqki8aPok1p0EcJnlWnKW",
       "doc_link": "https://zilliverse.feishu.cn/wiki/CZ2KwDHqki8aPok1p0EcJnlWnKW",
       "source_file": "CZ2KwDHqki8aPok1p0EcJnlWnKW.json",
-      "source_hash": "3605c54af8242da8547ef46d35b47c381d097d96f63cb24860f3aca9e99ec3d9",
+      "source_hash": "a789a92ce778fca1be6e1c92463cec0c90ae85cbf67c7330b976d9107bce86ef",
       "node_metadata": {
         "requested_token": "CZ2KwDHqki8aPok1p0EcJnlWnKW",
         "requested_node_token": "CZ2KwDHqki8aPok1p0EcJnlWnKW",
@@ -9542,7 +9447,7 @@
       "output_paths": []
     },
     {
-      "record_id": "recvrzOJybMBq3",
+      "record_id": "recvsD4hHGAdAJ",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
       "placement_type": "canonical",
@@ -9551,7 +9456,7 @@
       "doc_token": "Dm7dwQQvxib74AkgoITcfy5Wnfe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Dm7dwQQvxib74AkgoITcfy5Wnfe",
       "source_file": "Dm7dwQQvxib74AkgoITcfy5Wnfe.json",
-      "source_hash": "8d197bdf55ce78ee85a7c45b90fc9e0102ee3a492432eb46a7e999c06b866027",
+      "source_hash": "785cf9a708862a777d2d8a8bcf6c78350a58e07f61f644cf6b32f49ed6dabff4",
       "node_metadata": {
         "requested_token": "Dm7dwQQvxib74AkgoITcfy5Wnfe",
         "requested_node_token": "Dm7dwQQvxib74AkgoITcfy5Wnfe",
@@ -9596,7 +9501,7 @@
       "doc_token": "Tzvkw65P7iBWjoktlQvcAE8Ynwk",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Tzvkw65P7iBWjoktlQvcAE8Ynwk",
       "source_file": "Tzvkw65P7iBWjoktlQvcAE8Ynwk.json",
-      "source_hash": "33c284c6172ee27ecfe6c07af35aa5383537ee3fbc1f88f701d55dd7c239a89b",
+      "source_hash": "379e058ccad41606835b214a00718e778ddeb44fc27ba1486687afd0f1f7fb65",
       "node_metadata": {
         "requested_token": "Tzvkw65P7iBWjoktlQvcAE8Ynwk",
         "requested_node_token": "Tzvkw65P7iBWjoktlQvcAE8Ynwk",
@@ -9637,7 +9542,7 @@
       "doc_token": "TzqKwQTo8iBmiYkVraHccZuCnie",
       "doc_link": "https://zilliverse.feishu.cn/wiki/TzqKwQTo8iBmiYkVraHccZuCnie",
       "source_file": "TzqKwQTo8iBmiYkVraHccZuCnie.json",
-      "source_hash": "6bc2cedb4170b658d1ae24998183e3d705423953b9ac4799e356e52035908b62",
+      "source_hash": "05b1e90d3885e416118378402293794e1391fa8f77b0f58274061284dcbe2328",
       "node_metadata": {
         "requested_token": "TzqKwQTo8iBmiYkVraHccZuCnie",
         "requested_node_token": "TzqKwQTo8iBmiYkVraHccZuCnie",
@@ -9678,7 +9583,7 @@
       "doc_token": "MwLkwFEC3ioojzkBVygc5lGNnuh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/MwLkwFEC3ioojzkBVygc5lGNnuh",
       "source_file": "MwLkwFEC3ioojzkBVygc5lGNnuh.json",
-      "source_hash": "7afda8b72d7514ec92bb6ff3a1b9c6f808232c6141e0440f90446b02ff8c3437",
+      "source_hash": "c63e70ff6cad1a8a20c86d6ba13816642e6ee6a24abc365003a5a60f7ba6da17",
       "node_metadata": {
         "requested_token": "MwLkwFEC3ioojzkBVygc5lGNnuh",
         "requested_node_token": "MwLkwFEC3ioojzkBVygc5lGNnuh",
@@ -9720,7 +9625,7 @@
       "doc_token": "ETznwYhvpitgrtk4Y7dcLSv0nLc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/ETznwYhvpitgrtk4Y7dcLSv0nLc",
       "source_file": "ETznwYhvpitgrtk4Y7dcLSv0nLc.json",
-      "source_hash": "e148c4e06f621db607af936f3ee81a1261663d2e25d380bc3ffe48b2448c8591",
+      "source_hash": "873ca782924666dfa30aad803d33ff3cb2dd8f9ace40eceb339c0d059d3ea8cb",
       "node_metadata": {
         "requested_token": "ETznwYhvpitgrtk4Y7dcLSv0nLc",
         "requested_node_token": "ETznwYhvpitgrtk4Y7dcLSv0nLc",
@@ -9760,7 +9665,7 @@
       "doc_token": "LdpTwpzkFinz6lkW3Jpce7QQnJd",
       "doc_link": "https://zilliverse.feishu.cn/wiki/LdpTwpzkFinz6lkW3Jpce7QQnJd",
       "source_file": "LdpTwpzkFinz6lkW3Jpce7QQnJd.json",
-      "source_hash": "db58a3f1b3f6d22e1161e10833d950c6620b0211b9dc8a7f4e87e330d6a487f6",
+      "source_hash": "a21c040f516d4d7c0480a1e5ca25f7deef6a57388ac13a130bf178e478678b5f",
       "node_metadata": {
         "requested_token": "LdpTwpzkFinz6lkW3Jpce7QQnJd",
         "requested_node_token": "LdpTwpzkFinz6lkW3Jpce7QQnJd",
@@ -9805,7 +9710,7 @@
       "doc_token": "SgDzwGKoHiV6flk3OJ9cGFaZnuf",
       "doc_link": "https://zilliverse.feishu.cn/wiki/SgDzwGKoHiV6flk3OJ9cGFaZnuf",
       "source_file": "SgDzwGKoHiV6flk3OJ9cGFaZnuf.json",
-      "source_hash": "55b94aea71d0d72da4cf4fb2d53f46a4d12e098e4097b61e91f468f12c765e18",
+      "source_hash": "44764055764943343ffe4f80d461f23387b561a3243e77d3a9f1d38b50bff662",
       "node_metadata": {
         "requested_token": "SgDzwGKoHiV6flk3OJ9cGFaZnuf",
         "requested_node_token": "SgDzwGKoHiV6flk3OJ9cGFaZnuf",
@@ -9849,7 +9754,7 @@
       "doc_token": "VfF8wgQEmixhpkkxEFDchYoinBv",
       "doc_link": "https://zilliverse.feishu.cn/wiki/VfF8wgQEmixhpkkxEFDchYoinBv",
       "source_file": "VfF8wgQEmixhpkkxEFDchYoinBv.json",
-      "source_hash": "ad6c7aa618ef696a9c25632b3ddeba80e3e19a5ab96f12d03a62d7d4ff84333f",
+      "source_hash": "bd178eaee60c56f2ad762e9fc1ea4bad639b9db25bca29919d91fe278c48a13e",
       "node_metadata": {
         "requested_token": "VfF8wgQEmixhpkkxEFDchYoinBv",
         "requested_node_token": "VfF8wgQEmixhpkkxEFDchYoinBv",
@@ -9892,7 +9797,7 @@
       "doc_token": "GopSwoGT3iIQSOkD15tcWQ7Dn5e",
       "doc_link": "https://zilliverse.feishu.cn/wiki/GopSwoGT3iIQSOkD15tcWQ7Dn5e",
       "source_file": "GopSwoGT3iIQSOkD15tcWQ7Dn5e.json",
-      "source_hash": "f6a69f6180a19ae94e343aae7cebb1bdd3abd5845c0d401a8cff525cd15df98c",
+      "source_hash": "45cb565304307c8ac41a7faad0e50acffbe091ef5557ade1bb7e9eaf5bf280f2",
       "node_metadata": {
         "requested_token": "GopSwoGT3iIQSOkD15tcWQ7Dn5e",
         "requested_node_token": "GopSwoGT3iIQSOkD15tcWQ7Dn5e",
@@ -9937,7 +9842,7 @@
       "doc_token": "ER5PwvwjIiBcG4kughjcE1GLnjh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/ER5PwvwjIiBcG4kughjcE1GLnjh",
       "source_file": "ER5PwvwjIiBcG4kughjcE1GLnjh.json",
-      "source_hash": "f865fc78b432d8cb3dd07e65eb4217e00eda170b1f4251b954640077e03b8967",
+      "source_hash": "0df8ef7f3903315061ebfe16f895503dc8f6c9f938a4bc579cc25b15fddbc131",
       "node_metadata": {
         "requested_token": "ER5PwvwjIiBcG4kughjcE1GLnjh",
         "requested_node_token": "ER5PwvwjIiBcG4kughjcE1GLnjh",
@@ -9981,7 +9886,7 @@
       "doc_token": "SQ3fw6BdJioGuKk5J2XcY7RRnid",
       "doc_link": "https://zilliverse.feishu.cn/wiki/SQ3fw6BdJioGuKk5J2XcY7RRnid",
       "source_file": "SQ3fw6BdJioGuKk5J2XcY7RRnid.json",
-      "source_hash": "fa74ff7409eedda4ca363fd400ba50fd38afcc2c9bc7445e02f8366c80de059b",
+      "source_hash": "e2dc35a39f97235812c76438cd97d1474e620bc0a99f0f111ac9b76ffeacbc9c",
       "node_metadata": {
         "requested_token": "SQ3fw6BdJioGuKk5J2XcY7RRnid",
         "requested_node_token": "SQ3fw6BdJioGuKk5J2XcY7RRnid",
@@ -10024,7 +9929,7 @@
       "doc_token": "NpmyweSc9icYKak5XFvcP8iAnXd",
       "doc_link": "https://zilliverse.feishu.cn/wiki/NpmyweSc9icYKak5XFvcP8iAnXd",
       "source_file": "NpmyweSc9icYKak5XFvcP8iAnXd.json",
-      "source_hash": "d9881a86db930f08d05fa523c7fa961d5ca8e5fa12c978d90fb475eec0b64acf",
+      "source_hash": "0889e213255b6b0b361881b2c6efa9fdb73ad4426b0ae6f4a00857e7d860a038",
       "node_metadata": {
         "requested_token": "NpmyweSc9icYKak5XFvcP8iAnXd",
         "requested_node_token": "NpmyweSc9icYKak5XFvcP8iAnXd",
@@ -10068,7 +9973,7 @@
       "doc_token": "GFFswc3z1iQtjQkpmyScL00dnSx",
       "doc_link": "https://zilliverse.feishu.cn/wiki/GFFswc3z1iQtjQkpmyScL00dnSx",
       "source_file": "GFFswc3z1iQtjQkpmyScL00dnSx.json",
-      "source_hash": "d9bcfcbf336554d0835cd4780c55024ba67654999c87297bf12a42ab0657386e",
+      "source_hash": "fd86df4833382445efee035cb26cb780122be55b9da430f330941e42b1ab5ee2",
       "node_metadata": {
         "requested_token": "GFFswc3z1iQtjQkpmyScL00dnSx",
         "requested_node_token": "GFFswc3z1iQtjQkpmyScL00dnSx",
@@ -10115,7 +10020,7 @@
       "doc_token": "TXyTwrfxCiStfek4hc7c2nKwnJc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/TXyTwrfxCiStfek4hc7c2nKwnJc",
       "source_file": "TXyTwrfxCiStfek4hc7c2nKwnJc.json",
-      "source_hash": "de293df1ef703910a7b21a8a87c91991821dae1bebc1eec2b4b5a5ef6c3dbcfa",
+      "source_hash": "e80c6285f8ca84ad0a2a2c744a71a9816b2e87dcf65a1b6c864abe1c6d1ef5a5",
       "node_metadata": {
         "requested_token": "TXyTwrfxCiStfek4hc7c2nKwnJc",
         "requested_node_token": "TXyTwrfxCiStfek4hc7c2nKwnJc",
@@ -10163,7 +10068,7 @@
       "doc_token": "DwklwhvhBi1xiQkdaxVcbIK0ned",
       "doc_link": "https://zilliverse.feishu.cn/wiki/DwklwhvhBi1xiQkdaxVcbIK0ned",
       "source_file": "DwklwhvhBi1xiQkdaxVcbIK0ned.json",
-      "source_hash": "00fa9ba56b4cef025d20ef19cea02e528e4b2444e6a580ce10e8cad47c10f678",
+      "source_hash": "bf9dd8d29694abf1149849553be8c31986cb87b42bf9195317af1dfb04de13ca",
       "node_metadata": {
         "requested_token": "DwklwhvhBi1xiQkdaxVcbIK0ned",
         "requested_node_token": "DwklwhvhBi1xiQkdaxVcbIK0ned",
@@ -10210,7 +10115,7 @@
       "doc_token": "NtkswF6UEi3kB0k8XSEcOKkhnld",
       "doc_link": "https://zilliverse.feishu.cn/wiki/NtkswF6UEi3kB0k8XSEcOKkhnld",
       "source_file": "NtkswF6UEi3kB0k8XSEcOKkhnld.json",
-      "source_hash": "c9745f57fc7cbe096a0ebef0985afcb94e984dc2646c1e603fb76d9e8389037b",
+      "source_hash": "8e0886ee729fb35ba8a3cde665e91c8c56fff7240e377653b7d66ace039041f9",
       "node_metadata": {
         "requested_token": "NtkswF6UEi3kB0k8XSEcOKkhnld",
         "requested_node_token": "NtkswF6UEi3kB0k8XSEcOKkhnld",
@@ -10253,7 +10158,7 @@
       "doc_token": "WXBjwo4sgiCDX8kZvBwcJrJCnyg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/WXBjwo4sgiCDX8kZvBwcJrJCnyg",
       "source_file": "WXBjwo4sgiCDX8kZvBwcJrJCnyg.json",
-      "source_hash": "1c274d085b7082ebdefb0359417914b837baf1dcab92199c6a466264c32b8d54",
+      "source_hash": "5c45039791e8d5ddb13e44db45c809d420fc0d7f683172b755e0fc938c62cbde",
       "node_metadata": {
         "requested_token": "WXBjwo4sgiCDX8kZvBwcJrJCnyg",
         "requested_node_token": "WXBjwo4sgiCDX8kZvBwcJrJCnyg",
@@ -10296,7 +10201,7 @@
       "doc_token": "BQjRwYOyZiDjwfkRav6cpFOTnoe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/BQjRwYOyZiDjwfkRav6cpFOTnoe",
       "source_file": "BQjRwYOyZiDjwfkRav6cpFOTnoe.json",
-      "source_hash": "6f59990da4f8867ae288e5acaaa53b99d0f24450e23ad3e3de5ed11f7450dc2b",
+      "source_hash": "0121f36d3851532e7ab5498419f9df1d3119fc97db38f5625bd6132ff8a2bb31",
       "node_metadata": {
         "requested_token": "BQjRwYOyZiDjwfkRav6cpFOTnoe",
         "requested_node_token": "BQjRwYOyZiDjwfkRav6cpFOTnoe",
@@ -10337,7 +10242,7 @@
       "doc_token": "Eao0wFMCxiFiiikrZgScLW3LnZe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Eao0wFMCxiFiiikrZgScLW3LnZe",
       "source_file": "Eao0wFMCxiFiiikrZgScLW3LnZe.json",
-      "source_hash": "a4bc814b93c7a03d67d6208352ec737fa6c161530c5b7f1dd2dbcdad35f406d1",
+      "source_hash": "5e6d87cb08e08f80bc525265d4735b54494948e4b4c4510db10d70014f8d0fe9",
       "node_metadata": {
         "requested_token": "Eao0wFMCxiFiiikrZgScLW3LnZe",
         "requested_node_token": "Eao0wFMCxiFiiikrZgScLW3LnZe",
@@ -10378,7 +10283,7 @@
       "doc_token": "PtmRwn9bQi6WAKkurfXcEXKKn9b",
       "doc_link": "https://zilliverse.feishu.cn/wiki/PtmRwn9bQi6WAKkurfXcEXKKn9b",
       "source_file": "PtmRwn9bQi6WAKkurfXcEXKKn9b.json",
-      "source_hash": "14a6df7d6cbd6f61b5636ba1d2c5a6d295899b1631edfb7123097ff0ffd16022",
+      "source_hash": "3b06b136e4bed98fae60b70a138c7a757bcbf702736c6730eda35fea4b0d5a68",
       "node_metadata": {
         "requested_token": "PtmRwn9bQi6WAKkurfXcEXKKn9b",
         "requested_node_token": "PtmRwn9bQi6WAKkurfXcEXKKn9b",
@@ -10423,7 +10328,7 @@
       "doc_token": "YBlmwO9ajiU4tYklnjmc6fJPn8e",
       "doc_link": "https://zilliverse.feishu.cn/wiki/YBlmwO9ajiU4tYklnjmc6fJPn8e",
       "source_file": "YBlmwO9ajiU4tYklnjmc6fJPn8e.json",
-      "source_hash": "2b435d043293ad078061873fd7428ae071aa3d84b65fd47812283cdc9bcfda7e",
+      "source_hash": "d649edb97df24f7b5765de66f61aa678c1a7b83eedcc4c637cb82e7588815e1d",
       "node_metadata": {
         "requested_token": "YBlmwO9ajiU4tYklnjmc6fJPn8e",
         "requested_node_token": "YBlmwO9ajiU4tYklnjmc6fJPn8e",
@@ -10468,7 +10373,7 @@
       "doc_token": "ZP6tw8jcQipDKrkY93DcYCetnJb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/ZP6tw8jcQipDKrkY93DcYCetnJb",
       "source_file": "ZP6tw8jcQipDKrkY93DcYCetnJb.json",
-      "source_hash": "7df161a9f74665868cf25538b4dc7a260b1a9e808ec2e5bb1b383918e99bbb2f",
+      "source_hash": "21d7936126a6097de03fe299df6599ca443e775306fb411e4ec98551938aa22a",
       "node_metadata": {
         "requested_token": "ZP6tw8jcQipDKrkY93DcYCetnJb",
         "requested_node_token": "ZP6tw8jcQipDKrkY93DcYCetnJb",
@@ -10511,7 +10416,7 @@
       "doc_token": "FD9uwJwjgi8ub4kit1EcXyEQnqs",
       "doc_link": "https://zilliverse.feishu.cn/wiki/FD9uwJwjgi8ub4kit1EcXyEQnqs",
       "source_file": "FD9uwJwjgi8ub4kit1EcXyEQnqs.json",
-      "source_hash": "ee1f16b20550b834ed920af4a588c30f192cbcb16832d368a4b973acaafe1142",
+      "source_hash": "db4230f1ce996204987bd066387e47dc9e4764b3710b69a5c184a256943af8eb",
       "node_metadata": {
         "requested_token": "FD9uwJwjgi8ub4kit1EcXyEQnqs",
         "requested_node_token": "FD9uwJwjgi8ub4kit1EcXyEQnqs",
@@ -10559,7 +10464,7 @@
       "doc_token": "MjDcwfnLMiVRYVkFSqTckwQbnmc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/MjDcwfnLMiVRYVkFSqTckwQbnmc",
       "source_file": "MjDcwfnLMiVRYVkFSqTckwQbnmc.json",
-      "source_hash": "fc5670a7acdcd83659d09492ea12cb97ea2a9be2afa8d7c764863b8d1f20ebea",
+      "source_hash": "804e6e570aa827c80ba95cc7722a9494dae24be680fd21014d083e911bf48c4b",
       "node_metadata": {
         "requested_token": "MjDcwfnLMiVRYVkFSqTckwQbnmc",
         "requested_node_token": "MjDcwfnLMiVRYVkFSqTckwQbnmc",
@@ -10604,7 +10509,7 @@
       "doc_token": "Ii6EwCswKihb6LkI0MmcNVZZnIf",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Ii6EwCswKihb6LkI0MmcNVZZnIf",
       "source_file": "Ii6EwCswKihb6LkI0MmcNVZZnIf.json",
-      "source_hash": "82b4440c4db4490b0b0f1b618035a988e47b3401072547cfe981be0293ca1d3e",
+      "source_hash": "8af18027c7e6ce7d7be6b89f2342e7b927e4905910f412fcdc9100440711fc53",
       "node_metadata": {
         "requested_token": "Ii6EwCswKihb6LkI0MmcNVZZnIf",
         "requested_node_token": "Ii6EwCswKihb6LkI0MmcNVZZnIf",
@@ -10649,7 +10554,7 @@
       "doc_token": "CJN4wlKiGi1P8Zk4BHKcF04GnLb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/CJN4wlKiGi1P8Zk4BHKcF04GnLb",
       "source_file": "CJN4wlKiGi1P8Zk4BHKcF04GnLb.json",
-      "source_hash": "047f1737db1bb9c875cb53f2781159442e24939e84cec93cd71cfcea14980456",
+      "source_hash": "d9ac27f721bb83fc492e2819e3dca2e28ff45b8b70332cec87bb3b6e3ddb717a",
       "node_metadata": {
         "requested_token": "CJN4wlKiGi1P8Zk4BHKcF04GnLb",
         "requested_node_token": "CJN4wlKiGi1P8Zk4BHKcF04GnLb",
@@ -10691,7 +10596,7 @@
       "doc_token": "QrBFw5sXmiaaYRk1YpectbZpnzg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/QrBFw5sXmiaaYRk1YpectbZpnzg",
       "source_file": "QrBFw5sXmiaaYRk1YpectbZpnzg.json",
-      "source_hash": "28355b30b03e15756c278e667f5d60874edef43e5e44e6a98868d8830528dded",
+      "source_hash": "1e637f11ead676363bff5ee5ec9620956b5b7b97ede73207bc967a8859bde6a7",
       "node_metadata": {
         "requested_token": "QrBFw5sXmiaaYRk1YpectbZpnzg",
         "requested_node_token": "QrBFw5sXmiaaYRk1YpectbZpnzg",
@@ -10733,7 +10638,7 @@
       "doc_token": "WBTjw5BmvisFlLk6uGoc6q71nns",
       "doc_link": "https://zilliverse.feishu.cn/wiki/WBTjw5BmvisFlLk6uGoc6q71nns",
       "source_file": "WBTjw5BmvisFlLk6uGoc6q71nns.json",
-      "source_hash": "031e0a0f911be92951b46933a97e702586f223ad8b1e19fb2835501684117090",
+      "source_hash": "1104bd1fc97a297d9c4e0d711d0a8cb2ffc8c3611dbb1ec91dd7f49ac0fb4a8e",
       "node_metadata": {
         "requested_token": "WBTjw5BmvisFlLk6uGoc6q71nns",
         "requested_node_token": "WBTjw5BmvisFlLk6uGoc6q71nns",
@@ -10778,7 +10683,7 @@
       "doc_token": "Cf89wr8V3iGmr3kKiqAcP4D1nPb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Cf89wr8V3iGmr3kKiqAcP4D1nPb",
       "source_file": "Cf89wr8V3iGmr3kKiqAcP4D1nPb.json",
-      "source_hash": "b9b67bd121983b8c0d03112aa58ec220f2d261c4841299851fcf32cc686b1687",
+      "source_hash": "30d1bd11ce22e7192a9f8a16cbf40ad9448f523284a1322a6324cd467371d39e",
       "node_metadata": {
         "requested_token": "Cf89wr8V3iGmr3kKiqAcP4D1nPb",
         "requested_node_token": "Cf89wr8V3iGmr3kKiqAcP4D1nPb",
@@ -10820,7 +10725,7 @@
       "doc_token": "J86AwNi3midzR9kqgbHcnX14ntc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/J86AwNi3midzR9kqgbHcnX14ntc",
       "source_file": "J86AwNi3midzR9kqgbHcnX14ntc.json",
-      "source_hash": "3e99a6a7e83afa80bc95cca3a2b48dc237eedfa7f86d914f27854ff4ddea2775",
+      "source_hash": "1ca8588443cb96c00e20ed0009e2fa463de5399fe0cca79925d039c82aac257c",
       "node_metadata": {
         "requested_token": "J86AwNi3midzR9kqgbHcnX14ntc",
         "requested_node_token": "J86AwNi3midzR9kqgbHcnX14ntc",
@@ -10861,7 +10766,7 @@
       "doc_token": "NzDwwYOwhiRi22kutJ2c65tVngg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/NzDwwYOwhiRi22kutJ2c65tVngg",
       "source_file": "NzDwwYOwhiRi22kutJ2c65tVngg.json",
-      "source_hash": "857a0695c0459051d42087bfa0c6de1e3fc396748b3934d756f840545534ef8e",
+      "source_hash": "c3371772bb088bc135be084877050a07209b3df0fb1780fcacf9614f8c5b4643",
       "node_metadata": {
         "requested_token": "NzDwwYOwhiRi22kutJ2c65tVngg",
         "requested_node_token": "NzDwwYOwhiRi22kutJ2c65tVngg",
@@ -10902,7 +10807,7 @@
       "doc_token": "N6tlwTPPvi0FXvkj4fccCgtTnOg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/N6tlwTPPvi0FXvkj4fccCgtTnOg",
       "source_file": "N6tlwTPPvi0FXvkj4fccCgtTnOg.json",
-      "source_hash": "f9789348679a3906bd5d4ced83257505e4d0ec8e6704988de8526239ad54f674",
+      "source_hash": "a2cfb4ccddff0219d571babc8e246fb0afdbd5fea80d3e644b35a9605624cd5c",
       "node_metadata": {
         "requested_token": "N6tlwTPPvi0FXvkj4fccCgtTnOg",
         "requested_node_token": "N6tlwTPPvi0FXvkj4fccCgtTnOg",
@@ -10916,14 +10821,14 @@
         "parent_node_token": "NzDwwYOwhiRi22kutJ2c65tVngg",
         "node_create_time": "1693559277",
         "obj_create_time": "1693559277",
-        "obj_edit_time": "1780560741",
+        "obj_edit_time": "1787038454",
         "revision_id": null
       },
       "node_token": "N6tlwTPPvi0FXvkj4fccCgtTnOg",
       "origin_node_token": "N6tlwTPPvi0FXvkj4fccCgtTnOg",
       "obj_token": "VfhBdjfjyoXnS8xBunHchlVvnhd",
       "obj_type": "docx",
-      "obj_edit_time": "1780560741",
+      "obj_edit_time": "1787038454",
       "revision_id": null,
       "publish_targets": [
         "Zilliz.PaaS",
@@ -10946,7 +10851,7 @@
       "doc_token": "Rca8w6kRRiy7a9kr6adczTcGnoh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Rca8w6kRRiy7a9kr6adczTcGnoh",
       "source_file": "Rca8w6kRRiy7a9kr6adczTcGnoh.json",
-      "source_hash": "1fcf67cd70760d2833e1a7080dab5f1444feb68d51c0ece80e42deb6e255a9a8",
+      "source_hash": "61351fb62cadd52cc6bb7e81d32c698145d82b0232c7524ff99582a7471b80b6",
       "node_metadata": {
         "requested_token": "Rca8w6kRRiy7a9kr6adczTcGnoh",
         "requested_node_token": "Rca8w6kRRiy7a9kr6adczTcGnoh",
@@ -10994,7 +10899,7 @@
       "doc_token": "S3BswPJ4NiKl9okZDoycMvbunMb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/S3BswPJ4NiKl9okZDoycMvbunMb",
       "source_file": "S3BswPJ4NiKl9okZDoycMvbunMb.json",
-      "source_hash": "03182231115959bd7fc5d46110576daaf10cd9f476f7cbf97e62b8255e8c9c5b",
+      "source_hash": "080e936c232bb10b642307eed2d048e264478f9d7412b6c3dcf9ed0bcf1589fc",
       "node_metadata": {
         "requested_token": "S3BswPJ4NiKl9okZDoycMvbunMb",
         "requested_node_token": "S3BswPJ4NiKl9okZDoycMvbunMb",
@@ -11040,7 +10945,7 @@
       "doc_token": "WpDVwYaHMizLWuklBJlcypTzn2d",
       "doc_link": "https://zilliverse.feishu.cn/wiki/WpDVwYaHMizLWuklBJlcypTzn2d",
       "source_file": "WpDVwYaHMizLWuklBJlcypTzn2d.json",
-      "source_hash": "099b63cca5547539a1a2c435f272fe0778d6a27627dc7aabfb449266e5a23d36",
+      "source_hash": "695744e6cdb42331395de7d3a926ed5f4cfc403847315d4964ebf353f1fb139e",
       "node_metadata": {
         "requested_token": "WpDVwYaHMizLWuklBJlcypTzn2d",
         "requested_node_token": "WpDVwYaHMizLWuklBJlcypTzn2d",
@@ -11084,7 +10989,7 @@
       "doc_token": "EUS8w4x9Ii0BmhkJBfQcsoFln5c",
       "doc_link": "https://zilliverse.feishu.cn/wiki/EUS8w4x9Ii0BmhkJBfQcsoFln5c",
       "source_file": "EUS8w4x9Ii0BmhkJBfQcsoFln5c.json",
-      "source_hash": "295dde2e75ee9a6c65b6e1b70261be2de3f5c98c23350669d4c5b6e385f60320",
+      "source_hash": "186196a0cc926e249961640d5067eb0285de9564b5f1856cacca99878860ed42",
       "node_metadata": {
         "requested_token": "EUS8w4x9Ii0BmhkJBfQcsoFln5c",
         "requested_node_token": "EUS8w4x9Ii0BmhkJBfQcsoFln5c",
@@ -11128,7 +11033,7 @@
       "doc_token": "T9z1wL5y9iDgV5kMAx1cAZfxn0b",
       "doc_link": "https://zilliverse.feishu.cn/wiki/T9z1wL5y9iDgV5kMAx1cAZfxn0b",
       "source_file": "T9z1wL5y9iDgV5kMAx1cAZfxn0b.json",
-      "source_hash": "8b3aa46016324f8751481b5463d1eb685ba829e49487901a797e3e71c340ea97",
+      "source_hash": "34fdca7088457cb975c28c75761485b531e213df1b138b720b48691b05f8d189",
       "node_metadata": {
         "requested_token": "T9z1wL5y9iDgV5kMAx1cAZfxn0b",
         "requested_node_token": "T9z1wL5y9iDgV5kMAx1cAZfxn0b",
@@ -11172,7 +11077,7 @@
       "doc_token": "LVC1wq5Qginkeskq2G0c0Z8WnPc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/LVC1wq5Qginkeskq2G0c0Z8WnPc",
       "source_file": "LVC1wq5Qginkeskq2G0c0Z8WnPc.json",
-      "source_hash": "d5416993d8c9f4d1f3cae44592d32a446129e434de8ba7ed128cc66c478102ea",
+      "source_hash": "03f5563130cbe8d5d8b643d25072c17a3dd8b8eb8c838698a2c62d8f43e7ca87",
       "node_metadata": {
         "requested_token": "LVC1wq5Qginkeskq2G0c0Z8WnPc",
         "requested_node_token": "LVC1wq5Qginkeskq2G0c0Z8WnPc",
@@ -11204,37 +11109,37 @@
       "output_paths": []
     },
     {
-      "record_id": "recvmSFiko38Pn",
+      "record_id": "recvsCZ2zVuS9N",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
       "placement_type": "canonical",
-      "title": "访问控制概览",
-      "slug": "access-control-overview",
-      "doc_token": "APGCw9vhAiVHW2kDqtcceEdmn0b",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/APGCw9vhAiVHW2kDqtcceEdmn0b",
-      "source_file": "APGCw9vhAiVHW2kDqtcceEdmn0b.json",
-      "source_hash": "3e4634292b4fd3b3ea1393dc1d9d49cf039b9b80366a2bc3e9e75262be9850da",
+      "title": "身份管理概览",
+      "slug": "identity-management-overview",
+      "doc_token": "S5oBwPIf6iNkSrkEyHYcvpJonSb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/S5oBwPIf6iNkSrkEyHYcvpJonSb",
+      "source_file": "S5oBwPIf6iNkSrkEyHYcvpJonSb.json",
+      "source_hash": "938c8882dade02c7dc627a070ffe049e2b3b462947974c1fbe50c031e450a528",
       "node_metadata": {
-        "requested_token": "APGCw9vhAiVHW2kDqtcceEdmn0b",
-        "requested_node_token": "APGCw9vhAiVHW2kDqtcceEdmn0b",
-        "node_token": "APGCw9vhAiVHW2kDqtcceEdmn0b",
-        "origin_node_token": "APGCw9vhAiVHW2kDqtcceEdmn0b",
-        "obj_token": "LSHVdABPRoSFWOxYCvicwbGnn9f",
+        "requested_token": "S5oBwPIf6iNkSrkEyHYcvpJonSb",
+        "requested_node_token": "S5oBwPIf6iNkSrkEyHYcvpJonSb",
+        "node_token": "S5oBwPIf6iNkSrkEyHYcvpJonSb",
+        "origin_node_token": "S5oBwPIf6iNkSrkEyHYcvpJonSb",
+        "obj_token": "HGUTdl11dovVl7xWEgkc9qTAndM",
         "obj_type": "docx",
         "node_type": "origin",
-        "title": "访问控制概览",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "EoZvwmbpfiPqIdk0cxocyw9mnlX",
-        "node_create_time": "1735030319",
-        "obj_create_time": "1735030319",
-        "obj_edit_time": "1783073659",
+        "title": "身份管理概览",
+        "space_id": "7314489394450956292",
+        "parent_node_token": "MKEwwjcrviYiGLkDRdwcxmvznBe",
+        "node_create_time": "1787018102",
+        "obj_create_time": "1787018102",
+        "obj_edit_time": "1787021276",
         "revision_id": null
       },
-      "node_token": "APGCw9vhAiVHW2kDqtcceEdmn0b",
-      "origin_node_token": "APGCw9vhAiVHW2kDqtcceEdmn0b",
-      "obj_token": "LSHVdABPRoSFWOxYCvicwbGnn9f",
+      "node_token": "S5oBwPIf6iNkSrkEyHYcvpJonSb",
+      "origin_node_token": "S5oBwPIf6iNkSrkEyHYcvpJonSb",
+      "obj_token": "HGUTdl11dovVl7xWEgkc9qTAndM",
       "obj_type": "docx",
-      "obj_edit_time": "1783073659",
+      "obj_edit_time": "1787021276",
       "revision_id": null,
       "publish_targets": [
         "Zilliz.PaaS",
@@ -11242,17 +11147,52 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [
-        "A1MewOIxbi6Lq3kmiFkcqVt7nZf",
-        "GZriwpM0Gi7fcukuo8xc736VnBh",
-        "IrLSwdkWWiSeshkNHfVcYhIjnHy",
-        "KKSvwII0Ni7CQ7khuiBcU1gYnQc",
-        "PTadwccZmiQ6PpkcQYtcH9OAnSe",
-        "PzjhwZkgqiiVmakWT03c8VDAnTh",
-        "SVnkw5IkNiOfALkijr1cw91vn3L",
-        "UGzNwB4TmiqTozkJvarceRdenif",
-        "UX6ew8AtoillJskKRthcZyqinZb",
-        "VNWiwtYwGi9m0Okhj3Zce8wAnte"
+        "BRsZwqOUTiBbrPk9b5WcvFgTnze",
+        "HA7nwc7s2i1mmDkdT62cAyZxnwb",
+        "KhJhw2lOBirGhekK8jbcZkb2nVg",
+        "UGzNwB4TmiqTozkJvarceRdenif"
       ],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvsCZj1qcN4V",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "title": "管理平台用户",
+      "slug": "manage-platform-users",
+      "doc_token": "MFCMwKsYVi5VLUkag4HcC0yGnZd",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/MFCMwKsYVi5VLUkag4HcC0yGnZd",
+      "source_file": "MFCMwKsYVi5VLUkag4HcC0yGnZd.json",
+      "source_hash": "7a2e51cde12c75359c69879ffdc4aadd48a1a60a12eb4d3228797a11cfc48d64",
+      "node_metadata": {
+        "requested_token": "MFCMwKsYVi5VLUkag4HcC0yGnZd",
+        "requested_node_token": "MFCMwKsYVi5VLUkag4HcC0yGnZd",
+        "node_token": "MFCMwKsYVi5VLUkag4HcC0yGnZd",
+        "origin_node_token": "MFCMwKsYVi5VLUkag4HcC0yGnZd",
+        "obj_token": "E568dsxoaocrz7xYTnSc1SXDnbb",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "管理平台用户",
+        "space_id": "7314489394450956292",
+        "parent_node_token": "MKEwwjcrviYiGLkDRdwcxmvznBe",
+        "node_create_time": "1787018183",
+        "obj_create_time": "1787018183",
+        "obj_edit_time": "1787102597",
+        "revision_id": null
+      },
+      "node_token": "MFCMwKsYVi5VLUkag4HcC0yGnZd",
+      "origin_node_token": "MFCMwKsYVi5VLUkag4HcC0yGnZd",
+      "obj_token": "E568dsxoaocrz7xYTnSc1SXDnbb",
+      "obj_type": "docx",
+      "obj_edit_time": "1787102597",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
       "output_paths": []
     },
     {
@@ -11265,7 +11205,7 @@
       "doc_token": "KKSvwII0Ni7CQ7khuiBcU1gYnQc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/KKSvwII0Ni7CQ7khuiBcU1gYnQc",
       "source_file": "KKSvwII0Ni7CQ7khuiBcU1gYnQc.json",
-      "source_hash": "c793d053514c393d8a9cbaec8d6fd92eddfa6756fdb0effa495d3e78f4aa9128",
+      "source_hash": "3863d5c3c4b321ff3550efd55fc27d00632c41b8b6aa858274ee3965d3a1d670",
       "node_metadata": {
         "requested_token": "KKSvwII0Ni7CQ7khuiBcU1gYnQc",
         "requested_node_token": "KKSvwII0Ni7CQ7khuiBcU1gYnQc",
@@ -11309,7 +11249,7 @@
       "doc_token": "UX6ew8AtoillJskKRthcZyqinZb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/UX6ew8AtoillJskKRthcZyqinZb",
       "source_file": "UX6ew8AtoillJskKRthcZyqinZb.json",
-      "source_hash": "da27261ce2d41e2df3fd14a225864daba98ae387e565df0a79b2e4d5dfb1fae8",
+      "source_hash": "80fdb4429a98116dd742a3868020a37b05c6d0648cb6d973e6848e84955cdad7",
       "node_metadata": {
         "requested_token": "UX6ew8AtoillJskKRthcZyqinZb",
         "requested_node_token": "UX6ew8AtoillJskKRthcZyqinZb",
@@ -11344,6 +11284,141 @@
       "output_paths": []
     },
     {
+      "record_id": "recvmSFoV9nh55",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "title": "使用 Okta 配置 SSO",
+      "slug": "single-sign-on-with-okta",
+      "doc_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/BRygwmdMOiyW0Ckd439cJwR6nHf",
+      "source_file": "BRygwmdMOiyW0Ckd439cJwR6nHf.json",
+      "source_hash": "d89b0048a0557a1c205c74c8802425e59edb78f599d048a0c4be352c995b20b5",
+      "node_metadata": {
+        "requested_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
+        "requested_node_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
+        "node_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
+        "origin_node_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
+        "obj_token": "AApOdJEk6oooq1xohNGcFlPTnag",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "使用 Okta 配置 SSO",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "ZdQxwDlFbiPLCNkXISXcyqtBn3r",
+        "node_create_time": "1716344412",
+        "obj_create_time": "1716344412",
+        "obj_edit_time": "1786502364",
+        "revision_id": null
+      },
+      "node_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
+      "origin_node_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
+      "obj_token": "AApOdJEk6oooq1xohNGcFlPTnag",
+      "obj_type": "docx",
+      "obj_edit_time": "1786502364",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "BRygwmdMOiyW0Ckd439cJwR6nHf"
+      ],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvmSFiko38Pn",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "title": "访问控制概览",
+      "slug": "access-control-overview",
+      "doc_token": "HA7nwc7s2i1mmDkdT62cAyZxnwb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/HA7nwc7s2i1mmDkdT62cAyZxnwb",
+      "source_file": "HA7nwc7s2i1mmDkdT62cAyZxnwb.json",
+      "source_hash": "1d124b11610dae72fb625b28768d116130fc4a57247b043106ba7d22ef65b36e",
+      "node_metadata": {
+        "requested_token": "HA7nwc7s2i1mmDkdT62cAyZxnwb",
+        "requested_node_token": "HA7nwc7s2i1mmDkdT62cAyZxnwb",
+        "node_token": "HA7nwc7s2i1mmDkdT62cAyZxnwb",
+        "origin_node_token": "HA7nwc7s2i1mmDkdT62cAyZxnwb",
+        "obj_token": "X57tdVm4zoue8Yx5rkuccaWonue",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "访问控制概览",
+        "space_id": "7314489394450956292",
+        "parent_node_token": "MKEwwjcrviYiGLkDRdwcxmvznBe",
+        "node_create_time": "1787018195",
+        "obj_create_time": "1787018195",
+        "obj_edit_time": "1787035405",
+        "revision_id": null
+      },
+      "node_token": "HA7nwc7s2i1mmDkdT62cAyZxnwb",
+      "origin_node_token": "HA7nwc7s2i1mmDkdT62cAyZxnwb",
+      "obj_token": "X57tdVm4zoue8Yx5rkuccaWonue",
+      "obj_type": "docx",
+      "obj_edit_time": "1787035405",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "A1MewOIxbi6Lq3kmiFkcqVt7nZf",
+        "IrLSwdkWWiSeshkNHfVcYhIjnHy",
+        "KKSvwII0Ni7CQ7khuiBcU1gYnQc",
+        "MFCMwKsYVi5VLUkag4HcC0yGnZd",
+        "MNqIwPF2diSEbtkWO0TcoRGRn3i",
+        "PTadwccZmiQ6PpkcQYtcH9OAnSe",
+        "UX6ew8AtoillJskKRthcZyqinZb"
+      ],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvsD0ybkGHdy",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "title": "管理平台角色",
+      "slug": "manage-platform-roles",
+      "doc_token": "MNqIwPF2diSEbtkWO0TcoRGRn3i",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/MNqIwPF2diSEbtkWO0TcoRGRn3i",
+      "source_file": "MNqIwPF2diSEbtkWO0TcoRGRn3i.json",
+      "source_hash": "5d3993125fc5a46f19e0c1e6f8ce2064e758ad5f4a6919e16edb88b0e75eb54b",
+      "node_metadata": {
+        "requested_token": "MNqIwPF2diSEbtkWO0TcoRGRn3i",
+        "requested_node_token": "MNqIwPF2diSEbtkWO0TcoRGRn3i",
+        "node_token": "MNqIwPF2diSEbtkWO0TcoRGRn3i",
+        "origin_node_token": "MNqIwPF2diSEbtkWO0TcoRGRn3i",
+        "obj_token": "S9Lud4ZLnoLg3RxTthOcVTjznjg",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "管理平台角色",
+        "space_id": "7314489394450956292",
+        "parent_node_token": "MKEwwjcrviYiGLkDRdwcxmvznBe",
+        "node_create_time": "1787018201",
+        "obj_create_time": "1787018201",
+        "obj_edit_time": "1787102645",
+        "revision_id": null
+      },
+      "node_token": "MNqIwPF2diSEbtkWO0TcoRGRn3i",
+      "origin_node_token": "MNqIwPF2diSEbtkWO0TcoRGRn3i",
+      "obj_token": "S9Lud4ZLnoLg3RxTthOcVTjznjg",
+      "obj_type": "docx",
+      "obj_edit_time": "1787102645",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "GsofwhPKqi0Bfkkk7YqcRzndnah"
+      ],
+      "output_paths": []
+    },
+    {
       "record_id": "recvmSFk0RRqRN",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
@@ -11353,7 +11428,7 @@
       "doc_token": "A1MewOIxbi6Lq3kmiFkcqVt7nZf",
       "doc_link": "https://zilliverse.feishu.cn/wiki/A1MewOIxbi6Lq3kmiFkcqVt7nZf",
       "source_file": "A1MewOIxbi6Lq3kmiFkcqVt7nZf.json",
-      "source_hash": "d791b47b904f938f759c3c88802141835047e2400994255ba04b19f654becbfe",
+      "source_hash": "767355c2d5e6f4a82210d13388a19da18fb38201d4ae299d2427c46a498726e9",
       "node_metadata": {
         "requested_token": "A1MewOIxbi6Lq3kmiFkcqVt7nZf",
         "requested_node_token": "A1MewOIxbi6Lq3kmiFkcqVt7nZf",
@@ -11397,7 +11472,7 @@
       "doc_token": "IrLSwdkWWiSeshkNHfVcYhIjnHy",
       "doc_link": "https://zilliverse.feishu.cn/wiki/IrLSwdkWWiSeshkNHfVcYhIjnHy",
       "source_file": "IrLSwdkWWiSeshkNHfVcYhIjnHy.json",
-      "source_hash": "64780907aacfbe97b28f9ce206c02705e85ba8b95c0e0429ee5c192ffaf60632",
+      "source_hash": "72c4cd68147d8b151ffc9cc968571bbe6722c7d2013762bc5c0c6b0329bede3b",
       "node_metadata": {
         "requested_token": "IrLSwdkWWiSeshkNHfVcYhIjnHy",
         "requested_node_token": "IrLSwdkWWiSeshkNHfVcYhIjnHy",
@@ -11431,16 +11506,59 @@
       "output_paths": []
     },
     {
+      "record_id": "recvsD0RE96PhW",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "title": "平台资源权限",
+      "slug": "platform-privileges",
+      "doc_token": "VUtXwhev1ibEBakSLqaciuWSnte",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/VUtXwhev1ibEBakSLqaciuWSnte?from=from_copylink",
+      "source_file": "VUtXwhev1ibEBakSLqaciuWSnte.json",
+      "source_hash": "8309c1b070d9327fb1b68cf457cf6f37919a24c18fbffd46b609c552bcc5a9a9",
+      "node_metadata": {
+        "requested_token": "VUtXwhev1ibEBakSLqaciuWSnte",
+        "requested_node_token": "VUtXwhev1ibEBakSLqaciuWSnte",
+        "node_token": "VUtXwhev1ibEBakSLqaciuWSnte",
+        "origin_node_token": "VUtXwhev1ibEBakSLqaciuWSnte",
+        "obj_token": "Unx2dZBW9oAvdmxzFpGcc8a8nlc",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "平台资源权限",
+        "space_id": "7314489394450956292",
+        "parent_node_token": "MKEwwjcrviYiGLkDRdwcxmvznBe",
+        "node_create_time": "1787018216",
+        "obj_create_time": "1787018216",
+        "obj_edit_time": "1787035728",
+        "revision_id": null
+      },
+      "node_token": "VUtXwhev1ibEBakSLqaciuWSnte",
+      "origin_node_token": "VUtXwhev1ibEBakSLqaciuWSnte",
+      "obj_token": "Unx2dZBW9oAvdmxzFpGcc8a8nlc",
+      "obj_type": "docx",
+      "obj_edit_time": "1787035728",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "PTadwccZmiQ6PpkcQYtcH9OAnSe"
+      ],
+      "output_paths": []
+    },
+    {
       "record_id": "recvmSFl4OkMMV",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
       "placement_type": "canonical",
-      "title": "权限与权限组",
+      "title": "集群资源权限与权限组",
       "slug": "cluster-privileges",
       "doc_token": "PTadwccZmiQ6PpkcQYtcH9OAnSe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/PTadwccZmiQ6PpkcQYtcH9OAnSe",
       "source_file": "PTadwccZmiQ6PpkcQYtcH9OAnSe.json",
-      "source_hash": "ce2cfd31b3a4d10cf28f033fe19b3ac5d663b45b65db69f8d764d19dcea51549",
+      "source_hash": "de6b83e05344566feb6d088afe4563b0088b2eb951df7149c215ac7dcbecbec3",
       "node_metadata": {
         "requested_token": "PTadwccZmiQ6PpkcQYtcH9OAnSe",
         "requested_node_token": "PTadwccZmiQ6PpkcQYtcH9OAnSe",
@@ -11485,7 +11603,7 @@
       "doc_token": "RNEgwQLoUi4djXkouqQcSbgvnlb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/RNEgwQLoUi4djXkouqQcSbgvnlb",
       "source_file": "RNEgwQLoUi4djXkouqQcSbgvnlb.json",
-      "source_hash": "5c5ee8a74698620915ce09ad46560c71b2b2bb5a045ad9632b068f64a74e3539",
+      "source_hash": "e2b9ce53b721a2aa30a4e8797d85e56fe24db3f3837b94796fca05c906cd4be0",
       "node_metadata": {
         "requested_token": "RNEgwQLoUi4djXkouqQcSbgvnlb",
         "requested_node_token": "RNEgwQLoUi4djXkouqQcSbgvnlb",
@@ -11528,7 +11646,7 @@
       "doc_token": "L7IZwws2oiiByGk53YWcJJ3ynFg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/L7IZwws2oiiByGk53YWcJJ3ynFg",
       "source_file": "L7IZwws2oiiByGk53YWcJJ3ynFg.json",
-      "source_hash": "6070ea4e18de017f0236df7e6c31a5a57766f2c64846967e8afaa5032a906940",
+      "source_hash": "dd2f2e43cfc7086bc6c90f4390175e5e5f9c6d59d7cc74a792550fb122a32e46",
       "node_metadata": {
         "requested_token": "L7IZwws2oiiByGk53YWcJJ3ynFg",
         "requested_node_token": "L7IZwws2oiiByGk53YWcJJ3ynFg",
@@ -11569,7 +11687,7 @@
       "doc_token": "OcSgw7LJwiyuC2kdymbcWDV6nNg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/OcSgw7LJwiyuC2kdymbcWDV6nNg",
       "source_file": "OcSgw7LJwiyuC2kdymbcWDV6nNg.json",
-      "source_hash": "02b95bbace552c901628a331cda7e1eb6792ef2cf4d517181d48e42c68b8b95d",
+      "source_hash": "2ea5ab02e45da0b23b1eb26627a86758209b02555c36f24b04e8bf917c3dcf2e",
       "node_metadata": {
         "requested_token": "OcSgw7LJwiyuC2kdymbcWDV6nNg",
         "requested_node_token": "OcSgw7LJwiyuC2kdymbcWDV6nNg",
@@ -11617,7 +11735,7 @@
       "doc_token": "R0Jiw6mWPiPLo1kU3rocWfoCneg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/R0Jiw6mWPiPLo1kU3rocWfoCneg",
       "source_file": "R0Jiw6mWPiPLo1kU3rocWfoCneg.json",
-      "source_hash": "3089c4706c01f4ae6ec1d613fe3df315fa235968ae9e0841e715e8663426e578",
+      "source_hash": "c823bb830ab9293322ce4e1cda74995c912563211d6d3808dbf763b4ab783c81",
       "node_metadata": {
         "requested_token": "R0Jiw6mWPiPLo1kU3rocWfoCneg",
         "requested_node_token": "R0Jiw6mWPiPLo1kU3rocWfoCneg",
@@ -11661,7 +11779,7 @@
       "doc_token": "Wl2PwW2aAiYakOk4c8scRPLBn9b",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Wl2PwW2aAiYakOk4c8scRPLBn9b",
       "source_file": "Wl2PwW2aAiYakOk4c8scRPLBn9b.json",
-      "source_hash": "d74e5719e37d206ea0dcd8997e281e49314eca0d4cc05a2ac4fa91a46ce832ca",
+      "source_hash": "85a897d900aea6000f0fb93a2a3ee423d6d257d86581bb950ae44163bb77fe22",
       "node_metadata": {
         "requested_token": "Wl2PwW2aAiYakOk4c8scRPLBn9b",
         "requested_node_token": "Wl2PwW2aAiYakOk4c8scRPLBn9b",
@@ -11705,7 +11823,7 @@
       "doc_token": "Hq43w5qtPijHDok3TxKcZ60fnQc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Hq43w5qtPijHDok3TxKcZ60fnQc",
       "source_file": "Hq43w5qtPijHDok3TxKcZ60fnQc.json",
-      "source_hash": "065ac54bbbd0328615a6cd749156c8722f327af24a7dface38acdfa3c7db686f",
+      "source_hash": "787b14c002150d4a1ff3fe6c3a5370eaa24ca89869c9deedc95972ed629c72e1",
       "node_metadata": {
         "requested_token": "Hq43w5qtPijHDok3TxKcZ60fnQc",
         "requested_node_token": "Hq43w5qtPijHDok3TxKcZ60fnQc",
@@ -11739,6 +11857,91 @@
       "output_paths": []
     },
     {
+      "record_id": "recvsD5YLlpNla",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "title": "配置慢日志",
+      "slug": "configure-slow-logs",
+      "doc_token": "NLDRwGZoXiGyIUkGh5Oc2q6dnJe",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/NLDRwGZoXiGyIUkGh5Oc2q6dnJe",
+      "source_file": "NLDRwGZoXiGyIUkGh5Oc2q6dnJe.json",
+      "source_hash": "c891dc2e5b920c65fa35ac0dcb66d9bc8af239e4d353b4f83b85a503bd7e9219",
+      "node_metadata": {
+        "requested_token": "NLDRwGZoXiGyIUkGh5Oc2q6dnJe",
+        "requested_node_token": "NLDRwGZoXiGyIUkGh5Oc2q6dnJe",
+        "node_token": "NLDRwGZoXiGyIUkGh5Oc2q6dnJe",
+        "origin_node_token": "NLDRwGZoXiGyIUkGh5Oc2q6dnJe",
+        "obj_token": "Nf2AduriToSJWWxy8OEcOEX3ntW",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "配置慢日志",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "MOGSw3UBRi1rcPk1mKpcmq34n1d",
+        "node_create_time": "1782182116",
+        "obj_create_time": "1782182116",
+        "obj_edit_time": "1782183634",
+        "revision_id": null
+      },
+      "node_token": "NLDRwGZoXiGyIUkGh5Oc2q6dnJe",
+      "origin_node_token": "NLDRwGZoXiGyIUkGh5Oc2q6dnJe",
+      "obj_token": "Nf2AduriToSJWWxy8OEcOEX3ntW",
+      "obj_type": "docx",
+      "obj_edit_time": "1782183634",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "Bt3swdJKaigDQgkrzSwcoEEgnV4",
+        "IwAbwxWzQiGVc0khATdcOoCbnCg"
+      ],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvsD5YLlJ6F5",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "title": "慢查询日志参考",
+      "slug": "slow-log-reference",
+      "doc_token": "NhIhwuigsi0tOVk2GNEcFuaTnYb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/NhIhwuigsi0tOVk2GNEcFuaTnYb",
+      "source_file": "NhIhwuigsi0tOVk2GNEcFuaTnYb.json",
+      "source_hash": "b73239b664ddb64ca08fed960b22f68898d5528e853a7d35bded021b4e4dacc4",
+      "node_metadata": {
+        "requested_token": "NhIhwuigsi0tOVk2GNEcFuaTnYb",
+        "requested_node_token": "NhIhwuigsi0tOVk2GNEcFuaTnYb",
+        "node_token": "NhIhwuigsi0tOVk2GNEcFuaTnYb",
+        "origin_node_token": "NhIhwuigsi0tOVk2GNEcFuaTnYb",
+        "obj_token": "VcvldY8SkoO5CYxQ4RqcOoLWn5c",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "慢查询日志参考",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "MOGSw3UBRi1rcPk1mKpcmq34n1d",
+        "node_create_time": "1782182500",
+        "obj_create_time": "1782182500",
+        "obj_edit_time": "1782183354",
+        "revision_id": null
+      },
+      "node_token": "NhIhwuigsi0tOVk2GNEcFuaTnYb",
+      "origin_node_token": "NhIhwuigsi0tOVk2GNEcFuaTnYb",
+      "obj_token": "VcvldY8SkoO5CYxQ4RqcOoLWn5c",
+      "obj_type": "docx",
+      "obj_edit_time": "1782183354",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
       "record_id": "recvmSFlC3VdDF",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
@@ -11748,7 +11951,7 @@
       "doc_token": "SVnkw5IkNiOfALkijr1cw91vn3L",
       "doc_link": "https://zilliverse.feishu.cn/wiki/SVnkw5IkNiOfALkijr1cw91vn3L",
       "source_file": "SVnkw5IkNiOfALkijr1cw91vn3L.json",
-      "source_hash": "fd5594393e65daa6a7749bf6e4bf3fad2ba8be9ca30478d715ac65ddf8d7a54b",
+      "source_hash": "1ffb97c1a70fc91195fc7fc590927150efdb039f07fd39831eac3be4dc9054d0",
       "node_metadata": {
         "requested_token": "SVnkw5IkNiOfALkijr1cw91vn3L",
         "requested_node_token": "SVnkw5IkNiOfALkijr1cw91vn3L",
@@ -11794,7 +11997,7 @@
       "doc_token": "UGzNwB4TmiqTozkJvarceRdenif",
       "doc_link": "https://zilliverse.feishu.cn/wiki/UGzNwB4TmiqTozkJvarceRdenif",
       "source_file": "UGzNwB4TmiqTozkJvarceRdenif.json",
-      "source_hash": "7f59365ab1e51a58b4aa8cddb881af4ab4cbc6a0d47783c61df3cc48ac4d9c5c",
+      "source_hash": "3daaebcae8fc87e49f81f00ad12110ecdf0270dcf131cc3d8efd1d5e7c52c074",
       "node_metadata": {
         "requested_token": "UGzNwB4TmiqTozkJvarceRdenif",
         "requested_node_token": "UGzNwB4TmiqTozkJvarceRdenif",
@@ -11840,7 +12043,7 @@
       "doc_token": "VNWiwtYwGi9m0Okhj3Zce8wAnte",
       "doc_link": "https://zilliverse.feishu.cn/wiki/VNWiwtYwGi9m0Okhj3Zce8wAnte",
       "source_file": "VNWiwtYwGi9m0Okhj3Zce8wAnte.json",
-      "source_hash": "b2c7b9d81a361db0b2d29705f42f6a428a2800a52ebc096e4c58a6c3d3fde29d",
+      "source_hash": "fddbbf9386ec26f513dc6cf31389f4251105db665129bd1b83d3dc30c014a368",
       "node_metadata": {
         "requested_token": "VNWiwtYwGi9m0Okhj3Zce8wAnte",
         "requested_node_token": "VNWiwtYwGi9m0Okhj3Zce8wAnte",
@@ -11883,7 +12086,7 @@
       "doc_token": "EWAWwESijisVHFkoAEbcfhvPnZb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/EWAWwESijisVHFkoAEbcfhvPnZb",
       "source_file": "EWAWwESijisVHFkoAEbcfhvPnZb.json",
-      "source_hash": "039ee11f614f88c02470aa6b309afa6436e75186f452666a7d70b6159e822dce",
+      "source_hash": "f7eaf7d8a05668499a5d3384c8b13d0e9d28544583548642b9b264d97f68efa3",
       "node_metadata": {
         "requested_token": "EWAWwESijisVHFkoAEbcfhvPnZb",
         "requested_node_token": "EWAWwESijisVHFkoAEbcfhvPnZb",
@@ -11924,7 +12127,7 @@
       "doc_token": "LgvSwz0qxiSMbik6BlbcSiTpn6g",
       "doc_link": "https://zilliverse.feishu.cn/wiki/LgvSwz0qxiSMbik6BlbcSiTpn6g",
       "source_file": "LgvSwz0qxiSMbik6BlbcSiTpn6g.json",
-      "source_hash": "222e31a8fc01f3c9e97edf6f79b6f6bfd3ada02ff53dc9270071df0d6039fbf0",
+      "source_hash": "58a117e9f2fe1e0f5e9c267eba631723891b7c866be4fb0da45f15bcf1386fd4",
       "node_metadata": {
         "requested_token": "LgvSwz0qxiSMbik6BlbcSiTpn6g",
         "requested_node_token": "LgvSwz0qxiSMbik6BlbcSiTpn6g",
@@ -11968,7 +12171,7 @@
       "doc_token": "RwEzw2l4siJB5Ake7FOcVU4knre",
       "doc_link": "https://zilliverse.feishu.cn/wiki/RwEzw2l4siJB5Ake7FOcVU4knre",
       "source_file": "RwEzw2l4siJB5Ake7FOcVU4knre.json",
-      "source_hash": "7ab0930cb711c86a569b62125aacb30ad004baf8469ed84dc29147949bc163a5",
+      "source_hash": "88cf973f7478075eb625713f82aa5a7574fe0c82ba02b193f551cdb242502feb",
       "node_metadata": {
         "requested_token": "RwEzw2l4siJB5Ake7FOcVU4knre",
         "requested_node_token": "RwEzw2l4siJB5Ake7FOcVU4knre",
@@ -12011,7 +12214,7 @@
       "doc_token": "EAJywEPq2iGDmNkEDDxcJDYPnsg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/EAJywEPq2iGDmNkEDDxcJDYPnsg",
       "source_file": "EAJywEPq2iGDmNkEDDxcJDYPnsg.json",
-      "source_hash": "f21e2d1cab4af1195ea7bc718b6b2c302bd5de0e4ef9b2b8a6db733a490407ab",
+      "source_hash": "2731a0cca38de39afb6c1bf71031c4fdd34018e000e443c448edbf09a04fe97a",
       "node_metadata": {
         "requested_token": "EAJywEPq2iGDmNkEDDxcJDYPnsg",
         "requested_node_token": "EAJywEPq2iGDmNkEDDxcJDYPnsg",
@@ -12051,7 +12254,7 @@
       "doc_token": "OZ5Ywbjm0idqAqkOdZrcQU3Wncb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/OZ5Ywbjm0idqAqkOdZrcQU3Wncb",
       "source_file": "OZ5Ywbjm0idqAqkOdZrcQU3Wncb.json",
-      "source_hash": "65acfa5721e44e94a10ae1d489d8497b16ce0ebf5bfdfa3cc97507b761914480",
+      "source_hash": "2e98084e57c28610bf1edcb0c064afab26ea26dc9c3a450d0060227e7cdfff9e",
       "node_metadata": {
         "requested_token": "OZ5Ywbjm0idqAqkOdZrcQU3Wncb",
         "requested_node_token": "OZ5Ywbjm0idqAqkOdZrcQU3Wncb",
@@ -12093,7 +12296,7 @@
       "doc_token": "Pzu4wpY64iWmO6kBsaYcNPmPnNf",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Pzu4wpY64iWmO6kBsaYcNPmPnNf",
       "source_file": "Pzu4wpY64iWmO6kBsaYcNPmPnNf.json",
-      "source_hash": "ab4276a33c8f6e1104247ae7ff62f6dd65dc697f9a41cb48bc4df115c7e3f7b2",
+      "source_hash": "f04d11e32ea108127c3c056193dabf4829dfa923234fac634b794a3a88860f6a",
       "node_metadata": {
         "requested_token": "Pzu4wpY64iWmO6kBsaYcNPmPnNf",
         "requested_node_token": "Pzu4wpY64iWmO6kBsaYcNPmPnNf",
@@ -12124,49 +12327,6 @@
       "output_paths": []
     },
     {
-      "record_id": "recvmSFoV9nh55",
-      "table_id": "tblMuHkoG4qMugeX",
-      "table_name": "运维指南",
-      "placement_type": "canonical",
-      "title": "使用 Okta 配置 SSO",
-      "slug": "single-sign-on-with-okta",
-      "doc_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/BRygwmdMOiyW0Ckd439cJwR6nHf",
-      "source_file": "BRygwmdMOiyW0Ckd439cJwR6nHf.json",
-      "source_hash": "6023f7c91424bab7e37d56c96500d54368a947674ebe9c5e5de8c9cb13f8cb7c",
-      "node_metadata": {
-        "requested_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
-        "requested_node_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
-        "node_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
-        "origin_node_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
-        "obj_token": "AApOdJEk6oooq1xohNGcFlPTnag",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "使用 Okta 配置 SSO",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "ZdQxwDlFbiPLCNkXISXcyqtBn3r",
-        "node_create_time": "1716344412",
-        "obj_create_time": "1716344412",
-        "obj_edit_time": "1786502364",
-        "revision_id": null
-      },
-      "node_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
-      "origin_node_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
-      "obj_token": "AApOdJEk6oooq1xohNGcFlPTnag",
-      "obj_type": "docx",
-      "obj_edit_time": "1786502364",
-      "revision_id": null,
-      "publish_targets": [
-        "Zilliz.PaaS",
-        "Zilliz.SaaS"
-      ],
-      "publish_status": "Draft",
-      "outgoing_tokens": [
-        "BRygwmdMOiyW0Ckd439cJwR6nHf"
-      ],
-      "output_paths": []
-    },
-    {
       "record_id": "recvqPPe3Jp2OT",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
@@ -12176,7 +12336,7 @@
       "doc_token": "HnUxw64aKibN0RkFBEsceIi2noL",
       "doc_link": "https://zilliverse.feishu.cn/wiki/HnUxw64aKibN0RkFBEsceIi2noL?from=from_copylink",
       "source_file": "HnUxw64aKibN0RkFBEsceIi2noL.json",
-      "source_hash": "c5140cbebd739a613e76f7e4c5b391de639d4d19990914a5d2d9a372a7b02ebd",
+      "source_hash": "35fa6eea127da0b014c00a50f927fbd73f6d91ec4f531935a44cdf95ab049657",
       "node_metadata": {
         "requested_token": "HnUxw64aKibN0RkFBEsceIi2noL",
         "requested_node_token": "HnUxw64aKibN0RkFBEsceIi2noL",
@@ -12220,7 +12380,7 @@
       "doc_token": "Uj7IwJpneijPROkAZN7cJRLInrc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Uj7IwJpneijPROkAZN7cJRLInrc",
       "source_file": "Uj7IwJpneijPROkAZN7cJRLInrc.json",
-      "source_hash": "8f78224ac9a5d90410983adc07a54520ee704f2fec5da77ea2a50d997665b5c8",
+      "source_hash": "748c81dde222e979237307f56eed7ea8c517375c20a90a478556fea2299d18b4",
       "node_metadata": {
         "requested_token": "Uj7IwJpneijPROkAZN7cJRLInrc",
         "requested_node_token": "Uj7IwJpneijPROkAZN7cJRLInrc",
@@ -12268,7 +12428,7 @@
       "doc_token": "VRLOw9Mc7iPWnCkZs2YcoGwSnLh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/VRLOw9Mc7iPWnCkZs2YcoGwSnLh",
       "source_file": "VRLOw9Mc7iPWnCkZs2YcoGwSnLh.json",
-      "source_hash": "ae6a2dc7213f4cecbfe0da71d2a88b4e5941bc5e924e95bf8cc230c1b3c88211",
+      "source_hash": "46f4088ac98f51fb266cfc90b1dc0536a106d89fcb218a94f643b5a5eaac2278",
       "node_metadata": {
         "requested_token": "VRLOw9Mc7iPWnCkZs2YcoGwSnLh",
         "requested_node_token": "VRLOw9Mc7iPWnCkZs2YcoGwSnLh",
@@ -12311,7 +12471,7 @@
       "doc_token": "JZqrwH8V8i6a3jktSQgcyXAEnAg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/JZqrwH8V8i6a3jktSQgcyXAEnAg",
       "source_file": "JZqrwH8V8i6a3jktSQgcyXAEnAg.json",
-      "source_hash": "84f7ff99ff39f0575c96bd2b820d0fb34bcee834f22792174e15e37a51a6229a",
+      "source_hash": "07c55d2c173a55597ff27e95cf4f5d9cbefcd70182bcb6b08a4f07a550986bb2",
       "node_metadata": {
         "requested_token": "JZqrwH8V8i6a3jktSQgcyXAEnAg",
         "requested_node_token": "JZqrwH8V8i6a3jktSQgcyXAEnAg",
@@ -12355,7 +12515,7 @@
       "doc_token": "UTRZwxLf3ikwvbkXrKjcWAwOnmg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/UTRZwxLf3ikwvbkXrKjcWAwOnmg",
       "source_file": "UTRZwxLf3ikwvbkXrKjcWAwOnmg.json",
-      "source_hash": "9c048a43cb6cc53a94920b574f1e153a7c84d697f66a59962d350d49518bf48c",
+      "source_hash": "b887181046e425a0ddb0314f680c301957905fe0e959b8e6ab76c8500518e3b1",
       "node_metadata": {
         "requested_token": "UTRZwxLf3ikwvbkXrKjcWAwOnmg",
         "requested_node_token": "UTRZwxLf3ikwvbkXrKjcWAwOnmg",
@@ -12400,7 +12560,7 @@
       "doc_token": "LNxnwCaoeiwvxVkQqCTcWmMFn5g",
       "doc_link": "https://zilliverse.feishu.cn/wiki/LNxnwCaoeiwvxVkQqCTcWmMFn5g",
       "source_file": "LNxnwCaoeiwvxVkQqCTcWmMFn5g.json",
-      "source_hash": "d08f89989c57b13cf21319e5ba1d454ad834abf3a26595865212cf0bee7cc142",
+      "source_hash": "8c5c0b02b193dce4df6c8f3c81c7f8e38c05c65f0ce2d502c02e1d8a7e5fdc93",
       "node_metadata": {
         "requested_token": "LNxnwCaoeiwvxVkQqCTcWmMFn5g",
         "requested_node_token": "LNxnwCaoeiwvxVkQqCTcWmMFn5g",
@@ -12445,7 +12605,7 @@
       "doc_token": "YJNZwKdCTia9L7k5o93cdAUynOg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/YJNZwKdCTia9L7k5o93cdAUynOg",
       "source_file": "YJNZwKdCTia9L7k5o93cdAUynOg.json",
-      "source_hash": "8462a1f01a3bb8796649fc1bda6f731bb14bcf45958fed11e6350eef078fa6c8",
+      "source_hash": "e02d5796fd128633016cd4ed6f94dff84a36c34a8554d8edfd8bd75a4d3a8333",
       "node_metadata": {
         "requested_token": "YJNZwKdCTia9L7k5o93cdAUynOg",
         "requested_node_token": "YJNZwKdCTia9L7k5o93cdAUynOg",
@@ -12486,7 +12646,7 @@
       "doc_token": "NhbHwPiL2i4KWskrcO4cDrSNnzh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/NhbHwPiL2i4KWskrcO4cDrSNnzh",
       "source_file": "NhbHwPiL2i4KWskrcO4cDrSNnzh.json",
-      "source_hash": "2b0de807075ef9ee8d93320c3f58a6e3ccd92f9c8bd33de0e4375e271d91d152",
+      "source_hash": "f03fe56b8d9f5b8775a2b9884c7e47967bcbfa935e19ec87ef6ad8ec228cfc52",
       "node_metadata": {
         "requested_token": "NhbHwPiL2i4KWskrcO4cDrSNnzh",
         "requested_node_token": "NhbHwPiL2i4KWskrcO4cDrSNnzh",
@@ -12530,7 +12690,7 @@
       "doc_token": "JTuUwoHUyiqJU6kuu30cN9ibnkh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/JTuUwoHUyiqJU6kuu30cN9ibnkh",
       "source_file": "JTuUwoHUyiqJU6kuu30cN9ibnkh.json",
-      "source_hash": "d2609835c5b43b361b043f518cf37806eb9cdca81b8a389de90281166d02b877",
+      "source_hash": "50444d29152e8d6ecefef5d4356585842f6582cd244b517e7430a01a65ec3686",
       "node_metadata": {
         "requested_token": "JTuUwoHUyiqJU6kuu30cN9ibnkh",
         "requested_node_token": "JTuUwoHUyiqJU6kuu30cN9ibnkh",
@@ -12574,7 +12734,7 @@
       "doc_token": "GMCvwBlS7io85jkiW0icumJnn6A",
       "doc_link": "https://zilliverse.feishu.cn/wiki/GMCvwBlS7io85jkiW0icumJnn6A",
       "source_file": "GMCvwBlS7io85jkiW0icumJnn6A.json",
-      "source_hash": "16488c7d38d4e2c65dd85a5c50d82505faf7907375f69eaf01e7d111d928a1af",
+      "source_hash": "749560a819a7239b29bc71559139bf2af186d04803205f8e80a1918a228e04b1",
       "node_metadata": {
         "requested_token": "GMCvwBlS7io85jkiW0icumJnn6A",
         "requested_node_token": "GMCvwBlS7io85jkiW0icumJnn6A",
@@ -12614,7 +12774,7 @@
       "doc_token": "OzZfwGPsaiFv7zkFpPOcOKddnSd",
       "doc_link": "https://zilliverse.feishu.cn/wiki/OzZfwGPsaiFv7zkFpPOcOKddnSd",
       "source_file": "OzZfwGPsaiFv7zkFpPOcOKddnSd.json",
-      "source_hash": "85716319ec589b9dd88a9a00e9e49c351abf80a59e49b26739a20ca04377224a",
+      "source_hash": "71c9bce80acd4362d83e25f3de5a26ef9784affcc8577e78bcdad9fcd11e8c65",
       "node_metadata": {
         "requested_token": "OzZfwGPsaiFv7zkFpPOcOKddnSd",
         "requested_node_token": "OzZfwGPsaiFv7zkFpPOcOKddnSd",
@@ -12654,7 +12814,7 @@
       "doc_token": "VHz6wyqArieXOpkujoRctW0hnng",
       "doc_link": "https://zilliverse.feishu.cn/wiki/VHz6wyqArieXOpkujoRctW0hnng",
       "source_file": "VHz6wyqArieXOpkujoRctW0hnng.json",
-      "source_hash": "664cd3149b299f15565759b2033e258f87d77a4f6f14c8224947481679812c85",
+      "source_hash": "e78d45f2fe0fbc7d21e3eefdb1f7f0f455981e9220f0fc63f78776efc2b6e08e",
       "node_metadata": {
         "requested_token": "VHz6wyqArieXOpkujoRctW0hnng",
         "requested_node_token": "VHz6wyqArieXOpkujoRctW0hnng",
@@ -12696,7 +12856,7 @@
       "doc_token": "FJU5wklQuiAJASkHAFlcQShDn9e",
       "doc_link": "https://zilliverse.feishu.cn/wiki/FJU5wklQuiAJASkHAFlcQShDn9e",
       "source_file": "FJU5wklQuiAJASkHAFlcQShDn9e.json",
-      "source_hash": "3cd204ebb9b0f82d07cd4f448bd8bf14988ef673a2877603cf3ce35c34cba92b",
+      "source_hash": "bc67c3794333318d45c4a22787744f79d5285a8bbaa37d467917b7aed4355dce",
       "node_metadata": {
         "requested_token": "FJU5wklQuiAJASkHAFlcQShDn9e",
         "requested_node_token": "FJU5wklQuiAJASkHAFlcQShDn9e",
@@ -12740,7 +12900,7 @@
       "doc_token": "BMzFwP8BbiUeAbkZ0abcDIHlnle",
       "doc_link": "https://zilliverse.feishu.cn/wiki/BMzFwP8BbiUeAbkZ0abcDIHlnle",
       "source_file": "BMzFwP8BbiUeAbkZ0abcDIHlnle.json",
-      "source_hash": "959f1451c4cb849519251a81959fa9e0a6b66f0250f72f1fbbe7dce950236391",
+      "source_hash": "ac3c78fd93a4f85681261d11ce6290b5cfe03a98f4bb9aae76dd3441ae05fabb",
       "node_metadata": {
         "requested_token": "BMzFwP8BbiUeAbkZ0abcDIHlnle",
         "requested_node_token": "BMzFwP8BbiUeAbkZ0abcDIHlnle",
@@ -12784,7 +12944,7 @@
       "doc_token": "XEvpwUMfFirFkNkQZofcwUTcnvd",
       "doc_link": "https://zilliverse.feishu.cn/wiki/XEvpwUMfFirFkNkQZofcwUTcnvd",
       "source_file": "XEvpwUMfFirFkNkQZofcwUTcnvd.json",
-      "source_hash": "31129980da3c73bb72ad702e5e65f78622eef294626467441bb7860ca48076b6",
+      "source_hash": "25f3dfc1d46b92ecada820c4ad3768deacd7580fd36a576ec59671f414f89c30",
       "node_metadata": {
         "requested_token": "XEvpwUMfFirFkNkQZofcwUTcnvd",
         "requested_node_token": "XEvpwUMfFirFkNkQZofcwUTcnvd",
@@ -12829,7 +12989,7 @@
       "doc_token": "Gc0Cw50sPikX4vkCxU7cw7kunzb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Gc0Cw50sPikX4vkCxU7cw7kunzb",
       "source_file": "Gc0Cw50sPikX4vkCxU7cw7kunzb.json",
-      "source_hash": "304eecd97e5bdbc52cdc14faf290ca85dd7e65768d3b036b6ad1e706c910bf91",
+      "source_hash": "e865d99ce606232b55bdbebae628586fb6f83e1aab3663606018e832f538660b",
       "node_metadata": {
         "requested_token": "Gc0Cw50sPikX4vkCxU7cw7kunzb",
         "requested_node_token": "Gc0Cw50sPikX4vkCxU7cw7kunzb",
@@ -12874,7 +13034,7 @@
       "doc_token": "MfZawdBV9iFGi4k7HRbcyyj2nCh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/MfZawdBV9iFGi4k7HRbcyyj2nCh",
       "source_file": "MfZawdBV9iFGi4k7HRbcyyj2nCh.json",
-      "source_hash": "fd6e1e811c9a03d1d3cb185e3b8eb2df283273bd0def4858445aaf5c9ff93eea",
+      "source_hash": "08449b70f22a87ac092f81217b8319de5e1adeba327c7188a4a2b6218e71bfeb",
       "node_metadata": {
         "requested_token": "MfZawdBV9iFGi4k7HRbcyyj2nCh",
         "requested_node_token": "MfZawdBV9iFGi4k7HRbcyyj2nCh",
@@ -12925,7 +13085,7 @@
       "doc_token": "Lv3Awu3uHiZ99AkGKXYc7D0JnCd",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Lv3Awu3uHiZ99AkGKXYc7D0JnCd",
       "source_file": "Lv3Awu3uHiZ99AkGKXYc7D0JnCd.json",
-      "source_hash": "bb64915a40efa2c63d1c284a4f2c0b106f91ee74a48f37b19f47b61a3ea486f1",
+      "source_hash": "d7c87334bc516e8523acf49d8b00f754427a11197a9a0114b1e16802f554a816",
       "node_metadata": {
         "requested_token": "Lv3Awu3uHiZ99AkGKXYc7D0JnCd",
         "requested_node_token": "Lv3Awu3uHiZ99AkGKXYc7D0JnCd",
@@ -12968,7 +13128,7 @@
       "doc_token": "LuNmwpQRKiOz4ZkEkl4cTkNtnpk",
       "doc_link": "https://zilliverse.feishu.cn/wiki/LuNmwpQRKiOz4ZkEkl4cTkNtnpk",
       "source_file": "LuNmwpQRKiOz4ZkEkl4cTkNtnpk.json",
-      "source_hash": "0bfa6549d0f301b9964894ee33497a4e3cf970d3b8ff7f0cc8830d25a824a732",
+      "source_hash": "84b96fd8a111496b8696194e150e79b2417ee65defa66ce3dc289a0d90cecc6a",
       "node_metadata": {
         "requested_token": "LuNmwpQRKiOz4ZkEkl4cTkNtnpk",
         "requested_node_token": "LuNmwpQRKiOz4ZkEkl4cTkNtnpk",
@@ -13008,7 +13168,7 @@
       "doc_token": "RZoSwcpJniF0ZxkfhaDcFUHin4A",
       "doc_link": "https://zilliverse.feishu.cn/wiki/RZoSwcpJniF0ZxkfhaDcFUHin4A",
       "source_file": "RZoSwcpJniF0ZxkfhaDcFUHin4A.json",
-      "source_hash": "515ddfc9f1b99880dfb72098f7a287ca495886900c8ef6aadb4e62e650952c68",
+      "source_hash": "550c9020abf2186505f9bc33fe1f0d0bc89c9f10274d98a39c447237d7470de0",
       "node_metadata": {
         "requested_token": "RZoSwcpJniF0ZxkfhaDcFUHin4A",
         "requested_node_token": "RZoSwcpJniF0ZxkfhaDcFUHin4A",
@@ -13052,7 +13212,7 @@
       "doc_token": "HrONwUQ4riQnbgkZGY0ceLp9nUg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/HrONwUQ4riQnbgkZGY0ceLp9nUg",
       "source_file": "HrONwUQ4riQnbgkZGY0ceLp9nUg.json",
-      "source_hash": "6c81bacce1d672dd22fe206bb29da0e4bf0a97888a22ce1d5749e012243d0914",
+      "source_hash": "7e771eccad22504444901f0a29f4f2a410a72b3657f232d438ee0dee9509b872",
       "node_metadata": {
         "requested_token": "HrONwUQ4riQnbgkZGY0ceLp9nUg",
         "requested_node_token": "HrONwUQ4riQnbgkZGY0ceLp9nUg",
@@ -13096,7 +13256,7 @@
       "doc_token": "DeRWwlqYKiH76okxiaBcVFPjnMg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/DeRWwlqYKiH76okxiaBcVFPjnMg",
       "source_file": "DeRWwlqYKiH76okxiaBcVFPjnMg.json",
-      "source_hash": "d815ef4a33d80b6765410dd6de230d97f4b21300fdf62dbc7058642d2b104645",
+      "source_hash": "184539d6e6597ce858be1d5f222866b09989a3f22dd58c09ccb4c3a52085872d",
       "node_metadata": {
         "requested_token": "DeRWwlqYKiH76okxiaBcVFPjnMg",
         "requested_node_token": "DeRWwlqYKiH76okxiaBcVFPjnMg",
@@ -13140,7 +13300,7 @@
       "doc_token": "ObcZwiYelidyeTk8HGaclpWTnFe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/ObcZwiYelidyeTk8HGaclpWTnFe",
       "source_file": "ObcZwiYelidyeTk8HGaclpWTnFe.json",
-      "source_hash": "8145b62124512a8025088b591620d8c3afe1c1345a6322ab056f4bcc7cec3c58",
+      "source_hash": "715497b490791dd37fa61d98b1f3a1bccbf1629dee5352ae54cec7d8d573e41f",
       "node_metadata": {
         "requested_token": "ObcZwiYelidyeTk8HGaclpWTnFe",
         "requested_node_token": "ObcZwiYelidyeTk8HGaclpWTnFe",
@@ -13196,7 +13356,7 @@
       "doc_token": "A8UFwSbMniMl6IkpJkNc4HsHnLc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/A8UFwSbMniMl6IkpJkNc4HsHnLc",
       "source_file": "A8UFwSbMniMl6IkpJkNc4HsHnLc.json",
-      "source_hash": "89ef416b33c20e8c095f3d4d11dd31584e32ca19248298480c565f4a57d3c4e2",
+      "source_hash": "6c5d0ca5b261e1053bf9862320bb203626622637f288d4a8e945dc5755cd027d",
       "node_metadata": {
         "requested_token": "A8UFwSbMniMl6IkpJkNc4HsHnLc",
         "requested_node_token": "A8UFwSbMniMl6IkpJkNc4HsHnLc",
@@ -13242,7 +13402,7 @@
       "doc_token": "KOD2wN5jDimhSOk1GshcUbn2nJe",
       "doc_link": "https://zilliverse.feishu.cn/wiki/KOD2wN5jDimhSOk1GshcUbn2nJe",
       "source_file": "KOD2wN5jDimhSOk1GshcUbn2nJe.json",
-      "source_hash": "13581216640a0e50b8743b4ff7c3e10437110b14656bbc90e86bf5a28d0e9d14",
+      "source_hash": "464c14cfc75716f7c5a738d35ee317c35c012f730b6b009e1463317112bcc557",
       "node_metadata": {
         "requested_token": "KOD2wN5jDimhSOk1GshcUbn2nJe",
         "requested_node_token": "KOD2wN5jDimhSOk1GshcUbn2nJe",
@@ -14389,29 +14549,6 @@
       "ref_target_anchor": null
     },
     {
-      "record_id": "recvmSENzjWLj3",
-      "table_id": "tblMuHkoG4qMugeX",
-      "table_name": "运维指南",
-      "placement_type": "canonical",
-      "parent_record_ids": [
-        "recvmSEqjQPqef"
-      ],
-      "order": 1,
-      "title": "组织用户",
-      "labels": "组织用户",
-      "slug": "organization-users",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "PzjhwZkgqiiVmakWT03c8VDAnTh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/PzjhwZkgqiiVmakWT03c8VDAnTh",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
       "record_id": "recvmSEOe6XUxP",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
@@ -14419,7 +14556,7 @@
       "parent_record_ids": [
         "recvmSEqjQPqef"
       ],
-      "order": 2,
+      "order": 1,
       "title": "组织设置",
       "labels": "组织设置",
       "slug": "organization-settings",
@@ -14442,7 +14579,7 @@
       "parent_record_ids": [
         "recvmSEqjQPqef"
       ],
-      "order": 3,
+      "order": 2,
       "title": "回收站",
       "labels": "回收站",
       "slug": "use-recycle-bin",
@@ -14463,7 +14600,7 @@
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 4,
+      "order": 3,
       "title": "项目",
       "labels": "项目",
       "slug": "projects",
@@ -14483,7 +14620,7 @@
       "parent_record_ids": [
         "recvmSEGBgz0Nq"
       ],
-      "order": 5,
+      "order": 4,
       "title": "项目管理",
       "labels": "项目管理",
       "slug": "manage-projects",
@@ -14499,29 +14636,6 @@
       "ref_target_anchor": null
     },
     {
-      "record_id": "recvmSEQchGUTJ",
-      "table_id": "tblMuHkoG4qMugeX",
-      "table_name": "运维指南",
-      "placement_type": "canonical",
-      "parent_record_ids": [
-        "recvmSEGBgz0Nq"
-      ],
-      "order": 6,
-      "title": "项目用户",
-      "labels": "项目用户",
-      "slug": "project-users",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "GZriwpM0Gi7fcukuo8xc736VnBh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/GZriwpM0Gi7fcukuo8xc736VnBh",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
       "record_id": "recvmSEQPN3tSU",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
@@ -14529,7 +14643,7 @@
       "parent_record_ids": [
         "recvmSEGBgz0Nq"
       ],
-      "order": 7,
+      "order": 5,
       "title": "项目任务",
       "labels": "项目任务",
       "slug": "job-center",
@@ -14550,7 +14664,7 @@
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 8,
+      "order": 6,
       "title": "集群",
       "labels": "集群",
       "slug": "clusters",
@@ -14570,7 +14684,7 @@
       "parent_record_ids": [
         "recvmSEHdJ6fzT"
       ],
-      "order": 9,
+      "order": 7,
       "title": "Dedicated 集群",
       "labels": "Dedicated 集群",
       "slug": "dedicated-cluster",
@@ -14590,7 +14704,7 @@
       "parent_record_ids": [
         "recvmSERy2qQOn"
       ],
-      "order": 10,
+      "order": 8,
       "title": "创建集群",
       "labels": "创建集群",
       "slug": "create-cluster",
@@ -14613,7 +14727,7 @@
       "parent_record_ids": [
         "recvmSERy2qQOn"
       ],
-      "order": 11,
+      "order": 9,
       "title": "连接集群",
       "labels": "连接集群",
       "slug": "connect-to-clusters",
@@ -14636,7 +14750,7 @@
       "parent_record_ids": [
         "recvmSERy2qQOn"
       ],
-      "order": 12,
+      "order": 10,
       "title": "管理集群",
       "labels": "管理集群",
       "slug": "manage-cluster",
@@ -14659,7 +14773,7 @@
       "parent_record_ids": [
         "recvmSERy2qQOn"
       ],
-      "order": 13,
+      "order": 11,
       "title": "集群扩缩容",
       "labels": "集群扩缩容",
       "slug": "scale-cluster",
@@ -14679,7 +14793,7 @@
       "parent_record_ids": [
         "recvmSEZTl9TBc"
       ],
-      "order": 14,
+      "order": 12,
       "title": "规划集群扩缩容",
       "labels": "",
       "slug": "plan-cluster-scaling",
@@ -14702,7 +14816,7 @@
       "parent_record_ids": [
         "recvmSEZTl9TBc"
       ],
-      "order": 15,
+      "order": 13,
       "title": "手动扩缩容",
       "labels": "",
       "slug": "manual-scaling",
@@ -14725,7 +14839,7 @@
       "parent_record_ids": [
         "recvmSEZTl9TBc"
       ],
-      "order": 16,
+      "order": 14,
       "title": "自动扩缩容",
       "labels": "",
       "slug": "auto-scaling",
@@ -14744,11 +14858,31 @@
       "record_id": "recvrzOJybMBq3",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
-      "placement_type": "canonical",
+      "placement_type": "section",
       "parent_record_ids": [
         "recvmSEZTl9TBc"
       ],
-      "order": 17,
+      "order": 15,
+      "title": "定时扩缩容",
+      "labels": "",
+      "slug": "scheduled",
+      "targets": [],
+      "progress": "",
+      "doc_token": null,
+      "doc_link": "",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvsD4hHGAdAJ",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvrzOJybMBq3"
+      ],
+      "order": 16,
       "title": "定时扩缩容",
       "labels": "",
       "slug": "scheduled-scaling",
@@ -14771,7 +14905,7 @@
       "parent_record_ids": [
         "recvrzOJybMBq3"
       ],
-      "order": 18,
+      "order": 17,
       "title": "了解 Cron 表达式",
       "labels": "Cron 表达式",
       "slug": "cron-expression",
@@ -14794,7 +14928,7 @@
       "parent_record_ids": [
         "recvmSEZTl9TBc"
       ],
-      "order": 19,
+      "order": 18,
       "title": "金丝雀升级（Canary Upgrade）",
       "labels": "金丝雀升级",
       "slug": "canary-upgrade",
@@ -14817,7 +14951,7 @@
       "parent_record_ids": [
         "recvmSERy2qQOn"
       ],
-      "order": 20,
+      "order": 19,
       "title": "Serving 集群中的 Database",
       "labels": "Serving 集群中的 Database",
       "slug": "",
@@ -14837,7 +14971,7 @@
       "parent_record_ids": [
         "recvmSEHdJ6fzT"
       ],
-      "order": 21,
+      "order": 20,
       "title": "按需计算",
       "labels": "按需计算",
       "slug": "on-demand-compute",
@@ -14857,7 +14991,7 @@
       "parent_record_ids": [
         "recvmSESaPpzh6"
       ],
-      "order": 22,
+      "order": 21,
       "title": "创建 On-Demand 集群",
       "labels": "",
       "slug": "on-demand-cluster",
@@ -14879,7 +15013,7 @@
       "parent_record_ids": [
         "recvmSESaPpzh6"
       ],
-      "order": 23,
+      "order": 22,
       "title": "连接按需搜索",
       "labels": "连接按需搜索",
       "slug": "",
@@ -14899,7 +15033,7 @@
       "parent_record_ids": [
         "recvmSESaPpzh6"
       ],
-      "order": 24,
+      "order": 23,
       "title": "管理 On-Demand 集群",
       "labels": "Manage On-Demand Cluster",
       "slug": "manage-on-demand-clusters",
@@ -14921,7 +15055,7 @@
       "parent_record_ids": [
         "recvmSESaPpzh6"
       ],
-      "order": 25,
+      "order": 24,
       "title": "按需计算中的 Database",
       "labels": "按需计算中的 Database",
       "slug": "",
@@ -14941,7 +15075,7 @@
       "parent_record_ids": [
         "recvmSEHdJ6fzT"
       ],
-      "order": 26,
+      "order": 25,
       "title": "全球集群",
       "labels": "全球集群",
       "slug": "global-cluster",
@@ -14961,7 +15095,7 @@
       "parent_record_ids": [
         "recvmSESOFZzgq"
       ],
-      "order": 27,
+      "order": 26,
       "title": "全球集群概览",
       "labels": "全球集群概览",
       "slug": "global-cluster-explained",
@@ -14983,7 +15117,7 @@
       "parent_record_ids": [
         "recvmSESOFZzgq"
       ],
-      "order": 28,
+      "order": 27,
       "title": "创建全球集群",
       "labels": "创建全球集群",
       "slug": "create-global-cluster",
@@ -15005,7 +15139,7 @@
       "parent_record_ids": [
         "recvmSESOFZzgq"
       ],
-      "order": 29,
+      "order": 28,
       "title": "连接全球集群",
       "labels": "连接全球集群",
       "slug": "connect-to-global-cluster",
@@ -15027,7 +15161,7 @@
       "parent_record_ids": [
         "recvmSESOFZzgq"
       ],
-      "order": 30,
+      "order": 29,
       "title": "优雅切换和强切",
       "labels": "优雅切换和强切",
       "slug": "switchover-and-failover",
@@ -15049,7 +15183,7 @@
       "parent_record_ids": [
         "recvmSESOFZzgq"
       ],
-      "order": 31,
+      "order": 30,
       "title": "全球集群扩缩容",
       "labels": "全球集群扩缩容",
       "slug": "scale-global-cluster",
@@ -15071,7 +15205,7 @@
       "parent_record_ids": [
         "recvmSESOFZzgq"
       ],
-      "order": 32,
+      "order": 31,
       "title": "监控全球集群",
       "labels": "监控全球集群",
       "slug": "monitor-global-cluster",
@@ -15093,7 +15227,7 @@
       "parent_record_ids": [
         "recvmSESOFZzgq"
       ],
-      "order": 33,
+      "order": 32,
       "title": "管理全球集群",
       "labels": "管理全球集群",
       "slug": "manage-global-cluster",
@@ -15113,7 +15247,7 @@
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 34,
+      "order": 33,
       "title": "Volume",
       "labels": "Volume",
       "slug": "volume",
@@ -15133,7 +15267,7 @@
       "parent_record_ids": [
         "recvmSFfuCyeWu"
       ],
-      "order": 35,
+      "order": 34,
       "title": "Managed Volume",
       "labels": "Managed Volume",
       "slug": "",
@@ -15153,7 +15287,7 @@
       "parent_record_ids": [
         "recvmSFfuCyeWu"
       ],
-      "order": 36,
+      "order": 35,
       "title": "External Volume",
       "labels": "External Volume",
       "slug": "",
@@ -15173,7 +15307,7 @@
       "parent_record_ids": [
         "recvmSFfuCyeWu"
       ],
-      "order": 37,
+      "order": 36,
       "title": "存储集成",
       "labels": "存储集成",
       "slug": "storage-integrations",
@@ -15193,7 +15327,7 @@
       "parent_record_ids": [
         "recvmSFhfdSFKy"
       ],
-      "order": 38,
+      "order": 37,
       "title": "Amazon S3",
       "labels": "Amazon S3",
       "slug": "",
@@ -15213,7 +15347,7 @@
       "parent_record_ids": [
         "recvmSFhfdSFKy"
       ],
-      "order": 39,
+      "order": 38,
       "title": "阿里云对象存储",
       "labels": "阿里云对象存储",
       "slug": "",
@@ -15231,7 +15365,7 @@
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 40,
+      "order": 39,
       "title": "备份与恢复",
       "labels": "备份与恢复",
       "slug": "backup-and-restore",
@@ -15251,7 +15385,7 @@
       "parent_record_ids": [
         "recvmSEHQfnDr6"
       ],
-      "order": 41,
+      "order": 40,
       "title": "创建备份",
       "labels": "创建备份",
       "slug": "create-backup",
@@ -15274,7 +15408,7 @@
       "parent_record_ids": [
         "recvmSEHQfnDr6"
       ],
-      "order": 42,
+      "order": 41,
       "title": "设置定时自动备份",
       "labels": "设置定时自动备份",
       "slug": "schedule-automatic-backups",
@@ -15297,7 +15431,7 @@
       "parent_record_ids": [
         "recvmSEHQfnDr6"
       ],
-      "order": 43,
+      "order": 42,
       "title": "跨地域备份",
       "labels": "跨地域备份",
       "slug": "backup-to-other-regions",
@@ -15319,7 +15453,7 @@
       "parent_record_ids": [
         "recvmSEHQfnDr6"
       ],
-      "order": 44,
+      "order": 43,
       "title": "恢复备份",
       "labels": "恢复备份",
       "slug": "restore-from-backup-files",
@@ -15342,7 +15476,7 @@
       "parent_record_ids": [
         "recvmSEHQfnDr6"
       ],
-      "order": 45,
+      "order": 44,
       "title": "导出备份文件",
       "labels": "导出备份文件",
       "slug": "export-backup-files",
@@ -15364,7 +15498,7 @@
       "parent_record_ids": [
         "recvmSEHQfnDr6"
       ],
-      "order": 46,
+      "order": 45,
       "title": "管理备份文件",
       "labels": "管理备份文件",
       "slug": "manage-backup-files",
@@ -15385,7 +15519,7 @@
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 47,
+      "order": 46,
       "title": "数据迁移",
       "labels": "数据迁移",
       "slug": "migrations",
@@ -15405,7 +15539,7 @@
       "parent_record_ids": [
         "recvmSEIt6ebVL"
       ],
-      "order": 48,
+      "order": 47,
       "title": "从 Milvus 迁移至 Zilliz Cloud",
       "labels": "从 Milvus 迁移至 Zilliz Cloud",
       "slug": "migrate-from-milvus",
@@ -15428,7 +15562,7 @@
       "parent_record_ids": [
         "recvmSF62LiiA6"
       ],
-      "order": 49,
+      "order": 48,
       "title": "通过 Endpoint 从 Milvus 迁移至 Zilliz Cloud",
       "labels": "通过 Endpoint 从 Milvus 迁移至 Zilliz Cloud",
       "slug": "via-endpoint",
@@ -15450,7 +15584,7 @@
       "parent_record_ids": [
         "recvmSF62LiiA6"
       ],
-      "order": 50,
+      "order": 49,
       "title": "通过备份文件从 Milvus 迁移至 Zilliz Cloud",
       "labels": "通过备份文件从 Milvus 迁移至 Zilliz Cloud",
       "slug": "via-backup-files",
@@ -15473,7 +15607,7 @@
       "parent_record_ids": [
         "recvmSF62LiiA6"
       ],
-      "order": 51,
+      "order": 50,
       "title": "通过备份工具从 Milvus 迁移至 Zilliz Cloud",
       "labels": "通过备份工具从 Milvus 迁移至 Zilliz Cloud",
       "slug": "via-stage",
@@ -15495,7 +15629,7 @@
       "parent_record_ids": [
         "recvmSEIt6ebVL"
       ],
-      "order": 52,
+      "order": 51,
       "title": "从外部数据源迁移",
       "labels": "从外部数据源迁移",
       "slug": "migrate-from-external-sources",
@@ -15515,7 +15649,7 @@
       "parent_record_ids": [
         "recvmSFOP1EwwX"
       ],
-      "order": 53,
+      "order": 52,
       "title": "外部迁移概述",
       "labels": "外部迁移概述",
       "slug": "external-migration-basics",
@@ -15537,7 +15671,7 @@
       "parent_record_ids": [
         "recvmSFOP1EwwX"
       ],
-      "order": 54,
+      "order": 53,
       "title": "从 Pinecone 迁移至 Zilliz Cloud",
       "labels": "从 Pinecone 迁移至 Zilliz Cloud",
       "slug": "migrate-from-pinecone",
@@ -15559,7 +15693,7 @@
       "parent_record_ids": [
         "recvmSFOP1EwwX"
       ],
-      "order": 55,
+      "order": 54,
       "title": "从 Qdrant 迁移至 Zilliz Cloud",
       "labels": "从 Qdrant 迁移至 Zilliz Cloud",
       "slug": "migrate-from-qdrant",
@@ -15581,7 +15715,7 @@
       "parent_record_ids": [
         "recvmSFOP1EwwX"
       ],
-      "order": 56,
+      "order": 55,
       "title": "从 Elasticsearch 迁移至 Zilliz Cloud",
       "labels": "从 Elasticsearch 迁移至 Zilliz Cloud",
       "slug": "migrate-from-elasticsearch",
@@ -15603,7 +15737,7 @@
       "parent_record_ids": [
         "recvmSFOP1EwwX"
       ],
-      "order": 57,
+      "order": 56,
       "title": "从 PostgreSQL 迁移至 Zilliz Cloud",
       "labels": "从 PostgreSQL 迁移至 Zilliz Cloud",
       "slug": "migrate-from-pgvector",
@@ -15625,7 +15759,7 @@
       "parent_record_ids": [
         "recvmSFOP1EwwX"
       ],
-      "order": 58,
+      "order": 57,
       "title": "从腾讯云向量数据库迁移至 Zilliz Cloud",
       "labels": "从腾讯云向量数据库迁移至 Zilliz Cloud",
       "slug": "migrate-from-tencent-cloud",
@@ -15647,7 +15781,7 @@
       "parent_record_ids": [
         "recvmSFOP1EwwX"
       ],
-      "order": 59,
+      "order": 58,
       "title": "从 OpenSearch 迁移至 Zilliz Cloud",
       "labels": "从 OpenSearch 迁移至 Zilliz Cloud",
       "slug": "migrate-from-opensearch",
@@ -15669,7 +15803,7 @@
       "parent_record_ids": [
         "recvmSFOP1EwwX"
       ],
-      "order": 60,
+      "order": 59,
       "title": "Zilliz Cloud IP",
       "labels": "Zilliz Cloud IP",
       "slug": "zilliz-cloud-ips",
@@ -15692,7 +15826,7 @@
       "parent_record_ids": [
         "recvmSEIt6ebVL"
       ],
-      "order": 61,
+      "order": 60,
       "title": "Zilliz Cloud 跨集群迁移",
       "labels": "Zilliz Cloud 跨集群迁移",
       "slug": "migrate-between-clusters",
@@ -15715,7 +15849,7 @@
       "parent_record_ids": [
         "recvmSFPuT9rBm"
       ],
-      "order": 62,
+      "order": 61,
       "title": "离线迁移",
       "labels": "离线迁移",
       "slug": "offline-migration",
@@ -15736,7 +15870,7 @@
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 63,
+      "order": 62,
       "title": "指标与告警",
       "labels": "指标与告警",
       "slug": "metrics-alerts",
@@ -15756,7 +15890,7 @@
       "parent_record_ids": [
         "recvmSEJ5nnLCO"
       ],
-      "order": 64,
+      "order": 63,
       "title": "指标快速参考",
       "labels": "指标快速参考",
       "slug": "metrics-alerts-reference",
@@ -15779,7 +15913,7 @@
       "parent_record_ids": [
         "recvmSEJ5nnLCO"
       ],
-      "order": 65,
+      "order": 64,
       "title": "查看集群性能指标",
       "labels": "查看集群性能指标",
       "slug": "view-cluster-metric-charts",
@@ -15802,7 +15936,7 @@
       "parent_record_ids": [
         "recvmSEJ5nnLCO"
       ],
-      "order": 66,
+      "order": 65,
       "title": "管理组织告警",
       "labels": "管理组织告警",
       "slug": "manage-organization-alerts",
@@ -15825,7 +15959,7 @@
       "parent_record_ids": [
         "recvmSEJ5nnLCO"
       ],
-      "order": 67,
+      "order": 66,
       "title": "管理项目告警",
       "labels": "管理项目告警",
       "slug": "manage-project-alerts",
@@ -15848,7 +15982,7 @@
       "parent_record_ids": [
         "recvmSEJ5nnLCO"
       ],
-      "order": 68,
+      "order": 67,
       "title": "管理告警渠道",
       "labels": "管理告警渠道",
       "slug": "manage-notification-channels",
@@ -15871,7 +16005,7 @@
       "parent_record_ids": [
         "recvmSEJ5nnLCO"
       ],
-      "order": 69,
+      "order": 68,
       "title": "可观测性集成",
       "labels": "可观测性集成",
       "slug": "observability-integrations",
@@ -15891,7 +16025,7 @@
       "parent_record_ids": [
         "recvmSFeiM9pCX"
       ],
-      "order": 70,
+      "order": 69,
       "title": "Prometheus 监控",
       "labels": "Prometheus 监控",
       "slug": "prometheus-monitoring",
@@ -15907,15 +16041,15 @@
       "ref_target_anchor": null
     },
     {
-      "record_id": "recvmSEJJddd4T",
+      "record_id": "recvsCYQxNrK0q",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 71,
-      "title": "访问控制",
-      "labels": "访问控制",
-      "slug": "access-control",
+      "order": 70,
+      "title": "身份管理",
+      "labels": "",
+      "slug": "identity-management",
       "targets": [],
       "progress": "",
       "doc_token": null,
@@ -15925,66 +16059,69 @@
       "ref_target_anchor": null
     },
     {
-      "record_id": "recvmSFiko38Pn",
+      "record_id": "recvsCZ2zVuS9N",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
       "placement_type": "canonical",
       "parent_record_ids": [
-        "recvmSEJJddd4T"
+        "recvsCYQxNrK0q"
       ],
-      "order": 72,
-      "title": "访问控制概览",
-      "labels": "访问控制概览",
-      "slug": "access-control-overview",
+      "order": 71,
+      "title": "身份管理概览",
+      "labels": "",
+      "slug": "identity-management-overview",
       "targets": [
         "zilliz.paas",
         "zilliz.saas"
       ],
       "progress": "Draft",
-      "doc_token": "APGCw9vhAiVHW2kDqtcceEdmn0b",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/APGCw9vhAiVHW2kDqtcceEdmn0b",
+      "doc_token": "S5oBwPIf6iNkSrkEyHYcvpJonSb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/S5oBwPIf6iNkSrkEyHYcvpJonSb",
       "ref_target": null,
       "ref_target_token": null,
       "ref_target_anchor": null
     },
     {
-      "record_id": "recvmSFQ9lhAxn",
+      "record_id": "recvsCZj1qcN4V",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
-      "placement_type": "ref",
+      "placement_type": "canonical",
       "parent_record_ids": [
-        "recvmSEJJddd4T"
+        "recvsCYQxNrK0q"
       ],
-      "order": 73,
-      "title": "组织用户",
-      "labels": "组织用户",
-      "slug": "",
-      "targets": [],
-      "progress": "",
-      "doc_token": "PzjhwZkgqiiVmakWT03c8VDAnTh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/PzjhwZkgqiiVmakWT03c8VDAnTh",
-      "ref_target": "PzjhwZkgqiiVmakWT03c8VDAnTh",
-      "ref_target_token": "PzjhwZkgqiiVmakWT03c8VDAnTh",
+      "order": 72,
+      "title": "管理平台用户",
+      "labels": "",
+      "slug": "manage-platform-users",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "MFCMwKsYVi5VLUkag4HcC0yGnZd",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/MFCMwKsYVi5VLUkag4HcC0yGnZd",
+      "ref_target": null,
+      "ref_target_token": null,
       "ref_target_anchor": null
     },
     {
-      "record_id": "recvmSFQKR576X",
+      "record_id": "recvsCZmNXK6xe",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
-      "placement_type": "ref",
+      "placement_type": "section",
       "parent_record_ids": [
-        "recvmSEJJddd4T"
+        "recvsCYQxNrK0q"
       ],
-      "order": 74,
-      "title": "项目用户",
-      "labels": "项目用户",
-      "slug": "",
+      "order": 73,
+      "title": "管理集群用户",
+      "labels": "",
+      "slug": "manage-cluster-users",
       "targets": [],
       "progress": "",
-      "doc_token": "GZriwpM0Gi7fcukuo8xc736VnBh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/GZriwpM0Gi7fcukuo8xc736VnBh",
-      "ref_target": "GZriwpM0Gi7fcukuo8xc736VnBh",
-      "ref_target_token": "GZriwpM0Gi7fcukuo8xc736VnBh",
+      "doc_token": null,
+      "doc_link": "",
+      "ref_target": null,
+      "ref_target_token": null,
       "ref_target_anchor": null
     },
     {
@@ -15993,9 +16130,9 @@
       "table_name": "运维指南",
       "placement_type": "canonical",
       "parent_record_ids": [
-        "recvmSEJJddd4T"
+        "recvsCZmNXK6xe"
       ],
-      "order": 75,
+      "order": 74,
       "title": "管理集群用户（控制台）",
       "labels": "管理集群用户（控制台）",
       "slug": "cluster-users",
@@ -16016,9 +16153,9 @@
       "table_name": "运维指南",
       "placement_type": "canonical",
       "parent_record_ids": [
-        "recvmSEJJddd4T"
+        "recvsCZmNXK6xe"
       ],
-      "order": 76,
+      "order": 75,
       "title": "管理集群用户（SDK）",
       "labels": "管理集群用户（SDK）",
       "slug": "cluster-users-sdk",
@@ -16034,14 +16171,121 @@
       "ref_target_anchor": null
     },
     {
-      "record_id": "recvmSFk0RRqRN",
+      "record_id": "recvmSFoV9nh55",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvsCYQxNrK0q"
+      ],
+      "order": 76,
+      "title": "使用 Okta 配置 SSO",
+      "labels": "使用 Okta 配置 SSO",
+      "slug": "single-sign-on-with-okta",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/BRygwmdMOiyW0Ckd439cJwR6nHf",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvmSEJJddd4T",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "section",
+      "parent_record_ids": [],
+      "order": 77,
+      "title": "访问控制",
+      "labels": "访问控制",
+      "slug": "access-control",
+      "targets": [],
+      "progress": "",
+      "doc_token": null,
+      "doc_link": "",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvmSFiko38Pn",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
       "placement_type": "canonical",
       "parent_record_ids": [
         "recvmSEJJddd4T"
       ],
-      "order": 77,
+      "order": 78,
+      "title": "访问控制概览",
+      "labels": "访问控制概览",
+      "slug": "access-control-overview",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "HA7nwc7s2i1mmDkdT62cAyZxnwb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/HA7nwc7s2i1mmDkdT62cAyZxnwb",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvsD0ybkGHdy",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvmSEJJddd4T"
+      ],
+      "order": 79,
+      "title": "管理平台角色",
+      "labels": "",
+      "slug": "manage-platform-roles",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "MNqIwPF2diSEbtkWO0TcoRGRn3i",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/MNqIwPF2diSEbtkWO0TcoRGRn3i",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvsD0DZYrEii",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "section",
+      "parent_record_ids": [
+        "recvmSEJJddd4T"
+      ],
+      "order": 80,
+      "title": "管理集群角色",
+      "labels": "",
+      "slug": "manage-cluster-roles",
+      "targets": [],
+      "progress": "",
+      "doc_token": null,
+      "doc_link": "",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvmSFk0RRqRN",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvsD0DZYrEii"
+      ],
+      "order": 81,
       "title": "管理集群角色（控制台）",
       "labels": "管理集群角色（控制台）",
       "slug": "cluster-roles",
@@ -16062,9 +16306,9 @@
       "table_name": "运维指南",
       "placement_type": "canonical",
       "parent_record_ids": [
-        "recvmSEJJddd4T"
+        "recvsD0DZYrEii"
       ],
-      "order": 78,
+      "order": 82,
       "title": "管理集群角色（SDK）",
       "labels": "管理集群角色（SDK）",
       "slug": "cluster-roles-sdk",
@@ -16080,16 +16324,59 @@
       "ref_target_anchor": null
     },
     {
+      "record_id": "recvsD0PhM4Omg",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "section",
+      "parent_record_ids": [
+        "recvmSEJJddd4T"
+      ],
+      "order": 83,
+      "title": "权限参考",
+      "labels": "",
+      "slug": "privilege-reference",
+      "targets": [],
+      "progress": "",
+      "doc_token": null,
+      "doc_link": "",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvsD0RE96PhW",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvsD0PhM4Omg"
+      ],
+      "order": 84,
+      "title": "平台资源权限",
+      "labels": "平台权限",
+      "slug": "platform-privileges",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "VUtXwhev1ibEBakSLqaciuWSnte",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/VUtXwhev1ibEBakSLqaciuWSnte?from=from_copylink",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
       "record_id": "recvmSFl4OkMMV",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
       "placement_type": "canonical",
       "parent_record_ids": [
-        "recvmSEJJddd4T"
+        "recvsD0PhM4Omg"
       ],
-      "order": 79,
-      "title": "权限与权限组",
-      "labels": "权限与权限组",
+      "order": 85,
+      "title": "集群资源权限与权限组",
+      "labels": "集群权限与权限组",
       "slug": "cluster-privileges",
       "targets": [
         "zilliz.paas",
@@ -16103,32 +16390,12 @@
       "ref_target_anchor": null
     },
     {
-      "record_id": "recvmSFpODYFdF",
-      "table_id": "tblMuHkoG4qMugeX",
-      "table_name": "运维指南",
-      "placement_type": "section",
-      "parent_record_ids": [
-        "recvmSEJJddd4T"
-      ],
-      "order": 80,
-      "title": "SCIM Provisioning",
-      "labels": "SCIM Provisioning",
-      "slug": "scim-provisioning",
-      "targets": [],
-      "progress": "",
-      "doc_token": null,
-      "doc_link": "",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
       "record_id": "recvmSEKpa0YvY",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 81,
+      "order": 86,
       "title": "审计日志",
       "labels": "审计日志",
       "slug": "auditing",
@@ -16148,7 +16415,7 @@
       "parent_record_ids": [
         "recvmSEKpa0YvY"
       ],
-      "order": 82,
+      "order": 87,
       "title": "VectorDB 审计日志参考",
       "labels": "VectorDB 审计日志参考",
       "slug": "audit-logs-ref",
@@ -16171,7 +16438,7 @@
       "parent_record_ids": [
         "recvmSEKpa0YvY"
       ],
-      "order": 83,
+      "order": 88,
       "title": "查看平台审计日志",
       "labels": "查看平台审计日志",
       "slug": "view-activities",
@@ -16194,7 +16461,7 @@
       "parent_record_ids": [
         "recvmSEKpa0YvY"
       ],
-      "order": 84,
+      "order": 89,
       "title": "VectorDB 审计日志",
       "labels": "VectorDB 审计日志",
       "slug": "audit-logs",
@@ -16215,7 +16482,7 @@
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 85,
+      "order": 90,
       "title": "访问日志",
       "labels": "访问日志",
       "slug": "access-logs",
@@ -16235,7 +16502,7 @@
       "parent_record_ids": [
         "recvmSEL3f9LYa"
       ],
-      "order": 86,
+      "order": 91,
       "title": "访问日志概述",
       "labels": "访问日志概述",
       "slug": "access-log-overview",
@@ -16258,7 +16525,7 @@
       "parent_record_ids": [
         "recvmSEL3f9LYa"
       ],
-      "order": 87,
+      "order": 92,
       "title": "配置访问日志",
       "labels": "配置访问日志",
       "slug": "configure-access-logs",
@@ -16281,7 +16548,7 @@
       "parent_record_ids": [
         "recvmSEL3f9LYa"
       ],
-      "order": 88,
+      "order": 93,
       "title": "访问日志参考",
       "labels": "访问日志参考",
       "slug": "access-log-reference",
@@ -16297,12 +16564,72 @@
       "ref_target_anchor": null
     },
     {
+      "record_id": "recvsD5Xrxe0gA",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "section",
+      "parent_record_ids": [],
+      "order": 94,
+      "title": "慢查询日志",
+      "labels": "",
+      "slug": "slow-logs",
+      "targets": [],
+      "progress": "",
+      "doc_token": null,
+      "doc_link": "",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvsD5YLlpNla",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "parent_record_ids": [],
+      "order": 95,
+      "title": "配置慢日志",
+      "labels": "",
+      "slug": "configure-slow-logs",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "NLDRwGZoXiGyIUkGh5Oc2q6dnJe",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/NLDRwGZoXiGyIUkGh5Oc2q6dnJe",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvsD5YLlJ6F5",
+      "table_id": "tblMuHkoG4qMugeX",
+      "table_name": "运维指南",
+      "placement_type": "canonical",
+      "parent_record_ids": [],
+      "order": 96,
+      "title": "慢查询日志参考",
+      "labels": "",
+      "slug": "slow-log-reference",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "NhIhwuigsi0tOVk2GNEcFuaTnYb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/NhIhwuigsi0tOVk2GNEcFuaTnYb",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
       "record_id": "recvmSELGHnvfD",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 89,
+      "order": 97,
       "title": "用户鉴权",
       "labels": "用户鉴权",
       "slug": "authentication",
@@ -16322,7 +16649,7 @@
       "parent_record_ids": [
         "recvmSELGHnvfD"
       ],
-      "order": 90,
+      "order": 98,
       "title": "邮箱账号",
       "labels": "邮箱账号",
       "slug": "email-accounts",
@@ -16345,7 +16672,7 @@
       "parent_record_ids": [
         "recvmSELGHnvfD"
       ],
-      "order": 91,
+      "order": 99,
       "title": "API 密钥",
       "labels": "API 密钥",
       "slug": "manage-api-keys",
@@ -16368,7 +16695,7 @@
       "parent_record_ids": [
         "recvmSELGHnvfD"
       ],
-      "order": 92,
+      "order": 100,
       "title": "集群身份凭证",
       "labels": "集群身份凭证",
       "slug": "cluster-credentials",
@@ -16391,7 +16718,7 @@
       "parent_record_ids": [
         "recvmSELGHnvfD"
       ],
-      "order": 93,
+      "order": 101,
       "title": "管理 MFA",
       "labels": "管理 MFA",
       "slug": "multi-factor-auth",
@@ -16412,7 +16739,7 @@
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 94,
+      "order": 102,
       "title": "IP 白名单",
       "labels": "IP 白名单",
       "slug": "ip-allowlists",
@@ -16432,7 +16759,7 @@
       "parent_record_ids": [
         "recvmSEMn6bZ9o"
       ],
-      "order": 95,
+      "order": 103,
       "title": "设置控制台 IP 白名单",
       "labels": "设置控制台 IP 白名单",
       "slug": "setup-console-ip-allowlist",
@@ -16455,7 +16782,7 @@
       "parent_record_ids": [
         "recvmSEMn6bZ9o"
       ],
-      "order": 96,
+      "order": 104,
       "title": "设置集群 IP 白名单",
       "labels": "设置集群 IP 白名单",
       "slug": "setup-whitelist",
@@ -16475,7 +16802,7 @@
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 97,
+      "order": 105,
       "title": "私网连接",
       "labels": "私网连接",
       "slug": "private-endpoint",
@@ -16495,7 +16822,7 @@
       "parent_record_ids": [
         "recvmSEMY7QFPs"
       ],
-      "order": 98,
+      "order": 106,
       "title": "创建亚马逊云科技 PrivateLink",
       "labels": "创建亚马逊云科技 PrivateLink",
       "slug": "setup-a-private-link-aws",
@@ -16517,7 +16844,7 @@
       "parent_record_ids": [
         "recvmSEMY7QFPs"
       ],
-      "order": 99,
+      "order": 107,
       "title": "创建阿里云私网连接（Private Link）",
       "labels": "创建阿里云私网连接（Private Link）",
       "slug": "aliyun-private-link",
@@ -16539,7 +16866,7 @@
       "parent_record_ids": [
         "recvmSEMY7QFPs"
       ],
-      "order": 100,
+      "order": 108,
       "title": "创建腾讯云私有连接（Private Link）",
       "labels": "创建腾讯云私有连接（Private Link）",
       "slug": "tencent-private-link",
@@ -16554,33 +16881,12 @@
       "ref_target_anchor": null
     },
     {
-      "record_id": "recvmSFoV9nh55",
-      "table_id": "tblMuHkoG4qMugeX",
-      "table_name": "运维指南",
-      "placement_type": "canonical",
-      "parent_record_ids": [],
-      "order": 101,
-      "title": "使用 Okta 配置 SSO",
-      "labels": "使用 Okta 配置 SSO",
-      "slug": "single-sign-on-with-okta",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "BRygwmdMOiyW0Ckd439cJwR6nHf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/BRygwmdMOiyW0Ckd439cJwR6nHf",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
       "record_id": "recvmSFx3sk92S",
       "table_id": "tblMuHkoG4qMugeX",
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 102,
+      "order": 109,
       "title": "账单管理",
       "labels": "账单管理",
       "slug": "billing-management",
@@ -16600,7 +16906,7 @@
       "parent_record_ids": [
         "recvmSFx3sk92S"
       ],
-      "order": 103,
+      "order": 110,
       "title": "BYOC 计费模式",
       "labels": "",
       "slug": "understand-byoc-billing",
@@ -16622,7 +16928,7 @@
       "parent_record_ids": [
         "recvmSFx3sk92S"
       ],
-      "order": 104,
+      "order": 111,
       "title": "支付方式与账单",
       "labels": "支付方式与账单",
       "slug": "payment-billing",
@@ -16645,7 +16951,7 @@
       "parent_record_ids": [
         "recvmSFx3sk92S"
       ],
-      "order": 105,
+      "order": 112,
       "title": "设置支付方式",
       "labels": "设置支付方式",
       "slug": "set-up-payment-method",
@@ -16668,7 +16974,7 @@
       "parent_record_ids": [
         "recvmSFzeOxFXt"
       ],
-      "order": 106,
+      "order": 113,
       "title": "企业认证",
       "labels": "企业认证",
       "slug": "enterprise-verification",
@@ -16691,7 +16997,7 @@
       "parent_record_ids": [
         "recvmSFzeOxFXt"
       ],
-      "order": 107,
+      "order": 114,
       "title": "现金充值（对公转账）",
       "labels": "现金充值（对公转账）",
       "slug": "cash-recharge",
@@ -16714,7 +17020,7 @@
       "parent_record_ids": [
         "recvmSFzeOxFXt"
       ],
-      "order": 108,
+      "order": 115,
       "title": "订阅阿里云云市场",
       "labels": "订阅阿里云云市场",
       "slug": "aliyun-marketplace",
@@ -16737,7 +17043,7 @@
       "parent_record_ids": [
         "recvmSFzeOxFXt"
       ],
-      "order": 109,
+      "order": 116,
       "title": "订阅亚马逊云科技 Marketplace",
       "labels": "订阅亚马逊云科技 Marketplace",
       "slug": "amazon-marketplace-cn",
@@ -16760,7 +17066,7 @@
       "parent_record_ids": [
         "recvmSFx3sk92S"
       ],
-      "order": 110,
+      "order": 117,
       "title": "更新账单接收信息",
       "labels": "更新账单接收信息",
       "slug": "update-billing-profile",
@@ -16783,7 +17089,7 @@
       "parent_record_ids": [
         "recvmSFx3sk92S"
       ],
-      "order": 111,
+      "order": 118,
       "title": "了解账单",
       "labels": "了解账单",
       "slug": "view-invoice",
@@ -16806,7 +17112,7 @@
       "parent_record_ids": [
         "recvmSFx3sk92S"
       ],
-      "order": 112,
+      "order": 119,
       "title": "开具发票",
       "labels": "开具发票",
       "slug": "manage-invoice",
@@ -16828,7 +17134,7 @@
       "parent_record_ids": [
         "recvmSFx3sk92S"
       ],
-      "order": 113,
+      "order": 120,
       "title": "变更配置费用说明",
       "labels": "",
       "slug": "notice-on-config-changes",
@@ -16850,7 +17156,7 @@
       "parent_record_ids": [
         "recvmSFx3sk92S"
       ],
-      "order": 114,
+      "order": 121,
       "title": "处理支付失败与组织冻结",
       "labels": "处理支付失败与组织冻结",
       "slug": "failed-payments-organization-recovery",
@@ -16872,7 +17178,7 @@
       "parent_record_ids": [
         "recvmSFx3sk92S"
       ],
-      "order": 115,
+      "order": 122,
       "title": "设置账单告警",
       "labels": "设置账单告警",
       "slug": "monitor-billing-alerts",
@@ -16894,7 +17200,7 @@
       "parent_record_ids": [
         "recvmSFx3sk92S"
       ],
-      "order": 116,
+      "order": 123,
       "title": "管理订单",
       "labels": "管理订单",
       "slug": "manage-orders",
@@ -16916,7 +17222,7 @@
       "parent_record_ids": [
         "recvmSFx3sk92S"
       ],
-      "order": 117,
+      "order": 124,
       "title": "续订说明",
       "labels": "续订说明",
       "slug": "renewal",
@@ -16936,7 +17242,7 @@
       "table_name": "运维指南",
       "placement_type": "section",
       "parent_record_ids": [],
-      "order": 118,
+      "order": 125,
       "title": "成本管理",
       "labels": "成本管理",
       "slug": "cost-management",
@@ -16956,7 +17262,7 @@
       "parent_record_ids": [
         "recvmSFxOlMLgQ"
       ],
-      "order": 119,
+      "order": 126,
       "title": "了解费用",
       "labels": "了解费用",
       "slug": "understand-cost",
@@ -16976,7 +17282,7 @@
       "parent_record_ids": [
         "recvmSFE8Fp67L"
       ],
-      "order": 120,
+      "order": 127,
       "title": "按需计算费用",
       "labels": "按需计算费用",
       "slug": "on-demand-compute-cost",
@@ -16998,7 +17304,7 @@
       "parent_record_ids": [
         "recvmSFE8Fp67L"
       ],
-      "order": 121,
+      "order": 128,
       "title": "Dedicated 集群费用",
       "labels": "Dedicated 集群费用",
       "slug": "dedicated-cluster-cost",
@@ -17020,7 +17326,7 @@
       "parent_record_ids": [
         "recvmSFE8Fp67L"
       ],
-      "order": 122,
+      "order": 129,
       "title": "Serverless 集群费用",
       "labels": "Serverless 集群费用",
       "slug": "serverless-cluster-cost",
@@ -17042,7 +17348,7 @@
       "parent_record_ids": [
         "recvmSFE8Fp67L"
       ],
-      "order": 123,
+      "order": 130,
       "title": "存储费用",
       "labels": "存储费用",
       "slug": "storage-cost",
@@ -17064,7 +17370,7 @@
       "parent_record_ids": [
         "recvmSFE8Fp67L"
       ],
-      "order": 124,
+      "order": 131,
       "title": "存储请求费用",
       "labels": "存储请求费用",
       "slug": "storage-request-cost",
@@ -17086,7 +17392,7 @@
       "parent_record_ids": [
         "recvmSFE8Fp67L"
       ],
-      "order": 125,
+      "order": 132,
       "title": "数据传输费用",
       "labels": "数据传输费用",
       "slug": "data-transfer-cost",
@@ -17108,7 +17414,7 @@
       "parent_record_ids": [
         "recvmSFE8Fp67L"
       ],
-      "order": 126,
+      "order": 133,
       "title": "审计日志费用",
       "labels": "审计日志费用",
       "slug": "audit-log-cost",
@@ -17130,7 +17436,7 @@
       "parent_record_ids": [
         "recvmSFxOlMLgQ"
       ],
-      "order": 127,
+      "order": 134,
       "title": "分析成本",
       "labels": "分析成本",
       "slug": "analyze-cost",
@@ -17153,7 +17459,7 @@
       "parent_record_ids": [
         "recvmSFxOlMLgQ"
       ],
-      "order": 128,
+      "order": 135,
       "title": "成本优化",
       "labels": "成本优化",
       "slug": "cost-optimization",
@@ -17173,7 +17479,7 @@
       "table_name": "运维指南",
       "placement_type": "canonical",
       "parent_record_ids": [],
-      "order": 129,
+      "order": 136,
       "title": "使用限制",
       "labels": "使用限制",
       "slug": "limits",
@@ -17196,7 +17502,7 @@
       "parent_record_ids": [
         "recvmSFKOVOzcA"
       ],
-      "order": 130,
+      "order": 137,
       "title": "API 异同",
       "labels": "API 异同",
       "slug": "api-comparison",
@@ -23148,7 +23454,7 @@
     }
   ],
   "table_digests": {
-    "tblMuHkoG4qMugeX": "75e0d3a87abb91e9c34d76280ea6401cfa4b6668d28bac2d48af18a9cad4c2ca",
+    "tblMuHkoG4qMugeX": "8945c9ffcf21f6f7d04b5eba2708d09642baf25ad091d231c8d09b84e75dfb87",
     "tbloC4PVprwYo0P0": "6ea1a9150c2acd9293e1925c36af3f0779d091bbd1dfcf36cf8f83fce1bc328f",
     "tblr7Zec2ReTfRmw": "1d7d9b066f0fce69c97230ca09d7bdb0855af282c19c6c2acca63802f57e3c3d",
     "tblRaa3JnIhllHb9": "36c5f313ae62c2b0d47454a3b4a041cf76f3f522bde29bb41d25fb606a01c6ae",

@@ -1219,12 +1219,6 @@ module.exports = [
         "items": [
           {
             "type": "doc",
-            "id": "tutorials/management/organizations/organization-users",
-            "label": "组织用户",
-            "key": "doc:tutorials/management/organizations/organization-users"
-          },
-          {
-            "type": "doc",
             "id": "tutorials/management/organizations/organization-settings",
             "label": "组织设置",
             "key": "doc:tutorials/management/organizations/organization-settings"
@@ -1247,12 +1241,6 @@ module.exports = [
             "id": "tutorials/management/projects/manage-projects",
             "label": "项目管理",
             "key": "doc:tutorials/management/projects/manage-projects"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/projects/project-users",
-            "label": "项目用户",
-            "key": "doc:tutorials/management/projects/project-users"
           },
           {
             "type": "doc",
@@ -1316,17 +1304,19 @@ module.exports = [
                   {
                     "type": "category",
                     "label": "定时扩缩容",
-                    "key": "category:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling",
-                    "link": {
-                      "type": "doc",
-                      "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/scheduled-scaling"
-                    },
+                    "key": "category:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled",
                     "items": [
                       {
                         "type": "doc",
-                        "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression",
+                        "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled/scheduled-scaling",
+                        "label": "定时扩缩容",
+                        "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled/scheduled-scaling"
+                      },
+                      {
+                        "type": "doc",
+                        "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled/cron-expression",
                         "label": "Cron 表达式",
-                        "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling/cron-expression"
+                        "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled/cron-expression"
                       }
                     ]
                   },
@@ -1523,6 +1513,50 @@ module.exports = [
       },
       {
         "type": "category",
+        "label": "身份管理",
+        "key": "category:tutorials/management/identity-management",
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/management/identity-management/identity-management-overview",
+            "label": "身份管理概览",
+            "key": "doc:tutorials/management/identity-management/identity-management-overview"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/identity-management/manage-platform-users",
+            "label": "管理平台用户",
+            "key": "doc:tutorials/management/identity-management/manage-platform-users"
+          },
+          {
+            "type": "category",
+            "label": "管理集群用户",
+            "key": "category:tutorials/management/identity-management/manage-cluster-users",
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/manage-cluster-users/cluster-users",
+                "label": "管理集群用户（控制台）",
+                "key": "doc:tutorials/management/identity-management/manage-cluster-users/cluster-users"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk",
+                "label": "管理集群用户（SDK）",
+                "key": "doc:tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk"
+              }
+            ]
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/identity-management/single-sign-on-with-okta",
+            "label": "使用 Okta 配置 SSO",
+            "key": "doc:tutorials/management/identity-management/single-sign-on-with-okta"
+          }
+        ]
+      },
+      {
+        "type": "category",
         "label": "访问控制",
         "key": "category:tutorials/management/access-control",
         "items": [
@@ -1533,52 +1567,48 @@ module.exports = [
             "key": "doc:tutorials/management/access-control/access-control-overview"
           },
           {
-            "type": "link",
-            "href": "/docs/byoc/organization-users",
-            "label": "组织用户",
-            "key": "ref:tutorials/management/access-control/organization-users"
-          },
-          {
-            "type": "link",
-            "href": "/docs/byoc/project-users",
-            "label": "项目用户",
-            "key": "ref:tutorials/management/access-control/project-users"
-          },
-          {
             "type": "doc",
-            "id": "tutorials/management/access-control/cluster-users",
-            "label": "管理集群用户（控制台）",
-            "key": "doc:tutorials/management/access-control/cluster-users"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/access-control/cluster-users-sdk",
-            "label": "管理集群用户（SDK）",
-            "key": "doc:tutorials/management/access-control/cluster-users-sdk"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/access-control/cluster-roles",
-            "label": "管理集群角色（控制台）",
-            "key": "doc:tutorials/management/access-control/cluster-roles"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/access-control/cluster-roles-sdk",
-            "label": "管理集群角色（SDK）",
-            "key": "doc:tutorials/management/access-control/cluster-roles-sdk"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/access-control/cluster-privileges",
-            "label": "权限与权限组",
-            "key": "doc:tutorials/management/access-control/cluster-privileges"
+            "id": "tutorials/management/access-control/manage-platform-roles",
+            "label": "管理平台角色",
+            "key": "doc:tutorials/management/access-control/manage-platform-roles"
           },
           {
             "type": "category",
-            "label": "SCIM Provisioning",
-            "key": "category:tutorials/management/access-control/scim-provisioning",
-            "items": []
+            "label": "管理集群角色",
+            "key": "category:tutorials/management/access-control/manage-cluster-roles",
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/management/access-control/manage-cluster-roles/cluster-roles",
+                "label": "管理集群角色（控制台）",
+                "key": "doc:tutorials/management/access-control/manage-cluster-roles/cluster-roles"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk",
+                "label": "管理集群角色（SDK）",
+                "key": "doc:tutorials/management/access-control/manage-cluster-roles/cluster-roles-sdk"
+              }
+            ]
+          },
+          {
+            "type": "category",
+            "label": "权限参考",
+            "key": "category:tutorials/management/access-control/privilege-reference",
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/management/access-control/privilege-reference/platform-privileges",
+                "label": "平台权限",
+                "key": "doc:tutorials/management/access-control/privilege-reference/platform-privileges"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/access-control/privilege-reference/cluster-privileges",
+                "label": "集群权限与权限组",
+                "key": "doc:tutorials/management/access-control/privilege-reference/cluster-privileges"
+              }
+            ]
           }
         ]
       },
@@ -1634,6 +1664,24 @@ module.exports = [
       },
       {
         "type": "category",
+        "label": "慢查询日志",
+        "key": "category:tutorials/management/slow-logs",
+        "items": []
+      },
+      {
+        "type": "doc",
+        "id": "tutorials/management/configure-slow-logs",
+        "label": "配置慢日志",
+        "key": "doc:tutorials/management/configure-slow-logs"
+      },
+      {
+        "type": "doc",
+        "id": "tutorials/management/slow-log-reference",
+        "label": "慢查询日志参考",
+        "key": "doc:tutorials/management/slow-log-reference"
+      },
+      {
+        "type": "category",
         "label": "用户鉴权",
         "key": "category:tutorials/management/authentication",
         "items": [
@@ -1681,12 +1729,6 @@ module.exports = [
         "label": "私网连接",
         "key": "category:tutorials/management/private-endpoint",
         "items": []
-      },
-      {
-        "type": "doc",
-        "id": "tutorials/management/single-sign-on-with-okta",
-        "label": "使用 Okta 配置 SSO",
-        "key": "doc:tutorials/management/single-sign-on-with-okta"
       },
       {
         "type": "category",

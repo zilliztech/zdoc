@@ -10,7 +10,7 @@ notebook: FALSE
 description: "如果您手动删除集群或因试用结束等原因而自动删除的所有集群，其对应的数据备份会进入 Zilliz Cloud 回收站，并提供 30 天的宽限期，后续您可以使用这些备份数据恢复到新集群。 | BYOC"
 type: origin
 token: FgDZw6JJuiICETkqrqHckN4pneb
-sidebar_position: 3
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

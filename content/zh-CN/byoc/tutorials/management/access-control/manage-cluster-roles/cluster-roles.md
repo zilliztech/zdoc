@@ -10,7 +10,7 @@ notebook: FALSE
 description: "集群角色定义了用户在集群中的权限。具体而言，集群角色控制集群用户在集群、Database 和 Collection 层级的权限。 | BYOC"
 type: origin
 token: A1MewOIxbi6Lq3kmiFkcqVt7nZf
-sidebar_position: 6
+sidebar_position: 1
 displayed_sidebar: default
 
 ---

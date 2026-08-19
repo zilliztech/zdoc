@@ -10,7 +10,7 @@ notebook: FALSE
 description: "组织管理员具备管理组织设置的权限。 | BYOC"
 type: origin
 token: AkYpwsObJihszLkXBz6ca0XDnOc
-sidebar_position: 2
+sidebar_position: 1
 displayed_sidebar: default
 
 ---

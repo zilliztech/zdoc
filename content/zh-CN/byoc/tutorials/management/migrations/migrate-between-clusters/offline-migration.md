@@ -90,7 +90,7 @@ import Supademo from '@site/src/components/Supademo';
 
 以下演示完整离线迁移流程：
 
-<Supademo id="cmpz7gcz8akutqmy76zc00wpe" title=""  />
+<Supademo id="cmsyc9uzm0ml7qmlarl3wv66c" title=""  />
 
 <Admonition type="info" icon="📘" title="说明">
 

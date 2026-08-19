@@ -7,9 +7,9 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud 采用基于角色的访问控制（RBAC）来实现精细化的资源访问控制。RBAC 是一种安全措施，它将权限授予角色而不是直接授予用户。这些角色包含对资源的特定权限，然后将这些角色授予用户，从而实现用户访问控制的高效管理。 | BYOC"
+description: "Zilliz Cloud 实现基于角色的访问控制（RBAC），用于精细控制对 Zilliz Cloud 中资源的访问。RBAC 是一种安全措施，它将权限授予角色，而不是直接授予用户。这些角色包含针对资源的特定权限，然后再授予用户，从而高效管理用户访问控制。 | BYOC"
 type: origin
-token: APGCw9vhAiVHW2kDqtcceEdmn0b
+token: HA7nwc7s2i1mmDkdT62cAyZxnwb
 sidebar_position: 1
 displayed_sidebar: default
 
@@ -22,61 +22,71 @@ import Procedures from '@site/src/components/Procedures';
 
 # 访问控制概览
 
-Zilliz Cloud 采用基于角色的访问控制（RBAC）来实现精细化的资源访问控制。RBAC 是一种安全措施，它将权限授予角色而不是直接授予用户。这些角色包含对资源的特定权限，然后将这些角色授予用户，从而实现用户访问控制的高效管理。
+Zilliz Cloud 实现基于角色的访问控制（RBAC），用于精细控制对 Zilliz Cloud 中资源的访问。RBAC 是一种安全措施，它将权限授予角色，而不是直接授予用户。这些角色包含针对资源的特定权限，然后再授予用户，从而高效管理用户访问控制。
 
-![BULSwuXe8haUhsbns9OcCi3pnig](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/BULSwuXe8haUhsbns9OcCi3pnig.png)
+Zilliz Cloud 访问控制模型包含三个层级：
 
-## Zilliz Cloud RBAC 架构\{#zilliz-cloud-rbac}
+- **组织级**：管理组织成员身份、组织角色、账单访问权限。
 
-![JxEJw4kZvhzYiobUlAzcRxb0n9c](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/JxEJw4kZvhzYiobUlAzcRxb0n9c.png)
+- **项目级**：管理项目成员身份、项目角色以及对项目资源（例如集群）的访问。
 
-Zilliz Cloud 将资源分布在控制面（Control Plane）和数据面（Data Plane）上，并通过 RBAC 实现对控制面和数据面的访问控制。
+- **集群级**：管理数据库用户、集群角色以及数据库、Collection 和其他集群资源的数据平面权限。
 
-- **控制面**：控制面包括组织、项目和集群管理。[账号用户](./email-accounts)被授予特定的组织和项目角色，并在与控制面资源交互时通过 [API 密钥](./manage-api-keys)进行身份验证。
+这些层级协同工作，但不会彼此替代。用户可以登录组织，但不一定有权访问项目。项目成员可以管理项目资源，但不一定自动拥有集群内的所有数据库权限。集群用户可以搜索或插入数据，但不一定是组织管理员。
 
-- **数据面**：数据面包括集群、Database 和 Collection，主要负责数据访问管理。[集群用户](./cluster-users)被授予集群角色，并在与数平面资源交互时使用 [API 密钥](./manage-api-keys)或[用户名-密码对](./cluster-credentials)进行身份验证。
+## 访问控制如何组织\{#how-access-control-is-organized}
 
-通常情况下，一个账号用户对应一个集群用户。然而，并非所有用户都需要同时访问控制面和数据面的资源。例如账单管理员这样的用户只需要控制面的访问权限，从而管理账单和支付方式，而不需要数据面的访问权限。此外，您还可以创建临时的集群用户并通过自定义 API 密钥授予其数据面资源的访问权限。这样一来，集群用户无需注册账号即可临时访问数据。有关管理自定义 API 密钥的详细信息，请参考 [API 密钥](./manage-api-keys)。
+Zilliz Cloud 将访问控制分为**平台访问**（控制平面）和**数据访问**（数据平面）。
 
-## 角色和权限\{#roles-and-privileges}
+![EKV5w8TgGh2zZnbnKErc9AyHnQf](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/EKV5w8TgGh2zZnbnKErc9AyHnQf.png)
 
-账号用户被授予组织角色和项目角色，集群用户被授予控制集群、Database 和 Collection 访问权限的集群角色。下图展示了 Zilliz Cloud 中角色的层级结构。
+- **平台访问**控制 Zilliz Cloud 控制台和控制平面 API 中的组织级和项目级操作，例如邀请成员、管理账单、创建项目、配置集群以及管理项目级权限。
 
-![OWHmwuJkrhnNDMbBW0ycXBPBngb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/OWHmwuJkrhnNDMbBW0ycXBPBngb.png)
+- **数据访问**控制集群内的操作，例如创建集群用户、创建集群角色、授予权限、创建 Collection、构建索引、插入数据、搜索、查询和删除数据。
 
-- **组织层级**
+这种分离有助于团队为每项职责授予所需的最小访问权限。例如，财务同事可能需要账单访问权限，但不需要集群数据访问权限。开发者可能需要访问一个项目和一个集群，但不需要组织管理权限。
 
-    - 组织管理员角色包含所有项目和集群权限。
+## 组织级访问\{#organization-level-access}
 
-    有关组织角色的详情，请参考[管理组织用户](./organization-users)。
+组织是 Zilliz Cloud 账号访问的顶层边界。
 
-- **项目层级**
+以下是在 Zilliz Cloud 中实现组织级 RBAC 的工作流。
 
-    - 项目管理员角色包含某个项目的所有管理权限以及项目下资源的管理权限。
+<Procedures>
 
-    - 项目编辑者角色包含查看某个项目及项目下所有资源的管理权限。
+1. [邀请组织成员](./manage-platform-users#invite-organization-users)。
 
-    - 项目查看者角色包含查看某个项目及项目下所有资源的只读权限。
+1. 向成员或组[分配预定义组织角色](./manage-platform-roles#predefined-organization-roles)。每个组织角色都包含一组预定义权限，用于确定被分配的成员可以在组织级执行哪些操作。组织成员会自动继承角色中包含的权限。
 
-    有关项目角色的详情，请参考[管理项目用户](./project-users)。
+</Procedures>
 
-- **集群层级**
+## 项目级访问\{#project-level-access}
 
-    - 集群 Admin 角色包含某个集群的所有管理权限。
+项目是组织云资源（例如集群）和项目特定访问策略的主要边界。项目级访问控制谁可以在项目中工作，以及他们可以对项目资源执行哪些操作。
 
-    - 集群 Read-Write 角色包含查看某个集群及在集群下 Collection 进行读写操作的权限。
+以下是在 Zilliz Cloud 中实现项目级 RBAC 的工作流。
 
-    - 集群 Read-Only 角色包含查看集群及集群下 Collection 的只读权限。
+<Procedures>
 
-    - 除上述 3 个内置角色外，您还可以 [创建自定义角色](./cluster-roles#create-a custom-cluster-role) 更精准地控制集群资源（Database、Collection）的访问权限。
+1. [创建自定义项目角色](./manage-platform-roles#create-a-custom-project-role)或使用[预定义项目角色](./manage-platform-roles#predefined-project-roles)。每个项目角色都包含一组预定义权限，用于确定被分配的成员可以在项目级执行哪些操作。
 
-    有关集群角色的详情，请参考[管理集群角色（控制台）](./cluster-roles)。
+1. 邀请项目[成员](./manage-platform-users#invite-project-users)，并将项目角色分配给用户。项目成员会自动继承角色中包含的权限。
 
-## 在 Zilliz Cloud 中实现 RBAC\{#implement-rbac-in-zilliz-cloud}
+</Procedures>
 
-下图展示了在 Zilliz Cloud 中实现 RBAC 的完整流程。
+## 集群级访问\{#cluster-level-access}
 
-![CXKvwad3shWWz9bwczCcwtqvnAg](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/CXKvwad3shWWz9bwczCcwtqvnAg.png)
+集群级访问控制集群内的数据平面权限。它使用集群用户、集群角色、权限和权限组。
+
+该层级很重要，因为项目访问和集群数据访问回答的是不同问题：
+
+- 项目访问回答：“此账号用户是否可以使用该项目及其云资源？”
+
+- 集群访问回答：“此集群用户是否可以对此数据库、Collection 或集群资源执行此操作？”
+
+下图展示了在 Zilliz Cloud 中实现 RBAC 的完整工作流。
+
+![XFE3wJ7oYhO7d2bi9HucoFgHnfc](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/XFE3wJ7oYhO7d2bi9HucoFgHnfc.png)
 
 <Procedures>
 
@@ -91,4 +101,80 @@ Zilliz Cloud 将资源分布在控制面（Control Plane）和数据面（Data P
 1. **为用户授予角色**：将包含特定权限的角色授予用户，使用户具备相应的角色权限。单个角色可同时授予多个用户。您可以通过[ Web 控制台](./cluster-users#edit-the-role-of-a-cluster-user)或 [SDK](./cluster-users-sdk#grant-a-role-to-a-user) 完成此操作。
 
 </Procedures>
+
+## 如何确定有效访问权限\{#how-effective-access-is-determined}
+
+用户的有效访问权限是其从所有适用分配中获得的最终权限集。
+
+在实践中：
+
+- 组织角色决定用户可以在组织级执行哪些操作。
+
+- 项目角色决定用户可以在特定项目内执行哪些操作。
+
+- 集群角色决定集群用户可以在特定集群内执行哪些操作。
+
+如果用户从多个来源获得访问权限，Zilliz Cloud 应评估合并后的权限。
+
+## 访问模式示例\{#example-access-patterns}
+
+- **财务用户**财务同事需要管理发票，但不需要访问项目资源或集群数据。
+
+    - 邀请用户加入组织。
+
+    - 分配**组织账单管理员**角色。
+
+    - 除非用户还需要项目访问权限，否则不要分配项目角色。
+
+    - 除非用户还需要数据平面访问权限，否则不要创建集群用户。
+
+- **项目所有者**团队负责人拥有一个项目，并需要管理用户、角色、集群和项目资源。
+
+    - 确保用户是组织成员。
+
+    - 邀请用户加入目标项目。
+
+    - 为该项目分配**项目管理员**角色。
+
+    - 仅当用户还需要连接到集群并执行数据平面操作时，才授予集群级访问权限。
+
+**应用程序写入者**
+
+应用程序需要在生产集群中插入和更新向量，但不应管理组织或项目设置。
+
+- 创建或识别生产集群所在的项目。
+
+- 仅为应用程序凭证所有者分配所需的最小项目级访问权限。
+
+- 为应用程序创建集群用户。
+
+- 创建或选择一个对所需数据库或 Collection 具有写入权限的集群角色。
+
+- 将该集群角色授予集群用户。
+
+**只读分析师**
+
+分析师需要检查或查询数据，但不应修改资源。
+
+- 邀请用户加入目标项目。
+
+- 分配 **Data Viewer** 角色，或分配具有只读访问权限的自定义项目角色。
+
+- 如果需要直接集群访问，请创建集群用户，并分配只读集群角色或限制为所需 Collection 的自定义集群角色。
+
+## 最佳实践\{#best-practices}
+
+- 仅向少数管理员授予**组织管理员**角色。
+
+- 将 **Public** 用作只需要登录组织的用户的默认基线。
+
+- 使用项目角色在不同团队之间划分项目职责。
+
+- 当内置角色比实际工作职责更宽泛时，创建自定义项目角色。
+
+- 使用集群角色管理数据平面权限，尤其是在访问必须限制到特定数据库或 Collection 时。
+
+- 尽可能将人员访问与应用程序访问分离。
+
+- 将移除过期用户作为定期访问审查的一部分。
 

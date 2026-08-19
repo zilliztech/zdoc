@@ -10,7 +10,7 @@ notebook: FALSE
 description: "单点登录（SSO）允许您通过使用单一登录凭证便捷地访问 Zilliz Cloud 控制台，而无需注册单独的 Zilliz Cloud 账户。SSO 功能可以简化用户访问，并通过集中身份验证来加强安全性。Zilliz Cloud 的 SSO 功能在组织层面运作，支持 SAML 2.0](https//en.wikipedia.org/wiki/SAML2.0) 协议。通过与 [Okta 集成，您可以使用 Okta 凭据登录并访问 Zilliz Cloud。 | BYOC"
 type: origin
 token: BRygwmdMOiyW0Ckd439cJwR6nHf
-sidebar_position: 14
+sidebar_position: 4
 displayed_sidebar: default
 
 ---

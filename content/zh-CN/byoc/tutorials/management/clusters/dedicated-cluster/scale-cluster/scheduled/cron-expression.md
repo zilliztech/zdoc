@@ -1,5 +1,5 @@
 ---
-title: "了解 Cron 表达式 | Cloud"
+title: "了解 Cron 表达式 | BYOC"
 slug: /cron-expression
 sidebar_label: "Cron 表达式"
 beta: FALSE
@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Cron 表达式定义定时扩缩容任务的运行时间。Zilliz Cloud 使用标准五字段 Unix cron 格式，粒度为分钟。Cron 计划会按您选择的时区进行评估。 | Cloud"
+description: "Cron 表达式定义定时扩缩容任务的运行时间。Zilliz Cloud 使用标准五字段 Unix cron 格式，粒度为分钟。Cron 计划会按您选择的时区进行评估。 | BYOC"
 type: origin
 token: Tzvkw65P7iBWjoktlQvcAE8Ynwk
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

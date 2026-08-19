@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的所有历史和异步数据任务整合在一起。 | Cloud"
 type: origin
 token: YtLLwrOl0in7OqkdMpPc4ZkxnVd
-sidebar_position: 3
+sidebar_position: 2
 displayed_sidebar: default
 
 ---

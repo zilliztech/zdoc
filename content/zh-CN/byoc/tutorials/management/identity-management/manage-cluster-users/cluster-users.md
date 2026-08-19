@@ -1,5 +1,5 @@
 ---
-title: "管理集群用户（控制台） | Cloud"
+title: "管理集群用户（控制台） | BYOC"
 slug: /cluster-users
 sidebar_label: "管理集群用户（控制台）"
 beta: FALSE
@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "在 Zilliz Cloud 中，您可以创建集群用户并为其分配集群角色以定义权限，从而实现数据安全。 | Cloud"
+description: "在 Zilliz Cloud 中，您可以创建集群用户并为其分配集群角色以定义权限，从而实现数据安全。 | BYOC"
 type: origin
 token: KKSvwII0Ni7CQ7khuiBcU1gYnQc
-sidebar_position: 4
+sidebar_position: 1
 displayed_sidebar: default
 
 ---
@@ -25,12 +25,6 @@ import Admonition from '@theme/Admonition';
 在创建集群时，会自动生成一个名为 `db_admin` 的默认用户，该用户不可删除。除了这个默认用户之外，您还可以创建更多的集群用户以实现更精细的访问控制。 
 
 如需管理集群用户，您的角色必须为**组织管理员**、**项目管理员**或拥有 **Cluster_Admin** 权限的角色。
-
-<Admonition type="info" icon="📘" title="说明">
-
-此功能仅限 **Dedicated** 集群使用。
-
-</Admonition>
 
 ## 创建集群用户\{#create-a-cluster-user}
 
