@@ -44,6 +44,8 @@ If you need to enable the global cluster feature for an existing cluster, see [M
 
 - Currently, this feature is available in all AWS regions and in the Google Cloud us-central1 and us-east4 regions. To create a global cluster in Google Cloud regions, [contact us](http://support.zilliz.com).
 
+- Global clusters are compatible only with Milvus 2.6.x.
+
 ## Create a global cluster\{#create-a-global-cluster}
 
 - **Via web console**

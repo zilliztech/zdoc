@@ -179,6 +179,12 @@ To try the latest preview features, you need to upgrade the compatible Milvus ve
 
 If you need to convert an existing Dedicated cluster to a [global cluster](./global-cluster-explained), follow the steps below.
 
+<Admonition type="info" icon="📘" title="Note">
+
+Global clusters are compatible only with Milvus 2.6.x. You cannot convert a regular cluster that is compatible with Milvus 3.0.x to a global cluster.
+
+</Admonition>
+
 <Supademo id="cmm5p53sh3hogdtfhemesjhv0" title=""  />
 
 ## Drop\{#drop}
