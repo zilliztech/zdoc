@@ -62,7 +62,7 @@ jobs:
       media_upload_mode: ${{ steps.refs.outputs.media_upload_mode }}
       selected_group: ${{ steps.refs.outputs.selected_group }}
       retention_days: ${{ steps.refs.outputs.retention_days }}
-      sdk_groups: ${{ steps.sdk_groups.outputs.groups }}
+      selected_sdk_groups: ${{ steps.sdk_groups.outputs.groups }}
       publication_selection_artifact_name: ${{ steps.publication_selection.outputs.artifact_name }}
       publication_selection_sha256: ${{ steps.publication_selection.outputs.selection_sha256 }}
       card_id: ${{ steps.card.outputs.card_id }}
@@ -135,8 +135,10 @@ jobs:
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - id: sdk_groups
-        name: Compute SDK reference producer matrix
-        run: echo "groups=$(node scripts/docs-workflow/print-workflow-groups.js --sdk-groups-json)" >> "$GITHUB_OUTPUT"
+        name: Compute selected SDK reference producer matrix
+        env:
+          SELECTED_GROUP: ${{ steps.refs.outputs.selected_group }}
+        run: echo "groups=$(node scripts/docs-workflow/print-workflow-groups.js --selected-sdk-groups-json "$SELECTED_GROUP")" >> "$GITHUB_OUTPUT"
       - name: Validate selected publication groups
         env:
           SELECTED_GROUP: ${{ steps.refs.outputs.selected_group }}
@@ -340,10 +342,9 @@ jobs:
   produce_sdk_reference:
     needs: prepare
     name: produce_${{ matrix.group }}
-    if: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, matrix.group) }}
     strategy:
       matrix:
-        group: ${{ fromJSON(needs.prepare.outputs.sdk_groups) }}
+        group: ${{ fromJSON(needs.prepare.outputs.selected_sdk_groups) }}
     uses: ./.github/workflows/_fetch-content-group.yml
     with:
       site: en

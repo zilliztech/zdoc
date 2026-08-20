@@ -143,7 +143,7 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
 
   const sdkMatrix = workflow.jobs.produce_sdk_reference
   assert.equal(sdkMatrix.name, 'produce_${{ matrix.group }}')
-  assert.equal(sdkMatrix.strategy.matrix.group, '${{ fromJSON(needs.prepare.outputs.sdk_groups) }}')
+  assert.equal(sdkMatrix.strategy.matrix.group, '${{ fromJSON(needs.prepare.outputs.selected_sdk_groups) }}')
   assert.equal(sdkMatrix.with.group, '${{ matrix.group }}')
   assert.equal(sdkMatrix.with.publication_unit_key, 'source/${{ matrix.group }}')
   assert.equal(sdkMatrix.with.site, 'en')
