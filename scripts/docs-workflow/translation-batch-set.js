@@ -219,6 +219,27 @@ function assertGuidesSourceAuthority({ sourceRepository, sourceCheckpointSha, ta
   return true
 }
 
+function resolveAuthorityCheckpoint({ repository, sourceCheckpointSha, targetBaselineSha }) {
+  repository = assertRealDirectory(repository, 'repository')
+  assertCommit(repository, sourceCheckpointSha, 'source checkpoint SHA')
+  assertCommit(repository, targetBaselineSha, 'target baseline SHA')
+  try { git(repository, ['merge-base', '--is-ancestor', sourceCheckpointSha, targetBaselineSha]) }
+  catch { throw new Error('Source checkpoint SHA is not an ancestor of the queue-owned target baseline') }
+  const targetIdentity = authorityIdentityFromCommit(repository, targetBaselineSha)
+  if (canonical(authorityIdentityFromCommit(repository, sourceCheckpointSha)) === canonical(targetIdentity)) {
+    return sourceCheckpointSha
+  }
+  const candidates = git(repository, ['rev-list', '--first-parent', '--reverse', sourceCheckpointSha + '..' + targetBaselineSha]).trim().split('\n').filter(Boolean)
+  for (let index = candidates.length - 1; index >= 0; index -= 1) {
+    const candidate = candidates[index]
+    if (candidate === targetBaselineSha) continue
+    let identity
+    try { identity = authorityIdentityFromCommit(repository, candidate) } catch { continue }
+    if (canonical(identity) === canonical(targetIdentity)) return candidate
+  }
+  throw new Error('No commit between the source checkpoint and target baseline preserves the current source authority identity; manual confirmation required')
+}
+
 function isMutablePath(relative) {
   return MUTABLE_ROOTS.some(root => relative === root || relative.startsWith(`${root}/`))
 }
@@ -612,8 +633,10 @@ if (require.main === module) {
 }
 
 module.exports = {
+  SOURCE_AUTHORITY,
   assertGuidesSourceAuthority,
   composeTranslationBatchSetLatestTip,
   normalizedBaselineIdentity,
   planTranslationBatchSet,
+  resolveAuthorityCheckpoint,
 }

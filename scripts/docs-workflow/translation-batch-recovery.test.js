@@ -78,6 +78,7 @@ function dependencies(options, overrides = {}) {
     head() { return options.masterSha },
     ancestor(_repository, parent, child) { return parent === options.expectedTargetSha && child === options.stagedSha },
     assertGuidesSourceAuthority() { calls.push('authority') },
+    resolveSourceCheckpoint(_repository, sourceCheckpointSha) { calls.push('resolve-source-checkpoint'); return sourceCheckpointSha },
     prepareValidationWorktree() { calls.push('prepare-validation'); return '/validation' },
     removeValidationWorktree() { calls.push('remove-validation') },
     restore() { calls.push('restore') },
@@ -224,6 +225,7 @@ test('default Git fetch and validation worktree paths operate against a local ba
   const options = realGitFixture()
   const result = await recoverGuidesTranslation(options, {
     assertGuidesSourceAuthority() {},
+    resolveSourceCheckpoint() { return options.sourceCheckpointSha },
     restore() {},
     validate() {},
   })
@@ -237,6 +239,7 @@ test('real validation failure leaves target unchanged and retained staging ref e
   const options = realGitFixture()
   await assert.rejects(() => recoverGuidesTranslation(options, {
     assertGuidesSourceAuthority() {},
+    resolveSourceCheckpoint() { return options.sourceCheckpointSha },
     restore() {},
     validate() { throw new Error('real validation failure') },
   }), /real validation failure.*candidate retained/)
@@ -252,6 +255,7 @@ test('real target advance promotes a recreated candidate descending from the cur
   const recoverySha = pushCommit(options, currentTargetSha, recoveryRef, 'recreated.md', 'recreated\n')
   const result = await recoverGuidesTranslation(options, {
     assertGuidesSourceAuthority() {},
+    resolveSourceCheckpoint() { return options.sourceCheckpointSha },
     async recreateCandidate(values) {
       assert.equal(values.currentTargetSha, currentTargetSha)
       git(values.repository, 'fetch', 'origin', recoveryRef)
@@ -271,6 +275,7 @@ test('real promotion race retains the exact candidate and does not overwrite the
   let racedSha = null
   await assert.rejects(() => recoverGuidesTranslation(options, {
     assertGuidesSourceAuthority() {},
+    resolveSourceCheckpoint() { return options.sourceCheckpointSha },
     restore() {},
     validate() {},
     promoteStaging(values) {
@@ -287,6 +292,7 @@ test('real cleanup lease race reports debt after publication and preserves the r
   const laterSha = pushCommit(options, options.stagedSha, 'refs/heads/later-candidate', 'later.md', 'later\n')
   const result = await recoverGuidesTranslation(options, {
     assertGuidesSourceAuthority() {},
+    resolveSourceCheckpoint() { return options.sourceCheckpointSha },
     restore() {},
     validate() {},
     deleteStagingWithLease(values) {
@@ -307,7 +313,7 @@ test('real recovery tolerates shell metacharacters in paths and ignores hostile 
   process.env.GIT_CONFIG_KEY_0 = `url.${path.join(options.root, 'missing.git')}.insteadOf`
   process.env.GIT_CONFIG_VALUE_0 = options.remote
   try {
-    const result = await recoverGuidesTranslation(options, { assertGuidesSourceAuthority() {}, restore() {}, validate() {} })
+    const result = await recoverGuidesTranslation(options, { assertGuidesSourceAuthority() {}, resolveSourceCheckpoint() { return options.sourceCheckpointSha }, restore() {}, validate() {} })
     assert.equal(result.status, 'published')
   } finally {
     for (const [key, value] of [['GIT_CONFIG_COUNT', saved.count], ['GIT_CONFIG_KEY_0', saved.key], ['GIT_CONFIG_VALUE_0', saved.value]]) {
@@ -463,4 +469,37 @@ test('target descendant containing staged SHA is authenticated then reconciled w
   assert.equal(result.publishedSha, descendant)
   assert.equal(deps.calls.includes('authority'), true)
   assert.equal(deps.calls.includes('promote'), false)
+})
+
+
+
+test('forwarded source checkpoint drives the current-target authority check', async () => {
+  const options = fixture(), forwarded = SHA('e')
+  const deps = dependencies(options, {
+    remoteRefSha(_repository, ref) { return options.stagedSha },
+    resolveSourceCheckpoint() { deps.calls.push('resolve-forwarded'); return forwarded },
+    assertGuidesSourceAuthority({ expectedTargetSha }) { deps.calls.push('authority:' + expectedTargetSha) },
+  })
+  const result = await recoverGuidesTranslation(options, deps.values)
+  assert.equal(result.status, 'published')
+  assert.ok(deps.calls.includes('resolve-forwarded'))
+  assert.ok(deps.calls.includes('authority:' + options.stagedSha))
+})
+
+test('recreateCandidate receives the forwarded source checkpoint and rewritten manifest', async () => {
+  const options = fixture(), forwarded = SHA('e'), target = SHA('9')
+  const file = path.join(options.trustedRoot, 'pairs.json')
+  const manifest = { schemaVersion: 1, group: 'guides', sourceCheckpointSha: options.sourceCheckpointSha, expectedTargetSha: options.expectedTargetSha, pairs: [{ artifactDir: '/a', baselineDir: '/b' }] }
+  writePrivateJson(file, manifest); options.pairsManifest = file
+  const deps = dependencies(options, {
+    remoteRefSha(_repository, ref) { return ref === REF ? options.stagedSha : target },
+    resolveSourceCheckpoint() { return forwarded },
+    assertGuidesSourceAuthority({ expectedTargetSha }) { deps.calls.push('authority:' + expectedTargetSha) },
+    async recreateCandidate(values) {
+      deps.calls.push('recreate:' + values.sourceCheckpointSha + ':' + values.pairsManifestData.sourceCheckpointSha)
+      return { noChanges: false, stagingRef: 'refs/heads/docs-translation-staging/guides/12-3-eeeeeeeeeeee', stagedSha: SHA('f') }
+    },
+  })
+  await recoverGuidesTranslation(options, deps.values)
+  assert.ok(deps.calls.includes('recreate:' + forwarded + ':' + forwarded))
 })
