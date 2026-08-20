@@ -27,6 +27,12 @@ if (process.argv[2] === '--check') {
       throw new Error(relativePath + ' is stale; run pnpm generate:reference-presentation')
     }
   }
+  const pathFiltersPath = path.join(repositoryRoot, 'deploy/contracts/path-filters.json')
+  const pathFilters = JSON.parse(fs.readFileSync(pathFiltersPath, 'utf8'))
+  const drift = referencePresentation.validatePathFiltersReferenceSidebars(pathFilters, referencePresentation.referenceSidebarPaths())
+  if (drift.length > 0) {
+    throw new Error('deploy/contracts/path-filters.json reference sidebar drift: ' + drift.join('; '))
+  }
 } else {
   for (const [relativePath, bytes] of outputs) {
     const absolutePath = path.join(repositoryRoot, relativePath)
@@ -34,4 +40,3 @@ if (process.argv[2] === '--check') {
     fs.writeFileSync(absolutePath, bytes)
   }
 }
-

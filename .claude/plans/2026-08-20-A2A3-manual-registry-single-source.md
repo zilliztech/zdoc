@@ -303,3 +303,10 @@ node --test scripts/sdk-reference-workflow.test.js
 - 验证：typecheck ✅；受影响 node:test 145+ ✅；test:workflow-policy 99 ✅。
 - 运行时验证缺口同前：需一次真实 GitHub Actions 试运行（publish=false）确认矩阵+多选行为。
 
+
+### 剩余 A3 三项处理结论（2026-08-20 第五段）
+
+1. _translate-content-group.yml 参数固化评估：**无需改动**。该 reusable workflow 的 group/target 全部为 workflow_call 输入，无逐手册硬编码列表（grep 无 python/java/node/...）；translate-codex.yml 的 SDK 翻译本身已是矩阵（translate:${{ matrix.target }}/${{ matrix.group }}）。仅有的 group 相关值（并发 1/2/4、chunk 8000/12000 vs 16000/24000）是"组类型"策略旋钮，与新增手册无关。
+2. path-filters.json：**新增漂移检查**（referencePresentation.ts 的 referenceSidebarPaths() + validatePathFiltersReferenceSidebars()，并入 generate-reference-presentation.js --check，site-validation 已覆盖）。path-filters 本身是静态 deploy 契约，不做全量生成；检查会拦截新增手册后未同步 reference sidebar 路径的漂移。新增 referencePresentation.test.ts（3 tests）。
+3. restore-generated-state.sh：**保持固定，记录为有意例外**。它有显式契约测试 "source preserves the fixed restore path list exactly"，且其路径列表大部分是静态仓库布局（docs/i18n/content/...，仅 8/24 条是 sidebar）；脚本在临时 git 仓库中被测试实际执行，必须自包含（同 selection.js 约束）。
+

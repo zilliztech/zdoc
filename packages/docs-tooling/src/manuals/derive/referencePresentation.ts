@@ -96,6 +96,48 @@ export function docsUiReferenceTargets(): Readonly<{
   return {kinds, aliases, navigation};
 }
 
+export function referenceSidebarPaths(): readonly string[] {
+  return Object.freeze(
+    orderedBy('en').map(({presentation}) => `generated/en/sidebars/${presentation.sidebar}.sidebar.js`),
+  );
+}
+
+// Verifies the committed deploy/contracts/path-filters.json still carries the
+// registry-derived English reference sidebar paths. path-filters.json is a
+// mostly-static deploy contract, so this is a drift check rather than a
+// full-file generator.
+export function validatePathFiltersReferenceSidebars(pathFilters: unknown, expected: readonly string[]): string[] {
+  const problems: string[] = [];
+  const rules = pathFilters && typeof pathFilters === 'object' && !Array.isArray(pathFilters)
+    ? (pathFilters as {rules?: unknown}).rules
+    : null;
+  if (!rules || typeof rules !== 'object' || Array.isArray(rules)) {
+    return ['path-filters.json rules is missing'];
+  }
+  const canonical = (rules as {canonicalEnglishReference?: {include?: unknown}}).canonicalEnglishReference?.include;
+  const siteOwned = (rules as {['siteOwned.en']?: {exclude?: unknown}})['siteOwned.en']?.exclude;
+  const guideSidebar = 'generated/en/sidebars/guides.sidebar.js';
+  for (const [label, entries, allowed] of [
+    ['canonicalEnglishReference.include', canonical, new Set(expected)],
+    ['siteOwned.en.exclude', siteOwned, new Set([guideSidebar, ...expected])],
+  ] as const) {
+    if (!Array.isArray(entries) || entries.some(entry => typeof entry !== 'string')) {
+      problems.push(`${label} is not a string array`);
+      continue;
+    }
+    const strings = entries as string[];
+    for (const path of expected) {
+      if (!strings.includes(path)) problems.push(`${label} is missing ${path}`);
+    }
+    for (const entry of strings) {
+      if (entry.startsWith('generated/en/sidebars/') && entry.endsWith('.sidebar.js') && !allowed.has(entry)) {
+        problems.push(`${label} contains stale ${entry}`);
+      }
+    }
+  }
+  return problems;
+}
+
 export function generateReferenceNavigationJson(): string {
   return `${JSON.stringify({schemaVersion: 1, targets: referenceNavTargets()}, null, 2)}\n`;
 }
