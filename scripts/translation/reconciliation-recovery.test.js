@@ -255,3 +255,41 @@ test('stops on unknown remote state without replay', () => {
     remoteState: 'unknown',
   }), error => error.code === 'REMOTE_STATE_UNKNOWN')
 })
+
+
+test('rejects a source checkpoint change without explicit authorization', () => {
+  const previous = plan({operations: [], sourceCheckpointSha: 'c'.repeat(40)})
+  const current = plan({operations: [], sourceCheckpointSha: 'e'.repeat(40)})
+  assert.throws(() => validateRecoveryReconciliationEvidence({
+    selected: selected({sourceCheckpointSha: 'e'.repeat(40)}),
+    previousPlan: previous,
+    currentPlan: current,
+    previousResult: result(previous),
+  }), /previous reconciliation plan identity/i)
+})
+
+test('allows a source checkpoint change when the baseline matches and authorization is explicit', () => {
+  const previous = plan({operations: [operation()], sourceCheckpointSha: 'c'.repeat(40)})
+  const current = plan({operations: [operation()], sourceCheckpointSha: 'e'.repeat(40)})
+  const evidence = validateRecoveryReconciliationEvidence({
+    selected: selected({sourceCheckpointSha: 'e'.repeat(40)}),
+    previousPlan: previous,
+    currentPlan: current,
+    previousResult: result(previous),
+  }, {allowBaselineChange: true, allowSourceCheckpointChange: true})
+  assert.equal(evidence.previous.sourceCheckpointSha, 'c'.repeat(40))
+  assert.equal(evidence.current.sourceCheckpointSha, 'e'.repeat(40))
+})
+
+test('evaluateReconciliationRecovery classifies a source checkpoint change with matching baseline as reusable', () => {
+  const previous = plan({operations: [operation()], sourceCheckpointSha: 'c'.repeat(40)})
+  const current = plan({operations: [operation()], sourceCheckpointSha: 'e'.repeat(40)})
+  const evaluation = evaluateReconciliationRecovery({
+    selected: selected({sourceCheckpointSha: 'e'.repeat(40)}),
+    previousPlan: previous,
+    currentPlan: current,
+    previousResult: result(previous),
+    allowSourceCheckpointChange: true,
+  })
+  assert.equal(evaluation.classification.counts.reusable, 1)
+})
