@@ -279,3 +279,15 @@ node --test scripts/sdk-reference-workflow.test.js
 - 新增 derive/reconciliationPolicy.ts + scripts/generate-reconciliation-policy.js（pnpm generate/check:reconciliation-policy），生成 config/translation/reconciliation-policy.json（组键 + preservedRoots 全派生）；已重新生成并加入 site-validation.yml。
 - 剩余项更新：restore-generated-state.sh 因测试在临时 git 仓库中实际执行脚本、需保持自包含（同 selection.js 约束）；path-filters.json 为静态 deploy 契约（仅 6 个 reference sidebar 路径需随新增手册更新）；fetch-docs.yml 矩阵与 _translate-content-group.yml 为 GitHub Actions 最高风险项，未本地验证。
 
+
+### fetch-docs.yml produce_* 矩阵化（2026-08-20 第三段，提交 83529e76d）
+
+- prepare 新增 sdk_groups 输出（node scripts/docs-workflow/print-workflow-groups.js --sdk-groups-json）。
+- 6 个 produce_python/java/node/go/cli/rest job 收敛为单个 produce_sdk_reference matrix job（name: produce_${{ matrix.group }}，矩阵来自 prepare.sdk_groups）。
+  - 矩阵实例的 GitHub job 名仍为 produce_<group>，FIFO 调度器契约不变（producerJob 名称未改）。
+- reconciliation_preflight：needs 改为 [prepare, produce_guides, produce_zh_guides, produce_sdk_reference]；producer 校验改为 GitHub API（新增 scripts/docs-workflow/validate-reconciliation-producers.js，复用 createPublicationGitHubClient）；checkpoint 下载步骤的 needed 组集合改为从 print-workflow-groups.js --groups-json 派生。
+- 测试更新：validate-workflow-policy.test.js（matrix 断言）、sdk-reference-workflow.test.js（matrix 断言）；新增 validate-reconciliation-producers.test.js（2 tests）。
+- 验证：yaml 可解析；test:workflow-policy 99 ✅；scheduler/github-client/producer 校验 35 ✅；typecheck ✅。
+- **运行时验证缺口**：GitHub Actions 行为（matrix 展开、selected_group 过滤、协调器对 matrix job 名的匹配）无法本地跑，需一次 publish=false 试运行确认。
+- 已知 GitHub 限制：workflow_dispatch 的 group options（fetch-docs.yml 第 8 行）与 prepare 的 case（第 118 行）是静态列表，新增手册时需手工补一项（无法从 registry 派生）。
+
