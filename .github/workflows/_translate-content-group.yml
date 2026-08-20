@@ -365,6 +365,7 @@ jobs:
           TRANSLATION_CONCURRENCY: ${{ inputs.group == 'guides' && '1' || inputs.target == 'zh-CN-reference' && '2' || '4' }}
           TRANSLATION_CHUNK_TARGET_CHARS: ${{ inputs.group == 'guides' && '8000' || '16000' }}
           TRANSLATION_CHUNK_MAX_CHARS: ${{ inputs.group == 'guides' && '12000' || '24000' }}
+          TRANSLATION_FILE_TIMEOUT_MS: "3600000"
       - name: Create per-file recovery artifact
         if: ${{ always() && inputs.should_translate && steps.manifest.outputs.count != '0' }}
         run: |

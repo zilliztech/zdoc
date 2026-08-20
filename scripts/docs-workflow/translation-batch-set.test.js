@@ -16,6 +16,7 @@ const {
   assertGuidesSourceAuthority,
   normalizedBaselineIdentity,
   planTranslationBatchSet,
+  resolveAuthorityCheckpoint,
 } = require('./translation-batch-set')
 
 const MASTER_SHA = 'a'.repeat(40)
@@ -680,4 +681,48 @@ test('CLI rejects unsafe and symlinked inputs or outputs and preserves existing 
   result = runCli(fixture, badManifest, output, runnerTemp)
   assert.notEqual(result.status, 0)
   assert.equal(fs.readFileSync(output, 'utf8'), 'sentinel\n')
+})
+
+test('resolveAuthorityCheckpoint forwards to the newest ancestor preserving the target source authority', async () => {
+  const root = await fsp.realpath(await fsp.mkdtemp(path.join(os.tmpdir(), 'authority-checkpoint-')))
+  const repo = path.join(root, 'repo')
+  git(root, 'init', repo)
+  git(repo, 'config', 'user.name', 'Batch Set Test')
+  git(repo, 'config', 'user.email', 'batch-set@example.com')
+  const authority = {
+    'content/en/guides/tutorials/a.md': '# A\n',
+    'content/en/byoc/tutorials/b.md': '# B\n',
+    'generated/en/sidebars/guides.sidebar.js': 'module.exports = []\n',
+    'generated/en/sidebars/guides-byoc.sidebar.js': 'module.exports = []\n',
+    'packages/docs-tooling/src/lark/meta/snapshots/guides-uat-last-success.json': '{"ok":true}\n',
+    'packages/docs-tooling/src/lark/meta/assembly/guides.json': '{"version":1}\n',
+  }
+  const nonAuthority = {
+    'content/en/reference/api/python/unrelated.md': '# unrelated\n',
+  }
+  for (const [relative, bytes] of Object.entries({...authority, ...nonAuthority})) write(repo, relative, bytes)
+  git(repo, 'add', '.')
+  git(repo, 'commit', '-m', 'base')
+  const base = git(repo, 'rev-parse', 'HEAD')
+
+  write(repo, 'packages/docs-tooling/src/lark/meta/assembly/guides.json', '{"version":2}\n')
+  git(repo, 'add', '.')
+  git(repo, 'commit', '-m', 'authority change A')
+  const a = git(repo, 'rev-parse', 'HEAD')
+
+  write(repo, 'content/en/reference/api/python/unrelated.md', '# unrelated changed\n')
+  git(repo, 'add', '.')
+  git(repo, 'commit', '-m', 'non-authority change B')
+  const b = git(repo, 'rev-parse', 'HEAD')
+
+  assert.equal(resolveAuthorityCheckpoint({repository: repo, sourceCheckpointSha: a, targetBaselineSha: b}), a)
+  assert.equal(resolveAuthorityCheckpoint({repository: repo, sourceCheckpointSha: base, targetBaselineSha: base}), base)
+  assert.equal(resolveAuthorityCheckpoint({repository: repo, sourceCheckpointSha: base, targetBaselineSha: b}), a)
+  assert.throws(() => resolveAuthorityCheckpoint({repository: repo, sourceCheckpointSha: base, targetBaselineSha: a}), /No commit|manual confirmation/i)
+  git(repo, 'checkout', '--detach', base)
+  write(repo, 'content/en/reference/api/python/divergent.md', '# divergent\n')
+  git(repo, 'add', '.')
+  git(repo, 'commit', '-m', 'divergent')
+  const divergent = git(repo, 'rev-parse', 'HEAD')
+  assert.throws(() => resolveAuthorityCheckpoint({repository: repo, sourceCheckpointSha: divergent, targetBaselineSha: b}), /ancestor/i)
 })
