@@ -291,3 +291,15 @@ node --test scripts/sdk-reference-workflow.test.js
 - **运行时验证缺口**：GitHub Actions 行为（matrix 展开、selected_group 过滤、协调器对 matrix job 名的匹配）无法本地跑，需一次 publish=false 试运行确认。
 - 已知 GitHub 限制：workflow_dispatch 的 group options（fetch-docs.yml 第 8 行）与 prepare 的 case（第 118 行）是静态列表，新增手册时需手工补一项（无法从 registry 派生）。
 
+
+### fetch-docs 多组选择输入（2026-08-20 第四段，提交 cdc435a22）
+
+- workflow_dispatch 的 group 由单选 choice 改为自由文本 string（all | guides | 逗号分隔子集），description 列出合法可选项。
+- workflowUnits.ts 新增 parseSelectedGroups()（registry 派生校验）；print-workflow-groups.js 新增 --validate-groups（非法输入 exit 2）。
+- prepare 增加组校验步骤（install 后调用 --validate-groups）；refs 的 case 允许逗号列表。
+- selection / results / barrier / monitor-docs-progress / build-aggregate-input / report-live-card 均改为解析多组。
+- guides 相关 job 与 CARD_EXPECT_* 条件改为 contains(selected_group, 'guides')；SDK 矩阵 if 改为 contains(selected_group, matrix.group)。
+- 测试更新：selection（java,node / guides,python 多选）、build-aggregate（多组行）、workflow-policy（CARD_EXPECT contains）。
+- 验证：typecheck ✅；受影响 node:test 145+ ✅；test:workflow-policy 99 ✅。
+- 运行时验证缺口同前：需一次真实 GitHub Actions 试运行（publish=false）确认矩阵+多选行为。
+
