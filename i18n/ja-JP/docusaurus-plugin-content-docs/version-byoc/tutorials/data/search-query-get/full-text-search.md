@@ -35,7 +35,7 @@ BM25関連性スコアリングを使用するこの機能は、特定の検索�
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>全文検索をセマンティックベースの密ベクトル検索と統合することで、検索結果の精度と関連性を向上させることができます。詳細については、<a href="./hybrid-search">ハイブリッド検索</a>を参照してください。</p>
+全文検索をセマンティックベースの密ベクトル検索と統合することで、検索結果の精度と関連性を向上させることができます。詳細については、[ハイブリッド検索](./hybrid-search)を参照してください。
 
 </Admonition>
 
@@ -241,6 +241,28 @@ export schema='{
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+#include "milvus/MilvusClientV2.h"
+
+auto client = milvus::MilvusClientV2::Create();
+
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "YOUR_CLUSTER_TOKEN"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+milvus::CollectionSchemaPtr schema = std::make_shared<milvus::CollectionSchema>();
+schema->AddField({"id", milvus::DataType::INT64, "", true, true});
+schema->AddField(milvus::FieldSchema("text", milvus::DataType::VARCHAR).WithMaxLength(1000).EnableAnalyzer(true));
+schema->AddField(milvus::FieldSchema("sparse", milvus::DataType::SPARSE_FLOAT_VECTOR));
+
+```
+
+</TabItem>
 </Tabs>
 
 上記の設定において、
@@ -360,6 +382,17 @@ export schema='{
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::FunctionPtr function = std::make_shared<milvus::Function>("text_bm25_emb", milvus::FunctionType::BM25);
+function->AddInputFieldName("text");
+function->AddOutputFieldName("sparse");
+schema->AddFunction(function);
+```
+
+</TabItem>
 </Tabs>
 
 <table>
@@ -387,7 +420,7 @@ export schema='{
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>複数の <code>VARCHAR</code> フィールドに対して BM25 処理が必要な場合は、各フィールドごとに<strong>1つの BM25 関数を定義</strong>し、それぞれに一意の名前と出力フィールドを設定してください。</p>
+複数の `VARCHAR` フィールドに対して BM25 処理が必要な場合は、各フィールドごとに**1つの BM25 関数を定義**し、それぞれに一意の名前と出力フィールドを設定してください。
 
 </Admonition>
 
@@ -482,6 +515,17 @@ export indexParams='[
 ```
 
 </TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto index_params = milvus::IndexDesc("sparse", "", milvus::IndxType::SPARSE_INVERTED_INDEX, milvus::MetricType::BM25);
+index_params.AddExtraParam("inverted_index_algo", "DAAT_MAXSCORE");
+index_params.AddExtraParam("bm25_k1", "1.2");
+index_params.AddExtraParam("bm25_b", "0.75");
+```
+
+</TabItem>
 </Tabs>
 
 <table>
@@ -515,7 +559,7 @@ export indexParams='[
    </tr>
    <tr>
      <td><p><code>params.bm25_b</code></p></td>
-     <td><p>文書長の正規化の程度を制御します。通常は 0 から 1 の間の値が使用され、一般的なデフォルト値は約 0.75 です。1 の場合、長さの正規化は行われず、0 の場合、完全に正規化されます。</p></td>
+     <td><p>文書長の正規化の程度を制御します。通常は 0 から 1 の間の値が使用され、デフォルト値は 0.75 です。0 の場合、長さの正規化は行われず、1 の場合、完全に正規化されます。</p></td>
    </tr>
 </table>
 
@@ -593,6 +637,20 @@ curl --request POST \
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto status = client->CreateCollection(milvus::CreateCollectionRequest()
+                                    .WithCollectionName("my_collection")
+                                    .WithCollectionSchema(schema))
+                                    .AddIndex(std::move(index_params));
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -676,6 +734,27 @@ curl --request POST \
     "collectionName": "my_collection"
 }'
 
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+milvus::EntityRows data = {
+    {{"text", "information retrieval is a field of study."}},
+    {{"text", "information retrieval focuses on finding relevant information in large datasets."}},
+    {{"text", "data mining and information retrieval overlap in research."}}
+};
+
+milvus::InsertResponse response;
+auto status = client->Insert(milvus::InsertRequest()
+                                .WithCollectionName("my_collection")
+                                .WithRowsData(std::move(data))
+                                , response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
@@ -792,6 +871,25 @@ curl --request POST \
         "params":{}
     }
 }'
+```
+
+</TabItem>
+
+<TabItem value='c++'>
+
+```c++
+auto request = milvus::SearchRequest()
+                       .WithCollectionName("my_collection")
+                       .AddEmbeddedText("whats the focus of information retrieval?")
+                       .WithLimit(3)
+                       .WithAnnsField("sparse")
+                       .AddOutputField("text");
+
+milvus::SearchResponse response;
+auto status = client->Search(request, response);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
 ```
 
 </TabItem>
