@@ -32,10 +32,13 @@ function validateRecoveryReconciliationEvidence({previousPlan, currentPlan, prev
   const previous = validateReconciliationPlan(previousPlan)
   const current = validateReconciliationPlan(currentPlan)
   const toolingCompatible = previous.toolingSha === identity.toolingSha || previous.policyId === current.policyId
+  const sourceCheckpointCompatible = options.allowSourceCheckpointChange
+    ? previous.sourceBaselineSha === identity.sourceBaselineSha
+    : previous.sourceCheckpointSha === identity.sourceCheckpointSha
   if (previous.target !== identity.target || previous.group !== identity.group ||
       !toolingCompatible ||
       previous.sourceBaselineSha !== identity.sourceBaselineSha ||
-      previous.sourceCheckpointSha !== identity.sourceCheckpointSha) {
+      !sourceCheckpointCompatible) {
     throw new Error('Previous reconciliation plan identity does not match the recovery unit')
   }
   if (!options.allowBaselineChange && previous.targetBaselineSha !== identity.targetBaselineSha) {
@@ -58,6 +61,7 @@ function validateRecoveryReconciliationEvidence({previousPlan, currentPlan, prev
 function classifyReconciliationRecovery(input) {
   const {previous, current, result, approvalReceipts} = validateRecoveryReconciliationEvidence(input, {
     allowBaselineChange: true,
+    allowSourceCheckpointChange: input.allowSourceCheckpointChange,
   })
   const previousById = new Map(previous.operations.map(operation => [operation.operationId, operation]))
   const previousByIdentity = new Map(previous.operations.map(operation => [operationIdentity(operation), operation]))
@@ -135,7 +139,7 @@ function validateRecoveryTargetTransition(value) {
 
 function evaluateReconciliationRecovery(input) {
   const targetTransition = validateRecoveryTargetTransition(input.targetTransition)
-  const evidence = validateRecoveryReconciliationEvidence(input, {allowBaselineChange: true})
+  const evidence = validateRecoveryReconciliationEvidence(input, {allowBaselineChange: true, allowSourceCheckpointChange: input.allowSourceCheckpointChange})
   const baselineChanged = evidence.previous.targetBaselineSha !== input.selected.targetBaselineSha
   let baselineCompatible = !baselineChanged
   if (baselineChanged) {
