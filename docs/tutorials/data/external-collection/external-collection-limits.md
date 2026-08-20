@@ -11,7 +11,7 @@ notebook: FALSE
 description: "Because Zilliz Cloud does not store raw data for external collections and only maintains metadata and mappings to the external data source, external collections are read-only. As a result, you cannot perform write or maintenance operations from the Zilliz Cloud side, including `insert`, `upsert`, `delete`, `import`, `flush`, and `compact`. | Cloud"
 type: origin
 token: P9HuwHZyXilwRTkVoDBcjAMlnrb
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
@@ -37,15 +37,11 @@ Compared with managed collections, external collections have the following limit
 
 - You cannot use partitions. As a result, partition key and  are not supported.
 
-- You cannot define functions in the schema.
-
-- You cannot modify the schema of an external collection after it is created.
-
-- You cannot use text match with BM25.
-
 - To make external data queryable, you must first create an index and then manually trigger `RefreshExternalCollection` so that Zilliz Cloud can build metadata and indexes for the data.
 
 - Backup, restore, and migration are currently not supported for external collections.
+
+- You can create an external collection only in an on-demand compute database. Support for creating external collections in serving Dedicated clusters is coming soon.
 
 The following table compares the operations supported by external collections and managed collections in detail.
 
@@ -53,7 +49,7 @@ The following table compares the operations supported by external collections an
    <tr>
      <th colspan="2"></th>
      <th><p><strong>Managed Collection</strong></p><p>(Serving Cluster)</p></th>
-     <th><p><strong>External Collection</strong></p><p>(Serving Cluster or Databases for On-Demand Compute)</p></th>
+     <th><p><strong>External Collection</strong></p><p>(Databases for On-Demand Compute)</p></th>
      <th><p><strong>Managed Collection</strong></p><p>(On-Demand Compute Database)</p></th>
    </tr>
    <tr>
@@ -139,7 +135,7 @@ The following table compares the operations supported by external collections an
      <td rowspan="2"><p><strong>Schema</strong></p></td>
      <td><p><strong>AddField</strong></p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
@@ -283,13 +279,13 @@ The following table compares the operations supported by external collections an
    <tr>
      <td><p><strong>Functions</strong></p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p><strong>Full-text Search/Text Match</strong></p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>

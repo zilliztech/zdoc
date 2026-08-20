@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud は外部コレクションの生データを保存せず、メタデータと外部データソースへのマッピングのみを保持するため、外部コレクションは読み取り専用です。その結果、Zilliz Cloud 側から `insert`、`upsert`、`delete`、`import`、`flush`、`compact` などの書き込みまたはメンテナンス操作を実行することはできません。"
 type: origin
 token: P9HuwHZyXilwRTkVoDBcjAMlnrb
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - ベクトルデータベース
@@ -34,15 +34,11 @@ Zilliz Cloud は外部コレクションの生データを保存せず、メタ�
 
 - パーティションを使用することはできません。その結果、パーティションキーと  | Cloud はサポートされていません。
 
-- スキーマで関数を定義することはできません。
-
-- 外部コレクションの作成後にスキーマを変更することはできません。
-
-- BM25 を使用したテキスト一致を使用することはできません。
-
 - 外部データをクエリ可能にするには、まずインデックスを作成し、次に手動で `RefreshExternalCollection` をトリガーして、Zilliz Cloud がデータのメタデータとインデックスを構築できるようにする必要があります。
 
 - バックアップ、リストア、および移行は、現在、外部コレクションではサポートされていません。
+
+- 外部コレクションを作成できるのは、On-Demand Compute データベースでのみです。Serving Dedicated クラスタでの外部コレクションの作成サポートは近日中に提供予定です。
 
 以下の表は、外部コレクションとマネージドコレクションがサポートする操作を詳細に比較しています。
 
@@ -50,7 +46,7 @@ Zilliz Cloud は外部コレクションの生データを保存せず、メタ�
    <tr>
      <th colspan="2"></th>
      <th><p><strong>マネージドコレクション</strong></p><p>(Serving クラスタ)</p></th>
-     <th><p><strong>外部コレクション</strong></p><p>(Serving クラスタまたは On-Demand Compute 用データベース)</p></th>
+     <th><p><strong>外部コレクション</strong></p><p>(On-Demand Compute 用データベース)</p></th>
      <th><p><strong>マネージドコレクション</strong></p><p>(On-Demand Compute データベース)</p></th>
    </tr>
    <tr>
@@ -136,7 +132,7 @@ Zilliz Cloud は外部コレクションの生データを保存せず、メタ�
      <td rowspan="2"><p><strong>スキーマ</strong></p></td>
      <td><p><strong>AddField</strong></p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
@@ -280,13 +276,13 @@ Zilliz Cloud は外部コレクションの生データを保存せず、メタ�
    <tr>
      <td><p><strong>関数</strong></p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
      <td><p><strong>全文検索/テキスト一致</strong></p></td>
      <td><p>✅</p></td>
-     <td><p>❌</p></td>
+     <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
