@@ -4,8 +4,7 @@
 const { execFileSync } = require('node:child_process')
 const fs = require('node:fs')
 const path = require('node:path')
-const { assertGuidesSourceAuthority } = require('./translation-batch-set')
-const { planTranslationBatchSet } = require('./translation-batch-set')
+const { assertGuidesSourceAuthority, planTranslationBatchSet, resolveAuthorityCheckpoint } = require('./translation-batch-set')
 const { deterministicStagingRef, promoteStaging, deleteStagingWithLease } = require('./translation-staging')
 const { applyPhase, bindPublisherBatchIdentity, createInitialPublisherState, pushPhase } = require('./translation-staging-publisher')
 
@@ -105,6 +104,7 @@ async function recreateCandidate(options, dependencies = {}) {
 async function recoverGuidesTranslation(options, dependencies = {}) {
   const deps = {
     assertGuidesSourceAuthority,
+    resolveSourceCheckpoint(repository, sourceCheckpointSha, targetBaselineSha) { return resolveAuthorityCheckpoint({ repository, sourceCheckpointSha, targetBaselineSha }) },
     promoteStaging,
     deleteStagingWithLease,
     recreateCandidate,
@@ -140,7 +140,8 @@ async function recoverGuidesTranslation(options, dependencies = {}) {
     deps.fetch(repository, options.sourceCheckpointSha)
     const currentTargetSha = deps.remoteRefSha(repository, `refs/heads/${options.targetBranch}`)
     if (deps.head(repository) !== options.masterSha) throw new Error('recovery tooling checkout is not pinned to master SHA')
-    deps.assertGuidesSourceAuthority({ sourceRepository: repository, sourceCheckpointSha: options.sourceCheckpointSha, targetRepository: repository, expectedTargetSha: currentTargetSha })
+    const effectiveSourceCheckpointSha = deps.resolveSourceCheckpoint(repository, options.sourceCheckpointSha, currentTargetSha)
+    deps.assertGuidesSourceAuthority({ sourceRepository: repository, sourceCheckpointSha: effectiveSourceCheckpointSha, targetRepository: repository, expectedTargetSha: currentTargetSha })
     deps.assertGuidesSourceAuthority({ sourceRepository: repository, sourceCheckpointSha: options.sourceCheckpointSha, targetRepository: repository, expectedTargetSha: options.stagedSha })
     if (currentTargetSha === options.stagedSha || deps.ancestor(repository, options.stagedSha, currentTargetSha)) {
       const cleanupDebt = summarizeCleanupDebt([cleanupEntry(deps, repository, stagingRef, options.stagedSha)])
@@ -149,7 +150,7 @@ async function recoverGuidesTranslation(options, dependencies = {}) {
     let candidate = { stagingRef, stagedSha: options.stagedSha, expectedTargetSha: options.expectedTargetSha }
     if (currentTargetSha !== options.expectedTargetSha) {
       deps.beforeRecreateCandidate?.({ pairsManifest: options.pairsManifest })
-      candidate = await deps.recreateCandidate({ ...options, repository, trustedRoot, currentTargetSha })
+      candidate = await deps.recreateCandidate({ ...options, repository, trustedRoot, currentTargetSha, sourceCheckpointSha: effectiveSourceCheckpointSha, pairsManifestData: pairsManifestData && { ...pairsManifestData, sourceCheckpointSha: effectiveSourceCheckpointSha } })
       if (candidate.noChanges) {
         const cleanupDebt = summarizeCleanupDebt([cleanupEntry(deps, repository, stagingRef, options.stagedSha)])
         return Object.freeze({ status: 'no_changes', publishedSha: currentTargetSha, stagingRef: null, cleanupDebt })
@@ -157,7 +158,7 @@ async function recoverGuidesTranslation(options, dependencies = {}) {
       retainedRecoveryRef = candidate.stagingRef
       candidate.expectedTargetSha = currentTargetSha
     } else if (!deps.ancestor(repository, options.expectedTargetSha, options.stagedSha)) throw new Error('retained staging SHA does not descend from expected target SHA')
-    if (candidate.stagedSha !== options.stagedSha) deps.assertGuidesSourceAuthority({ sourceRepository: repository, sourceCheckpointSha: options.sourceCheckpointSha, targetRepository: repository, expectedTargetSha: candidate.stagedSha })
+    if (candidate.stagedSha !== options.stagedSha) deps.assertGuidesSourceAuthority({ sourceRepository: repository, sourceCheckpointSha: effectiveSourceCheckpointSha, targetRepository: repository, expectedTargetSha: candidate.stagedSha })
     const validationWorktree = path.join(trustedRoot, 'recovery-validation-worktree')
     const validationRepository = deps.prepareValidationWorktree(repository, options.masterSha, validationWorktree)
     try {

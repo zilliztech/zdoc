@@ -737,3 +737,43 @@ test('rejects symlinks and duplicate recovery file identities', t => {
   writeJson(root, 'manifest.json', manifest)
   assert.throws(() => validateDownloadedArtifactTree(root), /duplicate/i)
 })
+
+
+test('applies source checkpoint overrides for guides in the recovery handoff', () => {
+  const selected = selection()
+  const scoped = selected.units.filter(unit => unit.target + '/' + unit.group !== 'zh-CN-reference/rest')
+  const handoff = buildRecoveryHandoff(selected, SHA('9'), EXECUTION_TOOLING_SHA, scoped, { 'ja-JP/guides': SHA('e') })
+  const guides = handoff.units.find(unit => unit.target === 'ja-JP' && unit.group === 'guides')
+  assert.equal(guides.sourceCheckpointSha, SHA('e'))
+  assert.equal(guides.sourceBaselineSha, SHA('b'))
+  assert.equal(guides.targetBaselineSha, SHA('9'))
+  for (const unit of handoff.units) {
+    if (unit.group !== 'guides') assert.equal(unit.sourceCheckpointSha, SHA('c'))
+  }
+})
+
+test('forwardSourceAuthorityCheckpoints forwards only the guides checkpoint', async t => {
+  const value = fixture(t)
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'forwarded'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: value.client,
+    forwardSourceAuthorityCheckpoints: async (unit, targetBaselineSha) => {
+      assert.equal(targetBaselineSha, SHA('8'))
+      return unit.group === 'guides' ? SHA('e') : unit.sourceCheckpointSha
+    },
+  })
+  const guides = planned.handoff.units.find(unit => unit.target === 'ja-JP' && unit.group === 'guides')
+  assert.equal(guides.sourceCheckpointSha, SHA('e'))
+  for (const unit of planned.handoff.units) {
+    if (unit.group !== 'guides') assert.equal(unit.sourceCheckpointSha, SHA('c'))
+  }
+})
+
+test('forwardSourceAuthorityCheckpoints rejects a non-SHA resolved checkpoint', async t => {
+  const value = fixture(t)
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'bad-forward'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA, client: value.client,
+    forwardSourceAuthorityCheckpoints: async () => 'not-a-sha',
+  }), /must be an exact commit SHA/)
+})

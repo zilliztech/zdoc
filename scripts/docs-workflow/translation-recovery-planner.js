@@ -9,6 +9,7 @@ const path = require('node:path')
 
 const {readPublicationDocument} = require('./publication-contracts')
 const {validateTranslationRecoveryHandoff} = require('./translation-handoff')
+const {resolveAuthorityCheckpoint} = require('./translation-batch-set')
 
 const SHA = /^[0-9a-f]{40}$/u
 const CHECKSUM = /^[0-9a-f]{64}$/u
@@ -166,7 +167,7 @@ async function selectAttempt({client, run, runId, explicitAttempt, artifacts}) {
   throw new Error('No valid terminal Translation run attempt has an unexpired publication selection')
 }
 
-function buildRecoveryHandoff(selection, targetBaselineSha, executionToolingSha = selection.toolingSha, scopedUnits = selection.units) {
+function buildRecoveryHandoff(selection, targetBaselineSha, executionToolingSha = selection.toolingSha, scopedUnits = selection.units, sourceCheckpointShaOverrides = {}) {
   if (!SHA.test(targetBaselineSha || '')) throw new Error('Queue-owned target baseline must be an exact commit SHA')
   if (!SHA.test(executionToolingSha || '')) throw new Error('Recovery execution tooling must be an exact commit SHA')
   if (!Array.isArray(scopedUnits)) throw new Error('Authenticated recovery scope has no recoverable Translation units')
@@ -191,7 +192,7 @@ function buildRecoveryHandoff(selection, targetBaselineSha, executionToolingSha 
       group: unit.group,
       sourceGroup: unit.sourceGroup,
       sourceBaselineSha: unit.sourceBaselineSha,
-      sourceCheckpointSha: unit.sourceCheckpointSha,
+      sourceCheckpointSha: sourceCheckpointShaOverrides[unit.target + '/' + unit.group] || unit.sourceCheckpointSha,
       targetBaselineSha,
       publicationOrder,
     })),
@@ -383,7 +384,7 @@ function canonicalPlan(value) {
   return `${JSON.stringify(value)}\n`
 }
 
-async function planTranslationRecovery({repository, previousRunId, previousRunAttempt = '', outputRoot, targetBaselineSha, targetResolver, executionToolingSha = '', publish = false, client}) {
+async function planTranslationRecovery({repository, previousRunId, previousRunAttempt = '', outputRoot, targetBaselineSha, targetResolver, executionToolingSha = '', publish = false, client, forwardSourceAuthorityCheckpoints}) {
   if (typeof repository !== 'string' || !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u.test(repository)) throw new Error('repository is invalid')
   if (typeof publish !== 'boolean') throw new Error('publish must be a boolean')
   const runId = positiveInteger(previousRunId, 'previous_translation_run_id')
@@ -489,7 +490,16 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
     }
   }
 
-  const handoff = buildRecoveryHandoff(selection, queueOwnedTargetBaselineSha, currentExecutionToolingSha, scopedUnits)
+  const sourceCheckpointShaOverrides = {}
+  if (forwardSourceAuthorityCheckpoints) {
+    for (const unit of scopedUnits) {
+      if (unit.group !== 'guides') continue
+      const resolved = await forwardSourceAuthorityCheckpoints(unit, queueOwnedTargetBaselineSha)
+      if (!SHA.test(resolved || '')) throw new Error(`Forwarded source authority checkpoint for ${unit.target}/${unit.group} must be an exact commit SHA`)
+      if (resolved !== unit.sourceCheckpointSha) sourceCheckpointShaOverrides[unit.target + '/' + unit.group] = resolved
+    }
+  }
+  const handoff = buildRecoveryHandoff(selection, queueOwnedTargetBaselineSha, currentExecutionToolingSha, scopedUnits, sourceCheckpointShaOverrides)
   const publicationEvidence = await authenticatePublicationEvidence({client, selectedAttempt, selection, jobs, run, runId, attemptNumber, root})
 
   const provenance = {
@@ -619,6 +629,11 @@ async function main(argv = process.argv.slice(2), env = process.env) {
     outputRoot: args['--output-root'],
     publish: args['--publish'] === 'true',
     client: createGitHubClient(args['--repository']),
+    forwardSourceAuthorityCheckpoints: (unit, targetBaselineSha) => resolveAuthorityCheckpoint({
+      repository: process.cwd(),
+      sourceCheckpointSha: unit.sourceCheckpointSha,
+      targetBaselineSha,
+    }),
   })
   const outputs = {
     handoff_json: JSON.stringify(result.handoff),
