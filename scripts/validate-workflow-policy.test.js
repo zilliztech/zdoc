@@ -668,7 +668,7 @@ test('workflow policy requires localization inventory freshness before both site
     const file = path.join(directory, 'site-validation.yml')
     const source = fs.readFileSync(file, 'utf8')
     const withEnglishOnly = source.replace(
-      '      - run: pnpm check:localization-input-inventory\n      - run: pnpm check:lark-config\n      - run: pnpm check:reference-presentation\n      - run: pnpm docs-tooling validate-reference --site zh-CN\n      - run: pnpm build:zh-CN',
+      '      - run: pnpm check:localization-input-inventory\n      - run: pnpm check:lark-config\n      - run: pnpm check:reference-presentation\n      - run: pnpm check:reconciliation-policy\n      - run: pnpm docs-tooling validate-reference --site zh-CN\n      - run: pnpm build:zh-CN',
       '      - run: pnpm docs-tooling validate-reference --site zh-CN\n      - run: pnpm build:zh-CN',
     )
     assert.notEqual(withEnglishOnly, source)

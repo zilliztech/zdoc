@@ -102,6 +102,7 @@ jobs:
       - run: pnpm check:localization-input-inventory
       - run: pnpm check:lark-config
       - run: pnpm check:reference-presentation
+      - run: pnpm check:reconciliation-policy
       - run: pnpm build:en
       - name: Require Japanese home output
         run: test -s build/en/ja-JP/docs/home.html
@@ -128,6 +129,7 @@ jobs:
       - run: pnpm check:localization-input-inventory
       - run: pnpm check:lark-config
       - run: pnpm check:reference-presentation
+      - run: pnpm check:reconciliation-policy
       - run: pnpm docs-tooling validate-reference --site zh-CN
       - run: pnpm build:zh-CN
       - name: Verify Chinese Tools release reachability

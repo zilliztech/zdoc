@@ -3,22 +3,194 @@
   "policyId": "translation-reconciliation-2026-08-15-v1",
   "targets": {
     "ja-JP": {
-      "guides": {"mode": "automatic", "automaticKinds": ["delete_target", "remove_navigation_only", "replace_path"], "maxOperations": 1000, "maxPercent": 100, "requiresCompletenessEvidence": false, "preservedRoots": []},
-      "python": {"mode": "automatic", "automaticKinds": ["delete_target", "remove_navigation_only", "replace_path"], "maxOperations": 1000, "maxPercent": 100, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/api/python/python/python.md"]},
-      "java": {"mode": "automatic", "automaticKinds": ["delete_target", "remove_navigation_only", "replace_path"], "maxOperations": 1000, "maxPercent": 100, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/api/java/java/java.md"]},
-      "node": {"mode": "automatic", "automaticKinds": ["delete_target", "remove_navigation_only", "replace_path"], "maxOperations": 1000, "maxPercent": 100, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/api/nodejs/nodejs/nodejs.md"]},
-      "go": {"mode": "automatic", "automaticKinds": ["delete_target", "remove_navigation_only", "replace_path"], "maxOperations": 1000, "maxPercent": 100, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/api/go/go/go.md"]},
-      "cli": {"mode": "automatic", "automaticKinds": ["delete_target", "remove_navigation_only", "replace_path"], "maxOperations": 1000, "maxPercent": 100, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/cli/cli/Overview.md"]},
-      "rest": {"mode": "automatic", "automaticKinds": ["delete_target", "remove_navigation_only", "replace_path"], "maxOperations": 1000, "maxPercent": 100, "requiresCompletenessEvidence": false, "preservedRoots": []}
+      "guides": {
+        "mode": "automatic",
+        "automaticKinds": [
+          "delete_target",
+          "remove_navigation_only",
+          "replace_path"
+        ],
+        "maxOperations": 1000,
+        "maxPercent": 100,
+        "requiresCompletenessEvidence": false,
+        "preservedRoots": []
+      },
+      "python": {
+        "mode": "automatic",
+        "automaticKinds": [
+          "delete_target",
+          "remove_navigation_only",
+          "replace_path"
+        ],
+        "maxOperations": 1000,
+        "maxPercent": 100,
+        "requiresCompletenessEvidence": false,
+        "preservedRoots": [
+          "content/en/reference/api/python/python/python.md"
+        ]
+      },
+      "java": {
+        "mode": "automatic",
+        "automaticKinds": [
+          "delete_target",
+          "remove_navigation_only",
+          "replace_path"
+        ],
+        "maxOperations": 1000,
+        "maxPercent": 100,
+        "requiresCompletenessEvidence": false,
+        "preservedRoots": [
+          "content/en/reference/api/java/java/java.md"
+        ]
+      },
+      "node": {
+        "mode": "automatic",
+        "automaticKinds": [
+          "delete_target",
+          "remove_navigation_only",
+          "replace_path"
+        ],
+        "maxOperations": 1000,
+        "maxPercent": 100,
+        "requiresCompletenessEvidence": false,
+        "preservedRoots": [
+          "content/en/reference/api/nodejs/nodejs/nodejs.md"
+        ]
+      },
+      "go": {
+        "mode": "automatic",
+        "automaticKinds": [
+          "delete_target",
+          "remove_navigation_only",
+          "replace_path"
+        ],
+        "maxOperations": 1000,
+        "maxPercent": 100,
+        "requiresCompletenessEvidence": false,
+        "preservedRoots": [
+          "content/en/reference/api/go/go/go.md"
+        ]
+      },
+      "cli": {
+        "mode": "automatic",
+        "automaticKinds": [
+          "delete_target",
+          "remove_navigation_only",
+          "replace_path"
+        ],
+        "maxOperations": 1000,
+        "maxPercent": 100,
+        "requiresCompletenessEvidence": false,
+        "preservedRoots": [
+          "content/en/reference/cli/cli/Overview.md"
+        ]
+      },
+      "rest": {
+        "mode": "automatic",
+        "automaticKinds": [
+          "delete_target",
+          "remove_navigation_only",
+          "replace_path"
+        ],
+        "maxOperations": 1000,
+        "maxPercent": 100,
+        "requiresCompletenessEvidence": false,
+        "preservedRoots": []
+      }
     },
     "zh-CN-reference": {
-      "python": {"mode": "automatic", "automaticKinds": ["delete_target", "remove_navigation_only", "replace_path"], "maxOperations": 1000, "maxPercent": 100, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/api/python/python/python.md"]},
-      "java": {"mode": "automatic", "automaticKinds": ["delete_target", "remove_navigation_only", "replace_path"], "maxOperations": 1000, "maxPercent": 100, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/api/java/java/java.md"]},
-      "node": {"mode": "automatic", "automaticKinds": ["delete_target", "remove_navigation_only", "replace_path"], "maxOperations": 1000, "maxPercent": 100, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/api/nodejs/nodejs/nodejs.md"]},
-      "go": {"mode": "automatic", "automaticKinds": ["delete_target", "remove_navigation_only", "replace_path"], "maxOperations": 1000, "maxPercent": 100, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/api/go/go/go.md"]},
-      "cli": {"mode": "automatic", "automaticKinds": ["delete_target", "remove_navigation_only", "replace_path"], "maxOperations": 1000, "maxPercent": 100, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/cli/cli/Overview.md"]},
-      "rest": {"mode": "review_required", "automaticKinds": [], "maxOperations": 25, "maxPercent": 10, "requiresCompletenessEvidence": true, "preservedRoots": []},
-      "reference-landings": {"mode": "review_required", "automaticKinds": [], "maxOperations": 5, "maxPercent": 20, "requiresCompletenessEvidence": false, "preservedRoots": ["content/en/reference/api/go/go/go.md", "content/en/reference/api/java/java/java.md", "content/en/reference/api/nodejs/nodejs/nodejs.md", "content/en/reference/api/python/python/python.md", "content/en/reference/cli/cli/Overview.md"]}
+      "python": {
+        "mode": "automatic",
+        "automaticKinds": [
+          "delete_target",
+          "remove_navigation_only",
+          "replace_path"
+        ],
+        "maxOperations": 1000,
+        "maxPercent": 100,
+        "requiresCompletenessEvidence": false,
+        "preservedRoots": [
+          "content/en/reference/api/python/python/python.md"
+        ]
+      },
+      "java": {
+        "mode": "automatic",
+        "automaticKinds": [
+          "delete_target",
+          "remove_navigation_only",
+          "replace_path"
+        ],
+        "maxOperations": 1000,
+        "maxPercent": 100,
+        "requiresCompletenessEvidence": false,
+        "preservedRoots": [
+          "content/en/reference/api/java/java/java.md"
+        ]
+      },
+      "node": {
+        "mode": "automatic",
+        "automaticKinds": [
+          "delete_target",
+          "remove_navigation_only",
+          "replace_path"
+        ],
+        "maxOperations": 1000,
+        "maxPercent": 100,
+        "requiresCompletenessEvidence": false,
+        "preservedRoots": [
+          "content/en/reference/api/nodejs/nodejs/nodejs.md"
+        ]
+      },
+      "go": {
+        "mode": "automatic",
+        "automaticKinds": [
+          "delete_target",
+          "remove_navigation_only",
+          "replace_path"
+        ],
+        "maxOperations": 1000,
+        "maxPercent": 100,
+        "requiresCompletenessEvidence": false,
+        "preservedRoots": [
+          "content/en/reference/api/go/go/go.md"
+        ]
+      },
+      "cli": {
+        "mode": "automatic",
+        "automaticKinds": [
+          "delete_target",
+          "remove_navigation_only",
+          "replace_path"
+        ],
+        "maxOperations": 1000,
+        "maxPercent": 100,
+        "requiresCompletenessEvidence": false,
+        "preservedRoots": [
+          "content/en/reference/cli/cli/Overview.md"
+        ]
+      },
+      "rest": {
+        "mode": "review_required",
+        "automaticKinds": [],
+        "maxOperations": 25,
+        "maxPercent": 10,
+        "requiresCompletenessEvidence": true,
+        "preservedRoots": []
+      },
+      "reference-landings": {
+        "mode": "review_required",
+        "automaticKinds": [],
+        "maxOperations": 5,
+        "maxPercent": 20,
+        "requiresCompletenessEvidence": false,
+        "preservedRoots": [
+          "content/en/reference/api/go/go/go.md",
+          "content/en/reference/api/java/java/java.md",
+          "content/en/reference/api/nodejs/nodejs/nodejs.md",
+          "content/en/reference/api/python/python/python.md",
+          "content/en/reference/cli/cli/Overview.md"
+        ]
+      }
     }
   }
 }

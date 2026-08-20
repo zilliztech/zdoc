@@ -42,7 +42,7 @@ function assertGuidesAssemblySnapshotLifecycle(source) {
 
 test('SDK reference compatibility wrapper invokes content groups in order', () => {
   const fetchScript = fs.readFileSync('scripts/fetch-sdk-reference-docs.sh', 'utf8')
-  assert.match(fetchScript, /for group in python java node go cli rest/)
+  assert.match(fetchScript, /for group in \$\(node scripts\/docs-workflow\/print-workflow-groups\.js --sdk-groups\)/)
   assert.match(fetchScript, /docs-tooling publish-group --site en --group "\$group" --stage fetch/)
   assert.match(fetchScript, /docs-tooling publish-group --site en --group "\$group" --stage validate/)
   assert.match(fetchScript, /docs-tooling publish-group --site en --group "\$group" --stage publish/)
@@ -84,7 +84,7 @@ test('root docs-tooling command uses the shared TypeScript launcher', () => {
 
 test('SDK reference snapshots are updated after successful build', () => {
   const snapshotScript = fs.readFileSync('scripts/update-sdk-reference-snapshots.sh', 'utf8')
-  assert.match(snapshotScript, /groups=\(python java node go cli\)/)
+  assert.match(snapshotScript, /groups=\(\$\(node scripts\/docs-workflow\/print-workflow-groups\.js --sdk-snapshot-groups\)\)/)
   assert.match(snapshotScript, /content-groups\.js/)
   assert.match(snapshotScript, /--manual "\$manual"/)
   assert.match(snapshotScript, /--targets-built zilliz/)

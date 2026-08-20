@@ -1,5 +1,6 @@
 import {manualRegistry} from '../registry.ts';
 import type {SiteId} from '../schema.ts';
+import {activeGeneratorSources} from './shared.ts';
 
 export type FetchUnitDefinition = Readonly<{
   unitKey: string;
@@ -33,6 +34,16 @@ export const FETCH_BUSINESS_ORDER = Object.freeze([
 
 export function sdkGroupIds(): readonly string[] {
   return Object.freeze(referenceManuals().map((manual) => manual.id));
+}
+
+// SDK groups that carry a Lark snapshot source (excludes spec-generated
+// manuals such as rest); used by the SDK snapshot update wrapper.
+export function sdkSnapshotGroupIds(): readonly string[] {
+  return Object.freeze(
+    referenceManuals()
+      .filter((manual) => activeGeneratorSources(manual).some((source) => Boolean(source.generatorManual)))
+      .map((manual) => manual.id),
+  );
 }
 
 export function fetchUnitDefinitions(): readonly FetchUnitDefinition[] {
