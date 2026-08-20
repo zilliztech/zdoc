@@ -122,6 +122,7 @@ function analyzeRecoveryCompatibility({siteDir, manifest, artifacts, promptContr
         publish: reconciliationPublish,
         preflight: reconciliationPreflight,
         remoteState: reconciliationRemoteState,
+        allowSourceCheckpointChange: true,
       })
       reconciliation = evaluation
       if (reconciliationRemoteState === 'unknown') {
