@@ -4,6 +4,7 @@ import path from 'node:path';
 
 import {z} from 'zod';
 
+import {manualRegistry} from '../manuals/registry.ts';
 import {
   assertSafeRepositoryPathChain,
   parseReferenceRetirementRegistry,
@@ -13,17 +14,30 @@ import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from './ow
 
 const requireModule = createRequire(import.meta.url);
 
-const EXPECTED_TARGETS = Object.freeze({
-  python: {sidebar: 'python', sidebarKey: 'pythonSidebar'},
-  java: {sidebar: 'java', sidebarKey: 'javaSidebar'},
-  node: {sidebar: 'node', sidebarKey: 'nodeSidebar'},
-  go: {sidebar: 'go', sidebarKey: 'goSidebar'},
-  rest: {sidebar: 'restful', sidebarKey: 'restfulSidebar'},
-  cli: {sidebar: 'cli', sidebarKey: 'cliSidebar'},
-} as const);
+const referencePresentations = manualRegistry.filter(
+  (manual): manual is typeof manual & {presentation: NonNullable<typeof manual.presentation>} =>
+    manual.kind === 'reference' && manual.presentation !== undefined,
+);
+
+const EXPECTED_TARGETS: Readonly<Record<string, {sidebar: string; sidebarKey: string}>> = Object.freeze(
+  Object.fromEntries(
+    referencePresentations.map(manual => [
+      manual.id,
+      {sidebar: manual.presentation.sidebar, sidebarKey: manual.presentation.sidebarKey},
+    ]),
+  ),
+);
+
+const REFERENCE_MANUAL_IDS = Object.freeze(Object.keys(EXPECTED_TARGETS)) as readonly [string, ...string[]];
+const REFERENCE_SIDEBARS = Object.freeze(
+  referencePresentations.map(manual => manual.presentation.sidebar),
+) as readonly [string, ...string[]];
+const REFERENCE_SIDEBAR_KEYS = Object.freeze(
+  referencePresentations.map(manual => manual.presentation.sidebarKey),
+) as readonly [string, ...string[]];
 
 type Site = 'en' | 'zh-CN';
-type Manual = keyof typeof EXPECTED_TARGETS;
+type Manual = string;
 
 function repositoryRelativePathSchema() {
   return z.string().superRefine((value, context) => {
@@ -36,9 +50,9 @@ function repositoryRelativePathSchema() {
 }
 
 const TargetSchema = z.object({
-  manual: z.enum(['python', 'java', 'node', 'go', 'rest', 'cli']),
-  sidebarKey: z.enum(['pythonSidebar', 'javaSidebar', 'nodeSidebar', 'goSidebar', 'restfulSidebar', 'cliSidebar']),
-  sidebar: z.enum(['python', 'java', 'node', 'go', 'restful', 'cli']),
+  manual: z.enum(REFERENCE_MANUAL_IDS),
+  sidebarKey: z.enum(REFERENCE_SIDEBAR_KEYS),
+  sidebar: z.enum(REFERENCE_SIDEBARS),
   documentIdPrefix: repositoryRelativePathSchema(),
   landingPage: repositoryRelativePathSchema().refine(value => /\.mdx?$/u.test(value), 'Landing page must be a .md or .mdx file'),
   minimumProseCharacters: z.number().int().positive(),
@@ -60,7 +74,7 @@ const TargetSchema = z.object({
 
 const ReferenceNavigationSchema = z.object({
   schemaVersion: z.literal(1),
-  targets: z.array(TargetSchema).length(6),
+  targets: z.array(TargetSchema).length(REFERENCE_MANUAL_IDS.length),
 }).strict().superRefine((config, context) => {
   const manuals = new Set(config.targets.map(target => target.manual));
   for (const manual of Object.keys(EXPECTED_TARGETS) as Manual[]) {

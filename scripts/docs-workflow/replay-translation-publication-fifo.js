@@ -20,6 +20,8 @@ const {buildTranslationPublicationReady, buildTranslationPublicationSelection} =
 const {reconcileTranslationPublication} = require('./translation-publication-reconciliation')
 const {verifyTranslationPublicationRepository} = require('./translation-publication-results')
 const {linkWorkspaceDependencies} = require('./link-workspace-dependencies')
+const {loadTypeScript} = require('../lib/load-typescript')
+const {sdkGroupIds} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
 
 const SHA = /^[0-9a-f]{40}$/u
 const CHECKSUM = /^[0-9a-f]{64}$/u
@@ -843,7 +845,8 @@ function verifyCoordinatorFaultEvidence({fault, evidenceRoot}) {
   }
 
   const guidesUnitKey = 'translation/ja-JP/guides'
-  const isSdk = unitKey => typeof unitKey === 'string' && /^translation\/(?:ja-JP|zh-CN-reference)\/(?:python|java|node|go|cli|rest)$/u.test(unitKey)
+  const isSdk = unitKey => typeof unitKey === 'string' && sdkGroupIds().some(group =>
+    unitKey === `translation/ja-JP/${group}` || unitKey === `translation/zh-CN-reference/${group}`)
   if (fault.scenario === 'sdk-before-guides' || fault.scenario === 'guides-before-sdk') {
     if (results.overallStatus !== 'success' || order.length < 2 || !order.includes(guidesUnitKey) || !order.some(isSdk)) {
       throw new Error(`Fault order evidence is incomplete: ${JSON.stringify({overallStatus: results.overallStatus, orchestratorFailure: results.orchestratorFailure, order})}`)

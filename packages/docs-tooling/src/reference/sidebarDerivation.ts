@@ -2,10 +2,22 @@ import {readdirSync, readFileSync} from 'node:fs';
 import path from 'node:path';
 import {createRequire} from 'node:module';
 
+import {manualRegistry} from '../manuals/registry.ts';
+
 const require = createRequire(import.meta.url);
 const yaml = require('js-yaml') as {load(source: string): unknown};
 
-const REFERENCE_SIDEBARS = Object.freeze(['python', 'java', 'node', 'go', 'restful', 'cli'] as const);
+const referencePresentations = manualRegistry.filter(
+  (manual): manual is typeof manual & {presentation: NonNullable<typeof manual.presentation>} =>
+    manual.kind === 'reference' && manual.presentation !== undefined,
+);
+
+const REFERENCE_SIDEBARS = Object.freeze(
+  referencePresentations
+    .slice()
+    .sort((left, right) => left.presentation.navOrder.en - right.presentation.navOrder.en)
+    .map(manual => manual.presentation.sidebar),
+) as readonly string[];
 const REFERENCE_NAVIGATION_PATH = 'config/reference-navigation.json';
 
 export type SidebarItem = string | Readonly<Record<string, unknown>>;
@@ -19,16 +31,19 @@ type DocumentMetadata = Readonly<{
   hasDocCardList: boolean;
 }>;
 
-type ReferenceSidebarName = typeof REFERENCE_SIDEBARS[number];
+type ReferenceSidebarName = string;
 
 const REFERENCE_SIDEBAR_GROUPS: Readonly<Record<string, readonly ReferenceSidebarName[]>> = Object.freeze({
-  python: ['python'],
-  java: ['java'],
-  node: ['node'],
-  go: ['go'],
-  rest: ['restful'],
-  cli: ['cli'],
-  'reference-landings': ['python', 'java', 'node', 'go', 'cli'],
+  ...Object.fromEntries(
+    referencePresentations.map(manual => [manual.id, Object.freeze([manual.presentation.sidebar])]),
+  ),
+  'reference-landings': Object.freeze(
+    referencePresentations
+      .slice()
+      .sort((left, right) => left.presentation.navOrder.en - right.presentation.navOrder.en)
+      .filter(manual => manual.presentation.referenceKind !== 'restful')
+      .map(manual => manual.presentation.sidebar),
+  ),
 });
 
 type ReferenceSidebarTarget = Readonly<{

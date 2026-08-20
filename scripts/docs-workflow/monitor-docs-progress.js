@@ -17,20 +17,16 @@ const {
 
 const execFileAsync = promisify(execFile)
 const DEFAULT_CARD_PATCH_TIMEOUT_MS = 30_000
-const ALL_GROUPS = Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'])
-const PUBLICATION_UNITS = Object.freeze({
-  java: ['source/java'],
-  node: ['source/node'],
-  go: ['source/go'],
-  cli: ['source/cli'],
-  rest: ['source/rest'],
-  python: ['source/python'],
-  guides: ['source/guides-en', 'source/guides-zh-CN'],
-})
-const PUBLICATION_UNIT_ORDER = Object.freeze([
-  'source/java', 'source/node', 'source/go', 'source/cli',
-  'source/rest', 'source/python', 'source/guides-en', 'source/guides-zh-CN',
-])
+const {loadTypeScript} = require('../lib/load-typescript')
+const {
+  fetchGroupUnitKeys,
+  fetchUnitKeys,
+  sourcePublicationGroups,
+} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
+
+const ALL_GROUPS = sourcePublicationGroups()
+const PUBLICATION_UNITS = fetchGroupUnitKeys()
+const PUBLICATION_UNIT_ORDER = fetchUnitKeys()
 
 function createDocsToolingCardPatcher({
   repositoryRoot = process.cwd(),

@@ -37,9 +37,7 @@ const guides: Manual = {
     base: site === 'zh-CN' ? 'I6YUb1M0JajHrqsJGcLcZNh7neP:*' : 'Ac7xbs2k1ad7bjsCXr0ccHe9nMh:*',
     sourceType: 'wiki',
     displayedSidebar: 'default',
-    docSourceDir: site === 'zh-CN'
-        ? './packages/docs-tooling/src/lark/meta/sources/guides-zh-CN'
-        : './packages/docs-tooling/src/lark/meta/sources/guides',
+    docSourceDir: site === 'zh-CN' ? './packages/docs-tooling/src/lark/meta/sources/guides-zh-CN' : './packages/docs-tooling/src/lark/meta/sources/guides',
     sidebarPath: `./${guidesStage}/generated/${site}/sidebars/guides.sidebar.js`,
     overridePath: `./sidebar-overrides/${site}/guides.json`,
     contentRoot: `${guidesStage}/content/${site}/guides`,
@@ -63,7 +61,7 @@ const guides: Manual = {
 
 // sdk: python =============================
 
-const python : Manual =  {
+const python: Manual = {
     root: 'PTJzfzI0ulKGjwdUsxQcFxfJn6b',
     base: 'D1VabelmAansLwsNTvLc2Wxxn1g',
     sourceType: 'drive',
@@ -71,18 +69,14 @@ const python : Manual =  {
     displayedSidebar: 'pythonSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/python/v2.4.x',
     targets: {
-        milvus: {
-            outputDir: 'milvus/reference/python/docs/v2.4.x',
-            imageDir: 'milvus/reference/python/images'
-        },
         zilliz: {
             outputDir: `content/${site}/reference/api/python/python`,
             imageDir: 'static/img',
-        }
-    }
+        },
+    },
 }
 
-const pymilvus25 : Manual = {
+const pymilvus25: Manual = {
     root: 'Z1SFf89zYlGHXvdo6dxcR6gXntc',
     base: 'B8X9bJjJta2q4NskclYcxT7lngG',
     sourceType: 'drive',
@@ -91,15 +85,11 @@ const pymilvus25 : Manual = {
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/python/v2.5.x',
     fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/python/v2.4.x',
     targets: {
-        milvus: {
-            outputDir: 'milvus/reference/python/docs/v2.5.x',
-            imageDir: 'milvus/reference/python/images'
-        },
         zilliz: {
             outputDir: `content/${site}/reference/api/python/python`,
             imageDir: 'static/img',
-        }
-    }
+        },
+    },
 }
 
 const pymilvus26: Manual = {
@@ -140,76 +130,45 @@ const pymilvus30: Manual = {
     },
 }
 
-// sdk: java ================================
+// sdk: java ===============================
 
-const javaV1 : Manual = {
-    root: 'D0cfwvTqMiyhSrkCUv4c1a2Fnjd',
-    base: 'A4ivb7y2XaIND9s93QZcvwykn0d',
-    // root: 'wikcnu8oU4VVbRFKKLjDH5aCIIh',
-    // base: 'XJ2RbEDgTakJ80sfUAPcLG4Tnug',
-    sourceType: 'onePager',
-    version: 'v2.4.x',
-    displayedSidebar: 'javaSidebar',
-    docSourceDir: './packages/docs-tooling/src/lark/meta/sources/java/v2.4.x/v1',
-    targets: {
-        milvus: {
-            outputDir: 'milvus/reference/java/docs/v1',
-            imageDir: 'milvus/reference/java/images'
-        },
-        zilliz: {
-            outputDir: `content/${site}/reference/api/java/java/v1`,
-            imageDir: 'static/img',
-        }
-    }
-}
-
-const javaV2 : Manual = {
+const javaV2: Manual = {
     root: 'Sg3EfIgVtlTkeBdtguJchE9ynne',
     base: 'WqHJb3zimaxXjssk4Kic4GEDnte',
-    // root: 'GYfPfBbdglDhh5dzLH3cYaV1nDf',
-    // base: 'Bp72bJ9wEazV1SsA30lcsuJgnfe',
     sourceType: 'drive',
     version: 'v2.4.x',
     displayedSidebar: 'javaSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/java/v2.4.x/v2',
     targets: {
-        milvus: {
-            outputDir: 'milvus/reference/java/docs/v2/v2.4.x',
-            imageDir: 'milvus/reference/java/images'
-        },
         zilliz: {
             outputDir: `content/${site}/reference/api/java/java/v2`,
             imageDir: 'static/img',
-        }
-    }
+        },
+    },
 }
 
-const javaV225 : Manual = {
+const javaV225: Manual = {
     root: 'LJ6MfN5wzlHjz8dB642cjUh8nqq',
     base: 'Hsq1bRcqraeQW0sGFJbcI3YIn3d',
     sourceType: 'drive',
-    displayedSidebar: 'javaSidebar',
     version: 'v2.5.x',
+    displayedSidebar: 'javaSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/java/v2.5.x/v2',
     fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/java/v2.4.x/v2',
     targets: {
-        milvus: {
-            outputDir: 'milvus/reference/java/docs/v2/v2.5.x',
-            imageDir: 'milvus/reference/java/images'
-        },
         zilliz: {
             outputDir: `content/${site}/reference/api/java/java/v2`,
             imageDir: 'static/img',
-        }
-    }
+        },
+    },
 }
 
 const javaV226: Manual = {
     root: 'B1agfRbPglv4tpdTkjlcUMgVnRV',
     base: 'Sbtcbm660abngWsXryKct5nOn2e',
     sourceType: 'drive',
-    displayedSidebar: 'javaSidebar',
     version: 'v2.6.x',
+    displayedSidebar: 'javaSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/java/v2.6.x/v2',
     fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/java/v2.5.x/v2',
     sidebarPath: `generated/${site}/sidebars/java.sidebar.js`,
@@ -227,8 +186,8 @@ const javaV230: Manual = {
     root: 'C4Ckfsx5qlKHbnd5PVrcpxvTn2d',
     base: 'AOFDbSmwma9XrNsLa8KcQgt9ngc',
     sourceType: 'drive',
-    displayedSidebar: 'javaSidebar',
     version: 'v3.0.x',
+    displayedSidebar: 'javaSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/java/v3.0.x/v2',
     fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/java/v2.6.x/v2',
     sidebarPath: `generated/${site}/sidebars/java.sidebar.js`,
@@ -244,7 +203,7 @@ const javaV230: Manual = {
 
 // sdk: node ===============================
 
-const node : Manual = {
+const node: Manual = {
     root: 'Vg1kfluyll0h7MdlUMaciXfEnZd',
     base: 'DVVobtXQMamuLqsQij5c29nVn3c',
     sourceType: 'drive',
@@ -252,18 +211,14 @@ const node : Manual = {
     displayedSidebar: 'nodeSidebar',
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v2.4.x',
     targets: {
-        milvus: {
-            outputDir: 'milvus/reference/node/docs/v2.4.x',
-            imageDir: 'milvus/reference/node/images'
-        },
         zilliz: {
             outputDir: `content/${site}/reference/api/nodejs/nodejs`,
             imageDir: 'static/img',
-        }
-    }
+        },
+    },
 }
 
-const nodejs25 : Manual = {
+const nodejs25: Manual = {
     root: 'U9fWfMPdelsPMydYnolcr2aEnBf',
     base: 'JTBebezMDaV8ZhsHF5wc7lJSnuh',
     sourceType: 'drive',
@@ -272,15 +227,11 @@ const nodejs25 : Manual = {
     docSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v2.5.x',
     fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/node/v2.4.x',
     targets: {
-        milvus: {
-            outputDir: 'milvus/reference/node/docs/v2.5.x',
-            imageDir: 'milvus/reference/node/images'
-        },
         zilliz: {
             outputDir: `content/${site}/reference/api/nodejs/nodejs`,
             imageDir: 'static/img',
-        }
-    }
+        },
+    },
 }
 
 const nodejs26: Manual = {
@@ -323,25 +274,6 @@ const nodejs30: Manual = {
 
 // sdk: go =================================
 
-const gov1 : Manual = {
-    root: 'V0SCw3U3siZBynkKhUCcRRAin69',
-    base: 'WA8rbgtu8aq3wtsBm02cepOznPJ',
-    sourceType: 'wiki',
-    version: 'v2.4.x',
-    displayedSidebar: 'goSidebar',
-    docSourceDir: './packages/docs-tooling/src/lark/meta/sources/go/v2.4.x',
-    targets: {
-        milvus: {
-            outputDir: 'milvus/reference/go/docs/v1',
-            imageDir: 'milvus/reference/go/images'
-        },
-        zilliz: {
-            outputDir: `content/${site}/reference/api/go/go/v1`,
-            imageDir: 'static/img',
-        }
-    }
-}
-
 const gov226: Manual = {
     root: 'Pzejf3x4WlXq1HdtTndcfMjVnxh',
     base: 'Yc7gbtmgSal2ewsdqlhcLWVanbh',
@@ -379,6 +311,8 @@ const gov230: Manual = {
     },
 }
 
+// sdk: cli ================================
+
 const cliv13: Manual = {
     root: 'QBLKf6CCPloK0cddw6gcXUZqnob',
     base: 'Rr4lbWr8baQj5psICV9cEFa2nYe',
@@ -397,7 +331,7 @@ const cliv13: Manual = {
     },
 }
 
-const cliv14 : Manual = {
+const cliv14: Manual = {
     root: 'LF1Kf54jFllUBydVk7hcha30nUh',
     base: 'Lx1bbCdpMaSmJXs8wz5cjsDengf',
     sourceType: 'drive',
@@ -412,8 +346,8 @@ const cliv14 : Manual = {
         zilliz: {
             outputDir: `content/${site}/reference/cli/cli`,
             imageDir: 'static/img',
-        }
-    }
+        },
+    },
 }
 
 export default {
@@ -422,7 +356,6 @@ export default {
     pymilvus25,
     pymilvus26,
     pymilvus30,
-    javaV1,
     javaV2,
     javaV225,
     javaV226,
@@ -431,9 +364,8 @@ export default {
     nodejs25,
     nodejs26,
     nodejs30,
-    gov1,
     gov226,
     gov230,
     cliv13,
-    cliv14
+    cliv14,
 }

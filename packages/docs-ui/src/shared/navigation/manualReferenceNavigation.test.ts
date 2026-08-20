@@ -13,8 +13,8 @@ describe('getManualReferenceNavigation', () => {
     expect(navigation.targets.map(target => [target.kind, target.label])).toEqual([
       ['python', 'Python'],
       ['java', 'Java'],
-      ['go', 'Go'],
       ['nodejs', 'Node.js'],
+      ['go', 'Go'],
       ['restful', 'RESTful API'],
       ['cli', 'CLI'],
     ]);
@@ -49,8 +49,8 @@ describe('getManualReferenceNavigation', () => {
     expect(navigation.targets.map(target => [target.kind, target.label])).toEqual([
       ['python', 'Python SDK'],
       ['java', 'Java SDK'],
-      ['go', 'Go SDK'],
       ['nodejs', 'Node.js SDK'],
+      ['go', 'Go SDK'],
       ['restful', 'RESTful API'],
       ['cli', 'Zilliz CLI'],
     ]);

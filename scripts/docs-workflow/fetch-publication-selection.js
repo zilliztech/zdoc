@@ -3,6 +3,7 @@
 
 const crypto = require('node:crypto')
 const fs = require('node:fs')
+const { loadTypeScript } = require('../lib/load-typescript')
 
 const {
   finalizePublicationSelection,
@@ -11,26 +12,19 @@ const {
   writePublicationDocument,
 } = require('./publication-contracts')
 
-const FETCH_UNIT_KEYS = Object.freeze([
-  'source/java', 'source/node', 'source/go', 'source/cli',
-  'source/rest', 'source/python', 'source/guides-en', 'source/guides-zh-CN',
-])
+const { fetchGroupUnitKeys, fetchUnitDefinitions, fetchUnitKeys } =
+  loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
 
-const DEFINITIONS = Object.freeze({
-  'source/java': Object.freeze({producerJob: 'produce_java', site: 'en', group: 'java', translationSourceGroup: 'java', commitMessage: 'docs(java): publish SDK reference'}),
-  'source/node': Object.freeze({producerJob: 'produce_node', site: 'en', group: 'node', translationSourceGroup: 'node', commitMessage: 'docs(node): publish SDK reference'}),
-  'source/go': Object.freeze({producerJob: 'produce_go', site: 'en', group: 'go', translationSourceGroup: 'go', commitMessage: 'docs(go): publish SDK reference'}),
-  'source/cli': Object.freeze({producerJob: 'produce_cli', site: 'en', group: 'cli', translationSourceGroup: 'cli', commitMessage: 'docs(cli): publish CLI reference'}),
-  'source/rest': Object.freeze({producerJob: 'produce_rest', site: 'en', group: 'rest', translationSourceGroup: 'rest', commitMessage: 'docs(rest): publish REST reference'}),
-  'source/python': Object.freeze({producerJob: 'produce_python', site: 'en', group: 'python', translationSourceGroup: 'python', commitMessage: 'docs(python): publish SDK reference'}),
-  'source/guides-en': Object.freeze({producerJob: 'produce_guides', site: 'en', group: 'guides', translationSourceGroup: 'guides', commitMessage: 'docs(guides): publish fetched content'}),
-  'source/guides-zh-CN': Object.freeze({producerJob: 'produce_zh_guides', site: 'zh-CN', group: 'guides', translationSourceGroup: null, commitMessage: 'docs(guides): publish fetched content'}),
-})
+const FETCH_UNIT_KEYS = fetchUnitKeys()
+const DEFINITIONS = Object.freeze(Object.fromEntries(
+  fetchUnitDefinitions().map(definition => [definition.unitKey, definition]),
+))
+const FETCH_GROUP_UNIT_KEYS = fetchGroupUnitKeys()
 
 function selectedUnitKeys(selectedGroup) {
   if (selectedGroup === 'all') return FETCH_UNIT_KEYS
-  if (selectedGroup === 'guides') return FETCH_UNIT_KEYS.slice(-2)
-  if (['java', 'node', 'go', 'cli', 'rest', 'python'].includes(selectedGroup)) return [`source/${selectedGroup}`]
+  if (selectedGroup === 'guides') return FETCH_GROUP_UNIT_KEYS.guides
+  if (FETCH_GROUP_UNIT_KEYS[selectedGroup]) return FETCH_GROUP_UNIT_KEYS[selectedGroup]
   throw new Error(`Invalid selected group: ${selectedGroup || '<empty>'}`)
 }
 

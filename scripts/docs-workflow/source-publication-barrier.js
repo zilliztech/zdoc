@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 'use strict';
 
+const {loadTypeScript} = require('../lib/load-typescript');
 const {requireSuccessfulFetchPublication} = require('./fetch-publication-results');
 const {readPublicationDocument} = require('./publication-contracts');
 
-const GROUPS = Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']);
+const {sourcePublicationGroups} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts');
+const GROUPS = sourcePublicationGroups();
 const ACCEPTABLE_STATUSES = new Set(['published', 'no_changes']);
 
 function verifySourcePublicationBarrier({ selectedGroup, results, statuses }) {

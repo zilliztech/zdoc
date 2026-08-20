@@ -1,11 +1,10 @@
 'use strict'
 
+const { loadTypeScript } = require('../lib/load-typescript')
 const {definePublicationWorkflowAdapter} = require('./publication-workflow-adapters')
 
-const FETCH_UNIT_KEYS = Object.freeze([
-  'source/java', 'source/node', 'source/go', 'source/cli',
-  'source/rest', 'source/python', 'source/guides-en', 'source/guides-zh-CN',
-])
+const { fetchUnitKeys } = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
+const FETCH_UNIT_KEYS = fetchUnitKeys()
 const SELECTION_KEYS = [
   'schemaVersion', 'document', 'workflow', 'repository', 'runId', 'runAttempt', 'toolingSha',
   'targetBranch', 'initialTargetSha', 'sourceBaselineSha', 'inputs', 'units', 'selectionSha256',

@@ -209,7 +209,7 @@ test('replay rejects missing units, mixed baselines, tree differences, and impli
     bareRemote: missing.bareRemote,
     evidenceRoot: missing.evidenceRoot,
     dependencies: {},
-  }), /exactly eight/i)
+  }), /exactly 8 checkpoint artifacts/i)
 
   const mixed = fixture(t)
   let preflightCount = 0

@@ -131,6 +131,39 @@ export function validateManualRegistry(input: unknown): ManualDefinition[] {
         throw new Error(`Manual ${manual.id} source ${sourceKey} is dead or unreachable and must be classified retired`);
       }
     }
+
+    if (manual.kind === 'reference' && !manual.presentation) {
+      throw new Error(`Manual ${manual.id} reference kind requires presentation metadata`);
+    }
+    if (manual.kind !== 'reference' && manual.presentation) {
+      throw new Error(`Manual ${manual.id} presentation metadata is only valid for reference manuals`);
+    }
+    if (manual.presentation) {
+      const presentation = manual.presentation;
+      for (const site of ['en', 'zh-CN'] as const) {
+        const publication = manual.publications[site];
+        if (!publication) continue;
+        const sidebarBasename = publication.sidebarPath.split('/').at(-1)?.replace(/\.sidebar\.js$/u, '');
+        if (sidebarBasename !== presentation.sidebar) {
+          throw new Error(`Manual ${manual.id} presentation sidebar must match ${site} publication sidebar basename`);
+        }
+      }
+      const english = manual.publications.en;
+      if (english) {
+        const referenceRoot = 'content/en/reference/';
+        if (!english.outputDir.startsWith(referenceRoot)) {
+          throw new Error(`Manual ${manual.id} English Reference publication must live below content/en/reference`);
+        }
+        const relativeOutputDir = english.outputDir.slice(referenceRoot.length);
+        if (presentation.documentIdPrefix !== relativeOutputDir && !relativeOutputDir.startsWith(`${presentation.documentIdPrefix}/`)) {
+          throw new Error(`Manual ${manual.id} presentation documentIdPrefix must anchor the English publication outputDir`);
+        }
+        const landingId = presentation.landingPage.replace(/\.mdx?$/u, '');
+        if (landingId !== presentation.documentIdPrefix && !landingId.startsWith(`${presentation.documentIdPrefix}/`)) {
+          throw new Error(`Manual ${manual.id} presentation landingPage must stay below documentIdPrefix`);
+        }
+      }
+    }
   }
 
   const entries = publicationEntries(registry);
@@ -235,6 +268,24 @@ const definitions: ManualDefinition[] = [
       en: publication('en', 'english-v1.4', 'reference/cli/cli', 'reference', 'cli', 'zilliz', ['reference/cli/v0.1', 'reference/cli/v1.3'], ['Overview.md']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/cli/cli', 'reference', 'cli', 'zilliz', ['reference/cli/v0.1', 'reference/cli/v1.3']),
     },
+    presentation: {
+      referenceKind: 'cli',
+      sidebar: 'cli',
+      sidebarKey: 'cliSidebar',
+      label: {en: 'CLI', 'zh-CN': 'Zilliz CLI'},
+      icon: 'terminal',
+      href: '/reference/cli',
+      prefix: '/reference/cli',
+      navHref: '/reference/cli/cli/overview',
+      groupOrder: 5,
+      navOrder: {en: 6, 'zh-CN': 6},
+      standalone: true,
+      documentIdPrefix: 'cli/cli',
+      landingPage: 'cli/cli/Overview.md',
+      minimumProseCharacters: 400,
+      minimumHeadingCount: 3,
+      requireSourceDifference: true,
+    },
   },
   {
     id: 'go',
@@ -249,6 +300,23 @@ const definitions: ManualDefinition[] = [
     publications: {
       en: publication('en', 'english-v3.0', 'reference/api/go/go/v2', 'reference', 'go', 'zilliz', ['reference/api/go/go/v1']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/go/go/v2', 'reference', 'go', 'zilliz', ['reference/api/go/go/v1']),
+    },
+    presentation: {
+      referenceKind: 'go',
+      sidebar: 'go',
+      sidebarKey: 'goSidebar',
+      label: {en: 'Go SDK', 'zh-CN': 'Go SDK'},
+      icon: 'go',
+      href: '/reference/go',
+      prefix: '/reference/go',
+      groupOrder: 4,
+      navOrder: {en: 4, 'zh-CN': 4},
+      standalone: false,
+      documentIdPrefix: 'api/go/go',
+      landingPage: 'api/go/go/go.md',
+      minimumProseCharacters: 250,
+      minimumHeadingCount: 2,
+      requireSourceDifference: true,
     },
   },
   {
@@ -293,6 +361,23 @@ const definitions: ManualDefinition[] = [
       en: publication('en', 'english-v3.0', 'reference/api/java/java/v2', 'reference', 'java', 'zilliz', ['reference/api/java/java/v1']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/java/java/v2', 'reference', 'java', 'zilliz', ['reference/api/java/java/v1']),
     },
+    presentation: {
+      referenceKind: 'java',
+      sidebar: 'java',
+      sidebarKey: 'javaSidebar',
+      label: {en: 'Java SDK', 'zh-CN': 'Java SDK'},
+      icon: 'java',
+      href: '/reference/java',
+      prefix: '/reference/java',
+      groupOrder: 2,
+      navOrder: {en: 2, 'zh-CN': 3},
+      standalone: false,
+      documentIdPrefix: 'api/java/java',
+      landingPage: 'api/java/java/java.md',
+      minimumProseCharacters: 300,
+      minimumHeadingCount: 2,
+      requireSourceDifference: true,
+    },
   },
   {
     id: 'node',
@@ -308,6 +393,23 @@ const definitions: ManualDefinition[] = [
     publications: {
       en: publication('en', 'english-v3.0', 'reference/api/nodejs/nodejs', 'reference', 'node', 'zilliz', undefined, ['nodejs.md']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/nodejs/nodejs', 'reference', 'node'),
+    },
+    presentation: {
+      referenceKind: 'nodejs',
+      sidebar: 'node',
+      sidebarKey: 'nodeSidebar',
+      label: {en: 'Node.js SDK', 'zh-CN': 'Node.js SDK'},
+      icon: 'nodejs',
+      href: '/reference/nodejs',
+      prefix: '/reference/nodejs',
+      groupOrder: 3,
+      navOrder: {en: 3, 'zh-CN': 5},
+      standalone: false,
+      documentIdPrefix: 'api/nodejs/nodejs',
+      landingPage: 'api/nodejs/nodejs/nodejs.md',
+      minimumProseCharacters: 300,
+      minimumHeadingCount: 2,
+      requireSourceDifference: true,
     },
   },
   {
@@ -336,6 +438,23 @@ const definitions: ManualDefinition[] = [
       en: publication('en', 'english-v3.0', 'reference/api/python/python', 'reference', 'python', 'zilliz', undefined, ['python.md']),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/python/python', 'reference', 'python'),
     },
+    presentation: {
+      referenceKind: 'python',
+      sidebar: 'python',
+      sidebarKey: 'pythonSidebar',
+      label: {en: 'Python SDK', 'zh-CN': 'Python SDK'},
+      icon: 'python',
+      href: '/reference/python',
+      prefix: '/reference/python',
+      groupOrder: 1,
+      navOrder: {en: 1, 'zh-CN': 2},
+      standalone: false,
+      documentIdPrefix: 'api/python/python',
+      landingPage: 'api/python/python/python.md',
+      minimumProseCharacters: 300,
+      minimumHeadingCount: 2,
+      requireSourceDifference: true,
+    },
   },
   {
     id: 'rest',
@@ -353,6 +472,23 @@ const definitions: ManualDefinition[] = [
         'v2/error-codes-v2.md',
       ]),
       'zh-CN': publication('zh-CN', 'chineseTranslation', 'reference/api/restful/restful', 'reference', 'restful', 'zilliz', undefined, ['restful.md']),
+    },
+    presentation: {
+      referenceKind: 'restful',
+      sidebar: 'restful',
+      sidebarKey: 'restfulSidebar',
+      label: {en: 'REST API', 'zh-CN': 'RESTful API'},
+      icon: 'rest',
+      href: '/reference/restful',
+      prefix: '/reference/restful',
+      groupOrder: 6,
+      navOrder: {en: 5, 'zh-CN': 1},
+      standalone: false,
+      documentIdPrefix: 'api/restful/restful',
+      landingPage: 'api/restful/restful/restful.md',
+      minimumProseCharacters: 500,
+      minimumHeadingCount: 3,
+      requireSourceDifference: true,
     },
   },
 ];

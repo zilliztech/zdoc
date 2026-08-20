@@ -4,15 +4,20 @@
 const path = require('node:path')
 const { Command } = require('commander')
 const larkDocsPlugin = require('./index.js')
+const { loadTypeScript } = require('../../../../scripts/lib/load-typescript')
+const { manualRegistry } = loadTypeScript(path.resolve(__dirname, '../manuals/registry.ts'))
 
+// Displayed sidebar identities come from the manual registry presentation
+// metadata. Guides manuals render the default sidebar; every reference manual
+// contributes its presentation.sidebarKey keyed by manual id.
 const DISPLAYED_SIDEBARS = Object.freeze({
-  cli: 'cliSidebar',
-  go: 'goSidebar',
   guides: 'default',
   'guides-byoc': 'default',
-  java: 'javaSidebar',
-  node: 'nodeSidebar',
-  python: 'pythonSidebar',
+  ...Object.fromEntries(
+    manualRegistry
+      .filter((manual) => manual.kind === 'reference' && manual.presentation)
+      .map((manual) => [manual.id, manual.presentation.sidebarKey]),
+  ),
 })
 
 function repositoryRelative(value, label) {

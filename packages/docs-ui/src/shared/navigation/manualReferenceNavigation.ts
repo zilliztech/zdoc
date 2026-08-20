@@ -1,9 +1,9 @@
-import type {ReferenceTarget} from './docsRoute';
+import {referenceTargetNavigation, type ReferenceTargetKind} from './referenceTargets.generated.ts';
 
 export type DocsSite = 'en' | 'zh-CN';
 
 export type ReferenceNavigationTarget = Readonly<{
-  kind: ReferenceTarget;
+  kind: ReferenceTargetKind;
   label: string;
   landingHref: string;
   hrefPrefixes: readonly string[];
@@ -19,15 +19,6 @@ export type ManualReferenceNavigation = Readonly<{
   entryRedirects: Readonly<Record<string, string>>;
 }>;
 
-function target(
-  kind: ReferenceTarget,
-  label: string,
-  landingHref: string,
-  hrefPrefixes: readonly string[] = [landingHref],
-): ReferenceNavigationTarget {
-  return Object.freeze({kind, label, landingHref, hrefPrefixes: Object.freeze([...hrefPrefixes])});
-}
-
 function navigation(
   clientLibrariesLabel: string,
   toolsLabel: string,
@@ -40,14 +31,14 @@ function navigation(
     installSdksLabel,
     installSdksHref: '/docs/install-sdks',
     toolsHref: '/docs/agents-and-prompts',
-    targets: Object.freeze([
-      target('python', labels[0], '/reference/python'),
-      target('java', labels[1], '/reference/java'),
-      target('go', labels[2], '/reference/go'),
-      target('nodejs', labels[3], '/reference/nodejs', ['/reference/nodejs', '/reference/node']),
-      target('restful', labels[4], '/reference/restful'),
-      target('cli', labels[5], '/reference/cli'),
-    ]),
+    targets: Object.freeze(
+      referenceTargetNavigation.map((entry, index) => Object.freeze({
+        kind: entry.kind,
+        label: labels[index],
+        landingHref: entry.landingHref,
+        hrefPrefixes: Object.freeze([...entry.hrefPrefixes]),
+      })),
+    ),
     entryRedirects: Object.freeze({
       '/reference/cli/overview': '/reference/cli/cli/overview',
     }),
@@ -57,8 +48,8 @@ function navigation(
 const englishNavigation = navigation('Client Libraries', 'Tools', 'Install SDKs', [
   'Python',
   'Java',
-  'Go',
   'Node.js',
+  'Go',
   'RESTful API',
   'CLI',
 ]);
@@ -66,8 +57,8 @@ const englishNavigation = navigation('Client Libraries', 'Tools', 'Install SDKs'
 const chineseNavigation = navigation('客户端参考', '工具', '安装 SDK', [
   'Python SDK',
   'Java SDK',
-  'Go SDK',
   'Node.js SDK',
+  'Go SDK',
   'RESTful API',
   'Zilliz CLI',
 ]);
