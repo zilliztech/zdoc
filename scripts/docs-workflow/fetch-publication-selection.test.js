@@ -79,8 +79,14 @@ test('single groups select one unit while Guides selects both locale units', () 
   assert.deepEqual(buildFetchPublicationSelection(input({selectedGroup: 'guides'})).units.map(unit => unit.unitKey), [
     'source/guides-en', 'source/guides-zh-CN',
   ])
-  for (const selectedGroup of ['java,node', 'java node', 'unknown', '']) {
-    assert.throws(() => buildFetchPublicationSelection(input({selectedGroup})), /selected group/i)
+  assert.deepEqual(buildFetchPublicationSelection(input({selectedGroup: 'java,node'})).units.map(unit => unit.unitKey), [
+    'source/java', 'source/node',
+  ])
+  assert.deepEqual(buildFetchPublicationSelection(input({selectedGroup: 'guides,python'})).units.map(unit => unit.unitKey), [
+    'source/python', 'source/guides-en', 'source/guides-zh-CN',
+  ])
+  for (const selectedGroup of ['java node', 'unknown', '']) {
+    assert.throws(() => buildFetchPublicationSelection(input({selectedGroup})), /group/i)
   }
 })
 

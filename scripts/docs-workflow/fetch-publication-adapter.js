@@ -3,7 +3,7 @@
 const { loadTypeScript } = require('../lib/load-typescript')
 const {definePublicationWorkflowAdapter} = require('./publication-workflow-adapters')
 
-const { fetchUnitKeys } = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
+const { fetchUnitKeys, parseSelectedGroups } = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
 const FETCH_UNIT_KEYS = fetchUnitKeys()
 const SELECTION_KEYS = [
   'schemaVersion', 'document', 'workflow', 'repository', 'runId', 'runAttempt', 'toolingSha',
@@ -54,7 +54,11 @@ function validateFetchSelection(value, helpers) {
   helpers.assertSha(value.initialTargetSha, 'initialTargetSha', document)
   helpers.assertSha(value.sourceBaselineSha, 'sourceBaselineSha', document)
   helpers.exactKeys(value.inputs, ['selectedGroup', 'publish', 'runTranslations'], 'inputs', document)
-  if (!['all', 'guides', 'java', 'node', 'go', 'cli', 'rest', 'python'].includes(value.inputs.selectedGroup)) helpers.invalid(document, 'selectedGroup is invalid')
+  try {
+    parseSelectedGroups(value.inputs.selectedGroup)
+  } catch {
+    helpers.invalid(document, 'selectedGroup is invalid')
+  }
   if (typeof value.inputs.publish !== 'boolean' || typeof value.inputs.runTranslations !== 'boolean') helpers.invalid(document, 'input booleans are invalid')
   if (!Array.isArray(value.units) || !value.units.length) helpers.invalid(document, 'units must be a non-empty array')
   value.units.forEach((unit, index) => validateFetchSelectionUnit(unit, value, index, helpers))

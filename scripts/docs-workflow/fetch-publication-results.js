@@ -9,7 +9,7 @@ const {readPublicationDocument, validatePublicationResults, validatePublicationS
 const {buildTranslationSelection} = require('../translation/selection')
 
 const SUCCESSFUL_STATUSES = new Set(['published', 'no_changes'])
-const {fetchGroupUnitKeys, fetchUnitKeys} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
+const {fetchGroupUnitKeys, fetchUnitKeys, parseSelectedGroups} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
 const FETCH_GROUP_UNIT_KEYS = fetchGroupUnitKeys()
 const ALL_FETCH_UNIT_KEYS = fetchUnitKeys()
 
@@ -17,9 +17,8 @@ function requiredUnitKeys(selectedGroup) {
   if (selectedGroup === 'all') {
     return ALL_FETCH_UNIT_KEYS
   }
-  const keys = FETCH_GROUP_UNIT_KEYS[selectedGroup]
-  if (!keys) throw new Error(`Invalid selected Fetch group: ${selectedGroup}`)
-  return keys
+  const groups = parseSelectedGroups(selectedGroup)
+  return Object.freeze(groups.flatMap(group => FETCH_GROUP_UNIT_KEYS[group] || []))
 }
 
 function validateFetchPublicationDocuments(input) {

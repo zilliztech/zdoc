@@ -3,9 +3,8 @@ on:
   workflow_dispatch:
     inputs:
       group:
-        description: Content group to publish
-        type: choice
-        options: [all, guides, python, java, node, go, cli, rest]
+        description: "Content group(s) to publish: all, guides, or a comma-separated subset (e.g. python,java). Valid groups: all, guides, python, java, node, go, cli, rest"
+        type: string
         default: all
       artifact_retention_days:
         description: Artifact retention in days
@@ -116,7 +115,7 @@ jobs:
           tooling_sha=$master_sha
           dev_baseline_sha=$source_sha
           [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ && "$source_sha" =~ ^[0-9a-f]{40}$ && "$initial_target_sha" =~ ^[0-9a-f]{40}$ ]]
-          case "$SELECTED_GROUP" in all|guides|python|java|node|go|cli|rest) ;; *) exit 2 ;; esac
+          case "$SELECTED_GROUP" in all|guides|python|java|node|go|cli|rest|*,*) ;; *) exit 2 ;; esac
           case "$MEDIA_UPLOAD_MODE" in write|skip) ;; *) exit 2 ;; esac
           if [[ "$MEDIA_UPLOAD_MODE" == skip ]]; then
             [[ "$PUBLISH" == false && "$RUN_TRANSLATIONS" == false && "$SELECTED_GROUP" == guides ]] || {
@@ -138,6 +137,10 @@ jobs:
       - id: sdk_groups
         name: Compute SDK reference producer matrix
         run: echo "groups=$(node scripts/docs-workflow/print-workflow-groups.js --sdk-groups-json)" >> "$GITHUB_OUTPUT"
+      - name: Validate selected publication groups
+        env:
+          SELECTED_GROUP: ${{ steps.refs.outputs.selected_group }}
+        run: node scripts/docs-workflow/print-workflow-groups.js --validate-groups "$SELECTED_GROUP"
       - name: Verify translation publication readiness
         run: node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js
       - name: Verify immutable target localization inventory
@@ -208,7 +211,7 @@ jobs:
 
   produce_guides_sources:
     needs: prepare
-    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides') }}
     uses: ./.github/workflows/_fetch-guides-sources.yml
     with:
       site: en
@@ -252,7 +255,7 @@ jobs:
       actions: write
       contents: read
     needs: [prepare, produce_guides_sources, render_guides_tables]
-    if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides_sources.outputs.status == 'artifact_ready' && (needs.render_guides_tables.result == 'success' || needs.render_guides_tables.result == 'skipped') }}
+    if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides')) && needs.produce_guides_sources.outputs.status == 'artifact_ready' && (needs.render_guides_tables.result == 'success' || needs.render_guides_tables.result == 'skipped') }}
     uses: ./.github/workflows/_assemble-guides.yml
     with:
       site: en
@@ -272,7 +275,7 @@ jobs:
 
   produce_zh_guides_sources:
     needs: prepare
-    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides') }}
     uses: ./.github/workflows/_fetch-guides-sources.yml
     with:
       site: zh-CN
@@ -316,7 +319,7 @@ jobs:
       actions: write
       contents: read
     needs: [prepare, produce_zh_guides_sources, render_zh_guides_tables]
-    if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_zh_guides_sources.outputs.status == 'artifact_ready' && (needs.render_zh_guides_tables.result == 'success' || needs.render_zh_guides_tables.result == 'skipped') }}
+    if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides')) && needs.produce_zh_guides_sources.outputs.status == 'artifact_ready' && (needs.render_zh_guides_tables.result == 'success' || needs.render_zh_guides_tables.result == 'skipped') }}
     uses: ./.github/workflows/_assemble-guides.yml
     with:
       site: zh-CN
@@ -337,7 +340,7 @@ jobs:
   produce_sdk_reference:
     needs: prepare
     name: produce_${{ matrix.group }}
-    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == matrix.group }}
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, matrix.group) }}
     strategy:
       matrix:
         group: ${{ fromJSON(needs.prepare.outputs.sdk_groups) }}
@@ -807,14 +810,14 @@ jobs:
             --output tmp/docs-workflow-results.json
           node scripts/docs-workflow/aggregate-results.js --input tmp/docs-workflow-results.json --output tmp/docs-workflow-summary.md
       - name: Download current English Guides reports
-        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') }}
+        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides')) }}
         continue-on-error: true
         uses: actions/download-artifact@v7
         with:
           name: docs-checkpoint-guides-en-${{ github.run_id }}-reports
           path: tmp/card-guides-reports/en
       - name: Download current Chinese Guides reports
-        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') }}
+        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides')) }}
         continue-on-error: true
         uses: actions/download-artifact@v7
         with:
@@ -841,8 +844,8 @@ jobs:
           CARD_REPORT_ARTIFACT_URL_EN: ${{ steps.report_artifact_links.outputs.en_url }}
           CARD_REPORT_ARTIFACT_URL_ZH_CN: ${{ steps.report_artifact_links.outputs.zh_cn_url }}
           CARD_GUIDES_REPORTS_ROOT: tmp/card-guides-reports
-          CARD_EXPECT_EN_GUIDES_REPORTS: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
-          CARD_EXPECT_ZH_GUIDES_REPORTS: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
+          CARD_EXPECT_EN_GUIDES_REPORTS: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides') }}
+          CARD_EXPECT_ZH_GUIDES_REPORTS: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides') }}
           CARD_BASE_NOTES_JSON: ${{ steps.aggregate.outputs.notes_json }}
         run: node scripts/collect-build-card-notes.js
       - name: Create final card report artifact

@@ -21,6 +21,7 @@ const {loadTypeScript} = require('../lib/load-typescript')
 const {
   fetchGroupUnitKeys,
   fetchUnitKeys,
+  parseSelectedGroups,
   sourcePublicationGroups,
 } = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
 
@@ -505,7 +506,8 @@ function readConfiguration(env = process.env, args = process.argv.slice(2)) {
   const startedAt = required(env, 'CARD_STARTED_AT')
   if (Number.isNaN(Date.parse(startedAt))) throw new Error('CARD_STARTED_AT must be an ISO timestamp')
   const selectedGroup = required(env, 'SELECTED_GROUP')
-  if (![...ALL_GROUPS, 'all'].includes(selectedGroup)) throw new Error('SELECTED_GROUP is invalid')
+  const requestedGroups = selectedGroup === 'all' ? [...ALL_GROUPS] : [...parseSelectedGroups(selectedGroup)]
+  if (requestedGroups.some(group => !ALL_GROUPS.includes(group))) throw new Error('SELECTED_GROUP is invalid')
   const publishText = required(env, 'PUBLISH_ENABLED')
   if (!['true', 'false'].includes(publishText)) throw new Error('PUBLISH_ENABLED must be true or false')
   const translationsText = required(env, 'RUN_TRANSLATIONS')
@@ -530,7 +532,7 @@ function readConfiguration(env = process.env, args = process.argv.slice(2)) {
     cardId: required(env, 'CARD_ID'),
     startedAt,
     targetBranch: required(env, 'CARD_TARGET_BRANCH'),
-    requestedGroups: selectedGroup === 'all' ? [...ALL_GROUPS] : [selectedGroup],
+    requestedGroups,
     publishEnabled: publishText === 'true',
     runTranslations: translationsText === 'true',
     publicationRunAttempt,

@@ -12,7 +12,7 @@ const {
   writePublicationDocument,
 } = require('./publication-contracts')
 
-const { fetchGroupUnitKeys, fetchUnitDefinitions, fetchUnitKeys } =
+const { fetchGroupUnitKeys, fetchUnitDefinitions, fetchUnitKeys, parseSelectedGroups } =
   loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
 
 const FETCH_UNIT_KEYS = fetchUnitKeys()
@@ -23,9 +23,9 @@ const FETCH_GROUP_UNIT_KEYS = fetchGroupUnitKeys()
 
 function selectedUnitKeys(selectedGroup) {
   if (selectedGroup === 'all') return FETCH_UNIT_KEYS
-  if (selectedGroup === 'guides') return FETCH_GROUP_UNIT_KEYS.guides
-  if (FETCH_GROUP_UNIT_KEYS[selectedGroup]) return FETCH_GROUP_UNIT_KEYS[selectedGroup]
-  throw new Error(`Invalid selected group: ${selectedGroup || '<empty>'}`)
+  const groups = parseSelectedGroups(selectedGroup)
+  const keys = groups.flatMap(group => FETCH_GROUP_UNIT_KEYS[group] || [])
+  return Object.freeze([...keys].sort((left, right) => FETCH_UNIT_KEYS.indexOf(left) - FETCH_UNIT_KEYS.indexOf(right)))
 }
 
 function validationCommands(site) {

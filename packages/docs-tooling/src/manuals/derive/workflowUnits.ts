@@ -86,6 +86,22 @@ export function sourcePublicationGroups(): readonly string[] {
   return Object.freeze(['guides', ...sdkGroupIds()]);
 }
 
+// Parses the workflow_dispatch group input: 'all', a single registered group
+// (e.g. 'guides' or 'python'), or a comma-separated subset such as
+// 'python,java'. Throws on empty or unknown groups so CI can fail closed.
+export function parseSelectedGroups(value: string): readonly string[] {
+  const trimmed = typeof value === 'string' ? value.trim() : '';
+  if (!trimmed) throw new Error('Selected publication group is empty');
+  if (trimmed === 'all') return sourcePublicationGroups();
+  const groups = trimmed.split(',').map(part => part.trim()).filter(Boolean);
+  if (groups.length === 0) throw new Error(`Invalid selected publication groups: ${value}`);
+  const valid = new Set(sourcePublicationGroups());
+  for (const group of groups) {
+    if (!valid.has(group)) throw new Error(`Unknown publication group: ${group}`);
+  }
+  return Object.freeze([...new Set(groups)]);
+}
+
 export function referenceGroupIds(): readonly string[] {
   return Object.freeze(referenceManuals().map((manual) => manual.id));
 }
