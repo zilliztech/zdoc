@@ -141,18 +141,18 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.doesNotMatch(resolver, /\$\{\{[^\n]*tooling_ref/)
   assert.doesNotMatch(source, /git-auto-commit|git push|--force|fetch-sdk-reference-docs|update-sdk-reference-snapshots/)
 
-  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
-  for (const group of groups) {
-    if (group !== 'guides') assert.match(source, new RegExp(`produce_${group}:\\n    needs: prepare\\n[\\s\\S]*?uses: \\.\\/.github/workflows/_fetch-content-group\\.yml`))
-    if (group !== 'guides') assert.equal(workflow.jobs[`translate_${group}`], undefined)
+  const sdkMatrix = workflow.jobs.produce_sdk_reference
+  assert.equal(sdkMatrix.name, 'produce_${{ matrix.group }}')
+  assert.equal(sdkMatrix.strategy.matrix.group, '${{ fromJSON(needs.prepare.outputs.sdk_groups) }}')
+  assert.equal(sdkMatrix.with.group, '${{ matrix.group }}')
+  assert.equal(sdkMatrix.with.publication_unit_key, 'source/${{ matrix.group }}')
+  assert.equal(sdkMatrix.with.site, 'en')
+  assert.equal(workflow.jobs.produce_guides.with.publication_unit_key, 'source/guides-en')
+  assert.equal(workflow.jobs.produce_zh_guides.with.publication_unit_key, 'source/guides-zh-CN')
+  for (const legacy of ['produce_python', 'produce_java', 'produce_node', 'produce_go', 'produce_cli', 'produce_rest', 'translate_python', 'translate_java', 'translate_node', 'translate_go', 'translate_cli', 'translate_rest']) {
+    assert.equal(workflow.jobs[legacy], undefined)
   }
-  const unitKeys = {
-    java: 'source/java', node: 'source/node', go: 'source/go', cli: 'source/cli', rest: 'source/rest',
-    python: 'source/python', guides: 'source/guides-en', zh_guides: 'source/guides-zh-CN',
-  }
-  for (const [group, unitKey] of Object.entries(unitKeys)) {
-    assert.equal(workflow.jobs[`produce_${group}`].with.publication_unit_key, unitKey)
-  }
+
   for (const legacy of ['publish_java', 'publish_node', 'publish_go', 'publish_cli', 'publish_rest', 'publish_python', 'publish_guides', 'publish_zh_guides', 'resolve_final']) {
     assert.equal(workflow.jobs[legacy], undefined)
   }

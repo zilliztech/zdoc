@@ -762,17 +762,22 @@ test('Fetch producers stay parallel while publication and derived-state writers 
   assert.match(source, /fetch-publication-selection\.js selection/)
   assert.match(source, /name: publication-selection-fetch-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/)
 
-  const units = {
-    produce_java: 'source/java', produce_node: 'source/node', produce_go: 'source/go',
-    produce_cli: 'source/cli', produce_rest: 'source/rest', produce_python: 'source/python',
-    produce_guides: 'source/guides-en', produce_zh_guides: 'source/guides-zh-CN',
-  }
-  for (const [jobName, unitKey] of Object.entries(units)) {
+  for (const [jobName, unitKey] of Object.entries({produce_guides: 'source/guides-en', produce_zh_guides: 'source/guides-zh-CN'})) {
     const job = workflow.jobs[jobName]
     assert.equal(job.with.publication_selection_artifact_name, '${{ needs.prepare.outputs.publication_selection_artifact_name }}')
     assert.equal(job.with.publication_selection_sha256, '${{ needs.prepare.outputs.publication_selection_sha256 }}')
     assert.equal(job.with.publication_unit_key, unitKey)
   }
+  const sdkMatrix = workflow.jobs.produce_sdk_reference
+  assert.equal(sdkMatrix.name, 'produce_${{ matrix.group }}')
+  assert.equal(sdkMatrix.strategy.matrix.group, '${{ fromJSON(needs.prepare.outputs.sdk_groups) }}')
+  assert.equal(sdkMatrix.with.group, '${{ matrix.group }}')
+  assert.equal(sdkMatrix.with.publication_unit_key, 'source/${{ matrix.group }}')
+  assert.equal(sdkMatrix.with.site, 'en')
+  for (const legacy of ['produce_python', 'produce_java', 'produce_node', 'produce_go', 'produce_cli', 'produce_rest']) {
+    assert.equal(workflow.jobs[legacy], undefined)
+  }
+
   const coordinator = workflow.jobs.publish_ready
   assert.deepEqual(coordinator.needs, ['prepare', 'reconciliation_preflight'])
   assert.deepEqual(coordinator.permissions, {actions: 'read', contents: 'write'})
