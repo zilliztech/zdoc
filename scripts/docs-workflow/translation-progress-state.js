@@ -19,9 +19,9 @@ const SUPPORTED_UNITS = new Set([
 
 function parseSdkTranslationJob(job) {
   const name = String(job?.name || '')
-  const direct = name.match(/^translate:(ja-JP|zh-CN-reference)\/(python|java|node|go|cli|rest|reference-landings) \/ translate$/)
+  const direct = name.match(/^translate:(ja-JP|zh-CN-reference)\/(python|java|node|go|cli|cpp|rest|reference-landings) \/ translate$/)
   if (direct) return SUPPORTED_UNITS.has(`${direct[1]}/${direct[2]}`) ? {target: direct[1], group: direct[2]} : null
-  const match = name.match(/^translate_sdk \((ja-JP|zh-CN-reference), (python|java|node|go|cli|rest|reference-landings), \2, (?:(?:[^\s,()]+, )?[^\s,()]+\.\.\.|[^\s,()]+, [^\s,()]+\)) \/ translate$/)
+  const match = name.match(/^translate_sdk \((ja-JP|zh-CN-reference), (python|java|node|go|cli|cpp|rest|reference-landings), \2, (?:(?:[^\s,()]+, )?[^\s,()]+\.\.\.|[^\s,()]+, [^\s,()]+\)) \/ translate$/)
   return match && SUPPORTED_UNITS.has(`${match[1]}/${match[2]}`) ? {target: match[1], group: match[2]} : null
 }
 

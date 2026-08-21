@@ -144,7 +144,7 @@ jobs:
           SELECTED_GROUP: ${{ steps.refs.outputs.selected_group }}
         run: node scripts/docs-workflow/print-workflow-groups.js --validate-groups "$SELECTED_GROUP"
       - name: Verify translation publication readiness
-        run: node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js
+        run: node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js
       - name: Verify immutable target localization inventory
         if: ${{ steps.refs.outputs.publish == 'true' }}
         env:

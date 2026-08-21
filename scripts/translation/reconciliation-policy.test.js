@@ -119,7 +119,7 @@ test('loads the exact initial automatic and review-required policy', () => {
   assert.equal(policy.targets['ja-JP'].rest.mode, 'automatic')
   assert.equal(policy.targets['zh-CN-reference'].rest.mode, 'review_required')
   assert.equal(policy.targets['zh-CN-reference'].rest.requiresCompletenessEvidence, true)
-  for (const group of ['python', 'java', 'node', 'go', 'cli']) {
+  for (const group of ['python', 'java', 'node', 'go', 'cli', 'cpp']) {
     assert.equal(policy.targets['zh-CN-reference'][group].mode, 'automatic')
     assert.equal(policy.targets['zh-CN-reference'][group].requiresCompletenessEvidence, false)
     assert.deepEqual(policy.targets['zh-CN-reference'][group].automaticKinds, ['delete_target', 'remove_navigation_only', 'replace_path'])

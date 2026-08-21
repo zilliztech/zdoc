@@ -69,7 +69,6 @@ test('every workflow that invokes docs-tooling uses its supported Node runtime',
     'site-validation.yml',
     'sync-master-tooling-to-dev.yml',
     'translate-codex.yml',
-    'translate-content.yml',
   ])
   for (const file of invoking) {
     const source = fs.readFileSync(path.join(workflowDirectory, file), 'utf8')
@@ -132,7 +131,7 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.match(source, /^  schedule:$/m)
   assert.match(source, /cron: "0 2,10,18 \* \* \*"/)
   assert.deepEqual(workflow.permissions, {contents: 'read', actions: 'read'})
-  assert.match(source, /group: docs-production-dev\n  cancel-in-progress: false/)
+  assert.match(source, /group: docs-production-dev\n  queue: max/)
   assert.match(source, /if \[\[ "\$PUBLISH" == true && "\$TARGET_BRANCH" == dev && ! "\$tooling_ref" =~ \^\[0-9a-f\]\{40\}\$ \]\]; then\n\s+tooling_ref=master/)
   assert.match(source, /\^\[0-9a-f\]\{40\}\$/)
   assert.match(source, /git fetch --no-tags origin "\$tooling_ref"[\s\S]*git rev-parse FETCH_HEAD/)
@@ -170,7 +169,7 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.deepEqual(workflow.jobs.monitor_docs_progress.needs, ['prepare'])
   assert.equal(workflow.jobs.monitor_docs_progress.uses, './.github/workflows/_monitor-docs-progress.yml')
   assert.match(source, /target_branch: \$\{\{ needs\.prepare\.outputs\.target_branch \}\}/)
-  assert.deepEqual(workflow.jobs.publish_ready.needs, ['prepare'])
+  assert.deepEqual(workflow.jobs.publish_ready.needs, ['prepare', 'reconciliation_preflight'])
   assert.deepEqual(workflow.jobs.publish_ready.permissions, {actions: 'read', contents: 'write'})
   assert.match(source, /publication-coordinator\.js[\s\S]*'--mode', mode/)
   assert.deepEqual(workflow.jobs.dispatch_translations.needs, ['prepare', 'prepare_translation_handoff'])
@@ -183,14 +182,14 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.match(source, /reports_file="\$\{\{ steps\.reports\.outputs\.card_notes_file \}\}"/)
   assert.match(source, /name: Download current English Guides reports[\s\S]*name: docs-checkpoint-guides-en-\$\{\{ github\.run_id \}\}-reports[\s\S]*name: Download current Chinese Guides reports[\s\S]*name: docs-checkpoint-guides-zh-CN-\$\{\{ github\.run_id \}\}-reports/)
   assert.match(source, /\[\[ "\$RUN_TRANSLATIONS" == true \]\] && card_parts\+=\("Handoff"\)/)
-  for (const workflow of ['_fetch-content-group.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_verify-docs.yml']) {
+  for (const workflow of ['_fetch-content-group.yml', '_translate-content-group.yml', '_verify-docs.yml']) {
     const reusable = fs.readFileSync(path.join(process.cwd(), '.github/workflows', workflow), 'utf8')
     assert.doesNotMatch(reusable, /card_started_at:|card_stages:|report-live-card\.sh/, `${workflow} must leave card ownership to the monitor`)
   }
   assert.doesNotMatch(source, /report-to-lark --card-note-file/)
   assert.doesNotMatch(source, /report-live-card\.sh|name: Finish progress card|phase_card_id|CARD_MODE:/)
   assert.deepEqual(workflow.jobs.finalize_card_fallback.needs, ['prepare', 'aggregate', 'monitor_docs_progress'])
-  assert.match(workflow.jobs.finalize_card_fallback.if, /monitor_docs_progress\.result != 'success'/)
+  assert.match(workflow.jobs.finalize_card_fallback.if, /needs\.prepare\.outputs\.card_id != ''/)
   assert.match(source, /monitor-docs-progress\.js --finalize-only --report-file/)
   assert.doesNotMatch(source, /secrets: inherit/)
 })

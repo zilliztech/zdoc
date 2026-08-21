@@ -2300,7 +2300,7 @@ test('fetch preparation blocks paid translation until publication readiness regr
   const cardIndex = steps.findIndex(step => step.name === 'Create progress card')
   assert.ok(installIndex >= 0 && readinessIndex > installIndex && inventoryIndex > readinessIndex && inventoryIndex < cardIndex)
   const command = steps[readinessIndex].run
-  assert.equal(command, 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js')
+  assert.equal(command, 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js')
   const inventory = steps[inventoryIndex]
   assert.equal(inventory.if, "${{ steps.refs.outputs.publish == 'true' }}")
   assert.equal(inventory.env.INITIAL_TARGET_SHA, '${{ steps.refs.outputs.initial_target_sha }}')
