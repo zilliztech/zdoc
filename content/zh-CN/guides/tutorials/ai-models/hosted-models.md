@@ -275,7 +275,7 @@ for hits in results:
 
 使用托管模型仅会产生 Function 与模型服务费用。推理服务过程中数据不会经过公网传输，所以不会产生数据传输费用。
 
-如需了解不同地域模型的单价，请[联系销售](https://zilliz.com.cn/contact-sales)。
+如需了解不同地域模型的单价，请[联系销售](http://zilliz.com.cn/contact-sales)。
 
 ### 计算公式\{#cost-calculation}
 
@@ -283,7 +283,7 @@ for hits in results:
 Function 与模型服务费用 = 模型单价 x 使用时长
 ```
 
-- **模型单价**: 请[联系销售](https://zilliz.com.cn/contact-sales)。
+- **模型单价**: 请[联系销售](http://zilliz.com.cn/contact-sales)。
 
 - **使用时长**: 模型运行的总时长，按小时计费。无论模型是否被实际调用，模型运行都会计入使用时长。
 
