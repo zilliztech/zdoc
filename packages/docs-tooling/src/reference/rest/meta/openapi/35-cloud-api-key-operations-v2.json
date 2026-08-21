@@ -250,15 +250,13 @@
                   "value": {
                     "name": "Data Pipeline",
                     "description": "API key used by the ingestion pipeline",
-                    "orgRoleIds": [
-                      "r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    ],
-                    "projectRoles": [
+                    "orgRole": "Member",
+                    "projects": [
                       {
                         "projectId": "proj-xxxxxxxx",
-                        "roleIds": [
-                          "r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
-                        ]
+                        "role": "Data Reader",
+                        "allCluster": true,
+                        "allVolume": true
                       }
                     ]
                   }
@@ -495,28 +493,19 @@
                         "description": "API key used by the ingestion pipeline",
                         "creatorName": "Alice",
                         "createdBy": "alice@example.com",
-                        "orgRoles": [
-                          {
-                            "bindingId": "rb-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                            "roleId": "r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                            "roleName": "Org Viewer",
-                            "roleType": "org"
-                          }
-                        ],
-                        "projectRoles": [
+                        "createTime": "2026-07-22T02:30:00Z",
+                        "orgRole": "Org Viewer",
+                        "projects": [
                           {
                             "projectId": "proj-xxxxxxxx",
-                            "roles": [
-                              {
-                                "bindingId": "rb-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
-                                "roleId": "r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
-                                "roleName": "Data Reader",
-                                "roleType": "project"
-                              }
-                            ]
+                            "projectName": "Project xxxx",
+                            "role": "Data Reader",
+                            "allCluster": true,
+                            "clusters": [],
+                            "allVolume": true,
+                            "volumes": []
                           }
-                        ],
-                        "createTime": "2026-07-22T02:30:00Z"
+                        ]
                       }
                     }
                   },
@@ -591,14 +580,13 @@
                   "value": {
                     "name": "Data Pipeline Production",
                     "description": "Production ingestion pipeline",
-                    "orgRoleIds": [],
-                    "projectRoles": [
+                    "orgRole": "Member",
+                    "projects": [
                       {
                         "projectId": "proj-xxxxxxxx",
-                        "roleIds": [
-                          "r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
-                          "r-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
-                        ]
+                        "role": "Data Reader",
+                        "allCluster": true,
+                        "allVolume": true
                       }
                     ]
                   }
@@ -691,27 +679,19 @@
                         "description": "Production ingestion pipeline",
                         "creatorName": "Alice",
                         "createdBy": "alice@example.com",
-                        "orgRoles": [],
-                        "projectRoles": [
+                        "createTime": "2026-07-22T02:30:00Z",
+                        "orgRole": "Member",
+                        "projects": [
                           {
                             "projectId": "proj-xxxxxxxx",
-                            "roles": [
-                              {
-                                "bindingId": "rb-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
-                                "roleId": "r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
-                                "roleName": "Data Reader",
-                                "roleType": "project"
-                              },
-                              {
-                                "bindingId": "rb-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
-                                "roleId": "r-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
-                                "roleName": "Data Writer",
-                                "roleType": "project"
-                              }
-                            ]
+                            "projectName": "Project xxxx",
+                            "role": "Data Reader",
+                            "allCluster": true,
+                            "clusters": [],
+                            "allVolume": true,
+                            "volumes": []
                           }
-                        ],
-                        "createTime": "2026-07-22T02:30:00Z"
+                        ]
                       }
                     }
                   },
@@ -857,27 +837,19 @@
                         "description": "Production ingestion pipeline",
                         "creatorName": "Alice",
                         "createdBy": "alice@example.com",
-                        "orgRoles": [],
-                        "projectRoles": [
+                        "createTime": "2026-07-22T02:30:00Z",
+                        "orgRole": "Member",
+                        "projects": [
                           {
                             "projectId": "proj-xxxxxxxx",
-                            "roles": [
-                              {
-                                "bindingId": "rb-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
-                                "roleId": "r-yyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
-                                "roleName": "Data Reader",
-                                "roleType": "project"
-                              },
-                              {
-                                "bindingId": "rb-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
-                                "roleId": "r-zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
-                                "roleName": "Data Writer",
-                                "roleType": "project"
-                              }
-                            ]
+                            "projectName": "Project xxxx",
+                            "role": "Data Reader",
+                            "allCluster": true,
+                            "clusters": [],
+                            "allVolume": true,
+                            "volumes": []
                           }
-                        ],
-                        "createTime": "2026-07-22T02:30:00Z"
+                        ]
                       }
                     }
                   },
@@ -905,180 +877,6 @@
   },
   "components": {
     "schemas": {
-      "ApiKeyRoleBinding": {
-        "type": "object",
-        "properties": {
-          "bindingId": {
-            "type": "string",
-            "description": "The ACL role-binding ID.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "ACL 角色绑定 ID。"
-              }
-            }
-          },
-          "roleId": {
-            "type": "string",
-            "description": "The ACL role ID.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "ACL 角色 ID。"
-              }
-            }
-          },
-          "roleName": {
-            "type": "string",
-            "description": "The ACL role display name.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "ACL 角色显示名称。"
-              }
-            }
-          },
-          "roleType": {
-            "type": "string",
-            "enum": [
-              "org",
-              "project"
-            ],
-            "description": "The role scope.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "角色作用域。"
-              }
-            }
-          }
-        },
-        "required": [
-          "bindingId",
-          "roleId",
-          "roleName",
-          "roleType"
-        ]
-      },
-      "ProjectApiKeyRoles": {
-        "type": "object",
-        "properties": {
-          "projectId": {
-            "type": "string",
-            "description": "The project ID.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "项目 ID。"
-              }
-            }
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ApiKeyRoleBinding"
-            },
-            "description": "The project-scoped roles directly assigned to the API key.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "直接授予 API Key 的项目级角色。"
-              }
-            }
-          }
-        },
-        "required": [
-          "projectId",
-          "roles"
-        ]
-      },
-      "ApiKeyDetail": {
-        "type": "object",
-        "properties": {
-          "apiKeyId": {
-            "type": "string",
-            "description": "The public API key ID.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "公开 API Key ID。"
-              }
-            }
-          },
-          "name": {
-            "type": "string",
-            "description": "The API key display name.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "API Key 显示名称。"
-              }
-            }
-          },
-          "description": {
-            "type": "string",
-            "description": "The API key description.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "API Key 描述。"
-              }
-            }
-          },
-          "creatorName": {
-            "type": "string",
-            "description": "The resolved display name of the creator.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "解析出的创建者显示名称。"
-              }
-            }
-          },
-          "createdBy": {
-            "type": "string",
-            "description": "The creator email address or creator API key ID.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "创建者邮箱地址或创建者 API Key ID。"
-              }
-            }
-          },
-          "orgRoles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ApiKeyRoleBinding"
-            },
-            "description": "The organization-scoped roles directly assigned to the API key.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "直接授予 API Key 的组织级角色。"
-              }
-            }
-          },
-          "projectRoles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProjectApiKeyRoles"
-            },
-            "description": "The project-scoped roles directly assigned to the API key, grouped by project.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "直接授予 API Key 的项目级角色，按项目分组。"
-              }
-            }
-          },
-          "createTime": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The creation time in UTC ISO 8601 format.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "创建时间，采用 UTC ISO 8601 格式。"
-              }
-            }
-          }
-        },
-        "required": [
-          "apiKeyId",
-          "name",
-          "creatorName",
-          "createdBy",
-          "orgRoles",
-          "projectRoles",
-          "createTime"
-        ]
-      },
       "PagedApiKeys": {
         "type": "object",
         "properties": {
@@ -1132,153 +930,6 @@
           "apiKeys"
         ]
       },
-      "ProjectRoleRequest": {
-        "type": "object",
-        "properties": {
-          "projectId": {
-            "type": "string",
-            "description": "The project ID.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "项目 ID。"
-              }
-            }
-          },
-          "roleIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "minItems": 1,
-            "description": "The project-scoped role IDs.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "项目级角色 ID。"
-              }
-            }
-          }
-        },
-        "required": [
-          "projectId",
-          "roleIds"
-        ]
-      },
-      "CreateApiKeyRequest": {
-        "type": "object",
-        "description": "The customized API key to create. At least one role across orgRoleIds and projectRoles is required.",
-        "x-i18n": {
-          "zh-CN": {
-            "description": "要创建的自定义 API Key。`orgRoleIds` 和 `projectRoles` 中至少需要提供一个角色。"
-          }
-        },
-        "properties": {
-          "name": {
-            "type": "string",
-            "minLength": 1,
-            "description": "The API key display name. It must not be blank.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "API Key 显示名称，不得为空。"
-              }
-            }
-          },
-          "description": {
-            "type": "string",
-            "maxLength": 255,
-            "description": "The API key description.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "API Key 描述。"
-              }
-            }
-          },
-          "orgRoleIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "The complete organization-scoped role ID set.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "完整的组织级角色 ID 集合。"
-              }
-            }
-          },
-          "projectRoles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProjectRoleRequest"
-            },
-            "description": "The project-scoped role assignments grouped by project.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "按项目分组的项目级角色分配。"
-              }
-            }
-          }
-        },
-        "required": [
-          "name"
-        ]
-      },
-      "UpdateApiKeyRequest": {
-        "type": "object",
-        "description": "The replacement API key metadata and complete desired role set. At least one role must remain.",
-        "x-i18n": {
-          "zh-CN": {
-            "description": "替换后的 API Key 元数据和完整目标角色集。最终至少必须保留一个角色。"
-          }
-        },
-        "properties": {
-          "name": {
-            "type": "string",
-            "minLength": 1,
-            "description": "The API key display name. It must not be blank.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "API Key 显示名称，不得为空。"
-              }
-            }
-          },
-          "description": {
-            "type": "string",
-            "maxLength": 255,
-            "description": "The API key description.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "API Key 描述。"
-              }
-            }
-          },
-          "orgRoleIds": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "The complete organization-scoped role ID set.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "完整的组织级角色 ID 集合。"
-              }
-            }
-          },
-          "projectRoles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProjectRoleRequest"
-            },
-            "description": "The project-scoped role assignments grouped by project.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "按项目分组的项目级角色分配。"
-              }
-            }
-          }
-        },
-        "required": [
-          "name"
-        ]
-      },
       "CreateApiKeyData": {
         "type": "object",
         "description": "The newly created API key ID and its one-time secret.",
@@ -1311,6 +962,434 @@
         "required": [
           "apiKeyId",
           "apiKey"
+        ]
+      },
+      "CreateApiKeyRequest": {
+        "type": "object",
+        "description": "The API key to create, including the organization role and optional project-level access.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "要创建的 API Key，包括组织角色和可选的项目级访问权限。"
+          }
+        },
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The API key display name. It must not be blank.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 显示名称，不得为空。"
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 255,
+            "description": "The API key description.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 描述。"
+              }
+            }
+          },
+          "orgRole": {
+            "type": "string",
+            "description": "The organization role assigned to the API key: Owner, Member, or Billing-Admin.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "授予 API Key 的组织角色：Owner、Member 或 Billing-Admin。"
+              }
+            },
+            "enum": [
+              "Owner",
+              "Member",
+              "Billing-Admin"
+            ]
+          },
+          "projects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectAccessRequest"
+            },
+            "description": "The project-level access list. Required when orgRole is Member.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目级访问列表。当 orgRole 为 Member 时必填。"
+              }
+            }
+          }
+        },
+        "required": [
+          "name",
+          "orgRole"
+        ]
+      },
+      "UpdateApiKeyRequest": {
+        "type": "object",
+        "description": "The replacement API key metadata and complete desired access set.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "替换后的 API Key 元数据和完整的目标访问集。"
+          }
+        },
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The API key display name. It must not be blank.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 显示名称，不得为空。"
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 255,
+            "description": "The API key description.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 描述。"
+              }
+            }
+          },
+          "orgRole": {
+            "type": "string",
+            "description": "The organization role assigned to the API key: Owner, Member, or Billing-Admin.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "授予 API Key 的组织角色：Owner、Member 或 Billing-Admin。"
+              }
+            },
+            "enum": [
+              "Owner",
+              "Member",
+              "Billing-Admin"
+            ]
+          },
+          "projects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectAccessRequest"
+            },
+            "description": "The project-level access list. Required when orgRole is Member.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目级访问列表。当 orgRole 为 Member 时必填。"
+              }
+            }
+          }
+        },
+        "required": [
+          "name",
+          "orgRole"
+        ]
+      },
+      "ApiKeyDetail": {
+        "type": "object",
+        "properties": {
+          "apiKeyId": {
+            "type": "string",
+            "description": "The public API key ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "公开 API Key ID。"
+              }
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "The API key display name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 显示名称。"
+              }
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "The API key description.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 描述。"
+              }
+            }
+          },
+          "creatorName": {
+            "type": "string",
+            "description": "The resolved display name of the creator.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "解析出的创建者显示名称。"
+              }
+            }
+          },
+          "createdBy": {
+            "type": "string",
+            "description": "The creator email address or creator API key ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "创建者邮箱地址或创建者 API Key ID。"
+              }
+            }
+          },
+          "orgRole": {
+            "type": "string",
+            "description": "The organization role assigned to the API key: Owner, Member, or Billing-Admin.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "授予 API Key 的组织角色：Owner、Member 或 Billing-Admin。"
+              }
+            },
+            "enum": [
+              "Owner",
+              "Member",
+              "Billing-Admin"
+            ]
+          },
+          "projects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiKeyProjectResponse"
+            },
+            "description": "The project-level access granted to the API key.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "授予 API Key 的项目级访问权限。"
+              }
+            }
+          },
+          "createTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The creation time in UTC ISO 8601 format.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "创建时间，采用 UTC ISO 8601 格式。"
+              }
+            }
+          }
+        },
+        "required": [
+          "apiKeyId",
+          "name",
+          "creatorName",
+          "createdBy",
+          "orgRole",
+          "projects",
+          "createTime"
+        ]
+      },
+      "ProjectAccessRequest": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "description": "The project ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目 ID。"
+              }
+            }
+          },
+          "role": {
+            "type": "string",
+            "description": "The project role: Admin, Read-Write, or Read-Only.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目内角色：Admin、Read-Write 或 Read-Only。"
+              }
+            },
+            "enum": [
+              "Admin",
+              "Read-Write",
+              "Read-Only"
+            ]
+          },
+          "allCluster": {
+            "type": "boolean",
+            "description": "Whether access covers all clusters in the project.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "访问权限是否覆盖项目内的所有集群。"
+              }
+            }
+          },
+          "clusterIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The clusters the API key can access when allCluster is false.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "当 allCluster 为 false 时，API Key 可访问的集群列表。"
+              }
+            }
+          },
+          "allVolume": {
+            "type": "boolean",
+            "description": "Whether access covers all volumes in the project.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "访问权限是否覆盖项目内的所有存储卷。"
+              }
+            }
+          },
+          "volumeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The volumes the API key can access when allVolume is false.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "当 allVolume 为 false 时，API Key 可访问的存储卷列表。"
+              }
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "role"
+        ]
+      },
+      "ApiKeyProjectResponse": {
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "string",
+            "description": "The project ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目 ID。"
+              }
+            }
+          },
+          "projectName": {
+            "type": "string",
+            "description": "The project display name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目显示名称。"
+              }
+            }
+          },
+          "role": {
+            "type": "string",
+            "description": "The project role: Admin, Read-Write, or Read-Only.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目内角色：Admin、Read-Write 或 Read-Only。"
+              }
+            },
+            "enum": [
+              "Admin",
+              "Read-Write",
+              "Read-Only"
+            ]
+          },
+          "allCluster": {
+            "type": "boolean",
+            "description": "Whether access covers all clusters in the project.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "访问权限是否覆盖项目内的所有集群。"
+              }
+            }
+          },
+          "clusters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiKeyClusterResponse"
+            },
+            "description": "The clusters the API key can access.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 可访问的集群列表。"
+              }
+            }
+          },
+          "allVolume": {
+            "type": "boolean",
+            "description": "Whether access covers all volumes in the project.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "访问权限是否覆盖项目内的所有存储卷。"
+              }
+            }
+          },
+          "volumes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiKeyVolumeResponse"
+            },
+            "description": "The volumes the API key can access.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "API Key 可访问的存储卷列表。"
+              }
+            }
+          }
+        },
+        "required": [
+          "projectId",
+          "role"
+        ]
+      },
+      "ApiKeyClusterResponse": {
+        "type": "object",
+        "properties": {
+          "clusterId": {
+            "type": "string",
+            "description": "The cluster ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "集群 ID。"
+              }
+            }
+          },
+          "clusterName": {
+            "type": "string",
+            "description": "The cluster display name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "集群显示名称。"
+              }
+            }
+          }
+        },
+        "required": [
+          "clusterId",
+          "clusterName"
+        ]
+      },
+      "ApiKeyVolumeResponse": {
+        "type": "object",
+        "properties": {
+          "volumeId": {
+            "type": "string",
+            "description": "The volume ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "存储卷 ID。"
+              }
+            }
+          },
+          "volumeName": {
+            "type": "string",
+            "description": "The volume display name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "存储卷显示名称。"
+              }
+            }
+          }
+        },
+        "required": [
+          "volumeId",
+          "volumeName"
         ]
       }
     }
