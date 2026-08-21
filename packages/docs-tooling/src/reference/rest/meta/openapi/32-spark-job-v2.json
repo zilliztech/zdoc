@@ -254,17 +254,16 @@
                         "items": [
                           {
                             "jobId": "job-xxxxxxxxxxxxxxxxxx",
-                            "sparkInstanceId": "sp-xxxxxxxxxxxxxxxxxx",
                             "type": "SPARK",
-                            "jobName": "daily-vector-etl",
+                            "description": "daily-vector-etl",
                             "status": "RUNNING",
                             "regionId": "aws-us-west-2",
                             "clusterId": "in01-xxxxxxxxxxxxxxx",
-                            "mainClass": "com.zilliz.example.Main",
                             "createdAt": "2026-05-20T10:00:00Z",
                             "startedAt": "2026-05-20T10:01:00Z",
                             "finishedAt": null,
-                            "durationSeconds": 300
+                            "durationSeconds": 300,
+                            "projectId": "proj-xxxxxxxxxxxxxxxxxxxx"
                           }
                         ]
                       }
@@ -284,963 +283,6 @@
           }
         },
         "security": []
-      }
-    },
-    "/v2/jobs/jar": {
-      "post": {
-        "summary": "Create Spark JAR Job",
-        "deprecated": false,
-        "description": "This operation creates a Spark JAR job.",
-        "x-i18n": {
-          "zh-CN": {
-            "summary": "创建 Spark JAR 任务",
-            "description": "本接口用于创建 Spark JAR 任务。"
-          }
-        },
-        "tags": [
-          "Spark Job (V2)"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "required": true,
-            "example": "Bearer {{TOKEN}}",
-            "description": "The authentication token should be an API key with appropriate privileges.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "认证令牌，应为具备适当权限的 API 密钥。"
-              }
-            },
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Idempotency-Key",
-            "in": "header",
-            "required": false,
-            "example": "spark-job-20260814-001",
-            "description": "A unique key that makes repeated create requests idempotent.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "用于确保重复创建请求幂等的唯一键。"
-              }
-            },
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateSparkJarJobRequestV2"
-              },
-              "examples": {
-                "1": {
-                  "summary": "Create Spark job",
-                  "value": {
-                    "jobName": "daily-vector-job",
-                    "description": "Daily vector processing job.",
-                    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
-                    "regionId": "aws-us-west-2",
-                    "input": {
-                      "type": "VOLUME",
-                      "volumeId": "volume-xxxxxxxxxxxxxxxxxxx",
-                      "path": "/input/data.parquet",
-                      "format": "parquet"
-                    },
-                    "output": {
-                      "type": "VOLUME",
-                      "volumeId": "volume-xxxxxxxxxxxxxxxxxxx",
-                      "path": "/output/results",
-                      "format": "parquet",
-                      "writeMode": "OVERWRITE"
-                    },
-                    "clusterSize": "medium",
-                    "minExecutors": 2,
-                    "maxExecutors": 8,
-                    "timeoutSeconds": 3600,
-                    "artifact": {
-                      "volumeId": "volume-xxxxxxxxxxxxxxxxxxx",
-                      "path": "/jars/example-job.jar"
-                    },
-                    "mainClass": "com.example.Main",
-                    "arguments": [
-                      "--input",
-                      "${input.uri}"
-                    ],
-                    "jobParameters": {
-                      "partition": "2026-08-14"
-                    },
-                    "sparkConf": {
-                      "spark.sql.shuffle.partitions": "64"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Returns the created Spark job.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "返回已创建的 Spark 任务。"
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "x-tab-label": "success",
-                      "type": "object",
-                      "description": "A success response.",
-                      "x-i18n": {
-                        "zh-CN": {
-                          "description": "成功响应。"
-                        }
-                      },
-                      "properties": {
-                        "code": {
-                          "type": "integer",
-                          "description": "Response code.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "响应码。"
-                            }
-                          },
-                          "example": 0
-                        },
-                        "data": {
-                          "$ref": "#/components/schemas/SparkJobSummary"
-                        }
-                      }
-                    },
-                    {
-                      "x-tab-label": "failure",
-                      "type": "object",
-                      "description": "A failure response.",
-                      "x-i18n": {
-                        "zh-CN": {
-                          "description": "失败响应。"
-                        }
-                      },
-                      "properties": {
-                        "code": {
-                          "type": "integer",
-                          "description": "Response code.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "响应码。"
-                            }
-                          }
-                        },
-                        "message": {
-                          "type": "string",
-                          "description": "Error message.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "错误描述。"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                },
-                "examples": {
-                  "1": {
-                    "summary": "Success",
-                    "x-target-response": "OPTION 1",
-                    "value": {
-                      "code": 0,
-                      "data": {
-                        "jobId": "job-xxxxxxxxxxxxxxxxxx",
-                        "sparkInstanceId": "sp-xxxxxxxxxxxxxxxxxx",
-                        "type": "SPARK",
-                        "jobName": "daily-vector-job",
-                        "status": "PENDING",
-                        "regionId": "aws-us-west-2",
-                        "projectId": "proj-xxxxxxxxxxxxxxxxxxx"
-                      }
-                    }
-                  },
-                  "2": {
-                    "summary": "Failure",
-                    "x-target-response": "OPTION 2",
-                    "value": {
-                      "code": 1800,
-                      "message": "User hasn't authenticated"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v2/jobs/dedup/pk": {
-      "post": {
-        "summary": "Create Spark PK Deduplication Job",
-        "deprecated": false,
-        "description": "This operation creates a primary-key deduplication job.",
-        "x-i18n": {
-          "zh-CN": {
-            "summary": "创建 Spark 主键去重任务",
-            "description": "本接口用于创建主键去重任务。"
-          }
-        },
-        "tags": [
-          "Spark Job (V2)"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "required": true,
-            "example": "Bearer {{TOKEN}}",
-            "description": "The authentication token should be an API key with appropriate privileges.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "认证令牌，应为具备适当权限的 API 密钥。"
-              }
-            },
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Idempotency-Key",
-            "in": "header",
-            "required": false,
-            "example": "spark-job-20260814-001",
-            "description": "A unique key that makes repeated create requests idempotent.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "用于确保重复创建请求幂等的唯一键。"
-              }
-            },
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateSparkPkDedupJobRequestV2"
-              },
-              "examples": {
-                "1": {
-                  "summary": "Create Spark job",
-                  "value": {
-                    "jobName": "daily-vector-job",
-                    "description": "Daily vector processing job.",
-                    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
-                    "regionId": "aws-us-west-2",
-                    "input": {
-                      "type": "VOLUME",
-                      "volumeId": "volume-xxxxxxxxxxxxxxxxxxx",
-                      "path": "/input/data.parquet",
-                      "format": "parquet"
-                    },
-                    "output": {
-                      "type": "VOLUME",
-                      "volumeId": "volume-xxxxxxxxxxxxxxxxxxx",
-                      "path": "/output/results",
-                      "format": "parquet",
-                      "writeMode": "OVERWRITE"
-                    },
-                    "clusterSize": "medium",
-                    "minExecutors": 2,
-                    "maxExecutors": 8,
-                    "timeoutSeconds": 3600,
-                    "primaryKeyField": "id",
-                    "keepBy": "updated_at:max"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Returns the created Spark job.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "返回已创建的 Spark 任务。"
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "x-tab-label": "success",
-                      "type": "object",
-                      "description": "A success response.",
-                      "x-i18n": {
-                        "zh-CN": {
-                          "description": "成功响应。"
-                        }
-                      },
-                      "properties": {
-                        "code": {
-                          "type": "integer",
-                          "description": "Response code.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "响应码。"
-                            }
-                          },
-                          "example": 0
-                        },
-                        "data": {
-                          "$ref": "#/components/schemas/SparkJobSummary"
-                        }
-                      }
-                    },
-                    {
-                      "x-tab-label": "failure",
-                      "type": "object",
-                      "description": "A failure response.",
-                      "x-i18n": {
-                        "zh-CN": {
-                          "description": "失败响应。"
-                        }
-                      },
-                      "properties": {
-                        "code": {
-                          "type": "integer",
-                          "description": "Response code.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "响应码。"
-                            }
-                          }
-                        },
-                        "message": {
-                          "type": "string",
-                          "description": "Error message.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "错误描述。"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                },
-                "examples": {
-                  "1": {
-                    "summary": "Success",
-                    "x-target-response": "OPTION 1",
-                    "value": {
-                      "code": 0,
-                      "data": {
-                        "jobId": "job-xxxxxxxxxxxxxxxxxx",
-                        "sparkInstanceId": "sp-xxxxxxxxxxxxxxxxxx",
-                        "type": "SPARK",
-                        "jobName": "daily-vector-job",
-                        "status": "PENDING",
-                        "regionId": "aws-us-west-2",
-                        "projectId": "proj-xxxxxxxxxxxxxxxxxxx"
-                      }
-                    }
-                  },
-                  "2": {
-                    "summary": "Failure",
-                    "x-target-response": "OPTION 2",
-                    "value": {
-                      "code": 1800,
-                      "message": "User hasn't authenticated"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v2/jobs/dedup/vector": {
-      "post": {
-        "summary": "Create Spark Vector Deduplication Job",
-        "deprecated": false,
-        "description": "This operation creates a vector deduplication job.",
-        "x-i18n": {
-          "zh-CN": {
-            "summary": "创建 Spark 向量去重任务",
-            "description": "本接口用于创建向量去重任务。"
-          }
-        },
-        "tags": [
-          "Spark Job (V2)"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "required": true,
-            "example": "Bearer {{TOKEN}}",
-            "description": "The authentication token should be an API key with appropriate privileges.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "认证令牌，应为具备适当权限的 API 密钥。"
-              }
-            },
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Idempotency-Key",
-            "in": "header",
-            "required": false,
-            "example": "spark-job-20260814-001",
-            "description": "A unique key that makes repeated create requests idempotent.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "用于确保重复创建请求幂等的唯一键。"
-              }
-            },
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateSparkVectorDedupJobRequestV2"
-              },
-              "examples": {
-                "1": {
-                  "summary": "Create Spark job",
-                  "value": {
-                    "jobName": "daily-vector-job",
-                    "description": "Daily vector processing job.",
-                    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
-                    "regionId": "aws-us-west-2",
-                    "input": {
-                      "type": "VOLUME",
-                      "volumeId": "volume-xxxxxxxxxxxxxxxxxxx",
-                      "path": "/input/data.parquet",
-                      "format": "parquet"
-                    },
-                    "output": {
-                      "type": "VOLUME",
-                      "volumeId": "volume-xxxxxxxxxxxxxxxxxxx",
-                      "path": "/output/results",
-                      "format": "parquet",
-                      "writeMode": "OVERWRITE"
-                    },
-                    "clusterSize": "medium",
-                    "minExecutors": 2,
-                    "maxExecutors": 8,
-                    "timeoutSeconds": 3600,
-                    "primaryKeyField": "id",
-                    "vectorField": "embedding",
-                    "keepBy": "updated_at:max",
-                    "metric": "L2",
-                    "similarityThreshold": 0.1,
-                    "outputMode": "DEDUPLICATED",
-                    "targetDedupRate": 0.2
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Returns the created Spark job.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "返回已创建的 Spark 任务。"
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "x-tab-label": "success",
-                      "type": "object",
-                      "description": "A success response.",
-                      "x-i18n": {
-                        "zh-CN": {
-                          "description": "成功响应。"
-                        }
-                      },
-                      "properties": {
-                        "code": {
-                          "type": "integer",
-                          "description": "Response code.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "响应码。"
-                            }
-                          },
-                          "example": 0
-                        },
-                        "data": {
-                          "$ref": "#/components/schemas/SparkJobSummary"
-                        }
-                      }
-                    },
-                    {
-                      "x-tab-label": "failure",
-                      "type": "object",
-                      "description": "A failure response.",
-                      "x-i18n": {
-                        "zh-CN": {
-                          "description": "失败响应。"
-                        }
-                      },
-                      "properties": {
-                        "code": {
-                          "type": "integer",
-                          "description": "Response code.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "响应码。"
-                            }
-                          }
-                        },
-                        "message": {
-                          "type": "string",
-                          "description": "Error message.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "错误描述。"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                },
-                "examples": {
-                  "1": {
-                    "summary": "Success",
-                    "x-target-response": "OPTION 1",
-                    "value": {
-                      "code": 0,
-                      "data": {
-                        "jobId": "job-xxxxxxxxxxxxxxxxxx",
-                        "sparkInstanceId": "sp-xxxxxxxxxxxxxxxxxx",
-                        "type": "SPARK",
-                        "jobName": "daily-vector-job",
-                        "status": "PENDING",
-                        "regionId": "aws-us-west-2",
-                        "projectId": "proj-xxxxxxxxxxxxxxxxxxx"
-                      }
-                    }
-                  },
-                  "2": {
-                    "summary": "Failure",
-                    "x-target-response": "OPTION 2",
-                    "value": {
-                      "code": 1800,
-                      "message": "User hasn't authenticated"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v2/jobs/kmeans": {
-      "post": {
-        "summary": "Create Spark K-means Job",
-        "deprecated": false,
-        "description": "This operation creates a K-means clustering job.",
-        "x-i18n": {
-          "zh-CN": {
-            "summary": "创建 Spark K-means 任务",
-            "description": "本接口用于创建 K-means 聚类任务。"
-          }
-        },
-        "tags": [
-          "Spark Job (V2)"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "required": true,
-            "example": "Bearer {{TOKEN}}",
-            "description": "The authentication token should be an API key with appropriate privileges.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "认证令牌，应为具备适当权限的 API 密钥。"
-              }
-            },
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Idempotency-Key",
-            "in": "header",
-            "required": false,
-            "example": "spark-job-20260814-001",
-            "description": "A unique key that makes repeated create requests idempotent.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "用于确保重复创建请求幂等的唯一键。"
-              }
-            },
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateSparkKmeansJobRequestV2"
-              },
-              "examples": {
-                "1": {
-                  "summary": "Create Spark job",
-                  "value": {
-                    "jobName": "daily-vector-job",
-                    "description": "Daily vector processing job.",
-                    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
-                    "regionId": "aws-us-west-2",
-                    "input": {
-                      "type": "VOLUME",
-                      "volumeId": "volume-xxxxxxxxxxxxxxxxxxx",
-                      "path": "/input/data.parquet",
-                      "format": "parquet"
-                    },
-                    "output": {
-                      "type": "VOLUME",
-                      "volumeId": "volume-xxxxxxxxxxxxxxxxxxx",
-                      "path": "/output/results",
-                      "format": "parquet",
-                      "writeMode": "OVERWRITE"
-                    },
-                    "clusterSize": "medium",
-                    "minExecutors": 2,
-                    "maxExecutors": 8,
-                    "timeoutSeconds": 3600,
-                    "primaryKeyField": "id",
-                    "vectorField": "embedding",
-                    "metric": "L2",
-                    "numClusters": 8
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Returns the created Spark job.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "返回已创建的 Spark 任务。"
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "x-tab-label": "success",
-                      "type": "object",
-                      "description": "A success response.",
-                      "x-i18n": {
-                        "zh-CN": {
-                          "description": "成功响应。"
-                        }
-                      },
-                      "properties": {
-                        "code": {
-                          "type": "integer",
-                          "description": "Response code.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "响应码。"
-                            }
-                          },
-                          "example": 0
-                        },
-                        "data": {
-                          "$ref": "#/components/schemas/SparkJobSummary"
-                        }
-                      }
-                    },
-                    {
-                      "x-tab-label": "failure",
-                      "type": "object",
-                      "description": "A failure response.",
-                      "x-i18n": {
-                        "zh-CN": {
-                          "description": "失败响应。"
-                        }
-                      },
-                      "properties": {
-                        "code": {
-                          "type": "integer",
-                          "description": "Response code.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "响应码。"
-                            }
-                          }
-                        },
-                        "message": {
-                          "type": "string",
-                          "description": "Error message.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "错误描述。"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                },
-                "examples": {
-                  "1": {
-                    "summary": "Success",
-                    "x-target-response": "OPTION 1",
-                    "value": {
-                      "code": 0,
-                      "data": {
-                        "jobId": "job-xxxxxxxxxxxxxxxxxx",
-                        "sparkInstanceId": "sp-xxxxxxxxxxxxxxxxxx",
-                        "type": "SPARK",
-                        "jobName": "daily-vector-job",
-                        "status": "PENDING",
-                        "regionId": "aws-us-west-2",
-                        "projectId": "proj-xxxxxxxxxxxxxxxxxxx"
-                      }
-                    }
-                  },
-                  "2": {
-                    "summary": "Failure",
-                    "x-target-response": "OPTION 2",
-                    "value": {
-                      "code": 1800,
-                      "message": "User hasn't authenticated"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v2/jobs/anomaly-detection": {
-      "post": {
-        "summary": "Create Spark Anomaly Detection Job",
-        "deprecated": false,
-        "description": "This operation creates an anomaly-detection job.",
-        "x-i18n": {
-          "zh-CN": {
-            "summary": "创建 Spark 异常检测任务",
-            "description": "本接口用于创建异常检测任务。"
-          }
-        },
-        "tags": [
-          "Spark Job (V2)"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "required": true,
-            "example": "Bearer {{TOKEN}}",
-            "description": "The authentication token should be an API key with appropriate privileges.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "认证令牌，应为具备适当权限的 API 密钥。"
-              }
-            },
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Idempotency-Key",
-            "in": "header",
-            "required": false,
-            "example": "spark-job-20260814-001",
-            "description": "A unique key that makes repeated create requests idempotent.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "用于确保重复创建请求幂等的唯一键。"
-              }
-            },
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateSparkAnomalyDetectionJobRequestV2"
-              },
-              "examples": {
-                "1": {
-                  "summary": "Create Spark job",
-                  "value": {
-                    "jobName": "daily-vector-job",
-                    "description": "Daily vector processing job.",
-                    "projectId": "proj-xxxxxxxxxxxxxxxxxxx",
-                    "regionId": "aws-us-west-2",
-                    "input": {
-                      "type": "VOLUME",
-                      "volumeId": "volume-xxxxxxxxxxxxxxxxxxx",
-                      "path": "/input/data.parquet",
-                      "format": "parquet"
-                    },
-                    "output": {
-                      "type": "VOLUME",
-                      "volumeId": "volume-xxxxxxxxxxxxxxxxxxx",
-                      "path": "/output/results",
-                      "format": "parquet",
-                      "writeMode": "OVERWRITE"
-                    },
-                    "clusterSize": "medium",
-                    "minExecutors": 2,
-                    "maxExecutors": 8,
-                    "timeoutSeconds": 3600,
-                    "primaryKeyField": "id",
-                    "vectorField": "embedding",
-                    "outputWithFeatures": false,
-                    "topK": 100
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Returns the created Spark job.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "返回已创建的 Spark 任务。"
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "oneOf": [
-                    {
-                      "x-tab-label": "success",
-                      "type": "object",
-                      "description": "A success response.",
-                      "x-i18n": {
-                        "zh-CN": {
-                          "description": "成功响应。"
-                        }
-                      },
-                      "properties": {
-                        "code": {
-                          "type": "integer",
-                          "description": "Response code.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "响应码。"
-                            }
-                          },
-                          "example": 0
-                        },
-                        "data": {
-                          "$ref": "#/components/schemas/SparkJobSummary"
-                        }
-                      }
-                    },
-                    {
-                      "x-tab-label": "failure",
-                      "type": "object",
-                      "description": "A failure response.",
-                      "x-i18n": {
-                        "zh-CN": {
-                          "description": "失败响应。"
-                        }
-                      },
-                      "properties": {
-                        "code": {
-                          "type": "integer",
-                          "description": "Response code.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "响应码。"
-                            }
-                          }
-                        },
-                        "message": {
-                          "type": "string",
-                          "description": "Error message.",
-                          "x-i18n": {
-                            "zh-CN": {
-                              "description": "错误描述。"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                },
-                "examples": {
-                  "1": {
-                    "summary": "Success",
-                    "x-target-response": "OPTION 1",
-                    "value": {
-                      "code": 0,
-                      "data": {
-                        "jobId": "job-xxxxxxxxxxxxxxxxxx",
-                        "sparkInstanceId": "sp-xxxxxxxxxxxxxxxxxx",
-                        "type": "SPARK",
-                        "jobName": "daily-vector-job",
-                        "status": "PENDING",
-                        "regionId": "aws-us-west-2",
-                        "projectId": "proj-xxxxxxxxxxxxxxxxxxx"
-                      }
-                    }
-                  },
-                  "2": {
-                    "summary": "Failure",
-                    "x-target-response": "OPTION 2",
-                    "value": {
-                      "code": 1800,
-                      "message": "User hasn't authenticated"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/v2/projects/{projectId}/jobs/{jobId}": {
@@ -1383,45 +425,22 @@
                       "code": 0,
                       "data": {
                         "jobId": "job-xxxxxxxxxxxxxxxxxx",
-                        "sparkInstanceId": "sp-xxxxxxxxxxxxxxxxxx",
                         "type": "SPARK",
-                        "jobName": "daily-vector-etl",
+                        "description": "daily-vector-etl",
                         "status": "RUNNING",
                         "regionId": "aws-us-west-2",
                         "clusterId": "in01-xxxxxxxxxxxxxxx",
-                        "mainClass": "com.zilliz.example.Main",
                         "createdAt": "2026-05-20T10:00:00Z",
                         "startedAt": "2026-05-20T10:01:00Z",
                         "finishedAt": null,
                         "durationSeconds": 300,
-                        "sparkApplicationName": "spark-batch-sp-xxxxxxxxxxxxxxxxxx",
-                        "sparkNamespace": "spark-sp-xxxxxxxxxxxxxxxxxx",
-                        "sparkHistoryUrl": "https://spark-history.example.com",
-                        "sparkApplicationId": "spark-batch-sp-xxxxxxxxxxxxxxxxxx-0",
-                        "sparkHistoryAppUrl": "https://spark-history.example.com/history/spark-batch-sp-xxxxxxxxxxxxxxxxxx-0/jobs/",
                         "artifact": {
-                          "volumeId": "stg-xxxxxxxxxxxxxxxxxxx",
+                          "volumeName": "stg-xxxxxxxxxxxxxxxxxxx",
                           "path": "/jars/example-job.jar",
                           "artifactUri": "volume://my-volume/jars/example-job.jar"
                         },
-                        "applicationType": "Java",
-                        "arguments": [
-                          "--collection",
-                          "medium_articles"
-                        ],
-                        "resource": {
-                          "driverCores": 2,
-                          "driverMemory": "8g",
-                          "executorCores": 2,
-                          "executorMemory": "8g",
-                          "minExecutors": 1,
-                          "maxExecutors": 10
-                        },
-                        "sparkConf": {
-                          "spark.sql.shuffle.partitions": "200"
-                        },
-                        "error": null,
-                        "submittedAt": "2026-05-20T10:00:30Z"
+                        "submittedAt": "2026-05-20T10:00:30Z",
+                        "projectId": "proj-xxxxxxxxxxxxxxxxxxxx"
                       }
                     }
                   },
@@ -1638,127 +657,1022 @@
         },
         "security": []
       }
+    },
+    "/v2/projects/{projectId}/jobs/jar": {
+      "post": {
+        "summary": "Create Spark JAR Job",
+        "deprecated": false,
+        "description": "This operation creates a Spark JAR job.",
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "创建 Spark JAR 任务",
+            "description": "本接口用于创建 Spark JAR 任务。"
+          }
+        },
+        "tags": [
+          "Spark Job (V2)"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "example": "Bearer {{TOKEN}}",
+            "description": "The authentication token should be an API key with appropriate privileges.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "description": "The project ID.",
+            "example": "proj-xxxxxxxxxxxxxxxxxxxx",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目 ID。"
+              }
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "example": "spark-job-20260814-001",
+            "description": "A unique key that makes repeated create requests idempotent.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "用于确保重复创建请求幂等的唯一键。"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSparkJarJobRequestV2"
+              },
+              "examples": {
+                "1": {
+                  "summary": "Create Spark job",
+                  "value": {
+                    "description": "Daily vector processing job.",
+                    "regionId": "aws-us-west-2",
+                    "input": {
+                      "type": "VOLUME",
+                      "volumeName": "volume-xxxxxxxxxxxxxxxxxxx",
+                      "path": "/input/data.parquet",
+                      "format": "parquet"
+                    },
+                    "output": {
+                      "type": "VOLUME",
+                      "volumeName": "volume-xxxxxxxxxxxxxxxxxxx",
+                      "path": "/output/results",
+                      "format": "parquet",
+                      "writeMode": "OVERWRITE"
+                    },
+                    "resourceSize": "medium",
+                    "timeoutSeconds": 3600,
+                    "artifact": {
+                      "volumeName": "volume-xxxxxxxxxxxxxxxxxxx",
+                      "path": "/jars/example-job.jar"
+                    },
+                    "mainClass": "com.example.Main",
+                    "arguments": [
+                      "--input",
+                      "${input.uri}"
+                    ],
+                    "jobParameters": {
+                      "partition": "2026-08-14"
+                    },
+                    "sparkConf": {
+                      "spark.sql.shuffle.partitions": "64"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the created Spark job.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "返回已创建的 Spark 任务。"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "x-tab-label": "success",
+                      "type": "object",
+                      "description": "A success response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "成功响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "Response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          },
+                          "example": 0
+                        },
+                        "data": {
+                          "$ref": "#/components/schemas/SparkJobSummary"
+                        }
+                      }
+                    },
+                    {
+                      "x-tab-label": "failure",
+                      "type": "object",
+                      "description": "A failure response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "失败响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "Response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "Error message.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "错误描述。"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "x-target-response": "OPTION 1",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "jobId": "job-xxxxxxxxxxxxxxxxxx",
+                        "sparkInstanceId": "sp-xxxxxxxxxxxxxxxxxx",
+                        "type": "SPARK",
+                        "jobName": "daily-vector-job",
+                        "status": "PENDING",
+                        "regionId": "aws-us-west-2",
+                        "projectId": "proj-xxxxxxxxxxxxxxxxxxx"
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "Failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 1800,
+                      "message": "User hasn't authenticated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/projects/{projectId}/jobs/dedup/pk": {
+      "post": {
+        "summary": "Create Spark PK Deduplication Job",
+        "deprecated": false,
+        "description": "This operation creates a primary-key deduplication job.",
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "创建 Spark 主键去重任务",
+            "description": "本接口用于创建主键去重任务。"
+          }
+        },
+        "tags": [
+          "Spark Job (V2)"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "example": "Bearer {{TOKEN}}",
+            "description": "The authentication token should be an API key with appropriate privileges.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "description": "The project ID.",
+            "example": "proj-xxxxxxxxxxxxxxxxxxxx",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目 ID。"
+              }
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "example": "spark-job-20260814-001",
+            "description": "A unique key that makes repeated create requests idempotent.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "用于确保重复创建请求幂等的唯一键。"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSparkPkDedupJobRequestV2"
+              },
+              "examples": {
+                "1": {
+                  "summary": "Create Spark job",
+                  "value": {
+                    "description": "Daily vector processing job.",
+                    "regionId": "aws-us-west-2",
+                    "input": {
+                      "type": "VOLUME",
+                      "volumeName": "volume-xxxxxxxxxxxxxxxxxxx",
+                      "path": "/input/data.parquet",
+                      "format": "parquet"
+                    },
+                    "output": {
+                      "type": "VOLUME",
+                      "volumeName": "volume-xxxxxxxxxxxxxxxxxxx",
+                      "path": "/output/results",
+                      "format": "parquet",
+                      "writeMode": "OVERWRITE"
+                    },
+                    "resourceSize": "medium",
+                    "timeoutSeconds": 3600,
+                    "primaryKeyField": "id",
+                    "keepBy": "updated_at:max"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the created Spark job.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "返回已创建的 Spark 任务。"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "x-tab-label": "success",
+                      "type": "object",
+                      "description": "A success response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "成功响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "Response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          },
+                          "example": 0
+                        },
+                        "data": {
+                          "$ref": "#/components/schemas/SparkJobSummary"
+                        }
+                      }
+                    },
+                    {
+                      "x-tab-label": "failure",
+                      "type": "object",
+                      "description": "A failure response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "失败响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "Response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "Error message.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "错误描述。"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "x-target-response": "OPTION 1",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "jobId": "job-xxxxxxxxxxxxxxxxxx",
+                        "sparkInstanceId": "sp-xxxxxxxxxxxxxxxxxx",
+                        "type": "SPARK",
+                        "jobName": "daily-vector-job",
+                        "status": "PENDING",
+                        "regionId": "aws-us-west-2",
+                        "projectId": "proj-xxxxxxxxxxxxxxxxxxx"
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "Failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 1800,
+                      "message": "User hasn't authenticated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/projects/{projectId}/jobs/dedup/vector": {
+      "post": {
+        "summary": "Create Spark Vector Deduplication Job",
+        "deprecated": false,
+        "description": "This operation creates a vector deduplication job.",
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "创建 Spark 向量去重任务",
+            "description": "本接口用于创建向量去重任务。"
+          }
+        },
+        "tags": [
+          "Spark Job (V2)"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "example": "Bearer {{TOKEN}}",
+            "description": "The authentication token should be an API key with appropriate privileges.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "description": "The project ID.",
+            "example": "proj-xxxxxxxxxxxxxxxxxxxx",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目 ID。"
+              }
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "example": "spark-job-20260814-001",
+            "description": "A unique key that makes repeated create requests idempotent.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "用于确保重复创建请求幂等的唯一键。"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSparkVectorDedupJobRequestV2"
+              },
+              "examples": {
+                "1": {
+                  "summary": "Create Spark job",
+                  "value": {
+                    "description": "Daily vector processing job.",
+                    "regionId": "aws-us-west-2",
+                    "input": {
+                      "type": "VOLUME",
+                      "volumeName": "volume-xxxxxxxxxxxxxxxxxxx",
+                      "path": "/input/data.parquet",
+                      "format": "parquet"
+                    },
+                    "output": {
+                      "type": "VOLUME",
+                      "volumeName": "volume-xxxxxxxxxxxxxxxxxxx",
+                      "path": "/output/results",
+                      "format": "parquet",
+                      "writeMode": "OVERWRITE"
+                    },
+                    "resourceSize": "medium",
+                    "timeoutSeconds": 3600,
+                    "primaryKeyField": "id",
+                    "vectorField": "embedding",
+                    "keepBy": "updated_at:max",
+                    "metric": "L2",
+                    "similarityThreshold": 0.1,
+                    "outputMode": "DEDUPLICATED",
+                    "targetDedupRate": 0.2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the created Spark job.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "返回已创建的 Spark 任务。"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "x-tab-label": "success",
+                      "type": "object",
+                      "description": "A success response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "成功响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "Response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          },
+                          "example": 0
+                        },
+                        "data": {
+                          "$ref": "#/components/schemas/SparkJobSummary"
+                        }
+                      }
+                    },
+                    {
+                      "x-tab-label": "failure",
+                      "type": "object",
+                      "description": "A failure response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "失败响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "Response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "Error message.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "错误描述。"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "x-target-response": "OPTION 1",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "jobId": "job-xxxxxxxxxxxxxxxxxx",
+                        "sparkInstanceId": "sp-xxxxxxxxxxxxxxxxxx",
+                        "type": "SPARK",
+                        "jobName": "daily-vector-job",
+                        "status": "PENDING",
+                        "regionId": "aws-us-west-2",
+                        "projectId": "proj-xxxxxxxxxxxxxxxxxxx"
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "Failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 1800,
+                      "message": "User hasn't authenticated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/projects/{projectId}/jobs/kmeans": {
+      "post": {
+        "summary": "Create Spark K-means Job",
+        "deprecated": false,
+        "description": "This operation creates a K-means clustering job.",
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "创建 Spark K-means 任务",
+            "description": "本接口用于创建 K-means 聚类任务。"
+          }
+        },
+        "tags": [
+          "Spark Job (V2)"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "example": "Bearer {{TOKEN}}",
+            "description": "The authentication token should be an API key with appropriate privileges.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "description": "The project ID.",
+            "example": "proj-xxxxxxxxxxxxxxxxxxxx",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目 ID。"
+              }
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "example": "spark-job-20260814-001",
+            "description": "A unique key that makes repeated create requests idempotent.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "用于确保重复创建请求幂等的唯一键。"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSparkKmeansJobRequestV2"
+              },
+              "examples": {
+                "1": {
+                  "summary": "Create Spark job",
+                  "value": {
+                    "description": "Daily vector processing job.",
+                    "regionId": "aws-us-west-2",
+                    "input": {
+                      "type": "VOLUME",
+                      "volumeName": "volume-xxxxxxxxxxxxxxxxxxx",
+                      "path": "/input/data.parquet",
+                      "format": "parquet"
+                    },
+                    "output": {
+                      "type": "VOLUME",
+                      "volumeName": "volume-xxxxxxxxxxxxxxxxxxx",
+                      "path": "/output/results",
+                      "format": "parquet",
+                      "writeMode": "OVERWRITE"
+                    },
+                    "resourceSize": "medium",
+                    "timeoutSeconds": 3600,
+                    "primaryKeyField": "id",
+                    "vectorField": "embedding",
+                    "metric": "L2",
+                    "numClusters": 8
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the created Spark job.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "返回已创建的 Spark 任务。"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "x-tab-label": "success",
+                      "type": "object",
+                      "description": "A success response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "成功响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "Response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          },
+                          "example": 0
+                        },
+                        "data": {
+                          "$ref": "#/components/schemas/SparkJobSummary"
+                        }
+                      }
+                    },
+                    {
+                      "x-tab-label": "failure",
+                      "type": "object",
+                      "description": "A failure response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "失败响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "Response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "Error message.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "错误描述。"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "x-target-response": "OPTION 1",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "jobId": "job-xxxxxxxxxxxxxxxxxx",
+                        "sparkInstanceId": "sp-xxxxxxxxxxxxxxxxxx",
+                        "type": "SPARK",
+                        "jobName": "daily-vector-job",
+                        "status": "PENDING",
+                        "regionId": "aws-us-west-2",
+                        "projectId": "proj-xxxxxxxxxxxxxxxxxxx"
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "Failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 1800,
+                      "message": "User hasn't authenticated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/projects/{projectId}/jobs/anomaly-detection": {
+      "post": {
+        "summary": "Create Spark Anomaly Detection Job",
+        "deprecated": false,
+        "description": "This operation creates an anomaly-detection job.",
+        "x-i18n": {
+          "zh-CN": {
+            "summary": "创建 Spark 异常检测任务",
+            "description": "本接口用于创建异常检测任务。"
+          }
+        },
+        "tags": [
+          "Spark Job (V2)"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "example": "Bearer {{TOKEN}}",
+            "description": "The authentication token should be an API key with appropriate privileges.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "required": true,
+            "description": "The project ID.",
+            "example": "proj-xxxxxxxxxxxxxxxxxxxx",
+            "schema": {
+              "type": "string"
+            },
+            "x-i18n": {
+              "zh-CN": {
+                "description": "项目 ID。"
+              }
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "example": "spark-job-20260814-001",
+            "description": "A unique key that makes repeated create requests idempotent.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "用于确保重复创建请求幂等的唯一键。"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSparkAnomalyDetectionJobRequestV2"
+              },
+              "examples": {
+                "1": {
+                  "summary": "Create Spark job",
+                  "value": {
+                    "description": "Daily vector processing job.",
+                    "regionId": "aws-us-west-2",
+                    "input": {
+                      "type": "VOLUME",
+                      "volumeName": "volume-xxxxxxxxxxxxxxxxxxx",
+                      "path": "/input/data.parquet",
+                      "format": "parquet"
+                    },
+                    "output": {
+                      "type": "VOLUME",
+                      "volumeName": "volume-xxxxxxxxxxxxxxxxxxx",
+                      "path": "/output/results",
+                      "format": "parquet",
+                      "writeMode": "OVERWRITE"
+                    },
+                    "resourceSize": "medium",
+                    "timeoutSeconds": 3600,
+                    "primaryKeyField": "id",
+                    "vectorField": "embedding",
+                    "outputWithFeatures": false,
+                    "topK": 100
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Returns the created Spark job.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "返回已创建的 Spark 任务。"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "x-tab-label": "success",
+                      "type": "object",
+                      "description": "A success response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "成功响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "Response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          },
+                          "example": 0
+                        },
+                        "data": {
+                          "$ref": "#/components/schemas/SparkJobSummary"
+                        }
+                      }
+                    },
+                    {
+                      "x-tab-label": "failure",
+                      "type": "object",
+                      "description": "A failure response.",
+                      "x-i18n": {
+                        "zh-CN": {
+                          "description": "失败响应。"
+                        }
+                      },
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "Response code.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "响应码。"
+                            }
+                          }
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "Error message.",
+                          "x-i18n": {
+                            "zh-CN": {
+                              "description": "错误描述。"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "x-target-response": "OPTION 1",
+                    "value": {
+                      "code": 0,
+                      "data": {
+                        "jobId": "job-xxxxxxxxxxxxxxxxxx",
+                        "sparkInstanceId": "sp-xxxxxxxxxxxxxxxxxx",
+                        "type": "SPARK",
+                        "jobName": "daily-vector-job",
+                        "status": "PENDING",
+                        "regionId": "aws-us-west-2",
+                        "projectId": "proj-xxxxxxxxxxxxxxxxxxx"
+                      }
+                    }
+                  },
+                  "2": {
+                    "summary": "Failure",
+                    "x-target-response": "OPTION 2",
+                    "value": {
+                      "code": 1800,
+                      "message": "User hasn't authenticated"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "SparkArtifactRequest": {
-        "type": "object",
-        "description": "The JAR artifact stored in a Zilliz Cloud Volume.",
-        "x-i18n": {
-          "zh-CN": {
-            "description": "存储在 Zilliz Cloud Volume 中的 JAR Artifact。"
-          }
-        },
-        "properties": {
-          "volumeId": {
-            "type": "string",
-            "description": "The ID of the volume that stores the JAR file.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "存储 JAR Artifact 的 Volume ID。"
-              }
-            },
-            "example": "stg-xxxxxxxxxxxxxxxxxxx"
-          },
-          "path": {
-            "type": "string",
-            "description": "The path to the JAR file in the volume. The path must point to a `.jar` file and can contain letters, digits, dots, underscores, hyphens, and slashes.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Volume 中 JAR Artifact 的路径。该路径必须指向 `.jar` 文件，可包含字母、数字、点、下划线、连字符和斜杠。"
-              }
-            },
-            "example": "/jars/example-job.jar",
-            "pattern": "^[A-Za-z0-9._/-]+\\.[jJ][aA][rR]$"
-          }
-        },
-        "required": [
-          "volumeId",
-          "path"
-        ]
-      },
-      "SparkResourceRequest": {
-        "type": "object",
-        "description": "Runtime resource settings for a Spark batch job.",
-        "x-i18n": {
-          "zh-CN": {
-            "description": "Spark 批处理任务的运行时资源设置。"
-          }
-        },
-        "properties": {
-          "driverCores": {
-            "type": "integer",
-            "description": "Number of CPU cores for the Spark driver. Valid values are 1 to 64.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Spark driver 的 CPU 核数。有效值为 1 到 64。"
-              }
-            },
-            "minimum": 1,
-            "maximum": 64,
-            "example": 2
-          },
-          "driverMemory": {
-            "type": "string",
-            "description": "Memory for the Spark driver. Use `m`, `g`, `Mi`, or `Gi` units. The maximum is 512 GiB.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Spark driver 内存。使用 `m`、`g`、`Mi` 或 `Gi` 单位，最大为 512 GiB。"
-              }
-            },
-            "pattern": "^([1-9][0-9]*)([mMgG]|Mi|Gi)$",
-            "example": "8g"
-          },
-          "executorCores": {
-            "type": "integer",
-            "description": "Number of CPU cores for each Spark executor. Valid values are 1 to 64.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "每个 Spark executor 的 CPU 核数。有效值为 1 到 64。"
-              }
-            },
-            "minimum": 1,
-            "maximum": 64,
-            "example": 2
-          },
-          "executorMemory": {
-            "type": "string",
-            "description": "Memory for each Spark executor. Use `m`, `g`, `Mi`, or `Gi` units. The maximum is 512 GiB.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "每个 Spark executor 的内存。使用 `m`、`g`、`Mi` 或 `Gi` 单位，最大为 512 GiB。"
-              }
-            },
-            "pattern": "^([1-9][0-9]*)([mMgG]|Mi|Gi)$",
-            "example": "8g"
-          },
-          "minExecutors": {
-            "type": "integer",
-            "description": "Minimum number of executors for dynamic allocation. Valid values are 1 to 100.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "动态分配的最小 executor 数。有效值为 1 到 100。"
-              }
-            },
-            "minimum": 1,
-            "maximum": 100,
-            "example": 1
-          },
-          "maxExecutors": {
-            "type": "integer",
-            "description": "Maximum number of executors for dynamic allocation. Valid values are 1 to 100 and must be greater than or equal to `minExecutors`.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "动态分配的最大 executor 数。有效值为 1 到 100，且必须大于等于 `minExecutors`。"
-              }
-            },
-            "minimum": 1,
-            "maximum": 100,
-            "example": 10
-          }
-        }
-      },
       "SparkJobSummary": {
         "type": "object",
         "description": "Summary information about a Spark batch job.",
@@ -1770,139 +1684,112 @@
         "properties": {
           "jobId": {
             "type": "string",
-            "description": "The control-plane job ID.",
+            "description": "The job ID.",
             "x-i18n": {
               "zh-CN": {
-                "description": "控制面任务 ID。"
+                "description": "任务 ID。"
               }
-            },
-            "example": "job-xxxxxxxxxxxxxxxxxx"
+            }
           },
-          "sparkInstanceId": {
+          "projectId": {
             "type": "string",
-            "description": "The Spark batch job instance ID.",
+            "description": "The project ID the job belongs to.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 批处理任务实例 ID。"
+                "description": "任务所属的项目 ID。"
               }
-            },
-            "example": "sp-xxxxxxxxxxxxxxxxxx"
+            }
           },
           "type": {
             "type": "string",
-            "description": "The job type. The value is `SPARK` for Spark jobs.",
+            "description": "The job type.",
             "x-i18n": {
               "zh-CN": {
-                "description": "任务类型。Spark 任务的值为 `SPARK`。"
+                "description": "任务类型。"
               }
-            },
-            "enum": [
-              "SPARK"
-            ]
+            }
           },
-          "jobName": {
+          "description": {
             "type": "string",
-            "description": "The name of the Spark job.",
+            "description": "The job description.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 任务名称。"
+                "description": "任务描述。"
               }
-            },
-            "example": "daily-vector-etl"
+            }
           },
           "status": {
             "type": "string",
-            "description": "The Spark batch job status.",
+            "description": "The job status.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 批处理任务状态。"
+                "description": "任务状态。"
               }
-            },
-            "enum": [
-              "PENDING",
-              "PREPARING",
-              "RUNNING",
-              "SUCCEEDED",
-              "FAILED",
-              "TIMEOUT",
-              "CANCELED"
-            ]
+            }
           },
           "regionId": {
             "type": "string",
-            "description": "The cloud region where the Spark job runs.",
+            "description": "The cloud region ID.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 任务运行所在的云地域。"
+                "description": "云地域 ID。"
               }
-            },
-            "example": "aws-us-west-2"
+            }
           },
           "clusterId": {
             "type": "string",
-            "description": "The Zilliz Cloud cluster associated with the Spark job.",
+            "description": "The cluster ID.",
             "x-i18n": {
               "zh-CN": {
-                "description": "与 Spark 任务关联的 Zilliz Cloud 集群。"
+                "description": "集群 ID。"
               }
-            },
-            "example": "in01-xxxxxxxxxxxxxxx"
-          },
-          "mainClass": {
-            "type": "string",
-            "description": "The main class executed by the Spark job.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Spark 任务执行的 main class。"
-              }
-            },
-            "example": "com.zilliz.example.Main"
+            }
           },
           "createdAt": {
             "type": "string",
-            "description": "The time at which the Spark job was created.",
+            "description": "Creation time (ISO 8601).",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 任务创建时间。"
+                "description": "创建时间（ISO 8601）。"
               }
-            },
-            "format": "date-time",
-            "example": "2026-05-20T10:00:00Z"
+            }
           },
           "startedAt": {
             "type": "string",
-            "description": "The time at which the Spark job started running. This field may be absent before the job starts.",
+            "description": "Start time (ISO 8601).",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 任务开始运行时间。任务开始前该字段可能不存在。"
+                "description": "开始时间（ISO 8601）。"
               }
-            },
-            "format": "date-time",
-            "example": "2026-05-20T10:01:00Z"
+            }
           },
           "finishedAt": {
             "type": "string",
-            "description": "The time at which the Spark job reached a terminal status. This field may be absent for active jobs.",
+            "description": "Finish time (ISO 8601).",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 任务到达终态的时间。运行中的任务可能没有该字段。"
+                "description": "结束时间（ISO 8601）。"
               }
-            },
-            "format": "date-time",
-            "nullable": true,
-            "example": null
+            }
           },
           "durationSeconds": {
             "type": "integer",
-            "description": "The elapsed runtime in seconds. For active jobs, this value is calculated up to the current time.",
+            "format": "int64",
+            "description": "The duration in seconds.",
             "x-i18n": {
               "zh-CN": {
-                "description": "任务运行时长，单位为秒。对于运行中的任务，该值计算到当前时间。"
+                "description": "持续时间（秒）。"
               }
-            },
-            "example": 300
+            }
           }
-        }
+        },
+        "required": [
+          "jobId",
+          "projectId",
+          "type",
+          "status",
+          "regionId"
+        ]
       },
       "SparkJobDetail": {
         "type": "object",
@@ -1912,382 +1799,532 @@
             "description": "Spark 批处理任务的详细信息。"
           }
         },
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/SparkJobSummary"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "sparkApplicationName": {
-                "type": "string",
-                "description": "The SparkApplication name derived from the Spark instance ID.",
-                "x-i18n": {
-                  "zh-CN": {
-                    "description": "由 Spark 实例 ID 派生的 SparkApplication 名称。"
-                  }
-                },
-                "example": "spark-batch-sp-xxxxxxxxxxxxxxxxxx"
-              },
-              "sparkNamespace": {
-                "type": "string",
-                "description": "The Kubernetes namespace used by the SparkApplication.",
-                "x-i18n": {
-                  "zh-CN": {
-                    "description": "SparkApplication 使用的 Kubernetes namespace。"
-                  }
-                },
-                "example": "spark-sp-xxxxxxxxxxxxxxxxxx"
-              },
-              "sparkHistoryUrl": {
-                "type": "string",
-                "description": "The base URL of the Spark History Server when configured.",
-                "x-i18n": {
-                  "zh-CN": {
-                    "description": "配置后的 Spark History Server 基础 URL。"
-                  }
-                },
-                "example": "https://spark-history.example.com"
-              },
-              "sparkApplicationId": {
-                "type": "string",
-                "description": "The Spark application ID used by the Spark History Server.",
-                "x-i18n": {
-                  "zh-CN": {
-                    "description": "Spark History Server 使用的 Spark application ID。"
-                  }
-                },
-                "example": "spark-batch-sp-xxxxxxxxxxxxxxxxxx-0"
-              },
-              "sparkHistoryAppUrl": {
-                "type": "string",
-                "description": "The direct Spark History URL for the application when available.",
-                "x-i18n": {
-                  "zh-CN": {
-                    "description": "可用时指向该应用的 Spark History 直达 URL。"
-                  }
-                },
-                "example": "https://spark-history.example.com/history/spark-batch-sp-xxxxxxxxxxxxxxxxxx-0/jobs/"
-              },
-              "artifact": {
-                "$ref": "#/components/schemas/SparkArtifactResponse"
-              },
-              "applicationType": {
-                "type": "string",
-                "description": "The Spark application type.",
-                "x-i18n": {
-                  "zh-CN": {
-                    "description": "Spark 应用类型。"
-                  }
-                },
-                "enum": [
-                  "Java",
-                  "Scala"
-                ]
-              },
-              "arguments": {
-                "type": "array",
-                "description": "Arguments passed to the user JAR.",
-                "x-i18n": {
-                  "zh-CN": {
-                    "description": "传递给用户 JAR 的参数。"
-                  }
-                },
-                "items": {
-                  "type": "string"
-                }
-              },
-              "resource": {
-                "$ref": "#/components/schemas/SparkResourceRequest"
-              },
-              "sparkConf": {
-                "type": "object",
-                "description": "Safe Spark configuration overrides accepted by the API.",
-                "x-i18n": {
-                  "zh-CN": {
-                    "description": "API 接受的安全 Spark 配置覆盖项。"
-                  }
-                },
-                "additionalProperties": {
-                  "type": "string"
-                }
-              },
-              "error": {
-                "type": "string",
-                "description": "The Spark job error message when the job fails.",
-                "x-i18n": {
-                  "zh-CN": {
-                    "description": "Spark 任务失败时的错误信息。"
-                  }
-                },
-                "example": "Driver exited with non-zero status"
-              },
-              "submittedAt": {
-                "type": "string",
-                "description": "The time at which the SparkApplication was submitted.",
-                "x-i18n": {
-                  "zh-CN": {
-                    "description": "SparkApplication 提交时间。"
-                  }
-                },
-                "format": "date-time",
-                "example": "2026-05-20T10:00:30Z"
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "description": "The job ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "任务 ID。"
               }
             }
-          }
-        ]
-      },
-      "SparkArtifactResponse": {
-        "type": "object",
-        "description": "Resolved Spark job artifact information.",
-        "x-i18n": {
-          "zh-CN": {
-            "description": "解析后的 Spark 任务 Artifact 信息。"
-          }
-        },
-        "properties": {
-          "volumeId": {
-            "type": "string",
-            "description": "The ID of the volume that stores the JAR file.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "存储 JAR Artifact 的 Volume ID。"
-              }
-            },
-            "example": "stg-xxxxxxxxxxxxxxxxxxx"
           },
-          "path": {
+          "projectId": {
             "type": "string",
-            "description": "The original path of the JAR file in the volume.",
+            "description": "The project ID the job belongs to.",
             "x-i18n": {
               "zh-CN": {
-                "description": "JAR Artifact 在 Volume 中的原始路径。"
+                "description": "任务所属的项目 ID。"
               }
-            },
-            "example": "/jars/example-job.jar"
+            }
           },
-          "artifactUri": {
+          "type": {
             "type": "string",
-            "description": "The internal URI used to submit the JAR to Spark.",
+            "description": "The job type.",
             "x-i18n": {
               "zh-CN": {
-                "description": "提交 JAR 到 Spark 时使用的内部 URI。"
+                "description": "任务类型。"
               }
-            },
-            "example": "volume://my-volume/jars/example-job.jar"
-          }
-        }
-      },
-      "SparkArtifactValidateResult": {
-        "type": "object",
-        "description": "Validation result for a Spark job artifact.",
-        "x-i18n": {
-          "zh-CN": {
-            "description": "Spark 任务 Artifact 的校验结果。"
-          }
-        },
-        "properties": {
-          "valid": {
-            "type": "boolean",
-            "description": "Whether the artifact can be used to submit a Spark job.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "该 Artifact 是否可用于提交 Spark 任务。"
-              }
-            },
-            "example": true
-          },
-          "artifactUri": {
-            "type": "string",
-            "description": "The internal artifact URI resolved from the volume and path.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "根据 Volume 和路径解析出的内部 Artifact URI。"
-              }
-            },
-            "example": "volume://my-volume/jars/example-job.jar"
-          },
-          "fileName": {
-            "type": "string",
-            "description": "The file name of the JAR artifact.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "JAR Artifact 的文件名。"
-              }
-            },
-            "example": "example-job.jar"
-          },
-          "sizeBytes": {
-            "type": "integer",
-            "description": "The artifact size in bytes.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Artifact 大小，单位为字节。"
-              }
-            },
-            "example": 10485760
-          },
-          "regionId": {
-            "type": "string",
-            "description": "The cloud region of the volume data.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Volume 数据所在的云地域。"
-              }
-            },
-            "example": "aws-us-west-2"
-          }
-        }
-      },
-      "CreateSparkJobRequest": {
-        "type": "object",
-        "description": "Request payload for submitting a Spark batch job.",
-        "x-i18n": {
-          "zh-CN": {
-            "description": "提交 Spark 批处理任务的请求负载。"
-          }
-        },
-        "properties": {
-          "jobName": {
-            "type": "string",
-            "description": "The name of the Spark job. The value must be 1 to 128 characters and cannot contain control characters.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Spark 任务名称。长度必须为 1 到 128 个字符，且不能包含控制字符。"
-              }
-            },
-            "maxLength": 128,
-            "example": "daily-vector-etl"
+            }
           },
           "description": {
             "type": "string",
-            "description": "A description of the Spark job. The value must be at most 1024 characters.",
+            "description": "The job description.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 任务描述。长度最多为 1024 个字符。"
+                "description": "任务描述。"
               }
-            },
-            "maxLength": 1024,
-            "example": "Daily vector ETL job for production search workloads."
+            }
+          },
+          "status": {
+            "type": "string",
+            "description": "The job status.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "任务状态。"
+              }
+            }
+          },
+          "regionId": {
+            "type": "string",
+            "description": "The cloud region ID.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "云地域 ID。"
+              }
+            }
           },
           "clusterId": {
             "type": "string",
-            "description": "The Zilliz Cloud cluster to associate with the Spark job. The API key must have permission to access this cluster.",
+            "description": "The cluster ID.",
             "x-i18n": {
               "zh-CN": {
-                "description": "与 Spark 任务关联的 Zilliz Cloud 集群。API key 必须具备访问该集群的权限。"
+                "description": "集群 ID。"
               }
-            },
-            "example": "in01-xxxxxxxxxxxxxxx"
+            }
           },
           "artifact": {
-            "$ref": "#/components/schemas/SparkArtifactRequest"
+            "$ref": "#/components/schemas/SparkArtifactResponse"
           },
-          "applicationType": {
+          "details": {
+            "$ref": "#/components/schemas/SparkBackfillJobDetailsResponse"
+          },
+          "failureReason": {
+            "$ref": "#/components/schemas/SparkJobFailureReasonResponse"
+          },
+          "precheckReport": {
+            "$ref": "#/components/schemas/SparkBackfillPrecheckReportResponse"
+          },
+          "createdAt": {
             "type": "string",
-            "description": "The Spark application type.",
+            "description": "Creation time (ISO 8601).",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 应用类型。"
+                "description": "创建时间（ISO 8601）。"
               }
-            },
-            "enum": [
-              "Java",
-              "Scala"
-            ],
-            "example": "Java"
+            }
           },
-          "mainClass": {
+          "submittedAt": {
             "type": "string",
-            "description": "The fully qualified main class in the user JAR.",
+            "description": "Submission time (ISO 8601).",
             "x-i18n": {
               "zh-CN": {
-                "description": "用户 JAR 中的完整 main class。"
+                "description": "提交时间（ISO 8601）。"
               }
-            },
-            "pattern": "^[A-Za-z_$][A-Za-z0-9_$]*(\\.[A-Za-z_$][A-Za-z0-9_$]*)+$",
-            "example": "com.zilliz.example.Main"
+            }
           },
-          "arguments": {
-            "type": "array",
-            "description": "Arguments passed to the user JAR. You can provide up to 100 items, and each item can contain up to 4096 characters.",
+          "startedAt": {
+            "type": "string",
+            "description": "Start time (ISO 8601).",
             "x-i18n": {
               "zh-CN": {
-                "description": "传递给用户 JAR 的参数。最多可提供 100 项，每项最多 4096 个字符。"
+                "description": "开始时间（ISO 8601）。"
               }
-            },
-            "maxItems": 100,
-            "items": {
-              "type": "string",
-              "maxLength": 4096
-            },
-            "example": [
-              "--collection",
-              "medium_articles"
-            ]
+            }
           },
-          "resource": {
-            "$ref": "#/components/schemas/SparkResourceRequest"
-          },
-          "sparkConf": {
-            "type": "object",
-            "description": "Safe Spark configuration overrides. Keys must start with `spark.` and cannot use reserved Kubernetes, authentication, volume, driver, executor, dynamic allocation, or credential settings.",
+          "finishedAt": {
+            "type": "string",
+            "description": "Finish time (ISO 8601).",
             "x-i18n": {
               "zh-CN": {
-                "description": "安全的 Spark 配置覆盖项。key 必须以 `spark.` 开头，且不能使用保留的 Kubernetes、认证、Volume、driver、executor、动态分配或凭据配置。"
+                "description": "结束时间（ISO 8601）。"
               }
-            },
-            "maxProperties": 100,
-            "additionalProperties": {
-              "type": "string",
-              "maxLength": 4096
-            },
-            "example": {
-              "spark.sql.shuffle.partitions": "200"
+            }
+          },
+          "durationSeconds": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The duration in seconds.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "持续时间（秒）。"
+              }
             }
           }
         },
         "required": [
-          "jobName",
-          "clusterId",
-          "artifact",
-          "applicationType",
-          "mainClass"
+          "jobId",
+          "projectId",
+          "type",
+          "status",
+          "regionId"
         ]
       },
-      "SparkJobDataResourceRequestV2": {
+      "SparkArtifactResponse": {
         "type": "object",
-        "description": "An input or output data resource for a Spark job.",
+        "description": "The output artifact produced by the job.",
         "x-i18n": {
           "zh-CN": {
-            "description": "Spark 任务的输入或输出数据资源。"
+            "description": "任务产生的输出产物。"
+          }
+        },
+        "properties": {
+          "volumeName": {
+            "type": "string",
+            "description": "The volume name the artifact is stored in.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "存储产物的存储卷名称。"
+              }
+            }
+          },
+          "path": {
+            "type": "string",
+            "description": "The path of the artifact within the volume.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "产物在存储卷内的路径。"
+              }
+            }
+          }
+        },
+        "required": [
+          "volumeName",
+          "path"
+        ]
+      },
+      "SparkJobFailureReasonResponse": {
+        "type": "object",
+        "description": "The reason a job failed.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "任务失败的原因。"
+          }
+        },
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The error code.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "错误码。"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "错误消息。"
+              }
+            }
+          },
+          "retryable": {
+            "type": "boolean",
+            "description": "Whether the job can be retried.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "任务是否可重试。"
+              }
+            }
+          }
+        }
+      },
+      "SparkJobPublicDataReferenceResponse": {
+        "type": "object",
+        "description": "A reference to job input or output data.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "任务输入或输出数据的引用。"
           }
         },
         "properties": {
           "type": {
             "type": "string",
-            "description": "The resource type.",
+            "description": "The data reference type.",
             "x-i18n": {
               "zh-CN": {
-                "description": "资源类型。"
+                "description": "数据引用类型。"
               }
             }
           },
-          "volumeId": {
+          "volumeName": {
             "type": "string",
-            "description": "The ID of the Zilliz Cloud Volume.",
+            "description": "The volume name.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Zilliz Cloud Volume ID。"
+                "description": "存储卷名称。"
               }
             }
           },
           "path": {
             "type": "string",
-            "description": "The path within the Volume.",
+            "description": "The data path within the volume.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Volume 中的路径。"
+                "description": "数据在存储卷内的路径。"
+              }
+            }
+          },
+          "format": {
+            "type": "string",
+            "description": "The data format.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "数据格式。"
+              }
+            }
+          }
+        }
+      },
+      "SparkBackfillJobDetailsResponse": {
+        "type": "object",
+        "description": "Details of a backfill job.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "回填任务的详细信息。"
+          }
+        },
+        "properties": {
+          "dbName": {
+            "type": "string",
+            "description": "The database name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "数据库名称。"
+              }
+            }
+          },
+          "collectionName": {
+            "type": "string",
+            "description": "The collection name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "集合名称。"
+              }
+            }
+          },
+          "input": {
+            "$ref": "#/components/schemas/SparkJobPublicDataReferenceResponse"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The target fields.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "目标字段。"
+              }
+            }
+          },
+          "columnMapping": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Source-to-target column mapping.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "源到目标的列映射。"
+              }
+            }
+          },
+          "mode": {
+            "type": "string",
+            "description": "The backfill mode.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "回填模式。"
+              }
+            }
+          },
+          "resourceSize": {
+            "type": "string",
+            "description": "The resource size.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "资源规格。"
+              }
+            }
+          }
+        }
+      },
+      "SparkBackfillPrecheckReportResponse": {
+        "type": "object",
+        "description": "The precheck report for a backfill job.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "回填任务的预检报告。"
+          }
+        },
+        "properties": {
+          "passed": {
+            "type": "boolean",
+            "description": "Whether the precheck passed.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "预检是否通过。"
+              }
+            }
+          },
+          "dbName": {
+            "type": "string",
+            "description": "The database name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "数据库名称。"
+              }
+            }
+          },
+          "collectionName": {
+            "type": "string",
+            "description": "The collection name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "集合名称。"
+              }
+            }
+          },
+          "input": {
+            "type": "string",
+            "description": "The input description.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "输入描述。"
+              }
+            }
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The target fields.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "目标字段。"
+              }
+            }
+          },
+          "columnMapping": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Source-to-target column mapping.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "源到目标的列映射。"
+              }
+            }
+          },
+          "requiredSourceColumns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The required source columns.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "必需的源列。"
+              }
+            }
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SparkBackfillPrecheckReportErrorResponse"
+            },
+            "description": "The precheck errors.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "预检错误。"
+              }
+            }
+          },
+          "checkedRows": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of checked rows.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "已检查的行数。"
+              }
+            }
+          }
+        }
+      },
+      "SparkBackfillPrecheckReportErrorResponse": {
+        "type": "object",
+        "description": "A single precheck error.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "单条预检错误。"
+          }
+        },
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The error code.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "错误码。"
+              }
+            }
+          },
+          "sourceColumn": {
+            "type": "string",
+            "description": "The source column.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "源列。"
+              }
+            }
+          },
+          "targetField": {
+            "type": "string",
+            "description": "The target field.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "目标字段。"
+              }
+            }
+          },
+          "expectedType": {
+            "type": "string",
+            "description": "The expected type.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "期望类型。"
+              }
+            }
+          },
+          "actualType": {
+            "type": "string",
+            "description": "The actual type.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "实际类型。"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "description": "The error message.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "错误消息。"
+              }
+            }
+          }
+        }
+      },
+      "SparkJobDataResourceRequestV2": {
+        "type": "object",
+        "description": "A data resource (input or output) reference for a Spark job.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "Spark 任务的数据资源（输入或输出）引用。"
+          }
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The data resource type.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "数据资源类型。"
+              }
+            }
+          },
+          "volumeName": {
+            "type": "string",
+            "description": "The volume name.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "存储卷名称。"
+              }
+            }
+          },
+          "path": {
+            "type": "string",
+            "description": "The data path within the volume.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "数据在存储卷内的路径。"
               }
             }
           },
@@ -2302,32 +2339,19 @@
           },
           "writeMode": {
             "type": "string",
-            "description": "The output write mode.",
+            "description": "The write mode.",
             "x-i18n": {
               "zh-CN": {
-                "description": "输出写入模式。"
-              }
-            },
-            "enum": [
-              "ERROR_IF_EXISTS",
-              "OVERWRITE"
-            ]
-          },
-          "projectId": {
-            "type": "string",
-            "description": "The project ID of a collection resource.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Collection 资源所属的项目 ID。"
+                "description": "写入模式。"
               }
             }
           },
-          "databaseName": {
+          "dbName": {
             "type": "string",
-            "description": "The database name of a collection resource.",
+            "description": "The database name.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Collection 资源所属的 Database 名称。"
+                "description": "数据库名称。"
               }
             }
           },
@@ -2336,54 +2360,74 @@
             "description": "The collection name.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Collection 名称。"
+                "description": "集合名称。"
               }
             }
           }
-        }
+        },
+        "required": [
+          "type",
+          "volumeName",
+          "path"
+        ]
       },
-      "CreateSparkJarJobRequestV2": {
+      "SparkArtifactRequest": {
         "type": "object",
-        "description": "Request for creating a Spark JAR job.",
+        "description": "The Spark job artifact (JAR).",
         "x-i18n": {
           "zh-CN": {
-            "description": "创建 Spark JAR 任务的请求。"
+            "description": "Spark 任务产物（JAR）。"
           }
         },
         "properties": {
-          "jobName": {
+          "volumeName": {
             "type": "string",
-            "description": "The Spark job name. The value must contain 1 to 128 characters.",
+            "description": "The volume name the artifact is stored in.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 任务名称，长度为 1 至 128 个字符。"
+                "description": "存储产物的存储卷名称。"
               }
             }
           },
+          "path": {
+            "type": "string",
+            "description": "The path of the artifact within the volume.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "产物在存储卷内的路径。"
+              }
+            }
+          }
+        },
+        "required": [
+          "volumeName",
+          "path"
+        ]
+      },
+      "CreateSparkJobRequest": {
+        "type": "object",
+        "description": "The common fields shared by all Spark job creation requests.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "所有 Spark 任务创建请求共有的字段。"
+          }
+        },
+        "properties": {
           "description": {
             "type": "string",
-            "description": "A description of the Spark job. The value can contain up to 1024 characters.",
+            "description": "The job description.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 任务描述，最多包含 1024 个字符。"
-              }
-            }
-          },
-          "projectId": {
-            "type": "string",
-            "description": "The ID of the project in which to run the Spark job.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "运行 Spark 任务的项目 ID。"
+                "description": "任务描述。"
               }
             }
           },
           "regionId": {
             "type": "string",
-            "description": "The region in which to run the Spark job.",
+            "description": "The cloud region ID.",
             "x-i18n": {
               "zh-CN": {
-                "description": "运行 Spark 任务的地域 ID。"
+                "description": "云地域 ID。"
               }
             }
           },
@@ -2393,97 +2437,130 @@
           "output": {
             "$ref": "#/components/schemas/SparkJobDataResourceRequestV2"
           },
-          "clusterSize": {
+          "resourceSize": {
             "type": "string",
-            "description": "The Spark cluster size.",
+            "description": "The resource size for the job.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 集群规格。"
+                "description": "任务的资源规格。"
               }
             }
           },
-          "minExecutors": {
+          "timeoutSeconds": {
             "type": "integer",
-            "description": "The minimum number of executors.",
+            "description": "The timeout in seconds.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Executor 最小数量。"
+                "description": "超时时间（秒）。"
               }
-            },
-            "minimum": 1
+            }
+          }
+        },
+        "required": [
+          "regionId"
+        ]
+      },
+      "CreateSparkJarJobRequestV2": {
+        "type": "object",
+        "description": "Request to create a Jar job.",
+        "x-i18n": {
+          "zh-CN": {
+            "description": "创建任务的请求体。"
+          }
+        },
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "The job description.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "任务描述。"
+              }
+            }
           },
-          "maxExecutors": {
-            "type": "integer",
-            "description": "The maximum number of executors.",
+          "regionId": {
+            "type": "string",
+            "description": "The cloud region ID.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Executor 最大数量。"
+                "description": "云地域 ID。"
               }
-            },
-            "minimum": 1
+            }
+          },
+          "input": {
+            "$ref": "#/components/schemas/SparkJobDataResourceRequestV2"
+          },
+          "output": {
+            "$ref": "#/components/schemas/SparkJobDataResourceRequestV2"
+          },
+          "resourceSize": {
+            "type": "string",
+            "description": "The resource size for the job.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "任务的资源规格。"
+              }
+            }
           },
           "timeoutSeconds": {
             "type": "integer",
-            "description": "The job timeout in seconds.",
+            "description": "The timeout in seconds.",
             "x-i18n": {
               "zh-CN": {
-                "description": "任务超时时间，单位为秒。"
+                "description": "超时时间（秒）。"
               }
-            },
-            "minimum": 1
+            }
           },
           "artifact": {
             "$ref": "#/components/schemas/SparkArtifactRequest"
           },
           "mainClass": {
             "type": "string",
-            "description": "The fully qualified main class.",
+            "description": "The main class.",
             "x-i18n": {
               "zh-CN": {
-                "description": "完整限定的 main class。"
+                "description": "主类。"
               }
             }
           },
           "arguments": {
             "type": "array",
-            "description": "Arguments passed to the application.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "传递给应用程序的参数。"
-              }
-            },
             "items": {
               "type": "string"
+            },
+            "description": "The job arguments.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "任务参数。"
+              }
             }
           },
           "jobParameters": {
             "type": "object",
-            "description": "Application parameters.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "应用程序参数。"
-              }
-            },
             "additionalProperties": {
               "type": "string"
+            },
+            "description": "The job parameters.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "任务参数。"
+              }
             }
           },
           "sparkConf": {
             "type": "object",
-            "description": "Spark configuration overrides.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Spark 配置覆盖项。"
-              }
-            },
             "additionalProperties": {
               "type": "string"
+            },
+            "description": "The Spark configuration.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "Spark 配置。"
+              }
             }
           }
         },
         "required": [
-          "jobName",
-          "projectId",
           "regionId",
           "artifact",
           "mainClass"
@@ -2491,46 +2568,28 @@
       },
       "CreateSparkPkDedupJobRequestV2": {
         "type": "object",
-        "description": "Request for creating a primary-key deduplication job.",
+        "description": "Request to create a PkDedup job.",
         "x-i18n": {
           "zh-CN": {
-            "description": "创建主键去重任务的请求。"
+            "description": "创建任务的请求体。"
           }
         },
         "properties": {
-          "jobName": {
-            "type": "string",
-            "description": "The Spark job name. The value must contain 1 to 128 characters.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Spark 任务名称，长度为 1 至 128 个字符。"
-              }
-            }
-          },
           "description": {
             "type": "string",
-            "description": "A description of the Spark job. The value can contain up to 1024 characters.",
+            "description": "The job description.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 任务描述，最多包含 1024 个字符。"
-              }
-            }
-          },
-          "projectId": {
-            "type": "string",
-            "description": "The ID of the project in which to run the Spark job.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "运行 Spark 任务的项目 ID。"
+                "description": "任务描述。"
               }
             }
           },
           "regionId": {
             "type": "string",
-            "description": "The region in which to run the Spark job.",
+            "description": "The cloud region ID.",
             "x-i18n": {
               "zh-CN": {
-                "description": "运行 Spark 任务的地域 ID。"
+                "description": "云地域 ID。"
               }
             }
           },
@@ -2540,44 +2599,23 @@
           "output": {
             "$ref": "#/components/schemas/SparkJobDataResourceRequestV2"
           },
-          "clusterSize": {
+          "resourceSize": {
             "type": "string",
-            "description": "The Spark cluster size.",
+            "description": "The resource size for the job.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 集群规格。"
+                "description": "任务的资源规格。"
               }
             }
           },
-          "minExecutors": {
-            "type": "integer",
-            "description": "The minimum number of executors.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Executor 最小数量。"
-              }
-            },
-            "minimum": 1
-          },
-          "maxExecutors": {
-            "type": "integer",
-            "description": "The maximum number of executors.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Executor 最大数量。"
-              }
-            },
-            "minimum": 1
-          },
           "timeoutSeconds": {
             "type": "integer",
-            "description": "The job timeout in seconds.",
+            "description": "The timeout in seconds.",
             "x-i18n": {
               "zh-CN": {
-                "description": "任务超时时间，单位为秒。"
+                "description": "超时时间（秒）。"
               }
-            },
-            "minimum": 1
+            }
           },
           "primaryKeyField": {
             "type": "string",
@@ -2590,65 +2628,43 @@
           },
           "keepBy": {
             "type": "string",
-            "description": "The rule used to select the record to keep.",
+            "description": "Which duplicate record to keep.",
             "x-i18n": {
               "zh-CN": {
-                "description": "用于选择保留记录的规则。"
+                "description": "保留哪条重复记录。"
               }
             }
           }
         },
         "required": [
-          "jobName",
-          "projectId",
           "regionId",
-          "input",
-          "output",
           "primaryKeyField"
         ]
       },
       "CreateSparkVectorDedupJobRequestV2": {
         "type": "object",
-        "description": "Request for creating a vector deduplication job.",
+        "description": "Request to create a VectorDedup job.",
         "x-i18n": {
           "zh-CN": {
-            "description": "创建向量去重任务的请求。"
+            "description": "创建任务的请求体。"
           }
         },
         "properties": {
-          "jobName": {
-            "type": "string",
-            "description": "The Spark job name. The value must contain 1 to 128 characters.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Spark 任务名称，长度为 1 至 128 个字符。"
-              }
-            }
-          },
           "description": {
             "type": "string",
-            "description": "A description of the Spark job. The value can contain up to 1024 characters.",
+            "description": "The job description.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 任务描述，最多包含 1024 个字符。"
-              }
-            }
-          },
-          "projectId": {
-            "type": "string",
-            "description": "The ID of the project in which to run the Spark job.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "运行 Spark 任务的项目 ID。"
+                "description": "任务描述。"
               }
             }
           },
           "regionId": {
             "type": "string",
-            "description": "The region in which to run the Spark job.",
+            "description": "The cloud region ID.",
             "x-i18n": {
               "zh-CN": {
-                "description": "运行 Spark 任务的地域 ID。"
+                "description": "云地域 ID。"
               }
             }
           },
@@ -2658,44 +2674,23 @@
           "output": {
             "$ref": "#/components/schemas/SparkJobDataResourceRequestV2"
           },
-          "clusterSize": {
+          "resourceSize": {
             "type": "string",
-            "description": "The Spark cluster size.",
+            "description": "The resource size for the job.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 集群规格。"
+                "description": "任务的资源规格。"
               }
             }
           },
-          "minExecutors": {
-            "type": "integer",
-            "description": "The minimum number of executors.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Executor 最小数量。"
-              }
-            },
-            "minimum": 1
-          },
-          "maxExecutors": {
-            "type": "integer",
-            "description": "The maximum number of executors.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Executor 最大数量。"
-              }
-            },
-            "minimum": 1
-          },
           "timeoutSeconds": {
             "type": "integer",
-            "description": "The job timeout in seconds.",
+            "description": "The timeout in seconds.",
             "x-i18n": {
               "zh-CN": {
-                "description": "任务超时时间，单位为秒。"
+                "description": "超时时间（秒）。"
               }
-            },
-            "minimum": 1
+            }
           },
           "primaryKeyField": {
             "type": "string",
@@ -2717,28 +2712,38 @@
           },
           "keepBy": {
             "type": "string",
-            "description": "The rule used to select the record to keep.",
+            "description": "Which duplicate record to keep.",
             "x-i18n": {
               "zh-CN": {
-                "description": "用于选择保留记录的规则。"
+                "description": "保留哪条重复记录。"
               }
             }
           },
           "metric": {
             "type": "string",
-            "description": "The vector distance metric.",
+            "description": "The distance metric.",
             "x-i18n": {
               "zh-CN": {
-                "description": "向量距离度量。"
+                "description": "距离度量方式。"
               }
             }
           },
           "similarityThreshold": {
             "type": "number",
+            "format": "double",
             "description": "The similarity threshold.",
             "x-i18n": {
               "zh-CN": {
                 "description": "相似度阈值。"
+              }
+            }
+          },
+          "numClusters": {
+            "type": "integer",
+            "description": "The number of clusters.",
+            "x-i18n": {
+              "zh-CN": {
+                "description": "簇数量。"
               }
             }
           },
@@ -2753,7 +2758,8 @@
           },
           "targetDedupRate": {
             "type": "number",
-            "description": "The target deduplication rate.",
+            "format": "double",
+            "description": "The target dedup rate.",
             "x-i18n": {
               "zh-CN": {
                 "description": "目标去重率。"
@@ -2762,57 +2768,35 @@
           }
         },
         "required": [
-          "jobName",
-          "projectId",
           "regionId",
-          "input",
-          "output",
           "primaryKeyField",
           "vectorField"
         ]
       },
       "CreateSparkKmeansJobRequestV2": {
         "type": "object",
-        "description": "Request for creating a K-means job.",
+        "description": "Request to create a Kmeans job.",
         "x-i18n": {
           "zh-CN": {
-            "description": "创建 K-means 任务的请求。"
+            "description": "创建任务的请求体。"
           }
         },
         "properties": {
-          "jobName": {
-            "type": "string",
-            "description": "The Spark job name. The value must contain 1 to 128 characters.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Spark 任务名称，长度为 1 至 128 个字符。"
-              }
-            }
-          },
           "description": {
             "type": "string",
-            "description": "A description of the Spark job. The value can contain up to 1024 characters.",
+            "description": "The job description.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 任务描述，最多包含 1024 个字符。"
-              }
-            }
-          },
-          "projectId": {
-            "type": "string",
-            "description": "The ID of the project in which to run the Spark job.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "运行 Spark 任务的项目 ID。"
+                "description": "任务描述。"
               }
             }
           },
           "regionId": {
             "type": "string",
-            "description": "The region in which to run the Spark job.",
+            "description": "The cloud region ID.",
             "x-i18n": {
               "zh-CN": {
-                "description": "运行 Spark 任务的地域 ID。"
+                "description": "云地域 ID。"
               }
             }
           },
@@ -2822,44 +2806,23 @@
           "output": {
             "$ref": "#/components/schemas/SparkJobDataResourceRequestV2"
           },
-          "clusterSize": {
+          "resourceSize": {
             "type": "string",
-            "description": "The Spark cluster size.",
+            "description": "The resource size for the job.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 集群规格。"
+                "description": "任务的资源规格。"
               }
             }
           },
-          "minExecutors": {
-            "type": "integer",
-            "description": "The minimum number of executors.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Executor 最小数量。"
-              }
-            },
-            "minimum": 1
-          },
-          "maxExecutors": {
-            "type": "integer",
-            "description": "The maximum number of executors.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Executor 最大数量。"
-              }
-            },
-            "minimum": 1
-          },
           "timeoutSeconds": {
             "type": "integer",
-            "description": "The job timeout in seconds.",
+            "description": "The timeout in seconds.",
             "x-i18n": {
               "zh-CN": {
-                "description": "任务超时时间，单位为秒。"
+                "description": "超时时间（秒）。"
               }
-            },
-            "minimum": 1
+            }
           },
           "primaryKeyField": {
             "type": "string",
@@ -2881,30 +2844,25 @@
           },
           "metric": {
             "type": "string",
-            "description": "The vector distance metric.",
+            "description": "The distance metric.",
             "x-i18n": {
               "zh-CN": {
-                "description": "向量距离度量。"
+                "description": "距离度量方式。"
               }
             }
           },
           "numClusters": {
             "type": "integer",
-            "description": "The number of clusters to produce.",
+            "description": "The number of clusters.",
             "x-i18n": {
               "zh-CN": {
-                "description": "要生成的聚类数量。"
+                "description": "簇数量。"
               }
-            },
-            "minimum": 1
+            }
           }
         },
         "required": [
-          "jobName",
-          "projectId",
           "regionId",
-          "input",
-          "output",
           "primaryKeyField",
           "vectorField",
           "numClusters"
@@ -2912,46 +2870,28 @@
       },
       "CreateSparkAnomalyDetectionJobRequestV2": {
         "type": "object",
-        "description": "Request for creating an anomaly-detection job.",
+        "description": "Request to create a AnomalyDetection job.",
         "x-i18n": {
           "zh-CN": {
-            "description": "创建异常检测任务的请求。"
+            "description": "创建任务的请求体。"
           }
         },
         "properties": {
-          "jobName": {
-            "type": "string",
-            "description": "The Spark job name. The value must contain 1 to 128 characters.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Spark 任务名称，长度为 1 至 128 个字符。"
-              }
-            }
-          },
           "description": {
             "type": "string",
-            "description": "A description of the Spark job. The value can contain up to 1024 characters.",
+            "description": "The job description.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 任务描述，最多包含 1024 个字符。"
-              }
-            }
-          },
-          "projectId": {
-            "type": "string",
-            "description": "The ID of the project in which to run the Spark job.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "运行 Spark 任务的项目 ID。"
+                "description": "任务描述。"
               }
             }
           },
           "regionId": {
             "type": "string",
-            "description": "The region in which to run the Spark job.",
+            "description": "The cloud region ID.",
             "x-i18n": {
               "zh-CN": {
-                "description": "运行 Spark 任务的地域 ID。"
+                "description": "云地域 ID。"
               }
             }
           },
@@ -2961,44 +2901,23 @@
           "output": {
             "$ref": "#/components/schemas/SparkJobDataResourceRequestV2"
           },
-          "clusterSize": {
+          "resourceSize": {
             "type": "string",
-            "description": "The Spark cluster size.",
+            "description": "The resource size for the job.",
             "x-i18n": {
               "zh-CN": {
-                "description": "Spark 集群规格。"
+                "description": "任务的资源规格。"
               }
             }
           },
-          "minExecutors": {
-            "type": "integer",
-            "description": "The minimum number of executors.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Executor 最小数量。"
-              }
-            },
-            "minimum": 1
-          },
-          "maxExecutors": {
-            "type": "integer",
-            "description": "The maximum number of executors.",
-            "x-i18n": {
-              "zh-CN": {
-                "description": "Executor 最大数量。"
-              }
-            },
-            "minimum": 1
-          },
           "timeoutSeconds": {
             "type": "integer",
-            "description": "The job timeout in seconds.",
+            "description": "The timeout in seconds.",
             "x-i18n": {
               "zh-CN": {
-                "description": "任务超时时间，单位为秒。"
+                "description": "超时时间（秒）。"
               }
-            },
-            "minimum": 1
+            }
           },
           "primaryKeyField": {
             "type": "string",
@@ -3020,30 +2939,26 @@
           },
           "outputWithFeatures": {
             "type": "boolean",
-            "description": "Whether to include feature values in the output.",
+            "description": "Whether to output features.",
             "x-i18n": {
               "zh-CN": {
-                "description": "是否在输出中包含特征值。"
+                "description": "是否输出特征。"
               }
             }
           },
           "topK": {
             "type": "integer",
-            "description": "The number of anomalies to return.",
+            "description": "The number of top anomalies.",
             "x-i18n": {
               "zh-CN": {
                 "description": "返回的异常数量。"
               }
-            },
-            "minimum": 1
+            }
           }
         },
         "required": [
-          "jobName",
-          "projectId",
           "regionId",
-          "input",
-          "output",
+          "primaryKeyField",
           "vectorField"
         ]
       }

@@ -243,7 +243,7 @@
       "file": "34-cloud-access-control-operations-v2.json",
       "apiSurface": "control-plane",
       "service": "cloud-access-control-v2",
-      "operationCount": 14,
+      "operationCount": 15,
       "migrationState": "legacy-shadow-required"
     },
     {
