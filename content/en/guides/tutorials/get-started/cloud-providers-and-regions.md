@@ -212,7 +212,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
    </tr>
    <tr>
      <td><p>SaaS (Free & Serverless)</p></td>
-     <td><p>ℹ️  Part of the regions:</p><ul><li><p>eu-central-1</p></li><li><p>eu-west-1</p></li></ul></td>
+     <td><p>ℹ️  Part of the regions:</p><ul><li>eu-central-1</li></ul></td>
      <td><p>ℹ️   Part of the regions:</p><ul><li>us-west1</li></ul></td>
      <td><p>❌</p></td>
    </tr>
