@@ -60,25 +60,29 @@
 | 2 | review 的 `response_format` 从 `json_schema` 改 `json_object`(prompt 已要求 JSON,无需额外指令) | `createProviderCall` | 消除 400/卡住 |
 | 3 | 加 `TRANSLATION_SKIP_BLIND_REVIEW=true` 开关:开启后 review 环节只用 `deterministicSemanticIssues`,不调 review 模型 | review loop | 快 5×、省 7× token |
 | 4 | locale contract 挪到 system prompt 最前,translate/review/correct 共享稳定前缀 | `loadSystemPrompt` | 跨 agent 命中 KVCache |
+| 5 | 加 `TRANSLATION_REVIEW_MIN_SEVERITY` 严重度 gating(默认 `low`=现状;`medium` 时只修 high+medium,low 接受) | review loop | correction 次数下降 |
+| 6 | review 模型换 `deepseek-v4-flash`(原 deepseek-chat) | `.env` `REVIEW_AGENT_MODEL` | 消除 pro 500/高成本 |
 
 说明:
-- 第 1、2、4 条默认生效(零风险纯参数/前缀改动)。
+- 第 1、2、4、5、6 条默认生效(纯参数/配置/前缀改动,默认值不改变现有行为)。
 - 第 3 条默认**关闭**(`TRANSLATION_SKIP_BLIND_REVIEW` 未设为 true 时保持现状),因为它去掉 review 模型的**语义盲评**(术语一致性/漏译/风格),而本实验的质量指标只有 MDX 确定性校验——语义质量增量未量化,需生产 A/B 验证后再默认开启。
+- 第 5 条默认 `low`(不改变行为);设为 `medium` 即启用严重度 gating。语义盲评最佳实践见调研(GEMBA-MQM):reviewer 用 MQM 式 span 标注 + 严重度分级,minor/low 权重仅 1 分,不值得单独修,应只 gate critical/major。
 
 ## 4. 验证
 
-- `node --test scripts/translation/agentRunner.test.js` → **pass,0 fail**。
+- `node --test scripts/translation/agentRunner.test.js` → **pass,0 fail**(两次:四条优化 + severity gating 后)。
 - 更新了 `testProviderStructuredOutputIsCapabilityGated` 的断言(`json_schema` → `json_object`)。
 
 ## 5. 后续建议
 
 1. **语义质量验证**:head-to-head 只测了 MDX 确定性质量。补一次人评或 LLM-as-judge 对比「盲发 review」vs「工具自校验」的术语一致性/漏译/流畅度,再决定第 3 条默认值。
-2. **生产 A/B**:在真实 guides 批次上对比 `TRANSLATION_SKIP_BLIND_REVIEW` 开/关的吞吐、失败率、人评质量。
+2. **生产 A/B**:在真实 guides 批次上对比 `TRANSLATION_SKIP_BLIND_REVIEW` 开/关、`TRANSLATION_REVIEW_MIN_SEVERITY` low/medium 的吞吐、失败率、人评质量。
 3. **thinking 细调**:翻译/review 用 `disabled` 已实测最优;若某些场景需要推理,可用 `enabled` + 单独评估 `reasoning_effort`(但实测 low 档不降 reasoning)。
-4. **翻译档模型升级**:关掉 thinking 后,同样的 token 预算可换更强模型做翻译,而非烧在思考上。
+4. **severity 校准**:用 20-30 文件母语者金标准 + 双标注仲裁,校准 reviewer 的 severity 判断(现状 severity 是模型自报、从未校准)。
+5. **翻译档模型升级**:关掉 thinking 后,同样的 token 预算可换更强模型做翻译,而非烧在思考上。
 
 ## 6. 相关文件
 
-- `scripts/translation/agentRunner.js` — 四项改动落点
+- `scripts/translation/agentRunner.js` — 六项改动落点
 - `scripts/translation/ab-tool-feedback.js` — 本地 head-to-head 实验脚本(throwaway)
 - `scripts/translation/agentRunner.test.js` — 测试 + 断言更新

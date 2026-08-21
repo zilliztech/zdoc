@@ -53,6 +53,7 @@ const DEFAULT_PROVIDER_TIMEOUT_MS = 300000
 const DEFAULT_FILE_TIMEOUT_MS = 900000
 const REFERENCE_LANDING_SOURCE_ROOT = 'content/en/reference/'
 const REFERENCE_LANDING_PROSE_SAFETY_FACTOR = 1.05
+const SEVERITY_RANK = Object.freeze({ high: 3, medium: 2, low: 1 })
 
 let referenceLandingContracts
 
@@ -994,10 +995,14 @@ async function translateAndReviewUnit({
       seen.add(key)
       issues.push(issue)
     }
+    const minSeverityRank = SEVERITY_RANK[process.env.TRANSLATION_REVIEW_MIN_SEVERITY] ?? 1
+    const actionableIssues = issues.filter(issue => (SEVERITY_RANK[issue.severity] ?? 1) >= minSeverityRank)
+    const acceptedIssues = issues.filter(issue => (SEVERITY_RANK[issue.severity] ?? 1) < minSeverityRank)
     review = {
-      pass: !evidence.fatal && issues.length === 0 && evidence.unsupportedIssues.length === 0 &&
+      pass: !evidence.fatal && actionableIssues.length === 0 && evidence.unsupportedIssues.length === 0 &&
         evidence.contractConflicts.length === 0 && evidence.error === null,
       issues,
+      acceptedIssues,
       unsupportedIssues: evidence.unsupportedIssues,
       contractConflicts: evidence.contractConflicts,
       localeContractIssues: deterministic.issues,
@@ -1005,8 +1010,9 @@ async function translateAndReviewUnit({
       error: evidence.error,
     }
     if (review.pass || round === maxReviewRounds) break
-    if (evidence.fatal || issues.length === 0) break
-    const authorizedIds = [...new Set(issueUnits.map(item => item.unitId))]
+    if (evidence.fatal || actionableIssues.length === 0) break
+    const actionableIssueUnits = issueUnits.filter(item => (SEVERITY_RANK[item.issue.severity] ?? 1) >= minSeverityRank)
+    const authorizedIds = [...new Set(actionableIssueUnits.map(item => item.unitId))]
     if (!authorizedIds.length) break
     const authorizedDraftUnits = draftUnits.filter(unit => authorizedIds.includes(unit.id))
     const authorizedSourcePayload = sourceUnitPayload.filter(unit => authorizedIds.includes(unit.id))
@@ -1021,7 +1027,7 @@ async function translateAndReviewUnit({
         source: pair.sourceUnit.text,
         draft: pair.draftUnit.text,
       }))
-      const batchIssues = issues.filter(issue => [...batchIds].some(id => issue.location === id || issue.location.startsWith(`${id};`)))
+      const batchIssues = actionableIssues.filter(issue => [...batchIds].some(id => issue.location === id || issue.location.startsWith(`${id};`)))
       const correctedResponse = await callModel({
         agent: 'correction',
         signal,
