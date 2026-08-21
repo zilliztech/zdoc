@@ -328,3 +328,19 @@ cpp 验收实测（commit 49cc45db5）暴露了 4 处仍需手改的残留硬编
 **cpp 加入遗留的测试基线问题（本轮经 `git stash` 还原本轮改动后仍失败，确认非本次引入，需单独任务修复）**：
 - checkpoint-contention（2）、rest-reconciliation（1）、replay-translation-publication-fifo（2）、translation/batches（3）、sdk-reference-workflow（2）。根因是 cpp 验收测试不完整的连锁反应：fixture/manifest 缺 cpp、publish-checkpoint.sh legacy-json 契约脱节（f0535753b retire legacy 引入）、cpp source manifest/git tree 路径集合 mismatch 等。
 
+
+### 翻译 handoff 单源化收尾（2026-08-21 第二段）
+
+重审翻译流程，修复 cpp 加入时遗漏的 6 处缺 cpp stale 点（会让 fetch → translation handoff 断链）：
+
+1. `scripts/translation/schema.ts` `ReconciliationGroup` 类型加 `'cpp'`。
+2. `scripts/translation/reconciliation-policy.js:329` 与 `sdkCliCompletenessReceipt.js:72` 的 SDK/CLI 组判定列表加 `'cpp'`（否则 cpp 被误判为 rest，走错 completeness 验证）。
+3. `scripts/docs-workflow/translation-progress-state.js` 解析 job 名的 regex 加 `cpp`（否则 cpp 翻译 job 无法被 progress 识别）。
+4. `scripts/docs-workflow/replay-translation-publication-fifo.js` 4 处 legacy source-group 列表改为 `sdkGroupIds()` 派生。
+
+**f0535753b 退役不完整的收尾**：删除 legacy `publish-checkpoint.sh` / `checkpoint-contention.test.js`；`fetch-docs.yml` 与 `validate-workflow-policy.js` 的 readiness 命令移除已删除的 `publish-checkpoint.test.js`。
+
+**测试修复**：batches（source_delta → reconciliation metadata）、sdk-reference-workflow（translate-content/publish-content 移除、concurrency queue:max、publish_ready needs、card fallback if）、rest-reconciliation（preservedContentByPath + 完整路径）、validate-workflow-policy、reconciliation-policy。
+
+**仍未解决（运行时遗留，需跑 fetch/publish 流程）**：`replay-translation-publication-fifo`（2）仍 COMPOSITION_FAILED。根因是 cpp 的 fetch/publish 从未完整跑过——`generated/en/manifests/reference.json` 的 sourceCommit 仍是 cpp 加入前的 `9b2258903`（records 缺 cpp），且 `generated/en/sidebars/cpp.sidebar.js` 不存在（`docs-tooling reference-manifest --write` 因此报错）。需一次真实 fetch/publish 生成 cpp 的 sidebar 与 manifest。
+
