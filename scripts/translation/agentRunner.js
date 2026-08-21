@@ -1357,7 +1357,7 @@ function loadAgentConfigsFromEnv() {
       apiKey: process.env.REVIEW_AGENT_API_KEY,
       model: process.env.REVIEW_AGENT_MODEL,
       structuredOutput: String(process.env.REVIEW_AGENT_STRUCTURED_OUTPUT || '').toLowerCase() === 'true',
-      thinking: process.env.REVIEW_AGENT_THINKING || thinking || 'disabled',
+      thinking: process.env.REVIEW_AGENT_THINKING || 'enabled',
     },
     correction: {
       baseUrl: process.env.REVIEW_AGENT_BASE_URL,

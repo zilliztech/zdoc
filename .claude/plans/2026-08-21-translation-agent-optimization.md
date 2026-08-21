@@ -56,7 +56,7 @@
 
 | # | 改动 | 位置 | 预期收益 |
 |---|---|---|---|
-| 1 | translation/correction/review 加 `thinking:{type:"disabled"}`(env 可覆盖),`temperature` 统一 0 | `createProviderCall` + `loadAgentConfigsFromEnv` | 输出 4.1×↓、耗时 4.2×↓、content 稳定 |
+| 1 | translation/correction 加 `thinking:disabled` + `temperature` 统一 0;review 保留 `thinking:enabled`(错误检测需推理,见 §7) | `createProviderCall` + `loadAgentConfigsFromEnv` | 翻译输出 4.1×↓、耗时 4.2×↓、content 稳定 |
 | 2 | review 的 `response_format` 从 `json_schema` 改 `json_object`(prompt 已要求 JSON,无需额外指令) | `createProviderCall` | 消除 400/卡住 |
 | 3 | 加 `TRANSLATION_SKIP_BLIND_REVIEW=true` 开关:开启后 review 环节只用 `deterministicSemanticIssues`,不调 review 模型 | review loop | 快 5×、省 7× token |
 | 4 | locale contract 挪到 system prompt 最前,translate/review/correct 共享稳定前缀 | `loadSystemPrompt` | 跨 agent 命中 KVCache |
@@ -104,3 +104,4 @@
 - review 环节**不可靠**(flash 不稳定、pro 漏报),强烈支持 `TRANSLATION_SKIP_BLIND_REVIEW` 默认开启。
 - 根因有二:① prompt 对 `untranslated_prose`/`accuracy_omission` 无触发条件,且 "identical values are not evidence" 与漏译(source==draft)矛盾;② `temperature:0` 在 deepseek-v4-flash 上不被严格遵守,输出有残余随机性。
 - 附带发现:`temperature:0` 非确定性同时解释了之前 translation content 空、review 500 等不稳定现象。
+- 后续修正:调研发现 CoT/thinking 对错误检测是双刃,但关掉会加剧漏报——这解释了 pro 关 thinking 后稳定漏报;已把 review 的 `thinking` 恢复为 `enabled`(translation/correction 保持 `disabled`)。
