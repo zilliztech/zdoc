@@ -558,6 +558,18 @@ module.exports = [
               },
               {
                 "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/describe-spark-job-v2",
+                "label": "Describe Spark Job (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/describe-spark-job-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/cancel-spark-job-v2",
+                "label": "Cancel Spark Job (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/cancel-spark-job-v2"
+              },
+              {
+                "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-jar-job-v2",
                 "label": "Create Spark JAR Job (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-jar-job-v2"
@@ -585,18 +597,6 @@ module.exports = [
                 "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2",
                 "label": "Create Spark Anomaly Detection Job (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/describe-spark-job-v2",
-                "label": "Describe Spark Job (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/describe-spark-job-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/cancel-spark-job-v2",
-                "label": "Cancel Spark Job (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/cancel-spark-job-v2"
               }
             ]
           },
@@ -680,24 +680,6 @@ module.exports = [
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2",
-                "label": "List Member Roles (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-member-v2",
-                "label": "Grant Role To Member (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-member-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2",
-                "label": "Revoke Role From Member (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2"
-              },
-              {
-                "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-groups-v2",
                 "label": "List Groups (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-groups-v2"
@@ -725,6 +707,30 @@ module.exports = [
                 "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-group-v2",
                 "label": "Revoke Role From Group (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-group-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2",
+                "label": "List Member Roles (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-member-v2",
+                "label": "Grant Role To Member (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-member-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2",
+                "label": "Revoke Role From Member (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/resolve-member-v2",
+                "label": "Resolve Member (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/resolve-member-v2"
               }
             ]
           },

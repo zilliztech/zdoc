@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 14
+slug: /restful/resolve-member-v2
+beta: FALSE
+title: "Resolve Member (V2) | RESTful"
+description: "Resolves an organization member by email or user ID. Exactly one of email or userId must be provided. | RESTful"
+hide_table_of_contents: true
+sidebar_label: "Resolve Member (V2)"
+sidebar_custom_props:
+  badges:
+    - "get"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "Resolve Member (V2)"
+  - "get"
+  - RESTful
+  - API
+---
+
+# Resolve Member (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="en-US" />
+
+export const specs = {"summary":"Resolve Member","description":"Resolves an organization member by email or user ID. Exactly one of email or userId must be provided.","tags":["Cloud Access Control Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"}}},{"name":"email","in":"query","required":false,"description":"The member email address.","example":"alice@example.com","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"成员邮箱地址。"}}},{"name":"userId","in":"query","required":false,"description":"The member user ID.","example":"usr-xxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"成员用户 ID。"}}}],"responses":{"200":{"description":"Returns a successful result or an error message.","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"}},"properties":{"code":{"type":"integer","example":0,"description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"data":{"type":"object","description":"A resolved organization member.","x-i18n":{"zh-CN":{"description":"解析出的组织成员。"}},"properties":{"userId":{"type":"string","description":"The member user ID.","example":"usr-xxxxxxxxxxxxxx","x-i18n":{"zh-CN":{"description":"成员用户 ID。"}}},"name":{"type":"string","description":"The member display name.","example":"Alice Wang","x-i18n":{"zh-CN":{"description":"成员显示名称。"}}},"email":{"type":"string","description":"The member email address.","example":"alice@example.com","x-i18n":{"zh-CN":{"description":"成员邮箱地址。"}}}}}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"userId":"usr-xxxxxxxxxxxxxx","name":"Alice Wang","email":"alice@example.com"}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}},"x-i18n":{"zh-CN":{"summary":"解析成员","description":"通过邮箱或用户 ID 解析组织成员。必须提供 email 或 userId 其中之一。"}}}
+export const endpoint = "/v2/members"
+export const method = "get"
