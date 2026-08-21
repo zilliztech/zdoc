@@ -6,6 +6,7 @@ const {
     normalizeCodeTagContent,
     convertHtmlCommentsToMdx,
     findMalformedProceduresBlocks,
+    escapeCppNamespaceTypes,
 } = require('./validate.cjs');
 const LarkDocWriter = require('../lark/larkDocWriter');
 
@@ -324,6 +325,28 @@ async function testCppNamespaceTypesAreEscapedToEntities() {
     await compileToString(jsxPatched);
 }
 
+async function testCppNamespaceTypesWithoutClosingAngleAreEscaped() {
+    // A namespace-qualified type token may be missing its closing ">" (the
+    // author omitted it, often inside italic markdown); the escaper must still
+    // entity-escape the leading "<" and any nested "<"/">" up to the next type
+    // terminator, rather than leaving the malformed token untouched.
+    const cases = [
+        ['<std::string', '&lt;std::string'],
+        ['<std::string&*', '&lt;std::string&*'],
+        ['<milvus::client::ConnectParam', '&lt;milvus::client::ConnectParam'],
+        ['Returns <std::vector<std::string> status', 'Returns &lt;std::vector&lt;std::string&gt; status'],
+        ['<std::string, then', '&lt;std::string, then'],
+        ['<std::string). done', '&lt;std::string). done'],
+    ];
+    for (const [input, expected] of cases) {
+        assert.equal(escapeCppNamespaceTypes(input), expected);
+        const patched = await applyMdxPatches(input);
+        await compileToString(patched);
+        assert.ok(!patched.includes('<std::'), 'expected namespace type to be escaped');
+        assert.ok(!patched.includes('<milvus::'), 'expected namespace type to be escaped');
+    }
+}
+
 async function run() {
     await testNormalizeCodeTagContent();
     await testNormalizationPreservesFencedCodeBlocks();
@@ -350,6 +373,7 @@ async function run() {
     await testIndentedFencedCodeIsPreserved();
     await testConsecutivePlaintextFencesAreNotWidened();
     await testCppNamespaceTypesAreEscapedToEntities();
+    await testCppNamespaceTypesWithoutClosingAngleAreEscaped();
     console.log('mdxPatcher regression tests passed');
 }
 

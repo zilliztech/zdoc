@@ -508,8 +508,12 @@ function escapeCppNamespaceTypes(part) {
     // ("Unexpected character `:` (U+003A) before local name"). Backslash
     // escaping does not suppress MDX JSX parsing for these, so always convert
     // to HTML entities, including nested template args (<std::vector<std::string>>).
-    // Real JSX components never contain "::", so this is safe outside fenced
-    // code blocks and inline code spans (handled by the caller).
+    // The span may lack a closing ">" (e.g. italic markdown like
+    // (*const std::string&*) where the author omitted ">"), so we escape from
+    // the opening "<" through the end of the type token(s), stopping at
+    // characters that cannot be part of a C++ type. Real JSX components never
+    // contain "::", so this is safe outside fenced code blocks and inline
+    // code spans (handled by the caller).
     let out = '';
     let index = 0;
     const nameChar = /[A-Za-z0-9_]/;
@@ -527,27 +531,31 @@ function escapeCppNamespaceTypes(part) {
                 hasNamespace = true;
                 scan += 2;
                 while (scan < part.length && nameChar.test(part[scan])) scan++;
-                cursor = scan;
             }
 
             if (hasNamespace) {
-                let depth = 0;
-                let end = index;
+                // Absorb nested template args and C++ type suffixes (&, *)
+                // until a character that clearly terminates the type.
+                let end = scan;
+                let depth = 1;
                 while (end < part.length) {
-                    if (part[end] === '<') depth++;
-                    else if (part[end] === '>') {
+                    const ch = part[end];
+                    if (ch === '<') {
+                        depth++;
+                    } else if (ch === '>') {
                         depth--;
                         if (depth === 0) { end++; break; }
+                    } else if (ch === '\n' || ch === '`') {
+                        break;
+                    } else if (depth === 1 && (ch === ')' || ch === '(' || ch === ',' || ch === ']' || ch === '[' || ch === '=' || ch === '|' || ch === ':' || ch === ';')) {
+                        break;
                     }
-                    if (part[end] === '\n' || part[end] === '`') break;
                     end++;
                 }
-                if (depth === 0 && end <= part.length) {
-                    const span = part.slice(index, end);
-                    out += span.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                    index = end;
-                    continue;
-                }
+                const span = part.slice(index, end);
+                out += span.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                index = end;
+                continue;
             }
         }
         out += part[index];
