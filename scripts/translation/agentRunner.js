@@ -10,7 +10,7 @@ const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./ch
 const {loadChunkLimits, parsePositiveInteger} = require('./chunkLimits')
 const {formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
 const {protectTranslationInput, reprotectTranslationInput, restoreProtectedContent, validateProtectedContent} = require('./protectedContent')
-const {REVIEW_RESPONSE_JSON_SCHEMA, parseAndValidateReviewEvidence, successfulReview} = require('./reviewEvidence')
+const {parseAndValidateReviewEvidence, successfulReview} = require('./reviewEvidence')
 const {
   bindSemanticReviewEvidence,
   collectSemanticUnits,
@@ -53,6 +53,8 @@ const DEFAULT_PROVIDER_TIMEOUT_MS = 300000
 const DEFAULT_FILE_TIMEOUT_MS = 900000
 const REFERENCE_LANDING_SOURCE_ROOT = 'content/en/reference/'
 const REFERENCE_LANDING_PROSE_SAFETY_FACTOR = 1.05
+const SEVERITY_RANK = Object.freeze({ high: 3, medium: 2, low: 1 })
+const DETERMINISTIC_ISSUE_TYPES = new Set(['mdx_structure', 'protected_content'])
 
 let referenceLandingContracts
 
@@ -300,13 +302,17 @@ async function createProviderCall(agentConfigs, options = {}) {
         const requestBody = {
           model: config.model,
           messages,
-          temperature: agent === 'review' ? 0 : 0.1,
+          temperature: 0,
+        }
+        if (config.thinking) {
+          if (config.thinkingStyle === 'qwen') {
+            requestBody.enable_thinking = config.thinking === 'enabled'
+          } else {
+            requestBody.thinking = { type: config.thinking }
+          }
         }
         if (agent === 'review' && config.structuredOutput === true) {
-          requestBody.response_format = {
-            type: 'json_schema',
-            json_schema: REVIEW_RESPONSE_JSON_SCHEMA,
-          }
+          requestBody.response_format = { type: 'json_object' }
         }
         const res = await fetch(`${normalizeBaseUrl(config.baseUrl)}/chat/completions`, {
           method: 'POST',
@@ -379,11 +385,11 @@ async function createProviderCall(agentConfigs, options = {}) {
 
 function createModelCallCounter(callModel) {
   if (typeof callModel !== 'function') throw new TypeError('Model call counter requires a callModel function')
-  const counts = {translation: 0, reviewer: 0, correction: 0, total: 0}
+  const counts = {translation: 0, reviewer: 0, correction: 0, polish: 0, total: 0}
   return Object.freeze({
     callModel: async request => {
       const key = request?.agent === 'review' ? 'reviewer' : request?.agent
-      if (!['translation', 'reviewer', 'correction'].includes(key)) {
+      if (!['translation', 'reviewer', 'correction', 'polish'].includes(key)) {
         throw new Error(`Unsupported model agent for call counting: ${request?.agent || 'missing'}`)
       }
       counts[key] += 1
@@ -661,7 +667,9 @@ function formatDocumentContext(chunkContext) {
 }
 
 function loadSystemPrompt(target, promptName) {
-  return `${loadPrompt(promptName)}\n\n${formatLocaleContract(loadLocaleContract(target))}`
+  // Locale contract is placed first so translate/review/correction share an
+  // identical stable prefix, maximizing the provider's prompt-cache hit rate.
+  return `${formatLocaleContract(loadLocaleContract(target))}\n\n${loadPrompt(promptName)}`
 }
 
 function buildTranslationMessages({ target, sourcePath, sourceContent, sourceDocument, semanticUnits, locale, chunkContext, retryFeedback }) {
@@ -741,6 +749,19 @@ function buildCorrectionMessages({ target, sourcePath, sourceContent, translated
       role: 'user',
       content: userContent,
     },
+  ]
+}
+
+function polishPromptFor(target) {
+  return loadSystemPrompt(target, promptNamesFor(target).polish)
+}
+
+function buildPolishMessages({ target, sourcePath, sourceUnits, draftUnits, locale, chunkContext }) {
+  const context = `${formatReferenceLandingContract(target, sourcePath)}${formatDocumentContext(chunkContext)}`
+  const userContent = `<translation_context>\nlocale: ${locale}\nsource_path: ${sourcePath}\n${context}</translation_context>\n\n<source_units>\n${JSON.stringify(sourceUnits, null, 2)}\n</source_units>\n\n<draft_units>\n${JSON.stringify(draftUnits, null, 2)}\n</draft_units>`
+  return [
+    { role: 'system', content: polishPromptFor(target) },
+    { role: 'user', content: userContent },
   ]
 }
 
@@ -930,38 +951,71 @@ async function translateAndReviewUnit({
   let protectedErrors = validateProtectedContent(sourceContent, translatedContent, {sourcePath})
   if (protectedErrors.length) throw categorizedError(protectedErrors.join('; '), 'protected_content_failed', {code: 'PROTECTED_CONTENT_FAILED'})
 
+  if (process.env.TRANSLATION_POLISH === 'true') {
+    const translationUnits = currentUnits
+    const draftUnits = reprotectSemanticUnits(sourceUnits, currentUnits)
+    const draftUnitPayload = draftUnits.map(unit => ({id: unit.id, kind: unit.kind, text: unit.protection.content}))
+    const polishResponse = await callModel({
+      agent: 'polish',
+      signal,
+      retryBudget: providerRetryBudget,
+      messages: buildPolishMessages({
+        target,
+        sourcePath,
+        sourceUnits: sourceUnitPayload,
+        draftUnits: draftUnitPayload,
+        locale,
+        chunkContext,
+      }),
+    })
+    const polishedUnits = restoreSemanticUnitResponse(polishResponse, {field: 'translations', protectedUnits: sourceUnits, localeContract})
+    // Revert any unit whose polish broke the locale contract back to the
+    // translation version — deterministic detection, no forbidden-term guesswork.
+    const polishedDraftUnits = reprotectSemanticUnits(sourceUnits, polishedUnits)
+    const polishContractIssues = deterministicSemanticIssues(sourceUnits, polishedDraftUnits, localeContract)
+    const revertedIds = new Set(polishContractIssues.issueUnits.map(binding => binding.unitId))
+    const translationById = new Map(translationUnits.map(unit => [unit.id, unit]))
+    currentUnits = polishedUnits.map(unit => revertedIds.has(unit.id) ? (translationById.get(unit.id) || unit) : unit)
+    translatedContent = patchSemanticUnits(sourceContent, units, currentUnits)
+    protectedErrors = validateProtectedContent(sourceContent, translatedContent, {sourcePath})
+    if (protectedErrors.length) throw categorizedError(protectedErrors.join('; '), 'protected_content_failed', {code: 'PROTECTED_CONTENT_FAILED'})
+  }
+
   let review = { pass: false, issues: [] }
   for (let round = 0; round <= maxReviewRounds; round++) {
     const draftUnits = reprotectSemanticUnits(sourceUnits, currentUnits)
     const draftUnitPayload = draftUnits.map(unit => ({id: unit.id, kind: unit.kind, text: unit.protection.content}))
     const protectedDraftDocument = reprotectTranslationInput(translatedContent, protectedSource.manifest)
+    const skipBlindReview = process.env.TRANSLATION_SKIP_BLIND_REVIEW === 'true'
     const reviewBatches = batchSemanticReviewPairs(sourceUnitPayload, draftUnitPayload, adaptiveTargetChars, adaptiveMaxChars)
     const evidenceBatches = []
-    for (const batch of reviewBatches) {
-      const batchSourcePayload = batch.map(pair => pair.sourceUnit)
-      const batchDraftPayload = batch.map(pair => pair.draftUnit)
-      const batchIds = new Set(batchSourcePayload.map(unit => unit.id))
-      evidenceBatches.push(bindSemanticReviewEvidence(parseAndValidateReviewEvidence(await callModel({
-        agent: 'review',
-        signal,
-        retryBudget: providerRetryBudget,
-        messages: buildReviewMessages({
-          target,
-          sourcePath,
-          sourceContent: protectedSource.content,
-          translatedContent: protectedDraftDocument.content,
-          sourceDocument: markerFreeDocumentContext(protectedSource.content),
-          draftDocument: markerFreeDocumentContext(protectedDraftDocument.content),
-          sourceUnits: batchSourcePayload,
-          draftUnits: batchDraftPayload,
-          locale,
-          chunkContext,
-        }),
-      }), {
-        sourceContent: JSON.stringify(batchSourcePayload),
-        draftContent: JSON.stringify(batchDraftPayload),
-        localeContract,
-      }), sourceUnits.filter(unit => batchIds.has(unit.id)), draftUnits.filter(unit => batchIds.has(unit.id))))
+    if (!skipBlindReview) {
+      for (const batch of reviewBatches) {
+        const batchSourcePayload = batch.map(pair => pair.sourceUnit)
+        const batchDraftPayload = batch.map(pair => pair.draftUnit)
+        const batchIds = new Set(batchSourcePayload.map(unit => unit.id))
+        evidenceBatches.push(bindSemanticReviewEvidence(parseAndValidateReviewEvidence(await callModel({
+          agent: 'review',
+          signal,
+          retryBudget: providerRetryBudget,
+          messages: buildReviewMessages({
+            target,
+            sourcePath,
+            sourceContent: protectedSource.content,
+            translatedContent: protectedDraftDocument.content,
+            sourceDocument: markerFreeDocumentContext(protectedSource.content),
+            draftDocument: markerFreeDocumentContext(protectedDraftDocument.content),
+            sourceUnits: batchSourcePayload,
+            draftUnits: batchDraftPayload,
+            locale,
+            chunkContext,
+          }),
+        }), {
+          sourceContent: JSON.stringify(batchSourcePayload),
+          draftContent: JSON.stringify(batchDraftPayload),
+          localeContract,
+        }), sourceUnits.filter(unit => batchIds.has(unit.id)), draftUnits.filter(unit => batchIds.has(unit.id))))
+      }
     }
     const evidence = {
       fatal: evidenceBatches.some(item => item.fatal),
@@ -989,10 +1043,15 @@ async function translateAndReviewUnit({
       seen.add(key)
       issues.push(issue)
     }
+    const minSeverityRank = SEVERITY_RANK[process.env.TRANSLATION_REVIEW_MIN_SEVERITY] ?? 1
+    const isActionable = issue => !DETERMINISTIC_ISSUE_TYPES.has(issue.type) && (SEVERITY_RANK[issue.severity] ?? 1) >= minSeverityRank
+    const actionableIssues = issues.filter(isActionable)
+    const acceptedIssues = issues.filter(issue => !isActionable(issue))
     review = {
-      pass: !evidence.fatal && issues.length === 0 && evidence.unsupportedIssues.length === 0 &&
+      pass: !evidence.fatal && actionableIssues.length === 0 && evidence.unsupportedIssues.length === 0 &&
         evidence.contractConflicts.length === 0 && evidence.error === null,
       issues,
+      acceptedIssues,
       unsupportedIssues: evidence.unsupportedIssues,
       contractConflicts: evidence.contractConflicts,
       localeContractIssues: deterministic.issues,
@@ -1000,8 +1059,9 @@ async function translateAndReviewUnit({
       error: evidence.error,
     }
     if (review.pass || round === maxReviewRounds) break
-    if (evidence.fatal || issues.length === 0) break
-    const authorizedIds = [...new Set(issueUnits.map(item => item.unitId))]
+    if (evidence.fatal || actionableIssues.length === 0) break
+    const actionableIssueUnits = issueUnits.filter(item => isActionable(item.issue))
+    const authorizedIds = [...new Set(actionableIssueUnits.map(item => item.unitId))]
     if (!authorizedIds.length) break
     const authorizedDraftUnits = draftUnits.filter(unit => authorizedIds.includes(unit.id))
     const authorizedSourcePayload = sourceUnitPayload.filter(unit => authorizedIds.includes(unit.id))
@@ -1016,7 +1076,7 @@ async function translateAndReviewUnit({
         source: pair.sourceUnit.text,
         draft: pair.draftUnit.text,
       }))
-      const batchIssues = issues.filter(issue => [...batchIds].some(id => issue.location === id || issue.location.startsWith(`${id};`)))
+      const batchIssues = actionableIssues.filter(issue => [...batchIds].some(id => issue.location === id || issue.location.startsWith(`${id};`)))
       const correctedResponse = await callModel({
         agent: 'correction',
         signal,
@@ -1331,22 +1391,36 @@ function validateTranslationManifest(manifest) {
 }
 
 function loadAgentConfigsFromEnv() {
+  const thinking = process.env.TRANSLATION_AGENT_THINKING
   return {
     translation: {
       baseUrl: process.env.TRANSLATION_AGENT_BASE_URL,
       apiKey: process.env.TRANSLATION_AGENT_API_KEY,
       model: process.env.TRANSLATION_AGENT_MODEL,
+      thinking: thinking || 'disabled',
+      thinkingStyle: 'deepseek',
     },
     review: {
       baseUrl: process.env.REVIEW_AGENT_BASE_URL,
       apiKey: process.env.REVIEW_AGENT_API_KEY,
       model: process.env.REVIEW_AGENT_MODEL,
       structuredOutput: String(process.env.REVIEW_AGENT_STRUCTURED_OUTPUT || '').toLowerCase() === 'true',
+      thinking: process.env.REVIEW_AGENT_THINKING || 'enabled',
+      thinkingStyle: 'deepseek',
     },
     correction: {
       baseUrl: process.env.REVIEW_AGENT_BASE_URL,
       apiKey: process.env.REVIEW_AGENT_API_KEY,
       model: process.env.REVIEW_AGENT_MODEL,
+      thinking: process.env.CORRECTION_AGENT_THINKING || thinking || 'disabled',
+      thinkingStyle: 'deepseek',
+    },
+    polish: {
+      baseUrl: process.env.POLISH_AGENT_BASE_URL || process.env.TRANSLATION_AGENT_BASE_URL,
+      apiKey: process.env.POLISH_AGENT_API_KEY || process.env.TRANSLATION_AGENT_API_KEY,
+      model: process.env.POLISH_AGENT_MODEL || 'qwen-max',
+      thinking: process.env.POLISH_AGENT_THINKING || 'disabled',
+      thinkingStyle: 'qwen',
     },
   }
 }
@@ -2010,6 +2084,7 @@ if (require.main === module) {
 
 module.exports = {
   buildCorrectionMessages,
+  buildPolishMessages,
   buildRecoveryIdentity,
   buildReviewMessages,
   buildTranslationMessages,
