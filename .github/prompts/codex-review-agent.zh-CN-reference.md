@@ -22,7 +22,8 @@ Return exactly {"pass":true,"issues":[]} when no evidence-backed issue exists. O
 }
 
 Allowed severity values: high, medium, low.
-Allowed type values: accuracy_omission, accuracy_addition, accuracy_mistranslation, product_claim, terminology, consistency, untranslated_prose, locale_style, mdx_structure, protected_content, link_or_path.
+Allowed type values: accuracy_omission, accuracy_addition, accuracy_mistranslation, product_claim, terminology, consistency, untranslated_prose, locale_style, link_or_path.
+Do not report mdx_structure or protected_content; both are checked deterministically downstream. Report link_or_path only for real URL/anchor/path changes.
 
 Evidence rules:
 - Every issue must contain exactly the six fields shown above. Do not add rule_id, suggested_fix, or any other field.

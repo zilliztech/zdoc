@@ -62,27 +62,45 @@
 | 4 | locale contract 挪到 system prompt 最前,translate/review/correct 共享稳定前缀 | `loadSystemPrompt` | 跨 agent 命中 KVCache |
 | 5 | 加 `TRANSLATION_REVIEW_MIN_SEVERITY` 严重度 gating(默认 `low`=现状;`medium` 时只修 high+medium,low 接受) | review loop | correction 次数下降 |
 | 6 | review 模型换 `deepseek-v4-flash`(原 deepseek-chat) | `.env` `REVIEW_AGENT_MODEL` | 消除 pro 500/高成本 |
+| 7 | review prompt 只报语义(移除 `mdx_structure`/`protected_content`,保留 `link_or_path`)+ gating 代码兜底排除这两类 | prompt 文件 + `DETERMINISTIC_ISSUE_TYPES` | review 聚焦语义,不再重复修格式 |
+| 8 | severity 校准 + 阴性对照(结论见 §7) | `calibrate-review-severity.js` | 定位 review 可靠性 |
 
 说明:
-- 第 1、2、4、5、6 条默认生效(纯参数/配置/前缀改动,默认值不改变现有行为)。
-- 第 3 条默认**关闭**(`TRANSLATION_SKIP_BLIND_REVIEW` 未设为 true 时保持现状),因为它去掉 review 模型的**语义盲评**(术语一致性/漏译/风格),而本实验的质量指标只有 MDX 确定性校验——语义质量增量未量化,需生产 A/B 验证后再默认开启。
-- 第 5 条默认 `low`(不改变行为);设为 `medium` 即启用严重度 gating。语义盲评最佳实践见调研(GEMBA-MQM):reviewer 用 MQM 式 span 标注 + 严重度分级,minor/low 权重仅 1 分,不值得单独修,应只 gate critical/major。
+- 第 1、2、4、5、6、7 条默认生效(纯参数/配置/前缀改动,默认值不改变现有行为)。
+- 第 3 条默认**关闭**(`TRANSLATION_SKIP_BLIND_REVIEW` 未设为 true 时保持现状)。但 §7 阴性对照已实证 review 环节**不可靠**,更应默认开启跳过——留待生产 A/B 确认后翻默认值。
+- 第 5 条默认 `low`(不改变行为);设为 `medium` 即启用严重度 gating。
+- 第 7 条保留 `link_or_path`:翻译阶段无确定性校验器覆盖(checkLinks 是独立 build 阶段命令)。
 
 ## 4. 验证
 
-- `node --test scripts/translation/agentRunner.test.js` → **pass,0 fail**(两次:四条优化 + severity gating 后)。
+- `node --test scripts/translation/agentRunner.test.js` → **pass,0 fail**(三轮:四项优化、severity gating、类型分工后)。
 - 更新了 `testProviderStructuredOutputIsCapabilityGated` 的断言(`json_schema` → `json_object`)。
 
 ## 5. 后续建议
 
-1. **语义质量验证**:head-to-head 只测了 MDX 确定性质量。补一次人评或 LLM-as-judge 对比「盲发 review」vs「工具自校验」的术语一致性/漏译/流畅度,再决定第 3 条默认值。
-2. **生产 A/B**:在真实 guides 批次上对比 `TRANSLATION_SKIP_BLIND_REVIEW` 开/关、`TRANSLATION_REVIEW_MIN_SEVERITY` low/medium 的吞吐、失败率、人评质量。
-3. **thinking 细调**:翻译/review 用 `disabled` 已实测最优;若某些场景需要推理,可用 `enabled` + 单独评估 `reasoning_effort`(但实测 low 档不降 reasoning)。
-4. **severity 校准**:用 20-30 文件母语者金标准 + 双标注仲裁,校准 reviewer 的 severity 判断(现状 severity 是模型自报、从未校准)。
-5. **翻译档模型升级**:关掉 thinking 后,同样的 token 预算可换更强模型做翻译,而非烧在思考上。
+1. **生产 A/B**:在真实 guides 批次上对比 `TRANSLATION_SKIP_BLIND_REVIEW` 开/关、`TRANSLATION_REVIEW_MIN_SEVERITY` low/medium 的吞吐、失败率、人评质量。这是决定第 3 条默认值的最终依据。
+2. **review 修复(若保留)**:① prompt 明确 `untranslated_prose`/`accuracy_omission` 触发条件 + 修正 "identical values are not evidence" 与漏译的矛盾;② 解决 `temperature:0` 在 deepseek-v4-flash 上不被严格遵守的非确定性(用 `seed` 或多次采样投票)。
+3. **severity 校准(母语者)**:LLM-as-judge 的准金标准不可靠(见 §7),仍需 20-30 文件母语者金标准 + 双标注仲裁。
+4. **翻译档模型升级**:关掉 thinking 后,同样的 token 预算可换更强模型做翻译,而非烧在思考上。
 
 ## 6. 相关文件
 
-- `scripts/translation/agentRunner.js` — 六项改动落点
+- `scripts/translation/agentRunner.js` — 八项改动落点
 - `scripts/translation/ab-tool-feedback.js` — 本地 head-to-head 实验脚本(throwaway)
+- `scripts/translation/calibrate-review-severity.js` — severity 校准 + 阴性对照脚本(throwaway)
 - `scripts/translation/agentRunner.test.js` — 测试 + 断言更新
+
+## 7. 阴性对照结论(改动 4)
+
+用 `calibrate-review-severity.js` 对 3 个代表性文件做 severity 校准 + 阴性对照:
+
+1. **基线(无注入)**:judge(`deepseek-v4-pro` 关 thinking)和 review(`deepseek-v4-flash`)对真实翻译全部报 0 issue —— 关 thinking 的 flash 翻译质量足够高,或 review 无证据支持的问题可报。
+2. **阴性对照(注入整段英文漏译)**:把 `paragraph.0043`(215 字符含 L2 的自然语言段落)保留为英文未翻译,结果:
+   - judge(pro):三轮全 0,**对明显漏译稳定漏报**。
+   - review(flash):同一输入有时 0 有时 1(`untranslated_prose/high`),**检测不稳定**。
+   - review 加 prompt 触发说明后报出 `untranslated_prose/high`。
+
+结论:
+- review 环节**不可靠**(flash 不稳定、pro 漏报),强烈支持 `TRANSLATION_SKIP_BLIND_REVIEW` 默认开启。
+- 根因有二:① prompt 对 `untranslated_prose`/`accuracy_omission` 无触发条件,且 "identical values are not evidence" 与漏译(source==draft)矛盾;② `temperature:0` 在 deepseek-v4-flash 上不被严格遵守,输出有残余随机性。
+- 附带发现:`temperature:0` 非确定性同时解释了之前 translation content 空、review 500 等不稳定现象。

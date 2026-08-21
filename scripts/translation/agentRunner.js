@@ -54,6 +54,7 @@ const DEFAULT_FILE_TIMEOUT_MS = 900000
 const REFERENCE_LANDING_SOURCE_ROOT = 'content/en/reference/'
 const REFERENCE_LANDING_PROSE_SAFETY_FACTOR = 1.05
 const SEVERITY_RANK = Object.freeze({ high: 3, medium: 2, low: 1 })
+const DETERMINISTIC_ISSUE_TYPES = new Set(['mdx_structure', 'protected_content'])
 
 let referenceLandingContracts
 
@@ -996,8 +997,9 @@ async function translateAndReviewUnit({
       issues.push(issue)
     }
     const minSeverityRank = SEVERITY_RANK[process.env.TRANSLATION_REVIEW_MIN_SEVERITY] ?? 1
-    const actionableIssues = issues.filter(issue => (SEVERITY_RANK[issue.severity] ?? 1) >= minSeverityRank)
-    const acceptedIssues = issues.filter(issue => (SEVERITY_RANK[issue.severity] ?? 1) < minSeverityRank)
+    const isActionable = issue => !DETERMINISTIC_ISSUE_TYPES.has(issue.type) && (SEVERITY_RANK[issue.severity] ?? 1) >= minSeverityRank
+    const actionableIssues = issues.filter(isActionable)
+    const acceptedIssues = issues.filter(issue => !isActionable(issue))
     review = {
       pass: !evidence.fatal && actionableIssues.length === 0 && evidence.unsupportedIssues.length === 0 &&
         evidence.contractConflicts.length === 0 && evidence.error === null,
@@ -1011,7 +1013,7 @@ async function translateAndReviewUnit({
     }
     if (review.pass || round === maxReviewRounds) break
     if (evidence.fatal || actionableIssues.length === 0) break
-    const actionableIssueUnits = issueUnits.filter(item => (SEVERITY_RANK[item.issue.severity] ?? 1) >= minSeverityRank)
+    const actionableIssueUnits = issueUnits.filter(item => isActionable(item.issue))
     const authorizedIds = [...new Set(actionableIssueUnits.map(item => item.unitId))]
     if (!authorizedIds.length) break
     const authorizedDraftUnits = draftUnits.filter(unit => authorizedIds.includes(unit.id))
