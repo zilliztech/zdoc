@@ -45,6 +45,7 @@ test('accepts all required English source producers that succeeded', async () =>
     {name: 'produce_node', conclusion: 'success'},
     {name: 'produce_go', conclusion: 'success'},
     {name: 'produce_cli', conclusion: 'success'},
+    {name: 'produce_cpp', conclusion: 'success'},
     {name: 'produce_rest', conclusion: 'success'},
     {name: 'produce_zh_guides', conclusion: 'success'},
   ]
@@ -60,6 +61,7 @@ test('rejects when a required English source producer did not succeed', async ()
     {name: 'produce_node', conclusion: 'success'},
     {name: 'produce_go', conclusion: 'success'},
     {name: 'produce_cli', conclusion: 'success'},
+    {name: 'produce_cpp', conclusion: 'success'},
     {name: 'produce_rest', conclusion: 'success'},
     {name: 'produce_zh_guides', conclusion: 'success'},
   ]

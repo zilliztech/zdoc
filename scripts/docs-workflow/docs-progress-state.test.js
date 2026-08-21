@@ -248,15 +248,15 @@ test('renders FIFO publication facts in canonical Fetch business order', () => {
   })
 
   assert.deepEqual(state.manuals.map(manual => manual.label), [
-    'Java SDK', 'Node.js SDK', 'Go SDK', 'Zilliz CLI', 'REST API', 'Python SDK', 'English Guides', 'Chinese Guides',
+    'Python SDK', 'Java SDK', 'Node.js SDK', 'Go SDK', 'Zilliz CLI', 'REST API', 'English Guides', 'Chinese Guides',
   ])
   assert.deepEqual(state.manuals.map(manual => manual.currentTask), [
+    'Ready - queue position 1',
     'Published - abcdef1',
     'Ready - queue position 2',
     'Publishing - FIFO sequence 3 - attempt 1',
     'No changes',
     'Failed - queue continued',
-    'Ready - queue position 1',
     'Preparing publication candidate',
     'Failed - queue continued',
   ])

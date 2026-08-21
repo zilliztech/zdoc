@@ -72,7 +72,12 @@ export function referenceNavigationFragment(): Readonly<{
   return {en: build('en'), 'zh-CN': build('zh-CN')};
 }
 
-export type DocsUiReferenceTarget = Readonly<{kind: string; landingHref: string; hrefPrefixes: readonly string[]}>;
+export type DocsUiReferenceTarget = Readonly<{
+  kind: string;
+  label: Readonly<{en: string; 'zh-CN': string}>;
+  landingHref: string;
+  hrefPrefixes: readonly string[];
+}>;
 
 export function docsUiReferenceTargets(): Readonly<{
   kinds: readonly string[];
@@ -90,6 +95,7 @@ export function docsUiReferenceTargets(): Readonly<{
   }
   const navigation = ordered.map(({presentation}) => ({
     kind: presentation.referenceKind,
+    label: {en: presentation.label.en, 'zh-CN': presentation.label['zh-CN']},
     landingHref: presentation.href,
     hrefPrefixes: presentation.referenceKind === 'nodejs' ? [presentation.href, '/reference/node'] : [presentation.href],
   }));
@@ -225,8 +231,8 @@ export function generateDocsUiReferenceTargetsModule(): string {
     ...Object.entries(targets.aliases).map(([key, value]) => `  ${quote(key)}: ${quote(value)},`),
     '};',
     '',
-    'export const referenceTargetNavigation: ReadonlyArray<Readonly<{kind: ReferenceTargetKind; landingHref: string; hrefPrefixes: readonly string[]}>> = [',
-    ...targets.navigation.map(target => `  {kind: ${quote(target.kind)}, landingHref: ${quote(target.landingHref)}, hrefPrefixes: [${target.hrefPrefixes.map(quote).join(', ')}]},`),
+    `export const referenceTargetNavigation: ReadonlyArray<Readonly<{kind: ReferenceTargetKind; label: {en: string; 'zh-CN': string}; landingHref: string; hrefPrefixes: readonly string[]}>> = [`,
+    ...targets.navigation.map(target => `  {kind: ${quote(target.kind)}, label: {en: ${quote(target.label.en)}, 'zh-CN': ${quote(target.label['zh-CN'])}}, landingHref: ${quote(target.landingHref)}, hrefPrefixes: [${target.hrefPrefixes.map(quote).join(', ')}]},`),
     '];',
     '',
   ];

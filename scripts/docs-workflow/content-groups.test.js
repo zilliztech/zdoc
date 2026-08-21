@@ -65,8 +65,8 @@ test('defines a bounded translation-only Reference landing group', () => {
     'content/en/reference/api/java/java/java.md',
     'content/en/reference/api/nodejs/nodejs/nodejs.md',
     'content/en/reference/api/go/go/go.md',
-    'content/en/reference/api/cpp/cpp/cpp.md',
     'content/en/reference/cli/cli/Overview.md',
+    'content/en/reference/api/cpp/cpp/cpp.md',
   ]);
   assert.deepEqual(landings.forceTranslationPaths, landings.ownedPaths);
   assert.equal(Object.isFrozen(landings.forceTranslationPaths), true);

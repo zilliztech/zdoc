@@ -128,19 +128,21 @@ test('rejects a source artifact missing its declared preserved landing', async (
   );
 });
 
-test('maps the Reference landing group to five exact Chinese targets plus translation state', () => {
+test('maps the Reference landing group to six exact Chinese targets plus translation state', () => {
   assert.deepEqual(translationOwnedPaths('zh-CN-reference', require('./content-groups').getContentGroup('reference-landings')), [
     'content/zh-CN/reference/api/python/python/python.md',
     'content/zh-CN/reference/api/java/java/java.md',
     'content/zh-CN/reference/api/nodejs/nodejs/nodejs.md',
     'content/zh-CN/reference/api/go/go/go.md',
     'content/zh-CN/reference/cli/cli/Overview.md',
+    'content/zh-CN/reference/api/cpp/cpp/cpp.md',
     'generated/zh-CN/manifests/reference-translations.json',
     'generated/zh-CN/sidebars/python.sidebar.js',
     'generated/zh-CN/sidebars/java.sidebar.js',
     'generated/zh-CN/sidebars/node.sidebar.js',
     'generated/zh-CN/sidebars/go.sidebar.js',
     'generated/zh-CN/sidebars/cli.sidebar.js',
+    'generated/zh-CN/sidebars/cpp.sidebar.js',
   ]);
 });
 

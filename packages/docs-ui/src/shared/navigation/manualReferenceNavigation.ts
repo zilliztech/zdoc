@@ -20,10 +20,10 @@ export type ManualReferenceNavigation = Readonly<{
 }>;
 
 function navigation(
+  site: DocsSite,
   clientLibrariesLabel: string,
   toolsLabel: string,
   installSdksLabel: string,
-  labels: readonly string[],
 ): ManualReferenceNavigation {
   return Object.freeze({
     clientLibrariesLabel,
@@ -32,9 +32,9 @@ function navigation(
     installSdksHref: '/docs/install-sdks',
     toolsHref: '/docs/agents-and-prompts',
     targets: Object.freeze(
-      referenceTargetNavigation.map((entry, index) => Object.freeze({
+      referenceTargetNavigation.map((entry) => Object.freeze({
         kind: entry.kind,
-        label: labels[index],
+        label: entry.label[site],
         landingHref: entry.landingHref,
         hrefPrefixes: Object.freeze([...entry.hrefPrefixes]),
       })),
@@ -45,25 +45,9 @@ function navigation(
   });
 }
 
-const englishNavigation = navigation('Client Libraries', 'Tools', 'Install SDKs', [
-  'Python',
-  'Java',
-  'Node.js',
-  'Go',
-  'C++ SDK',
-  'CLI',
-  'RESTful API',
-]);
+const englishNavigation = navigation('en', 'Client Libraries', 'Tools', 'Install SDKs');
 
-const chineseNavigation = navigation('客户端参考', '工具', '安装 SDK', [
-  'Python SDK',
-  'Java SDK',
-  'Node.js SDK',
-  'Go SDK',
-  'C++ SDK',
-  'Zilliz CLI',
-  'RESTful API',
-]);
+const chineseNavigation = navigation('zh-CN', '客户端参考', '工具', '安装 SDK');
 
 export function getManualReferenceNavigation(site: DocsSite): ManualReferenceNavigation {
   return site === 'zh-CN' ? chineseNavigation : englishNavigation;

@@ -7,15 +7,9 @@ const {
   listPublicationGroups,
   resolvePublicationGroupWorkflow,
 } = loadTypeScript('../../packages/docs-tooling/src/workflows/groups.ts');
+const { referenceLandingsEn } = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts');
 
-const REFERENCE_LANDING_PATHS = Object.freeze([
-  'content/en/reference/api/python/python/python.md',
-  'content/en/reference/api/java/java/java.md',
-  'content/en/reference/api/nodejs/nodejs/nodejs.md',
-  'content/en/reference/api/go/go/go.md',
-  'content/en/reference/api/cpp/cpp/cpp.md',
-  'content/en/reference/cli/cli/Overview.md',
-]);
+const REFERENCE_LANDING_PATHS = referenceLandingsEn();
 
 const REFERENCE_LANDINGS_GROUP = Object.freeze({
   site: 'en',

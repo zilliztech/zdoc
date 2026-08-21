@@ -310,3 +310,21 @@ node --test scripts/sdk-reference-workflow.test.js
 2. path-filters.json：**新增漂移检查**（referencePresentation.ts 的 referenceSidebarPaths() + validatePathFiltersReferenceSidebars()，并入 generate-reference-presentation.js --check，site-validation 已覆盖）。path-filters 本身是静态 deploy 契约，不做全量生成；检查会拦截新增手册后未同步 reference sidebar 路径的漂移。新增 referencePresentation.test.ts（3 tests）。
 3. restore-generated-state.sh：**保持固定，记录为有意例外**。它有显式契约测试 "source preserves the fixed restore path list exactly"，且其路径列表大部分是静态仓库布局（docs/i18n/content/...，仅 8/24 条是 sidebar）；脚本在临时 git 仓库中被测试实际执行，必须自包含（同 selection.js 约束）。
 
+
+### 残留硬编码消除 + cpp 验收后续（2026-08-21 会话）
+
+cpp 验收实测（commit 49cc45db5）暴露了 4 处仍需手改的残留硬编码，本段消除其中 3 处（第 4 处为有意例外）：
+
+1. **content-groups.js `REFERENCE_LANDING_PATHS`** → 新增 `referenceLandingsEn()`（workflowUnits.ts），从 registry 的 `documentIdPrefix + landingPage` 派生（排除 restful，与 `referenceLandingsZhCn()` 对称）。关键：landing 文件在版本根目录而非 outputDir（java/go 有 v1/v2 子目录），必须用 documentIdPrefix。
+2. **docs-ui manualReferenceNavigation en 端短名 label** → 把 `label` 生成进 `referenceTargets.generated.ts`（`docsUiReferenceTargets()` 每个 entry 带 `label: {en, zh-CN}`），manualReferenceNavigation 消费 `entry.label[site]`。en 端由短名 'Python' 统一为 registry 全名 'Python SDK'（与 navbar、zh-CN 一致）。
+3. **workflowUnits.ts `FETCH_BUSINESS_ORDER`** → 从 `sdkGroupIds()`（groupOrder 排序）派生 + guides 追加。同时修复 registry `cpp.groupOrder` 冲突：统一为唯一连续 `python(1), java(2), node(3), go(4), cli(5), cpp(6), rest(7)`。**cli 在 cpp 前是硬约束**——`translation/selection.js` 的硬编码 GROUPS 是 cli 在前，`TRANSLATION_UNIT_ORDER`（sdkGroupIds 派生）必须与之匹配，否则 `validateTranslationHandoffContract` 校验失败。
+4. **translation/selection.js** 保持不动（用户确认方案 1，有意例外：它是 validate-workflow-policy 的静态审计对象，测试靠"复制单文件 + 字符串替换"验证，必须自包含）。
+
+**行为变化**：进度卡片 / 翻译单元顺序 python 由最后移到最前（与 groupOrder/navOrder 一致）；DocSidebar en 端 label 由短名改为全名。
+
+**新发现的残留硬编码（本轮仅补 cpp 项，未单源化）**：
+- `scripts/docs-workflow/translation-publication-reconciliation.js` `SIDEBARS_BY_GROUP` 也是 group→sidebar 硬编码表，cpp 加入时遗漏。该文件未 import docs-tooling，可后续用 loadTypeScript 派生（同 content-groups.js）。
+
+**cpp 加入遗留的测试基线问题（本轮经 `git stash` 还原本轮改动后仍失败，确认非本次引入，需单独任务修复）**：
+- checkpoint-contention（2）、rest-reconciliation（1）、replay-translation-publication-fifo（2）、translation/batches（3）、sdk-reference-workflow（2）。根因是 cpp 验收测试不完整的连锁反应：fixture/manifest 缺 cpp、publish-checkpoint.sh legacy-json 契约脱节（f0535753b retire legacy 引入）、cpp source manifest/git tree 路径集合 mismatch 等。
+

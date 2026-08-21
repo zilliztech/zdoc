@@ -308,7 +308,7 @@ const definitions: ManualDefinition[] = [
       icon: 'cpp',
       href: '/reference/cpp',
       prefix: '/reference/cpp',
-      groupOrder: 5,
+      groupOrder: 6,
       navOrder: {en: 5, 'zh-CN': 1},
       standalone: false,
       documentIdPrefix: 'api/cpp/cpp',

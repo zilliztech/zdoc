@@ -60,13 +60,13 @@ function checkpointFixture(options = {}) {
 test('all selection contains the exact nine Fetch units in canonical business order', () => {
   const selection = buildFetchPublicationSelection(input())
   assert.deepEqual(FETCH_UNIT_KEYS, [
-    'source/java', 'source/node', 'source/go', 'source/cli', 'source/cpp',
-    'source/rest', 'source/python', 'source/guides-en', 'source/guides-zh-CN',
+    'source/python', 'source/java', 'source/node', 'source/go', 'source/cli',
+    'source/cpp', 'source/rest', 'source/guides-en', 'source/guides-zh-CN',
   ])
   assert.deepEqual(selection.units.map(unit => unit.unitKey), FETCH_UNIT_KEYS)
   assert.deepEqual(selection.units.map(unit => unit.producerJob), [
-    'produce_java', 'produce_node', 'produce_go', 'produce_cli', 'produce_cpp',
-    'produce_rest', 'produce_python', 'produce_guides', 'produce_zh_guides',
+    'produce_python', 'produce_java', 'produce_node', 'produce_go', 'produce_cli',
+    'produce_cpp', 'produce_rest', 'produce_guides', 'produce_zh_guides',
   ])
   assert.ok(selection.units.every(unit => unit.strategy === 'checkpoint'))
 })

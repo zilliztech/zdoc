@@ -24,12 +24,13 @@ function commitMessage(group: string, referenceKind: string | undefined): string
   return `docs(${group}): publish fetched content`;
 }
 
-// Stable business ordering for the English source fetch units. The set of
-// SDK/reference units is derived from the registry; this sequence controls
-// document and card ordering and is intentionally stable across runs.
+// Stable business ordering for the English source fetch units, derived from
+// the registry's groupOrder (reference manuals first, guides last). This
+// sequence controls document and card ordering; it must be derived so a new
+// manual only needs its groupOrder set in the registry.
 export const FETCH_BUSINESS_ORDER = Object.freeze([
-  'source/java', 'source/node', 'source/go', 'source/cli', 'source/cpp',
-  'source/rest', 'source/python', 'source/guides-en', 'source/guides-zh-CN',
+  ...sdkGroupIds().map((id) => `source/${id}`),
+  'source/guides-en', 'source/guides-zh-CN',
 ]) as readonly string[];
 
 export function sdkGroupIds(): readonly string[] {
@@ -179,6 +180,14 @@ export function referenceRootsZhCn(): Readonly<Record<string, string>> {
     roots[manual.id] = `${referenceRoot}${family}`;
   }
   return Object.freeze(roots);
+}
+
+export function referenceLandingsEn(): readonly string[] {
+  return Object.freeze(
+    referenceManuals()
+      .filter((manual) => manual.presentation!.referenceKind !== 'restful')
+      .map((manual) => `content/en/reference/${manual.presentation!.documentIdPrefix}/${manual.presentation!.landingPage.split('/').at(-1)}`),
+  );
 }
 
 export function referenceLandingsZhCn(): readonly string[] {

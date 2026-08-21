@@ -17,8 +17,9 @@ const SIDEBARS_BY_GROUP = Object.freeze({
   node: Object.freeze(['node']),
   go: Object.freeze(['go']),
   cli: Object.freeze(['cli']),
+  cpp: Object.freeze(['cpp']),
   rest: Object.freeze(['restful']),
-  'reference-landings': Object.freeze(['python', 'java', 'node', 'go', 'cli']),
+  'reference-landings': Object.freeze(['python', 'java', 'node', 'go', 'cli', 'cpp']),
 })
 
 function defaultRunCommand({cwd, executable, args, environment}) {
