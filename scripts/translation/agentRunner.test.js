@@ -1596,10 +1596,7 @@ async function testProviderStructuredOutputIsCapabilityGated() {
     await callModel({agent: 'review', messages: [{role: 'user', content: 'review'}]})
     await callModel({agent: 'translation', messages: [{role: 'user', content: 'translate'}]})
 
-    assert.deepEqual(bodies[0].response_format, {
-      type: 'json_schema',
-      json_schema: REVIEW_RESPONSE_JSON_SCHEMA,
-    })
+    assert.deepEqual(bodies[0].response_format, { type: 'json_object' })
     assert.equal(Object.hasOwn(bodies[1], 'response_format'), false)
   } finally {
     global.fetch = originalFetch

@@ -10,7 +10,7 @@ const { chunkDocument, DEFAULT_MAX_CHARS, DEFAULT_TARGET_CHARS } = require('./ch
 const {loadChunkLimits, parsePositiveInteger} = require('./chunkLimits')
 const {formatLocaleContract, loadLocaleContract, validateLocaleContractDraft} = require('./localeContract')
 const {protectTranslationInput, reprotectTranslationInput, restoreProtectedContent, validateProtectedContent} = require('./protectedContent')
-const {REVIEW_RESPONSE_JSON_SCHEMA, parseAndValidateReviewEvidence, successfulReview} = require('./reviewEvidence')
+const {parseAndValidateReviewEvidence, successfulReview} = require('./reviewEvidence')
 const {
   bindSemanticReviewEvidence,
   collectSemanticUnits,
@@ -300,13 +300,13 @@ async function createProviderCall(agentConfigs, options = {}) {
         const requestBody = {
           model: config.model,
           messages,
-          temperature: agent === 'review' ? 0 : 0.1,
+          temperature: 0,
+        }
+        if (config.thinking) {
+          requestBody.thinking = { type: config.thinking }
         }
         if (agent === 'review' && config.structuredOutput === true) {
-          requestBody.response_format = {
-            type: 'json_schema',
-            json_schema: REVIEW_RESPONSE_JSON_SCHEMA,
-          }
+          requestBody.response_format = { type: 'json_object' }
         }
         const res = await fetch(`${normalizeBaseUrl(config.baseUrl)}/chat/completions`, {
           method: 'POST',
@@ -661,7 +661,9 @@ function formatDocumentContext(chunkContext) {
 }
 
 function loadSystemPrompt(target, promptName) {
-  return `${loadPrompt(promptName)}\n\n${formatLocaleContract(loadLocaleContract(target))}`
+  // Locale contract is placed first so translate/review/correction share an
+  // identical stable prefix, maximizing the provider's prompt-cache hit rate.
+  return `${formatLocaleContract(loadLocaleContract(target))}\n\n${loadPrompt(promptName)}`
 }
 
 function buildTranslationMessages({ target, sourcePath, sourceContent, sourceDocument, semanticUnits, locale, chunkContext, retryFeedback }) {
@@ -935,33 +937,36 @@ async function translateAndReviewUnit({
     const draftUnits = reprotectSemanticUnits(sourceUnits, currentUnits)
     const draftUnitPayload = draftUnits.map(unit => ({id: unit.id, kind: unit.kind, text: unit.protection.content}))
     const protectedDraftDocument = reprotectTranslationInput(translatedContent, protectedSource.manifest)
+    const skipBlindReview = process.env.TRANSLATION_SKIP_BLIND_REVIEW === 'true'
     const reviewBatches = batchSemanticReviewPairs(sourceUnitPayload, draftUnitPayload, adaptiveTargetChars, adaptiveMaxChars)
     const evidenceBatches = []
-    for (const batch of reviewBatches) {
-      const batchSourcePayload = batch.map(pair => pair.sourceUnit)
-      const batchDraftPayload = batch.map(pair => pair.draftUnit)
-      const batchIds = new Set(batchSourcePayload.map(unit => unit.id))
-      evidenceBatches.push(bindSemanticReviewEvidence(parseAndValidateReviewEvidence(await callModel({
-        agent: 'review',
-        signal,
-        retryBudget: providerRetryBudget,
-        messages: buildReviewMessages({
-          target,
-          sourcePath,
-          sourceContent: protectedSource.content,
-          translatedContent: protectedDraftDocument.content,
-          sourceDocument: markerFreeDocumentContext(protectedSource.content),
-          draftDocument: markerFreeDocumentContext(protectedDraftDocument.content),
-          sourceUnits: batchSourcePayload,
-          draftUnits: batchDraftPayload,
-          locale,
-          chunkContext,
-        }),
-      }), {
-        sourceContent: JSON.stringify(batchSourcePayload),
-        draftContent: JSON.stringify(batchDraftPayload),
-        localeContract,
-      }), sourceUnits.filter(unit => batchIds.has(unit.id)), draftUnits.filter(unit => batchIds.has(unit.id))))
+    if (!skipBlindReview) {
+      for (const batch of reviewBatches) {
+        const batchSourcePayload = batch.map(pair => pair.sourceUnit)
+        const batchDraftPayload = batch.map(pair => pair.draftUnit)
+        const batchIds = new Set(batchSourcePayload.map(unit => unit.id))
+        evidenceBatches.push(bindSemanticReviewEvidence(parseAndValidateReviewEvidence(await callModel({
+          agent: 'review',
+          signal,
+          retryBudget: providerRetryBudget,
+          messages: buildReviewMessages({
+            target,
+            sourcePath,
+            sourceContent: protectedSource.content,
+            translatedContent: protectedDraftDocument.content,
+            sourceDocument: markerFreeDocumentContext(protectedSource.content),
+            draftDocument: markerFreeDocumentContext(protectedDraftDocument.content),
+            sourceUnits: batchSourcePayload,
+            draftUnits: batchDraftPayload,
+            locale,
+            chunkContext,
+          }),
+        }), {
+          sourceContent: JSON.stringify(batchSourcePayload),
+          draftContent: JSON.stringify(batchDraftPayload),
+          localeContract,
+        }), sourceUnits.filter(unit => batchIds.has(unit.id)), draftUnits.filter(unit => batchIds.has(unit.id))))
+      }
     }
     const evidence = {
       fatal: evidenceBatches.some(item => item.fatal),
@@ -1331,22 +1336,26 @@ function validateTranslationManifest(manifest) {
 }
 
 function loadAgentConfigsFromEnv() {
+  const thinking = process.env.TRANSLATION_AGENT_THINKING
   return {
     translation: {
       baseUrl: process.env.TRANSLATION_AGENT_BASE_URL,
       apiKey: process.env.TRANSLATION_AGENT_API_KEY,
       model: process.env.TRANSLATION_AGENT_MODEL,
+      thinking: thinking || 'disabled',
     },
     review: {
       baseUrl: process.env.REVIEW_AGENT_BASE_URL,
       apiKey: process.env.REVIEW_AGENT_API_KEY,
       model: process.env.REVIEW_AGENT_MODEL,
       structuredOutput: String(process.env.REVIEW_AGENT_STRUCTURED_OUTPUT || '').toLowerCase() === 'true',
+      thinking: process.env.REVIEW_AGENT_THINKING || thinking || 'disabled',
     },
     correction: {
       baseUrl: process.env.REVIEW_AGENT_BASE_URL,
       apiKey: process.env.REVIEW_AGENT_API_KEY,
       model: process.env.REVIEW_AGENT_MODEL,
+      thinking: process.env.CORRECTION_AGENT_THINKING || thinking || 'disabled',
     },
   }
 }
