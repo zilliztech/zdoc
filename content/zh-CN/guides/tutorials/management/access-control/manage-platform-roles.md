@@ -40,7 +40,7 @@ import Procedures from '@site/src/components/Procedures';
 
 | 角色 | 描述 | 是否可编辑？ |
 | --- | --- | --- |
-| Organization Owner | 完整的组织级管理权限，包括访问控制、设置、账单、安全、服务主体和项目角色分配。 | 否 |
+| Organization Owner | 完整的组织级管理权限，包括访问控制、设置、账单、安全、API 密钥和项目角色分配。 | 否 |
 | Billing Admin | 管理账单和订阅，并对相关组织和项目上下文具有只读访问权限。 | 否 |
 | Public | 自动授予每个组织成员的基础仅登录角色。 | 否 |
 
@@ -127,7 +127,7 @@ import Procedures from '@site/src/components/Procedures';
 
 <Admonition type="info" icon="📘" title="说明">
 
-您不能删除仍分配给用户、组或服务主体的项目角色。请先移除现有分配，再删除角色。
+您不能删除仍分配给用户或 API 密钥的项目角色。请先移除现有分配，再删除角色。
 
 </Admonition>
 
