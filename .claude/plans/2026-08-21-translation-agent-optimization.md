@@ -68,7 +68,7 @@
 
 说明:
 - 第 1、2、4、5、6、7 条默认生效(纯参数/配置/前缀改动,默认值不改变现有行为)。
-- 第 3 条默认**关闭**(`TRANSLATION_SKIP_BLIND_REVIEW` 未设为 true 时保持现状)。但 §7 阴性对照已实证 review 环节**不可靠**,更应默认开启跳过——留待生产 A/B 确认后翻默认值。
+- 第 3 条(`TRANSLATION_SKIP_BLIND_REVIEW`)workflow 已设 `"true"`(跳过 review 模型 + correction)。依据 §7 阴性对照:review 环节不可靠(对整段漏译漏报)。
 - 第 5 条默认 `low`(不改变行为);设为 `medium` 即启用严重度 gating。
 - 第 7 条保留 `link_or_path`:翻译阶段无确定性校验器覆盖(checkLinks 是独立 build 阶段命令)。
 - 第 9 条(`TRANSLATION_POLISH`)workflow 已设 `"true"` 开启。qwen-max 润色引入的 locale-contract 术语问题,由 `deterministicSemanticIssues` 检测后**回退到 translation 版**(不猜 forbidden 中文,避免误改多义词,见 §8)。
