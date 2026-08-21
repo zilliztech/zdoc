@@ -350,6 +350,45 @@ const cliv14: Manual = {
     },
 }
 
+// sdk: cpp ================================
+
+const cppv26: Manual = {
+    root: 'CSzVfDgfAlne87dDj3vcnR3nnsg',
+    base: 'XmndbkxkQaigA8soRiCcTT41nMd',
+    sourceType: 'drive',
+    version: 'v2.6.x',
+    displayedSidebar: 'cppSidebar',
+    docSourceDir: './packages/docs-tooling/src/lark/meta/sources/cpp/v2.6.x',
+    sidebarPath: `generated/${site}/sidebars/cpp.sidebar.js`,
+    overridePath: `sidebar-overrides/${site}/cpp.json`,
+    contentRoot: `content/${site}/reference`,
+    targets: {
+        zilliz: {
+            outputDir: `content/${site}/reference/api/cpp/cpp`,
+            imageDir: 'static/img',
+        },
+    },
+}
+
+const cppv30: Manual = {
+    root: 'NVjgfJr5aleBsedDoKCcDpnJn9b',
+    base: 'QdLkbfmnFatl4TsThKDc5Dobn5g',
+    sourceType: 'drive',
+    version: 'v3.0.x',
+    displayedSidebar: 'cppSidebar',
+    docSourceDir: './packages/docs-tooling/src/lark/meta/sources/cpp/v3.0.x',
+    fallbackSourceDir: './packages/docs-tooling/src/lark/meta/sources/cpp/v2.6.x',
+    sidebarPath: `generated/${site}/sidebars/cpp.sidebar.js`,
+    overridePath: `sidebar-overrides/${site}/cpp.json`,
+    contentRoot: `content/${site}/reference`,
+    targets: {
+        zilliz: {
+            outputDir: `content/${site}/reference/api/cpp/cpp`,
+            imageDir: 'static/img',
+        },
+    },
+}
+
 export default {
     guides,
     python,
@@ -368,4 +407,6 @@ export default {
     gov230,
     cliv13,
     cliv14,
+    cppv26,
+    cppv30,
 }

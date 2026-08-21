@@ -6,8 +6,9 @@ const sidebars = {
   javaSidebar: loadPublishedSidebar("java", () => require('../../../../../generated/zh-CN/sidebars/java.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/java.json')),
   nodeSidebar: loadPublishedSidebar("node", () => require('../../../../../generated/zh-CN/sidebars/node.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/node.json')),
   goSidebar: loadPublishedSidebar("go", () => require('../../../../../generated/zh-CN/sidebars/go.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/go.json')),
-  restfulSidebar: loadPublishedSidebar("restful", () => require('../../../../../generated/zh-CN/sidebars/restful.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/restful.json')),
+  cppSidebar: loadPublishedSidebar("cpp", () => require('../../../../../generated/zh-CN/sidebars/cpp.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/cpp.json')),
   cliSidebar: loadPublishedSidebar("cli", () => require('../../../../../generated/zh-CN/sidebars/cli.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/cli.json')),
+  restfulSidebar: loadPublishedSidebar("restful", () => require('../../../../../generated/zh-CN/sidebars/restful.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/restful.json')),
 } satisfies SidebarsConfig;
 
 export default sidebars;

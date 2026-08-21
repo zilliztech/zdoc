@@ -28,7 +28,7 @@ function commitMessage(group: string, referenceKind: string | undefined): string
 // SDK/reference units is derived from the registry; this sequence controls
 // document and card ordering and is intentionally stable across runs.
 export const FETCH_BUSINESS_ORDER = Object.freeze([
-  'source/java', 'source/node', 'source/go', 'source/cli',
+  'source/java', 'source/node', 'source/go', 'source/cli', 'source/cpp',
   'source/rest', 'source/python', 'source/guides-en', 'source/guides-zh-CN',
 ]) as readonly string[];
 

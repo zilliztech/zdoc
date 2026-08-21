@@ -68,7 +68,7 @@ describe('site-owned publication groups', () => {
         'generated/en/sidebars/python.sidebar.js',
       ],
     });
-    expect(listPublicationGroups('en')).toEqual(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']);
+    expect(listPublicationGroups('en')).toEqual(['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest']);
     expect(listPublicationGroups('zh-CN')).toEqual(['guides', 'onpremise']);
   });
 

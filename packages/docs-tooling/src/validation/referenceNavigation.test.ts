@@ -11,6 +11,7 @@ const targets = [
   {manual: 'java', sidebarKey: 'javaSidebar', sidebar: 'java', documentIdPrefix: 'api/java/java', landingPage: 'api/java/java/java.md', minimumProseCharacters: 300, minimumHeadingCount: 2, requireSourceDifference: true},
   {manual: 'node', sidebarKey: 'nodeSidebar', sidebar: 'node', documentIdPrefix: 'api/nodejs/nodejs', landingPage: 'api/nodejs/nodejs/nodejs.md', minimumProseCharacters: 300, minimumHeadingCount: 2, requireSourceDifference: true},
   {manual: 'go', sidebarKey: 'goSidebar', sidebar: 'go', documentIdPrefix: 'api/go/go', landingPage: 'api/go/go/go.md', minimumProseCharacters: 250, minimumHeadingCount: 2, requireSourceDifference: true},
+  {manual: 'cpp', sidebarKey: 'cppSidebar', sidebar: 'cpp', documentIdPrefix: 'api/cpp/cpp', landingPage: 'api/cpp/cpp/cpp.md', minimumProseCharacters: 300, minimumHeadingCount: 2, requireSourceDifference: true},
   {manual: 'rest', sidebarKey: 'restfulSidebar', sidebar: 'restful', documentIdPrefix: 'api/restful/restful', landingPage: 'api/restful/restful/restful.md', minimumProseCharacters: 500, minimumHeadingCount: 3, requireSourceDifference: true},
   {manual: 'cli', sidebarKey: 'cliSidebar', sidebar: 'cli', documentIdPrefix: 'cli/cli', landingPage: 'cli/cli/Overview.md', minimumProseCharacters: 400, minimumHeadingCount: 3, requireSourceDifference: true},
 ] as const;
@@ -100,7 +101,7 @@ function targetError(target: Target, invariant: RegExp, document = /documentId=/
 }
 
 describe('validateReferenceNavigation', () => {
-  it('accepts all six isolated sidebars and translated landing pages with meaningful prose and headings', () => {
+  it('accepts all seven isolated sidebars and translated landing pages with meaningful prose and headings', () => {
     const root = fixture();
     expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'zh-CN'})).not.toThrow();
   });

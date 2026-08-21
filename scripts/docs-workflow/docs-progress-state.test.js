@@ -140,7 +140,7 @@ test('counts a retried Guides table once and pins a final failed identity', () =
 test('uses generic publication waiting text before FIFO progress is available', () => {
   const jobs = require('./fixtures/docs-progress/sdk-publisher-queue.json')
   const state = deriveDocsProgressState({
-    requestedGroups: ['python', 'java', 'node', 'go', 'cli', 'rest'],
+    requestedGroups: ['python', 'java', 'node', 'go', 'cli', 'cpp', 'rest'],
     publishEnabled: true,
     jobs,
   })

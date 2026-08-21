@@ -57,22 +57,22 @@ function checkpointFixture(options = {}) {
   return {root, archive, manifest}
 }
 
-test('all selection contains the exact eight Fetch units in canonical business order', () => {
+test('all selection contains the exact nine Fetch units in canonical business order', () => {
   const selection = buildFetchPublicationSelection(input())
   assert.deepEqual(FETCH_UNIT_KEYS, [
-    'source/java', 'source/node', 'source/go', 'source/cli',
+    'source/java', 'source/node', 'source/go', 'source/cli', 'source/cpp',
     'source/rest', 'source/python', 'source/guides-en', 'source/guides-zh-CN',
   ])
   assert.deepEqual(selection.units.map(unit => unit.unitKey), FETCH_UNIT_KEYS)
   assert.deepEqual(selection.units.map(unit => unit.producerJob), [
-    'produce_java', 'produce_node', 'produce_go', 'produce_cli',
+    'produce_java', 'produce_node', 'produce_go', 'produce_cli', 'produce_cpp',
     'produce_rest', 'produce_python', 'produce_guides', 'produce_zh_guides',
   ])
   assert.ok(selection.units.every(unit => unit.strategy === 'checkpoint'))
 })
 
 test('single groups select one unit while Guides selects both locale units', () => {
-  for (const group of ['java', 'node', 'go', 'cli', 'rest', 'python']) {
+  for (const group of ['java', 'node', 'go', 'cli', 'cpp', 'rest', 'python']) {
     const selection = buildFetchPublicationSelection(input({selectedGroup: group}))
     assert.deepEqual(selection.units.map(unit => unit.unitKey), [`source/${group}`])
   }

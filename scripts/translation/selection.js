@@ -3,7 +3,7 @@
 
 const fs = require('node:fs');
 
-const GROUPS = Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']);
+const GROUPS = Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest']);
 
 function selectionItem(locale, group, order) {
   return {

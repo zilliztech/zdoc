@@ -50,8 +50,9 @@ const englishNavigation = navigation('Client Libraries', 'Tools', 'Install SDKs'
   'Java',
   'Node.js',
   'Go',
-  'RESTful API',
+  'C++ SDK',
   'CLI',
+  'RESTful API',
 ]);
 
 const chineseNavigation = navigation('客户端参考', '工具', '安装 SDK', [
@@ -59,8 +60,9 @@ const chineseNavigation = navigation('客户端参考', '工具', '安装 SDK', 
   'Java SDK',
   'Node.js SDK',
   'Go SDK',
-  'RESTful API',
+  'C++ SDK',
   'Zilliz CLI',
+  'RESTful API',
 ]);
 
 export function getManualReferenceNavigation(site: DocsSite): ManualReferenceNavigation {

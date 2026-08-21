@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       group:
-        description: "Content group(s) to publish: all, guides, or a comma-separated subset (e.g. python,java). Valid groups: all, guides, python, java, node, go, cli, rest"
+        description: "Content group(s) to publish: all, guides, or a comma-separated subset (e.g. python,java). Valid groups: all, guides, python, java, node, go, cli, rest, cpp"
         type: string
         default: all
       artifact_retention_days:
@@ -115,7 +115,7 @@ jobs:
           tooling_sha=$master_sha
           dev_baseline_sha=$source_sha
           [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ && "$source_sha" =~ ^[0-9a-f]{40}$ && "$initial_target_sha" =~ ^[0-9a-f]{40}$ ]]
-          case "$SELECTED_GROUP" in all|guides|python|java|node|go|cli|rest|*,*) ;; *) exit 2 ;; esac
+          case "$SELECTED_GROUP" in all|guides|python|java|node|go|cli|rest|cpp|*,*) ;; *) exit 2 ;; esac
           case "$MEDIA_UPLOAD_MODE" in write|skip) ;; *) exit 2 ;; esac
           if [[ "$MEDIA_UPLOAD_MODE" == skip ]]; then
             [[ "$PUBLISH" == false && "$RUN_TRANSLATIONS" == false && "$SELECTED_GROUP" == guides ]] || {

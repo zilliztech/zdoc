@@ -42,13 +42,13 @@
       "requireSourceDifference": true
     },
     {
-      "manual": "rest",
-      "sidebarKey": "restfulSidebar",
-      "sidebar": "restful",
-      "documentIdPrefix": "api/restful/restful",
-      "landingPage": "api/restful/restful/restful.md",
-      "minimumProseCharacters": 500,
-      "minimumHeadingCount": 3,
+      "manual": "cpp",
+      "sidebarKey": "cppSidebar",
+      "sidebar": "cpp",
+      "documentIdPrefix": "api/cpp/cpp",
+      "landingPage": "api/cpp/cpp/cpp.md",
+      "minimumProseCharacters": 300,
+      "minimumHeadingCount": 2,
       "requireSourceDifference": true
     },
     {
@@ -58,6 +58,16 @@
       "documentIdPrefix": "cli/cli",
       "landingPage": "cli/cli/Overview.md",
       "minimumProseCharacters": 400,
+      "minimumHeadingCount": 3,
+      "requireSourceDifference": true
+    },
+    {
+      "manual": "rest",
+      "sidebarKey": "restfulSidebar",
+      "sidebar": "restful",
+      "documentIdPrefix": "api/restful/restful",
+      "landingPage": "api/restful/restful/restful.md",
+      "minimumProseCharacters": 500,
       "minimumHeadingCount": 3,
       "requireSourceDifference": true
     }

@@ -119,9 +119,9 @@ describe('Chinese Reference sidebar derivation', () => {
     })).toEqual([{type: 'doc', id: 'api/python/python/Active', label: '活跃'}]);
   });
 
-  it('derives all six site-owned modules from the published English templates', () => {
+  it('derives all seven site-owned modules from the published English templates', () => {
     const repositoryRoot = fixture();
-    const manuals = ['python', 'java', 'node', 'go', 'restful', 'cli'];
+    const manuals = ['python', 'java', 'node', 'go', 'cpp', 'cli', 'restful'];
     for (const manual of manuals) {
       const id = `api/${manual}/${manual}/page`;
       write(repositoryRoot, `content/zh-CN/reference/${id}.md`, `# ${manual} 中文\n`);
