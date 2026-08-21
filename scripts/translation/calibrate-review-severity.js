@@ -50,11 +50,11 @@ function markerFreeDocumentContext(content) {
   return String(content).replace(/<!-- ZDOC-PROTECTED:\d{6}:[0-9a-f]{16} -->(?:\r?\n)?/g, '')
 }
 
-async function chat(baseUrl, apiKey, { model, messages }) {
+async function chat(baseUrl, apiKey, { model, messages, thinking = 'disabled' }) {
   const res = await fetch(`${baseUrl}/v1/chat/completions`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model, messages, temperature: 0, thinking: { type: 'disabled' } }),
+    body: JSON.stringify({ model, messages, temperature: 0, thinking: { type: thinking } }),
   })
   const data = await res.json().catch(() => ({}))
   if (res.status !== 200) throw new Error(`HTTP ${res.status}: ${JSON.stringify(data).slice(0, 300)}`)
@@ -106,6 +106,7 @@ async function annotate(env, model, prepared, { target, sourcePath, locale }, ex
   const reviewText = await chat(env.REVIEW_AGENT_BASE_URL, env.REVIEW_AGENT_API_KEY, {
     model,
     messages,
+    thinking: 'enabled',
   })
   const evidence = parseAndValidateReviewEvidence(reviewText, {
     sourceContent: JSON.stringify(sourceUnitPayload),
