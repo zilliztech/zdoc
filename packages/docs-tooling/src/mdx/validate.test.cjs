@@ -294,6 +294,36 @@ async function testConsecutivePlaintextFencesAreNotWidened() {
     assert.ok(!patched.includes('````plaintext'));
 }
 
+async function testCppNamespaceTypesAreEscapedToEntities() {
+    const cppNamespaceCases = [
+        'The <std::string> type',
+        'Use <milvus::client::ConnectParam> to connect',
+        'Returns <std::vector<std::string>>',
+        '<milvus::client::CreateImportJobsRequest>',
+    ];
+    for (const input of cppNamespaceCases) {
+        const patched = await applyMdxPatches(input);
+        await compileToString(patched);
+        assert.ok(!patched.includes('<std::'), 'expected namespace type to be escaped');
+        assert.ok(patched.includes('&lt;'), 'expected entity escaping');
+        assert.ok(patched.includes('&gt;'), 'expected entity escaping');
+    }
+    // Real JSX components must be preserved unchanged.
+    const jsxLines = [
+        '<Admonition type="note">',
+        'Keep this.',
+        '</Admonition>',
+        '<Tabs>',
+        '<TabItem value="a">A</TabItem>',
+        '</Tabs>',
+    ];
+    const jsxInput = jsxLines.join('\n');
+    const jsxPatched = await applyMdxPatches(jsxInput);
+    assert.ok(jsxPatched.includes('<Admonition'));
+    assert.ok(jsxPatched.includes('<Tabs>'));
+    await compileToString(jsxPatched);
+}
+
 async function run() {
     await testNormalizeCodeTagContent();
     await testNormalizationPreservesFencedCodeBlocks();
@@ -319,6 +349,7 @@ async function run() {
     await testTranslatedImportProseCanBeRepaired();
     await testIndentedFencedCodeIsPreserved();
     await testConsecutivePlaintextFencesAreNotWidened();
+    await testCppNamespaceTypesAreEscapedToEntities();
     console.log('mdxPatcher regression tests passed');
 }
 

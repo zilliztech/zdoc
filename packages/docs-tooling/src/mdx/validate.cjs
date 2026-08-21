@@ -501,6 +501,62 @@ function escapeTypeScriptGenericText(part) {
     return out;
 }
 
+function escapeCppNamespaceTypes(part) {
+    // C++ namespace-qualified type references (e.g. <std::string>,
+    // <milvus::client::ConnectParam>, <std::vector<std::string>>) are prose,
+    // but MDX misparses the angle brackets as JSX and fails on the "::" colons
+    // ("Unexpected character `:` (U+003A) before local name"). Backslash
+    // escaping does not suppress MDX JSX parsing for these, so always convert
+    // to HTML entities, including nested template args (<std::vector<std::string>>).
+    // Real JSX components never contain "::", so this is safe outside fenced
+    // code blocks and inline code spans (handled by the caller).
+    let out = '';
+    let index = 0;
+    const nameChar = /[A-Za-z0-9_]/;
+
+    while (index < part.length) {
+        const prev = index > 0 ? part[index - 1] : '';
+        if (part[index] === '<' && !/[A-Za-z0-9_$]/.test(prev)) {
+            let cursor = index + 1;
+            if (part[cursor] === '/') cursor++;
+            while (cursor < part.length && nameChar.test(part[cursor])) cursor++;
+
+            let scan = cursor;
+            let hasNamespace = false;
+            while (scan + 1 < part.length && part[scan] === ':' && part[scan + 1] === ':') {
+                hasNamespace = true;
+                scan += 2;
+                while (scan < part.length && nameChar.test(part[scan])) scan++;
+                cursor = scan;
+            }
+
+            if (hasNamespace) {
+                let depth = 0;
+                let end = index;
+                while (end < part.length) {
+                    if (part[end] === '<') depth++;
+                    else if (part[end] === '>') {
+                        depth--;
+                        if (depth === 0) { end++; break; }
+                    }
+                    if (part[end] === '\n' || part[end] === '`') break;
+                    end++;
+                }
+                if (depth === 0 && end <= part.length) {
+                    const span = part.slice(index, end);
+                    out += span.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    index = end;
+                    continue;
+                }
+            }
+        }
+        out += part[index];
+        index++;
+    }
+
+    return out;
+}
+
 /**
  * Pre-processing: escape any lowercase tag whose name is not a known HTML element or
  * content-filter tag, outside fenced code blocks and inline code spans.
@@ -577,6 +633,7 @@ function escapeNonHtmlTags(content) {
                 if (i % 2 === 0) {
                     part = escapeBackslashedAngleText(part);
                     part = escapeTypeScriptGenericText(part);
+                    part = escapeCppNamespaceTypes(part);
                     // Escape non-HTML lowercase placeholder tags (e.g. <bucket_name>, <region-code>).
                     // Tags with attributes won't match because the regex only allows \s*\/?>
                     part = part.replace(/(?<!\\)<\/?([a-z][a-z0-9]*(?:[_-][a-z0-9]+)*)\s*\/?>/g, (match, tagName) => {
@@ -954,4 +1011,5 @@ module.exports = {
     escapeMathBraces,
     escapeHtmlElementBraces,
     escapeNonHtmlTags,
+    escapeCppNamespaceTypes,
 };
