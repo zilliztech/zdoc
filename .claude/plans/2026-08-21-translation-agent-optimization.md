@@ -64,12 +64,14 @@
 | 6 | review 模型换 `deepseek-v4-flash`(原 deepseek-chat) | `.env` `REVIEW_AGENT_MODEL` | 消除 pro 500/高成本 |
 | 7 | review prompt 只报语义(移除 `mdx_structure`/`protected_content`,保留 `link_or_path`)+ gating 代码兜底排除这两类 | prompt 文件 + `DETERMINISTIC_ISSUE_TYPES` | review 聚焦语义,不再重复修格式 |
 | 8 | severity 校准 + 阴性对照(结论见 §7) | `calibrate-review-severity.js` | 定位 review 可靠性 |
+| 9 | polish 环节(qwen-max 润色 + 术语检测回退) | `buildPolishMessages` + `TRANSLATION_POLISH` | 流利度提升,术语不被破坏 |
 
 说明:
 - 第 1、2、4、5、6、7 条默认生效(纯参数/配置/前缀改动,默认值不改变现有行为)。
 - 第 3 条默认**关闭**(`TRANSLATION_SKIP_BLIND_REVIEW` 未设为 true 时保持现状)。但 §7 阴性对照已实证 review 环节**不可靠**,更应默认开启跳过——留待生产 A/B 确认后翻默认值。
 - 第 5 条默认 `low`(不改变行为);设为 `medium` 即启用严重度 gating。
 - 第 7 条保留 `link_or_path`:翻译阶段无确定性校验器覆盖(checkLinks 是独立 build 阶段命令)。
+- 第 9 条(`TRANSLATION_POLISH`)workflow 已设 `"true"` 开启。qwen-max 润色引入的 locale-contract 术语问题,由 `deterministicSemanticIssues` 检测后**回退到 translation 版**(不猜 forbidden 中文,避免误改多义词,见 §8)。
 
 ## 4. 验证
 
@@ -105,3 +107,17 @@
 - 根因有二:① prompt 对 `untranslated_prose`/`accuracy_omission` 无触发条件,且 "identical values are not evidence" 与漏译(source==draft)矛盾;② `temperature:0` 在 deepseek-v4-flash 上不被严格遵守,输出有残余随机性。
 - 附带发现:`temperature:0` 非确定性同时解释了之前 translation content 空、review 500 等不稳定现象。
 - 后续修正:调研发现 CoT/thinking 对错误检测是双刃,但关掉会加剧漏报——这解释了 pro 关 thinking 后稳定漏报;已把 review 的 `thinking` 恢复为 `enabled`(translation/correction 保持 `disabled`)。
+
+## 8. polish 环节探索(改动 9)
+
+为提升译文流利度,探索了"翻译后二次润色(humanizer/post-editing)":
+
+1. **qwen-max polish**:81 处润色(流畅度明显提升),但把 `collection` 翻成中文,破坏 locale contract。
+2. **deepseek-v4-pro 自 polish**:仅 3 处微调——同一模型给自己翻译的文本润色几乎不动(翻译和润色是同一能力)。
+3. **forbidden 中文替换(方案 1)不可行**:分析中文 guides(人工翻译)发现术语翻译不一致,且候选 forbidden 中文高度多义(`集合` 既是 collection 也是 set,`模式` 几乎全是 pattern,`段` 大多是段落)——脱离上下文的确定性替换会大面积误改通用词。
+
+结论与落地:
+- 术语一致性不能靠"猜 forbidden 中文"保证,只能靠**上下文感知的检测 + 回退**。
+- 落地 `TRANSLATION_POLISH` 开关(workflow 设 `"true"`):qwen-max 润色后,用 `deterministicSemanticIssues` 检出破坏 locale contract 的单元,回退到 deepseek 翻译版;其余单元保留 qwen 润色。
+- 端到端验证:`status: translated, review.pass: true, issues: 0`(术语不再破坏,润色保留)。
+- 附:qwen-max 的 thinking 开关参数是 `enable_thinking:false`(deepseek 的 `thinking:{type}` 被静默忽略),已通过 `thinkingStyle` 区分。

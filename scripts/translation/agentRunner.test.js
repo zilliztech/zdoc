@@ -120,12 +120,14 @@ function testSelectsPromptsByTranslationTarget() {
     translation: 'codex-translation-agent.ja-JP.md',
     review: 'codex-review-agent.ja-JP.md',
     correction: 'codex-correction-agent.md',
+    polish: 'codex-polish-agent.ja-JP.md',
     rest: 'codex-rest-spec-translation-agent.ja-JP.md',
     restReview: 'codex-rest-spec-review-agent.md',
     restCorrection: 'codex-rest-spec-correction-agent.md',
   })
   assert.equal(promptNamesFor('zh-CN-reference').review, 'codex-review-agent.zh-CN-reference.md')
   assert.equal(promptNamesFor('zh-CN-reference').correction, 'codex-correction-agent.zh-CN-reference.md')
+  assert.equal(promptNamesFor('zh-CN-reference').polish, 'codex-polish-agent.zh-CN-reference.md')
   assert.throws(() => promptNamesFor('zh-CN-tools'), /Unsupported translation target/)
   assert.throws(() => promptNamesFor('zh-CN'), /Unsupported translation target/)
   assert.throws(() => promptNamesFor('unknown'), /Unsupported translation target/)
