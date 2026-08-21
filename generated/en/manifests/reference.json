@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "e7081f555d83b5ce37a62e59457d05f118b37b86",
+  "sourceCommit": "4b29e61dd88a3e60d5b330e8867c9bae270293c3",
   "records": [
     {
       "manual": "cli",
@@ -4730,27 +4730,27 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/create-cloud-role-v2.mdx",
-      "sourceHash": "e2a1c7987f84cc619437f7f45294c642a626eb001ec4fa7615635a96f43e7d6b"
+      "sourceHash": "329c7fab7435878fe2577fff415579af36ddfa6b79b7efb82d8828b5e117a95e"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/delete-cloud-role-v2.mdx",
-      "sourceHash": "f5b9a31fef9c736b53e8d970a9f6957a2db263b60f13564a4d83491970d2b7e8"
+      "sourceHash": "52b491de3c99f129c88b849a765e1a91cbadd03f980846e0680d602c7fe7dee8"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/describe-cloud-role-v2.mdx",
-      "sourceHash": "948feffa2f28111860ed6fb82c804e1c282bcb1cb307f7344e9a55ee21cb27a3"
+      "sourceHash": "07fff31cef7995be2a09755c48fc2619ffb088970f65357a9f6c8ea897058cb2"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-group-v2.mdx",
-      "sourceHash": "c6b7fb76f555f547219e3acc6a0b1398c19511c163785abe645f424df313f6be"
+      "sourceHash": "2922e8644ff91323657458cf6251a481a5caf34731e6a7a186202a326bb354b2"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-member-v2.mdx",
-      "sourceHash": "26e035dc3f6e201b46b7675b55289ab695e15a958bb9b04c93877370c8178887"
+      "sourceHash": "0a045cc0367e3228bf8bfaf295d53f55732a0b3383c949cb4d9413ae14a687da"
     },
     {
       "manual": "rest",
@@ -4760,42 +4760,47 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-cloud-roles-v2.mdx",
-      "sourceHash": "2c1a0ce29b9d6852e941cb82ef3953804ba34937bdb319b3b22fa38340b66587"
+      "sourceHash": "9253ebd6ee2aefa97a6f307e97325db5fce1c98297743172ff4c0872ab3a9d71"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-members-v2.mdx",
-      "sourceHash": "1113f716159e292052dc85926773ca8ac387d8e8d8e7a9398d95eeaeaf458899"
+      "sourceHash": "9624d5ca7faaae3ad0411136b98fcc84c5ad36939c3b93214c768c54a8ff097a"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-group-roles-v2.mdx",
-      "sourceHash": "909bdc16719e5fea05ea6502ebeef3b39155ae2dbddfdc4ac3dda48c365a9f4d"
+      "sourceHash": "fa85187cdd14207471a3d694cf51a2d8140eaf9a19a30e298681557668a6e4b0"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-groups-v2.mdx",
-      "sourceHash": "a631bcf8c3af85af5a13b39f4dd3e8988433810f52c4251c74cd40bf57ccd54a"
+      "sourceHash": "c62cfd64a312b80d2cbe58abeb8f1de1389a138f145b2e7be24a03cd6466c8a7"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2.mdx",
-      "sourceHash": "535d19efdb54997b37b4ac23ece25f865743f0cf52ea934514fd44c15c7dbe6f"
+      "sourceHash": "94e8714c5b65c37d147bf4265d1a9cf3c8c34f25c0212a3cfbff0dcc9e4437b4"
+    },
+    {
+      "manual": "rest",
+      "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/resolve-member-v2.mdx",
+      "sourceHash": "9150f4eac73d8dc0c30884817b30589828e68ec0950ff51d1fd325d7849b2a61"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-group-v2.mdx",
-      "sourceHash": "de643aa2f334333608ca215b9730431d51fa3d907ea819fb2d3081421e19ce28"
+      "sourceHash": "4f4dc20fdd399e0dde30fc1a5ccc2c216c1f9cb88196b6300be7c561fa635edb"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2.mdx",
-      "sourceHash": "a226686665858bdea4fed4c8105bfaf694a1f7fee9f147a0d678d10acb46eeea"
+      "sourceHash": "7a53cafe3249a93b1eddb8023d30e52221c70634964dad22c9ce282436322dc2"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/update-cloud-role-v2.mdx",
-      "sourceHash": "8bc365482adb32db8fb5b11d6d47d2c20311f2a4c193cc93951d962d46c96e49"
+      "sourceHash": "d9671b69c776c49b701181a41175db79ea2b26ed8baebb081f5228bcdc7851c2"
     },
     {
       "manual": "rest",
@@ -4805,27 +4810,27 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/create-api-key-v2.mdx",
-      "sourceHash": "9932dbcee3e21d8fd9651d03b959c13dc6ca8f8cf25ac703aaac64bf5e3d5a63"
+      "sourceHash": "911b93cd7ba353d7e9db9cd3f2b84c8a054cafb71e0c98fff546c14ee50fbc07"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/delete-api-key-v2.mdx",
-      "sourceHash": "c6f1d8d6440d2dfa1dd8c5ae3e9cb497db28bbaac26b7d6fdef390bdbb7022aa"
+      "sourceHash": "bdc8de1cd12c33b5a25adf125dae5b786d2c046ccc6689b056a5abe12cbe3de1"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/describe-api-key-v2.mdx",
-      "sourceHash": "5dfcc7745ca23278805a11c83c810ffd6d8e3b5628ff727f5ae79a179cb14ade"
+      "sourceHash": "4693729d15cd31ce24fdcbe1f73ea94e563f8c7095acf7501be60f2e0fe6a4a7"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/list-api-keys-v2.mdx",
-      "sourceHash": "d0da47bcbd35e268fef30a50468462b3e84e838af364c25ddefc192975d6f017"
+      "sourceHash": "b2a5561ceac7192d771a3d0add584faf4c028220009e5df47c44d6155e8d1b94"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/update-api-key-v2.mdx",
-      "sourceHash": "0aefa11434aaca633390e2efd62e55edac327950b9e0da4abe7679896205f456"
+      "sourceHash": "2bee266a985fdec1bafca7b9ffe79f95a7022ba0374ce85be335891a574eb624"
     },
     {
       "manual": "rest",
@@ -4865,12 +4870,12 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-migration-v2/migrate-to-existing-cluster-v2.mdx",
-      "sourceHash": "ff558200b8aec3742a4adcf1b0d478061f273d6eb03d961e8d9a9dcf57c794ba"
+      "sourceHash": "29dda07f209a1c076f315e8326125108f07966fa40d4ce0ed82be43cfea04ac1"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/cloud-migration-v2/migrate-to-new-dedicated-cluster-v2.mdx",
-      "sourceHash": "aaefd7be6b7d597722cc0cccea159fe20fdb20470a0022537df0e8bfce5c84c9"
+      "sourceHash": "ae9df06225f5fd9b56573f4a83e78d1bbf15947794f24363b3a3de83da03a836"
     },
     {
       "manual": "rest",
@@ -5200,42 +5205,42 @@
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/cancel-spark-job-v2.mdx",
-      "sourceHash": "77a4dc61a4661cb48aaee0178120662c34bc0d4a2866f25672411ae05e730770"
+      "sourceHash": "90798fe823613c3dcbc108b912f6ec750da05e33319da2d6de5773430f012223"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2.mdx",
-      "sourceHash": "be26573e38ac2723fb22b083bcdef7639aa165dab7d22ac3671fd71786bf2fa6"
+      "sourceHash": "61681a0d86590c914849fc9a78b3e05c708eab28232f254bee07e5c0715dc207"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-jar-job-v2.mdx",
-      "sourceHash": "ad984080928c9a2372532d6075808640389d2d092cab1534f99cffea89547965"
+      "sourceHash": "887e102d54f271b39e810fa144e2fc7eedb464b27ea9bee78d393e84ca992a0e"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-k-means-job-v2.mdx",
-      "sourceHash": "88d892a2455d45293089bf1871a5c30d590cad72d696431beb27228976552d8f"
+      "sourceHash": "5b704ff6333b4fed5360edf115f7713cf4eeb2766ad1b97005462746d0ab0342"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-pk-deduplication-job-v2.mdx",
-      "sourceHash": "b4a29eaa21c4f17bbe85d869709240bb27ee125d272fc3374b3e81ddcef7d551"
+      "sourceHash": "bd6f02c63049c876fc5c6e4d2ace5d7c99d423088d4357a27f75398ef74a69a5"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-vector-deduplication-job-v2.mdx",
-      "sourceHash": "55eccb9cfcda4536d4ccb3d976888eaed80685146d894cc8a5c4f5a44389040d"
+      "sourceHash": "b2e78ec4a60a1cde682094978c31d5ec845bea2993cf525c8609b067940ac23e"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/describe-spark-job-v2.mdx",
-      "sourceHash": "89e1af887a15bc9a9159db9050b32e47c18f25a6890083f874aba6774c19c710"
+      "sourceHash": "c1a2ed9806dedc55714e34356f626c038b8fc1ae9fbf8f45fe3a0dd072190ee6"
     },
     {
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/list-spark-jobs-v2.mdx",
-      "sourceHash": "a0d35e0686335db6fb8a235365d62beea14692db236c79dfecc04e14f9d11deb"
+      "sourceHash": "219bc30684ad9ec22b237dc198919cd91298ff5ddc40c96c35e0094337f8dd99"
     },
     {
       "manual": "rest",

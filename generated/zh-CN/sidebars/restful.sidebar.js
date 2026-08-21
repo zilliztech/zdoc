@@ -638,24 +638,6 @@ module.exports = [
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2",
-                "label": "列出成员角色 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-member-v2",
-                "label": "为成员授予角色 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-member-v2"
-              },
-              {
-                "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2",
-                "label": "撤销成员角色 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2"
-              },
-              {
-                "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-groups-v2",
                 "label": "列出群组 (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-groups-v2"
@@ -683,6 +665,24 @@ module.exports = [
                 "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-group-v2",
                 "label": "撤销群组角色 (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-group-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2",
+                "label": "列出成员角色 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/list-member-roles-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-member-v2",
+                "label": "为成员授予角色 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/grant-role-to-member-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2",
+                "label": "撤销成员角色 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2"
               }
             ]
           },
