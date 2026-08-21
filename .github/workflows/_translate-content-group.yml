@@ -361,6 +361,9 @@ jobs:
           REVIEW_AGENT_API_KEY: ${{ secrets.REVIEW_AGENT_API_KEY }}
           REVIEW_AGENT_BASE_URL: ${{ vars.REVIEW_AGENT_BASE_URL }}
           REVIEW_AGENT_MODEL: ${{ vars.REVIEW_AGENT_MODEL }}
+          POLISH_AGENT_MODEL: ${{ vars.POLISH_AGENT_MODEL }}
+          TRANSLATION_POLISH: "true"
+          TRANSLATION_SKIP_BLIND_REVIEW: "true"
           TRANSLATION_ALLOW_PARTIAL: "true"
           TRANSLATION_CONCURRENCY: ${{ inputs.group == 'guides' && '1' || inputs.target == 'zh-CN-reference' && '2' || '4' }}
           TRANSLATION_CHUNK_TARGET_CHARS: ${{ inputs.group == 'guides' && '8000' || '16000' }}
