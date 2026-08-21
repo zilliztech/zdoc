@@ -23,7 +23,7 @@ import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from './va
 import {executePublicationGroup, parsePublishGroupArgs} from './workflows/run.ts';
 import {listPublicationGroups} from './workflows/groups.ts';
 
-const require = createRequire(import.meta.url);
+const requireFromDocsTooling = createRequire(import.meta.url);
 
 const ALIYUN_VALIDATOR_PROVIDER = 'DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER';
 const ALIYUN_STORAGE_ENVIRONMENT = [
@@ -43,7 +43,7 @@ function loadRevisionInventoryModule(): Promise<RevisionInventoryModule> {
       __DOCS_TOOLING_REVISION_INVENTORY__?: RevisionInventoryModule
     }).__DOCS_TOOLING_REVISION_INVENTORY__;
     if (injected) return Promise.resolve(injected);
-    const {loadTypeScript} = require('../../../scripts/lib/load-typescript.js') as {
+    const {loadTypeScript} = requireFromDocsTooling('../../../scripts/lib/load-typescript.js') as {
       loadTypeScript: (modulePath: string) => RevisionInventoryModule;
     };
     revisionInventoryModule = Promise.resolve(
