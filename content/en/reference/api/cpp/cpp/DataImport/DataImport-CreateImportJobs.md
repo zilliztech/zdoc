@@ -71,7 +71,7 @@ auto resp = milvus::BulkImport::CreateImportJobs(
 
     The name of the target collection.
 
-- `files` (*const std::vector<std::string>&*)
+- `files` (*const std::vector&lt;std::string&gt;&*)
 
     **[REQUIRED]**
 
@@ -105,7 +105,7 @@ A JSON object containing the job ID on success, or `nullptr` on failure. The `jo
 
     Thrown if the HTTP request fails or the response cannot be parsed. Check the return value for `nullptr` to detect failures.
 
-## Example{#example}
+## Example\{#example}
 
 ```c++
 #include "milvus/MilvusClientV2.h"
