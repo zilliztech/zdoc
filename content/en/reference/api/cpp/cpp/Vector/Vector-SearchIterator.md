@@ -218,7 +218,7 @@ auto request = SearchIteratorRequest()
 
 - `WithFilterTemplates(std::unordered_map<std::string, nlohmann::json>&& filter_templates)`
 
-    Replaces all placeholder values used by the filter expression. Keys correspond to placeholders such as {age} or {city}; values may be boolean, numeric, string, or array data.
+    Replaces all placeholder values used by the filter expression. Keys correspond to placeholders such as \{age\} or \{city\}; values may be boolean, numeric, string, or array data.
 
 - `WithOffset(int64_t offset)`
 

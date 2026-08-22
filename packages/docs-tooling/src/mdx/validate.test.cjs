@@ -7,6 +7,7 @@ const {
     convertHtmlCommentsToMdx,
     findMalformedProceduresBlocks,
     escapeCppNamespaceTypes,
+    escapePlainTextBraces,
 } = require('./validate.cjs');
 const LarkDocWriter = require('../lark/larkDocWriter');
 
@@ -349,6 +350,51 @@ async function testCppNamespaceTypesWithoutClosingAngleAreEscaped() {
     }
 }
 
+async function testPlainTextBracesAreEscaped() {
+    // Literal {identifier} placeholders in plain prose (the pattern found in
+    // the cpp reference docs, e.g. "placeholders such as {age} or {city}")
+    // compile as JSX expressions but crash at SSG render with
+    // "ReferenceError: age is not defined". They must be escaped, while JSX
+    // attributes/children, heading anchors, inline code, and ESM lines are
+    // left untouched.
+    const prose = 'Replaces all placeholder values used by the filter expression. Keys correspond to placeholders such as {age} or {city}.';
+    const patched = await applyMdxPatches(prose);
+    assert.ok(patched.includes('\\{age\\}'), 'expected {age} to be escaped');
+    assert.ok(patched.includes('\\{city\\}'), 'expected {city} to be escaped');
+    await compileToString(patched);
+
+    // Direct unit assertions on the escape function.
+    assert.equal(
+        escapePlainTextBraces('placeholders such as {age} or {city}'),
+        'placeholders such as \\{age\\} or \\{city\\}',
+    );
+
+    // Heading anchors are NOT escaped (the '#' is not a valid identifier start).
+    assert.equal(
+        escapePlainTextBraces('### FAQ{#faq-heading}'),
+        '### FAQ{#faq-heading}',
+    );
+
+    // JSX attribute expressions are NOT escaped.
+    assert.equal(
+        escapePlainTextBraces('<FeatureCard columns={2}>'),
+        '<FeatureCard columns={2}>',
+    );
+
+    // Inline code spans are NOT escaped.
+    assert.equal(
+        escapePlainTextBraces('`{cluster-id}` stays literal'),
+        '`{cluster-id}` stays literal',
+    );
+
+    // Object literals are NOT escaped: the identifier class stops at the space,
+    // so no '}' immediately follows the identifier.
+    assert.equal(
+        escapePlainTextBraces('{key: value}'),
+        '{key: value}',
+    );
+}
+
 async function run() {
     await testNormalizeCodeTagContent();
     await testNormalizationPreservesFencedCodeBlocks();
@@ -376,6 +422,7 @@ async function run() {
     await testConsecutivePlaintextFencesAreNotWidened();
     await testCppNamespaceTypesAreEscapedToEntities();
     await testCppNamespaceTypesWithoutClosingAngleAreEscaped();
+    await testPlainTextBracesAreEscaped();
     console.log('mdxPatcher regression tests passed');
 }
 

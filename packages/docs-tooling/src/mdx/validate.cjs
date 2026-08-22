@@ -744,6 +744,56 @@ function escapeHtmlElementBraces(content) {
 }
 
 /**
+ * Pre-processing: escape literal {identifier} placeholders in plain prose
+ * (outside fenced code blocks, inline backtick spans, ESM import/export lines,
+ * and JSX attribute values) so MDX does not evaluate them as JSX expressions.
+ *
+ * Docs sourced from Lark commonly contain placeholder text in prose such as
+ * "placeholders such as {age} or {city}". MDX compile() accepts {age} silently
+ * because it is syntactically valid JSX, but React crashes at SSG render time
+ * with "ReferenceError: age is not defined".
+ *
+ * Skips:
+ *   - fenced code blocks
+ *   - inline backtick spans
+ *   - ESM import/export lines
+ *   - heading anchors {#...} (identifier class never matches a leading '#')
+ *   - JSX attribute/child expressions (prop={value}, <Foo>{bar}</Foo>) via the
+ *     preceding-character guard for = \ < > " ' /
+ *   - object literals ({key: value}): the identifier class stops before the
+ *     space/colon, so no "}" is found immediately after the identifier
+ */
+function escapePlainTextBraces(content) {
+    const lines = content.split('\n');
+    const fence = createFenceTracker();
+    const result = [];
+
+    for (let line of lines) {
+        fence.update(line);
+
+        if (fence.inCodeBlock || isMdxEsmLine(line)) {
+            result.push(line);
+            continue;
+        }
+
+        // Split by inline code spans; odd-indexed segments are inside backticks
+        const parts = line.split(/(`+[^`]+`+)/);
+        line = parts.map((part, i) => {
+            if (i % 2 !== 0) return part; // Inside inline code — leave unchanged
+
+            return part.replace(
+                /(?<![=\\<>"'/]){([A-Za-z_$][A-Za-z0-9_.$]*)}/g,
+                '\\{$1\\}',
+            );
+        }).join('');
+
+        result.push(line);
+    }
+
+    return result.join('\n');
+}
+
+/**
  * Structural validator for translated MDX files.
  * Catches React render-time errors that @mdx-js/mdx compile() misses:
  *   1. Prose inserted between </TabItem> and <TabItem>/<\/Tabs> (LLM hallucination)
@@ -836,6 +886,7 @@ async function applyMdxPatches(content, options = {}) {
         patchedContent = escapeNonHtmlTags(patchedContent);
         patchedContent = escapeMathBraces(patchedContent);
         patchedContent = escapeHtmlElementBraces(patchedContent);
+        patchedContent = escapePlainTextBraces(patchedContent);
         let maxIterations = 50; // Prevent infinite loops
         let iteration = 0;
         const seenHashes = new Set();
@@ -1017,6 +1068,7 @@ module.exports = {
     findMalformedProceduresBlocks,
     escapeMathBraces,
     escapeHtmlElementBraces,
+    escapePlainTextBraces,
     escapeNonHtmlTags,
     escapeCppNamespaceTypes,
 };
