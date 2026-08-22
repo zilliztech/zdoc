@@ -1,6 +1,10 @@
 /**
  * MDX Patching Module
- * Contains the MDX patching logic extracted from larkDocWriter.js __mdx_patches method
+ *
+ * Canonical MDX patching pipeline. larkDocWriter.__mdx_patches delegates here
+ * (with repairEndTagMismatch: true); the translation path uses applyMdxPatches
+ * directly (repairEndTagMismatch defaults to false so structural errors are
+ * reverted for retranslation instead of auto-repaired).
  */
 
 // Known JSX block components that must never be backslash-escaped.
@@ -943,12 +947,69 @@ async function applyMdxPatches(content, options = {}) {
                         }
                         break;
 
-                    case 'end-tag-mismatch':
-                        // Tag mismatches in translated content indicate a structural LLM error
-                        // (dropped closing tags, wrong nesting) that cannot be safely auto-repaired.
-                        // Leave madeChanges = false so the loop breaks, and validate-and-revert
-                        // will revert the file for retranslation.
+                    case 'end-tag-mismatch': {
+                        if (!options.repairEndTagMismatch) {
+                            // Tag mismatches in translated content indicate a structural LLM error
+                            // (dropped closing tags, wrong nesting) that cannot be safely auto-repaired.
+                            // Leave madeChanges = false so the loop breaks, and validate-and-revert
+                            // will revert the file for retranslation.
+                            break;
+                        }
+
+                        // Fetch path (repairEndTagMismatch: true): fix a mismatched closing tag.
+                        // Error: "Unexpected closing tag `</Y>`, expected corresponding closing tag
+                        // for `<X>` (line:col-line:col)". The position refers to the OPENING tag <X>.
+                        // Strategy: replace the wrong closing tag </Y> with the correct </X>.
+                        // Exception: if <X> is a non-standard tag (contains _ or -) it is a URL/API
+                        // placeholder, not a real element. Replacing the closing tag causes an
+                        // oscillating loop; instead fall through to the fallback (escape opening tag).
+                        const wrongClose = error.message.match(/Unexpected closing tag `<\/([^>]+)>`/)?.[1];
+                        const expectedOpen = error.message.match(/closing tag for `<([A-Za-z][^>/ ]*)(?:\s[^>]*)?>?`/)?.[1];
+                        const posMatch = error.message.match(/(\d+):(\d+)-(\d+):(\d+)/);
+                        const isPlaceholder = expectedOpen && /[_-]/.test(expectedOpen);
+
+                        if (!isPlaceholder && wrongClose && expectedOpen && wrongClose !== expectedOpen && posMatch) {
+                            const openLine = parseInt(posMatch[1]) - 1; // 0-indexed
+                            const wrongCloseTag = `</${wrongClose}>`;
+                            const correctCloseTag = `</${expectedOpen}>`;
+                            const lines = patchedContent.split('\n');
+
+                            for (let i = openLine; i < lines.length; i++) {
+                                const idx = lines[i].indexOf(wrongCloseTag);
+                                if (idx !== -1) {
+                                    lines[i] = lines[i].slice(0, idx) + correctCloseTag + lines[i].slice(idx + wrongCloseTag.length);
+                                    madeChanges = true;
+                                    break;
+                                }
+                            }
+
+                            if (madeChanges) {
+                                patchedContent = lines.join('\n');
+                            }
+                        } else if (!wrongClose && expectedOpen && posMatch) {
+                            // Variant: "Expected a closing tag for `<X>` (line:col-line:col) before the end of `paragraph`"
+                            // Skip known JSX components — escaping their opening tag causes a
+                            // cascade: the orphaned </X> is then deleted by unexpected-closing-slash,
+                            // destroying the component structure. The real fix is inside the component
+                            // (e.g. unescaped braces) which the acorn handler will address.
+                            if (KNOWN_JSX_TAGS.has(expectedOpen)) {
+                                break;
+                            }
+                            // The opening tag is not closed within its paragraph. Escape it with &lt; so it
+                            // renders as literal text instead of being treated as a JSX element.
+                            const openLine = parseInt(posMatch[1]) - 1; // 0-indexed
+                            const openCol = parseInt(posMatch[2]) - 1;  // 0-indexed
+                            const lines = patchedContent.split('\n');
+
+                            if (openLine < lines.length && lines[openLine][openCol] === '<') {
+                                lines[openLine] = lines[openLine].slice(0, openCol) + '&lt;' + lines[openLine].slice(openCol + 1);
+                                patchedContent = lines.join('\n');
+                                madeChanges = true;
+                            }
+                        }
+
                         break;
+                    }
 
                     case 'unexpected-closing-slash': {
                         // "Unexpected closing slash `/` in tag, expected an open tag first"
