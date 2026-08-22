@@ -4,6 +4,7 @@ const {
     unescapeKnownJsxTags,
     escapeMathBraces,
     escapeHtmlElementBraces,
+    escapePlainTextBraces,
     normalizeNestedPlaintextFences,
     normalizeCodeTagContent,
     convertHtmlCommentsToMdx,
@@ -1803,6 +1804,7 @@ class larkDocWriter {
             patchedContent = escapeNonHtmlTags(patchedContent);
             patchedContent = escapeMathBraces(patchedContent);
             patchedContent = escapeHtmlElementBraces(patchedContent);
+            patchedContent = escapePlainTextBraces(patchedContent);
             let maxIterations = 50; // Prevent infinite loops
             let iteration = 0;
             const seenHashes = new Set();

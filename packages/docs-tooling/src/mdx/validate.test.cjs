@@ -395,6 +395,20 @@ async function testPlainTextBracesAreEscaped() {
     );
 }
 
+async function testLarkDocWriterEscapesPlainTextBraces() {
+    // larkDocWriter.__mdx_patches is a separate copy of the MDX patch pipeline
+    // used by the actual Lark fetch (publish-group --stage fetch). It must
+    // apply the same plain-text brace escaping as applyMdxPatches, otherwise the
+    // fetched cpp pages crash SSG with "ReferenceError: age is not defined".
+    const writer = new LarkDocWriter('', '', 'cppSidebar');
+    const patched = await writer.__mdx_patches(
+        'Replaces all placeholder values used by the filter expression. Keys correspond to placeholders such as {age} or {city}; values may be boolean, numeric, string, or array data.',
+    );
+    assert.ok(patched.includes('\\{age\\}'), 'expected larkDocWriter to escape {age}');
+    assert.ok(patched.includes('\\{city\\}'), 'expected larkDocWriter to escape {city}');
+    await compileToString(patched);
+}
+
 async function run() {
     await testNormalizeCodeTagContent();
     await testNormalizationPreservesFencedCodeBlocks();
@@ -423,6 +437,7 @@ async function run() {
     await testCppNamespaceTypesAreEscapedToEntities();
     await testCppNamespaceTypesWithoutClosingAngleAreEscaped();
     await testPlainTextBracesAreEscaped();
+    await testLarkDocWriterEscapesPlainTextBraces();
     console.log('mdxPatcher regression tests passed');
 }
 
