@@ -26,7 +26,6 @@
     "content/zh-CN/guides/tutorials/tools/agents-and-prompts/zilliz-skill.md",
     "content/zh-CN/guides/tutorials/tools/terraform-provider.md",
     "generated/en/sidebars/cli.sidebar.js",
-    "generated/en/sidebars/cpp.sidebar.js",
     "generated/en/sidebars/go.sidebar.js",
     "generated/en/sidebars/guides-byoc.items.js",
     "generated/en/sidebars/guides-byoc.sidebar.js",
