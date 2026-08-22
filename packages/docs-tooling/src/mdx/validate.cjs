@@ -519,8 +519,7 @@ function escapeCppNamespaceTypes(part) {
     const nameChar = /[A-Za-z0-9_]/;
 
     while (index < part.length) {
-        const prev = index > 0 ? part[index - 1] : '';
-        if (part[index] === '<' && !/[A-Za-z0-9_$]/.test(prev)) {
+        if (part[index] === '<') {
             let cursor = index + 1;
             if (part[cursor] === '/') cursor++;
             while (cursor < part.length && nameChar.test(part[cursor])) cursor++;

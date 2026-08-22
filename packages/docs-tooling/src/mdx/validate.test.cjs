@@ -301,6 +301,8 @@ async function testCppNamespaceTypesAreEscapedToEntities() {
         'Use <milvus::client::ConnectParam> to connect',
         'Returns <std::vector<std::string>>',
         '<milvus::client::CreateImportJobsRequest>',
+        '(*const std::vector<std::string>&*)',
+        'vector<std::string>',
     ];
     for (const input of cppNamespaceCases) {
         const patched = await applyMdxPatches(input);
