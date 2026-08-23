@@ -350,6 +350,23 @@ function validateTarget(
     retiredIds,
   });
   if (selected.documentIds.size === 0) {
+    // A not-yet-translated reference manual legitimately derives an empty zh-CN
+    // sidebar: every English document is pending or language-excluded, so there
+    // is no Chinese structure to validate. Tolerate that state (mirroring the
+    // build-time loader) but still fail closed when English documents exist that
+    // should have produced a translation.
+    if (site === 'zh-CN') {
+      const englishSidebar = loadSidebar(repositoryRoot, 'en', target, site);
+      const english = sidebarAnalysis({
+        sidebar: englishSidebar,
+        site,
+        target,
+        sidebarPath: sidebarRelativePath('en', target),
+        retiredIds,
+      });
+      const awaitingTranslation = [...english.documentIds].some(id => !retiredIds.has(id));
+      if (!awaitingTranslation) return;
+    }
     throw targetError(site, target, selectedSidebarPath, '(none)', 'non-empty-sidebar', 'sidebar must contain at least one active document ID');
   }
 

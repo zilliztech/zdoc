@@ -141,6 +141,36 @@ describe('validateReferenceNavigation', () => {
       .toThrow(targetError(target, /non-empty-sidebar/, /documentId=\(none\)/));
   });
 
+  it('tolerates an empty zh-CN sidebar when every English document is unavailable', () => {
+    const root = fixture();
+    const target = targets.find(candidate => candidate.manual === 'rest')!;
+    const unavailableIds = new Set([
+      documentId(target.landingPage),
+      `${target.documentIdPrefix}/operation`,
+    ]);
+    writeSidebar(root, 'zh-CN', target, []);
+    expect(() => validateReferenceNavigation({
+      repositoryRoot: root,
+      site: 'zh-CN',
+      excludedDocumentIds: unavailableIds,
+    })).not.toThrow();
+  });
+
+  it('still rejects an empty zh-CN sidebar when some English documents await translation', () => {
+    const root = fixture();
+    const target = targets.find(candidate => candidate.manual === 'rest')!;
+    // Only the landing page is marked unavailable; the operation doc is still
+    // expected to be translated, so an empty sidebar is a real wipe.
+    const unavailableIds = new Set([documentId(target.landingPage)]);
+    writeSidebar(root, 'zh-CN', target, []);
+    expect(() => validateReferenceNavigation({
+      repositoryRoot: root,
+      site: 'zh-CN',
+      excludedDocumentIds: unavailableIds,
+    }))
+      .toThrow(targetError(target, /non-empty-sidebar/, /documentId=\(none\)/));
+  });
+
   it('rejects a Python sidebar containing a Java document ID', () => {
     const root = fixture();
     const target = targets[0];
