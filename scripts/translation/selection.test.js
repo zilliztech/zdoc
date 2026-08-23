@@ -14,7 +14,7 @@ test('selects one Chinese SDK translation group', () => {
 
 test('orders all Chinese Reference groups', () => {
   assert.deepEqual(buildTranslationSelection({locale: 'zh-CN', group: 'all'}).map(item => item.group), [
-    'python', 'java', 'node', 'go', 'cli',
+    'python', 'java', 'node', 'go', 'cli', 'cpp',
   ]);
 });
 
@@ -27,6 +27,7 @@ test('expands all locales deterministically', () => {
     'ja-JP/node', 'zh-CN-reference/node',
     'ja-JP/go', 'zh-CN-reference/go',
     'ja-JP/cli', 'zh-CN-reference/cli',
+    'ja-JP/cpp', 'zh-CN-reference/cpp',
     'ja-JP/rest',
   ]);
   assert.deepEqual(selected.map(item => item.publicationOrder), selected.map((_, index) => index));

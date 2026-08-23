@@ -3,9 +3,8 @@ on:
   workflow_dispatch:
     inputs:
       group:
-        description: Content group to publish
-        type: choice
-        options: [all, guides, python, java, node, go, cli, rest]
+        description: "Content group(s) to publish: all, guides, or a comma-separated subset (e.g. python,java). Valid groups: all, guides, python, java, node, go, cli, rest, cpp"
+        type: string
         default: all
       artifact_retention_days:
         description: Artifact retention in days
@@ -63,6 +62,7 @@ jobs:
       media_upload_mode: ${{ steps.refs.outputs.media_upload_mode }}
       selected_group: ${{ steps.refs.outputs.selected_group }}
       retention_days: ${{ steps.refs.outputs.retention_days }}
+      selected_sdk_groups: ${{ steps.sdk_groups.outputs.groups }}
       publication_selection_artifact_name: ${{ steps.publication_selection.outputs.artifact_name }}
       publication_selection_sha256: ${{ steps.publication_selection.outputs.selection_sha256 }}
       card_id: ${{ steps.card.outputs.card_id }}
@@ -115,7 +115,7 @@ jobs:
           tooling_sha=$master_sha
           dev_baseline_sha=$source_sha
           [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ && "$source_sha" =~ ^[0-9a-f]{40}$ && "$initial_target_sha" =~ ^[0-9a-f]{40}$ ]]
-          case "$SELECTED_GROUP" in all|guides|python|java|node|go|cli|rest) ;; *) exit 2 ;; esac
+          case "$SELECTED_GROUP" in all|guides|python|java|node|go|cli|rest|cpp|*,*) ;; *) exit 2 ;; esac
           case "$MEDIA_UPLOAD_MODE" in write|skip) ;; *) exit 2 ;; esac
           if [[ "$MEDIA_UPLOAD_MODE" == skip ]]; then
             [[ "$PUBLISH" == false && "$RUN_TRANSLATIONS" == false && "$SELECTED_GROUP" == guides ]] || {
@@ -134,8 +134,17 @@ jobs:
       - uses: actions/setup-node@v5
         with: { node-version: '22.6', cache: pnpm }
       - run: pnpm install --frozen-lockfile
+      - id: sdk_groups
+        name: Compute selected SDK reference producer matrix
+        env:
+          SELECTED_GROUP: ${{ steps.refs.outputs.selected_group }}
+        run: echo "groups=$(node scripts/docs-workflow/print-workflow-groups.js --selected-sdk-groups-json "$SELECTED_GROUP")" >> "$GITHUB_OUTPUT"
+      - name: Validate selected publication groups
+        env:
+          SELECTED_GROUP: ${{ steps.refs.outputs.selected_group }}
+        run: node scripts/docs-workflow/print-workflow-groups.js --validate-groups "$SELECTED_GROUP"
       - name: Verify translation publication readiness
-        run: node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js
+        run: node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js
       - name: Verify immutable target localization inventory
         if: ${{ steps.refs.outputs.publish == 'true' }}
         env:
@@ -204,7 +213,7 @@ jobs:
 
   produce_guides_sources:
     needs: prepare
-    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides') }}
     uses: ./.github/workflows/_fetch-guides-sources.yml
     with:
       site: en
@@ -248,7 +257,7 @@ jobs:
       actions: write
       contents: read
     needs: [prepare, produce_guides_sources, render_guides_tables]
-    if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_guides_sources.outputs.status == 'artifact_ready' && (needs.render_guides_tables.result == 'success' || needs.render_guides_tables.result == 'skipped') }}
+    if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides')) && needs.produce_guides_sources.outputs.status == 'artifact_ready' && (needs.render_guides_tables.result == 'success' || needs.render_guides_tables.result == 'skipped') }}
     uses: ./.github/workflows/_assemble-guides.yml
     with:
       site: en
@@ -268,7 +277,7 @@ jobs:
 
   produce_zh_guides_sources:
     needs: prepare
-    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides') }}
     uses: ./.github/workflows/_fetch-guides-sources.yml
     with:
       site: zh-CN
@@ -312,7 +321,7 @@ jobs:
       actions: write
       contents: read
     needs: [prepare, produce_zh_guides_sources, render_zh_guides_tables]
-    if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') && needs.produce_zh_guides_sources.outputs.status == 'artifact_ready' && (needs.render_zh_guides_tables.result == 'success' || needs.render_zh_guides_tables.result == 'skipped') }}
+    if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides')) && needs.produce_zh_guides_sources.outputs.status == 'artifact_ready' && (needs.render_zh_guides_tables.result == 'success' || needs.render_zh_guides_tables.result == 'skipped') }}
     uses: ./.github/workflows/_assemble-guides.yml
     with:
       site: zh-CN
@@ -330,134 +339,22 @@ jobs:
       assembly_decision_sha256: ${{ needs.produce_zh_guides_sources.outputs.assembly_decision_sha256 }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
 
-  produce_python:
+  produce_sdk_reference:
     needs: prepare
-    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'python' }}
+    name: produce_${{ matrix.group }}
+    strategy:
+      matrix:
+        group: ${{ fromJSON(needs.prepare.outputs.selected_sdk_groups) }}
     uses: ./.github/workflows/_fetch-content-group.yml
     with:
       site: en
-      group: python
+      group: ${{ matrix.group }}
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
       target_branch: ${{ needs.prepare.outputs.target_branch }}
       publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
       publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
-      publication_unit_key: source/python
-      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
-      SPACE_ID: ${{ secrets.SPACE_ID }}
-      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
-      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-  produce_java:
-    needs: prepare
-    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'java' }}
-    uses: ./.github/workflows/_fetch-content-group.yml
-    with:
-      site: en
-      group: java
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
-      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
-      publication_unit_key: source/java
-      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
-      SPACE_ID: ${{ secrets.SPACE_ID }}
-      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
-      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-  produce_node:
-    needs: prepare
-    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'node' }}
-    uses: ./.github/workflows/_fetch-content-group.yml
-    with:
-      site: en
-      group: node
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
-      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
-      publication_unit_key: source/node
-      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
-      SPACE_ID: ${{ secrets.SPACE_ID }}
-      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
-      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-  produce_go:
-    needs: prepare
-    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'go' }}
-    uses: ./.github/workflows/_fetch-content-group.yml
-    with:
-      site: en
-      group: go
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
-      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
-      publication_unit_key: source/go
-      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
-      SPACE_ID: ${{ secrets.SPACE_ID }}
-      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
-      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-  produce_cli:
-    needs: prepare
-    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'cli' }}
-    uses: ./.github/workflows/_fetch-content-group.yml
-    with:
-      site: en
-      group: cli
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
-      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
-      publication_unit_key: source/cli
-      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
-    secrets:
-      APP_ID: ${{ secrets.APP_ID }}
-      APP_SECRET: ${{ secrets.APP_SECRET }}
-      SPACE_ID: ${{ secrets.SPACE_ID }}
-      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
-      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-  produce_rest:
-    needs: prepare
-    if: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'rest' }}
-    uses: ./.github/workflows/_fetch-content-group.yml
-    with:
-      site: en
-      group: rest
-      master_sha: ${{ needs.prepare.outputs.master_sha }}
-      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
-      target_branch: ${{ needs.prepare.outputs.target_branch }}
-      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
-      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
-      publication_unit_key: source/rest
+      publication_unit_key: source/${{ matrix.group }}
       artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
     secrets:
       APP_ID: ${{ secrets.APP_ID }}
@@ -469,7 +366,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   reconciliation_preflight:
-    needs: [prepare, produce_guides, produce_zh_guides, produce_python, produce_java, produce_node, produce_go, produce_cli, produce_rest]
+    needs: [prepare, produce_guides, produce_zh_guides, produce_sdk_reference]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -497,32 +394,8 @@ jobs:
         name: Validate selected reconciliation producers
         if: ${{ needs.prepare.outputs.run_translations == 'true' }}
         env:
-          GUIDES_RESULT: ${{ needs.produce_guides.result }}
-          PYTHON_RESULT: ${{ needs.produce_python.result }}
-          JAVA_RESULT: ${{ needs.produce_java.result }}
-          NODE_RESULT: ${{ needs.produce_node.result }}
-          GO_RESULT: ${{ needs.produce_go.result }}
-          CLI_RESULT: ${{ needs.produce_cli.result }}
-          REST_RESULT: ${{ needs.produce_rest.result }}
-        run: |
-          set -euo pipefail
-          node - "$RUNNER_TEMP/publication-selection/publication-selection.json" <<'NODE'
-          const fs = require('node:fs')
-          const selection = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
-          const needed = new Set(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'])
-          const results = {
-            'source/guides-en': process.env.GUIDES_RESULT,
-            'source/python': process.env.PYTHON_RESULT,
-            'source/java': process.env.JAVA_RESULT,
-            'source/node': process.env.NODE_RESULT,
-            'source/go': process.env.GO_RESULT,
-            'source/cli': process.env.CLI_RESULT,
-            'source/rest': process.env.REST_RESULT,
-          }
-          const required = selection.units.filter(unit => unit.site === 'en' && needed.has(unit.translationSourceGroup))
-          const failed = required.filter(unit => results[unit.unitKey] !== 'success')
-          if (failed.length) throw new Error(`Reconciliation producers are not ready: ${failed.map(unit => unit.unitKey).join(', ')}`)
-          NODE
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/docs-workflow/validate-reconciliation-producers.js "$RUNNER_TEMP/publication-selection/publication-selection.json"
       - name: Download required source checkpoint artifacts
         if: ${{ needs.prepare.outputs.run_translations == 'true' }}
         env:
@@ -531,10 +404,10 @@ jobs:
           set -euo pipefail
           selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
           mkdir -p "$RUNNER_TEMP/reconciliation-checkpoints"
-          node - "$selection" <<'NODE' > "$RUNNER_TEMP/reconciliation-artifacts.txt"
+          node - "$selection" "$(node scripts/docs-workflow/print-workflow-groups.js --groups-json)" <<'NODE' > "$RUNNER_TEMP/reconciliation-artifacts.txt"
           const fs = require('node:fs')
           const selection = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))
-          const needed = new Set(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'])
+          const needed = new Set(JSON.parse(process.argv[3]))
           for (const unit of selection.units) {
             if (unit.site !== 'en' || !needed.has(unit.translationSourceGroup)) continue
             const token = unit.unitKey.replaceAll('/', '-')
@@ -938,14 +811,14 @@ jobs:
             --output tmp/docs-workflow-results.json
           node scripts/docs-workflow/aggregate-results.js --input tmp/docs-workflow-results.json --output tmp/docs-workflow-summary.md
       - name: Download current English Guides reports
-        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') }}
+        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides')) }}
         continue-on-error: true
         uses: actions/download-artifact@v7
         with:
           name: docs-checkpoint-guides-en-${{ github.run_id }}-reports
           path: tmp/card-guides-reports/en
       - name: Download current Chinese Guides reports
-        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides') }}
+        if: ${{ always() && (needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides')) }}
         continue-on-error: true
         uses: actions/download-artifact@v7
         with:
@@ -972,8 +845,8 @@ jobs:
           CARD_REPORT_ARTIFACT_URL_EN: ${{ steps.report_artifact_links.outputs.en_url }}
           CARD_REPORT_ARTIFACT_URL_ZH_CN: ${{ steps.report_artifact_links.outputs.zh_cn_url }}
           CARD_GUIDES_REPORTS_ROOT: tmp/card-guides-reports
-          CARD_EXPECT_EN_GUIDES_REPORTS: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
-          CARD_EXPECT_ZH_GUIDES_REPORTS: ${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}
+          CARD_EXPECT_EN_GUIDES_REPORTS: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides') }}
+          CARD_EXPECT_ZH_GUIDES_REPORTS: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides') }}
           CARD_BASE_NOTES_JSON: ${{ steps.aggregate.outputs.notes_json }}
         run: node scripts/collect-build-card-notes.js
       - name: Create final card report artifact

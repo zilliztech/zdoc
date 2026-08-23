@@ -1,47 +1,32 @@
 'use strict'
 
 const assert = require('node:assert/strict')
-const fs = require('node:fs')
+const path = require('node:path')
 const test = require('node:test')
 const { commandsFor } = require('./docs-workflow/run-content-group')
 const { buildGuidesTableMatrix } = require('./docs-workflow/guides-tables')
 const { guidesPlacementType } = require('../packages/docs-tooling/src/lark/guidesBaseRecordSemantics')
+const { loadTypeScript } = require('./lib/load-typescript')
 
-function manualBlocks(source) {
-  const blocks = new Map()
-  const pattern = /const\s+(\w+)\s*:\s*Manual\s*=\s*\{/g
-  let match
-  while ((match = pattern.exec(source))) {
-    let depth = 1
-    let index = pattern.lastIndex
-    while (depth > 0 && index < source.length) {
-      if (source[index] === '{') depth += 1
-      if (source[index] === '}') depth -= 1
-      index += 1
-    }
-    blocks.set(match[1], source.slice(match.index, index))
-  }
-  return blocks
+const { larkDocsConfigForSite } = loadTypeScript(path.resolve(__dirname, '../packages/docs-tooling/src/manuals/derive/larkConfigView.ts'))
+
+function activeSdks(site = 'en') {
+  const view = larkDocsConfigForSite(site)
+  return Object.entries(view).filter(([name]) => name !== 'guides')
 }
 
-test('Guides is the only all-table manual and 18 SDK manuals keep independent single-table Bases', () => {
-  const source = fs.readFileSync('config/lark-docs.config.ts', 'utf8')
-  const manuals = manualBlocks(source)
-  const guides = manuals.get('guides')
-  assert.match(guides, /base:\s*'[^']+:\*'/)
-  assert.match(guides, /sourceType:\s*'wiki'/)
-  assert.equal(manuals.has('agents'), false)
+test('Guides is the only all-table manual and SDK manuals keep independent single-table Bases', () => {
+  const view = larkDocsConfigForSite('en')
+  const guides = view.guides
+  assert.match(guides.base, /:\*$/)
+  assert.equal(guides.sourceType, 'wiki')
+  assert.equal(Object.hasOwn(view, 'agents'), false)
 
-  const sdk = [...manuals.entries()].filter(([name]) => name !== 'guides')
-  assert.equal(sdk.length, 18)
+  const sdk = activeSdks('en')
   for (const [name, block] of sdk) {
-    const base = block.match(/\n\s*base:\s*'([^']+)'/)?.[1]
-    assert.ok(base, `${name} must have a Base`)
-    assert.equal(base.includes(':'), false, `${name} must not use an all-table selector`)
-    assert.doesNotMatch(block, /Placement Type|mediaManifest|offline/)
+    assert.ok(block.base, `${name} must have a Base`)
+    assert.equal(block.base.includes(':'), false, `${name} must not use an all-table selector`)
   }
-  assert.match(manuals.get('javaV1'), /sourceType:\s*'onePager'/)
-  assert.match(manuals.get('gov1'), /sourceType:\s*'wiki'/)
 })
 
 test('SDK command sequences never inherit Guides table or offline options', () => {

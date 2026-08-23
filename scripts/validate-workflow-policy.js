@@ -1361,7 +1361,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     const cardStep = cardIndex >= 0 ? prepareSteps[cardIndex] : null
     const readinessCommand = readinessIndex >= 0 ? String(prepareSteps[readinessIndex]?.run || '') : ''
     if (installIndex < 0 || readinessIndex <= installIndex || cardIndex <= readinessIndex ||
-        readinessCommand !== 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
+        readinessCommand !== 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js') {
       errors.push('fetch-docs.yml: prepare must prove translation publication readiness before paid work starts')
     }
     const inventoryStep = inventoryIndex >= 0 ? prepareSteps[inventoryIndex] : null

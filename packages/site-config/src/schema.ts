@@ -222,7 +222,9 @@ export const FeatureProfileSchema = z.object({
   byoc: z.boolean(),
   onpremise: z.boolean(),
   agents: z.boolean(),
-  referenceKinds: z.array(z.enum(['python', 'java', 'nodejs', 'go', 'restful', 'cli'])),
+  // Reference kinds are generated from the manual registry presentation
+  // metadata (see packages/site-config/src/generated/referencePresentation.ts).
+  referenceKinds: z.array(z.string().regex(/^[a-z][a-z0-9-]*$/u)),
 }).strict().superRefine((features, context) => {
   const seen = new Set<string>();
   for (const [index, kind] of features.referenceKinds.entries()) {

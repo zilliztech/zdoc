@@ -9,9 +9,9 @@ common_args=(
   --link-check-remote https://docs.zilliz.com
 )
 
-groups=(python java node go cli)
+groups=($(node scripts/docs-workflow/print-workflow-groups.js --sdk-snapshot-groups))
 if (( $# > 1 )); then
-  echo "Usage: $0 [python|java|node|go|cli]" >&2
+  echo "Usage: $0 [$(node scripts/docs-workflow/print-workflow-groups.js --sdk-snapshot-groups | tr ' ' '|')]" >&2
   exit 1
 fi
 if (( $# == 1 )); then

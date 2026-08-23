@@ -1,27 +1,27 @@
 'use strict'
 
-const SDK_GROUPS = new Set(['python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings'])
+const {loadTypeScript} = require('../lib/load-typescript')
+const {sdkGroupIds, translationGroupLabels} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
+
+const SDK_GROUPS = new Set([...sdkGroupIds(), 'reference-landings'])
 const FAILURE_CONCLUSIONS = new Set(['failure', 'timed_out', 'action_required', 'startup_failure'])
 const CANCELLED_CONCLUSIONS = new Set(['cancelled'])
 const INFRASTRUCTURE_STEP = /^(?:set up job|complete job|actions\/checkout@|run actions\/checkout@|post |checkout|set up (?:node|pnpm)|setup (?:node|pnpm)|install dependencies)/i
 
-const GROUP_LABELS = Object.freeze({
-  python: 'Python SDK', java: 'Java SDK', node: 'Node.js SDK', go: 'Go SDK', cli: 'Zilliz CLI', rest: 'REST API',
-  'reference-landings': 'Reference landing pages',
-})
+const GROUP_LABELS = translationGroupLabels()
 
 const SUPPORTED_UNITS = new Set([
   'ja-JP/guides',
-  ...['python', 'java', 'node', 'go', 'cli'].flatMap(group => [`ja-JP/${group}`, `zh-CN-reference/${group}`]),
-  'ja-JP/rest',
+  ...sdkGroupIds().filter(group => group !== 'rest').flatMap(group => [`ja-JP/${group}`, `zh-CN-reference/${group}`]),
+  ...sdkGroupIds().filter(group => group === 'rest').map(group => `ja-JP/${group}`),
   'zh-CN-reference/reference-landings',
 ])
 
 function parseSdkTranslationJob(job) {
   const name = String(job?.name || '')
-  const direct = name.match(/^translate:(ja-JP|zh-CN-reference)\/(python|java|node|go|cli|rest|reference-landings) \/ translate$/)
+  const direct = name.match(/^translate:(ja-JP|zh-CN-reference)\/(python|java|node|go|cli|cpp|rest|reference-landings) \/ translate$/)
   if (direct) return SUPPORTED_UNITS.has(`${direct[1]}/${direct[2]}`) ? {target: direct[1], group: direct[2]} : null
-  const match = name.match(/^translate_sdk \((ja-JP|zh-CN-reference), (python|java|node|go|cli|rest|reference-landings), \2, (?:(?:[^\s,()]+, )?[^\s,()]+\.\.\.|[^\s,()]+, [^\s,()]+\)) \/ translate$/)
+  const match = name.match(/^translate_sdk \((ja-JP|zh-CN-reference), (python|java|node|go|cli|cpp|rest|reference-landings), \2, (?:(?:[^\s,()]+, )?[^\s,()]+\.\.\.|[^\s,()]+, [^\s,()]+\)) \/ translate$/)
   return match && SUPPORTED_UNITS.has(`${match[1]}/${match[2]}`) ? {target: match[1], group: match[2]} : null
 }
 

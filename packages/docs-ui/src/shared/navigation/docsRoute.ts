@@ -1,6 +1,8 @@
+import {referenceTargetAliases, referenceTargetKinds, type ReferenceTargetKind} from './referenceTargets.generated.ts';
+
 export type DocsLocale = 'en' | 'ja-JP' | 'zh-CN';
 
-export type ReferenceTarget = 'python' | 'java' | 'go' | 'nodejs' | 'restful' | 'cli';
+export type ReferenceTarget = ReferenceTargetKind;
 
 export type DocsManual = 'guides' | 'reference' | 'byoc' | 'onpremise' | 'unknown';
 
@@ -12,16 +14,6 @@ export interface DocsRouteContext {
   manual: DocsManual;
   referenceTarget?: ReferenceTarget;
 }
-
-const referenceTargets: Record<string, ReferenceTarget> = {
-  python: 'python',
-  java: 'java',
-  go: 'go',
-  node: 'nodejs',
-  nodejs: 'nodejs',
-  restful: 'restful',
-  cli: 'cli',
-};
 
 function normalizePathname(pathname: string): string {
   const withoutQueryOrHash = pathname.split(/[?#]/, 1)[0] || '/';
@@ -39,7 +31,7 @@ function classifyManual(pathname: string): DocsManual {
 
 function referenceTargetFor(pathname: string): ReferenceTarget | undefined {
   const target = pathname.split('/')[2];
-  return target ? referenceTargets[target] : undefined;
+  return target ? referenceTargetAliases[target] : undefined;
 }
 
 export function parseDocsRoute(pathname: string, locale: DocsLocale): DocsRouteContext {

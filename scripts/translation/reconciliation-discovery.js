@@ -3,24 +3,17 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const {spawnSync} = require('node:child_process')
+const {loadTypeScript} = require('../lib/load-typescript')
 const {getGroupPaths} = require('../docs-workflow/group-paths')
 
 const COMMIT_SHA = /^[a-f0-9]{40}$/u
 const DOCUMENT = /\.(?:md|mdx)$/u
-const TARGET_GROUPS = Object.freeze({
-  'ja-JP': Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']),
-  'zh-CN-reference': Object.freeze(['python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings']),
-})
-const TARGET_MAPPINGS = Object.freeze({
-  'ja-JP': Object.freeze([
-    Object.freeze(['content/en/guides/tutorials', 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials']),
-    Object.freeze(['content/en/byoc/tutorials', 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials']),
-    Object.freeze(['content/en/reference', 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current']),
-  ]),
-  'zh-CN-reference': Object.freeze([
-    Object.freeze(['content/en/reference', 'content/zh-CN/reference']),
-  ]),
-})
+const {
+  RECONCILIATION_TARGET_MAPPINGS,
+  reconciliationTargetGroups,
+} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
+const TARGET_GROUPS = reconciliationTargetGroups()
+const TARGET_MAPPINGS = RECONCILIATION_TARGET_MAPPINGS
 
 function deepFreeze(value) {
   if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value

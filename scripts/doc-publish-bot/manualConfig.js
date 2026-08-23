@@ -1,18 +1,18 @@
-const fs = require('node:fs')
-const vm = require('node:vm')
+'use strict'
+
 const { loadTypeScript } = require('../lib/load-typescript')
 const { resolveBootstrapSite } = loadTypeScript('../../packages/site-config/src/resolve.ts')
+const { larkDocsConfigForSite } = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/larkConfigView.ts')
 
-function loadLarkDocsConfig(configPath = 'config/lark-docs.config.ts', explicitSite) {
-  let source = fs.readFileSync(configPath, 'utf8')
-  source = source
-    .replace(/^[\s\S]*?\/\/ guides/m, '// guides')
-    .replace(/const\s+(\w+)\s*:\s*Manual\s*=/g, 'const $1 =')
-    .replace(/const\s+(\w+)\s*:\s*Targets\s*=/g, 'const $1 =')
-    .replace(/export\s+default\s+/, 'module.exports = ')
-  const sandbox = { module: { exports: {} }, exports: {}, site: resolveBootstrapSite(explicitSite) }
-  vm.runInNewContext(source, sandbox, { filename: configPath })
-  return sandbox.module.exports
+/**
+ * Returns the Lark Docs manual view for the resolved site.
+ *
+ * The config file path argument is retained for call-site compatibility but is
+ * no longer read; the manual registry is the single source of truth and the
+ * view mirrors the committed config surface.
+ */
+function loadLarkDocsConfig(_configPath, explicitSite) {
+  return larkDocsConfigForSite(resolveBootstrapSite(explicitSite))
 }
 
 module.exports = {

@@ -5,9 +5,11 @@ const path = require('node:path')
 const { Command } = require('commander')
 const { loadTypeScript } = require('../../../../scripts/lib/load-typescript')
 const larkDocsPlugin = require('./index.js')
+const { resolveBootstrapSite } = loadTypeScript(path.resolve(__dirname, '../../../../packages/site-config/src/resolve.ts'))
+const { larkDocsConfigForSite } = loadTypeScript(path.resolve(__dirname, '../manuals/derive/larkConfigView.ts'))
 
 async function run(argv = process.argv.slice(2)) {
-  const manuals = loadTypeScript(path.resolve(__dirname, '../../../../config/lark-docs.config.ts'))
+  const manuals = larkDocsConfigForSite(resolveBootstrapSite(undefined))
   const command = new Command().name('docs-tooling-lark-standalone').exitOverride()
   larkDocsPlugin(null, manuals).extendCli(command)
   await command.parseAsync(argv, { from: 'user' })

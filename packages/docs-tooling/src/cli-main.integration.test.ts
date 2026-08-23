@@ -254,9 +254,9 @@ describe('docs-tooling executable composition root', () => {
     expect(result.stderr).toMatch(/symlink/i);
   });
 
-  it('validates all seven committed English revision inventories', () => {
+  it('validates all eight committed English revision inventories', () => {
     const repositoryRoot = temporaryRoot();
-    for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']) {
+    for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest']) {
       writeJson(repositoryRoot, `generated/en/manifests/lark-revisions/${group}.json`, revisionInventory(group));
     }
 
