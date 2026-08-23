@@ -19,5 +19,7 @@ export const {
   findMalformedProceduresBlocks,
   escapeMathBraces,
   escapeHtmlElementBraces,
+  escapePlainTextBraces,
   escapeNonHtmlTags,
+  escapeCppNamespaceTypes,
 } = validator;
