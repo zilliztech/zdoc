@@ -1,0 +1,131 @@
+---
+title: "GetImportJobProgress() | Cloud"
+slug: /cpp/cpp/DataImport-GetImportJobProgress
+sidebar_label: "GetImportJobProgress()"
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "This operation retrieves the current progress and status of a bulk import job by its job ID. Poll this method after calling `CreateImportJobs()` to determine when the import is complete. | Cloud"
+type: docx
+token: NmxkduivloqgeXxVxOpcHydEnne
+sidebar_position: 2
+keywords: 
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - GetImportJobProgress()
+  - cppv30
+displayed_sidebar: cppSidebar
+
+displayed_sidbar: cppSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# GetImportJobProgress()
+
+This operation retrieves the current progress and status of a bulk import job by its job ID. Poll this method after calling `CreateImportJobs()` to determine when the import is complete.
+
+```c++
+static nlohmann::json BulkImport::GetImportJobProgress(
+    const std::string& url,
+    const std::string& job_id,
+    const std::string& db_name = "default",
+    const std::string& api_key = "")
+```
+
+## Request Syntax\{#request-syntax}
+
+```c++
+auto resp = milvus::BulkImport::GetImportJobProgress(
+    url,
+    job_id,
+    db_name,
+    api_key);
+```
+
+**PARAMETERS:**
+
+- `url` (*const std::string&*)
+
+    **[REQUIRED]**
+
+    The URL of the Milvus server, e.g. `"YOUR_CLUSTER_ENDPOINT"`.
+
+- `job_id` (*const std::string&*)
+
+    **[REQUIRED]**
+
+    The ID of the import job to query. Obtained from the response of `CreateImportJobs()`.
+
+- `db_name` (*const std::string&*)
+
+    The name of the database used when the job was created. Defaults to `"default"`.
+
+- `api_key` (*const std::string&*)
+
+    The API key for authentication. Pass as `"username:password"` for Milvus or a cloud API key for Zilliz Cloud.
+
+**RETURNS:**
+
+*nlohmann::json*
+
+A JSON object describing job progress, or `nullptr` on failure. Includes fields such as `state` (`"Pending"`, `"InProgress"`, `"Completed"`, `"Failed"`), `progress` (0–100), and `importedRows`.
+
+**EXCEPTIONS:**
+
+- **std::exception**
+
+    Thrown if the HTTP request fails or the response cannot be parsed. Check the return value for `nullptr` to detect failures.
+
+## Example\{#example}
+
+```c++
+#include "milvus/MilvusClientV2.h"
+auto client = milvus::MilvusClientV2::Create();
+milvus::ConnectParam connect_param{"YOUR_CLUSTER_ENDPOINT", "root", "Milvus"};
+auto status = client->Connect(connect_param);
+if (!status.IsOk()) {
+    std::cout << status.Message() << std::endl;
+}
+
+// Create a job first
+auto create_resp = milvus::BulkImport::CreateImportJobs(
+    "YOUR_CLUSTER_ENDPOINT",
+    "my_collection",
+    {"parquet-folder/1.parquet"},
+    "default",
+    "YOUR_CLUSTER_TOKEN"
+);
+
+std::string job_id = create_resp["data"]["jobId"];
+
+// Poll for progress
+while (true) {
+    auto progress_resp = milvus::BulkImport::GetImportJobProgress(
+        "YOUR_CLUSTER_ENDPOINT",
+        job_id,
+        "default",
+        "YOUR_CLUSTER_TOKEN"
+    );
+
+    if (progress_resp.is_null()) {
+        std::cout << "Failed to get progress" << std::endl;
+        break;
+    }
+
+    std::string state = progress_resp["data"]["state"];
+    int progress = progress_resp["data"]["progress"];
+    std::cout << "State: " << state << "  Progress: " << progress << "%" << std::endl;
+
+    if (state == "Completed" || state == "Failed") break;
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+}
+```
