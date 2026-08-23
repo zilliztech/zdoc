@@ -4,13 +4,15 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const {spawnSync} = require('node:child_process')
+const {loadTypeScript} = require('../lib/load-typescript')
 
 const {linkWorkspaceDependencies} = require('./link-workspace-dependencies')
 const {runPublicationStrategyTransaction} = require('./publication-transaction')
 const {readPublicationDocument, validatePublicationResults, validatePublicationSelection} = require('./publication-contracts')
 
 const SHA = /^[0-9a-f]{40}$/u
-const REFERENCE_GROUPS = new Set(['python', 'java', 'node', 'go', 'cli', 'rest'])
+const {referenceGroupIds} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
+const REFERENCE_GROUPS = new Set(referenceGroupIds())
 const SUCCESSFUL_TERMINAL_STATUSES = new Set(['published', 'no_changes'])
 const TERMINAL_STATUSES = new Set([
   ...SUCCESSFUL_TERMINAL_STATUSES,

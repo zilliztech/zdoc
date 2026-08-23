@@ -668,7 +668,7 @@ test('workflow policy requires localization inventory freshness before both site
     const file = path.join(directory, 'site-validation.yml')
     const source = fs.readFileSync(file, 'utf8')
     const withEnglishOnly = source.replace(
-      '      - run: pnpm check:localization-input-inventory\n      - run: pnpm docs-tooling validate-reference --site zh-CN\n      - run: pnpm build:zh-CN',
+      '      - run: pnpm check:localization-input-inventory\n      - run: pnpm check:lark-config\n      - run: pnpm check:reference-presentation\n      - run: pnpm check:reconciliation-policy\n      - run: pnpm docs-tooling validate-reference --site zh-CN\n      - run: pnpm build:zh-CN',
       '      - run: pnpm docs-tooling validate-reference --site zh-CN\n      - run: pnpm build:zh-CN',
     )
     assert.notEqual(withEnglishOnly, source)
@@ -762,17 +762,22 @@ test('Fetch producers stay parallel while publication and derived-state writers 
   assert.match(source, /fetch-publication-selection\.js selection/)
   assert.match(source, /name: publication-selection-fetch-\$\{\{ github\.run_id \}\}-\$\{\{ github\.run_attempt \}\}/)
 
-  const units = {
-    produce_java: 'source/java', produce_node: 'source/node', produce_go: 'source/go',
-    produce_cli: 'source/cli', produce_rest: 'source/rest', produce_python: 'source/python',
-    produce_guides: 'source/guides-en', produce_zh_guides: 'source/guides-zh-CN',
-  }
-  for (const [jobName, unitKey] of Object.entries(units)) {
+  for (const [jobName, unitKey] of Object.entries({produce_guides: 'source/guides-en', produce_zh_guides: 'source/guides-zh-CN'})) {
     const job = workflow.jobs[jobName]
     assert.equal(job.with.publication_selection_artifact_name, '${{ needs.prepare.outputs.publication_selection_artifact_name }}')
     assert.equal(job.with.publication_selection_sha256, '${{ needs.prepare.outputs.publication_selection_sha256 }}')
     assert.equal(job.with.publication_unit_key, unitKey)
   }
+  const sdkMatrix = workflow.jobs.produce_sdk_reference
+  assert.equal(sdkMatrix.name, 'produce_${{ matrix.group }}')
+  assert.equal(sdkMatrix.strategy.matrix.group, '${{ fromJSON(needs.prepare.outputs.selected_sdk_groups) }}')
+  assert.equal(sdkMatrix.with.group, '${{ matrix.group }}')
+  assert.equal(sdkMatrix.with.publication_unit_key, 'source/${{ matrix.group }}')
+  assert.equal(sdkMatrix.with.site, 'en')
+  for (const legacy of ['produce_python', 'produce_java', 'produce_node', 'produce_go', 'produce_cli', 'produce_rest']) {
+    assert.equal(workflow.jobs[legacy], undefined)
+  }
+
   const coordinator = workflow.jobs.publish_ready
   assert.deepEqual(coordinator.needs, ['prepare', 'reconciliation_preflight'])
   assert.deepEqual(coordinator.permissions, {actions: 'read', contents: 'write'})
@@ -2295,7 +2300,7 @@ test('fetch preparation blocks paid translation until publication readiness regr
   const cardIndex = steps.findIndex(step => step.name === 'Create progress card')
   assert.ok(installIndex >= 0 && readinessIndex > installIndex && inventoryIndex > readinessIndex && inventoryIndex < cardIndex)
   const command = steps[readinessIndex].run
-  assert.equal(command, 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/publish-checkpoint.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js')
+  assert.equal(command, 'node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js')
   const inventory = steps[inventoryIndex]
   assert.equal(inventory.if, "${{ steps.refs.outputs.publish == 'true' }}")
   assert.equal(inventory.env.INITIAL_TARGET_SHA, '${{ steps.refs.outputs.initial_target_sha }}')
@@ -2500,8 +2505,8 @@ test('source aggregate reports downstream handoff and downloads Guides reports b
   assert.ok(steps.indexOf(englishReports) < steps.indexOf(collector))
   assert.ok(steps.indexOf(chineseReports) < steps.indexOf(collector))
   assert.equal(collector.env.CARD_GUIDES_REPORTS_ROOT, 'tmp/card-guides-reports')
-  assert.equal(collector.env.CARD_EXPECT_EN_GUIDES_REPORTS, "${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}")
-  assert.equal(collector.env.CARD_EXPECT_ZH_GUIDES_REPORTS, "${{ needs.prepare.outputs.selected_group == 'all' || needs.prepare.outputs.selected_group == 'guides' }}")
+  assert.equal(collector.env.CARD_EXPECT_EN_GUIDES_REPORTS, "${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides') }}")
+  assert.equal(collector.env.CARD_EXPECT_ZH_GUIDES_REPORTS, "${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'guides') }}")
   assert.equal(aggregate.env.REVISION_RECONCILIATION, "${{ needs.verify.outputs.revision_status || 'skipped' }}")
   assert.match(aggregate.run, /--publication-selection[\s\S]*--publication-results/)
   assert.equal(collector.env.CARD_REPORT_REF, '${{ needs.publish_ready.outputs.final_target_sha }}')

@@ -2,32 +2,23 @@
 'use strict'
 
 const {spawnSync} = require('node:child_process')
+const {loadTypeScript} = require('../lib/load-typescript')
 
 const {listContentGroups} = require('./content-groups')
 const {readPublicationDocument, validatePublicationResults, validatePublicationSelection} = require('./publication-contracts')
 const {buildTranslationSelection} = require('../translation/selection')
 
 const SUCCESSFUL_STATUSES = new Set(['published', 'no_changes'])
-const FETCH_GROUP_UNIT_KEYS = Object.freeze({
-  java: Object.freeze(['source/java']),
-  node: Object.freeze(['source/node']),
-  go: Object.freeze(['source/go']),
-  cli: Object.freeze(['source/cli']),
-  rest: Object.freeze(['source/rest']),
-  python: Object.freeze(['source/python']),
-  guides: Object.freeze(['source/guides-en', 'source/guides-zh-CN']),
-})
+const {fetchGroupUnitKeys, fetchUnitKeys, parseSelectedGroups} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
+const FETCH_GROUP_UNIT_KEYS = fetchGroupUnitKeys()
+const ALL_FETCH_UNIT_KEYS = fetchUnitKeys()
 
 function requiredUnitKeys(selectedGroup) {
   if (selectedGroup === 'all') {
-    return Object.freeze([
-      'source/java', 'source/node', 'source/go', 'source/cli',
-      'source/rest', 'source/python', 'source/guides-en', 'source/guides-zh-CN',
-    ])
+    return ALL_FETCH_UNIT_KEYS
   }
-  const keys = FETCH_GROUP_UNIT_KEYS[selectedGroup]
-  if (!keys) throw new Error(`Invalid selected Fetch group: ${selectedGroup}`)
-  return keys
+  const groups = parseSelectedGroups(selectedGroup)
+  return Object.freeze(groups.flatMap(group => FETCH_GROUP_UNIT_KEYS[group] || []))
 }
 
 function validateFetchPublicationDocuments(input) {

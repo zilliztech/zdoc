@@ -326,7 +326,7 @@ function evaluateReconciliationPolicy(options) {
           ? completenessReceipts.find(item => item?.receiptSha256 === digest)
           : completenessReceipts[digest]
         try {
-          const sdkCli = target === 'zh-CN-reference' && ['python', 'java', 'node', 'go', 'cli'].includes(group)
+          const sdkCli = target === 'zh-CN-reference' && ['python', 'java', 'node', 'go', 'cli', 'cpp'].includes(group)
           const validated = sdkCli ? validateSdkCliCompletenessReceipt(receipt) : validateRestCompletenessReceipt(receipt)
           if (sdkCli) {
             validateSdkCliDeletionEvidence({

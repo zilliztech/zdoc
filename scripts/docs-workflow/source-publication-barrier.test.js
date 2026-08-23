@@ -11,7 +11,7 @@ const { buildFetchPublicationSelection } = require('./fetch-publication-selectio
 const { validatePublicationResults } = require('./publication-contracts');
 const { verifySourcePublicationBarrier, verifySourcePublicationResults } = require('./source-publication-barrier');
 
-const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'];
+const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest'];
 const successful = Object.fromEntries(groups.map(group => [group, 'success']));
 const published = Object.fromEntries(groups.map(group => [group, 'published']));
 

@@ -1,5 +1,6 @@
 'use strict'
 
+const {loadTypeScript} = require('../lib/load-typescript')
 const {definePublicationWorkflowAdapter} = require('./publication-workflow-adapters')
 
 const SELECTION_KEYS = [
@@ -16,29 +17,14 @@ const READY_KEYS = [
   'unitKey', 'producerJob', 'toolingSha', 'sourceBaselineSha', 'sourceCheckpointSha',
   'targetBranch', 'artifacts', 'outcome',
 ]
-const TRANSLATION_SELECTED_GROUPS = Object.freeze([
-  'all', 'guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings',
-])
+const {translationSelectedGroups, TRANSLATION_UNIT_ORDER} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
+const TRANSLATION_SELECTED_GROUPS = translationSelectedGroups()
 const RECOVERY_SOURCE_WORKFLOWS = new Set([
   '.github/workflows/translate-codex.yml',
   '.github/workflows/recover-translation.yml',
 ])
 const RECOVERY_JOB_PREFIX = 'run_translation / '
-const TRANSLATION_PUBLICATION_UNIT_KEYS = Object.freeze([
-  'translation/ja-JP/guides',
-  'translation/ja-JP/python',
-  'translation/ja-JP/java',
-  'translation/ja-JP/node',
-  'translation/ja-JP/go',
-  'translation/ja-JP/cli',
-  'translation/ja-JP/rest',
-  'translation/zh-CN-reference/python',
-  'translation/zh-CN-reference/java',
-  'translation/zh-CN-reference/node',
-  'translation/zh-CN-reference/go',
-  'translation/zh-CN-reference/cli',
-  'translation/zh-CN-reference/reference-landings',
-])
+const TRANSLATION_PUBLICATION_UNIT_KEYS = TRANSLATION_UNIT_ORDER
 
 function boundedReconciliationFailure(reconciliation) {
   const failure = reconciliation?.failure || {}

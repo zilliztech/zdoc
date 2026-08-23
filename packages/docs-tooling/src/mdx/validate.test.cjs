@@ -6,6 +6,8 @@ const {
     normalizeCodeTagContent,
     convertHtmlCommentsToMdx,
     findMalformedProceduresBlocks,
+    escapeCppNamespaceTypes,
+    escapePlainTextBraces,
 } = require('./validate.cjs');
 const LarkDocWriter = require('../lark/larkDocWriter');
 
@@ -294,6 +296,119 @@ async function testConsecutivePlaintextFencesAreNotWidened() {
     assert.ok(!patched.includes('````plaintext'));
 }
 
+async function testCppNamespaceTypesAreEscapedToEntities() {
+    const cppNamespaceCases = [
+        'The <std::string> type',
+        'Use <milvus::client::ConnectParam> to connect',
+        'Returns <std::vector<std::string>>',
+        '<milvus::client::CreateImportJobsRequest>',
+        '(*const std::vector<std::string>&*)',
+        'vector<std::string>',
+    ];
+    for (const input of cppNamespaceCases) {
+        const patched = await applyMdxPatches(input);
+        await compileToString(patched);
+        assert.ok(!patched.includes('<std::'), 'expected namespace type to be escaped');
+        assert.ok(patched.includes('&lt;'), 'expected entity escaping');
+        assert.ok(patched.includes('&gt;'), 'expected entity escaping');
+    }
+    // Real JSX components must be preserved unchanged.
+    const jsxLines = [
+        '<Admonition type="note">',
+        'Keep this.',
+        '</Admonition>',
+        '<Tabs>',
+        '<TabItem value="a">A</TabItem>',
+        '</Tabs>',
+    ];
+    const jsxInput = jsxLines.join('\n');
+    const jsxPatched = await applyMdxPatches(jsxInput);
+    assert.ok(jsxPatched.includes('<Admonition'));
+    assert.ok(jsxPatched.includes('<Tabs>'));
+    await compileToString(jsxPatched);
+}
+
+async function testCppNamespaceTypesWithoutClosingAngleAreEscaped() {
+    // A namespace-qualified type token may be missing its closing ">" (the
+    // author omitted it, often inside italic markdown); the escaper must still
+    // entity-escape the leading "<" and any nested "<"/">" up to the next type
+    // terminator, rather than leaving the malformed token untouched.
+    const cases = [
+        ['<std::string', '&lt;std::string'],
+        ['<std::string&*', '&lt;std::string&*'],
+        ['<milvus::client::ConnectParam', '&lt;milvus::client::ConnectParam'],
+        ['Returns <std::vector<std::string> status', 'Returns &lt;std::vector&lt;std::string&gt; status'],
+        ['<std::string, then', '&lt;std::string, then'],
+        ['<std::string). done', '&lt;std::string). done'],
+    ];
+    for (const [input, expected] of cases) {
+        assert.equal(escapeCppNamespaceTypes(input), expected);
+        const patched = await applyMdxPatches(input);
+        await compileToString(patched);
+        assert.ok(!patched.includes('<std::'), 'expected namespace type to be escaped');
+        assert.ok(!patched.includes('<milvus::'), 'expected namespace type to be escaped');
+    }
+}
+
+async function testPlainTextBracesAreEscaped() {
+    // Literal {identifier} placeholders in plain prose (the pattern found in
+    // the cpp reference docs, e.g. "placeholders such as {age} or {city}")
+    // compile as JSX expressions but crash at SSG render with
+    // "ReferenceError: age is not defined". They must be escaped, while JSX
+    // attributes/children, heading anchors, inline code, and ESM lines are
+    // left untouched.
+    const prose = 'Replaces all placeholder values used by the filter expression. Keys correspond to placeholders such as {age} or {city}.';
+    const patched = await applyMdxPatches(prose);
+    assert.ok(patched.includes('\\{age\\}'), 'expected {age} to be escaped');
+    assert.ok(patched.includes('\\{city\\}'), 'expected {city} to be escaped');
+    await compileToString(patched);
+
+    // Direct unit assertions on the escape function.
+    assert.equal(
+        escapePlainTextBraces('placeholders such as {age} or {city}'),
+        'placeholders such as \\{age\\} or \\{city\\}',
+    );
+
+    // Heading anchors are NOT escaped (the '#' is not a valid identifier start).
+    assert.equal(
+        escapePlainTextBraces('### FAQ{#faq-heading}'),
+        '### FAQ{#faq-heading}',
+    );
+
+    // JSX attribute expressions are NOT escaped.
+    assert.equal(
+        escapePlainTextBraces('<FeatureCard columns={2}>'),
+        '<FeatureCard columns={2}>',
+    );
+
+    // Inline code spans are NOT escaped.
+    assert.equal(
+        escapePlainTextBraces('`{cluster-id}` stays literal'),
+        '`{cluster-id}` stays literal',
+    );
+
+    // Object literals are NOT escaped: the identifier class stops at the space,
+    // so no '}' immediately follows the identifier.
+    assert.equal(
+        escapePlainTextBraces('{key: value}'),
+        '{key: value}',
+    );
+}
+
+async function testLarkDocWriterEscapesPlainTextBraces() {
+    // larkDocWriter.__mdx_patches is a separate copy of the MDX patch pipeline
+    // used by the actual Lark fetch (publish-group --stage fetch). It must
+    // apply the same plain-text brace escaping as applyMdxPatches, otherwise the
+    // fetched cpp pages crash SSG with "ReferenceError: age is not defined".
+    const writer = new LarkDocWriter('', '', 'cppSidebar');
+    const patched = await writer.__mdx_patches(
+        'Replaces all placeholder values used by the filter expression. Keys correspond to placeholders such as {age} or {city}; values may be boolean, numeric, string, or array data.',
+    );
+    assert.ok(patched.includes('\\{age\\}'), 'expected larkDocWriter to escape {age}');
+    assert.ok(patched.includes('\\{city\\}'), 'expected larkDocWriter to escape {city}');
+    await compileToString(patched);
+}
+
 async function run() {
     await testNormalizeCodeTagContent();
     await testNormalizationPreservesFencedCodeBlocks();
@@ -319,6 +434,10 @@ async function run() {
     await testTranslatedImportProseCanBeRepaired();
     await testIndentedFencedCodeIsPreserved();
     await testConsecutivePlaintextFencesAreNotWidened();
+    await testCppNamespaceTypesAreEscapedToEntities();
+    await testCppNamespaceTypesWithoutClosingAngleAreEscaped();
+    await testPlainTextBracesAreEscaped();
+    await testLarkDocWriterEscapesPlainTextBraces();
     console.log('mdxPatcher regression tests passed');
 }
 

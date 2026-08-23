@@ -96,6 +96,17 @@ test('builds artifact-only rows directly from producer terminal states', () => {
   })
 })
 
+test('parses comma-separated selected groups into per-group rows', () => {
+  const result = buildAggregateInput({
+    MODE: 'artifact_only', SELECTED_GROUP: 'python,java',
+    PYTHON_PRODUCER: 'artifact_ready', JAVA_PRODUCER: 'artifact_ready',
+  })
+  assert.deepEqual(result.requestedGroups, ['python', 'java'])
+  assert.deepEqual(Object.keys(result.groups).sort(), ['java', 'python'])
+  assert.equal(result.groups.python.source, 'artifact_ready')
+  assert.equal(result.groups.java.source, 'artifact_ready')
+})
+
 test('requires lightweight final verification even when translations are disabled', () => {
   assert.deepEqual(buildAggregateInput({
     MODE: 'publish', RUN_TRANSLATIONS: 'false', SELECTED_GROUP: 'python',

@@ -10,6 +10,7 @@ const {execFileSync} = require('node:child_process');
 const {
   bootstrapStatus,
   inspectSync,
+  isDevOwned,
   loadContract,
   pathMatches,
   validateContract,
@@ -184,6 +185,17 @@ test('rejects master history that modifies dev-owned content', () => {
     () => inspectSync({cwd: root, devSha: base, toolingSha: tooling, contract}),
     /modifies dev-owned paths: content\/en\/page\.md/,
   );
+});
+
+test('treats preserved landing pages as master-authoritative despite living under content/', () => {
+  assert.equal(isDevOwned('content/en/reference/api/cpp/cpp/cpp.md', contract), false);
+  assert.equal(isDevOwned('content/en/page.md', contract), true);
+
+  const {root, base} = fixture();
+  const tooling = commit(root, 'master', 'content/en/reference/api/cpp/cpp/cpp.md', 'new landing\n', 'update landing page');
+  const inspected = inspectSync({cwd: root, devSha: base, toolingSha: tooling, contract});
+  assert.deepEqual(inspected.forbiddenToolingChanges, []);
+  assert.deepEqual(inspected.toolingChanges, ['content/en/reference/api/cpp/cpp/cpp.md']);
 });
 
 test('rejects merge resolutions that change dev-owned content or retain dev tooling', () => {

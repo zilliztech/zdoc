@@ -6,6 +6,7 @@ const path = require('node:path')
 const { loadTypeScript } = require('../lib/load-typescript')
 const { resolveBootstrapSite } = loadTypeScript('../../packages/site-config/src/resolve.ts')
 const { resolveManualPublication } = loadTypeScript('../../packages/docs-tooling/src/manuals/registry.ts')
+const { larkDocsConfigForSite } = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/larkConfigView.ts')
 const { assertSourceCompleteness } = require('../../packages/docs-tooling/src/lark/sourceCompleteness')
 
 function normalizeRepositoryPath(value) {
@@ -15,7 +16,7 @@ function normalizeRepositoryPath(value) {
 function validateGuidesRenderReadiness(options) {
   const site = resolveBootstrapSite(options.site)
   const workspace = path.resolve(options.workspace)
-  const manual = options.manual || loadTypeScript(path.join(workspace, 'config/lark-docs.config.ts')).guides
+  const manual = options.manual || larkDocsConfigForSite(site).guides
   const expectedSource = options.expectedSource || resolveManualPublication('guides', site).source
   const actualIdentity = {
     root: manual?.root,

@@ -7,9 +7,9 @@ The first synchronization is a reviewed pull request that merges one exact maste
 ## Ownership
 
 - Dev owns published content, generated sidebars and manifests, translation state, fetched source snapshots/reports, and English source sidebar overrides.
-- Master owns tooling, workflows, applications, packages, deployment contracts, and `config/reference-retirements.json`.
+- Master owns tooling, workflows, applications, packages, deployment contracts, `config/reference-retirements.json`, and the preserved landing pages declared in `masterAuthoritativePaths` (which live under the otherwise dev-owned `content/` root and override it).
 - Candidate-derived paths are deterministic outputs of the exact merge candidate. The only current candidate-derived path is `deploy/contracts/localization-inputs.inventory.json`.
-- A master history that changes a dev-owned path is not synchronizable automatically.
+- A master history that changes a dev-owned path is not synchronizable automatically, except for declared master-authoritative paths.
 - A merge candidate must preserve every dev-owned path from the exact dev baseline and match the exact master SHA everywhere except explicitly declared candidate-derived paths.
 - Candidate-derived paths must be regenerated and checked on the exact merge candidate; declaring one does not bypass its freshness validation.
 
@@ -21,7 +21,7 @@ The automated workflow remains inert until `deploy/contracts/master-tooling-sync
 
 1. Acquire the shared `docs-production-dev` single-writer concurrency group.
 2. Resolve exact master and dev SHAs and verify master ancestry.
-3. Reject master changes to dev-owned paths.
+3. Reject master changes to dev-owned paths except declared master-authoritative paths.
 4. Create a normal merge commit from the exact dev baseline and exact master SHA.
 5. Install dependencies, regenerate and check declared candidate-derived files on the exact merge candidate, then amend the original merge commit while preserving both parents.
 6. Recompute the final candidate SHA and verify path ownership in both directions against that final commit.

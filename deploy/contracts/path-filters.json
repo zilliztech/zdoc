@@ -17,28 +17,40 @@
         ".translation-cache/ja-JP.json",
         "i18n/ja-JP/**"
       ],
-      "checks": ["build:en"]
+      "checks": [
+        "build:en"
+      ]
     },
     "canonicalEnglishTools": {
       "include": [
         "content/en/guides/tutorials/tools/**",
         "generated/en/sidebars/guides.sidebar.js"
       ],
-      "checks": ["build:en", "build:zh-CN"]
+      "checks": [
+        "build:en",
+        "build:zh-CN"
+      ]
     },
     "zhGuides": {
       "include": [
         "content/zh-CN/guides/tutorials/tools/**",
         "generated/zh-CN/sidebars/tools.sidebar.js"
       ],
-      "checks": ["build:zh-CN"]
+      "checks": [
+        "build:zh-CN"
+      ]
     },
     "sharedAgentEngine": {
       "include": [
         "packages/docs-tooling/src/translation/**",
         "scripts/translation/**"
       ],
-      "checks": ["build:en", "build:zh-CN", "zh-reference-translation-coverage", "zh-tools-translation-coverage"]
+      "checks": [
+        "build:en",
+        "build:zh-CN",
+        "zh-reference-translation-coverage",
+        "zh-tools-translation-coverage"
+      ]
     },
     "canonicalEnglishReference": {
       "include": [
@@ -48,6 +60,7 @@
         "generated/en/sidebars/java.sidebar.js",
         "generated/en/sidebars/node.sidebar.js",
         "generated/en/sidebars/go.sidebar.js",
+        "generated/en/sidebars/cpp.sidebar.js",
         "generated/en/sidebars/restful.sidebar.js",
         "generated/en/sidebars/cli.sidebar.js",
         "config/reference-navigation.json",
@@ -55,7 +68,11 @@
         "packages/docs-tooling/src/validation/translation.ts",
         "scripts/reference/**"
       ],
-      "checks": ["build:en", "build:zh-CN", "zh-reference-translation-coverage"]
+      "checks": [
+        "build:en",
+        "build:zh-CN",
+        "zh-reference-translation-coverage"
+      ]
     },
     "zhReferenceTranslation": {
       "include": [
@@ -67,7 +84,10 @@
       "exclude": [
         "generated/zh-CN/sidebars/tools.sidebar.js"
       ],
-      "checks": ["build:zh-CN", "zh-reference-translation-coverage"]
+      "checks": [
+        "build:zh-CN",
+        "zh-reference-translation-coverage"
+      ]
     },
     "siteOwned.en": {
       "include": [
@@ -86,10 +106,13 @@
         "generated/en/sidebars/java.sidebar.js",
         "generated/en/sidebars/node.sidebar.js",
         "generated/en/sidebars/go.sidebar.js",
+        "generated/en/sidebars/cpp.sidebar.js",
         "generated/en/sidebars/restful.sidebar.js",
         "generated/en/sidebars/cli.sidebar.js"
       ],
-      "checks": ["build:en"]
+      "checks": [
+        "build:en"
+      ]
     },
     "siteOwned.zh-CN": {
       "include": [
@@ -105,7 +128,9 @@
         "generated/zh-CN/sidebars/**",
         "packages/site-config/src/sidebars/zh-CN/reference.ts"
       ],
-      "checks": ["build:zh-CN"]
+      "checks": [
+        "build:zh-CN"
+      ]
     },
     "shared": {
       "include": [
@@ -134,7 +159,10 @@
         "packages/docs-tooling/src/translation/**",
         "scripts/translation/**"
       ],
-      "checks": ["build:en", "build:zh-CN"]
+      "checks": [
+        "build:en",
+        "build:zh-CN"
+      ]
     }
   }
 }

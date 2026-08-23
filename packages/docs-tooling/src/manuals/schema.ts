@@ -72,9 +72,41 @@ export const ManualPublicationSchema = z.object({
   retiredPaths: z.array(RepositoryRelativePathSchema).optional(),
 }).strict();
 
+export const ReferencePresentationSchema = z.object({
+  // Public reference kind used in site navigation and URLs. Differs from the
+  // manual id for Node.js (nodejs) and REST (restful).
+  referenceKind: z.string().regex(/^[a-z][a-z0-9-]*$/u),
+  // Sidebar identity: the generated sidebar basename and the Docusaurus
+  // sidebar key exposed from site-config sidebars.
+  sidebar: z.string().min(1),
+  sidebarKey: z.string().min(1),
+  // Localized navigation labels.
+  label: z.object({en: z.string().min(1), 'zh-CN': z.string().min(1)}),
+  icon: z.string().min(1),
+  // Root href (and prefix) for the Reference landing area.
+  href: z.string().min(1),
+  prefix: z.string().min(1),
+  // Standalone navbar item href when it differs from href (CLI).
+  navHref: z.string().min(1).optional(),
+  // Fetch/publish group order within the English source pipeline.
+  groupOrder: z.number().int().positive(),
+  // Presentation order within each site's Reference navigation surface.
+  navOrder: z.object({en: z.number().int().positive(), 'zh-CN': z.number().int().positive()}),
+  // Whether this manual renders as a standalone navbar item rather than an
+  // entry inside the grouped "API & SDK" dropdown (CLI).
+  standalone: z.boolean(),
+  // Landing contract mirrored by config/reference-navigation.json.
+  documentIdPrefix: z.string().min(1),
+  landingPage: z.string().min(1).refine(value => /\.mdx?$/u.test(value), 'Landing page must be a .md or .mdx file'),
+  minimumProseCharacters: z.number().int().positive(),
+  minimumHeadingCount: z.number().int().positive(),
+  requireSourceDifference: z.boolean(),
+}).strict();
+
 export const ManualDefinitionSchema = z.object({
   id: z.string().regex(/^[a-z][a-z0-9-]*$/u),
   kind: z.enum(['guides', 'reference', 'onpremise', 'agents']),
+  presentation: ReferencePresentationSchema.optional(),
   sources: z.record(z.string().min(1), ManualSourceSchema),
   sourceOrder: z.array(z.string().min(1)).optional(),
   publications: z.object({
@@ -86,4 +118,5 @@ export const ManualDefinitionSchema = z.object({
 export type SiteId = z.infer<typeof SiteIdSchema>;
 export type ManualSource = z.infer<typeof ManualSourceSchema>;
 export type ManualPublication = z.infer<typeof ManualPublicationSchema>;
+export type ReferencePresentation = z.infer<typeof ReferencePresentationSchema>;
 export type ManualDefinition = z.infer<typeof ManualDefinitionSchema>;
