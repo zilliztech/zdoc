@@ -159,6 +159,12 @@ export function generateEnReferenceSidebarModule(): string {
     'function tryRequire(path: string): any[] {',
     '  try { return require(path) } catch { return [] }',
     '}',
+    "// sidebar-overrides/en is a dev-owned path, so a newly registered manual has no",
+    '// override placeholder on master. Resolve tolerantly: a missing override falls',
+    '// through to applyOverrides, which returns the sidebar unchanged.',
+    'function tryResolve(path: string): string {',
+    '  try { return require.resolve(path) } catch { return path }',
+    '}',
     '// eslint-disable-next-line @typescript-eslint/no-var-requires',
     "const applyOverrides = require('../../../../../config/applyOverrides')",
     '',
@@ -172,7 +178,7 @@ export function generateEnReferenceSidebarModule(): string {
       lines.push('  // SDK reference sidebars — generated from Feishu drive/wiki sources');
       sdkHeaderEmitted = true;
     }
-    lines.push(`  ${presentation.sidebarKey}: applyOverrides(tryRequire('../../../../../generated/en/sidebars/${presentation.sidebar}.sidebar'), require.resolve('../../../../../sidebar-overrides/en/${presentation.sidebar}.json')),`);
+    lines.push(`  ${presentation.sidebarKey}: applyOverrides(tryRequire('../../../../../generated/en/sidebars/${presentation.sidebar}.sidebar'), tryResolve('../../../../../sidebar-overrides/en/${presentation.sidebar}.json')),`);
   }
   lines.push('};', '', 'export default sidebars;', '');
   return lines.join('\n');
