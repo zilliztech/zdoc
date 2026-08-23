@@ -1,4 +1,5 @@
 import {deepFreeze} from '../immutable.ts';
+import {referenceKinds, referenceNavigation} from '../generated/referencePresentation.ts';
 import {SiteProfileSchema} from '../schema.ts';
 
 export const enProfile = deepFreeze(SiteProfileSchema.parse({
@@ -46,7 +47,7 @@ export const enProfile = deepFreeze(SiteProfileSchema.parse({
     byoc: true,
     onpremise: false,
     agents: false,
-    referenceKinds: ['python', 'java', 'nodejs', 'go', 'restful', 'cli'],
+    referenceKinds: [...referenceKinds],
   },
   navigation: {
     items: [],
@@ -57,15 +58,9 @@ export const enProfile = deepFreeze(SiteProfileSchema.parse({
         label: 'API & SDK',
         prefix: '/reference',
         icon: 'code',
-        items: [
-          {label: 'Python SDK', href: '/reference/python', prefix: '/reference/python', icon: 'python'},
-          {label: 'Java SDK', href: '/reference/java', prefix: '/reference/java', icon: 'java'},
-          {label: 'Node.js SDK', href: '/reference/nodejs', prefix: '/reference/nodejs', icon: 'nodejs'},
-          {label: 'Go SDK', href: '/reference/go', prefix: '/reference/go', icon: 'go'},
-          {label: 'REST API', href: '/reference/restful', prefix: '/reference/restful', icon: 'rest'},
-        ],
+        items: referenceNavigation.en.dropdown,
       },
-      {label: 'CLI', href: '/reference/cli/cli/overview', prefix: '/reference/cli', icon: 'terminal'},
+      referenceNavigation.en.standalone,
       {label: 'Releases', href: '/docs/changelogs', prefix: '/docs/changelogs', icon: 'tag'},
     ],
   },

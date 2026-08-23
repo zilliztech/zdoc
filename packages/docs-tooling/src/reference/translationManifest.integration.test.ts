@@ -6,7 +6,7 @@ import path from 'node:path';
 import {describe, expect, it} from 'vitest';
 
 const cliMain = path.resolve(import.meta.dirname, '../cli-main.ts');
-const referenceSidebarNames = ['python', 'java', 'node', 'go', 'restful', 'cli'] as const;
+const referenceSidebarNames = ['python', 'java', 'node', 'go', 'cpp', 'restful', 'cli'] as const;
 
 function navigationConfig(landingPage = 'api/python/landing.md') {
   return {
@@ -16,6 +16,7 @@ function navigationConfig(landingPage = 'api/python/landing.md') {
       {manual: 'java', sidebarKey: 'javaSidebar', sidebar: 'java'},
       {manual: 'node', sidebarKey: 'nodeSidebar', sidebar: 'node'},
       {manual: 'go', sidebarKey: 'goSidebar', sidebar: 'go'},
+      {manual: 'cpp', sidebarKey: 'cppSidebar', sidebar: 'cpp'},
       {manual: 'rest', sidebarKey: 'restfulSidebar', sidebar: 'restful'},
       {manual: 'cli', sidebarKey: 'cliSidebar', sidebar: 'cli'},
     ].map(target => ({

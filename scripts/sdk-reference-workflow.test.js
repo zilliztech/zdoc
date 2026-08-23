@@ -42,7 +42,7 @@ function assertGuidesAssemblySnapshotLifecycle(source) {
 
 test('SDK reference compatibility wrapper invokes content groups in order', () => {
   const fetchScript = fs.readFileSync('scripts/fetch-sdk-reference-docs.sh', 'utf8')
-  assert.match(fetchScript, /for group in python java node go cli rest/)
+  assert.match(fetchScript, /for group in \$\(node scripts\/docs-workflow\/print-workflow-groups\.js --sdk-groups\)/)
   assert.match(fetchScript, /docs-tooling publish-group --site en --group "\$group" --stage fetch/)
   assert.match(fetchScript, /docs-tooling publish-group --site en --group "\$group" --stage validate/)
   assert.match(fetchScript, /docs-tooling publish-group --site en --group "\$group" --stage publish/)
@@ -69,7 +69,6 @@ test('every workflow that invokes docs-tooling uses its supported Node runtime',
     'site-validation.yml',
     'sync-master-tooling-to-dev.yml',
     'translate-codex.yml',
-    'translate-content.yml',
   ])
   for (const file of invoking) {
     const source = fs.readFileSync(path.join(workflowDirectory, file), 'utf8')
@@ -84,7 +83,7 @@ test('root docs-tooling command uses the shared TypeScript launcher', () => {
 
 test('SDK reference snapshots are updated after successful build', () => {
   const snapshotScript = fs.readFileSync('scripts/update-sdk-reference-snapshots.sh', 'utf8')
-  assert.match(snapshotScript, /groups=\(python java node go cli\)/)
+  assert.match(snapshotScript, /groups=\(\$\(node scripts\/docs-workflow\/print-workflow-groups\.js --sdk-snapshot-groups\)\)/)
   assert.match(snapshotScript, /content-groups\.js/)
   assert.match(snapshotScript, /--manual "\$manual"/)
   assert.match(snapshotScript, /--targets-built zilliz/)
@@ -132,7 +131,7 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.match(source, /^  schedule:$/m)
   assert.match(source, /cron: "0 2,10,18 \* \* \*"/)
   assert.deepEqual(workflow.permissions, {contents: 'read', actions: 'read'})
-  assert.match(source, /group: docs-production-dev\n  cancel-in-progress: false/)
+  assert.match(source, /group: docs-production-dev\n  queue: max/)
   assert.match(source, /if \[\[ "\$PUBLISH" == true && "\$TARGET_BRANCH" == dev && ! "\$tooling_ref" =~ \^\[0-9a-f\]\{40\}\$ \]\]; then\n\s+tooling_ref=master/)
   assert.match(source, /\^\[0-9a-f\]\{40\}\$/)
   assert.match(source, /git fetch --no-tags origin "\$tooling_ref"[\s\S]*git rev-parse FETCH_HEAD/)
@@ -141,18 +140,18 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.doesNotMatch(resolver, /\$\{\{[^\n]*tooling_ref/)
   assert.doesNotMatch(source, /git-auto-commit|git push|--force|fetch-sdk-reference-docs|update-sdk-reference-snapshots/)
 
-  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']
-  for (const group of groups) {
-    if (group !== 'guides') assert.match(source, new RegExp(`produce_${group}:\\n    needs: prepare\\n[\\s\\S]*?uses: \\.\\/.github/workflows/_fetch-content-group\\.yml`))
-    if (group !== 'guides') assert.equal(workflow.jobs[`translate_${group}`], undefined)
+  const sdkMatrix = workflow.jobs.produce_sdk_reference
+  assert.equal(sdkMatrix.name, 'produce_${{ matrix.group }}')
+  assert.equal(sdkMatrix.strategy.matrix.group, '${{ fromJSON(needs.prepare.outputs.selected_sdk_groups) }}')
+  assert.equal(sdkMatrix.with.group, '${{ matrix.group }}')
+  assert.equal(sdkMatrix.with.publication_unit_key, 'source/${{ matrix.group }}')
+  assert.equal(sdkMatrix.with.site, 'en')
+  assert.equal(workflow.jobs.produce_guides.with.publication_unit_key, 'source/guides-en')
+  assert.equal(workflow.jobs.produce_zh_guides.with.publication_unit_key, 'source/guides-zh-CN')
+  for (const legacy of ['produce_python', 'produce_java', 'produce_node', 'produce_go', 'produce_cli', 'produce_rest', 'translate_python', 'translate_java', 'translate_node', 'translate_go', 'translate_cli', 'translate_rest']) {
+    assert.equal(workflow.jobs[legacy], undefined)
   }
-  const unitKeys = {
-    java: 'source/java', node: 'source/node', go: 'source/go', cli: 'source/cli', rest: 'source/rest',
-    python: 'source/python', guides: 'source/guides-en', zh_guides: 'source/guides-zh-CN',
-  }
-  for (const [group, unitKey] of Object.entries(unitKeys)) {
-    assert.equal(workflow.jobs[`produce_${group}`].with.publication_unit_key, unitKey)
-  }
+
   for (const legacy of ['publish_java', 'publish_node', 'publish_go', 'publish_cli', 'publish_rest', 'publish_python', 'publish_guides', 'publish_zh_guides', 'resolve_final']) {
     assert.equal(workflow.jobs[legacy], undefined)
   }
@@ -170,7 +169,7 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.deepEqual(workflow.jobs.monitor_docs_progress.needs, ['prepare'])
   assert.equal(workflow.jobs.monitor_docs_progress.uses, './.github/workflows/_monitor-docs-progress.yml')
   assert.match(source, /target_branch: \$\{\{ needs\.prepare\.outputs\.target_branch \}\}/)
-  assert.deepEqual(workflow.jobs.publish_ready.needs, ['prepare'])
+  assert.deepEqual(workflow.jobs.publish_ready.needs, ['prepare', 'reconciliation_preflight'])
   assert.deepEqual(workflow.jobs.publish_ready.permissions, {actions: 'read', contents: 'write'})
   assert.match(source, /publication-coordinator\.js[\s\S]*'--mode', mode/)
   assert.deepEqual(workflow.jobs.dispatch_translations.needs, ['prepare', 'prepare_translation_handoff'])
@@ -183,14 +182,14 @@ test('docs workflow orchestrates independent checkpointed publication lanes', ()
   assert.match(source, /reports_file="\$\{\{ steps\.reports\.outputs\.card_notes_file \}\}"/)
   assert.match(source, /name: Download current English Guides reports[\s\S]*name: docs-checkpoint-guides-en-\$\{\{ github\.run_id \}\}-reports[\s\S]*name: Download current Chinese Guides reports[\s\S]*name: docs-checkpoint-guides-zh-CN-\$\{\{ github\.run_id \}\}-reports/)
   assert.match(source, /\[\[ "\$RUN_TRANSLATIONS" == true \]\] && card_parts\+=\("Handoff"\)/)
-  for (const workflow of ['_fetch-content-group.yml', '_publish-content-group.yml', '_translate-content-group.yml', '_verify-docs.yml']) {
+  for (const workflow of ['_fetch-content-group.yml', '_translate-content-group.yml', '_verify-docs.yml']) {
     const reusable = fs.readFileSync(path.join(process.cwd(), '.github/workflows', workflow), 'utf8')
     assert.doesNotMatch(reusable, /card_started_at:|card_stages:|report-live-card\.sh/, `${workflow} must leave card ownership to the monitor`)
   }
   assert.doesNotMatch(source, /report-to-lark --card-note-file/)
   assert.doesNotMatch(source, /report-live-card\.sh|name: Finish progress card|phase_card_id|CARD_MODE:/)
   assert.deepEqual(workflow.jobs.finalize_card_fallback.needs, ['prepare', 'aggregate', 'monitor_docs_progress'])
-  assert.match(workflow.jobs.finalize_card_fallback.if, /monitor_docs_progress\.result != 'success'/)
+  assert.match(workflow.jobs.finalize_card_fallback.if, /needs\.prepare\.outputs\.card_id != ''/)
   assert.match(source, /monitor-docs-progress\.js --finalize-only --report-file/)
   assert.doesNotMatch(source, /secrets: inherit/)
 })

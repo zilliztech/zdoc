@@ -11,6 +11,8 @@ const { validateBatchInput } = require('./translation-batch-input');
 const { validateReconciliationPlan, validateReconciliationResult } = require('../translation/reconciliation-plan');
 const { validateApprovalReceipt } = require('../translation/reconciliation-policy');
 const { resolveTranslationTarget } = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts');
+const { referenceLandingSidebars, referenceSidebars } = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts');
+const referenceSidebarSet = new Set(referenceSidebars());
 
 const COMMON_KEYS = ['schemaVersion', 'stage', 'group', 'masterSha', 'devBaselineSha', 'createdAt', 'ownershipVersion', 'files', 'deletions', 'snapshotManual'];
 const TRANSLATION_IDENTITY_KEYS = ['translationTarget', 'sourceSite', 'targetSite', 'sourceCheckpointSha', 'toolingSha'];
@@ -58,10 +60,10 @@ function translationOwnedPaths(targetId, group) {
     });
     if (roots.length === 0) throw new Error(`Translation target ${target.id} is not compatible with group ${group.snapshotManual}`);
     const sidebarNames = group.snapshotManual === 'reference-landings'
-      ? ['python', 'java', 'node', 'go', 'cli']
+      ? referenceLandingSidebars()
       : group.ownedPaths.flatMap((owned) => {
-          const match = /^generated\/en\/sidebars\/(python|java|node|go|cli|restful)\.sidebar\.js$/u.exec(owned);
-          return match ? [match[1]] : [];
+          const match = /^generated\/en\/sidebars\/([a-z0-9-]+)\.sidebar\.js$/u.exec(owned);
+          return match && referenceSidebarSet.has(match[1]) ? [match[1]] : [];
         });
     const sidebars = sidebarNames.map(name => `generated/zh-CN/sidebars/${name}.sidebar.js`);
     return [...new Set([...roots, target.state.path, ...sidebars])];

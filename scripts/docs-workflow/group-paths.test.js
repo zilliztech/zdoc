@@ -64,6 +64,7 @@ test('reference landing paths remain a bounded translation-only group', () => {
     'content/en/reference/api/nodejs/nodejs/nodejs.md',
     'content/en/reference/api/go/go/go.md',
     'content/en/reference/cli/cli/Overview.md',
+    'content/en/reference/api/cpp/cpp/cpp.md',
   ]);
   assert.deepEqual(paths.translationOutputs, [
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/python/python/python.md',
@@ -71,6 +72,7 @@ test('reference landing paths remain a bounded translation-only group', () => {
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/nodejs/nodejs/nodejs.md',
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/go/go/go.md',
     'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/cli/cli/Overview.md',
+    'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/cpp.md',
   ]);
   assert.deepEqual(paths.sidebars, []);
 });

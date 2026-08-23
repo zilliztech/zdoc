@@ -2,23 +2,11 @@
 'use strict';
 
 const {spawnSync} = require('node:child_process');
+const {loadTypeScript} = require('../lib/load-typescript');
 
-const REFERENCE_ROOTS = Object.freeze({
-  python: 'content/zh-CN/reference/api/python',
-  java: 'content/zh-CN/reference/api/java',
-  node: 'content/zh-CN/reference/api/nodejs',
-  go: 'content/zh-CN/reference/api/go',
-  cli: 'content/zh-CN/reference/cli',
-  rest: 'content/zh-CN/reference/api/restful',
-});
-
-const REFERENCE_LANDINGS = Object.freeze([
-  'content/zh-CN/reference/api/python/python/python.md',
-  'content/zh-CN/reference/api/java/java/java.md',
-  'content/zh-CN/reference/api/nodejs/nodejs/nodejs.md',
-  'content/zh-CN/reference/api/go/go/go.md',
-  'content/zh-CN/reference/cli/cli/Overview.md',
-]);
+const {referenceLandingsZhCn, referenceRootsZhCn} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts');
+const REFERENCE_ROOTS = referenceRootsZhCn();
+const REFERENCE_LANDINGS = referenceLandingsZhCn();
 
 function commandsForTranslationGroup({target, group, allowPending = false}) {
   if (typeof allowPending !== 'boolean') throw new Error('allow-pending must be a boolean');

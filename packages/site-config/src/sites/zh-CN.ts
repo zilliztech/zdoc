@@ -1,4 +1,5 @@
 import {deepFreeze} from '../immutable.ts';
+import {referenceKinds, referenceNavigation} from '../generated/referencePresentation.ts';
 import {SiteProfileSchema} from '../schema.ts';
 
 export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
@@ -29,7 +30,7 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
     byoc: true,
     onpremise: true,
     agents: false,
-    referenceKinds: ['python', 'java', 'nodejs', 'go', 'restful', 'cli'],
+    referenceKinds: [...referenceKinds],
   },
   navigation: {
     items: [],
@@ -40,15 +41,9 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
         label: 'API 与 SDK',
         prefix: '/reference',
         icon: 'code',
-        items: [
-          {label: 'RESTful API', href: '/reference/restful', prefix: '/reference/restful', icon: 'rest'},
-          {label: 'Python SDK', href: '/reference/python', prefix: '/reference/python', icon: 'python'},
-          {label: 'Java SDK', href: '/reference/java', prefix: '/reference/java', icon: 'java'},
-          {label: 'Go SDK', href: '/reference/go', prefix: '/reference/go', icon: 'go'},
-          {label: 'Node.js SDK', href: '/reference/nodejs', prefix: '/reference/nodejs', icon: 'nodejs'},
-        ],
+        items: referenceNavigation['zh-CN'].dropdown,
       },
-      {label: 'Zilliz CLI', href: '/reference/cli/cli/overview', prefix: '/reference/cli', icon: 'terminal'},
+      referenceNavigation['zh-CN'].standalone,
       {
         label: '版本文档',
         prefix: '/docs/changelogs',

@@ -23,7 +23,7 @@ const selectedUnits = [
   {target: 'zh-CN-reference', group: 'python'},
 ]
 
-const sdkGroups = ['python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings']
+const sdkGroups = ['python', 'java', 'node', 'go', 'cli', 'cpp', 'rest', 'reference-landings']
 
 test('parses bounded job names observed in child workflow runs', () => {
   assert.deepEqual(parseSdkTranslationJob({name: 'translate_sdk (ja-JP, python, python, e1d9a70506356cd8d985d557734ee0ae4bd1c269, 1) / translate'}), {target: 'ja-JP', group: 'python'})
@@ -61,11 +61,13 @@ test('parses live truncated SDK matrix names and counts completed SDK translatio
     ...sdkGroups.filter(group => group !== 'rest').map(group => ({target: 'zh-CN-reference', group})),
   ]
   const state = deriveTranslationProgressState({selectedUnits: units, publishEnabled: false, jobs: [{name: 'prepare', status: 'completed', conclusion: 'success'}, ...jobs]})
+  // The fixture is a real historical run that predates the cpp manual: cpp is selected
+  // (it is in the SDK group list) but has no completed job, so each target stays running.
   assert.deepEqual(state.targets.map(target => target.translate), [
-    {done: 6, total: 6, status: 'completed', detail: null},
-    {done: 6, total: 6, status: 'completed', detail: null},
+    {done: 6, total: 7, status: 'running', detail: null},
+    {done: 6, total: 7, status: 'running', detail: null},
   ])
-  assert.deepEqual(state.phases.find(phase => phase.key === 'translate'), {key: 'translate', label: 'Translate', done: 12, total: 12, status: 'completed', detail: null})
+  assert.deepEqual(state.phases.find(phase => phase.key === 'translate'), {key: 'translate', label: 'Translate', done: 12, total: 14, status: 'running', detail: null})
 })
 
 test('derives the approved Translation card categories from selected handoff units', () => {

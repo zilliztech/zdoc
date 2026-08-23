@@ -11,6 +11,7 @@ const targets = [
   {manual: 'java', sidebarKey: 'javaSidebar', sidebar: 'java', documentIdPrefix: 'api/java/java', landingPage: 'api/java/java/java.md', minimumProseCharacters: 300, minimumHeadingCount: 2, requireSourceDifference: true},
   {manual: 'node', sidebarKey: 'nodeSidebar', sidebar: 'node', documentIdPrefix: 'api/nodejs/nodejs', landingPage: 'api/nodejs/nodejs/nodejs.md', minimumProseCharacters: 300, minimumHeadingCount: 2, requireSourceDifference: true},
   {manual: 'go', sidebarKey: 'goSidebar', sidebar: 'go', documentIdPrefix: 'api/go/go', landingPage: 'api/go/go/go.md', minimumProseCharacters: 250, minimumHeadingCount: 2, requireSourceDifference: true},
+  {manual: 'cpp', sidebarKey: 'cppSidebar', sidebar: 'cpp', documentIdPrefix: 'api/cpp/cpp', landingPage: 'api/cpp/cpp/cpp.md', minimumProseCharacters: 300, minimumHeadingCount: 2, requireSourceDifference: true},
   {manual: 'rest', sidebarKey: 'restfulSidebar', sidebar: 'restful', documentIdPrefix: 'api/restful/restful', landingPage: 'api/restful/restful/restful.md', minimumProseCharacters: 500, minimumHeadingCount: 3, requireSourceDifference: true},
   {manual: 'cli', sidebarKey: 'cliSidebar', sidebar: 'cli', documentIdPrefix: 'cli/cli', landingPage: 'cli/cli/Overview.md', minimumProseCharacters: 400, minimumHeadingCount: 3, requireSourceDifference: true},
 ] as const;
@@ -100,7 +101,7 @@ function targetError(target: Target, invariant: RegExp, document = /documentId=/
 }
 
 describe('validateReferenceNavigation', () => {
-  it('accepts all six isolated sidebars and translated landing pages with meaningful prose and headings', () => {
+  it('accepts all seven isolated sidebars and translated landing pages with meaningful prose and headings', () => {
     const root = fixture();
     expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'zh-CN'})).not.toThrow();
   });
@@ -138,6 +139,51 @@ describe('validateReferenceNavigation', () => {
     writeSidebar(root, 'zh-CN', target, []);
     expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'zh-CN'}))
       .toThrow(targetError(target, /non-empty-sidebar/, /documentId=\(none\)/));
+  });
+
+  it('tolerates an empty zh-CN sidebar when every English document is unavailable', () => {
+    const root = fixture();
+    const target = targets.find(candidate => candidate.manual === 'rest')!;
+    const unavailableIds = new Set([
+      documentId(target.landingPage),
+      `${target.documentIdPrefix}/operation`,
+    ]);
+    writeSidebar(root, 'zh-CN', target, []);
+    expect(() => validateReferenceNavigation({
+      repositoryRoot: root,
+      site: 'zh-CN',
+      excludedDocumentIds: unavailableIds,
+    })).not.toThrow();
+  });
+
+  it('still rejects an empty zh-CN sidebar when some English documents await translation', () => {
+    const root = fixture();
+    const target = targets.find(candidate => candidate.manual === 'rest')!;
+    // Only the landing page is marked unavailable; the operation doc is still
+    // expected to be translated, so an empty sidebar is a real wipe.
+    const unavailableIds = new Set([documentId(target.landingPage)]);
+    writeSidebar(root, 'zh-CN', target, []);
+    expect(() => validateReferenceNavigation({
+      repositoryRoot: root,
+      site: 'zh-CN',
+      excludedDocumentIds: unavailableIds,
+    }))
+      .toThrow(targetError(target, /non-empty-sidebar/, /documentId=\(none\)/));
+  });
+
+  it('skips a manual whose canonical English sidebar has not been seeded', () => {
+    const root = fixture();
+    const target = targets.find(candidate => candidate.manual === 'cpp')!;
+    unlinkSync(path.join(root, `generated/en/sidebars/${target.sidebar}.sidebar.js`));
+    unlinkSync(path.join(root, `generated/zh-CN/sidebars/${target.sidebar}.sidebar.js`));
+    expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'zh-CN'})).not.toThrow();
+  });
+
+  it('skips an unseeded manual during English validation', () => {
+    const root = fixture();
+    const target = targets.find(candidate => candidate.manual === 'cpp')!;
+    unlinkSync(path.join(root, `generated/en/sidebars/${target.sidebar}.sidebar.js`));
+    expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'en'})).not.toThrow();
   });
 
   it('rejects a Python sidebar containing a Java document ID', () => {

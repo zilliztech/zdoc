@@ -1,5 +1,5 @@
 export type ReconciliationTarget = 'ja-JP' | 'zh-CN-reference';
-export type ReconciliationGroup = 'guides' | 'python' | 'java' | 'node' | 'go' | 'cli' | 'rest' | 'reference-landings';
+export type ReconciliationGroup = 'guides' | 'python' | 'java' | 'node' | 'go' | 'cli' | 'cpp' | 'rest' | 'reference-landings';
 export type ReconciliationOperationKind = 'delete_target' | 'replace_path' | 'remove_navigation_only' | 'preserve_target';
 export type ReconciliationOperationReason = 'source_deleted' | 'source_replaced' | 'navigation_removed' | 'reviewed_exception';
 export type ReconciliationAuthorizationStatus = 'approved' | 'review_required' | 'rejected';

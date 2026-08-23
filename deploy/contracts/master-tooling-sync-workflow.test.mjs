@@ -79,7 +79,7 @@ test('master tooling sync validates exact ownership, both sites, and dev identit
   assert.doesNotMatch(source, /git push origin [^\n]*refs\/heads\/dev/);
 });
 
-test('the ownership contract covers every generated publication root and keeps retirements master-authoritative', async () => {
+test('the ownership contract covers every generated publication root and keeps retirements and preserved landing pages master-authoritative', async () => {
   const contract = JSON.parse(await readFile(path.join(repositoryRoot, 'deploy/contracts/master-tooling-sync.json'), 'utf8'));
   for (const root of [
     '.translation-cache',
@@ -95,6 +95,15 @@ test('the ownership contract covers every generated publication root and keeps r
     'config/reference-retirements.json',
     'config/translation/reconciliation-policy.json',
     'config/translation/reconciliation-policy-exceptions.json',
+    'content/en/guides/tutorials/home.md',
+    'content/en/reference/api/cpp/cpp/cpp.md',
+    'content/en/reference/api/nodejs/nodejs/nodejs.md',
+    'content/en/reference/api/python/python/python.md',
+    'content/en/reference/api/restful/restful/restful.md',
+    'content/en/reference/api/restful/restful/v1/error-codes.md',
+    'content/en/reference/api/restful/restful/v2/error-codes-v2.md',
+    'content/en/reference/api/restful/restful/versioning.md',
+    'content/en/reference/cli/cli/Overview.md',
   ]);
   assert.deepEqual(contract.candidateDerivedPaths, ['deploy/contracts/localization-inputs.inventory.json']);
 });
