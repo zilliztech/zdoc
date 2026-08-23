@@ -193,6 +193,16 @@ function loadSidebar(repositoryRoot: string, site: Site, target: Target, reporte
   }
 }
 
+function englishSidebarPresent(repositoryRoot: string, target: Target): boolean {
+  try {
+    const absolutePath = assertSafeRepositoryPathChain(repositoryRoot, sidebarRelativePath('en', target), 'Reference sidebar');
+    const stats = lstatSync(absolutePath);
+    return stats.isFile() && !stats.isSymbolicLink();
+  } catch {
+    return false;
+  }
+}
+
 function retirementDocumentIds(registry: ReferenceRetirementRegistry, manual: string): ReadonlySet<string> {
   const ids = new Set<string>();
   for (const retirement of registry.retirements) {
@@ -339,6 +349,12 @@ function validateTarget(
   retirements: ReferenceRetirementRegistry,
   excludedDocumentIds: ReadonlySet<string>,
 ): void {
+  // A reference manual whose canonical English sidebar has not been seeded on this
+  // branch (its content and generated sidebars are dev-owned, produced by the fetch
+  // pipeline, and absent until that manual is first fetched) has no structure to
+  // validate. Skip it rather than failing on a missing sidebar file — the mirror of
+  // the build-time tolerance for an empty generated sidebar.
+  if (!englishSidebarPresent(repositoryRoot, target)) return;
   const selectedSidebarPath = sidebarRelativePath(site, target);
   const retiredIds = new Set([...retirementDocumentIds(retirements, target.manual), ...excludedDocumentIds]);
   const selectedSidebar = loadSidebar(repositoryRoot, site, target, site);

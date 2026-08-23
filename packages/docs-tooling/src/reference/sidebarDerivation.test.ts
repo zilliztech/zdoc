@@ -1,4 +1,4 @@
-import {mkdirSync, mkdtempSync, rmSync, writeFileSync} from 'node:fs';
+import {existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
@@ -86,6 +86,10 @@ describe('Chinese Reference sidebar derivation', () => {
 
     for (const target of config.targets) {
       const landingId = target.landingPage.replace(/\.mdx?$/u, '');
+      // A manual whose canonical English sidebar has not been seeded on this branch
+      // (dev-owned, produced by the fetch pipeline) has no checked-in sidebars to
+      // verify — skip it, mirroring validate-reference's tolerance.
+      if (!existsSync(path.join(repositoryRoot, `generated/en/sidebars/${target.sidebar}.sidebar.js`))) continue;
       for (const locale of ['en', 'zh-CN']) {
         const sidebarPath = path.join(repositoryRoot, `generated/${locale}/sidebars/${target.sidebar}.sidebar.js`);
         delete require.cache[require.resolve(sidebarPath)];

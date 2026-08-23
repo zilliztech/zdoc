@@ -183,10 +183,18 @@ export function generateZhCnReferenceSidebarModule(): string {
     "import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';",
     "import {loadPublishedSidebar} from './referenceLoader';",
     '',
+    '// A generated sidebar that has not been seeded on this branch (e.g. a newly',
+    '// registered manual before its first zh-CN publish) resolves to an empty sidebar',
+    '// instead of failing the build — the mirror of the English loader.',
+    '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
+    'function tryRequire(path: string): any[] {',
+    '  try { return require(path) } catch { return [] }',
+    '}',
+    '',
     'const sidebars = {',
   ];
   for (const {presentation} of orderedBy('en')) {
-    lines.push(`  ${presentation.sidebarKey}: loadPublishedSidebar(${quote(presentation.sidebar)}, () => require('../../../../../generated/zh-CN/sidebars/${presentation.sidebar}.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/${presentation.sidebar}.json')),`);
+    lines.push(`  ${presentation.sidebarKey}: loadPublishedSidebar(${quote(presentation.sidebar)}, () => tryRequire('../../../../../generated/zh-CN/sidebars/${presentation.sidebar}.sidebar'), require.resolve('../../../../../sidebar-overrides/zh-CN/${presentation.sidebar}.json')),`);
   }
   lines.push("} satisfies SidebarsConfig;", '', 'export default sidebars;', '');
   return lines.join('\n');

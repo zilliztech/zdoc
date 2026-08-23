@@ -171,6 +171,21 @@ describe('validateReferenceNavigation', () => {
       .toThrow(targetError(target, /non-empty-sidebar/, /documentId=\(none\)/));
   });
 
+  it('skips a manual whose canonical English sidebar has not been seeded', () => {
+    const root = fixture();
+    const target = targets.find(candidate => candidate.manual === 'cpp')!;
+    unlinkSync(path.join(root, `generated/en/sidebars/${target.sidebar}.sidebar.js`));
+    unlinkSync(path.join(root, `generated/zh-CN/sidebars/${target.sidebar}.sidebar.js`));
+    expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'zh-CN'})).not.toThrow();
+  });
+
+  it('skips an unseeded manual during English validation', () => {
+    const root = fixture();
+    const target = targets.find(candidate => candidate.manual === 'cpp')!;
+    unlinkSync(path.join(root, `generated/en/sidebars/${target.sidebar}.sidebar.js`));
+    expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'en'})).not.toThrow();
+  });
+
   it('rejects a Python sidebar containing a Java document ID', () => {
     const root = fixture();
     const target = targets[0];
