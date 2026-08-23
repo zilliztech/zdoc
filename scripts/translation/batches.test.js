@@ -82,9 +82,10 @@ test('handles empty and exact batches and rejects invalid identity', () => {
 test('creates one reconciliation-only batch for a deletion-only source delta', () => {
   const source = {
     ...manifest(0),
-    source_delta: {
-      deleted_i18n: ['i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/old.md'],
-      renamed: [],
+    reconciliation: {
+      planArtifact: 'translation-reconciliation-plan-ja-JP-guides-123',
+      planSha256: `sha256:${'c'.repeat(64)}`,
+      operationCount: 1,
     },
   }
   const summary = createBatchSummary(source, 30)
@@ -124,15 +125,10 @@ test('creates one reconciliation-only batch for approved Chinese retirements', (
   const source = {
     ...manifest(0),
     locale: 'zh-CN',
-    source_delta: {
-      deleted_i18n: [],
-      renamed: [],
-      retirement_candidates: [{
-        manual: 'tools',
-        sourcePath: 'content/en/guides/tutorials/tools/old.md',
-        targetPath: 'content/zh-CN/guides/tutorials/tools/old.md',
-        changeKind: 'source_deleted',
-      }],
+    reconciliation: {
+      planArtifact: 'translation-reconciliation-plan-zh-CN-reference-reference-landings-123',
+      planSha256: `sha256:${'c'.repeat(64)}`,
+      operationCount: 1,
     },
   }
   const summary = createBatchSummary(source, 30)
@@ -142,8 +138,8 @@ test('creates one reconciliation-only batch for approved Chinese retirements', (
 })
 
 test('includes source reconciliation metadata in the pending set identity', () => {
-  const one = { ...manifest(0), source_delta: { deleted_i18n: ['i18n/ja-JP/one.md'], renamed: [] } }
-  const two = { ...manifest(0), source_delta: { deleted_i18n: ['i18n/ja-JP/two.md'], renamed: [] } }
+  const one = { ...manifest(0), reconciliation: { planArtifact: 'translation-reconciliation-plan-ja-JP-guides-1', planSha256: `sha256:${'a'.repeat(64)}`, operationCount: 1 } }
+  const two = { ...manifest(0), reconciliation: { planArtifact: 'translation-reconciliation-plan-ja-JP-guides-2', planSha256: `sha256:${'b'.repeat(64)}`, operationCount: 1 } }
   assert.notEqual(createBatchSummary(one, 30).pendingSetSha256, createBatchSummary(two, 30).pendingSetSha256)
 })
 

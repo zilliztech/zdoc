@@ -1,4 +1,6 @@
-export const REVISION_GROUPS = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'] as const
+import {listPublicationGroups} from '../workflows/groups.ts'
+
+export const REVISION_GROUPS = listPublicationGroups('en')
 
 export type RevisionGroup = typeof REVISION_GROUPS[number]
 

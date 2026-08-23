@@ -1,5 +1,5 @@
-import {resolveManualPublication} from '../manuals/registry.ts';
-import type {SiteId} from '../manuals/schema.ts';
+import {manualRegistry, resolveManualPublication} from '../manuals/registry.ts';
+import type {ManualDefinition, SiteId} from '../manuals/schema.ts';
 
 export type PublicationGroupStage = 'fetch' | 'validate' | 'publish';
 
@@ -23,25 +23,52 @@ export type PublicationGroupWorkflow = Readonly<{
   commitMessage: string;
 }>;
 
+type DeepReadonlyManual = Readonly<ManualDefinition>;
+
+function englishGroupOrder(): readonly string[] {
+  return Object.freeze([
+    'guides',
+    ...manualRegistry
+      .filter((manual): manual is DeepReadonlyManual => manual.kind === 'reference' && manual.publications.en !== undefined)
+      .sort((left, right) => (left.presentation?.groupOrder ?? Number.MAX_SAFE_INTEGER) - (right.presentation?.groupOrder ?? Number.MAX_SAFE_INTEGER))
+      .map(manual => manual.id),
+  ]);
+}
+
+function chineseGroupOrder(): readonly string[] {
+  return Object.freeze([
+    'guides',
+    ...manualRegistry
+      .filter(manual => manual.kind !== 'reference' && manual.id !== 'guides' && manual.id !== 'guides-byoc' && manual.publications['zh-CN'])
+      .map(manual => manual.id),
+  ]);
+}
+
 const GROUP_ORDER = Object.freeze({
-  en: Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']),
-  'zh-CN': Object.freeze(['guides', 'onpremise']),
+  en: englishGroupOrder(),
+  'zh-CN': chineseGroupOrder(),
 } as const);
 
+function guidesGroupManuals(site: SiteId): readonly string[] {
+  return Object.freeze(
+    manualRegistry
+      .filter(manual => manual.kind === 'guides' && manual.publications[site])
+      .map(manual => manual.id),
+  );
+}
+
+function groupManualsForGroup(site: SiteId, group: string): readonly string[] {
+  if (group === 'guides') return guidesGroupManuals(site);
+  return Object.freeze([group]);
+}
+
 const MANUALS = Object.freeze({
-  en: Object.freeze({
-    guides: Object.freeze(['guides', 'guides-byoc']),
-    python: Object.freeze(['python']),
-    java: Object.freeze(['java']),
-    node: Object.freeze(['node']),
-    go: Object.freeze(['go']),
-    cli: Object.freeze(['cli']),
-    rest: Object.freeze(['rest']),
-  }),
-  'zh-CN': Object.freeze({
-    guides: Object.freeze(['guides', 'guides-byoc']),
-    onpremise: Object.freeze(['onpremise']),
-  }),
+  en: Object.freeze(Object.fromEntries(
+    GROUP_ORDER.en.map(group => [group, groupManualsForGroup('en', group)]),
+  ) as Record<string, readonly string[]>),
+  'zh-CN': Object.freeze(Object.fromEntries(
+    GROUP_ORDER['zh-CN'].map(group => [group, groupManualsForGroup('zh-CN', group)]),
+  ) as Record<string, readonly string[]>),
 } as const);
 
 const ZH_CN_GUIDES_PUBLICATION_MANIFEST = 'generated/zh-CN/manifests/guides-source-publication.json';
@@ -56,16 +83,31 @@ const GUIDES_CHECKPOINT_PATHS = Object.freeze([
   'packages/docs-tooling/src/lark/meta/reports/guides-broken-content-links.json',
 ]);
 
-const COMMIT_MESSAGES = Object.freeze({
-  guides: 'docs(guides): publish fetched content',
-  python: 'docs(python): publish SDK reference',
-  java: 'docs(java): publish SDK reference',
-  node: 'docs(node): publish SDK reference',
-  go: 'docs(go): publish SDK reference',
-  cli: 'docs(cli): publish CLI reference',
-  rest: 'docs(rest): publish REST reference',
-  onpremise: 'docs(onpremise): publish fetched content',
-} as const);
+const REFERENCE_GROUP_IDS = Object.freeze([
+  ...manualRegistry.filter(manual => manual.kind === 'reference').map(manual => manual.id),
+  'reference',
+]);
+
+function deriveCommitMessages(): Readonly<Record<string, string>> {
+  const messages: Record<string, string> = {
+    guides: 'docs(guides): publish fetched content',
+  };
+  for (const manual of manualRegistry) {
+    if (manual.id === 'guides' || manual.id === 'guides-byoc') continue;
+    if (!manual.publications.en && !manual.publications['zh-CN']) continue;
+    if (manual.kind !== 'reference') {
+      messages[manual.id] = `docs(${manual.id}): publish fetched content`;
+      continue;
+    }
+    const referenceKind = manual.presentation?.referenceKind;
+    if (referenceKind === 'cli') messages[manual.id] = `docs(${manual.id}): publish CLI reference`;
+    else if (referenceKind === 'restful') messages[manual.id] = `docs(${manual.id}): publish REST reference`;
+    else messages[manual.id] = `docs(${manual.id}): publish SDK reference`;
+  }
+  return Object.freeze(messages);
+}
+
+const COMMIT_MESSAGES = deriveCommitMessages();
 
 function deepFreeze<T>(value: T): T {
   if (value && typeof value === 'object' && !Object.isFrozen(value)) {
@@ -82,7 +124,7 @@ function groupManuals(site: SiteId, group: string): readonly string[] {
   if (site === 'zh-CN' && group === 'tools') {
     throw new Error('Agent-produced Chinese Tools publication cannot be fetched as a source publication group');
   }
-  if (site === 'zh-CN' && ['python', 'java', 'node', 'go', 'cli', 'rest', 'reference'].includes(group)) {
+  if (site === 'zh-CN' && REFERENCE_GROUP_IDS.includes(group)) {
     throw new Error('Agent-produced Chinese Reference publication cannot be fetched as a source publication group');
   }
   throw new Error(`Unknown publication group for site ${site}: ${group}`);

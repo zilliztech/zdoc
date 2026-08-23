@@ -1,14 +1,15 @@
 const fs = require('node:fs')
 const path = require('node:path')
-const vm = require('node:vm')
 const larkDocScraper = require('../packages/docs-tooling/src/lark/larkDocScraper')
-const { resolveBootstrapSite } = require('../packages/site-config/src/resolve.ts')
 const {
   createSourceSnapshot,
   outputPathsByTokenFromDirs,
   writeSnapshot,
 } = require('../packages/docs-tooling/src/lark/sourceSnapshot')
 const { outputDirsForTargets } = require('./docs-workflow/lark-snapshot-output-paths')
+const { loadTypeScript } = require('./lib/load-typescript')
+const { resolveBootstrapSite } = loadTypeScript('../../packages/site-config/src/resolve.ts')
+const { larkDocsConfigForSite } = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/larkConfigView.ts')
 
 function parseArgs(argv) {
   const args = {}
@@ -22,16 +23,8 @@ function parseArgs(argv) {
   return args
 }
 
-function loadLarkDocsConfig(configPath) {
-  let source = fs.readFileSync(configPath, 'utf8')
-  source = source
-    .replace(/^[\s\S]*?\/\/ guides/m, '// guides')
-    .replace(/const\s+(\w+)\s*:\s*Manual\s*=/g, 'const $1 =')
-    .replace(/const\s+(\w+)\s*:\s*Targets\s*=/g, 'const $1 =')
-    .replace(/export\s+default\s+/, 'module.exports = ')
-  const sandbox = { module: { exports: {} }, exports: {}, site: resolveBootstrapSite(undefined) }
-  vm.runInNewContext(source, sandbox, { filename: configPath })
-  return sandbox.module.exports
+function loadLarkDocsConfig() {
+  return larkDocsConfigForSite(resolveBootstrapSite(undefined))
 }
 
 async function main() {
@@ -40,8 +33,7 @@ async function main() {
     throw new Error('--manual is required')
   }
 
-  const configPath = path.resolve(args.config || 'config/lark-docs.config.ts')
-  const manuals = loadLarkDocsConfig(configPath)
+  const manuals = loadLarkDocsConfig()
   const manual = manuals[args.manual]
   if (!manual) {
     throw new Error(`Unknown manual "${args.manual}". Available manuals: ${Object.keys(manuals).join(', ')}`)

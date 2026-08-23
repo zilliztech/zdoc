@@ -61,7 +61,7 @@ const snapshot = (...records: SourceSnapshotRecord[]): SourceSnapshot => ({recor
 
 describe('revision inventory projection', () => {
   it('supports every group and projects snapshots in stable token order', () => {
-    expect(REVISION_GROUPS).toEqual(['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'])
+    expect(REVISION_GROUPS).toEqual(['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest'])
     const result = buildRevisionInventory({
       group: 'python',
       complete: true,

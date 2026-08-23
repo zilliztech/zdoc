@@ -1,29 +1,17 @@
 'use strict'
 
-const SDK_LABELS = Object.freeze({
-  python: 'Python SDK',
-  java: 'Java SDK',
-  node: 'Node.js SDK',
-  go: 'Go SDK',
-  cli: 'Zilliz CLI',
-  rest: 'REST API',
-})
+const {loadTypeScript} = require('../lib/load-typescript')
+const {
+  fetchUnitKeys,
+  translationGroupLabels,
+  unitToCardId,
+} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
 
-const FETCH_BUSINESS_ORDER = Object.freeze([
-  'source/java', 'source/node', 'source/go', 'source/cli',
-  'source/rest', 'source/python', 'source/guides-en', 'source/guides-zh-CN',
-])
-
-const UNIT_TO_CARD_ID = Object.freeze({
-  'source/java': 'java',
-  'source/node': 'node',
-  'source/go': 'go',
-  'source/cli': 'cli',
-  'source/rest': 'rest',
-  'source/python': 'python',
-  'source/guides-en': 'guides-en',
-  'source/guides-zh-CN': 'guides-zh-CN',
-})
+const SDK_LABELS = Object.freeze(Object.fromEntries(
+  Object.entries(translationGroupLabels()).filter(([group]) => group !== 'guides' && group !== 'reference-landings'),
+))
+const FETCH_BUSINESS_ORDER = fetchUnitKeys()
+const UNIT_TO_CARD_ID = unitToCardId()
 
 const GUIDE_LANES = Object.freeze([
   Object.freeze({

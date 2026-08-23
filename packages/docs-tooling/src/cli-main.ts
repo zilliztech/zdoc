@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import {appendFileSync, existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, realpathSync, writeFileSync} from 'node:fs';
+import {createRequire} from 'node:module';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 
 import type {AliyunOssValidator} from '@zilliz/publication-adapters';
 import {config as loadDotenv} from 'dotenv';
-import ts from 'typescript';
 
 import {executeDocsToolingCommand, executeReferenceDocsToolingCommand, parseCliArgs} from './cli.ts';
 import {resolveGuidesSourceConfig} from './manuals/registry.ts';
@@ -21,6 +21,9 @@ import {validateToolsSidebar, validateTranslationCoverage} from './translation/v
 import {TranslationTargetIdSchema} from './translation/schema.ts';
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from './validation/ownership.ts';
 import {executePublicationGroup, parsePublishGroupArgs} from './workflows/run.ts';
+import {listPublicationGroups} from './workflows/groups.ts';
+
+const requireFromDocsTooling = createRequire(import.meta.url);
 
 const ALIYUN_VALIDATOR_PROVIDER = 'DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER';
 const ALIYUN_STORAGE_ENVIRONMENT = [
@@ -30,8 +33,6 @@ const ALIYUN_STORAGE_ENVIRONMENT = [
   'OSS_BUCKET',
   'OSS_ENDPOINT',
 ] as const;
-const REVISION_GROUPS = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'] as const;
-
 type RevisionInventoryModule = typeof import('./lark/revisionInventory.ts');
 
 let revisionInventoryModule: Promise<RevisionInventoryModule> | undefined;
@@ -42,12 +43,12 @@ function loadRevisionInventoryModule(): Promise<RevisionInventoryModule> {
       __DOCS_TOOLING_REVISION_INVENTORY__?: RevisionInventoryModule
     }).__DOCS_TOOLING_REVISION_INVENTORY__;
     if (injected) return Promise.resolve(injected);
-    const source = readFileSync(path.join(path.dirname(process.argv[1]), 'lark/revisionInventory.ts'), 'utf8');
-    const javascript = ts.transpileModule(source, {
-      compilerOptions: {module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022},
-    }).outputText;
-    revisionInventoryModule = import(`data:text/javascript;base64,${Buffer.from(javascript).toString('base64')}`)
-      .then(module => module as RevisionInventoryModule);
+    const {loadTypeScript} = requireFromDocsTooling('../../../scripts/lib/load-typescript.js') as {
+      loadTypeScript: (modulePath: string) => RevisionInventoryModule;
+    };
+    revisionInventoryModule = Promise.resolve(
+      loadTypeScript(path.join(path.dirname(process.argv[1]), 'lark/revisionInventory.ts')),
+    );
   }
   return revisionInventoryModule;
 }
@@ -71,7 +72,7 @@ function requiredOption(options: Record<string, string | boolean>, key: string):
 }
 
 function revisionGroup(value: string): RevisionGroup {
-  if (!REVISION_GROUPS.includes(value as RevisionGroup)) throw new Error(`Unsupported revision inventory group: ${value}`);
+  if (!listPublicationGroups('en').includes(value)) throw new Error(`Unsupported revision inventory group: ${value}`);
   return value as RevisionGroup;
 }
 
@@ -174,7 +175,7 @@ async function executeRevisionInventoryBuild(argv: string[], repositoryRoot: str
 async function validateCommittedRevisionInventories(argv: string[], repositoryRoot: string): Promise<void> {
   const options = parseOptions(argv.slice(1));
   if (requiredOption(options, 'site') !== 'en') throw new Error('Revision inventory validation supports only --site en');
-  for (const group of REVISION_GROUPS) {
+  for (const group of listPublicationGroups('en')) {
     const relativePath = `generated/en/manifests/lark-revisions/${group}.json`;
     const file = resolveSafeRevisionPath(repositoryRoot, relativePath, 'Revision inventory path', true);
     const inventory = await readRevisionInventory(file, `Revision inventory ${group}`);

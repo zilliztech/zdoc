@@ -4,6 +4,7 @@
 const crypto = require('node:crypto')
 const fs = require('node:fs')
 const {isDeepStrictEqual} = require('node:util')
+const {loadTypeScript} = require('../lib/load-typescript')
 
 const {
   finalizePublicationSelection,
@@ -13,16 +14,8 @@ const {
 } = require('./publication-contracts')
 const {validateTranslationHandoff, validateTranslationRecoveryHandoff} = require('./translation-handoff')
 
-const TRANSLATION_UNIT_KEYS = Object.freeze([
-  'translation/ja-JP/guides',
-  'translation/ja-JP/python', 'translation/zh-CN-reference/python',
-  'translation/ja-JP/java', 'translation/zh-CN-reference/java',
-  'translation/ja-JP/node', 'translation/zh-CN-reference/node',
-  'translation/ja-JP/go', 'translation/zh-CN-reference/go',
-  'translation/ja-JP/cli', 'translation/zh-CN-reference/cli',
-  'translation/ja-JP/rest',
-  'translation/zh-CN-reference/reference-landings',
-])
+const {TRANSLATION_UNIT_ORDER} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
+const TRANSLATION_UNIT_KEYS = TRANSLATION_UNIT_ORDER
 
 function sha256(bytes) {
   return crypto.createHash('sha256').update(bytes).digest('hex')

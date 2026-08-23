@@ -37,6 +37,7 @@ const sidebarTargets = [
   {manual: 'java', sidebarKey: 'javaSidebar', sidebar: 'java'},
   {manual: 'node', sidebarKey: 'nodeSidebar', sidebar: 'node'},
   {manual: 'go', sidebarKey: 'goSidebar', sidebar: 'go'},
+  {manual: 'cpp', sidebarKey: 'cppSidebar', sidebar: 'cpp'},
   {manual: 'rest', sidebarKey: 'restfulSidebar', sidebar: 'restful'},
   {manual: 'cli', sidebarKey: 'cliSidebar', sidebar: 'cli'},
 ] as const;
@@ -62,7 +63,7 @@ function writeReferenceNavigationConfig(
 function writeMinimalReferenceSidebarTemplates(repositoryRoot: string): void {
   const directory = path.join(repositoryRoot, 'generated/en/sidebars');
   mkdirSync(directory, {recursive: true});
-  for (const manual of ['python', 'java', 'node', 'go', 'restful', 'cli']) {
+  for (const manual of ['python', 'java', 'node', 'go', 'cpp', 'restful', 'cli']) {
     writeFileSync(path.join(directory, `${manual}.sidebar.js`), 'module.exports = ["api/python/page"]\n');
   }
   writeReferenceNavigationConfig(repositoryRoot);
@@ -1176,6 +1177,7 @@ describe('Reference translation provenance', () => {
       ['java', 'api/java/java/v2'],
       ['node', 'api/nodejs/nodejs'],
       ['go', 'api/go/go/v2'],
+      ['cpp', 'api/cpp/cpp'],
       ['restful', 'api/restful/restful'],
       ['cli', 'cli/cli'],
     ] as const;

@@ -98,6 +98,7 @@ paths=(
   "generated/en/sidebars/node.sidebar.js"
   "generated/en/sidebars/go.sidebar.js"
   "generated/en/sidebars/cli.sidebar.js"
+  "generated/en/sidebars/cpp.sidebar.js"
   "generated/en/sidebars/restful.sidebar.js"
   "generated/en/manifests/reference.json"
   "generated/en/manifests/lark-revisions"

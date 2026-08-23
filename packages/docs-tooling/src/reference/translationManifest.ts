@@ -4,6 +4,7 @@ import path from 'node:path';
 
 import {z} from 'zod';
 
+import {manualRegistry, publicationEntries} from '../manuals/registry.ts';
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from '../validation/ownership.ts';
 
 const SHA256 = /^[a-f0-9]{64}$/u;
@@ -226,16 +227,27 @@ function compareRecords(
     || compareText(left.targetPath ?? '', right.targetPath ?? '');
 }
 
+/**
+ * Reference path ownership families derived from the manual registry English
+ * publications. Each reference manual contributes the path family that owns
+ * every document below its English output directory (e.g. api/python for the
+ * python manual, cli for the cli manual).
+ */
+const REFERENCE_MANUAL_FAMILIES = Object.freeze(
+  publicationEntries(manualRegistry)
+    .filter(entry => entry.manual.kind === 'reference' && entry.site === 'en')
+    .flatMap(entry => {
+      const referenceRoot = 'content/en/reference/';
+      const relative = entry.publication.outputDir.slice(referenceRoot.length).split('/');
+      const family = relative[0] === 'api' ? relative.slice(0, 2).join('/') : relative[0];
+      return [{manual: entry.manual.id, prefix: family}];
+    }),
+);
+
 function referenceManualForRelativePath(relativePath: string): string | undefined {
-  const ownership = [
-    ['api/python', 'python'],
-    ['api/java', 'java'],
-    ['api/nodejs', 'node'],
-    ['api/go', 'go'],
-    ['api/restful', 'rest'],
-    ['cli', 'cli'],
-  ] as const;
-  return ownership.find(([prefix]) => relativePath === prefix || relativePath.startsWith(`${prefix}/`))?.[1];
+  return REFERENCE_MANUAL_FAMILIES
+    .filter(candidate => relativePath === candidate.prefix || relativePath.startsWith(`${candidate.prefix}/`))
+    .sort((left, right) => right.prefix.length - left.prefix.length)[0]?.manual;
 }
 
 export function assertSafeRepositoryPathChain(repositoryRoot: string, relativePath: string, label: string): string {

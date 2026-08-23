@@ -342,6 +342,9 @@ importers:
       '@zilliz/site-config':
         specifier: workspace:*
         version: link:../site-config
+      ajv:
+        specifier: ^8.20.0
+        version: 8.20.0
       ali-oss:
         specifier: ^6.23.0
         version: 6.23.0

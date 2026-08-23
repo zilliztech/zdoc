@@ -82,11 +82,9 @@ function validateContract(input, {allowLegacyCandidateDerivedPaths = false} = {}
     masterAuthoritativePaths: validatePathList(normalizedInput.masterAuthoritativePaths, 'masterAuthoritativePaths'),
     candidateDerivedPaths: validatePathList(normalizedInput.candidateDerivedPaths, 'candidateDerivedPaths'),
   });
-  for (const authoritative of contract.masterAuthoritativePaths) {
-    if (contract.devOwnedPaths.some(root => pathMatches(authoritative, root))) {
-      throw new Error(`Master-authoritative path overlaps dev ownership: ${authoritative}`);
-    }
-  }
+  // Master-authoritative paths may sit beneath a dev-owned root (e.g. preserved
+  // landing pages under `content/`). isDevOwned() treats them as master-owned, so
+  // no overlap rejection here; candidate-derived paths must still stay disjoint.
   for (const derived of contract.candidateDerivedPaths) {
     if (contract.devOwnedPaths.some(root => pathsOverlap(derived, root))) {
       throw new Error(`Candidate-derived path overlaps dev ownership: ${derived}`);
@@ -137,6 +135,7 @@ function changedPaths(cwd, left, right) {
 }
 
 function isDevOwned(relativePath, contract) {
+  if (isMasterAuthoritative(relativePath, contract)) return false;
   return contract.devOwnedPaths.some(root => pathMatches(relativePath, root));
 }
 

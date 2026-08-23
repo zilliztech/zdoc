@@ -1,9 +1,11 @@
 'use strict'
 
 const fs = require('node:fs')
+const { loadTypeScript } = require('../lib/load-typescript')
 const { listContentGroups } = require('./content-groups')
 const {aggregateSourceGroupsFromFetchResults} = require('./fetch-publication-results')
 const {readPublicationDocument} = require('./publication-contracts')
+const {parseSelectedGroups} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
 
 const CANDIDATE_COUNT_KEYS = ['total', 'current_delta', 'missing_target', 'stale_source']
 
@@ -47,7 +49,7 @@ function buildAggregateInput(env, options = {}) {
   const mode = env.MODE === 'artifact_only' ? 'artifact_only' : 'publish'
   const translationsRequested = mode === 'publish' && env.RUN_TRANSLATIONS !== 'false'
   const sourceProjection = options.sourceProjection
-  const requestedGroups = sourceProjection?.requestedGroups || (env.SELECTED_GROUP === 'all' ? listContentGroups() : [env.SELECTED_GROUP])
+  const requestedGroups = sourceProjection?.requestedGroups || (env.SELECTED_GROUP === 'all' ? listContentGroups() : [...parseSelectedGroups(env.SELECTED_GROUP)])
   const groups = {}
   for (const group of requestedGroups) {
     const prefix = group.toUpperCase()

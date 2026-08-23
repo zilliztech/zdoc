@@ -15,16 +15,9 @@ const {validateTranslationHandoff, validateTranslationRecoveryHandoff} = require
 const {validateReviewState} = require('../translation/reconciliation-review-state')
 const {findExactFile} = require('./github-artifact-archive')
 
-const TRANSLATION_UNIT_ORDER = Object.freeze([
-  'translation/ja-JP/guides',
-  'translation/ja-JP/python', 'translation/zh-CN-reference/python',
-  'translation/ja-JP/java', 'translation/zh-CN-reference/java',
-  'translation/ja-JP/node', 'translation/zh-CN-reference/node',
-  'translation/ja-JP/go', 'translation/zh-CN-reference/go',
-  'translation/ja-JP/cli', 'translation/zh-CN-reference/cli',
-  'translation/ja-JP/rest', 'translation/zh-CN-reference/rest',
-  'translation/zh-CN-reference/reference-landings',
-])
+const {loadTypeScript} = require('../lib/load-typescript')
+const {MONITOR_TRANSLATION_UNIT_ORDER} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
+const TRANSLATION_UNIT_ORDER = MONITOR_TRANSLATION_UNIT_ORDER
 const RUN_TRANSLATION_WRAPPER_PREFIX = 'run_translation / '
 const MAX_TERMINAL_RESULTS_POLLS = 30
 

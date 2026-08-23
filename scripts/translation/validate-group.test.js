@@ -20,6 +20,7 @@ test('Chinese Reference landing validation checks each canonical landing file', 
     ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/reference/api/nodejs/nodejs/nodejs.md', '--check']],
     ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/reference/api/go/go/go.md', '--check']],
     ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/reference/cli/cli/Overview.md', '--check']],
+    ['pnpm', ['docs-tooling', 'validate-mdx', '--path', 'content/zh-CN/reference/api/cpp/cpp/cpp.md', '--check']],
   ]);
 });
 
