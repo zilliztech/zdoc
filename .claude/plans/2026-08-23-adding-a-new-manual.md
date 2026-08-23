@@ -28,7 +28,7 @@
 |---|---|---|
 | ① | 在 `registry.ts` 声明手册（sources / publications / presentation） | 手写（唯一核心改动） |
 | ② | 运行 `generate-*` 脚本，重新生成派生产物 | 命令生成 |
-| ③ | 手工同步 4 处静态契约（有意例外） | 手写 |
+| ③ | 手工同步 5 处静态契约（有意例外，含 landing 页 → `masterAuthoritativePaths`） | 手写 |
 | ④ | 首次发布 bootstrap：把 content/sidebar/inventory 种子到 `dev` | 一次性手写（operator 步骤） |
 | ⑤ | 跑一次真实 fetch/publish，补齐 sidebar + manifest | 运行验证 |
 
@@ -139,10 +139,11 @@ pnpm check:localization-input-inventory
 
 ---
 
-## 4. 第三步：手工同步 4 处静态契约（有意例外）
+## 4. 第三步：手工同步 5 处静态契约（有意例外）
 
 这几处**不会**从 registry 自动生成，必须手改。原因是各自的硬约束（脚本在临时 git 仓库里被
-测试实际执行、静态 deploy 契约、GitHub Actions 无法在运行时读 TS）：
+测试实际执行、静态 deploy 契约、GitHub Actions 无法在运行时读 TS），或 landing 页归 master
+所有（见 4.5）：
 
 ### 4.1 `scripts/restore-generated-state.sh` + 其测试
 
@@ -173,6 +174,20 @@ GitHub Actions 的 `workflow_dispatch` group 描述与 `prepare` 的 `case` 是�
 
 > **无需改动**：`_translate-content-group.yml` 全是 `workflow_call` 输入，没有逐手册列表；
 > SDK 翻译本身已是矩阵（`translate:${{ matrix.target }}/${{ matrix.group }}`）。
+
+### 4.5 `deploy/contracts/master-tooling-sync.json` —— landing 页（`preservedFiles`）
+
+如果手册声明了 `preservedFiles`（通常是 landing 页，如
+`content/en/reference/api/<manual>/<manual>.md`），这是**最容易踩的一处**：
+
+- landing 页物理上在 dev-owned 的 `content/` 下，但归 master 所有（fetch 时从 `MASTER_SHA`
+  恢复）。它必须**①提交到 master，②把路径加进 `masterAuthoritativePaths`**。
+- 少做 ①（或从 master 误删）：fetch prepare 报
+  `preserved path ... must be tracked on the tooling branch`。
+- 少做 ②：`inspectSync` 报 `modifies dev-owned paths: content/en/.../<manual>.md`。
+  （`isDevOwned()` 会先查 `masterAuthoritativePaths`，声明后即视为 master 拥有。）
+- **不要**把 `sidebar-overrides/en/<manual>.json` 提交到 master：`sidebar-overrides/en/` 是
+  dev-owned，override 由 fetch 产出。
 
 ---
 
@@ -206,6 +221,12 @@ sidebar 带过去。而 fetch 流水线是在 build 时从 source 派生出内�
 
 - **不要**把 `content/...` 或 `generated/...` 提交到 `master`：它们是 dev-owned 路径，
   `inspectSync` 对 master 历史里改到 dev-owned 路径会 fail closed。
+  **唯一例外**：`preservedFiles`（landing 页）归 master 所有，必须提交到 master 并写进
+  `masterAuthoritativePaths`（见 4.5）。
+- **顺序：先 fetch 后 sync。** sync 的 focused validation 会跑 `validate-revision-inventory
+  --site en` 和 site build，依赖 fetch 才产出的 `lark-revisions/<manual>.json` 与
+  `<manual>.sidebar.js`。`REVISION_GROUPS` 从 registry 派生，新手册一加进来就被要求存在，
+  顺序反了 sync 会报 `Revision inventory path is missing`。
 - **运行时缺口**：新手册的 `generated/en/sidebars/<manual>.sidebar.js` 与
   `generated/en/manifests/reference.json` 里的 sourceCommit 记录，只有真实跑一次
   fetch/publish 才会产生。在那之前，依赖它们的测试/脚本（如
