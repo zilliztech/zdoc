@@ -1,0 +1,4244 @@
+{
+  "schema_version": 2,
+  "manual": "cppv30",
+  "targets_built": [
+    "zilliz"
+  ],
+  "build_env": "uat",
+  "source_branch": "dev",
+  "publish_url": "https://docs.cloud-uat3.zilliz.com",
+  "link_check_remote": "https://docs.zilliz.com",
+  "generated_at": "2026-08-23T14:47:25.937Z",
+  "source_dir": "./packages/docs-tooling/src/lark/meta/sources/cpp/v3.0.x",
+  "base_app_token": "QdLkbfmnFatl4TsThKDc5Dobn5g",
+  "records": [
+    {
+      "record_id": "recvaTSC7Fi0yi",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CreateUser()",
+      "slug": "Authentication-CreateUser",
+      "doc_token": "InqLdJ931o15yIxpt1bcfYFinAf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/InqLdJ931o15yIxpt1bcfYFinAf",
+      "source_file": "InqLdJ931o15yIxpt1bcfYFinAf.json",
+      "source_hash": "22d149d177777796037663b7ee5664c18ee433f3ae150b6f5099f9d455390749",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-CreateUser.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSDEvcVh4",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "UpdatePassword()",
+      "slug": "Authentication-UpdatePassword",
+      "doc_token": "BXaGduFMvolXlnxaIFkcKy3Nnhu",
+      "doc_link": "https://zilliverse.feishu.cn/docx/BXaGduFMvolXlnxaIFkcKy3Nnhu",
+      "source_file": "BXaGduFMvolXlnxaIFkcKy3Nnhu.json",
+      "source_hash": "328ab0fad27d9468746250c0bac7d47e9f11027aef3f14486af2133702e5a45d",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdatePassword.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSEWkiV98",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropUser()",
+      "slug": "Authentication-DropUser",
+      "doc_token": "FtGndkY80oH1PNx04hvclmVCnDg",
+      "doc_link": "https://zilliverse.feishu.cn/docx/FtGndkY80oH1PNx04hvclmVCnDg",
+      "source_file": "FtGndkY80oH1PNx04hvclmVCnDg.json",
+      "source_hash": "53f21aec31f2e5a2dce989a5a48f9eb7fefb1999f3d3fceaccb438705b56707d",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-DropUser.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSGillTMP",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DescribeUser()",
+      "slug": "Authentication-DescribeUser",
+      "doc_token": "WqOudbitToLoSRx9faGctun6nlf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/WqOudbitToLoSRx9faGctun6nlf",
+      "source_file": "WqOudbitToLoSRx9faGctun6nlf.json",
+      "source_hash": "b3da5eb3649cfb9edf6a1955bd32a2ed1313e0e88e89539797cdf43b3a4c43a7",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeUser.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSHsGIQs7",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListUsers()",
+      "slug": "Authentication-ListUsers",
+      "doc_token": "NSvXdtRoioS4NKxdjANcGFd9nrc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/NSvXdtRoioS4NKxdjANcGFd9nrc",
+      "source_file": "NSvXdtRoioS4NKxdjANcGFd9nrc.json",
+      "source_hash": "2f14d37514a661a2aadcae0bcf9367009d070be559519b803bf61b549668c289",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListUsers.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSIMjt7tS",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CreateRole()",
+      "slug": "Authentication-CreateRole",
+      "doc_token": "RqMsdMEvmo4ex4xKyp9cezEinTf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/RqMsdMEvmo4ex4xKyp9cezEinTf",
+      "source_file": "RqMsdMEvmo4ex4xKyp9cezEinTf.json",
+      "source_hash": "8adf85007017159d7144d35368cbab49e2955c80694193deb79d5b448bd47d10",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvaTSKcL0J6h",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropRole()",
+      "slug": "Authentication-DropRole",
+      "doc_token": "QRNudMVJXoG1flxBkEocI2pynef",
+      "doc_link": "https://zilliverse.feishu.cn/docx/QRNudMVJXoG1flxBkEocI2pynef",
+      "source_file": "QRNudMVJXoG1flxBkEocI2pynef.json",
+      "source_hash": "8e97174b78e1970081e899f50103fb44b643c486687a277aad8ddf1eb57e9a44",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-DropRole.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSLBLxYWK",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DescribeRole()",
+      "slug": "Authentication-DescribeRole",
+      "doc_token": "U8KCdu2BRohC5CxZK7vch6TGnrc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/U8KCdu2BRohC5CxZK7vch6TGnrc",
+      "source_file": "U8KCdu2BRohC5CxZK7vch6TGnrc.json",
+      "source_hash": "5d3242c4f16ee4770904b535160f10e67ce1ff6223b2a9ba4a9a0ea11ff4ce76",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeRole.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSMLztT84",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListRoles()",
+      "slug": "Authentication-ListRoles",
+      "doc_token": "Syt3dskDpo3VcQxMu43cXcBFnre",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Syt3dskDpo3VcQxMu43cXcBFnre",
+      "source_file": "Syt3dskDpo3VcQxMu43cXcBFnre.json",
+      "source_hash": "9a9211a2b47ea1dcc75eb8d4e10f7ce1c34a3597f782d7dd856e89e086bf7771",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListRoles.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSOeIMR0S",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GrantRole()",
+      "slug": "Authentication-GrantRole",
+      "doc_token": "HTwuddpIBoOKoMxhde4c9BMHnwd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/HTwuddpIBoOKoMxhde4c9BMHnwd",
+      "source_file": "HTwuddpIBoOKoMxhde4c9BMHnwd.json",
+      "source_hash": "7c9fc1960232d0b4ab3926720522908bf4c2b85576bbcbda005b8fcd7257b62c",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-GrantRole.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSPE8Y2Vu",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "RevokeRole()",
+      "slug": "Authentication-RevokeRole",
+      "doc_token": "EyJ4d9M4joZE3WxIoIac1hTNnng",
+      "doc_link": "https://zilliverse.feishu.cn/docx/EyJ4d9M4joZE3WxIoIac1hTNnng",
+      "source_file": "EyJ4d9M4joZE3WxIoIac1hTNnng.json",
+      "source_hash": "f15aad340721411d6921135fbded05d14485ab537de72c78cede4bd663d25768",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokeRole.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSRh2X7d4",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GrantPrivilegeV2()",
+      "slug": "Authentication-GrantPrivilegeV2",
+      "doc_token": "RkNpdn17xopIkwxeBxYcmQj0nFg",
+      "doc_link": "https://zilliverse.feishu.cn/docx/RkNpdn17xopIkwxeBxYcmQj0nFg",
+      "source_file": "RkNpdn17xopIkwxeBxYcmQj0nFg.json",
+      "source_hash": "509a4ec9c0a8ed829d241fd2a46d6707ad8d661f9c7c261985ee0058a919a605",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-GrantPrivilegeV2.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSSWWKdBd",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "RevokePrivilegeV2()",
+      "slug": "Authentication-RevokePrivilegeV2",
+      "doc_token": "RC3FdSxLbov3uixeCBlcWud8nCd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/RC3FdSxLbov3uixeCBlcWud8nCd",
+      "source_file": "RC3FdSxLbov3uixeCBlcWud8nCd.json",
+      "source_hash": "c2168ad2987fa9e47df886e9d14acde8464ade389084cc6072a181bd361d0f2a",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokePrivilegeV2.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSUeV1tLu",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CreatePrivilegeGroup()",
+      "slug": "Authentication-CreatePrivilegeGroup",
+      "doc_token": "X3XWdI0tJo8jpExvHkucOEV2nYb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/X3XWdI0tJo8jpExvHkucOEV2nYb",
+      "source_file": "X3XWdI0tJo8jpExvHkucOEV2nYb.json",
+      "source_hash": "23e91bd89b735f23dcb3a55b736c26ebbe455fbb932dc8145c96bd4c1a75ab1c",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvaTSVxEuZkp",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropPrivilegeGroup()",
+      "slug": "Authentication-DropPrivilegeGroup",
+      "doc_token": "GM4adSPUpoT80SxHyxnc7x0knLd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/GM4adSPUpoT80SxHyxnc7x0knLd",
+      "source_file": "GM4adSPUpoT80SxHyxnc7x0knLd.json",
+      "source_hash": "9ea8071e0f743b37454092a88221d58cc7f37dddf37a494751213b528d2ab74d",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvaTSWLo0VEL",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListPrivilegeGroups()",
+      "slug": "Authentication-ListPrivilegeGroups",
+      "doc_token": "JzwFd9yZqozzWdxQrHjcm8jynjc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/JzwFd9yZqozzWdxQrHjcm8jynjc",
+      "source_file": "JzwFd9yZqozzWdxQrHjcm8jynjc.json",
+      "source_hash": "a04b6433eea37da15e1e3db4946c883168440129ca73d708111bd81a2bdebdf4",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListPrivilegeGroups.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSYhZ6dJl",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AddPrivilegesToGroup()",
+      "slug": "Authentication-AddPrivilegesToGroup",
+      "doc_token": "O5bNd8683oYSmuxiNYNcQyudngh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/O5bNd8683oYSmuxiNYNcQyudngh",
+      "source_file": "O5bNd8683oYSmuxiNYNcQyudngh.json",
+      "source_hash": "dec1b2c4dbc1e9b28eb50f1c82a152a035434eac41c74f5d30f0245fbc1b4d4c",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvaTSZO8fpNZ",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "RemovePrivilegesFromGroup()",
+      "slug": "Authentication-RemovePrivilegesFromGroup",
+      "doc_token": "TCfed4TH2o0XkdxkZDPcwPTdnWG",
+      "doc_link": "https://zilliverse.feishu.cn/docx/TCfed4TH2o0XkdxkZDPcwPTdnWG",
+      "source_file": "TCfed4TH2o0XkdxkZDPcwPTdnWG.json",
+      "source_hash": "647de2d1d2a02548851a103dc8d69d2a63ef43e1ac77b6738af39289077ae899",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-RemovePrivilegesFromGroup.md"
+      ]
+    },
+    {
+      "record_id": "recvdU9bsdoDZq",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "UserDesc",
+      "slug": "Authentication-UserDesc",
+      "doc_token": "UhsfdHxjhoWttaxASWEcygc7nLc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/UhsfdHxjhoWttaxASWEcygc7nLc",
+      "source_file": "UhsfdHxjhoWttaxASWEcygc7nLc.json",
+      "source_hash": "3ff810525154b11bcd8934b4c3ae51ef827f48d68fd504b75e95f6c132b9e947",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-UserDesc.md"
+      ]
+    },
+    {
+      "record_id": "recvdU9eUuLTij",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "RoleDesc",
+      "slug": "Authentication-RoleDesc",
+      "doc_token": "UuNVdIvAYoTy3GxmbcGcQ1chn3b",
+      "doc_link": "https://zilliverse.feishu.cn/docx/UuNVdIvAYoTy3GxmbcGcQ1chn3b",
+      "source_file": "UuNVdIvAYoTy3GxmbcGcQ1chn3b.json",
+      "source_hash": "56247a6054f42763dae5bc2c53604f3c66f4262be1ae169f89df3a48ef79c633",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-RoleDesc.md"
+      ]
+    },
+    {
+      "record_id": "recvdU9hIkJ5Ib",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "PrivilegeGroupInfo",
+      "slug": "Authentication-PrivilegeGroupInfo",
+      "doc_token": "Gzj9djiMTooQUgxl4dfcOIfvnUb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Gzj9djiMTooQUgxl4dfcOIfvnUb",
+      "source_file": "Gzj9djiMTooQUgxl4dfcOIfvnUb.json",
+      "source_hash": "df34608b03fb75b6f9c11331755b32903235a4bff6f794363d569bc67c1346dd",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-PrivilegeGroupInfo.md"
+      ]
+    },
+    {
+      "record_id": "recvqCJ2r0mFGf",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "UpdateUser()",
+      "slug": "Authentication-UpdateUser",
+      "doc_token": "XXBwdXvCWo1te0xWjifc19kUnjf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/XXBwdXvCWo1te0xWjifc19kUnjf",
+      "source_file": "XXBwdXvCWo1te0xWjifc19kUnjf.json",
+      "source_hash": "188114e96e9d62f58eccbd6cec280af3db1fdce5b226b29e74c1ea4620848daf",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdateUser.md"
+      ]
+    },
+    {
+      "record_id": "recvqCJ3YdcqPK",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AlterRole()",
+      "slug": "Authentication-AlterRole",
+      "doc_token": "HkRQd5kF5om421xNwSmcoaz3nxb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/HkRQd5kF5om421xNwSmcoaz3nxb",
+      "source_file": "HkRQd5kF5om421xNwSmcoaz3nxb.json",
+      "source_hash": "423e779390fb473eab2d28d646072e300c30c2db059425931f4f4a79b75e314c",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQrOqaLnp",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Create()",
+      "slug": "Client-Create",
+      "doc_token": "J3Rqd884xoiTSTxl4YjcbtvunWf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/J3Rqd884xoiTSTxl4YjcbtvunWf",
+      "source_file": "J3Rqd884xoiTSTxl4YjcbtvunWf.json",
+      "source_hash": "2db8d075610530350efc896337550ceb55697520b347c550ff7df8e1bca783fb",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Client/Client-Create.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQt0JeLdm",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Connect()",
+      "slug": "Client-Connect",
+      "doc_token": "FBXDdgCrfoG5mzx2p1KcX2Kbnib",
+      "doc_link": "https://zilliverse.feishu.cn/docx/FBXDdgCrfoG5mzx2p1KcX2Kbnib",
+      "source_file": "FBXDdgCrfoG5mzx2p1KcX2Kbnib.json",
+      "source_hash": "2de4d09aaa8ace14cd3c41505592bba9c5680c2e181d7e69a1f14950fcbb259b",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "VMgPdyPGuor1t7xlZGWcWV1tnhh"
+      ],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Client/Client-Connect.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQubh3Hyy",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Disconnect()",
+      "slug": "Client-Disconnect",
+      "doc_token": "Wom0dLES1ojjtKxa8OdckAK3n1C",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Wom0dLES1ojjtKxa8OdckAK3n1C",
+      "source_file": "Wom0dLES1ojjtKxa8OdckAK3n1C.json",
+      "source_hash": "96d650442b3818e78958b70eeb9ff04094ae0db913a1905b8415d19737f06390",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Client/Client-Disconnect.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQvp1qfWz",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "SetRpcDeadlineMs()",
+      "slug": "Client-SetRpcDeadlineMs",
+      "doc_token": "Ff8gdJFLKoKfACxQXBxcK6mmnNf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Ff8gdJFLKoKfACxQXBxcK6mmnNf",
+      "source_file": "Ff8gdJFLKoKfACxQXBxcK6mmnNf.json",
+      "source_hash": "4e1cf844e0084e3cbd5dd401b5b8bec754cd0886f08e2e630cc1e08b088273ff",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Client/Client-SetRpcDeadlineMs.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQwwVkKda",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "SetRetryParam()",
+      "slug": "Client-SetRetryParam",
+      "doc_token": "IR7hd6VQcoQPg3xNzL2cBw6Nn7f",
+      "doc_link": "https://zilliverse.feishu.cn/docx/IR7hd6VQcoQPg3xNzL2cBw6Nn7f",
+      "source_file": "IR7hd6VQcoQPg3xNzL2cBw6Nn7f.json",
+      "source_hash": "12a7c0e441d64ed0d6d6d5542f9f9d78494462953093930075b4acd839272d41",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "OxCLdTg9RoIzS0xwicjc8yJXnzc"
+      ],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Client/Client-SetRetryParam.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQxJLJYve",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GetServerVersion()",
+      "slug": "Client-GetServerVersion",
+      "doc_token": "VgZtdAUzyoJplBxYfdMc1OGonng",
+      "doc_link": "https://zilliverse.feishu.cn/docx/VgZtdAUzyoJplBxYfdMc1OGonng",
+      "source_file": "VgZtdAUzyoJplBxYfdMc1OGonng.json",
+      "source_hash": "0fcba6bbb1b15d63ed1a589647006c5b29309e3b2b8b1ed09e0a381bc7b6cc53",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Client/Client-GetServerVersion.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQyQ0HmW6",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GetSDKVersion()",
+      "slug": "Client-GetSDKVersion",
+      "doc_token": "ZPS0ddywzo9DObxXS9Rc7yornDc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/ZPS0ddywzo9DObxXS9Rc7yornDc",
+      "source_file": "ZPS0ddywzo9DObxXS9Rc7yornDc.json",
+      "source_hash": "223872be7d66dd070d2e40aaf3d6c8438a57ba4d2d0ac728cf3db506e943feec",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Client/Client-GetSDKVersion.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQA14IBil",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CheckHealth()",
+      "slug": "Client-CheckHealth",
+      "doc_token": "IJ7ydRsczoA4TAxrcqjc6guMnSb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/IJ7ydRsczoA4TAxrcqjc6guMnSb",
+      "source_file": "IJ7ydRsczoA4TAxrcqjc6guMnSb.json",
+      "source_hash": "d76d074a6696fbe321a2177a6c7b27eb41d6e19b00b97bbbdd6253ff227b8dd0",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Client/Client-CheckHealth.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRnDWPOcZ",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "UseDatabase()",
+      "slug": "Client-UseDatabase",
+      "doc_token": "GvrfdEbvAoziA8xsAgPcBXDJnAb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/GvrfdEbvAoziA8xsAgPcBXDJnAb",
+      "source_file": "GvrfdEbvAoziA8xsAgPcBXDJnAb.json",
+      "source_hash": "3febde46130376eb5ea991156ec17b896becb0ccfc6c558cc11f953ae6d2f200",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Client/Client-UseDatabase.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRoKjlVJk",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CurrentUsedDatabase()",
+      "slug": "Client-CurrentUsedDatabase",
+      "doc_token": "ZmS3drufioCOIBxq3PSc26O7nie",
+      "doc_link": "https://zilliverse.feishu.cn/docx/ZmS3drufioCOIBxq3PSc26O7nie",
+      "source_file": "ZmS3drufioCOIBxq3PSc26O7nie.json",
+      "source_hash": "d7a0c4a784bca5529ca8940d26441c75593acda9f3ac97dddd0cb2397fa5d60a",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Client/Client-CurrentUsedDatabase.md"
+      ]
+    },
+    {
+      "record_id": "recvccBogZVxKq",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ConnectParam",
+      "slug": "Client-ConnectParam",
+      "doc_token": "VMgPdyPGuor1t7xlZGWcWV1tnhh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/VMgPdyPGuor1t7xlZGWcWV1tnhh",
+      "source_file": "VMgPdyPGuor1t7xlZGWcWV1tnhh.json",
+      "source_hash": "3a0cf12241b5bfd51610b7cbd0f9311b638e90b3c89c26b23ae666b07214b81c",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Client/Client-ConnectParam.md"
+      ]
+    },
+    {
+      "record_id": "recvccDL4DgxNN",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "RetryParam",
+      "slug": "Client-RetryParam",
+      "doc_token": "OxCLdTg9RoIzS0xwicjc8yJXnzc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/OxCLdTg9RoIzS0xwicjc8yJXnzc",
+      "source_file": "OxCLdTg9RoIzS0xwicjc8yJXnzc.json",
+      "source_hash": "3467f9cb3841711705603e3730bad38dbdc0bef4b6c59ae9165bafd6962a6f8e",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Client/Client-RetryParam.md"
+      ]
+    },
+    {
+      "record_id": "recvqCJ5kU0a43",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Session()",
+      "slug": "Client-Session",
+      "doc_token": "VTkhdUYKvoYBPRx7EDiczhJhnhe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/VTkhdUYKvoYBPRx7EDiczhJhnhe",
+      "source_file": "VTkhdUYKvoYBPRx7EDiczhJhnhe.json",
+      "source_hash": "efc6b81250a5a0906a3721ad42b46f9e4949b1b1567f2e78761668dae8c6e77c",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Client/Client-Session.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQCOlBXMr",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CreateCollection()",
+      "slug": "Collections-CreateCollection",
+      "doc_token": "ATMTdUxB5oRc3Sx8ByIcL58Anrh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/ATMTdUxB5oRc3Sx8ByIcL58Anrh",
+      "source_file": "ATMTdUxB5oRc3Sx8ByIcL58Anrh.json",
+      "source_hash": "73be2888f3af488d1727d9233ac76b40ecc3be898f566687852b829629e30d58",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "AKq1dk2CLofyBXxCjAIcYdDNnae",
+        "C4kSd9x2GobYZGxDTkacZsX2nlc",
+        "PSxodxjuFo7SZFxP9qZc09ELn5c"
+      ],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-CreateCollection.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQFA96MXa",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CreateSimpleCollection()",
+      "slug": "Collections-CreateSimpleCollection",
+      "doc_token": "HWQYdK1lIoLiQGxaqMkc2ZeOnge",
+      "doc_link": "https://zilliverse.feishu.cn/docx/HWQYdK1lIoLiQGxaqMkc2ZeOnge",
+      "source_file": "HWQYdK1lIoLiQGxaqMkc2ZeOnge.json",
+      "source_hash": "f6f689e4d0c66dffeb1164b1dd17115cca34e0baf7a1d939d929e412b98759b9",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "Fh1mdjyzRo7LanxIvHqcF9ihnLb",
+        "PSxodxjuFo7SZFxP9qZc09ELn5c"
+      ],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-CreateSimpleCollection.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQH230gmE",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "HasCollection()",
+      "slug": "Collections-HasCollection",
+      "doc_token": "ZLfgdRLpXolwPYx2ZOrcDmxGnnw",
+      "doc_link": "https://zilliverse.feishu.cn/docx/ZLfgdRLpXolwPYx2ZOrcDmxGnnw",
+      "source_file": "ZLfgdRLpXolwPYx2ZOrcDmxGnnw.json",
+      "source_hash": "35a6bbfd7b54786c18eee128a7a21f8eefdb6dc2cb0df13dda2e7d0cae35e745",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-HasCollection.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQItVW0XR",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropCollection()",
+      "slug": "Collections-DropCollection",
+      "doc_token": "QGzdd5UMMo3gKpx0hNgcvA9jnOb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/QGzdd5UMMo3gKpx0hNgcvA9jnOb",
+      "source_file": "QGzdd5UMMo3gKpx0hNgcvA9jnOb.json",
+      "source_hash": "a9aa2d2faed7337747bea71dde24029cf657568fb188d65ae8599f9edc372b1a",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollection.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQNSnxLP5",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DescribeCollection()",
+      "slug": "Collections-DescribeCollection",
+      "doc_token": "XQLWd904koQK58x9tkHcqqbZnVb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/XQLWd904koQK58x9tkHcqqbZnVb",
+      "source_file": "XQLWd904koQK58x9tkHcqqbZnVb.json",
+      "source_hash": "94846b1ccdf9460011b56cad3647c4d8fec0fec4720f6abe6212d4d33a159e89",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-DescribeCollection.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQPviCEKR",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "RenameCollection()",
+      "slug": "Collections-RenameCollection",
+      "doc_token": "EyHadkgMtohFXxxEEcucWAC5nje",
+      "doc_link": "https://zilliverse.feishu.cn/docx/EyHadkgMtohFXxxEEcucWAC5nje",
+      "source_file": "EyHadkgMtohFXxxEEcucWAC5nje.json",
+      "source_hash": "0541404c18fed5142b3b55d6ef62351e4598285d706613fb44473a684cc714bc",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-RenameCollection.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQQYk46EK",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GetCollectionStats()",
+      "slug": "Collections-GetCollectionStats",
+      "doc_token": "Lh65dZfnWoZKFMxsJhdcieUJnEb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Lh65dZfnWoZKFMxsJhdcieUJnEb",
+      "source_file": "Lh65dZfnWoZKFMxsJhdcieUJnEb.json",
+      "source_hash": "789392d1660bbbb25e5ebad4c9a22573ce54ab93cbfb28802ad103f247afa2ac",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-GetCollectionStats.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQSnIZ3Vo",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListCollections()",
+      "slug": "Collections-ListCollections",
+      "doc_token": "A5FAdLCowoBG4sxh5vEcRH0Nnkb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/A5FAdLCowoBG4sxh5vEcRH0Nnkb",
+      "source_file": "A5FAdLCowoBG4sxh5vEcRH0Nnkb.json",
+      "source_hash": "4488cec1ecb4647a06a9a981bfa7b9a2d13501e383d926fe6b98947a0ae603de",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-ListCollections.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQVKtzRTc",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AlterCollectionProperties()",
+      "slug": "Collections-AlterCollectionProperties",
+      "doc_token": "H5oLd8ZVfooSgixa5O9cyq37nCb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/H5oLd8ZVfooSgixa5O9cyq37nCb",
+      "source_file": "H5oLd8ZVfooSgixa5O9cyq37nCb.json",
+      "source_hash": "78c6dc4763c86185bf335d6705a70f4e4c9520c9639b1bd31a5eeaf814e7dad2",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionProperties.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQXEPcvVm",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropCollectionProperties()",
+      "slug": "Collections-DropCollectionProperties",
+      "doc_token": "Sljyd2yrWoidNAxyCgRc255Mnhg",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Sljyd2yrWoidNAxyCgRc255Mnhg",
+      "source_file": "Sljyd2yrWoidNAxyCgRc255Mnhg.json",
+      "source_hash": "6f0682beedc651845116ad7fa5945ccbe712a326171fc41c7e6613e7d52520db",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionProperties.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQZvM02A9",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AlterCollectionFieldProperties()",
+      "slug": "Collections-AlterCollectionFieldProperties",
+      "doc_token": "A3gld3Xjco1VxSxi6Ndc3Bq4nuh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/A3gld3Xjco1VxSxi6Ndc3Bq4nuh",
+      "source_file": "A3gld3Xjco1VxSxi6Ndc3Bq4nuh.json",
+      "source_hash": "68549d5d6c5714b71e9af8e62b96cc6d739d4b37060bc4b6db4bd1e3759e8b24",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFieldProperties.md"
+      ]
+    },
+    {
+      "record_id": "recvaTR1kQiHh9",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropCollectionFieldProperties()",
+      "slug": "Collections-DropCollectionFieldProperties",
+      "doc_token": "VWOqdczvioTtxqxThEKcJzI3n2g",
+      "doc_link": "https://zilliverse.feishu.cn/docx/VWOqdczvioTtxqxThEKcJzI3n2g",
+      "source_file": "VWOqdczvioTtxqxThEKcJzI3n2g.json",
+      "source_hash": "ff5585bbee708fe05648a8413ede2c6ae92c3ae3309eae685f09295d98ac4c6c",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionFieldProperties.md"
+      ]
+    },
+    {
+      "record_id": "recvaTR2TVHwY4",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AddCollectionField()",
+      "slug": "Collections-AddCollectionField",
+      "doc_token": "KMuzdtwSaoadnbx0caLcHCAGn1b",
+      "doc_link": "https://zilliverse.feishu.cn/docx/KMuzdtwSaoadnbx0caLcHCAGn1b",
+      "source_file": "KMuzdtwSaoadnbx0caLcHCAGn1b.json",
+      "source_hash": "ce6b41c50ed08cdb4d8cca48c01cd4ab84a1d51a2d26002be0edce967a592dd9",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionField.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRgGVNCSH",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CreateAlias()",
+      "slug": "Collections-CreateAlias",
+      "doc_token": "TCOmduhQKosBcNxfUQOcLdzqnAf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/TCOmduhQKosBcNxfUQOcLdzqnAf",
+      "source_file": "TCOmduhQKosBcNxfUQOcLdzqnAf.json",
+      "source_hash": "f7d4eb696d721549fca8bc252e7309e0666f2dedfe2fdef479dd7ae8cbcf9ed4",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-CreateAlias.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRi8bbWtl",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropAlias()",
+      "slug": "Collections-DropAlias",
+      "doc_token": "WsSQdBrrOo4hhbx9XWFciuVAn3b",
+      "doc_link": "https://zilliverse.feishu.cn/docx/WsSQdBrrOo4hhbx9XWFciuVAn3b",
+      "source_file": "WsSQdBrrOo4hhbx9XWFciuVAn3b.json",
+      "source_hash": "29e9599b845c4d6b4adf1b538ee36a32722869ef41fc540cb9ac807a2027d869",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-DropAlias.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRjGj2KAI",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AlterAlias()",
+      "slug": "Collections-AlterAlias",
+      "doc_token": "VRKNdqRGboPNcOxEnkDc3PiWn4e",
+      "doc_link": "https://zilliverse.feishu.cn/docx/VRKNdqRGboPNcOxEnkDc3PiWn4e",
+      "source_file": "VRKNdqRGboPNcOxEnkDc3PiWn4e.json",
+      "source_hash": "213eeb9fa740a66450e7bb59c83b05cfe8477ed0048eab3e996e0d9461782b48",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-AlterAlias.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRl7iCBFJ",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DescribeAlias()",
+      "slug": "Collections-DescribeAlias",
+      "doc_token": "WGXadLPOjobTmnxp0oacSo1znEf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/WGXadLPOjobTmnxp0oacSo1znEf",
+      "source_file": "WGXadLPOjobTmnxp0oacSo1znEf.json",
+      "source_hash": "03820b5c3818aaffcb406274814898dbd7f8dcaebaa7eb79674ee90f16429f78",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-DescribeAlias.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRmzxTjMY",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListAliases()",
+      "slug": "Collections-ListAliases",
+      "doc_token": "YE0GdEE34oJXt3xyGLZc8H5Inkc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/YE0GdEE34oJXt3xyGLZc8H5Inkc",
+      "source_file": "YE0GdEE34oJXt3xyGLZc8H5Inkc.json",
+      "source_hash": "39aa56aabc2adc80b43acd83d3523459b7894a6aa6edd34c4f722b947d28870e",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-ListAliases.md"
+      ]
+    },
+    {
+      "record_id": "recvaTT2iUs5fB",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DataType",
+      "slug": "Collections-DataType",
+      "doc_token": "SGYTdh0fJo6O1uxW3yjcET9Nnpf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/SGYTdh0fJo6O1uxW3yjcET9Nnpf",
+      "source_file": "SGYTdh0fJo6O1uxW3yjcET9Nnpf.json",
+      "source_hash": "80280cc4a03756484887d337d6bc90d14798fc70f74512720a660ec8e58abdd6",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-DataType.md"
+      ]
+    },
+    {
+      "record_id": "recvaTT6n7Wp2t",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "LoadState",
+      "slug": "Collections-LoadState",
+      "doc_token": "AeHodu7bqoOWJcxdR1Gc0dounzf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/AeHodu7bqoOWJcxdR1Gc0dounzf",
+      "source_file": "AeHodu7bqoOWJcxdR1Gc0dounzf.json",
+      "source_hash": "6b52c71a0b0e734b0ab2a5dff1eea2c98edd226c1900509d48eac8540bbc76de",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-LoadState.md"
+      ]
+    },
+    {
+      "record_id": "recvccN0ABejUl",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CollectionSchema",
+      "slug": "Collections-CollectionSchema",
+      "doc_token": "AKq1dk2CLofyBXxCjAIcYdDNnae",
+      "doc_link": "https://zilliverse.feishu.cn/docx/AKq1dk2CLofyBXxCjAIcYdDNnae",
+      "source_file": "AKq1dk2CLofyBXxCjAIcYdDNnae.json",
+      "source_hash": "5e90e8e40b54bcdd32416adc11920d2595fc0fd27eed6c19324b2b5efc825642",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionSchema.md"
+      ]
+    },
+    {
+      "record_id": "recvccN4aqTkJH",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ConsistencyLevel",
+      "slug": "Collections-ConsistencyLevel",
+      "doc_token": "PSxodxjuFo7SZFxP9qZc09ELn5c",
+      "doc_link": "https://zilliverse.feishu.cn/docx/PSxodxjuFo7SZFxP9qZc09ELn5c",
+      "source_file": "PSxodxjuFo7SZFxP9qZc09ELn5c.json",
+      "source_hash": "9d602fbeb5bd6d8912bf5b12a6ce480eb693e00cfb633a04ea7db75eb983aba5",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-ConsistencyLevel.md"
+      ]
+    },
+    {
+      "record_id": "recvccWWYeWC4s",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "FieldSchema",
+      "slug": "Collections-FieldSchema",
+      "doc_token": "CmVxdb9mxoe1UixZ3nxc2fmCnOg",
+      "doc_link": "https://zilliverse.feishu.cn/docx/CmVxdb9mxoe1UixZ3nxc2fmCnOg",
+      "source_file": "CmVxdb9mxoe1UixZ3nxc2fmCnOg.json",
+      "source_hash": "3f517774beac16b4960b0220305e4d909c47905cf309b283cd03c8ff5cda285a",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
+      ],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-FieldSchema.md"
+      ]
+    },
+    {
+      "record_id": "recvdU8mG9r0KS",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CollectionDesc",
+      "slug": "Collections-CollectionDesc",
+      "doc_token": "QZ7hdS2KRofUiYx9c8TcMXkknPc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/QZ7hdS2KRofUiYx9c8TcMXkknPc",
+      "source_file": "QZ7hdS2KRofUiYx9c8TcMXkknPc.json",
+      "source_hash": "e3d108ec1722b27621a362bf2ae3e7a9d613316a1431de45f27dcfc8092211d2",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionDesc.md"
+      ]
+    },
+    {
+      "record_id": "recvdU8pjGXuDz",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CollectionInfo",
+      "slug": "Collections-CollectionInfo",
+      "doc_token": "Er8qdUCUAok3j4xBCP0cVYIQnk0",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Er8qdUCUAok3j4xBCP0cVYIQnk0",
+      "source_file": "Er8qdUCUAok3j4xBCP0cVYIQnk0.json",
+      "source_hash": "2170e39a4375c3068b058a3ad69f9daf130c89a95f997202e276da3071562623",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionInfo.md"
+      ]
+    },
+    {
+      "record_id": "recvdU8s1X1N8s",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AliasDesc",
+      "slug": "Collections-AliasDesc",
+      "doc_token": "Rt1adnttKolmjfxwFc1cgf01nff",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Rt1adnttKolmjfxwFc1cgf01nff",
+      "source_file": "Rt1adnttKolmjfxwFc1cgf01nff.json",
+      "source_hash": "ef3bf333e1fb4a06cb96f5fc2284b09465caaf6498885f0c93a76aae370ebada",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-AliasDesc.md"
+      ]
+    },
+    {
+      "record_id": "recvdU8vij1qJU",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "StructFieldSchema",
+      "slug": "Collections-StructFieldSchema",
+      "doc_token": "E8V0dJNffoNiQHxsYyGcmQbennc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/E8V0dJNffoNiQHxsYyGcmQbennc",
+      "source_file": "E8V0dJNffoNiQHxsYyGcmQbennc.json",
+      "source_hash": "25c0c1378b5e64ef93b9be6fd979827bf77329377fa9f7a87f0b5f65f2a96d13",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-StructFieldSchema.md"
+      ]
+    },
+    {
+      "record_id": "recvdU8yQLjCJm",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Function",
+      "slug": "Collections-Function",
+      "doc_token": "MvE4d5F6vovZTUxxLtqcwedbndf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/MvE4d5F6vovZTUxxLtqcwedbndf",
+      "source_file": "MvE4d5F6vovZTUxxLtqcwedbndf.json",
+      "source_hash": "7c54f1454e5c41673123a2f3330a8bad086d48794b69b8d510e57721a97a30e4",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-Function.md"
+      ]
+    },
+    {
+      "record_id": "recvjEt2vGQ0qk",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "BatchDescribeCollections()",
+      "slug": "Collections-BatchDescribeCollections",
+      "doc_token": "IpztddRkJo1o6JxKNWHcPjO8n8f",
+      "doc_link": "https://zilliverse.feishu.cn/docx/IpztddRkJo1o6JxKNWHcPjO8n8f",
+      "source_file": "IpztddRkJo1o6JxKNWHcPjO8n8f.json",
+      "source_hash": "c04f2ff55945ae797c7b5853870e33d8059ff663c88b7e515fb5aa66e565719e",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-BatchDescribeCollections.md"
+      ]
+    },
+    {
+      "record_id": "recvjEt5HjXwqr",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AddCollectionFunction()",
+      "slug": "Collections-AddCollectionFunction",
+      "doc_token": "OrRqdvj4yoN2cMxbHUkcEE9Xnbg",
+      "doc_link": "https://zilliverse.feishu.cn/docx/OrRqdvj4yoN2cMxbHUkcEE9Xnbg",
+      "source_file": "OrRqdvj4yoN2cMxbHUkcEE9Xnbg.json",
+      "source_hash": "c9473a1436930eb1ad599be8c601582758ebff406c09487a758ad5661c66c9f3",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionFunction.md"
+      ]
+    },
+    {
+      "record_id": "recvjEt7oj9rtA",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AlterCollectionFunction()",
+      "slug": "Collections-AlterCollectionFunction",
+      "doc_token": "YuvidafRvob4HuxnxrGcU7Vsnbh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/YuvidafRvob4HuxnxrGcU7Vsnbh",
+      "source_file": "YuvidafRvob4HuxnxrGcU7Vsnbh.json",
+      "source_hash": "76b086ac42e052eb9aab52c7650e4447afbb1e058d4720f28c5cbeb6d5657932",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFunction.md"
+      ]
+    },
+    {
+      "record_id": "recvjEt94XkaYI",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropCollectionFunction()",
+      "slug": "Collections-DropCollectionFunction",
+      "doc_token": "C6UadudBVopgWOxeZRwcf0uKn6b",
+      "doc_link": "https://zilliverse.feishu.cn/docx/C6UadudBVopgWOxeZRwcf0uKn6b",
+      "source_file": "C6UadudBVopgWOxeZRwcf0uKn6b.json",
+      "source_hash": "256a37938e8f2c21ea15c52ff5fe0ec869d299356104423f6f12c0e0b672c34e",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionFunction.md"
+      ]
+    },
+    {
+      "record_id": "recvqCIFlgmRzq",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropCollectionField()",
+      "slug": "Collections-DropCollectionField",
+      "doc_token": "Qgmsdk9v3oAOXlxlx0nc1svZn2b",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Qgmsdk9v3oAOXlxlx0nc1svZn2b",
+      "source_file": "Qgmsdk9v3oAOXlxlx0nc1svZn2b.json",
+      "source_hash": "c5dea0f385c5a719838efbff84df637d6bacf261a26114a8e9440e32ca8aa33f",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionField.md"
+      ]
+    },
+    {
+      "record_id": "recvqCIHgDI4w2",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AddCollectionStructField()",
+      "slug": "Collections-AddCollectionStructField",
+      "doc_token": "GWPxd80BYoQleSxNCPNcFvWsnzb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/GWPxd80BYoQleSxNCPNcFvWsnzb",
+      "source_file": "GWPxd80BYoQleSxNCPNcFvWsnzb.json",
+      "source_hash": "4a8270cd1faf9e9d9c8d8bb940eccb8aed3453009c54e1f936144b3b9db40f8a",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionStructField.md"
+      ]
+    },
+    {
+      "record_id": "recvqCIM06utzz",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AddFunctionField()",
+      "slug": "Collections-AddFunctionField",
+      "doc_token": "TcF2doHmuoNHsKxRRJbcsYevnph",
+      "doc_link": "https://zilliverse.feishu.cn/docx/TcF2doHmuoNHsKxRRJbcsYevnph",
+      "source_file": "TcF2doHmuoNHsKxRRJbcsYevnph.json",
+      "source_hash": "c33997b14fd3ed47633699856d4f39953a4a302a3c4aafe2b83c9365a5103f02",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-AddFunctionField.md"
+      ]
+    },
+    {
+      "record_id": "recvqCIQptGkdC",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropFunctionField()",
+      "slug": "Collections-DropFunctionField",
+      "doc_token": "CC9zdTSe3onmvrxGs5ic0e8inJd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/CC9zdTSe3onmvrxGs5ic0e8inJd",
+      "source_file": "CC9zdTSe3onmvrxGs5ic0e8inJd.json",
+      "source_hash": "795ad9768e4e6791d9707ccda7c9f95fad3728090f6f72e7f4b82bc56c2c9896",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-DropFunctionField.md"
+      ]
+    },
+    {
+      "record_id": "recvqCJ9pyYp6N",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "FunctionType",
+      "slug": "Collections-FunctionType",
+      "doc_token": "InoydNBt1osec5xj0C6cPCsRnTd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/InoydNBt1osec5xj0C6cPCsRnTd",
+      "source_file": "InoydNBt1osec5xj0C6cPCsRnTd.json",
+      "source_hash": "ec05e59faa2b8baeb7d0d8579d1ad9f4518849f524d653dfe267451d797b641c",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Collections/Collections-FunctionType.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRqjEI1uZ",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CreateDatabase()",
+      "slug": "Database-CreateDatabase",
+      "doc_token": "J7vTderKqoQFotxp1RUcLVzenBv",
+      "doc_link": "https://zilliverse.feishu.cn/docx/J7vTderKqoQFotxp1RUcLVzenBv",
+      "source_file": "J7vTderKqoQFotxp1RUcLVzenBv.json",
+      "source_hash": "f83c4d02bd856ee3411f5a353cc78cc4e3db845c6bd8beb10c6d7efc690d902d",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Database/Database-CreateDatabase.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRrABwehX",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropDatabase()",
+      "slug": "Database-DropDatabase",
+      "doc_token": "H6bldn5xxoPeGJxoX7Icp0tpnMb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/H6bldn5xxoPeGJxoX7Icp0tpnMb",
+      "source_file": "H6bldn5xxoPeGJxoX7Icp0tpnMb.json",
+      "source_hash": "333f1474afccedd051bc85d595a4f7a5844be00864cb40563799c332bea1515d",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Database/Database-DropDatabase.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRsJEK63K",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListDatabases()",
+      "slug": "Database-ListDatabases",
+      "doc_token": "Tjohd3KEjoTXkuxX2Kqcs13wnEh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Tjohd3KEjoTXkuxX2Kqcs13wnEh",
+      "source_file": "Tjohd3KEjoTXkuxX2Kqcs13wnEh.json",
+      "source_hash": "53e9add96c1d865cd5682465671b2d42b65847619ab651b37b17f4aaf01b46b7",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Database/Database-ListDatabases.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRuiOuxge",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AlterDatabaseProperties()",
+      "slug": "Database-AlterDatabaseProperties",
+      "doc_token": "XPsfdhNDhopm2Ux7HKncEtZonjh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/XPsfdhNDhopm2Ux7HKncEtZonjh",
+      "source_file": "XPsfdhNDhopm2Ux7HKncEtZonjh.json",
+      "source_hash": "80e39a1b8f66afbb26b2257e5153a8de1df39a5f80db7f45b1bc1d12441f954d",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Database/Database-AlterDatabaseProperties.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRvRtI0S8",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropDatabaseProperties()",
+      "slug": "Database-DropDatabaseProperties",
+      "doc_token": "LBSwdc3WTo0vbQxTO4uca77EnWd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/LBSwdc3WTo0vbQxTO4uca77EnWd",
+      "source_file": "LBSwdc3WTo0vbQxTO4uca77EnWd.json",
+      "source_hash": "62eabe9bb3a9faa079868fa2f0bfdaa505a862f16bd61e7dff7cf68ced079788",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Database/Database-DropDatabaseProperties.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRxc0ZzcH",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DescribeDatabase()",
+      "slug": "Database-DescribeDatabase",
+      "doc_token": "ZNfkd4vqOoG9RexySyicxncBnzf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/ZNfkd4vqOoG9RexySyicxncBnzf",
+      "source_file": "ZNfkd4vqOoG9RexySyicxncBnzf.json",
+      "source_hash": "72e4682dbd82586868fbf42be70880c44b18358b8505aae2cca21d18c2de91e7",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Database/Database-DescribeDatabase.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQKZ19S83",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "LoadCollection()",
+      "slug": "Management-LoadCollection",
+      "doc_token": "Z3KTdzp7xoWm7QxytFGcIqYangm",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Z3KTdzp7xoWm7QxytFGcIqYangm",
+      "source_file": "Z3KTdzp7xoWm7QxytFGcIqYangm.json",
+      "source_hash": "a36217e38eb011582b8be9f90697659112caf7a73d71d3e1af8d6baf9bc2e4b6",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-LoadCollection.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQMsh6VsU",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ReleaseCollection()",
+      "slug": "Management-ReleaseCollection",
+      "doc_token": "RzmYdsC1joL3LuxT765csIbwnCh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/RzmYdsC1joL3LuxT765csIbwnCh",
+      "source_file": "RzmYdsC1joL3LuxT765csIbwnCh.json",
+      "source_hash": "f8183edde25375cd8c27dbe71eebce206691ae85f541b6ab44bd7007355076ce",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-ReleaseCollection.md"
+      ]
+    },
+    {
+      "record_id": "recvaTQU2Ey99p",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GetLoadState()",
+      "slug": "Management-GetLoadState",
+      "doc_token": "Vs0rdbqzcoC2ODxjnR3cN1imnPd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Vs0rdbqzcoC2ODxjnR3cN1imnPd",
+      "source_file": "Vs0rdbqzcoC2ODxjnR3cN1imnPd.json",
+      "source_hash": "5ac630f0eaf9d2ee57b0b31c53069cbb3bb9d1bf94f2b868264aa85fcb69ad33",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-GetLoadState.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRzafGgHk",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CreateIndex()",
+      "slug": "Management-CreateIndex",
+      "doc_token": "J7Yxdgw6moJca1xZCe7cLOIunve",
+      "doc_link": "https://zilliverse.feishu.cn/docx/J7Yxdgw6moJca1xZCe7cLOIunve",
+      "source_file": "J7Yxdgw6moJca1xZCe7cLOIunve.json",
+      "source_hash": "32d1d5d0575c8c7d17d468a217dcd3f20c0089f0b9387a652cd66ad2c4f73d02",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-CreateIndex.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRB55G6Q2",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DescribeIndex()",
+      "slug": "Management-DescribeIndex",
+      "doc_token": "MW7cdYuPyoNF2wxD5oKcibgynKd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/MW7cdYuPyoNF2wxD5oKcibgynKd",
+      "source_file": "MW7cdYuPyoNF2wxD5oKcibgynKd.json",
+      "source_hash": "53702267052b8e60cf007f83108c78bc442015de30fa6089cffa64ba0938f7fa",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-DescribeIndex.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRCyRVN6J",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListIndexes()",
+      "slug": "Management-ListIndexes",
+      "doc_token": "U7Y9dr70qoyDGYxlgBTcOGTgnbd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/U7Y9dr70qoyDGYxlgBTcOGTgnbd",
+      "source_file": "U7Y9dr70qoyDGYxlgBTcOGTgnbd.json",
+      "source_hash": "a5cf99733c4e0474c83bf77c33969d25dba2159dedd3086b0c64df46f57d4d8a",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-ListIndexes.md"
+      ]
+    },
+    {
+      "record_id": "recvaTREelEhnv",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropIndex()",
+      "slug": "Management-DropIndex",
+      "doc_token": "JstbdGVJwocHJ0xQ8M8cagZHn2a",
+      "doc_link": "https://zilliverse.feishu.cn/docx/JstbdGVJwocHJ0xQ8M8cagZHn2a",
+      "source_file": "JstbdGVJwocHJ0xQ8M8cagZHn2a.json",
+      "source_hash": "e69d311170addf357ef0ce81a25ee6c307159367da41240ff878cbc6c77352ff",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-DropIndex.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRG2E3FwB",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AlterIndexProperties()",
+      "slug": "Management-AlterIndexProperties",
+      "doc_token": "TKJ0dmfeiojGU8xOyixcO4M5ncb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/TKJ0dmfeiojGU8xOyixcO4M5ncb",
+      "source_file": "TKJ0dmfeiojGU8xOyixcO4M5ncb.json",
+      "source_hash": "8ca91d74f4c894f3ff5ad44c98183576b6241673f2fa798b62b1b198de14da86",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-AlterIndexProperties.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRHR2YO38",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropIndexProperties()",
+      "slug": "Management-DropIndexProperties",
+      "doc_token": "SbJbdoDksoWVlxxvXQDcKYKsn4q",
+      "doc_link": "https://zilliverse.feishu.cn/docx/SbJbdoDksoWVlxxvXQDcKYKsn4q",
+      "source_file": "SbJbdoDksoWVlxxvXQDcKYKsn4q.json",
+      "source_hash": "4a4b2005b06404807aedc12abe96fd2b2473c3d5a7c422cc2885310613c03fef",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-DropIndexProperties.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSjur2QkP",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Flush()",
+      "slug": "Management-Flush",
+      "doc_token": "Ya3cdJkTNoGyqYxTXPMccOd8nun",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Ya3cdJkTNoGyqYxTXPMccOd8nun",
+      "source_file": "Ya3cdJkTNoGyqYxTXPMccOd8nun.json",
+      "source_hash": "f4a2e02c7a007bb70c6ff823c9564dbdb101322af1d049c8d9819ef3637c8d17",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-Flush.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSkVyeZJN",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListPersistentSegments()",
+      "slug": "Management-ListPersistentSegments",
+      "doc_token": "XhwtdeOEmoyc9YxuVpqck1ejnNe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/XhwtdeOEmoyc9YxuVpqck1ejnNe",
+      "source_file": "XhwtdeOEmoyc9YxuVpqck1ejnNe.json",
+      "source_hash": "898e437c4a28f848124da04d3c8b32ac37fe104dd3cc23cd70f23af34c27df63",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-ListPersistentSegments.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSmoqkBVm",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListQuerySegments()",
+      "slug": "Management-ListQuerySegments",
+      "doc_token": "J946dq9upog3BoxXTaucrrqvn4g",
+      "doc_link": "https://zilliverse.feishu.cn/docx/J946dq9upog3BoxXTaucrrqvn4g",
+      "source_file": "J946dq9upog3BoxXTaucrrqvn4g.json",
+      "source_hash": "a9903d458a3b615f374982a36f07a56dfd87fd042672fa4bd512396e43f1f9ac",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-ListQuerySegments.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSnWg7LRu",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Compact()",
+      "slug": "Management-Compact",
+      "doc_token": "ZidndgXjGoLam3xqLOOcmFTYnBh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/ZidndgXjGoLam3xqLOOcmFTYnBh",
+      "source_file": "ZidndgXjGoLam3xqLOOcmFTYnBh.json",
+      "source_hash": "32c1c580717787222eeff7b74de35d320ebbc8c470e3703dcfa0a052f7dac1eb",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-Compact.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSpeIPoC0",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GetCompactionState()",
+      "slug": "Management-GetCompactionState",
+      "doc_token": "G7OGdOxABoDWKMxUZDncelbanEd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/G7OGdOxABoDWKMxUZDncelbanEd",
+      "source_file": "G7OGdOxABoDWKMxUZDncelbanEd.json",
+      "source_hash": "80175f6f7d1fbbdcf07547df17f55c851e25bcbca44cde7c878b989402ec56ee",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionState.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSqwzFCNf",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GetCompactionPlans()",
+      "slug": "Management-GetCompactionPlans",
+      "doc_token": "KNcxdijIVobIUxxL1b3cyyhknsg",
+      "doc_link": "https://zilliverse.feishu.cn/docx/KNcxdijIVobIUxxL1b3cyyhknsg",
+      "source_file": "KNcxdijIVobIUxxL1b3cyyhknsg.json",
+      "source_hash": "934403d30430cf147bc993352721224b9e763d6c08473b1febce96e7afe0077a",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionPlans.md"
+      ]
+    },
+    {
+      "record_id": "recvaTT3jGIDe2",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "IndexType",
+      "slug": "Management-IndexType",
+      "doc_token": "FTlxddhTlorM8hxprlsc3RUEnnb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/FTlxddhTlorM8hxprlsc3RUEnnb",
+      "source_file": "FTlxddhTlorM8hxprlsc3RUEnnb.json",
+      "source_hash": "7b022446311e09ae04579ed711f8babd436964b488e8c9345199c03063172e25",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-IndexType.md"
+      ]
+    },
+    {
+      "record_id": "recvaTT4oxKFY1",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "MetricType",
+      "slug": "Management-MetricType",
+      "doc_token": "Fh1mdjyzRo7LanxIvHqcF9ihnLb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Fh1mdjyzRo7LanxIvHqcF9ihnLb",
+      "source_file": "Fh1mdjyzRo7LanxIvHqcF9ihnLb.json",
+      "source_hash": "db7186ff79958a412482e957a8f7412cc3d6788e875ec43a101e6fd2015122ba",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-MetricType.md"
+      ]
+    },
+    {
+      "record_id": "recvccN9viz31l",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "IndexDesc",
+      "slug": "Management-IndexDesc",
+      "doc_token": "C4kSd9x2GobYZGxDTkacZsX2nlc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/C4kSd9x2GobYZGxDTkacZsX2nlc",
+      "source_file": "C4kSd9x2GobYZGxDTkacZsX2nlc.json",
+      "source_hash": "433f2383635fb4a7e9711b364c31d35419e8821367a752c6dcb00e17d2525950",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-IndexDesc.md"
+      ]
+    },
+    {
+      "record_id": "recvjEt0qY8Yke",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "RefreshLoad()",
+      "slug": "Management-RefreshLoad",
+      "doc_token": "YI1BdnZOMoPSOMxjVMEcrrCwnWh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/YI1BdnZOMoPSOMxjVMEcrrCwnWh",
+      "source_file": "YI1BdnZOMoPSOMxjVMEcrrCwnWh.json",
+      "source_hash": "3651262d56c84c97a5240cb21c04611174dd99d36a43d9ed6025982fe20631e8",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-RefreshLoad.md"
+      ]
+    },
+    {
+      "record_id": "recvjEtb8BmiCX",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Optimize()",
+      "slug": "Management-Optimize",
+      "doc_token": "NlpedMAt2of5d6xPHvucRSzjnVe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/NlpedMAt2of5d6xPHvucRSzjnVe",
+      "source_file": "NlpedMAt2of5d6xPHvucRSzjnVe.json",
+      "source_hash": "292985a8e557d38a04711c13c7310fb3706c4c45b0366213137e4348e84b065a",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-Optimize.md"
+      ]
+    },
+    {
+      "record_id": "recvmLb1HOedh2",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GetRefreshExternalCollectionProgress()",
+      "slug": "Management-GetRefreshExternalCollectionProgress",
+      "doc_token": "X9AodAxugobD0Yxt7S9c27z9nNg",
+      "doc_link": "https://zilliverse.feishu.cn/docx/X9AodAxugobD0Yxt7S9c27z9nNg",
+      "source_file": "X9AodAxugobD0Yxt7S9c27z9nNg.json",
+      "source_hash": "fc7514e00d4214a89c70adaa598097868c29af6591461f767ae49024e741427c",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress.md"
+      ]
+    },
+    {
+      "record_id": "recvmLb8z0v3gO",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListRefreshExternalCollectionJobs()",
+      "slug": "Management-ListRefreshExternalCollectionJobs",
+      "doc_token": "TjrfdFKTIoiaQ0x3NXUcMEvHnNb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/TjrfdFKTIoiaQ0x3NXUcMEvHnNb",
+      "source_file": "TjrfdFKTIoiaQ0x3NXUcMEvHnNb.json",
+      "source_hash": "1fd4806554305131da845cb3e05416a1a12cd1ddd73fe58908315c737a90315f",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/FileResources/Management-ListRefreshExternalCollectionJobs.md"
+      ]
+    },
+    {
+      "record_id": "recvmLbfb7WB34",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "RefreshExternalCollection()",
+      "slug": "Management-RefreshExternalCollection",
+      "doc_token": "GjhbdmL5PorgMXxkHTPcvVt6nul",
+      "doc_link": "https://zilliverse.feishu.cn/docx/GjhbdmL5PorgMXxkHTPcvVt6nul",
+      "source_file": "GjhbdmL5PorgMXxkHTPcvVt6nul.json",
+      "source_hash": "8c5504174e5928af0ebe55edea737b7549a438e48f5e3ec44af5b09eccdc7dde",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/FileResources/Management-RefreshExternalCollection.md"
+      ]
+    },
+    {
+      "record_id": "recvmLaYJRAJ4W",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "FlushAll()",
+      "slug": "Management-FlushAll",
+      "doc_token": "UbjxdApcFonLD4xmm9fcJI2knKd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/UbjxdApcFonLD4xmm9fcJI2knKd",
+      "source_file": "UbjxdApcFonLD4xmm9fcJI2knKd.json",
+      "source_hash": "00d9752e7e68902c81eac4d5007c4ee2b86f645a3ed4b3280fcf20f25e0b0d25",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-FlushAll.md"
+      ]
+    },
+    {
+      "record_id": "recvmLb0hY3ywX",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GetFlushAllState()",
+      "slug": "Management-GetFlushAllState",
+      "doc_token": "TBtpd6bsLoelhbx2iXDccaVDnqe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/TBtpd6bsLoelhbx2iXDccaVDnqe",
+      "source_file": "TBtpd6bsLoelhbx2iXDccaVDnqe.json",
+      "source_hash": "d561951d430a59429c6933a177ea50c385c96d3b481cafbc264d827fed3636e1",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Management/Management-GetFlushAllState.md"
+      ]
+    },
+    {
+      "record_id": "recvaTR4sP8R8J",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CreatePartition()",
+      "slug": "Partitions-CreatePartition",
+      "doc_token": "W65adsrWqolU5Lx7C5Oc19b2ne6",
+      "doc_link": "https://zilliverse.feishu.cn/docx/W65adsrWqolU5Lx7C5Oc19b2ne6",
+      "source_file": "W65adsrWqolU5Lx7C5Oc19b2ne6.json",
+      "source_hash": "8175de53bf48522925721506590cf9eb8cc0a51275e776e128ae05275403c680",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Partitions/Partitions-CreatePartition.md"
+      ]
+    },
+    {
+      "record_id": "recvaTR642Chw9",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropPartition()",
+      "slug": "Partitions-DropPartition",
+      "doc_token": "SBLUdI6Wworo1oxrfAOcnH7jnFd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/SBLUdI6Wworo1oxrfAOcnH7jnFd",
+      "source_file": "SBLUdI6Wworo1oxrfAOcnH7jnFd.json",
+      "source_hash": "33d34c4aa62e8160d5265052f9c12be3ffd818c71165b7a33c3c9393a9928b52",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Partitions/Partitions-DropPartition.md"
+      ]
+    },
+    {
+      "record_id": "recvaTR7A2a6I3",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "HasPartition()",
+      "slug": "Partitions-HasPartition",
+      "doc_token": "M7O7df6KLoqRS2x6ls0cuSwlnNh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/M7O7df6KLoqRS2x6ls0cuSwlnNh",
+      "source_file": "M7O7df6KLoqRS2x6ls0cuSwlnNh.json",
+      "source_hash": "f4f006e3341ec9fbd79ef707a09c4159c96f31a08b693ff6eda23eeb5e754dae",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Partitions/Partitions-HasPartition.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRav6VFPw",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "LoadPartitions()",
+      "slug": "Partitions-LoadPartitions",
+      "doc_token": "I2fxdWeslorOwIxnv9ac0giWnps",
+      "doc_link": "https://zilliverse.feishu.cn/docx/I2fxdWeslorOwIxnv9ac0giWnps",
+      "source_file": "I2fxdWeslorOwIxnv9ac0giWnps.json",
+      "source_hash": "94a07b8d338718b63ae8be9f69b7ebb8a8453a92a3a093fe1e7bc5ed8f3bc236",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Partitions/Partitions-LoadPartitions.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRcdkfNkk",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ReleasePartitions()",
+      "slug": "Partitions-ReleasePartitions",
+      "doc_token": "JJ28dtdEQo6J3Yx3HXkcnn7OnWh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/JJ28dtdEQo6J3Yx3HXkcnn7OnWh",
+      "source_file": "JJ28dtdEQo6J3Yx3HXkcnn7OnWh.json",
+      "source_hash": "edfb4acd46af8a27a753101744e8ea926668aa3fb908503929538c7a8d6470c1",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Partitions/Partitions-ReleasePartitions.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRdJGSLxe",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GetPartitionStatistics()",
+      "slug": "Partitions-GetPartitionStatistics",
+      "doc_token": "LaPcdArhDo6aGnxpX8Oc5azCnCe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/LaPcdArhDo6aGnxpX8Oc5azCnCe",
+      "source_file": "LaPcdArhDo6aGnxpX8Oc5azCnCe.json",
+      "source_hash": "85343ea7e32827782e2267b79fa5a2144bcfeb9ca3d578035c0af9eb4b0b1d51",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Partitions/Partitions-GetPartitionStatistics.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRf6aW8AZ",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListPartitions()",
+      "slug": "Partitions-ListPartitions",
+      "doc_token": "PwncdGtEvoxsajxmubhc5O6anqc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/PwncdGtEvoxsajxmubhc5O6anqc",
+      "source_file": "PwncdGtEvoxsajxmubhc5O6anqc.json",
+      "source_hash": "28626485db85675926ed87346669dc470295e107126736743725038d0d91d451",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Partitions/Partitions-ListPartitions.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRK1OK1cp",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Insert()",
+      "slug": "Vector-Insert",
+      "doc_token": "MI1HdCRUbo7J60xbMsic3P9qnIb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/MI1HdCRUbo7J60xbMsic3P9qnIb",
+      "source_file": "MI1HdCRUbo7J60xbMsic3P9qnIb.json",
+      "source_hash": "a43251a6c0732b51c2c91f2e98643eb02a9fc94d599d33c4ce13ea5d28dd484e",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
+      ],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Vector/Vector-Insert.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRMgKFrp7",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Upsert()",
+      "slug": "Vector-Upsert",
+      "doc_token": "ZOzKddUzaoED8mxB0znc6njxngR",
+      "doc_link": "https://zilliverse.feishu.cn/docx/ZOzKddUzaoED8mxB0znc6njxngR",
+      "source_file": "ZOzKddUzaoED8mxB0znc6njxngR.json",
+      "source_hash": "f01a051c9dc49bb4ed54813acbfc43110fd416e0098dc6a5df42801e1027bdb9",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
+      ],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Vector/Vector-Upsert.md"
+      ]
+    },
+    {
+      "record_id": "recvaTROsWsYDM",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Delete()",
+      "slug": "Vector-Delete",
+      "doc_token": "B9XjdA1Cgo0oBRxglOlcrlPan9e",
+      "doc_link": "https://zilliverse.feishu.cn/docx/B9XjdA1Cgo0oBRxglOlcrlPan9e",
+      "source_file": "B9XjdA1Cgo0oBRxglOlcrlPan9e.json",
+      "source_hash": "c01044aaa2a37bac4515a1197b576bddcb3c8adfd4f1106aa37a38792df02a22",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Vector/Vector-Delete.md"
+      ]
+    },
+    {
+      "record_id": "recvaTRVz6gydr",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Search()",
+      "slug": "Vector-Search",
+      "doc_token": "QAA0daStropumHxwdk2cN4LUnPg",
+      "doc_link": "https://zilliverse.feishu.cn/docx/QAA0daStropumHxwdk2cN4LUnPg",
+      "source_file": "QAA0daStropumHxwdk2cN4LUnPg.json",
+      "source_hash": "869d5d79fd398f854566524ac0da040547d5a9a5ed0773ccd15b954d2879a827",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
+      ],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Vector/Vector-Search.md"
+      ]
+    },
+    {
+      "record_id": "recvaTS2IgsqKY",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "SearchIterator()",
+      "slug": "Vector-SearchIterator",
+      "doc_token": "UJArdNCrIoKR78xBrKqcwtgUnQc",
+      "doc_link": "https://zilliverse.feishu.cn/docx/UJArdNCrIoKR78xBrKqcwtgUnQc",
+      "source_file": "UJArdNCrIoKR78xBrKqcwtgUnQc.json",
+      "source_hash": "9f570569443f82f24a02bf05646ac2a78586db2f4e537e024704f92d0222147d",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
+      ],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Vector/Vector-SearchIterator.md"
+      ]
+    },
+    {
+      "record_id": "recvaTS6pTJYTg",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "HybridSearch()",
+      "slug": "Vector-HybridSearch",
+      "doc_token": "EHmkdGRrlooizbxSZ8wc9CYgnAb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/EHmkdGRrlooizbxSZ8wc9CYgnAb",
+      "source_file": "EHmkdGRrlooizbxSZ8wc9CYgnAb.json",
+      "source_hash": "58dd5e1e8faaf0e828d70dbe2c4cd79bd379f24cb518b9d16775a4c360b29c07",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
+      ],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Vector/Vector-HybridSearch.md"
+      ]
+    },
+    {
+      "record_id": "recvaTS9H3vQQa",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Query()",
+      "slug": "Vector-Query",
+      "doc_token": "LtZhdRryBo4vAwxHJmDcbsKvnhK",
+      "doc_link": "https://zilliverse.feishu.cn/docx/LtZhdRryBo4vAwxHJmDcbsKvnhK",
+      "source_file": "LtZhdRryBo4vAwxHJmDcbsKvnhK.json",
+      "source_hash": "ef159ce0c3067dff9287a97e34f9fd9800c9cb5b7bfccdb539e866a101be1420",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
+      ],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Vector/Vector-Query.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSbY03CAo",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "Get()",
+      "slug": "Vector-Get",
+      "doc_token": "Ve9xdWGNYobA52xfC7kcD4wMnkh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Ve9xdWGNYobA52xfC7kcD4wMnkh",
+      "source_file": "Ve9xdWGNYobA52xfC7kcD4wMnkh.json",
+      "source_hash": "b92e542c5264f4ec00fe9512868d67f363224d2165c7d68b2e7fd3f455110334",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Vector/Vector-Get.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSfp55LJx",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "QueryIterator()",
+      "slug": "Vector-QueryIterator",
+      "doc_token": "T4HRdSHCboHtR4xmvxqcekTvnX7",
+      "doc_link": "https://zilliverse.feishu.cn/docx/T4HRdSHCboHtR4xmvxqcekTvnX7",
+      "source_file": "T4HRdSHCboHtR4xmvxqcekTvnX7.json",
+      "source_hash": "5265775c9be3b40b2be24370e06c4e368ed8510b01db73b4948fdd3fe9b9df20",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "SGYTdh0fJo6O1uxW3yjcET9Nnpf"
+      ],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Vector/Vector-QueryIterator.md"
+      ]
+    },
+    {
+      "record_id": "recvaTShRBR8H8",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "RunAnalyzer()",
+      "slug": "Vector-RunAnalyzer",
+      "doc_token": "ACnNdxazbo8zRUx2zeMcmoN2nah",
+      "doc_link": "https://zilliverse.feishu.cn/docx/ACnNdxazbo8zRUx2zeMcmoN2nah",
+      "source_file": "ACnNdxazbo8zRUx2zeMcmoN2nah.json",
+      "source_hash": "b0f6fa39517fc04e7d6be4918b1453f1672214c95052474e4b16c61391b04f46",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Vector/Vector-RunAnalyzer.md"
+      ]
+    },
+    {
+      "record_id": "recvaTSs0XkpRa",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CreateResourceGroup()",
+      "slug": "ResourceGroup-CreateResourceGroup",
+      "doc_token": "Ec0Gdh8ecollEbxzwANcQBl1n7d",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Ec0Gdh8ecollEbxzwANcQBl1n7d",
+      "source_file": "Ec0Gdh8ecollEbxzwANcQBl1n7d.json",
+      "source_hash": "39a54d5946b76c7c7a41dd0fab04d63a8714cb511be70929b36ec9738c5a2144",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvaTStqm6bqO",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropResourceGroup()",
+      "slug": "ResourceGroup-DropResourceGroup",
+      "doc_token": "VzgydOgusoZ0L6xaojScFLcenRb",
+      "doc_link": "https://zilliverse.feishu.cn/docx/VzgydOgusoZ0L6xaojScFLcenRb",
+      "source_file": "VzgydOgusoZ0L6xaojScFLcenRb.json",
+      "source_hash": "5e07971bdee0a90926e267bfc09f7f2a8dd89a77eae705bc2b6da8d920aa9df4",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvaTSuSVJMaj",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "UpdateResourceGroups()",
+      "slug": "ResourceGroup-UpdateResourceGroups",
+      "doc_token": "LMBydELUDo1SkWx1dbxcVvCLnvg",
+      "doc_link": "https://zilliverse.feishu.cn/docx/LMBydELUDo1SkWx1dbxcVvCLnvg",
+      "source_file": "LMBydELUDo1SkWx1dbxcVvCLnvg.json",
+      "source_hash": "e97ad297d4b32438bfb92394659e02272bae5c72b005e3f433528e10766ee00c",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvaTSwrr7U5U",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "TransferNode()",
+      "slug": "ResourceGroup-TransferNode",
+      "doc_token": "Uaqqd6oxLo6JvExyeH9ckzNrnQd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Uaqqd6oxLo6JvExyeH9ckzNrnQd",
+      "source_file": "Uaqqd6oxLo6JvExyeH9ckzNrnQd.json",
+      "source_hash": "e537dc5f41da0406d7aad9724348e24e4acf218ef15a9c4d1ab36d5c7dd62291",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvaTSyg0p70Q",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "TransferReplica()",
+      "slug": "ResourceGroup-TransferReplica",
+      "doc_token": "JCFyd2kjroKADpxr3rYcfLBcnqd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/JCFyd2kjroKADpxr3rYcfLBcnqd",
+      "source_file": "JCFyd2kjroKADpxr3rYcfLBcnqd.json",
+      "source_hash": "b749a07ed13d707081dfe04ac166931d20d4147f2fd0b360b5d237b3c8d6df6b",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvaTSzpuBFo0",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListResourceGroups()",
+      "slug": "ResourceGroup-ListResourceGroups",
+      "doc_token": "BKrTduKHFoNkp8xN99XcD0olnJd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/BKrTduKHFoNkp8xN99XcD0olnJd",
+      "source_file": "BKrTduKHFoNkp8xN99XcD0olnJd.json",
+      "source_hash": "bcb6515e762d0e1c6ea6a86609c4f75619ae46b32b93203228fbd60df9ceb3df",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvaTSAFTQFBl",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DescribeResourceGroup()",
+      "slug": "ResourceGroup-DescribeResourceGroup",
+      "doc_token": "EeZ3dCqWhoscrUxgC8GcImbDnMd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/EeZ3dCqWhoscrUxgC8GcImbDnMd",
+      "source_file": "EeZ3dCqWhoscrUxgC8GcImbDnMd.json",
+      "source_hash": "35a6b9824ec3f32bc41a4f5b9bacec702515126c0705636bff73a47e50cc2407",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvdU95y7x8YH",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ResourceGroupConfig",
+      "slug": "ResourceGroup-ResourceGroupConfig",
+      "doc_token": "Feg1d6JhroRQaHx5lhvcKk4mn3a",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Feg1d6JhroRQaHx5lhvcKk4mn3a",
+      "source_file": "Feg1d6JhroRQaHx5lhvcKk4mn3a.json",
+      "source_hash": "c8c086653eb2bbaba7d8db7ee244821fff7dbfc55f82897e4613838035e92f02",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvdU98VHcEoK",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ResourceGroupDesc",
+      "slug": "ResourceGroup-ResourceGroupDesc",
+      "doc_token": "AfRadj66ZoATbTx5vMFcrh4Lnzh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/AfRadj66ZoATbTx5vMFcrh4Lnzh",
+      "source_file": "AfRadj66ZoATbTx5vMFcrh4Lnzh.json",
+      "source_hash": "eee259c9fde66497a2cdd602598f70eb2536ed7e30a101a8d9fdcd56096736ff",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvjEt4708qqU",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DescribeReplicas()",
+      "slug": "ResourceGroup-DescribeReplicas",
+      "doc_token": "RseVdNxB7oKfd2x4nXNcZBYXnzl",
+      "doc_link": "https://zilliverse.feishu.cn/docx/RseVdNxB7oKfd2x4nXNcZBYXnzl",
+      "source_file": "RseVdNxB7oKfd2x4nXNcZBYXnzl.json",
+      "source_hash": "6fa3fb8f2f2676201b16510eb8bb48f8c7ad660b65aaf7c11f046990d7011913",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvcZkSKqDUPT",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CreateImportJobs()",
+      "slug": "DataImport-CreateImportJobs",
+      "doc_token": "FdxMdw01eoWnXKx4Q4rcUh0unFf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/FdxMdw01eoWnXKx4Q4rcUh0unFf",
+      "source_file": "FdxMdw01eoWnXKx4Q4rcUh0unFf.json",
+      "source_hash": "499e651fbc578ca9742547bd95adf05934853acf291308449224324154b30ffc",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md"
+      ]
+    },
+    {
+      "record_id": "recvcZkUMVrOin",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListImportJobs()",
+      "slug": "DataImport-ListImportJobs",
+      "doc_token": "Ls7kdwtuJoZfVUx1N3vc5tkznuh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Ls7kdwtuJoZfVUx1N3vc5tkznuh",
+      "source_file": "Ls7kdwtuJoZfVUx1N3vc5tkznuh.json",
+      "source_hash": "78b1bd615a34c78481f753e21fae0ac05a4edcdb4597ead060d6eea066411c82",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/DataImport/DataImport-ListImportJobs.md"
+      ]
+    },
+    {
+      "record_id": "recvcZkWJ3l9TX",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GetImportJobProgress()",
+      "slug": "DataImport-GetImportJobProgress",
+      "doc_token": "NmxkduivloqgeXxVxOpcHydEnne",
+      "doc_link": "https://zilliverse.feishu.cn/docx/NmxkduivloqgeXxVxOpcHydEnne",
+      "source_file": "NmxkduivloqgeXxVxOpcHydEnne.json",
+      "source_hash": "e378a9b07dae5f42adcfe5adec5d9a33bb01d8ed41826d3c32e56470898abd5c",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/DataImport/DataImport-GetImportJobProgress.md"
+      ]
+    },
+    {
+      "record_id": "recvqCJ6MGWWTv",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CommitImport()",
+      "slug": "DataImport-CommitImport",
+      "doc_token": "DvRYdqk6qonziIxPQlJcqZN9nBd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/DvRYdqk6qonziIxPQlJcqZN9nBd",
+      "source_file": "DvRYdqk6qonziIxPQlJcqZN9nBd.json",
+      "source_hash": "7ea153b75be044ca89f075635660544a7000ca84c98fa45920dd416a8042c7a4",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/DataImport/DataImport-CommitImport.md"
+      ]
+    },
+    {
+      "record_id": "recvqCJ89Lxnk3",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AbortImport()",
+      "slug": "DataImport-AbortImport",
+      "doc_token": "GUnjd6RiHooH3CxHbjOc81vInBf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/GUnjd6RiHooH3CxHbjOc81vInBf",
+      "source_file": "GUnjd6RiHooH3CxHbjOc81vInBf.json",
+      "source_hash": "96720ff41360d869cfc44e5e1ddec42077fc09dd3a058d71211a5a9fcc277a46",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/DataImport/DataImport-AbortImport.md"
+      ]
+    },
+    {
+      "record_id": "recvmLaRxfNn5d",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "AddFileResource()",
+      "slug": "FileResources-AddFileResource",
+      "doc_token": "QAmzdvwmEoZP55xwBQicVB0cnwh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/QAmzdvwmEoZP55xwBQicVB0cnwh",
+      "source_file": "QAmzdvwmEoZP55xwBQicVB0cnwh.json",
+      "source_hash": "57cff656fdd62a5c8b929e8a164f205d9db44b4691699821c2b6f2752bc7d11a",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/FileResources/FileResources-AddFileResource.md"
+      ]
+    },
+    {
+      "record_id": "recvmLb7mb9jRU",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListFileResources()",
+      "slug": "FileResources-ListFileResources",
+      "doc_token": "LHdcdoz6OoQajtx3SMMcGLjcnFh",
+      "doc_link": "https://zilliverse.feishu.cn/docx/LHdcdoz6OoQajtx3SMMcGLjcnFh",
+      "source_file": "LHdcdoz6OoQajtx3SMMcGLjcnFh.json",
+      "source_hash": "1a6308d2bc40c19f09b06d04679edd8b842bd580efe5112b16366aac5ff3a7e8",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/FileResources/FileResources-ListFileResources.md"
+      ]
+    },
+    {
+      "record_id": "recvmLbgzFHyJO",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "RemoveFileResource()",
+      "slug": "FileResources-RemoveFileResource",
+      "doc_token": "Gs0EdiKeEoU5Exxxnb8ckz74nId",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Gs0EdiKeEoU5Exxxnb8ckz74nId",
+      "source_file": "Gs0EdiKeEoU5Exxxnb8ckz74nId.json",
+      "source_hash": "a808df13f1f0c5b4a151967b229708e7d90c9c6fcb84f09109e94658b9cf9020",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/FileResources/FileResources-RemoveFileResource.md"
+      ]
+    },
+    {
+      "record_id": "recvmLaTrofrrm",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "CreateSnapshot()",
+      "slug": "Snapshots-CreateSnapshot",
+      "doc_token": "S39Pd8SZ6oQ5dbxXS40cptWRnSf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/S39Pd8SZ6oQ5dbxXS40cptWRnSf",
+      "source_file": "S39Pd8SZ6oQ5dbxXS40cptWRnSf.json",
+      "source_hash": "a6a296b5e918bd3e393043fef407e7222b187188f4749fcada1d05f62cbf195b",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-CreateSnapshot.md"
+      ]
+    },
+    {
+      "record_id": "recvmLaVePYtue",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DescribeSnapshot()",
+      "slug": "Snapshots-DescribeSnapshot",
+      "doc_token": "MjnKdyOXkoKD3exC7rUcXSCMnxe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/MjnKdyOXkoKD3exC7rUcXSCMnxe",
+      "source_file": "MjnKdyOXkoKD3exC7rUcXSCMnxe.json",
+      "source_hash": "8cdfe44f112273b0f9cd340d6ce04bc8df5984d1c20d6bc369429207b5cb12c2",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-DescribeSnapshot.md"
+      ]
+    },
+    {
+      "record_id": "recvmLaX0HbwsR",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DropSnapshot()",
+      "slug": "Snapshots-DropSnapshot",
+      "doc_token": "M582dy1WyoYIbuxtun0cEc8ln3d",
+      "doc_link": "https://zilliverse.feishu.cn/docx/M582dy1WyoYIbuxtun0cEc8ln3d",
+      "source_file": "M582dy1WyoYIbuxtun0cEc8ln3d.json",
+      "source_hash": "ab5cd5c3e212c8be611313dc3cbfadc51a314f9c5d56266086641d9e2d9a05fd",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-DropSnapshot.md"
+      ]
+    },
+    {
+      "record_id": "recvmLb6buAx1K",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GetRestoreSnapshotState()",
+      "slug": "Snapshots-GetRestoreSnapshotState",
+      "doc_token": "Utu5dQE8Eo1zD0xdoJccCAx0nnf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Utu5dQE8Eo1zD0xdoJccCAx0nnf",
+      "source_file": "Utu5dQE8Eo1zD0xdoJccCAx0nnf.json",
+      "source_hash": "26a7f952baec855dd766cbff0f0f05d46f8adbce0adf494bdae99055bd4d14c2",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-GetRestoreSnapshotState.md"
+      ]
+    },
+    {
+      "record_id": "recvmLba4aAtPV",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListRestoreSnapshotJobs()",
+      "slug": "Snapshots-ListRestoreSnapshotJobs",
+      "doc_token": "ObE8dlNmooAuRQxQnyEci9RInxH",
+      "doc_link": "https://zilliverse.feishu.cn/docx/ObE8dlNmooAuRQxQnyEci9RInxH",
+      "source_file": "ObE8dlNmooAuRQxQnyEci9RInxH.json",
+      "source_hash": "1f3da9f52e02c4bceba864b8f3f69a3d2d53dc1ef78f4c7aca480ade3453b4a6",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-ListRestoreSnapshotJobs.md"
+      ]
+    },
+    {
+      "record_id": "recvmLbbznhuoM",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "ListSnapshots()",
+      "slug": "Snapshots-ListSnapshots",
+      "doc_token": "GJDKdgCbpoAxYkxpXygcdfFQnFe",
+      "doc_link": "https://zilliverse.feishu.cn/docx/GJDKdgCbpoAxYkxpXygcdfFQnFe",
+      "source_file": "GJDKdgCbpoAxYkxpXygcdfFQnFe.json",
+      "source_hash": "2fe59f9a3dac0a76df61a17c0bdc5d80d8f5c7663badfd6dcfae222a7002caa7",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-ListSnapshots.md"
+      ]
+    },
+    {
+      "record_id": "recvmLbdAuYgQP",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "PinSnapshotData()",
+      "slug": "Snapshots-PinSnapshotData",
+      "doc_token": "Yblkdh1ynoi4Igxu4wac3Jdvn1g",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Yblkdh1ynoi4Igxu4wac3Jdvn1g",
+      "source_file": "Yblkdh1ynoi4Igxu4wac3Jdvn1g.json",
+      "source_hash": "86e6802853c240989875359faf458134c514d4b035c84447e9bfc04a0f827d9d",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-PinSnapshotData.md"
+      ]
+    },
+    {
+      "record_id": "recvmLbiCYNCRL",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "RestoreSnapshot()",
+      "slug": "Snapshots-RestoreSnapshot",
+      "doc_token": "Ym8fdBWGqobHIhx9NkHcwpmonce",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Ym8fdBWGqobHIhx9NkHcwpmonce",
+      "source_file": "Ym8fdBWGqobHIhx9NkHcwpmonce.json",
+      "source_hash": "ce109e3265e075f23ff357a34a97d108ae1edcd6bfdbab54a059f63c448af637",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-RestoreSnapshot.md"
+      ]
+    },
+    {
+      "record_id": "recvmLbkj8AxIC",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "UnpinSnapshotData()",
+      "slug": "Snapshots-UnpinSnapshotData",
+      "doc_token": "TfBadHlwqoakz4xzFOEchPpVnVd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/TfBadHlwqoakz4xzFOEchPpVnVd",
+      "source_file": "TfBadHlwqoakz4xzFOEchPpVnVd.json",
+      "source_hash": "a126b4b9c5ab5005c46587066345fc82d920d1d525623aca97dbcfbe96bdbe20",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus",
+        "Zilliz"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": [
+        "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-UnpinSnapshotData.md"
+      ]
+    },
+    {
+      "record_id": "recvmLb2T0IsBJ",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GetReplicateConfiguration()",
+      "slug": "CDC-GetReplicateConfiguration",
+      "doc_token": "TriCdBud3o6kmnxaE3hcdRWlnCR",
+      "doc_link": "https://zilliverse.feishu.cn/docx/TriCdBud3o6kmnxaE3hcdRWlnCR",
+      "source_file": "TriCdBud3o6kmnxaE3hcdRWlnCR.json",
+      "source_hash": "c4f58c766aaf408a47b2113b7153a35007c392d9790187cf4198652bf049fec6",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvmLb4tF7xEZ",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "GetReplicateInfo()",
+      "slug": "CDC-GetReplicateInfo",
+      "doc_token": "PsWRdrgTAowrzvxPQLacBY7Lnjd",
+      "doc_link": "https://zilliverse.feishu.cn/docx/PsWRdrgTAowrzvxPQLacBY7Lnjd",
+      "source_file": "PsWRdrgTAowrzvxPQLacBY7Lnjd.json",
+      "source_hash": "222f0d43e16f572aad8be97a8b213201247e87fc30d5d5fe32bd40913a68833c",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvmLblR6THgW",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "UpdateReplicateConfiguration()",
+      "slug": "CDC-UpdateReplicateConfiguration",
+      "doc_token": "JPemdXUhPoXDBxxV3zfczSKwnoa",
+      "doc_link": "https://zilliverse.feishu.cn/docx/JPemdXUhPoXDBxxV3zfczSKwnoa",
+      "source_file": "JPemdXUhPoXDBxxV3zfczSKwnoa.json",
+      "source_hash": "db5fe845382b05bc605f7512bc8c1fffa240e326c0a98987d8bce4a51901136b",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvqCJ0URwGqp",
+      "table_id": "tbl3pnlF1gu6KlTY",
+      "table_name": "数据表",
+      "placement_type": "canonical",
+      "title": "DumpMessages()",
+      "slug": "CDC-DumpMessages",
+      "doc_token": "Hc4YdTawrot7IYxZBXJcN5E3nSf",
+      "doc_link": "https://zilliverse.feishu.cn/docx/Hc4YdTawrot7IYxZBXJcN5E3nSf",
+      "source_file": "Hc4YdTawrot7IYxZBXJcN5E3nSf.json",
+      "source_hash": "5a5a01e0fd41492b6f9ee23bb87225c986bd1f2b6aa0ff712c677e5168aee2d5",
+      "node_metadata": null,
+      "node_token": null,
+      "origin_node_token": null,
+      "obj_token": null,
+      "obj_type": null,
+      "obj_edit_time": null,
+      "revision_id": null,
+      "publish_targets": [
+        "Milvus"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    }
+  ]
+}

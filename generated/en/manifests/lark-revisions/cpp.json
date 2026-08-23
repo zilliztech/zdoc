@@ -2,7 +2,1376 @@
   "schemaVersion": 1,
   "group": "cpp",
   "complete": true,
-  "generatedAt": "2026-07-29T00:00:00Z",
-  "sourceRunId": "clean-room-seed",
-  "records": []
+  "generatedAt": "2026-08-23T14:47:26.216Z",
+  "sourceRunId": "32645549678",
+  "records": [
+    {
+      "canonicalToken": "A3gld3Xjco1VxSxi6Ndc3Bq4nuh",
+      "title": "AlterCollectionFieldProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFieldProperties.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "A5FAdLCowoBG4sxh5vEcRH0Nnkb",
+      "title": "ListCollections()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-ListCollections.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ACnNdxazbo8zRUx2zeMcmoN2nah",
+      "title": "RunAnalyzer()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-RunAnalyzer.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AKq1dk2CLofyBXxCjAIcYdDNnae",
+      "title": "CollectionSchema",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionSchema.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ATMTdUxB5oRc3Sx8ByIcL58Anrh",
+      "title": "CreateCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AeHodu7bqoOWJcxdR1Gc0dounzf",
+      "title": "LoadState",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-LoadState.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "AfRadj66ZoATbTx5vMFcrh4Lnzh",
+      "title": "ResourceGroupDesc",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "B9XjdA1Cgo0oBRxglOlcrlPan9e",
+      "title": "Delete()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-Delete.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BKrTduKHFoNkp8xN99XcD0olnJd",
+      "title": "ListResourceGroups()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "BXaGduFMvolXlnxaIFkcKy3Nnhu",
+      "title": "UpdatePassword()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdatePassword.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "C4kSd9x2GobYZGxDTkacZsX2nlc",
+      "title": "IndexDesc",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-IndexDesc.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "C6UadudBVopgWOxeZRwcf0uKn6b",
+      "title": "DropCollectionFunction()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionFunction.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CC9zdTSe3onmvrxGs5ic0e8inJd",
+      "title": "DropFunctionField()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropFunctionField.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "CmVxdb9mxoe1UixZ3nxc2fmCnOg",
+      "title": "FieldSchema",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-FieldSchema.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "DvRYdqk6qonziIxPQlJcqZN9nBd",
+      "title": "CommitImport()",
+      "contentPath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-CommitImport.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "E8V0dJNffoNiQHxsYyGcmQbennc",
+      "title": "StructFieldSchema",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-StructFieldSchema.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EHmkdGRrlooizbxSZ8wc9CYgnAb",
+      "title": "HybridSearch()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-HybridSearch.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ec0Gdh8ecollEbxzwANcQBl1n7d",
+      "title": "CreateResourceGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EeZ3dCqWhoscrUxgC8GcImbDnMd",
+      "title": "DescribeResourceGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Er8qdUCUAok3j4xBCP0cVYIQnk0",
+      "title": "CollectionInfo",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionInfo.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EyHadkgMtohFXxxEEcucWAC5nje",
+      "title": "RenameCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-RenameCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "EyJ4d9M4joZE3WxIoIac1hTNnng",
+      "title": "RevokeRole()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokeRole.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FBXDdgCrfoG5mzx2p1KcX2Kbnib",
+      "title": "Connect()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-Connect.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FTlxddhTlorM8hxprlsc3RUEnnb",
+      "title": "IndexType",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-IndexType.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FdxMdw01eoWnXKx4Q4rcUh0unFf",
+      "title": "CreateImportJobs()",
+      "contentPath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Feg1d6JhroRQaHx5lhvcKk4mn3a",
+      "title": "ResourceGroupConfig",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ff8gdJFLKoKfACxQXBxcK6mmnNf",
+      "title": "SetRpcDeadlineMs()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-SetRpcDeadlineMs.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Fh1mdjyzRo7LanxIvHqcF9ihnLb",
+      "title": "MetricType",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-MetricType.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "FtGndkY80oH1PNx04hvclmVCnDg",
+      "title": "DropUser()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DropUser.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "G7OGdOxABoDWKMxUZDncelbanEd",
+      "title": "GetCompactionState()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionState.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GJDKdgCbpoAxYkxpXygcdfFQnFe",
+      "title": "ListSnapshots()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-ListSnapshots.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GM4adSPUpoT80SxHyxnc7x0knLd",
+      "title": "DropPrivilegeGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GUnjd6RiHooH3CxHbjOc81vInBf",
+      "title": "AbortImport()",
+      "contentPath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-AbortImport.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GWPxd80BYoQleSxNCPNcFvWsnzb",
+      "title": "AddCollectionStructField()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionStructField.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GjhbdmL5PorgMXxkHTPcvVt6nul",
+      "title": "RefreshExternalCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/FileResources/Management-RefreshExternalCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Gs0EdiKeEoU5Exxxnb8ckz74nId",
+      "title": "RemoveFileResource()",
+      "contentPath": "content/en/reference/api/cpp/cpp/FileResources/FileResources-RemoveFileResource.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "GvrfdEbvAoziA8xsAgPcBXDJnAb",
+      "title": "UseDatabase()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-UseDatabase.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Gzj9djiMTooQUgxl4dfcOIfvnUb",
+      "title": "PrivilegeGroupInfo",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-PrivilegeGroupInfo.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "H5oLd8ZVfooSgixa5O9cyq37nCb",
+      "title": "AlterCollectionProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionProperties.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "H6bldn5xxoPeGJxoX7Icp0tpnMb",
+      "title": "DropDatabase()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Database/Database-DropDatabase.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HTwuddpIBoOKoMxhde4c9BMHnwd",
+      "title": "GrantRole()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-GrantRole.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HWQYdK1lIoLiQGxaqMkc2ZeOnge",
+      "title": "CreateSimpleCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateSimpleCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Hc4YdTawrot7IYxZBXJcN5E3nSf",
+      "title": "DumpMessages()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "HkRQd5kF5om421xNwSmcoaz3nxb",
+      "title": "AlterRole()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "I2fxdWeslorOwIxnv9ac0giWnps",
+      "title": "LoadPartitions()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-LoadPartitions.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IJ7ydRsczoA4TAxrcqjc6guMnSb",
+      "title": "CheckHealth()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-CheckHealth.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IR7hd6VQcoQPg3xNzL2cBw6Nn7f",
+      "title": "SetRetryParam()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-SetRetryParam.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "InoydNBt1osec5xj0C6cPCsRnTd",
+      "title": "FunctionType",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-FunctionType.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "InqLdJ931o15yIxpt1bcfYFinAf",
+      "title": "CreateUser()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-CreateUser.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "IpztddRkJo1o6JxKNWHcPjO8n8f",
+      "title": "BatchDescribeCollections()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-BatchDescribeCollections.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "J3Rqd884xoiTSTxl4YjcbtvunWf",
+      "title": "Create()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-Create.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "J7Yxdgw6moJca1xZCe7cLOIunve",
+      "title": "CreateIndex()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-CreateIndex.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "J7vTderKqoQFotxp1RUcLVzenBv",
+      "title": "CreateDatabase()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Database/Database-CreateDatabase.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "J946dq9upog3BoxXTaucrrqvn4g",
+      "title": "ListQuerySegments()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-ListQuerySegments.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JCFyd2kjroKADpxr3rYcfLBcnqd",
+      "title": "TransferReplica()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JJ28dtdEQo6J3Yx3HXkcnn7OnWh",
+      "title": "ReleasePartitions()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-ReleasePartitions.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JPemdXUhPoXDBxxV3zfczSKwnoa",
+      "title": "UpdateReplicateConfiguration()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JstbdGVJwocHJ0xQ8M8cagZHn2a",
+      "title": "DropIndex()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-DropIndex.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "JzwFd9yZqozzWdxQrHjcm8jynjc",
+      "title": "ListPrivilegeGroups()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListPrivilegeGroups.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KMuzdtwSaoadnbx0caLcHCAGn1b",
+      "title": "AddCollectionField()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionField.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "KNcxdijIVobIUxxL1b3cyyhknsg",
+      "title": "GetCompactionPlans()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionPlans.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LBSwdc3WTo0vbQxTO4uca77EnWd",
+      "title": "DropDatabaseProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Database/Database-DropDatabaseProperties.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LHdcdoz6OoQajtx3SMMcGLjcnFh",
+      "title": "ListFileResources()",
+      "contentPath": "content/en/reference/api/cpp/cpp/FileResources/FileResources-ListFileResources.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LMBydELUDo1SkWx1dbxcVvCLnvg",
+      "title": "UpdateResourceGroups()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LaPcdArhDo6aGnxpX8Oc5azCnCe",
+      "title": "GetPartitionStatistics()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-GetPartitionStatistics.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Lh65dZfnWoZKFMxsJhdcieUJnEb",
+      "title": "GetCollectionStats()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-GetCollectionStats.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ls7kdwtuJoZfVUx1N3vc5tkznuh",
+      "title": "ListImportJobs()",
+      "contentPath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-ListImportJobs.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "LtZhdRryBo4vAwxHJmDcbsKvnhK",
+      "title": "Query()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-Query.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "M582dy1WyoYIbuxtun0cEc8ln3d",
+      "title": "DropSnapshot()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-DropSnapshot.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "M7O7df6KLoqRS2x6ls0cuSwlnNh",
+      "title": "HasPartition()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-HasPartition.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MI1HdCRUbo7J60xbMsic3P9qnIb",
+      "title": "Insert()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-Insert.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MW7cdYuPyoNF2wxD5oKcibgynKd",
+      "title": "DescribeIndex()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-DescribeIndex.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MjnKdyOXkoKD3exC7rUcXSCMnxe",
+      "title": "DescribeSnapshot()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-DescribeSnapshot.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "MvE4d5F6vovZTUxxLtqcwedbndf",
+      "title": "Function",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-Function.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NSvXdtRoioS4NKxdjANcGFd9nrc",
+      "title": "ListUsers()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListUsers.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NlpedMAt2of5d6xPHvucRSzjnVe",
+      "title": "Optimize()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-Optimize.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "NmxkduivloqgeXxVxOpcHydEnne",
+      "title": "GetImportJobProgress()",
+      "contentPath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-GetImportJobProgress.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "O5bNd8683oYSmuxiNYNcQyudngh",
+      "title": "AddPrivilegesToGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ObE8dlNmooAuRQxQnyEci9RInxH",
+      "title": "ListRestoreSnapshotJobs()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-ListRestoreSnapshotJobs.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OrRqdvj4yoN2cMxbHUkcEE9Xnbg",
+      "title": "AddCollectionFunction()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionFunction.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "OxCLdTg9RoIzS0xwicjc8yJXnzc",
+      "title": "RetryParam",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-RetryParam.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PSxodxjuFo7SZFxP9qZc09ELn5c",
+      "title": "ConsistencyLevel",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-ConsistencyLevel.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PsWRdrgTAowrzvxPQLacBY7Lnjd",
+      "title": "GetReplicateInfo()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "PwncdGtEvoxsajxmubhc5O6anqc",
+      "title": "ListPartitions()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-ListPartitions.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QAA0daStropumHxwdk2cN4LUnPg",
+      "title": "Search()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-Search.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QAmzdvwmEoZP55xwBQicVB0cnwh",
+      "title": "AddFileResource()",
+      "contentPath": "content/en/reference/api/cpp/cpp/FileResources/FileResources-AddFileResource.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QGzdd5UMMo3gKpx0hNgcvA9jnOb",
+      "title": "DropCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QRNudMVJXoG1flxBkEocI2pynef",
+      "title": "DropRole()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DropRole.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "QZ7hdS2KRofUiYx9c8TcMXkknPc",
+      "title": "CollectionDesc",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionDesc.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Qgmsdk9v3oAOXlxlx0nc1svZn2b",
+      "title": "DropCollectionField()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionField.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RC3FdSxLbov3uixeCBlcWud8nCd",
+      "title": "RevokePrivilegeV2()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokePrivilegeV2.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RkNpdn17xopIkwxeBxYcmQj0nFg",
+      "title": "GrantPrivilegeV2()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-GrantPrivilegeV2.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RqMsdMEvmo4ex4xKyp9cezEinTf",
+      "title": "CreateRole()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RseVdNxB7oKfd2x4nXNcZBYXnzl",
+      "title": "DescribeReplicas()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Rt1adnttKolmjfxwFc1cgf01nff",
+      "title": "AliasDesc",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AliasDesc.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "RzmYdsC1joL3LuxT765csIbwnCh",
+      "title": "ReleaseCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-ReleaseCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "S39Pd8SZ6oQ5dbxXS40cptWRnSf",
+      "title": "CreateSnapshot()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-CreateSnapshot.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SBLUdI6Wworo1oxrfAOcnH7jnFd",
+      "title": "DropPartition()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-DropPartition.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SGYTdh0fJo6O1uxW3yjcET9Nnpf",
+      "title": "DataType",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DataType.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "SbJbdoDksoWVlxxvXQDcKYKsn4q",
+      "title": "DropIndexProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-DropIndexProperties.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Sljyd2yrWoidNAxyCgRc255Mnhg",
+      "title": "DropCollectionProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionProperties.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Syt3dskDpo3VcQxMu43cXcBFnre",
+      "title": "ListRoles()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListRoles.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "T4HRdSHCboHtR4xmvxqcekTvnX7",
+      "title": "QueryIterator()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-QueryIterator.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TBtpd6bsLoelhbx2iXDccaVDnqe",
+      "title": "GetFlushAllState()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-GetFlushAllState.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TCOmduhQKosBcNxfUQOcLdzqnAf",
+      "title": "CreateAlias()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateAlias.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TCfed4TH2o0XkdxkZDPcwPTdnWG",
+      "title": "RemovePrivilegesFromGroup()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RemovePrivilegesFromGroup.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TKJ0dmfeiojGU8xOyixcO4M5ncb",
+      "title": "AlterIndexProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-AlterIndexProperties.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TcF2doHmuoNHsKxRRJbcsYevnph",
+      "title": "AddFunctionField()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddFunctionField.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TfBadHlwqoakz4xzFOEchPpVnVd",
+      "title": "UnpinSnapshotData()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-UnpinSnapshotData.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Tjohd3KEjoTXkuxX2Kqcs13wnEh",
+      "title": "ListDatabases()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Database/Database-ListDatabases.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TjrfdFKTIoiaQ0x3NXUcMEvHnNb",
+      "title": "ListRefreshExternalCollectionJobs()",
+      "contentPath": "content/en/reference/api/cpp/cpp/FileResources/Management-ListRefreshExternalCollectionJobs.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "TriCdBud3o6kmnxaE3hcdRWlnCR",
+      "title": "GetReplicateConfiguration()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "U7Y9dr70qoyDGYxlgBTcOGTgnbd",
+      "title": "ListIndexes()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-ListIndexes.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "U8KCdu2BRohC5CxZK7vch6TGnrc",
+      "title": "DescribeRole()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeRole.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UJArdNCrIoKR78xBrKqcwtgUnQc",
+      "title": "SearchIterator()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-SearchIterator.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Uaqqd6oxLo6JvExyeH9ckzNrnQd",
+      "title": "TransferNode()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UbjxdApcFonLD4xmm9fcJI2knKd",
+      "title": "FlushAll()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-FlushAll.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UhsfdHxjhoWttaxASWEcygc7nLc",
+      "title": "UserDesc",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UserDesc.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Utu5dQE8Eo1zD0xdoJccCAx0nnf",
+      "title": "GetRestoreSnapshotState()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-GetRestoreSnapshotState.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "UuNVdIvAYoTy3GxmbcGcQ1chn3b",
+      "title": "RoleDesc",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RoleDesc.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VMgPdyPGuor1t7xlZGWcWV1tnhh",
+      "title": "ConnectParam",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-ConnectParam.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VRKNdqRGboPNcOxEnkDc3PiWn4e",
+      "title": "AlterAlias()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterAlias.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VTkhdUYKvoYBPRx7EDiczhJhnhe",
+      "title": "Session()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-Session.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VWOqdczvioTtxqxThEKcJzI3n2g",
+      "title": "DropCollectionFieldProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionFieldProperties.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ve9xdWGNYobA52xfC7kcD4wMnkh",
+      "title": "Get()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-Get.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VgZtdAUzyoJplBxYfdMc1OGonng",
+      "title": "GetServerVersion()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-GetServerVersion.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Vs0rdbqzcoC2ODxjnR3cN1imnPd",
+      "title": "GetLoadState()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-GetLoadState.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "VzgydOgusoZ0L6xaojScFLcenRb",
+      "title": "DropResourceGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "W65adsrWqolU5Lx7C5Oc19b2ne6",
+      "title": "CreatePartition()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-CreatePartition.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WGXadLPOjobTmnxp0oacSo1znEf",
+      "title": "DescribeAlias()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DescribeAlias.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Wom0dLES1ojjtKxa8OdckAK3n1C",
+      "title": "Disconnect()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-Disconnect.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WqOudbitToLoSRx9faGctun6nlf",
+      "title": "DescribeUser()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeUser.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "WsSQdBrrOo4hhbx9XWFciuVAn3b",
+      "title": "DropAlias()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropAlias.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "X3XWdI0tJo8jpExvHkucOEV2nYb",
+      "title": "CreatePrivilegeGroup()",
+      "contentPath": null,
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "X9AodAxugobD0Yxt7S9c27z9nNg",
+      "title": "GetRefreshExternalCollectionProgress()",
+      "contentPath": "content/en/reference/api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XPsfdhNDhopm2Ux7HKncEtZonjh",
+      "title": "AlterDatabaseProperties()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Database/Database-AlterDatabaseProperties.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XQLWd904koQK58x9tkHcqqbZnVb",
+      "title": "DescribeCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-DescribeCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XXBwdXvCWo1te0xWjifc19kUnjf",
+      "title": "UpdateUser()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdateUser.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "XhwtdeOEmoyc9YxuVpqck1ejnNe",
+      "title": "ListPersistentSegments()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-ListPersistentSegments.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YE0GdEE34oJXt3xyGLZc8H5Inkc",
+      "title": "ListAliases()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-ListAliases.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YI1BdnZOMoPSOMxjVMEcrrCwnWh",
+      "title": "RefreshLoad()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-RefreshLoad.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ya3cdJkTNoGyqYxTXPMccOd8nun",
+      "title": "Flush()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-Flush.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Yblkdh1ynoi4Igxu4wac3Jdvn1g",
+      "title": "PinSnapshotData()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-PinSnapshotData.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Ym8fdBWGqobHIhx9NkHcwpmonce",
+      "title": "RestoreSnapshot()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-RestoreSnapshot.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "YuvidafRvob4HuxnxrGcU7Vsnbh",
+      "title": "AlterCollectionFunction()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFunction.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "Z3KTdzp7xoWm7QxytFGcIqYangm",
+      "title": "LoadCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-LoadCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZLfgdRLpXolwPYx2ZOrcDmxGnnw",
+      "title": "HasCollection()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Collections/Collections-HasCollection.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZNfkd4vqOoG9RexySyicxncBnzf",
+      "title": "DescribeDatabase()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Database/Database-DescribeDatabase.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZOzKddUzaoED8mxB0znc6njxngR",
+      "title": "Upsert()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Vector/Vector-Upsert.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZPS0ddywzo9DObxXS9Rc7yornDc",
+      "title": "GetSDKVersion()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-GetSDKVersion.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZidndgXjGoLam3xqLOOcmFTYnBh",
+      "title": "Compact()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Management/Management-Compact.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    },
+    {
+      "canonicalToken": "ZmS3drufioCOIBxq3PSc26O7nie",
+      "title": "CurrentUsedDatabase()",
+      "contentPath": "content/en/reference/api/cpp/cpp/Client/Client-CurrentUsedDatabase.md",
+      "objectToken": null,
+      "parentToken": null,
+      "revisionId": null,
+      "objectEditTime": null
+    }
+  ]
 }
