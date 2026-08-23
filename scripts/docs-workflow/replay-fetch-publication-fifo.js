@@ -75,7 +75,8 @@ function loadRun(runRootInput) {
   if (typeof runRootInput !== 'string' || !runRootInput) throw new Error('runRoot is required')
   const runRoot = fs.realpathSync(path.resolve(runRootInput))
   const selection = readPublicationDocument(path.join(runRoot, 'publication-selection.json'), 'publication-selection')
-  if (selection.units.length !== 8) throw new Error('Replay requires exactly eight selected Fetch units')
+  const unitCount = selection.units.length
+  if (unitCount < 2) throw new Error('Replay requires at least two selected Fetch units')
   const jobsDocument = json(path.join(runRoot, 'jobs.json'))
   const jobs = Array.isArray(jobsDocument) ? jobsDocument : jobsDocument.jobs
   if (!Array.isArray(jobs)) throw new Error('jobs.json must contain jobs')
@@ -86,10 +87,10 @@ function loadRun(runRootInput) {
   if (metadata.toolingSha !== selection.toolingSha || metadata.devBaselineSha !== selection.sourceBaselineSha || !SHA.test(metadata.devBaselineSha || '')) {
     throw new Error('Run metadata baseline or tooling mismatch')
   }
-  if (!Array.isArray(metadata.artifacts) || metadata.artifacts.length !== 8) throw new Error('Run metadata must contain exactly eight checkpoint artifacts')
+  if (!Array.isArray(metadata.artifacts) || metadata.artifacts.length !== unitCount) throw new Error(`Run metadata must contain exactly ${unitCount} checkpoint artifacts`)
   const expectedKeys = selection.units.map(unit => unit.unitKey)
   const artifactKeys = metadata.artifacts.map(artifact => artifact.unitKey)
-  if (new Set(artifactKeys).size !== 8 || expectedKeys.some(unitKey => !artifactKeys.includes(unitKey))) throw new Error('Artifact inventory must exactly cover eight Fetch units')
+  if (new Set(artifactKeys).size !== unitCount || expectedKeys.some(unitKey => !artifactKeys.includes(unitKey))) throw new Error(`Artifact inventory must exactly cover ${unitCount} Fetch units`)
   const artifacts = new Map(metadata.artifacts.map(artifact => {
     const unit = selection.units.find(candidate => candidate.unitKey === artifact.unitKey)
     if (artifact.name !== unit.artifacts.checkpoint) throw new Error(`Artifact name mismatch for ${unit.unitKey}`)
@@ -201,13 +202,14 @@ async function replayRun(options = {}) {
   writeJson(path.join(evidenceRoot, 'orders.json'), orders)
   writeJson(path.join(evidenceRoot, 'replay-results.json'), {schemaVersion: 1, baselineSha: loaded.metadata.devBaselineSha, ...results})
   writeJson(path.join(evidenceRoot, 'trees.json'), {canonicalTree, fifoTree})
+  const unitCount = loaded.selection.units.length
   writeJson(path.join(evidenceRoot, 'evidence-manifest.json'), {
-    schemaVersion: 1, status: 'complete', unitCount: 8, runId: loaded.selection.runId,
+    schemaVersion: 1, status: 'complete', unitCount, runId: loaded.selection.runId,
     preflightedUnitKeys: preflightRecords.map(record => record.unitKey),
     canonicalUnitKeys: loaded.canonicalUnitKeys, fifoUnitKeys: loaded.fifoUnitKeys,
     canonicalTree, fifoTree,
   })
-  return Object.freeze({unitCount: 8, canonicalTree, fifoTree, orders, results})
+  return Object.freeze({unitCount, canonicalTree, fifoTree, orders, results})
 }
 
 function verifyEvidence({evidenceRoot: evidenceRootInput}) {
@@ -218,14 +220,15 @@ function verifyEvidence({evidenceRoot: evidenceRootInput}) {
   const orders = json(path.join(evidenceRoot, 'orders.json'))
   const results = json(path.join(evidenceRoot, 'replay-results.json'))
   const trees = json(path.join(evidenceRoot, 'trees.json'))
-  if (manifest.schemaVersion !== 1 || manifest.status !== 'complete' || manifest.unitCount !== 8) throw new Error('Replay evidence manifest is incomplete')
+  if (manifest.schemaVersion !== 1 || manifest.status !== 'complete' || !Number.isInteger(manifest.unitCount) || manifest.unitCount < 2) throw new Error('Replay evidence manifest is incomplete')
+  const unitCount = manifest.unitCount
   for (const key of ['canonicalUnitKeys', 'fifoUnitKeys', 'preflightedUnitKeys']) {
-    if (!Array.isArray(manifest[key]) || manifest[key].length !== 8 || new Set(manifest[key]).size !== 8) throw new Error(`Replay evidence ${key} must contain eight units`)
+    if (!Array.isArray(manifest[key]) || manifest[key].length !== unitCount || new Set(manifest[key]).size !== unitCount) throw new Error(`Replay evidence ${key} must contain ${unitCount} units`)
   }
   if (JSON.stringify(orders.canonicalUnitKeys) !== JSON.stringify(manifest.canonicalUnitKeys) || JSON.stringify(orders.fifoUnitKeys) !== JSON.stringify(manifest.fifoUnitKeys)) {
     throw new Error('Replay evidence orders disagree')
   }
-  if (results.canonical?.length !== 8 || results.fifo?.length !== 8) throw new Error('Replay results must contain eight units per lane')
+  if (results.canonical?.length !== unitCount || results.fifo?.length !== unitCount) throw new Error(`Replay results must contain ${unitCount} units per lane`)
   if (trees.canonicalTree !== trees.fifoTree || trees.canonicalTree !== manifest.canonicalTree) throw new Error('Replay evidence trees differ')
   let businessValidated = false
   const businessFile = path.join(evidenceRoot, 'business-validation.json')
@@ -245,8 +248,8 @@ function verifyEvidence({evidenceRoot: evidenceRootInput}) {
     const handoff = json(resolveInside(evidenceRoot, business.handoff, 'Business validation handoff'))
     if (handoff.schemaVersion !== 2) throw new Error('Business validation handoff must remain schema v2')
     const card = json(resolveInside(evidenceRoot, business.cardReport, 'Business validation card report'))
-    if (!Array.isArray(card.reports) || card.reports.length !== 9 || /Unavailable/iu.test(JSON.stringify(card.reports))) {
-      throw new Error('Business validation card report must contain exactly nine available notes')
+    if (!Array.isArray(card.reports) || card.reports.length !== unitCount + 1 || /Unavailable/iu.test(JSON.stringify(card.reports))) {
+      throw new Error(`Business validation card report must contain exactly ${unitCount + 1} available notes`)
     }
     businessValidated = true
   }

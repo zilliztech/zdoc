@@ -11,7 +11,7 @@ const {
 } = require('./content-groups');
 
 test('lists content groups in publication order', () => {
-  assert.deepEqual(listContentGroups(), ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']);
+  assert.deepEqual(listContentGroups(), ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest']);
 });
 
 test('defines the Python content group ownership contract', () => {
@@ -50,7 +50,7 @@ test('appends the exact revision inventory owned by each English publication gro
 
 test('checkpoints the English Reference root manifest with every English producer', () => {
   const manifest = 'content/en/reference/content-manifest.json';
-  for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']) {
+  for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest']) {
     assert.equal(getContentGroup(group).ownedPaths.includes(manifest), true, group);
   }
 });
@@ -66,11 +66,12 @@ test('defines a bounded translation-only Reference landing group', () => {
     'content/en/reference/api/nodejs/nodejs/nodejs.md',
     'content/en/reference/api/go/go/go.md',
     'content/en/reference/cli/cli/Overview.md',
+    'content/en/reference/api/cpp/cpp/cpp.md',
   ]);
   assert.deepEqual(landings.forceTranslationPaths, landings.ownedPaths);
   assert.equal(Object.isFrozen(landings.forceTranslationPaths), true);
   for (const group of listContentGroups()) assert.equal(getContentGroup(group).forceTranslationPaths, undefined, group);
-  assert.deepEqual(listContentGroups(), ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']);
+  assert.deepEqual(listContentGroups(), ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest']);
 });
 
 test('consumes the Chinese manifest-owned Guides registry contract', () => {
@@ -99,7 +100,7 @@ test('derives preservation metadata without a legacy path map', () => {
 
 test('configures durable translation batches for Guides only', () => {
   assert.equal(getContentGroup('guides').durableTranslationBatchSize, 30);
-  for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest']) {
+  for (const group of ['python', 'java', 'node', 'go', 'cli', 'cpp', 'rest']) {
     assert.equal(getContentGroup(group).durableTranslationBatchSize, 0);
   }
   assert.throws(() => { getContentGroup('guides').durableTranslationBatchSize = 10; }, TypeError);

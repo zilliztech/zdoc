@@ -11,12 +11,13 @@ describe('getManualReferenceNavigation', () => {
     expect(navigation.installSdksHref).toBe('/docs/install-sdks');
     expect(navigation.toolsHref).toBe('/docs/agents-and-prompts');
     expect(navigation.targets.map(target => [target.kind, target.label])).toEqual([
-      ['python', 'Python'],
-      ['java', 'Java'],
-      ['go', 'Go'],
-      ['nodejs', 'Node.js'],
-      ['restful', 'RESTful API'],
+      ['python', 'Python SDK'],
+      ['java', 'Java SDK'],
+      ['nodejs', 'Node.js SDK'],
+      ['go', 'Go SDK'],
+      ['cpp', 'C++ SDK'],
       ['cli', 'CLI'],
+      ['restful', 'REST API'],
     ]);
     expect(navigation.targets.find(target => target.kind === 'nodejs')).toMatchObject({
       landingHref: '/reference/nodejs',
@@ -35,7 +36,7 @@ describe('getManualReferenceNavigation', () => {
     const navigation = getManualReferenceNavigation('en');
 
     expect(navigation.clientLibrariesLabel).toBe('Client Libraries');
-    expect(navigation.targets.map(target => target.label)).toContain('Node.js');
+    expect(navigation.targets.map(target => target.label)).toContain('Node.js SDK');
   });
 
   it('returns Chinese labels, shared back routes, and the same target order', () => {
@@ -49,10 +50,11 @@ describe('getManualReferenceNavigation', () => {
     expect(navigation.targets.map(target => [target.kind, target.label])).toEqual([
       ['python', 'Python SDK'],
       ['java', 'Java SDK'],
-      ['go', 'Go SDK'],
       ['nodejs', 'Node.js SDK'],
-      ['restful', 'RESTful API'],
+      ['go', 'Go SDK'],
+      ['cpp', 'C++ SDK'],
       ['cli', 'Zilliz CLI'],
+      ['restful', 'RESTful API'],
     ]);
     expect(navigation.entryRedirects).toEqual({
       '/reference/cli/overview': '/reference/cli/cli/overview',

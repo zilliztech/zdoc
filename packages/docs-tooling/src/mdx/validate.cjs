@@ -1,6 +1,10 @@
 /**
  * MDX Patching Module
- * Contains the MDX patching logic extracted from larkDocWriter.js __mdx_patches method
+ *
+ * Canonical MDX patching pipeline. larkDocWriter.__mdx_patches delegates here
+ * (with repairEndTagMismatch: true); the translation path uses applyMdxPatches
+ * directly (repairEndTagMismatch defaults to false so structural errors are
+ * reverted for retranslation instead of auto-repaired).
  */
 
 // Known JSX block components that must never be backslash-escaped.
@@ -501,6 +505,69 @@ function escapeTypeScriptGenericText(part) {
     return out;
 }
 
+function escapeCppNamespaceTypes(part) {
+    // C++ namespace-qualified type references (e.g. <std::string>,
+    // <milvus::client::ConnectParam>, <std::vector<std::string>>) are prose,
+    // but MDX misparses the angle brackets as JSX and fails on the "::" colons
+    // ("Unexpected character `:` (U+003A) before local name"). Backslash
+    // escaping does not suppress MDX JSX parsing for these, so always convert
+    // to HTML entities, including nested template args (<std::vector<std::string>>).
+    // The span may lack a closing ">" (e.g. italic markdown like
+    // (*const std::string&*) where the author omitted ">"), so we escape from
+    // the opening "<" through the end of the type token(s), stopping at
+    // characters that cannot be part of a C++ type. Real JSX components never
+    // contain "::", so this is safe outside fenced code blocks and inline
+    // code spans (handled by the caller).
+    let out = '';
+    let index = 0;
+    const nameChar = /[A-Za-z0-9_]/;
+
+    while (index < part.length) {
+        if (part[index] === '<') {
+            let cursor = index + 1;
+            if (part[cursor] === '/') cursor++;
+            while (cursor < part.length && nameChar.test(part[cursor])) cursor++;
+
+            let scan = cursor;
+            let hasNamespace = false;
+            while (scan + 1 < part.length && part[scan] === ':' && part[scan + 1] === ':') {
+                hasNamespace = true;
+                scan += 2;
+                while (scan < part.length && nameChar.test(part[scan])) scan++;
+            }
+
+            if (hasNamespace) {
+                // Absorb nested template args and C++ type suffixes (&, *)
+                // until a character that clearly terminates the type.
+                let end = scan;
+                let depth = 1;
+                while (end < part.length) {
+                    const ch = part[end];
+                    if (ch === '<') {
+                        depth++;
+                    } else if (ch === '>') {
+                        depth--;
+                        if (depth === 0) { end++; break; }
+                    } else if (ch === '\n' || ch === '`') {
+                        break;
+                    } else if (depth === 1 && (ch === ')' || ch === '(' || ch === ',' || ch === ']' || ch === '[' || ch === '=' || ch === '|' || ch === ':' || ch === ';')) {
+                        break;
+                    }
+                    end++;
+                }
+                const span = part.slice(index, end);
+                out += span.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                index = end;
+                continue;
+            }
+        }
+        out += part[index];
+        index++;
+    }
+
+    return out;
+}
+
 /**
  * Pre-processing: escape any lowercase tag whose name is not a known HTML element or
  * content-filter tag, outside fenced code blocks and inline code spans.
@@ -577,6 +644,7 @@ function escapeNonHtmlTags(content) {
                 if (i % 2 === 0) {
                     part = escapeBackslashedAngleText(part);
                     part = escapeTypeScriptGenericText(part);
+                    part = escapeCppNamespaceTypes(part);
                     // Escape non-HTML lowercase placeholder tags (e.g. <bucket_name>, <region-code>).
                     // Tags with attributes won't match because the regex only allows \s*\/?>
                     part = part.replace(/(?<!\\)<\/?([a-z][a-z0-9]*(?:[_-][a-z0-9]+)*)\s*\/?>/g, (match, tagName) => {
@@ -680,6 +748,56 @@ function escapeHtmlElementBraces(content) {
 }
 
 /**
+ * Pre-processing: escape literal {identifier} placeholders in plain prose
+ * (outside fenced code blocks, inline backtick spans, ESM import/export lines,
+ * and JSX attribute values) so MDX does not evaluate them as JSX expressions.
+ *
+ * Docs sourced from Lark commonly contain placeholder text in prose such as
+ * "placeholders such as {age} or {city}". MDX compile() accepts {age} silently
+ * because it is syntactically valid JSX, but React crashes at SSG render time
+ * with "ReferenceError: age is not defined".
+ *
+ * Skips:
+ *   - fenced code blocks
+ *   - inline backtick spans
+ *   - ESM import/export lines
+ *   - heading anchors {#...} (identifier class never matches a leading '#')
+ *   - JSX attribute/child expressions (prop={value}, <Foo>{bar}</Foo>) via the
+ *     preceding-character guard for = \ < > " ' /
+ *   - object literals ({key: value}): the identifier class stops before the
+ *     space/colon, so no "}" is found immediately after the identifier
+ */
+function escapePlainTextBraces(content) {
+    const lines = content.split('\n');
+    const fence = createFenceTracker();
+    const result = [];
+
+    for (let line of lines) {
+        fence.update(line);
+
+        if (fence.inCodeBlock || isMdxEsmLine(line)) {
+            result.push(line);
+            continue;
+        }
+
+        // Split by inline code spans; odd-indexed segments are inside backticks
+        const parts = line.split(/(`+[^`]+`+)/);
+        line = parts.map((part, i) => {
+            if (i % 2 !== 0) return part; // Inside inline code — leave unchanged
+
+            return part.replace(
+                /(?<![=\\<>"'/]){([A-Za-z_$][A-Za-z0-9_.$]*)}/g,
+                '\\{$1\\}',
+            );
+        }).join('');
+
+        result.push(line);
+    }
+
+    return result.join('\n');
+}
+
+/**
  * Structural validator for translated MDX files.
  * Catches React render-time errors that @mdx-js/mdx compile() misses:
  *   1. Prose inserted between </TabItem> and <TabItem>/<\/Tabs> (LLM hallucination)
@@ -772,6 +890,7 @@ async function applyMdxPatches(content, options = {}) {
         patchedContent = escapeNonHtmlTags(patchedContent);
         patchedContent = escapeMathBraces(patchedContent);
         patchedContent = escapeHtmlElementBraces(patchedContent);
+        patchedContent = escapePlainTextBraces(patchedContent);
         let maxIterations = 50; // Prevent infinite loops
         let iteration = 0;
         const seenHashes = new Set();
@@ -828,12 +947,69 @@ async function applyMdxPatches(content, options = {}) {
                         }
                         break;
 
-                    case 'end-tag-mismatch':
-                        // Tag mismatches in translated content indicate a structural LLM error
-                        // (dropped closing tags, wrong nesting) that cannot be safely auto-repaired.
-                        // Leave madeChanges = false so the loop breaks, and validate-and-revert
-                        // will revert the file for retranslation.
+                    case 'end-tag-mismatch': {
+                        if (!options.repairEndTagMismatch) {
+                            // Tag mismatches in translated content indicate a structural LLM error
+                            // (dropped closing tags, wrong nesting) that cannot be safely auto-repaired.
+                            // Leave madeChanges = false so the loop breaks, and validate-and-revert
+                            // will revert the file for retranslation.
+                            break;
+                        }
+
+                        // Fetch path (repairEndTagMismatch: true): fix a mismatched closing tag.
+                        // Error: "Unexpected closing tag `</Y>`, expected corresponding closing tag
+                        // for `<X>` (line:col-line:col)". The position refers to the OPENING tag <X>.
+                        // Strategy: replace the wrong closing tag </Y> with the correct </X>.
+                        // Exception: if <X> is a non-standard tag (contains _ or -) it is a URL/API
+                        // placeholder, not a real element. Replacing the closing tag causes an
+                        // oscillating loop; instead fall through to the fallback (escape opening tag).
+                        const wrongClose = error.message.match(/Unexpected closing tag `<\/([^>]+)>`/)?.[1];
+                        const expectedOpen = error.message.match(/closing tag for `<([A-Za-z][^>/ ]*)(?:\s[^>]*)?>?`/)?.[1];
+                        const posMatch = error.message.match(/(\d+):(\d+)-(\d+):(\d+)/);
+                        const isPlaceholder = expectedOpen && /[_-]/.test(expectedOpen);
+
+                        if (!isPlaceholder && wrongClose && expectedOpen && wrongClose !== expectedOpen && posMatch) {
+                            const openLine = parseInt(posMatch[1]) - 1; // 0-indexed
+                            const wrongCloseTag = `</${wrongClose}>`;
+                            const correctCloseTag = `</${expectedOpen}>`;
+                            const lines = patchedContent.split('\n');
+
+                            for (let i = openLine; i < lines.length; i++) {
+                                const idx = lines[i].indexOf(wrongCloseTag);
+                                if (idx !== -1) {
+                                    lines[i] = lines[i].slice(0, idx) + correctCloseTag + lines[i].slice(idx + wrongCloseTag.length);
+                                    madeChanges = true;
+                                    break;
+                                }
+                            }
+
+                            if (madeChanges) {
+                                patchedContent = lines.join('\n');
+                            }
+                        } else if (!wrongClose && expectedOpen && posMatch) {
+                            // Variant: "Expected a closing tag for `<X>` (line:col-line:col) before the end of `paragraph`"
+                            // Skip known JSX components — escaping their opening tag causes a
+                            // cascade: the orphaned </X> is then deleted by unexpected-closing-slash,
+                            // destroying the component structure. The real fix is inside the component
+                            // (e.g. unescaped braces) which the acorn handler will address.
+                            if (KNOWN_JSX_TAGS.has(expectedOpen)) {
+                                break;
+                            }
+                            // The opening tag is not closed within its paragraph. Escape it with &lt; so it
+                            // renders as literal text instead of being treated as a JSX element.
+                            const openLine = parseInt(posMatch[1]) - 1; // 0-indexed
+                            const openCol = parseInt(posMatch[2]) - 1;  // 0-indexed
+                            const lines = patchedContent.split('\n');
+
+                            if (openLine < lines.length && lines[openLine][openCol] === '<') {
+                                lines[openLine] = lines[openLine].slice(0, openCol) + '&lt;' + lines[openLine].slice(openCol + 1);
+                                patchedContent = lines.join('\n');
+                                madeChanges = true;
+                            }
+                        }
+
                         break;
+                    }
 
                     case 'unexpected-closing-slash': {
                         // "Unexpected closing slash `/` in tag, expected an open tag first"
@@ -953,5 +1129,7 @@ module.exports = {
     findMalformedProceduresBlocks,
     escapeMathBraces,
     escapeHtmlElementBraces,
+    escapePlainTextBraces,
     escapeNonHtmlTags,
+    escapeCppNamespaceTypes,
 };

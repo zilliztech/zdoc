@@ -20,6 +20,8 @@ const {buildTranslationPublicationReady, buildTranslationPublicationSelection} =
 const {reconcileTranslationPublication} = require('./translation-publication-reconciliation')
 const {verifyTranslationPublicationRepository} = require('./translation-publication-results')
 const {linkWorkspaceDependencies} = require('./link-workspace-dependencies')
+const {loadTypeScript} = require('../lib/load-typescript')
+const {sdkGroupIds} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
 
 const SHA = /^[0-9a-f]{40}$/u
 const CHECKSUM = /^[0-9a-f]{64}$/u
@@ -205,7 +207,7 @@ function validateLegacyDerivedProvenance({runRoot, selection, jobs, metadata}) {
   }
   if (Object.values(derivationChecks).includes(false)) throw new Error(`Legacy selection derivation provenance mismatch: ${JSON.stringify(derivationChecks)}`)
 
-  const expectedGroups = ['python', 'java', 'node', 'go', 'cli', 'rest', 'guides']
+  const expectedGroups = [...sdkGroupIds(), 'guides']
   if (!Array.isArray(provenance.sourceCheckpointInventory) || !sameJson(provenance.sourceCheckpointInventory.map(record => record.group), expectedGroups)) {
     throw new Error('Legacy source checkpoint inventory is incomplete')
   }
@@ -843,7 +845,8 @@ function verifyCoordinatorFaultEvidence({fault, evidenceRoot}) {
   }
 
   const guidesUnitKey = 'translation/ja-JP/guides'
-  const isSdk = unitKey => typeof unitKey === 'string' && /^translation\/(?:ja-JP|zh-CN-reference)\/(?:python|java|node|go|cli|rest)$/u.test(unitKey)
+  const isSdk = unitKey => typeof unitKey === 'string' && sdkGroupIds().some(group =>
+    unitKey === `translation/ja-JP/${group}` || unitKey === `translation/zh-CN-reference/${group}`)
   if (fault.scenario === 'sdk-before-guides' || fault.scenario === 'guides-before-sdk') {
     if (results.overallStatus !== 'success' || order.length < 2 || !order.includes(guidesUnitKey) || !order.some(isSdk)) {
       throw new Error(`Fault order evidence is incomplete: ${JSON.stringify({overallStatus: results.overallStatus, orchestratorFailure: results.orchestratorFailure, order})}`)
@@ -1475,7 +1478,7 @@ function artifactFile(directory) {
 function legacyRetentionPreflight({runId, runAttempt, artifacts}) {
   const required = []
   for (const target of ['ja-JP', 'zh-CN-reference']) {
-    for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest']) {
+    for (const group of sdkGroupIds()) {
       required.push(`translation-checkpoint-${target}-${group}-${runId}`)
       required.push(`translation-baseline-${target}-${group}-${runId}`)
     }
@@ -1622,7 +1625,7 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
     if (!parentByName.has(artifact.name)) parentByName.set(artifact.name, [])
     parentByName.get(artifact.name).push(artifact)
   }
-  const sourceNames = new Map(['python', 'java', 'node', 'go', 'cli', 'rest', 'guides'].map(group => [
+  const sourceNames = new Map([...sdkGroupIds(), 'guides'].map(group => [
     group,
     `docs-checkpoint-${group === 'guides' ? 'guides-en' : group}-${parentRunId}`,
   ]))
@@ -1661,7 +1664,7 @@ function inspectLegacyRun({numericRunId, runAttempt, repository, run, jobs, allA
     target: 'ja-JP', group: 'guides', sourceGroup: 'guides', sourceBaselineSha: sourceBaselines.get('guides'),
     sourceCheckpointSha: publication.sourceCheckpointSha, targetBaselineSha: publication.expectedTargetSha, publicationOrder: publicationOrder++,
   })
-  for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest']) {
+  for (const group of sdkGroupIds()) {
     for (const target of group === 'rest' ? ['ja-JP'] : ['ja-JP', 'zh-CN-reference']) {
       const unitKey = `translation/${target}/${group}`
       const pair = {}

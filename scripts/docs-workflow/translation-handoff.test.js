@@ -220,7 +220,7 @@ test('rejects a malformed reconciled target baseline override', () => {
 });
 
 test('binds every all-group unit to its own dev baseline and checkpoint', () => {
-  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'];
+  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest'];
   const sourcePublications = Object.fromEntries(groups.map((group, index) => [
     group,
     publication(String(index + 1).repeat(40), String(index + 2).repeat(40)),
@@ -228,7 +228,7 @@ test('binds every all-group unit to its own dev baseline and checkpoint', () => 
   const value = buildTranslationHandoff({
     locale: 'all', group: 'all', toolingSha: SHA_A, targetBranch: 'release/docs', targetBaselineSha: SHA_D, sourcePublications,
   });
-  assert.equal(value.units.length, 12);
+  assert.equal(value.units.length, 14);
   for (const unit of value.units) {
     assert.equal(unit.sourceBaselineSha, sourcePublications[unit.sourceGroup].sourceBaselineSha);
     assert.equal(unit.sourceCheckpointSha, sourcePublications[unit.sourceGroup].sourceCheckpointSha);
@@ -237,7 +237,7 @@ test('binds every all-group unit to its own dev baseline and checkpoint', () => 
 });
 
 test('canonical all-group handoff excludes Chinese REST while retaining Japanese REST', () => {
-  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'];
+  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest'];
   const sourcePublications = Object.fromEntries(groups.map((group, index) => [
     group,
     publication(String(index + 1).repeat(40), String(index + 2).repeat(40)),
@@ -270,6 +270,7 @@ test('rejects incomplete, malformed, unexpected, and noncanonical publication id
       node: publication(),
       go: publication(),
       cli: publication(),
+      cpp: publication(),
       rest: publication(),
     },
   }), /source publications.*canonical order/i);
@@ -291,7 +292,7 @@ test('validates exact handoff keys, unique units, and canonical selection order'
 });
 
 test('keeps ordinary handoffs exact while the recovery-only validator accepts a canonical nonempty subset', () => {
-  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'];
+  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest'];
   const sourcePublications = Object.fromEntries(groups.map((group, index) => [
     group,
     publication(String(index + 1).repeat(40), String(index + 2).repeat(40)),
@@ -310,7 +311,7 @@ test('keeps ordinary handoffs exact while the recovery-only validator accepts a 
 
 test('CLI accepts a recovery subset only when an immutable recovery plan checksum binds the exact handoff', () => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-handoff-cli-'));
-  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'];
+  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest'];
   const sourcePublications = Object.fromEntries(groups.map((group, index) => [
     group,
     publication(String(index + 1).repeat(40), String(index + 2).repeat(40)),

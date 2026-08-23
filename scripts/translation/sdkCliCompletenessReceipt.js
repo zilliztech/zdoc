@@ -69,7 +69,7 @@ function receiptBody(value) {
 function validateSdkCliCompletenessReceipt(value) {
   exactKeys(value, RECEIPT_KEYS, 'SDK/CLI completeness receipt')
   if (value.schemaVersion !== 1 || value.document !== 'sdk-cli-generation-completeness') throw new Error('SDK/CLI completeness receipt identity is invalid')
-  if (value.target !== 'zh-CN-reference' || !['python', 'java', 'node', 'go', 'cli'].includes(value.group)) throw new Error('SDK/CLI completeness receipt target/group is invalid')
+  if (value.target !== 'zh-CN-reference' || !['python', 'java', 'node', 'go', 'cli', 'cpp'].includes(value.group)) throw new Error('SDK/CLI completeness receipt target/group is invalid')
   if (value.manual !== value.group) throw new Error('SDK/CLI completeness receipt manual must match the group')
   for (const key of ['toolingSha', 'sourceBaselineSha', 'sourceCheckpointSha']) if (!SHA.test(value[key] || '')) throw new Error(`SDK/CLI completeness receipt ${key} is invalid`)
   exactKeys(value.validation, VALIDATION_KEYS, 'SDK/CLI completeness receipt validation')

@@ -26,12 +26,13 @@ const EXPECTED_UNIT_KEYS = [
   'translation/ja-JP/node', 'translation/zh-CN-reference/node',
   'translation/ja-JP/go', 'translation/zh-CN-reference/go',
   'translation/ja-JP/cli', 'translation/zh-CN-reference/cli',
+  'translation/ja-JP/cpp', 'translation/zh-CN-reference/cpp',
   'translation/ja-JP/rest',
   'translation/zh-CN-reference/reference-landings',
 ]
 
 function handoff() {
-  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest', 'reference-landings']
+  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest', 'reference-landings']
   const selectedUnitKeys = EXPECTED_UNIT_KEYS.slice(0, -1)
   return {
     schemaVersion: 2,
@@ -47,8 +48,8 @@ function handoff() {
         target,
         group,
         sourceGroup: group,
-      sourceBaselineSha: ['c', 'd', 'e', 'f', 'a', 'b', 'c', 'd'][groupIndex].repeat(40),
-      sourceCheckpointSha: ['e', 'f', 'a', 'b', 'c', 'd', 'e', 'f'][groupIndex].repeat(40),
+      sourceBaselineSha: ['c', 'd', 'e', 'f', 'a', 'b', 'c', 'd', 'e'][groupIndex].repeat(40),
+      sourceCheckpointSha: ['e', 'f', 'a', 'b', 'c', 'd', 'e', 'f', 'a'][groupIndex].repeat(40),
         targetBaselineSha: SHA_B,
         publicationOrder: index,
       }

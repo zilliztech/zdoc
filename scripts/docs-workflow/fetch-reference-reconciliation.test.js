@@ -60,7 +60,7 @@ function transactionFixture(t) {
 }
 
 function transactionDocuments(baseline, statuses = {python: 'no_changes', java: 'producer_failed'}) {
-  const canonicalGroups = ['java', 'node', 'go', 'cli', 'rest', 'python']
+  const canonicalGroups = ['python', 'java', 'node', 'go', 'cli', 'cpp', 'rest']
   const groups = canonicalGroups.filter(group => Object.hasOwn(statuses, group))
   const units = groups.map(group => ({
     unitKey: `source/${group}`,

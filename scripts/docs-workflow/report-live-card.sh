@@ -13,9 +13,9 @@ if [[ "${CARD_MODE:-ordered}" == ordered ]]; then
 fi
 
 if [[ "$SELECTED_GROUP" == all ]]; then
-  groups_json='["guides","python","java","node","go","cli","rest"]'
+  groups_json=$(node scripts/docs-workflow/print-workflow-groups.js --groups-json)
 else
-  groups_json=$(node -e 'process.stdout.write(JSON.stringify([process.argv[1]]))' "$SELECTED_GROUP")
+  groups_json=$(node -e 'process.stdout.write(JSON.stringify(process.argv[1].split(",").map(s => s.trim()).filter(Boolean)))' "$SELECTED_GROUP")
 fi
 jobs_file="$RUNNER_TEMP/docs-workflow-jobs.json"
 state_file="$RUNNER_TEMP/docs-card-state.json"

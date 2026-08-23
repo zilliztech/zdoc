@@ -25,6 +25,50 @@ function packageName(specifier: string): string | null {
   return specifier.startsWith('@') ? parts.slice(0, 2).join('/') : parts[0];
 }
 
+// Real import specifiers in this package use single quotes. The presentation
+// generator embeds generated-code templates in double-quoted strings (e.g.
+// "import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';"), which a
+// naive `from '...'` scan would mistake for a runtime import. Mask double-quoted
+// string and comment contents before scanning so those templates don't match.
+function maskDoubleQuotedStringsAndComments(source: string): string {
+  let masked = '';
+  let index = 0;
+  const length = source.length;
+  while (index < length) {
+    const char = source[index];
+    const next = source[index + 1];
+    if (char === '/' && next === '/') {
+      while (index < length && source[index] !== '\n') { masked += ' '; index += 1; }
+      continue;
+    }
+    if (char === '/' && next === '*') {
+      masked += '  ';
+      index += 2;
+      while (index < length && !(source[index] === '*' && source[index + 1] === '/')) {
+        masked += source[index] === '\n' ? '\n' : ' ';
+        index += 1;
+      }
+      if (index < length) { masked += '  '; index += 2; }
+      continue;
+    }
+    if (char === '"') {
+      masked += ' ';
+      index += 1;
+      while (index < length) {
+        const current = source[index];
+        if (current === '\\') { masked += '  '; index += 2; continue; }
+        if (current === '"') { masked += ' '; index += 1; break; }
+        masked += current === '\n' ? '\n' : ' ';
+        index += 1;
+      }
+      continue;
+    }
+    masked += char;
+    index += 1;
+  }
+  return masked;
+}
+
 describe('docs-tooling runtime contract', () => {
   it('points the root docs-tooling command at the executable composition root', () => {
     const rootManifest = JSON.parse(readFileSync(path.join(repositoryRoot, 'package.json'), 'utf8')) as {
@@ -49,6 +93,7 @@ describe('docs-tooling runtime contract', () => {
       '@smithy/node-http-handler',
       '@zilliz/publication-adapters',
       '@zilliz/site-config',
+      'ajv',
       'ali-oss',
       'bottleneck',
       'cheerio',
@@ -82,7 +127,7 @@ describe('docs-tooling runtime contract', () => {
       /^\s*import\s+['"]([^'"]+)['"]/gm,
     ];
     for (const file of runtimeSourceFiles(path.join(packageRoot, 'src'))) {
-      const source = readFileSync(file, 'utf8');
+      const source = maskDoubleQuotedStringsAndComments(readFileSync(file, 'utf8'));
       for (const pattern of patterns) {
         for (const match of source.matchAll(pattern)) {
           const dependency = packageName(match[1]);

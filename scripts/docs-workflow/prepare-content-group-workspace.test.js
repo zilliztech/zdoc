@@ -9,6 +9,7 @@ const test = require('node:test');
 
 const { prepareContentGroupWorkspace, trackRestoredFiles } = require('./prepare-content-group-workspace');
 const { getGroupPaths } = require('./group-paths');
+const { listContentGroups } = require('./content-groups');
 
 function write(file, text = 'x') {
   fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -131,4 +132,18 @@ test('restores the Reference root manifest for a Guides-only English build', () 
     '{"schemaVersion":1}\n',
   );
   assert.equal(result.restored.includes('content/en/reference/content-manifest.json'), true);
+});
+
+test('every reference group preserved path is tracked on the tooling branch', () => {
+  // preservedFiles are restored from MASTER_SHA during prepare; a preserved path that is
+  // not tracked at HEAD makes prepare-content-group-workspace.js fail at fetch time.
+  for (const group of listContentGroups('en')) {
+    if (group === 'guides') continue;
+    for (const relativePath of getGroupPaths(group, 'en').preservedEnglish) {
+      assert.doesNotThrow(
+        () => execFileSync('git', ['cat-file', '-e', `HEAD:${relativePath}`], { stdio: 'ignore' }),
+        `preserved path ${relativePath} (group ${group}) must be tracked on the tooling branch`,
+      );
+    }
+  }
 });
