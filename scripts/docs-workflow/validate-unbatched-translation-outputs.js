@@ -203,7 +203,7 @@ function validateReferenceState({workspace, baseline, manifest, resultBySource})
       manual: sourceRecord.manual,
       sourcePath: item.sourcePath,
       targetPath: item.targetPath,
-      sourceCommit: manifest.sourceCheckpointSha,
+      sourceCommit: sourceManifest.sourceCommit,
       sourceHash: item.sourceHash,
       targetHash,
       status: item.sourceHash === targetHash ? 'unchanged' : 'translated',

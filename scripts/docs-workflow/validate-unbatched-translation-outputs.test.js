@@ -381,6 +381,12 @@ test('accepts a Reference source manifest whose global source commit differs fro
     const sourceManifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
     sourceManifest.sourceCommit = 'c'.repeat(40)
     writeJson(fixture.root, 'generated/en/manifests/reference.json', sourceManifest)
+    const statePath = path.join(fixture.root, 'generated/zh-CN/manifests/reference-translations.json')
+    const state = JSON.parse(fs.readFileSync(statePath, 'utf8'))
+    for (const record of state.records) {
+      if (record.sourcePath === 'content/en/reference/api/go/v2-DataOperations-Database.md') record.sourceCommit = 'c'.repeat(40)
+    }
+    writeJson(fixture.root, 'generated/zh-CN/manifests/reference-translations.json', state)
     assert.deepEqual(validate(fixture.root, {translated: 1, failed: 0}), {candidateCount: 1, target: 'zh-CN-reference'})
   } finally {
     fs.rmSync(fixture.root, {recursive: true, force: true})
