@@ -8,7 +8,7 @@ import type {AliyunOssValidator} from '@zilliz/publication-adapters';
 import {config as loadDotenv} from 'dotenv';
 
 import {executeDocsToolingCommand, executeReferenceDocsToolingCommand, parseCliArgs} from './cli.ts';
-import {resolveGuidesSourceConfig} from './manuals/registry.ts';
+import {manualRegistry, resolveGuidesSourceConfig} from './manuals/registry.ts';
 import {checkLinks} from './links/check.ts';
 import {applyMdxPatches} from './mdx/index.ts';
 import {executeReportCard} from './reporting/lark.ts';
@@ -176,6 +176,15 @@ async function validateCommittedRevisionInventories(argv: string[], repositoryRo
   const options = parseOptions(argv.slice(1));
   if (requiredOption(options, 'site') !== 'en') throw new Error('Revision inventory validation supports only --site en');
   for (const group of listPublicationGroups('en')) {
+    // A reference manual that is registered but not yet fetched (its content and generated
+    // sidebars are dev-owned and produced by the fetch pipeline) has no revision inventory on
+    // this branch — skip it, mirroring the unseeded-manual tolerance in validate-reference and
+    // Reference sidebar derivation.
+    const manual = manualRegistry.find(candidate => candidate.id === group);
+    if (manual?.kind === 'reference' && manual.publications.en
+      && !existsSync(path.join(repositoryRoot, manual.publications.en.sidebarPath))) {
+      continue;
+    }
     const relativePath = `generated/en/manifests/lark-revisions/${group}.json`;
     const file = resolveSafeRevisionPath(repositoryRoot, relativePath, 'Revision inventory path', true);
     const inventory = await readRevisionInventory(file, `Revision inventory ${group}`);
