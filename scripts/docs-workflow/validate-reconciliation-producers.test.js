@@ -38,16 +38,19 @@ function clientWith(jobs) {
 
 test('accepts all required English source producers that succeeded', async () => {
   const file = selectionFixture()
+  // Real producer job names carry the reusable workflow's internal job as a
+  // "/ <job>" suffix (matrixized produce → "_fetch-content-group.yml#produce",
+  // guides → "_assemble-guides.yml#assemble").
   const jobs = [
-    {name: 'produce_guides', conclusion: 'success'},
-    {name: 'produce_python', conclusion: 'success'},
-    {name: 'produce_java', conclusion: 'success'},
-    {name: 'produce_node', conclusion: 'success'},
-    {name: 'produce_go', conclusion: 'success'},
-    {name: 'produce_cli', conclusion: 'success'},
-    {name: 'produce_cpp', conclusion: 'success'},
-    {name: 'produce_rest', conclusion: 'success'},
-    {name: 'produce_zh_guides', conclusion: 'success'},
+    {name: 'produce_guides / assemble', conclusion: 'success'},
+    {name: 'produce_python / produce', conclusion: 'success'},
+    {name: 'produce_java / produce', conclusion: 'success'},
+    {name: 'produce_node / produce', conclusion: 'success'},
+    {name: 'produce_go / produce', conclusion: 'success'},
+    {name: 'produce_cli / produce', conclusion: 'success'},
+    {name: 'produce_cpp / produce', conclusion: 'success'},
+    {name: 'produce_rest / produce', conclusion: 'success'},
+    {name: 'produce_zh_guides / assemble', conclusion: 'success'},
   ]
   await validateReconciliationProducers(file, clientWith(jobs))
 })
@@ -55,15 +58,15 @@ test('accepts all required English source producers that succeeded', async () =>
 test('rejects when a required English source producer did not succeed', async () => {
   const file = selectionFixture()
   const jobs = [
-    {name: 'produce_guides', conclusion: 'success'},
-    {name: 'produce_python', conclusion: 'failure'},
-    {name: 'produce_java', conclusion: 'success'},
-    {name: 'produce_node', conclusion: 'success'},
-    {name: 'produce_go', conclusion: 'success'},
-    {name: 'produce_cli', conclusion: 'success'},
-    {name: 'produce_cpp', conclusion: 'success'},
-    {name: 'produce_rest', conclusion: 'success'},
-    {name: 'produce_zh_guides', conclusion: 'success'},
+    {name: 'produce_guides / assemble', conclusion: 'success'},
+    {name: 'produce_python / produce', conclusion: 'failure'},
+    {name: 'produce_java / produce', conclusion: 'success'},
+    {name: 'produce_node / produce', conclusion: 'success'},
+    {name: 'produce_go / produce', conclusion: 'success'},
+    {name: 'produce_cli / produce', conclusion: 'success'},
+    {name: 'produce_cpp / produce', conclusion: 'success'},
+    {name: 'produce_rest / produce', conclusion: 'success'},
+    {name: 'produce_zh_guides / assemble', conclusion: 'success'},
   ]
   await assert.rejects(() => validateReconciliationProducers(file, clientWith(jobs)), /source\/python/)
 })
