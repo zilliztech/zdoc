@@ -279,11 +279,27 @@ function readRegularFileNoFollow(absolutePath: string): Buffer {
   }
 }
 
+export function unseededReferencePreservedSourcePaths(repositoryRoot: string): ReadonlySet<string> {
+  const paths = new Set<string>();
+  for (const {manual, site, publication} of publicationEntries(manualRegistry)) {
+    if (manual.kind !== 'reference' || site !== 'en') continue;
+    const preservedFiles = publication.preservedFiles;
+    if (!preservedFiles || preservedFiles.length === 0) continue;
+    // A manual whose canonical English sidebar has not been seeded yet (dev-owned,
+    // produced by the fetch pipeline) keeps its preserved landing page on master but is
+    // not yet part of the translation source tree — exclude it until it is first fetched.
+    if (existsSync(path.join(repositoryRoot, publication.sidebarPath))) continue;
+    for (const file of preservedFiles) paths.add(`${publication.outputDir}/${file}`);
+  }
+  return paths;
+}
+
 function repositoryFiles(repositoryRoot: string, relativeRoot: string): Map<string, string> {
   assertSafeRepositoryRelativePath(relativeRoot, 'Reference root');
   const absoluteRoot = assertSafeRepositoryPathChain(repositoryRoot, relativeRoot, 'Reference root');
   const rootStats = lstatSync(absoluteRoot);
   if (!rootStats.isDirectory() || rootStats.isSymbolicLink()) throw new Error(`Reference root must be a regular directory: ${relativeRoot}`);
+  const excludedSourcePaths = unseededReferencePreservedSourcePaths(repositoryRoot);
   const files = new Map<string, string>();
   const visit = (directory: string): void => {
     for (const entry of readdirSync(directory, {withFileTypes: true}).sort((left, right) => compareText(left.name, right.name))) {
@@ -296,6 +312,7 @@ function repositoryFiles(repositoryRoot: string, relativeRoot: string): Map<stri
       if (!entry.isFile()) throw new Error(`Reference tree contains a non-regular file: ${absolutePath}`);
       if (entry.name === '.gitkeep' || (directory === absoluteRoot && entry.name === 'content-manifest.json')) continue;
       const relativePath = path.relative(repositoryRoot, absolutePath).split(path.sep).join('/');
+      if (excludedSourcePaths.has(relativePath)) continue;
       assertSafeRepositoryRelativePath(relativePath, 'Reference file');
       files.set(relativePath, sha256(readRegularFileNoFollow(absolutePath)));
     }
