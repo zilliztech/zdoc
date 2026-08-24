@@ -12,7 +12,7 @@ const { validateAssemblyDecision } = require('./guides-assembly-identity')
 const SHA = /^[0-9a-f]{40}$/
 const MEDIA_PREFETCH_REPORT = 'packages/docs-tooling/src/lark/meta/reports/guides-media-prefetch.json'
 const ASSEMBLY_DECISION = 'packages/docs-tooling/src/lark/meta/reports/guides-assembly-decision.json'
-function siteIdentity(site = process.env.ZDOC_SITE || 'en') {
+function siteIdentity(site = 'en') {
   if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported Guides site: ${site}`)
   const identity = site === 'en' ? 'guides' : 'guides-zh-CN'
   return Object.freeze({
@@ -21,7 +21,7 @@ function siteIdentity(site = process.env.ZDOC_SITE || 'en') {
     mediaManifest: `packages/docs-tooling/src/lark/meta/media-cache/${identity}.json`,
   })
 }
-function stagePaths(site = process.env.ZDOC_SITE || 'en') {
+function stagePaths(site = 'en') {
   const identity = siteIdentity(site)
   return {
   source: [
@@ -46,7 +46,7 @@ function stagePaths(site = process.env.ZDOC_SITE || 'en') {
     `tmp/docs-tooling/${site}/guides-byoc/generated/${site}/sidebars/guides-byoc.sidebar.js`,
   ],
 }}
-function requiredStageFiles(site = process.env.ZDOC_SITE || 'en') {
+function requiredStageFiles(site = 'en') {
   const identity = siteIdentity(site)
   return {
   source: [
@@ -59,7 +59,7 @@ function requiredStageFiles(site = process.env.ZDOC_SITE || 'en') {
   byoc: [],
 }}
 
-function allowed(stage, relative, site = process.env.ZDOC_SITE || 'en') {
+function allowed(stage, relative, site = 'en') {
   if (!isStrictManifestPath(relative)) return false
   if (relative === ASSEMBLY_DECISION) return stage === 'source'
   if (relative.startsWith(`${ASSEMBLY_DECISION}/`)) return false
@@ -366,7 +366,7 @@ async function writePinnedFile(pinned, relative, bytes) {
   await verifyDirectoryChain(pinned.ancestors, 'restore destination')
 }
 
-async function assertSourceStageCompleteness({ site = process.env.ZDOC_SITE || 'en', workspace, snapshotCandidatePath, rootToken }) {
+async function assertSourceStageCompleteness({ site = 'en', workspace, snapshotCandidatePath, rootToken }) {
   if (!rootToken) throw new Error('Guides source artifact requires rootToken')
   const relativeSnapshot = snapshotCandidatePath || 'packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json'
   const snapshotPath = path.join(workspace, relativeSnapshot)
@@ -386,7 +386,7 @@ async function assertSourceStageCompleteness({ site = process.env.ZDOC_SITE || '
   })
 }
 
-async function createGuidesStageArtifact({ site = process.env.ZDOC_SITE || 'en', stage, workspace, baselineDir, output, masterSha, devBaselineSha, sourceArtifactSha256 = null, snapshotCandidatePath = null, rootToken = null }) {
+async function createGuidesStageArtifact({ site = 'en', stage, workspace, baselineDir, output, masterSha, devBaselineSha, sourceArtifactSha256 = null, snapshotCandidatePath = null, rootToken = null }) {
   const paths = stagePaths(site)
   if (!Object.hasOwn(paths, stage)) throw new Error(`Unknown guides stage: ${stage}`)
   if (!SHA.test(masterSha) || !SHA.test(devBaselineSha)) throw new Error('Invalid SHA')
@@ -524,7 +524,7 @@ if (require.main === module) {
   const args = parseArgs(process.argv.slice(2))
   const operation = args.operation
   const promise = operation === 'create'
-    ? createGuidesStageArtifact({ site: args.site || process.env.ZDOC_SITE || 'en', stage: args.stage, workspace: args.workspace, baselineDir: args['baseline-dir'], output: args.output, masterSha: args['master-sha'], devBaselineSha: args['dev-baseline-sha'], sourceArtifactSha256: args['source-artifact-sha256'] || null, snapshotCandidatePath: args['snapshot-candidate'] || null, rootToken: args['root-token'] || null })
+    ? createGuidesStageArtifact({ site: args.site || 'en', stage: args.stage, workspace: args.workspace, baselineDir: args['baseline-dir'], output: args.output, masterSha: args['master-sha'], devBaselineSha: args['dev-baseline-sha'], sourceArtifactSha256: args['source-artifact-sha256'] || null, snapshotCandidatePath: args['snapshot-candidate'] || null, rootToken: args['root-token'] || null })
     : operation === 'validate'
       ? validateGuidesStageArtifact(args.artifact, { site: args.site, stage: args.stage, masterSha: args['master-sha'], devBaselineSha: args['dev-baseline-sha'], sourceArtifactSha256: args['source-artifact-sha256'] })
       : operation === 'restore'
