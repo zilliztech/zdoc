@@ -264,6 +264,7 @@ function referenceRawOrderingFixture() {
     status: 'translated',
   }
   write(root, sourcePath, source)
+  write(root, existingSourcePath, '# Database\n')
   write(root, targetPath, target)
   writeJson(root, 'generated/en/manifests/reference.json', {
     schemaVersion: 1,
@@ -368,6 +369,32 @@ test('accepts a successful Reference translation replacing its language-excluded
   const fixture = referenceLanguageExcludedSuccessFixture()
   try {
     assert.deepEqual(validate(fixture.root, {translated: 1, failed: 0}), {candidateCount: 1, target: 'zh-CN-reference'})
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('accepts a Reference source manifest whose global source commit differs from the manual checkpoint when the content tree matches', () => {
+  const fixture = referenceRawOrderingFixture()
+  try {
+    const manifestPath = path.join(fixture.root, 'generated/en/manifests/reference.json')
+    const sourceManifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+    sourceManifest.sourceCommit = 'c'.repeat(40)
+    writeJson(fixture.root, 'generated/en/manifests/reference.json', sourceManifest)
+    assert.deepEqual(validate(fixture.root, {translated: 1, failed: 0}), {candidateCount: 1, target: 'zh-CN-reference'})
+  } finally {
+    fs.rmSync(fixture.root, {recursive: true, force: true})
+  }
+})
+
+test('rejects a Reference source manifest whose declared tree does not match the workspace content', () => {
+  const fixture = referenceFixture()
+  try {
+    const manifestPath = path.join(fixture.root, 'generated/en/manifests/reference.json')
+    const sourceManifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+    sourceManifest.records[0].sourceHash = sha256('# different content\n')
+    writeJson(fixture.root, 'generated/en/manifests/reference.json', sourceManifest)
+    assert.throws(() => validate(fixture.root, {translated: 1, failed: 2}), /Reference source manifest tree does not match the authenticated source checkpoint/)
   } finally {
     fs.rmSync(fixture.root, {recursive: true, force: true})
   }
