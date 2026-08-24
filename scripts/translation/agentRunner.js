@@ -1503,7 +1503,7 @@ function updateReferenceProgressState(siteDir, progressState, result) {
     manual,
     sourcePath: result.sourcePath,
     targetPath: result.targetPath,
-    sourceCommit: progressState.sourceCheckpointSha,
+    sourceCommit: sourceManifest.sourceCommit,
     sourceHash: result.sourceHash,
     targetHash,
     status: result.sourceHash === targetHash ? 'unchanged' : 'translated',
@@ -1542,7 +1542,7 @@ function updateFailedReferenceProgressState(siteDir, progressState, result) {
     manual: sourceRecord?.manual || previous?.manual || defaultReferenceManualForPath(result.sourcePath),
     sourcePath: result.sourcePath,
     targetPath: result.targetPath,
-    sourceCommit: progressState.sourceCheckpointSha,
+    sourceCommit: sourceManifest.sourceCommit,
     sourceHash: sourceRecord?.sourceHash || result.sourceHash,
   }
   const hadLanguageExcludedRecords = Object.hasOwn(progressState.value, 'languageExcludedRecords')
