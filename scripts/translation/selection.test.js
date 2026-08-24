@@ -4,6 +4,8 @@ const assert = require('node:assert/strict');
 const test = require('node:test');
 
 const {buildTranslationSelection} = require('./selection');
+const {loadTypeScript} = require('../lib/load-typescript');
+const {sourcePublicationGroups} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts');
 
 test('selects one Chinese SDK translation group', () => {
   assert.deepEqual(buildTranslationSelection({locale: 'zh-CN', group: 'python'}), [{
@@ -64,6 +66,11 @@ test('preserves the manual-only Chinese reference landings selection', () => {
     locale: 'zh-CN', target: 'zh-CN-reference', group: 'reference-landings', sourceGroup: 'reference-landings',
     order: 0, publicationOrder: 0,
   }]);
+});
+
+test('derives the canonical source-group set from the manual registry', () => {
+  const groups = [...new Set(buildTranslationSelection({locale: 'all', group: 'all'}).map(item => item.sourceGroup))];
+  assert.deepEqual(groups, [...sourcePublicationGroups()]);
 });
 
 test('fails unsupported locale and group combinations before translation', () => {
