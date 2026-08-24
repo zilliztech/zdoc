@@ -41,6 +41,7 @@ The sequence matters: tooling on master → fetch produces dev state → sync ca
    - If the manual has a generated English sidebar, add `generated/en/sidebars/<manual>.sidebar.js` to the fixed restore path list in `scripts/restore-generated-state.sh` **and** to the matching `restorePaths` array in `scripts/restore-generated-state.test.js` (the test asserts the two lists are identical).
    - Add the manual to `deploy/contracts/path-filters.json`.
    - Add the manual to the translation `GROUPS` in `scripts/translation/selection.js`.
+   - If the manual has a reference source (`content/en/reference/api/<manual>/...`), add its `<manual>` mapping to the two hardcoded ownership lists: `expectedReferenceManual` in `scripts/translation/bootstrap-state.js` and `manualForReferenceSource` in `packages/docs-tooling/src/translation/candidates.ts`. These duplicate the registry-derived `defaultReferenceManualForPath`; omitting them makes `zh-CN-reference/<manual>` translation fail with a canonical-ownership mismatch.
    - Add the manual to the dispatch lists in `.github/workflows/fetch-docs.yml`.
 5. **Seed `dev`** (one-time, see below).
 6. **Fetch** (publish) so `dev` gains the generated state.
@@ -76,6 +77,7 @@ Pitfalls 1–3 are now caught at PR time by the two master gates described below
 4. **Sync runs before the fetch** → `validate-revision-inventory --site en` fails: `Revision inventory path is missing: generated/en/manifests/lark-revisions/<manual>.json`. `REVISION_GROUPS` is derived from `registry.ts`, so the new manual is expected immediately. Fetch first (or seed a clean-room inventory).
 5. **Stale `reference.json` sourceCommit** → `Reference source commit tree path set does not match the declared snapshot`. A real fetch's reconcile step regenerates it.
 6. **`reference.ts` missing the `<manual>Sidebar` key on `dev`** → site build fails: `wants to display sidebar <manual>Sidebar but a sidebar with this name doesn't exist`. `reference.ts` is a master tooling file; it is fixed by `generate:reference-presentation` on `master` **and** the sync carrying it to `dev`.
+7. **Manual missing from the hardcoded reference ownership lists** → `zh-CN-reference/<manual>` translation fails with a canonical-ownership mismatch (`Historical translation manual does not match selected group ownership`). `expectedReferenceManual` (bootstrap-state.js) and `manualForReferenceSource` (candidates.ts) each hardcode the SDK→manual map and must include every reference manual.
 
 ## What CI validates, and where
 
