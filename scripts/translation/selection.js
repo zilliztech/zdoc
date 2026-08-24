@@ -2,8 +2,13 @@
 'use strict';
 
 const fs = require('node:fs');
+const {loadTypeScript} = require('../lib/load-typescript');
 
-const GROUPS = Object.freeze(['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest']);
+// The canonical translation group set is the registry's publication groups,
+// so a new manual only needs its groupOrder set in the registry to enter the
+// translation pipeline (instead of hand-editing this list).
+const {sourcePublicationGroups} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts');
+const GROUPS = sourcePublicationGroups();
 
 function selectionItem(locale, group, order) {
   return {
