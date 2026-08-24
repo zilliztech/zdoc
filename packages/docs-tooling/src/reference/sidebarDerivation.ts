@@ -294,16 +294,14 @@ export function deriveZhCnReferenceSidebarEntries(
   excludedDocIds: ReadonlySet<string> = new Set<string>(),
 ): readonly (readonly [string, string])[] {
   const targetRoot = path.join(repositoryRoot, 'content/zh-CN/reference');
-  return REFERENCE_SIDEBARS
-    .filter(name => englishSidebarPresent(repositoryRoot, name))
-    .map(name => {
-      const template = loadEnglishTemplate(repositoryRoot, name);
-      const derived = deriveReferenceSidebar({targetRoot, template, excludedDocIds});
-      return [
-        `generated/zh-CN/sidebars/${name}.sidebar.js`,
-        serializeSidebar(derived),
-      ] as const;
-    });
+  return REFERENCE_SIDEBARS.map(name => {
+    const template = loadEnglishTemplate(repositoryRoot, name);
+    const derived = deriveReferenceSidebar({targetRoot, template, excludedDocIds});
+    return [
+      `generated/zh-CN/sidebars/${name}.sidebar.js`,
+      serializeSidebar(derived),
+    ] as const;
+  });
 }
 
 export function deriveReferenceSidebarPublicationEntries(
@@ -317,7 +315,6 @@ export function deriveReferenceSidebarPublicationEntries(
   const chineseEntries: Array<readonly [string, string]> = [];
 
   for (const name of REFERENCE_SIDEBARS) {
-    if (!englishSidebarPresent(repositoryRoot, name)) continue;
     const target = targets.get(name)!;
     const normalized = normalizeLandingDocument(loadEnglishTemplate(repositoryRoot, name), sourceDocuments, target.landingId);
     const derived = deriveReferenceSidebar({targetRoot, template: normalized, excludedDocIds});

@@ -1153,7 +1153,7 @@ describe('Reference translation provenance', () => {
     expect(validateReferenceNavigation).toHaveBeenCalledWith(expect.objectContaining({repositoryRoot: roots.repositoryRoot, site: 'zh-CN'}));
   });
 
-  it('skips an unseeded manual whose English Reference sidebar template is missing', async () => {
+  it('fails when an English Reference sidebar template is missing', async () => {
     const roots = fixture();
     writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');
     writeFileSync(path.join(roots.repositoryRoot, 'content/zh-CN/reference/api/python/page.md'), '# target\n');
@@ -1167,7 +1167,7 @@ describe('Reference translation provenance', () => {
       verifySourceRevision: () => undefined,
       manualForPath: () => 'python',
       retirementRegistry: {schemaVersion: 2, retirements: []},
-    })).resolves.toBeUndefined();
+    })).rejects.toThrow(/cannot load English Reference sidebar template.*python\.sidebar\.js/i);
   });
 
   it('regenerates Chinese Reference sidebars when writing the translation manifest', async () => {
