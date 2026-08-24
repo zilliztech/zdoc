@@ -43,6 +43,7 @@ import {
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
   serializeReferenceManifest,
+  unseededReferencePreservedSourcePaths,
   type ReferenceRetirementRegistry,
   type ReferenceSourceManifest,
   type ReferenceTreeSnapshot,
@@ -174,6 +175,7 @@ function referenceContentPath(filePath: string, root: string): boolean {
 function gitCommitSnapshot(repositoryRoot: string, commit: string, sourceRoot: string): ReferenceTreeSnapshot {
   const listing = nodeSpawnSync('git', ['ls-tree', '-rz', '--full-tree', commit, '--', sourceRoot], {cwd: repositoryRoot, encoding: 'buffer', maxBuffer: 64 * 1024 * 1024});
   if (listing.error || listing.status !== 0) throw new Error(`Could not enumerate declared commit tree ${commit}: ${listing.stderr?.toString() || listing.error?.message || 'git failed'}`);
+  const excludedSourcePaths = unseededReferencePreservedSourcePaths(repositoryRoot);
   const files = new Map<string, string>();
   for (const entry of listing.stdout.toString('utf8').split('\0')) {
     if (!entry) continue;
@@ -181,6 +183,7 @@ function gitCommitSnapshot(repositoryRoot: string, commit: string, sourceRoot: s
     if (!match) throw new Error(`Declared commit tree contains an unsupported entry: ${entry}`);
     const [, objectId, filePath] = match;
     if (!referenceContentPath(filePath, sourceRoot)) continue;
+    if (excludedSourcePaths.has(filePath)) continue;
     assertSafeRepositoryRelativePath(filePath, 'Declared Reference source path');
     const blob = nodeSpawnSync('git', ['cat-file', 'blob', objectId], {cwd: repositoryRoot, encoding: 'buffer', maxBuffer: 64 * 1024 * 1024});
     if (blob.error || blob.status !== 0) throw new Error(`Could not read declared source blob ${objectId}: ${blob.stderr?.toString() || blob.error?.message || 'git failed'}`);

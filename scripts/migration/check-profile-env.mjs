@@ -9,6 +9,12 @@ const ignoredFiles = new Set([
   'packages/site-config/src/resolve.ts',
   'scripts/build/run-with-publication-read-fence.mjs',
   'scripts/migration/check-profile-env.mjs',
+  // Publication-unit environment contract: `ZDOC_SITE` is a structured data key
+  // injected per unit (not an ambient process.env read), defined and consumed here.
+  'scripts/docs-workflow/checkpoint-publication.js',
+  'scripts/docs-workflow/fetch-publication-adapter.js',
+  'scripts/docs-workflow/fetch-publication-selection.js',
+  'scripts/docs-workflow/translation-publication-selection.js',
 ]);
 
 const sourceExtension = /\.(?:cjs|js|jsx|mjs|ts|tsx)$/u;

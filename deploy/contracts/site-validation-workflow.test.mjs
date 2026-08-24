@@ -61,30 +61,41 @@ test('site validation selects checks from the versioned path-filter contract', a
 test('site validation runs isolated named builds and a stable aggregate gate', async () => {
   const workflow = await readFile(path.join(repositoryRoot, '.github/workflows/site-validation.yml'), 'utf8');
   assert.match(workflow, /^  build_en:$/m);
-  assert.match(workflow, /if: needs\.classify\.outputs\.build_en == 'true'/);
+  assert.match(workflow, /if: needs\.classify\.outputs\.build_en == 'true' && needs\.classify\.outputs\.skip_content != 'true'/);
   assert.match(workflow, /run: pnpm build:en/);
-  assert.match(jobBlock(workflow, 'build_en'), /pnpm check:localization-input-inventory[\s\S]*pnpm build:en/);
+  assert.doesNotMatch(jobBlock(workflow, 'build_en'), /pnpm check:/);
   assert.match(workflow, /test -s build\/en\/ja-JP\/docs\/home\.html/);
   assert.match(workflow, /^  build_zh_cn:$/m);
-  assert.match(workflow, /if: needs\.classify\.outputs\.build_zh_cn == 'true'/);
+  assert.match(workflow, /if: needs\.classify\.outputs\.build_zh_cn == 'true' && needs\.classify\.outputs\.skip_content != 'true'/);
   for (const job of ['build_zh_cn', 'reference_coverage']) {
     const block = jobBlock(workflow, job);
     assert.match(block, /uses: actions\/checkout@v5\n\s+with:\n(?:\s+ref:.*\n)?\s+fetch-depth: 0/);
     assert.doesNotMatch(block, /Fetch immutable Reference source commit|git fetch --no-tags --depth=1/);
   }
   assert.match(workflow, /run: pnpm build:zh-CN/);
-  assert.match(jobBlock(workflow, 'build_zh_cn'), /pnpm check:localization-input-inventory[\s\S]*pnpm build:zh-CN/);
+  assert.doesNotMatch(jobBlock(workflow, 'build_zh_cn'), /pnpm check:/);
   assert.match(jobBlock(workflow, 'build_zh_cn'), /pnpm docs-tooling validate-reference --site zh-CN[\s\S]*pnpm build:zh-CN/);
   assert.match(workflow, /build\/zh-CN\/build-provenance\.json/);
   assert.match(workflow, /toolsSidebarReachable/);
   assert.match(workflow, /docs-agents/);
   assert.match(workflow, /^  reference_coverage:$/m);
   assert.match(jobBlock(workflow, 'reference_coverage'), /pnpm docs-tooling validate-reference --site zh-CN/);
+  assert.match(workflow, /if: needs\.classify\.outputs\.reference_coverage == 'true' && needs\.classify\.outputs\.skip_content != 'true'/);
   assert.match(workflow, /^  tools_coverage:$/m);
-  assert.match(workflow, /if: \$\{\{ always\(\) && needs\.classify\.outputs\.tools_coverage == 'true' \}\}/);
+  assert.match(workflow, /if: \$\{\{ always\(\) && needs\.classify\.outputs\.tools_coverage == 'true' && needs\.classify\.outputs\.skip_content != 'true' \}\}/);
   assert.match(jobBlock(workflow, 'tools_coverage'), /ZH_CN_RESULT: \$\{\{ needs\.build_zh_cn\.result \}\}/);
   assert.match(jobBlock(workflow, 'tools_coverage'), /test "\$ZH_CN_RESULT" = success/);
   assert.doesNotMatch(jobBlock(workflow, 'tools_coverage'), /actions\/checkout|pnpm install|validate-guides-|validate-generated-sidebars|pnpm (?:run )?build:zh-CN/);
+  assert.match(workflow, /^  tooling_checks:$/m);
+  for (const check of ['check:localization-input-inventory', 'check:lark-config', 'check:reference-presentation', 'check:reconciliation-policy']) {
+    assert.match(jobBlock(workflow, 'tooling_checks'), new RegExp(`run: pnpm ${check}`));
+  }
+  assert.match(workflow, /^  ownership_gate:$/m);
+  assert.match(jobBlock(workflow, 'ownership_gate'), /if: needs\.classify\.outputs\.skip_content == 'true'/);
+  assert.match(jobBlock(workflow, 'ownership_gate'), /scripts\/docs-workflow\/ownership-gate\.js/);
+  assert.match(workflow, /^  preserved_files_consistency:$/m);
+  assert.match(jobBlock(workflow, 'preserved_files_consistency'), /if: needs\.classify\.outputs\.skip_content == 'true'/);
+  assert.match(jobBlock(workflow, 'preserved_files_consistency'), /scripts\/docs-workflow\/preserved-files-gate\.js/);
   assert.match(workflow, /^  retirement:$/m);
   assert.match(workflow, /^  site_validation:$/m);
   assertRetirementContract(workflow);

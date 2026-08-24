@@ -92,7 +92,7 @@ jobs:
           snapshot="$snapshot_path"
           if [[ -f "$snapshot" ]]; then
             v4_restore_enabled=true
-            v4=$(node scripts/docs-workflow/guides-source-cache.js key --snapshot "$snapshot" --version 4)
+            v4=$(node scripts/docs-workflow/guides-source-cache.js key --site "$ZDOC_SITE" --snapshot "$snapshot" --version 4)
             v4_prefix="${v4}-"
             v4_lookup="${v4_prefix}lookup-${{ github.run_id }}-${{ github.run_attempt }}"
           else
@@ -124,9 +124,9 @@ jobs:
             cp -a "$payload" "$staged"
             rm -rf "$payload"
             if node scripts/docs-workflow/guides-source-cache-generation.js validate \
-              --payload "$staged" --snapshot "$snapshot" --root-token "$root_token"; then
+              --site "$ZDOC_SITE" --payload "$staged" --snapshot "$snapshot" --root-token "$root_token"; then
               node scripts/docs-workflow/guides-source-cache-generation.js promote \
-                --payload "$staged" --workspace "$GITHUB_WORKSPACE" \
+                --site "$ZDOC_SITE" --payload "$staged" --workspace "$GITHUB_WORKSPACE" \
                 --snapshot "$snapshot" --root-token "$root_token"
               source_valid=true
               media_valid=true
@@ -135,7 +135,7 @@ jobs:
           rm -rf "$staged" "$payload"
           if [[ "$source_valid" != true ]]; then
             node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
-              --workspace "$GITHUB_WORKSPACE" --scope all
+              --site "$ZDOC_SITE" --workspace "$GITHUB_WORKSPACE" --scope all
           fi
           printf 'source_valid=%s\nmedia_valid=%s\ncandidate_present=%s\n' \
             "$source_valid" "$media_valid" "$candidate_present" >> "$GITHUB_OUTPUT"
@@ -163,23 +163,23 @@ jobs:
             cp -a "$payload" "$staged"
             rm -rf tmp/guides-source-cache-v4
             if node scripts/docs-workflow/guides-source-cache-source-promotion.js validate \
-              --payload "$staged" --snapshot "$snapshot" \
+              --site "$ZDOC_SITE" --payload "$staged" --snapshot "$snapshot" \
               --root-token "$root_token"; then
               if node scripts/docs-workflow/guides-source-cache.js validate-media \
-                --source-dir "$staged/sources" --snapshot "$snapshot" \
+                --site "$ZDOC_SITE" --source-dir "$staged/sources" --snapshot "$snapshot" \
                 --manifest "$staged/source-manifest.json" \
                 --media-manifest "$staged/media-manifest.json"; then
                 if node scripts/docs-workflow/guides-source-cache-generation.js validate \
-                  --payload "$staged" --snapshot "$snapshot" --root-token "$root_token"; then
+                  --site "$ZDOC_SITE" --payload "$staged" --snapshot "$snapshot" --root-token "$root_token"; then
                   node scripts/docs-workflow/guides-source-cache-generation.js promote \
-                  --payload "$staged" --workspace "$GITHUB_WORKSPACE" \
+                  --site "$ZDOC_SITE" --payload "$staged" --workspace "$GITHUB_WORKSPACE" \
                   --snapshot "$snapshot" --root-token "$root_token"
                   source_valid=true
                   media_valid=true
                 fi
               else
                 node scripts/docs-workflow/guides-source-cache-source-promotion.js promote \
-                  --payload "$staged" --workspace "$GITHUB_WORKSPACE" \
+                  --site "$ZDOC_SITE" --payload "$staged" --workspace "$GITHUB_WORKSPACE" \
                   --snapshot "$snapshot" --root-token "$root_token"
                 source_valid=true
               fi
@@ -188,7 +188,7 @@ jobs:
           rm -rf "$staged" tmp/guides-source-cache-v4
           if [[ "$source_valid" != true ]]; then
             node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \
-              --workspace "$GITHUB_WORKSPACE" --scope all
+              --site "$ZDOC_SITE" --workspace "$GITHUB_WORKSPACE" --scope all
           fi
           printf 'source_valid=%s\nmedia_valid=%s\ncandidate_present=%s\n' \
             "$source_valid" "$media_valid" "$candidate_present" >> "$GITHUB_OUTPUT"
@@ -397,8 +397,8 @@ jobs:
           if-no-files-found: ignore
       - name: Create shared source artifact
         run: |
-          node scripts/docs-workflow/guides-source-cache.js create --source-dir "$source_dir" --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --media-manifest "$media_manifest_path" --root-token "$root_token"
-          node scripts/docs-workflow/guides-stage-artifact.js --operation create --stage source --workspace "$GITHUB_WORKSPACE" --baseline-dir "$RUNNER_TEMP/baseline" --output "$RUNNER_TEMP/guides-source" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --snapshot-candidate packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --root-token "$root_token"
+          node scripts/docs-workflow/guides-source-cache.js create --site "$ZDOC_SITE" --source-dir "$source_dir" --snapshot packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --output "$RUNNER_TEMP/guides-source-manifest.json" --media-manifest "$media_manifest_path" --root-token "$root_token"
+          node scripts/docs-workflow/guides-stage-artifact.js --operation create --site "$ZDOC_SITE" --stage source --workspace "$GITHUB_WORKSPACE" --baseline-dir "$RUNNER_TEMP/baseline" --output "$RUNNER_TEMP/guides-source" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}" --snapshot-candidate packages/docs-tooling/src/lark/meta/reports/guides-source-snapshot-candidate.json --root-token "$root_token"
           tar -cf "$RUNNER_TEMP/guides-source.tar" -C "$RUNNER_TEMP" guides-source
       - id: upload
         uses: actions/upload-artifact@v6

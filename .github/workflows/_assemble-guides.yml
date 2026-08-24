@@ -87,7 +87,7 @@ jobs:
       - name: Restore validated Guides source
         run: |
           tar -xf "$RUNNER_TEMP/source-download/guides-source.tar" -C "$RUNNER_TEMP/source-download"
-          node scripts/docs-workflow/guides-stage-artifact.js --operation restore --stage source --artifact "$RUNNER_TEMP/source-download/guides-source" --target "$GITHUB_WORKSPACE" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
+          node scripts/docs-workflow/guides-stage-artifact.js --operation restore --site "$ZDOC_SITE" --stage source --artifact "$RUNNER_TEMP/source-download/guides-source" --target "$GITHUB_WORKSPACE" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
       - name: Seed canonical Guides publication stages
         run: pnpm docs-tooling publish-group --site "${{ inputs.site }}" --group guides --stage fetch
         env:
@@ -245,20 +245,20 @@ jobs:
           mkdir -p packages/docs-tooling/src/lark/meta/source-cache
           snapshot="$snapshot_path"
           manifest="$source_manifest_path"
-          node scripts/docs-workflow/guides-source-cache.js create --source-dir "$source_dir" --snapshot "$snapshot" --output "$manifest" --media-manifest "$media_manifest_path" --root-token "$root_token"
+          node scripts/docs-workflow/guides-source-cache.js create --site "$ZDOC_SITE" --source-dir "$source_dir" --snapshot "$snapshot" --output "$manifest" --media-manifest "$media_manifest_path" --root-token "$root_token"
       - id: guides_v5_generation
         name: Create Guides v5 generation payload
         if: ${{ inputs.cache_save_required == 'true' }}
         run: |
           snapshot="$snapshot_path"
           generation=$(node scripts/docs-workflow/guides-source-cache-generation.js keys \
-            --snapshot "$snapshot" --run-id "${{ github.run_id }}" --run-attempt "${{ github.run_attempt }}")
+            --site "$ZDOC_SITE" --snapshot "$snapshot" --run-id "${{ github.run_id }}" --run-attempt "${{ github.run_attempt }}")
           key=$(node -e 'process.stdout.write(JSON.parse(process.argv[1]).saveKey)' "$generation")
           node scripts/docs-workflow/guides-source-cache-generation.js create \
-            --workspace "$GITHUB_WORKSPACE" --output tmp/guides-source-cache-v5 \
+            --site "$ZDOC_SITE" --workspace "$GITHUB_WORKSPACE" --output tmp/guides-source-cache-v5 \
             --snapshot "$snapshot" --root-token "$root_token"
           node scripts/docs-workflow/guides-source-cache-generation.js validate \
-            --payload tmp/guides-source-cache-v5 --snapshot "$snapshot" \
+            --site "$ZDOC_SITE" --payload tmp/guides-source-cache-v5 --snapshot "$snapshot" \
             --root-token "$root_token"
           echo "key=$key" >> "$GITHUB_OUTPUT"
       - id: save_guides_v5_generation
