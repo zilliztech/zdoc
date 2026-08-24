@@ -3645,12 +3645,12 @@ async function testChineseReferenceProgressStateUsesItsTargetManifest() {
       unchangedSourcePath,
     ])
     assert.equal(referenceState.records[0].manual, 'python')
-    assert.equal(referenceState.records[0].sourceCommit, workflowSha)
+    assert.equal(referenceState.records[0].sourceCommit, sourceCommit)
     assert.equal(referenceState.records[0].sourceHash, sha256(changedSource))
     assert.equal(referenceState.records[0].targetHash, sha256(changedTarget))
     assert.equal(referenceState.records[0].status, 'translated')
     assert.equal(referenceState.records[1].status, 'retired')
-    assert.equal(referenceState.records[2].sourceCommit, workflowSha)
+    assert.equal(referenceState.records[2].sourceCommit, sourceCommit)
     assert.equal(referenceState.records[2].sourceHash, sha256(unchanged))
     assert.equal(referenceState.records[2].targetHash, sha256(unchanged))
     assert.equal(referenceState.records[2].status, 'unchanged')
@@ -3679,11 +3679,8 @@ async function testChineseReferenceProgressStateUsesItsTargetManifest() {
       repositoryRoot: siteDir,
       sourceRoot: 'content/en/reference',
       targetRoot: 'content/zh-CN/reference',
-      sourceManifest: {...referenceSourceManifest, sourceCommit: workflowSha},
-      translationManifest: {
-        ...referenceState,
-        records: referenceState.records.map(record => ({...record, sourceCommit: workflowSha})),
-      },
+      sourceManifest: referenceSourceManifest,
+      translationManifest: referenceState,
     }))
   })
 }
@@ -3813,7 +3810,7 @@ async function testReferenceProgressStateAcceptsNewSourceMissingFromStaleManifes
       'utf8',
     ))
     assert.equal(state.records[0].manual, 'python')
-    assert.equal(state.records[0].sourceCommit, currentSourceCommit)
+    assert.equal(state.records[0].sourceCommit, staleSourceCommit)
   })
 }
 
