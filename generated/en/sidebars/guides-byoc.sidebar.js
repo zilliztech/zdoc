@@ -1473,23 +1473,16 @@ module.exports = [
                     "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/auto-scaling"
                   },
                   {
-                    "type": "category",
+                    "type": "doc",
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression",
+                    "label": "Cron Expression",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling",
                     "label": "Scheduled Scaling",
-                    "key": "category:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled",
-                    "items": [
-                      {
-                        "type": "doc",
-                        "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled/cron-expression",
-                        "label": "Cron Expression",
-                        "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled/cron-expression"
-                      },
-                      {
-                        "type": "doc",
-                        "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled/scheduled-scaling",
-                        "label": "Scheduled Scaling",
-                        "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled/scheduled-scaling"
-                      }
-                    ]
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling"
                   },
                   {
                     "type": "doc",

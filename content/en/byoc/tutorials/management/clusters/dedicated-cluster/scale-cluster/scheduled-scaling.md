@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Scheduled scaling lets you resize a Dedicated serving cluster at predefined times. Use it when your workload has recurring patterns, such as weekday business-hour traffic, weekend low-traffic periods, or predictable batch/query windows. | BYOC"
 type: origin
 token: ZACVwXqTbiCqR3kS9YAccuaQnId
-sidebar_position: 2
+sidebar_position: 5
 displayed_sidebar: default
 
 ---

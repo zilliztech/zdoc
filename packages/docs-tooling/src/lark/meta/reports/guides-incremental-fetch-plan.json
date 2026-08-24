@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T18:16:20.099Z",
+  "generated_at": "2026-08-24T02:43:58.266Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
@@ -11,7 +11,9 @@
   "removed_tokens": [],
   "reasons_by_token": {},
   "warnings": [],
-  "affected_tables": [],
+  "affected_tables": [
+    "tblZMzoITXNsyKmQ"
+  ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud uses a canary upgrade approach for scaling operations. The platform validates the target configuration on a limited scope first, then progressively rolls it out after health checks pass. | BYOC"
 type: origin
 token: JzapwWCp7iRPDhky5qWczpTonZf
-sidebar_position: 5
+sidebar_position: 6
 displayed_sidebar: default
 
 ---

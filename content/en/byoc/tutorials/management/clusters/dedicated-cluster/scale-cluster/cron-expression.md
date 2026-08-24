@@ -1,5 +1,5 @@
 ---
-title: "Understand Cron Expressions | Cloud"
+title: "Understand Cron Expressions | BYOC"
 slug: /cron-expression
 sidebar_label: "Cron Expression"
 beta: FALSE
@@ -7,10 +7,10 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "A cron expression defines when a scheduled scaling task runs. Zilliz Cloud uses the standard five-field Unix cron format with minute-level granularity. Cron schedules are evaluated in the timezone you select. | Cloud"
+description: "A cron expression defines when a scheduled scaling task runs. Zilliz Cloud uses the standard five-field Unix cron format with minute-level granularity. Cron schedules are evaluated in the timezone you select. | BYOC"
 type: origin
 token: QUe4wFnNvifiufkXD9xcs0AAnSc
-sidebar_position: 1
+sidebar_position: 4
 displayed_sidebar: default
 
 ---
