@@ -29,6 +29,7 @@ jobs:
     timeout-minutes: 10
     outputs:
       source_sha: ${{ steps.source.outputs.source_sha }}
+      skip_content: ${{ steps.scope.outputs.skip_content }}
       build_en: ${{ steps.manual.outputs.build_en || steps.filters.outputs.build_en }}
       build_zh_cn: ${{ steps.manual.outputs.build_zh_cn || steps.filters.outputs.build_zh_cn }}
       reference_coverage: ${{ steps.manual.outputs.reference_coverage || steps.filters.outputs.reference_coverage }}
@@ -43,6 +44,16 @@ jobs:
       - name: Resolve exact candidate SHA
         id: source
         run: echo "source_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Determine whether content validation applies
+        id: scope
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == 'push' && "$GITHUB_REF" == 'refs/heads/master' ]]; then
+            echo 'skip_content=true' >> "$GITHUB_OUTPUT"
+          elif [[ "$GITHUB_EVENT_NAME" == 'pull_request' && "$GITHUB_BASE_REF" == 'master' ]]; then
+            echo 'skip_content=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'skip_content=false' >> "$GITHUB_OUTPUT"
+          fi
       - name: Fetch comparison base
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.site == 'auto' }}
         env:
@@ -83,12 +94,11 @@ jobs:
             *) exit 2 ;;
           esac >> "$GITHUB_OUTPUT"
 
-  build_en:
-    name: Build English site
+  tooling_checks:
+    name: Validate tooling consistency
     needs: classify
-    if: needs.classify.outputs.build_en == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
         with:
@@ -103,6 +113,67 @@ jobs:
       - run: pnpm check:lark-config
       - run: pnpm check:reference-presentation
       - run: pnpm check:reconciliation-policy
+
+  ownership_gate:
+    name: Gate dev-owned paths
+    needs: classify
+    if: needs.classify.outputs.skip_content == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.classify.outputs.source_sha }}
+          fetch-depth: 2
+      - name: Fetch comparison base
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+        run: |
+          set -euo pipefail
+          [[ "$BASE_SHA" =~ ^[0-9a-f]{40}$ ]] || { echo "Comparison base must be an exact lowercase Git SHA" >&2; exit 1; }
+          if [[ ! "$BASE_SHA" =~ ^0{40}$ ]] && ! git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+            git fetch --no-tags --filter=blob:none --depth=1 origin -- "$BASE_SHA"
+            git cat-file -e "$BASE_SHA^{commit}"
+          fi
+      - name: Require no dev-owned path changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || github.sha }}
+        run: node scripts/docs-workflow/ownership-gate.js --base "$BASE_SHA" --head "${{ needs.classify.outputs.source_sha }}"
+
+  preserved_files_consistency:
+    name: Verify preserved files consistency
+    needs: classify
+    if: needs.classify.outputs.skip_content == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.classify.outputs.source_sha }}
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: node scripts/docs-workflow/preserved-files-gate.js
+
+  build_en:
+    name: Build English site
+    needs: classify
+    if: needs.classify.outputs.build_en == 'true' && needs.classify.outputs.skip_content != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.classify.outputs.source_sha }}
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - run: pnpm build:en
       - name: Require Japanese home output
         run: test -s build/en/ja-JP/docs/home.html
@@ -110,7 +181,7 @@ jobs:
   build_zh_cn:
     name: Build Chinese site
     needs: classify
-    if: needs.classify.outputs.build_zh_cn == 'true'
+    if: needs.classify.outputs.build_zh_cn == 'true' && needs.classify.outputs.skip_content != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 90
     env:
@@ -126,10 +197,6 @@ jobs:
           node-version: '22'
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm check:localization-input-inventory
-      - run: pnpm check:lark-config
-      - run: pnpm check:reference-presentation
-      - run: pnpm check:reconciliation-policy
       - run: pnpm docs-tooling validate-reference --site zh-CN
       - run: pnpm build:zh-CN
       - name: Verify Chinese Tools release reachability
@@ -146,7 +213,7 @@ jobs:
   reference_coverage:
     name: Validate Chinese Reference coverage
     needs: classify
-    if: needs.classify.outputs.reference_coverage == 'true'
+    if: needs.classify.outputs.reference_coverage == 'true' && needs.classify.outputs.skip_content != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -167,7 +234,7 @@ jobs:
     needs:
       - classify
       - build_zh_cn
-    if: ${{ always() && needs.classify.outputs.tools_coverage == 'true' }}
+    if: ${{ always() && needs.classify.outputs.tools_coverage == 'true' && needs.classify.outputs.skip_content != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
@@ -214,6 +281,9 @@ jobs:
     name: Site validation gate
     needs:
       - classify
+      - tooling_checks
+      - ownership_gate
+      - preserved_files_consistency
       - build_en
       - build_zh_cn
       - reference_coverage
@@ -225,6 +295,9 @@ jobs:
     timeout-minutes: 5
     env:
       CLASSIFY_RESULT: ${{ needs.classify.result }}
+      TOOLING_RESULT: ${{ needs.tooling_checks.result }}
+      OWNERSHIP_RESULT: ${{ needs.ownership_gate.result }}
+      PRESERVED_RESULT: ${{ needs.preserved_files_consistency.result }}
       EN_RESULT: ${{ needs.build_en.result }}
       ZH_CN_RESULT: ${{ needs.build_zh_cn.result }}
       REFERENCE_RESULT: ${{ needs.reference_coverage.result }}
@@ -235,8 +308,9 @@ jobs:
       - name: Require every selected validation to pass
         run: |
           test "$CLASSIFY_RESULT" = success
+          test "$TOOLING_RESULT" = success
           test "$RETIREMENT_RESULT" = success
           test "$REST_PUBLICATION_RESULT" = success
-          for result in "$EN_RESULT" "$ZH_CN_RESULT" "$REFERENCE_RESULT" "$TOOLS_RESULT"; do
+          for result in "$OWNERSHIP_RESULT" "$PRESERVED_RESULT" "$EN_RESULT" "$ZH_CN_RESULT" "$REFERENCE_RESULT" "$TOOLS_RESULT"; do
             test "$result" = success || test "$result" = skipped
           done
