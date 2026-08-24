@@ -1174,7 +1174,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/CloudManagement-Backup.md",
       "status": "retired",
@@ -1219,7 +1219,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/CloudManagement-Billing.md",
       "status": "retired",
@@ -1228,7 +1228,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/CloudManagement-Cluster.md",
       "status": "retired",
@@ -1327,7 +1327,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/CloudManagement-Import.md",
       "status": "retired",
@@ -1363,7 +1363,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Job/CloudManagement-Job.md",
       "status": "retired",
@@ -1462,7 +1462,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/CloudManagement-Project.md",
       "status": "retired",
@@ -1570,7 +1570,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/CloudManagement-Volume.md",
       "status": "retired",
@@ -1624,7 +1624,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement.md",
       "status": "retired",
@@ -1687,7 +1687,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Configuration-Alert.md",
       "status": "retired",
@@ -1741,7 +1741,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Configuration-Auth.md",
       "status": "retired",
@@ -1750,7 +1750,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Completion-install.md",
       "status": "retired",
@@ -1759,7 +1759,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Completion-show.md",
       "status": "retired",
@@ -1768,7 +1768,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Completion-status.md",
       "status": "retired",
@@ -1777,7 +1777,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Completion-uninstall.md",
       "status": "retired",
@@ -1786,7 +1786,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Configuration-Completion.md",
       "status": "retired",
@@ -1795,7 +1795,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configuration-Configure.md",
       "status": "retired",
@@ -1840,7 +1840,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Context/Configuration-Context.md",
       "status": "retired",
@@ -1876,7 +1876,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Global/Configuration-Global.md",
       "status": "retired",
@@ -1948,7 +1948,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration.md",
       "status": "retired",
@@ -2002,7 +2002,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/DataOperations-Alias.md",
       "status": "retired",
@@ -2128,7 +2128,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/DataOperations-Collection.md",
       "status": "retired",
@@ -2137,7 +2137,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Database/DataOperations-Database.md",
       "status": "retired",
@@ -2209,7 +2209,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Index/DataOperations-Index.md",
       "status": "retired",
@@ -2254,7 +2254,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/DataOperations-Partition.md",
       "status": "retired",
@@ -2326,7 +2326,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/DataOperations-Role.md",
       "status": "retired",
@@ -2389,7 +2389,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/DataOperations-User.md",
       "status": "retired",
@@ -2461,7 +2461,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/DataOperations-Vector.md",
       "status": "retired",
@@ -2533,7 +2533,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations.md",
       "status": "retired",
@@ -2551,7 +2551,7 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/cli/cli/zilliz-cli.md",
       "status": "retired",
@@ -2569,7 +2569,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Columns.md",
       "status": "retired",
@@ -2578,7 +2578,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-CreateCollection.md",
       "status": "retired",
@@ -2587,7 +2587,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Delete.md",
       "status": "retired",
@@ -2596,7 +2596,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-DeleteByPks.md",
       "status": "retired",
@@ -2605,7 +2605,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-DescribeCollection.md",
       "status": "retired",
@@ -2614,7 +2614,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-DropCollection.md",
       "status": "retired",
@@ -2623,7 +2623,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Flush.md",
       "status": "retired",
@@ -2632,7 +2632,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Get.md",
       "status": "retired",
@@ -2641,7 +2641,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-GetLoadState.md",
       "status": "retired",
@@ -2650,7 +2650,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Insert.md",
       "status": "retired",
@@ -2659,7 +2659,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-InsertRows.md",
       "status": "retired",
@@ -2668,7 +2668,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-ListCollections.md",
       "status": "retired",
@@ -2677,7 +2677,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-LoadCollection.md",
       "status": "retired",
@@ -2686,7 +2686,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-NewCollection.md",
       "status": "retired",
@@ -2695,7 +2695,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Query.md",
       "status": "retired",
@@ -2704,7 +2704,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-ReleaseCollection.md",
       "status": "retired",
@@ -2713,7 +2713,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Search.md",
       "status": "retired",
@@ -2722,7 +2722,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-SearchParams.md",
       "status": "retired",
@@ -2731,7 +2731,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Upsert.md",
       "status": "retired",
@@ -2740,7 +2740,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection-Vectors.md",
       "status": "retired",
@@ -2749,7 +2749,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Collection/v1-Collection.md",
       "status": "retired",
@@ -2758,7 +2758,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Connections/v1-Connections-Close.md",
       "status": "retired",
@@ -2767,7 +2767,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Connections/v1-Connections-NewClient.md",
       "status": "retired",
@@ -2776,7 +2776,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Connections/v1-Connections.md",
       "status": "retired",
@@ -2785,7 +2785,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-CreateIndex.md",
       "status": "retired",
@@ -2794,7 +2794,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-DescribeIndex.md",
       "status": "retired",
@@ -2803,7 +2803,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-DropIndex.md",
       "status": "retired",
@@ -2812,7 +2812,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-GetIndexBuildProgress.md",
       "status": "retired",
@@ -2821,7 +2821,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index-Indexes.md",
       "status": "retired",
@@ -2830,7 +2830,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Index/v1-Index.md",
       "status": "retired",
@@ -2839,7 +2839,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-CreatePartition.md",
       "status": "retired",
@@ -2848,7 +2848,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-DropPartition.md",
       "status": "retired",
@@ -2857,7 +2857,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-HasPartition.md",
       "status": "retired",
@@ -2866,7 +2866,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-LoadPartitions.md",
       "status": "retired",
@@ -2875,7 +2875,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-ReleasePartitions.md",
       "status": "retired",
@@ -2884,7 +2884,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition-ShowPartitions.md",
       "status": "retired",
@@ -2893,7 +2893,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1-Partition/v1-Partition.md",
       "status": "retired",
@@ -2902,7 +2902,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v1/v1.md",
       "status": "retired",
@@ -2992,7 +2992,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-GrantV2.md",
       "status": "retired",
@@ -3073,7 +3073,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication-RevokeV2.md",
       "status": "retired",
@@ -3109,7 +3109,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Authentication/v2-Authentication.md",
       "status": "retired",
@@ -3163,7 +3163,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Client/v2-Client.md",
       "status": "retired",
@@ -3406,7 +3406,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Collection/v2-Collection-RunAnalyzer.md",
       "status": "retired",
@@ -3532,7 +3532,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-DataImport/v2-DataImport.md",
       "status": "retired",
@@ -3613,7 +3613,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties.md",
       "status": "retired",
@@ -3622,7 +3622,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Compact.md",
       "status": "retired",
@@ -3631,7 +3631,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndex.md",
       "status": "retired",
@@ -3640,7 +3640,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DescribeIndex.md",
       "status": "retired",
@@ -3649,7 +3649,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md",
       "status": "retired",
@@ -3658,7 +3658,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndexProperties.md",
       "status": "retired",
@@ -3667,7 +3667,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetCompactionState.md",
       "status": "retired",
@@ -3676,7 +3676,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetLoadState.md",
       "status": "retired",
@@ -3685,7 +3685,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ListIndexes.md",
       "status": "retired",
@@ -3694,7 +3694,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadCollection.md",
       "status": "retired",
@@ -3703,7 +3703,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadPartitions.md",
       "status": "retired",
@@ -3712,7 +3712,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-RefreshLoad.md",
       "status": "retired",
@@ -3721,7 +3721,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleaseCollection.md",
       "status": "retired",
@@ -3730,7 +3730,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleasePartitions.md",
       "status": "retired",
@@ -3739,7 +3739,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management.md",
       "status": "retired",
@@ -3748,7 +3748,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md",
       "status": "retired",
@@ -3757,7 +3757,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-DropPartition.md",
       "status": "retired",
@@ -3766,7 +3766,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats.md",
       "status": "retired",
@@ -3775,7 +3775,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md",
       "status": "retired",
@@ -3784,7 +3784,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md",
       "status": "retired",
@@ -3793,7 +3793,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition.md",
       "status": "retired",
@@ -3964,7 +3964,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Vector/v2-Vector-Flush.md",
       "status": "retired",
@@ -4090,7 +4090,7 @@
     },
     {
       "manual": "go",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/go/go/v2/v2.md",
       "status": "retired",
@@ -5953,7 +5953,7 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication.md",
       "status": "retired",
@@ -6043,7 +6043,7 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Client/Client.md",
       "status": "retired",
@@ -6331,7 +6331,7 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections.md",
       "status": "retired",
@@ -6556,7 +6556,7 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database.md",
       "status": "retired",
@@ -6799,7 +6799,7 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management.md",
       "status": "retired",
@@ -6880,7 +6880,7 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Partitions/Partitions.md",
       "status": "retired",
@@ -7060,7 +7060,7 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector.md",
       "status": "retired",
@@ -7114,7 +7114,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md",
       "status": "retired",
@@ -7222,7 +7222,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport.md",
       "status": "retired",
@@ -7735,7 +7735,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels.md",
       "status": "retired",
@@ -7780,7 +7780,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md",
       "status": "retired",
@@ -7897,7 +7897,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/MilvusClient-Authentication.md",
       "status": "retired",
@@ -7951,7 +7951,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/MilvusClient-Client.md",
       "status": "retired",
@@ -7969,7 +7969,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1.md",
       "status": "retired",
@@ -7987,7 +7987,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
       "status": "retired",
@@ -8014,7 +8014,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1.md",
       "status": "retired",
@@ -8032,7 +8032,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1.md",
       "status": "retired",
@@ -8293,7 +8293,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/MilvusClient-Collections.md",
       "status": "retired",
@@ -8374,7 +8374,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Database/MilvusClient-Database.md",
       "status": "retired",
@@ -8716,7 +8716,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/MilvusClient-Management.md",
       "status": "retired",
@@ -8725,7 +8725,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Partitions/MilvusClient-Partitions.md",
       "status": "retired",
@@ -8914,7 +8914,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Vector.md",
       "status": "retired",
@@ -8941,7 +8941,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-GroupBy.md",
       "status": "retired",
@@ -9049,7 +9049,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient.md",
       "status": "retired",
@@ -9319,7 +9319,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-add_field.md",
       "status": "retired",
@@ -9328,7 +9328,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict.md",
       "status": "retired",
@@ -9346,7 +9346,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict.md",
       "status": "retired",
@@ -9364,7 +9364,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify.md",
       "status": "retired",
@@ -9463,7 +9463,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-construct_from_dict.md",
       "status": "retired",
@@ -9472,7 +9472,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-to_dict.md",
       "status": "retired",
@@ -9481,7 +9481,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/ORM-FieldSchema.md",
       "status": "retired",
@@ -9688,7 +9688,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-db/ORM-db.md",
       "status": "retired",
@@ -9733,7 +9733,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-utility/ORM-utility.md",
       "status": "retired",
@@ -10129,7 +10129,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM.md",
       "status": "retired",
@@ -10228,7 +10228,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/Rerankers/Rerankers.md",
       "status": "retired",
@@ -10300,7 +10300,7 @@
     },
     {
       "manual": "python",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/python/python/Volume/Volume.md",
       "status": "retired",
@@ -11569,7 +11569,7 @@
     },
     {
       "manual": "rest",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-job-v2.mdx",
       "status": "retired",
@@ -11605,7 +11605,7 @@
     },
     {
       "manual": "rest",
-      "sourceCommit": "236f07bb2f2ec15e6b51ddad962f32be186a03b5",
+      "sourceCommit": "b52bc413c7230b1999ab9eb13f9426db9bf0af1b",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/validate-spark-job-artifact-v2.mdx",
       "status": "retired",
