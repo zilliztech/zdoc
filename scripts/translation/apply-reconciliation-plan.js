@@ -154,6 +154,10 @@ function applyReconciliationPlan(options) {
     if (operation.authorization.status !== 'approved' && !(options.approvalReceipts || []).some(receipt => validateApprovalReceipt(receipt, plan, {now: options.now}))) throw new Error('Reconciliation operation lacks approval')
     if (!['delete_target', 'replace_path'].includes(operation.kind)) throw new Error(`Reconciliation executor does not mutate operation kind: ${operation.kind}`)
   }
+  if (options.skipMutation) {
+    const operationResults = plan.operations.map(operation => ({operationId: operation.operationId, status: 'already_applied', removedPaths: [], removedStateKeys: []}))
+    return createReconciliationResult({schemaVersion: 1, document: 'translation-reconciliation-result', planSha256: plan.planSha256, targetBaselineSha: plan.targetBaselineSha, status: 'already_applied', operations: operationResults}, plan)
+  }
   if (options.hooks?.beforeMutation) options.hooks.beforeMutation()
   const cache = plan.target === 'ja-JP' ? readCache(options.workspaceRoot) : undefined
   const operationResults = []
@@ -202,10 +206,16 @@ function parseArgs(args) {
     ['--target-baseline-sha', 'targetBaselineSha'], ['--source-commit-sha', 'sourceCommitSha'],
   ])
   const result = {approvalReceipts: []}
-  for (let index = 0; index < args.length; index += 2) {
+  for (let index = 0; index < args.length; index += 1) {
+    if (args[index] === '--skip-mutation') {
+      if (Object.hasOwn(result, 'skipMutation')) throw new Error('Invalid reconciliation apply arguments')
+      result.skipMutation = true
+      continue
+    }
     const key = names.get(args[index])
     if (!key || args[index + 1] === undefined || Object.hasOwn(result, key)) throw new Error('Invalid reconciliation apply arguments')
     result[key] = args[index + 1]
+    index += 1
   }
   for (const key of ['planPath', 'resultPath', 'workspaceRoot', 'sourceRepositoryRoot', 'targetBaselineRoot', 'sourceCheckpointSha', 'targetBaselineSha']) if (!result[key]) throw new Error(`Missing reconciliation apply argument: ${key}`)
   result.plan = JSON.parse(fs.readFileSync(path.resolve(result.planPath), 'utf8'))
