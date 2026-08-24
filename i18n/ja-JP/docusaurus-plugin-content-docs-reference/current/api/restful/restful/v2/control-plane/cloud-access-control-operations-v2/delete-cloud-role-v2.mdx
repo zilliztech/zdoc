@@ -3,10 +3,10 @@ displayed_sidebar: restfulSidebar
 sidebar_position: 4
 slug: /restful/delete-cloud-role-v2
 beta: FALSE
-title: "Cloud ロールの削除（V2） | RESTful"
-description: "カスタム Cloud ACL ロールを論理削除し、その直接バインディングを取り消します。 | RESTful"
+title: "クラウドロールの削除 (V2) | RESTful"
+description: "カスタムロールをソフト削除します。削除はカスケードされません。ロールにアクティブなバインディング（ユーザー、グループ、APIキー）が残っている場合、リクエストは `21141 this role is in use` で拒否されます。すべてのバインディングを解除してから、ロールを削除してください。また、スコープ内でロールを管理できる最後のプリンシパルが削除される場合や、ロールが事前定義されている場合も、リクエストは拒否されます。 | RESTful"
 hide_table_of_contents: true
-sidebar_label: "Cloud ロールの削除（V2）"
+sidebar_label: "クラウドロールの削除 (V2)"
 sidebar_custom_props:
   badges:
     - "delete"
@@ -14,18 +14,18 @@ keywords:
   - zilliz cloud
   - zilliz
   - cloud
-  - "Cloud ロールの削除（V2）"
-  - "削除"
+  - "クラウドロールの削除 (V2)"
+  - "delete"
   - RESTful
   - API
 ---
 
-# Cloud ロールの削除（V2）
+# クラウドロールの削除 (V2)
 
 import RestSpecs from '@site/src/components/RestSpecs';
 
 <RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="ja-JP" />
 
-export const specs = {"summary":"Delete Cloud Role","description":"Soft-deletes a custom Cloud ACL role and revokes its direct bindings.","tags":["Cloud Access Control Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"},"ja-JP":{"description":"認証トークンは、適切な権限を持つ API キーである必要があります。"}}},{"name":"roleId","in":"path","required":true,"description":"The role ID.","example":"r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"角色 ID。"},"ja-JP":{"description":"ロール ID。"}}}],"responses":{"200":{"description":"Returns a successful result or an error message.","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"},"ja-JP":{"description":"成功レスポンス。"}},"properties":{"code":{"type":"integer","example":0,"description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"data":{"type":"boolean","description":"Whether the operation succeeded.","x-i18n":{"zh-CN":{"description":"操作是否成功。"},"ja-JP":{"description":"操作が成功したかどうか。"}}}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"},"ja-JP":{"description":"失敗レスポンス。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"},"ja-JP":{"description":"エラーメッセージ。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":true}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}},"x-i18n":{"ja-JP":{"description":"成功結果またはエラーメッセージを返します。"}}}},"x-i18n":{"zh-CN":{"summary":"删除 Cloud 角色","description":"软删除自定义 Cloud ACL 角色并撤销其直接绑定。"},"ja-JP":{"summary":"Cloud ロールを削除","description":"カスタム Cloud ACL ロールをソフト削除し、その直接バインディングを取り消します。"}}}
+export const specs = {"summary":"Delete Cloud Role","description":"Soft-deletes a custom role. Deletion is not cascading: if the role still has any active binding (user, group, or API key), the request is rejected with `21141 this role is in use`. Revoke all of its bindings first, then delete the role. The request is also rejected if it would remove the last principal able to manage roles in a scope, or if the role is pre-defined.","tags":["Cloud Access Control Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"},"ja-JP":{"description":"認証トークンは、適切な権限を持つ API キーである必要があります。"}}},{"name":"roleId","in":"path","required":true,"description":"The role ID.","example":"r-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"角色 ID。"},"ja-JP":{"description":"ロール ID。"}}}],"responses":{"200":{"description":"Returns a successful result or an error message.","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"},"ja-JP":{"description":"成功したレスポンス。"}},"properties":{"code":{"type":"integer","example":0,"description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"data":{"type":"boolean","description":"Whether the operation succeeded.","x-i18n":{"zh-CN":{"description":"操作是否成功。"},"ja-JP":{"description":"操作が成功したかどうか。"}}}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"},"ja-JP":{"description":"失敗したレスポンス。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"},"ja-JP":{"description":"エラーメッセージ。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":true}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}},"x-i18n":{"ja-JP":{"description":"成功した結果またはエラーメッセージを返します。"}}}},"x-i18n":{"zh-CN":{"summary":"删除 Cloud 角色","description":"软删除自定义角色。删除操作不会级联：如果该角色仍有活动绑定（用户、群组或 API Key），请求会被拒绝并返回 `21141 this role is in use`。请先撤销其所有绑定，再删除该角色。如果删除会导致某作用域内无法再管理角色，或该角色为预定义角色，请求也会被拒绝。"},"ja-JP":{"summary":"クラウドロールの削除","description":"カスタムロールをソフト削除します。削除はカスケードされません。ロールにアクティブなバインディング（ユーザー、グループ、API キー）がまだ残っている場合、リクエストは `21141 this role is in use` で拒否されます。まずすべてのバインディングを取り消してから、ロールを削除してください。また、スコープ内でロールを管理できる最後のプリンシパルを削除することになる場合や、ロールが事前定義されている場合も、リクエストは拒否されます。"}}}
 export const endpoint = "/v2/roles/{roleId}"
 export const method = "delete"

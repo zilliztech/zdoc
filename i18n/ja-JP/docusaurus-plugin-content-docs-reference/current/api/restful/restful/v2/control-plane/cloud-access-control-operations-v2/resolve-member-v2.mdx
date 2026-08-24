@@ -1,0 +1,31 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_position: 14
+slug: /restful/resolve-member-v2
+beta: FALSE
+title: "メンバーの解決 (V2) | RESTful"
+description: "メールアドレスまたはユーザー ID を指定して組織メンバーを解決します。email と userId のいずれか一方のみを指定してください。 | RESTful"
+hide_table_of_contents: true
+sidebar_label: "メンバーの解決 (V2)"
+sidebar_custom_props:
+  badges:
+    - "get"
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "Resolve Member (V2)"
+  - "get"
+  - RESTful
+  - API
+---
+
+# メンバーの解決 (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="ja-JP" />
+
+export const specs = {"summary":"Resolve Member","description":"Resolves an organization member by email or user ID. Exactly one of email or userId must be provided.","tags":["Cloud Access Control Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API Key。"},"ja-JP":{"description":"認証トークンは、適切な権限を持つ API キーである必要があります。"}}},{"name":"email","in":"query","required":false,"description":"The member email address.","example":"alice@example.com","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"成员邮箱地址。"},"ja-JP":{"description":"メンバーのメールアドレス。"}}},{"name":"userId","in":"query","required":false,"description":"The member user ID.","example":"usr-xxxxxxxxxxxxxx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"成员用户 ID。"},"ja-JP":{"description":"メンバーのユーザー ID。"}}}],"responses":{"200":{"description":"Returns a successful result or an error message.","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","type":"object","description":"A successful response.","x-i18n":{"zh-CN":{"description":"成功响应。"},"ja-JP":{"description":"成功したレスポンス。"}},"properties":{"code":{"type":"integer","example":0,"description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"data":{"type":"object","description":"A resolved organization member.","x-i18n":{"zh-CN":{"description":"解析出的组织成员。"},"ja-JP":{"description":"解決された組織メンバー。"}},"properties":{"userId":{"type":"string","description":"The member user ID.","example":"usr-xxxxxxxxxxxxxx","x-i18n":{"zh-CN":{"description":"成员用户 ID。"},"ja-JP":{"description":"メンバーのユーザー ID。"}}},"name":{"type":"string","description":"The member display name.","example":"Alice Wang","x-i18n":{"zh-CN":{"description":"成员显示名称。"},"ja-JP":{"description":"メンバーの表示名。"}}},"email":{"type":"string","description":"The member email address.","example":"alice@example.com","x-i18n":{"zh-CN":{"description":"成员邮箱地址。"},"ja-JP":{"description":"メンバーのメールアドレス。"}}}}}},"required":["code","data"]},{"x-tab-label":"failure","type":"object","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"},"ja-JP":{"description":"失敗したレスポンス。"}},"properties":{"code":{"type":"integer","description":"The response code.","x-i18n":{"zh-CN":{"description":"响应码。"},"ja-JP":{"description":"レスポンスコード。"}}},"message":{"type":"string","description":"The error message.","x-i18n":{"zh-CN":{"description":"错误消息。"},"ja-JP":{"description":"エラーメッセージ。"}}}},"required":["code","message"]}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"userId":"usr-xxxxxxxxxxxxxx","name":"Alice Wang","email":"alice@example.com"}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}},"x-i18n":{"ja-JP":{"description":"成功した結果またはエラーメッセージを返します。"}}}},"x-i18n":{"zh-CN":{"summary":"解析成员","description":"通过邮箱或用户 ID 解析组织成员。必须提供 email 或 userId 其中之一。"},"ja-JP":{"summary":"メンバーの解決","description":"メールアドレスまたはユーザー ID で組織メンバーを解決します。email または userId のいずれか一方のみを指定する必要があります。"}}}
+export const endpoint = "/v2/members"
+export const method = "get"
