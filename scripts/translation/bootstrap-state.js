@@ -98,7 +98,7 @@ function expectedReferenceManual(sourcePath) {
   const relative = sourcePath.slice('content/en/reference/'.length);
   return [
     ['api/python', 'python'], ['api/java', 'java'], ['api/nodejs', 'node'],
-    ['api/go', 'go'], ['api/restful', 'rest'], ['cli', 'cli'],
+    ['api/go', 'go'], ['api/cpp', 'cpp'], ['api/restful', 'rest'], ['cli', 'cli'],
   ].find(([prefix]) => relative === prefix || relative.startsWith(`${prefix}/`))?.[1];
 }
 

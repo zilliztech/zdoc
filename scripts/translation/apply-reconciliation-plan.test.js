@@ -78,6 +78,37 @@ test('applies Japanese deletion and cache cleanup, then reports already_applied'
   assert.equal(first.planSha256, f.plan.planSha256)
 })
 
+test('skip-mutation reports already-applied and leaves the workspace untouched', () => {
+  const f = fixture()
+  const result = apply(f, {skipMutation: true})
+  assert.equal(result.status, 'already_applied')
+  assert.equal(fs.existsSync(path.join(f.workspace, f.targetPath)), true)
+  const cache = JSON.parse(fs.readFileSync(path.join(f.workspace, '.translation-cache/ja-JP.json'), 'utf8'))
+  assert.ok(Object.hasOwn(cache.files, f.sourcePath))
+  assert.equal(result.operations.length, f.plan.operations.length)
+  assert.equal(result.operations[0].status, 'already_applied')
+  assert.deepEqual(result.operations[0].removedPaths, [])
+  assert.deepEqual(result.operations[0].removedStateKeys, [])
+})
+
+test('CLI --skip-mutation leaves the workspace untouched and reports already-applied', () => {
+  const f = fixture()
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'apply-reconciliation-cli-'))
+  const planFile = path.join(dir, 'plan.json')
+  const resultFile = path.join(dir, 'result.json')
+  fs.writeFileSync(planFile, JSON.stringify(f.plan))
+  const run = spawnSync(process.execPath, [path.join(__dirname, 'apply-reconciliation-plan.js'),
+    '--plan', planFile, '--result', resultFile,
+    '--workspace', f.workspace, '--source-repository', f.source,
+    '--target-baseline', f.baseline,
+    '--source-checkpoint-sha', f.sourceSha, '--target-baseline-sha', f.baselineSha,
+    '--source-commit-sha', f.baselineSha, '--skip-mutation',
+  ], {encoding: 'utf8'})
+  assert.equal(run.status, 0, run.stderr)
+  assert.equal(JSON.parse(fs.readFileSync(resultFile, 'utf8')).status, 'already_applied')
+  assert.equal(fs.existsSync(path.join(f.workspace, f.targetPath)), true)
+})
+
 test('validates identities and never mutates the baseline checkout', () => {
   const f = fixture()
   assert.throws(() => apply(f, {targetBaselineSha: 'f'.repeat(40)}), /identity mismatch/i)

@@ -14,6 +14,7 @@ import {
 
 const PYTHON_ROOT = 'content/en/reference/api/python/python';
 const JAVA_ROOT = 'content/en/reference/api/java/java';
+const CPP_ROOT = 'content/en/reference/api/cpp/cpp';
 const GUIDES_ROOT = 'content/en/guides/tutorials';
 const BYOC_ROOT = 'content/en/byoc/tutorials';
 
@@ -145,6 +146,32 @@ describe('translation candidates', () => {
       forceTranslationPaths: [sourcePath],
     }));
     expect(result.candidates).toMatchObject([{sourcePath, targetPath, reason: 'stale_source'}]);
+    expect(result.retirementCandidates).toEqual([]);
+  });
+
+  it('recognizes the cpp reference manual for candidate ownership', () => {
+    const repositoryRoot = fixture();
+    const sourcePath = `${CPP_ROOT}/Authentication/Authentication-CreateUser.md`;
+    const targetPath = sourcePath.replace('content/en/', 'content/zh-CN/');
+    write(repositoryRoot, sourcePath, '# Create User\n');
+    writeJson(repositoryRoot, 'generated/zh-CN/manifests/reference-translations.json', {schemaVersion: 1, records: [{
+      ...referenceRecord({manual: 'cpp', sourcePath, targetPath, sourceHash: sha256('# Create User\n')}),
+    }]});
+
+    const result = buildTranslationCandidates(options(repositoryRoot, {
+      targetId: 'zh-CN-reference',
+      group: 'cpp',
+      ownedSourcePaths: [CPP_ROOT],
+      preservedSourcePaths: [],
+    }));
+
+    expect(result.candidates).toEqual([{
+      sourcePath,
+      targetPath,
+      sourceHash: sha256('# Create User\n'),
+      locale: 'zh-CN',
+      reason: 'missing_target',
+    }]);
     expect(result.retirementCandidates).toEqual([]);
   });
 
