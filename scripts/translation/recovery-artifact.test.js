@@ -9,6 +9,7 @@ const test = require('node:test');
 
 const {createRecoveryArtifact, promptContractSha256, readArtifact, restoreRecoveryFiles} = require('./recovery-artifact');
 const {createReconciliationPlan, createReconciliationResult} = require('./reconciliation-plan');
+const {promptNamesFor} = require('./restSpecLocalization');
 
 const HASH = value => crypto.createHash('sha256').update(value).digest('hex');
 const CONTRACT = 'c'.repeat(64);
@@ -584,14 +585,7 @@ test('Reviewer prompt contracts describe bounded batch context and aligned-unit 
 
 test('changes the prompt contract hash when locale, document translation/review/correction, or REST review/correction prompts change', () => {
   const repositoryRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-prompt-contract-'));
-  const promptNames = [
-    'codex-translation-agent.zh-CN-reference.md',
-    'codex-review-agent.zh-CN-reference.md',
-    'codex-correction-agent.zh-CN-reference.md',
-    'codex-rest-spec-translation-agent.zh-CN-reference.md',
-    'codex-rest-spec-review-agent.md',
-    'codex-rest-spec-correction-agent.md',
-  ];
+  const promptNames = Object.values(promptNamesFor('zh-CN-reference'));
   for (const name of promptNames) write(repositoryRoot, `.github/prompts/${name}`, `${name}\n`);
   write(repositoryRoot, 'config/reference-navigation.json', '{"targets":[]}\n');
   write(repositoryRoot, 'config/translation/zh-CN-reference.json', '{"contractId":"one","mandatoryTerms":[]}\n');

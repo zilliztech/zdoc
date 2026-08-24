@@ -217,6 +217,7 @@ test('replays a retained recovery artifact with current reviewer receipts throug
     translation: 0,
     reviewer: 0,
     correction: 0,
+    polish: 0,
     total: 0,
   })
   assert.equal(replay.modelInvocationCount, 0)
