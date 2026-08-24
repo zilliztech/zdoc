@@ -6,6 +6,11 @@ const {readPublicationDocument} = require('./publication-contracts')
 const {loadTypeScript} = require('../lib/load-typescript')
 const {sourcePublicationGroups} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts')
 
+function jobMatches(job, producerJob) {
+  const name = String(job?.name || job?.logicalName || '')
+  return name === producerJob || name.startsWith(`${producerJob} /`)
+}
+
 async function validateReconciliationProducers(selectionPath, injectedClient) {
   const selection = readPublicationDocument(selectionPath, 'publication-selection')
   const runnerTemp = process.env.RUNNER_TEMP
@@ -23,11 +28,8 @@ async function validateReconciliationProducers(selectionPath, injectedClient) {
   const required = selection.units.filter(unit => unit.site === 'en' && needed.has(unit.translationSourceGroup))
   if (required.length === 0) return
   const jobs = await client.listJobs()
-  const succeeded = new Set()
-  for (const job of jobs) {
-    if (job.conclusion === 'success') succeeded.add(String(job.name || job.logicalName || ''))
-  }
-  const failed = required.filter(unit => !succeeded.has(unit.producerJob))
+  const succeeded = jobs.filter(job => job.conclusion === 'success')
+  const failed = required.filter(unit => !succeeded.some(job => jobMatches(job, unit.producerJob)))
   if (failed.length) throw new Error(`Reconciliation producers are not ready: ${failed.map(unit => unit.unitKey).join(', ')}`)
 }
 
