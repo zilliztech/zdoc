@@ -10,7 +10,7 @@ notebook: FALSE
 description: "定时扩缩容允许您在预定义时间调整 Dedicated Serving 集群的规格。当工作负载具有周期性模式时，可以使用定时扩缩容，例如工作日办公时间流量、周末低流量时段，或可预测的批量/查询窗口。 | Cloud"
 type: origin
 token: Dm7dwQQvxib74AkgoITcfy5Wnfe
-sidebar_position: 1
+sidebar_position: 4
 displayed_sidebar: default
 
 ---

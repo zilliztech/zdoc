@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Cron 表达式定义定时扩缩容任务的运行时间。Zilliz Cloud 使用标准五字段 Unix cron 格式，粒度为分钟。Cron 计划会按您选择的时区进行评估。 | Cloud"
 type: origin
 token: Tzvkw65P7iBWjoktlQvcAE8Ynwk
-sidebar_position: 2
+sidebar_position: 5
 displayed_sidebar: default
 
 ---

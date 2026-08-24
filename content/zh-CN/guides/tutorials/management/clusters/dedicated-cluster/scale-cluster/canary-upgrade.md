@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud 对扩缩容操作使用 金丝雀升级 方法。平台会先在有限范围内验证目标配置，并在健康检查通过后逐步推出。 | Cloud"
 type: origin
 token: TzqKwQTo8iBmiYkVraHccZuCnie
-sidebar_position: 5
+sidebar_position: 6
 displayed_sidebar: default
 
 ---
