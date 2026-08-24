@@ -18,6 +18,10 @@ const {
   validateTranslationHandoffRepository,
   validateTranslationRecoveryHandoff,
 } = require('./translation-handoff');
+const {buildTranslationSelection} = require('../translation/selection');
+const {loadTypeScript} = require('../lib/load-typescript');
+const {sourcePublicationGroups} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts');
+const ALL_SOURCE_GROUPS = [...sourcePublicationGroups()];
 
 const SHA_A = 'a'.repeat(40);
 const SHA_B = 'b'.repeat(40);
@@ -220,7 +224,7 @@ test('rejects a malformed reconciled target baseline override', () => {
 });
 
 test('binds every all-group unit to its own dev baseline and checkpoint', () => {
-  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest'];
+  const groups = ALL_SOURCE_GROUPS;
   const sourcePublications = Object.fromEntries(groups.map((group, index) => [
     group,
     publication(String(index + 1).repeat(40), String(index + 2).repeat(40)),
@@ -228,7 +232,7 @@ test('binds every all-group unit to its own dev baseline and checkpoint', () => 
   const value = buildTranslationHandoff({
     locale: 'all', group: 'all', toolingSha: SHA_A, targetBranch: 'release/docs', targetBaselineSha: SHA_D, sourcePublications,
   });
-  assert.equal(value.units.length, 14);
+  assert.equal(value.units.length, buildTranslationSelection({locale: 'all', group: 'all'}).length);
   for (const unit of value.units) {
     assert.equal(unit.sourceBaselineSha, sourcePublications[unit.sourceGroup].sourceBaselineSha);
     assert.equal(unit.sourceCheckpointSha, sourcePublications[unit.sourceGroup].sourceCheckpointSha);
@@ -237,7 +241,7 @@ test('binds every all-group unit to its own dev baseline and checkpoint', () => 
 });
 
 test('canonical all-group handoff excludes Chinese REST while retaining Japanese REST', () => {
-  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest'];
+  const groups = ALL_SOURCE_GROUPS;
   const sourcePublications = Object.fromEntries(groups.map((group, index) => [
     group,
     publication(String(index + 1).repeat(40), String(index + 2).repeat(40)),
@@ -292,7 +296,7 @@ test('validates exact handoff keys, unique units, and canonical selection order'
 });
 
 test('keeps ordinary handoffs exact while the recovery-only validator accepts a canonical nonempty subset', () => {
-  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest'];
+  const groups = ALL_SOURCE_GROUPS;
   const sourcePublications = Object.fromEntries(groups.map((group, index) => [
     group,
     publication(String(index + 1).repeat(40), String(index + 2).repeat(40)),
@@ -311,7 +315,7 @@ test('keeps ordinary handoffs exact while the recovery-only validator accepts a 
 
 test('CLI accepts a recovery subset only when an immutable recovery plan checksum binds the exact handoff', () => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'translation-recovery-handoff-cli-'));
-  const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest'];
+  const groups = ALL_SOURCE_GROUPS;
   const sourcePublications = Object.fromEntries(groups.map((group, index) => [
     group,
     publication(String(index + 1).repeat(40), String(index + 2).repeat(40)),

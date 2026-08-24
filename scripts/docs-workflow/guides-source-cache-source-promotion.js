@@ -105,10 +105,11 @@ function payloadPaths(payloadDir) {
   }
 }
 
-function validateSourceGenerationPayload({ payloadDir, snapshotPath, rootToken }) {
+function validateSourceGenerationPayload({ site = 'en', payloadDir, snapshotPath, rootToken }) {
   if (typeof rootToken !== 'string' || !rootToken || /[\0\r\n]/.test(rootToken)) throw new Error('rootToken must be a non-empty safe string')
   const paths = payloadPaths(payloadDir)
   const source = validateSourceCache({
+    site,
     sourceDir: paths.sourceDir,
     snapshotPath,
     manifestPath: paths.sourceManifestPath,
@@ -118,15 +119,14 @@ function validateSourceGenerationPayload({ payloadDir, snapshotPath, rootToken }
   return Object.freeze({ paths: Object.freeze(paths), source })
 }
 
-function guidesIdentity() {
-  const site = process.env.ZDOC_SITE || 'en'
+function guidesIdentity(site = 'en') {
   if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported Guides site: ${site}`)
   return site === 'en' ? 'guides' : 'guides-zh-CN'
 }
 
-function liveSourceCachePaths(workspace, label) {
+function liveSourceCachePaths(workspace, label, site = 'en') {
   const root = requireDirectory(workspace, label)
-  const identity = guidesIdentity()
+  const identity = guidesIdentity(site)
   return {
     root,
     sourceDir: fixedWorkspacePath(root, `packages/docs-tooling/src/lark/meta/sources/${identity}`, 'Guides live source path', 'directory'),
@@ -134,9 +134,10 @@ function liveSourceCachePaths(workspace, label) {
   }
 }
 
-function validateLiveSourceCache({ workspace, snapshotPath, rootToken, acceptedSchemaVersions = [2] }) {
-  const paths = liveSourceCachePaths(workspace, 'Guides live source validation workspace')
+function validateLiveSourceCache({ site = 'en', workspace, snapshotPath, rootToken, acceptedSchemaVersions = [2] }) {
+  const paths = liveSourceCachePaths(workspace, 'Guides live source validation workspace', site)
   return validateSourceCache({
+    site,
     sourceDir: paths.sourceDir,
     snapshotPath,
     manifestPath: paths.sourceManifestPath,
@@ -145,10 +146,11 @@ function validateLiveSourceCache({ workspace, snapshotPath, rootToken, acceptedS
   })
 }
 
-function validateLiveMediaCache({ workspace, snapshotPath }) {
-  const paths = liveSourceCachePaths(workspace, 'Guides live media validation workspace')
-  const mediaManifestPath = fixedWorkspacePath(paths.root, `packages/docs-tooling/src/lark/meta/media-cache/${guidesIdentity()}.json`, 'Guides live media manifest path', 'file')
+function validateLiveMediaCache({ site = 'en', workspace, snapshotPath }) {
+  const paths = liveSourceCachePaths(workspace, 'Guides live media validation workspace', site)
+  const mediaManifestPath = fixedWorkspacePath(paths.root, `packages/docs-tooling/src/lark/meta/media-cache/${guidesIdentity(site)}.json`, 'Guides live media manifest path', 'file')
   return validateMediaCache({
+    site,
     sourceDir: paths.sourceDir,
     snapshotPath,
     manifestPath: paths.sourceManifestPath,
@@ -197,10 +199,10 @@ function removeEmptyDirectory(directory) {
   }
 }
 
-function cleanupGuidesLiveCache({ workspace, scope = 'all' }) {
+function cleanupGuidesLiveCache({ site = 'en', workspace, scope = 'all' }) {
   if (!['all', 'media'].includes(scope)) throw new Error('Guides cleanup scope must be all or media')
   const workspaceRoot = requireDirectory(workspace, 'Guides cleanup workspace')
-  const identity = guidesIdentity()
+  const identity = guidesIdentity(site)
   const destinations = {
     sourceDir: cleanupWorkspaceLeaf(workspaceRoot, `packages/docs-tooling/src/lark/meta/sources/${identity}`, 'Guides live source path'),
     sourceManifestPath: cleanupWorkspaceLeaf(workspaceRoot, `packages/docs-tooling/src/lark/meta/source-cache/${identity}-manifest.json`, 'Guides live source manifest path'),
@@ -213,19 +215,19 @@ function cleanupGuidesLiveCache({ workspace, scope = 'all' }) {
   return Object.freeze(destinations)
 }
 
-function promoteSourceGenerationPayload({ payloadDir, workspace, snapshotPath, rootToken, hooks = {} }) {
+function promoteSourceGenerationPayload({ site = 'en', payloadDir, workspace, snapshotPath, rootToken, hooks = {} }) {
   const allowedHooks = new Set(['afterInstall', 'beforeMediaRemoval', 'beforeRollbackRemove', 'beforeRollbackRestore', 'beforeDirectoryCleanup', 'beforeJournalCleanup'])
   if (!hooks || typeof hooks !== 'object' || Array.isArray(hooks) || Object.keys(hooks).some(key => !allowedHooks.has(key)) || Object.values(hooks).some(value => typeof value !== 'function')) {
     throw new Error('Invalid source promotion hooks')
   }
-  const validation = validateSourceGenerationPayload({ payloadDir, snapshotPath, rootToken })
+  const validation = validateSourceGenerationPayload({ site, payloadDir, snapshotPath, rootToken })
   const workspaceRoot = requireDirectory(workspace, 'Guides source promotion workspace')
   if (pathsOverlap(validation.paths.root, workspaceRoot)) throw new Error('Guides source promotion workspace must not overlap the payload')
-  const sources = liveSourceCachePaths(workspaceRoot, 'Guides source promotion workspace')
+  const sources = liveSourceCachePaths(workspaceRoot, 'Guides source promotion workspace', site)
   const destinations = {
     sourceDir: sources.sourceDir,
     sourceManifestPath: sources.sourceManifestPath,
-    mediaManifestPath: fixedWorkspacePath(workspaceRoot, `packages/docs-tooling/src/lark/meta/media-cache/${guidesIdentity()}.json`, 'Guides live media manifest path', 'file'),
+    mediaManifestPath: fixedWorkspacePath(workspaceRoot, `packages/docs-tooling/src/lark/meta/media-cache/${guidesIdentity(site)}.json`, 'Guides live media manifest path', 'file'),
   }
   const operations = [
     { source: validation.paths.sourceDir, destination: destinations.sourceDir },
@@ -253,6 +255,7 @@ function promoteSourceGenerationPayload({ payloadDir, workspace, snapshotPath, r
       hooks.afterInstall?.({ index, path: operations[index].destination, journal })
     }
     validateSourceCache({
+      site,
       sourceDir: destinations.sourceDir,
       snapshotPath,
       manifestPath: destinations.sourceManifestPath,
@@ -307,7 +310,7 @@ function parseArgs(argv) {
     const flag = values[index], value = values[index + 1]
     if (!flag?.startsWith('--') || value === undefined) throw new Error('Missing or invalid argument')
     const key = flag.slice(2)
-    if (!required.has(key) || Object.hasOwn(args, key) || !value || /[\0\r\n]/.test(value)) throw new Error(`Invalid argument: ${flag}`)
+    if ((!required.has(key) && key !== 'site') || Object.hasOwn(args, key) || !value || /[\0\r\n]/.test(value)) throw new Error(`Invalid argument: ${flag}`)
     args[key] = value
   }
   for (const key of required) if (!Object.hasOwn(args, key)) throw new Error(`Missing required argument: --${key}`)
@@ -316,17 +319,19 @@ function parseArgs(argv) {
 
 function main(argv = process.argv.slice(2)) {
   const args = parseArgs(argv)
+  const site = args.site || 'en'
   if (args.operation === 'cleanup') {
-    process.stdout.write(`${JSON.stringify(cleanupGuidesLiveCache({ workspace: args.workspace, scope: args.scope }))}\n`)
+    process.stdout.write(`${JSON.stringify(cleanupGuidesLiveCache({ site, workspace: args.workspace, scope: args.scope }))}\n`)
     return
   }
   if (args.operation === 'validate') {
-    const result = validateSourceGenerationPayload({ payloadDir: args.payload, snapshotPath: args.snapshot, rootToken: args['root-token'] })
+    const result = validateSourceGenerationPayload({ site, payloadDir: args.payload, snapshotPath: args.snapshot, rootToken: args['root-token'] })
     process.stdout.write(`${JSON.stringify({ valid: true, sources: result.source.validCanonicalSources })}\n`)
     return
   }
   if (args.operation === 'validate-live-source') {
     const result = validateLiveSourceCache({
+      site,
       workspace: args.workspace,
       snapshotPath: args.snapshot,
       rootToken: args['root-token'],
@@ -336,11 +341,12 @@ function main(argv = process.argv.slice(2)) {
     return
   }
   if (args.operation === 'validate-live-media') {
-    validateLiveMediaCache({ workspace: args.workspace, snapshotPath: args.snapshot })
+    validateLiveMediaCache({ site, workspace: args.workspace, snapshotPath: args.snapshot })
     process.stdout.write('{"valid":true}\n')
     return
   }
   const result = promoteSourceGenerationPayload({
+    site,
     payloadDir: args.payload,
     workspace: args.workspace,
     snapshotPath: args.snapshot,

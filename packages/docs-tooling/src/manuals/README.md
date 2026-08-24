@@ -68,9 +68,26 @@ The seed is a one-time, per-manual step. The current tooling has no automated "b
 
 ## Pitfalls — each maps to a failure we hit
 
+Pitfalls 1–3 are now caught at PR time by the two master gates described below; the post-merge failures they cite are the fallback.
+
 1. **Landing page deleted from `master`, or never committed** → fetch prepare fails: `preserved path ... must be tracked on the tooling branch`. The landing page is master-owned; keep it on `master` and listed in `masterAuthoritativePaths`.
 2. **Landing page not in `masterAuthoritativePaths`** → `inspectSync` fails: `modifies dev-owned paths: content/en/.../<manual>.md`. The page is under `content/`; without the declaration it is dev-owned and master may not touch it.
 3. **`sidebar-overrides/en/<manual>.json` committed to `master`** → `inspectSync` fails: `modifies dev-owned paths: sidebar-overrides/en/...`. That override is dev-owned; let the fetch produce it.
 4. **Sync runs before the fetch** → `validate-revision-inventory --site en` fails: `Revision inventory path is missing: generated/en/manifests/lark-revisions/<manual>.json`. `REVISION_GROUPS` is derived from `registry.ts`, so the new manual is expected immediately. Fetch first (or seed a clean-room inventory).
 5. **Stale `reference.json` sourceCommit** → `Reference source commit tree path set does not match the declared snapshot`. A real fetch's reconcile step regenerates it.
 6. **`reference.ts` missing the `<manual>Sidebar` key on `dev`** → site build fails: `wants to display sidebar <manual>Sidebar but a sidebar with this name doesn't exist`. `reference.ts` is a master tooling file; it is fixed by `generate:reference-presentation` on `master` **and** the sync carrying it to `dev`.
+
+## What CI validates, and where
+
+Content validation runs where the content is authoritative — never on `master`. `master`'s own tree keeps dev-owned leftovers (partial `content/`, stale `generated/en/manifests/reference.json`), so its site build and `validate-reference` would fail on artifacts the sync will soon overwrite. The tree that must build is the sync candidate: `dev` content merged with `master` tooling.
+
+| Tree | Trigger | Validates |
+|---|---|---|
+| `master` push, PR into `master` | `site-validation.yml` | tooling-only: the four `check:*` drift checks + the two gates below |
+| sync candidate (`dev` content + `master` tooling) | sync `workflow_dispatch` | full `validate-reference` + site build |
+| `dev` push (after sync merges) | `site-validation.yml` | full `validate-reference` + site build |
+
+Two lightweight gates run on every PR into `master` (and push to `master`) and fail closed, catching pitfalls 1–3 **before** merge instead of after:
+
+- **Ownership gate** (`scripts/docs-workflow/ownership-gate.js`) diffs `base..head` and fails on any changed path that `isDevOwned()` considers dev-owned (`content/**`, `generated/**`, `sidebar-overrides/en/**`) — except the landing pages declared in `masterAuthoritativePaths`. This rejects an undeclared landing page (pitfall 2) and a committed `sidebar-overrides/en/<manual>.json` (pitfall 3).
+- **Preserved-files gate** (`scripts/docs-workflow/preserved-files-gate.js`) enumerates every *English* publication's `preservedFiles` and fails unless each is (a) listed in `masterAuthoritativePaths` and (b) tracked on `master`. This rejects a landing page that is declared but never committed (pitfall 1), and a preserved file missing its `masterAuthoritativePaths` entry (pitfall 2).

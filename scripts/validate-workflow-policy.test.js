@@ -14,7 +14,9 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
 })
 
 test('workflow policy keeps generated Chinese REST out of canonical Translation selection', () => {
-  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'translation-selection-policy-'))
+  // Keep the copy under scripts/ so selection.js's relative require('../lib/load-typescript')
+  // (it now derives GROUPS from the registry) still resolves to the real helper.
+  const directory = fs.mkdtempSync(path.join(__dirname, '.translation-selection-policy-'))
   const selection = path.join(directory, 'selection.js')
   try {
     const source = fs.readFileSync('scripts/translation/selection.js', 'utf8')
@@ -660,20 +662,20 @@ test('workflow policy rejects generated sidebar validation without an explicit s
   }
 })
 
-test('workflow policy requires localization inventory freshness before both site builds', () => {
+test('workflow policy requires the tooling_checks job to run every tooling-consistency check', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
-  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'inventory-freshness-policy-'))
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'tooling-checks-policy-'))
   try {
     fs.cpSync(sourceDirectory, directory, {recursive: true})
     const file = path.join(directory, 'site-validation.yml')
     const source = fs.readFileSync(file, 'utf8')
-    const withEnglishOnly = source.replace(
-      '      - run: pnpm check:localization-input-inventory\n      - run: pnpm check:lark-config\n      - run: pnpm check:reference-presentation\n      - run: pnpm check:reconciliation-policy\n      - run: pnpm docs-tooling validate-reference --site zh-CN\n      - run: pnpm build:zh-CN',
-      '      - run: pnpm docs-tooling validate-reference --site zh-CN\n      - run: pnpm build:zh-CN',
+    const withoutInventoryCheck = source.replace(
+      '      - run: pnpm check:localization-input-inventory\n',
+      '',
     )
-    assert.notEqual(withEnglishOnly, source)
-    fs.writeFileSync(file, withEnglishOnly)
-    assert.ok(validateWorkflowPolicies(directory).includes('site-validation.yml: both site builds must check the localization input inventory before building'))
+    assert.notEqual(withoutInventoryCheck, source)
+    fs.writeFileSync(file, withoutInventoryCheck)
+    assert.ok(validateWorkflowPolicies(directory).includes('site-validation.yml: tooling_checks must run every tooling-consistency check'))
   } finally {
     fs.rmSync(directory, {recursive: true, force: true})
   }
@@ -1093,7 +1095,7 @@ test('workflow validator rejects unsafe Guides cache migration shapes', () => {
     },
     {
       mutate(source) {
-        return source.replace('node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \\\n              --workspace "$GITHUB_WORKSPACE" --scope all', 'rm -rf packages/docs-tooling/src/lark/meta/source-cache packages/docs-tooling/src/lark/meta/media-cache')
+        return source.replace('node scripts/docs-workflow/guides-source-cache-source-promotion.js cleanup \\\n              --site "$ZDOC_SITE" --workspace "$GITHUB_WORKSPACE" --scope all', 'rm -rf packages/docs-tooling/src/lark/meta/source-cache packages/docs-tooling/src/lark/meta/media-cache')
       },
       expected: /exact cache leaves/,
     },

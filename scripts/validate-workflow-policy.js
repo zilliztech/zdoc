@@ -490,18 +490,15 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           /validate-guides-source-contract|validate-guides-coverage|validate-generated-sidebars|pnpm (?:run )?build:zh-CN/.test(toolsCoverageRuns)) {
         errors.push(`${file}: Chinese Tools validation must rely on the provenance-enforced Chinese build without unavailable source-state checks`)
       }
-      const siteBuilds = [
-        ['build_en', 'pnpm build:en'],
-        ['build_zh_cn', 'pnpm build:zh-CN'],
+      const toolingChecks = [
+        'pnpm check:localization-input-inventory',
+        'pnpm check:lark-config',
+        'pnpm check:reference-presentation',
+        'pnpm check:reconciliation-policy',
       ]
-      const freshnessCommand = 'pnpm check:localization-input-inventory'
-      if (siteBuilds.some(([jobName, buildCommand]) => {
-        const runs = (workflow.jobs?.[jobName]?.steps || []).map(step => String(step?.run || '').trim())
-        const freshnessIndex = runs.indexOf(freshnessCommand)
-        const buildIndex = runs.indexOf(buildCommand)
-        return freshnessIndex < 0 || buildIndex < 0 || freshnessIndex > buildIndex
-      })) {
-        errors.push(`${file}: both site builds must check the localization input inventory before building`)
+      const toolingCheckRuns = (workflow.jobs?.tooling_checks?.steps || []).map(step => String(step?.run || '').trim())
+      if (toolingChecks.some((command) => !toolingCheckRuns.includes(command))) {
+        errors.push(`${file}: tooling_checks must run every tooling-consistency check`)
       }
       const referenceCommand = 'pnpm docs-tooling validate-reference --site zh-CN'
       const zhBuildRuns = (workflow.jobs?.build_zh_cn?.steps || []).map(step => String(step?.run || '').trim())

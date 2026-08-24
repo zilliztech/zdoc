@@ -1245,7 +1245,7 @@ class larkDocScraper {
                 nodeToken: tableToken,
                 parentToken: this.root,
                 title: table.name || table.table_id,
-                slug: guidesTableSlug(process.env.ZDOC_SITE || 'en', table.name || table.table_id),
+                slug: guidesTableSlug(node_path.basename(this.doc_source_dir) === 'guides-zh-CN' ? 'zh-CN' : 'en', table.name || table.table_id),
                 children,
             })
             tableSource.base_table_id = table.table_id

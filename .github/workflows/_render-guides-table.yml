@@ -49,7 +49,7 @@ jobs:
         run: |
           tar -tf "$RUNNER_TEMP/download/guides-source.tar" | node -e 'const fs=require("fs");for(const p of fs.readFileSync(0,"utf8").trim().split("\n"))if(p!=="guides-source"&&!p.startsWith("guides-source/"))throw Error("unsafe archive path")'
           tar -xf "$RUNNER_TEMP/download/guides-source.tar" -C "$RUNNER_TEMP"
-          node scripts/docs-workflow/guides-stage-artifact.js --operation restore --stage source --artifact "$RUNNER_TEMP/guides-source" --target "$GITHUB_WORKSPACE" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
+          node scripts/docs-workflow/guides-stage-artifact.js --operation restore --site "$ZDOC_SITE" --stage source --artifact "$RUNNER_TEMP/guides-source" --target "$GITHUB_WORKSPACE" --master-sha "${{ inputs.master_sha }}" --dev-baseline-sha "${{ inputs.dev_baseline_sha }}"
       - name: Render Guides table offline
         run: node scripts/docs-workflow/render-guides-table.js --workspace "$GITHUB_WORKSPACE" --entry "$ENTRY_JSON"
         env:

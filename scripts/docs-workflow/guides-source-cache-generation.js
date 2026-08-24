@@ -61,7 +61,7 @@ function attempt(failures, operation) {
   try { operation(); return true } catch (error) { failures.push(error); return false }
 }
 
-function generationKeys({ site = process.env.ZDOC_SITE || 'en', snapshotPath, runId, runAttempt }) {
+function generationKeys({ site = 'en', snapshotPath, runId, runAttempt }) {
   const id = positiveInteger(runId, 'runId')
   const attempt = positiveInteger(runAttempt, 'runAttempt', 100)
   const prefix = `guides-source-${site}-v5-`
@@ -115,7 +115,7 @@ function payloadPaths(payloadDir) {
   }
 }
 
-function validateGenerationPayload({ site = process.env.ZDOC_SITE || 'en', payloadDir, snapshotPath, rootToken }) {
+function validateGenerationPayload({ site = 'en', payloadDir, snapshotPath, rootToken }) {
   if (typeof rootToken !== 'string' || !rootToken || /[\0\r\n]/.test(rootToken)) throw new Error('rootToken must be a non-empty safe string')
   const paths = payloadPaths(payloadDir)
   const validationSnapshot = paths.snapshotPath || requireRegularFile(snapshotPath, 'Legacy Guides cache snapshot')
@@ -163,7 +163,7 @@ function fixedWorkspacePath(root, relative, label) {
   return current
 }
 
-function liveCachePathsFromRoot(root, site = process.env.ZDOC_SITE || 'en') {
+function liveCachePathsFromRoot(root, site = 'en') {
   if (site !== 'en' && site !== 'zh-CN') throw new Error(`Unsupported Guides site: ${site}`)
   const identity = site === 'en' ? 'guides' : 'guides-zh-CN'
   return {
@@ -174,11 +174,11 @@ function liveCachePathsFromRoot(root, site = process.env.ZDOC_SITE || 'en') {
   }
 }
 
-function liveCachePaths(workspace, site = process.env.ZDOC_SITE || 'en') {
+function liveCachePaths(workspace, site = 'en') {
   return liveCachePathsFromRoot(requireDirectory(workspace, 'Guides cache generation workspace'), site)
 }
 
-function createGenerationPayload({ site = process.env.ZDOC_SITE || 'en', workspace, snapshotPath, rootToken, outputDir, hooks = {} }) {
+function createGenerationPayload({ site = 'en', workspace, snapshotPath, rootToken, outputDir, hooks = {} }) {
   const allowedHooks = new Set(['beforeSwapCommit', 'afterSwapCommit', 'beforeBackupCleanup', 'beforeRollbackRemoveOutput', 'beforeRollbackRestoreBackup', 'beforeTemporaryCleanup'])
   if (!hooks || typeof hooks !== 'object' || Array.isArray(hooks) || Object.keys(hooks).some(key => !allowedHooks.has(key)) || Object.values(hooks).some(value => typeof value !== 'function')) {
     throw new Error('Invalid generation hooks')
@@ -285,7 +285,7 @@ function removeEmptyDirectory(directory) {
   }
 }
 
-function promoteGenerationPayload({ site = process.env.ZDOC_SITE || 'en', payloadDir, workspace, snapshotPath, rootToken, hooks = {} }) {
+function promoteGenerationPayload({ site = 'en', payloadDir, workspace, snapshotPath, rootToken, hooks = {} }) {
   const allowedHooks = new Set(['afterInstall', 'beforeRollbackRemove', 'beforeRollbackRestore', 'beforeRollbackDirectoryCleanup', 'beforeJournalCleanup'])
   if (!hooks || typeof hooks !== 'object' || Array.isArray(hooks) || Object.keys(hooks).some(key => !allowedHooks.has(key)) || Object.values(hooks).some(value => typeof value !== 'function')) {
     throw new Error('Invalid promotion hooks')
@@ -391,15 +391,15 @@ function parseArgs(argv) {
 function main(argv = process.argv.slice(2)) {
   const input = parseArgs(argv)
   if (input.operation === 'keys') {
-    process.stdout.write(`${JSON.stringify(generationKeys({ site: input.site || process.env.ZDOC_SITE || 'en', snapshotPath: input.snapshot, runId: input['run-id'], runAttempt: input['run-attempt'] }))}\n`)
+    process.stdout.write(`${JSON.stringify(generationKeys({ site: input.site || 'en', snapshotPath: input.snapshot, runId: input['run-id'], runAttempt: input['run-attempt'] }))}\n`)
   } else if (input.operation === 'validate') {
-    const result = validateGenerationPayload({ site: input.site || process.env.ZDOC_SITE || 'en', payloadDir: input.payload, snapshotPath: input.snapshot, rootToken: input['root-token'] })
+    const result = validateGenerationPayload({ site: input.site || 'en', payloadDir: input.payload, snapshotPath: input.snapshot, rootToken: input['root-token'] })
     process.stdout.write(`${JSON.stringify({ valid: true, sources: result.source.validCanonicalSources })}\n`)
   } else if (input.operation === 'create') {
-    const output = createGenerationPayload({ site: input.site || process.env.ZDOC_SITE || 'en', workspace: input.workspace, snapshotPath: input.snapshot, rootToken: input['root-token'], outputDir: input.output })
+    const output = createGenerationPayload({ site: input.site || 'en', workspace: input.workspace, snapshotPath: input.snapshot, rootToken: input['root-token'], outputDir: input.output })
     process.stdout.write(`${JSON.stringify({ output })}\n`)
   } else {
-    const result = promoteGenerationPayload({ site: input.site || process.env.ZDOC_SITE || 'en', payloadDir: input.payload, workspace: input.workspace, snapshotPath: input.snapshot, rootToken: input['root-token'] })
+    const result = promoteGenerationPayload({ site: input.site || 'en', payloadDir: input.payload, workspace: input.workspace, snapshotPath: input.snapshot, rootToken: input['root-token'] })
     process.stdout.write(`${JSON.stringify(result)}\n`)
   }
 }

@@ -713,7 +713,7 @@ function larkDocsPlugin(context, options) {
                         if (manualName !== 'guides' || sourceType !== 'wiki' || !base.endsWith(':*')) throw new Error('--guidesBasePreflight requires the Guides Base manual')
                         await scraper.__base({ progressLabel: '[guides-preflight]' })
                         const result = validateGuidesBasePreflight({
-                            site: process.env.ZDOC_SITE || 'en',
+                            site: path.basename(docSourceDir) === 'guides-zh-CN' ? 'zh-CN' : 'en',
                             tables: scraper.base_tables,
                             records: scraper.records,
                         })
