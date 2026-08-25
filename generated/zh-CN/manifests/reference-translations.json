@@ -5953,15 +5953,6 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Authentication/Authentication.md",
-      "status": "retired",
-      "targetHash": "c4638bafa12ef86f75c66559e325182209642af893ef36b50c538c78c5e04b2d",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Authentication/Authentication.md"
-    },
-    {
-      "manual": "node",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "c176f56b7397a3446687b864635ba21295faa28915e9885dd6010527bf485e74",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Client/Client-MilvusClient.md",
@@ -6040,15 +6031,6 @@
       "status": "translated",
       "targetHash": "2944756f0a5ddd839372b7c558cb8540d641a63a47433e4a68db9ec71f57e4e7",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Client/Client-use.md"
-    },
-    {
-      "manual": "node",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Client/Client.md",
-      "status": "retired",
-      "targetHash": "449aad9f90f3887d673a40b32a45acf0430e3f6f443246aa233506e4eaaf94e7",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Client/Client.md"
     },
     {
       "manual": "node",
@@ -6331,15 +6313,6 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Collections/Collections.md",
-      "status": "retired",
-      "targetHash": "b8cce036e73e6f4118119327075885c928ca0e1dca4984610ccc448229328467",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Collections/Collections.md"
-    },
-    {
-      "manual": "node",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "a2e1ce52188dea82c3eed0e7093322c57ab53c97c8bc5dc1465dd7fa3b461120",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/DataImport/DataImport-BulkWriter.md",
@@ -6553,15 +6526,6 @@
       "status": "translated",
       "targetHash": "3f481ddaf238794052ba680c2d7dc5e034df086d993d8b8596c0ca27d4cb5d9b",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database-useDatabase.md"
-    },
-    {
-      "manual": "node",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Database/Database.md",
-      "status": "retired",
-      "targetHash": "19dad8286ddc70e5e5b54e18121e7f13bf59654cb2fa1e49232852334b5a1daa",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Database/Database.md"
     },
     {
       "manual": "node",
@@ -6799,15 +6763,6 @@
     },
     {
       "manual": "node",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Management/Management.md",
-      "status": "retired",
-      "targetHash": "e2d857a7db4d2f49a1a81c2c0e7eac63995c344d8ff01a1cecba0d265518a1c7",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Management/Management.md"
-    },
-    {
-      "manual": "node",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "dd5c6abd2056d166dc06963bc827f5a6f3e3f85d365ea40c69f7885643131632",
       "sourcePath": "content/en/reference/api/nodejs/nodejs/Partitions/Partitions-createPartition.md",
@@ -6877,15 +6832,6 @@
       "status": "translated",
       "targetHash": "269e06659fa2749791b825a04548b91ae20f9a5199d655283940b9e9ef55b611",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Partitions/Partitions-releasePartitions.md"
-    },
-    {
-      "manual": "node",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Partitions/Partitions.md",
-      "status": "retired",
-      "targetHash": "6c7bceb818837f7ebfe51d33197944805b042fd202e56a440f58cce54c975d25",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Partitions/Partitions.md"
     },
     {
       "manual": "node",
@@ -7057,15 +7003,6 @@
       "status": "translated",
       "targetHash": "fa5e610cacd016153bef5e6a7e165389b06ba41086ba8a393e57817cc41ff8d1",
       "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Vector/Vector-upsert.md"
-    },
-    {
-      "manual": "node",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/api/nodejs/nodejs/Vector/Vector.md",
-      "status": "retired",
-      "targetHash": "38ef5af4d78d6c8f84b0b4d80a940a0f9b403d453a08b658b2d777a0ec7edd52",
-      "targetPath": "content/zh-CN/reference/api/nodejs/nodejs/Vector/Vector.md"
     },
     {
       "manual": "node",
