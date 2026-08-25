@@ -8,6 +8,14 @@ const {validateApprovalReceipt} = require('./reconciliation-policy')
 
 const CACHE_PATH = '.translation-cache/ja-JP.json'
 const REFERENCE_LEDGER_PATH = 'generated/zh-CN/manifests/reference-reconciliation-ledger.json'
+const REFERENCE_RETIREMENT_REGISTRY = 'config/reference-retirements.json'
+
+function retiredSourcePaths(root) {
+  const file = path.join(root, REFERENCE_RETIREMENT_REGISTRY)
+  if (!fs.existsSync(file)) return new Set()
+  const registry = JSON.parse(fs.readFileSync(file, 'utf8'))
+  return new Set((registry.retirements || []).map(record => record.sourcePath))
+}
 
 function safeFile(root, relative, label) {
   let current = path.resolve(root)
@@ -156,12 +164,14 @@ function applyReconciliationPlan(options) {
   }
   if (options.hooks?.beforeMutation) options.hooks.beforeMutation()
   const cache = plan.target === 'ja-JP' ? readCache(options.workspaceRoot) : undefined
+  const retiredSources = plan.target === 'zh-CN-reference' ? retiredSourcePaths(options.workspaceRoot) : new Set()
   const operationResults = []
   let cacheChanged = false
   for (const operation of plan.operations) {
     const target = safeFile(options.workspaceRoot, operation.targetPath, 'Reconciliation target')
+    const keepRetiredTarget = operation.kind === 'delete_target' && retiredSources.has(operation.sourcePath)
     let applied = false
-    if (fs.existsSync(target)) {
+    if (!keepRetiredTarget && fs.existsSync(target)) {
       const stat = fs.lstatSync(target)
       if (!stat.isFile()) throw new Error(`Reconciliation target must be a regular file: ${operation.targetPath}`)
       fs.rmSync(target)
@@ -181,7 +191,7 @@ function applyReconciliationPlan(options) {
     } else {
       removedStateKeys.push(operation.sourcePath)
     }
-    operationResults.push({operationId: operation.operationId, status: applied ? 'applied' : 'already_applied', removedPaths: [operation.targetPath], removedStateKeys})
+    operationResults.push({operationId: operation.operationId, status: applied ? 'applied' : 'already_applied', removedPaths: keepRetiredTarget ? [] : [operation.targetPath], removedStateKeys})
   }
   if (cacheChanged) writeAtomic(path.join(options.workspaceRoot, CACHE_PATH), cache)
   if (plan.target === 'zh-CN-reference') rebuildChineseReferenceState(options)
