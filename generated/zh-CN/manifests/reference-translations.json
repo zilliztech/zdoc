@@ -1,6 +1,7 @@
 {
   "bootstrapCompletedGroups": [
     "cli",
+    "cpp",
     "go",
     "java",
     "node",
@@ -21,919 +22,9 @@
     {
       "manual": "cpp",
       "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "344fff03a5d510ed2c5f489d34ab25e1265a5500e5b5bd7021eed66960a6fdca",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "79ac339df1ecbceeeb275dcf599f69dadb512a3ad84b9eda96a963e96738ed5b",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-CreateUser.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-CreateUser.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "54a301068c8e158a45d5b339a6e7c5d1ab00e8eda82a08b2538cad75fbf53e5d",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeRole.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-DescribeRole.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "4fe6490778f908da07afa4c87a215c1b371f3b773627633755fd39b81fbf892a",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeUser.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-DescribeUser.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "7cfeb0aee77a050d18ede4c602b0bd9ada1ff9dbb715af9de3d0006d0e28cd67",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DropRole.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-DropRole.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "381d02a833bef699868d83400d3894853e50b1753683b1252670b844d935e388",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DropUser.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-DropUser.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "1b8deff5fe61efdbd232bbbd2ed5fc10a9f94f2a7a8ceb454f01ee3004047895",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-GrantPrivilegeV2.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-GrantPrivilegeV2.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "620809d2963ff2ecc0aae02e09ab41ddc126fe62390ce011fb1fc9e55cddecbe",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-GrantRole.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-GrantRole.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "ea10f740f9ec8a8df9c2d1873d7eafe8539f54da7786392a178d7d75c791fbc4",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListPrivilegeGroups.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-ListPrivilegeGroups.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e9cdbd1a8f721e21dcf86562dd8ccd5ed700b59352bc2011f89a8b28fa380f12",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListRoles.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-ListRoles.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "647a6e6eb09a4e5e452da61c2f9a78b2fdff4f0976a9382d17062db13e680e9e",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListUsers.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-ListUsers.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "8f932947bd1d1f6d2de3706418ef7e31055344e184b8e111ff982c456680346a",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-PrivilegeGroupInfo.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-PrivilegeGroupInfo.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "804c768e2b8745a8327d920d7ab067f954206b791e1a3a3a30d06fe6f2074d53",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RemovePrivilegesFromGroup.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-RemovePrivilegesFromGroup.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "c3026bfcdebd83be187289cd758805b54fc84fad30b3eb3ae34da9d75e4c05aa",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokePrivilegeV2.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-RevokePrivilegeV2.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "ee193be2080e45cb4ddadf340bb4f51ba9346dad5ff0a0fbfa4d4d30e8182095",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokeRole.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-RevokeRole.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "45c9bad2c92c5b029bd491027462fffb4821283ac4700e60778f4939bee172ad",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RoleDesc.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-RoleDesc.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e69631da378eb3b3fea72c9728554128aea94364bc65d0035840e10a0e05066e",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdatePassword.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-UpdatePassword.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "f8b650d374a0752baec7d4f89c475f4f46910609fbf660df6fd8d1aad7f21bf1",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdateUser.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-UpdateUser.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "10061b7d838016c006ef6abdf61281a1bda509863d6fef1aaf97b23dbc731f33",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UserDesc.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-UserDesc.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "46349220d61e732f5194ba03d8ac1c05e4b8447a7f10ab7bce719599abe31d23",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-CheckHealth.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-CheckHealth.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "3501830ea0da0f7963dc4faac2afb417ac8c1bbf5ced691dc9afa1d9277fffe1",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-Connect.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-Connect.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "95a6f21755d8cf642a8eab65ca35fb5474f493de85a3f0b64bb4b795f3b4fd18",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-ConnectParam.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-ConnectParam.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "4b1262851db415b2dbdf3ed607a04f4f49ec644eb03084e61001f019d0216c64",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-Create.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-Create.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "d33ace9b26e846f967b14e9925d999300a94420fc69b89b7d0e48dfc45a7f68c",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-CurrentUsedDatabase.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-CurrentUsedDatabase.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "00f315fee434998e286ded67829d39f644d5ca6808c271021838a3cc91098e77",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-Disconnect.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-Disconnect.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "65b9d8215cefb08a0694c1acf89461c62689471b3e1d9ec0a4ee40ac361a2887",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-GetSDKVersion.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-GetSDKVersion.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "64cf857c908e60845e12a596d109c1c1bebd141cd4702f7d14c6063cbcdc7428",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-GetServerVersion.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-GetServerVersion.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "a6b74b1327afa137753f8acb993a5bb93959d0c138469d64f4b5e4ec4cde6bcd",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-RetryParam.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-RetryParam.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "fea928f1c86f47f7b96df5b43f8583df257566055595fdb04e0eea59abbeec06",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-Session.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-Session.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "b534ded88007add5ae564ce05a6c0509d177384567cced3e61ea94e1d60b9700",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-SetRetryParam.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-SetRetryParam.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "b3623db0992a25964647f81cd38b3981bbfe1ee7998cf5b2cfec053b65f7d3b3",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-SetRpcDeadlineMs.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-SetRpcDeadlineMs.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "dfb26d6c0132358769619ed7061938e3d90cbd5d83722b09e4adade0b1b62b53",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-UseDatabase.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-UseDatabase.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "67a3c794270f8f1a521fb792409eee10fed0e9d93dee8697d9a0acce7268c95b",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionField.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AddCollectionField.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "a5d158bfa443674b8d40ae3eb3eb4bacbf091a826d9517657051eea388d1c6af",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionFunction.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AddCollectionFunction.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "5e1cde42333c683728c5e55cd9467de6556dce664d567759fffa61b2baa0e54e",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionStructField.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AddCollectionStructField.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "86947857d6e03501a5ef6c1dbe76e3b3c899ed292409e3e09b375595f0d00598",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddFunctionField.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AddFunctionField.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "3b7d0f7ef2b312fb85693d5353bd2f4ec12c260f233c40c80662706e6fdbe12f",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AliasDesc.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AliasDesc.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "9e59e00bb59c3cf50491d5fd638c3ecaa6fb608f24541864ca634e257d45d462",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterAlias.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AlterAlias.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "f6e0fe8f9d276b0a6ca9418238321d6a44bf2f91f2ebb575036d1a0fe72a9f12",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFieldProperties.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFieldProperties.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "89bd63a4b6552996327f5c95ecd48ac48521c5c7513d9bcc0c105c2ac42edf92",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFunction.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFunction.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "a69e1fd33f084b0d19ed2ab4350e2a3085574c1fab0cf738a4adf72704d32f8d",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionProperties.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AlterCollectionProperties.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "42abe8eb246fe69cd8a5f0179dc5d4507a03bb67196324065464c7b2c1ac1acf",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-BatchDescribeCollections.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-BatchDescribeCollections.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "f84982e4882dab0586296e78650afb07edb806a82ac93e7906dcf0012b380e85",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionDesc.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-CollectionDesc.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "00539380585b10b14218b6aff2be6cdac09b41c1a9e22a26dd699bd044e31877",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionInfo.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-CollectionInfo.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "68386a272c56a630939d0c553fd731584227111ad8f460e3f5e27ab9b338c34a",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionSchema.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-CollectionSchema.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "a4d6448b10f4dfe09d88b76c1ef28236d0d8388c28aaa491e2dd55faf7a3f3e0",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-ConsistencyLevel.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-ConsistencyLevel.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "6f9784bca653b1e18a0077c6f35b4207d7d83a8ee4be4393c9e6f59262b9850f",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateAlias.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-CreateAlias.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "635296c2f53cdbc36817a987fce4fab91a5d0f556bbd1abbbbecd1708553cf36",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateCollection.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-CreateCollection.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "bf17344c5af1e14056c284e0f2f8daa39e4a4c96f24e7f2d10caa54f72f4644c",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateSimpleCollection.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-CreateSimpleCollection.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "8f5357a601d66e4e31e4718377ef77db3cab738d69eb3db8ab88102c845f93cd",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DataType.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DataType.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "72a64f7f287321f108327763f7cc0b5c62016f3d7754e928aa0e2a948a6252ff",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DescribeAlias.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DescribeAlias.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "cd6867843c9d310da55b6396e6c9451fc9728688afd7eda597060b6b18b16a14",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DescribeCollection.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DescribeCollection.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "b2fe3254139e20407239a471bda186df65d8a49a133c345c5c44066fe279c0f3",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropAlias.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropAlias.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "f2032f86446977a5b20519f04ae045ef78f331795b8e8ea6ca40933a7a6eb05f",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollection.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropCollection.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "9a1f383849a5ee78772b94c9ab931fd7d134466f59b5d8b8ed44e8ecc8681d99",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionField.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropCollectionField.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "51e0be63a90716f93113db9650fba105c2bec4372d661c676dc18ff826f93f79",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionFieldProperties.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropCollectionFieldProperties.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "6d92de5d2748c36f51d5d60f50de5cec84ff7605b6ace8040028b42fddecf878",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionFunction.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropCollectionFunction.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "76166c3c393dd3754efcc72a2a69e07077938c254c5a08330910b0a6861888e2",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionProperties.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropCollectionProperties.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "87d84f64ff55891bbc226f9142d6432db0ef4826a9177d87765e0cb3ca3f8a1f",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropFunctionField.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropFunctionField.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "24f50cbd4c2b810a12788098d749638e5cfe0016c53d999715f1af81f76ca0e8",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-FieldSchema.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-FieldSchema.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "9dafcae74695f6ff8cd47894eefbd270bb9e1f16a0753fae242b63a94249444e",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-Function.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-Function.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "9dbeac76b566fbdfd4bb8aac3e2b2e12cfa9196057eeab31bdbcc3561761de1c",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-FunctionType.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-FunctionType.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "5112eaa2536435af2d3e6f821a3bc3154102a614637f24933f00752a13a0494b",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-GetCollectionStats.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-GetCollectionStats.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "043f0bd4e0a4f609165f05c2e0bcf8671323a3eb40412c556f5bb9f894981569",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-HasCollection.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-HasCollection.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "3308095bbcd7e7aea74a0621f5f22901545b209338138df4f1609ab797b15b5b",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-ListAliases.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-ListAliases.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "98fe2ba435019c53a335569d9b198559a6f5e6e0c6d0bb558628de44cefe09b2",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-ListCollections.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-ListCollections.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "f92e28e5feef06ca939eb9128e2babd45adcc76aedb68b64d7a8db341b1c9171",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-LoadState.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-LoadState.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e7b595c6042eaf253739650902cf399a407d2a99e55a38df78d6ac44ff585e94",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-RenameCollection.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-RenameCollection.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "a00a23250bd4a25f0e2b1fc6b9b2473d13869a9963b75e8eef89053e50efbbe6",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-StructFieldSchema.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-StructFieldSchema.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "f5941c0da99d1359b356b2b18e714877500b76e8962155ee032eab37c7656671",
-      "sourcePath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-AbortImport.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-AbortImport.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "98359fbb174bda4a5c637259a67cde446c3a21b0217f4cc9e2f1867e8086ce78",
-      "sourcePath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-CommitImport.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-CommitImport.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
       "sourceHash": "66452df0c3d86f678ece386f49d8dac179180efa0a547b84e1e750d3c7c7007e",
       "sourcePath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "00b91241174965d6fe358ce13b991c96fb36ef1af3c610a3327667d4a19cc2da",
-      "sourcePath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-GetImportJobProgress.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-GetImportJobProgress.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "3cb606e36606d8c8186f172bd9c3b5b66540b53a7462035d2a8435b27f140323",
-      "sourcePath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-ListImportJobs.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-ListImportJobs.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "027c8862ea184376bd244a8c8758bfb7c3fa8720bc1565c3ef4439476d09c790",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Database/Database-AlterDatabaseProperties.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Database/Database-AlterDatabaseProperties.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "1a8329c49c0e98018dfe19e1fa8bb66b90404b8bdf5ccd5d58188d13b24274b1",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Database/Database-CreateDatabase.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Database/Database-CreateDatabase.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "223bd6daa1002feb5f74620384062245372434ee347ece106a2959599e311e41",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Database/Database-DescribeDatabase.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Database/Database-DescribeDatabase.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "2205ee65c2a73236dbf258d725ceddc5bfad6233a0afa431768b7f63eed1f2a7",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Database/Database-DropDatabase.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Database/Database-DropDatabase.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "13d51487bfab52adc06cf2b20665a38375d1388e9584ea8b4f9afb60fa37c20d",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Database/Database-DropDatabaseProperties.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Database/Database-DropDatabaseProperties.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "b3bd00302bfdd81da80cbe26a97516cc24c78c41e70cea156c347e69686612da",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Database/Database-ListDatabases.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Database/Database-ListDatabases.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "1e12a808310224ec5d31a72589a6012e827c617f13bd85f060de7fa2892801a2",
-      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/FileResources-AddFileResource.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/FileResources-AddFileResource.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "2a53123440dd1fef79be3dae6b5ccb824ee388c3ab50d6b68e8b72e57a3141ed",
-      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/FileResources-ListFileResources.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/FileResources-ListFileResources.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "637889f4124e922828a3c4ac467aac0f7df7630913a474e3c10563178678d08c",
-      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/FileResources-RemoveFileResource.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/FileResources-RemoveFileResource.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "249e0ec32bd0551042641be57f71cb91741b5770a63f7a0091bb098ab1f1319b",
-      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "c28777d5b4ae9e0c36b4cccf1085b4efc3ac2b47352db5d58f9373d6603e51e1",
-      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/Management-ListRefreshExternalCollectionJobs.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/Management-ListRefreshExternalCollectionJobs.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "00218fbbc7447a7cfa8b5cb88ac965c3b1a2eaf8223a44729b4f868d5c44baea",
-      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/Management-RefreshExternalCollection.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/Management-RefreshExternalCollection.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "3a92429936d149fb28c0313ee1659436e8770f57bde825fb817f3096786a5577",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-AlterIndexProperties.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-AlterIndexProperties.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "f44216a0bb4253957fa0bf51c34f0fa3b75afe21ea44f8a3d0bd160590fea9c3",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-Compact.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-Compact.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "4685ee3a96b2e42479bf8fa62e666b04ca8e26aa196037e3b6f4339192e2241c",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-CreateIndex.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-CreateIndex.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "d8bf15de2260631a123eccb4a2c185bd270d3c7bdfa98c6d61cb6f9cdab80331",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-DescribeIndex.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-DescribeIndex.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "ebc5333d91c85070d87a9f2373c4fbafdf29324b9978b3611faab638bdcca1d9",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-DropIndex.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-DropIndex.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "bb9f861122311b0362f7139766e79b1425db13635d0287aa61ab331bcd6b8450",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-DropIndexProperties.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-DropIndexProperties.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "16d1b4ea9fc5fcf84e638823655e21bd90781fe428a1f7c41ba667f9c5beb201",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-Flush.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-Flush.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "217262fb506596659e5cbb11b15176c73aa2261082d3cdbc94afbe04f1607524",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-FlushAll.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-FlushAll.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "a8682b78330d4f5b4c99d635cb12c7d1414031b0d0602e036087f08c9f92efbf",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionPlans.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-GetCompactionPlans.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "71260855a20626944e41eb32f2a44597693f08f5a46c165f544a9a87b66908cd",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionState.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-GetCompactionState.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "f87f80386c315e04437debdc3b90c1ffb6a8540d54dc5e593b8a5506cf02531e",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetFlushAllState.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-GetFlushAllState.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "732af9752010cbd6e6c64fa9caeb641116a8f723f8f35a5e03e6cf7c8c7a7fff",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetLoadState.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-GetLoadState.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "74c933a7279cc248ecde416659319ab40c74fe7f150877cff7d3676339e820d3",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-IndexDesc.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-IndexDesc.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "0615adb8291543d7ed239064870a6455ce3b804ca961ee1b44fd1d26fe21df62",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-IndexType.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-IndexType.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "a58b5ec644f313708804b63dcf1b0fc919c3994004e57d031035fc9016cfb58e",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ListIndexes.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-ListIndexes.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "2e0270e8aed0a651c9397ff2380ef7a0132f5876913246311dbf036ae296559c",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ListPersistentSegments.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-ListPersistentSegments.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "1b4ae2b5783caba81dbeafd1670b4d324b076f6aa3d737d9f08f4869c5d518e0",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ListQuerySegments.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-ListQuerySegments.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "49796426e983f29af93a37baef8d9e8fa3c2d2d7cf4ac1f0fe8e2d4adbd047ef",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-LoadCollection.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-LoadCollection.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "2b6b95a6ce19e797887416d2fe5f12e5fbd07122b36f441cb47a2f302a9bfb44",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-MetricType.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-MetricType.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "a973bf704d93ed9dc34e9b4f22d33b374a1e14bb235361b903963bfadfb6a0ca",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-Optimize.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-Optimize.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "ffe30d643654300a0a64eb77b99d31795865ee1e9db5902295196c4b89d4066a",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-RefreshLoad.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-RefreshLoad.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "fd1ee8004215e4d51412250762ee8b72f5a49339fcfed3ee98762a5ac569d2e5",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ReleaseCollection.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-ReleaseCollection.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "a3c7e31a012deb5e8c2e30be8d3a89d8a2032a7d9eb6185ad55c33c7742b524c",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-CreatePartition.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-CreatePartition.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "526c6129c14c5a0d1732602e931a2c596ee0a5b59f3f1ff0f6ec06b2b2171856",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-DropPartition.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-DropPartition.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "b6f3ec49fec7c26ebb0f763cbe74738af55cab94ee7fad092ef980dce989a8ff",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-GetPartitionStatistics.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-GetPartitionStatistics.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "9a531e7bf9c0011d67426bc5838714694a582ffd33811bb7249181d26fede9ac",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-HasPartition.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-HasPartition.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "74f1e5f2fbabb47289308f35eb50c45c2defd68656ed2e9cac67c9566d7a6624",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-ListPartitions.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-ListPartitions.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "5d2cee5fa23afefbe1aeec19498f04fb22ce5284df520304ea56fd320365aa6b",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-LoadPartitions.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-LoadPartitions.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "778865735dce47680be865d22c3ab2a8c7fa9e08931fe0fd036e1cc949829b03",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-ReleasePartitions.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-ReleasePartitions.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "081c2c0402e67b757ef3ea71d0b0d8ce4a454d0e565e742708e585c8962e9fb8",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-CreateSnapshot.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-CreateSnapshot.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "5f2414e10031c941d2d38b938a10d75128d65cf7fc0ee7a1357dd332c9a9f435",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-DescribeSnapshot.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-DescribeSnapshot.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e1cc87380c96c51d5961735051582384eb7b6779035e3ba805fd699e98e3b27f",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-DropSnapshot.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-DropSnapshot.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "6447e132a6ffd0707b2fbde52b2004484a63e8dbf6b3bf5ae6fad55d885fe13d",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-GetRestoreSnapshotState.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-GetRestoreSnapshotState.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "3d190eb6253d15efa54b262e002344096f5249a1a9eff763a342b135eaf51f5f",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-ListRestoreSnapshotJobs.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-ListRestoreSnapshotJobs.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e0355562078d1da06191c845df7a7b99578201a2056f9587b1771401b202002a",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-ListSnapshots.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-ListSnapshots.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "4b8a927396d76be35dddcee9170ac2c1e804c33ccfa28f34e9680216a69d4b25",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-PinSnapshotData.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-PinSnapshotData.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "8c6bf5ccd7dbeee31d65eb288a49ab4889d93c5737d2f1f26506195a3ed26c9d",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-RestoreSnapshot.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-RestoreSnapshot.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "1abc2d08066bf401aa7faa7006bf9730699027f085a6d3e56fd75d62ddc7e85f",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-UnpinSnapshotData.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-UnpinSnapshotData.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "9c4735a7ea8699e1abc2db6862d58a111bcf8888eb6495f9882832c3cbdc0809",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-Delete.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-Delete.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "2408bc8aa69f82fa9b0b0a4fde5dd1d946d8925cc1add232954ecafa94a6d2e0",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-Get.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-Get.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "a01e1968c3b0feca8a2f77384cc2fdc17646bbd5d3d839e84ae96c0e17162330",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-HybridSearch.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-HybridSearch.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "56bff7f70ce0b4eefd37a5d49a14767b64a04c36e1177914de96860fd3247539",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-Insert.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-Insert.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "87519d58997b457070f9affde4cb8e48e8d011d6d2b009bccfbd19a0fd7010ca",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-Query.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-Query.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "ed9b169660dc78ee711917396580825ef0a12ab2757e919c19237f14def1d344",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-QueryIterator.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-QueryIterator.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e6f7bfbc94b9e7e9d8fabcb96d385019fc437e1e78e0556b74b752103ea07ac6",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-RunAnalyzer.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-RunAnalyzer.md"
     },
     {
       "manual": "cpp",
@@ -948,20 +39,6 @@
       "sourceHash": "b413c7ac74ada439896dfe5ca50f15e55b0890fdd1e9ec5da2f07eae570ce624",
       "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-SearchIterator.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-SearchIterator.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "1530716c3c56e4c9c59975e0ccb38e1cb92501da095054308815265adf5334ff",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-Upsert.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-Upsert.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "3017484804e0da7bbbcd54d2aadf57336daa28c6be777cd709775a463a7435a5",
-      "sourcePath": "content/en/reference/api/cpp/cpp/cpp.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/cpp.md"
     },
     {
       "manual": "rest",
@@ -2296,6 +1373,1194 @@
       "status": "translated",
       "targetHash": "de01249363b0770a6fa94e717924d20eb31c8b5031a5873bb4083aaaf4f68012",
       "targetPath": "content/zh-CN/reference/cli/cli/Overview.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "344fff03a5d510ed2c5f489d34ab25e1265a5500e5b5bd7021eed66960a6fdca",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md",
+      "status": "translated",
+      "targetHash": "1ee9ad60dc3d0a6e6a42f3a1e4a2a87c3d938687cdb0058cc9a234091f238dad",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "79ac339df1ecbceeeb275dcf599f69dadb512a3ad84b9eda96a963e96738ed5b",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-CreateUser.md",
+      "status": "translated",
+      "targetHash": "82d77df5cc2bef6bc57c12b9edab2a09bd37c3aa9c6f53ce19eae62889513523",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-CreateUser.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "54a301068c8e158a45d5b339a6e7c5d1ab00e8eda82a08b2538cad75fbf53e5d",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeRole.md",
+      "status": "translated",
+      "targetHash": "fd15cf59d626de9930db09401b396dfd60a734e644aed0ece7f90f7c241cdbb4",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-DescribeRole.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "4fe6490778f908da07afa4c87a215c1b371f3b773627633755fd39b81fbf892a",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DescribeUser.md",
+      "status": "translated",
+      "targetHash": "ea5e60af28815f8a369c4e0449dbbe7de1c2dba4ca0e8bea2d29ad90d5015c30",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-DescribeUser.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "7cfeb0aee77a050d18ede4c602b0bd9ada1ff9dbb715af9de3d0006d0e28cd67",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DropRole.md",
+      "status": "translated",
+      "targetHash": "646f81bfd04623f8f9c221d5ea5f38daef7c2619118760f41f61649116c40f99",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-DropRole.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "381d02a833bef699868d83400d3894853e50b1753683b1252670b844d935e388",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-DropUser.md",
+      "status": "translated",
+      "targetHash": "a5b16c56057117ace5dc57d65a79dd94384b4025d1df2b9cffab089098e265ac",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-DropUser.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "1b8deff5fe61efdbd232bbbd2ed5fc10a9f94f2a7a8ceb454f01ee3004047895",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-GrantPrivilegeV2.md",
+      "status": "translated",
+      "targetHash": "f6dd91fad7dfa770b101621a1e6000675d1235b8083dd19bca3002ecd8e5704c",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-GrantPrivilegeV2.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "620809d2963ff2ecc0aae02e09ab41ddc126fe62390ce011fb1fc9e55cddecbe",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-GrantRole.md",
+      "status": "translated",
+      "targetHash": "bdcb4d480b946fe1a9f6fa220b8aef57c81478373e4cbb259102fc35f8b2166d",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-GrantRole.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "ea10f740f9ec8a8df9c2d1873d7eafe8539f54da7786392a178d7d75c791fbc4",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListPrivilegeGroups.md",
+      "status": "translated",
+      "targetHash": "641b4509952426159e1871bfa781a6cc85b907b5b052754f9f164ab62ad047cb",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-ListPrivilegeGroups.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "e9cdbd1a8f721e21dcf86562dd8ccd5ed700b59352bc2011f89a8b28fa380f12",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListRoles.md",
+      "status": "translated",
+      "targetHash": "9c2bed85ea23c9853e0b14a31d5d81cfa0a5c5014571d89924135d7260c63ac2",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-ListRoles.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "647a6e6eb09a4e5e452da61c2f9a78b2fdff4f0976a9382d17062db13e680e9e",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-ListUsers.md",
+      "status": "translated",
+      "targetHash": "750a27f6d9ebdd229e536eeb55391370415fea86cf5f90abf6f2c18e59d4ffd5",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-ListUsers.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "8f932947bd1d1f6d2de3706418ef7e31055344e184b8e111ff982c456680346a",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-PrivilegeGroupInfo.md",
+      "status": "translated",
+      "targetHash": "dfd738ff236a360ac2d78e4c0e6f6b2fe92e5638bfa7aa6ef1e5f38baf9eb07c",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-PrivilegeGroupInfo.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "804c768e2b8745a8327d920d7ab067f954206b791e1a3a3a30d06fe6f2074d53",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RemovePrivilegesFromGroup.md",
+      "status": "translated",
+      "targetHash": "6b0c883e622bd9a1db642c425c1dbb0ff2c0b92212d0971322a2bedac288cd50",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-RemovePrivilegesFromGroup.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "c3026bfcdebd83be187289cd758805b54fc84fad30b3eb3ae34da9d75e4c05aa",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokePrivilegeV2.md",
+      "status": "translated",
+      "targetHash": "0fd93eb4383ffc3f9764653b9a6d00fc10d368d66ae83f46e3f905dd9bde34bd",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-RevokePrivilegeV2.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "ee193be2080e45cb4ddadf340bb4f51ba9346dad5ff0a0fbfa4d4d30e8182095",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RevokeRole.md",
+      "status": "translated",
+      "targetHash": "46f978789acbe75e47b1df18b843b7964f8e088bf97e4d5674999b6d910165c0",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-RevokeRole.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "45c9bad2c92c5b029bd491027462fffb4821283ac4700e60778f4939bee172ad",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-RoleDesc.md",
+      "status": "translated",
+      "targetHash": "36aec0d3f616bee2aabdbbeb8e9bcbde44a66ada518e1bbed137ca45ed8825a0",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-RoleDesc.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "e69631da378eb3b3fea72c9728554128aea94364bc65d0035840e10a0e05066e",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdatePassword.md",
+      "status": "translated",
+      "targetHash": "6ea4a0d6ce85456070184839748243ca38467b2bb09738bd513d0faf0e553e73",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-UpdatePassword.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "f8b650d374a0752baec7d4f89c475f4f46910609fbf660df6fd8d1aad7f21bf1",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdateUser.md",
+      "status": "translated",
+      "targetHash": "1977866b317d32d7a22aa178f3e260c830f5ba48c129766b501820adb5fc078e",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-UpdateUser.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "10061b7d838016c006ef6abdf61281a1bda509863d6fef1aaf97b23dbc731f33",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Authentication/Authentication-UserDesc.md",
+      "status": "translated",
+      "targetHash": "dd977bc10da92d1c45781f80418e0e5263818e9285e98eac7a2b2fb4dff07c10",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-UserDesc.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "46349220d61e732f5194ba03d8ac1c05e4b8447a7f10ab7bce719599abe31d23",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-CheckHealth.md",
+      "status": "translated",
+      "targetHash": "7ac54268c5dc844dcc632eb7b70edf535c556e60df37adf18d98e88985a42c9e",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-CheckHealth.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "3501830ea0da0f7963dc4faac2afb417ac8c1bbf5ced691dc9afa1d9277fffe1",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-Connect.md",
+      "status": "translated",
+      "targetHash": "6febac542496fc8c7e22f6627c513f84d3c7240858025d01db5d6ed38f95bcf8",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-Connect.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "95a6f21755d8cf642a8eab65ca35fb5474f493de85a3f0b64bb4b795f3b4fd18",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-ConnectParam.md",
+      "status": "translated",
+      "targetHash": "983f65d67fb58e04799e171d0c4258916f75c1de23160a2959dabf8f52147407",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-ConnectParam.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "4b1262851db415b2dbdf3ed607a04f4f49ec644eb03084e61001f019d0216c64",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-Create.md",
+      "status": "translated",
+      "targetHash": "27424e54476d7ae824acec9acc183b685ff4f0a7716292ddceecb92696b59148",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-Create.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "d33ace9b26e846f967b14e9925d999300a94420fc69b89b7d0e48dfc45a7f68c",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-CurrentUsedDatabase.md",
+      "status": "translated",
+      "targetHash": "120220ae7a3c8819efd025e62585cbe7c03a380d1dd7e6f94a265dae431e88e4",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-CurrentUsedDatabase.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "00f315fee434998e286ded67829d39f644d5ca6808c271021838a3cc91098e77",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-Disconnect.md",
+      "status": "translated",
+      "targetHash": "ad47f667e78895477461ab088a2302945969a92e297b241f8567a618db85279a",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-Disconnect.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "65b9d8215cefb08a0694c1acf89461c62689471b3e1d9ec0a4ee40ac361a2887",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-GetSDKVersion.md",
+      "status": "translated",
+      "targetHash": "3498c314f2b66a6dc8424ac73eb4036f995d93e2a99b36ccbb4f0a2562dea9cd",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-GetSDKVersion.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "64cf857c908e60845e12a596d109c1c1bebd141cd4702f7d14c6063cbcdc7428",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-GetServerVersion.md",
+      "status": "translated",
+      "targetHash": "f5930c2c1291ab75b4ac42f3b85ef53340345ea65c671713c0e3603ddd0f4a3a",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-GetServerVersion.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "a6b74b1327afa137753f8acb993a5bb93959d0c138469d64f4b5e4ec4cde6bcd",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-RetryParam.md",
+      "status": "translated",
+      "targetHash": "bd75fcb1998a14f3ae49eafe7b95ad5ea68614ea969d78486328c49db84f9621",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-RetryParam.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "fea928f1c86f47f7b96df5b43f8583df257566055595fdb04e0eea59abbeec06",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-Session.md",
+      "status": "translated",
+      "targetHash": "54b9be4403109c2282a882e8987fdb068069ba5486acc41e93a0865b6c008abc",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-Session.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "b534ded88007add5ae564ce05a6c0509d177384567cced3e61ea94e1d60b9700",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-SetRetryParam.md",
+      "status": "translated",
+      "targetHash": "95bde4593af99240a4ff7912133363d0f1d76b9963f4aba89bb45db386f70dd0",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-SetRetryParam.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "b3623db0992a25964647f81cd38b3981bbfe1ee7998cf5b2cfec053b65f7d3b3",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-SetRpcDeadlineMs.md",
+      "status": "translated",
+      "targetHash": "2cfac0b205d904d041693601d1c1b16f83c52e2d158fc6dc7a211f263959de21",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-SetRpcDeadlineMs.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "dfb26d6c0132358769619ed7061938e3d90cbd5d83722b09e4adade0b1b62b53",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Client/Client-UseDatabase.md",
+      "status": "translated",
+      "targetHash": "8ca60cba935cbea844e86735ba7d0eb0a954790ab3d547c0ab2ffc98d63e3ce0",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Client/Client-UseDatabase.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "67a3c794270f8f1a521fb792409eee10fed0e9d93dee8697d9a0acce7268c95b",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionField.md",
+      "status": "translated",
+      "targetHash": "fa43c0c435ad95b4be9abb0b8bbc29c29452a2836da5e458198f4e8ca8ecc1f7",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AddCollectionField.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "a5d158bfa443674b8d40ae3eb3eb4bacbf091a826d9517657051eea388d1c6af",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionFunction.md",
+      "status": "translated",
+      "targetHash": "933825409bef543f2d3efbc11260ef8c714f11a8fc37c73ebabb737f94e7846a",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AddCollectionFunction.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "5e1cde42333c683728c5e55cd9467de6556dce664d567759fffa61b2baa0e54e",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddCollectionStructField.md",
+      "status": "translated",
+      "targetHash": "dc90e94b6f83b7763abc0f2de35cdb50498852df101e4a4ab9ea4cfe5232df02",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AddCollectionStructField.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "86947857d6e03501a5ef6c1dbe76e3b3c899ed292409e3e09b375595f0d00598",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AddFunctionField.md",
+      "status": "translated",
+      "targetHash": "8eefdda8f9c2cafc1bc782a298890b91e5383a4fee8ee81b09ae80f17ea75642",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AddFunctionField.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "3b7d0f7ef2b312fb85693d5353bd2f4ec12c260f233c40c80662706e6fdbe12f",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AliasDesc.md",
+      "status": "translated",
+      "targetHash": "af0ee856148313cdf15b1d00fab970949516138f1ec674cf633221a9456430af",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AliasDesc.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "9e59e00bb59c3cf50491d5fd638c3ecaa6fb608f24541864ca634e257d45d462",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterAlias.md",
+      "status": "translated",
+      "targetHash": "4d3baac64600154cfcfda8104b6fa46b59807ef34add8fc9349614fc16e49114",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AlterAlias.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "f6e0fe8f9d276b0a6ca9418238321d6a44bf2f91f2ebb575036d1a0fe72a9f12",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFieldProperties.md",
+      "status": "translated",
+      "targetHash": "9ef8408da72071d4342f72850088fdc7879e16beab9856b0722ffb539d23b5e1",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFieldProperties.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "89bd63a4b6552996327f5c95ecd48ac48521c5c7513d9bcc0c105c2ac42edf92",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFunction.md",
+      "status": "translated",
+      "targetHash": "f5805edee92a9e1fcfd90fbba434baf5656383dcfc51f2ceab9edb7bef04747b",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AlterCollectionFunction.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "a69e1fd33f084b0d19ed2ab4350e2a3085574c1fab0cf738a4adf72704d32f8d",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-AlterCollectionProperties.md",
+      "status": "translated",
+      "targetHash": "63fe8c93a9d6934fe50440b9fe498eeae0930771dde8705db100e75ea74fad30",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-AlterCollectionProperties.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "42abe8eb246fe69cd8a5f0179dc5d4507a03bb67196324065464c7b2c1ac1acf",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-BatchDescribeCollections.md",
+      "status": "translated",
+      "targetHash": "f7f5d0a46e9580f7604374d36e1952f7ad22780ad5a4f4a37bc2b56314af10bc",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-BatchDescribeCollections.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "f84982e4882dab0586296e78650afb07edb806a82ac93e7906dcf0012b380e85",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionDesc.md",
+      "status": "translated",
+      "targetHash": "8514ac4f649d002d3d0afc8bb0bb55e11038e0b6dbb253950d72f16c4218e310",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-CollectionDesc.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "00539380585b10b14218b6aff2be6cdac09b41c1a9e22a26dd699bd044e31877",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionInfo.md",
+      "status": "translated",
+      "targetHash": "fd4fbd25ee8d09a810769f688845e02519368c9479ffd0e959c99e0857be98a3",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-CollectionInfo.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "68386a272c56a630939d0c553fd731584227111ad8f460e3f5e27ab9b338c34a",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionSchema.md",
+      "status": "translated",
+      "targetHash": "2d12950e5ccbea43c885d7b73afae7222faf22168acb46bf97bace4d0fea2888",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-CollectionSchema.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "a4d6448b10f4dfe09d88b76c1ef28236d0d8388c28aaa491e2dd55faf7a3f3e0",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-ConsistencyLevel.md",
+      "status": "translated",
+      "targetHash": "6da1d58aa5b4b845a41acf0aa56f8711bc5974c1724f27274b0c90dcf3423117",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-ConsistencyLevel.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "6f9784bca653b1e18a0077c6f35b4207d7d83a8ee4be4393c9e6f59262b9850f",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateAlias.md",
+      "status": "translated",
+      "targetHash": "8aec3ff0d1c62ed45d8b338445c837e184cbb17a6427d7dc009e58b6342698c4",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-CreateAlias.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "635296c2f53cdbc36817a987fce4fab91a5d0f556bbd1abbbbecd1708553cf36",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateCollection.md",
+      "status": "translated",
+      "targetHash": "e7dbb1570ce604a5ec3b49b191ae07815fdbffd553679d79a6604ddedf47dece",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-CreateCollection.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "bf17344c5af1e14056c284e0f2f8daa39e4a4c96f24e7f2d10caa54f72f4644c",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-CreateSimpleCollection.md",
+      "status": "translated",
+      "targetHash": "9e7a97800261d197c634ebd0d5e5502963ee961b0b89b2ca5f461b19464c754a",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-CreateSimpleCollection.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "8f5357a601d66e4e31e4718377ef77db3cab738d69eb3db8ab88102c845f93cd",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DataType.md",
+      "status": "translated",
+      "targetHash": "89d59fc41f89054bd673e4e6f749a332f7f1604fbe89f11f819e9ce4da48b6c3",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DataType.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "72a64f7f287321f108327763f7cc0b5c62016f3d7754e928aa0e2a948a6252ff",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DescribeAlias.md",
+      "status": "translated",
+      "targetHash": "5ff8dc023eaa382589da2decbbd7231f1b4c6a96b0b407c46a87e92140ec4fe5",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DescribeAlias.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "cd6867843c9d310da55b6396e6c9451fc9728688afd7eda597060b6b18b16a14",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DescribeCollection.md",
+      "status": "translated",
+      "targetHash": "9d19d0a7abbfba698706404d5b8750395f601d756c75312ba56af52dc5e02754",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DescribeCollection.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "b2fe3254139e20407239a471bda186df65d8a49a133c345c5c44066fe279c0f3",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropAlias.md",
+      "status": "translated",
+      "targetHash": "9e5d3e48e477fb812e0660c63778e73f5ff543d6c5181616836287da1af1e56f",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropAlias.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "f2032f86446977a5b20519f04ae045ef78f331795b8e8ea6ca40933a7a6eb05f",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollection.md",
+      "status": "translated",
+      "targetHash": "da5062cd893dd7de682756bc2dbc9064cdf481ef679a8be40b95009a1a8c414e",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropCollection.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "9a1f383849a5ee78772b94c9ab931fd7d134466f59b5d8b8ed44e8ecc8681d99",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionField.md",
+      "status": "translated",
+      "targetHash": "1eeb57abad166f78ec87b28a2c14c9df160772ab5ffd4a67fc0ac0fd78a21c68",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropCollectionField.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "51e0be63a90716f93113db9650fba105c2bec4372d661c676dc18ff826f93f79",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionFieldProperties.md",
+      "status": "translated",
+      "targetHash": "8b8356d09a57a198d2bb9297509d439a2dbbdefc784a6ce469e01733a3e24b74",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropCollectionFieldProperties.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "6d92de5d2748c36f51d5d60f50de5cec84ff7605b6ace8040028b42fddecf878",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionFunction.md",
+      "status": "translated",
+      "targetHash": "9e05c87323a031342a964a677b016805014d0966f827d7a3f69ccfe4fa79dcf7",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropCollectionFunction.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "76166c3c393dd3754efcc72a2a69e07077938c254c5a08330910b0a6861888e2",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropCollectionProperties.md",
+      "status": "translated",
+      "targetHash": "d7d88a71b3288c2da96bdf1d77e15444d18898503a7204e7b03032afbc2bf53d",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropCollectionProperties.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "87d84f64ff55891bbc226f9142d6432db0ef4826a9177d87765e0cb3ca3f8a1f",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-DropFunctionField.md",
+      "status": "translated",
+      "targetHash": "f816379d73b77fddae86585a73b539b06cf5da34d0fd8a97b986693dd6824c79",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-DropFunctionField.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "24f50cbd4c2b810a12788098d749638e5cfe0016c53d999715f1af81f76ca0e8",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-FieldSchema.md",
+      "status": "translated",
+      "targetHash": "bc2136613d683b91c95979602ec89d10cc53d2e65c0e2a30b860e354741f9da0",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-FieldSchema.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "9dafcae74695f6ff8cd47894eefbd270bb9e1f16a0753fae242b63a94249444e",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-Function.md",
+      "status": "translated",
+      "targetHash": "1fa32ba91b60b31e1fed263d19b7852ffad1ea8863e05f3054672ba8048b8713",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-Function.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "9dbeac76b566fbdfd4bb8aac3e2b2e12cfa9196057eeab31bdbcc3561761de1c",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-FunctionType.md",
+      "status": "translated",
+      "targetHash": "818ee74e8fd0375065570ede5b353995d7b864a690fab2ed7a2d347f2d8c1c19",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-FunctionType.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "5112eaa2536435af2d3e6f821a3bc3154102a614637f24933f00752a13a0494b",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-GetCollectionStats.md",
+      "status": "translated",
+      "targetHash": "4b413bd15d05cce3afa2ed227f3a55df26aa43a84cc00655222d0c0a44a5330b",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-GetCollectionStats.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "043f0bd4e0a4f609165f05c2e0bcf8671323a3eb40412c556f5bb9f894981569",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-HasCollection.md",
+      "status": "translated",
+      "targetHash": "cba35a0899f30ea68d72ad621c5b50fc6fe6265687f6f8247db6ae2c60430a7c",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-HasCollection.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "3308095bbcd7e7aea74a0621f5f22901545b209338138df4f1609ab797b15b5b",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-ListAliases.md",
+      "status": "translated",
+      "targetHash": "b7a20765a89165b17e117e3698740b6800e70d1d5cb65ed0425c947ec14cab89",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-ListAliases.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "98fe2ba435019c53a335569d9b198559a6f5e6e0c6d0bb558628de44cefe09b2",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-ListCollections.md",
+      "status": "translated",
+      "targetHash": "80fe9f1c1b966f46a11f5f1c7f7127e145e4b4deb020cf15ee7a0fc18e31337f",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-ListCollections.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "f92e28e5feef06ca939eb9128e2babd45adcc76aedb68b64d7a8db341b1c9171",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-LoadState.md",
+      "status": "translated",
+      "targetHash": "32c8ee50e0f21bde8e8ce0bea71cd92d711ff17bad1938633cf95b29830ebe63",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-LoadState.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "e7b595c6042eaf253739650902cf399a407d2a99e55a38df78d6ac44ff585e94",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-RenameCollection.md",
+      "status": "translated",
+      "targetHash": "4a3f2df8f156a8fb13e4cd0e7479153599b58ac0b8313cacb35ebeeb012a775c",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-RenameCollection.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "a00a23250bd4a25f0e2b1fc6b9b2473d13869a9963b75e8eef89053e50efbbe6",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Collections/Collections-StructFieldSchema.md",
+      "status": "translated",
+      "targetHash": "a1704854e1326fa718fb0a442784caf7a7a5918d024d29e091a682002588146e",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Collections/Collections-StructFieldSchema.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "f5941c0da99d1359b356b2b18e714877500b76e8962155ee032eab37c7656671",
+      "sourcePath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-AbortImport.md",
+      "status": "translated",
+      "targetHash": "7e2b4d59b7e898d686dbf09221522017632faab40911cffe83dd694074890c90",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-AbortImport.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "98359fbb174bda4a5c637259a67cde446c3a21b0217f4cc9e2f1867e8086ce78",
+      "sourcePath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-CommitImport.md",
+      "status": "translated",
+      "targetHash": "8b5eb105dc4dcebcb6ce2551b821479340b743643828bf6f9c015cfd284153cb",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-CommitImport.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "00b91241174965d6fe358ce13b991c96fb36ef1af3c610a3327667d4a19cc2da",
+      "sourcePath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-GetImportJobProgress.md",
+      "status": "translated",
+      "targetHash": "fe38256e6189e7f3bfa048cbd9426cbc45f687cceba50af9c4d0b8711b14ce75",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-GetImportJobProgress.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "3cb606e36606d8c8186f172bd9c3b5b66540b53a7462035d2a8435b27f140323",
+      "sourcePath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-ListImportJobs.md",
+      "status": "translated",
+      "targetHash": "c1ee7e1a9932e4de1cf7c095d8c734d09cc995a01bd200cc377063c969873e98",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-ListImportJobs.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "027c8862ea184376bd244a8c8758bfb7c3fa8720bc1565c3ef4439476d09c790",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Database/Database-AlterDatabaseProperties.md",
+      "status": "translated",
+      "targetHash": "700ebfb8e8a00eda580e91661e78c5587e7e9e6edaff30f4496d04365b025046",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Database/Database-AlterDatabaseProperties.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "1a8329c49c0e98018dfe19e1fa8bb66b90404b8bdf5ccd5d58188d13b24274b1",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Database/Database-CreateDatabase.md",
+      "status": "translated",
+      "targetHash": "495a45ae6aacad82b74b77ad57824253afb33859fec676215a4a2813a8e0cbc1",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Database/Database-CreateDatabase.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "223bd6daa1002feb5f74620384062245372434ee347ece106a2959599e311e41",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Database/Database-DescribeDatabase.md",
+      "status": "translated",
+      "targetHash": "7076016aff3cd86152d12f38226b687f80a431ad9a07c0a3ea64057b9ec1c353",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Database/Database-DescribeDatabase.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "2205ee65c2a73236dbf258d725ceddc5bfad6233a0afa431768b7f63eed1f2a7",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Database/Database-DropDatabase.md",
+      "status": "translated",
+      "targetHash": "3036d1515477f4a9ca49d393b0f96ab9702ff43856ddcbf220c7ff9271e493f3",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Database/Database-DropDatabase.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "13d51487bfab52adc06cf2b20665a38375d1388e9584ea8b4f9afb60fa37c20d",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Database/Database-DropDatabaseProperties.md",
+      "status": "translated",
+      "targetHash": "884b926c8147ae5306f98767c1e1dfbec36d00fcf09b4b051a007dd749562705",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Database/Database-DropDatabaseProperties.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "b3bd00302bfdd81da80cbe26a97516cc24c78c41e70cea156c347e69686612da",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Database/Database-ListDatabases.md",
+      "status": "translated",
+      "targetHash": "7c32ea1568edbd0ea9535673b0fda5b5ac9d66c1cb387b82e9dbde8d0d090dfa",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Database/Database-ListDatabases.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "1e12a808310224ec5d31a72589a6012e827c617f13bd85f060de7fa2892801a2",
+      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/FileResources-AddFileResource.md",
+      "status": "translated",
+      "targetHash": "98558c4110e72317b7dd264601b5ec68df1f2d01eaffe4d221c1bd83618bc9b2",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/FileResources-AddFileResource.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "2a53123440dd1fef79be3dae6b5ccb824ee388c3ab50d6b68e8b72e57a3141ed",
+      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/FileResources-ListFileResources.md",
+      "status": "translated",
+      "targetHash": "e4a8f9edb627dcc4b9c349d9e6c225707f73b0ea378a46112457e8ee9ccf94c0",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/FileResources-ListFileResources.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "637889f4124e922828a3c4ac467aac0f7df7630913a474e3c10563178678d08c",
+      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/FileResources-RemoveFileResource.md",
+      "status": "translated",
+      "targetHash": "c3eea719788f5b40f06874472bf002feda3a07f5add113a383ef4120b3aaecb2",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/FileResources-RemoveFileResource.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "249e0ec32bd0551042641be57f71cb91741b5770a63f7a0091bb098ab1f1319b",
+      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress.md",
+      "status": "translated",
+      "targetHash": "6995564e7086285a2e92446f5f52de33e6b45be7cb0a1e38e95cbe0b0cd8d896",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/Management-GetRefreshExternalCollectionProgress.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "c28777d5b4ae9e0c36b4cccf1085b4efc3ac2b47352db5d58f9373d6603e51e1",
+      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/Management-ListRefreshExternalCollectionJobs.md",
+      "status": "translated",
+      "targetHash": "bef0d971e807318f0516a2d09446bc74dfd65a25ce27d732dc711fd051fd7ab5",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/Management-ListRefreshExternalCollectionJobs.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "00218fbbc7447a7cfa8b5cb88ac965c3b1a2eaf8223a44729b4f868d5c44baea",
+      "sourcePath": "content/en/reference/api/cpp/cpp/FileResources/Management-RefreshExternalCollection.md",
+      "status": "translated",
+      "targetHash": "737b40b590e9fcdf86002ee94bf8304706a5f4b12b7d2f6daa07fce7eaf1a857",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/FileResources/Management-RefreshExternalCollection.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "3a92429936d149fb28c0313ee1659436e8770f57bde825fb817f3096786a5577",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-AlterIndexProperties.md",
+      "status": "translated",
+      "targetHash": "ef69749efb4acbd9cbdc83cb781cea7bf29ca1c6c9075275ef606342583a2727",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-AlterIndexProperties.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "f44216a0bb4253957fa0bf51c34f0fa3b75afe21ea44f8a3d0bd160590fea9c3",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-Compact.md",
+      "status": "translated",
+      "targetHash": "17d822ed0dc975dc5f82f5ce8a72b98dd911f5273eb8cbd007c8067cb5aa55ef",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-Compact.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "4685ee3a96b2e42479bf8fa62e666b04ca8e26aa196037e3b6f4339192e2241c",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-CreateIndex.md",
+      "status": "translated",
+      "targetHash": "953e53cd75f3800a1da3a79920299c102345c6a2957fe9bf0a7d2818fe06b8b6",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-CreateIndex.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "d8bf15de2260631a123eccb4a2c185bd270d3c7bdfa98c6d61cb6f9cdab80331",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-DescribeIndex.md",
+      "status": "translated",
+      "targetHash": "c99b70eaad3dc471239625b9eb55d474127cf2effdd03b321e4cb3f4e4db7962",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-DescribeIndex.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "ebc5333d91c85070d87a9f2373c4fbafdf29324b9978b3611faab638bdcca1d9",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-DropIndex.md",
+      "status": "translated",
+      "targetHash": "84c4df08e7af8cfd7dca2825a1418874177cf6d878868bce855ea21ce5e4b6fa",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-DropIndex.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "bb9f861122311b0362f7139766e79b1425db13635d0287aa61ab331bcd6b8450",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-DropIndexProperties.md",
+      "status": "translated",
+      "targetHash": "2c9559e533b62820788515658012c2db269d0d5e8fbef032b90e4f7f81394342",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-DropIndexProperties.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "16d1b4ea9fc5fcf84e638823655e21bd90781fe428a1f7c41ba667f9c5beb201",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-Flush.md",
+      "status": "translated",
+      "targetHash": "044177d06558cce12600856435cae66a1a51d22347cb9a310813f2aa49bd949c",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-Flush.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "217262fb506596659e5cbb11b15176c73aa2261082d3cdbc94afbe04f1607524",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-FlushAll.md",
+      "status": "translated",
+      "targetHash": "cf3d3144de89360fa4a48fb9029f15ac0d35e5bfadc6ec074e48e5588a2c565d",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-FlushAll.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "a8682b78330d4f5b4c99d635cb12c7d1414031b0d0602e036087f08c9f92efbf",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionPlans.md",
+      "status": "translated",
+      "targetHash": "cd82e3b1810c368f7102025998ca860407a38b67c3b6258259ac70f14cc060d2",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-GetCompactionPlans.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "71260855a20626944e41eb32f2a44597693f08f5a46c165f544a9a87b66908cd",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetCompactionState.md",
+      "status": "translated",
+      "targetHash": "2c46adb79c37f5b849edf6d06c6a4b0df8319256a35249832851dad6ea961020",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-GetCompactionState.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "f87f80386c315e04437debdc3b90c1ffb6a8540d54dc5e593b8a5506cf02531e",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetFlushAllState.md",
+      "status": "translated",
+      "targetHash": "e3f3a90bf6085e4e8c2fd7c9d7c6e7bca4a915c4028d472efed21943943745c4",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-GetFlushAllState.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "732af9752010cbd6e6c64fa9caeb641116a8f723f8f35a5e03e6cf7c8c7a7fff",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-GetLoadState.md",
+      "status": "translated",
+      "targetHash": "894b903ccf1c69a92586c182b15da5313e958a7f71d5462a5689b855b7bf24ae",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-GetLoadState.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "74c933a7279cc248ecde416659319ab40c74fe7f150877cff7d3676339e820d3",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-IndexDesc.md",
+      "status": "translated",
+      "targetHash": "30df15245f424ee5d73546530dcf1b7deacabc9030f7c0cc1e8eb72c7872a805",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-IndexDesc.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "0615adb8291543d7ed239064870a6455ce3b804ca961ee1b44fd1d26fe21df62",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-IndexType.md",
+      "status": "translated",
+      "targetHash": "37dab1a597aeac8625cbf9bc7b7e18ff2c6a70aeaa0b2fd5fe6d7d646df1b890",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-IndexType.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "a58b5ec644f313708804b63dcf1b0fc919c3994004e57d031035fc9016cfb58e",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ListIndexes.md",
+      "status": "translated",
+      "targetHash": "098e0b0f92a36cded9123b6d48b5effb2324b03403ca69c9d0832d86578345ce",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-ListIndexes.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "2e0270e8aed0a651c9397ff2380ef7a0132f5876913246311dbf036ae296559c",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ListPersistentSegments.md",
+      "status": "translated",
+      "targetHash": "888f19c1875b4d7b9a7dc4872fd29d67fa7cc7d2c4811965682462f5b727a5f7",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-ListPersistentSegments.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "1b4ae2b5783caba81dbeafd1670b4d324b076f6aa3d737d9f08f4869c5d518e0",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ListQuerySegments.md",
+      "status": "translated",
+      "targetHash": "144ca499bce27eaf3653d911a7856d93bdaa8c78a97cf0b0fa16379d26bd64a8",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-ListQuerySegments.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "49796426e983f29af93a37baef8d9e8fa3c2d2d7cf4ac1f0fe8e2d4adbd047ef",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-LoadCollection.md",
+      "status": "translated",
+      "targetHash": "2bb355c7eab0f660118e6eddb3c95559f2ce295d3f9ba94053096d89457a1b67",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-LoadCollection.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "2b6b95a6ce19e797887416d2fe5f12e5fbd07122b36f441cb47a2f302a9bfb44",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-MetricType.md",
+      "status": "translated",
+      "targetHash": "89b9bb9e78b0fdc0c51b24aeb0e10d8ab6b8bfc0d562db4a1abad1d6785addf3",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-MetricType.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "a973bf704d93ed9dc34e9b4f22d33b374a1e14bb235361b903963bfadfb6a0ca",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-Optimize.md",
+      "status": "translated",
+      "targetHash": "c3e37e8dc265882315665ec96306ad4d031dc19c166495acf1cb0d8d67d83ea3",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-Optimize.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "ffe30d643654300a0a64eb77b99d31795865ee1e9db5902295196c4b89d4066a",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-RefreshLoad.md",
+      "status": "translated",
+      "targetHash": "d4247c5196e1398b756ed482affa2e433fb5e20034ea96b08f27b48d3aebf116",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-RefreshLoad.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "fd1ee8004215e4d51412250762ee8b72f5a49339fcfed3ee98762a5ac569d2e5",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Management/Management-ReleaseCollection.md",
+      "status": "translated",
+      "targetHash": "63dea72ce9d501190ddfa55fe84baaec78a8786a80baa4f41e61019e29ad9973",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Management/Management-ReleaseCollection.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "a3c7e31a012deb5e8c2e30be8d3a89d8a2032a7d9eb6185ad55c33c7742b524c",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-CreatePartition.md",
+      "status": "translated",
+      "targetHash": "bae2f09587e2601f4fb0f537112f53de6457d6a97906a51d2b628749f5542289",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-CreatePartition.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "526c6129c14c5a0d1732602e931a2c596ee0a5b59f3f1ff0f6ec06b2b2171856",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-DropPartition.md",
+      "status": "translated",
+      "targetHash": "8bfa1ee54db6e1b66cfdf93260b4b5fa71e9b93449a355b7043dd81a87301102",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-DropPartition.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "b6f3ec49fec7c26ebb0f763cbe74738af55cab94ee7fad092ef980dce989a8ff",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-GetPartitionStatistics.md",
+      "status": "translated",
+      "targetHash": "e07d56f31ec9416ed60114c9fb6c9fba302a452cf408b6f771cac931d4179604",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-GetPartitionStatistics.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "9a531e7bf9c0011d67426bc5838714694a582ffd33811bb7249181d26fede9ac",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-HasPartition.md",
+      "status": "translated",
+      "targetHash": "ce78e21ea561ffb8efbed558e8e0b48c6a28c0c9fdd53717a47cdd03013768e3",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-HasPartition.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "74f1e5f2fbabb47289308f35eb50c45c2defd68656ed2e9cac67c9566d7a6624",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-ListPartitions.md",
+      "status": "translated",
+      "targetHash": "b378ac61ad25bd502b130e27f51fa66f3e5e348d25c48cc00c4c5ad8283d4c3a",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-ListPartitions.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "5d2cee5fa23afefbe1aeec19498f04fb22ce5284df520304ea56fd320365aa6b",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-LoadPartitions.md",
+      "status": "translated",
+      "targetHash": "fca60cc8036cef5e2b87bf72031b77831aff2798ed3786ff0cb777622c23778a",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-LoadPartitions.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "778865735dce47680be865d22c3ab2a8c7fa9e08931fe0fd036e1cc949829b03",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Partitions/Partitions-ReleasePartitions.md",
+      "status": "translated",
+      "targetHash": "33801b38e341ef050604d427710795ae585751c1f461ee0ed6f33eeac162fa38",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Partitions/Partitions-ReleasePartitions.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "081c2c0402e67b757ef3ea71d0b0d8ce4a454d0e565e742708e585c8962e9fb8",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-CreateSnapshot.md",
+      "status": "translated",
+      "targetHash": "2421deac8d20b08c69fdbb51734ba775c70e5c708413b9dfe314f8607b347ae8",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-CreateSnapshot.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "5f2414e10031c941d2d38b938a10d75128d65cf7fc0ee7a1357dd332c9a9f435",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-DescribeSnapshot.md",
+      "status": "translated",
+      "targetHash": "041059fe1cd5d213dac7cbc26c6dc5d02535c8912adb9663695bb4351286f728",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-DescribeSnapshot.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "e1cc87380c96c51d5961735051582384eb7b6779035e3ba805fd699e98e3b27f",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-DropSnapshot.md",
+      "status": "translated",
+      "targetHash": "931558760acefeee87112a36379b1815c36d0de9dc041574056e580e7c8cf259",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-DropSnapshot.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "6447e132a6ffd0707b2fbde52b2004484a63e8dbf6b3bf5ae6fad55d885fe13d",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-GetRestoreSnapshotState.md",
+      "status": "translated",
+      "targetHash": "9dcb8682a3c7151a7b09ae7e92024c1f0f87153184e7da24abf5f08c015528da",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-GetRestoreSnapshotState.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "3d190eb6253d15efa54b262e002344096f5249a1a9eff763a342b135eaf51f5f",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-ListRestoreSnapshotJobs.md",
+      "status": "translated",
+      "targetHash": "8ca21129bf4ed2ac2520b27bb0d448b6c69b972808687f7cb7936ebf5af61416",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-ListRestoreSnapshotJobs.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "e0355562078d1da06191c845df7a7b99578201a2056f9587b1771401b202002a",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-ListSnapshots.md",
+      "status": "translated",
+      "targetHash": "8e6637d23487b08bc3aac8956db4fa68708990b7e9eac9175fa1cc04837c5f52",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-ListSnapshots.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "4b8a927396d76be35dddcee9170ac2c1e804c33ccfa28f34e9680216a69d4b25",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-PinSnapshotData.md",
+      "status": "translated",
+      "targetHash": "acbc59555de3071a19f232d00b394bc5c9d57d879c21c8f44d733896fca5aa86",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-PinSnapshotData.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "8c6bf5ccd7dbeee31d65eb288a49ab4889d93c5737d2f1f26506195a3ed26c9d",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-RestoreSnapshot.md",
+      "status": "translated",
+      "targetHash": "a7cf1f2e4e1881b55b9c4686842f830ea4ad8a4cd1274ebd7b407ed2702e8146",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-RestoreSnapshot.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "1abc2d08066bf401aa7faa7006bf9730699027f085a6d3e56fd75d62ddc7e85f",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Snapshots/Snapshots-UnpinSnapshotData.md",
+      "status": "translated",
+      "targetHash": "96049583d9e47c97d779b361bf235ebfdddb392e141122cf164d08f749edda27",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Snapshots/Snapshots-UnpinSnapshotData.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "9c4735a7ea8699e1abc2db6862d58a111bcf8888eb6495f9882832c3cbdc0809",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-Delete.md",
+      "status": "translated",
+      "targetHash": "ac67e98b9d9889b07f82e1ca29bb220c6e75ca79d069952faa21058e0609973a",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-Delete.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "2408bc8aa69f82fa9b0b0a4fde5dd1d946d8925cc1add232954ecafa94a6d2e0",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-Get.md",
+      "status": "translated",
+      "targetHash": "7be759b6f312af19d5ccc2149b1723cd1988b1e2f94e16a76668388e88b0a46d",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-Get.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "a01e1968c3b0feca8a2f77384cc2fdc17646bbd5d3d839e84ae96c0e17162330",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-HybridSearch.md",
+      "status": "translated",
+      "targetHash": "ab6a2e1402643997ffa8481b553b3a3cdb4da4007997c5b29c5ff239fb40a9f8",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-HybridSearch.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "56bff7f70ce0b4eefd37a5d49a14767b64a04c36e1177914de96860fd3247539",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-Insert.md",
+      "status": "translated",
+      "targetHash": "f807b7e35ee59fe514942d97fdf4d2076c323618f0e8523d9eaaf90201050be7",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-Insert.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "87519d58997b457070f9affde4cb8e48e8d011d6d2b009bccfbd19a0fd7010ca",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-Query.md",
+      "status": "translated",
+      "targetHash": "8e2d1e391676723f459c1d8b45a327442c899167ec41cf880a0a268c7b131fca",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-Query.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "ed9b169660dc78ee711917396580825ef0a12ab2757e919c19237f14def1d344",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-QueryIterator.md",
+      "status": "translated",
+      "targetHash": "b393bf241dbd83fdd07b65a4453959de55e80eb69c8803453425228cadc80f8d",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-QueryIterator.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "e6f7bfbc94b9e7e9d8fabcb96d385019fc437e1e78e0556b74b752103ea07ac6",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-RunAnalyzer.md",
+      "status": "translated",
+      "targetHash": "16e5ba428cdf3beac39aa466ec328992f10052c4f6c096d69a12fd498b59b485",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-RunAnalyzer.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "1530716c3c56e4c9c59975e0ccb38e1cb92501da095054308815265adf5334ff",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-Upsert.md",
+      "status": "translated",
+      "targetHash": "3258b244844d0a92ee2e078a22d12031f8f0967b0f0d057b79a57dad2e5d489d",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-Upsert.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
+      "sourceHash": "3017484804e0da7bbbcd54d2aadf57336daa28c6be777cd709775a463a7435a5",
+      "sourcePath": "content/en/reference/api/cpp/cpp/cpp.md",
+      "status": "translated",
+      "targetHash": "556da85b7e3a5abcdf9352938a02088d4d870097beb2ec36d094c817c67340ec",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/cpp.md"
     },
     {
       "manual": "go",
