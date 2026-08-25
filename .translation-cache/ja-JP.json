@@ -1820,6 +1820,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-BatchDescribeCollections.md",
       "translatedAt": "2026-08-24T07:06:38.072Z"
     },
+    "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionInfo.md": {
+      "sourceHash": "00539380585b10b14218b6aff2be6cdac09b41c1a9e22a26dd699bd044e31877",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-CollectionInfo.md",
+      "translatedAt": "2026-08-25T04:30:02.829Z"
+    },
     "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionSchema.md": {
       "sourceHash": "68386a272c56a630939d0c553fd731584227111ad8f460e3f5e27ab9b338c34a",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-CollectionSchema.md",
