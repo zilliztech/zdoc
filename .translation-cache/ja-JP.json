@@ -1895,6 +1895,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-DropFunctionField.md",
       "translatedAt": "2026-08-24T07:08:21.256Z"
     },
+    "content/en/reference/api/cpp/cpp/Collections/Collections-FieldSchema.md": {
+      "sourceHash": "24f50cbd4c2b810a12788098d749638e5cfe0016c53d999715f1af81f76ca0e8",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-FieldSchema.md",
+      "translatedAt": "2026-08-25T02:47:27.950Z"
+    },
     "content/en/reference/api/cpp/cpp/Collections/Collections-FunctionType.md": {
       "sourceHash": "9dbeac76b566fbdfd4bb8aac3e2b2e12cfa9196057eeab31bdbcc3561761de1c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-FunctionType.md",
