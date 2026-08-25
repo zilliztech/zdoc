@@ -1768,6 +1768,7 @@
     "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/search-and-query/with-iterators.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/snapshots/manage-snapshots.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/snapshots/snapshots.md",
+    "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/vector-index/autoindex-explained.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/vector-index/minhash-lsh.md",
     "i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/development/vector-index/tune-index-build-level.md",
