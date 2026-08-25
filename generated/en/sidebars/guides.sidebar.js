@@ -1233,6 +1233,53 @@ module.exports = [
       },
       {
         "type": "category",
+        "label": "Spark Batch Jobs",
+        "key": "category:tutorials/development/spark-batch-jobs",
+        "link": {
+          "type": "doc",
+          "id": "tutorials/development/spark-batch-jobs/spark-batch-jobs"
+        },
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/development/spark-batch-jobs/primary-key-dedup",
+            "label": "Primary-Key Deduplication",
+            "key": "doc:tutorials/development/spark-batch-jobs/primary-key-dedup"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/spark-batch-jobs/vector-similarity-dedup",
+            "label": "Vector Similarity Deduplication",
+            "key": "doc:tutorials/development/spark-batch-jobs/vector-similarity-dedup"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/spark-batch-jobs/k-means-clustering",
+            "label": "K-Means Clustering",
+            "key": "doc:tutorials/development/spark-batch-jobs/k-means-clustering"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/spark-batch-jobs/anomaly-detection",
+            "label": "Anomaly Detection",
+            "key": "doc:tutorials/development/spark-batch-jobs/anomaly-detection"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/spark-batch-jobs/data-backfill",
+            "label": "Data Backfill ",
+            "key": "doc:tutorials/development/spark-batch-jobs/data-backfill"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/spark-batch-jobs/manage-spark-batch-jobs",
+            "label": "Manage Spark Batch Jobs",
+            "key": "doc:tutorials/development/spark-batch-jobs/manage-spark-batch-jobs"
+          }
+        ]
+      },
+      {
+        "type": "category",
         "label": "Function",
         "key": "category:tutorials/development/function",
         "items": [
