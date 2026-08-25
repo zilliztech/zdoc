@@ -1174,15 +1174,6 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Backup/CloudManagement-Backup.md",
-      "status": "retired",
-      "targetHash": "a7b863e3d7daa0e9564b42ea53494d09ccb4a75db889dee0f13a46df93381fb6",
-      "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Backup/CloudManagement-Backup.md"
-    },
-    {
-      "manual": "cli",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "90e7393527ad9dda7fd24ad83000a71aa4c17270bb490d1d74ce5372fe815d81",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-bindcard.md",
@@ -1216,24 +1207,6 @@
       "status": "translated",
       "targetHash": "315b3ce0e62fd2d2661b49de7322d4b8ee706d132a165be4b78ed4b9e8a82a90",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Billing/Billing-usage.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Billing/CloudManagement-Billing.md",
-      "status": "retired",
-      "targetHash": "249d6283f8041f8166ee0e7e5cde20c32066089a1fdd6c6cbbcec0c84c158204",
-      "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Billing/CloudManagement-Billing.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Cluster/CloudManagement-Cluster.md",
-      "status": "retired",
-      "targetHash": "094bb6458c764d73c0bc448b962883887767d674b971e7c554c9994b7df0e57b",
-      "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Cluster/CloudManagement-Cluster.md"
     },
     {
       "manual": "cli",
@@ -1327,15 +1300,6 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/CloudManagement-Import.md",
-      "status": "retired",
-      "targetHash": "01f4aaf8e4fc5556e82a53ba6baa9dc2e2d4e4307cf56e549345936ba4497203",
-      "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Import/CloudManagement-Import.md"
-    },
-    {
-      "manual": "cli",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "e71fa99235929e1e5f16c14f3ff0cb60d28e307f896065f940ff71a0ffc99f66",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-list.md",
@@ -1360,15 +1324,6 @@
       "status": "translated",
       "targetHash": "1dfc60332827d10b6a9d336ddb8dff417158bb5c787d0faba2c260e24f590264",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Import/Import-status.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Job/CloudManagement-Job.md",
-      "status": "retired",
-      "targetHash": "44f4920c0f6e6915bea0833f62c9c715b2f51d13bd2ccf527058775050628879",
-      "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Job/CloudManagement-Job.md"
     },
     {
       "manual": "cli",
@@ -1459,15 +1414,6 @@
       "status": "translated",
       "targetHash": "7e812599bf8655a3e107938f375e588f0b5632a59fc5492bfde726483fdc1381",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-PrivateLink/PrivateLink-listservices.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Project/CloudManagement-Project.md",
-      "status": "retired",
-      "targetHash": "6abdc50d9df17d8dcd906b78664a4f6079afa7a6b4e1c505e849bcc2a2f5cd98",
-      "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Project/CloudManagement-Project.md"
     },
     {
       "manual": "cli",
@@ -1570,15 +1516,6 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/CloudManagement-Volume.md",
-      "status": "retired",
-      "targetHash": "fd28da3feb7e0a7c6311fa5367222660121a18ee35435a8a488ccf5658f2fd89",
-      "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Volume/CloudManagement-Volume.md"
-    },
-    {
-      "manual": "cli",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "74624f6a8325b9b1568025770f862bf1db22543e05ce2860105153e6eb64641b",
       "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-apply.md",
@@ -1621,15 +1558,6 @@
       "status": "translated",
       "targetHash": "c9115318c6a7e393994f54a3b9f4634b36abe5cbc68e5883a15cc3c3952d6691",
       "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement-Volume/Volume-list.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/CloudManagement/CloudManagement.md",
-      "status": "retired",
-      "targetHash": "98c61bd9756380e0f01b988405b08951d6b1b6910a3dda32f0ab799d9bc7b8bd",
-      "targetPath": "content/zh-CN/reference/cli/cli/CloudManagement/CloudManagement.md"
     },
     {
       "manual": "cli",
@@ -1687,15 +1615,6 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Alert/Configuration-Alert.md",
-      "status": "retired",
-      "targetHash": "36addb6301bb577d17bcbd2e8750a9b2fa4f40d36f5ecdce70a8171df29ac5a8",
-      "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Alert/Configuration-Alert.md"
-    },
-    {
-      "manual": "cli",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "580ecec56e6e08bbd235fd9b5a10238379f2e642339682d130c3c8997913a153",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Auth-login.md",
@@ -1741,69 +1660,6 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Auth/Configuration-Auth.md",
-      "status": "retired",
-      "targetHash": "b09aee820e45186ee500d752f66bc261d8b14502dfcbac45fc0eb2f53571b389",
-      "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Auth/Configuration-Auth.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Completion-install.md",
-      "status": "retired",
-      "targetHash": "edb81fcf5ad02a9ce685789858489a9438f16d517bb3f231bde92f6fb4458bee",
-      "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Completion/Completion-install.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Completion-show.md",
-      "status": "retired",
-      "targetHash": "db24fd2d17508ddc817fc2517e8f85f06dc65f1077b143b641bbd0c2d6b220ab",
-      "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Completion/Completion-show.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Completion-status.md",
-      "status": "retired",
-      "targetHash": "e6532562a8cd39ecd43ce524df7502aa54d5f5a78f64fe24ab8fa3b9ebd62761",
-      "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Completion/Completion-status.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Completion-uninstall.md",
-      "status": "retired",
-      "targetHash": "b4b2260b540098bb2a9276fa9bb7f3410207775706f1bec899af82548b25f125",
-      "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Completion/Completion-uninstall.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Completion/Configuration-Completion.md",
-      "status": "retired",
-      "targetHash": "ebd61ce4c34c887b628825be486df3508801f530bdcee6a31b770530a36a29da",
-      "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Completion/Configuration-Completion.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configuration-Configure.md",
-      "status": "retired",
-      "targetHash": "f349a538d2839bf11a10947c3f69814b35b8d56824252f12438d1f105d3ed784",
-      "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Configure/Configuration-Configure.md"
-    },
-    {
-      "manual": "cli",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "7f43e47453bcb38418d93493a95fca76caa3cb1c0468b4971ecbfea43450a76a",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Configure/Configure-clear.md",
@@ -1840,15 +1696,6 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Context/Configuration-Context.md",
-      "status": "retired",
-      "targetHash": "d1fb0df63d83b910528d64ed6766f40433f7fa9529895f3d6cc5af8228ff490f",
-      "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Context/Configuration-Context.md"
-    },
-    {
-      "manual": "cli",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "d62875e1aa9a641b3b987cfa50ae4c9f042a5231bbbced53ee1046252f4a7850",
       "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Context/Context-clear.md",
@@ -1873,15 +1720,6 @@
       "status": "translated",
       "targetHash": "7fab6537c9b1f9b8ed419796d7b645b1aa990766f4d4feb12fccf9b2fcbb7e46",
       "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Context/Context-set.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration-Global/Configuration-Global.md",
-      "status": "retired",
-      "targetHash": "b818f242674817530112cb994c55dcca72bb618a2d46bc3e0e6613e01a2397b7",
-      "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration-Global/Configuration-Global.md"
     },
     {
       "manual": "cli",
@@ -1948,15 +1786,6 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/Configuration/Configuration.md",
-      "status": "retired",
-      "targetHash": "8adad54f117bfe4513ed16c11b57c825b6c3445dcde86c01ab672b8915750093",
-      "targetPath": "content/zh-CN/reference/cli/cli/Configuration/Configuration.md"
-    },
-    {
-      "manual": "cli",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "738ef967c27d5c831ef670acc11758c3cb7cca4879ad50dba229b40ffbfb9433",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-alter.md",
@@ -1999,15 +1828,6 @@
       "status": "translated",
       "targetHash": "dcb8d9650af9733ae4c04edb497e607309047921dbff47230bf4ec42a592ff22",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Alias/Alias-list.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Alias/DataOperations-Alias.md",
-      "status": "retired",
-      "targetHash": "e85d3fc9ed66c4c4862f7b0abc886487b83b67590661630bcd1710b5ee4c7ff4",
-      "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Alias/DataOperations-Alias.md"
     },
     {
       "manual": "cli",
@@ -2128,24 +1948,6 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Collection/DataOperations-Collection.md",
-      "status": "retired",
-      "targetHash": "433204c6f547c1c46927660846054e287e36478b5b67c1cecd9b89c5c40a832f",
-      "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Collection/DataOperations-Collection.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Database/DataOperations-Database.md",
-      "status": "retired",
-      "targetHash": "62cf5eae407778f63abd9ae3eb0804476b5f9ff37dc162abd3559f2dcfbbfd81",
-      "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Database/DataOperations-Database.md"
-    },
-    {
-      "manual": "cli",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "afe18dd829810bfc20f6b5f4c3a732eda4487af5e3787c36aa4ad4df5091c48b",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Database/Database-create.md",
@@ -2209,15 +2011,6 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Index/DataOperations-Index.md",
-      "status": "retired",
-      "targetHash": "25b505e3abd330f67644fdca88cf30e53a773d97fc7ca13371cd3275f1b66a2c",
-      "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Index/DataOperations-Index.md"
-    },
-    {
-      "manual": "cli",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "69fd210469ef6bf0acc9a6edd05225ac82808bd685ffb777db1da7dfda181b95",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Index/Index-create.md",
@@ -2251,15 +2044,6 @@
       "status": "translated",
       "targetHash": "e6f41ccd63c7c2dab8cfd257cce7e90b966869095581e3363a02187637701add",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Index/Index-list.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Partition/DataOperations-Partition.md",
-      "status": "retired",
-      "targetHash": "ec37dcac8d24e5d46ac531c096b531711c7ffe579ba01694dc837d17a326a70b",
-      "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Partition/DataOperations-Partition.md"
     },
     {
       "manual": "cli",
@@ -2326,15 +2110,6 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/DataOperations-Role.md",
-      "status": "retired",
-      "targetHash": "10c4890754a5a862046ad9e7f793c8b7a9dfd46eb652f9565a715998feba273f",
-      "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Role/DataOperations-Role.md"
-    },
-    {
-      "manual": "cli",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "4801c220ad30e6446e47185bb7b1d76d5a3e1a78ab9b306b5f45798c8b5438ea",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Role/Role-create.md",
@@ -2386,15 +2161,6 @@
       "status": "translated",
       "targetHash": "bd24fdb3c57e343c336caac7091c93462c699f67d089e8f35276f6b318236b73",
       "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Role/Role-revokeprivilege.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-User/DataOperations-User.md",
-      "status": "retired",
-      "targetHash": "24eee8d2e119e83719447720a53966e9f4b156ecc6bb466310ff102bd2378567",
-      "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-User/DataOperations-User.md"
     },
     {
       "manual": "cli",
@@ -2461,15 +2227,6 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/DataOperations-Vector.md",
-      "status": "retired",
-      "targetHash": "b5d458f7f09d56ce039e0622d8f31c092218f1bf51168878b1072655389aafb8",
-      "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations-Vector/DataOperations-Vector.md"
-    },
-    {
-      "manual": "cli",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "5dffd5d5c7d857daa57d115faf7bf700d64b8835fcfb449e5cf7db3cf5cb5a8f",
       "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations-Vector/Vector-delete.md",
@@ -2533,30 +2290,12 @@
     },
     {
       "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/DataOperations/DataOperations.md",
-      "status": "retired",
-      "targetHash": "869663bdfc20aeae9d94e9bd21046e9f8c6497dd1d023c60da29387d729a64cc",
-      "targetPath": "content/zh-CN/reference/cli/cli/DataOperations/DataOperations.md"
-    },
-    {
-      "manual": "cli",
       "sourceCommit": "cb31bdb0f354643f8fda17e2dccb8c87df7fa49f",
       "sourceHash": "1c9cd3debc1749a9af5994222f948af61f810d8573490bc55574f9c397669352",
       "sourcePath": "content/en/reference/cli/cli/Overview.md",
       "status": "translated",
       "targetHash": "de01249363b0770a6fa94e717924d20eb31c8b5031a5873bb4083aaaf4f68012",
       "targetPath": "content/zh-CN/reference/cli/cli/Overview.md"
-    },
-    {
-      "manual": "cli",
-      "sourceCommit": "bd77bfab77c5d40d4d21f50fb8ddde07a1341e21",
-      "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "sourcePath": "content/en/reference/cli/cli/zilliz-cli.md",
-      "status": "retired",
-      "targetHash": "812c049e766eb5ab6dfc31d125ada8f8f22060c4a505a352b9261fafb239fead",
-      "targetPath": "content/zh-CN/reference/cli/cli/zilliz-cli.md"
     },
     {
       "manual": "go",
