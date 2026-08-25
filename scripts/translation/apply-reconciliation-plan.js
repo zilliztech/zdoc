@@ -69,17 +69,17 @@ function alignChineseReferenceManifestPair(options) {
   if (pendingCommit && pendingCommit !== baselineCommit) {
     throw new Error(`Chinese Reference pending sourceCommit ${pendingCommit} does not match target baseline sourceCommit ${baselineCommit}`)
   }
-  if (workspaceSource.sourceCommit === baselineCommit) return
+  if (workspaceSource.sourceCommit === baselineCommit) return baselineCommit
   const baselineSourceJson = fs.readFileSync(baselineSourceFile, 'utf8')
   const temporary = `${sourceFile}.${process.pid}.tmp`
   fs.writeFileSync(temporary, baselineSourceJson, {flag: 'wx'})
   fs.renameSync(temporary, sourceFile)
+  return baselineCommit
 }
 
 function rebuildChineseReferenceState(options) {
   if (options.rebuildChineseReferenceState) return options.rebuildChineseReferenceState(options)
-  const sourceCommit = options.sourceCheckpointSha
-  alignChineseReferenceManifestPair(options)
+  const sourceCommit = alignChineseReferenceManifestPair(options)
   const command = spawnSync('pnpm', ['docs-tooling', 'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference', '--source-commit', sourceCommit, '--write'], {
     cwd: options.workspaceRoot,
     encoding: 'utf8',
