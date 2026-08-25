@@ -72,6 +72,8 @@ When an organization is frozen:
 
 - Applications that depend on affected Zilliz Cloud resources may be interrupted.
 
+- Backups are automatically deleted 60 days after the organization is frozen.
+
 ## Recover your organization\{#recover-your-organization}
 
 To restore access, resolve the billing issue and make sure your organization has a valid payment method or available balance.

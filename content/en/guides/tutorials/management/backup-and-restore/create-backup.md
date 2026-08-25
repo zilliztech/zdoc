@@ -58,6 +58,8 @@ This feature is available only to **Dedicated** clusters.
 
         - Automatic backups will still run if a manual backup is already in progress.
 
+- Backups are automatically deleted 60 days after the organization is frozen due to overdue invoices.
+
 ## Create cluster backup\{#create-cluster-backup}
 
 You can create a backup of an entire cluster and later restore either the whole cluster or selected collections. If you need to copy your backup file to other cloud regions for disaster recover, you can configure the copy policies while creating a backup. For details, refer to [Copy To Other Regions](./backup-to-other-regions).

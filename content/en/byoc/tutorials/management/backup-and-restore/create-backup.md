@@ -50,6 +50,8 @@ This guide explains how to **manually create backups**. To automate backup creat
 
         - Automatic backups will still run if a manual backup is already in progress.
 
+- Backups are automatically deleted 60 days after the organization is frozen due to overdue invoices.
+
 ## Create cluster backup\{#create-cluster-backup}
 
 You can create a backup of an entire cluster and later restore either the whole cluster or selected collections. 
