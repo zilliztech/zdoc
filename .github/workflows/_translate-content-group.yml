@@ -176,11 +176,16 @@ jobs:
             --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" --target-baseline-sha "$TARGET_BASELINE_SHA" \
             --plan-output tmp/reconciliation-plan.json --review-output tmp/translation-reconciliation-review.json \
             "${reconciliation_receipt_args[@]}"
+          skip_mutation_args=()
+          if (( ${{ inputs.batch_index }} >= 1 )); then
+            skip_mutation_args+=(--skip-mutation)
+          fi
           node scripts/translation/apply-reconciliation-plan.js \
             --plan tmp/reconciliation-plan.json --result tmp/reconciliation-result.json \
             --workspace "$GITHUB_WORKSPACE" --source-repository "$GITHUB_WORKSPACE" \
             --target-baseline "$BASELINE_DIR" --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
-            --target-baseline-sha "$TARGET_BASELINE_SHA" --source-commit-sha "$TARGET_BASELINE_SHA"
+            --target-baseline-sha "$TARGET_BASELINE_SHA" --source-commit-sha "$TARGET_BASELINE_SHA" \
+            "${skip_mutation_args[@]}"
           echo "has_mutation=$(node -p "require('./tmp/reconciliation-result.json').status === 'applied' ? 'true' : 'false'")" >> "$GITHUB_OUTPUT"
       - name: Build reconciliation review state
         if: ${{ failure() && inputs.should_translate && steps.reconciliation.outcome == 'failure' }}

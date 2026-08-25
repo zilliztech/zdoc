@@ -8,6 +8,7 @@ const path = require('node:path')
 
 const {loadTypeScript} = require('../lib/load-typescript')
 const {
+  captureReferenceTree,
   parseReferenceSourceManifest,
   parseReferenceTranslationManifest,
 } = loadTypeScript('../../packages/docs-tooling/src/reference/translationManifest.ts')
@@ -135,6 +136,19 @@ function parsedReferenceManifest(root, relativePath, label) {
   }
 }
 
+function assertReferenceSourceTreeMatchesWorkspace(workspace, sourceManifest) {
+  const declaredByPath = new Map(sourceManifest.records.map(record => [record.sourcePath, record.sourceHash]))
+  const workspaceTree = captureReferenceTree(workspace, 'content/en/reference')
+  if (declaredByPath.size !== workspaceTree.size) {
+    fail(`Reference source manifest tree does not match the authenticated source checkpoint (declared ${declaredByPath.size} sources, workspace has ${workspaceTree.size})`)
+  }
+  for (const [sourcePath, sourceHash] of workspaceTree) {
+    if (declaredByPath.get(sourcePath) !== sourceHash) {
+      fail(`Reference source manifest tree does not match the authenticated source checkpoint: ${sourcePath}`)
+    }
+  }
+}
+
 function validateReferenceState({workspace, baseline, manifest, resultBySource}) {
   let sourceManifest
   try {
@@ -142,7 +156,7 @@ function validateReferenceState({workspace, baseline, manifest, resultBySource})
   } catch (error) {
     fail(`Reference source manifest is invalid: ${String(error?.message || error)}`)
   }
-  if (sourceManifest.sourceCommit !== manifest.sourceCheckpointSha) fail('Reference source manifest commit does not match the authenticated source checkpoint')
+  assertReferenceSourceTreeMatchesWorkspace(workspace, sourceManifest)
 
   const baselineState = parsedReferenceManifest(baseline, 'generated/zh-CN/manifests/reference-translations.json', 'baseline Reference translation state')
   const currentState = parsedReferenceManifest(workspace, 'generated/zh-CN/manifests/reference-translations.json', 'workspace Reference translation state')
@@ -189,7 +203,7 @@ function validateReferenceState({workspace, baseline, manifest, resultBySource})
       manual: sourceRecord.manual,
       sourcePath: item.sourcePath,
       targetPath: item.targetPath,
-      sourceCommit: manifest.sourceCheckpointSha,
+      sourceCommit: sourceManifest.sourceCommit,
       sourceHash: item.sourceHash,
       targetHash,
       status: item.sourceHash === targetHash ? 'unchanged' : 'translated',
