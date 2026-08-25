@@ -32,7 +32,7 @@ Zilliz Cloud 引入了一个名为 `build_level` 的参数，该参数允许用�
 
 - 集群与 **Milvus v2.6.x** 兼容。
 
-您可以升级集群来测试此功能。如果您遇到任何需要进一步说明的问题，[请联系我们](https://support.zilliz.com.cn/hc/zh-cn/requests/new)。
+您可以升级集群来测试此功能。如果您遇到任何需要进一步说明的问题，[请联系我们](https://support.zilliz.com/hc/en-us/requests/new)。
 
 </Admonition>
 
