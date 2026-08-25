@@ -56,6 +56,8 @@ import Procedures from '@site/src/components/Procedures';
 
 - 依赖受影响 Zilliz Cloud 资源的应用可能会中断。
 
+- 所有备份文件将在 60 天后自动删除。
+
 ## 解冻组织\{#recover-your-organization}
 
 如需恢复访问，请先解决账单问题，并确保您的组织有有效的支付方式或可用余额。

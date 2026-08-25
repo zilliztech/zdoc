@@ -50,6 +50,8 @@ import Supademo from '@site/src/components/Supademo';
 
         - 若当前有手动备份正在进行，自动备份仍将按计划执行。
 
+- 如果组织因欠费被冻结，所有备份文件将在 60 天后自动删除。
+
 ## 创建集群备份\{#create-cluster-backup}
 
 您可以备份整个集群，并在需要时恢复整个集群或集群中的部分 Collection。
