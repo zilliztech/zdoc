@@ -7,18 +7,18 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "新的公开卷描述方法。 | Python"
+description: "此操作用于获取指定 volume 的详细信息。 | Python"
 type: docx
 token: MwfQdhukeoxOh0xPLySc0wJjn5f
 sidebar_position: 3
 keywords: 
-  - Annoy 向量搜索
+  - Annoy vector search
   - milvus
   - Zilliz
-  - milvus 向量 Database
+  - milvus vector database
   - zilliz
   - zilliz cloud
-  - 云
+  - cloud
   - describe_volume()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # describe_volume()
 
-新的公开卷描述方法。
+此操作用于获取指定 volume 的详细信息。
 
 ## 请求语法\{#request-syntax}
 
@@ -44,25 +44,25 @@ describe_volume(
 **参数：**
 
 - **volume_name** (*str*) -<br/>
-  **[必需]**<br/>
-  要描述的 Zilliz Cloud 卷的名称。
+  **[必填]**<br/>
+  要查询的 Zilliz Cloud volume 名称。
 
 **返回类型：**
 
 *requests.Response*
 
-**返回：**
+**返回值：**
 
-包含所请求卷详细信息的 HTTP 响应。
+包含所请求 volume 详细信息的 HTTP 响应。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
+  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以了解具体的失败原因。
 
 ## 示例\{#examples}
 
-该示例演示了 describe volume 的用法。
+以下示例展示了 describe volume 的用法。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

@@ -7,7 +7,7 @@ added_since: v2.3.x
 last_modified: v2.6.x
 deprecate_since: false
 notebook: false
-description: "为部分数组更新添加 fieldops 支持。异步版本与同步方法共享相同的参数约定。 | Python | MilvusClient"
+description: "此操作可在指定 Collection 中插入新数据或更新现有数据，并支持对数组字段进行可选的部分更新。 | Python | MilvusClient"
 type: docx
 token: UjjpdBwaooRDdlxFHScc6dKwnTg
 sidebar_position: 8
@@ -18,7 +18,7 @@ keywords:
   - 向量索引
   - zilliz
   - zilliz cloud
-  - 云
+  - cloud
   - upsert()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # upsert()
 
-为部分数组更新添加 field_ops 支持。异步版本与同步方法共享相同的参数约定。
+此操作可在指定 Collection 中插入新数据或更新现有数据，并支持对数组字段进行可选的部分更新。
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -55,43 +55,43 @@ upsert(
 
 - **collection_name** (*str*) -<br/>
   **[必填]**<br/>
-  要将 Entity upsert 到的 Collection 名称。
+  要执行 upsert 操作的 Entity 所在 Collection 的名称。
 
 - **data** (*Union[Dict, List[Dict]]*) -<br/>
   **[必填]**<br/>
-  要 upsert 的 Entity。必要时，可迭代输入会被转换为列表。
+  要执行 upsert 操作的 Entity。可迭代输入将在必要时转换为列表。
 
 - **timeout** (*Optional[float]*) -<br/>
   默认值：`None`<br/>
-  等待 RPC 的最长时间（以秒为单位）。此值会覆盖客户端默认值。
+  RPC 的最大等待时长（秒）。该值将覆盖客户端的默认设置。
 
 - **partition_name** (*Optional[str]*) -<br/>
   默认值：`""`<br/>
-  要将 Entity upsert 到的 Partition 名称。
+  要执行 upsert 操作的 Entity 所在 Partition 的名称。
 
 - **kwargs** (*Any*) -<br/>
   其他 upsert 选项。
 
     - **partial_update** (*bool*) -<br/>
       默认值：`False`<br/>
-      用于控制是否仅更新指定字段的标志。当 `True` 时，未指定的字段保持不变。
+      用于控制是否仅更新指定字段的标志。当设置为 `True` 时，未指定的字段将保持不变。
 
     - **field_ops** (*Optional[Dict[str, Any]]*) -<br/>
       默认值：`None`<br/>
-      部分更新期间应用于各字段的合并操作。每个值都可以是 `FieldOp` 工厂结果、`array_append`、`array_remove` 或 `replace`，或者是 `FieldPartialUpdateOp` 消息。除 `replace` 之外的任何操作都会启用部分更新。
+      部分更新期间应用的逐字段合并操作。每个值可以是 `FieldOp` 工厂结果、`array_append`、`array_remove` 或 `replace`，也可以是 `FieldPartialUpdateOp` 消息。除 `replace` 外的任何操作均会启用部分更新。
 
 **返回类型：**
 
 *MutationResult*
 
-**返回：**
+**返回值：**
 
-包含为 upsert 操作报告的主键和计数的变更结果。
+变更结果，包含 upsert 操作返回的主键及计数信息。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
+  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以获取具体的失败详情。
 
 ## 示例\{#examples}
 

@@ -7,18 +7,18 @@ added_since: v2.4.x
 last_modified: v3.0.x
 deprecate_since: false
 notebook: false
-description: "新增 targetsize/targetsizeunit 和正数大小校验。异步变体与同步方法共享相同的契约。 | Python | MilvusClient"
+description: "此操作触发手动 Compaction，合并 Collection 中的小 Segment，并返回 Compaction 作业 ID。 | Python | MilvusClient"
 type: docx
 token: ZANCdUPeBoCis1xylRUcR90Pndb
 sidebar_position: 2
 keywords: 
-  - 混合搜索
-  - 词法搜索
-  - 最近邻搜索
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - Agentic RAG
   - zilliz
   - zilliz cloud
-  - 云
+  - cloud
   - compact()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # compact()
 
-新增 target_size/target_size_unit 和正数大小校验。异步变体与同步方法共享相同的契约。
+此操作触发手动 Compaction，合并 Collection 中的小 Segment，并返回 Compaction 作业 ID。
 
 ## 请求语法\{#request-syntax}
 
@@ -50,20 +50,20 @@ compact(
 **参数：**
 
 - **collection_name** (*str*) -<br/>
-  **[必需]**<br/>
-  要执行 Compaction 的 Collection 名称。
+  **[必填]**<br/>
+  需要执行 Compaction 的 Collection 名称。
 
 - **is_clustering** (*Optional[bool]*) -<br/>
   默认值：`False`<br/>
-  请求执行聚类 Compaction 的标志。
+  用于指定是否执行聚类 Compaction 的标志。
 
 - **is_l0** (*Optional[bool]*) -<br/>
   默认值：`False`<br/>
-  请求执行零级 Compaction 的标志。
+  用于指定是否执行 Level-0 Compaction 的标志。
 
 - **target_size** (*Optional[int]*) -<br/>
   默认值：`None`<br/>
-  Compaction 后期望的 Segment 大小。该值必须为正整数；如果省略，则使用服务器默认值。
+  Compaction 后的目标 Segment 大小。该值必须为正整数；若省略，则使用服务器默认值。
 
 - **target_size_unit** (*str*) -<br/>
   默认值：`"mb"`<br/>
@@ -71,23 +71,23 @@ compact(
 
 - **timeout** (*Optional[float]*) -<br/>
   默认值：`None`<br/>
-  等待 RPC 的最长时间（以秒为单位）。如果省略，客户端会一直等待，直到服务器响应或发生错误。
+  RPC 的最大等待时间（秒）。若省略，客户端将一直等待，直到服务器响应或发生错误。
 
 - **kwargs** (*Any*) -<br/>
-  附加的请求上下文选项。
+  额外的请求上下文选项。
 
 **返回类型：**
 
 *int*
 
-**返回：**
+**返回值：**
 
-Milvus 返回的 Compaction 作业标识符。
+由 Milvus 返回的 Compaction 作业标识符。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以获取确切的失败详情。
+  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以获取具体的失败详情。
 
 ## 示例\{#examples}
 

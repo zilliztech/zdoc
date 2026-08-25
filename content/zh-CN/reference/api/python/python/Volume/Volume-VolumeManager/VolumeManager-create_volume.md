@@ -7,18 +7,18 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "添加 project/region 和 external-volume 参数。 | Python"
+description: "此操作用于在指定项目和区域中创建卷。 | Python"
 type: docx
 token: GtNKdyeDCoPxQXxvohIcYQ47nee
 sidebar_position: 1
 keywords: 
-  - 向量 Database
+  - vector database
   - IVF
   - knn
-  - 图像搜索
+  - Image Search
   - zilliz
   - zilliz cloud
-  - 云
+  - cloud
   - create_volume()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # create_volume()
 
-添加 project/region 和 external-volume 参数。
+此操作用于在指定项目和区域中创建卷。
 
 ## 请求语法\{#request-syntax}
 
@@ -49,28 +49,28 @@ create_volume(
 **参数：**
 
 - **project_id** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  要在其中创建该卷的 Zilliz Cloud 项目 ID。
+  **[必填]**<br/>
+  待创建卷所属的Zilliz Cloud项目 ID。
 
 - **region_id** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  要在其中创建该卷的 Zilliz Cloud 区域 ID。
+  **[必填]**<br/>
+  待创建卷所属的Zilliz Cloud区域 ID。
 
 - **volume_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  要创建的卷名称。
+  **[必填]**<br/>
+  待创建的卷名称。
 
 - **volume_type** (*Optional[str]*) -<br/>
   默认值：`None`<br/>
-  卷类型。支持的值为 `MANAGED` 和 `EXTERNAL`；默认值为 `MANAGED`。
+  卷类型。支持的值包括`MANAGED`和`EXTERNAL`，默认为`MANAGED`。
 
 - **storage_integration_id** (*Optional[str]*) -<br/>
   默认值：`None`<br/>
-  `EXTERNAL` 卷所需的存储集成 ID。
+  `EXTERNAL`卷所需的存储集成 ID。
 
 - **path** (*Optional[str]*) -<br/>
   默认值：`None`<br/>
-  `EXTERNAL` 卷的存储路径。省略时，将使用存储集成根路径；如果提供了路径，则必须以 `/` 结尾。
+  `EXTERNAL`卷的存储路径。若未指定，则使用存储集成的根目录；若指定路径，则必须以`/`结尾。
 
 **返回类型：**
 
@@ -78,16 +78,16 @@ create_volume(
 
 **返回值：**
 
-描述卷创建请求的 HTTP 响应。
+包含卷创建请求信息的 HTTP 响应。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝该请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
+  当服务器拒绝请求或 RPC 调用失败时抛出。请查看服务器错误消息以了解具体的失败原因。
 
 ## 示例\{#examples}
 
-以下示例演示了 create volume 的用法。
+以下示例展示了如何创建卷。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

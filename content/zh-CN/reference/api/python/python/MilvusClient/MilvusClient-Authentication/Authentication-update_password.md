@@ -7,18 +7,18 @@ added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "更新用户凭证/description-related签名行为。异步版本与同步方法共享相同的参数和响应约定。 | Python | MilvusClient"
+description: "此操作用于更新指定用户的密码，同时支持更新用户描述。 | Python | MilvusClient"
 type: docx
 token: Q8QIdA1DioRRL9xUtlgcCPLHnPc
 sidebar_position: 20
 keywords: 
   - Agentic RAG
-  - rag llm 架构
-  - 私有 llms
-  - nn 搜索
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
-  - 云
+  - cloud
   - update_password()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # update_password()
 
-更新用户凭证/description-related签名行为。异步版本与同步方法共享相同的参数和响应约定。
+此操作用于更新指定用户的密码，同时支持更新用户描述。
 
 ## 请求语法\{#request-syntax}
 
@@ -50,31 +50,31 @@ update_password(
 **参数：**
 
 - **user_name** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  要更改密码的用户名。
+  **[必填]**<br/>
+  需要修改密码的用户名。
 
 - **old_password** (*str*) -<br/>
-  **[REQUIRED]**<br/>
+  **[必填]**<br/>
   用户的当前密码。
 
 - **new_password** (*str*) -<br/>
-  **[REQUIRED]**<br/>
+  **[必填]**<br/>
   用户的新密码。
 
 - **reset_connection** (*Optional[bool]*) -<br/>
   默认值：`False`<br/>
-  更新后使用新密码重新连接客户端的标志。
+  用于控制是否在密码更新后使用新密码重新连接客户端的标志。
 
 - **timeout** (*Optional[float]*) -<br/>
   默认值：`None`<br/>
-  等待 RPC 完成的最长时间，单位为秒。
+  等待 RPC 完成的最大时长（以秒为单位）。
 
 - **description** (*Optional[str]*) -<br/>
   默认值：`None`<br/>
-  用户账户的可选更新描述。
+  用户账号的可选更新描述。
 
 - **kwargs** (*Any*) -<br/>
-  附加请求上下文选项。
+  额外的请求上下文选项。
 
 **返回类型：**
 
@@ -82,16 +82,16 @@ update_password(
 
 **返回值：**
 
-密码成功更新后，不返回任何值。
+密码更新成功后不返回任何值。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
+  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以获取具体的失败详情。
 
 ## 示例\{#examples}
 
-演示 update password 的用法。
+演示更新密码的用法。
 
 ```python
 from pymilvus import MilvusClient

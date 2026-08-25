@@ -7,18 +7,18 @@ added_since: false
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "添加并发、重试、多部分大小、路径和进度回调控制。 | Python"
+description: "此操作将指定源路径下的本地文件上传至指定托管卷内的目标文件路径。 | Python"
 type: docx
 token: SAR6dnlmmohi30x0x2KcioyXnib
 sidebar_position: 1
 keywords: 
-  - 图像相似性搜索
-  - 上下文窗口
-  - 自然语言搜索
-  - 相似性搜索
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
-  - 云
+  - cloud
   - upload_file_to_volume()
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 # upload_file_to_volume()
 
-添加并发、重试、多部分大小、路径和进度回调控制。
+此操作将指定源路径下的本地文件上传至指定托管卷内的目标文件路径。
 
 <Admonition type="info" icon="📘" title="Notes">
 
-这仅适用于托管卷。外部卷为只读。
+此功能仅适用于托管卷。外部卷为只读。
 
 </Admonition>
 
@@ -56,49 +56,49 @@ upload_file_to_volume(
 **参数：**
 
 - **source_file_path** (*str*) -<br/>
-  **[REQUIRED]**<br/>
-  要上传的本地文件或目录路径。
+  **[必填]**<br/>
+  待上传的本地文件或目录路径。
 
 - **target_volume_path** (*str*) -<br/>
-  **[REQUIRED]**<br/>
+  **[必填]**<br/>
   Zilliz Cloud 卷中的目标路径。
 
 - **upload_concurrency** (*int*) -<br/>
   默认值：`5`<br/>
-  可并发上传的最大文件数。
+  允许并发上传的最大文件数。
 
 - **max_retries** (*int*) -<br/>
   默认值：`5`<br/>
-  每个文件的最大上传尝试次数。
+  每个文件的最大上传重试次数。
 
 - **retry_interval** (*float*) -<br/>
   默认值：`5.0`<br/>
-  两次上传尝试之间的延迟时间（以秒为单位）。
+  两次上传尝试之间的间隔时间（秒）。
 
 - **progress_callback** (*Callable[[UploadProgress], None] | None*) -<br/>
   默认值：`None`<br/>
-  使用上传进度快照调用的回调函数。
+  用于接收上传进度快照的回调函数。
 
 - **part_size** (*int*) -<br/>
   默认值：`0`<br/>
-  多部分上传的分片大小，以字节为单位。使用 `0` 可自动选择大小。
+  分片上传的分片大小（字节）。使用 `0` 可自动选择合适的大小。
 
 **返回类型：**
 
 *dict*
 
-**返回：**
+**返回值：**
 
-包含 volumeName、volume_name 和上传目标路径的字典。
+包含 volumeName、volume_name 及上传目标路径的字典。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
+  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以了解具体的失败原因。
 
 ## 示例\{#examples}
 
-以下示例演示如何使用上传文件到卷功能。
+以下示例演示了如何将文件上传至卷。
 
 ```python
 from pymilvus.bulk_writer import VolumeFileManager, VolumeManager

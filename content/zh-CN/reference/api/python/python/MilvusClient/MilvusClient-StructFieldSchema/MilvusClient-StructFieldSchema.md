@@ -7,18 +7,18 @@ added_since: v2.6.x
 last_modified: false
 deprecate_since: false
 notebook: false
-description: "构造函数行为已更改。现有类页面中记录了新的 nullable 属性。| Python | MilvusClient"
+description: "StructFieldSchema 实例用于描述包含一个或多个子字段的结构体类型字段。| Python | MilvusClient"
 type: docx
 token: ZnKKd2PsyoRc1MxtC1BcJQjgnBh
 sidebar_position: 3
 keywords: 
-  - Elastic 向量 Database
-  - Pinecone 与 Milvus 对比
-  - Chroma 与 Milvus 对比
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - Annoy 向量搜索
   - zilliz
   - zilliz cloud
-  - 云
+  - cloud
   - StructFieldSchema
   - pymilvus30
 displayed_sidebar: pythonSidebar
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 # StructFieldSchema
 
-构造函数行为已更改。现有类页面中记录了新的 nullable 属性。
+**StructFieldSchema** 实例用于描述包含一个或多个子字段的结构体类型字段。
 
 ## 请求语法\{#request-syntax}
 
@@ -46,24 +46,24 @@ StructFieldSchema(
 
 - **nullable** (*bool*) -<br/>
   默认值：`False`<br/>
-  允许结构字段包含 null 值的标志。
+  用于控制该结构体字段是否允许包含空值的标志。
 
 - **description** (*str*) -<br/>
   默认值：`""`<br/>
-  结构字段的描述。
+  该结构体字段的描述信息。
 
 **返回类型：**
 
 *StructFieldSchema*
 
-**返回：**
+**返回值：**
 
-包含嵌套字段和 nullable/default 元数据的结构字段 Schema 实例。
+包含嵌套字段及 nullable/default 元数据的结构体字段 Schema 实例。
 
 **异常：**
 
 - **MilvusException**<br/>
-  当服务器拒绝请求或 RPC 失败时引发。请检查服务器错误消息以获取确切的失败详情。
+  当服务器拒绝请求或 RPC 失败时抛出。请查看服务器错误消息以获取具体的失败详情。
 
 ## 示例\{#examples}
 
