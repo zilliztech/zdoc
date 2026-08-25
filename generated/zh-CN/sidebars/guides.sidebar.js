@@ -1146,6 +1146,47 @@ module.exports = [
       },
       {
         "type": "category",
+        "label": "Spark 批量任务",
+        "key": "category:tutorials/development/spark-batch-jobs",
+        "link": {
+          "type": "doc",
+          "id": "tutorials/development/spark-batch-jobs/spark-batch-jobs"
+        },
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/development/spark-batch-jobs/primary-key-dedup",
+            "label": "主键去重",
+            "key": "doc:tutorials/development/spark-batch-jobs/primary-key-dedup"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/spark-batch-jobs/vector-similarity-dedup",
+            "label": "向量近似去重",
+            "key": "doc:tutorials/development/spark-batch-jobs/vector-similarity-dedup"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/spark-batch-jobs/k-means-clustering",
+            "label": "K-Means 聚类",
+            "key": "doc:tutorials/development/spark-batch-jobs/k-means-clustering"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/spark-batch-jobs/anomaly-detection",
+            "label": "异常点检测",
+            "key": "doc:tutorials/development/spark-batch-jobs/anomaly-detection"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/spark-batch-jobs/manage-spark-batch-jobs",
+            "label": "管理 Spark 批量任务",
+            "key": "doc:tutorials/development/spark-batch-jobs/manage-spark-batch-jobs"
+          }
+        ]
+      },
+      {
+        "type": "category",
         "label": "Function",
         "key": "category:tutorials/development/function",
         "items": [

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Snapshot 是 Milvus Collection 在某一时间点的镜像，适用于快速回滚、版本管理和测试。它会捕获 Collection 在指定时间戳的状态，并且只保存 metadata 和 manifest 文件，例如 Schema、Index 以及向量数据文件（binlogs），从而提升存储和恢复效率。 | Cloud"
 type: origin
 token: Km9nwfLWti2GZNkLtbnc8fcVnId
-sidebar_position: 15
+sidebar_position: 16
 displayed_sidebar: default
 
 ---
