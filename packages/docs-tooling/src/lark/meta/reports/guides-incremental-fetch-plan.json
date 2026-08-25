@@ -1,154 +1,17 @@
 {
-  "generated_at": "2026-08-25T14:04:05.993Z",
+  "generated_at": "2026-08-25T19:20:58.449Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "recvsp9OcjDGNq",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Spark Batch Jobs",
-      "labels": "",
-      "slug": "spark-batch-jobs",
-      "doc_token": "K4F3wDpFciHWwJkZd5qc302OnWg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/K4F3wDpFciHWwJkZd5qc302OnWg",
-      "reasons": [
-        "new canonical record"
-      ]
-    },
-    {
-      "record_id": "recvsp9UCXcgMN",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Primary-Key Deduplication",
-      "labels": "",
-      "slug": "primary-key-dedup",
-      "doc_token": "Wh2Kw8tn7ivDZOkDy2jcqFU7nje",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/Wh2Kw8tn7ivDZOkDy2jcqFU7nje",
-      "reasons": [
-        "new canonical record"
-      ]
-    },
-    {
-      "record_id": "recvsp9VXckkUB",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Vector Similarity Deduplication",
-      "labels": "",
-      "slug": "vector-similarity-dedup",
-      "doc_token": "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/Dr1SwNSqriPKTEkeNjDcDE2XnGb",
-      "reasons": [
-        "new canonical record"
-      ]
-    },
-    {
-      "record_id": "recvsp9X8DpI2F",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "K-Means Clustering",
-      "labels": "",
-      "slug": "k-means-clustering",
-      "doc_token": "SpMPwIX9diuiqfkHEAZcBSmnnOc",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/SpMPwIX9diuiqfkHEAZcBSmnnOc",
-      "reasons": [
-        "new canonical record"
-      ]
-    },
-    {
-      "record_id": "recvsp9YoOB931",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Anomaly Detection",
-      "labels": "",
-      "slug": "anomaly-detection",
-      "doc_token": "IQDjwxyWIi2V3VkuxKCcJV6fndb",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/IQDjwxyWIi2V3VkuxKCcJV6fndb",
-      "reasons": [
-        "new canonical record"
-      ]
-    },
-    {
-      "record_id": "recvtjEZOgM47k",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Data Backfill ",
-      "labels": "",
-      "slug": "data-backfill",
-      "doc_token": "CdmcwKYHZimNZ2kw5wqcQDDOned",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/CdmcwKYHZimNZ2kw5wqcQDDOned",
-      "reasons": [
-        "new canonical record"
-      ]
-    },
-    {
-      "record_id": "recvspa1EIhuIs",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Manage Spark Batch Jobs",
-      "labels": "",
-      "slug": "manage-spark-batch-jobs",
-      "doc_token": "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/LYncwOT8Mi9Lfqk9asdcNPvFnWe",
-      "reasons": [
-        "new canonical record"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "CdmcwKYHZimNZ2kw5wqcQDDOned",
-    "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
-    "IQDjwxyWIi2V3VkuxKCcJV6fndb",
-    "K4F3wDpFciHWwJkZd5qc302OnWg",
-    "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
-    "SpMPwIX9diuiqfkHEAZcBSmnnOc",
-    "Wh2Kw8tn7ivDZOkDy2jcqFU7nje"
-  ],
-  "expanded_tokens": [
-    "CPLrwghdWiSvGBkdeEecGjgLnSb",
-    "CdmcwKYHZimNZ2kw5wqcQDDOned",
-    "Dr1SwNSqriPKTEkeNjDcDE2XnGb",
-    "IQDjwxyWIi2V3VkuxKCcJV6fndb",
-    "K4F3wDpFciHWwJkZd5qc302OnWg",
-    "LYncwOT8Mi9Lfqk9asdcNPvFnWe",
-    "SpMPwIX9diuiqfkHEAZcBSmnnOc",
-    "Wh2Kw8tn7ivDZOkDy2jcqFU7nje"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "K4F3wDpFciHWwJkZd5qc302OnWg": [
-      "new canonical record"
-    ],
-    "Wh2Kw8tn7ivDZOkDy2jcqFU7nje": [
-      "new canonical record"
-    ],
-    "Dr1SwNSqriPKTEkeNjDcDE2XnGb": [
-      "new canonical record"
-    ],
-    "SpMPwIX9diuiqfkHEAZcBSmnnOc": [
-      "new canonical record"
-    ],
-    "IQDjwxyWIi2V3VkuxKCcJV6fndb": [
-      "new canonical record"
-    ],
-    "CdmcwKYHZimNZ2kw5wqcQDDOned": [
-      "new canonical record"
-    ],
-    "LYncwOT8Mi9Lfqk9asdcNPvFnWe": [
-      "new canonical record"
-    ],
-    "CPLrwghdWiSvGBkdeEecGjgLnSb": [
-      "incoming reference to K4F3wDpFciHWwJkZd5qc302OnWg"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
-  "affected_tables": [
-    "tbl9BeCMjBmalJVb",
-    "tblWv7PjNDsexddH"
-  ],
+  "affected_tables": [],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
@@ -234,8 +97,8 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-08-25T10:32:01.202Z",
-    "records": 382
+    "generated_at": "2026-08-25T14:04:37.447Z",
+    "records": 389
   },
   "source_scope": "partial"
 }
