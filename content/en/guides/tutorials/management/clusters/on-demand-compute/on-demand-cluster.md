@@ -42,7 +42,7 @@ An on-demand cluster provides compute resources for on-demand search and query w
 
 Before you create an on-demand cluster, ensure that:
 
-- You are a **Project Admin** in the target project. For details about the roles and permissions, see [Manage Project Users](./project-users#project-role-and-access-comparison).
+- You are a **Project Admin** in the target project. For details about the roles and permissions, see [Manage Platform Roles](./manage-platform-roles#predefined-project-roles).
 
 - You have the project ID where the on-demand cluster will be created.
 

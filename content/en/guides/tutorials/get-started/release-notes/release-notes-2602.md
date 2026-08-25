@@ -48,7 +48,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Seamless Migration:** Existing users are automatically migrated with "All Resources" access, preserving their current project roles. No manual action is required.
 
-        For details, refer to [Manage Organization Users](./organization-users#organization-role) and [Manage Project Users](./project-users#project-access).
+        For details, refer to [Manage Platform Users](./manage-platform-users).
 
     </div>
 

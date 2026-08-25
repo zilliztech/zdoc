@@ -52,7 +52,7 @@ This option is recommended for most enterprise-grade production deployments wher
 
 - Tracking resource [usage](/docs/analyze-cost) by environment
 
-- Managing user [roles](./project-users#invite-a-user-to-a-project) with moderate isolation
+- Managing user [roles](./manage-platform-roles#manage-project-roles) with moderate isolation
 
 **Benefits:**
 

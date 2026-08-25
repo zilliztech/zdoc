@@ -53,7 +53,7 @@ To manage invoices, you must be an **Organization Owner** or **Organization Bill
 
 <TabItem value="Bash">
 
-Your request should resemble the following example, where `{TOKEN}` is your authentication API key with an [Organization Owner or Billing Admin role](./organization-users#invite-a-user-to-your-organization). The following `GET` request lists all invoices for your organization.
+Your request should resemble the following example, where `{TOKEN}` is your authentication API key with an [Organization Owner or Billing Admin role](./manage-platform-roles#predefined-organization-roles). The following `GET` request lists all invoices for your organization.
 
 ```bash
 curl --request GET \
@@ -123,7 +123,7 @@ In the results returned by the API, all amounts are in cents.
 
 <TabItem value="Bash">
 
-Your request should resemble the following example, where `{TOKEN}` is your authentication API key with an [Organization Owner or Billing Admin role](./organization-users#invite-a-user-to-your-organization). The following `GET` request describes the specified invoice.
+Your request should resemble the following example, where `{TOKEN}` is your authentication API key with an [Organization Owner or Billing Admin role](./manage-platform-roles#predefined-organization-roles). The following `GET` request describes the specified invoice.
 
 ```bash
 curl --request GET \

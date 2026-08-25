@@ -82,7 +82,7 @@ import Grid from '@site/src/components/Grid';
 
         - Per-Cluster Scoping: The role can be assigned to specific clusters, enabling fine-grained separation of duties across environments and workloads.
 
-        - Note: Customized API Keys do not currently support the Cluster Admin role. For details, refer to [Manage Project Users](./project-users).
+        - Note: Customized API Keys do not currently support the Cluster Admin role. For details, refer to [Manage Platform Roles](./manage-platform-roles#manage-project-roles).
 
         ## Zilliz Cloud BYOC supports Tiered-Storage Cluster\{#zilliz-cloud-byoc-supports-tiered-storage-cluster}
 

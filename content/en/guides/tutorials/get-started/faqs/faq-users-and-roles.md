@@ -48,11 +48,11 @@ If you are an organization owner, you can only leave the organization when you a
 
 ### How can I invite a colleague or teammate to collaborate?\{#how-can-i-invite-a-colleague-or-teammate-to-collaborate}
 
-If you are an organization owner, you can invite users to your organization. Refer to [Manage Organization Users](./organization-users) for more detailed instructions.
+If you are an organization owner, you can invite users to your organization. Refer to [Manage Platform Users](./manage-platform-users) for more detailed instructions.
 
 If you are an organization member, you can contact your organization owner to invite other users.
 
-Additionally, Zilliz Cloud also supports inviting users to projects. If you are a project admin, you can invite other project users to your project. Refer to [Manage Project Users](./project-users) for more detailed instructions.
+Additionally, Zilliz Cloud also supports inviting users to projects. If you are a project admin, you can invite other project users to your project. Refer to [Manage Platform Users](./manage-platform-users#project-users) for more detailed instructions.
 
 ### Can I create a role with specific privileges or custom privilege groups?\{#can-i-create-a-role-with-specific-privileges-or-custom-privilege-groups}
 

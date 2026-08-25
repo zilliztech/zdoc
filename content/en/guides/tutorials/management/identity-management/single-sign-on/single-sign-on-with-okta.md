@@ -172,7 +172,7 @@ When users log in to Zilliz Cloud via SSO for the first time, they are registere
 
 - The **Organization Owner** must invite them into the appropriate projects.
 
-- For step-by-step instructions on how to invite users to a project, refer to [Manage Project Users](./project-users#invite-a-user-to-a-project).
+- For step-by-step instructions on how to invite users to a project, refer to [Manage Platform Users](./manage-platform-users#invite-project-users).
 
 After being invited to a project, the **Organization** **Owner** can share the Zilliz Cloud login URL with enterprise users so they can sign in through SSO.
 
@@ -196,11 +196,11 @@ For more information, refer to [Enforce SSO in Your Organization](./enforce-sso-
 
 ### What role is assigned to users who log in via SSO for the first time?\{#what-role-is-assigned-to-users-who-log-in-via-sso-for-the-first-time}
 
-New users who do not already have a Zilliz Cloud account will be automatically created upon their first SSO login. These users are assigned the **Organization Member** role by default. You can modify their roles later in the Zilliz Cloud console. For detailed steps, refer to [Manage Project Users](./project-users#edit-a-collaborators-role).
+New users who do not already have a Zilliz Cloud account will be automatically created upon their first SSO login. These users are assigned the **Organization Member** role by default. You can modify their roles later in the Zilliz Cloud console. For detailed steps, refer to [Manage Platform Users](./manage-platform-users#invite-project-users).
 
 ### How do users access projects after SSO login?\{#how-do-users-access-projects-after-sso-login}
 
-After logging in via SSO, users will have **Organization Member** role by default. To access specific projects, an **Organization Owner** or **Project Admin** must invite them to projects. For detailed steps, see [Manage Project Users](./project-users).
+After logging in via SSO, users will have **Organization Member** role by default. To access specific projects, an **Organization Owner** or **Project Admin** must invite them to projects. For detailed steps, see [Manage Platform Users](./manage-platform-users#invite-project-users).
 
 ### What happens if a user already has a Zilliz Cloud account before logging in with SSO?\{#what-happens-if-a-user-already-has-a-zilliz-cloud-account-before-logging-in-with-sso}
 

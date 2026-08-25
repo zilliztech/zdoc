@@ -46,7 +46,7 @@ If you need multiple organizations, please [submit a support ticket](http://supp
 
 ## Rename an organization\{#rename-an-organization}
 
-To rename an organization, you must be an [Organization Owner](./organization-users).
+To rename an organization, you must be an [Organization Owner](./manage-platform-roles#predefined-organization-roles).
 
 You can rename an organization in either of the following ways:
 
@@ -62,11 +62,11 @@ You can rename an organization in either of the following ways:
 
 The system time zone is set to where your first login occurs and applies to all time strings displayed on Zilliz Cloud.
 
-To view the current time zone, you can either be an Organization Owner or an Organization Member. For details on roles in an organization, refer to [Manage Organization Users](./organization-users).
+To view the current time zone, you can either be an Organization Owner or an Organization Member. For details on roles in an organization, refer to [Manage Platform Roles](./manage-platform-roles).
 
 ![timezone-settings](https://zdoc-images.s3.us-west-2.amazonaws.com/timezone-settings.png "timezone-settings")
 
-To modify the system time zone, you must be an [Organization Owner](./organization-users). Click **Edit** to open the **Time Zone Settings** dialog box, and select a time zone from the drop-down list. You can also enter the name of a time zone to quickly filter the desired time zone.
+To modify the system time zone, you must be an [Organization Owner](./manage-platform-roles#predefined-organization-roles). Click **Edit** to open the **Time Zone Settings** dialog box, and select a time zone from the drop-down list. You can also enter the name of a time zone to quickly filter the desired time zone.
 
 ## Set up preferred maintenance window\{#set-up-preferred-maintenance-window}
 
@@ -110,7 +110,7 @@ Before you start, make sure the following conditions are met:
 
 - All organization [bills](./payment-billing) are paid.
 
-- You are granted the [Organization Owner](./organization-users) role in the target organization.
+- You are granted the [Organization Owner](./manage-platform-roles#predefined-organization-roles) role in the target organization.
 
 - All remaining advance pay funds need to be refunded.
 

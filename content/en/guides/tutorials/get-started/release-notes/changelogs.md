@@ -242,7 +242,7 @@ import Grid from '@site/src/components/Grid';
 
         - ⚙️ The [maintenance window](./organization-settings#set-up-preferred-maintenance-window) has been redesigned to provide more predictable upgrade scheduling and proactive notifications.
 
-        - 👥 A new [cluster admin](./project-users#cluster-admin) role grants team members operational access to specific clusters without full project-level admin privileges.
+        - 👥 A new [cluster admin](./manage-platform-roles#predefined-project-roles) role grants team members operational access to specific clusters without full project-level admin privileges.
 
         - 💾 Tiered storage becomes available to clusters in BYOC projects.
 
@@ -262,7 +262,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🔐 [SSO enforcement](./enforce-sso-in-your-organization) to restrict access from non-SSO authentication.
 
-        - 👥 Cluster-level access control configured at the [organization-](./organization-users#organization-role) and [project-level](./project-users#project-access) for fine-grained data access.
+        - 👥 Cluster-level access control configured at the [organization-](./manage-platform-roles)[ and ](./manage-platform-roles)[project-level](./manage-platform-roles) for fine-grained data access.
 
     </div>
 

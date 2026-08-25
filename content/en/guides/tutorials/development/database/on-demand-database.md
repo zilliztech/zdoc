@@ -40,7 +40,7 @@ This page is for project-level databases used by on-demand search. For databases
 
 Ensure that:
 
-- You have **Project Admin** access. For details about the roles and permissions, see [Manage Project Users](./project-users#project-role-and-access-comparison).
+- You have **Project Admin** access. For details about the roles and permissions, see [Manage Platform Users](./manage-platform-users#project-users).
 
 - You have the project endpoint, for example `https://{project-id}.{region}.api.zillizcloud.com`.
 

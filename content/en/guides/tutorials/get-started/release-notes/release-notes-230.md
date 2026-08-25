@@ -68,7 +68,7 @@ We've also implemented several enhancements to improve your overall experience:
 
 - *New Role for RBAC*
 
-    Grant [Project Member Role](./project-users) to project collaborators for more streamlined collaboration.
+    Grant Project Member [Role](./manage-platform-roles#predefined-project-roles) to project collaborators for more streamlined collaboration.
 
 - *Billing Optimizations*
 

@@ -118,13 +118,13 @@ You can also check the details of a certain project.
 
 ## Edit project details\{#edit-project-details}
 
-To rename a project or edit the description of a project, you must be an [Organization Owner](./organization-users). You can edit project details via the web console.
+To rename a project or edit the description of a project, you must be an [Organization Owner](./manage-platform-roles#predefined-organization-roles). You can edit project details via the web console.
 
 ![rename-project-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/rename-project-byoc.png "rename-project-byoc")
 
 ## Delete a project\{#delete-a-project}
 
-To delete a project, you must be an [Organization Owner](./organization-users). 
+To delete a project, you must be an [Organization Owner](./manage-platform-roles#predefined-organization-roles). 
 
 Before you delete a project, you must drop all [clusters](./manage-cluster#drop) within the project.
 

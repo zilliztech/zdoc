@@ -146,7 +146,7 @@ Payment and billing settings are managed at the organization level. To view or u
 | Organization Billing Admin | Can manage payment methods, billing profiles, Marketplace subscriptions, invoices, and billing alerts. |
 | Other Organization Roles | Have no access to billing information. To view or update billing settings, contact Organization Owner or Organization Billing Admin. |
 
-For details, see [Manage Organization Users](./organization-users).
+For details, see [Manage Platform Users](./manage-platform-users).
 
 ## Billing cycle and invoices\{#billing-cycle-and-invoices}
 

@@ -38,7 +38,7 @@ This guide describes how to view, inspect, and drop on-demand clusters in Zilliz
 
 On-demand clusters provide compute for on-demand search workloads. They spin up when requests arrive and scale back to zero when idle, based on the auto-suspend timeout configured when the cluster is created.
 
-To manage an on-demand cluster, you need to be a Project Admin in the target project. For details about the roles and permissions, see [Manage Project Users](./project-users#project-role-and-access-comparison).
+To manage an on-demand cluster, you need to be a Project Admin in the target project. For details about the roles and permissions, see [Manage Platform Users](./manage-platform-users#project-users).
 
 ## View all on-demand clusters\{#view-all-on-demand-clusters}
 

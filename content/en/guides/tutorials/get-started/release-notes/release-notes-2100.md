@@ -112,7 +112,7 @@ These RESTful APIs allow users to build their own automated operational workflow
 
 This release also includes a series of enhancements:
 
-- Support for [Project Read-only Role](./project-users)
+- Support for [Project Read-only Role](./manage-platform-roles#predefined-project-roles)
 
 - Support for renaming clusters and snapshots
 

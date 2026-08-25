@@ -46,7 +46,7 @@ If you need multiple organizations, please [submit a support ticket](http://supp
 
 ## Rename an organization\{#rename-an-organization}
 
-To rename an organization, you must be an [Organization Owner](./organization-users).
+To rename an organization, you must be an [Organization Owner](./manage-platform-roles#predefined-organization-roles).
 
 ![edit-organization-name-byoc](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-organization-name-byoc.png "edit-organization-name-byoc")
 
@@ -54,11 +54,11 @@ To rename an organization, you must be an [Organization Owner](./organization-us
 
 The system time zone is set to where your first login occurs and applies to all time strings displayed on Zilliz Cloud.
 
-To view the current time zone, you can either be an Organization Owner or an Organization Member. For details on roles in an organization, refer to [Manage Organization Users](./organization-users).
+To view the current time zone, you can either be an Organization Owner or an Organization Member. For details on roles in an organization, refer to [Manage Platform Roles](./manage-platform-roles).
 
 ![byoc-timezone-settings](https://zdoc-images.s3.us-west-2.amazonaws.com/byoc-timezone-settings.png "byoc-timezone-settings")
 
-To modify the system time zone, you must be an [Organization Owner](./organization-users). Click **Edit** to open the **Time Zone Settings** dialog box, and select a time zone from the drop-down list. You can also enter the name of a time zone to quickly filter the desired time zone.
+To modify the system time zone, you must be an [Organization Owner](./manage-platform-roles#predefined-organization-roles). Click **Edit** to open the **Time Zone Settings** dialog box, and select a time zone from the drop-down list. You can also enter the name of a time zone to quickly filter the desired time zone.
 
 ## Set up preferred maintenance window\{#set-up-preferred-maintenance-window}
 
@@ -98,7 +98,7 @@ Before you start, make sure the following conditions are met:
 
 - All clusters in the current organization are [deleted](./manage-cluster).
 
-- You are granted the [Organization Owner](./organization-users) role in the target organization.
+- You are granted the [Organization Owner](./manage-platform-roles#predefined-organization-roles) role in the target organization.
 
 - All remaining advance pay funds need to be refunded.
 

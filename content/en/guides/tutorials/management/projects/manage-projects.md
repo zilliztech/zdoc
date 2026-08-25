@@ -32,11 +32,11 @@ This guide will walk you through the steps of managing projects.
 
 ## Create a project\{#create-a-project}
 
-Each organization comes with a default **Enterprise** project named `Default Project`. During onboarding, you select the cloud region where you want to deploy your workload, and the system automatically creates this default project in that region. The default project cannot be deleted. Based on your workload and business needs, you can create additional projects. When you create a project, you automatically become the [Project Admin](./project-users) of the project.
+Each organization comes with a default **Enterprise** project named `Default Project`. During onboarding, you select the cloud region where you want to deploy your workload, and the system automatically creates this default project in that region. The default project cannot be deleted. Based on your workload and business needs, you can create additional projects. When you create a project, you automatically become the [Project Admin](./manage-platform-roles#predefined-project-roles) of the project.
 
 ### Limits\{#limits}
 
-- To create a project, you must be an [Organization Owner](./organization-users).
+- To create a project, you must be an [Organization Owner](./manage-platform-roles#predefined-organization-roles).
 
 - You can create a maximum of 100 projects in each organization.
 
@@ -295,13 +295,13 @@ You can also check the details of a certain project.
 
 ## Edit project details\{#edit-project-details}
 
-To rename a project or edit the description of a project, you must be an [Organization Owner](./organization-users). You can edit project details via the web console.
+To rename a project or edit the description of a project, you must be an [Organization Owner](./manage-platform-roles#predefined-organization-roles). You can edit project details via the web console.
 
 <Supademo id="cmhiwa69y5zk2fatiw4ou24k6" title=""  />
 
 ## Delete a project\{#delete-a-project}
 
-To delete a project, you must be an [Organization Owner](./organization-users). 
+To delete a project, you must be an [Organization Owner](./manage-platform-roles#predefined-organization-roles). 
 
 Before you delete a project, you must drop all [clusters](./manage-cluster#drop) and [volumes](./managed-volume) within the project.
 
