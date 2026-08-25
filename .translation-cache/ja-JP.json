@@ -3411,9 +3411,9 @@
       "translatedAt": "2026-08-24T07:10:20.427Z"
     },
     "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/delete-api-key-v2.mdx": {
-      "sourceHash": "c6f1d8d6440d2dfa1dd8c5ae3e9cb497db28bbaac26b7d6fdef390bdbb7022aa",
+      "sourceHash": "bdc8de1cd12c33b5a25adf125dae5b786d2c046ccc6689b056a5abe12cbe3de1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/delete-api-key-v2.mdx",
-      "translatedAt": "2026-08-11T11:29:50.629Z"
+      "translatedAt": "2026-08-25T04:30:35.370Z"
     },
     "content/en/reference/api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/describe-api-key-v2.mdx": {
       "sourceHash": "4693729d15cd31ce24fdcbe1f73ea94e563f8c7095acf7501be60f2e0fe6a4a7",
@@ -3641,9 +3641,9 @@
       "translatedAt": "2026-08-17T07:49:11.241Z"
     },
     "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/cancel-spark-job-v2.mdx": {
-      "sourceHash": "77a4dc61a4661cb48aaee0178120662c34bc0d4a2866f25672411ae05e730770",
+      "sourceHash": "90798fe823613c3dcbc108b912f6ec750da05e33319da2d6de5773430f012223",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/control-plane/spark-job-v2/cancel-spark-job-v2.mdx",
-      "translatedAt": "2026-08-17T07:49:11.253Z"
+      "translatedAt": "2026-08-25T04:32:34.065Z"
     },
     "content/en/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2.mdx": {
       "sourceHash": "61681a0d86590c914849fc9a78b3e05c708eab28232f254bee07e5c0715dc207",
@@ -3864,6 +3864,11 @@
       "sourceHash": "d25e578540f2cf2a2dcd5ed5a8a539e7c1872cfe815d4fbc41d20b3df19ee8d5",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/data-plane/collection-operations-v2/compact-collection-v2.mdx",
       "translatedAt": "2026-08-17T07:49:11.263Z"
+    },
+    "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/create-collection-v2.mdx": {
+      "sourceHash": "50c016568d52fc979699f07dffd00d8766fbb7da286bff0d01564e9f2400e0f5",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful/v2/data-plane/collection-operations-v2/create-collection-v2.mdx",
+      "translatedAt": "2026-08-25T05:04:10.125Z"
     },
     "content/en/reference/api/restful/restful/v2/data-plane/collection-operations-v2/describe-collection-v2.mdx": {
       "sourceHash": "89ba17223cf8359de81552823f0e2284e6b0c41819e8ead5d71e0fcff5d36377",
