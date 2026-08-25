@@ -1,180 +1,17 @@
 {
-  "generated_at": "2026-08-25T01:55:33.392Z",
+  "generated_at": "2026-08-25T03:27:05.542Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
-  "changed_records": [
-    {
-      "record_id": "recvlVVZCZr8lP",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Create Backup",
-      "labels": "Create Backup",
-      "slug": "create-backup",
-      "doc_token": "HHXewT7wTiM1zqkySjHcMNX5n9b",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/HHXewT7wTiM1zqkySjHcMNX5n9b",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvlVW8qzzuLi",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Schedule Automatic Backups",
-      "labels": "Schedule Automatic Backups",
-      "slug": "schedule-automatic-backups",
-      "doc_token": "HDmKwGeGLi2P67kGdNXcigXDn3e",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/HDmKwGeGLi2P67kGdNXcigXDn3e",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvlW1JOvm3DV",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "title": "Failed Payments and Organization Recovery",
-      "labels": "Failed Payments and Organization Recovery",
-      "slug": "failed-payments-organization-recovery",
-      "doc_token": "JYXswRlj9i5KE5kJ2U0cdaM5nBh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/JYXswRlj9i5KE5kJ2U0cdaM5nBh",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    }
-  ],
-  "changed_tokens": [
-    "HDmKwGeGLi2P67kGdNXcigXDn3e",
-    "HHXewT7wTiM1zqkySjHcMNX5n9b",
-    "JYXswRlj9i5KE5kJ2U0cdaM5nBh"
-  ],
-  "expanded_tokens": [
-    "A3YdwRQwoiDLfkkPbwOcEOr3nLe",
-    "Dd6jwYIGiiz6HWkEPJqcpMA3n6g",
-    "ESVGwTkn8iLfUakSSrkc5dWJnye",
-    "Ghq9wEiOOivgeIkmj2HcHC9onXe",
-    "HDmKwGeGLi2P67kGdNXcigXDn3e",
-    "HHXewT7wTiM1zqkySjHcMNX5n9b",
-    "JQvjwCDxhiMcj0kpaWicqXsTn1e",
-    "JYXswRlj9i5KE5kJ2U0cdaM5nBh",
-    "K8hFwmeBQiCSO4ktT9ScD9zMnua",
-    "KrbjwFhy3iojF3k97XmcvvXMnW7",
-    "LDlOweEzmiLkdQkvPFec5lrcnbf",
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc",
-    "OFjswbvuoit64pk5eGqc9Yx3nGg",
-    "OZtawoDUci0CKokf9RlchvInnMf",
-    "PNj2w5fY9ifr82kbX8ucKgXAn0r",
-    "PuxkwMWvbiHxvTkHsVkcMZP9n5f",
-    "QGVxwmnGTidbjtk1LcYcEfqbnOe",
-    "QUe4wFnNvifiufkXD9xcs0AAnSc",
-    "RY8ww0NDQi8yU9kNpjicHP7Gn4b",
-    "SIhBwKFJri4u2CkyD3ucnO7an3g",
-    "TVnkwXupUiX3zDkzYPWcxKP3nvg",
-    "TfzMwdLsWibd0UkGpGAcLhuInvb",
-    "X6nAwrgYAiJ3Lzku8mBczdbXnuo",
-    "XC1ow3jGBi7hVvkINtBcXhQ6n8g",
-    "XCZaw6aKbixxWIkMssEchOtOnlg",
-    "XmUYwRgNDitesQkl9QDc3IslnOh",
-    "Y6Qqw4a3XiWPlCkQYMqcLEORnAU",
-    "ZvSOwB7zkir7PjkzrOPciC5WnTe"
-  ],
+  "changed_records": [],
+  "changed_tokens": [],
+  "expanded_tokens": [],
   "removed_records": [],
   "removed_tokens": [],
-  "reasons_by_token": {
-    "HHXewT7wTiM1zqkySjHcMNX5n9b": [
-      "wiki node edit time changed"
-    ],
-    "HDmKwGeGLi2P67kGdNXcigXDn3e": [
-      "wiki node edit time changed"
-    ],
-    "JYXswRlj9i5KE5kJ2U0cdaM5nBh": [
-      "wiki node edit time changed"
-    ],
-    "PNj2w5fY9ifr82kbX8ucKgXAn0r": [
-      "outgoing reference from HDmKwGeGLi2P67kGdNXcigXDn3e"
-    ],
-    "Dd6jwYIGiiz6HWkEPJqcpMA3n6g": [
-      "outgoing reference from HDmKwGeGLi2P67kGdNXcigXDn3e"
-    ],
-    "PuxkwMWvbiHxvTkHsVkcMZP9n5f": [
-      "outgoing reference from HDmKwGeGLi2P67kGdNXcigXDn3e"
-    ],
-    "ESVGwTkn8iLfUakSSrkc5dWJnye": [
-      "outgoing reference from HDmKwGeGLi2P67kGdNXcigXDn3e"
-    ],
-    "QUe4wFnNvifiufkXD9xcs0AAnSc": [
-      "outgoing reference from HDmKwGeGLi2P67kGdNXcigXDn3e"
-    ],
-    "KrbjwFhy3iojF3k97XmcvvXMnW7": [
-      "incoming reference to HDmKwGeGLi2P67kGdNXcigXDn3e"
-    ],
-    "MUL3wkn7Yi3YoFkYk59csf8bnNc": [
-      "incoming reference to HDmKwGeGLi2P67kGdNXcigXDn3e"
-    ],
-    "OZtawoDUci0CKokf9RlchvInnMf": [
-      "incoming reference to HDmKwGeGLi2P67kGdNXcigXDn3e"
-    ],
-    "XC1ow3jGBi7hVvkINtBcXhQ6n8g": [
-      "outgoing reference from HHXewT7wTiM1zqkySjHcMNX5n9b"
-    ],
-    "RY8ww0NDQi8yU9kNpjicHP7Gn4b": [
-      "outgoing reference from HHXewT7wTiM1zqkySjHcMNX5n9b"
-    ],
-    "Ghq9wEiOOivgeIkmj2HcHC9onXe": [
-      "incoming reference to HHXewT7wTiM1zqkySjHcMNX5n9b"
-    ],
-    "SIhBwKFJri4u2CkyD3ucnO7an3g": [
-      "incoming reference to HHXewT7wTiM1zqkySjHcMNX5n9b"
-    ],
-    "XmUYwRgNDitesQkl9QDc3IslnOh": [
-      "incoming reference to HHXewT7wTiM1zqkySjHcMNX5n9b"
-    ],
-    "ZvSOwB7zkir7PjkzrOPciC5WnTe": [
-      "incoming reference to HHXewT7wTiM1zqkySjHcMNX5n9b"
-    ],
-    "TVnkwXupUiX3zDkzYPWcxKP3nvg": [
-      "outgoing reference from JYXswRlj9i5KE5kJ2U0cdaM5nBh"
-    ],
-    "OFjswbvuoit64pk5eGqc9Yx3nGg": [
-      "outgoing reference from JYXswRlj9i5KE5kJ2U0cdaM5nBh"
-    ],
-    "K8hFwmeBQiCSO4ktT9ScD9zMnua": [
-      "outgoing reference from JYXswRlj9i5KE5kJ2U0cdaM5nBh"
-    ],
-    "A3YdwRQwoiDLfkkPbwOcEOr3nLe": [
-      "outgoing reference from JYXswRlj9i5KE5kJ2U0cdaM5nBh"
-    ],
-    "X6nAwrgYAiJ3Lzku8mBczdbXnuo": [
-      "outgoing reference from JYXswRlj9i5KE5kJ2U0cdaM5nBh"
-    ],
-    "LDlOweEzmiLkdQkvPFec5lrcnbf": [
-      "outgoing reference from JYXswRlj9i5KE5kJ2U0cdaM5nBh"
-    ],
-    "TfzMwdLsWibd0UkGpGAcLhuInvb": [
-      "outgoing reference from JYXswRlj9i5KE5kJ2U0cdaM5nBh"
-    ],
-    "QGVxwmnGTidbjtk1LcYcEfqbnOe": [
-      "outgoing reference from JYXswRlj9i5KE5kJ2U0cdaM5nBh"
-    ],
-    "JQvjwCDxhiMcj0kpaWicqXsTn1e": [
-      "outgoing reference from JYXswRlj9i5KE5kJ2U0cdaM5nBh"
-    ],
-    "XCZaw6aKbixxWIkMssEchOtOnlg": [
-      "outgoing reference from JYXswRlj9i5KE5kJ2U0cdaM5nBh"
-    ],
-    "Y6Qqw4a3XiWPlCkQYMqcLEORnAU": [
-      "incoming reference to JYXswRlj9i5KE5kJ2U0cdaM5nBh"
-    ]
-  },
+  "reasons_by_token": {},
   "warnings": [],
-  "affected_tables": [
-    "tbl9BeCMjBmalJVb",
-    "tblWv7PjNDsexddH",
-    "tblZMzoITXNsyKmQ",
-    "tblh7utKxg0dgdTo"
-  ],
+  "affected_tables": [],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
       "zilliz.paas",
@@ -260,7 +97,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-08-24T02:44:04.165Z",
+    "generated_at": "2026-08-25T01:57:03.515Z",
     "records": 382
   },
   "source_scope": "partial"
