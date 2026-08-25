@@ -6,7 +6,7 @@ const os = require('node:os')
 const path = require('node:path')
 const {spawnSync} = require('node:child_process')
 const test = require('node:test')
-const {applyReconciliationPlan, referenceManifestSourceCommit, alignChineseReferenceManifestPair} = require('./apply-reconciliation-plan')
+const {applyReconciliationPlan, alignChineseReferenceManifestPair} = require('./apply-reconciliation-plan')
 const {createReconciliationPlan} = require('./reconciliation-plan')
 
 function git(root, args) {
@@ -146,16 +146,7 @@ test('applies Chinese Reference deletion, rebuilds state, and records immutable 
   assert.equal(rebuilds, 2)
 })
 
-test('Chinese Reference manifest rebuild uses the reconciled target baseline source commit, not the source checkpoint', () => {
-  const sourceSha = 'a'.repeat(40)
-  const baselineSha = 'b'.repeat(40)
-  const reconciledSha = 'c'.repeat(40)
-  assert.equal(referenceManifestSourceCommit({sourceCheckpointSha: sourceSha, targetBaselineSha: baselineSha}), baselineSha)
-  assert.equal(referenceManifestSourceCommit({sourceCheckpointSha: sourceSha, targetBaselineSha: baselineSha, sourceCommitSha: reconciledSha}), reconciledSha)
-  assert.equal(referenceManifestSourceCommit({sourceCheckpointSha: sourceSha}), sourceSha)
-})
-
-test('Chinese Reference rebuild aligns the workspace manifest pair with the target baseline before rebuilding', () => {
+test('Chinese Reference rebuild uses the authenticated source checkpoint as the source commit', () => {
   const f = chineseFixture()
   const sourceManifest = 'generated/en/manifests/reference.json'
   const targetManifest = 'generated/zh-CN/manifests/reference-translations.json'
@@ -163,15 +154,13 @@ test('Chinese Reference rebuild aligns the workspace manifest pair with the targ
   const baselineSha = f.baselineSha
   const manifestSource = {schemaVersion: 1, document: 'reference-source-manifest', sourceCommit: sourceSha, records: []}
   const manifestTarget = {schemaVersion: 1, document: 'reference-translation-manifest', records: [], pendingRecords: [{sourcePath: 'content/en/reference/api/python/python/old.md', targetPath: 'content/zh-CN/reference/api/python/python/old.md', sourceCommit: baselineSha, sourceHash: 'h', targetHash: null, status: 'translated', manual: 'python'}], languageExcludedRecords: []}
-  // workspace: en manifest from source checkpoint, zh pending from target baseline (the failing mixed state)
   writeJson(f.workspace, sourceManifest, manifestSource)
   writeJson(f.workspace, targetManifest, manifestTarget)
-  // baseline: en manifest must exist and be at baselineSha
   writeJson(f.baseline, sourceManifest, {...manifestSource, sourceCommit: baselineSha})
   let invoked = null
-  const rebuildChineseReferenceState = (options) => { invoked = options.sourceCommitSha || options.targetBaselineSha || options.sourceCheckpointSha }
+  const rebuildChineseReferenceState = (options) => { invoked = options.sourceCheckpointSha }
   apply(f, {rebuildChineseReferenceState})
-  assert.equal(invoked, baselineSha)
+  assert.equal(invoked, sourceSha)
 })
 
 test('alignChineseReferenceManifestPair overwrites the workspace source manifest with the target baseline manifest when pending is ahead', () => {

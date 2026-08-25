@@ -481,3 +481,51 @@ test('accepts evidenced unknown unbatched failures as reportable partial-success
     fs.rmSync(fixture.root, {recursive: true, force: true})
   }
 })
+
+test('reconcile-only Chinese Reference run rejects a workspace source commit differing from the target baseline', () => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'unbatched-reference-reconcile-')))
+  const baseline = path.join(root, 'baseline')
+  fs.mkdirSync(baseline)
+  const sourceManifest = {schemaVersion: 1, sourceCommit: SOURCE_COMMIT, records: []}
+  writeJson(root, 'generated/en/manifests/reference.json', {...sourceManifest, sourceCommit: OLD_SOURCE_COMMIT})
+  writeJson(baseline, 'generated/en/manifests/reference.json', sourceManifest)
+  writeJson(root, 'tmp/translation-manifest.json', manifest('zh-CN-reference', []))
+  try {
+    assert.throws(() => validateUnbatchedTranslationOutputs({
+      workspace: root,
+      baseline,
+      manifestPath: 'tmp/translation-manifest.json',
+      reportPath: 'tmp/translation-report.json',
+      agentsOutcome: 'skipped',
+      translatedCount: 0,
+      failedCount: 0,
+      remainingCount: 0,
+    }), /does not match the target baseline source commit/)
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true})
+  }
+})
+
+test('reconcile-only Chinese Reference run accepts a workspace source commit matching the target baseline', () => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'unbatched-reference-reconcile-')))
+  const baseline = path.join(root, 'baseline')
+  fs.mkdirSync(baseline)
+  const sourceManifest = {schemaVersion: 1, sourceCommit: SOURCE_COMMIT, records: []}
+  writeJson(root, 'generated/en/manifests/reference.json', sourceManifest)
+  writeJson(baseline, 'generated/en/manifests/reference.json', sourceManifest)
+  writeJson(root, 'tmp/translation-manifest.json', manifest('zh-CN-reference', []))
+  try {
+    assert.deepEqual(validateUnbatchedTranslationOutputs({
+      workspace: root,
+      baseline,
+      manifestPath: 'tmp/translation-manifest.json',
+      reportPath: 'tmp/translation-report.json',
+      agentsOutcome: 'skipped',
+      translatedCount: 0,
+      failedCount: 0,
+      remainingCount: 0,
+    }), {candidateCount: 0, target: 'zh-CN-reference'})
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true})
+  }
+})
