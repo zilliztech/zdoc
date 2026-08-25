@@ -1,10 +1,5 @@
 module.exports = [
   {
-    "type": "doc",
-    "id": "api/cpp/cpp/cpp",
-    "label": "Overview"
-  },
-  {
     "type": "category",
     "label": "Authentication",
     "key": "category:api/cpp/cpp/authentication",
