@@ -187,3 +187,19 @@ test('alignChineseReferenceManifestPair refuses a mismatched pending/source pair
   writeJson(f.baseline, sourceManifest, {...manifestSource, sourceCommit: baselineSha})
   assert.throws(() => alignChineseReferenceManifestPair({workspaceRoot: f.workspace, targetBaselineRoot: f.baseline}), /does not match target baseline sourceCommit/)
 })
+
+test('keeps a retired target as a tombstone instead of deleting it', () => {
+  const f = chineseFixture()
+  writeJson(f.workspace, 'config/reference-retirements.json', {
+    schemaVersion: 2,
+    retirements: [{
+      manual: 'python',
+      sourcePath: f.sourcePath,
+      targetPath: f.targetPath,
+      changeKind: null,
+      rationale: 'Fixture retirement',
+    }],
+  })
+  apply(f, {rebuildChineseReferenceState: () => {}})
+  assert.equal(fs.existsSync(path.join(f.workspace, f.targetPath)), true, 'retired target must be kept as a tombstone')
+})
