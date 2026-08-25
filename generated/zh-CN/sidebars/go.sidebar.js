@@ -619,7 +619,7 @@ module.exports = [
   },
   {
     "type": "category",
-    "label": "Data Import",
+    "label": "DataImport",
     "key": "category:api/go/go/v2/v2-dataimport",
     "items": [
       {
