@@ -240,6 +240,7 @@ function manualForReferenceSource(sourcePath: string): string | undefined {
     ['api/java', 'java'],
     ['api/nodejs', 'node'],
     ['api/go', 'go'],
+    ['api/cpp', 'cpp'],
     ['api/restful', 'rest'],
     ['cli', 'cli'],
   ] as const;
