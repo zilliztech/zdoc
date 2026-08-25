@@ -84,7 +84,7 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 ### 公测版\{#public-preview}
 
-- [Text Embedding](./undefined) 和 [Rerank](./undefined) Function
+- Text Embedding 和 Rerank Function
 
 <Admonition type="info" icon="📘" title="📘 说明">
 
@@ -92,9 +92,9 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 </Admonition>
 
-- [访问日志](./undefined)
+- [访问日志概述](./access-log-overview)
 
-- [按需计算](./undefined)
+- [按需计算](./on-demand-cluster)
 
 <Admonition type="info" icon="📘" title="📘 说明">
 
@@ -108,7 +108,7 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 - [RESTful API（V1 版本）](https://docs.zilliz.com.cn/reference/restful/v1)
 
-- [合并数据](./undefined)
+- 合并数据
 
 ### 已停用\{#deprecated}
 

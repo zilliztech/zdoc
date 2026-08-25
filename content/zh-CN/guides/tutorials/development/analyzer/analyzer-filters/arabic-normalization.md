@@ -10,7 +10,7 @@ notebook: FALSE
 description: "`arabicnormalization` 过滤器是用于阿拉伯语文本的内置 token 过滤器。它会规范化阿拉伯语特有的字母变体，并移除可选标记，避免等效的阿拉伯语词项在文本分析时呈现为不同形式。 | Cloud"
 type: origin
 token: D8oFwsLhhif1NhkPOo0cCDNNnhY
-sidebar_position: 13
+sidebar_position: 14
 displayed_sidebar: default
 
 ---

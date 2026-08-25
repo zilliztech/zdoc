@@ -132,7 +132,7 @@ filter='json_contains_all(tags, ["electronics", "sale", "new"])'
 filter='json_contains_any(tags, ["electronics", "new", "clearance"])'
 ```
 
-有关 JSON 操作符的更多详细信息，请参阅 JSON 操作符。
+有关 JSON 操作符的更多详细信息，请参阅 [JSON 操作符](./json-filtering-operators)。
 
 ### 针对 ARRAY 字段的操作符\{#array-field-specific-operators}
 
@@ -162,7 +162,7 @@ filter="ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])"
 filter="ARRAY_LENGTH(history_temperatures) < 10"
 ```
 
-有关数组操作符的更多详细信息，请参阅 ARRAY 操作符。
+有关数组操作符的更多详细信息，请参阅 [ARRAY 操作符](./array-filtering-operators)。
 
 ### 针对 VARCHAR 字段的操作符\{#varchar-field-specific-operators}
 

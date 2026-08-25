@@ -95,7 +95,7 @@ import Procedures from '@site/src/components/Procedures';
 
     ![R0mOwkmdqhLgtUb1MZ5ckIyFn8f](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/R0mOwkmdqhLgtUb1MZ5ckIyFn8f.png)
 
-1. 配置角色访问权限并单击 **Create**。有关可添加到自定义项目角色的完整权限列表，请参见 Platform Resource Privilege Reference。
+1. 配置角色访问权限并单击 **Create**。有关可添加到自定义项目角色的完整权限列表，请参见 [平台资源权限](./platform-privileges)。
 
     ![EnKXbUCzZosA6RxDRfRcwJMTnSb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/enkxbuczzosa6rxdrfrcwjmtnsb.png "EnKXbUCzZosA6RxDRfRcwJMTnSb")
 

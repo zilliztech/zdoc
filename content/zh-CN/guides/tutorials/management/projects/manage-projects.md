@@ -30,11 +30,11 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 创建项目\{#create-a-project}
 
-每个组织中默认自带项目 Default Project，其版本为**企业版**且不可删除。在注册账号完成后的引导流程中，您需要选择要部署工作负载的云地域，随后系统会在该地域自动创建该默认项目。您可以根据业务需求，自行创建更多项目。当您创建项目时，您也会成为该项目的[项目管理员](./project-users)。
+每个组织中默认自带项目 Default Project，其版本为**企业版**且不可删除。在注册账号完成后的引导流程中，您需要选择要部署工作负载的云地域，随后系统会在该地域自动创建该默认项目。您可以根据业务需求，自行创建更多项目。当您创建项目时，您也会成为该项目的[项目管理员](./manage-platform-roles#manage-project-roles)。
 
 ### 限制\{#limits}
 
-- 要创建项目，您必须是[组织管理员](./organization-users)。
+- 要创建项目，您必须是[组织管理员](./manage-platform-roles#manage-organization-roles)。
 
 - 每个组织中最多可创建 100 个项目。
 
@@ -263,13 +263,13 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 编辑项目详情\{#edit-project-details}
 
-要重命名项目或者修改项目描述，您必须是[组织管理员](./organization-users)。您可以通过 Web 控制台编辑项目详情。
+要重命名项目或者修改项目描述，您必须是[组织管理员](./manage-platform-roles#manage-organization-roles)。您可以通过 Web 控制台编辑项目详情。
 
 <Supademo id="cmhiwsw4r607mfati5u089sae" title=""  />
 
 ## 删除项目\{#delete-a-project}
 
-要删除项目，您必须是[组织管理员](./organization-users)。删除项目前，您需要先删除该项目下的所有[集群](./manage-cluster#drop-cluster)和 Volume。
+要删除项目，您必须是[组织管理员](./manage-platform-roles#manage-organization-roles)。删除项目前，您需要先删除该项目下的所有[集群](./manage-cluster#drop-cluster)和 Volume。
 
 项目一旦删除，该项目下的所有数据和资源将被清理。该操作不可撤销。
 

@@ -1143,6 +1143,12 @@ module.exports = [
               },
               {
                 "type": "doc",
+                "id": "tutorials/development/analyzer/analyzer-filters/pinyin-filter",
+                "label": "Pinyin",
+                "key": "doc:tutorials/development/analyzer/analyzer-filters/pinyin-filter"
+              },
+              {
+                "type": "doc",
                 "id": "tutorials/development/analyzer/analyzer-filters/length-filter",
                 "label": "Length",
                 "key": "doc:tutorials/development/analyzer/analyzer-filters/length-filter"

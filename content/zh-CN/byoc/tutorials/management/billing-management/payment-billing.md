@@ -69,7 +69,7 @@ import Admonition from '@theme/Admonition';
 | 组织账单管理员 | 可以管理支付方式、账单信息、云市场订阅、发票和账单告警。 |
 | 其他组织角色 | 无法访问账单信息。如需查看或更新账单设置，请联系组织管理员或组织账单管理员。 |
 
-详情请参见[组织用户](./organization-users)。
+详情请参见[管理平台用户](./manage-platform-users)。
 
 ## 账单状态和服务影响\{#billing-status-and-service-impact}
 

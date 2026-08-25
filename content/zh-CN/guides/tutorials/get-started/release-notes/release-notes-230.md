@@ -64,7 +64,7 @@ import Admonition from '@theme/Admonition';
 
 - RBAC 新角色
 
-    授予[项目成员角色](./project-users)给项目协作者，以更流畅的协作。
+    授予[项目成员角色](./manage-platform-roles#manage-project-roles)给项目协作者，以更流畅的协作。
 
 - 计费优化
 
@@ -76,7 +76,7 @@ import Admonition from '@theme/Admonition';
 
 - 自助服务账户删除
 
-    轻松删除您自己的[账户](./email-accounts#delete-your-account)或[组织](./organization-users)，更好地控制您的个人资料。
+    轻松删除您自己的[账户](./email-accounts#delete-your-account)或[组织](./organization-settings)，更好地控制您的个人资料。
 
 - 稳定性增强
 

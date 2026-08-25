@@ -90,7 +90,7 @@ import Grid from '@site/src/components/Grid';
 
         - 注意：自定义 API Key 不支持绑定 Cluster Admin 角色。
 
-        更多详情，可参考 [管理项目用户](./project-users)。
+        更多详情，可参考 [管理平台用户](./manage-platform-users#project-users)。
 
         ## Zilliz Cloud BYOC 支持分层存储集群\{#zilliz-cloud-byoc-supports-tiered-storage-cluster}
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "`length` 过滤器删除不符合指定长度要求的词项，使您能够控制在文本处理过程中保留的词项长度。 | Cloud"
 type: origin
 token: C1J1w3XqqiSMH9kTTcTcBjVZnOh
-sidebar_position: 6
+sidebar_position: 7
 displayed_sidebar: default
 
 ---

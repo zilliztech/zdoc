@@ -152,7 +152,7 @@ Zilliz Cloud 现已登录亚马逊云科技 Marketplace。本章主要介绍如�
 
     1. [提交工单](http://support.zilliz.com.cn)开通多组织功能。开通后，您可以自行[创建组织](./organization-settings#create-an-organization)。
 
-    1. 等待其他用户向您[发送组织邀请](./project-users#invite-a-user-to-a-project)，并将您设置为组织管理员。
+    1. 等待其他用户向您[发送组织邀请](./manage-platform-users#invite-organization-users)，并将您设置为组织管理员。
 
     1. [提交工单](http://support.zilliz.com.cn)，联系我们为您创建一个新组织。
 

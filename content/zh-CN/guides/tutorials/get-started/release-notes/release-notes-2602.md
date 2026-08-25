@@ -42,7 +42,7 @@ import Grid from '@site/src/components/Grid';
 
         - **无缝迁移**：现有项目成员将被自动迁移并获得“所有资源”的访问权限，以继承当前的项目角色和权限范围。用户无需进行任何手动操作。
 
-        功能细节请参考 [管理组织用户](./organization-users#invite-a-user-to-your-organization)及[管理项目用户](./project-users#invite-a-user-to-a-project)。
+        功能细节请参考 [管理平台用户](./manage-platform-users)。
 
     </div>
 

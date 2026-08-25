@@ -459,7 +459,7 @@ nlohmann::json analyzer_params = {
 
     - `cncharonly`：移除包含任何非中文字符的 token。有关详细信息，请参阅 [Cncharonly](./cncharonly-filter)。
 
-    - `pinyin`：为中文 token 添加拼音形式，以支持基于拼音的中文文本匹配。有关详细信息，请参阅 [Pinyin](./undefined)。
+    - `pinyin`：为中文 token 添加拼音形式，以支持基于拼音的中文文本匹配。有关详细信息，请参阅 [Pinyin](./pinyin-filter)。
 
     **使用内置过滤器的示例：**
 

@@ -38,7 +38,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 使用限制\{#limitations}
 
-- 如需管理 On-demand 集群，您需要具备**项目管理员**权限。如需了解角色权限，请参考[项目用户](./project-users#project-role-and-access-comparison)。
+- 如需管理 On-demand 集群，您需要具备**项目管理员**权限。如需了解角色权限，请参考[管理平台用户](./manage-platform-users)。
 
 - 每个项目中最多只能创建 20 个 On-demand 集群。
 

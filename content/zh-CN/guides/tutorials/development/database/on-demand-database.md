@@ -34,7 +34,7 @@ import Procedures from '@site/src/components/Procedures';
 
 ## 使用限制\{#limitations}
 
-- 您需要具备**项目管理员**权限才能管理 Database。如需了解角色权限，请参考[项目用户](./project-users#project-role-and-access-comparison)。
+- 您需要具备**项目管理员**权限才能管理 Database。如需了解角色权限，请参考[管理平台用户](./manage-platform-users#project-users)。
 
 - 在每个项目中，最多可以在按需计算中创建 100 个 Database。
 

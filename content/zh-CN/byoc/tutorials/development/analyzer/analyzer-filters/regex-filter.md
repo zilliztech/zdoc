@@ -10,7 +10,7 @@ notebook: FALSE
 description: "`regex` 过滤器是一种正则表达式过滤器：只有匹配你提供的表达式的 token 才会被保留，其余的都会被丢弃。 | BYOC"
 type: origin
 token: EcNmwuOtTi8VTDk6XtLcJsxznWx
-sidebar_position: 11
+sidebar_position: 12
 displayed_sidebar: default
 
 ---

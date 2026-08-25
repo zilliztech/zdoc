@@ -10,7 +10,7 @@ notebook: FALSE
 description: "`stop` 过滤器删除分词文本中的指定停用词，帮助消除常见且意义不大的词。您可以使用 `stopwords` 参数配置停用词列表。 | Cloud"
 type: origin
 token: PcaswIdMjiPOrAkyA0uc5aXOn0b
-sidebar_position: 7
+sidebar_position: 8
 displayed_sidebar: default
 
 ---

@@ -44,7 +44,7 @@ import Supademo from '@site/src/components/Supademo';
 
 ## 编辑组织名称\{#edit-organization-name}
 
-要编辑组织名称，您必须是[组织管理员](./organization-users)。
+要编辑组织名称，您必须是[组织管理员](./manage-platform-roles#manage-organization-roles)。
 
 您可以通过以下任一种方式编辑组织名称：
 
@@ -60,7 +60,7 @@ import Supademo from '@site/src/components/Supademo';
 
 默认情况下，系统时区的设置会与首次登录地保持一致，并会应用 Zilliz Cloud 中显示的所有时间字符串。
 
-如需查看时区，您的角色可以是组织管理员或组织成员。更多有关组织角色详情，请参考[管理组织用户](./organization-users)。
+如需查看时区，您的角色可以是组织管理员或组织成员。更多有关组织角色详情，请参考[管理平台角色](./manage-platform-roles#manage-organization-roles)。
 
 ![timezone-settings](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/timezone-settings.png "timezone-settings")
 

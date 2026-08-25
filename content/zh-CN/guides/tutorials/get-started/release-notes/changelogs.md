@@ -178,7 +178,7 @@ import Grid from '@site/src/components/Grid';
 
         - ⚙️[ 运维窗口](./organization-settings#set-up-preferred-maintenance-window)功能经过重新设计，为您提供更多地升级计划及主动通知。
 
-        - 👥 全新的 [Cluster Admin 角色](./project-users#cluster-admin)为您的团队成员提供部分或所有集群的项目管理员权限。
+        - 👥 全新的 [Cluster Admin 角色](./cluster-roles)为您的团队成员提供部分或所有集群的项目管理员权限。
 
         - 💾 BYOC 现已支持创建分层存储类型的集群。
 
@@ -196,7 +196,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        - 🔐 集群级别权限控制，为您在[组织](./organization-users#invite-a-user-to-your-organization)和[项目设置](./project-users#invite-a-user-to-a-project)中提供更细粒度的访问控制通力。
+        - 🔐 集群级别权限控制，为您在[组织](./organization-settings)和[项目设置](./manage-projects)中提供更细粒度的访问控制通力。
 
     </div>
 

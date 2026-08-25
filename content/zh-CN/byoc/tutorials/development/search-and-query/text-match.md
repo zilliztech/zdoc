@@ -351,8 +351,6 @@ schema->AddField(milvus::FieldSchema("embeddings", milvus::DataType::FLOAT_VECTO
 </TabItem>
 </Tabs>
 
-有关可用分词器及其配置的更多信息，请参考 [Tokenizer](./undefined)。
-
 ## 使用 Text Match\{#use-text-match}
 
 在 Collection Schema 中为 VARCHAR 字段启用 Text Match 后，您可以使用 `TEXT_MATCH` 表达式执行文本匹配。
