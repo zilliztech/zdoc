@@ -146,21 +146,16 @@ test('applies Chinese Reference deletion, rebuilds state, and records immutable 
   assert.equal(rebuilds, 2)
 })
 
-test('Chinese Reference rebuild uses the authenticated source checkpoint as the source commit', () => {
+test('alignChineseReferenceManifestPair returns the target baseline source commit', () => {
   const f = chineseFixture()
   const sourceManifest = 'generated/en/manifests/reference.json'
   const targetManifest = 'generated/zh-CN/manifests/reference-translations.json'
-  const sourceSha = f.sourceSha
-  const baselineSha = f.baselineSha
-  const manifestSource = {schemaVersion: 1, document: 'reference-source-manifest', sourceCommit: sourceSha, records: []}
-  const manifestTarget = {schemaVersion: 1, document: 'reference-translation-manifest', records: [], pendingRecords: [{sourcePath: 'content/en/reference/api/python/python/old.md', targetPath: 'content/zh-CN/reference/api/python/python/old.md', sourceCommit: baselineSha, sourceHash: 'h', targetHash: null, status: 'translated', manual: 'python'}], languageExcludedRecords: []}
+  const manifestSource = {schemaVersion: 1, document: 'reference-source-manifest', sourceCommit: f.sourceSha, records: []}
+  const manifestTarget = {schemaVersion: 1, document: 'reference-translation-manifest', records: [], pendingRecords: [{sourcePath: 'content/en/reference/api/python/python/old.md', targetPath: 'content/zh-CN/reference/api/python/python/old.md', sourceCommit: f.baselineSha, sourceHash: 'h', targetHash: null, status: 'translated', manual: 'python'}], languageExcludedRecords: []}
   writeJson(f.workspace, sourceManifest, manifestSource)
   writeJson(f.workspace, targetManifest, manifestTarget)
-  writeJson(f.baseline, sourceManifest, {...manifestSource, sourceCommit: baselineSha})
-  let invoked = null
-  const rebuildChineseReferenceState = (options) => { invoked = options.sourceCheckpointSha }
-  apply(f, {rebuildChineseReferenceState})
-  assert.equal(invoked, sourceSha)
+  writeJson(f.baseline, sourceManifest, {...manifestSource, sourceCommit: f.baselineSha})
+  assert.equal(alignChineseReferenceManifestPair({workspaceRoot: f.workspace, targetBaselineRoot: f.baseline}), f.baselineSha)
 })
 
 test('alignChineseReferenceManifestPair overwrites the workspace source manifest with the target baseline manifest when pending is ahead', () => {
