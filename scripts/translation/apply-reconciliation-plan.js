@@ -45,10 +45,6 @@ function readLedger(root) {
   return value
 }
 
-function referenceManifestSourceCommit(options) {
-  return options.sourceCommitSha || options.targetBaselineSha || options.sourceCheckpointSha
-}
-
 function alignChineseReferenceManifestPair(options) {
   const sourceManifest = 'generated/en/manifests/reference.json'
   const targetManifest = 'generated/zh-CN/manifests/reference-translations.json'
@@ -82,7 +78,7 @@ function alignChineseReferenceManifestPair(options) {
 
 function rebuildChineseReferenceState(options) {
   if (options.rebuildChineseReferenceState) return options.rebuildChineseReferenceState(options)
-  const sourceCommit = referenceManifestSourceCommit(options)
+  const sourceCommit = options.sourceCheckpointSha
   alignChineseReferenceManifestPair(options)
   const command = spawnSync('pnpm', ['docs-tooling', 'reference-manifest', '--source', 'content/en/reference', '--target', 'content/zh-CN/reference', '--source-commit', sourceCommit, '--write'], {
     cwd: options.workspaceRoot,
@@ -196,7 +192,7 @@ function applyReconciliationPlan(options) {
   return result
 }
 
-module.exports = {applyReconciliationPlan, referenceManifestSourceCommit, alignChineseReferenceManifestPair}
+module.exports = {applyReconciliationPlan, alignChineseReferenceManifestPair}
 
 function parseArgs(args) {
   const names = new Map([
