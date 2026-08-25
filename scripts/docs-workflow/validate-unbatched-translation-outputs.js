@@ -149,6 +149,20 @@ function assertReferenceSourceTreeMatchesWorkspace(workspace, sourceManifest) {
   }
 }
 
+function assertReferenceSourceCommitMatchesBaseline(workspace, baseline) {
+  let sourceManifest
+  let baselineSourceManifest
+  try {
+    sourceManifest = parseReferenceSourceManifest(readPinnedJson(workspace, 'generated/en/manifests/reference.json', 'Reference source manifest'))
+    baselineSourceManifest = parseReferenceSourceManifest(readPinnedJson(baseline, 'generated/en/manifests/reference.json', 'baseline Reference source manifest'))
+  } catch (error) {
+    fail(`Reference source manifest is invalid: ${String(error?.message || error)}`)
+  }
+  if (sourceManifest.sourceCommit !== baselineSourceManifest.sourceCommit) {
+    fail('Reference source manifest commit does not match the target baseline source commit')
+  }
+}
+
 function validateReferenceState({workspace, baseline, manifest, resultBySource}) {
   let sourceManifest
   try {
@@ -241,6 +255,7 @@ function validateUnbatchedTranslationOutputs(options) {
       fail('reconciliation-only translations must skip agents with zero result counts')
     }
     assertNoReport(workspace, options.reportPath)
+    if (manifest.target === 'zh-CN-reference') assertReferenceSourceCommitMatchesBaseline(workspace, baseline)
     return Object.freeze({candidateCount: 0, target: manifest.target})
   }
 
