@@ -323,3 +323,19 @@ test('deterministically normalizes only case-sensitive mandatory ASCII terms', (
     'Compaction 计划。',
   )
 })
+
+test('repairs cross-language mandatory terms retained as English', () => {
+  const contract = loadLocaleContract('ja-JP')
+  assert.equal(
+    applyDeterministicLocaleRepairs('Search a vector field.', 'Search a vector field.', contract),
+    'Search a ベクトル field.',
+  )
+})
+
+test('does not repair the field-identifier vector but repairs prose collection', () => {
+  const contract = loadLocaleContract('ja-JP')
+  const source = 'The collection has the following fields: **id**, **vector**, and **doctype**.'
+  const repaired = applyDeterministicLocaleRepairs(source, source, contract)
+  assert.match(repaired, /\*\*vector\*\*/)
+  assert.match(repaired, /コレクション/)
+})

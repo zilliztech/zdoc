@@ -51,6 +51,7 @@ const DEFAULT_PROVIDER_RETRY_JITTER_RATIO = 0.2
 const DEFAULT_FILE_RETRIES = 1
 const DEFAULT_PROVIDER_TIMEOUT_MS = 300000
 const DEFAULT_FILE_TIMEOUT_MS = 900000
+const DEFAULT_MAX_TOKENS = 16384
 const REFERENCE_LANDING_SOURCE_ROOT = 'content/en/reference/'
 const REFERENCE_LANDING_PROSE_SAFETY_FACTOR = 1.05
 const SEVERITY_RANK = Object.freeze({ high: 3, medium: 2, low: 1 })
@@ -304,6 +305,7 @@ async function createProviderCall(agentConfigs, options = {}) {
           messages,
           temperature: 0,
         }
+        if (config.maxTokens) requestBody.max_tokens = config.maxTokens
         if (config.thinking) {
           if (config.thinkingStyle === 'qwen') {
             requestBody.enable_thinking = config.thinking === 'enabled'
@@ -311,7 +313,7 @@ async function createProviderCall(agentConfigs, options = {}) {
             requestBody.thinking = { type: config.thinking }
           }
         }
-        if (agent === 'review' && config.structuredOutput === true) {
+        if (config.structuredOutput === true) {
           requestBody.response_format = { type: 'json_object' }
         }
         const res = await fetch(`${normalizeBaseUrl(config.baseUrl)}/chat/completions`, {
@@ -324,7 +326,8 @@ async function createProviderCall(agentConfigs, options = {}) {
           signal: controller.signal,
         })
         const data = await res.json().catch(() => ({}))
-        const message = data?.choices?.[0]?.message || {}
+        const choice = data?.choices?.[0] || {}
+        const message = choice.message || {}
         let content = message.content
         if (!content && typeof message.reasoning_content === 'string' && message.reasoning_content.trim()) {
           content = message.reasoning_content
@@ -344,6 +347,13 @@ async function createProviderCall(agentConfigs, options = {}) {
           error.status = res.status
           error.failureCategory = 'provider_transport'
           error.code = 'PROVIDER_TRANSPORT'
+          throw error
+        }
+        if (choice.finish_reason === 'length') {
+          const error = new Error(`${agent} agent output was truncated by max_tokens (finish_reason=length)`)
+          error.failureCategory = 'semantic_response_failed'
+          error.code = 'SEMANTIC_RESPONSE_TRUNCATED'
+          error.adaptiveSubdivisionRecommended = true
           throw error
         }
         return content.trim()
@@ -910,9 +920,12 @@ async function translateAndReviewUnit({
       const translatedById = new Map(translated.map(unit => [unit.id, unit]))
       return batch.map(unit => checkpointed.get(unit.id) || translatedById.get(unit.id))
     } catch (error) {
-      const providerFailure = ['provider_timeout', 'provider_transport'].includes(classifyFailure(error))
+      const category = classifyFailure(error)
+      const providerFailure = ['provider_timeout', 'provider_transport'].includes(category)
+      const truncationFailure = category === 'semantic_response_failed' && error?.adaptiveSubdivisionRecommended === true
+      const subdividableFailure = providerFailure || truncationFailure
       const repeatedProviderFailure = error?.adaptiveSubdivisionRecommended === true || Number(error?.providerAttempts) > 1 || Number(error?.retryBudgetConsumed) > 0
-      if (providerFailure && pendingBatch.length > 1 && (adaptive || repeatedProviderFailure)) {
+      if (subdividableFailure && pendingBatch.length > 1 && (adaptive || repeatedProviderFailure)) {
         const targetChars = Math.max(1, Math.floor(adaptiveTargetChars / (2 ** depth)))
         const maxChars = Math.max(targetChars, Math.floor(adaptiveMaxChars / (2 ** depth)))
         const subdivisions = subdivideSemanticBatch(pendingBatch, targetChars, maxChars)
@@ -930,7 +943,7 @@ async function translateAndReviewUnit({
           Object.assign(error, providerRetryBudgetDetails(providerRetryBudget), adaptiveCallBudgetDetails(adaptiveCallBudget))
         }
       }
-      if (providerFailure && (adaptive || repeatedProviderFailure)) {
+      if (subdividableFailure && (adaptive || repeatedProviderFailure)) {
         Object.assign(error, {
           adaptiveSubdivisionDepth: depth,
           semanticBatchSize: pendingBatch.length,
@@ -955,20 +968,31 @@ async function translateAndReviewUnit({
     const translationUnits = currentUnits
     const draftUnits = reprotectSemanticUnits(sourceUnits, currentUnits)
     const draftUnitPayload = draftUnits.map(unit => ({id: unit.id, kind: unit.kind, text: unit.protection.content}))
-    const polishResponse = await callModel({
-      agent: 'polish',
-      signal,
-      retryBudget: providerRetryBudget,
-      messages: buildPolishMessages({
-        target,
-        sourcePath,
-        sourceUnits: sourceUnitPayload,
-        draftUnits: draftUnitPayload,
-        locale,
-        chunkContext,
-      }),
-    })
-    const polishedUnits = restoreSemanticUnitResponse(polishResponse, {field: 'translations', protectedUnits: sourceUnits, localeContract})
+    let polishedUnits
+    try {
+      const polishResponse = await callModel({
+        agent: 'polish',
+        signal,
+        retryBudget: providerRetryBudget,
+        messages: buildPolishMessages({
+          target,
+          sourcePath,
+          sourceUnits: sourceUnitPayload,
+          draftUnits: draftUnitPayload,
+          locale,
+          chunkContext,
+        }),
+      })
+      polishedUnits = restoreSemanticUnitResponse(polishResponse, {field: 'translations', protectedUnits: sourceUnits, localeContract})
+    } catch (error) {
+      const category = classifyFailure(error)
+      if (category === 'provider_transport' || category === 'provider_timeout') {
+        console.warn(`[translation-agent] polish unavailable (${category}); keeping translation draft`)
+        polishedUnits = translationUnits
+      } else {
+        throw error
+      }
+    }
     // Revert any unit whose polish broke the locale contract back to the
     // translation version — deterministic detection, no forbidden-term guesswork.
     const polishedDraftUnits = reprotectSemanticUnits(sourceUnits, polishedUnits)
@@ -1399,6 +1423,8 @@ function loadAgentConfigsFromEnv() {
       model: process.env.TRANSLATION_AGENT_MODEL,
       thinking: thinking || 'disabled',
       thinkingStyle: 'deepseek',
+      structuredOutput: String(process.env.TRANSLATION_AGENT_STRUCTURED_OUTPUT || 'true').toLowerCase() !== 'false',
+      maxTokens: parsePositiveInteger(process.env.TRANSLATION_AGENT_MAX_TOKENS, DEFAULT_MAX_TOKENS),
     },
     review: {
       baseUrl: process.env.REVIEW_AGENT_BASE_URL,
@@ -1407,6 +1433,7 @@ function loadAgentConfigsFromEnv() {
       structuredOutput: String(process.env.REVIEW_AGENT_STRUCTURED_OUTPUT || '').toLowerCase() === 'true',
       thinking: process.env.REVIEW_AGENT_THINKING || 'enabled',
       thinkingStyle: 'deepseek',
+      maxTokens: parsePositiveInteger(process.env.REVIEW_AGENT_MAX_TOKENS, DEFAULT_MAX_TOKENS),
     },
     correction: {
       baseUrl: process.env.REVIEW_AGENT_BASE_URL,
@@ -1414,6 +1441,7 @@ function loadAgentConfigsFromEnv() {
       model: process.env.REVIEW_AGENT_MODEL,
       thinking: process.env.CORRECTION_AGENT_THINKING || thinking || 'disabled',
       thinkingStyle: 'deepseek',
+      maxTokens: parsePositiveInteger(process.env.REVIEW_AGENT_MAX_TOKENS, DEFAULT_MAX_TOKENS),
     },
     polish: {
       baseUrl: process.env.POLISH_AGENT_BASE_URL || process.env.TRANSLATION_AGENT_BASE_URL,
@@ -1421,6 +1449,8 @@ function loadAgentConfigsFromEnv() {
       model: process.env.POLISH_AGENT_MODEL || 'qwen-max',
       thinking: process.env.POLISH_AGENT_THINKING || 'disabled',
       thinkingStyle: 'qwen',
+      structuredOutput: String(process.env.POLISH_AGENT_STRUCTURED_OUTPUT || 'true').toLowerCase() !== 'false',
+      maxTokens: parsePositiveInteger(process.env.POLISH_AGENT_MAX_TOKENS, DEFAULT_MAX_TOKENS),
     },
   }
 }
@@ -2095,6 +2125,7 @@ module.exports = {
   createProviderRetryBudget,
   createProgressCoordinator,
   isRetryableProviderError,
+  loadAgentConfigsFromEnv,
   loadChunkLimits,
   loadRecoveryAnalysis,
   normalizeBaseUrl,
