@@ -1,0 +1,36 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(15, 23, 42, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 12vh 1rem 0;
+}
+
+.modal {
+  width: 100%;
+  max-width: 560px;
+  padding: 12px;
+  background: var(--zd-sidebar-bg, #ffffff);
+  border: 1px solid var(--zd-surface-border, #e6e6e1);
+  border-radius: 14px;
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.18);
+}
+
+.modal :global(.navbar__search) {
+  width: 100%;
+}
+
+.modal :global(.navbar__search-input) {
+  width: 100%;
+  height: 46px;
+  padding: 0 16px;
+  font-size: 15px;
+  color: var(--zd-page-ink, inherit);
+  background: #ffffff;
+  border: 1px solid var(--zd-surface-border, #e6e6e1);
+  border-radius: 10px;
+  outline: none;
+}

@@ -70,15 +70,13 @@ export default function docsUiPlugin(_context: unknown, options: Options): Plugi
     // No trailing '$' on purpose: App.js requests '@theme/Root' without a subpath, and
     // the docs-ui passthrough Root (shared/theme/Root.tsx) is transparent for zh-CN.
     '@theme/Root': path.join(sharedRoot, 'theme', 'Root'),
-    // Replaces the cxkit @theme/SearchBar, which statically imports InkeepSearchBar
-    // from @inkeep/cxkit-react. Docusaurus' NavbarItem ComponentTypes registry always
-    // pulls SearchNavbarItem -> @theme/SearchBar into the main bundle, so the cxkit
-    // SearchBar would keep the entire Inkeep widget library in main.js even after the
-    // Root/ChatButton override. docs-ui renders its own search UI and loads Inkeep on
-    // demand, so this placeholder is never rendered by the navigation shell.
-    '@theme/SearchBar': path.join(sharedRoot, 'theme', 'SearchBar'),
     ...(englishNavigationSelected
       ? {
+          // Replaces the cxkit @theme/SearchBar for the English build only, so the
+          // InkeepSearchBar (statically imported from @inkeep/cxkit-react) never lands
+          // in main.js. The Chinese build does not apply this override — it lets
+          // @easyops-cn/docusaurus-search-local provide its local SearchBar instead.
+          '@theme/SearchBar$': path.join(__dirname, 'en/theme/SearchBar/index.tsx'),
           '@theme/Navbar/Content$': path.join(__dirname, 'en/theme/Navbar/Content/index.tsx'),
           '@theme/Navbar/MobileSidebar/SecondaryMenu$': path.join(
             __dirname,

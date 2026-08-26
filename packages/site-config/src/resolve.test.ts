@@ -361,7 +361,7 @@ describe('site-owned navigation', () => {
       'BYOC 开发指南',
       'API 与 SDK',
       'Zilliz CLI',
-      '版本文档',
+      '版本说明书',
     ]);
     expect(zhCNProfile.navigation.secondaryItems.find(item => item.label === 'API 与 SDK')?.items)
       .toEqual(expect.arrayContaining([

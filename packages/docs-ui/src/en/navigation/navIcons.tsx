@@ -9,7 +9,7 @@ import {
   Globe,
   Layers,
 } from 'lucide-react';
-import {PythonIcon, JavaIcon, NodejsIcon, GoIcon, RestIcon} from '../../shared/icons/brands';
+import {PythonIcon, JavaIcon, NodejsIcon, GoIcon, CppIcon, RestIcon} from '../../shared/icons/brands';
 
 /**
  * Shared icon registry for secondary navbar and sidebar product dropdown.
@@ -27,6 +27,7 @@ const ICONS: Record<string, React.ReactElement> = {
   java:     <JavaIcon size={15} />,
   nodejs:   <NodejsIcon size={15} />,
   go:       <GoIcon size={15} />,
+  cpp:      <CppIcon size={15} />,
   rest:     <RestIcon size={15} />,
 };
 
