@@ -44,15 +44,7 @@ export const zhCNProfile = deepFreeze(SiteProfileSchema.parse({
         items: referenceNavigation['zh-CN'].dropdown,
       },
       referenceNavigation['zh-CN'].standalone,
-      {
-        label: '版本文档',
-        prefix: '/docs/changelogs',
-        icon: 'tag',
-        items: [
-          {label: '功能支持情况', href: '/docs/feature-availability', prefix: '/docs/feature-availability', icon: 'book'},
-          {label: '版本说明书', href: '/docs/changelogs', prefix: '/docs/changelogs', icon: 'tag'},
-        ],
-      },
+      {label: '版本说明书', href: '/docs/changelogs', prefix: '/docs/changelogs', icon: 'tag'},
     ],
   },
   markdown: {remarkPlugins: ['math', 'math-brace-fix'], rehypePlugins: ['katex', 'wrap-tables', 'emoji-marks']},
