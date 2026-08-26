@@ -493,3 +493,102 @@
     display: inline-flex;
   }
 }
+
+.languageDropdown {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.languageTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 10px;
+  font-family: inherit;
+  font-size: var(--zd-nav-size);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--zd-muted-text);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color var(--zd-hover-duration) var(--zd-hover-ease),
+    color var(--zd-hover-duration) var(--zd-hover-ease);
+}
+
+.languageDropdown:hover .languageTrigger {
+  background: var(--zd-nav-hover-bg);
+  color: var(--zd-page-ink);
+}
+
+.languageTrigger svg {
+  flex: 0 0 auto;
+}
+
+.languageMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 132px;
+  padding: 6px;
+  background: #ffffff;
+  border: 1px solid var(--zd-gray-200);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition:
+    opacity var(--zd-hover-duration) var(--zd-hover-ease),
+    transform var(--zd-hover-duration) var(--zd-hover-ease),
+    visibility 0s linear var(--zd-hover-duration);
+}
+
+.languageDropdown:hover .languageMenu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition:
+    opacity var(--zd-hover-duration) var(--zd-hover-ease),
+    transform var(--zd-hover-duration) var(--zd-hover-ease),
+    visibility 0s linear 0s;
+}
+
+.languageItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 34px;
+  padding: 0 10px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--zd-page-ink);
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  text-align: left;
+  text-decoration: none !important;
+  transition:
+    background-color var(--zd-hover-duration) var(--zd-hover-ease),
+    color var(--zd-hover-duration) var(--zd-hover-ease);
+}
+
+.languageItem:hover {
+  background: var(--zd-nav-hover-bg);
+}
+
+.languageItemActive {
+  font-weight: 600;
+}

@@ -4,12 +4,13 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useNavbarMobileSidebar} from '@docusaurus/theme-common/internal';
 import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
 import NavbarLogo from '@theme/Navbar/Logo';
-import {Search, LifeBuoy, LogIn, Menu} from 'lucide-react';
+import {Search, LifeBuoy, LogIn, Menu, Globe, ChevronDown} from 'lucide-react';
 import SecondaryNavbar from '../../../navigation/SecondaryNavbar';
 import {hasInkeepCredentials} from '../../../inkeepRuntime';
 import {useDocsUiText} from '../../../../shared/i18n/uiText';
 import InkeepSearchEnhancer from './InkeepSearchEnhancer';
 import LazyInkeepModal from './LazyInkeepModal';
+import LocalSearchModal from './LocalSearchModal';
 import styles from './styles.module.css';
 
 type InkeepPluginOptions = {
@@ -90,6 +91,38 @@ function MediumActionsDropdown(): ReactNode {
   );
 }
 
+function LanguageDropdown(): ReactNode {
+  const {siteConfig, i18n} = useDocusaurusContext();
+  // Only the English site serves the Japanese locale; the Chinese site is a
+  // standalone hub with no Japanese entry.
+  if (siteConfig.customFields?.site !== 'en') return null;
+  const isJapanese = i18n.currentLocale === 'ja-JP';
+
+  return (
+    <div className={`${styles.languageDropdown} navbar-language-dropdown`}>
+      <button type="button" className={styles.languageTrigger} aria-haspopup="menu" aria-label="Language">
+        <Globe size={14} strokeWidth={1.9} aria-hidden="true" />
+        <span>{isJapanese ? '日本語' : 'English'}</span>
+        <ChevronDown size={12} strokeWidth={1.9} aria-hidden="true" />
+      </button>
+      <div className={styles.languageMenu} role="menu">
+        <a
+          role="menuitem"
+          href="/docs/home"
+          className={`${styles.languageItem} ${!isJapanese ? styles.languageItemActive : ''}`}>
+          English
+        </a>
+        <a
+          role="menuitem"
+          href="/ja-JP/docs/home"
+          className={`${styles.languageItem} ${isJapanese ? styles.languageItemActive : ''}`}>
+          日本語
+        </a>
+      </div>
+    </div>
+  );
+}
+
 export default function NavbarContent(): ReactNode {
   const mobileSidebar = useNavbarMobileSidebar();
   const {siteConfig} = useDocusaurusContext();
@@ -112,6 +145,8 @@ export default function NavbarContent(): ReactNode {
   const apiKey = pluginBaseSettings?.apiKey || runtimeInkeep.apiKey;
   const integrationId = pluginBaseSettings?.integrationId || runtimeInkeep.integrationId;
   const organizationId = pluginBaseSettings?.organizationId || runtimeInkeep.organizationId;
+  const isLocalSearch =
+    (siteConfig.customFields?.integrations as {searchProvider?: string} | undefined)?.searchProvider === 'local';
 
   const resetSearchInput = useCallback(() => {
     document.dispatchEvent(new CustomEvent('zdoc-search-reset'));
@@ -295,6 +330,8 @@ export default function NavbarContent(): ReactNode {
 
         <MediumActionsDropdown />
 
+        <LanguageDropdown />
+
         <a href="https://support.zilliz.com/hc/en-us" className="navbar-support-link" target="_blank" rel="noopener noreferrer">
           <LifeBuoy size={14} strokeWidth={1.9} aria-hidden="true" />
           {uiText.navbar.support}
@@ -309,7 +346,7 @@ export default function NavbarContent(): ReactNode {
         {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}
       </div>
 
-      {hasInkeepCredentials({apiKey, integrationId, organizationId}) && (
+      {hasInkeepCredentials({apiKey, integrationId, organizationId}) ? (
         <>
           <LazyInkeepModal
             apiKey={apiKey}
@@ -320,7 +357,9 @@ export default function NavbarContent(): ReactNode {
           />
           <InkeepSearchEnhancer />
         </>
-      )}
+      ) : isLocalSearch ? (
+        <LocalSearchModal isOpen={searchOpen} onOpenChange={handleOpenChange} />
+      ) : null}
     </div>
   );
 }

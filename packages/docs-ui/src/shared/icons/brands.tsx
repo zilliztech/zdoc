@@ -38,6 +38,29 @@ export function GoIcon({size = 16}: BrandIconProps) {
   );
 }
 
+export function CppIcon({size = 16}: BrandIconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M7 4 L17 4 L20.5 12 L17 20 L7 20 L3.5 12 Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <text
+        x="12"
+        y="14.75"
+        textAnchor="middle"
+        fontSize="8"
+        fontWeight="700"
+        fill="currentColor"
+        fontFamily="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+        C++
+      </text>
+    </svg>
+  );
+}
+
 export function RestIcon({size = 16}: BrandIconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
