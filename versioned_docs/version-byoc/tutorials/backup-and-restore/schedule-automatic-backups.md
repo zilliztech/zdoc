@@ -54,6 +54,8 @@ This guide walks you through how to schedule automatic backups on Zilliz Cloud. 
 
     - Automatic backups will still run if a manual backup is already in progress.
 
+- Backups are automatically deleted 60 days after the organization is frozen.
+
 ## Enable automatic backup\{#enable-automatic-backup}
 
 Automatic backup settings are cluster-specific and **disabled by default**. Because backups incur storage costs, you can control when and how Zilliz Cloud creates them. Once automatic backup is enabled, Zilliz Cloud generates an initial backup immediately, followed by recurring backups based on your specified schedule.
@@ -80,7 +82,7 @@ The following demo shows how to enable and configure automatic backups:
 
         - **Basic**: Select a frequency (weekly or monthly), then choose the day and time.
 
-        - **Advanced**: Define the schedule by entering a cron expression. For details, see [Cron Expression](./cron-expression).
+        - **Advanced**: Define the schedule by entering a cron expression. For details, see Understand Cron Expressions.
 
 1. Click **Save**.
 

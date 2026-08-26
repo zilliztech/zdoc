@@ -35,7 +35,7 @@ This guide explains how to **manually create backups**. To automate backup creat
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+This feature is available only to **Dedicated** clusters.
 
 </Admonition>
 
@@ -62,6 +62,8 @@ This guide explains how to **manually create backups**. To automate backup creat
         - Manual backups cannot start while an automatic backup is in progress.
 
         - Automatic backups will still run if a manual backup is already in progress.
+
+- Backups are automatically deleted 60 days after the organization is frozen due to overdue invoices.
 
 ## Create cluster backup\{#create-cluster-backup}
 

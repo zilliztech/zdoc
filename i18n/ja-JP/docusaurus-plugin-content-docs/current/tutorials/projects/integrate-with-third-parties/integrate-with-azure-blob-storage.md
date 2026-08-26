@@ -8,7 +8,7 @@ notebook: FALSE
 description: "Zilliz Cloud では、Azure Blob Storage と連携して、バックアップファイルや監査ログを指定されたコンテナーにエクスポートできます。 | Cloud"
 type: origin
 token: IzXPwUlJ5isTa4kH9KTcC6SfnvZ
-sidebar_position: 4
+sidebar_position: 3
 keywords:
   - zilliz
   - ベクトルデータベース
@@ -57,6 +57,12 @@ Zilliz Cloud では、[Azure Blob Storage](https://azure.microsoft.com/en-us/pro
     - **統合名**: この統合用の一意の名前（例：`container_for_backup`）。
 
     - **統合の説明** *(オプション)*: この統合の説明（例：`for backupfile export`）。
+
+    - **バケット権限**: この統合に必要なアクセスモードを選択します。
+
+        - **読み取り専用**: Zilliz Cloud がコンテナからデータを読み取ることのみを許可します。外部テーブルやその他の読み取り専用のシナリオで統合を使用する場合は、このモードを選択します。
+
+        - **読み書き**: Zilliz Cloud がコンテナから読み取り、コンテナへの書き込みを行うことを許可します。バックアップをエクスポートしたり、コンテナに監査ログを書き込んだりする場合は、このモードを選択します。
 
     その後、**次へ**をクリックして続行します。
 
@@ -146,7 +152,7 @@ Zilliz Cloud では、[Azure Blob Storage](https://azure.microsoft.com/en-us/pro
 
 </Procedures>
 
-## ステップ 4: ロールの割り当てを追加する\{#step-4-add-role-assignment}
+## ステップ 4: ストレージアカウントのロール割り当てを追加する\{#step-4-add-storage-account-role-assignment}
 
 <Procedures>
 
@@ -154,9 +160,9 @@ Zilliz Cloud では、[Azure Blob Storage](https://azure.microsoft.com/en-us/pro
 
     ![integrate-with-azure-blob-6](https://zdoc-images.s3.us-west-2.amazonaws.com/integrate-with-azure-blob-6.png "integrate-with-azure-blob-6")
 
-1. **職務ロール**タブで、**Storage Blob データ Contributor**ロールを選択します。
+1. **職務ロール**タブで、**Storage Blob Delegator**ロールを選択します。
 
-    ![CXjcbs7q9oitdRxKzkhcrhnznh0](https://zdoc-images.s3.us-west-2.amazonaws.com/cxjcbs7q9oitdrxkzkhcrhnznh0.png "CXjcbs7q9oitdRxKzkhcrhnznh0")
+    ![BZ2lbDBZdoGylqxA0zwcsCvNnme](https://zdoc-images.s3.us-west-2.amazonaws.com/bz2lbdbzdogylqxa0zwcscvnnme.png "BZ2lbDBZdoGylqxA0zwcsCvNnme")
 
 1. **メンバー**タブで、登録したアプリケーションを選択してロールを割り当てます。
 
@@ -166,11 +172,37 @@ Zilliz Cloud では、[Azure Blob Storage](https://azure.microsoft.com/en-us/pro
 
 </Procedures>
 
-## ステップ 5: 統合の検証と作成\{#step-5-validate-and-create-integration}
+## ステップ 5: コンテナのロール割り当てを追加する\{#step-5-add-container-role-assignment}
+
+[ステップ 1](./integrate-with-azure-blob-storage#step-1-start-integration-on-zilliz-cloud) で選択した**バケット権限**に基づいて、対応するコンテナスコープのロールを登録済みアプリケーションに割り当てます。
 
 <Procedures>
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) で、**統合の検証**をクリックし、コンテナとロール割り当ての設定が有効であることを確認します。
+1. [Azure Portal](https://portal.azure.com/#home) で、[ステップ 2](./integrate-with-azure-blob-storage#step-2-create-a-container-on-azure-portal) で作成したコンテナを含むストレージアカウントに移動します。
+
+1. **データストレージ**の下にある**コンテナ**へ移動し、対象のコンテナを選択します。
+
+1. 左側のナビゲーションペインから**アクセス制御 (IAM)** を選択し、**+ 追加** > **ロール割り当ての追加**をクリックします。
+
+1. **職務ロール**タブで、[ステップ 1](./integrate-with-azure-blob-storage#step-1-start-integration-on-zilliz-cloud) で選択したアクセスモードに応じて、次のいずれかのロールを選択します：
+
+    - [ステップ 1](./integrate-with-azure-blob-storage#step-1-start-integration-on-zilliz-cloud) で**読み取り専用**を選択した場合は、**Storage Blob Data Reader**を選択します。
+
+    - [ステップ 1](./integrate-with-azure-blob-storage#step-1-start-integration-on-zilliz-cloud) で**読み書き**を選択した場合は、**Storage Blob Data Contributor**を選択します。
+
+    ![NsGcbvXTvojt4OxAnBGcqKNhnad](https://zdoc-images.s3.us-west-2.amazonaws.com/nsgcbvxtvojt4oxanbgcqknhnad.png "NsGcbvXTvojt4OxAnBGcqKNhnad")
+
+1. **メンバー**タブで、登録したアプリケーションを選択してロールを割り当てます。
+
+1. **確認 + 割り当て**タブで、**確認 + 割り当て**をクリックして確定します。
+
+</Procedures>
+
+## ステップ 6: 統合の検証と作成\{#step-6-validate-and-create-integration}
+
+<Procedures>
+
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login) で、**統合の検証**をクリックし、コンテナとロール割り当ての設定が有効であることを確認します。検証の完了には最大約 2 分かかる場合があります。
 
 1. 検証が成功したら、**作成**をクリックして統合を完了します。
 

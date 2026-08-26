@@ -11,7 +11,7 @@ notebook: FALSE
 description: "Failed payments can affect your organization’s billing status and access to paid Zilliz Cloud features. This guide explains common causes of payment failure, what happens when payment cannot be completed, and how to restore your organization. | Cloud"
 type: origin
 token: JYXswRlj9i5KE5kJ2U0cdaM5nBh
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
@@ -57,6 +57,16 @@ A payment may fail for several reasons:
 
 - A Marketplace free trial subscription has expired and no other payment method is provided on Zilliz Cloud.
 
+## Credit card interim charges\{#credit-card-interim-charges}
+
+Zilliz Cloud SaaS invoices are generated monthly. However, for new organizations that add a credit card as their payment method for the first time, Zilliz Cloud may perform interim charges before the monthly invoice is issued.
+
+Interim charges are triggered when accumulated usage first reaches certain billing thresholds, such as &#36;100 and &#36;1,000. After the interim charges at these thresholds are completed successfully, subsequent charges follow the regular monthly billing cycle.
+
+These interim charges help establish billing reliability for new accounts and keep the organization in good standing during the billing cycle.
+
+If an interim charge fails, your organization may be frozen immediately, even if the monthly billing cycle has not ended. To avoid service interruption, make sure your credit card is valid and has sufficient available balance.
+
 ## Service impact\{#service-impact}
 
 If Zilliz Cloud cannot collect payment and no valid credits or Advance Pay balance are available, your organization will have overdue invoices and become frozen.
@@ -70,6 +80,8 @@ When an organization is frozen:
 - You are unable to create new paid resources.
 
 - Applications that depend on affected Zilliz Cloud resources may be interrupted.
+
+- Backups are automatically deleted 60 days after the organization is frozen.
 
 ## Recover your organization\{#recover-your-organization}
 
@@ -156,4 +168,6 @@ To reduce the risk of service interruption:
 - [Configure billing alerts](./monitor-billing-alerts) for usage, credits, card validity, and Advance Pay balance.
 
 - Confirm that [Marketplace subscription](./marketplace-subscription)s are linked to the correct Zilliz Cloud organization.
+
+- If your organization recently added a credit card for the first time, make sure the card has sufficient available balance for interim charges when accumulated usage first reaches billing thresholds.
 
