@@ -156,7 +156,7 @@ The following digram illustrates the necessary steps on Zilliz Cloud and Azure P
 
 1. On the **Job function roles** tab, choose the **Storage Blob Delegator** role.
 
-    ![PVPebHgiDoXIXexKM8scCVlqnId](https://zdoc-images.s3.us-west-2.amazonaws.com/pvpebhgidoxixexkm8sccvlqnid.png "PVPebHgiDoXIXexKM8scCVlqnId")
+    ![BZ2lbDBZdoGylqxA0zwcsCvNnme](https://zdoc-images.s3.us-west-2.amazonaws.com/bz2lbdbzdogylqxa0zwcscvnnme.png "BZ2lbDBZdoGylqxA0zwcsCvNnme")
 
 1. On the **Members** tab, select your registered application to assign the role.
 
@@ -178,11 +178,11 @@ Based on the **Bucket Permission** selected in [Step 1](./integrate-with-azure-b
 
 1. Select **Access Control (IAM)** from the left-side navigation pane, then click **+ Add** > **Add role assignment**.
 
-1. On the **Job function roles** tab, choose one of the following roles according to the access mode:
+1. On the **Job function roles** tab, choose one of the following roles according to the access mode selected in [Step 1](./integrate-with-azure-blob-storage#step-1-start-integration-on-zilliz-cloud):
 
-    - **Read only**: **Storage Blob Data Reader**
+    - If you selected **Read only** in [Step 1](./integrate-with-azure-blob-storage#step-1-start-integration-on-zilliz-cloud), choose **Storage Blob Data Reader**.
 
-    - **Read write**: **Storage Blob Data Contributor**
+    - If you selected **Read write** in [Step 1](./integrate-with-azure-blob-storage#step-1-start-integration-on-zilliz-cloud), choose **Storage Blob Data Contributor**.
 
     ![NsGcbvXTvojt4OxAnBGcqKNhnad](https://zdoc-images.s3.us-west-2.amazonaws.com/nsgcbvxtvojt4oxanbgcqknhnad.png "NsGcbvXTvojt4OxAnBGcqKNhnad")
 
