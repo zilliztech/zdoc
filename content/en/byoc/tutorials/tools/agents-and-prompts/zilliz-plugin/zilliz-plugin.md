@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The Zilliz Cloud plugin for Claude Code is a natural language interface that brings Zilliz Cloud operations directly into your IDE. Instead of memorizing CLI commands or switching to the web console, describe what you want in plain language and the plugin handles it. | BYOC"
 type: origin
 token: LFepwAKeGiURJUksNA4cqYPYnIb
-sidebar_position: 2
+sidebar_position: 3
 displayed_sidebar: default
 
 ---

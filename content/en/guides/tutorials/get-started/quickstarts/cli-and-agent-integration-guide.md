@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "This guide helps you set up Zilliz CLI and agent integrations locally. After setup, you can use your agent to operate Zilliz Cloud through natural language, or use the CLI directly in terminals, scripts, and CI workflows. | Cloud"
+description: "Install Zilliz CLI and the agent integration that matches your local workflow. Zilliz supports agent integration through the Zilliz Plugin for Claude Code and OpenAI Codex, the Zilliz Skill for skill-compatible agents, and the Zilliz CLI for direct terminal or automation workflows. | Cloud"
 type: shortcut
 token: HxWmwteOEi1Egukx26pcBnnknSd
 sidebar_position: 1
@@ -23,7 +23,9 @@ import Procedures from '@site/src/components/Procedures';
 
 # Quickstart to CLI & Agent Integration
 
-This guide helps you set up Zilliz CLI and agent integrations locally. After setup, you can use your agent to operate Zilliz Cloud through natural language, or use the CLI directly in terminals, scripts, and CI workflows.
+Install Zilliz CLI and the agent integration that matches your local workflow. Zilliz supports agent integration through the Zilliz Plugin for Claude Code and OpenAI Codex, the Zilliz Skill for skill-compatible agents, and the Zilliz CLI for direct terminal or automation workflows.
+
+After setup, you can ask your agent to operate Zilliz Cloud directly, or use the CLI in scripts and terminals.
 
 ## Installation\{#installation}
 
@@ -33,9 +35,33 @@ Before you start, ensure that you have:
 
 - Claude Code, if you want to use the [Claude Code Plugin](/docs/agents/zilliz-plugin).
 
+- Codex, if you want to use the [Codex Plugin](./zilliz-codex-plugin).
+
 - Node.js, if you want to install [Zilliz Skill](https://github.com/zilliztech/zilliz-skill).
 
-### Install Claude Code Plugin\{#install-claude-code-plugin}
+### Install Zilliz Plugin for OpenAI Codex\{#install-zilliz-plugin-for-openai-codex}
+
+Use the [Zilliz](https://github.com/zilliztech/zilliz-plugin)[ Plugin](https://github.com/zilliztech/zilliz-plugin) if you want to operate Zilliz Cloud directly from OpenAI Codex.
+
+<Procedures>
+
+1. Add the marketplace.
+
+    ```plaintext
+    codex plugin marketplace add zilliztech/zilliz-plugin
+    ```
+
+1. Open `/plugins` in Codex and install `zilliz` from the marketplace.
+
+</Procedures>
+
+You can also install directly with [codex-marketplace](https://www.npmjs.com/package/codex-marketplace) as follows.
+
+```plaintext
+npx codex-marketplace add zilliztech/zilliz-plugin --plugins
+```
+
+### Install Zilliz Plugin for Claude Code\{#install-zilliz-plugin-for-claude-code}
 
 Use the [Claude Code Plugin](/docs/agents/zilliz-plugin) if you want to operate Zilliz Cloud directly from Claude Code.
 
@@ -137,13 +163,13 @@ Use these tools when you need to:
 
 The Claude Code Plugin, Zilliz Skill, and Zilliz CLI should cover the same main capabilities. Choose based on workflow, not feature scope.
 
-|  | **Claude Code Plugin** | **Zilliz Skill** | **Zilliz CLI** |
-| --- | --- | --- | --- |
-| **Best for** | Claude Code natural-language workflows | Skill-compatible coding agents | Terminal use, scripts, and CI |
-| **Setup** | `/zilliz:quickstart` | `npx skills add zilliztech/zilliz-skill` | Install script + `zilliz login` |
-| **Natural language** | Yes | Yes | No |
-| **Automation** | Agent-assisted | Agent-assisted | Script-first |
-| **Structured output** | Agent-readable responses | Agent-readable responses | `--output json` for scripts |
+|  | **OpenAI Codex plugin** | **Claude Code Plugin** | **Zilliz Skill** | **Zilliz CLI** |
+| --- | --- | --- | --- | --- |
+| **Best for** | Codex natural-language workflows | Claude Code natural-language workflows | Skill-compatible coding agents | Terminal use, scripts, and CI |
+| **Setup** | Guided setup through the `quickstart` skill | `/zilliz:quickstart` | `npx skills add zilliztech/zilliz-skill` | Install script + `zilliz login` |
+| **Natural language** | Yes | Yes | Yes | No |
+| **Automation** | Agent-assisted | Agent-assisted | Agent-assisted | Script-first |
+| **Structured output** | Agent-readable responses | Agent-readable responses | Agent-readable responses | `--output json` for scripts |
 
 ### Supported capabilities\{#supported-capabilities}
 

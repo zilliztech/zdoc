@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The Zilliz Cloud extension for Gemini CLI is a natural language interface that brings Zilliz Cloud operations directly into your IDE. Instead of memorizing CLI commands or switching to the web console, describe what you want in plain language and the plugin handles it. | BYOC"
 type: origin
 token: FDwgwyDbMi98nckzPxkc2qWynW4
-sidebar_position: 3
+sidebar_position: 4
 displayed_sidebar: default
 
 ---

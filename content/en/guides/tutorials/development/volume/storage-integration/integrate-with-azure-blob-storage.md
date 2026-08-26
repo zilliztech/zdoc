@@ -52,6 +52,12 @@ The following digram illustrates the necessary steps on Zilliz Cloud and Azure P
 
     - **Integration Description** *(optional)*: A description for this integration (e.g., `for backupfile export`).
 
+    - **Bucket Permission**: Select the required access mode for this integration.
+
+        - **Read only**: Allows Zilliz Cloud to read data from the container only. Choose this mode if the integration is used for external tables or other read-only scenarios.
+
+        - **Read write**: Allows Zilliz Cloud to read from and write to the container. Choose this mode if you want to export backups or write audit logs to the container.
+
     Then, click **Next** to proceed.
 
 </Procedures>
@@ -140,7 +146,7 @@ The following digram illustrates the necessary steps on Zilliz Cloud and Azure P
 
 </Procedures>
 
-## Step 4: Add role assignment\{#step-4-add-role-assignment}
+## Step 4: Add Storage Account role assignment\{#step-4-add-storage-account-role-assignment}
 
 <Procedures>
 
@@ -148,9 +154,9 @@ The following digram illustrates the necessary steps on Zilliz Cloud and Azure P
 
     ![integrate-with-azure-blob-6](https://zdoc-images.s3.us-west-2.amazonaws.com/integrate-with-azure-blob-6.png "integrate-with-azure-blob-6")
 
-1. On the **Job function roles** tab, choose the **Storage Blob Data Contributor** role.
+1. On the **Job function roles** tab, choose the **Storage Blob Delegator** role.
 
-    ![CXjcbs7q9oitdRxKzkhcrhnznh0](https://zdoc-images.s3.us-west-2.amazonaws.com/cxjcbs7q9oitdrxkzkhcrhnznh0.png "CXjcbs7q9oitdRxKzkhcrhnznh0")
+    ![PVPebHgiDoXIXexKM8scCVlqnId](https://zdoc-images.s3.us-west-2.amazonaws.com/pvpebhgidoxixexkm8sccvlqnid.png "PVPebHgiDoXIXexKM8scCVlqnId")
 
 1. On the **Members** tab, select your registered application to assign the role.
 
@@ -160,11 +166,37 @@ The following digram illustrates the necessary steps on Zilliz Cloud and Azure P
 
 </Procedures>
 
-## Step 5: Validate and create integration\{#step-5-validate-and-create-integration}
+## Step 5: Add Container role assignment\{#step-5-add-container-role-assignment}
+
+Based on the **Bucket Permission** selected in [Step 1](./integrate-with-azure-blob-storage#step-1-start-integration-on-zilliz-cloud), assign the corresponding container-scoped role to the registered application.
 
 <Procedures>
 
-1. In the [Zilliz Cloud console](https://cloud.zilliz.com/login), click **Validate Integration** to verify that the container and role assignment settings are valid.
+1. In the [Azure Portal](https://portal.azure.com/#home), navigate to the storage account that contains the container you created in [Step 2](./integrate-with-azure-blob-storage#step-2-create-a-container-on-azure-portal).
+
+1. Go to **Containers** under **Data storage**, then select the target container.
+
+1. Select **Access Control (IAM)** from the left-side navigation pane, then click **+ Add** > **Add role assignment**.
+
+1. On the **Job function roles** tab, choose one of the following roles according to the access mode:
+
+    - **Read only**: **Storage Blob Data Reader**
+
+    - **Read write**: **Storage Blob Data Contributor**
+
+    ![NsGcbvXTvojt4OxAnBGcqKNhnad](https://zdoc-images.s3.us-west-2.amazonaws.com/nsgcbvxtvojt4oxanbgcqknhnad.png "NsGcbvXTvojt4OxAnBGcqKNhnad")
+
+1. On the **Members** tab, select your registered application to assign the role.
+
+1. On the **Review + assign** tab, click **Review + assign** to confirm.
+
+</Procedures>
+
+## Step 6: Validate and create integration\{#step-6-validate-and-create-integration}
+
+<Procedures>
+
+1. In the [Zilliz Cloud console](https://cloud.zilliz.com/login), click **Validate Integration** to verify that the container and role assignment settings are valid. Validation may take up to approximately 2 minutes to complete.
 
 1. Once validation is successful, click **Create** to finalize the integration.
 

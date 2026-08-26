@@ -278,9 +278,9 @@ The `input` and `output` parameters in the above table share a similar structure
      <td><p>The Spark batch job type. This applies both to <code>input</code> and <code>output</code>. Possible values are:</p><ul><li><code>volume</code></li></ul></td>
    </tr>
    <tr>
-     <td><p><code>volumeId</code></p></td>
+     <td><p><code>volumeName</code></p></td>
      <td><p>No</p></td>
-     <td><p>The ID of a Zilliz Cloud volume. This is mandatory when you set <code>type</code> to <code>volume</code>. This applies both to <code>input</code> and <code>output</code>.</p></td>
+     <td><p>The name of a Zilliz Cloud volume. This is mandatory when you set <code>type</code> to <code>volume</code>. This applies both to <code>input</code> and <code>output</code>.</p></td>
    </tr>
    <tr>
      <td><p><code>path</code></p></td>

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "The Zilliz Cloud AI prompt library offers curated prompts for AI-powered IDEs, helping AI assistants implement Zilliz Cloud features correctly and efficiently. | Cloud"
 type: origin
 token: Li1gwPA8HiBgsokLgO4cKA7nnDg
-sidebar_position: 4
+sidebar_position: 5
 displayed_sidebar: default
 
 ---
