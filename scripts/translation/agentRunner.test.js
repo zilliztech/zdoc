@@ -15,6 +15,7 @@ const {
   createProviderRetryBudget,
   createProgressCoordinator,
   isRetryableProviderError,
+  loadAgentConfigsFromEnv,
   loadChunkLimits,
   loadRecoveryAnalysis,
   parseNonNegativeInteger,
@@ -1605,6 +1606,135 @@ async function testProviderStructuredOutputIsCapabilityGated() {
   }
 }
 
+function testLoadAgentConfigsDefaults() {
+  const keys = [
+    'TRANSLATION_AGENT_STRUCTURED_OUTPUT', 'POLISH_AGENT_STRUCTURED_OUTPUT', 'REVIEW_AGENT_STRUCTURED_OUTPUT',
+    'TRANSLATION_AGENT_MAX_TOKENS', 'POLISH_AGENT_MAX_TOKENS', 'REVIEW_AGENT_MAX_TOKENS',
+  ]
+  const saved = Object.fromEntries(keys.map(key => [key, process.env[key]]))
+  for (const key of keys) delete process.env[key]
+  try {
+    const configs = loadAgentConfigsFromEnv()
+    assert.equal(configs.translation.structuredOutput, true)
+    assert.equal(configs.translation.maxTokens, 16384)
+    assert.equal(configs.polish.structuredOutput, true)
+    assert.equal(configs.polish.maxTokens, 16384)
+    assert.equal(configs.review.structuredOutput, false)
+    assert.equal(configs.review.maxTokens, 16384)
+    assert.equal(configs.correction.maxTokens, 16384)
+    assert.equal(Object.hasOwn(configs.correction, 'structuredOutput'), false)
+  } finally {
+    for (const key of keys) {
+      if (saved[key] === undefined) delete process.env[key]
+      else process.env[key] = saved[key]
+    }
+  }
+}
+
+async function testProviderRequestIncludesMaxTokens() {
+  const originalFetch = global.fetch
+  let body = null
+  global.fetch = async (_url, options = {}) => {
+    body = JSON.parse(options.body)
+    return { ok: true, status: 200, json: async () => ({ choices: [{ message: { content: '{"translations":[]}' } }] }) }
+  }
+  try {
+    const callModel = await createProviderCall({
+      translation: { baseUrl: 'https://example.com', apiKey: 'test-key', model: 'test-model', maxTokens: 8192 },
+    }, { maxRetries: 0, retryDelayMs: 1 })
+    await callModel({ agent: 'translation', messages: [] })
+    assert.equal(body.max_tokens, 8192)
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
+async function testProviderTruncationByFinishReason() {
+  const originalFetch = global.fetch
+  global.fetch = async () => ({
+    ok: true,
+    status: 200,
+    json: async () => ({ choices: [{ message: { content: '{"translations":[' }, finish_reason: 'length' }] }),
+  })
+  try {
+    const callModel = await createProviderCall({
+      translation: { baseUrl: 'https://example.com', apiKey: 'test-key', model: 'test-model' },
+    }, { maxRetries: 0, retryDelayMs: 1 })
+    await assert.rejects(() => callModel({ agent: 'translation', messages: [] }), error => {
+      assert.equal(error.failureCategory, 'semantic_response_failed')
+      assert.equal(error.code, 'SEMANTIC_RESPONSE_TRUNCATED')
+      assert.equal(error.adaptiveSubdivisionRecommended, true)
+      return true
+    })
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
+async function testTranslationPolishStructuredOutput() {
+  const originalFetch = global.fetch
+  const bodies = []
+  global.fetch = async (_url, options = {}) => {
+    bodies.push(JSON.parse(options.body))
+    return { ok: true, status: 200, json: async () => ({ choices: [{ message: { content: '{"translations":[]}' } }] }) }
+  }
+  try {
+    const callModel = await createProviderCall({
+      translation: { baseUrl: 'https://example.com', apiKey: 'test-key', model: 'translation-model', structuredOutput: true },
+      polish: { baseUrl: 'https://example.com', apiKey: 'test-key', model: 'polish-model', structuredOutput: true },
+    }, { maxRetries: 0, retryDelayMs: 1 })
+    await callModel({ agent: 'translation', messages: [] })
+    await callModel({ agent: 'polish', messages: [] })
+    assert.deepEqual(bodies[0].response_format, { type: 'json_object' })
+    assert.deepEqual(bodies[1].response_format, { type: 'json_object' })
+  } finally {
+    global.fetch = originalFetch
+  }
+}
+
+async function testPolishDegradesToTranslationOnProviderFailure() {
+  await withTempDir(async siteDir => {
+    const sourcePath = 'content/en/guides/tutorials/get-started/overview.md'
+    const targetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/get-started/overview.md'
+    const source = '# Overview\n\nThis is a simple overview.\n'
+    write(path.join(siteDir, sourcePath), source)
+    const previousPolish = process.env.TRANSLATION_POLISH
+    process.env.TRANSLATION_POLISH = 'true'
+    const calls = []
+    try {
+      const result = await processManifestItem({
+        siteDir,
+        item: { target: 'ja-JP', sourcePath, targetPath, sourceHash: sha256(source), locale: 'ja-JP', type: 'guides' },
+        maxReviewRounds: 0,
+        validate: async () => [],
+        callModel: async ({ agent, messages }) => {
+          calls.push(agent)
+          if (agent === 'translation') {
+            const units = taggedJsonContent(messages, 'semantic_units')
+            return JSON.stringify({ translations: units.map(unit => ({ id: unit.id, text: unit.text.replace('This is a simple overview.', 'これは簡単な概要です。') })) })
+          }
+          if (agent === 'polish') {
+            const error = new Error('polish agent failed with HTTP 429: {"error":{"message":"quota"}}')
+            error.status = 429
+            error.failureCategory = 'provider_transport'
+            error.code = 'PROVIDER_TRANSPORT'
+            throw error
+          }
+          if (agent === 'review') return '{"pass":true,"issues":[]}'
+          throw new Error(`unexpected ${agent} call`)
+        },
+      })
+      assert.equal(result.status, 'translated')
+      assert.deepEqual(calls, ['translation', 'polish', 'review'])
+      const output = fs.readFileSync(path.join(siteDir, targetPath), 'utf8')
+      assert.match(output, /これは簡単な概要です。/)
+    } finally {
+      if (previousPolish === undefined) delete process.env.TRANSLATION_POLISH
+      else process.env.TRANSLATION_POLISH = previousPolish
+    }
+  })
+}
+
 async function testProviderCallTimesOutHungRequests() {
   const originalFetch = global.fetch
   let calls = 0
@@ -2775,9 +2905,9 @@ async function testChangelogsVisibleLinkLabelsRemainReviewableWhileUrlsStayProte
     })
     assert.equal(reviewerSawLabels, true)
     assert.equal(result.status, 'failed')
-    assert.equal(result.failureCategory, 'locale_contract_failed')
+    assert.equal(result.failureCategory, 'review_failed')
     assert.ok(result.review.issues.some(issue => issue.source_quote === 'JSON indexing'))
-    assert.ok(result.review.localeContractIssues.some(issue => /collection/i.test(issue.source_quote)))
+    assert.ok(!result.review.localeContractIssues.some(issue => /collection/i.test(issue.source_quote)))
   })
 }
 
@@ -2805,16 +2935,17 @@ async function testJapaneseMandatoryTermsUseRealGuidePathsWithoutMatchingHtmlCod
     const auditTargetPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/userGuide/monitor/audit-logs-ref.md'
     const auditSource = '# Audit logs\n\nAudit logs are stored in the database for each collection.\n'
     write(path.join(siteDir, auditSourcePath), auditSource)
-    const invalid = await processManifestItem({
+    const repaired = await processManifestItem({
       siteDir,
       item: {target: 'ja-JP', sourcePath: auditSourcePath, targetPath: auditTargetPath, sourceHash: sha256(auditSource), locale: 'ja-JP', type: 'guides'},
       maxReviewRounds: 0,
       validate: async () => [],
       callModel: async ({agent, messages}) => agent === 'review' ? '{"pass":true,"issues":[]}' : semanticTranslationResponse(messages),
     })
-    assert.equal(invalid.status, 'failed')
-    assert.equal(invalid.failureCategory, 'locale_contract_failed')
-    assert.ok(invalid.review.localeContractIssues.some(issue => /database|collection/i.test(issue.source_quote)))
+    assert.equal(repaired.status, 'translated')
+    const auditOutput = fs.readFileSync(path.join(siteDir, auditTargetPath), 'utf8')
+    assert.match(auditOutput, /データベース/)
+    assert.match(auditOutput, /コレクション/)
   })
 }
 
@@ -4498,6 +4629,11 @@ async function run() {
   await testProviderCallDoesNotRetryPermanentHttpClientErrors()
   await testProviderCallRetriesClassifiedFailuresWithUnknownCodes()
   await testProviderStructuredOutputIsCapabilityGated()
+  testLoadAgentConfigsDefaults()
+  await testProviderRequestIncludesMaxTokens()
+  await testProviderTruncationByFinishReason()
+  await testTranslationPolishStructuredOutput()
+  await testPolishDegradesToTranslationOnProviderFailure()
   await testProviderCallTimesOutHungRequests()
   await testProviderRetryBudgetStopsNestedFileRetries()
   await testHttp408IncompleteStreamIsTransportAndSkipsIdenticalAdaptiveRetry()

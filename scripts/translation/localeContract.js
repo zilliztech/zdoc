@@ -271,9 +271,7 @@ function applyDeterministicLocaleRepairs(sourceContent, draftContent, contract) 
   const source = String(sourceContent)
   let draft = String(draftContent)
   for (const term of contract.mandatoryTerms) {
-    if (!term.caseSensitive) continue
     if (!/^[A-Za-z][A-Za-z0-9_]*$/.test(term.source)) continue
-    if (term.source.toLocaleLowerCase('en-US') !== term.target.toLocaleLowerCase('en-US')) continue
     const sourceCount = sourceTermOccurrences(source, term, contract).length
     if (!sourceCount) continue
     const targetCount = mandatoryTargetOccurrences(source, draft, term, contract).length
@@ -281,13 +279,14 @@ function applyDeterministicLocaleRepairs(sourceContent, draftContent, contract) 
     if (deficit <= 0) continue
     const sourceVariants = mandatoryTermVariants(term.source).map(value => value.toLocaleLowerCase('en-US'))
     const targetVariants = mandatoryTermVariants(term.target)
-    const repairs = mandatoryTermOccurrences(draft, term.source, false).filter(occurrence => {
+    const repairs = sourceTermOccurrences(draft, term, contract).filter(occurrence => {
       const variant = sourceVariants.indexOf(occurrence.value.toLocaleLowerCase('en-US'))
-      return variant !== -1 && occurrence.value !== targetVariants[variant]
+      if (variant === -1) return false
+      return occurrence.value !== (targetVariants[variant] ?? targetVariants[0])
     }).slice(0, deficit)
     for (const repair of repairs.reverse()) {
       const variant = sourceVariants.indexOf(repair.value.toLocaleLowerCase('en-US'))
-      draft = `${draft.slice(0, repair.index)}${targetVariants[variant]}${draft.slice(repair.index + repair.value.length)}`
+      draft = `${draft.slice(0, repair.index)}${targetVariants[variant] ?? targetVariants[0]}${draft.slice(repair.index + repair.value.length)}`
       deficit -= 1
     }
   }

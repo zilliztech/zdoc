@@ -457,3 +457,9 @@ test('keeps exact marker identity and count inside declared semantic units', () 
     /unknown|missing/i,
   )
 })
+
+test('protects inline code with simple generic arguments before JSX spans', () => {
+  const source = '`const std::vector<int>& Roles() const`'
+  const protectedInput = protectTranslationInput(source)
+  assert.equal(protectedInput.content.includes('vector'), false)
+})
