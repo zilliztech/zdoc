@@ -9,6 +9,8 @@ on:
     branches:
       - dev
       - master
+  schedule:
+    - cron: '17 2 * * *'
   workflow_dispatch:
     inputs:
       site: { description: Site selection, required: true, type: choice, options: [auto, en, zh-CN, all], default: auto }
@@ -314,3 +316,72 @@ jobs:
           for result in "$OWNERSHIP_RESULT" "$PRESERVED_RESULT" "$EN_RESULT" "$ZH_CN_RESULT" "$REFERENCE_RESULT" "$TOOLS_RESULT"; do
             test "$result" = success || test "$result" = skipped
           done
+
+  broken_links_report:
+    name: Broken links report
+    if: ${{ github.event_name == 'schedule' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: dev
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build:en
+      - run: pnpm build:zh-CN
+      - name: Check broken links (en)
+        run: pnpm docs-tooling check-broken-links --site en --output tmp/broken-links/en.md
+      - name: Check broken links (zh-CN)
+        run: pnpm docs-tooling check-broken-links --site zh-CN --output tmp/broken-links/zh-CN.md
+      - name: Analyze broken links (en)
+        run: pnpm docs-tooling analyze-broken-links --site en --report tmp/broken-links/en.json --output tmp/broken-links/en.analysis.md
+      - name: Analyze broken links (zh-CN)
+        run: pnpm docs-tooling analyze-broken-links --site zh-CN --report tmp/broken-links/zh-CN.json --output tmp/broken-links/zh-CN.analysis.md
+      - name: Report broken links to table
+        run: pnpm docs-tooling report-broken-links --analysis tmp/broken-links/en.analysis.json,tmp/broken-links/zh-CN.analysis.json --note tmp/broken-links/note.md
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          BROKEN_LINKS_REPORT_BASE_TOKEN: ${{ vars.BROKEN_LINKS_REPORT_BASE_TOKEN }}
+          BROKEN_LINKS_REPORT_TABLE_ID: ${{ vars.BROKEN_LINKS_REPORT_TABLE_ID }}
+      - name: Create report card
+        id: report_card
+        continue-on-error: true
+        run: pnpm docs-tooling report-card create --title "Internal Broken Links Report" --stages "Scan internal broken links"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+      - name: Attach report note
+        if: ${{ steps.report_card.outputs.card_id != '' }}
+        continue-on-error: true
+        run: pnpm docs-tooling report-card note --file tmp/broken-links/note.md
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+      - name: Finish report card
+        if: ${{ steps.report_card.outputs.card_id != '' }}
+        continue-on-error: true
+        run: |
+          pnpm docs-tooling report-card finish \
+            --message-id "$CARD_ID" \
+            --started-at "$CARD_STARTED_AT" \
+            --stages "$CARD_STAGES" \
+            --title "$CARD_TITLE" \
+            --status success
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          CARD_ID: ${{ steps.report_card.outputs.card_id }}
+          CARD_STARTED_AT: ${{ steps.report_card.outputs.card_started_at }}
+          CARD_STAGES: ${{ steps.report_card.outputs.card_stages }}
+          CARD_TITLE: ${{ steps.report_card.outputs.card_title }}
