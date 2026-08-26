@@ -36,7 +36,9 @@ on:
         type: string
         default: dev
   schedule:
-    - cron: "0 2,10,18 * * *"
+    - cron: "0 2 * * *"    # first run of the day: translation on
+    - cron: "0 10 * * *"   # translation off
+    - cron: "0 18 * * *"   # translation off
 
 permissions:
   contents: read
@@ -79,7 +81,7 @@ jobs:
           RETENTION_DAYS: ${{ github.event.inputs.artifact_retention_days || '3' }}
           TARGET_BRANCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_branch || 'dev' }}
           PUBLISH: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.publish == 'true' }}
-          RUN_TRANSLATIONS: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_translations == 'true' }}
+          RUN_TRANSLATIONS: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.run_translations == 'true') || (github.event_name == 'schedule' && github.event.schedule == '0 2 * * *') }}
           MEDIA_UPLOAD_MODE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.media_upload_mode || 'write' }}
           TOOLING_REF: ${{ github.event.inputs.tooling_ref || 'master' }}
           SOURCE_REF: ${{ github.event.inputs.source_ref || 'dev' }}
