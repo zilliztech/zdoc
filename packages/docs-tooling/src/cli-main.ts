@@ -10,6 +10,9 @@ import {config as loadDotenv} from 'dotenv';
 import {executeDocsToolingCommand, executeReferenceDocsToolingCommand, parseCliArgs} from './cli.ts';
 import {manualRegistry, resolveGuidesSourceConfig} from './manuals/registry.ts';
 import {checkLinks} from './links/check.ts';
+import {checkBrokenLinks} from './links/brokenLinks.ts';
+import {analyzeBrokenLinksCommand} from './links/brokenLinkAnalysis.ts';
+import {reportBrokenLinksCommand} from './links/reportBrokenLinks.ts';
 import {applyMdxPatches} from './mdx/index.ts';
 import {executeReportCard} from './reporting/lark.ts';
 import type {
@@ -306,6 +309,22 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
   if (argv[0] === 'check-links') {
     const options = parseOptions(argv.slice(1));
     await checkLinks({repositoryRoot, site: requiredOption(options, 'site'), output: requiredOption(options, 'output')});
+    return true;
+  }
+  if (argv[0] === 'check-broken-links') {
+    const options = parseOptions(argv.slice(1));
+    await checkBrokenLinks({repositoryRoot, site: requiredOption(options, 'site'), output: requiredOption(options, 'output')});
+    return true;
+  }
+  if (argv[0] === 'analyze-broken-links') {
+    const options = parseOptions(argv.slice(1));
+    await analyzeBrokenLinksCommand({repositoryRoot, site: requiredOption(options, 'site'), reportPath: requiredOption(options, 'report'), output: requiredOption(options, 'output')});
+    return true;
+  }
+  if (argv[0] === 'report-broken-links') {
+    const options = parseOptions(argv.slice(1));
+    const analysisPaths = requiredOption(options, 'analysis').split(',').map(part => part.trim()).filter(Boolean);
+    await reportBrokenLinksCommand({analysisPaths, notePath: requiredOption(options, 'note')});
     return true;
   }
   if (argv[0] === 'report-card') {
