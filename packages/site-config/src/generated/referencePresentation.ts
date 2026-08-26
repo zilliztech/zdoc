@@ -15,12 +15,12 @@ export const referenceNavigation = {
   },
   "zh-CN": {
     dropdown: [
-      {label: "C++ SDK", href: "/reference/cpp", prefix: "/reference/cpp", icon: "cpp"},
       {label: "Python SDK", href: "/reference/python", prefix: "/reference/python", icon: "python"},
-      {label: "RESTful API", href: "/reference/restful", prefix: "/reference/restful", icon: "rest"},
       {label: "Java SDK", href: "/reference/java", prefix: "/reference/java", icon: "java"},
-      {label: "Go SDK", href: "/reference/go", prefix: "/reference/go", icon: "go"},
       {label: "Node.js SDK", href: "/reference/nodejs", prefix: "/reference/nodejs", icon: "nodejs"},
+      {label: "Go SDK", href: "/reference/go", prefix: "/reference/go", icon: "go"},
+      {label: "C++ SDK", href: "/reference/cpp", prefix: "/reference/cpp", icon: "cpp"},
+      {label: "RESTful API", href: "/reference/restful", prefix: "/reference/restful", icon: "rest"},
     ],
     standalone: {label: "Zilliz CLI", href: "/reference/cli/cli/overview", prefix: "/reference/cli", icon: "terminal"},
   },
