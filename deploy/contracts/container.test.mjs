@@ -205,9 +205,7 @@ test('the Docker build uses a fresh bounded localization input inventory', () =>
   assert.ok(inventory.paths.length > 0);
   assert.ok(inventory.paths.every(relativePath =>
     relativePath === '.translation-cache/ja-JP.json' ||
-    relativePath === 'config/tools-retirements.json' ||
     relativePath.startsWith('generated/en/sidebars/') ||
-    relativePath.startsWith('generated/zh-CN/manifests/tools-') ||
     relativePath.startsWith('generated/zh-CN/sidebars/tools.') ||
     relativePath.startsWith('i18n/ja-JP/') ||
     relativePath.startsWith('content/zh-CN/guides/tutorials/tools/')));
