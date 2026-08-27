@@ -158,7 +158,7 @@ async function fetchTextWithRetries(url: string, fetcher: FetchLike, retries = 3
   throw new Error(`Failed to fetch ${url} after ${retries} attempts: ${lastError instanceof Error ? lastError.message : String(lastError)}`);
 }
 
-function sitemapUrls(xml: string): string[] {
+export function sitemapUrls(xml: string): string[] {
   const parsed = new XMLParser().parse(xml);
   const entries = parsed?.urlset?.url;
   if (!entries) return [];
@@ -168,7 +168,7 @@ function sitemapUrls(xml: string): string[] {
     .map(value => new URL(value).href);
 }
 
-async function listUrls(source: string, repositoryRoot: string, fetcher: FetchLike): Promise<string[]> {
+export async function listUrls(source: string, repositoryRoot: string, fetcher: FetchLike): Promise<string[]> {
   if (/^https?:\/\//u.test(source)) {
     const sitemapUrl = source.endsWith('.xml') ? source : `${normalizeUrl(source)}sitemap.xml`;
     return sitemapUrls(await fetchTextWithRetries(sitemapUrl, fetcher));
@@ -180,7 +180,7 @@ async function listUrls(source: string, repositoryRoot: string, fetcher: FetchLi
   return sitemapUrls(readFileSync(target, 'utf8'));
 }
 
-function htmlPagesUnder(repositoryRoot: string, directory: string): string[] {
+export function htmlPagesUnder(repositoryRoot: string, directory: string): string[] {
   const absolute = resolveOwnedRepositoryPath(repositoryRoot, directory, 'Site build directory');
   if (!existsSync(absolute)) return [];
   assertNoSymlinks(repositoryRoot, absolute, 'Site build directory');
