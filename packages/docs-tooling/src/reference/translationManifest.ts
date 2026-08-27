@@ -444,7 +444,6 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
       });
       continue;
     }
-    if (source && options.manualForPath(sourcePath) === 'rest') continue;
     if (source && previousSourcePaths.has(sourcePath) && !previous && !previousPending && !previousExcluded) {
       throw new Error(`Historical Reference source is missing its translation record, pending record, or language-excluded record: ${sourcePath}`);
     }
