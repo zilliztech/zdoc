@@ -8,9 +8,7 @@ function report(brokenLinks: Array<{link: string; resolvedLink: string; anchor: 
     schema_version: 1,
     generated_at: '2026-08-26T00:00:00.000Z',
     site: 'en',
-    workflow_run_url: null,
-    local_sitemap_source: 'build/en/sitemap.xml',
-    summary: {checked_internal_links: brokenLinks.length + brokenAnchors.length, broken_links: brokenLinks.length, broken_anchors: brokenAnchors.length},
+    summary: {broken_links: brokenLinks.length, broken_anchors: brokenAnchors.length},
     broken_links: brokenLinks,
     broken_anchors: brokenAnchors,
   });
