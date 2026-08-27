@@ -2080,6 +2080,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Authentication/Authentication-ListUsers.md",
       "translatedAt": "2026-08-24T07:04:16.358Z"
     },
+    "content/en/reference/api/cpp/cpp/Authentication/Authentication-PrivilegeGroupInfo.md": {
+      "sourceHash": "8f932947bd1d1f6d2de3706418ef7e31055344e184b8e111ff982c456680346a",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Authentication/Authentication-PrivilegeGroupInfo.md",
+      "translatedAt": "2026-08-27T07:35:30.778Z"
+    },
     "content/en/reference/api/cpp/cpp/Authentication/Authentication-RemovePrivilegesFromGroup.md": {
       "sourceHash": "804c768e2b8745a8327d920d7ab067f954206b791e1a3a3a30d06fe6f2074d53",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Authentication/Authentication-RemovePrivilegesFromGroup.md",
@@ -2095,6 +2100,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Authentication/Authentication-RevokeRole.md",
       "translatedAt": "2026-08-24T07:04:29.909Z"
     },
+    "content/en/reference/api/cpp/cpp/Authentication/Authentication-RoleDesc.md": {
+      "sourceHash": "45c9bad2c92c5b029bd491027462fffb4821283ac4700e60778f4939bee172ad",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Authentication/Authentication-RoleDesc.md",
+      "translatedAt": "2026-08-27T07:35:36.745Z"
+    },
     "content/en/reference/api/cpp/cpp/Authentication/Authentication-UpdatePassword.md": {
       "sourceHash": "e69631da378eb3b3fea72c9728554128aea94364bc65d0035840e10a0e05066e",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Authentication/Authentication-UpdatePassword.md",
@@ -2104,6 +2114,11 @@
       "sourceHash": "f8b650d374a0752baec7d4f89c475f4f46910609fbf660df6fd8d1aad7f21bf1",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Authentication/Authentication-UpdateUser.md",
       "translatedAt": "2026-08-24T07:04:43.169Z"
+    },
+    "content/en/reference/api/cpp/cpp/Authentication/Authentication-UserDesc.md": {
+      "sourceHash": "10061b7d838016c006ef6abdf61281a1bda509863d6fef1aaf97b23dbc731f33",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Authentication/Authentication-UserDesc.md",
+      "translatedAt": "2026-08-27T07:35:30.716Z"
     },
     "content/en/reference/api/cpp/cpp/Client/Client-CheckHealth.md": {
       "sourceHash": "46349220d61e732f5194ba03d8ac1c05e4b8447a7f10ab7bce719599abe31d23",
@@ -2220,6 +2235,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-BatchDescribeCollections.md",
       "translatedAt": "2026-08-24T07:06:38.072Z"
     },
+    "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionDesc.md": {
+      "sourceHash": "f84982e4882dab0586296e78650afb07edb806a82ac93e7906dcf0012b380e85",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-CollectionDesc.md",
+      "translatedAt": "2026-08-27T07:35:40.995Z"
+    },
     "content/en/reference/api/cpp/cpp/Collections/Collections-CollectionInfo.md": {
       "sourceHash": "00539380585b10b14218b6aff2be6cdac09b41c1a9e22a26dd699bd044e31877",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-CollectionInfo.md",
@@ -2305,6 +2325,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-FieldSchema.md",
       "translatedAt": "2026-08-25T02:47:27.950Z"
     },
+    "content/en/reference/api/cpp/cpp/Collections/Collections-Function.md": {
+      "sourceHash": "9dafcae74695f6ff8cd47894eefbd270bb9e1f16a0753fae242b63a94249444e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-Function.md",
+      "translatedAt": "2026-08-27T07:38:10.727Z"
+    },
     "content/en/reference/api/cpp/cpp/Collections/Collections-FunctionType.md": {
       "sourceHash": "9dbeac76b566fbdfd4bb8aac3e2b2e12cfa9196057eeab31bdbcc3561761de1c",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-FunctionType.md",
@@ -2340,6 +2365,11 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-RenameCollection.md",
       "translatedAt": "2026-08-24T07:09:09.073Z"
     },
+    "content/en/reference/api/cpp/cpp/Collections/Collections-StructFieldSchema.md": {
+      "sourceHash": "a00a23250bd4a25f0e2b1fc6b9b2473d13869a9963b75e8eef89053e50efbbe6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Collections/Collections-StructFieldSchema.md",
+      "translatedAt": "2026-08-27T07:36:03.731Z"
+    },
     "content/en/reference/api/cpp/cpp/DataImport/DataImport-AbortImport.md": {
       "sourceHash": "f5941c0da99d1359b356b2b18e714877500b76e8962155ee032eab37c7656671",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/DataImport/DataImport-AbortImport.md",
@@ -2349,6 +2379,11 @@
       "sourceHash": "98359fbb174bda4a5c637259a67cde446c3a21b0217f4cc9e2f1867e8086ce78",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/DataImport/DataImport-CommitImport.md",
       "translatedAt": "2026-08-24T07:09:20.627Z"
+    },
+    "content/en/reference/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md": {
+      "sourceHash": "66452df0c3d86f678ece386f49d8dac179180efa0a547b84e1e750d3c7c7007e",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md",
+      "translatedAt": "2026-08-27T07:36:40.351Z"
     },
     "content/en/reference/api/cpp/cpp/DataImport/DataImport-GetImportJobProgress.md": {
       "sourceHash": "00b91241174965d6fe358ce13b991c96fb36ef1af3c610a3327667d4a19cc2da",
@@ -2620,6 +2655,16 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Vector/Vector-Get.md",
       "translatedAt": "2026-08-24T07:15:50.836Z"
     },
+    "content/en/reference/api/cpp/cpp/Vector/Vector-HybridSearch.md": {
+      "sourceHash": "a01e1968c3b0feca8a2f77384cc2fdc17646bbd5d3d839e84ae96c0e17162330",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Vector/Vector-HybridSearch.md",
+      "translatedAt": "2026-08-27T07:39:27.030Z"
+    },
+    "content/en/reference/api/cpp/cpp/Vector/Vector-Insert.md": {
+      "sourceHash": "56bff7f70ce0b4eefd37a5d49a14767b64a04c36e1177914de96860fd3247539",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Vector/Vector-Insert.md",
+      "translatedAt": "2026-08-27T07:37:59.144Z"
+    },
     "content/en/reference/api/cpp/cpp/Vector/Vector-Query.md": {
       "sourceHash": "87519d58997b457070f9affde4cb8e48e8d011d6d2b009bccfbd19a0fd7010ca",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Vector/Vector-Query.md",
@@ -2629,6 +2674,26 @@
       "sourceHash": "ed9b169660dc78ee711917396580825ef0a12ab2757e919c19237f14def1d344",
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Vector/Vector-QueryIterator.md",
       "translatedAt": "2026-08-24T07:17:35.889Z"
+    },
+    "content/en/reference/api/cpp/cpp/Vector/Vector-RunAnalyzer.md": {
+      "sourceHash": "e6f7bfbc94b9e7e9d8fabcb96d385019fc437e1e78e0556b74b752103ea07ac6",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Vector/Vector-RunAnalyzer.md",
+      "translatedAt": "2026-08-27T07:37:30.401Z"
+    },
+    "content/en/reference/api/cpp/cpp/Vector/Vector-Search.md": {
+      "sourceHash": "7a3e670466ac53539f97f866a480a5d6bf2c0c413ef12e691d4c908739d9b64d",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Vector/Vector-Search.md",
+      "translatedAt": "2026-08-27T07:42:02.048Z"
+    },
+    "content/en/reference/api/cpp/cpp/Vector/Vector-SearchIterator.md": {
+      "sourceHash": "b413c7ac74ada439896dfe5ca50f15e55b0890fdd1e9ec5da2f07eae570ce624",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Vector/Vector-SearchIterator.md",
+      "translatedAt": "2026-08-27T07:42:07.342Z"
+    },
+    "content/en/reference/api/cpp/cpp/Vector/Vector-Upsert.md": {
+      "sourceHash": "1530716c3c56e4c9c59975e0ccb38e1cb92501da095054308815265adf5334ff",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/cpp/cpp/Vector/Vector-Upsert.md",
+      "translatedAt": "2026-08-27T07:40:13.728Z"
     },
     "content/en/reference/api/cpp/cpp/cpp.md": {
       "sourceHash": "3017484804e0da7bbbcd54d2aadf57336daa28c6be777cd709775a463a7435a5",
