@@ -117,7 +117,7 @@ export function validateManualRegistry(input: unknown): ManualDefinition[] {
           throw new Error(`Manual ${manual.id} ${site} disabled publication must not use a fallback source`);
         }
       }
-      if (manual.kind === 'reference' && site === 'zh-CN' && publication.enabled) {
+      if (manual.kind === 'reference' && site === 'zh-CN' && publication.enabled && manual.presentation?.referenceKind !== 'restful') {
         if (source.sourceType !== 'local' || !source.sourceDir.startsWith('content/zh-CN/reference/')) {
           throw new Error(`Manual ${manual.id} Chinese Reference publication must use committed local content`);
         }
@@ -493,7 +493,7 @@ const definitions: ManualDefinition[] = [
     kind: 'reference',
     sources: {
       canonical: rest('packages/docs-tooling/src/reference/rest/meta/openapi'),
-      chineseTranslation: local('content/zh-CN/reference/api/restful/restful'),
+      chineseTranslation: rest('packages/docs-tooling/src/reference/rest/meta/openapi'),
     },
     sourceOrder: ['canonical', 'chineseTranslation'],
     publications: {

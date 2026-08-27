@@ -13,7 +13,6 @@ function registerFetchCommand(command) {
         .option('-s, --specifications <specifications>', 'Specifications of the API')
         .option('-l, --lang <lang>', 'Language of the API Reference', 'en-US')
         .option('-o, --output_path <target_path>', 'Target path of the API Reference', 'content/en/reference/api/restful/restful')
-        .option('-i, --strings <strings>', 'Localization strings for Chinese docs')
         .option('-t, --target <string>', 'Publication target of the API Reference', 'zilliz')
         .option('--api-surface <apiSurface>', 'Explicit page surface: data-plane or control-plane')
         .option('--upload-s3', 'Upload merged OpenAPI specs to S3 and update about page', false)
@@ -22,7 +21,6 @@ function registerFetchCommand(command) {
             let target = opts.target
             let target_path = opts.output_path
             let specifications
-            let strings
 
             console.log('Fetching docs from Apifox...')
 
@@ -36,24 +34,11 @@ function registerFetchCommand(command) {
                 }
             }
 
-            if (opts.lang === 'zh-CN' && opts.strings === undefined) {
-                throw new Error('Please provide the localization strings for Chinese docs')
-            }
-
-            if (opts.lang === 'zh-CN') {
-                try {
-                    strings = fs.readFileSync(opts.strings, 'utf-8').split('\n')
-                } catch (err) {
-                    throw new Error(`Failed to read localization strings from "${opts.strings}": ${err.message}`, { cause: err })
-                }
-            }
-
             const refGen = new RefGen({
                 specifications,
                 lang,
                 target,
                 target_path,
-                strings,
                 apiSurface: opts.apiSurface,
             })
 

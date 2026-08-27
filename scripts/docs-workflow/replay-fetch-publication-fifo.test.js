@@ -36,6 +36,7 @@ function fixture(t) {
   })
   const completion = {
     'source/rest': '2026-08-04T00:00:01.000Z',
+    'source/rest-zh-CN': '2026-08-04T00:00:01.000Z',
     'source/java': '2026-08-04T00:00:02.000Z',
     'source/guides-en': '2026-08-04T00:00:03.000Z',
     'source/guides-zh-CN': '2026-08-04T00:00:03.000Z',
@@ -92,7 +93,7 @@ function faultFixture(t) {
     selectedGroup: 'all', publish: true, runTranslations: true,
   })
   const completionOrder = [
-    'source/rest', 'source/go', 'source/cli', 'source/node',
+    'source/rest', 'source/rest-zh-CN', 'source/go', 'source/cli', 'source/node',
     'source/java', 'source/guides-zh-CN', 'source/cpp', 'source/python', 'source/guides-en',
   ]
   const jobs = selection.units.map((unit, index) => ({
@@ -121,15 +122,15 @@ test('trusted Jobs facts derive FIFO while the canonical order remains fixed', t
   const value = fixture(t)
   assert.deepEqual(value.selection.units.map(unit => unit.unitKey), [
     'source/python', 'source/java', 'source/node', 'source/go', 'source/cli',
-    'source/cpp', 'source/rest', 'source/guides-en', 'source/guides-zh-CN',
+    'source/cpp', 'source/rest', 'source/rest-zh-CN', 'source/guides-en', 'source/guides-zh-CN',
   ])
   assert.deepEqual(deriveFifoUnitKeys(value.selection, value.jobs), [
-    'source/rest', 'source/java', 'source/guides-en', 'source/guides-zh-CN',
+    'source/rest', 'source/rest-zh-CN', 'source/java', 'source/guides-en', 'source/guides-zh-CN',
     'source/node', 'source/go', 'source/cli', 'source/cpp', 'source/python',
   ])
 })
 
-test('replay preflights all eight archives before extraction and publishes both orders', async t => {
+test('replay preflights all ten archives before extraction and publishes both orders', async t => {
   const value = fixture(t)
   const calls = []
   const published = {canonical: [], fifo: []}
@@ -153,13 +154,13 @@ test('replay preflights all eight archives before extraction and publishes both 
     },
   })
 
-  assert.equal(calls.filter(call => call.startsWith('preflight:')).length, 9)
-  assert.equal(calls.filter(call => call.startsWith('extract:')).length, 9)
+  assert.equal(calls.filter(call => call.startsWith('preflight:')).length, 10)
+  assert.equal(calls.filter(call => call.startsWith('extract:')).length, 10)
   assert.ok(calls.lastIndexOf('preflight:source/guides-zh-CN') < calls.indexOf('extract:source/java'))
   assert.deepEqual(published.canonical, value.selection.units.map(unit => unit.unitKey))
   assert.deepEqual(published.fifo, deriveFifoUnitKeys(value.selection, value.jobs))
   assert.equal(result.canonicalTree, result.fifoTree)
-  assert.equal(result.unitCount, 9)
+  assert.equal(result.unitCount, 10)
   assert.deepEqual(verifyEvidence({evidenceRoot: value.evidenceRoot}).fifoUnitKeys, published.fifo)
 })
 
@@ -186,7 +187,7 @@ test('evidence verification recognizes a complete final business validation rece
   ]
   for (const log of logs) fs.writeFileSync(path.join(value.evidenceRoot, log), 'passed\n')
   fs.writeFileSync(path.join(value.evidenceRoot, 'translation-handoff-v2.json'), '{"schemaVersion":2}\n')
-  fs.writeFileSync(path.join(value.evidenceRoot, 'card-report.json'), `${JSON.stringify({reports: Array.from({length: 10}, (_, index) => ({markdown: `note ${index + 1}`}))})}\n`)
+  fs.writeFileSync(path.join(value.evidenceRoot, 'card-report.json'), `${JSON.stringify({reports: Array.from({length: 11}, (_, index) => ({markdown: `note ${index + 1}`}))})}\n`)
   fs.writeFileSync(path.join(value.evidenceRoot, 'business-validation.json'), `${JSON.stringify({
     schemaVersion: 1,
     status: 'complete',
@@ -210,7 +211,7 @@ test('replay rejects missing units, mixed baselines, tree differences, and impli
     bareRemote: missing.bareRemote,
     evidenceRoot: missing.evidenceRoot,
     dependencies: {},
-  }), /exactly 9 checkpoint artifacts/i)
+  }), /exactly 10 checkpoint artifacts/i)
 
   const mixed = fixture(t)
   let preflightCount = 0
@@ -220,11 +221,11 @@ test('replay rejects missing units, mixed baselines, tree differences, and impli
     evidenceRoot: mixed.evidenceRoot,
     dependencies: {
       assertBareRemote() {},
-      preflight() { preflightCount += 1; return {manifest: {devBaselineSha: preflightCount === 9 ? SHA('9') : SHA('2'), masterSha: SHA('1')}} },
+      preflight() { preflightCount += 1; return {manifest: {devBaselineSha: preflightCount === 10 ? SHA('9') : SHA('2'), masterSha: SHA('1')}} },
       extract() { throw new Error('must not extract mixed baselines') },
     },
   }), /baseline/i)
-  assert.equal(preflightCount, 9)
+  assert.equal(preflightCount, 10)
 
   const trees = fixture(t)
   await assert.rejects(replayRun({
@@ -276,7 +277,7 @@ test('fault injection validates the retained run and routes an approved scenario
     status: 'injected',
     runId: 123,
     runAttempt: 1,
-    unitCount: 9,
+    unitCount: 10,
     failedUnitKey: 'source/go',
   })
   assert.deepEqual(

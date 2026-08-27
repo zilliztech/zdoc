@@ -257,8 +257,15 @@ describe('manual registry contract', () => {
     for (const {manual: definition, site, publication} of publicationEntries(manualRegistry)) {
       if (definition.kind !== 'reference' || site !== 'zh-CN' || !publication.enabled) continue;
       const source = definition.sources[publication.source];
-      expect(source.sourceType).toBe('local');
-      expect(source.sourceDir).toMatch(/^content\/zh-CN\/reference(?:\/|$)/);
+      if (definition.presentation?.referenceKind === 'restful') {
+        // REST is spec-generated rather than translated: the zh-CN source comes
+        // from the OpenAPI x-i18n.zh-CN export, not committed local content.
+        expect(source.sourceType).toBe('rest');
+        expect(source.sourceDir).toBe('packages/docs-tooling/src/reference/rest/meta/openapi');
+      } else {
+        expect(source.sourceType).toBe('local');
+        expect(source.sourceDir).toMatch(/^content\/zh-CN\/reference(?:\/|$)/);
+      }
       expect(source.fallbackSource).toBeUndefined();
     }
   });
@@ -327,7 +334,8 @@ describe('manual registry contract', () => {
       'v1/error-codes.md',
       'v2/error-codes-v2.md',
     ]);
-    expect(chinese.source.sourceDir).toBe('content/zh-CN/reference/api/restful/restful');
+    expect(chinese.source.sourceType).toBe('rest');
+    expect(chinese.source.sourceDir).toBe('packages/docs-tooling/src/reference/rest/meta/openapi');
     expect(chinese.publication.outputDir).toBe('content/zh-CN/reference/api/restful/restful');
     expect(chinese.publication.preservedFiles).toEqual(['restful.md']);
   });
