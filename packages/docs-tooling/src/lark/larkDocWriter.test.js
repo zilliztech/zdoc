@@ -193,6 +193,36 @@ async function testHeadingsPreserveInlineLessThanOperatorsAndCustomAnchors() {
   );
 }
 
+async function testHeadingRepairsMangledAnchor() {
+  const writer = createWriter([]);
+
+  // A translation glitch can drop the '#' from a heading anchor, leaving a bare
+  // "{slug}" as a standalone trailing text_run. __heading must restore it so the
+  // heading keeps its custom anchor instead of compiling a subtraction expression
+  // that crashes SSG (ReferenceError: verify is not defined).
+  const repaired = await writer.__heading({elements: [
+    textRun('验证连接'),
+    textRun('{verify-the-connection}'),
+  ]}, 3);
+  assert.equal(repaired, '### 验证连接{#verify-the-connection}');
+
+  // An already-correct "{#...}" anchor is left untouched (idempotent).
+  const intact = await writer.__heading({elements: [
+    textRun('验证连接'),
+    textRun('{#verify-the-connection}'),
+  ]}, 3);
+  assert.equal(intact, '### 验证连接{#verify-the-connection}');
+
+  // A non-ASCII brace group is not a slug and must not be rewritten into an
+  // anchor; the MDX brace-escaping pass handles it as literal text downstream.
+  const literal = await writer.__heading({elements: [
+    textRun('使用'),
+    textRun('{参数}'),
+  ]}, 3);
+  assert.ok(literal.includes('{参数}'), 'expected literal placeholder to be preserved');
+  assert.ok(!literal.includes('{#参数}'), 'expected literal placeholder not to become an anchor');
+}
+
 function testHeadingCleanupStillRemovesActualHtmlTags() {
   const writer = createWriter([]);
   assert.equal(
@@ -893,6 +923,7 @@ async function run() {
   testKeywordPickerUsesStableSeed();
   testHeadingSlugDropsVisibilitySuffixes();
   await testHeadingsPreserveInlineLessThanOperatorsAndCustomAnchors();
+  await testHeadingRepairsMangledAnchor();
   testHeadingCleanupStillRemovesActualHtmlTags();
   await testConvertedHeadingLinkDropsVisibilitySuffixes();
   await testConvertedAnchorLinkToleratesTargetWithoutBlocks();
