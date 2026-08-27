@@ -805,6 +805,18 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "api/cpp/cpp/Vector/Vector-Search",
+        "label": "Search()",
+        "key": "doc:api/cpp/cpp/Vector/vector-search"
+      },
+      {
+        "type": "doc",
+        "id": "api/cpp/cpp/Vector/Vector-SearchIterator",
+        "label": "SearchIterator()",
+        "key": "doc:api/cpp/cpp/Vector/vector-searchiterator"
+      },
+      {
+        "type": "doc",
         "id": "api/cpp/cpp/Vector/Vector-Upsert",
         "label": "Upsert()",
         "key": "doc:api/cpp/cpp/Vector/vector-upsert"
