@@ -3,7 +3,6 @@
 const crypto = require('node:crypto')
 const fs = require('node:fs')
 const path = require('node:path')
-const {DefaultArtifactClient} = require('@actions/artifact')
 
 const {
   assertSafeExtraction,
@@ -21,6 +20,16 @@ const {
   validatePublicationResults,
   validatePublicationSelection,
 } = require('./publication-contracts')
+
+// @actions/artifact@6 is ESM-only, so it is loaded lazily via dynamic import
+// rather than `require` (which cannot resolve its `import`-only exports).
+let defaultArtifactClientPromise = null
+function getDefaultArtifactClient() {
+  if (!defaultArtifactClientPromise) {
+    defaultArtifactClientPromise = import('@actions/artifact').then(({DefaultArtifactClient}) => new DefaultArtifactClient())
+  }
+  return defaultArtifactClientPromise
+}
 
 function positiveInteger(value, label) {
   const parsed = Number(value)
@@ -56,8 +65,13 @@ function createPublicationGitHubClient(options) {
   if (typeof fetchImpl !== 'function') throw new Error('fetch implementation is required')
   const artifactTransport = options.artifactTransport || 'actions'
   if (!['actions', 'rest'].includes(artifactTransport)) throw new Error('artifactTransport must be actions or rest')
-  const artifactClient = artifactTransport === 'actions' ? options.artifactClient || new DefaultArtifactClient() : options.artifactClient || null
-  if (artifactTransport === 'actions' && (typeof artifactClient.uploadArtifact !== 'function' || typeof artifactClient.downloadArtifact !== 'function')) throw new Error('artifact client is invalid')
+  const artifactClient = options.artifactClient || null
+  if (artifactTransport === 'actions' && artifactClient && (typeof artifactClient.uploadArtifact !== 'function' || typeof artifactClient.downloadArtifact !== 'function')) throw new Error('artifact client is invalid')
+  const getArtifactClient = () => {
+    if (artifactClient) return artifactClient
+    if (artifactTransport !== 'actions') return null
+    return getDefaultArtifactClient()
+  }
   const inspectArchive = options.inspectArchive || inspectZipArchive
   const unzip = options.unzip || unzipArchive
   const sleep = typeof options.sleep === 'function' ? options.sleep : milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -221,7 +235,8 @@ function createPublicationGitHubClient(options) {
     if (!artifact) throw new Error(`Artifact is unavailable: ${name}`)
     const artifactId = positiveInteger(artifact.id, 'artifact id')
     const requested = fs.mkdtempSync(path.join(runnerTemp, 'publication-artifact-archive-'))
-    const result = await artifactClient.downloadArtifact(artifactId, {path: requested})
+    const client = await getArtifactClient()
+    const result = await client.downloadArtifact(artifactId, {path: requested})
     const reported = path.resolve(result?.downloadPath || requested)
     const reportedStat = fs.lstatSync(reported)
     if (reportedStat.isSymbolicLink() || !reportedStat.isDirectory()) throw new Error('Artifact download path must be a real directory')
@@ -238,7 +253,8 @@ function createPublicationGitHubClient(options) {
     if (!artifact) throw new Error(`Artifact is unavailable: ${name}`)
     const artifactId = positiveInteger(artifact.id, 'artifact id')
     const requested = fs.mkdtempSync(path.join(runnerTemp, 'publication-artifact-'))
-    const result = await artifactClient.downloadArtifact(artifactId, {path: requested})
+    const client = await getArtifactClient()
+    const result = await client.downloadArtifact(artifactId, {path: requested})
     const reported = path.resolve(result?.downloadPath || requested)
     const reportedStat = fs.lstatSync(reported)
     if (reportedStat.isSymbolicLink() || !reportedStat.isDirectory()) throw new Error('Artifact download path must be a real directory')
@@ -266,7 +282,8 @@ function createPublicationGitHubClient(options) {
   }
 
   async function upload(file, name) {
-    const result = await artifactClient.uploadArtifact(name, [file], path.dirname(file), {retentionDays: 7})
+    const client = await getArtifactClient()
+    const result = await client.uploadArtifact(name, [file], path.dirname(file), {retentionDays: 7})
     if (result?.id !== undefined) positiveInteger(result.id, 'uploaded artifact id')
     return Object.freeze({artifactName: name, artifactId: result?.id ?? null})
   }
