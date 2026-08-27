@@ -20,7 +20,7 @@ import type {
   RevisionInventory,
   SourceSnapshot,
 } from './lark/revisionInventory.ts';
-import {validateToolsSidebar, validateTranslationCoverage} from './translation/validate.ts';
+import {validateTranslationCoverage} from './translation/validate.ts';
 import {TranslationTargetIdSchema} from './translation/schema.ts';
 import {assertSafeRepositoryRelativePath, resolveOwnedRepositoryPath} from './validation/ownership.ts';
 import {executePublicationGroup, parsePublishGroupArgs} from './workflows/run.ts';
@@ -292,12 +292,6 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
       group: requiredOption(options, 'group'),
     });
     process.stdout.write('Translation coverage validated.\n');
-    return true;
-  }
-  if (argv[0] === 'validate-tools-sidebar') {
-    if (argv.length !== 1) throw new Error('validate-tools-sidebar does not accept arguments');
-    validateToolsSidebar(repositoryRoot);
-    process.stdout.write('Chinese Tools sidebar validated.\n');
     return true;
   }
   if (argv[0] === 'validate-mdx') {
