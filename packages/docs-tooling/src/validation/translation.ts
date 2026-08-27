@@ -169,6 +169,7 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
   }
 
   for (const source of sourceManifest.records) {
+    if (options.manualForPath && options.manualForPath(source.sourcePath) === 'rest') continue;
     if (!translationsBySource.has(source.sourcePath) && !pendingBySource.has(source.sourcePath) && !languageExcludedBySource.has(source.sourcePath)) {
       throw new Error(`Active Reference source lacks coverage by a translation record, pending record, or language-excluded record: ${source.sourcePath}`);
     }
@@ -222,6 +223,7 @@ export function validateReferenceTranslation(options: ValidateReferenceTranslati
     if (!sourceFiles.has(source.sourcePath)) throw new Error(`Source manifest path is missing: ${source.sourcePath}`);
   }
   for (const [filePath] of targetFiles) {
+    if (options.manualForPath && options.manualForPath(filePath) === 'rest') continue;
     if (!targetPaths.has(filePath)) throw new Error(`Orphan target is absent from the translation manifest: ${filePath}`);
   }
 }
