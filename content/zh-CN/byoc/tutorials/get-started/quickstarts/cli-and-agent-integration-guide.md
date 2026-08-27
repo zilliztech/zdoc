@@ -31,11 +31,35 @@ import Procedures from '@site/src/components/Procedures';
 
 - [Zilliz Cloud 账号](http://cloud.zilliz.com.cn)。
 
-- Claude Code，如果您想使用 [Claude Code Plugin](https://docs.zilliz.com.cn/docs/agents/zilliz-plugin).
+- Claude Code，如果您想使用 [Claude Code Plugin](https://docs.zilliz.com.cn/docs/agents/zilliz-plugin)。
 
-- Node.js，如果您想安装 [Zilliz Skill](https://github.com/zilliztech/zilliz-skill).
+- Codex，如果您想使用 [Codex Plugin](./zilliz-codex-plugin)。
 
-### 安装 Claude Code 插件\{#install-claude-code-plugin}
+- Node.js，如果您想安装 [Zilliz Skill](https://github.com/zilliztech/zilliz-skill)。
+
+### 安装 Claude Code 插件\{#install-zilliz-plugin-for-claude-code}
+
+如果您想直接在 OpenAI Codex 中操作 Zilliz Cloud，请使用 [Zilliz Plugin](https://github.com/zilliztech/zilliz-plugin)。
+
+<Procedures>
+
+1. 添加 Marketplace。
+
+    ```plaintext
+    codex plugin marketplace add zilliztech/zilliz-plugin
+    ```
+
+1. 在 Codex 中打开 `/plugins` 并从 Marketplace 中安装 `zilliz` 插件。
+
+</Procedures>
+
+或者您也可以根据以下方式直接通过[codex-marketplace](https://www.npmjs.com/package/codex-marketplace) 安装。
+
+```plaintext
+npx codex-marketplace add zilliztech/zilliz-plugin --plugins
+```
+
+### 安装 Claude Code 插件\{#install-zilliz-plugin-for-claude-code}
 
 如果您想直接在 Claude Code 中操作 Zilliz Cloud，请使用[Claude Code Plugin](https://docs.zilliz.com.cn/docs/agents/zilliz-plugin) 。
 

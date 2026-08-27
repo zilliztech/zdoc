@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 通常情况下，使用 Hugging Face Embedding 模型要求应用自行管理凭证、单独调用模型，并确保为 Insert 数据和搜索查询生成一致的 Embedding。借助 [Hugging Face 模型服务集成](./integrate-with-model-providers)和 Text Embedding Function，Zilliz Cloud 可在 Insert 和搜索期间将原始文本转换为向量。
 
-## 工作原理\{#}
+## 工作原理\{#how-it-works}
 
 ![Qm8Twbq1ah5kphbDr4gcnaEbnve](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/Qm8Twbq1ah5kphbDr4gcnaEbnve.png)
 
@@ -36,7 +36,7 @@ import Admonition from '@theme/Admonition';
 
 Insert 和搜索使用相同的 Function 配置，从而确保模型和推理参数保持一致。
 
-## 模型兼容性\{#}
+## 模型兼容性\{#model-compatibility}
 
 要将 Hugging Face 模型用于 Text Embedding Function，该模型必须具备 [Feature Extraction](https://huggingface.co/docs/inference-providers/tasks/feature-extraction#api-specification) 能力，并能通过配置的 [`hf-inference`](https://huggingface.co/docs/inference-providers/providers/hf-inference) 集成成功返回 Embedding。Function 输出字段必须是 `FLOAT_VECTOR` 字段，且其 `dim` 必须与模型的 Embedding 维度一致。
 
@@ -59,7 +59,7 @@ Insert 和搜索使用相同的 Function 配置，从而确保模型和推理参
 
 </Admonition>
 
-## 开始之前\{#}
+## 开始之前\{#before-you-start}
 
 使用 Hugging Face 文本 Embedding 前：
 
@@ -71,11 +71,11 @@ Insert 和搜索使用相同的 Function 配置，从而确保模型和推理参
 
 以下示例使用 `BAAI/bge-small-en-v1.5`。在撰写本文时，该模型通过 `hf-inference` 生成 384 维 Embedding。此模型仅用于演示配置，并不代表 Zilliz Cloud 对其作出推荐或认证。
 
-## 使用 Hugging Face 文本 Embedding\{#hugging-face-embedding}
+## 使用 Hugging Face 文本 Embedding\{#use-hugging-face-text-embedding}
 
-### 第 1 步：创建包含文本 Embedding Function 的 Collection\{#1-embedding-function-collection}
+### 第 1 步：创建包含文本 Embedding Function 的 Collection\{#step-1-create-a-collection-with-a-text-embedding-function}
 
-#### 定义 Schema 字段\{#schema}
+#### 定义 Schema 字段\{#define-schema-fields}
 
 创建包含以下字段的 Collection Schema：
 
@@ -120,7 +120,7 @@ schema.add_field(
 )
 ```
 
-#### 定义文本 Embedding Function\{#embedding-function}
+#### 定义文本 Embedding Function\{#define-the-text-embedding-function}
 
 定义一个 `TEXTEMBEDDING` Function，将 `document` 字段中的值转换为 Embedding，并将其写入 `dense` 字段。
 
@@ -157,7 +157,7 @@ schema.add_function(text_embedding_function)
 | `truncation_direction` | 否 | Hugging Face 从输入的哪个方向执行截断。支持的值为 `left` 和 `right`。 |
 | `max_client_batch_size` | 否 | 单次请求发送到 Hugging Face 的最大输入文本数量。默认值为 `128`，且必须大于 `0`。 |
 
-#### 配置索引\{#}
+#### 配置索引\{#configure-the-index}
 
 为输出向量字段配置索引。以下示例使用 `AUTOINDEX` 和余弦相似度。
 
@@ -171,7 +171,7 @@ index_params.add_index(
 )
 ```
 
-#### 创建 Collection\{#collection}
+#### 创建 Collection\{#create-the-collection}
 
 使用 Schema 和索引参数创建 Collection。
 
@@ -185,7 +185,7 @@ client.create_collection(
 
 该 Collection 已创建，并包含一个将 384 维向量写入 `dense` 字段的文本 Embedding Function。
 
-### 第 2 步：Insert 数据\{#2-insert}
+### 第 2 步：Insert 数据\{#step-2-insert-data}
 
 Insert 原始文本，无需提供向量。Zilliz Cloud 调用 Hugging Face 模型，并将生成的 Embedding 写入 `dense` 字段。
 
@@ -211,7 +211,7 @@ client.insert(
 
 Insert 操作会存储原始文本，并为每个 Entity 生成一个 Embedding。
 
-### 第 3 步：使用文本搜索\{#3}
+### 第 3 步：使用文本搜索\{#step-3-search-with-text}
 
 使用原始查询文本执行搜索。在进行向量搜索之前，Zilliz Cloud 使用相同的 Function、模型和可选推理参数将查询文本转换为 Embedding。
 
@@ -229,17 +229,17 @@ print(results)
 
 搜索结果包含与查询文本最相关的文档，并按余弦相似度排序。
 
-## 故障排查\{#}
+## 故障排查\{#troubleshooting}
 
-### 模型无法用于 feature-extraction 任务\{#feature-extraction}
+### 模型无法用于 feature-extraction 任务\{#the-model-is-unavailable-for-the-feature-extraction-task}
 
 打开模型的 Hugging Face 页面，查看 **Inference Providers** 部分。确认 `hf-inference` 当前为该模型提供服务，并且该模型支持 `feature-extraction`。如果任一要求不满足，请选择其他模型，并在其模型页面上进行确认。模型兼容性表并未穷举所有模型，未列出的模型仍可能兼容。如果更换模型，请确保 Function 输出字段的维度与替换后模型的维度一致。
 
-### 返回的向量维度与 Schema 不匹配\{#schema}
+### 返回的向量维度与 Schema 不匹配\{#the-returned-vector-dimension-does-not-match-the-schema}
 
 检查模型的输出维度，并将其与 Function 的 `FLOAT_VECTOR` 输出字段中配置的 `dim` 进行比较。要使用不同维度的模型，请创建兼容的向量字段或 Collection。不支持自定义输出维度。
 
-## 后续步骤\{#}
+## 后续步骤\{#next-steps}
 
 有关 Function 的一般信息，请参阅 [Function & 模型推理概述](./function-and-model-inference-overview)。
 

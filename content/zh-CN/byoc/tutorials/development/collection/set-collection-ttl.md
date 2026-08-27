@@ -1479,17 +1479,17 @@ client.alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 
 ## 常见问题\{#faqs}
 
-### 插入 Collection 中的数据到底何时会根据 TTL 设置失效？\{#collection-ttl}
+### 插入 Collection 中的数据到底何时会根据 TTL 设置失效？\{#when-does-data-expire-due-to-ttl-settings}
 
 Zilliz Cloud 会根据TTL 设置及数据的插入或更新时间来确定其失效时间。失效的数据将不会出现在任何搜索结果中。具体可参考[相关示例](./set-collection-ttl)。
 
-### 失效数据何时会删除？\{#}
+### 失效数据何时会删除？\{#when-will-the-expired-data-be-physically-deleted}
 
 当数据失效后，这些数据将不会出现在任何搜索结果中，但是，只有在 Zilliz Cloud 根据集群的数据压缩策略执行下一次压缩时，这些数据才会被删除。
 
 如果您希望在数据失效后的较短时间内删除这些数据，请联系 [Zilliz Cloud 技术支持](https://support.zilliz.com.cn/hc/zh-cn/requests/new)。
 
-### Zilliz Cloud 集群的 CU 容量何时会开始降低？\{#zilliz-cloud-cu}
+### Zilliz Cloud 集群的 CU 容量何时会开始降低？\{#when-will-the-cu-capacity-decrease}
 
 集群的 CU 容量会取内存使用量和存储使用量中的最大值。如果 CU 容量当前取的是存储使用量，您可以在失效数据被删除后，在 Zilliz Cloud 控制台中观察到 CU 容量的减少。
 

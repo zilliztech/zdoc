@@ -44,7 +44,7 @@ import Admonition from '@theme/Admonition';
 
 使用此视图可在执行优雅切换（Switchover）等操作前，确认所有从集群已同步且正常运行。
 
-## 集群状态\{#}
+## 集群状态\{#cluster-status}
 
 全球集群中的每个集群会展示以下状态之一：
 
@@ -74,7 +74,7 @@ import Admonition from '@theme/Admonition';
 
 如果在同步延迟较高时执行强切，新主集群可能会缺少最近的写入数据。潜在的数据丢失量（RPO）等于强切时的同步延迟。
 
-## 集群指标与告警\{#}
+## 集群指标与告警\{#cluster-metrics-and-alerts}
 
 全球集群中的每个集群（包括主集群和从集群）都暴露与普通 Dedicated 集群相同的指标。您可以在集群详情页查看这些指标、为这些指标创建告警，或将其导出到外部监控系统。详情请参见[指标与告警快速参考](./metrics-alerts-reference)。
 

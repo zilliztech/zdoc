@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Spark 批量任务异步执行，并在从提交到完成期间会经过多个不同的状态。本文将解释任务的生命周期，并展示如何查看任务列表、获取任务详情，以及取消一个处于可取消状态的任务。 | Cloud"
 type: origin
 token: VOt1wvC7jid1sOkWeFOct55Fn0e
-sidebar_position: 5
+sidebar_position: 6
 displayed_sidebar: default
 
 ---

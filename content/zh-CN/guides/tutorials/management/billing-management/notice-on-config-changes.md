@@ -24,17 +24,17 @@ Zilliz Cloud 支持您根据业务和数据量的变化灵活变更集群配置�
 
 本文介绍按量付费集群和包年包月集群变更配置的费用说明。
 
-## 按量计费集群变更配置\{#}
+## 按量计费集群变更配置\{change-configuration-for-pay-as-you-go-clusters}\{#change-configuration-for-pay-as-you-go-clusters}
 
 按量计费集群按小时收费，变更配置后按照新的配置每小时收费。
 
-## 包年包月集群变更配置\{#}
+## 包年包月集群变更配置\{#change-configuration-for-annual-subscription-clusters}
 
 包年包月集群当前仅支持升配，不支持降配，且按天为单位结算。以下为不同变配方式的计费说明。
 
 ![scale-methods-cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/scale-methods-cn.png "scale-methods-cn")
 
-### 仅升配\{#}
+### 仅升配\{#upgrade-only}
 
 ```plaintext
 待支付订单金额 = （升配后 Query CU 数量 - 升配前 Query CU 数量）x 单价 x 集群剩余天数 x 折扣
@@ -53,7 +53,7 @@ Zilliz Cloud 支持您根据业务和数据量的变化灵活变更集群配置�
     | < 1 年 | 无 | 集群剩余时长小于 1 年时无折扣，按官网列表价的原价计算订单金额。 |
     | 1-3 年 | 7 折 | 集群剩余时长大于等于 1 年且小于 3 年时享受 7 折优惠，按官网列表价的 7 折计算订单金额。 |
 
-#### **示例**\{#}
+#### **示例\{#example}**
 
 假设您购买的包年包月集群升配前配置如下：
 
@@ -75,7 +75,7 @@ Zilliz Cloud 支持您根据业务和数据量的变化灵活变更集群配置�
 
 - **集群剩余天数为 2 年时，待支付订单金额 =（4 Query CU x 1 Replica - 2 Query CU x 1 Replica）  x ¥30.00/天 x 730 天 x 70%= ¥30660.00**
 
-### 升配同时延长集群有效期\{#}
+### 升配同时延长集群有效期\{#upgrade-and-extend-the-cluster-validity-period}
 
 ```plaintext
 待支付订单金额 = 升配后新集群的包年包月订单金额 - 升配前老集群的剩余金额
@@ -89,7 +89,7 @@ Zilliz Cloud 支持您根据业务和数据量的变化灵活变更集群配置�
 
 - 新折扣由新的订阅时长决定（阿里云、腾讯云：三年 5 折，一年 7 折）。
 
-#### 示例\{#}
+#### 示例\{#**\{#example}**
 
 假设您购买的包年包月集群升配前配置如下：
 

@@ -23,7 +23,7 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud 支持您将您的数据完整导出。本文将使用 Iterator 接口演示如何从 Zilliz Cloud Collection 中导出数据。
 
-## 概述\{#}
+## 概述\{#overview}
 
 Milvus 的 Python 和 Java SDK 提供了一组 Iterator API，可按需迭代指定 Collection 中的数据。关于这些接口的具体情况，可查看[Search Iterator](./with-iterators)。
 
@@ -43,11 +43,11 @@ Milvus 的 Python 和 Java SDK 提供了一组 Iterator API，可按需迭代指
 
 </Admonition>
 
-## 准备工作\{#}
+## 准备工作\{#preparations}
 
 在如下步骤中，我们使用快速建表方法创建了一个 Collection, 并向其添加了 10,000 条随机数据。
 
-### 创建 Collection\{#collection}
+### 创建 Collection\{#create-a-collection}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -103,7 +103,7 @@ client.createCollection(createCollectionParam);
 </TabItem>
 </Tabs>
 
-### 插入随机数据\{#}
+### 插入随机数据\{#insert-randomly-generated-entities}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -218,7 +218,7 @@ System.out.println(wrapper.getInsertCount());
 </TabItem>
 </Tabs>
 
-## 使用 Iterator 导出数据\{#iterator}
+## 使用 Iterator 导出数据\{#export-data-using-iterators}
 
 如需使用 Iterator 导出数据，可按如下步骤操作：
 

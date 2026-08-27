@@ -33,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 - **资源优化**：降低探索性查询和统计分析的计算成本
 
-## 语法\{#}
+## 语法\{#syntax}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -88,7 +88,7 @@ export filterRandomSample='RANDOM_SAMPLE(0.5)'
 
 - 采样因子必须在 (0, 1) 范围内，不包括边界
 
-## 与其他过滤器结合\{#}
+## 与其他过滤器结合\{#combine-with-other-filters}
 
 随机采样运算符必须使用逻辑 `AND` 与其他过滤表达式结合使用。在组合过滤器时，Milvus 首先应用其他条件，然后对结果集执行随机采样。
 
@@ -158,9 +158,9 @@ export filterSampleIncorrect='color == "red" OR RANDOM_SAMPLE(0.001)'  # ❌ Inv
 </TabItem>
 </Tabs>
 
-## 示例\{#}
+## 示例\{#examples}
 
-### 示例1：数据探索\{#1}
+### 示例1：数据探索\{#example-1-data-exploration}
 
 快速预览您的 Collection 结构：
 
@@ -284,7 +284,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 示例2：结合过滤与随机抽样\{#2}
+### 示例2：结合过滤与随机抽样\{#example-2-combined-filtering-with-random-sampling}
 
 在可管理的子集上测试过滤逻辑：
 
@@ -369,7 +369,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 示例3：快速分析\{#3}
+### 示例3：快速分析\{#example-3-quick-analytics}
 
 对过滤后的数据进行快速统计分析：
 
@@ -464,7 +464,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 示例4：结合向量搜索\{#4}
+### 示例4：结合向量搜索\{#example-4-combined-with-vector-search}
 
 在过滤搜索场景中使用随机抽样：
 
@@ -562,7 +562,7 @@ export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 </TabItem>
 </Tabs>
 
-## 最佳实践\{#}
+## 最佳实践\{#best-practices}
 
 - **从小处着手**：初始探索时，从较小的采样因子 (0.001 - 0.01) 开始
 

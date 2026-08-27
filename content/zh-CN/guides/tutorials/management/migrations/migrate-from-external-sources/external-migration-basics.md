@@ -181,7 +181,7 @@ Zilliz Cloud 支持从主流向量数据库和搜索平台迁移：
 
 <Supademo id="cmhmtjeff0dexdqxa2qqkdsds" title="Zilliz Cloud - 设置 Full Text Search" />
 
-## 平台专属迁移指南\{#}
+## 平台专属迁移指南\{#platform-specific-migration-guides}
 
 各平台详细操作流程、前置条件及数据映射说明：
 

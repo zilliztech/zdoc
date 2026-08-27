@@ -22,6 +22,12 @@ module.exports = [
             "key": "doc:tutorials/tools/agents-and-prompts/zilliz-skill"
           },
           {
+            "type": "doc",
+            "id": "tutorials/tools/agents-and-prompts/zilliz-codex-plugin",
+            "label": "Codex 插件",
+            "key": "doc:tutorials/tools/agents-and-prompts/zilliz-codex-plugin"
+          },
+          {
             "type": "category",
             "label": "Claude Code 插件",
             "key": "category:tutorials/tools/agents-and-prompts/zilliz-plugin",

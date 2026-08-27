@@ -26,7 +26,7 @@ Zilliz Cloud 使用一组固定的 IP 地址从您的数据源中拉取数据，
 
 - 目标集群所在云地域的 IP 地址
 
-## Zilliz Cloud 服务 IP 地址\{#zilliz-cloud-ip}
+## Zilliz Cloud 服务 IP 地址\{#zilliz-cloud-service-ip-addresses}
 
 这些 IP 地址由 Zilliz Cloud 用于提供服务，请确保将它们添加到防火墙的安全列表中。
 
@@ -34,11 +34,11 @@ Zilliz Cloud 使用一组固定的 IP 地址从您的数据源中拉取数据，
 | --- | --- | --- |
 | cn-hangzhou | 华东1（杭州） | `114.55.232.32` |
 
-## 目标集群所在云地域 IP 地址\{#ip}
+## 目标集群所在云地域 IP 地址\{#target-cluster-region-ip-addresses}
 
 将目标 Zilliz Cloud 集群所在云服务提供商和地域对应的 IP 地址加入安全列表。
 
-### 阿里云\{#}
+### 阿里云\{#aliyun}
 
 | 云地域 | 位置 | IP 地址（CIDR） |
 | --- | --- | --- |
@@ -49,7 +49,7 @@ Zilliz Cloud 使用一组固定的 IP 地址从您的数据源中拉取数据，
 | us-east | 美国（弗吉尼亚） | `47.253.55.20` |
 | ap-southeast-1 | 新加坡 | `47.237.71.220` |
 
-### 腾讯云\{#}
+### 腾讯云\{#tencent-cloud}
 
 | 云地域 | 位置 | IP 地址（CIDR） |
 | --- | --- | --- |
@@ -57,7 +57,7 @@ Zilliz Cloud 使用一组固定的 IP 地址从您的数据源中拉取数据，
 | ap-shanghai | 华东地区（上海） | `124.222.234.127` |
 | na-ashburn | 美国东部（弗吉尼亚） | `43.130.121.239` |
 
-### 亚马逊云科技\{#}
+### 亚马逊云科技\{#amazon}
 
 | 云地域 | 位置 | IP 地址（CIDR） |
 | --- | --- | --- |

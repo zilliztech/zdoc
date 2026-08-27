@@ -49,6 +49,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "tutorials/get-started/shared-responsibilities",
+        "label": "共同责任",
+        "key": "doc:tutorials/get-started/shared-responsibilities"
+      },
+      {
+        "type": "doc",
         "id": "tutorials/get-started/cu-types-explained",
         "label": "选择合适的集群类型",
         "key": "doc:tutorials/get-started/cu-types-explained"
@@ -1899,6 +1905,12 @@ module.exports = [
             "key": "doc:tutorials/tools/agents-and-prompts/zilliz-skill"
           },
           {
+            "type": "doc",
+            "id": "tutorials/tools/agents-and-prompts/zilliz-codex-plugin",
+            "label": "Codex 插件",
+            "key": "doc:tutorials/tools/agents-and-prompts/zilliz-codex-plugin"
+          },
+          {
             "type": "category",
             "label": "Claude Code 插件",
             "key": "category:tutorials/tools/agents-and-prompts/zilliz-plugin",
@@ -2011,6 +2023,44 @@ module.exports = [
         "href": "/reference/cli/cli/overview",
         "label": "Zilliz CLI",
         "key": "link:tutorials/tools/zilliz-cli"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "产品架构",
+    "key": "category:tutorials/product-architecture",
+    "items": [
+      {
+        "type": "doc",
+        "id": "tutorials/product-architecture/data-resilience",
+        "label": "数据弹性",
+        "key": "doc:tutorials/product-architecture/data-resilience"
+      },
+      {
+        "type": "doc",
+        "id": "tutorials/product-architecture/data-security",
+        "label": "数据安全",
+        "key": "doc:tutorials/product-architecture/data-security"
+      },
+      {
+        "type": "category",
+        "label": "最佳实践",
+        "key": "category:tutorials/product-architecture/best-practices",
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/product-architecture/best-practices/multi-tenancy",
+            "label": "多租户策略",
+            "key": "doc:tutorials/product-architecture/best-practices/multi-tenancy"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/product-architecture/best-practices/environment-isolation",
+            "label": "环境隔离",
+            "key": "doc:tutorials/product-architecture/best-practices/environment-isolation"
+          }
+        ]
       }
     ]
   }

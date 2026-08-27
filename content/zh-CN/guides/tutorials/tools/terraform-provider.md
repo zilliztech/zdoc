@@ -24,7 +24,7 @@ Zilliz 提供全托管 Milvus 服务，在安全设计的基础上简化向量�
 
 [Zilliz Cloud Terraform Provider](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest) 是一个开源 Infrastructure as Code (IaC) 方案，使你能够动态构建、更改和版本化 Zilliz Cloud 资源。使用前，你必须使用适当凭据配置 provider，例如具有相应权限的 Zilliz Cloud API key。
 
-## 身份验证\{#}
+## 身份验证\{#authentication}
 
 在开始使用 Terraform 部署资源前，必须向 Zilliz Cloud 平台验证 Terraform 身份。在使用此 Terraform provider 执行 任何 操作前，必须使用具有适当权限的 Zilliz Cloud API key 完成身份验证。要创建 Zilliz Cloud API key，请按以下步骤操作：
 
@@ -42,7 +42,7 @@ Zilliz 提供全托管 Milvus 服务，在安全设计的基础上简化向量�
 
 在下列资源中，clusters、users & roles 和 BYOC projects 资源使用 Zilliz Cloud APIs。database、collection & aliases、partition 和 index 资源使用 cluster access token。
 
-## 可管理资源\{#}
+## 可管理资源\{#manageable-resources}
 
 目前，你可以使用此 provider 管理以下类型的资源：
 

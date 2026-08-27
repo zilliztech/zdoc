@@ -28,7 +28,7 @@ Zilliz Cloud 引入了一个名为 `level` 的搜索参数，允许用户通过�
 
 </Admonition>
 
-## 概述\{#}
+## 概述\{#overview}
 
 Zilliz Cloud 向量搜索中的召回率通常是指成功召回的相关结果数量占所有相关结果数量的比值。该指标通常用来衡量集群准确召回相关结果的能力。
 
@@ -38,7 +38,7 @@ Zilliz Cloud 向量搜索中的召回率通常是指成功召回的相关结果�
 
 高召回率通常意味着更加精确的搜索结果，搜索耗时可能也更长。您可能希望通过调节召回率在搜索效率和搜索准确率之间找到平衡。
 
-## 设置搜索参数\{#}
+## 设置搜索参数\{#set-up-a-search-request}
 
 您可以通过在搜索请求中添加 `level` 参数的方式将该请求变更为可调优请求。
 
@@ -68,7 +68,7 @@ res = client.search(
 
 </Admonition>
 
-## 调节召回率\{#}
+## 调节召回率\{#tune-recall-rate}
 
 为了方便您调整 `level` 参数，Zilliz Cloud 还提供了另一个名为 `enable_recall_calculation` 的参数。通过设置该参数为 `True`，您可以让 Zilliz Cloud 在搜索结果中包含本次搜索的预估召回率。
 
@@ -111,6 +111,6 @@ res = client.search(
 
 </Admonition>
 
-## 限制\{#}
+## 限制\{#limits}
 
 该功能当前仅对基本 Vector Search、Filtered Search 和 Range Search 有效。

@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的所有历史和异步数据任务整合在一起。
 
-## 查看项目任务\{#}
+## 查看项目任务\{#view-project-jobs}
 
 选择目标项目。在左侧导航栏中，点击**任务中心**。您可以看到正在执行或已完成的所有异步数据任务。
 
@@ -98,13 +98,13 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
 
 - 创建人：发起数据任务的项目用户。
 
-## 查看任务详情\{#}
+## 查看任务详情\{#view-job-details}
 
 点击**操作**栏中的**...**，选择**查看详情**。或者，您也可以通过[查看任务详情](https://docs.zilliz.com.cn/reference/restful/describe-job-v2)的 RESTful API 接口获取任务详情。
 
 ![view_job_details_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/viewjobdetailscn.png "view_job_details_cn")
 
-## 取消任务\{#}
+## 取消任务\{#cancel-job}
 
 您可以取消如下类型的**进行中**和**等待中**的任务：
 
@@ -122,7 +122,7 @@ Zilliz Cloud 提供了一个直观的任务中心页面，将同一项目下的�
 
 ![cancel_job_cn](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/canceljobcn.png "cancel_job_cn")
 
-## 重试失败任务\{#}
+## 重试失败任务\{#retry-failed-job}
 
 <Admonition type="info" icon="📘" title="📘 说明">
 

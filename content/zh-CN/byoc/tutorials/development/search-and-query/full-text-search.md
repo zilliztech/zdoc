@@ -1026,7 +1026,7 @@ if (!status.IsOk()) {
 
 ## 常见问题\{#faqs}
 
-### 在全文搜索中，我能否输出或访问由 BM25 函数生成的稀疏向量？\{#bm25}
+### 在全文搜索中，我能否输出或访问由 BM25 函数生成的稀疏向量？\{#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search}
 
 不行。BM25 函数生成的稀疏向量在全文搜索中无法直接访问或输出。详情如下：
 
@@ -1062,7 +1062,7 @@ client.search(
 )
 ```
 
-### 如果无法访问，为何还要定义稀疏向量字段呢？\{#}
+### 如果无法访问，为何还要定义稀疏向量字段呢？\{#why-do-i-need-to-define-a-sparse-vector-field-if-i-cant-access-it}
 
 稀疏向量字段作为内部搜索索引，类似于用户不会直接与之交互的数据库索引。
 

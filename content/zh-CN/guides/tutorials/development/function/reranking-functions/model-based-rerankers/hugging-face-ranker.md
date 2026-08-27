@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 向量搜索按向量距离对结果排序，但初始顺序未必能反映每个候选项的文本对查询的回答程度。借助[Hugging Face 模型服务集成](./integrate-with-model-providers)，Hugging Face Ranker 使用 Hugging Face sentence-similarity 任务返回的分数，对向量搜索返回的候选项重新排序。
 
-## 工作原理\{#}
+## 工作原理\{#how-it-works}
 
 Hugging Face Ranker 在向量搜索完成后对候选 Entity 重新排序。下图展示了应用、Zilliz Cloud 与 Hugging Face 之间的总体工作流。
 
@@ -54,7 +54,7 @@ Hugging Face Ranker 在向量搜索完成后对候选 Entity 重新排序。下�
 
 如果 Insert 的是预计算向量，还应将原始候选文本存储在 `VARCHAR` 字段中，以便 Hugging Face Ranker 在重新排序时读取。
 
-## 开始之前\{#}
+## 开始之前\{#before-you-start}
 
 使用 Hugging Face Ranker 前：
 
@@ -70,11 +70,11 @@ Zilliz Cloud 通过 [`hf-inference`](https://huggingface.co/docs/inference-provi
 
 - 确保 Collection 将候选文本存储在不可为 null 的 `VARCHAR` 字段中。Rerank Function 必须在 `input_field_names` 中准确引用一个这样的字段。Collection 可以包含其他文本字段。
 
-## 使用 Hugging Face Ranker\{#hugging-face-ranker}
+## 使用 Hugging Face Ranker\{#use-hugging-face-ranker}
 
 Hugging Face Ranker 在搜索时定义并应用。你可以为每个搜索请求启用、禁用或更换 Ranker，而无需修改 Collection Schema。
 
-### 准备工作\{#}
+### 准备工作\{#preparations}
 
 以下设置创建一个包含三个字段的 Collection：`id` 作为主键，`document` 作为存储用于重新排序的候选文本的 `VARCHAR` 字段，`dense` 作为用于初始搜索的向量字段。该设置还会 Insert 搜索和重新排序示例所需的示例数据。
 
@@ -140,7 +140,7 @@ client.insert(collection_name=collection_name, data=data)
 
 </details>
 
-### 定义 Rerank Function\{#rerank-function}
+### 定义 Rerank Function\{#define-the-rerank-function}
 
 定义一个 `RERANK` Function，使用 `document` 中存储的文本对向量搜索返回的候选项重新排序。该 Function 还会指定查询文本、Hugging Face 模型和模型服务集成。
 
@@ -180,7 +180,7 @@ hugging_face_ranker = Function(
 
 不要在 Function 定义中包含 Hugging Face 凭证。
 
-### 使用 Rerank Function 执行搜索\{#rerank-function}
+### 使用 Rerank Function 执行搜索\{#search-with-the-rerank-function}
 
 通过 `ranker` 参数将该 Function 传递给 `search()`。
 
@@ -202,17 +202,17 @@ print(results)
 
 搜索首先从 `dense` 向量字段检索候选 Entity。随后，Hugging Face Ranker 使用 `queries` 中的查询文本和每个候选项的 `document` 文本，通过 sentence-similarity 任务计算相似度分数。Zilliz Cloud 按分数降序返回候选项。
 
-## 故障排查\{#}
+## 故障排查\{#troubleshooting}
 
-### 模型无法用于 sentence-similarity 任务\{#sentence-similarity}
+### 模型无法用于 sentence-similarity 任务\{#the-model-is-unavailable-for-the-sentence-similarity-task}
 
 打开模型的 Hugging Face 页面，查看 **Inference Providers** 部分。确认 `hf-inference` 当前为该模型提供服务，并且该模型支持 `sentence-similarity`。如果任一要求不满足，请选择其他模型，并在其模型页面上进行确认。Zilliz Cloud 不维护 Hugging Face 模型的受支持模型目录。
 
-### 查询文本数量与搜索请求不匹配\{#}
+### 查询文本数量与搜索请求不匹配\{#the-number-of-query-texts-does-not-match-the-search-request}
 
 `queries` 中的字符串数量必须与搜索查询数量（`nq`）相等。对于包含一个查询向量的搜索，应准确提供一个查询字符串。
 
-## 后续步骤\{#}
+## 后续步骤\{#next-steps}
 
 Hugging Face Ranker 也可以用于混合搜索。搜索与混合搜索以相同方式应用 Ranker：在搜索时通过 `ranker` 参数传递 Rerank Function。
 

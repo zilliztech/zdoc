@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Plugin 提供多个领域的能力，可使用自然语言管理 Zilliz Cloud 资源。本指南介绍与管理集群、Collection 以及向量操作相关的主要功能。
 
-## 集群管理\{#}
+## 集群管理\{#cluster-management}
 
 **你可以执行的操作：**
 
@@ -55,7 +55,7 @@ zilliz cluster list
 zilliz cluster resume --cluster-id <id>
 ```
 
-## Collection 管理\{#collection}
+## Collection 管理\{#collection-management}
 
 **你可以执行的操作：**
 
@@ -83,7 +83,7 @@ zilliz collection load --name user_embeddings
 zilliz collection getstats --name products
 ```
 
-## 向量操作\{#}
+## 向量操作\{#vector-operations}
 
 **你可以执行的操作：**
 

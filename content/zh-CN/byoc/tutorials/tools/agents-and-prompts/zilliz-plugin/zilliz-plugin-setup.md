@@ -22,11 +22,11 @@ import Admonition from '@theme/Admonition';
 
 本指南介绍如何在 Claude Code 中安装和设置 Zilliz Plugin。
 
-## 前提条件\{#}
+## 前提条件\{#prerequisites}
 
 - 你已经安装 [Claude Code](https://code.claude.com/)。
 
-## 设置步骤\{#}
+## 设置步骤\{#setup-procedure}
 
 如果你的环境不支持市场发现，你仍然可以通过手动添加 Zilliz 插件市场来安装插件。
 
@@ -48,7 +48,7 @@ import Admonition from '@theme/Admonition';
     /plugin install zilliz@zilliztech/zilliz-plugin
     ```
 
-## 后续步骤\{#}
+## 后续步骤\{#next-steps}
 
 - [核心能力](./zilliz-plugin-capabilities)
 

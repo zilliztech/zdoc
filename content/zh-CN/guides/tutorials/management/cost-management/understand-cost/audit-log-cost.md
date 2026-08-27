@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 - [审计日志 CU 费用](./audit-log-cost#audit-log-cu-cost)：日志采集与处理过程中消耗的计算资源费用。
 
-- [数据传输费用](./audit-log-cost)：将审计日志转发到对象存储所产生的数据传输费用。
+- [数据传输费用](./audit-log-cost#data-transfer-cost)：将审计日志转发到对象存储所产生的数据传输费用。
 
 ## 审计日志 CU 费用\{#audit-log-cu-cost}
 
@@ -47,7 +47,7 @@ import Admonition from '@theme/Admonition';
 - **审计日志运行时长**：审计日志功能启用的总时长。计算方式为：`运行时长 = 停用时间点 − 启用时间点`。<br/>
    如果集群处于 “已挂起” 状态或审计日志功能处于异常状态，则这段时间不计入运行时长，因为此时审计日志功能不消耗计算资源。点击[此处](./audit-log-cost#example)查看运行时长计算示例。
 
-## 数据传输费用\{#}
+## 数据传输费用\{#data-transfer-cost}
 
 您可以将审计日志转发到指定的云服务对象存储桶。目前，Zilliz Cloud 仅支持将日志转发到与集群位于同一云地域的对象存储桶。
 

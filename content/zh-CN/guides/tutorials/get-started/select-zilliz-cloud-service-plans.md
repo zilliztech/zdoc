@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud 提供多样的项目版本类型以满足不同的用户需求。不论是向量数据库领域的新手，还是追求可靠的企业级解决方案的开发者，需要根据性能、可扩展性及成本，选择合适的版本类型。本文将提供不同版本间的对比，帮助您做出合适的选择。 | Cloud"
 type: origin
 token: XNCIwt9i6iFgEDkEQE9cTMf8nSe
-sidebar_position: 5
+sidebar_position: 6
 displayed_sidebar: default
 
 ---

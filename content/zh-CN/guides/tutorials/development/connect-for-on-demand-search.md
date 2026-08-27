@@ -28,13 +28,13 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-## Endpoint 格式\{#endpoint}
+## Endpoint 格式\{#endpoint-format}
 
 | Endpoint 类型 | Endpoint 格式 | 适用场景 |
 | --- | --- | --- |
 | 项目 endpoint | `https://{project-id}.{region}.api.zillizcloud.com` | 通过按需集群执行数据导入、批量搜索、查询、get、search 和 hybrid search。 |
 
-## 开始前\{#}
+## 开始前\{#before-you-begin}
 
 - 从 Zilliz Cloud 控制台获取项目 endpoint。
 
@@ -44,7 +44,7 @@ import Admonition from '@theme/Admonition';
 
 - 根据使用场景安装 Milvus SDK。
 
-## 连接到项目 Endpoint\{#endpoint}
+## 连接到项目 Endpoint\{#connect-to-a-project-endpoint}
 
 使用项目 endpoint 创建 `MilvusClient`，并指定用于处理请求的按需集群。
 
@@ -58,7 +58,7 @@ client = MilvusClient(
 )
 ```
 
-## 创建搜索 Session\{#session}
+## 创建搜索 Session\{#create-a-search-session}
 
 使用 session 对象将后续操作绑定到按需集群。
 
@@ -79,13 +79,13 @@ results = session.search(
 print(results)
 ```
 
-## 认证\{#}
+## 认证\{#authentication}
 
 连接项目 endpoint 时，请使用有效的 API key 作为认证 token。
 
 `username:password` 格式的集群凭证适用于 Serving 集群 endpoint。通过项目 endpoint 进行按需搜索时，请使用具备所需项目权限的 API key。
 
-## 何时使用此连接方式\{#}
+## 何时使用此连接方式\{#when-to-use-this-connection}
 
 项目 endpoint 适用于批处理、探索、验证、实验，以及其他更适合使用按需计算而非常驻服务的工作负载。
 

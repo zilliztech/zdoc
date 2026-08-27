@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud 智能体与提示词生态提供由 AI 驱动的工具，帮助开发者通过自然语言和智能辅助更高效地使用 Zilliz Cloud 进行构建。
 
-## Zilliz Skill\{#zilliz-skill}
+## Zilliz Skill\{##zilliz-skill}
 
 Zilliz Skills 是面向 Claude Code 的可复用技能模块，为使用 Zilliz Cloud 提供专门能力。
 
@@ -94,7 +94,7 @@ Model Context Protocol 服务器，使任何 AI 智能体都能通过标准化�
 
 - RESTful HTTP 传输选项
 
-## AI 提示词\{#ai}
+## AI 提示词\{#ai-prompts}
 
 面向 AI 驱动 IDE 的精选提示词库，帮助 AI 助手正确实现 Zilliz Cloud 功能。
 
@@ -116,7 +116,7 @@ Model Context Protocol 服务器，使任何 AI 智能体都能通过标准化�
 
 - 覆盖资源规划、定价、搜索、导入、迁移、集成、访问控制和 Schema 设计
 
-## 决策矩阵\{#}
+## 决策矩阵\{#decision-matrix}
 
 | 工具 | 使用场景 | 安装方式 | 自然语言 |
 | --- | --- | --- | --- |
@@ -125,7 +125,7 @@ Model Context Protocol 服务器，使任何 AI 智能体都能通过标准化�
 | **AI Prompts** | 需要一致的 AI 指导 | 复制到项目文件 | ✅ 指导 AI 行为 |
 | **CLI** | 脚本和自动化 | pip install | ❌ 仅命令行 |
 
-## 相关工具\{#}
+## 相关工具\{#related-tools}
 
 - **Zilliz CLI**：用于脚本和自动化的命令行接口。详情请参阅 [Zilliz CLI Reference](/reference/cli/cli/overview)。
 
@@ -141,7 +141,7 @@ Model Context Protocol 服务器，使任何 AI 智能体都能通过标准化�
 
     - [RESTful API](/reference/restful)
 
-## 入门\{#}
+## 入门\{#getting-started}
 
 1. **Claude Code 用户**：从 Zilliz Plugin 开始
 
@@ -149,7 +149,7 @@ Model Context Protocol 服务器，使任何 AI 智能体都能通过标准化�
 
 1. **任意 IDE 用户**：将 AI Prompts 添加到你的项目
 
-## 更多内容\{#}
+## 更多内容\{#whats-more}
 
 import DocCardList from '@theme/DocCardList';
 

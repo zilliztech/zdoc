@@ -80,7 +80,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Procedures>
 
-## 常见问题\{#}
+## 常见问题\{#faqs}
 
 - **现金充值（对公转账）可以开发票吗？**
 

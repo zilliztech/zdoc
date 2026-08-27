@@ -30,13 +30,13 @@ Zilliz Cloud 中的 **MINHASH_LSH** 索引通过结合两种强大的技术，�
 
 本指南介绍在 Zilliz Cloud 中使用 MINHASH_LSH 的相关概念、前提条件、配置步骤以及最佳实践。
 
-## 概览\{#}
+## 概览\{#overview}
 
 <details>
 
 <summary>展开了解 MinHash LSH 工作原理</summary>
 
-### Jaccard 相似度\{#jaccard}
+### Jaccard 相似度\{#jaccard-similarity}
 
 Jaccard 相似度用于衡量两个集合 A 和 B 之间的重叠程度，其正式定义为：
 
@@ -48,7 +48,7 @@ $$
 
 但在大规模数据集中，精确计算所有文档对之间的 Jaccard 相似度在时间和内存开销上都是 **O(n²)** 级别的，当 **n** 较大时，这种开销变得不可承受。因此，该方法在 LLM 训练语料清洗或网页级文档分析等场景中难以使用。
 
-### MinHash 签名：近似 Jaccard 相似度\{#minhash-jaccard}
+### MinHash 签名：近似 Jaccard 相似度\{#minhash-signatures-approximate-jaccard-similarity}
 
 [MinHash](https://zh.wikipedia.org/zh-cn/%E6%9C%80%E5%B0%8F%E5%93%88%E5%B8%8C) 是一种概率技术，能够高效地估算 Jaccard 相似度。它将每个集合转换为一个紧凑的**签名向量**，并保留足够的信息以高效近似集合间的相似度。
 
@@ -76,7 +76,7 @@ MinHash 的处理流程包括：
 
 </Admonition>
 
-### MinHash 的 LSH\{#minhash-lsh}
+### MinHash 的 LSH\{#lsh-for-minhash}
 
 虽然 MinHash 签名显著降低了精确计算文档间 Jaccard 相似度的开销，但在大规模数据下逐一比较所有签名向量仍然效率低下。
 
@@ -126,9 +126,9 @@ MinHash 的处理流程包括：
 
 ![HrZFww4dOhnaWSbEgwkcC2HJn8g](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/HrZFww4dOhnaWSbEgwkcC2HJn8g.png)
 
-band 的数量由 `mh_lsh_band` 参数控制。更多信息请参见[索引构建参数](./minhash-lsh)。
+band 的数量由 `mh_lsh_band` 参数控制。更多信息请参见[索引构建参数](./minhash-lsh#index-building-params)。
 
-### MHJACCARD：比较 MinHash 签名\{#mhjaccard-minhash}
+### MHJACCARD：比较 MinHash 签名\{#mhjaccard-comparing-minhash-signatures}
 
 MinHash 签名通过固定长度的二进制向量来近似集合间的 Jaccard 相似度。但由于这些签名并不保留原始集合，因此无法直接使用 `JACCARD`、`L2` 或 `COSINE` 等标准度量来比较它们。
 
@@ -144,9 +144,9 @@ MinHash 签名通过固定长度的二进制向量来近似集合间的 Jaccard 
 
 使用其他度量类型要么无效，要么会得到错误的结果。
 
-关于该度量类型的更多信息，请参考 [MHJACCARD](./minhash-lsh#mhjaccard-minhash)。
+关于该度量类型的更多信息，请参考 [MHJACCARD](./minhash-lsh#mhjaccard-comparing-minhash-signatures)。
 
-### 去重工作流程\{#}
+### 去重工作流程\{#deduplication-workflow}
 
 借助 MinHash LSH 实现的去重流程，使 Zilliz Cloud 能够在将数据写入 Collection 之前，高效识别并过滤掉近似重复的文本或结构化记录。
 
@@ -166,7 +166,7 @@ MinHash 签名通过固定长度的二进制向量来近似集合间的 Jaccard 
 
 </details>
 
-## 前提条件\{#}
+## 前提条件\{#prerequisites}
 
 在 Zilliz Cloud 中使用 MinHash LSH 之前，您必须先生成 **MinHash 签名**。这些紧凑的二进制签名用于近似集合间的 Jaccard 相似度，是在 Zilliz Cloud 中执行基于 `MHJACCARD` 的搜索所必需的输入。
 
@@ -180,7 +180,7 @@ MinHash 签名通过固定长度的二进制向量来近似集合间的 Jaccard 
 
 </Admonition>
 
-### 选择 MinHash 签名的生成方式\{#minhash}
+### 选择 MinHash 签名的生成方式\{#choose-a-method-to-generate-minhash-signatures}
 
 您可以根据自身工作负载来选择合适的生成方式：
 
@@ -192,7 +192,7 @@ MinHash 签名通过固定长度的二进制向量来近似集合间的 Jaccard 
 
 本指南为了简洁起见，使用 `datasketch` 来演示，其输出格式与 Zilliz Cloud 的输入格式兼容。
 
-### 安装所需依赖\{#}
+### 安装所需依赖\{#install-required-libraries}
 
 安装本例所需的依赖包：
 
@@ -200,7 +200,7 @@ MinHash 签名通过固定长度的二进制向量来近似集合间的 Jaccard 
 pip install pymilvus datasketch numpy
 ```
 
-### 生成 MinHash 签名\{#minhash}
+### 生成 MinHash 签名\{##generate-minhash-signatures}
 
 我们将生成 256 维的 MinHash 签名，每个哈希值由 64 位整数表示。这与 `MINHASH_LSH` 期望的向量格式一致。
 
@@ -220,7 +220,7 @@ def generate_minhash_signature(text, num_perm=MINHASH_DIM) -> bytes:
 
 每个签名的大小为 256 × 64 bit = 2048 字节。该字节串可以直接写入 `BINARY_VECTOR` 字段。关于 Zilliz Cloud 中使用的二进制向量的更多信息，请参考 [Binary 向量](./use-binary-vector)。
 
-### （可选）准备原始 token 集合（用于精排搜索）\{#token}
+### （可选）准备原始 token 集合（用于精排搜索）\{#optional-prepare-raw-token-sets-for-refined-search}
 
 默认情况下，Zilliz Cloud 仅基于 MinHash 签名和 LSH 索引来查找近似邻居。这种方式速度很快，但可能产生误判或漏掉某些近似匹配。
 
@@ -228,9 +228,9 @@ def generate_minhash_signature(text, num_perm=MINHASH_DIM) -> bytes:
 
 - 将 token 集合存储在一个单独的 `VARCHAR` 字段中
 
-- 在[构建索引参数](./minhash-lsh#collection)时设置 `"with_raw_data": True`
+- 在[构建索引参数](./minhash-lsh#build-index-parameters-and-create-collection)时设置 `"with_raw_data": True`
 
-- 在[执行相似度搜索](./minhash-lsh)时启用 `"mh_search_with_jaccard": True`
+- 在[执行相似度搜索](./minhash-lsh#perform-similarity-search)时启用 `"mh_search_with_jaccard": True`
 
 **token 集合提取示例**：
 
@@ -240,11 +240,11 @@ def extract_token_set(text: str) -> str:
     return " ".join(tokens)
 ```
 
-## 使用 MinHash LSH\{#minhash-lsh}
+## 使用 MinHash LSH\{#use-minhash-lsh}
 
 当 MinHash 向量和原始 token 集合准备就绪后，您可以使用 Zilliz Cloud 的 `MINHASH_LSH` 来存储、索引并搜索这些数据。
 
-### 连接到集群\{#}
+### 连接到集群\{#connect-to-your-cluster}
 
 ```python
 from pymilvus import MilvusClient
@@ -252,7 +252,7 @@ from pymilvus import MilvusClient
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")  # Update if your URI is different
 ```
 
-### 定义 Collection Schema\{#collection-schema}
+### 定义 Collection Schema\{#define-collection-schema}
 
 定义包含以下字段的 schema：
 
@@ -276,7 +276,7 @@ schema.add_field("token_set", DataType.VARCHAR, max_length=1000)  # required for
 schema.add_field("document", DataType.VARCHAR, max_length=1000)
 ```
 
-### 构建索引参数并创建 Collection\{#collection}
+### 构建索引参数并创建 Collection\{#build-index-parameters-and-create-collection}
 
 构建启用了 Jaccard 精排的 `MINHASH_LSH` 索引：
 
@@ -296,9 +296,9 @@ index_params.add_index(
 client.create_collection("minhash_demo", schema=schema, index_params=index_params)
 ```
 
-关于索引构建参数的更多信息，请参考[索引构建参数](./minhash-lsh)。
+关于索引构建参数的更多信息，请参考[索引构建参数](./minhash-lsh#index-building-params)。
 
-### 写入数据\{#}
+### 写入数据\{#insert-data}
 
 为每个文档准备：
 
@@ -329,7 +329,7 @@ client.insert("minhash_demo", insert_data)
 client.flush("minhash_demo")
 ```
 
-### 执行相似度搜索\{#}
+### 执行相似度搜索\{#perform-similarity-search}
 
 Zilliz Cloud 在 MinHash LSH 上支持两种相似度搜索模式：
 
@@ -337,7 +337,7 @@ Zilliz Cloud 在 MinHash LSH 上支持两种相似度搜索模式：
 
 - **精排搜索**——基于原始 token 集合重新计算 Jaccard 相似度，精度更高。
 
-#### 5.1 准备查询\{#51}
+#### 5.1 准备查询\{#51-prepare-the-query}
 
 要执行相似度搜索，先为查询文档生成 MinHash 签名。该签名的维度和编码格式必须与写入数据时一致。
 
@@ -346,7 +346,7 @@ query_text = "neural networks model patterns in data"
 query_sig = generate_minhash_signature(query_text)
 ```
 
-#### 5.2 近似搜索（仅使用 LSH）\{#52-lsh}
+#### 5.2 近似搜索（仅使用 LSH）\{#52-approximate-search-lsh-only}
 
 这种方式快速且可扩展，但可能漏掉某些近似匹配或产生误判：
 
@@ -374,7 +374,7 @@ for i, hit in enumerate(approx_results[0]):
     print(f"{i+1}. Similarity: {sim:.3f} | {hit['entity']['document']}")
 ```
 
-#### 5.3 精排搜索（推荐用于追求精度的场景）\{#53}
+#### 5.3 精排搜索（推荐用于追求精度的场景）\{#53-refined-search-recommended-for-accuracy}
 
 这种方式基于存储在 Zilliz Cloud 中的原始 token 集合进行精确的 Jaccard 比较。速度略慢，但适用于对结果质量要求较高的任务：
 
@@ -405,13 +405,13 @@ for i, hit in enumerate(refined_results[0]):
     print(f"{i+1}. Similarity: {sim:.3f} | {hit['entity']['document']}")
 ```
 
-## 索引参数\{#}
+## 索引参数\{#index-params}
 
 本节介绍构建索引以及在该索引上执行搜索时所使用的参数。
 
-### 索引构建参数\{#}
+### 索引构建参数\{#index-building-params}
 
-下表列出了在[构建索引](./minhash-lsh#collection)时可以在 `params` 中配置的参数。
+下表列出了在[构建索引](./minhash-lsh#build-index-parameters-and-create-collection)时可以在 `params` 中配置的参数。
 
 | **参数** | **说明** | **取值范围** | **调优建议** |
 | --- | --- | --- | --- |
@@ -421,9 +421,9 @@ for i, hit in enumerate(refined_results[0]):
 | `with_raw_data` | 是否将原始 MinHash 签名与 LSH 哈希码一同存储以支持精排。 | true、false | 当对精度要求较高且能接受额外存储开销时，使用 true。当希望以轻微精度损失换取更低存储开销时，使用 false。 |
 | `mh_lsh_bloom_false_positive_prob` | 用于 LSH 桶优化的布隆过滤器的误判率。 | [0.001, 0.1] | 使用 0.01 在内存占用与精度之间取得平衡。较低的值（0.001）可减少误判，但会增加内存开销；较高的值（0.05）可节省内存，但可能降低精度。 |
 
-### 索引相关搜索参数\{#}
+### 索引相关搜索参数\{#index-specific-search-params}
 
-下表列出了在[基于该索引执行搜索](./minhash-lsh)时可在 `search_params.params` 中配置的参数。
+下表列出了在[基于该索引执行搜索](./minhash-lsh#perform-similarity-search)时可在 `search_params.params` 中配置的参数。
 
 | **参数** | **说明** | **取值范围** | **调优建议** |
 | --- | --- | --- | --- |

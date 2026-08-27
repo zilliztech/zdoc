@@ -10,7 +10,7 @@ notebook: FALSE
 description: "面向 Gemini CLI 的 Zilliz Cloud 扩展是一个自然语言接口，可将 Zilliz Cloud 操作直接带入你的 IDE。无需记忆 CLI 命令或切换到 Web 控制台，只需用日常语言描述你想要的操作，插件会负责处理。 | Cloud"
 type: origin
 token: ZTvzw9d1QiNqeKk7XumcO01Anpc
-sidebar_position: 3
+sidebar_position: 4
 displayed_sidebar: default
 
 ---
@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 面向 Gemini CLI 的 Zilliz Cloud 扩展是一个自然语言接口，可将 Zilliz Cloud 操作直接带入你的 IDE。无需记忆 CLI 命令或切换到 Web 控制台，只需用日常语言描述你想要的操作，插件会负责处理。
 
-## 它能做什么\{#}
+## 它能做什么\{#what-it-does}
 
 - 将自然语言请求转换为 `zilliz-cli` 命令
 
@@ -32,11 +32,11 @@ import Admonition from '@theme/Admonition';
 
 - 在执行任何破坏性操作前要求用户明确确认
 
-## 前提条件\{#}
+## 前提条件\{#prerequisites}
 
 - 你已安装 Gemini CLI。
 
-## 设置步骤\{#}
+## 设置步骤\{#setup-procedure}
 
 ```bash
 gemini extensions install https://github.com/zilliztech/gemini-cli-extension
@@ -48,6 +48,6 @@ gemini extensions install https://github.com/zilliztech/gemini-cli-extension
 gemini extensions link /path/to/gemini-cli-extension
 ```
 
-## 下一步\{#}
+## 下一步\{#next-step}
 
 Zilliz Claude Code Plugin 和 Zilliz Gemini CLI Extension 底层都共享 Zilliz CLI。你可以阅读[核心能力](./zilliz-plugin-capabilities)和[更多示例](./zilliz-plugin-examples)来学习如何编写提示词。

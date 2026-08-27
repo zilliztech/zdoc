@@ -136,7 +136,7 @@ Zilliz Cloud 支持按账单和按订单开具发票。
 
 如您开通了亚马逊云科技 Marketplace 扣费渠道并需要开具发票，请参考[发票信息指南](https://www.amazonaws.cn/support/fapiao/?nc1=h_ls)。
 
-## 常见问题\{#}
+## 常见问题\{#faqs}
 
 - **申请开票后，何时可以完成开票？**
 

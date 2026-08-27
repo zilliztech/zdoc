@@ -10,7 +10,7 @@ notebook: FALSE
 description: "在 Zilliz Cloud 中，为集群选择合适的类型是一个关键步骤。Query CU 提供了并行数据处理的基础计算资源，不同类型的集群结合了各异的 CPU、内存和存储配置。 | Cloud"
 type: origin
 token: DP6Fw8vkzi7pD7kAMB3cjunYn6g
-sidebar_position: 6
+sidebar_position: 7
 displayed_sidebar: default
 
 ---

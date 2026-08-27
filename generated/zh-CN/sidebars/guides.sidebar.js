@@ -2315,12 +2315,6 @@ module.exports = [
             "id": "tutorials/management/billing-management/manage-orders",
             "label": "管理订单",
             "key": "doc:tutorials/management/billing-management/manage-orders"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/billing-management/renewal",
-            "label": "续订说明",
-            "key": "doc:tutorials/management/billing-management/renewal"
           }
         ]
       },
@@ -2479,6 +2473,12 @@ module.exports = [
             "id": "tutorials/tools/agents-and-prompts/zilliz-skill",
             "label": "Zilliz Skill",
             "key": "doc:tutorials/tools/agents-and-prompts/zilliz-skill"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/tools/agents-and-prompts/zilliz-codex-plugin",
+            "label": "Codex 插件",
+            "key": "doc:tutorials/tools/agents-and-prompts/zilliz-codex-plugin"
           },
           {
             "type": "category",
@@ -2657,12 +2657,6 @@ module.exports = [
         ]
       },
       {
-        "type": "doc",
-        "id": "tutorials/ai-models/hosted-models",
-        "label": "托管模型",
-        "key": "doc:tutorials/ai-models/hosted-models"
-      },
-      {
         "type": "category",
         "label": "重排序模型",
         "key": "category:tutorials/ai-models/reranking-models",
@@ -2678,6 +2672,44 @@ module.exports = [
             "href": "/docs/hugging-face-ranker",
             "label": "Hugging Face Ranker",
             "key": "ref:tutorials/ai-models/reranking-models/hugging-face-ranker"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "产品架构",
+    "key": "category:tutorials/product-architecture",
+    "items": [
+      {
+        "type": "doc",
+        "id": "tutorials/product-architecture/data-resilience",
+        "label": "数据弹性",
+        "key": "doc:tutorials/product-architecture/data-resilience"
+      },
+      {
+        "type": "doc",
+        "id": "tutorials/product-architecture/data-security",
+        "label": "数据安全",
+        "key": "doc:tutorials/product-architecture/data-security"
+      },
+      {
+        "type": "category",
+        "label": "最佳实践",
+        "key": "category:tutorials/product-architecture/best-practices",
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/product-architecture/best-practices/multi-tenancy",
+            "label": "多租户策略",
+            "key": "doc:tutorials/product-architecture/best-practices/multi-tenancy"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/product-architecture/best-practices/environment-isolation",
+            "label": "环境隔离",
+            "key": "doc:tutorials/product-architecture/best-practices/environment-isolation"
           }
         ]
       }

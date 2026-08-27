@@ -29,14 +29,14 @@ Zilliz Cloud 提供多种 Serving 集群部署选项，以满足不同的业务�
 
 - **Dedicated**：为生产工作负载提供隔离的专属环境，适合需要稳定、可预测性能的高吞吐和低延迟应用。
 
-## Endpoint 格式\{#endpoint}
+## Endpoint 格式\{#endpoint-formats}
 
 | 集群类型 | Endpoint 格式 | 说明 |
 | --- | --- | --- |
 | Free/Serverless | `https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com` | Free/Serverless 集群使用实时服务 endpoint，不需要指定专用端口。 |
 | Dedicated | `https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530` | Dedicated 集群使用实时服务 endpoint，并使用端口 `19530`。 |
 
-## 连接到 Free/Serverless 集群\{#freeserverless}
+## 连接到 Free/Serverless 集群\{#connect-to-freeserverless-clusters}
 
 从集群详情页的 **Connect** 卡片复制集群公网 endpoint。`token` 可以使用有权访问该集群的 API key，也可以使用 `username:password` 格式的集群凭证。
 
@@ -122,7 +122,7 @@ collections = client.list_collections()
 print(collections)
 ```
 
-## 连接到 Dedicated 集群\{#dedicated}
+## 连接到 Dedicated 集群\{#connect-to-dedicated-clusters}
 
 在各 SDK 中保持集群 endpoint 和 token 一致。`YOUR_CLUSTER_ENDPOINT` 是从集群 **Connect** 卡片复制的公网 endpoint；`YOUR_CLUSTER_TOKEN` 可以是有权访问目标集群的 API key，也可以是 `username:password` 格式的集群凭证。
 
@@ -201,7 +201,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 验证连接\{#}
+### 验证连接\{#verify-the-connection}
 
 使用 SDK 建立连接后，可以运行轻量级操作，例如列出 Collection。
 

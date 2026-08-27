@@ -241,7 +241,7 @@ curl --request POST \
 
 ## FAQ\{#faq}
 
-### 告警触发后，我会多久收到一次通知？\{#}
+### 告警触发后，我会多久收到一次通知？\{#how-often-will-i-receive-alert-notifications-when-an-alert-is-triggered}
 
 告警通知遵循自动频率模式：
 

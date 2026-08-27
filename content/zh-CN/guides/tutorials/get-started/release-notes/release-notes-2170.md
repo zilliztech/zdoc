@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 本次发布后创建的所有集群均兼容 **Milvus v2.5.x**。同时，所有 Milvus v2.5.x 相关特性在 Zilliz Cloud 上均已全面可用。
 
-## 重新设计的界面和最佳实践文档，提升您的数据迁移体验\{#}
+## 重新设计的界面和最佳实践文档，提升您的数据迁移体验\{#refined-user-interface-and-best-practice-docs-improving-the-migration-experience}
 
 - **新的迁移控制台界面**：清晰简洁的界面帮助您快速定位数据源入口，选择最合适您的迁移方式。
 
@@ -40,7 +40,7 @@ import Admonition from '@theme/Admonition';
 
     您可以阅读[外部迁移概述](./external-migration-basics)来了解从外部数据源迁移数据到 Zilliz Cloud 集群的基本步骤。然后再针对具体的外部数据源有针对性地了解具体的要求和常用的问题处理规则和方法。目前我们支持如下数据源：[Qdrant](./migrate-from-qdrant)、[ElasticSearch](./migrate-from-elasticsearch)、[PostgreSQL](./migrate-from-pgvector)、[腾讯云向量数据库](./migrate-from-tencent-cloud)、[OpenSearch](./migrate-from-opensearch)。
 
-## 基于策略的告警规则，提供细粒度的灵活监控能力\{#}
+## 基于策略的告警规则，提供细粒度的灵活监控能力\{#policy-based-alerts-for-granular-and-flexible-monitoring}
 
 本次发布带来了基于策略的告警规则体系，为您提供细粒度的灵活监控能力。
 
@@ -54,7 +54,7 @@ import Admonition from '@theme/Admonition';
 
 关于基于策略的告警规则，可以参考[管理项目告警](./manage-project-alerts)以及[创建](https://docs.zilliz.com.cn/reference/restful/create-alert-rule-v2)、[更新](https://docs.zilliz.com.cn/reference/restful/update-alert-rule-v2)、[查看](https://docs.zilliz.com.cn/reference/restful/list-alert-rules-v2)和[删除](https://docs.zilliz.com.cn/reference/restful/delete-alert-rule-v2)告警规则的相关 RESTful API 参考文档。
 
-## 控制台支持 mmap 设置\{#mmap}
+## 控制台支持 mmap 设置\{#ui-support-for-mmap-settings}
 
 Zilliz Cloud 会根据您集群的 CU 类型和订阅计划为您的集群应用[全局的 mmap 设置](./use-mmap#global-mmap-strategy)。从本次发布开始，您可以通过控制台界面直接管理集群中各 Collection 和 Collection 中各字段的 mmap 设置。
 
@@ -64,7 +64,7 @@ Zilliz Cloud 会根据您集群的 CU 类型和订阅计划为您的集群应用
 
 ![DLW4bHqMWo4XkxxkGcfcsEPyn1g](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/dlw4bhqmwo4xkxxkgcfcsepyn1g.png "DLW4bHqMWo4XkxxkGcfcsEPyn1g")
 
-## 重新设计的 AI 助手，更好地连接您和 Zilliz Cloud\{#ai-zilliz-cloud}
+## 重新设计的 AI 助手，更好地连接您和 Zilliz Cloud\{#well-designed-ai-assistance-connects-you-directly-to-zilliz-supports}
 
 本次发布增强了 Zilliz Cloud AI 助手的界面设计和能力。直观的设计为您带来愉悦的用户体验，还为您带来了如下两项能力提升：
 
@@ -74,7 +74,7 @@ Zilliz Cloud 会根据您集群的 CU 类型和订阅计划为您的集群应用
 
 ![Y2xQbYjzwod3HDxCim7cbtFcnAb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/y2xqbyjzwod3hdxcim7cbtfcnab.png "Y2xQbYjzwod3HDxCim7cbtFcnAb")
 
-## 其它增强\{#}
+## 其它增强\{#other-improvements}
 
 - 提升了告警设计和告警历史信息展示方式。
 

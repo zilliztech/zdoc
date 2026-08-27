@@ -10,7 +10,7 @@ notebook: FALSE
 description: "面向 Claude Code 的 Zilliz Cloud 插件是一个自然语言接口，可将 Zilliz Cloud 操作直接带入你的 IDE。无需记忆 CLI 命令或切换到 Web 控制台，只需用日常语言描述你想要的操作，插件会负责处理。 | BYOC"
 type: origin
 token: WbDJwRVmri9N37kMi47cXR4CnUe
-sidebar_position: 2
+sidebar_position: 3
 displayed_sidebar: default
 
 ---
@@ -22,13 +22,13 @@ import Admonition from '@theme/Admonition';
 
 面向 Claude Code 的 Zilliz Cloud 插件是一个自然语言接口，可将 Zilliz Cloud 操作直接带入你的 IDE。无需记忆 CLI 命令或切换到 Web 控制台，只需用日常语言描述你想要的操作，插件会负责处理。
 
-## 什么是 Zilliz Plugin？\{#zilliz-plugin}
+## 什么是 Zilliz Plugin？\{#what-is-the-zilliz-plugin}
 
 Zilliz Plugin 是一个 Claude Code 插件，它用自然语言能力封装 Zilliz CLI，使你能够通过对话式命令管理 Zilliz Cloud 资源。
 
-## 主要特性\{#}
+## 主要特性\{#key-features}
 
-### 14 个能力领域\{#14}
+### 14 个能力领域\{##14-capability-areas}
 
 - **Clusters**：创建、删除、暂停、恢复、修改集群
 
@@ -58,7 +58,7 @@ Zilliz Plugin 是一个 Claude Code 插件，它用自然语言能力封装 Zill
 
 - **Setup**：初始配置和快速入门
 
-### 自然语言接口\{#}
+### 自然语言接口\{#natural-language-interface}
 
 ```plaintext
 You: "在 us-east-1 创建一个名为 my-vectors 的 serverless cluster"
@@ -68,7 +68,7 @@ You: "在我的 product collection 中使用过滤条件 age > 20 搜索相似�
 Plugin: 使用过滤条件执行向量搜索
 ```
 
-## 前提条件\{#}
+## 前提条件\{#prerequisites}
 
 - Python 3.10 或更高版本
 
@@ -76,7 +76,7 @@ Plugin: 使用过滤条件执行向量搜索
 
 - Claude Code IDE
 
-## 快速示例\{#}
+## 快速示例\{#quick-example}
 
 安装后，运行快速入门：
 
@@ -94,7 +94,7 @@ Plugin: 使用过滤条件执行向量搜索
 
 1. 首次操作
 
-## 后续步骤\{#}
+## 后续步骤\{#next-steps}
 
 import DocCardList from '@theme/DocCardList';
 

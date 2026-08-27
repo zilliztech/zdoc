@@ -24,7 +24,7 @@ import Admonition from '@theme/Admonition';
 
 在 Milvus 中，倒排索引基于 [Tantivy](https://github.com/quickwit-oss/tantivy) 实现，Tantivy 是一个高效的全文搜索引擎库，这使得倒排索引能够支持多种查询类型，如[全文搜索](./full-text-search)、[精确文本匹配](./text-match)等。
 
-## 概述\{#}
+## 概述\{#overview}
 
 倒排索引的主要组成部分包括**词项**和**倒排列表**：
 
@@ -50,7 +50,7 @@ import Admonition from '@theme/Admonition';
 
 通过这种方式，倒排索引能够快速锁定包含特定词汇的文档，大大提高检索效率。
 
-## 创建倒排索引\{#}
+## 创建倒排索引\{#create-inverted-index}
 
 要创建倒排索引，可以使用 `create_index()` 方法，将 `index_type` 参数设置为 `INVERTED` 。
 
@@ -90,7 +90,7 @@ client.drop_index(
 )
 ```
 
-## 使用限制\{#}
+## 使用限制\{#limits}
 
 - 目前，倒排索引（`INVERTED`）支持 INT8、INT16、INT32、INT64、FLOAT、DOUBLE、BOOL、VARCHAR 和 ARRAY 数据类型，但不支持 JSON 数据类型。
 

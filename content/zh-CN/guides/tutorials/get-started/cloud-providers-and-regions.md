@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloud 支持阿里云、腾讯云、亚马逊云科技上的多个云服务商和区域。 | Cloud"
 type: origin
 token: BErdww1kOirndzkHrKoc2ibynlb
-sidebar_position: 7
+sidebar_position: 8
 displayed_sidebar: default
 
 ---

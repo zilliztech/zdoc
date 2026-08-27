@@ -46,7 +46,7 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[2026 年 7 月 21 日](./release-notes-2607#byoc-volume)**
+        **[2026 年 7 月 21 日](./release-notes-2607#byoc-supports-storage-integrations-and-external-volumes)**
 
     </div>
 

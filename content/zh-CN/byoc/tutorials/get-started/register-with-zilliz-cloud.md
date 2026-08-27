@@ -72,7 +72,7 @@ import Procedures from '@site/src/components/Procedures';
 
 </Admonition>
 
-## 常见问题\{#}
+## 常见问题\{#faq}
 
 **为什么提示账号注册失败？**
 
