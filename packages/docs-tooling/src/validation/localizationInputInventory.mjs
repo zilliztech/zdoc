@@ -16,7 +16,7 @@ export function releaseInputDefinition(site) {
     };
   }
   return {
-    roots: ['content/zh-CN/guides/tutorials/tools'],
+    roots: [],
     required: ['generated/zh-CN/sidebars/tools.sidebar.js'],
   };
 }
