@@ -110,7 +110,7 @@ This section provides a detailed breakdown of charges for each billable item.
 
 ## Billing profile\{#billing-profile}
 
-Your billing profile includes details about where and to whom invoices are issued. In Zilliz Cloud, relevant billing emails will be sent to Organization Owners, Organization Billing Admins, and the email addresses added in the billing profile. Therefore, to add recipients of invoices, you can add the email address in the billing profile or [invite](./manage-platform-users#invite-organization-users) user to join the organization as an Organization Billing Admin.
+Your billing profile includes details about where and to whom invoices are issued. In Zilliz Cloud, relevant billing emails will be sent to Organization Owners, Organization Billing Admins, and the email addresses added in the billing profile. Therefore, to add recipients of invoices, you can add the email address in the billing profile or [invite](./manage-platform-users#invite-organization-members) user to join the organization as an Organization Billing Admin.
 
 To edit the billing profile, refer to [Update Billing Profile](./update-billing-profile).
 

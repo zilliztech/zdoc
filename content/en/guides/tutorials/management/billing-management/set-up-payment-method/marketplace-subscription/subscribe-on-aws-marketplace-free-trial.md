@@ -184,5 +184,5 @@ There could be several reasons.
 
     - [Create a new organization](./organization-settings#create-an-organization).
 
-    - Ask other users to [invite](./manage-platform-users#invite-organization-users) you to their organizations and grant you the role of an Organization Owner.
+    - Ask other users to [invite](./manage-platform-users#invite-organization-members) you to their organizations and grant you the role of an Organization Owner.
 

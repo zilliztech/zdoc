@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "This guide introduces the two types of platform users in Zilliz Cloud organization users and project users, and explains how to manage them. | BYOC"
+description: "This guide introduces the two types of platform users in Zilliz Cloud organization members and project users, and explains how to manage them. | BYOC"
 type: origin
 token: XvTLwH1TEiEHdJksnyIcMCixnic
 sidebar_position: 4
@@ -22,27 +22,27 @@ import Procedures from '@site/src/components/Procedures';
 
 # Manage Platform Users
 
-This guide introduces the two types of platform users in Zilliz Cloud: organization users and project users, and explains how to manage them.
+This guide introduces the two types of platform users in Zilliz Cloud: organization members and project users, and explains how to manage them.
 
-## Organization users\{#organization-users}
+## Organization members\{#organization-members}
 
-Organization users are members of a Zilliz Cloud organization. They can sign in to the console and may be assigned organization roles, project access, or other permissions based on their responsibilities. 
+Organization members are users who belong to a Zilliz Cloud organization. They can sign in to the console and may be assigned organization roles, project access, or other permissions based on their responsibilities. 
 
 <Admonition type="info" icon="📘" title="Note">
 
-To manage organization users, you must have an organization role that includes member and role management permissions, such as Organization Owner or an equivalent custom organization role.
+To manage organization members, you must have an organization role that includes member and role management permissions, such as Organization Owner or an equivalent custom organization role.
 
 </Admonition>
 
-### Invite organization users\{#invite-organization-users}
+### Invite organization members\{#invite-organization-members}
 
 <Admonition type="info" icon="📘" title="📘 Notes">
 
-Each organization can have up to 100 users.
+Each organization can have up to 100 members.
 
 </Admonition>
 
-The following image demonstrates how to invite an organization users.
+The following image demonstrates how to invite an organization members.
 
 ![PD1vwZlSihQVSZbGiVpcGr9Vnic](https://zdoc-images.s3.us-west-2.amazonaws.com/PD1vwZlSihQVSZbGiVpcGr9Vnic.png)
 
@@ -64,9 +64,9 @@ The following image demonstrates how to invite an organization users.
 
         | Role | Use when | Notes |
         | --- | --- | --- |
-        | Public | The user only needs baseline sign-in access before additional access is granted. | Automatically granted to every organization member. It cannot be removed by itself. |
-        | Organization Owner | The user administers organization settings, members, roles, projects, security, and billing. | Grant only to trusted administrators. |
-        | Billing Admin | The user manages billing and subscriptions. | Designed for finance and procurement users who do not need broad technical access. |
+        | Public | The member only needs baseline sign-in access before additional access is granted. | Automatically granted to every organization member. It cannot be removed by itself. |
+        | Organization Owner | The member administers organization settings, members, roles, projects, security, and billing. | Grant only to trusted administrators. |
+        | Billing Admin | The member manages billing and subscriptions. | Designed for finance and procurement users who do not need broad technical access. |
 
     - (Optional) Project access: Set up the project access by selecting a project and one or more project roles.
 
@@ -96,7 +96,7 @@ The following image demonstrates how to revoke or resend an invitation.
 
 </Procedures>
 
-### Edit the roles of organization users\{#edit-the-roles-of-organization-users}
+### Edit the roles of organization members\{#edit-the-roles-of-organization-members}
 
 After a user joins the organization, you can update the user's organization roles and project access. A user can have multiple organization roles and multiple project role assignments. The final permissions are the union of all direct role assignments and group-based role assignments.
 
@@ -118,15 +118,15 @@ The following image demonstrates how to edit the roles of an organization user.
 
 </Procedures>
 
-### View organization user details\{#view-organization-user-details}
+### View organization member details\{#view-organization-member-details}
 
 Use the member details panel to review a member’s status, organization roles, project access, join time, last login time, and other details.
 
-This is useful when checking why a user can access a project or why they cannot perform a specific operation.
+This is useful when checking why a member can access a project or why they cannot perform a specific operation.
 
-### Remove organization users\{#remove-organization-users}
+### Remove organization members\{#remove-organization-members}
 
-Remove a user when they should no longer belong to the organization. Removing an organization user removes organization membership and direct role assignments in the organization.
+Remove a member when they should no longer belong to the organization. Removing an organization member removes organization membership and direct role assignments in the organization.
 
 <Admonition type="danger" icon="🚧" title="Notes">
 
@@ -154,7 +154,7 @@ The following image demonstrates how to remove an organization user.
 
 ### Leave an organization\{#leave-an-organization}
 
-A user can leave an organization when they no longer need access. Each organization must keep at least one Organization Owner. If you are the only Organization Owner, assign another Organization Owner before leaving.
+A member can leave an organization when they no longer need access. Each organization must keep at least one Organization Owner. If you are the only Organization Owner, assign another Organization Owner before leaving.
 
 <Admonition type="info" icon="📘" title="Note">
 

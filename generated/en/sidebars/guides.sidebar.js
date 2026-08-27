@@ -2947,12 +2947,6 @@ module.exports = [
             "key": "ref:tutorials/ai-models/reranking-models/hugging-face-ranker"
           }
         ]
-      },
-      {
-        "type": "doc",
-        "id": "tutorials/ai-models/hosted-models",
-        "label": "Hosted Models",
-        "key": "doc:tutorials/ai-models/hosted-models"
       }
     ]
   },

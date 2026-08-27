@@ -54,7 +54,7 @@ The following is the workflow to implement organization-level RBAC in Zililz Clo
 
 <Procedures>
 
-1. [Invite organization members](./manage-platform-users#invite-organization-users) or [sync groups from SCIM](./view-scim-synced-groups).
+1. [Invite organization members](./manage-platform-users#invite-organization-members) or [sync groups from SCIM](./view-scim-synced-groups).
 
 1. [Assign a pre-defined organization role](./manage-platform-roles#manage-organization-roles) to the members or groups.
 

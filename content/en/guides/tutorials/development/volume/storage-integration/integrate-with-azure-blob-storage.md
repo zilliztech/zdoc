@@ -196,7 +196,13 @@ Based on the **Bucket Permission** selected in [Step 1](./integrate-with-azure-b
 
 <Procedures>
 
-1. In the [Zilliz Cloud console](https://cloud.zilliz.com/login), click **Validate Integration** to verify that the container and role assignment settings are valid. Validation may take up to approximately 2 minutes to complete.
+1. In the [Zilliz Cloud console](https://cloud.zilliz.com/login), click **Validate Integration** to verify that the container and role assignment settings are valid. 
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    Validation can take up to approximately 10 minutes to complete because Azure role assignments will take time to propagate.
+
+    </Admonition>
 
 1. Once validation is successful, click **Create** to finalize the integration.
 
@@ -456,4 +462,7 @@ For details on parameter descriptions, refer to [Delete Storage Integration](/re
 
 - **Permission Issues:**
 
-    Verify that you have the necessary permissions in both Zilliz Cloud and Azure Portal.
+    - Verify that you have the necessary permissions in both Zilliz Cloud and Azure Portal.
+
+    - If you see an **AuthorizationPermissionMismatch** or similar permission error immediately after configuring roles, wait and retry. Azure role assignments can take up to 10 minutes to propagate; in rare cases involving management-group scope, propagation can take up to 12 hours.
+

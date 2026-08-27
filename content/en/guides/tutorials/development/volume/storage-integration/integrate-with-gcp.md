@@ -156,6 +156,12 @@ Once you grant access to the bucket, go back to the Zilliz Cloud console and do 
 
 1. Click **Validate Integration** to verify that the container and role assignment settings are valid.
 
+    <Admonition type="info" icon="📘" title="Notes">
+
+    Validation typically takes about 2 minutes, but can take 7 minutes or longer in some cases.
+
+    </Admonition>
+
 1. Once validation is successful, click **Add** to finalize the integration.
 
 </Procedures>
@@ -415,3 +421,7 @@ This error can happen for two reasons:
 For example, if your Zilliz Cloud cluster is in `us-east1`, you must create the bucket in the `us-east1` region—not in Multi-region "United States", and not in a different Region like `us-west1`.
 
 If your bucket was created with the wrong **Location type** or region, delete it and recreate it with the correct single Region setting.
+
+### Why do I get a "403 PermissionDenied" error?\{#why-do-i-get-a-403-permissiondenied-error}
+
+If you see a **403 PermissionDenied** error immediately after granting access, wait and retry. GCP permission changes typically propagate within about 2 minutes, but can take 7 minutes or longer.

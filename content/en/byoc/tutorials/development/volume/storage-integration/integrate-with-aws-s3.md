@@ -271,6 +271,12 @@ Once that's done, do the following to create an IAM role:
 
 1. Once the status changes to **Successful**, the integration works. Then, click **Add**.
 
+    <Admonition type="info" icon="📘" title="Notes">
+
+    IAM changes can take some time to propagate; if validation fails immediately after configuration, wait and retry.
+
+    </Admonition>
+
 </Procedures>
 
 You can now use this integration to forward audit logs to your Amazon S3 bucket. For more information, refer to [Audit Logging](./audit-logs).
@@ -335,3 +341,6 @@ try assume role from[zilliz-role] to [arn:aws:iam::041623484421:role/testoss1217
 
 - Ensure that the trust policy in the IAM role allows Zilliz Cloud to assume the role.
 
+### Permission propagation delay\{#permission-propagation-delay}
+
+If you see an **AccessDenied** error immediately after creating or updating the IAM role or policy, wait and retry. AWS IAM changes are eventually consistent and do not have a guaranteed maximum propagation time.

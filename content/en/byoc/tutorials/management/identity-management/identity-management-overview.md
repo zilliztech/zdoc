@@ -40,7 +40,7 @@ The following table lists the multiple types of principals in Zilliz Cloud.
 
 | Principal type | Scope | Used for |
 | --- | --- | --- |
-| Organization user | Organization | Console sign-in, organization roles, and project access assignment. |
+| Organization member | Organization | Console sign-in, organization roles, and project access assignment. |
 | Project collaborator | Project | Access to a specific project and its project-level resources. |
 | Cluster user | Cluster | Cluster-level and data-plane access, such as database, collection, search, query, and write operations. |
 | Group | Organization | Groups synchronized from an identity provider through SCIM. |
@@ -48,11 +48,11 @@ The following table lists the multiple types of principals in Zilliz Cloud.
 
 # How principal types relate to each other\{#how-principal-types-relate-to-each-other}
 
-A person may appear at multiple scopes. For example, a user can be an organization user, a project collaborator in one or more projects, and a cluster user for data-plane access. These identities are managed at different levels because they protect different resource boundaries.
+A person may appear at multiple scopes. For example, a user can be an organization member, a project collaborator in one or more projects, and a cluster user for data-plane access. These identities are managed at different levels because they protect different resource boundaries.
 
 | Identity | What it controls | Important boundary |
 | --- | --- | --- |
-| Organization user | Whether a person belongs to the organization and can sign in to the console. | Organization membership does not automatically mean access to every project or cluster. |
+| Organization member | Whether a person belongs to the organization and can sign in to the console. | Organization membership does not automatically mean access to every project or cluster. |
 | Project collaborator | Whether a user or group can access a specific project. | Project access must be granted for a specific project. Cross-project wildcard authorization is not supported. |
 | Cluster user | Whether an identity can access cluster resources and data-plane operations. | Cluster users are managed per cluster and can have cluster roles independent of organization roles. |
 
