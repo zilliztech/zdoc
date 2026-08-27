@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Pattern Matching
 
@@ -32,6 +33,9 @@ This page describes pattern matching in scalar filter expressions used by `query
 
 Pattern matching expressions are written in the `filter` parameter. For example, the following query matches log messages that contain an error code such as `E1001`:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import MilvusClient
 
@@ -44,6 +48,107 @@ res = client.query(
     output_fields=["message", "severity"],
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.QueryReq;
+import io.milvus.v2.service.vector.response.QueryResp;
+import java.util.Arrays;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .build());
+
+QueryResp res = client.query(QueryReq.builder()
+        .collectionName("log_events")
+        // highlight-next-line
+        .filter("message =~ \"E[0-9]{4}\"")
+        .outputFields(Arrays.asList("message", "severity"))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx := context.Background()
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    // handle error
+}
+defer client.Close(ctx)
+
+res, err := client.Query(ctx, milvusclient.NewQueryOption("log_events").
+    // highlight-next-line
+    WithFilter(`message =~ "E[0-9]{4}"`).
+    WithOutputFields("message", "severity"))
+if err != nil {
+    // handle error
+}
+fmt.Println(res)
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const { MilvusClient } = require('@zilliz/milvus2-sdk-node');
+
+async function main() {
+  const client = new MilvusClient({ address: 'YOUR_CLUSTER_ENDPOINT' });
+
+  const res = await client.query({
+    collection_name: 'log_events',
+    // highlight-next-line
+    filter: 'message =~ "E[0-9]{4}"',
+    output_fields: ['message', 'severity'],
+  });
+  console.log(res);
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "log_events",
+    "filter": "message =~ \"E[0-9]{4}\"",
+    "outputFields": ["message", "severity"]
+  }'
+```
+
+</TabItem>
+</Tabs>
 
 The examples on this page focus on the expression assigned to `filter`. You can use the same filter expression syntax in Zilliz Cloud operations that accept a scalar filter, such as `query`, `search`, and hybrid search.
 
@@ -139,9 +244,47 @@ Raw string literals are recommended for regex patterns that contain backslashes.
 
 For example:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'message =~ r"\d{4}-\d{2}-\d{2}"'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "filename =~ r\"\\.json$\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := `filename =~ r"\.json$"`
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'filename =~ r"\\.json$"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='filename =~ r"\.json$"'
+```
+
+</TabItem>
+</Tabs>
 
 This matches strings that contain a date-like value such as `2026-07-01`.
 
@@ -164,15 +307,91 @@ The following examples use common RE2 syntax in Zilliz Cloud filter expressions.
 
 To match one of several words, use alternation with `|`:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'message =~ "error|failed|timeout"'
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "message =~ \"error|failed|timeout\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := `message =~ "error|failed|timeout"`
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'message =~ "error|failed|timeout"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='message =~ "error|failed|timeout"'
+```
+
+</TabItem>
+</Tabs>
+
 When matching regex metacharacters literally, escape them in the regex pattern. For example, to match a literal dot (`\.` in regex), write `\\.` in a Python filter string:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 filter = 'email =~ "@gmail\\.com$"'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "email =~ \"@gmail\\.com$\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := `email =~ "@gmail\\.com$"`
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'email =~ "@gmail\\.com$"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='email =~ "@gmail\\.com$"'
+```
+
+</TabItem>
+</Tabs>
 
 Note: Zilliz Cloud regex filters follow RE2 syntax. If a regex pattern uses syntax that RE2 does not support or is otherwise invalid, Zilliz Cloud rejects the filter expression. For details about regex metacharacters, flags, and matching behavior, refer to the [RE2 syntax](https://github.com/google/re2/wiki/syntax) reference.
 
@@ -182,24 +401,141 @@ Note: Zilliz Cloud regex filters follow RE2 syntax. If a regex pattern uses synt
 
 Zilliz Cloud regex matching uses substring semantics. The pattern does not need to match the entire field value. For example, the following filter matches both `E1001` and `failed with E1001 after retry`:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'message =~ "E[0-9]{4}"'
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "message =~ \"E[0-9]{4}\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := `message =~ "E[0-9]{4}"`
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'message =~ "E[0-9]{4}"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='message =~ "E[0-9]{4}"'
+```
+
+</TabItem>
+</Tabs>
+
 To match the entire field value, use the `^` and `$` anchors:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 # Match only values that are exactly E followed by four digits
 filter = 'code =~ "^E[0-9]{4}$"'
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// Match only values that are exactly E followed by four digits
+String filter = "code =~ \"^E[0-9]{4}$\"";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// Match only values that are exactly E followed by four digits
+filter := `code =~ "^E[0-9]{4}$"`
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Match only values that are exactly E followed by four digits
+const filter = 'code =~ "^E[0-9]{4}$"';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='code =~ "^E[0-9]{4}$"'
+```
+
+</TabItem>
+</Tabs>
+
 **Nullable VARCHAR fields**
 
 Regex filters do not match null values. This applies to both `=~` and `!~`. If you want to exclude a regex pattern but keep null values, explicitly add `OR field IS NULL`:
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 filter = 'message !~ "^DEBUG" OR message IS NULL'
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "message !~ \"^DEBUG\" OR message IS NULL";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := `message !~ "^DEBUG" OR message IS NULL`
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const filter = 'message !~ "^DEBUG" OR message IS NULL';
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+filter='message !~ "^DEBUG" OR message IS NULL'
+```
+
+</TabItem>
+</Tabs>
 
 **JSON paths**
 

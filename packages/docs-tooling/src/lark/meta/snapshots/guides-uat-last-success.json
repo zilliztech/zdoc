@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-08-27T04:03:14.103Z",
+  "generated_at": "2026-08-27T21:43:30.678Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
@@ -3672,7 +3672,7 @@
       "doc_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Fighwx5zFiwaoIkV4q5cAJ1enDg",
       "source_file": "Fighwx5zFiwaoIkV4q5cAJ1enDg.json",
-      "source_hash": "618a543ce42cbe0d1e6c574ba2b35e33479438566e3d01a0422f1d3f73c46862",
+      "source_hash": "c77a9ed5462e200b9fc3d7cacd087b17f435f848df26c65978e15bcb75cc7022",
       "node_metadata": {
         "requested_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
         "requested_node_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
@@ -3686,14 +3686,14 @@
         "parent_node_token": "GcmOwHsHeiNXxpkfSTIckG5Znmc",
         "node_create_time": "1777168794",
         "obj_create_time": "1777168794",
-        "obj_edit_time": "1787740895",
+        "obj_edit_time": "1787812467",
         "revision_id": null
       },
       "node_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
       "origin_node_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
       "obj_token": "VpBXd70zuoEq2Cx7KIJcJz7Zn7c",
       "obj_type": "docx",
-      "obj_edit_time": "1787740895",
+      "obj_edit_time": "1787812467",
       "revision_id": null,
       "publish_targets": [
         "Zilliz.PaaS",
@@ -3948,7 +3948,7 @@
       "doc_token": "PFbNwB7Mli18n6k6VWScGcpWndc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/PFbNwB7Mli18n6k6VWScGcpWndc",
       "source_file": "PFbNwB7Mli18n6k6VWScGcpWndc.json",
-      "source_hash": "5370ed381152ebc3e8b255b9d8ea0a9898cd4d4984d5bee0cd4337d0e8171205",
+      "source_hash": "2090271b47adc28c5046fddaba8b10dcff3596d81b52d7be3e825f95a3842928",
       "node_metadata": {
         "requested_token": "PFbNwB7Mli18n6k6VWScGcpWndc",
         "requested_node_token": "PFbNwB7Mli18n6k6VWScGcpWndc",
@@ -3962,14 +3962,14 @@
         "parent_node_token": "ObdvwrXi9ia9i0kTLKUcCaYtnhd",
         "node_create_time": "1780286409",
         "obj_create_time": "1780286409",
-        "obj_edit_time": "1785896699",
+        "obj_edit_time": "1787812873",
         "revision_id": null
       },
       "node_token": "PFbNwB7Mli18n6k6VWScGcpWndc",
       "origin_node_token": "PFbNwB7Mli18n6k6VWScGcpWndc",
       "obj_token": "MwF8dRoiLoI2U5xsSLmc0kAvnep",
       "obj_type": "docx",
-      "obj_edit_time": "1785896699",
+      "obj_edit_time": "1787812873",
       "revision_id": null,
       "publish_targets": [
         "Zilliz.PaaS",
