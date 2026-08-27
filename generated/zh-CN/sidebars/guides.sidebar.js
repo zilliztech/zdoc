@@ -1179,6 +1179,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "tutorials/development/spark-batch-jobs/data-backfill",
+            "label": "数据回填",
+            "key": "doc:tutorials/development/spark-batch-jobs/data-backfill"
+          },
+          {
+            "type": "doc",
             "id": "tutorials/development/spark-batch-jobs/manage-spark-batch-jobs",
             "label": "管理 Spark 批量任务",
             "key": "doc:tutorials/development/spark-batch-jobs/manage-spark-batch-jobs"

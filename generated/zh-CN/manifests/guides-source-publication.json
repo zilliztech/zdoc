@@ -404,6 +404,7 @@
     "content/zh-CN/guides/tutorials/development/snapshots/manage-snapshots.md",
     "content/zh-CN/guides/tutorials/development/snapshots/snapshots.md",
     "content/zh-CN/guides/tutorials/development/spark-batch-jobs/anomaly-detection.md",
+    "content/zh-CN/guides/tutorials/development/spark-batch-jobs/data-backfill.md",
     "content/zh-CN/guides/tutorials/development/spark-batch-jobs/k-means-clustering.md",
     "content/zh-CN/guides/tutorials/development/spark-batch-jobs/manage-spark-batch-jobs.md",
     "content/zh-CN/guides/tutorials/development/spark-batch-jobs/primary-key-dedup.md",

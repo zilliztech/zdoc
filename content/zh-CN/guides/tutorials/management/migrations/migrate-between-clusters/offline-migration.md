@@ -54,7 +54,7 @@ import Supademo from '@site/src/components/Supademo';
    </tr>
    <tr>
      <td><p>Serverless</p></td>
-     <td><p>不支持</p></td>
+     <td><p>支持</p></td>
      <td><p>支持</p></td>
      <td><p>支持</p></td>
    </tr>
