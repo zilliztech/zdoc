@@ -41,6 +41,16 @@ function revisionInventory(group: string, records: unknown[] = []) {
   };
 }
 
+function seedReferenceSidebars(repositoryRoot: string, groups: readonly string[]): void {
+  for (const group of groups) {
+    if (group === 'guides') continue;
+    const sidebar = group === 'rest' ? 'restful' : group;
+    const absolutePath = path.join(repositoryRoot, 'generated/en/sidebars', `${sidebar}.sidebar.js`);
+    mkdirSync(path.dirname(absolutePath), {recursive: true});
+    writeFileSync(absolutePath, 'module.exports = []\n');
+  }
+}
+
 const revisionRecord = (canonicalToken: string, revisionId = '1') => ({
   canonicalToken,
   title: `Title ${canonicalToken}`,
@@ -256,9 +266,11 @@ describe('docs-tooling executable composition root', () => {
 
   it('validates all eight committed English revision inventories', () => {
     const repositoryRoot = temporaryRoot();
-    for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest']) {
+    const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest'];
+    for (const group of groups) {
       writeJson(repositoryRoot, `generated/en/manifests/lark-revisions/${group}.json`, revisionInventory(group));
     }
+    seedReferenceSidebars(repositoryRoot, groups);
 
     const result = runCli(repositoryRoot, ['validate-revision-inventory', '--site', 'en']);
 
@@ -272,9 +284,11 @@ describe('docs-tooling executable composition root', () => {
     ['wrong group', revisionInventory('java'), /group/i],
   ])('fails revision inventory validation for a %s file', (_kind, replacement, expected) => {
     const repositoryRoot = temporaryRoot();
-    for (const group of ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest']) {
+    const groups = ['guides', 'python', 'java', 'node', 'go', 'cli', 'rest'];
+    for (const group of groups) {
       writeJson(repositoryRoot, `generated/en/manifests/lark-revisions/${group}.json`, revisionInventory(group));
     }
+    seedReferenceSidebars(repositoryRoot, groups);
     const target = path.join(repositoryRoot, 'generated/en/manifests/lark-revisions/python.json');
     if (replacement === undefined) {
       rmSync(target);
