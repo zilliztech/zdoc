@@ -2,7 +2,7 @@ import {createRequire} from 'node:module';
 
 import {z} from 'zod';
 
-import {BrokenLinkAnalysisReport} from './brokenLinkAnalysis.ts';
+import type {BrokenLinkAnalysisReport} from './brokenLinkAnalysis.ts';
 import {resolveManualPublication} from '../manuals/registry.ts';
 
 const requireFromDocsTooling = createRequire(import.meta.url);

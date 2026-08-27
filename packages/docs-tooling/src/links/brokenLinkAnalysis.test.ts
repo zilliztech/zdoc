@@ -1,6 +1,7 @@
 import {describe, expect, it} from 'vitest';
 
-import {analyzeBrokenLinks, pathInfo, SourceRecord} from './brokenLinkAnalysis.ts';
+import {analyzeBrokenLinks, pathInfo} from './brokenLinkAnalysis.ts';
+import type {SourceRecord} from './brokenLinkAnalysis.ts';
 import {parseBrokenLinksReport} from './brokenLinks.ts';
 
 function report(brokenLinks: Array<{link: string; resolvedLink: string; anchor: boolean; path: string}>, brokenAnchors: Array<{link: string; resolvedLink: string; anchor: boolean; path: string}> = []) {
