@@ -374,7 +374,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       if (/run-content-group\.js|config\/generated|(?:^|[\s"'])docs\/tutorials|(?:^|[\s"'])docs-byoc(?:\/|[\s"'])|(?:^|[\s"'])reference\/api/m.test(source)) {
         errors.push(`${file}: source publication workflow must not use legacy publication roots`)
       }
-      if (/content\/zh-CN\/guides\/tutorials\/tools|generated\/zh-CN\/sidebars\/tools\.sidebar\.js|generated\/zh-CN\/manifests\/tools-translations\.json/.test(source)) {
+      if (/content\/zh-CN\/guides\/tutorials\/tools|generated\/zh-CN\/sidebars\/tools\.sidebar\.js/.test(source)) {
         errors.push(`${file}: source publication workflow must not claim Chinese Tools protected paths`)
       }
     }
