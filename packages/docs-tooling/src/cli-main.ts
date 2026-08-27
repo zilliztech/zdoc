@@ -13,6 +13,7 @@ import {checkLinks} from './links/check.ts';
 import {checkBrokenLinks} from './links/brokenLinks.ts';
 import {analyzeBrokenLinksCommand} from './links/brokenLinkAnalysis.ts';
 import {reportBrokenLinksCommand} from './links/reportBrokenLinks.ts';
+import {reportCanonicalLinksCommand} from './links/reportCanonicalLinks.ts';
 import {applyMdxPatches} from './mdx/index.ts';
 import {executeReportCard} from './reporting/lark.ts';
 import type {
@@ -319,6 +320,11 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
     const options = parseOptions(argv.slice(1));
     const analysisPaths = requiredOption(options, 'analysis').split(',').map(part => part.trim()).filter(Boolean);
     await reportBrokenLinksCommand({analysisPaths, notePath: requiredOption(options, 'note')});
+    return true;
+  }
+  if (argv[0] === 'report-canonical-links') {
+    const options = parseOptions(argv.slice(1));
+    await reportCanonicalLinksCommand({site: requiredOption(options, 'site'), reportPath: requiredOption(options, 'report'), tableUrlPath: requiredOption(options, 'table-url')});
     return true;
   }
   if (argv[0] === 'report-card') {
