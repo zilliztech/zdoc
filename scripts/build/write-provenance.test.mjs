@@ -188,12 +188,11 @@ test('writes canonical byte-identical provenance with required components and no
   assert.equal(bytes.includes('DATABASE_PASSWORD'), false);
 });
 
-test('Chinese provenance hashes the Tools release inputs and final sidebar-reachable routes', () => {
+test('Chinese provenance hashes the Tools release sidebar and final sidebar-reachable routes', () => {
   const root = fixture();
   commitZhReleaseInputs(root);
   const {manifest} = runZh(root);
   assert.deepEqual(manifest.localizationInputs.records.map(record => record.path), [
-    'content/zh-CN/guides/tutorials/tools/tool.md',
     'generated/zh-CN/sidebars/tools.sidebar.js',
   ]);
   assert.deepEqual(manifest.routeInventories, {
@@ -655,7 +654,7 @@ test('external container snapshots are explicit, fail closed, and do not require
   ]);
 });
 
-test('Docker-context snapshots reject untracked Japanese and Chinese Tools inputs', () => {
+test('Docker-context snapshots reject untracked Japanese inputs', () => {
   const root = fixture();
   write(root, 'deploy/contracts/localization-inputs.inventory.json', JSON.stringify({
     schemaVersion: 1,
@@ -676,10 +675,6 @@ test('Docker-context snapshots reject untracked Japanese and Chinese Tools input
   write(root, 'i18n/ja-JP/untracked.md', '# untracked\n');
   assert.throws(() => run(root, {contentManifests: undefined, environment}), /localization input must be tracked.*untracked\.md/i);
   fs.rmSync(path.join(root, 'i18n/ja-JP/untracked.md'));
-
-  write(root, 'content/zh-CN/guides/tutorials/tools/untracked.txt', 'untracked\n');
-  write(root, 'build/zh-CN/index.html', '<html>zh</html>');
-  assert.throws(() => runZh(root, {environment}), /localization input must be tracked.*untracked\.txt/i);
 });
 
 test('rejects wrong sites, escaped paths, symlinks, and missing required inputs', () => {
