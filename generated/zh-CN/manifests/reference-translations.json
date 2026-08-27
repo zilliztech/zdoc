@@ -27,20 +27,6 @@
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md"
     },
     {
-      "manual": "cpp",
-      "sourceCommit": "9fcb844dfce7a940384fe2689a6d9e4e9157dcf4",
-      "sourceHash": "7a3e670466ac53539f97f866a480a5d6bf2c0c413ef12e691d4c908739d9b64d",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-Search.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-Search.md"
-    },
-    {
-      "manual": "cpp",
-      "sourceCommit": "9fcb844dfce7a940384fe2689a6d9e4e9157dcf4",
-      "sourceHash": "b413c7ac74ada439896dfe5ca50f15e55b0890fdd1e9ec5da2f07eae570ce624",
-      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-SearchIterator.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-SearchIterator.md"
-    },
-    {
       "manual": "rest",
       "sourceCommit": "9fcb844dfce7a940384fe2689a6d9e4e9157dcf4",
       "sourceHash": "9150f4eac73d8dc0c30884817b30589828e68ec0950ff51d1fd325d7849b2a61",
@@ -2543,6 +2529,24 @@
       "status": "translated",
       "targetHash": "16e5ba428cdf3beac39aa466ec328992f10052c4f6c096d69a12fd498b59b485",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-RunAnalyzer.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "9fcb844dfce7a940384fe2689a6d9e4e9157dcf4",
+      "sourceHash": "7a3e670466ac53539f97f866a480a5d6bf2c0c413ef12e691d4c908739d9b64d",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-Search.md",
+      "status": "translated",
+      "targetHash": "b52a2d4305a52af3c9924ac5a9a38a07f9ef330f303ee20ad1b1fd52d9c002de",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-Search.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "9fcb844dfce7a940384fe2689a6d9e4e9157dcf4",
+      "sourceHash": "b413c7ac74ada439896dfe5ca50f15e55b0890fdd1e9ec5da2f07eae570ce624",
+      "sourcePath": "content/en/reference/api/cpp/cpp/Vector/Vector-SearchIterator.md",
+      "status": "translated",
+      "targetHash": "ca50f23d2795a5064230ad901dfa0f734823fe0b3eec5aaee90148476aa7b75c",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/Vector/Vector-SearchIterator.md"
     },
     {
       "manual": "cpp",
