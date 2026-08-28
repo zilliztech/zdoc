@@ -19,7 +19,16 @@
   box-shadow: 0 16px 48px rgba(15, 23, 42, 0.18);
 }
 
+/* The easyops SearchBar is built for the navbar; reset its navbar-only layout so it
+   fills the modal and its autocomplete dropdown aligns under the full-width input. */
 .modal :global(.navbar__search) {
+  width: 100%;
+  margin-left: 0;
+}
+
+/* autocomplete.js wraps the <input> in an inline-block span; make it fill the row so
+   the input (width: 100%) no longer shrink-wraps to its intrinsic 200px. */
+.modal :global(.navbar__search) > span {
   width: 100%;
 }
 
@@ -33,4 +42,17 @@
   border: 1px solid var(--zd-surface-border, #e6e6e1);
   border-radius: 10px;
   outline: none;
+}
+
+/* easyops right-anchors the dropdown to the input; re-anchor it to the full-width
+   input and restyle it to match the white modal shell (results are a white card). */
+.modal :global(.navbar__search) [class*='dropdownMenu'] {
+  left: 0 !important;
+  right: auto !important;
+  width: 100% !important;
+  margin-top: 8px !important;
+  background: #ffffff !important;
+  border: 1px solid var(--zd-surface-border, #e6e6e1) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.18) !important;
 }
