@@ -18,6 +18,7 @@ const ALLOWED_WORKFLOWS = new Set([
   '.github/workflows/translate-codex.yml',
   '.github/workflows/recover-translation.yml',
 ])
+const SUCCESSFUL_UNIT_STATUSES = new Set(['published', 'no_changes'])
 
 function sha256(bytes) {
   return crypto.createHash('sha256').update(bytes).digest('hex')
@@ -331,7 +332,14 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
     const document = readPublicationDocument(file, 'publication-results', {selection})
     const expectedMode = selection.inputs.publish ? 'publish' : 'artifact_only'
     if (document.mode !== expectedMode) throw new Error('Publication results mode identity mismatch')
-    results = {artifactId: Number(resultsArtifact.id), artifactName: resultsArtifact.name, artifactDigest: resultsArtifact.digest, overallStatus: document.overallStatus, finalTargetSha: document.finalTargetSha}
+    results = {
+      artifactId: Number(resultsArtifact.id),
+      artifactName: resultsArtifact.name,
+      artifactDigest: resultsArtifact.digest,
+      overallStatus: document.overallStatus,
+      finalTargetSha: document.finalTargetSha,
+      unitStatuses: Object.freeze(document.units.map(unit => Object.freeze({unitKey: unit.unitKey, status: unit.status}))),
+    }
   }
   if (publisher?.conclusion === 'success' && !results) throw new Error('Terminal publication results are required after successful publish_ready')
   const publisherJob = publisher ? {
@@ -437,7 +445,14 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
     }
   }
 
+  const publicationEvidence = await authenticatePublicationEvidence({client, selectedAttempt, selection, jobs, run, runId, attemptNumber, root})
+  const publishedUnitKeys = new Set((publicationEvidence.results?.unitStatuses || [])
+    .filter(unit => SUCCESSFUL_UNIT_STATUSES.has(unit.status))
+    .map(unit => unit.unitKey))
+
   for (const selected of selectedRecoveryUnits(selection, run)) {
+    const unitKey = `translation/${selected.target}/${selected.group}`
+    if (publishedUnitKeys.has(unitKey)) continue
     const unitIdentity = `${selected.target}/${selected.group}`
     const unitToken = unitIdentity.replaceAll('/', '-')
     const batches = []
@@ -500,7 +515,6 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
     }
   }
   const handoff = buildRecoveryHandoff(selection, queueOwnedTargetBaselineSha, currentExecutionToolingSha, scopedUnits, sourceCheckpointShaOverrides)
-  const publicationEvidence = await authenticatePublicationEvidence({client, selectedAttempt, selection, jobs, run, runId, attemptNumber, root})
 
   const provenance = {
     schemaVersion: 2,

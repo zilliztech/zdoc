@@ -23,6 +23,7 @@ const RUN_ID = 42001
 const RETAINED_TOOLING_SHA = 'b05b782e903716222b3fa08ca939f19737f2ecbd'
 const RETAINED_WORKFLOW_SHA = '3d80c942f12e5e6bdf429240621af1fc723432e5'
 const EXECUTION_TOOLING_SHA = '9'.repeat(40)
+const SUCCESSFUL_STATUSES = new Set(['published', 'no_changes'])
 
 function selectedUnit(target, group, order) {
   return {
@@ -130,6 +131,45 @@ function successfulPublicationResults(selected) {
       status: 'no_changes',
       failure: null,
     })),
+    orchestratorFailure: null,
+  }, {selection: selected, allowLegacyChineseRest: true})
+}
+
+function publicationResultsWithStatuses(selected, statusByUnitKey, overallStatus = 'failure') {
+  return validatePublicationResults({
+    schemaVersion: 1,
+    document: 'publication-results',
+    workflow: 'translation',
+    repository: selected.repository,
+    runId: selected.runId,
+    runAttempt: selected.runAttempt,
+    selectionSha256: selected.selectionSha256,
+    mode: 'publish',
+    targetBranch: selected.targetBranch,
+    initialTargetSha: selected.initialTargetSha,
+    finalTargetSha: selected.initialTargetSha,
+    startedAt: '2026-08-08T02:34:02.000Z',
+    completedAt: '2026-08-08T02:35:19.000Z',
+    overallStatus,
+    units: selected.units.map((unit, index) => {
+      const status = statusByUnitKey[unit.unitKey] || 'publish_failed'
+      const failure = SUCCESSFUL_STATUSES.has(status) ? null : {code: 'PUBLISH_FAILED', phase: 'publish', message: 'failed', retryable: false}
+      return {
+        unitKey: unit.unitKey,
+        producerJobId: index + 1000,
+        producerCompletedAt: '2026-08-08T02:34:02.000Z',
+        readyAt: '2026-08-08T02:34:02.000Z',
+        sequence: index + 1,
+        publishStartedAt: '2026-08-08T02:34:02.000Z',
+        publishCompletedAt: '2026-08-08T02:35:19.000Z',
+        baseSha: selected.initialTargetSha,
+        resultSha: selected.initialTargetSha,
+        commitShas: [],
+        attempts: 1,
+        status,
+        failure,
+      }
+    }),
     orchestratorFailure: null,
   }, {selection: selected, allowLegacyChineseRest: true})
 }
@@ -616,6 +656,31 @@ test('authenticates optional progress/results and requires terminal results only
   }), /terminal publication results.*required|missing.*publication results/i)
 })
 
+test('skips already-published units instead of requiring their recovery artifacts', async t => {
+  const value = fixture(t)
+  const publishedKey = 'translation/ja-JP/python'
+  const results = publicationResultsWithStatuses(value.selected, {[publishedKey]: 'no_changes'}, 'failure')
+  value.addArtifact(`publication-results-translation-${RUN_ID}-2`, directory => writeJson(directory, 'publication-results.json', results))
+  const publishJob = {
+    id: 999, name: 'publish_ready', run_attempt: 2, status: 'completed', conclusion: 'success',
+    started_at: '2026-08-08T01:05:00.000Z', completed_at: '2026-08-08T02:00:00.000Z',
+  }
+  const recoveryName = `translation-recovery-ja-JP-python-${RUN_ID}-0`
+
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'skip-published'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {
+      ...value.client,
+      listJobs: async () => [...value.jobs, publishJob],
+      listArtifacts: async () => value.artifacts.filter(artifact => artifact.name !== recoveryName),
+    },
+  })
+
+  assert.equal(planned.plan.recoveryMap['ja-JP/python'], undefined)
+  assert.ok(Object.keys(planned.plan.recoveryMap).length > 0)
+})
+
 test('canonicalizes seconds-precision publisher timestamps before binding post-cutover recovery provenance', async t => {
   const value = fixture(t)
   const publisherJob = {
@@ -629,7 +694,7 @@ test('canonicalizes seconds-precision publisher timestamps before binding post-c
   }
   value.addArtifact(
     `publication-results-translation-${RUN_ID}-2`,
-    directory => writeJson(directory, 'publication-results.json', successfulPublicationResults(value.selected)),
+    directory => writeJson(directory, 'publication-results.json', publicationResultsWithStatuses(value.selected, {})),
     {created_at: '2026-08-08T02:35:19.000Z'},
   )
 

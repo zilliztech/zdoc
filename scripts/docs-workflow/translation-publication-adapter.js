@@ -127,12 +127,18 @@ function validateTranslationSelection(value, helpers) {
     if (evidence.results === null) helpers.assertString(evidence.resultsAbsenceReason, 'recovery results absence reason', document)
     else {
       if (evidence.resultsAbsenceReason !== null) helpers.invalid(document, 'recovery results absence reason must be null when results exist')
-      helpers.exactKeys(evidence.results, ['artifactId', 'artifactName', 'artifactDigest', 'overallStatus', 'finalTargetSha'], 'recovery publication results', document)
+      helpers.exactKeys(evidence.results, ['artifactId', 'artifactName', 'artifactDigest', 'overallStatus', 'finalTargetSha', 'unitStatuses'], 'recovery publication results', document)
       helpers.assertPositiveInteger(evidence.results.artifactId, 'recovery publication results ID', document)
       helpers.assertArtifactName(evidence.results.artifactName, 'recovery publication results name', document)
       if (typeof evidence.results.artifactDigest !== 'string' || !/^sha256:[0-9a-f]{64}$/u.test(evidence.results.artifactDigest)) helpers.invalid(document, 'recovery publication results digest is invalid')
       helpers.assertString(evidence.results.overallStatus, 'recovery publication results overall status', document)
       helpers.assertSha(evidence.results.finalTargetSha, 'recovery publication results final target SHA', document)
+      if (!Array.isArray(evidence.results.unitStatuses)) helpers.invalid(document, 'recovery publication results unitStatuses must be an array')
+      for (const [index, unitStatus] of evidence.results.unitStatuses.entries()) {
+        helpers.exactKeys(unitStatus, ['unitKey', 'status'], `recovery publication results unitStatuses ${index}`, document)
+        helpers.assertString(unitStatus.unitKey, `recovery publication results unitStatuses ${index} unitKey`, document)
+        helpers.assertString(unitStatus.status, `recovery publication results unitStatuses ${index} status`, document)
+      }
     }
     if (!Array.isArray(recovery.artifacts)) helpers.invalid(document, 'recovery provenance artifacts must be an array')
     for (const [index, artifact] of recovery.artifacts.entries()) {
