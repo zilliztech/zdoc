@@ -363,6 +363,14 @@ async function testPlainTextBracesAreEscaped() {
     assert.ok(patched.includes('\\{city\\}'), 'expected {city} to be escaped');
     await compileToString(patched);
 
+    // A hyphenated token in a heading (the zh-CN connect-to-serving-cluster
+    // regression) must also be escaped through the full patch pipeline.
+    const headingPatched = await applyMdxPatches('### 验证连接{verify-the-connection}');
+    assert.ok(
+        headingPatched.includes('\\{verify-the-connection\\}'),
+        'expected {verify-the-connection} to be escaped',
+    );
+
     // Direct unit assertions on the escape function.
     assert.equal(
         escapePlainTextBraces('placeholders such as {age} or {city}'),
@@ -392,6 +400,19 @@ async function testPlainTextBracesAreEscaped() {
     assert.equal(
         escapePlainTextBraces('{key: value}'),
         '{key: value}',
+    );
+
+    // Hyphenated placeholder/slug tokens MUST be escaped: without '-' in the
+    // identifier class they compile as subtraction expressions and crash SSG
+    // with "ReferenceError: <token> is not defined" (the zh-CN
+    // "connect-to-serving-cluster" heading-anchor regression).
+    assert.equal(
+        escapePlainTextBraces('### 验证连接{verify-the-connection}'),
+        '### 验证连接\\{verify-the-connection\\}',
+    );
+    assert.equal(
+        escapePlainTextBraces('use a placeholder like {cluster-id} here'),
+        'use a placeholder like \\{cluster-id\\} here',
     );
 }
 
