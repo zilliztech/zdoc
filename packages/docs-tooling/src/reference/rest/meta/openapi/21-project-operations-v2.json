@@ -1352,7 +1352,8 @@
           }
         },
         "x-include-langs": [
-          "en-US"
+          "en-US",
+          "ja-JP"
         ],
         "tags": [
           "Project Operations (V2)"
