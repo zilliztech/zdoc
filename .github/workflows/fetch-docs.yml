@@ -367,6 +367,7 @@ jobs:
 
   publish_rest_zh-CN:
     needs: prepare
+    name: publish_rest_zh-CN
     if: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'rest') }}
     uses: ./.github/workflows/_fetch-content-group.yml
     strategy:
