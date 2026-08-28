@@ -59,7 +59,7 @@ export function fetchUnitDefinitions(): readonly FetchUnitDefinition[] {
   }));
   const units = [
     ...sdk,
-    {unitKey: 'source/rest-zh-CN', producerJob: 'localize_rest', site: 'zh-CN' as SiteId, group: 'rest', translationSourceGroup: null, commitMessage: 'docs(rest): publish REST reference'},
+    {unitKey: 'source/rest-zh-CN', producerJob: 'publish_rest_zh-CN', site: 'zh-CN' as SiteId, group: 'rest', translationSourceGroup: null, commitMessage: 'docs(rest): publish REST reference'},
     {unitKey: 'source/guides-en', producerJob: 'produce_guides', site: 'en' as SiteId, group: 'guides', translationSourceGroup: 'guides', commitMessage: 'docs(guides): publish fetched content'},
     {unitKey: 'source/guides-zh-CN', producerJob: 'produce_zh_guides', site: 'zh-CN' as SiteId, group: 'guides', translationSourceGroup: null, commitMessage: 'docs(guides): publish fetched content'},
   ];
@@ -122,14 +122,16 @@ export function referenceLandingSidebars(): readonly string[] {
 }
 
 // Stable translation unit order matching the committed Translation
-// publication selection. zh-CN-reference/rest is intentionally absent
-// (the REST Chinese reference is spec-generated).
+// publication selection. REST units are intentionally absent for both
+// ja-JP and zh-CN-reference (the REST reference is spec-generated).
 export const TRANSLATION_UNIT_ORDER = Object.freeze([
   'translation/ja-JP/guides',
-  ...sdkGroupIds().flatMap((id) => [
-    `translation/ja-JP/${id}`,
-    ...(id === 'rest' ? [] : [`translation/zh-CN-reference/${id}`]),
-  ]),
+  ...sdkGroupIds().flatMap((id) => (
+    id === 'rest' ? [] : [
+      `translation/ja-JP/${id}`,
+      `translation/zh-CN-reference/${id}`,
+    ]
+  )),
   'translation/zh-CN-reference/reference-landings',
 ]) as readonly string[];
 

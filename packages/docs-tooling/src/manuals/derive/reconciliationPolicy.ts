@@ -63,7 +63,7 @@ export function generateReconciliationPolicyJson(): string {
   const landingRoots: string[] = [];
   for (const manual of manuals) {
     const root = enLandingPath(manual);
-    jaJp[manual.id] = automaticRule(root ? [root] : []);
+    jaJp[manual.id] = manual.presentation!.referenceKind === 'restful' ? REST_REVIEW_RULE : automaticRule(root ? [root] : []);
     if (manual.presentation!.referenceKind === 'restful') {
       zhCnReference[manual.id] = REST_REVIEW_RULE;
     } else {

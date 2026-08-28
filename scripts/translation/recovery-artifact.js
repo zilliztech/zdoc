@@ -7,7 +7,7 @@ const path = require('node:path');
 
 const {loadTypeScript} = require('../lib/load-typescript');
 const {localeContractPathFor} = require('./localeContract');
-const {parseRestDocument, promptNamesFor} = require('./restSpecLocalization');
+const {promptNamesFor} = require('./prompts');
 const {boundedFailureDetails, classifyFailure} = require('./failureClassification');
 const {isConsistentSuccessfulReview} = require('./reviewEvidence');
 const {
@@ -122,10 +122,9 @@ function exactReceiptKeys(value) {
     'schemaVersion', 'sourcePath', 'targetPath', 'sourceHash', 'targetHash', 'locale', 'group',
     'promptContractSha256', 'model', 'toolingSha', 'review', 'validationErrors',
   ];
-  const optional = ['restSpecReview'];
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Recovery review receipt must be an object');
   const missing = required.filter(key => !Object.hasOwn(value, key));
-  const unknown = Object.keys(value).filter(key => !required.includes(key) && !optional.includes(key));
+  const unknown = Object.keys(value).filter(key => !required.includes(key));
   if (missing.length || unknown.length) throw new Error('Recovery review receipt keys are invalid');
 }
 
@@ -150,14 +149,6 @@ function validateRecoveryReviewReceipt(value, expected = {}, {sourceContent} = {
   }
   if (!Array.isArray(receipt.validationErrors) || receipt.validationErrors.length !== 0) {
     throw new Error('Recovery review receipt does not attest clean per-document validation');
-  }
-  if (parseRestDocument(sourceContent) !== null && receipt.restSpecReview === undefined) {
-    throw new Error('Recovery review receipt does not attest REST reviewer success');
-  }
-  if (receipt.restSpecReview !== undefined && (
-    !isConsistentSuccessfulReview(receipt.restSpecReview)
-  )) {
-    throw new Error('Recovery review receipt does not attest REST reviewer success');
   }
   return receipt;
 }
@@ -187,16 +178,13 @@ function createRecoveryReviewReceipt({result, identity, targetHash, sourceConten
     if (!matchesCurrentExecution) throw new Error('Recovery review receipt execution identity does not match the artifact being created');
     return receipt;
   }
-  const requiresRestSpecReview = parseRestDocument(sourceContent) !== null;
-  if (!isConsistentSuccessfulReview(result.review) || !Array.isArray(result.validationErrors) || result.validationErrors.length !== 0 ||
-      (requiresRestSpecReview ? !isConsistentSuccessfulReview(result.restSpecReview) : result.restSpecReview && !isConsistentSuccessfulReview(result.restSpecReview))) return null;
+  if (!isConsistentSuccessfulReview(result.review) || !Array.isArray(result.validationErrors) || result.validationErrors.length !== 0) return null;
   return validateRecoveryReviewReceipt({
     schemaVersion: 1,
     ...fileIdentity,
     ...executionIdentity,
     review: result.review,
     validationErrors: result.validationErrors,
-    ...(result.restSpecReview ? {restSpecReview: result.restSpecReview} : {}),
   }, {...fileIdentity, ...executionIdentity}, {sourceContent});
 }
 
@@ -205,7 +193,6 @@ function reviewFields(receipt) {
     recoveryReviewReceipt: receipt,
     review: receipt.review,
     validationErrors: receipt.validationErrors,
-    ...(receipt.restSpecReview ? {restSpecReview: receipt.restSpecReview} : {}),
   };
 }
 

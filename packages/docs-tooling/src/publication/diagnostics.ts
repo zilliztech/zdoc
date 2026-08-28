@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import {z} from 'zod';
 
+import {resolveSiteProfile} from '@zilliz/site-config';
 import type {SourceEntry} from '../manuals/registry.ts';
 import type {ManualPublication, ManualSource, SiteId} from '../manuals/schema.ts';
 import {ownedTreeCommit} from './atomicReplace.ts';
@@ -176,8 +177,31 @@ export function publicationOwnedTargets(site: SiteId, publication: PublicationId
   return Object.freeze([
     publication.outputDir,
     publication.sidebarPath,
+    ...localizedRestTargets(site, publication).map(target => target.outputDir),
     ...(publication.retiredPaths ?? []).map(retiredPath => `content/${site}/${retiredPath}`),
   ].sort((left, right) => left.localeCompare(right, 'en')));
+}
+
+// The English REST manual is also generated for each docusaurus-i18n locale in the
+// English site profile (currently ja-JP). Its output lands under
+// `${translationRoot}/${locale}/docusaurus-plugin-content-docs-${contentId}/current/...`
+// rather than `content/<site>/...`, so it is not derived from the publication path
+// convention alone.
+export function localizedRestTargets(site: SiteId, publication: PublicationIdentityInput): readonly Readonly<{lang: string; outputDir: string}>[] {
+  if (site !== 'en') return Object.freeze([]);
+  // Only the spec-generated REST manual (sidebar basename `restful`) is localized
+  // from the English source; the SDK reference manuals are translated, not generated.
+  if (!publication.sidebarPath.endsWith('/restful.sidebar.js')) return Object.freeze([]);
+  const profile = resolveSiteProfile('en');
+  const content = profile.content.find(entry => entry.sourcePath === publication.contentRoot);
+  if (!content) return Object.freeze([]);
+  const relativePath = path.relative(publication.contentRoot, publication.outputDir).split(path.sep).join('/');
+  return Object.freeze(profile.localization.locales
+    .filter(locale => locale.source === 'docusaurus-i18n')
+    .map(locale => Object.freeze({
+      lang: locale.id,
+      outputDir: `${profile.localization.translationRoot}/${locale.id}/docusaurus-plugin-content-docs-${content.id}/current/${relativePath}`,
+    })));
 }
 
 export function createPublicationDiagnostics(
