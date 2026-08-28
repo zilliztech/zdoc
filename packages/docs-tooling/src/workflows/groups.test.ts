@@ -69,11 +69,11 @@ describe('site-owned publication groups', () => {
       ],
     });
     expect(listPublicationGroups('en')).toEqual(['guides', 'python', 'java', 'node', 'go', 'cli', 'cpp', 'rest']);
-    expect(listPublicationGroups('zh-CN')).toEqual(['guides', 'onpremise']);
+    expect(listPublicationGroups('zh-CN')).toEqual(['guides', 'onpremise', 'rest']);
   });
 
   it('rejects Agent-produced Chinese Reference and Tools groups', () => {
-    for (const group of ['python', 'java', 'node', 'go', 'cli', 'rest', 'reference']) {
+    for (const group of ['python', 'java', 'node', 'go', 'cli', 'reference']) {
       expect(() => resolvePublicationGroup('zh-CN', group)).toThrow(/Agent-produced Chinese Reference/i);
     }
     expect(() => resolvePublicationGroup('zh-CN', 'tools')).toThrow(/Agent-produced Chinese Tools/i);
