@@ -147,7 +147,7 @@ describe('Reference manifest executable security boundary', () => {
     }
   });
 
-  it('reconciles the failed REST publication as pending without creating a Chinese target or sidebar entry', () => {
+  it('skips REST sources from the generic translation manifest', () => {
     const root = repository();
     expect(generate(root).status).toBe(0);
     const sourcePath = 'content/en/reference/api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/cloud-access-control-operations-v2.mdx';
@@ -155,6 +155,8 @@ describe('Reference manifest executable security boundary', () => {
     const documentId = sourcePath.slice('content/en/reference/'.length).replace(/\.mdx?$/u, '');
     mkdirSync(path.dirname(path.join(root, sourcePath)), {recursive: true});
     writeFileSync(path.join(root, sourcePath), '# Cloud access control operations\n');
+    mkdirSync(path.dirname(path.join(root, targetPath)), {recursive: true});
+    writeFileSync(path.join(root, targetPath), '# 云访问控制操作\n');
     writeFileSync(path.join(root, 'generated/en/sidebars/restful.sidebar.js'), `module.exports = ["api/python/page", "${documentId}"]\n`);
     const config = navigationConfig();
     writeFileSync(path.join(root, 'config/reference-navigation.json'), `${JSON.stringify({
@@ -162,57 +164,15 @@ describe('Reference manifest executable security boundary', () => {
       targets: config.targets.map(target => target.manual === 'rest' ? {...target, documentIdPrefix: 'api'} : target),
     }, null, 2)}\n`);
     git(root, ['add', '.']);
-    git(root, ['commit', '--quiet', '-m', 'add REST source']);
-    const sourceCommit = gitOutput(root, ['rev-parse', 'HEAD']);
+    git(root, ['commit', '--quiet', '-m', 'add REST source and target']);
 
     const result = generate(root);
 
     expect(result.status, result.stderr || result.stdout).toBe(0);
-    const sourceManifest = JSON.parse(readFileSync(path.join(root, 'generated/en/manifests/reference.json'), 'utf8'));
     const translationManifest = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
-    expect(sourceManifest.sourceCommit).toBe(sourceCommit);
-    expect(sourceManifest.records.find((record: {sourcePath: string}) => record.sourcePath === sourcePath)).toMatchObject({
-      manual: 'rest',
-      sourcePath,
-    });
     expect(translationManifest.records.some((record: {sourcePath: string}) => record.sourcePath === sourcePath)).toBe(false);
-    expect(translationManifest.pendingRecords).toContainEqual(expect.objectContaining({
-      manual: 'rest',
-      sourcePath,
-      targetPath,
-      sourceCommit,
-    }));
-    expect(existsSync(path.join(root, targetPath))).toBe(false);
-    expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/restful.sidebar.js'), 'utf8')).not.toContain(documentId);
-    const sidebarResult = runReferenceManifest(root, ['reference-sidebar', '--group', 'rest', '--write']);
-    expect(sidebarResult.status, sidebarResult.stderr || sidebarResult.stdout).toBe(0);
-    expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/restful.sidebar.js'), 'utf8')).not.toContain(documentId);
-    const validation = validateChinese(root);
-    expect(validation.status, validation.stderr || validation.stdout).toBe(0);
-
-    const second = generate(root);
-    expect(second.status, second.stderr || second.stdout).toBe(0);
-    const secondManifest = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
-    expect(secondManifest.pendingRecords).toContainEqual(expect.objectContaining({sourcePath, targetPath, sourceCommit}));
-
-    mkdirSync(path.dirname(path.join(root, targetPath)), {recursive: true});
-    writeFileSync(path.join(root, targetPath), '# 云访问控制操作\n');
-    git(root, ['add', '.']);
-    git(root, ['commit', '--quiet', '-m', 'add REST target']);
-    const materializedCommit = gitOutput(root, ['rev-parse', 'HEAD']);
-    const materialized = generate(root);
-    expect(materialized.status, materialized.stderr || materialized.stdout).toBe(0);
-    const materializedManifest = JSON.parse(readFileSync(path.join(root, 'generated/zh-CN/manifests/reference-translations.json'), 'utf8'));
-    expect(materializedManifest.pendingRecords ?? []).toEqual([]);
-    expect(materializedManifest.records).toContainEqual(expect.objectContaining({
-      sourcePath,
-      targetPath,
-      sourceCommit: materializedCommit,
-      status: 'translated',
-    }));
-    expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/restful.sidebar.js'), 'utf8')).toContain(documentId);
-    const materializedValidation = validateChinese(root);
-    expect(materializedValidation.status, materializedValidation.stderr || materializedValidation.stdout).toBe(0);
+    expect(translationManifest.pendingRecords ?? []).toEqual([]);
+    expect(translationManifest.languageExcludedRecords ?? []).toEqual([]);
   }, 15_000);
 
   it('publishes an explicit English-only REST page as language-excluded without dispatching translation', () => {

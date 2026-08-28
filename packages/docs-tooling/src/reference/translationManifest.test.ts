@@ -399,13 +399,10 @@ describe('Reference translation provenance', () => {
       previousTranslationManifest: first.translationManifest,
     });
     expect(second.translationManifest.languageExcludedRecords).toEqual([]);
-    expect(second.translationManifest.pendingRecords).toEqual([{
-      manual: 'rest',
-      sourcePath,
-      targetPath,
-      sourceCommit: 'b'.repeat(40),
-      sourceHash: sha256(translatedSource),
-    }]);
+    // A REST page without x-include-langs is spec-generated, not translated: it is
+    // skipped from the generic translation manifest entirely.
+    expect(second.translationManifest.pendingRecords).toEqual([]);
+    expect(second.translationManifest.records).toEqual([]);
   });
 
   it('rejects a stale target for an actively language-excluded REST page', () => {
