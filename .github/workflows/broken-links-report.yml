@@ -51,22 +51,35 @@ jobs:
           CONTENT_SHA: ${{ steps.refs.outputs.content_sha }}
 
       - name: Build English site
-        run: pnpm build:en
+        run: |
+          mkdir -p tmp/broken-links
+          set -o pipefail
+          pnpm build:en 2>&1 | tee tmp/broken-links/build-en.log
 
       - name: Build Chinese site
-        run: pnpm build:zh-CN
+        run: |
+          set -o pipefail
+          pnpm build:zh-CN 2>&1 | tee tmp/broken-links/build-zh-CN.log
 
       - name: Check broken links (en)
-        run: pnpm docs-tooling check-broken-links --site en --output tmp/broken-links/en.md
+        run: pnpm docs-tooling check-broken-links --site en --log tmp/broken-links/build-en.log --output tmp/broken-links/en.md
 
       - name: Check broken links (zh-CN)
-        run: pnpm docs-tooling check-broken-links --site zh-CN --output tmp/broken-links/zh-CN.md
+        run: pnpm docs-tooling check-broken-links --site zh-CN --log tmp/broken-links/build-zh-CN.log --output tmp/broken-links/zh-CN.md
 
       - name: Analyze broken links (en)
         run: pnpm docs-tooling analyze-broken-links --site en --report tmp/broken-links/en.json --output tmp/broken-links/en.analysis.md
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
       - name: Analyze broken links (zh-CN)
         run: pnpm docs-tooling analyze-broken-links --site zh-CN --report tmp/broken-links/zh-CN.json --output tmp/broken-links/zh-CN.analysis.md
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
 
       - name: Report broken links to table
         run: pnpm docs-tooling report-broken-links --analysis tmp/broken-links/en.analysis.json,tmp/broken-links/zh-CN.analysis.json --note tmp/broken-links/note.md
