@@ -3,6 +3,7 @@ import path from 'node:path';
 import type {Config, PluginConfig} from '@docusaurus/types';
 import {canonicalRouteKey, type ContentPluginProfile, type DeepReadonly, type SiteProfile} from '@zilliz/site-config';
 import {chineseUiModules, englishUiModules, sharedUiModules} from '@zilliz/docs-ui';
+import {config as loadDotenv} from 'dotenv';
 import {resolveMarkdownPolicy} from './markdownPolicy';
 
 function findRepositoryRoot(startDirectory: string): string {
@@ -18,6 +19,10 @@ function findRepositoryRoot(startDirectory: string): string {
 // Docusaurus loads TypeScript config through jiti's CommonJS transform, where
 // __dirname is the module-location equivalent of dirname(import.meta.url).
 const repositoryRoot = findRepositoryRoot(__dirname);
+
+// Load local .env (gitignored) so local `docusaurus start`/`build` can resolve
+// Inkeep credentials the same way production resolves them at runtime via env.js.
+loadDotenv({path: path.join(repositoryRoot, '.env'), override: false});
 
 function repositoryPath(relativePath: string): string {
   return path.resolve(repositoryRoot, relativePath);
