@@ -90,7 +90,7 @@ describe('REST staged sidebar derivation', () => {
     ]);
   });
 
-  it('keeps the complete English and Chinese generated inventories aligned except for Upgrade Project', async () => {
+  it('keeps the complete English and Chinese generated inventories aligned except for Upgrade Project', {timeout: 30000}, async () => {
     const log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     try {

@@ -57,25 +57,28 @@ function checkpointFixture(options = {}) {
   return {root, archive, manifest}
 }
 
-test('all selection contains the exact nine Fetch units in canonical business order', () => {
+test('all selection contains the exact ten Fetch units in canonical business order', () => {
   const selection = buildFetchPublicationSelection(input())
   assert.deepEqual(FETCH_UNIT_KEYS, [
     'source/python', 'source/java', 'source/node', 'source/go', 'source/cli',
-    'source/cpp', 'source/rest', 'source/guides-en', 'source/guides-zh-CN',
+    'source/cpp', 'source/rest', 'source/rest-zh-CN', 'source/guides-en', 'source/guides-zh-CN',
   ])
   assert.deepEqual(selection.units.map(unit => unit.unitKey), FETCH_UNIT_KEYS)
   assert.deepEqual(selection.units.map(unit => unit.producerJob), [
     'produce_python', 'produce_java', 'produce_node', 'produce_go', 'produce_cli',
-    'produce_cpp', 'produce_rest', 'produce_guides', 'produce_zh_guides',
+    'produce_cpp', 'produce_rest', 'localize_rest', 'produce_guides', 'produce_zh_guides',
   ])
   assert.ok(selection.units.every(unit => unit.strategy === 'checkpoint'))
 })
 
-test('single groups select one unit while Guides selects both locale units', () => {
-  for (const group of ['java', 'node', 'go', 'cli', 'cpp', 'rest', 'python']) {
+test('single groups select one unit while Guides and REST select both locale units', () => {
+  for (const group of ['java', 'node', 'go', 'cli', 'cpp', 'python']) {
     const selection = buildFetchPublicationSelection(input({selectedGroup: group}))
     assert.deepEqual(selection.units.map(unit => unit.unitKey), [`source/${group}`])
   }
+  assert.deepEqual(buildFetchPublicationSelection(input({selectedGroup: 'rest'})).units.map(unit => unit.unitKey), [
+    'source/rest', 'source/rest-zh-CN',
+  ])
   assert.deepEqual(buildFetchPublicationSelection(input({selectedGroup: 'guides'})).units.map(unit => unit.unitKey), [
     'source/guides-en', 'source/guides-zh-CN',
   ])

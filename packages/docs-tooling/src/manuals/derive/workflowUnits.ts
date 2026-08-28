@@ -30,6 +30,7 @@ function commitMessage(group: string, referenceKind: string | undefined): string
 // manual only needs its groupOrder set in the registry.
 export const FETCH_BUSINESS_ORDER = Object.freeze([
   ...sdkGroupIds().map((id) => `source/${id}`),
+  'source/rest-zh-CN',
   'source/guides-en', 'source/guides-zh-CN',
 ]) as readonly string[];
 
@@ -58,6 +59,7 @@ export function fetchUnitDefinitions(): readonly FetchUnitDefinition[] {
   }));
   const units = [
     ...sdk,
+    {unitKey: 'source/rest-zh-CN', producerJob: 'localize_rest', site: 'zh-CN' as SiteId, group: 'rest', translationSourceGroup: null, commitMessage: 'docs(rest): publish REST reference'},
     {unitKey: 'source/guides-en', producerJob: 'produce_guides', site: 'en' as SiteId, group: 'guides', translationSourceGroup: 'guides', commitMessage: 'docs(guides): publish fetched content'},
     {unitKey: 'source/guides-zh-CN', producerJob: 'produce_zh_guides', site: 'zh-CN' as SiteId, group: 'guides', translationSourceGroup: null, commitMessage: 'docs(guides): publish fetched content'},
   ];

@@ -28,7 +28,7 @@ function selection(selectedGroup = 'all', overrides = {}) {
   })
 }
 
-function resultUnit(unit, index, status = 'published', resultSha = String(index + 1).repeat(40)) {
+function resultUnit(unit, index, status = 'published', resultSha = String(index + 1).padStart(40, '0')) {
   const failed = ['producer_failed', 'candidate_rejected', 'publish_failed'].includes(status)
   return {
     unitKey: unit.unitKey,
@@ -54,7 +54,7 @@ function results(selected, options = {}) {
     unit,
     index,
     statuses[unit.unitKey] || 'published',
-    resultShas[unit.unitKey] || String(index + 1).repeat(40),
+    resultShas[unit.unitKey] || String(index + 1).padStart(40, '0'),
   ))
   const failed = units.some(unit => ['producer_failed', 'candidate_rejected', 'publish_failed'].includes(unit.status))
   return validatePublicationResults({

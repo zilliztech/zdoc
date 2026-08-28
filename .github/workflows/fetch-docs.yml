@@ -36,9 +36,7 @@ on:
         type: string
         default: dev
   schedule:
-    - cron: "0 2 * * *"    # first run of the day: translation on
-    - cron: "0 10 * * *"   # translation off
-    - cron: "0 18 * * *"   # translation off
+    - cron: "0 2,10,18 * * *"
 
 permissions:
   contents: read
@@ -81,7 +79,7 @@ jobs:
           RETENTION_DAYS: ${{ github.event.inputs.artifact_retention_days || '3' }}
           TARGET_BRANCH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.target_branch || 'dev' }}
           PUBLISH: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.publish == 'true' }}
-          RUN_TRANSLATIONS: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.run_translations == 'true') || (github.event_name == 'schedule' && github.event.schedule == '0 2 * * *') }}
+          RUN_TRANSLATIONS: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_translations == 'true' }}
           MEDIA_UPLOAD_MODE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.media_upload_mode || 'write' }}
           TOOLING_REF: ${{ github.event.inputs.tooling_ref || 'master' }}
           SOURCE_REF: ${{ github.event.inputs.source_ref || 'dev' }}
@@ -367,8 +365,34 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+  localize_rest:
+    needs: prepare
+    if: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'rest') }}
+    uses: ./.github/workflows/_fetch-content-group.yml
+    strategy:
+      matrix:
+        locale: [zh-CN]
+    with:
+      site: ${{ matrix.locale }}
+      group: rest
+      master_sha: ${{ needs.prepare.outputs.master_sha }}
+      dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}
+      target_branch: ${{ needs.prepare.outputs.target_branch }}
+      publication_selection_artifact_name: ${{ needs.prepare.outputs.publication_selection_artifact_name }}
+      publication_selection_sha256: ${{ needs.prepare.outputs.publication_selection_sha256 }}
+      publication_unit_key: source/rest-zh-CN
+      artifact_retention_days: ${{ fromJSON(needs.prepare.outputs.retention_days) }}
+    secrets:
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}
+      SPACE_ID: ${{ secrets.SPACE_ID }}
+      FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+      MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
   reconciliation_preflight:
-    needs: [prepare, produce_guides, produce_zh_guides, produce_sdk_reference]
+    needs: [prepare, produce_guides, produce_zh_guides, produce_sdk_reference, localize_rest]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30

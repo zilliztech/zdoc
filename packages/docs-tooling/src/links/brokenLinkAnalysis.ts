@@ -3,7 +3,8 @@ import {readFileSync, writeFileSync} from 'node:fs';
 
 import {z} from 'zod';
 
-import {BrokenLinksReport, parseBrokenLinksReport} from './brokenLinks.ts';
+import type {BrokenLinksReport} from './brokenLinks.ts';
+import {parseBrokenLinksReport} from './brokenLinks.ts';
 import {resolveManualPublication} from '../manuals/registry.ts';
 
 const requireFromDocsTooling = createRequire(import.meta.url);
