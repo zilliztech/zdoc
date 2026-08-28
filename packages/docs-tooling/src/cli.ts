@@ -933,6 +933,33 @@ function stagePreservedPublicationFiles(context: CommandContext, replace = false
       {replace},
     );
   }
+
+  for (const localized of localizedRestTargets(context.request.site, context.publication as ManualPublication)) {
+    const localizedOutput = resolveSecureRepositoryPath(
+      context.stagePath,
+      localized.outputDir,
+      'Staged localized REST outputDir',
+      {allowMissing: true},
+    );
+    for (const relativePath of context.publication.preservedFiles ?? []) {
+      const sourcePath = resolveOwnedRepositoryPath(
+        context.repositoryRoot,
+        `${localized.outputDir}/${relativePath}`,
+        'Preserved localized publication source',
+      );
+      if (!existsSync(sourcePath) || !lstatSync(sourcePath).isFile()) {
+        throw new Error(`Preserved localized publication file is missing or is not a regular file: ${localized.outputDir}/${relativePath}`);
+      }
+      const targetPath = resolveOwnedRepositoryPath(localizedOutput, relativePath, 'Preserved staged localized publication file');
+      writeSecureAtomicFile(
+        context.repositoryRoot,
+        targetPath,
+        readSecureFile(context.repositoryRoot, sourcePath, 'Preserved localized publication source'),
+        'Preserved staged localized publication file',
+        {replace},
+      );
+    }
+  }
 }
 
 function diagnosticsIdentity(context: CommandContext): PublicationDiagnosticsIdentity {
