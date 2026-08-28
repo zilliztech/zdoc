@@ -18,6 +18,7 @@ import type {ManualDefinition, ManualPublication, ManualSource, SiteId} from './
 import {atomicReplace, withAtomicPublicationGroupFence, type AtomicReplaceOptions, type AtomicValidationSnapshot} from './publication/atomicReplace.ts';
 import {
   capturePublicationDiagnostics,
+  localizedRestTargets,
   publicationOwnedTargets,
   readAndValidatePublicationDiagnostics,
   writePublicationAnchor,
@@ -932,6 +933,33 @@ function stagePreservedPublicationFiles(context: CommandContext, replace = false
       {replace},
     );
   }
+
+  for (const localized of localizedRestTargets(context.request.site, context.publication as ManualPublication)) {
+    const localizedOutput = resolveSecureRepositoryPath(
+      context.stagePath,
+      localized.outputDir,
+      'Staged localized REST outputDir',
+      {allowMissing: true},
+    );
+    for (const relativePath of context.publication.preservedFiles ?? []) {
+      const sourcePath = resolveOwnedRepositoryPath(
+        context.repositoryRoot,
+        `${localized.outputDir}/${relativePath}`,
+        'Preserved localized publication source',
+      );
+      if (!existsSync(sourcePath) || !lstatSync(sourcePath).isFile()) {
+        throw new Error(`Preserved localized publication file is missing or is not a regular file: ${localized.outputDir}/${relativePath}`);
+      }
+      const targetPath = resolveOwnedRepositoryPath(localizedOutput, relativePath, 'Preserved staged localized publication file');
+      writeSecureAtomicFile(
+        context.repositoryRoot,
+        targetPath,
+        readSecureFile(context.repositoryRoot, sourcePath, 'Preserved localized publication source'),
+        'Preserved staged localized publication file',
+        {replace},
+      );
+    }
+  }
 }
 
 function diagnosticsIdentity(context: CommandContext): PublicationDiagnosticsIdentity {
@@ -1185,19 +1213,36 @@ async function defaultFetch(context: CommandContext, runner: GeneratorRunner, en
   }
   if (source.sourceType === 'rest') {
     const specifications = assertExistingSource(context.repositoryRoot, source);
+    const staged = publicationStagePaths(context);
     runGenerator(
       context,
       runner,
       path.join(context.repositoryRoot, 'packages/docs-tooling/src/reference/rest/index.js'),
       [
         '--specifications', specifications,
-        '--output_path', publicationStagePaths(context).outputPath,
+        '--output_path', staged.outputPath,
         '--lang', context.request.site === 'en' ? 'en-US' : 'zh-CN',
         '--target', 'zilliz',
       ],
       environment,
       false,
     );
+    for (const localized of localizedRestTargets(context.request.site, context.publication as ManualPublication)) {
+      const localizedOutputPath = resolveSecureRepositoryPath(context.stagePath, localized.outputDir, 'Staged localized REST outputDir', {allowMissing: true});
+      runGenerator(
+        context,
+        runner,
+        path.join(context.repositoryRoot, 'packages/docs-tooling/src/reference/rest/index.js'),
+        [
+          '--specifications', specifications,
+          '--output_path', localizedOutputPath,
+          '--lang', localized.lang,
+          '--target', 'zilliz',
+        ],
+        environment,
+        false,
+      );
+    }
     stageGeneratedRestSidebar(context);
     return;
   }
@@ -1212,14 +1257,20 @@ async function defaultPublish(
 ): Promise<void> {
   const staged = publicationStagePaths(context);
   if (!context.publicationDiagnostics) throw new Error('Validated publication diagnostics are missing');
+  const localizedTargets = localizedRestTargets(context.request.site, context.publication as ManualPublication);
+  const localizedOutputDirs = localizedTargets.map(target => target.outputDir);
   const ownedTargets = publicationOwnedTargets(context.request.site, context.publication as ManualPublication);
-  const removalTargets = ownedTargets.filter(target => target !== context.publication.outputDir && target !== context.publication.sidebarPath);
+  const removalTargets = ownedTargets.filter(target => target !== context.publication.outputDir && target !== context.publication.sidebarPath && !localizedOutputDirs.includes(target));
   await replace({
     publicationRoot: context.repositoryRoot,
     baselineCommit: context.publicationDiagnostics.baselineCommit,
     replacements: [
       {source: staged.outputPath, target: context.publication.outputDir},
       {source: staged.sidebarPath, target: context.publication.sidebarPath},
+      ...localizedTargets.map(localized => ({
+        source: resolveSecureRepositoryPath(context.stagePath, localized.outputDir, 'Staged localized REST outputDir'),
+        target: localized.outputDir,
+      })),
     ],
     removals: removalTargets,
     validatePublication: snapshot => validatePublicationSnapshot(context, selected, snapshot),

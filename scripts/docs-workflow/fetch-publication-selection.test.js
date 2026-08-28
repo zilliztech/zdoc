@@ -66,7 +66,7 @@ test('all selection contains the exact ten Fetch units in canonical business ord
   assert.deepEqual(selection.units.map(unit => unit.unitKey), FETCH_UNIT_KEYS)
   assert.deepEqual(selection.units.map(unit => unit.producerJob), [
     'produce_python', 'produce_java', 'produce_node', 'produce_go', 'produce_cli',
-    'produce_cpp', 'produce_rest', 'localize_rest', 'produce_guides', 'produce_zh_guides',
+    'produce_cpp', 'produce_rest', 'publish_rest_zh-CN', 'produce_guides', 'produce_zh_guides',
   ])
   assert.ok(selection.units.every(unit => unit.strategy === 'checkpoint'))
 })

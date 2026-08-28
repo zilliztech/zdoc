@@ -28,6 +28,10 @@
           "zh-CN": {
             "summary": "查看发票列表",
             "description": "本接口列出当前用户所属组织的所有发票。当前用户须为组织所有者或计费管理员。"
+          },
+          "ja-JP": {
+            "summary": "請求書を一覧表示",
+            "description": "現在のユーザーが所属する組織内のすべての請求書を一覧表示します。現在のユーザーは組織のオーナーまたは billing admin である必要があります。"
           }
         },
         "tags": [
@@ -46,6 +50,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、適切な権限を持つ API key である必要があります。"
               }
             },
             "x-i18n-langs": [
@@ -66,6 +73,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "每页返回的项目数量。"
+              },
+              "ja-JP": {
+                "description": "各ページで返される項目数。"
               }
             },
             "example": 10
@@ -83,6 +93,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "要返回的页码。"
+              },
+              "ja-JP": {
+                "description": "返されるページ番号。"
               }
             },
             "example": 1
@@ -94,6 +107,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回当前用户所属组织的所有发票记录列表。"
+              },
+              "ja-JP": {
+                "description": "現在のユーザーが所属する組織内の請求書レコードの一覧を返します。"
               }
             },
             "content": {
@@ -106,6 +122,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回发票列表。"
+                        },
+                        "ja-JP": {
+                          "description": "請求書の一覧を返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -119,6 +138,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -133,6 +155,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "发票总数。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "請求書の総数。"
                                   }
                                 }
                               },
@@ -142,6 +167,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "当前页码。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "現在のページ番号。"
                                   }
                                 }
                               },
@@ -151,6 +179,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "每页记录数。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "各ページのレコード数。"
                                   }
                                 }
                               },
@@ -165,6 +196,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "发票 ID。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求書の ID。"
                                         }
                                       }
                                     },
@@ -174,6 +208,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "发票所属组织 ID。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求書が属する組織の ID。"
                                         }
                                       }
                                     },
@@ -183,6 +220,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "发票帐期开始时间。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求期間の開始時刻。"
                                         }
                                       }
                                     },
@@ -192,6 +232,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "发票帐期结束时间。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求期間の終了時刻。"
                                         }
                                       }
                                     },
@@ -201,6 +244,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "发票生成日期。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求書が発行された日付。"
                                         }
                                       }
                                     },
@@ -210,6 +256,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "发票逾期时间。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求書の支払期日。"
                                         }
                                       }
                                     },
@@ -219,6 +268,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "发票币种。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求書の通貨。"
                                         }
                                       }
                                     },
@@ -228,6 +280,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "发票状态。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求書のステータス。"
                                         }
                                       },
                                       "enum": [
@@ -246,6 +301,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "发票记录的总金额。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求書に記録された合計金額。"
                                         }
                                       }
                                     },
@@ -255,6 +313,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "已应用的信用额度，应从总金额中减去。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求書に適用されたクレジットの合計額で、合計金額から差し引かれる金額です。"
                                         }
                                       }
                                     },
@@ -264,6 +325,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "已开票金额。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "すでに請求済みの合計金額。"
                                         }
                                       }
                                     },
@@ -273,6 +337,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "发票小计金额，即总金额减去已应用的信用额度。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求書の小計で、合計金額から適用されたクレジットを差し引いた金額です。"
                                         }
                                       }
                                     },
@@ -282,16 +349,22 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "发票税额。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求書の税額。"
                                         }
                                       }
                                     },
                                     "total": {
                                       "type": "number",
                                       "description": "The total amount of the invoice, which is the subtotal plus the tax.",
-                                    "x-i18n": {
-                                      "zh-CN": {
-                                        "description": "发票含税金额，即小计金额加上税额。"
-                                      }
+                                      "x-i18n": {
+                                        "zh-CN": {
+                                          "description": "发票含税金额，即小计金额加上税额。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求書の合計金額で、小計に税額を加えた金額です。"
+                                        }
                                       }
                                     },
                                     "advancePayAmount": {
@@ -300,6 +373,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "当前用户所属组织预存金额，可用于冲抵待付款。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "現在のユーザーが所属する組織の前払い金額で、未払いの請求書の支払いに使用できます。"
                                         }
                                       }
                                     },
@@ -309,6 +385,9 @@
                                       "x-i18n": {
                                         "zh-CN": {
                                           "description": "发票应付金额，即预存金额减去含税金额。"
+                                        },
+                                        "ja-JP": {
+                                          "description": "請求書の支払額で、前払い金額からすでに請求済みの合計金額を差し引いた金額です。"
                                         }
                                       }
                                     }
@@ -326,6 +405,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -339,6 +421,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -348,6 +433,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -412,6 +500,10 @@
           "zh-CN": {
             "summary": "查看发票详情",
             "description": "本接口描述当前用户所属组织的指定发票。当前用户须为组织所有者或计费管理员。"
+          },
+          "ja-JP": {
+            "summary": "請求書を説明する",
+            "description": "現在のユーザーが所属する組織内の指定された請求書の詳細を取得します。現在のユーザーは組織の owner または billing admin である必要があります。"
           }
         },
         "tags": [
@@ -430,6 +522,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、適切な権限を持つ API key である必要があります。"
               }
             },
             "x-i18n-langs": [
@@ -448,6 +543,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "要描述的发票 ID。"
+              },
+              "ja-JP": {
+                "description": "詳細を取得する請求書の ID。"
               }
             }
           }
@@ -458,6 +556,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回当前用户所属组织的指定发票的详细信息。"
+              },
+              "ja-JP": {
+                "description": "現在のユーザーが所属する組織内の指定された請求書の詳細を返します。"
               }
             },
             "content": {
@@ -470,6 +571,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回指定发票的详细信息。"
+                        },
+                        "ja-JP": {
+                          "description": "指定された請求書の詳細を返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -483,6 +587,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -495,6 +602,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "发票 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求書の ID。"
                                 }
                               }
                             },
@@ -504,6 +614,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "发票所属组织 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求書が属する組織の ID。"
                                 }
                               }
                             },
@@ -513,6 +626,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "发票帐期开始时间。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求期間の開始時刻。"
                                 }
                               }
                             },
@@ -522,6 +638,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "发票帐期结束时间。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求期間の終了時刻。"
                                 }
                               }
                             },
@@ -531,6 +650,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "发票生成日期。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求書が発行された日付。"
                                 }
                               }
                             },
@@ -540,6 +662,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "发票逾期时间。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求書の支払期日。"
                                 }
                               }
                             },
@@ -549,6 +674,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "发票币种。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求書の通貨。"
                                 }
                               }
                             },
@@ -558,6 +686,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "发票状态。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求書のステータス。"
                                 }
                               },
                               "enum": [
@@ -576,6 +707,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "发票记录的总金额。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求書に記録された合計金額。"
                                 }
                               }
                             },
@@ -585,6 +719,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "已应用的信用额度，应从总金额中减去。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求書に適用されたクレジットの合計額で、総額から差し引かれます。"
                                 }
                               }
                             },
@@ -594,6 +731,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "已开票金额。"
+                                },
+                                "ja-JP": {
+                                  "description": "すでに請求済みの合計金額。"
                                 }
                               }
                             },
@@ -603,6 +743,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "发票小计金额，即总金额减去已应用的信用额度。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求書の小計で、総額から適用されたクレジットを差し引いた金額です。"
                                 }
                               }
                             },
@@ -612,6 +755,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "发票税额。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求書の税額。"
                                 }
                               }
                             },
@@ -621,6 +767,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "发票含税金额，即小计金额加上税额。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求書の総額で、小計に税額を加えた金額です。"
                                 }
                               }
                             },
@@ -630,6 +779,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前用户所属组织预存金额，可用于冲抵待付款。"
+                                },
+                                "ja-JP": {
+                                  "description": "現在のユーザーが所属する組織の前払い金額で、未払いの請求書の支払いに使用できます。"
                                 }
                               }
                             },
@@ -639,6 +791,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "发票应付金额，即预存金额减去含税金额。"
+                                },
+                                "ja-JP": {
+                                  "description": "請求書の未払額で、前払い金額からすでに請求済みの総額を差し引いた金額です。"
                                 }
                               }
                             }
@@ -652,6 +807,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -665,6 +823,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -674,6 +835,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }

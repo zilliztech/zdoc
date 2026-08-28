@@ -196,8 +196,9 @@ class refGen {
         }
 
         const i18n = specification?.["x-i18n"]?.[lang]
-        const page_title = lang === "zh-CN" ? (i18n?.summary || specification.summary) : specification.summary
-        const rawDescription = lang === "zh-CN" ? (i18n?.description || specification.description) : specification.description
+        const localized = lang === "zh-CN" || lang === "ja-JP"
+        const page_title = localized ? (i18n?.summary || specification.summary) : specification.summary
+        const rawDescription = localized ? (i18n?.description || specification.description) : specification.description
         const page_excerpt = this.__filter_content(rawDescription ?? '', target).split('<')[0]
         var page_parent = parents.filter(x => x === specification.tags[0])[0]
         if (!page_parent) {
@@ -220,7 +221,8 @@ class refGen {
         }
         var upper_folder = this.getPlane(page_parent, target)
 
-        var page_slug = (this.get_slug(page_title, target)) + slug_suffix
+        const slug_title = lang === "zh-CN" ? page_title : specification.summary
+        var page_slug = (this.get_slug(slug_title, target)) + slug_suffix
         const page_route = `/restful/${page_slug}`
         const existingRoute = this.routeRegistry.get(page_route)
         if (existingRoute) throw new Error(`REST_PAGE_ROUTE_CONFLICT: ${page_route} for ${existingRoute} and ${method}`)
