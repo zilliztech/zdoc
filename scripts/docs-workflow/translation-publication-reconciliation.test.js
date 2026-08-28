@@ -9,7 +9,7 @@ const test = require('node:test')
 
 const {finalizePublicationSelection, validatePublicationResults} = require('./publication-contracts')
 const {translationPublicationAdapter} = require('./translation-publication-adapter')
-const {reconcileTranslationPublication} = require('./translation-publication-reconciliation')
+const {reconcileTranslationPublication, refreshReferenceDerivedState, successfulReferenceGroups} = require('./translation-publication-reconciliation')
 
 function git(repository, args) {
   const value = spawnSync('git', ['-C', repository, ...args], {encoding: 'utf8'})
@@ -559,5 +559,45 @@ test('explicit zero reconciliation attempt limits reach the shared transaction v
       dependencies: {runCommand: deterministicCommands([])},
     },
   }), /maxProbeAttempts.*1|integer from 1/i)
+  assertNoReconciliationWorktrees(setup)
+})
+
+test('successfulReferenceGroups derives groups from successful zh-CN-reference units only', () => {
+  const selected = {units: [
+    {unitKey: 'a', target: 'zh-CN-reference', group: 'python'},
+    {unitKey: 'b', target: 'zh-CN-reference', group: 'java'},
+    {unitKey: 'c', target: 'ja-JP', group: 'python'},
+  ]}
+  const published = {units: [
+    {unitKey: 'a', status: 'published'},
+    {unitKey: 'b', status: 'producer_failed'},
+    {unitKey: 'c', status: 'published'},
+  ]}
+  assert.deepEqual(successfulReferenceGroups(selected, published), ['python'])
+})
+
+test('refreshReferenceDerivedState publishes a minimal inventory and sidebar refresh without validation commands', async t => {
+  const setup = fixture(t)
+  const selected = selection(setup.baseline, [unit(setup.baseline)])
+  const calls = []
+  const refreshed = await refreshReferenceDerivedState({
+    selection: selected,
+    groups: ['python'],
+    repositoryRoot: setup.repository,
+    runnerTemp: setup.runnerTemp,
+    transactionContext: {dependencies: {runCommand: deterministicCommands(calls)}},
+  })
+
+  assert.equal(refreshed.status, 'published')
+  assert.deepEqual(calls.filter(command => !command.startsWith('bash ')), [
+    'pnpm generate:localization-input-inventory',
+    'pnpm docs-tooling reference-sidebar --group python --write',
+  ])
+  assert.doesNotMatch(calls.join('\n'), /check:localization-input-inventory|validate-reference|validate-revision-inventory/)
+  assert.deepEqual(git(setup.repository, ['diff-tree', '--no-commit-id', '--name-only', '-r', refreshed.resultSha]).split('\n').sort(), [
+    'deploy/contracts/localization-inputs.inventory.json',
+    'generated/zh-CN/sidebars/python.sidebar.js',
+  ])
+  assert.equal(git(setup.repository, ['ls-remote', '--heads', 'origin', 'dev']).split(/\s+/)[0], refreshed.resultSha)
   assertNoReconciliationWorktrees(setup)
 })

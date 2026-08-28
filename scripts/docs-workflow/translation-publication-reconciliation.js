@@ -197,6 +197,17 @@ function reconciliationCommands(groups) {
   ])
 }
 
+// Deadline failover refresh runs only the derived-state producers (inventory and
+// successful group sidebars) and skips the validation commands that a full
+// reconciliation performs — by the time we hit the deadline, some units are not
+// terminal and validation would fail on their account anyway.
+function refreshCommands(groups) {
+  return Object.freeze([
+    Object.freeze(['pnpm', ['generate:localization-input-inventory']]),
+    ...groups.map(group => Object.freeze(['pnpm', ['docs-tooling', 'reference-sidebar', '--group', group, '--write']])),
+  ])
+}
+
 function validateInput(input) {
   const selection = validatePublicationSelection(input?.selection)
   if (selection.workflow !== 'translation') throw new Error('Translation publication selection is required')
@@ -207,41 +218,38 @@ function validateInput(input) {
   return {selection, results}
 }
 
-async function reconcileTranslationPublication(input = {}) {
-  const {selection, results} = validateInput(input)
-  const repositoryRoot = fs.realpathSync(input.repositoryRoot)
-  const dependencyRoot = fs.realpathSync(input.transactionContext?.dependencyRoot || input.repositoryRoot)
-  const runnerTemp = fs.realpathSync(input.runnerTemp)
-  const transactionContext = input.transactionContext || {}
+async function runDerivedStateRefresh({selection, groups, commands, repositoryRoot, runnerTemp, transactionContext = {}, results = null, worktreePrefix = 'translation-reconciliation'}) {
+  const resolvedRoot = fs.realpathSync(repositoryRoot)
+  const dependencyRoot = fs.realpathSync(transactionContext.dependencyRoot || resolvedRoot)
+  const resolvedRunnerTemp = fs.realpathSync(runnerTemp)
   const dependencies = {...(transactionContext.dependencies || {})}
   const runCommand = dependencies.runCommand || defaultRunCommand
   const remote = transactionContext.remote || 'origin'
-  const groups = successfulReferenceGroups(selection, results)
   const allowlist = allowedPaths(groups)
   const environment = {...process.env, ...(transactionContext.environment || {})}
-  const cleanupWorktree = worktree => removeWorktree(repositoryRoot, worktree, dependencies.afterWorktreeCleanup)
+  const cleanupWorktree = worktree => removeWorktree(resolvedRoot, worktree, dependencies.afterWorktreeCleanup)
 
   const strategy = {
     async compose({latestDevSha}) {
-      assertSuccessfulResultsAreAncestors(repositoryRoot, results, latestDevSha)
+      if (results) assertSuccessfulResultsAreAncestors(resolvedRoot, results, latestDevSha)
       let validationWorktree = null
       let publicationWorktree = null
       const cleanupDebt = []
       try {
-        validationWorktree = createWorktree(repositoryRoot, runnerTemp, 'translation-reconciliation-validation.', selection.toolingSha)
+        validationWorktree = createWorktree(resolvedRoot, resolvedRunnerTemp, `${worktreePrefix}-validation.`, selection.toolingSha)
         const linkedDependencies = linkDependencies(dependencyRoot, validationWorktree)
         await command(runCommand, validationWorktree, 'bash', [
           path.join(validationWorktree, 'scripts/restore-generated-state.sh'), '--exact', '--ref', latestDevSha,
         ], environment)
         const restoredTree = git(validationWorktree, ['write-tree']).stdout.trim()
-        for (const [executable, args] of reconciliationCommands(groups)) {
+        for (const [executable, args] of commands) {
           await command(runCommand, validationWorktree, executable, args, environment)
         }
         const changed = changedPaths(validationWorktree, restoredTree, linkedDependencies)
         const unexpected = changed.filter(relative => !allowlist.includes(relative))
         if (unexpected.length) throw new Error(`Reconciliation changed paths outside the allowed derived state: ${unexpected.join(', ')}`)
 
-        publicationWorktree = createWorktree(repositoryRoot, runnerTemp, 'translation-reconciliation-publication.', latestDevSha)
+        publicationWorktree = createWorktree(resolvedRoot, resolvedRunnerTemp, `${worktreePrefix}-publication.`, latestDevSha)
         for (const relative of changed) copyPath(validationWorktree, publicationWorktree, relative)
         cleanupDebt.push(...cleanupWorktree(validationWorktree))
         validationWorktree = null
@@ -308,23 +316,49 @@ async function reconcileTranslationPublication(input = {}) {
     maxProbeAttempts: transactionContext.maxProbeAttempts ?? 3,
     now: transactionContext.now,
     async readTargetTip() {
-      if (dependencies.readTargetTip) return dependencies.readTargetTip({repositoryRoot, remote, branch: selection.targetBranch})
-      git(repositoryRoot, ['fetch', '--no-tags', remote, `+refs/heads/${selection.targetBranch}:refs/remotes/${remote}/${selection.targetBranch}`])
-      return git(repositoryRoot, ['rev-parse', `refs/remotes/${remote}/${selection.targetBranch}`]).stdout.trim()
+      if (dependencies.readTargetTip) return dependencies.readTargetTip({repositoryRoot: resolvedRoot, remote, branch: selection.targetBranch})
+      git(resolvedRoot, ['fetch', '--no-tags', remote, `+refs/heads/${selection.targetBranch}:refs/remotes/${remote}/${selection.targetBranch}`])
+      return git(resolvedRoot, ['rev-parse', `refs/remotes/${remote}/${selection.targetBranch}`]).stdout.trim()
     },
     async promoteCandidate(context) {
-      if (dependencies.promoteCandidate) return dependencies.promoteCandidate({...context, repositoryRoot, remote, branch: selection.targetBranch})
+      if (dependencies.promoteCandidate) return dependencies.promoteCandidate({...context, repositoryRoot: resolvedRoot, remote, branch: selection.targetBranch})
       git(context.worktree, ['push', remote, `HEAD:refs/heads/${selection.targetBranch}`])
       return Object.freeze({status: 'published'})
     },
     async probeRemoteCandidate(context) {
-      if (dependencies.probeRemoteCandidate) return dependencies.probeRemoteCandidate({...context, repositoryRoot, remote, branch: selection.targetBranch})
-      git(repositoryRoot, ['fetch', '--no-tags', remote, `+refs/heads/${selection.targetBranch}:refs/remotes/${remote}/${selection.targetBranch}`])
-      const remoteSha = git(repositoryRoot, ['rev-parse', `refs/remotes/${remote}/${selection.targetBranch}`]).stdout.trim()
-      const containsCandidate = git(repositoryRoot, ['merge-base', '--is-ancestor', context.candidateSha, remoteSha], {allowFailure: true}).status === 0
+      if (dependencies.probeRemoteCandidate) return dependencies.probeRemoteCandidate({...context, repositoryRoot: resolvedRoot, remote, branch: selection.targetBranch})
+      git(resolvedRoot, ['fetch', '--no-tags', remote, `+refs/heads/${selection.targetBranch}:refs/remotes/${remote}/${selection.targetBranch}`])
+      const remoteSha = git(resolvedRoot, ['rev-parse', `refs/remotes/${remote}/${selection.targetBranch}`]).stdout.trim()
+      const containsCandidate = git(resolvedRoot, ['merge-base', '--is-ancestor', context.candidateSha, remoteSha], {allowFailure: true}).status === 0
       return Object.freeze({remoteSha, containsCandidate})
     },
   })
 }
 
-module.exports = {reconcileTranslationPublication}
+async function reconcileTranslationPublication(input = {}) {
+  const {selection, results} = validateInput(input)
+  const groups = successfulReferenceGroups(selection, results)
+  return runDerivedStateRefresh({
+    selection,
+    groups,
+    commands: reconciliationCommands(groups),
+    repositoryRoot: input.repositoryRoot,
+    runnerTemp: input.runnerTemp,
+    transactionContext: input.transactionContext,
+    results,
+  })
+}
+
+async function refreshReferenceDerivedState({selection, groups, repositoryRoot, runnerTemp, transactionContext = {}}) {
+  return runDerivedStateRefresh({
+    selection,
+    groups,
+    commands: refreshCommands(groups),
+    repositoryRoot,
+    runnerTemp,
+    transactionContext,
+    worktreePrefix: 'translation-deadline-refresh',
+  })
+}
+
+module.exports = {reconcileTranslationPublication, refreshReferenceDerivedState, successfulReferenceGroups}
