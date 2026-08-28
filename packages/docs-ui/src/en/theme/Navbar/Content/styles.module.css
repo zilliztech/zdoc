@@ -554,6 +554,18 @@
     visibility 0s linear var(--zd-hover-duration);
 }
 
+/* Invisible hover bridge across the 8px gap between the trigger and the menu.
+   Without it, moving the pointer toward the menu drops `.languageDropdown:hover`
+   and the menu hides before the item can be reached. */
+.languageMenu::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+}
+
 .languageDropdown:hover .languageMenu {
   opacity: 1;
   visibility: visible;
