@@ -55,7 +55,6 @@ function selection(runAttempt = 2, toolingSha = RETAINED_TOOLING_SHA, recoveryPr
     ['ja-JP', 'node'], ['zh-CN-reference', 'node'],
     ['ja-JP', 'go'], ['zh-CN-reference', 'go'],
     ['ja-JP', 'cli'], ['zh-CN-reference', 'cli'],
-    ['ja-JP', 'rest'],
   ]
   const units = identities.map(([target, group], order) => ({...selectedUnit(target, group, order), toolingSha}))
     .map(({publicationOrder: _ignored, ...unit}) => unit)
@@ -299,8 +298,8 @@ test('authenticates the selection and exact artifact identities, generates the r
   assert.deepEqual(planned.plan.handoff, planned.handoff)
   assert.deepEqual(Object.keys(planned.plan.recoveryMap), value.selected.units.map(unit => `${unit.target}/${unit.group}`))
   assert.deepEqual(planned.plan.recoveryMap['ja-JP/guides'].artifacts.map(item => item.batchNumber), [1, 2])
-  assert.equal(planned.plan.retainedFileCount, 13)
-  assert.equal(planned.plan.sourceCandidateCount, 13)
+  assert.equal(planned.plan.retainedFileCount, 12)
+  assert.equal(planned.plan.sourceCandidateCount, 12)
   assert.deepEqual(planned.plan.rejected, [])
   assert.equal(planned.plan.compatibilityStatus, 'pending-current-contract-preflight')
   assert.equal('paidModelCalls' in planned.plan, false)
@@ -453,8 +452,8 @@ test('accepts the exact retained zero-work Markdown-only report without requirin
     targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
     client: {...value.client, listArtifacts: async () => zeroWork.artifacts},
   })
-  assert.equal(planned.plan.sourceCandidateCount, 12)
-  assert.equal(planned.plan.retainedFileCount, 12)
+  assert.equal(planned.plan.sourceCandidateCount, 11)
+  assert.equal(planned.plan.retainedFileCount, 11)
   assert.equal(planned.plan.recoveryMap['ja-JP/python'], undefined)
   assert.equal(planned.handoff.units.some(unit => unit.target === 'ja-JP' && unit.group === 'python'), false)
   assert.equal(planned.plan.rejectedRecoveryCount, 0)

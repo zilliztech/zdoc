@@ -20,6 +20,8 @@ import {
   PUBLICATION_DIAGNOSTICS_FILE,
   publicationAnchorPath,
   createPublicationDiagnostics,
+  localizedRestTargets,
+  publicationOwnedTargets,
   readAndValidatePublicationDiagnostics,
   writePublicationAnchor,
   writePublicationDiagnostics,
@@ -272,5 +274,27 @@ describe('publication diagnostics filesystem boundary', () => {
 
     expect(() => writePublicationAnchor(root, identity, diagnostics)).toThrow(/anchor root.*unsafe|symlink/i);
     expect(existsSync(path.join(outside, `${diagnostics.manifestSha256}.json`))).toBe(false);
+  });
+});
+
+describe('localized REST publication targets', () => {
+  it('derives the Japanese i18n output dir for the English REST manual only', () => {
+    const rest = resolveManualPublication('rest', 'en').publication;
+    const python = resolveManualPublication('python', 'en').publication;
+    const zhCnRest = resolveManualPublication('rest', 'zh-CN').publication;
+
+    expect(localizedRestTargets('en', rest)).toEqual([
+      {lang: 'ja-JP', outputDir: 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful'},
+    ]);
+    expect(localizedRestTargets('en', python)).toEqual([]);
+    expect(localizedRestTargets('zh-CN', zhCnRest)).toEqual([]);
+  });
+
+  it('includes localized REST output dirs in the owned targets', () => {
+    const rest = resolveManualPublication('rest', 'en').publication;
+    const owned = publicationOwnedTargets('en', rest);
+    expect(owned).toContain('i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful');
+    expect(owned).toContain('content/en/reference/api/restful/restful');
+    expect(owned).toContain('generated/en/sidebars/restful.sidebar.js');
   });
 });

@@ -116,7 +116,8 @@ function sdkCliReceipt() {
 test('loads the exact initial automatic and review-required policy', () => {
   const policy = loadReconciliationPolicy()
   assert.equal(policy.targets['ja-JP'].guides.mode, 'automatic')
-  assert.equal(policy.targets['ja-JP'].rest.mode, 'automatic')
+  assert.equal(policy.targets['ja-JP'].rest.mode, 'review_required')
+  assert.equal(policy.targets['ja-JP'].rest.requiresCompletenessEvidence, true)
   assert.equal(policy.targets['zh-CN-reference'].rest.mode, 'review_required')
   assert.equal(policy.targets['zh-CN-reference'].rest.requiresCompletenessEvidence, true)
   for (const group of ['python', 'java', 'node', 'go', 'cli', 'cpp']) {

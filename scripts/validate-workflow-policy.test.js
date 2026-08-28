@@ -13,21 +13,18 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
-test('workflow policy keeps generated Chinese REST out of canonical Translation selection', () => {
+test('workflow policy keeps spec-generated REST out of canonical Translation selection', () => {
   // Keep the copy under scripts/ so selection.js's relative require('../lib/load-typescript')
   // (it now derives GROUPS from the registry) still resolves to the real helper.
   const directory = fs.mkdtempSync(path.join(__dirname, '.translation-selection-policy-'))
   const selection = path.join(directory, 'selection.js')
   try {
     const source = fs.readFileSync('scripts/translation/selection.js', 'utf8')
-    fs.writeFileSync(selection, source.replace("if (group === 'rest') return ['ja-JP'];", "if (group === 'rest') return ['ja-JP', 'zh-CN'];").replace("if (group === 'rest') return [];", "if (group === 'rest') return ['zh-CN'];"))
-    assert.ok(validateWorkflowPolicies(undefined, {translationSelectionPath: selection}).includes(
-      'translation selection: canonical REST selection must retain only ja-JP/rest',
-    ))
-    fs.writeFileSync(selection, source.replace("if (group === 'rest') return [];", "if (group === 'rest') return ['zh-CN'];"))
-    assert.ok(validateWorkflowPolicies(undefined, {translationSelectionPath: selection}).includes(
-      'translation selection: canonical REST selection must reject zh-CN-reference/rest',
-    ))
+    fs.writeFileSync(selection, source.replaceAll("group === 'rest'", "group === '__rest__'"))
+    const errors = validateWorkflowPolicies(undefined, {translationSelectionPath: selection})
+    assert.ok(errors.includes('translation selection: canonical REST selection must reject ja-JP/rest'))
+    assert.ok(errors.includes('translation selection: canonical REST selection must reject all/rest'))
+    assert.ok(errors.includes('translation selection: canonical REST selection must reject zh-CN/rest'))
   } finally {
     fs.rmSync(directory, {recursive: true, force: true})
   }

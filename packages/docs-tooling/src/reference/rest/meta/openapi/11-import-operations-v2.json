@@ -25,6 +25,10 @@
           "zh-CN": {
             "summary": "创建导入任务",
             "description": "本接口可将预处理好的数据文件导入到 <include target=\"milvus\">Milvus 实例</include><include target=\"zilliz\">Zilliz Cloud 集群</include>。了解如何准备数据文件，请阅读<include target=\"milvus\">《准备数据导入》</include><include target=\"zilliz\">《准备数据导入》</include>。"
+          },
+          "ja-JP": {
+            "summary": "インポートジョブを作成",
+            "description": "この操作では、準備済みのデータファイルを <include target=\"milvus\">Milvus instance</include><include target=\"zilliz\">Zilliz Cloud cluster</include> にインポートします。データファイルの準備方法については、<include target=\"milvus\">[Prepare Data Import](https://milvus.io/docs/prepare-source-data.md)</include><include target=\"zilliz\">[Prepare Data Import](/docs/prepare-data-import)</include> を参照してください。"
           }
         },
         "tags": [
@@ -46,6 +50,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             },
             "x-added-at": "2.6.x",
@@ -72,6 +79,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Collection 所属的服务集群 ID。设置为不存在的集群将导致错误。您可以通过调用 [`/v2/clusters`](/reference/restful/list-clusters-v2) 端点获取集群 ID，或从 [Zilliz Cloud 控制台](/docs/on-zilliz-cloud-console) 复制集群 ID。"
+                          },
+                          "ja-JP": {
+                            "description": "コレクションが属する serving cluster の ID です。\n存在しない cluster を指定するとエラーになります。cluster ID は [`/v2/clusters`](/reference/restful/list-clusters-v2) エンドポイントを呼び出して取得するか、[Zilliz Cloud console](/docs/on-zilliz-cloud-console) からコピーできます。"
                           }
                         },
                         "x-admonition": [
@@ -83,6 +93,10 @@
                               "zh-CN": {
                                 "title": "说明",
                                 "content": "仅适用于 Zilliz Cloud 上的服务集群。"
+                              },
+                              "ja-JP": {
+                                "title": "注",
+                                "content": "これは Zilliz Cloud 上の serving cluster にのみ適用されます。"
                               }
                             }
                           }
@@ -100,6 +114,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
+                          },
+                          "ja-JP": {
+                            "description": "コレクションが属するデータベースの名前です。\n存在しないデータベースを指定するとエラーになります。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -112,6 +129,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
+                          },
+                          "ja-JP": {
+                            "description": "対象のコレクション名です。\n存在しないコレクションを指定するとエラーになります。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -124,6 +144,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
+                          },
+                          "ja-JP": {
+                            "description": "対象のパーティション名です。\n存在しないパーティションを指定するとエラーになります。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -136,6 +159,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "数据文件上传的源 volume 名称。该 volume 需事先创建。详情请参考 [创建 volume](/reference/restful/create-volume-v2)"
+                          },
+                          "ja-JP": {
+                            "description": "データファイルのアップロード元となる volume の名前です。volume は事前に作成されている必要があります。詳細は [Create Volume](/reference/restful/create-volume-v2) を参照してください"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -148,6 +174,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待上传的数据文件路径列表。路径应相对于指定 volume 的根目录。"
+                          },
+                          "ja-JP": {
+                            "description": "アップロードするデータファイルのパスです。パスは指定した volume のルートからの相対パスである必要があります。"
                           }
                         },
                         "items": {
@@ -156,6 +185,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "待上传的数据文件路径列表。每个列表包含一个路径。"
+                            },
+                            "ja-JP": {
+                              "description": "アップロードするデータファイルのパスのリストです。各リストには 1 つのパスのみを含めます。"
                             }
                           },
                           "items": {
@@ -164,6 +196,9 @@
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "待上传数据文件路径。"
+                              },
+                              "ja-JP": {
+                                "description": "アップロードするデータファイルのパスです。パスは指定した volume のルートからの相対パスである必要があります。"
                               }
                             },
                             "x-added-at": "2.6.x",
@@ -200,6 +235,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Database 和 Collection 所属的项目 ID。设置为不存在的项目将导致错误。您可以通过调用 [`/v2/projects`](/reference/restful/list-projects-v2) 端点获取项目 ID，或从 [Zilliz Cloud 控制台](/docs/on-zilliz-cloud-console) 复制项目 ID。"
+                          },
+                          "ja-JP": {
+                            "description": "データベースおよびコレクションが属する project の ID です。\n存在しない project を指定するとエラーになります。project ID は [`/v2/projects`](/reference/restful/list-projects-v2) エンドポイントを呼び出して取得するか、[Zilliz Cloud console](/docs/on-zilliz-cloud-console) からコピーできます。"
                           }
                         },
                         "x-admonition": [
@@ -211,6 +249,10 @@
                               "zh-CN": {
                                 "title": "说明",
                                 "content": "仅适用于 Zilliz Cloud 上的按需计算集群和数据库。"
+                              },
+                              "ja-JP": {
+                                "title": "注",
+                                "content": "これは Zilliz Cloud 上の on-demand compute cluster およびデータベースにのみ適用されます。"
                               }
                             }
                           }
@@ -230,6 +272,9 @@
                           "zh-CN": {
                             "description": "Database 和 Collection 所属的地域 ID。设置为不存在的地域将导致错误。您可以通过调用 [`/v2/regions`](/reference/restful/list-cloud-regions-v2) 端点获取地域 ID，或从 [Zilliz Cloud 控制台](/docs/on-zilliz-cloud-console) 复制地域 ID。",
                             "example": "ali-cn-hangzhou"
+                          },
+                          "ja-JP": {
+                            "description": "データベースおよびコレクションが属する region の ID です。\n存在しない region を指定するとエラーになります。region ID は [`/v2/regions`](/reference/restful/list-cloud-regions-v2) エンドポイントを呼び出して取得するか、[Zilliz Cloud console](/docs/on-zilliz-cloud-console) からコピーできます。"
                           }
                         },
                         "x-admonition": [
@@ -241,6 +286,10 @@
                               "zh-CN": {
                                 "title": "说明",
                                 "content": "仅适用于 Zilliz Cloud 上的按需计算集群和数据库。"
+                              },
+                              "ja-JP": {
+                                "title": "注",
+                                "content": "これは Zilliz Cloud 上の on-demand compute cluster およびデータベースにのみ適用されます。"
                               }
                             }
                           }
@@ -258,6 +307,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
+                          },
+                          "ja-JP": {
+                            "description": "コレクションが属するデータベースの名前です。\n存在しないデータベースを指定するとエラーになります。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -270,6 +322,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
+                          },
+                          "ja-JP": {
+                            "description": "対象のコレクション名です。\n存在しないコレクションを指定するとエラーになります。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -282,6 +337,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
+                          },
+                          "ja-JP": {
+                            "description": "対象のパーティション名です。\n存在しないパーティションを指定するとエラーになります。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -294,6 +352,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "数据文件上传的源 volume 名称。该 volume 需事先创建。详情请参考 [创建 volume](/reference/restful/create-volume-v2)"
+                          },
+                          "ja-JP": {
+                            "description": "データファイルのアップロード元となる volume の名前です。volume は事前に作成されている必要があります。詳細は [Create Volume](/reference/restful/create-volume-v2) を参照してください"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -306,6 +367,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待上传的数据文件路径列表。路径应相对于指定 volume 的根目录。"
+                          },
+                          "ja-JP": {
+                            "description": "アップロードするデータファイルのパスです。パスは指定した volume のルートからの相対パスである必要があります。"
                           }
                         },
                         "items": {
@@ -314,6 +378,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "待上传的数据文件路径列表。每个列表包含一个路径。"
+                            },
+                            "ja-JP": {
+                              "description": "アップロードするデータファイルのパスのリストです。各リストには 1 つのパスのみを含めます。"
                             }
                           },
                           "items": {
@@ -322,6 +389,9 @@
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "待上传数据文件路径。"
+                              },
+                              "ja-JP": {
+                                "description": "アップロードするデータファイルのパスです。パスは指定した volume のルートからの相対パスである必要があります。"
                               }
                             },
                             "x-added-at": "2.6.x",
@@ -355,6 +425,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Collection 所属的服务集群 ID。设置为不存在的服务集群将导致错误。您可以通过调用 [`/v2/clusters`](/reference/restful/list-clusters-v2) 端点获取集群 ID，或从 [Zilliz Cloud 控制台](/docs/on-zilliz-cloud-console) 复制集群 ID。"
+                          },
+                          "ja-JP": {
+                            "description": "コレクションが属する serving cluster の ID です。\n存在しない cluster を指定するとエラーになります。cluster ID は [`/v2/clusters`](/reference/restful/list-clusters-v2) エンドポイントを呼び出して取得するか、[Zilliz Cloud console](/docs/on-zilliz-cloud-console) からコピーできます。"
                           }
                         },
                         "x-admonition": [
@@ -366,6 +439,10 @@
                               "zh-CN": {
                                 "title": "说明",
                                 "content": "仅适用于 Zilliz Cloud 上的服务集群。"
+                              },
+                              "ja-JP": {
+                                "title": "注",
+                                "content": "これは Zilliz Cloud 上の serving cluster にのみ適用されます。"
                               }
                             }
                           }
@@ -383,6 +460,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
+                          },
+                          "ja-JP": {
+                            "description": "コレクションが属するデータベースの名前です。\n存在しないデータベースを指定するとエラーになります。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -395,6 +475,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
+                          },
+                          "ja-JP": {
+                            "description": "対象のコレクション名です。\n存在しないコレクションを指定するとエラーになります。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -407,6 +490,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
+                          },
+                          "ja-JP": {
+                            "description": "対象のパーティション名です。\n存在しないパーティションを指定するとエラーになります。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -423,6 +509,9 @@
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "文件路径列表，列表中的路径均需位于 MinIO 实例上 Milvus 附带的 Milvus 根目录。"
+                              },
+                              "ja-JP": {
+                                "description": "Milvus instance とともに提供される MinIO instance 上の Milvus bucket のルートからの相対パスで指定する、ファイルパスのリストです。"
                               }
                             },
                             "x-added-at": "2.6.x",
@@ -433,6 +522,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "包含单个 JSON 文件, Parquet 文件或一组 NumPy 文件的子列表。"
+                            },
+                            "ja-JP": {
+                              "description": "1 つの JSON または Parquet ファイル、あるいは一連の NumPy ファイルを含むサブリストです。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -443,6 +535,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "包含待导入数据的文件。这些文件均应位于 MinIO 实例上 Milvus 部署的 Milvus 根目录下。"
+                          },
+                          "ja-JP": {
+                            "description": "インポートするデータを含むファイルです。これらのファイルは、Milvus instance とともにデプロイされた MinIO instance 上の Milvus bucket 内に存在している必要があります。"
                           }
                         },
                         "x-include-target": [
@@ -461,6 +556,9 @@
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "创建导入任务的超时时长。该值应为一个以秒、分钟或小时为单位的正数。例如，300s、1.5h、1h45 都是有效值。"
+                              },
+                              "ja-JP": {
+                                "description": "作成されるインポートジョブのタイムアウト時間です。値は正の数値に __s__（秒）、__m__（分）、__h__（時間）の接尾辞を付けて指定する必要があります。たとえば、_300s_、_1.5h_、_1h45_ はいずれも有効な値です。"
                               }
                             },
                             "x-added-at": "2.6.x",
@@ -472,6 +570,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "批量导入任务选项设置。"
+                          },
+                          "ja-JP": {
+                            "description": "一括インポートのオプションです。"
                           }
                         },
                         "x-include-target": [
@@ -487,6 +588,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待导入数据的 URL。该 URL 应来自与诸如阿里云 OSS 或腾讯云 COS 等与 MinIO S3 兼容的对象存储服务。"
+                          },
+                          "ja-JP": {
+                            "description": "インポートするオブジェクトの URL です。この URL は、AWS S3、GCS、Azure blob storage などの S3 互換オブジェクトストレージサービスからアクセス可能である必要があります。"
                           }
                         },
                         "x-include-target": [
@@ -503,6 +607,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待批量导入的对象 URL列表。<br/>当前支持的文件类型及如何在同一个任务中批量导入多个相同类型的数据文件，可参考：<ul><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-parquet#import-data\">Parquet</a></li><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-json#import-data\">JSON</a></li><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-numpy#import-data\">NumPy</a></li></ul>"
+                          },
+                          "ja-JP": {
+                            "description": "インポートするオブジェクトの URL です。<br/>適用可能な形式と、1 つのジョブで複数オブジェクトをインポートする方法は次のとおりです。<ul><li><a href=\"https://docs.zilliz.com/docs/data-import-parquet#import-data\">Parquet</a></li><li><a href=\"https://docs.zilliz.com/docs/data-import-json#import-data\">JSON</a></li><li><a href=\"https://docs.zilliz.com/docs/data-import-numpy#import-data\">NumPy</a></li></ul>"
                           }
                         },
                         "items": {
@@ -514,6 +621,9 @@
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "包含待导入 Entity 的数据文件 URL。每个 URL 独占一个列表。"
+                              },
+                              "ja-JP": {
+                                "description": "インポート対象の Entity が含まれるデータファイルまたはフォルダの URL です。"
                               }
                             },
                             "x-added-at": "2.6.x",
@@ -523,6 +633,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "待导入 Entity 所在的数据文件或文件夹 URL 列表。每个 列表包含一个 URL。"
+                            },
+                            "ja-JP": {
+                              "description": "インポートする Entity のバッチを含むデータファイルの URL のリストです。<br/>各リストには 1 つの URL のみを含めます。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -542,6 +655,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "对象存储服务的访问密钥 (AK)。"
+                          },
+                          "ja-JP": {
+                            "description": "オブジェクトストレージサービスの access key です。"
                           }
                         },
                         "x-include-target": [
@@ -557,6 +673,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "对象存储服务的访问密钥 (SK)。"
+                          },
+                          "ja-JP": {
+                            "description": "オブジェクトストレージサービスの secret access key です。"
                           }
                         },
                         "x-include-target": [
@@ -574,7 +693,12 @@
                         ],
                         "x-added-at": "2.6.x",
                         "x-last-modified": "2.6.x",
-                        "x-deprecated-since": null
+                        "x-deprecated-since": null,
+                        "x-i18n": {
+                          "ja-JP": {
+                            "description": "オブジェクトストレージサービスにアクセスするための一時トークンです。トークン名と取得方法は cloud provider によって異なる場合があります。詳細は [the FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service) を参照してください。"
+                          }
+                        }
                       }
                     },
                     "required": [
@@ -595,6 +719,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Database 和 Collection 所属的项目 ID。设置为不存在的项目将导致错误。您可以通过调用 [`/v2/projects`](/reference/restful/list-projects-v2) 端点获取项目 ID，或从 [Zilliz Cloud 控制台](/docs/on-zilliz-cloud-console) 复制项目 ID。"
+                          },
+                          "ja-JP": {
+                            "description": "データベースおよびコレクションが属する project の ID です。\n存在しない project を指定するとエラーになります。project ID は [`/v2/projects`](/reference/restful/list-projects-v2) エンドポイントを呼び出して取得するか、[Zilliz Cloud console](/docs/on-zilliz-cloud-console) からコピーできます。"
                           }
                         },
                         "x-admonition": [
@@ -606,6 +733,10 @@
                               "zh-CN": {
                                 "title": "说明",
                                 "content": "仅适用于 Zilliz Cloud 上的按需计算集群和数据库。"
+                              },
+                              "ja-JP": {
+                                "title": "注",
+                                "content": "これは Zilliz Cloud 上の on-demand compute cluster およびデータベースにのみ適用されます。"
                               }
                             }
                           }
@@ -625,6 +756,9 @@
                           "zh-CN": {
                             "description": "Database 和 Collection 所属的地域 ID。设置为不存在的地域将导致错误。您可以通过调用 [`/v2/regions`](/reference/restful/list-cloud-regions-v2) 端点获取地域 ID，或从 [Zilliz Cloud 控制台](/docs/on-zilliz-cloud-console) 复制地域 ID。",
                             "example": "ali-cn-hangzhou"
+                          },
+                          "ja-JP": {
+                            "description": "データベースおよびコレクションが属する region の ID です。\n存在しない region を指定するとエラーになります。region ID は [`/v2/regions`](/reference/restful/list-cloud-regions-v2) エンドポイントを呼び出して取得するか、[Zilliz Cloud console](/docs/on-zilliz-cloud-console) からコピーできます。"
                           }
                         },
                         "x-admonition": [
@@ -636,6 +770,10 @@
                               "zh-CN": {
                                 "title": "说明",
                                 "content": "仅适用于 Zilliz Cloud 上的按需计算集群和数据库。"
+                              },
+                              "ja-JP": {
+                                "title": "注",
+                                "content": "これは Zilliz Cloud 上の on-demand compute cluster およびデータベースにのみ適用されます。"
                               }
                             }
                           }
@@ -653,6 +791,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
+                          },
+                          "ja-JP": {
+                            "description": "コレクションが属するデータベースの名前です。\n存在しないデータベースを指定するとエラーになります。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -665,6 +806,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
+                          },
+                          "ja-JP": {
+                            "description": "対象のコレクション名です。\n存在しないコレクションを指定するとエラーになります。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -677,6 +821,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
+                          },
+                          "ja-JP": {
+                            "description": "対象パーティションの名前です。\n存在しないパーティションを指定するとエラーになります。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -693,6 +840,9 @@
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "文件路径列表，列表中的路径均需位于 MinIO 实例上 Milvus 附带的 Milvus 根目录。"
+                              },
+                              "ja-JP": {
+                                "description": "Milvus インスタンスに付属する MinIO インスタンス上の Milvus bucket のルートからの相対パスで指定したファイルパスのリストです。"
                               }
                             },
                             "x-added-at": "2.6.x",
@@ -703,6 +853,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "包含单个 JSON 文件, Parquet 文件或一组 NumPy 文件的子列表。"
+                            },
+                            "ja-JP": {
+                              "description": "単一の JSON または Parquet ファイル、あるいは一連の NumPy ファイルを含むサブリストです。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -713,6 +866,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "包含待导入数据的文件。这些文件均应位于 MinIO 实例上 Milvus 部署的 Milvus 根目录下。"
+                          },
+                          "ja-JP": {
+                            "description": "インポートするデータを含むファイルです。ファイルは、Milvus インスタンスとともにデプロイされた MinIO インスタンス上の Milvus bucket 内に存在している必要があります。"
                           }
                         },
                         "x-include-target": [
@@ -731,6 +887,9 @@
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "创建导入任务的超时时长。该值应为一个以秒、分钟或小时为单位的正数。例如，300s、1.5h、1h45 都是有效值。"
+                              },
+                              "ja-JP": {
+                                "description": "作成されたインポートジョブのタイムアウト時間です。値は、正の数の末尾に __s__（秒）、__m__（分）、__h__（時間）を付ける必要があります。たとえば、_300s_、_1.5h_、_1h45_ はいずれも有効な値です。"
                               }
                             },
                             "x-added-at": "2.6.x",
@@ -742,6 +901,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "批量导入任务选项设置。"
+                          },
+                          "ja-JP": {
+                            "description": "一括インポートオプションです。"
                           }
                         },
                         "x-include-target": [
@@ -757,6 +919,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待导入数据的 URL。该 URL 应来自与诸如阿里云 OSS 或腾讯云 COS 等与 MinIO S3 兼容的对象存储服务。"
+                          },
+                          "ja-JP": {
+                            "description": "インポートするオブジェクトの URL です。この URL は、AWS S3、GCS、Azure blob storage などの S3 互換オブジェクトストレージサービスからアクセス可能である必要があります。"
                           }
                         },
                         "x-include-target": [
@@ -773,6 +938,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "待批量导入的对象 URL列表。<br/>当前支持的文件类型及如何在同一个任务中批量导入多个相同类型的数据文件，可参考：<ul><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-parquet#import-data\">Parquet</a></li><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-json#import-data\">JSON</a></li><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-numpy#import-data\">NumPy</a></li></ul>"
+                          },
+                          "ja-JP": {
+                            "description": "インポートするオブジェクトの URL です。<br/>適用可能な形式と、1 つのジョブで複数のオブジェクトをインポートする方法は次のとおりです。<ul><li><a href=\"https://docs.zilliz.com/docs/data-import-parquet#import-data\">Parquet</a></li><li><a href=\"https://docs.zilliz.com/docs/data-import-json#import-data\">JSON</a></li><li><a href=\"https://docs.zilliz.com/docs/data-import-numpy#import-data\">NumPy</a></li></ul>"
                           }
                         },
                         "items": {
@@ -784,6 +952,9 @@
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "包含待导入 Entity 的数据文件 URL。每个 URL 独占一个列表。"
+                              },
+                              "ja-JP": {
+                                "description": "インポートする Entity が含まれるデータファイルまたはフォルダーの URL です。"
                               }
                             },
                             "x-added-at": "2.6.x",
@@ -793,6 +964,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "待导入 Entity 所在的数据文件或文件夹 URL 列表。每个 列表包含一个 URL。"
+                            },
+                            "ja-JP": {
+                              "description": "インポートするエンティティのバッチを含むデータファイルへの URL のリストです。<br/>各リストには 1 つの URL のみを含めます。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -812,6 +986,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "对象存储服务的访问密钥 (AK)。"
+                          },
+                          "ja-JP": {
+                            "description": "オブジェクトストレージサービスの access key です。"
                           }
                         },
                         "x-include-target": [
@@ -827,6 +1004,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "对象存储服务的访问密钥 (SK)。"
+                          },
+                          "ja-JP": {
+                            "description": "オブジェクトストレージサービスの secret access key です。"
                           }
                         },
                         "x-include-target": [
@@ -844,7 +1024,12 @@
                         ],
                         "x-added-at": "2.6.x",
                         "x-last-modified": "2.6.x",
-                        "x-deprecated-since": null
+                        "x-deprecated-since": null,
+                        "x-i18n": {
+                          "ja-JP": {
+                            "description": "オブジェクトストレージサービスにアクセスするための一時トークンです。トークン名と取得方法はクラウドプロバイダーによって異なる場合があります。詳細は、[the FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service) を参照してください。"
+                          }
+                        }
                       }
                     },
                     "required": [
@@ -1064,6 +1249,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "批量导入任务的 ID。"
+              },
+              "ja-JP": {
+                "description": "一括インポートジョブの ID です。"
               }
             },
             "content": {
@@ -1079,6 +1267,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコードです。"
                             }
                           },
                           "type": "integer",
@@ -1093,6 +1284,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，包含了当前操作创建的批量导入任务的 ID。"
+                            },
+                            "ja-JP": {
+                              "description": "作成された一括インポートジョブの ID を含むレスポンスペイロードです。"
                             }
                           },
                           "items": {
@@ -1101,6 +1295,9 @@
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "一个已创建的批量导入任务。"
+                              },
+                              "ja-JP": {
+                                "description": "作成された一括インポートジョブです。"
                               }
                             },
                             "properties": {
@@ -1110,6 +1307,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "当前创建的批量导入任务 ID。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "現在の一括インポートジョブの ID です。"
                                   }
                                 },
                                 "x-added-at": "2.6.x",
@@ -1136,6 +1336,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -1149,6 +1352,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコードです。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1161,6 +1367,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージです。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1233,6 +1442,10 @@
           "zh-CN": {
             "summary": "查看导入任务列表",
             "description": "本接口可列出当前集群的所有导入任务。"
+          },
+          "ja-JP": {
+            "summary": "インポートジョブを一覧表示します",
+            "description": "この操作は、特定のクラスターのすべてのインポートジョブを一覧表示します。"
           }
         },
         "tags": [
@@ -1254,6 +1467,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             },
             "x-added-at": "2.6.x",
@@ -1267,6 +1483,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "使用 `application/json`。"
+              },
+              "ja-JP": {
+                "description": "`application/json` を使用します。"
               }
             },
             "required": false,
@@ -1294,6 +1513,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Zilliz Cloud 上的特定集群的 ID。"
+                      },
+                      "ja-JP": {
+                        "description": "Zilliz Cloud 上の特定のクラスターの ID。"
                       }
                     },
                     "x-include-target": [
@@ -1309,6 +1531,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "每次返回的记录数。"
+                      },
+                      "ja-JP": {
+                        "description": "リクエストごとに返されるレコード数。"
                       }
                     },
                     "x-include-target": [
@@ -1324,6 +1549,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "当前页码。"
+                      },
+                      "ja-JP": {
+                        "description": "現在のページ番号。"
                       }
                     },
                     "x-include-target": [
@@ -1338,7 +1566,12 @@
                     "description": "Name of the database to which the import job belongs.",
                     "x-added-at": "2.6.x",
                     "x-last-modified": "2.6.x",
-                    "x-deprecated-since": null
+                    "x-deprecated-since": null,
+                    "x-i18n": {
+                      "ja-JP": {
+                        "description": "このインポートジョブが属するデータベースの名前。"
+                      }
+                    }
                   }
                 },
                 "required": [
@@ -1363,6 +1596,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回导入任务列表。"
+              },
+              "ja-JP": {
+                "description": "インポートジョブの一覧を返します"
               }
             },
             "content": {
@@ -1378,6 +1614,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1393,6 +1632,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "本次返回的记录总数。"
+                                },
+                                "ja-JP": {
+                                  "description": "このレスポンスに一覧表示されるレコードの総数。"
                                 }
                               },
                               "x-include-target": [
@@ -1408,6 +1650,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前页码。"
+                                },
+                                "ja-JP": {
+                                  "description": "参照用の現在のページ番号。"
                                 }
                               },
                               "x-include-target": [
@@ -1423,6 +1668,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "每次返回包含的最大记录数。"
+                                },
+                                "ja-JP": {
+                                  "description": "各返却に含まれるレコードの最大数。"
                                 }
                               },
                               "x-include-target": [
@@ -1443,6 +1691,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "当前导入任务的目标 Collection 名称。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "このインポートジョブの対象コレクション名。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -1455,6 +1706,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "当前导入任务的 ID。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "このインポートジョブの ID。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -1467,6 +1721,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "当前导入任务的状态。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "このインポートジョブの状態。"
                                       }
                                     },
                                     "enum": [
@@ -1485,6 +1742,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "当前导入任务的进度。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "このインポートジョブの進行状況。"
                                       }
                                     },
                                     "x-include-target": [
@@ -1500,6 +1760,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "当前导入任务失败的原因。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "このインポートジョブが失敗した理由。"
                                       }
                                     },
                                     "x-include-target": [
@@ -1514,6 +1777,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "导入任务的详细信息。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "インポートジョブの詳細。"
                                   }
                                 },
                                 "x-added-at": "2.6.x",
@@ -1524,6 +1790,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "导入任务详情列表。"
+                                },
+                                "ja-JP": {
+                                  "description": "インポートジョブの詳細一覧。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -1535,6 +1804,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，为导入任务详情列表。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスペイロード。インポートジョブの詳細一覧です。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1552,6 +1824,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -1565,6 +1840,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1577,6 +1855,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1656,6 +1937,10 @@
           "zh-CN": {
             "summary": "查看导入任务进度",
             "description": "已弃用的兼容路由。请改用 `/v2/vectordb/jobs/import/describe` 获取指定导入任务的进度信息。"
+          },
+          "ja-JP": {
+            "summary": "Import Job の進行状況を取得",
+            "description": "指定した import job の進行状況を取得します。"
           }
         },
         "x-include-target": [
@@ -1680,6 +1965,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             },
             "x-added-at": "2.6.x",
@@ -1693,6 +1981,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "使用 `application/json`。"
+              },
+              "ja-JP": {
+                "description": "`application/json` を使用します。"
               }
             },
             "required": false,
@@ -1726,6 +2017,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定导入任务 ID。"
+                          },
+                          "ja-JP": {
+                            "description": "対象の import job の ID"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1738,6 +2032,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定集群 ID。"
+                          },
+                          "ja-JP": {
+                            "description": "この操作が適用される cluster の ID。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1766,6 +2063,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定导入任务 ID。"
+                          },
+                          "ja-JP": {
+                            "description": "対象の import job の ID"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1778,6 +2078,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定项目 ID。"
+                          },
+                          "ja-JP": {
+                            "description": "この操作が適用される project の ID。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1790,6 +2093,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定地域 ID。"
+                          },
+                          "ja-JP": {
+                            "description": "この操作が適用される region の ID。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1862,6 +2168,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回指定导入任务的进度信息。"
+              },
+              "ja-JP": {
+                "description": "指定した import job の進行状況を返します。"
               }
             },
             "content": {
@@ -1878,6 +2187,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1893,6 +2205,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "导入任务 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "import job の ID。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -1905,6 +2220,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "导入任务的目标 Collection 名称。"
+                                },
+                                "ja-JP": {
+                                  "description": "import job の対象 collection 名。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -1917,6 +2235,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "对象存储中存放的数据文件对象的路径。"
+                                },
+                                "ja-JP": {
+                                  "description": "object storage 内のデータファイルオブジェクトのパス。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -1929,6 +2250,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "数据文件对象的大小。"
+                                },
+                                "ja-JP": {
+                                  "description": "データファイルオブジェクトのサイズ。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -1941,6 +2265,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前导入任务的状态。"
+                                },
+                                "ja-JP": {
+                                  "description": "この import job の状態。"
                                 }
                               },
                               "enum": [
@@ -1959,6 +2286,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前导入任务的进度百分比。"
+                                },
+                                "ja-JP": {
+                                  "description": "現在の import job の進行率（パーセンテージ）。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -1971,6 +2301,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前导入任务的完成时间。"
+                                },
+                                "ja-JP": {
+                                  "description": "import job が完了した時刻を示すタイムスタンプ。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -1983,6 +2316,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前导入任务失败的原因。任务成功时为空字符串。"
+                                },
+                                "ja-JP": {
+                                  "description": "データの import に失敗した理由。import job が成功した場合、この値は空文字列になります。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -1995,6 +2331,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前导入任务在目标 Collection 中插入的 Entity 数量。"
+                                },
+                                "ja-JP": {
+                                  "description": "指定した collection 内の行数。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -2009,6 +2348,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "关于一个数据文件处理情况的详细信息。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "ソースデータファイルの処理に関する詳細情報。"
                                   }
                                 },
                                 "properties": {
@@ -2018,6 +2360,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "数据文件名称。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "データファイルの名前。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2030,6 +2375,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "数据文件大小。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "データファイルのサイズ。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2042,6 +2390,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "数据文件处理状态。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "データファイルの処理状態。"
                                       }
                                     },
                                     "enum": [
@@ -2060,6 +2411,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "数据文件处理进度。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "進行率（パーセンテージ）。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2072,6 +2426,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "数据文件完成处理时间。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "ファイルが処理された時刻のタイムスタンプ。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2084,6 +2441,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "数据文件导入失败原因。当数据文件成功处理时，该值为空。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "データの import に失敗した理由。データファイルが正常に処理された場合、この値は空文字列になります。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2096,6 +2456,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "当前文件在目标 Collection 中插入的 Entity 数量。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "このファイルから挿入された行数。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2111,6 +2474,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "按数据文件维度分别收集的数据导入统计信息。"
+                                },
+                                "ja-JP": {
+                                  "description": "データファイル単位のデータ import 統計情報。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -2122,6 +2488,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスペイロード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -2139,6 +2508,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -2152,6 +2524,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -2164,6 +2539,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -2255,6 +2633,10 @@
           "zh-CN": {
             "summary": "获取导入任务进度",
             "description": "本接口可获取指定导入任务的进度信息。"
+          },
+          "ja-JP": {
+            "summary": "Import Job の進行状況を取得",
+            "description": "この操作は、指定された一括インポートジョブの進行状況を取得します。"
           }
         },
         "x-include-target": [
@@ -2279,6 +2661,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、適切な権限を持つ API key である必要があります。"
               }
             },
             "x-added-at": "2.6.x",
@@ -2298,6 +2683,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "指定集群 ID。"
+                      },
+                      "ja-JP": {
+                        "description": "この操作が適用されるクラスターの ID。"
                       }
                     },
                     "x-include-target": [
@@ -2314,6 +2702,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "当前操作的目标数据库名称。"
+                      },
+                      "ja-JP": {
+                        "description": "この操作の対象データベースの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -2326,6 +2717,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "需要查询的导入任务 ID。\n[创建导入任务](/reference/restful/create-import-jobs-v2)操作通常会返回一个任务 ID。您也可以调用[列出导入任务](/reference/restful/list-import-jobs-v2)获取特定集群相关的所有导入任务的 ID。"
+                      },
+                      "ja-JP": {
+                        "description": "対象の一括インポートジョブの ID。\n[Create Import Jobs](/reference/restful/create-import-jobs-v2) 操作は通常、ジョブ ID を返します。[List Import Jobs](/reference/restful/list-import-jobs-v2) を呼び出して、特定のクラスターに関連するすべての一括インポートジョブの ID を取得することもできます。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -2365,6 +2759,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "type": "integer",
@@ -2379,6 +2776,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，为包含指定导入任务进度信息在内的详细信息。"
+                            },
+                            "ja-JP": {
+                              "description": "指定された一括インポートジョブの進行状況を詳細に含むレスポンスペイロード。"
                             }
                           },
                           "properties": {
@@ -2388,6 +2788,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前导入任务的目标 Collection 名称。"
+                                },
+                                "ja-JP": {
+                                  "description": "この一括インポートジョブの対象コレクションの名前。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -2400,6 +2803,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前导入任务完成时间。"
+                                },
+                                "ja-JP": {
+                                  "description": "一括インポートジョブが完了した時刻を示すタイムスタンプ。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -2417,6 +2823,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "当前数据文件完成处理时间。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "ファイルが処理された時刻のタイムスタンプ。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2429,6 +2838,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "数据文件名称。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "データファイルの名前。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2441,6 +2853,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "数据文件大小。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "データファイルのサイズ。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2453,6 +2868,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "进度百分比。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "進行率（パーセンテージ）。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2465,6 +2883,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "数据文件处理状态。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "データファイルの処理状態。"
                                       }
                                     },
                                     "enum": [
@@ -2483,6 +2904,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "导入失败原因。如果导入成功，该字段为空。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "データの一括インポートに失敗した理由です。このジョブが成功した場合、このフィールドは空のままです。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2495,6 +2919,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "从当前文件导入的行数。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "このファイルからインポートされた行数。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2507,6 +2934,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "从当前文件导入数据完成后，目标 Collection 中的总行数。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "このファイルからのインポートが完了した時点での、指定されたコレクション内の行数。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -2518,6 +2948,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "从某个数据文件中导入数据的统计信息。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "ファイルからのデータインポートに関する統計情報。"
                                   }
                                 },
                                 "x-added-at": "2.6.x",
@@ -2528,6 +2961,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "按数据文件维度分别收集的数据导入统计信息。"
+                                },
+                                "ja-JP": {
+                                  "description": "データファイル単位のデータインポートに関する統計情報。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -2540,6 +2976,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "已上传文件大小（字节）。"
+                                },
+                                "ja-JP": {
+                                  "description": "アップロードされたファイルのサイズ（バイト単位）。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -2552,6 +2991,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "批量导入任务 ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "この一括インポートジョブの ID。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -2564,6 +3006,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前导入任务的进度百分比。"
+                                },
+                                "ja-JP": {
+                                  "description": "現在の一括インポートジョブの進行率（パーセンテージ）。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -2576,6 +3021,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前导入任务的状态。"
+                                },
+                                "ja-JP": {
+                                  "description": "この一括インポートジョブの状態。"
                                 }
                               },
                               "enum": [
@@ -2594,6 +3042,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前导入任务失败的原因。任务成功时为空字符串。"
+                                },
+                                "ja-JP": {
+                                  "description": "データの一括インポートに失敗した理由です。このジョブが成功した場合、フィールド値は空のままです。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -2606,6 +3057,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前任务完成导入完成后，向目标 Collection 中插入的行数。"
+                                },
+                                "ja-JP": {
+                                  "description": "このインポート時に指定されたコレクションに挿入された行数。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -2618,6 +3072,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前导入任务完成后，目标 Collection 中的总行数。"
+                                },
+                                "ja-JP": {
+                                  "description": "指定されたコレクション内の行数。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -2640,6 +3097,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -2653,6 +3113,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -2665,6 +3128,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -2723,7 +3189,12 @@
             },
             "x-added-at": "2.6.x",
             "x-last-modified": "2.6.x",
-            "x-deprecated-since": null
+            "x-deprecated-since": null,
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功"
+              }
+            }
           }
         },
         "security": [],
@@ -2743,6 +3214,10 @@
           "zh-CN": {
             "summary": "中止导入任务",
             "description": "中止指定导入任务。"
+          },
+          "ja-JP": {
+            "summary": "インポートジョブを中止",
+            "description": "指定されたインポートジョブを中止します。"
           }
         },
         "tags": [
@@ -2764,6 +3239,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、適切な権限を持つ API key である必要があります。"
               }
             },
             "x-added-at": "3.0.x",
@@ -2783,6 +3261,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "要中止的导入任务 ID。"
+                      },
+                      "ja-JP": {
+                        "description": "中止するインポートジョブの ID。"
                       }
                     },
                     "x-added-at": "3.0.x",
@@ -2812,6 +3293,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回空对象。"
+              },
+              "ja-JP": {
+                "description": "空のオブジェクトを返します。"
               }
             },
             "content": {
@@ -2828,6 +3312,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "3.0.x",
@@ -2841,6 +3328,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "空结果对象。"
+                            },
+                            "ja-JP": {
+                              "description": "空の結果オブジェクト。"
                             }
                           },
                           "x-added-at": "3.0.x",
@@ -2866,6 +3356,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "3.0.x",
@@ -2878,6 +3371,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "3.0.x",
@@ -2942,6 +3438,10 @@
           "zh-CN": {
             "summary": "提交导入任务",
             "description": "提交指定导入任务，使其导入的数据可以被查询。"
+          },
+          "ja-JP": {
+            "summary": "インポートジョブをコミット",
+            "description": "指定されたインポートジョブをコミットして、インポートされたデータを参照可能にします。"
           }
         },
         "tags": [
@@ -2963,6 +3463,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、適切な権限を持つ API key である必要があります。"
               }
             },
             "x-added-at": "3.0.x",
@@ -2982,6 +3485,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "要提交的导入任务 ID。"
+                      },
+                      "ja-JP": {
+                        "description": "コミットするインポートジョブの ID。"
                       }
                     },
                     "x-added-at": "3.0.x",
@@ -3011,6 +3517,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回空对象。"
+              },
+              "ja-JP": {
+                "description": "空のオブジェクトを返します。"
               }
             },
             "content": {
@@ -3027,6 +3536,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "3.0.x",
@@ -3040,6 +3552,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "空结果对象。"
+                            },
+                            "ja-JP": {
+                              "description": "空の結果オブジェクト。"
                             }
                           },
                           "x-added-at": "3.0.x",
@@ -3065,6 +3580,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "3.0.x",
@@ -3077,6 +3595,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "3.0.x",

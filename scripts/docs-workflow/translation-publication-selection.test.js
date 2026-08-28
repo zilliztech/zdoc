@@ -27,7 +27,6 @@ const EXPECTED_UNIT_KEYS = [
   'translation/ja-JP/go', 'translation/zh-CN-reference/go',
   'translation/ja-JP/cli', 'translation/zh-CN-reference/cli',
   'translation/ja-JP/cpp', 'translation/zh-CN-reference/cpp',
-  'translation/ja-JP/rest',
   'translation/zh-CN-reference/reference-landings',
 ]
 
@@ -186,7 +185,7 @@ test('builds all Translation publication units in the canonical ready-descriptor
   assert.equal(selection.units[1].producerJob, 'translate:ja-JP/python')
   assert.deepEqual(selection.units[1].validationCommands, ['node scripts/translation/validate-group.js --target ja-JP --group python --allow-pending'])
   assert.deepEqual(selection.units.find(unit => unit.unitKey === 'translation/zh-CN-reference/python').environment, {ZDOC_SITE: 'zh-CN'})
-  assert.deepEqual(selection.units.at(-1).environment, {})
+  assert.deepEqual(selection.units.find(unit => unit.unitKey === 'translation/ja-JP/cpp').environment, {})
 
   const referenceHandoff = {
     ...handoff(), locale: 'zh-CN', group: 'reference-landings',

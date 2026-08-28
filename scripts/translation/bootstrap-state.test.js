@@ -692,13 +692,27 @@ test('CLI resolves Japanese translation and writes a bootstrap summary for recon
     fs.mkdirSync(path.join(root, 'tmp'), {recursive: true});
     const result = spawnSync(process.execPath, [
       path.join(__dirname, 'bootstrap-state.js'), 'resolve', '--target', 'ja-JP',
-      '--group', 'rest', '--mode', 'auto', '--summary-file', 'tmp/decision.json',
+      '--group', 'python', '--mode', 'auto', '--summary-file', 'tmp/decision.json',
     ], {cwd: root, encoding: 'utf8'});
     assert.equal(result.status, 0, result.stderr);
     assert.equal(result.stdout, 'incremental');
     const decision = JSON.parse(fs.readFileSync(path.join(root, 'tmp/decision.json'), 'utf8'));
     assert.equal(decision.mode, 'incremental');
     assert.equal(decision.status, 'not_applicable');
+  } finally {
+    fs.rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('generic Japanese Translation cannot resolve OpenAPI-owned REST bootstrap', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'bootstrap-state-ja-rest-excluded-'));
+  try {
+    const result = spawnSync(process.execPath, [
+      path.join(__dirname, 'bootstrap-state.js'), 'resolve', '--target', 'ja-JP',
+      '--group', 'rest', '--mode', 'auto', '--summary-file', 'tmp/decision.json',
+    ], {cwd: root, encoding: 'utf8'});
+    assert.equal(result.status, 1);
+    assert.match(result.stderr, /REST|OpenAPI|excluded/i);
   } finally {
     fs.rmSync(root, {recursive: true, force: true});
   }

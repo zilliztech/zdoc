@@ -365,8 +365,9 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  localize_rest:
+  publish_rest_zh-CN:
     needs: prepare
+    name: publish_rest_zh-CN
     if: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'rest') }}
     uses: ./.github/workflows/_fetch-content-group.yml
     strategy:
@@ -392,7 +393,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   reconciliation_preflight:
-    needs: [prepare, produce_guides, produce_zh_guides, produce_sdk_reference, localize_rest]
+    needs: [prepare, produce_guides, produce_zh_guides, produce_sdk_reference, publish_rest_zh-CN]
     if: ${{ always() && needs.prepare.outputs.publish == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30

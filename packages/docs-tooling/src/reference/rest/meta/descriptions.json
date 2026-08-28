@@ -5,6 +5,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 用于查看云服务提供商和云地域。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、クラウドプロバイダーとリージョンを表示する方法を提供します。"
       }
     }
   },
@@ -14,6 +17,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 用于管理由指定云服务提供商托管的 Zilliz Cloud 集群。"
+      },
+      "ja-JP": {
+        "description": "この一連の API は、クラウドプロバイダー内で Zilliz Cloud クラスターを管理する方法を提供します。"
       }
     }
   },
@@ -23,6 +29,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 用于管理 Zilliz Cloud 中的 Collection。"
+      },
+      "ja-JP": {
+        "description": "この一連の API は、コレクションを管理する方法を提供します"
       }
     },
     "milvus": {
@@ -35,6 +44,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 用于大规模数据导入。"
+      },
+      "ja-JP": {
+        "description": "この一連の API は、データをインポートする方法を提供します。"
       }
     }
   },
@@ -44,6 +56,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 用于管理 Zilliz Cloud Pipelines。"
+      },
+      "ja-JP": {
+        "description": "この一連の API は、Zilliz Cloud Pipelines を管理する方法を提供します。"
       }
     }
   },
@@ -53,6 +68,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了向量检索操作相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、CRUD 操作を実行する方法を提供します。"
       }
     },
     "milvus": {
@@ -65,6 +83,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了用于管理 Collection 的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この一連の API は、コレクションを管理するための方法を提供します。"
       }
     },
     "milvus": {
@@ -77,6 +98,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了向量检索操作相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは CRUD 操作を実行する方法を提供します"
       }
     },
     "milvus": {
@@ -89,6 +113,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理 Partition 的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この一連の API はパーティションを管理する方法を提供します。"
       }
     },
     "milvus": {
@@ -101,6 +128,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理 Zilliz Cloud 集群用户的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、クラスター内のユーザーを管理する方法を提供します。"
       }
     },
     "milvus": {
@@ -113,6 +143,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理 Zilliz Cloud 集群角色的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、クラスター内のロールと権限を管理する方法を提供します。"
       }
     },
     "milvus": {
@@ -125,6 +158,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理 Collection 索引的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この一連のAPIは、インデックスを管理する方法を提供します。"
       }
     },
     "milvus": {
@@ -137,6 +173,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理 Collection 别名的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、collection alias を管理する方法を提供します。"
       }
     },
     "milvus": {
@@ -149,6 +188,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了查看云服务提供商和云地域的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、クラウドプロバイダーとリージョンを表示する方法を提供します。"
       }
     }
   },
@@ -158,6 +200,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理托管在指定云服务上的 Zilliz Cloud 集群。"
+      },
+      "ja-JP": {
+        "description": "この一連の API は、クラウドプロバイダー上の Zilliz Cloud クラスターを管理する方法を提供します。"
       }
     }
   },
@@ -167,6 +212,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了大规模数据导入的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この一連の API は、データをインポートする方法を提供します。"
       }
     },
     "milvus": {
@@ -179,6 +227,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了向 Zilliz Cloud 集群迁移数据的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、データを Zilliz Cloud クラスターに移行する方法を提供します。"
       }
     }
   },
@@ -188,6 +239,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了获取 Zilliz Cloud 上控制面任务执行情况的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、Zilliz Cloud の control plane ジョブを操作する方法を提供します。"
       }
     }
   },
@@ -197,6 +251,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了在 Zilliz Cloud 上备份和恢复数据的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この一連の API は、Zilliz Cloud でデータをバックアップおよび復元する方法を提供します。"
       }
     }
   },
@@ -206,6 +263,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理 Database 的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、データベースを管理する方法を提供します。"
       }
     },
     "milvus": {
@@ -218,6 +278,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了用于管理资源组的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、リソースグループを管理する方法を提供します。"
       }
     },
     "milvus": {
@@ -230,6 +293,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了获取 Zilliz Cloud 账单信息的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この一連の API は、請求書とその詳細を一覧表示する方法を提供します。"
       }
     }
   },
@@ -239,6 +305,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了获取 Zilliz Cloud 集群使用情况的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、使用状況の詳細を一覧表示する方法を提供します。"
       }
     }
   },
@@ -248,6 +317,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了获取 Zilliz Cloud 集群指标和警报的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この一連の API は、メトリクスとアラートを管理する方法を提供します。"
       }
     }
   },
@@ -257,6 +329,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了提取、加载和转换数据的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この一連の API は、データの抽出、ロード、および変換を行う方法を提供します。"
       }
     }
   },
@@ -266,6 +341,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理 Zilliz Cloud Volume 的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、ボリュームを管理する方法を提供します。"
       }
     }
   },
@@ -275,6 +353,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理 Zilliz Cloud 项目的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、プロジェクトを管理する方法を提供します。"
       }
     }
   },
@@ -284,6 +365,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理权限组的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この一連の API は、権限グループを管理する方法を提供します。"
       }
     },
     "milvus": {
@@ -296,6 +380,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理按需计算的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、プロジェクトの on-demand compute を管理する方法を提供します。"
       }
     }
   },
@@ -305,6 +392,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理 Zilliz Cloud 按需集群的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、Zilliz Cloud のオンデマンドクラスターを管理する方法を提供します。"
       }
     }
   },
@@ -314,6 +404,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理 Zilliz Cloud 全球集群的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、Zilliz Cloud で Global Clusters を管理する方法を提供します。"
       }
     }
   },
@@ -323,6 +416,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理对象存储集成的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、ストレージ統合を管理する方法を提供します。"
       }
     }
   },
@@ -332,6 +428,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了在 Zilliz Cloud 中创建、列出、查看、校验和取消 Spark 批处理任务的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この一連の API は、Zilliz Cloud で Spark バッチジョブを作成、一覧表示、詳細表示、検証、キャンセルする方法を提供します。"
       }
     }
   },
@@ -341,6 +440,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理 Cloud ACL 角色以及向成员和群组授予角色的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、Cloud ACL ロールと、メンバーおよびグループへの割り当てを管理する方法を提供します。"
       }
     }
   },
@@ -350,6 +452,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理自定义 ACL API Key 及其角色授权的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、カスタマイズされた ACL API key とそのロール割り当てを管理する方法を提供します。"
       }
     }
   },
@@ -359,6 +464,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 提供了管理 Zilliz Cloud Private Endpoint 的相关接口。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、Zilliz Cloud の Private Endpoint を管理する方法を提供します。"
       }
     }
   },
@@ -368,6 +476,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 用于管理文件资源。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、ファイルリソースを管理する方法を提供します。"
       }
     },
     "milvus": {
@@ -380,6 +491,9 @@
     "x-i18n": {
       "zh-CN": {
         "description": "本系列 API 用于导出、查看和恢复 Collection 快照。"
+      },
+      "ja-JP": {
+        "description": "この API セットは、コレクションのスナップショットをエクスポート、一覧表示、復元する方法を提供します。"
       }
     },
     "milvus": {
