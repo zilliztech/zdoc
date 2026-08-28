@@ -36,6 +36,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、適切な権限を持つ API key である必要があります。"
               }
             },
             "schema": {
@@ -50,6 +53,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "用于限定可用服务范围的项目 ID。"
+              },
+              "ja-JP": {
+                "description": "利用可能なサービスをスコープするために使用するプロジェクトの ID。"
               }
             },
             "schema": {
@@ -65,6 +71,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "用于筛选服务的云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "サービスをフィルタリングするために使用するクラウドリージョンの ID。"
               }
             },
             "schema": {
@@ -91,6 +100,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回的页码，第一页为 1。"
+              },
+              "ja-JP": {
+                "description": "返すページ番号。最初のページは 1 です。"
               }
             },
             "schema": {
@@ -108,6 +120,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "每页返回的条目数。超出 1 至 100 范围时使用默认值 10。"
+              },
+              "ja-JP": {
+                "description": "ページごとに返す項目数。1 から 100 の範囲外の値にはデフォルト値の 10 が使用されます。"
               }
             },
             "schema": {
@@ -125,6 +140,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回成功结果或错误消息。"
+              },
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
               }
             },
             "content": {
@@ -138,6 +156,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功したレスポンス。"
                         }
                       },
                       "properties": {
@@ -147,6 +168,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "example": 0
@@ -167,6 +191,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗したレスポンス。"
                         }
                       },
                       "properties": {
@@ -176,6 +203,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -185,6 +215,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -256,6 +289,10 @@
           "zh-CN": {
             "summary": "列出 Private Endpoint 服务",
             "description": "列出各云地域中可用的 Private Endpoint 服务。"
+          },
+          "ja-JP": {
+            "summary": "Private Endpoint Service を一覧表示",
+            "description": "クラウドリージョン全体で利用可能なプライベートエンドポイントサービスを一覧表示します。"
           }
         }
       }
@@ -277,6 +314,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、適切な権限を持つ API key である必要があります。"
               }
             },
             "schema": {
@@ -291,6 +331,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目 ID。"
+              },
+              "ja-JP": {
+                "description": "プロジェクトの ID。"
               }
             },
             "schema": {
@@ -306,6 +349,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回的页码，第一页为 1。"
+              },
+              "ja-JP": {
+                "description": "返すページ番号。最初のページは 1 です。"
               }
             },
             "schema": {
@@ -323,6 +369,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "每页返回的条目数。超出 1 至 100 范围时使用默认值 10。"
+              },
+              "ja-JP": {
+                "description": "ページごとに返す項目数。1 から 100 の範囲外の値にはデフォルト値の 10 が使用されます。"
               }
             },
             "schema": {
@@ -340,6 +389,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回成功结果或错误消息。"
+              },
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
               }
             },
             "content": {
@@ -353,6 +405,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功したレスポンス。"
                         }
                       },
                       "properties": {
@@ -362,6 +417,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "example": 0
@@ -382,6 +440,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗したレスポンス。"
                         }
                       },
                       "properties": {
@@ -391,6 +452,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -400,6 +464,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -475,6 +542,10 @@
           "zh-CN": {
             "summary": "列出 Private Endpoint",
             "description": "列出项目中的 Private Endpoint。"
+          },
+          "ja-JP": {
+            "summary": "Private Endpoint を一覧表示",
+            "description": "プロジェクト内のプライベートエンドポイントを一覧表示します。"
           }
         }
       },
@@ -494,6 +565,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、適切な権限を持つ API key である必要があります。"
               }
             },
             "schema": {
@@ -508,6 +582,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目 ID。"
+              },
+              "ja-JP": {
+                "description": "プロジェクトの ID。"
               }
             },
             "schema": {
@@ -550,6 +627,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回成功结果或错误消息。"
+              },
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
               }
             },
             "content": {
@@ -563,6 +643,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功したレスポンス。"
                         }
                       },
                       "properties": {
@@ -572,6 +655,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "example": 0
@@ -592,6 +678,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗したレスポンス。"
                         }
                       },
                       "properties": {
@@ -601,6 +690,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -610,6 +702,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -663,6 +758,10 @@
           "zh-CN": {
             "summary": "创建 Private Endpoint",
             "description": "在项目中创建 Private Endpoint。"
+          },
+          "ja-JP": {
+            "summary": "Private Endpoint を作成します",
+            "description": "プロジェクト内にプライベートエンドポイントを作成します。"
           }
         }
       }
@@ -684,6 +783,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、適切な権限を持つ API key である必要があります。"
               }
             },
             "schema": {
@@ -698,6 +800,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目 ID。"
+              },
+              "ja-JP": {
+                "description": "プロジェクトの ID。"
               }
             },
             "schema": {
@@ -713,6 +818,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Private Endpoint ID。"
+              },
+              "ja-JP": {
+                "description": "プライベートエンドポイントの ID。"
               }
             },
             "schema": {
@@ -739,6 +847,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Private Endpoint 所在的云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "プライベートエンドポイントを含むクラウドリージョンの ID。"
               }
             },
             "schema": {
@@ -765,6 +876,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Google Cloud 项目 ID。该参数适用于 Google Cloud 地域。"
+              },
+              "ja-JP": {
+                "description": "Google Cloud プロジェクト ID。このパラメーターは Google Cloud リージョンに適用されます。"
               }
             },
             "schema": {
@@ -778,6 +892,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回成功结果或错误消息。"
+              },
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
               }
             },
             "content": {
@@ -791,6 +908,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功したレスポンス。"
                         }
                       },
                       "properties": {
@@ -800,6 +920,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "example": 0
@@ -820,6 +943,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗したレスポンス。"
                         }
                       },
                       "properties": {
@@ -829,6 +955,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -838,6 +967,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -889,6 +1021,10 @@
           "zh-CN": {
             "summary": "删除 Private Endpoint",
             "description": "从项目中删除 Private Endpoint。"
+          },
+          "ja-JP": {
+            "summary": "Private Endpoint を削除",
+            "description": "プロジェクトからプライベートエンドポイントを削除します。"
           }
         }
       }
@@ -910,6 +1046,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、適切な権限を持つ API key である必要があります。"
               }
             },
             "schema": {
@@ -924,6 +1063,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目 ID。"
+              },
+              "ja-JP": {
+                "description": "プロジェクトの ID。"
               }
             },
             "schema": {
@@ -966,6 +1108,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回成功结果或错误消息。"
+              },
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
               }
             },
             "content": {
@@ -979,6 +1124,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功したレスポンス。"
                         }
                       },
                       "properties": {
@@ -988,6 +1136,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "example": 0
@@ -998,6 +1149,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "操作结果。"
+                            },
+                            "ja-JP": {
+                              "description": "操作結果。"
                             }
                           }
                         }
@@ -1014,6 +1168,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗したレスポンス。"
                         }
                       },
                       "properties": {
@@ -1023,6 +1180,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1032,6 +1192,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -1069,6 +1232,10 @@
           "zh-CN": {
             "summary": "添加 Private Endpoint 白名单条目",
             "description": "将外部云账号添加到项目的 Private Endpoint 白名单。"
+          },
+          "ja-JP": {
+            "summary": "Private Endpoint ホワイトリストエントリを追加",
+            "description": "外部クラウドアカウントをプロジェクトのプライベートエンドポイントホワイトリストに追加します。"
           }
         }
       }
@@ -1082,6 +1249,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "云地域中可用的 Private Endpoint 服务。"
+          },
+          "ja-JP": {
+            "description": "クラウドリージョンで利用可能なプライベートエンドポイントサービス。"
           }
         },
         "properties": {
@@ -1091,6 +1261,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドリージョン ID。"
               }
             }
           },
@@ -1100,6 +1273,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云服务提供商 ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドプロバイダー ID。"
               }
             }
           },
@@ -1109,6 +1285,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Endpoint 服务名称。"
+              },
+              "ja-JP": {
+                "description": "エンドポイントサービス名。"
               }
             }
           },
@@ -1118,6 +1297,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "该服务是否要求将外部云账号添加到白名单。"
+              },
+              "ja-JP": {
+                "description": "サービスが外部クラウドアカウントのホワイトリストへの追加を必要とするかどうか。"
               }
             }
           }
@@ -1129,6 +1311,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "Private Endpoint 及其服务状态。"
+          },
+          "ja-JP": {
+            "description": "プライベートエンドポイントとそのサービスステータス。"
           }
         },
         "properties": {
@@ -1138,6 +1323,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドリージョン ID。"
               }
             }
           },
@@ -1147,6 +1335,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云服务提供商 ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドプロバイダー ID。"
               }
             }
           },
@@ -1156,6 +1347,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Endpoint 服务名称。"
+              },
+              "ja-JP": {
+                "description": "エンドポイントサービス名。"
               }
             }
           },
@@ -1165,6 +1359,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Endpoint 服务状态。"
+              },
+              "ja-JP": {
+                "description": "エンドポイントサービスのステータス。"
               }
             }
           },
@@ -1174,6 +1371,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Private Endpoint ID。"
+              },
+              "ja-JP": {
+                "description": "プライベートエンドポイント ID。"
               }
             }
           },
@@ -1183,6 +1383,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Private Endpoint 状态。"
+              },
+              "ja-JP": {
+                "description": "プライベートエンドポイントのステータス。"
               }
             }
           },
@@ -1192,6 +1395,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Google Cloud 项目 ID（如适用）。"
+              },
+              "ja-JP": {
+                "description": "該当する場合の Google Cloud プロジェクト ID。"
               }
             }
           }
@@ -1203,6 +1409,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "Private Endpoint 服务分页列表。"
+          },
+          "ja-JP": {
+            "description": "ページングされたプライベートエンドポイントサービスのリスト。"
           }
         },
         "properties": {
@@ -1212,6 +1421,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Private Endpoint 服务列表。"
+              },
+              "ja-JP": {
+                "description": "プライベートエンドポイントサービス。"
               }
             },
             "items": {
@@ -1224,6 +1436,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "当前页码。"
+              },
+              "ja-JP": {
+                "description": "現在のページ番号。"
               }
             }
           },
@@ -1233,6 +1448,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "每页条目数。"
+              },
+              "ja-JP": {
+                "description": "ページごとの項目数。"
               }
             }
           },
@@ -1242,6 +1460,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "匹配的服务总数。"
+              },
+              "ja-JP": {
+                "description": "一致するサービスの総数。"
               }
             }
           }
@@ -1253,6 +1474,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "Private Endpoint 分页列表。"
+          },
+          "ja-JP": {
+            "description": "ページングされたプライベートエンドポイントのリスト。"
           }
         },
         "properties": {
@@ -1262,6 +1486,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Private Endpoint 列表。"
+              },
+              "ja-JP": {
+                "description": "プライベートエンドポイント。"
               }
             },
             "items": {
@@ -1274,6 +1501,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "当前页码。"
+              },
+              "ja-JP": {
+                "description": "現在のページ番号。"
               }
             }
           },
@@ -1283,6 +1513,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "每页条目数。"
+              },
+              "ja-JP": {
+                "description": "ページごとの項目数。"
               }
             }
           },
@@ -1292,6 +1525,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "匹配的 Private Endpoint 总数。"
+              },
+              "ja-JP": {
+                "description": "一致するエンドポイントの総数。"
               }
             }
           }
@@ -1303,6 +1539,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "创建 Private Endpoint 的请求。"
+          },
+          "ja-JP": {
+            "description": "プライベートエンドポイントを作成するためのリクエスト。"
           }
         },
         "properties": {
@@ -1312,6 +1551,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "创建 Private Endpoint 的云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "プライベートエンドポイントを作成するクラウドリージョンの ID。"
               }
             }
           },
@@ -1321,6 +1563,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云服务提供商提供的 VPC Endpoint ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドプロバイダーから提供される VPC エンドポイント ID。"
               }
             }
           },
@@ -1330,6 +1575,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Google Cloud 项目 ID。Google Cloud 地域需要此字段。"
+              },
+              "ja-JP": {
+                "description": "Google Cloud プロジェクト ID。このフィールドは Google Cloud リージョンでは必須です。"
               }
             }
           }
@@ -1345,6 +1593,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "已创建的 Private Endpoint 标识。"
+          },
+          "ja-JP": {
+            "description": "作成されたプライベートエンドポイントの識別子。"
           }
         },
         "properties": {
@@ -1354,6 +1605,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Private Endpoint ID。"
+              },
+              "ja-JP": {
+                "description": "プライベートエンドポイント ID。"
               }
             }
           },
@@ -1363,6 +1617,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドリージョン ID。"
               }
             }
           }
@@ -1374,6 +1631,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "已删除的 Private Endpoint 标识。"
+          },
+          "ja-JP": {
+            "description": "削除されたプライベートエンドポイントの識別子。"
           }
         },
         "properties": {
@@ -1383,6 +1643,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "已删除的 Private Endpoint ID。"
+              },
+              "ja-JP": {
+                "description": "削除されたプライベートエンドポイントの ID。"
               }
             }
           }
@@ -1394,6 +1657,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "将外部云账号添加到 Private Endpoint 白名单的请求。"
+          },
+          "ja-JP": {
+            "description": "外部クラウドアカウントをプライベートエンドポイントのホワイトリストに追加するためのリクエスト。"
           }
         },
         "properties": {
@@ -1403,6 +1669,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドリージョン ID。"
               }
             }
           },
@@ -1412,6 +1681,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "外部云账号标识，例如 Azure 订阅 ID 或阿里云账号 ID。"
+              },
+              "ja-JP": {
+                "description": "外部クラウドアカウントの識別子。Azure サブスクリプション ID や Alibaba Cloud アカウント ID など。"
               }
             }
           }

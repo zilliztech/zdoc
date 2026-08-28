@@ -25,6 +25,10 @@
           "zh-CN": {
             "summary": "创建 Database",
             "description": "在指定集群中创建新的 Database。"
+          },
+          "ja-JP": {
+            "summary": "データベースを作成",
+            "description": "この操作は、指定されたクラスターに新しいデータベースを作成します。"
           }
         },
         "tags": [
@@ -50,6 +54,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "要创建的新 Database 的名称。"
+                      },
+                      "ja-JP": {
+                        "description": "作成する新しいデータベースの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -62,6 +69,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "以键值对的方式提供的新 Database 的属性。"
+                      },
+                      "ja-JP": {
+                        "description": "新しいデータベースのプロパティ。キーと値のペアで指定します。"
                       }
                     },
                     "properties": {
@@ -71,6 +81,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "新 Database 的副本数量。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースのレプリカ数。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -83,6 +96,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "与新 Database 关联的资源组名称，以逗号分隔的列表形式提供。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースに関連付けられる resource group の名前。カンマ区切りのリストで指定します。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -95,6 +111,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "新 Database 的磁盘空间最大容量，以兆字节 (MB) 为单位。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースのディスク領域の最大サイズ。単位はメガバイト (MB) です。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -107,6 +126,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "新 Database 中允许的最大 Collection 数量。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースで許可される collection の最大数。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -119,6 +141,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝写入操作。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースで書き込み操作を強制的に拒否するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -131,6 +156,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝读取操作。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースで読み取り操作を強制的に拒否するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -143,6 +171,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝所有 DDL 操作。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースですべての DDL 操作を強制的に拒否するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -155,6 +186,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝 Collection DDL 操作。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースで collection の DDL 操作を強制的に拒否するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -167,6 +201,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝 Partition DDL 操作。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースで partition の DDL 操作を強制的に拒否するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -179,6 +216,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝 Index DDL 操作。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースで index の DDL 操作を強制的に拒否するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -191,6 +231,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝 Flush DDL 操作。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースで flush の DDL 操作を強制的に拒否するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -203,6 +246,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制新 Database 拒绝 Compaction DDL 操作。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースで compaction の DDL 操作を強制的に拒否するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -215,6 +261,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "新 Database 的 IANA 时区 ID。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースの IANA Time Zone ID。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -227,6 +276,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否为新 Database 启用 CMEK 加密。可选值为 \"true\" 或 \"false\"。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースで CMEK 暗号化を有効にするかどうか。\"true\" または \"false\" に設定します。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -239,6 +291,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "新 Database 的 CMEK 加密根密钥。"
+                          },
+                          "ja-JP": {
+                            "description": "新しいデータベースの CMEK 暗号化ルートキー。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -276,6 +331,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回空对象。"
+              },
+              "ja-JP": {
+                "description": "空のオブジェクトを返します。"
               }
             },
             "content": {
@@ -292,6 +350,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -304,6 +365,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，为空对象。"
+                            },
+                            "ja-JP": {
+                              "description": "空のオブジェクトであるレスポンスペイロード。"
                             }
                           },
                           "properties": {},
@@ -322,6 +386,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "type": "object",
@@ -332,6 +399,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -344,6 +414,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -399,6 +472,10 @@
           "zh-CN": {
             "summary": "查看 Database 列表",
             "description": "本操作列出当前<include target=\"milvus\"> Milvus 实例</include><include target=\"zilliz\">集群</include>中的所有 Database。"
+          },
+          "ja-JP": {
+            "summary": "データベースを一覧表示",
+            "description": "この操作は、現在の<include target=\"milvus\">Milvusインスタンス</include><include target=\"zilliz\">クラスター</include>内のすべてのデータベースを一覧表示します。"
           }
         },
         "tags": [
@@ -435,6 +512,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回 Database 名称列表。"
+              },
+              "ja-JP": {
+                "description": "データベース名のリストを返します。"
               }
             },
             "content": {
@@ -451,6 +531,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -469,6 +552,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "Database 名称列表。"
+                            },
+                            "ja-JP": {
+                              "description": "データベース名のリスト。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -486,6 +572,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "type": "object",
@@ -496,6 +585,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -508,6 +600,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -566,6 +661,10 @@
           "zh-CN": {
             "summary": "查看 Database 详情",
             "description": "本操作查看指定 Database 的详细信息。"
+          },
+          "ja-JP": {
+            "summary": "データベースを説明",
+            "description": "この操作は、指定されたデータベースの情報を返します。"
           }
         },
         "tags": [
@@ -591,6 +690,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "要创建的新 Database 的名称。"
+                      },
+                      "ja-JP": {
+                        "description": "作成する新しいデータベースの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -620,6 +722,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回指定 Database 的属性。"
+              },
+              "ja-JP": {
+                "description": "指定されたデータベースのプロパティを返します。"
               }
             },
             "content": {
@@ -636,6 +741,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -648,6 +756,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "指定 Database 的详细信息。"
+                            },
+                            "ja-JP": {
+                              "description": "指定されたデータベースの詳細。"
                             }
                           },
                           "properties": {
@@ -657,6 +768,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "Database 名称。"
+                                },
+                                "ja-JP": {
+                                  "description": "データベースの名前。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -669,6 +783,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "Database ID。"
+                                },
+                                "ja-JP": {
+                                  "description": "データベースの ID。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -681,6 +798,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "以键值对的方式提供的指定 Database 的属性。"
+                                },
+                                "ja-JP": {
+                                  "description": "指定されたデータベースのプロパティ。キーと値のペアで表されます。"
                                 }
                               },
                               "items": {
@@ -689,6 +809,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "表示 Database 属性的键值对。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "データベースのプロパティを表すキーと値のペア。"
                                   }
                                 },
                                 "properties": {
@@ -698,6 +821,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "属性名称。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "プロパティ名。"
                                       }
                                     },
                                     "enum": [
@@ -758,6 +884,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "type": "object",
@@ -768,6 +897,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -780,6 +912,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -845,6 +980,10 @@
           "zh-CN": {
             "summary": "修改 Database 属性",
             "description": "本操作修改指定 Database 的属性。"
+          },
+          "ja-JP": {
+            "summary": "データベースのプロパティを変更",
+            "description": "この操作は、指定されたデータベースのプロパティを変更します。"
           }
         },
         "tags": [
@@ -870,6 +1009,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "要创建的新 Database 的名称。"
+                      },
+                      "ja-JP": {
+                        "description": "作成する新しいデータベースの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -882,6 +1024,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "以键值对的方式提供的要修改的属性。"
+                      },
+                      "ja-JP": {
+                        "description": "キーと値のペアで指定する変更対象のプロパティ。"
                       }
                     },
                     "properties": {
@@ -891,6 +1036,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定 Database 的副本数量。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースのレプリカ数。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -903,6 +1051,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "与指定 Database 关联的资源组名称，以逗号分隔的列表形式提供。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースに関連付けられる resource group 名のカンマ区切りリスト。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -915,6 +1066,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定 Database 的磁盘空间最大容量，以兆字节 (MB) 为单位。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースのディスク領域の最大サイズ。単位はメガバイト (MB) です。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -927,6 +1081,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定 Database 中允许的最大 Collection 数量。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースで許可されるコレクションの最大数。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -939,6 +1096,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝写入操作。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースに書き込み操作を拒否するよう強制するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -951,6 +1111,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝读取操作。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースに読み取り操作を拒否するよう強制するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -963,6 +1126,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝所有 DDL 操作。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースにすべての DDL 操作を拒否するよう強制するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -975,6 +1141,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝 Collection DDL 操作。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースにコレクション DDL 操作を拒否するよう強制するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -987,6 +1156,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝 Partition DDL 操作。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースにパーティション DDL 操作を拒否するよう強制するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -999,6 +1171,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝 Index DDL 操作。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースにインデックス DDL 操作を拒否するよう強制するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1011,6 +1186,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝 Flush DDL 操作。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースにフラッシュ DDL 操作を拒否するよう強制するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1023,6 +1201,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否强制指定 Database 拒绝 Compaction DDL 操作。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースに Compaction DDL 操作を拒否するよう強制するかどうか。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1035,6 +1216,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定 Database 的 IANA 时区 ID。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースの IANA タイムゾーン ID。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1047,6 +1231,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "是否为指定 Database 启用 CMEK 加密。可选值为 \"true\" 或 \"false\"。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースで CMEK 暗号化を有効にするかどうか。\"true\" または \"false\" に設定します。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1059,6 +1246,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "指定 Database 的 CMEK 加密根密钥。"
+                          },
+                          "ja-JP": {
+                            "description": "指定されたデータベースの CMEK 暗号化ルートキー。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1097,6 +1287,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回空响应。"
+              },
+              "ja-JP": {
+                "description": "空のレスポンスを返します。"
               }
             },
             "content": {
@@ -1113,6 +1306,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1125,6 +1321,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "空响应。"
+                            },
+                            "ja-JP": {
+                              "description": "空のレスポンス。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1142,6 +1341,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "type": "object",
@@ -1152,6 +1354,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1164,6 +1369,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1220,6 +1428,10 @@
           "zh-CN": {
             "summary": "删除 Database 属性",
             "description": "本操作删除指定 Database 的指定属性。"
+          },
+          "ja-JP": {
+            "summary": "データベースプロパティを削除",
+            "description": "この操作は、指定したデータベースの指定したプロパティを削除します。"
           }
         },
         "tags": [
@@ -1245,6 +1457,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "要创建的新 Database 的名称。"
+                      },
+                      "ja-JP": {
+                        "description": "作成する新しいデータベースの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1257,6 +1472,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "要删除的属性名称列表。"
+                      },
+                      "ja-JP": {
+                        "description": "削除するプロパティの名前。"
                       }
                     },
                     "items": {
@@ -1265,6 +1483,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "要删除的属性名称。"
+                        },
+                        "ja-JP": {
+                          "description": "削除するプロパティの名前。"
                         }
                       },
                       "enum": [
@@ -1316,6 +1537,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回空响应。"
+              },
+              "ja-JP": {
+                "description": "空のレスポンスを返します。"
               }
             },
             "content": {
@@ -1332,6 +1556,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1344,6 +1571,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "空响应。"
+                            },
+                            "ja-JP": {
+                              "description": "空のレスポンス。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1361,6 +1591,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "type": "object",
@@ -1371,6 +1604,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1383,6 +1619,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1438,6 +1677,10 @@
           "zh-CN": {
             "summary": "删除 Database",
             "description": "本操作删除指定 Database。"
+          },
+          "ja-JP": {
+            "summary": "データベースを削除",
+            "description": "この操作は、指定されたデータベースを削除します。"
           }
         },
         "tags": [
@@ -1463,6 +1706,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "要创建的新 Database 的名称。"
+                      },
+                      "ja-JP": {
+                        "description": "作成する新しいデータベースの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1492,6 +1738,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回空响应。"
+              },
+              "ja-JP": {
+                "description": "空のレスポンスを返します。"
               }
             },
             "content": {
@@ -1508,6 +1757,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1520,6 +1772,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "空响应。"
+                            },
+                            "ja-JP": {
+                              "description": "空のレスポンス。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1537,6 +1792,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "type": "object",
@@ -1547,6 +1805,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1559,6 +1820,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1614,6 +1878,10 @@
           "zh-CN": {
             "summary": "修改数据库属性（兼容别名）",
             "description": "本兼容别名接口修改指定数据库的属性，与 `/v2/vectordb/databases/alter` 使用相同的服务端处理逻辑。"
+          },
+          "ja-JP": {
+            "summary": "データベースのプロパティを変更",
+            "description": "この操作は、データベースのプロパティを変更します。"
           }
         },
         "tags": [
@@ -1639,6 +1907,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待修改的数据库名称。"
+                      },
+                      "ja-JP": {
+                        "description": "変更するデータベースの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1651,6 +1922,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "以键值对形式设置的数据库属性。"
+                      },
+                      "ja-JP": {
+                        "description": "キーと値のペアとしてデータベースに設定するプロパティ。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1717,7 +1991,12 @@
             },
             "x-added-at": "2.6.x",
             "x-last-modified": "2.6.x",
-            "x-deprecated-since": null
+            "x-deprecated-since": null,
+            "x-i18n": {
+              "ja-JP": {
+                "description": "なし"
+              }
+            }
           }
         },
         "x-added-at": "2.6.x",
@@ -1739,6 +2018,10 @@
             "zh-CN": {
               "label": "集群端点",
               "prompt": "如果您使用的是服务集群，请使用集群端点。\n<ul><li><p><b>Free 与 Serverless 版</b></p><p><code>https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com</code></p></li><li><p><b>Dedicated 版</b></p><p><code>https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530</code></p></li></ul>"
+            },
+            "ja-JP": {
+              "label": "Cluster Endpoint",
+              "prompt": "serving cluster を使用している場合は、cluster endpoint を使用します。\n<ul><li><p><b>Free & Serverless</b></p><p><code>https://{cluster-id}.serverless.{region}.vectordb.zillizcloud.com</code></p></li><li><p><b>Dedicated</b></p><p><code>https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530</code></p></li></ul>"
             }
           },
           "shell": "export CLUSTER_ENDPOINT=\"https://{cluster-id}.{region}.vectordb.zillizcloud.com:19530\""
@@ -1752,6 +2035,10 @@
             "zh-CN": {
               "label": "项目端点（按需）",
               "prompt": "<p>如果您使用的是按需集群，请使用项目端点（按需）。</p><p><code>https://{project-id}.{region}.api.zillizcloud.com</code></p>"
+            },
+            "ja-JP": {
+              "label": "Project Endpoint (On-Demand)",
+              "prompt": "<p>on-demand cluster を使用している場合は、on-demand compute endpoint を使用します。</p><p><code>https://{project-id}.{region}.api.zillizcloud.com</code></p>"
             }
           },
           "shell": "export PROJECT_ENDPOINT=\"https://{project-id}.{region}.api.zillizcloud.com\""
@@ -1771,6 +2058,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "返回错误消息。"
+          },
+          "ja-JP": {
+            "description": "エラーメッセージを返します。"
           }
         },
         "x-i18n-langs": [
@@ -1784,6 +2074,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "响应码。"
+              },
+              "ja-JP": {
+                "description": "レスポンスコード。"
               }
             },
             "x-added-at": "2.6.x",
@@ -1796,6 +2089,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "错误描述。"
+              },
+              "ja-JP": {
+                "description": "エラーメッセージ。"
               }
             },
             "x-added-at": "2.6.x",
@@ -1817,6 +2113,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "响应码。"
+              },
+              "ja-JP": {
+                "description": "レスポンスコード。"
               }
             },
             "x-added-at": "2.6.x",
@@ -1852,6 +2151,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。如果您使用的是项目端点，则仅具备足够权限的有效 API 密钥适用。"
+          },
+          "ja-JP": {
+            "description": "認証トークンには、<include target=\"zilliz\">適切な権限を持つ API key、または </include>`username:password` のようにコロンで連結した username と password の組み合わせを指定する必要があります。project endpoint を使用している場合は、十分な権限を持つ有効な API key のみ使用できます。"
           }
         },
         "x-added-at": "2.6.x",

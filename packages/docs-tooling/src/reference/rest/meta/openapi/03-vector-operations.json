@@ -25,6 +25,10 @@
           "zh-CN": {
             "summary": "删除 Entity",
             "description": "从 Collection 中删除一个或多个 Entity。"
+          },
+          "ja-JP": {
+            "summary": "削除",
+            "description": "コレクションから1つ以上のエンティティを削除します。"
           }
         },
         "tags": [
@@ -46,6 +50,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、<include target=\"zilliz\">適切な権限を持つ API key、または </include>`username:password` のようにコロンで結合した username と password の組み合わせである必要があります。 "
               }
             },
             "x-added-at": "2.6.x",
@@ -65,6 +72,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "数据库名称。"
+                      },
+                      "ja-JP": {
+                        "description": "データベースの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -77,6 +87,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Collection 名称。"
+                      },
+                      "ja-JP": {
+                        "description": "この操作が適用されるコレクションの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -91,6 +104,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Entity ID。"
+                          },
+                          "ja-JP": {
+                            "description": "削除するエンティティの ID"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -109,6 +125,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Entity ID 列表。"
+                          },
+                          "ja-JP": {
+                            "description": "削除するエンティティの ID の配列"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -121,6 +140,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Entity ID。"
+                          },
+                          "ja-JP": {
+                            "description": "削除するエンティティの ID"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -139,6 +161,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Entity ID 列表。"
+                          },
+                          "ja-JP": {
+                            "description": "削除するエンティティの ID の配列"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -194,6 +219,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回空对象。"
+              },
+              "ja-JP": {
+                "description": "空のオブジェクトを返します。"
               }
             },
             "content": {
@@ -210,6 +238,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -222,6 +253,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，为空对象。"
+                            },
+                            "ja-JP": {
+                              "description": "空のオブジェクトであるレスポンスペイロード。"
                             }
                           },
                           "properties": {},
@@ -240,6 +274,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "type": "object",
@@ -250,6 +287,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -262,6 +302,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -318,6 +361,10 @@
           "zh-CN": {
             "summary": "插入 Entity",
             "description": "将一个或多个实体插入到 Collection 中。一次最多可以插入 100 个实体。若要插入大量数据，建议使用批量插入 API，具体可参考[数据导入](/docs/data-import)。"
+          },
+          "ja-JP": {
+            "summary": "挿入",
+            "description": "1 つ以上のエンティティをコレクションに挿入します。一度に追加できるエンティティは最大 100 件です。大量のデータを挿入する場合は、bulk-insert API の使用を推奨します。詳細は、[Data Import](/docs/data-import) を参照してください。"
           }
         },
         "tags": [
@@ -339,6 +386,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、<include target=\"zilliz\">適切な権限を持つ API key または </include>`username:password` のようにコロンで連結された username と password の組である必要があります。"
               }
             },
             "x-added-at": "2.6.x",
@@ -359,6 +409,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "数据库名称。"
+                      },
+                      "ja-JP": {
+                        "description": "データベースの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -371,6 +424,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Collection 名称。"
+                      },
+                      "ja-JP": {
+                        "description": "エンティティの挿入先コレクションの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -383,6 +439,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Partition 名称。"
+                      },
+                      "ja-JP": {
+                        "description": "この操作が適用されるパーティションの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -394,6 +453,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Entity 对象或 Entity 对象数组。注意，Entity 对象的结构应与 Collection Schema 匹配。"
+                      },
+                      "ja-JP": {
+                        "description": "エンティティオブジェクト、またはエンティティオブジェクトの配列。エンティティオブジェクト内のキーはコレクションスキーマと一致している必要があることに注意してください"
                       }
                     },
                     "oneOf": [
@@ -403,6 +465,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "单个 Entity 对象，其结构应与目标 Collection 的 Schema 一致。"
+                          },
+                          "ja-JP": {
+                            "description": "単一のエンティティ。その構造は対象コレクションのスキーマと一致している必要があります。"
                           }
                         },
                         "properties": {},
@@ -418,6 +483,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "Entity 对象列表，每个对象应与目标 Collection 的 Schema 一致。"
+                            },
+                            "ja-JP": {
+                              "description": "エンティティのリスト。各エンティティは対象コレクションのスキーマと一致している必要があります。"
                             }
                           },
                           "properties": {},
@@ -501,6 +569,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回插入的 Entity 数量和 ID 数组。"
+              },
+              "ja-JP": {
+                "description": "挿入されたエンティティ数とそれらの ID の配列を返します。"
               }
             },
             "content": {
@@ -517,6 +588,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -529,6 +603,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，包含了当前插入操作的统计信息。"
+                            },
+                            "ja-JP": {
+                              "description": "挿入結果の統計情報を含むレスポンスペイロード。"
                             }
                           },
                           "properties": {
@@ -537,7 +614,12 @@
                               "description": "The number of inserted entities.",
                               "x-added-at": "2.6.x",
                               "x-last-modified": "2.6.x",
-                              "x-deprecated-since": null
+                              "x-deprecated-since": null,
+                              "x-i18n": {
+                                "ja-JP": {
+                                  "description": "挿入されたエンティティ数。"
+                                }
+                              }
                             },
                             "insertIds": {
                               "type": "array",
@@ -547,6 +629,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "插入的 Entity ID。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "挿入されたエンティティの ID。"
                                   }
                                 },
                                 "x-added-at": "2.6.x",
@@ -557,6 +642,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "插入的 Entity ID 数组。"
+                                },
+                                "ja-JP": {
+                                  "description": "挿入されたエンティティの ID の配列を含むレスポンスペイロード。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -579,6 +667,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -592,6 +683,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -604,6 +698,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -666,6 +763,10 @@
           "zh-CN": {
             "summary": "Upsert",
             "description": "本接口可在指定 Collection 中插入或更新一条或多条记录。"
+          },
+          "ja-JP": {
+            "summary": "アップサート",
+            "description": "1 つ以上のエンティティをコレクションにアップサートします。"
           }
         },
         "tags": [
@@ -679,6 +780,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、<include target=\"zilliz\">適切な権限を持つ API key または </include>`username:password` のようにコロンで結合した username と password の組である必要があります。"
               }
             },
             "required": true,
@@ -707,6 +811,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "数据库名称。"
+                      },
+                      "ja-JP": {
+                        "description": "データベースの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -719,6 +826,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待插入或更新记录的目标 Collection 名称。"
+                      },
+                      "ja-JP": {
+                        "description": "エンティティのアップサート先コレクションの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -730,6 +840,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Entity 对象或 Entity 对象数组。注意，Entity 对象的结构应与 Collection Schema 一致。"
+                      },
+                      "ja-JP": {
+                        "description": "エンティティオブジェクト、またはエンティティオブジェクトの配列。エンティティオブジェクト内のキーはコレクションスキーマと一致している必要があります"
                       }
                     },
                     "oneOf": [
@@ -739,6 +852,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "单个 Entity 对象，其结构应与目标 Collection 的 Schema 一致。"
+                          },
+                          "ja-JP": {
+                            "description": "単一のエンティティ。構造は対象コレクションのスキーマと一致している必要があります。"
                           }
                         },
                         "properties": {},
@@ -752,6 +868,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "Entity 对象列表，每个对象应与目标 Collection 的 Schema 一致。"
+                          },
+                          "ja-JP": {
+                            "description": "エンティティのリスト。各エンティティは対象コレクションのスキーマと一致している必要があります。"
                           }
                         },
                         "items": {
@@ -760,6 +879,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "一个 Entity 对象，应与目标 Collection 的 Schema 一致。"
+                            },
+                            "ja-JP": {
+                              "description": "対象コレクションのスキーマに一致するエンティティ。"
                             }
                           },
                           "properties": {},
@@ -912,6 +1034,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回已插入的实体数量和其 ID 数组。"
+              },
+              "ja-JP": {
+                "description": "挿入されたエンティティ数と、それらの ID の配列を返します。"
               }
             },
             "content": {
@@ -928,6 +1053,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -940,6 +1068,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスペイロード。"
                             }
                           },
                           "properties": {
@@ -950,6 +1081,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "插入或更新的 Entity 数量。"
+                                },
+                                "ja-JP": {
+                                  "description": "アップサートされたエンティティ数。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -964,6 +1098,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "一个插入或更新的 Entity ID。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "アップサートされたエンティティの ID。"
                                   }
                                 },
                                 "x-added-at": "2.6.x",
@@ -974,6 +1111,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "插入或更新的 Entity ID 数组。"
+                                },
+                                "ja-JP": {
+                                  "description": "挿入されたエンティティの ID の配列。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -996,6 +1136,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -1009,6 +1152,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1021,6 +1167,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1091,6 +1240,10 @@
           "zh-CN": {
             "summary": "搜索",
             "description": "本接口在指定 Collection 的向量字段上执行一次相似度搜索。"
+          },
+          "ja-JP": {
+            "summary": "検索",
+            "description": "コレクション内のベクトルフィールドに対して類似検索を実行します。"
           }
         },
         "tags": [
@@ -1104,6 +1257,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥</include> 或用冒号分隔的用户名和密码对，如 `username:password`。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、<include target=\"zilliz\">適切な権限を持つ API key または </include>`username:password` のようにコロンで連結した username と password の組である必要があります。"
               }
             },
             "required": true,
@@ -1131,6 +1287,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "数据库名称。"
+                      },
+                      "ja-JP": {
+                        "description": "データベース名。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1143,6 +1302,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Collection 名称。"
+                      },
+                      "ja-JP": {
+                        "description": "この操作が適用されるコレクションの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1156,12 +1318,20 @@
                       "description": "partitionName",
                       "x-added-at": "2.6.x",
                       "x-last-modified": "2.6.x",
-                      "x-deprecated-since": null
+                      "x-deprecated-since": null,
+                      "x-i18n": {
+                        "ja-JP": {
+                          "description": "partitionName"
+                        }
+                      }
                     },
                     "description": "The name of the partitions to which this operation applies. Setting this parameter indicates that the search scope should be limited to the specified partitions. If not specified, the search scope is the entire collection.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Partition 名称。如果指定该参数，则只在指定 Partition 中进行搜索。如果未指定，则搜索整个 Collection。"
+                      },
+                      "ja-JP": {
+                        "description": "この操作が適用されるパーティションの名前。 このパラメータを設定すると、検索範囲は指定したパーティションに限定されます。指定しない場合、検索範囲はコレクション全体になります。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1174,6 +1344,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "搜索时使用的标量过滤条件。"
+                      },
+                      "ja-JP": {
+                        "description": "検索の一致を見つけるために使用されるフィルター"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1186,6 +1359,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "要求返回的最大实体数量。\n`offset` 值与 `limit` 值的总和不得超过 **16,384**。"
+                      },
+                      "ja-JP": {
+                        "description": "返されるエンティティの最大数。\nこの値と `offset` の値の合計は **16,384** 未満である必要があります。"
                       }
                     },
                     "default": 100,
@@ -1201,6 +1377,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "要求在搜索结果中跳过的实体数量。\n`offset` 值与 `limit` 值的总和不得超过 **16,384**。"
+                      },
+                      "ja-JP": {
+                        "description": "検索結果でスキップするエンティティ数。<br/>この値と `limit` の値の合計は **16,384** を超えてはなりません。"
                       }
                     },
                     "minimum": 0,
@@ -1222,6 +1401,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "随查询结果返回的字段名称。"
+                        },
+                        "ja-JP": {
+                          "description": "出力フィールド名。"
                         }
                       },
                       "x-added-at": "2.6.x",
@@ -1232,6 +1414,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "要求在搜索结果中包含的字段名称列表。"
+                      },
+                      "ja-JP": {
+                        "description": "検索結果とともに返すフィールドの配列。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1247,6 +1432,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "搜索向量的某个维度的浮点数。"
+                        },
+                        "ja-JP": {
+                          "description": "検索対象のベクトルの各次元を表す浮動小数点数。"
                         }
                       },
                       "x-added-at": "2.6.x",
@@ -1257,6 +1445,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "以浮点数列表形式表示的查询向量。该查询向量的长度应与 Collection 中向量字段的维度相同。"
+                      },
+                      "ja-JP": {
+                        "description": "浮動小数点数のリスト形式のクエリベクトル。クエリベクトルの長さは、コレクション内のベクトルフィールドの次元と一致している必要があります。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1273,6 +1464,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "与 `range_filter` 参数一起使用，用于指定查询向量最不相似的向量所在的角度。"
+                          },
+                          "ja-JP": {
+                            "description": "最も類似度の低いベクトルが位置する角度。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1286,6 +1480,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "与 `radius` 参数一起使用，用于过滤相似度范围内的向量字段值。"
+                          },
+                          "ja-JP": {
+                            "description": "組み合わせて使用し、クエリベクトルとの類似度が特定の範囲に入るベクトルフィールド値をフィルタリングします。"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1300,6 +1497,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "搜索参数列表。"
+                      },
+                      "ja-JP": {
+                        "description": "検索パラメータのリスト"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1344,6 +1544,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回搜索结果。"
+              },
+              "ja-JP": {
+                "description": "検索結果を返します。"
               }
             },
             "content": {
@@ -1360,6 +1563,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1372,6 +1578,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，为搜索结果。"
+                            },
+                            "ja-JP": {
+                              "description": "検索結果を含むレスポンスペイロード。"
                             }
                           },
                           "items": {
@@ -1380,6 +1589,9 @@
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "搜索结果。默认包含 `id` 和 `distance` 字段。如果指定了 `outputFields`，则还会包含指定的其它字段。"
+                              },
+                              "ja-JP": {
+                                "description": "検索結果。デフォルトでは、各エンティティオブジェクトには `id` フィールドと `distance` フィールドが含まれます。`outputFields` を指定すると、エンティティオブジェクトには指定したフィールドも含まれます。"
                               }
                             },
                             "properties": {
@@ -1389,6 +1601,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "Entity ID。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "エンティティの ID。"
                                   }
                                 },
                                 "x-added-at": "2.6.x",
@@ -1402,6 +1617,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "与查询向量的相似度分数。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "クエリベクトルに対するエンティティの類似度スコア。"
                                   }
                                 },
                                 "x-added-at": "2.6.x",
@@ -1428,6 +1646,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -1441,6 +1662,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1453,6 +1677,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1525,6 +1752,10 @@
           "zh-CN": {
             "summary": "查询",
             "description": "本接口在指定 Collection 中执行标量字段的查询。"
+          },
+          "ja-JP": {
+            "summary": "クエリ",
+            "description": "コレクション内のスカラー フィールドに対してクエリを実行します。"
           }
         },
         "tags": [
@@ -1538,6 +1769,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、<include target=\"zilliz\">適切な権限を持つ API key または </include>`username:password` のようにコロンで結合したユーザー名とパスワードのペアを使用する必要があります。"
               }
             },
             "required": true,
@@ -1565,6 +1799,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "数据库名称。"
+                      },
+                      "ja-JP": {
+                        "description": "データベースの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1577,6 +1814,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Collection 名称。"
+                      },
+                      "ja-JP": {
+                        "description": "この操作が適用されるコレクションの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1590,12 +1830,20 @@
                       "description": "PartitionName",
                       "x-added-at": "2.6.x",
                       "x-last-modified": "2.6.x",
-                      "x-deprecated-since": null
+                      "x-deprecated-since": null,
+                      "x-i18n": {
+                        "ja-JP": {
+                          "description": "PartitionName"
+                        }
+                      }
                     },
                     "description": "The name of the partitions to which this operation applies.",
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Partition 名称。"
+                      },
+                      "ja-JP": {
+                        "description": "この操作が適用されるパーティションの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1608,6 +1856,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "查询的过滤条件。"
+                      },
+                      "ja-JP": {
+                        "description": "クエリの一致結果を見つけるために使用するフィルター。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1620,6 +1871,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "本次查询要求返回的最大 Entity 数量。<br/>`limit` 与 `offset` 的总和不能超过 **16384**。"
+                      },
+                      "ja-JP": {
+                        "description": "返されるエンティティの最大数。<br/>この値と `offset` の値の合計は **16384** 未満である必要があります。"
                       }
                     },
                     "minimum": 1,
@@ -1634,6 +1888,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "本次查询结果中需要跳过的 Entity 数量。<br/>`limit` 与 `offset` 的总和不能超过 **16384**。"
+                      },
+                      "ja-JP": {
+                        "description": "検索結果でスキップするエンティティ数。<br/>この値と `limit` の値の合計は **16384** 未満である必要があります。"
                       }
                     },
                     "minimum": 0,
@@ -1651,6 +1908,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "随查询结果返回的字段名称。"
+                        },
+                        "ja-JP": {
+                          "description": "出力フィールド名。"
                         }
                       },
                       "x-added-at": "2.6.x",
@@ -1661,6 +1921,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "每条返回的查询结果中需要包含的字段名称列表。"
+                      },
+                      "ja-JP": {
+                        "description": "検索結果とともに返すフィールドの配列。これを `count(*)` に設定する場合、フィルターに一致するエンティティの総数を取得するには `limit` を 0 に設定する必要があります。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1699,6 +1962,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回查询结果。"
+              },
+              "ja-JP": {
+                "description": "クエリ結果を返します。"
               }
             },
             "content": {
@@ -1715,6 +1981,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1727,6 +1996,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，为包含了指定字段及其对应值的对象组成的数组。"
+                            },
+                            "ja-JP": {
+                              "description": "指定された出力フィールドとそれに対応する値を含むオブジェクトの配列であるレスポンス ペイロード。"
                             }
                           },
                           "items": {
@@ -1735,6 +2007,9 @@
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "响应负载，为包含了指定字段及其对应值的对象。"
+                              },
+                              "ja-JP": {
+                                "description": "指定された出力フィールドとそれに対応する値を含むオブジェクトであるレスポンス ペイロード。"
                               }
                             },
                             "properties": {},
@@ -1757,6 +2032,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -1770,6 +2048,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1782,6 +2063,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1851,6 +2135,10 @@
           "zh-CN": {
             "summary": "获取 Entity",
             "description": "本接口可按指定 ID 返回 Entity。你可以使用四种请求体中的一种来指定 ID。"
+          },
+          "ja-JP": {
+            "summary": "取得",
+            "description": "指定した ID によってエンティティを取得します。以下の 4 種類のリクエストボディに示すように、ID には文字列または整数を設定でき、文字列のリストまたは整数のリストとして複数の ID を設定することもできます。"
           }
         },
         "tags": [
@@ -1864,6 +2152,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、<include target=\"zilliz\">適切な権限を持つ API key または </include>`username:password` のようにコロンで連結した username と password の組み合わせを使用する必要があります。"
               }
             },
             "required": true,
@@ -1891,6 +2182,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "数据库名称。"
+                      },
+                      "ja-JP": {
+                        "description": "データベースの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1903,6 +2197,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Collection 名称。"
+                      },
+                      "ja-JP": {
+                        "description": "この操作が適用されるコレクションの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1917,6 +2214,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "Partition 名称。"
+                        },
+                        "ja-JP": {
+                          "description": "パーティション名。"
                         }
                       },
                       "x-added-at": "2.6.x",
@@ -1927,6 +2227,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Partition 名称列表。设置后，当前操作只会应用到这些分区。如果不设置，当前操作会应用到 Collection 中的所有分区。"
+                      },
+                      "ja-JP": {
+                        "description": "この操作が適用されるパーティションの名前。これを設定すると、操作はこれらのパーティションにのみ適用されます。設定しない場合、操作はコレクション内のすべてのパーティションに適用されます。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1941,6 +2244,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "字段名称。"
+                        },
+                        "ja-JP": {
+                          "description": "フィールド名。"
                         }
                       },
                       "x-added-at": "2.6.x",
@@ -1951,6 +2257,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "查询结果中要返回的字段列表。"
+                      },
+                      "ja-JP": {
+                        "description": "クエリ結果とともに返されるフィールドの配列。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1965,6 +2274,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "需要获取的 Entity ID。"
+                          },
+                          "ja-JP": {
+                            "description": "取得対象のエンティティの ID"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -1979,6 +2291,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "Entity ID。"
+                            },
+                            "ja-JP": {
+                              "description": "ID は 1 つのエンティティを表します。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1989,6 +2304,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "需要获取的 Entity ID 列表。"
+                          },
+                          "ja-JP": {
+                            "description": "取得対象のエンティティの ID 配列"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -2001,6 +2319,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "需要获取的 Entity ID。"
+                          },
+                          "ja-JP": {
+                            "description": "取得対象のエンティティの ID"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -2019,6 +2340,9 @@
                         "x-i18n": {
                           "zh-CN": {
                             "description": "需要获取的 Entity ID 列表。"
+                          },
+                          "ja-JP": {
+                            "description": "取得対象のエンティティの ID 配列"
                           }
                         },
                         "x-added-at": "2.6.x",
@@ -2062,6 +2386,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回查询结果。"
+              },
+              "ja-JP": {
+                "description": "クエリ結果を返します。"
               }
             },
             "content": {
@@ -2078,6 +2405,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -2090,6 +2420,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "查询结果。"
+                            },
+                            "ja-JP": {
+                              "description": "クエリ結果。"
                             }
                           },
                           "items": {
@@ -2098,6 +2431,9 @@
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "返回的一个 Entity 对象。"
+                              },
+                              "ja-JP": {
+                                "description": "エンティティオブジェクト。"
                               }
                             },
                             "properties": {},
@@ -2120,6 +2456,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -2133,6 +2472,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -2145,6 +2487,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
