@@ -122,9 +122,6 @@ function testSelectsPromptsByTranslationTarget() {
     review: 'codex-review-agent.ja-JP.md',
     correction: 'codex-correction-agent.md',
     polish: 'codex-polish-agent.ja-JP.md',
-    rest: 'codex-rest-spec-translation-agent.ja-JP.md',
-    restReview: 'codex-rest-spec-review-agent.md',
-    restCorrection: 'codex-rest-spec-correction-agent.md',
   })
   assert.equal(promptNamesFor('zh-CN-reference').review, 'codex-review-agent.zh-CN-reference.md')
   assert.equal(promptNamesFor('zh-CN-reference').correction, 'codex-correction-agent.zh-CN-reference.md')
@@ -4603,13 +4600,8 @@ async function run() {
   testPartitionsRecoveredFilesWithoutChangingOriginalIndexes()
   testRecoveryIdentityUsesAuthoritativeToolingSha()
   testAuthenticatesRecoveryAnalysisAgainstCurrentManifestAndRestoredBytes()
-  testRecoveryAnalysisRequiresRestReviewFromAuthenticatedSourceContent()
   testRejectsRecoveryAnalysisThatWidensOrChangesCurrentPendingWork()
   await testCompleteSemanticRecoverySkipsTranslationButRequiresCurrentReviewer()
-  await testCompleteRestRecoverySkipsTranslationButRequiresBothCurrentReviewers()
-  await testCompleteRestRecoveryRetainsSuccessfulBatchCorrectionsAcrossFileRetry()
-  await testCompleteRestRecoveryWithNoLocalizableSpecsNeedsNoRestModelCalls()
-  await testRestRetryCheckpointFailsClosedWhenCombinedPayloadExceedsLimit()
   testMessageBuildersSelectPromptsFromTarget()
   testSemanticReviewerMessagesContainOnlyBoundedBatchContext()
   testNonSemanticReviewerFallbackRetainsWholeSourceAndDraft()
@@ -4620,10 +4612,6 @@ async function run() {
   await testSemanticUnitsUseCoherentContextAndStableIds()
   await testCorrectionRunsWhenReviewFails()
   await testCorrectionContextCannotLeakCrossUnitProtectedMarkersOrConsumeFileRetry()
-  await testRestSpecsUseStructuredLocaleTranslation()
-  await testRestSpecReviewFailureDoesNotWriteTarget()
-  await testRestReviewerContractConflictFailsStructurally()
-  await testRestSpecFileRetryReceivesEntryScopedProtectedFeedback()
   await testProviderCallRetriesTransientFailures()
   await testProviderCallFallsBackToReasoningContent()
   await testProviderCallDoesNotRetryPermanentHttpClientErrors()
@@ -4655,7 +4643,6 @@ async function run() {
   await testProviderRetryDoesNotCrossFileDeadline()
   await testProviderRetryBudgetIsNotConsumedWhenBackoffCrossesFileDeadline()
   await testFileAttemptDeadlineSpansAllMarkdownChunksAndStopsLateCheckpoints()
-  await testFileAttemptDeadlineAbortsRestTranslation()
   await testProviderNamedFailuresRetryBoundedlyAndExternalAbortDoesNotRetry()
   testProviderRetryScheduleUsesBoundedExponentialJitter()
   await testProviderBackoffIsAbortableBeforeAnotherCall()

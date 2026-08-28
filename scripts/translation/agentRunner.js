@@ -21,7 +21,7 @@ const {
   restoreSemanticUnitResponse,
 } = require('./semanticUnits')
 const { readCache, writeCache, writeJsonAtomic } = require('./manifest')
-const { assembleRestDocument, loadPrompt, parseRestDocument, promptNamesFor, reviewRestSpecsDraft, translateRestSpecs } = require('./restSpecLocalization')
+const {loadPrompt, promptNamesFor} = require('./prompts')
 const {discoverRecoveryArtifacts, promptContractSha256, restoreRecoveryFiles, validateRecoveryReviewReceipt} = require('./recovery-artifact')
 const {boundedFailureDetails, classifyFailure, failureRecord} = require('./failureClassification')
 const {MAX_PARTIAL_ARTIFACT_BYTES, loadAnalysisChunkResume, serializeCompletedChunkCheckpoints} = require('./chunkRecovery')
@@ -544,7 +544,6 @@ async function processItemWithRetry(item, options) {
   )
   validateAdaptiveCallBudget(adaptiveCallBudget)
   const semanticCheckpoint = loadSemanticCheckpoints(options.initialSemanticCheckpoints, item)
-  const restSpecDraft = options.initialSemanticCheckpoints?.restSpecDraft || null
   const initialChunkCheckpoints = options.initialChunkCheckpoints || []
   if (!Array.isArray(initialChunkCheckpoints)) throw new Error('Initial chunk checkpoints must be an array')
   const chunkCheckpoint = new Map(initialChunkCheckpoints.map((checkpoint, position) => {
@@ -573,7 +572,6 @@ async function processItemWithRetry(item, options) {
         providerRetryBudget,
         adaptiveCallBudget,
         semanticCheckpoint,
-        restSpecDraft,
         onSemanticUnitCompleted: checkpoint => semanticCheckpoint.set(checkpoint.id, checkpoint),
         onChunkCompleted: checkpoint => {
           if (signal?.aborted) throw signal.reason
@@ -631,7 +629,7 @@ async function processItemWithRetry(item, options) {
     } else {
       const chunkCheckpoints = serializeCompletedChunkCheckpoints(chunkCheckpoint)
       const semanticCheckpoints = semanticRecoveryEligible
-        ? serializeRecoverySemanticCheckpoints(semanticCheckpoint, item, restSpecDraft)
+        ? serializeRecoverySemanticCheckpoints(semanticCheckpoint, item)
         : null
       return {
         ...stripInternalRecoveryFields(result),
@@ -1166,7 +1164,6 @@ async function processManifestItem({
   providerRetryBudget = null,
   adaptiveCallBudget = createAdaptiveCallBudget(),
   semanticCheckpoint = new Map(),
-  restSpecDraft = null,
   onSemanticUnitCompleted = null,
   modelCallDeadline = null,
   signal,
@@ -1177,68 +1174,6 @@ async function processManifestItem({
   const absSourcePath = path.join(siteDir, item.sourcePath)
   const absTargetPath = path.join(siteDir, item.targetPath)
   const sourceContent = fs.readFileSync(absSourcePath, 'utf8')
-  const restDocument = (
-    item.sourcePath.startsWith('content/en/reference/api/restful/restful/') ||
-    item.sourcePath.startsWith('reference/api/restful/restful/')
-  ) ? parseRestDocument(sourceContent) : null
-  if (restDocument) {
-    const shell = await translateAndReviewUnit({
-      target: item.target,
-      sourcePath: item.sourcePath,
-      sourceContent: restDocument.prefix,
-      locale: item.locale,
-      callModel,
-      maxReviewRounds,
-      chunkContext: null,
-      retryFeedback,
-      providerRetryBudget,
-      adaptiveCallBudget,
-      semanticCheckpoint,
-      onSemanticUnitCompleted,
-      adaptiveTargetChars: Math.max(1, Math.floor(chunkTargetChars / 2)),
-      adaptiveMaxChars: Math.max(1, Math.floor(chunkMaxChars / 2)),
-      signal,
-    })
-    if (!shell.review.pass) return failedReviewResult(item, shell.review)
-    const specResult = await (restSpecDraft ? reviewRestSpecsDraft : translateRestSpecs)({
-      sourceSpecs: restDocument.sourceSpecs,
-      ...(restSpecDraft ? {draft: restSpecDraft} : {}),
-      sourcePath: item.sourcePath,
-      target: item.target,
-      locale: item.locale,
-      callModel,
-      maxReviewRounds,
-      retryFeedback,
-      providerRetryBudget,
-      signal,
-    })
-    if (!specResult.review.pass) {
-      return failedReviewResult(item, specResult.review, {
-        restSpecEntries: specResult.translatedCount,
-      })
-    }
-    const translatedContent = stabilizeBareUrlFormatting(assembleRestDocument({
-      translatedPrefix: shell.translatedContent,
-      localizedSpecs: specResult.localized,
-      suffix: restDocument.suffix,
-      locale: item.locale,
-    }))
-    signal?.throwIfAborted()
-    const validationErrors = await validate(translatedContent)
-    signal?.throwIfAborted()
-    if (validationErrors.length) return { ...item, status: 'failed', review: shell.review, validationErrors, restSpecEntries: specResult.translatedCount }
-    fs.mkdirSync(path.dirname(absTargetPath), { recursive: true })
-    fs.writeFileSync(absTargetPath, translatedContent.endsWith('\n') ? translatedContent : `${translatedContent}\n`, 'utf8')
-    return {
-      ...item,
-      status: 'translated',
-      review: shell.review,
-      restSpecReview: specResult.review,
-      validationErrors: [],
-      chunks: { total: 1 },
-      restSpecEntries: specResult.translatedCount,
-    }
-  }
   const chunks = chunkDocument(sourceContent, { targetChars: chunkTargetChars, maxChars: chunkMaxChars })
   const documentTitle = extractDocumentTitle(sourceContent)
   const translatedChunks = []
@@ -1873,7 +1808,6 @@ function loadRecoveryAnalysis({file, manifest, siteDir, identity, chunkOptions})
       recoveryReviewReceipt: reviewReceipt,
       review: reviewReceipt.review,
       validationErrors: reviewReceipt.validationErrors,
-      ...(reviewReceipt.restSpecReview ? {restSpecReview: reviewReceipt.restSpecReview} : {}),
     })
   }
   const pending = []
@@ -2075,7 +2009,6 @@ async function main() {
               providerRetryBudget: retryContext.providerRetryBudget,
               adaptiveCallBudget: retryContext.adaptiveCallBudget,
               semanticCheckpoint: retryContext.semanticCheckpoint,
-              restSpecDraft: retryContext.restSpecDraft,
               onSemanticUnitCompleted: retryContext.onSemanticUnitCompleted,
               modelCallDeadline: retryContext.modelCallDeadline,
               retryFeedback,
