@@ -1658,9 +1658,24 @@ class larkDocWriter {
     }
 
     async __heading(heading, level) {
-        let content = await this.__text_elements(heading['elements'])
+        // Repair a translation-mangled heading anchor before rendering. Feishu
+        // stores the "{#slug}" anchor as a standalone trailing text_run, and the
+        // translation service occasionally drops the leading '#', leaving a bare
+        // "{slug}". Unrepaired, that compiles as a JS subtraction expression and
+        // crashes SSG with "ReferenceError" (see the zh-CN
+        // "connect-to-serving-cluster" regression). Only a standalone trailing
+        // brace group matching the ASCII anchor-slug pattern is restored; literal
+        // placeholders (e.g. "{参数}" or "{age}") are left for the brace-escaping
+        // pass in the MDX patcher to handle as plain text.
+        const elements = heading['elements'] || [];
+        const last = elements[elements.length - 1];
+        if (last && last.text_run && /^\{[a-z0-9][a-z0-9-]*\}$/.test(last.text_run.content)) {
+            last.text_run.content = '{#' + last.text_run.content.slice(1);
+        }
+
+        let content = await this.__text_elements(elements)
         content = this.__clean_headings(content)
-        
+
         if (content.length > 0) {
             
             if (content.indexOf('{#') < 0) {
