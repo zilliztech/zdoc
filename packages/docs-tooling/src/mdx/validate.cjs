@@ -786,7 +786,12 @@ function escapePlainTextBraces(content) {
             if (i % 2 !== 0) return part; // Inside inline code — leave unchanged
 
             return part.replace(
-                /(?<![=\\<>"'/]){([A-Za-z_$][A-Za-z0-9_.$]*)}/g,
+                // The identifier class allows '-' so hyphenated placeholder/slug
+                // tokens (e.g. "{verify-the-connection}", "{cluster-id}") are
+                // escaped too. Without it they compile as subtraction expressions
+                // ("verify - the - connection") and crash SSG with a
+                // "ReferenceError: <first token> is not defined".
+                /(?<![=\\<>"'/]){([A-Za-z_$][A-Za-z0-9_.$-]*)}/g,
                 '\\{$1\\}',
             );
         }).join('');
