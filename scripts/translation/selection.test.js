@@ -30,20 +30,13 @@ test('expands all locales deterministically', () => {
     'ja-JP/go', 'zh-CN-reference/go',
     'ja-JP/cli', 'zh-CN-reference/cli',
     'ja-JP/cpp', 'zh-CN-reference/cpp',
-    'ja-JP/rest',
   ]);
   assert.deepEqual(selected.map(item => item.publicationOrder), selected.map((_, index) => index));
 });
 
-test('keeps Japanese REST while rejecting Chinese REST as a canonical selection', () => {
-  assert.deepEqual(
-    buildTranslationSelection({locale: 'all', group: 'rest'}).map(item => `${item.target}/${item.group}`),
-    ['ja-JP/rest'],
-  );
-  assert.deepEqual(
-    buildTranslationSelection({locale: 'ja-JP', group: 'rest'}).map(item => `${item.target}/${item.group}`),
-    ['ja-JP/rest'],
-  );
+test('rejects both Japanese and Chinese REST as canonical selections', () => {
+  assert.throws(() => buildTranslationSelection({locale: 'all', group: 'rest'}), /unsupported translation selection/i);
+  assert.throws(() => buildTranslationSelection({locale: 'ja-JP', group: 'rest'}), /unsupported translation selection/i);
   assert.throws(() => buildTranslationSelection({locale: 'zh-CN', group: 'rest'}), /unsupported translation selection/i);
 });
 
@@ -70,7 +63,7 @@ test('preserves the manual-only Chinese reference landings selection', () => {
 
 test('derives the canonical source-group set from the manual registry', () => {
   const groups = [...new Set(buildTranslationSelection({locale: 'all', group: 'all'}).map(item => item.sourceGroup))];
-  assert.deepEqual(groups, [...sourcePublicationGroups()]);
+  assert.deepEqual(groups, [...sourcePublicationGroups()].filter(group => group !== 'rest'));
 });
 
 test('fails unsupported locale and group combinations before translation', () => {

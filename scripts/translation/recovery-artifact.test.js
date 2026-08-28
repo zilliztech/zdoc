@@ -9,7 +9,7 @@ const test = require('node:test');
 
 const {createRecoveryArtifact, promptContractSha256, readArtifact, restoreRecoveryFiles} = require('./recovery-artifact');
 const {createReconciliationPlan, createReconciliationResult} = require('./reconciliation-plan');
-const {promptNamesFor} = require('./restSpecLocalization');
+const {promptNamesFor} = require('./prompts');
 
 const HASH = value => crypto.createHash('sha256').update(value).digest('hex');
 const CONTRACT = 'c'.repeat(64);
@@ -369,130 +369,6 @@ test('does not mint a current-identity receipt from revalidated recovered review
   assert.equal(Object.hasOwn(manifest.files[0], 'reviewReceipt'), false);
 });
 
-test('does not require REST spec review evidence for shell-only pages in the REST tree', () => {
-  const siteDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-recovery-rest-shell-site-'));
-  const artifactDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-recovery-rest-shell-artifact-'));
-  const sourcePath = 'content/en/reference/api/restful/restful/v2/control-plane/control-plane.mdx';
-  const targetPath = 'content/zh-CN/reference/api/restful/restful/v2/control-plane/control-plane.mdx';
-  const source = fs.readFileSync(path.join(process.cwd(), sourcePath), 'utf8');
-  const target = '# 控制平面\n\n控制平面 API。\n';
-  const candidate = {sourcePath, targetPath, sourceHash: HASH(source), locale: 'zh-CN', type: 'reference', reason: 'stale_source'};
-  const identity = {
-    locale: 'zh-CN', group: 'rest', promptContractSha256: CONTRACT, model: 'translation-model',
-    sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'incremental',
-  };
-  try {
-    write(siteDir, sourcePath, source);
-    write(siteDir, targetPath, target);
-    createRecoveryArtifact({siteDir, outputDir: artifactDir, results: [reviewedResult(candidate)], identity});
-    const manifest = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8'));
-    assert.equal(manifest.files[0].reviewReceipt.review.pass, true);
-    assert.equal(Object.hasOwn(manifest.files[0].reviewReceipt, 'restSpecReview'), false);
-
-    fs.rmSync(path.join(siteDir, targetPath));
-    const restored = restoreRecoveryFiles({
-      siteDir,
-      candidates: [candidate],
-      artifacts: [artifactDir],
-      identity,
-      revalidate: () => [],
-    });
-    assert.equal(restored.restored.length, 1);
-    assert.equal(restored.pending.length, 0);
-    assert.equal(Object.hasOwn(restored.restored[0], 'restSpecReview'), false);
-  } finally {
-    fs.rmSync(siteDir, {recursive: true, force: true});
-    fs.rmSync(artifactDir, {recursive: true, force: true});
-  }
-});
-
-test('requires REST spec reviewer receipts for documents with parseable specs before direct recovery', () => {
-  const siteDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-recovery-rest-site-'));
-  const artifactDir = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-recovery-rest-artifact-'));
-  const sourcePath = 'content/en/reference/api/python/search.mdx';
-  const targetPath = 'content/zh-CN/reference/api/python/search.mdx';
-  const source = '# Search\n<RestSpecs specs={specs} lang="en-US" />\n\nexport const specs = {"summary":"Search","description":"Search a collection."}\nexport const endpoint = "/v1/search"\n';
-  const target = '# 搜索\n<RestSpecs specs={specs} lang="zh-CN" />\n\nexport const specs = {"summary":"Search","description":"Search a collection.","x-i18n":{"zh-CN":{"summary":"搜索","description":"搜索 Collection。"}}}\nexport const endpoint = "/v1/search"\n';
-  const candidate = {sourcePath, targetPath, sourceHash: HASH(source), locale: 'zh-CN', type: 'reference', reason: 'stale_source'};
-  const identity = {
-    locale: 'zh-CN', group: 'rest', promptContractSha256: CONTRACT, model: 'translation-model',
-    sourceSha: 'a'.repeat(40), toolingSha: 'b'.repeat(40), mode: 'incremental',
-  };
-  try {
-    write(siteDir, sourcePath, source);
-    write(siteDir, targetPath, target);
-    createRecoveryArtifact({siteDir, outputDir: artifactDir, results: [reviewedResult(candidate)], identity});
-    const withoutSpecReview = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8'));
-    assert.equal(Object.hasOwn(withoutSpecReview.files[0], 'reviewReceipt'), false);
-    fs.rmSync(path.join(siteDir, targetPath));
-    const pending = restoreRecoveryFiles({
-      siteDir,
-      candidates: [candidate],
-      artifacts: [artifactDir],
-      identity,
-      revalidate: () => [],
-    });
-    assert.equal(pending.restored.length, 0);
-    assert.equal(pending.pending.length, 1);
-
-    for (const mutate of [
-      review => { review.issues = [{type: 'accuracy_mistranslation'}]; },
-      review => { review.unsupportedIssues = [{reason: 'unsupported'}]; },
-      review => { review.contractConflicts = [{reason: 'conflict'}]; },
-      review => { review.localeContractIssues = [{type: 'terminology'}]; },
-      review => { review.reviewerPass = false; },
-      review => { review.error = 'review failed'; },
-    ]) {
-      write(siteDir, targetPath, target);
-      const restSpecReview = {...reviewedResult(candidate).review};
-      mutate(restSpecReview);
-      createRecoveryArtifact({
-        siteDir,
-        outputDir: artifactDir,
-        results: [reviewedResult(candidate, {restSpecReview})],
-        identity,
-      });
-      const contradictory = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8'));
-      assert.equal(Object.hasOwn(contradictory.files[0], 'reviewReceipt'), false);
-      fs.rmSync(path.join(siteDir, targetPath));
-      const contradictoryPending = restoreRecoveryFiles({
-        siteDir,
-        candidates: [candidate],
-        artifacts: [artifactDir],
-        identity,
-        revalidate: () => [],
-      });
-      assert.equal(contradictoryPending.restored.length, 0);
-      assert.equal(contradictoryPending.pending.length, 1);
-    }
-
-    write(siteDir, targetPath, target);
-    const restSpecReview = {...reviewedResult(candidate).review};
-    createRecoveryArtifact({
-      siteDir,
-      outputDir: artifactDir,
-      results: [reviewedResult(candidate, {restSpecReview})],
-      identity,
-    });
-    const withSpecReview = JSON.parse(fs.readFileSync(path.join(artifactDir, 'manifest.json'), 'utf8'));
-    assert.equal(withSpecReview.files[0].reviewReceipt.restSpecReview.pass, true);
-    delete withSpecReview.files[0].reviewReceipt.restSpecReview;
-    write(artifactDir, 'manifest.json', `${JSON.stringify(withSpecReview)}\n`);
-    fs.rmSync(path.join(siteDir, targetPath));
-    const missingSpecReceipt = restoreRecoveryFiles({
-      siteDir,
-      candidates: [candidate],
-      artifacts: [artifactDir],
-      identity,
-      revalidate: () => [],
-    });
-    assert.equal(missingSpecReceipt.restored.length, 0);
-    assert.equal(missingSpecReceipt.pending.length, 1);
-  } finally {
-    fs.rmSync(siteDir, {recursive: true, force: true});
-    fs.rmSync(artifactDir, {recursive: true, force: true});
-  }
-});
 
 test('turns real-path translated records without reviewer receipts into semantic pending work', t => {
   for (const [sourcePath, targetPath] of [
@@ -583,7 +459,7 @@ test('Reviewer prompt contracts describe bounded batch context and aligned-unit 
   }
 });
 
-test('changes the prompt contract hash when locale, document translation/review/correction, or REST review/correction prompts change', () => {
+test('changes the prompt contract hash when locale or document translation/review/correction prompts change', () => {
   const repositoryRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'zdoc-prompt-contract-'));
   const promptNames = Object.values(promptNamesFor('zh-CN-reference'));
   for (const name of promptNames) write(repositoryRoot, `.github/prompts/${name}`, `${name}\n`);
@@ -609,16 +485,6 @@ test('changes the prompt contract hash when locale, document translation/review/
   write(repositoryRoot, '.github/prompts/codex-correction-agent.zh-CN-reference.md', 'changed correction\n');
   const correctionChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
   assert.notEqual(correctionChanged, initial);
-
-  write(repositoryRoot, '.github/prompts/codex-correction-agent.zh-CN-reference.md', 'codex-correction-agent.zh-CN-reference.md\n');
-  write(repositoryRoot, '.github/prompts/codex-rest-spec-review-agent.md', 'changed REST review\n');
-  const restReviewChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
-  assert.notEqual(restReviewChanged, initial);
-
-  write(repositoryRoot, '.github/prompts/codex-rest-spec-review-agent.md', 'codex-rest-spec-review-agent.md\n');
-  write(repositoryRoot, '.github/prompts/codex-rest-spec-correction-agent.md', 'changed REST correction\n');
-  const restCorrectionChanged = promptContractSha256('zh-CN-reference', repositoryRoot);
-  assert.notEqual(restCorrectionChanged, initial);
 });
 
 test('keeps a candidate pending when source, locale, contract, or target integrity differs', () => {

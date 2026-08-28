@@ -167,9 +167,14 @@ jobs:
           MODEL_ID: ${{ vars.MODEL_ID }}
           AWS_BUCKET: ${{ vars.AWS_BUCKET }}
           AWS_REGION: ${{ vars.AWS_REGION }}
-          IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
+          IMAGE_BED_URL: ${{ inputs.site == 'zh-CN' && vars.ZH_CN_IMAGE_BED_URL || vars.IMAGE_BED_URL }}
+          DOCS_TOOLING_ALIYUN_VALIDATOR_PROVIDER: ${{ inputs.site == 'zh-CN' && 'packages/docs-tooling/providers/aliyun-oss-validator.mjs' || '' }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Reconcile Reference manifests after REST publication
+        if: ${{ inputs.site == 'zh-CN' && inputs.group == 'rest' }}
+        run: pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$DEV_BASELINE_SHA" --write
 
       - name: Validate and build generated docs
         run: |

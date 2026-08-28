@@ -307,7 +307,7 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
   }
   if (argv[0] === 'check-broken-links') {
     const options = parseOptions(argv.slice(1));
-    await checkBrokenLinks({repositoryRoot, site: requiredOption(options, 'site'), output: requiredOption(options, 'output')});
+    await checkBrokenLinks({repositoryRoot, site: requiredOption(options, 'site'), log: requiredOption(options, 'log'), output: requiredOption(options, 'output')});
     return true;
   }
   if (argv[0] === 'analyze-broken-links') {

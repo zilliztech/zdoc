@@ -329,7 +329,7 @@ function relativeToRoot(filePath: string, root: string): string {
 export function referenceLanguageExclusionReason(
   repositoryRoot: string,
   sourcePath: string,
-  locale: 'zh-CN',
+  locale: 'zh-CN' | 'ja-JP',
 ): 'x-include-langs' | undefined {
   if (!sourcePath.startsWith('content/en/reference/api/restful/') || !sourcePath.endsWith('.mdx')) return undefined;
   const absolutePath = assertSafeRepositoryPathChain(repositoryRoot, sourcePath, 'REST Reference source');
