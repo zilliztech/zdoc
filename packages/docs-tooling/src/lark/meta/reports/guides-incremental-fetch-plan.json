@@ -1,98 +1,76 @@
 {
-  "generated_at": "2026-08-27T21:42:56.427Z",
+  "generated_at": "2026-08-28T05:01:20.140Z",
   "manual": "guides",
   "build_env": "uat",
   "mode": "incremental",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "changed_records": [
     {
-      "record_id": "recvqUTMkZiY2l",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Search Aggregation",
-      "labels": "",
-      "slug": "search-aggregation",
-      "doc_token": "Fighwx5zFiwaoIkV4q5cAJ1enDg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/Fighwx5zFiwaoIkV4q5cAJ1enDg",
-      "reasons": [
-        "wiki node edit time changed"
-      ]
-    },
-    {
-      "record_id": "recvlPpp7XvPZS",
-      "table_id": "tblWv7PjNDsexddH",
-      "table_name": "Development",
-      "title": "Pattern Matching",
-      "labels": "Pattern Matching",
-      "slug": "pattern-match",
-      "doc_token": "PFbNwB7Mli18n6k6VWScGcpWndc",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/PFbNwB7Mli18n6k6VWScGcpWndc",
+      "record_id": "recvlVYS5vciEa",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "title": "Access Control Explained",
+      "labels": "Access Control Explained",
+      "slug": "access-control-overview",
+      "doc_token": "NmFBwTRj9iFuC8kXno6cqRbmnfh",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/NmFBwTRj9iFuC8kXno6cqRbmnfh",
       "reasons": [
         "wiki node edit time changed"
       ]
     }
   ],
   "changed_tokens": [
-    "Fighwx5zFiwaoIkV4q5cAJ1enDg",
-    "PFbNwB7Mli18n6k6VWScGcpWndc"
+    "NmFBwTRj9iFuC8kXno6cqRbmnfh"
   ],
   "expanded_tokens": [
-    "AIb1wNAE3iiKVSk8MHAcVA4QnJb",
-    "AwmtwHGQii1j9Wk1W04cNxvBnth",
-    "Fighwx5zFiwaoIkV4q5cAJ1enDg",
-    "JWZGw89MBiUDBNkhtGfcyyUcnsd",
-    "LBbUwOGcwi1UMak3eE2cM1gvnUe",
-    "PFbNwB7Mli18n6k6VWScGcpWndc",
-    "Q0wpw4xZiimaUsk4GvScAg2un1d",
-    "SkJtwgkCDiGYeOkakIgcLT46nee",
-    "VmGMwsTliiGZdFkzzeBckRNlnCh",
-    "VpBXd70zuoEq2Cx7KIJcJz7Zn7c",
-    "YBYmwvx68iMKFRknytJccwk0nPf",
-    "YNczwtWpFiN0CckMvDVcn0pvnEb"
+    "CWT2wh5YriZfPZkGlgCcWxVnnAf",
+    "Eez3wXKnPii2DekIQ76c9jbtnWd",
+    "Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
+    "I2CHwfDHKilTMukoZ13cR2M4nzb",
+    "MyKpwdBxUizDsukJm5Kc8orenbT",
+    "NitBwKVzzi0hXBkjdDFcfwRsngb",
+    "NmFBwTRj9iFuC8kXno6cqRbmnfh",
+    "PBZwwNqWjiikeYkXgHPcGhLznTh",
+    "XvTLwH1TEiEHdJksnyIcMCixnic",
+    "YHG0wCYxfiZILvkZ2VLclmvsn7g"
   ],
   "removed_records": [],
   "removed_tokens": [],
   "reasons_by_token": {
-    "Fighwx5zFiwaoIkV4q5cAJ1enDg": [
+    "NmFBwTRj9iFuC8kXno6cqRbmnfh": [
       "wiki node edit time changed"
     ],
-    "PFbNwB7Mli18n6k6VWScGcpWndc": [
-      "wiki node edit time changed"
+    "XvTLwH1TEiEHdJksnyIcMCixnic": [
+      "outgoing reference from NmFBwTRj9iFuC8kXno6cqRbmnfh"
     ],
-    "VpBXd70zuoEq2Cx7KIJcJz7Zn7c": [
-      "outgoing reference from Fighwx5zFiwaoIkV4q5cAJ1enDg"
+    "Er7Yw6Qnuiy8CBkDkH3cetOHnDf": [
+      "outgoing reference from NmFBwTRj9iFuC8kXno6cqRbmnfh"
     ],
-    "JWZGw89MBiUDBNkhtGfcyyUcnsd": [
-      "outgoing reference from Fighwx5zFiwaoIkV4q5cAJ1enDg"
+    "MyKpwdBxUizDsukJm5Kc8orenbT": [
+      "outgoing reference from NmFBwTRj9iFuC8kXno6cqRbmnfh"
     ],
-    "AwmtwHGQii1j9Wk1W04cNxvBnth": [
-      "outgoing reference from PFbNwB7Mli18n6k6VWScGcpWndc"
+    "CWT2wh5YriZfPZkGlgCcWxVnnAf": [
+      "outgoing reference from NmFBwTRj9iFuC8kXno6cqRbmnfh"
     ],
-    "VmGMwsTliiGZdFkzzeBckRNlnCh": [
-      "outgoing reference from PFbNwB7Mli18n6k6VWScGcpWndc"
+    "I2CHwfDHKilTMukoZ13cR2M4nzb": [
+      "outgoing reference from NmFBwTRj9iFuC8kXno6cqRbmnfh"
     ],
-    "Q0wpw4xZiimaUsk4GvScAg2un1d": [
-      "outgoing reference from PFbNwB7Mli18n6k6VWScGcpWndc"
+    "YHG0wCYxfiZILvkZ2VLclmvsn7g": [
+      "outgoing reference from NmFBwTRj9iFuC8kXno6cqRbmnfh"
     ],
-    "YBYmwvx68iMKFRknytJccwk0nPf": [
-      "outgoing reference from PFbNwB7Mli18n6k6VWScGcpWndc"
+    "PBZwwNqWjiikeYkXgHPcGhLznTh": [
+      "outgoing reference from NmFBwTRj9iFuC8kXno6cqRbmnfh"
     ],
-    "YNczwtWpFiN0CckMvDVcn0pvnEb": [
-      "outgoing reference from PFbNwB7Mli18n6k6VWScGcpWndc"
+    "NitBwKVzzi0hXBkjdDFcfwRsngb": [
+      "outgoing reference from NmFBwTRj9iFuC8kXno6cqRbmnfh"
     ],
-    "SkJtwgkCDiGYeOkakIgcLT46nee": [
-      "outgoing reference from PFbNwB7Mli18n6k6VWScGcpWndc"
-    ],
-    "AIb1wNAE3iiKVSk8MHAcVA4QnJb": [
-      "incoming reference to PFbNwB7Mli18n6k6VWScGcpWndc"
-    ],
-    "LBbUwOGcwi1UMak3eE2cM1gvnUe": [
-      "incoming reference to PFbNwB7Mli18n6k6VWScGcpWndc"
+    "Eez3wXKnPii2DekIQ76c9jbtnWd": [
+      "incoming reference to NmFBwTRj9iFuC8kXno6cqRbmnfh"
     ]
   },
   "warnings": [],
   "affected_tables": [
-    "tblWv7PjNDsexddH"
+    "tblZMzoITXNsyKmQ"
   ],
   "current_table_targets": {
     "tbl9BeCMjBmalJVb": [
@@ -179,7 +157,7 @@
     "tblZMzoITXNsyKmQ": "Management"
   },
   "snapshot_basis": {
-    "generated_at": "2026-08-27T04:03:14.103Z",
+    "generated_at": "2026-08-27T21:43:30.678Z",
     "records": 389
   },
   "source_scope": "partial"

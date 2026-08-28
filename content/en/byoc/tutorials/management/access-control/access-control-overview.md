@@ -50,7 +50,7 @@ This separation helps teams grant the minimum access needed for each responsibil
 
 An organization is the top-level boundary for Zilliz Cloud account access. 
 
-The following is the workflow to implement organization-level RBAC in Zililz Cloud.
+The following is the workflow to implement organization-level RBAC in Zilliz Cloud.
 
 <Procedures>
 
@@ -68,7 +68,7 @@ The following is the workflow to implement organization-level RBAC in Zililz Clo
 
 A project is the main boundary for organizing cloud resources such as clusters and project-specific access policies. Project-level access controls who can work in a project and what they can do with project resources.
 
-The following is the workflow to implement project-level RBAC in Zililz Cloud.
+The following is the workflow to implement project-level RBAC in Zilliz Cloud.
 
 <Procedures>
 
