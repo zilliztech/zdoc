@@ -24,7 +24,7 @@ Zilliz Cloud 支持您根据业务和数据量的变化灵活变更集群配置�
 
 本文介绍按量付费集群和包年包月集群变更配置的费用说明。
 
-## 按量计费集群变更配置\{change-configuration-for-pay-as-you-go-clusters}\{#change-configuration-for-pay-as-you-go-clusters}
+## 按量计费集群变更配置\{change-configuration-for-pay-as-you-go-clusters\}\{#change-configuration-for-pay-as-you-go-clusters}
 
 按量计费集群按小时收费，变更配置后按照新的配置每小时收费。
 
