@@ -1889,16 +1889,12 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   try {
     delete require.cache[require.resolve(selectionPath)]
     const {buildTranslationSelection} = require(selectionPath)
-    const japaneseRest = buildTranslationSelection({locale: 'ja-JP', group: 'rest'})
-    const allRest = buildTranslationSelection({locale: 'all', group: 'rest'})
-    if (JSON.stringify(japaneseRest.map(unit => `${unit.target}/${unit.group}`)) !== JSON.stringify(['ja-JP/rest']) ||
-        JSON.stringify(allRest.map(unit => `${unit.target}/${unit.group}`)) !== JSON.stringify(['ja-JP/rest'])) {
-      errors.push('translation selection: canonical REST selection must retain only ja-JP/rest')
+    for (const locale of ['ja-JP', 'all', 'zh-CN']) {
+      try {
+        buildTranslationSelection({locale, group: 'rest'})
+        errors.push(`translation selection: canonical REST selection must reject ${locale}/rest`)
+      } catch {}
     }
-    try {
-      buildTranslationSelection({locale: 'zh-CN', group: 'rest'})
-      errors.push('translation selection: canonical REST selection must reject zh-CN-reference/rest')
-    } catch {}
   } catch {
     errors.push('translation selection: canonical REST selection policy could not be evaluated')
   }

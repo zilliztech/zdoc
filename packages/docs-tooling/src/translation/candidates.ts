@@ -321,6 +321,7 @@ export function buildTranslationCandidates(options: CandidateBuildOptions): Read
     for (const [sourcePath, sourceHash] of sourceFiles(options.repositoryRoot, mapping.sourceRoot, owned)) {
       activeSources.add(sourcePath);
       if (target.id === 'zh-CN-reference' && referenceLanguageExclusionReason(options.repositoryRoot, sourcePath, 'zh-CN')) continue;
+      if (target.id === 'ja-JP' && referenceLanguageExclusionReason(options.repositoryRoot, sourcePath, 'ja-JP')) continue;
       const targetPath = mappedTarget(sourcePath, mapping);
       const targetExists = targetIsRegular(options.repositoryRoot, targetPath);
       const prior = previousBySource.get(sourcePath);

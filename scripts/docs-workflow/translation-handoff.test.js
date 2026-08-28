@@ -21,7 +21,7 @@ const {
 const {buildTranslationSelection} = require('../translation/selection');
 const {loadTypeScript} = require('../lib/load-typescript');
 const {sourcePublicationGroups} = loadTypeScript('../../packages/docs-tooling/src/manuals/derive/workflowUnits.ts');
-const ALL_SOURCE_GROUPS = [...sourcePublicationGroups()];
+const ALL_SOURCE_GROUPS = [...sourcePublicationGroups()].filter(group => group !== 'rest');
 
 const SHA_A = 'a'.repeat(40);
 const SHA_B = 'b'.repeat(40);
@@ -240,7 +240,7 @@ test('binds every all-group unit to its own dev baseline and checkpoint', () => 
   }
 });
 
-test('canonical all-group handoff excludes Chinese REST while retaining Japanese REST', () => {
+test('canonical all-group handoff excludes both Japanese and Chinese REST', () => {
   const groups = ALL_SOURCE_GROUPS;
   const sourcePublications = Object.fromEntries(groups.map((group, index) => [
     group,
@@ -249,7 +249,11 @@ test('canonical all-group handoff excludes Chinese REST while retaining Japanese
   const value = buildTranslationHandoff({
     locale: 'all', group: 'all', toolingSha: SHA_A, targetBranch: 'dev', targetBaselineSha: SHA_D, sourcePublications,
   });
-  assert.deepEqual(value.units.map(unit => `${unit.target}/${unit.group}`).filter(identity => identity.includes('/rest')), ['ja-JP/rest']);
+  assert.deepEqual(value.units.map(unit => `${unit.target}/${unit.group}`).filter(identity => identity.includes('/rest')), []);
+  assert.throws(() => buildTranslationHandoff({
+    locale: 'ja-JP', group: 'rest', toolingSha: SHA_A, targetBranch: 'dev', targetBaselineSha: SHA_D,
+    sourcePublications: {rest: publication()},
+  }), /unsupported translation selection/i);
   assert.throws(() => buildTranslationHandoff({
     locale: 'zh-CN', group: 'rest', toolingSha: SHA_A, targetBranch: 'dev', targetBaselineSha: SHA_D,
     sourcePublications: {rest: publication()},
@@ -275,7 +279,6 @@ test('rejects incomplete, malformed, unexpected, and noncanonical publication id
       go: publication(),
       cli: publication(),
       cpp: publication(),
-      rest: publication(),
     },
   }), /source publications.*canonical order/i);
 });
