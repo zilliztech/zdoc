@@ -172,6 +172,10 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Reconcile Reference manifests after REST publication
+        if: ${{ inputs.site == 'zh-CN' && inputs.group == 'rest' }}
+        run: pnpm docs-tooling reference-manifest --source content/en/reference --target content/zh-CN/reference --source-commit "$DEV_BASELINE_SHA" --write
+
       - name: Validate and build generated docs
         run: |
           set -euo pipefail
