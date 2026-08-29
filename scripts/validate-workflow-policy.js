@@ -1208,6 +1208,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         "  '--poll-milliseconds', '10000',",
         "  '--candidate-polls', '6',",
         "  '--max-publish-attempts', '10',",
+        "  '--deadline', String(Date.now() + 350 * 60 * 1000),",
         '])',
       ].join('\n')
       if (writer?.name !== 'publish_ready' || JSON.stringify(writer?.needs) !== JSON.stringify(['prepare']) ||
