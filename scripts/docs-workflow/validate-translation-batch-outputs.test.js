@@ -572,10 +572,6 @@ test('rejects contradictory review evidence and recovered-result receipt bypasse
     ['fresh contradictory review', value => {
       value.results[0].review.unsupportedIssues = [{reason: 'unsupported'}]
     }, /review evidence is not internally consistent/i],
-    ['fresh contradictory REST review', value => {
-      value.results[0].restSpecReview = cleanReview()
-      value.results[0].restSpecReview.error = 'hidden failure'
-    }, /REST review evidence is not internally consistent/i],
     ['recovered receipt target hash mismatch', value => {
       Object.assign(value.results[0], {
         recovered: true,
@@ -591,14 +587,6 @@ test('rejects contradictory review evidence and recovered-result receipt bypasse
       })
       value.results[0].review.copiedEvidence = 'forged'
     }, /copied review evidence does not match/i],
-    ['recovered copied REST review mismatch', value => {
-      Object.assign(value.results[0], {
-        recovered: true,
-        recoveryCompatibility: 'revalidated',
-        recoveryReviewReceipt: recoveryReceipt(),
-        restSpecReview: cleanReview(),
-      })
-    }, /copied REST review evidence does not match/i],
   ]
 
   for (const [name, mutate, expected] of cases) {
@@ -657,39 +645,6 @@ test('derives REST review requirements from authenticated current source content
     assert.deepEqual(validate(shellRoot), {candidateCount: 1, reconciliationOnly: false})
   } finally {
     fs.rmSync(shellRoot, {recursive: true, force: true})
-  }
-
-  const specsSourcePath = candidate().sourcePath
-  const specsTargetPath = candidate().targetPath
-  const specsSource = '# Search\n\nexport const specs = {"summary":"Search"}\nexport const endpoint = "/v1/search"\n'
-  const specsCandidate = {...candidate(), sourcePath: specsSourcePath, targetPath: specsTargetPath, sourceHash: sha256(specsSource)}
-  const specsManifest = manifest({items: [specsCandidate]})
-  const specsReport = report({
-    results: [{...specsCandidate, status: 'translated', review: cleanReview(), validationErrors: [], chunks: {total: 1}}],
-  })
-  const specsRoot = fixture({manifest: specsManifest, report: specsReport, sourceContents: {[specsSourcePath]: specsSource}, output: false})
-  try {
-    const output = path.join(specsRoot, specsTargetPath)
-    fs.mkdirSync(path.dirname(output), {recursive: true})
-    fs.writeFileSync(output, TARGET_CONTENT)
-    assert.throws(() => validate(specsRoot), /REST review evidence is not internally consistent/i)
-
-    specsReport.results[0].restSpecReview = cleanReview()
-    Object.assign(specsReport.results[0], {
-      recovered: true,
-      recoveryCompatibility: 'revalidated',
-      recoveryReviewReceipt: recoveryReceipt({
-        sourcePath: specsSourcePath,
-        targetPath: specsTargetPath,
-        sourceHash: sha256(specsSource),
-        locale: 'ja-JP',
-        group: 'guides',
-      }),
-    })
-    writeJson(specsRoot, 'tmp/translation-report.json', specsReport)
-    assert.throws(() => validate(specsRoot), /recovery reviewer receipt is invalid.*REST reviewer success/i)
-  } finally {
-    fs.rmSync(specsRoot, {recursive: true, force: true})
   }
 })
 

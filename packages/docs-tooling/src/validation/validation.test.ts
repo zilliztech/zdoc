@@ -43,6 +43,20 @@ function seedEnglishRestPreservedFiles(repositoryRoot: string): void {
   }
 }
 
+function seedLocalizedRestPreservedFiles(repositoryRoot: string): void {
+  const output = path.join(repositoryRoot, 'i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful');
+  for (const [relativePath, contents] of [
+    ['restful.md', '# REST API\n'],
+    ['versioning.md', '# Versioning\n'],
+    ['v1/error-codes.md', '# V1 errors\n'],
+    ['v2/error-codes-v2.md', '# V2 errors\n'],
+  ] as const) {
+    const target = path.join(output, relativePath);
+    mkdirSync(path.dirname(target), {recursive: true});
+    writeFileSync(target, contents);
+  }
+}
+
 function canonicalJson(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(',')}]`;
   if (value && typeof value === 'object') {
@@ -936,6 +950,7 @@ describe('docs-tooling CLI boundary', () => {
   it('dispatches the English REST source to the moved REST generator', async () => {
     const repositoryRoot = temporaryRoot();
     seedEnglishRestPreservedFiles(repositoryRoot);
+    seedLocalizedRestPreservedFiles(repositoryRoot);
     writeFileSync(
       path.join(repositoryRoot, 'content/en/reference/api/restful/restful/restful.md'),
       '---\nsidebar_label: RESTful API Reference\nsidebar_position: 0\n---\n\n# RESTful API Overview\n',
@@ -953,31 +968,36 @@ describe('docs-tooling CLI boundary', () => {
     }])}\n`);
     const spawnSync = vi.fn((command: string, args: readonly string[]) => {
       expect(command).toBe(process.execPath);
+      const lang = args[args.indexOf('--lang') + 1];
+      const output = lang === 'en-US'
+        ? path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful')
+        : path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/i18n/ja-JP/docusaurus-plugin-content-docs-reference/current/api/restful/restful');
       expect(args).toEqual([
         path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/index.js'),
         '--specifications', path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi'),
-        '--output_path', path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful'),
-        '--lang', 'en-US',
+        '--output_path', output,
+        '--lang', lang,
         '--target', 'zilliz',
       ]);
       expect(args).not.toContain('--publication-policy');
       expect(args).not.toContain('--release-track');
-      const output = path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful');
-      const pages = [
-        ['v2/v2.mdx', '---\nslug: /restful/v2\nsidebar_position: 1\n---\n\n# V2\n'],
-        ['v2/control-plane/control-plane.mdx', '---\nslug: /restful/control-plane-v2\nsidebar_position: 1\n---\n\n# Control Plane (V2)\n'],
-        ['v2/control-plane/cloud-access-control-operations-v2/cloud-access-control-operations-v2.mdx', '---\nslug: /restful/cloud-access-control-operations-v2\nsidebar_position: 20\n---\n\n# Cloud Access Control Operations (V2)\n'],
-        ['v2/control-plane/cloud-access-control-operations-v2/create-cloud-role-v2.mdx', '---\nsidebar_label: Create Cloud Role (V2)\nsidebar_position: 0\n---\n\n# Create Cloud Role (V2)\n'],
-        ['v2/control-plane/cloud-api-key-operations-v2/cloud-api-key-operations-v2.mdx', '---\nslug: /restful/cloud-api-key-operations-v2\nsidebar_position: 21\n---\n\n# Cloud API Key Operations (V2)\n'],
-        ['v2/control-plane/cloud-api-key-operations-v2/create-api-key-v2.mdx', '---\nsidebar_label: Create API Key (V2)\nsidebar_position: 0\n---\n\n# Create API Key (V2)\n'],
-        ['v2/data-plane/data-plane.mdx', '---\nslug: /restful/data-plane-v2\nsidebar_position: 2\n---\n\n# Data Plane (V2)\n'],
-        ['v2/data-plane/cluster-role-operations-v2/cluster-role-operations-v2.mdx', '---\nslug: /restful/cluster-role-operations-v2\nsidebar_position: 8\n---\n\n# Cluster Role Operations (V2)\n'],
-        ['v2/data-plane/cluster-role-operations-v2/create-role-v2.mdx', '---\nsidebar_label: Create Role (V2)\nsidebar_position: 0\n---\n\n# Create Role (V2)\n'],
-      ] as const;
-      for (const [relativePath, contents] of pages) {
-        const target = path.join(output, relativePath);
-        mkdirSync(path.dirname(target), {recursive: true});
-        writeFileSync(target, contents);
+      if (lang === 'en-US') {
+        const pages = [
+          ['v2/v2.mdx', '---\nslug: /restful/v2\nsidebar_position: 1\n---\n\n# V2\n'],
+          ['v2/control-plane/control-plane.mdx', '---\nslug: /restful/control-plane-v2\nsidebar_position: 1\n---\n\n# Control Plane (V2)\n'],
+          ['v2/control-plane/cloud-access-control-operations-v2/cloud-access-control-operations-v2.mdx', '---\nslug: /restful/cloud-access-control-operations-v2\nsidebar_position: 20\n---\n\n# Cloud Access Control Operations (V2)\n'],
+          ['v2/control-plane/cloud-access-control-operations-v2/create-cloud-role-v2.mdx', '---\nsidebar_label: Create Cloud Role (V2)\nsidebar_position: 0\n---\n\n# Create Cloud Role (V2)\n'],
+          ['v2/control-plane/cloud-api-key-operations-v2/cloud-api-key-operations-v2.mdx', '---\nslug: /restful/cloud-api-key-operations-v2\nsidebar_position: 21\n---\n\n# Cloud API Key Operations (V2)\n'],
+          ['v2/control-plane/cloud-api-key-operations-v2/create-api-key-v2.mdx', '---\nsidebar_label: Create API Key (V2)\nsidebar_position: 0\n---\n\n# Create API Key (V2)\n'],
+          ['v2/data-plane/data-plane.mdx', '---\nslug: /restful/data-plane-v2\nsidebar_position: 2\n---\n\n# Data Plane (V2)\n'],
+          ['v2/data-plane/cluster-role-operations-v2/cluster-role-operations-v2.mdx', '---\nslug: /restful/cluster-role-operations-v2\nsidebar_position: 8\n---\n\n# Cluster Role Operations (V2)\n'],
+          ['v2/data-plane/cluster-role-operations-v2/create-role-v2.mdx', '---\nsidebar_label: Create Role (V2)\nsidebar_position: 0\n---\n\n# Create Role (V2)\n'],
+        ] as const;
+        for (const [relativePath, contents] of pages) {
+          const target = path.join(output, relativePath);
+          mkdirSync(path.dirname(target), {recursive: true});
+          writeFileSync(target, contents);
+        }
       }
       return {status: 0};
     });
@@ -987,7 +1007,7 @@ describe('docs-tooling CLI boundary', () => {
       {repositoryRoot, spawnSync},
     );
 
-    expect(spawnSync).toHaveBeenCalledOnce();
+    expect(spawnSync).toHaveBeenCalledTimes(2);
     const stagedSidebarPath = path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/generated/en/sidebars/restful.sidebar.js');
     const require = createRequire(import.meta.url);
     delete require.cache[require.resolve(stagedSidebarPath)];
@@ -1159,6 +1179,7 @@ describe('docs-tooling CLI boundary', () => {
   it('clears stale REST stages before generation and leaves failures unpublishable', async () => {
     const repositoryRoot = temporaryRoot();
     seedEnglishRestPreservedFiles(repositoryRoot);
+    seedLocalizedRestPreservedFiles(repositoryRoot);
     mkdirSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi'), {recursive: true});
     writeFileSync(path.join(repositoryRoot, 'packages/docs-tooling/src/reference/rest/meta/openapi/spec.json'), '{}\n');
     mkdirSync(path.join(repositoryRoot, 'tmp/docs-tooling/en/rest/content/en/reference/api/restful/restful'), {recursive: true});

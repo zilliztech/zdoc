@@ -28,6 +28,10 @@
           "zh-CN": {
             "summary": "列出 Spark 任务",
             "description": "本接口用于列出与 Zilliz Cloud 集群关联的 Spark 批处理任务。"
+          },
+          "ja-JP": {
+            "summary": "Sparkジョブを一覧表示",
+            "description": "この操作では、Zilliz Cloudクラスターに関連付けられた Spark バッチジョブを一覧表示します。"
           }
         },
         "tags": [
@@ -46,6 +50,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -61,6 +68,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "使用 `application/json`。"
+              },
+              "ja-JP": {
+                "description": "`application/json` を使用します。"
               }
             }
           },
@@ -79,6 +89,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "要列出的任务类型。请将该参数设置为 `SPARK`。"
+              },
+              "ja-JP": {
+                "description": "一覧表示するジョブタイプです。このパラメータを `SPARK` に設定します。"
               }
             }
           },
@@ -94,6 +107,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "要列出 Spark 任务的 Zilliz Cloud 集群。"
+              },
+              "ja-JP": {
+                "description": "Sparkジョブを一覧表示する対象の Zilliz Cloudクラスターです。"
               }
             }
           },
@@ -109,6 +125,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Zilliz Cloud 集群所在云地域。如指定，必须与 `clusterId` 的地域一致。"
+              },
+              "ja-JP": {
+                "description": "Zilliz Cloudクラスターのクラウドリージョンです。指定する場合は、`clusterId` のリージョンと一致している必要があります。"
               }
             }
           },
@@ -126,6 +145,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "页码。默认值为 1。"
+              },
+              "ja-JP": {
+                "description": "ページ番号です。デフォルト値は 1 です。"
               }
             }
           },
@@ -144,6 +166,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "每页返回的 Spark 任务数量。默认值为 20，最大值为 100。"
+              },
+              "ja-JP": {
+                "description": "1ページあたりの Sparkジョブ数です。デフォルト値は 20、最大値は 100 です。"
               }
             }
           }
@@ -154,6 +179,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回 Spark 任务列表。"
+              },
+              "ja-JP": {
+                "description": "Sparkジョブのリストを返します。"
               }
             },
             "content": {
@@ -170,6 +198,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコードです。"
                             }
                           }
                         },
@@ -179,6 +210,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，包含 Spark 任务和总数。"
+                            },
+                            "ja-JP": {
+                              "description": "Sparkジョブと総件数を含むレスポンスペイロードです。"
                             }
                           },
                           "properties": {
@@ -188,6 +222,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "Spark 任务总数。"
+                                },
+                                "ja-JP": {
+                                  "description": "Sparkジョブの総数です。"
                                 }
                               },
                               "example": 1
@@ -198,6 +235,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "Spark 任务摘要。"
+                                },
+                                "ja-JP": {
+                                  "description": "Sparkジョブの概要です。"
                                 }
                               },
                               "items": {
@@ -215,6 +255,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -227,6 +270,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコードです。"
                             }
                           }
                         },
@@ -236,6 +282,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージです。"
                             }
                           }
                         }
@@ -294,6 +343,10 @@
           "zh-CN": {
             "summary": "查看 Spark 任务详情",
             "description": "本接口用于查看指定项目中的 Spark 任务详情。"
+          },
+          "ja-JP": {
+            "summary": "Spark ジョブの説明",
+            "description": "この操作は、指定されたプロジェクト内の Spark ジョブを説明します。"
           }
         },
         "tags": [
@@ -309,6 +362,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用してください。"
               }
             },
             "schema": {
@@ -327,6 +383,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目 ID。"
+              },
+              "ja-JP": {
+                "description": "プロジェクト ID。"
               }
             }
           },
@@ -342,6 +401,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Spark 任务 ID。"
+              },
+              "ja-JP": {
+                "description": "Spark ジョブ ID。"
               }
             }
           }
@@ -352,6 +414,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回 Spark 任务详情。"
+              },
+              "ja-JP": {
+                "description": "Spark ジョブの詳細を返します。"
               }
             },
             "content": {
@@ -368,6 +433,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -377,6 +445,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，包含 Spark 任务详情。"
+                            },
+                            "ja-JP": {
+                              "description": "Spark ジョブの詳細を含むレスポンスペイロード。"
                             }
                           }
                         }
@@ -389,6 +460,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -401,6 +475,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -410,6 +487,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -469,6 +549,10 @@
           "zh-CN": {
             "summary": "取消 Spark 任务",
             "description": "本接口用于提交取消指定项目中 Spark 任务的请求。"
+          },
+          "ja-JP": {
+            "summary": "Spark ジョブのキャンセル",
+            "description": "この操作は、指定されたプロジェクト内の Spark ジョブのキャンセルリクエストを送信します。"
           }
         },
         "tags": [
@@ -484,6 +568,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用してください。"
               }
             },
             "schema": {
@@ -502,6 +589,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目 ID。"
+              },
+              "ja-JP": {
+                "description": "プロジェクト ID。"
               }
             }
           },
@@ -517,6 +607,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Spark 任务 ID。"
+              },
+              "ja-JP": {
+                "description": "Spark ジョブ ID。"
               }
             }
           }
@@ -527,6 +620,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回取消请求后的 Spark 任务。"
+              },
+              "ja-JP": {
+                "description": "キャンセルリクエストが受理されました。"
               }
             },
             "content": {
@@ -543,6 +639,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -552,6 +651,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，包含取消请求后的 Spark 任务。"
+                            },
+                            "ja-JP": {
+                              "description": "キャンセルリクエスト後の Spark ジョブを含むレスポンスペイロード。"
                             }
                           }
                         }
@@ -564,6 +666,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -576,6 +681,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -585,6 +693,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -667,6 +778,10 @@
           "zh-CN": {
             "summary": "创建 Spark JAR 任务",
             "description": "本接口用于创建 Spark JAR 任务。"
+          },
+          "ja-JP": {
+            "summary": "Spark JAR ジョブの作成",
+            "description": "この操作は、Spark JAR ジョブを作成します。"
           }
         },
         "tags": [
@@ -682,6 +797,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用してください。"
               }
             },
             "schema": {
@@ -700,6 +818,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目 ID。"
+              },
+              "ja-JP": {
+                "description": "プロジェクト ID。"
               }
             }
           },
@@ -712,6 +833,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "用于确保重复创建请求幂等的唯一键。"
+              },
+              "ja-JP": {
+                "description": "作成リクエストを繰り返しても冪等となる一意のキーです。"
               }
             },
             "schema": {
@@ -774,6 +898,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回已创建的 Spark 任务。"
+              },
+              "ja-JP": {
+                "description": "作成された Spark ジョブを返します。"
               }
             },
             "content": {
@@ -787,6 +914,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -796,6 +926,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "example": 0
@@ -812,6 +945,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -821,6 +957,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -830,6 +969,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -878,6 +1020,10 @@
           "zh-CN": {
             "summary": "创建 Spark 主键去重任务",
             "description": "本接口用于创建主键去重任务。"
+          },
+          "ja-JP": {
+            "summary": "Spark PK 重複排除ジョブの作成",
+            "description": "この操作は、primary key に基づく重複排除ジョブを作成します。"
           }
         },
         "tags": [
@@ -893,6 +1039,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用してください。"
               }
             },
             "schema": {
@@ -911,6 +1060,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目 ID。"
+              },
+              "ja-JP": {
+                "description": "プロジェクト ID。"
               }
             }
           },
@@ -923,6 +1075,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "用于确保重复创建请求幂等的唯一键。"
+              },
+              "ja-JP": {
+                "description": "作成リクエストを繰り返しても冪等となる一意のキーです。"
               }
             },
             "schema": {
@@ -972,6 +1127,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回已创建的 Spark 任务。"
+              },
+              "ja-JP": {
+                "description": "作成された Spark ジョブを返します。"
               }
             },
             "content": {
@@ -985,6 +1143,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -994,6 +1155,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "example": 0
@@ -1010,6 +1174,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -1019,6 +1186,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1028,6 +1198,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -1076,6 +1249,10 @@
           "zh-CN": {
             "summary": "创建 Spark 向量去重任务",
             "description": "本接口用于创建向量去重任务。"
+          },
+          "ja-JP": {
+            "summary": "Spark ベクトル重複排除ジョブの作成",
+            "description": "この操作は、ベクトル重複排除ジョブを作成します。"
           }
         },
         "tags": [
@@ -1091,6 +1268,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用してください。"
               }
             },
             "schema": {
@@ -1109,6 +1289,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目 ID。"
+              },
+              "ja-JP": {
+                "description": "プロジェクト ID。"
               }
             }
           },
@@ -1121,6 +1304,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "用于确保重复创建请求幂等的唯一键。"
+              },
+              "ja-JP": {
+                "description": "作成リクエストを繰り返しても冪等となる一意のキーです。"
               }
             },
             "schema": {
@@ -1175,6 +1361,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回已创建的 Spark 任务。"
+              },
+              "ja-JP": {
+                "description": "作成された Spark ジョブを返します。"
               }
             },
             "content": {
@@ -1188,6 +1377,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -1197,6 +1389,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "example": 0
@@ -1213,6 +1408,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -1222,6 +1420,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1231,6 +1432,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -1279,6 +1483,10 @@
           "zh-CN": {
             "summary": "创建 Spark K-means 任务",
             "description": "本接口用于创建 K-means 聚类任务。"
+          },
+          "ja-JP": {
+            "summary": "Spark K-means ジョブの作成",
+            "description": "この操作は、K-means クラスタリングジョブを作成します。"
           }
         },
         "tags": [
@@ -1294,6 +1502,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用してください。"
               }
             },
             "schema": {
@@ -1312,6 +1523,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目 ID。"
+              },
+              "ja-JP": {
+                "description": "プロジェクト ID。"
               }
             }
           },
@@ -1324,6 +1538,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "用于确保重复创建请求幂等的唯一键。"
+              },
+              "ja-JP": {
+                "description": "作成リクエストを繰り返しても冪等となる一意のキーです。"
               }
             },
             "schema": {
@@ -1375,6 +1592,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回已创建的 Spark 任务。"
+              },
+              "ja-JP": {
+                "description": "作成された Spark ジョブを返します。"
               }
             },
             "content": {
@@ -1388,6 +1608,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -1397,6 +1620,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "example": 0
@@ -1413,6 +1639,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -1422,6 +1651,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1431,6 +1663,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -1479,6 +1714,10 @@
           "zh-CN": {
             "summary": "创建 Spark 异常检测任务",
             "description": "本接口用于创建异常检测任务。"
+          },
+          "ja-JP": {
+            "summary": "Spark 異常検知ジョブの作成",
+            "description": "この操作は、異常検知ジョブを作成します。"
           }
         },
         "tags": [
@@ -1494,6 +1733,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API 密钥。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用してください。"
               }
             },
             "schema": {
@@ -1512,6 +1754,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目 ID。"
+              },
+              "ja-JP": {
+                "description": "プロジェクト ID。"
               }
             }
           },
@@ -1524,6 +1769,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "用于确保重复创建请求幂等的唯一键。"
+              },
+              "ja-JP": {
+                "description": "作成リクエストを繰り返しても冪等となる一意のキーです。"
               }
             },
             "schema": {
@@ -1575,6 +1823,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回已创建的 Spark 任务。"
+              },
+              "ja-JP": {
+                "description": "作成された Spark ジョブを返します。"
               }
             },
             "content": {
@@ -1588,6 +1839,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -1597,6 +1851,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "example": 0
@@ -1613,6 +1870,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -1622,6 +1882,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1631,6 +1894,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -1679,6 +1945,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "Spark 批处理任务的摘要信息。"
+          },
+          "ja-JP": {
+            "description": "Spark バッチジョブの概要情報です。"
           }
         },
         "properties": {
@@ -1688,6 +1957,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务 ID。"
+              },
+              "ja-JP": {
+                "description": "コントロールプレーンのジョブ ID です。"
               }
             }
           },
@@ -1697,6 +1969,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务所属的项目 ID。"
+              },
+              "ja-JP": {
+                "description": "ジョブが属するプロジェクトの ID。"
               }
             }
           },
@@ -1706,6 +1981,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务类型。"
+              },
+              "ja-JP": {
+                "description": "ジョブタイプです。Sparkジョブの場合、値は `SPARK` です。"
               }
             }
           },
@@ -1715,6 +1993,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务描述。"
+              },
+              "ja-JP": {
+                "description": "ジョブの説明。"
               }
             }
           },
@@ -1724,6 +2005,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务状态。"
+              },
+              "ja-JP": {
+                "description": "Spark バッチジョブのステータスです。"
               }
             }
           },
@@ -1733,6 +2017,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "Sparkジョブが実行されるクラウドリージョンです。"
               }
             }
           },
@@ -1742,6 +2029,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "集群 ID。"
+              },
+              "ja-JP": {
+                "description": "Sparkジョブに関連付けられた Zilliz Cloudクラスターです。"
               }
             }
           },
@@ -1751,6 +2041,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "创建时间（ISO 8601）。"
+              },
+              "ja-JP": {
+                "description": "Sparkジョブが作成された時刻です。"
               }
             }
           },
@@ -1760,6 +2053,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "开始时间（ISO 8601）。"
+              },
+              "ja-JP": {
+                "description": "Sparkジョブの実行が開始された時刻です。ジョブの開始前は、このフィールドが存在しない場合があります。"
               }
             }
           },
@@ -1769,6 +2065,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "结束时间（ISO 8601）。"
+              },
+              "ja-JP": {
+                "description": "Sparkジョブが終了ステータスに達した時刻です。アクティブなジョブでは、このフィールドが存在しない場合があります。"
               }
             }
           },
@@ -1779,6 +2078,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "持续时间（秒）。"
+              },
+              "ja-JP": {
+                "description": "経過実行時間（秒）です。アクティブなジョブの場合、この値は現在時刻までで計算されます。"
               }
             }
           }
@@ -1797,6 +2099,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "Spark 批处理任务的详细信息。"
+          },
+          "ja-JP": {
+            "description": "Spark バッチジョブの詳細情報。"
           }
         },
         "properties": {
@@ -1806,6 +2111,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务 ID。"
+              },
+              "ja-JP": {
+                "description": "ジョブ ID。"
               }
             }
           },
@@ -1815,6 +2123,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务所属的项目 ID。"
+              },
+              "ja-JP": {
+                "description": "ジョブが属するプロジェクトの ID。"
               }
             }
           },
@@ -1824,6 +2135,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务类型。"
+              },
+              "ja-JP": {
+                "description": "ジョブの種類。"
               }
             }
           },
@@ -1833,6 +2147,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务描述。"
+              },
+              "ja-JP": {
+                "description": "ジョブの説明。"
               }
             }
           },
@@ -1842,6 +2159,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务状态。"
+              },
+              "ja-JP": {
+                "description": "ジョブのステータス。"
               }
             }
           },
@@ -1851,6 +2171,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドリージョン ID。"
               }
             }
           },
@@ -1860,6 +2183,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "集群 ID。"
+              },
+              "ja-JP": {
+                "description": "クラスター ID。"
               }
             }
           },
@@ -1881,6 +2207,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "创建时间（ISO 8601）。"
+              },
+              "ja-JP": {
+                "description": "作成時刻 (ISO 8601)。"
               }
             }
           },
@@ -1890,6 +2219,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "提交时间（ISO 8601）。"
+              },
+              "ja-JP": {
+                "description": "送信時刻 (ISO 8601)。"
               }
             }
           },
@@ -1899,6 +2231,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "开始时间（ISO 8601）。"
+              },
+              "ja-JP": {
+                "description": "開始時刻 (ISO 8601)。"
               }
             }
           },
@@ -1908,6 +2243,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "结束时间（ISO 8601）。"
+              },
+              "ja-JP": {
+                "description": "終了時刻 (ISO 8601)。"
               }
             }
           },
@@ -1918,6 +2256,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "持续时间（秒）。"
+              },
+              "ja-JP": {
+                "description": "秒単位の所要時間。"
               }
             }
           }
@@ -1936,6 +2277,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "任务产生的输出产物。"
+          },
+          "ja-JP": {
+            "description": "ジョブによって生成された出力アーティファクト。"
           }
         },
         "properties": {
@@ -1945,6 +2289,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "存储产物的存储卷名称。"
+              },
+              "ja-JP": {
+                "description": "アーティファクトが保存されるボリューム名。"
               }
             }
           },
@@ -1954,6 +2301,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "产物在存储卷内的路径。"
+              },
+              "ja-JP": {
+                "description": "ボリューム内のアーティファクトのパス。"
               }
             }
           }
@@ -1969,6 +2319,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "任务失败的原因。"
+          },
+          "ja-JP": {
+            "description": "ジョブが失敗した理由。"
           }
         },
         "properties": {
@@ -1978,6 +2331,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "错误码。"
+              },
+              "ja-JP": {
+                "description": "エラーコード。"
               }
             }
           },
@@ -1987,6 +2343,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "错误消息。"
+              },
+              "ja-JP": {
+                "description": "エラーメッセージ。"
               }
             }
           },
@@ -1996,6 +2355,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务是否可重试。"
+              },
+              "ja-JP": {
+                "description": "ジョブを再試行できるかどうか。"
               }
             }
           }
@@ -2007,6 +2369,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "任务输入或输出数据的引用。"
+          },
+          "ja-JP": {
+            "description": "ジョブの入力データまたは出力データへの参照。"
           }
         },
         "properties": {
@@ -2016,6 +2381,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "数据引用类型。"
+              },
+              "ja-JP": {
+                "description": "データ参照の種類。"
               }
             }
           },
@@ -2025,6 +2393,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "存储卷名称。"
+              },
+              "ja-JP": {
+                "description": "ボリューム名。"
               }
             }
           },
@@ -2034,6 +2405,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "数据在存储卷内的路径。"
+              },
+              "ja-JP": {
+                "description": "ボリューム内のデータパス。"
               }
             }
           },
@@ -2043,6 +2417,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "数据格式。"
+              },
+              "ja-JP": {
+                "description": "データ形式。"
               }
             }
           }
@@ -2054,6 +2431,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "回填任务的详细信息。"
+          },
+          "ja-JP": {
+            "description": "バックフィルジョブの詳細。"
           }
         },
         "properties": {
@@ -2063,6 +2443,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "数据库名称。"
+              },
+              "ja-JP": {
+                "description": "データベース名。"
               }
             }
           },
@@ -2072,6 +2455,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "集合名称。"
+              },
+              "ja-JP": {
+                "description": "コレクション名。"
               }
             }
           },
@@ -2087,6 +2473,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "目标字段。"
+              },
+              "ja-JP": {
+                "description": "ターゲットフィールド。"
               }
             }
           },
@@ -2099,6 +2488,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "源到目标的列映射。"
+              },
+              "ja-JP": {
+                "description": "ソースからターゲットへのカラムマッピング。"
               }
             }
           },
@@ -2108,6 +2500,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "回填模式。"
+              },
+              "ja-JP": {
+                "description": "バックフィルモード。"
               }
             }
           },
@@ -2117,6 +2512,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "资源规格。"
+              },
+              "ja-JP": {
+                "description": "リソースサイズ。"
               }
             }
           }
@@ -2128,6 +2526,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "回填任务的预检报告。"
+          },
+          "ja-JP": {
+            "description": "バックフィルジョブの事前チェックレポート。"
           }
         },
         "properties": {
@@ -2137,6 +2538,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "预检是否通过。"
+              },
+              "ja-JP": {
+                "description": "事前チェックに合格したかどうか。"
               }
             }
           },
@@ -2146,6 +2550,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "数据库名称。"
+              },
+              "ja-JP": {
+                "description": "データベース名。"
               }
             }
           },
@@ -2155,6 +2562,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "集合名称。"
+              },
+              "ja-JP": {
+                "description": "コレクション名。"
               }
             }
           },
@@ -2164,6 +2574,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "输入描述。"
+              },
+              "ja-JP": {
+                "description": "入力の説明。"
               }
             }
           },
@@ -2176,6 +2589,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "目标字段。"
+              },
+              "ja-JP": {
+                "description": "ターゲットフィールド。"
               }
             }
           },
@@ -2188,6 +2604,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "源到目标的列映射。"
+              },
+              "ja-JP": {
+                "description": "ソースからターゲットへのカラムマッピング。"
               }
             }
           },
@@ -2200,6 +2619,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "必需的源列。"
+              },
+              "ja-JP": {
+                "description": "必須のソースカラム。"
               }
             }
           },
@@ -2212,6 +2634,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "预检错误。"
+              },
+              "ja-JP": {
+                "description": "事前チェックエラー。"
               }
             }
           },
@@ -2222,6 +2647,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "已检查的行数。"
+              },
+              "ja-JP": {
+                "description": "チェックされた行数。"
               }
             }
           }
@@ -2233,6 +2661,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "单条预检错误。"
+          },
+          "ja-JP": {
+            "description": "個々の事前チェックエラー。"
           }
         },
         "properties": {
@@ -2242,6 +2673,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "错误码。"
+              },
+              "ja-JP": {
+                "description": "エラーコード。"
               }
             }
           },
@@ -2251,6 +2685,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "源列。"
+              },
+              "ja-JP": {
+                "description": "ソースカラム。"
               }
             }
           },
@@ -2260,6 +2697,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "目标字段。"
+              },
+              "ja-JP": {
+                "description": "ターゲットフィールド。"
               }
             }
           },
@@ -2269,6 +2709,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "期望类型。"
+              },
+              "ja-JP": {
+                "description": "期待される型。"
               }
             }
           },
@@ -2278,6 +2721,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "实际类型。"
+              },
+              "ja-JP": {
+                "description": "実際の型。"
               }
             }
           },
@@ -2287,6 +2733,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "错误消息。"
+              },
+              "ja-JP": {
+                "description": "エラーメッセージ。"
               }
             }
           }
@@ -2298,6 +2747,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "Spark 任务的数据资源（输入或输出）引用。"
+          },
+          "ja-JP": {
+            "description": "Spark ジョブのデータリソース (入力または出力) への参照。"
           }
         },
         "properties": {
@@ -2307,6 +2759,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "数据资源类型。"
+              },
+              "ja-JP": {
+                "description": "データリソースの種類。"
               }
             }
           },
@@ -2316,6 +2771,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "存储卷名称。"
+              },
+              "ja-JP": {
+                "description": "ボリューム名。"
               }
             }
           },
@@ -2325,6 +2783,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "数据在存储卷内的路径。"
+              },
+              "ja-JP": {
+                "description": "ボリューム内のデータパス。"
               }
             }
           },
@@ -2334,6 +2795,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "数据格式。"
+              },
+              "ja-JP": {
+                "description": "データ形式。"
               }
             }
           },
@@ -2343,6 +2807,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "写入模式。"
+              },
+              "ja-JP": {
+                "description": "書き込みモード。"
               }
             }
           },
@@ -2352,6 +2819,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "数据库名称。"
+              },
+              "ja-JP": {
+                "description": "データベース名。"
               }
             }
           },
@@ -2361,6 +2831,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "集合名称。"
+              },
+              "ja-JP": {
+                "description": "コレクション名。"
               }
             }
           }
@@ -2377,6 +2850,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "Spark 任务产物（JAR）。"
+          },
+          "ja-JP": {
+            "description": "Spark ジョブのアーティファクト (JAR)。"
           }
         },
         "properties": {
@@ -2386,6 +2862,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "存储产物的存储卷名称。"
+              },
+              "ja-JP": {
+                "description": "アーティファクトが保存されるボリューム名。"
               }
             }
           },
@@ -2395,6 +2874,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "产物在存储卷内的路径。"
+              },
+              "ja-JP": {
+                "description": "ボリューム内のアーティファクトのパス。"
               }
             }
           }
@@ -2410,6 +2892,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "所有 Spark 任务创建请求共有的字段。"
+          },
+          "ja-JP": {
+            "description": "すべての Spark ジョブ作成リクエストに共通するフィールド。"
           }
         },
         "properties": {
@@ -2419,6 +2904,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务描述。"
+              },
+              "ja-JP": {
+                "description": "ジョブの説明。"
               }
             }
           },
@@ -2428,6 +2916,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドリージョン ID。"
               }
             }
           },
@@ -2443,6 +2934,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务的资源规格。"
+              },
+              "ja-JP": {
+                "description": "ジョブのリソースサイズ。"
               }
             }
           },
@@ -2452,6 +2946,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "超时时间（秒）。"
+              },
+              "ja-JP": {
+                "description": "秒単位のタイムアウト。"
               }
             }
           }
@@ -2466,6 +2963,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "创建任务的请求体。"
+          },
+          "ja-JP": {
+            "description": "Jar ジョブの作成リクエスト。"
           }
         },
         "properties": {
@@ -2475,6 +2975,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务描述。"
+              },
+              "ja-JP": {
+                "description": "ジョブの説明。"
               }
             }
           },
@@ -2484,6 +2987,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドリージョン ID。"
               }
             }
           },
@@ -2499,6 +3005,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务的资源规格。"
+              },
+              "ja-JP": {
+                "description": "ジョブのリソースサイズ。"
               }
             }
           },
@@ -2508,6 +3017,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "超时时间（秒）。"
+              },
+              "ja-JP": {
+                "description": "秒単位のタイムアウト。"
               }
             }
           },
@@ -2520,6 +3032,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "主类。"
+              },
+              "ja-JP": {
+                "description": "メインクラス。"
               }
             }
           },
@@ -2532,6 +3047,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务参数。"
+              },
+              "ja-JP": {
+                "description": "ジョブの引数。"
               }
             }
           },
@@ -2544,6 +3062,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务参数。"
+              },
+              "ja-JP": {
+                "description": "ジョブのパラメーター。"
               }
             }
           },
@@ -2556,6 +3077,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Spark 配置。"
+              },
+              "ja-JP": {
+                "description": "Spark の設定。"
               }
             }
           }
@@ -2572,6 +3096,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "创建任务的请求体。"
+          },
+          "ja-JP": {
+            "description": "PkDedup ジョブの作成リクエスト。"
           }
         },
         "properties": {
@@ -2581,6 +3108,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务描述。"
+              },
+              "ja-JP": {
+                "description": "ジョブの説明。"
               }
             }
           },
@@ -2590,6 +3120,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドリージョン ID。"
               }
             }
           },
@@ -2605,6 +3138,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务的资源规格。"
+              },
+              "ja-JP": {
+                "description": "ジョブのリソースサイズ。"
               }
             }
           },
@@ -2614,6 +3150,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "超时时间（秒）。"
+              },
+              "ja-JP": {
+                "description": "秒単位のタイムアウト。"
               }
             }
           },
@@ -2623,6 +3162,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "主键字段。"
+              },
+              "ja-JP": {
+                "description": "primary key フィールド。"
               }
             }
           },
@@ -2632,6 +3174,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "保留哪条重复记录。"
+              },
+              "ja-JP": {
+                "description": "どの重複レコードを保持するか。"
               }
             }
           }
@@ -2647,6 +3192,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "创建任务的请求体。"
+          },
+          "ja-JP": {
+            "description": "VectorDedup ジョブの作成リクエスト。"
           }
         },
         "properties": {
@@ -2656,6 +3204,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务描述。"
+              },
+              "ja-JP": {
+                "description": "ジョブの説明。"
               }
             }
           },
@@ -2665,6 +3216,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドリージョン ID。"
               }
             }
           },
@@ -2680,6 +3234,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务的资源规格。"
+              },
+              "ja-JP": {
+                "description": "ジョブのリソースサイズ。"
               }
             }
           },
@@ -2689,6 +3246,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "超时时间（秒）。"
+              },
+              "ja-JP": {
+                "description": "秒単位のタイムアウト。"
               }
             }
           },
@@ -2698,6 +3258,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "主键字段。"
+              },
+              "ja-JP": {
+                "description": "primary key フィールド。"
               }
             }
           },
@@ -2707,6 +3270,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "向量字段。"
+              },
+              "ja-JP": {
+                "description": "ベクトルフィールド。"
               }
             }
           },
@@ -2716,6 +3282,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "保留哪条重复记录。"
+              },
+              "ja-JP": {
+                "description": "どの重複レコードを保持するか。"
               }
             }
           },
@@ -2725,6 +3294,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "距离度量方式。"
+              },
+              "ja-JP": {
+                "description": "距離メトリック。"
               }
             }
           },
@@ -2735,6 +3307,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "相似度阈值。"
+              },
+              "ja-JP": {
+                "description": "類似度のしきい値。"
               }
             }
           },
@@ -2744,6 +3319,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "簇数量。"
+              },
+              "ja-JP": {
+                "description": "クラスター数。"
               }
             }
           },
@@ -2753,6 +3331,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "输出模式。"
+              },
+              "ja-JP": {
+                "description": "出力モード。"
               }
             }
           },
@@ -2763,6 +3344,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "目标去重率。"
+              },
+              "ja-JP": {
+                "description": "目標の重複排除率。"
               }
             }
           }
@@ -2779,6 +3363,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "创建任务的请求体。"
+          },
+          "ja-JP": {
+            "description": "Kmeans ジョブの作成リクエスト。"
           }
         },
         "properties": {
@@ -2788,6 +3375,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务描述。"
+              },
+              "ja-JP": {
+                "description": "ジョブの説明。"
               }
             }
           },
@@ -2797,6 +3387,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドリージョン ID。"
               }
             }
           },
@@ -2812,6 +3405,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务的资源规格。"
+              },
+              "ja-JP": {
+                "description": "ジョブのリソースサイズ。"
               }
             }
           },
@@ -2821,6 +3417,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "超时时间（秒）。"
+              },
+              "ja-JP": {
+                "description": "秒単位のタイムアウト。"
               }
             }
           },
@@ -2830,6 +3429,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "主键字段。"
+              },
+              "ja-JP": {
+                "description": "primary key フィールド。"
               }
             }
           },
@@ -2839,6 +3441,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "向量字段。"
+              },
+              "ja-JP": {
+                "description": "ベクトルフィールド。"
               }
             }
           },
@@ -2848,6 +3453,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "距离度量方式。"
+              },
+              "ja-JP": {
+                "description": "距離メトリック。"
               }
             }
           },
@@ -2857,6 +3465,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "簇数量。"
+              },
+              "ja-JP": {
+                "description": "クラスター数。"
               }
             }
           }
@@ -2874,6 +3485,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "创建任务的请求体。"
+          },
+          "ja-JP": {
+            "description": "AnomalyDetection ジョブの作成リクエスト。"
           }
         },
         "properties": {
@@ -2883,6 +3497,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务描述。"
+              },
+              "ja-JP": {
+                "description": "ジョブの説明。"
               }
             }
           },
@@ -2892,6 +3509,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "云地域 ID。"
+              },
+              "ja-JP": {
+                "description": "クラウドリージョン ID。"
               }
             }
           },
@@ -2907,6 +3527,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "任务的资源规格。"
+              },
+              "ja-JP": {
+                "description": "ジョブのリソースサイズ。"
               }
             }
           },
@@ -2916,6 +3539,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "超时时间（秒）。"
+              },
+              "ja-JP": {
+                "description": "秒単位のタイムアウト。"
               }
             }
           },
@@ -2925,6 +3551,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "主键字段。"
+              },
+              "ja-JP": {
+                "description": "primary key フィールド。"
               }
             }
           },
@@ -2934,6 +3563,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "向量字段。"
+              },
+              "ja-JP": {
+                "description": "ベクトルフィールド。"
               }
             }
           },
@@ -2943,6 +3575,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "是否输出特征。"
+              },
+              "ja-JP": {
+                "description": "特徴量を出力するかどうか。"
               }
             }
           },
@@ -2952,6 +3587,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回的异常数量。"
+              },
+              "ja-JP": {
+                "description": "上位の異常の数。"
               }
             }
           }

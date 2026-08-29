@@ -13,21 +13,18 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
-test('workflow policy keeps generated Chinese REST out of canonical Translation selection', () => {
+test('workflow policy keeps spec-generated REST out of canonical Translation selection', () => {
   // Keep the copy under scripts/ so selection.js's relative require('../lib/load-typescript')
   // (it now derives GROUPS from the registry) still resolves to the real helper.
   const directory = fs.mkdtempSync(path.join(__dirname, '.translation-selection-policy-'))
   const selection = path.join(directory, 'selection.js')
   try {
     const source = fs.readFileSync('scripts/translation/selection.js', 'utf8')
-    fs.writeFileSync(selection, source.replace("if (group === 'rest') return ['ja-JP'];", "if (group === 'rest') return ['ja-JP', 'zh-CN'];").replace("if (group === 'rest') return [];", "if (group === 'rest') return ['zh-CN'];"))
-    assert.ok(validateWorkflowPolicies(undefined, {translationSelectionPath: selection}).includes(
-      'translation selection: canonical REST selection must retain only ja-JP/rest',
-    ))
-    fs.writeFileSync(selection, source.replace("if (group === 'rest') return [];", "if (group === 'rest') return ['zh-CN'];"))
-    assert.ok(validateWorkflowPolicies(undefined, {translationSelectionPath: selection}).includes(
-      'translation selection: canonical REST selection must reject zh-CN-reference/rest',
-    ))
+    fs.writeFileSync(selection, source.replaceAll("group === 'rest'", "group === '__rest__'"))
+    const errors = validateWorkflowPolicies(undefined, {translationSelectionPath: selection})
+    assert.ok(errors.includes('translation selection: canonical REST selection must reject ja-JP/rest'))
+    assert.ok(errors.includes('translation selection: canonical REST selection must reject all/rest'))
+    assert.ok(errors.includes('translation selection: canonical REST selection must reject zh-CN/rest'))
   } finally {
     fs.rmSync(directory, {recursive: true, force: true})
   }
@@ -572,6 +569,40 @@ test('Chinese Reference validation jobs retain full history for per-record sourc
   }
 })
 
+test('English site build retains full history and validates Reference before building', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/site-validation.yml', 'utf8'))
+  const steps = workflow.jobs.build_en.steps
+  const checkout = steps.find(step => step.uses === 'actions/checkout@v5')
+  const sourceFetch = steps.find(step => step.name === 'Fetch immutable Reference source commit')
+  const runs = steps.map(step => String(step.run || '')).filter(Boolean)
+
+  assert.equal(checkout.with.ref, '${{ needs.classify.outputs.source_sha }}')
+  assert.equal(checkout.with['fetch-depth'], 0)
+  assert.equal(sourceFetch, undefined)
+  assert.ok(runs.indexOf('pnpm docs-tooling validate-reference --site en') < runs.indexOf('pnpm build:en'))
+})
+
+test('workflow policy rejects dropping English Reference validation before the build', () => {
+  const sourceDirectory = path.join(process.cwd(), '.github/workflows')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'reference-en-validation-policy-'))
+  try {
+    fs.cpSync(sourceDirectory, directory, {recursive: true})
+    const file = path.join(directory, 'site-validation.yml')
+    const source = fs.readFileSync(file, 'utf8')
+    const jobStart = source.indexOf('\n  build_en:') + 1
+    const jobEnd = source.indexOf('\n  build_zh_cn:', jobStart)
+    assert.ok(jobStart >= 0 && jobEnd > jobStart)
+    const job = source.slice(jobStart, jobEnd)
+    assert.match(job, /pnpm docs-tooling validate-reference --site en/)
+    fs.writeFileSync(file, `${source.slice(0, jobStart)}${job.replace('validate-reference --site en', 'validate-reference --site zh-CN')}${source.slice(jobEnd)}`)
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'site-validation.yml: English Reference validation must run before the English build',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
 test('workflow policy rejects shallow Chinese Reference validation history', () => {
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'reference-history-policy-'))
@@ -579,7 +610,7 @@ test('workflow policy rejects shallow Chinese Reference validation history', () 
     fs.cpSync(sourceDirectory, directory, {recursive: true})
     const file = path.join(directory, 'site-validation.yml')
     const source = fs.readFileSync(file, 'utf8')
-    const jobStart = source.indexOf('  build_zh_cn:')
+    const jobStart = source.indexOf('\n  build_zh_cn:') + 1
     const jobEnd = source.indexOf('\n  reference_coverage:', jobStart)
     assert.ok(jobStart >= 0 && jobEnd > jobStart)
     const job = source.slice(jobStart, jobEnd)

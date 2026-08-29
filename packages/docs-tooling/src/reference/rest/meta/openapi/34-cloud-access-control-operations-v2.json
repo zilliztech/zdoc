@@ -39,6 +39,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -54,6 +57,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "用于筛选角色的项目 ID。"
+              },
+              "ja-JP": {
+                "description": "ロールのフィルタリングに使用するプロジェクト ID。"
               }
             }
           },
@@ -71,6 +77,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回的页码，第一页为 1。"
+              },
+              "ja-JP": {
+                "description": "返すページ番号。最初のページは 1 です。"
               }
             }
           },
@@ -89,6 +98,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "每页返回的条目数。"
+              },
+              "ja-JP": {
+                "description": "1 ページあたりに返す項目数。"
               }
             }
           }
@@ -107,6 +119,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -117,6 +132,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -136,6 +154,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -145,6 +166,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -154,6 +178,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -206,6 +233,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -213,6 +245,10 @@
           "zh-CN": {
             "summary": "列出 Cloud 角色",
             "description": "列出组织级或项目级 Cloud ACL 角色。"
+          },
+          "ja-JP": {
+            "summary": "Cloud ロールの一覧表示",
+            "description": "組織またはプロジェクトスコープの Cloud ACL ロールを一覧表示します。"
           }
         }
       },
@@ -235,6 +271,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           }
@@ -306,6 +345,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -316,6 +358,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -335,6 +380,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -344,6 +392,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -353,6 +404,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -404,6 +458,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -411,6 +470,10 @@
           "zh-CN": {
             "summary": "创建 Cloud 角色",
             "description": "创建自定义组织级或项目级 Cloud ACL 角色。\n\n**策略参考** — `resourceType` 允许取值及其组合：\n\n| resourceType | Privileges | 是否必填 resources | 说明 |\n|---|---|---|---|\n| `project_member` | view, create, modify, delete | 否 |  |\n| `project_role` | view, create, modify, delete, grant | 否 |  |\n| `project` | view, modify, delete | 否 |  |\n| `security` | view, manage | 否 |  |\n| `backup` | view, manage | 否 |  |\n| `observability` | view, manage | 否 |  |\n| `serving_cluster` | create, view, modify, delete | 是（`create` 除外） | `resources` 填 cluster id，如 `in01-xxx`。用 `*` 表示所有（含未来创建的）cluster |\n| `on_demand_cluster` | create, view, modify, delete | 是（`create` 除外） | `resources` 填 cluster id |\n| `volume` | create, view, modify, delete, usage | 是（`create` 除外） | `resources` 填 volume id |\n| `storage_integration` | create, view, modify, delete, usage | 是（`create` 除外） | `resources` 填 integration id |\n| `model_provider_integration` | create, view, modify, delete, usage | 是（`create` 除外） | `resources` 填 integration id |\n| `kms_integration` | create, view, modify, delete, usage | 是（`create` 除外） | `resources` 填 integration id（CMEK） |\n| `datadog_integration` | create, view, modify, delete, usage | 是（`create` 除外） | `resources` 填 integration id |\n| `serving_cluster_data` | read, write, all | 是 | `resources` 填 cluster id |\n| `on_demand_compute_data` | read, write, all | 否 |  |\n| `volume_data` | read, write, all | 是 | `resources` 填 volume id |"
+          },
+          "ja-JP": {
+            "summary": "Cloud ロールの作成",
+            "description": "組織またはプロジェクトスコープのカスタム Cloud ACL ロールを作成します。\n\n**ポリシーリファレンス** — 許可される `resourceType` の値とその組み合わせ:\n\n| resourceType | 特権 | リソースが必要 | 備考 |\n|---|---|---|---|\n| `project_member` | view, create, modify, delete | いいえ |  |\n| `project_role` | view, create, modify, delete, grant | いいえ |  |\n| `project` | view, modify, delete | いいえ |  |\n| `security` | view, manage | いいえ |  |\n| `backup` | view, manage | いいえ |  |\n| `observability` | view, manage | いいえ |  |\n| `serving_cluster` | create, view, modify, delete | はい(`create` を除く) | `resources` = クラスター ID(例: `in01-xxx`)。`*` を使用すると、将来のクラスターを含むすべてのクラスターを対象にできます。 |\n| `on_demand_cluster` | create, view, modify, delete | はい(`create` を除く) | `resources` = クラスター ID |\n| `volume` | create, view, modify, delete, usage | はい(`create` を除く) | `resources` = ボリューム ID |\n| `storage_integration` | create, view, modify, delete, usage | はい(`create` を除く) | `resources` = インテグレーション ID |\n| `model_provider_integration` | create, view, modify, delete, usage | はい(`create` を除く) | `resources` = インテグレーション ID |\n| `kms_integration` | create, view, modify, delete, usage | はい(`create` を除く) | `resources` = インテグレーション ID(CMEK) |\n| `datadog_integration` | create, view, modify, delete, usage | はい(`create` を除く) | `resources` = インテグレーション ID |\n| `serving_cluster_data` | read, write, all | はい | `resources` = クラスター ID |\n| `on_demand_compute_data` | read, write, all | いいえ |  |\n| `volume_data` | read, write, all | はい | `resources` = ボリューム ID |"
           }
         }
       }
@@ -435,6 +498,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -450,6 +516,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色 ID。"
+              },
+              "ja-JP": {
+                "description": "ロール ID。"
               }
             }
           }
@@ -468,6 +537,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -478,6 +550,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -497,6 +572,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -506,6 +584,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -515,6 +596,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -563,6 +647,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -570,6 +659,10 @@
           "zh-CN": {
             "summary": "查看 Cloud 角色",
             "description": "返回一个 Cloud ACL 角色及其策略语句。"
+          },
+          "ja-JP": {
+            "summary": "Cloud ロールの詳細の取得",
+            "description": "1 つの Cloud ACL ロールとそのポリシーステートメントを返します。"
           }
         }
       },
@@ -592,6 +685,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -607,6 +703,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色 ID。"
+              },
+              "ja-JP": {
+                "description": "ロール ID。"
               }
             }
           }
@@ -654,6 +753,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -664,6 +766,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -683,6 +788,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -692,6 +800,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -701,6 +812,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -749,6 +863,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -756,6 +875,10 @@
           "zh-CN": {
             "summary": "更新 Cloud 角色",
             "description": "部分更新自定义 Cloud ACL 角色。提供 `policies` 时会替换完整策略集。"
+          },
+          "ja-JP": {
+            "summary": "Cloud ロールの更新",
+            "description": "カスタム Cloud ACL ロールを部分的に更新します。指定されたポリシーがポリシーセット全体を置き換えます。"
           }
         }
       },
@@ -778,6 +901,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -793,6 +919,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色 ID。"
+              },
+              "ja-JP": {
+                "description": "ロール ID。"
               }
             }
           }
@@ -811,6 +940,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -821,6 +953,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -830,6 +965,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "操作是否成功。"
+                            },
+                            "ja-JP": {
+                              "description": "操作が成功したかどうか。"
                             }
                           }
                         }
@@ -846,6 +984,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -855,6 +996,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -864,6 +1008,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -894,6 +1041,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -901,6 +1053,10 @@
           "zh-CN": {
             "summary": "删除 Cloud 角色",
             "description": "软删除自定义角色。删除操作不会级联：如果该角色仍有活动绑定（用户、群组或 API Key），请求会被拒绝并返回 `21141 this role is in use`。请先撤销其所有绑定，再删除该角色。如果删除会导致某作用域内无法再管理角色，或该角色为预定义角色，请求也会被拒绝。"
+          },
+          "ja-JP": {
+            "summary": "Cloud ロールの削除",
+            "description": "カスタムロールをソフト削除します。削除はカスケードされません。ロールにアクティブなバインディング(ユーザー、グループ、または API key)がまだ残っている場合、リクエストは `21141 this role is in use` で拒否されます。最初にすべてのバインディングを取り消してから、ロールを削除してください。また、スコープ内でロールを管理できる最後のプリンシパルが削除される場合、またはロールが定義済みの場合も、リクエストは拒否されます。"
           }
         }
       }
@@ -925,6 +1081,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -940,6 +1099,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色 ID。"
+              },
+              "ja-JP": {
+                "description": "ロール ID。"
               }
             }
           },
@@ -955,6 +1117,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "预定义项目角色的项目边界。"
+              },
+              "ja-JP": {
+                "description": "定義済みプロジェクトロールのプロジェクト境界。"
               }
             }
           },
@@ -972,6 +1137,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回的页码，第一页为 1。"
+              },
+              "ja-JP": {
+                "description": "返すページ番号。最初のページは 1 です。"
               }
             }
           },
@@ -990,6 +1158,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "每页返回的条目数。"
+              },
+              "ja-JP": {
+                "description": "1 ページあたりに返す項目数。"
               }
             }
           }
@@ -1008,6 +1179,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -1018,6 +1192,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1037,6 +1214,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -1046,6 +1226,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1055,6 +1238,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -1112,6 +1298,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -1119,6 +1310,10 @@
           "zh-CN": {
             "summary": "列出 Cloud 角色主体",
             "description": "列出直接绑定到 Cloud ACL 角色的用户、群组和 API Key。"
+          },
+          "ja-JP": {
+            "summary": "Cloud ロールのプリンシパルの一覧表示",
+            "description": "Cloud ACL ロールに直接バインドされたユーザー、グループ、API key を一覧表示します。"
           }
         }
       }
@@ -1143,6 +1338,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -1158,6 +1356,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "用于匹配群组显示名称的子字符串。"
+              },
+              "ja-JP": {
+                "description": "グループの表示名と照合する部分文字列。"
               }
             }
           },
@@ -1175,6 +1376,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回的页码，第一页为 1。"
+              },
+              "ja-JP": {
+                "description": "返すページ番号。最初のページは 1 です。"
               }
             }
           },
@@ -1193,6 +1397,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "每页返回的条目数。"
+              },
+              "ja-JP": {
+                "description": "1 ページあたりに返す項目数。"
               }
             }
           }
@@ -1211,6 +1418,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -1221,6 +1431,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1240,6 +1453,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -1249,6 +1465,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1258,6 +1477,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -1304,6 +1526,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -1311,6 +1538,10 @@
           "zh-CN": {
             "summary": "列出群组",
             "description": "列出调用方组织中的 SCIM 群组。"
+          },
+          "ja-JP": {
+            "summary": "グループの一覧表示",
+            "description": "呼び出し元の組織内の SCIM グループを一覧表示します。"
           }
         }
       }
@@ -1335,6 +1566,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -1350,6 +1584,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "SCIM 群组 ID。"
+              },
+              "ja-JP": {
+                "description": "SCIM グループ ID。"
               }
             }
           }
@@ -1368,6 +1605,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -1378,6 +1618,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1397,6 +1640,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -1406,6 +1652,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1415,6 +1664,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -1467,6 +1719,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -1474,6 +1731,10 @@
           "zh-CN": {
             "summary": "列出群组角色",
             "description": "列出直接授予 SCIM 群组的角色。"
+          },
+          "ja-JP": {
+            "summary": "グループのロールの一覧表示",
+            "description": "SCIM グループに直接割り当てられたロールを一覧表示します。"
           }
         }
       }
@@ -1498,6 +1759,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -1513,6 +1777,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "SCIM 群组 ID。"
+              },
+              "ja-JP": {
+                "description": "SCIM グループ ID。"
               }
             }
           },
@@ -1530,6 +1797,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回的页码，第一页为 1。"
+              },
+              "ja-JP": {
+                "description": "返すページ番号。最初のページは 1 です。"
               }
             }
           },
@@ -1548,6 +1818,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "每页返回的条目数。"
+              },
+              "ja-JP": {
+                "description": "1 ページあたりに返す項目数。"
               }
             }
           }
@@ -1566,6 +1839,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -1576,6 +1852,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1595,6 +1874,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -1604,6 +1886,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1613,6 +1898,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -1657,6 +1945,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -1664,6 +1957,10 @@
           "zh-CN": {
             "summary": "列出群组成员",
             "description": "列出 SCIM 群组的成员。"
+          },
+          "ja-JP": {
+            "summary": "グループのメンバーの一覧表示",
+            "description": "SCIM グループのメンバーを一覧表示します。"
           }
         }
       }
@@ -1688,6 +1985,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -1703,6 +2003,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "SCIM 群组 ID。"
+              },
+              "ja-JP": {
+                "description": "SCIM グループ ID。"
               }
             }
           },
@@ -1718,6 +2021,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色 ID。"
+              },
+              "ja-JP": {
+                "description": "ロール ID。"
               }
             }
           },
@@ -1733,6 +2039,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "授予预定义项目角色时必填。"
+              },
+              "ja-JP": {
+                "description": "定義済みプロジェクトロールを付与する場合に必要です。"
               }
             }
           }
@@ -1751,6 +2060,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -1761,6 +2073,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1770,6 +2085,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "操作是否成功。"
+                            },
+                            "ja-JP": {
+                              "description": "操作が成功したかどうか。"
                             }
                           }
                         }
@@ -1786,6 +2104,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -1795,6 +2116,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1804,6 +2128,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -1834,6 +2161,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -1841,6 +2173,10 @@
           "zh-CN": {
             "summary": "为群组授予角色",
             "description": "直接向 SCIM 群组授予一个角色。"
+          },
+          "ja-JP": {
+            "summary": "グループへのロールの付与",
+            "description": "SCIM グループに 1 つのロールを直接付与します。"
           }
         }
       },
@@ -1863,6 +2199,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -1878,6 +2217,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "SCIM 群组 ID。"
+              },
+              "ja-JP": {
+                "description": "SCIM グループ ID。"
               }
             }
           },
@@ -1893,6 +2235,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色 ID。"
+              },
+              "ja-JP": {
+                "description": "ロール ID。"
               }
             }
           },
@@ -1908,6 +2253,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "撤销预定义项目角色时必填。"
+              },
+              "ja-JP": {
+                "description": "定義済みプロジェクトロールを取り消す場合に必要です。"
               }
             }
           }
@@ -1926,6 +2274,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -1936,6 +2287,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1945,6 +2299,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "操作是否成功。"
+                            },
+                            "ja-JP": {
+                              "description": "操作が成功したかどうか。"
                             }
                           }
                         }
@@ -1961,6 +2318,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -1970,6 +2330,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -1979,6 +2342,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -2009,6 +2375,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -2016,6 +2387,10 @@
           "zh-CN": {
             "summary": "撤销群组角色",
             "description": "撤销直接授予 SCIM 群组的一个角色。"
+          },
+          "ja-JP": {
+            "summary": "グループからのロールの取り消し",
+            "description": "SCIM グループから直接割り当てられた 1 つのロールを取り消します。"
           }
         }
       }
@@ -2040,6 +2415,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -2055,6 +2433,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "成员用户 ID。"
+              },
+              "ja-JP": {
+                "description": "メンバーのユーザー ID。"
               }
             }
           }
@@ -2073,6 +2454,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -2083,6 +2467,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -2102,6 +2489,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -2111,6 +2501,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -2120,6 +2513,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -2172,6 +2568,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -2179,6 +2580,10 @@
           "zh-CN": {
             "summary": "列出成员角色",
             "description": "列出直接授予成员的角色，不包括通过群组继承的角色。"
+          },
+          "ja-JP": {
+            "summary": "メンバーのロールの一覧表示",
+            "description": "メンバーに直接割り当てられたロールを一覧表示します。グループから継承されたロールは含まれません。"
           }
         }
       }
@@ -2203,6 +2608,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -2218,6 +2626,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "成员用户 ID。"
+              },
+              "ja-JP": {
+                "description": "メンバーのユーザー ID。"
               }
             }
           },
@@ -2233,6 +2644,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色 ID。"
+              },
+              "ja-JP": {
+                "description": "ロール ID。"
               }
             }
           },
@@ -2248,6 +2662,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "授予预定义项目角色时必填。"
+              },
+              "ja-JP": {
+                "description": "定義済みプロジェクトロールを付与する場合に必要です。"
               }
             }
           }
@@ -2266,6 +2683,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -2276,6 +2696,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -2285,6 +2708,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "操作是否成功。"
+                            },
+                            "ja-JP": {
+                              "description": "操作が成功したかどうか。"
                             }
                           }
                         }
@@ -2301,6 +2727,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -2310,6 +2739,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -2319,6 +2751,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -2349,6 +2784,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -2356,6 +2796,10 @@
           "zh-CN": {
             "summary": "为成员授予角色",
             "description": "直接向成员授予一个角色。"
+          },
+          "ja-JP": {
+            "summary": "メンバーへのロールの付与",
+            "description": "メンバーに 1 つのロールを直接付与します。"
           }
         }
       },
@@ -2378,6 +2822,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -2393,6 +2840,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "成员用户 ID。"
+              },
+              "ja-JP": {
+                "description": "メンバーのユーザー ID。"
               }
             }
           },
@@ -2408,6 +2858,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色 ID。"
+              },
+              "ja-JP": {
+                "description": "ロール ID。"
               }
             }
           },
@@ -2423,6 +2876,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "撤销预定义项目角色时必填。"
+              },
+              "ja-JP": {
+                "description": "定義済みプロジェクトロールを取り消す場合に必要です。"
               }
             }
           }
@@ -2441,6 +2897,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -2451,6 +2910,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -2460,6 +2922,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "操作是否成功。"
+                            },
+                            "ja-JP": {
+                              "description": "操作が成功したかどうか。"
                             }
                           }
                         }
@@ -2476,6 +2941,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -2485,6 +2953,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -2494,6 +2965,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -2524,6 +2998,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -2531,6 +3010,10 @@
           "zh-CN": {
             "summary": "撤销成员角色",
             "description": "撤销直接授予成员的一个角色。"
+          },
+          "ja-JP": {
+            "summary": "メンバーからのロールの取り消し",
+            "description": "メンバーから直接割り当てられた 1 つのロールを取り消します。"
           }
         }
       }
@@ -2555,6 +3038,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为具备适当权限的 API Key。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、適切な権限を持つ API key を使用する必要があります。"
               }
             }
           },
@@ -2570,6 +3056,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "成员邮箱地址。"
+              },
+              "ja-JP": {
+                "description": "メンバーのメールアドレス。"
               }
             }
           },
@@ -2585,6 +3074,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "成员用户 ID。"
+              },
+              "ja-JP": {
+                "description": "メンバーのユーザー ID。"
               }
             }
           }
@@ -2603,6 +3095,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "properties": {
@@ -2613,6 +3108,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -2632,6 +3130,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "properties": {
@@ -2641,6 +3142,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           }
                         },
@@ -2650,6 +3154,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误消息。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           }
                         }
@@ -2684,6 +3191,11 @@
                   }
                 }
               }
+            },
+            "x-i18n": {
+              "ja-JP": {
+                "description": "成功した結果またはエラーメッセージを返します。"
+              }
             }
           }
         },
@@ -2691,6 +3203,10 @@
           "zh-CN": {
             "summary": "解析成员",
             "description": "通过邮箱或用户 ID 解析组织成员。必须提供 email 或 userId 其中之一。"
+          },
+          "ja-JP": {
+            "summary": "メンバーの解決",
+            "description": "メンバーを email またはユーザー ID で解決します。email または userId のいずれか一方のみを指定する必要があります。"
           }
         }
       }
@@ -2704,6 +3220,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "附加到自定义 Cloud 角色的策略语句。"
+          },
+          "ja-JP": {
+            "description": "カスタム Cloud ロールに添付されるポリシーステートメント。"
           }
         },
         "properties": {
@@ -2713,6 +3232,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "策略语句针对的二级资源，例如 `serving_cluster`、`volume`、`project_member`、`project_role`。"
+              },
+              "ja-JP": {
+                "description": "ステートメントが対象とする第 2 レベルのリソース(例: `serving_cluster`、`volume`、`project_member`、`project_role`)。"
               }
             },
             "enum": [
@@ -2756,6 +3278,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "针对该资源的原子权限，例如 `[\"view\", \"create\"]`。"
+              },
+              "ja-JP": {
+                "description": "そのリソースに対するアトミックな特権(例: `[\"view\", \"create\"]`)。"
               }
             }
           },
@@ -2769,6 +3294,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "策略覆盖的实例：`*` 表示所有，或显式 id（会依据角色的项目进行校验）。在 `serving_cluster`、`on_demand_cluster`、`volume`、`serving_cluster_data`、`volume_data`、`storage_integration`、`model_provider_integration`、`kms_integration` 和 `datadog_integration` 上必填，除非该语句的唯一权限是 `create`。其他资源类型（包括 `on_demand_compute_data`）请省略——写入时会被拒绝且永不返回。"
+              },
+              "ja-JP": {
+                "description": "ステートメントが対象とするインスタンス: すべての場合は `*`、または明示的な ID(ロールのプロジェクトに対して検証されます)。`serving_cluster`、`on_demand_cluster`、`volume`、`serving_cluster_data`、`volume_data`、`storage_integration`、`model_provider_integration`、`kms_integration`、`datadog_integration` では、ステートメントの唯一の特権が `create` でない限り必須です。それ以外の場所(`on_demand_compute_data` を含む)では省略してください — 書き込み時には拒否され、返されることはありません。"
               }
             }
           },
@@ -2779,6 +3307,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "保留供未来使用，请省略此字段。"
+              },
+              "ja-JP": {
+                "description": "将来の使用のために予約されています。このフィールドは省略してください。"
               }
             }
           }
@@ -2794,6 +3325,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "Cloud ACL 角色。"
+          },
+          "ja-JP": {
+            "description": "Cloud ACL ロール。"
           }
         },
         "properties": {
@@ -2803,6 +3337,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色 ID。"
+              },
+              "ja-JP": {
+                "description": "ロール ID。"
               }
             }
           },
@@ -2812,6 +3349,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色显示名称。"
+              },
+              "ja-JP": {
+                "description": "ロールの表示名。"
               }
             }
           },
@@ -2825,6 +3365,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色作用域。"
+              },
+              "ja-JP": {
+                "description": "ロールのスコープ。"
               }
             }
           },
@@ -2838,6 +3381,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色是预定义角色还是自定义角色。"
+              },
+              "ja-JP": {
+                "description": "ロールが定義済みかカスタムかを示します。"
               }
             }
           },
@@ -2847,6 +3393,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目级角色所属的项目 ID。组织级角色不返回此字段。"
+              },
+              "ja-JP": {
+                "description": "プロジェクトスコープのロールのプロジェクト ID。組織スコープのロールではこのフィールドは存在しません。"
               }
             }
           },
@@ -2856,6 +3405,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色描述。"
+              },
+              "ja-JP": {
+                "description": "ロールの説明。"
               }
             }
           },
@@ -2868,6 +3420,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "附加到角色的策略语句。"
+              },
+              "ja-JP": {
+                "description": "ロールに添付されたポリシーステートメント。"
               }
             }
           }
@@ -2889,6 +3444,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "匹配条目的总数。"
+              },
+              "ja-JP": {
+                "description": "一致する項目の総数。"
               }
             }
           },
@@ -2899,6 +3457,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "当前页码。"
+              },
+              "ja-JP": {
+                "description": "現在のページ番号。"
               }
             }
           },
@@ -2909,6 +3470,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "请求的每页条目数。"
+              },
+              "ja-JP": {
+                "description": "要求されたページサイズ。"
               }
             }
           },
@@ -2921,6 +3485,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "当前页面返回的角色。"
+              },
+              "ja-JP": {
+                "description": "このページで返されるロール。"
               }
             }
           }
@@ -2938,6 +3505,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "要创建的角色。组织级角色省略 `projectId`；项目级角色提供该字段。"
+          },
+          "ja-JP": {
+            "description": "作成するロール。組織ロールの場合は projectId を省略し、プロジェクトロールの場合は指定します。"
           }
         },
         "properties": {
@@ -2947,6 +3517,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目级角色所属的项目 ID。组织级角色省略此字段。"
+              },
+              "ja-JP": {
+                "description": "プロジェクトスコープのロールのプロジェクト ID。組織スコープのロールの場合はこのフィールドを省略します。"
               }
             }
           },
@@ -2956,6 +3529,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色作用域内唯一的显示名称。"
+              },
+              "ja-JP": {
+                "description": "そのスコープ内で一意のロールの表示名。"
               }
             }
           },
@@ -2966,6 +3542,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "可选的角色描述。"
+              },
+              "ja-JP": {
+                "description": "オプションのロールの説明。"
               }
             }
           },
@@ -2979,6 +3558,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "授予角色的策略语句。"
+              },
+              "ja-JP": {
+                "description": "ロールに割り当てられたポリシーステートメント。"
               }
             }
           }
@@ -2995,6 +3577,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "要更新的自定义角色字段。"
+          },
+          "ja-JP": {
+            "description": "カスタムロールで更新するフィールド。"
           }
         },
         "properties": {
@@ -3004,6 +3589,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目级角色的项目边界声明。"
+              },
+              "ja-JP": {
+                "description": "プロジェクトスコープのロールのプロジェクト境界の指定。"
               }
             }
           },
@@ -3013,6 +3601,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "替换后的角色显示名称。"
+              },
+              "ja-JP": {
+                "description": "置き換え後のロールの表示名。"
               }
             }
           },
@@ -3023,6 +3614,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "替换后的描述。传入空字符串可清除描述。"
+              },
+              "ja-JP": {
+                "description": "置き換え後の説明。クリアするには空文字列を送信します。"
               }
             }
           },
@@ -3036,6 +3630,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "完整替换策略集，不接受空数组。"
+              },
+              "ja-JP": {
+                "description": "置き換え後の完全なポリシーセット。空の配列は拒否されます。"
               }
             }
           }
@@ -3047,6 +3644,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "直接授予成员或群组的角色。"
+          },
+          "ja-JP": {
+            "description": "メンバーまたはグループに直接割り当てられたロール。"
           }
         },
         "properties": {
@@ -3056,6 +3656,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色 ID。"
+              },
+              "ja-JP": {
+                "description": "ロール ID。"
               }
             }
           },
@@ -3065,6 +3668,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色显示名称。"
+              },
+              "ja-JP": {
+                "description": "ロールの表示名。"
               }
             }
           },
@@ -3078,6 +3684,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "角色是预定义角色还是自定义角色。"
+              },
+              "ja-JP": {
+                "description": "ロールが定義済みかカスタムかを示します。"
               }
             }
           },
@@ -3087,6 +3696,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "授予角色的用户显示名称；非用户授予者则返回原始值。"
+              },
+              "ja-JP": {
+                "description": "ロールを割り当てたユーザーの表示名、または非ユーザーの割り当て者の生の値。"
               }
             }
           }
@@ -3107,6 +3719,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "项目 ID。"
+              },
+              "ja-JP": {
+                "description": "プロジェクト ID。"
               }
             }
           },
@@ -3119,6 +3734,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "在该项目中授予的角色。"
+              },
+              "ja-JP": {
+                "description": "プロジェクト内で割り当てられたロール。"
               }
             }
           }
@@ -3140,6 +3758,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "直接授予该主体的组织级角色。"
+              },
+              "ja-JP": {
+                "description": "プリンシパルに直接割り当てられた組織スコープのロール。"
               }
             }
           },
@@ -3152,6 +3773,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "直接授予该主体的项目级角色，按项目分组。"
+              },
+              "ja-JP": {
+                "description": "プロジェクトごとにグループ化された、プリンシパルに直接割り当てられたプロジェクトスコープのロール。"
               }
             }
           }
@@ -3175,6 +3799,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "主体类型。"
+              },
+              "ja-JP": {
+                "description": "プリンシパルのタイプ。"
               }
             }
           },
@@ -3185,6 +3812,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "主体为用户时的邮箱地址。"
+              },
+              "ja-JP": {
+                "description": "プリンシパルがユーザーの場合のメールアドレス。"
               }
             }
           },
@@ -3194,6 +3824,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "主体为群组时的群组 ID。"
+              },
+              "ja-JP": {
+                "description": "プリンシパルがグループの場合のグループ ID。"
               }
             }
           },
@@ -3203,6 +3836,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "主体为 API Key 时的 API Key ID。"
+              },
+              "ja-JP": {
+                "description": "プリンシパルが API key の場合の API key ID。"
               }
             }
           },
@@ -3212,6 +3848,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "主体显示名称。"
+              },
+              "ja-JP": {
+                "description": "プリンシパルの表示名。"
               }
             }
           },
@@ -3221,6 +3860,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "授予者的用户显示名称；非用户授予者返回类似 `system` 的原始值。"
+              },
+              "ja-JP": {
+                "description": "割り当てたユーザーの表示名、または `system` などの非ユーザーの生の値。"
               }
             }
           },
@@ -3231,6 +3873,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "授予时间，采用 UTC ISO 8601 格式。"
+              },
+              "ja-JP": {
+                "description": "UTC ISO 8601 形式の割り当て時刻。"
               }
             }
           }
@@ -3252,6 +3897,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "匹配条目的总数。"
+              },
+              "ja-JP": {
+                "description": "一致する項目の総数。"
               }
             }
           },
@@ -3262,6 +3910,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "当前页码。"
+              },
+              "ja-JP": {
+                "description": "現在のページ番号。"
               }
             }
           },
@@ -3272,6 +3923,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "请求的每页条目数。"
+              },
+              "ja-JP": {
+                "description": "要求されたページサイズ。"
               }
             }
           },
@@ -3284,6 +3938,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "当前页面返回的主体。"
+              },
+              "ja-JP": {
+                "description": "このページで返されるプリンシパル。"
               }
             }
           }
@@ -3304,6 +3961,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "SCIM 群组 ID。"
+              },
+              "ja-JP": {
+                "description": "SCIM グループ ID。"
               }
             }
           },
@@ -3313,6 +3973,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "群组显示名称。"
+              },
+              "ja-JP": {
+                "description": "グループの表示名。"
               }
             }
           },
@@ -3323,6 +3986,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "群组中的成员数量。"
+              },
+              "ja-JP": {
+                "description": "グループ内のメンバー数。"
               }
             }
           }
@@ -3343,6 +4009,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "匹配条目的总数。"
+              },
+              "ja-JP": {
+                "description": "一致する項目の総数。"
               }
             }
           },
@@ -3353,6 +4022,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "当前页码。"
+              },
+              "ja-JP": {
+                "description": "現在のページ番号。"
               }
             }
           },
@@ -3363,6 +4035,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "请求的每页条目数。"
+              },
+              "ja-JP": {
+                "description": "要求されたページサイズ。"
               }
             }
           },
@@ -3375,6 +4050,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "当前页面返回的群组。"
+              },
+              "ja-JP": {
+                "description": "このページで返されるグループ。"
               }
             }
           }
@@ -3395,6 +4073,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "成员显示名称。"
+              },
+              "ja-JP": {
+                "description": "メンバーの表示名。"
               }
             }
           },
@@ -3405,6 +4086,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "成员邮箱地址。"
+              },
+              "ja-JP": {
+                "description": "メンバーのメールアドレス。"
               }
             }
           }
@@ -3424,6 +4108,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "匹配条目的总数。"
+              },
+              "ja-JP": {
+                "description": "一致する項目の総数。"
               }
             }
           },
@@ -3434,6 +4121,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "当前页码。"
+              },
+              "ja-JP": {
+                "description": "現在のページ番号。"
               }
             }
           },
@@ -3444,6 +4134,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "请求的每页条目数。"
+              },
+              "ja-JP": {
+                "description": "要求されたページサイズ。"
               }
             }
           },
@@ -3456,6 +4149,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "当前页面返回的成员。"
+              },
+              "ja-JP": {
+                "description": "このページで返されるメンバー。"
               }
             }
           }
@@ -3473,6 +4169,9 @@
         "x-i18n": {
           "zh-CN": {
             "description": "解析出的组织成员。"
+          },
+          "ja-JP": {
+            "description": "解決された組織メンバー。"
           }
         },
         "properties": {
@@ -3483,6 +4182,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "成员用户 ID。"
+              },
+              "ja-JP": {
+                "description": "メンバーのユーザー ID。"
               }
             }
           },
@@ -3493,6 +4195,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "成员显示名称。"
+              },
+              "ja-JP": {
+                "description": "メンバーの表示名。"
               }
             }
           },
@@ -3503,6 +4208,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "成员邮箱地址。"
+              },
+              "ja-JP": {
+                "description": "メンバーのメールアドレス。"
               }
             }
           }
