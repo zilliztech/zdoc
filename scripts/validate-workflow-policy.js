@@ -473,7 +473,7 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           !/git fetch --no-tags --filter=blob:none --depth=1 origin -- "\$BASE_SHA"/.test(comparisonRun)) {
         errors.push(`${file}: classifier must use a shallow sparse checkout and exact comparison-base fetch`)
       }
-      for (const jobName of ['build_zh_cn', 'reference_coverage']) {
+      for (const jobName of ['build_en', 'build_zh_cn', 'reference_coverage']) {
         const steps = workflow.jobs?.[jobName]?.steps || []
         const checkout = steps.find(step => step?.uses === 'actions/checkout@v5')
         const sourceFetch = steps.find(step => step?.name === 'Fetch immutable Reference source commit')
@@ -507,6 +507,13 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       const zhBuildIndex = zhBuildRuns.indexOf('pnpm build:zh-CN')
       if (referenceIndex < 0 || zhBuildIndex < 0 || referenceIndex > zhBuildIndex || !referenceRuns.includes(referenceCommand)) {
         errors.push(`${file}: Chinese Reference validation must run before the Chinese build and in focused coverage`)
+      }
+      const englishReferenceCommand = 'pnpm docs-tooling validate-reference --site en'
+      const enBuildRuns = (workflow.jobs?.build_en?.steps || []).map(step => String(step?.run || '').trim())
+      const enReferenceIndex = enBuildRuns.indexOf(englishReferenceCommand)
+      const enBuildIndex = enBuildRuns.indexOf('pnpm build:en')
+      if (enReferenceIndex < 0 || enBuildIndex < 0 || enReferenceIndex > enBuildIndex) {
+        errors.push(`${file}: English Reference validation must run before the English build`)
       }
     }
 

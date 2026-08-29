@@ -311,13 +311,19 @@ export function deriveReferenceSidebarPublicationEntries(
   const targets = readReferenceSidebarTargets(repositoryRoot);
   const sourceDocuments = readMetadata(path.join(repositoryRoot, 'content/en/reference'));
   const targetRoot = path.join(repositoryRoot, 'content/zh-CN/reference');
+  const targetDocuments = readMetadata(targetRoot);
+  const restDocumentIdPrefix = referencePresentations.find(manual => manual.id === 'rest')?.presentation.documentIdPrefix;
   const englishEntries: Array<readonly [string, string]> = [];
   const chineseEntries: Array<readonly [string, string]> = [];
 
   for (const name of REFERENCE_SIDEBARS) {
     const target = targets.get(name)!;
     const normalized = normalizeLandingDocument(loadEnglishTemplate(repositoryRoot, name), sourceDocuments, target.landingId);
-    const derived = deriveReferenceSidebar({targetRoot, template: normalized, excludedDocIds});
+    const derivedExcludedDocIds = name === 'restful' && restDocumentIdPrefix
+      ? new Set<string>([...excludedDocIds, ...[...sourceDocuments.keys()].filter(id =>
+        (id === restDocumentIdPrefix || id.startsWith(`${restDocumentIdPrefix}/`)) && !targetDocuments.has(id))])
+      : excludedDocIds;
+    const derived = deriveReferenceSidebar({targetRoot, template: normalized, excludedDocIds: derivedExcludedDocIds});
     englishEntries.push([`generated/en/sidebars/${name}.sidebar.js`, serializeSidebar(normalized)]);
     chineseEntries.push([`generated/zh-CN/sidebars/${name}.sidebar.js`, serializeSidebar(derived)]);
   }
