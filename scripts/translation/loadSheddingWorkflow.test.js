@@ -20,7 +20,7 @@ test('Translation producers use workload-aware worker and chunk limits without o
   }
   assert.equal(
     agents.env.TRANSLATION_CONCURRENCY,
-    "${{ inputs.group == 'guides' && '1' || inputs.target == 'zh-CN-reference' && '2' || '4' }}",
+    "${{ (inputs.recovery_run_id != '' || inputs.recovery_bundle_artifact_name != '') && (inputs.group == 'guides' && '2' || '6') || (inputs.group == 'guides' && '1' || inputs.target == 'zh-CN-reference' && '2' || '4') }}",
   )
   assert.equal(
     agents.env.TRANSLATION_CHUNK_TARGET_CHARS,

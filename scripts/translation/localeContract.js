@@ -336,8 +336,17 @@ function doNotTranslateIssues(source, draft, contract, token) {
   })]
 }
 
+function mandatoryTermComment(contract, term, forbidden) {
+  const base = `Locale contract ${contract.contractId} requires ${term.source} to use ${term.target}.`
+  return forbidden.length
+    ? `${base} Forbidden replacements (${forbidden.join(', ')}) do not satisfy this rule.`
+    : base
+}
+
 function mandatoryTermIssues(source, draft, contract, term, sourceCount, targetCount) {
   const forbidden = contract.forbiddenTranslations.find(item => item.source === term.source)?.targets || []
+  const requiredTerm = Object.freeze({source: term.source, target: term.target})
+  const comment = mandatoryTermComment(contract, term, forbidden)
   const sourceLines = source.split(/\r?\n/)
   const draftLines = draft.split(/\r?\n/)
   const issues = []
@@ -360,7 +369,8 @@ function mandatoryTermIssues(source, draft, contract, term, sourceCount, targetC
       location: `line ${lineIndex + 1} containing ${term.source}`,
       source_quote: sourceQuote,
       draft_quote: draftQuote,
-      comment: `Locale contract ${contract.contractId} requires ${term.source} to use ${term.target}; forbidden replacements do not satisfy this product terminology rule.`,
+      required_term: requiredTerm,
+      comment,
     }))
     remainingDeficit -= Math.min(lineDeficit, remainingDeficit)
   }
@@ -375,7 +385,8 @@ function mandatoryTermIssues(source, draft, contract, term, sourceCount, targetC
       source_quote: term.source,
       draft_quote: '',
       evidenceAvailable: false,
-      comment: `Locale contract ${contract.contractId} requires ${term.source} to use ${term.target}; forbidden replacements do not satisfy this product terminology rule.`,
+      required_term: requiredTerm,
+      comment,
     }))
     return issues
   }
@@ -385,7 +396,8 @@ function mandatoryTermIssues(source, draft, contract, term, sourceCount, targetC
     location: `text containing ${term.source}`,
     source_quote: term.source,
     draft_quote: draftQuote,
-    comment: `Locale contract ${contract.contractId} requires ${term.source} to use ${term.target}; forbidden replacements do not satisfy this product terminology rule.`,
+    required_term: requiredTerm,
+    comment,
   }))
   return issues
 }

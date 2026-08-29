@@ -502,6 +502,7 @@ jobs:
               '--poll-milliseconds', '10000',
               '--candidate-polls', '6',
               '--max-publish-attempts', '10',
+              '--deadline', String(Date.now() + 350 * 60 * 1000),
             ])
 
   aggregate:

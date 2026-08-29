@@ -68,6 +68,25 @@ test('requires exact Compaction for lowercase product-term sources', () => {
   )
 })
 
+test('mandatory-term issues carry the exact required term mapping without stale forbidden-replacement wording', () => {
+  const contract = loadLocaleContract('zh-CN-reference')
+  const issues = validateLocaleContractDraft('A partition is a subset.', '一个分区是一个子集。', contract)
+
+  assert.equal(issues.length, 1)
+  assert.deepEqual(issues[0].required_term, {source: 'partition', target: 'Partition'})
+  assert.match(issues[0].comment, /requires partition to use Partition/i)
+  assert.doesNotMatch(issues[0].comment, /forbidden replacements/i)
+})
+
+test('mandatory-term issues mention forbidden replacements only when the contract forbids them', () => {
+  const contract = loadLocaleContract('zh-CN-reference')
+  const issues = validateLocaleContractDraft('Compaction plans merge segments.', '压缩计划会合并 Segment。', contract)
+
+  assert.equal(issues.length, 1)
+  assert.deepEqual(issues[0].required_term, {source: 'Compaction', target: 'Compaction'})
+  assert.match(issues[0].comment, /forbidden replacements/i)
+})
+
 test('formats approved Japanese terminology and preserves Compaction', () => {
   const formatted = formatLocaleContract(loadLocaleContract('ja-JP'))
   assert.match(formatted, /collection.*コレクション/is)

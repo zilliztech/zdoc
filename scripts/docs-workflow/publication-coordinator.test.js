@@ -181,6 +181,25 @@ function translationGuidesAndPythonSelection() {
   })
 }
 
+function zhCnReferenceSelection(group = 'python') {
+  const selected = buildTranslationSelection({locale: 'zh-CN', group})
+  return buildTranslationPublicationSelection({
+    handoff: {
+      schemaVersion: 2,
+      locale: 'zh-CN',
+      group,
+      toolingSha: SHA('1'),
+      targetBranch: 'dev',
+      targetBaselineSha: SHA('2'),
+      units: selected.map(unit => ({
+        target: unit.target, group: unit.group, sourceGroup: unit.sourceGroup, sourceBaselineSha: SHA('3'),
+        sourceCheckpointSha: SHA('3'), targetBaselineSha: SHA('2'), publicationOrder: unit.publicationOrder,
+      })),
+    },
+    repository: 'zilliztech/zdoc', runId: 123, runAttempt: 1, publish: true, runTranslations: true,
+  })
+}
+
 async function runGuidesFailureCoordinator(t, {checkpoint, baseline, ready, transactionContext = {}}) {
   const document = translationGuidesAndPythonSelection()
   const guides = document.units.find(unit => unit.strategy === 'ja-guides')
@@ -713,4 +732,48 @@ test('coordinator revalidates adapter-projected results before write and upload'
     sleep: async () => {},
   }), /workflow mismatch/i)
   assert.equal(client.results.length, 0)
+})
+
+test('deadline exceeded after a reference group publishes refreshes its derived state and aborts', async t => {
+  const document = zhCnReferenceSelection()
+  const unit = document.units[0]
+  const root = outputRoot(t)
+  const runnerTemp = path.join(root, 'runner')
+  const client = fakeClient(jobsFor(document, {
+    [unit.unitKey]: {conclusion: 'success', completedAt: '2026-08-04T00:00:01.000Z'},
+  }))
+  let wallClock = 0
+  const refreshed = []
+
+  await assert.rejects(runPublicationCoordinator({
+    selection: document,
+    mode: 'publish',
+    client,
+    repositoryRoot: root,
+    runnerTemp,
+    outputDirectory: root,
+    pollMilliseconds: 1,
+    candidatePolls: 1,
+    maxPublishAttempts: 1,
+    sleep: async () => {},
+    now: () => new Date(wallClock),
+    deadline: 100_000,
+    resolveCandidate: async ({unit}) => ({status: 'ready', prepared: {unitKey: unit.unitKey}}),
+    publishUnit: async () => {
+      wallClock = 999_999
+      return {
+        status: 'published', baseSha: SHA('2'), resultSha: SHA('4'), commitShas: [SHA('4')], attempts: 1,
+        failure: null, remoteState: 'known', completedAt: '2026-08-04T00:01:00.000Z',
+      }
+    },
+    transactionContext: {
+      reconcileTranslationPublication: async () => ({status: 'no_changes', resultSha: SHA('4')}),
+      refreshReferenceDerivedState: async ({groups}) => {
+        refreshed.push(groups)
+        return {status: 'published', resultSha: SHA('5')}
+      },
+    },
+  }), /deadline/i)
+
+  assert.deepEqual(refreshed, [['python']])
 })

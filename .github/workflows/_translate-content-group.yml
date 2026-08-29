@@ -367,10 +367,10 @@ jobs:
           REVIEW_AGENT_BASE_URL: ${{ vars.REVIEW_AGENT_BASE_URL }}
           REVIEW_AGENT_MODEL: ${{ vars.REVIEW_AGENT_MODEL }}
           POLISH_AGENT_MODEL: ${{ vars.POLISH_AGENT_MODEL }}
-          TRANSLATION_POLISH: "true"
+          TRANSLATION_POLISH: ${{ (inputs.recovery_run_id != '' || inputs.recovery_bundle_artifact_name != '') && 'false' || 'true' }}
           TRANSLATION_SKIP_BLIND_REVIEW: "true"
           TRANSLATION_ALLOW_PARTIAL: "true"
-          TRANSLATION_CONCURRENCY: ${{ inputs.group == 'guides' && '1' || inputs.target == 'zh-CN-reference' && '2' || '4' }}
+          TRANSLATION_CONCURRENCY: ${{ (inputs.recovery_run_id != '' || inputs.recovery_bundle_artifact_name != '') && (inputs.group == 'guides' && '2' || '6') || (inputs.group == 'guides' && '1' || inputs.target == 'zh-CN-reference' && '2' || '4') }}
           TRANSLATION_CHUNK_TARGET_CHARS: ${{ inputs.group == 'guides' && '8000' || '16000' }}
           TRANSLATION_CHUNK_MAX_CHARS: ${{ inputs.group == 'guides' && '12000' || '24000' }}
           TRANSLATION_FILE_TIMEOUT_MS: "3600000"
@@ -455,7 +455,7 @@ jobs:
         if: ${{ inputs.should_translate && inputs.batch_number == 0 && (steps.mode.outputs.effective_mode == 'full' || steps.mode.outputs.bootstrap_status == 'safe_repair') && (steps.agents.outputs.remaining_count || '0') == '0' && steps.unbatched_validation.outcome == 'success' && inputs.target != 'ja-JP' }}
         run: node scripts/translation/bootstrap-state.js mark --target "$TRANSLATION_TARGET" --group "$BOOTSTRAP_GROUP"
       - name: Regenerate selected Chinese Reference sidebar
-        if: ${{ inputs.should_translate && inputs.target == 'zh-CN-reference' && inputs.batch_number == 0 && (steps.agents.outputs.failed_count || '0') == '0' && (steps.agents.outputs.remaining_count || '0') == '0' && steps.agents.outcome == 'success' }}
+        if: ${{ inputs.should_translate && inputs.target == 'zh-CN-reference' && inputs.batch_number == 0 && (steps.agents.outputs.translated_count || '0') != '0' && (steps.agents.outputs.failed_count || '0') == '0' && steps.agents.outcome == 'success' }}
         run: pnpm docs-tooling reference-sidebar --group "$GROUP" --write
       - name: Create validated translation checkpoints
         id: checkpoint
