@@ -3232,6 +3232,15 @@ html.docs-doc-id-tutorials\/home #copy-page-btn {
    of breathing room (e.g. "Filtering with Equal To (==)"). */
 .markdown :is(h1, h2, h3, h4, h5, h6) code {
   margin: 0 0.2em;
+  /* Keep the code look (mono + warm bg) but size it to the heading instead of the
+     fixed 12px inline-code size, which looked tiny inside a large heading. 0.9em
+     tracks each heading level's own font-size. */
+  font-size: 0.9em !important;
+  padding: 0.1em 0.35em;
+  /* Sit the code text on the SAME baseline as the surrounding heading text — the
+     global inline-code uses vertical-align:middle, which lifts the chip off the
+     baseline and looks misaligned next to the plain heading words. */
+  vertical-align: baseline;
 }
 
 /* A note / code block / table directly under a bullet had no gap — restore the
