@@ -117,6 +117,8 @@ hand-edit navigation, sidebars, validation sets, or translation policy.
 
 ## Production publication runbook
 
+> Pipeline map: [`fetch-translation-pipeline-map.md`](.claude/specs/2026-08-29-fetch-translation-pipeline-map.md) — the phase-by-phase flow, artifact contracts, the 4 Git push points, and the known failure modes with their recovery entries.
+
 The normal production entry point is [`fetch-docs.yml`](.github/workflows/fetch-docs.yml). It publishes the selected English source units to `dev`, performs final verification, and can dispatch one downstream Translation workflow. Fetch and publish-enabled Translation runs share the `docs-production-dev` concurrency group with `queue: max`; do not bypass that queue with a second manual writer.
 
 ### Before publishing
