@@ -22,6 +22,7 @@ const {runPublicationStrategyTransaction} = require('./publication-transaction')
 const {publicationWorkflowAdapters} = require('./publication-workflow-adapters')
 const {loadTypeScript} = require('../lib/load-typescript')
 const {resolveTranslationTarget} = loadTypeScript('../../packages/docs-tooling/src/translation/targets.ts')
+const {refreshReferenceDerivedState: defaultRefreshReferenceDerivedState, successfulReferenceGroups} = require('./translation-publication-reconciliation')
 
 function positiveInteger(value, label) {
   const number = Number(value)
@@ -459,6 +460,7 @@ async function runPublicationCoordinator(options = {}) {
   const pollMilliseconds = positiveInteger(options.pollMilliseconds ?? 10_000, 'pollMilliseconds')
   const candidatePolls = positiveInteger(options.candidatePolls ?? 6, 'candidatePolls')
   const maxPublishAttempts = positiveInteger(options.maxPublishAttempts ?? 10, 'maxPublishAttempts')
+  const deadline = options.deadline === undefined ? null : positiveInteger(options.deadline, 'deadline')
   const repositoryRoot = path.resolve(options.repositoryRoot || process.cwd())
   const dependencyRoot = path.resolve(options.dependencyRoot || repositoryRoot)
   const outputDirectory = path.resolve(options.outputDirectory || process.env.RUNNER_TEMP || process.cwd())
@@ -507,6 +509,22 @@ async function runPublicationCoordinator(options = {}) {
     const jobs = adapter.normalizeJobs(await client.listJobs(), selection)
     scheduler.observeJobs(jobs)
     let snapshot = await uploadSnapshot()
+
+    if (deadline !== null && now().getTime() > deadline) {
+      const groups = successfulReferenceGroups(selection, {
+        units: snapshot.units.map(unit => ({unitKey: unit.unitKey, status: unit.state})),
+      })
+      if (groups.length) {
+        await (transactionContext.refreshReferenceDerivedState || defaultRefreshReferenceDerivedState)({
+          selection,
+          groups,
+          repositoryRoot,
+          runnerTemp,
+          transactionContext: {...transactionContext, remote: options.remote || 'origin'},
+        })
+      }
+      throw new Error(`Publication deadline exceeded; refreshed derived state for groups: ${groups.join(', ') || '(none)'}`)
+    }
 
     for (const state of snapshot.units.filter(unit => unit.state === 'candidate')) {
       const unit = selection.units.find(candidate => candidate.unitKey === state.unitKey)
@@ -594,7 +612,7 @@ async function runPublicationCoordinator(options = {}) {
 function parseArgs(argv) {
   if (argv.length === 1 && argv[0] === '--help') return {help: true}
   if (argv.includes('--help')) throw new Error('--help must be used alone')
-  const names = new Set(['selection', 'mode', 'poll-milliseconds', 'candidate-polls', 'max-publish-attempts'])
+  const names = new Set(['selection', 'mode', 'poll-milliseconds', 'candidate-polls', 'max-publish-attempts', 'deadline'])
   const values = {}
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]
@@ -643,6 +661,7 @@ async function main(argv = process.argv.slice(2)) {
     pollMilliseconds: parsed.values['poll-milliseconds'] || 10_000,
     candidatePolls: parsed.values['candidate-polls'] || 6,
     maxPublishAttempts: parsed.values['max-publish-attempts'] || 10,
+    deadline: parsed.values['deadline'],
   })
   const expectedName = artifactNames({
     workflow: selection.workflow, runId: selection.runId, runAttempt: selection.runAttempt,
