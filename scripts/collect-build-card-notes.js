@@ -198,6 +198,8 @@ function canonicalLinkNote({ directory, label, site, artifactUrl } = {}) {
     return fallback ? `${compactMarkdown(fallback, 40)}\n\n${reportFileLine(mdFile)}` : null
   }
 
+  const tableUrl = (readIfExists(guidesReportFile(directory, `${prefix}.table-url.txt`)) || '').trim()
+
   const summary = report.summary || {}
   return [
     guidesHeading(label, 'canonical link audit'),
@@ -212,6 +214,7 @@ function canonicalLinkNote({ directory, label, site, artifactUrl } = {}) {
     `- Internal Feishu references: ${summary.internal_references || 0}`,
     `- Valid references: ${summary.valid_references || 0}`,
     `- Broken references: ${summary.broken_references || 0}`,
+    ...(tableUrl ? ['', `飞书表格：[打开](${tableUrl})`] : []),
     '',
     site ? runtimeReportFileLine(`${prefix}.md`, artifactUrl) : reportFileLine(mdFile, artifactUrl),
   ].join('\n')
