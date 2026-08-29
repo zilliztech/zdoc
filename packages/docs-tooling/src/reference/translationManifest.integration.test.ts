@@ -221,6 +221,29 @@ describe('Reference manifest executable security boundary', () => {
     expect(validation.status, validation.stderr || validation.stdout).toBe(0);
   });
 
+  it('tolerates a pending spec-generated REST source whose Chinese target is not yet generated', () => {
+    const root = repository();
+    expect(generate(root).status).toBe(0);
+    const sourcePath = 'content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/remove-project-region-v2.mdx';
+    const documentId = sourcePath.slice('content/en/reference/'.length).replace(/\.mdx?$/u, '');
+    mkdirSync(path.dirname(path.join(root, sourcePath)), {recursive: true});
+    writeFileSync(path.join(root, sourcePath), '# Remove Project Region\n');
+    writeFileSync(path.join(root, 'generated/en/sidebars/restful.sidebar.js'), `module.exports = ["api/python/page", "${documentId}"]\n`);
+    const config = navigationConfig();
+    writeFileSync(path.join(root, 'config/reference-navigation.json'), `${JSON.stringify({
+      ...config,
+      targets: config.targets.map(target => target.manual === 'rest' ? {...target, documentIdPrefix: 'api'} : target),
+    }, null, 2)}\n`);
+    git(root, ['add', '.']);
+    git(root, ['commit', '--quiet', '-m', 'add pending REST source']);
+
+    const result = generate(root);
+
+    expect(result.status, result.stderr || result.stdout).toBe(0);
+    expect(readFileSync(path.join(root, 'generated/en/sidebars/restful.sidebar.js'), 'utf8')).toContain(documentId);
+    expect(readFileSync(path.join(root, 'generated/zh-CN/sidebars/restful.sidebar.js'), 'utf8')).not.toContain(documentId);
+  }, 15_000);
+
   it('fails closed when a previously active target disappears without retirement authorization', () => {
     const root = repository();
     expect(generate(root).status).toBe(0);
