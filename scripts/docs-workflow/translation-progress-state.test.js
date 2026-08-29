@@ -57,17 +57,19 @@ test('parses live truncated SDK matrix names and counts completed SDK translatio
   assert.equal(parseSdkTranslationJob({name: exactLiveName.replace('a9a7dc1', 'a9a7dc1(')}), null)
 
   const units = [
-    ...sdkGroups.filter(group => group !== 'reference-landings').map(group => ({target: 'ja-JP', group})),
+    ...sdkGroups.filter(group => group !== 'reference-landings' && group !== 'rest').map(group => ({target: 'ja-JP', group})),
     ...sdkGroups.filter(group => group !== 'rest').map(group => ({target: 'zh-CN-reference', group})),
   ]
   const state = deriveTranslationProgressState({selectedUnits: units, publishEnabled: false, jobs: [{name: 'prepare', status: 'completed', conclusion: 'success'}, ...jobs]})
   // The fixture is a real historical run that predates the cpp manual: cpp is selected
   // (it is in the SDK group list) but has no completed job, so each target stays running.
+  // ja-JP/rest is spec-generated, not translated, so only the six translated SDK groups
+  // are selected for ja-JP.
   assert.deepEqual(state.targets.map(target => target.translate), [
-    {done: 6, total: 7, status: 'running', detail: null},
+    {done: 5, total: 6, status: 'running', detail: null},
     {done: 6, total: 7, status: 'running', detail: null},
   ])
-  assert.deepEqual(state.phases.find(phase => phase.key === 'translate'), {key: 'translate', label: 'Translate', done: 12, total: 14, status: 'running', detail: null})
+  assert.deepEqual(state.phases.find(phase => phase.key === 'translate'), {key: 'translate', label: 'Translate', done: 11, total: 13, status: 'running', detail: null})
 })
 
 test('derives the approved Translation card categories from selected handoff units', () => {
