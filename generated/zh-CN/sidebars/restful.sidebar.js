@@ -148,6 +148,12 @@ module.exports = [
                 "id": "api/restful/restful/v2/control-plane/project-operations-v2/add-project-region-v2",
                 "label": "添加项目地域 (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/project-operations-v2/add-project-region-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/project-operations-v2/remove-project-region-v2",
+                "label": "移除项目地域 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/project-operations-v2/remove-project-region-v2"
               }
             ]
           },
@@ -555,6 +561,36 @@ module.exports = [
                 "id": "api/restful/restful/v2/control-plane/spark-job-v2/cancel-spark-job-v2",
                 "label": "取消 Spark 任务 (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/cancel-spark-job-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-jar-job-v2",
+                "label": "创建 Spark JAR 任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-jar-job-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-pk-deduplication-job-v2",
+                "label": "创建 Spark 主键去重任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-pk-deduplication-job-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-vector-deduplication-job-v2",
+                "label": "创建 Spark 向量去重任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-vector-deduplication-job-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-k-means-job-v2",
+                "label": "创建 Spark K-means 任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-k-means-job-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2",
+                "label": "创建 Spark 异常检测任务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-anomaly-detection-job-v2"
               }
             ]
           },
@@ -683,6 +719,12 @@ module.exports = [
                 "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2",
                 "label": "撤销成员角色 (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/revoke-role-from-member-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/resolve-member-v2",
+                "label": "解析成员 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/cloud-access-control-operations-v2/resolve-member-v2"
               }
             ]
           },
@@ -720,6 +762,43 @@ module.exports = [
                 "id": "api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/delete-api-key-v2",
                 "label": "删除 API Key (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/cloud-api-key-operations-v2/delete-api-key-v2"
+              }
+            ]
+          },
+          {
+            "type": "category",
+            "label": "Private Endpoint Operations (V2)",
+            "key": "category:v2/control-plane-v2/private-endpoint-operations-v2",
+            "items": [
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/private-endpoint-operations-v2/list-private-endpoint-services-v2",
+                "label": "列出 Private Endpoint 服务 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/private-endpoint-operations-v2/list-private-endpoint-services-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/private-endpoint-operations-v2/list-private-endpoints-v2",
+                "label": "列出 Private Endpoint (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/private-endpoint-operations-v2/list-private-endpoints-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/private-endpoint-operations-v2/create-private-endpoint-v2",
+                "label": "创建 Private Endpoint (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/private-endpoint-operations-v2/create-private-endpoint-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/private-endpoint-operations-v2/delete-private-endpoint-v2",
+                "label": "删除 Private Endpoint (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/private-endpoint-operations-v2/delete-private-endpoint-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/control-plane/private-endpoint-operations-v2/add-private-endpoint-whitelist-entry-v2",
+                "label": "添加 Private Endpoint 白名单条目 (V2)",
+                "key": "doc:api/restful/restful/v2/control-plane/private-endpoint-operations-v2/add-private-endpoint-whitelist-entry-v2"
               }
             ]
           }
@@ -939,6 +1018,30 @@ module.exports = [
                 "id": "api/restful/restful/v2/data-plane/collection-operations-v2/list-external-collection-refresh-jobs-v2",
                 "label": "列出外部 Collection 刷新任务 (V2)",
                 "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/list-external-collection-refresh-jobs-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/collection-operations-v2/add-function-field-to-collection-v2",
+                "label": "向 Collection 添加 Function Field (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/add-function-field-to-collection-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/collection-operations-v2/drop-function-field-from-collection-v2",
+                "label": "从 Collection 删除 Function Field (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/drop-function-field-from-collection-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/collection-operations-v2/drop-collection-field-v2",
+                "label": "删除 Collection 字段 (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/drop-collection-field-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/collection-operations-v2/add-collection-struct-field-v2",
+                "label": "添加 Collection Struct 字段 (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/collection-operations-v2/add-collection-struct-field-v2"
               }
             ]
           },
@@ -968,7 +1071,7 @@ module.exports = [
               {
                 "type": "doc",
                 "id": "api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2",
-                "label": "修改数据库属性 (V2)",
+                "label": "修改 Database 属性 (V2)",
                 "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-v2"
               },
               {
@@ -982,6 +1085,12 @@ module.exports = [
                 "id": "api/restful/restful/v2/data-plane/database-operations-v2/drop-database-v2",
                 "label": "删除 Database (V2)",
                 "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/drop-database-v2"
+              },
+              {
+                "type": "doc",
+                "id": "api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-compatibility-alias-v2",
+                "label": "修改数据库属性（兼容别名） (V2)",
+                "key": "doc:api/restful/restful/v2/data-plane/database-operations-v2/alter-database-properties-compatibility-alias-v2"
               }
             ]
           },
