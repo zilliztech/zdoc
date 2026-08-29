@@ -25,6 +25,10 @@
           "zh-CN": {
             "summary": "查看 Collection 列表",
             "description": "列出集群中的 Collection 名称。"
+          },
+          "ja-JP": {
+            "summary": "コレクション一覧",
+            "description": "クラスター内のコレクションを一覧表示します。"
           }
         },
         "tags": [
@@ -38,6 +42,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "数据库名称。"
+              },
+              "ja-JP": {
+                "description": "データベースの名前"
               }
             },
             "required": false,
@@ -67,6 +74,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、<include target=\"zilliz\">適切な権限を持つ API key または </include>`username:password` のようにコロンで連結したユーザー名とパスワードの組み合わせである必要があります。"
               }
             },
             "x-added-at": "2.6.x",
@@ -87,6 +97,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "成功响应。"
+                        },
+                        "ja-JP": {
+                          "description": "成功レスポンス。"
                         }
                       },
                       "x-i18n-langs": [
@@ -100,6 +113,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -114,6 +130,9 @@
                             "x-i18n": {
                               "zh-CN": {
                                 "description": "Collection 名称。"
+                              },
+                              "ja-JP": {
+                                "description": "コレクション名。"
                               }
                             },
                             "x-added-at": "2.6.x",
@@ -124,6 +143,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，为 Collection 名称列表。"
+                            },
+                            "ja-JP": {
+                              "description": "コレクション名のリストであるレスポンスペイロード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -141,6 +163,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -154,6 +179,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -166,6 +194,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -208,7 +239,12 @@
             },
             "x-added-at": "2.6.x",
             "x-last-modified": "2.6.x",
-            "x-deprecated-since": null
+            "x-deprecated-since": null,
+            "x-i18n": {
+              "ja-JP": {
+                "description": "指定したクラスター内のコレクションの一覧を返します。"
+              }
+            }
           }
         },
         "security": [],
@@ -226,6 +262,10 @@
           "zh-CN": {
             "summary": "创建 Collection",
             "description": "在集群中创建 Collection。"
+          },
+          "ja-JP": {
+            "summary": "コレクションを作成します",
+            "description": "クラスターにコレクションを作成します。"
           }
         },
         "tags": [
@@ -247,6 +287,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、<include target=\"zilliz\">適切な権限を持つ API key、または </include>`username:password` のようにコロンで連結したユーザー名とパスワードの組み合わせである必要があります。"
               }
             },
             "x-added-at": "2.6.x",
@@ -266,6 +309,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "数据库名称。"
+                      },
+                      "ja-JP": {
+                        "description": "データベースの名前。<include target=\"zilliz\">このパラメーターは専用クラスターにのみ適用されます。</include>"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -278,6 +324,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Collection 名称。"
+                      },
+                      "ja-JP": {
+                        "description": "作成するコレクションの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -290,6 +339,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Vector 字段的维度数。"
+                      },
+                      "ja-JP": {
+                        "description": "コレクションのベクトルフィールドの次元数。"
                       }
                     },
                     "minimum": 1,
@@ -304,6 +356,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "用于 Collection 的距离度量方式。"
+                      },
+                      "ja-JP": {
+                        "description": "コレクションで使用される距離メトリック。"
                       }
                     },
                     "default": "COSINE",
@@ -322,6 +377,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "主键字段名称。"
+                      },
+                      "ja-JP": {
+                        "description": "主キーのフィールド名。"
                       }
                     },
                     "default": "id",
@@ -336,6 +394,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "向量字段名称。"
+                      },
+                      "ja-JP": {
+                        "description": "ベクトルフィールド。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -348,6 +409,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "Collection 描述。"
+                      },
+                      "ja-JP": {
+                        "description": "コレクションの説明"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -387,6 +451,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回空对象。"
+              },
+              "ja-JP": {
+                "description": "空のオブジェクトを返します。"
               }
             },
             "content": {
@@ -403,6 +470,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -415,6 +485,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应负载，为空对象。"
+                            },
+                            "ja-JP": {
+                              "description": "空のオブジェクトであるレスポンスペイロード。"
                             }
                           },
                           "properties": {},
@@ -433,6 +506,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -446,6 +522,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -458,6 +537,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -514,6 +596,10 @@
           "zh-CN": {
             "summary": "查看 Collection 详情",
             "description": "本接口用于查看 Collection 的详细信息。"
+          },
+          "ja-JP": {
+            "summary": "Collection の詳細取得",
+            "description": "コレクションの詳細を取得します。"
           }
         },
         "tags": [
@@ -527,6 +613,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "Collection 名称。"
+              },
+              "ja-JP": {
+                "description": "詳細を取得するコレクションの名前。"
               }
             },
             "required": true,
@@ -547,6 +636,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "数据库名称。"
+              },
+              "ja-JP": {
+                "description": "データベースの名前。"
               }
             },
             "required": false,
@@ -568,6 +660,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+              },
+              "ja-JP": {
+                "description": "認証トークンには、<include target=\"zilliz\">適切な権限を持つ API key、または</include>`username:password` のようにコロンで連結した username と password の組を指定する必要があります。"
               }
             },
             "required": true,
@@ -589,6 +684,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回指定 Collection 的详细信息。"
+              },
+              "ja-JP": {
+                "description": "指定したコレクションの詳細を返します。"
               }
             },
             "content": {
@@ -605,6 +703,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -617,6 +718,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应载荷，携带 Collection 详情。"
+                            },
+                            "ja-JP": {
+                              "description": "コレクションの詳細を含むレスポンスペイロード。"
                             }
                           },
                           "properties": {
@@ -626,6 +730,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "Collection 名称。"
+                                },
+                                "ja-JP": {
+                                  "description": "コレクションの名前。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -638,6 +745,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "Collection 描述。"
+                                },
+                                "ja-JP": {
+                                  "description": "コレクションの任意の説明。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -652,6 +762,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "一个字段对象。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "フィールドオブジェクト"
                                   }
                                 },
                                 "properties": {
@@ -661,6 +774,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "主键是否自动增长。此参数仅在当前字段为主键时展示。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "主キーが自動インクリメントされるかどうか。このフィールドは、現在のフィールドが主キーである場合にのみ適用されます。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -673,6 +789,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "当前字段描述。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "フィールドの任意の説明。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -685,6 +804,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "当前字段名称。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "フィールドの名前。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -697,6 +819,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "当前字段是否为主键。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "このフィールドが主フィールドかどうか。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -709,6 +834,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "当前字段值的数据类型。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "このフィールド内の値のデータ型。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -724,6 +852,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "字段列表。"
+                                },
+                                "ja-JP": {
+                                  "description": "フィールド配列"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -738,6 +869,9 @@
                                 "x-i18n": {
                                   "zh-CN": {
                                     "description": "一个索引对象。"
+                                  },
+                                  "ja-JP": {
+                                    "description": "インデックスオブジェクト"
                                   }
                                 },
                                 "properties": {
@@ -747,6 +881,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "当前索引对应的字段名称。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "インデックス化されたフィールドの名前。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -759,6 +896,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "当前索引名称。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "生成されたインデックスファイルの名前。"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -771,6 +911,9 @@
                                     "x-i18n": {
                                       "zh-CN": {
                                         "description": "用于度量向量间相似度的度量类型。"
+                                      },
+                                      "ja-JP": {
+                                        "description": "ベクトル間の類似度の測定に使用される metric type"
                                       }
                                     },
                                     "x-added-at": "2.6.x",
@@ -786,6 +929,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "索引列表。"
+                                },
+                                "ja-JP": {
+                                  "description": "インデックス配列"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -798,6 +944,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前 Collection 的载入状态。"
+                                },
+                                "ja-JP": {
+                                  "description": "コレクションのロード状態。"
                                 }
                               },
                               "enum": [
@@ -815,6 +964,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "当前 Collection 的分片数量。"
+                                },
+                                "ja-JP": {
+                                  "description": "コレクション内のシャード数。"
                                 }
                               },
                               "x-include-target": [
@@ -830,6 +982,9 @@
                               "x-i18n": {
                                 "zh-CN": {
                                   "description": "是否已启用保留的动态字段，用于存放 Schema 中未定义的字段。"
+                                },
+                                "ja-JP": {
+                                  "description": "このコレクションで dynamic field 機能が有効かどうか。"
                                 }
                               },
                               "x-added-at": "2.6.x",
@@ -852,6 +1007,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "失败响应。"
+                        },
+                        "ja-JP": {
+                          "description": "失敗レスポンス。"
                         }
                       },
                       "x-i18n-langs": [
@@ -865,6 +1023,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -877,6 +1038,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1036,6 +1200,10 @@
           "zh-CN": {
             "summary": "删除 Collection",
             "description": "本接口用于删除 Collection。删除 Collection 将会清空 Collection 中的所有数据。请谨慎操作。"
+          },
+          "ja-JP": {
+            "summary": "コレクションを削除",
+            "description": "コレクションを削除します。この操作により、コレクションのデータは消去されます。この操作を実行する際は注意してください。"
           }
         },
         "tags": [
@@ -1049,6 +1217,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "认证令牌。应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"
+              },
+              "ja-JP": {
+                "description": "認証トークンは、<include target=\"zilliz\">適切な権限を持つ API key または </include>`username:password` のようにコロンで結合したユーザー名とパスワードの組み合わせである必要があります。"
               }
             },
             "required": true,
@@ -1076,6 +1247,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "数据库名称。"
+                      },
+                      "ja-JP": {
+                        "description": "データベースの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1088,6 +1262,9 @@
                     "x-i18n": {
                       "zh-CN": {
                         "description": "待删除的 Collection 名称。"
+                      },
+                      "ja-JP": {
+                        "description": "削除するコレクションの名前。"
                       }
                     },
                     "x-added-at": "2.6.x",
@@ -1117,6 +1294,9 @@
             "x-i18n": {
               "zh-CN": {
                 "description": "返回一个空对象或一条错误消息。"
+              },
+              "ja-JP": {
+                "description": "空のオブジェクトまたはエラーメッセージを返します。"
               }
             },
             "content": {
@@ -1133,6 +1313,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1145,6 +1328,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "返回一个空对象。"
+                            },
+                            "ja-JP": {
+                              "description": "空のオブジェクトを返します。"
                             }
                           },
                           "properties": {},
@@ -1163,6 +1349,9 @@
                       "x-i18n": {
                         "zh-CN": {
                           "description": "返回错误消息。"
+                        },
+                        "ja-JP": {
+                          "description": "エラーメッセージを返します。"
                         }
                       },
                       "x-i18n-langs": [
@@ -1176,6 +1365,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "响应码。"
+                            },
+                            "ja-JP": {
+                              "description": "レスポンスコード。"
                             }
                           },
                           "x-added-at": "2.6.x",
@@ -1188,6 +1380,9 @@
                           "x-i18n": {
                             "zh-CN": {
                               "description": "错误描述。"
+                            },
+                            "ja-JP": {
+                              "description": "エラーメッセージ。"
                             }
                           },
                           "x-added-at": "2.6.x",

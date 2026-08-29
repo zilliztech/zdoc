@@ -493,6 +493,7 @@ function main() {
     const requestedMode = args.get('--mode') || 'auto';
     const root = canonicalRoot();
     if (target === 'ja-JP') {
+      if (group === 'rest') throw new Error('Japanese REST is OpenAPI-owned and excluded from generic Translation bootstrap resolution');
       if (!['auto', 'full', 'incremental'].includes(requestedMode)) throw new Error(`Unsupported translation mode: ${requestedMode}`);
       const mode = requestedMode === 'auto' ? 'incremental' : requestedMode;
       const summaryFile = args.get('--summary-file');

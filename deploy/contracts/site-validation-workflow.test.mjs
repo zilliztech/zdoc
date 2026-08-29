@@ -63,6 +63,7 @@ test('site validation runs isolated named builds and a stable aggregate gate', a
   assert.match(workflow, /^  build_en:$/m);
   assert.match(workflow, /if: needs\.classify\.outputs\.build_en == 'true' && needs\.classify\.outputs\.skip_content != 'true'/);
   assert.match(workflow, /run: pnpm build:en/);
+  assert.match(jobBlock(workflow, 'build_en'), /pnpm docs-tooling validate-reference --site en[\s\S]*pnpm build:en/);
   assert.doesNotMatch(jobBlock(workflow, 'build_en'), /pnpm check:/);
   assert.match(workflow, /test -s build\/en\/ja-JP\/docs\/home\.html/);
   assert.match(workflow, /^  build_zh_cn:$/m);

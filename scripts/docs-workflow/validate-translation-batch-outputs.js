@@ -13,7 +13,6 @@ const {
   isLegacySemanticCountMismatch,
 } = require('../translation/failureClassification')
 const {isConsistentSuccessfulReview} = require('../translation/reviewEvidence')
-const {parseRestDocument} = require('../translation/restSpecLocalization')
 
 const MAX_EVIDENCE_BYTES = 8 * 1024 * 1024
 const MAX_FAILURE_ERROR_LENGTH = 2000
@@ -391,11 +390,7 @@ function validateTerminalResultSet({
     }
     if (Object.hasOwn(result, 'error')) fail(`translation provider result is not successful for ${item.sourcePath}`)
     const sourceContent = sourceBytes.toString('utf8')
-    const requiresRestSpecReview = parseRestDocument(sourceContent) !== null
     if (!isConsistentSuccessfulReview(result.review)) fail(`translation review evidence is not internally consistent for ${item.sourcePath}`)
-    if ((requiresRestSpecReview || result.restSpecReview !== undefined) && !isConsistentSuccessfulReview(result.restSpecReview)) {
-      fail(`translation REST review evidence is not internally consistent for ${item.sourcePath}`)
-    }
     if (!Object.hasOwn(result, 'validationErrors') || !Array.isArray(result.validationErrors) || result.validationErrors.length !== 0) fail(`per-document validation evidence is not clean for ${item.sourcePath}`)
     const output = resolveWithoutSymlinks(workspace, item.targetPath, 'candidate output', 'file')
     if (result.recovered === true) {
@@ -416,7 +411,6 @@ function validateTerminalResultSet({
       }
       assertCopiedEvidence(result.review, receipt.review, 'review evidence', item.sourcePath)
       assertCopiedEvidence(result.validationErrors, receipt.validationErrors, 'validation evidence', item.sourcePath)
-      assertCopiedEvidence(result.restSpecReview, receipt.restSpecReview, 'REST review evidence', item.sourcePath)
     }
   }
   return Object.freeze({resultBySource, translatedCount: reportTranslated, failedCount: reportFailed})

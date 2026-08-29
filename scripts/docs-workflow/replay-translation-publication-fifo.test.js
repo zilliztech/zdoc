@@ -240,7 +240,6 @@ function handoff() {
     'translation/ja-JP/go', 'translation/zh-CN-reference/go',
     'translation/ja-JP/cli', 'translation/zh-CN-reference/cli',
     'translation/ja-JP/cpp', 'translation/zh-CN-reference/cpp',
-    'translation/ja-JP/rest',
   ]
   return {
     schemaVersion: 2,
