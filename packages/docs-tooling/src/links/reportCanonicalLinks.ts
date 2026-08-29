@@ -1,8 +1,6 @@
 import {createRequire} from 'node:module';
 import {readFileSync, writeFileSync} from 'node:fs';
 
-import {z} from 'zod';
-
 const requireFromDocsTooling = createRequire(import.meta.url);
 
 const SITE_LANGUAGE: Record<'en' | 'zh-CN', string> = {en: 'English Guides', 'zh-CN': '中文 Guides'};
@@ -94,23 +92,43 @@ export function mapCanonicalReportToRows(
   return rows;
 }
 
-/** Field schema for the daily canonical-link table (human-readable subset of the sample). */
+/**
+ * Field schema for the daily canonical-link table (human-readable subset of the sample),
+ * in the bitable wire format: `field_name` + numeric `type`
+ * (1 = text, 3 = single select, 15 = url) with `property.options` for selects.
+ */
 export const CANONICAL_TABLE_FIELDS: Array<Record<string, unknown>> = [
-  {type: 'text', name: '源文档'},
-  {type: 'text', name: '源文档链接', style: {type: 'url'}},
-  {type: 'text', name: '源slug'},
-  {type: 'select', name: '语言', multiple: false, options: [{name: 'English Guides'}, {name: '中文 Guides'}]},
-  {type: 'select', name: '引用类型', multiple: false, options: [{name: 'href_link'}, {name: 'mention_doc'}]},
-  {type: 'text', name: '链接文字'},
-  {type: 'text', name: '当前失效URL', style: {type: 'url'}},
-  {type: 'text', name: '建议动作'},
-  {type: 'text', name: '推荐候选'},
-  {type: 'text', name: '推荐候选链接', style: {type: 'url'}},
-  {type: 'select', name: '置信度', multiple: false, options: [{name: 'Exact'}, {name: 'Strong'}, {name: 'Weak'}, {name: '无候选'}]},
-  {type: 'text', name: '候选理由'},
-  {type: 'select', name: '处理状态', multiple: false, options: [{name: '待处理'}, {name: '已修复'}, {name: '已忽略'}]},
-  {type: 'text', name: 'WorkflowRun', style: {type: 'url'}},
+  {field_name: '源文档', type: 1},
+  {field_name: '源文档链接', type: 15},
+  {field_name: '源slug', type: 1},
+  {field_name: '语言', type: 3, property: {options: [{name: 'English Guides'}, {name: '中文 Guides'}]}},
+  {field_name: '引用类型', type: 3, property: {options: [{name: 'href_link'}, {name: 'mention_doc'}]}},
+  {field_name: '链接文字', type: 1},
+  {field_name: '当前失效URL', type: 15},
+  {field_name: '建议动作', type: 1},
+  {field_name: '推荐候选', type: 1},
+  {field_name: '推荐候选链接', type: 15},
+  {field_name: '置信度', type: 3, property: {options: [{name: 'Exact'}, {name: 'Strong'}, {name: 'Weak'}, {name: '无候选'}]}},
+  {field_name: '候选理由', type: 1},
+  {field_name: '处理状态', type: 3, property: {options: [{name: '待处理'}, {name: '已修复'}, {name: '已忽略'}]}},
+  {field_name: 'WorkflowRun', type: 15},
 ];
+
+/** Url-typed fields, whose values must be written as `{link, text}` objects (or omitted when empty). */
+const URL_FIELD_NAMES = new Set(['源文档链接', '当前失效URL', '推荐候选链接', 'WorkflowRun']);
+
+/** Convert a row's Url-typed fields to the `{link, text}` objects bitable requires; drop empty ones. */
+export function toBitableFields(row: CanonicalLinkRow): Record<string, unknown> {
+  const fields: Record<string, unknown> = {};
+  for (const [name, value] of Object.entries(row)) {
+    if (URL_FIELD_NAMES.has(name)) {
+      if (value) fields[name] = {link: value, text: value};
+    } else {
+      fields[name] = value;
+    }
+  }
+  return fields;
+}
 
 type FeishuFetch = (url: string, options: Record<string, unknown>, label: string) => Promise<unknown>;
 
@@ -126,48 +144,63 @@ function dailyTableName(now: Date): string {
   return `Canonical 清理项 ${now.toISOString().slice(0, 10)}`;
 }
 
-async function listTables(deps: TableDeps): Promise<Array<{table_id: string; name: string}>> {
+/** Feishu API envelope: non-zero `code` is an error and must abort the command. */
+function assertApiResponseOk(res: {code?: number; msg?: string}, label: string): void {
+  if (res.code !== undefined && res.code !== 0) {
+    throw new Error(`${label} failed: ${res.code} ${res.msg ?? ''}`.trim());
+  }
+}
+
+export async function listCanonicalTables(deps: TableDeps): Promise<Array<{table_id: string; name: string}>> {
   const tables: Array<{table_id: string; name: string}> = [];
   let pageToken: string | undefined;
   do {
     const expr = pageToken ? `&page_token=${pageToken}` : '';
-    const res = await deps.fetchFeishu(`${deps.host}/open-apis/bitable/v1/apps/${deps.appToken}/tables?page_size=100${expr}`, {method: 'get'}, 'list canonical report tables') as {
+    const res = await deps.fetchFeishu(`${deps.host}/open-apis/bitable/v1/apps/${deps.appToken}/tables?page_size=100${expr}`, {
+      method: 'get',
+      headers: {Authorization: `Bearer ${deps.token}`},
+    }, 'list canonical report tables') as {
+      code?: number;
+      msg?: string;
       data?: {items?: Array<{table_id: string; name: string}>; has_more?: boolean; page_token?: string};
     };
+    assertApiResponseOk(res, 'List canonical report tables');
     for (const item of res.data?.items ?? []) tables.push(item);
     pageToken = res.data?.has_more ? res.data.page_token : undefined;
   } while (pageToken);
   return tables;
 }
 
-async function createTable(deps: TableDeps, name: string): Promise<string> {
+export async function createCanonicalTable(deps: TableDeps, name: string): Promise<string> {
   const res = await deps.fetchFeishu(`${deps.host}/open-apis/bitable/v1/apps/${deps.appToken}/tables`, {
     method: 'post',
     body: JSON.stringify({table: {name, fields: CANONICAL_TABLE_FIELDS}}),
     headers: {Authorization: `Bearer ${deps.token}`},
-  }, `create canonical report table ${name}`) as {data?: {table_id?: string}};
+  }, `create canonical report table ${name}`) as {code?: number; msg?: string; data?: {table_id?: string}};
+  assertApiResponseOk(res, `Create canonical report table ${name}`);
   const tableId = res.data?.table_id;
   if (!tableId) throw new Error(`Failed to create canonical report table ${name}`);
   return tableId;
 }
 
-async function appendRows(deps: TableDeps, tableId: string, rows: CanonicalLinkRow[]): Promise<void> {
+export async function appendCanonicalRows(deps: TableDeps, tableId: string, rows: CanonicalLinkRow[]): Promise<void> {
   for (let i = 0; i < rows.length; i += 100) {
-    const chunk = rows.slice(i, i + 100).map(row => ({fields: row}));
-    await deps.fetchFeishu(`${deps.host}/open-apis/bitable/v1/apps/${deps.appToken}/tables/${tableId}/records/batch_create`, {
+    const chunk = rows.slice(i, i + 100).map(row => ({fields: toBitableFields(row)}));
+    const res = await deps.fetchFeishu(`${deps.host}/open-apis/bitable/v1/apps/${deps.appToken}/tables/${tableId}/records/batch_create`, {
       method: 'post',
       body: JSON.stringify({records: chunk}),
       headers: {Authorization: `Bearer ${deps.token}`},
-    }, 'append canonical report rows');
+    }, 'append canonical report rows') as {code?: number; msg?: string};
+    assertApiResponseOk(res, 'Append canonical report rows');
   }
 }
 
 /** Find-or-create today's canonical-link table and return its id + URL. */
-async function findOrCreateDailyTable(deps: TableDeps): Promise<{tableId: string; tableUrl: string}> {
+export async function findOrCreateDailyTable(deps: TableDeps): Promise<{tableId: string; tableUrl: string}> {
   const name = dailyTableName(deps.now());
-  const tables = await listTables(deps);
+  const tables = await listCanonicalTables(deps);
   const existing = tables.find(table => table.name === name);
-  const tableId = existing?.table_id ?? await createTable(deps, name);
+  const tableId = existing?.table_id ?? await createCanonicalTable(deps, name);
   const tableUrl = `${deps.host.replace(/\/+$/u, '')}/base/${deps.appToken}?table=${tableId}`;
   return {tableId, tableUrl};
 }
@@ -200,7 +233,7 @@ export async function reportCanonicalLinksCommand(
 
   const deps: TableDeps = {appToken, token, fetchFeishu: fetchFeishuJsonWithRetry, host, now};
   const {tableId, tableUrl} = await findOrCreateDailyTable(deps);
-  await appendRows(deps, tableId, rows);
+  await appendCanonicalRows(deps, tableId, rows);
 
   writeFileSync(options.tableUrlPath, tableUrl);
   write(`Canonical link report: ${rows.length} row(s) written to ${tableUrl}`);

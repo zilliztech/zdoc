@@ -1,6 +1,6 @@
 import {describe, expect, it} from 'vitest';
 
-import {buildReportRows, categoryLabel} from './reportBrokenLinks.ts';
+import {buildReportRows, categoryLabel, listRecordIds, writeBrokenLinksTable} from './reportBrokenLinks.ts';
 import {parseBrokenLinkAnalysisReport} from './brokenLinkAnalysis.ts';
 
 function analysis() {
@@ -44,5 +44,58 @@ describe('buildReportRows', () => {
     expect(rows[0].源文档链接).toBe('https://zilliverse.feishu.cn/wiki/Wl2Pw#Msm7dh');
     expect(rows[0].扫描时间).toBe('2026-08-26T00:00:00.000Z');
     expect(rows[1].源文档链接).toBe('');
+  });
+});
+
+const writeDeps = {appToken: 'app', tableId: 'tbl', token: 'tenant-token', host: 'https://open.feishu.cn'};
+
+type RecordedCall = {url: string; options: Record<string, unknown>; label: string};
+
+function recorder(responses: Array<Record<string, unknown> | Error>) {
+  const calls: RecordedCall[] = [];
+  const fetchFeishu = async (url: string, options: Record<string, unknown>, label: string) => {
+    calls.push({url, options, label});
+    const next = responses.shift();
+    if (next instanceof Error) throw next;
+    return next ?? {code: 0, msg: 'success', data: {}};
+  };
+  return {calls, fetchFeishu};
+}
+
+describe('listRecordIds', () => {
+  it('sends the tenant token and fails on non-zero code', async () => {
+    const {calls, fetchFeishu} = recorder([{code: 0, data: {items: [{record_id: 'rec1'}, {record_id: 'rec2'}]}}]);
+    const ids = await listRecordIds({...writeDeps, fetchFeishu});
+    expect(ids).toEqual(['rec1', 'rec2']);
+    expect(calls[0].options.headers).toEqual({Authorization: 'Bearer tenant-token'});
+
+    const failing = recorder([{code: 99991661, msg: 'Missing access token for authorization.'}]);
+    await expect(listRecordIds({...writeDeps, fetchFeishu: failing.fetchFeishu})).rejects.toThrow(/99991661/);
+  });
+});
+
+describe('writeBrokenLinksTable', () => {
+  it('writes Url fields as {link, text} objects and omits empty ones', async () => {
+    const {calls, fetchFeishu} = recorder([
+      {code: 0, data: {items: []}}, // list records
+      {code: 0, data: {}}, // create records
+    ]);
+    const rows = buildReportRows(analysis(), new Map([['/docs/byoc/configure-access-logs', 'Msm7dh']]), '2026-08-26T00:00:00.000Z');
+    await writeBrokenLinksTable(rows, {...writeDeps, fetchFeishu});
+    const createCall = calls.find(call => call.url.endsWith('/records/batch_create'));
+    expect(createCall).toBeDefined();
+    const body = JSON.parse(String(createCall!.options.body));
+    expect(body.records[0].fields.源文档链接).toEqual({link: 'https://zilliverse.feishu.cn/wiki/Wl2Pw#Msm7dh', text: 'https://zilliverse.feishu.cn/wiki/Wl2Pw#Msm7dh'});
+    expect(body.records[1].fields.源文档链接).toBeUndefined(); // empty string omitted
+    expect(body.records[1].fields.目标文档链接).toBeUndefined();
+  });
+
+  it('fails on non-zero API code from record creation', async () => {
+    const {fetchFeishu} = recorder([
+      {code: 0, data: {items: []}},
+      {code: 1254068, msg: 'URLFieldConvFail'},
+    ]);
+    const rows = buildReportRows(analysis(), new Map(), '2026-08-26T00:00:00.000Z');
+    await expect(writeBrokenLinksTable(rows, {...writeDeps, fetchFeishu})).rejects.toThrow(/1254068/);
   });
 });
