@@ -142,14 +142,43 @@ type WriteDeps = {
   host: string;
 };
 
-async function listRecordIds(deps: WriteDeps): Promise<string[]> {
+/** Feishu API envelope: non-zero `code` is an error and must abort the command. */
+function assertApiResponseOk(res: {code?: number; msg?: string}, label: string): void {
+  if (res.code !== undefined && res.code !== 0) {
+    throw new Error(`${label} failed: ${res.code} ${res.msg ?? ''}`.trim());
+  }
+}
+
+/** Url-typed fields in the 断链分析表, written as `{link, text}` objects (empty values omitted). */
+const URL_FIELD_NAMES = new Set(['源文档链接', '目标文档链接']);
+
+/** Convert a row's Url-typed fields to the `{link, text}` objects bitable requires; drop empty ones. */
+function toBitableFields(row: ReportRow): Record<string, unknown> {
+  const fields: Record<string, unknown> = {};
+  for (const [name, value] of Object.entries(row)) {
+    if (URL_FIELD_NAMES.has(name)) {
+      if (value) fields[name] = {link: value, text: value};
+    } else {
+      fields[name] = value;
+    }
+  }
+  return fields;
+}
+
+export async function listRecordIds(deps: WriteDeps): Promise<string[]> {
   const ids: string[] = [];
   let pageToken: string | undefined;
   do {
     const expr = pageToken ? `&page_token=${pageToken}` : '';
-    const res = await deps.fetchFeishu(`${deps.host}/open-apis/bitable/v1/apps/${deps.appToken}/tables/${deps.tableId}/records?page_size=500${expr}`, {method: 'get'}, 'list report table records') as {
+    const res = await deps.fetchFeishu(`${deps.host}/open-apis/bitable/v1/apps/${deps.appToken}/tables/${deps.tableId}/records?page_size=500${expr}`, {
+      method: 'get',
+      headers: {Authorization: `Bearer ${deps.token}`},
+    }, 'list report table records') as {
+      code?: number;
+      msg?: string;
       data?: {items?: Array<{record_id: string}>; has_more?: boolean; page_token?: string};
     };
+    assertApiResponseOk(res, 'List report table records');
     for (const item of res.data?.items ?? []) ids.push(item.record_id);
     pageToken = res.data?.has_more ? res.data.page_token : undefined;
   } while (pageToken);
@@ -161,19 +190,21 @@ export async function writeBrokenLinksTable(rows: readonly ReportRow[], deps: Wr
   const ids = await listRecordIds(deps);
   for (let i = 0; i < ids.length; i += 100) {
     const chunk = ids.slice(i, i + 100);
-    await deps.fetchFeishu(`${deps.host}/open-apis/bitable/v1/apps/${deps.appToken}/tables/${deps.tableId}/records/batch_delete`, {
+    const res = await deps.fetchFeishu(`${deps.host}/open-apis/bitable/v1/apps/${deps.appToken}/tables/${deps.tableId}/records/batch_delete`, {
       method: 'post',
       body: JSON.stringify({records: chunk}),
       headers: {Authorization: `Bearer ${deps.token}`},
-    }, 'delete report table records');
+    }, 'delete report table records') as {code?: number; msg?: string};
+    assertApiResponseOk(res, 'Delete report table records');
   }
   for (let i = 0; i < rows.length; i += 100) {
-    const chunk = rows.slice(i, i + 100).map(row => ({fields: row}));
-    await deps.fetchFeishu(`${deps.host}/open-apis/bitable/v1/apps/${deps.appToken}/tables/${deps.tableId}/records/batch_create`, {
+    const chunk = rows.slice(i, i + 100).map(row => ({fields: toBitableFields(row)}));
+    const res = await deps.fetchFeishu(`${deps.host}/open-apis/bitable/v1/apps/${deps.appToken}/tables/${deps.tableId}/records/batch_create`, {
       method: 'post',
       body: JSON.stringify({records: chunk}),
       headers: {Authorization: `Bearer ${deps.token}`},
-    }, 'create report table records');
+    }, 'create report table records') as {code?: number; msg?: string};
+    assertApiResponseOk(res, 'Create report table records');
   }
 }
 
