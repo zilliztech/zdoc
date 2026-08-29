@@ -46,7 +46,7 @@ import Admonition from '@theme/Admonition';
 
     - **定义**：功能已全面发布，具备生产环境可用性，官方提供稳定支持。
 
-    - **功能使用**：大部分功能默认启用。部分企业功能需[联系销售](https://zilliz.com.cn/contact-sales)单独开通。
+    - **功能使用**：大部分功能默认启用。部分企业功能需[联系销售](http://zilliz.com.cn/contact-sales)单独开通。
 
     - **使用建议**：推荐用于生产环境。
 
@@ -56,7 +56,7 @@ import Admonition from '@theme/Admonition';
 
     - **功能使用**：功能仍旧可用，用户将通过邮件收到停用预告。
 
-    - **使用建议**：请尽快[联系技术专家团队](https://zilliz.com.cn/contact-sales)，迁移至新功能或替代方案。
+    - **使用建议**：请尽快[联系技术专家团队](http://zilliz.com.cn/contact-sales)，迁移至新功能或替代方案。
 
 - **已停用（Deprecated）**
 
@@ -98,7 +98,7 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 <Admonition type="info" icon="📘" title="📘 说明">
 
-如果您项目所在的云地域不支持此功能，请[联系我们](https://zilliz.com.cn/contact-sales)。
+如果您项目所在的云地域不支持此功能，请[联系我们](http://zilliz.com.cn/contact-sales)。
 
 </Admonition>
 

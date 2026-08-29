@@ -79,7 +79,6 @@ IAM 资源控制 Zilliz Cloud 平台使用的身份、凭证和角色。
 | `group` | Identity | view, create, modify, delete | No | `*` | `-` | `view` | `-` | `-` | `-` | `-` |
 | `personal_api_key` | Credential | view, modify | No | `*` | `-` | `*` | `*` | `*` | `*` | `*` |
 | `custom_api_key` | Credential | view, create, modify, delete | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
-| `service_account` | Credential | view, create, modify, delete | No | `*` | `-` | `-` | `*` | `-` | `-` | `-` |
 | `org_role` | Role | view, grant | No | `*` | `-` | `view` | `-` | `-` | `-` | `-` |
 | `project_role` | Role | view, grant | No | `*` across all projects | `-` | `view` across all projects | `*` in the assigned project | `view` in the assigned project | `view` in the assigned project | `view` in the assigned project |
 | `project_custom_role` | Role | view, create, modify, delete, grant | No | `*` | `-` | `-` | `*` | `-` | `-` | `-` |

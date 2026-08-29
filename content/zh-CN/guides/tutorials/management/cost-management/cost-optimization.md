@@ -308,7 +308,7 @@ Dedicated 集群最大的成本陷阱是"按峰值配置，全天候运行"。Zi
 | 添加支付方式 | -- | 优惠券有效期延长至 1 年 | 绑定支付方式后未用完的优惠券自动延长有效期至 1 年 |
 | 回收站 | 免费 | — | 删除的数据在回收站中不产生任何费用 |
 
-**建议**：首次注册后请尽早添加支付方式，将¥300 优惠券的有效期从 30 天延长到 1 年，以便充分做技术评估。
+**建议：**首次注册后请尽早添加支付方式，将¥300 优惠券的有效期从 30 天延长到 1 年，以便充分做技术评估。
 
 ### 专项计划\{#dedicated-programs}
 
@@ -319,7 +319,7 @@ Dedicated 集群最大的成本陷阱是"按峰值配置，全天候运行"。Zi
 
 ### 企业和大客户\{#enterprise-customers}
 
-- **联系销售获取自定义报价**。企业客户可以通过包年订阅获取折扣，具体价格请[联系销售](https://zilliz.com.cn/contact-sales)。
+- **联系销售获取自定义报价。**企业客户可以通过包年订阅获取折扣，具体价格请[联系销售](https://zilliz.com.cn/contact-sales)。
 
 - **云市场订阅：** 通过[阿里云](https://docs.zilliz.com.cn/docs/subscribe-on-aliyun-marketplace)、[亚马逊云科技](https://docs.zilliz.com.cn/docs/subscribe-on-amazon-marketplace)的云市场订阅，可以将 Zilliz Cloud 费用合并到云账单中，使用企业在公有云已享受的折扣。
 
