@@ -64,7 +64,7 @@ jobs:
     timeout-minutes: 180
     outputs:
       status: ${{ steps.result.outputs.status }}
-      artifact_name: ${{ format('docs-checkpoint-{0}-{1}', inputs.group, github.run_id) }}
+      artifact_name: ${{ format('docs-checkpoint-{0}-{1}', steps.paths.outputs.checkpoint_group, github.run_id) }}
     env:
       ZDOC_SITE: ${{ inputs.site }}
       SITE: ${{ inputs.site }}
@@ -74,10 +74,15 @@ jobs:
       TARGET_BRANCH: ${{ inputs.target_branch }}
     steps:
       - name: Initialize temporary paths
+        id: paths
         shell: bash
         run: |
           set -euo pipefail
           [[ -n "${RUNNER_TEMP:-}" && "$RUNNER_TEMP" == /* ]] || { echo "RUNNER_TEMP must be a non-empty absolute path" >&2; exit 1; }
+          unit_key='${{ inputs.publication_unit_key }}'
+          [[ "$unit_key" == source/* ]] || { echo "publication_unit_key must start with source/" >&2; exit 1; }
+          checkpoint_group="${unit_key#source/}"
+          printf 'checkpoint_group=%s\n' "$checkpoint_group" >> "$GITHUB_OUTPUT"
           printf '%s\n' \
             "BASELINE_DIR=$RUNNER_TEMP/docs-dev-baseline" \
             "CHECKPOINT_DIR=$RUNNER_TEMP/checkpoint-group" \
@@ -280,7 +285,7 @@ jobs:
         id: checkpoint_upload
         uses: actions/upload-artifact@v6
         with:
-          name: docs-checkpoint-${{ inputs.group }}-${{ github.run_id }}
+          name: docs-checkpoint-${{ steps.paths.outputs.checkpoint_group }}-${{ github.run_id }}
           path: ${{ runner.temp }}/checkpoint-group.tar
           retention-days: ${{ inputs.artifact_retention_days }}
           if-no-files-found: error

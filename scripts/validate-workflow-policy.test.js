@@ -807,6 +807,12 @@ test('Fetch producers stay parallel while publication and derived-state writers 
   assert.equal(sdkMatrix.with.group, '${{ matrix.group }}')
   assert.equal(sdkMatrix.with.publication_unit_key, 'source/${{ matrix.group }}')
   assert.equal(sdkMatrix.with.site, 'en')
+  const restZhCN = workflow.jobs['publish_rest_zh-CN']
+  assert.equal(restZhCN.name, 'publish_rest_zh-CN')
+  assert.equal(restZhCN.strategy, undefined)
+  assert.equal(restZhCN.with.site, 'zh-CN')
+  assert.equal(restZhCN.with.group, 'rest')
+  assert.equal(restZhCN.with.publication_unit_key, 'source/rest-zh-CN')
   for (const legacy of ['produce_python', 'produce_java', 'produce_node', 'produce_go', 'produce_cli', 'produce_rest']) {
     assert.equal(workflow.jobs[legacy], undefined)
   }
@@ -1435,8 +1441,9 @@ test('reusable content producer is immutable, read-only, and publishes a validat
   assert.doesNotMatch(inventoryStep, /APP_ID|APP_SECRET|fetch-lark|publish-group|update-lark-doc-snapshot|update-sdk-reference-snapshots/)
   assert.match(workflow, /create-checkpoint-artifact\.js[\s\S]*--baseline-dir "\$BASELINE_DIR"[\s\S]*--workspace "\$GITHUB_WORKSPACE"/)
   assert.match(workflow, /validate-checkpoint-artifact\.js/)
-  assert.match(workflow, /actions\/upload-artifact@v6[\s\S]*docs-checkpoint-\$\{\{ inputs\.group \}\}-\$\{\{ github\.run_id \}\}/)
-  assert.match(workflow, /artifact_name: \$\{\{ format\('docs-checkpoint-\{0\}-\{1\}', inputs\.group, github\.run_id\) \}\}/)
+  assert.match(workflow, /actions\/upload-artifact@v6[\s\S]*docs-checkpoint-\$\{\{ steps\.paths\.outputs\.checkpoint_group \}\}-\$\{\{ github\.run_id \}\}/)
+  assert.match(workflow, /artifact_name: \$\{\{ format\('docs-checkpoint-\{0\}-\{1\}', steps\.paths\.outputs\.checkpoint_group, github\.run_id\) \}\}/)
+  assert.match(workflow, /checkpoint_group="\$\{unit_key#source\/\}"/)
   assert.match(workflow, /id: checkpoint_upload[\s\S]*uses: actions\/upload-artifact@v6/)
   assert.match(workflow, /name: Upload revision inventory report[\s\S]*if: \$\{\{ inputs\.site == 'en' \}\}[\s\S]*generated\/en\/manifests\/lark-revisions\/\$\{\{ inputs\.group \}\}\.json[\s\S]*tmp\/docs-tooling\/revision-diff\/\$\{\{ inputs\.group \}\}\.json[\s\S]*tmp\/docs-tooling\/revision-diff\/\$\{\{ inputs\.group \}\}\.md[\s\S]*if-no-files-found: error/)
   assert.match(workflow, /name: Upload Guides content reports[\s\S]*inputs\.group == 'guides'/)
