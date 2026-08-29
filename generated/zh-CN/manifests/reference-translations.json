@@ -6313,7 +6313,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md",
       "targetPath": "content/zh-CN/reference/api/python/python/DataImport/DataImport-BulkImport/DataImport-BulkImport.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "130aa76e6d245c9bb67c2e55d4ec3b14a4f3e007aed0538175456db99401a474",
       "status": "retired"
@@ -6421,7 +6421,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/DataImport/DataImport.md",
       "targetPath": "content/zh-CN/reference/api/python/python/DataImport/DataImport.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "6aea95ed0213b4d8988da272af761a2d2d2bdc720f8c6b0dbe417ecd40846075",
       "status": "retired"
@@ -6934,7 +6934,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/EmbeddingModels/EmbeddingModels.md",
       "targetPath": "content/zh-CN/reference/api/python/python/EmbeddingModels/EmbeddingModels.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "c1e2aa0a7e6dc757e7bf5aefaf8544ea115e357bce49f58906a94d06149a8bb3",
       "status": "retired"
@@ -6979,7 +6979,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/Authentication-create_user.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "57c264c010415e09084249e403d7718ead7c74e72bde584ad13365cd59130ec3",
       "status": "retired"
@@ -7096,7 +7096,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Authentication/MilvusClient-Authentication.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Authentication/MilvusClient-Authentication.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "ad9c6a33da5debea78d02130fb18e5f0323d9c22ea50479015dd4a4947331611",
       "status": "retired"
@@ -7150,7 +7150,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Client/MilvusClient-Client.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Client/MilvusClient-Client.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "509d738c9b7358c4d1d3ccb79d189ae038e3e34ad7c97c1e33f85fdd82d4449a",
       "status": "retired"
@@ -7168,7 +7168,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-add_field_1.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "c137362f06c611dbac57cc770845051954b831632507485b12b49a5f5df7e3d0",
       "status": "retired"
@@ -7186,7 +7186,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-construct_from_dict_1.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "dbab9622841a54d7ebb08f7741ff9fe47242afd8a7eed25faf84e7fa35699d23",
       "status": "retired"
@@ -7213,7 +7213,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-to_dict_1.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "80d992ed00e1327b7fc4512e1b4adfb37f72421ed2c193464ec8c5867dd97b0b",
       "status": "retired"
@@ -7231,7 +7231,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/CollectionSchema-verify_1.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "058d0eb78cedeb6433c464296334a202f195df750026a924ad05fc8391fe5ea8",
       "status": "retired"
@@ -7492,7 +7492,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Collections/MilvusClient-Collections.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Collections/MilvusClient-Collections.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "04358cd5c786aa8be68870b6c062cfb79416ea6aec7ab5a5c26f3444ea6f286f",
       "status": "retired"
@@ -7573,7 +7573,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Database/MilvusClient-Database.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Database/MilvusClient-Database.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "c5b09d448dc19ac9909c618728a2b7f39a1d853b5d6a6bf36ce242a20a561564",
       "status": "retired"
@@ -7915,7 +7915,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Management/MilvusClient-Management.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Management/MilvusClient-Management.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "494b67239a5baf614e6e669da47b300374d1ad95bc4ed5d229129cc252ef100b",
       "status": "retired"
@@ -7924,7 +7924,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Partitions/MilvusClient-Partitions.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Partitions/MilvusClient-Partitions.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "2d9d03b4dd1f866ce8203994502eee2c8897e5763f3a326673afa7804c7fadee",
       "status": "retired"
@@ -8113,7 +8113,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Vector.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/MilvusClient-Vector.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "7bd630007fbacf6f0f09d7c1679279e01abef39946363e81155429aab7bcf9cf",
       "status": "retired"
@@ -8140,7 +8140,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-GroupBy.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient-Vector/Vector-GroupBy.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "88a1ad091fb0804b012ff3e964ea89da5319f19d8831d4401e1a9488b8791bdd",
       "status": "retired"
@@ -8248,7 +8248,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/MilvusClient/MilvusClient.md",
       "targetPath": "content/zh-CN/reference/api/python/python/MilvusClient/MilvusClient.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "1f7dc2489b42721642ad815841f57923539298699f183692e81fa340028224da",
       "status": "retired"
@@ -8518,7 +8518,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-add_field.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-add_field.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "3e7016262651c276c588f4c9488a009d2a3856fbdd0562456e5ab94d8f881888",
       "status": "retired"
@@ -8527,7 +8527,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-construct_from_dict.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "478e9a5c0944325a869aca38a48310b9b046e66d94937f48876d65ce0f2d754f",
       "status": "retired"
@@ -8545,7 +8545,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-to_dict.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "17e27962c7d6553dfa3ae1056bf53a06b3620b6ef3451187afe380bd30bf2d69",
       "status": "retired"
@@ -8563,7 +8563,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-CollectionSchema/CollectionSchema-verify.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "67bc3f1cf8bfd229fe0ea106691f673f0fb08c21e7d5ba685c50b0742c3adeae",
       "status": "retired"
@@ -8662,7 +8662,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-construct_from_dict.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-construct_from_dict.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "8a97b08fbe66d89defadfa18d5742733904564086b324608dbfbd77e158922e3",
       "status": "retired"
@@ -8671,7 +8671,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-to_dict.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-FieldSchema/FieldSchema-to_dict.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "ce5900e93f9aae81b21667a5d57f391f2981d0db4e101ab8d5e2ae63ad6d67dd",
       "status": "retired"
@@ -8680,7 +8680,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-FieldSchema/ORM-FieldSchema.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-FieldSchema/ORM-FieldSchema.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "95fabbacaf6cf16315e8e516382a925c803308542193bd7b23f9a065e5fc7a8c",
       "status": "retired"
@@ -8887,7 +8887,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-db/ORM-db.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-db/ORM-db.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "fb44ba6b1e6a73202ea1f3bc75daba6555859e7aae4d3b7b6c916189b51e44bb",
       "status": "retired"
@@ -8932,7 +8932,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM-utility/ORM-utility.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM-utility/ORM-utility.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "17387a8286f74d0a918f5806ca325025d64f138f82750ce3d520dc92caaf9215",
       "status": "retired"
@@ -9328,7 +9328,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/ORM/ORM.md",
       "targetPath": "content/zh-CN/reference/api/python/python/ORM/ORM.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "a2f006f70b0f17f7415f6220e807d0966e533935dba85928adb8c787077cf746",
       "status": "retired"
@@ -9427,7 +9427,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Rerankers/Rerankers.md",
       "targetPath": "content/zh-CN/reference/api/python/python/Rerankers/Rerankers.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "b6aff6cfcfd8a162c9ef6e0c15e11116c56f1e96351db54e77052c0338e3e06b",
       "status": "retired"
@@ -9499,7 +9499,7 @@
       "manual": "python",
       "sourcePath": "content/en/reference/api/python/python/Volume/Volume.md",
       "targetPath": "content/zh-CN/reference/api/python/python/Volume/Volume.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "targetHash": "ddced0133fe734e05b9baf6b723a2818c57888830bd16976eb999dde9103e7c4",
       "status": "retired"
@@ -9519,7 +9519,7 @@
       "manual": "cpp",
       "sourcePath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "66452df0c3d86f678ece386f49d8dac179180efa0a547b84e1e750d3c7c7007e"
     }
   ],
@@ -9528,7 +9528,7 @@
       "manual": "rest",
       "sourcePath": "content/en/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx",
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx",
-      "sourceCommit": "212cdeeb9fbb0ed37020725919da4b08967b3048",
+      "sourceCommit": "834b577181c21263e2738b7f2709be9b02bd7ecc",
       "sourceHash": "1b4f8b9e207ec888fca81b717ddf73a4638f0de46de224bec89853eef44a7b65",
       "locale": "zh-CN",
       "reason": "x-include-langs"
