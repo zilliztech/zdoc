@@ -11,11 +11,13 @@ const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
   ['recover-translation.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}"}],
   ['translate-codex.yml', {conditional: true, expectedGroup: "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}"}],
   ['sync-master-tooling-to-dev.yml', {conditional: false}],
+  ['repair-fetch-dev.yml', {conditional: false}],
 ]))
 const TOP_LEVEL_WRITER_INVENTORY = Object.freeze(new Map([
   ['fetch-docs.yml', ['publish_ready', 'reconcile_reference_state']],
   ['translate-codex.yml', ['publish_ready']],
   ['sync-master-tooling-to-dev.yml', ['sync']],
+  ['repair-fetch-dev.yml', ['repair']],
 ]))
 const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
   ['fetch-docs.yml', new Set(['reconcile_reference_state'])],
@@ -26,6 +28,7 @@ const publishingWorkflows = new Set([
   'recover-translation.yml',
   'translate-codex.yml',
   'sync-master-tooling-to-dev.yml',
+  'repair-fetch-dev.yml',
 ])
 
 const minimumNode24ActionMajors = new Map([

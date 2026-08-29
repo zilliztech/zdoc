@@ -147,11 +147,12 @@ function successfulReferenceGroups(selection, results) {
   return Object.freeze(groups)
 }
 
-function allowedPaths(groups) {
+function allowedPaths(groups, extraPaths = []) {
   const sidebars = groups.flatMap(group => SIDEBARS_BY_GROUP[group])
   return Object.freeze([
     INVENTORY_PATH,
     ...new Set(sidebars.map(sidebar => `generated/zh-CN/sidebars/${sidebar}.sidebar.js`)),
+    ...extraPaths,
   ])
 }
 
@@ -218,14 +219,26 @@ function validateInput(input) {
   return {selection, results}
 }
 
-async function runDerivedStateRefresh({selection, groups, commands, repositoryRoot, runnerTemp, transactionContext = {}, results = null, worktreePrefix = 'translation-reconciliation'}) {
+async function runDerivedStateRefresh({
+  selection,
+  groups,
+  commands,
+  repositoryRoot,
+  runnerTemp,
+  transactionContext = {},
+  results = null,
+  worktreePrefix = 'translation-reconciliation',
+  extraAllowedPaths = [],
+  commitSubject = 'chore(i18n): reconcile derived translation state',
+  commitTrailers = ({latestDevSha}) => [`translationTargetSha: ${latestDevSha}`],
+}) {
   const resolvedRoot = fs.realpathSync(repositoryRoot)
   const dependencyRoot = fs.realpathSync(transactionContext.dependencyRoot || resolvedRoot)
   const resolvedRunnerTemp = fs.realpathSync(runnerTemp)
   const dependencies = {...(transactionContext.dependencies || {})}
   const runCommand = dependencies.runCommand || defaultRunCommand
   const remote = transactionContext.remote || 'origin'
-  const allowlist = allowedPaths(groups)
+  const allowlist = allowedPaths(groups, extraAllowedPaths)
   const environment = {...process.env, ...(transactionContext.environment || {})}
   const cleanupWorktree = worktree => removeWorktree(resolvedRoot, worktree, dependencies.afterWorktreeCleanup)
 
@@ -242,7 +255,8 @@ async function runDerivedStateRefresh({selection, groups, commands, repositoryRo
           path.join(validationWorktree, 'scripts/restore-generated-state.sh'), '--exact', '--ref', latestDevSha,
         ], environment)
         const restoredTree = git(validationWorktree, ['write-tree']).stdout.trim()
-        for (const [executable, args] of commands) {
+        const resolvedCommands = typeof commands === 'function' ? commands({latestDevSha}) : commands
+        for (const [executable, args] of resolvedCommands) {
           await command(runCommand, validationWorktree, executable, args, environment)
         }
         const changed = changedPaths(validationWorktree, restoredTree, linkedDependencies)
@@ -266,8 +280,8 @@ async function runDerivedStateRefresh({selection, groups, commands, repositoryRo
         }
         git(publicationWorktree, ['config', 'user.name', transactionContext.authorName || 'docs-publish-bot'])
         git(publicationWorktree, ['config', 'user.email', transactionContext.authorEmail || 'docs-publish-bot@users.noreply.github.com'])
-        git(publicationWorktree, ['commit', '-m', 'chore(i18n): reconcile derived translation state',
-          '-m', `translationTargetSha: ${latestDevSha}`])
+        git(publicationWorktree, ['commit', '-m', commitSubject,
+          ...commitTrailers({latestDevSha}).map(trailer => ['-m', trailer]).flat()])
         const candidateSha = git(publicationWorktree, ['rev-parse', 'HEAD']).stdout.trim()
         return Object.freeze({
           status: 'candidate',
@@ -361,4 +375,4 @@ async function refreshReferenceDerivedState({selection, groups, repositoryRoot, 
   })
 }
 
-module.exports = {reconcileTranslationPublication, refreshReferenceDerivedState, successfulReferenceGroups}
+module.exports = {reconcileTranslationPublication, refreshReferenceDerivedState, successfulReferenceGroups, runDerivedStateRefresh}
