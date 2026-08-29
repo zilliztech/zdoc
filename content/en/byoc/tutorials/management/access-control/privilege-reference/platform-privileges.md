@@ -79,7 +79,6 @@ IAM resources control identities, credentials, and roles used by the Zilliz Clou
 | `group` | Identity | view, create, modify, delete | No | `*` | `-` | `view` | `-` | `-` | `-` | `-` |
 | `personal_api_key` | Credential | view, modify | No | `*` | `-` | `*` | `*` | `*` | `*` | `*` |
 | `custom_api_key` | Credential | view, create, modify, delete | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
-| `service_account` | Credential | view, create, modify, delete | No | `*` | `-` | `-` | `*` | `-` | `-` | `-` |
 | `org_role` | Role | view, grant | No | `*` | `-` | `view` | `-` | `-` | `-` | `-` |
 | `project_role` | Role | view, grant | No | `*` across all projects | `-` | `view` across all projects | `*` in the assigned project | `view` in the assigned project | `view` in the assigned project | `view` in the assigned project |
 | `project_custom_role` | Role | view, create, modify, delete, grant | No | `*` | `-` | `-` | `*` | `-` | `-` | `-` |

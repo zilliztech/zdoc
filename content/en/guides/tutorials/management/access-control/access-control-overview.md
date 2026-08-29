@@ -76,7 +76,7 @@ The following is the workflow to implement project-level RBAC in Zilliz Cloud.
 
     Each project role includes a predefined set of privileges that determines what the assigned members an do at the project level.
 
-1. Invite project [members](./manage-platform-users#invite-project-users) and assign the project role to user.
+1. Invite project [members](./manage-platform-users#invite-project-members) and assign the project role to user.
 
     The project member automatically inherits the privileges included in the role.
 
@@ -154,9 +154,29 @@ If a user receives access from multiple sources, Zilliz Cloud should evaluate th
 
     - Grant cluster-level access only if the user also needs to connect to clusters and perform data-plane operations.
 
-**Application Writer**
+- **Application Writer**
 
-**Read-Only Analyst**
+    An application needs to insert and update vectors in a production cluster but should not manage organization or project settings.
+
+    - Create or identify the project where the production cluster lives.
+
+    - Assign only the minimum project-level access needed for the application's credential owner.
+
+    - Create a cluster user for the application.
+
+    - Create or select a cluster role with write privileges on the required database or collection.
+
+    - Grant that cluster role to the cluster user.
+
+- **Read-Only Analyst**
+
+    An analyst needs to inspect or query data but should not modify resources.
+
+    - Invite the user to the target project.
+
+    - Assign **Data Viewer** or a custom project role with read-only access.
+
+    - If direct cluster access is needed, create a cluster user and assign a read-only cluster role or a custom cluster role limited to the required collections.
 
 ## Best Practices\{#best-practices}
 

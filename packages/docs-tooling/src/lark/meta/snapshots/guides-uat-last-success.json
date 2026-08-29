@@ -9,7 +9,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-08-28T05:01:52.677Z",
+  "generated_at": "2026-08-29T13:46:24.458Z",
   "source_dir": "packages/docs-tooling/src/lark/meta/sources/guides",
   "base_app_token": "Ac7xbs2k1ad7bjsCXr0ccHe9nMh",
   "records": [
@@ -13233,6 +13233,179 @@
       "output_paths": []
     },
     {
+      "record_id": "recvsCWL9Rgyid",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "title": "Identity Management Overview",
+      "slug": "identity-management-overview",
+      "doc_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/Eez3wXKnPii2DekIQ76c9jbtnWd",
+      "source_file": "Eez3wXKnPii2DekIQ76c9jbtnWd.json",
+      "source_hash": "57a7f3328d7df101fb47efcfa94bc9db6789c17f6239f311c2200bd319d94187",
+      "node_metadata": {
+        "requested_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
+        "requested_node_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
+        "node_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
+        "origin_node_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
+        "obj_token": "TvIQdxulPoxFxJxwgN5cjMF6n0f",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "Identity Management Overview",
+        "space_id": "7314489394450956292",
+        "parent_node_token": "MKEwwjcrviYiGLkDRdwcxmvznBe",
+        "node_create_time": "1782356345",
+        "obj_create_time": "1782356345",
+        "obj_edit_time": "1788010122",
+        "revision_id": null
+      },
+      "node_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
+      "origin_node_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
+      "obj_token": "TvIQdxulPoxFxJxwgN5cjMF6n0f",
+      "obj_type": "docx",
+      "obj_edit_time": "1788010122",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "BRsZwqOUTiBbrPk9b5WcvFgTnze",
+        "KhJhw2lOBirGhekK8jbcZkb2nVg",
+        "NmFBwTRj9iFuC8kXno6cqRbmnfh"
+      ],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvsCWYizu2TS",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "title": "Manage Platform Users",
+      "slug": "manage-platform-users",
+      "doc_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/XvTLwH1TEiEHdJksnyIcMCixnic",
+      "source_file": "XvTLwH1TEiEHdJksnyIcMCixnic.json",
+      "source_hash": "56abefdb4ed3bd7270dad5f2deb3e0d8862c2c519e8c1e78f39dccd0346bc224",
+      "node_metadata": {
+        "requested_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
+        "requested_node_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
+        "node_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
+        "origin_node_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
+        "obj_token": "ImVBd2wcAo2RhExADmLckzlKnuh",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "Manage Platform Users",
+        "space_id": "7314489394450956292",
+        "parent_node_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
+        "node_create_time": "1782356475",
+        "obj_create_time": "1782356475",
+        "obj_edit_time": "1787909511",
+        "revision_id": null
+      },
+      "node_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
+      "origin_node_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
+      "obj_token": "ImVBd2wcAo2RhExADmLckzlKnuh",
+      "obj_type": "docx",
+      "obj_edit_time": "1787909511",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvsCXcDn9alW",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "title": "Manage Cluster Users (Console)",
+      "slug": "cluster-users",
+      "doc_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/CWT2wh5YriZfPZkGlgCcWxVnnAf",
+      "source_file": "CWT2wh5YriZfPZkGlgCcWxVnnAf.json",
+      "source_hash": "94a7effd957b5c22272c0ab83b3f7a501609ead519a189ac44c057d49ea51f01",
+      "node_metadata": {
+        "requested_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
+        "requested_node_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
+        "node_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
+        "origin_node_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
+        "obj_token": "Oip4diTSTojb5vxLMSocJj8qngg",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "Manage Cluster Users (Console)",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "UEFXwAUL4icMjMkUej9cqncJncd",
+        "node_create_time": "1733998265",
+        "obj_create_time": "1733998265",
+        "obj_edit_time": "1782807543",
+        "revision_id": null
+      },
+      "node_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
+      "origin_node_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
+      "obj_token": "Oip4diTSTojb5vxLMSocJj8qngg",
+      "obj_type": "docx",
+      "obj_edit_time": "1782807543",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "YHG0wCYxfiZILvkZ2VLclmvsn7g",
+        "YmsVwIzOBinv4OklCfmc2nyznAe"
+      ],
+      "output_paths": []
+    },
+    {
+      "record_id": "recvsCXeckT6wm",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "title": "Manage Cluster User (SDK)",
+      "slug": "cluster-users-sdk",
+      "doc_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/I2CHwfDHKilTMukoZ13cR2M4nzb",
+      "source_file": "I2CHwfDHKilTMukoZ13cR2M4nzb.json",
+      "source_hash": "24fb13a21a876c033154b2dc3d538f23b2d8b07c30a360874b6ea552b43da322",
+      "node_metadata": {
+        "requested_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
+        "requested_node_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
+        "node_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
+        "origin_node_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
+        "obj_token": "XnYWdBIqUonohaxUb2WcTe2HnQf",
+        "obj_type": "docx",
+        "node_type": "origin",
+        "title": "Manage Cluster User (SDK)",
+        "space_id": "7167193056431783939",
+        "parent_node_token": "UEFXwAUL4icMjMkUej9cqncJncd",
+        "node_create_time": "1734597177",
+        "obj_create_time": "1734597177",
+        "obj_edit_time": "1782887038",
+        "revision_id": null
+      },
+      "node_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
+      "origin_node_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
+      "obj_token": "XnYWdBIqUonohaxUb2WcTe2HnQf",
+      "obj_type": "docx",
+      "obj_edit_time": "1782887038",
+      "revision_id": null,
+      "publish_targets": [
+        "Zilliz.PaaS",
+        "Zilliz.SaaS"
+      ],
+      "publish_status": "Draft",
+      "outgoing_tokens": [
+        "YHG0wCYxfiZILvkZ2VLclmvsn7g"
+      ],
+      "output_paths": []
+    },
+    {
       "record_id": "recvlVZy1Zsv8g",
       "table_id": "tblZMzoITXNsyKmQ",
       "table_name": "Management",
@@ -13242,7 +13415,7 @@
       "doc_token": "SXBNw91txiJhL6kq2ARcvYbRntg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/SXBNw91txiJhL6kq2ARcvYbRntg",
       "source_file": "SXBNw91txiJhL6kq2ARcvYbRntg.json",
-      "source_hash": "8b1011b1e72e869b854663231fd8efe1bf5ff9819654a430fdce2c8c5bf9f295",
+      "source_hash": "6174d50e9f7f8cdc02de3dd5901f2df6142af12c80994aa7960a3fa397f038d0",
       "node_metadata": {
         "requested_token": "SXBNw91txiJhL6kq2ARcvYbRntg",
         "requested_node_token": "SXBNw91txiJhL6kq2ARcvYbRntg",
@@ -13283,7 +13456,7 @@
       "doc_token": "OQ2ZwpH9ki5EZIkwK21cghexnOh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/OQ2ZwpH9ki5EZIkwK21cghexnOh",
       "source_file": "OQ2ZwpH9ki5EZIkwK21cghexnOh.json",
-      "source_hash": "f3aee4cd3f7571319d8c93f35af89330ea380b2a3514f4f3b1b38dbf7a503e47",
+      "source_hash": "6933e6c5122fb965e90bb858bde45b0d6881b58f67c511f5ad264adebb7d1e0a",
       "node_metadata": {
         "requested_token": "OQ2ZwpH9ki5EZIkwK21cghexnOh",
         "requested_node_token": "OQ2ZwpH9ki5EZIkwK21cghexnOh",
@@ -13328,7 +13501,7 @@
       "doc_token": "QUC4wfVYTi73ctkMzEec17oVnjh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/QUC4wfVYTi73ctkMzEec17oVnjh",
       "source_file": "QUC4wfVYTi73ctkMzEec17oVnjh.json",
-      "source_hash": "8b2eb6fde01fab885efc38da24ce6b3b49ccc67a5da91755aa62524b85f0452b",
+      "source_hash": "899b5a5b368a87843e1d3781f3215b844e4234747d5383fe1368a001c3c21134",
       "node_metadata": {
         "requested_token": "QUC4wfVYTi73ctkMzEec17oVnjh",
         "requested_node_token": "QUC4wfVYTi73ctkMzEec17oVnjh",
@@ -13373,7 +13546,7 @@
       "doc_token": "OLAEwETZtitiNFkkA9JcE5YZnXf",
       "doc_link": "https://zilliverse.feishu.cn/wiki/OLAEwETZtitiNFkkA9JcE5YZnXf",
       "source_file": "OLAEwETZtitiNFkkA9JcE5YZnXf.json",
-      "source_hash": "36e8ebd55d8ca4547a2140410d8f2e4d770b86f908d115c47ce20cd2d78fa986",
+      "source_hash": "c543f4ef7a6449b2e7f74dd6c0bb6ba8566490c56bdbedec0c28c1cc80d8bad2",
       "node_metadata": {
         "requested_token": "OLAEwETZtitiNFkkA9JcE5YZnXf",
         "requested_node_token": "OLAEwETZtitiNFkkA9JcE5YZnXf",
@@ -13418,7 +13591,7 @@
       "doc_token": "Qkm3wPF9Titu1MkQ0fgcENs4nZc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Qkm3wPF9Titu1MkQ0fgcENs4nZc",
       "source_file": "Qkm3wPF9Titu1MkQ0fgcENs4nZc.json",
-      "source_hash": "c22fb5f8f3268a9d6cc99ab7ceb1e994157a75f297cb02e7fd8144a32d0adc1f",
+      "source_hash": "a0fe0d3d60c26c841021c1d5bc88cdc2ecd9c216e9c750d5038d80b90d89fd2e",
       "node_metadata": {
         "requested_token": "Qkm3wPF9Titu1MkQ0fgcENs4nZc",
         "requested_node_token": "Qkm3wPF9Titu1MkQ0fgcENs4nZc",
@@ -13463,7 +13636,7 @@
       "doc_token": "WDOJwtKkAijW4gkUpQhcAL0Rn1d",
       "doc_link": "https://zilliverse.feishu.cn/wiki/WDOJwtKkAijW4gkUpQhcAL0Rn1d",
       "source_file": "WDOJwtKkAijW4gkUpQhcAL0Rn1d.json",
-      "source_hash": "f3397a9bd1c3c623a4aed8c3044412908d9d01dae6995e0bd3111ad285954ece",
+      "source_hash": "aa0f8dc55b64e692bad65ee1a07f51c83b29448d5b4515c40ce4b0147854493f",
       "node_metadata": {
         "requested_token": "WDOJwtKkAijW4gkUpQhcAL0Rn1d",
         "requested_node_token": "WDOJwtKkAijW4gkUpQhcAL0Rn1d",
@@ -13511,7 +13684,7 @@
       "doc_token": "MvE5wUlFli3gJOk0MkeclZCqnib",
       "doc_link": "https://zilliverse.feishu.cn/wiki/MvE5wUlFli3gJOk0MkeclZCqnib",
       "source_file": "MvE5wUlFli3gJOk0MkeclZCqnib.json",
-      "source_hash": "0d9db750bcdb16593a16f5c7cb2ea749177b13d377ed5b2bc51157d4b4c17b67",
+      "source_hash": "aca0d71a5181e7db8bdeba89d722ff9229184b083bf0555df19d0f2d7b525b5b",
       "node_metadata": {
         "requested_token": "MvE5wUlFli3gJOk0MkeclZCqnib",
         "requested_node_token": "MvE5wUlFli3gJOk0MkeclZCqnib",
@@ -13547,51 +13720,6 @@
       "output_paths": []
     },
     {
-      "record_id": "recvsCWL9Rgyid",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "title": "Identity Management Overview",
-      "slug": "identity-management-overview",
-      "doc_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/Eez3wXKnPii2DekIQ76c9jbtnWd",
-      "source_file": "Eez3wXKnPii2DekIQ76c9jbtnWd.json",
-      "source_hash": "39e25a6b59795b9f46b30472782e979ab5c8efbe387a52e9c356798cfd274444",
-      "node_metadata": {
-        "requested_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
-        "requested_node_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
-        "node_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
-        "origin_node_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
-        "obj_token": "TvIQdxulPoxFxJxwgN5cjMF6n0f",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Identity Management Overview",
-        "space_id": "7314489394450956292",
-        "parent_node_token": "MKEwwjcrviYiGLkDRdwcxmvznBe",
-        "node_create_time": "1782356345",
-        "obj_create_time": "1782356345",
-        "obj_edit_time": "1787795845",
-        "revision_id": null
-      },
-      "node_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
-      "origin_node_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
-      "obj_token": "TvIQdxulPoxFxJxwgN5cjMF6n0f",
-      "obj_type": "docx",
-      "obj_edit_time": "1787795845",
-      "revision_id": null,
-      "publish_targets": [
-        "Zilliz.PaaS",
-        "Zilliz.SaaS"
-      ],
-      "publish_status": "Draft",
-      "outgoing_tokens": [
-        "BRsZwqOUTiBbrPk9b5WcvFgTnze",
-        "KhJhw2lOBirGhekK8jbcZkb2nVg",
-        "NmFBwTRj9iFuC8kXno6cqRbmnfh"
-      ],
-      "output_paths": []
-    },
-    {
       "record_id": "recvs43L1HW6b9",
       "table_id": "tblZMzoITXNsyKmQ",
       "table_name": "Management",
@@ -13601,7 +13729,7 @@
       "doc_token": "KhJhw2lOBirGhekK8jbcZkb2nVg",
       "doc_link": "https://zilliverse.feishu.cn/wiki/KhJhw2lOBirGhekK8jbcZkb2nVg",
       "source_file": "KhJhw2lOBirGhekK8jbcZkb2nVg.json",
-      "source_hash": "4c0eab60314f3eb992f42986bf4a9326e2bac7057c3411aa1a49ce8f8a912fc4",
+      "source_hash": "30a6920603609508ae0f1b184f907a5594723ac3eef958dadebafa6321388b2b",
       "node_metadata": {
         "requested_token": "KhJhw2lOBirGhekK8jbcZkb2nVg",
         "requested_node_token": "KhJhw2lOBirGhekK8jbcZkb2nVg",
@@ -13642,7 +13770,7 @@
       "doc_token": "DBrAwCfu3ids0Okxhlbcz12KnPc",
       "doc_link": "https://zilliverse.feishu.cn/wiki/DBrAwCfu3ids0Okxhlbcz12KnPc",
       "source_file": "DBrAwCfu3ids0Okxhlbcz12KnPc.json",
-      "source_hash": "2f4018bab4e5db73e7bd5a49c9f840a77584abda480ffbd8576117ff5ebadff1",
+      "source_hash": "9b05ef86b096e6f2d66d3524a9cb0d620fe6a7227bd250c57b36649fa89b4799",
       "node_metadata": {
         "requested_token": "DBrAwCfu3ids0Okxhlbcz12KnPc",
         "requested_node_token": "DBrAwCfu3ids0Okxhlbcz12KnPc",
@@ -13683,7 +13811,7 @@
       "doc_token": "TqR1wKJMni2xCkkwNf4c52eKnKd",
       "doc_link": "https://zilliverse.feishu.cn/wiki/TqR1wKJMni2xCkkwNf4c52eKnKd",
       "source_file": "TqR1wKJMni2xCkkwNf4c52eKnKd.json",
-      "source_hash": "940fbd0108a60e5e69be5ebc96a8eaef872d027dc12bccf8a9fb8264308b003f",
+      "source_hash": "49f0427874a3ee1e0a975c5df458fde8e278856431d23f111154e61e7623824a",
       "node_metadata": {
         "requested_token": "TqR1wKJMni2xCkkwNf4c52eKnKd",
         "requested_node_token": "TqR1wKJMni2xCkkwNf4c52eKnKd",
@@ -13724,7 +13852,7 @@
       "doc_token": "Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
       "doc_link": "https://zilliverse.feishu.cn/wiki/Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
       "source_file": "Er7Yw6Qnuiy8CBkDkH3cetOHnDf.json",
-      "source_hash": "a8c2820362495b147bf571b3b2f20b82547782ef4f41d6132d766504552b83b7",
+      "source_hash": "9630399a452bdbf93a935eb0834fd4ebca0b9d55e5a1c956672226b47ccad439",
       "node_metadata": {
         "requested_token": "Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
         "requested_node_token": "Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
@@ -13756,134 +13884,6 @@
       "output_paths": []
     },
     {
-      "record_id": "recvsCWYizu2TS",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "title": "Manage Platform Users",
-      "slug": "manage-platform-users",
-      "doc_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/XvTLwH1TEiEHdJksnyIcMCixnic",
-      "source_file": "XvTLwH1TEiEHdJksnyIcMCixnic.json",
-      "source_hash": "62e5bcd2e33a527662b812302f1f2c8d9403d0685472263dc6096235d06846c7",
-      "node_metadata": {
-        "requested_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
-        "requested_node_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
-        "node_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
-        "origin_node_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
-        "obj_token": "ImVBd2wcAo2RhExADmLckzlKnuh",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Manage Platform Users",
-        "space_id": "7314489394450956292",
-        "parent_node_token": "Eez3wXKnPii2DekIQ76c9jbtnWd",
-        "node_create_time": "1782356475",
-        "obj_create_time": "1782356475",
-        "obj_edit_time": "1787795982",
-        "revision_id": null
-      },
-      "node_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
-      "origin_node_token": "XvTLwH1TEiEHdJksnyIcMCixnic",
-      "obj_token": "ImVBd2wcAo2RhExADmLckzlKnuh",
-      "obj_type": "docx",
-      "obj_edit_time": "1787795982",
-      "revision_id": null,
-      "publish_targets": [
-        "Zilliz.PaaS",
-        "Zilliz.SaaS"
-      ],
-      "publish_status": "Draft",
-      "outgoing_tokens": [],
-      "output_paths": []
-    },
-    {
-      "record_id": "recvsCXcDn9alW",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "title": "Manage Cluster Users (Console)",
-      "slug": "cluster-users",
-      "doc_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/CWT2wh5YriZfPZkGlgCcWxVnnAf",
-      "source_file": "CWT2wh5YriZfPZkGlgCcWxVnnAf.json",
-      "source_hash": "9d417195b6999689a509adf39599dc50cd9175c77339dc7dcd1fa1cf77077fd9",
-      "node_metadata": {
-        "requested_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
-        "requested_node_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
-        "node_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
-        "origin_node_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
-        "obj_token": "Oip4diTSTojb5vxLMSocJj8qngg",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Manage Cluster Users (Console)",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "UEFXwAUL4icMjMkUej9cqncJncd",
-        "node_create_time": "1733998265",
-        "obj_create_time": "1733998265",
-        "obj_edit_time": "1782807543",
-        "revision_id": null
-      },
-      "node_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
-      "origin_node_token": "CWT2wh5YriZfPZkGlgCcWxVnnAf",
-      "obj_token": "Oip4diTSTojb5vxLMSocJj8qngg",
-      "obj_type": "docx",
-      "obj_edit_time": "1782807543",
-      "revision_id": null,
-      "publish_targets": [
-        "Zilliz.PaaS",
-        "Zilliz.SaaS"
-      ],
-      "publish_status": "Draft",
-      "outgoing_tokens": [
-        "YHG0wCYxfiZILvkZ2VLclmvsn7g",
-        "YmsVwIzOBinv4OklCfmc2nyznAe"
-      ],
-      "output_paths": []
-    },
-    {
-      "record_id": "recvsCXeckT6wm",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "title": "Manage Cluster User (SDK)",
-      "slug": "cluster-users-sdk",
-      "doc_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/I2CHwfDHKilTMukoZ13cR2M4nzb",
-      "source_file": "I2CHwfDHKilTMukoZ13cR2M4nzb.json",
-      "source_hash": "899ab05b0846f52f114401cefcf7656315cff8d45e7a3717b694a4bcbf78d786",
-      "node_metadata": {
-        "requested_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
-        "requested_node_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
-        "node_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
-        "origin_node_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
-        "obj_token": "XnYWdBIqUonohaxUb2WcTe2HnQf",
-        "obj_type": "docx",
-        "node_type": "origin",
-        "title": "Manage Cluster User (SDK)",
-        "space_id": "7167193056431783939",
-        "parent_node_token": "UEFXwAUL4icMjMkUej9cqncJncd",
-        "node_create_time": "1734597177",
-        "obj_create_time": "1734597177",
-        "obj_edit_time": "1782887038",
-        "revision_id": null
-      },
-      "node_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
-      "origin_node_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
-      "obj_token": "XnYWdBIqUonohaxUb2WcTe2HnQf",
-      "obj_type": "docx",
-      "obj_edit_time": "1782887038",
-      "revision_id": null,
-      "publish_targets": [
-        "Zilliz.PaaS",
-        "Zilliz.SaaS"
-      ],
-      "publish_status": "Draft",
-      "outgoing_tokens": [
-        "YHG0wCYxfiZILvkZ2VLclmvsn7g"
-      ],
-      "output_paths": []
-    },
-    {
       "record_id": "recvlVYS5vciEa",
       "table_id": "tblZMzoITXNsyKmQ",
       "table_name": "Management",
@@ -13893,7 +13893,7 @@
       "doc_token": "NmFBwTRj9iFuC8kXno6cqRbmnfh",
       "doc_link": "https://zilliverse.feishu.cn/wiki/NmFBwTRj9iFuC8kXno6cqRbmnfh",
       "source_file": "NmFBwTRj9iFuC8kXno6cqRbmnfh.json",
-      "source_hash": "a09ffdd71d3f8a74168870194223cf062020d5c07e520f5450784570807c524b",
+      "source_hash": "349b4951d476d065a98d37450676c835b731c03ae39d01b195410cfd8f5114e7",
       "node_metadata": {
         "requested_token": "NmFBwTRj9iFuC8kXno6cqRbmnfh",
         "requested_node_token": "NmFBwTRj9iFuC8kXno6cqRbmnfh",
@@ -13907,14 +13907,14 @@
         "parent_node_token": "MKEwwjcrviYiGLkDRdwcxmvznBe",
         "node_create_time": "1782356486",
         "obj_create_time": "1782356486",
-        "obj_edit_time": "1787887086",
+        "obj_edit_time": "1787909183",
         "revision_id": null
       },
       "node_token": "NmFBwTRj9iFuC8kXno6cqRbmnfh",
       "origin_node_token": "NmFBwTRj9iFuC8kXno6cqRbmnfh",
       "obj_token": "WlQudnejhoY9hzxRkalctLXxnxg",
       "obj_type": "docx",
-      "obj_edit_time": "1787887086",
+      "obj_edit_time": "1787909183",
       "revision_id": null,
       "publish_targets": [
         "Zilliz.PaaS",
@@ -13943,7 +13943,7 @@
       "doc_token": "MyKpwdBxUizDsukJm5Kc8orenbT",
       "doc_link": "https://zilliverse.feishu.cn/wiki/MyKpwdBxUizDsukJm5Kc8orenbT",
       "source_file": "MyKpwdBxUizDsukJm5Kc8orenbT.json",
-      "source_hash": "0193079a13a30121b26a68b93feb18ed69948d4ede020009b1d6be920d091a5f",
+      "source_hash": "051ad81bfd8dc8cf94861be2d413286c15d63389085b136a6526c91549a39649",
       "node_metadata": {
         "requested_token": "MyKpwdBxUizDsukJm5Kc8orenbT",
         "requested_node_token": "MyKpwdBxUizDsukJm5Kc8orenbT",
@@ -13957,14 +13957,14 @@
         "parent_node_token": "NmFBwTRj9iFuC8kXno6cqRbmnfh",
         "node_create_time": "1782356494",
         "obj_create_time": "1782356494",
-        "obj_edit_time": "1786517693",
+        "obj_edit_time": "1787909538",
         "revision_id": null
       },
       "node_token": "MyKpwdBxUizDsukJm5Kc8orenbT",
       "origin_node_token": "MyKpwdBxUizDsukJm5Kc8orenbT",
       "obj_token": "E48LdsLNbopVsJxz98UckftZn6e",
       "obj_type": "docx",
-      "obj_edit_time": "1786517693",
+      "obj_edit_time": "1787909538",
       "revision_id": null,
       "publish_targets": [
         "Zilliz.PaaS",
@@ -14073,7 +14073,7 @@
       "doc_token": "GsofwhPKqi0Bfkkk7YqcRzndnah",
       "doc_link": "https://zilliverse.feishu.cn/wiki/GsofwhPKqi0Bfkkk7YqcRzndnah",
       "source_file": "GsofwhPKqi0Bfkkk7YqcRzndnah.json",
-      "source_hash": "6fee2999cabc0a20c1412d5013ff80ff2e5d4df33435ff9c969c1df091333341",
+      "source_hash": "c12028832314873ab83137ed850fca4fe68d72b81dd807c362c08f64b4b4a2d0",
       "node_metadata": {
         "requested_token": "GsofwhPKqi0Bfkkk7YqcRzndnah",
         "requested_node_token": "GsofwhPKqi0Bfkkk7YqcRzndnah",
@@ -14087,14 +14087,14 @@
         "parent_node_token": "NmFBwTRj9iFuC8kXno6cqRbmnfh",
         "node_create_time": "1782356643",
         "obj_create_time": "1782356643",
-        "obj_edit_time": "1787035660",
+        "obj_edit_time": "1787909570",
         "revision_id": null
       },
       "node_token": "GsofwhPKqi0Bfkkk7YqcRzndnah",
       "origin_node_token": "GsofwhPKqi0Bfkkk7YqcRzndnah",
       "obj_token": "V03XdWYDQoD8HAxL0n7cuTnNnpb",
       "obj_type": "docx",
-      "obj_edit_time": "1787035660",
+      "obj_edit_time": "1787909570",
       "revision_id": null,
       "publish_targets": [
         "Zilliz.PaaS",
@@ -26299,167 +26299,6 @@
       "ref_target_anchor": null
     },
     {
-      "record_id": "recvlVZy1Zsv8g",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "parent_record_ids": [
-        "recvsCWHfTumxg"
-      ],
-      "order": 73,
-      "title": "Single Sign-on (SSO)",
-      "labels": "Single Sign-on (SSO)",
-      "slug": "single-sign-on",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "SXBNw91txiJhL6kq2ARcvYbRntg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/SXBNw91txiJhL6kq2ARcvYbRntg",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
-      "record_id": "recvlVZAkCYY3Q",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "parent_record_ids": [
-        "recvlVZy1Zsv8g"
-      ],
-      "order": 74,
-      "title": "Okta (OIDC)",
-      "labels": "Okta (OIDC)",
-      "slug": "openid-connect",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "OQ2ZwpH9ki5EZIkwK21cghexnOh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/OQ2ZwpH9ki5EZIkwK21cghexnOh",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
-      "record_id": "recvlVZCHye36S",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "parent_record_ids": [
-        "recvlVZy1Zsv8g"
-      ],
-      "order": 75,
-      "title": "Okta (SAML 2.0)",
-      "labels": "Okta (SAML 2.0)",
-      "slug": "single-sign-on-with-okta",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "QUC4wfVYTi73ctkMzEec17oVnjh",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/QUC4wfVYTi73ctkMzEec17oVnjh",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
-      "record_id": "recvlVZEFLgABN",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "parent_record_ids": [
-        "recvlVZy1Zsv8g"
-      ],
-      "order": 76,
-      "title": "Google Workspace (SAML 2.0)",
-      "labels": "Google Workspace (SAML 2.0)",
-      "slug": "single-sign-on-with-google-workspace",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "OLAEwETZtitiNFkkA9JcE5YZnXf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/OLAEwETZtitiNFkkA9JcE5YZnXf",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
-      "record_id": "recvlVZGN2tLnh",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "parent_record_ids": [
-        "recvlVZy1Zsv8g"
-      ],
-      "order": 77,
-      "title": "Microsoft Entra (SAML 2.0)",
-      "labels": "Microsoft Entra (SAML 2.0)",
-      "slug": "single-sign-on-with-microsoft-entra",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "Qkm3wPF9Titu1MkQ0fgcENs4nZc",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/Qkm3wPF9Titu1MkQ0fgcENs4nZc",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
-      "record_id": "recvlVZIvULAED",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "parent_record_ids": [
-        "recvlVZy1Zsv8g"
-      ],
-      "order": 78,
-      "title": "Other IdP (SAML 2.0)",
-      "labels": "Other IdP (SAML 2.0)",
-      "slug": "single-sign-on-with-other-idp",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "WDOJwtKkAijW4gkUpQhcAL0Rn1d",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/WDOJwtKkAijW4gkUpQhcAL0Rn1d",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
-      "record_id": "recvlVZL9YcR5M",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "parent_record_ids": [
-        "recvlVZy1Zsv8g"
-      ],
-      "order": 79,
-      "title": "Enforce SSO in Your Organization",
-      "labels": "Enforce SSO in Your Organization",
-      "slug": "enforce-sso-in-your-organization",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "MvE5wUlFli3gJOk0MkeclZCqnib",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/MvE5wUlFli3gJOk0MkeclZCqnib",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
       "record_id": "recvsCWL9Rgyid",
       "table_id": "tblZMzoITXNsyKmQ",
       "table_name": "Management",
@@ -26467,7 +26306,7 @@
       "parent_record_ids": [
         "recvsCWHfTumxg"
       ],
-      "order": 80,
+      "order": 73,
       "title": "Identity Management Overview",
       "labels": "",
       "slug": "identity-management-overview",
@@ -26483,118 +26322,6 @@
       "ref_target_anchor": null
     },
     {
-      "record_id": "recvlVZPuBlO2B",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "section",
-      "parent_record_ids": [
-        "recvsCWHfTumxg"
-      ],
-      "order": 81,
-      "title": "SCIM Provisioning",
-      "labels": "SCIM Provisioning",
-      "slug": "scim-provisioning",
-      "targets": [],
-      "progress": "",
-      "doc_token": null,
-      "doc_link": "",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
-      "record_id": "recvs43L1HW6b9",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "parent_record_ids": [
-        "recvlVZPuBlO2B"
-      ],
-      "order": 82,
-      "title": "SCIM Provisioning Overview",
-      "labels": "SCIM Provisioning Overview",
-      "slug": "scim-provisioning-overview",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "KhJhw2lOBirGhekK8jbcZkb2nVg",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/KhJhw2lOBirGhekK8jbcZkb2nVg",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
-      "record_id": "recvs44ibqtfTw",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "parent_record_ids": [
-        "recvlVZPuBlO2B"
-      ],
-      "order": 83,
-      "title": "Configure SCIM Provisioning with Okta",
-      "labels": "Configure SCIM Provisioning with Okta",
-      "slug": "configure-scim-provisioning-with-okta",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "DBrAwCfu3ids0Okxhlbcz12KnPc",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/DBrAwCfu3ids0Okxhlbcz12KnPc",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
-      "record_id": "recvs44Cg6HIEG",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "parent_record_ids": [
-        "recvlVZPuBlO2B"
-      ],
-      "order": 84,
-      "title": "Configure SCIM Provisioning with Microsoft Entra",
-      "labels": "Configure SCIM Provisioning with Microsoft Entra",
-      "slug": "configure-scim-provisioning-with-microsoft-entra",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "TqR1wKJMni2xCkkwNf4c52eKnKd",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/TqR1wKJMni2xCkkwNf4c52eKnKd",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
-      "record_id": "recvs454feGPAG",
-      "table_id": "tblZMzoITXNsyKmQ",
-      "table_name": "Management",
-      "placement_type": "canonical",
-      "parent_record_ids": [
-        "recvlVZPuBlO2B"
-      ],
-      "order": 85,
-      "title": "View SCIM-Synced Groups",
-      "labels": "View SCIM-Synced Groups",
-      "slug": "view-scim-synced-groups",
-      "targets": [
-        "zilliz.paas",
-        "zilliz.saas"
-      ],
-      "progress": "Draft",
-      "doc_token": "Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
-      "doc_link": "https://zilliverse.feishu.cn/wiki/Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
-      "ref_target": null,
-      "ref_target_token": null,
-      "ref_target_anchor": null
-    },
-    {
       "record_id": "recvsCWYizu2TS",
       "table_id": "tblZMzoITXNsyKmQ",
       "table_name": "Management",
@@ -26602,7 +26329,7 @@
       "parent_record_ids": [
         "recvsCWHfTumxg"
       ],
-      "order": 86,
+      "order": 74,
       "title": "Manage Platform Users",
       "labels": "",
       "slug": "manage-platform-users",
@@ -26625,7 +26352,7 @@
       "parent_record_ids": [
         "recvsCWHfTumxg"
       ],
-      "order": 87,
+      "order": 75,
       "title": "Manage Cluster Users",
       "labels": "",
       "slug": "manage-cluster-users",
@@ -26645,7 +26372,7 @@
       "parent_record_ids": [
         "recvsCX5x9Vaiw"
       ],
-      "order": 88,
+      "order": 76,
       "title": "Manage Cluster Users (Console)",
       "labels": "Manage Cluster Users (Console)",
       "slug": "cluster-users",
@@ -26668,7 +26395,7 @@
       "parent_record_ids": [
         "recvsCX5x9Vaiw"
       ],
-      "order": 89,
+      "order": 77,
       "title": "Manage Cluster User (SDK)",
       "labels": "Manage Cluster User (SDK)",
       "slug": "cluster-users-sdk",
@@ -26679,6 +26406,279 @@
       "progress": "Draft",
       "doc_token": "I2CHwfDHKilTMukoZ13cR2M4nzb",
       "doc_link": "https://zilliverse.feishu.cn/wiki/I2CHwfDHKilTMukoZ13cR2M4nzb",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvlVZy1Zsv8g",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvsCWHfTumxg"
+      ],
+      "order": 78,
+      "title": "Single Sign-on (SSO)",
+      "labels": "Single Sign-on (SSO)",
+      "slug": "single-sign-on",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "SXBNw91txiJhL6kq2ARcvYbRntg",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/SXBNw91txiJhL6kq2ARcvYbRntg",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvlVZAkCYY3Q",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvlVZy1Zsv8g"
+      ],
+      "order": 79,
+      "title": "Okta (OIDC)",
+      "labels": "Okta (OIDC)",
+      "slug": "openid-connect",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "OQ2ZwpH9ki5EZIkwK21cghexnOh",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/OQ2ZwpH9ki5EZIkwK21cghexnOh",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvlVZCHye36S",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvlVZy1Zsv8g"
+      ],
+      "order": 80,
+      "title": "Okta (SAML 2.0)",
+      "labels": "Okta (SAML 2.0)",
+      "slug": "single-sign-on-with-okta",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "QUC4wfVYTi73ctkMzEec17oVnjh",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/QUC4wfVYTi73ctkMzEec17oVnjh",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvlVZEFLgABN",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvlVZy1Zsv8g"
+      ],
+      "order": 81,
+      "title": "Google Workspace (SAML 2.0)",
+      "labels": "Google Workspace (SAML 2.0)",
+      "slug": "single-sign-on-with-google-workspace",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "OLAEwETZtitiNFkkA9JcE5YZnXf",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/OLAEwETZtitiNFkkA9JcE5YZnXf",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvlVZGN2tLnh",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvlVZy1Zsv8g"
+      ],
+      "order": 82,
+      "title": "Microsoft Entra (SAML 2.0)",
+      "labels": "Microsoft Entra (SAML 2.0)",
+      "slug": "single-sign-on-with-microsoft-entra",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "Qkm3wPF9Titu1MkQ0fgcENs4nZc",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/Qkm3wPF9Titu1MkQ0fgcENs4nZc",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvlVZIvULAED",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvlVZy1Zsv8g"
+      ],
+      "order": 83,
+      "title": "Other IdP (SAML 2.0)",
+      "labels": "Other IdP (SAML 2.0)",
+      "slug": "single-sign-on-with-other-idp",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "WDOJwtKkAijW4gkUpQhcAL0Rn1d",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/WDOJwtKkAijW4gkUpQhcAL0Rn1d",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvlVZL9YcR5M",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvlVZy1Zsv8g"
+      ],
+      "order": 84,
+      "title": "Enforce SSO in Your Organization",
+      "labels": "Enforce SSO in Your Organization",
+      "slug": "enforce-sso-in-your-organization",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "MvE5wUlFli3gJOk0MkeclZCqnib",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/MvE5wUlFli3gJOk0MkeclZCqnib",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvlVZPuBlO2B",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "section",
+      "parent_record_ids": [
+        "recvsCWHfTumxg"
+      ],
+      "order": 85,
+      "title": "SCIM Provisioning",
+      "labels": "SCIM Provisioning",
+      "slug": "scim-provisioning",
+      "targets": [],
+      "progress": "",
+      "doc_token": null,
+      "doc_link": "",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvs43L1HW6b9",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvlVZPuBlO2B"
+      ],
+      "order": 86,
+      "title": "SCIM Provisioning Overview",
+      "labels": "SCIM Provisioning Overview",
+      "slug": "scim-provisioning-overview",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "KhJhw2lOBirGhekK8jbcZkb2nVg",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/KhJhw2lOBirGhekK8jbcZkb2nVg",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvs44ibqtfTw",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvlVZPuBlO2B"
+      ],
+      "order": 87,
+      "title": "Configure SCIM Provisioning with Okta",
+      "labels": "Configure SCIM Provisioning with Okta",
+      "slug": "configure-scim-provisioning-with-okta",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "DBrAwCfu3ids0Okxhlbcz12KnPc",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/DBrAwCfu3ids0Okxhlbcz12KnPc",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvs44Cg6HIEG",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvlVZPuBlO2B"
+      ],
+      "order": 88,
+      "title": "Configure SCIM Provisioning with Microsoft Entra",
+      "labels": "Configure SCIM Provisioning with Microsoft Entra",
+      "slug": "configure-scim-provisioning-with-microsoft-entra",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "TqR1wKJMni2xCkkwNf4c52eKnKd",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/TqR1wKJMni2xCkkwNf4c52eKnKd",
+      "ref_target": null,
+      "ref_target_token": null,
+      "ref_target_anchor": null
+    },
+    {
+      "record_id": "recvs454feGPAG",
+      "table_id": "tblZMzoITXNsyKmQ",
+      "table_name": "Management",
+      "placement_type": "canonical",
+      "parent_record_ids": [
+        "recvlVZPuBlO2B"
+      ],
+      "order": 89,
+      "title": "View SCIM-Synced Groups",
+      "labels": "View SCIM-Synced Groups",
+      "slug": "view-scim-synced-groups",
+      "targets": [
+        "zilliz.paas",
+        "zilliz.saas"
+      ],
+      "progress": "Draft",
+      "doc_token": "Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
+      "doc_link": "https://zilliverse.feishu.cn/wiki/Er7Yw6Qnuiy8CBkDkH3cetOHnDf",
       "ref_target": null,
       "ref_target_token": null,
       "ref_target_anchor": null
@@ -28220,6 +28220,6 @@
     "tblLMqwkNDtAEK5p": "d279543a03d3c80eb39c2f43282fcc439af4f92731fd8bb067b036e2e23344f1",
     "tblm1SbEPZaZrGZQ": "15955e2d7f7198a7a821c4da5c93237adad1d5b0adc4a7f875ef128e5df9f3e2",
     "tblWv7PjNDsexddH": "496ffbe2a52cf442e71c0c7d29c1ac349ced0b90423b9a57c352d92018f3d46c",
-    "tblZMzoITXNsyKmQ": "540d198dbe636e33a8dd4511a7a9d597204a247749b3b12a1e5761f39987249b"
+    "tblZMzoITXNsyKmQ": "9e2b182261b26ed24c369b6d92f4748b618bace135d79c8c1a157b46a44af2de"
   }
 }

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "This guide introduces the two types of platform users in Zilliz Cloud organization members and project users, and explains how to manage them. | Cloud"
 type: origin
 token: XvTLwH1TEiEHdJksnyIcMCixnic
-sidebar_position: 4
+sidebar_position: 2
 displayed_sidebar: default
 
 ---
@@ -198,7 +198,7 @@ You can leave an organization in either of the following ways:
 
 ## Project users\{#project-users}
 
-Project users, also called project collaborators, are users or groups that have access to a specific project. Use project users to grant access to project resources without granting broad organization-level permissions.
+Project users, also called project members, are users or groups that have access to a specific project. Use project users to grant access to project resources without granting broad organization-level permissions.
 
 <Admonition type="info" icon="📘" title="Note">
 
@@ -210,15 +210,15 @@ The following table explains the relevant concepts for project user management.
 
 | Concept | Explanation |
 | --- | --- |
-| Project collaborator | A user or group that has been granted access to a specific project. |
-| Project role | A role that controls what the collaborator can do in the project. |
+| Project member | A user or group that has been granted access to a specific project. |
+| Project role | A role that controls what the member can do in the project. |
 | Direct assignment | A role assigned directly to a user in the project. |
 | Group assignment | A role assigned to a group. Users in the group inherit the role permissions. |
 | Effective access | The union of direct project roles and group-based project roles. |
 
-### Invite project users\{#invite-project-users}
+### Invite project members\{#invite-project-members}
 
-To grant project access, invite a user or group as a project collaborator and assign one or more project roles.
+To grant project access, invite a user or group as a project member and assign one or more project roles.
 
 The following image demonstrates how to invite a project user.
 
@@ -232,7 +232,7 @@ The following image demonstrates how to invite a project user.
 
 1. Switch to the **Members** tab.
 
-1. Click **Invite Collaborator**.
+1. Click **Invite Member**.
 
 1. Enter the user email address(es) or select the user(s) to invite.
 
@@ -240,7 +240,7 @@ The following image demonstrates how to invite a project user.
 
     | Role | Best for | Typical access |
     | --- | --- | --- |
-    | Project Admin | Project owners and platform administrators. | Full project administration, including collaborators, roles, cluster lifecycle, compute, and data access. |
+    | Project Admin | Project owners and platform administrators. | Full project administration, including members, roles, cluster lifecycle, compute, and data access. |
     | Data Admin | Database administrators and platform engineers. | Full project data administration without provisioning permissions. |
     | Data Operator | Data engineers and application operators. | Read and write data operations without full project administration. |
     | Data Viewer | Analysts, developers, and read-only applications. | Read, query, and inspect resources without write access. |
@@ -256,9 +256,9 @@ If you invite a user to a project and the user is not already an organization me
 
 </Admonition>
 
-### Edit the roles of project users\{#edit-the-roles-of-project-users}
+### Edit the roles of project members\{#edit-the-roles-of-project-members}
 
-Edit project access when a collaborator's responsibilities change. For example, you can change a user from Data Viewer to Data Operator.
+Edit project access when a member's responsibilities change. For example, you can change a user from Data Viewer to Data Operator.
 
 The following image demonstrates how to edit the roles of a project user.
 
@@ -278,7 +278,7 @@ The following image demonstrates how to edit the roles of a project user.
 
 </Procedures>
 
-### Remove project users\{#remove-project-users}
+### Remove project members\{#remove-project-members}
 
 Remove a project user or group when the identity no longer needs access to the project. Removing project access does not remove the user from the organization.
 

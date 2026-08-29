@@ -2105,6 +2105,37 @@ module.exports = [
         "key": "category:tutorials/management/identity-management",
         "items": [
           {
+            "type": "doc",
+            "id": "tutorials/management/identity-management/identity-management-overview",
+            "label": "Identity Management Overview",
+            "key": "doc:tutorials/management/identity-management/identity-management-overview"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/identity-management/manage-platform-users",
+            "label": "Manage Platform Users",
+            "key": "doc:tutorials/management/identity-management/manage-platform-users"
+          },
+          {
+            "type": "category",
+            "label": "Manage Cluster Users",
+            "key": "category:tutorials/management/identity-management/manage-cluster-users",
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/manage-cluster-users/cluster-users",
+                "label": "Manage Cluster Users (Console)",
+                "key": "doc:tutorials/management/identity-management/manage-cluster-users/cluster-users"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk",
+                "label": "Manage Cluster User (SDK)",
+                "key": "doc:tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk"
+              }
+            ]
+          },
+          {
             "type": "category",
             "label": "Single Sign-on (SSO)",
             "key": "category:tutorials/management/identity-management/single-sign-on",
@@ -2152,12 +2183,6 @@ module.exports = [
             ]
           },
           {
-            "type": "doc",
-            "id": "tutorials/management/identity-management/identity-management-overview",
-            "label": "Identity Management Overview",
-            "key": "doc:tutorials/management/identity-management/identity-management-overview"
-          },
-          {
             "type": "category",
             "label": "SCIM Provisioning",
             "key": "category:tutorials/management/identity-management/scim-provisioning",
@@ -2185,31 +2210,6 @@ module.exports = [
                 "id": "tutorials/management/identity-management/scim-provisioning/view-scim-synced-groups",
                 "label": "View SCIM-Synced Groups",
                 "key": "doc:tutorials/management/identity-management/scim-provisioning/view-scim-synced-groups"
-              }
-            ]
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/management/identity-management/manage-platform-users",
-            "label": "Manage Platform Users",
-            "key": "doc:tutorials/management/identity-management/manage-platform-users"
-          },
-          {
-            "type": "category",
-            "label": "Manage Cluster Users",
-            "key": "category:tutorials/management/identity-management/manage-cluster-users",
-            "items": [
-              {
-                "type": "doc",
-                "id": "tutorials/management/identity-management/manage-cluster-users/cluster-users",
-                "label": "Manage Cluster Users (Console)",
-                "key": "doc:tutorials/management/identity-management/manage-cluster-users/cluster-users"
-              },
-              {
-                "type": "doc",
-                "id": "tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk",
-                "label": "Manage Cluster User (SDK)",
-                "key": "doc:tutorials/management/identity-management/manage-cluster-users/cluster-users-sdk"
               }
             ]
           }
