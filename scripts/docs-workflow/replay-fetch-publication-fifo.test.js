@@ -286,7 +286,7 @@ test('fault injection validates the retained run and routes an approved scenario
   )
 })
 
-test('default fault replay proves all eight approved continuation and safe-stop scenarios', async t => {
+test('default fault replay proves all nine approved continuation and safe-stop scenarios', async t => {
   const value = faultFixture(t)
   const expectedStatuses = {
     'earliest-descriptor-rejected': 'failure',
@@ -297,6 +297,7 @@ test('default fault replay proves all eight approved continuation and safe-stop 
     'progress-upload-failure': 'success',
     'unknown-remote-state': 'orchestrator_failed',
     'handoff-blocked-after-unit-failure': 'failure',
+    'cancel-mid-publish': 'failure',
   }
 
   for (const [scenario, overallStatus] of Object.entries(expectedStatuses)) {

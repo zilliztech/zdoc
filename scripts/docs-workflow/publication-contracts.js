@@ -299,13 +299,21 @@ function validateResultUnit(unit, index, mode, overallStatus) {
   assertString(unit.unitKey, `unit ${index} unitKey`, document)
   if (!RESULT_STATUSES.has(unit.status)) invalid(document, `unit ${index} status is invalid`)
   const unprocessedAfterUnsafeStop = unit.status === 'ready' && overallStatus === 'orchestrator_failed'
+  // A cancelled/timed-out coordinator turns non-terminal work into terminal
+  // failures (`producer_failed`/`candidate_rejected`/`publish_failed` with code
+  // CANCELLED). Never-started or mid-flight units legitimately lack the facts a
+  // normally-terminal unit must have (producer job id, producer completion,
+  // FIFO sequence), so relax those requirements for them.
+  const cancelled = unit.failure?.code === 'CANCELLED'
+  const unproducedAfterCancel = cancelled && unit.status === 'producer_failed'
+  const unsequencedAfterCancel = cancelled && (unit.status === 'producer_failed' || unit.status === 'candidate_rejected')
   if (unit.producerJobId === null) {
-    if (!unprocessedAfterUnsafeStop) invalid(document, `unit ${index} producerJobId is required`)
+    if (!unprocessedAfterUnsafeStop && !unproducedAfterCancel) invalid(document, `unit ${index} producerJobId is required`)
   } else assertPositiveInteger(unit.producerJobId, `unit ${index} producerJobId`, document)
-  assertTimestamp(unit.producerCompletedAt, `unit ${index} producerCompletedAt`, document, unprocessedAfterUnsafeStop)
+  assertTimestamp(unit.producerCompletedAt, `unit ${index} producerCompletedAt`, document, unprocessedAfterUnsafeStop || unproducedAfterCancel)
   assertTimestamp(unit.readyAt, `unit ${index} readyAt`, document, true)
   if (unit.sequence === null) {
-    if (unit.status !== 'ready' || overallStatus !== 'orchestrator_failed') invalid(document, `unit ${index} sequence may be null only for unprocessed ready work after orchestrator failure`)
+    if (!unprocessedAfterUnsafeStop && !unsequencedAfterCancel) invalid(document, `unit ${index} sequence may be null only for unprocessed ready work after orchestrator failure or a cancelled unit`)
   } else assertPositiveInteger(unit.sequence, `unit ${index} sequence`, document)
   assertTimestamp(unit.publishStartedAt, `unit ${index} publishStartedAt`, document, true)
   assertTimestamp(unit.publishCompletedAt, `unit ${index} publishCompletedAt`, document, true)

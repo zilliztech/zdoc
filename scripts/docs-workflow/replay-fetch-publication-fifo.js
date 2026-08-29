@@ -19,7 +19,7 @@ const SHA = /^[0-9a-f]{40}$/u
 const FAULT_SCENARIOS = new Set([
   'earliest-descriptor-rejected', 'middle-validation-failure', 'target-advance-once',
   'target-advance-exhausted', 'push-error-after-remote-update', 'progress-upload-failure',
-  'unknown-remote-state', 'handoff-blocked-after-unit-failure',
+  'unknown-remote-state', 'handoff-blocked-after-unit-failure', 'cancel-mid-publish',
 ])
 
 function json(file) {
@@ -308,6 +308,7 @@ async function executeDefaultFaultScenario({scenario, run, evidenceRoot, depende
   const progressUploadLog = []
   const handlerCallLog = []
   let progressFailureInjected = false
+  let publishCount = 0
   let clockTick = 0
   const now = () => new Date(Date.UTC(2026, 7, 5, 0, 0, clockTick++))
   const client = {
@@ -332,6 +333,7 @@ async function executeDefaultFaultScenario({scenario, run, evidenceRoot, depende
   }
   const publishUnit = async ({unit, sequence}) => {
     handlerCallLog.push({event: 'invoke', unitKey: unit.unitKey, sequence})
+    publishCount += 1
     const completedAt = () => now().toISOString()
     if ((scenario === 'middle-validation-failure' || scenario === 'handoff-blocked-after-unit-failure') && unit.unitKey === middleUnitKey) {
       handlerCallLog.push({event: 'validation_failure', unitKey: unit.unitKey, sequence})
@@ -388,6 +390,9 @@ async function executeDefaultFaultScenario({scenario, run, evidenceRoot, depende
     now,
     resolveCandidate,
     publishUnit,
+    cancelWhen: scenario === 'cancel-mid-publish'
+      ? () => (publishCount >= 2 ? {signal: 'SIGINT', code: 130} : null)
+      : undefined,
   })
   const results = outcome.results
   let handoffDecision
@@ -467,6 +472,12 @@ function verifyFaultEvidence(evidenceRoot) {
     const unknown = results.units.find(unit => unit.failure?.code === 'REMOTE_STATE_UNKNOWN')
     const invocations = handlers.filter(entry => entry.event === 'invoke')
     if (results.overallStatus !== 'orchestrator_failed' || !unknown || invocations.at(-1)?.unitKey !== unknown.unitKey) throw new Error('Unknown remote safe-stop evidence is invalid')
+  }
+  if (fault.scenario === 'cancel-mid-publish') {
+    const cancelled = results.units.find(unit => unit.failure?.code === 'CANCELLED')
+    if (results.overallStatus !== 'failure' || !cancelled || !results.units.some(unit => unit.status === 'published')) {
+      throw new Error('Cancel mid-publish terminal evidence is invalid')
+    }
   }
   if ((results.overallStatus === 'success') !== handoff.allowed) throw new Error('Fault evidence handoff decision is invalid')
   if (fault.scenario === 'handoff-blocked-after-unit-failure' && handoff.allowed) throw new Error('Failed unit did not block handoff')

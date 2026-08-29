@@ -777,3 +777,62 @@ test('deadline exceeded after a reference group publishes refreshes its derived 
 
   assert.deepEqual(refreshed, [['python']])
 })
+
+test('cancellation mid-publish writes terminal evidence, reconciles the published reference group, and appends GITHUB_OUTPUT', async t => {
+  const document = zhCnReferenceSelection('all')
+  const publishedUnitKey = 'translation/zh-CN-reference/python'
+  const root = outputRoot(t)
+  const outputFile = path.join(root, 'github-output.txt')
+  const previous = process.env.GITHUB_OUTPUT
+  process.env.GITHUB_OUTPUT = outputFile
+  t.after(() => {
+    if (previous === undefined) delete process.env.GITHUB_OUTPUT
+    else process.env.GITHUB_OUTPUT = previous
+  })
+  const client = fakeClient(jobsFor(document, Object.fromEntries(document.units.map((unit, index) => [unit.unitKey, {
+    conclusion: 'success', completedAt: `2026-08-04T00:00:${String(index + 1).padStart(2, '0')}.000Z`,
+  }]))))
+  const refreshed = []
+  let publishCount = 0
+  const outcome = await runPublicationCoordinator({
+    selection: document,
+    mode: 'publish',
+    client,
+    repositoryRoot: root,
+    runnerTemp: path.join(root, 'runner'),
+    outputDirectory: root,
+    pollMilliseconds: 1,
+    candidatePolls: 1,
+    maxPublishAttempts: 1,
+    sleep: async () => {},
+    resolveCandidate: async ({unit}) => ({status: 'ready', prepared: {unitKey: unit.unitKey}}),
+    publishUnit: async () => {
+      publishCount += 1
+      return {
+        status: 'published', baseSha: SHA('2'), resultSha: SHA('4'), commitShas: [SHA('4')], attempts: 1,
+        failure: null, remoteState: 'known', completedAt: '2026-08-04T00:01:00.000Z',
+      }
+    },
+    cancelWhen: () => (publishCount >= 1 ? {signal: 'SIGINT', code: 130} : null),
+    transactionContext: {
+      reconcileTranslationPublication: async () => ({status: 'no_changes', resultSha: SHA('4')}),
+      refreshReferenceDerivedState: async ({groups}) => {
+        refreshed.push(groups)
+        return {status: 'published', resultSha: SHA('5')}
+      },
+    },
+  })
+
+  assert.equal(outcome.cancelled.signal, 'SIGINT')
+  assert.equal(outcome.cancelled.code, 130)
+  assert.equal(outcome.results.overallStatus, 'failure')
+  assert.ok(outcome.results.units.some(unit => unit.failure?.code === 'CANCELLED'))
+  assert.equal(outcome.results.units.find(unit => unit.unitKey === publishedUnitKey).status, 'published')
+  assert.deepEqual(refreshed, [['python']])
+  const lines = fs.readFileSync(outputFile, 'utf8').trim().split('\n')
+  assert.deepEqual(lines, [
+    'results_artifact_name=publication-results-translation-123-1',
+    'overall_status=failure',
+    `final_target_sha=${SHA('4')}`,
+  ])
+})

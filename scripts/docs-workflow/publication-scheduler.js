@@ -10,6 +10,7 @@ const FAILURE_CONCLUSIONS = new Set([
   'failure', 'cancelled', 'skipped', 'timed_out', 'action_required', 'startup_failure', 'stale', 'neutral',
 ])
 const TERMINAL_STATES = new Set(['producer_failed', 'candidate_rejected', 'published', 'no_changes', 'publish_failed'])
+const CANCELLED_PHASE = Object.freeze({producing: 'produce', candidate: 'candidate', ready: 'candidate', publishing: 'publish'})
 
 function safeFailure(value, fallback) {
   const source = value && typeof value === 'object' ? value : {}
@@ -78,6 +79,7 @@ function createPublicationScheduler(options) {
   let nextSequence = 1
   let finalTargetSha = selection.initialTargetSha
   let orchestratorFailure = null
+  let cancelledAt = null
 
   function timestamp() {
     return new Date(now()).toISOString()
@@ -176,7 +178,9 @@ function createPublicationScheduler(options) {
   function overallStatus() {
     if (orchestratorFailure) return 'orchestrator_failed'
     const values = [...units.values()]
-    const complete = values.every(state => state.sequence !== null && (TERMINAL_STATES.has(state.state) || (mode === 'artifact_only' && state.state === 'ready')))
+    const complete = values.every(state =>
+      (state.sequence !== null && (TERMINAL_STATES.has(state.state) || (mode === 'artifact_only' && state.state === 'ready'))) ||
+      (cancelledAt !== null && TERMINAL_STATES.has(state.state)))
     if (!complete) return 'running'
     const successful = mode === 'artifact_only'
       ? values.every(state => state.state === 'ready')
@@ -317,7 +321,38 @@ function createPublicationScheduler(options) {
     }, {selection})
   }
 
+  // Converts every non-terminal unit into a terminal failure so a
+  // cancelled/timed-out coordinator still emits a `publication-results` document
+  // that `planFetchReferenceReconciliation` accepts (all-terminal failure). The
+  // non-terminal unit states map onto the existing terminal states:
+  //   producing→producer_failed, candidate/ready→candidate_rejected,
+  //   publishing→publish_failed, all with failure code CANCELLED.
+  function cancelResults({completedAt: completedAtInput} = {}) {
+    const completion = completedAtInput ?? timestamp()
+    if (typeof completion !== 'string' || Number.isNaN(Date.parse(completion)) || new Date(completion).toISOString() !== completion) {
+      throw new Error('cancelResults completedAt is invalid')
+    }
+    const phaseFor = state => CANCELLED_PHASE[state] || 'publish'
+    for (const state of units.values()) {
+      if (TERMINAL_STATES.has(state.state)) continue
+      const prior = state.state
+      state.state = prior === 'producing' ? 'producer_failed'
+        : prior === 'publishing' ? 'publish_failed'
+          : 'candidate_rejected'
+      if (state.state === 'publish_failed') state.publishCompletedAt = completion
+      state.failure = safeFailure(null, {
+        code: 'CANCELLED', phase: phaseFor(prior),
+        message: 'Publication cancelled before a terminal outcome was reached', retryable: false,
+      })
+    }
+    activeUnitKey = null
+    cancelledAt = completion
+    bump()
+    return results({completedAt: completion})
+  }
+
   return Object.freeze({
+    cancelResults,
     finishPublication,
     nextDecision,
     observeCandidate,
