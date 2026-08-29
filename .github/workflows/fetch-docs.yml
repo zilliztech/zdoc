@@ -370,11 +370,8 @@ jobs:
     name: publish_rest_zh-CN
     if: ${{ needs.prepare.outputs.selected_group == 'all' || contains(needs.prepare.outputs.selected_group, 'rest') }}
     uses: ./.github/workflows/_fetch-content-group.yml
-    strategy:
-      matrix:
-        locale: [zh-CN]
     with:
-      site: ${{ matrix.locale }}
+      site: zh-CN
       group: rest
       master_sha: ${{ needs.prepare.outputs.master_sha }}
       dev_baseline_sha: ${{ needs.prepare.outputs.dev_baseline_sha }}

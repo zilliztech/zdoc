@@ -324,7 +324,7 @@ async function executeExplicitCommand(argv: string[], repositoryRoot: string): P
   }
   if (argv[0] === 'report-canonical-links') {
     const options = parseOptions(argv.slice(1));
-    await reportCanonicalLinksCommand({site: requiredOption(options, 'site'), reportPath: requiredOption(options, 'report'), tableUrlPath: requiredOption(options, 'table-url')});
+    await reportCanonicalLinksCommand({site: requiredOption(options, 'site'), reportPath: requiredOption(options, 'report'), tableUrlPath: requiredOption(options, 'tableUrl')});
     return true;
   }
   if (argv[0] === 'report-card') {
