@@ -243,6 +243,17 @@ jobs:
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
           SPACE_ID: ${{ secrets.SPACE_ID }}
+      - name: Report canonical links to table
+        run: |
+          pnpm docs-tooling report-canonical-links \
+            --site "${{ inputs.site }}" \
+            --report "packages/docs-tooling/src/lark/meta/reports/guides-${{ inputs.site }}-canonical-link-audit.json" \
+            --table-url "packages/docs-tooling/src/lark/meta/reports/guides-${{ inputs.site }}-canonical-link-audit.table-url.txt"
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          BROKEN_LINKS_REPORT_BASE_TOKEN: ${{ vars.BROKEN_LINKS_REPORT_BASE_TOKEN }}
       - id: media_prefetch
         name: Prefetch shared guides media
         run: |
