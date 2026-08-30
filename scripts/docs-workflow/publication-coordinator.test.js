@@ -833,6 +833,87 @@ test('cancellation mid-publish writes terminal evidence, reconciles the publishe
   assert.deepEqual(lines, [
     'results_artifact_name=publication-results-translation-123-1',
     'overall_status=failure',
-    `final_target_sha=${SHA('4')}`,
+    `final_target_sha=${SHA('5')}`,
   ])
+})
+
+test('cancellation preserves a refresh REMOTE_STATE_UNKNOWN as orchestrator_failed to block downstream reconciliation', async t => {
+  const document = zhCnReferenceSelection()
+  const unit = document.units[0]
+  const root = outputRoot(t)
+  const client = fakeClient(jobsFor(document, {
+    [unit.unitKey]: {conclusion: 'success', completedAt: '2026-08-04T00:00:01.000Z'},
+  }))
+  let publishCount = 0
+  const outcome = await runPublicationCoordinator({
+    selection: document,
+    mode: 'publish',
+    client,
+    repositoryRoot: root,
+    runnerTemp: path.join(root, 'runner'),
+    outputDirectory: root,
+    pollMilliseconds: 1,
+    candidatePolls: 1,
+    maxPublishAttempts: 1,
+    sleep: async () => {},
+    resolveCandidate: async ({unit: candidate}) => ({status: 'ready', prepared: {unitKey: candidate.unitKey}}),
+    publishUnit: async () => {
+      publishCount += 1
+      return {
+        status: 'published', baseSha: SHA('2'), resultSha: SHA('4'), commitShas: [SHA('4')], attempts: 1,
+        failure: null, remoteState: 'known', completedAt: '2026-08-04T00:01:00.000Z',
+      }
+    },
+    cancelWhen: () => (publishCount >= 1 ? {signal: 'SIGINT', code: 130} : null),
+    transactionContext: {
+      reconcileTranslationPublication: async () => ({status: 'no_changes', resultSha: SHA('4')}),
+      refreshReferenceDerivedState: async () => ({
+        status: 'publish_failed', remoteState: 'unknown',
+        failure: {code: 'REMOTE_STATE_UNKNOWN', phase: 'push_probe', message: 'push timed out', retryable: false},
+      }),
+    },
+  })
+
+  assert.equal(outcome.results.overallStatus, 'orchestrator_failed')
+  assert.equal(outcome.results.orchestratorFailure.code, 'REMOTE_STATE_UNKNOWN')
+})
+
+test('cancellation records a deterministic refresh failure but still writes terminal evidence', async t => {
+  const document = zhCnReferenceSelection('all')
+  const root = outputRoot(t)
+  const client = fakeClient(jobsFor(document, Object.fromEntries(document.units.map((unit, index) => [unit.unitKey, {
+    conclusion: 'success', completedAt: `2026-08-04T00:00:${String(index + 1).padStart(2, '0')}.000Z`,
+  }]))))
+  let publishCount = 0
+  const outcome = await runPublicationCoordinator({
+    selection: document,
+    mode: 'publish',
+    client,
+    repositoryRoot: root,
+    runnerTemp: path.join(root, 'runner'),
+    outputDirectory: root,
+    pollMilliseconds: 1,
+    candidatePolls: 1,
+    maxPublishAttempts: 1,
+    sleep: async () => {},
+    resolveCandidate: async ({unit}) => ({status: 'ready', prepared: {unitKey: unit.unitKey}}),
+    publishUnit: async () => {
+      publishCount += 1
+      return {
+        status: 'published', baseSha: SHA('2'), resultSha: SHA('4'), commitShas: [SHA('4')], attempts: 1,
+        failure: null, remoteState: 'known', completedAt: '2026-08-04T00:01:00.000Z',
+      }
+    },
+    cancelWhen: () => (publishCount >= 1 ? {signal: 'SIGINT', code: 130} : null),
+    transactionContext: {
+      reconcileTranslationPublication: async () => ({status: 'no_changes', resultSha: SHA('4')}),
+      refreshReferenceDerivedState: async () => {
+        throw new Error('injected deterministic refresh failure')
+      },
+    },
+  })
+
+  assert.equal(outcome.results.overallStatus, 'failure')
+  assert.equal(outcome.refreshFailure.code, 'REFRESH_FAILED')
+  assert.ok(outcome.results.units.some(unit => unit.failure?.code === 'CANCELLED'))
 })

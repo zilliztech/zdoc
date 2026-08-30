@@ -11,6 +11,7 @@ const FAILURE_CONCLUSIONS = new Set([
 ])
 const TERMINAL_STATES = new Set(['producer_failed', 'candidate_rejected', 'published', 'no_changes', 'publish_failed'])
 const CANCELLED_PHASE = Object.freeze({producing: 'produce', candidate: 'candidate', ready: 'candidate', publishing: 'publish'})
+const SHA = /^[0-9a-f]{40}$/u
 
 function safeFailure(value, fallback) {
   const source = value && typeof value === 'object' ? value : {}
@@ -251,6 +252,30 @@ function createPublicationScheduler(options) {
     bump()
   }
 
+  // Adopts a SHA produced by the best-effort derived-state refresh that ran
+  // after the last published unit. The refresh may have advanced the target
+  // beyond the publication results, and `finalTargetSha` must reflect what the
+  // downstream reconciliation consumer should pin against, so a refresh that
+  // actually published wins over the per-unit resultShas.
+  function adoptFinalTargetSha(resultSha) {
+    if (resultSha === undefined || resultSha === null) return
+    if (typeof resultSha !== 'string' || !SHA.test(resultSha)) throw new Error('adoptFinalTargetSha requires a lowercase 40-character SHA')
+    finalTargetSha = resultSha
+    bump()
+  }
+
+  // Records an orchestrator-level failure (e.g. the deadline refresh hit
+  // `REMOTE_STATE_UNKNOWN`, meaning the target's true state is unknowable). This
+  // flips `overallStatus` to `orchestrator_failed`, which downstream
+  // reconciliation plans reject — no consumer may reconcile against an unknown
+  // remote state.
+  function markOrchestratorFailure(failure) {
+    orchestratorFailure = safeFailure(failure, {
+      code: 'REFRESH_REMOTE_STATE_UNKNOWN', phase: 'refresh', message: 'Derived-state refresh left the remote target state unknown', retryable: false,
+    })
+    bump()
+  }
+
   function publicUnit(state, statusKey) {
     return {
       unitKey: state.unitKey,
@@ -336,6 +361,19 @@ function createPublicationScheduler(options) {
     for (const state of units.values()) {
       if (TERMINAL_STATES.has(state.state)) continue
       const prior = state.state
+      // In artifact-only mode a `ready` unit is the deliverable itself: the
+      // produced artifact is the terminal success. Settle it (assign a FIFO
+      // sequence) rather than relabelling the evidence as a rejected candidate,
+      // which would flip an otherwise-successful artifact-only validation run to
+      // `failure` when a cancel arrives after production completed.
+      if (mode === 'artifact_only' && prior === 'ready') {
+        if (state.sequence === null) {
+          state.sequence = nextSequence
+          nextSequence += 1
+        }
+        bump()
+        continue
+      }
       state.state = prior === 'producing' ? 'producer_failed'
         : prior === 'publishing' ? 'publish_failed'
           : 'candidate_rejected'
@@ -352,8 +390,10 @@ function createPublicationScheduler(options) {
   }
 
   return Object.freeze({
+    adoptFinalTargetSha,
     cancelResults,
     finishPublication,
+    markOrchestratorFailure,
     nextDecision,
     observeCandidate,
     observeJobs,

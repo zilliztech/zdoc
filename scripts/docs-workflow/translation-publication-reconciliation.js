@@ -231,6 +231,7 @@ async function runDerivedStateRefresh({
   extraAllowedPaths = [],
   commitSubject = 'chore(i18n): reconcile derived translation state',
   commitTrailers = ({latestDevSha}) => [`translationTargetSha: ${latestDevSha}`],
+  validationCommands = null,
 }) {
   const resolvedRoot = fs.realpathSync(repositoryRoot)
   const dependencyRoot = fs.realpathSync(transactionContext.dependencyRoot || resolvedRoot)
@@ -297,7 +298,64 @@ async function runDerivedStateRefresh({
         throw error
       }
     },
-    async validate() { return Object.freeze({validationReceipts: Object.freeze([])}) },
+    async validate({candidate}) {
+      if (!validationCommands) return Object.freeze({validationReceipts: Object.freeze([])})
+      let validationWorktree = null
+      const cleanupDebt = []
+      try {
+        validationWorktree = createWorktree(resolvedRoot, resolvedRunnerTemp, `${worktreePrefix}-validate.`, selection.toolingSha)
+        const linkedDependencies = linkDependencies(dependencyRoot, validationWorktree)
+        await command(runCommand, validationWorktree, 'bash', [
+          path.join(validationWorktree, 'scripts/restore-generated-state.sh'), '--exact', '--ref', candidate.candidateSha,
+        ], environment)
+        const resolvedValidationCommands = typeof validationCommands === 'function'
+          ? validationCommands({candidateSha: candidate.candidateSha})
+          : validationCommands
+        for (const [executable, args] of resolvedValidationCommands) {
+          await command(runCommand, validationWorktree, executable, args, environment)
+        }
+        assertDependencyLinksUnchanged(linkedDependencies)
+        cleanupDebt.push(...cleanupWorktree(validationWorktree))
+        validationWorktree = null
+        return Object.freeze({
+          validationReceipts: Object.freeze([{kind: 'derived_state_exact_candidate', candidateSha: candidate.candidateSha}]),
+          cleanupDebt: Object.freeze(cleanupDebt),
+        })
+      } catch (error) {
+        cleanupDebt.push(...cleanupWorktree(validationWorktree))
+        cleanupDebt.push(...cleanupWorktree(candidate.publicationWorktree))
+        if (cleanupDebt.length) error.cleanupDebt = Object.freeze([...(error.cleanupDebt || []), ...cleanupDebt])
+        throw error
+      }
+    },
+    ...(validationCommands ? {async validateNoChanges({targetSha}) {
+      let validationWorktree = null
+      const cleanupDebt = []
+      try {
+        validationWorktree = createWorktree(resolvedRoot, resolvedRunnerTemp, `${worktreePrefix}-validate.`, selection.toolingSha)
+        const linkedDependencies = linkDependencies(dependencyRoot, validationWorktree)
+        await command(runCommand, validationWorktree, 'bash', [
+          path.join(validationWorktree, 'scripts/restore-generated-state.sh'), '--exact', '--ref', targetSha,
+        ], environment)
+        const resolvedValidationCommands = typeof validationCommands === 'function'
+          ? validationCommands({candidateSha: targetSha})
+          : validationCommands
+        for (const [executable, args] of resolvedValidationCommands) {
+          await command(runCommand, validationWorktree, executable, args, environment)
+        }
+        assertDependencyLinksUnchanged(linkedDependencies)
+        cleanupDebt.push(...cleanupWorktree(validationWorktree))
+        validationWorktree = null
+        return Object.freeze({
+          validationReceipts: Object.freeze([{kind: 'derived_state_exact_target', targetSha}]),
+          cleanupDebt: Object.freeze(cleanupDebt),
+        })
+      } catch (error) {
+        cleanupDebt.push(...cleanupWorktree(validationWorktree))
+        if (cleanupDebt.length) error.cleanupDebt = Object.freeze([...(error.cleanupDebt || []), ...cleanupDebt])
+        throw error
+      }
+    }} : {}),
     async promote({candidate, deferConfirmedPromotionCleanup, expectedDevSha, promoteCandidate}) {
       let cleanupDebt
       let cleanupReported = false

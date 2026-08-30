@@ -647,6 +647,17 @@ async function writeTerminalResults({
 // units to terminal `CANCELLED` failures and emission of the results document.
 // The derived-state refresh must complete before the results are written so the
 // evidence the `reconcile_reference_state` consumer downloads is consistent.
+//
+// The refresh outcome is layered rather than blanket-swallowed:
+//  - `REMOTE_STATE_UNKNOWN` (push timed out / probe failed) means the target's
+//    true state is unknowable, so it must be preserved as an orchestrator
+//    failure — that blocks downstream reconciliation, which refuses to run after
+//    `orchestrator_failed`.
+//  - a refresh that actually published advanced the target, so `finalTargetSha`
+//    must reflect the refresh's `resultSha` rather than the last per-unit result.
+//  - an ordinary deterministic failure is recorded and still emits terminal
+//    evidence — writing the evidence is what keeps the downstream
+//    reconciliation condition satisfiable.
 async function bestEffortTerminalRefresh({
   selection, scheduler, startedAt, now, adapter, client, outputDirectory,
   transactionContext, repositoryRoot, runnerTemp, remote, progressUploadFailures,
@@ -655,19 +666,29 @@ async function bestEffortTerminalRefresh({
   const groups = successfulReferenceGroups(selection, {
     units: snapshot.units.map(unit => ({unitKey: unit.unitKey, status: unit.state})),
   })
+  let refreshFailure = null
   if (groups.length) {
     try {
-      await (transactionContext.refreshReferenceDerivedState || defaultRefreshReferenceDerivedState)({
+      const refresh = await (transactionContext.refreshReferenceDerivedState || defaultRefreshReferenceDerivedState)({
         selection,
         groups,
         repositoryRoot,
         runnerTemp,
         transactionContext: {...transactionContext, remote},
       })
-    } catch {
-      // The refresh is best-effort; writing the terminal evidence is what
-      // keeps the downstream reconciliation condition satisfiable, so never
-      // let a refresh failure swallow the evidence.
+      if (refresh?.remoteState === 'unknown' || refresh?.failure?.code === 'REMOTE_STATE_UNKNOWN') {
+        scheduler.markOrchestratorFailure(refresh.failure || {code: 'REMOTE_STATE_UNKNOWN', phase: 'refresh'})
+      } else if (refresh?.status === 'published' && refresh.resultSha) {
+        scheduler.adoptFinalTargetSha(refresh.resultSha)
+      } else if (refresh?.status === 'publish_failed') {
+        refreshFailure = refresh.failure || {code: 'REFRESH_FAILED', phase: 'refresh', message: 'Derived-state refresh failed'}
+      }
+    } catch (error) {
+      refreshFailure = {
+        code: 'REFRESH_FAILED', phase: 'refresh',
+        message: String(error?.message || error || 'Derived-state refresh failed').replace(/[ -]+/gu, ' ').replace(/\s+/gu, ' ').trim().slice(0, 1000),
+        retryable: false,
+      }
     }
   }
   const cancelledResults = scheduler.cancelResults({completedAt: now().toISOString()})
@@ -678,6 +699,7 @@ async function bestEffortTerminalRefresh({
     }),
     progressUploadFailures,
     cancelledResults,
+    refreshFailure,
   })
 }
 

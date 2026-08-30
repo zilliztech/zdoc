@@ -2,7 +2,6 @@
 'use strict'
 
 const fs = require('node:fs')
-const path = require('node:path')
 const {spawnSync} = require('node:child_process')
 const {loadTypeScript} = require('../lib/load-typescript')
 
@@ -93,12 +92,17 @@ async function repairFetchDev(input = {}) {
 
   const latestDevSha = dependencies.latestDevSha || resolveTip(repositoryRoot, remote, targetBranch)
 
-  // Stage 1: refresh every dev-owned derived path that depends on the target
-  // tip and can be regenerated without paid reference-content provenance.
+  // Refresh every dev-owned derived path that depends on the target tip and can
+  // be regenerated without paid reference-content provenance. `validationCommands`
+  // is injected so the full validation suite runs inside the strategy's `validate`
+  // phase (or `validateNoChanges` when nothing changed) BEFORE the reconciled tip
+  // is promoted to dev — the allowlist only proves "only allowed paths changed",
+  // not "the generation is correct", so validation must precede the push.
   const derived = await runDerivedStateRefresh({
     selection: minimalSelection({toolingSha: tooling, targetBranch}),
     groups: [],
     commands: repairCommands,
+    validationCommands: validationCommands(),
     repositoryRoot,
     runnerTemp,
     transactionContext: {...transactionContext, dependencies},
@@ -108,44 +112,7 @@ async function repairFetchDev(input = {}) {
     commitTrailers: ({latestDevSha: sha}) => [`sourceSha: ${sha}`],
   })
 
-  // Stage 2: prove the repaired tip is fully consistent. Validation runs against
-  // the resulting tip (or the unchanged tip when stage 1 produced no changes).
   if (dependencies.validate) return dependencies.validate({result: derived})
-  const environment = {...process.env, ...(transactionContext.environment || {})}
-  const runCommand = dependencies.runCommand || (({cwd, executable, args}) => {
-    const result = spawnSync(executable, args, {cwd, encoding: 'utf8', env: environment, maxBuffer: 32 * 1024 * 1024})
-    if (result.error) throw result.error
-    if (result.status !== 0) throw new Error(result.stderr.trim() || result.stdout.trim() || `${executable} exited ${result.status}`)
-    return result
-  })
-  const validatedSha = derived.status === 'published' ? derived.resultSha : latestDevSha
-  const validationWorktree = fs.mkdtempSync(path.join(runnerTemp, 'fetch-repair-validation.'))
-  fs.rmdirSync(validationWorktree)
-  git(repositoryRoot, ['worktree', 'add', '--detach', validationWorktree, validatedSha])
-  let validationError = null
-  try {
-    await runCommand({
-      cwd: validationWorktree,
-      executable: 'bash',
-      args: [path.join(validationWorktree, 'scripts/restore-generated-state.sh'), '--exact', '--ref', validatedSha],
-      environment,
-    })
-    for (const [executable, args] of validationCommands()) {
-      await runCommand({cwd: validationWorktree, executable, args, environment})
-    }
-  } catch (error) {
-    validationError = error
-  } finally {
-    git(repositoryRoot, ['worktree', 'remove', '--force', validationWorktree]).status
-    git(repositoryRoot, ['worktree', 'prune'])
-  }
-  if (validationError) {
-    const error = new Error(`repair-fetch-dev validation failed on the reconciled tip ${validatedSha}: ${validationError.message}`)
-    error.cause = validationError
-    error.outcome = derived
-    throw error
-  }
-
   return derived
 }
 

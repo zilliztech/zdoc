@@ -154,9 +154,9 @@ test('repair fails closed when generation touches a path outside the allowlist',
   assertNoRepairWorktrees(setup)
 })
 
-test('repair fails the workflow when post-repair validation fails', async t => {
+test('repair validates before pushing and leaves the remote tip untouched when validation fails', async t => {
   const setup = transactionFixture(t)
-  await assert.rejects(() => repairFetchDev({
+  const outcome = await repairFetchDev({
     repositoryRoot: setup.repository,
     runnerTemp: setup.runnerTemp,
     groups: 'all',
@@ -164,7 +164,52 @@ test('repair fails the workflow when post-repair validation fails', async t => {
       toolingSha: setup.baseline,
       runCommand: deterministicRepairCommands([], {validationFailure: true}),
     }},
-  }), /validation failed on the reconciled tip|injected validate-reference failure/)
+  })
+
+  assert.equal(outcome.status, 'publish_failed')
+  assert.equal(outcome.failure.code, 'VALIDATION_FAILED')
+  assert.equal(git(setup.repository, ['ls-remote', '--heads', 'origin', 'dev']).split(/\s+/)[0], setup.baseline)
+  assertNoRepairWorktrees(setup)
+})
+
+test('repair links workspace dependencies into the stage-2 validation worktree', async t => {
+  const setup = transactionFixture(t)
+  // The validation worktree is a fresh checkout with no node_modules; the
+  // repair must symlink the installed workspace dependencies (jiti loader
+  // included) into it or every `pnpm` validation command fails with
+  // MODULE_NOT_FOUND before it can check anything.
+  const repositoryNodeModules = path.join(setup.repository, 'node_modules')
+  fs.mkdirSync(path.join(repositoryNodeModules, 'jiti'), {recursive: true})
+  fs.writeFileSync(path.join(repositoryNodeModules, 'jiti', 'package.json'), '{"name":"jiti"}\n')
+  let validationWorktree = null
+  let linkedJitiVerified = false
+  const outcome = await repairFetchDev({
+    repositoryRoot: setup.repository,
+    runnerTemp: setup.runnerTemp,
+    groups: 'all',
+    transactionContext: {dependencies: {
+      toolingSha: setup.baseline,
+      runCommand: ({cwd, executable, args}) => {
+        if (executable === 'pnpm' &&
+            (args[0] === 'check:localization-input-inventory' || args[1] === 'validate-reference' || args[1] === 'validate-revision-inventory')) {
+          validationWorktree = cwd
+          if (!linkedJitiVerified) {
+            // The worktree is a fresh checkout; without the dependency link the
+            // jiti loader is unresolvable and every validation command fails.
+            assert.equal(fs.realpathSync(path.join(cwd, 'node_modules', 'jiti')),
+              fs.realpathSync(path.join(setup.repository, 'node_modules', 'jiti')),
+              `validation worktree ${cwd} jiti is not linked to the installed package`)
+            linkedJitiVerified = true
+          }
+        }
+        return deterministicRepairCommands([])({cwd, executable, args})
+      },
+    }},
+  })
+
+  assert.equal(outcome.status, 'published')
+  assert.ok(linkedJitiVerified, 'expected a stage-2 validation command to run in the linked worktree')
+  assert.ok(validationWorktree, 'expected a stage-2 validation worktree')
   assertNoRepairWorktrees(setup)
 })
 

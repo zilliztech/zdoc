@@ -278,6 +278,33 @@ test('cancelResults maps in-flight units to terminal CANCELLED failures with ter
   assert.equal(unproduced.sequence, null)
 })
 
+test('cancelResults in artifact-only mode keeps ready units as successful settled evidence', () => {
+  const scheduler = createPublicationScheduler({selection: selection({publish: false})})
+  scheduler.observeJobs([
+    job('source/rest', {completed_at: '2026-08-04T08:00:01.000Z'}),
+    job('source/java', {completed_at: '2026-08-04T08:00:02.000Z'}),
+  ])
+  ready(scheduler, 'source/rest')
+  ready(scheduler, 'source/java')
+  // Settle the produced units so they are the artifact-only deliverable.
+  assert.equal(scheduler.nextDecision().type, 'settled')
+  assert.equal(scheduler.nextDecision().type, 'settled')
+
+  const cancelled = scheduler.cancelResults({completedAt: '2026-08-04T08:00:05.000Z'})
+
+  const rest = cancelled.units.find(unit => unit.unitKey === 'source/rest')
+  assert.equal(rest.status, 'ready')
+  assert.equal(rest.failure, null)
+  assert.equal(rest.sequence, 1)
+  const java = cancelled.units.find(unit => unit.unitKey === 'source/java')
+  assert.equal(java.status, 'ready')
+  assert.equal(java.sequence, 2)
+  const unproduced = cancelled.units.find(unit => unit.unitKey === 'source/python')
+  assert.equal(unproduced.status, 'producer_failed')
+  assert.equal(unproduced.failure.code, 'CANCELLED')
+  assert.equal(cancelled.overallStatus, 'failure')
+})
+
 test('cancelResults keeps already-terminal units untouched', () => {
   const scheduler = createPublicationScheduler({selection: selection()})
   scheduler.observeJobs([job('source/rest', {conclusion: 'failure', completed_at: '2026-08-04T08:00:01.000Z'})])
