@@ -50,6 +50,9 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: write
     outputs:
       tooling_sha: ${{ steps.refs.outputs.tooling_sha }}
       source_sha: ${{ steps.refs.outputs.source_sha }}
@@ -149,10 +152,25 @@ jobs:
         if: ${{ steps.refs.outputs.publish == 'true' }}
         env:
           INITIAL_TARGET_SHA: ${{ steps.refs.outputs.initial_target_sha }}
+          TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
+          TARGET_BRANCH: ${{ steps.refs.outputs.target_branch }}
         run: |
           set -euo pipefail
           git fetch --no-tags origin "$INITIAL_TARGET_SHA"
           bash scripts/restore-generated-state.sh --exact --ref "$INITIAL_TARGET_SHA"
+          if pnpm check:localization-input-inventory; then
+            exit 0
+          fi
+          echo '::warning::immutable target localization inventory is stale; repairing Fetch Reference derived state before retrying'
+          node scripts/docs-workflow/repair-fetch-dev.js repair \
+            --repository-root "$GITHUB_WORKSPACE" \
+            --runner-temp "$RUNNER_TEMP" \
+            --target-branch "$TARGET_BRANCH" \
+            --remote origin
+          repaired_target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
+          [[ "$repaired_target_sha" =~ ^[0-9a-f]{40}$ ]]
+          git fetch --no-tags origin "$repaired_target_sha"
+          bash scripts/restore-generated-state.sh --exact --ref "$repaired_target_sha"
           pnpm check:localization-input-inventory
       - id: publication_selection
         name: Create immutable Fetch publication selection

@@ -14,7 +14,7 @@ const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
   ['repair-fetch-dev.yml', {conditional: false}],
 ]))
 const TOP_LEVEL_WRITER_INVENTORY = Object.freeze(new Map([
-  ['fetch-docs.yml', ['publish_ready', 'reconcile_reference_state']],
+  ['fetch-docs.yml', ['prepare', 'publish_ready', 'reconcile_reference_state']],
   ['translate-codex.yml', ['publish_ready']],
   ['sync-master-tooling-to-dev.yml', ['sync']],
   ['repair-fetch-dev.yml', ['repair']],
@@ -1384,6 +1384,17 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
           'pnpm check:localization-input-inventory',
         ]) || /generate:localization-input-inventory/.test(String(inventoryStep?.run || ''))) {
       errors.push('fetch-docs.yml: prepare must validate the immutable target localization inventory before paid work starts')
+    }
+    const repairIndex = inventoryCommands.findIndex(command => /^node\s+scripts\/docs-workflow\/repair-fetch-dev\.js\s+repair(?:\s|$)/.test(command))
+    const inventoryRun = String(inventoryStep?.run || '')
+    if (repairIndex < 0 ||
+        inventoryStep?.env?.TOOLING_SHA !== '${{ steps.refs.outputs.tooling_sha }}' ||
+        inventoryStep?.env?.TARGET_BRANCH !== '${{ steps.refs.outputs.target_branch }}' ||
+        !/repair-fetch-dev\.js repair[\s\S]*--target-branch "\$TARGET_BRANCH"[\s\S]*--remote origin/.test(inventoryRun) ||
+        !/repaired_target_sha=\$\(git rev-parse "refs\/remotes\/origin\/\$TARGET_BRANCH\^\{commit\}"\)/.test(inventoryRun) ||
+        !/bash scripts\/restore-generated-state\.sh --exact --ref "\$repaired_target_sha"/.test(inventoryRun) ||
+        inventoryCommands.lastIndexOf('pnpm check:localization-input-inventory') <= repairIndex) {
+      errors.push('fetch-docs.yml: prepare must self-heal a stale inventory via repair-fetch-dev and re-validate the repaired target tip')
     }
     if (cardStep?.['continue-on-error'] !== true || cardStep?.env?.CARD_TITLE !== 'Zilliz Cloud Docs Build' ||
         !/card_parts=\("Produce"\)[\s\S]*"Publish" "Verify"[\s\S]*"Handoff"/.test(callerSource)) {
