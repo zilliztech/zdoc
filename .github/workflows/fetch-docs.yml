@@ -361,6 +361,7 @@ jobs:
     needs: prepare
     name: produce_${{ matrix.group }}
     strategy:
+      fail-fast: false
       matrix:
         group: ${{ fromJSON(needs.prepare.outputs.selected_sdk_groups) }}
     uses: ./.github/workflows/_fetch-content-group.yml

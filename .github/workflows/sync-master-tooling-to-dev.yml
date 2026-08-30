@@ -151,7 +151,7 @@ jobs:
       - name: Run focused candidate validation
         if: steps.inspect.outputs.needs_sync == 'true'
         run: |
-          node --test scripts/docs-workflow/master-tooling-sync.test.js deploy/contracts/master-tooling-sync-workflow.test.mjs deploy/contracts/site-validation-workflow.test.mjs
+          node --test scripts/docs-workflow/master-tooling-sync.test.js deploy/contracts/master-tooling-sync-workflow.test.mjs deploy/contracts/site-validation-workflow.test.mjs deploy/contracts/fetch-translation-workflow.test.mjs
           pnpm check:localization-input-inventory
           pnpm docs-tooling validate-revision-inventory --site en
 
