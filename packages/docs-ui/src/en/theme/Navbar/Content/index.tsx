@@ -134,7 +134,10 @@ export default function NavbarContent(): ReactNode {
     integrationId?: string;
     organizationId?: string;
   }>({});
-  const mod = isMac() ? '⌘' : 'Ctrl';
+  // `isMac()` reads `navigator`, which is unavailable during server-side
+  // render. Defer it to the client (post-hydration) so the tooltip modifier
+  // (`⌘` vs `Ctrl`) never differs between server HTML and first client render.
+  const [mod, setMod] = useState('Ctrl');
   const inkeepPlugin = siteConfig.plugins.find(plugin =>
     Array.isArray(plugin) && plugin[0] === '@inkeep/cxkit-docusaurus'
   );
@@ -184,6 +187,10 @@ export default function NavbarContent(): ReactNode {
       integrationId: window.__ZDOC_ENV__?.INKEEP_INTEGRATION_ID,
       organizationId: window.__ZDOC_ENV__?.INKEEP_ORGANIZATION_ID,
     });
+  }, []);
+
+  useEffect(() => {
+    setMod(isMac() ? '⌘' : 'Ctrl');
   }, []);
 
   useBrowserLayoutEffect(() => {
