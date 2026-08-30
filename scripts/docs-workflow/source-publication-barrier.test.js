@@ -35,6 +35,7 @@ function publication(status = 'published') {
       baseSha: 'b'.repeat(40), resultSha: successful ? 'c'.repeat(40) : null,
       commitShas: status === 'published' ? ['c'.repeat(40)] : [], attempts: 1, status,
       failure: successful ? null : {code: 'FAILED', phase: 'publish', message: 'failed', retryable: false},
+      reconciled: null,
     }],
   }, {selection});
   return {selection, results};

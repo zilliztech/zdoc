@@ -56,7 +56,7 @@ function results(selection) {
     units: [{
       unitKey: selection.units[0].unitKey, producerJobId: 10, producerCompletedAt: '2026-08-09T01:00:00.000Z',
       readyAt: '2026-08-09T01:00:01.000Z', sequence: 1, publishStartedAt: null, publishCompletedAt: null,
-      baseSha: null, resultSha: null, commitShas: [], attempts: 0, status: 'ready', failure: null,
+      baseSha: null, resultSha: null, commitShas: [], attempts: 0, status: 'ready', failure: null, reconciled: null,
     }],
     orchestratorFailure: null,
   }

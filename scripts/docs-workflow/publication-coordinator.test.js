@@ -917,3 +917,86 @@ test('cancellation records a deterministic refresh failure but still writes term
   assert.equal(outcome.refreshFailure.code, 'REFRESH_FAILED')
   assert.ok(outcome.results.units.some(unit => unit.failure?.code === 'CANCELLED'))
 })
+
+test('cancellation after a refresh failure persists published-but-unreconciled zh-CN-reference units in the uploaded results', async t => {
+  const document = zhCnReferenceSelection('all')
+  const publishedUnitKey = 'translation/zh-CN-reference/python'
+  const root = outputRoot(t)
+  const client = fakeClient(jobsFor(document, Object.fromEntries(document.units.map((unit, index) => [unit.unitKey, {
+    conclusion: 'success', completedAt: `2026-08-04T00:00:${String(index + 1).padStart(2, '0')}.000Z`,
+  }]))))
+  let publishCount = 0
+  const outcome = await runPublicationCoordinator({
+    selection: document,
+    mode: 'publish',
+    client,
+    repositoryRoot: root,
+    runnerTemp: path.join(root, 'runner'),
+    outputDirectory: root,
+    pollMilliseconds: 1,
+    candidatePolls: 1,
+    maxPublishAttempts: 1,
+    sleep: async () => {},
+    resolveCandidate: async ({unit}) => ({status: 'ready', prepared: {unitKey: unit.unitKey}}),
+    publishUnit: async () => {
+      publishCount += 1
+      return {
+        status: 'published', baseSha: SHA('2'), resultSha: SHA('4'), commitShas: [SHA('4')], attempts: 1,
+        failure: null, remoteState: 'known', completedAt: '2026-08-04T00:01:00.000Z',
+      }
+    },
+    cancelWhen: () => (publishCount >= 1 ? {signal: 'SIGINT', code: 130} : null),
+    transactionContext: {
+      reconcileTranslationPublication: async () => ({status: 'no_changes', resultSha: SHA('4')}),
+      refreshReferenceDerivedState: async () => {
+        throw new Error('injected deterministic refresh failure')
+      },
+    },
+  })
+
+  const published = outcome.results.units.find(unit => unit.unitKey === publishedUnitKey)
+  assert.equal(published.status, 'published')
+  // Content publication succeeded but the derived-state refresh failed, so the
+  // uploaded results must persist `reconciled: false` rather than letting the
+  // recovery planner mistake it for reconciled work.
+  assert.equal(published.reconciled, false)
+  assert.equal(client.results[0].units.find(unit => unit.unitKey === publishedUnitKey).reconciled, false)
+})
+
+test('cancellation after a successful refresh persists reconciled zh-CN-reference units in the uploaded results', async t => {
+  const document = zhCnReferenceSelection('all')
+  const publishedUnitKey = 'translation/zh-CN-reference/python'
+  const root = outputRoot(t)
+  const client = fakeClient(jobsFor(document, Object.fromEntries(document.units.map((unit, index) => [unit.unitKey, {
+    conclusion: 'success', completedAt: `2026-08-04T00:00:${String(index + 1).padStart(2, '0')}.000Z`,
+  }]))))
+  let publishCount = 0
+  const outcome = await runPublicationCoordinator({
+    selection: document,
+    mode: 'publish',
+    client,
+    repositoryRoot: root,
+    runnerTemp: path.join(root, 'runner'),
+    outputDirectory: root,
+    pollMilliseconds: 1,
+    candidatePolls: 1,
+    maxPublishAttempts: 1,
+    sleep: async () => {},
+    resolveCandidate: async ({unit}) => ({status: 'ready', prepared: {unitKey: unit.unitKey}}),
+    publishUnit: async () => {
+      publishCount += 1
+      return {
+        status: 'published', baseSha: SHA('2'), resultSha: SHA('4'), commitShas: [SHA('4')], attempts: 1,
+        failure: null, remoteState: 'known', completedAt: '2026-08-04T00:01:00.000Z',
+      }
+    },
+    cancelWhen: () => (publishCount >= 1 ? {signal: 'SIGINT', code: 130} : null),
+    transactionContext: {
+      reconcileTranslationPublication: async () => ({status: 'no_changes', resultSha: SHA('4')}),
+      refreshReferenceDerivedState: async () => ({status: 'published', resultSha: SHA('5')}),
+    },
+  })
+
+  assert.equal(outcome.results.units.find(unit => unit.unitKey === publishedUnitKey).reconciled, true)
+  assert.equal(client.results[0].units.find(unit => unit.unitKey === publishedUnitKey).reconciled, true)
+})

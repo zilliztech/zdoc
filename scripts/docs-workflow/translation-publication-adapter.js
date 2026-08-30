@@ -25,6 +25,7 @@ const RECOVERY_SOURCE_WORKFLOWS = new Set([
 ])
 const RECOVERY_JOB_PREFIX = 'run_translation / '
 const TRANSLATION_PUBLICATION_UNIT_KEYS = TRANSLATION_UNIT_ORDER
+const SUCCESSFUL_RESULTS = new Set(['published', 'no_changes'])
 
 function boundedReconciliationFailure(reconciliation) {
   const failure = reconciliation?.failure || {}
@@ -135,9 +136,10 @@ function validateTranslationSelection(value, helpers) {
       helpers.assertSha(evidence.results.finalTargetSha, 'recovery publication results final target SHA', document)
       if (!Array.isArray(evidence.results.unitStatuses)) helpers.invalid(document, 'recovery publication results unitStatuses must be an array')
       for (const [index, unitStatus] of evidence.results.unitStatuses.entries()) {
-        helpers.exactKeys(unitStatus, ['unitKey', 'status'], `recovery publication results unitStatuses ${index}`, document)
+        helpers.exactKeys(unitStatus, ['unitKey', 'status', 'reconciled'], `recovery publication results unitStatuses ${index}`, document)
         helpers.assertString(unitStatus.unitKey, `recovery publication results unitStatuses ${index} unitKey`, document)
         helpers.assertString(unitStatus.status, `recovery publication results unitStatuses ${index} status`, document)
+        if (unitStatus.reconciled !== null && typeof unitStatus.reconciled !== 'boolean') helpers.invalid(document, `recovery publication results unitStatuses ${index} reconciled must be null or boolean`)
       }
     }
     if (!Array.isArray(recovery.artifacts)) helpers.invalid(document, 'recovery provenance artifacts must be an array')
@@ -227,9 +229,13 @@ const translationPublicationAdapter = definePublicationWorkflowAdapter({
       }
     }
     if (['published', 'no_changes'].includes(reconciliation?.status)) {
+      const reconciledUnits = value.results.units.map(unit =>
+        unit.unitKey.startsWith('translation/zh-CN-reference/') && SUCCESSFUL_RESULTS.has(unit.status)
+          ? {...unit, reconciled: true}
+          : {...unit, reconciled: null})
       return validateTranslationPublicationDocuments({
         selection: value.selection,
-        results: {...value.results, finalTargetSha: reconciliation.resultSha},
+        results: {...value.results, finalTargetSha: reconciliation.resultSha, units: reconciledUnits},
       }).results
     }
     return validateTranslationPublicationDocuments({

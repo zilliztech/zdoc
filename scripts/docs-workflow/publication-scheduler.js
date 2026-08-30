@@ -10,6 +10,7 @@ const FAILURE_CONCLUSIONS = new Set([
   'failure', 'cancelled', 'skipped', 'timed_out', 'action_required', 'startup_failure', 'stale', 'neutral',
 ])
 const TERMINAL_STATES = new Set(['producer_failed', 'candidate_rejected', 'published', 'no_changes', 'publish_failed'])
+const SUCCESSFUL_RESULTS = new Set(['published', 'no_changes'])
 const CANCELLED_PHASE = Object.freeze({producing: 'produce', candidate: 'candidate', ready: 'candidate', publishing: 'publish'})
 const SHA = /^[0-9a-f]{40}$/u
 
@@ -81,6 +82,13 @@ function createPublicationScheduler(options) {
   let finalTargetSha = selection.initialTargetSha
   let orchestratorFailure = null
   let cancelledAt = null
+  // Derived-state reconciliation is a run-level operation over the successful
+  // zh-CN-reference groups. It is tracked separately from content publication so
+  // a published-but-unreconciled unit is never mistaken for one whose derived
+  // state (reference inventory + sidebars) was refreshed. `null` means the
+  // refresh never ran for this coordinator; a recorded status applies to every
+  // zh-CN-reference unit that published content successfully.
+  let derivedState = null
 
   function timestamp() {
     return new Date(now()).toISOString()
@@ -252,6 +260,26 @@ function createPublicationScheduler(options) {
     bump()
   }
 
+  // Records the run-level derived-state reconciliation outcome so the terminal
+  // results document can distinguish "content published" from "derived state
+  // reconciled". Only successful zh-CN-reference units reconcile derived state;
+  // every other unit is `null` (not required). A `failed` or unrecorded refresh
+  // leaves those units `reconciled: false`, which the recovery planner treats as
+  // still needing derived-state reconciliation.
+  function recordDerivedState({status} = {}) {
+    if (!['reconciled', 'failed', 'not_required'].includes(status)) throw new Error('recordDerivedState status is invalid')
+    derivedState = Object.freeze({status})
+    bump()
+  }
+
+  // Per-unit `reconciled`: boolean for zh-CN-reference units that published
+  // content successfully (true only when the run-level refresh reconciled), and
+  // `null` for everything else (not required).
+  function reconciledFor(state) {
+    if (!state.unitKey.startsWith('translation/zh-CN-reference/') || !SUCCESSFUL_RESULTS.has(state.state)) return null
+    return derivedState?.status === 'reconciled'
+  }
+
   // Adopts a SHA produced by the best-effort derived-state refresh that ran
   // after the last published unit. The refresh may have advanced the target
   // beyond the publication results, and `finalTargetSha` must reflect what the
@@ -291,6 +319,9 @@ function createPublicationScheduler(options) {
       commitShas: [...state.commitShas],
       attempts: state.attempts,
       failure: state.failure,
+      // `reconciled` belongs on the results document only, never the progress
+      // snapshot (the progress schema rejects the extra key).
+      ...(statusKey === 'status' ? {reconciled: reconciledFor(state)} : {}),
     }
   }
 
@@ -397,6 +428,7 @@ function createPublicationScheduler(options) {
     nextDecision,
     observeCandidate,
     observeJobs,
+    recordDerivedState,
     results,
     snapshot,
     startPublication,

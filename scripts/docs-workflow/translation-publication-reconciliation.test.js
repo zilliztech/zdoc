@@ -99,6 +99,7 @@ function results(selected, baseline, overrides = {}) {
     attempts: 1,
     status: 'no_changes',
     failure: null,
+    reconciled: null,
   }))
   return validatePublicationResults({
     schemaVersion: 1,
@@ -253,6 +254,7 @@ test('ordinary Translation unit failure still reconciles only successful Chinese
       attempts: 1,
       status: 'published',
       failure: null,
+      reconciled: null,
     }, {
       unitKey: selected.units[1].unitKey,
       producerJobId: 2,
@@ -267,6 +269,7 @@ test('ordinary Translation unit failure still reconciles only successful Chinese
       attempts: 0,
       status: 'producer_failed',
       failure: {code: 'PRODUCER_FAILED', phase: 'produce', message: 'Java producer failed', retryable: false},
+      reconciled: null,
     }],
     orchestratorFailure: null,
   }, {selection: selected})

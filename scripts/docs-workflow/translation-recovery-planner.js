@@ -338,7 +338,7 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
       artifactDigest: resultsArtifact.digest,
       overallStatus: document.overallStatus,
       finalTargetSha: document.finalTargetSha,
-      unitStatuses: Object.freeze(document.units.map(unit => Object.freeze({unitKey: unit.unitKey, status: unit.status}))),
+      unitStatuses: Object.freeze(document.units.map(unit => Object.freeze({unitKey: unit.unitKey, status: unit.status, reconciled: unit.reconciled}))),
     }
   }
   if (publisher?.conclusion === 'success' && !results) throw new Error('Terminal publication results are required after successful publish_ready')
@@ -446,8 +446,15 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
   }
 
   const publicationEvidence = await authenticatePublicationEvidence({client, selectedAttempt, selection, jobs, run, runId, attemptNumber, root})
+  if (publicationEvidence.results?.overallStatus === 'orchestrator_failed') {
+    throw new Error('Translation recovery cannot run after an orchestrator failure or unknown remote state')
+  }
+  // A unit is safe to skip when its content published AND (its derived state was
+  // reconciled OR reconciliation does not apply to it — `reconciled: null`). A
+  // published-but-unreconciled unit (reconciled: false — refresh failed or never
+  // ran) must re-enter derived-state reconciliation rather than being dropped.
   const publishedUnitKeys = new Set((publicationEvidence.results?.unitStatuses || [])
-    .filter(unit => SUCCESSFUL_UNIT_STATUSES.has(unit.status))
+    .filter(unit => SUCCESSFUL_UNIT_STATUSES.has(unit.status) && unit.reconciled !== false)
     .map(unit => unit.unitKey))
 
   for (const selected of selectedRecoveryUnits(selection, run)) {

@@ -41,7 +41,7 @@ const RESULTS_KEYS = [
 ]
 const RESULT_UNIT_KEYS = [
   'unitKey', 'producerJobId', 'producerCompletedAt', 'readyAt', 'sequence', 'publishStartedAt',
-  'publishCompletedAt', 'baseSha', 'resultSha', 'commitShas', 'attempts', 'status', 'failure',
+  'publishCompletedAt', 'baseSha', 'resultSha', 'commitShas', 'attempts', 'status', 'failure', 'reconciled',
 ]
 const FAILURE_KEYS = ['code', 'phase', 'message', 'retryable']
 
@@ -322,6 +322,7 @@ function validateResultUnit(unit, index, mode, overallStatus) {
   validateCommitShas(unit.commitShas, `unit ${index} commitShas`, document)
   assertNonnegativeInteger(unit.attempts, `unit ${index} attempts`, document)
   validateFailure(unit.failure, `unit ${index} failure`, document)
+  if (unit.reconciled !== null && typeof unit.reconciled !== 'boolean') invalid(document, `unit ${index} reconciled must be null or boolean`)
   if (TERMINAL_FAILURES.has(unit.status) !== (unit.failure !== null)) invalid(document, `unit ${index} failure does not match status`)
   if (SUCCESSFUL_RESULTS.has(unit.status) && unit.resultSha === null) invalid(document, `unit ${index} resultSha is required for successful status`)
   if (unit.status === 'published' && (!unit.commitShas.length || !unit.commitShas.includes(unit.resultSha))) invalid(document, `unit ${index} published resultSha must be recorded in commitShas`)

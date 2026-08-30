@@ -678,10 +678,15 @@ async function bestEffortTerminalRefresh({
       })
       if (refresh?.remoteState === 'unknown' || refresh?.failure?.code === 'REMOTE_STATE_UNKNOWN') {
         scheduler.markOrchestratorFailure(refresh.failure || {code: 'REMOTE_STATE_UNKNOWN', phase: 'refresh'})
+        scheduler.recordDerivedState({status: 'failed'})
       } else if (refresh?.status === 'published' && refresh.resultSha) {
         scheduler.adoptFinalTargetSha(refresh.resultSha)
+        scheduler.recordDerivedState({status: 'reconciled'})
       } else if (refresh?.status === 'publish_failed') {
         refreshFailure = refresh.failure || {code: 'REFRESH_FAILED', phase: 'refresh', message: 'Derived-state refresh failed'}
+        scheduler.recordDerivedState({status: 'failed'})
+      } else if (refresh?.status === 'no_changes') {
+        scheduler.recordDerivedState({status: 'reconciled'})
       }
     } catch (error) {
       refreshFailure = {
@@ -689,7 +694,10 @@ async function bestEffortTerminalRefresh({
         message: String(error?.message || error || 'Derived-state refresh failed').replace(/[ -]+/gu, ' ').replace(/\s+/gu, ' ').trim().slice(0, 1000),
         retryable: false,
       }
+      scheduler.recordDerivedState({status: 'failed'})
     }
+  } else {
+    scheduler.recordDerivedState({status: 'not_required'})
   }
   const cancelledResults = scheduler.cancelResults({completedAt: now().toISOString()})
   return Object.freeze({

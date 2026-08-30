@@ -138,6 +138,7 @@ const fetchResults = Object.freeze({
     attempts: 1,
     status: 'published',
     failure: null,
+    reconciled: null,
   }],
   orchestratorFailure: null,
 })
@@ -264,6 +265,7 @@ function resultUnit(overrides = {}) {
     attempts: 1,
     status: 'published',
     failure: null,
+    reconciled: null,
     ...overrides,
   }
 }
