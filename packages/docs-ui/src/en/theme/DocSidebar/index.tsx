@@ -294,13 +294,22 @@ function itemContainsPath(item: PropSidebarItem, pathname: string): boolean {
   return false;
 }
 
-/** Collapsed/merged state: narrow viewport breakpoint (≤1320px), or the same
+/** Upper bound of the merged (one-column) nav band. 1511 keeps every 13" MacBook
+ *  on one column — 13.3" Air/Pro default to 1440pt, 13.6" M2/M3 Air to 1470pt, so
+ *  1440 would miss the 13.6" — and hands the two-column rail to 14" MBP (1512pt)
+ *  and wider. Must stay in sync with the media queries in
+ *  apps/docs/src/css/custom.css and
+ *  packages/docs-ui/src/shared/theme/DocRoot/Layout/styles.module.css. */
+const SIDEBAR_MERGE_MAX = 1511;
+
+/** Collapsed/merged state: narrow viewport breakpoint (≤1511px), or the same
  *  effective-width compact state used by the topbar while the AI panel is open. */
 function useMergedMode(): boolean {
   const [merged, setMerged] = useState(false);
   useEffect(() => {
     const compute = () => {
-      const narrow = window.innerWidth <= 1320 || document.body.classList.contains('docs-nav-compact');
+      const narrow =
+        window.innerWidth <= SIDEBAR_MERGE_MAX || document.body.classList.contains('docs-nav-compact');
       setMerged(narrow);
     };
     compute();
