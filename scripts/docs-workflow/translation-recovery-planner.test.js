@@ -130,12 +130,13 @@ function successfulPublicationResults(selected) {
       attempts: 1,
       status: 'no_changes',
       failure: null,
+      reconciled: null,
     })),
     orchestratorFailure: null,
   }, {selection: selected, allowLegacyChineseRest: true})
 }
 
-function publicationResultsWithStatuses(selected, statusByUnitKey, overallStatus = 'failure') {
+function publicationResultsWithStatuses(selected, statusByUnitKey, overallStatus = 'failure', reconciledByUnitKey = {}) {
   return validatePublicationResults({
     schemaVersion: 1,
     document: 'publication-results',
@@ -168,6 +169,7 @@ function publicationResultsWithStatuses(selected, statusByUnitKey, overallStatus
         attempts: 1,
         status,
         failure,
+        reconciled: reconciledByUnitKey[unit.unitKey] ?? null,
       }
     }),
     orchestratorFailure: null,
@@ -679,6 +681,121 @@ test('skips already-published units instead of requiring their recovery artifact
 
   assert.equal(planned.plan.recoveryMap['ja-JP/python'], undefined)
   assert.ok(Object.keys(planned.plan.recoveryMap).length > 0)
+})
+
+test('does not skip a published-but-unreconciled zh-CN-reference unit whose derived state still needs reconciliation', async t => {
+  const value = fixture(t)
+  const publishedKey = 'translation/zh-CN-reference/python'
+  const results = publicationResultsWithStatuses(value.selected, {[publishedKey]: 'no_changes'}, 'failure', {[publishedKey]: false})
+  value.addArtifact(`publication-results-translation-${RUN_ID}-2`, directory => writeJson(directory, 'publication-results.json', results))
+  const publishJob = {
+    id: 999, name: 'publish_ready', run_attempt: 2, status: 'completed', conclusion: 'success',
+    started_at: '2026-08-08T01:05:00.000Z', completed_at: '2026-08-08T02:00:00.000Z',
+  }
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'recover-unreconciled'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {
+      ...value.client,
+      listJobs: async () => [...value.jobs, publishJob],
+    },
+  })
+
+  // Content published but derived state unreconciled: the unit must re-enter
+  // recovery rather than being dropped by the skip predicate.
+  assert.equal(planned.plan.recoveryMap['zh-CN-reference/python'].artifacts.length, 1)
+})
+
+test('legacy publication results without reconciled conservatively recover published Chinese Reference units', async t => {
+  const value = fixture(t)
+  const publishedKey = 'translation/zh-CN-reference/python'
+  const results = JSON.parse(JSON.stringify(publicationResultsWithStatuses(
+    value.selected,
+    {[publishedKey]: 'no_changes'},
+    'failure',
+  )))
+  for (const unit of results.units) delete unit.reconciled
+  value.addArtifact(`publication-results-translation-${RUN_ID}-2`, directory => writeJson(directory, 'publication-results.json', results))
+  const publishJob = {
+    id: 999, name: 'publish_ready', run_attempt: 2, status: 'completed', conclusion: 'success',
+    started_at: '2026-08-08T01:05:00.000Z', completed_at: '2026-08-08T02:00:00.000Z',
+  }
+
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'recover-legacy-unreconciled'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...value.client, listJobs: async () => [...value.jobs, publishJob]},
+  })
+
+  assert.equal(planned.plan.recoveryMap['zh-CN-reference/python'].artifacts.length, 1)
+  assert.equal(planned.plan.provenance.publicationEvidence.results.unitStatuses
+    .find(unit => unit.unitKey === publishedKey).reconciled, false)
+})
+
+test('skips a published-and-reconciled zh-CN-reference unit but recovers every other failed unit', async t => {
+  const value = fixture(t)
+  const reconciledKey = 'translation/zh-CN-reference/python'
+  const results = publicationResultsWithStatuses(value.selected, {[reconciledKey]: 'no_changes'}, 'failure', {[reconciledKey]: true})
+  value.addArtifact(`publication-results-translation-${RUN_ID}-2`, directory => writeJson(directory, 'publication-results.json', results))
+  const publishJob = {
+    id: 999, name: 'publish_ready', run_attempt: 2, status: 'completed', conclusion: 'success',
+    started_at: '2026-08-08T01:05:00.000Z', completed_at: '2026-08-08T02:00:00.000Z',
+  }
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'skip-reconciled'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...value.client, listJobs: async () => [...value.jobs, publishJob]},
+  })
+
+  assert.equal(planned.plan.recoveryMap['zh-CN-reference/python'], undefined)
+  assert.ok(Object.keys(planned.plan.recoveryMap).length > 0)
+})
+
+test('halts recovery planning after an orchestrator failure with unknown remote state', async t => {
+  const value = fixture(t)
+  const results = validatePublicationResults({
+    schemaVersion: 1,
+    document: 'publication-results',
+    workflow: 'translation',
+    repository: value.selected.repository,
+    runId: value.selected.runId,
+    runAttempt: value.selected.runAttempt,
+    selectionSha256: value.selected.selectionSha256,
+    mode: 'publish',
+    targetBranch: value.selected.targetBranch,
+    initialTargetSha: value.selected.initialTargetSha,
+    finalTargetSha: value.selected.initialTargetSha,
+    startedAt: '2026-08-08T02:34:02.000Z',
+    completedAt: '2026-08-08T02:35:19.000Z',
+    overallStatus: 'orchestrator_failed',
+    units: value.selected.units.map((unit, index) => ({
+      unitKey: unit.unitKey,
+      producerJobId: index + 1000,
+      producerCompletedAt: '2026-08-08T02:34:02.000Z',
+      readyAt: '2026-08-08T02:34:02.000Z',
+      sequence: index + 1,
+      publishStartedAt: '2026-08-08T02:34:02.000Z',
+      publishCompletedAt: '2026-08-08T02:35:19.000Z',
+      baseSha: value.selected.initialTargetSha,
+      resultSha: value.selected.initialTargetSha,
+      commitShas: [],
+      attempts: 1,
+      status: 'no_changes',
+      failure: null,
+      reconciled: null,
+    })),
+    orchestratorFailure: {code: 'REMOTE_STATE_UNKNOWN', phase: 'push_probe', message: 'remote state unknown', retryable: false},
+  }, {selection: value.selected, allowLegacyChineseRest: true})
+  value.addArtifact(`publication-results-translation-${RUN_ID}-2`, directory => writeJson(directory, 'publication-results.json', results))
+  const publishJob = {
+    id: 999, name: 'publish_ready', run_attempt: 2, status: 'completed', conclusion: 'success',
+    started_at: '2026-08-08T01:05:00.000Z', completed_at: '2026-08-08T02:00:00.000Z',
+  }
+  await assert.rejects(() => planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'halt-orchestrator-failed'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...value.client, listJobs: async () => [...value.jobs, publishJob]},
+  }), /orchestrator failure|unknown remote state/i)
 })
 
 test('canonicalizes seconds-precision publisher timestamps before binding post-cutover recovery provenance', async t => {

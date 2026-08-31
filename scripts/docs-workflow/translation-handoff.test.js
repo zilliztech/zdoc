@@ -51,7 +51,7 @@ function guidesFetchPublication() {
       readyAt: `2026-08-04T08:01:0${index}.000Z`, sequence: index + 1,
       publishStartedAt: `2026-08-04T08:02:0${index}.000Z`, publishCompletedAt: `2026-08-04T08:03:0${index}.000Z`,
       baseSha: SHA_A, resultSha: shas[unit.unitKey], commitShas: [shas[unit.unitKey]], attempts: 1,
-      status: 'published', failure: null,
+      status: 'published', failure: null, reconciled: null,
     })),
   }, {selection});
   return {selection, results};

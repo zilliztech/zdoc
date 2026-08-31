@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "id": "shared-publication-contracts",
+      "paths": [
+        "scripts/docs-workflow/publication-contracts*",
+        "scripts/docs-workflow/publication-workflow-adapters*",
+        "scripts/docs-workflow/fetch-publication-adapter*",
+        "scripts/docs-workflow/translation-publication-adapter*",
+        "scripts/docs-workflow/tooling-publication-adapter*"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/publication-contracts.test.js scripts/docs-workflow/publication-workflow-adapters.test.js scripts/docs-workflow/fetch-publication-adapter.test.js scripts/docs-workflow/translation-publication-adapter.test.js scripts/docs-workflow/tooling-publication-adapter.test.js"
+      ],
+      "harnesses": ["pnpm test:replay:all"],
+      "gates": ["pnpm test:workflow-policy"],
+      "reason": "Shared schemas and adapters affect Fetch, Translation, progress/results authentication, and recovery."
+    },
+    {
+      "id": "publication-runtime",
+      "paths": [
+        "scripts/docs-workflow/publication-scheduler*",
+        "scripts/docs-workflow/publication-coordinator*",
+        "scripts/docs-workflow/publication-transaction*",
+        "scripts/docs-workflow/publication-github-client*",
+        "scripts/docs-workflow/publication-strategy-registry*",
+        "scripts/docs-workflow/checkpoint-publication*"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/publication-scheduler.test.js scripts/docs-workflow/publication-coordinator.test.js scripts/docs-workflow/publication-transaction.test.js scripts/docs-workflow/publication-github-client.test.js scripts/docs-workflow/publication-strategy-registry.test.js scripts/docs-workflow/checkpoint-publication.test.js"
+      ],
+      "harnesses": ["pnpm test:replay:all"],
+      "gates": ["pnpm test:workflow-policy"],
+      "reason": "The shared writer runtime controls FIFO, cancellation, remote-state safety, and checkpoint publication for both pipelines."
+    },
+    {
+      "id": "fetch-publication-flow",
+      "paths": [
+        "scripts/docs-workflow/fetch-publication-selection*",
+        "scripts/docs-workflow/fetch-publication-results*",
+        "scripts/docs-workflow/fetch-reconciliation-*",
+        "scripts/docs-workflow/fetch-reference-reconciliation*",
+        "scripts/docs-workflow/source-publication-barrier*",
+        "scripts/docs-workflow/repair-fetch-dev*",
+        ".github/workflows/fetch-docs.yml",
+        ".github/workflows/_fetch-content-group.yml",
+        ".github/workflows/_verify-docs.yml",
+        ".github/workflows/repair-fetch-dev.yml"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/fetch-publication-selection.test.js scripts/docs-workflow/fetch-publication-results.test.js scripts/docs-workflow/fetch-reconciliation-plans.test.js scripts/docs-workflow/fetch-reconciliation-preflight.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/docs-workflow/repair-fetch-dev.test.js"
+      ],
+      "harnesses": ["pnpm test:replay:fetch"],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "node --test deploy/contracts/fetch-translation-workflow.test.mjs"
+      ],
+      "reason": "Fetch selection, publication evidence, reconciliation, and source barrier must remain mutually compatible."
+    },
+    {
+      "id": "translation-publication-flow",
+      "paths": [
+        "scripts/docs-workflow/translation-publication-selection*",
+        "scripts/docs-workflow/translation-publication-results*",
+        "scripts/docs-workflow/translation-publication-report*",
+        "scripts/docs-workflow/translation-publication-reconciliation*",
+        "scripts/docs-workflow/translation-checkpoint-strategy*",
+        "scripts/docs-workflow/ja-guides-publication-strategy*",
+        "scripts/docs-workflow/translation-batch-*",
+        "scripts/docs-workflow/translation-staging*",
+        "scripts/docs-workflow/apply-translation-batch*",
+        "scripts/docs-workflow/finalize-translation-batches*",
+        "scripts/docs-workflow/validate-translation-batch*",
+        "scripts/docs-workflow/validate-unbatched-translation-outputs*",
+        "scripts/docs-workflow/validate-guides-translation-staging*",
+        ".github/workflows/translate-codex.yml",
+        ".github/workflows/translate-manual.yml",
+        ".github/workflows/_translate-content-group.yml",
+        ".github/workflows/_prepare-translation-batches.yml"
+      ],
+      "focusedTests": ["pnpm test:translation-workflow", "pnpm test:translation"],
+      "harnesses": ["pnpm test:replay:translation"],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "node --test deploy/contracts/fetch-translation-workflow.test.mjs"
+      ],
+      "reason": "Translation selection, reconciliation, reports, and checkpoint strategies feed the Translation FIFO writer and monitor."
+    },
+    {
+      "id": "translation-recovery",
+      "paths": [
+        "scripts/docs-workflow/translation-recovery-*",
+        "scripts/docs-workflow/translation-handoff*",
+        "scripts/docs-workflow/translation-artifact-pairs*",
+        "scripts/docs-workflow/translation-batch-set*",
+        "scripts/docs-workflow/recover-translation-*",
+        ".github/workflows/recover-translation.yml"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/translation-recovery-planner.test.js scripts/docs-workflow/translation-recovery-workflow.test.js scripts/docs-workflow/translation-handoff.test.js scripts/docs-workflow/translation-artifact-pairs.test.js scripts/docs-workflow/translation-batch-set.test.js scripts/docs-workflow/recover-translation-batches.test.js"
+      ],
+      "harnesses": ["pnpm test:replay:recovery"],
+      "gates": ["pnpm test:translation", "pnpm test:workflow-policy"],
+      "reason": "Recovery changes must preserve retained identity, skip evidence, paid-work boundaries, and the schema-v3 handoff."
+    },
+    {
+      "id": "progress-cards-and-aggregation",
+      "paths": [
+        "scripts/docs-workflow/monitor-docs-progress*",
+        "scripts/docs-workflow/monitor-translation-progress*",
+        "scripts/docs-workflow/docs-progress-state*",
+        "scripts/docs-workflow/translation-progress-state*",
+        "scripts/docs-workflow/docs-card-report*",
+        "scripts/docs-workflow/build-live-card-state*",
+        "scripts/docs-workflow/aggregate-results*",
+        "scripts/docs-workflow/build-aggregate-input*",
+        ".github/workflows/_monitor-docs-progress.yml",
+        ".github/workflows/_monitor-translation-progress.yml"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/monitor-docs-progress.test.js scripts/docs-workflow/monitor-translation-progress.test.js scripts/docs-workflow/docs-progress-state.test.js scripts/docs-workflow/translation-progress-state.test.js scripts/docs-workflow/docs-card-report.test.js scripts/docs-workflow/build-live-card-state.test.js scripts/docs-workflow/aggregate-results.test.js scripts/docs-workflow/build-aggregate-input.test.js"
+      ],
+      "harnesses": ["pnpm test:replay:all"],
+      "gates": ["pnpm test:workflow-policy"],
+      "reason": "Progress and card changes cross artifact collection, terminal results, and both parent/child workflow views."
+    },
+    {
+      "id": "checkpoint-artifacts-and-ownership",
+      "paths": [
+        "scripts/docs-workflow/apply-checkpoint-artifact*",
+        "scripts/docs-workflow/checkpoint-stage-paths*",
+        "scripts/docs-workflow/create-checkpoint-artifact*",
+        "scripts/docs-workflow/preflight-checkpoint-archive*",
+        "scripts/docs-workflow/validate-checkpoint-artifact*",
+        "scripts/docs-workflow/ownership-gate*",
+        "scripts/docs-workflow/preserved-files-gate*"
+      ],
+      "focusedTests": ["pnpm test:checkpoint-workflow"],
+      "harnesses": ["pnpm test:replay:fetch"],
+      "gates": ["pnpm test:workflow-policy"],
+      "reason": "Checkpoint archives and ownership gates define what publication replays may safely extract and apply."
+    },
+    {
+      "id": "guides-source-render-and-cache",
+      "paths": [
+        "scripts/docs-workflow/guides-*",
+        "scripts/docs-workflow/generate-guides-sidebars*",
+        "scripts/docs-workflow/prepare-guides-bootstrap-stage*",
+        "scripts/docs-workflow/render-guides-table*",
+        "scripts/docs-workflow/restore-guides-table-artifacts*",
+        ".github/workflows/_assemble-guides.yml",
+        ".github/workflows/_fetch-guides-sources.yml",
+        ".github/workflows/_render-guides-table.yml"
+      ],
+      "focusedTests": ["pnpm test:guides-workflow"],
+      "harnesses": ["pnpm test:replay:fetch"],
+      "gates": ["pnpm test:workflow-policy"],
+      "reason": "Guides cache, assembly, render, and table artifacts feed site-qualified Fetch units and final card evidence."
+    },
+    {
+      "id": "reconciliation-review-and-policy",
+      "paths": [
+        "scripts/docs-workflow/reconciliation-*",
+        "scripts/translation/apply-reconciliation-plan*",
+        "scripts/generate-reconciliation-policy.js",
+        "packages/docs-tooling/src/manuals/derive/reconciliationPolicy.ts"
+      ],
+      "focusedTests": ["pnpm test:reconciliation-workflow"],
+      "harnesses": ["pnpm test:replay:translation"],
+      "gates": ["pnpm test:workflow-policy", "pnpm check:reconciliation-policy"],
+      "reason": "Reconciliation mutations, approval state, and policy exceptions must remain deterministic and review-bound."
+    },
+    {
+      "id": "manual-registry-and-workflow-units",
+      "paths": [
+        "packages/docs-tooling/src/manuals/**",
+        "scripts/docs-workflow/content-groups*",
+        "scripts/docs-workflow/group-paths*",
+        "scripts/docs-workflow/print-workflow-groups*"
+      ],
+      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/manuals"],
+      "harnesses": ["pnpm test:replay:all"],
+      "gates": [
+        "pnpm test:workflow-policy",
+        "node --test deploy/contracts/fetch-translation-workflow.test.mjs"
+      ],
+      "reason": "Manual registry changes alter unit order, matrix jobs, artifact names, sidebars, and replay cardinality."
+    },
+    {
+      "id": "workflow-yaml",
+      "paths": [".github/workflows/**"],
+      "focusedTests": [
+        "node --test deploy/contracts/fetch-translation-workflow.test.mjs deploy/contracts/site-validation-workflow.test.mjs deploy/contracts/master-tooling-sync-workflow.test.mjs"
+      ],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-policy"],
+      "reason": "Workflow changes require policy and structural contract checks; also run actionlint on each changed workflow."
+    },
+    {
+      "id": "master-dev-sync-and-ownership",
+      "paths": [
+        "deploy/contracts/master-tooling-sync.json",
+        "deploy/contracts/master-tooling-sync-workflow.test.mjs",
+        "deploy/contracts/localization-inputs.inventory.json",
+        "scripts/docs-workflow/master-tooling-sync*",
+        ".github/workflows/sync-master-tooling-to-dev.yml",
+        ".claude/specs/2026-08-03-master-tooling-dev-sync.md"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/master-tooling-sync.test.js deploy/contracts/master-tooling-sync-workflow.test.mjs"
+      ],
+      "harnesses": ["pnpm test:replay:all"],
+      "gates": ["pnpm test:workflow-policy"],
+      "reason": "Branch ownership and tooling promotion changes can alter which master changes may enter dev and which runtime paths must be preserved."
+    },
+    {
+      "id": "published-content-and-generated-state",
+      "paths": [
+        ".translation-cache/**",
+        "config/generated/**",
+        "content/**",
+        "docs/**",
+        "docs-byoc/**",
+        "generated/**",
+        "i18n/**",
+        "packages/docs-tooling/src/lark/meta/assembly/**",
+        "packages/docs-tooling/src/lark/meta/reports/**",
+        "packages/docs-tooling/src/lark/meta/snapshots/**",
+        "reference/**",
+        "sidebar-overrides/en/**"
+      ],
+      "focusedTests": [
+        "pnpm check:localization-input-inventory",
+        "pnpm docs-tooling validate-revision-inventory --site en"
+      ],
+      "harnesses": [],
+      "gates": ["pnpm build:en", "pnpm build:zh-CN"],
+      "reason": "Published content and generated state are normally dev-owned; exact preserved exceptions remain master-authoritative under the ownership contract."
+    },
+    {
+      "id": "replay-infrastructure",
+      "paths": [
+        "scripts/docs-workflow/replay-*",
+        "scripts/docs-workflow/test-matrix*",
+        "scripts/docs-workflow/select-tests-for-changes*",
+        ".github/workflows/replay-tests.yml",
+        ".claude/specs/2026-08-31-docs-workflow-code-test-matrix.md",
+        ".claude/plans/2026-08-29-pipeline-resilience-and-segmented-testing.md",
+        "package.json",
+        "AGENTS.md",
+        "README.md"
+      ],
+      "focusedTests": ["pnpm test:replay:contract", "pnpm test:workflow-matrix"],
+      "harnesses": ["pnpm test:replay:all"],
+      "gates": ["pnpm test:workflow-policy"],
+      "reason": "Replay entrypoints, CI routing, prose, and matrix selection must evolve atomically."
+    },
+    {
+      "id": "translation-agent-runtime",
+      "paths": ["scripts/translation/**"],
+      "focusedTests": ["pnpm test:translation"],
+      "harnesses": [],
+      "gates": [],
+      "reason": "Translation agent, chunking, review, and recovery-artifact logic are covered by the Translation unit/integration suite."
+    }
+  ]
+}

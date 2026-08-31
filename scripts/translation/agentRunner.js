@@ -2072,6 +2072,7 @@ module.exports = {
   restoreBoundaryWhitespace,
   stabilizeBareUrlFormatting,
   stripCodeFence,
+  translateAndReviewUnit,
   translationManifestItemType,
   validateTranslationManifest,
   validateTranslatedContent,

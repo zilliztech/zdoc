@@ -1,0 +1,82 @@
+name: repair fetch dev
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: Branch to repair (default dev)
+        required: false
+        type: string
+        default: dev
+      groups:
+        description: Fetch groups to repair (all, or a comma-separated subset such as python,java)
+        required: false
+        type: string
+        default: all
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: docs-production-dev
+  queue: max
+
+jobs:
+  repair:
+    name: Repair dev-owned derived state
+    if: github.repository == 'zilliztech/zdoc'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out tooling
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          filter: blob:none
+
+      - name: Resolve immutable tooling and target identities
+        id: refs
+        env:
+          TARGET_BRANCH: ${{ inputs.target_branch }}
+        run: |
+          set -euo pipefail
+          [[ "$TARGET_BRANCH" == -* || "$TARGET_BRANCH" == *:* || "$TARGET_BRANCH" == *$'\n'* || "$TARGET_BRANCH" == *$'\r'* ]] && { echo 'target_branch contains forbidden characters' >&2; exit 2; }
+          git check-ref-format --branch "$TARGET_BRANCH"
+          git fetch --no-tags origin master
+          tooling_sha=$(git rev-parse FETCH_HEAD)
+          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
+          [[ "$tooling_sha" =~ ^[0-9a-f]{40}$ && "$target_sha" =~ ^[0-9a-f]{40}$ ]]
+          git cat-file -e "$tooling_sha^{commit}"
+          git checkout --detach "$tooling_sha"
+          printf 'tooling_sha=%s\ntarget_sha=%s\n' "$tooling_sha" "$target_sha" >> "$GITHUB_OUTPUT"
+
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22.6'
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Repair dev-owned derived state
+        env:
+          TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
+        run: >-
+          node scripts/docs-workflow/repair-fetch-dev.js repair
+          --repository-root "$GITHUB_WORKSPACE"
+          --runner-temp "$RUNNER_TEMP"
+          --target-branch "${{ inputs.target_branch }}"
+          --groups "${{ inputs.groups }}"
+          --remote origin
+
+      - name: Verify repaired target tip passes the localization inventory check
+        env:
+          TARGET_BRANCH: ${{ inputs.target_branch }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "+refs/heads/$TARGET_BRANCH:refs/remotes/origin/$TARGET_BRANCH"
+          git checkout --detach "refs/remotes/origin/$TARGET_BRANCH"
+          pnpm check:localization-input-inventory

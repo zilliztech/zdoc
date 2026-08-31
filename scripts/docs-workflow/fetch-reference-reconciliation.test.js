@@ -108,6 +108,7 @@ function transactionDocuments(baseline, statuses = {python: 'no_changes', java: 
       attempts: successful ? 1 : 0,
       status,
       failure: successful ? null : {code: 'PRODUCER_FAILED', phase: 'produce', message: `${unit.unitKey} failed`, retryable: false},
+      reconciled: null,
     }
   })
   const overallStatus = resultUnits.every(unit => ['published', 'no_changes'].includes(unit.status)) ? 'success' : 'failure'

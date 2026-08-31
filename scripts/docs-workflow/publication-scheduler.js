@@ -10,6 +10,9 @@ const FAILURE_CONCLUSIONS = new Set([
   'failure', 'cancelled', 'skipped', 'timed_out', 'action_required', 'startup_failure', 'stale', 'neutral',
 ])
 const TERMINAL_STATES = new Set(['producer_failed', 'candidate_rejected', 'published', 'no_changes', 'publish_failed'])
+const SUCCESSFUL_RESULTS = new Set(['published', 'no_changes'])
+const CANCELLED_PHASE = Object.freeze({producing: 'produce', candidate: 'candidate', ready: 'candidate', publishing: 'publish'})
+const SHA = /^[0-9a-f]{40}$/u
 
 function safeFailure(value, fallback) {
   const source = value && typeof value === 'object' ? value : {}
@@ -78,6 +81,14 @@ function createPublicationScheduler(options) {
   let nextSequence = 1
   let finalTargetSha = selection.initialTargetSha
   let orchestratorFailure = null
+  let cancelledAt = null
+  // Derived-state reconciliation is a run-level operation over the successful
+  // zh-CN-reference groups. It is tracked separately from content publication so
+  // a published-but-unreconciled unit is never mistaken for one whose derived
+  // state (reference inventory + sidebars) was refreshed. `null` means the
+  // refresh never ran for this coordinator; a recorded status applies to every
+  // zh-CN-reference unit that published content successfully.
+  let derivedState = null
 
   function timestamp() {
     return new Date(now()).toISOString()
@@ -176,7 +187,9 @@ function createPublicationScheduler(options) {
   function overallStatus() {
     if (orchestratorFailure) return 'orchestrator_failed'
     const values = [...units.values()]
-    const complete = values.every(state => state.sequence !== null && (TERMINAL_STATES.has(state.state) || (mode === 'artifact_only' && state.state === 'ready')))
+    const complete = values.every(state =>
+      (state.sequence !== null && (TERMINAL_STATES.has(state.state) || (mode === 'artifact_only' && state.state === 'ready'))) ||
+      (cancelledAt !== null && TERMINAL_STATES.has(state.state)))
     if (!complete) return 'running'
     const successful = mode === 'artifact_only'
       ? values.every(state => state.state === 'ready')
@@ -247,6 +260,50 @@ function createPublicationScheduler(options) {
     bump()
   }
 
+  // Records the run-level derived-state reconciliation outcome so the terminal
+  // results document can distinguish "content published" from "derived state
+  // reconciled". Only successful zh-CN-reference units reconcile derived state;
+  // every other unit is `null` (not required). A `failed` or unrecorded refresh
+  // leaves those units `reconciled: false`, which the recovery planner treats as
+  // still needing derived-state reconciliation.
+  function recordDerivedState({status} = {}) {
+    if (!['reconciled', 'failed', 'not_required'].includes(status)) throw new Error('recordDerivedState status is invalid')
+    derivedState = Object.freeze({status})
+    bump()
+  }
+
+  // Per-unit `reconciled`: boolean for zh-CN-reference units that published
+  // content successfully (true only when the run-level refresh reconciled), and
+  // `null` for everything else (not required).
+  function reconciledFor(state) {
+    if (!state.unitKey.startsWith('translation/zh-CN-reference/') || !SUCCESSFUL_RESULTS.has(state.state)) return null
+    return derivedState?.status === 'reconciled'
+  }
+
+  // Adopts a SHA produced by the best-effort derived-state refresh that ran
+  // after the last published unit. The refresh may have advanced the target
+  // beyond the publication results, and `finalTargetSha` must reflect what the
+  // downstream reconciliation consumer should pin against, so a refresh that
+  // actually published wins over the per-unit resultShas.
+  function adoptFinalTargetSha(resultSha) {
+    if (resultSha === undefined || resultSha === null) return
+    if (typeof resultSha !== 'string' || !SHA.test(resultSha)) throw new Error('adoptFinalTargetSha requires a lowercase 40-character SHA')
+    finalTargetSha = resultSha
+    bump()
+  }
+
+  // Records an orchestrator-level failure (e.g. the deadline refresh hit
+  // `REMOTE_STATE_UNKNOWN`, meaning the target's true state is unknowable). This
+  // flips `overallStatus` to `orchestrator_failed`, which downstream
+  // reconciliation plans reject — no consumer may reconcile against an unknown
+  // remote state.
+  function markOrchestratorFailure(failure) {
+    orchestratorFailure = safeFailure(failure, {
+      code: 'REFRESH_REMOTE_STATE_UNKNOWN', phase: 'refresh', message: 'Derived-state refresh left the remote target state unknown', retryable: false,
+    })
+    bump()
+  }
+
   function publicUnit(state, statusKey) {
     return {
       unitKey: state.unitKey,
@@ -262,6 +319,9 @@ function createPublicationScheduler(options) {
       commitShas: [...state.commitShas],
       attempts: state.attempts,
       failure: state.failure,
+      // `reconciled` belongs on the results document only, never the progress
+      // snapshot (the progress schema rejects the extra key).
+      ...(statusKey === 'status' ? {reconciled: reconciledFor(state)} : {}),
     }
   }
 
@@ -317,11 +377,58 @@ function createPublicationScheduler(options) {
     }, {selection})
   }
 
+  // Converts every non-terminal unit into a terminal failure so a
+  // cancelled/timed-out coordinator still emits a `publication-results` document
+  // that `planFetchReferenceReconciliation` accepts (all-terminal failure). The
+  // non-terminal unit states map onto the existing terminal states:
+  //   producing→producer_failed, candidate/ready→candidate_rejected,
+  //   publishing→publish_failed, all with failure code CANCELLED.
+  function cancelResults({completedAt: completedAtInput} = {}) {
+    const completion = completedAtInput ?? timestamp()
+    if (typeof completion !== 'string' || Number.isNaN(Date.parse(completion)) || new Date(completion).toISOString() !== completion) {
+      throw new Error('cancelResults completedAt is invalid')
+    }
+    const phaseFor = state => CANCELLED_PHASE[state] || 'publish'
+    for (const state of units.values()) {
+      if (TERMINAL_STATES.has(state.state)) continue
+      const prior = state.state
+      // In artifact-only mode a `ready` unit is the deliverable itself: the
+      // produced artifact is the terminal success. Settle it (assign a FIFO
+      // sequence) rather than relabelling the evidence as a rejected candidate,
+      // which would flip an otherwise-successful artifact-only validation run to
+      // `failure` when a cancel arrives after production completed.
+      if (mode === 'artifact_only' && prior === 'ready') {
+        if (state.sequence === null) {
+          state.sequence = nextSequence
+          nextSequence += 1
+        }
+        bump()
+        continue
+      }
+      state.state = prior === 'producing' ? 'producer_failed'
+        : prior === 'publishing' ? 'publish_failed'
+          : 'candidate_rejected'
+      if (state.state === 'publish_failed') state.publishCompletedAt = completion
+      state.failure = safeFailure(null, {
+        code: 'CANCELLED', phase: phaseFor(prior),
+        message: 'Publication cancelled before a terminal outcome was reached', retryable: false,
+      })
+    }
+    activeUnitKey = null
+    cancelledAt = completion
+    bump()
+    return results({completedAt: completion})
+  }
+
   return Object.freeze({
+    adoptFinalTargetSha,
+    cancelResults,
     finishPublication,
+    markOrchestratorFailure,
     nextDecision,
     observeCandidate,
     observeJobs,
+    recordDerivedState,
     results,
     snapshot,
     startPublication,
