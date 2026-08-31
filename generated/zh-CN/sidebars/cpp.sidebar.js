@@ -446,6 +446,12 @@ module.exports = [
     "items": [
       {
         "type": "doc",
+        "id": "api/cpp/cpp/DataImport/DataImport-CreateImportJobs",
+        "label": "CreateImportJobs()",
+        "key": "doc:api/cpp/cpp/DataImport/dataimport-createimportjobs"
+      },
+      {
+        "type": "doc",
         "id": "api/cpp/cpp/DataImport/DataImport-GetImportJobProgress",
         "label": "GetImportJobProgress()",
         "key": "doc:api/cpp/cpp/DataImport/dataimport-getimportjobprogress"

@@ -18,15 +18,7 @@
       "targetPath": "content/zh-CN/reference/api/restful/restful/v2/control-plane/project-operations-v2/upgrade-project-v2.mdx"
     }
   ],
-  "pendingRecords": [
-    {
-      "manual": "cpp",
-      "sourceCommit": "e8f54ed619ff95ece9531be50cbf528245586a0f",
-      "sourceHash": "66452df0c3d86f678ece386f49d8dac179180efa0a547b84e1e750d3c7c7007e",
-      "sourcePath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md",
-      "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md"
-    }
-  ],
+  "pendingRecords": [],
   "records": [
     {
       "manual": "cli",
@@ -1872,6 +1864,15 @@
       "status": "translated",
       "targetHash": "8b5eb105dc4dcebcb6ce2551b821479340b743643828bf6f9c015cfd284153cb",
       "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-CommitImport.md"
+    },
+    {
+      "manual": "cpp",
+      "sourceCommit": "e8f54ed619ff95ece9531be50cbf528245586a0f",
+      "sourceHash": "66452df0c3d86f678ece386f49d8dac179180efa0a547b84e1e750d3c7c7007e",
+      "sourcePath": "content/en/reference/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md",
+      "status": "translated",
+      "targetHash": "a0291357e1d4972302e555b8662910c4122504e7eafcb785830767c50bb60c71",
+      "targetPath": "content/zh-CN/reference/api/cpp/cpp/DataImport/DataImport-CreateImportJobs.md"
     },
     {
       "manual": "cpp",
