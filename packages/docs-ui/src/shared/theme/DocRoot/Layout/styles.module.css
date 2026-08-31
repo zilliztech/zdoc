@@ -382,15 +382,18 @@
   }
 }
 
-/* 768–1220px: the sidebar is force-shrunk to 13.5rem (merged mode), but
-   --doc-sidebar-width stays full outside the sidebar container — so the input
-   would align to the wide sidebar. Pin it to the real 13.5rem width here. */
-@media (min-width: 768px) and (max-width: 1220px) {
+/* 768–1511px: the sidebar is force-shrunk to calc(13.5rem + 10px) (merged mode),
+   but --doc-sidebar-width stays full outside the sidebar container — so the input
+   would align to the wide sidebar. Pin it to the real merged width here.
+   Bound and width must match the merged-sidebar band in apps/docs/src/css/custom.css
+   (this block had drifted to 1220px / 13.5rem while that band was 1320px /
+   13.5rem + 10px, leaving the dock misaligned in between). */
+@media (min-width: 768px) and (max-width: 1511px) {
   .floatingChatInput,
   .floatingChatBackdrop,
   .floatingChatInputSidebarCollapsed {
-    left: calc(13.5rem + 2rem);
-    width: min(56rem, calc(100vw - 13.5rem - 14rem - 6rem));
+    left: calc(13.5rem + 10px + 2rem);
+    width: min(56rem, calc(100vw - 13.5rem - 10px - 14rem - 6rem));
   }
 }
 
