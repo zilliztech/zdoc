@@ -492,6 +492,20 @@ async function runPublicationCoordinator(options = {}) {
   const uploadedRevisions = new Set()
   const startedAt = now().toISOString()
   let progressUploadFailures = 0
+  // A cancellation request (SIGINT on GitHub cancel, SIGTERM on timeout, or an
+  // injected `cancelWhen` in tests) is only recorded here. The loop below
+  // observes it at a safe point — between units, never while a publish is in
+  // flight — so the terminal-evidence flush cannot race `finishPublication`/
+  // `cancelResults` on the scheduler.
+  let cancelRequest = null
+  registerCancelSignalHandler(request => { if (!cancelRequest) cancelRequest = Object.freeze(request) })
+  const cancellation = () => {
+    if (!cancelRequest && typeof options.cancelWhen === 'function') {
+      const requested = options.cancelWhen({selection, mode})
+      if (requested) cancelRequest = Object.freeze(typeof requested === 'object' ? requested : {signal: 'SIGTERM', code: 143})
+    }
+    return cancelRequest
+  }
 
   async function uploadSnapshot() {
     const snapshot = scheduler.snapshot()
@@ -510,20 +524,24 @@ async function runPublicationCoordinator(options = {}) {
     scheduler.observeJobs(jobs)
     let snapshot = await uploadSnapshot()
 
-    if (deadline !== null && now().getTime() > deadline) {
-      const groups = successfulReferenceGroups(selection, {
-        units: snapshot.units.map(unit => ({unitKey: unit.unitKey, status: unit.state})),
+    // Deadline and cancellation converge on one safe-point flush: refresh the
+    // derived state for successful reference groups, cancel the in-flight units,
+    // write + upload the terminal evidence, and append the workflow outputs.
+    const request = cancellation()
+    const deadlineExceeded = deadline !== null && now().getTime() > deadline
+    if (request || deadlineExceeded) {
+      const terminal = await bestEffortTerminalRefresh({
+        selection, scheduler, startedAt, now, adapter, client, outputDirectory,
+        transactionContext, repositoryRoot, runnerTemp, remote: options.remote || 'origin',
+        progressUploadFailures,
       })
-      if (groups.length) {
-        await (transactionContext.refreshReferenceDerivedState || defaultRefreshReferenceDerivedState)({
-          selection,
-          groups,
-          repositoryRoot,
-          runnerTemp,
-          transactionContext: {...transactionContext, remote: options.remote || 'origin'},
-        })
+      writeTerminalOutputs({selection, results: terminal.results})
+      if (deadlineExceeded) {
+        const error = new Error('Publication deadline exceeded; terminal evidence was written')
+        error.outcome = terminal
+        throw error
       }
-      throw new Error(`Publication deadline exceeded; refreshed derived state for groups: ${groups.join(', ') || '(none)'}`)
+      return Object.freeze({...terminal, cancelled: request})
     }
 
     for (const state of snapshot.units.filter(unit => unit.state === 'candidate')) {
@@ -594,18 +612,118 @@ async function runPublicationCoordinator(options = {}) {
 
     for (const candidate of candidates.values()) removePrepared(candidate.prepared)
     candidates.clear()
-    const rawResults = scheduler.results({startedAt, completedAt: now().toISOString()})
-    const projectedResults = await adapter.projectResults(rawResults, {
-      selection,
-      repositoryRoot,
-      runnerTemp,
-      transactionContext,
+    const terminal = await writeTerminalResults({
+      selection, scheduler, startedAt, now, adapter, client, outputDirectory,
+      transactionContext, repositoryRoot, runnerTemp,
     })
-    const results = validatePublicationResults(projectedResults, {selection})
-    const resultsFile = path.join(outputDirectory, 'publication-results.json')
-    writePublicationDocument(resultsFile, results, {selection})
-    const resultsUpload = await client.uploadResults({selection, results, file: resultsFile})
-    return Object.freeze({results, resultsFile, resultsUpload, progressUploadFailures})
+    writeTerminalOutputs({selection, results: terminal.results})
+    return Object.freeze({...terminal, progressUploadFailures})
+  }
+}
+
+// Writes the terminal results document, uploads it, and returns the frozen
+// outcome. On the normal completion path the adapter projects the raw results
+// (e.g. translation reconciliation); the cancelled/timed-out path already ran
+// `cancelResults` and refreshed derived state, so it writes the raw results
+// verbatim — re-running the projection there would double-reconcile and could
+// flip a CANCELLED `failure` into `orchestrator_failed`.
+async function writeTerminalResults({
+  selection, scheduler, startedAt, now, adapter, client, outputDirectory,
+  transactionContext, repositoryRoot, runnerTemp, project = true,
+}) {
+  const rawResults = scheduler.results({startedAt, completedAt: now().toISOString()})
+  const projectedResults = project
+    ? await adapter.projectResults(rawResults, {selection, repositoryRoot, runnerTemp, transactionContext})
+    : rawResults
+  const results = validatePublicationResults(projectedResults, {selection})
+  const resultsFile = path.join(outputDirectory, 'publication-results.json')
+  writePublicationDocument(resultsFile, results, {selection})
+  const resultsUpload = await client.uploadResults({selection, results, file: resultsFile})
+  return Object.freeze({results, resultsFile, resultsUpload})
+}
+
+// Best-effort reconciliation of the derived state for reference groups that
+// already published successfully, then conversion of the remaining in-flight
+// units to terminal `CANCELLED` failures and emission of the results document.
+// The derived-state refresh must complete before the results are written so the
+// evidence the `reconcile_reference_state` consumer downloads is consistent.
+//
+// The refresh outcome is layered rather than blanket-swallowed:
+//  - `REMOTE_STATE_UNKNOWN` (push timed out / probe failed) means the target's
+//    true state is unknowable, so it must be preserved as an orchestrator
+//    failure — that blocks downstream reconciliation, which refuses to run after
+//    `orchestrator_failed`.
+//  - a refresh that actually published advanced the target, so `finalTargetSha`
+//    must reflect the refresh's `resultSha` rather than the last per-unit result.
+//  - an ordinary deterministic failure is recorded and still emits terminal
+//    evidence — writing the evidence is what keeps the downstream
+//    reconciliation condition satisfiable.
+async function bestEffortTerminalRefresh({
+  selection, scheduler, startedAt, now, adapter, client, outputDirectory,
+  transactionContext, repositoryRoot, runnerTemp, remote, progressUploadFailures,
+}) {
+  const snapshot = scheduler.snapshot()
+  const groups = successfulReferenceGroups(selection, {
+    units: snapshot.units.map(unit => ({unitKey: unit.unitKey, status: unit.state})),
+  })
+  let refreshFailure = null
+  if (groups.length) {
+    try {
+      const refresh = await (transactionContext.refreshReferenceDerivedState || defaultRefreshReferenceDerivedState)({
+        selection,
+        groups,
+        repositoryRoot,
+        runnerTemp,
+        transactionContext: {...transactionContext, remote},
+      })
+      if (refresh?.remoteState === 'unknown' || refresh?.failure?.code === 'REMOTE_STATE_UNKNOWN') {
+        scheduler.markOrchestratorFailure(refresh.failure || {code: 'REMOTE_STATE_UNKNOWN', phase: 'refresh'})
+        scheduler.recordDerivedState({status: 'failed'})
+      } else if (refresh?.status === 'published' && refresh.resultSha) {
+        scheduler.adoptFinalTargetSha(refresh.resultSha)
+        scheduler.recordDerivedState({status: 'reconciled'})
+      } else if (refresh?.status === 'publish_failed') {
+        refreshFailure = refresh.failure || {code: 'REFRESH_FAILED', phase: 'refresh', message: 'Derived-state refresh failed'}
+        scheduler.recordDerivedState({status: 'failed'})
+      } else if (refresh?.status === 'no_changes') {
+        scheduler.recordDerivedState({status: 'reconciled'})
+      }
+    } catch (error) {
+      refreshFailure = {
+        code: 'REFRESH_FAILED', phase: 'refresh',
+        message: String(error?.message || error || 'Derived-state refresh failed').replace(/[ -]+/gu, ' ').replace(/\s+/gu, ' ').trim().slice(0, 1000),
+        retryable: false,
+      }
+      scheduler.recordDerivedState({status: 'failed'})
+    }
+  } else {
+    scheduler.recordDerivedState({status: 'not_required'})
+  }
+  const cancelledResults = scheduler.cancelResults({completedAt: now().toISOString()})
+  return Object.freeze({
+    ...await writeTerminalResults({
+      selection, scheduler, startedAt, now, adapter, client, outputDirectory,
+      transactionContext, repositoryRoot, runnerTemp, project: false,
+    }),
+    progressUploadFailures,
+    cancelledResults,
+    refreshFailure,
+  })
+}
+
+// Installs SIGINT/SIGTERM handlers that record a cancellation request with the
+// conventional exit code. The handlers are deliberately synchronous: async work
+// here would race the publication loop, so the loop itself observes the request
+// at a safe point between units and performs the terminal-evidence flush.
+// Listeners accumulate so multiple coordinator instances in one process (tests)
+// each receive the signal rather than only the first registrant.
+const cancelSignalListeners = new Set()
+function registerCancelSignalHandler(onRequest) {
+  cancelSignalListeners.add(onRequest)
+  if (registerCancelSignalHandler.installed) return
+  registerCancelSignalHandler.installed = true
+  for (const [signal, code] of [['SIGINT', 130], ['SIGTERM', 143]]) {
+    process.on(signal, () => { for (const listener of cancelSignalListeners) listener({signal, code}) })
   }
 }
 
@@ -633,6 +751,25 @@ function usage() {
 function writeOutput(name, value) {
   if (!process.env.GITHUB_OUTPUT) return
   fs.appendFileSync(process.env.GITHUB_OUTPUT, `${name}=${value}\n`)
+}
+
+function terminalOutputs({selection, results}) {
+  const expectedName = artifactNames({
+    workflow: selection.workflow, runId: selection.runId, runAttempt: selection.runAttempt,
+    unitKey: selection.units[0].unitKey, revision: 1,
+  }).results
+  return Object.freeze({expectedName, overallStatus: results.overallStatus, finalTargetSha: results.finalTargetSha})
+}
+
+// Appends the outputs `reconcile_reference_state` keys on, so a cancelled or
+// timed-out coordinator still satisfies `results_artifact_name != ''`. A no-op
+// outside the workflow (GITHUB_OUTPUT is unset).
+function writeTerminalOutputs({selection, results}) {
+  const outputs = terminalOutputs({selection, results})
+  writeOutput('results_artifact_name', outputs.expectedName)
+  writeOutput('overall_status', outputs.overallStatus)
+  writeOutput('final_target_sha', outputs.finalTargetSha)
+  return outputs
 }
 
 async function main(argv = process.argv.slice(2)) {
@@ -663,14 +800,8 @@ async function main(argv = process.argv.slice(2)) {
     maxPublishAttempts: parsed.values['max-publish-attempts'] || 10,
     deadline: parsed.values['deadline'],
   })
-  const expectedName = artifactNames({
-    workflow: selection.workflow, runId: selection.runId, runAttempt: selection.runAttempt,
-    unitKey: selection.units[0].unitKey, revision: 1,
-  }).results
-  if (outcome.resultsUpload.artifactName !== expectedName) throw new Error('Results artifact upload identity mismatch')
-  writeOutput('results_artifact_name', expectedName)
-  writeOutput('overall_status', outcome.results.overallStatus)
-  writeOutput('final_target_sha', outcome.results.finalTargetSha)
+  const outputs = terminalOutputs({selection, results: outcome.results})
+  if (outcome.resultsUpload.artifactName !== outputs.expectedName) throw new Error('Results artifact upload identity mismatch')
   if (outcome.results.overallStatus !== 'success') process.exitCode = 1
 }
 

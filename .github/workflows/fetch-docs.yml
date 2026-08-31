@@ -50,12 +50,16 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: write
     outputs:
       tooling_sha: ${{ steps.refs.outputs.tooling_sha }}
       source_sha: ${{ steps.refs.outputs.source_sha }}
       master_sha: ${{ steps.refs.outputs.master_sha }}
       dev_baseline_sha: ${{ steps.refs.outputs.dev_baseline_sha }}
       initial_target_sha: ${{ steps.refs.outputs.initial_target_sha }}
+      effective_target_sha: ${{ steps.verify_target_inventory.outputs.effective_target_sha || steps.refs.outputs.initial_target_sha }}
       target_branch: ${{ steps.refs.outputs.target_branch }}
       publish: ${{ steps.refs.outputs.publish }}
       run_translations: ${{ steps.refs.outputs.run_translations }}
@@ -145,21 +149,53 @@ jobs:
         run: node scripts/docs-workflow/print-workflow-groups.js --validate-groups "$SELECTED_GROUP"
       - name: Verify translation publication readiness
         run: node --test scripts/build/write-provenance.test.mjs scripts/doc-publish-bot/manualConfig.test.js scripts/docs-workflow/content-groups.test.js scripts/docs-workflow/fetch-reference-reconciliation.test.js scripts/docs-workflow/guides-cache-generation-lifecycle.test.js scripts/docs-workflow/guides-render-readiness.test.js scripts/docs-workflow/prepare-content-group-workspace.test.js scripts/docs-workflow/source-publication-barrier.test.js scripts/restore-generated-state.test.js scripts/validate-workflow-policy.test.js
-      - name: Verify immutable target localization inventory
+      - id: verify_target_inventory
+        name: Verify immutable target localization inventory
         if: ${{ steps.refs.outputs.publish == 'true' }}
         env:
           INITIAL_TARGET_SHA: ${{ steps.refs.outputs.initial_target_sha }}
+          TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
+          TARGET_BRANCH: ${{ steps.refs.outputs.target_branch }}
         run: |
           set -euo pipefail
           git fetch --no-tags origin "$INITIAL_TARGET_SHA"
           bash scripts/restore-generated-state.sh --exact --ref "$INITIAL_TARGET_SHA"
+          if pnpm check:localization-input-inventory; then
+            # Inventory is already current: the immutable selection target is the
+            # pre-repair tip and the repair step never advanced dev.
+            echo "effective_target_sha=$INITIAL_TARGET_SHA" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo '::warning::immutable target localization inventory is stale; repairing Fetch Reference derived state before retrying'
+          node scripts/docs-workflow/repair-fetch-dev.js repair \
+            --repository-root "$GITHUB_WORKSPACE" \
+            --runner-temp "$RUNNER_TEMP" \
+            --target-branch "$TARGET_BRANCH" \
+            --remote origin
+          repaired_target_sha=$(git rev-parse "refs/remotes/origin/$TARGET_BRANCH^{commit}")
+          [[ "$repaired_target_sha" =~ ^[0-9a-f]{40}$ ]]
+          git fetch --no-tags origin "$repaired_target_sha"
+          bash scripts/restore-generated-state.sh --exact --ref "$repaired_target_sha"
           pnpm check:localization-input-inventory
+          # Self-heal advanced dev past the pre-repair tip; every downstream
+          # immutable binding (publication selection and reconciliation preflight)
+          # must pin the repaired SHA, not the stale initial_target_sha.
+          echo "effective_target_sha=$repaired_target_sha" >> "$GITHUB_OUTPUT"
       - id: publication_selection
         name: Create immutable Fetch publication selection
         env:
           TOOLING_SHA: ${{ steps.refs.outputs.master_sha }}
           TARGET_BRANCH: ${{ steps.refs.outputs.target_branch }}
-          INITIAL_TARGET_SHA: ${{ steps.refs.outputs.initial_target_sha }}
+          # The self-heal repair advances dev past the pre-repair tip; the
+          # immutable selection must pin the repaired tip so publication and
+          # reconciliation preflight agree on the same target identity.
+          INITIAL_TARGET_SHA: ${{ steps.verify_target_inventory.outputs.effective_target_sha || steps.refs.outputs.initial_target_sha }}
+          # SOURCE_BASELINE_SHA is the source-content provenance watermark (the
+          # commit translation producers regenerate zh content from). Repair only
+          # refreshes dev-owned derived state (inventory + reference
+          # sidebars/manifests) and never rewrites source content, so the
+          # pre-repair source baseline remains the correct watermark even when
+          # source_ref == target branch.
           SOURCE_BASELINE_SHA: ${{ steps.refs.outputs.dev_baseline_sha }}
           SELECTED_GROUP: ${{ steps.refs.outputs.selected_group }}
           PUBLISH: ${{ steps.refs.outputs.publish }}
@@ -343,6 +379,7 @@ jobs:
     needs: prepare
     name: produce_${{ matrix.group }}
     strategy:
+      fail-fast: false
       matrix:
         group: ${{ fromJSON(needs.prepare.outputs.selected_sdk_groups) }}
     uses: ./.github/workflows/_fetch-content-group.yml
@@ -446,7 +483,7 @@ jobs:
         name: Validate reconciliation plans before source publication
         if: ${{ needs.prepare.outputs.run_translations == 'true' }}
         env:
-          TARGET_BASELINE_SHA: ${{ needs.prepare.outputs.initial_target_sha }}
+          TARGET_BASELINE_SHA: ${{ needs.prepare.outputs.effective_target_sha }}
         run: |
           set -euo pipefail
           selection="$RUNNER_TEMP/publication-selection/publication-selection.json"

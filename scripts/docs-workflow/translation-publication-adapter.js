@@ -25,6 +25,12 @@ const RECOVERY_SOURCE_WORKFLOWS = new Set([
 ])
 const RECOVERY_JOB_PREFIX = 'run_translation / '
 const TRANSLATION_PUBLICATION_UNIT_KEYS = TRANSLATION_UNIT_ORDER
+const SUCCESSFUL_RESULTS = new Set(['published', 'no_changes'])
+// Retained publication selections may predate the removal of the REST units
+// from the canonical Translation order (the REST reference is spec-generated).
+// Recovery must authenticate those historical selections in their original
+// exact form before excluding the retired units from the recovery scope.
+const RETIRED_TRANSLATION_REST_UNIT_KEYS = new Set(['translation/ja-JP/rest', 'translation/zh-CN-reference/rest'])
 
 function boundedReconciliationFailure(reconciliation) {
   const failure = reconciliation?.failure || {}
@@ -57,7 +63,10 @@ function validateTranslationUnit(unit, selection, index, helpers) {
   helpers.assertString(unit.sourceGroup, `unit ${index} sourceGroup`, document)
   const expectedUnitKey = `translation/${unit.target}/${unit.group}`
   if (unit.unitKey !== expectedUnitKey) helpers.invalid(document, `unit ${index} unitKey mismatch`)
-  if (!TRANSLATION_PUBLICATION_UNIT_KEYS.includes(unit.unitKey)) helpers.invalid(document, `unit ${index} unitKey is not a supported Translation publication unit`)
+  if (!TRANSLATION_PUBLICATION_UNIT_KEYS.includes(unit.unitKey) &&
+      !(helpers.allowRetiredTranslationRestUnits && RETIRED_TRANSLATION_REST_UNIT_KEYS.has(unit.unitKey))) {
+    helpers.invalid(document, `unit ${index} unitKey is not a supported Translation publication unit`)
+  }
   if (unit.strategy === 'ja-guides' && unit.unitKey !== 'translation/ja-JP/guides') helpers.invalid(document, 'ja-guides is only valid for translation/ja-JP/guides')
   helpers.assertSha(unit.toolingSha, `unit ${index} toolingSha`, document)
   helpers.assertSha(unit.sourceBaselineSha, `unit ${index} sourceBaselineSha`, document)
@@ -135,9 +144,10 @@ function validateTranslationSelection(value, helpers) {
       helpers.assertSha(evidence.results.finalTargetSha, 'recovery publication results final target SHA', document)
       if (!Array.isArray(evidence.results.unitStatuses)) helpers.invalid(document, 'recovery publication results unitStatuses must be an array')
       for (const [index, unitStatus] of evidence.results.unitStatuses.entries()) {
-        helpers.exactKeys(unitStatus, ['unitKey', 'status'], `recovery publication results unitStatuses ${index}`, document)
+        helpers.exactKeys(unitStatus, ['unitKey', 'status', 'reconciled'], `recovery publication results unitStatuses ${index}`, document)
         helpers.assertString(unitStatus.unitKey, `recovery publication results unitStatuses ${index} unitKey`, document)
         helpers.assertString(unitStatus.status, `recovery publication results unitStatuses ${index} status`, document)
+        if (unitStatus.reconciled !== null && typeof unitStatus.reconciled !== 'boolean') helpers.invalid(document, `recovery publication results unitStatuses ${index} reconciled must be null or boolean`)
       }
     }
     if (!Array.isArray(recovery.artifacts)) helpers.invalid(document, 'recovery provenance artifacts must be an array')
@@ -227,9 +237,13 @@ const translationPublicationAdapter = definePublicationWorkflowAdapter({
       }
     }
     if (['published', 'no_changes'].includes(reconciliation?.status)) {
+      const reconciledUnits = value.results.units.map(unit =>
+        unit.unitKey.startsWith('translation/zh-CN-reference/') && SUCCESSFUL_RESULTS.has(unit.status)
+          ? {...unit, reconciled: true}
+          : {...unit, reconciled: null})
       return validateTranslationPublicationDocuments({
         selection: value.selection,
-        results: {...value.results, finalTargetSha: reconciliation.resultSha},
+        results: {...value.results, finalTargetSha: reconciliation.resultSha, units: reconciledUnits},
       }).results
     }
     return validateTranslationPublicationDocuments({

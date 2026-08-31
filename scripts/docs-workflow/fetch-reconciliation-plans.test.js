@@ -179,6 +179,7 @@ test('projects source checkpoints from validated Fetch results', () => {
         attempts: 1,
         status: 'published',
         failure: null,
+        reconciled: null,
       })),
       orchestratorFailure: null,
     }, {selection})

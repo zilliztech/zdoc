@@ -19,6 +19,11 @@ const ALLOWED_WORKFLOWS = new Set([
   '.github/workflows/recover-translation.yml',
 ])
 const SUCCESSFUL_UNIT_STATUSES = new Set(['published', 'no_changes'])
+// Retained selections may predate the removal of the REST units from the
+// canonical Translation order (the REST reference is spec-generated). The
+// historical document is authenticated in its exact original form, then both
+// retired REST units are excluded from every recovery scope.
+const RETIRED_TRANSLATION_REST_UNITS = new Set(['ja-JP/rest', 'zh-CN-reference/rest'])
 
 function sha256(bytes) {
   return crypto.createHash('sha256').update(bytes).digest('hex')
@@ -172,7 +177,7 @@ function buildRecoveryHandoff(selection, targetBaselineSha, executionToolingSha 
   if (!SHA.test(targetBaselineSha || '')) throw new Error('Queue-owned target baseline must be an exact commit SHA')
   if (!SHA.test(executionToolingSha || '')) throw new Error('Recovery execution tooling must be an exact commit SHA')
   if (!Array.isArray(scopedUnits)) throw new Error('Authenticated recovery scope has no recoverable Translation units')
-  scopedUnits = scopedUnits.filter(unit => `${unit.target}/${unit.group}` !== 'zh-CN-reference/rest')
+  scopedUnits = scopedUnits.filter(unit => !RETIRED_TRANSLATION_REST_UNITS.has(`${unit.target}/${unit.group}`))
   if (scopedUnits.length === 0) throw new Error('Authenticated recovery scope has no recoverable Translation units')
   const selectedByIdentity = new Map(selection.units.map(unit => [`${unit.target}/${unit.group}`, unit]))
   const authenticatedUnits = scopedUnits.map(unit => {
@@ -317,7 +322,11 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
     await downloadArtifact(client, artifact, destination, run, runId)
     const file = path.join(destination, `publication-progress-${value.revision}.json`)
     if (!fs.existsSync(file)) throw new Error('Publication progress artifact payload identity is invalid')
-    const document = readPublicationDocument(file, 'publication-progress', {selection, artifactRevision: value.revision})
+    const document = readPublicationDocument(file, 'publication-progress', {
+      selection,
+      artifactRevision: value.revision,
+      allowRetiredTranslationRestUnits: true,
+    })
     const expectedMode = selection.inputs.publish ? 'publish' : 'artifact_only'
     if (document.mode !== expectedMode) throw new Error('Publication progress mode identity mismatch')
     progress.push({artifactId: Number(artifact.id), artifactName: artifact.name, artifactDigest: artifact.digest, revision: value.revision})
@@ -329,7 +338,10 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
     await downloadArtifact(client, resultsArtifact, destination, run, runId)
     const file = path.join(destination, 'publication-results.json')
     if (!fs.existsSync(file)) throw new Error('Publication results artifact payload identity is invalid')
-    const document = readPublicationDocument(file, 'publication-results', {selection})
+    const document = readPublicationDocument(file, 'publication-results', {
+      selection,
+      allowRetiredTranslationRestUnits: true,
+    })
     const expectedMode = selection.inputs.publish ? 'publish' : 'artifact_only'
     if (document.mode !== expectedMode) throw new Error('Publication results mode identity mismatch')
     results = {
@@ -338,7 +350,7 @@ async function authenticatePublicationEvidence({client, selectedAttempt, selecti
       artifactDigest: resultsArtifact.digest,
       overallStatus: document.overallStatus,
       finalTargetSha: document.finalTargetSha,
-      unitStatuses: Object.freeze(document.units.map(unit => Object.freeze({unitKey: unit.unitKey, status: unit.status}))),
+      unitStatuses: Object.freeze(document.units.map(unit => Object.freeze({unitKey: unit.unitKey, status: unit.status, reconciled: unit.reconciled}))),
     }
   }
   if (publisher?.conclusion === 'success' && !results) throw new Error('Terminal publication results are required after successful publish_ready')
@@ -373,7 +385,7 @@ function assertRecoveryIdentity(parsed, selected) {
 }
 
 function selectedRecoveryUnits(selection, run) {
-  const canonicalUnits = selection.units.filter(unit => `${unit.target}/${unit.group}` !== 'zh-CN-reference/rest')
+  const canonicalUnits = selection.units.filter(unit => !RETIRED_TRANSLATION_REST_UNITS.has(`${unit.target}/${unit.group}`))
   if (workflowPath(run) !== '.github/workflows/recover-translation.yml') return canonicalUnits
   const provenance = selection.inputs?.recoveryProvenance
   if (!provenance) throw new Error('Previous operator recovery selection has no authenticated recovery provenance')
@@ -381,7 +393,7 @@ function selectedRecoveryUnits(selection, run) {
   if (authorized.size === 0) throw new Error('Previous operator recovery has no authenticated source recovery scope')
   const selected = new Set(canonicalUnits.map(unit => `${unit.target}/${unit.group}`))
   for (const unit of authorized) {
-    if (!selected.has(unit) && unit !== 'zh-CN-reference/rest') {
+    if (!selected.has(unit) && !RETIRED_TRANSLATION_REST_UNITS.has(unit)) {
       throw new Error(`Previous operator recovery provenance contains an unselected unit: ${unit}`)
     }
   }
@@ -414,9 +426,10 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
   const selectionDirectory = path.join(root, 'downloads', 'selection')
   await downloadArtifact(client, selectedAttempt.selectionArtifact, selectionDirectory, run, runId)
   const selectionFile = path.join(selectionDirectory, 'publication-selection.json')
-  // Old selections are authenticated in their original exact form, then the retired
-  // Chinese REST unit is explicitly excluded before any recovery artifact is read.
-  const selection = readPublicationDocument(selectionFile, 'publication-selection')
+  // Old selections are authenticated in their original exact form, including
+  // retired REST units; recovery then excludes both retired REST units before
+  // any recovery artifact is read.
+  const selection = readPublicationDocument(selectionFile, 'publication-selection', {allowRetiredTranslationRestUnits: true})
   if (selection.workflow !== 'translation' || selection.repository !== repository || selection.runId !== runId || selection.runAttempt !== attemptNumber) {
     throw new Error('Previous Translation publication selection artifact identity mismatch')
   }
@@ -436,18 +449,26 @@ async function planTranslationRecovery({repository, previousRunId, previousRunAt
   let sourceCandidateCount = 0
   const rejected = []
   for (const unit of selection.units) {
-    if (`${unit.target}/${unit.group}` === 'zh-CN-reference/rest') {
+    const unitIdentity = `${unit.target}/${unit.group}`
+    if (RETIRED_TRANSLATION_REST_UNITS.has(unitIdentity)) {
       rejected.push({
-        unit: 'zh-CN-reference/rest',
+        unit: unitIdentity,
         batchNumber: 0,
-        reason: 'Chinese REST is generated from OpenAPI metadata and is incompatible with canonical Translation recovery',
+        reason: 'REST reference is generated from OpenAPI metadata and is incompatible with canonical Translation recovery',
       })
     }
   }
 
   const publicationEvidence = await authenticatePublicationEvidence({client, selectedAttempt, selection, jobs, run, runId, attemptNumber, root})
+  if (publicationEvidence.results?.overallStatus === 'orchestrator_failed') {
+    throw new Error('Translation recovery cannot run after an orchestrator failure or unknown remote state')
+  }
+  // A unit is safe to skip when its content published AND (its derived state was
+  // reconciled OR reconciliation does not apply to it — `reconciled: null`). A
+  // published-but-unreconciled unit (reconciled: false — refresh failed or never
+  // ran) must re-enter derived-state reconciliation rather than being dropped.
   const publishedUnitKeys = new Set((publicationEvidence.results?.unitStatuses || [])
-    .filter(unit => SUCCESSFUL_UNIT_STATUSES.has(unit.status))
+    .filter(unit => SUCCESSFUL_UNIT_STATUSES.has(unit.status) && unit.reconciled !== false)
     .map(unit => unit.unitKey))
 
   for (const selected of selectedRecoveryUnits(selection, run)) {

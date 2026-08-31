@@ -7,7 +7,6 @@ const fs = require('node:fs')
 const path = require('node:path')
 
 const {publishCheckpointTransaction} = require('./checkpoint-publication')
-const {buildFetchPublicationSelection} = require('./fetch-publication-selection')
 const {verifyFetchPublicationRepository} = require('./fetch-publication-results')
 const {preflightCheckpointArchive} = require('./preflight-checkpoint-archive')
 const {readPublicationDocument, unitToken, writePublicationDocument} = require('./publication-contracts')
@@ -16,10 +15,11 @@ const {createPublicationScheduler} = require('./publication-scheduler')
 const {buildTranslationHandoffFromFetchResults} = require('./translation-handoff')
 
 const SHA = /^[0-9a-f]{40}$/u
+const FULL_FETCH_CARD_REPORT_COUNT = 9
 const FAULT_SCENARIOS = new Set([
   'earliest-descriptor-rejected', 'middle-validation-failure', 'target-advance-once',
   'target-advance-exhausted', 'push-error-after-remote-update', 'progress-upload-failure',
-  'unknown-remote-state', 'handoff-blocked-after-unit-failure',
+  'unknown-remote-state', 'handoff-blocked-after-unit-failure', 'cancel-mid-publish',
 ])
 
 function json(file) {
@@ -246,10 +246,10 @@ function verifyEvidence({evidenceRoot: evidenceRootInput}) {
       if (!fs.statSync(file).isFile()) throw new Error(`Business validation log is missing: ${log}`)
     }
     const handoff = json(resolveInside(evidenceRoot, business.handoff, 'Business validation handoff'))
-    if (handoff.schemaVersion !== 2) throw new Error('Business validation handoff must remain schema v2')
+    if (handoff.schemaVersion !== 3) throw new Error('Business validation handoff must remain schema v3')
     const card = json(resolveInside(evidenceRoot, business.cardReport, 'Business validation card report'))
-    if (!Array.isArray(card.reports) || card.reports.length !== unitCount + 1 || /Unavailable/iu.test(JSON.stringify(card.reports))) {
-      throw new Error(`Business validation card report must contain exactly ${unitCount + 1} available notes`)
+    if (!Array.isArray(card.reports) || card.reports.length !== FULL_FETCH_CARD_REPORT_COUNT || /Unavailable/iu.test(JSON.stringify(card.reports))) {
+      throw new Error(`Business validation card report must contain exactly ${FULL_FETCH_CARD_REPORT_COUNT} available notes`)
     }
     businessValidated = true
   }
@@ -308,6 +308,7 @@ async function executeDefaultFaultScenario({scenario, run, evidenceRoot, depende
   const progressUploadLog = []
   const handlerCallLog = []
   let progressFailureInjected = false
+  let publishCount = 0
   let clockTick = 0
   const now = () => new Date(Date.UTC(2026, 7, 5, 0, 0, clockTick++))
   const client = {
@@ -332,6 +333,7 @@ async function executeDefaultFaultScenario({scenario, run, evidenceRoot, depende
   }
   const publishUnit = async ({unit, sequence}) => {
     handlerCallLog.push({event: 'invoke', unitKey: unit.unitKey, sequence})
+    publishCount += 1
     const completedAt = () => now().toISOString()
     if ((scenario === 'middle-validation-failure' || scenario === 'handoff-blocked-after-unit-failure') && unit.unitKey === middleUnitKey) {
       handlerCallLog.push({event: 'validation_failure', unitKey: unit.unitKey, sequence})
@@ -388,6 +390,9 @@ async function executeDefaultFaultScenario({scenario, run, evidenceRoot, depende
     now,
     resolveCandidate,
     publishUnit,
+    cancelWhen: scenario === 'cancel-mid-publish'
+      ? () => (publishCount >= 2 ? {signal: 'SIGINT', code: 130} : null)
+      : undefined,
   })
   const results = outcome.results
   let handoffDecision
@@ -395,10 +400,10 @@ async function executeDefaultFaultScenario({scenario, run, evidenceRoot, depende
     const handoff = buildTranslationHandoffFromFetchResults({
       selection: run.selection, results, locale: 'all', group: run.selection.inputs.selectedGroup,
     })
-    writeJson(path.join(evidenceRoot, 'translation-handoff-v2.json'), handoff)
+    writeJson(path.join(evidenceRoot, 'translation-handoff.json'), handoff)
     handoffDecision = {allowed: true, schemaVersion: handoff.schemaVersion, unitCount: handoff.units.length, reason: null}
   } catch (error) {
-    handoffDecision = {allowed: false, schemaVersion: 2, unitCount: 0, reason: String(error.message || error)}
+    handoffDecision = {allowed: false, schemaVersion: 3, unitCount: 0, reason: String(error.message || error)}
   }
   const shouldAllowHandoff = results.overallStatus === 'success'
   if (handoffDecision.allowed !== shouldAllowHandoff) throw new Error('Fault replay handoff decision disagrees with publication results')
@@ -468,6 +473,12 @@ function verifyFaultEvidence(evidenceRoot) {
     const invocations = handlers.filter(entry => entry.event === 'invoke')
     if (results.overallStatus !== 'orchestrator_failed' || !unknown || invocations.at(-1)?.unitKey !== unknown.unitKey) throw new Error('Unknown remote safe-stop evidence is invalid')
   }
+  if (fault.scenario === 'cancel-mid-publish') {
+    const cancelled = results.units.find(unit => unit.failure?.code === 'CANCELLED')
+    if (results.overallStatus !== 'failure' || !cancelled || !results.units.some(unit => unit.status === 'published')) {
+      throw new Error('Cancel mid-publish terminal evidence is invalid')
+    }
+  }
   if ((results.overallStatus === 'success') !== handoff.allowed) throw new Error('Fault evidence handoff decision is invalid')
   if (fault.scenario === 'handoff-blocked-after-unit-failure' && handoff.allowed) throw new Error('Failed unit did not block handoff')
   return Object.freeze({scenario: fault.scenario, overallStatus: results.overallStatus, finalTargetSha: results.finalTargetSha})
@@ -527,13 +538,20 @@ function inspectRun({runId, outputRoot}) {
   if (!SHA.test(toolingSha || '') || !Number.isSafeInteger(runAttempt) || runAttempt < 1) throw new Error('Retained run identity is invalid')
   const pages = ghJson(['api', '--paginate', '--slurp', `repos/${repository}/actions/runs/${numericRunId}/attempts/${runAttempt}/jobs?filter=all&per_page=100`])
   const jobs = pages.flatMap(page => page.jobs || []).filter(job => (job.run_attempt ?? runAttempt) === runAttempt)
-  const provisional = buildFetchPublicationSelection({
-    repository, runId: numericRunId, runAttempt, toolingSha, targetBranch: 'dev',
-    initialTargetSha: '0'.repeat(40), sourceBaselineSha: '0'.repeat(40), selectedGroup: 'all', publish: true, runTranslations: true,
-  })
+  const selectionDirectory = path.join(root, 'selection')
+  execFileSync('gh', [
+    'run', 'download', String(numericRunId),
+    '-n', `publication-selection-fetch-${numericRunId}-${runAttempt}`,
+    '-D', selectionDirectory,
+  ], {stdio: 'inherit'})
+  const downloadedSelection = path.join(selectionDirectory, 'publication-selection.json')
+  const selection = readPublicationDocument(downloadedSelection, 'publication-selection')
+  if (selection.repository !== repository || selection.runId !== numericRunId || selection.runAttempt !== runAttempt || selection.toolingSha !== toolingSha) {
+    throw new Error('Retained publication selection identity mismatch')
+  }
   const artifacts = []
   const baselines = new Set()
-  for (const unit of provisional.units) {
+  for (const unit of selection.units) {
     const directory = path.join(root, 'artifacts', unitToken(unit.unitKey))
     execFileSync('gh', ['run', 'download', String(numericRunId), '-n', unit.artifacts.checkpoint, '-D', directory], {stdio: 'inherit'})
     const archive = path.join(directory, 'checkpoint-group.tar')
@@ -550,12 +568,11 @@ function inspectRun({runId, outputRoot}) {
   }
   if (baselines.size !== 1) throw new Error('Retained run artifacts do not share one dev baseline')
   const [devBaselineSha] = baselines
-  const selection = buildFetchPublicationSelection({
-    repository, runId: numericRunId, runAttempt, toolingSha, targetBranch: 'dev',
-    initialTargetSha: devBaselineSha, sourceBaselineSha: devBaselineSha, selectedGroup: 'all', publish: true, runTranslations: true,
-  })
+  if (selection.initialTargetSha !== devBaselineSha || selection.sourceBaselineSha !== devBaselineSha) {
+    throw new Error('Retained publication selection baseline does not match checkpoint artifacts')
+  }
   const fifoUnitKeys = deriveFifoUnitKeys(selection, jobs)
-  writePublicationDocument(path.join(root, 'publication-selection.json'), selection)
+  fs.copyFileSync(downloadedSelection, path.join(root, 'publication-selection.json'))
   writeJson(path.join(root, 'jobs.json'), {jobs})
   writeJson(path.join(root, 'run-metadata.json'), {
     schemaVersion: 1, runId: numericRunId, runAttempt, repository, toolingSha, devBaselineSha,

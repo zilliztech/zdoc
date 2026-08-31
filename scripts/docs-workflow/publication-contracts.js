@@ -41,8 +41,9 @@ const RESULTS_KEYS = [
 ]
 const RESULT_UNIT_KEYS = [
   'unitKey', 'producerJobId', 'producerCompletedAt', 'readyAt', 'sequence', 'publishStartedAt',
-  'publishCompletedAt', 'baseSha', 'resultSha', 'commitShas', 'attempts', 'status', 'failure',
+  'publishCompletedAt', 'baseSha', 'resultSha', 'commitShas', 'attempts', 'status', 'failure', 'reconciled',
 ]
+const LEGACY_RESULT_UNIT_KEYS = RESULT_UNIT_KEYS.filter(key => key !== 'reconciled')
 const FAILURE_KEYS = ['code', 'phase', 'message', 'retryable']
 
 function invalid(document, message) {
@@ -295,17 +296,36 @@ function validatePublicationProgress(input, options = {}) {
 
 function validateResultUnit(unit, index, mode, overallStatus) {
   const document = DOCUMENTS.results
-  exactKeys(unit, RESULT_UNIT_KEYS, `unit ${index}`, document)
+  const legacyReconciliationEvidence = !Object.hasOwn(unit, 'reconciled')
+  exactKeys(unit, legacyReconciliationEvidence ? LEGACY_RESULT_UNIT_KEYS : RESULT_UNIT_KEYS, `unit ${index}`, document)
   assertString(unit.unitKey, `unit ${index} unitKey`, document)
   if (!RESULT_STATUSES.has(unit.status)) invalid(document, `unit ${index} status is invalid`)
+  // publication-results schema v1 predates per-unit derived-state evidence.
+  // Preserve retained-artifact recovery by normalizing that exact legacy shape
+  // conservatively: a successful Chinese Reference publication may still need
+  // its inventory/sidebar refresh, while every other unit has no such derived
+  // state requirement. New writers always emit the explicit field.
+  if (legacyReconciliationEvidence) {
+    unit.reconciled = unit.unitKey.startsWith('translation/zh-CN-reference/') && SUCCESSFUL_RESULTS.has(unit.status)
+      ? false
+      : null
+  }
   const unprocessedAfterUnsafeStop = unit.status === 'ready' && overallStatus === 'orchestrator_failed'
+  // A cancelled/timed-out coordinator turns non-terminal work into terminal
+  // failures (`producer_failed`/`candidate_rejected`/`publish_failed` with code
+  // CANCELLED). Never-started or mid-flight units legitimately lack the facts a
+  // normally-terminal unit must have (producer job id, producer completion,
+  // FIFO sequence), so relax those requirements for them.
+  const cancelled = unit.failure?.code === 'CANCELLED'
+  const unproducedAfterCancel = cancelled && unit.status === 'producer_failed'
+  const unsequencedAfterCancel = cancelled && (unit.status === 'producer_failed' || unit.status === 'candidate_rejected')
   if (unit.producerJobId === null) {
-    if (!unprocessedAfterUnsafeStop) invalid(document, `unit ${index} producerJobId is required`)
+    if (!unprocessedAfterUnsafeStop && !unproducedAfterCancel) invalid(document, `unit ${index} producerJobId is required`)
   } else assertPositiveInteger(unit.producerJobId, `unit ${index} producerJobId`, document)
-  assertTimestamp(unit.producerCompletedAt, `unit ${index} producerCompletedAt`, document, unprocessedAfterUnsafeStop)
+  assertTimestamp(unit.producerCompletedAt, `unit ${index} producerCompletedAt`, document, unprocessedAfterUnsafeStop || unproducedAfterCancel)
   assertTimestamp(unit.readyAt, `unit ${index} readyAt`, document, true)
   if (unit.sequence === null) {
-    if (unit.status !== 'ready' || overallStatus !== 'orchestrator_failed') invalid(document, `unit ${index} sequence may be null only for unprocessed ready work after orchestrator failure`)
+    if (!unprocessedAfterUnsafeStop && !unsequencedAfterCancel) invalid(document, `unit ${index} sequence may be null only for unprocessed ready work after orchestrator failure or a cancelled unit`)
   } else assertPositiveInteger(unit.sequence, `unit ${index} sequence`, document)
   assertTimestamp(unit.publishStartedAt, `unit ${index} publishStartedAt`, document, true)
   assertTimestamp(unit.publishCompletedAt, `unit ${index} publishCompletedAt`, document, true)
@@ -314,6 +334,7 @@ function validateResultUnit(unit, index, mode, overallStatus) {
   validateCommitShas(unit.commitShas, `unit ${index} commitShas`, document)
   assertNonnegativeInteger(unit.attempts, `unit ${index} attempts`, document)
   validateFailure(unit.failure, `unit ${index} failure`, document)
+  if (unit.reconciled !== null && typeof unit.reconciled !== 'boolean') invalid(document, `unit ${index} reconciled must be null or boolean`)
   if (TERMINAL_FAILURES.has(unit.status) !== (unit.failure !== null)) invalid(document, `unit ${index} failure does not match status`)
   if (SUCCESSFUL_RESULTS.has(unit.status) && unit.resultSha === null) invalid(document, `unit ${index} resultSha is required for successful status`)
   if (unit.status === 'published' && (!unit.commitShas.length || !unit.commitShas.includes(unit.resultSha))) invalid(document, `unit ${index} published resultSha must be recorded in commitShas`)

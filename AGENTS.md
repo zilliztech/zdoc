@@ -35,6 +35,16 @@ Chinese REST reference content is spec-generated. Preserve formal OpenAPI genera
 
 Do not infer deprecated `zdoc_cn` validation or compatibility work unless the current request, code path, or explicit task places it in scope.
 
+### Master/dev branch ownership
+
+Before editing, query the [code-to-test and branch-ownership matrix](.claude/specs/2026-08-31-docs-workflow-code-test-matrix.md) with `pnpm test:for-change -- <repository-relative-path>...`. For a complete PR diff, use `pnpm test:for-change -- --base origin/master --head HEAD` so no changed workflow path is omitted manually.
+
+- Tooling, workflows, tests, apps, ordinary packages, repository configuration, and prose are developed through reviewed `master` PRs. Production receives them only through the validated master-to-dev sync PR workflow.
+- Paths listed in `devOwnedPaths` in `deploy/contracts/master-tooling-sync.json` are publication state owned by `dev`; Fetch, Translation, reconciliation, or repair workflows update them. Do not edit them on `master`.
+- Exact `masterAuthoritativePaths` override a broader dev-owned root. Modify those preserved policy/landing files on `master`, then sync normally.
+- `candidateDerivedPaths` are regenerated on the exact sync candidate and must not be hand-edited on either branch.
+- When ownership is unclear, read the live contract and run the selector. Do not infer ownership from the top-level directory alone.
+
 ## Local setup and verification
 
 Use the pinned toolchain:
@@ -79,6 +89,20 @@ For changes involving Fetch, Translation, checkpoint publication, reconciliation
 5. Treat `REMOTE_STATE_UNKNOWN` as a safe stop. Do not force-push, reset, rebase, blindly retry a writer, or cancel a running production Translation to clear uncertainty.
 6. Do not start paid Translation merely to fill an evidence gap. First inspect retained artifacts and use `publish=false`/artifact-only or local replay where possible. If a new paid production run is genuinely required, report the exact missing evidence and its production impact before starting it.
 7. A successful Fetch run is not proof that downstream Translation completed. Authenticate the child Translation selection/results, FIFO, reconciliation, result ancestry, and terminal state separately.
+
+### Replay harness selection
+
+Start with the living [docs-workflow code-to-test matrix](.claude/specs/2026-08-31-docs-workflow-code-test-matrix.md). Run `pnpm test:for-change -- <repository-relative-path>...` for every changed workflow/tooling path and use the union of returned commands. An unmapped path is a matrix gap that must be fixed in the same change.
+
+Use the smallest matching harness while developing, then expand coverage before handoff:
+
+- Fetch selection, scheduler, coordinator, checkpoint publication, reconciliation, or Fetch card evidence: run `pnpm test:replay:fetch`.
+- Recovery planner, retained Translation results/progress, legacy artifact compatibility, or `recover-translation.yml`: run `pnpm test:replay:recovery` together with the relevant focused contract test.
+- Translation FIFO publication, monitor artifact authentication, or Translation card/progress behavior: run `pnpm test:replay:translation`. This is the slower scheduled suite.
+- Cross-boundary changes spanning Fetch, Translation, recovery, shared publication contracts, or harness wiring: run `pnpm test:replay:all` and `pnpm test:workflow-policy`.
+- `pnpm test:replay` is the PR-level replay gate. It validates harness wiring and runs the hermetic Fetch and recovery suites; it intentionally does not run the slower Translation publication replay.
+
+When adding a new replay surface, update the machine-readable test matrix and its human-readable specification, add a focused `*.test.js` harness, expose it through a stable `test:replay:*` package script, assign it to PR or scheduled CI based on runtime, and update the replay contract test and operator prose in the same change. Synthetic fixtures and fault injection are regression tests, not substitutes for the required real retained-artifact replay. Preserve the real replay output root and report its exact command, artifact identity, and result counts.
 
 Use `.github/workflows/recover-translation.yml` for Translation recovery. Start with `publish=false` to authenticate and inspect the recovery plan; enable `publish=true` only after compatibility is established. `allow_full_retranslate` is an advanced paid-model path and requires explicit authorization.
 

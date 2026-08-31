@@ -1,0 +1,109 @@
+name: manual translation entry
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: Content branch to backfill or retranslate translations from
+        type: string
+        default: dev
+      locale:
+        description: Translation locale to produce
+        type: choice
+        options: [all, ja-JP, zh-CN]
+        default: all
+      group:
+        description: Source group to translate (all, or a single group such as python or guides)
+        type: string
+        default: all
+      mode:
+        description: Translation mode
+        type: choice
+        options: [auto, full]
+        default: full
+      publish:
+        description: Publish validated translations
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: manual-translation
+  cancel-in-progress: false
+
+jobs:
+  build_handoff:
+    name: Build and self-validate the manual translation handoff
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      handoff_json: ${{ steps.handoff.outputs.handoff_json }}
+      target_branch: ${{ steps.handoff.outputs.target_branch }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Fetch the content and tooling branches
+        env:
+          SOURCE_BRANCH: ${{ inputs.source_branch }}
+        run: |
+          set -euo pipefail
+          node -e 'require("./scripts/docs-workflow/resolve-docs-refs").assertSafeGitRef(process.env.SOURCE_BRANCH)'
+          git fetch --no-tags origin "+refs/heads/${SOURCE_BRANCH}:refs/remotes/origin/${SOURCE_BRANCH}"
+          git fetch --no-tags origin '+refs/heads/master:refs/remotes/origin/master'
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22.6'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Build and self-validate the translation handoff
+        id: handoff
+        env:
+          SOURCE_BRANCH: ${{ inputs.source_branch }}
+          LOCALE: ${{ inputs.locale }}
+          GROUP: ${{ inputs.group }}
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/build-manual-translation-handoff.js \
+            --source-branch "$SOURCE_BRANCH" \
+            --repository "$GITHUB_WORKSPACE" \
+            --locale "$LOCALE" \
+            --group "$GROUP" \
+            --output "$RUNNER_TEMP/manual-translation-handoff.json" \
+            --github-output "$GITHUB_OUTPUT"
+          target_branch=$(node -p 'JSON.parse(require("node:fs").readFileSync(process.argv[1], "utf8")).targetBranch' "$RUNNER_TEMP/manual-translation-handoff.json")
+          printf 'target_branch=%s\n' "$target_branch" >> "$GITHUB_OUTPUT"
+
+  dispatch:
+    name: Dispatch the Codex translation workflow
+    needs: build_handoff
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: write
+      contents: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      HANDOFF_JSON: ${{ needs.build_handoff.outputs.handoff_json }}
+      TARGET_BRANCH: ${{ needs.build_handoff.outputs.target_branch }}
+      MODE: ${{ inputs.mode }}
+      PUBLISH: ${{ inputs.publish }}
+      REQUEST_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - name: Dispatch the single translation workflow
+        run: |
+          set -euo pipefail
+          [[ "$REQUEST_ID" =~ ^[1-9][0-9]*-[1-9][0-9]*$ ]]
+          gh workflow run translate-codex.yml \
+            --repo "$GITHUB_REPOSITORY" \
+            --ref "$TARGET_BRANCH" \
+            -f handoff_json="$HANDOFF_JSON" \
+            -f mode="$MODE" \
+            -f publish="$PUBLISH" \
+            -f request_id="$REQUEST_ID"
+          printf 'Dispatched translation run (%s) on %s\n' "$REQUEST_ID" "$TARGET_BRANCH" >> "$GITHUB_STEP_SUMMARY"

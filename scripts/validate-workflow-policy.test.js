@@ -899,8 +899,8 @@ test('workflow policy rejects bypassing the Fetch reconciliation transaction CLI
   const sourceDirectory = path.join(process.cwd(), '.github/workflows')
   for (const mutation of [
     source => source.replace('fetch-reference-reconciliation.js reconcile', 'fetch-reference-reconciliation.js plan'),
-    source => source.replace('            --remote origin\n', '            --remote origin\n          git push origin HEAD:dev\n'),
-    source => source.replace('            --repository-root "$GITHUB_WORKSPACE" \\\n', ''),
+    source => source.replace('            --runner-temp "$RUNNER_TEMP" \\\n            --remote origin\n', '            --runner-temp "$RUNNER_TEMP" \\\n            --remote origin\n          git push origin HEAD:dev\n'),
+    source => source.replace('            --results "$RUNNER_TEMP/publication-results/publication-results.json" \\\n            --repository-root "$GITHUB_WORKSPACE" \\\n', '            --results "$RUNNER_TEMP/publication-results/publication-results.json" \\\n'),
   ]) {
     const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'fetch-reference-transaction-policy-'))
     try {
@@ -2344,9 +2344,15 @@ test('fetch preparation blocks paid translation until publication readiness regr
   const inventory = steps[inventoryIndex]
   assert.equal(inventory.if, "${{ steps.refs.outputs.publish == 'true' }}")
   assert.equal(inventory.env.INITIAL_TARGET_SHA, '${{ steps.refs.outputs.initial_target_sha }}')
+  assert.equal(inventory.env.TOOLING_SHA, '${{ steps.refs.outputs.tooling_sha }}')
+  assert.equal(inventory.env.TARGET_BRANCH, '${{ steps.refs.outputs.target_branch }}')
   assert.match(inventory.run, /git fetch --no-tags origin "\$INITIAL_TARGET_SHA"/)
   assert.match(inventory.run, /restore-generated-state\.sh --exact --ref "\$INITIAL_TARGET_SHA"/)
   assert.match(inventory.run, /pnpm check:localization-input-inventory/)
+  assert.match(inventory.run, /repair-fetch-dev\.js repair[\s\S]*--target-branch "\$TARGET_BRANCH"[\s\S]*--remote origin/)
+  assert.match(inventory.run, /repaired_target_sha=\$\(git rev-parse "refs\/remotes\/origin\/\$TARGET_BRANCH\^\{commit\}"\)/)
+  assert.match(inventory.run, /restore-generated-state\.sh --exact --ref "\$repaired_target_sha"/)
+  assert.equal(workflow.jobs.prepare.permissions.contents, 'write')
 })
 
 test('workflow policy rejects fetch preparation without immutable inventory preflight', () => {
@@ -2360,6 +2366,26 @@ test('workflow policy rejects fetch preparation without immutable inventory pref
     fs.writeFileSync(file, mutated)
     assert.ok(validateWorkflowPolicies(directory).includes(
       'fetch-docs.yml: prepare must validate the immutable target localization inventory before paid work starts',
+    ))
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
+})
+
+test('workflow policy rejects fetch preparation without inventory self-heal', () => {
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'fetch-inventory-selfheal-policy-'))
+  try {
+    fs.cpSync('.github/workflows', directory, {recursive: true})
+    const file = path.join(directory, 'fetch-docs.yml')
+    const original = fs.readFileSync(file, 'utf8')
+    const mutated = original.replace(
+      '            --target-branch "$TARGET_BRANCH" \\\n            --remote origin',
+      '            --target-branch "$TARGET_BRANCH"',
+    )
+    assert.notEqual(mutated, original)
+    fs.writeFileSync(file, mutated)
+    assert.ok(validateWorkflowPolicies(directory).includes(
+      'fetch-docs.yml: prepare must self-heal a stale inventory via repair-fetch-dev and re-validate the repaired target tip',
     ))
   } finally {
     fs.rmSync(directory, {recursive: true, force: true})

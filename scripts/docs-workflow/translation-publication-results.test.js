@@ -78,6 +78,7 @@ function resultUnit(unit, index, overrides = {}) {
     attempts: ['published', 'no_changes', 'publish_failed'].includes(status) ? 1 : 0,
     status,
     failure: failed ? FAILURE : null,
+    reconciled: null,
   }
 }
 
