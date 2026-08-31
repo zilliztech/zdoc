@@ -387,6 +387,17 @@ test('results enforce mode-dependent statuses, successful SHAs, and structured f
   assert.equal(validatePublicationResults(artifactOnly, {selection: selected}).overallStatus, 'success')
 })
 
+test('legacy schema-v1 results without reconciled remain readable and normalize non-Reference evidence to null', () => {
+  const selected = finalizedSelection()
+  const legacy = results()
+  delete legacy.units[0].reconciled
+
+  const normalized = validatePublicationResults(legacy, {selection: selected})
+
+  assert.equal(normalized.units[0].status, 'published')
+  assert.equal(normalized.units[0].reconciled, null)
+})
+
 test('orchestrator_failed requires a structured orchestrator failure and permits unprocessed ready units', () => {
   const selected = finalizedSelection()
   const stopped = results({

@@ -706,6 +706,32 @@ test('does not skip a published-but-unreconciled zh-CN-reference unit whose deri
   assert.equal(planned.plan.recoveryMap['zh-CN-reference/python'].artifacts.length, 1)
 })
 
+test('legacy publication results without reconciled conservatively recover published Chinese Reference units', async t => {
+  const value = fixture(t)
+  const publishedKey = 'translation/zh-CN-reference/python'
+  const results = JSON.parse(JSON.stringify(publicationResultsWithStatuses(
+    value.selected,
+    {[publishedKey]: 'no_changes'},
+    'failure',
+  )))
+  for (const unit of results.units) delete unit.reconciled
+  value.addArtifact(`publication-results-translation-${RUN_ID}-2`, directory => writeJson(directory, 'publication-results.json', results))
+  const publishJob = {
+    id: 999, name: 'publish_ready', run_attempt: 2, status: 'completed', conclusion: 'success',
+    started_at: '2026-08-08T01:05:00.000Z', completed_at: '2026-08-08T02:00:00.000Z',
+  }
+
+  const planned = await planTranslationRecovery({
+    repository: 'zilliztech/zdoc', previousRunId: RUN_ID, outputRoot: path.join(value.root, 'recover-legacy-unreconciled'),
+    targetBaselineSha: SHA('8'), executionToolingSha: EXECUTION_TOOLING_SHA,
+    client: {...value.client, listJobs: async () => [...value.jobs, publishJob]},
+  })
+
+  assert.equal(planned.plan.recoveryMap['zh-CN-reference/python'].artifacts.length, 1)
+  assert.equal(planned.plan.provenance.publicationEvidence.results.unitStatuses
+    .find(unit => unit.unitKey === publishedKey).reconciled, false)
+})
+
 test('skips a published-and-reconciled zh-CN-reference unit but recovers every other failed unit', async t => {
   const value = fixture(t)
   const reconciledKey = 'translation/zh-CN-reference/python'

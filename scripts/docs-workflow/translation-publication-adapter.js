@@ -26,6 +26,11 @@ const RECOVERY_SOURCE_WORKFLOWS = new Set([
 const RECOVERY_JOB_PREFIX = 'run_translation / '
 const TRANSLATION_PUBLICATION_UNIT_KEYS = TRANSLATION_UNIT_ORDER
 const SUCCESSFUL_RESULTS = new Set(['published', 'no_changes'])
+// Retained publication selections may predate the removal of the REST units
+// from the canonical Translation order (the REST reference is spec-generated).
+// Recovery must authenticate those historical selections in their original
+// exact form before excluding the retired units from the recovery scope.
+const RETIRED_TRANSLATION_REST_UNIT_KEYS = new Set(['translation/ja-JP/rest', 'translation/zh-CN-reference/rest'])
 
 function boundedReconciliationFailure(reconciliation) {
   const failure = reconciliation?.failure || {}
@@ -58,7 +63,10 @@ function validateTranslationUnit(unit, selection, index, helpers) {
   helpers.assertString(unit.sourceGroup, `unit ${index} sourceGroup`, document)
   const expectedUnitKey = `translation/${unit.target}/${unit.group}`
   if (unit.unitKey !== expectedUnitKey) helpers.invalid(document, `unit ${index} unitKey mismatch`)
-  if (!TRANSLATION_PUBLICATION_UNIT_KEYS.includes(unit.unitKey)) helpers.invalid(document, `unit ${index} unitKey is not a supported Translation publication unit`)
+  if (!TRANSLATION_PUBLICATION_UNIT_KEYS.includes(unit.unitKey) &&
+      !(helpers.allowRetiredTranslationRestUnits && RETIRED_TRANSLATION_REST_UNIT_KEYS.has(unit.unitKey))) {
+    helpers.invalid(document, `unit ${index} unitKey is not a supported Translation publication unit`)
+  }
   if (unit.strategy === 'ja-guides' && unit.unitKey !== 'translation/ja-JP/guides') helpers.invalid(document, 'ja-guides is only valid for translation/ja-JP/guides')
   helpers.assertSha(unit.toolingSha, `unit ${index} toolingSha`, document)
   helpers.assertSha(unit.sourceBaselineSha, `unit ${index} sourceBaselineSha`, document)

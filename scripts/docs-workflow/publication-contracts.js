@@ -43,6 +43,7 @@ const RESULT_UNIT_KEYS = [
   'unitKey', 'producerJobId', 'producerCompletedAt', 'readyAt', 'sequence', 'publishStartedAt',
   'publishCompletedAt', 'baseSha', 'resultSha', 'commitShas', 'attempts', 'status', 'failure', 'reconciled',
 ]
+const LEGACY_RESULT_UNIT_KEYS = RESULT_UNIT_KEYS.filter(key => key !== 'reconciled')
 const FAILURE_KEYS = ['code', 'phase', 'message', 'retryable']
 
 function invalid(document, message) {
@@ -295,9 +296,20 @@ function validatePublicationProgress(input, options = {}) {
 
 function validateResultUnit(unit, index, mode, overallStatus) {
   const document = DOCUMENTS.results
-  exactKeys(unit, RESULT_UNIT_KEYS, `unit ${index}`, document)
+  const legacyReconciliationEvidence = !Object.hasOwn(unit, 'reconciled')
+  exactKeys(unit, legacyReconciliationEvidence ? LEGACY_RESULT_UNIT_KEYS : RESULT_UNIT_KEYS, `unit ${index}`, document)
   assertString(unit.unitKey, `unit ${index} unitKey`, document)
   if (!RESULT_STATUSES.has(unit.status)) invalid(document, `unit ${index} status is invalid`)
+  // publication-results schema v1 predates per-unit derived-state evidence.
+  // Preserve retained-artifact recovery by normalizing that exact legacy shape
+  // conservatively: a successful Chinese Reference publication may still need
+  // its inventory/sidebar refresh, while every other unit has no such derived
+  // state requirement. New writers always emit the explicit field.
+  if (legacyReconciliationEvidence) {
+    unit.reconciled = unit.unitKey.startsWith('translation/zh-CN-reference/') && SUCCESSFUL_RESULTS.has(unit.status)
+      ? false
+      : null
+  }
   const unprocessedAfterUnsafeStop = unit.status === 'ready' && overallStatus === 'orchestrator_failed'
   // A cancelled/timed-out coordinator turns non-terminal work into terminal
   // failures (`producer_failed`/`candidate_rejected`/`publish_failed` with code

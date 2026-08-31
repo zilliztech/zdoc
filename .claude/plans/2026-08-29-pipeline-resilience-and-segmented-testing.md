@@ -98,8 +98,10 @@
 
 #### T4a. replay 故障注入套件接入 CI [S]
 
-- `package.json` 加 `"test:replay": "node --test scripts/docs-workflow/replay-fetch-publication-fifo.test.js"`（fetch 侧已实证 hermetic ~9 秒、7 场景全绿）→ 接入 PR 级 CI（`site-validation.yml` `workflow_lint` 或 `tooling_checks` job）。
-- translation 侧 replay（`replay-translation-publication-fifo.test.js` + `replay-translation-monitor-artifacts.test.js`，实测 >10 分钟）→ **单独 nightly/scheduled workflow**（新 `.github/workflows/replay-tests.yml` 或挂进既有 nightly 惯例），不阻塞 PR。
+- `package.json` 提供稳定的 `test:replay:*` 入口：PR 级 `test:replay` 运行 contract + Fetch + recovery；`test:replay:translation` 保留给较慢的 Translation FIFO/monitor 套件；`test:replay:all` 用于跨流水线合并前验证。
+- recovery 侧 replay（`replay-recovery-plan.test.js`）进入 PR 级 gate；translation 侧 replay（`replay-translation-publication-fifo.test.js` + `replay-translation-monitor-artifacts.test.js`）进入独立 nightly/scheduled workflow，不阻塞 PR。
+- `replay-harness-contract.test.js` 固定 package scripts、PR/nightly CI 路由和 README/AGENTS prose，防止后续新增 harness 时入口漂移。
+- 代码测试矩阵提供 `pnpm test:for-change -- <paths...>` 选择器，将修改文件映射到 focused tests、replay harness 与 broader gates；未覆盖路径 fail closed。
 - **验证**：本地绿 + CI 绿。
 
 ### Phase 3 — Track U（可用性）：手动翻译入口简化
@@ -164,6 +166,10 @@ Phase 0 (流程地图)
 | `scripts/docs-workflow/publication-coordinator.js` | R3 signal handler + bestEffortTerminalRefresh |
 | `scripts/docs-workflow/publication-scheduler.js` | R3 cancelResults() |
 | `scripts/docs-workflow/replay-fetch-publication-fifo.test.js` | R3 验证场景 |
+| `scripts/docs-workflow/replay-recovery-plan.js` + `.test.js` | retained Translation recovery plan 真实 artifact replay + fault overlay |
+| `scripts/docs-workflow/replay-harness-contract.test.js` | replay 命令、CI 分层与 prose 接线契约 |
+| `scripts/docs-workflow/test-matrix.json` + `select-tests-for-changes.js` + `.test.js` | 机器可读代码测试矩阵、Agent 选择器和 fail-closed 校验 |
+| `.claude/specs/2026-08-31-docs-workflow-code-test-matrix.md` | 人可读代码路径到测试/harness/门禁映射 |
 | `deploy/contracts/fetch-translation-workflow.test.mjs` | 新建：workflow contract 测试 |
 | `.github/workflows/site-validation.yml` | T1/T2/T3/T4a 挂载点（tooling_checks + workflow_lint） |
 | `scripts/translation/agentRunner.js` | T5 导出 translateAndReviewUnit |
@@ -173,7 +179,7 @@ Phase 0 (流程地图)
 
 ## 验证方式（端到端）
 
-1. **单元/契约级**：`pnpm test:translation`、`pnpm test:replay`（或 fetch 侧单独）、`node --test deploy/contracts/fetch-translation-workflow.test.mjs`、`pnpm test:workflow-policy`、`actionlint -color` 全绿。
+1. **单元/契约级**：`pnpm test:translation`、`pnpm test:replay`；跨 Fetch/Translation/recovery 时运行 `pnpm test:replay:all`；另跑 `node --test deploy/contracts/fetch-translation-workflow.test.mjs`、`pnpm test:workflow-policy`，并对本次变更的 workflow 运行 `actionlint`（全仓扫描会对仓库自定义的 `concurrency.queue` 扩展产生已知 schema 告警）。
 2. **R1/R2 端到端**：本地构造 stale-inventory 的临时 git 仓库（bare remote + 本地 worktree），跑 repair 脚本，确认只追加派生态 commit 且 inventory 检查转绿；随后在 staging branch dispatch repair-fetch-dev workflow 验证真实环境。
 3. **R3 端到端**：replay 套件新增的 cancel-mid-publish 场景全绿；真实环境用一次非生产分支的 cancel 测试观察 `publication-results.json` 上传 + reconcile 条件成立。
 4. **CI 级**：开 PR 后 site-validation 的 `tooling_checks`/`workflow_lint` 在几分钟内完成并给出翻译回归/contract drift 的 PR 级反馈（不再需要跑数小时流水线才发现）。

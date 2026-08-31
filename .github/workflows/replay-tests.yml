@@ -30,7 +30,4 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Run translation publication replay suites
-        run: >-
-          node --test
-          scripts/docs-workflow/replay-translation-publication-fifo.test.js
-          scripts/docs-workflow/replay-translation-monitor-artifacts.test.js
+        run: pnpm test:replay:translation
