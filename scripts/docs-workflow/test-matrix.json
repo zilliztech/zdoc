@@ -159,6 +159,19 @@
       "reason": "Guides cache, assembly, render, and table artifacts feed site-qualified Fetch units and final card evidence."
     },
     {
+      "id": "ja-sidebar-label-dictionary",
+      "paths": [
+        "scripts/docs-workflow/generate-ja-sidebar-labels*",
+        "config/translation/ja-JP-sidebar-labels.json"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/generate-ja-sidebar-labels.test.js"
+      ],
+      "harnesses": [],
+      "gates": [],
+      "reason": "Japanese sidebar label dictionary and its generator produce the ja-JP guides/guides-byoc sidebar translation JSON; keep ordering, missing-key, and literal-label edge cases deterministic."
+    },
+    {
       "id": "reconciliation-review-and-policy",
       "paths": [
         "scripts/docs-workflow/reconciliation-*",
