@@ -50,17 +50,17 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 在 Zilliz Cloud 控制台中，导航到目标组织。
 
-1. 进入 **Access Control**。
+1. 进入**访问控制**。
 
-1. 切换到 **Members** 选项卡。
+1. 切换到**成员**页签。
 
-1. 单击 **Invite Member**。
+1. 单击**邀请组织成员**。
 
 1. 输入以下信息：
 
-    - Email address(es)：您可以输入一个或多个电子邮件地址。
+    - 邮箱地址：您可以输入一个或多个电子邮件地址。
 
-    - Organization role：选择适当的组织角色。下表说明了预定义的组织角色。
+    - 组织角色：选择适当的组织角色。下表说明了预定义的组织角色。
 
         | 角色 | 适用场景 | 说明 |
         | --- | --- | --- |
@@ -68,9 +68,9 @@ import Procedures from '@site/src/components/Procedures';
         | Organization Owner | 用户管理组织设置、成员、角色、项目、安全和账单。 | 仅授予可信管理员。 |
         | Billing Admin | 用户管理账单和订阅。 | 面向不需要广泛技术访问权限的财务和采购用户。 |
 
-    - （可选）Project access：通过选择一个项目和一个或多个项目角色来设置项目访问权限。
+    - （可选）项目访问权限：通过选择一个项目和一个或多个项目角色来设置项目访问权限。
 
-1. 单击 **Invite**。
+1. 单击**邀请**。
 
 </Procedures>
 
@@ -86,13 +86,13 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. 单击 **Access Control**。
+1. 单击**访问控制**。
 
-1. 切换到 **Members** 选项卡。
+1. 切换到**成员**页签。
 
-1. 找到待处理的邀请，并在 **Actions** 中单击 **...**。
+1. 找到待处理的邀请，并在**操作**栏中单击 **...**。
 
-1. 单击 **Resend Invitation** 或 **Revoke Invitation**。
+1. 单击**重新发送邀请**或**撤销组织邀请**。
 
 </Procedures>
 
@@ -102,17 +102,19 @@ import Procedures from '@site/src/components/Procedures';
 
 下图演示了如何编辑组织用户的角色。
 
+![F47awOjr6h5NcVbENrJcKM8en4d](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/F47awOjr6h5NcVbENrJcKM8en4d.png)
+
 <Procedures>
 
-1. 单击 **Access Control**。
+1. 单击**访问控制**。
 
-1. 切换到 **Members** 选项卡。
+1. 切换到**成员**页签。
 
-1. 找到目标成员，并在 **Actions** 中单击笔形图标（**Edit Role**）。
+1. 找到目标成员，并在**操作**栏中单击笔形图标（**编辑角色**）。
 
 1. 更新组织角色和项目访问权限。
 
-1. 单击 Save。
+1. 单击**保存**。
 
 </Procedures>
 
@@ -138,13 +140,13 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. 单击 **Access Control**。
+1. 单击**访问控制**。
 
-1. 切换到 **Members** 选项卡。
+1. 切换到**成员**页签。
 
-1. 找到目标用户，并在 **Actions** 中单击 **...**。
+1. 找到目标用户，并在**操作**栏中单击 **...**。
 
-1. 单击 **Remove**。
+1. 单击**移除组织用户**。
 
 1. 确认移除。
 
@@ -168,25 +170,27 @@ import Procedures from '@site/src/components/Procedures';
 
     <Procedures>
 
-    1. 找到一个组织。
+    1. 找到目标组织。
 
     1. 单击组织卡片右下角的 **...**。
 
-    1. 单击 **Leave**。
+    1. 单击**离开组织**。
 
     </Procedures>
 
 - 进入组织，并在 **Organization Members** 页面离开组织：
 
+    ![ZsViwdOG8hczQNbNCvlcCf6FnPe](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/ZsViwdOG8hczQNbNCvlcCf6FnPe.png)
+
     <Procedures>
 
-    1. 单击 **Access Control**。
+    1. 单击**访问控制**。
 
-    1. 切换到 **Members** 选项卡。
+    1. 切换到**成员**页签。
 
-    1. 找到您自己，并在 **Actions** 中单击 **...**。
+    1. 找到您自己，并在**操作**栏中单击 **...**。
 
-    1. 单击 **Leave**。
+    1. 单击**离开组织**。
 
     1. 确认操作。
 
@@ -224,15 +228,15 @@ import Procedures from '@site/src/components/Procedures';
 
 1. 在 Zilliz Cloud 控制台中，打开目标项目。
 
-1. 进入 **Access Control**。
+1. 进入**访问控制**。
 
-1. 切换到 **Members** 选项卡。
+1. 切换到**成员**页签。
 
-1. 单击 **Invite Collaborator**。
+1. 单击**邀请项目成员**。
 
 1. 输入用户电子邮件地址，或选择要邀请的用户。
 
-1. 选择一个或多个项目角色。下表说明了项目角色。
+    选择一个或多个项目角色。下表说明了项目角色。
 
     | 角色 | 最适合 | 典型访问权限 |
     | --- | --- | --- |
@@ -242,7 +246,7 @@ import Procedures from '@site/src/components/Procedures';
     | Data Viewer | 分析师、开发者和只读应用程序。 | 读取、查询和检查资源，不包含写入权限。 |
     | Custom project role | 需要最小权限项目访问的团队。 | 取决于角色中配置的权限集。 |
 
-1. 单击 **Invite**。
+1. 单击**邀请**。
 
 </Procedures>
 
@@ -258,17 +262,19 @@ import Procedures from '@site/src/components/Procedures';
 
 下图演示了如何编辑项目用户的角色。
 
+![P4BewJMNyhJsBjbcvbWcgvoQneu](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/P4BewJMNyhJsBjbcvbWcgvoQneu.png)
+
 <Procedures>
 
-1. 进入 **Access Control**。
+1. 进入**访问控制**。
 
-1. 切换到 **Members** 选项卡。
+1. 切换到**成员**页签。
 
-1. 找到目标成员，并在 **Actions** 中单击笔形图标（**Edit Role**）。
+1. 找到目标成员，并在**操作**栏中单击笔形图标（编辑角色）。
 
 1. 更新已分配的项目角色。
 
-1. 单击 **Save**。
+1. 单击**保存**。
 
 </Procedures>
 
@@ -282,13 +288,13 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. 单击 **Access Control**。
+1. 进入**访问控制**。
 
-1. 切换到 **Members** 选项卡。
+1. 切换到**成员**页签。
 
-1. 找到目标用户，并在 **Actions** 中单击 **...**。
+1. 找到目标用户，并在**操作**栏中单击 **...**。
 
-1. 单击 **Remove**。
+1. 单击**移除项目用户**。
 
 1. 确认移除。
 
@@ -310,13 +316,13 @@ import Procedures from '@site/src/components/Procedures';
 
 <Procedures>
 
-1. 单击 **Access Control**。
+1. 进入**访问控制**。
 
-1. 切换到 **Members** 选项卡。
+1. 切换到**成员**页签。
 
-1. 找到您自己，并在 **Actions** 中单击 **...**。
+1. 找到您自己，并在**操作**栏中单击 **...**。
 
-1. 单击 **Leave**。
+1. 单击**离开项目**。
 
 1. 确认操作。
 
