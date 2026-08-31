@@ -162,7 +162,7 @@ node scripts/docs-workflow/replay-recovery-plan.js \
   --publish false
 ```
 
-The snapshot and output roots must be distinct absolute paths below `/private/tmp` (or the safe root explicitly set with `ZDOC_RECOVERY_REPLAY_SAFE_ROOT`), and the output root must be empty. The harness authenticates the original retained identity, never pushes Git state, never invokes paid Translation, and writes fault injection to a separate overlay. Use `--simulate-failure` only for synthetic regression scenarios, for example `translation/ja-JP/guides,translation/zh-CN-reference/python`. Preserve the generated `recovery-plan.json`, selection SHA, target baseline, recovery units, rejected units, retained-file count, and source-candidate count as merge evidence.
+The snapshot and output roots must be distinct absolute paths below the platform's system temporary directory (or the safe root explicitly set with `ZDOC_RECOVERY_REPLAY_SAFE_ROOT`), and the output root must be empty. The harness authenticates the original retained identity, never pushes Git state, never invokes paid Translation, and writes fault injection to a separate overlay. Use `--simulate-failure` only for synthetic regression scenarios, for example `translation/ja-JP/guides,translation/zh-CN-reference/python`. Preserve the generated `recovery-plan.json`, selection SHA, target baseline, recovery units, rejected units, retained-file count, and source-candidate count as merge evidence.
 
 ### Start and monitor a publication
 

@@ -2,10 +2,11 @@
 
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
+const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 
-const safeRoot = process.env.ZDOC_RECOVERY_REPLAY_SAFE_ROOT || '/private/tmp'
+const safeRoot = fs.realpathSync(process.env.ZDOC_RECOVERY_REPLAY_SAFE_ROOT || os.tmpdir())
 
 const {
   applyFailureOverrides,

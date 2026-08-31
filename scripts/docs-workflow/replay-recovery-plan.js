@@ -2,12 +2,13 @@
 'use strict'
 
 const fs = require('node:fs')
+const os = require('node:os')
 const path = require('node:path')
 
 const {planTranslationRecovery} = require('./translation-recovery-planner')
 const {readPublicationDocument} = require('./publication-contracts')
 
-const SAFE_ROOT = process.env.ZDOC_RECOVERY_REPLAY_SAFE_ROOT || '/private/tmp'
+const SAFE_ROOT = fs.realpathSync(process.env.ZDOC_RECOVERY_REPLAY_SAFE_ROOT || os.tmpdir())
 const RESULTS_FILE = 'publication-results.json'
 
 function repositoryName(value) {
