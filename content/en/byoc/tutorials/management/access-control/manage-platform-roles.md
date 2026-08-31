@@ -83,13 +83,9 @@ Create a custom project role when predefined roles do not match your team's resp
 
     ![IlOjwjvJwhqzu4bUqodcngrtnCg](https://zdoc-images.s3.us-west-2.amazonaws.com/IlOjwjvJwhqzu4bUqodcngrtnCg.png)
 
-1. Choose the way you want to create your custom role and click **Next**.
+1. Select a role template and click **Next**.
 
-    - **Start from scratch**: Create a fully custom role for maximum flexibility.
-
-    - **Select an existing project role as a template**: Use a predefined role as a starting point and fine-tune its permissions for greater efficiency.
-
-    ![GmXybbNiooO6UOxmFbecv5honGh](https://zdoc-images.s3.us-west-2.amazonaws.com/gmxybbniooo6uoxmfbecv5hongh.png "GmXybbNiooO6UOxmFbecv5honGh")
+    ![ReCmbb1xmoBkZJxbzFScSkewnLb](https://zdoc-images.s3.us-west-2.amazonaws.com/recmbb1xmobkzjxbzfscskewnlb.png "ReCmbb1xmoBkZJxbzFScSkewnLb")
 
 1. Enter the custom role name and description.
 
