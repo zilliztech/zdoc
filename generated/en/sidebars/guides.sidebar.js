@@ -1740,15 +1740,15 @@ module.exports = [
                   },
                   {
                     "type": "doc",
-                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression",
-                    "label": "Cron Expression",
-                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression"
-                  },
-                  {
-                    "type": "doc",
                     "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling",
                     "label": "Scheduled Scaling",
                     "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/scheduled-scaling"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression",
+                    "label": "Cron Expression",
+                    "key": "doc:tutorials/management/clusters/dedicated-cluster/scale-cluster/cron-expression"
                   },
                   {
                     "type": "doc",
