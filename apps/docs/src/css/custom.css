@@ -1592,9 +1592,18 @@ pre {
   flex-basis: 9px !important;
 }
 
-/* ── Merged sidebar at the 768–1320px breakpoint only (opening the chat no
-   longer shrinks the nav — it keeps its full two-level width). ── */
-@media (min-width: 768px) and (max-width: 1320px) {
+/* ── Merged sidebar at the 768–1511px breakpoint only (opening the chat no
+   longer shrinks the nav — it keeps its full two-level width).
+
+   1511 (not 1320) so that every 13" MacBook lands in the ONE-column nav: 13.3"
+   Air/Pro default to 1440pt and 13.6" M2/M3 Air to 1470pt, both of which used to
+   hit the 380px two-column rail and lose ~164px of reading width vs. the merged
+   nav. 1440 would not be enough — it misses the 13.6" Air. The two-column rail
+   starts at 1512 (14" MBP default) and up, so 14"+ is unaffected.
+   Keep in sync with SIDEBAR_MERGE_MAX in
+   packages/docs-ui/src/en/theme/DocSidebar/index.tsx and the floating-input band
+   in packages/docs-ui/src/shared/theme/DocRoot/Layout/styles.module.css. ── */
+@media (min-width: 768px) and (max-width: 1511px) {
   .theme-doc-sidebar-container {
     --doc-sidebar-width: calc(13.5rem + 10px);
     width: calc(13.5rem + 10px) !important;
