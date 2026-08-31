@@ -186,14 +186,14 @@ test('evidence verification recognizes a complete final business validation rece
     'sidebars-en.log', 'sidebars-zh-CN.log', 'build-en.log', 'build-zh-CN.log',
   ]
   for (const log of logs) fs.writeFileSync(path.join(value.evidenceRoot, log), 'passed\n')
-  fs.writeFileSync(path.join(value.evidenceRoot, 'translation-handoff-v2.json'), '{"schemaVersion":2}\n')
-  fs.writeFileSync(path.join(value.evidenceRoot, 'card-report.json'), `${JSON.stringify({reports: Array.from({length: 11}, (_, index) => ({markdown: `note ${index + 1}`}))})}\n`)
+  fs.writeFileSync(path.join(value.evidenceRoot, 'translation-handoff.json'), '{"schemaVersion":3}\n')
+  fs.writeFileSync(path.join(value.evidenceRoot, 'card-report.json'), `${JSON.stringify({reports: Array.from({length: 9}, (_, index) => ({markdown: `note ${index + 1}`}))})}\n`)
   fs.writeFileSync(path.join(value.evidenceRoot, 'business-validation.json'), `${JSON.stringify({
     schemaVersion: 1,
     status: 'complete',
     finalTargetSha: replay.fifo.at(-1).resultSha,
     logs,
-    handoff: 'translation-handoff-v2.json',
+    handoff: 'translation-handoff.json',
     cardReport: 'card-report.json',
   })}\n`)
 
@@ -286,7 +286,7 @@ test('fault injection validates the retained run and routes an approved scenario
   )
 })
 
-test('default fault replay proves all eight approved continuation and safe-stop scenarios', async t => {
+test('default fault replay proves all nine approved continuation and safe-stop scenarios', async t => {
   const value = faultFixture(t)
   const expectedStatuses = {
     'earliest-descriptor-rejected': 'failure',
@@ -297,6 +297,7 @@ test('default fault replay proves all eight approved continuation and safe-stop 
     'progress-upload-failure': 'success',
     'unknown-remote-state': 'orchestrator_failed',
     'handoff-blocked-after-unit-failure': 'failure',
+    'cancel-mid-publish': 'failure',
   }
 
   for (const [scenario, overallStatus] of Object.entries(expectedStatuses)) {
@@ -314,6 +315,7 @@ test('default fault replay proves all eight approved continuation and safe-stop 
     })
     assert.equal(result.status, 'complete', scenario)
     assert.equal(result.overallStatus, overallStatus, scenario)
+    assert.equal(JSON.parse(fs.readFileSync(path.join(evidenceRoot, 'handoff-decision.json'), 'utf8')).schemaVersion, 3, scenario)
     assert.equal(verifyEvidence({evidenceRoot}).scenario, scenario)
   }
 })

@@ -248,6 +248,83 @@ test('unknown remote state stops all later write decisions', () => {
   assert.equal(unsequencedFailure.sequence, null)
 })
 
+test('cancelResults maps in-flight units to terminal CANCELLED failures with terminal results', () => {
+  const scheduler = createPublicationScheduler({selection: selection()})
+  scheduler.observeJobs([
+    job('source/rest', {completed_at: '2026-08-04T08:00:01.000Z'}),
+    job('source/java', {completed_at: '2026-08-04T08:00:02.000Z'}),
+  ])
+  ready(scheduler, 'source/rest')
+  scheduler.startPublication('source/rest', {startedAt: '2026-08-04T08:00:02.000Z'})
+
+  const cancelled = scheduler.cancelResults({completedAt: '2026-08-04T08:00:05.000Z'})
+
+  assert.equal(cancelled.overallStatus, 'failure')
+  assert.equal(cancelled.completedAt, '2026-08-04T08:00:05.000Z')
+  const publishing = cancelled.units.find(unit => unit.unitKey === 'source/rest')
+  assert.equal(publishing.status, 'publish_failed')
+  assert.equal(publishing.failure.code, 'CANCELLED')
+  assert.equal(publishing.failure.phase, 'publish')
+  assert.equal(publishing.failure.retryable, false)
+  const readyUnit = cancelled.units.find(unit => unit.unitKey === 'source/java')
+  assert.equal(readyUnit.status, 'candidate_rejected')
+  assert.equal(readyUnit.failure.code, 'CANCELLED')
+  assert.equal(readyUnit.failure.phase, 'candidate')
+  const unproduced = cancelled.units.find(unit => unit.unitKey === 'source/python')
+  assert.equal(unproduced.status, 'producer_failed')
+  assert.equal(unproduced.failure.code, 'CANCELLED')
+  assert.equal(unproduced.failure.phase, 'produce')
+  assert.equal(unproduced.producerJobId, null)
+  assert.equal(unproduced.sequence, null)
+})
+
+test('cancelResults in artifact-only mode keeps ready units as successful settled evidence', () => {
+  const scheduler = createPublicationScheduler({selection: selection({publish: false})})
+  scheduler.observeJobs([
+    job('source/rest', {completed_at: '2026-08-04T08:00:01.000Z'}),
+    job('source/java', {completed_at: '2026-08-04T08:00:02.000Z'}),
+  ])
+  ready(scheduler, 'source/rest')
+  ready(scheduler, 'source/java')
+  // Settle the produced units so they are the artifact-only deliverable.
+  assert.equal(scheduler.nextDecision().type, 'settled')
+  assert.equal(scheduler.nextDecision().type, 'settled')
+
+  const cancelled = scheduler.cancelResults({completedAt: '2026-08-04T08:00:05.000Z'})
+
+  const rest = cancelled.units.find(unit => unit.unitKey === 'source/rest')
+  assert.equal(rest.status, 'ready')
+  assert.equal(rest.failure, null)
+  assert.equal(rest.sequence, 1)
+  const java = cancelled.units.find(unit => unit.unitKey === 'source/java')
+  assert.equal(java.status, 'ready')
+  assert.equal(java.sequence, 2)
+  const unproduced = cancelled.units.find(unit => unit.unitKey === 'source/python')
+  assert.equal(unproduced.status, 'producer_failed')
+  assert.equal(unproduced.failure.code, 'CANCELLED')
+  assert.equal(cancelled.overallStatus, 'failure')
+})
+
+test('cancelResults keeps already-terminal units untouched', () => {
+  const scheduler = createPublicationScheduler({selection: selection()})
+  scheduler.observeJobs([job('source/rest', {conclusion: 'failure', completed_at: '2026-08-04T08:00:01.000Z'})])
+  scheduler.nextDecision()
+
+  const cancelled = scheduler.cancelResults({completedAt: '2026-08-04T08:00:05.000Z'})
+
+  const failed = cancelled.units.find(unit => unit.unitKey === 'source/rest')
+  assert.equal(failed.status, 'producer_failed')
+  assert.equal(failed.failure.code, 'PRODUCER_FAILED')
+  const untouched = cancelled.units.find(unit => unit.unitKey === 'source/java')
+  assert.equal(untouched.status, 'producer_failed')
+  assert.equal(untouched.failure.code, 'CANCELLED')
+})
+
+test('cancelResults rejects an invalid completedAt timestamp', () => {
+  const scheduler = createPublicationScheduler({selection: selection()})
+  assert.throws(() => scheduler.cancelResults({completedAt: 'not-a-timestamp'}), /completedAt is invalid/)
+})
+
 test('artifact-only mode reaches terminal ready results without publication actions', () => {
   const scheduler = createPublicationScheduler({selection: selection({selectedGroup: 'guides', publish: false})})
   scheduler.observeJobs([

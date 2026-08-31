@@ -113,6 +113,44 @@ jobs:
       - run: pnpm check:lark-config
       - run: pnpm check:reference-presentation
       - run: pnpm check:reconciliation-policy
+      - run: pnpm test:translation
+      - run: pnpm test:replay
+
+  workflow_lint:
+    name: Lint workflows with actionlint
+    needs: classify
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.classify.outputs.source_sha }}
+      - name: Install pinned actionlint
+        run: |
+          set -euo pipefail
+          version="1.7.12"
+          expected="8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8"
+          curl -sSL -o actionlint.tar.gz "https://github.com/rhysd/actionlint/releases/download/v${version}/actionlint_${version}_linux_amd64.tar.gz"
+          actual=$(sha256sum actionlint.tar.gz | awk '{print $1}')
+          [[ "$actual" == "$expected" ]] || { echo "actionlint checksum mismatch: expected $expected, got $actual" >&2; exit 1; }
+          tar -xzf actionlint.tar.gz
+          chmod +x actionlint
+          ./actionlint -version
+      - name: Lint workflow files
+        run: |
+          set -euo pipefail
+          # `queue:` in `concurrency` is valid GitHub Actions config that actionlint
+          # v1.7.12 does not recognize yet (rhysd/actionlint#657); ignore that false
+          # positive and fail on everything else.
+          ./actionlint -color -ignore 'unexpected key "queue" for "concurrency" section'
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Verify Fetch/Translate workflow contracts
+        run: node --test deploy/contracts/fetch-translation-workflow.test.mjs
 
   ownership_gate:
     name: Gate dev-owned paths
@@ -284,6 +322,7 @@ jobs:
     needs:
       - classify
       - tooling_checks
+      - workflow_lint
       - ownership_gate
       - preserved_files_consistency
       - build_en
@@ -298,6 +337,7 @@ jobs:
     env:
       CLASSIFY_RESULT: ${{ needs.classify.result }}
       TOOLING_RESULT: ${{ needs.tooling_checks.result }}
+      WORKFLOW_LINT_RESULT: ${{ needs.workflow_lint.result }}
       OWNERSHIP_RESULT: ${{ needs.ownership_gate.result }}
       PRESERVED_RESULT: ${{ needs.preserved_files_consistency.result }}
       EN_RESULT: ${{ needs.build_en.result }}
@@ -311,6 +351,7 @@ jobs:
         run: |
           test "$CLASSIFY_RESULT" = success
           test "$TOOLING_RESULT" = success
+          test "$WORKFLOW_LINT_RESULT" = success
           test "$RETIREMENT_RESULT" = success
           test "$REST_PUBLICATION_RESULT" = success
           for result in "$OWNERSHIP_RESULT" "$PRESERVED_RESULT" "$EN_RESULT" "$ZH_CN_RESULT" "$REFERENCE_RESULT" "$TOOLS_RESULT"; do

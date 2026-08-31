@@ -46,6 +46,17 @@ Build output is written to `build/en` and `build/zh-CN`.
 
 Japanese content follows the English document structure and ships as part of the English site. Agent-driven translation has three explicit targets: `ja-JP`, `zh-CN-reference`, and `zh-CN-tools`. Chinese source publication must preserve the Agent-owned `content/zh-CN/guides/tutorials/tools` subtree.
 
+### Branch ownership
+
+Logical content ownership above is distinct from Git branch ownership. [`deploy/contracts/master-tooling-sync.json`](deploy/contracts/master-tooling-sync.json) is authoritative:
+
+- `master` owns reviewed tooling: workflows, scripts, apps, ordinary packages, tests, repository configuration, and prose. Merge changes through a master PR, then use the validated master-to-dev sync PR when production needs them.
+- `dev` owns generated publication state under the contract's `devOwnedPaths`, including the main `content`, `generated`, `i18n`, cache, snapshot/report, legacy publication, and sidebar-override roots. Only serialized publication/reconciliation workflows should update those paths.
+- `masterAuthoritativePaths` are exact policy or preserved-content exceptions inside otherwise dev-owned roots. They remain master-owned and are carried into dev by the sync workflow.
+- `candidateDerivedPaths` are regenerated and validated on the exact sync candidate; do not hand-edit them.
+
+See the [code-to-test and branch-ownership matrix](.claude/specs/2026-08-31-docs-workflow-code-test-matrix.md), or run `pnpm test:for-change -- <repository-relative-path>...` to print both branch policy and required tests. For the complete committed diff, use `pnpm test:for-change -- --base origin/master --head HEAD`.
+
 ## Content production
 
 Use the site-qualified docs tooling commands and workflows. Do not publish by invoking retired root Docusaurus or plugin wrappers.
@@ -117,6 +128,8 @@ hand-edit navigation, sidebars, validation sets, or translation policy.
 
 ## Production publication runbook
 
+> Pipeline map: [`fetch-translation-pipeline-map.md`](.claude/specs/2026-08-29-fetch-translation-pipeline-map.md) — the phase-by-phase flow, artifact contracts, the 4 Git push points, and the known failure modes with their recovery entries.
+
 The normal production entry point is [`fetch-docs.yml`](.github/workflows/fetch-docs.yml). It publishes the selected English source units to `dev`, performs final verification, and can dispatch one downstream Translation workflow. Fetch and publish-enabled Translation runs share the `docs-production-dev` concurrency group with `queue: max`; do not bypass that queue with a second manual writer.
 
 ### Before publishing
@@ -124,6 +137,32 @@ The normal production entry point is [`fetch-docs.yml`](.github/workflows/fetch-
 1. Confirm that the intended tooling is already on `dev` through the PR-based [`sync-master-tooling-to-dev.yml`](.github/workflows/sync-master-tooling-to-dev.yml) workflow. The candidate must be an exact master commit and the resulting merge must be identifiable in the workflow and PR history.
 2. Check the current `dev` tip and make sure no production Fetch, Translation, or tooling run is already active.
 3. For a risky workflow or artifact change, run the repository tests and a local real-artifact replay first. A replay must use real retained checkpoint archives, a local bare Git remote, the exact validation commands and site environment, and an isolated dependency layout. It must never push to the real `origin`.
+
+### Replay harnesses
+
+Use the [docs-workflow code-to-test matrix](.claude/specs/2026-08-31-docs-workflow-code-test-matrix.md) to map changed files to focused tests, replay harnesses, and broader gates. `pnpm test:for-change -- <repository-relative-path>...` prints the required command union and fails when a workflow path is not mapped.
+
+Use the stable package scripts so local development and CI exercise the same suites:
+
+- `pnpm test:replay:fetch` covers Fetch FIFO publication, fault injection, final business evidence, and local-remote safety.
+- `pnpm test:replay:recovery` covers retained Translation selection/results/progress authentication, legacy REST exclusion, recovery-map construction, and non-mutating fault overlays.
+- `pnpm test:replay:translation` covers Translation FIFO publication and monitor artifact authentication; it is slower and runs on the scheduled replay workflow.
+- `pnpm test:replay` is the PR-level contract + Fetch + recovery gate.
+- `pnpm test:replay:all` runs every hermetic replay suite before a cross-pipeline merge.
+
+These hermetic suites are regression harnesses; they do not replace a real retained-artifact replay. For a recovery change, prepare an isolated snapshot root containing `run.json`, `attempt.json`, `jobs.json`, `artifacts-unique.json`, `artifact-directories.json`, and the mapped artifact directories, then run:
+
+```bash
+node scripts/docs-workflow/replay-recovery-plan.js \
+  --snapshot-root "$ZDOC_RECOVERY_SNAPSHOT" \
+  --output-root "$ZDOC_RECOVERY_OUTPUT" \
+  --repository zilliztech/zdoc \
+  --execution-tooling-sha "$ZDOC_RECOVERY_TOOLING_SHA" \
+  --target-baseline-sha "$ZDOC_RECOVERY_TARGET_SHA" \
+  --publish false
+```
+
+The snapshot and output roots must be distinct absolute paths below the platform's system temporary directory (or the safe root explicitly set with `ZDOC_RECOVERY_REPLAY_SAFE_ROOT`), and the output root must be empty. The harness authenticates the original retained identity, never pushes Git state, never invokes paid Translation, and writes fault injection to a separate overlay. Use `--simulate-failure` only for synthetic regression scenarios, for example `translation/ja-JP/guides,translation/zh-CN-reference/python`. Preserve the generated `recovery-plan.json`, selection SHA, target baseline, recovery units, rejected units, retained-file count, and source-candidate count as merge evidence.
 
 ### Start and monitor a publication
 
@@ -144,7 +183,7 @@ Monitor the parent run through these boundaries, in order:
 2. `publish_ready` consumes the immutable selection and publishes in producer-completion FIFO order;
 3. `reconcile_reference_state` performs the allowed generated-state reconciliation;
 4. `source_publication_barrier` proves every required source group succeeded before paid Translation is dispatched;
-5. `prepare_translation_handoff` writes the schema-v2 handoff bound to the exact source commits and reconciled target SHA;
+5. `prepare_translation_handoff` writes the schema-v3 handoff bound to the exact source commits and reconciled target SHA;
 6. `dispatch_translations` starts the single child Translation run;
 7. `verify`, `aggregate`, and card finalization reach terminal state.
 
@@ -171,7 +210,7 @@ Stop at the first failed boundary and classify the failure before retrying:
 - **Prepare or producer failure:** no publication writer should have run. Inspect the failed job log, selection, and checkpoint artifact preflight. Fix the local cause and rerun the same workflow inputs; do not start Translation from a partial handoff.
 - **Validation or known Git publication failure:** inspect `publication-results.json`, the unit failure code, and the target tip. Ordinary unit failures may allow later ready units to continue, so use the terminal results rather than assuming that a failed producer means nothing was written.
 - **`REMOTE_STATE_UNKNOWN`:** treat the run as a safe stop. Do not cancel a running production Translation, force-push, reset, rebase, or blindly rerun the writer. Inspect the remote branch, candidate/result SHAs, and the exact probe evidence first. Resume only after the remote state is known.
-- **Reference reconciliation failure:** source publication may already be present. Preserve the run artifacts, verify the published ancestry, and repair or rerun only the reconciliation boundary after confirming the current target tip. Do not pay for Translation again until the source barrier and schema-v2 handoff are valid.
+- **Reference reconciliation failure:** source publication may already be present. Preserve the run artifacts, verify the published ancestry, and repair or rerun only the reconciliation boundary after confirming the current target tip. Do not pay for Translation again until the source barrier and schema-v3 handoff are valid.
 - **Translation unit failure:** a normal unit failure is recorded and later ready units can continue; an unknown remote state stops later writes. Inspect the child run's unit results, reports, remaining count, and reconciliation output before deciding whether recovery is needed.
 - **Expired or incompatible Translation artifacts:** use [`recover-translation.yml`](.github/workflows/recover-translation.yml) with the previous Translation workflow run ID (not a job ID). First run with `publish=false` to authenticate the recovery plan and inspect rejected units. Only after the plan is compatible should you rerun with `publish=true`. `allow_full_retranslate=true` is an advanced, explicitly authorized path for the case where no retained file is compatible; it may invoke paid models and must not be enabled casually.
 - **Reconciliation review:** a `translation-reconciliation-review-*.json` artifact is produced when a deletion or path change requires human authorization. Generate the deterministic approval PR with `scripts/docs-workflow/reconciliation-review-pr.js`, review the exact plan, expected mutations, source/target identities, and policy exception body, then merge only when the decision should remain standing. Do not hand-edit or push policy files directly to `dev`; after merge, run the normal master-to-dev tooling sync.

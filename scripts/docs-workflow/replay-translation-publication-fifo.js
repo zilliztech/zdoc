@@ -1068,6 +1068,11 @@ function writeSingleUnitFaultEvidence({run, evidenceRoot, label, repository, uni
       attempts: transaction.attempts,
       status: transaction.status,
       failure: transaction.failure,
+      // Fault evidence records the git transaction only; derived-state
+      // reconciliation never ran. A zh-CN-reference unit that published is
+      // therefore published-but-unreconciled (`false`); every other unit has no
+      // reconciliation requirement (`null`).
+      reconciled: unit.unitKey.startsWith('translation/zh-CN-reference/') ? false : null,
     }],
     orchestratorFailure: null,
   }, {selection})

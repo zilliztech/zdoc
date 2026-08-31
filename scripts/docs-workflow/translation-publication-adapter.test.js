@@ -251,6 +251,7 @@ test('Translation uses the shared progress, results, and artifact naming envelop
       attempts: 1,
       status: 'published',
       failure: null,
+      reconciled: null,
     }],
     orchestratorFailure: null,
   }
@@ -291,6 +292,7 @@ test('Translation adapter awaits reconciliation exactly once and projects the fi
       attempts: 1,
       status: 'no_changes',
       failure: null,
+      reconciled: null,
     }],
     orchestratorFailure: null,
   }, {selection: selected})
@@ -333,7 +335,7 @@ test('Translation adapter maps reconciliation failure to orchestrator_failed wit
       unitKey: selected.units[0].unitKey, producerJobId: 1, producerCompletedAt: '2026-08-04T08:00:01.000Z',
       readyAt: '2026-08-04T08:00:02.000Z', sequence: 1, publishStartedAt: '2026-08-04T08:00:03.000Z',
       publishCompletedAt: '2026-08-04T08:00:04.000Z', baseSha: SHA_D, resultSha: SHA_D, commitShas: [],
-      attempts: 1, status: 'no_changes', failure: null,
+      attempts: 1, status: 'no_changes', failure: null, reconciled: null,
     }], orchestratorFailure: null,
   }, {selection: selected})
   const projected = await translationPublicationAdapter.projectResults(raw, {
@@ -361,7 +363,7 @@ test('Translation adapter preserves structured reconciliation failure identity u
       unitKey: selected.units[0].unitKey, producerJobId: 1, producerCompletedAt: '2026-08-04T08:00:01.000Z',
       readyAt: '2026-08-04T08:00:02.000Z', sequence: 1, publishStartedAt: '2026-08-04T08:00:03.000Z',
       publishCompletedAt: '2026-08-04T08:00:04.000Z', baseSha: SHA_D, resultSha: SHA_D, commitShas: [],
-      attempts: 1, status: 'no_changes', failure: null,
+      attempts: 1, status: 'no_changes', failure: null, reconciled: null,
     }], orchestratorFailure: null,
   }, {selection: selected})
   const projected = await translationPublicationAdapter.projectResults(raw, {

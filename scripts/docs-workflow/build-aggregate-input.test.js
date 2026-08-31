@@ -28,7 +28,7 @@ function javaPublication({runTranslations = false} = {}) {
       unitKey: 'source/java', producerJobId: 1, producerCompletedAt: '2026-08-04T08:00:01.000Z',
       readyAt: '2026-08-04T08:00:02.000Z', sequence: 1, publishStartedAt: '2026-08-04T08:00:03.000Z',
       publishCompletedAt: '2026-08-04T08:00:04.000Z', baseSha: 'b'.repeat(40), resultSha: 'c'.repeat(40),
-      commitShas: ['c'.repeat(40)], attempts: 1, status: 'published', failure: null,
+      commitShas: ['c'.repeat(40)], attempts: 1, status: 'published', failure: null, reconciled: null,
     }],
   }, {selection})
   return {selection, results}
