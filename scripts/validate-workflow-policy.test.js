@@ -2597,7 +2597,7 @@ test('manual translation workflow keeps producers parallel and delegates publica
   assert.doesNotMatch(source, /workflow_run|git-auto-commit|git push/)
   assert.match(source, /uses: \.\/.github\/workflows\/_translate-content-group\.yml/)
   assert.match(source, /matrix: \$\{\{ fromJSON\(needs\.prepare\.outputs\.sdk_producer_matrix\) \}\}/)
-  assert.deepEqual(workflow.jobs.publish_ready.needs, ['prepare'])
+  assert.deepEqual(workflow.jobs.publish_ready.needs, ['prepare', 'translate_sdk', 'prepare_guides_publication_ready'])
   assert.deepEqual(workflow.jobs.aggregate.needs, ['prepare', 'publish_ready'])
 })
 test('Translation cuts over to one ready FIFO Git writer and artifact-bound aggregate', () => {
@@ -2616,7 +2616,7 @@ test('Translation cuts over to one ready FIFO Git writer and artifact-bound aggr
   const writable = Object.entries(workflow.jobs).filter(([, job]) => job?.permissions?.contents === 'write').map(([name]) => name)
   assert.deepEqual(writable, ['publish_ready'])
   const writer = workflow.jobs.publish_ready
-  assert.deepEqual(writer.needs, ['prepare'])
+  assert.deepEqual(writer.needs, ['prepare', 'translate_sdk', 'prepare_guides_publication_ready'])
   assert.deepEqual(writer.permissions, {actions: 'read', contents: 'write'})
   assert.doesNotMatch(JSON.stringify(writer), /APP_ID|APP_SECRET|FEISHU/)
   const publish = writer.steps.find(step => step.id === 'publish')
@@ -2643,7 +2643,7 @@ test('workflow policy rejects Translation ready FIFO writer regressions', () => 
   const original = fs.readFileSync(path.join(sourceDirectory, 'translate-codex.yml'), 'utf8')
   const fixtures = [
     {
-      mutate: source => source.replace('    needs: [prepare]\n    if: ${{ needs.prepare.result == \'success\' }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: write', '    needs: [prepare, prepare_guides_publication_ready]\n    if: ${{ needs.prepare.result == \'success\' }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: write'),
+      mutate: source => source.replace('    needs: [prepare, translate_sdk, prepare_guides_publication_ready]\n    if: ${{ always() && needs.prepare.result == \'success\' }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: write', '    needs: [prepare, translate_sdk]\n    if: ${{ always() && needs.prepare.result == \'success\' }}\n    runs-on: ubuntu-latest\n    timeout-minutes: 360\n    permissions:\n      actions: read\n      contents: write'),
       expected: 'translate-codex.yml: publish_ready must be the single mode-aware Translation Git writer from prepare',
     },
     {

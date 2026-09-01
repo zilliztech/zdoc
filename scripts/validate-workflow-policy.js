@@ -1214,8 +1214,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         "  '--deadline', String(Date.now() + 350 * 60 * 1000),",
         '])',
       ].join('\n')
-      if (writer?.name !== 'publish_ready' || JSON.stringify(writer?.needs) !== JSON.stringify(['prepare']) ||
-          writer?.if !== "${{ needs.prepare.result == 'success' }}" ||
+      if (writer?.name !== 'publish_ready' || JSON.stringify(writer?.needs) !== JSON.stringify(['prepare', 'translate_sdk', 'prepare_guides_publication_ready']) ||
+          writer?.if !== "${{ always() && needs.prepare.result == 'success' }}" ||
           writer?.permissions?.actions !== 'read' || writer?.permissions?.contents !== 'write' ||
           writer?.['continue-on-error'] !== undefined ||
           writerCheckout?.with?.ref !== '${{ needs.prepare.outputs.tooling_sha }}' ||

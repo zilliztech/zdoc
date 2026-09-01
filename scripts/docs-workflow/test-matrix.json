@@ -210,7 +210,12 @@
     },
     {
       "id": "workflow-yaml",
-      "paths": [".github/workflows/**"],
+      "paths": [
+        ".github/workflows/**",
+        "deploy/contracts/fetch-translation-workflow.test.mjs",
+        "scripts/validate-workflow-policy.js",
+        "scripts/validate-workflow-policy.test.js"
+      ],
       "focusedTests": [
         "node --test deploy/contracts/fetch-translation-workflow.test.mjs deploy/contracts/site-validation-workflow.test.mjs deploy/contracts/master-tooling-sync-workflow.test.mjs"
       ],
