@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "document": "offline-guides-canonical-replacements",
+  "replacements": [
+    {
+      "sourcePath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-aws.md",
+      "replacementSourcePath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-aws/deploy-byoc-i-aws.md",
+      "authority": "reviewed-guides-canonical-path-migration:deploy-byoc-i-aws"
+    }
+  ]
+}
