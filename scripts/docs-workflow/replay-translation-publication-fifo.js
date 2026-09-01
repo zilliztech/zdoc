@@ -4,6 +4,7 @@
 const crypto = require('node:crypto')
 const {execFileSync, spawnSync} = require('node:child_process')
 const fs = require('node:fs')
+const os = require('node:os')
 const path = require('node:path')
 
 const {publishCheckpointTransaction} = require('./checkpoint-publication')
@@ -25,7 +26,7 @@ const {sdkGroupIds} = loadTypeScript('../../packages/docs-tooling/src/manuals/de
 
 const SHA = /^[0-9a-f]{40}$/u
 const CHECKSUM = /^[0-9a-f]{64}$/u
-const SAFE_ROOT = '/private/tmp'
+const SAFE_ROOT = fs.realpathSync(process.env.ZDOC_REPLAY_SAFE_ROOT || os.tmpdir())
 const FAULT_SCENARIOS = new Set([
   'sdk-before-guides', 'guides-before-sdk', 'cache-conflict', 'cas-drift',
   'ambiguous-push', 'reconciliation-failure', 'unknown-remote-state',
@@ -61,7 +62,7 @@ function valueDigest(value) {
 
 function safeAbsolute(value, label) {
   if (typeof value !== 'string' || !path.isAbsolute(value) || /[\0\r\n]/u.test(value)) {
-    throw new Error(`${label} must be an absolute path under /private/tmp`)
+    throw new Error(`${label} must be an absolute path under ${SAFE_ROOT}`)
   }
   if (path.normalize(value) !== value || path.resolve(value) !== value) {
     throw new Error(`${label} must be a normalized absolute path without lexical dot segments`)
@@ -76,7 +77,7 @@ function safeAbsolute(value, label) {
   }
   const resolved = path.join(fs.realpathSync(ancestor), ...missing)
   if (resolved === SAFE_ROOT || !resolved.startsWith(`${SAFE_ROOT}${path.sep}`)) {
-    throw new Error(`${label} must be an absolute path under /private/tmp`)
+    throw new Error(`${label} must be an absolute path under ${SAFE_ROOT}`)
   }
   return resolved
 }
@@ -2047,11 +2048,12 @@ function parseArgs(argv) {
 }
 
 function usage(commandName) {
+  const root = SAFE_ROOT
   return {
-    'inspect-run': 'inspect-run --run-id <id> --output-root /private/tmp/translation-run-<id>',
-    replay: 'replay --run-root /private/tmp/translation-run-<id> --bare-remote /private/tmp/translation-replay.git --evidence-root /private/tmp/translation-evidence --mode publish',
-    'fault-inject': 'fault-inject --evidence-root /private/tmp/translation-evidence --scenario sdk-before-guides',
-    'verify-evidence': 'verify-evidence --evidence-root /private/tmp/translation-evidence',
+    'inspect-run': `inspect-run --run-id <id> --output-root ${root}/translation-run-<id>`,
+    replay: `replay --run-root ${root}/translation-run-<id> --bare-remote ${root}/translation-replay.git --evidence-root ${root}/translation-evidence --mode publish`,
+    'fault-inject': `fault-inject --evidence-root ${root}/translation-evidence --scenario sdk-before-guides`,
+    'verify-evidence': `verify-evidence --evidence-root ${root}/translation-evidence`,
   }[commandName]
 }
 
@@ -2083,6 +2085,7 @@ module.exports = {
   parseArgs,
   prepareGuidesPairs,
   replayRun,
+  safeRoot: SAFE_ROOT,
   usage,
   verifyEvidence,
 }

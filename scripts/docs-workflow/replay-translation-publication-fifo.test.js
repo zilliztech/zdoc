@@ -4,6 +4,7 @@ const assert = require('node:assert/strict')
 const {execFileSync, spawnSync} = require('node:child_process')
 const crypto = require('node:crypto')
 const fs = require('node:fs')
+const os = require('node:os')
 const path = require('node:path')
 const test = require('node:test')
 
@@ -22,11 +23,13 @@ const {
   parseArgs,
   prepareGuidesPairs,
   replayRun,
+  safeRoot,
   usage,
   verifyEvidence,
 } = require('./replay-translation-publication-fifo')
 
 const SHA = character => character.repeat(40)
+const SAFE_ROOT = safeRoot
 const RETAINED_GUIDES_SOURCE_CHECKPOINT_SHA = 'f3582b0024998d2e26240cd6662d50fa6c4d3741'
 const RECONCILED_TARGET_BASELINE_SHA = '9fd45e907a347095b8aecf232b3fe6d6de18eafb'
 
@@ -70,7 +73,7 @@ function faultEvidence(scenario) {
 }
 
 function temporary(prefix) {
-  return fs.mkdtempSync(path.join('/private/tmp', prefix))
+  return fs.mkdtempSync(path.join(SAFE_ROOT, prefix))
 }
 
 function requireRetainedCommit(sha, label) {
@@ -213,7 +216,7 @@ with tarfile.open(archive, 'w') as tar:
     elif kind == 'symlink':
         item = tarfile.TarInfo('checkpoint-group/payload-link')
         item.type = tarfile.SYMTYPE
-        item.linkname = '/private/tmp'
+        item.linkname = '${path.join(SAFE_ROOT, 'escape-target')}'
         tar.addfile(item)
 `
   execFileSync('python3', ['-c', script, archive, kind, manifest])
@@ -788,27 +791,28 @@ async function completeLegacyGhFixture(t) {
   return {root, repository, runId, parentRunId, runAttempt, toolingSha, sourceCheckpointSha, targetBaselineSha, initialTargetSha, targetRepository, downloadRoot, api}
 }
 
-test('strict CLI accepts only safe absolute /private/tmp paths and the approved command shapes', () => {
+test('strict CLI accepts only safe absolute paths under the replay safe root and the approved command shapes', () => {
   const root = temporary('translation-path-safety-')
   const escape = path.join(root, 'escape')
-  fs.symlinkSync('/Users', escape)
-  assert.deepEqual(parseArgs(['inspect-run', '--run-id', '30864046835', '--output-root', '/private/tmp/translation-run']), {
-    command: 'inspect-run', help: false, values: {'run-id': '30864046835', 'output-root': '/private/tmp/translation-run'},
+  fs.symlinkSync(os.homedir(), escape)
+  assert.deepEqual(parseArgs(['inspect-run', '--run-id', '30864046835', '--output-root', path.join(SAFE_ROOT, 'translation-run')]), {
+    command: 'inspect-run', help: false, values: {'run-id': '30864046835', 'output-root': path.join(SAFE_ROOT, 'translation-run')},
   })
-  assert.deepEqual(parseArgs(['replay', '--run-root', '/private/tmp/translation-run', '--bare-remote', '/private/tmp/translation.git', '--evidence-root', '/private/tmp/evidence', '--mode', 'publish']).values.mode, 'publish')
-  assert.equal(parseArgs(['fault-inject', '--evidence-root', '/private/tmp/evidence', '--scenario', 'sdk-before-guides']).values.scenario, 'sdk-before-guides')
-  assert.equal(parseArgs(['verify-evidence', '--evidence-root', '/private/tmp/evidence']).command, 'verify-evidence')
-  assert.throws(() => parseArgs(['replay', '--run-root', 'relative', '--bare-remote', '/private/tmp/x.git', '--evidence-root', '/private/tmp/e', '--mode', 'publish']), /absolute.*private\/tmp/i)
-  assert.throws(() => parseArgs(['replay', '--run-root', '/private/tmp/r', '--run-root', '/private/tmp/r2', '--bare-remote', '/private/tmp/x.git', '--evidence-root', '/private/tmp/e', '--mode', 'publish']), /duplicate/i)
+  assert.deepEqual(parseArgs(['replay', '--run-root', path.join(SAFE_ROOT, 'translation-run'), '--bare-remote', path.join(SAFE_ROOT, 'translation.git'), '--evidence-root', path.join(SAFE_ROOT, 'evidence'), '--mode', 'publish']).values.mode, 'publish')
+  assert.equal(parseArgs(['fault-inject', '--evidence-root', path.join(SAFE_ROOT, 'evidence'), '--scenario', 'sdk-before-guides']).values.scenario, 'sdk-before-guides')
+  assert.equal(parseArgs(['verify-evidence', '--evidence-root', path.join(SAFE_ROOT, 'evidence')]).command, 'verify-evidence')
+  assert.throws(() => parseArgs(['replay', '--run-root', 'relative', '--bare-remote', path.join(SAFE_ROOT, 'x.git'), '--evidence-root', path.join(SAFE_ROOT, 'e'), '--mode', 'publish']), /absolute/u)
+  assert.throws(() => parseArgs(['replay', '--run-root', path.join(SAFE_ROOT, 'r'), '--run-root', path.join(SAFE_ROOT, 'r2'), '--bare-remote', path.join(SAFE_ROOT, 'x.git'), '--evidence-root', path.join(SAFE_ROOT, 'e'), '--mode', 'publish']), /duplicate/i)
   assert.throws(() => parseArgs(['replay', '--run-root']), /missing value/i)
   assert.throws(() => parseArgs(['unknown', '--help']), /subcommand/i)
-  assert.throws(() => parseArgs(['fault-inject', '--evidence-root', '/private/tmp/e', '--scenario', 'invented']), /scenario/i)
-  assert.throws(() => parseArgs(['verify-evidence', '--evidence-root', '/private/tmp/a/../b']), /normalized|lexical/i)
-  assert.throws(() => parseArgs(['verify-evidence', '--evidence-root', '/private/tmp/a/./b']), /normalized|lexical/i)
-  assert.throws(() => parseArgs(['verify-evidence', '--evidence-root', path.join(escape, 'evidence')]), /outside|private\/tmp/i)
+  assert.throws(() => parseArgs(['fault-inject', '--evidence-root', path.join(SAFE_ROOT, 'e'), '--scenario', 'invented']), /scenario/i)
+  assert.throws(() => parseArgs(['verify-evidence', '--evidence-root', SAFE_ROOT + '/a/../b']), /normalized|lexical/i)
+  assert.throws(() => parseArgs(['verify-evidence', '--evidence-root', SAFE_ROOT + '/a/./b']), /normalized|lexical/i)
+  assert.throws(() => parseArgs(['verify-evidence', '--evidence-root', path.join(escape, 'evidence')]), /must be an absolute path under/u)
   assert.doesNotMatch(usage('inspect-run'), /30864046835/)
   assert.match(usage('inspect-run'), /--run-id <id>/)
-  assert.match(usage('replay'), /\/private\/tmp\/.+\.git/)
+  assert.doesNotMatch(usage('replay'), /30864046835/)
+  assert.match(usage('replay'), /translation-replay/u)
 })
 
 
