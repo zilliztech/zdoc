@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "9bce788f375eae4a93bad6d9046c6bcf8541d9c5",
+  "sourceCommit": "cda58d202583466ebb153d118bde9d0e82056b91",
   "records": [
     {
       "manual": "cli",
@@ -1711,6 +1711,186 @@
       "manual": "go",
       "sourcePath": "content/en/reference/api/go/go/v2/v2-Database/v2-Database.md",
       "sourceHash": "7aafae66eb9113ffd3b42803f14aa1bcbf2ffa361325a0d174da3edcb713bb95"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties.md",
+      "sourceHash": "3758fe45bfdd9e78e01d6d07809be9099e2346b0236f29138df43fd302c13a10"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Compact.md",
+      "sourceHash": "dd4fe902d4c95e4940ae050b6f6fce896a735825082c74091adcd27adc997c9e"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CompactionState.md",
+      "sourceHash": "0a74f10f31b283f6b9a5b3d08d2e6075fc4798d31b9c2986e3dae99ae6302045"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndex.md",
+      "sourceHash": "735e63c0c18678f5fa9a81ec5087cc63d8502cc0ae422dbd1e4cfc5075537ca1"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndexTask.md",
+      "sourceHash": "3e551038b1730d9ec80779531ad0360b9e9a8254621f3cb9aa5c748d86cb61f4"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DescribeIndex.md",
+      "sourceHash": "44cbdc1ea91a006681c3482a6b616c2edff0247c24857054bbe697246073bcb1"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md",
+      "sourceHash": "62573b3bbf3a0537b2e60e77cced2b13a3ef31c8968e1e87c850542a8328bfb9"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndexProperties.md",
+      "sourceHash": "c80c6c408c9b9457d43949ae735dd43d6cfcc5f142d23a48593952d9325e1d93"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Flush.md",
+      "sourceHash": "b3a2c4ec280cc0024b465ba7ffe16f4ff00eb3ad17a2f8cf19d6c12c2fe2ceeb"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-FlushTask.md",
+      "sourceHash": "f286f8deea06ed98a2f78679535bb98e1d015ca84e830e4f6ce570212e42649a"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetCompactionState.md",
+      "sourceHash": "f43ed0698fd210368fcbd3f1f16d9037ea27c879d95f7ec20abca563fa18dba3"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetLoadState.md",
+      "sourceHash": "370d7c63f21bca477fef4e17689ee4495fff4527e95faafb86fe7a6c57aa1a01"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewAutoIndex.md",
+      "sourceHash": "0193aa12f3e675993ae0c4554547b98250258d1f29b63d68c571e4d49b783865"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewBitmapIndex.md",
+      "sourceHash": "6bcd7677af1861271dfb4c6680f27db15a8431c30b9254249b9e7328b1423ce6"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewDiskANNIndex.md",
+      "sourceHash": "5c2e36749a2295cb67948c63e1bb044855690ae5881589001dfb4b7fb912e350"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewInvertedIndex.md",
+      "sourceHash": "88473ef839fce52057514b9ff5a52d30a34145d04fba7e6e18b8045ffd9c4f6a"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewRTreeIndex.md",
+      "sourceHash": "b4e7a2f22103797be34386bcbf0d5f7c38e9c705ea8ddf55f8b3a03251d6d53a"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewSortedIndex.md",
+      "sourceHash": "4531d8a78ddc1c9dda88562e436e4989ca844f85666bd1ea46edb3dd2e8303fe"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewTrieIndex.md",
+      "sourceHash": "147aa2e61f8413dd95e8856db644366436da251da950b4accb317e9dd7b42954"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Management-Index.md",
+      "sourceHash": "df30ebd90b0fd20ab6e89878702e10b2e4fdb5044d00203f99e6a4643e62c555"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexDescription.md",
+      "sourceHash": "c0311c072943b830c49fe7fd2045e76504b05b0287d79163594510a1630faff5"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexType.md",
+      "sourceHash": "d88c65ba550e50d4a1c0c4a96259aca1d7949a6d71e3ddf3b6f1b5c7583dffb1"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ListIndexes.md",
+      "sourceHash": "3896965d3d7333bb586009e0c73f6b6e256509d25d16b4b78e103401084b8cb6"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadCollection.md",
+      "sourceHash": "892020a5c53a7bd93384bce231857114683350a74ae0d0fae2c4fa2f92ec83e8"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadPartitions.md",
+      "sourceHash": "7252dcf102f09130bcc3c4b5114658408ccf9317bd93d9648be47fd18033b349"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadState.md",
+      "sourceHash": "6a276ef6f8964ea34f1d66c33aeaea9048d900cada815f95d9bf9d9d436b45ab"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadTask.md",
+      "sourceHash": "6353df7ea8ca30ce02a87f9dbc8b8cdc5819ec51733e6f0e76608f905da38f13"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-MetricType.md",
+      "sourceHash": "4bd87883d973c4baa52e21e7beaaf6d0ddb4ad747056465d34b9e71ee946b75e"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-RefreshLoad.md",
+      "sourceHash": "ab409119ce93298058955dc59dc91369b65cbb14d9aafcf21616491805cca1e0"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleaseCollection.md",
+      "sourceHash": "6c1a6d296575ea82c5330a408f019d3a6409b0dd2e52ec2417ece80fbb922097"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleasePartitions.md",
+      "sourceHash": "f0a86d01ea28c0fdc098245209cd3ec112801e6ae3e62bd16ecb9e82b1354628"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md",
+      "sourceHash": "900742d755a0300156fb78ea3aba8e0e556d727892966af019f88904851f28d4"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-DropPartition.md",
+      "sourceHash": "fbb28825452218249807484e6cc54affbc7c339f559d81595ff29054dea0e735"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats.md",
+      "sourceHash": "199f63746c6378ec4782846fa3c0d5a3a24b029b77ffd54e63f50a19fffb3c1a"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md",
+      "sourceHash": "eefd8679356b08aa44c45a7512f2b7533b61a1844c8fc0d44abb7ba0570deb86"
+    },
+    {
+      "manual": "go",
+      "sourcePath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md",
+      "sourceHash": "bd2dcbdfa9f891c10d5b4193f966f80132bc9cd9f202f46d38de9ff26091e0bb"
     },
     {
       "manual": "go",
