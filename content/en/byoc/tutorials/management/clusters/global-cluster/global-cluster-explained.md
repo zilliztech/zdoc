@@ -72,36 +72,6 @@ Zilliz Cloud global clusters support switchover and failover. Both operations ch
 
 For details, see [Switchover and Failover](./switchover-and-failover).
 
-## Billing\{#billing}
-
-In a global cluster, both the primary and secondary clusters are billed as regular Zilliz Cloud [Dedicated clusters](./dedicated-cluster-cost) for their compute and storage usage, plus additional [data transfer](./data-transfer-cost) charges for data replication between clusters. 
-
-Suppose your global cluster configuration is as follows:
-
-- A primary cluster cluster_01 in Region A
-
-- Two secondary clusters:
-
-    - cluster_02 in Region B
-
-    - cluster_03 in Region C
-
-You’ll be charged for the sum of the following:
-
-- **Vector database (compute) costs** for cluster_01, cluster_02, and cluster_03
-
-- **Storage costs** for `cluster_01`, `cluster_02`, and `cluster_03`.
-
-- **Data transfer costs** from `cluster_01` to `cluster_02` and `cluster_03`
-
-For detailed list prices, see [Zilliz Cloud List Price](https://zilliz.com/pricing/pricing-guide).
-
-<Admonition type="info" icon="📘" title="Notes">
-
-Discarded clusters in the recycle bin after a [failover](./switchover-and-failover#perform-a-failover) are billed for **storage** only.
-
-</Admonition>
-
 ## Considerations\{#considerations}
 
 - **Project plan availability**: You need to have a multi-regional project on the Business Critical plan to access the global cluster feature. In addition, secondary cluster regions in a Global Cluster are limited to the regions supported by your [project](./manage-projects).

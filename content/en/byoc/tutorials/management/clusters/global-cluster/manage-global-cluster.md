@@ -169,7 +169,6 @@ Once the global endpoint is removed, any application connected via the global en
 | Data replication | Stopped. Data replication metrics are removed. |
 | Global cluster metadata | Cleared (global cluster ID, topology). |
 | Backup policy | Remains on the former primary cluster, unchanged. |
-| Billing | [Data transfer](./data-transfer-cost) charges stop. The remaining cluster is billed as a regular [Dedicated cluster](./dedicated-cluster-cost). |
 
 ## Drop global cluster\{#drop-global-cluster}
 

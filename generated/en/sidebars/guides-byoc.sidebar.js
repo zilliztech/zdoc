@@ -191,6 +191,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "tutorials/get-started/select-zilliz-cloud-service-plans",
+        "label": "Plan Comparison",
+        "key": "doc:tutorials/get-started/select-zilliz-cloud-service-plans"
+      },
+      {
+        "type": "doc",
         "id": "tutorials/get-started/cu-types-explained",
         "label": "Cluster Types",
         "key": "doc:tutorials/get-started/cu-types-explained"
@@ -2489,30 +2495,6 @@ module.exports = [
             "id": "tutorials/architecture/best-practices/perf-benchmark-vectordb",
             "label": "Performance Benchmarking with VectorDBBench",
             "key": "doc:tutorials/architecture/best-practices/perf-benchmark-vectordb"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "category",
-    "label": "Solution",
-    "key": "category:tutorials/solution",
-    "items": [
-      {
-        "type": "category",
-        "label": "Schema Evolution",
-        "key": "category:tutorials/solution/schema-evolution",
-        "link": {
-          "type": "doc",
-          "id": "tutorials/solution/schema-evolution/schema-evolution"
-        },
-        "items": [
-          {
-            "type": "doc",
-            "id": "tutorials/solution/schema-evolution/migrate-to-a-new-embedding-model",
-            "label": "Migrate to a New Embedding Model",
-            "key": "doc:tutorials/solution/schema-evolution/migrate-to-a-new-embedding-model"
           }
         ]
       }

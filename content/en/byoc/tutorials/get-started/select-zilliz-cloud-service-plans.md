@@ -1,5 +1,5 @@
 ---
-title: "Deployment and Plan Comparison | Cloud"
+title: "Deployment and Plan Comparison | BYOC"
 slug: /select-zilliz-cloud-service-plans
 sidebar_label: "Plan Comparison"
 beta: FALSE
@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers multiple deployment and project plan options to match different workload, reliability, compliance, data sovereignty, and infrastructure requirements. | Cloud"
+description: "Zilliz Cloud offers multiple deployment and project plan options to match different workload, reliability, compliance, data sovereignty, and infrastructure requirements. | BYOC"
 type: origin
 token: Ghq9wEiOOivgeIkmj2HcHC9onXe
 sidebar_position: 4
