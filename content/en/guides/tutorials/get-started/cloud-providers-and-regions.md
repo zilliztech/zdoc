@@ -34,7 +34,7 @@ Region support can vary by workload type, deployment option, and feature. Use th
 
 - Check whether your desired feature is supported in the target region.
 
-- [Contact us](http://zilliz.com/contact-sales) if the required region or feature is unavailable.
+- [Contact us](https://zilliz.com/all-regions#region-request) if the required region or feature is unavailable.
 
 ## Supported regions\{#supported-regions}
 

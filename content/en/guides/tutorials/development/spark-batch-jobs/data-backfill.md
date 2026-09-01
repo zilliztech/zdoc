@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 Data backfill lets you update selected fields of existing entities in a Zilliz Cloud collection using data stored in Parquet files on a Zilliz Cloud volume. The backfill job matches input records to existing entities by primary key and writes the specified field values back to the collection. You can use it to populate newly added fields, fill missing values, or replace existing field values at scale.
 
-For a complete workflow for evolving the schema of a live collection, including switching writes, creating a snapshot, backfilling historical entities, and committing the backfill, see Schema Evolution.
+For a complete workflow for evolving the schema of a live collection, including switching writes, creating a snapshot, backfilling historical entities, and committing the backfill, see [Schema Evolution](./schema-evolution).
 
 ## Overview\{#overview}
 
@@ -304,5 +304,5 @@ For large backfills, consider checking the coverage of the updated fields to ide
 
 After validating the backfilled data, you can start using the updated fields in your application or continue with the workflow that required the backfill.
 
-For example, if you are backfilling data as part of a schema change, see Schema Evolution for the complete migration workflow.
+For example, if you are backfilling data as part of a schema change, see [Schema Evolution](./schema-evolution) for the complete migration workflow.
 

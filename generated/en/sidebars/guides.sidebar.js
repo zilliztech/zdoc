@@ -2993,5 +2993,29 @@ module.exports = [
         ]
       }
     ]
+  },
+  {
+    "type": "category",
+    "label": "Solution",
+    "key": "category:tutorials/solution",
+    "items": [
+      {
+        "type": "category",
+        "label": "Schema Evolution",
+        "key": "category:tutorials/solution/schema-evolution",
+        "link": {
+          "type": "doc",
+          "id": "tutorials/solution/schema-evolution/schema-evolution"
+        },
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/solution/schema-evolution/migrate-to-a-new-embedding-model",
+            "label": "Migrate to a New Embedding Model",
+            "key": "doc:tutorials/solution/schema-evolution/migrate-to-a-new-embedding-model"
+          }
+        ]
+      }
+    ]
   }
 ]

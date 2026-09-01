@@ -343,3 +343,8 @@ In this section, you will find all the key permissions required to deploy BYOC-I
 
 - **Access Entry Management**: Create, update, describe, and delete EKS access entries and pod identity associations
 
+
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

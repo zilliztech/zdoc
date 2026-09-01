@@ -248,7 +248,7 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
 
 <Admonition type="info" icon="📘" title="Notes">
 
-The VPC endpoint created in this section is used to set up an AWS PrivateLink. Once the VPC endpoint is ready, you must create a hosted zone and add some DNS records. For details, refer to [Set up a PrivateLink (AWS)](./setup-a-private-link-aws).
+The VPC endpoint created in this section is used to set up an AWS PrivateLink. Once the VPC endpoint is ready, you must create a hosted zone and add some DNS records.
 
 </Admonition>
 

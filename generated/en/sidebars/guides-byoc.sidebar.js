@@ -58,10 +58,21 @@ module.exports = [
         ]
       },
       {
-        "type": "doc",
-        "id": "tutorials/deployment/deploy-byoc-i-aws",
+        "type": "category",
         "label": "Deploy BYOC-I on AWS",
-        "key": "doc:tutorials/deployment/deploy-byoc-i-aws"
+        "key": "category:tutorials/deployment/deploy-byoc-i-aws",
+        "link": {
+          "type": "doc",
+          "id": "tutorials/deployment/deploy-byoc-i-aws/deploy-byoc-i-aws"
+        },
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/deployment/deploy-byoc-i-aws/remove-aws-byoc-i-project",
+            "label": "Remove an AWS BYOC-I Project",
+            "key": "doc:tutorials/deployment/deploy-byoc-i-aws/remove-aws-byoc-i-project"
+          }
+        ]
       },
       {
         "type": "category",
@@ -674,6 +685,18 @@ module.exports = [
                 "id": "tutorials/development/volume/storage-integration/integrate-with-aws-s3",
                 "label": "AWS S3",
                 "key": "doc:tutorials/development/volume/storage-integration/integrate-with-aws-s3"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage",
+                "label": "Azure Blob Storage",
+                "key": "doc:tutorials/development/volume/storage-integration/integrate-with-azure-blob-storage"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/volume/storage-integration/integrate-with-gcp",
+                "label": "Google Cloud Storage",
+                "key": "doc:tutorials/development/volume/storage-integration/integrate-with-gcp"
               }
             ]
           }
@@ -1601,8 +1624,20 @@ module.exports = [
               {
                 "type": "link",
                 "href": "/docs/byoc/integrate-with-aws-s3",
-                "label": "Integrate with AWS S3",
+                "label": "Integrate with Amazon S3",
                 "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-aws-s3"
+              },
+              {
+                "type": "link",
+                "href": "/docs/byoc/integrate-with-azure-blob-storage",
+                "label": "Integrate with Azure Blob Storage",
+                "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-azure-blob-storage"
+              },
+              {
+                "type": "link",
+                "href": "/docs/byoc/integrate-with-gcp",
+                "label": "Integrate with Google Cloud Storage",
+                "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-gcp"
               }
             ]
           }
@@ -2454,6 +2489,30 @@ module.exports = [
             "id": "tutorials/architecture/best-practices/perf-benchmark-vectordb",
             "label": "Performance Benchmarking with VectorDBBench",
             "key": "doc:tutorials/architecture/best-practices/perf-benchmark-vectordb"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Solution",
+    "key": "category:tutorials/solution",
+    "items": [
+      {
+        "type": "category",
+        "label": "Schema Evolution",
+        "key": "category:tutorials/solution/schema-evolution",
+        "link": {
+          "type": "doc",
+          "id": "tutorials/solution/schema-evolution/schema-evolution"
+        },
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/solution/schema-evolution/migrate-to-a-new-embedding-model",
+            "label": "Migrate to a New Embedding Model",
+            "key": "doc:tutorials/solution/schema-evolution/migrate-to-a-new-embedding-model"
           }
         ]
       }
