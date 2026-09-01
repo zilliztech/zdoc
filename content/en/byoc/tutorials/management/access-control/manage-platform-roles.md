@@ -75,7 +75,7 @@ Create a custom project role when predefined roles do not match your team's resp
 
 1. Open the target project.
 
-1. Go to **Access Contro**l.
+1. Go to **Access Control**.
 
 1. Open the **Project Roles** tab.
 
@@ -105,7 +105,7 @@ Edit a custom project role when the permission set needs to change. Changes appl
 
 1. Open the target project.
 
-1. Go to **Access Contro**l.
+1. Go to **Access Control**.
 
 1. Open the **Project Roles** tab.
 
@@ -133,7 +133,7 @@ You cannot delete a project role that is still assigned to users, groups, or ser
 
 1. Open the target project.
 
-1. Go to **Access Contro**l.
+1. Go to **Access Control**.
 
 1. Open the **Project Roles** tab.
 

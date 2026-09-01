@@ -68,7 +68,7 @@ This reference covers the following built-in roles:
 | Organization | Org Owner, Billing Admin, Public |
 | Project | Project Admin, Data Admin, Data Operator, Data Viewer |
 
-## IAM resources\{#iam-resources}
+## RBAC resources\{#rbac-resources}
 
 IAM resources control identities, credentials, and roles used by the Zilliz Cloud platform.
 
