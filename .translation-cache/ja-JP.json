@@ -15,9 +15,9 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-gcp/deploy-byoc-gcp.md",
       "translatedAt": "2026-08-04T05:11:35.102Z"
     },
-    "content/en/byoc/tutorials/deployment/deploy-byoc-i-aws.md": {
+    "content/en/byoc/tutorials/deployment/deploy-byoc-i-aws/deploy-byoc-i-aws.md": {
       "sourceHash": "6dc23499f822845de0804d964062e4d33b1ebb079affa9349f2b50e8b1a8ab70",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-aws.md",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-aws/deploy-byoc-i-aws.md",
       "translatedAt": "2026-08-04T05:14:04.159Z"
     },
     "content/en/byoc/tutorials/deployment/deploy-byoc-i-azure.md": {
@@ -4735,9 +4735,9 @@
       "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-gcp/required-permissions-gcp.md",
       "translatedAt": "2026-07-13T19:12:57.196Z"
     },
-    "docs-byoc/tutorials/deployment/deploy-byoc-i-aws.md": {
+    "docs-byoc/tutorials/deployment/deploy-byoc-i-aws/deploy-byoc-i-aws.md": {
       "sourceHash": "5f755d83e07c79e3728f6926892ce49e9a4f286f707d851d326c84b48d2001ba",
-      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-aws.md",
+      "targetPath": "i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy-byoc-i-aws/deploy-byoc-i-aws.md",
       "translatedAt": "2026-07-13T19:16:08.826Z"
     },
     "docs-byoc/tutorials/deployment/deploy-byoc-i-azure.md": {
