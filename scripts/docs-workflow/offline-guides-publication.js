@@ -140,21 +140,37 @@ function isAllowedPath(relative) {
   return relative === CACHE_PATH || SIDEBAR_PATHS.includes(relative) || isTranslationPath(relative)
 }
 
+function cacheKeyForTargetPath(targetPath) {
+  if (targetPath.startsWith('i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/')) {
+    return 'docs/' + targetPath.slice('i18n/ja-JP/docusaurus-plugin-content-docs/current/'.length)
+  }
+  if (targetPath.startsWith('i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/')) {
+    return 'docs-byoc/' + targetPath.slice('i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/'.length)
+  }
+  throw new Error('deleted translation path is outside Guides target roots: ' + targetPath)
+}
+
 function parseChangedPaths(repository, baseSha, candidateSha) {
   const fields = git(repository, ['diff-tree', '-r', '--no-commit-id', '--no-renames', '--name-status', '-z', baseSha, candidateSha], {buffer: true})
     .toString('utf8').split('\0').filter(Boolean)
   if (fields.length % 2 !== 0) throw new Error('candidate diff record is malformed')
   const paths = []
+  const deletions = []
   for (let index = 0; index < fields.length; index += 2) {
     const status = fields[index]
     const relative = fields[index + 1]
-    if (!['A', 'M'].includes(status)) throw new Error(`offline candidate contains a forbidden ${status} change: ${relative}`)
-    if (!isAllowedPath(relative)) throw new Error(`offline candidate changes a path outside the fixed allowlist: ${relative}`)
+    if (!['A', 'M', 'D'].includes(status)) throw new Error(`offline candidate contains a forbidden ${status} change: ${relative}`)
+    if (status === 'D') {
+      if (!isTranslationPath(relative)) throw new Error(`offline candidate contains a forbidden ${status} change: ${relative}`)
+      deletions.push(relative)
+    } else if (!isAllowedPath(relative)) {
+      throw new Error('offline candidate changes a path outside the fixed allowlist: ' + relative)
+    }
     paths.push(relative)
   }
   if (!paths.length) throw new Error('offline candidate does not contain changes')
   if (new Set(paths).size !== paths.length) throw new Error('offline candidate path inventory is duplicated')
-  return paths.sort()
+  return deepFreeze({paths: paths.sort(), deletions: deletions.sort()})
 }
 
 function blobAt(repository, commitSha, relative, {nullable = false} = {}) {
@@ -193,11 +209,11 @@ function sourceIdentityForCacheKey(cacheKey) {
   throw new Error(`offline cache entry is outside Guides source roots: ${cacheKey}`)
 }
 
-function validateCacheMutation(repository, baselineSha, candidateSha, sourceCheckpointSha, translationPaths) {
+function validateCacheMutation(repository, baselineSha, candidateSha, sourceCheckpointSha, translationPaths, deletedCacheKeys = []) {
   const before = parseCache(repository, baselineSha)
   const after = parseCache(repository, candidateSha)
   const changedKeys = [...new Set([...Object.keys(before), ...Object.keys(after)])]
-    .filter(key => JSON.stringify(before[key]) !== JSON.stringify(after[key])).sort()
+    .filter(key => !deletedCacheKeys.includes(key) && JSON.stringify(before[key]) !== JSON.stringify(after[key])).sort()
   const byTarget = new Map()
   for (const key of changedKeys) {
     const entry = after[key]
@@ -226,6 +242,28 @@ function validateSidebarJson(repository, candidateSha, changedPaths) {
     try { value = JSON.parse(git(repository, ['show', `${candidateSha}:${relative}`])) } catch { throw new Error(`sidebar locale JSON is invalid: ${relative}`) }
     if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`sidebar locale JSON must be an object: ${relative}`)
   }
+}
+
+function validateOrphanDeletions(repository, targetBaselineSha, candidateSha, sourceCheckpointSha, deletions) {
+  if (!deletions.length) return deepFreeze([])
+  const before = parseCache(repository, targetBaselineSha)
+  const after = parseCache(repository, candidateSha)
+  for (const relative of deletions) {
+    const cacheKey = cacheKeyForTargetPath(relative)
+    const identity = sourceIdentityForCacheKey(cacheKey)
+    if (blobAt(repository, sourceCheckpointSha, identity.sourcePath, {nullable: true}) !== null) {
+      throw new Error('orphan deletion source still exists at source checkpoint: ' + relative)
+    }
+    if (blobAt(repository, targetBaselineSha, relative, {nullable: true}) === null) {
+      throw new Error('orphan deletion path is absent from the target baseline: ' + relative)
+    }
+    if (blobAt(repository, candidateSha, relative, {nullable: true}) !== null) {
+      throw new Error('orphan deletion path still exists in the candidate: ' + relative)
+    }
+    if (!Object.hasOwn(before, cacheKey)) throw new Error('orphan deletion cache key is absent from the baseline: ' + cacheKey)
+    if (Object.hasOwn(after, cacheKey)) throw new Error('orphan deletion cache key still exists in the candidate: ' + cacheKey)
+  }
+  return deepFreeze(deletions.map(cacheKeyForTargetPath).sort())
 }
 
 function inspectOfflineCandidate(raw) {
@@ -264,15 +302,17 @@ function inspectOfflineCandidate(raw) {
   ancestor(repositoryRootValue, values.sourceCheckpointSha, values.targetBaselineSha, 'sourceCheckpointSha must be an ancestor of targetBaselineSha')
   const parents = git(repositoryRootValue, ['rev-list', '--parents', '-n', '1', values.candidateSha]).trim().split(/\s+/u)
   if (parents.length !== 2 || parents[1] !== values.targetBaselineSha) throw new Error('offline candidate must be one commit with the exact target baseline as its only parent')
-  const paths = parseChangedPaths(repositoryRootValue, values.targetBaselineSha, values.candidateSha)
-  const translationPaths = paths.filter(isTranslationPath)
+  const {paths, deletions} = parseChangedPaths(repositoryRootValue, values.targetBaselineSha, values.candidateSha)
+  const translationPaths = paths.filter(relative => !deletions.includes(relative) && isTranslationPath(relative))
   if (translationPaths.length !== values.expectedMdxCount) throw new Error(`offline candidate translated file count is ${translationPaths.length}, expected ${values.expectedMdxCount}`)
   if (!paths.includes(CACHE_PATH)) throw new Error('offline candidate must update the Japanese translation cache')
-  const files = paths.map(relative => blobAt(repositoryRootValue, values.candidateSha, relative))
+  const deletedCacheKeys = validateOrphanDeletions(repositoryRootValue, values.targetBaselineSha, values.candidateSha, values.sourceCheckpointSha, deletions)
+  const presentPaths = paths.filter(relative => !deletions.includes(relative))
+  const files = presentPaths.map(relative => blobAt(repositoryRootValue, values.candidateSha, relative))
   if (translationPaths.some(relative => files.find(file => file.path === relative).bytes.length === 0)) throw new Error('offline translated files must not be empty')
-  validateCacheMutation(repositoryRootValue, values.targetBaselineSha, values.candidateSha, values.sourceCheckpointSha, translationPaths)
+  validateCacheMutation(repositoryRootValue, values.targetBaselineSha, values.candidateSha, values.sourceCheckpointSha, translationPaths, deletedCacheKeys)
   validateSidebarJson(repositoryRootValue, values.candidateSha, paths)
-  return deepFreeze({...values, paths, translationPaths, files: files.map(({bytes, ...file}) => file)})
+  return deepFreeze({...values, paths, deletions, translationPaths, deletedCacheKeys, files: files.map(({bytes, ...file}) => file)})
 }
 
 function canonicalManifest(value) {
