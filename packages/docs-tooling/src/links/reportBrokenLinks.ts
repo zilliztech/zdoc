@@ -225,8 +225,8 @@ export function renderBrokenLinksNote(analysis: BrokenLinkAnalysisReport, tableU
   ].join('\n');
 }
 
-export function reportTableUrl(appToken: string, tableId: string, host: string): string {
-  const base = host.replace(/\/+$/u, '');
+export function reportTableUrl(appToken: string, tableId: string, webHost: string): string {
+  const base = webHost.replace(/\/+$/u, '');
   return `${base}/base/${appToken}?table=${tableId}`;
 }
 
@@ -261,9 +261,11 @@ export async function reportBrokenLinksCommand(
   const token = await tokenFetcher.token();
   const host = environment.FEISHU_HOST;
   if (!host) throw new Error('FEISHU_HOST is required');
+  const webHost = environment.FEISHU_WEB_HOST;
+  if (!webHost) throw new Error('FEISHU_WEB_HOST is required');
 
   await writeBrokenLinksTable(rows, {appToken, tableId, token, fetchFeishu: fetchFeishuJsonWithRetry, host});
-  const tableUrl = reportTableUrl(appToken, tableId, host);
+  const tableUrl = reportTableUrl(appToken, tableId, webHost);
   const note = renderCombinedNote(analyses, tableUrl);
   writeFileSync(options.notePath, note);
   write(`Report table refreshed: ${rows.length} row(s) at ${scannedAt}`);

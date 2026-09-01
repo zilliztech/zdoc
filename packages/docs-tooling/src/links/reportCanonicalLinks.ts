@@ -137,6 +137,7 @@ type TableDeps = {
   token: string;
   fetchFeishu: FeishuFetch;
   host: string;
+  webHost: string;
   now: () => Date;
 };
 
@@ -201,7 +202,7 @@ export async function findOrCreateDailyTable(deps: TableDeps): Promise<{tableId:
   const tables = await listCanonicalTables(deps);
   const existing = tables.find(table => table.name === name);
   const tableId = existing?.table_id ?? await createCanonicalTable(deps, name);
-  const tableUrl = `${deps.host.replace(/\/+$/u, '')}/base/${deps.appToken}?table=${tableId}`;
+  const tableUrl = `${deps.webHost.replace(/\/+$/u, '')}/base/${deps.appToken}?table=${tableId}`;
   return {tableId, tableUrl};
 }
 
@@ -218,6 +219,8 @@ export async function reportCanonicalLinksCommand(
   if (!appToken) throw new Error('BROKEN_LINKS_REPORT_BASE_TOKEN is required');
   const host = environment.FEISHU_HOST;
   if (!host) throw new Error('FEISHU_HOST is required');
+  const webHost = environment.FEISHU_WEB_HOST;
+  if (!webHost) throw new Error('FEISHU_WEB_HOST is required');
 
   const report = parseCanonicalLinkReport(JSON.parse(readFileSync(options.reportPath, 'utf8')));
   const workflowRunUrl = environment.GITHUB_REPOSITORY && environment.GITHUB_RUN_ID
@@ -231,7 +234,7 @@ export async function reportCanonicalLinksCommand(
   await tokenFetcher.fetchToken();
   const token = await tokenFetcher.token();
 
-  const deps: TableDeps = {appToken, token, fetchFeishu: fetchFeishuJsonWithRetry, host, now};
+  const deps: TableDeps = {appToken, token, fetchFeishu: fetchFeishuJsonWithRetry, host, webHost, now};
   const {tableId, tableUrl} = await findOrCreateDailyTable(deps);
   await appendCanonicalRows(deps, tableId, rows);
 
