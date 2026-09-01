@@ -87,9 +87,7 @@ jobs:
           retention-days: 14
 
       - name: Report external links to table
-        run: |
-          pnpm docs-tooling report-external-links --site en --report tmp/external-link-watchdog/en.json --table-url tmp/external-link-watchdog/table-url.txt
-          pnpm docs-tooling report-external-links --site zh-CN --report tmp/external-link-watchdog/zh-CN.json --table-url tmp/external-link-watchdog/table-url.txt
+        run: pnpm docs-tooling report-external-links --site en --report tmp/external-link-watchdog/en.json --table-url tmp/external-link-watchdog/table-url.txt
         env:
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
