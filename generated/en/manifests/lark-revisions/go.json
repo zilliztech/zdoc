@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "group": "go",
   "complete": true,
-  "generatedAt": "2026-08-01T11:18:38.264Z",
-  "sourceRunId": "30695964668",
+  "generatedAt": "2026-09-01T10:36:40.156Z",
+  "sourceRunId": "33496917058",
   "records": [
     {
       "canonicalToken": "A3WWdqm52oLqtuxaR9EcjmybnwT",
@@ -71,7 +71,7 @@
     {
       "canonicalToken": "AvOXd92pPoAXPcxvArwcvKnSnph",
       "title": "GetLoadState()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetLoadState.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -80,7 +80,7 @@
     {
       "canonicalToken": "B5w2dyWunogsmAxlJfQcQp8qnRg",
       "title": "LoadCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -98,7 +98,7 @@
     {
       "canonicalToken": "BPXDdgDPzoaDTixPJLncvFZ0nig",
       "title": "FlushTask",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-FlushTask.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -107,7 +107,7 @@
     {
       "canonicalToken": "BcAVdlDIioMUXTxqyZkcXfqznKd",
       "title": "ReleasePartitions()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleasePartitions.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -179,7 +179,7 @@
     {
       "canonicalToken": "Cased8tfhoZ25Sx4VALcy4gZnbh",
       "title": "HasPartition()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -260,7 +260,7 @@
     {
       "canonicalToken": "DzchdYLEYomSrzxOys8c1mbanhg",
       "title": "DropIndex()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -287,7 +287,7 @@
     {
       "canonicalToken": "ERQodkjAzotUQ3xKvA8c6jmLn3e",
       "title": "Index",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Management-Index.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -305,7 +305,7 @@
     {
       "canonicalToken": "EhzHdkYfUoOsprxhtPNcmMPKnEc",
       "title": "NewBitmapIndex()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewBitmapIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -386,7 +386,7 @@
     {
       "canonicalToken": "GDYxdLJ9HopKQoxJqknckyI1neb",
       "title": "NewAutoIndex()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewAutoIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -449,7 +449,7 @@
     {
       "canonicalToken": "GppedViHro8TJMxQCZ3cJRKRnHg",
       "title": "IndexType",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexType.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -494,7 +494,7 @@
     {
       "canonicalToken": "HWG7dWY6XoKyapx5L5Mc69kLnld",
       "title": "NewDiskANNIndex()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewDiskANNIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -512,7 +512,7 @@
     {
       "canonicalToken": "Hl6adortyo5I2nxdGx8cEDJ8noe",
       "title": "MetricType",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-MetricType.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -530,7 +530,7 @@
     {
       "canonicalToken": "I053djRjsob1JJxKXvUcGelbn2d",
       "title": "NewRTreeIndex()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewRTreeIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -602,7 +602,7 @@
     {
       "canonicalToken": "JTQrddtCJoJBjwxrKZrcn1lPnEe",
       "title": "NewSortedIndex()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewSortedIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -647,7 +647,7 @@
     {
       "canonicalToken": "KLrMdFtVko5QGwxyIs9ckmtUn0c",
       "title": "CreateIndex()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -728,7 +728,7 @@
     {
       "canonicalToken": "LLYvdMBa6osxRQx90sHcm02Kn2b",
       "title": "GetCompactionState()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetCompactionState.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -737,7 +737,7 @@
     {
       "canonicalToken": "LMXGdDnueontIFxuqAIcS8D6nJc",
       "title": "LoadPartitions()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadPartitions.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -791,7 +791,7 @@
     {
       "canonicalToken": "MSFrdlGjaoh9zdxHuZqcf6VsnDw",
       "title": "NewTrieIndex()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewTrieIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -998,7 +998,7 @@
     {
       "canonicalToken": "PjAddPiH8oyRNpxqafBc1ZGknSd",
       "title": "DescribeIndex()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DescribeIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1007,7 +1007,7 @@
     {
       "canonicalToken": "Pp0KdUrYGoX4PbxXNFvczjePn4f",
       "title": "CreatePartition()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1097,7 +1097,7 @@
     {
       "canonicalToken": "S8NxdJc1gom2SVxxNYkc5lHxnMg",
       "title": "ListIndexes()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ListIndexes.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1169,7 +1169,7 @@
     {
       "canonicalToken": "StsddnE0ho6w73xxaGucPja3nMc",
       "title": "CompactionState",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CompactionState.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1250,7 +1250,7 @@
     {
       "canonicalToken": "TxKwd5bEqoHUuLxqENic3Uv6nhg",
       "title": "NewInvertedIndex()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewInvertedIndex.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1259,7 +1259,7 @@
     {
       "canonicalToken": "U9w7dQeEBom2UBxJZM1cJAIYniL",
       "title": "LoadTask",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadTask.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1322,7 +1322,7 @@
     {
       "canonicalToken": "VJKcdlljXofguixcGe5c2CwwnEf",
       "title": "Compact()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Compact.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1340,7 +1340,7 @@
     {
       "canonicalToken": "VUaadf505oQMTDx14XgcwJyNnDf",
       "title": "Flush()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Flush.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1385,7 +1385,7 @@
     {
       "canonicalToken": "VtZWdaMz6o9iYrxcEaMcsnJin0e",
       "title": "RefreshLoad()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-RefreshLoad.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1394,7 +1394,7 @@
     {
       "canonicalToken": "VuYydaf7loMiRAxkB3scXzA1nPb",
       "title": "DropIndexProperties()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndexProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1430,7 +1430,7 @@
     {
       "canonicalToken": "Wyvhd3725onAmAxegk1caOHonQg",
       "title": "IndexDescription",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexDescription.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1466,7 +1466,7 @@
     {
       "canonicalToken": "XWSAdFkdDoaDPnxOtkEcuFETngL",
       "title": "LoadState",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadState.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1484,7 +1484,7 @@
     {
       "canonicalToken": "XnbJdLilXobGn1x1Uq6cvhKTnhf",
       "title": "DropPartition()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-DropPartition.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1502,7 +1502,7 @@
     {
       "canonicalToken": "XzLnd1w4uo2RM0xS8UWc5K6in1R",
       "title": "AlterIndexProperties()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1511,7 +1511,7 @@
     {
       "canonicalToken": "Y0IAdifhVoYQVAxiZEdcjIS0nog",
       "title": "CreateIndexTask",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndexTask.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1538,7 +1538,7 @@
     {
       "canonicalToken": "YMxDdZUXfoCEPtxBhN8clGxDnUd",
       "title": "ReleaseCollection()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleaseCollection.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1574,7 +1574,7 @@
     {
       "canonicalToken": "Z835dscn3oM3sGxnDlacgndBn9o",
       "title": "GetPartitionStats()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,
@@ -1601,7 +1601,7 @@
     {
       "canonicalToken": "ZNvXd7eldozvRHxpHOcc5CPAnug",
       "title": "ListPartitions()",
-      "contentPath": null,
+      "contentPath": "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md",
       "objectToken": null,
       "parentToken": null,
       "revisionId": null,

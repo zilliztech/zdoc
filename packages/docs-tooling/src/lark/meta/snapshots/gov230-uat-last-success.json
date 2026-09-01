@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-01T02:43:46.129Z",
+  "generated_at": "2026-09-01T10:36:39.891Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/go/v3.0.x",
   "base_app_token": "KQT5bV62QaioKisKZT0crwZDnke",
   "records": [
@@ -1291,7 +1291,9 @@
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Y0IAdifhVoYQVAxiZEdcjIS0nog"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndex.md"
+      ]
     },
     {
       "record_id": "recvb04ktZAjpx",
@@ -1317,7 +1319,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ListIndexes.md"
+      ]
     },
     {
       "record_id": "recvb04lQgGl8X",
@@ -1345,7 +1349,9 @@
       "outgoing_tokens": [
         "Wyvhd3725onAmAxegk1caOHonQg"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DescribeIndex.md"
+      ]
     },
     {
       "record_id": "recvb04njhZ0b8",
@@ -1371,7 +1377,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndex.md"
+      ]
     },
     {
       "record_id": "recvb04oLiqmq6",
@@ -1397,7 +1405,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties.md"
+      ]
     },
     {
       "record_id": "recvb04qf2vw4K",
@@ -1423,7 +1433,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-DropIndexProperties.md"
+      ]
     },
     {
       "record_id": "recvb04s6NZbn3",
@@ -1451,7 +1463,9 @@
       "outgoing_tokens": [
         "U9w7dQeEBom2UBxJZM1cJAIYniL"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadCollection.md"
+      ]
     },
     {
       "record_id": "recvb04u5OBshm",
@@ -1479,7 +1493,9 @@
       "outgoing_tokens": [
         "U9w7dQeEBom2UBxJZM1cJAIYniL"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadPartitions.md"
+      ]
     },
     {
       "record_id": "recvb04vnTpCTY",
@@ -1507,7 +1523,9 @@
       "outgoing_tokens": [
         "XWSAdFkdDoaDPnxOtkEcuFETngL"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetLoadState.md"
+      ]
     },
     {
       "record_id": "recvb04wAhIaiT",
@@ -1533,7 +1551,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleaseCollection.md"
+      ]
     },
     {
       "record_id": "recvb04xZDd0NH",
@@ -1559,7 +1579,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-ReleasePartitions.md"
+      ]
     },
     {
       "record_id": "recvb04ze38Tx6",
@@ -1585,7 +1607,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-RefreshLoad.md"
+      ]
     },
     {
       "record_id": "recvb04AAt4mck",
@@ -1613,7 +1637,9 @@
       "outgoing_tokens": [
         "BPXDdgDPzoaDTixPJLncvFZ0nig"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Flush.md"
+      ]
     },
     {
       "record_id": "recvb04BMB4RqU",
@@ -1639,7 +1665,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Compact.md"
+      ]
     },
     {
       "record_id": "recvb04D1xbNKd",
@@ -1665,7 +1693,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-GetCompactionState.md"
+      ]
     },
     {
       "record_id": "recvb04EEF4EYC",
@@ -1691,7 +1721,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexDescription.md"
+      ]
     },
     {
       "record_id": "recvb04FHdcUge",
@@ -1717,7 +1749,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CreateIndexTask.md"
+      ]
     },
     {
       "record_id": "recvb04GK3qsBO",
@@ -1743,7 +1777,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadTask.md"
+      ]
     },
     {
       "record_id": "recvb04HVb0E8q",
@@ -1769,7 +1805,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-FlushTask.md"
+      ]
     },
     {
       "record_id": "recvb04J7alAml",
@@ -1795,7 +1833,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-LoadState.md"
+      ]
     },
     {
       "record_id": "recvb04KkEvgoQ",
@@ -1821,7 +1861,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-CompactionState.md"
+      ]
     },
     {
       "record_id": "recvb04M44fwqS",
@@ -1872,7 +1914,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Management-Index.md"
+      ]
     },
     {
       "record_id": "recvb0b2OkRDTJ",
@@ -1901,7 +1945,9 @@
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewAutoIndex.md"
+      ]
     },
     {
       "record_id": "recvb0b56sbnVK",
@@ -1930,7 +1976,9 @@
         "ERQodkjAzotUQ3xKvA8c6jmLn3e",
         "Hl6adortyo5I2nxdGx8cEDJ8noe"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewDiskANNIndex.md"
+      ]
     },
     {
       "record_id": "recvb0b7rwVMoj",
@@ -2377,7 +2425,9 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewRTreeIndex.md"
+      ]
     },
     {
       "record_id": "recvb0bvxKmNo3",
@@ -2405,7 +2455,9 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewTrieIndex.md"
+      ]
     },
     {
       "record_id": "recvb0bwuqsoM0",
@@ -2433,7 +2485,9 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewInvertedIndex.md"
+      ]
     },
     {
       "record_id": "recvb0bxvjyKWR",
@@ -2461,7 +2515,9 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewSortedIndex.md"
+      ]
     },
     {
       "record_id": "recvb0byrKw47J",
@@ -2489,7 +2545,9 @@
       "outgoing_tokens": [
         "ERQodkjAzotUQ3xKvA8c6jmLn3e"
       ],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewBitmapIndex.md"
+      ]
     },
     {
       "record_id": "recvb0bzPTJGox",
@@ -2599,7 +2657,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-IndexType.md"
+      ]
     },
     {
       "record_id": "recvb04UEb78VP",
@@ -2625,7 +2685,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Management/v2-Management-MetricType.md"
+      ]
     },
     {
       "record_id": "recvb04XcIB6k6",
@@ -2651,7 +2713,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-CreatePartition.md"
+      ]
     },
     {
       "record_id": "recvb04YhxLmSJ",
@@ -2677,7 +2741,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-DropPartition.md"
+      ]
     },
     {
       "record_id": "recvb04ZkC5LJT",
@@ -2703,7 +2769,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-HasPartition.md"
+      ]
     },
     {
       "record_id": "recvb050nkzoPc",
@@ -2729,7 +2797,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-ListPartitions.md"
+      ]
     },
     {
       "record_id": "recvb051xUN9wp",
@@ -2755,7 +2825,9 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [],
-      "output_paths": []
+      "output_paths": [
+        "content/en/reference/api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats.md"
+      ]
     },
     {
       "record_id": "recvb056zjZWKf",

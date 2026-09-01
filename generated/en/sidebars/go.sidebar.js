@@ -1,10 +1,5 @@
 module.exports = [
   {
-    "type": "doc",
-    "id": "api/go/go/go",
-    "label": "Overview"
-  },
-  {
     "type": "category",
     "label": "Authentication",
     "key": "category:api/go/go/v2/v2-authentication",
@@ -675,6 +670,243 @@ module.exports = [
         "id": "api/go/go/v2/v2-DataImport/v2-DataImport-ListImportJobsResponse",
         "label": "ListImportJobsResponse",
         "key": "doc:api/go/go/v2/v2-DataImport/v2-dataimport-listimportjobsresponse"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Management",
+    "key": "category:api/go/go/v2/v2-management",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-AlterIndexProperties",
+        "label": "AlterIndexProperties()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-alterindexproperties"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-Compact",
+        "label": "Compact()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-compact"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-CompactionState",
+        "label": "CompactionState",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-compactionstate"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-CreateIndex",
+        "label": "CreateIndex()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-createindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-CreateIndexTask",
+        "label": "CreateIndexTask",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-createindextask"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-DescribeIndex",
+        "label": "DescribeIndex()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-describeindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-DropIndex",
+        "label": "DropIndex()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-dropindex"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-DropIndexProperties",
+        "label": "DropIndexProperties()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-dropindexproperties"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-Flush",
+        "label": "Flush()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-flush"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-FlushTask",
+        "label": "FlushTask",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-flushtask"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-GetCompactionState",
+        "label": "GetCompactionState()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-getcompactionstate"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-GetLoadState",
+        "label": "GetLoadState()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-getloadstate"
+      },
+      {
+        "type": "category",
+        "label": "Index",
+        "key": "category:api/go/go/v2/v2-Management/v2-management-index",
+        "items": [
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Management/v2-Management-Index/v2-Management-Index",
+            "label": "Index",
+            "key": "doc:api/go/go/v2/v2-Management/v2-Management-Index/v2-management-index"
+          },
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewAutoIndex",
+            "label": "NewAutoIndex()",
+            "key": "doc:api/go/go/v2/v2-Management/v2-Management-Index/v2-index-newautoindex"
+          },
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewBitmapIndex",
+            "label": "NewBitmapIndex()",
+            "key": "doc:api/go/go/v2/v2-Management/v2-Management-Index/v2-index-newbitmapindex"
+          },
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewDiskANNIndex",
+            "label": "NewDiskANNIndex()",
+            "key": "doc:api/go/go/v2/v2-Management/v2-Management-Index/v2-index-newdiskannindex"
+          },
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewInvertedIndex",
+            "label": "NewInvertedIndex()",
+            "key": "doc:api/go/go/v2/v2-Management/v2-Management-Index/v2-index-newinvertedindex"
+          },
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewRTreeIndex",
+            "label": "NewRTreeIndex()",
+            "key": "doc:api/go/go/v2/v2-Management/v2-Management-Index/v2-index-newrtreeindex"
+          },
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewSortedIndex",
+            "label": "NewSortedIndex()",
+            "key": "doc:api/go/go/v2/v2-Management/v2-Management-Index/v2-index-newsortedindex"
+          },
+          {
+            "type": "doc",
+            "id": "api/go/go/v2/v2-Management/v2-Management-Index/v2-Index-NewTrieIndex",
+            "label": "NewTrieIndex()",
+            "key": "doc:api/go/go/v2/v2-Management/v2-Management-Index/v2-index-newtrieindex"
+          }
+        ]
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-IndexDescription",
+        "label": "IndexDescription",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-indexdescription"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-IndexType",
+        "label": "IndexType",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-indextype"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-ListIndexes",
+        "label": "ListIndexes()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-listindexes"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-LoadCollection",
+        "label": "LoadCollection()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-loadcollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-LoadPartitions",
+        "label": "LoadPartitions()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-loadpartitions"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-LoadState",
+        "label": "LoadState",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-loadstate"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-LoadTask",
+        "label": "LoadTask",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-loadtask"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-MetricType",
+        "label": "MetricType",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-metrictype"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-RefreshLoad",
+        "label": "RefreshLoad()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-refreshload"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-ReleaseCollection",
+        "label": "ReleaseCollection()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-releasecollection"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Management/v2-Management-ReleasePartitions",
+        "label": "ReleasePartitions()",
+        "key": "doc:api/go/go/v2/v2-Management/v2-management-releasepartitions"
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Partition",
+    "key": "category:api/go/go/v2/v2-partition",
+    "items": [
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Partition/v2-Partition-CreatePartition",
+        "label": "CreatePartition()",
+        "key": "doc:api/go/go/v2/v2-Partition/v2-partition-createpartition"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Partition/v2-Partition-DropPartition",
+        "label": "DropPartition()",
+        "key": "doc:api/go/go/v2/v2-Partition/v2-partition-droppartition"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Partition/v2-Partition-GetPartitionStats",
+        "label": "GetPartitionStats()",
+        "key": "doc:api/go/go/v2/v2-Partition/v2-partition-getpartitionstats"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Partition/v2-Partition-HasPartition",
+        "label": "HasPartition()",
+        "key": "doc:api/go/go/v2/v2-Partition/v2-partition-haspartition"
+      },
+      {
+        "type": "doc",
+        "id": "api/go/go/v2/v2-Partition/v2-Partition-ListPartitions",
+        "label": "ListPartitions()",
+        "key": "doc:api/go/go/v2/v2-Partition/v2-partition-listpartitions"
       }
     ]
   }
