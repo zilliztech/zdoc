@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloud にある2種類のプラットフォームロール（組織ロールとプロジェクトロール）について紹介し、その管理方法を説明します。 | Cloud"
+description: "このガイドでは、Zilliz Cloud における2種類のプラットフォームロール（組織ロールとプロジェクトロール）について紹介し、その管理方法を説明します。 | Cloud"
 type: origin
 token: MyKpwdBxUizDsukJm5Kc8orenbT
 sidebar_position: 2
@@ -22,7 +22,7 @@ import Procedures from '@site/src/components/Procedures';
 
 # プラットフォームロールの管理
 
-このガイドでは、Zilliz Cloud にある2種類のプラットフォームロール（組織ロールとプロジェクトロール）について紹介し、その管理方法を説明します。
+このガイドでは、Zilliz Cloud における2種類のプラットフォームロール（組織ロールとプロジェクトロール）について紹介し、その管理方法を説明します。
 
 ## 組織ロールの管理\{#manage-organization-roles}
 
@@ -40,13 +40,13 @@ import Procedures from '@site/src/components/Procedures';
 
 | ロール | 説明 | 編集可否 |
 | --- | --- | --- |
-| Organization Owner | アクセス制御、設定、請求、セキュリティ、サービスプリンシパル、プロジェクトロールの割り当てなど、組織レベルの完全な管理権限を持ちます。 | いいえ |
+| Organization Owner | アクセス制御、設定、請求、セキュリティ、サービスプリンシパル、プロジェクトロールの割り当てなど、組織レベルの完全な管理を行います。 | いいえ |
 | Billing Admin | 関連する組織およびプロジェクトのコンテキストへの読み取り専用アクセスを持ち、請求とサブスクリプションを管理します。 | いいえ |
 | Public | すべての組織メンバーに自動的に付与される、ログインのみの基本ロールです。 | いいえ |
 
 ## プロジェクトロールの管理\{#manage-project-roles}
 
-プロジェクトロールは、特定のプロジェクト内のアクセスを制御します。プロジェクトロールを使用すると、プロジェクトメンバー、クラスターのライフサイクル操作、オンデマンドコンピューティングへのアクセス、インテグレーション、バックアップ、移行、アラート、ボリューム、およびプロジェクトスコープのデータアクセスを管理できます。
+プロジェクトロールは、特定のプロジェクト内のアクセスを制御します。プロジェクトロールを使用すると、プロジェクトメンバー、クラスターのライフサイクル操作、オンデマンドコンピュートへのアクセス、インテグレーション、バックアップ、移行、アラート、ボリューム、プロジェクトスコープのデータアクセスを管理できます。
 
 <Admonition type="info" icon="📘" title="Note">
 
@@ -60,14 +60,14 @@ import Procedures from '@site/src/components/Procedures';
 
 | ロール | 推奨対象 | 主な権限 |
 | --- | --- | --- |
-| Project Admin | プロジェクトオーナーおよびプラットフォーム管理者向け。 | コラボレーター、ロール、クラスターのライフサイクル、コンピューティング、データアクセスを含む、プロジェクトの完全な管理権限を持ちます。 |
-| クラスター管理者 | データベース管理者およびプラットフォームエンジニア向け。 | スケーリング、バックアップ、クラスター操作、データアクセスなどのクラスター管理権限を持ちます。 |
-| Data Operator | アプリケーションチームおよびデータエンジニア向け。 | 限定的なプロジェクト管理権限に加え、データの読み取りおよび書き込み操作が可能です。 |
-| Data Viewer | アナリスト、開発者、および読み取り専用アプリケーション向け。 | 表示、クエリ、検索ワークフローのための読み取り専用アクセスを持ちます。 |
+| Project Admin | プロジェクトオーナーおよびプラットフォーム管理者向け。 | コラボレーター、ロール、クラスターのライフサイクル、コンピュート、データアクセスを含む、プロジェクトの完全な管理を行います。 |
+| クラスター Admin | データベース管理者およびプラットフォームエンジニア向け。 | スケーリング、バックアップ、クラスター操作、データアクセスなどのクラスター管理を行います。 |
+| Data Operator | アプリケーションチームおよびデータエンジニア向け。 | 限定的なプロジェクト管理権限を持つデータの読み書き操作を行います。 |
+| Data Viewer | アナリスト、開発者、読み取り専用アプリケーション向け。 | 閲覧、クエリ、検索ワークフローのための読み取り専用アクセスを提供します。 |
 
 ### カスタムプロジェクトロール\{#custom-project-roles}
 
-事前定義済みロールがチームの役割に合わない場合は、カスタムプロジェクトロールを作成できます。カスタムプロジェクトロールでは、プロジェクト内のプラットフォーム権限、コンピューティング権限、データアクセス権限を組み合わせることができます。
+事前定義済みロールがチームの責務に合わない場合は、カスタムプロジェクトロールを作成できます。カスタムプロジェクトロールでは、プロジェクト内のプラットフォーム権限、コンピュート権限、データアクセス権限を組み合わせることができます。
 
 #### カスタムプロジェクトロールの作成\{#create-a-custom-project-role}
 
@@ -83,19 +83,15 @@ import Procedures from '@site/src/components/Procedures';
 
     ![IlOjwjvJwhqzu4bUqodcngrtnCg](https://zdoc-images.s3.us-west-2.amazonaws.com/IlOjwjvJwhqzu4bUqodcngrtnCg.png)
 
-1. カスタムロールの作成方法を選択し、**Next** をクリックします。
+1. ロールテンプレートを選択し、**Next** をクリックします。
 
-    - **Start from scratch**: 柔軟性を最大限に高めるため、ゼロから完全にカスタマイズされたロールを作成します。
-
-    - **Select an existing project role as a template**: 事前定義済みロールをテンプレートとして使用し、権限を微調整して効率的に作成します。
-
-    ![GmXybbNiooO6UOxmFbecv5honGh](https://zdoc-images.s3.us-west-2.amazonaws.com/gmxybbniooo6uoxmfbecv5hongh.png "GmXybbNiooO6UOxmFbecv5honGh")
+    ![ReCmbb1xmoBkZJxbzFScSkewnLb](https://zdoc-images.s3.us-west-2.amazonaws.com/recmbb1xmobkzjxbzfscskewnlb.png "ReCmbb1xmoBkZJxbzFScSkewnLb")
 
 1. カスタムロールの名前と説明を入力します。
 
     ![MQf2wvFB2hzZ36bqtqlc8gLqnWg](https://zdoc-images.s3.us-west-2.amazonaws.com/MQf2wvFB2hzZ36bqtqlc8gLqnWg.png)
 
-1. ロールのアクセス権限を設定し、**Create** をクリックします。カスタムプロジェクトロールに追加できる権限の一覧については、[Resource Privilege Reference](./platform-privileges) を参照してください。
+1. ロールのアクセス権を設定し、**Create** をクリックします。カスタムプロジェクトロールに追加できる権限の全一覧については、[リソース権限リファレンス](./platform-privileges)を参照してください。
 
     ![Q7qSb7glyojMIfxjpLrcBrX5naf](https://zdoc-images.s3.us-west-2.amazonaws.com/q7qsb7glyojmifxjplrcbrx5naf.png "Q7qSb7glyojMIfxjpLrcBrX5naf")
 

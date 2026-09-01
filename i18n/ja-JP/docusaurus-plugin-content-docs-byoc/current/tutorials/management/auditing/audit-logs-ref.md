@@ -1,13 +1,13 @@
 ---
-title: "VectorDB 監査ログ リファレンス | BYOC"
+title: "VectorDB 監査ログリファレンス | BYOC"
 slug: /audit-logs-ref
-sidebar_label: "VectorDB 監査ログ リファレンス"
+sidebar_label: "VectorDB 監査ログリファレンス"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud では、監査ログは次の構文を持ちます | BYOC"
+description: "Zilliz Cloud における監査ログの構文は次のとおりです | BYOC"
 type: origin
 token: Nby4wCqNviuLg3kEZpkcdKtnnnb
 sidebar_position: 2
@@ -18,7 +18,7 @@ displayed_sidebar: default
 import Admonition from '@theme/Admonition';
 
 
-# VectorDB 監査ログ リファレンス
+# VectorDB 監査ログリファレンス
 
 <FeatureNote variant="plan" titleHref="/docs/select-zilliz-cloud-service-plans">
 
@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 </FeatureNote>
 
-Zilliz Cloud では、監査ログは次の構文を持ちます。
+Zilliz Cloud における監査ログの構文は次のとおりです。
 
 ```json
 {
@@ -58,57 +58,57 @@ Zilliz Cloud では、監査ログは次の構文を持ちます。
    <tr>
      <td><p><code>date</code></p></td>
      <td><p>String (ISO 8601 形式)</p></td>
-     <td><p>アクションが発生した UTC でのタイムスタンプです（例: <code>"2025-01-21T08:38:39.494527Z"</code>）。</p></td>
+     <td><p>アクションが発生したタイムスタンプ (UTC、例: <code>&quot;2025-01-21T08:38:39.494527Z&quot;</code>)。</p></td>
    </tr>
    <tr>
      <td><p><code>action</code></p></td>
      <td><p>String</p></td>
-     <td><p>実行されたアクションです（例: <code>"DescribeCollection"</code>）。利用可能なアクションの一覧については、<a href="./audit-logs-ref">アクション一覧</a>を参照してください。</p></td>
+     <td><p>実行されたアクション (例: <code>&quot;DescribeCollection&quot;</code>)。利用可能なアクションの一覧については、<a href="./audit-logs-ref">アクションの一覧</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>cluster_id</code></p></td>
      <td><p>String</p></td>
-     <td><p>アクションが発生した cluster の一意識別子です（例: <code>"in01-b5a7e190615xxxf"</code>）。</p></td>
+     <td><p>アクションが発生したクラスターの一意の識別子 (例: <code>&quot;in01-b5a7e190615xxxf&quot;</code>)。</p></td>
    </tr>
    <tr>
      <td><p><code>database</code></p></td>
      <td><p>String</p></td>
-     <td><p>アクションに関係する database の名前です（例: <code>"default"</code>）。</p></td>
+     <td><p>アクションに関連するデータベース名 (例: <code>&quot;default&quot;</code>)。</p></td>
    </tr>
    <tr>
      <td><p><code>interface</code></p></td>
      <td><p>string</p></td>
-     <td><p>アクションが実行されるインターフェースです（例: <code>"Grpc"</code>、<code>"Restful"</code>）。</p></td>
+     <td><p>アクションの実行に使用されたインターフェース (例: <code>&quot;Grpc&quot;</code>、<code>&quot;Restful&quot;</code>)。</p></td>
    </tr>
    <tr>
      <td><p><code>log_type</code></p></td>
      <td><p>String</p></td>
-     <td><p>ログエントリの種類です（例: <code>"AUDIT"</code>）。</p></td>
+     <td><p>ログエントリの種類 (例: <code>&quot;AUDIT&quot;</code>)。</p></td>
    </tr>
    <tr>
      <td><p><code>params</code></p></td>
-     <td><p>Object (キーと値のペア)</p></td>
-     <td><p>アクションに関連する追加パラメータです。これには <code>collection</code>、<code>consistency_level</code> などが含まれる場合があります。</p></td>
+     <td><p>オブジェクト (キーと値のペア)</p></td>
+     <td><p>アクションに関連する追加パラメーターです。<code>collection</code> や <code>consistency_level</code> などが含まれます。</p></td>
    </tr>
    <tr>
      <td><p><code>result</code></p></td>
      <td><p>Integer</p></td>
-     <td><p>結果コードまたはステータスコードです（例: 成功時は <code>0</code>、その他のコードはエラーを示す場合があります）。<code>status</code> が <code>Receive</code> の場合は利用できません。</p></td>
+     <td><p>結果コードまたはステータスコード (例: 成功時は <code>0</code>、それ以外のコードはエラーを示す場合があります)。<code>status</code> が <code>Receive</code> の場合は取得できません。</p></td>
    </tr>
    <tr>
      <td><p><code>status</code></p></td>
      <td><p>String</p></td>
-     <td><p>記録されるアクションの状態です（例: <code>Receive</code>、<code>Success</code>、<code>Failed</code>）。</p><ul><li><p><code>Receive</code>: アクションはシステムに受信されていますが、まだ完了していません。</p></li><li><p><code>Success</code>: アクションは問題なく正常に完了しました。</p></li><li><p><code>Failed</code>: アクションは失敗しました。</p></li></ul></td>
+     <td><p>記録対象のアクションのステータス (例: <code>Receive</code>、<code>Success</code>、<code>Failed</code>)。</p><ul><li><p><code>Receive</code>: アクションはシステムによって受信されましたが、まだ完了していません。</p></li><li><p><code>Success</code>: アクションが正常に完了しました。</p></li><li><p><code>Failed</code>: アクションが失敗しました。</p></li></ul></td>
    </tr>
    <tr>
      <td><p><code>time</code></p></td>
-     <td><p>Integer (epoch time、ミリ秒)</p></td>
-     <td><p>1970 年からのミリ秒単位のタイムスタンプです（epoch time）。</p></td>
+     <td><p>Integer (エポック時間、ミリ秒)</p></td>
+     <td><p>1970年からの経過時間をミリ秒単位で表したタイムスタンプ (エポック時間) です。</p></td>
    </tr>
    <tr>
      <td><p><code>trace_id</code></p></td>
      <td><p>String</p></td>
-     <td><p>システム間でリクエストを追跡するための一意識別子です。これによりログ同士を関連付けられます。</p></td>
+     <td><p>システム間でリクエストを追跡するための一意の識別子です。複数のログを関連付けるために使用されます。</p></td>
    </tr>
    <tr>
      <td><p><code>user</code></p></td>
@@ -117,105 +117,104 @@ Zilliz Cloud では、監査ログは次の構文を持ちます。
    </tr>
 </table>
 
-## アクション一覧\{#list-of-actions}
+## アクションの一覧\{#list-of-actions}
 
-次の表は、監査のためにログに記録できる data plane 上のアクションをまとめたものです。
+以下の表に、監査ログとして記録可能なデータプレーンのアクションをまとめます。
 
 ### 接続\{#connection}
 
 | `action` | 説明 |
 | --- | --- |
-| Connect | 接続を確立する |
+| Connect | 接続を確立します |
 
-### Database\{#database}
-
-| `action` | 説明 |
-| --- | --- |
-| ListDatabases | 現在のインスタンス内のすべての database を表示する |
-| DescribeDatabase | database の詳細を表示する |
-| CreateDatabase | database を作成する |
-| DropDatabase | database を削除する |
-| AlterDatabase | database のプロパティを変更する |
-
-### Collection\{#collection}
+### データベース\{#database}
 
 | `action` | 説明 |
 | --- | --- |
-| GetLoadState | collection のロード状態を確認する |
-| GetLoadingProgress | collection のロード進行状況を確認する |
-| DescribeCollection | collection の詳細を表示する |
-| CreateCollection | collection を作成する |
-| HasCollection | database 内に collection が存在するか確認する |
-| DropCollection | collection を削除する |
-| LoadCollection | collection をロードする |
-| AlterCollection | collection のスキーマまたは設定を変更する |
-| ShowCollections | collection 権限を持つすべての collection を表示する |
-| RenameCollection | collection の名前を変更する |
-| ReleaseCollection | collection を解放する |
-| GetCollectionStatistics | collection の統計情報を取得する（例: collection 内のエンティティ数） |
-| Flush | collection 内のすべてのエンティティを sealed segment に永続化します。flush 操作後に挿入されたエンティティは新しい segment に保存されます。 |
-| GetFlushState | collection の flush 操作の状態を確認する |
-| CreateAlias | collection の alias を作成する |
-| DescribeAlias | collection の alias を記述する |
-| AlterAlias | collection に関連付けられた alias を変更する |
-| ListAliases | collection のすべての alias を表示する |
-| DropAlias | collection の alias を削除する |
-| GetReplicas | collection のレプリカを取得する |
+| ListDatabases | 現在のインスタンス内のすべてのデータベースを表示します |
+| DescribeDatabase | データベースの詳細を表示します |
+| CreateDatabase | データベースを作成します |
+| DropDatabase | データベースを削除します |
+| AlterDatabase | データベースのプロパティを変更します |
 
-### Partition\{#partition}
+### コレクション\{#collection}
 
 | `action` | 説明 |
 | --- | --- |
-| CreatePartition | partition を作成する |
-| HasPartition | partition が存在するかどうかを確認する |
-| LoadPartitions | 1 つ以上の partition をロードする |
-| ShowPartitions | collection 内のすべての partition を表示する |
-| DropPartition | partition を削除する |
-| ReleasePartitions | 1 つ以上の partition を解放する |
-| GetPartitionStatistics | partition の統計情報を取得する |
+| GetLoadState | コレクションのロード状態を確認します |
+| GetLoadingProgress | コレクションのロード進捗を確認します |
+| DescribeCollection | コレクションの詳細を表示します |
+| CreateCollection | コレクションを作成します |
+| HasCollection | データベース内にコレクションが存在するか確認します |
+| DropCollection | コレクションを削除します |
+| LoadCollection | コレクションをロードします |
+| AlterCollection | コレクションのスキーマまたは設定を変更します |
+| ShowCollections | コレクション権限を持つすべてのコレクションを表示します |
+| RenameCollection | コレクションの名前を変更します |
+| ReleaseCollection | コレクションを解放します |
+| GetCollectionStatistics | コレクションの統計情報を取得します (例: コレクション内のエンティティ数) |
+| Flush | コレクション内のすべてのエンティティをシールドセグメントに永続化します。フラッシュ操作後に挿入されたエンティティは、新しいセグメントに保存されます。 |
+| GetFlushState | コレクションのフラッシュ操作の状態を確認します |
+| CreateAlias | コレクションのエイリアスを作成します |
+| DescribeAlias | コレクションのエイリアスの詳細を表示します |
+| AlterAlias | コレクションに関連付けられたエイリアスを変更します |
+| ListAliases | コレクションのすべてのエイリアスを表示します |
+| DropAlias | コレクションのエイリアスを削除します |
+| GetReplicas | コレクションのレプリカを取得します |
 
-### Index\{#index}
+### パーティション\{#partition}
 
 | `action` | 説明 |
 | --- | --- |
-| CreateIndex | index を作成する |
-| DescribeIndex | collection の index 構築の進行状況を表示する |
-| AlterIndex | 既存の index の設定またはパラメータを更新する |
-| GetIndexState | 既存の index の設定またはパラメータを更新する |
-| GetIndexStatistics | index の現在の状態を取得する（例: `building`、`built`、`failed`） |
-| GetIndexBuildProgress | メモリ使用量やインデックス済みエンティティ数など、index に関する詳細な統計情報を取得する |
-| DropIndex | collection 内の特定の segment に対する詳細な index データを取得する |
+| CreatePartition | パーティションを作成します |
+| HasPartition | パーティションが存在するか確認します |
+| LoadPartitions | 1つ以上のパーティションをロードします |
+| ShowPartitions | コレクション内のすべてのパーティションを表示します |
+| DropPartition | パーティションを削除します |
+| ReleasePartitions | 1つ以上のパーティションを解放します |
+| GetPartitionStatistics | パーティションの統計情報を取得します |
 
-### Entity\{#entity}
+### インデックス\{#index}
 
 | `action` | 説明 |
 | --- | --- |
-| Insert | エンティティを挿入する |
-| Query | クエリを実行する |
-| Search | 検索を実行する |
-| HybridSearch | ハイブリッド検索を実行する |
-| Delete | エンティティを削除する |
-| Upsert | エンティティをアップサートする |
+| CreateIndex | インデックスを作成します |
+| DescribeIndex | コレクションのインデックス構築状況を表示します |
+| AlterIndex | 既存のインデックスの設定またはパラメーターを更新します |
+| GetIndexState | 既存のインデックスの設定またはパラメーターを更新します |
+| GetIndexStatistics | インデックスの現在の状態を取得します (例: `building`、`built`、または `failed`) |
+| GetIndexBuildProgress | メモリ使用量やインデックス済みエンティティ数など、インデックスに関する詳細な統計情報を取得します |
+| DropIndex | コレクション内の特定のセグメントの詳細なインデックスデータを取得します |
+
+### エンティティ\{#entity}
+
+| `action` | 説明 |
+| --- | --- |
+| Insert | エンティティを挿入します |
+| Query | クエリを実行します |
+| Search | 検索を実行します |
+| HybridSearch | ハイブリッド検索を実行します |
+| Delete | エンティティを削除します |
+| Upsert | エンティティをアップサートします |
 
 ### RBAC\{#rbac}
 
 | `action` | 説明 |
 | --- | --- |
-| SelectRole | 現在のインスタンスで利用可能なロールの一覧を取得する |
-| CreateRole | ユーザー権限を管理するための新しいロールを定義する |
-| DropRole | ロールを削除する |
-| OperateUserRole | ユーザーにロールを割り当てる、またはユーザーからロールを削除する |
-| ListPrivilegeGroups | 現在のインスタンス内のすべての権限グループを表示する |
-| OperatePrivilegeV2 | 権限グループに特定の権限を追加または削除する |
-| SelectGrant | 特定のロールまたはユーザーに割り当てられたすべての権限付与の一覧を取得する |
-| CreateCredential | システムにアクセスするための新しい認証情報（例: API key やトークン）を作成する |
-| UpdateCredential | 既存の認証情報のプロパティまたは権限を更新する |
-| DeleteCredential | システムから認証情報を削除する |
-| ListCredUsers | 特定の認証情報に関連付けられたすべてのユーザーの一覧を取得する |
+| SelectRole | 現在のインスタンスで利用可能なロールの一覧を取得します |
+| CreateRole | ユーザー権限を管理するための新しいロールを定義します |
+| DropRole | ロールを削除します |
+| OperateUserRole | ユーザーへのロールの割り当て、またはユーザーからのロールの削除を行います |
+| ListPrivilegeGroups | 現在のインスタンス内のすべての権限グループを表示します |
+| OperatePrivilegeV2 | 権限グループに対して特定の権限を追加または削除します |
+| SelectGrant | 特定のロールまたはユーザーに付与されたすべての権限の一覧を取得します |
+| CreateCredential | システムアクセス用の新しい資格情報 (API キーやトークンなど) を作成します |
+| UpdateCredential | 既存の資格情報のプロパティまたは権限を更新します |
+| DeleteCredential | システムから資格情報を削除します |
+| ListCredUsers | 特定の資格情報に関連付けられたすべてのユーザーの一覧を取得します |
 
 ### その他\{#others}
 
 | `action` | 説明 |
 | --- | --- |
-| Authorize | 認可に失敗した場合にのみ記録され、`status` は `Refused` として記録されます。 |
-
+| Authorize | 認可に失敗した場合にのみログに記録され、`status` は `Refused` として記録されます。 |
