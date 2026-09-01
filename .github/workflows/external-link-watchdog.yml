@@ -80,16 +80,27 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+      - name: Report external links to table
+        run: pnpm docs-tooling report-external-links --site en --report tmp/external-link-watchdog/latest.json --table-url tmp/external-link-watchdog/table-url.txt
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          FEISHU_WEB_HOST: ${{ vars.FEISHU_WEB_HOST }}
+          BROKEN_LINKS_REPORT_BASE_TOKEN: ${{ vars.BROKEN_LINKS_REPORT_BASE_TOKEN }}
+
       - name: Build documentation site change and link health note
         id: report_note
         continue-on-error: true
         env:
           REPORT_ARTIFACT_URL: ${{ steps.report_artifact.outputs.artifact-url }}
         run: |
+          table_url=$(cat tmp/external-link-watchdog/table-url.txt)
           node scripts/render-external-link-watchdog-note.js \
             --input tmp/external-link-watchdog/latest.json \
             --output tmp/external-link-watchdog-note.md \
-            --artifact-url "$REPORT_ARTIFACT_URL"
+            --artifact-url "$REPORT_ARTIFACT_URL" \
+            --table-url "$table_url"
 
       - name: Create documentation site report card
         id: report_card

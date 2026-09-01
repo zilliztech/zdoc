@@ -213,6 +213,22 @@
       "reason": "Broken-link and canonical-link report writers build the Feishu table URLs and card notes published by the reporting workflows."
     },
     {
+      "id": "docs-tooling-cli-dispatch",
+      "paths": ["packages/docs-tooling/src/cli-main*", "packages/docs-tooling/src/cli.ts"],
+      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/cli-main.integration.test.ts"],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-policy"],
+      "reason": "cli-main.ts is the docs-tooling executable composition root; its integration test spawns the CLI end-to-end and must stay green for any dispatch change."
+    },
+    {
+      "id": "external-link-watchdog-tooling",
+      "paths": ["scripts/render-external-link-watchdog-note*", "scripts/external-link-watchdog-workflow.test.js"],
+      "focusedTests": ["pnpm test:external-link-watchdog", "node --test scripts/render-external-link-watchdog-note.test.js"],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-policy"],
+      "reason": "The watchdog note renderer and its workflow contract test must stay compatible with the external-link-watchdog.yml step that invokes them."
+    },
+    {
       "id": "workflow-yaml",
       "paths": [
         ".github/workflows/**",

@@ -42,7 +42,7 @@ function sampleExpired(lines, observations) {
   lines.push('')
 }
 
-function renderExternalLinkWatchdogNote(report, {artifactUrl}) {
+function renderExternalLinkWatchdogNote(report, {artifactUrl, tableUrl}) {
   if (report?.schema_version !== 2) throw new Error('schema_version must be 2')
   if (!artifactUrl) throw new Error('artifactUrl is required')
   const deletedRoutes = requireList(report, 'deleted_routes')
@@ -55,6 +55,7 @@ function renderExternalLinkWatchdogNote(report, {artifactUrl}) {
     `- Tooling SHA: ${report.tooling_sha ?? 'None'}`,
     `- Content SHA: ${report.content_sha ?? 'None'}`,
     `- Complete report artifact: ${artifactUrl}`,
+    `- External link tracking table: ${tableUrl ?? 'None'}`,
     '- Scope: The artifact contains every unique URL and route; the lists below are bounded samples.',
     '',
     '## Summary',
@@ -92,8 +93,8 @@ function parseArgs(argv) {
   for (let index = 0; index < argv.length; index += 2) {
     const flag = argv[index]
     const value = argv[index + 1]
-    if (!['--input', '--output', '--artifact-url'].includes(flag) || !value) {
-      throw new Error('Usage: render-external-link-watchdog-note.js --input report.json --output note.md --artifact-url URL')
+    if (!['--input', '--output', '--artifact-url', '--table-url'].includes(flag) || !value) {
+      throw new Error('Usage: render-external-link-watchdog-note.js --input report.json --output note.md --artifact-url URL [--table-url URL]')
     }
     values[flag.slice(2)] = value
   }
@@ -104,7 +105,7 @@ function parseArgs(argv) {
 function main(argv = process.argv.slice(2)) {
   const args = parseArgs(argv)
   const report = JSON.parse(fs.readFileSync(args.input, 'utf8'))
-  const note = renderExternalLinkWatchdogNote(report, {artifactUrl: args['artifact-url']})
+  const note = renderExternalLinkWatchdogNote(report, {artifactUrl: args['artifact-url'], tableUrl: args['table-url']})
   fs.mkdirSync(path.dirname(args.output), {recursive: true})
   fs.writeFileSync(args.output, note)
   return {status: cardStatus(report), output: args.output}
