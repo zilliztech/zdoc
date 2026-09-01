@@ -106,8 +106,8 @@ test('Translation producer naming, checkpoint, and ready artifact names match th
   assert.ok(readyStep.run.includes('unit_token=${PUBLICATION_UNIT_KEY//\\//-}'));
   assert.match(readyStep.run, /artifact_name=publication-ready-translation-\$unit_token-\$GITHUB_RUN_ID-\$GITHUB_RUN_ATTEMPT/);
 
-  // Guides batches stay serial; publish_ready depends only on prepare.
   assert.equal(translateWorkflow.jobs.translate_guides_batches.strategy['max-parallel'], 1);
   assert.equal(translateWorkflow.jobs.translate_guides_batches.strategy['fail-fast'], false);
-  assert.deepEqual(translateWorkflow.jobs.publish_ready.needs, ['prepare']);
+  // Guides batches stay serial; publish_ready waits for both producers before starting its writer deadline.
+  assert.deepEqual(translateWorkflow.jobs.publish_ready.needs, ['prepare', 'translate_sdk', 'prepare_guides_publication_ready']);
 });

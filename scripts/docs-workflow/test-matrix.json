@@ -67,6 +67,9 @@
         "scripts/docs-workflow/translation-publication-reconciliation*",
         "scripts/docs-workflow/translation-checkpoint-strategy*",
         "scripts/docs-workflow/ja-guides-publication-strategy*",
+        "scripts/docs-workflow/offline-guides-publication*",
+        "scripts/docs-workflow/prepare-offline-translation-publication*",
+        "scripts/docs-workflow/publish-ready-deadline*",
         "scripts/docs-workflow/translation-batch-*",
         "scripts/docs-workflow/translation-staging*",
         "scripts/docs-workflow/apply-translation-batch*",
@@ -75,6 +78,7 @@
         "scripts/docs-workflow/validate-unbatched-translation-outputs*",
         "scripts/docs-workflow/validate-guides-translation-staging*",
         ".github/workflows/translate-codex.yml",
+        ".github/workflows/publish-offline-translation.yml",
         ".github/workflows/translate-manual.yml",
         ".github/workflows/_translate-content-group.yml",
         ".github/workflows/_prepare-translation-batches.yml"
@@ -159,6 +163,19 @@
       "reason": "Guides cache, assembly, render, and table artifacts feed site-qualified Fetch units and final card evidence."
     },
     {
+      "id": "ja-sidebar-label-dictionary",
+      "paths": [
+        "scripts/docs-workflow/generate-ja-sidebar-labels*",
+        "config/translation/ja-JP-sidebar-labels.json"
+      ],
+      "focusedTests": [
+        "node --test scripts/docs-workflow/generate-ja-sidebar-labels.test.js"
+      ],
+      "harnesses": [],
+      "gates": [],
+      "reason": "Japanese sidebar label dictionary and its generator produce the ja-JP guides/guides-byoc sidebar translation JSON; keep ordering, missing-key, and literal-label edge cases deterministic."
+    },
+    {
       "id": "reconciliation-review-and-policy",
       "paths": [
         "scripts/docs-workflow/reconciliation-*",
@@ -197,7 +214,12 @@
     },
     {
       "id": "workflow-yaml",
-      "paths": [".github/workflows/**"],
+      "paths": [
+        ".github/workflows/**",
+        "deploy/contracts/fetch-translation-workflow.test.mjs",
+        "scripts/validate-workflow-policy.js",
+        "scripts/validate-workflow-policy.test.js"
+      ],
       "focusedTests": [
         "node --test deploy/contracts/fetch-translation-workflow.test.mjs deploy/contracts/site-validation-workflow.test.mjs deploy/contracts/master-tooling-sync-workflow.test.mjs"
       ],

@@ -442,8 +442,8 @@ jobs:
 
   publish_ready:
     name: publish_ready
-    needs: [prepare]
-    if: ${{ needs.prepare.result == 'success' }}
+    needs: [prepare, translate_sdk, prepare_guides_publication_ready]
+    if: ${{ always() && needs.prepare.result == 'success' }}
     runs-on: ubuntu-latest
     timeout-minutes: 360
     permissions:
