@@ -1,0 +1,4 @@
+interface:
+  display_name: "Offline Translation"
+  short_description: "Translate offline, then validate and publish safely"
+  default_prompt: "Use $offline-translation to translate selected documents with subagents and publish them through the trusted offline workflow."
