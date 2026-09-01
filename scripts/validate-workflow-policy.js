@@ -1835,7 +1835,9 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     if (externalLinkWatchdog.concurrency?.group !== 'external-link-watchdog' || externalLinkWatchdog.concurrency?.['cancel-in-progress'] !== false) {
       errors.push('external-link-watchdog.yml: watchdog concurrency must serialize scans without cancellation')
     }
-    if (!/pnpm docs-tooling check-links --site en --output tmp\/external-link-watchdog\/latest\.md/.test(externalLinkWatchdogSource) || externalLinkWatchdogSource.includes(`scripts/${retiredExternalScanner}.js`)) {
+    if (!/pnpm docs-tooling check-links --site en --output tmp\/external-link-watchdog\/en\.md/.test(externalLinkWatchdogSource) ||
+        !/pnpm docs-tooling check-links --site zh-CN --output tmp\/external-link-watchdog\/zh-CN\.md/.test(externalLinkWatchdogSource) ||
+        !/pnpm build:zh-CN/.test(externalLinkWatchdogSource) || externalLinkWatchdogSource.includes(`scripts/${retiredExternalScanner}.js`)) {
       errors.push('external-link-watchdog.yml: watchdog must use the canonical rendered-site checker and no retired scanner')
     }
     if (/uses:\s*actions\/cache@|\bbaseline\b|\backnowledg(?:e|ement)\b|\bsuppress(?:ion|ed)?\b/i.test(externalLinkWatchdogSource)) {
