@@ -16,6 +16,24 @@ function targetMatches(record, target) {
   return targets.length === 0 || targets.includes(String(target).toLowerCase())
 }
 
+function resolveRefCanonical(record, canonicalByToken, canonicalRecords, target) {
+  const targetToken = record.ref_target_token || sourceToken(record.ref_target)
+  const direct = canonicalByToken.get(targetToken)
+  if (direct && targetMatches(direct, target) && guidesCanonicalIsPublishable(direct)) return direct
+
+  // A Guides Base can hold target-specific canonical documents with the same
+  // title. A ref may retain the document token from the other target, while
+  // both target sidebars intentionally share the same navigation entry. In
+  // that case the target-qualified title is the stable navigation identity.
+  const candidates = canonicalRecords.filter(candidate =>
+    candidate.title === record.title &&
+    targetMatches(candidate, target) &&
+    guidesCanonicalIsPublishable(candidate),
+  )
+  if (candidates.length === 1) return candidates[0]
+  return null
+}
+
 function collectSidebarEntries(sidebar) {
   const entries = []
   function visit(items) {
@@ -82,7 +100,8 @@ function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir
     return path.posix.join(relativeDir(parent, seen), recordSegment(parent))
   }
   const entries = collectSidebarEntries(sidebar)
-  const canonicalByToken = new Map(records.filter(record => record.placement_type === 'canonical' && record.doc_token).map(record => [record.doc_token, record]))
+  const canonicalRecords = records.filter(record => record.placement_type === 'canonical' && record.doc_token)
+  const canonicalByToken = new Map(canonicalRecords.map(record => [record.doc_token, record]))
   const generatedDocsByToken = collectGeneratedDocsByToken(outputDir, idPrefix)
   const errors = []
   let checkedRecords = 0
@@ -139,10 +158,10 @@ function validateGuidesSourceContract({ snapshot, site = 'en', target, outputDir
     }
     if (record.placement_type === 'ref') {
       const targetToken = record.ref_target_token || sourceToken(record.ref_target)
-      const canonical = canonicalByToken.get(targetToken)
+      const canonical = resolveRefCanonical(record, canonicalByToken, canonicalRecords, target)
       const refSegment = record.slug || canonical?.slug || recordSegment(record)
       const refKey = `ref:${path.posix.join(idPrefix, relativeDir(record), refSegment)}`
-      const targetPublishes = canonical && targetMatches(canonical, target) && guidesCanonicalIsPublishable(canonical)
+      const targetPublishes = !!canonical
       const item = entries.find(entry => entry.type === 'link' && entry.key === refKey)
       if (!targetPublishes) {
         if (item) errors.push(`ref ${record.record_id} target is not publishable for ${target}: ${targetToken || '(missing)'}`)
