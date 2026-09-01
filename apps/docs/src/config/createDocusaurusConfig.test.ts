@@ -336,16 +336,80 @@ describe('createDocusaurusConfig', () => {
     expect(docsPlugins(config)).toHaveLength(english.content.length);
   });
 
-  it('keeps build plugins English-only to preserve the documented Chinese product difference', () => {
-    const chinese = createDocusaurusConfig(profile({
+  it('registers build capability plugins for the Chinese profile from its own content sections', () => {
+    const chineseProfile = profile({
       id: 'zh-CN',
       language: 'zh-Hans',
       outputDir: 'build/zh-CN',
-    }));
+      content: [
+        {
+          id: 'default',
+          sourcePath: 'content/zh-CN/guides',
+          routeBasePath: 'docs',
+          sidebarPath: 'packages/site-config/src/sidebars/zh-CN/guides.ts',
+        },
+        {
+          id: 'byoc',
+          sourcePath: 'content/zh-CN/byoc',
+          routeBasePath: 'docs/byoc',
+          sidebarPath: 'packages/site-config/src/sidebars/zh-CN/byoc.ts',
+        },
+        {
+          id: 'onpremise',
+          sourcePath: 'content/zh-CN/onpremise',
+          routeBasePath: 'on-premise',
+          sidebarPath: 'packages/site-config/src/sidebars/zh-CN/onpremise.ts',
+        },
+        {
+          id: 'reference',
+          sourcePath: 'content/zh-CN/reference',
+          routeBasePath: 'reference',
+          sidebarPath: 'packages/site-config/src/sidebars/zh-CN/reference.ts',
+        },
+      ],
+    });
+    const chinese = createDocusaurusConfig(chineseProfile);
 
-    expect(applicationPlugin(chinese, 'embed-markdown')).toBeUndefined();
-    expect(applicationPlugin(chinese, 'llms-txt')).toBeUndefined();
-    expect(applicationPlugin(chinese, 'structured-data')).toBeUndefined();
+    const sources = [
+      {
+        id: 'default',
+        folder: path.resolve(process.cwd(), 'content/zh-CN/guides'),
+        route: '/docs',
+        outputFile: 'cloud-guides',
+        label: 'Cloud Guides',
+      },
+      {
+        id: 'byoc',
+        folder: path.resolve(process.cwd(), 'content/zh-CN/byoc'),
+        route: '/docs/byoc',
+        outputFile: 'byoc',
+        label: 'byoc',
+      },
+      {
+        id: 'onpremise',
+        folder: path.resolve(process.cwd(), 'content/zh-CN/onpremise'),
+        route: '/on-premise',
+        outputFile: 'onpremise',
+        label: 'onpremise',
+      },
+      {
+        id: 'reference',
+        folder: path.resolve(process.cwd(), 'content/zh-CN/reference'),
+        route: '/reference',
+        outputFile: 'reference',
+        label: 'reference',
+      },
+    ];
+
+    for (const name of ['embed-markdown', 'llms-txt', 'structured-data'] as const) {
+      const plugin = applicationPlugin(chinese, name);
+      expect(plugin?.[0]).toBe(path.resolve(process.cwd(), `apps/docs/plugins/${name}`));
+      expect(plugin?.[1].sources).toEqual(sources);
+      expect(JSON.stringify(plugin?.[1].sources)).not.toContain('i18n/zh-CN');
+      expect(require(plugin![0])({}, plugin![1]).name).toBe(name);
+    }
+    expect(chinese.i18n?.locales).toEqual(['zh-CN']);
+    expect(docsPlugins(chinese)).toHaveLength(chineseProfile.content.length);
   });
 
   it('writes LLMS artifacts with Docusaurus locale fallback and no translation-only routes', async () => {
