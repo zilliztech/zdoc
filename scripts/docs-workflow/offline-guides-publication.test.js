@@ -60,6 +60,54 @@ function validation(executionToolingSha, targetBaselineSha, candidateSha) {
   }
 }
 
+function orphanFixture(t) {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'offline-guides-orphan-')))
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  const repository = path.join(root, 'repository')
+  const remote = path.join(root, 'remote.git')
+  fs.mkdirSync(repository)
+  git(repository, ['init'])
+  git(repository, ['config', 'user.name', 'Test'])
+  git(repository, ['config', 'user.email', 'test@example.com'])
+  write(repository, 'content/en/guides/tutorials/new.md', '# new v1\n')
+  write(repository, 'content/en/guides/tutorials/kept.md', '# kept v1\n')
+  write(repository, '.translation-cache/ja-JP.json', '{"files":{}}\n')
+  const sourceToolingSha = commit(repository, 'source tooling')
+  const sourceBaselineSha = sourceToolingSha
+  const sourceCheckpointSha = sourceToolingSha
+  write(repository, 'tooling-marker.txt', 'execution tooling\n')
+  const executionToolingSha = commit(repository, 'execution tooling')
+  const orphanPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/orphan.md'
+  write(repository, orphanPath, '# orphan ja\n')
+  const keptPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/kept.md'
+  write(repository, keptPath, '# kept ja\n')
+  const keptHash = crypto.createHash('sha256').update('# kept v1\n').digest('hex')
+  const orphanCache = JSON.stringify({files: {
+    'docs/tutorials/orphan.md': {sourceHash: 'a'.repeat(64), targetPath: orphanPath, translatedAt: '2026-09-01T00:00:00.000Z'},
+    'docs/tutorials/kept.md': {sourceHash: keptHash, targetPath: keptPath, translatedAt: '2026-09-01T00:00:00.000Z'},
+  }}, null, 2) + '\n'
+  write(repository, '.translation-cache/ja-JP.json', orphanCache)
+  const targetBaselineSha = commit(repository, 'target baseline')
+  execFileSync('git', ['init', '--bare', remote])
+  git(repository, ['remote', 'add', 'origin', remote])
+  git(repository, ['push', 'origin', targetBaselineSha + ':refs/heads/dev'])
+  git(repository, ['checkout', '--detach', executionToolingSha])
+  const newPath = 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/new.md'
+  const newHash = crypto.createHash('sha256').update('# new v1\n').digest('hex')
+  const options = {
+    repositoryRoot: repository,
+    repository: 'zilliztech/zdoc',
+    sourceToolingSha,
+    executionToolingSha,
+    sourceBaselineSha,
+    sourceCheckpointSha,
+    targetBranch: 'dev',
+    targetBaselineSha,
+    expectedMdxCount: 1,
+  }
+  return {root, repository, remote, options, orphanPath, keptPath, keptHash, newPath, newHash}
+}
+
 function fixture(t) {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'offline-guides-publication-')))
   t.after(() => fs.rmSync(root, {recursive: true, force: true}))
@@ -147,7 +195,7 @@ test('rejects target drift, non-single-parent identity, deletions, symlinks, and
   assert.throws(() => inspectOfflineCandidate({...value.options, targetBaselineSha: value.options.sourceCheckpointSha}), /remote target/i)
 
   for (const [name, mutate, pattern] of [
-    ['deletion', () => fs.rmSync(path.join(value.repository, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/existing.md')), /forbidden D change/i],
+    ['deletion', () => fs.rmSync(path.join(value.repository, 'tooling-marker.txt')), /forbidden D change/i],
     ['symlink', () => fs.symlinkSync('current/tutorials/a.md', path.join(value.repository, 'i18n/ja-JP/docusaurus-plugin-content-docs/current.json')), /regular non-executable file/i],
     ['outside', () => write(value.repository, 'README.md', 'unexpected\n'), /outside the fixed allowlist/i],
     ['cache-root', () => {
@@ -167,6 +215,41 @@ test('rejects target drift, non-single-parent identity, deletions, symlinks, and
     git(value.repository, ['checkout', '--detach', value.options.executionToolingSha])
     assert.throws(() => inspectOfflineCandidate({...value.options, candidateSha, candidateRef}), pattern)
   }
+})
+
+test('accepts a reconciliation orphan deletion that removes the orphan and its cache key', async t => {
+  const value = orphanFixture(t)
+  git(value.repository, ['checkout', '--detach', value.options.targetBaselineSha])
+  fs.rmSync(path.join(value.repository, value.orphanPath))
+  write(value.repository, value.newPath, '# new ja\n')
+  const cache = JSON.parse(fs.readFileSync(path.join(value.repository, '.translation-cache/ja-JP.json'), 'utf8'))
+  delete cache.files['docs/tutorials/orphan.md']
+  cache.files['docs/tutorials/new.md'] = {sourceHash: value.newHash, targetPath: value.newPath, translatedAt: '2026-09-01T00:00:00.000Z'}
+  write(value.repository, '.translation-cache/ja-JP.json', `${JSON.stringify(cache, null, 2)}\n`)
+  const candidateSha = commit(value.repository, 'orphan delete + add')
+  const candidateRef = 'refs/heads/offline-translation-candidates/orphan-delete'
+  git(value.repository, ['push', 'origin', `${candidateSha}:${candidateRef}`])
+  git(value.repository, ['checkout', '--detach', value.options.executionToolingSha])
+  const candidate = inspectOfflineCandidate({...value.options, candidateSha, candidateRef})
+  assert.deepEqual(candidate.deletions, [value.orphanPath])
+  assert.deepEqual(candidate.deletedCacheKeys, ['docs/tutorials/orphan.md'])
+  assert.deepEqual(candidate.translationPaths, [value.newPath])
+})
+
+test('rejects an orphan deletion whose source still exists at the source checkpoint', async t => {
+  const value = orphanFixture(t)
+  git(value.repository, ['checkout', '--detach', value.options.targetBaselineSha])
+  fs.rmSync(path.join(value.repository, value.keptPath))
+  write(value.repository, value.newPath, '# new ja\n')
+  const cache = JSON.parse(fs.readFileSync(path.join(value.repository, '.translation-cache/ja-JP.json'), 'utf8'))
+  delete cache.files['docs/tutorials/kept.md']
+  cache.files['docs/tutorials/new.md'] = {sourceHash: value.newHash, targetPath: value.newPath, translatedAt: '2026-09-01T00:00:00.000Z'}
+  write(value.repository, '.translation-cache/ja-JP.json', `${JSON.stringify(cache, null, 2)}\n`)
+  const candidateSha = commit(value.repository, 'kept delete + add')
+  const candidateRef = 'refs/heads/offline-translation-candidates/kept-delete'
+  git(value.repository, ['push', 'origin', `${candidateSha}:${candidateRef}`])
+  git(value.repository, ['checkout', '--detach', value.options.executionToolingSha])
+  assert.throws(() => inspectOfflineCandidate({...value.options, candidateSha, candidateRef}), /orphan deletion source still exists at source checkpoint/)
 })
 
 test('creates authenticated checkpoint, baseline, and publication-ready evidence without a batch-set contract', t => {
