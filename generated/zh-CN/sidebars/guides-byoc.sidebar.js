@@ -32,18 +32,6 @@ module.exports = [
             "id": "tutorials/get-started/quickstarts/quick-start",
             "label": "快速开始：使用 Serving 集群",
             "key": "doc:tutorials/get-started/quickstarts/quick-start"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/get-started/quickstarts/quick-start-to-on-demand-search",
-            "label": "快速开始：按需搜索",
-            "key": "doc:tutorials/get-started/quickstarts/quick-start-to-on-demand-search"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search",
-            "label": "快速开始：External Data Lake Search",
-            "key": "doc:tutorials/get-started/quickstarts/quick-start-to-external-data-lake-search"
           }
         ]
       },
@@ -426,12 +414,6 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "tutorials/development/collection/create-external-collection",
-            "label": "创建 External Collection",
-            "key": "doc:tutorials/development/collection/create-external-collection"
-          },
-          {
-            "type": "doc",
             "id": "tutorials/development/collection/view-collections",
             "label": "查看 Collection",
             "key": "doc:tutorials/development/collection/view-collections"
@@ -488,20 +470,8 @@ module.exports = [
                 "id": "tutorials/development/collection/collection-on-console/manage-collections-console",
                 "label": "管理 Collection (控制台)",
                 "key": "doc:tutorials/development/collection/collection-on-console/manage-collections-console"
-              },
-              {
-                "type": "doc",
-                "id": "tutorials/development/collection/collection-on-console/manage-external-collections-console",
-                "label": "管理 External Collection",
-                "key": "doc:tutorials/development/collection/collection-on-console/manage-external-collections-console"
               }
             ]
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/development/collection/external-collection-limits",
-            "label": "External Collection 限制",
-            "key": "doc:tutorials/development/collection/external-collection-limits"
           }
         ]
       },
@@ -511,16 +481,23 @@ module.exports = [
         "key": "category:tutorials/development/volume",
         "items": [
           {
-            "type": "doc",
-            "id": "tutorials/development/volume/external-volume",
-            "label": "External Volume",
-            "key": "doc:tutorials/development/volume/external-volume"
-          },
-          {
             "type": "category",
             "label": "存储集成",
             "key": "category:tutorials/development/volume/storage-integration",
-            "items": []
+            "items": [
+              {
+                "type": "doc",
+                "id": "tutorials/development/volume/storage-integration/integrate-with-amazon-s3-cn",
+                "label": "Amazon S3",
+                "key": "doc:tutorials/development/volume/storage-integration/integrate-with-amazon-s3-cn"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/development/volume/storage-integration/integrate-with-alibaba-cloud-oss",
+                "label": "阿里云对象存储",
+                "key": "doc:tutorials/development/volume/storage-integration/integrate-with-alibaba-cloud-oss"
+              }
+            ]
           }
         ]
       },
@@ -1368,16 +1345,23 @@ module.exports = [
         "key": "category:tutorials/management/volume",
         "items": [
           {
-            "type": "link",
-            "href": "/docs/byoc/external-volume",
-            "label": "External Volume",
-            "key": "ref:tutorials/management/volume/external-volume"
-          },
-          {
             "type": "category",
             "label": "存储集成",
             "key": "category:tutorials/management/volume/storage-integrations",
-            "items": []
+            "items": [
+              {
+                "type": "link",
+                "href": "/docs/byoc/integrate-with-amazon-s3-cn",
+                "label": "Amazon S3",
+                "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-amazon-s3-cn"
+              },
+              {
+                "type": "link",
+                "href": "/docs/byoc/integrate-with-alibaba-cloud-oss",
+                "label": "阿里云对象存储",
+                "key": "ref:tutorials/management/volume/storage-integrations/integrate-with-alibaba-cloud-oss"
+              }
+            ]
           }
         ]
       },
@@ -2059,6 +2043,30 @@ module.exports = [
             "id": "tutorials/product-architecture/best-practices/environment-isolation",
             "label": "环境隔离",
             "key": "doc:tutorials/product-architecture/best-practices/environment-isolation"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "category",
+    "label": "解决方案",
+    "key": "category:tutorials/solutions",
+    "items": [
+      {
+        "type": "category",
+        "label": "Schema 演进",
+        "key": "category:tutorials/solutions/schema-evolution",
+        "link": {
+          "type": "doc",
+          "id": "tutorials/solutions/schema-evolution/schema-evolution"
+        },
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/solutions/schema-evolution/migrate-to-a-new-embedding-model",
+            "label": "替换向量嵌入模型",
+            "key": "doc:tutorials/solutions/schema-evolution/migrate-to-a-new-embedding-model"
           }
         ]
       }

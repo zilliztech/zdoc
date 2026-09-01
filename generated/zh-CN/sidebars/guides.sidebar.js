@@ -2720,5 +2720,29 @@ module.exports = [
         ]
       }
     ]
+  },
+  {
+    "type": "category",
+    "label": "解决方案",
+    "key": "category:tutorials/solutions",
+    "items": [
+      {
+        "type": "category",
+        "label": "Schema 演进",
+        "key": "category:tutorials/solutions/schema-evolution",
+        "link": {
+          "type": "doc",
+          "id": "tutorials/solutions/schema-evolution/schema-evolution"
+        },
+        "items": [
+          {
+            "type": "doc",
+            "id": "tutorials/solutions/schema-evolution/migrate-to-a-new-embedding-model",
+            "label": "替换向量嵌入模型",
+            "key": "doc:tutorials/solutions/schema-evolution/migrate-to-a-new-embedding-model"
+          }
+        ]
+      }
+    ]
   }
 ]

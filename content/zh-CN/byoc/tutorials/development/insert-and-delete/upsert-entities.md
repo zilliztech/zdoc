@@ -25,9 +25,9 @@ import TabItem from '@theme/TabItem';
 
 ## 概述\{#overview}
 
-您可以使用 `upsert` 操作来插入新 Entity 或更新现有 Entity，具体取决于该请求中提供的主键是否存在于 Collection 中。如果未找到主键，则执行插入操作。否则，将执行更新操作。
+您可以使用 `upsert` 操作来插入新 Entity 或更新现有 Entity，具体取决于该请求中提供的主键是否存在于 Collection 中。如果未找到主键，则执行插入操作。否则，将执行更新操作。对于启用 `autoID` 的 Collection，部分更新是一个例外：它们只会更新已有的 Entity，具体行为如下所述。
 
-Milvus中的插入更新操作可以在**覆盖**或**合并**模式下工作。
+Zilliz Cloud 中的插入更新操作可以在**覆盖**或**合并**模式下工作。
 
 ### 在覆盖模式下进行 Upsert\{#update-in-override-mode}
 
@@ -48,6 +48,8 @@ Milvus中的插入更新操作可以在**覆盖**或**合并**模式下工作。
 若要执行合并操作，请在 `upsert` 中将 `partial_update` 设置为`True` 并在请求中指定主键和要更新的字段以及它们的值。
 
 收到此类请求后，Zilliz Cloud 会执行强一致性查询以检索 Entity，根据请求中的数据更新字段值，插入修改后的数据，然后删除请求中携带的具有原始主键的现有 Entity。
+
+对于启用 `autoID` 的 Collection，合并模式会保留请求中提供的主键，而不是生成新的主键。这一点不同于覆盖模式，在覆盖模式下，Zilliz Cloud 会为被替换的 Entity 生成一个新的主键。合并模式请求中的主键必须能标识一个已有的 Entity；否则，Zilliz Cloud 会拒绝该请求，而不是插入新的 Entity。
 
 对于 `ARRAY` 字段，合并模式还支持两个操作符：`ARRAY_APPEND` 和 `ARRAY_REMOVE`。它们允许您直接向现有 `ARRAY` 字段追加元素，或从现有 `ARRAY` 字段中移除匹配的元素，而无需先查询 Entity 来获取当前字段值。有关详细信息和代码示例，请参阅[使用部分更新操作符对 ARRAY 字段执行 Upsert](./upsert-entities#upsert-array-fields-with-partial-update-operators)。
 
@@ -109,7 +111,11 @@ Milvus中的插入更新操作可以在**覆盖**或**合并**模式下工作。
 
 根据上述内容，有若干限制和约束需要遵循：
 
-- `upsert` 请求必须始终包含目标实体的 Entity，即使启用了 `autoID`。对于使用了 `autoID` 的Collection，请求中的主键用于标识需要被替换的现有 Entity。Zilliz Cloud 会为插入的替换 Entity 生成新的主键。
+- `upsert` 请求必须始终包含目标 Entity 的主键，即使启用了 `autoID`。对于启用 `autoID` 的 Collection，主键的处理方式取决于 upsert 模式：
+
+    - 在覆盖模式下，主键标识要被替换的已有 Entity，Zilliz Cloud 会为替换后的 Entity 生成一个新的主键。
+
+    - 在合并模式下，主键标识要更新的已有 Entity，并保持不变。如果该主键不存在，请求会失败，而不是插入新的 Entity。
 
 - 目标 Collection 必须已加载且可用于查询。
 

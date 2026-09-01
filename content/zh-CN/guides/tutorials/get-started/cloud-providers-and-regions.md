@@ -34,7 +34,7 @@ Zilliz Cloud 支持阿里云、腾讯云、亚马逊云科技上的多个云服�
 
 - 检查目标地域是否支持所需功能。
 
-- 如果所需地域或功能不可用，请[联系我们](http://zilliz.com.cn/contact-sales)。
+- 如果所需地域或功能不可用，请[联系我们](https://zilliz.com.cn/all-regions#region-request)。
 
 ## 支持的云地域\{#supported-regions}
 

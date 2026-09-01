@@ -24,7 +24,7 @@ import Procedures from '@site/src/components/Procedures';
 
 数据回填能力可方便您将存放在 Zilliz Cloud Volume 中的数据填入 Zilliz Cloud Collection 中既有 Entity 的指定字段中。具体来说，数据回填任务通过主键来匹配数据文件和 Collection 中的数据。您可通过创建数据回填任务，为Collection 中的新增字段填充数据、为在指定字段上缺少数据的 Entity 补充数据，或者直接替换 Collection 中指定字段的数据。
 
-关于为生产环境中的 Collection 添加新列并回填数据的完整流程，包括何时切换数据写入流量、何时创建 Snapshot、何时为既有 Entity 回填数据、以及如何将回填结果接入生产查询等，可以查看 Schema 演进一文中的相关介绍。
+关于为生产环境中的 Collection 添加新列并回填数据的完整流程，包括何时切换数据写入流量、何时创建 Snapshot、何时为既有 Entity 回填数据、以及如何将回填结果接入生产查询等，可以查看 [Schema 演进](./schema-evolution)一文中的相关介绍。
 
 ## 概述\{#overview}
 
@@ -302,4 +302,4 @@ import Procedures from '@site/src/components/Procedures';
 
 在完成回填数据检查后，您就可以在您的应用或工作流程中使用这批已更新的数据。
 
-例如，您可以将数据回填当成 Schema 变更任务的一个环节。关于 Schema 变更的完整迁移流程，可以参考 Schema 变更。
+例如，您可以将数据回填当成 Schema 变更任务的一个环节。关于 Schema 变更的完整迁移流程，可以参考 [Schema 变更](./schema-evolution)。
