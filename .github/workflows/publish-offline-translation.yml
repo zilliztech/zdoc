@@ -1,0 +1,257 @@
+name: publish offline Translation
+run-name: offline ja-JP Guides ${{ inputs.candidate_sha }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_ref:
+        description: Exact refs/heads/offline-translation-candidates/* source ref
+        required: true
+        type: string
+      candidate_sha:
+        description: Exact single-commit offline candidate SHA
+        required: true
+        type: string
+      source_tooling_sha:
+        description: Tooling SHA that produced the retained offline translations
+        required: true
+        type: string
+      execution_tooling_sha:
+        description: Reviewed master SHA containing this workflow and validator
+        required: true
+        type: string
+      source_baseline_sha:
+        description: Exact source baseline bound to the retained translations
+        required: true
+        type: string
+      source_checkpoint_sha:
+        description: Exact source checkpoint bound to sourceHash values
+        required: true
+        type: string
+      target_baseline_sha:
+        description: Exact current dev SHA; target drift fails closed
+        required: true
+        type: string
+      expected_mdx_count:
+        description: Exact number of translated Guides Markdown files
+        required: true
+        type: number
+        default: 49
+      publish:
+        description: Promote the fully validated candidate to dev
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: ${{ inputs.publish && 'docs-production-dev' || format('offline-translation-readonly-{0}', github.run_id) }}
+  queue: max
+
+jobs:
+  prepare_offline_candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      contents: read
+    outputs:
+      selection_artifact_name: ${{ steps.prepare.outputs.selection_artifact_name }}
+      selection_sha256: ${{ steps.prepare.outputs.selection_sha256 }}
+      ready_artifact_name: ${{ steps.prepare.outputs.ready_artifact_name }}
+      checkpoint_artifact_name: ${{ steps.prepare.outputs.checkpoint_artifact_name }}
+      baseline_artifact_name: ${{ steps.prepare.outputs.baseline_artifact_name }}
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: '${{ inputs.execution_tooling_sha }}', fetch-depth: 0, persist-credentials: false }
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - id: prepare
+        name: Authenticate, validate, and package the offline candidate
+        env:
+          CANDIDATE_REF: ${{ inputs.candidate_ref }}
+          CANDIDATE_SHA: ${{ inputs.candidate_sha }}
+          SOURCE_TOOLING_SHA: ${{ inputs.source_tooling_sha }}
+          EXECUTION_TOOLING_SHA: ${{ inputs.execution_tooling_sha }}
+          SOURCE_BASELINE_SHA: ${{ inputs.source_baseline_sha }}
+          SOURCE_CHECKPOINT_SHA: ${{ inputs.source_checkpoint_sha }}
+          TARGET_BASELINE_SHA: ${{ inputs.target_baseline_sha }}
+          EXPECTED_MDX_COUNT: ${{ inputs.expected_mdx_count }}
+          PUBLISH_ENABLED: ${{ inputs.publish }}
+        run: |
+          set -euo pipefail
+          evidence="$RUNNER_TEMP/offline-translation-evidence"
+          install -d -m 0700 "$evidence"
+          node scripts/docs-workflow/prepare-offline-translation-publication.js \
+            --repository-root "$GITHUB_WORKSPACE" \
+            --repository "$GITHUB_REPOSITORY" \
+            --source-tooling-sha "$SOURCE_TOOLING_SHA" \
+            --execution-tooling-sha "$EXECUTION_TOOLING_SHA" \
+            --source-baseline-sha "$SOURCE_BASELINE_SHA" \
+            --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
+            --target-branch dev \
+            --target-baseline-sha "$TARGET_BASELINE_SHA" \
+            --candidate-ref "$CANDIDATE_REF" \
+            --candidate-sha "$CANDIDATE_SHA" \
+            --expected-mdx-count "$EXPECTED_MDX_COUNT" \
+            --run-id "$GITHUB_RUN_ID" \
+            --run-attempt "$GITHUB_RUN_ATTEMPT" \
+            --publish "$PUBLISH_ENABLED" \
+            --output-root "$evidence" \
+            --dependency-root "$GITHUB_WORKSPACE" \
+            --runner-temp "$RUNNER_TEMP"
+      - name: Upload immutable offline publication selection
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ steps.prepare.outputs.selection_artifact_name }}
+          path: ${{ steps.prepare.outputs.selection_file }}
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload immutable offline checkpoint
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ steps.prepare.outputs.checkpoint_artifact_name }}
+          path: ${{ steps.prepare.outputs.checkpoint_archive }}
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload immutable offline baseline
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ steps.prepare.outputs.baseline_artifact_name }}
+          path: ${{ steps.prepare.outputs.baseline_archive }}
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload immutable offline publication-ready document
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ steps.prepare.outputs.ready_artifact_name }}
+          path: ${{ steps.prepare.outputs.ready_file }}
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload seven-command validation receipts
+        uses: actions/upload-artifact@v6
+        with:
+          name: offline-translation-validation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.prepare.outputs.validation_file }}
+          if-no-files-found: error
+          retention-days: 30
+
+  publish_ready:
+    needs: [prepare_offline_candidate]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: write
+    outputs:
+      results_artifact_name: ${{ steps.publish.outputs.results_artifact_name }}
+      overall_status: ${{ steps.publish.outputs.overall_status }}
+      final_target_sha: ${{ steps.publish.outputs.final_target_sha }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.execution_tooling_sha }}
+          fetch-depth: 0
+          persist-credentials: ${{ inputs.publish }}
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Download immutable offline publication selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare_offline_candidate.outputs.selection_artifact_name }}
+          path: ${{ runner.temp }}/publication-selection
+      - name: Validate immutable offline publication selection
+        env:
+          EXPECTED_SELECTION_SHA256: ${{ needs.prepare_offline_candidate.outputs.selection_sha256 }}
+          EXPECTED_PUBLISH: ${{ inputs.publish }}
+          EXECUTION_TOOLING_SHA: ${{ inputs.execution_tooling_sha }}
+        run: |
+          set -euo pipefail
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          node scripts/docs-workflow/publication-contracts.js validate-selection "$selection"
+          SELECTION="$selection" node - <<'NODE'
+          const fs = require('node:fs')
+          const selection = JSON.parse(fs.readFileSync(process.env.SELECTION, 'utf8'))
+          if (selection.workflow !== 'translation' || selection.units.length !== 1 || selection.units[0].unitKey !== 'translation/ja-JP/guides') throw new Error('offline publication selection scope mismatch')
+          if (selection.selectionSha256 !== process.env.EXPECTED_SELECTION_SHA256) throw new Error('offline publication selection checksum mismatch')
+          if (selection.toolingSha !== process.env.EXECUTION_TOOLING_SHA) throw new Error('offline publication execution tooling mismatch')
+          if (selection.inputs.publish !== (process.env.EXPECTED_PUBLISH === 'true')) throw new Error('offline publication mode mismatch')
+          NODE
+      - id: publish
+        name: Publish validated offline Translation through the publication coordinator
+        uses: actions/github-script@v8
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PUBLISH: ${{ inputs.publish }}
+        with:
+          script: |
+            const mode = process.env.PUBLISH === 'true' ? 'publish' : 'artifact_only'
+            await exec.exec('node', [
+              'scripts/docs-workflow/publication-coordinator.js',
+              '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`,
+              '--mode', mode,
+              '--poll-milliseconds', '10000',
+              '--candidate-polls', '6',
+              '--max-publish-attempts', '1',
+              '--deadline', String(Date.now() + 20 * 60 * 1000),
+            ])
+      - name: Upload publication-time validation receipt projection
+        if: ${{ always() && inputs.publish }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: offline-translation-publication-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/offline-publication-evidence
+          if-no-files-found: error
+          retention-days: 30
+
+  verify_terminal_results:
+    needs: [prepare_offline_candidate, publish_ready]
+    if: ${{ always() && needs.prepare_offline_candidate.result == 'success' && needs.publish_ready.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: '${{ inputs.execution_tooling_sha }}', fetch-depth: 0, persist-credentials: false }
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: '22.6', cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Download exact immutable selection
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.prepare_offline_candidate.outputs.selection_artifact_name }}
+          path: ${{ runner.temp }}/terminal-selection
+      - name: Download exact terminal results
+        uses: actions/download-artifact@v7
+        with:
+          name: ${{ needs.publish_ready.outputs.results_artifact_name }}
+          path: ${{ runner.temp }}/terminal-results
+      - name: Verify terminal identities and ancestry
+        env:
+          EXPECTED_STATUS: ${{ needs.publish_ready.outputs.overall_status }}
+          EXPECTED_FINAL_SHA: ${{ needs.publish_ready.outputs.final_target_sha }}
+          EXPECTED_PUBLISH: ${{ inputs.publish }}
+        run: |
+          set -euo pipefail
+          selection="$RUNNER_TEMP/terminal-selection/publication-selection.json"
+          results="$RUNNER_TEMP/terminal-results/publication-results.json"
+          node scripts/docs-workflow/publication-contracts.js validate-selection "$selection"
+          node scripts/docs-workflow/publication-contracts.js validate-results "$results"
+          SELECTION="$selection" RESULTS="$results" node - <<'NODE'
+          const fs = require('node:fs')
+          const {validateTranslationPublicationDocuments, verifyTranslationPublicationRepository} = require('./scripts/docs-workflow/translation-publication-results')
+          const selection = JSON.parse(fs.readFileSync(process.env.SELECTION, 'utf8'))
+          const results = JSON.parse(fs.readFileSync(process.env.RESULTS, 'utf8'))
+          validateTranslationPublicationDocuments({selection, results})
+          if (results.overallStatus !== process.env.EXPECTED_STATUS || results.finalTargetSha !== process.env.EXPECTED_FINAL_SHA) throw new Error('terminal workflow outputs do not match publication-results')
+          if (process.env.EXPECTED_PUBLISH === 'true') verifyTranslationPublicationRepository({selection, results, repository: process.cwd()})
+          NODE

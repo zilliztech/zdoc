@@ -32,6 +32,7 @@ test('workflow policy keeps spec-generated REST out of canonical Translation sel
 
 test('publish-capable top-level workflows share the durable dev queue', () => {
   const fetch = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
+  const offline = yaml.load(fs.readFileSync('.github/workflows/publish-offline-translation.yml', 'utf8'))
   const recovery = yaml.load(fs.readFileSync('.github/workflows/recover-translation.yml', 'utf8'))
   const translation = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
   const tooling = yaml.load(fs.readFileSync('.github/workflows/sync-master-tooling-to-dev.yml', 'utf8'))
@@ -41,11 +42,36 @@ test('publish-capable top-level workflows share the durable dev queue', () => {
     group: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}",
     queue: 'max',
   })
+  assert.deepEqual(offline.concurrency, {
+    group: "${{ inputs.publish && 'docs-production-dev' || format('offline-translation-readonly-{0}', github.run_id) }}",
+    queue: 'max',
+  })
+  assert.equal(offline.jobs.prepare_offline_candidate.permissions.contents, 'read')
+  assert.equal(offline.jobs.publish_ready.permissions.contents, 'write')
+  assert.equal(offline.jobs.verify_terminal_results.permissions.contents, 'read')
   assert.equal(translation.concurrency.queue, 'max')
   assert.equal(
     translation.concurrency.group,
     "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}",
   )
+})
+
+test('workflow policy rejects offline staging lifecycle and exact sidebar allowlist regressions', () => {
+  const source = fs.readFileSync('scripts/docs-workflow/offline-guides-publication.js', 'utf8')
+  const directory = fs.mkdtempSync(path.join(require('node:os').tmpdir(), 'offline-publication-policy-'))
+  try {
+    for (const [name, mutated, expected] of [
+      ['cleanup.js', source.replaceAll('deferConfirmedPromotionCleanup', 'cleanupImmediately'), 'offline-guides-publication.js: must defer staging cleanup until promotion is confirmed'],
+      ['sidebar.js', source.replace('docusaurus-plugin-content-docs-byoc/current.json', 'docusaurus-plugin-content-docs-byoc/current/**'), 'offline-guides-publication.js: must explicitly allow the BYOC sidebar locale file'],
+      ['candidate.js', source.replace("'--no-renames', ", ''), 'offline-guides-publication.js: must inspect an exact rename-disabled candidate diff'],
+    ]) {
+      const file = path.join(directory, name)
+      fs.writeFileSync(file, mutated)
+      assert.ok(validateWorkflowPolicies(undefined, {offlinePublicationPath: file}).includes(expected), name)
+    }
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true})
+  }
 })
 
 test('Japanese publisher pending validation stays bound to publish-enabled Translation durable queue ownership', () => {
