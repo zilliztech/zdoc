@@ -15,7 +15,7 @@ const {validateGuidesTranslationCandidate} = require('./validate-guides-translat
 
 const FLAGS = Object.freeze([
   '--repository-root', '--repository', '--source-tooling-sha', '--execution-tooling-sha', '--source-baseline-sha',
-  '--source-checkpoint-sha', '--target-branch', '--target-baseline-sha', '--candidate-ref',
+  '--source-checkpoint-sha', '--reconciliation-source-checkpoint-sha', '--target-branch', '--target-baseline-sha', '--candidate-ref',
   '--candidate-sha', '--expected-mdx-count', '--run-id', '--run-attempt', '--publish', '--output-root',
   '--dependency-root', '--runner-temp',
 ])
@@ -60,6 +60,7 @@ function prepareOfflineTranslationPublication(options) {
     executionToolingSha: options.executionToolingSha,
     sourceBaselineSha: options.sourceBaselineSha,
     sourceCheckpointSha: options.sourceCheckpointSha,
+    reconciliationSourceCheckpointSha: options.reconciliationSourceCheckpointSha,
     targetBranch: options.targetBranch,
     targetBaselineSha: options.targetBaselineSha,
     candidateRef: options.candidateRef,
@@ -113,6 +114,8 @@ function prepareOfflineTranslationPublication(options) {
   const outputRoot = path.resolve(options.outputRoot)
   const selectionFile = path.join(outputRoot, 'publication-selection.json')
   writePublicationDocument(selectionFile, selection)
+  const reconciliationPlanFile = path.join(outputRoot, 'translation-reconciliation-plan-ja-JP-guides.json')
+  fs.writeFileSync(reconciliationPlanFile, `${JSON.stringify(candidate.reconciliationPlan, null, 2)}\n`, {mode: 0o600})
   const validationFile = path.join(outputRoot, 'guides-validation.json')
   fs.writeFileSync(validationFile, `${JSON.stringify(validation, null, 2)}\n`, {mode: 0o600})
   const evidence = createOfflineEvidence({candidate, selection, outputRoot})
@@ -128,6 +131,8 @@ function prepareOfflineTranslationPublication(options) {
     baselineArtifactName,
     baselineArchive: evidence.baseline.archive,
     validationFile,
+    reconciliationPlanFile,
+    reconciliationPlanSha256: candidate.reconciliationPlan.planSha256,
   })
   for (const [key, value] of Object.entries(outputs)) appendOutput(key.replace(/[A-Z]/gu, letter => `_${letter.toLowerCase()}`), value, options.githubOutput)
   return Object.freeze({candidate, selection, evidence, outputs})
