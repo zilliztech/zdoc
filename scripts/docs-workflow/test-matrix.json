@@ -188,6 +188,14 @@
       "reason": "Manual registry changes alter unit order, matrix jobs, artifact names, sidebars, and replay cardinality."
     },
     {
+      "id": "links-reporting",
+      "paths": ["packages/docs-tooling/src/links/**"],
+      "focusedTests": ["pnpm vitest run packages/docs-tooling/src/links"],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-policy"],
+      "reason": "Broken-link and canonical-link report writers build the Feishu table URLs and card notes published by the reporting workflows."
+    },
+    {
       "id": "workflow-yaml",
       "paths": [".github/workflows/**"],
       "focusedTests": [

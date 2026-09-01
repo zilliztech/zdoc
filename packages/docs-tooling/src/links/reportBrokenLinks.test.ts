@@ -1,6 +1,6 @@
 import {describe, expect, it} from 'vitest';
 
-import {buildReportRows, categoryLabel, listRecordIds, writeBrokenLinksTable} from './reportBrokenLinks.ts';
+import {buildReportRows, categoryLabel, listRecordIds, reportTableUrl, writeBrokenLinksTable} from './reportBrokenLinks.ts';
 import {parseBrokenLinkAnalysisReport} from './brokenLinkAnalysis.ts';
 
 function analysis() {
@@ -44,6 +44,13 @@ describe('buildReportRows', () => {
     expect(rows[0].源文档链接).toBe('https://zilliverse.feishu.cn/wiki/Wl2Pw#Msm7dh');
     expect(rows[0].扫描时间).toBe('2026-08-26T00:00:00.000Z');
     expect(rows[1].源文档链接).toBe('');
+  });
+});
+
+describe('reportTableUrl', () => {
+  it('builds a web-accessible Feishu base URL from the web host', () => {
+    expect(reportTableUrl('app', 'tbl', 'https://zilliverse.feishu.cn')).toBe('https://zilliverse.feishu.cn/base/app?table=tbl');
+    expect(reportTableUrl('app', 'tbl', 'https://zilliverse.feishu.cn/')).toBe('https://zilliverse.feishu.cn/base/app?table=tbl');
   });
 });
 
