@@ -8,6 +8,12 @@ const path = require('node:path')
 
 const {publishCheckpointTransaction} = require('./checkpoint-publication')
 const {createJapaneseGuidesStrategy} = require('./ja-guides-publication-strategy')
+const {
+  createOfflineGuidesStrategy,
+  isOfflineGuidesManifest,
+  validateOfflineArtifactPair,
+  validateOfflineManifest,
+} = require('./offline-guides-publication')
 const {inspectArchive, preflightCheckpointArchive} = require('./preflight-checkpoint-archive')
 const {
   artifactNames,
@@ -100,9 +106,22 @@ function translationArtifactIdentity(unit) {
   }
 }
 
-function parseJapaneseGuidesManifest(bytes, {selection, unit, label}) {
+function parseJapaneseGuidesManifest(bytes, {selection, unit, label, kind}) {
   let manifest
   try { manifest = JSON.parse(bytes.toString('utf8')) } catch { throw new Error(`${label} Guides batch-set manifest JSON is invalid`) }
+  if (isOfflineGuidesManifest(manifest)) {
+    return validateOfflineManifest(manifest, {
+      kind,
+      repository: selection.repository,
+      runId: selection.runId,
+      runAttempt: selection.runAttempt,
+      executionToolingSha: unit.toolingSha,
+      sourceBaselineSha: unit.sourceBaselineSha,
+      sourceCheckpointSha: unit.sourceCheckpointSha,
+      targetBranch: unit.targetBranch,
+      targetBaselineSha: selection.initialTargetSha,
+    })
+  }
   if (!manifest || typeof manifest !== 'object' || Array.isArray(manifest) || manifest.schemaVersion !== 1 ||
       manifest.stage !== 'translation-guides-batch-set' || manifest.group !== 'guides' ||
       manifest.runId !== selection.runId || manifest.runAttempt !== selection.runAttempt ||
@@ -114,7 +133,7 @@ function parseJapaneseGuidesManifest(bytes, {selection, unit, label}) {
   return Object.freeze({...manifest})
 }
 
-async function prepareJapaneseGuidesBatchSetArtifact({client, artifactName, descriptor, runnerTemp, selection, unit, label}) {
+async function prepareJapaneseGuidesBatchSetArtifact({client, artifactName, descriptor, runnerTemp, selection, unit, label, kind}) {
   if (!descriptor) throw new Error(`${label} descriptor is missing`)
   const downloaded = await client.downloadArtifactFiles(artifactName, ['checkpoint-group.tar'])
   const archive = downloaded.files['checkpoint-group.tar']
@@ -124,7 +143,7 @@ async function prepareJapaneseGuidesBatchSetArtifact({client, artifactName, desc
   if (crypto.createHash('sha256').update(manifestBytes).digest('hex') !== descriptor.manifestSha256) {
     throw new Error(`${label} manifest checksum does not match ready descriptor`)
   }
-  const manifest = parseJapaneseGuidesManifest(manifestBytes, {selection, unit, label})
+  const manifest = parseJapaneseGuidesManifest(manifestBytes, {selection, unit, label, kind})
   return {...extractCheckpointArchive({archive, runnerTemp}), manifest}
 }
 
@@ -199,12 +218,25 @@ async function resolveJapaneseGuidesCandidate({selection, unit, client, runnerTe
     const ready = await client.downloadReady({selection, unitKey: unit.unitKey, maxPolls: 1, pollMilliseconds: 1})
     checkpoint = await prepareJapaneseGuidesBatchSetArtifact({
       client, artifactName: unit.artifacts.checkpoint, descriptor: ready.descriptor.artifacts.checkpoint,
-      runnerTemp, selection, unit, label: 'Japanese Guides checkpoint',
+      runnerTemp, selection, unit, label: 'Japanese Guides checkpoint', kind: 'checkpoint',
     })
     baseline = await prepareJapaneseGuidesBatchSetArtifact({
       client, artifactName: unit.artifacts.baseline, descriptor: ready.descriptor.artifacts.baseline,
-      runnerTemp, selection, unit, label: 'Japanese Guides baseline',
+      runnerTemp, selection, unit, label: 'Japanese Guides baseline', kind: 'baseline',
     })
+    if (isOfflineGuidesManifest(checkpoint.manifest) || isOfflineGuidesManifest(baseline.manifest)) {
+      if (!isOfflineGuidesManifest(checkpoint.manifest) || !isOfflineGuidesManifest(baseline.manifest)) throw new Error('offline Guides checkpoint and baseline artifact kinds differ')
+      const pair = validateOfflineArtifactPair({checkpoint, baseline, selection, unit})
+      if (ready.descriptor.outcome !== 'candidate') throw new Error('offline Guides ready outcome must be candidate')
+      return {status: 'ready', prepared: {
+        artifactDir: checkpoint.artifactDir,
+        cleanupDirectory: checkpoint.cleanupDirectory,
+        baselineDir: baseline.artifactDir,
+        baselineCleanupDirectory: baseline.cleanupDirectory,
+        offlineManifest: pair.checkpoint,
+        descriptor: ready.descriptor,
+      }}
+    }
     if (JSON.stringify(checkpoint.manifest) !== JSON.stringify(baseline.manifest)) {
       throw new Error('Japanese Guides checkpoint and baseline batch-set manifests differ')
     }
@@ -366,6 +398,36 @@ async function publishJapaneseGuidesTransaction({
     return git(repositoryRoot, ['rev-parse', `refs/remotes/${remote}/${selection.targetBranch}^{commit}`]).stdout.trim()
   })
   try {
+    if (prepared.offlineManifest) {
+      const strategy = strategyByName(strategies, 'ja-guides') || createOfflineGuidesStrategy()
+      try {
+        return await runPublicationStrategyTransaction({
+          strategy,
+          maxAttempts: 1,
+          maxProbeAttempts: 3,
+          inputs: {
+            repositoryRoot,
+            dependencyRoot,
+            runnerTemp,
+            manifest: prepared.offlineManifest,
+            runId: selection.runId,
+            runAttempt: selection.runAttempt,
+            selectionSha256: selection.selectionSha256,
+            validationOutput: path.join(runnerTemp, 'offline-publication-evidence', 'guides-validation.json'),
+          },
+          readTargetTip,
+          promoteCandidate: transactionContext.promoteCandidate || (async () => { throw new Error('offline Guides strategy owns fast-forward promotion') }),
+          probeRemoteCandidate: transactionContext.probeRemoteCandidate || (async ({candidateSha}) => {
+            git(repositoryRoot, ['fetch', '--no-tags', remote, `+refs/heads/${selection.targetBranch}:refs/remotes/${remote}/${selection.targetBranch}`])
+            const remoteSha = git(repositoryRoot, ['rev-parse', `refs/remotes/${remote}/${selection.targetBranch}^{commit}`]).stdout.trim()
+            const containsCandidate = git(repositoryRoot, ['merge-base', '--is-ancestor', candidateSha, remoteSha], {allowFailure: true}).status === 0
+            return {remoteSha, containsCandidate}
+          }),
+        })
+      } catch (error) {
+        return failedPublicationTransaction(error)
+      }
+    }
     if (!plan || !pairs) {
       let preparation
       try {
