@@ -410,7 +410,7 @@ test('workflow policy rejects external link watchdog boundary regressions', () =
     {
       label: 'retired scanner command',
       mutate: source => source.replace(
-        'pnpm docs-tooling check-links --site en --output tmp/external-link-watchdog/latest.md',
+        'pnpm docs-tooling check-links --site en --output tmp/external-link-watchdog/en.md',
         `node scripts/${retiredExternalScanner}.js`,
       ),
       expected: 'external-link-watchdog.yml: watchdog must use the canonical rendered-site checker and no retired scanner',
