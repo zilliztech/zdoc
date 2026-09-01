@@ -150,6 +150,8 @@ Use the stable package scripts so local development and CI exercise the same sui
 - `pnpm test:replay` is the PR-level contract + Fetch + recovery gate.
 - `pnpm test:replay:all` runs every hermetic replay suite before a cross-pipeline merge.
 
+The replay harnesses use the platform system temporary directory for their isolated lanes, replicas, and evidence roots. The translation replay harness accepts an explicit override via `ZDOC_REPLAY_SAFE_ROOT` when the default is not appropriate.
+
 These hermetic suites are regression harnesses; they do not replace a real retained-artifact replay. For a recovery change, prepare an isolated snapshot root containing `run.json`, `attempt.json`, `jobs.json`, `artifacts-unique.json`, `artifact-directories.json`, and the mapped artifact directories, then run:
 
 ```bash
