@@ -30,6 +30,12 @@ The following diagram shows how an anomaly detection job uses Isolation Forest t
 
 ![AmEAw0tXEheK1tbrSsIcbTGwndf](https://zdoc-images.s3.us-west-2.amazonaws.com/AmEAw0tXEheK1tbrSsIcbTGwndf.png)
 
+<Admonition type="info" icon="📘" title="Notes">
+
+Isolation Forest requires a minimum of 368 records in the inspected dataset.
+
+</Admonition>
+
 ### How anomalies are identified\{#how-anomalies-are-identified}
 
 As shown in the diagram above, the job uses Isolation Forest to identify records that differ from the broader vector distribution. To build each isolation tree, it repeatedly selects a random vector dimension and a random split value, progressively separating the records into smaller groups. Records located away from dense regions typically require fewer splits to reach a leaf, while records in densely populated regions tend to have longer paths. This behavior allows the job to distinguish records that are isolated after only a few splits from records that remain grouped with many nearby records through deeper levels of the trees.
