@@ -28,11 +28,11 @@ import Admonition from '@theme/Admonition';
 
 **适用于：**
 
-- 需要[管理用户访问权限](./project-users)，但不需要完全财务分离
+- 需要[管理用户访问权限](./access-control-overview)，但不需要完全财务分离
 
 **优势：**
 
-- 在[项目](./undefined)级别进行用户邀请和角色管理
+- 在[项目](./manage-projects)级别进行用户邀请和角色管理
 
 - 支持统一账单，并可按环境追踪用量
 
@@ -52,11 +52,11 @@ import Admonition from '@theme/Admonition';
 
 **特点：**
 
-- 同一项目下可创建多个[集群](./undefined)
+- 同一项目下可创建多个[集群](./create-cluster)
 
 - 每个集群具有独立的计算/存储资源，实现工作负载隔离
 
-- 提供统一[监控](./undefined)，便于运维与管理
+- 提供统一监控，便于运维与管理
 
 ## 选择合适的隔离策略\{#choosing-the-right-isolation-strategy}
 

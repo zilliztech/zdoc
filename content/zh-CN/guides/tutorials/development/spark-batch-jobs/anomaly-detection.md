@@ -30,6 +30,12 @@ import Procedures from '@site/src/components/Procedures';
 
 ![LJDVw3PkTh30CZb1kHncscNVnGb](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/LJDVw3PkTh30CZb1kHncscNVnGb.png)
 
+<Admonition type="info" icon="📘" title="说明">
+
+孤立森林算法要求待检测数据集至少包含 368 条数据。
+
+</Admonition>
+
 ### 识别异常\{#how-anomalies-are-identified}
 
 如上图所示，任务使用孤立森林算法识别异常记录。为了构建森林中的每棵树，任务多次随机选择一个向量维度及切分值，渐进式地将数据记录分割进不同的小分组里。远离稠密区域的零散记录仅需有限次数的分割就可以到达叶子结点，而位于稠密区域的记录则需要更长的路径才能到达叶子结点。借助这种行为，任务可以将仅需少数几步几可以方便分割的数据记录和那些需要更长路径才能分割出来的数据记录区分开来。

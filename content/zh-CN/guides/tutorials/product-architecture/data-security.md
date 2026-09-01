@@ -52,7 +52,7 @@ Zilliz Cloud 使用 OAuth0 进行安全的用户身份验证：
 
 - 通过 API 密钥和集群凭证提供集群访问权限。
 
-详情请参考[用户鉴权](./undefined)。
+详情请参考[API 密钥](./manage-api-keys)。
 
 ## 访问控制\{#access-control}
 
@@ -64,7 +64,7 @@ Zilliz Cloud 使用 OAuth0 进行安全的用户身份验证：
 
 - 控制台直观操作和应用程序的编程访问均可用。
 
-详情请参考[访问控制](./zilliz-access-control-prompts)。
+详情请参考[访问控制概览](./access-control-overview)。
 
 ## 安全网络访问\{#secure-network-access}
 
@@ -76,7 +76,7 @@ Zilliz Cloud 通过以下方式保障您的网络交互安全：
 
 - **私有链接**：在您的 VPC 和 Zilliz Cloud 控制面之间建立安全、私有的连接。
 
-有关详细信息，请参阅[设置白名单](./setup-whitelist)和[创建私网连接](./undefined)。
+有关详细信息，请参阅[设置集群 IP 白名单](./setup-whitelist)、[创建阿里云私网连接（Private Link）](./aliyun-private-link)、[创建腾讯云私有连接（Private Link）](./tencent-private-link)和 [创建亚马逊云科技 PrivateLink](./setup-a-private-link-aws)。
 
 ## 数据加密\{#data-encryption}
 
@@ -100,7 +100,7 @@ Zilliz Cloud 通过以下方式保障您的网络交互安全：
 
 - 利用第三方工具进行日志分析。
 
-详情请参考[审计日志](./undefined)。
+详情请参考[VectorDB 审计日志参考](./audit-logs-ref)。
 
 ## 数据完整性和备份\{#data-integrity-and-backup}
 
@@ -110,7 +110,7 @@ Zilliz Cloud 通过以下方式保障您的网络交互安全：
 
 - 回收站功能用于数据恢复（有规定的保留期）。
 
-详情请参考[备份与恢复](./undefined)和[使用回收站](./use-recycle-bin)。
+详情请参考[创建备份](./create-backup)和[回收站](./use-recycle-bin)。
 
 ## 证书和 TLS\{#certificates-and-tls}
 
