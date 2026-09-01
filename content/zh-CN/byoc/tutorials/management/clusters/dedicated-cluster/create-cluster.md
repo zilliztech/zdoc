@@ -24,7 +24,7 @@ Zilliz Cloud 提供多种部署方式和计费方式的集群，方便您根据�
 
 Zilliz Cloud 提供 Free、Serverless、Dedicated 三种部署方式的集群。其中，Dedicated 集群提供两种不同的计费方式——按量计费、包年包月。
 
-本文将介绍 Dedicated 集群两种计费方式的区别。如需了解各种部署方式，请参考 [Zilliz Cloud 定价](http://zilliz.com.cn/pricing)。
+本文将介绍 Dedicated 集群两种计费方式的区别。如需了解各种部署方式，请参考 [Zilliz Cloud 定价](https://zilliz.com.cn/pricing)。
 
 ### 包年包月 vs 按量计费\{#annual-subscription-vs-usage-based}
 

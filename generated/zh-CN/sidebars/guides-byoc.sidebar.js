@@ -43,6 +43,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "tutorials/get-started/select-zilliz-cloud-service-plans",
+        "label": "Zilliz Cloud 版本对比",
+        "key": "doc:tutorials/get-started/select-zilliz-cloud-service-plans"
+      },
+      {
+        "type": "doc",
         "id": "tutorials/get-started/cu-types-explained",
         "label": "选择合适的集群类型",
         "key": "doc:tutorials/get-started/cu-types-explained"
@@ -155,12 +161,6 @@ module.exports = [
             "id": "tutorials/development/search-and-query/single-vector-search",
             "label": "基本 Vector Search",
             "key": "doc:tutorials/development/search-and-query/single-vector-search"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/development/search-and-query/dql-sessions-external-collection",
-            "label": "按需 DQL 操作",
-            "key": "doc:tutorials/development/search-and-query/dql-sessions-external-collection"
           },
           {
             "type": "doc",
@@ -386,12 +386,6 @@ module.exports = [
             "id": "tutorials/development/database/database",
             "label": "Serving 集群中的 Database",
             "key": "doc:tutorials/development/database/database"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/development/database/on-demand-database",
-            "label": "按需计算中的 Database",
-            "key": "doc:tutorials/development/database/on-demand-database"
           }
         ]
       },
@@ -1322,14 +1316,7 @@ module.exports = [
             "type": "category",
             "label": "按需计算",
             "key": "category:tutorials/management/clusters/on-demand-compute",
-            "items": [
-              {
-                "type": "link",
-                "href": "/docs/byoc/on-demand-database",
-                "label": "按需计算中的 Database",
-                "key": "ref:tutorials/management/clusters/on-demand-compute/on-demand-database"
-              }
-            ]
+            "items": []
           },
           {
             "type": "category",
@@ -2043,30 +2030,6 @@ module.exports = [
             "id": "tutorials/product-architecture/best-practices/environment-isolation",
             "label": "环境隔离",
             "key": "doc:tutorials/product-architecture/best-practices/environment-isolation"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "category",
-    "label": "解决方案",
-    "key": "category:tutorials/solutions",
-    "items": [
-      {
-        "type": "category",
-        "label": "Schema 演进",
-        "key": "category:tutorials/solutions/schema-evolution",
-        "link": {
-          "type": "doc",
-          "id": "tutorials/solutions/schema-evolution/schema-evolution"
-        },
-        "items": [
-          {
-            "type": "doc",
-            "id": "tutorials/solutions/schema-evolution/migrate-to-a-new-embedding-model",
-            "label": "替换向量嵌入模型",
-            "key": "doc:tutorials/solutions/schema-evolution/migrate-to-a-new-embedding-model"
           }
         ]
       }

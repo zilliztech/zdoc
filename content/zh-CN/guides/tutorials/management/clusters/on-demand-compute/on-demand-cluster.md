@@ -32,7 +32,7 @@ import Procedures from '@site/src/components/Procedures';
 
 此功能仅适用于**企业版**项目。
 
-目前，您只能在阿里云华北2（北京）、阿里云华东2（上海）和腾讯云华北地区（北京）创建 On-demand 集群。如需其他地域，请[联系我们](http://zilliz.com.cn/contact-sales)。
+目前，您只能在阿里云华北2（北京）、阿里云华东2（上海）和腾讯云华北地区（北京）创建 On-demand 集群。如需其他地域，请[联系我们](https://zilliz.com.cn/contact-sales)。
 
 </Admonition>
 
