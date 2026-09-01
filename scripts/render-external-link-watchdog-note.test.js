@@ -84,6 +84,19 @@ test('renders identities, all summary counts, explanations, and bounded samples'
   assert.match(note, /The artifact contains every unique URL and route/)
 })
 
+test('renders the external link tracking table URL when supplied, or None otherwise', () => {
+  const withoutTable = renderExternalLinkWatchdogNote(fixture(), {
+    artifactUrl: 'https://github.com/zilliztech/zdoc/actions/runs/1/artifacts/2',
+  })
+  assert.match(withoutTable, /External link tracking table: None/)
+
+  const withTable = renderExternalLinkWatchdogNote(fixture(), {
+    artifactUrl: 'https://github.com/zilliztech/zdoc/actions/runs/1/artifacts/2',
+    tableUrl: 'https://zilliverse.feishu.cn/base/app?table=tbl1',
+  })
+  assert.match(withTable, /External link tracking table: https:\/\/zilliverse\.feishu\.cn\/base\/app\?table=tbl1/)
+})
+
 test('derives card presentation only from confirmed expiry', () => {
   assert.equal(cardStatus(fixture(12)), 'fail')
   assert.equal(cardStatus(fixture(0)), 'success')

@@ -150,6 +150,8 @@ Use the stable package scripts so local development and CI exercise the same sui
 - `pnpm test:replay` is the PR-level contract + Fetch + recovery gate.
 - `pnpm test:replay:all` runs every hermetic replay suite before a cross-pipeline merge.
 
+The replay harnesses use the platform system temporary directory for their isolated lanes, replicas, and evidence roots. The translation replay harness accepts an explicit override via `ZDOC_REPLAY_SAFE_ROOT` when the default is not appropriate.
+
 These hermetic suites are regression harnesses; they do not replace a real retained-artifact replay. For a recovery change, prepare an isolated snapshot root containing `run.json`, `attempt.json`, `jobs.json`, `artifacts-unique.json`, `artifact-directories.json`, and the mapped artifact directories, then run:
 
 ```bash
@@ -226,7 +228,7 @@ Prepare the candidate only after the reviewed workflow tooling has been synced t
 2. Limit the commit to Japanese Guides Markdown under the two `current/tutorials` roots, `.translation-cache/ja-JP.json`, and, when regenerated, the two exact sibling locale files:
    - `i18n/ja-JP/docusaurus-plugin-content-docs/current.json`
    - `i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current.json`
-3. Update one cache entry for every changed translated file. Its `sourceHash` must equal the raw source bytes at `source_checkpoint_sha`; unrelated cache mutations, deletions, renames, symlinks, executable files, and paths outside the fixed allowlist are rejected.
+3. Update one cache entry for every changed translated file. Its `sourceHash` must equal the raw source bytes at `source_checkpoint_sha`; unrelated cache mutations, renames, symlinks, executable files, and paths outside the fixed allowlist are rejected. A deletion is allowed only for a reconciliation orphan: a translated file whose English source is already absent from `source_checkpoint_sha`. Each orphan deletion must also remove its exact `.translation-cache/ja-JP.json` key.
 4. Push the candidate ref without rewriting it. Record both tooling identities separately: `source_tooling_sha` is the tooling used by the retained Translation run, while `execution_tooling_sha` is the reviewed master commit containing the offline validator. The former must be an ancestor of the latter.
 
 Dispatch the workflow first with `publish=false`. Supply the exact candidate ref/SHA, source tooling/baseline/checkpoint SHAs, execution tooling SHA, current target baseline, and expected Markdown count. The read-only run must produce an immutable Translation selection, checkpoint and baseline tar archives, publication-ready document, seven successful Guides validation receipts, publication progress, and terminal artifact-only results.

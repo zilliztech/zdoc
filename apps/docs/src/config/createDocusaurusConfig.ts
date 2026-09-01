@@ -81,8 +81,6 @@ function contentPlugin(
 }
 
 function buildCapabilityPlugins(profile: DeepReadonly<SiteProfile>): PluginConfig[] {
-  if (profile.id !== 'en') return [];
-
   const sources = profile.content.map(content => ({
     id: content.id,
     folder: repositoryPath(content.sourcePath),
