@@ -153,6 +153,7 @@
         "scripts/docs-workflow/prepare-guides-bootstrap-stage*",
         "scripts/docs-workflow/render-guides-table*",
         "scripts/docs-workflow/restore-guides-table-artifacts*",
+        "scripts/validate-guides-source-contract*",
         ".github/workflows/_assemble-guides.yml",
         ".github/workflows/_fetch-guides-sources.yml",
         ".github/workflows/_render-guides-table.yml"
