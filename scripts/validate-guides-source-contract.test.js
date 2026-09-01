@@ -119,6 +119,35 @@ test('ref key uses the canonical slug when the Base ref slug is empty', () => {
   assert.equal(validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }).checkedRecords, 4)
 })
 
+test('resolves duplicate canonical titles by the active publish target', () => {
+  const f = fixture()
+  const saasCanonical = f.snapshot.navigation_records.find(record => record.record_id === 'page')
+  saasCanonical.title = 'Shared storage'
+  saasCanonical.slug = 'shared-storage'
+  const saasRef = f.snapshot.navigation_records.find(record => record.record_id === 'ref')
+  saasRef.title = 'Shared storage'
+  saasRef.slug = ''
+
+  const paasCanonical = {
+    record_id: 'page-paas', table_id: 'tools', table_name: 'Tools', placement_type: 'canonical',
+    parent_record_ids: ['section'], title: 'Shared storage', slug: 'shared-storage', progress: 'Draft',
+    targets: ['zilliz.paas'], doc_token: 'page-paas-token',
+  }
+  const paasRef = {
+    record_id: 'ref-paas', table_id: 'tools', table_name: 'Tools', placement_type: 'ref',
+    parent_record_ids: [], title: 'Shared storage', slug: '', targets: [], ref_target: 'page-paas-token',
+  }
+  f.snapshot.navigation_records.push(paasCanonical, paasRef)
+  fs.rmSync(path.join(f.outputDir, 'tools/section/page.md'))
+  write(f.outputDir, 'tools/section/shared-storage.md', 'page-token')
+  f.sidebar[0].items[0].items[0].id = 'tutorials/tools/section/shared-storage'
+  const refItem = f.sidebar[0].items.find(item => item.key?.startsWith('ref:'))
+  refItem.key = 'ref:tutorials/tools/shared-storage'
+  refItem.href = '/docs/shared-storage'
+
+  assert.equal(validateGuidesSourceContract({ ...f, target: 'zilliz.saas' }).checkedRecords, 5)
+})
+
 test('anchored ref requires a resolved fragment on the canonical route', () => {
   const f = fixture()
   const ref = f.snapshot.navigation_records.find(record => record.record_id === 'ref')
