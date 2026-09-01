@@ -69,6 +69,7 @@
         "scripts/docs-workflow/ja-guides-publication-strategy*",
         "scripts/docs-workflow/offline-guides-publication*",
         "scripts/docs-workflow/prepare-offline-translation-publication*",
+        "deploy/contracts/offline-guides-canonical-replacements.json",
         "scripts/docs-workflow/publish-ready-deadline*",
         "scripts/docs-workflow/translation-batch-*",
         "scripts/docs-workflow/translation-staging*",

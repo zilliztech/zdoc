@@ -42,6 +42,16 @@ function commit(repository, message) {
   return git(repository, ['rev-parse', 'HEAD'])
 }
 
+function writeReplacementContract(repository, replacements = []) {
+  write(repository, 'config/translation/reconciliation-policy.json', fs.readFileSync(path.join(__dirname, '../../config/translation/reconciliation-policy.json'), 'utf8'))
+  write(repository, 'config/translation/reconciliation-policy-exceptions.json', fs.readFileSync(path.join(__dirname, '../../config/translation/reconciliation-policy-exceptions.json'), 'utf8'))
+  write(repository, 'deploy/contracts/offline-guides-canonical-replacements.json', `${JSON.stringify({
+    schemaVersion: 1,
+    document: 'offline-guides-canonical-replacements',
+    replacements,
+  }, null, 2)}\n`)
+}
+
 function validation(executionToolingSha, targetBaselineSha, candidateSha) {
   return {
     schemaVersion: 1,
@@ -72,6 +82,7 @@ function orphanFixture(t) {
   write(repository, 'content/en/guides/tutorials/new.md', '# new v1\n')
   write(repository, 'content/en/guides/tutorials/kept.md', '# kept v1\n')
   write(repository, '.translation-cache/ja-JP.json', '{"files":{}}\n')
+  writeReplacementContract(repository)
   const sourceToolingSha = commit(repository, 'source tooling')
   const sourceBaselineSha = sourceToolingSha
   const sourceCheckpointSha = sourceToolingSha
@@ -101,6 +112,7 @@ function orphanFixture(t) {
     executionToolingSha,
     sourceBaselineSha,
     sourceCheckpointSha,
+    reconciliationSourceCheckpointSha: executionToolingSha,
     targetBranch: 'dev',
     targetBaselineSha,
     expectedMdxCount: 1,
@@ -120,6 +132,7 @@ function fixture(t) {
   write(repository, 'content/en/guides/tutorials/a.md', '# source v1\n')
   write(repository, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials/existing.md', '# existing\n')
   write(repository, '.translation-cache/ja-JP.json', '{"files":{}}\n')
+  writeReplacementContract(repository)
   const sourceToolingSha = commit(repository, 'source tooling')
   write(repository, 'content/en/guides/tutorials/a.md', '# source v2\n')
   const sourceCheckpointSha = commit(repository, 'source checkpoint')
@@ -148,6 +161,7 @@ function fixture(t) {
     executionToolingSha,
     sourceBaselineSha,
     sourceCheckpointSha,
+    reconciliationSourceCheckpointSha: sourceCheckpointSha,
     targetBranch: 'dev',
     targetBaselineSha,
     candidateRef,
@@ -249,7 +263,94 @@ test('rejects an orphan deletion whose source still exists at the source checkpo
   const candidateRef = 'refs/heads/offline-translation-candidates/kept-delete'
   git(value.repository, ['push', 'origin', `${candidateSha}:${candidateRef}`])
   git(value.repository, ['checkout', '--detach', value.options.executionToolingSha])
-  assert.throws(() => inspectOfflineCandidate({...value.options, candidateSha, candidateRef}), /orphan deletion source still exists at source checkpoint/)
+  assert.throws(() => inspectOfflineCandidate({...value.options, candidateSha, candidateRef}), /orphan deletion source still exists at reconciliation source checkpoint/)
+})
+
+test('authenticates an exact canonical replacement across retained and current source checkpoints', t => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'offline-guides-replacement-')))
+  t.after(() => fs.rmSync(root, {recursive: true, force: true}))
+  const repository = path.join(root, 'repository')
+  const remote = path.join(root, 'remote.git')
+  fs.mkdirSync(repository)
+  git(repository, ['init'])
+  git(repository, ['config', 'user.name', 'Test'])
+  git(repository, ['config', 'user.email', 'test@example.com'])
+  const oldSource = 'content/en/byoc/tutorials/deployment/deploy.md'
+  const newSource = 'content/en/byoc/tutorials/deployment/deploy/deploy.md'
+  const oldTarget = 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy.md'
+  const newTarget = 'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current/tutorials/deployment/deploy/deploy.md'
+  write(repository, oldSource, '# source old\n')
+  write(repository, 'content/en/byoc/tutorials/keep.md', '# keep\n')
+  write(repository, '.translation-cache/ja-JP.json', '{"files":{}}\n')
+  writeReplacementContract(repository, [{sourcePath: oldTarget, replacementSourcePath: newTarget, authority: 'reviewed:test'}])
+  const sourceToolingSha = commit(repository, 'source tooling')
+  const sourceBaselineSha = sourceToolingSha
+  const sourceCheckpointSha = sourceToolingSha
+  write(repository, 'tooling-marker.txt', 'execution tooling\n')
+  const executionToolingSha = commit(repository, 'execution tooling')
+  fs.rmSync(path.join(repository, oldSource))
+  write(repository, newSource, '# source new\n')
+  const reconciliationSourceCheckpointSha = commit(repository, 'canonical source replacement')
+  write(repository, oldTarget, '# 日本語を維持\n')
+  write(repository, '.translation-cache/ja-JP.json', `${JSON.stringify({files: {
+    'docs-byoc/tutorials/deployment/deploy.md': {sourceHash: 'a'.repeat(64), targetPath: oldTarget, translatedAt: '2026-09-01T00:00:00.000Z'},
+  }}, null, 2)}\n`)
+  const targetBaselineSha = commit(repository, 'target baseline')
+  git(repository, ['checkout', '--detach', targetBaselineSha])
+  fs.rmSync(path.join(repository, oldTarget))
+  write(repository, newTarget, '# 日本語を維持\n')
+  write(repository, '.translation-cache/ja-JP.json', `${JSON.stringify({files: {
+    'docs-byoc/tutorials/deployment/deploy/deploy.md': {sourceHash: 'a'.repeat(64), targetPath: newTarget, translatedAt: '2026-09-01T00:00:00.000Z'},
+  }}, null, 2)}\n`)
+  const candidateSha = commit(repository, 'offline canonical replacement')
+  execFileSync('git', ['init', '--bare', remote])
+  git(repository, ['remote', 'add', 'origin', remote])
+  const candidateRef = 'refs/heads/offline-translation-candidates/replacement'
+  git(repository, ['push', 'origin', `${targetBaselineSha}:refs/heads/dev`])
+  git(repository, ['push', 'origin', `${candidateSha}:${candidateRef}`])
+  git(repository, ['checkout', '--detach', executionToolingSha])
+  const candidate = inspectOfflineCandidate({
+    repositoryRoot: repository,
+    repository: 'zilliztech/zdoc',
+    sourceToolingSha,
+    executionToolingSha,
+    sourceBaselineSha,
+    sourceCheckpointSha,
+    reconciliationSourceCheckpointSha,
+    targetBranch: 'dev',
+    targetBaselineSha,
+    candidateRef,
+    candidateSha,
+    expectedMdxCount: 1,
+  })
+  assert.equal(candidate.reconciliationPlan.operations.length, 1)
+  assert.equal(candidate.reconciliationPlan.operations[0].kind, 'replace_path')
+  assert.equal(candidate.reconciliationPlan.operations[0].replacementTargetPath, newTarget)
+
+  git(repository, ['checkout', '--detach', targetBaselineSha])
+  fs.rmSync(path.join(repository, oldTarget))
+  write(repository, newTarget, '# 改変された日本語\n')
+  write(repository, '.translation-cache/ja-JP.json', `${JSON.stringify({files: {
+    'docs-byoc/tutorials/deployment/deploy/deploy.md': {sourceHash: 'a'.repeat(64), targetPath: newTarget, translatedAt: '2026-09-01T00:00:00.000Z'},
+  }}, null, 2)}\n`)
+  const changedCandidateSha = commit(repository, 'changed replacement bytes')
+  const changedCandidateRef = 'refs/heads/offline-translation-candidates/replacement-changed'
+  git(repository, ['push', 'origin', `${changedCandidateSha}:${changedCandidateRef}`])
+  git(repository, ['checkout', '--detach', executionToolingSha])
+  assert.throws(() => inspectOfflineCandidate({
+    repositoryRoot: repository,
+    repository: 'zilliztech/zdoc',
+    sourceToolingSha,
+    executionToolingSha,
+    sourceBaselineSha,
+    sourceCheckpointSha,
+    reconciliationSourceCheckpointSha,
+    targetBranch: 'dev',
+    targetBaselineSha,
+    candidateRef: changedCandidateRef,
+    candidateSha: changedCandidateSha,
+    expectedMdxCount: 1,
+  }), /preserve the exact Japanese translation bytes/)
 })
 
 test('creates authenticated checkpoint, baseline, and publication-ready evidence without a batch-set contract', t => {

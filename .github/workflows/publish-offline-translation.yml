@@ -28,6 +28,10 @@ on:
         description: Exact source checkpoint bound to sourceHash values
         required: true
         type: string
+      reconciliation_source_checkpoint_sha:
+        description: Exact published English Guides checkpoint used to authenticate deletions and canonical replacements
+        required: true
+        type: string
       target_baseline_sha:
         description: Exact current dev SHA; target drift fails closed
         required: true
@@ -63,6 +67,7 @@ jobs:
       ready_artifact_name: ${{ steps.prepare.outputs.ready_artifact_name }}
       checkpoint_artifact_name: ${{ steps.prepare.outputs.checkpoint_artifact_name }}
       baseline_artifact_name: ${{ steps.prepare.outputs.baseline_artifact_name }}
+      reconciliation_plan_sha256: ${{ steps.prepare.outputs.reconciliation_plan_sha256 }}
     steps:
       - uses: actions/checkout@v5
         with: { ref: '${{ inputs.execution_tooling_sha }}', fetch-depth: 0, persist-credentials: false }
@@ -79,6 +84,7 @@ jobs:
           EXECUTION_TOOLING_SHA: ${{ inputs.execution_tooling_sha }}
           SOURCE_BASELINE_SHA: ${{ inputs.source_baseline_sha }}
           SOURCE_CHECKPOINT_SHA: ${{ inputs.source_checkpoint_sha }}
+          RECONCILIATION_SOURCE_CHECKPOINT_SHA: ${{ inputs.reconciliation_source_checkpoint_sha }}
           TARGET_BASELINE_SHA: ${{ inputs.target_baseline_sha }}
           EXPECTED_MDX_COUNT: ${{ inputs.expected_mdx_count }}
           PUBLISH_ENABLED: ${{ inputs.publish }}
@@ -93,6 +99,7 @@ jobs:
             --execution-tooling-sha "$EXECUTION_TOOLING_SHA" \
             --source-baseline-sha "$SOURCE_BASELINE_SHA" \
             --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
+            --reconciliation-source-checkpoint-sha "$RECONCILIATION_SOURCE_CHECKPOINT_SHA" \
             --target-branch dev \
             --target-baseline-sha "$TARGET_BASELINE_SHA" \
             --candidate-ref "$CANDIDATE_REF" \
@@ -137,6 +144,13 @@ jobs:
         with:
           name: offline-translation-validation-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ steps.prepare.outputs.validation_file }}
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload authenticated reconciliation plan
+        uses: actions/upload-artifact@v6
+        with:
+          name: offline-translation-reconciliation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.prepare.outputs.reconciliation_plan_file }}
           if-no-files-found: error
           retention-days: 30
 

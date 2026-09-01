@@ -15,11 +15,15 @@ const {
 } = require('./translation-staging-publisher')
 const {promoteStaging} = require('./translation-staging')
 const {validateGuidesTranslationCandidate} = require('./validate-guides-translation-staging')
+const {discoverReconciliation} = require('../translation/reconciliation-discovery')
+const {evaluateReconciliationPolicy, loadReconciliationPolicy} = require('../translation/reconciliation-policy')
+const {validateReconciliationPlan} = require('../translation/reconciliation-plan')
 
 const STAGE = 'translation-guides-offline-import'
 const UNIT_KEY = 'translation/ja-JP/guides'
 const CANDIDATE_REF_PREFIX = 'refs/heads/offline-translation-candidates/'
 const CACHE_PATH = '.translation-cache/ja-JP.json'
+const REPLACEMENTS_PATH = 'deploy/contracts/offline-guides-canonical-replacements.json'
 const SIDEBAR_PATHS = Object.freeze([
   'i18n/ja-JP/docusaurus-plugin-content-docs/current.json',
   'i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current.json',
@@ -30,8 +34,9 @@ const TRANSLATION_ROOTS = Object.freeze([
 ])
 const MANIFEST_KEYS = Object.freeze([
   'schemaVersion', 'stage', 'kind', 'repository', 'runId', 'runAttempt', 'sourceToolingSha', 'executionToolingSha',
-  'sourceBaselineSha', 'sourceCheckpointSha', 'targetBranch', 'targetBaselineSha',
+  'sourceBaselineSha', 'sourceCheckpointSha', 'reconciliationSourceCheckpointSha', 'targetBranch', 'targetBaselineSha',
   'candidateRef', 'candidateSha', 'expectedMdxCount', 'paths', 'files', 'absentPaths', 'validation',
+  'reconciliationPlan',
 ])
 const FILE_KEYS = Object.freeze(['path', 'blobSha', 'sha256'])
 const SHA = /^[0-9a-f]{40}$/u
@@ -209,11 +214,60 @@ function sourceIdentityForCacheKey(cacheKey) {
   throw new Error(`offline cache entry is outside Guides source roots: ${cacheKey}`)
 }
 
-function validateCacheMutation(repository, baselineSha, candidateSha, sourceCheckpointSha, translationPaths, deletedCacheKeys = []) {
+function loadCanonicalReplacements(repository) {
+  let document
+  try { document = JSON.parse(fs.readFileSync(path.join(repository, REPLACEMENTS_PATH), 'utf8')) } catch { throw new Error('offline Guides canonical replacements contract is invalid') }
+  exactKeys(document, ['schemaVersion', 'document', 'replacements'], 'offline Guides canonical replacements contract')
+  if (document.schemaVersion !== 1 || document.document !== 'offline-guides-canonical-replacements' || !Array.isArray(document.replacements)) {
+    throw new Error('offline Guides canonical replacements contract header is invalid')
+  }
+  const seen = new Set()
+  return deepFreeze(document.replacements.map((entry, index) => {
+    exactKeys(entry, ['sourcePath', 'replacementSourcePath', 'authority'], `offline Guides canonical replacement[${index}]`)
+    const sourcePath = sourceIdentityForCacheKey(cacheKeyForTargetPath(entry.sourcePath)).sourcePath
+    const replacementSourcePath = sourceIdentityForCacheKey(cacheKeyForTargetPath(entry.replacementSourcePath)).sourcePath
+    if (sourcePath === replacementSourcePath || seen.has(sourcePath) || typeof entry.authority !== 'string' || !entry.authority.trim()) {
+      throw new Error(`offline Guides canonical replacement[${index}] is invalid`)
+    }
+    seen.add(sourcePath)
+    return {sourcePath, replacementSourcePath, authority: entry.authority}
+  }))
+}
+
+function buildOfflineReconciliationPlan({repository, executionToolingSha, sourceCheckpointSha, reconciliationSourceCheckpointSha, targetBaselineSha}) {
+  const authoritativeReplacements = loadCanonicalReplacements(repository).filter(replacement =>
+    blobAt(repository, sourceCheckpointSha, replacement.sourcePath, {nullable: true}) !== null)
+  const discovery = discoverReconciliation({
+    repository,
+    target: 'ja-JP',
+    group: 'guides',
+    sourceBaselineSha: sourceCheckpointSha,
+    sourceCheckpointSha: reconciliationSourceCheckpointSha,
+    targetBaselineSha,
+    targetStateInventory: [],
+    authoritativeReplacements,
+  })
+  const evaluation = evaluateReconciliationPolicy({
+    policy: loadReconciliationPolicy(repository),
+    repositoryRoot: repository,
+    target: 'ja-JP',
+    group: 'guides',
+    toolingSha: executionToolingSha,
+    sourceBaselineSha: discovery.sourceBaselineSha,
+    sourceCheckpointSha: discovery.sourceCheckpointSha,
+    targetBaselineSha: discovery.targetBaselineSha,
+    candidates: discovery.candidates,
+    activeSourceCount: discovery.sourceCheckpointInventory.length,
+  })
+  if (evaluation.status !== 'approved') throw new Error(`offline Guides reconciliation plan is ${evaluation.status}`)
+  return evaluation.plan
+}
+
+function validateCacheMutation(repository, baselineSha, candidateSha, sourceCheckpointSha, translationPaths, ignoredCacheKeys = []) {
   const before = parseCache(repository, baselineSha)
   const after = parseCache(repository, candidateSha)
   const changedKeys = [...new Set([...Object.keys(before), ...Object.keys(after)])]
-    .filter(key => !deletedCacheKeys.includes(key) && JSON.stringify(before[key]) !== JSON.stringify(after[key])).sort()
+    .filter(key => !ignoredCacheKeys.includes(key) && JSON.stringify(before[key]) !== JSON.stringify(after[key])).sort()
   const byTarget = new Map()
   for (const key of changedKeys) {
     const entry = after[key]
@@ -244,32 +298,83 @@ function validateSidebarJson(repository, candidateSha, changedPaths) {
   }
 }
 
-function validateOrphanDeletions(repository, targetBaselineSha, candidateSha, sourceCheckpointSha, deletions) {
-  if (!deletions.length) return deepFreeze([])
+function validateReconciliationMutations(repository, targetBaselineSha, candidateSha, sourceCheckpointSha, reconciliationSourceCheckpointSha, deletions, translationPaths, plan) {
   const before = parseCache(repository, targetBaselineSha)
   const after = parseCache(repository, candidateSha)
+  const operations = new Map(plan.operations.map(operation => [operation.targetPath, operation]))
+  for (const relative of deletions) if (!operations.has(relative)) {
+    const identity = sourceIdentityForCacheKey(cacheKeyForTargetPath(relative))
+    if (blobAt(repository, reconciliationSourceCheckpointSha, identity.sourcePath, {nullable: true}) !== null) {
+      throw new Error('orphan deletion source still exists at reconciliation source checkpoint: ' + relative)
+    }
+  }
+  if (operations.size !== deletions.length || deletions.some(relative => !operations.has(relative))) {
+    throw new Error('offline candidate deletions must exactly match the reconciliation plan')
+  }
+  const deletedCacheKeys = []
+  const ignoredCacheKeys = []
+  const replacementTargets = []
   for (const relative of deletions) {
+    const operation = operations.get(relative)
     const cacheKey = cacheKeyForTargetPath(relative)
     const identity = sourceIdentityForCacheKey(cacheKey)
-    if (blobAt(repository, sourceCheckpointSha, identity.sourcePath, {nullable: true}) !== null) {
-      throw new Error('orphan deletion source still exists at source checkpoint: ' + relative)
-    }
+    if (identity.sourcePath !== operation.sourcePath) throw new Error('reconciliation source/target mapping mismatch: ' + relative)
     if (blobAt(repository, targetBaselineSha, relative, {nullable: true}) === null) {
-      throw new Error('orphan deletion path is absent from the target baseline: ' + relative)
+      throw new Error('reconciliation deletion path is absent from the target baseline: ' + relative)
     }
     if (blobAt(repository, candidateSha, relative, {nullable: true}) !== null) {
-      throw new Error('orphan deletion path still exists in the candidate: ' + relative)
+      throw new Error('reconciliation deletion path still exists in the candidate: ' + relative)
     }
-    if (!Object.hasOwn(before, cacheKey)) throw new Error('orphan deletion cache key is absent from the baseline: ' + cacheKey)
-    if (Object.hasOwn(after, cacheKey)) throw new Error('orphan deletion cache key still exists in the candidate: ' + cacheKey)
+    const oldCacheEntries = Object.entries(before).filter(([, entry]) => entry?.targetPath === relative)
+    if (!oldCacheEntries.some(([key]) => key === cacheKey)) throw new Error('reconciliation deletion cache key is absent from the baseline: ' + cacheKey)
+    for (const [key] of oldCacheEntries) {
+      if (Object.hasOwn(after, key)) throw new Error('reconciliation deletion cache key still exists in the candidate: ' + key)
+      deletedCacheKeys.push(key)
+      ignoredCacheKeys.push(key)
+    }
+    if (operation.kind === 'delete_target') {
+      if (blobAt(repository, reconciliationSourceCheckpointSha, identity.sourcePath, {nullable: true}) !== null) {
+        throw new Error('orphan deletion source still exists at reconciliation source checkpoint: ' + relative)
+      }
+      continue
+    }
+    if (operation.kind !== 'replace_path') throw new Error('offline reconciliation operation kind is unsupported: ' + operation.kind)
+    if (blobAt(repository, sourceCheckpointSha, operation.sourcePath, {nullable: true}) === null ||
+        blobAt(repository, reconciliationSourceCheckpointSha, operation.sourcePath, {nullable: true}) !== null) {
+      throw new Error('replacement source history does not match the reconciliation checkpoints: ' + relative)
+    }
+    const replacementTarget = operation.replacementTargetPath
+    if (!translationPaths.includes(replacementTarget)) throw new Error('replacement target is absent from the offline candidate changes: ' + replacementTarget)
+    const oldBytes = blobAt(repository, targetBaselineSha, relative).bytes
+    const newBytes = blobAt(repository, candidateSha, replacementTarget).bytes
+    if (!oldBytes.equals(newBytes)) throw new Error('replacement must preserve the exact Japanese translation bytes: ' + relative)
+    const replacementKey = cacheKeyForTargetPath(replacementTarget)
+    const replacementIdentity = sourceIdentityForCacheKey(replacementKey)
+    if (replacementIdentity.sourcePath !== operation.replacementSourcePath) throw new Error('replacement source/target mapping mismatch: ' + replacementTarget)
+    const migratedKeys = []
+    for (const [oldKey, oldEntry] of oldCacheEntries) {
+      const newKey = oldKey === operation.sourcePath ? operation.replacementSourcePath
+        : oldKey === cacheKey ? replacementKey
+          : oldKey === relative ? replacementTarget
+            : null
+      if (!newKey) throw new Error('replacement cache contains an unsupported legacy key: ' + oldKey)
+      if (Object.hasOwn(before, newKey) || JSON.stringify(after[newKey]) !== JSON.stringify({...oldEntry, targetPath: replacementTarget})) {
+        throw new Error('replacement cache key migration does not preserve exact provenance: ' + newKey)
+      }
+      migratedKeys.push(newKey)
+      ignoredCacheKeys.push(newKey)
+    }
+    const newTargetKeys = Object.entries(after).filter(([, entry]) => entry?.targetPath === replacementTarget).map(([key]) => key).sort()
+    if (newTargetKeys.join('\0') !== migratedKeys.sort().join('\0')) throw new Error('replacement cache target has extra or missing migrated keys: ' + replacementTarget)
+    replacementTargets.push(replacementTarget)
   }
-  return deepFreeze(deletions.map(cacheKeyForTargetPath).sort())
+  return deepFreeze({deletedCacheKeys: deletedCacheKeys.sort(), ignoredCacheKeys: ignoredCacheKeys.sort(), replacementTargets: replacementTargets.sort()})
 }
 
 function inspectOfflineCandidate(raw) {
   exactKeys(raw, [
     'repositoryRoot', 'repository', 'sourceToolingSha', 'executionToolingSha', 'sourceBaselineSha', 'sourceCheckpointSha',
-    'targetBranch', 'targetBaselineSha', 'candidateRef', 'candidateSha', 'expectedMdxCount',
+    'reconciliationSourceCheckpointSha', 'targetBranch', 'targetBaselineSha', 'candidateRef', 'candidateSha', 'expectedMdxCount',
   ], 'offline candidate options')
   const repositoryRootValue = repositoryRoot(raw.repositoryRoot)
   const values = {
@@ -279,6 +384,7 @@ function inspectOfflineCandidate(raw) {
     executionToolingSha: sha(raw.executionToolingSha, 'executionToolingSha'),
     sourceBaselineSha: sha(raw.sourceBaselineSha, 'sourceBaselineSha'),
     sourceCheckpointSha: sha(raw.sourceCheckpointSha, 'sourceCheckpointSha'),
+    reconciliationSourceCheckpointSha: sha(raw.reconciliationSourceCheckpointSha, 'reconciliationSourceCheckpointSha'),
     targetBranch: safeBranch(raw.targetBranch),
     targetBaselineSha: sha(raw.targetBaselineSha, 'targetBaselineSha'),
     candidateRef: safeRef(raw.candidateRef),
@@ -294,25 +400,36 @@ function inspectOfflineCandidate(raw) {
   for (const [label, value] of [
     ['sourceToolingSha', values.sourceToolingSha], ['executionToolingSha', values.executionToolingSha],
     ['sourceBaselineSha', values.sourceBaselineSha],
-    ['sourceCheckpointSha', values.sourceCheckpointSha], ['targetBaselineSha', values.targetBaselineSha],
+    ['sourceCheckpointSha', values.sourceCheckpointSha], ['reconciliationSourceCheckpointSha', values.reconciliationSourceCheckpointSha],
+    ['targetBaselineSha', values.targetBaselineSha],
     ['candidateSha', values.candidateSha],
   ]) exactCommit(repositoryRootValue, value, label)
   ancestor(repositoryRootValue, values.sourceToolingSha, values.executionToolingSha, 'sourceToolingSha must be an ancestor of executionToolingSha')
   ancestor(repositoryRootValue, values.sourceBaselineSha, values.sourceCheckpointSha, 'sourceBaselineSha must be an ancestor of sourceCheckpointSha')
-  ancestor(repositoryRootValue, values.sourceCheckpointSha, values.targetBaselineSha, 'sourceCheckpointSha must be an ancestor of targetBaselineSha')
+  ancestor(repositoryRootValue, values.sourceCheckpointSha, values.reconciliationSourceCheckpointSha, 'sourceCheckpointSha must be an ancestor of reconciliationSourceCheckpointSha')
+  ancestor(repositoryRootValue, values.reconciliationSourceCheckpointSha, values.targetBaselineSha, 'reconciliationSourceCheckpointSha must be an ancestor of targetBaselineSha')
   const parents = git(repositoryRootValue, ['rev-list', '--parents', '-n', '1', values.candidateSha]).trim().split(/\s+/u)
   if (parents.length !== 2 || parents[1] !== values.targetBaselineSha) throw new Error('offline candidate must be one commit with the exact target baseline as its only parent')
   const {paths, deletions} = parseChangedPaths(repositoryRootValue, values.targetBaselineSha, values.candidateSha)
   const translationPaths = paths.filter(relative => !deletions.includes(relative) && isTranslationPath(relative))
   if (translationPaths.length !== values.expectedMdxCount) throw new Error(`offline candidate translated file count is ${translationPaths.length}, expected ${values.expectedMdxCount}`)
   if (!paths.includes(CACHE_PATH)) throw new Error('offline candidate must update the Japanese translation cache')
-  const deletedCacheKeys = validateOrphanDeletions(repositoryRootValue, values.targetBaselineSha, values.candidateSha, values.sourceCheckpointSha, deletions)
+  const reconciliationPlan = buildOfflineReconciliationPlan({
+    repository: repositoryRootValue,
+    executionToolingSha: values.executionToolingSha,
+    sourceCheckpointSha: values.sourceCheckpointSha,
+    reconciliationSourceCheckpointSha: values.reconciliationSourceCheckpointSha,
+    targetBaselineSha: values.targetBaselineSha,
+  })
+  const reconciliation = validateReconciliationMutations(repositoryRootValue, values.targetBaselineSha, values.candidateSha, values.sourceCheckpointSha, values.reconciliationSourceCheckpointSha, deletions, translationPaths, reconciliationPlan)
+  const deletedCacheKeys = reconciliation.deletedCacheKeys
   const presentPaths = paths.filter(relative => !deletions.includes(relative))
   const files = presentPaths.map(relative => blobAt(repositoryRootValue, values.candidateSha, relative))
   if (translationPaths.some(relative => files.find(file => file.path === relative).bytes.length === 0)) throw new Error('offline translated files must not be empty')
-  validateCacheMutation(repositoryRootValue, values.targetBaselineSha, values.candidateSha, values.sourceCheckpointSha, translationPaths, deletedCacheKeys)
+  const ordinaryTranslationPaths = translationPaths.filter(relative => !reconciliation.replacementTargets.includes(relative))
+  validateCacheMutation(repositoryRootValue, values.targetBaselineSha, values.candidateSha, values.sourceCheckpointSha, ordinaryTranslationPaths, reconciliation.ignoredCacheKeys)
   validateSidebarJson(repositoryRootValue, values.candidateSha, paths)
-  return deepFreeze({...values, paths, deletions, translationPaths, deletedCacheKeys, files: files.map(({bytes, ...file}) => file)})
+  return deepFreeze({...values, paths, deletions, translationPaths, deletedCacheKeys, reconciliationPlan, files: files.map(({bytes, ...file}) => file)})
 }
 
 function canonicalManifest(value) {
@@ -351,6 +468,7 @@ function createArtifact({candidate, kind, outputRoot}) {
     executionToolingSha: candidate.executionToolingSha,
     sourceBaselineSha: candidate.sourceBaselineSha,
     sourceCheckpointSha: candidate.sourceCheckpointSha,
+    reconciliationSourceCheckpointSha: candidate.reconciliationSourceCheckpointSha,
     targetBranch: candidate.targetBranch,
     targetBaselineSha: candidate.targetBaselineSha,
     candidateRef: candidate.candidateRef,
@@ -360,6 +478,7 @@ function createArtifact({candidate, kind, outputRoot}) {
     files,
     absentPaths,
     validation: candidate.validation,
+    reconciliationPlan: candidate.reconciliationPlan,
   })
   const manifestBytes = canonicalManifest(manifest)
   writePinnedFile(path.join(groupRoot, 'manifest.json'), manifestBytes)
@@ -380,7 +499,7 @@ function validateOfflineManifest(input, expectations = {}) {
   if (input.schemaVersion !== 1 || input.stage !== STAGE || !['checkpoint', 'baseline'].includes(input.kind)) throw new Error('offline Guides manifest header is invalid')
   if (typeof input.repository !== 'string' || !/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u.test(input.repository)) throw new Error('offline Guides manifest repository is invalid')
   positiveInteger(input.runId, 'manifest runId'); positiveInteger(input.runAttempt, 'manifest runAttempt')
-  for (const key of ['sourceToolingSha', 'executionToolingSha', 'sourceBaselineSha', 'sourceCheckpointSha', 'targetBaselineSha', 'candidateSha']) sha(input[key], `manifest ${key}`)
+  for (const key of ['sourceToolingSha', 'executionToolingSha', 'sourceBaselineSha', 'sourceCheckpointSha', 'reconciliationSourceCheckpointSha', 'targetBaselineSha', 'candidateSha']) sha(input[key], `manifest ${key}`)
   safeBranch(input.targetBranch); safeRef(input.candidateRef); positiveInteger(input.expectedMdxCount, 'manifest expectedMdxCount')
   if (!Array.isArray(input.paths) || !input.paths.length || [...input.paths].sort().join('\0') !== input.paths.join('\0') || new Set(input.paths).size !== input.paths.length || input.paths.some(relative => !isAllowedPath(relative))) throw new Error('offline Guides manifest paths are invalid')
   if (!Array.isArray(input.files) || !Array.isArray(input.absentPaths)) throw new Error('offline Guides manifest file inventories are invalid')
@@ -395,6 +514,11 @@ function validateOfflineManifest(input, expectations = {}) {
       input.validation.proof?.repositoryHeadSha !== input.executionToolingSha || input.validation.proof?.expectedTargetSha !== input.targetBaselineSha ||
       input.validation.proof?.stagedSha !== input.candidateSha || !SHA256.test(input.validation.proof?.generatedStateSha256 || '')) {
     throw new Error('offline Guides manifest validation proof is invalid')
+  }
+  const plan = validateReconciliationPlan(input.reconciliationPlan, {repositoryRoot: expectations.repositoryRoot})
+  if (plan.toolingSha !== input.executionToolingSha || plan.sourceBaselineSha !== input.sourceCheckpointSha ||
+      plan.sourceCheckpointSha !== input.reconciliationSourceCheckpointSha || plan.targetBaselineSha !== input.targetBaselineSha) {
+    throw new Error('offline Guides manifest reconciliation plan identity is invalid')
   }
   for (const [key, expected] of Object.entries(expectations)) if (input[key] !== expected) throw new Error(`offline Guides manifest ${key} identity mismatch`)
   return deepFreeze(JSON.parse(JSON.stringify(input)))
@@ -501,13 +625,15 @@ function createOfflineGuidesStrategy(overrides = {}) {
         executionToolingSha: manifest.executionToolingSha,
         sourceBaselineSha: manifest.sourceBaselineSha,
         sourceCheckpointSha: manifest.sourceCheckpointSha,
+        reconciliationSourceCheckpointSha: manifest.reconciliationSourceCheckpointSha,
         targetBranch: manifest.targetBranch,
         targetBaselineSha: manifest.targetBaselineSha,
         candidateRef: manifest.candidateRef,
         candidateSha: manifest.candidateSha,
         expectedMdxCount: manifest.expectedMdxCount,
       })
-      if (candidate.paths.join('\0') !== manifest.paths.join('\0') || candidate.files.some((file, index) => JSON.stringify(file) !== JSON.stringify(manifest.files[index]))) throw new Error('remote offline candidate no longer matches the authenticated checkpoint manifest')
+      if (candidate.paths.join('\0') !== manifest.paths.join('\0') || candidate.files.some((file, index) => JSON.stringify(file) !== JSON.stringify(manifest.files[index])) ||
+          candidate.reconciliationPlan.planSha256 !== manifest.reconciliationPlan.planSha256) throw new Error('remote offline candidate no longer matches the authenticated checkpoint manifest')
       const stagingRef = diagnosticStagingRef({
         runId: inputs.runId,
         runAttempt: inputs.runAttempt,
