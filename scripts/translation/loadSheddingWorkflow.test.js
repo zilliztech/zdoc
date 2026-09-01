@@ -43,7 +43,7 @@ test('Translation producer matrices bound model parallelism and retain the singl
 
   assert.equal(workflow.jobs.translate_guides_batches.strategy['max-parallel'], 1)
   assert.equal(workflow.jobs.translate_sdk.strategy['max-parallel'], 3)
-  assert.deepEqual(workflow.jobs.publish_ready.needs, ['prepare'])
+  assert.deepEqual(workflow.jobs.publish_ready.needs, ['prepare', 'translate_sdk', 'prepare_guides_publication_ready'])
   assert.equal(workflow.jobs.publish_ready.permissions.contents, 'write')
   assert.match(JSON.stringify(workflow.jobs.publish_ready), /publication-coordinator\.js/)
   for (const producer of ['translate_guides_batches', 'translate_sdk', 'prepare_guides_publication_ready']) {

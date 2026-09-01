@@ -9,6 +9,7 @@ const PRODUCTION_DEV_QUEUE = 'docs-production-dev'
 const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
   ['fetch-docs.yml', {conditional: false}],
   ['recover-translation.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}"}],
+  ['publish-offline-translation.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('offline-translation-readonly-{0}', github.run_id) }}"}],
   ['translate-codex.yml', {conditional: true, expectedGroup: "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}"}],
   ['sync-master-tooling-to-dev.yml', {conditional: false}],
   ['repair-fetch-dev.yml', {conditional: false}],
@@ -16,6 +17,7 @@ const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
 const TOP_LEVEL_WRITER_INVENTORY = Object.freeze(new Map([
   ['fetch-docs.yml', ['prepare', 'publish_ready', 'reconcile_reference_state']],
   ['translate-codex.yml', ['publish_ready']],
+  ['publish-offline-translation.yml', ['publish_ready']],
   ['sync-master-tooling-to-dev.yml', ['sync']],
   ['repair-fetch-dev.yml', ['repair']],
 ]))
@@ -26,6 +28,7 @@ const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
 const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'recover-translation.yml',
+  'publish-offline-translation.yml',
   'translate-codex.yml',
   'sync-master-tooling-to-dev.yml',
   'repair-fetch-dev.yml',
@@ -317,6 +320,40 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push('recover-translation.yml: only the reusable Translation call may receive the contents write ceiling')
       }
     }
+    if (file === 'publish-offline-translation.yml') {
+      const prepare = workflow.jobs?.prepare_offline_candidate
+      const publish = workflow.jobs?.publish_ready
+      const verify = workflow.jobs?.verify_terminal_results
+      const requiredInputs = [
+        'candidate_ref', 'candidate_sha', 'source_tooling_sha', 'execution_tooling_sha',
+        'source_baseline_sha', 'source_checkpoint_sha', 'target_baseline_sha', 'expected_mdx_count',
+      ]
+      if (requiredInputs.some(input => workflow.on?.workflow_dispatch?.inputs?.[input]?.required !== true) ||
+          workflow.on?.workflow_dispatch?.inputs?.publish?.default !== false) {
+        errors.push(`${file}: offline import must require every immutable identity and default to artifact-only validation`)
+      }
+      if (prepare?.permissions?.contents !== 'read' || publish?.permissions?.contents !== 'write' || verify?.permissions?.contents !== 'read') {
+        errors.push(`${file}: only publish_ready may receive the offline import contents write ceiling`)
+      }
+      const requiredFragments = [
+        'prepare-offline-translation-publication.js',
+        '--source-tooling-sha "$SOURCE_TOOLING_SHA"',
+        '--execution-tooling-sha "$EXECUTION_TOOLING_SHA"',
+        '--source-baseline-sha "$SOURCE_BASELINE_SHA"',
+        '--source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA"',
+        '--target-baseline-sha "$TARGET_BASELINE_SHA"',
+        'publication-coordinator.js',
+        "'--max-publish-attempts', '1'",
+        'validateTranslationPublicationDocuments',
+        'verifyTranslationPublicationRepository',
+      ]
+      if (requiredFragments.some(fragment => !source.includes(fragment))) {
+        errors.push(`${file}: offline import must bind exact identities, use the coordinator once, and verify terminal results`)
+      }
+      if (/TRANSLATION_AGENT_API_KEY|REVIEW_AGENT_API_KEY|allow_full_retranslate|translate-codex\.yml/.test(source)) {
+        errors.push(`${file}: offline import must not receive paid Translation or review-agent credentials`)
+      }
+    }
     const productionQueueOwner = PRODUCTION_QUEUE_OWNERS.get(file)
     const concurrencyGroup = concurrencyGroupOf(workflow?.concurrency)
     if (productionQueueOwner?.conditional) {
@@ -425,10 +462,11 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (publishingWorkflows.has(file)) {
-      if (file === 'fetch-docs.yml' || file === 'translate-codex.yml') {
+      if (file === 'fetch-docs.yml' || file === 'translate-codex.yml' || file === 'publish-offline-translation.yml') {
         const writableJobs = Object.entries(workflow.jobs || {}).filter(([, job]) => job?.permissions?.contents === 'write')
         const expected = TOP_LEVEL_WRITER_INVENTORY.get(file)
-        if (workflow.permissions?.contents !== 'read' || workflow.permissions?.actions !== 'read' ||
+        const expectedTopLevelContents = file === 'publish-offline-translation.yml' ? 'write' : 'read'
+        if (workflow.permissions?.contents !== expectedTopLevelContents || workflow.permissions?.actions !== 'read' ||
             JSON.stringify(writableJobs.map(([name]) => name)) !== JSON.stringify(expected)) {
           errors.push(`${file}: Git writer inventory must be exactly ${expected.join(',')}`)
         }
@@ -1214,8 +1252,8 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         "  '--deadline', String(Date.now() + 350 * 60 * 1000),",
         '])',
       ].join('\n')
-      if (writer?.name !== 'publish_ready' || JSON.stringify(writer?.needs) !== JSON.stringify(['prepare']) ||
-          writer?.if !== "${{ needs.prepare.result == 'success' }}" ||
+      if (writer?.name !== 'publish_ready' || JSON.stringify(writer?.needs) !== JSON.stringify(['prepare', 'translate_sdk', 'prepare_guides_publication_ready']) ||
+          writer?.if !== "${{ always() && needs.prepare.result == 'success' }}" ||
           writer?.permissions?.actions !== 'read' || writer?.permissions?.contents !== 'write' ||
           writer?.['continue-on-error'] !== undefined ||
           writerCheckout?.with?.ref !== '${{ needs.prepare.outputs.tooling_sha }}' ||
@@ -1850,6 +1888,27 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
   if (!/\['diff', '--no-renames', '--name-only', '-z', 'HEAD', '--'\]/.test(translationStagingSource) ||
       !/\['diff', '--cached', '--no-renames', '--name-only', '-z'\]/.test(translationStagingSource)) {
     errors.push('translation-staging.js: staged batch comparisons must disable rename detection')
+  }
+
+  const offlinePublicationSource = fs.readFileSync(options.offlinePublicationPath || path.join(process.cwd(), 'scripts/docs-workflow/offline-guides-publication.js'), 'utf8')
+  const offlinePreparationSource = fs.readFileSync(options.offlinePreparationPath || path.join(process.cwd(), 'scripts/docs-workflow/prepare-offline-translation-publication.js'), 'utf8')
+  for (const [pattern, message] of [
+    [/refs\/heads\/offline-translation-candidates\//, 'must restrict candidate refs to the dedicated offline namespace'],
+    [/diff-tree', '-r', '--no-commit-id', '--no-renames', '--name-status', '-z'/, 'must inspect an exact rename-disabled candidate diff'],
+    [/parents\.length !== 2 \|\| parents\[1\] !== values\.targetBaselineSha/, 'must require one commit directly above the exact target baseline'],
+    [/offline candidate contains a forbidden \$\{status\} change/, 'must reject deletions and special candidate changes'],
+    [/docusaurus-plugin-content-docs\/current\.json/, 'must explicitly allow the SaaS sidebar locale file'],
+    [/docusaurus-plugin-content-docs-byoc\/current\.json/, 'must explicitly allow the BYOC sidebar locale file'],
+    [/cache sourceHash does not match source checkpoint/, 'must bind every cache sourceHash to the exact source checkpoint'],
+    [/pushDiagnosticStagingCandidate/, 'must push one authenticated diagnostic staging ref'],
+    [/deferConfirmedPromotionCleanup/, 'must defer staging cleanup until promotion is confirmed'],
+    [/promoteStaging/, 'must use normal fast-forward target promotion'],
+    [/deleteDiagnosticStagingWithLease/, 'must delete staging only with an exact SHA lease'],
+  ]) if (!pattern.test(offlinePublicationSource)) errors.push(`offline-guides-publication.js: ${message}`)
+  if (!/validateGuidesTranslationCandidate/.test(offlinePreparationSource) ||
+      !/validation\.receipts\.length !== VALIDATION_SPECS\.length/.test(offlinePreparationSource) ||
+      /planTranslationBatchSet|TRANSLATION_AGENT_API_KEY|REVIEW_AGENT_API_KEY/.test(`${offlinePublicationSource}\n${offlinePreparationSource}`)) {
+    errors.push('offline Guides publication: must use the fixed seven-command validator without batch-set planning or model credentials')
   }
 
   const groupsSource = fs.readFileSync(options.groupsPath || path.join(process.cwd(), 'packages/docs-tooling/src/workflows/groups.ts'), 'utf8')

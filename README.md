@@ -216,6 +216,23 @@ Stop at the first failed boundary and classify the failure before retrying:
 - **Reconciliation review:** a `translation-reconciliation-review-*.json` artifact is produced when a deletion or path change requires human authorization. Generate the deterministic approval PR with `scripts/docs-workflow/reconciliation-review-pr.js`, review the exact plan, expected mutations, source/target identities, and policy exception body, then merge only when the decision should remain standing. Do not hand-edit or push policy files directly to `dev`; after merge, run the normal master-to-dev tooling sync.
 - **Card/reporting failure:** the card is observability, not the Git writer. Preserve the publication selection/results and final verification artifacts, then use the final card artifact or monitor finalization evidence to determine whether the business flow actually succeeded.
 
+### Publish retained Japanese Guides offline
+
+Use [`publish-offline-translation.yml`](.github/workflows/publish-offline-translation.yml) only when authenticated Japanese Guides output already exists but cannot truthfully satisfy the schema-v2/v3 Translation batch-set contract. This path does not invoke Translation or review agents and does not synthesize `translation-guides-batch-set` evidence. It validates one exact candidate commit and promotes it through the normal publication coordinator.
+
+Prepare the candidate only after the reviewed workflow tooling has been synced to `dev`:
+
+1. Refresh `origin/dev` and record its exact SHA as `target_baseline_sha`. Create `refs/heads/offline-translation-candidates/<name>` as one commit whose only parent is that SHA.
+2. Limit the commit to Japanese Guides Markdown under the two `current/tutorials` roots, `.translation-cache/ja-JP.json`, and, when regenerated, the two exact sibling locale files:
+   - `i18n/ja-JP/docusaurus-plugin-content-docs/current.json`
+   - `i18n/ja-JP/docusaurus-plugin-content-docs-byoc/current.json`
+3. Update one cache entry for every changed translated file. Its `sourceHash` must equal the raw source bytes at `source_checkpoint_sha`; unrelated cache mutations, deletions, renames, symlinks, executable files, and paths outside the fixed allowlist are rejected.
+4. Push the candidate ref without rewriting it. Record both tooling identities separately: `source_tooling_sha` is the tooling used by the retained Translation run, while `execution_tooling_sha` is the reviewed master commit containing the offline validator. The former must be an ancestor of the latter.
+
+Dispatch the workflow first with `publish=false`. Supply the exact candidate ref/SHA, source tooling/baseline/checkpoint SHAs, execution tooling SHA, current target baseline, and expected Markdown count. The read-only run must produce an immutable Translation selection, checkpoint and baseline tar archives, publication-ready document, seven successful Guides validation receipts, publication progress, and terminal artifact-only results.
+
+If every identity and receipt is correct and `origin/dev` is still exactly `target_baseline_sha`, rerun the same inputs with `publish=true`. The workflow owns `docs-production-dev`, allows only `publish_ready` to write, pushes one authenticated `docs-translation-staging/guides/**` ref, promotes by normal fast-forward, and deletes that staging ref with an exact SHA lease only after publication is confirmed. Target drift fails closed; prepare a new one-commit candidate instead of merging, rebasing, force-pushing, or reusing stale evidence. Preserve the terminal selection/results, final SHA, seven receipts, and staging cleanup evidence.
+
 #### Feishu reconciliation approval card
 
 When a Translation unit enters reconciliation review, the monitor reads `translation-reconciliation-review-state-<target>-<group>-<run_id>-<batch>.json` and renders Approve / Reject buttons on the Feishu progress card.
