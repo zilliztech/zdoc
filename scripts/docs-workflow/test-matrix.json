@@ -205,6 +205,17 @@
       "reason": "Manual registry changes alter unit order, matrix jobs, artifact names, sidebars, and replay cardinality."
     },
     {
+      "id": "docs-site-build",
+      "paths": ["apps/docs/**", "packages/site-config/**"],
+      "focusedTests": [
+        "pnpm vitest run apps/docs/src/config/createDocusaurusConfig.test.ts",
+        "pnpm test:profiles"
+      ],
+      "harnesses": [],
+      "gates": [],
+      "reason": "Docusaurus config, build capability plugins, and site profiles define English and Chinese route and plugin registration."
+    },
+    {
       "id": "links-reporting",
       "paths": ["packages/docs-tooling/src/links/**"],
       "focusedTests": ["pnpm vitest run packages/docs-tooling/src/links"],
