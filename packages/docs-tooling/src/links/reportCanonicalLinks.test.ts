@@ -44,7 +44,7 @@ function report() {
   });
 }
 
-const deps = {appToken: 'app', token: 'tenant-token', host: 'https://open.feishu.cn', now: () => new Date('2026-08-29T00:00:00.000Z')};
+const deps = {appToken: 'app', token: 'tenant-token', host: 'https://open.feishu.cn', webHost: 'https://zilliverse.feishu.cn', now: () => new Date('2026-08-29T00:00:00.000Z')};
 
 type RecordedCall = {url: string; options: Record<string, unknown>; label: string};
 
@@ -161,7 +161,7 @@ describe('findOrCreateDailyTable', () => {
     ]);
     const result = await findOrCreateDailyTable({...deps, fetchFeishu});
     expect(result.tableId).toBe('tblExisting');
-    expect(result.tableUrl).toBe('https://open.feishu.cn/base/app?table=tblExisting');
+    expect(result.tableUrl).toBe('https://zilliverse.feishu.cn/base/app?table=tblExisting');
     expect(calls).toHaveLength(1); // no create call
   });
 

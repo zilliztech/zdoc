@@ -253,6 +253,7 @@ jobs:
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
           FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+          FEISHU_WEB_HOST: ${{ vars.FEISHU_WEB_HOST }}
           BROKEN_LINKS_REPORT_BASE_TOKEN: ${{ vars.BROKEN_LINKS_REPORT_BASE_TOKEN }}
       - id: media_prefetch
         name: Prefetch shared guides media
