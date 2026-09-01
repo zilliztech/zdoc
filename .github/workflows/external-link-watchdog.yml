@@ -53,20 +53,26 @@ jobs:
       - name: Build English site
         run: pnpm build:en
 
+      - name: Build Chinese site
+        run: pnpm build:zh-CN
+
       - name: Scan rendered external links
         id: scan
         env:
           LINK_CHECKS_TOOLING_SHA: ${{ steps.refs.outputs.tooling_sha }}
           LINK_CHECKS_CONTENT_SHA: ${{ steps.refs.outputs.content_sha }}
         run: |
-          pnpm docs-tooling check-links --site en --output tmp/external-link-watchdog/latest.md
+          pnpm docs-tooling check-links --site en --output tmp/external-link-watchdog/en.md
+          pnpm docs-tooling check-links --site zh-CN --output tmp/external-link-watchdog/zh-CN.md
           node <<'NODE'
           const fs = require('node:fs')
-          const report = JSON.parse(fs.readFileSync('tmp/external-link-watchdog/latest.json', 'utf8'))
-          const expiredCount = report.summary.expired_external_links
-          if (!Number.isSafeInteger(expiredCount) || expiredCount < 0) {
-            throw new Error('expired_external_links must be a non-negative safe integer')
-          }
+          const reports = ['en', 'zh-CN'].map(site => JSON.parse(fs.readFileSync(`tmp/external-link-watchdog/${site}.json`, 'utf8')))
+          const expiredCount = reports.reduce((total, report) => {
+            const count = report.summary.expired_external_links
+            if (!Number.isSafeInteger(count) || count < 0) throw new Error('expired_external_links must be a non-negative safe integer')
+            return total + count
+          }, 0)
+          if (!Number.isSafeInteger(expiredCount)) throw new Error('combined expired_external_links must be a safe integer')
           const cardStatus = expiredCount === 0 ? 'success' : 'fail'
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `expired_count=${expiredCount}\ncard_status=${cardStatus}\n`)
           NODE
@@ -81,7 +87,7 @@ jobs:
           retention-days: 14
 
       - name: Report external links to table
-        run: pnpm docs-tooling report-external-links --site en --report tmp/external-link-watchdog/latest.json --table-url tmp/external-link-watchdog/table-url.txt
+        run: pnpm docs-tooling report-external-links --site en --report tmp/external-link-watchdog/en.json --table-url tmp/external-link-watchdog/table-url.txt
         env:
           APP_ID: ${{ secrets.APP_ID }}
           APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -97,10 +103,17 @@ jobs:
         run: |
           table_url=$(cat tmp/external-link-watchdog/table-url.txt)
           node scripts/render-external-link-watchdog-note.js \
-            --input tmp/external-link-watchdog/latest.json \
+            --input tmp/external-link-watchdog/en.json \
             --output tmp/external-link-watchdog-note.md \
             --artifact-url "$REPORT_ARTIFACT_URL" \
             --table-url "$table_url"
+          node scripts/render-external-link-watchdog-note.js \
+            --input tmp/external-link-watchdog/zh-CN.json \
+            --output tmp/external-link-watchdog-zh-CN-note.md \
+            --artifact-url "$REPORT_ARTIFACT_URL" \
+            --table-url "$table_url"
+          { cat tmp/external-link-watchdog-note.md; printf '\n---\n\n'; cat tmp/external-link-watchdog-zh-CN-note.md; } > tmp/external-link-watchdog-combined-note.md
+          mv tmp/external-link-watchdog-combined-note.md tmp/external-link-watchdog-note.md
 
       - name: Create documentation site report card
         id: report_card
