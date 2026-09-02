@@ -151,6 +151,7 @@
       "paths": [
         "scripts/docs-workflow/guides-*",
         "packages/docs-tooling/src/lark/guidesBaseRecordSemantics.js",
+        "packages/docs-tooling/src/lark/index.js",
         "packages/docs-tooling/src/lark/larkDocWriter.js",
         "packages/docs-tooling/src/lark/larkDocWriter.beta.test.js",
         "scripts/docs-workflow/generate-guides-sidebars*",
