@@ -10,6 +10,7 @@ const PRODUCTION_QUEUE_OWNERS = Object.freeze(new Map([
   ['fetch-docs.yml', {conditional: false}],
   ['recover-translation.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('translation-recovery-readonly-{0}', github.run_id) }}"}],
   ['publish-offline-translation.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('offline-translation-readonly-{0}', github.run_id) }}"}],
+  ['publish-offline-reference-python.yml', {conditional: true, expectedGroup: "${{ inputs.publish && 'docs-production-dev' || format('offline-reference-python-readonly-{0}', github.run_id) }}"}],
   ['translate-codex.yml', {conditional: true, expectedGroup: "${{ inputs.publish && !(inputs.production_queue_owned || false) && 'docs-production-dev' || format('translation-readonly-{0}', github.run_id) }}"}],
   ['sync-master-tooling-to-dev.yml', {conditional: false}],
   ['repair-fetch-dev.yml', {conditional: false}],
@@ -18,6 +19,7 @@ const TOP_LEVEL_WRITER_INVENTORY = Object.freeze(new Map([
   ['fetch-docs.yml', ['prepare', 'publish_ready', 'reconcile_reference_state']],
   ['translate-codex.yml', ['publish_ready']],
   ['publish-offline-translation.yml', ['publish_ready']],
+  ['publish-offline-reference-python.yml', ['publish_ready']],
   ['sync-master-tooling-to-dev.yml', ['sync']],
   ['repair-fetch-dev.yml', ['repair']],
 ]))
@@ -29,6 +31,7 @@ const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'recover-translation.yml',
   'publish-offline-translation.yml',
+  'publish-offline-reference-python.yml',
   'translate-codex.yml',
   'sync-master-tooling-to-dev.yml',
   'repair-fetch-dev.yml',
@@ -354,6 +357,37 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
         errors.push(`${file}: offline import must not receive paid Translation or review-agent credentials`)
       }
     }
+    if (file === 'publish-offline-reference-python.yml') {
+      const prepare = workflow.jobs?.prepare_offline_reference_python
+      const publish = workflow.jobs?.publish_ready
+      const verify = workflow.jobs?.verify_terminal_results
+      const requiredInputs = [
+        'candidate_ref', 'candidate_sha', 'tooling_sha', 'source_checkpoint_sha', 'target_baseline_sha',
+        'receipt_run_id', 'receipt_artifact_id', 'receipt_artifact_name', 'receipt_artifact_digest',
+      ]
+      if (requiredInputs.some(input => workflow.on?.workflow_dispatch?.inputs?.[input]?.required !== true) ||
+          workflow.on?.workflow_dispatch?.inputs?.publish?.default !== false) {
+        errors.push(`${file}: offline Python import must require every immutable identity and default to artifact-only validation`)
+      }
+      if (prepare?.permissions?.contents !== 'read' || publish?.permissions?.contents !== 'write' || verify?.permissions?.contents !== 'read') {
+        errors.push(`${file}: only publish_ready may receive the offline Python import contents write ceiling`)
+      }
+      const requiredFragments = [
+        'prepare-offline-reference-python-publication.js', '--candidate-sha "$CANDIDATE_SHA"',
+        'refs\/heads\/offline-reference-candidates\/python\/', '`+${ref}:${ref}`',
+        'getWorkflowRun', 'getArtifact', 'artifact.data.workflow_run?.id !== runId',
+        'artifact-ids: ${{ inputs.receipt_artifact_id }}', 'run-id: ${{ inputs.receipt_run_id }}',
+        '--source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA"', '--target-baseline-sha "$TARGET_BASELINE_SHA"',
+        '--tooling-sha "$TOOLING_SHA"', 'offline-reference-python-receipt.json', 'publication-coordinator.js',
+        "'--max-publish-attempts', '1'", 'validateTranslationPublicationDocuments', 'verifyTranslationPublicationRepository',
+      ]
+      if (requiredFragments.some(fragment => !source.includes(fragment))) {
+        errors.push(`${file}: offline Python import must bind exact identities, use the coordinator once, and verify terminal results`)
+      }
+      if (/TRANSLATION_AGENT_API_KEY|REVIEW_AGENT_API_KEY|allow_full_retranslate|translate-codex.yml/.test(source)) {
+        errors.push(`${file}: offline Python import must not receive paid Translation or review-agent credentials`)
+      }
+    }
     const productionQueueOwner = PRODUCTION_QUEUE_OWNERS.get(file)
     const concurrencyGroup = concurrencyGroupOf(workflow?.concurrency)
     if (productionQueueOwner?.conditional) {
@@ -462,10 +496,10 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
     }
 
     if (publishingWorkflows.has(file)) {
-      if (file === 'fetch-docs.yml' || file === 'translate-codex.yml' || file === 'publish-offline-translation.yml') {
+      if (file === 'fetch-docs.yml' || file === 'translate-codex.yml' || file === 'publish-offline-translation.yml' || file === 'publish-offline-reference-python.yml') {
         const writableJobs = Object.entries(workflow.jobs || {}).filter(([, job]) => job?.permissions?.contents === 'write')
         const expected = TOP_LEVEL_WRITER_INVENTORY.get(file)
-        const expectedTopLevelContents = file === 'publish-offline-translation.yml' ? 'write' : 'read'
+        const expectedTopLevelContents = file.startsWith('publish-offline-') ? 'write' : 'read'
         if (workflow.permissions?.contents !== expectedTopLevelContents || workflow.permissions?.actions !== 'read' ||
             JSON.stringify(writableJobs.map(([name]) => name)) !== JSON.stringify(expected)) {
           errors.push(`${file}: Git writer inventory must be exactly ${expected.join(',')}`)
