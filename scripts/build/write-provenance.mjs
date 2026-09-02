@@ -211,17 +211,6 @@ function pathMatchesGitCommit(repositoryRoot, commitSha, relativePath) {
   }
 }
 
-function pathTrackedAtGitCommit(repositoryRoot, commitSha, relativePath) {
-  try {
-    const output = execFileSync('git', ['ls-tree', '-r', '--name-only', commitSha, '--', relativePath], {
-      cwd: repositoryRoot, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'],
-    });
-    return output.split('\n').filter(Boolean).includes(relativePath);
-  } catch (error) {
-    throw new Error(`Candidate workspace could not verify baseline input: ${relativePath}`, {cause: error});
-  }
-}
-
 function walkReleaseInputRoot(repositoryRoot, relativeRoot, files = []) {
   const absoluteRoot = confinedPath(repositoryRoot, relativeRoot, 'localization input root');
   if (!fs.existsSync(absoluteRoot)) return files;
@@ -273,7 +262,6 @@ function resolveCandidateWorkspace(environment, site, externalSnapshot) {
     target: String(environment.ZDOC_PROVENANCE_CANDIDATE_TARGET ?? ''),
     toolingSha: String(environment.ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA ?? ''),
     sourceSha: String(environment.ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA ?? ''),
-    baselineSha: String(environment.ZDOC_PROVENANCE_CANDIDATE_BASELINE_SHA ?? ''),
   };
   if (Object.values(raw).every(value => value === '')) return undefined;
   if (['target', 'toolingSha', 'sourceSha'].some(key => raw[key] === '')) {
@@ -282,7 +270,7 @@ function resolveCandidateWorkspace(environment, site, externalSnapshot) {
   if (externalSnapshot) {
     throw new Error('Candidate workspace provenance is forbidden for external snapshots');
   }
-  if (!/^[0-9a-f]{40}$/u.test(raw.toolingSha) || !/^[0-9a-f]{40}$/u.test(raw.sourceSha) || (raw.baselineSha && !/^[0-9a-f]{40}$/u.test(raw.baselineSha))) {
+  if (!/^[0-9a-f]{40}$/u.test(raw.toolingSha) || !/^[0-9a-f]{40}$/u.test(raw.sourceSha)) {
     throw new Error('Candidate workspace provenance identities must be 40-character lowercase Git SHAs');
   }
   let target;
@@ -346,21 +334,17 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, ca
       entry => isInputPath(relativePath, entry.definition),
     ));
     const localizationDefinitions = [
-      {label: 'English release', definition: releaseInputDefinition('en')},
-      {label: 'Chinese release', definition: releaseInputDefinition('zh-CN')},
+      {label: site === 'en' ? 'English release' : 'Chinese release', definition},
       ...targetDefinitions.map(({target, definition: targetDefinition}) => ({
         label: target.id,
         definition: targetDefinition,
-      })),
+      })).filter(entry => entry.definition.site === site),
     ];
     const unrelated = dirty.map(relativePath => ({
       relativePath,
       owner: localizationDefinitions.find(entry => isInputPath(relativePath, entry.definition)),
     })).find(({relativePath, owner}) => owner &&
       !isInputPath(relativePath, candidateWorkspace.definition) &&
-      !(candidateWorkspace.baselineSha &&
-        pathTrackedAtGitCommit(repositoryRoot, candidateWorkspace.baselineSha, relativePath) &&
-        pathMatchesGitCommit(repositoryRoot, candidateWorkspace.baselineSha, relativePath)) &&
       !(owner.label === 'English release' && pathInRoot(relativePath, 'generated/en/sidebars') && pathMatchesGitCommit(
         repositoryRoot,
         candidateWorkspace.sourceSha,
