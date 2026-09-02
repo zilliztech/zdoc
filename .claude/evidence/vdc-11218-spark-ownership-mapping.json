@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "ticket": "VDC-11218",
+  "serviceId": "spark-jobs",
+  "status": "MAPPED",
+  "source": {
+    "repository": "zilliz-cloud",
+    "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901",
+    "headRevision": "2b43aa9e95488e8fb90e05e656f36fc938363990"
+  },
+  "controllerOwnership": [
+    {
+      "file": "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenJobController.java",
+      "basePath": "/v2",
+      "routes": [{"method":"GET","path":"/v2/jobs","handler":"listJobs","sourceLine":65}],
+      "notes": "List route validates type=SPARK and requires regionId; supports pageToken, pageSize, status, createdAfter and createdBefore."
+    },
+    {
+      "file": "vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenSparkJobController.java",
+      "basePath": "/v2",
+      "routes": [
+        {"method":"POST","path":"/v2/projects/{projectId}/jobs/jar","handler":"createSparkJarJob","sourceLine":67},
+        {"method":"POST","path":"/v2/projects/{projectId}/jobs/dedup/pk","handler":"createSparkPkDeduplicateJob","sourceLine":80},
+        {"method":"POST","path":"/v2/projects/{projectId}/jobs/dedup/vector","handler":"createSparkVectorDeduplicateJob","sourceLine":93},
+        {"method":"POST","path":"/v2/projects/{projectId}/jobs/kmeans","handler":"createSparkKmeansJob","sourceLine":106},
+        {"method":"POST","path":"/v2/projects/{projectId}/jobs/anomaly-detection","handler":"createSparkAnomalyDetectionJob","sourceLine":119},
+        {"method":"POST","path":"/v2/projects/{projectId}/jobs/backfill","handler":"createSparkBackfillJob","sourceLine":132},
+        {"method":"POST","path":"/v2/projects/{projectId}/jobs/backfill/precheck","handler":"createSparkBackfillPrecheckJob","sourceLine":146},
+        {"method":"GET","path":"/v2/projects/{projectId}/jobs/{jobId}","handler":"describeSparkJob","sourceLine":188},
+        {"method":"POST","path":"/v2/projects/{projectId}/jobs/{jobId}/cancel","handler":"cancelSparkJob","sourceLine":213}
+      ],
+      "notes": "Controller returns CREATED for create operations and ACCEPTED for cancel; Backfill request is JsonNode and is forwarded to OpenSparkJobService."
+    }
+  ],
+  "requestResponseEvidence": [
+    {"file":"vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/request/sparkjob/ListSparkJobsRequest.java","facts":["type","regionId","pageToken","pageSize","status","createdAfter","createdBefore"]},
+    {"file":"vdc/global/cloud-service/src/main/java/com/zilliz/cloud/controller/request/jobcenter/DescribeSparkJobRequest.java","facts":["projectId required","jobId required","regionId","milvusInstanceId"]},
+    {"file":"vdc/global/cloud-control-api/src/main/java/com/zilliz/cloud/control/api/controller/OpenSparkJobController.java","facts":["Idempotency-Key accepted on all create routes","Authorization required for Backfill routes","cancel documents 202/404/409"]}
+  ],
+  "mappingDecision": "The ten documented Spark operations are source-backed by the /v2 controllers above. The cloud-service /cloud/v1 JobCenterController is an internal service path and is not used as the public ownership source for these operations.",
+  "externalContract": {"document":"https://zilliverse.feishu.cn/docx/Tj3udsda7oEXaOxDWcCcm7PFnXf","revision":453},
+  "history": ["4ce7267ef2 fix(spark): route Backfill APIs through control plane (#9147)","2a7f5e14b7 refactor(spark): align public job API contracts (#9130)","9cc4e9190a fix(job-center): load persisted precheck report (#9174)","919abda0ce fix(spark): return complete backfill job details (#9166)","1d7f927360 fix(spark): pass resource size to AP batch jobs (#9310)"]
+}

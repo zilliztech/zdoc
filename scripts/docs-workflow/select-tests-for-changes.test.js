@@ -79,6 +79,16 @@ test('selector maps shared contracts and recovery changes to focused, replay, an
   assert.equal(selected.commands.includes('pnpm test:replay:recovery'), false)
 })
 
+test('selector maps REST OpenAPI fragments to publication and integrated-spec checks', () => {
+  const selected = selectTests([
+    'packages/docs-tooling/src/reference/rest/meta/openapi/32-spark-job-v2.json',
+    'packages/docs-tooling/src/reference/rest/meta/openapi/34-cloud-access-control-operations-v2.json',
+  ])
+  assert.deepEqual(selected.areas.map(area => area.id), ['rest-reference-fragments'])
+  assert.equal(selected.commands.includes('pnpm test:rest-publication-contract'), true)
+  assert.equal(selected.commands.includes('pnpm test:workflow-matrix'), true)
+})
+
 test('workflow and replay infrastructure changes select structural and aggregate gates', () => {
   const selected = selectTests(['.github/workflows/replay-tests.yml', 'package.json'])
   assert.deepEqual(selected.areas.map(area => area.id), ['workflow-yaml', 'replay-infrastructure'])

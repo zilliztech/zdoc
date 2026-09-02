@@ -51,6 +51,7 @@ Do not infer ownership merely from the top-level directory: `content/**` is norm
 
 | Code surface | Modify or add tests here | Required replay harness | Broader gates |
 |---|---|---|---|
+| REST OpenAPI fragments and fragment migration inventory (`packages/docs-tooling/src/reference/rest/meta/openapi/**`, `fragment-migration.json`) | `integratedSpecBuilder`, `integratedSpecArtifacts`, `fragmentCollection`, integrated-spec CLI, and completeness-receipt tests | `pnpm test:rest-publication-contract` | `pnpm test:workflow-matrix` + `git diff --check` |
 | Shared publication schemas and adapters: `publication-contracts*`, `publication-workflow-adapters*`, Fetch/Translation/tooling adapters | Corresponding `publication-*.test.js` and adapter tests; add legacy-shape fixtures for compatibility changes | `pnpm test:replay:all` | `pnpm test:workflow-policy` |
 | Shared publication runtime: scheduler, coordinator, transaction, GitHub client, strategy registry, checkpoint publication | Same-name unit tests; add fault cases at the first component that owns the behavior | `pnpm test:replay:all` | `pnpm test:workflow-policy` |
 | Fetch selection, results, reconciliation, source barrier, or repair | Same-name Fetch tests and a negative identity/baseline case when contracts change | `pnpm test:replay:fetch` | workflow policy + `deploy/contracts/fetch-translation-workflow.test.mjs` |

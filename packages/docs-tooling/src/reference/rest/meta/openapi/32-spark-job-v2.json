@@ -1935,6 +1935,26 @@
           }
         }
       }
+    },
+    "/v2/projects/{projectId}/jobs/backfill": {
+      "post": {
+        "summary": "Create Spark Backfill Job",
+        "description": "Creates a Spark Backfill job. The project is selected by the projectId path parameter.",
+        "tags": ["Spark Job (V2)"],
+        "parameters": [{"name":"Authorization","in":"header","required":true,"schema":{"type":"string"}}, {"name":"Idempotency-Key","in":"header","required":false,"schema":{"type":"string"}}, {"name":"projectId","in":"path","required":true,"schema":{"type":"string"}}],
+        "requestBody": {"required":true,"content":{"application/json":{"schema":{"type":"object","additionalProperties":true,"description":"Backfill request using Volume references and relative paths."}}}},
+        "responses": {"201":{"description":"Backfill job created.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SparkJobSummary"}}}},"400":{"description":"Invalid Backfill request."},"401":{"description":"Unauthorized."},"404":{"description":"Project or referenced resource not found."}}
+      }
+    },
+    "/v2/projects/{projectId}/jobs/backfill/precheck": {
+      "post": {
+        "summary": "Create Spark Backfill Precheck Job",
+        "description": "Creates a Spark Backfill precheck job. It validates target schema, fields, source sample, and column mapping without modifying Collection data. Confirm data.precheckReport.passed before submitting Backfill.",
+        "tags": ["Spark Job (V2)"],
+        "parameters": [{"name":"Authorization","in":"header","required":true,"schema":{"type":"string"}}, {"name":"Idempotency-Key","in":"header","required":false,"schema":{"type":"string"}}, {"name":"projectId","in":"path","required":true,"schema":{"type":"string"}}],
+        "requestBody": {"required":true,"content":{"application/json":{"schema":{"type":"object","additionalProperties":true,"description":"Backfill precheck request; mode is not used."}}}},
+        "responses": {"201":{"description":"Backfill precheck job created.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SparkJobSummary"}}}},"400":{"description":"Invalid Backfill precheck request."},"401":{"description":"Unauthorized."},"404":{"description":"Project or referenced resource not found."}}
+      }
     }
   },
   "components": {
