@@ -199,6 +199,7 @@ jobs:
           ZDOC_PROVENANCE_CANDIDATE_TARGET: ${{ inputs.site == 'en' && 'ja-JP' || '' }}
           ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA: ${{ inputs.site == 'en' && inputs.master_sha || '' }}
           ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA: ${{ inputs.site == 'en' && inputs.dev_baseline_sha || '' }}
+          ZDOC_PROVENANCE_CANDIDATE_BASELINE_SHA: ${{ inputs.site == 'en' && inputs.dev_baseline_sha || '' }}
 
       - name: Update content snapshots
         run: |
