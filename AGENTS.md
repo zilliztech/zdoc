@@ -33,6 +33,27 @@ Use the site-qualified commands and workflow contracts. Do not revive retired ro
 
 Chinese REST reference content is spec-generated. Preserve formal OpenAPI generation and the minimal Chinese REST Translation exclusion; do not hand-edit generated REST MDX or expand the publication architecture without an explicit task.
 
+For REST spec fragment changes, edit the authoritative OpenAPI fragment under
+`packages/docs-tooling/src/reference/rest/meta/openapi/` and preserve its tag,
+operation summary, schemas, and `x-i18n` fields. When adding or renaming an
+operation, add the exact Chinese generated page title to
+`packages/docs-tooling/src/reference/rest/meta/titles.json`; its value is the
+stable slug before the generator adds `-v2`. A missing mapping fails Chinese
+REST generation before `Validate and build generated docs`. Do not hand-edit
+generated REST MDX, sidebars, manifests, or `i18n/ja-JP` output.
+
+For additions, deletions, or renames, inspect and update the relevant
+`fragment-migration.json`, lifecycle-evidence, manifest, and navigation
+contracts, then regenerate through the supported tooling. Run
+`pnpm test:for-change -- <changed-path>...` for every changed path; an unmapped
+path is a matrix gap. Verify the expected generated files in a temporary
+directory, run the selector command union plus
+`pnpm test:rest-publication-contract`, `pnpm test:workflow-policy`, and
+`git diff --check`. Remember that `build:en` includes `ja-JP` and can fail at
+the build/provenance stage because a newly generated Japanese input is not
+tracked, even after English REST generation succeeds; Chinese has its own
+`build:zh-CN` stage and must be validated separately.
+
 Do not infer deprecated `zdoc_cn` validation or compatibility work unless the current request, code path, or explicit task places it in scope.
 
 ### Master/dev branch ownership
