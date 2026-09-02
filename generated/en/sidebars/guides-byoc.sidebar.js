@@ -141,6 +141,12 @@ module.exports = [
       },
       {
         "type": "doc",
+        "id": "tutorials/deployment/license-usage",
+        "label": "License Usage",
+        "key": "doc:tutorials/deployment/license-usage"
+      },
+      {
+        "type": "doc",
         "id": "tutorials/deployment/shared-responsibilities",
         "label": "Shared Responsibilities",
         "key": "doc:tutorials/deployment/shared-responsibilities"

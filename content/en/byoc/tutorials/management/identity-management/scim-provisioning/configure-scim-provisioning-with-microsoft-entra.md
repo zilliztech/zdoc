@@ -26,7 +26,7 @@ import Procedures from '@site/src/components/Procedures';
 
 This guide describes how to configure SCIM provisioning from Microsoft Entra to Zilliz Cloud. With SCIM provisioning, Microsoft Entra can provision organization users to your Zilliz Cloud organization.
 
-If your organization already uses Microsoft Entra for SSO, keep the existing SSO application for user sign-in. Configure SCIM provisioning separately in a dedicated enterprise application. For an overview of how SSO, SCIM, synced groups, and Access Control work together, see [SCIM Provisioning](/docs/scim-provisioning).
+If your organization already uses Microsoft Entra for SSO, keep the existing SSO application for user sign-in. Configure SCIM provisioning separately in a dedicated enterprise application. For an overview of how SSO, SCIM, synced groups, and Access Control work together, see [SCIM Provisioning Overview](./scim-provisioning-overview).
 
 The following diagram shows the setup flow between Zilliz Cloud and Microsoft Entra.
 

@@ -76,7 +76,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Semantic Highlighter**: Identifies and highlights the most relevant text segments in search results based on query intent rather than exact keyword matches, improving result explainability.
 
-        - This feature is powered by the semantic highlighting model recently open-sourced by Zilliz ([zilliz/semantic-highlight-bilingual-v1](https://huggingface.co/zilliz/semantic-highlight-bilingual-v1)) and provides out-of-the-box inference support through the Zilliz hosted model service (refer to [Hosted Models](./hosted-models)).
+        - This feature is powered by the semantic highlighting model recently open-sourced by Zilliz ([zilliz/semantic-highlight-bilingual-v1](https://huggingface.co/zilliz/semantic-highlight-bilingual-v1)) and provides out-of-the-box inference support through the Zilliz hosted model service.
 
          For more details, refer to [Semantic Highlighter](./semantic-highlighter).
 
@@ -159,7 +159,7 @@ import Grid from '@site/src/components/Grid';
 
         - **Scheduled Scaling:** Full support for the new Advanced Mode. Users can now leverage standard Cron expressions and multi-schedule logic to automate precise resource adjustments for complex, predictable business cycles.
 
-        For details, refer to [Scale Query CU](/docs/byoc/scale-cluster) and [Scale Replica](/docs/byoc/manage-replica).
+        For details, refer to [Manual Scaling](./manual-scaling), [Auto-scaling](./auto-scaling), and [Scheduled Scaling](./scheduled-scaling).
 
         ## BYOC - Support & Troubleshooting Access Control\{#byoc-support-and-troubleshooting-access-control}
 

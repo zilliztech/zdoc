@@ -43,10 +43,6 @@ If you are building against the API or an SDK, tell the AI tool which interface 
 
 ## Prompts\{#prompts}
 
-| [Base Prompt](./zilliz-base-prompts) | [Resource Planning](./zilliz-resource-planning-prompts) | [Pricing](./zilliz-pricing-prompts) | [Cluster Connection](./zilliz-cluster-connection-prompts) | [Search](./zilliz-search-prompts) |
-| --- | --- | --- | --- | --- |
-| [Import](./zilliz-import-prompts) | [Migration](./zilliz-migration-prompts) | [Integrations](./zilliz-integrations-prompts) | [Access Control](./zilliz-access-control-prompts) | [Schema Design](./zilliz-schema-design-prompts) |
-
 
 
 import DocCardList from '@theme/DocCardList';

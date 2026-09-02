@@ -79,8 +79,7 @@ Zilliz Cloud supports SCIM provisioning for the same IdPs documented for SSO:
 
 | Identity provider | Configuration guide |
 | --- | --- |
-| Okta | Configure SCIM provisioning with Okta |
-| Google Workspace | Configure SCIM provisioning with Google Workspace |
-| Microsoft Entra | Configure SCIM provisioning with Microsoft Entra |
+| Okta | [Configure SCIM Provisioning with Okta](./configure-scim-provisioning-with-okta) |
+| Microsoft Entra | [Configure SCIM Provisioning with Microsoft Entra](./configure-scim-provisioning-with-microsoft-entra) |
 
 Each IdP has its own configuration workflow. Use the setup guide for your IdP when you are ready to configure SCIM provisioning.

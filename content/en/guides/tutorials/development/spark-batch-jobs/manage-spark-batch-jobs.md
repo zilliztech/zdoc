@@ -58,8 +58,7 @@ curl --request GET \
   --get \
   --data-urlencode "type=SPARK" \
   --data-urlencode "regionId=aws-us-west-2" \
-  --data-urlencode "state=RUNNING" \
-  --data-urlencode "jobNamePrefix=pk-dedup" \
+  --data-urlencode "status=RUNNING" \
   --data-urlencode "pageSize=50" \
   --header "Authorization: Bearer ${API_KEY}"
 ```
@@ -72,8 +71,7 @@ The following table lists possible filters applicable to the job list requests.
 | --- | --- | --- |
 | `type` | Yes | The job type. Set this parameter to `SPARK`. |
 | `regionId` | Yes | The ID of the region in which to list Spark batch jobs. |
-| `state` | No | Filters jobs by state, such as `PENDING`, `RUNNING`, or `SUCCEEDED`. |
-| `jobNamePrefix` | No | Filters jobs whose names begin with the specified prefix. |
+| `status` | No | Filters jobs by state, such as `PENDING`, `RUNNING`, or `SUCCEEDED`. |
 | `createdAfter` | No | Returns jobs created after the specified ISO 8601 timestamp, such as `2026-07-30T00:00:00Z`. |
 | `createdBefore` | No | Returns jobs created before the specified ISO 8601 timestamp. |
 | `pageSize` | No | The number of jobs to return per page. The default is `20`; the valid range is `1` to `100`. |
@@ -136,7 +134,7 @@ The response includes:
 
 - `nextPageToken`: The token used to retrieve the next page. This field is absent or empty when there are no more results.
 
-For details about the parameters in the response, refer to the reference page [List Spark batch jobs](/reference/restful/list-spark-batch-jobs).
+For details about the parameters in the response, refer to the reference page [List Spark batch jobs](/reference/restful/list-spark-jobs-v2).
 
 ## View a Spark batch job details in a project\{#view-a-spark-batch-job-details-in-a-project}
 
@@ -150,7 +148,7 @@ export JOB_ID="job-xxxxxxxxxxxxxxxxxxxxxxx"
 export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 curl --request GET \
-  --url "https://api.cloud.zilliz.com/v2/projects/${PROJECT_ID}/spark/jobs/${JOB_ID}" \
+  --url "https://api.cloud.zilliz.com/v2/projects/${PROJECT_ID}/jobs/${JOB_ID}" \
   --header "Authorization: Bearer ${API_KEY}"
 ```
 
@@ -242,7 +240,7 @@ export JOB_ID="job-xxxxxxxxxxxxxxxxxxxxxxx"
 export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 curl --request POST \
-  --url "https://api.cloud.zilliz.com/v2/projects/${PROJECT_ID}/spark/jobs/${JOB_ID}/cancel" \
+  --url "https://api.cloud.zilliz.com/v2/projects/${PROJECT_ID}/jobs/${JOB_ID}/cancel" \
   --header "Authorization: Bearer ${API_KEY}"
 ```
 

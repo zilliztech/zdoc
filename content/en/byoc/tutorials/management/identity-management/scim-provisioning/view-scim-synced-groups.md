@@ -30,7 +30,7 @@ SCIM-synced groups are read-only in Zilliz Cloud. You cannot create a SCIM-synce
 
 ## Before you start\{#before-you-start}
 
-- You have reviewed [SCIM Provisioning Overview](/docs/scim-provisioning) and configured SCIM provisioning for your Zilliz Cloud organization.
+- You have reviewed [SCIM Provisioning Overview](./scim-provisioning-overview) and configured SCIM provisioning for your Zilliz Cloud organization.
 
 - Your IdP has provisioned at least one group to Zilliz Cloud.
 

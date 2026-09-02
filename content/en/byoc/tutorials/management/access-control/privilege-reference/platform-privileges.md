@@ -74,13 +74,12 @@ IAM resources control identities, credentials, and roles used by the Zilliz Clou
 
 | Resource | Display category | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `org_member` | Identity | view, create, modify, delete | No | `*` | `-` | `view` | `-` | `-` | `-` | `-` |
+| `org_member` | Identity | view, create, modify, delete | No | `*` | `view` | `-` | `-` | `-` | `-` | `-` |
 | `project_member` | Identity | view, create, modify, delete | No | `-` | `-` | `-` | `*` | `-` | `-` | `-` |
-| `group` | Identity | view, create, modify, delete | No | `*` | `-` | `view` | `-` | `-` | `-` | `-` |
-| `personal_api_key` | Credential | view, modify | No | `*` | `-` | `*` | `*` | `*` | `*` | `*` |
+| `group` | Identity | view, create, modify, delete | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
 | `custom_api_key` | Credential | view, create, modify, delete | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
-| `org_role` | Role | view, grant | No | `*` | `-` | `view` | `-` | `-` | `-` | `-` |
-| `project_role` | Role | view, grant | No | `*` across all projects | `-` | `view` across all projects | `*` in the assigned project | `view` in the assigned project | `view` in the assigned project | `view` in the assigned project |
+| `org_role` | Role | view, grant | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
+| `project_role` | Role | view, grant | No | `*` across all projects | `-` | `-` | `*` in the assigned project | `view` in the assigned project | `view` in the assigned project | `view` in the assigned project |
 | `project_custom_role` | Role | view, create, modify, delete, grant | No | `*` | `-` | `-` | `*` | `-` | `-` | `-` |
 
 <Admonition type="info" icon="📘" title="Notes">
@@ -99,7 +98,7 @@ Organization resources control organization-wide settings and capabilities.
 
 | Resource | Description | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Org Control Ops | Organization settings and organization-level operations | view, modify, delete | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
+| Org Control Ops | Organization settings and organization-level operations | view, modify, delete | No | `*` | `view` | `view` | `-` | `-` | `-` | `-` |
 | Billing & Cost | Billing, cost, payment, usage, and organization alert access | view, manage | No | `*` | `*` | `-` | `-` | `-` | `-` | `-` |
 | Authentication | Organization authentication settings | view, manage | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
 | Recovery (Recycle Bin) | Organization recycle bin and recovery actions | view, manage | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
@@ -116,7 +115,7 @@ Project resources control project lifecycle, project capabilities, resource prov
 
 | Resource | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Project | view, modify, delete, update_plan, update_region | Yes | `-` | `-` | `view` | `*` in the assigned project | `view` | `view` | `view` |
+| Project | view, modify, delete, update_plan, update_region | Yes | `-` | `-` | `-` | `*` in the assigned project | `view` | `view` | `view` |
 
 ### Project control capabilities\{#project-control-capabilities}
 
@@ -133,7 +132,6 @@ Resource provisioning privileges control who can create project resources. These
 | Resource | Display category | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `serving_cluster` | Compute & storage | create | No | `-` | `-` | `-` | `*` | `-` | `-` | `-` |
-| `global_cluster` | Compute & storage | create | No | `-` | `-` | `-` | `*` | `-` | `-` | `-` |
 | `on_demand_cluster` | Compute & storage | create | No | `-` | `-` | `-` | `*` | `-` | `-` | `-` |
 | `volume` | Compute & storage | create | No | `-` | `-` | `-` | `*` | `-` | `-` | `-` |
 | `storage_integration` | Integration | create | No | `-` | `-` | `-` | `*` | `-` | `-` | `-` |
@@ -148,7 +146,6 @@ Resource lifecycle privileges control operations on existing project resources.
 | Resource | Display category | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `serving_cluster` | Compute & storage | view, modify, delete, scale | Yes | `-` | `-` | `-` | `*` | `*` | `view` | `view` |
-| `global_cluster` | Compute & storage | view, modify, delete, scale | Yes | `-` | `-` | `-` | `*` | `*` | `view` | `view` |
 | `on_demand_cluster` | Compute & storage | view, modify, delete, scale | Yes | `-` | `-` | `-` | `*` | `*` | `view` | `view` |
 | `volume` | Compute & storage | view, modify, delete, usage | Yes | `-` | `-` | `-` | `*` | `*` | `view, modify` | `view` |
 | `storage_integration` | Integration | view, modify, delete, usage | Yes | `-` | `-` | `-` | `*` | `*` | `view, modify` | `view` |
@@ -163,7 +160,7 @@ Data resources control project-level access to data-bearing resources. These pri
 | Resource | Display category | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `serving_cluster_data` | Compute & storage | Read, Write, * | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
-| `on_demand_compute_data` | Compute & storage | Read, Write, * | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
+| `on_demand_compute_data` | Compute & storage | Read, Write, * | No | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
 | `volume_data` | Compute & storage | Read, Write, * | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
 
 When configuring data privileges, `Write` implies `Read`. Selecting `*` grants both `Read` and `Write`.

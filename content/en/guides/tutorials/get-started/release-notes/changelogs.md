@@ -342,7 +342,7 @@ import Grid from '@site/src/components/Grid';
 
         - 🤖 Model-based embedding functions such as [OpenAI](./openai), [Voyage AI](./voyage-ai), and [Cohere](./cohere), and reranking functions, such as [Cohere reranker](./cohere-model-ranker) and [Voyage AI reranker](./voyage-ai-model-ranker), for public preview.
 
-        - 🤖 [Hosted models](./hosted-models) for private preview.
+        - 🤖 Hosted models for private preview.
 
         - 🛠️ [Dynamic replica autoscaling](./auto-scaling) with intelligence.
 
@@ -352,7 +352,7 @@ import Grid from '@site/src/components/Grid';
 
         - ☁️ BYOC becomes more user-friendly with the following enhancements:
 
-            - [Full autoscaling capabilities](/docs/byoc/scale-cluster)
+            - Full autoscaling capabilities, such as [Manual Scaling](./manual-scaling), [Auto-scaling](./auto-scaling), and [Scheduled Scaling](./scheduled-scaling).
 
             - [Technical support access control](/docs/byoc/deploy-byoc-aws#technical-support-access)
 

@@ -33,7 +33,7 @@ Before you start, ensure that you have:
 
 - A [Zilliz Cloud account](https://cloud.zilliz.com/login).
 
-- Claude Code, if you want to use the [Claude Code Plugin](/docs/agents/zilliz-plugin).
+- Claude Code, if you want to use the [Zilliz Claude Code Plugin](./zilliz-plugin).
 
 - Codex, if you want to use the [Codex Plugin](./zilliz-codex-plugin).
 
@@ -63,7 +63,7 @@ npx codex-marketplace add zilliztech/zilliz-plugin --plugins
 
 ### Install Zilliz Plugin for Claude Code\{#install-zilliz-plugin-for-claude-code}
 
-Use the [Claude Code Plugin](/docs/agents/zilliz-plugin) if you want to operate Zilliz Cloud directly from Claude Code.
+Use the [Zilliz Claude Code Plugin](./zilliz-plugin) if you want to operate Zilliz Cloud directly from Claude Code.
 
 <Procedures>
 

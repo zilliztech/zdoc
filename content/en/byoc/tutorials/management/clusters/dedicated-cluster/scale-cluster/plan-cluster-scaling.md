@@ -140,18 +140,3 @@ After scaling, check the following signals to confirm that the change worked as 
 | Cluster status | The cluster returned from **Modifying** to **Running**. |
 | Billing or usage data | Billing switched to the new configuration after the job completed. |
 
-## Plan global cluster scaling\{#plan-global-cluster-scaling}
-
-Global Cluster scaling follows different rules from regular Dedicated cluster scaling.
-
-- Scale **Query CU** from the primary cluster.
-
-- When you scale Query CU on the primary, Zilliz Cloud automatically applies the same Query CU count to all secondary clusters.
-
-- Secondary clusters cannot scale Query CU independently.
-
-- Scale **Replica** independently for each primary or secondary cluster.
-
-- Use independent replica settings to allocate more serving capacity in high-traffic regions and fewer replicas in low-traffic or standby regions.
-
-For details, see [Scale Global Cluster](/docs/scale-global-cluster).

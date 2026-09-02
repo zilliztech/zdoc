@@ -562,12 +562,6 @@ module.exports = [
           },
           {
             "type": "doc",
-            "id": "tutorials/development/search-and-query/semantic-highlighter",
-            "label": "Semantic Highlighter",
-            "key": "doc:tutorials/development/search-and-query/semantic-highlighter"
-          },
-          {
-            "type": "doc",
             "id": "tutorials/development/search-and-query/phrase-match",
             "label": "Phrase Match",
             "key": "doc:tutorials/development/search-and-query/phrase-match"

@@ -165,3 +165,4 @@ Global Cluster scaling follows different rules from regular Dedicated cluster sc
 - Use independent replica settings to allocate more serving capacity in high-traffic regions and fewer replicas in low-traffic or standby regions.
 
 For details, see [Scale Global Cluster](/docs/scale-global-cluster).
+
