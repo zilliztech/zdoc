@@ -2,6 +2,19 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "rest-reference-fragments",
+      "paths": [
+        "packages/docs-tooling/src/reference/rest/meta/openapi/**",
+        "packages/docs-tooling/src/reference/rest/meta/fragment-migration.json"
+      ],
+      "focusedTests": [
+        "node --test packages/docs-tooling/src/reference/rest/integratedSpecBuilder.test.js packages/docs-tooling/src/reference/rest/integratedSpecArtifacts.test.js packages/docs-tooling/src/reference/rest/fragmentCollection.test.js packages/docs-tooling/src/reference/rest/index.integrated-spec.test.js packages/docs-tooling/src/reference/rest/restCompletenessReceipt.test.js"
+      ],
+      "harnesses": ["pnpm test:rest-publication-contract"],
+      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "reason": "REST OpenAPI fragments feed fragment migration, lifecycle evidence, integrated specs, and publication artifacts."
+    },
+    {
       "id": "shared-publication-contracts",
       "paths": [
         "scripts/docs-workflow/publication-contracts*",
