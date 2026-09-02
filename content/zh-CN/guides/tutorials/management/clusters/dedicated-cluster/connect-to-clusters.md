@@ -10,7 +10,7 @@ notebook: FALSE
 description: "本文介绍如何连接到 Zilliz Cloud 集群。 | Cloud"
 type: origin
 token: HU31wDHCCiN9qIknZ2fcLmconNh
-sidebar_position: 2
+sidebar_position: 4
 displayed_sidebar: default
 
 ---

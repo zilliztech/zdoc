@@ -44,7 +44,7 @@ Zilliz Cloud 支持以下四个级别的多租户策略：Database 级别、Coll
 
 ### Collection 级别多租户\{#collection-level-multi-tenancy}
 
-在 Collection 级别的多租户模式中，每个租户对应一个 [Collection](./undefined)，数据隔离性强。
+在 Collection 级别的多租户模式中，每个租户对应一个 [Collection](./manage-collections)，数据隔离性强。
 
 ![RWcowcrWihDa0ebNFu9cY7rhn0e](https://zdoc-images.oss-cn-hangzhou.aliyuncs.com/RWcowcrWihDa0ebNFu9cY7rhn0e.png)
 

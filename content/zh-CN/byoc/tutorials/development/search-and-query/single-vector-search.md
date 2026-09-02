@@ -1628,4 +1628,5 @@ Zilliz Cloud 提供的 AUTOINDEX 已经极大地降低了执行 ANN Search 的�
 
 - 使用搜索重排
 
-    关于如何使用 Ranker 加强搜索结果的相关性，可以查看[模型供应商](./integrate-with-model-providers)。
+    关于如何使用 Ranker 重排搜索结果，可以查看 [Boost Ranker](./boost-ranker)、[Decay Ranker 概述](./decay-ranker-oveview) 等相关文档。
+

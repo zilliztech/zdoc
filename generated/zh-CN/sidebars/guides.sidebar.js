@@ -452,6 +452,12 @@ module.exports = [
               },
               {
                 "type": "doc",
+                "id": "tutorials/development/search-and-query/filtering/pattern-match",
+                "label": "模式匹配",
+                "key": "doc:tutorials/development/search-and-query/filtering/pattern-match"
+              },
+              {
+                "type": "doc",
                 "id": "tutorials/development/search-and-query/filtering/filtering-templating",
                 "label": "过滤表达式模板",
                 "key": "doc:tutorials/development/search-and-query/filtering/filtering-templating"
@@ -505,12 +511,6 @@ module.exports = [
             "id": "tutorials/development/search-and-query/text-highlighter",
             "label": "Lexical Highlighter",
             "key": "doc:tutorials/development/search-and-query/text-highlighter"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/development/search-and-query/semantic-highlighter",
-            "label": "Semantic Highlighter",
-            "key": "doc:tutorials/development/search-and-query/semantic-highlighter"
           },
           {
             "type": "doc",
@@ -1612,6 +1612,18 @@ module.exports = [
               },
               {
                 "type": "doc",
+                "id": "tutorials/management/clusters/dedicated-cluster/create-pay-as-you-go-cluster",
+                "label": "创建按量计费集群",
+                "key": "doc:tutorials/management/clusters/dedicated-cluster/create-pay-as-you-go-cluster"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/clusters/dedicated-cluster/create-annual-subscription-cluster",
+                "label": "创建包年包月集群",
+                "key": "doc:tutorials/management/clusters/dedicated-cluster/create-annual-subscription-cluster"
+              },
+              {
+                "type": "doc",
                 "id": "tutorials/management/clusters/dedicated-cluster/connect-to-clusters",
                 "label": "连接集群",
                 "key": "doc:tutorials/management/clusters/dedicated-cluster/connect-to-clusters"
@@ -2303,6 +2315,12 @@ module.exports = [
             "id": "tutorials/management/billing-management/notice-on-config-changes",
             "label": "变更配置费用说明",
             "key": "doc:tutorials/management/billing-management/notice-on-config-changes"
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/management/billing-management/renew-annual-subscription",
+            "label": "包年集群续订说明",
+            "key": "doc:tutorials/management/billing-management/renew-annual-subscription"
           },
           {
             "type": "doc",

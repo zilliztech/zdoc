@@ -10,7 +10,7 @@ notebook: FALSE
 description: "本文介绍如了集群的生命周期，以便您能够充分利用 Zilliz Cloud 控制台来管理集群。 | Cloud"
 type: origin
 token: IRirwe30tilo1qkJlR7ca2MUnvn
-sidebar_position: 3
+sidebar_position: 5
 displayed_sidebar: default
 
 ---

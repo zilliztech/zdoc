@@ -140,18 +140,3 @@ Zilliz Cloud 提供两个指标，帮助您判断应该扩缩容 Query CU 还是
 | 集群状态 | 集群从 **Modifying** 恢复为 **Running**。 |
 | 计费或用量数据 | 任务完成后，计费切换到新配置。 |
 
-## 规划全球集群扩缩容\{#plan-global-cluster-scaling}
-
-全球集群（Global Cluster）扩缩容遵循不同于普通 Dedicated 集群扩缩容的规则。
-
-- 您只能在主集群上设置 **Query CU** 扩缩容。
-
-- 当您在主集群上扩缩容 Query CU 时，Zilliz Cloud 会自动将相同的 Query CU 数量应用到所有从集群。
-
-- 从集群不能独立扩缩容 Query CU。
-
-- 对每个主集群或从集群，独立扩缩容 **Replica**。
-
-- 使用独立的 Replica 设置，为高流量区域分配更多服务能力，并为低流量或备用区域配置更少 Replica。
-
-详情请参阅[全球集群扩缩容](./scale-global-cluster)。

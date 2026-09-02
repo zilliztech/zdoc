@@ -10,7 +10,7 @@ notebook: FALSE
 description: "基于 Apache Lucene 构建的 Elasticsearch 是领先的开源搜索引擎。然而，它在现代 AI 应用程序中面临挑战，包括高更新成本、较差的实时性能、低效的分片管理、非云原生设计以及过度的资源需求。作为云原生向量数据库，Zilliz Cloud 通过解耦的存储和计算、高维数据的高效索引以及与现代基础设施的无缝集成克服了这些问题，并为 AI 工作负载提供了卓越的性能和可扩展性。 | BYOC"
 type: origin
 token: QOwXwYCBMiR8pQkHDcKcL3z3nDh
-sidebar_position: 18
+sidebar_position: 17
 displayed_sidebar: default
 
 ---

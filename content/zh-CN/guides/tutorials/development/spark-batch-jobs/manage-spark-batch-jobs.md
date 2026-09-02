@@ -58,8 +58,7 @@ curl --request GET \
   --get \
   --data-urlencode "type=SPARK" \
   --data-urlencode "regionId=aws-us-west-2" \
-  --data-urlencode "state=RUNNING" \
-  --data-urlencode "jobNamePrefix=pk-dedup" \
+  --data-urlencode "status=RUNNING" \
   --data-urlencode "pageSize=50" \
   --header "Authorization: Bearer ${API_KEY}"
 ```
@@ -72,8 +71,7 @@ curl --request GET \
 | --- | --- | --- |
 | `type` | 是 | 任务类型，请将该参数设置为 `SPARK`。 |
 | `regionId` | 是 | 地域 ID。将返回该地域内所有 Spark 批量任务。 |
-| `state` | 否 | 按诸如 `PENDING`、`RUNNING` 或 `SUCCEEDED` 等任务状态过滤任务。 |
-| `jobNamePrefix` | 否 | 按任务名称前缀过滤任务。 |
+| `status` | 否 | 按诸如 `PENDING`、`RUNNING` 或 `SUCCEEDED` 等任务状态过滤任务。 |
 | `createdAfter` | 否 | 按任务创建时间过滤任务。您可以指定一个具体的 ISO 8601 格式的时间戳，如 `2026-07-30T00:00:00Z`，将返回应该时间戳之后创建的任务。 |
 | `createdBefore` | 否 | 按任务创建时间过滤任务。您可以指定一个具体的 ISO 8601 格式的时间戳，如 `2026-07-30T00:00:00Z`，将返回应该时间戳之前创建的任务。 |
 | `pageSize` | 否 | 每页需要包括的最大任务数量。默认值为 `20`，取值范围为 `1` 到 `100`。 |
@@ -107,28 +105,20 @@ curl --request GET \
 {
   "code": 0,
   "data": {
-    "total": 120,
+    "total": 2,
     "items": [
       {
-        "jobId": "job-xxx",
-        "sparkInstanceId": "sp-xxx",
+        "jobId": "job-xxxxxxxx",
+        "projectId": "proj-xxxxxxxx",
         "type": "SPARK",
-        "jobName": "kmeans-demo",
+        "description": "backfill product attributes",
         "status": "RUNNING",
         "regionId": "aws-us-west-2",
-        "mainClass": "com.zilliz.cloud.spark.jobs.ClusteringApp",
-        "resource": {
-          "driverCores": 8,
-          "driverMemory": "32g",
-          "executorCores": 8,
-          "executorMemory": "32g",
-          "minExecutors": 1,
-          "maxExecutors": 10
-        },
-        "createdAt": "2026-07-30T00:00:00Z",
-        "startedAt": "2026-07-30T00:01:00Z",
+        "clusterId": "in-xxxxxxxx",
+        "createdAt": "2026-08-21T02:00:00Z",
+        "startedAt": "2026-08-21T02:01:00Z",
         "finishedAt": null,
-        "durationSeconds": 60
+        "durationSeconds": null
       }
     ],
     "nextPageToken": "opaque-token"
@@ -144,7 +134,7 @@ curl --request GET \
 
 - `nextPageToken`：用于获取下一页 Spark 批量任务的令牌。当没有更多任务时，响应中将不饮食该属性为空或该属性为空。
 
-关于响应中的更多参数，请查看参考文档。
+关于响应中的更多参数，请查看[参考文档](https://docs.zilliz.com.cn/reference/restful/list-spark-jobs-v2)。
 
 ## 查看 Spark 批量任务详情\{#view-a-spark-batch-job-details-in-a-project}
 
@@ -158,7 +148,7 @@ export JOB_ID="job-xxxxxxxxxxxxxxxxxxxxxxx"
 export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 curl --request GET \
-  --url "https://api.cloud.zilliz.com/v2/projects/${PROJECT_ID}/spark/jobs/${JOB_ID}" \
+  --url "https://api.cloud.zilliz.com/v2/projects/${PROJECT_ID}/jobs/${JOB_ID}" \
   --header "Authorization: Bearer ${API_KEY}"
 ```
 
@@ -170,37 +160,43 @@ curl --request GET \
 {
   "code": 0,
   "data": {
-    "jobId": "job-xxx",
-    "sparkInstanceId": "sp-xxx",
+    "jobId": "job-xxxxxxxx",
+    "projectId": "proj-xxxxxxxx",
     "type": "SPARK",
-    "jobName": "kmeans-demo",
+    "description": "backfill product attributes",
     "status": "FAILED",
     "regionId": "aws-us-west-2",
-    "sparkApplicationName": "spark-batch-sp-xxx",
-    "sparkNamespace": "spark-sp-xxx",
-    "sparkHistoryUrl": "https://spark-history.example",
-    "sparkApplicationId": "app-xxx",
-    "sparkHistoryAppUrl": "https://spark-history.example/history/app-xxx/jobs",
-    "driverLogUri": "https://spark-history.example/history/app-xxx/environment/",
+    "clusterId": "in-xxxxxxxx",
+    "artifact": null,
+    "details": {
+      "dbName": "default",
+      "collectionName": "products",
+      "input": {
+        "type": "volume",
+        "volumeName": "product-data",
+        "path": "backfill/products.parquet",
+        "format": "parquet"
+      },
+      "fields": ["title", "price", "embedding"],
+      "columnMapping": {
+        "source_id": "id",
+        "source_title": "title",
+        "source_price": "price",
+        "source_embedding": "embedding"
+      },
+      "mode": "coalesce",
+      "resourceSize": "SMALL"
+    },
+    "precheckReport": null,
     "failureReason": {
-      "code": "FAILED",
-      "message": "executor failed"
+      "code": "SPARK_EXECUTION_FAILED",
+      "message": "The Spark job failed.",
+      "retryable": false
     },
-    "outputContract": {
-      "operator": "kmeans",
-      "outputFormat": "parquet",
-      "writeMode": "ERROR_IF_EXISTS",
-      "preservesInputColumns": true,
-      "generatedColumns": [
-        "cluster_id"
-      ]
-    },
-    "createdAt": "2026-07-30T00:00:00Z",
-    "queuedAt": "2026-07-30T00:00:00Z",
-    "submittedAt": "2026-07-30T00:00:30Z",
-    "startedAt": "2026-07-30T00:01:00Z",
-    "finishedAt": "2026-07-30T00:10:00Z",
-    "endedAt": "2026-07-30T00:10:00Z",
+    "createdAt": "2026-08-21T02:00:00Z",
+    "submittedAt": "2026-08-21T02:00:30Z",
+    "startedAt": "2026-08-21T02:01:00Z",
+    "finishedAt": "2026-08-21T02:10:00Z",
     "durationSeconds": 540
   }
 }
@@ -242,7 +238,7 @@ export JOB_ID="job-xxxxxxxxxxxxxxxxxxxxxxx"
 export API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 curl --request POST \
-  --url "https://api.cloud.zilliz.com/v2/projects/${PROJECT_ID}/spark/jobs/${JOB_ID}/cancel" \
+  --url "https://api.cloud.zilliz.com/v2/projects/${PROJECT_ID}/jobs/${JOB_ID}/cancel" \
   --header "Authorization: Bearer ${API_KEY}"
 ```
 

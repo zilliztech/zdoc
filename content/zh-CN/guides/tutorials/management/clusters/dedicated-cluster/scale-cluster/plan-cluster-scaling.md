@@ -165,3 +165,4 @@ Zilliz Cloud 提供两个指标，帮助您判断应该扩缩容 Query CU 还是
 - 使用独立的 Replica 设置，为高流量区域分配更多服务能力，并为低流量或备用区域配置更少 Replica。
 
 详情请参阅[全球集群扩缩容](./scale-global-cluster)。
+

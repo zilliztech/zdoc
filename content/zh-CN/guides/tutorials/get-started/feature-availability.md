@@ -74,7 +74,7 @@ Zilliz Cloud 文档中，每个功能会以标签形式标注其当前支持阶�
 
 - [导出备份文件](./export-backup-files)
 
-- [托管模型](./hosted-models)
+- 托管模型
 
 <Admonition type="info" icon="📘" title="📘 说明">
 

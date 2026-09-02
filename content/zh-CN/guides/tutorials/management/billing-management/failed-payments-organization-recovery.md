@@ -10,7 +10,7 @@ notebook: FALSE
 description: "支付失败可能会影响您组织的账单状态，以及对 Zilliz Cloud 付费功能的访问。 | Cloud"
 type: origin
 token: OzZfwGPsaiFv7zkFpPOcOKddnSd
-sidebar_position: 8
+sidebar_position: 9
 displayed_sidebar: default
 
 ---

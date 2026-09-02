@@ -229,6 +229,12 @@ module.exports = [
               },
               {
                 "type": "doc",
+                "id": "tutorials/development/search-and-query/filtering/pattern-match",
+                "label": "模式匹配",
+                "key": "doc:tutorials/development/search-and-query/filtering/pattern-match"
+              },
+              {
+                "type": "doc",
                 "id": "tutorials/development/search-and-query/filtering/filtering-templating",
                 "label": "过滤表达式模板",
                 "key": "doc:tutorials/development/search-and-query/filtering/filtering-templating"
@@ -1248,6 +1254,12 @@ module.exports = [
                 "id": "tutorials/management/clusters/dedicated-cluster/create-cluster",
                 "label": "创建集群",
                 "key": "doc:tutorials/management/clusters/dedicated-cluster/create-cluster"
+              },
+              {
+                "type": "doc",
+                "id": "tutorials/management/clusters/dedicated-cluster/create-pay-as-you-go-cluster",
+                "label": "创建按量计费集群",
+                "key": "doc:tutorials/management/clusters/dedicated-cluster/create-pay-as-you-go-cluster"
               },
               {
                 "type": "doc",

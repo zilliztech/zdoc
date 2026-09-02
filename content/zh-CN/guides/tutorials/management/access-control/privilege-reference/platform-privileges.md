@@ -68,19 +68,18 @@ import Admonition from '@theme/Admonition';
 | 组织 | Org Owner、Billing Admin、Public |
 | 项目 | Project Admin、Data Admin、Data Operator、Data Viewer |
 
-## IAM 资源\{#iam-resources}
+## RBAC 资源\{#rbac-resources}
 
 IAM 资源控制 Zilliz Cloud 平台使用的身份、凭证和角色。
 
-| Resource | Display category | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
+| 资源 | 展示分类 | 可选权限 | 对象级授予 | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `org_member` | Identity | view, create, modify, delete | No | `*` | `-` | `view` | `-` | `-` | `-` | `-` |
+| `org_member` | Identity | view, create, modify, delete | No | `*` | `view` | `-` | `-` | `-` | `-` | `-` |
 | `project_member` | Identity | view, create, modify, delete | No | `-` | `-` | `-` | `*` | `-` | `-` | `-` |
-| `group` | Identity | view, create, modify, delete | No | `*` | `-` | `view` | `-` | `-` | `-` | `-` |
-| `personal_api_key` | Credential | view, modify | No | `*` | `-` | `*` | `*` | `*` | `*` | `*` |
+| `group` | Identity | view, create, modify, delete | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
 | `custom_api_key` | Credential | view, create, modify, delete | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
-| `org_role` | Role | view, grant | No | `*` | `-` | `view` | `-` | `-` | `-` | `-` |
-| `project_role` | Role | view, grant | No | `*` across all projects | `-` | `view` across all projects | `*` in the assigned project | `view` in the assigned project | `view` in the assigned project | `view` in the assigned project |
+| `org_role` | Role | view, grant | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
+| `project_role` | Role | view, grant | No | `*` across all projects | `-` | `-` | `*` in the assigned project | `view` in the assigned project | `view` in the assigned project | `view` in the assigned project |
 | `project_custom_role` | Role | view, create, modify, delete, grant | No | `*` | `-` | `-` | `*` | `-` | `-` | `-` |
 
 <Admonition type="info" icon="📘" title="说明">
@@ -97,9 +96,9 @@ IAM 资源控制 Zilliz Cloud 平台使用的身份、凭证和角色。
 
 组织资源控制组织范围的设置和能力。
 
-| Resource | Description | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
+| 资源 | 描述 | 可选权限 | 对象级授予 | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Org Control Ops | Organization settings and organization-level operations | view, modify, delete | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
+| Org Control Ops | Organization settings and organization-level operations | view, modify, delete | No | `*` | `view` | `view` | `-` | `-` | `-` | `-` |
 | Billing & Cost | Billing, cost, payment, usage, and organization alert access | view, manage | No | `*` | `*` | `-` | `-` | `-` | `-` | `-` |
 | Authentication | Organization authentication settings | view, manage | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
 | Recovery (Recycle Bin) | Organization recycle bin and recovery actions | view, manage | No | `*` | `-` | `-` | `-` | `-` | `-` | `-` |
@@ -114,13 +113,13 @@ IAM 资源控制 Zilliz Cloud 平台使用的身份、凭证和角色。
 
 ### 项目生命周期\{#project-lifecycle}
 
-| Resource | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
+| 资源 | 可选权限 | 对象级授予 | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Project | view, modify, delete, update_plan, update_region | Yes | `-` | `-` | `view` | `*` in the assigned project | `view` | `view` | `view` |
+| Project | view, modify, delete, update_plan, update_region | Yes | `-` | `-` | `-` | `*` in the assigned project | `view` | `view` | `view` |
 
 ### 项目控制能力\{#project-control-capabilities}
 
-| Resource | Description | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
+| 资源 | 描述 | 可选权限 | 对象级授予 | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Security | Project security configuration | view, manage | No | `-` | `-` | `-` | `*` | `view` | `view` | `view` |
 | Backup | Project backup configuration and backup access | view, manage | No | `-` | `-` | `-` | `*` | `view` | `view` | `view` |
@@ -130,10 +129,9 @@ IAM 资源控制 Zilliz Cloud 平台使用的身份、凭证和角色。
 
 资源供应权限控制谁可以创建项目资源。这些权限不是对象级授予，因为目标资源尚不存在。
 
-| Resource | Display category | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
+| 资源 | 展示分类 | 可选权限 | 对象级授予 | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `serving_cluster` | Compute & storage | create | No | `-` | `-` | `-` | `*` | `-` | `-` | `-` |
-| `global_cluster` | Compute & storage | create | No | `-` | `-` | `-` | `*` | `-` | `-` | `-` |
 | `on_demand_cluster` | Compute & storage | create | No | `-` | `-` | `-` | `*` | `-` | `-` | `-` |
 | `volume` | Compute & storage | create | No | `-` | `-` | `-` | `*` | `-` | `-` | `-` |
 | `storage_integration` | Integration | create | No | `-` | `-` | `-` | `*` | `-` | `-` | `-` |
@@ -145,10 +143,9 @@ IAM 资源控制 Zilliz Cloud 平台使用的身份、凭证和角色。
 
 资源生命周期权限控制对现有项目资源的操作。
 
-| Resource | Display category | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
+| 资源 | 展示分类 | 可选权限 | 对象级授予 | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `serving_cluster` | Compute & storage | view, modify, delete, scale | Yes | `-` | `-` | `-` | `*` | `*` | `view` | `view` |
-| `global_cluster` | Compute & storage | view, modify, delete, scale | Yes | `-` | `-` | `-` | `*` | `*` | `view` | `view` |
 | `on_demand_cluster` | Compute & storage | view, modify, delete, scale | Yes | `-` | `-` | `-` | `*` | `*` | `view` | `view` |
 | `volume` | Compute & storage | view, modify, delete, usage | Yes | `-` | `-` | `-` | `*` | `*` | `view, modify` | `view` |
 | `storage_integration` | Integration | view, modify, delete, usage | Yes | `-` | `-` | `-` | `*` | `*` | `view, modify` | `view` |
@@ -160,10 +157,10 @@ IAM 资源控制 Zilliz Cloud 平台使用的身份、凭证和角色。
 
 数据资源控制对承载数据的资源的项目级访问权限。这些权限独立于集群级 RBAC。使用项目级数据权限控制来自 Zilliz Cloud 平台的广泛访问，并使用集群角色和权限组控制集群内细粒度的数据库和 Collection 操作。
 
-| Resource | Display category | Available privileges | Object-level grant | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
+| 资源 | 展示分类 | 可选权限 | 对象级授予 | Org Owner | Billing Admin | Public | Project Admin | Data Admin | Data Operator | Data Viewer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `serving_cluster_data` | Compute & storage | Read, Write, * | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
-| `on_demand_compute_data` | Compute & storage | Read, Write, * | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
+| `on_demand_compute_data` | Compute & storage | Read, Write, * | No | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
 | `volume_data` | Compute & storage | Read, Write, * | Yes | `-` | `-` | `-` | `*` | `*` | `Read, Write` | `Read` |
 
 配置数据权限时，`Write` 表示包含 `Read`。选择 `*` 会授予 `Read` 和 `Write`。
