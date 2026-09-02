@@ -364,7 +364,7 @@ test('Japanese candidate workspace records staged BYOC target deletions', () => 
   assert.deepEqual(manifest.localizationInputs.candidateWorkspace.deleted, [deletedPath]);
 });
 
-test('candidate workspace rejects tracked modifications owned by another translation target', () => {
+test('Chinese candidate workspace ignores Japanese inputs owned by the other site', () => {
   const root = fixture();
   fs.appendFileSync(
     path.join(root, 'i18n/ja-JP/docusaurus-plugin-content-docs/current/home.md'),
@@ -372,10 +372,7 @@ test('candidate workspace rejects tracked modifications owned by another transla
   );
   write(root, 'build/zh-CN/index.html', '<html>zh</html>');
 
-  assert.throws(
-    () => runZh(root, {environment: candidateEnvironment()}),
-    /candidate workspace.*zh-CN-reference.*ja-JP|ja-JP.*cross-target|another translation target/i,
-  );
+  assert.doesNotThrow(() => runZh(root, {environment: candidateEnvironment()}));
 });
 
 test('candidate workspace accepts English release inputs restored exactly from its immutable source checkpoint', () => {
@@ -396,36 +393,15 @@ test('candidate workspace accepts English release inputs restored exactly from i
     record.path === 'generated/en/sidebars/cli.sidebar.js' && /^[0-9a-f]{64}$/u.test(record.sha256)));
 });
 
-test('candidate workspace accepts another target input restored unchanged from the dev baseline', () => {
+test('Japanese candidate workspace ignores Chinese inputs owned by the other site', () => {
   const root = fixture();
   const relativePath = 'content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
   write(root, relativePath, '# AlterRole\n');
-  execFileSync('git', ['add', '.'], {cwd: root});
-  execFileSync('git', ['commit', '-qm', 'published Chinese reference checkpoint'], {cwd: root});
-  const baselineSha = execFileSync('git', ['rev-parse', 'HEAD'], {cwd: root, encoding: 'utf8'}).trim();
-  execFileSync('git', ['reset', '--hard', 'HEAD^'], {cwd: root, stdio: 'ignore'});
-  execFileSync('git', ['restore', `--source=${baselineSha}`, '--staged', '--worktree', '--', relativePath], {cwd: root});
   write(root, 'build/en/index.html', '<html>en</html>');
+  write(root, relativePath, '# Changed independently by the Chinese site\n');
   assert.doesNotThrow(() => run(root, {environment: candidateEnvironment({
     ZDOC_PROVENANCE_CANDIDATE_TARGET: 'ja-JP',
-    ZDOC_PROVENANCE_CANDIDATE_BASELINE_SHA: baselineSha,
   })}));
-});
-
-test('candidate workspace rejects another target input changed after the dev baseline', () => {
-  const root = fixture();
-  const relativePath = 'content/zh-CN/reference/api/cpp/cpp/Authentication/Authentication-AlterRole.md';
-  write(root, relativePath, '# AlterRole\n');
-  execFileSync('git', ['add', '.'], {cwd: root});
-  execFileSync('git', ['commit', '-qm', 'published Chinese reference checkpoint'], {cwd: root});
-  const baselineSha = execFileSync('git', ['rev-parse', 'HEAD'], {cwd: root, encoding: 'utf8'}).trim();
-  execFileSync('git', ['reset', '--hard', 'HEAD^'], {cwd: root, stdio: 'ignore'});
-  write(root, relativePath, '# Changed after baseline\n');
-  write(root, 'build/en/index.html', '<html>en</html>');
-  assert.throws(() => run(root, {environment: candidateEnvironment({
-    ZDOC_PROVENANCE_CANDIDATE_TARGET: 'ja-JP',
-    ZDOC_PROVENANCE_CANDIDATE_BASELINE_SHA: baselineSha,
-  })}), /cannot accept dirty zh-CN-reference input.*Authentication-AlterRole\.md/i);
 });
 
 test('candidate workspace rejects an English release mutation that differs from its immutable source checkpoint', () => {
