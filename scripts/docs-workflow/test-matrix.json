@@ -2,6 +2,14 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "build-provenance",
+      "paths": ["scripts/build/write-provenance.mjs", "scripts/build/write-provenance.test.mjs"],
+      "focusedTests": ["node --test scripts/build/write-provenance.test.mjs"],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-policy", "pnpm test:workflow-matrix", "git diff --check"],
+      "reason": "Build provenance distinguishes restored publication baseline state from new cross-target mutations while preserving candidate ownership checks."
+    },
+    {
       "id": "docs-ui-sidebar-category",
       "paths": [
         "packages/docs-ui/src/shared/theme/DocSidebarItem/Category/**"
