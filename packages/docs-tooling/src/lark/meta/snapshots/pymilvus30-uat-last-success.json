@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-01T18:46:38.560Z",
+  "generated_at": "2026-09-02T03:33:54.511Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/python/v3.0.x",
   "base_app_token": "Hk05b5eI6aXXSSsd6j9cqwwMn5a",
   "records": [
@@ -2065,7 +2065,7 @@
       "doc_token": "SSiodq10FoH26hx2HlccfcAgnje",
       "doc_link": "https://zilliverse.feishu.cn/docx/SSiodq10FoH26hx2HlccfcAgnje",
       "source_file": "SSiodq10FoH26hx2HlccfcAgnje.json",
-      "source_hash": "f759a822d1fe27ab6c57f93548d44438161578364ea62ee59c5762c258a8bf40",
+      "source_hash": "84bebc75f1ca23840490f3e0c78c1426ce39855698a3554f7e359c7bde8303d9",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -2079,7 +2079,7 @@
       ],
       "publish_status": "Draft",
       "outgoing_tokens": [
-        "EVKhdy0vwoSLSux2RW2c660unjh"
+        "OD8mdC5aXo0XHbxSthRczioXnaf"
       ],
       "output_paths": [
         "content/en/reference/api/python/python/MilvusClient/MilvusClient-CollectionSchema/MilvusClient-CollectionSchema.md"
@@ -9093,7 +9093,7 @@
       "doc_token": "G5c6dxWkno5FRAxeDMycR6AVntf",
       "doc_link": "https://zilliverse.feishu.cn/docx/G5c6dxWkno5FRAxeDMycR6AVntf",
       "source_file": "G5c6dxWkno5FRAxeDMycR6AVntf.json",
-      "source_hash": "9196a6d1cd38563f02a9a11c8029eaa477396b7ded63894352c6c47076b20436",
+      "source_hash": "cc8938b92c9ba0865dc37e9feaf4dd059392610189a78297c837eb418f2f3738",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -9105,7 +9105,10 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
-      "outgoing_tokens": [],
+      "outgoing_tokens": [
+        "A33MwQX84iXyQNkzopece3oenye",
+        "JaLdw76LPiX003kLpKHcA0n8n2d"
+      ],
       "output_paths": [
         "content/en/reference/api/python/python/Volume/Volume-VolumeManager/Volume-VolumeManager.md"
       ]
@@ -9228,7 +9231,7 @@
       "doc_token": "IbWgdAwWOoTa1exF2LicP9henJJ",
       "doc_link": "https://zilliverse.feishu.cn/docx/IbWgdAwWOoTa1exF2LicP9henJJ",
       "source_file": "IbWgdAwWOoTa1exF2LicP9henJJ.json",
-      "source_hash": "a1728b1b47c30eec95cd6dfcf7db2d9b85976a630917aee09a2b810cd4d0c4af",
+      "source_hash": "9ea9162bc3961b720f41387d296eecf3e3a2fe0b4e64f5f5b5230938a9206c08",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -9240,7 +9243,10 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
-      "outgoing_tokens": [],
+      "outgoing_tokens": [
+        "A33MwQX84iXyQNkzopece3oenye",
+        "JaLdw76LPiX003kLpKHcA0n8n2d"
+      ],
       "output_paths": [
         "content/en/reference/api/python/python/Volume/Volume-VolumeFileManager/Volume-VolumeFileManager.md"
       ]

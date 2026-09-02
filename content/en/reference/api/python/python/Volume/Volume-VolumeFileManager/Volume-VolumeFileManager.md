@@ -39,7 +39,7 @@ class pymilvus.bulk_writer.volume_file_manager import VolumeFileManager
 
 <Admonition type="info" icon="📘" title="Notes">
 
-This method uploads files to managed volumes on Zilliz Cloud. It does not upload files to external volumes, which are read-only references to data in external object storage. For details, refer to [Volume](/docs/volume).
+This method uploads files to managed volumes on Zilliz Cloud. It does not upload files to external volumes, which are read-only references to data in external object storage. For details, refer to  Managed Volumes and External Volumes.
 
 </Admonition>
 
