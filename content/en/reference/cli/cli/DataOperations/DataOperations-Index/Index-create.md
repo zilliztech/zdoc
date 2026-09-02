@@ -37,7 +37,7 @@ This operation creates an index on a collection field.
 
 To save you the effort of tuning index settings, Zilliz Cloud handles index tuning with an auto-adaptive index type called AUTOINDEX. By tuning the [index build levels](/docs/tune-index-build-level) and [recall rate](/docs/tune-recall-rate), you can easily optimize search performance and precision.
 
-For scalar fields, you can set index types according to the field types. For the mapping of field types to applicable index types, refer to [Index Scalar Fields](/docs/index-scalar-fields#overview).
+For scalar fields, you can set index types according to the field types. For the mapping of field types to applicable index types, refer to [BITMAP](/docs/bitmap-index-type) and its sibling pages.
 
 ## Synposis\{#synposis}
 
