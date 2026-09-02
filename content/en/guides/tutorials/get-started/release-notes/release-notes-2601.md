@@ -66,28 +66,6 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **2026-01-23**
-
-    </div>
-
-    <div>
-
-        ## Milvus v2.6.x new feature\{#milvus-v26x-new-feature}
-
-        - **Semantic Highlighter**: Identifies and highlights the most relevant text segments in search results based on query intent rather than exact keyword matches, improving result explainability.
-
-        - This feature is powered by the semantic highlighting model recently open-sourced by Zilliz ([zilliz/semantic-highlight-bilingual-v1](https://huggingface.co/zilliz/semantic-highlight-bilingual-v1)) and provides out-of-the-box inference support through the Zilliz hosted model service.
-
-         For more details, refer to [Semantic Highlighter](./semantic-highlighter).
-
-    </div>
-
-</Grid>
-
-<Grid columnSize="2" widthRatios="20,80">
-
-    <div>
-
         **2026-01-14**
 
     </div>

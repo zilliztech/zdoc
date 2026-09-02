@@ -81,15 +81,15 @@ Nullable StructArray behavior and dynamic StructArray field addition are version
 
 | Capability | Limit |
 | --- | --- |
-| Nullable StructArray field | Supported only in versions that include nullable StructArray and nullable vector-array support. |
+| Nullable StructArray field | Supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. Set `nullable=True` on the StructArray parent; do not configure Struct sub-fields as nullable independently. |
 | Null value in Python | Use `None` to insert a null StructArray value in Python. Do not use `Null` or `null`. |
 | Null scope | Null applies to the whole StructArray field. For example, `chunks=None` is valid only when `chunks` is nullable. |
 | Partially null StructArray value | When a StructArray field contains a valid array value, do not mix null subfield arrays with valid subfield arrays in the same value. |
-| Dynamic add StructArray field | Adding a StructArray field to an existing collection is supported only in versions that include dynamic StructArray field support. |
+| Dynamic add StructArray field | Supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. |
 | Nullable requirement for dynamic add | A StructArray field added to an existing collection must be nullable because existing entities have no value for the new field. |
 | Existing entities after dynamic add | Existing entities return `null` for the added StructArray field across its subfields. |
 
-In clusters compatible with Milvus v3.0.x, nullable StructArray fields, nullable vector arrays, and dynamic StructArray field addition are available.
+On Zilliz Cloud, nullable StructArray fields, nullable vector arrays, and dynamic StructArray field addition are supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. Serving Clusters do not support these capabilities.
 
 For insert examples with nullable StructArray fields, see [Insert Data into StructArray Fields](./insert-struct-array).
 

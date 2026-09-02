@@ -310,24 +310,6 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[January 23, 2026](./release-notes-2601#milvus-v26x-new-feature)**
-
-    </div>
-
-    <div>
-
-        - 🚀   A new Milvus v2.6.x features become available on Zilliz Cloud
-
-            - [Semantic Highlighter](./semantic-highlighter)
-
-    </div>
-
-</Grid>
-
-<Grid columnSize="2" widthRatios="25,74">
-
-    <div>
-
         **[January 15, 2026](./release-notes-2601)**
 
     </div>
@@ -373,8 +355,6 @@ import Grid from '@site/src/components/Grid';
     <div>
 
         - 🚀   Milvus v2.6.x becomes generally available (GA)
-
-        - 💾  Tiered storage becomes GA, and [billing starts](./storage-cost)
 
     </div>
 

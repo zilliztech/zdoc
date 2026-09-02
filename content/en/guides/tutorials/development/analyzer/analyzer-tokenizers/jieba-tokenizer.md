@@ -423,7 +423,7 @@ The `extra_dict_file` parameter accepts an object with the following fields:
 
 | Field | Description |
 | --- | --- |
-| `type` | The resource type. Use `"remote"` for a file registered via `add_file_resource`. For the `"local"` variant used in self-hosted deployments, refer to [Manage File Resources](./manage-file-resources). |
+| `type` | The resource type. Use `"remote"` for a file registered via `add_file_resource`. |
 | `resource_name` | The name used when the file was registered with `add_file_resource`. |
 | `file_name` | The filename portion of the registered resource's object-store path (for example, `"zh_terms.txt"` if the resource was registered with `path="file/zh_terms.txt"`). |
 

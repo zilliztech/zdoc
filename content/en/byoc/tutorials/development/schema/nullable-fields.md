@@ -35,7 +35,7 @@ Use nullable fields when:
 
 - Vector fields that allow NULL values do not support `IS NULL` or `IS NOT NULL` filter expressions. You cannot explicitly filter entities based on whether a vector field value is NULL.
 
-- Array of Structs fields do not support NULL values. You cannot mark an Array of Structs field or any field nested inside it as nullable.
+- On Zilliz Cloud, nullable StructArray fields are supported on On-Demand Clusters running Milvus 3.0.0 or later in the 3.0.x line. Serving Clusters do not support nullable StructArray fields. Set `nullable=True` on the parent StructArray field, not on individual sub-fields. NULL applies to the whole StructArray field, not to an individual Struct element, and the parent setting is propagated to its sub-fields internally. A StructArray field added to an existing collection must be nullable so existing entities can return NULL for the new field. For details, see [StructArray Limits](./struct-array-limits).
 
 - The `nullable` attribute is defined when a field is created and cannot be modified afterward. You cannot enable or disable nullability for an existing field.
 
@@ -53,7 +53,7 @@ When a field is defined with `nullable=True`, Zilliz Cloud allows the field valu
 
 If a field is not defined as nullable (the default behavior), every entity must provide a valid value for that field. Omitting the field or explicitly assigning a NULL value will cause the insert or import operation to fail.
 
-The nullable attribute is supported for both **scalar and vector fields** in a collection schema. However, Array of Structs fields do not support the nullable attribute.
+The nullable attribute is supported for both **scalar and vector fields** in a collection schema. On supported On-Demand Clusters, it is also supported on the parent StructArray field. Do not configure Struct sub-fields as nullable independently; define nullability on the StructArray parent and the setting is propagated to its sub-fields internally.
 
 <Admonition type="info" icon="📘" title="Notes">
 

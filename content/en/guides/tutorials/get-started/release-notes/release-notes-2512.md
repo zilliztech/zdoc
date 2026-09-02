@@ -36,8 +36,6 @@ import Grid from '@site/src/components/Grid';
 
         This release marks the GA milestone for the Milvus v2.6.x, bringing production-ready stability and full feature support on Zilliz Cloud, including Geometry, Struct, and TimestampTz data types, field addition without downtime, enhanced full-text search, accelerated JSON filtering, new reranking functions, INT8 vector support, partial upserts, and the MINHASH_LSH index.
 
-        Tiered Storage also reaches GA, introducing the upgraded hot/warm/cold architecture and beginning cold data-access billing. See [Storage Cost](./storage-cost) for full details.
-
     </div>
 
 </Grid>

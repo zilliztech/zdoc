@@ -95,13 +95,13 @@ If you choose BYOC, you do not need to further choose the plan. The feature supp
      <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p><a href="./managed-volume">Volume</a></p></td>
+     <td><p><a href="./external-volume">Volume</a></p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p><a href="./zilliz-migration-prompts">Migration</a></p></td>
+     <td><p>Migration</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
@@ -131,13 +131,13 @@ If you choose BYOC, you do not need to further choose the plan. The feature supp
      <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p><a href="./backup-to-other-regions">Cross-region backup</a></p></td>
+     <td><p>Cross-region backup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✅</p></td>
+     <td><p>✅</p><Admonition type="info" icon="📘" title="Note"> Cross-region backup is currently not supported in BYOC. </Admonition></td>
    </tr>
    <tr>
-     <td><p>Storage integrations (<a href="./integrate-with-aws-s3">AWS S3</a>, <a href="./integrate-with-gcp">Google Cloud Storage</a>, <a href="./integrate-with-azure-blob-storage">Azure Blob Storage</a>)</p></td>
+     <td><p>Storage integrations (AWS S3, Google Cloud Storage, Azure Blob Storage)</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
@@ -161,13 +161,13 @@ If you choose BYOC, you do not need to further choose the plan. The feature supp
      <td><p>✅</p></td>
    </tr>
    <tr>
-     <td><p><a href="./setup-whitelist">Cluster IP allowlist</a></p></td>
+     <td><p>Cluster IP allowlist</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>
-     <td><p>✅</p></td>
+     <td><p>✅</p><Admonition type="info" icon="📘" title="Note"> Cluster IP allowlist is currently not supported in BYOC. </Admonition></td>
    </tr>
    <tr>
-     <td><p><a href="./setup-a-private-link-aws">Private endpoints</a></p></td>
+     <td><p>Private endpoints</p></td>
      <td><p>❌</p></td>
      <td><p>✅</p></td>
      <td><p>✅</p></td>

@@ -1584,12 +1584,6 @@ module.exports = [
                 "id": "tutorials/development/analyzer/analyzer-filters/regex-filter",
                 "label": "Regex Analyzer Filter",
                 "key": "doc:tutorials/development/analyzer/analyzer-filters/regex-filter"
-              },
-              {
-                "type": "doc",
-                "id": "tutorials/development/analyzer/analyzer-filters/synonym-filter",
-                "label": "Synonym",
-                "key": "doc:tutorials/development/analyzer/analyzer-filters/synonym-filter"
               }
             ]
           },
@@ -1604,12 +1598,6 @@ module.exports = [
             "id": "tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case",
             "label": "Best Practice",
             "key": "doc:tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/development/analyzer/manage-file-resources",
-            "label": "Manage File Resources",
-            "key": "doc:tutorials/development/analyzer/manage-file-resources"
           }
         ]
       },
