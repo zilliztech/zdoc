@@ -33,6 +33,7 @@ test('workflow policy keeps spec-generated REST out of canonical Translation sel
 test('publish-capable top-level workflows share the durable dev queue', () => {
   const fetch = yaml.load(fs.readFileSync('.github/workflows/fetch-docs.yml', 'utf8'))
   const offline = yaml.load(fs.readFileSync('.github/workflows/publish-offline-translation.yml', 'utf8'))
+  const offlinePython = yaml.load(fs.readFileSync('.github/workflows/publish-offline-reference-python.yml', 'utf8'))
   const recovery = yaml.load(fs.readFileSync('.github/workflows/recover-translation.yml', 'utf8'))
   const translation = yaml.load(fs.readFileSync('.github/workflows/translate-codex.yml', 'utf8'))
   const tooling = yaml.load(fs.readFileSync('.github/workflows/sync-master-tooling-to-dev.yml', 'utf8'))
@@ -46,6 +47,13 @@ test('publish-capable top-level workflows share the durable dev queue', () => {
     group: "${{ inputs.publish && 'docs-production-dev' || format('offline-translation-readonly-{0}', github.run_id) }}",
     queue: 'max',
   })
+  assert.deepEqual(offlinePython.concurrency, {
+    group: "${{ inputs.publish && 'docs-production-dev' || format('offline-reference-python-readonly-{0}', github.run_id) }}",
+    queue: 'max',
+  })
+  assert.equal(offlinePython.jobs.prepare_offline_reference_python.permissions.contents, 'read')
+  assert.equal(offlinePython.jobs.publish_ready.permissions.contents, 'write')
+  assert.equal(offlinePython.jobs.verify_terminal_results.permissions.contents, 'read')
   assert.equal(offline.jobs.prepare_offline_candidate.permissions.contents, 'read')
   assert.equal(offline.jobs.publish_ready.permissions.contents, 'write')
   assert.equal(offline.jobs.verify_terminal_results.permissions.contents, 'read')
