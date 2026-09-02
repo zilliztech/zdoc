@@ -486,6 +486,24 @@
     }
   },
   {
+    "name": "v1",
+    "description": "Zilliz Cloud RESTful API V1 documentation.",
+    "x-i18n": {
+      "ja-JP": {
+        "description": "Zilliz Cloud RESTful API V1 ドキュメント。"
+      }
+    }
+  },
+  {
+    "name": "v2",
+    "description": "Zilliz Cloud RESTful API V2 documentation.",
+    "x-i18n": {
+      "ja-JP": {
+        "description": "Zilliz Cloud RESTful API V2 ドキュメント。"
+      }
+    }
+  },
+  {
     "name": "snapshot-operations-v2",
     "description": "This set of APIs provides a way to export, list, and restore collection snapshots.",
     "x-i18n": {
