@@ -36,6 +36,11 @@ const REFERENCE_SIDEBAR_KEYS = Object.freeze(
   referencePresentations.map(manual => manual.presentation.sidebarKey),
 ) as readonly [string, ...string[]];
 
+function isIndependentGeneratedReference(target: Target): boolean {
+  const manual = manualRegistry.find(candidate => candidate.id === target.manual);
+  return manual?.presentation?.referenceKind === 'restful';
+}
+
 type Site = 'en' | 'zh-CN';
 type Manual = string;
 
@@ -414,7 +419,7 @@ function validateTarget(
     for (const documentId of english.documentIds) {
       resolveDocument(repositoryRoot, 'en', target, englishSidebarPath, documentId);
     }
-    if (JSON.stringify(selected.signature) !== JSON.stringify(english.signature)) {
+    if (!isIndependentGeneratedReference(target) && JSON.stringify(selected.signature) !== JSON.stringify(english.signature)) {
       throw targetError(site, target, selectedSidebarPath, '(structure)', 'locale-structure', 'English and Chinese category/document structure differs outside explicit unavailable Reference states');
     }
   }
