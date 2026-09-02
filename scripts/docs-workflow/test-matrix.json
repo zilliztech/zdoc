@@ -157,6 +157,18 @@
       "reason": "Progress and card changes cross artifact collection, terminal results, and both parent/child workflow views."
     },
     {
+      "id": "reference-translation-manifest",
+      "paths": [
+        "packages/docs-tooling/src/reference/translationManifest*"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/reference/translationManifest.test.ts packages/docs-tooling/src/reference/translationManifest.integration.test.ts"
+      ],
+      "harnesses": [],
+      "gates": ["pnpm test:rest-publication-contract"],
+      "reason": "Reference manifest changes must preserve generic Translation pairing while keeping spec-generated REST ownership and language exclusions independent."
+    },
+    {
       "id": "checkpoint-artifacts-and-ownership",
       "paths": [
         "scripts/docs-workflow/apply-checkpoint-artifact*",
