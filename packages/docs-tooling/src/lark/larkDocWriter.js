@@ -114,7 +114,7 @@ class larkDocWriter {
 
     __category_has_landing_page(source) {
         if (source?.base_placement_type === 'section') return !source.base_nav_virtual && this.__has_renderable_page(source)
-        if (source?.base_placement_type === 'canonical') return source.slug !== 'faqs'
+        if (source?.base_placement_type === 'canonical') return true
         return this.categorize_node(source) === 'meaningful'
     }
 
@@ -228,6 +228,12 @@ class larkDocWriter {
                     type: 'category',
                     label: meta.labels || child.title,
                     key: this.__sidebar_key('category', currentPath, contentRoot, child.slug, child.title),
+                    link: {
+                        type: 'doc',
+                        id: node_path.join(currentPath, child.slug, child.slug)
+                            .replace(/\\/g, '/')
+                            .replace(new RegExp(`^${contentRoot}/`), ''),
+                    },
                     items: this.__faq_sidebar_items(faqPath, contentRoot),
                 })
                 continue

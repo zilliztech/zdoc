@@ -150,6 +150,9 @@
       "id": "guides-source-render-and-cache",
       "paths": [
         "scripts/docs-workflow/guides-*",
+        "packages/docs-tooling/src/lark/guidesBaseRecordSemantics.js",
+        "packages/docs-tooling/src/lark/larkDocWriter.js",
+        "packages/docs-tooling/src/lark/larkDocWriter.beta.test.js",
         "scripts/docs-workflow/generate-guides-sidebars*",
         "scripts/docs-workflow/prepare-guides-bootstrap-stage*",
         "scripts/docs-workflow/render-guides-table*",

@@ -584,7 +584,7 @@ async function testBaseCanonicalWithChildrenKeepsLandingPage() {
     })
 }
 
-async function testFaqsExpandIntoCategoryWithoutLandingPage() {
+async function testFaqsCanonicalKeepsLandingPageWhileExpanding() {
     await withTempDir(async dir => {
         const sourceDir = path.join(dir, 'sources')
         const outputDir = path.join(dir, 'docs', 'tutorials')
@@ -632,6 +632,7 @@ async function testFaqsExpandIntoCategoryWithoutLandingPage() {
                 type: 'category',
                 label: 'FAQs',
                 key: 'category:tutorials/faqs',
+                link: { type: 'doc', id: 'tutorials/faqs/faqs' },
                 items: [{
                     type: 'doc',
                     id: 'tutorials/faqs/faq-account',
@@ -951,7 +952,7 @@ async function run() {
     await testSidebarEmitsRefAsExistingDocItem()
     await testSidebarKeepsEmptySectionAsCategory()
     await testBaseCanonicalWithChildrenKeepsLandingPage()
-    await testFaqsExpandIntoCategoryWithoutLandingPage()
+    await testFaqsCanonicalKeepsLandingPageWhileExpanding()
     await testIndexedSidebarDelegatesRefsParentsSectionsAndSlugLookups()
     await testIndexedSidebarPropagatesAmbiguousRootAndChildLookups()
     await testLegacySidebarStillSkipsMissingRootAndChildSources()
