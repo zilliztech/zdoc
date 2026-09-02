@@ -144,6 +144,12 @@ class larkDocWriter {
             .map(entry => entry.item)
     }
 
+    // A canonical FAQ record is a publication container: its H2 groups are the
+    // canonical pages, while the record itself behaves as a section with no page.
+    __is_expanded_faq_container(source, child) {
+        return source?.base_placement_type === 'canonical' && child?.slug === 'faqs'
+    }
+
     async generate_sidebar(outputDir, contentRoot) {
         this.sidebarOutputDir = outputDir
         this.sidebarContentRoot = contentRoot
@@ -220,7 +226,7 @@ class larkDocWriter {
                 continue
             }
 
-            if (childSource?.base_placement_type === 'canonical' && child.slug === 'faqs') {
+            if (this.__is_expanded_faq_container(childSource, child)) {
                 const meta = await this.__is_to_publish(child.title, child.slug, child.node_token)
                 if (!meta.publish) continue
                 const faqPath = node_path.join(currentPath, child.slug)
@@ -228,12 +234,6 @@ class larkDocWriter {
                     type: 'category',
                     label: meta.labels || child.title,
                     key: this.__sidebar_key('category', currentPath, contentRoot, child.slug, child.title),
-                    link: {
-                        type: 'doc',
-                        id: node_path.join(currentPath, child.slug, child.slug)
-                            .replace(/\\/g, '/')
-                            .replace(new RegExp(`^${contentRoot}/`), ''),
-                    },
                     items: this.__faq_sidebar_items(faqPath, contentRoot),
                 })
                 continue
