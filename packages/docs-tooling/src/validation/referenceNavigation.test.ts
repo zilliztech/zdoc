@@ -272,6 +272,18 @@ describe('validateReferenceNavigation', () => {
       .toThrow(targetError(target, /locale-structure/, /documentId=\(structure\)/));
   });
 
+  it('allows independent generated REST navigation to differ between locales', () => {
+    const root = fixture();
+    const target = targets.find(candidate => candidate.manual === 'rest')!;
+    writeSidebar(root, 'zh-CN', target, [{
+      type: 'category',
+      label: '已翻译标签',
+      items: [{type: 'doc', id: documentId(target.landingPage), label: '首页'}],
+    }]);
+
+    expect(() => validateReferenceNavigation({repositoryRoot: root, site: 'zh-CN'})).not.toThrow();
+  });
+
   it('allows an English-only document declared by the language-excluded manifest state', () => {
     const root = fixture();
     const target = targets.find(candidate => candidate.manual === 'rest')!;
