@@ -199,6 +199,8 @@
   "创建 Spark 向量去重任务": "create-spark-vector-deduplication-job",
   "创建 Spark K-means 任务": "create-spark-k-means-job",
   "创建 Spark 异常检测任务": "create-spark-anomaly-detection-job",
+  "创建 Spark 回填任务": "create-spark-backfill-job",
+  "创建 Spark 回填预检任务": "create-spark-backfill-precheck-job",
   "列出 Private Endpoint 服务": "list-private-endpoint-services",
   "列出 Private Endpoint": "list-private-endpoints",
   "创建 Private Endpoint": "create-private-endpoint",
