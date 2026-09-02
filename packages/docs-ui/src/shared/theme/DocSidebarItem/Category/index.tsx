@@ -329,14 +329,9 @@ function DocSidebarItemCategoryCollapsible({
 
   const handleItemClick: ComponentProps<'a'>['onClick'] = (e) => {
     onItemClick?.(item);
-    if (collapsible) {
-      if (href) {
-        e.preventDefault();
-        updateCollapsed();
-      } else {
-        e.preventDefault();
-        updateCollapsed();
-      }
+    if (collapsible && !href) {
+      e.preventDefault();
+      updateCollapsed();
     }
   };
   const handleCategoryButtonClick: ComponentProps<'button'>['onClick'] = () => {
@@ -344,7 +339,9 @@ function DocSidebarItemCategoryCollapsible({
     updateCollapsed();
   };
   const showChildCaret = items.length > 0;
-  const isButtonCategory = collapsible;
+  // A category with a landing page needs both interactions: the label navigates
+  // to the landing page, while the separate caret controls expansion.
+  const isButtonCategory = collapsible && !href;
   const fitKey = label === 'Connect to Global Cluster' ? 'connect-global-cluster' : undefined;
 
   useBrowserLayoutEffect(() => {
@@ -404,7 +401,7 @@ function DocSidebarItemCategoryCollapsible({
             <CategoryLinkLabel
               label={label}
               IconComponent={IconComponent}
-              showChildCaret={showChildCaret}
+              showChildCaret={showChildCaret && isButtonCategory}
               collapsed={collapsed}
             />
           </button>
@@ -422,12 +419,12 @@ function DocSidebarItemCategoryCollapsible({
             /* Non-collapsible category that navigates to a deeper level (shows a
                ">" caret): mark it so the mobile nav drills in place and stays open
                instead of closing like a leaf link. */
-            data-sidebar-drill={showChildCaret ? '' : undefined}
+            data-sidebar-drill={showChildCaret && !href ? '' : undefined}
             href={collapsible ? hrefWithSSRFallback ?? '#' : hrefWithSSRFallback}>
             <CategoryLinkLabel
               label={label}
               IconComponent={IconComponent}
-              showChildCaret={showChildCaret}
+              showChildCaret={showChildCaret && isButtonCategory}
               collapsed={collapsible ? collapsed : false}
             />
           </Link>
