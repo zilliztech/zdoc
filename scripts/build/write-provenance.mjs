@@ -211,6 +211,17 @@ function pathMatchesGitCommit(repositoryRoot, commitSha, relativePath) {
   }
 }
 
+function pathTrackedAtGitCommit(repositoryRoot, commitSha, relativePath) {
+  try {
+    const output = execFileSync('git', ['ls-tree', '-r', '--name-only', commitSha, '--', relativePath], {
+      cwd: repositoryRoot, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    return output.split('\n').filter(Boolean).includes(relativePath);
+  } catch (error) {
+    throw new Error(`Candidate workspace could not verify baseline input: ${relativePath}`, {cause: error});
+  }
+}
+
 function walkReleaseInputRoot(repositoryRoot, relativeRoot, files = []) {
   const absoluteRoot = confinedPath(repositoryRoot, relativeRoot, 'localization input root');
   if (!fs.existsSync(absoluteRoot)) return files;
@@ -262,15 +273,16 @@ function resolveCandidateWorkspace(environment, site, externalSnapshot) {
     target: String(environment.ZDOC_PROVENANCE_CANDIDATE_TARGET ?? ''),
     toolingSha: String(environment.ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA ?? ''),
     sourceSha: String(environment.ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA ?? ''),
+    baselineSha: String(environment.ZDOC_PROVENANCE_CANDIDATE_BASELINE_SHA ?? ''),
   };
   if (Object.values(raw).every(value => value === '')) return undefined;
-  if (Object.values(raw).some(value => value === '')) {
+  if (['target', 'toolingSha', 'sourceSha'].some(key => raw[key] === '')) {
     throw new Error('Candidate workspace provenance requires target, tooling SHA, and source SHA');
   }
   if (externalSnapshot) {
     throw new Error('Candidate workspace provenance is forbidden for external snapshots');
   }
-  if (!/^[0-9a-f]{40}$/u.test(raw.toolingSha) || !/^[0-9a-f]{40}$/u.test(raw.sourceSha)) {
+  if (!/^[0-9a-f]{40}$/u.test(raw.toolingSha) || !/^[0-9a-f]{40}$/u.test(raw.sourceSha) || (raw.baselineSha && !/^[0-9a-f]{40}$/u.test(raw.baselineSha))) {
     throw new Error('Candidate workspace provenance identities must be 40-character lowercase Git SHAs');
   }
   let target;
@@ -346,6 +358,9 @@ function hashLocalizationInputs(repositoryRoot, site, {trackedInputInventory, ca
       owner: localizationDefinitions.find(entry => isInputPath(relativePath, entry.definition)),
     })).find(({relativePath, owner}) => owner &&
       !isInputPath(relativePath, candidateWorkspace.definition) &&
+      !(candidateWorkspace.baselineSha &&
+        pathTrackedAtGitCommit(repositoryRoot, candidateWorkspace.baselineSha, relativePath) &&
+        pathMatchesGitCommit(repositoryRoot, candidateWorkspace.baselineSha, relativePath)) &&
       !(owner.label === 'English release' && pathInRoot(relativePath, 'generated/en/sidebars') && pathMatchesGitCommit(
         repositoryRoot,
         candidateWorkspace.sourceSha,
