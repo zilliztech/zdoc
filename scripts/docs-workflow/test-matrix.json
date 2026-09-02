@@ -7,7 +7,7 @@
       "focusedTests": ["node --test scripts/build/write-provenance.test.mjs"],
       "harnesses": [],
       "gates": ["pnpm test:workflow-policy", "pnpm test:workflow-matrix", "git diff --check"],
-      "reason": "Build provenance distinguishes restored publication baseline state from new cross-target mutations while preserving candidate ownership checks."
+      "reason": "Build provenance preserves candidate ownership checks within each independently built site without coupling English and Chinese release inputs."
     },
     {
       "id": "docs-ui-sidebar-category",
