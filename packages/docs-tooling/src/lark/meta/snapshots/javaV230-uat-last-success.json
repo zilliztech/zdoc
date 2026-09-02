@@ -8,7 +8,7 @@
   "source_branch": "dev",
   "publish_url": "https://docs.cloud-uat3.zilliz.com",
   "link_check_remote": "https://docs.zilliz.com",
-  "generated_at": "2026-09-01T18:40:54.223Z",
+  "generated_at": "2026-09-02T03:25:57.170Z",
   "source_dir": "./packages/docs-tooling/src/lark/meta/sources/java/v3.0.x/v2",
   "base_app_token": "AOFDbSmwma9XrNsLa8KcQgt9ngc",
   "records": [
@@ -5168,7 +5168,7 @@
       "doc_token": "QHyGdm4FyoFwCzxDgUUc9yQrnPf",
       "doc_link": "https://zilliverse.feishu.cn/docx/QHyGdm4FyoFwCzxDgUUc9yQrnPf",
       "source_file": "QHyGdm4FyoFwCzxDgUUc9yQrnPf.json",
-      "source_hash": "fe22b862d8a87bfb59ab591121e9f2c99ef0cac0abe7d142dd27a353d25f676f",
+      "source_hash": "ac25ef60a0f2a82bb8aef9a078f3be6511a6dd1e68b7df4058003c6ecb7cab86",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -5180,7 +5180,10 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
-      "outgoing_tokens": [],
+      "outgoing_tokens": [
+        "A33MwQX84iXyQNkzopece3oenye",
+        "JaLdw76LPiX003kLpKHcA0n8n2d"
+      ],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeManager/v2-Volume-VolumeManager.md"
       ]
@@ -5272,7 +5275,7 @@
       "doc_token": "DK7ZdxRCyoepyxx0odzcH66xnu3",
       "doc_link": "https://zilliverse.feishu.cn/docx/DK7ZdxRCyoepyxx0odzcH66xnu3",
       "source_file": "DK7ZdxRCyoepyxx0odzcH66xnu3.json",
-      "source_hash": "237b861d2fe88ab8e18fa9fa5faec3405b37a7c6e5a0302a34cf275639094b36",
+      "source_hash": "2c65484ac5cdcf33c1625353780297e25c2e1b3ec6e217a5e24969554985bbb5",
       "node_metadata": null,
       "node_token": null,
       "origin_node_token": null,
@@ -5284,7 +5287,10 @@
         "Zilliz"
       ],
       "publish_status": "Draft",
-      "outgoing_tokens": [],
+      "outgoing_tokens": [
+        "A33MwQX84iXyQNkzopece3oenye",
+        "JaLdw76LPiX003kLpKHcA0n8n2d"
+      ],
       "output_paths": [
         "content/en/reference/api/java/java/v2/v2-Volume/v2-Volume-VolumeFileManager/v2-Volume-VolumeFileManager.md"
       ]
