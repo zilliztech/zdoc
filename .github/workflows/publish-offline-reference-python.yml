@@ -1,0 +1,226 @@
+name: publish offline Chinese Python Reference
+run-name: offline zh-CN Reference Python ${{ inputs.candidate_sha }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_ref:
+        description: Exact refs/heads/offline-reference-candidates/python/* staging ref
+        required: true
+        type: string
+      candidate_sha:
+        description: Exact single-commit candidate SHA on the target baseline
+        required: true
+        type: string
+      tooling_sha:
+        description: Reviewed master SHA containing this workflow and validator
+        required: true
+        type: string
+      source_checkpoint_sha:
+        description: Exact English Reference checkpoint bound to receipt source hashes
+        required: true
+        type: string
+      target_baseline_sha:
+        description: Exact current dev SHA; Python MVP requires it to equal source_checkpoint_sha
+        required: true
+        type: string
+      receipt_artifact_name:
+        description: Immutable artifact containing offline-reference-python-receipt.json
+        required: true
+        type: string
+      receipt_run_id:
+        description: Exact completed workflow run that uploaded the worker receipt artifact
+        required: true
+        type: string
+      receipt_artifact_id:
+        description: Exact immutable GitHub artifact database ID for the worker receipt
+        required: true
+        type: string
+      receipt_artifact_digest:
+        description: Exact sha256 digest reported by GitHub for the worker receipt artifact
+        required: true
+        type: string
+      publish:
+        description: Promote the fully validated candidate to dev
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: ${{ inputs.publish && 'docs-production-dev' || format('offline-reference-python-readonly-{0}', github.run_id) }}
+  queue: max
+
+jobs:
+  prepare_offline_reference_python:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      actions: read
+      contents: read
+    outputs:
+      selection_artifact_name: ${{ steps.prepare.outputs.selection_artifact_name }}
+      selection_sha256: ${{ steps.prepare.outputs.selection_sha256 }}
+      ready_artifact_name: ${{ steps.prepare.outputs.ready_artifact_name }}
+      checkpoint_artifact_name: ${{ steps.prepare.outputs.checkpoint_artifact_name }}
+      baseline_artifact_name: ${{ steps.prepare.outputs.baseline_artifact_name }}
+    steps:
+      - uses: actions/checkout@v5
+        with: {ref: '${{ inputs.tooling_sha }}', fetch-depth: 0, persist-credentials: false}
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: {node-version: '22.6', cache: pnpm}
+      - run: pnpm install --frozen-lockfile
+      - name: Resolve exact candidate ref and immutable worker receipt
+        uses: actions/github-script@v8
+        env:
+          CANDIDATE_REF: ${{ inputs.candidate_ref }}
+          CANDIDATE_SHA: ${{ inputs.candidate_sha }}
+          RECEIPT_RUN_ID: ${{ inputs.receipt_run_id }}
+          RECEIPT_ARTIFACT_ID: ${{ inputs.receipt_artifact_id }}
+          RECEIPT_ARTIFACT_NAME: ${{ inputs.receipt_artifact_name }}
+          RECEIPT_ARTIFACT_DIGEST: ${{ inputs.receipt_artifact_digest }}
+        with:
+          script: |
+            const ref = process.env.CANDIDATE_REF
+            if (!/^refs\/heads\/offline-reference-candidates\/python\/[A-Za-z0-9._/-]+$/.test(ref) || ref.includes('..') || ref.endsWith('/')) throw new Error('candidate_ref is outside the fixed Python staging namespace')
+            const expectedSha = process.env.CANDIDATE_SHA
+            if (!/^[0-9a-f]{40}$/.test(expectedSha)) throw new Error('candidate_sha must be an exact lowercase Git SHA')
+            await exec.exec('git', ['fetch', '--no-tags', 'origin', `+${ref}:${ref}`])
+            let output = ''
+            await exec.exec('git', ['rev-parse', '--verify', `${ref}^{commit}`], {listeners: {stdout: data => { output += data.toString() }}})
+            if (output.trim() !== expectedSha) throw new Error(`candidate ref mismatch: expected ${expectedSha}, got ${output.trim()}`)
+
+            const runId = Number(process.env.RECEIPT_RUN_ID)
+            const artifactId = Number(process.env.RECEIPT_ARTIFACT_ID)
+            if (!Number.isSafeInteger(runId) || runId <= 0 || !Number.isSafeInteger(artifactId) || artifactId <= 0) throw new Error('receipt run and artifact IDs must be positive integers')
+            const run = await github.rest.actions.getWorkflowRun({owner: context.repo.owner, repo: context.repo.repo, run_id: runId})
+            if (run.data.status !== 'completed' || run.data.conclusion !== 'success') throw new Error('receipt source workflow run is not completed successfully')
+            const artifact = await github.rest.actions.getArtifact({owner: context.repo.owner, repo: context.repo.repo, artifact_id: artifactId})
+            const expectedDigest = process.env.RECEIPT_ARTIFACT_DIGEST
+            if (artifact.data.workflow_run?.id !== runId || artifact.data.name !== process.env.RECEIPT_ARTIFACT_NAME || artifact.data.expired || artifact.data.digest !== expectedDigest || !/^sha256:[0-9a-f]{64}$/.test(expectedDigest)) throw new Error('receipt artifact identity mismatch')
+      - name: Download exact immutable worker receipt
+        uses: actions/download-artifact@v7
+        with:
+          artifact-ids: ${{ inputs.receipt_artifact_id }}
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.receipt_run_id }}
+          path: ${{ runner.temp }}/offline-reference-receipt
+      - id: prepare
+        name: Authenticate, derive, and package the Python candidate
+        env:
+          CANDIDATE_SHA: ${{ inputs.candidate_sha }}
+          TOOLING_SHA: ${{ inputs.tooling_sha }}
+          SOURCE_CHECKPOINT_SHA: ${{ inputs.source_checkpoint_sha }}
+          TARGET_BASELINE_SHA: ${{ inputs.target_baseline_sha }}
+          PUBLISH_ENABLED: ${{ inputs.publish }}
+        run: |
+          set -euo pipefail
+          evidence="$RUNNER_TEMP/offline-reference-python-evidence"
+          install -d -m 0700 "$evidence"
+          node scripts/docs-workflow/prepare-offline-reference-python-publication.js \
+            --repository-root "$GITHUB_WORKSPACE" \
+            --repository "$GITHUB_REPOSITORY" \
+            --candidate-sha "$CANDIDATE_SHA" \
+            --target-baseline-sha "$TARGET_BASELINE_SHA" \
+            --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
+            --tooling-sha "$TOOLING_SHA" \
+            --receipt-file "$RUNNER_TEMP/offline-reference-receipt/offline-reference-python-receipt.json" \
+            --target-branch dev \
+            --run-id "$GITHUB_RUN_ID" \
+            --run-attempt "$GITHUB_RUN_ATTEMPT" \
+            --publish "$PUBLISH_ENABLED" \
+            --output-root "$evidence" \
+            --dependency-root "$GITHUB_WORKSPACE"
+      - uses: actions/upload-artifact@v6
+        with: {name: '${{ steps.prepare.outputs.selection_artifact_name }}', path: '${{ steps.prepare.outputs.selection_file }}', if-no-files-found: error, retention-days: 30}
+      - uses: actions/upload-artifact@v6
+        with: {name: '${{ steps.prepare.outputs.checkpoint_artifact_name }}', path: '${{ steps.prepare.outputs.checkpoint_archive }}', if-no-files-found: error, retention-days: 30}
+      - uses: actions/upload-artifact@v6
+        with: {name: '${{ steps.prepare.outputs.baseline_artifact_name }}', path: '${{ steps.prepare.outputs.baseline_archive }}', if-no-files-found: error, retention-days: 30}
+      - uses: actions/upload-artifact@v6
+        with: {name: '${{ steps.prepare.outputs.ready_artifact_name }}', path: '${{ steps.prepare.outputs.ready_file }}', if-no-files-found: error, retention-days: 30}
+
+  publish_ready:
+    needs: [prepare_offline_reference_python]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: write
+    outputs:
+      results_artifact_name: ${{ steps.publish.outputs.results_artifact_name }}
+      overall_status: ${{ steps.publish.outputs.overall_status }}
+      final_target_sha: ${{ steps.publish.outputs.final_target_sha }}
+    steps:
+      - uses: actions/checkout@v5
+        with: {ref: '${{ inputs.tooling_sha }}', fetch-depth: 0, persist-credentials: '${{ inputs.publish }}'}
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: {node-version: '22.6', cache: pnpm}
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v7
+        with: {name: '${{ needs.prepare_offline_reference_python.outputs.selection_artifact_name }}', path: '${{ runner.temp }}/publication-selection'}
+      - name: Validate immutable Python publication selection
+        env:
+          EXPECTED_SELECTION_SHA256: ${{ needs.prepare_offline_reference_python.outputs.selection_sha256 }}
+          EXPECTED_PUBLISH: ${{ inputs.publish }}
+          TOOLING_SHA: ${{ inputs.tooling_sha }}
+        run: |
+          set -euo pipefail
+          selection="$RUNNER_TEMP/publication-selection/publication-selection.json"
+          node scripts/docs-workflow/publication-contracts.js validate-selection "$selection"
+          SELECTION="$selection" node - <<'NODE'
+          const fs = require('node:fs')
+          const selection = JSON.parse(fs.readFileSync(process.env.SELECTION, 'utf8'))
+          if (selection.workflow !== 'translation' || selection.units.length !== 1 || selection.units[0].unitKey !== 'translation/zh-CN-reference/python' || selection.units[0].strategy !== 'checkpoint') throw new Error('offline Python publication selection scope mismatch')
+          if (selection.selectionSha256 !== process.env.EXPECTED_SELECTION_SHA256 || selection.toolingSha !== process.env.TOOLING_SHA) throw new Error('offline Python publication identity mismatch')
+          if (selection.inputs.publish !== (process.env.EXPECTED_PUBLISH === 'true')) throw new Error('offline Python publication mode mismatch')
+          NODE
+      - id: publish
+        name: Route through the standard publication coordinator
+        uses: actions/github-script@v8
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PUBLISH: ${{ inputs.publish }}
+        with:
+          script: |
+            const mode = process.env.PUBLISH === 'true' ? 'publish' : 'artifact_only'
+            await exec.exec('node', ['scripts/docs-workflow/publication-coordinator.js', '--selection', `${process.env.RUNNER_TEMP}/publication-selection/publication-selection.json`, '--mode', mode, '--poll-milliseconds', '10000', '--candidate-polls', '6', '--max-publish-attempts', '1', '--deadline', String(Date.now() + 20 * 60 * 1000)])
+
+  verify_terminal_results:
+    needs: [prepare_offline_reference_python, publish_ready]
+    if: ${{ always() && needs.prepare_offline_reference_python.result == 'success' && needs.publish_ready.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions: {actions: read, contents: read}
+    steps:
+      - uses: actions/checkout@v5
+        with: {ref: '${{ inputs.tooling_sha }}', fetch-depth: 0, persist-credentials: false}
+      - uses: pnpm/action-setup@v5
+      - uses: actions/setup-node@v5
+        with: {node-version: '22.6', cache: pnpm}
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v7
+        with: {name: '${{ needs.prepare_offline_reference_python.outputs.selection_artifact_name }}', path: '${{ runner.temp }}/terminal-selection'}
+      - uses: actions/download-artifact@v7
+        with: {name: '${{ needs.publish_ready.outputs.results_artifact_name }}', path: '${{ runner.temp }}/terminal-results'}
+      - name: Verify terminal identities and ancestry
+        env:
+          EXPECTED_STATUS: ${{ needs.publish_ready.outputs.overall_status }}
+          EXPECTED_FINAL_SHA: ${{ needs.publish_ready.outputs.final_target_sha }}
+          EXPECTED_PUBLISH: ${{ inputs.publish }}
+        run: |
+          set -euo pipefail
+          SELECTION="$RUNNER_TEMP/terminal-selection/publication-selection.json" RESULTS="$RUNNER_TEMP/terminal-results/publication-results.json" node - <<'NODE'
+          const fs = require('node:fs')
+          const {validateTranslationPublicationDocuments, verifyTranslationPublicationRepository} = require('./scripts/docs-workflow/translation-publication-results')
+          const selection = JSON.parse(fs.readFileSync(process.env.SELECTION, 'utf8'))
+          const results = JSON.parse(fs.readFileSync(process.env.RESULTS, 'utf8'))
+          validateTranslationPublicationDocuments({selection, results})
+          if (results.overallStatus !== process.env.EXPECTED_STATUS || results.finalTargetSha !== process.env.EXPECTED_FINAL_SHA) throw new Error('terminal workflow outputs do not match publication-results')
+          if (process.env.EXPECTED_PUBLISH === 'true') verifyTranslationPublicationRepository({selection, results, repository: process.cwd()})
+          NODE
