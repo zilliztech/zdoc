@@ -229,7 +229,7 @@
       "file": "32-spark-job-v2.json",
       "apiSurface": "control-plane",
       "service": "spark-jobs-v2",
-      "operationCount": 8,
+      "operationCount": 10,
       "migrationState": "legacy-shadow-required"
     },
     {

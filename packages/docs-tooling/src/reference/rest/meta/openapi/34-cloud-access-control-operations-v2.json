@@ -293,7 +293,7 @@
                     "description": "Can view members and manage org roles",
                     "policies": [
                       {
-                        "resourceType": "member",
+                        "resourceType": "org_member",
                         "privileges": [
                           "view"
                         ]
@@ -432,7 +432,7 @@
                         "description": "Can view members and manage org roles",
                         "policies": [
                           {
-                            "resourceType": "member",
+                            "resourceType": "org_member",
                             "privileges": [
                               "view"
                             ]
@@ -2395,7 +2395,7 @@
         }
       }
     },
-    "/v2/members/{user_id}/roles": {
+    "/v2/members/{userId}/roles": {
       "get": {
         "summary": "List Member Roles",
         "description": "Lists roles directly assigned to a member. Group-inherited roles are not included.",
@@ -2422,7 +2422,7 @@
             }
           },
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "required": true,
             "description": "The member user ID.",
@@ -2588,7 +2588,7 @@
         }
       }
     },
-    "/v2/members/{user_id}/roles/{roleId}": {
+    "/v2/members/{userId}/roles/{roleId}": {
       "put": {
         "summary": "Grant Role To Member",
         "description": "Grants one role directly to a member.",
@@ -2615,7 +2615,7 @@
             }
           },
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "required": true,
             "description": "The member user ID.",
@@ -2829,7 +2829,7 @@
             }
           },
           {
-            "name": "user_id",
+            "name": "userId",
             "in": "path",
             "required": true,
             "description": "The member user ID.",
@@ -3238,9 +3238,17 @@
               }
             },
             "enum": [
-              "project_member",
+              "org_member",
+              "group",
+              "api_key",
+              "org_role",
               "project_role",
               "project",
+              "billing",
+              "authentication",
+              "org_control_ops",
+              "recovery",
+              "project_member",
               "security",
               "backup",
               "observability",
