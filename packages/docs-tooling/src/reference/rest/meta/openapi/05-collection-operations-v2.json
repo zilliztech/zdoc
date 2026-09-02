@@ -4627,7 +4627,7 @@
                 "collectionName": "documents",
                 "function": {
                   "name": "bm25_fn",
-                  "type": "FunctionType.BM25",
+                  "type": "BM25",
                   "inputFieldNames": [
                     "text"
                   ],
@@ -8891,9 +8891,9 @@
               }
             },
             "enum": [
-              "FunctionType.BM25",
-              "FunctionType.TEXTEMBEDDING",
-              "FunctionType.RERANK"
+              "BM25",
+              "TEXTEMBEDDING",
+              "RERANK"
             ],
             "x-added-at": "2.6.x",
             "x-last-modified": "2.6.x",
@@ -8961,13 +8961,13 @@
           },
           "params": {
             "type": "object",
-            "description": "Configuration parameters specific to the current function. Once the function type is set to `FunctionType.BM25`, no parameter is required. For applicable parameters to functions of `FunctionType.TEXTEMBEDDING` or `FunctionType.RERANK`, refer to <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> and <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a>",
+            "description": "Configuration parameters specific to the current function. Once the function type is set to `BM25`, no parameter is required. For applicable parameters to functions of `TEXTEMBEDDING` or `RERANK`, refer to <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> and <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a>",
             "x-i18n": {
               "zh-CN": {
-                "description": "当前 Function 的配置参数。当函数类型为 `FunctionType.BM25`，无须设置该参数。当函数类型为其它两类时，可以查看<a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> and <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a>获取详细的可用参数列表。"
+                "description": "当前 Function 的配置参数。当函数类型为 `BM25`，无须设置该参数。当函数类型为其它两类时，可以查看<a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> and <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a>获取详细的可用参数列表。"
               },
               "ja-JP": {
-                "description": "現在の function に固有の構成パラメータ。function type が `FunctionType.BM25` に設定されている場合、パラメータは不要です。`FunctionType.TEXTEMBEDDING` または `FunctionType.RERANK` の function に適用可能なパラメータについては、<a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> および <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a> を参照してください。"
+                "description": "現在の function に固有の構成パラメータ。function type が `BM25` に設定されている場合、パラメータは不要です。`TEXTEMBEDDING` または `RERANK` の function に適用可能なパラメータについては、<a href=\"https://milvus.io/docs/embedding-function-overview.md\">Embedding Functions</a> および <a href=\"https://milvus.io/docs/embedding-function-overview.md\">Reranking Functions</a> を参照してください。"
               }
             },
             "x-added-at": "2.6.x",
