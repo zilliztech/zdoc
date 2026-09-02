@@ -564,12 +564,6 @@ module.exports = [
               },
               {
                 "type": "doc",
-                "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-jar-job-v2",
-                "label": "创建 Spark JAR 任务 (V2)",
-                "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-jar-job-v2"
-              },
-              {
-                "type": "doc",
                 "id": "api/restful/restful/v2/control-plane/spark-job-v2/create-spark-pk-deduplication-job-v2",
                 "label": "创建 Spark 主键去重任务 (V2)",
                 "key": "doc:api/restful/restful/v2/control-plane/spark-job-v2/create-spark-pk-deduplication-job-v2"
