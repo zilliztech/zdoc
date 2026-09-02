@@ -25,6 +25,19 @@
       "reason": "REST OpenAPI fragments feed fragment migration, lifecycle evidence, integrated specs, and publication artifacts."
     },
     {
+      "id": "reference-navigation-validation",
+      "paths": [
+        "packages/docs-tooling/src/validation/referenceNavigation.ts",
+        "packages/docs-tooling/src/validation/referenceNavigation.test.ts"
+      ],
+      "focusedTests": [
+        "pnpm vitest run packages/docs-tooling/src/validation/referenceNavigation.test.ts"
+      ],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-policy", "git diff --check"],
+      "reason": "Reference navigation validation keeps ordinary locale structure aligned while allowing independently generated REST sites to publish their own document sets."
+    },
+    {
       "id": "shared-publication-contracts",
       "paths": [
         "scripts/docs-workflow/publication-contracts*",
