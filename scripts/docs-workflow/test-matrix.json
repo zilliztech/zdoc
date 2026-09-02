@@ -2,6 +2,16 @@
   "schemaVersion": 1,
   "entries": [
     {
+      "id": "docs-ui-sidebar-category",
+      "paths": [
+        "packages/docs-ui/src/shared/theme/DocSidebarItem/Category/**"
+      ],
+      "focusedTests": [],
+      "harnesses": [],
+      "gates": ["pnpm test:workflow-matrix", "git diff --check"],
+      "reason": "Sidebar category landing links must preserve navigation while keeping category expansion controls separate."
+    },
+    {
       "id": "rest-reference-fragments",
       "paths": [
         "packages/docs-tooling/src/reference/rest/meta/openapi/**",
