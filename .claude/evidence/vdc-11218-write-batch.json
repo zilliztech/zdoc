@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "phase": "WRITE_APPROVAL",
+  "status": "PENDING_APPROVAL",
+  "ticket": "VDC-11218",
+  "approvedGroupingDigest": "sha256:bc6600225e28281d6cc38fcd9bb87a9391ffaafedea78461122561c701bda41d",
+  "source": {"repository": "zilliz-cloud", "baseRevision": "9fd0dd74da5c6b892735e5e690110e6fdb23e901", "headRevision": "2b43aa9e95488e8fb90e05e656f36fc938363990"},
+  "externalContract": {"document": "https://zilliverse.feishu.cn/docx/Tj3udsda7oEXaOxDWcCcm7PFnXf", "revision": 453},
+  "mappingEvidence": ".claude/evidence/vdc-11218-spark-ownership-mapping.json",
+  "writes": [
+    {"file": "packages/docs-tooling/src/reference/rest/meta/openapi/34-cloud-access-control-operations-v2.json", "action": "UPDATE", "operations": ["POST /v2/roles", "GET /v2/members/{userId}/roles", "PUT /v2/members/{userId}/roles/{roleId}", "DELETE /v2/members/{userId}/roles/{roleId}"], "mutations": ["Organization Role examples member to org_member", "resourceType enum add org_member, group, api_key, org_role, project_role, project, billing, authentication, org_control_ops, recovery", "three member path templates and parameter names user_id to userId"], "state": "APPLIED_IN_WORKTREE"},
+    {"file": "packages/docs-tooling/src/reference/rest/meta/openapi/32-spark-job-v2.json", "action": "UPDATE_AND_ADD", "operations": ["GET /v2/jobs", "GET /v2/projects/{projectId}/jobs/{jobId}", "POST /v2/projects/{projectId}/jobs/{jobId}/cancel", "POST /v2/projects/{projectId}/jobs/jar", "POST /v2/projects/{projectId}/jobs/dedup/pk", "POST /v2/projects/{projectId}/jobs/dedup/vector", "POST /v2/projects/{projectId}/jobs/kmeans", "POST /v2/projects/{projectId}/jobs/anomaly-detection", "POST /v2/projects/{projectId}/jobs/backfill/precheck", "POST /v2/projects/{projectId}/jobs/backfill"], "mutations": ["Refresh existing eight operations to Feishu revision 453 and source controller DTO contract", "Add source-backed Backfill precheck and execution paths", "Replace permissive Backfill request placeholders with explicit clusterId, dbName, collectionName, fields, columnMapping, resourceSize and timeoutSeconds schemas; execution additionally requires mode while precheck omits mode", "Add zh-CN and ja-JP x-i18n for both new operations, parameters, request schemas and request properties", "Update request/response schemas, idempotency, resourceSize, status, cancel, volume and path constraints"], "state": "CORRECTED_PENDING_REAPPROVAL"}
+  ],
+  "blockers": [],
+  "verification": ["JSON parse", "pnpm test:rest-publication-contract", "REST lifecycle/integratedSpecBuilder/route uniqueness tests", "temporary en and zh-CN page generation", "publish-group rest stage fetch", "publish-group rest stage validate", "pnpm test:for-change -- changed paths", "git diff --check"],
+  "writePolicy": "Approved grouping and mapping are recorded; this batch remains planning-only until exact APPROVE_WRITES for this digest."
+}
