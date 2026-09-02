@@ -1,10 +1,5 @@
 module.exports = [
   {
-    "type": "doc",
-    "id": "cli/cli/Overview",
-    "label": "Overview"
-  },
-  {
     "type": "category",
     "label": "Cloud Management",
     "key": "category:cli/cli/cloudmanagement",
