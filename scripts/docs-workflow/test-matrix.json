@@ -92,7 +92,9 @@
         "scripts/docs-workflow/ja-guides-publication-strategy*",
         "scripts/docs-workflow/offline-guides-publication*",
         "scripts/docs-workflow/prepare-offline-translation-publication*",
+        ".gitignore",
         "scripts/docs-workflow/offline-reference-python-publication*",
+        "scripts/docs-workflow/create-offline-reference-python-receipt-artifact*",
         "scripts/docs-workflow/prepare-offline-reference-python-publication*",
         "deploy/contracts/offline-guides-canonical-replacements.json",
         "scripts/docs-workflow/publish-ready-deadline*",
@@ -106,6 +108,7 @@
         ".github/workflows/translate-codex.yml",
         ".github/workflows/publish-offline-translation.yml",
         ".github/workflows/publish-offline-reference-python.yml",
+        ".github/workflows/upload-offline-reference-python-receipt.yml",
         ".github/workflows/translate-manual.yml",
         ".github/workflows/_translate-content-group.yml",
         ".github/workflows/_prepare-translation-batches.yml"

@@ -27,6 +27,7 @@ const TOP_LEVEL_DIRECT_PUSH_JOBS = Object.freeze(new Map([
   ['fetch-docs.yml', new Set(['reconcile_reference_state'])],
   ['sync-master-tooling-to-dev.yml', new Set(['sync'])],
 ]))
+const RECEIPT_PRODUCER_WORKFLOW = 'upload-offline-reference-python-receipt.yml'
 const publishingWorkflows = new Set([
   'fetch-docs.yml',
   'recover-translation.yml',
@@ -386,6 +387,25 @@ function validateWorkflowPolicies(directory = workflowDirectory, options = {}) {
       }
       if (/TRANSLATION_AGENT_API_KEY|REVIEW_AGENT_API_KEY|allow_full_retranslate|translate-codex.yml/.test(source)) {
         errors.push(`${file}: offline Python import must not receive paid Translation or review-agent credentials`)
+      }
+    }
+    if (file === RECEIPT_PRODUCER_WORKFLOW) {
+      const job = workflow.jobs?.authenticate_receipt
+      const requiredInputs = ['candidate_ref', 'candidate_sha', 'tooling_sha', 'source_checkpoint_sha', 'target_baseline_sha', 'receipt_json']
+      if (workflow.permissions?.contents !== 'read' || job?.permissions?.contents !== 'read' ||
+          requiredInputs.some(input => workflow.on?.workflow_dispatch?.inputs?.[input]?.required !== true) ||
+          !job || /contents:s*write|actions:s*write|git push|TRANSLATION_AGENT_API_KEY|REVIEW_AGENT_API_KEY/.test(source)) {
+        errors.push(`${file}: receipt producer must require immutable inputs and remain read-only without writers or paid credentials`)
+      }
+      const requiredFragments = [
+        'actions/checkout@v5', "ref: '${{ inputs.tooling_sha }}'",
+        'offline-reference-candidates/python/', 'git fetch --no-tags origin',
+        'create-offline-reference-python-receipt-artifact.js',
+        'offline-reference-python-receipt.json', 'actions/upload-artifact@v6',
+        'if-no-files-found: error', 'retention-days: 7',
+      ]
+      if (requiredFragments.some(fragment => !source.includes(fragment))) {
+        errors.push(`${file}: receipt producer must checkout exact tooling, authenticate the restricted candidate, and upload the fixed receipt artifact`)
       }
     }
     const productionQueueOwner = PRODUCTION_QUEUE_OWNERS.get(file)

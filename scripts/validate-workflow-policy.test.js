@@ -13,6 +13,19 @@ test('GitHub Actions workflows satisfy documentation production safety policy', 
   assert.deepEqual(validateWorkflowPolicies(), [])
 })
 
+test('offline Python receipt producer is immutable and read-only', () => {
+  const workflow = yaml.load(fs.readFileSync('.github/workflows/upload-offline-reference-python-receipt.yml', 'utf8'))
+  assert.deepEqual(workflow.permissions, {contents: 'read'})
+  assert.equal(workflow.jobs.authenticate_receipt.permissions.contents, 'read')
+  for (const input of ['candidate_ref', 'candidate_sha', 'tooling_sha', 'source_checkpoint_sha', 'target_baseline_sha', 'receipt_json']) {
+    assert.equal(workflow.on.workflow_dispatch.inputs[input].required, true)
+  }
+  const source = fs.readFileSync('.github/workflows/upload-offline-reference-python-receipt.yml', 'utf8')
+  assert.match(source, /actions\/upload-artifact@v6/)
+  assert.match(source, /offline-reference-python-receipt\.json/)
+  assert.doesNotMatch(source, /contents: write|git push|TRANSLATION_AGENT_API_KEY|REVIEW_AGENT_API_KEY/)
+})
+
 test('workflow policy keeps spec-generated REST out of canonical Translation selection', () => {
   // Keep the copy under scripts/ so selection.js's relative require('../lib/load-typescript')
   // (it now derives GROUPS from the registry) still resolves to the real helper.

@@ -58,6 +58,7 @@ skills-lock.json
 .worktrees/
 .claude/worktrees/
 .claude/archives/
+.claude/evidence/runs/
 
 # Vercel
 .vercel

@@ -1,0 +1,85 @@
+name: upload offline Chinese Python Reference receipt
+run-name: authenticate offline zh-CN Python receipt ${{ inputs.candidate_sha }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_ref:
+        description: Exact refs/heads/offline-reference-candidates/python/* staging ref
+        required: true
+        type: string
+      candidate_sha:
+        description: Exact single-commit candidate SHA
+        required: true
+        type: string
+      tooling_sha:
+        description: Reviewed master SHA containing this producer and validator
+        required: true
+        type: string
+      source_checkpoint_sha:
+        description: Exact English Python Reference checkpoint
+        required: true
+        type: string
+      target_baseline_sha:
+        description: Exact current dev SHA and candidate parent
+        required: true
+        type: string
+      receipt_json:
+        description: Canonical offline-reference-translation-receipt JSON
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  authenticate_receipt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with: {ref: '${{ inputs.tooling_sha }}', fetch-depth: 0, persist-credentials: false}
+      - name: Resolve exact candidate ref
+        env:
+          CANDIDATE_REF: ${{ inputs.candidate_ref }}
+          CANDIDATE_SHA: ${{ inputs.candidate_sha }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$CANDIDATE_REF" =~ ^refs/heads/offline-reference-candidates/python/[A-Za-z0-9._/-]+$ ]] || [[ "$CANDIDATE_REF" == *..* ]] || [[ "$CANDIDATE_REF" == */ ]]; then
+            echo 'candidate_ref is outside the fixed Python staging namespace' >&2
+            exit 1
+          fi
+          if [[ ! "$CANDIDATE_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo 'candidate_sha must be an exact lowercase Git SHA' >&2
+            exit 1
+          fi
+          git fetch --no-tags origin "+$CANDIDATE_REF:$CANDIDATE_REF"
+          test "$(git rev-parse --verify "$CANDIDATE_REF^{commit}")" = "$CANDIDATE_SHA"
+      - name: Authenticate receipt against Git objects
+        env:
+          OFFLINE_REFERENCE_RECEIPT_JSON: ${{ inputs.receipt_json }}
+          CANDIDATE_REF: ${{ inputs.candidate_ref }}
+          CANDIDATE_SHA: ${{ inputs.candidate_sha }}
+          TOOLING_SHA: ${{ inputs.tooling_sha }}
+          SOURCE_CHECKPOINT_SHA: ${{ inputs.source_checkpoint_sha }}
+          TARGET_BASELINE_SHA: ${{ inputs.target_baseline_sha }}
+        run: |
+          set -euo pipefail
+          node scripts/docs-workflow/create-offline-reference-python-receipt-artifact.js \
+            --repository-root "$GITHUB_WORKSPACE" \
+            --candidate-ref "$CANDIDATE_REF" \
+            --candidate-sha "$CANDIDATE_SHA" \
+            --tooling-sha "$TOOLING_SHA" \
+            --source-checkpoint-sha "$SOURCE_CHECKPOINT_SHA" \
+            --target-baseline-sha "$TARGET_BASELINE_SHA" \
+            --receipt-json-env OFFLINE_REFERENCE_RECEIPT_JSON \
+            --output-file "$RUNNER_TEMP/offline-reference-python-receipt/offline-reference-python-receipt.json"
+      - name: Upload authenticated immutable receipt
+        uses: actions/upload-artifact@v6
+        with:
+          name: offline-reference-python-receipt-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/offline-reference-python-receipt/offline-reference-python-receipt.json
+          if-no-files-found: error
+          retention-days: 7
