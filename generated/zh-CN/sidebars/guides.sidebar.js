@@ -809,6 +809,12 @@ module.exports = [
           },
           {
             "type": "doc",
+            "id": "tutorials/development/schema/use-text-field",
+            "label": "Text 类型",
+            "key": "doc:tutorials/development/schema/use-text-field"
+          },
+          {
+            "type": "doc",
             "id": "tutorials/development/schema/use-number-field",
             "label": "布尔与数值类型",
             "key": "doc:tutorials/development/schema/use-number-field"
@@ -837,6 +843,12 @@ module.exports = [
                 "key": "doc:tutorials/development/schema/json-fields/json-shredding"
               }
             ]
+          },
+          {
+            "type": "doc",
+            "id": "tutorials/development/schema/use-array-fields",
+            "label": "Array 类型",
+            "key": "doc:tutorials/development/schema/use-array-fields"
           },
           {
             "type": "category",
@@ -1523,12 +1535,6 @@ module.exports = [
             "id": "tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case",
             "label": "最佳实践：如何选择合适的 Analyzer",
             "key": "doc:tutorials/development/analyzer/choose-the-right-analyzer-for-your-use-case"
-          },
-          {
-            "type": "doc",
-            "id": "tutorials/development/analyzer/manage-file-resources",
-            "label": "管理文件资源",
-            "key": "doc:tutorials/development/analyzer/manage-file-resources"
           }
         ]
       },

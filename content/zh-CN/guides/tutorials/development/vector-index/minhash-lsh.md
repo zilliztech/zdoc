@@ -200,7 +200,7 @@ MinHash 签名通过固定长度的二进制向量来近似集合间的 Jaccard 
 pip install pymilvus datasketch numpy
 ```
 
-### 生成 MinHash 签名\{##generate-minhash-signatures}
+### 生成 MinHash 签名\{#generate-minhash-signatures}
 
 我们将生成 256 维的 MinHash 签名，每个哈希值由 64 位整数表示。这与 `MINHASH_LSH` 期望的向量格式一致。
 

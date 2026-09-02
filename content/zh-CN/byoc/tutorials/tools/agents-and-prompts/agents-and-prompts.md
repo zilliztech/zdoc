@@ -22,7 +22,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud 智能体与提示词生态提供由 AI 驱动的工具，帮助开发者通过自然语言和智能辅助更高效地使用 Zilliz Cloud 进行构建。
 
-## Zilliz Skill\{##zilliz-skill}
+## Zilliz Skill\{#zilliz-skill}
 
 Zilliz Skills 是面向 Claude Code 的可复用技能模块，为使用 Zilliz Cloud 提供专门能力。
 

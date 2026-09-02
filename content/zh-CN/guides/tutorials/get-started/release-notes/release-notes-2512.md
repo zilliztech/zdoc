@@ -36,8 +36,6 @@ import Grid from '@site/src/components/Grid';
 
         本次发布标志着 Milvus v2.6.x 达成重要里程碑，实现了可用于生产的稳定性和所有特性在 Zilliz Cloud 上的全面可用。这些特性包括 Geometry、Struct Array、TimestampTz 等新的数据类型、向已有 Collection 添加字段、进一步强化的 Full-text Search，不断提速的 JSON 过滤能力、新的 Reranking Function、INT8 向量支持、合并模式的 Upsert 以及适用于 Binary 向量字段的 MINHASH_LSH 索引。
 
-        分层存储能力达成 GA，引入了全新升级的热、温、冷数据架构，并开始对冷数据的访问计费。更多详情，可参考[存储费用](./storage-cost#example-4-cluster-cold-data-access-cost)。
-
     </div>
 
 </Grid>

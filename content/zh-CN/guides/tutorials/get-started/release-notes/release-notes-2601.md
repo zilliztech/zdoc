@@ -44,28 +44,6 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **2026 年 1 月 23 日**
-
-    </div>
-
-    <div>
-
-        ## Milvus 2.6 新功能\{#milvus-v2.6.x-new-feature}
-
-        - **基于查询语义的文本高亮（Semantic Highlighter）**：根据查询意图（而非关键词匹配）自动识别并高亮搜索结果中最相关的文本片段，提升搜索结果的可解释性。
-
-        - 该功能基于 Zilliz 近期开源的语义高亮模型（[zilliz/semantic-highlight-bilingual-v1](https://huggingface.co/zilliz/semantic-highlight-bilingual-v1)），并通过 Zilliz 托管模型服务提供开箱即用的推理支持。
-
-        更多详情，可参考 [Semantic Highlighter](./semantic-highlighter)。
-
-    </div>
-
-</Grid>
-
-<Grid columnSize="2" widthRatios="20,80">
-
-    <div>
-
         **2026 年 1 月 15 日**
 
     </div>

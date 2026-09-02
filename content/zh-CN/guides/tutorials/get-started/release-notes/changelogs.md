@@ -224,24 +224,6 @@ import Grid from '@site/src/components/Grid';
 
     <div>
 
-        **[2026 年 1 月 23 日](./release-notes-2601#milvus-v2.6.x-new-feature)**
-
-    </div>
-
-    <div>
-
-        - 🚀   Milvus v2.6.x 新功能特性在 Zilliz Cloud 上线：
-
-            - [Semantic Highlighter](./semantic-highlighter)
-
-    </div>
-
-</Grid>
-
-<Grid columnSize="2" widthRatios="24,75">
-
-    <div>
-
         **[2026 年 1 月 15 日](./release-notes-2601)**
 
     </div>
@@ -283,8 +265,6 @@ import Grid from '@site/src/components/Grid';
     <div>
 
         - 🚀   Milvus v2.6.x 功能特性全面可用（GA）
-
-        - 💾  分层存储能力正式发布（GA）并[开始计费](./storage-cost#example-4-cluster-cold-data-access-cost)
 
     </div>
 

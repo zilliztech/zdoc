@@ -31,7 +31,7 @@ import Supademo from '@site/src/components/Supademo';
 
 - 已注册 Zilliz Cloud 账户。有关更多信息，请参见[注册账号](./register-with-zilliz-cloud)。
 
-- 在目标组织或项目中，您具有集群创建权限。有关角色和权限的信息，请参见[管理组织用户](./organization-users) 和 [管理项目用户](./project-users)。
+- 在目标组织或项目中，您具有集群创建权限。有关角色和权限的信息，请参见[管理平台角色](./manage-platform-roles)。
 
 - 每个项目中最多可创建 100 个 Serverless 集群、100 个 Dedicated 集群。
 

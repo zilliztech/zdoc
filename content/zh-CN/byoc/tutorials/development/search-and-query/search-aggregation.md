@@ -16,7 +16,8 @@ displayed_sidebar: default
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # 搜索聚合
 
@@ -83,6 +84,9 @@ import Admonition from '@theme/Admonition';
 <details>
 
 <summary>设置示例 Collection</summary>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 from pymilvus import DataType, MilvusClient, SearchAggregation, TopHits
@@ -226,6 +230,157 @@ search_params = {
 }
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+import io.milvus.v2.service.vector.request.InsertReq;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT").token("YOUR_CLUSTER_TOKEN").build());
+String collectionName = "product_search_aggregation";
+
+CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder().build();
+schema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(true).autoID(false).build());
+schema.addField(AddFieldReq.builder().fieldName("embedding").dataType(DataType.FloatVector).dimension(5).build());
+schema.addField(AddFieldReq.builder().fieldName("name").dataType(DataType.VarChar).maxLength(200).build());
+schema.addField(AddFieldReq.builder().fieldName("brand").dataType(DataType.VarChar).maxLength(100).build());
+schema.addField(AddFieldReq.builder().fieldName("category").dataType(DataType.VarChar).maxLength(100).build());
+schema.addField(AddFieldReq.builder().fieldName("color").dataType(DataType.VarChar).maxLength(50).build());
+schema.addField(AddFieldReq.builder().fieldName("price").dataType(DataType.Double).build());
+schema.addField(AddFieldReq.builder().fieldName("rating").dataType(DataType.Double).build());
+schema.addField(AddFieldReq.builder().fieldName("in_stock").dataType(DataType.Bool).build());
+
+client.createCollection(CreateCollectionReq.builder().collectionName(collectionName).collectionSchema(schema)
+        .indexParams(Collections.singletonList(IndexParam.builder().fieldName("embedding")
+                .indexType(IndexParam.IndexType.AUTOINDEX).metricType(IndexParam.MetricType.COSINE).build()))
+        .build());
+
+List<JsonObject> data = Arrays.asList(
+        product(1, new float[]{0.12f, 0.42f, 0.18f, 0.66f, 0.31f}, "Runner A1", "Brand A", "running_shoes", "black", 129.99, 4.7, true),
+        product(2, new float[]{0.10f, 0.39f, 0.20f, 0.61f, 0.29f}, "Trail A2", "Brand A", "running_shoes", "blue", 139.99, 4.6, true),
+        product(3, new float[]{0.14f, 0.44f, 0.19f, 0.68f, 0.33f}, "Runner B1", "Brand B", "running_shoes", "white", 159.99, 4.8, true),
+        product(4, new float[]{0.16f, 0.41f, 0.22f, 0.62f, 0.30f}, "Runner C1", "Brand C", "running_shoes", "red", 119.99, 4.4, false),
+        product(5, new float[]{0.48f, 0.20f, 0.59f, 0.15f, 0.71f}, "Jacket A1", "Brand A", "jackets", "black", 99.99, 4.5, true),
+        product(6, new float[]{0.45f, 0.18f, 0.55f, 0.17f, 0.69f}, "Jacket B1", "Brand B", "jackets", "blue", 89.99, 4.3, true),
+        product(7, new float[]{0.09f, 0.38f, 0.17f, 0.60f, 0.27f}, "Runner A3", "Brand A", "running_shoes", "black", 159.99, 4.8, true),
+        product(8, new float[]{0.13f, 0.43f, 0.21f, 0.65f, 0.32f}, "Runner A4", "Brand A", "running_shoes", "black", 149.99, 4.9, true));
+client.insert(InsertReq.builder().collectionName(collectionName).data(data).build());
+
+List<Float> queryVector = Arrays.asList(0.11f, 0.40f, 0.19f, 0.64f, 0.30f);
+
+private static JsonObject product(long id, float[] embedding, String name, String brand,
+                                  String category, String color, double price, double rating,
+                                  boolean inStock) {
+    JsonObject row = new JsonObject();
+    row.addProperty("id", id);
+    row.add("embedding", new Gson().toJsonTree(embedding));
+    row.addProperty("name", name);
+    row.addProperty("brand", brand);
+    row.addProperty("category", category);
+    row.addProperty("color", color);
+    row.addProperty("price", price);
+    row.addProperty("rating", rating);
+    row.addProperty("in_stock", inStock);
+    return row;
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const { DataType, MilvusClient } = require('@zilliz/milvus2-sdk-node');
+
+const client = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT', username: 'root', password: 'Milvus',
+});
+const collectionName = 'product_search_aggregation';
+
+if ((await client.hasCollection({ collection_name: collectionName })).value) {
+  await client.dropCollection({ collection_name: collectionName });
+}
+await client.createCollection({
+  collection_name: collectionName,
+  consistency_level: 'Session',
+  fields: [
+    { name: 'id', data_type: DataType.Int64, is_primary_key: true, autoID: false },
+    { name: 'embedding', data_type: DataType.FloatVector, dim: 5 },
+    { name: 'name', data_type: DataType.VarChar, max_length: 200 },
+    { name: 'brand', data_type: DataType.VarChar, max_length: 100 },
+    { name: 'category', data_type: DataType.VarChar, max_length: 100 },
+    { name: 'color', data_type: DataType.VarChar, max_length: 50 },
+    { name: 'price', data_type: DataType.Double },
+    { name: 'rating', data_type: DataType.Double },
+    { name: 'in_stock', data_type: DataType.Bool },
+  ],
+});
+
+const data = [
+  { id: 1, embedding: [0.12, 0.42, 0.18, 0.66, 0.31], name: 'Runner A1', brand: 'Brand A', category: 'running_shoes', color: 'black', price: 129.99, rating: 4.7, in_stock: true },
+  { id: 2, embedding: [0.10, 0.39, 0.20, 0.61, 0.29], name: 'Trail A2', brand: 'Brand A', category: 'running_shoes', color: 'blue', price: 139.99, rating: 4.6, in_stock: true },
+  { id: 3, embedding: [0.14, 0.44, 0.19, 0.68, 0.33], name: 'Runner B1', brand: 'Brand B', category: 'running_shoes', color: 'white', price: 159.99, rating: 4.8, in_stock: true },
+  { id: 4, embedding: [0.16, 0.41, 0.22, 0.62, 0.30], name: 'Runner C1', brand: 'Brand C', category: 'running_shoes', color: 'red', price: 119.99, rating: 4.4, in_stock: false },
+  { id: 5, embedding: [0.48, 0.20, 0.59, 0.15, 0.71], name: 'Jacket A1', brand: 'Brand A', category: 'jackets', color: 'black', price: 99.99, rating: 4.5, in_stock: true },
+  { id: 6, embedding: [0.45, 0.18, 0.55, 0.17, 0.69], name: 'Jacket B1', brand: 'Brand B', category: 'jackets', color: 'blue', price: 89.99, rating: 4.3, in_stock: true },
+  { id: 7, embedding: [0.09, 0.38, 0.17, 0.60, 0.27], name: 'Runner A3', brand: 'Brand A', category: 'running_shoes', color: 'black', price: 159.99, rating: 4.8, in_stock: true },
+  { id: 8, embedding: [0.13, 0.43, 0.21, 0.65, 0.32], name: 'Runner A4', brand: 'Brand A', category: 'running_shoes', color: 'black', price: 149.99, rating: 4.9, in_stock: true },
+];
+await client.insert({ collection_name: collectionName, data });
+await client.createIndex({ collection_name: collectionName, field_name: 'embedding', index_type: 'AUTOINDEX', metric_type: 'COSINE' });
+await client.loadCollectionSync({ collection_name: collectionName });
+
+const queryVector = [0.11, 0.40, 0.19, 0.64, 0.30];
+const searchParams = { metric_type: 'COSINE', params: {} };
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// TBD: Search Aggregation is not yet available in the released Go SDK.
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+export COLLECTION_NAME="product_search_aggregation"
+search() {
+  curl --request POST \
+    --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Content-Type: application/json" \
+    --data "$1"
+}
+schema='{"autoID":false,"enableDynamicField":false,"fields":[{"fieldName":"id","dataType":"Int64","isPrimary":true},{"fieldName":"embedding","dataType":"FloatVector","elementTypeParams":{"dim":5}},{"fieldName":"name","dataType":"VarChar","elementTypeParams":{"max_length":200}},{"fieldName":"brand","dataType":"VarChar","elementTypeParams":{"max_length":100}},{"fieldName":"category","dataType":"VarChar","elementTypeParams":{"max_length":100}},{"fieldName":"color","dataType":"VarChar","elementTypeParams":{"max_length":50}},{"fieldName":"price","dataType":"Double"},{"fieldName":"rating","dataType":"Double"},{"fieldName":"in_stock","dataType":"Bool"}]}'
+indexParams='[{"fieldName":"embedding","indexType":"AUTOINDEX","metricType":"COSINE"}]'
+data='[{"id":1,"embedding":[0.12,0.42,0.18,0.66,0.31],"name":"Runner A1","brand":"Brand A","category":"running_shoes","color":"black","price":129.99,"rating":4.7,"in_stock":true},{"id":2,"embedding":[0.10,0.39,0.20,0.61,0.29],"name":"Trail A2","brand":"Brand A","category":"running_shoes","color":"blue","price":139.99,"rating":4.6,"in_stock":true},{"id":3,"embedding":[0.14,0.44,0.19,0.68,0.33],"name":"Runner B1","brand":"Brand B","category":"running_shoes","color":"white","price":159.99,"rating":4.8,"in_stock":true},{"id":4,"embedding":[0.16,0.41,0.22,0.62,0.30],"name":"Runner C1","brand":"Brand C","category":"running_shoes","color":"red","price":119.99,"rating":4.4,"in_stock":false},{"id":5,"embedding":[0.48,0.20,0.59,0.15,0.71],"name":"Jacket A1","brand":"Brand A","category":"jackets","color":"black","price":99.99,"rating":4.5,"in_stock":true},{"id":6,"embedding":[0.45,0.18,0.55,0.17,0.69],"name":"Jacket B1","brand":"Brand B","category":"jackets","color":"blue","price":89.99,"rating":4.3,"in_stock":true},{"id":7,"embedding":[0.09,0.38,0.17,0.60,0.27],"name":"Runner A3","brand":"Brand A","category":"running_shoes","color":"black","price":159.99,"rating":4.8,"in_stock":true},{"id":8,"embedding":[0.13,0.43,0.21,0.65,0.32],"name":"Runner A4","brand":"Brand A","category":"running_shoes","color":"black","price":149.99,"rating":4.9,"in_stock":true}]'
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --data "{\"collectionName\":\"${COLLECTION_NAME}\",\"schema\":${schema},\"indexParams\":${indexParams}}"
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --data "{\"collectionName\":\"${COLLECTION_NAME}\",\"data\":${data}}"
+curl --request POST --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/load" --header "Authorization: Bearer ${TOKEN}" --header "Content-Type: application/json" --data "{\"collectionName\":\"${COLLECTION_NAME}\"}"
+```
+
+</TabItem>
+</Tabs>
+
 </details>
 
 上述设置同时为向量索引和搜索参数配置 `COSINE`。因此，后续示例使用 `{"_score": "desc"}` 让余弦相似度较高的结果排在前面。对于 `L2` 等距离指标，请使用 `{"_score": "asc"}`。
@@ -237,6 +392,9 @@ search_params = {
 如果目标只是按字段值返回一个或多个实体以提高结果多样性，请改用[分组搜索](./grouping-search)。
 
 以下配置最多创建三个品牌桶，为每个桶计算指标，并按平均价格对桶排序：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 aggregation = SearchAggregation(
@@ -261,7 +419,85 @@ aggregation = SearchAggregation(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.vector.request.aggregation.AggDirection;
+import io.milvus.v2.service.vector.request.aggregation.MetricOps;
+import io.milvus.v2.service.vector.request.aggregation.MetricSpec;
+import io.milvus.v2.service.vector.request.aggregation.OrderSpec;
+import io.milvus.v2.service.vector.request.aggregation.SearchAggregation;
+import io.milvus.v2.service.vector.request.aggregation.SortSpec;
+import io.milvus.v2.service.vector.request.aggregation.TopHitsSpec;
+import java.util.Collections;
+
+SearchAggregation aggregation = SearchAggregation.builder()
+        .fields(Collections.singletonList("brand"))
+        .size(3)
+        .addMetric("product_count", MetricSpec.builder().op(MetricOps.COUNT).fieldName("*").build())
+        .addMetric("avg_price", MetricSpec.builder().op(MetricOps.AVG).fieldName("price").build())
+        .addMetric("min_price", MetricSpec.builder().op(MetricOps.MIN).fieldName("price").build())
+        .addOrder(OrderSpec.builder().key("avg_price").direction(AggDirection.DESC).build())
+        .addOrder(OrderSpec.builder().key("_key").direction(AggDirection.ASC).build())
+        .build();
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const aggregation = {
+  fields: ['brand'],
+  size: 3,
+  metrics: {
+    product_count: { op: 'count', field_name: '*' },
+    avg_price: { op: 'avg', field_name: 'price' },
+    min_price: { op: 'min', field_name: 'price' },
+  },
+  order: [
+    { key: 'avg_price', direction: 'desc' },
+    { key: '_key', direction: 'asc' },
+  ],
+};
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// TBD: Search Aggregation is not yet available in the released Go SDK.
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+payload='{
+  "collectionName": "product_search_aggregation",
+  "data": [[0.11, 0.40, 0.19, 0.64, 0.30]],
+  "annsField": "embedding", "limit": 10,
+  "searchParams": {"metric_type": "COSINE", "params": {}},
+  "searchAggregation": {
+    "fields": ["brand"], "size": 3,
+    "metrics": {"product_count": {"op": "count", "fieldName": "*"}, "avg_price": {"op": "avg", "fieldName": "price"}, "min_price": {"op": "min", "fieldName": "price"}},
+    "order": [{"key": "avg_price", "direction": "desc"}, {"key": "_key", "direction": "asc"}]
+  }
+}'
+search "$payload"
+```
+
+</TabItem>
+</Tabs>
+
 将该对象传给 `MilvusClient.search()` 的 `search_aggregation` 参数：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 result = client.search(
@@ -282,6 +518,77 @@ result = client.search(
     search_aggregation=aggregation,
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+SearchResp result = client.search(SearchReq.builder()
+        .collectionName(collectionName)
+        .data(Collections.singletonList(new FloatVec(queryVector)))
+        .annsField("embedding")
+        .limit(10)
+        .searchParams(Collections.singletonMap("metric_type", "COSINE"))
+        .outputFields(Arrays.asList("name", "brand", "category", "color", "price", "rating", "in_stock"))
+        .searchAggregation(aggregation)
+        .build());
+
+List<AggregationBucket> buckets = result.getAggregationBuckets().get(0);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const result = await client.search({
+  collection_name: collectionName,
+  data: queryVector,
+  anns_field: 'embedding',
+  limit: 10,
+  ...searchParams,
+  output_fields: ['name', 'brand', 'category', 'color', 'price', 'rating', 'in_stock'],
+  search_aggregation: aggregation,
+});
+
+const buckets = result.agg_buckets;
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// TBD: Search Aggregation is not yet available in the released Go SDK.
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+  --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+  --header "Authorization: Bearer ${TOKEN}" \
+  --header "Content-Type: application/json" \
+  --data '{
+    "collectionName": "product_search_aggregation",
+    "data": [[0.11, 0.40, 0.19, 0.64, 0.30]],
+    "annsField": "embedding",
+    "limit": 10,
+    "outputFields": ["name", "brand", "category", "color", "price", "rating", "in_stock"],
+    "searchParams": {"metric_type": "COSINE", "params": {}},
+    "searchAggregation": {
+      "fields": ["brand"], "size": 3,
+      "metrics": {"product_count": {"op": "count", "fieldName": "*"}, "avg_price": {"op": "avg", "fieldName": "price"}, "min_price": {"op": "min", "fieldName": "price"}},
+      "order": [{"key": "avg_price", "direction": "desc"}, {"key": "_key", "direction": "asc"}]
+    }
+  }'
+```
+
+</TabItem>
+</Tabs>
 
 设置 `search_aggregation` 后，PyMilvus 不会在 `result[0]` 中返回普通实体命中。请改从 `result.agg_buckets[0]` 读取桶响应。`output_fields` 参数控制每个返回的 `AggregationHit.fields` 映射中包含哪些标量字段；即使指标源字段或排序字段未列在 `output_fields` 中，Zilliz Cloud 仍可使用它们。
 
@@ -390,6 +697,9 @@ result = client.search(
 
 要按向量匹配质量对桶排序，先根据 `_score` 计算桶级指标，再在 `order` 中使用该指标别名。不能直接将 `_score` 用作桶排序键，因为每个桶可能包含多个实体分数。例如，使用 `COSINE` 或 `IP` 时：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 aggregation = SearchAggregation(
     fields=["brand"],
@@ -398,6 +708,57 @@ aggregation = SearchAggregation(
     order=[{"max_score": "desc"}],
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+SearchAggregation aggregation = SearchAggregation.builder()
+        .fields(Collections.singletonList("brand"))
+        .size(3)
+        .addMetric("max_score", MetricSpec.builder().op(MetricOps.MAX).fieldName("_score").build())
+        .addOrder(OrderSpec.builder().key("max_score").direction(AggDirection.DESC).build())
+        .build();
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const aggregation = {
+  fields: ['brand'],
+  size: 3,
+  metrics: { max_score: { op: 'max', field_name: '_score' } },
+  order: [{ key: 'max_score', direction: 'desc' }],
+};
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// TBD: Search Aggregation is not yet available in the released Go SDK.
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+payload='{
+  "collectionName": "product_search_aggregation",
+  "data": [[0.11, 0.40, 0.19, 0.64, 0.30]], "annsField": "embedding", "limit": 10,
+  "searchParams": {"metric_type": "COSINE", "params": {}},
+  "searchAggregation": {"fields": ["brand"], "size": 3, "metrics": {"max_score": {"op": "max", "fieldName": "_score"}}, "order": [{"key": "max_score", "direction": "desc"}]}
+}'
+search "$payload"
+```
+
+</TabItem>
+</Tabs>
 
 使用 `L2` 时，请计算最小 `_score` 值，并按指标别名升序排序，使距离最小的桶排在最前面。
 
@@ -409,6 +770,9 @@ aggregation = SearchAggregation(
 
 要创建复合桶键，请在同一个列表中传入多个字段名：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 aggregation = SearchAggregation(
     # highlight-start
@@ -418,6 +782,53 @@ aggregation = SearchAggregation(
     size=6,
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+SearchAggregation aggregation = SearchAggregation.builder()
+        .fields(Arrays.asList("brand", "color"))
+        .size(6)
+        .build();
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const aggregation = {
+  fields: ['brand', 'color'],
+  size: 6,
+};
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// TBD: Search Aggregation is not yet available in the released Go SDK.
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+payload='{
+  "collectionName": "product_search_aggregation",
+  "data": [[0.11, 0.40, 0.19, 0.64, 0.30]], "annsField": "embedding", "limit": 10,
+  "searchParams": {"metric_type": "COSINE", "params": {}},
+  "searchAggregation": {"fields": ["brand", "color"], "size": 6}
+}'
+search "$payload"
+```
+
+</TabItem>
+</Tabs>
 
 此配置可生成 `(Brand A, black)`、`(Brand A, blue)` 和 `(Brand B, white)` 等键。只有两个实体的两个值都匹配时，它们才属于同一个桶。Zilliz Cloud 保留列表顺序，因此 `brand` 是第一个键分量，`color` 是第二个。`order` 中使用 `_key` 时，Zilliz Cloud 会按相同顺序比较复合键分量。请在一个扁平列表中传入多个字符串；不支持嵌套列表。
 
@@ -434,6 +845,9 @@ aggregation = SearchAggregation(
 当应用需要展示每个桶中的实际商品时，请包含代表性实体。在本例中，Zilliz Cloud 从每个品牌桶最多返回两个商品，先按评分排序，再按向量分数排序。
 
 按如下方式配置 `TopHits`：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 aggregation = SearchAggregation(
@@ -453,6 +867,61 @@ aggregation = SearchAggregation(
     # highlight-end
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+SearchAggregation aggregation = SearchAggregation.builder().fields(Collections.singletonList("brand")).size(3)
+        .topHits(TopHitsSpec.builder().size(2)
+                .addSort(SortSpec.builder().fieldName("rating").direction(AggDirection.DESC).build())
+                .addSort(SortSpec.builder().fieldName("_score").direction(AggDirection.DESC).build()).build())
+        .build();
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const aggregation = {
+  fields: ['brand'],
+  size: 3,
+  top_hits: {
+    size: 2,
+    sort: [
+      { field_name: 'rating', direction: 'desc' },
+      { field_name: '_score', direction: 'desc' },
+    ],
+  },
+};
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// TBD: Search Aggregation is not yet available in the released Go SDK.
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+payload='{
+  "collectionName": "product_search_aggregation",
+  "data": [[0.11, 0.40, 0.19, 0.64, 0.30]], "annsField": "embedding", "limit": 10,
+  "searchParams": {"metric_type": "COSINE", "params": {}},
+  "searchAggregation": {"fields": ["brand"], "size": 3, "topHits": {"size": 2, "sort": [{"fieldName": "rating", "direction": "desc"}, {"fieldName": "_score", "direction": "desc"}]}}
+}'
+search "$payload"
+```
+
+</TabItem>
+</Tabs>
 
 <details>
 
@@ -541,6 +1010,9 @@ Child bucket keys:
 
 以下配置实现该层级结构：
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 aggregation = SearchAggregation(
     fields=["category"],
@@ -568,6 +1040,82 @@ aggregation = SearchAggregation(
     # highlight-end
 )
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+SearchAggregation aggregation = SearchAggregation.builder().fields(Collections.singletonList("category")).size(2)
+        .addMetric("product_count", MetricSpec.builder().op(MetricOps.COUNT).fieldName("*").build())
+        .addMetric("avg_price", MetricSpec.builder().op(MetricOps.AVG).fieldName("price").build())
+        .addOrder(OrderSpec.builder().key("product_count").direction(AggDirection.DESC).build())
+        .subAggregation(SearchAggregation.builder().fields(Collections.singletonList("brand")).size(3)
+                .addMetric("brand_count", MetricSpec.builder().op(MetricOps.COUNT).fieldName("*").build())
+                .addMetric("avg_rating", MetricSpec.builder().op(MetricOps.AVG).fieldName("rating").build())
+                .addOrder(OrderSpec.builder().key("avg_rating").direction(AggDirection.DESC).build())
+                .topHits(TopHitsSpec.builder().size(2).addSort(SortSpec.builder().fieldName("rating").direction(AggDirection.DESC).build()).build()).build())
+        .build();
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const aggregation = {
+  fields: ['category'],
+  size: 2,
+  metrics: {
+    product_count: { op: 'count', field_name: '*' },
+    avg_price: { op: 'avg', field_name: 'price' },
+  },
+  order: [{ key: 'product_count', direction: 'desc' }],
+  sub_aggregation: {
+    fields: ['brand'],
+    size: 3,
+    metrics: {
+      brand_count: { op: 'count', field_name: '*' },
+      avg_rating: { op: 'avg', field_name: 'rating' },
+    },
+    order: [{ key: 'avg_rating', direction: 'desc' }],
+    top_hits: {
+      size: 2,
+      sort: [{ field_name: 'rating', direction: 'desc' }],
+    },
+  },
+};
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// TBD: Search Aggregation is not yet available in the released Go SDK.
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+payload='{
+  "collectionName": "product_search_aggregation",
+  "data": [[0.11, 0.40, 0.19, 0.64, 0.30]], "annsField": "embedding", "limit": 10,
+  "searchParams": {"metric_type": "COSINE", "params": {}},
+  "searchAggregation": {
+    "fields": ["category"], "size": 2,
+    "metrics": {"product_count": {"op": "count", "fieldName": "*"}, "avg_price": {"op": "avg", "fieldName": "price"}},
+    "order": [{"key": "product_count", "direction": "desc"}],
+    "subAggregation": {"fields": ["brand"], "size": 3, "metrics": {"brand_count": {"op": "count", "fieldName": "*"}, "avg_rating": {"op": "avg", "fieldName": "rating"}}, "order": [{"key": "avg_rating", "direction": "desc"}], "topHits": {"size": 2, "sort": [{"fieldName": "rating", "direction": "desc"}]}}
+  }
+}'
+search "$payload"
+```
+
+</TabItem>
+</Tabs>
 
 <details>
 
@@ -641,7 +1189,7 @@ Zilliz Cloud 首先按 `product_count` 排序，最多选择两个类别桶。�
 
 ## 常见问题\{#faq}
 
-### 桶计数和指标的准确性如何？\{##how-accurate-are-bucket-counts-and-metrics}
+### 桶计数和指标的准确性如何？\{#how-accurate-are-bucket-counts-and-metrics}
 
 搜索聚合汇总的是保留的 ANN 候选项，而不是对整个 Collection 执行聚合。
 

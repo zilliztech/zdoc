@@ -28,7 +28,7 @@ Zilliz Plugin 是一个 Claude Code 插件，它用自然语言能力封装 Zill
 
 ## 主要特性\{#key-features}
 
-### 14 个能力领域\{##14-capability-areas}
+### 14 个能力领域\{#14-capability-areas}
 
 - **Clusters**：创建、删除、暂停、恢复、修改集群
 
