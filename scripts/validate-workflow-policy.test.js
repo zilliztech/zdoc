@@ -535,6 +535,17 @@ test('candidate provenance authorization is absent from Docker and general site 
   }
 })
 
+test('Fetch English builds authorize generated Japanese localization inputs against immutable identities', () => {
+  const source = fs.readFileSync('.github/workflows/_fetch-content-group.yml', 'utf8')
+  const workflow = yaml.load(source)
+  const build = workflow.jobs.produce.steps.find(step => step.name === 'Validate and build generated docs')
+
+  assert.equal(build.env.ZDOC_PROVENANCE_CANDIDATE_TARGET, "${{ inputs.site == 'en' && 'ja-JP' || '' }}")
+  assert.equal(build.env.ZDOC_PROVENANCE_CANDIDATE_TOOLING_SHA, "${{ inputs.site == 'en' && inputs.master_sha || '' }}")
+  assert.equal(build.env.ZDOC_PROVENANCE_CANDIDATE_SOURCE_SHA, "${{ inputs.site == 'en' && inputs.dev_baseline_sha || '' }}")
+  assert.match(build.run, /pnpm run build:\$SITE/u)
+})
+
 test('site classifier checks out only the shallow contract tree and fetches a missing comparison base by exact SHA', () => {
   const workflow = yaml.load(fs.readFileSync('.github/workflows/site-validation.yml', 'utf8'))
   const steps = workflow.jobs.classify.steps
