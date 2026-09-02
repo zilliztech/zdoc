@@ -530,6 +530,24 @@ describe('Reference translation provenance', () => {
     })).toThrow(/explicit retirement/i);
   });
 
+  it('does not treat a target-only generated REST page as an en to zh-CN Translation orphan', () => {
+    const roots = fixture();
+    const targetPath = 'content/zh-CN/reference/api/restful/restful/v2/control-plane/spark-job-v2/create-spark-backfill-job-v2.mdx';
+    mkdirSync(path.dirname(path.join(roots.repositoryRoot, targetPath)), {recursive: true});
+    writeFileSync(path.join(roots.repositoryRoot, targetPath), '# 创建 Spark 回填任务\n');
+
+    const result = buildReferenceManifests({
+      ...roots,
+      sourceCommit: 'b'.repeat(40),
+      manualForPath: filePath => filePath.includes('/restful/') ? 'rest' : 'python',
+      previousTranslationManifest: translationManifest({records: []}),
+    });
+
+    expect(result.translationManifest.records).toEqual([]);
+    expect(result.translationManifest.pendingRecords).toEqual([]);
+    expect(result.translationManifest.languageExcludedRecords).toBeUndefined();
+  });
+
   it('preserves bootstrap state and prior provenance while new records use the passed source checkpoint', () => {
     const roots = fixture();
     writeFileSync(path.join(roots.repositoryRoot, 'content/en/reference/api/python/page.md'), '# source\n');

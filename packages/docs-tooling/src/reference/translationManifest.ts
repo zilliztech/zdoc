@@ -427,6 +427,7 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
     const target = targetByRelative.get(relativePath);
     const sourcePath = source?.filePath ?? `${options.sourceRoot}/${relativePath}`;
     const targetPath = target?.filePath ?? `${options.targetRoot}/${relativePath}`;
+    const manual = options.manualForPath(source?.filePath ?? target!.filePath);
     const previous = previousBySource.get(sourcePath);
     const previousPending = previousPendingBySource.get(sourcePath);
     const previousExcluded = previousExcludedBySource.get(sourcePath);
@@ -434,7 +435,7 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
     if (source && exclusionReason) {
       if (target) throw new Error(`Language-excluded Reference target must be absent: ${targetPath}`);
       languageExcludedRecords.push({
-        manual: options.manualForPath(sourcePath),
+        manual,
         sourcePath,
         targetPath,
         sourceCommit,
@@ -444,7 +445,11 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
       });
       continue;
     }
-    if (source && options.manualForPath(sourcePath) === 'rest') continue;
+    // REST localization is authored in the OpenAPI spec and generated independently
+    // for each site. It is not an en -> zh-CN Translation pairing. Language
+    // exclusions above remain explicit, while either site's active REST output may
+    // exist before the other site's publication without becoming pending or retired.
+    if (manual === 'rest') continue;
     if (source && previousSourcePaths.has(sourcePath) && !previous && !previousPending && !previousExcluded) {
       throw new Error(`Historical Reference source is missing its translation record, pending record, or language-excluded record: ${sourcePath}`);
     }
@@ -461,7 +466,6 @@ export function buildReferenceManifests(options: BuildReferenceManifestOptions):
       }
       throw new Error(`Reference path requires an explicit retirement before generation: ${sourcePath} -> ${targetPath}`);
     }
-    const manual = options.manualForPath(source?.filePath ?? target!.filePath);
     if (source && target && previous && (previous.status === 'translated' || previous.status === 'unchanged')) {
       if (previous.manual !== manual || previous.targetPath !== targetPath) {
         throw new Error(`Previous Reference translation record does not match the canonical mapping: ${sourcePath}`);
