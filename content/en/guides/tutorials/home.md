@@ -824,7 +824,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 1. Create and connect to your cluster.
 
-    [Create a cluster](./create-cluster) with your desired compute and storage resources and then [connect](./how-to-connect) to it.
+    [Create a cluster](./create-cluster) with your desired compute and storage resources and then [connect](./connect-to-clusters) to it.
 
 1. Create a collection.
 
@@ -842,11 +842,11 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 1. Create and connect to your cluster.
 
-    [Create a cluster](./create-cluster) with your desired compute and storage resources and then [connect](./how-to-connect) to it.
+    [Create a cluster](./create-cluster) with your desired compute and storage resources and then [connect](./connect-to-clusters) to it.
 
-1. Set up a model provider integration or deploy a hosted model.
+1. Set up a model provider integration.
 
-    Create an AWS, GCP, or Azure storage integration to store credentials for your third-party model provider. Or you can [deploy](./hosted-models) a hosted model.
+    Create an AWS, GCP, or Azure storage integration to store credentials for your third-party model provider.
 
 1. Create a collection and configure the embedding function.
 
@@ -864,7 +864,7 @@ Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters
 
 1. Connect to your data source.
 
-    Zilliz Cloud supports various data sources, including Pinecone, MongoDB, Qdrant, PostgreSQL, etc. See [Migration ](./migrations)[g](./migrations)[uides](./migrations).
+    Zilliz Cloud supports various data sources, including Pinecone, MongoDB, Qdrant, PostgreSQL, etc. See the [migration guides](./migrate-from-pinecone).
 
 1. Configure the migration source and target.
 
